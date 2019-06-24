@@ -103,7 +103,7 @@ fn add_tests(tests: &mut Vec<TestDescAndFn>, mode: Mode) -> Result<(), io::Error
         };
 
         let ignore = file_name.contains("circular")
-            || (mode == Mode::Conformance && !file_name.contains("types/unknown/unknownType2"));
+            || (mode == Mode::Conformance && !file_name.contains("types/unknown/unknownType"));
 
         let dir = dir.clone();
         let name = format!("tsc::{}::{}", test_kind, file_name);
@@ -162,14 +162,15 @@ fn do_test(treat_error_as_bug: bool, file_name: &Path, mode: Mode) -> Result<(),
             );
 
             let errors = checker.check(file_name.into());
-            let count = lines.as_ref().map(|v| v.len()).unwrap_or(0);
-            if count != errors.len() {
-                checker.run(|| {
-                    for e in errors {
-                        e.emit(&handler);
-                    }
-                });
-                return Err(());
+            if let Some(count) = lines.as_ref().map(|v| v.len()) {
+                if count != errors.len() {
+                    checker.run(|| {
+                        for e in errors {
+                            e.emit(&handler);
+                        }
+                    });
+                    return Err(());
+                }
             }
 
             let res = if errors.is_empty() { Ok(()) } else { Err(()) };
@@ -204,24 +205,13 @@ fn do_test(treat_error_as_bug: bool, file_name: &Path, mode: Mode) -> Result<(),
             };
 
             // TODO: filter line correctly
-            let err_lines = err
+            let mut err_lines = err
                 .lines()
                 .enumerate()
-                .filter(|(_, l)| l.contains("error: "));
-            let all = err_lines
-                .clone()
-                .all(|(i, _)| lines.as_ref().unwrap().contains(&(i + 1)));
-            let err_count = err_lines.count();
+                .filter(|(_, l)| l.contains("$DIR"))
+                .inspect(|(i, v)| println!("Line:({}) {}", i, v));
 
-            if !all || err_count != lines.as_ref().unwrap().len() {
-                panic!(
-                    "{:?}\nExpected {} errors, got {}\nLines: {:?}",
-                    err,
-                    lines.as_ref().unwrap().len(),
-                    err_count,
-                    lines.as_ref().unwrap(),
-                );
-            }
+            let err_count = err_lines.clone().count();
 
             if err_count != lines.as_ref().unwrap().len() {
                 panic!(
@@ -229,6 +219,25 @@ fn do_test(treat_error_as_bug: bool, file_name: &Path, mode: Mode) -> Result<(),
                     err,
                     lines.unwrap().len(),
                     err_count,
+                );
+            }
+
+            let all = err_lines.all(|(_, v)| {
+                for l in lines.as_ref().unwrap() {
+                    if v.contains(&l.to_string()) {
+                        return true;
+                    }
+                }
+                false
+            });
+
+            if !all {
+                panic!(
+                    "{:?}\nExpected {} errors, got {}\nLines: {:?}\n",
+                    err,
+                    lines.as_ref().unwrap().len(),
+                    err_count,
+                    lines.as_ref().unwrap(),
                 );
             }
 

@@ -1,0 +1,803 @@
+error: AssignFailed {
+    span: Span {
+        lo: BytePos(
+            4556,
+        ),
+        hi: BytePos(
+            4557,
+        ),
+        ctxt: #0,
+    },
+    left: Union(
+        Union {
+            span: Span {
+                lo: BytePos(
+                    126,
+                ),
+                hi: BytePos(
+                    146,
+                ),
+                ctxt: #0,
+            },
+            types: [
+                Lit(
+                    TsLitType {
+                        span: Span {
+                            lo: BytePos(
+                                126,
+                            ),
+                            hi: BytePos(
+                                131,
+                            ),
+                            ctxt: #0,
+                        },
+                        lit: Str(
+                            Str {
+                                span: Span {
+                                    lo: BytePos(
+                                        126,
+                                    ),
+                                    hi: BytePos(
+                                        131,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('yes' type=inline),
+                                has_escape: false,
+                            },
+                        ),
+                    },
+                ),
+                Lit(
+                    TsLitType {
+                        span: Span {
+                            lo: BytePos(
+                                134,
+                            ),
+                            hi: BytePos(
+                                138,
+                            ),
+                            ctxt: #0,
+                        },
+                        lit: Str(
+                            Str {
+                                span: Span {
+                                    lo: BytePos(
+                                        134,
+                                    ),
+                                    hi: BytePos(
+                                        138,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('no' type=inline),
+                                has_escape: false,
+                            },
+                        ),
+                    },
+                ),
+                Lit(
+                    TsLitType {
+                        span: Span {
+                            lo: BytePos(
+                                141,
+                            ),
+                            hi: BytePos(
+                                146,
+                            ),
+                            ctxt: #0,
+                        },
+                        lit: Str(
+                            Str {
+                                span: Span {
+                                    lo: BytePos(
+                                        141,
+                                    ),
+                                    hi: BytePos(
+                                        146,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('idk' type=inline),
+                                has_escape: false,
+                            },
+                        ),
+                    },
+                ),
+            ],
+        },
+    ),
+    right: Union(
+        Union {
+            span: Span {
+                lo: BytePos(
+                    4556,
+                ),
+                hi: BytePos(
+                    4557,
+                ),
+                ctxt: #0,
+            },
+            types: [
+                Union(
+                    Union {
+                        span: Span {
+                            lo: BytePos(
+                                4556,
+                            ),
+                            hi: BytePos(
+                                4557,
+                            ),
+                            ctxt: #0,
+                        },
+                        types: [
+                            Lit(
+                                TsLitType {
+                                    span: Span {
+                                        lo: BytePos(
+                                            4489,
+                                        ),
+                                        hi: BytePos(
+                                            4494,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    lit: Str(
+                                        Str {
+                                            span: Span {
+                                                lo: BytePos(
+                                                    4489,
+                                                ),
+                                                hi: BytePos(
+                                                    4494,
+                                                ),
+                                                ctxt: #0,
+                                            },
+                                            value: Atom('yes' type=inline),
+                                            has_escape: false,
+                                        },
+                                    ),
+                                },
+                            ),
+                            Lit(
+                                TsLitType {
+                                    span: Span {
+                                        lo: BytePos(
+                                            4509,
+                                        ),
+                                        hi: BytePos(
+                                            4513,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    lit: Str(
+                                        Str {
+                                            span: Span {
+                                                lo: BytePos(
+                                                    4509,
+                                                ),
+                                                hi: BytePos(
+                                                    4513,
+                                                ),
+                                                ctxt: #0,
+                                            },
+                                            value: Atom('no' type=inline),
+                                            has_escape: false,
+                                        },
+                                    ),
+                                },
+                            ),
+                            Lit(
+                                TsLitType {
+                                    span: Span {
+                                        lo: BytePos(
+                                            4528,
+                                        ),
+                                        hi: BytePos(
+                                            4535,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    lit: Str(
+                                        Str {
+                                            span: Span {
+                                                lo: BytePos(
+                                                    4528,
+                                                ),
+                                                hi: BytePos(
+                                                    4535,
+                                                ),
+                                                ctxt: #0,
+                                            },
+                                            value: Atom('maybe' type=inline),
+                                            has_escape: false,
+                                        },
+                                    ),
+                                },
+                            ),
+                        ],
+                    },
+                ),
+                Union(
+                    Union {
+                        span: Span {
+                            lo: BytePos(
+                                4556,
+                            ),
+                            hi: BytePos(
+                                4557,
+                            ),
+                            ctxt: #0,
+                        },
+                        types: [
+                            Lit(
+                                TsLitType {
+                                    span: Span {
+                                        lo: BytePos(
+                                            4489,
+                                        ),
+                                        hi: BytePos(
+                                            4494,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    lit: Str(
+                                        Str {
+                                            span: Span {
+                                                lo: BytePos(
+                                                    4489,
+                                                ),
+                                                hi: BytePos(
+                                                    4494,
+                                                ),
+                                                ctxt: #0,
+                                            },
+                                            value: Atom('yes' type=inline),
+                                            has_escape: false,
+                                        },
+                                    ),
+                                },
+                            ),
+                            Lit(
+                                TsLitType {
+                                    span: Span {
+                                        lo: BytePos(
+                                            4509,
+                                        ),
+                                        hi: BytePos(
+                                            4513,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    lit: Str(
+                                        Str {
+                                            span: Span {
+                                                lo: BytePos(
+                                                    4509,
+                                                ),
+                                                hi: BytePos(
+                                                    4513,
+                                                ),
+                                                ctxt: #0,
+                                            },
+                                            value: Atom('no' type=inline),
+                                            has_escape: false,
+                                        },
+                                    ),
+                                },
+                            ),
+                            Lit(
+                                TsLitType {
+                                    span: Span {
+                                        lo: BytePos(
+                                            4528,
+                                        ),
+                                        hi: BytePos(
+                                            4535,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    lit: Str(
+                                        Str {
+                                            span: Span {
+                                                lo: BytePos(
+                                                    4528,
+                                                ),
+                                                hi: BytePos(
+                                                    4535,
+                                                ),
+                                                ctxt: #0,
+                                            },
+                                            value: Atom('maybe' type=inline),
+                                            has_escape: false,
+                                        },
+                                    ),
+                                },
+                            ),
+                        ],
+                    },
+                ),
+            ],
+        },
+    ),
+    cause: [
+        UnionError {
+            span: Span {
+                lo: BytePos(
+                    4556,
+                ),
+                hi: BytePos(
+                    4557,
+                ),
+                ctxt: #0,
+            },
+            errors: [
+                UnionError {
+                    span: Span {
+                        lo: BytePos(
+                            4556,
+                        ),
+                        hi: BytePos(
+                            4557,
+                        ),
+                        ctxt: #0,
+                    },
+                    errors: [
+                        UnionError {
+                            span: Span {
+                                lo: BytePos(
+                                    4556,
+                                ),
+                                hi: BytePos(
+                                    4557,
+                                ),
+                                ctxt: #0,
+                            },
+                            errors: [
+                                AssignFailed {
+                                    span: Span {
+                                        lo: BytePos(
+                                            4556,
+                                        ),
+                                        hi: BytePos(
+                                            4557,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    left: Lit(
+                                        TsLitType {
+                                            span: Span {
+                                                lo: BytePos(
+                                                    126,
+                                                ),
+                                                hi: BytePos(
+                                                    131,
+                                                ),
+                                                ctxt: #0,
+                                            },
+                                            lit: Str(
+                                                Str {
+                                                    span: Span {
+                                                        lo: BytePos(
+                                                            126,
+                                                        ),
+                                                        hi: BytePos(
+                                                            131,
+                                                        ),
+                                                        ctxt: #0,
+                                                    },
+                                                    value: Atom('yes' type=inline),
+                                                    has_escape: false,
+                                                },
+                                            ),
+                                        },
+                                    ),
+                                    right: Lit(
+                                        TsLitType {
+                                            span: Span {
+                                                lo: BytePos(
+                                                    4528,
+                                                ),
+                                                hi: BytePos(
+                                                    4535,
+                                                ),
+                                                ctxt: #0,
+                                            },
+                                            lit: Str(
+                                                Str {
+                                                    span: Span {
+                                                        lo: BytePos(
+                                                            4528,
+                                                        ),
+                                                        hi: BytePos(
+                                                            4535,
+                                                        ),
+                                                        ctxt: #0,
+                                                    },
+                                                    value: Atom('maybe' type=inline),
+                                                    has_escape: false,
+                                                },
+                                            ),
+                                        },
+                                    ),
+                                    cause: [],
+                                },
+                                AssignFailed {
+                                    span: Span {
+                                        lo: BytePos(
+                                            4556,
+                                        ),
+                                        hi: BytePos(
+                                            4557,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    left: Lit(
+                                        TsLitType {
+                                            span: Span {
+                                                lo: BytePos(
+                                                    134,
+                                                ),
+                                                hi: BytePos(
+                                                    138,
+                                                ),
+                                                ctxt: #0,
+                                            },
+                                            lit: Str(
+                                                Str {
+                                                    span: Span {
+                                                        lo: BytePos(
+                                                            134,
+                                                        ),
+                                                        hi: BytePos(
+                                                            138,
+                                                        ),
+                                                        ctxt: #0,
+                                                    },
+                                                    value: Atom('no' type=inline),
+                                                    has_escape: false,
+                                                },
+                                            ),
+                                        },
+                                    ),
+                                    right: Lit(
+                                        TsLitType {
+                                            span: Span {
+                                                lo: BytePos(
+                                                    4528,
+                                                ),
+                                                hi: BytePos(
+                                                    4535,
+                                                ),
+                                                ctxt: #0,
+                                            },
+                                            lit: Str(
+                                                Str {
+                                                    span: Span {
+                                                        lo: BytePos(
+                                                            4528,
+                                                        ),
+                                                        hi: BytePos(
+                                                            4535,
+                                                        ),
+                                                        ctxt: #0,
+                                                    },
+                                                    value: Atom('maybe' type=inline),
+                                                    has_escape: false,
+                                                },
+                                            ),
+                                        },
+                                    ),
+                                    cause: [],
+                                },
+                                AssignFailed {
+                                    span: Span {
+                                        lo: BytePos(
+                                            4556,
+                                        ),
+                                        hi: BytePos(
+                                            4557,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    left: Lit(
+                                        TsLitType {
+                                            span: Span {
+                                                lo: BytePos(
+                                                    141,
+                                                ),
+                                                hi: BytePos(
+                                                    146,
+                                                ),
+                                                ctxt: #0,
+                                            },
+                                            lit: Str(
+                                                Str {
+                                                    span: Span {
+                                                        lo: BytePos(
+                                                            141,
+                                                        ),
+                                                        hi: BytePos(
+                                                            146,
+                                                        ),
+                                                        ctxt: #0,
+                                                    },
+                                                    value: Atom('idk' type=inline),
+                                                    has_escape: false,
+                                                },
+                                            ),
+                                        },
+                                    ),
+                                    right: Lit(
+                                        TsLitType {
+                                            span: Span {
+                                                lo: BytePos(
+                                                    4528,
+                                                ),
+                                                hi: BytePos(
+                                                    4535,
+                                                ),
+                                                ctxt: #0,
+                                            },
+                                            lit: Str(
+                                                Str {
+                                                    span: Span {
+                                                        lo: BytePos(
+                                                            4528,
+                                                        ),
+                                                        hi: BytePos(
+                                                            4535,
+                                                        ),
+                                                        ctxt: #0,
+                                                    },
+                                                    value: Atom('maybe' type=inline),
+                                                    has_escape: false,
+                                                },
+                                            ),
+                                        },
+                                    ),
+                                    cause: [],
+                                },
+                            ],
+                        },
+                    ],
+                },
+                UnionError {
+                    span: Span {
+                        lo: BytePos(
+                            4556,
+                        ),
+                        hi: BytePos(
+                            4557,
+                        ),
+                        ctxt: #0,
+                    },
+                    errors: [
+                        UnionError {
+                            span: Span {
+                                lo: BytePos(
+                                    4556,
+                                ),
+                                hi: BytePos(
+                                    4557,
+                                ),
+                                ctxt: #0,
+                            },
+                            errors: [
+                                AssignFailed {
+                                    span: Span {
+                                        lo: BytePos(
+                                            4556,
+                                        ),
+                                        hi: BytePos(
+                                            4557,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    left: Lit(
+                                        TsLitType {
+                                            span: Span {
+                                                lo: BytePos(
+                                                    126,
+                                                ),
+                                                hi: BytePos(
+                                                    131,
+                                                ),
+                                                ctxt: #0,
+                                            },
+                                            lit: Str(
+                                                Str {
+                                                    span: Span {
+                                                        lo: BytePos(
+                                                            126,
+                                                        ),
+                                                        hi: BytePos(
+                                                            131,
+                                                        ),
+                                                        ctxt: #0,
+                                                    },
+                                                    value: Atom('yes' type=inline),
+                                                    has_escape: false,
+                                                },
+                                            ),
+                                        },
+                                    ),
+                                    right: Lit(
+                                        TsLitType {
+                                            span: Span {
+                                                lo: BytePos(
+                                                    4528,
+                                                ),
+                                                hi: BytePos(
+                                                    4535,
+                                                ),
+                                                ctxt: #0,
+                                            },
+                                            lit: Str(
+                                                Str {
+                                                    span: Span {
+                                                        lo: BytePos(
+                                                            4528,
+                                                        ),
+                                                        hi: BytePos(
+                                                            4535,
+                                                        ),
+                                                        ctxt: #0,
+                                                    },
+                                                    value: Atom('maybe' type=inline),
+                                                    has_escape: false,
+                                                },
+                                            ),
+                                        },
+                                    ),
+                                    cause: [],
+                                },
+                                AssignFailed {
+                                    span: Span {
+                                        lo: BytePos(
+                                            4556,
+                                        ),
+                                        hi: BytePos(
+                                            4557,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    left: Lit(
+                                        TsLitType {
+                                            span: Span {
+                                                lo: BytePos(
+                                                    134,
+                                                ),
+                                                hi: BytePos(
+                                                    138,
+                                                ),
+                                                ctxt: #0,
+                                            },
+                                            lit: Str(
+                                                Str {
+                                                    span: Span {
+                                                        lo: BytePos(
+                                                            134,
+                                                        ),
+                                                        hi: BytePos(
+                                                            138,
+                                                        ),
+                                                        ctxt: #0,
+                                                    },
+                                                    value: Atom('no' type=inline),
+                                                    has_escape: false,
+                                                },
+                                            ),
+                                        },
+                                    ),
+                                    right: Lit(
+                                        TsLitType {
+                                            span: Span {
+                                                lo: BytePos(
+                                                    4528,
+                                                ),
+                                                hi: BytePos(
+                                                    4535,
+                                                ),
+                                                ctxt: #0,
+                                            },
+                                            lit: Str(
+                                                Str {
+                                                    span: Span {
+                                                        lo: BytePos(
+                                                            4528,
+                                                        ),
+                                                        hi: BytePos(
+                                                            4535,
+                                                        ),
+                                                        ctxt: #0,
+                                                    },
+                                                    value: Atom('maybe' type=inline),
+                                                    has_escape: false,
+                                                },
+                                            ),
+                                        },
+                                    ),
+                                    cause: [],
+                                },
+                                AssignFailed {
+                                    span: Span {
+                                        lo: BytePos(
+                                            4556,
+                                        ),
+                                        hi: BytePos(
+                                            4557,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    left: Lit(
+                                        TsLitType {
+                                            span: Span {
+                                                lo: BytePos(
+                                                    141,
+                                                ),
+                                                hi: BytePos(
+                                                    146,
+                                                ),
+                                                ctxt: #0,
+                                            },
+                                            lit: Str(
+                                                Str {
+                                                    span: Span {
+                                                        lo: BytePos(
+                                                            141,
+                                                        ),
+                                                        hi: BytePos(
+                                                            146,
+                                                        ),
+                                                        ctxt: #0,
+                                                    },
+                                                    value: Atom('idk' type=inline),
+                                                    has_escape: false,
+                                                },
+                                            ),
+                                        },
+                                    ),
+                                    right: Lit(
+                                        TsLitType {
+                                            span: Span {
+                                                lo: BytePos(
+                                                    4528,
+                                                ),
+                                                hi: BytePos(
+                                                    4535,
+                                                ),
+                                                ctxt: #0,
+                                            },
+                                            lit: Str(
+                                                Str {
+                                                    span: Span {
+                                                        lo: BytePos(
+                                                            4528,
+                                                        ),
+                                                        hi: BytePos(
+                                                            4535,
+                                                        ),
+                                                        ctxt: #0,
+                                                    },
+                                                    value: Atom('maybe' type=inline),
+                                                    has_escape: false,
+                                                },
+                                            ),
+                                        },
+                                    ),
+                                    cause: [],
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ],
+        },
+    ],
+}
+   --> $DIR/tests/conformance/types/unknown/unknownType2.ts:218:20
+    |
+218 |             return x; // error
+    |                    ^
+
