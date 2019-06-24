@@ -91,7 +91,6 @@ fn merge(ls: &[Lib]) -> &'static Merged {
 
                             // Merge interface
                             Stmt::Decl(Decl::TsInterface(ref i)) => {
-                                let mut mutated = false;
                                 match merged.types.entry(i.id.sym.clone()) {
                                     Entry::Occupied(mut e) => match *e.get_mut() {
                                         ty::Type::Interface(ref mut v) => {
@@ -119,22 +118,22 @@ fn merge(ls: &[Lib]) -> &'static Merged {
     return &*CACHE.get(ls).unwrap();
 }
 
-pub fn get_var(libs: &[Lib], name: &JsWord) -> Option<Type> {
+pub fn get_var(libs: &[Lib], name: &JsWord) -> Result<Type, ()> {
     let lib = merge(libs);
 
     if let Some(v) = lib.vars.get(&name) {
-        return Some(ty::Type::Static(v));
+        return Ok(ty::Type::Static(v));
     }
 
-    unimplemented!("get")
+    Err(())
 }
 
-pub fn get_type(libs: &[Lib], name: &JsWord) -> Option<Type> {
+pub fn get_type(libs: &[Lib], name: &JsWord) -> Result<Type, ()> {
     let lib = merge(libs);
 
     if let Some(ty) = lib.types.get(name) {
-        return Some(ty::Type::Static(ty));
+        return Ok(ty::Type::Static(ty));
     }
 
-    unimplemented!("get")
+    Err(())
 }

@@ -50,7 +50,7 @@ impl Analyzer<'_, '_> {
                     return Ok(Type::any(span).into_cow());
                 }
 
-                if let Some(ty) = builtin_types::get_var(self.libs, &i.sym) {
+                if let Ok(ty) = builtin_types::get_var(self.libs, &i.sym) {
                     return Ok(ty.owned());
                 }
 
@@ -706,9 +706,9 @@ impl Analyzer<'_, '_> {
                 ..
             }) => {
                 // member expression
-                let obj_type = self.type_of(obj)?;
+                let obj_type = self.type_of(obj)?.generalize_lit();
 
-                match *obj_type {
+                match *obj_type.as_ref() {
                     Type::Function(ref f) if kind == ExtractKind::Call => {
                         //
                         return Ok(*f.ret_ty.clone());
@@ -719,6 +719,24 @@ impl Analyzer<'_, '_> {
                         ..
                     }) => {
                         return Ok(Type::any(span).into_cow());
+                    }
+
+                    Type::Keyword(TsKeywordType {
+                        kind: TsKeywordTypeKind::TsNumberKeyword,
+                        ..
+                    }) => {
+                        return Ok(builtin_types::get_type(self.libs, &js_word!("Number"))
+                            .map(Type::owned)
+                            .expect("Builtin type named 'Numnber' should exist"));
+                    }
+
+                    Type::Keyword(TsKeywordType {
+                        kind: TsKeywordTypeKind::TsStringKeyword,
+                        ..
+                    }) => {
+                        return Ok(builtin_types::get_type(self.libs, &js_word!("String"))
+                            .map(Type::owned)
+                            .expect("Builtin type named 'String' should exist"));
                     }
 
                     Type::Interface(ref i) => {
@@ -994,20 +1012,8 @@ impl Analyzer<'_, '_> {
                     match *type_name {
                         TsEntityName::Ident(ref i) => {
                             // Check for builtin types
-                            match i.sym {
-                                js_word!("Record") => {}
-                                js_word!("Readonly") => {}
-                                js_word!("ReadonlyArray") => {}
-                                js_word!("ReturnType") => {}
-                                js_word!("Partial") => {}
-                                js_word!("Required") => {}
-                                js_word!("NonNullable") => {}
-                                js_word!("Pick") => {}
-                                js_word!("Record") => {}
-                                js_word!("Extract") => {}
-                                js_word!("Exclude") => {}
-
-                                _ => {}
+                            if let Ok(ty) = builtin_types::get_type(self.libs, &i.sym) {
+                                return Ok(ty.owned());
                             }
 
                             // Handle enum
