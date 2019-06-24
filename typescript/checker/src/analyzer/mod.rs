@@ -295,8 +295,6 @@ impl Analyzer<'_, '_> {
 
             f.visit_children(child);
 
-            dbg!(&child.inferred_return_types);
-
             let fn_ty = child.type_of_fn(f)?;
 
             Ok(fn_ty)
