@@ -20,6 +20,16 @@ impl Type<'_> {
 }
 
 fn try_assign(to: &Type, rhs: &Type) -> Result<(), Error> {
+    macro_rules! fail {
+        () => {{
+            return Err(Error::AssignFailed {
+                left: to.to_static(),
+                right: rhs.to_static(),
+                cause: vec![],
+            });
+        }};
+    }
+
     /// Ensure that $ty is valid.
     /// Type::Array / Type::FnOrConstructor / Type::UnionOrIntersection is
     /// considered invalid
@@ -90,12 +100,9 @@ fn try_assign(to: &Type, rhs: &Type) -> Result<(), Error> {
         }) => {
             let errors = types
                 .iter()
-                .filter_map(|rhs| {
-                    println!("try_assign: {:?} = {:?}", to, rhs);
-                    match try_assign(to, rhs) {
-                        Ok(()) => None,
-                        Err(err) => Some(err),
-                    }
+                .filter_map(|rhs| match try_assign(to, rhs) {
+                    Ok(()) => None,
+                    Err(err) => Some(err),
                 })
                 .collect::<Vec<_>>();
             if errors.is_empty() {
@@ -120,11 +127,7 @@ fn try_assign(to: &Type, rhs: &Type) -> Result<(), Error> {
                 return Ok(());
             }
 
-            return Err(Error::AssignFailed {
-                left: to.to_static(),
-                right: rhs.to_static(),
-                cause: vec![],
-            });
+            fail!();
         }
 
         _ => {}
@@ -145,13 +148,7 @@ fn try_assign(to: &Type, rhs: &Type) -> Result<(), Error> {
                     }
                 });
             }
-            _ => {
-                return Err(Error::AssignFailed {
-                    left: to.to_static(),
-                    right: rhs.to_static(),
-                    cause: vec![],
-                })
-            }
+            _ => fail!(),
         },
 
         // let a: string | number = 'string';
@@ -264,11 +261,7 @@ fn try_assign(to: &Type, rhs: &Type) -> Result<(), Error> {
                 _ => {}
             }
 
-            return Err(Error::AssignFailed {
-                left: to.to_static(),
-                right: rhs.to_static(),
-                cause: vec![],
-            });
+            fail!()
         }
 
         Type::Enum(ref e) => {
@@ -295,19 +288,9 @@ fn try_assign(to: &Type, rhs: &Type) -> Result<(), Error> {
                     return Ok(());
                 }
 
-                return Err(Error::AssignFailed {
-                    left: Type::EnumVariant(l.clone()),
-                    right: rhs.to_static(),
-                    cause: vec![],
-                });
+                fail!()
             }
-            _ => {
-                return Err(Error::AssignFailed {
-                    left: Type::EnumVariant(l.clone()),
-                    right: rhs.to_static(),
-                    cause: vec![],
-                })
-            }
+            _ => fail!(),
         },
 
         Type::This(TsThisType { span }) => return Err(Error::CannotAssingToThis { span }),
@@ -317,17 +300,17 @@ fn try_assign(to: &Type, rhs: &Type) -> Result<(), Error> {
 
         Type::TypeLit(TypeLit { ref members, .. }) => handle_type_lit!(members),
 
-        Type::Lit(TsLitType { ref lit, .. }) => match *to {
+        Type::Lit(TsLitType { ref lit, .. }) => match *rhs {
             Type::Lit(TsLitType { lit: ref r_lit, .. }) => {
                 if lit.eq_ignore_span(r_lit) {
                     return Ok(());
                 }
 
-                {};
+                fail!()
             }
             // TODO: allow
             // let a: true | false = bool
-            _ => {}
+            _ => fail!(),
         },
 
         _ => {}
