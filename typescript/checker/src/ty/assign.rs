@@ -315,7 +315,7 @@ fn try_assign(to: &Type, rhs: &Type) -> Result<(), Error> {
         // TODO: Handle extends
         Type::Interface(Interface { ref body, .. }) => handle_type_lit!(body),
 
-        Type::TypeLit(TypeLit { span, ref members }) => handle_type_lit!(members),
+        Type::TypeLit(TypeLit { ref members, .. }) => handle_type_lit!(members),
 
         Type::Lit(TsLitType { ref lit, .. }) => match *to {
             Type::Lit(TsLitType { lit: ref r_lit, .. }) => {
