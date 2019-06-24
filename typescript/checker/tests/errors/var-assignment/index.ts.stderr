@@ -1,5 +1,5 @@
 error: AssignFailed {
-    left: TsKeywordType(
+    left: Keyword(
         TsKeywordType {
             span: Span {
                 lo: BytePos(
@@ -13,7 +13,7 @@ error: AssignFailed {
             kind: TsStringKeyword,
         },
     ),
-    right: TsLitType(
+    right: Lit(
         TsLitType {
             span: Span {
                 lo: BytePos(
