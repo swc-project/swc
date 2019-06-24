@@ -154,7 +154,7 @@ impl<'a> Scope<'a> {
     ///
     /// Registers an interface, and merges it with previous interface
     /// declaration if required.
-    pub fn register_type(&mut self, name: JsWord, ty: Type) {
+    pub fn register_type(&mut self, name: JsWord, ty: Type<'static>) {
         let depth = self.depth();
 
         match self.types.entry(name) {
@@ -167,7 +167,7 @@ impl<'a> Scope<'a> {
                         // TODO: Check fields' type
                         // TODO: Sort function members like
                         // https://www.typescriptlang.org/docs/handbook/declaration-merging.html#merging-interfaces
-                        orig.body.body.append(&mut i.body.body);
+                        orig.body.append(&mut i.body);
                     }
                     ref ty => unreachable!("{:?} cannot be merged with {:?}", ty.0, ty.1),
                 }

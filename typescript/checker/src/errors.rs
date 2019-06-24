@@ -1,8 +1,7 @@
-use crate::ty::Type;
+use crate::ty::{Type, TypeElement};
 use std::{ops::RangeInclusive, path::PathBuf};
 use swc_atoms::JsWord;
 use swc_common::{errors::Handler, Span, Spanned};
-use swc_ecma_ast::TsTypeElement;
 
 #[derive(Debug, Clone, PartialEq, Spanned)]
 pub enum Error {
@@ -30,7 +29,7 @@ pub enum Error {
 
     MissingFields {
         span: Span,
-        fields: Vec<TsTypeElement>,
+        fields: Vec<TypeElement<'static>>,
     },
 
     AssignFailed {

@@ -2,7 +2,11 @@ use super::{control_flow::RemoveTypes, export::pat_to_ts_fn_param, Analyzer};
 use crate::{
     builtin_types,
     errors::Error,
-    ty::{self, Array, EnumVariant, Intersection, Type, TypeRef, TypeRefExt, Union},
+    ty::{
+        self, Array, CallSignature, ConstructorSignature, EnumVariant, Intersection,
+        MethodSignature, PropertySignature, Type, TypeElement, TypeLit, TypeParamDecl, TypeRef,
+        TypeRefExt, Union,
+    },
     util::{EqIgnoreNameAndSpan, EqIgnoreSpan, IntoCow},
 };
 use std::borrow::Cow;
@@ -16,7 +20,7 @@ impl Analyzer<'_, '_> {
 
         match *expr {
             Expr::This(ThisExpr { span }) => {
-                return Ok(Cow::Owned(TsType::from(TsThisType { span }).into()))
+                return Ok(Cow::Owned(Type::from(TsThisType { span })))
             }
 
             Expr::Ident(Ident {
@@ -183,7 +187,7 @@ impl Analyzer<'_, '_> {
             }
 
             Expr::Object(ObjectLit { span, ref props }) => {
-                return Ok(TsType::TsTypeLit(TsTypeLit {
+                return Ok(Type::TypeLit(TypeLit {
                     span,
                     members: props
                         .iter()
@@ -341,8 +345,8 @@ impl Analyzer<'_, '_> {
         }
     }
 
-    fn type_of_prop(&self, prop: &Prop) -> TsTypeElement {
-        TsPropertySignature {
+    fn type_of_prop(&self, prop: &Prop) -> TypeElement {
+        PropertySignature {
             span: prop.span(),
             key: prop_key_to_expr(&prop),
             params: Default::default(),
@@ -432,7 +436,7 @@ impl Analyzer<'_, '_> {
         //             };
 
         //
-        // type_props.push(TsTypeElement::TsPropertySignature(TsPropertySignature {
+        // type_props.push(TypeElement::TsPropertySignature(TsPropertySignature {
         //                 span,
         //                 key: p.key.clone(),
         //                 optional: p.is_optional,
@@ -456,7 +460,7 @@ impl Analyzer<'_, '_> {
 
         //         // TODO(kdy1):
         //         ClassMember::Constructor(ref c) => {
-        //             type_props.push(TsTypeElement::TsConstructSignatureDecl(
+        //             type_props.push(TypeElement::TsConstructSignatureDecl(
         //                 TsConstructSignatureDecl {
         //                     span,
 
@@ -562,7 +566,7 @@ impl Analyzer<'_, '_> {
         Ok(ty::Function {
             span: f.span,
             params: f.params.iter().cloned().map(pat_to_ts_fn_param).collect(),
-            type_params: f.type_params.clone(),
+            type_params: f.type_params.clone().map(From::from),
             ret_ty: box ret_ty,
         }
         .into())
@@ -601,7 +605,7 @@ impl Analyzer<'_, '_> {
         Ok(ty::Function {
             span: f.span,
             params: f.params.iter().cloned().map(pat_to_ts_fn_param).collect(),
-            type_params: f.type_params.clone(),
+            type_params: f.type_params.clone().map(From::from),
             ret_ty: box declared_ret_ty
                 .map(|ty| ty.to_static().owned())
                 .unwrap_or(inferred_return_type.to_static().owned()),
@@ -627,7 +631,7 @@ impl Analyzer<'_, '_> {
 
                 for m in $members {
                     match m {
-                        TsTypeElement::TsMethodSignature(ref m) if kind == ExtractKind::Call => {
+                        TypeElement::Method(ref m) if kind == ExtractKind::Call => {
                             // We are only interested on methods named `prop`
                             if $prop.eq_ignore_span(&m.key) {
                                 candidates.push(m.clone());
@@ -641,23 +645,15 @@ impl Analyzer<'_, '_> {
                 match candidates.len() {
                     0 => {}
                     1 => {
-                        let TsMethodSignature { type_ann, .. } =
-                            candidates.into_iter().next().unwrap();
+                        let MethodSignature { ret_ty, .. } = candidates.into_iter().next().unwrap();
 
-                        return Ok(type_ann
-                            .map(|ty| Type::from(*ty.type_ann))
-                            .unwrap_or_else(|| Type::any(span))
-                            .into_cow());
+                        return Ok(ret_ty.unwrap_or_else(|| Type::any(span).owned()));
                     }
                     _ => {
                         //
                         for c in candidates {
                             if c.params.len() == args.len() {
-                                return Ok(c
-                                    .type_ann
-                                    .map(|ty| Type::from(*ty.type_ann))
-                                    .unwrap_or_else(|| Type::any(span))
-                                    .into_cow());
+                                return Ok(c.ret_ty.unwrap_or_else(|| Type::any(span).owned()));
                             }
                         }
 
@@ -741,16 +737,12 @@ impl Analyzer<'_, '_> {
                     }
 
                     Type::Interface(ref i) => {
-                        search_members_for_prop!(&i.body.body, prop);
+                        search_members_for_prop!(&i.body, prop);
                     }
 
-                    Type::Simple(ref obj_type) => match **obj_type {
-                        TsType::TsTypeLit(TsTypeLit { ref members, .. }) => {
-                            search_members_for_prop!(members, prop);
-                        }
-
-                        _ => {}
-                    },
+                    Type::TypeLit(ref t) => {
+                        search_members_for_prop!(&t.members, prop);
+                    }
 
                     _ => {}
                 }
@@ -811,21 +803,17 @@ impl Analyzer<'_, '_> {
             ($members:expr) => {{
                 for member in &$members {
                     match *member {
-                        TsTypeElement::TsCallSignatureDecl(TsCallSignatureDecl {
+                        TypeElement::Call(CallSignature {
                             ref params,
                             ref type_params,
-                            ref type_ann,
+                            ref ret_ty,
                             ..
                         }) if kind == ExtractKind::Call => {
                             //
                             match self.try_instantiate(
                                 span,
                                 ty.span(),
-                                type_ann
-                                    .as_ref()
-                                    .map(|v| Type::from(v.type_ann.clone()))
-                                    .unwrap_or_else(|| Type::any(span))
-                                    .into_cow(),
+                                &ret_ty.as_ref().unwrap_or(&Type::any(span).owned()),
                                 params,
                                 type_params.as_ref(),
                                 args,
@@ -836,20 +824,16 @@ impl Analyzer<'_, '_> {
                             };
                         }
 
-                        TsTypeElement::TsConstructSignatureDecl(TsConstructSignatureDecl {
+                        TypeElement::Constructor(ConstructorSignature {
                             ref params,
                             ref type_params,
-                            ref type_ann,
+                            ref ret_ty,
                             ..
                         }) if kind == ExtractKind::New => {
                             match self.try_instantiate(
                                 span,
                                 ty.span(),
-                                type_ann
-                                    .as_ref()
-                                    .map(|v| Type::from(v.type_ann.clone()))
-                                    .unwrap_or_else(|| Type::any(span))
-                                    .into_cow(),
+                                &ret_ty.as_ref().unwrap_or(&Type::any(span).owned()),
                                 params,
                                 type_params.as_ref(),
                                 args,
@@ -881,7 +865,7 @@ impl Analyzer<'_, '_> {
             }) if kind == ExtractKind::Call => self.try_instantiate(
                 span,
                 ty.span(),
-                *ret_ty.clone(),
+                &ret_ty,
                 params,
                 type_params.as_ref(),
                 args,
@@ -896,7 +880,7 @@ impl Analyzer<'_, '_> {
             }) if kind == ExtractKind::New => self.try_instantiate(
                 span,
                 ty.span(),
-                *ret_ty.clone(),
+                &ret_ty,
                 params,
                 type_params.as_ref(),
                 args,
@@ -917,20 +901,16 @@ impl Analyzer<'_, '_> {
 
             Type::Interface(ref i) => {
                 // Search for methods
-                search_members!(i.body.body);
+                search_members!(i.body);
 
                 ret_err!()
             }
 
-            Type::Simple(ref s) => match **s {
-                TsType::TsTypeLit(ref lit) => {
-                    search_members!(lit.members);
+            Type::TypeLit(ref l) => {
+                search_members!(l.members);
 
-                    ret_err!()
-                }
-
-                _ => ret_err!(),
-            },
+                ret_err!()
+            }
 
             _ => ret_err!(),
         }
@@ -940,12 +920,12 @@ impl Analyzer<'_, '_> {
         &'a self,
         span: Span,
         callee_span: Span,
-        ret_type: TypeRef<'a>,
+        ret_type: &Type<'a>,
         param_decls: &[TsFnParam],
-        ty_params_decl: Option<&TsTypeParamDecl>,
+        ty_params_decl: Option<&TypeParamDecl>,
         args: &[ExprOrSpread],
         i: Option<&TsTypeParamInstantiation>,
-    ) -> Result<Type, Error> {
+    ) -> Result<Type<'a>, Error> {
         {
             // let type_params_len = ty_params_decl.map(|decl|
             // decl.params.len()).unwrap_or(0); let type_args_len = i.map(|v|
@@ -990,7 +970,7 @@ impl Analyzer<'_, '_> {
             }
         }
 
-        Ok(ret_type.into_owned())
+        Ok(ret_type.clone())
     }
 
     /// Expands

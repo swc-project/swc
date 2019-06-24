@@ -1,17 +1,11 @@
-use crate::{
-    errors::Error,
-    util::{EqIgnoreNameAndSpan, EqIgnoreSpan, IntoCow},
-};
+use crate::util::IntoCow;
 use std::{borrow::Cow, mem::transmute};
 use swc_atoms::JsWord;
 use swc_common::{Fold, FromVariant, Span, Spanned};
-use swc_ecma_ast::{
-    Bool, Class, Number, Str, TsArrayType, TsConstructorType, TsEnumDecl, TsFnOrConstructorType,
-    TsFnParam, TsFnType, TsInterfaceDecl, TsIntersectionType, TsKeywordType, TsKeywordTypeKind,
-    TsLit, TsLitType, TsModuleDecl, TsNamespaceDecl, TsThisType, TsType, TsTypeAliasDecl,
-    TsTypeAnn, TsTypeLit, TsTypeParamDecl, TsUnionOrIntersectionType, TsUnionType,
-};
+use swc_ecma_ast::*;
 
+mod assign;
+mod convert;
 pub mod merge;
 
 pub trait TypeRefExt<'a>: Sized + Clone {
@@ -82,7 +76,9 @@ pub type TypeRef<'a> = Cow<'a, Type<'a>>;
 
 #[derive(Debug, Fold, Clone, PartialEq, Spanned, FromVariant)]
 pub enum Type<'a> {
+    This(TsThisType),
     Lit(TsLitType),
+    TypeLit(TypeLit<'a>),
     Keyword(TsKeywordType),
     Simple(Cow<'a, TsType>),
     Array(Array<'a>),
@@ -93,7 +89,7 @@ pub enum Type<'a> {
 
     EnumVariant(EnumVariant),
 
-    Interface(TsInterfaceDecl),
+    Interface(Interface<'a>),
     Enum(TsEnumDecl),
     /// export type A<B> = Foo<B>;
     Alias(TsTypeAliasDecl),
@@ -107,59 +103,106 @@ pub enum Type<'a> {
     Static(#[fold(ignore)] &'static Type<'static>),
 }
 
-impl From<TsType> for Type<'_> {
-    fn from(ty: TsType) -> Self {
-        match ty {
-            TsType::TsLitType(ty) => ty.into(),
-            TsType::TsKeywordType(ty) => ty.into(),
-            TsType::TsUnionOrIntersectionType(TsUnionOrIntersectionType::TsUnionType(
-                TsUnionType { span, types },
-            )) => Union {
-                span,
-                types: types.into_iter().map(|v| v.into_cow()).collect(),
-            }
-            .into(),
-            TsType::TsUnionOrIntersectionType(TsUnionOrIntersectionType::TsIntersectionType(
-                TsIntersectionType { span, types },
-            )) => Intersection {
-                span,
-                types: types.into_iter().map(|v| v.into_cow()).collect(),
-            }
-            .into(),
-            TsType::TsArrayType(TsArrayType {
-                span,
-                box elem_type,
-            }) => Type::Array(Array {
-                span,
-                elem_type: box elem_type.into_cow(),
-            }),
-            TsType::TsFnOrConstructorType(TsFnOrConstructorType::TsFnType(TsFnType {
-                span,
-                params,
-                type_params,
-                type_ann,
-            })) => Type::Function(Function {
-                span,
-                params,
-                type_params,
-                ret_ty: box type_ann.type_ann.into_cow(),
-            }),
-            TsType::TsFnOrConstructorType(TsFnOrConstructorType::TsConstructorType(
-                TsConstructorType {
-                    span,
-                    params,
-                    type_params,
-                    type_ann,
-                },
-            )) => Type::Constructor(Constructor {
-                span,
-                params,
-                type_params,
-                ret_ty: box type_ann.type_ann.into_cow(),
-            }),
-            _ => Type::Simple(ty.into_cow()),
-        }
-    }
+#[derive(Debug, Fold, Clone, PartialEq, Spanned)]
+pub struct Interface<'a> {
+    pub span: Span,
+    pub type_params: Option<TypeParamDecl<'a>>,
+    pub extends: Vec<TsExpr<'a>>,
+    pub body: Vec<TypeElement<'a>>,
+}
+
+#[derive(Debug, Fold, Clone, PartialEq, Spanned)]
+pub struct TypeLit<'a> {
+    pub span: Span,
+    pub members: Vec<TypeElement<'a>>,
+}
+
+#[derive(Debug, Fold, Clone, PartialEq, Spanned)]
+pub struct TypeParamDecl<'a> {
+    pub span: Span,
+    pub params: Vec<TypeParam<'a>>,
+}
+
+#[derive(Debug, Fold, Clone, PartialEq, Spanned)]
+pub struct TypeParam<'a> {
+    pub span: Span,
+    pub name: JsWord,
+
+    pub constraint: Option<Box<TypeRef<'a>>>,
+    pub default: Option<Box<TypeRef<'a>>>,
+}
+
+/// Typescript expression with type arguments
+#[derive(Debug, Fold, Clone, PartialEq, Spanned)]
+pub struct TsExpr<'a> {
+    pub span: Span,
+    pub expr: TsEntityName,
+    pub type_params: Option<TypeParamInstantiation<'a>>,
+}
+
+#[derive(Debug, Fold, Clone, PartialEq, Spanned)]
+pub struct TypeParamInstantiation<'a> {
+    pub span: Span,
+    pub params: Vec<Box<TypeRef<'a>>>,
+}
+
+#[derive(Debug, Fold, Clone, PartialEq, Spanned, FromVariant)]
+pub enum TypeElement<'a> {
+    Call(CallSignature<'a>),
+    Constructor(ConstructorSignature<'a>),
+    Property(PropertySignature<'a>),
+    Method(MethodSignature<'a>),
+    Index(IndexSignature<'a>),
+}
+
+#[derive(Debug, Fold, Clone, PartialEq, Spanned)]
+pub struct CallSignature<'a> {
+    pub span: Span,
+    pub params: Vec<TsFnParam>,
+    pub type_params: Option<TypeParamDecl<'a>>,
+    pub ret_ty: Option<TypeRef<'a>>,
+}
+
+#[derive(Debug, Fold, Clone, PartialEq, Spanned)]
+pub struct ConstructorSignature<'a> {
+    pub span: Span,
+    pub params: Vec<TsFnParam>,
+    pub ret_ty: Option<TypeRef<'a>>,
+    pub type_params: Option<TypeParamDecl<'a>>,
+}
+
+#[derive(Debug, Fold, Clone, PartialEq, Spanned)]
+pub struct PropertySignature<'a> {
+    pub span: Span,
+    pub readonly: bool,
+    pub key: Box<Expr>,
+    pub computed: bool,
+    pub optional: bool,
+    pub init: Option<Box<Expr>>,
+    pub params: Vec<TsFnParam>,
+    pub type_ann: Option<TypeRef<'a>>,
+    pub type_params: Option<TypeParamDecl<'a>>,
+}
+
+#[derive(Debug, Fold, Clone, PartialEq, Spanned)]
+pub struct MethodSignature<'a> {
+    pub span: Span,
+    pub readonly: bool,
+    pub key: Box<Expr>,
+    pub computed: bool,
+    pub optional: bool,
+    pub params: Vec<TsFnParam>,
+    pub ret_ty: Option<TypeRef<'a>>,
+    pub type_params: Option<TypeParamDecl<'a>>,
+}
+
+#[derive(Debug, Fold, Clone, PartialEq, Spanned)]
+pub struct IndexSignature<'a> {
+    pub params: Vec<TsFnParam>,
+    pub type_ann: Option<TypeRef<'a>>,
+
+    pub readonly: bool,
+    pub span: Span,
 }
 
 #[derive(Debug, Fold, Clone, PartialEq, Spanned)]
@@ -193,7 +236,7 @@ pub struct EnumVariant {
 #[derive(Debug, Fold, Clone, PartialEq, Spanned)]
 pub struct Function<'a> {
     pub span: Span,
-    pub type_params: Option<TsTypeParamDecl>,
+    pub type_params: Option<TypeParamDecl<'a>>,
     pub params: Vec<TsFnParam>,
     pub ret_ty: Box<TypeRef<'a>>,
 }
@@ -201,7 +244,7 @@ pub struct Function<'a> {
 #[derive(Debug, Fold, Clone, PartialEq, Spanned)]
 pub struct Constructor<'a> {
     pub span: Span,
-    pub type_params: Option<TsTypeParamDecl>,
+    pub type_params: Option<TypeParamDecl<'a>>,
     pub params: Vec<TsFnParam>,
     pub ret_ty: Box<TypeRef<'a>>,
 }
@@ -258,355 +301,6 @@ impl Type<'_> {
             _ => false,
         }
     }
-
-    pub fn assign_to(&self, to: &Type) -> Result<(), Error> {
-        try_assign(to, self).map_err(|err| match err {
-            Error::AssignFailed { .. } => err,
-            _ => Error::AssignFailed {
-                left: to.to_static(),
-                right: self.to_static(),
-                cause: vec![err],
-            },
-        })
-    }
-}
-
-fn try_assign(to: &Type, rhs: &Type) -> Result<(), Error> {
-    /// Ensure that $ty is valid.
-    /// TsType::Array / TsType::FnOrConstructor / TsType::UnionOrIntersection is
-    /// considered invalid
-    macro_rules! verify {
-        ($ty:expr) => {{
-            if cfg!(debug_assertions) {
-                match $ty {
-                    Type::Simple(ref ty) => match **ty {
-                        TsType::TsFnOrConstructorType(..)
-                        | TsType::TsArrayType(..)
-                        | TsType::TsKeywordType(..)
-                        | TsType::TsLitType(..)
-                        | TsType::TsUnionOrIntersectionType(..) => {
-                            unreachable!("this type should be changed into `Type`")
-                        }
-                        _ => {}
-                    },
-                    _ => {}
-                }
-            }
-        }};
-    }
-    verify!(to);
-    verify!(rhs);
-
-    match *rhs.as_ref() {
-        Type::Union(Union {
-            ref types, span, ..
-        }) => {
-            let errors = types
-                .iter()
-                .filter_map(|rhs| match try_assign(to, rhs) {
-                    Ok(()) => None,
-                    Err(err) => Some(err),
-                })
-                .collect::<Vec<_>>();
-            if errors.is_empty() {
-                return Ok(());
-            }
-            return Err(Error::UnionError { span, errors });
-        }
-
-        Type::Keyword(TsKeywordType {
-            kind: TsKeywordTypeKind::TsAnyKeyword,
-            ..
-        }) => return Ok(()),
-
-        // Handle unknown on rhs
-        Type::Keyword(TsKeywordType {
-            kind: TsKeywordTypeKind::TsUnknownKeyword,
-            ..
-        }) => {
-            if to.is_keyword(TsKeywordTypeKind::TsAnyKeyword)
-                || to.is_keyword(TsKeywordTypeKind::TsUndefinedKeyword)
-            {
-                return Ok(());
-            }
-
-            return Err(Error::AssignFailed {
-                left: to.to_static(),
-                right: rhs.to_static(),
-                cause: vec![],
-            });
-        }
-
-        _ => {}
-    }
-
-    // TODO(kdy1):
-    let span = to.span();
-
-    match *to.as_ref() {
-        Type::Array(Array { ref elem_type, .. }) => match rhs {
-            Type::Array(Array {
-                elem_type: ref rhs_elem_type,
-                ..
-            }) => {
-                //
-                return try_assign(&elem_type, &rhs_elem_type).map_err(|cause| {
-                    Error::AssignFailed {
-                        left: to.to_static(),
-                        right: rhs.to_static(),
-                        cause: vec![cause],
-                    }
-                });
-            }
-            _ => {
-                return Err(Error::AssignFailed {
-                    left: to.to_static(),
-                    right: rhs.to_static(),
-                    cause: vec![],
-                })
-            }
-        },
-
-        // let a: string | number = 'string';
-        Type::Union(Union { ref types, .. }) => {
-            let vs = types
-                .iter()
-                .map(|to| try_assign(&to, rhs))
-                .collect::<Vec<_>>();
-            if vs.iter().any(Result::is_ok) {
-                return Ok(());
-            }
-            return Err(Error::UnionError {
-                span,
-                errors: vs.into_iter().map(Result::unwrap_err).collect(),
-            });
-        }
-
-        Type::Intersection(Intersection { ref types, .. }) => {
-            let vs = types
-                .iter()
-                .map(|to| try_assign(&to, rhs))
-                .collect::<Vec<_>>();
-
-            // TODO: Multiple error
-            for v in vs {
-                if let Err(error) = v {
-                    return Err(Error::IntersectionError {
-                        span,
-                        error: box error,
-                    });
-                }
-            }
-
-            return Ok(());
-        }
-
-        // let a: any = 'foo'
-        Type::Keyword(TsKeywordType {
-            kind: TsKeywordTypeKind::TsAnyKeyword,
-            ..
-        }) => return Ok(()),
-
-        // let a: unknown = undefined
-        Type::Keyword(TsKeywordType {
-            kind: TsKeywordTypeKind::TsUnknownKeyword,
-            ..
-        }) => return Ok(()),
-
-        Type::Keyword(TsKeywordType {
-            kind: TsKeywordTypeKind::TsObjectKeyword,
-            ..
-        }) => {
-            // let a: object = {};
-            match *rhs {
-                Type::Keyword(TsKeywordType {
-                    kind: TsKeywordTypeKind::TsNumberKeyword,
-                    ..
-                })
-                | Type::Keyword(TsKeywordType {
-                    kind: TsKeywordTypeKind::TsStringKeyword,
-                    ..
-                })
-                | Type::Function(..)
-                | Type::Constructor(..)
-                | Type::Enum(..)
-                | Type::Class(..) => return Ok(()),
-
-                Type::Simple(ref rhs) => match **rhs {
-                    TsType::TsTypeLit(..) => return Ok(()),
-
-                    _ => {}
-                },
-                _ => {}
-            }
-        }
-
-        // Handle same keyword type.
-        Type::Keyword(TsKeywordType { kind, .. }) => {
-            match *rhs {
-                Type::Keyword(TsKeywordType { kind: rhs_kind, .. }) if rhs_kind == kind => {
-                    return Ok(())
-                }
-                _ => {}
-            }
-
-            match kind {
-                TsKeywordTypeKind::TsStringKeyword => match *rhs {
-                    Type::Lit(TsLitType {
-                        lit: TsLit::Str(..),
-                        ..
-                    }) => return Ok(()),
-
-                    _ => {}
-                },
-
-                TsKeywordTypeKind::TsNumberKeyword => match *rhs {
-                    Type::Lit(TsLitType {
-                        lit: TsLit::Number(..),
-                        ..
-                    }) => return Ok(()),
-
-                    _ => {}
-                },
-
-                TsKeywordTypeKind::TsBooleanKeyword => match *rhs {
-                    Type::Lit(TsLitType {
-                        lit: TsLit::Bool(..),
-                        ..
-                    }) => return Ok(()),
-
-                    _ => {}
-                },
-
-                _ => {}
-            }
-
-            return Err(Error::AssignFailed {
-                left: to.to_static(),
-                right: rhs.to_static(),
-                cause: vec![],
-            });
-        }
-
-        Type::Enum(ref e) => {
-            //
-            match *rhs {
-                Type::EnumVariant(ref r) => {
-                    if r.enum_name == e.id.sym {
-                        return Ok(());
-                    }
-                }
-                _ => {}
-            }
-
-            return Err(Error::AssignFailed {
-                left: Type::Enum(e.clone()),
-                right: rhs.to_static(),
-                cause: vec![],
-            });
-        }
-
-        Type::EnumVariant(ref l) => match *rhs {
-            Type::EnumVariant(ref r) => {
-                if l.enum_name == r.enum_name && l.name == r.name {
-                    return Ok(());
-                }
-
-                return Err(Error::AssignFailed {
-                    left: Type::EnumVariant(l.clone()),
-                    right: rhs.to_static(),
-                    cause: vec![],
-                });
-            }
-            _ => {
-                return Err(Error::AssignFailed {
-                    left: Type::EnumVariant(l.clone()),
-                    right: rhs.to_static(),
-                    cause: vec![],
-                })
-            }
-        },
-
-        Type::Simple(ref l) => match **l {
-            TsType::TsThisType(TsThisType { span }) => {
-                return Err(Error::CannotAssingToThis { span })
-            }
-
-            TsType::TsTypeLit(TsTypeLit { span, ref members }) => match rhs {
-                Type::Simple(ref rhs) => match **rhs {
-                    TsType::TsTypeLit(TsTypeLit {
-                        members: ref rhs_members,
-                        ..
-                    }) => {
-                        if members
-                            .iter()
-                            .all(|m| rhs_members.iter().any(|rm| rm.eq_ignore_name_and_span(m)))
-                        {
-                            return Ok(());
-                        }
-
-                        let missing_fields = members
-                            .iter()
-                            .filter(|m| rhs_members.iter().all(|rm| !rm.eq_ignore_name_and_span(m)))
-                            .cloned()
-                            .collect();
-                        return Err(Error::MissingFields {
-                            span,
-                            fields: missing_fields,
-                        });
-                    }
-
-                    _ => {}
-                },
-                _ => {}
-            },
-
-            _ => {}
-        },
-
-        Type::Lit(TsLitType { ref lit, .. }) => match *to {
-            Type::Lit(TsLitType { lit: ref r_lit, .. }) => {
-                if lit.eq_ignore_span(r_lit) {
-                    return Ok(());
-                }
-
-                {};
-            }
-            // TODO: allow
-            // let a: true | false = bool
-            _ => {}
-        },
-
-        _ => {}
-    }
-
-    // This is slow (at the time of writing)
-    if to.eq_ignore_name_and_span(&rhs) {
-        return Ok(());
-    }
-
-    // Some(Error::Unimplemented {
-    //     span,
-    //     msg: format!("Not implemented yet"),
-    // })
-    unimplemented!("assign: \nLeft: {:?}\nRight: {:?}", to, rhs)
-}
-
-impl From<TsTypeAnn> for Type<'_> {
-    #[inline]
-    fn from(ann: TsTypeAnn) -> Self {
-        ann.type_ann.into()
-    }
-}
-
-impl<T> From<Box<T>> for Type<'_>
-where
-    T: Into<Self>,
-{
-    #[inline]
-    fn from(ty: Box<T>) -> Self {
-        (*ty).into()
-    }
 }
 
 impl Type<'_> {
@@ -656,6 +350,8 @@ where
 impl Type<'_> {
     pub fn into_static(self) -> Type<'static> {
         match self {
+            Type::This(this) => Type::This(this),
+            Type::TypeLit(lit) => Type::TypeLit(lit.into_static()),
             Type::Lit(lit) => Type::Lit(lit),
             Type::Keyword(lit) => Type::Keyword(lit),
             Type::Simple(s) => Type::Simple(s.into_owned().into_cow()),
@@ -680,7 +376,7 @@ impl Type<'_> {
                 ret_ty,
             }) => Type::Function(Function {
                 span,
-                type_params,
+                type_params: type_params.map(|v| v.into_static()),
                 params,
                 ret_ty: box static_type(*ret_ty),
             }),
@@ -692,14 +388,15 @@ impl Type<'_> {
                 ret_ty,
             }) => Type::Constructor(Constructor {
                 span,
-                type_params,
+                type_params: type_params.map(|v| v.into_static()),
                 params,
                 ret_ty: box static_type(*ret_ty),
             }),
 
+            Type::Interface(i) => Type::Interface(i.into_static()),
+
             Type::Enum(e) => Type::Enum(e),
             Type::EnumVariant(e) => Type::EnumVariant(e),
-            Type::Interface(t) => Type::Interface(t),
             Type::Class(c) => Type::Class(c),
             Type::Alias(a) => Type::Alias(a),
             Type::Namespace(n) => Type::Namespace(n),
@@ -740,5 +437,145 @@ impl Type<'static> {
     #[inline]
     pub fn static_cast(&self) -> TypeRef {
         unsafe { transmute::<Cow<'_, Type<'static>>, TypeRef<'_>>(Cow::Borrowed(self)) }
+    }
+}
+
+impl Interface<'_> {
+    pub fn into_static(self) -> Interface<'static> {
+        Interface {
+            span: self.span,
+
+            type_params: self.type_params.map(|v| v.into_static()),
+            extends: self.extends.into_iter().map(|v| v.into_static()).collect(),
+            body: self.body.into_iter().map(|v| v.into_static()).collect(),
+        }
+    }
+}
+
+impl TsExpr<'_> {
+    pub fn into_static(self) -> TsExpr<'static> {
+        TsExpr {
+            span: self.span,
+            expr: self.expr,
+            type_params: self.type_params.map(|v| v.into_static()),
+        }
+    }
+}
+
+impl TypeElement<'_> {
+    pub fn into_static(self) -> TypeElement<'static> {
+        match self {
+            TypeElement::Call(call) => TypeElement::Call(call.into_static()),
+            TypeElement::Constructor(c) => TypeElement::Constructor(c.into_static()),
+            TypeElement::Index(i) => TypeElement::Index(i.into_static()),
+            TypeElement::Method(m) => TypeElement::Method(m.into_static()),
+            TypeElement::Property(p) => TypeElement::Property(p.into_static()),
+        }
+    }
+}
+
+impl TypeParamInstantiation<'_> {
+    pub fn into_static(self) -> TypeParamInstantiation<'static> {
+        TypeParamInstantiation {
+            span: self.span,
+            params: self
+                .params
+                .into_iter()
+                .map(|v| box static_type(*v))
+                .collect(),
+        }
+    }
+}
+
+impl CallSignature<'_> {
+    pub fn into_static(self) -> CallSignature<'static> {
+        CallSignature {
+            span: self.span,
+            params: self.params,
+            type_params: self.type_params.map(|v| v.into_static()),
+            ret_ty: self.ret_ty.map(static_type),
+        }
+    }
+}
+
+impl ConstructorSignature<'_> {
+    pub fn into_static(self) -> ConstructorSignature<'static> {
+        ConstructorSignature {
+            span: self.span,
+            params: self.params,
+            ret_ty: self.ret_ty.map(static_type),
+            type_params: self.type_params.map(|v| v.into_static()),
+        }
+    }
+}
+
+impl IndexSignature<'_> {
+    pub fn into_static(self) -> IndexSignature<'static> {
+        IndexSignature {
+            span: self.span,
+            readonly: self.readonly,
+            params: self.params,
+            type_ann: self.type_ann.map(static_type),
+        }
+    }
+}
+
+impl MethodSignature<'_> {
+    pub fn into_static(self) -> MethodSignature<'static> {
+        MethodSignature {
+            span: self.span,
+            computed: self.computed,
+            optional: self.optional,
+            key: self.key,
+            params: self.params,
+            readonly: self.readonly,
+            ret_ty: self.ret_ty.map(static_type),
+            type_params: self.type_params.map(|v| v.into_static()),
+        }
+    }
+}
+
+impl PropertySignature<'_> {
+    pub fn into_static(self) -> PropertySignature<'static> {
+        PropertySignature {
+            span: self.span,
+            computed: self.computed,
+            optional: self.optional,
+            init: self.init,
+            key: self.key,
+            params: self.params,
+            readonly: self.readonly,
+            type_ann: self.type_ann.map(static_type),
+            type_params: self.type_params.map(|v| v.into_static()),
+        }
+    }
+}
+
+impl TypeParam<'_> {
+    pub fn into_static(self) -> TypeParam<'static> {
+        TypeParam {
+            span: self.span,
+            name: self.name,
+            constraint: self.constraint.map(|v| box static_type(*v)),
+            default: self.default.map(|v| box static_type(*v)),
+        }
+    }
+}
+
+impl TypeParamDecl<'_> {
+    pub fn into_static(self) -> TypeParamDecl<'static> {
+        TypeParamDecl {
+            span: self.span,
+            params: self.params.into_iter().map(|v| v.into_static()).collect(),
+        }
+    }
+}
+
+impl TypeLit<'_> {
+    pub fn into_static(self) -> TypeLit<'static> {
+        TypeLit {
+            span: self.span,
+            members: self.members.into_iter().map(|v| v.into_static()).collect(),
+        }
     }
 }

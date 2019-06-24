@@ -64,7 +64,7 @@ fn merge(ls: &[Lib]) -> &'static Merged {
                                             .cloned()
                                             .map(pat_to_ts_fn_param)
                                             .collect(),
-                                        type_params: function.type_params.clone(),
+                                        type_params: function.type_params.clone().map(From::from),
                                         ret_ty: box function
                                             .return_type
                                             .clone()
@@ -105,7 +105,9 @@ fn merge(ls: &[Lib]) -> &'static Merged {
                                 match merged.types.entry(i.id.sym.clone()) {
                                     Entry::Occupied(mut e) => match *e.get_mut() {
                                         ty::Type::Interface(ref mut v) => {
-                                            v.body.body.extend(i.body.body.clone());
+                                            v.body.extend(
+                                                i.body.body.clone().into_iter().map(From::from),
+                                            );
                                         }
                                         _ => unreachable!("cannot merge interface with other type"),
                                     },
