@@ -141,7 +141,7 @@ fn do_test(treat_error_as_bug: bool, file_name: &Path, mode: Mode) -> Result<(),
             Some(
                 buf.lines()
                     .enumerate()
-                    .filter(|(_, s)| s.contains("// error"))
+                    .filter(|(_, s)| s.contains("// error") || s.contains("// Error"))
                     .map(|(i, s)| (i, String::from(s)))
                     .map(|(i, _)| i + 1)
                     .collect::<Vec<_>>(),
