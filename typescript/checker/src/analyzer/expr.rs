@@ -541,7 +541,7 @@ impl Analyzer<'_, '_> {
     pub(super) fn type_of_arrow_fn(&self, f: &ArrowExpr) -> Result<Type<'static>, Error> {
         let ret_ty: TypeRef<'static> = match f.return_type {
             Some(ref ret_ty) => self
-                .fix_type(f.span, Cow::Owned(Type::from(ret_ty.type_ann.clone())))?
+                .expand_type(f.span, Cow::Owned(Type::from(ret_ty.type_ann.clone())))?
                 .to_static()
                 .into_cow(),
             None => match f.body {
@@ -570,7 +570,7 @@ impl Analyzer<'_, '_> {
 
     pub(super) fn type_of_fn(&self, f: &Function) -> Result<Type<'static>, Error> {
         let declared_ret_ty = f.return_type.as_ref().map(|ret_ty| {
-            self.fix_type(f.span, Cow::Owned(Type::from(ret_ty.type_ann.clone())))
+            self.expand_type(f.span, Cow::Owned(Type::from(ret_ty.type_ann.clone())))
                 .map(|v| v.to_static())
         });
         let declared_ret_ty = match declared_ret_ty {
@@ -996,7 +996,7 @@ impl Analyzer<'_, '_> {
     /// Expands
     ///
     ///   - Type alias
-    pub(super) fn fix_type<'t>(
+    pub(super) fn expand_type<'t>(
         &'t self,
         span: Span,
         ty: TypeRef<'t>,
@@ -1171,7 +1171,7 @@ impl Analyzer<'_, '_> {
                     span,
                     types: types
                         .into_iter()
-                        .map(|ty| Ok(self.fix_type(span, ty)?))
+                        .map(|ty| Ok(self.expand_type(span, ty)?))
                         .collect::<Result<_, _>>()?,
                 }
                 .into_cow())
@@ -1181,7 +1181,7 @@ impl Analyzer<'_, '_> {
                     span,
                     types: types
                         .into_iter()
-                        .map(|ty| Ok(self.fix_type(span, ty)?))
+                        .map(|ty| Ok(self.expand_type(span, ty)?))
                         .collect::<Result<_, _>>()?,
                 }
                 .into_cow())
