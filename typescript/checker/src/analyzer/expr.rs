@@ -7,7 +7,7 @@ use crate::{
 };
 use std::borrow::Cow;
 use swc_atoms::js_word;
-use swc_common::{Span, Spanned, Visit, VisitWith};
+use swc_common::{Span, Spanned, Visit};
 use swc_ecma_ast::*;
 
 impl Analyzer<'_, '_> {
@@ -509,37 +509,21 @@ impl Analyzer<'_, '_> {
         &self,
         body: &BlockStmt,
     ) -> Result<Option<Type<'static>>, Error> {
-        let mut types = vec![];
-
-        struct Visitor<'a> {
-            a: &'a Analyzer<'a, 'a>,
-            span: Span,
-            types: &'a mut Vec<Result<Type<'static>, Error>>,
-        }
-
-        impl Visit<ReturnStmt> for Visitor<'_> {
-            fn visit(&mut self, stmt: &ReturnStmt) {
-                let ty = match stmt.arg {
-                    Some(ref arg) => self.a.type_of(arg).map(|ty| ty.to_static()),
-                    None => Ok(Type::undefined(self.span)),
-                };
-                self.types.push(ty);
-            }
-        }
-        let types_len = types.len();
         let types = {
-            let mut v = Visitor {
-                span: body.span(),
-                types: &mut types,
-                a: self,
-            };
-            body.visit_with(&mut v);
-            types
+            // let mut types = vec![];
+            // let mut v = Visitor {
+            //     span: body.span(),
+            //     types: &mut types,
+            //     a: self,
+            // };
+            // body.visit_with(&mut v);
+            // types
+            ::std::mem::replace(&mut *self.inferred_return_types.borrow_mut(), vec![])
         };
 
-        let mut tys = Vec::with_capacity(types_len);
+        let mut tys = Vec::with_capacity(types.len());
         for ty in types {
-            let ty = ty?;
+            // let ty = ty?;
             tys.push(ty.owned());
         }
 
@@ -585,25 +569,42 @@ impl Analyzer<'_, '_> {
     }
 
     pub(super) fn type_of_fn(&self, f: &Function) -> Result<Type<'static>, Error> {
-        let ret_ty = match f.return_type {
-            Some(ref ret_ty) => self
-                .fix_type(f.span, Cow::Owned(Type::from(ret_ty.type_ann.clone())))?
-                .to_static(),
-            None => match f.body {
-                Some(ref body) => match self.infer_return_type(body) {
-                    Ok(Some(ty)) => ty,
-                    Ok(None) => Type::undefined(body.span()),
-                    Err(err) => return Err(err),
-                },
-                None => unreachable!("function without body should have type annotation"),
-            },
+        let declared_ret_ty = f.return_type.as_ref().map(|ret_ty| {
+            self.fix_type(f.span, Cow::Owned(Type::from(ret_ty.type_ann.clone())))
+                .map(|v| v.to_static())
+        });
+        let declared_ret_ty = match declared_ret_ty {
+            Some(Ok(ty)) => Some(ty),
+            Some(Err(err)) => return Err(err),
+            None => None,
+        };
+
+        let inferred_return_type = f.body.as_ref().map(|body| -> Result<_, _> {
+            match self.infer_return_type(body)? {
+                Some(ty) => Ok(ty),
+                // No return statement found
+                None => Ok(Type::undefined(f.body.span())),
+            }
+        });
+        let inferred_return_type = match inferred_return_type {
+            Some(Ok(inferred_return_type)) => {
+                if let Some(ref declared) = declared_ret_ty {
+                    inferred_return_type.assign_to(declared)?;
+                }
+
+                inferred_return_type
+            }
+            Some(Err(err)) => return Err(err),
+            None => Type::any(f.span),
         };
 
         Ok(ty::Function {
             span: f.span,
             params: f.params.iter().cloned().map(pat_to_ts_fn_param).collect(),
             type_params: f.type_params.clone(),
-            ret_ty: box Cow::Owned(ret_ty),
+            ret_ty: box declared_ret_ty
+                .map(|ty| ty.to_static().owned())
+                .unwrap_or(inferred_return_type.to_static().owned()),
         }
         .into())
     }

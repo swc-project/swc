@@ -8,12 +8,12 @@ use crate::{
     builtin_types::Lib,
     errors::Error,
     loader::Load,
-    ty::{Type, TypeRefExt},
+    ty::{self, Type, TypeRefExt},
     Rule,
 };
 use fxhash::{FxHashMap, FxHashSet};
 use rayon::iter::{IntoParallelRefIterator, ParallelIterator};
-use std::{borrow::Cow, path::PathBuf, sync::Arc};
+use std::{borrow::Cow, cell::RefCell, path::PathBuf, sync::Arc};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{Span, Spanned, Visit, VisitWith};
 use swc_ecma_ast::*;
@@ -31,6 +31,7 @@ struct Analyzer<'a, 'b> {
     resolved_imports: FxHashMap<JsWord, Arc<Type<'static>>>,
     errored_imports: FxHashSet<JsWord>,
     pending_exports: Vec<((JsWord, Span), Box<Expr>)>,
+    inferred_return_types: RefCell<Vec<Type<'static>>>,
     scope: Scope<'a>,
     path: Arc<PathBuf>,
     loader: &'b dyn Load,
@@ -54,15 +55,15 @@ where
             // item.visit_with(self);
         });
 
+        let loader = self.loader;
+        let path = self.path.clone();
         let import_results = imports
             .par_iter()
             .map(|import| {
-                self.loader
-                    .load(self.path.clone(), &*import)
-                    .map_err(|err| {
-                        //
-                        (import, err)
-                    })
+                loader.load(path.clone(), &*import).map_err(|err| {
+                    //
+                    (import, err)
+                })
             })
             .collect::<Vec<_>>();
 
@@ -216,6 +217,7 @@ impl<'a, 'b> Analyzer<'a, 'b> {
             rule,
             scope,
             info: Default::default(),
+            inferred_return_types: Default::default(),
             path,
             resolved_imports: Default::default(),
             errored_imports: Default::default(),
@@ -278,33 +280,10 @@ impl Visit<ClassDecl> for Analyzer<'_, '_> {
     }
 }
 
-impl Visit<FnDecl> for Analyzer<'_, '_> {
-    fn visit(&mut self, f: &FnDecl) {
-        f.visit_children(self);
-
-        let fn_ty = match self.type_of_fn(&f.function) {
-            Ok(ty) => ty,
-            Err(err) => {
-                self.info.errors.push(err);
-                Type::any(f.span()).into()
-            }
-        };
-        self.scope.declare_var(
-            VarDeclKind::Var,
-            f.ident.sym.clone(),
-            Some(fn_ty),
-            // initialized
-            true,
-            // allow_multiple
-            f.declare,
-        );
-        f.function.visit_with(self);
-    }
-}
-
-impl Visit<Function> for Analyzer<'_, '_> {
-    fn visit(&mut self, f: &Function) {
-        self.with_child(ScopeKind::Fn, Default::default(), |child| {
+impl Analyzer<'_, '_> {
+    /// TODO: Handle recursive funciton
+    fn visit_fn(&mut self, f: &Function) -> Type<'static> {
+        let fn_ty = self.with_child(ScopeKind::Fn, Default::default(), |child| {
             f.params
                 .iter()
                 .for_each(|pat| child.scope.declare_vars(VarDeclKind::Let, pat));
@@ -314,35 +293,45 @@ impl Visit<Function> for Analyzer<'_, '_> {
                 None => {}
             }
 
-            {
-                let err = if let Some(ret_ty) = f.return_type.clone().map(Type::from) {
-                    if let Some(ref body) = f.body {
-                        // Validate function's return type.
-                        match child.infer_return_type(&body) {
-                            Ok(Some(ty)) => ty.assign_to(&ret_ty),
-                            Ok(None) => {
-                                if ret_ty.is_any() || ret_ty.is_unknown() || ret_ty.contains_void()
-                                {
-                                    Ok(())
-                                } else {
-                                    Err(Error::ReturnRequired {
-                                        span: ret_ty.span(),
-                                    })
-                                }
-                            }
-                            Err(err) => Err(err),
-                        }
-                    } else {
-                        Ok(())
-                    }
-                } else {
-                    Ok(())
-                };
-                if let Err(err) = err {
-                    child.info.errors.push(err);
-                }
+            f.visit_children(child);
+
+            dbg!(&child.inferred_return_types);
+
+            let fn_ty = child.type_of_fn(f)?;
+
+            Ok(fn_ty)
+        });
+
+        match fn_ty {
+            Ok(ty) => ty.to_static(),
+            Err(err) => {
+                self.info.errors.push(err);
+                Type::any(f.span)
             }
-        })
+        }
+    }
+}
+
+impl Visit<FnDecl> for Analyzer<'_, '_> {
+    /// NOTE: This method **should not call f.visit_children(self)**
+    fn visit(&mut self, f: &FnDecl) {
+        let fn_ty = self.visit_fn(&f.function);
+
+        self.scope.declare_var(
+            VarDeclKind::Var,
+            f.ident.sym.clone(),
+            Some(fn_ty),
+            // initialized
+            true,
+            // allow_multiple
+            f.declare,
+        );
+    }
+}
+
+impl Visit<Function> for Analyzer<'_, '_> {
+    fn visit(&mut self, f: &Function) {
+        self.visit_fn(f);
     }
 }
 

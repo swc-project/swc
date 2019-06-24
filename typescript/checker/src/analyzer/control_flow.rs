@@ -6,7 +6,7 @@ use super::{
 use crate::{
     errors::Error,
     ty::{Intersection, Type, TypeRef, TypeRefExt, Union},
-    util::IntoCow,
+    util::{EqIgnoreNameAndSpan, IntoCow},
 };
 use fxhash::FxHashMap;
 use std::{
@@ -209,24 +209,41 @@ impl Analyzer<'_, '_> {
         )
     }
 
-    pub(super) fn with_child<F>(&mut self, kind: ScopeKind, facts: CondFacts, op: F)
+    pub(super) fn with_child<Ret, F>(&mut self, kind: ScopeKind, facts: CondFacts, op: F) -> Ret
     where
-        F: for<'a, 'b> FnOnce(&mut Analyzer<'a, 'b>),
+        F: for<'a, 'b> FnOnce(&mut Analyzer<'a, 'b>) -> Ret,
     {
-        let errors = {
+        let is_fn = match kind {
+            ScopeKind::Fn => true,
+            _ => false,
+        };
+
+        let ret;
+        let (errors, ret_types) = {
             let mut child = self.child(kind, facts);
 
-            op(&mut child);
+            ret = op(&mut child);
 
             assert_eq!(
                 child.info.exports,
                 Default::default(),
                 "Child node cannot export"
             );
-            child.info.errors
+            (
+                child.info.errors,
+                mem::replace(child.inferred_return_types.get_mut(), vec![]),
+            )
         };
 
         self.info.errors.extend(errors);
+
+        // If we are not in function scope, we should propagate return types to the
+        // parent scope.
+        if !is_fn {
+            self.inferred_return_types.get_mut().extend(ret_types)
+        }
+
+        ret
     }
 }
 
@@ -544,6 +561,33 @@ where
         F: FnMut(T, T) -> Option<R>,
     {
         op(self.left, self.right).or_else(|| op(self.right, self.left))
+    }
+}
+
+/// Modifies `self.inferred_return_types`
+impl Visit<ReturnStmt> for Analyzer<'_, '_> {
+    fn visit(&mut self, stmt: &ReturnStmt) {
+        stmt.visit_children(self);
+
+        let ty = match stmt.arg {
+            Some(ref expr) => match self.type_of(&expr) {
+                Ok(ty) => ty.to_static(),
+                Err(err) => {
+                    self.info.errors.push(err);
+                    return;
+                }
+            },
+            None => Type::undefined(stmt.span),
+        };
+
+        let dup = self
+            .inferred_return_types
+            .borrow()
+            .iter()
+            .any(|t| t.eq_ignore_name_and_span(&ty));
+        if !dup {
+            self.inferred_return_types.get_mut().push(ty);
+        }
     }
 }
 
