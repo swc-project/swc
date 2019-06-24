@@ -92,7 +92,7 @@ pub enum Type<'a> {
     Interface(Interface<'a>),
     Enum(TsEnumDecl),
     /// export type A<B> = Foo<B>;
-    Alias(TsTypeAliasDecl),
+    Alias(Alias<'a>),
     Namespace(TsNamespaceDecl),
     Module(TsModuleDecl),
     Class(Class),
@@ -101,6 +101,13 @@ pub enum Type<'a> {
     ///
     /// Don't match on this directly. Instead, use `.as_eef()`.
     Static(#[fold(ignore)] &'static Type<'static>),
+}
+
+#[derive(Debug, Fold, Clone, PartialEq, Spanned)]
+pub struct Alias<'a> {
+    pub span: Span,
+    pub type_params: Option<TypeParamDecl<'a>>,
+    pub ty: Box<TypeRef<'a>>,
 }
 
 #[derive(Debug, Fold, Clone, PartialEq, Spanned)]
@@ -398,7 +405,7 @@ impl Type<'_> {
             Type::Enum(e) => Type::Enum(e),
             Type::EnumVariant(e) => Type::EnumVariant(e),
             Type::Class(c) => Type::Class(c),
-            Type::Alias(a) => Type::Alias(a),
+            Type::Alias(a) => Type::Alias(a.into_static()),
             Type::Namespace(n) => Type::Namespace(n),
             Type::Module(m) => Type::Module(m),
 
@@ -576,6 +583,16 @@ impl TypeLit<'_> {
         TypeLit {
             span: self.span,
             members: self.members.into_iter().map(|v| v.into_static()).collect(),
+        }
+    }
+}
+
+impl Alias<'_> {
+    pub fn into_static(self) -> Alias<'static> {
+        Alias {
+            span: self.span,
+            type_params: self.type_params.map(|v| v.into_static()),
+            ty: box static_type(*self.ty),
         }
     }
 }

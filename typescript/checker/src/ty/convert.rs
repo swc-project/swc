@@ -1,7 +1,7 @@
 use super::{
-    Array, CallSignature, Constructor, ConstructorSignature, Function, IndexSignature, Interface,
-    Intersection, MethodSignature, PropertySignature, TsExpr, Type, TypeElement, TypeLit,
-    TypeParam, TypeParamDecl, TypeParamInstantiation, Union,
+    Alias, Array, CallSignature, Constructor, ConstructorSignature, Function, IndexSignature,
+    Interface, Intersection, MethodSignature, PropertySignature, TsExpr, Type, TypeElement,
+    TypeLit, TypeParam, TypeParamDecl, TypeParamInstantiation, Union,
 };
 use crate::util::IntoCow;
 use swc_ecma_ast::*;
@@ -40,6 +40,16 @@ where
     #[inline]
     fn from(ty: Box<T>) -> Self {
         (*ty).into()
+    }
+}
+
+impl From<TsTypeAliasDecl> for Alias<'_> {
+    fn from(d: TsTypeAliasDecl) -> Self {
+        Alias {
+            span: d.span,
+            ty: box d.type_ann.into_cow(),
+            type_params: d.type_params.map(From::from),
+        }
     }
 }
 
@@ -114,6 +124,12 @@ impl From<TsType> for Type<'_> {
             TsType::TsTypeLit(lit) => Type::TypeLit(lit.into()),
             _ => Type::Simple(ty.into_cow()),
         }
+    }
+}
+
+impl From<TsTypeAliasDecl> for Type<'_> {
+    fn from(decl: TsTypeAliasDecl) -> Self {
+        Type::Alias(decl.into())
     }
 }
 
