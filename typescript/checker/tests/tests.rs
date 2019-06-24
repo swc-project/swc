@@ -162,15 +162,14 @@ fn do_test(treat_error_as_bug: bool, file_name: &Path, mode: Mode) -> Result<(),
             );
 
             let errors = checker.check(file_name.into());
-            if let count = lines.as_ref().map(|v| v.len()).unwrap_or(0) {
-                if count != errors.len() {
-                    checker.run(|| {
-                        for e in errors {
-                            e.emit(&handler);
-                        }
-                    });
-                    return Err(());
-                }
+            let count = lines.as_ref().map(|v| v.len()).unwrap_or(0);
+            if count != errors.len() {
+                checker.run(|| {
+                    for e in errors {
+                        e.emit(&handler);
+                    }
+                });
+                return Err(());
             }
 
             let res = if errors.is_empty() { Ok(()) } else { Err(()) };
@@ -205,7 +204,10 @@ fn do_test(treat_error_as_bug: bool, file_name: &Path, mode: Mode) -> Result<(),
             };
 
             // TODO: filter line correctly
-            let err_lines = err.lines().enumerate().filter(|(_, l)| l.contains("$DIR"));
+            let err_lines = err
+                .lines()
+                .enumerate()
+                .filter(|(_, l)| l.contains("error: "));
             let all = err_lines
                 .clone()
                 .all(|(i, _)| lines.as_ref().unwrap().contains(&(i + 1)));
