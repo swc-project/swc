@@ -376,7 +376,8 @@ impl Analyzer<'_, '_> {
             | Expr::MetaProp(..)
             | Expr::JSXFragment(..)
             | Expr::JSXNamespacedName(..)
-            | Expr::JSXEmpty(..) => return Ok(()),
+            | Expr::JSXEmpty(..)
+            | Expr::Call(..) => return Ok(()),
 
             // Object literal *may* have side effect.
             Expr::Object(..) => {}
