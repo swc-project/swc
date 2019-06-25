@@ -20,7 +20,10 @@ impl Analyzer<'_, '_> {
 
         match *expr {
             Expr::This(ThisExpr { span }) => {
-                return Ok(Cow::Owned(Type::from(TsThisType { span })))
+                if let Some(ref ty) = self.scope.this() {
+                    return Ok(ty.static_cast());
+                }
+                return Ok(Cow::Owned(Type::from(TsThisType { span })));
             }
 
             Expr::Ident(Ident {

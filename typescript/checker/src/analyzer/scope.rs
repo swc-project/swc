@@ -76,6 +76,17 @@ impl<'a> Scope<'a> {
         }
     }
 
+    pub(super) fn this(&self) -> Option<&Type<'static>> {
+        if let Some(ref this) = self.this {
+            return Some(this);
+        }
+
+        match self.parent {
+            Some(ref parent) => parent.this(),
+            None => None,
+        }
+    }
+
     pub(super) fn search_parent(&self, sym: &JsWord) -> Option<&VarInfo> {
         let mut parent = self.parent;
 
