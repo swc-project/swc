@@ -186,19 +186,44 @@ impl Analyzer<'_, '_> {
             }
 
             Expr::Object(ObjectLit { span, ref props }) => {
-                return Ok(Type::TypeLit(TypeLit {
-                    span,
-                    members: props
-                        .iter()
-                        .map(|prop| match *prop {
-                            PropOrSpread::Prop(ref prop) => self.type_of_prop(&prop),
-                            PropOrSpread::Spread(..) => {
-                                unimplemented!("spread element in object literal")
+                let mut members = Vec::with_capacity(props.len());
+                let mut special_type = None;
+
+                for prop in props.iter() {
+                    match *prop {
+                        PropOrSpread::Prop(ref prop) => {
+                            members.push(self.type_of_prop(&prop));
+                        }
+                        PropOrSpread::Spread(SpreadElement { ref expr, .. }) => {
+                            match self.type_of(&expr)?.into_owned() {
+                                Type::TypeLit(TypeLit {
+                                    members: spread_members,
+                                    ..
+                                }) => {
+                                    members.extend(spread_members);
+                                }
+
+                                // Use last type on ...any or ...unknown
+                                ty @ Type::Keyword(TsKeywordType {
+                                    kind: TsKeywordTypeKind::TsUnknownKeyword,
+                                    ..
+                                })
+                                | ty @ Type::Keyword(TsKeywordType {
+                                    kind: TsKeywordTypeKind::TsAnyKeyword,
+                                    ..
+                                }) => special_type = Some(ty),
+
+                                ty => unimplemented!("spread with non-type-lit: {:#?}", ty),
                             }
-                        })
-                        .collect(),
-                })
-                .into_cow())
+                        }
+                    }
+                }
+
+                if let Some(ty) = special_type {
+                    return Ok(ty.into_cow());
+                }
+
+                return Ok(Type::TypeLit(TypeLit { span, members }).into_cow());
             }
 
             // https://github.com/Microsoft/TypeScript/issues/26959
@@ -345,6 +370,7 @@ impl Analyzer<'_, '_> {
     }
 
     fn type_of_prop(&self, prop: &Prop) -> TypeElement {
+        // TODO
         PropertySignature {
             span: prop.span(),
             key: prop_key_to_expr(&prop),
