@@ -16,7 +16,7 @@ pub trait TypeRefExt<'a>: Sized + Clone {
     fn generalize_lit(self) -> TypeRef<'a> {
         let ty = self.into_type_ref();
 
-        match *ty.as_ref() {
+        match *ty.normalize() {
             Type::Lit(TsLitType { span, ref lit }) => {
                 return Type::Keyword(TsKeywordType {
                     span,
@@ -258,7 +258,7 @@ pub struct Constructor<'a> {
 
 impl Type<'_> {
     pub fn contains_void(&self) -> bool {
-        match *self.as_ref() {
+        match *self.normalize() {
             Type::Keyword(TsKeywordType {
                 kind: TsKeywordTypeKind::TsVoidKeyword,
                 ..
@@ -271,7 +271,7 @@ impl Type<'_> {
     }
 
     pub fn is_any(&self) -> bool {
-        match *self.as_ref() {
+        match *self.normalize() {
             Type::Keyword(TsKeywordType {
                 kind: TsKeywordTypeKind::TsAnyKeyword,
                 ..
@@ -284,7 +284,7 @@ impl Type<'_> {
     }
 
     pub fn is_unknown(&self) -> bool {
-        match *self.as_ref() {
+        match *self.normalize() {
             Type::Keyword(TsKeywordType {
                 kind: TsKeywordTypeKind::TsUnknownKeyword,
                 ..
@@ -297,7 +297,7 @@ impl Type<'_> {
     }
 
     pub fn contains_undefined(&self) -> bool {
-        match *self.as_ref() {
+        match *self.normalize() {
             Type::Keyword(TsKeywordType {
                 kind: TsKeywordTypeKind::TsUndefinedKeyword,
                 ..
@@ -312,7 +312,7 @@ impl Type<'_> {
 
 impl Type<'_> {
     pub fn is_keyword(&self, k: TsKeywordTypeKind) -> bool {
-        match *self.as_ref() {
+        match *self.normalize() {
             Type::Keyword(TsKeywordType { kind, .. }) if kind == k => true,
             _ => false,
         }
@@ -464,10 +464,10 @@ impl Type<'_> {
 
 impl<'a> Type<'a> {
     /// `Type::Static` is normalized.
-    pub fn as_ref<'s, 'c, 'd>(&'s self) -> &'c Type<'d>
+    pub fn normalize<'s, 'c, 'd>(&'s self) -> &'c Type<'d>
     where
-        'a: 'c + 'd,
-        's: 'c + 'd,
+        'a: 'd,
+        's: 'c,
     {
         match *self {
             Type::Static(v) => unsafe {

@@ -519,6 +519,27 @@ impl Analyzer<'_, '_> {
                         return Ok(());
                     }
 
+                    op!("instanceof") => {
+                        match **left {
+                            Expr::Ident(ref i) => {
+                                //
+                                let r_ty = self.expand_type(right.span(), r_ty)?;
+
+                                let v = VarInfo {
+                                    kind: VarDeclKind::Const,
+                                    initialized: true,
+                                    copied: true,
+                                    ty: Some(r_ty.to_static()),
+                                };
+
+                                facts.true_facts.types.insert(Name::from(&i.sym), v);
+                                return Ok(());
+                            }
+
+                            _ => {}
+                        }
+                    }
+
                     _ => {}
                 }
 

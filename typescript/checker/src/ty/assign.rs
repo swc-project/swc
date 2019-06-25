@@ -93,7 +93,7 @@ fn try_assign(to: &Type, rhs: &Type, span: Span) -> Result<(), Error> {
         }};
     }
 
-    match *rhs.as_ref() {
+    match *rhs.normalize() {
         Type::Union(Union {
             ref types, span, ..
         }) => {
@@ -132,7 +132,7 @@ fn try_assign(to: &Type, rhs: &Type, span: Span) -> Result<(), Error> {
         _ => {}
     }
 
-    match *to.as_ref() {
+    match *to.normalize() {
         Type::Array(Array { ref elem_type, .. }) => match rhs {
             Type::Array(Array {
                 elem_type: ref rhs_elem_type,
