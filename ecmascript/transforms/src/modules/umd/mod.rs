@@ -9,7 +9,7 @@ use crate::{
     util::{prepend_stmts, var::VarCollector, DestructuringFinder, ExprFactory},
 };
 use ast::*;
-use fxhash::FxHashSet;
+use hashbrown::HashSet;
 use std::sync::Arc;
 use swc_common::{Fold, FoldWith, Mark, SourceMap, VisitWith, DUMMY_SP};
 
@@ -52,7 +52,7 @@ impl Fold<Module> for Umd {
         }
 
         let mut exports = vec![];
-        let mut initialized = FxHashSet::default();
+        let mut initialized = HashSet::default();
         let mut export_alls = vec![];
         let mut emitted_esmodule = false;
         let mut has_export = false;
@@ -442,7 +442,7 @@ impl Fold<Module> for Umd {
             )));
         }
 
-        for (src, import) in self.scope.imports.drain(..) {
+        for (src, import) in self.scope.imports.drain() {
             let global_ident = Ident::new(self.config.global_name(&src), DUMMY_SP);
             let import = import.unwrap_or_else(|| {
                 (

@@ -19,7 +19,7 @@ use crate::{
     sync::{Lock, LockCell},
     syntax_pos::{BytePos, FileLinesResult, FileName, Loc, MultiSpan, Span, NO_EXPANSION},
 };
-use fxhash::FxHashSet;
+use hashbrown::HashSet;
 use std::{
     borrow::Cow,
     cell::Cell,
@@ -280,15 +280,15 @@ pub struct Handler {
     // This set contains the `DiagnosticId` of all emitted diagnostics to avoid
     // emitting the same diagnostic with extended help (`--teach`) twice, which
     // would be uneccessary repetition.
-    taught_diagnostics: Lock<FxHashSet<DiagnosticId>>,
+    taught_diagnostics: Lock<HashSet<DiagnosticId>>,
 
     /// Used to suggest rustc --explain <error code>
-    emitted_diagnostic_codes: Lock<FxHashSet<DiagnosticId>>,
+    emitted_diagnostic_codes: Lock<HashSet<DiagnosticId>>,
 
     // This set contains a hash of every diagnostic that has been emitted by
     // this handler. These hashes is used to avoid emitting the same error
     // twice.
-    emitted_diagnostics: Lock<FxHashSet<u128>>,
+    emitted_diagnostics: Lock<HashSet<u128>>,
 }
 
 fn default_track_diagnostic(_: &Diagnostic) {}

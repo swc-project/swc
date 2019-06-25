@@ -19,7 +19,7 @@
 use crate::sync::{Lock, LockGuard, MappedLockGuard};
 pub use crate::syntax_pos::{hygiene::ExpnInfo, *};
 use errors::SourceMapper;
-use fxhash::FxHashMap;
+use hashbrown::HashMap;
 use log::debug;
 use rustc_data_structures::stable_hasher::StableHasher;
 use std::{
@@ -94,7 +94,7 @@ impl StableSourceFileId {
 #[derive(Default)]
 pub(super) struct SourceMapFiles {
     pub(super) source_files: Vec<Arc<SourceFile>>,
-    stable_id_to_source_file: FxHashMap<StableSourceFileId, Arc<SourceFile>>,
+    stable_id_to_source_file: HashMap<StableSourceFileId, Arc<SourceFile>>,
 }
 
 pub struct SourceMap {

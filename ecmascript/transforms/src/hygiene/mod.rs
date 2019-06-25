@@ -4,7 +4,7 @@ use crate::{
     scope::{IdentType, ScopeKind},
 };
 use ast::*;
-use fxhash::FxHashMap;
+use hashbrown::HashMap;
 use std::cell::RefCell;
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Span, SyntaxContext};
@@ -299,7 +299,7 @@ struct Scope<'a> {
     pub kind: ScopeKind,
 
     /// All references declared in this scope
-    pub declared_symbols: RefCell<FxHashMap<JsWord, Vec<SyntaxContext>>>,
+    pub declared_symbols: RefCell<HashMap<JsWord, Vec<SyntaxContext>>>,
 
     pub(crate) ops: RefCell<Vec<ScopeOp>>,
 }

@@ -3,7 +3,7 @@ use crate::{
     scope::{IdentType, ScopeKind},
 };
 use ast::*;
-use fxhash::FxHashSet;
+use hashbrown::HashSet;
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Mark, SyntaxContext};
 
@@ -29,7 +29,7 @@ struct Scope<'a> {
     kind: ScopeKind,
 
     /// All references declared in this scope
-    declared_symbols: FxHashSet<JsWord>,
+    declared_symbols: HashSet<JsWord>,
 }
 
 impl<'a> Default for Scope<'a> {

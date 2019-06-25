@@ -15,9 +15,10 @@ swc_ecma_parser = { version = "0.10", path ="../parser", features = ["verify"] }
 chashmap = "2.2.0"
 either = "1.5"
 fxhash = "0.2"
+indexmap = "1"
+hashbrown = { version = "0.5", features = ["serde"] }
 lazy_static = "1"
 serde = { version = "1", features = ["derive"] }
-indexmap = "1"
 ordered-float = "1.0.1"
 Inflector = { version = "0.11.4", default-features = false }
 scoped-tls = { version = "0.1", features = ["nightly"] }

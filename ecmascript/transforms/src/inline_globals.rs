@@ -1,12 +1,12 @@
 use ast::*;
-use fxhash::FxHashMap;
+use hashbrown::HashMap;
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith};
 
 #[derive(Clone)]
 pub struct InlineGlobals {
-    pub envs: FxHashMap<JsWord, Expr>,
-    pub globals: FxHashMap<JsWord, Expr>,
+    pub envs: HashMap<JsWord, Expr>,
+    pub globals: HashMap<JsWord, Expr>,
 }
 
 impl Fold<Expr> for InlineGlobals {
@@ -94,8 +94,8 @@ mod tests {
         tester: &mut crate::tests::Tester,
         values: &[(&str, &str)],
         is_env: bool,
-    ) -> FxHashMap<JsWord, Expr> {
-        let mut m = FxHashMap::default();
+    ) -> HashMap<JsWord, Expr> {
+        let mut m = HashMap::default();
 
         for (k, v) in values {
             let v = if is_env {
@@ -124,14 +124,14 @@ mod tests {
         m
     }
 
-    fn envs(tester: &mut crate::tests::Tester, values: &[(&str, &str)]) -> FxHashMap<JsWord, Expr> {
+    fn envs(tester: &mut crate::tests::Tester, values: &[(&str, &str)]) -> HashMap<JsWord, Expr> {
         mk_map(tester, values, true)
     }
 
     fn globals(
         tester: &mut crate::tests::Tester,
         values: &[(&str, &str)],
-    ) -> FxHashMap<JsWord, Expr> {
+    ) -> HashMap<JsWord, Expr> {
         mk_map(tester, values, false)
     }
 

@@ -9,7 +9,7 @@ description = "Ecmascript code generator for the swc project."
 
 [dependencies]
 bitflags = "1"
-fxhash = "0.2.1"
+hashbrown = "0.5"
 swc_atoms = { version = "0.1", path ="../../atoms" }
 swc_common = { version = "0.3", path ="../../common" }
 swc_ecma_ast = { version = "0.9.1", path ="../ast" }

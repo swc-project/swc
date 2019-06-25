@@ -11,7 +11,7 @@ use crate::{
     },
 };
 use ast::*;
-use fxhash::FxHashSet;
+use hashbrown::HashSet;
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Mark, Spanned, VisitWith, DUMMY_SP};
 
@@ -262,7 +262,7 @@ impl ClassProperties {
         let (mut constructor_exprs, mut vars, mut extra_stmts, mut members, mut constructor) =
             (vec![], vec![], vec![], vec![], None);
         let mut used_names = vec![];
-        let mut statics = FxHashSet::default();
+        let mut statics = HashSet::default();
 
         for member in class.body {
             match member {

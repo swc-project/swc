@@ -16,6 +16,7 @@ fold = ["ast_node/fold"]
 [dependencies]
 ast_node = { version = "0.4", path = "../macros/ast_node" }
 string_cache = "0.7"
+chashmap = "2.2"
 either = "1.5"
 scoped-tls = { version = "0.1.1" }
 unicode-width = "0.1.4"
@@ -23,6 +24,6 @@ cfg-if = "0.1.2"
 log = "0.4"
 atty = "0.2"
 parking_lot = "0.7.1"
-fxhash = "0.2"
+hashbrown = "0.5"
 termcolor = "1.0"
 serde = { version = "1", features = ["derive"] }

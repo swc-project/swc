@@ -15,7 +15,7 @@ use super::{
     CodeSuggestion, DiagnosticBuilder, DiagnosticId, Level, SourceMapperDyn, SubDiagnostic,
 };
 use atty;
-use fxhash::FxHashMap;
+use hashbrown::HashMap;
 use std::{
     borrow::Cow,
     cmp::{min, Reverse},
@@ -1066,7 +1066,7 @@ impl EmitterWriter {
                 );
 
                 // Contains the vertical lines' positions for active multiline annotations
-                let mut multilines = FxHashMap::default();
+                let mut multilines = HashMap::<_, _>::default();
 
                 // Next, output the annotate source for this file
                 for line_idx in 0..annotated_file.lines.len() {
@@ -1087,7 +1087,7 @@ impl EmitterWriter {
                         code_offset,
                     );
 
-                    let mut to_add = FxHashMap::default();
+                    let mut to_add = HashMap::<_, _>::default();
 
                     for (depth, style) in depths {
                         if multilines.get(&depth).is_some() {

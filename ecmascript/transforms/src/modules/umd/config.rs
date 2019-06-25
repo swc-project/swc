@@ -1,6 +1,6 @@
 use super::super::util;
 use ast::Expr;
-use fxhash::FxHashMap;
+use hashbrown::HashMap;
 use inflector::Inflector;
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
@@ -15,7 +15,7 @@ use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct Config {
     #[serde(default)]
-    pub globals: FxHashMap<String, String>,
+    pub globals: HashMap<String, String>,
 
     #[serde(flatten, default)]
     pub config: util::Config,
@@ -58,7 +58,7 @@ impl Config {
 }
 #[derive(Clone)]
 pub(super) struct BuiltConfig {
-    pub globals: FxHashMap<String, Box<Expr>>,
+    pub globals: HashMap<String, Box<Expr>>,
     pub config: util::Config,
 }
 

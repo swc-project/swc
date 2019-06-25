@@ -7,13 +7,13 @@ use crate::{
 };
 use ast::*;
 use chashmap::CHashMap;
-use fxhash::FxHashMap;
+use hashbrown::HashMap;
 use std::sync::Arc;
 use swc_atoms::JsWord;
 use swc_common::{util::move_map::MoveMap, FileName, Fold, FoldWith};
 use swc_ecma_parser::{Parser, SourceFileInput, Syntax};
 
-pub fn const_modules(globals: FxHashMap<JsWord, FxHashMap<JsWord, String>>) -> impl Pass {
+pub fn const_modules(globals: HashMap<JsWord, HashMap<JsWord, String>>) -> impl Pass {
     ConstModules {
         globals: globals
             .into_iter()
@@ -71,13 +71,13 @@ fn parse_option(name: &str, src: String) -> Arc<Expr> {
 }
 
 struct ConstModules {
-    globals: FxHashMap<JsWord, FxHashMap<JsWord, Arc<Expr>>>,
+    globals: HashMap<JsWord, HashMap<JsWord, Arc<Expr>>>,
     scope: Scope,
 }
 
 #[derive(Default)]
 struct Scope {
-    imported: FxHashMap<JsWord, Arc<Expr>>,
+    imported: HashMap<JsWord, Arc<Expr>>,
 }
 
 impl Fold<Vec<ModuleItem>> for ConstModules
@@ -158,7 +158,7 @@ mod tests {
     use crate::tests::Tester;
 
     fn tr(_: &mut Tester, sources: &[(&str, &[(&str, &str)])]) -> impl Fold<Module> {
-        let mut m = FxHashMap::default();
+        let mut m = HashMap::default();
 
         for (src, values) in sources {
             let values = values

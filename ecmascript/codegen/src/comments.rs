@@ -8,7 +8,7 @@ macro_rules! write_comments {
             None => return Ok(()),
         };
 
-        for cmt in cmts {
+        for cmt in cmts.iter() {
             match cmt.kind {
                 CommentKind::Line => {
                     if $prefix_space {

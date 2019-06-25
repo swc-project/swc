@@ -1,6 +1,6 @@
 use crate::pass::Pass;
 use ast::*;
-use fxhash::FxHashSet;
+use hashbrown::HashSet;
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Spanned};
 
@@ -34,8 +34,8 @@ impl Fold<Expr> for DuplicateKeys {
 
 #[derive(Default)]
 struct PropFolder {
-    getter_props: FxHashSet<JsWord>,
-    setter_props: FxHashSet<JsWord>,
+    getter_props: HashSet<JsWord>,
+    setter_props: HashSet<JsWord>,
 }
 
 impl Fold<Expr> for PropFolder {
@@ -84,7 +84,7 @@ impl Fold<Prop> for PropFolder {
 }
 
 struct PropNameFolder<'a> {
-    props: &'a mut FxHashSet<JsWord>,
+    props: &'a mut HashSet<JsWord>,
 }
 impl<'a> Fold<Expr> for PropNameFolder<'a> {
     fn fold(&mut self, node: Expr) -> Expr {

@@ -16,6 +16,7 @@ extern crate swc_atoms;
 extern crate swc_common;
 extern crate chashmap;
 extern crate fxhash;
+extern crate hashbrown;
 extern crate indexmap;
 extern crate inflector;
 extern crate ordered_float;

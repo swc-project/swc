@@ -3,8 +3,9 @@
 extern crate ast_node;
 extern crate atty;
 extern crate cfg_if;
+extern crate chashmap;
 extern crate either;
-extern crate fxhash;
+extern crate hashbrown;
 extern crate log;
 extern crate parking_lot;
 extern crate scoped_tls;

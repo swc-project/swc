@@ -1,9 +1,9 @@
 use crate::util::{undefined, DestructuringFinder, ExprFactory};
 use ast::*;
-use fxhash::{FxBuildHasher, FxHashMap, FxHashSet};
+use hashbrown::{hash_map::Entry, HashMap, HashSet};
 use inflector::Inflector;
 use serde::{Deserialize, Serialize};
-use std::{collections::hash_map::Entry, iter};
+use std::iter;
 use swc_atoms::JsWord;
 use swc_common::{FoldWith, Mark, Span, SyntaxContext, VisitWith, DUMMY_SP};
 
@@ -84,11 +84,11 @@ pub(super) struct Scope {
     ///
     ///  - `import * as bar1 from 'bar';`
     ///   -> `{'bar': Some(bar1)}`
-    pub imports: IndexMap<JsWord, Option<(JsWord, Span)>>,
+    pub imports: HashMap<JsWord, Option<(JsWord, Span)>>,
     ///
     /// - `true` is wildcard (`_interopRequireWildcard`)
     /// - `false` is default (`_interopRequireDefault`)
-    pub import_types: FxHashMap<JsWord, bool>,
+    pub import_types: HashMap<JsWord, bool>,
 
     /// Map from imported ident to (source file, property name).
     ///
@@ -98,7 +98,7 @@ pub(super) struct Scope {
     ///
     ///  - `import foo from 'bar';`
     ///   -> `{foo: ('bar', default)}`
-    pub idents: FxHashMap<(JsWord, SyntaxContext), (JsWord, JsWord)>,
+    pub idents: HashMap<(JsWord, SyntaxContext), (JsWord, JsWord)>,
 
     /// Declared variables except const.
     pub declared_vars: Vec<(JsWord, SyntaxContext)>,
@@ -112,11 +112,11 @@ pub(super) struct Scope {
     ///
     ///  - `export { a as b }`
     ///   -> `{ a: [b] }`
-    pub exported_vars: FxHashMap<(JsWord, SyntaxContext), Vec<(JsWord, SyntaxContext)>>,
+    pub exported_vars: HashMap<(JsWord, SyntaxContext), Vec<(JsWord, SyntaxContext)>>,
 
     /// This is required to handle
     /// `export * from 'foo';`
-    pub lazy_blacklist: FxHashSet<JsWord>,
+    pub lazy_blacklist: HashSet<JsWord>,
 }
 
 impl Scope {
@@ -646,8 +646,6 @@ impl Scope {
     }
 }
 
-pub(super) type IndexMap<K, V> = indexmap::IndexMap<K, V, FxBuildHasher>;
-
 pub(super) fn make_require_call(src: JsWord) -> Expr {
     Expr::Call(CallExpr {
         span: DUMMY_SP,
@@ -729,7 +727,7 @@ pub(super) fn use_strict() -> Stmt {
 /// ```js
 /// exports.default = exports.foo = void 0;
 /// ```
-pub(super) fn initialize_to_undefined(exports: Ident, initialized: FxHashSet<JsWord>) -> Box<Expr> {
+pub(super) fn initialize_to_undefined(exports: Ident, initialized: HashSet<JsWord>) -> Box<Expr> {
     let mut rhs = undefined(DUMMY_SP);
 
     for name in initialized.into_iter() {

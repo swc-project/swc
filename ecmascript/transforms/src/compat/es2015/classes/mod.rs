@@ -12,7 +12,7 @@ use crate::util::{
     StmtLike,
 };
 use ast::*;
-use indexmap::IndexMap;
+use fxhash::FxBuildHasher;
 use std::iter;
 use swc_common::{Fold, FoldWith, Mark, Spanned, Visit, VisitWith, DUMMY_SP};
 
@@ -24,6 +24,8 @@ mod prop_name;
 mod super_field;
 #[cfg(test)]
 mod tests;
+
+type IndexMap<K, V> = indexmap::IndexMap<K, V, FxBuildHasher>;
 
 /// `@babel/plugin-transform-classes`
 ///
@@ -641,7 +643,7 @@ impl Classes {
             }))
         }
 
-        let (mut props, mut static_props) = (IndexMap::new(), IndexMap::new());
+        let (mut props, mut static_props) = (IndexMap::default(), IndexMap::default());
 
         for m in methods {
             let key = HashKey::from(&m.key);

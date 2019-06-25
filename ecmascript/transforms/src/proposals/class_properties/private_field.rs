@@ -1,6 +1,6 @@
 use crate::util::{alias_ident_for, prepend, ExprFactory};
 use ast::*;
-use fxhash::FxHashSet;
+use hashbrown::HashSet;
 use std::{iter, mem};
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Mark, Spanned, DUMMY_SP};
@@ -9,7 +9,7 @@ pub(super) struct FieldAccessFolder<'a> {
     pub mark: Mark,
     pub class_name: &'a Ident,
     pub vars: Vec<VarDeclarator>,
-    pub statics: &'a FxHashSet<JsWord>,
+    pub statics: &'a HashSet<JsWord>,
 }
 
 impl<'a> Fold<Expr> for FieldAccessFolder<'a> {

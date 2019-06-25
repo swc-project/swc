@@ -15,7 +15,7 @@
 // in rustc/libstd. See https://internals.rust-lang.org/t/rfc-compiler-refactoring-spans/1357/28
 use super::hygiene::SyntaxContext;
 use crate::syntax_pos::CM;
-use fxhash::FxHashMap;
+use hashbrown::HashMap;
 use serde::{
     de::Deserializer,
     ser::{SerializeStruct, Serializer},
@@ -215,7 +215,7 @@ fn decode(span: Span) -> SpanData {
 
 #[derive(Default)]
 pub struct SpanInterner {
-    spans: FxHashMap<SpanData, u32>,
+    spans: HashMap<SpanData, u32>,
     span_data: Vec<SpanData>,
 }
 

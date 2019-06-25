@@ -7,7 +7,7 @@ use crate::{
     util::{prepend_stmts, var::VarCollector, DestructuringFinder, ExprFactory},
 };
 use ast::*;
-use fxhash::FxHashSet;
+use hashbrown::HashSet;
 use serde::{Deserialize, Serialize};
 use std::iter;
 use swc_common::{Fold, FoldWith, Mark, VisitWith, DUMMY_SP};
@@ -54,7 +54,7 @@ impl Fold<Module> for Amd {
         }
 
         let mut exports = vec![];
-        let mut initialized = FxHashSet::default();
+        let mut initialized = HashSet::default();
         let mut export_alls = vec![];
         let mut emitted_esmodule = false;
         let mut has_export = false;
@@ -446,7 +446,7 @@ impl Fold<Module> for Amd {
             )));
         }
 
-        for (src, import) in self.scope.imports.drain(..) {
+        for (src, import) in self.scope.imports.drain() {
             let import = import.unwrap_or_else(|| {
                 (
                     local_name_for_src(&src),

@@ -3,7 +3,7 @@ use crate::{
     util::{prepend_stmts, var::VarCollector, ExprFactory},
 };
 use ast::*;
-use fxhash::FxHashMap;
+use hashbrown::HashMap;
 use swc_atoms::JsWord;
 use swc_common::{
     util::move_map::MoveMap, Fold, FoldWith, Spanned, SyntaxContext, Visit, VisitWith, DUMMY_SP,
@@ -42,8 +42,8 @@ impl Default for Phase {
 
 #[derive(Default)]
 struct Scope {
-    decls: FxHashMap<(JsWord, SyntaxContext), DeclInfo>,
-    imported_idents: FxHashMap<(JsWord, SyntaxContext), DeclInfo>,
+    decls: HashMap<(JsWord, SyntaxContext), DeclInfo>,
+    imported_idents: HashMap<(JsWord, SyntaxContext), DeclInfo>,
 }
 
 #[derive(Debug, Default)]
