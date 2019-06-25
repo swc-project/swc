@@ -211,12 +211,7 @@ impl Analyzer<'_, '_> {
         // println!("({}) find_var_type({})", self.scope.depth(), name);
         let mut scope = Some(&self.scope);
         while let Some(s) = scope {
-            if let Some(ref v) = s
-                .facts
-                .types
-                .get(&Name::from(name))
-                .and_then(|v| v.ty.as_ref())
-            {
+            if let Some(ref v) = s.facts.vars.get(&Name::from(name)) {
                 return Some(v);
             }
 

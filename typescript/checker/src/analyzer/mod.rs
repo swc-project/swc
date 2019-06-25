@@ -1,6 +1,6 @@
 pub use self::name::Name;
 use self::{
-    scope::{Scope, ScopeKind},
+    scope::{Scope, ScopeKind, VarInfo},
     util::PatExt,
 };
 use super::Checker;
@@ -8,7 +8,8 @@ use crate::{
     builtin_types::Lib,
     errors::Error,
     loader::Load,
-    ty::{Type, TypeRefExt},
+    ty::{Param, Type, TypeRefExt},
+    util::IntoCow,
     Rule,
 };
 use fxhash::{FxHashMap, FxHashSet};
@@ -284,6 +285,25 @@ impl Analyzer<'_, '_> {
     /// TODO: Handle recursive funciton
     fn visit_fn(&mut self, f: &Function) -> Type<'static> {
         let fn_ty = self.with_child(ScopeKind::Fn, Default::default(), |child| {
+            match f.type_params {
+                Some(TsTypeParamDecl { ref params, .. }) => {
+                    params.iter().for_each(|param| {
+                        let ty = Type::Param(Param {
+                            span: param.span,
+                            constraint: param.constraint.as_ref().map(|v| box v.clone().into_cow()),
+                            default: param.default.as_ref().map(|v| box v.clone().into_cow()),
+                        });
+
+                        child
+                            .scope
+                            .facts
+                            .types
+                            .insert(param.name.sym.clone().into(), ty);
+                    });
+                }
+                None => {}
+            }
+
             f.params
                 .iter()
                 .for_each(|pat| child.scope.declare_vars(VarDeclKind::Let, pat));

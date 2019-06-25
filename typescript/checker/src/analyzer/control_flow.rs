@@ -70,12 +70,14 @@ impl BitOr for Facts {
 #[derive(Debug, Clone, Default)]
 pub(super) struct CondFacts {
     pub facts: FxHashMap<Name, TypeFacts>,
-    pub types: FxHashMap<Name, VarInfo>,
+    pub vars: FxHashMap<Name, Type<'static>>,
+    pub types: FxHashMap<Name, Type<'static>>,
 }
 
 impl CondFacts {
     fn extend(&mut self, other: Self) {
         self.facts.extend(other.facts);
+        self.vars.extend(other.vars);
         self.types.extend(other.types);
     }
 
@@ -173,6 +175,7 @@ where
 impl AddAssign for CondFacts {
     fn add_assign(&mut self, rhs: Self) {
         self.types.extend(rhs.types);
+        self.vars.extend(rhs.vars);
     }
 }
 
@@ -192,6 +195,7 @@ impl BitOr for CondFacts {
     fn bitor(self, rhs: Self) -> Self {
         CondFacts {
             facts: CondFacts::or(self.facts, rhs.facts),
+            vars: CondFacts::or(self.vars, rhs.vars),
             types: CondFacts::or(self.types, rhs.types),
         }
     }
@@ -332,33 +336,13 @@ impl Analyzer<'_, '_> {
     }
 
     fn add_true_false(&self, facts: &mut Facts, sym: &JsWord, ty: &Type) {
-        macro_rules! base {
-            () => {{
-                match self.find_var(&sym) {
-                    Some(v) => VarInfo {
-                        copied: true,
-                        ..v.clone()
-                    },
-                    None => {
-                        unimplemented!("error reporting: add_true_false: undefined symbol {}", sym)
-                    }
-                }
-            }};
-        }
-
-        facts.true_facts.types.insert(
+        facts.true_facts.vars.insert(
             sym.into(),
-            VarInfo {
-                ty: Some(ty.to_static().remove_falsy().into_owned()),
-                ..base!()
-            },
+            ty.clone().remove_falsy().into_owned().into_static(),
         );
-        facts.false_facts.types.insert(
+        facts.false_facts.vars.insert(
             sym.into(),
-            VarInfo {
-                ty: Some(ty.to_static().remove_truthy().into_owned()),
-                ..base!()
-            },
+            ty.clone().remove_falsy().into_owned().into_static(),
         );
     }
 
@@ -501,16 +485,10 @@ impl Analyzer<'_, '_> {
                             _ => None,
                         }) {
                             Some((Ok(name), ty)) => {
-                                let v = VarInfo {
-                                    kind: VarDeclKind::Const,
-                                    initialized: true,
-                                    copied: true,
-                                    ty: Some(ty),
-                                };
                                 if is_eq {
-                                    facts.true_facts.types.insert(name, v);
+                                    facts.true_facts.vars.insert(name, ty);
                                 } else {
-                                    facts.false_facts.types.insert(name, v);
+                                    facts.false_facts.vars.insert(name, ty);
                                 }
                                 return Ok(());
                             }
@@ -526,14 +504,10 @@ impl Analyzer<'_, '_> {
                                 //
                                 let r_ty = self.expand_type(right.span(), r_ty)?;
 
-                                let v = VarInfo {
-                                    kind: VarDeclKind::Const,
-                                    initialized: true,
-                                    copied: true,
-                                    ty: Some(r_ty.to_static()),
-                                };
-
-                                facts.true_facts.types.insert(Name::from(&i.sym), v);
+                                facts
+                                    .true_facts
+                                    .vars
+                                    .insert(Name::from(&i.sym), r_ty.to_static());
                                 return Ok(());
                             }
 

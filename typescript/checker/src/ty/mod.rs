@@ -87,6 +87,7 @@ pub enum Type<'a> {
     Function(Function<'a>),
     Constructor(Constructor<'a>),
 
+    Param(Param<'a>),
     EnumVariant(EnumVariant),
 
     Interface(Interface<'a>),
@@ -230,6 +231,13 @@ pub struct Union<'a> {
 pub struct Intersection<'a> {
     pub span: Span,
     pub types: Vec<TypeRef<'a>>,
+}
+
+#[derive(Debug, Fold, Clone, PartialEq, Spanned)]
+pub struct Param<'a> {
+    pub span: Span,
+    pub constraint: Option<Box<TypeRef<'a>>>,
+    pub default: Option<Box<TypeRef<'a>>>,
 }
 
 /// FooEnum.A
@@ -387,6 +395,8 @@ impl Type<'_> {
                 ref ty => ty.clone(),
             })),
 
+            Type::Param(p) => Type::Param(Param { span, ..p }),
+
             Type::Static(..) => {
                 // We don't change span of static items.
                 self
@@ -453,6 +463,8 @@ impl Type<'_> {
             }),
 
             Type::Interface(i) => Type::Interface(i.into_static()),
+
+            Type::Param(p) => Type::Param(p.into_static()),
 
             Type::Enum(e) => Type::Enum(e),
             Type::EnumVariant(e) => Type::EnumVariant(e),
@@ -645,6 +657,16 @@ impl Alias<'_> {
             span: self.span,
             type_params: self.type_params.map(|v| v.into_static()),
             ty: box static_type(*self.ty),
+        }
+    }
+}
+
+impl Param<'_> {
+    pub fn into_static(self) -> Param<'static> {
+        Param {
+            span: self.span,
+            constraint: self.constraint.map(|v| box static_type(*v)),
+            default: self.default.map(|v| box static_type(*v)),
         }
     }
 }
