@@ -925,7 +925,7 @@ impl Analyzer<'_, '_> {
                 ret_err!()
             }
 
-            Type::Class(ref c) => {
+            Type::Class(..) => {
                 //
                 unimplemented!("new Class()")
             }
