@@ -256,10 +256,8 @@ impl Visit<TsEnumDecl> for Analyzer<'_, '_> {
     }
 }
 
-impl Visit<ClassDecl> for Analyzer<'_, '_> {
-    fn visit(&mut self, c: &ClassDecl) {
-        c.visit_children(self);
-
+impl Visit<ClassExpr> for Analyzer<'_, '_> {
+    fn visit(&mut self, c: &ClassExpr) {
         let ty = match self.type_of_class(&c.class) {
             Ok(ty) => ty,
             Err(err) => {
@@ -267,8 +265,43 @@ impl Visit<ClassDecl> for Analyzer<'_, '_> {
                 Type::any(c.span()).into()
             }
         };
-        self.scope
-            .register_type(c.ident.sym.clone(), c.class.clone().into());
+
+        self.scope.this = Some(ty.clone());
+
+        if let Some(ref i) = c.ident {
+            self.scope.register_type(i.sym.clone(), ty.clone());
+
+            self.scope.declare_var(
+                VarDeclKind::Var,
+                i.sym.clone(),
+                Some(ty),
+                // initialized = true
+                true,
+                // declare Class does not allow multiple declarations.
+                false,
+            );
+        }
+
+        c.visit_children(self);
+
+        self.scope.this = None;
+    }
+}
+
+impl Visit<ClassDecl> for Analyzer<'_, '_> {
+    fn visit(&mut self, c: &ClassDecl) {
+        let ty = match self.type_of_class(&c.class) {
+            Ok(ty) => ty,
+            Err(err) => {
+                self.info.errors.push(err);
+                Type::any(c.span()).into()
+            }
+        };
+
+        self.scope.this = Some(ty.clone());
+
+        self.scope.register_type(c.ident.sym.clone(), ty.clone());
+
         self.scope.declare_var(
             VarDeclKind::Var,
             c.ident.sym.clone(),
@@ -278,6 +311,10 @@ impl Visit<ClassDecl> for Analyzer<'_, '_> {
             // declare Class does not allow multiple declarations.
             false,
         );
+
+        c.visit_children(self);
+
+        self.scope.this = None;
     }
 }
 

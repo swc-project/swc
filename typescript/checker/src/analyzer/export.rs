@@ -183,6 +183,7 @@ pub fn pat_to_ts_fn_param(p: Pat) -> TsFnParam {
         Pat::Array(arr) => TsFnParam::Array(arr),
         Pat::Object(obj) => TsFnParam::Object(obj),
         // TODO: Pat::Assign()
-        _ => unimplemented!("function parameter of type {:?}", p),
+        Pat::Assign(assign) => pat_to_ts_fn_param(*assign.left),
+        Pat::Expr(..) => unreachable!("pat_to_ts_fn_param: Pat(Expr): {:#?}", p),
     }
 }

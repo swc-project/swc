@@ -33,6 +33,7 @@ pub(super) struct Scope<'a> {
     ///
     /// TODO(kdy1): Use vector (for performance)
     pub(super) types: FxHashMap<JsWord, Type<'static>>,
+    pub(super) this: Option<Type<'static>>,
 
     kind: ScopeKind,
     /// Declared variables and parameters.
@@ -48,6 +49,7 @@ impl<'a> Scope<'a> {
         Scope {
             parent: Some(parent),
             types: Default::default(),
+            this: None,
             kind,
             vars: Default::default(),
             facts,
@@ -58,6 +60,7 @@ impl<'a> Scope<'a> {
         Scope {
             parent: None,
             types: Default::default(),
+            this: None,
             kind: ScopeKind::Fn,
             vars: Default::default(),
             facts: Default::default(),
@@ -133,7 +136,10 @@ impl<'a> Scope<'a> {
             Pat::Rest(ref p) => {
                 self.declare_vars(kind, &p.arg);
             }
-            _ => unimplemented!("declare_vars for patterns other than ident"),
+            Pat::Assign(ref p) => {
+                self.declare_vars(kind, &p.left);
+            }
+            _ => unimplemented!("declare_vars for patterns other than ident: {:#?}", pat),
         }
     }
 
