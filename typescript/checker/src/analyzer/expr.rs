@@ -718,7 +718,7 @@ impl Analyzer<'_, '_> {
                 // member expression
                 let obj_type = self.type_of(obj)?.generalize_lit();
 
-                match *obj_type.as_ref() {
+                match *obj_type.normalize() {
                     Type::Function(ref f) if kind == ExtractKind::Call => {
                         //
                         return Ok(*f.ret_ty.clone());
@@ -923,6 +923,11 @@ impl Analyzer<'_, '_> {
                 search_members!(l.members);
 
                 ret_err!()
+            }
+
+            Type::Class(ref c) => {
+                //
+                unimplemented!("new Class()")
             }
 
             _ => ret_err!(),
