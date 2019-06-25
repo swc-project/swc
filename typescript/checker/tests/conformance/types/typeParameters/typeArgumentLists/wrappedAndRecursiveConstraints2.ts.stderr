@@ -1,0 +1,520 @@
+error: NoNewSignature {
+    span: Span {
+        lo: BytePos(
+            80,
+        ),
+        hi: BytePos(
+            81,
+        ),
+        ctxt: #0,
+    },
+    callee: Class(
+        Class {
+            span: Span {
+                lo: BytePos(
+                    0,
+                ),
+                hi: BytePos(
+                    64,
+                ),
+                ctxt: #0,
+            },
+            decorators: [],
+            body: [
+                Constructor(
+                    Constructor {
+                        span: Span {
+                            lo: BytePos(
+                                40,
+                            ),
+                            hi: BytePos(
+                                61,
+                            ),
+                            ctxt: #0,
+                        },
+                        key: Ident(
+                            Ident {
+                                span: Span {
+                                    lo: BytePos(
+                                        40,
+                                    ),
+                                    hi: BytePos(
+                                        51,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                sym: Atom('constructor' type=static),
+                                type_ann: None,
+                                optional: false,
+                            },
+                        ),
+                        params: [
+                            Pat(
+                                Ident(
+                                    Ident {
+                                        span: Span {
+                                            lo: BytePos(
+                                                52,
+                                            ),
+                                            hi: BytePos(
+                                                53,
+                                            ),
+                                            ctxt: #0,
+                                        },
+                                        sym: Atom('x' type=inline),
+                                        type_ann: Some(
+                                            TsTypeAnn {
+                                                span: Span {
+                                                    lo: BytePos(
+                                                        53,
+                                                    ),
+                                                    hi: BytePos(
+                                                        56,
+                                                    ),
+                                                    ctxt: #0,
+                                                },
+                                                type_ann: TsTypeRef(
+                                                    TsTypeRef {
+                                                        span: Span {
+                                                            lo: BytePos(
+                                                                55,
+                                                            ),
+                                                            hi: BytePos(
+                                                                56,
+                                                            ),
+                                                            ctxt: #0,
+                                                        },
+                                                        type_name: Ident(
+                                                            Ident {
+                                                                span: Span {
+                                                                    lo: BytePos(
+                                                                        55,
+                                                                    ),
+                                                                    hi: BytePos(
+                                                                        56,
+                                                                    ),
+                                                                    ctxt: #0,
+                                                                },
+                                                                sym: Atom('T' type=inline),
+                                                                type_ann: None,
+                                                                optional: false,
+                                                            },
+                                                        ),
+                                                        type_params: None,
+                                                    },
+                                                ),
+                                            },
+                                        ),
+                                        optional: false,
+                                    },
+                                ),
+                            ),
+                        ],
+                        body: Some(
+                            BlockStmt {
+                                span: Span {
+                                    lo: BytePos(
+                                        58,
+                                    ),
+                                    hi: BytePos(
+                                        61,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                stmts: [],
+                            },
+                        ),
+                        accessibility: None,
+                        is_optional: false,
+                    },
+                ),
+            ],
+            super_class: None,
+            is_abstract: false,
+            type_params: Some(
+                TsTypeParamDecl {
+                    span: Span {
+                        lo: BytePos(
+                            7,
+                        ),
+                        hi: BytePos(
+                            23,
+                        ),
+                        ctxt: #0,
+                    },
+                    params: [
+                        TsTypeParam {
+                            span: Span {
+                                lo: BytePos(
+                                    8,
+                                ),
+                                hi: BytePos(
+                                    22,
+                                ),
+                                ctxt: #0,
+                            },
+                            name: Ident {
+                                span: Span {
+                                    lo: BytePos(
+                                        8,
+                                    ),
+                                    hi: BytePos(
+                                        9,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                sym: Atom('T' type=inline),
+                                type_ann: None,
+                                optional: false,
+                            },
+                            constraint: Some(
+                                TsTypeRef(
+                                    TsTypeRef {
+                                        span: Span {
+                                            lo: BytePos(
+                                                18,
+                                            ),
+                                            hi: BytePos(
+                                                22,
+                                            ),
+                                            ctxt: #0,
+                                        },
+                                        type_name: Ident(
+                                            Ident {
+                                                span: Span {
+                                                    lo: BytePos(
+                                                        18,
+                                                    ),
+                                                    hi: BytePos(
+                                                        19,
+                                                    ),
+                                                    ctxt: #0,
+                                                },
+                                                sym: Atom('C' type=inline),
+                                                type_ann: None,
+                                                optional: false,
+                                            },
+                                        ),
+                                        type_params: Some(
+                                            TsTypeParamInstantiation {
+                                                span: Span {
+                                                    lo: BytePos(
+                                                        19,
+                                                    ),
+                                                    hi: BytePos(
+                                                        22,
+                                                    ),
+                                                    ctxt: #0,
+                                                },
+                                                params: [
+                                                    TsTypeRef(
+                                                        TsTypeRef {
+                                                            span: Span {
+                                                                lo: BytePos(
+                                                                    20,
+                                                                ),
+                                                                hi: BytePos(
+                                                                    21,
+                                                                ),
+                                                                ctxt: #0,
+                                                            },
+                                                            type_name: Ident(
+                                                                Ident {
+                                                                    span: Span {
+                                                                        lo: BytePos(
+                                                                            20,
+                                                                        ),
+                                                                        hi: BytePos(
+                                                                            21,
+                                                                        ),
+                                                                        ctxt: #0,
+                                                                    },
+                                                                    sym: Atom('T' type=inline),
+                                                                    type_ann: None,
+                                                                    optional: false,
+                                                                },
+                                                            ),
+                                                            type_params: None,
+                                                        },
+                                                    ),
+                                                ],
+                                            },
+                                        ),
+                                    },
+                                ),
+                            ),
+                            default: None,
+                        },
+                    ],
+                },
+            ),
+            super_type_params: None,
+            implements: [],
+        },
+    ),
+}
+ --> $DIR/tests/conformance/types/typeParameters/typeArgumentLists/wrappedAndRecursiveConstraints2.ts:5:13
+  |
+5 | var c = new C(1);
+  |             ^
+
+error: NoNewSignature {
+    span: Span {
+        lo: BytePos(
+            99,
+        ),
+        hi: BytePos(
+            100,
+        ),
+        ctxt: #0,
+    },
+    callee: Class(
+        Class {
+            span: Span {
+                lo: BytePos(
+                    0,
+                ),
+                hi: BytePos(
+                    64,
+                ),
+                ctxt: #0,
+            },
+            decorators: [],
+            body: [
+                Constructor(
+                    Constructor {
+                        span: Span {
+                            lo: BytePos(
+                                40,
+                            ),
+                            hi: BytePos(
+                                61,
+                            ),
+                            ctxt: #0,
+                        },
+                        key: Ident(
+                            Ident {
+                                span: Span {
+                                    lo: BytePos(
+                                        40,
+                                    ),
+                                    hi: BytePos(
+                                        51,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                sym: Atom('constructor' type=static),
+                                type_ann: None,
+                                optional: false,
+                            },
+                        ),
+                        params: [
+                            Pat(
+                                Ident(
+                                    Ident {
+                                        span: Span {
+                                            lo: BytePos(
+                                                52,
+                                            ),
+                                            hi: BytePos(
+                                                53,
+                                            ),
+                                            ctxt: #0,
+                                        },
+                                        sym: Atom('x' type=inline),
+                                        type_ann: Some(
+                                            TsTypeAnn {
+                                                span: Span {
+                                                    lo: BytePos(
+                                                        53,
+                                                    ),
+                                                    hi: BytePos(
+                                                        56,
+                                                    ),
+                                                    ctxt: #0,
+                                                },
+                                                type_ann: TsTypeRef(
+                                                    TsTypeRef {
+                                                        span: Span {
+                                                            lo: BytePos(
+                                                                55,
+                                                            ),
+                                                            hi: BytePos(
+                                                                56,
+                                                            ),
+                                                            ctxt: #0,
+                                                        },
+                                                        type_name: Ident(
+                                                            Ident {
+                                                                span: Span {
+                                                                    lo: BytePos(
+                                                                        55,
+                                                                    ),
+                                                                    hi: BytePos(
+                                                                        56,
+                                                                    ),
+                                                                    ctxt: #0,
+                                                                },
+                                                                sym: Atom('T' type=inline),
+                                                                type_ann: None,
+                                                                optional: false,
+                                                            },
+                                                        ),
+                                                        type_params: None,
+                                                    },
+                                                ),
+                                            },
+                                        ),
+                                        optional: false,
+                                    },
+                                ),
+                            ),
+                        ],
+                        body: Some(
+                            BlockStmt {
+                                span: Span {
+                                    lo: BytePos(
+                                        58,
+                                    ),
+                                    hi: BytePos(
+                                        61,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                stmts: [],
+                            },
+                        ),
+                        accessibility: None,
+                        is_optional: false,
+                    },
+                ),
+            ],
+            super_class: None,
+            is_abstract: false,
+            type_params: Some(
+                TsTypeParamDecl {
+                    span: Span {
+                        lo: BytePos(
+                            7,
+                        ),
+                        hi: BytePos(
+                            23,
+                        ),
+                        ctxt: #0,
+                    },
+                    params: [
+                        TsTypeParam {
+                            span: Span {
+                                lo: BytePos(
+                                    8,
+                                ),
+                                hi: BytePos(
+                                    22,
+                                ),
+                                ctxt: #0,
+                            },
+                            name: Ident {
+                                span: Span {
+                                    lo: BytePos(
+                                        8,
+                                    ),
+                                    hi: BytePos(
+                                        9,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                sym: Atom('T' type=inline),
+                                type_ann: None,
+                                optional: false,
+                            },
+                            constraint: Some(
+                                TsTypeRef(
+                                    TsTypeRef {
+                                        span: Span {
+                                            lo: BytePos(
+                                                18,
+                                            ),
+                                            hi: BytePos(
+                                                22,
+                                            ),
+                                            ctxt: #0,
+                                        },
+                                        type_name: Ident(
+                                            Ident {
+                                                span: Span {
+                                                    lo: BytePos(
+                                                        18,
+                                                    ),
+                                                    hi: BytePos(
+                                                        19,
+                                                    ),
+                                                    ctxt: #0,
+                                                },
+                                                sym: Atom('C' type=inline),
+                                                type_ann: None,
+                                                optional: false,
+                                            },
+                                        ),
+                                        type_params: Some(
+                                            TsTypeParamInstantiation {
+                                                span: Span {
+                                                    lo: BytePos(
+                                                        19,
+                                                    ),
+                                                    hi: BytePos(
+                                                        22,
+                                                    ),
+                                                    ctxt: #0,
+                                                },
+                                                params: [
+                                                    TsTypeRef(
+                                                        TsTypeRef {
+                                                            span: Span {
+                                                                lo: BytePos(
+                                                                    20,
+                                                                ),
+                                                                hi: BytePos(
+                                                                    21,
+                                                                ),
+                                                                ctxt: #0,
+                                                            },
+                                                            type_name: Ident(
+                                                                Ident {
+                                                                    span: Span {
+                                                                        lo: BytePos(
+                                                                            20,
+                                                                        ),
+                                                                        hi: BytePos(
+                                                                            21,
+                                                                        ),
+                                                                        ctxt: #0,
+                                                                    },
+                                                                    sym: Atom('T' type=inline),
+                                                                    type_ann: None,
+                                                                    optional: false,
+                                                                },
+                                                            ),
+                                                            type_params: None,
+                                                        },
+                                                    ),
+                                                ],
+                                            },
+                                        ),
+                                    },
+                                ),
+                            ),
+                            default: None,
+                        },
+                    ],
+                },
+            ),
+            super_type_params: None,
+            implements: [],
+        },
+    ),
+}
+ --> $DIR/tests/conformance/types/typeParameters/typeArgumentLists/wrappedAndRecursiveConstraints2.ts:6:13
+  |
+6 | var c = new C(new C('')); // error
+  |             ^
+

@@ -1,6 +1,6 @@
 pub use self::name::Name;
 use self::{
-    scope::{Scope, ScopeKind, VarInfo},
+    scope::{Scope, ScopeKind},
     util::PatExt,
 };
 use super::Checker;
