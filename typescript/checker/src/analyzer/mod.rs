@@ -333,6 +333,7 @@ impl Analyzer<'_, '_> {
 impl Visit<FnDecl> for Analyzer<'_, '_> {
     /// NOTE: This method **should not call f.visit_children(self)**
     fn visit(&mut self, f: &FnDecl) {
+        println!("Visiting {}", f.ident.sym);
         let fn_ty = self.visit_fn(&f.function);
 
         self.scope.declare_var(

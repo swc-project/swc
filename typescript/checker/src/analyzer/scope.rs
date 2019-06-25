@@ -144,6 +144,11 @@ impl<'a> Scope<'a> {
             return Some(&ty);
         }
 
+        if let Some(ty) = self.facts.types.get(name) {
+            println!("({}) find_type({}): Found (cond facts)", self.depth(), name);
+            return Some(&ty);
+        }
+
         match self.parent {
             Some(ref parent) => parent.find_type(name),
             None => None,

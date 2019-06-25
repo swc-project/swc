@@ -976,7 +976,7 @@ impl Analyzer<'_, '_> {
                                         return Ok(ty.static_cast());
                                     }
 
-                                    Type::Interface(..) | Type::Class(..) => {
+                                    Type::Interface(..) | Type::Class(..) | Type::Param(..) => {
                                         return Ok(ty.static_cast());
                                     }
 

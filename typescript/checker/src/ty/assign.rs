@@ -1,4 +1,4 @@
-use super::{Array, Interface, Intersection, Type, TypeLit, TypeRefExt, Union};
+use super::{Array, Interface, Intersection, Param, Type, TypeLit, TypeRefExt, Union};
 use crate::{
     errors::Error,
     util::{EqIgnoreNameAndSpan, EqIgnoreSpan},
@@ -128,6 +128,11 @@ fn try_assign(to: &Type, rhs: &Type, span: Span) -> Result<(), Error> {
 
             fail!();
         }
+
+        Type::Param(Param {
+            constraint: Some(ref constraint),
+            ..
+        }) => return try_assign(to, constraint, span),
 
         _ => {}
     }

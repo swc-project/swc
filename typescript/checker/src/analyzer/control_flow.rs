@@ -13,6 +13,7 @@ use std::{
     borrow::Cow,
     collections::hash_map::Entry,
     convert::TryFrom,
+    hash::Hash,
     mem,
     ops::{AddAssign, BitOr, Not},
 };
@@ -71,7 +72,7 @@ impl BitOr for Facts {
 pub(super) struct CondFacts {
     pub facts: FxHashMap<Name, TypeFacts>,
     pub vars: FxHashMap<Name, Type<'static>>,
-    pub types: FxHashMap<Name, Type<'static>>,
+    pub types: FxHashMap<JsWord, Type<'static>>,
 }
 
 impl CondFacts {
@@ -81,8 +82,9 @@ impl CondFacts {
         self.types.extend(other.types);
     }
 
-    fn or<T>(mut map: FxHashMap<Name, T>, map2: FxHashMap<Name, T>) -> FxHashMap<Name, T>
+    fn or<K, T>(mut map: FxHashMap<K, T>, map2: FxHashMap<K, T>) -> FxHashMap<K, T>
     where
+        K: Eq + Hash,
         T: Merge,
     {
         for (k, v) in map2 {
