@@ -88,6 +88,8 @@ fn try_assign(to: &Type, rhs: &Type, span: Span) -> Result<(), Error> {
                     });
                 }
 
+                Type::Array(..) => fail!(),
+
                 _ => {}
             }
         }};
