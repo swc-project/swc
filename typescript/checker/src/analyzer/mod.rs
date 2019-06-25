@@ -478,8 +478,13 @@ impl Visit<VarDecl> for Analyzer<'_, '_> {
                         ),
                     };
                     self.scope.declare_var(
-                        kind, sym, ty, false, // initialized
-                        false, // allow_multiple
+                        kind,
+                        sym,
+                        ty,
+                        // initialized
+                        false,
+                        // allow_multiple
+                        kind == VarDeclKind::Var,
                     );
                     return;
                 }
