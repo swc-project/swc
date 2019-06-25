@@ -345,6 +345,10 @@ impl Type<'_> {
 
 impl Type<'_> {
     pub fn respan(self, span: Span) -> Self {
+        if self.span() == span {
+            return self;
+        }
+
         match self {
             Type::This(this) => Type::This(TsThisType { span, ..this }),
 
