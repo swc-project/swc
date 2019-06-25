@@ -103,8 +103,7 @@ fn add_tests(tests: &mut Vec<TestDescAndFn>, mode: Mode) -> Result<(), io::Error
         };
 
         let ignore = file_name.contains("circular")
-            || (mode == Mode::Conformance
-                && !file_name.contains("types/typeParameters/typeParameterLists"));
+            || (mode == Mode::Conformance && !file_name.contains("types/witness"));
 
         let dir = dir.clone();
         let name = format!("tsc::{}::{}", test_kind, file_name);
