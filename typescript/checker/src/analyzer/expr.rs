@@ -373,19 +373,55 @@ impl Analyzer<'_, '_> {
     }
 
     fn type_of_prop(&self, prop: &Prop) -> TypeElement {
-        // TODO
-        PropertySignature {
-            span: prop.span(),
-            key: prop_key_to_expr(&prop),
-            params: Default::default(),
-            init: None,
-            optional: false,
-            readonly: false,
-            computed: false,
-            type_ann: Default::default(),
-            type_params: Default::default(),
+        let span = prop.span();
+
+        match *prop {
+            Prop::Shorthand(ref i) => PropertySignature {
+                span: prop.span(),
+                key: prop_key_to_expr(&prop),
+                params: Default::default(),
+                optional: false,
+                readonly: false,
+                computed: false,
+                type_ann: Default::default(),
+                type_params: Default::default(),
+            }
+            .into(),
+
+            Prop::KeyValue(ref p) => PropertySignature {
+                span: prop.span(),
+                key: prop_key_to_expr(&prop),
+                params: Default::default(),
+                optional: false,
+                readonly: false,
+                computed: false,
+                type_ann: Default::default(),
+                type_params: Default::default(),
+            }
+            .into(),
+
+            Prop::Assign(ref p) => unimplemented!("type_of_prop(AssignProperty): {:#?}", p),
+            Prop::Getter(ref p) => unimplemented!("type_of_prop(GetterProperty): {:#?}", p),
+            Prop::Setter(ref p) => unimplemented!("type_of_prop(SetterProperty): {:#?}", p),
+
+            Prop::Method(ref p) => MethodSignature {
+                span,
+                readonly: false,
+                key: prop_key_to_expr(&prop),
+                computed: false,
+                optional: false,
+                params: p
+                    .function
+                    .params
+                    .iter()
+                    .cloned()
+                    .map(pat_to_ts_fn_param)
+                    .collect(),
+                ret_ty: p.function.return_type.clone().map(|v| v.into_cow()),
+                type_params: p.function.type_params.clone().map(|v| v.into()),
+            }
+            .into(),
         }
-        .into()
     }
 
     fn access_property<'a>(

@@ -207,7 +207,6 @@ impl From<TsPropertySignature> for PropertySignature<'_> {
         PropertySignature {
             span: d.span,
             computed: d.computed,
-            init: d.init,
             key: d.key,
             optional: d.optional,
             params: d.params,
