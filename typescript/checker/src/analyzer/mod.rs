@@ -387,15 +387,8 @@ impl Visit<FnDecl> for Analyzer<'_, '_> {
         println!("Visiting {}", f.ident.sym);
         let fn_ty = self.visit_fn(Some(&f.ident), &f.function);
 
-        self.scope.declare_var(
-            VarDeclKind::Var,
-            f.ident.sym.clone(),
-            Some(fn_ty),
-            // initialized
-            true,
-            // allow_multiple
-            f.declare,
-        );
+        self.scope
+            .override_var(VarDeclKind::Var, f.ident.sym.clone(), fn_ty);
     }
 }
 

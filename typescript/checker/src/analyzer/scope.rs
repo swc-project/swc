@@ -1,5 +1,5 @@
 use super::{control_flow::CondFacts, Analyzer, Name};
-use crate::ty::Type;
+use crate::{errors::Error, ty::Type};
 use fxhash::FxHashMap;
 use std::collections::hash_map::Entry;
 use swc_atoms::JsWord;
@@ -99,6 +99,25 @@ impl<'a> Scope<'a> {
         }
 
         None
+    }
+
+    /// Overrides a varaible. Used for removing lazily-typed stuffs.
+    pub fn override_var(
+        &mut self,
+        kind: VarDeclKind,
+        name: JsWord,
+        ty: Type<'static>,
+    ) -> Result<(), Error> {
+        let info = VarInfo {
+            kind,
+            ty: Some(ty),
+            initialized: true,
+            copied: false,
+        };
+
+        self.vars.insert(name, info);
+
+        Ok(())
     }
 
     pub fn declare_var(
