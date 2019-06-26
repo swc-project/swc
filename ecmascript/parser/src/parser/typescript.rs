@@ -1532,7 +1532,7 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 
     /// `tsParseArrayTypeOrHigher`
-    fn parse_ts_array_type_or_higher(&mut self) -> PResult<'a, Box<TsType>> {
+    fn parse_ts_array_type_or_higher(&mut self, readonly: bool) -> PResult<'a, Box<TsType>> {
         debug_assert!(self.input.syntax().typescript());
 
         let mut ty = self.parse_ts_non_array_type()?;
@@ -1548,6 +1548,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 expect!(']');
                 ty = Box::new(TsType::TsIndexedAccessType(TsIndexedAccessType {
                     span: span!(ty.span().lo()),
+                    readonly,
                     obj_type: ty,
                     index_type,
                 }))
@@ -1615,7 +1616,8 @@ impl<'a, I: Input> Parser<'a, I> {
                 if is!("infer") {
                     self.parse_ts_infer_type().map(TsType::from).map(Box::new)
                 } else {
-                    self.parse_ts_array_type_or_higher()
+                    let readonly = self.parse_ts_modifier(&["readonly"])?.is_some();
+                    self.parse_ts_array_type_or_higher(readonly)
                 }
             }
         }
@@ -2027,7 +2029,7 @@ enum UnionOrIntersection {
     Intersection,
 }
 
-#[derive(Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum ParsingContext {
     EnumMembers,
     HeritageClauseElement,
