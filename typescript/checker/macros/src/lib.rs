@@ -1,3 +1,4 @@
+#![deny(unused_variables)]
 #![recursion_limit = "4096"]
 
 extern crate inflector;
@@ -291,7 +292,7 @@ fn quote_class(c: &Class) -> syn::Expr {
             super_class_v: quote_option(c.super_class.as_ref(), |expr| quote_expr(expr)),
             is_abstract_v: c.is_abstract,
             type_params_v: quote_type_params(c.type_params.as_ref()),
-            super_type_params: quote_type_params_instantiation(c.super_type_params.as_ref()),
+            super_type_params_v: quote_type_params_instantiation(c.super_type_params.as_ref()),
             implements_v: quote_exprs_with_type_args(&c.implements),
         },
         {
@@ -345,6 +346,51 @@ fn quote_class_member(ms: &ClassMember) -> syn::Expr {
             ))
             .parse()
         }
+
+        ClassMember::ClassProp(ClassProp {
+            key,
+            value,
+            type_ann,
+            is_static,
+            computed,
+            accessibility,
+            is_abstract,
+            is_optional,
+            readonly,
+            definite,
+            ..
+        }) => q()
+            .quote_with(smart_quote!(
+                Vars {
+                    key_v: quote_expr(key),
+                    value_v: quote_option(value.as_ref(), |expr| quote_expr(expr)),
+                    accessibility_v: quote_accessibility(accessibility.clone()),
+                    computed_v: computed,
+                    is_optional_v: is_optional,
+                    is_abstract_v: is_abstract,
+                    is_static_v: is_static,
+                    definite_v: definite,
+                    readonly_v: readonly,
+                    type_ann_v: quote_opt_type_ann(type_ann.as_ref()),
+                },
+                {
+                    ClassMember::ClassProp(ClassProp {
+                        span: DUMMY_SP,
+                        accessibility: accessibility_v,
+                        key: box key_v,
+                        value: value_v.map(Box::new),
+                        computed: computed_v,
+                        is_abstract: is_abstract_v,
+                        is_static: is_static_v,
+                        is_optional: is_optional_v,
+                        readonly: readonly_v,
+                        definite: definite_v,
+                        type_ann: type_ann_v,
+                        decorators: vec![],
+                    })
+                }
+            ))
+            .parse(),
 
         _ => unimplemented!("quote_class_member({:#?})", ms),
     }
@@ -592,7 +638,7 @@ fn quote_ty(ty: &TsType) -> syn::Expr {
                         }
                         TsLit::Str(Str { value, .. }) => {
                             let value = &**value;
-                            quote!(TsLit::Str(Str { span: DUMMY_SP, has_escape: false ,value: #value }))
+                            quote!(TsLit::Str(Str { span: DUMMY_SP, has_escape: false ,value: #value.into() }))
                         }
                     },
                 },
@@ -1371,7 +1417,7 @@ fn quote_object_pat_prop(p: &ObjectPatProp) -> syn::Expr {
                     ObjectPatProp::Assign(AssignPatProp {
                         span: DUMMY_SP,
                         key: Ident::new(key_v.into(), DUMMY_SP),
-                        value: box value_v,
+                        value: value_v.map(Box::new),
                     })
                 }
             ))
@@ -1435,7 +1481,18 @@ fn quote_ts_param_prop(p: &TsParamProp) -> syn::Expr {
 fn quote_accessibility(opt: Option<Accessibility>) -> syn::Expr {
     match opt {
         // TODO
-        Some(v) => q().quote_with(smart_quote!(Vars {}, { Some() })).parse(),
+        Some(v) => q()
+            .quote_with(smart_quote!(
+                Vars {
+                    a: match v {
+                        Accessibility::Private => quote!(Accessibility::Private),
+                        Accessibility::Public => quote!(Accessibility::Public),
+                        Accessibility::Protected => quote!(Accessibility::Protected),
+                    }
+                },
+                { Some(a) }
+            ))
+            .parse(),
         None => q().quote_with(smart_quote!(Vars {}, { None })).parse(),
     }
 }
@@ -1443,7 +1500,9 @@ fn quote_accessibility(opt: Option<Accessibility>) -> syn::Expr {
 fn quote_ts_param_prop_param(p: &TsParamPropParam) -> syn::Expr {
     match p {
         TsParamPropParam::Ident(i) => q()
-            .quote_with(smart_quote!(Vars {}, { TsParamPropParam::Ident() }))
+            .quote_with(smart_quote!(Vars { i: id_to_str(i) }, {
+                TsParamPropParam::Ident(Ident::new(i.into(), DUMMY_SP))
+            }))
             .parse(),
 
         _ => unimplemented!("quote_ts_param_prop_param({:?})", p),
