@@ -1,4 +1,4 @@
-use super::{Array, Interface, Intersection, Param, Type, TypeLit, TypeRefExt, Union};
+use super::{Array, Function, Interface, Intersection, Param, Type, TypeLit, TypeRefExt, Union};
 use crate::{
     errors::Error,
     util::{EqIgnoreNameAndSpan, EqIgnoreSpan},
@@ -322,6 +322,29 @@ fn try_assign(to: &Type, rhs: &Type, span: Span) -> Result<(), Error> {
             // let a: true | false = bool
             _ => fail!(),
         },
+
+        Type::Function(Function {
+            type_params: None,
+            ref params,
+            ref ret_ty,
+            ..
+        }) => {
+            // var fnr2: () => any = fnReturn2();
+            match *rhs {
+                Type::Function(Function {
+                    type_params: None,
+                    params: ref r_params,
+                    ret_ty: ref r_ret_ty,
+                    ..
+                }) => {
+                    try_assign(ret_ty, r_ret_ty, span)?;
+                    // TODO: Verify parameter counts
+
+                    return Ok(());
+                }
+                _ => {}
+            }
+        }
 
         _ => {}
     }
