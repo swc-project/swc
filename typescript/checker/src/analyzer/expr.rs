@@ -598,6 +598,8 @@ impl Analyzer<'_, '_> {
     ) -> Result<Option<Type<'static>>, Error> {
         let types = { ::std::mem::replace(&mut *self.inferred_return_types.borrow_mut(), vec![]) };
 
+        // TODO: Handle recursive function.
+
         let mut tys = Vec::with_capacity(types.len());
         let mut span = body.span;
         for ty in types {

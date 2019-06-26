@@ -320,8 +320,27 @@ impl Visit<ClassDecl> for Analyzer<'_, '_> {
 
 impl Analyzer<'_, '_> {
     /// TODO: Handle recursive funciton
-    fn visit_fn(&mut self, f: &Function) -> Type<'static> {
+    fn visit_fn(&mut self, name: Option<&Ident>, f: &Function) -> Type<'static> {
         let fn_ty = self.with_child(ScopeKind::Fn, Default::default(), |child| {
+            if let Some(name) = name {
+                // We use `typeof function` to infer recursive function's return type.
+                child.scope.declare_var(
+                    VarDeclKind::Var,
+                    name.sym.clone(),
+                    Some(Type::Simple(Cow::Owned(
+                        TsTypeQuery {
+                            span: f.span,
+                            expr_name: TsEntityName::Ident(name.clone()),
+                        }
+                        .into(),
+                    ))),
+                    // value is initialized
+                    true,
+                    // Allow overriding
+                    true,
+                );
+            }
+
             match f.type_params {
                 Some(TsTypeParamDecl { ref params, .. }) => {
                     params.iter().for_each(|param| {
@@ -366,7 +385,7 @@ impl Visit<FnDecl> for Analyzer<'_, '_> {
     /// NOTE: This method **should not call f.visit_children(self)**
     fn visit(&mut self, f: &FnDecl) {
         println!("Visiting {}", f.ident.sym);
-        let fn_ty = self.visit_fn(&f.function);
+        let fn_ty = self.visit_fn(Some(&f.ident), &f.function);
 
         self.scope.declare_var(
             VarDeclKind::Var,
@@ -380,9 +399,16 @@ impl Visit<FnDecl> for Analyzer<'_, '_> {
     }
 }
 
+impl Visit<FnExpr> for Analyzer<'_, '_> {
+    /// NOTE: This method **should not call f.visit_children(self)**
+    fn visit(&mut self, f: &FnExpr) {
+        self.visit_fn(f.ident.as_ref(), &f.function);
+    }
+}
+
 impl Visit<Function> for Analyzer<'_, '_> {
     fn visit(&mut self, f: &Function) {
-        self.visit_fn(f);
+        self.visit_fn(None, f);
     }
 }
 
