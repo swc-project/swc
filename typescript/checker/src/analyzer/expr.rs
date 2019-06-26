@@ -991,9 +991,34 @@ impl Analyzer<'_, '_> {
                 ret_err!()
             }
 
-            Type::Class(..) => {
-                //
-                unimplemented!("new Class()")
+            Type::Class(ref c) if kind == ExtractKind::New => {
+                // The class does not have a constructor.
+                // We should check parent class' constructor.
+
+                let mut iter_ty = Some(Cow::Borrowed(ty));
+                while let Some(ref t) = iter_ty.as_ref().map(|ty| ty.normalize()) {
+                    match t {
+                        Type::Class(ref c) => {
+                            for member in c.body.iter() {
+                                match member {
+                                    ClassMember::Constructor(..) => unimplemented!("new Class()"),
+                                    _ => {}
+                                }
+                            }
+
+                            iter_ty = match c.super_class {
+                                Some(ref sc) => Some(self.type_of(&sc)?),
+                                None => None,
+                            };
+                        }
+
+                        _ => unimplemented!(
+                            "error reporting: Calss extends something other than class"
+                        ),
+                    }
+                }
+
+                return Ok(ty.clone());
             }
 
             _ => ret_err!(),
