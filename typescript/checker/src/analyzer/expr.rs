@@ -491,6 +491,12 @@ impl Analyzer<'_, '_> {
                                 );
                             }
                         }
+                        ClassMember::Method(ref mtd) => {
+                            let mtd_key = prop_name_to_expr(&mtd.key);
+                            if (*mtd_key).eq_ignore_span(&mtd_key) {
+                                return Ok(self.type_of_fn(&mtd.function)?.owned());
+                            }
+                        }
                         _ => unimplemented!("Non-property class member"),
                     }
                 }
@@ -1160,12 +1166,16 @@ fn prop_key_to_expr(p: &Prop) -> Box<Expr> {
         Prop::Getter(GetterProp { ref key, .. })
         | Prop::KeyValue(KeyValueProp { ref key, .. })
         | Prop::Method(MethodProp { ref key, .. })
-        | Prop::Setter(SetterProp { ref key, .. }) => match *key {
-            PropName::Computed(ref expr) => expr.clone(),
-            PropName::Ident(ref ident) => box Expr::Ident(ident.clone()),
-            PropName::Str(ref s) => box Expr::Lit(Lit::Str(Str { ..s.clone() })),
-            PropName::Num(ref s) => box Expr::Lit(Lit::Num(Number { ..s.clone() })),
-        },
+        | Prop::Setter(SetterProp { ref key, .. }) => prop_name_to_expr(key),
+    }
+}
+
+fn prop_name_to_expr(key: &PropName) -> Box<Expr> {
+    match *key {
+        PropName::Computed(ref expr) => expr.clone(),
+        PropName::Ident(ref ident) => box Expr::Ident(ident.clone()),
+        PropName::Str(ref s) => box Expr::Lit(Lit::Str(Str { ..s.clone() })),
+        PropName::Num(ref s) => box Expr::Lit(Lit::Num(Number { ..s.clone() })),
     }
 }
 
