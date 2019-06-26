@@ -345,11 +345,6 @@ impl Analyzer<'_, '_> {
                 .iter()
                 .for_each(|pat| child.scope.declare_vars(VarDeclKind::Let, pat));
 
-            match f.body {
-                Some(ref body) => body.visit_children(child),
-                None => {}
-            }
-
             f.visit_children(child);
 
             let fn_ty = child.type_of_fn(f)?;
@@ -393,16 +388,37 @@ impl Visit<Function> for Analyzer<'_, '_> {
 
 impl Visit<ArrowExpr> for Analyzer<'_, '_> {
     fn visit(&mut self, f: &ArrowExpr) {
-        self.with_child(ScopeKind::Fn, Default::default(), |analyzer| {
+        self.with_child(ScopeKind::Fn, Default::default(), |child| {
+            match f.type_params {
+                Some(TsTypeParamDecl { ref params, .. }) => {
+                    params.iter().for_each(|param| {
+                        let ty = Type::Param(Param {
+                            span: param.span,
+                            constraint: param.constraint.as_ref().map(|v| box v.clone().into_cow()),
+                            default: param.default.as_ref().map(|v| box v.clone().into_cow()),
+                        });
+
+                        child
+                            .scope
+                            .facts
+                            .types
+                            .insert(param.name.sym.clone().into(), ty);
+                    });
+                }
+                None => {}
+            }
+
             f.params
                 .iter()
-                .for_each(|pat| analyzer.scope.declare_vars(VarDeclKind::Let, pat));
+                .for_each(|pat| child.scope.declare_vars(VarDeclKind::Let, pat));
 
-            match f.body {
-                BlockStmtOrExpr::Expr(ref expr) => expr.visit_with(analyzer),
-                BlockStmtOrExpr::BlockStmt(ref stmt) => stmt.visit_children(analyzer),
-            }
-        })
+            f.visit_children(child);
+
+            // match f.body {
+            //     BlockStmtOrExpr::Expr(ref expr) => expr.visit_with(analyzer),
+            //     BlockStmtOrExpr::BlockStmt(ref stmt) => stmt.visit_children(analyzer),
+            // }
+        });
     }
 }
 
