@@ -26,7 +26,7 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
-use swc_macros_common::print;
+use swc_macros_common::{call_site, print};
 use syn::{punctuated::Punctuated, LitStr, Token};
 
 #[proc_macro]
@@ -101,10 +101,35 @@ pub fn builtin(_: proc_macro::TokenStream) -> proc_macro::TokenStream {
         }
         let names = names.iter().cloned().collect::<Punctuated<_, Token![,]>>();
         tokens = tokens.quote_with(smart_quote!(Vars { names: &names }, {
+            #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
             pub enum Lib {
                 names,
             }
         }));
+        tokens = tokens.quote_with(smart_quote!(
+            Vars {
+                match_expr: syn::ExprMatch {
+                    attrs: vec![],
+                    match_token: call_site(),
+                    expr: q().quote_with(smart_quote!(Vars {}, { self })).parse(),
+                    brace_token: call_site(),
+                    arms: names
+                        .iter()
+                        .map(|name| {
+                            q().quote_with(smart_quote!(Vars {name}, { Lib::name => &name }))
+                                .parse()
+                        })
+                        .collect(),
+                }
+            },
+            {
+                impl Lib {
+                    pub fn body(self) -> &'static TsNamespaceDecl {
+                        match_expr
+                    }
+                }
+            }
+        ));
 
         print("builtin", tokens)
     })
