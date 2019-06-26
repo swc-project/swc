@@ -1,0 +1,32 @@
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            151,
+        ),
+        hi: BytePos(
+            152,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/types/typeRelationships/assignmentCompatibility/typeParameterAssignability.ts:4:5
+  |
+4 |     t = u; // error
+  |     ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            172,
+        ),
+        hi: BytePos(
+            173,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/types/typeRelationships/assignmentCompatibility/typeParameterAssignability.ts:5:5
+  |
+5 |     u = t; // error
+  |     ^
+

@@ -119,202 +119,88 @@ error: AssignFailed {
                 ctxt: #0,
             },
             types: [
-                Union(
-                    Union {
+                Lit(
+                    TsLitType {
                         span: Span {
                             lo: BytePos(
-                                4556,
+                                4489,
                             ),
                             hi: BytePos(
-                                4557,
+                                4494,
                             ),
                             ctxt: #0,
                         },
-                        types: [
-                            Lit(
-                                TsLitType {
-                                    span: Span {
-                                        lo: BytePos(
-                                            4489,
-                                        ),
-                                        hi: BytePos(
-                                            4494,
-                                        ),
-                                        ctxt: #0,
-                                    },
-                                    lit: Str(
-                                        Str {
-                                            span: Span {
-                                                lo: BytePos(
-                                                    4489,
-                                                ),
-                                                hi: BytePos(
-                                                    4494,
-                                                ),
-                                                ctxt: #0,
-                                            },
-                                            value: Atom('yes' type=inline),
-                                            has_escape: false,
-                                        },
+                        lit: Str(
+                            Str {
+                                span: Span {
+                                    lo: BytePos(
+                                        4489,
                                     ),
-                                },
-                            ),
-                            Lit(
-                                TsLitType {
-                                    span: Span {
-                                        lo: BytePos(
-                                            4509,
-                                        ),
-                                        hi: BytePos(
-                                            4513,
-                                        ),
-                                        ctxt: #0,
-                                    },
-                                    lit: Str(
-                                        Str {
-                                            span: Span {
-                                                lo: BytePos(
-                                                    4509,
-                                                ),
-                                                hi: BytePos(
-                                                    4513,
-                                                ),
-                                                ctxt: #0,
-                                            },
-                                            value: Atom('no' type=inline),
-                                            has_escape: false,
-                                        },
+                                    hi: BytePos(
+                                        4494,
                                     ),
+                                    ctxt: #0,
                                 },
-                            ),
-                            Lit(
-                                TsLitType {
-                                    span: Span {
-                                        lo: BytePos(
-                                            4528,
-                                        ),
-                                        hi: BytePos(
-                                            4535,
-                                        ),
-                                        ctxt: #0,
-                                    },
-                                    lit: Str(
-                                        Str {
-                                            span: Span {
-                                                lo: BytePos(
-                                                    4528,
-                                                ),
-                                                hi: BytePos(
-                                                    4535,
-                                                ),
-                                                ctxt: #0,
-                                            },
-                                            value: Atom('maybe' type=inline),
-                                            has_escape: false,
-                                        },
-                                    ),
-                                },
-                            ),
-                        ],
+                                value: Atom('yes' type=inline),
+                                has_escape: false,
+                            },
+                        ),
                     },
                 ),
-                Union(
-                    Union {
+                Lit(
+                    TsLitType {
                         span: Span {
                             lo: BytePos(
-                                4556,
+                                4509,
                             ),
                             hi: BytePos(
-                                4557,
+                                4513,
                             ),
                             ctxt: #0,
                         },
-                        types: [
-                            Lit(
-                                TsLitType {
-                                    span: Span {
-                                        lo: BytePos(
-                                            4489,
-                                        ),
-                                        hi: BytePos(
-                                            4494,
-                                        ),
-                                        ctxt: #0,
-                                    },
-                                    lit: Str(
-                                        Str {
-                                            span: Span {
-                                                lo: BytePos(
-                                                    4489,
-                                                ),
-                                                hi: BytePos(
-                                                    4494,
-                                                ),
-                                                ctxt: #0,
-                                            },
-                                            value: Atom('yes' type=inline),
-                                            has_escape: false,
-                                        },
+                        lit: Str(
+                            Str {
+                                span: Span {
+                                    lo: BytePos(
+                                        4509,
                                     ),
-                                },
-                            ),
-                            Lit(
-                                TsLitType {
-                                    span: Span {
-                                        lo: BytePos(
-                                            4509,
-                                        ),
-                                        hi: BytePos(
-                                            4513,
-                                        ),
-                                        ctxt: #0,
-                                    },
-                                    lit: Str(
-                                        Str {
-                                            span: Span {
-                                                lo: BytePos(
-                                                    4509,
-                                                ),
-                                                hi: BytePos(
-                                                    4513,
-                                                ),
-                                                ctxt: #0,
-                                            },
-                                            value: Atom('no' type=inline),
-                                            has_escape: false,
-                                        },
+                                    hi: BytePos(
+                                        4513,
                                     ),
+                                    ctxt: #0,
                                 },
+                                value: Atom('no' type=inline),
+                                has_escape: false,
+                            },
+                        ),
+                    },
+                ),
+                Lit(
+                    TsLitType {
+                        span: Span {
+                            lo: BytePos(
+                                4528,
                             ),
-                            Lit(
-                                TsLitType {
-                                    span: Span {
-                                        lo: BytePos(
-                                            4528,
-                                        ),
-                                        hi: BytePos(
-                                            4535,
-                                        ),
-                                        ctxt: #0,
-                                    },
-                                    lit: Str(
-                                        Str {
-                                            span: Span {
-                                                lo: BytePos(
-                                                    4528,
-                                                ),
-                                                hi: BytePos(
-                                                    4535,
-                                                ),
-                                                ctxt: #0,
-                                            },
-                                            value: Atom('maybe' type=inline),
-                                            has_escape: false,
-                                        },
+                            hi: BytePos(
+                                4535,
+                            ),
+                            ctxt: #0,
+                        },
+                        lit: Str(
+                            Str {
+                                span: Span {
+                                    lo: BytePos(
+                                        4528,
                                     ),
+                                    hi: BytePos(
+                                        4535,
+                                    ),
+                                    ctxt: #0,
                                 },
-                            ),
-                        ],
+                                value: Atom('maybe' type=inline),
+                                has_escape: false,
+                            },
+                        ),
                     },
                 ),
             ],
@@ -343,7 +229,7 @@ error: AssignFailed {
                         ctxt: #0,
                     },
                     errors: [
-                        UnionError {
+                        AssignFailed {
                             span: Span {
                                 lo: BytePos(
                                     4556,
@@ -353,19 +239,19 @@ error: AssignFailed {
                                 ),
                                 ctxt: #0,
                             },
-                            errors: [
-                                AssignFailed {
+                            left: Lit(
+                                TsLitType {
                                     span: Span {
                                         lo: BytePos(
-                                            4556,
+                                            126,
                                         ),
                                         hi: BytePos(
-                                            4557,
+                                            131,
                                         ),
                                         ctxt: #0,
                                     },
-                                    left: Lit(
-                                        TsLitType {
+                                    lit: Str(
+                                        Str {
                                             span: Span {
                                                 lo: BytePos(
                                                     126,
@@ -375,93 +261,25 @@ error: AssignFailed {
                                                 ),
                                                 ctxt: #0,
                                             },
-                                            lit: Str(
-                                                Str {
-                                                    span: Span {
-                                                        lo: BytePos(
-                                                            126,
-                                                        ),
-                                                        hi: BytePos(
-                                                            131,
-                                                        ),
-                                                        ctxt: #0,
-                                                    },
-                                                    value: Atom('yes' type=inline),
-                                                    has_escape: false,
-                                                },
-                                            ),
+                                            value: Atom('yes' type=inline),
+                                            has_escape: false,
                                         },
                                     ),
-                                    right: Lit(
-                                        TsLitType {
-                                            span: Span {
-                                                lo: BytePos(
-                                                    4528,
-                                                ),
-                                                hi: BytePos(
-                                                    4535,
-                                                ),
-                                                ctxt: #0,
-                                            },
-                                            lit: Str(
-                                                Str {
-                                                    span: Span {
-                                                        lo: BytePos(
-                                                            4528,
-                                                        ),
-                                                        hi: BytePos(
-                                                            4535,
-                                                        ),
-                                                        ctxt: #0,
-                                                    },
-                                                    value: Atom('maybe' type=inline),
-                                                    has_escape: false,
-                                                },
-                                            ),
-                                        },
-                                    ),
-                                    cause: [],
                                 },
-                                AssignFailed {
+                            ),
+                            right: Lit(
+                                TsLitType {
                                     span: Span {
                                         lo: BytePos(
-                                            4556,
+                                            4528,
                                         ),
                                         hi: BytePos(
-                                            4557,
+                                            4535,
                                         ),
                                         ctxt: #0,
                                     },
-                                    left: Lit(
-                                        TsLitType {
-                                            span: Span {
-                                                lo: BytePos(
-                                                    134,
-                                                ),
-                                                hi: BytePos(
-                                                    138,
-                                                ),
-                                                ctxt: #0,
-                                            },
-                                            lit: Str(
-                                                Str {
-                                                    span: Span {
-                                                        lo: BytePos(
-                                                            134,
-                                                        ),
-                                                        hi: BytePos(
-                                                            138,
-                                                        ),
-                                                        ctxt: #0,
-                                                    },
-                                                    value: Atom('no' type=inline),
-                                                    has_escape: false,
-                                                },
-                                            ),
-                                        },
-                                    ),
-                                    right: Lit(
-                                        TsLitType {
+                                    lit: Str(
+                                        Str {
                                             span: Span {
                                                 lo: BytePos(
                                                     4528,
@@ -471,109 +289,15 @@ error: AssignFailed {
                                                 ),
                                                 ctxt: #0,
                                             },
-                                            lit: Str(
-                                                Str {
-                                                    span: Span {
-                                                        lo: BytePos(
-                                                            4528,
-                                                        ),
-                                                        hi: BytePos(
-                                                            4535,
-                                                        ),
-                                                        ctxt: #0,
-                                                    },
-                                                    value: Atom('maybe' type=inline),
-                                                    has_escape: false,
-                                                },
-                                            ),
+                                            value: Atom('maybe' type=inline),
+                                            has_escape: false,
                                         },
                                     ),
-                                    cause: [],
                                 },
-                                AssignFailed {
-                                    span: Span {
-                                        lo: BytePos(
-                                            4556,
-                                        ),
-                                        hi: BytePos(
-                                            4557,
-                                        ),
-                                        ctxt: #0,
-                                    },
-                                    left: Lit(
-                                        TsLitType {
-                                            span: Span {
-                                                lo: BytePos(
-                                                    141,
-                                                ),
-                                                hi: BytePos(
-                                                    146,
-                                                ),
-                                                ctxt: #0,
-                                            },
-                                            lit: Str(
-                                                Str {
-                                                    span: Span {
-                                                        lo: BytePos(
-                                                            141,
-                                                        ),
-                                                        hi: BytePos(
-                                                            146,
-                                                        ),
-                                                        ctxt: #0,
-                                                    },
-                                                    value: Atom('idk' type=inline),
-                                                    has_escape: false,
-                                                },
-                                            ),
-                                        },
-                                    ),
-                                    right: Lit(
-                                        TsLitType {
-                                            span: Span {
-                                                lo: BytePos(
-                                                    4528,
-                                                ),
-                                                hi: BytePos(
-                                                    4535,
-                                                ),
-                                                ctxt: #0,
-                                            },
-                                            lit: Str(
-                                                Str {
-                                                    span: Span {
-                                                        lo: BytePos(
-                                                            4528,
-                                                        ),
-                                                        hi: BytePos(
-                                                            4535,
-                                                        ),
-                                                        ctxt: #0,
-                                                    },
-                                                    value: Atom('maybe' type=inline),
-                                                    has_escape: false,
-                                                },
-                                            ),
-                                        },
-                                    ),
-                                    cause: [],
-                                },
-                            ],
+                            ),
+                            cause: [],
                         },
-                    ],
-                },
-                UnionError {
-                    span: Span {
-                        lo: BytePos(
-                            4556,
-                        ),
-                        hi: BytePos(
-                            4557,
-                        ),
-                        ctxt: #0,
-                    },
-                    errors: [
-                        UnionError {
+                        AssignFailed {
                             span: Span {
                                 lo: BytePos(
                                     4556,
@@ -583,87 +307,19 @@ error: AssignFailed {
                                 ),
                                 ctxt: #0,
                             },
-                            errors: [
-                                AssignFailed {
+                            left: Lit(
+                                TsLitType {
                                     span: Span {
                                         lo: BytePos(
-                                            4556,
+                                            134,
                                         ),
                                         hi: BytePos(
-                                            4557,
+                                            138,
                                         ),
                                         ctxt: #0,
                                     },
-                                    left: Lit(
-                                        TsLitType {
-                                            span: Span {
-                                                lo: BytePos(
-                                                    126,
-                                                ),
-                                                hi: BytePos(
-                                                    131,
-                                                ),
-                                                ctxt: #0,
-                                            },
-                                            lit: Str(
-                                                Str {
-                                                    span: Span {
-                                                        lo: BytePos(
-                                                            126,
-                                                        ),
-                                                        hi: BytePos(
-                                                            131,
-                                                        ),
-                                                        ctxt: #0,
-                                                    },
-                                                    value: Atom('yes' type=inline),
-                                                    has_escape: false,
-                                                },
-                                            ),
-                                        },
-                                    ),
-                                    right: Lit(
-                                        TsLitType {
-                                            span: Span {
-                                                lo: BytePos(
-                                                    4528,
-                                                ),
-                                                hi: BytePos(
-                                                    4535,
-                                                ),
-                                                ctxt: #0,
-                                            },
-                                            lit: Str(
-                                                Str {
-                                                    span: Span {
-                                                        lo: BytePos(
-                                                            4528,
-                                                        ),
-                                                        hi: BytePos(
-                                                            4535,
-                                                        ),
-                                                        ctxt: #0,
-                                                    },
-                                                    value: Atom('maybe' type=inline),
-                                                    has_escape: false,
-                                                },
-                                            ),
-                                        },
-                                    ),
-                                    cause: [],
-                                },
-                                AssignFailed {
-                                    span: Span {
-                                        lo: BytePos(
-                                            4556,
-                                        ),
-                                        hi: BytePos(
-                                            4557,
-                                        ),
-                                        ctxt: #0,
-                                    },
-                                    left: Lit(
-                                        TsLitType {
+                                    lit: Str(
+                                        Str {
                                             span: Span {
                                                 lo: BytePos(
                                                     134,
@@ -673,25 +329,25 @@ error: AssignFailed {
                                                 ),
                                                 ctxt: #0,
                                             },
-                                            lit: Str(
-                                                Str {
-                                                    span: Span {
-                                                        lo: BytePos(
-                                                            134,
-                                                        ),
-                                                        hi: BytePos(
-                                                            138,
-                                                        ),
-                                                        ctxt: #0,
-                                                    },
-                                                    value: Atom('no' type=inline),
-                                                    has_escape: false,
-                                                },
-                                            ),
+                                            value: Atom('no' type=inline),
+                                            has_escape: false,
                                         },
                                     ),
-                                    right: Lit(
-                                        TsLitType {
+                                },
+                            ),
+                            right: Lit(
+                                TsLitType {
+                                    span: Span {
+                                        lo: BytePos(
+                                            4528,
+                                        ),
+                                        hi: BytePos(
+                                            4535,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    lit: Str(
+                                        Str {
                                             span: Span {
                                                 lo: BytePos(
                                                     4528,
@@ -701,37 +357,37 @@ error: AssignFailed {
                                                 ),
                                                 ctxt: #0,
                                             },
-                                            lit: Str(
-                                                Str {
-                                                    span: Span {
-                                                        lo: BytePos(
-                                                            4528,
-                                                        ),
-                                                        hi: BytePos(
-                                                            4535,
-                                                        ),
-                                                        ctxt: #0,
-                                                    },
-                                                    value: Atom('maybe' type=inline),
-                                                    has_escape: false,
-                                                },
-                                            ),
+                                            value: Atom('maybe' type=inline),
+                                            has_escape: false,
                                         },
                                     ),
-                                    cause: [],
                                 },
-                                AssignFailed {
+                            ),
+                            cause: [],
+                        },
+                        AssignFailed {
+                            span: Span {
+                                lo: BytePos(
+                                    4556,
+                                ),
+                                hi: BytePos(
+                                    4557,
+                                ),
+                                ctxt: #0,
+                            },
+                            left: Lit(
+                                TsLitType {
                                     span: Span {
                                         lo: BytePos(
-                                            4556,
+                                            141,
                                         ),
                                         hi: BytePos(
-                                            4557,
+                                            146,
                                         ),
                                         ctxt: #0,
                                     },
-                                    left: Lit(
-                                        TsLitType {
+                                    lit: Str(
+                                        Str {
                                             span: Span {
                                                 lo: BytePos(
                                                     141,
@@ -741,25 +397,25 @@ error: AssignFailed {
                                                 ),
                                                 ctxt: #0,
                                             },
-                                            lit: Str(
-                                                Str {
-                                                    span: Span {
-                                                        lo: BytePos(
-                                                            141,
-                                                        ),
-                                                        hi: BytePos(
-                                                            146,
-                                                        ),
-                                                        ctxt: #0,
-                                                    },
-                                                    value: Atom('idk' type=inline),
-                                                    has_escape: false,
-                                                },
-                                            ),
+                                            value: Atom('idk' type=inline),
+                                            has_escape: false,
                                         },
                                     ),
-                                    right: Lit(
-                                        TsLitType {
+                                },
+                            ),
+                            right: Lit(
+                                TsLitType {
+                                    span: Span {
+                                        lo: BytePos(
+                                            4528,
+                                        ),
+                                        hi: BytePos(
+                                            4535,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    lit: Str(
+                                        Str {
                                             span: Span {
                                                 lo: BytePos(
                                                     4528,
@@ -769,26 +425,13 @@ error: AssignFailed {
                                                 ),
                                                 ctxt: #0,
                                             },
-                                            lit: Str(
-                                                Str {
-                                                    span: Span {
-                                                        lo: BytePos(
-                                                            4528,
-                                                        ),
-                                                        hi: BytePos(
-                                                            4535,
-                                                        ),
-                                                        ctxt: #0,
-                                                    },
-                                                    value: Atom('maybe' type=inline),
-                                                    has_escape: false,
-                                                },
-                                            ),
+                                            value: Atom('maybe' type=inline),
+                                            has_escape: false,
                                         },
                                     ),
-                                    cause: [],
                                 },
-                            ],
+                            ),
+                            cause: [],
                         },
                     ],
                 },

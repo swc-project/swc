@@ -1,0 +1,48 @@
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            98,
+        ),
+        hi: BytePos(
+            99,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/classes/constructorDeclarations/constructorParameters/constructorImplementationWithDefaultValues2.ts:4:17
+  |
+4 |         var y = x;
+  |                 ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            232,
+        ),
+        hi: BytePos(
+            233,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/classes/constructorDeclarations/constructorParameters/constructorImplementationWithDefaultValues2.ts:11:17
+   |
+11 |         var z = x;
+   |                 ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            359,
+        ),
+        hi: BytePos(
+            360,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/classes/constructorDeclarations/constructorParameters/constructorImplementationWithDefaultValues2.ts:18:17
+   |
+18 |         var y = x;
+   |                 ^
+

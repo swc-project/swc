@@ -1,0 +1,993 @@
+error: AssignFailed {
+    span: Span {
+        lo: BytePos(
+            76,
+        ),
+        hi: BytePos(
+            124,
+        ),
+        ctxt: #0,
+    },
+    left: TypeLit(
+        TypeLit {
+            span: Span {
+                lo: BytePos(
+                    84,
+                ),
+                hi: BytePos(
+                    109,
+                ),
+                ctxt: #0,
+            },
+            members: [
+                Property(
+                    PropertySignature {
+                        span: Span {
+                            lo: BytePos(
+                                86,
+                            ),
+                            hi: BytePos(
+                                96,
+                            ),
+                            ctxt: #0,
+                        },
+                        readonly: false,
+                        key: Ident(
+                            Ident {
+                                span: Span {
+                                    lo: BytePos(
+                                        86,
+                                    ),
+                                    hi: BytePos(
+                                        87,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                sym: Atom('b' type=inline),
+                                type_ann: None,
+                                optional: false,
+                            },
+                        ),
+                        computed: false,
+                        optional: false,
+                        params: [],
+                        type_ann: Some(
+                            Keyword(
+                                TsKeywordType {
+                                    span: Span {
+                                        lo: BytePos(
+                                            89,
+                                        ),
+                                        hi: BytePos(
+                                            95,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    kind: TsStringKeyword,
+                                },
+                            ),
+                        ),
+                        type_params: None,
+                    },
+                ),
+                Property(
+                    PropertySignature {
+                        span: Span {
+                            lo: BytePos(
+                                97,
+                            ),
+                            hi: BytePos(
+                                107,
+                            ),
+                            ctxt: #0,
+                        },
+                        readonly: false,
+                        key: Ident(
+                            Ident {
+                                span: Span {
+                                    lo: BytePos(
+                                        97,
+                                    ),
+                                    hi: BytePos(
+                                        99,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                sym: Atom('id' type=inline),
+                                type_ann: None,
+                                optional: false,
+                            },
+                        ),
+                        computed: false,
+                        optional: false,
+                        params: [],
+                        type_ann: Some(
+                            Keyword(
+                                TsKeywordType {
+                                    span: Span {
+                                        lo: BytePos(
+                                            101,
+                                        ),
+                                        hi: BytePos(
+                                            107,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    kind: TsNumberKeyword,
+                                },
+                            ),
+                        ),
+                        type_params: None,
+                    },
+                ),
+            ],
+        },
+    ),
+    right: TypeLit(
+        TypeLit {
+            span: Span {
+                lo: BytePos(
+                    112,
+                ),
+                hi: BytePos(
+                    124,
+                ),
+                ctxt: #0,
+            },
+            members: [
+                Property(
+                    PropertySignature {
+                        span: Span {
+                            lo: BytePos(
+                                114,
+                            ),
+                            hi: BytePos(
+                                118,
+                            ),
+                            ctxt: #0,
+                        },
+                        readonly: false,
+                        key: Ident(
+                            Ident {
+                                span: Span {
+                                    lo: BytePos(
+                                        114,
+                                    ),
+                                    hi: BytePos(
+                                        118,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                sym: Atom('name' type=inline),
+                                type_ann: None,
+                                optional: false,
+                            },
+                        ),
+                        computed: false,
+                        optional: false,
+                        params: [],
+                        type_ann: None,
+                        type_params: None,
+                    },
+                ),
+                Property(
+                    PropertySignature {
+                        span: Span {
+                            lo: BytePos(
+                                120,
+                            ),
+                            hi: BytePos(
+                                122,
+                            ),
+                            ctxt: #0,
+                        },
+                        readonly: false,
+                        key: Ident(
+                            Ident {
+                                span: Span {
+                                    lo: BytePos(
+                                        120,
+                                    ),
+                                    hi: BytePos(
+                                        122,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                sym: Atom('id' type=inline),
+                                type_ann: None,
+                                optional: false,
+                            },
+                        ),
+                        computed: false,
+                        optional: false,
+                        params: [],
+                        type_ann: None,
+                        type_params: None,
+                    },
+                ),
+            ],
+        },
+    ),
+    cause: [
+        MissingFields {
+            span: Span {
+                lo: BytePos(
+                    76,
+                ),
+                hi: BytePos(
+                    124,
+                ),
+                ctxt: #0,
+            },
+            fields: [
+                Property(
+                    PropertySignature {
+                        span: Span {
+                            lo: BytePos(
+                                86,
+                            ),
+                            hi: BytePos(
+                                96,
+                            ),
+                            ctxt: #0,
+                        },
+                        readonly: false,
+                        key: Ident(
+                            Ident {
+                                span: Span {
+                                    lo: BytePos(
+                                        86,
+                                    ),
+                                    hi: BytePos(
+                                        87,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                sym: Atom('b' type=inline),
+                                type_ann: None,
+                                optional: false,
+                            },
+                        ),
+                        computed: false,
+                        optional: false,
+                        params: [],
+                        type_ann: Some(
+                            Keyword(
+                                TsKeywordType {
+                                    span: Span {
+                                        lo: BytePos(
+                                            89,
+                                        ),
+                                        hi: BytePos(
+                                            95,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    kind: TsStringKeyword,
+                                },
+                            ),
+                        ),
+                        type_params: None,
+                    },
+                ),
+                Property(
+                    PropertySignature {
+                        span: Span {
+                            lo: BytePos(
+                                97,
+                            ),
+                            hi: BytePos(
+                                107,
+                            ),
+                            ctxt: #0,
+                        },
+                        readonly: false,
+                        key: Ident(
+                            Ident {
+                                span: Span {
+                                    lo: BytePos(
+                                        97,
+                                    ),
+                                    hi: BytePos(
+                                        99,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                sym: Atom('id' type=inline),
+                                type_ann: None,
+                                optional: false,
+                            },
+                        ),
+                        computed: false,
+                        optional: false,
+                        params: [],
+                        type_ann: Some(
+                            Keyword(
+                                TsKeywordType {
+                                    span: Span {
+                                        lo: BytePos(
+                                            101,
+                                        ),
+                                        hi: BytePos(
+                                            107,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    kind: TsNumberKeyword,
+                                },
+                            ),
+                        ),
+                        type_params: None,
+                    },
+                ),
+            ],
+        },
+    ],
+}
+ --> $DIR/tests/conformance/es6/shorthandPropertyAssignment/objectLiteralShorthandPropertiesAssignmentErrorFromMissingIdentifier.ts:5:5
+  |
+5 | var person: { b: string; id: number } = { name, id };  // error
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AssignFailed {
+    span: Span {
+        lo: BytePos(
+            215,
+        ),
+        hi: BytePos(
+            227,
+        ),
+        ctxt: #0,
+    },
+    left: TypeLit(
+        TypeLit {
+            span: Span {
+                lo: BytePos(
+                    177,
+                ),
+                hi: BytePos(
+                    205,
+                ),
+                ctxt: #0,
+            },
+            members: [
+                Property(
+                    PropertySignature {
+                        span: Span {
+                            lo: BytePos(
+                                179,
+                            ),
+                            hi: BytePos(
+                                192,
+                            ),
+                            ctxt: #0,
+                        },
+                        readonly: false,
+                        key: Ident(
+                            Ident {
+                                span: Span {
+                                    lo: BytePos(
+                                        179,
+                                    ),
+                                    hi: BytePos(
+                                        183,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                sym: Atom('name' type=inline),
+                                type_ann: None,
+                                optional: false,
+                            },
+                        ),
+                        computed: false,
+                        optional: false,
+                        params: [],
+                        type_ann: Some(
+                            Keyword(
+                                TsKeywordType {
+                                    span: Span {
+                                        lo: BytePos(
+                                            185,
+                                        ),
+                                        hi: BytePos(
+                                            191,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    kind: TsNumberKeyword,
+                                },
+                            ),
+                        ),
+                        type_params: None,
+                    },
+                ),
+                Property(
+                    PropertySignature {
+                        span: Span {
+                            lo: BytePos(
+                                193,
+                            ),
+                            hi: BytePos(
+                                203,
+                            ),
+                            ctxt: #0,
+                        },
+                        readonly: false,
+                        key: Ident(
+                            Ident {
+                                span: Span {
+                                    lo: BytePos(
+                                        193,
+                                    ),
+                                    hi: BytePos(
+                                        195,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                sym: Atom('id' type=inline),
+                                type_ann: None,
+                                optional: false,
+                            },
+                        ),
+                        computed: false,
+                        optional: false,
+                        params: [],
+                        type_ann: Some(
+                            Keyword(
+                                TsKeywordType {
+                                    span: Span {
+                                        lo: BytePos(
+                                            197,
+                                        ),
+                                        hi: BytePos(
+                                            203,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    kind: TsStringKeyword,
+                                },
+                            ),
+                        ),
+                        type_params: None,
+                    },
+                ),
+            ],
+        },
+    ),
+    right: TypeLit(
+        TypeLit {
+            span: Span {
+                lo: BytePos(
+                    215,
+                ),
+                hi: BytePos(
+                    227,
+                ),
+                ctxt: #0,
+            },
+            members: [
+                Property(
+                    PropertySignature {
+                        span: Span {
+                            lo: BytePos(
+                                217,
+                            ),
+                            hi: BytePos(
+                                221,
+                            ),
+                            ctxt: #0,
+                        },
+                        readonly: false,
+                        key: Ident(
+                            Ident {
+                                span: Span {
+                                    lo: BytePos(
+                                        217,
+                                    ),
+                                    hi: BytePos(
+                                        221,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                sym: Atom('name' type=inline),
+                                type_ann: None,
+                                optional: false,
+                            },
+                        ),
+                        computed: false,
+                        optional: false,
+                        params: [],
+                        type_ann: None,
+                        type_params: None,
+                    },
+                ),
+                Property(
+                    PropertySignature {
+                        span: Span {
+                            lo: BytePos(
+                                223,
+                            ),
+                            hi: BytePos(
+                                225,
+                            ),
+                            ctxt: #0,
+                        },
+                        readonly: false,
+                        key: Ident(
+                            Ident {
+                                span: Span {
+                                    lo: BytePos(
+                                        223,
+                                    ),
+                                    hi: BytePos(
+                                        225,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                sym: Atom('id' type=inline),
+                                type_ann: None,
+                                optional: false,
+                            },
+                        ),
+                        computed: false,
+                        optional: false,
+                        params: [],
+                        type_ann: None,
+                        type_params: None,
+                    },
+                ),
+            ],
+        },
+    ),
+    cause: [
+        MissingFields {
+            span: Span {
+                lo: BytePos(
+                    215,
+                ),
+                hi: BytePos(
+                    227,
+                ),
+                ctxt: #0,
+            },
+            fields: [
+                Property(
+                    PropertySignature {
+                        span: Span {
+                            lo: BytePos(
+                                179,
+                            ),
+                            hi: BytePos(
+                                192,
+                            ),
+                            ctxt: #0,
+                        },
+                        readonly: false,
+                        key: Ident(
+                            Ident {
+                                span: Span {
+                                    lo: BytePos(
+                                        179,
+                                    ),
+                                    hi: BytePos(
+                                        183,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                sym: Atom('name' type=inline),
+                                type_ann: None,
+                                optional: false,
+                            },
+                        ),
+                        computed: false,
+                        optional: false,
+                        params: [],
+                        type_ann: Some(
+                            Keyword(
+                                TsKeywordType {
+                                    span: Span {
+                                        lo: BytePos(
+                                            185,
+                                        ),
+                                        hi: BytePos(
+                                            191,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    kind: TsNumberKeyword,
+                                },
+                            ),
+                        ),
+                        type_params: None,
+                    },
+                ),
+                Property(
+                    PropertySignature {
+                        span: Span {
+                            lo: BytePos(
+                                193,
+                            ),
+                            hi: BytePos(
+                                203,
+                            ),
+                            ctxt: #0,
+                        },
+                        readonly: false,
+                        key: Ident(
+                            Ident {
+                                span: Span {
+                                    lo: BytePos(
+                                        193,
+                                    ),
+                                    hi: BytePos(
+                                        195,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                sym: Atom('id' type=inline),
+                                type_ann: None,
+                                optional: false,
+                            },
+                        ),
+                        computed: false,
+                        optional: false,
+                        params: [],
+                        type_ann: Some(
+                            Keyword(
+                                TsKeywordType {
+                                    span: Span {
+                                        lo: BytePos(
+                                            197,
+                                        ),
+                                        hi: BytePos(
+                                            203,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    kind: TsStringKeyword,
+                                },
+                            ),
+                        ),
+                        type_params: None,
+                    },
+                ),
+            ],
+        },
+    ],
+}
+ --> $DIR/tests/conformance/es6/shorthandPropertyAssignment/objectLiteralShorthandPropertiesAssignmentErrorFromMissingIdentifier.ts:6:79
+  |
+6 | function bar(name: string, id: number): { name: number, id: string } { return { name, id }; }  // error
+  |                                                                               ^^^^^^^^^^^^
+
+error: AssignFailed {
+    span: Span {
+        lo: BytePos(
+            320,
+        ),
+        hi: BytePos(
+            332,
+        ),
+        ctxt: #0,
+    },
+    left: TypeLit(
+        TypeLit {
+            span: Span {
+                lo: BytePos(
+                    282,
+                ),
+                hi: BytePos(
+                    310,
+                ),
+                ctxt: #0,
+            },
+            members: [
+                Property(
+                    PropertySignature {
+                        span: Span {
+                            lo: BytePos(
+                                284,
+                            ),
+                            hi: BytePos(
+                                297,
+                            ),
+                            ctxt: #0,
+                        },
+                        readonly: false,
+                        key: Ident(
+                            Ident {
+                                span: Span {
+                                    lo: BytePos(
+                                        284,
+                                    ),
+                                    hi: BytePos(
+                                        288,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                sym: Atom('name' type=inline),
+                                type_ann: None,
+                                optional: false,
+                            },
+                        ),
+                        computed: false,
+                        optional: false,
+                        params: [],
+                        type_ann: Some(
+                            Keyword(
+                                TsKeywordType {
+                                    span: Span {
+                                        lo: BytePos(
+                                            290,
+                                        ),
+                                        hi: BytePos(
+                                            296,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    kind: TsStringKeyword,
+                                },
+                            ),
+                        ),
+                        type_params: None,
+                    },
+                ),
+                Property(
+                    PropertySignature {
+                        span: Span {
+                            lo: BytePos(
+                                298,
+                            ),
+                            hi: BytePos(
+                                308,
+                            ),
+                            ctxt: #0,
+                        },
+                        readonly: false,
+                        key: Ident(
+                            Ident {
+                                span: Span {
+                                    lo: BytePos(
+                                        298,
+                                    ),
+                                    hi: BytePos(
+                                        300,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                sym: Atom('id' type=inline),
+                                type_ann: None,
+                                optional: false,
+                            },
+                        ),
+                        computed: false,
+                        optional: false,
+                        params: [],
+                        type_ann: Some(
+                            Keyword(
+                                TsKeywordType {
+                                    span: Span {
+                                        lo: BytePos(
+                                            302,
+                                        ),
+                                        hi: BytePos(
+                                            308,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    kind: TsNumberKeyword,
+                                },
+                            ),
+                        ),
+                        type_params: None,
+                    },
+                ),
+            ],
+        },
+    ),
+    right: TypeLit(
+        TypeLit {
+            span: Span {
+                lo: BytePos(
+                    320,
+                ),
+                hi: BytePos(
+                    332,
+                ),
+                ctxt: #0,
+            },
+            members: [
+                Property(
+                    PropertySignature {
+                        span: Span {
+                            lo: BytePos(
+                                322,
+                            ),
+                            hi: BytePos(
+                                326,
+                            ),
+                            ctxt: #0,
+                        },
+                        readonly: false,
+                        key: Ident(
+                            Ident {
+                                span: Span {
+                                    lo: BytePos(
+                                        322,
+                                    ),
+                                    hi: BytePos(
+                                        326,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                sym: Atom('name' type=inline),
+                                type_ann: None,
+                                optional: false,
+                            },
+                        ),
+                        computed: false,
+                        optional: false,
+                        params: [],
+                        type_ann: None,
+                        type_params: None,
+                    },
+                ),
+                Property(
+                    PropertySignature {
+                        span: Span {
+                            lo: BytePos(
+                                328,
+                            ),
+                            hi: BytePos(
+                                330,
+                            ),
+                            ctxt: #0,
+                        },
+                        readonly: false,
+                        key: Ident(
+                            Ident {
+                                span: Span {
+                                    lo: BytePos(
+                                        328,
+                                    ),
+                                    hi: BytePos(
+                                        330,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                sym: Atom('id' type=inline),
+                                type_ann: None,
+                                optional: false,
+                            },
+                        ),
+                        computed: false,
+                        optional: false,
+                        params: [],
+                        type_ann: None,
+                        type_params: None,
+                    },
+                ),
+            ],
+        },
+    ),
+    cause: [
+        MissingFields {
+            span: Span {
+                lo: BytePos(
+                    320,
+                ),
+                hi: BytePos(
+                    332,
+                ),
+                ctxt: #0,
+            },
+            fields: [
+                Property(
+                    PropertySignature {
+                        span: Span {
+                            lo: BytePos(
+                                284,
+                            ),
+                            hi: BytePos(
+                                297,
+                            ),
+                            ctxt: #0,
+                        },
+                        readonly: false,
+                        key: Ident(
+                            Ident {
+                                span: Span {
+                                    lo: BytePos(
+                                        284,
+                                    ),
+                                    hi: BytePos(
+                                        288,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                sym: Atom('name' type=inline),
+                                type_ann: None,
+                                optional: false,
+                            },
+                        ),
+                        computed: false,
+                        optional: false,
+                        params: [],
+                        type_ann: Some(
+                            Keyword(
+                                TsKeywordType {
+                                    span: Span {
+                                        lo: BytePos(
+                                            290,
+                                        ),
+                                        hi: BytePos(
+                                            296,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    kind: TsStringKeyword,
+                                },
+                            ),
+                        ),
+                        type_params: None,
+                    },
+                ),
+                Property(
+                    PropertySignature {
+                        span: Span {
+                            lo: BytePos(
+                                298,
+                            ),
+                            hi: BytePos(
+                                308,
+                            ),
+                            ctxt: #0,
+                        },
+                        readonly: false,
+                        key: Ident(
+                            Ident {
+                                span: Span {
+                                    lo: BytePos(
+                                        298,
+                                    ),
+                                    hi: BytePos(
+                                        300,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                sym: Atom('id' type=inline),
+                                type_ann: None,
+                                optional: false,
+                            },
+                        ),
+                        computed: false,
+                        optional: false,
+                        params: [],
+                        type_ann: Some(
+                            Keyword(
+                                TsKeywordType {
+                                    span: Span {
+                                        lo: BytePos(
+                                            302,
+                                        ),
+                                        hi: BytePos(
+                                            308,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    kind: TsNumberKeyword,
+                                },
+                            ),
+                        ),
+                        type_params: None,
+                    },
+                ),
+            ],
+        },
+    ],
+}
+ --> $DIR/tests/conformance/es6/shorthandPropertyAssignment/objectLiteralShorthandPropertiesAssignmentErrorFromMissingIdentifier.ts:7:79
+  |
+7 | function foo(name: string, id: number): { name: string, id: number } { return { name, id }; }  // error
+  |                                                                               ^^^^^^^^^^^^
+
