@@ -310,7 +310,45 @@ fn quote_class(c: &Class) -> syn::Expr {
     .parse()
 }
 
+fn quote_class_members(ms: &[ClassMember]) -> Punctuated<syn::Expr, Token![,]> {
+    ms.iter().map(quote_class_member).collect()
+}
 
+fn quote_class_member(ms: &ClassMember) -> syn::Expr {
+    match ms {
+        ClassMember::Constructor(Constructor {
+            key,
+            params,
+            body,
+            accessibility,
+            is_optional,
+            ..
+        }) => {
+            assert!(body.is_none());
+            q().quote_with(smart_quote!(
+                Vars {
+                    key_v: quote_prop_name(&key),
+                    params_v: quote_pat_or_ts_fn_params(&params),
+                    accessibility_v: quote_accessibility(accessibility.clone()),
+                    is_optional_v: is_optional,
+                },
+                {
+                    ClassMember::Constructor(Constructor {
+                        span: DUMMY_SP,
+                        key: key_v,
+                        params: vec![params_v],
+                        body: None,
+                        accessibility: accessibility_v,
+                        is_optional: is_optional_v,
+                    })
+                }
+            ))
+            .parse()
+        }
+
+        _ => unimplemented!("quote_class_member({:#?})", ms),
+    }
+}
 
 fn id_to_str(ident: &Ident) -> syn::Lit {
     syn::Lit::Str(LitStr::new(&*ident.sym, Span::call_site()))
@@ -1349,6 +1387,66 @@ fn quote_prop_name(n: &PropName) -> Quote {
             PropName::Ident(Ident::new(sym.into(), DUMMY_SP))
         })),
         _ => unimplemented!("quote_prop_name({:#?})", n),
+    }
+}
+
+fn quote_pat_or_ts_fn_params(p: &[PatOrTsParamProp]) -> Punctuated<syn::Expr, Token![,]> {
+    p.iter().map(quote_pat_or_ts_fn_param).collect()
+}
+
+fn quote_pat_or_ts_fn_param(p: &PatOrTsParamProp) -> syn::Expr {
+    match *p {
+        PatOrTsParamProp::Pat(ref p) => q()
+            .quote_with(smart_quote!(Vars { q: quote_param(p) }, {
+                PatOrTsParamProp::Pat(q)
+            }))
+            .parse(),
+        PatOrTsParamProp::TsParamProp(ref p) => q()
+            .quote_with(smart_quote!(
+                Vars {
+                    q: quote_ts_param_prop(p)
+                },
+                { PatOrTsParamProp::TsParamProp(q) }
+            ))
+            .parse(),
+    }
+}
+
+fn quote_ts_param_prop(p: &TsParamProp) -> syn::Expr {
+    q().quote_with(smart_quote!(
+        Vars {
+            accessibility_v: quote_accessibility(p.accessibility),
+            readonly_v: p.readonly,
+            param_v: quote_ts_param_prop_param(&p.param),
+        },
+        {
+            TsParamProp {
+                span: DUMMY_SP,
+                decorators: vec![],
+                accessibility: accessibility_v,
+                readonly: readonly_v,
+                param: param_v,
+            }
+        }
+    ))
+    .parse()
+}
+
+fn quote_accessibility(opt: Option<Accessibility>) -> syn::Expr {
+    match opt {
+        // TODO
+        Some(v) => q().quote_with(smart_quote!(Vars {}, { Some() })).parse(),
+        None => q().quote_with(smart_quote!(Vars {}, { None })).parse(),
+    }
+}
+
+fn quote_ts_param_prop_param(p: &TsParamPropParam) -> syn::Expr {
+    match p {
+        TsParamPropParam::Ident(i) => q()
+            .quote_with(smart_quote!(Vars {}, { TsParamPropParam::Ident() }))
+            .parse(),
+
+        _ => unimplemented!("quote_ts_param_prop_param({:?})", p),
     }
 }
 
