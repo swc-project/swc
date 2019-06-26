@@ -432,7 +432,7 @@ impl Analyzer<'_, '_> {
         computed: bool,
     ) -> Result<TypeRef<'a>, Error> {
         let obj = obj.generalize_lit();
-        match *obj.as_ref() {
+        match *obj.normalize() {
             Type::Lit(..) => unreachable!(),
 
             Type::Enum(ref e) => {
@@ -476,6 +476,25 @@ impl Analyzer<'_, '_> {
                 },
                 _ => unreachable!("Enum named {} does not exist", enum_name),
             },
+
+            Type::Class(ref c) => {
+                for v in c.body.iter() {
+                    match v {
+                        ClassMember::ClassProp(ref class_prop) => {
+                            //
+                            if (*class_prop.key).eq_ignore_span(&*prop) {
+                                return Ok(
+                                    match class_prop.type_ann.clone().map(|v| v.into_cow()) {
+                                        Some(ty) => ty,
+                                        None => Type::any(span).owned(),
+                                    },
+                                );
+                            }
+                        }
+                        _ => unimplemented!("Non-property class member"),
+                    }
+                }
+            }
 
             _ => {}
         }

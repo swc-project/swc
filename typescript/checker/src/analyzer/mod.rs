@@ -491,9 +491,9 @@ impl Visit<VarDecl> for Analyzer<'_, '_> {
                             Some(ty),
                             // initialized
                             true,
-                            // Variable declarations does not allow multiple declarations with same
-                            // name
-                            false,
+                            // let/const declarations does not allow multiple declarations with
+                            // same name
+                            var.kind == VarDeclKind::Var,
                         );
                         return;
                     }
