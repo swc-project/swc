@@ -14,6 +14,8 @@ swc_ecma_parser = { path = "../../../ecmascript/parser" }
 swc_macros_common = { version = "0.2", path ="../../../macros/common" }
 proc-macro2 = "0.4"
 pmutil = "0.3"
+Inflector = "0.11"
+rayon = "1"
 
 [dependencies.syn]
 version = "0.15"

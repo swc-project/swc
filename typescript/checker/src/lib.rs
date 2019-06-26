@@ -25,7 +25,8 @@ extern crate swc_ecma_parser;
 #[cfg(test)]
 extern crate testing;
 
-use self::{analyzer::Info, builtin_types::Lib, errors::Error, resolver::Resolver};
+pub use self::builtin_types::Lib;
+use self::{analyzer::Info, errors::Error, resolver::Resolver};
 use chashmap::CHashMap;
 use std::{path::PathBuf, sync::Arc};
 use swc_common::{errors::Handler, Globals, SourceMap};
@@ -87,7 +88,13 @@ pub struct Checker<'a> {
 }
 
 impl<'a> Checker<'a> {
-    pub fn new(cm: Arc<SourceMap>, handler: &'a Handler, parser_config: TsConfig) -> Self {
+    pub fn new(
+        cm: Arc<SourceMap>,
+        handler: &'a Handler,
+        libs: Vec<Lib>,
+        rule: Rule,
+        parser_config: TsConfig,
+    ) -> Self {
         Checker {
             globals: Globals::new(),
             cm,
@@ -96,10 +103,8 @@ impl<'a> Checker<'a> {
             ts_config: parser_config,
             resolver: Resolver::new(),
             current: Default::default(),
-            // TODO
-            libs: vec![Lib::ES5, Lib::ES2015],
-            // TODO
-            rule: Default::default(),
+            libs,
+            rule,
         }
     }
 

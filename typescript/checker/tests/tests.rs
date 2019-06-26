@@ -16,8 +16,9 @@ use std::{
     io::{self, Read},
     path::Path,
 };
-use swc_common::CM;
-use swc_ecma_parser::TsConfig;
+use swc_common::{comments::Comments, CM};
+use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax, TsConfig};
+use swc_ts_checker::{Lib, Rule};
 use test::{test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName};
 use testing::StdErr;
 use walkdir::WalkDir;
@@ -104,7 +105,7 @@ fn add_tests(tests: &mut Vec<TestDescAndFn>, mode: Mode) -> Result<(), io::Error
 
         let ignore = file_name.contains("circular")
             || (mode == Mode::Conformance
-                && (file_name.contains("typeRelationships") || !file_name.contains("types")));
+                && (file_name.contains("typeRelationships") || !file_name.contains("types/union")));
 
         let dir = dir.clone();
         let name = format!("tsc::{}::{}", test_kind, file_name);
@@ -153,12 +154,80 @@ fn do_test(treat_error_as_bug: bool, file_name: &Path, mode: Mode) -> Result<(),
 
     let res = ::testing::run_test(treat_error_as_bug, |cm, handler| {
         CM.set(&cm.clone(), || {
+            let (libs, rule, ts_config) = {
+                match mode {
+                    Mode::Pass | Mode::Error => Default::default(),
+                    Mode::Conformance => {
+                        // We parse files twice. At first, we read comments and detect
+                        // configurations for following parse.
+
+                        let session = Session { handler: &handler };
+
+                        let fm = cm.load_file(file_name).expect("failed to read file");
+                        let comments = Comments::default();
+
+                        let mut parser = Parser::new(
+                            session,
+                            Syntax::Typescript(TsConfig {
+                                tsx: fname.contains("tsx"),
+                                ..Default::default()
+                            }),
+                            SourceFileInput::from(&*fm),
+                            Some(&comments), // Disable comments
+                        );
+
+                        let module = parser
+                            .parse_module()
+                            .map_err(|mut e| {
+                                e.emit();
+                                ()
+                            })
+                            .expect("failed to parser module");
+
+                        let mut libs = vec![];
+                        let mut rule = Rule::default();
+                        let mut ts_config = TsConfig::default();
+
+                        let span = module.span;
+                        let cmts = comments.leading_comments(span.lo());
+                        match cmts {
+                            Some(ref cmts) => {
+                                for cmt in cmts.iter() {
+                                    let s = cmt.text.trim();
+                                    if !s.starts_with("@") {
+                                        continue;
+                                    }
+
+                                    if s.starts_with("@target: ") {
+                                        libs = Lib::load(&s[8..].trim());
+                                    } else if s.starts_with("@strict: ") {
+                                        let strict = s[8..].trim().parse().unwrap(); // TODO
+                                        rule.no_implicit_any = strict;
+                                        rule.no_implicit_this = strict;
+                                        rule.always_strict = strict;
+                                        rule.strict_null_checks = strict;
+                                        rule.strict_function_types = strict;
+                                    } else {
+                                        panic!("Comment is not handled: {}", s);
+                                    }
+                                }
+
+                                (libs, rule, ts_config)
+                            }
+                            None => Default::default(),
+                        }
+                    }
+                }
+            };
+
             let checker = swc_ts_checker::Checker::new(
                 cm.clone(),
                 handler,
+                libs,
+                rule,
                 TsConfig {
                     tsx: fname.contains("tsx"),
-                    ..Default::default()
+                    ..ts_config
                 },
             );
 

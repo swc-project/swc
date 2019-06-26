@@ -1,5 +1,7 @@
 #![recursion_limit = "4096"]
 
+extern crate inflector;
+extern crate rayon;
 extern crate swc_common;
 #[macro_use]
 extern crate pmutil;
@@ -12,43 +14,22 @@ extern crate swc_ecma_parser;
 extern crate swc_macros_common;
 extern crate syn;
 
+use inflector::Inflector;
 use pmutil::Quote;
 use proc_macro2::Span;
-use std::{path::Path, sync::Arc};
+use std::{fs::read_dir, path::Path, sync::Arc};
 use swc_common::{
+    comments::Comments,
     errors::{ColorConfig, Handler},
     FilePathMapping, SourceMap,
 };
 use swc_ecma_ast::*;
 use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
 use swc_macros_common::print;
-use syn::{
-    parse::{Parse, ParseStream},
-    parse_macro_input,
-    punctuated::Punctuated,
-    LitStr, Result, Token,
-};
-
-struct Input {
-    name: syn::Ident,
-    file: LitStr,
-}
-
-impl Parse for Input {
-    fn parse(input: ParseStream) -> Result<Self> {
-        let name = input.parse()?;
-        let _: Token![,] = input.parse()?;
-        let file = input.parse()?;
-
-        Ok(Input { name, file })
-    }
-}
+use syn::{punctuated::Punctuated, LitStr, Token};
 
 #[proc_macro]
-pub fn builtin(item: proc_macro::TokenStream) -> proc_macro::TokenStream {
-    let input = parse_macro_input!(item as Input);
-    let path = input.file.value();
-
+pub fn builtin(_: proc_macro::TokenStream) -> proc_macro::TokenStream {
     swc_common::GLOBALS.set(&swc_common::Globals::new(), || {
         let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
         let handler = Handler::with_tty_emitter(ColorConfig::Auto, true, false, Some(cm.clone()));
@@ -62,41 +43,60 @@ pub fn builtin(item: proc_macro::TokenStream) -> proc_macro::TokenStream {
 
         let dir_str =
             ::std::env::var("CARGO_MANIFEST_DIR").expect("failed to read CARGO_MANIFEST_DIR");
-        let dir = Path::new(&dir_str);
-        let fm = cm.load_file(&dir.join(path)).expect("failed to load file");
+        let dir = Path::new(&dir_str).join("lib");
+        let mut tokens = q();
 
-        let mut parser = Parser::new(
-            session,
-            Syntax::Typescript(Default::default()),
-            SourceFileInput::from(&*fm),
-            None, // Disable comments
-        );
-
-        // We cannot use parse_module because of `eval`
-        let script = parser
-            .parse_script()
-            .map_err(|mut e| {
-                e.emit();
-                ()
-            })
-            .expect("failed to parser module");
-
-        let tokens = quote_namespace_decl(&script.body);
-
-        print(
-            "builtin",
-            q().quote_with(smart_quote!(
-                Vars {
-                    name: &input.name,
-                    tokens
-                },
-                {
-                    lazy_static! {
-                        static ref name: TsNamespaceDecl = { tokens };
-                    }
+        let files = read_dir(&dir)
+            .expect("failed to read $CARGO_MANIFEST_DIR/lib")
+            .filter_map(|entry| {
+                let entry = entry.expect("failed to read file of directory");
+                let file_name = entry
+                    .file_name()
+                    .into_string()
+                    .expect("OsString.into_string()");
+                if !file_name.ends_with(".d.ts") {
+                    return None;
                 }
-            )),
-        )
+
+                Some((entry.path(), file_name))
+            })
+            .collect::<Vec<_>>();
+
+        for (path, file_name) in files {
+            println!("Processing file: {}", file_name);
+            let name = syn::Ident::new(&file_name.to_camel_case(), Span::call_site());
+
+            let comments = Comments::default();
+
+            let fm = cm.load_file(&path).expect("failed to load file");
+
+            let mut parser = Parser::new(
+                session,
+                Syntax::Typescript(Default::default()),
+                SourceFileInput::from(&*fm),
+                Some(&comments), // Disable comments
+            );
+
+            // We cannot use parse_module because of `eval`
+            let script = parser
+                .parse_script()
+                .map_err(|mut e| {
+                    e.emit();
+                    ()
+                })
+                .expect("failed to parse module");
+
+            println!("\tParsed",);
+
+            let tts = quote_namespace_decl(&script.body);
+            tokens = tokens.quote_with(smart_quote!(Vars { name: &name, tts }, {
+                lazy_static! {
+                    static ref name: TsNamespaceDecl = { tts };
+                }
+            }));
+        }
+
+        print("builtin", tokens)
     })
 }
 
@@ -278,7 +278,27 @@ fn quote_param(param: &Pat) -> syn::Expr {
                 { Pat::Ident(Ident::new(s.into(), DUMMY_SP)) }
             ))
             .parse::<syn::Expr>(),
-        _ => unimplemented!("complex pattern"),
+
+        Pat::Rest(RestPat {
+            ref arg,
+            ref type_ann,
+            ..
+        }) => q()
+            .quote_with(smart_quote!(
+                Vars {
+                    arg_v: quote_param(&arg),
+                    type_ann_v: quote_opt_type_ann(type_ann.as_ref()),
+                },
+                {
+                    Pat::Rest(RestPat {
+                        dot3_token: DUMMY_SP,
+                        arg: arg_v,
+                        type_ann: type_ann_v,
+                    })
+                }
+            ))
+            .parse(),
+        _ => unimplemented!("quote_param({:#?})", param),
     }
 }
 fn quote_params(params: &[Pat]) -> Punctuated<syn::Expr, Token![,]> {
@@ -461,6 +481,77 @@ fn quote_ts_interface_body(body: &TsInterfaceBody) -> Quote {
 fn quote_ty(ty: &TsType) -> syn::Expr {
     let mut q = q();
     match *ty {
+        TsType::TsTypeQuery(TsTypeQuery { ref expr_name, .. }) => {
+            q = q.quote_with(smart_quote!(
+                Vars {
+                    expr_name_v: quote_ts_entity_name(expr_name),
+                },
+                {
+                    TsType::TsTypeQuery(TsTypeQuery {
+                        span: DUMMY_SP,
+                        expr_name: expr_name_v,
+                    })
+                }
+            ));
+        }
+
+        TsType::TsLitType(TsLitType { ref lit, .. }) => {
+            q = q.quote_with(smart_quote!(
+                Vars {
+                    lit_v: match lit {
+                        TsLit::Bool(Bool { value, .. }) => {
+                            quote!(TsLit::Bool(Bool { span: DUMMY_SP, value: #value }))
+                        }
+                        TsLit::Number(Number { value, .. }) => {
+                            quote!(TsLit::Number(Number { span: DUMMY_SP, value: #value }))
+                        }
+                        TsLit::Str(Str { value, .. }) => {
+                            let value = &**value;
+                            quote!(TsLit::Str(Str { span: DUMMY_SP, value: #value }))
+                        }
+                    },
+                },
+                {
+                    TsType::TsLitType(TsLitType {
+                        span: DUMMY_SP,
+                        lit: lit_v,
+                    })
+                }
+            ));
+        }
+
+        TsType::TsTupleType(TsTupleType { ref elem_types, .. }) => {
+            q = q.quote_with(smart_quote!(
+                Vars {
+                    elem_types_v: quote_types(&elem_types),
+                },
+                {
+                    TsType::TsTupleType(TsTupleType {
+                        span: DUMMY_SP,
+                        elem_types: vec![elem_types_v],
+                    })
+                }
+            ));
+        }
+
+        TsType::TsUnionOrIntersectionType(TsUnionOrIntersectionType::TsIntersectionType(
+            TsIntersectionType { ref types, .. },
+        )) => {
+            q = q.quote_with(smart_quote!(
+                Vars {
+                    types_v: quote_types(&types),
+                },
+                {
+                    TsType::TsUnionOrIntersectionType(
+                        TsUnionOrIntersectionType::TsIntersectionType(TsIntersectionType {
+                            span: DUMMY_SP,
+                            types: vec![types_v],
+                        }),
+                    )
+                }
+            ));
+        }
+
         TsType::TsThisType(..) => {
             q = q.quote_with(smart_quote!(Vars {}, {
                 TsType::TsThisType(TsThisType { span: DUMMY_SP })
@@ -792,6 +883,10 @@ fn quote_ty(ty: &TsType) -> syn::Expr {
     q.parse()
 }
 
+fn quote_types(tys: &[Box<TsType>]) -> Punctuated<syn::Expr, Token![,]> {
+    tys.iter().map(|e| quote_ty(e)).collect()
+}
+
 fn quote_type_elements(els: &[TsTypeElement]) -> Punctuated<syn::Expr, Token![,]> {
     els.iter().map(|e| quote_type_element(e)).collect()
 }
@@ -983,6 +1078,7 @@ fn quote_ts_fn_params(param: &[TsFnParam]) -> Punctuated<syn::Expr, Token![,]> {
                     TsFnParam::Ident(Ident::new(s.into(), DUMMY_SP))
                 }))
                 .parse::<syn::Expr>(),
+
             TsFnParam::Rest(RestPat {
                 ref arg,
                 ref type_ann,
@@ -1002,6 +1098,27 @@ fn quote_ts_fn_params(param: &[TsFnParam]) -> Punctuated<syn::Expr, Token![,]> {
                     }
                 ))
                 .parse(),
+
+            TsFnParam::Object(ObjectPat {
+                ref props,
+                ref type_ann,
+                ..
+            }) => q()
+                .quote_with(smart_quote!(
+                    Vars {
+                        props_v: quote_object_pat_props(props),
+                        type_ann_v: quote_opt_type_ann(type_ann.as_ref()),
+                    },
+                    {
+                        TsFnParam::Object(ObjectPat {
+                            span: DUMMY_SP,
+                            props: vec![props_v],
+                            type_ann: type_ann_v,
+                        })
+                    }
+                ))
+                .parse(),
+
             _ => unimplemented!("TsFnParam other than Ident and Rest\n{:?}", param),
         })
         .collect()
@@ -1081,6 +1198,39 @@ fn quote_expr(e: &Expr) -> syn::Expr {
             }))
             .parse(),
 
+        Expr::Lit(Lit::Str(Str { ref value, .. })) => q()
+            .quote_with(smart_quote!(Vars { v: &**value }, {
+                Expr::Lit(Lit::Str(Str {
+                    span: DUMMY_SP,
+                    has_escape: false,
+                    value: v.into(),
+                }))
+            }))
+            .parse(),
+
+        Expr::Member(MemberExpr {
+            obj: ExprOrSuper::Expr(ref obj),
+            ref prop,
+            ref computed,
+            ..
+        }) => q()
+            .quote_with(smart_quote!(
+                Vars {
+                    obj_v: quote_expr(&obj),
+                    prop_v: quote_expr(prop),
+                    computed_v: computed,
+                },
+                {
+                    Expr::Member(MemberExpr {
+                        span: DUMMY_SP,
+                        computed: computed_v,
+                        obj: ExprOrSuper::Expr(box obj_v),
+                        prop: prop_v,
+                    })
+                }
+            ))
+            .parse(),
+
         _ => unimplemented!("Expr: {:#?}", e),
     }
 }
@@ -1097,6 +1247,58 @@ fn quote_this_or_ident(t: &TsThisTypeOrIdent) -> syn::Expr {
                 TsThisTypeOrIdent::Ident(Ident::new(v.into(), DUMMY_SP))
             }))
             .parse(),
+    }
+}
+
+fn quote_object_pat_props(props: &[ObjectPatProp]) -> Punctuated<syn::Expr, Token![,]> {
+    props.iter().map(|p| quote_object_pat_prop(p)).collect()
+}
+
+fn quote_object_pat_prop(p: &ObjectPatProp) -> syn::Expr {
+    match *p {
+        ObjectPatProp::KeyValue(KeyValuePatProp { ref key, ref value }) => q()
+            .quote_with(smart_quote!(
+                Vars {
+                    key_v: quote_prop_name(key),
+                    value_v: quote_param(value),
+                },
+                {
+                    ObjectPatProp::KeyValue(KeyValuePatProp {
+                        key: key_v,
+                        value: value_v,
+                    })
+                }
+            ))
+            .parse(),
+
+        ObjectPatProp::Assign(AssignPatProp {
+            ref key, ref value, ..
+        }) => q()
+            .quote_with(smart_quote!(
+                Vars {
+                    key_v: id_to_str(key),
+                    value_v: quote_option(value.as_ref(), |expr| quote_expr(&expr))
+                },
+                {
+                    ObjectPatProp::Assign(AssignPatProp {
+                        span: DUMMY_SP,
+                        key: Ident::new(key_v.into(), DUMMY_SP),
+                        value: box value_v,
+                    })
+                }
+            ))
+            .parse(),
+
+        _ => unimplemented!("quote_object_pat_prop({:#?})", p),
+    }
+}
+
+fn quote_prop_name(n: &PropName) -> Quote {
+    match *n {
+        PropName::Ident(ref i) => q().quote_with(smart_quote!(Vars { sym: id_to_str(i) }, {
+            PropName::Ident(Ident::new(sym.into(), DUMMY_SP))
+        })),
+        _ => unimplemented!("quote_prop_name({:#?})", n),
     }
 }
 
