@@ -18,7 +18,7 @@ extern crate syn;
 use inflector::Inflector;
 use pmutil::Quote;
 use proc_macro2::Span;
-use std::{fs::read_dir, path::Path, sync::Arc};
+use std::{collections::HashMap, fs::read_dir, path::Path, sync::Arc};
 use swc_common::{
     comments::Comments,
     errors::{ColorConfig, Handler},
@@ -36,11 +36,7 @@ pub fn builtin(_: proc_macro::TokenStream) -> proc_macro::TokenStream {
         let handler = Handler::with_tty_emitter(ColorConfig::Auto, true, false, Some(cm.clone()));
 
         let session = Session { handler: &handler };
-
-        // Real usage
-        // let fm = cm
-        //     .load_file(Path::new("test.js"))
-        //     .expect("failed to load test.js");
+        let mut deps = HashMap::<String, Vec<String>>::default();
 
         let dir_str =
             ::std::env::var("CARGO_MANIFEST_DIR").expect("failed to read CARGO_MANIFEST_DIR");
@@ -67,7 +63,7 @@ pub fn builtin(_: proc_macro::TokenStream) -> proc_macro::TokenStream {
 
         for (path, file_name) in files {
             println!("Processing file: {}", file_name);
-            let name = syn::Ident::new(&file_name.to_camel_case(), Span::call_site());
+            let name = syn::Ident::new(&name_for(&file_name), Span::call_site());
             names.push(name.clone());
 
             let comments = Comments::default();
@@ -89,6 +85,28 @@ pub fn builtin(_: proc_macro::TokenStream) -> proc_macro::TokenStream {
                     ()
                 })
                 .expect("failed to parse module");
+
+            let cmts = comments.leading_comments(script.span.lo());
+            let mut ds = vec![];
+            match cmts {
+                Some(ref cmts) => {
+                    for cmt in cmts.iter() {
+                        if !cmt.text.starts_with("/ <reference lib=")
+                            || !cmt.text.starts_with("/<reference lib=")
+                        {
+                            continue;
+                        }
+                        let dep = cmt
+                            .text
+                            .replace("/ <reference lib=\"", "")
+                            .replace(" />", "");
+
+                        ds.push(name_for(&dep));
+                    }
+                }
+                None => {}
+            }
+            deps.insert(name_for(&file_name), ds);
 
             println!("\tParsed",);
 
@@ -126,6 +144,65 @@ pub fn builtin(_: proc_macro::TokenStream) -> proc_macro::TokenStream {
                 impl Lib {
                     pub fn body(self) -> &'static TsNamespaceDecl {
                         match_expr
+                    }
+                }
+            }
+        ));
+
+        tokens = tokens.quote_with(smart_quote!(
+            Vars {
+                deps_body: syn::ExprMatch {
+                    attrs: vec![],
+                    match_token: call_site(),
+                    expr: q().quote_with(smart_quote!(Vars {}, { self })).parse(),
+                    brace_token: call_site(),
+                    arms: deps
+                        .into_iter()
+                        .map(|(name, deps)| {
+                            let deps = deps
+                                .into_iter()
+                                .map(|v| q().quote_with(smart_quote!(Vars { v: &*v }, { v })))
+                                .collect::<Punctuated<_, Token![,]>>();
+                            //
+                            q().quote_with(smart_quote!(
+                                Vars {
+                                    name: syn::Ident::new(&name, call_site()),
+                                    deps: &deps,
+                                },
+                                {
+                                    Lib::name => vec![deps],
+                                }
+                            ))
+                            .parse()
+                        })
+                        .collect()
+                }
+            },
+            {
+                impl Lib {
+                    pub fn load(lib_str: &str) -> Vec<Self> {
+                        let lib: Self = match lib_str.parse() {
+                            Ok(lib) => lib,
+                            Err(..) => return vec![],
+                        };
+
+                        lib.load_deps()
+                    }
+
+                    fn load_deps(self) -> Vec<Self> {
+                        use std::collections::HashSet;
+                        let mut libs = HashSet::<Self>::default();
+                        libs.insert(self);
+
+                        for d in self.deps() {
+                            libs.extend(d.load_deps());
+                        }
+
+                        libs.into_iter().collect()
+                    }
+
+                    fn deps(self) -> Vec<Self> {
+                        deps_body
                     }
                 }
             }
@@ -1536,4 +1613,12 @@ fn quote_ts_param_prop_param(p: &TsParamPropParam) -> syn::Expr {
 
 fn q() -> Quote {
     Quote::new_call_site()
+}
+
+fn name_for(s: &str) -> String {
+    s[..s.len() - 4]
+        .to_camel_case()
+        .replace("es", "Es")
+        .replace("webworker", "WebWorker")
+        .replace("dom", "Dom")
 }
