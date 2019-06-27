@@ -61,7 +61,7 @@ pub fn builtin(_: proc_macro::TokenStream) -> proc_macro::TokenStream {
 
         let mut names = vec![];
 
-        for (path, file_name) in files {
+        for (path, file_name) in files.clone() {
             println!("Processing file: {}", file_name);
             let name = syn::Ident::new(&name_for(&file_name), Span::call_site());
             names.push(name.clone());
@@ -124,6 +124,51 @@ pub fn builtin(_: proc_macro::TokenStream) -> proc_macro::TokenStream {
                 names,
             }
         }));
+        tokens = tokens.quote_with(smart_quote!(
+            Vars {
+                expr: syn::ExprMatch {
+                    attrs: vec![],
+                    arms: files
+                        .iter()
+                        .map(|(_, f)| {
+                            let name = syn::Ident::new(&name_for(&f), call_site());
+
+                            q().quote_with(smart_quote!(
+                                Vars {
+                                    name: &name,
+                                    s: &f.replace(".d.ts","")
+                                },
+                                {
+                                    s => Ok(Lib::name)
+                                }
+                            ))
+                            .parse()
+                        })
+                        .chain(std::iter::once(
+                            q().quote_with(smart_quote!(
+                                Vars {
+                                },
+                                {
+                                    _ => Err(())
+                                }
+                            ))
+                            .parse()
+                        ))
+                        .collect(),
+                    brace_token: call_site(),
+                    match_token: call_site(),
+                    expr: q().quote_with(smart_quote!(Vars {}, { s })).parse(),
+                }
+            },
+            {
+                impl ::std::str::FromStr for Lib {
+                    type Err = ();
+                    fn from_str(s: &str) -> Result<Self, ()> {
+                        expr
+                    }
+                }
+            }
+        ));
         tokens = tokens.quote_with(smart_quote!(
             Vars {
                 match_expr: syn::ExprMatch {
@@ -1616,9 +1661,5 @@ fn q() -> Quote {
 }
 
 fn name_for(s: &str) -> String {
-    s[..s.len() - 4]
-        .to_camel_case()
-        .replace("es", "Es")
-        .replace("webworker", "WebWorker")
-        .replace("dom", "Dom")
+    s[..s.len() - 4].to_pascal_case()
 }
