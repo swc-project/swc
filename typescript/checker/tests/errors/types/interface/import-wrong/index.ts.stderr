@@ -52,7 +52,6 @@ error: AssignFailed {
                         ),
                         computed: false,
                         optional: false,
-                        init: None,
                         params: [],
                         type_ann: Some(
                             Keyword(
@@ -132,7 +131,6 @@ error: AssignFailed {
                         ),
                         computed: false,
                         optional: false,
-                        init: None,
                         params: [],
                         type_ann: Some(
                             Keyword(

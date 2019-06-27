@@ -92,7 +92,7 @@ pub fn builtin(_: proc_macro::TokenStream) -> proc_macro::TokenStream {
                 Some(ref cmts) => {
                     for cmt in cmts.iter() {
                         if !cmt.text.starts_with("/ <reference lib=")
-                            || !cmt.text.starts_with("/<reference lib=")
+                            && !cmt.text.starts_with("/<reference lib=")
                         {
                             continue;
                         }
@@ -100,7 +100,6 @@ pub fn builtin(_: proc_macro::TokenStream) -> proc_macro::TokenStream {
                             .text
                             .replace("/ <reference lib=\"", "")
                             .replace(" />", "");
-
                         ds.push(name_for(&dep));
                     }
                 }
@@ -210,9 +209,17 @@ pub fn builtin(_: proc_macro::TokenStream) -> proc_macro::TokenStream {
                     arms: deps
                         .into_iter()
                         .map(|(name, deps)| {
+                            println!("{}: {:?}", name, deps);
                             let deps = deps
                                 .into_iter()
-                                .map(|v| q().quote_with(smart_quote!(Vars { v: &*v }, { v })))
+                                .map(|v| {
+                                    q().quote_with(smart_quote!(
+                                        Vars {
+                                            v: syn::Ident::new(&*v, call_site())
+                                        },
+                                        { Lib::v }
+                                    ))
+                                })
                                 .collect::<Punctuated<_, Token![,]>>();
                             //
                             q().quote_with(smart_quote!(
@@ -1667,5 +1674,13 @@ fn q() -> Quote {
 }
 
 fn name_for(s: &str) -> String {
-    s[..s.len() - 4].to_pascal_case()
+    if s.starts_with("dom.generated") {
+        return "Dom".into();
+    }
+
+    if s.ends_with(".d.ts") {
+        s[..s.len() - 4].to_pascal_case()
+    } else {
+        s.to_pascal_case()
+    }
 }
