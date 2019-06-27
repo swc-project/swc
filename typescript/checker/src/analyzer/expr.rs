@@ -598,54 +598,49 @@ impl Analyzer<'_, '_> {
         Ok(Type::Class(c.clone()))
     }
 
-    pub(super) fn infer_return_type(
-        &self,
-        body: &BlockStmt,
-    ) -> Result<Option<Type<'static>>, Error> {
+    pub(super) fn infer_return_type(&self, base_span: Span) -> Result<Type<'static>, Error> {
         let types = { ::std::mem::replace(&mut *self.inferred_return_types.borrow_mut(), vec![]) };
 
         // TODO: Handle recursive function.
 
         let mut tys = Vec::with_capacity(types.len());
-        let mut span = body.span;
+        let mut span = base_span;
         for ty in types {
             span = ty.span();
             tys.push(ty.owned());
         }
 
         match tys.len() {
-            0 => Ok(None),
-            1 => Ok(Some(tys.into_iter().next().unwrap().into_owned())),
-            _ => Ok(Some(Type::Union(Union { span, types: tys })).map(Type::from)),
+            0 => Ok(Type::any(span)),
+            1 => Ok(tys.into_iter().next().unwrap().into_owned()),
+            _ => Ok(Type::Union(Union { span, types: tys }).into()),
         }
     }
 
     pub(super) fn type_of_arrow_fn(&self, f: &ArrowExpr) -> Result<Type<'static>, Error> {
-        let ret_ty: TypeRef<'static> = match f.return_type {
-            Some(ref ret_ty) => self
-                .expand_type(f.span, Cow::Owned(Type::from(ret_ty.type_ann.clone())))?
-                .to_static()
-                .into_cow(),
-            None => match f.body {
-                BlockStmtOrExpr::BlockStmt(ref body) => match self.infer_return_type(body) {
-                    Ok(Some(ty)) => ty.into_cow(),
-                    Ok(None) => Type::undefined(body.span()).into_cow(),
-                    Err(err) => return Err(err),
-                },
-                BlockStmtOrExpr::Expr(ref expr) => match self.type_of(&expr) {
-                    Ok(ty) => ty.to_static().into_cow(),
-                    // We failed to infer type.
-                    Err(Error::UndefinedSymbol { .. }) => return Ok(Type::any(f.span)),
-                    Err(err) => return Err(err),
-                },
-            },
+        let declared_ret_ty = f.return_type.as_ref().map(|ret_ty| {
+            self.expand_type(f.span, Cow::Owned(Type::from(ret_ty.type_ann.clone())))
+                .map(|v| v.to_static())
+        });
+        let declared_ret_ty = match declared_ret_ty {
+            Some(Ok(ty)) => Some(ty),
+            Some(Err(err)) => return Err(err),
+            None => None,
         };
+
+        let inferred_return_type = self.infer_return_type(f.span)?;
+        if let Some(ref declared) = declared_ret_ty {
+            let span = inferred_return_type.span();
+            inferred_return_type.assign_to(declared, span)?;
+        }
 
         Ok(ty::Function {
             span: f.span,
             params: f.params.iter().cloned().map(pat_to_ts_fn_param).collect(),
             type_params: f.type_params.clone().map(From::from),
-            ret_ty: box ret_ty,
+            ret_ty: box declared_ret_ty
+                .unwrap_or_else(|| inferred_return_type.to_static())
+                .owned(),
         }
         .into())
     }
@@ -661,13 +656,10 @@ impl Analyzer<'_, '_> {
             None => None,
         };
 
-        let inferred_return_type = f.body.as_ref().map(|body| -> Result<_, _> {
-            match self.infer_return_type(body)? {
-                Some(ty) => Ok(ty),
-                // No return statement found
-                None => Ok(Type::undefined(f.body.span())),
-            }
-        });
+        let inferred_return_type = f
+            .body
+            .as_ref()
+            .map(|body| -> Result<_, _> { self.infer_return_type(body.span) });
         let inferred_return_type = match inferred_return_type {
             Some(Ok(inferred_return_type)) => {
                 if let Some(ref declared) = declared_ret_ty {

@@ -440,10 +440,12 @@ impl Visit<ArrowExpr> for Analyzer<'_, '_> {
 
             f.visit_children(child);
 
-            // match f.body {
-            //     BlockStmtOrExpr::Expr(ref expr) => expr.visit_with(analyzer),
-            //     BlockStmtOrExpr::BlockStmt(ref stmt) => stmt.visit_children(analyzer),
-            // }
+            match f.body {
+                BlockStmtOrExpr::Expr(ref expr) => {
+                    child.visit_return_arg(expr.span(), Some(expr));
+                }
+                _ => {}
+            }
         });
     }
 }

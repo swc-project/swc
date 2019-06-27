@@ -18,7 +18,7 @@ use std::{
     ops::{AddAssign, BitOr, Not},
 };
 use swc_atoms::JsWord;
-use swc_common::{Spanned, Visit, VisitWith};
+use swc_common::{Span, Spanned, Visit, VisitWith};
 use swc_ecma_ast::*;
 
 #[derive(Debug, Default)]
@@ -562,12 +562,9 @@ where
     }
 }
 
-/// Modifies `self.inferred_return_types`
-impl Visit<ReturnStmt> for Analyzer<'_, '_> {
-    fn visit(&mut self, stmt: &ReturnStmt) {
-        stmt.visit_children(self);
-
-        let ty = match stmt.arg {
+impl Analyzer<'_, '_> {
+    pub(super) fn visit_return_arg(&mut self, span: Span, arg: Option<&Expr>) {
+        let ty = match arg {
             Some(ref expr) => {
                 let span = expr.span();
                 match self.type_of(&expr) {
@@ -578,7 +575,7 @@ impl Visit<ReturnStmt> for Analyzer<'_, '_> {
                     }
                 }
             }
-            None => Type::undefined(stmt.span),
+            None => Type::undefined(span),
         };
 
         let dup = self
@@ -589,6 +586,15 @@ impl Visit<ReturnStmt> for Analyzer<'_, '_> {
         if !dup {
             self.inferred_return_types.get_mut().push(ty);
         }
+    }
+}
+
+/// Modifies `self.inferred_return_types`
+impl Visit<ReturnStmt> for Analyzer<'_, '_> {
+    fn visit(&mut self, stmt: &ReturnStmt) {
+        stmt.visit_children(self);
+
+        self.visit_return_arg(stmt.span, stmt.arg.as_ref().map(|v| &**v));
     }
 }
 
