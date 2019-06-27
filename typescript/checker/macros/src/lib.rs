@@ -74,7 +74,7 @@ pub fn builtin(_: proc_macro::TokenStream) -> proc_macro::TokenStream {
                 session,
                 Syntax::Typescript(Default::default()),
                 SourceFileInput::from(&*fm),
-                Some(&comments), // Disable comments
+                Some(&comments),
             );
 
             // We cannot use parse_module because of `eval`
@@ -110,12 +110,17 @@ pub fn builtin(_: proc_macro::TokenStream) -> proc_macro::TokenStream {
 
             println!("\tParsed",);
 
-            let tts = quote_namespace_decl(&script.body);
+            let tts = if file_name.contains("generated") {
+                q().quote_with(smart_quote!(Vars { s: &*fm.src }, { parse_namespace(s) }))
+            } else {
+                quote_namespace_decl(&script.body)
+            };
+
             tokens = tokens.quote_with(smart_quote!(Vars { name: &name, tts }, {
                 lazy_static! {
                     static ref name: TsNamespaceDecl = { tts };
                 }
-            }));
+            }))
         }
         let names = names.iter().cloned().collect::<Punctuated<_, Token![,]>>();
         tokens = tokens.quote_with(smart_quote!(Vars { names: &names }, {
@@ -124,6 +129,7 @@ pub fn builtin(_: proc_macro::TokenStream) -> proc_macro::TokenStream {
                 names,
             }
         }));
+
         tokens = tokens.quote_with(smart_quote!(
             Vars {
                 expr: syn::ExprMatch {
