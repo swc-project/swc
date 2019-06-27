@@ -56,7 +56,7 @@ impl Analyzer<'_, '_> {
                     return Ok(Type::any(span).into_cow());
                 }
 
-                if let Ok(ty) = builtin_types::get_var(self.libs, &i.sym) {
+                if let Ok(ty) = builtin_types::get_var(self.libs, span, &i.sym) {
                     return Ok(ty.owned());
                 }
 
@@ -801,18 +801,22 @@ impl Analyzer<'_, '_> {
                         kind: TsKeywordTypeKind::TsNumberKeyword,
                         ..
                     }) => {
-                        return Ok(builtin_types::get_type(self.libs, &js_word!("Number"))
-                            .map(Type::owned)
-                            .expect("Builtin type named 'Numnber' should exist"));
+                        return Ok(
+                            builtin_types::get_type(self.libs, span, &js_word!("Number"))
+                                .map(Type::owned)
+                                .expect("Builtin type named 'Numnber' should exist"),
+                        );
                     }
 
                     Type::Keyword(TsKeywordType {
                         kind: TsKeywordTypeKind::TsStringKeyword,
                         ..
                     }) => {
-                        return Ok(builtin_types::get_type(self.libs, &js_word!("String"))
-                            .map(Type::owned)
-                            .expect("Builtin type named 'String' should exist"));
+                        return Ok(
+                            builtin_types::get_type(self.libs, span, &js_word!("String"))
+                                .map(Type::owned)
+                                .expect("Builtin type named 'String' should exist"),
+                        );
                     }
 
                     Type::Interface(ref i) => {
@@ -1072,7 +1076,7 @@ impl Analyzer<'_, '_> {
         // println!("({}) expand({:?})", self.scope.depth(), ty);
 
         match *ty {
-            Type::Static(s) => return self.expand_type(span, s.static_cast()),
+            Type::Static(s) => return self.expand_type(span, s.ty.static_cast()),
             Type::Simple(ref s_ty) => match **s_ty {
                 TsType::TsTypeRef(TsTypeRef {
                     ref type_name,
@@ -1082,7 +1086,7 @@ impl Analyzer<'_, '_> {
                     match *type_name {
                         TsEntityName::Ident(ref i) => {
                             // Check for builtin types
-                            if let Ok(ty) = builtin_types::get_type(self.libs, &i.sym) {
+                            if let Ok(ty) = builtin_types::get_type(self.libs, span, &i.sym) {
                                 return Ok(ty.owned());
                             }
 

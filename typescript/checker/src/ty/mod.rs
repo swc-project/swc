@@ -101,7 +101,14 @@ pub enum Type<'a> {
     /// Used for storing core types.
     ///
     /// Don't match on this directly. Instead, use `.as_eef()`.
-    Static(#[fold(ignore)] &'static Type<'static>),
+    Static(Static),
+}
+
+#[derive(Debug, Fold, Clone, Copy, PartialEq, Spanned)]
+pub struct Static {
+    pub span: Span,
+    #[fold(ignore)]
+    pub ty: &'static Type<'static>,
 }
 
 #[derive(Debug, Fold, Clone, PartialEq, Spanned)]
@@ -396,10 +403,7 @@ impl Type<'_> {
 
             Type::Param(p) => Type::Param(Param { span, ..p }),
 
-            Type::Static(..) => {
-                // We don't change span of static items.
-                self
-            }
+            Type::Static(s) => Type::Static(Static { span, ..s }),
         }
     }
 }
@@ -485,9 +489,9 @@ impl<'a> Type<'a> {
         's: 'c,
     {
         match *self {
-            Type::Static(v) => unsafe {
+            Type::Static(Static { ref ty, .. }) => unsafe {
                 // 'static lives longer than anything
-                transmute::<_, &'c Type<'d>>(v)
+                transmute::<_, &'c Type<'d>>(ty)
             },
             _ => unsafe {
                 // Shorten lifetimes

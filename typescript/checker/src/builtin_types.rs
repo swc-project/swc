@@ -1,10 +1,13 @@
-use crate::{analyzer::export::pat_to_ts_fn_param, ty};
+use crate::{
+    analyzer::export::pat_to_ts_fn_param,
+    ty::{self, Static},
+};
 use chashmap::CHashMap;
 use fxhash::FxHashMap;
 use lazy_static::lazy_static;
 use std::collections::hash_map::Entry;
 use swc_atoms::JsWord;
-use swc_common::DUMMY_SP;
+use swc_common::{Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ts_builtin_types::load;
 pub use swc_ts_builtin_types::Lib;
@@ -126,26 +129,27 @@ fn merge(ls: &[Lib]) -> &'static Merged {
         }
     }
 
+    // TODO: Remove memory leak caused by concurrent operations.
     CACHE.insert(libs, Box::leak(merged));
 
     return &*CACHE.get(ls).unwrap();
 }
 
-pub fn get_var(libs: &[Lib], name: &JsWord) -> Result<Type, ()> {
+pub fn get_var(libs: &[Lib], span: Span, name: &JsWord) -> Result<Type, ()> {
     let lib = merge(libs);
 
     if let Some(v) = lib.vars.get(&name) {
-        return Ok(ty::Type::Static(v));
+        return Ok(ty::Type::Static(Static { span, ty: v }));
     }
 
     Err(())
 }
 
-pub fn get_type(libs: &[Lib], name: &JsWord) -> Result<Type, ()> {
+pub fn get_type(libs: &[Lib], span: Span, name: &JsWord) -> Result<Type, ()> {
     let lib = merge(libs);
 
     if let Some(ty) = lib.types.get(name) {
-        return Ok(ty::Type::Static(ty));
+        return Ok(ty::Type::Static(Static { span, ty }));
     }
 
     Err(())
