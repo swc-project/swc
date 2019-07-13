@@ -176,26 +176,34 @@ impl<'a> Fold<KeyValuePatProp> for Operator<'a> {
     }
 }
 
+impl Fold<ObjectPatProp> for Operator<'_> {
+    fn fold(&mut self, p: ObjectPatProp) -> ObjectPatProp {
+        let p = p.fold_children(self);
+
+        match p {
+            ObjectPatProp::Assign(p) => match self.rename_ident(p.key.clone()) {
+                Ok(renamed) => KeyValuePatProp {
+                    key: PropName::Ident(p.key),
+
+                    value: box Pat::Ident(renamed),
+                }
+                .into(),
+                Err(_) => p.into(),
+            },
+            _ => p,
+        }
+    }
+}
+
 /// Preserve key of properties.
 impl<'a> Fold<AssignPatProp> for Operator<'a> {
     fn fold(&mut self, p: AssignPatProp) -> AssignPatProp {
         match p.value {
-            Some(value) => {
-                return AssignPatProp {
-                    value: Some(value.fold_children(self)),
-                    ..p
-                }
-            }
-            None => {}
-        }
-
-        match self.rename_ident(p.key.clone()) {
-            Ok(renamed) => AssignPatProp {
-                key: p.key,
-                value: Some(box Expr::Ident(renamed)),
+            Some(value) => AssignPatProp {
+                value: Some(value.fold_children(self)),
                 ..p
             },
-            Err(_) => p,
+            None => p,
         }
     }
 }
