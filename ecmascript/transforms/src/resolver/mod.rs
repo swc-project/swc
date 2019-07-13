@@ -238,7 +238,7 @@ impl<'a> Fold<VarDeclarator> for Resolver<'a> {
 
         let init = decl.init.fold_children(self);
 
-        self.cur_defining = old_def.into();
+        self.cur_defining = old_def;
 
         VarDeclarator { name, init, ..decl }
     }

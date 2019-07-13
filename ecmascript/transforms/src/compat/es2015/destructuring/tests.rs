@@ -1,5 +1,5 @@
 use super::*;
-use crate::{compat::es2015, resolver};
+use crate::{compat::es2015, hygiene, resolver};
 
 fn tr() -> impl Fold<Module> {
     Destructuring
@@ -572,15 +572,15 @@ test!(
 }",
     "
 function foo(bar) {
-    var ref = bar ? bar : _throw(new TypeError(\"Cannot destructure 'undefined' or 'null'\")), foo \
-     = ref.foo;
-    return foo;
+    var ref = bar ? bar : _throw(new TypeError(\"Cannot destructure 'undefined' or 'null'\")), \
+     foo1 = ref.foo;
+    return foo1;
 }"
 );
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| chain!(resolver(), es2015(),),
+    |_| tr(),
     issue_404_3,
     "function foo(bar) {
     var { foo: foo1  } = bar;

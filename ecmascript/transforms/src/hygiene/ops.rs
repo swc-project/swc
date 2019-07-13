@@ -262,6 +262,25 @@ impl<'a> Operator<'a> {
     }
 }
 
+impl Fold<MemberExpr> for Operator<'_> {
+    fn fold(&mut self, expr: MemberExpr) -> MemberExpr {
+        let span = expr.span.fold_with(self);
+        let obj = expr.obj.fold_with(self);
+
+        let prop = if expr.computed {
+            expr.prop.fold_with(self)
+        } else {
+            expr.prop
+        };
+        MemberExpr {
+            span,
+            obj,
+            prop,
+            computed: expr.computed,
+        }
+    }
+}
+
 impl<'a> Fold<Ident> for Operator<'a> {
     fn fold(&mut self, ident: Ident) -> Ident {
         match self.rename_ident(ident) {
