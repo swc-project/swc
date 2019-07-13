@@ -72,11 +72,24 @@ impl Fold<Expr> for TemplateLiteral {
                         exprs[idx].clone()
                     };
 
-                    obj = box Expr::Bin(BinExpr {
+                    // obj = box Expr::Bin(BinExpr {
+                    //     span: expr.span(),
+                    //     left: obj,
+                    //     op: op!(bin, "+"),
+                    //     right: expr.into(),
+                    // });
+
+                    obj = box Expr::Call(CallExpr {
                         span: expr.span(),
-                        left: obj,
-                        op: op!(bin, "+"),
-                        right: expr.into(),
+                        callee: ExprOrSuper::Expr(box Expr::Member(MemberExpr {
+                            span: expr.span(),
+                            obj: ExprOrSuper::Expr(obj),
+                            prop: box Expr::Ident(Ident::new(js_word!("concat"), expr.span())),
+
+                            computed: false,
+                        })),
+                        args: vec![ExprOrSpread { expr, spread: None }],
+                        type_args: Default::default(),
                     });
                 }
                 return *obj;
