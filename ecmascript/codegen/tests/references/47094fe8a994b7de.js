@@ -1,1 +1,1 @@
-var //fooa = 1;
+var //fooa = 1; //foo
