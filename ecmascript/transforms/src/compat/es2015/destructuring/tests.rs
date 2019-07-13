@@ -577,3 +577,20 @@ function foo(bar) {
     return foo;
 }"
 );
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| chain!(resolver(), es2015(),),
+    issue_404_3,
+    "function foo(bar) {
+    var { foo: foo1  } = bar;
+    return foo1;
+}",
+    "
+function foo(bar) {
+    var ref = bar ? bar : _throw(new TypeError(\"Cannot destructure 'undefined' or 'null'\")), \
+     foo1 = ref.foo;
+    return foo1;
+}
+"
+);
