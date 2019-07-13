@@ -61,7 +61,7 @@ pub fn es2015() -> impl Pass {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::resolver;
+    use crate::{fixer, hygiene, proposals::class_properties, resolver};
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
@@ -151,5 +151,32 @@ function foo(scope) {
     scope.startOperation = startOperation;
 }
 "
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| chain!(
+            resolver(),
+            class_properties(),
+            // Optional::new(compat::es2018(), target <= JscTarget::Es2018),
+            // Optional::new(compat::es2017(), target <= JscTarget::Es2017),
+            // Optional::new(compat::es2016(), target <= JscTarget::Es2016),
+            // Optional::new(compat::es2015(), target <= JscTarget::Es2015),
+            // Optional::new(compat::es3(), target <= JscTarget::Es3),
+            hygiene(),
+            fixer(),
+        ),
+        issue_405,
+        "function Quadtree$1(x, y, x0, y0, x1, y1) {
+    this._x = x;
+    this._y = y;
+    this._x0 = x0;
+    this._y0 = y0;
+    this._x1 = x1;
+    this._y1 = y1;
+    this._root = undefined;
+  }
+  ",
+        ""
     );
 }
