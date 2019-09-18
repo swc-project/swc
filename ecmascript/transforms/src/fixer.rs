@@ -353,7 +353,7 @@ impl Fold<Expr> for Fixer {
                     | e @ Expr::Cond(..)
                     | e @ Expr::Arrow(..) => box e.wrap_with_paren(),
                     Expr::Bin(BinExpr { op: op_of_rhs, .. }) => {
-                        if op_of_rhs.precedence() < expr.op.precedence() {
+                        if op_of_rhs.precedence() <= expr.op.precedence() {
                             box expr.right.wrap_with_paren()
                         } else {
                             expr.right
@@ -825,5 +825,7 @@ var store = global[SHARED] || (global[SHARED] = {});
         issue_382_2,
         "const myFilter = (arr, filter) => arr.filter(filter || ((x) => x));"
     );
+
+    identical!(issue_418, "const a = 1 - (1 - 1)");
 
 }
