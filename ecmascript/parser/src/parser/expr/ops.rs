@@ -31,12 +31,20 @@ impl<'a, I: Input> Parser<'a, I> {
             if PREC_OF_IN > min_prec && !self.input.had_line_break_before_cur() && is!("as") {
                 let span = span!(left.span().lo());
                 let expr = left;
-                let type_ann = self.next_then_parse_ts_type()?;
-                let node = Box::new(Expr::TsAs(TsAsExpr {
-                    span,
-                    expr,
-                    type_ann,
-                }));
+                let node = if peeked_is!("const") {
+                    bump!(); // as
+                    let _ = cur!(false);
+                    bump!(); // const
+                    Box::new(Expr::TsConstAssertion(TsConstAssertion { span, expr }))
+                } else {
+                    let type_ann = self.next_then_parse_ts_type()?;
+                    Box::new(Expr::TsAs(TsAsExpr {
+                        span,
+                        expr,
+                        type_ann,
+                    }))
+                };
+
                 return self.parse_bin_op_recursively(node, min_prec);
             }
         }
@@ -123,6 +131,15 @@ impl<'a, I: Input> Parser<'a, I> {
         let start = cur_pos!();
 
         if !self.input.syntax().jsx() && self.input.syntax().typescript() && eat!('<') {
+            if eat!("const") {
+                expect!('>');
+                let expr = self.parse_unary_expr()?;
+                return Ok(Box::new(Expr::TsConstAssertion(TsConstAssertion {
+                    span: span!(start),
+                    expr,
+                })));
+            }
+
             return self.parse_ts_type_assertion().map(Expr::from).map(Box::new);
         }
 

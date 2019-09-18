@@ -819,3 +819,9 @@ pub enum Accessibility {
     #[serde(rename = "private")]
     Private,
 }
+
+#[ast_node("TsConstAssertion")]
+pub struct TsConstAssertion {
+    pub span: Span,
+    pub expr: Box<Expr>,
+}
