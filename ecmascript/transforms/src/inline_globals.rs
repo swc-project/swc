@@ -59,28 +59,31 @@ impl Fold<Expr> for InlineGlobals {
                     })),
                 prop,
                 computed,
-            }) => match *prop {
-                Expr::Ident(Ident { ref sym, .. }) => {
-                    if let Some(env) = self.envs.get(sym) {
-                        return env.clone();
+            }) => {
+                match *prop {
+                    Expr::Lit(Lit::Str(Str { value: ref sym, .. }))
+                    | Expr::Ident(Ident { ref sym, .. }) => {
+                        if let Some(env) = self.envs.get(sym) {
+                            return env.clone();
+                        }
                     }
-                    return Expr::Member(MemberExpr {
-                        span,
-                        obj: ExprOrSuper::Expr(box Expr::Member(MemberExpr {
-                            obj: ExprOrSuper::Expr(box Expr::Ident(Ident::new(
-                                js_word!("process"),
-                                process_span,
-                            ))),
-                            prop: box Expr::Ident(Ident::new(js_word!("env"), env_span)),
-                            span: obj_span,
-                            computed: obj_computed,
-                        })),
-                        prop,
-                        computed,
-                    });
+                    _ => {}
                 }
-                _ => unimplemented!("node.env.NONE-IDENT"),
-            },
+                return Expr::Member(MemberExpr {
+                    span,
+                    obj: ExprOrSuper::Expr(box Expr::Member(MemberExpr {
+                        obj: ExprOrSuper::Expr(box Expr::Ident(Ident::new(
+                            js_word!("process"),
+                            process_span,
+                        ))),
+                        prop: box Expr::Ident(Ident::new(js_word!("env"), env_span)),
+                        span: obj_span,
+                        computed: obj_computed,
+                    })),
+                    prop,
+                    computed,
+                });
+            }
             _ => expr,
         }
     }
@@ -177,5 +180,27 @@ mod tests {
         non_global,
         r#"if (foo.debug) {}"#,
         r#"if (foo.debug) {}"#
+    );
+
+    test!(
+        Default::default(),
+        |tester| InlineGlobals {
+            envs: envs(tester, &[]),
+            globals: globals(tester, &[]),
+        },
+        issue_417_1,
+        "const test = process.env['x']",
+        "const test = process.env['x']"
+    );
+
+    test!(
+        Default::default(),
+        |tester| InlineGlobals {
+            envs: envs(tester, &[("x", "FOO")]),
+            globals: globals(tester, &[]),
+        },
+        issue_417_2,
+        "const test = process.env['x']",
+        "const test = 'FOO'"
     );
 }
