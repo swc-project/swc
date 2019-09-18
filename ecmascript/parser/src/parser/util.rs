@@ -220,6 +220,8 @@ pub(super) trait ExprExt {
             | Expr::TsAs(TsAsExpr { ref expr, .. }) => {
                 expr.is_valid_simple_assignment_target(strict)
             }
+
+            Expr::TsConstAssertion(..) => false,
         }
     }
 }
