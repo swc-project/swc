@@ -227,9 +227,8 @@ pub(crate) fn test_transform<F, P>(
         if actual_src != expected_src {
             panic!(
                 r#"assertion failed: `(left == right)`
-  left: `{}`,
- right: `{}`"#,
-                &*actual_src, &*expected_src
+            {}"#,
+                ::testing::diff(&actual_src, &expected_src),
             );
         }
 
