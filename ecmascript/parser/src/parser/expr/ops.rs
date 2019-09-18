@@ -131,6 +131,15 @@ impl<'a, I: Input> Parser<'a, I> {
         let start = cur_pos!();
 
         if !self.input.syntax().jsx() && self.input.syntax().typescript() && eat!('<') {
+            if eat!("const") {
+                expect!('>');
+                let expr = self.parse_unary_expr()?;
+                return Ok(Box::new(Expr::TsConstAssertion(TsConstAssertion {
+                    span: span!(start),
+                    expr,
+                })));
+            }
+
             return self.parse_ts_type_assertion().map(Expr::from).map(Box::new);
         }
 
