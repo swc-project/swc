@@ -1073,6 +1073,21 @@ fn issue_316() {
     );
 }
 
+#[test]
+fn issue_401() {
+    assert_eq!(
+        lex_tokens(Default::default(), "'17' as const"),
+        vec![
+            Token::Str {
+                value: "17".into(),
+                has_escape: false
+            },
+            tok!("as"),
+            tok!("const")
+        ],
+    );
+}
+
 #[bench]
 fn lex_colors_js(b: &mut Bencher) {
     b.bytes = include_str!("../../colors.js").len() as _;
