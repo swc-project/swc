@@ -724,3 +724,16 @@ function foo() {
 }
 "
 );
+
+to!(
+    issue_404,
+    "function foo(bar) {
+  const { foo } = bar;
+  return foo;
+}",
+    "function foo(bar) {
+    var { foo: foo1  } = bar;
+    return foo1;
+}
+"
+);

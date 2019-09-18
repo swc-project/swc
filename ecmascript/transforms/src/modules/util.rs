@@ -1,6 +1,7 @@
 use crate::util::{undefined, DestructuringFinder, ExprFactory};
 use ast::*;
 use hashbrown::{hash_map::Entry, HashMap, HashSet};
+use indexmap::IndexMap;
 use inflector::Inflector;
 use serde::{Deserialize, Serialize};
 use std::iter;
@@ -84,7 +85,7 @@ pub(super) struct Scope {
     ///
     ///  - `import * as bar1 from 'bar';`
     ///   -> `{'bar': Some(bar1)}`
-    pub imports: HashMap<JsWord, Option<(JsWord, Span)>>,
+    pub imports: IndexMap<JsWord, Option<(JsWord, Span)>>,
     ///
     /// - `true` is wildcard (`_interopRequireWildcard`)
     /// - `false` is default (`_interopRequireDefault`)

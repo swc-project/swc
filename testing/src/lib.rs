@@ -5,15 +5,17 @@
 
 #[macro_use]
 extern crate lazy_static;
+extern crate difference;
 extern crate regex;
 extern crate relative_path;
 extern crate swc_common;
 extern crate test;
 
 pub use self::output::{NormalizedOutput, StdErr, StdOut, TestOutput};
+use difference::Changeset;
 use regex::Regex;
 use std::{
-    fmt::Debug,
+    fmt::{self, Debug, Display},
     fs::{create_dir_all, File},
     io::Write,
     path::Path,
@@ -154,4 +156,10 @@ macro_rules! assert_eq_ignore_span {
             panic!("assertion failed\n{}", $crate::print_left_right(&l, &r));
         }
     }};
+}
+
+pub fn diff(l: &str, r: &str) -> String {
+    let cs = Changeset::new(l, r, "\n");
+
+    format!("{}", cs)
 }

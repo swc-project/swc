@@ -3,7 +3,7 @@ use crate::{
     util::{contains_this_expr, ExprFactory},
 };
 use ast::*;
-use swc_common::{Fold, FoldWith, Visit, VisitWith, DUMMY_SP};
+use swc_common::{Fold, FoldWith, Spanned, Visit, VisitWith, DUMMY_SP};
 
 #[cfg(test)]
 mod tests;
@@ -96,7 +96,7 @@ impl Fold<Expr> for Arrow {
                             BlockStmtOrExpr::Expr(expr) => BlockStmt {
                                 span: DUMMY_SP,
                                 stmts: vec![Stmt::Return(ReturnStmt {
-                                    span: DUMMY_SP,
+                                    span: expr.span(),
                                     arg: Some(expr),
                                 })],
                             },

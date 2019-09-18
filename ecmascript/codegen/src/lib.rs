@@ -1631,6 +1631,8 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     pub fn emit_return_stmt(&mut self, node: &ReturnStmt) -> Result {
+        self.emit_leading_comments_of_pos(node.span.lo())?;
+
         keyword!("return");
         if let Some(ref arg) = node.arg {
             space!();

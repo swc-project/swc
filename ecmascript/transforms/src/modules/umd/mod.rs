@@ -442,7 +442,7 @@ impl Fold<Module> for Umd {
             )));
         }
 
-        for (src, import) in self.scope.imports.drain() {
+        for (src, import) in self.scope.imports.drain(..) {
             let global_ident = Ident::new(self.config.global_name(&src), DUMMY_SP);
             let import = import.unwrap_or_else(|| {
                 (

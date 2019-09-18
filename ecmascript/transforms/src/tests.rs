@@ -224,10 +224,14 @@ pub(crate) fn test_transform<F, P>(
 
         println!(">>>>> Orig <<<<<\n{}", input);
         println!(">>>>> Code <<<<<\n{}", actual_src);
-        assert_eq!(
-            crate::tests::DebugUsingDisplay(&actual_src),
-            crate::tests::DebugUsingDisplay(&expected_src)
-        );
+        if actual_src != expected_src {
+            panic!(
+                r#"assertion failed: `(left == right)`
+            {}"#,
+                ::testing::diff(&actual_src, &expected_src),
+            );
+        }
+
         return Err(());
     });
 }
