@@ -472,7 +472,7 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
             ))));
         }
 
-        for (src, import) in self.scope.imports.drain() {
+        for (src, import) in self.scope.imports.drain(..) {
             let lazy = if self.scope.lazy_blacklist.contains(&src) {
                 false
             } else {
