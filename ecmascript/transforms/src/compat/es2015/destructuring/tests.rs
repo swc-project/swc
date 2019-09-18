@@ -1,5 +1,5 @@
 use super::*;
-use crate::{compat::es2015, hygiene, resolver};
+use crate::{compat::es2015, resolver};
 
 fn tr() -> impl Fold<Module> {
     Destructuring

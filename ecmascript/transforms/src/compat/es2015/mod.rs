@@ -61,7 +61,7 @@ pub fn es2015() -> impl Pass {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::{fixer, hygiene, proposals::class_properties, resolver};
+    use crate::resolver;
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
