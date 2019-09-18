@@ -9,8 +9,8 @@ use crate::{
     prop::Prop,
     stmt::BlockStmt,
     typescript::{
-        TsAsExpr, TsNonNullExpr, TsTypeAnn, TsTypeAssertion, TsTypeCastExpr, TsTypeParamDecl,
-        TsTypeParamInstantiation,
+        TsAsExpr, TsConstAssertion, TsNonNullExpr, TsTypeAnn, TsTypeAssertion, TsTypeCastExpr,
+        TsTypeParamDecl, TsTypeParamInstantiation,
     },
 };
 use serde::{self, Deserialize, Serialize};
@@ -125,6 +125,9 @@ pub enum Expr {
 
     #[tag("TsTypeAssertion")]
     TsTypeAssertion(TsTypeAssertion),
+
+    #[tag("TsConstAssertion")]
+    TsConstAssertion(TsConstAssertion),
 
     #[tag("TsNonNullExpression")]
     TsNonNull(TsNonNullExpr),
@@ -501,6 +504,7 @@ pub enum PatOrExpr {
     #[tag("JSXElement")]
     #[tag("JSXFragment")]
     #[tag("TsTypeAssertion")]
+    #[tag("TsConstAssertion")]
     #[tag("TsNonNullExpression")]
     #[tag("TsTypeCastExpression")]
     #[tag("TsAsExpression")]
