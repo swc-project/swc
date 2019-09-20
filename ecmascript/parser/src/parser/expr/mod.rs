@@ -997,10 +997,20 @@ impl<'a, I: Input> Parser<'a, I> {
 
         // TODO(kdy1): optimize (once we parsed a pattern, we can parse everything else
         // as a pattern instead of reparsing)
-
         while !eof!() && !is!(')') {
             if first {
                 first = false;
+
+                if is!("async") {
+                    // https://github.com/swc-project/swc/issues/410
+                    self.state.potential_arrow_start = Some(cur_pos!());
+                    let expr = self.parse_primary_expr()?;
+                    expect!(')');
+                    return Ok(vec![PatOrExprOrSpread::ExprOrSpread(ExprOrSpread {
+                        expr,
+                        spread: None,
+                    })]);
+                }
             } else {
                 expect!(',');
                 // Handle trailing comma.
