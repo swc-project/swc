@@ -1013,7 +1013,8 @@ where
             Expr::TsTypeAssertion(TsTypeAssertion { expr, .. })
             | Expr::TsNonNull(TsNonNullExpr { expr, .. })
             | Expr::TsTypeCast(TsTypeCastExpr { expr, .. })
-            | Expr::TsAs(TsAsExpr { expr, .. }) => add_effects(v, expr),
+            | Expr::TsAs(TsAsExpr { expr, .. })
+            | Expr::TsConstAssertion(TsConstAssertion { expr, .. }) => add_effects(v, expr),
         }
     }
 

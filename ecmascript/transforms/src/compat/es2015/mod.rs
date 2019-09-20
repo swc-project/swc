@@ -179,4 +179,22 @@ function foo(scope) {
     //   ",
     //         ""
     //     );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| es2015(),
+        issue_413,
+        r#"
+export const getBadgeBorderRadius = (text, color) => {
+  const imgTagRadiusRatio = color && IMG_TAG_THEME[color.style] ? 5 : 1
+  const style = {
+    borderTopLeftRadius: `${BADGE_BORDER_RADIUS + imgTagRadiusRatio}px`,
+  }
+
+  return (text && style) || {}
+}"#,
+        r#"
+"#
+    );
+
 }
