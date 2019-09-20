@@ -477,6 +477,7 @@ impl<'a> Emitter<'a> {
             Expr::TsAs(ref n) => emit!(n),
             Expr::TsNonNull(ref n) => emit!(n),
             Expr::TsTypeAssertion(ref n) => emit!(n),
+            Expr::TsConstAssertion(ref n) => emit!(n),
             Expr::TsTypeCast(ref n) => emit!(n),
         }
     }
