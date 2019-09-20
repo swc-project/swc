@@ -186,14 +186,13 @@ function foo(scope) {
         issue_413,
         r#"
 export const getBadgeBorderRadius = (text, color) => {
-  const imgTagRadiusRatio = color && IMG_TAG_THEME[color.style] ? 5 : 1
-  const style = {
-    borderTopLeftRadius: `${BADGE_BORDER_RADIUS + imgTagRadiusRatio}px`,
-  }
-
   return (text && style) || {}
 }"#,
         r#"
+export const getBadgeBorderRadius = function(text, color) {
+    return text && style || {
+    };
+};
 "#
     );
 
