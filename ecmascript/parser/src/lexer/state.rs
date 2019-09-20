@@ -246,6 +246,13 @@ impl State {
             .unwrap_or(false)
     }
 
+    pub fn last_was_return(&self) -> bool {
+        match self.token_type {
+            Some(TokenType::Keyword(Keyword::Return)) => true,
+            _ => false,
+        }
+    }
+
     pub fn last_was_tpl_element(&self) -> bool {
         match self.token_type {
             Some(TokenType::Template) => true,

@@ -205,7 +205,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             false
         };
 
-        let is_for_next = self.state.had_line_break;
+        let is_for_next = self.state.had_line_break || self.state.last_was_return();
 
         while let Some(c) = self.cur() {
             if was_star && c == '/' {
