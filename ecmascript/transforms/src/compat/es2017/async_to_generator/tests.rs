@@ -1,6 +1,6 @@
 use super::*;
 use crate::{
-    compat::es2015::{arrow, destructuring, function_name, parameters},
+    compat::es2015::{arrow, destructuring, es2015, function_name, parameters},
     fixer::fixer,
 };
 
@@ -714,4 +714,62 @@ test!(
     }
 });
 "
+);
+
+test_exec!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| chain_at!(Module, tr(), es2015()),
+    issue_400_1,
+    "class A {
+    constructor() {
+        this.a_num = 10;
+    }
+
+    async print() {
+        expect(this.a_num).toBe(10);
+    }
+}
+
+class B extends A {
+    constructor(num) {
+        super();
+        this.b_num = num;
+    }
+
+    async print() {
+        expect(this.b_num).toBe(20);
+        await super.print();
+    }
+}
+
+return (new B(20)).print().then(() => console.log('Done'));"
+);
+
+test_exec!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| AsyncToGenerator,
+    issue_400_2,
+    "class A {
+    constructor() {
+        this.a_num = 10;
+    }
+
+    async print() {
+        expect(this.a_num).toBe(10);
+    }
+}
+
+class B extends A {
+    constructor(num) {
+        super();
+        this.b_num = num;
+    }
+
+    async print() {
+        expect(this.b_num).toBe(20);
+        await super.print();
+    }
+}
+
+return (new B(20)).print().then(() => console.log('Done'));"
 );
