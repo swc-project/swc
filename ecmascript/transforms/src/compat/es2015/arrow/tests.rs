@@ -141,3 +141,19 @@ test!(
   }
 });"#
 );
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| Arrow,
+    issue_413,
+    r#"
+export const getBadgeBorderRadius = (text, color) => {
+  return (text && style) || {}
+}"#,
+    r#"
+export const getBadgeBorderRadius = function(text, color) {
+    return text && style || {
+    };
+};
+"#
+);

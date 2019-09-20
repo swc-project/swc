@@ -267,6 +267,11 @@ impl<'a> Emitter<'a> {
     }
 
     #[emitter]
+    pub fn emit_ts_const_assertion(&mut self, n: &TsConstAssertion) -> Result {
+        unimplemented!("emit_ts_const_assertion")
+    }
+
+    #[emitter]
     pub fn emit_ts_type_cast_expr(&mut self, n: &TsTypeCastExpr) -> Result {
         unimplemented!("emit_ts_type_cast_expr")
     }

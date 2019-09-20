@@ -6,7 +6,7 @@ pub use self::{
     sticky_regex::StickyRegex, template_literal::TemplateLiteral, typeof_symbol::TypeOfSymbol,
 };
 use crate::pass::Pass;
-use ast::{Expr, Module, Stmt};
+use ast::{Expr, Module};
 
 mod arrow;
 mod block_scoped_fn;
@@ -37,10 +37,6 @@ fn exprs() -> impl Pass {
     )
 }
 
-fn stmts() -> impl Pass {
-    chain_at!(Stmt, function_name(), exprs(),)
-}
-
 /// Compiles es2015 to es5.
 pub fn es2015() -> impl Pass {
     chain_at!(
@@ -49,7 +45,8 @@ pub fn es2015() -> impl Pass {
         TemplateLiteral::default(),
         Classes,
         spread(),
-        stmts(),
+        function_name(),
+        exprs(),
         parameters(),
         for_of(),
         computed_properties(),
@@ -179,4 +176,21 @@ function foo(scope) {
     //   ",
     //         ""
     //     );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| es2015(),
+        issue_413,
+        r#"
+export const getBadgeBorderRadius = (text, color) => {
+  return (text && style) || {}
+}"#,
+        r#"
+export var getBadgeBorderRadius = function(text, color) {
+    return text && style || {
+    };
+};
+"#
+    );
+
 }
