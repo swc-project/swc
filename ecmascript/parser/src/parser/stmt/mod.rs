@@ -1347,4 +1347,20 @@ export default function waitUntil(callback, options = {}) {
         );
     }
 
+    #[test]
+    fn issue_411() {
+        test_parser(
+            "try {
+} catch {}",
+            Syntax::Es(EsConfig {
+                ..Default::default()
+            }),
+            |p| {
+                p.parse_module().map_err(|mut e| {
+                    e.emit();
+                    ()
+                })
+            },
+        );
+    }
 }
