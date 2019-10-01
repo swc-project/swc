@@ -193,4 +193,92 @@ export var getBadgeBorderRadius = function(text, color) {
 "#
     );
 
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| es2015(),
+        issue_400_1,
+        "class A {
+    constructor() {
+        this.a_num = 10;
+    }
+
+    print() {
+        expect(this.a_num).toBe(10);
+    }
+}
+
+class B extends A {
+    constructor(num) {
+        super();
+        this.b_num = num;
+    }
+
+    print() {
+        expect(this.b_num).toBe(20);
+        super.print();
+    }
+}
+",
+        "var A = function() {
+    function A() {
+        _classCallCheck(this, A);
+        this.a_num = 10;
+    }
+    _createClass(A, [{
+            key: 'print',
+            value: function print() {
+                expect(this.a_num).toBe(10);
+            }
+        }]);
+    return A;
+}();
+var B = function(_A) {
+    _inherits(B, _A);
+    function B(num) {
+        var _this;
+        _classCallCheck(this, B);
+        _this = _possibleConstructorReturn(this, _getPrototypeOf(B).call(this));
+        _this.b_num = num;
+        return _this;
+    }
+    _createClass(B, [{
+            key: 'print',
+            value: function print() {
+                expect(this.b_num).toBe(20);
+                _get(_getPrototypeOf(B.prototype), 'print', this).call(this);
+            }
+        }]);
+    return B;
+}(A);"
+    );
+
+    test_exec!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| es2015(),
+        issue_400_2,
+        "class A {
+    constructor() {
+        this.a_num = 10;
+    }
+
+    print() {
+        expect(this.a_num).toBe(10);
+    }
+}
+
+class B extends A {
+    constructor(num) {
+        super();
+        this.b_num = num;
+    }
+
+    print() {
+        expect(this.b_num).toBe(20);
+        super.print();
+    }
+}
+
+return new B(20).print()"
+    );
+
 }

@@ -335,6 +335,7 @@ where
         if status.success() {
             return Ok(());
         }
+        ::std::mem::forget(tmp_dir);
         panic!("Execution failed")
     })
 }
