@@ -134,7 +134,15 @@ impl Fold<Expr> for ActualFolder {
                             }),
                         )
                     }
-                    _ => (undefined(callee.span()), callee),
+
+                    // https://github.com/swc-project/swc/issues/400
+                    // _ => (undefined(callee.span()), callee),
+                    _ => (
+                        box Expr::This(ThisExpr {
+                            span: callee.span(),
+                        }),
+                        callee,
+                    ),
                 };
 
                 let args_array = concat_args(span, args.into_iter().map(Some), false);
