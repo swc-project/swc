@@ -719,5 +719,4 @@ mod test {
         h2.write(&[0xFFu8, 0x01u8]);
         assert_eq!(h1.finish128(), h2.finish128());
     }
-
 }

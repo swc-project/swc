@@ -18,7 +18,7 @@ ast_node = { version = "0.4", path = "../macros/ast_node" }
 string_cache = "0.7"
 chashmap = "2.2"
 either = "1.5"
-scoped-tls = { version = "0.1.1" }
+scoped-tls = { version = "1" }
 unicode-width = "0.1.4"
 cfg-if = "0.1.2"
 log = "0.4"

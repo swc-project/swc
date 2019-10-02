@@ -110,5 +110,4 @@ var x = {
 };"#,
         ok_if_code_eq
     );
-
 }

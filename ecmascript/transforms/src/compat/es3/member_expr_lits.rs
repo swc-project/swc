@@ -97,5 +97,4 @@ obj["var"] = "isKeyword";"#
         "_query[idx]=$this.attr('data-ref');",
         "_query[idx]=$this.attr('data-ref');"
     );
-
 }

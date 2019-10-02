@@ -610,7 +610,8 @@ fn fold_unary(UnaryExpr { span, op, arg }: UnaryExpr) -> Expr {
             }
             _ => {
 
-                // TODO: Report that user is something bad (negating non-number value)
+                // TODO: Report that user is something bad (negating non-number
+                // value)
             }
         },
         op!("void") if !may_have_side_effects => {

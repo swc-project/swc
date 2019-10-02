@@ -124,5 +124,5 @@ fn golden() {
     let args: Vec<_> = env::args().collect();
     let mut tests = Vec::new();
     add_golden_tests(&mut tests).unwrap();
-    test_main(&args, tests, Options::new());
+    test_main(&args, tests, Some(Options::new()));
 }

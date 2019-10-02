@@ -323,9 +323,7 @@ impl Fold<Expr> for Fixer {
                         }
 
                         if is_last {
-
                         } else {
-
                         }
                     }
 
@@ -827,5 +825,4 @@ var store = global[SHARED] || (global[SHARED] = {});
     );
 
     identical!(issue_418, "const a = 1 - (1 - 1)");
-
 }

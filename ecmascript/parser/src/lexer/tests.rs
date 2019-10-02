@@ -208,10 +208,7 @@ fn ident_escape_unicode() {
 
 #[test]
 fn ident_escape_unicode_2() {
-    assert_eq!(
-        lex(Syntax::default(), "℘℘"),
-        vec!["℘℘".span(0..6).lb()]
-    );
+    assert_eq!(lex(Syntax::default(), "℘℘"), vec!["℘℘".span(0..6).lb()]);
 
     assert_eq!(
         lex(Syntax::default(), r#"℘\u2118"#),

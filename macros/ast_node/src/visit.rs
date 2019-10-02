@@ -24,7 +24,7 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
         .filter(|f| {
             f.attrs
                 .iter()
-                .any(|attr| is_attr_name(attr, "fold") && attr.tts.to_string() == "( bound )")
+                .any(|attr| is_attr_name(attr, "fold") && (attr.tts.to_string().contains("bound")))
         })
         .map(|f| f.ty.clone())
         .map(normalize_type_for_bound)

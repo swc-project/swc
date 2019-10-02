@@ -280,5 +280,4 @@ class B extends A {
 
 return new B(20).print()"
     );
-
 }

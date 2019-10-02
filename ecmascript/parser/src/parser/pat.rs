@@ -324,10 +324,10 @@ impl<'a, I: Input> Parser<'a, I> {
         if pat_ty == PatType::AssignPat {
             match *expr {
                 Expr::Object(..) | Expr::Array(..) => {
-                    // It is a Syntax Error if LeftHandSideExpression is either an
-                    // ObjectLiteral or an ArrayLiteral and LeftHandSideExpression cannot
+                    // It is a Syntax Error if LeftHandSideExpression is either
+                    // an ObjectLiteral or an ArrayLiteral
+                    // and LeftHandSideExpression cannot
                     // be reparsed as an AssignmentPattern.
-
                 }
 
                 _ => {

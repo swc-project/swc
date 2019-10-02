@@ -228,7 +228,7 @@ fn references() {
     let args: Vec<_> = env::args().collect();
     let mut tests = Vec::new();
     reference_tests(&mut tests).unwrap();
-    test_main(&args, tests, Options::new());
+    test_main(&args, tests, Some(Options::new()));
 }
 
 #[test]
@@ -236,7 +236,7 @@ fn error() {
     let args: Vec<_> = env::args().collect();
     let mut tests = Vec::new();
     error_tests(&mut tests).unwrap();
-    test_main(&args, tests, Options::new());
+    test_main(&args, tests, Some(Options::new()));
 }
 
 struct Normalizer;

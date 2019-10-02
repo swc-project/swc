@@ -436,5 +436,4 @@ mod tests {
         test_floats(false, true, INVALID_CASES_ON_STRICT);
         test_floats(false, false, INVALID_CASES);
     }
-
 }

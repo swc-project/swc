@@ -281,7 +281,7 @@ fn identity() {
     let args: Vec<_> = env::args().collect();
     let mut tests = Vec::new();
     error_tests(&mut tests).expect("failed to load testss");
-    test_main(&args, tests, Options::new());
+    test_main(&args, tests, Some(Options::new()));
 }
 
 #[derive(Debug, Clone)]
