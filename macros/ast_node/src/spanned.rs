@@ -77,7 +77,7 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
 
 fn make_body_for_variant(v: &VariantBinder, bindings: Vec<BindedField>) -> Box<Expr> {
     /// `swc_common::Spanned::span(#field)`
-    fn simple_field(field: &ToTokens) -> Box<Expr> {
+    fn simple_field(field: &dyn ToTokens) -> Box<Expr> {
         Box::new(
             Quote::new(def_site::<Span>())
                 .quote_with(smart_quote!(Vars { field }, {

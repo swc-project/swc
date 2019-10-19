@@ -23,7 +23,7 @@ pub trait SpanExt: Spanned {
 impl<T: Spanned> SpanExt for T {}
 
 pub trait SourceMapperExt {
-    fn get_code_map(&self) -> &SourceMapper;
+    fn get_code_map(&self) -> &dyn SourceMapper;
 
     fn is_on_same_line(&self, lo: BytePos, hi: BytePos) -> bool {
         let cm = self.get_code_map();
@@ -122,19 +122,19 @@ pub trait SourceMapperExt {
         }
     }
 }
-impl SourceMapperExt for SourceMapper {
-    fn get_code_map(&self) -> &SourceMapper {
+impl SourceMapperExt for dyn SourceMapper {
+    fn get_code_map(&self) -> &dyn SourceMapper {
         self
     }
 }
 impl SourceMapperExt for Arc<SourceMapperDyn> {
-    fn get_code_map(&self) -> &SourceMapper {
+    fn get_code_map(&self) -> &dyn SourceMapper {
         &**self
     }
 }
 
 impl SourceMapperExt for Arc<SourceMap> {
-    fn get_code_map(&self) -> &SourceMapper {
+    fn get_code_map(&self) -> &dyn SourceMapper {
         &**self
     }
 }

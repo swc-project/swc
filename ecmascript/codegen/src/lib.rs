@@ -66,8 +66,8 @@ pub struct Emitter<'a> {
     pub cfg: config::Config,
     pub cm: Arc<SourceMap>,
     pub comments: Option<&'a Comments>,
-    pub wr: Box<('a + WriteJs)>,
-    pub handlers: Box<('a + Handlers)>,
+    pub wr: Box<(dyn 'a + WriteJs)>,
+    pub handlers: Box<(dyn 'a + Handlers)>,
     pub pos_of_leading_comments: HashSet<BytePos>,
 }
 

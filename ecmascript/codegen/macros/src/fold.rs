@@ -13,7 +13,7 @@ pub(crate) struct InjectSelf {
 }
 
 #[cfg(procmacro2_semver_exempt)]
-fn get_joinned_span(t: &ToTokens) -> Span {
+fn get_joinned_span(t: &dyn ToTokens) -> Span {
     let tts: TokenStream = t.dump().into();
     let (mut first, mut last) = (None, None);
     for tt in tts {
@@ -29,7 +29,7 @@ fn get_joinned_span(t: &ToTokens) -> Span {
 }
 
 #[cfg(not(procmacro2_semver_exempt))]
-fn get_joinned_span(t: &ToTokens) -> Span {
+fn get_joinned_span(t: &dyn ToTokens) -> Span {
     let tts: TokenStream = t.dump().into();
     let mut first = None;
     for tt in tts {
@@ -113,7 +113,7 @@ impl Fold for InjectSelf {
                 let tts = if i.tts.is_empty() {
                     quote_spanned!(span => #parser).into()
                 } else {
-                    let mut args: Punctuated<Expr, token::Comma> = parse_args(i.tts.into());
+                    let args: Punctuated<Expr, token::Comma> = parse_args(i.tts.into());
                     let args = args
                         .into_pairs()
                         .map(|el| el.map_item(|expr| self.fold_expr(expr)))

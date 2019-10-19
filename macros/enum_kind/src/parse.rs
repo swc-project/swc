@@ -177,8 +177,8 @@ where
             tt => panic!(
                 "expected tokens to be wrapped in a paren like #[kind(tokens)]\ngot {}",
                 match tt {
-                    Some(ref tt) => tt as &Display,
-                    None => &"None" as &Display,
+                    Some(ref tt) => tt as &dyn Display,
+                    None => &"None" as &dyn Display,
                 }
             ),
         }

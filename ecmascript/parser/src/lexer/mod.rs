@@ -149,7 +149,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
                 return self.read_radix_number(radix).map(Num).map(Some);
             }
-            '1'...'9' => return self.read_number(false).map(Num).map(Some),
+            '1'..='9' => return self.read_number(false).map(Num).map(Some),
 
             '"' | '\'' => return self.read_str_lit().map(Some),
 
@@ -401,7 +401,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                 return self.read_unicode_escape(start, raw).map(Some);
             }
             // octal escape sequences
-            '0'...'7' => {
+            '0'..='7' => {
                 self.bump();
                 let first_c = if c == '0' {
                     match self.cur() {
