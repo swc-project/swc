@@ -66,11 +66,11 @@ test!(
 );
 
 test!(
-  ::swc_ecma_parser::Syntax::default(),
-  |_| TemplateLiteral::default(),
-  literals,
-  r#"var foo = `${1}${f}oo${true}${b}ar${0}${baz}`;"#,
-  r#"var foo = ''.concat(1).concat(f).concat('oo').concat(true).concat(b).concat('ar').concat(0).concat(baz);"#
+    ::swc_ecma_parser::Syntax::default(),
+    |_| TemplateLiteral::default(),
+    literals,
+    r#"var foo = `${1}${f}oo${true}${b}ar${0}${baz}`;"#,
+    r#"var foo = ''.concat(1).concat(f).concat('oo').concat(true).concat(b).concat('ar').concat(0).concat(baz);"#
 );
 
 test!(

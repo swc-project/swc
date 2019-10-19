@@ -450,8 +450,8 @@ to!(
 );
 
 to!(
-        class_nested,
-        r#"
+    class_nested,
+    r#"
 var Outer = function(_Hello) {
     _inherits(Outer, _Hello);
     function Outer() {
@@ -473,7 +473,7 @@ var Outer = function(_Hello) {
     return Outer;
 }(Hello);
 "#,
-        r#"
+    r#"
 var Outer = function(_Hello) {
     _inherits(Outer, _Hello);
     function Outer() {
@@ -495,7 +495,7 @@ var Outer = function(_Hello) {
     return Outer;
 }(Hello);
 "#
-    );
+);
 
 identical!(class_var_constructor_only, r#"var Foo = function Foo(){}"#);
 

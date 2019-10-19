@@ -93,7 +93,8 @@ var obj = (_obj = {}, _defineProperty(_obj, foobar, function () {
 }), _obj);"#
 );
 
-test!(::swc_ecma_parser::Syntax::default(),
+test!(
+    ::swc_ecma_parser::Syntax::default(),
     |_| ComputedProps,
     mixed,
     r#"var obj = {

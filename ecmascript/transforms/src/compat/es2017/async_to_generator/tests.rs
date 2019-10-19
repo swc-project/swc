@@ -83,10 +83,11 @@ let TestClass = {
 "#
 );
 
-test!(::swc_ecma_parser::Syntax::default(),
-  |_|tr(),
-  async_default_arguments,
-  r#"
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| tr(),
+    async_default_arguments,
+    r#"
 function mandatory(paramName) {
   throw new Error(`Missing parameter: ${paramName}`);
 }
@@ -95,7 +96,7 @@ async function foo({ a, b = mandatory("b") }) {
   return Promise.resolve(b);
 }
 "#,
-  r#"
+    r#"
 function mandatory(paramName) {
     throw new Error(`Missing parameter: ${paramName}`);
 }
@@ -174,10 +175,11 @@ class Foo {
 "#
 );
 
-test!(::swc_ecma_parser::Syntax::default(),
-  |_|tr(),
-  deeply_nested_asyncs,
-  r#"
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| tr(),
+    deeply_nested_asyncs,
+    r#"
 async function s(x, ...args) {
   let t = async (y, a) => {
     let r = async (z, b, ...innerArgs) =>  {
@@ -195,7 +197,7 @@ async function s(x, ...args) {
   return this.h(t);
 }
 "#,
-  r#"
+    r#"
 function _s() {
     _s = _asyncToGenerator((function*(x) {
         for(let _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
@@ -282,10 +284,11 @@ var foo2 = function () {
 }();"#
 );
 
-test!(::swc_ecma_parser::Syntax::default(),
-  |_|tr(),
-  function_arity,
-  r#"
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| tr(),
+    function_arity,
+    r#"
 async function one(a, b = 1) {}
 async function two(a, b, ...c) {}
 async function three(a, b = 1, c, d = 3) {}
@@ -293,7 +296,7 @@ async function four(a, b = 1, c, ...d) {}
 async function five(a, {b}){}
 async function six(a, {b} = {}){}
 "#,
-  r#"
+    r#"
 function _one() {
   _one = _asyncToGenerator(function*(a, param) {
     let b = param === void 0 ? 1 : param;
@@ -475,17 +478,18 @@ class Class{
 "#
 );
 
-test!(::swc_ecma_parser::Syntax::default(),
-  |_|tr(),
-  object_method_with_super,
-  r#"class Foo extends class {} {
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| tr(),
+    object_method_with_super,
+    r#"class Foo extends class {} {
   async method() {
     super.method();
 
     var arrow = () => super.method();
   }
 }"#,
-  r#"
+    r#"
 class Foo extends class{
 }{
      method() {

@@ -249,7 +249,10 @@ var Component = React.createClass({
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig{jsx:true,..Default::default()}),
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
     |_| tr(Default::default()),
     react_dont_coerce_expression_containers,
     r#"

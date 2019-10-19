@@ -103,7 +103,8 @@ var ref;
 ref = [1, 2], x = ref[0], y = ref[1], ref;"#
 );
 
-test!(::swc_ecma_parser::Syntax::default(),
+test!(
+    ::swc_ecma_parser::Syntax::default(),
     |_| tr(),
     assign_expr_pat,
     r#"var z = {};
@@ -293,7 +294,8 @@ expect(a).toBe("a");
 expect(rest).toEqual({});"#
 );
 
-test!(::swc_ecma_parser::Syntax::default(),
+test!(
+    ::swc_ecma_parser::Syntax::default(),
     |_| tr(),
     babel_issue_3081,
     r#"let list = [1, 2, 3, 4];
@@ -446,7 +448,8 @@ var ref = rect ? rect : _throw(new TypeError("Cannot destructure 'undefined' or 
 var ref3 = [0, 1, 2, 3, 4, 5, 6], foo = ref3[3], bar = ref3[5];"#
 );
 
-test!(::swc_ecma_parser::Syntax::default(),
+test!(
+    ::swc_ecma_parser::Syntax::default(),
     |_| tr(),
     object_basic,
     r#"var coords = [1, 2];

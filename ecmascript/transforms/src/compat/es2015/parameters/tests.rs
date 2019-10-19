@@ -280,15 +280,16 @@ test!(
 "
 );
 
-test!(::swc_ecma_parser::Syntax::default(),
-  |_| tr(),
-  default_rest_1,
-  r#"const a = 1;
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| tr(),
+    default_rest_1,
+    r#"const a = 1;
 function rest(b = a, ...a) {
   expect(b).toBe(1);
 }
 rest(undefined, 2)"#,
-  r#"var a = 1;
+    r#"var a = 1;
 function rest(param) {
     var b = param === void 0 ? a : param;
     for(var _len = arguments.length, a1 = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
@@ -299,15 +300,16 @@ function rest(param) {
 rest(undefined, 2);"#
 );
 
-test!(::swc_ecma_parser::Syntax::default(),
-  |_| tr(),
-  default_rest_2,
-  r#"const a = 1;
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| tr(),
+    default_rest_2,
+    r#"const a = 1;
   function rest2(b = a, ...a) {
   expect(a[0]).toBe(2);
 }
 rest2(undefined, 2);"#,
-  r#"var a = 1;
+    r#"var a = 1;
 function rest2(param) {
     var b = param === void 0 ? a : param;
     for(var _len = arguments.length, a1 = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
@@ -318,15 +320,16 @@ function rest2(param) {
 rest2(undefined, 2);"#
 );
 
-test!(::swc_ecma_parser::Syntax::default(),
-  |_| tr(),
-  default_rest_3,
-  r#"const a = 1;
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| tr(),
+    default_rest_3,
+    r#"const a = 1;
     function rest3(b = a, ...a) {
   expect(a).toHaveLength(1);
 }
 rest3(undefined, 2)"#,
-  r#"var a = 1;
+    r#"var a = 1;
 function rest3(param) {
     var b = param === void 0 ? a : param;
     for(var _len = arguments.length, a1 = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
@@ -486,10 +489,11 @@ let oneOf = function () {
 };"#
 );
 
-test!(::swc_ecma_parser::Syntax::default(),
-  |_| tr(),
-  regression_5787,
-  r#"function f(a, ...rest) {
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| tr(),
+    regression_5787,
+    r#"function f(a, ...rest) {
   let b = rest[rest.length - 3];
   let c = rest[rest.length - 2];
   let d = rest[rest.length - 1];
@@ -499,7 +503,7 @@ test!(::swc_ecma_parser::Syntax::default(),
 function f(a, ...rest) {
   return rest[-1];
 }"#,
-  r#"function f(a) {
+    r#"function f(a) {
     for(var _len = arguments.length, rest = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
         rest[_key - 1] = arguments[_key];
     }
@@ -716,12 +720,12 @@ test!(
 );
 
 test!(
-  // optimiation is not implemented
-  ignore,
-  ::swc_ecma_parser::Syntax::default(),
-  |_| tr(),
-  rest_deepest_common_ancestor_earliest_child,
-  r#"// single reference
+    // optimiation is not implemented
+    ignore,
+    ::swc_ecma_parser::Syntax::default(),
+    |_| tr(),
+    rest_deepest_common_ancestor_earliest_child,
+    r#"// single reference
 function r(...rest){
   if (noNeedToWork) return 0;
   return rest;
@@ -795,7 +799,7 @@ function r(...rest){
   [rest[0]] = x;
   return rest;
 }"#,
-  r#"// single reference
+    r#"// single reference
 function r() {
   if (noNeedToWork) return 0;
 
@@ -913,10 +917,11 @@ function r() {
 }"#
 );
 
-test!(::swc_ecma_parser::Syntax::default(),
-  |_| tr(),
-  rest_length,
-  r#"var t = function (f, ...items) {
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| tr(),
+    rest_length,
+    r#"var t = function (f, ...items) {
   items[0];
   items[items.length - 1];
 };
@@ -926,7 +931,7 @@ function t(f, ...items) {
   items[0];
   items[items.length - 1];
 }"#,
-  r#"var t = function(f) {
+    r#"var t = function(f) {
     for(var _len = arguments.length, items = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
         items[_key - 1] = arguments[_key];
     }
@@ -1073,10 +1078,11 @@ function t() {
 }"#
 );
 
-test!(::swc_ecma_parser::Syntax::default(),
-  |_| tr(),
-  rest_multiple,
-  r#"var t = function (f, ...items) {
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| tr(),
+    rest_multiple,
+    r#"var t = function (f, ...items) {
     var x = f;
     x = items[0];
     x = items[1];
@@ -1095,7 +1101,7 @@ function u(f, g, ...items) {
     y.prop = items[1];
     var z = items[2] | 0 || 12;
 }"#,
-  r#"var t = function(f) {
+    r#"var t = function(f) {
     for(var _len = arguments.length, items = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
         items[_key - 1] = arguments[_key];
     }

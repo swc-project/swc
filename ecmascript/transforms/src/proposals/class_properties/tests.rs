@@ -841,7 +841,11 @@ function () {
 "#
 );
 
-test!(syntax(), |_| tr(), public_super_call, r#"
+test!(
+    syntax(),
+    |_| tr(),
+    public_super_call,
+    r#"
 class A {
   foo() {
     return "bar";
@@ -852,7 +856,8 @@ class B extends A {
   foo = super.foo();
 }
 
-"#, r#"
+"#,
+    r#"
 var A =
 /*#__PURE__*/
 function () {
@@ -890,7 +895,8 @@ function (_A) {
   return B;
 }(A);
 
-"#);
+"#
+);
 
 test!(
     syntax(),
@@ -1420,7 +1426,11 @@ var _outer = new WeakMap();
 "#
 );
 
-test!(syntax(), |_| tr(), private_update, r#"
+test!(
+    syntax(),
+    |_| tr(),
+    private_update,
+    r#"
 class Foo {
   #foo = 0;
 
@@ -1432,7 +1442,8 @@ class Foo {
   }
 }
 
-"#, r#"
+"#,
+    r#"
 var Foo =
 /*#__PURE__*/
 function () {
@@ -1463,9 +1474,14 @@ function () {
 
 var _foo = new WeakMap();
 
-"#);
+"#
+);
 
-test!(syntax(), |_| tr(), public_super_expression, r#"
+test!(
+    syntax(),
+    |_| tr(),
+    public_super_expression,
+    r#"
 class Foo extends Bar {
   bar = "foo";
 
@@ -1474,7 +1490,8 @@ class Foo extends Bar {
   }
 }
 
-"#, r#"
+"#,
+    r#"
 var Foo = function (_Bar) {
   
 
@@ -1492,7 +1509,8 @@ var Foo = function (_Bar) {
   return Foo;
 }(Bar);
 
-"#);
+"#
+);
 
 test_exec!(
     syntax(),
@@ -1805,7 +1823,11 @@ var _four = new WeakMap();
 "#
 );
 
-test!(syntax(), |_| tr(), nested_class_super_property_in_key, r#"
+test!(
+    syntax(),
+    |_| tr(),
+    nested_class_super_property_in_key,
+    r#"
 
 class Hello {
   toString() {
@@ -1826,7 +1848,8 @@ class Outer extends Hello {
 
 expect(new Outer().hello).toBe('hello');
 
-"#, r#"
+"#,
+    r#"
 
 
 var Hello = function () {
@@ -1865,7 +1888,8 @@ var Outer = function (_Hello) {
 
 expect(new Outer().hello).toBe('hello');
 
-"#);
+"#
+);
 
 test_exec!(
     syntax(),

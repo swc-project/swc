@@ -1557,7 +1557,11 @@ function () {
 // regression_T6755
 
 // get_set_memoized_update
-test!(syntax(),|_| tr(), get_set_memoized_update, r#"
+test!(
+    syntax(),
+    |_| tr(),
+    get_set_memoized_update,
+    r#"
 
 class Base {}
 Object.defineProperty(Base.prototype, 0, {
@@ -1600,7 +1604,8 @@ expect(i).toBe(1);
 expect(obj[0]).toBe(1);
 expect(obj[1]).toBe(2);
 
-"#, r#"
+"#,
+    r#"
 
 
 let Base = function Base() {
@@ -1665,11 +1670,15 @@ expect(i).toBe(1);
 expect(obj[0]).toBe(1);
 expect(obj[1]).toBe(2);
 
-"#);
+"#
+);
 
 // spec_nested_class_super_property_in_key
-test!(syntax(),|_| spec_tr(),
-spec_nested_class_super_property_in_key, r#"
+test!(
+    syntax(),
+    |_| spec_tr(),
+    spec_nested_class_super_property_in_key,
+    r#"
 
 class Hello {
   toString() {
@@ -1692,7 +1701,8 @@ class Outer extends Hello {
 
 expect(new Outer().hello()).toBe('hello');
 
-"#, r#"
+"#,
+    r#"
 
 
 var Hello =
@@ -1744,17 +1754,23 @@ function (_Hello) {
 
 expect(new Outer().hello()).toBe('hello');
 
-"#);
+"#
+);
 
 // spec_super_reference_in_prop_exression
-test!(syntax(),|_| spec_tr(), spec_super_reference_in_prop_exression, r#"
+test!(
+    syntax(),
+    |_| spec_tr(),
+    spec_super_reference_in_prop_exression,
+    r#"
 class Foo extends Bar {
   constructor() {
     super[super().method]();
   }
 }
 
-"#, r#"
+"#,
+    r#"
 var Foo =
 /*#__PURE__*/
 function (_Bar) {
@@ -1773,7 +1789,8 @@ function (_Bar) {
   return Foo;
 }(Bar);
 
-"#);
+"#
+);
 
 // spec_super_reference_before_in_lambda_exec
 test_exec!(
@@ -2219,7 +2236,11 @@ expect(() => {
 // regression_2694
 
 // regression_5769
-test!(syntax(),|_| tr(), regression_5769, r#"
+test!(
+    syntax(),
+    |_| tr(),
+    regression_5769,
+    r#"
 class Point {
   getX() {
     expect(this.x).toBe(3); // C
@@ -2243,7 +2264,8 @@ class ColorPoint extends Point {
 const cp = new ColorPoint();
 cp.m();
 
-"#, r#"
+"#,
+    r#"
 let Point =
 /*#__PURE__*/
 function () {
@@ -2295,7 +2317,8 @@ function (_Point) {
 const cp = new ColorPoint();
 cp.m();
 
-"#);
+"#
+);
 
 // spec_super_function_fallback
 test!(
@@ -3035,7 +3058,11 @@ function () {
 );
 
 // regression_T2997
-test!(syntax(),|_| tr(), regression_t2997, r#"
+test!(
+    syntax(),
+    |_| tr(),
+    regression_t2997,
+    r#"
 class A {}
 
 class B extends A {
@@ -3044,7 +3071,8 @@ class B extends A {
   }
 }
 
-"#, r#"
+"#,
+    r#"
 let A = function A() {
   
 
@@ -3068,7 +3096,8 @@ function (_A) {
   return B;
 }(A);
 
-"#);
+"#
+);
 
 // spec_constructor_binding_collision
 test!(
@@ -3100,7 +3129,11 @@ var t = new Example();
 );
 
 // spec_super_class_anonymous
-test!(syntax(),|_| spec_tr(), spec_super_class_anonymous, r#"
+test!(
+    syntax(),
+    |_| spec_tr(),
+    spec_super_class_anonymous,
+    r#"
 class TestEmpty extends (class {}) {
 }
 
@@ -3121,7 +3154,8 @@ class TestMultipleMethods extends (class {
   m2() {}
 }) {}
 
-"#, r#"
+"#,
+    r#"
 var TestEmpty =
 /*#__PURE__*/
 function (_super) {
@@ -3261,7 +3295,8 @@ function () {
   return _class;
 }());
 
-"#);
+"#
+);
 
 // spec_method_return_type_annotation
 
@@ -3608,9 +3643,12 @@ function (_Bar) {
 
 // spec_accessing_super_class
 test!(
-  // TODO(kdy1): Unignore this.
-  ignore,
-  syntax(),|_| spec_tr(), spec_accessing_super_class, r#"
+    // TODO(kdy1): Unignore this.
+    ignore,
+    syntax(),
+    |_| spec_tr(),
+    spec_accessing_super_class,
+    r#"
 class Test extends Foo {
   constructor() {
     woops.super.test();
@@ -3637,7 +3675,8 @@ class Test extends Foo {
   }
 }
 
-"#, r#"
+"#,
+    r#"
 var Test =
 /*#__PURE__*/
 function (_Foo) {
@@ -3687,7 +3726,8 @@ function (_Foo) {
   return Test;
 }(Foo);
 
-"#);
+"#
+);
 
 // get_set_call_semantics_getter_defined_on_parent_exec
 test_exec!(
@@ -4532,7 +4572,11 @@ expect(obj.test).toBe(3);
 // exec
 
 // get_set_memoized_assign
-test!(syntax(),|_| tr(), get_set_memoized_assign, r#"
+test!(
+    syntax(),
+    |_| tr(),
+    get_set_memoized_assign,
+    r#"
 
 class Base {}
 Object.defineProperty(Base.prototype, 0, {
@@ -4575,7 +4619,8 @@ expect(i).toBe(1);
 expect(obj[0]).toBe(1);
 expect(obj[1]).toBe(2);
 
-"#, r#"
+"#,
+    r#"
 
 
 let Base = function Base() {
@@ -4640,7 +4685,8 @@ expect(i).toBe(1);
 expect(obj[0]).toBe(1);
 expect(obj[1]).toBe(2);
 
-"#);
+"#
+);
 
 // extend_builtins_builtin_objects_throw_when_wrapped_exec
 test_exec!(
