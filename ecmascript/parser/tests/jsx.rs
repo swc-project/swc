@@ -23,7 +23,9 @@ use std::{
 use swc_common::{errors::Handler, Fold, FoldWith, SourceMap, CM};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{PResult, Parser, Session, SourceFileInput};
-use test::{test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName};
+use test::{
+    test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,
+};
 use testing::{run_test, StdErr};
 use walkdir::WalkDir;
 
@@ -35,6 +37,7 @@ fn add_test<F: FnOnce() + Send + 'static>(
 ) {
     tests.push(TestDescAndFn {
         desc: TestDesc {
+            test_type: TestType::UnitTest,
             name: TestName::DynTestName(name),
             ignore,
             should_panic: No,

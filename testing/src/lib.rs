@@ -15,7 +15,7 @@ pub use self::output::{NormalizedOutput, StdErr, StdOut, TestOutput};
 use difference::Changeset;
 use regex::Regex;
 use std::{
-    fmt::{self, Debug, Display},
+    fmt::Debug,
     fs::{create_dir_all, File},
     io::Write,
     path::Path,
@@ -87,8 +87,8 @@ fn write_to_file(path: &Path, content: &str) {
         .expect("failed to write data of the failed assertion")
 }
 
-pub fn print_left_right(left: &Debug, right: &Debug) -> String {
-    fn print(t: &Debug) -> String {
+pub fn print_left_right(left: &dyn Debug, right: &dyn Debug) -> String {
+    fn print(t: &dyn Debug) -> String {
         let s = format!("{:#?}", t);
 
         // Replace 'Span { lo: BytePos(0), hi: BytePos(0), ctxt: #0 }' with '_'

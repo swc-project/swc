@@ -1565,6 +1565,7 @@ impl<'a, I: Input> Parser<'a, I> {
         match op {
             TsTypeOperatorOp::Unique => expect!("unique"),
             TsTypeOperatorOp::KeyOf => expect!("keyof"),
+            TsTypeOperatorOp::ReadOnly => expect!("readonly"),
         }
 
         let type_ann = self.parse_ts_type_operator_or_higher()?;
@@ -1602,6 +1603,8 @@ impl<'a, I: Input> Parser<'a, I> {
             Some(TsTypeOperatorOp::KeyOf)
         } else if is!("unique") {
             Some(TsTypeOperatorOp::Unique)
+        } else if is!("readonly") {
+            Some(TsTypeOperatorOp::ReadOnly)
         } else {
             None
         };

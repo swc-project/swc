@@ -10,7 +10,9 @@ extern crate walkdir;
 
 use self::{
     parser::{SourceFileInput, Syntax},
-    test::{test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName},
+    test::{
+        test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,
+    },
 };
 use std::{
     env,
@@ -29,6 +31,7 @@ fn add_test<F: FnOnce() + Send + 'static>(
 ) {
     tests.push(TestDescAndFn {
         desc: TestDesc {
+            test_type: TestType::UnitTest,
             name: TestName::DynTestName(name),
             ignore,
             should_panic: No,

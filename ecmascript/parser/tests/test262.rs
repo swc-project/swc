@@ -17,7 +17,9 @@ use std::{
 use swc_common::{Fold, FoldWith, Span};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{PResult, Parser, Session, SourceFileInput, Syntax};
-use test::{test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName};
+use test::{
+    test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,
+};
 use testing::{NormalizedOutput, StdErr};
 
 const IGNORED_PASS_TESTS: &[&str] = &[
@@ -77,6 +79,7 @@ fn add_test<F: FnOnce() + Send + 'static>(
 ) {
     tests.push(TestDescAndFn {
         desc: TestDesc {
+            test_type: TestType::UnitTest,
             name: TestName::DynTestName(name),
             ignore,
             should_panic: No,

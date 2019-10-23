@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 use self::SyntaxError::*;
 use crate::token::Token;
 use std::{

@@ -517,6 +517,8 @@ pub enum TsTypeOperatorOp {
     KeyOf,
     /// `unique`
     Unique,
+    /// `readonly`
+    ReadOnly,
 }
 
 #[ast_node("TsIndexedAccessType")]
