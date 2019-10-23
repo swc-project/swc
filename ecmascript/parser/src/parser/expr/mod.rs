@@ -999,8 +999,6 @@ impl<'a, I: Input> Parser<'a, I> {
         // as a pattern instead of reparsing)
         while !eof!() && !is!(')') {
             if first {
-                first = false;
-
                 if is!("async") {
                     // https://github.com/swc-project/swc/issues/410
                     self.state.potential_arrow_start = Some(cur_pos!());
@@ -1159,6 +1157,46 @@ impl<'a, I: Input> Parser<'a, I> {
             } else {
                 items.push(PatOrExprOrSpread::ExprOrSpread(arg));
             }
+
+            // https://github.com/swc-project/swc/issues/433
+            if first && eat!("=>") && {
+                debug_assert_eq!(items.len(), 1);
+                match items[0] {
+                    PatOrExprOrSpread::ExprOrSpread(ExprOrSpread { ref expr, .. })
+                    | PatOrExprOrSpread::Pat(Pat::Expr(ref expr)) => match **expr {
+                        Expr::Ident(..) => true,
+                        _ => false,
+                    },
+                    PatOrExprOrSpread::Pat(Pat::Ident(..)) => true,
+                    _ => false,
+                }
+            } {
+                let params = self
+                    .parse_paren_items_as_params(items)?
+                    .into_iter()
+                    .collect();
+
+                let body: BlockStmtOrExpr = self.parse_fn_body(false, false)?;
+                expect!(')');
+                let span = span!(start);
+                return Ok(vec![PatOrExprOrSpread::ExprOrSpread(ExprOrSpread {
+                    expr: Box::new(
+                        ArrowExpr {
+                            span,
+                            body,
+                            is_async: false,
+                            is_generator: false,
+                            params,
+                            type_params: None,
+                            return_type: None,
+                        }
+                        .into(),
+                    ),
+                    spread: None,
+                })]);
+            }
+
+            first = false;
         }
 
         expect!(')');
