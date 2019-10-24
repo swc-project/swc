@@ -1,3 +1,4 @@
+use crate::builder::PassBuilder;
 use atoms::JsWord;
 use common::{errors::Handler, FileName, SourceMap};
 use ecmascript::{
@@ -136,13 +137,6 @@ impl Options {
             GlobalPassOption::default().build(cm, handler)
         };
 
-        let need_interop_analysis = match config.module {
-            Some(ModuleConfig::CommonJs(ref c)) => !c.no_interop,
-            Some(ModuleConfig::Amd(ref c)) => !c.config.no_interop,
-            Some(ModuleConfig::Umd(ref c)) => !c.config.no_interop,
-            None => false,
-        };
-
         let pass = chain_at!(
             Module,
             // handle jsx
@@ -158,20 +152,11 @@ impl Options {
                 syntax.export_default_from() || syntax.export_namespace_from()
             ),
             Optional::new(simplifier(), enable_optimizer),
-            Optional::new(compat::es2018(), target <= JscTarget::Es2018),
-            Optional::new(compat::es2017(), target <= JscTarget::Es2017),
-            Optional::new(compat::es2016(), target <= JscTarget::Es2016),
-            Optional::new(compat::es2015(), target <= JscTarget::Es2015),
-            Optional::new(compat::es3(), target <= JscTarget::Es3),
-            Optional::new(
-                modules::import_analysis::import_analyzer(),
-                need_interop_analysis
-            ),
-            helpers::InjectHelpers,
-            ModuleConfig::build(cm.clone(), config.module),
-            hygiene(),
-            fixer(),
         );
+
+        let pass = PassBuilder::new(&cm, &handler, pass)
+            .target(target)
+            .finalize(config.module);
 
         BuiltConfig {
             minify: config.minify.unwrap_or(false),

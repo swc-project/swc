@@ -5,9 +5,11 @@ pub extern crate swc_atoms as atoms;
 pub extern crate swc_common as common;
 pub extern crate swc_ecmascript as ecmascript;
 
+mod builder;
 pub mod config;
 pub mod error;
 
+pub use crate::builder::PassBuilder;
 use crate::{
     config::{BuiltConfig, Config, ConfigFile, Merge, Options, RootMode},
     error::Error,
