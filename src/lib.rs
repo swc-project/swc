@@ -228,29 +228,9 @@ impl Compiler {
         fm: Arc<SourceFile>,
         opts: Options,
     ) -> Result<TransformOutput, Error> {
-        self.run(|| {
-            if error::debug() {
-                eprintln!("processing js file: {:?}", fm)
-            }
+        let config = self.run(|| self.config_for_file(&opts, &*fm))?;
 
-            let config = self.config_for_file(&opts, &*fm)?;
-
-            let comments = Default::default();
-            let module = self.parse_js(
-                fm.clone(),
-                config.syntax,
-                if config.minify { None } else { Some(&comments) },
-            )?;
-            let mut pass = config.pass;
-            let module = helpers::HELPERS.set(&Helpers::new(config.external_helpers), || {
-                util::HANDLER.set(&self.handler, || {
-                    // Fold module
-                    module.fold_with(&mut pass)
-                })
-            });
-
-            self.print(&module, fm, &comments, config.source_maps, config.minify)
-        })
+        self.process_js(fm, config)
     }
 
     /// You can use custom pass with this method.
