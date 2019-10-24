@@ -5,7 +5,7 @@ use ecmascript::{
     ast::{Expr, Module, ModuleItem, Stmt},
     parser::{Parser, Session as ParseSess, SourceFileInput, Syntax},
     transforms::{
-        chain_at, compat, const_modules, fixer, helpers, hygiene, modules,
+        chain_at, const_modules,  modules,
         pass::{noop, Optional, Pass},
         proposals::{class_properties, decorators, export},
         react, resolver, simplifier, typescript, InlineGlobals,
