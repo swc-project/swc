@@ -108,6 +108,12 @@ pub struct SourceMap {
     doctest_offset: Option<(FileName, isize)>,
 }
 
+impl Default for SourceMap {
+    fn default() -> Self {
+        Self::new(FilePathMapping::empty())
+    }
+}
+
 impl SourceMap {
     pub fn new(path_mapping: FilePathMapping) -> SourceMap {
         SourceMap {

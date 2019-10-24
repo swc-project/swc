@@ -31,7 +31,11 @@ use sourcemap::SourceMapBuilder;
 use std::{fs::File, path::Path, sync::Arc};
 
 pub struct Compiler {
+    /// swc uses rustc's span interning.
+    ///
+    /// The `Globals` struct contains span interner.
     globals: Globals,
+    /// CodeMap
     pub cm: Arc<SourceMap>,
     handler: Handler,
 }
