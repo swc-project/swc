@@ -1,0 +1,29 @@
+[
+  {
+    "test": "\\.ts",
+    "jsc": {
+      "parser": {
+        "syntax": "typescript",
+        "tsx": false,
+        "decorators": false
+      }
+    }
+  },
+  {
+    "test": "\\.js",
+    "jsc": {
+      "parser": {
+        "syntax": "ecmascript",
+        "jsx": false,
+        "dynamicImport": false,
+        "numericSeparator": false,
+        "classPrivateProperty": false,
+        "privateMethod": false,
+        "classProperty": false,
+        "functionBind": false,
+        "decorators": false,
+        "decoratorsBeforeExport": false
+      }
+    }
+  }
+]

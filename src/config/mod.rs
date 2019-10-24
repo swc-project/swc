@@ -15,6 +15,9 @@ use hashbrown::{HashMap, HashSet};
 use serde::{Deserialize, Serialize};
 use std::{env, path::PathBuf, sync::Arc};
 
+#[cfg(test)]
+mod tests;
+
 #[derive(Default, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ParseOptions {
@@ -219,9 +222,20 @@ fn default_cwd() -> PathBuf {
 }
 
 /// `.swcrc` file
+#[derive(Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum Rc {
+    Single(Config),
+    Multi(Vec<Config>),
+}
+
+/// A single object in the `.swcrc` file
 #[derive(Default, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct Config {
+    #[serde(default)]
+    pub test: Option<String>,
+
     #[serde(default)]
     pub jsc: JscConfig,
 
