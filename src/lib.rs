@@ -8,20 +8,27 @@ pub extern crate swc_ecmascript as ecmascript;
 pub mod config;
 pub mod error;
 
-use crate::error::Error;
+use crate::{
+    config::{BuiltConfig, Config, ConfigFile, Merge, Options, RootMode},
+    error::Error,
+};
 use common::{
-    comments::Comments, errors::Handler, FileName, Globals, SourceFile, SourceMap, GLOBALS,
+    comments::Comments, errors::Handler, FileName, FoldWith, Globals, SourceFile, SourceMap,
+    GLOBALS,
 };
 use ecmascript::{
     ast::Module,
     codegen::{self, Emitter},
     parser::{Parser, Session as ParseSess, Syntax},
-    transforms::pass::Pass,
+    transforms::{
+        helpers::{self, Helpers},
+        util,
+    },
 };
 pub use ecmascript::{parser::SourceFileInput, transforms::chain_at};
 use serde::Serialize;
 use sourcemap::SourceMapBuilder;
-use std::sync::Arc;
+use std::{fs::File, path::Path, sync::Arc};
 
 pub struct Compiler {
     globals: Globals,
@@ -137,7 +144,102 @@ impl Compiler {
 }
 
 /// High-level apis.
-impl Compiler {}
+impl Compiler {
+    pub fn new(cm: Arc<SourceMap>, handler: Handler) -> Self {
+        Compiler {
+            cm,
+            handler,
+            globals: Globals::new(),
+        }
+    }
+
+    /// Handles config merging.
+    pub fn config_for_file(&self, opts: &Options, fm: &SourceFile) -> Result<BuiltConfig, Error> {
+        let Options {
+            ref root,
+            root_mode,
+            swcrc,
+            config_file,
+            ..
+        } = opts;
+        let root = root
+            .clone()
+            .unwrap_or_else(|| ::std::env::current_dir().unwrap());
+
+        let config_file = match config_file {
+            Some(ConfigFile::Str(ref s)) => {
+                let path = Path::new(s);
+                let r = File::open(&path).map_err(|err| Error::FailedToReadConfigFile { err })?;
+                let config: Config = serde_json::from_reader(r)
+                    .map_err(|err| Error::FailedToParseConfigFile { err })?;
+                Some(config)
+            }
+            _ => None,
+        };
+
+        if *swcrc {
+            match fm.name {
+                FileName::Real(ref path) => {
+                    let mut parent = path.parent();
+                    while let Some(dir) = parent {
+                        let swcrc = dir.join(".swcrc");
+
+                        if swcrc.exists() {
+                            let r = File::open(&swcrc)
+                                .map_err(|err| Error::FailedToReadConfigFile { err })?;
+                            let mut config: Config = serde_json::from_reader(r)
+                                .map_err(|err| Error::FailedToParseConfigFile { err })?;
+                            if let Some(config_file) = config_file {
+                                config.merge(&config_file)
+                            }
+                            let built = opts.build(&self.cm, &self.handler, Some(config));
+                            return Ok(built);
+                        }
+
+                        if dir == root && *root_mode == RootMode::Root {
+                            break;
+                        }
+                        parent = dir.parent();
+                    }
+                }
+                _ => {}
+            }
+        }
+
+        let built = opts.build(&self.cm, &self.handler, config_file);
+        Ok(built)
+    }
+
+    pub fn process_js_file(
+        &self,
+        fm: Arc<SourceFile>,
+        opts: Options,
+    ) -> Result<TransformOutput, Error> {
+        self.run(|| {
+            if error::debug() {
+                eprintln!("processing js file: {:?}", fm)
+            }
+
+            let config = self.config_for_file(&opts, &*fm)?;
+
+            let comments = Default::default();
+            let module = self.parse_js(
+                fm.clone(),
+                config.syntax,
+                if config.minify { None } else { Some(&comments) },
+            )?;
+            let mut pass = config.pass;
+            let module = helpers::HELPERS.set(&Helpers::new(config.external_helpers), || {
+                util::HANDLER.set(&self.handler, || {
+                    // Fold module
+                    module.fold_with(&mut pass)
+                })
+            });
+
+            self.print(&module, fm, &comments, config.source_maps, config.minify)
+        })
+    }
+}
 
 struct MyHandlers;
 
