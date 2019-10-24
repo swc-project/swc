@@ -27,7 +27,10 @@ use ecmascript::{
         util,
     },
 };
-pub use ecmascript::{parser::SourceFileInput, transforms::chain_at};
+pub use ecmascript::{
+    parser::SourceFileInput,
+    transforms::{chain_at, pass::Pass},
+};
 use serde::Serialize;
 use sourcemap::SourceMapBuilder;
 use std::{fs::File, path::Path, sync::Arc};
@@ -159,8 +162,12 @@ impl Compiler {
         }
     }
 
-    /// Handles config merging.
-    pub fn config_for_file(&self, opts: &Options, fm: &SourceFile) -> Result<BuiltConfig, Error> {
+    /// This method handles merging of config.
+    pub fn config_for_file(
+        &self,
+        opts: &Options,
+        fm: &SourceFile,
+    ) -> Result<BuiltConfig<impl Pass>, Error> {
         let Options {
             ref root,
             root_mode,
@@ -227,6 +234,37 @@ impl Compiler {
             }
 
             let config = self.config_for_file(&opts, &*fm)?;
+
+            let comments = Default::default();
+            let module = self.parse_js(
+                fm.clone(),
+                config.syntax,
+                if config.minify { None } else { Some(&comments) },
+            )?;
+            let mut pass = config.pass;
+            let module = helpers::HELPERS.set(&Helpers::new(config.external_helpers), || {
+                util::HANDLER.set(&self.handler, || {
+                    // Fold module
+                    module.fold_with(&mut pass)
+                })
+            });
+
+            self.print(&module, fm, &comments, config.source_maps, config.minify)
+        })
+    }
+
+    /// You can use custom pass with this method.
+    ///
+    /// There exists a [PassBuilder] to help building custom passes.
+    pub fn process_js(
+        &self,
+        fm: Arc<SourceFile>,
+        config: BuiltConfig<impl Pass>,
+    ) -> Result<TransformOutput, Error> {
+        self.run(|| {
+            if error::debug() {
+                eprintln!("processing js file: {:?}", fm)
+            }
 
             let comments = Default::default();
             let module = self.parse_js(

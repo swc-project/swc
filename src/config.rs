@@ -102,7 +102,7 @@ impl Options {
         cm: &Arc<SourceMap>,
         handler: &Handler,
         config: Option<Config>,
-    ) -> BuiltConfig {
+    ) -> BuiltConfig<impl Pass> {
         let mut config = config.unwrap_or_else(|| Default::default());
         if let Some(ref c) = self.config {
             config.merge(c)
@@ -160,7 +160,7 @@ impl Options {
 
         BuiltConfig {
             minify: config.minify.unwrap_or(false),
-            pass: box pass,
+            pass,
             external_helpers,
             syntax,
             source_maps: self
@@ -233,8 +233,8 @@ pub struct Config {
 }
 
 /// One `BuiltConfig` per a directory with swcrc
-pub struct BuiltConfig {
-    pub pass: Box<dyn Pass>,
+pub struct BuiltConfig<P: Pass> {
+    pub pass: P,
     pub syntax: Syntax,
     pub minify: bool,
     pub external_helpers: bool,
