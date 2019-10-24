@@ -57,7 +57,7 @@ deploy:
   provider: pages
   skip_cleanup: true
   github_token: $GH_TOKEN
-  email: kdy1@outlook.kr
+  email: kdy1997.dev@gmail.com
   name: "강동윤"
   on:
     branch: master
