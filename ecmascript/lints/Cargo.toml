@@ -1,7 +1,7 @@
 [package]
 name = "swc_ecma_lints"
 version = "0.1.0"
-authors = ["강동윤 <kdy1@outlook.kr>"]
+authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 edition = "2018"
 publish = false
 
