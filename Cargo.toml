@@ -24,6 +24,8 @@ failure = "0.1"
 path-clean = "0.1"
 lazy_static = "1"
 hashbrown = "0.5"
+regex = "1"
+chashmap = "2.2.2"
 
 [[example]]
 name = "usage"

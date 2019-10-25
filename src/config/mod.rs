@@ -1,5 +1,6 @@
-use crate::builder::PassBuilder;
+use crate::{builder::PassBuilder, error::Error};
 use atoms::JsWord;
+use chashmap::CHashMap;
 use common::{errors::Handler, FileName, SourceMap};
 use ecmascript::{
     ast::{Expr, Module, ModuleItem, Stmt},
@@ -12,8 +13,14 @@ use ecmascript::{
     },
 };
 use hashbrown::{HashMap, HashSet};
+use lazy_static::lazy_static;
+use regex::Regex;
 use serde::{Deserialize, Serialize};
-use std::{env, path::PathBuf, sync::Arc};
+use std::{
+    env,
+    path::{Path, PathBuf},
+    sync::Arc,
+};
 
 #[cfg(test)]
 mod tests;
@@ -229,6 +236,39 @@ pub enum Rc {
     Multi(Vec<Config>),
 }
 
+impl Rc {
+    pub fn into_config(self, filename: Option<&Path>) -> Result<Config, Error> {
+        let cs = match self {
+            Rc::Single(c) => match filename {
+                Some(filename) => {
+                    if c.matches(filename)? {
+                        return Ok(c);
+                    } else {
+                        return Err(Error::Unmatched);
+                    }
+                }
+                // TODO
+                None => return Ok(c),
+            },
+            Rc::Multi(cs) => cs,
+        };
+
+        match filename {
+            Some(filename) => {
+                for c in cs {
+                    if c.matches(filename)? {
+                        return Ok(c);
+                    }
+                }
+            }
+            // TODO
+            None => return Ok(cs.into_iter().next().unwrap_or_default()),
+        }
+
+        Err(Error::Unmatched)
+    }
+}
+
 /// A single object in the `.swcrc` file
 #[derive(Default, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
@@ -244,6 +284,28 @@ pub struct Config {
 
     #[serde(default)]
     pub minify: Option<bool>,
+}
+
+impl Config {
+    pub fn matches(&self, filename: &Path) -> Result<bool, Error> {
+        lazy_static! {
+            static ref CACHE: CHashMap<String, Regex> = Default::default();
+        }
+
+        match self.test {
+            Some(ref test) => {
+                if !CACHE.contains_key(&*test) {
+                    let re = Regex::new(&test).map_err(|err| Error::InvalidRegex { err })?;
+                    CACHE.insert(test.clone(), re);
+                }
+
+                let re = CACHE.get(&*test).unwrap();
+
+                Ok(re.is_match(&filename.display().to_string()))
+            }
+            None => Ok(true),
+        }
+    }
 }
 
 /// One `BuiltConfig` per a directory with swcrc

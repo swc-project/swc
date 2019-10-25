@@ -1,5 +1,6 @@
 use failure::Fail;
 use lazy_static::lazy_static;
+use regex;
 use serde_json;
 use sourcemap;
 use std::{io, string::FromUtf8Error};
@@ -26,8 +27,16 @@ pub enum Error {
 
     #[fail(display = "sourcemap is not utf8: {}", err)]
     SourceMapNotUtf8 { err: FromUtf8Error },
+
+    #[fail(display = "invalid regexp: {}", err)]
+    InvalidRegex { err: regex::Error },
+
     /* #[fail(display = "generated code is not utf8: {}", err)]
      * GeneratedCodeNotUtf8 { err: FromUtf8Error }, */
+    /// This means `test` field in .swcrc file did not matched the compiling
+    /// file.
+    #[fail(display = "unmatched")]
+    Unmatched,
 }
 
 /// Returns true if `SWC_DEBUG` environment is set to `1` or `true`.

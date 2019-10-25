@@ -11,7 +11,7 @@ pub mod error;
 
 pub use crate::builder::PassBuilder;
 use crate::{
-    config::{BuiltConfig, Config, ConfigFile, Merge, Options, RootMode},
+    config::{BuiltConfig, ConfigFile, Merge, Options, Rc, RootMode},
     error::Error,
 };
 use common::{
@@ -183,16 +183,16 @@ impl Compiler {
             Some(ConfigFile::Str(ref s)) => {
                 let path = Path::new(s);
                 let r = File::open(&path).map_err(|err| Error::FailedToReadConfigFile { err })?;
-                let config: Config = serde_json::from_reader(r)
+                let config: Rc = serde_json::from_reader(r)
                     .map_err(|err| Error::FailedToParseConfigFile { err })?;
                 Some(config)
             }
             _ => None,
         };
 
-        if *swcrc {
-            match fm.name {
-                FileName::Real(ref path) => {
+        match fm.name {
+            FileName::Real(ref path) => {
+                if *swcrc {
                     let mut parent = path.parent();
                     while let Some(dir) = parent {
                         let swcrc = dir.join(".swcrc");
@@ -200,10 +200,11 @@ impl Compiler {
                         if swcrc.exists() {
                             let r = File::open(&swcrc)
                                 .map_err(|err| Error::FailedToReadConfigFile { err })?;
-                            let mut config: Config = serde_json::from_reader(r)
-                                .map_err(|err| Error::FailedToParseConfigFile { err })?;
+                            let mut config = serde_json::from_reader(r)
+                                .map_err(|err| Error::FailedToParseConfigFile { err })
+                                .and_then(|rc: Rc| rc.into_config(Some(path)))?;
                             if let Some(config_file) = config_file {
-                                config.merge(&config_file)
+                                config.merge(&config_file.into_config(Some(path))?)
                             }
                             let built = opts.build(&self.cm, &self.handler, Some(config));
                             return Ok(built);
@@ -215,11 +216,27 @@ impl Compiler {
                         parent = dir.parent();
                     }
                 }
-                _ => {}
+
+                if let Some(config_file) = config_file {
+                    let built = opts.build(
+                        &self.cm,
+                        &self.handler,
+                        Some(config_file.into_config(Some(path))?),
+                    );
+                    return Ok(built);
+                }
             }
+            _ => {}
         }
 
-        let built = opts.build(&self.cm, &self.handler, config_file);
+        let built = opts.build(
+            &self.cm,
+            &self.handler,
+            match config_file {
+                Some(config_file) => Some(config_file.into_config(None)?),
+                None => None,
+            },
+        );
         Ok(built)
     }
 
