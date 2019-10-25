@@ -262,7 +262,20 @@ impl Rc {
                 }
             }
             // TODO
-            None => return Ok(cs.into_iter().next().unwrap_or_default()),
+            None => {
+                let mut first = None;
+                for c in cs {
+                    if c.test.is_none() {
+                        return Ok(c);
+                    }
+
+                    if first.is_none() {
+                        first = Some(c);
+                    }
+                }
+
+                return Ok(first.unwrap_or_default());
+            }
         }
 
         Err(Error::Unmatched)
