@@ -17,7 +17,7 @@ use std::{
 };
 use swc_common::comments::Comments;
 use swc_ecma_codegen::Emitter;
-use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
+use swc_ecma_parser::{lexer::Lexer, Parser, Session, SourceFileInput, Syntax};
 use test::{
     test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,
 };
@@ -150,7 +150,7 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
 
                 let comments = Comments::default();
                 let handlers = box MyHandlers;
-                let mut parser: Parser<SourceFileInput> = Parser::new(
+                let mut parser: Parser<Lexer<SourceFileInput>> = Parser::new(
                     Session { handler: &handler },
                     Syntax::default(),
                     (&*src).into(),

@@ -34,7 +34,7 @@ fn main() {
 
         let capturing = Capturing::new(lexer);
 
-        let mut parser = Parser::new(session, capturing);
+        let mut parser = Parser::new_from(session, capturing);
 
         let _module = parser
             .parse_module()

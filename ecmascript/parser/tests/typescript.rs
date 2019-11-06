@@ -20,7 +20,7 @@ use std::{
 };
 use swc_common::{Fold, FoldWith, CM};
 use swc_ecma_ast::*;
-use swc_ecma_parser::{PResult, Parser, Session, SourceFileInput, Syntax, TsConfig};
+use swc_ecma_parser::{lexer::Lexer, PResult, Parser, Session, SourceFileInput, Syntax, TsConfig};
 use test::{
     test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,
 };
@@ -146,7 +146,7 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
 
 fn with_parser<F, Ret>(treat_error_as_bug: bool, file_name: &Path, f: F) -> Result<Ret, StdErr>
 where
-    F: for<'a> FnOnce(&mut Parser<'a, SourceFileInput>) -> PResult<'a, Ret>,
+    F: for<'a> FnOnce(&mut Parser<'a, Lexer<'a, SourceFileInput>>) -> PResult<'a, Ret>,
 {
     let fname = file_name.display().to_string();
     let output = ::testing::run_test(treat_error_as_bug, |cm, handler| {

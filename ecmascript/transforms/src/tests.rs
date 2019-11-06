@@ -11,7 +11,7 @@ use std::{
 };
 use swc_common::{errors::Handler, FileName, Fold, FoldWith, SourceMap};
 use swc_ecma_codegen::Emitter;
-use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
+use swc_ecma_parser::{lexer::Lexer, Parser, Session, SourceFileInput, Syntax};
 use tempfile::tempdir_in;
 
 struct MyHandlers;
@@ -48,7 +48,7 @@ impl<'a> Tester<'a> {
         op: F,
     ) -> Result<T, ()>
     where
-        F: FnOnce(&mut Parser<SourceFileInput>) -> Result<T, ()>,
+        F: FnOnce(&mut Parser<Lexer<SourceFileInput>>) -> Result<T, ()>,
     {
         let fm = self
             .cm

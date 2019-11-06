@@ -16,7 +16,7 @@ use std::{
 };
 use swc_common::{Fold, FoldWith, Span};
 use swc_ecma_ast::*;
-use swc_ecma_parser::{PResult, Parser, Session, SourceFileInput, Syntax};
+use swc_ecma_parser::{lexer::Lexer, PResult, Parser, Session, SourceFileInput, Syntax};
 use test::{
     test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,
 };
@@ -288,7 +288,7 @@ fn parse_module<'a>(file_name: &Path) -> Result<Module, NormalizedOutput> {
 
 fn with_parser<F, Ret>(file_name: &Path, f: F) -> Result<Ret, StdErr>
 where
-    F: for<'a> FnOnce(&mut Parser<'a, SourceFileInput>) -> PResult<'a, Ret>,
+    F: for<'a> FnOnce(&mut Parser<'a, Lexer<'a, SourceFileInput>>) -> PResult<'a, Ret>,
 {
     let output = ::testing::run_test(false, |cm, handler| {
         let fm = cm

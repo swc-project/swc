@@ -9,9 +9,10 @@ use crate::{
     Context, Session, Syntax,
 };
 use ast::*;
+use lexer::Lexer;
 use std::ops::{Deref, DerefMut};
 use swc_atoms::JsWord;
-use swc_common::{errors::DiagnosticBuilder, BytePos, Span};
+use swc_common::{comments::Comments, errors::DiagnosticBuilder, input::Input, BytePos, Span};
 
 #[macro_use]
 mod macros;
@@ -44,9 +45,20 @@ struct State {
     potential_arrow_start: Option<BytePos>,
 }
 
+impl<'a, I: Input> Parser<'a, Lexer<'a, I>> {
+    pub fn new(
+        session: Session<'a>,
+        syntax: Syntax,
+        input: I,
+        comments: Option<&'a Comments>,
+    ) -> Self {
+        Self::new_from(session, Lexer::new(session, syntax, input, comments))
+    }
+}
+
 #[parser]
 impl<'a, I: Tokens> Parser<'a, I> {
-    pub fn new(session: Session<'a>, input: I) -> Self {
+    pub fn new_from(session: Session<'a>, input: I) -> Self {
         Parser {
             session,
             input: Buffer::new(input),
@@ -110,7 +122,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
 #[cfg(test)]
 pub fn test_parser<F, Ret>(s: &'static str, syntax: Syntax, f: F) -> Ret
 where
-    F: for<'a> FnOnce(&'a mut Parser<'a, ::SourceFileInput>) -> Result<Ret, ()>,
+    F: for<'a> FnOnce(&'a mut Parser<'a, Lexer<'a, ::SourceFileInput>>) -> Result<Ret, ()>,
 {
     crate::with_test_sess(s, |sess, input| {
         f(&mut Parser::new(sess, syntax, input, None))
