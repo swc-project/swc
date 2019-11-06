@@ -1,5 +1,5 @@
 use crate::{
-    lexer::{self, Input, Lexer},
+    lexer::{self},
     token::*,
     Context, Syntax,
 };
@@ -14,36 +14,6 @@ pub trait TokensInput: Clone + Iterator<Item = TokenAndSpan> {
     fn token_context(&self) -> &lexer::TokenContexts;
     fn token_context_mut(&mut self) -> &mut lexer::TokenContexts;
     fn set_token_context(&mut self, _c: lexer::TokenContexts);
-}
-
-impl<I: Input> TokensInput for Lexer<'_, I> {
-    fn set_ctx(&mut self, ctx: Context) {
-        self.ctx = ctx
-    }
-
-    fn ctx(&self) -> Context {
-        self.ctx
-    }
-
-    fn syntax(&self) -> Syntax {
-        self.syntax
-    }
-
-    fn set_expr_allowed(&mut self, allow: bool) {
-        self.set_expr_allowed(allow)
-    }
-
-    fn token_context(&self) -> &lexer::TokenContexts {
-        self.token_context()
-    }
-
-    fn token_context_mut(&mut self) -> &mut lexer::TokenContexts {
-        self.token_context_mut()
-    }
-
-    fn set_token_context(&mut self, c: lexer::TokenContexts) {
-        self.set_token_context(c)
-    }
 }
 
 /// This struct is responsible for managing current token and peeked token.
