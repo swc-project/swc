@@ -37,10 +37,10 @@ pub struct Lexer<'a, I: Input> {
     session: Session<'a>,
     comments: Option<&'a Comments>,
     leading_comments_buffer: Option<Vec<Comment>>,
-    pub ctx: Context,
+    pub(crate) ctx: Context,
     input: I,
     state: State,
-    pub syntax: Syntax,
+    pub(crate) syntax: Syntax,
 }
 
 impl<'a, I: Input> Lexer<'a, I> {
