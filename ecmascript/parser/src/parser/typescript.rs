@@ -4,7 +4,7 @@ use lexer::TokenContexts;
 use swc_common::Spanned;
 
 #[parser]
-impl<'a, I: TokensInput> Parser<'a, I> {
+impl<'a, I: Tokens> Parser<'a, I> {
     /// `tsNextTokenCanFollowModifier`
     fn ts_next_token_can_follow_modifier(&mut self) -> PResult<'a, bool> {
         debug_assert!(self.input.syntax().typescript());
@@ -2006,7 +2006,7 @@ impl<'a, I: TokensInput> Parser<'a, I> {
     }
 }
 
-impl<'a, I: TokensInput> Parser<'a, I> {
+impl<'a, I: Tokens> Parser<'a, I> {
     /// In no lexer context
     fn ts_in_no_context<T, F>(&mut self, op: F) -> PResult<'a, T>
     where

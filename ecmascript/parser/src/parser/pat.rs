@@ -5,7 +5,7 @@ use std::iter;
 use swc_common::Spanned;
 
 #[parser]
-impl<'a, I: TokensInput> Parser<'a, I> {
+impl<'a, I: Tokens> Parser<'a, I> {
     pub(super) fn parse_opt_binding_ident(&mut self) -> PResult<'a, (Option<Ident>)> {
         if is!(BindingIdent) || (self.input.syntax().typescript() && is!("this")) {
             self.parse_binding_ident().map(Some)
@@ -311,7 +311,7 @@ impl PatType {
 }
 
 #[parser]
-impl<'a, I: TokensInput> Parser<'a, I> {
+impl<'a, I: Tokens> Parser<'a, I> {
     /// This does not return 'rest' pattern because non-last parameter cannot be
     /// rest.
     pub(super) fn reparse_expr_as_pat(

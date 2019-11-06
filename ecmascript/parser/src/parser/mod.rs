@@ -1,7 +1,7 @@
 #![allow(dead_code, unused_variables)]
 #![deny(non_snake_case)]
 use self::{
-    input::{Buffer, TokensInput},
+    input::{Buffer, Tokens},
     util::ParseObject,
 };
 use crate::{
@@ -33,7 +33,7 @@ pub type PResult<'a, T> = Result<T, DiagnosticBuilder<'a>>;
 
 /// EcmaScript parser.
 #[derive(Clone)]
-pub struct Parser<'a, I: TokensInput> {
+pub struct Parser<'a, I: Tokens> {
     session: Session<'a>,
     state: State,
     input: Buffer<I>,
@@ -47,7 +47,7 @@ struct State {
 }
 
 #[parser]
-impl<'a, I: TokensInput> Parser<'a, I> {
+impl<'a, I: Tokens> Parser<'a, I> {
     pub fn new(session: Session<'a>, input: I) -> Self {
         Parser {
             session,

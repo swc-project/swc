@@ -1,7 +1,7 @@
 use super::{Input, Lexer};
 use crate::{lexer::util::CharExt, token::*, Syntax};
 use enum_kind::Kind;
-use input::TokensInput;
+use input::Tokens;
 use smallvec::SmallVec;
 use std::mem;
 use swc_common::BytePos;
@@ -86,7 +86,7 @@ impl<'a> From<&'a Token> for TokenType {
     }
 }
 
-impl<I: Input> TokensInput for Lexer<'_, I> {
+impl<I: Input> Tokens for Lexer<'_, I> {
     fn set_ctx(&mut self, ctx: Context) {
         self.ctx = ctx
     }

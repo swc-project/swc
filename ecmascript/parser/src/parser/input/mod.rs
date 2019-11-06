@@ -5,7 +5,7 @@ use crate::{
 };
 use swc_common::{BytePos, Span, DUMMY_SP};
 
-pub trait TokensInput: Clone + Iterator<Item = TokenAndSpan> {
+pub trait Tokens: Clone + Iterator<Item = TokenAndSpan> {
     fn set_ctx(&mut self, ctx: Context);
     fn ctx(&self) -> Context;
     fn syntax(&self) -> Syntax;
@@ -18,7 +18,7 @@ pub trait TokensInput: Clone + Iterator<Item = TokenAndSpan> {
 
 /// This struct is responsible for managing current token and peeked token.
 #[derive(Clone)]
-pub(super) struct Buffer<I: TokensInput> {
+pub(super) struct Buffer<I: Tokens> {
     iter: I,
     /// Span of the previous token.
     prev_span: Span,
@@ -27,7 +27,7 @@ pub(super) struct Buffer<I: TokensInput> {
     next: Option<TokenAndSpan>,
 }
 
-impl<I: TokensInput> Buffer<I> {
+impl<I: Tokens> Buffer<I> {
     pub fn new(lexer: I) -> Self {
         Buffer {
             iter: lexer,

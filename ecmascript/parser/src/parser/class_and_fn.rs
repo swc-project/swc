@@ -4,7 +4,7 @@ use swc_common::Spanned;
 
 #[parser]
 /// Parser for function expression and function declaration.
-impl<'a, I: TokensInput> Parser<'a, I> {
+impl<'a, I: Tokens> Parser<'a, I> {
     pub(super) fn parse_async_fn_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
         let start = cur_pos!();
         expect!("async");
@@ -887,7 +887,7 @@ pub(super) trait FnBodyParser<'a, Body> {
 }
 
 #[parser]
-impl<'a, I: TokensInput> FnBodyParser<'a, BlockStmtOrExpr> for Parser<'a, I> {
+impl<'a, I: Tokens> FnBodyParser<'a, BlockStmtOrExpr> for Parser<'a, I> {
     fn parse_fn_body_inner(&mut self) -> PResult<'a, BlockStmtOrExpr> {
         if is!('{') {
             self.parse_block(false).map(BlockStmtOrExpr::BlockStmt)
@@ -898,7 +898,7 @@ impl<'a, I: TokensInput> FnBodyParser<'a, BlockStmtOrExpr> for Parser<'a, I> {
 }
 
 #[parser]
-impl<'a, I: TokensInput> FnBodyParser<'a, Option<BlockStmt>> for Parser<'a, I> {
+impl<'a, I: Tokens> FnBodyParser<'a, Option<BlockStmt>> for Parser<'a, I> {
     fn parse_fn_body_inner(&mut self) -> PResult<'a, Option<BlockStmt>> {
         // allow omitting body and allow placing `{` on next line
         if self.input.syntax().typescript() && !is!('{') && eat!(';') {

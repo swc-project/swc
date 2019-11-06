@@ -4,7 +4,7 @@ use swc_common::Spanned;
 mod module_item;
 
 #[parser]
-impl<'a, I: TokensInput> Parser<'a, I> {
+impl<'a, I: Tokens> Parser<'a, I> {
     pub(super) fn parse_block_body<Type>(
         &mut self,
         mut allow_directives: bool,
@@ -807,7 +807,7 @@ pub(super) trait StmtLikeParser<'a, Type: IsDirective> {
 }
 
 #[parser]
-impl<'a, I: TokensInput> StmtLikeParser<'a, Stmt> for Parser<'a, I> {
+impl<'a, I: Tokens> StmtLikeParser<'a, Stmt> for Parser<'a, I> {
     fn handle_import_export(&mut self, top_level: bool, _: Vec<Decorator>) -> PResult<'a, Stmt> {
         if self.input.syntax().dynamic_import() && is!("import") {
             return self.parse_primary_expr().map(Stmt::Expr);
