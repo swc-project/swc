@@ -16,7 +16,11 @@
 //!   |          ^^^^^
 //! ```
 //!
-//! # Example
+//! # Example (lexer)
+//!
+//! See `lexer.rs` in examples directory.
+//!
+//! # Example (parser)
 //!
 //! ```
 //! #[macro_use]

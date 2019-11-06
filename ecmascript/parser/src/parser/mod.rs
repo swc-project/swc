@@ -1,9 +1,7 @@
 #![allow(dead_code, unused_variables)]
 #![deny(non_snake_case)]
-use self::{
-    input::{Buffer, Tokens},
-    util::ParseObject,
-};
+pub use self::input::{Capturing, Tokens, TokensInput};
+use self::{input::Buffer, util::ParseObject};
 use crate::{
     error::SyntaxError,
     parser_macros::parser,

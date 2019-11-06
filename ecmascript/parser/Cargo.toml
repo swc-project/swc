@@ -34,3 +34,6 @@ env_logger = "0.6.0"
 walkdir = "2"
 serde_json = "1"
 pretty_assertions = "0.6"
+
+[[example]]
+name = "lexer"

@@ -1,3 +1,4 @@
+use super::Parser;
 use crate::{
     lexer::{self},
     token::*,
@@ -80,6 +81,12 @@ pub struct Capturing<I: Tokens> {
 }
 
 impl<I: Tokens> Capturing<I> {
+    pub fn new(input: I) -> Self {
+        Capturing {
+            inner: input,
+            captured: vec![],
+        }
+    }
     /// Take captured tokens
     pub fn take(&mut self) -> Vec<TokenAndSpan> {
         mem::replace(&mut self.captured, vec![])
@@ -136,6 +143,12 @@ pub(super) struct Buffer<I: Tokens> {
     cur: Option<TokenAndSpan>,
     /// Peeked token
     next: Option<TokenAndSpan>,
+}
+
+impl<I: Tokens> Parser<'_, I> {
+    pub fn input(&mut self) -> &mut I {
+        &mut self.input.iter
+    }
 }
 
 impl<I: Tokens> Buffer<I> {
