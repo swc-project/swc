@@ -18,7 +18,7 @@ pub trait TokensInput: Clone + Iterator<Item = TokenAndSpan> {
 
 /// This struct is responsible for managing current token and peeked token.
 #[derive(Clone)]
-pub(super) struct ParserInput<I: TokensInput> {
+pub(super) struct Buffer<I: TokensInput> {
     iter: I,
     /// Span of the previous token.
     prev_span: Span,
@@ -27,9 +27,9 @@ pub(super) struct ParserInput<I: TokensInput> {
     next: Option<TokenAndSpan>,
 }
 
-impl<I: TokensInput> ParserInput<I> {
+impl<I: TokensInput> Buffer<I> {
     pub fn new(lexer: I) -> Self {
-        ParserInput {
+        Buffer {
             iter: lexer,
             cur: None,
             prev_span: DUMMY_SP,

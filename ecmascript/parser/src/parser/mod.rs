@@ -1,7 +1,7 @@
 #![allow(dead_code, unused_variables)]
 #![deny(non_snake_case)]
 use self::{
-    input::{ParserInput, TokensInput},
+    input::{Buffer, TokensInput},
     util::ParseObject,
 };
 use crate::{
@@ -36,7 +36,7 @@ pub type PResult<'a, T> = Result<T, DiagnosticBuilder<'a>>;
 pub struct Parser<'a, I: TokensInput> {
     session: Session<'a>,
     state: State,
-    input: ParserInput<I>,
+    input: Buffer<I>,
 }
 
 #[derive(Clone, Default)]
@@ -51,7 +51,7 @@ impl<'a, I: TokensInput> Parser<'a, I> {
     pub fn new(session: Session<'a>, input: I) -> Self {
         Parser {
             session,
-            input: ParserInput::new(input),
+            input: Buffer::new(input),
             state: Default::default(),
         }
     }
