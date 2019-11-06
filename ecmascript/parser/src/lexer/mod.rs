@@ -31,7 +31,7 @@ pub mod util;
 pub(crate) type LexResult<T> = Result<T, Error>;
 
 #[derive(Clone)]
-pub(crate) struct Lexer<'a, I: Input> {
+pub struct Lexer<'a, I: Input> {
     session: Session<'a>,
     comments: Option<&'a Comments>,
     leading_comments_buffer: Option<Vec<Comment>>,

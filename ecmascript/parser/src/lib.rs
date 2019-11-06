@@ -107,7 +107,7 @@ use swc_common::errors::Handler;
 #[macro_use]
 mod macros;
 mod error;
-mod lexer;
+pub mod lexer;
 mod parser;
 mod token;
 
