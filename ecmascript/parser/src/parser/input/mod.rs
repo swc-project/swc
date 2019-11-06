@@ -74,6 +74,7 @@ impl Tokens for TokensInput {
     }
 }
 
+/// Note: Lexer need access to parser's context to lex correctly.
 #[derive(Debug, Clone)]
 pub struct Capturing<I: Tokens> {
     inner: I,
