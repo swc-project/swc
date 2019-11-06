@@ -16,7 +16,7 @@ verify = ["fold"]
 
 [dependencies]
 swc_atoms = { version = "0.1", path ="../../atoms" }
-swc_common = { version = "0.3", path ="../../common" }
+swc_common = { version = "0.3.2", path ="../../common" }
 swc_ecma_ast = { version = "0.9.3", path ="../ast" }
 swc_ecma_parser_macros = { version = "0.3", path ="./macros" }
 enum_kind = { version = "0.1", path ="../../macros/enum_kind" }
