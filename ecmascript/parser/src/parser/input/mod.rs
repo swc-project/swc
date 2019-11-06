@@ -3,6 +3,8 @@ use crate::{
     token::*,
     Context, Syntax,
 };
+use lexer::TokenContexts;
+use std::mem;
 use swc_common::{BytePos, Span, DUMMY_SP};
 
 pub trait Tokens: Clone + Iterator<Item = TokenAndSpan> {
@@ -14,6 +16,60 @@ pub trait Tokens: Clone + Iterator<Item = TokenAndSpan> {
     fn token_context(&self) -> &lexer::TokenContexts;
     fn token_context_mut(&mut self) -> &mut lexer::TokenContexts;
     fn set_token_context(&mut self, _c: lexer::TokenContexts);
+}
+
+#[derive(Debug)]
+pub struct Capturing<I: Tokens> {
+    inner: I,
+    captured: Vec<TokenAndSpan>,
+}
+
+impl<I: Tokens> Capturing<I> {
+    /// Take captured tokens
+    pub fn take(&mut self) -> Vec<TokenAndSpan> {
+        mem::replace(&mut self.captured, vec![])
+    }
+}
+
+impl<I: Tokens> Iterator for Capturing<I> {
+    type Item = TokenAndSpan;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        let next = self.inner.next();
+
+        self.captured.extend(next.clone());
+        next
+    }
+}
+
+impl<I: Tokens> Tokens for Capturing<I> {
+    fn set_ctx(&mut self, ctx: Context) {
+        self.inner.set_ctx(ctx)
+    }
+
+    fn ctx(&self) -> Context {
+        self.inner.ctx()
+    }
+
+    fn syntax(&self) -> Syntax {
+        self.inner.syntax()
+    }
+
+    fn set_expr_allowed(&mut self, allow: bool) {
+        self.inner.set_expr_allowed(allow)
+    }
+
+    fn token_context(&self) -> &TokenContexts {
+        self.inner.token_context()
+    }
+
+    fn token_context_mut(&mut self) -> &mut TokenContexts {
+        self.inner.token_context_mut()
+    }
+
+    fn set_token_context(&mut self, c: TokenContexts) {
+        self.inner.set_token_context(c)
+    }
 }
 
 /// This struct is responsible for managing current token and peeked token.
