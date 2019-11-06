@@ -1,9 +1,11 @@
 #![allow(dead_code, unused_variables)]
 #![deny(non_snake_case)]
-use self::{input::ParserInput, util::ParseObject};
+use self::{
+    input::{ParserInput, TokensInput},
+    util::ParseObject,
+};
 use crate::{
     error::SyntaxError,
-    lexer::{Input, Lexer},
     parser_macros::parser,
     token::{Token, Word},
     Context, Session, Syntax,
@@ -11,7 +13,7 @@ use crate::{
 use ast::*;
 use std::ops::{Deref, DerefMut};
 use swc_atoms::JsWord;
-use swc_common::{comments::Comments, errors::DiagnosticBuilder, BytePos, Span};
+use swc_common::{errors::DiagnosticBuilder, BytePos, Span};
 
 #[macro_use]
 mod macros;
@@ -31,10 +33,10 @@ pub type PResult<'a, T> = Result<T, DiagnosticBuilder<'a>>;
 
 /// EcmaScript parser.
 #[derive(Clone)]
-pub struct Parser<'a, I: Input> {
+pub struct Parser<'a, I: TokensInput> {
     session: Session<'a>,
     state: State,
-    input: ParserInput<'a, I>,
+    input: ParserInput<I>,
 }
 
 #[derive(Clone, Default)]
@@ -45,16 +47,11 @@ struct State {
 }
 
 #[parser]
-impl<'a, I: Input> Parser<'a, I> {
-    pub fn new(
-        session: Session<'a>,
-        syntax: Syntax,
-        input: I,
-        comments: Option<&'a Comments>,
-    ) -> Self {
+impl<'a, I: TokensInput> Parser<'a, I> {
+    pub fn new(session: Session<'a>, input: I) -> Self {
         Parser {
             session,
-            input: ParserInput::new(Lexer::new(session, syntax, input, comments)),
+            input: ParserInput::new(input),
             state: Default::default(),
         }
     }

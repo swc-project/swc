@@ -4,7 +4,7 @@ use crate::token::Keyword;
 use swc_common::Spanned;
 
 #[parser]
-impl<'a, I: Input> Parser<'a, I> {
+impl<'a, I: TokensInput> Parser<'a, I> {
     /// Name from spec: 'LogicalORExpression'
     pub(super) fn parse_bin_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
         let left = self.parse_unary_expr()?;

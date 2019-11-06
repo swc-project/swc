@@ -62,7 +62,7 @@ impl Context {
     }
 }
 
-impl<'a, I: Input> Parser<'a, I> {
+impl<'a, I: TokensInput> Parser<'a, I> {
     /// Original context is restored when returned guard is dropped.
     pub(super) fn with_ctx<'w>(&'w mut self, ctx: Context) -> WithCtx<'w, 'a, I> {
         let orig_ctx = self.ctx();
@@ -134,25 +134,25 @@ pub trait ParseObject<'a, Obj> {
     fn parse_object_prop(&mut self) -> PResult<'a, Self::Prop>;
 }
 
-pub struct WithCtx<'w, 'a: 'w, I: 'w + Input> {
+pub struct WithCtx<'w, 'a: 'w, I: 'w + TokensInput> {
     inner: &'w mut Parser<'a, I>,
     orig_ctx: Context,
 }
-impl<'w, 'a, I: Input> Deref for WithCtx<'w, 'a, I> {
+impl<'w, 'a, I: TokensInput> Deref for WithCtx<'w, 'a, I> {
     type Target = Parser<'a, I>;
     #[inline(always)]
     fn deref(&self) -> &Parser<'a, I> {
         &self.inner
     }
 }
-impl<'w, 'a, I: Input> DerefMut for WithCtx<'w, 'a, I> {
+impl<'w, 'a, I: TokensInput> DerefMut for WithCtx<'w, 'a, I> {
     #[inline(always)]
     fn deref_mut(&mut self) -> &mut Parser<'a, I> {
         &mut self.inner
     }
 }
 
-impl<'w, 'a, I: Input> Drop for WithCtx<'w, 'a, I> {
+impl<'w, 'a, I: TokensInput> Drop for WithCtx<'w, 'a, I> {
     fn drop(&mut self) {
         self.inner.set_ctx(self.orig_ctx);
     }

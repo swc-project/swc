@@ -4,8 +4,10 @@
 
 #![allow(unused_mut)]
 #![allow(unused_variables)]
-pub use self::input::Input;
-pub(crate) use self::state::{TokenContext, TokenContexts};
+pub use self::{
+    input::Input,
+    state::{TokenContext, TokenContexts},
+};
 use self::{state::State, util::*};
 use crate::{
     error::{Error, SyntaxError},

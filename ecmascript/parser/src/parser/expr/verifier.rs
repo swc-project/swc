@@ -2,7 +2,7 @@ use super::*;
 #[cfg(feature = "verify")]
 use swc_common::{Span, Spanned, Visit, VisitWith};
 
-impl<'a, I: Input> Parser<'a, I> {
+impl<'a, I: TokensInput> Parser<'a, I> {
     #[cfg(feature = "verify")]
     pub(in crate::parser) fn verify_expr(&self, expr: Box<Expr>) -> PResult<'a, Box<Expr>> {
         let mut v = Verifier { errors: vec![] };

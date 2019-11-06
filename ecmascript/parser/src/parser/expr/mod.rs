@@ -9,7 +9,7 @@ mod tests;
 mod verifier;
 
 #[parser]
-impl<'a, I: Input> Parser<'a, I> {
+impl<'a, I: TokensInput> Parser<'a, I> {
     pub fn parse_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
         let expr = self.parse_assignment_expr()?;
         let start = expr.span().lo();
@@ -1214,7 +1214,7 @@ pub(in crate::parser) enum PatOrExprOrSpread {
 
 /// simple leaf methods.
 #[parser]
-impl<'a, I: Input> Parser<'a, I> {
+impl<'a, I: TokensInput> Parser<'a, I> {
     fn parse_yield_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
         let start = cur_pos!();
 

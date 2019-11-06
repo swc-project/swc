@@ -455,7 +455,7 @@ impl State {
 }
 
 #[derive(Clone, Default)]
-pub(crate) struct TokenContexts(pub SmallVec<[TokenContext; 32]>);
+pub struct TokenContexts(pub(crate) SmallVec<[TokenContext; 32]>);
 impl TokenContexts {
     /// Returns true if following `LBrace` token is `block statement` according
     /// to  `ctx`, `prev`, `is_expr_allowed`.
@@ -530,7 +530,7 @@ impl TokenContexts {
 /// See https://github.com/mozilla/sweet.js/wiki/design
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Kind)]
 #[kind(fucntion(is_expr = "bool", preserve_space = "bool"))]
-pub(crate) enum TokenContext {
+pub enum TokenContext {
     BraceStmt,
     #[kind(is_expr)]
     BraceExpr,

@@ -310,9 +310,9 @@ pub struct EsConfig {
     pub dynamic_import: bool,
 }
 
-/// Syntatic context.
+/// Syntactic context.
 #[derive(Debug, Clone, Copy, Default)]
-pub(crate) struct Context {
+pub struct Context {
     /// Is in module code?
     module: bool,
     strict: bool,
