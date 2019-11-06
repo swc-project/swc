@@ -58,7 +58,7 @@
 //!             None,
 //!         );
 //!
-//!         let mut parser = Parser::new(session, lexer);
+//!         let mut parser = Parser::new_from(session, lexer);
 //!
 //!
 //!         let _module = parser
