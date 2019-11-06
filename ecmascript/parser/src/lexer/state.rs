@@ -1,9 +1,11 @@
 use super::{Input, Lexer};
 use crate::{lexer::util::CharExt, token::*, Syntax};
 use enum_kind::Kind;
+use input::Tokens;
 use smallvec::SmallVec;
 use std::mem;
 use swc_common::BytePos;
+use Context;
 
 /// State of lexer.
 ///
@@ -84,18 +86,35 @@ impl<'a> From<&'a Token> for TokenType {
     }
 }
 
-impl<'a, I: Input> Lexer<'a, I> {
-    pub fn token_context(&self) -> &TokenContexts {
+impl<I: Input> Tokens for Lexer<'_, I> {
+    fn set_ctx(&mut self, ctx: Context) {
+        self.ctx = ctx
+    }
+
+    fn ctx(&self) -> Context {
+        self.ctx
+    }
+
+    fn syntax(&self) -> Syntax {
+        self.syntax
+    }
+
+    fn set_expr_allowed(&mut self, allow: bool) {
+        self.set_expr_allowed(allow)
+    }
+
+    fn token_context(&self) -> &TokenContexts {
         &self.state.context
     }
-    pub fn token_context_mut(&mut self) -> &mut TokenContexts {
+    fn token_context_mut(&mut self) -> &mut TokenContexts {
         &mut self.state.context
     }
 
-    pub fn set_token_context(&mut self, c: TokenContexts) {
+    fn set_token_context(&mut self, c: TokenContexts) {
         self.state.context = c;
     }
 }
+
 impl<'a, I: Input> Iterator for Lexer<'a, I> {
     type Item = TokenAndSpan;
     fn next(&mut self) -> Option<Self::Item> {
@@ -455,7 +474,7 @@ impl State {
 }
 
 #[derive(Clone, Default)]
-pub(crate) struct TokenContexts(pub SmallVec<[TokenContext; 32]>);
+pub struct TokenContexts(pub(crate) SmallVec<[TokenContext; 32]>);
 impl TokenContexts {
     /// Returns true if following `LBrace` token is `block statement` according
     /// to  `ctx`, `prev`, `is_expr_allowed`.
@@ -530,7 +549,7 @@ impl TokenContexts {
 /// See https://github.com/mozilla/sweet.js/wiki/design
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Kind)]
 #[kind(fucntion(is_expr = "bool", preserve_space = "bool"))]
-pub(crate) enum TokenContext {
+pub enum TokenContext {
     BraceStmt,
     #[kind(is_expr)]
     BraceExpr,

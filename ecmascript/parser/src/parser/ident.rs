@@ -4,7 +4,7 @@ use crate::token::Keyword;
 use either::Either;
 
 #[parser]
-impl<'a, I: Input> Parser<'a, I> {
+impl<'a, I: Tokens> Parser<'a, I> {
     pub(super) fn parse_maybe_private_name(&mut self) -> PResult<'a, Either<PrivateName, Ident>> {
         let start = cur_pos!();
         let is_private = is!('#');
@@ -133,12 +133,12 @@ impl<'a, I: Input> Parser<'a, I> {
 pub(super) trait MaybeOptionalIdentParser<'a, Ident> {
     fn parse_maybe_opt_binding_ident(&mut self) -> PResult<'a, Ident>;
 }
-impl<'a, I: Input> MaybeOptionalIdentParser<'a, Ident> for Parser<'a, I> {
+impl<'a, I: Tokens> MaybeOptionalIdentParser<'a, Ident> for Parser<'a, I> {
     fn parse_maybe_opt_binding_ident(&mut self) -> PResult<'a, Ident> {
         self.parse_binding_ident()
     }
 }
-impl<'a, I: Input> MaybeOptionalIdentParser<'a, Option<Ident>> for Parser<'a, I> {
+impl<'a, I: Tokens> MaybeOptionalIdentParser<'a, Option<Ident>> for Parser<'a, I> {
     fn parse_maybe_opt_binding_ident(&mut self) -> PResult<'a, Option<Ident>> {
         self.parse_opt_binding_ident()
     }

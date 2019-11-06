@@ -1,17 +1,18 @@
 #![allow(dead_code, unused_variables)]
 #![deny(non_snake_case)]
-use self::{input::ParserInput, util::ParseObject};
+pub use self::input::{Capturing, Tokens, TokensInput};
+use self::{input::Buffer, util::ParseObject};
 use crate::{
     error::SyntaxError,
-    lexer::{Input, Lexer},
     parser_macros::parser,
     token::{Token, Word},
     Context, Session, Syntax,
 };
 use ast::*;
+use lexer::Lexer;
 use std::ops::{Deref, DerefMut};
 use swc_atoms::JsWord;
-use swc_common::{comments::Comments, errors::DiagnosticBuilder, BytePos, Span};
+use swc_common::{comments::Comments, errors::DiagnosticBuilder, input::Input, BytePos, Span};
 
 #[macro_use]
 mod macros;
@@ -31,10 +32,10 @@ pub type PResult<'a, T> = Result<T, DiagnosticBuilder<'a>>;
 
 /// EcmaScript parser.
 #[derive(Clone)]
-pub struct Parser<'a, I: Input> {
+pub struct Parser<'a, I: Tokens> {
     session: Session<'a>,
     state: State,
-    input: ParserInput<'a, I>,
+    input: Buffer<I>,
 }
 
 #[derive(Clone, Default)]
@@ -44,17 +45,23 @@ struct State {
     potential_arrow_start: Option<BytePos>,
 }
 
-#[parser]
-impl<'a, I: Input> Parser<'a, I> {
+impl<'a, I: Input> Parser<'a, Lexer<'a, I>> {
     pub fn new(
         session: Session<'a>,
         syntax: Syntax,
         input: I,
         comments: Option<&'a Comments>,
     ) -> Self {
+        Self::new_from(session, Lexer::new(session, syntax, input, comments))
+    }
+}
+
+#[parser]
+impl<'a, I: Tokens> Parser<'a, I> {
+    pub fn new_from(session: Session<'a>, input: I) -> Self {
         Parser {
             session,
-            input: ParserInput::new(Lexer::new(session, syntax, input, comments)),
+            input: Buffer::new(input),
             state: Default::default(),
         }
     }
@@ -115,7 +122,7 @@ impl<'a, I: Input> Parser<'a, I> {
 #[cfg(test)]
 pub fn test_parser<F, Ret>(s: &'static str, syntax: Syntax, f: F) -> Ret
 where
-    F: for<'a> FnOnce(&'a mut Parser<'a, ::SourceFileInput>) -> Result<Ret, ()>,
+    F: for<'a> FnOnce(&'a mut Parser<'a, Lexer<'a, ::SourceFileInput>>) -> Result<Ret, ()>,
 {
     crate::with_test_sess(s, |sess, input| {
         f(&mut Parser::new(sess, syntax, input, None))

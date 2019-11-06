@@ -20,7 +20,7 @@ use std::{
 use swc_common::{Fold, FoldWith};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
-use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
+use swc_ecma_parser::{lexer::Lexer, Parser, Session, SourceFileInput, Syntax};
 use swc_ecma_transforms::fixer;
 use test::{
     test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,
@@ -171,7 +171,7 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                     {
                         let handlers = box MyHandlers;
                         let handlers2 = box MyHandlers;
-                        let mut parser: Parser<SourceFileInput> = Parser::new(
+                        let mut parser: Parser<Lexer<SourceFileInput>> = Parser::new(
                             Session { handler: &handler },
                             Syntax::default(),
                             (&*src).into(),
@@ -207,7 +207,7 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
 
                         // Parse source
 
-                        let mut e_parser: Parser<SourceFileInput> = Parser::new(
+                        let mut e_parser: Parser<Lexer<SourceFileInput>> = Parser::new(
                             Session { handler: &handler },
                             Syntax::default(),
                             (&*expected).into(),

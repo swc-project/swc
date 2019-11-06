@@ -16,7 +16,11 @@
 //!   |          ^^^^^
 //! ```
 //!
-//! # Example
+//! # Example (lexer)
+//!
+//! See `lexer.rs` in examples directory.
+//!
+//! # Example (parser)
 //!
 //! ```
 //! #[macro_use]
@@ -27,11 +31,11 @@
 //!     errors::{ColorConfig, Handler},
 //!     FileName, FilePathMapping, SourceMap,
 //! };
-//! use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
+//! use swc_ecma_parser::{lexer::Lexer, Parser, Session, SourceFileInput, Syntax};
 //!
 //! fn main() {
 //!     swc_common::GLOBALS.set(&swc_common::Globals::new(), || {
-//!         let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
+//!         let cm: Arc<SourceMap> = Default::default();
 //!         let handler =
 //!             Handler::with_tty_emitter(ColorConfig::Auto, true, false, Some(cm.clone()));
 //!
@@ -42,17 +46,20 @@
 //!         //     .load_file(Path::new("test.js"))
 //!         //     .expect("failed to load test.js");
 //!
+//!
 //!         let fm = cm.new_source_file(
 //!             FileName::Custom("test.js".into()),
 //!             "function foo() {}".into(),
 //!         );
-//!
-//!         let mut parser = Parser::new(
+//!         let lexer = Lexer::new(
 //!             session,
 //!             Syntax::Es(Default::default()),
 //!             SourceFileInput::from(&*fm),
-//!             None, // Disable comments
+//!             None,
 //!         );
+//!
+//!         let mut parser = Parser::new_from(session, lexer);
+//!
 //!
 //!         let _module = parser
 //!             .parse_module()
@@ -107,7 +114,7 @@ use swc_common::errors::Handler;
 #[macro_use]
 mod macros;
 mod error;
-mod lexer;
+pub mod lexer;
 mod parser;
 mod token;
 
@@ -310,9 +317,9 @@ pub struct EsConfig {
     pub dynamic_import: bool,
 }
 
-/// Syntatic context.
+/// Syntactic context.
 #[derive(Debug, Clone, Copy, Default)]
-pub(crate) struct Context {
+pub struct Context {
     /// Is in module code?
     module: bool,
     strict: bool,

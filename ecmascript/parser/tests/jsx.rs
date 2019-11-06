@@ -22,7 +22,7 @@ use std::{
 };
 use swc_common::{errors::Handler, Fold, FoldWith, SourceMap, CM};
 use swc_ecma_ast::*;
-use swc_ecma_parser::{PResult, Parser, Session, SourceFileInput};
+use swc_ecma_parser::{lexer::Lexer, PResult, Parser, Session, SourceFileInput};
 use test::{
     test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,
 };
@@ -203,7 +203,7 @@ fn with_parser<F, Ret>(
     f: F,
 ) -> Result<Ret, ()>
 where
-    F: for<'a> FnOnce(&mut Parser<'a, SourceFileInput>) -> PResult<'a, Ret>,
+    F: for<'a> FnOnce(&mut Parser<'a, Lexer<'a, SourceFileInput>>) -> PResult<'a, Ret>,
 {
     let fm = cm
         .load_file(file_name)

@@ -1,14 +1,144 @@
+use super::Parser;
 use crate::{
-    lexer::{self, Input, Lexer},
+    lexer::{self},
     token::*,
     Context, Syntax,
 };
+use lexer::TokenContexts;
+use std::mem;
 use swc_common::{BytePos, Span, DUMMY_SP};
+
+pub trait Tokens: Clone + Iterator<Item = TokenAndSpan> {
+    fn set_ctx(&mut self, ctx: Context);
+    fn ctx(&self) -> Context;
+    fn syntax(&self) -> Syntax;
+
+    fn set_expr_allowed(&mut self, allow: bool);
+    fn token_context(&self) -> &lexer::TokenContexts;
+    fn token_context_mut(&mut self) -> &mut lexer::TokenContexts;
+    fn set_token_context(&mut self, _c: lexer::TokenContexts);
+}
+
+#[derive(Clone)]
+pub struct TokensInput {
+    iter: <Vec<TokenAndSpan> as IntoIterator>::IntoIter,
+    ctx: Context,
+    syntax: Syntax,
+    token_ctx: TokenContexts,
+}
+
+impl TokensInput {
+    pub fn new(tokens: Vec<TokenAndSpan>, ctx: Context, syntax: Syntax) -> Self {
+        TokensInput {
+            iter: tokens.into_iter(),
+            ctx,
+            syntax,
+            token_ctx: Default::default(),
+        }
+    }
+}
+
+impl Iterator for TokensInput {
+    type Item = TokenAndSpan;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        self.iter.next()
+    }
+}
+
+impl Tokens for TokensInput {
+    fn set_ctx(&mut self, ctx: Context) {
+        self.ctx = ctx;
+    }
+
+    fn ctx(&self) -> Context {
+        self.ctx
+    }
+
+    fn syntax(&self) -> Syntax {
+        self.syntax
+    }
+
+    fn set_expr_allowed(&mut self, _: bool) {}
+
+    fn token_context(&self) -> &TokenContexts {
+        &self.token_ctx
+    }
+
+    fn token_context_mut(&mut self) -> &mut TokenContexts {
+        &mut self.token_ctx
+    }
+
+    fn set_token_context(&mut self, c: TokenContexts) {
+        self.token_ctx = c;
+    }
+}
+
+/// Note: Lexer need access to parser's context to lex correctly.
+#[derive(Debug, Clone)]
+pub struct Capturing<I: Tokens> {
+    inner: I,
+    captured: Vec<TokenAndSpan>,
+}
+
+impl<I: Tokens> Capturing<I> {
+    pub fn new(input: I) -> Self {
+        Capturing {
+            inner: input,
+            captured: vec![],
+        }
+    }
+    /// Take captured tokens
+    pub fn take(&mut self) -> Vec<TokenAndSpan> {
+        mem::replace(&mut self.captured, vec![])
+    }
+}
+
+impl<I: Tokens> Iterator for Capturing<I> {
+    type Item = TokenAndSpan;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        let next = self.inner.next();
+
+        self.captured.extend(next.clone());
+        next
+    }
+}
+
+impl<I: Tokens> Tokens for Capturing<I> {
+    fn set_ctx(&mut self, ctx: Context) {
+        self.inner.set_ctx(ctx)
+    }
+
+    fn ctx(&self) -> Context {
+        self.inner.ctx()
+    }
+
+    fn syntax(&self) -> Syntax {
+        self.inner.syntax()
+    }
+
+    fn set_expr_allowed(&mut self, allow: bool) {
+        self.inner.set_expr_allowed(allow)
+    }
+
+    fn token_context(&self) -> &TokenContexts {
+        self.inner.token_context()
+    }
+
+    fn token_context_mut(&mut self) -> &mut TokenContexts {
+        self.inner.token_context_mut()
+    }
+
+    fn set_token_context(&mut self, c: TokenContexts) {
+        self.inner.set_token_context(c)
+    }
+}
 
 /// This struct is responsible for managing current token and peeked token.
 #[derive(Clone)]
-pub(super) struct ParserInput<'a, I: Input> {
-    iter: Lexer<'a, I>,
+pub(super) struct Buffer<I: Tokens> {
+    iter: I,
     /// Span of the previous token.
     prev_span: Span,
     cur: Option<TokenAndSpan>,
@@ -16,9 +146,15 @@ pub(super) struct ParserInput<'a, I: Input> {
     next: Option<TokenAndSpan>,
 }
 
-impl<'a, I: Input> ParserInput<'a, I> {
-    pub fn new(lexer: Lexer<'a, I>) -> Self {
-        ParserInput {
+impl<I: Tokens> Parser<'_, I> {
+    pub fn input(&mut self) -> &mut I {
+        &mut self.input.iter
+    }
+}
+
+impl<I: Tokens> Buffer<I> {
+    pub fn new(lexer: I) -> Self {
+        Buffer {
             iter: lexer,
             cur: None,
             prev_span: DUMMY_SP,
@@ -161,26 +297,26 @@ impl<'a, I: Input> ParserInput<'a, I> {
         self.prev_span
     }
 
-    pub fn get_ctx(&self) -> Context {
-        self.iter.ctx
+    pub(crate) fn get_ctx(&self) -> Context {
+        self.iter.ctx()
     }
 
-    pub fn set_ctx(&mut self, ctx: Context) {
-        self.iter.ctx = ctx;
+    pub(crate) fn set_ctx(&mut self, ctx: Context) {
+        self.iter.set_ctx(ctx);
     }
 
     pub fn syntax(&self) -> Syntax {
-        self.iter.syntax
+        self.iter.syntax()
     }
 
-    pub fn set_expr_allowed(&mut self, allow: bool) {
+    pub(crate) fn set_expr_allowed(&mut self, allow: bool) {
         self.iter.set_expr_allowed(allow)
     }
 
     pub(crate) fn token_context(&self) -> &lexer::TokenContexts {
         self.iter.token_context()
     }
-    pub fn token_context_mut(&mut self) -> &mut lexer::TokenContexts {
+    pub(crate) fn token_context_mut(&mut self) -> &mut lexer::TokenContexts {
         self.iter.token_context_mut()
     }
     pub(crate) fn set_token_context(&mut self, c: lexer::TokenContexts) {

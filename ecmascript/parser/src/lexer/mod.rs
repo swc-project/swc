@@ -4,8 +4,10 @@
 
 #![allow(unused_mut)]
 #![allow(unused_variables)]
-pub use self::input::Input;
-pub(crate) use self::state::{TokenContext, TokenContexts};
+pub use self::{
+    input::Input,
+    state::{TokenContext, TokenContexts},
+};
 use self::{state::State, util::*};
 use crate::{
     error::{Error, SyntaxError},
@@ -31,14 +33,14 @@ pub mod util;
 pub(crate) type LexResult<T> = Result<T, Error>;
 
 #[derive(Clone)]
-pub(crate) struct Lexer<'a, I: Input> {
+pub struct Lexer<'a, I: Input> {
     session: Session<'a>,
     comments: Option<&'a Comments>,
     leading_comments_buffer: Option<Vec<Comment>>,
-    pub ctx: Context,
+    pub(crate) ctx: Context,
     input: I,
     state: State,
-    pub syntax: Syntax,
+    pub(crate) syntax: Syntax,
 }
 
 impl<'a, I: Input> Lexer<'a, I> {

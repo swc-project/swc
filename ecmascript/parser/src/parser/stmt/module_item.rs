@@ -1,7 +1,7 @@
 use super::*;
 
 #[parser]
-impl<'a, I: Input> Parser<'a, I> {
+impl<'a, I: Tokens> Parser<'a, I> {
     fn parse_import(&mut self) -> PResult<'a, ModuleItem> {
         let start = cur_pos!();
         assert_and_bump!("import");
@@ -478,7 +478,7 @@ impl IsDirective for ModuleItem {
 }
 
 #[parser]
-impl<'a, I: Input> StmtLikeParser<'a, ModuleItem> for Parser<'a, I> {
+impl<'a, I: Tokens> StmtLikeParser<'a, ModuleItem> for Parser<'a, I> {
     fn handle_import_export(
         &mut self,
         top_level: bool,

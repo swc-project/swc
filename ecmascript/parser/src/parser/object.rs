@@ -4,7 +4,7 @@ use super::*;
 use swc_common::Spanned;
 
 #[parser]
-impl<'a, I: Input> Parser<'a, I> {
+impl<'a, I: Tokens> Parser<'a, I> {
     /// Parse a object literal or object pattern.
     pub(super) fn parse_object<T>(&mut self) -> PResult<'a, T>
     where
@@ -82,7 +82,7 @@ impl<'a, I: Input> Parser<'a, I> {
 }
 
 #[parser]
-impl<'a, I: Input> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
+impl<'a, I: Tokens> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
     type Prop = PropOrSpread;
 
     fn make_object(&mut self, span: Span, props: Vec<Self::Prop>) -> PResult<'a, Box<Expr>> {
@@ -240,7 +240,7 @@ impl<'a, I: Input> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
 }
 
 #[parser]
-impl<'a, I: Input> ParseObject<'a, Pat> for Parser<'a, I> {
+impl<'a, I: Tokens> ParseObject<'a, Pat> for Parser<'a, I> {
     type Prop = ObjectPatProp;
 
     fn make_object(&mut self, span: Span, props: Vec<Self::Prop>) -> PResult<'a, Pat> {

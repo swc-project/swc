@@ -39,13 +39,13 @@ pub(crate) struct ErrorToDiag<'a> {
 }
 
 #[derive(Debug, Clone, PartialEq)]
-pub(crate) struct Error {
+pub struct Error {
     pub span: Span,
     pub error: SyntaxError,
 }
 
 #[derive(Debug, Clone, PartialEq)]
-pub(crate) enum SyntaxError {
+pub enum SyntaxError {
     LegacyDecimal,
     LegacyOctal,
     InvalidIdentChar,

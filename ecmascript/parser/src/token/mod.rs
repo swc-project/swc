@@ -15,7 +15,7 @@ use swc_common::Span;
 #[derive(Kind, Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "fold", derive(Fold))]
 #[kind(functions(starts_expr = "bool", before_expr = "bool"))]
-pub(crate) enum Token {
+pub enum Token {
     /// Identifier, "null", "true", "false".
     ///
     /// Contains `null` and ``
@@ -204,7 +204,7 @@ impl BinOpToken {
 }
 
 #[derive(Debug, Clone, PartialEq)]
-pub(crate) struct TokenAndSpan {
+pub struct TokenAndSpan {
     pub token: Token,
     /// Had a line break before this token?
     pub had_line_break: bool,
