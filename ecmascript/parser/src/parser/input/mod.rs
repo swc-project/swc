@@ -18,7 +18,62 @@ pub trait Tokens: Clone + Iterator<Item = TokenAndSpan> {
     fn set_token_context(&mut self, _c: lexer::TokenContexts);
 }
 
-#[derive(Debug)]
+#[derive(Clone)]
+pub struct TokensInput {
+    iter: <Vec<TokenAndSpan> as IntoIterator>::IntoIter,
+    ctx: Context,
+    syntax: Syntax,
+    token_ctx: TokenContexts,
+}
+
+impl TokensInput {
+    pub fn new(tokens: Vec<TokenAndSpan>, ctx: Context, syntax: Syntax) -> Self {
+        TokensInput {
+            iter: tokens.into_iter(),
+            ctx,
+            syntax,
+            token_ctx: Default::default(),
+        }
+    }
+}
+
+impl Iterator for TokensInput {
+    type Item = TokenAndSpan;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        self.iter.next()
+    }
+}
+
+impl Tokens for TokensInput {
+    fn set_ctx(&mut self, ctx: Context) {
+        self.ctx = ctx;
+    }
+
+    fn ctx(&self) -> Context {
+        self.ctx
+    }
+
+    fn syntax(&self) -> Syntax {
+        self.syntax
+    }
+
+    fn set_expr_allowed(&mut self, _: bool) {}
+
+    fn token_context(&self) -> &TokenContexts {
+        &self.token_ctx
+    }
+
+    fn token_context_mut(&mut self) -> &mut TokenContexts {
+        &mut self.token_ctx
+    }
+
+    fn set_token_context(&mut self, c: TokenContexts) {
+        self.token_ctx = c;
+    }
+}
+
+#[derive(Debug, Clone)]
 pub struct Capturing<I: Tokens> {
     inner: I,
     captured: Vec<TokenAndSpan>,
