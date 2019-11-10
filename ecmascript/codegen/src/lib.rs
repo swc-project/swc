@@ -510,7 +510,8 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     pub fn emit_member_expr(&mut self, node: &MemberExpr) -> Result {
-        self.emit_leading_comments_of_pos(node.span().lo())?;
+        self.emit_leading_comments_of_pos(node.obj.span().lo())?;
+        // TODO: debug_assert_eq!(node.span().lo(), node.obj.span().lo());
 
         emit!(node.obj);
 
@@ -520,8 +521,10 @@ impl<'a> Emitter<'a> {
             punct!("]");
         } else {
             if self.needs_2dots_for_property_access(&node.obj) {
+                self.emit_leading_comments_of_pos(node.prop.span().lo() - BytePos(2))?;
                 punct!(".");
             }
+            self.emit_leading_comments_of_pos(node.prop.span().lo() - BytePos(1))?;
             punct!(".");
             emit!(node.prop);
         }
