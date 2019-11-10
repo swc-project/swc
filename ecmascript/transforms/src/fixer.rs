@@ -87,31 +87,6 @@ impl Fold<BlockStmtOrExpr> for Fixer {
     }
 }
 
-impl Fold<ReturnStmt> for Fixer {
-    fn fold(&mut self, stmt: ReturnStmt) -> ReturnStmt {
-        let paren_span = match stmt.arg {
-            Some(box Expr::Paren(ParenExpr { span, .. })) => Some(span),
-            _ => None,
-        };
-
-        let stmt = stmt.fold_children(self);
-
-        let stmt = if let Some(span) = paren_span {
-            ReturnStmt {
-                span: stmt.span,
-                arg: Some(box Expr::Paren(ParenExpr {
-                    span,
-                    expr: stmt.arg.unwrap(),
-                })),
-            }
-        } else {
-            stmt
-        };
-
-        stmt
-    }
-}
-
 impl Fold<Stmt> for Fixer {
     fn fold(&mut self, stmt: Stmt) -> Stmt {
         let stmt = match stmt {
