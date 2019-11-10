@@ -9,7 +9,7 @@ use std::{
     process::Command,
     sync::{Arc, RwLock},
 };
-use swc_common::{errors::Handler, FileName, Fold, FoldWith, SourceMap};
+use swc_common::{comments::Comments, errors::Handler, FileName, Fold, FoldWith, SourceMap};
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{lexer::Lexer, Parser, Session, SourceFileInput, Syntax};
 use tempfile::tempdir_in;
@@ -21,6 +21,7 @@ impl swc_ecma_codegen::Handlers for MyHandlers {}
 pub(crate) struct Tester<'a> {
     pub cm: Arc<SourceMap>,
     pub handler: &'a Handler,
+    pub comments: Comments,
 }
 
 impl<'a> Tester<'a> {
@@ -30,7 +31,13 @@ impl<'a> Tester<'a> {
     {
         let out = ::testing::run_test(false, |cm, handler| {
             crate::util::HANDLER.set(handler, || {
-                HELPERS.set(&Default::default(), || op(&mut Tester { cm, handler }))
+                HELPERS.set(&Default::default(), || {
+                    op(&mut Tester {
+                        cm,
+                        handler,
+                        comments: Comments::default(),
+                    })
+                })
             })
         });
 
@@ -58,7 +65,12 @@ impl<'a> Tester<'a> {
             handler: &self.handler,
         };
 
-        let mut p = Parser::new(sess, syntax, SourceFileInput::from(&*fm), None);
+        let mut p = Parser::new(
+            sess,
+            syntax,
+            SourceFileInput::from(&*fm),
+            Some(&self.comments),
+        );
         op(&mut p)
     }
 
