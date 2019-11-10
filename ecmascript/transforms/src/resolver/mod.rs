@@ -80,6 +80,12 @@ impl<'a> Resolver<'a> {
             scope = cur.parent;
         }
 
+        if let Some((ref c, mark)) = self.cur_defining {
+            if *c == *sym {
+                return Some(mark);
+            }
+        }
+
         None
     }
 
@@ -181,7 +187,12 @@ impl<'a> Fold<FnDecl> for Resolver<'a> {
     fn fold(&mut self, node: FnDecl) -> FnDecl {
         let ident = self.fold_binding_ident(node.ident);
 
+        let old = self.cur_defining.take();
+        self.cur_defining = Some((ident.sym.clone(), ident.span.ctxt().remove_mark()));
+
         let function = node.function.fold_with(self);
+
+        self.cur_defining = old;
 
         FnDecl {
             ident,
@@ -223,22 +234,21 @@ impl<'a> Fold<VarDeclarator> for Resolver<'a> {
     fn fold(&mut self, decl: VarDeclarator) -> VarDeclarator {
         // order is important
 
-        let old = self.ident_type;
+        let old_defining = self.cur_defining.take();
+
+        let old_type = self.ident_type;
         self.ident_type = IdentType::Binding;
         let name = decl.name.fold_with(self);
-        self.ident_type = old;
+        self.ident_type = old_type;
 
         let cur_name = match name {
             Pat::Ident(Ident { ref sym, .. }) => Some((sym.clone(), self.mark)),
             _ => None,
         };
 
-        let old_def = self.cur_defining.take();
         self.cur_defining = cur_name;
-
         let init = decl.init.fold_children(self);
-
-        self.cur_defining = old_def;
+        self.cur_defining = old_defining;
 
         VarDeclarator { name, init, ..decl }
     }
