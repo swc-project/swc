@@ -860,6 +860,12 @@ var store = global[SHARED] || (global[SHARED] = {});
       .then(() => {})
   );
 };",
-        ""
+        "() => {
+  return (
+    Promise.resolve('foo')
+      // Interfering comment
+      .then(() => {})
+  );
+};"
     );
 }
