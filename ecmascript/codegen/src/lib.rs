@@ -521,10 +521,14 @@ impl<'a> Emitter<'a> {
             punct!("]");
         } else {
             if self.needs_2dots_for_property_access(&node.obj) {
-                self.emit_leading_comments_of_pos(node.prop.span().lo() - BytePos(2))?;
+                if node.prop.span().lo() >= BytePos(2) {
+                    self.emit_leading_comments_of_pos(node.prop.span().lo() - BytePos(2))?;
+                }
                 punct!(".");
             }
-            self.emit_leading_comments_of_pos(node.prop.span().lo() - BytePos(1))?;
+            if node.prop.span().lo() >= BytePos(1) {
+                self.emit_leading_comments_of_pos(node.prop.span().lo() - BytePos(1))?;
+            }
             punct!(".");
             emit!(node.prop);
         }
