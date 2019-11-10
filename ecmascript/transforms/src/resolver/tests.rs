@@ -738,11 +738,19 @@ to!(
 "
 );
 
-identical!(
+to!(
     issue_438,
     "function _setPrototypeOf(o, p) {
         _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-            o.__proto__ = p; return o;
+            o.__proto__ = p;
+            return o;
+        };
+        return _setPrototypeOf(o, p);
+    }",
+    "function _setPrototypeOf(o, p) {
+        _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o1, p1) {
+            o1.__proto__ = p1;
+            return o1;
         };
         return _setPrototypeOf(o, p);
     }"
