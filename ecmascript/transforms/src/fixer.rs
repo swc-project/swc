@@ -836,11 +836,10 @@ var store = global[SHARED] || (global[SHARED] = {});
   );
 };",
         "() => {
-  return (
-    Promise.resolve('foo')
+  return Promise.resolve('foo')
       // Interfering comment
       .then(() => {})
-  );
+  ;
 };"
     );
 }
