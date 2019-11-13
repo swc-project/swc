@@ -15,6 +15,8 @@ use crate::{
     Context, Session, Syntax,
 };
 use ast::Str;
+use either::Either;
+use smallvec::SmallVec;
 use std::char;
 use swc_atoms::JsWord;
 use swc_common::{
@@ -31,6 +33,62 @@ mod tests;
 pub mod util;
 
 pub(crate) type LexResult<T> = Result<T, Error>;
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+pub(crate) struct Char(u32);
+
+impl From<char> for Char {
+    fn from(c: char) -> Self {
+        Char(c as u32)
+    }
+}
+
+impl From<u32> for Char {
+    fn from(c: u32) -> Self {
+        Char(c)
+    }
+}
+
+pub(crate) struct CharIter(SmallVec<[char; 6]>);
+
+impl IntoIterator for Char {
+    type Item = char;
+    type IntoIter = CharIter;
+
+    fn into_iter(self) -> Self::IntoIter {
+        // TODO: Check if this is correct
+        fn to_char(v: u8) -> char {
+            char::from_digit(v as _, 16).unwrap_or('0')
+        }
+
+        CharIter(match char::from_u32(self.0) {
+            Some(c) => smallvec![c],
+            None => {
+                //
+                smallvec![
+                    '\\',
+                    'u',
+                    to_char(((self.0 >> 24) & 0xff) as u8),
+                    to_char(((self.0 >> 16) & 0xff) as u8),
+                    to_char(((self.0 >> 8) & 0xff) as u8),
+                    to_char((self.0 & 0xff) as u8)
+                ]
+            }
+        })
+    }
+}
+
+impl Iterator for CharIter {
+    type Item = char;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        if self.0.is_empty() {
+            None
+        } else {
+            Some(self.0.remove(0))
+        }
+    }
+}
 
 #[derive(Clone)]
 pub struct Lexer<'a, I: Input> {
@@ -343,7 +401,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     /// Read an escaped charater for string literal.
     ///
     /// In template literal, we should preserve raw string.
-    fn read_escaped_char(&mut self, mut raw: &mut Raw) -> LexResult<Option<char>> {
+    fn read_escaped_char(&mut self, mut raw: &mut Raw) -> LexResult<Option<Char>> {
         debug_assert_eq!(self.cur(), Some('\\'));
         let start = self.cur_pos();
         self.bump(); // '\'
@@ -409,7 +467,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                     match self.cur() {
                         Some(next) if next.is_digit(8) => c,
                         // \0 is not an octal literal nor decimal literal.
-                        _ => return Ok(Some('\u{0000}')),
+                        _ => return Ok(Some('\u{0000}'.into())),
                     }
                 } else {
                     c
@@ -435,27 +493,27 @@ impl<'a, I: Input> Lexer<'a, I> {
                                         .and_then(|value| value.checked_add(v as u8));
                                     match new_val {
                                         Some(val) => val,
-                                        None => return Ok(Some(value as char)),
+                                        None => return Ok(Some(value as char).map(From::from)),
                                     }
                                 } else {
                                     value * 8 + v as u8
                                 };
                                 self.bump();
                             }
-                            _ => return Ok(Some(value as char)),
+                            _ => return Ok(Some(value as u32).map(From::from)),
                         }
                     }};
                 }
                 one!(false);
                 one!(true);
 
-                return Ok(Some(value as char));
+                return Ok(Some(value as char).map(From::from));
             }
             _ => c,
         };
         self.input.bump();
 
-        Ok(Some(c))
+        Ok(Some(c.into()))
     }
 }
 
@@ -593,7 +651,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                     if !valid {
                         self.error(start, SyntaxError::InvalidIdentChar)?
                     }
-                    word.push(c);
+                    word.extend(c);
                 }
 
                 _ => {
@@ -605,7 +663,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         Ok((word.into(), has_escape))
     }
 
-    fn read_unicode_escape(&mut self, start: BytePos, raw: &mut Raw) -> LexResult<char> {
+    fn read_unicode_escape(&mut self, start: BytePos, raw: &mut Raw) -> LexResult<Char> {
         debug_assert_eq!(self.cur(), Some('u'));
         self.bump();
 
@@ -627,29 +685,27 @@ impl<'a, I: Input> Lexer<'a, I> {
         }
     }
 
-    #[allow(unsafe_code)]
-    fn read_hex_char(&mut self, start: BytePos, count: u8, mut raw: &mut Raw) -> LexResult<char> {
+    ///
+    ///
+    /// THis method returns [Char] as non-utf8 character is valid in javsacript.
+    /// See https://github.com/swc-project/swc/issues/261
+    fn read_hex_char(&mut self, start: BytePos, count: u8, mut raw: &mut Raw) -> LexResult<Char> {
         debug_assert!(count == 2 || count == 4);
 
         let pos = self.cur_pos();
         match self.read_int_u32(16, count, raw)? {
-            Some(val) => Ok(unsafe {
-                // Non-utf8 character is valid in javsacript
-                // See https://github.com/swc-project/swc/issues/261
-
-                char::from_u32_unchecked(val)
-            }),
+            Some(val) => Ok(val.into()),
             None => self.error(start, SyntaxError::ExpectedHexChars { count })?,
         }
     }
 
     /// Read `CodePoint`.
-    fn read_code_point(&mut self, mut raw: &mut Raw) -> LexResult<char> {
+    fn read_code_point(&mut self, mut raw: &mut Raw) -> LexResult<Char> {
         let start = self.cur_pos();
         let val = self.read_int_u32(16, 0, raw)?;
         match val {
             Some(val) if 0x10FFFF >= val => match char::from_u32(val) {
-                Some(c) => Ok(c),
+                Some(c) => Ok(c.into()),
                 None => self.error(start, SyntaxError::InvalidCodePoint)?,
             },
             _ => self.error(start, SyntaxError::InvalidCodePoint)?,
@@ -685,7 +741,9 @@ impl<'a, I: Input> Lexer<'a, I> {
                     });
                 }
                 '\\' => {
-                    out.extend(self.read_escaped_char(&mut Raw(None))?);
+                    if let Some(s) = self.read_escaped_char(&mut Raw(None))? {
+                        out.extend(s);
+                    }
                     has_escape = true
                 }
                 c if c.is_line_break() => self.error(start, SyntaxError::UnterminatedStrLit)?,
@@ -809,7 +867,9 @@ impl<'a, I: Input> Lexer<'a, I> {
                 let mut wrapped = Raw(Some(raw));
                 let ch = self.read_escaped_char(&mut wrapped)?;
                 raw = wrapped.0.unwrap();
-                cooked.extend(ch);
+                if let Some(s) = ch {
+                    cooked.extend(s);
+                }
             } else if c.is_line_break() {
                 self.state.had_line_break = true;
                 let c = if c == '\r' && self.peek() == Some('\n') {

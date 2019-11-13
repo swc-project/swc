@@ -7,6 +7,8 @@
 //! [babylon/util/identifier.js]:https://github.com/babel/babel/blob/master/packages/babylon/src/util/identifier.js
 use super::{input::Input, LexResult, Lexer};
 use crate::error::{ErrorToDiag, SyntaxError};
+use lexer::Char;
+use std::char;
 use swc_common::{
     comments::{Comment, CommentKind},
     BytePos, Span, SyntaxContext,
@@ -300,6 +302,13 @@ pub trait CharExt: Copy {
                 }
             }
         }
+    }
+}
+
+impl CharExt for Char {
+    #[inline(always)]
+    fn to_char(self) -> Option<char> {
+        char::from_u32(self.0)
     }
 }
 

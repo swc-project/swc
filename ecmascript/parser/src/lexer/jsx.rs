@@ -161,7 +161,9 @@ impl<'a, I: Input> Lexer<'a, I> {
             if ch == '\\' {
                 has_escape = true;
                 out.push_str(self.input.slice(chunk_start, cur_pos));
-                out.extend(self.read_escaped_char(&mut Raw(None))?);
+                if let Some(s) = self.read_escaped_char(&mut Raw(None))? {
+                    out.extend(s);
+                }
                 chunk_start = self.input.cur_pos();
                 continue;
             }
