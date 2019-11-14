@@ -54,7 +54,7 @@ val = obj?.a?.b;
     r#"
 "use strict";
 
-var _obj$a, _obj$b, _obj$a2;
+var ref, _obj$b, _obj$a2;
 
 const obj = {
   a: {
@@ -486,4 +486,22 @@ class Derived extends Base {
 }
 
 "#
+);
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    simple_1,
+    "obj?.a",
+    "obj === null || obj === void 0 ? void 0 : obj.a;"
+);
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    simple_2,
+    "obj?.a?.b",
+    "var ref;
+obj === null || obj === void 0 ? void 0 : (ref = obj.a) === null || ref === void 0 ? void 0 : \
+     ref.b;"
 );
