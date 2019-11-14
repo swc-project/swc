@@ -71,18 +71,18 @@ impl OptChaining {
                         let o_span = o.span;
                         let obj = self.unwrap(o);
 
-                        return CondExpr {
-                            alt: box Expr::TsOptChain(TsOptChain {
-                                span: o_span,
-                                expr: box Expr::Member(MemberExpr {
-                                    span: m_span,
-                                    obj: ExprOrSuper::Expr(obj.alt),
-                                    prop,
-                                    computed,
-                                }),
-                            }),
-                            ..obj
-                        };
+                        let alt = box Expr::Member(MemberExpr {
+                            span: m_span,
+                            obj: ExprOrSuper::Expr(obj.alt),
+                            prop,
+                            computed,
+                        });
+                        let alt = box Expr::TsOptChain(TsOptChain {
+                            span: o_span,
+                            expr: alt,
+                        });
+
+                        return CondExpr { alt, ..obj };
                     }
                     _ => obj,
                 };
