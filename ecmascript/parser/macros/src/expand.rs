@@ -145,7 +145,7 @@ impl Fold for InjectSelf {
                 };
             }
 
-            "trace" | "debug" | "info" | "warn" | "error" => return i,
+            "trace" | "debug" | "info" | "warn" | "error" | "macro_rules" | "wrap" => return i,
             //TODO
             "unimplemented" => return i,
 

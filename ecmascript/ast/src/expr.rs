@@ -9,8 +9,8 @@ use crate::{
     prop::Prop,
     stmt::BlockStmt,
     typescript::{
-        TsAsExpr, TsConstAssertion, TsNonNullExpr, TsTypeAnn, TsTypeAssertion, TsTypeCastExpr,
-        TsTypeParamDecl, TsTypeParamInstantiation,
+        TsAsExpr, TsConstAssertion, TsNonNullExpr, TsOptChain, TsTypeAnn, TsTypeAssertion,
+        TsTypeCastExpr, TsTypeParamDecl, TsTypeParamInstantiation,
     },
 };
 use serde::{self, Deserialize, Serialize};
@@ -140,6 +140,9 @@ pub enum Expr {
 
     #[tag("PrivateName")]
     PrivateName(PrivateName),
+
+    #[tag("TsOptionalChainingExpression")]
+    TsOptChain(TsOptChain),
 }
 
 #[ast_node("ThisExpression")]
