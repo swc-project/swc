@@ -54,12 +54,17 @@ impl Fold<Expr> for OptChaining {
                             let cached = match *callee {
                                 Expr::Ident(..) => callee,
                                 _ => {
-                                    let i = private_ident!("ref");
+                                    let i = private_ident!(callee_span, "ref");
                                     self.stmts.push(Stmt::Decl(Decl::Var(VarDecl {
                                         span: DUMMY_SP,
                                         declare: false,
                                         kind: VarDeclKind::Const,
-                                        decls: vec![],
+                                        decls: vec![VarDeclarator {
+                                            span: callee_span,
+                                            definite: false,
+                                            name: Pat::Ident(i.clone()),
+                                            init: Some(callee),
+                                        }],
                                     })));
                                     box Expr::Ident(i)
                                 }
