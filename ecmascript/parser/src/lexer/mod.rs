@@ -55,24 +55,26 @@ impl IntoIterator for Char {
     type Item = char;
     type IntoIter = CharIter;
 
+    #[allow(unsafe_code)]
     fn into_iter(self) -> Self::IntoIter {
-        // TODO: Check if this is correct
-        fn to_char(v: u8) -> char {
-            char::from_digit(v as _, 16).unwrap_or('0')
-        }
+        //        // TODO: Check if this is correct
+        //        fn to_char(v: u8) -> char {
+        //            char::from_digit(v as _, 16).unwrap_or('0')
+        //        }
 
         CharIter(match char::from_u32(self.0) {
             Some(c) => smallvec![c],
             None => {
-                //
-                smallvec![
-                    '\\',
-                    'u',
-                    to_char(((self.0 >> 24) & 0xff) as u8),
-                    to_char(((self.0 >> 16) & 0xff) as u8),
-                    to_char(((self.0 >> 8) & 0xff) as u8),
-                    to_char((self.0 & 0xff) as u8)
-                ]
+                smallvec![unsafe { char::from_u32_unchecked(self.0) }]
+                // TODO:
+                //            smallvec![
+                //               '\\',
+                //                'u',
+                //                to_char(((self.0 >> 24) & 0xff) as u8),
+                //                to_char(((self.0 >> 16) & 0xff) as u8),
+                //                to_char(((self.0 >> 8) & 0xff) as u8),
+                //                to_char((self.0 & 0xff) as u8)
+                //             ]
             }
         })
     }
