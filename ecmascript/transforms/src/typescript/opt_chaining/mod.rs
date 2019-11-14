@@ -88,7 +88,6 @@ impl OptChaining {
                     Expr::Ident(..) => (box obj.clone(), box obj.clone(), e.expr),
                     _ => {
                         let i = private_ident!(obj_span, "ref");
-                        println!("VAR {}: {:?}", i.sym, obj);
                         self.vars.push(VarDeclarator {
                             span: obj_span,
                             definite: false,
@@ -101,15 +100,15 @@ impl OptChaining {
                                 span: DUMMY_SP,
                                 left: PatOrExpr::Pat(box Pat::Ident(i.clone())),
                                 op: op!("="),
-                                right: box Expr::Member(MemberExpr {
-                                    obj: ExprOrSuper::Expr(box Expr::Ident(i.clone())),
-                                    computed,
-                                    span,
-                                    prop,
-                                }),
+                                right: box obj,
                             }),
                             box Expr::Ident(i.clone()),
-                            box Expr::Ident(i.clone()),
+                            box Expr::Member(MemberExpr {
+                                obj: ExprOrSuper::Expr(box Expr::Ident(i.clone())),
+                                computed,
+                                span,
+                                prop,
+                            }),
                         )
                     }
                 };
