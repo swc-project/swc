@@ -60,18 +60,22 @@ impl OptChaining {
                 obj: ExprOrSuper::Expr(box obj),
                 prop,
                 computed,
-                ..
+                span: m_span,
             }) => {
-                println!("Folding {:?}", e.expr);
                 let obj = match obj {
                     Expr::TsOptChain(o) => {
                         let o_span = o.span;
-                        let mut obj = self.unwrap(o);
+                        let obj = self.unwrap(o);
 
                         return CondExpr {
                             alt: box Expr::TsOptChain(TsOptChain {
                                 span: o_span,
-                                expr: obj.alt,
+                                expr: box Expr::Member(MemberExpr {
+                                    span: m_span,
+                                    obj: ExprOrSuper::Expr(obj.alt),
+                                    prop,
+                                    computed,
+                                }),
                             }),
                             ..obj
                         };
@@ -93,19 +97,19 @@ impl OptChaining {
                         });
 
                         (
-                            box Expr::Ident(i.clone()),
-                            box Expr::Ident(i.clone()),
                             box Expr::Assign(AssignExpr {
                                 span: DUMMY_SP,
                                 left: PatOrExpr::Pat(box Pat::Ident(i.clone())),
                                 op: op!("="),
                                 right: box Expr::Member(MemberExpr {
-                                    obj: ExprOrSuper::Expr(box Expr::Ident(i)),
+                                    obj: ExprOrSuper::Expr(box Expr::Ident(i.clone())),
                                     computed,
                                     span,
                                     prop,
                                 }),
                             }),
+                            box Expr::Ident(i.clone()),
+                            box Expr::Ident(i.clone()),
                         )
                     }
                 };
