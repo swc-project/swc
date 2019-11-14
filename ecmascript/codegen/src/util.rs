@@ -210,6 +210,7 @@ impl StartsWithAlphaNum for Expr {
 
             // TODO
             Expr::TsTypeCast(..) => true,
+            Expr::TsOptChain(ref e) => e.expr.starts_with_alpha_num(),
         }
     }
 }

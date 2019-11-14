@@ -479,6 +479,7 @@ impl<'a> Emitter<'a> {
             Expr::TsTypeAssertion(ref n) => emit!(n),
             Expr::TsConstAssertion(ref n) => emit!(n),
             Expr::TsTypeCast(ref n) => emit!(n),
+            Expr::TsOptChain(ref n) => emit!(n),
         }
     }
 

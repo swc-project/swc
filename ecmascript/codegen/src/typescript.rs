@@ -17,6 +17,11 @@ impl<'a> Emitter<'a> {
     }
 
     #[emitter]
+    pub fn emit_ts_opt_chain(&mut self, n: &TsOptChain) -> Result {
+        unimplemented!("emit_ts_opt_chain")
+    }
+
+    #[emitter]
     pub fn emit_ts_as_expr(&mut self, n: &TsAsExpr) -> Result {
         unimplemented!("emit_ts_as_expr")
     }
