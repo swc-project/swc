@@ -1,6 +1,6 @@
 use crate::pass::Pass;
 use ast::*;
-use std::mem;
+use std::{fmt::Debug, mem};
 use swc_common::{Fold, FoldWith, Spanned, DUMMY_SP};
 use util::{prepend, undefined, StmtLike};
 
@@ -18,9 +18,12 @@ struct OptChaining {
 
 impl<T> Fold<Vec<T>> for OptChaining
 where
-    T: StmtLike + FoldWith<Self>,
+    T: Debug + StmtLike + FoldWith<Self>,
 {
     fn fold(&mut self, stmts: Vec<T>) -> Vec<T> {
+        // This is to support nested block statements
+        let old = mem::replace(&mut self.vars, vec![]);
+
         let mut stmts = stmts.fold_children(self);
 
         if !self.vars.is_empty() {
@@ -35,6 +38,7 @@ where
             );
         }
 
+        self.vars = old;
         stmts
     }
 }

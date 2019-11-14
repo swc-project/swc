@@ -54,7 +54,7 @@ val = obj?.a?.b;
     r#"
 "use strict";
 
-var ref, _obj$b, _obj$a2;
+var ref, ref1, ref2;
 
 const obj = {
   a: {
@@ -66,10 +66,10 @@ const obj = {
   }
 };
 const a = obj === null || obj === void 0 ? void 0 : obj.a;
-const b = obj === null || obj === void 0 ? void 0 : (_obj$a = obj.a) === null || _obj$a === void 0 ? void 0 : _obj$a.b;
-const bad = obj === null || obj === void 0 ? void 0 : (_obj$b = obj.b) === null || _obj$b === void 0 ? void 0 : _obj$b.b;
+const b = obj === null || obj === void 0 ? void 0 : (ref = obj.a) === null || ref === void 0 ? void 0 : ref.b;
+const bad = obj === null || obj === void 0 ? void 0 : (ref1 = obj.b) === null || ref1 === void 0 ? void 0 : ref1.b;
 let val;
-val = obj === null || obj === void 0 ? void 0 : (_obj$a2 = obj.a) === null || _obj$a2 === void 0 ? void 0 : _obj$a2.b;
+val = obj === null || obj === void 0 ? void 0 : (ref2 = obj.a) === null || ref2 === void 0 ? void 0 : ref2.b;
 
 "#
 );
