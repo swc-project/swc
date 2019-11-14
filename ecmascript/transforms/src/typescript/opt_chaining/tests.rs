@@ -137,10 +137,10 @@ test(a?.b,  1);
 
 "#,
     r#"
-var _user$address, _user$address2, _a, _a2;
+var ref, ref1, _a, _a2;
 
-var street = (_user$address = user.address) === null || _user$address === void 0 ? void 0 : _user$address.street;
-street = (_user$address2 = user.address) === null || _user$address2 === void 0 ? void 0 : _user$address2.street;
+var street = (ref = user.address) === null || ref === void 0 ? void 0 : ref.street;
+street = (ref1 = user.address) === null || ref1 === void 0 ? void 0 : ref1.street;
 test((_a = a) === null || _a === void 0 ? void 0 : _a.b, 1);
 1, (_a2 = a) === null || _a2 === void 0 ? void 0 : _a2.b, 2;
 
@@ -253,17 +253,17 @@ test = +obj?.b?.b;
     r#"
 "use strict";
 
-var _obj$a, _obj$b, _obj$b2;
+var ref, ref1, ref2;
 
 const obj = {
   a: {
     b: 0
   }
 };
-let test = +(obj === null || obj === void 0 ? void 0 : (_obj$a = obj.a) === null || _obj$a === void 0 ? void 0 : _obj$a.b);
+let test = +(obj === null || obj === void 0 ? void 0 : (ref = obj.a) === null || ref === void 0 ? void 0 : ref.b);
 test = +(obj === null || obj === void 0 ? void 0 : obj.a.b);
-test = +(obj === null || obj === void 0 ? void 0 : (_obj$b = obj.b) === null || _obj$b === void 0 ? void 0 : _obj$b.b);
-test = +(obj === null || obj === void 0 ? void 0 : (_obj$b2 = obj.b) === null || _obj$b2 === void 0 ? void 0 : _obj$b2.b);
+test = +(obj === null || obj === void 0 ? void 0 : (ref1 = obj.b) === null || ref1 === void 0 ? void 0 : ref1.b);
+test = +(obj === null || obj === void 0 ? void 0 : (ref2 = obj.b) === null || ref2 === void 0 ? void 0 : ref2.b);
 
 "#
 );
@@ -379,16 +379,16 @@ delete obj?.a;
     r#"
 "use strict";
 
-var _obj$a, _obj$b;
+var ref, ref1;
 
 const obj = {
   a: {
     b: 0
   }
 };
-let test = obj === null || obj === void 0 ? void 0 : (_obj$a = obj.a) === null || _obj$a === void 0 ? void 0 : delete _obj$a.b;
+let test = obj === null || obj === void 0 ? void 0 : (ref = obj.a) === null || ref === void 0 ? void 0 : delete ref.b;
 test = obj === null || obj === void 0 ? void 0 : delete obj.a.b;
-test = obj === null || obj === void 0 ? void 0 : (_obj$b = obj.b) === null || _obj$b === void 0 ? void 0 : delete _obj$b.b;
+test = obj === null || obj === void 0 ? void 0 : (ref1 = obj.b) === null || ref1 === void 0 ? void 0 : delete ref1.b;
 obj === null || obj === void 0 ? void 0 : delete obj.a;
 
 "#
@@ -504,4 +504,14 @@ test!(
     "var ref;
 obj === null || obj === void 0 ? void 0 : (ref = obj.a) === null || ref === void 0 ? void 0 : \
      ref.b;"
+);
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    simple_3,
+    "obj?.a?.b.c",
+    "var ref;
+obj === null || obj === void 0 ? void 0 : (ref = obj.a) === null || ref === void 0 ? void 0 : \
+     ref.b.c;"
 );
