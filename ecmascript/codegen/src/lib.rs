@@ -1644,9 +1644,14 @@ impl<'a> Emitter<'a> {
         keyword!("return");
         if let Some(ref arg) = node.arg {
             let need_paren = if let Some(cmt) = self.comments {
-                !self.pos_of_leading_comments.contains(&arg.span().lo()) && {
+                let lo = match **arg {
+                    Expr::Member(ref m) => m.obj.span().lo(),
+                    _ => node.arg.span().lo(),
+                };
+
+                !self.pos_of_leading_comments.contains(&lo) && {
                     // see #415
-                    cmt.leading_comments(arg.span().lo()).is_some()
+                    cmt.leading_comments(lo).is_some()
                 }
             } else {
                 false
