@@ -814,6 +814,55 @@ impl<'a, I: Tokens> Parser<'a, I> {
             }
         }
 
+        let is_optional_chaining =
+            self.input.syntax().typescript() && is!('?') && peeked_is!('.') && eat!('?');
+
+        /// Wrap with optional chaining
+        macro_rules! wrap {
+            ($e:expr) => {{
+                if is_optional_chaining {
+                    Expr::TsOptChain(TsOptChain {
+                        span: span!(self, start),
+                        expr: Box::new($e),
+                    })
+                } else {
+                    $e
+                }
+            }};
+        }
+
+        // $obj[name()]
+        if (is_optional_chaining && is!('.') && peeked_is!('[') && eat!('.') && eat!('['))
+            || eat!('[')
+        {
+            let prop = self.include_in_expr(true).parse_expr()?;
+            expect!(']');
+            return Ok((
+                Box::new(wrap!(Expr::Member(MemberExpr {
+                    span: span!(self, start),
+                    obj,
+                    prop,
+                    computed: true,
+                }))),
+                true,
+            ));
+        }
+
+        if (is_optional_chaining && is!('.') && peeked_is!('(') && eat!('.'))
+            || (!no_call && (is!('(')))
+        {
+            let args = self.parse_args(is_import(&obj))?;
+            return Ok((
+                Box::new(wrap!(Expr::Call(CallExpr {
+                    span: span!(self, start),
+                    callee: obj,
+                    args,
+                    type_args: None,
+                }))),
+                true,
+            ));
+        }
+
         // member expression
         // $obj.name
         if eat!('.') {
@@ -822,41 +871,13 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 Either::Right(i) => Expr::Ident(i),
             })?);
             return Ok((
-                Box::new(Expr::Member(MemberExpr {
-                    span: span!(start),
+                Box::new(wrap!(Expr::Member(MemberExpr {
+                    span: span!(self, start),
                     obj,
 
                     prop,
                     computed: false,
-                })),
-                true,
-            ));
-        }
-
-        // $obj[name()]
-        if eat!('[') {
-            let prop = self.include_in_expr(true).parse_expr()?;
-            expect!(']');
-            return Ok((
-                Box::new(Expr::Member(MemberExpr {
-                    span: span!(start),
-                    obj,
-                    prop,
-                    computed: true,
-                })),
-                true,
-            ));
-        }
-
-        if !no_call && is!('(') {
-            let args = self.parse_args(is_import(&obj))?;
-            return Ok((
-                Box::new(Expr::Call(CallExpr {
-                    span: span!(start),
-                    callee: obj,
-                    args,
-                    type_args: None,
-                })),
+                }))),
                 true,
             ));
         }

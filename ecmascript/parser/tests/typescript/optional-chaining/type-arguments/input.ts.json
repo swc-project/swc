@@ -1,0 +1,194 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 30,
+    "ctxt": 0,
+    "loc": {
+      "start": {
+        "line": 1,
+        "column": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 30
+      }
+    }
+  },
+  "body": [
+    {
+      "type": "CallExpression",
+      "span": {
+        "start": 0,
+        "end": 30,
+        "ctxt": 0,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 30
+          }
+        }
+      },
+      "callee": {
+        "type": "TsOptionalChainingExpression",
+        "span": {
+          "start": 13,
+          "end": 20,
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 13
+            },
+            "end": {
+              "line": 1,
+              "column": 20
+            }
+          }
+        },
+        "expr": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 13,
+            "end": 20,
+            "ctxt": 0,
+            "loc": {
+              "start": {
+                "line": 1,
+                "column": 13
+              },
+              "end": {
+                "line": 1,
+                "column": 20
+              }
+            }
+          },
+          "object": {
+            "type": "MemberExpression",
+            "span": {
+              "start": 7,
+              "end": 13,
+              "ctxt": 0,
+              "loc": {
+                "start": {
+                  "line": 1,
+                  "column": 7
+                },
+                "end": {
+                  "line": 1,
+                  "column": 13
+                }
+              }
+            },
+            "object": {
+              "type": "Identifier",
+              "span": {
+                "start": 0,
+                "end": 7,
+                "ctxt": 0,
+                "loc": {
+                  "start": {
+                    "line": 1,
+                    "column": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 7
+                  }
+                }
+              },
+              "value": "example",
+              "optional": false
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 8,
+                "end": 13,
+                "ctxt": 0,
+                "loc": {
+                  "start": {
+                    "line": 1,
+                    "column": 8
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 13
+                  }
+                }
+              },
+              "value": "inner",
+              "optional": false
+            },
+            "computed": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 15,
+              "end": 20,
+              "ctxt": 0,
+              "loc": {
+                "start": {
+                  "line": 1,
+                  "column": 15
+                },
+                "end": {
+                  "line": 1,
+                  "column": 20
+                }
+              }
+            },
+            "value": "greet",
+            "optional": false
+          },
+          "computed": false
+        }
+      },
+      "arguments": [],
+      "typeArguments": {
+        "type": "TsTypeParameterInstantiation",
+        "span": {
+          "start": 20,
+          "end": 28,
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 20
+            },
+            "end": {
+              "line": 1,
+              "column": 28
+            }
+          }
+        },
+        "params": [
+          {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 21,
+              "end": 27,
+              "ctxt": 0,
+              "loc": {
+                "start": {
+                  "line": 1,
+                  "column": 21
+                },
+                "end": {
+                  "line": 1,
+                  "column": 27
+                }
+              }
+            },
+            "kind": "string"
+          }
+        ]
+      }
+    }
+  ]
+}

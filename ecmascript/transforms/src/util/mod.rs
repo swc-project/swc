@@ -651,6 +651,7 @@ pub trait ExprExt {
             | Expr::TsNonNull(TsNonNullExpr { ref expr, .. })
             | Expr::TsTypeAssertion(TsTypeAssertion { ref expr, .. })
             | Expr::TsTypeCast(TsTypeCastExpr { ref expr, .. }) => expr.may_have_side_effects(),
+            Expr::TsOptChain(ref e) => e.expr.may_have_side_effects(),
         }
     }
 }

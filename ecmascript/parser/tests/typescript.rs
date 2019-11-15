@@ -214,3 +214,20 @@ impl Fold<PatOrExpr> for Normalizer {
         }
     }
 }
+
+impl Fold<PropName> for Normalizer {
+    fn fold(&mut self, node: PropName) -> PropName {
+        let node = node.fold_children(self);
+
+        match node {
+            PropName::Computed(box Expr::Lit(ref l)) => match l {
+                Lit::Str(s) => s.clone().into(),
+                Lit::Num(v) => v.clone().into(),
+
+                _ => return node,
+            },
+
+            _ => return node,
+        }
+    }
+}
