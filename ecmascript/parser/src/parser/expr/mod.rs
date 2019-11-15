@@ -831,6 +831,23 @@ impl<'a, I: Tokens> Parser<'a, I> {
             }};
         }
 
+        // $obj[name()]
+        if (is_optional_chaining && is!('.') && peeked_is!('[') && eat!('.') && eat!('['))
+            || eat!('[')
+        {
+            let prop = self.include_in_expr(true).parse_expr()?;
+            expect!(']');
+            return Ok((
+                Box::new(wrap!(Expr::Member(MemberExpr {
+                    span: span!(self, start),
+                    obj,
+                    prop,
+                    computed: true,
+                }))),
+                true,
+            ));
+        }
+
         // member expression
         // $obj.name
         if eat!('.') {
@@ -845,21 +862,6 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
                     prop,
                     computed: false,
-                }))),
-                true,
-            ));
-        }
-
-        // $obj[name()]
-        if eat!('[') {
-            let prop = self.include_in_expr(true).parse_expr()?;
-            expect!(']');
-            return Ok((
-                Box::new(wrap!(Expr::Member(MemberExpr {
-                    span: span!(self, start),
-                    obj,
-                    prop,
-                    computed: true,
                 }))),
                 true,
             ));
