@@ -2843,5 +2843,11 @@ class foo {
   }
 }
 ",
-    ""
+    "var MODE = 1;
+class foo{
+    constructor(){
+        this.mode = MODE;
+    }
+}
+_defineProperty(foo, 'MODE', MODE);"
 );
