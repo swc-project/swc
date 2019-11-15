@@ -47,7 +47,7 @@ impl Fold<Expr> for OptChaining {
     fn fold(&mut self, e: Expr) -> Expr {
         let e = match e {
             Expr::TsOptChain(e) => Expr::Cond(self.unwrap(e)),
-            Expr::Member(e) => self.unwrap_member(e),
+            Expr::Member(e) => self.handle_member(e),
             Expr::Call(e) => self.handle_call(e),
             _ => e,
         };
@@ -80,7 +80,7 @@ impl OptChaining {
     }
 
     /// Only called from `[Fold<Expr>].
-    fn unwrap_member(&mut self, e: MemberExpr) -> Expr {
+    fn handle_member(&mut self, e: MemberExpr) -> Expr {
         match e.obj {
             ExprOrSuper::Expr(box Expr::TsOptChain(o)) => {
                 let expr = self.unwrap(o);
