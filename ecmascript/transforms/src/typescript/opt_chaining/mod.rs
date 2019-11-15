@@ -47,6 +47,7 @@ impl Fold<Expr> for OptChaining {
     fn fold(&mut self, e: Expr) -> Expr {
         let e = match e {
             Expr::TsOptChain(e) => Expr::Cond(self.unwrap(e)),
+            Expr::Member(e) => self.unwrap_member(e),
             _ => e,
         };
 
@@ -55,9 +56,56 @@ impl Fold<Expr> for OptChaining {
 }
 
 impl OptChaining {
+    fn unwrap_member(&mut self, e: MemberExpr) -> Expr {
+        match e.obj {
+            ExprOrSuper::Expr(box Expr::TsOptChain(o)) => {
+                let expr = self.unwrap(o);
+
+                return CondExpr {
+                    alt: box Expr::Member(MemberExpr {
+                        obj: ExprOrSuper::Expr(expr.alt),
+                        ..e
+                    }),
+                    ..expr
+                }
+                .into();
+            }
+
+            _ => {}
+        }
+
+        Expr::Member(e)
+    }
+
     fn unwrap(&mut self, e: TsOptChain) -> CondExpr {
         let span = e.span;
         let cons = undefined(span);
+
+        match *e.expr {
+            Expr::Member(MemberExpr {
+                obj: ExprOrSuper::Expr(box Expr::TsOptChain(o)),
+                prop,
+                computed,
+                span: m_span,
+            }) => {
+                let o_span = o.span;
+                let obj = self.unwrap(o);
+
+                let alt = box Expr::Member(MemberExpr {
+                    span: m_span,
+                    obj: ExprOrSuper::Expr(obj.alt),
+                    prop,
+                    computed,
+                });
+                let alt = box Expr::TsOptChain(TsOptChain {
+                    span: o_span,
+                    expr: alt,
+                });
+
+                return CondExpr { alt, ..obj };
+            }
+            _ => {}
+        }
 
         match *e.expr.clone() {
             Expr::Member(MemberExpr {
@@ -66,26 +114,8 @@ impl OptChaining {
                 computed,
                 span: m_span,
             }) => {
-                let obj = match obj {
-                    Expr::TsOptChain(o) => {
-                        let o_span = o.span;
-                        let obj = self.unwrap(o);
+                println!("!!!!! - {:?}", obj);
 
-                        let alt = box Expr::Member(MemberExpr {
-                            span: m_span,
-                            obj: ExprOrSuper::Expr(obj.alt),
-                            prop,
-                            computed,
-                        });
-                        let alt = box Expr::TsOptChain(TsOptChain {
-                            span: o_span,
-                            expr: alt,
-                        });
-
-                        return CondExpr { alt, ..obj };
-                    }
-                    _ => obj,
-                };
                 let obj_span = obj.span();
 
                 let (left, right, alt) = match obj {
