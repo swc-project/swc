@@ -105,20 +105,18 @@ function test(foo) {
 "#,
     r#"
 function test(foo) {
-  var ref, _foo$bar2, _foo$bar3, _foo$bar4, _foo$bar5, _foo$bar6, _foo$bar6$baz, _foo$bar7, _foo$bar7$baz;
-
-  foo === null || foo === void 0 ? void 0 : foo.bar;
-  foo === null || foo === void 0 ? void 0 : (ref = foo.bar) === null || ref === void 0 ? void 0 : ref.baz;
-  foo === null || foo === void 0 ? void 0 : foo(foo);
-  foo === null || foo === void 0 ? void 0 : foo.bar();
-  (_foo$bar2 = foo.bar) === null || _foo$bar2 === void 0 ? void 0 : _foo$bar2.call(foo, foo.bar, false);
-  foo === null || foo === void 0 ? void 0 : (_foo$bar3 = foo.bar) === null || _foo$bar3 === void 0 ? void 0 : _foo$bar3.call(foo, foo.bar, true);
-  (_foo$bar4 = foo.bar) === null || _foo$bar4 === void 0 ? void 0 : _foo$bar4.baz(foo.bar, false);
-  foo === null || foo === void 0 ? void 0 : (_foo$bar5 = foo.bar) === null || _foo$bar5 === void 0 ? void 0 : _foo$bar5.baz(foo.bar, true);
-  (_foo$bar6 = foo.bar) === null || _foo$bar6 === void 0 ? void 0 : (_foo$bar6$baz = _foo$bar6.baz) === null || _foo$bar6$baz === void 0 ? void 0 : _foo$bar6$baz.call(_foo$bar6, foo.bar, false);
-  foo === null || foo === void 0 ? void 0 : (_foo$bar7 = foo.bar) === null || _foo$bar7 === void 0 ? void 0 : (_foo$bar7$baz = _foo$bar7.baz) === null || _foo$bar7$baz === void 0 ? void 0 : _foo$bar7$baz.call(_foo$bar7, foo.bar, true);
+    var ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, ref8;
+    foo === null || foo === void 0 ? void 0 : foo.bar;
+    foo === null || foo === void 0 ? void 0 : (ref = foo.bar) === null || ref === void 0 ? void 0 : ref.baz;
+    foo === null || foo === void 0 ? void 0 : foo(foo);
+    foo === null || foo === void 0 ? void 0 : foo.bar();
+    (ref1 = foo.bar) === null || ref1 === void 0 ? void 0 : ref1.call(ref1, foo.bar, false);
+    foo === null || foo === void 0 ? void 0 : (ref2 = foo.bar) === null || ref2 === void 0 ? void 0 : ref2.call(ref2, foo.bar, true);
+    (ref3 = foo.bar) === null || ref3 === void 0 ? void 0 : ref3.baz(foo.bar, false);
+    foo === null || foo === void 0 ? void 0 : (ref4 = foo.bar) === null || ref4 === void 0 ? void 0 : ref4.baz(foo.bar, true);
+    (ref5 = foo.bar) === null || ref5 === void 0 ? void 0 : (ref6 = ref5.baz) === null || ref6 === void 0 ? void 0 : ref6.call(ref6, foo.bar, false);
+    foo === null || foo === void 0 ? void 0 : (ref7 = foo.bar) === null || ref7 === void 0 ? void 0 : (ref8 = ref7.baz) === null || ref8 === void 0 ? void 0 : ref8.call(ref8, foo.bar, true);
 }
-
 "#
 );
 
@@ -211,19 +209,17 @@ orders[client.key]?.price;
 
 "#,
     r#"
-var ref, _a, _a$b$c, _a$b, _a$b$c$d, _a$b$c2, _a$b$c2$d, _orders, _orders2, _orders2$, _client, _orders$client$key, _a2, _c, _a3;
-
-(ref = foo) === null || ref === void 0 ? void 0 : ref.bar;
-(_a = a) === null || _a === void 0 ? void 0 : (_a$b$c = _a.b.c) === null || _a$b$c === void 0 ? void 0 : _a$b$c.d.e;
-(_a$b = a.b) === null || _a$b === void 0 ? void 0 : (_a$b$c$d = _a$b.c.d) === null || _a$b$c$d === void 0 ? void 0 : _a$b$c$d.e;
-(_a$b$c2 = a.b.c) === null || _a$b$c2 === void 0 ? void 0 : (_a$b$c2$d = _a$b$c2.d) === null || _a$b$c2$d === void 0 ? void 0 : _a$b$c2$d.e;
-(_orders = orders) === null || _orders === void 0 ? void 0 : _orders[0].price;
-(_orders2 = orders) === null || _orders2 === void 0 ? void 0 : (_orders2$ = _orders2[0]) === null || _orders2$ === void 0 ? void 0 : _orders2$.price;
-orders[(_client = client) === null || _client === void 0 ? void 0 : _client.key].price;
-(_orders$client$key = orders[client.key]) === null || _orders$client$key === void 0 ? void 0 : _orders$client$key.price;
-(0, (_a2 = a) === null || _a2 === void 0 ? void 0 : _a2.b).c;
-(0, (_c = (0, (_a3 = a) === null || _a3 === void 0 ? void 0 : _a3.b).c) === null || _c === void 0 ? void 0 : _c.d).e;
-
+var ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7;
+foo === null || foo === void 0 ? void 0 : foo.bar;
+(ref = a === null || a === void 0 ? void 0 : a.b.c) === null || ref === void 0 ? void 0 : ref.d.e;
+(ref1 = (ref2 = a.b) === null || ref2 === void 0 ? void 0 : ref2.c.d) === null || ref1 === void 0 ? void 0 : ref1.e;
+(ref3 = a.b.c) === null || ref3 === void 0 ? void 0 : (ref4 = ref3.d) === null || ref4 === void 0 ? void 0 : ref4.e;
+orders === null || orders === void 0 ? void 0 : orders[0].price;
+orders === null || orders === void 0 ? void 0 : (ref5 = orders[0]) === null || ref5 === void 0 ? void 0 : ref5.price;
+orders[client === null || client === void 0 ? void 0 : client.key].price;
+(ref6 = orders[client.key]) === null || ref6 === void 0 ? void 0 : ref6.price;
+(a === null || a === void 0 ? void 0 : a.b).c;
+((ref7 = (a === null || a === void 0 ? void 0 : a.b).c) === null || ref7 === void 0 ? void 0 : ref7.d).e;
 "#
 );
 
@@ -298,19 +294,17 @@ foo?.bar?.()?.baz
 
 "#,
     r#"
-var ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9, ref10, ref11, ref12, ref13, ref14, ref15, ref16, ref17, ref18;
-
-(ref = foo) === null || ref === void 0 ? void 0 : ref(foo);
-(ref1 = foo) === null || ref1 === void 0 ? void 0 : ref1.bar();
-(ref2 = (ref3 = foo).bar) === null || ref2 === void 0 ? void 0 : ref2.call(ref3, foo.bar, false);
-(ref4 = foo) === null || ref4 === void 0 ? void 0 : (ref5 = ref4.bar) === null || ref5 === void 0 ? void 0 : ref5.call(ref4, foo.bar, true);
-(ref6 = foo) === null || ref6 === void 0 ? void 0 : ref6().bar;
-(ref7 = foo) === null || ref7 === void 0 ? void 0 : (ref8 = ref7()) === null || ref8 === void 0 ? void 0 : ref8.bar;
-(ref9 = (ref10 = foo).bar) === null || ref9 === void 0 ? void 0 : ref9.call(ref10).baz;
-(ref11 = (ref12 = foo).bar) === null || ref11 === void 0 ? void 0 : (ref13 = ref11.call(ref12)) === null || ref13 === void 0 ? void 0 : ref13.baz;
-(ref14 = foo) === null || ref14 === void 0 ? void 0 : (ref15 = ref14.bar) === null || ref15 === void 0 ? void 0 : ref15.call(ref14).baz;
-(ref16 = foo) === null || ref16 === void 0 ? void 0 : (ref17 = ref16.bar) === null || ref17 === void 0 ? void 0 : (ref18 = ref17.call(ref16)) === null || ref18 === void 0 ? void 0 : ref18.baz;
-
+var ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, ref8;
+foo === null || foo === void 0 ? void 0 : foo(foo);
+foo === null || foo === void 0 ? void 0 : foo.bar();
+(ref = foo.bar) === null || ref === void 0 ? void 0 : ref.call(ref, foo.bar, false);
+foo === null || foo === void 0 ? void 0 : (ref1 = foo.bar) === null || ref1 === void 0 ? void 0 : ref1.call(ref1, foo.bar, true);
+foo === null || foo === void 0 ? void 0 : foo().bar;
+foo === null || foo === void 0 ? void 0 : (ref2 = foo()) === null || ref2 === void 0 ? void 0 : ref2.bar;
+(ref3 = foo.bar) === null || ref3 === void 0 ? void 0 : ref3.call(ref3).baz;
+(ref4 = foo.bar) === null || ref4 === void 0 ? void 0 : (ref5 = ref4.call(ref4)) === null || ref5 === void 0 ? void 0 : ref5.baz;
+foo === null || foo === void 0 ? void 0 : (ref6 = foo.bar) === null || ref6 === void 0 ? void 0 : ref6.call(ref6).baz;
+foo === null || foo === void 0 ? void 0 : (ref7 = foo.bar) === null || ref7 === void 0 ? void 0 : (ref8 = ref7.call(ref7)) === null || ref8 === void 0 ? void 0 : ref8.baz;
 "#
 );
 
