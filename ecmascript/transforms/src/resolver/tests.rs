@@ -754,9 +754,10 @@ to!(
 
 test!(
     syntax(),
-    |_| chain_at!(Module, class_properties(), tr()),
+    |_| chain!(resolver(), class_properties(), block_scoping()),
     issue_443,
-    "const MODE = 1;
+    "
+const MODE = 1;
 
 class foo {
   static MODE = MODE;
@@ -765,7 +766,6 @@ class foo {
     this.mode = MODE;
   }
 }
-
-export default foo;",
+",
     ""
 );
