@@ -321,9 +321,11 @@ impl ClassProperties {
                             ident.as_arg()
                         }
                     };
-                    prop.value.visit_with(&mut UsedNameCollector {
-                        used_names: &mut used_names,
-                    });
+                    if !prop.is_static {
+                        prop.value.visit_with(&mut UsedNameCollector {
+                            used_names: &mut used_names,
+                        });
+                    }
                     let value = prop.value.unwrap_or_else(|| undefined(prop_span)).as_arg();
 
                     let callee = helper!(define_property, "defineProperty");
