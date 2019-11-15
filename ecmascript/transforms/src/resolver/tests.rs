@@ -1,5 +1,5 @@
 use super::*;
-use crate::{compat::es2015::block_scoping, proposals::class_properties};
+use crate::compat::es2015::block_scoping;
 use swc_ecma_parser::{EsConfig, Syntax};
 
 fn tr() -> impl Fold<Module> {
@@ -750,22 +750,4 @@ to!(
         };
         return _setPrototypeOf(o, p);
     }"
-);
-
-test!(
-    syntax(),
-    |_| chain!(resolver(), class_properties(), block_scoping()),
-    issue_443,
-    "
-const MODE = 1;
-
-class foo {
-  static MODE = MODE;
-
-  constructor() {
-    this.mode = MODE;
-  }
-}
-",
-    ""
 );
