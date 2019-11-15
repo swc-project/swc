@@ -57,6 +57,7 @@ impl Fold<Expr> for OptChaining {
 }
 
 impl OptChaining {
+    /// Only called from [Fold<Expr>].
     fn handle_call(&mut self, e: CallExpr) -> Expr {
         match e.callee {
             ExprOrSuper::Expr(box Expr::TsOptChain(o)) => {
@@ -78,6 +79,7 @@ impl OptChaining {
         Expr::Call(e)
     }
 
+    /// Only called from `[Fold<Expr>].
     fn unwrap_member(&mut self, e: MemberExpr) -> Expr {
         match e.obj {
             ExprOrSuper::Expr(box Expr::TsOptChain(o)) => {
@@ -156,8 +158,6 @@ impl OptChaining {
                 computed,
                 span: m_span,
             }) => {
-                println!("!!!!! - {:?}", obj);
-
                 let obj_span = obj.span();
 
                 let (left, right, alt) = match obj {
@@ -220,9 +220,14 @@ impl OptChaining {
                 type_args,
                 ..
             }) => {
-                println!("!!!!! Call - {:?}", obj);
-
                 let obj_span = obj.span();
+                let is_super_access = match obj {
+                    Expr::Member(MemberExpr {
+                        obj: ExprOrSuper::Super(..),
+                        ..
+                    }) => true,
+                    _ => false,
+                };
 
                 let (left, right, alt) = match obj {
                     Expr::Ident(..) => (box obj.clone(), box obj.clone(), e.expr),
@@ -252,7 +257,13 @@ impl OptChaining {
                                     computed: false,
                                 })),
                                 // TODO;
-                                args: once(i.clone().as_arg()).chain(args).collect(),
+                                args: once(if is_super_access {
+                                    ThisExpr { span }.as_arg()
+                                } else {
+                                    i.clone().as_arg()
+                                })
+                                .chain(args)
+                                .collect(),
                                 type_args,
                             }),
                         )

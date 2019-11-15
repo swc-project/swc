@@ -472,9 +472,9 @@ class Base {
 
 class Derived extends Base {
   method() {
-    var _super$method;
+    var ref;
 
-    return (_super$method = super.method) === null || _super$method === void 0 ? void 0 : _super$method.call(this);
+    return (ref = super.method) === null || ref === void 0 ? void 0 : ref.call(this);
   }
 
 }
