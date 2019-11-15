@@ -1,31 +1,27 @@
 use super::*;
-use crate::compat::es2015::block_scoping;
+use crate::{compat::es2015::block_scoping, proposals::class_properties};
+use swc_ecma_parser::{EsConfig, Syntax};
 
 fn tr() -> impl Fold<Module> {
     chain!(resolver(), block_scoping())
 }
 
+fn syntax() -> Syntax {
+    Syntax::Es(EsConfig {
+        class_props: true,
+        ..Default::default()
+    })
+}
+
 macro_rules! identical {
     ($name:ident, $src:literal) => {
-        test!(
-            ::swc_ecma_parser::Syntax::default(),
-            |_| tr(),
-            $name,
-            $src,
-            $src
-        );
+        test!(syntax(), |_| tr(), $name, $src, $src);
     };
 }
 
 macro_rules! to {
     ($name:ident, $src:literal, $to:literal) => {
-        test!(
-            ::swc_ecma_parser::Syntax::default(),
-            |_| tr(),
-            $name,
-            $src,
-            $to
-        );
+        test!(syntax(), |_| tr(), $name, $src, $to);
     };
 }
 
@@ -754,4 +750,22 @@ to!(
         };
         return _setPrototypeOf(o, p);
     }"
+);
+
+test!(
+    syntax(),
+    |_| chain_at!(Module, class_properties(), tr()),
+    issue_443,
+    "const MODE = 1;
+
+class foo {
+  static MODE = MODE;
+
+  constructor() {
+    this.mode = MODE;
+  }
+}
+
+export default foo;",
+    ""
 );
