@@ -848,6 +848,21 @@ impl<'a, I: Tokens> Parser<'a, I> {
             ));
         }
 
+        if (is_optional_chaining && is!('.') && peeked_is!('(') && eat!('.'))
+            || (!no_call && (is!('(')))
+        {
+            let args = self.parse_args(is_import(&obj))?;
+            return Ok((
+                Box::new(wrap!(Expr::Call(CallExpr {
+                    span: span!(self, start),
+                    callee: obj,
+                    args,
+                    type_args: None,
+                }))),
+                true,
+            ));
+        }
+
         // member expression
         // $obj.name
         if eat!('.') {
@@ -862,19 +877,6 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
                     prop,
                     computed: false,
-                }))),
-                true,
-            ));
-        }
-
-        if !no_call && is!('(') {
-            let args = self.parse_args(is_import(&obj))?;
-            return Ok((
-                Box::new(wrap!(Expr::Call(CallExpr {
-                    span: span!(self, start),
-                    callee: obj,
-                    args,
-                    type_args: None,
                 }))),
                 true,
             ));
