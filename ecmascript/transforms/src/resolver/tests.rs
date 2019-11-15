@@ -1,31 +1,27 @@
 use super::*;
 use crate::compat::es2015::block_scoping;
+use swc_ecma_parser::{EsConfig, Syntax};
 
 fn tr() -> impl Fold<Module> {
     chain!(resolver(), block_scoping())
 }
 
+fn syntax() -> Syntax {
+    Syntax::Es(EsConfig {
+        class_props: true,
+        ..Default::default()
+    })
+}
+
 macro_rules! identical {
     ($name:ident, $src:literal) => {
-        test!(
-            ::swc_ecma_parser::Syntax::default(),
-            |_| tr(),
-            $name,
-            $src,
-            $src
-        );
+        test!(syntax(), |_| tr(), $name, $src, $src);
     };
 }
 
 macro_rules! to {
     ($name:ident, $src:literal, $to:literal) => {
-        test!(
-            ::swc_ecma_parser::Syntax::default(),
-            |_| tr(),
-            $name,
-            $src,
-            $to
-        );
+        test!(syntax(), |_| tr(), $name, $src, $to);
     };
 }
 

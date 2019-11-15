@@ -211,7 +211,7 @@ impl OptChaining {
                 obj: ExprOrSuper::Expr(box obj),
                 prop,
                 computed,
-                span: m_span,
+                span: _,
             }) => {
                 let obj_span = obj.span();
 
