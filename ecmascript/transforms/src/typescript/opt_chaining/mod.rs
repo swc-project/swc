@@ -47,6 +47,7 @@ impl Fold<Expr> for OptChaining {
     fn fold(&mut self, e: Expr) -> Expr {
         let e = match e {
             Expr::TsOptChain(e) => Expr::Cond(self.unwrap(e)),
+            Expr::Unary(e) => self.handle_unary(e),
             Expr::Member(e) => self.handle_member(e),
             Expr::Call(e) => self.handle_call(e),
             _ => e,
@@ -57,6 +58,60 @@ impl Fold<Expr> for OptChaining {
 }
 
 impl OptChaining {
+    /// Only called from [Fold<Expr>].
+    fn handle_unary(&mut self, e: UnaryExpr) -> Expr {
+        let span = e.span;
+
+        match e.op {
+            op!("delete") => match *e.arg {
+                Expr::TsOptChain(o) => {
+                    let expr = self.unwrap(o);
+
+                    return CondExpr {
+                        span,
+                        alt: box Expr::Unary(UnaryExpr {
+                            span,
+                            op: op!("delete"),
+                            arg: expr.alt,
+                        }),
+                        ..expr
+                    }
+                    .into();
+                }
+
+                Expr::Member(MemberExpr {
+                    span,
+                    obj: ExprOrSuper::Expr(box Expr::TsOptChain(o)),
+                    prop,
+                    computed,
+                }) => {
+                    let expr = self.unwrap(o);
+
+                    return CondExpr {
+                        span,
+                        alt: box Expr::Unary(UnaryExpr {
+                            span,
+                            op: op!("delete"),
+                            arg: box Expr::Member(MemberExpr {
+                                span,
+                                obj: ExprOrSuper::Expr(expr.alt),
+                                prop,
+                                computed,
+                            }),
+                        }),
+                        ..expr
+                    }
+                    .into();
+                }
+                _ => {}
+            },
+
+            _ => {}
+        }
+
+        Expr::Unary(e)
+    }
+
     /// Only called from [Fold<Expr>].
     fn handle_call(&mut self, e: CallExpr) -> Expr {
         match e.callee {
