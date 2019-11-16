@@ -511,8 +511,8 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     pub fn emit_member_expr(&mut self, node: &MemberExpr) -> Result {
-        self.emit_leading_comments_of_pos(node.obj.span().lo())?;
-        // TODO: debug_assert_eq!(node.span().lo(), node.obj.span().lo());
+        self.emit_leading_comments_of_pos(node.span().lo())?;
+        debug_assert_eq!(node.span().lo(), node.obj.span().lo());
 
         emit!(node.obj);
 
@@ -1645,10 +1645,7 @@ impl<'a> Emitter<'a> {
         keyword!("return");
         if let Some(ref arg) = node.arg {
             let need_paren = if let Some(cmt) = self.comments {
-                let lo = match **arg {
-                    Expr::Member(ref m) => m.obj.span().lo(),
-                    _ => node.arg.span().lo(),
-                };
+                let lo = node.arg.span().lo();
 
                 !self.pos_of_leading_comments.contains(&lo) && {
                     // see #415

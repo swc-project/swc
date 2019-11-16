@@ -1,4 +1,7 @@
-use crate::helpers::{InjectHelpers, HELPERS};
+use crate::{
+    helpers::{InjectHelpers, HELPERS},
+    pass::Pass,
+};
 use ast::*;
 use sourcemap::SourceMapBuilder;
 use std::{
@@ -131,7 +134,7 @@ impl<'a> Tester<'a> {
             module
         };
 
-        let module = module
+        let module = validate!(module)
             .fold_with(&mut tr)
             .fold_with(&mut ::testing::DropSpan)
             .fold_with(&mut Normalizer);
@@ -169,10 +172,10 @@ impl<'a> Tester<'a> {
     }
 }
 
-fn make_tr<F, P>(op: F, tester: &mut Tester) -> P
+fn make_tr<F, P>(_: &'static str, op: F, tester: &mut Tester) -> impl Pass
 where
     F: FnOnce(&mut Tester) -> P,
-    P: Fold<Module>,
+    P: Pass,
 {
     op(tester)
 }
@@ -203,7 +206,7 @@ pub(crate) fn test_transform<F, P>(
 
         eprintln!("----- Actual -----");
 
-        let tr = crate::tests::make_tr(tr, tester);
+        let tr = crate::tests::make_tr("actual", tr, tester);
         let actual = tester.apply_transform(tr, "input.js", syntax, input)?;
 
         match ::std::env::var("PRINT_HYGIENE") {
@@ -215,8 +218,11 @@ pub(crate) fn test_transform<F, P>(
         }
 
         let actual = actual
+            .fold_with(&mut crate::debug::validator::Validator { name: "actual-1" })
             .fold_with(&mut crate::hygiene::hygiene())
-            .fold_with(&mut crate::fixer::fixer());
+            .fold_with(&mut crate::debug::validator::Validator { name: "actual-2" })
+            .fold_with(&mut crate::fixer::fixer())
+            .fold_with(&mut crate::debug::validator::Validator { name: "actual-3" });
 
         if actual == expected {
             return Ok(());
@@ -288,12 +294,12 @@ macro_rules! exec_tr {
     }};
 }
 
-pub(crate) fn exec_tr<F, P>(test_name: &str, syntax: Syntax, tr: F, input: &str)
+pub(crate) fn exec_tr<F, P>(test_name: &'static str, syntax: Syntax, tr: F, input: &str)
 where
     F: FnOnce(&mut Tester) -> P,
 {
     Tester::run(|tester| {
-        let tr = make_tr(tr, tester);
+        let tr = make_tr(test_name, tr, tester);
 
         let module = tester.apply_transform(
             tr,
@@ -307,8 +313,11 @@ where
             ),
         )?;
         let module = module
+            .fold_with(&mut crate::debug::validator::Validator { name: "actual-1" })
             .fold_with(&mut crate::hygiene::hygiene())
-            .fold_with(&mut crate::fixer::fixer());
+            .fold_with(&mut crate::debug::validator::Validator { name: "actual-2" })
+            .fold_with(&mut crate::fixer::fixer())
+            .fold_with(&mut crate::debug::validator::Validator { name: "actual-3" });
 
         let src_without_helpers = tester.print(&module);
         let module = module.fold_with(&mut InjectHelpers {});
@@ -366,6 +375,10 @@ macro_rules! test_exec {
     ($syntax:expr, $tr:expr, $test_name:ident, $input:expr) => {
         #[test]
         fn $test_name() {
+            if ::std::env::var("EXEC").unwrap_or(String::from("")) == "0" {
+                return;
+            }
+
             exec_tr!($syntax, $tr, $test_name, $input)
         }
     };

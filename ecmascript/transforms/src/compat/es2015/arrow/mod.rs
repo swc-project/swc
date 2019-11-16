@@ -69,6 +69,7 @@ impl Fold<Expr> for Arrow {
             return e;
         }
 
+        let e = validate!(e);
         let e = e.fold_children(self);
 
         match e {

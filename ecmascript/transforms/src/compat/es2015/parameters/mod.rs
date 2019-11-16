@@ -15,6 +15,8 @@ pub struct Params;
 
 impl Params {
     fn fold_fn_like(&mut self, ps: Vec<Pat>, body: BlockStmt) -> (Vec<Pat>, BlockStmt) {
+        let body = validate!(body);
+
         let mut params = vec![];
         let mut decls = vec![];
         let mut unpack_rest = None;
@@ -88,7 +90,7 @@ impl Params {
                             ident.clone().into()
                         } else {
                             // `len - $i`
-                            let bin: Expr = BinExpr {
+                            let bin: Expr = validate!(BinExpr {
                                 span,
                                 left: box Expr::Ident(ident.clone()),
                                 op: op!(bin, "-"),
@@ -96,13 +98,13 @@ impl Params {
                                     span,
                                     value: i as f64,
                                 })),
-                            }
+                            })
                             .into();
                             if !min_zero {
                                 return bin;
                             }
 
-                            Expr::Cond(CondExpr {
+                            validate!(Expr::Cond(CondExpr {
                                 span,
                                 test: box BinExpr {
                                     span,
@@ -116,7 +118,7 @@ impl Params {
                                 .into(),
                                 cons: box bin,
                                 alt: box Expr::Lit(Lit::Num(Number { span, value: 0.0 })),
-                            })
+                            }))
                         }
                     };
 
@@ -180,22 +182,24 @@ impl Params {
                             stmts: vec![{
                                 let prop = box Expr::Ident(idx_ident.clone());
                                 // a1[_key - i] = arguments[_key];
-                                Stmt::Expr(box Expr::Assign(AssignExpr {
+                                let expr = Stmt::Expr(box Expr::Assign(AssignExpr {
                                     span,
                                     left: PatOrExpr::Expr(
                                         box arg.computed_member(make_minus_i(&idx_ident, false)),
                                     ),
                                     op: op!("="),
-                                    right: box MemberExpr {
-                                        span,
+                                    right: box validate!(MemberExpr {
+                                        span: DUMMY_SP,
                                         obj: ExprOrSuper::Expr(
                                             box quote_ident!(span, "arguments").into(),
                                         ),
                                         computed: true,
                                         prop,
-                                    }
+                                    })
                                     .into(),
-                                }))
+                                }));
+
+                                validate!(expr)
                             }],
                         }),
                     }))
@@ -210,24 +214,24 @@ impl Params {
             Some(Stmt::Decl(Decl::Var(VarDecl {
                 span: DUMMY_SP,
                 kind: VarDeclKind::Let,
-                decls,
+                decls: validate!(decls),
                 declare: false,
             })))
         }
         .into_iter()
-        .chain(unpack_rest)
+        .chain(validate!(unpack_rest))
         .chain(if decls_after_unpack.is_empty() {
             None
         } else {
             Some(Stmt::Decl(Decl::Var(VarDecl {
                 span: DUMMY_SP,
                 kind: VarDeclKind::Let,
-                decls: decls_after_unpack,
+                decls: validate!(decls_after_unpack),
                 declare: false,
             })))
         })
         .chain(body.stmts)
-        .collect();
+        .collect::<Vec<_>>();
 
         (
             params,

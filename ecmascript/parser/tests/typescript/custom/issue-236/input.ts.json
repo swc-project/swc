@@ -367,13 +367,13 @@
               "left": {
                 "type": "MemberExpression",
                 "span": {
-                  "start": 126,
+                  "start": 122,
                   "end": 133,
                   "ctxt": 0,
                   "loc": {
                     "start": {
                       "line": 2,
-                      "column": 8
+                      "column": 4
                     },
                     "end": {
                       "line": 2,
@@ -463,13 +463,13 @@
               "left": {
                 "type": "MemberExpression",
                 "span": {
-                  "start": 152,
+                  "start": 148,
                   "end": 159,
                   "ctxt": 0,
                   "loc": {
                     "start": {
                       "line": 3,
-                      "column": 8
+                      "column": 4
                     },
                     "end": {
                       "line": 3,

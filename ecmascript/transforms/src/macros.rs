@@ -1,3 +1,6 @@
+#[cfg(test)]
+use crate::pass::Pass;
+
 macro_rules! impl_fold_fn {
     ($T:path) => {
         impl Fold<Function> for $T {
@@ -10,11 +13,11 @@ macro_rules! impl_fold_fn {
 
                 let (params, body) = self.fold_fn_like(f.params, f.body.unwrap());
 
-                Function {
+                validate!(Function {
                     params,
                     body: Some(body),
                     ..f
-                }
+                })
             }
         }
 
@@ -59,7 +62,7 @@ macro_rules! impl_fold_fn {
                     BlockStmtOrExpr::BlockStmt(body)
                 };
 
-                ArrowExpr { params, body, ..f }
+                validate!(ArrowExpr { params, body, ..f })
             }
         }
 
@@ -74,11 +77,11 @@ macro_rules! impl_fold_fn {
                 let (mut params, body) = self.fold_fn_like(vec![f.param], f.body.unwrap());
                 debug_assert!(params.len() == 1);
 
-                SetterProp {
+                validate!(SetterProp {
                     param: params.pop().unwrap(),
                     body: Some(body),
                     ..f
-                }
+                })
             }
         }
 
@@ -93,10 +96,10 @@ macro_rules! impl_fold_fn {
                 let (params, body) = self.fold_fn_like(vec![], f.body.unwrap());
                 debug_assert_eq!(params, vec![]);
 
-                GetterProp {
+                validate!(GetterProp {
                     body: Some(body),
                     ..f
-                }
+                })
             }
         }
 
@@ -119,7 +122,7 @@ macro_rules! impl_fold_fn {
                     Some(params.pop().unwrap())
                 };
 
-                CatchClause { param, body, ..f }
+                validate!(CatchClause { param, body, ..f })
             }
         }
 
@@ -144,11 +147,11 @@ macro_rules! impl_fold_fn {
 
                 let (params, body) = self.fold_fn_like(params, f.body.unwrap());
 
-                Constructor {
+                validate!(Constructor {
                     params: params.into_iter().map(PatOrTsParamProp::Pat).collect(),
                     body: Some(body),
                     ..f
-                }
+                })
             }
         }
     };
@@ -177,6 +180,30 @@ macro_rules! chain_at {
             first: $a,
             second: chain_at!($T, $b, $($rest)*),
             ty: ::std::marker::PhantomData::<$T>,
+        }
+    }};
+}
+
+#[cfg(test)]
+pub(crate) fn validating(name: &'static str, tr: impl Pass + 'static) -> Box<dyn Pass> {
+    box ::swc_common::Fold::then(tr, crate::debug::validator::Validator { name })
+}
+
+#[cfg(test)]
+macro_rules! validating {
+    ($folder:expr) => {{
+        crate::macros::validating(stringify!($folder), $folder)
+    }};
+}
+
+macro_rules! validate {
+    ($e:expr) => {{
+        if cfg!(debug_assertions) {
+            $e.fold_with(&mut $crate::debug::validator::Validator {
+                name: concat!(file!(), ':', line!(), ':', column!()),
+            })
+        } else {
+            $e
         }
     }};
 }

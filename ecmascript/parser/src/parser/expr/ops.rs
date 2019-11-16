@@ -156,8 +156,9 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 // This is early ReferenceError
                 syntax_error!(arg.span(), SyntaxError::NotSimpleAssign)
             }
+            let span = Span::new(start, arg.span().hi(), Default::default());
             return Ok(Box::new(Expr::Update(UpdateExpr {
-                span: span!(start),
+                span,
                 prefix: true,
                 op,
                 arg,
@@ -177,11 +178,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 _ => unreachable!(),
             };
             let arg = self.parse_unary_expr()?;
-            return Ok(Box::new(Expr::Unary(UnaryExpr {
-                span: span!(start),
-                op,
-                arg,
-            })));
+            let span = Span::new(start, arg.span().hi(), Default::default());
+            return Ok(Box::new(Expr::Unary(UnaryExpr { span, op, arg })));
         }
 
         if self.ctx().in_async && is!("await") {
@@ -211,7 +209,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
             };
 
             return Ok(Box::new(Expr::Update(UpdateExpr {
-                span: span!(start),
+                span: span!(expr.span().lo()),
                 prefix: false,
                 op,
                 arg: expr,

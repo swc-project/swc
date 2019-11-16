@@ -163,12 +163,15 @@ impl<'a, I: Tokens> Parser<'a, I> {
             while eat!('.') {
                 let ident = self.parse_ident(true, true)?;
 
+                let span = span!(start);
+                debug_assert_eq!(expr.span().lo(), span.lo());
+
                 expr = Box::new(Expr::Member(MemberExpr {
-                    span: span!(start),
+                    span,
                     obj: ExprOrSuper::Expr(expr),
                     computed: false,
                     prop: Box::new(Expr::Ident(ident)),
-                }))
+                }));
             }
 
             expr

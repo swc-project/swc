@@ -74,6 +74,7 @@ where
 
 impl Fold<MethodProp> for Actual {
     fn fold(&mut self, prop: MethodProp) -> MethodProp {
+        let prop = validate!(prop);
         let prop = prop.fold_children(self);
 
         if !prop.function.is_async {
@@ -164,6 +165,7 @@ impl MethodFolder {
 
 impl Fold<Expr> for MethodFolder {
     fn fold(&mut self, expr: Expr) -> Expr {
+        let expr = validate!(expr);
         // TODO(kdy): Cache (Reuse declaration for same property)
 
         match expr {
@@ -172,7 +174,7 @@ impl Fold<Expr> for MethodFolder {
                 span,
                 left:
                     PatOrExpr::Expr(box Expr::Member(MemberExpr {
-                        span: _,
+                        span: m_span,
                         obj: ExprOrSuper::Super(super_token),
                         computed,
                         prop,
@@ -184,7 +186,7 @@ impl Fold<Expr> for MethodFolder {
                 span,
                 left:
                     PatOrExpr::Pat(box Pat::Expr(box Expr::Member(MemberExpr {
-                        span: _,
+                        span: m_span,
                         obj: ExprOrSuper::Super(super_token),
                         computed,
                         prop,
@@ -207,7 +209,7 @@ impl Fold<Expr> for MethodFolder {
                             span: DUMMY_SP,
                             left: PatOrExpr::Expr(
                                 box MemberExpr {
-                                    span: DUMMY_SP,
+                                    span: m_span,
                                     obj: ExprOrSuper::Super(super_token),
                                     computed,
                                     prop,
@@ -390,6 +392,8 @@ impl Fold<ClassMethod> for Actual {
 
 impl Fold<Expr> for Actual {
     fn fold(&mut self, expr: Expr) -> Expr {
+        let expr = validate!(expr);
+
         match expr {
             // Optimization for iife.
             Expr::Call(CallExpr {
@@ -626,7 +630,7 @@ fn make_fn_ref(mut expr: FnExpr) -> Expr {
     let expr = if contains_this {
         Expr::Call(CallExpr {
             span: DUMMY_SP,
-            callee: expr.member(quote_ident!("bind")).as_callee(),
+            callee: validate!(expr.member(quote_ident!("bind"))).as_callee(),
             args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
             type_args: Default::default(),
         })

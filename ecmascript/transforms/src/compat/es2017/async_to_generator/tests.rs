@@ -7,21 +7,30 @@ use crate::{
 struct ParenRemover;
 impl Fold<Expr> for ParenRemover {
     fn fold(&mut self, expr: Expr) -> Expr {
+        let expr = validate!(expr);
+        let span = expr.span();
+
         let expr = expr.fold_children(self);
-        match expr {
-            Expr::Paren(ParenExpr { expr, .. }) => *expr,
+
+        println!("Visit<Expr>: {:?}", expr);
+        validate!(match expr {
+            Expr::Paren(ParenExpr { expr, .. }) => match *expr {
+                Expr::Member(e) => Expr::Member(MemberExpr { span, ..e }),
+                Expr::New(e) => Expr::New(NewExpr { span, ..e }),
+                _ => *expr,
+            },
             _ => expr,
-        }
+        })
     }
 }
 
 fn tr() -> impl Fold<Module> {
     chain!(
         ParenRemover,
-        arrow(),
-        parameters(),
-        destructuring(),
-        function_name(),
+        validating!(arrow()),
+        validating!(parameters()),
+        validating!(destructuring()),
+        validating!(function_name()),
         AsyncToGenerator {},
         fixer()
     )

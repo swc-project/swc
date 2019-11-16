@@ -204,10 +204,12 @@ impl<'a> Fold<FnDecl> for Resolver<'a> {
 
 impl<'a> Fold<Expr> for Resolver<'a> {
     fn fold(&mut self, expr: Expr) -> Expr {
+        let expr = validate!(expr);
+
         let old = self.ident_type;
         self.ident_type = IdentType::Ref;
         let expr = match expr {
-            // Leftmost one of a member expression shoukld be resolved.
+            // Leftmost one of a member expression should be resolved.
             Expr::Member(me) => {
                 if me.computed {
                     Expr::Member(MemberExpr {
