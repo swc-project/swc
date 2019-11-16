@@ -111,7 +111,7 @@ macro_rules! member_expr {
         let prop = member_expr!($span, $first);
 
         member_expr!(@EXT, $span, box Expr::Member(MemberExpr{
-            span: $span,
+            span: ::swc_common::DUMMY_SP,
             obj: ExprOrSuper::Expr($obj),
             computed: false,
             prop,
@@ -123,7 +123,7 @@ macro_rules! member_expr {
         let prop = member_expr!($span, $first);
 
         box Expr::Member(MemberExpr{
-            span: $span,
+            span: ::swc_common::DUMMY_SP,
             obj: ExprOrSuper::Expr($obj),
             computed: false,
             prop,

@@ -3,7 +3,7 @@ use crate::{compat::es2015::Classes, resolver};
 
 fn tr() -> impl Fold<Module> {
     chain!(
-        resolver(),
+        validating!(resolver()),
         Params,
         crate::compat::es2015::destructuring(),
         crate::compat::es2015::block_scoping(),
