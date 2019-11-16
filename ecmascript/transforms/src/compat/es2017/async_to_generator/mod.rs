@@ -392,7 +392,6 @@ impl Fold<ClassMethod> for Actual {
 
 impl Fold<Expr> for Actual {
     fn fold(&mut self, expr: Expr) -> Expr {
-        println!("Visit<Expr>: {:?}", expr);
         let expr = validate!(expr);
 
         match expr {
