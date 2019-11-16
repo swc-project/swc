@@ -80,3 +80,67 @@ impl Fold<BinExpr> for Validator {
         node.fold_children(self)
     }
 }
+
+impl Fold<AssignExpr> for Validator {
+    fn fold(&mut self, node: AssignExpr) -> AssignExpr {
+        if node.span.is_dummy() {
+            return node.fold_children(self);
+        }
+
+        if !node.left.span().is_dummy() {
+            eq!(self, AssignExpr, node.left.span().lo(), node.span().lo());
+        }
+
+        if !node.right.span().is_dummy() {
+            eq!(self, AssignExpr, node.right.span().hi(), node.span().hi());
+        }
+
+        node.fold_children(self)
+    }
+}
+
+impl Fold<UnaryExpr> for Validator {
+    fn fold(&mut self, node: UnaryExpr) -> UnaryExpr {
+        if node.span.is_dummy() {
+            return node.fold_children(self);
+        }
+
+        if !node.arg.span().is_dummy() {
+            eq!(self, UnaryExpr, node.arg.span().hi(), node.span().hi())
+        }
+
+        node.fold_children(self)
+    }
+}
+
+impl Fold<UpdateExpr> for Validator {
+    fn fold(&mut self, node: UpdateExpr) -> UpdateExpr {
+        if node.span.is_dummy() {
+            return node.fold_children(self);
+        }
+
+        if !node.arg.span().is_dummy() {
+            eq!(self, UnaryExpr, node.arg.span().hi(), node.span().hi())
+        }
+
+        node.fold_children(self)
+    }
+}
+
+impl Fold<CondExpr> for Validator {
+    fn fold(&mut self, node: CondExpr) -> CondExpr {
+        if node.span.is_dummy() {
+            return node.fold_children(self);
+        }
+
+        if !node.test.span().is_dummy() {
+            eq!(self, CondExpr, node.test.span().lo(), node.span().lo());
+        }
+
+        if !node.alt.span().is_dummy() {
+            eq!(self, CondExpr, node.alt.span().hi(), node.span().hi());
+        }
+
+        node.fold_children(self)
+    }
+}
