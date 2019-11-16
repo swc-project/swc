@@ -42,12 +42,14 @@ impl Fold<MemberExpr> for Validator {
             "{}: MemberExpr: node.span().lo() should be node.obj.span().lo()",
             self.name
         );
-        debug_assert_eq!(
-            node.span().hi(),
-            node.prop.span().hi(),
-            "{}: MemberExpr: node.span().hi() should be same as node.prop.span().hi()",
-            self.name
-        );
+        if node.computed {
+            debug_assert_eq!(
+                node.span().hi(),
+                node.prop.span().hi(),
+                "{}: MemberExpr: node.span().hi() should be same as node.prop.span().hi()",
+                self.name
+            );
+        }
 
         node.fold_children(self)
     }
