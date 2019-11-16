@@ -134,7 +134,7 @@ impl<'a> Tester<'a> {
             module
         };
 
-        let module = module
+        let module = validate!(module)
             .fold_with(&mut tr)
             .fold_with(&mut ::testing::DropSpan)
             .fold_with(&mut Normalizer);

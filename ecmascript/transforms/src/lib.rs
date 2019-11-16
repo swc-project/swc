@@ -46,6 +46,8 @@ pub use self::{
     resolver::resolver, simplify::simplifier,
 };
 
+#[macro_use]
+mod macros;
 #[cfg(test)]
 #[macro_use]
 mod tests;
@@ -53,8 +55,6 @@ mod tests;
 mod quote;
 #[macro_use]
 pub mod helpers;
-#[macro_use]
-mod macros;
 #[macro_use]
 mod hygiene;
 pub mod compat;
