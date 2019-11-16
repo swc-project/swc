@@ -74,6 +74,7 @@ where
 
 impl Fold<MethodProp> for Actual {
     fn fold(&mut self, prop: MethodProp) -> MethodProp {
+        let prop = validate!(prop);
         let prop = prop.fold_children(self);
 
         if !prop.function.is_async {
@@ -173,7 +174,7 @@ impl Fold<Expr> for MethodFolder {
                 span,
                 left:
                     PatOrExpr::Expr(box Expr::Member(MemberExpr {
-                        span: _,
+                        span: m_span,
                         obj: ExprOrSuper::Super(super_token),
                         computed,
                         prop,
@@ -185,7 +186,7 @@ impl Fold<Expr> for MethodFolder {
                 span,
                 left:
                     PatOrExpr::Pat(box Pat::Expr(box Expr::Member(MemberExpr {
-                        span: _,
+                        span: m_span,
                         obj: ExprOrSuper::Super(super_token),
                         computed,
                         prop,
@@ -208,7 +209,7 @@ impl Fold<Expr> for MethodFolder {
                             span: DUMMY_SP,
                             left: PatOrExpr::Expr(
                                 box MemberExpr {
-                                    span: DUMMY_SP,
+                                    span: m_span,
                                     obj: ExprOrSuper::Super(super_token),
                                     computed,
                                     prop,
@@ -391,6 +392,7 @@ impl Fold<ClassMethod> for Actual {
 
 impl Fold<Expr> for Actual {
     fn fold(&mut self, expr: Expr) -> Expr {
+        println!("Visit<Expr>: {:?}", expr);
         let expr = validate!(expr);
 
         match expr {

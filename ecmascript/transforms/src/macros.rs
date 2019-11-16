@@ -10,11 +10,11 @@ macro_rules! impl_fold_fn {
 
                 let (params, body) = self.fold_fn_like(f.params, f.body.unwrap());
 
-                Function {
+                validate!(Function {
                     params,
                     body: Some(body),
                     ..f
-                }
+                })
             }
         }
 
@@ -59,7 +59,7 @@ macro_rules! impl_fold_fn {
                     BlockStmtOrExpr::BlockStmt(body)
                 };
 
-                ArrowExpr { params, body, ..f }
+                validate!(ArrowExpr { params, body, ..f })
             }
         }
 
@@ -74,11 +74,11 @@ macro_rules! impl_fold_fn {
                 let (mut params, body) = self.fold_fn_like(vec![f.param], f.body.unwrap());
                 debug_assert!(params.len() == 1);
 
-                SetterProp {
+                validate!(SetterProp {
                     param: params.pop().unwrap(),
                     body: Some(body),
                     ..f
-                }
+                })
             }
         }
 
@@ -93,10 +93,10 @@ macro_rules! impl_fold_fn {
                 let (params, body) = self.fold_fn_like(vec![], f.body.unwrap());
                 debug_assert_eq!(params, vec![]);
 
-                GetterProp {
+                validate!(GetterProp {
                     body: Some(body),
                     ..f
-                }
+                })
             }
         }
 
@@ -119,7 +119,7 @@ macro_rules! impl_fold_fn {
                     Some(params.pop().unwrap())
                 };
 
-                CatchClause { param, body, ..f }
+                validate!(CatchClause { param, body, ..f })
             }
         }
 
@@ -144,11 +144,11 @@ macro_rules! impl_fold_fn {
 
                 let (params, body) = self.fold_fn_like(params, f.body.unwrap());
 
-                Constructor {
+                validate!(Constructor {
                     params: params.into_iter().map(PatOrTsParamProp::Pat).collect(),
                     body: Some(body),
                     ..f
-                }
+                })
             }
         }
     };
@@ -181,7 +181,21 @@ macro_rules! chain_at {
     }};
 }
 
-#[macro_export]
+macro_rules! validating {
+    ($folder:expr) => {{
+        if !cfg!(debug_assertions) {
+            panic!("not in debug mode");
+        }
+
+        ::swc_common::Fold::then(
+            $folder,
+            $crate::debug::validator::Validator {
+                name: stringify!($folder),
+            },
+        )
+    }};
+}
+
 macro_rules! validate {
     ($e:expr) => {{
         if cfg!(debug_assertions) {

@@ -10,20 +10,20 @@ impl Fold<Expr> for ParenRemover {
         let expr = validate!(expr);
 
         let expr = expr.fold_children(self);
-        match expr {
+        validate!(match expr {
             Expr::Paren(ParenExpr { expr, .. }) => *expr,
             _ => expr,
-        }
+        })
     }
 }
 
 fn tr() -> impl Fold<Module> {
     chain!(
         ParenRemover,
-        arrow(),
-        parameters(),
-        destructuring(),
-        function_name(),
+        validating!(arrow()),
+        validating!(parameters()),
+        validating!(destructuring()),
+        validating!(function_name()),
         AsyncToGenerator {},
         fixer()
     )
