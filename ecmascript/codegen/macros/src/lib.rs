@@ -36,8 +36,7 @@ fn expand(i: ImplItemMethod) -> ImplItemMethod {
                 .inputs
                 .clone()
                 .into_iter()
-                .skip(1)
-                .next()
+                .nth(1)
                 .and_then(|arg| match arg {
                     FnArg::Ignored(ty) | FnArg::Captured(ArgCaptured { ty, .. }) => Some(ty),
                     _ => None,

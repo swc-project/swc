@@ -103,7 +103,6 @@ fn emit_colors(b: &mut Bencher) {
             .parse_module()
             .map_err(|mut e| {
                 e.emit();
-                ()
             })
             .unwrap();
 

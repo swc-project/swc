@@ -153,7 +153,7 @@ impl Params {
                                 // _key = 0
                                 VarDeclarator {
                                     span,
-                                    name: Pat::Ident(idx_ident.clone().into()),
+                                    name: Pat::Ident(idx_ident.clone()),
                                     init: Some(box Expr::Lit(Lit::Num(Number {
                                         span,
                                         value: i as f64,

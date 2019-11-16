@@ -98,15 +98,11 @@ impl<'a, I: Input> Lexer<'a, I> {
                         if HEX_NUMBER.is_match(&s[2..]) {
                             return from_code(&s[2..], 16);
                         }
-                    } else {
-                        if DECIMAL_NUMBER.is_match(&s[1..]) {
-                            return from_code(&s[1..], 10);
-                        }
+                    } else if DECIMAL_NUMBER.is_match(&s[1..]) {
+                        return from_code(&s[1..], 10);
                     }
-                } else {
-                    if let Some(entity) = xhtml(&s) {
-                        return Ok(entity);
-                    }
+                } else if let Some(entity) = xhtml(&s) {
+                    return Ok(entity);
                 }
                 break;
             }
@@ -137,7 +133,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         self.state.cur_line += 1;
         self.state.line_start = cur_pos;
 
-        return Ok(out);
+        Ok(out)
     }
 
     pub(super) fn read_jsx_str(&mut self, quote: char) -> LexResult<Token> {
@@ -189,10 +185,10 @@ impl<'a, I: Input> Lexer<'a, I> {
         let cur_pos = self.input.cur_pos();
         out.push_str(self.input.slice(chunk_start, cur_pos));
         self.input.bump();
-        return Ok(Token::Str {
+        Ok(Token::Str {
             value: out.into(),
             has_escape,
-        });
+        })
     }
 
     /// Read a JSX identifier (valid tag or attribute name).

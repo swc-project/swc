@@ -1,4 +1,4 @@
-extern crate swc;
+use swc;
 
 use std::{path::Path, sync::Arc};
 use swc::{
@@ -23,5 +23,6 @@ fn main() {
         Options {
             ..Default::default()
         },
-    );
+    )
+    .expect("failed to process file");
 }

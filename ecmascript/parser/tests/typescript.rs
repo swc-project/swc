@@ -168,7 +168,6 @@ where
             ))
             .map_err(|mut e| {
                 e.emit();
-                ()
             });
 
             res
@@ -224,10 +223,10 @@ impl Fold<PropName> for Normalizer {
                 Lit::Str(s) => s.clone().into(),
                 Lit::Num(v) => v.clone().into(),
 
-                _ => return node,
+                _ => node,
             },
 
-            _ => return node,
+            _ => node,
         }
     }
 }

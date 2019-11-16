@@ -173,7 +173,7 @@ impl SourceMap {
             .borrow()
             .stable_id_to_source_file
             .get(&stable_id)
-            .map(|sf| sf.clone())
+            .cloned()
     }
 
     fn next_start_pos(&self) -> usize {
@@ -236,9 +236,9 @@ impl SourceMap {
     pub fn doctest_offset_line(&self, mut orig: usize) -> usize {
         if let Some((_, line)) = self.doctest_offset {
             if line >= 0 {
-                orig = orig + line as usize;
+                orig += line as usize;
             } else {
-                orig = orig - (-line) as usize;
+                orig -= (-line) as usize;
             }
         }
         orig
@@ -265,7 +265,7 @@ impl SourceMap {
                         .unwrap_or_else(|x| x);
                     let special_chars = end_width_idx - start_width_idx;
                     let non_narrow: usize = f.non_narrow_chars[start_width_idx..end_width_idx]
-                        .into_iter()
+                        .iter()
                         .map(|x| x.width())
                         .sum();
                     col.0 - special_chars + non_narrow
@@ -294,7 +294,7 @@ impl SourceMap {
                         .binary_search_by_key(&pos, |x| x.pos())
                         .unwrap_or_else(|x| x);
                     let non_narrow: usize = f.non_narrow_chars[0..end_width_idx]
-                        .into_iter()
+                        .iter()
                         .map(|x| x.width())
                         .sum();
                     chpos.0 - end_width_idx + non_narrow
@@ -476,10 +476,10 @@ impl SourceMap {
         let local_end = self.lookup_byte_offset(sp.hi());
 
         if local_begin.sf.start_pos != local_end.sf.start_pos {
-            return Err(SpanSnippetError::DistinctSources(DistinctSources {
+            Err(SpanSnippetError::DistinctSources(DistinctSources {
                 begin: (local_begin.sf.name.clone(), local_begin.sf.start_pos),
                 end: (local_end.sf.name.clone(), local_end.sf.start_pos),
-            }));
+            }))
         } else {
             let start_index = local_begin.pos.to_usize();
             let end_index = local_end.pos.to_usize();
@@ -496,8 +496,8 @@ impl SourceMap {
                 ));
             }
 
-            let ref src = local_begin.sf.src;
-            return Ok(extract_source(src, start_index, end_index));
+            let src = &local_begin.sf.src;
+            Ok(extract_source(src, start_index, end_index))
         }
     }
 
@@ -599,11 +599,7 @@ impl SourceMap {
                 whitespace_found = true;
             }
 
-            if whitespace_found && !c.is_whitespace() {
-                false
-            } else {
-                true
-            }
+            !(whitespace_found && !c.is_whitespace())
         })
     }
 
@@ -722,7 +718,7 @@ impl SourceMap {
         // We need to extend the snippet to the end of the src rather than to end_index
         // so when searching forwards for boundaries we've got somewhere to
         // search.
-        let ref src = local_begin.sf.src;
+        let src = &local_begin.sf.src;
         let snippet = {
             let len = src.len();
             (&src[start_index..len])
@@ -832,7 +828,7 @@ impl SourceMap {
             pos.to_usize()
         );
 
-        return a;
+        a
     }
 
     pub fn count_lines(&self) -> usize {

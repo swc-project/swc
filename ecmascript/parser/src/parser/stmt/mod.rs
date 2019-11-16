@@ -10,7 +10,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         mut allow_directives: bool,
         top_level: bool,
         end: Option<&Token>,
-    ) -> PResult<'a, (Vec<Type>)>
+    ) -> PResult<'a, Vec<Type>>
     where
         Self: StmtLikeParser<'a, Type>,
         Type: IsDirective + From<Stmt>,
@@ -532,12 +532,12 @@ impl<'a, I: Tokens> Parser<'a, I> {
             None
         };
 
-        return Ok(VarDeclarator {
+        Ok(VarDeclarator {
             span: span!(start),
             name,
             init,
             definite,
-        });
+        })
     }
 
     fn parse_do_stmt(&mut self) -> PResult<'a, Stmt> {
@@ -608,7 +608,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
         for l in &self.state.labels {
             if label.sym == *l {
-                syntax_error!(SyntaxError::DuplicateLabel(label.sym.clone()));
+                syntax_error!(SyntaxError::DuplicateLabel(label.sym));
             }
         }
         let body = Box::new(if is!("function") {
@@ -762,8 +762,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
 enum ForHead {
     For {
         init: Option<VarDeclOrExpr>,
-        test: Option<(Box<Expr>)>,
-        update: Option<(Box<Expr>)>,
+        test: Option<Box<Expr>>,
+        update: Option<Box<Expr>>,
     },
     ForIn {
         left: VarDeclOrPat,
@@ -826,7 +826,6 @@ mod tests {
         test_parser(s, Syntax::default(), |p| {
             p.parse_stmt(true).map_err(|mut e| {
                 e.emit();
-                ()
             })
         })
     }
@@ -835,7 +834,6 @@ mod tests {
         test_parser(s, Syntax::default(), |p| {
             p.parse_stmt_like(true, true).map_err(|mut e| {
                 e.emit();
-                ()
             })
         })
     }
@@ -843,7 +841,6 @@ mod tests {
         test_parser(s, Syntax::default(), |p| {
             p.parse_expr().map_err(|mut e| {
                 e.emit();
-                ()
             })
         })
     }
@@ -969,7 +966,6 @@ mod tests {
                 }),
                 |p| p.parse_stmt_list_item(true).map_err(|mut e| {
                     e.emit();
-                    ()
                 }),
             ),
             Stmt::Decl(Decl::Class(ClassDecl {
@@ -1020,7 +1016,6 @@ ReactDOM.render(<App />, document.getElementById('root'))
             |p| {
                 p.parse_module().map_err(|mut e| {
                     e.emit();
-                    ()
                 })
             },
         );
@@ -1044,7 +1039,6 @@ export default App"#;
             |p| {
                 p.parse_module().map_err(|mut e| {
                     e.emit();
-                    ()
                 })
             },
         );
@@ -1062,7 +1056,6 @@ export default App"#;
             |p| {
                 p.parse_module().map_err(|mut e| {
                     e.emit();
-                    ()
                 })
             },
         );
@@ -1080,7 +1073,6 @@ export default App"#;
             |p| {
                 p.parse_module().map_err(|mut e| {
                     e.emit();
-                    ()
                 })
             },
         );
@@ -1098,7 +1090,6 @@ export default App"#;
             |p| {
                 p.parse_module().map_err(|mut e| {
                     e.emit();
-                    ()
                 })
             },
         );
@@ -1116,7 +1107,6 @@ export default App"#;
             |p| {
                 p.parse_module().map_err(|mut e| {
                     e.emit();
-                    ()
                 })
             },
         );
@@ -1133,7 +1123,6 @@ export default App"#;
             |p| {
                 p.parse_module().map_err(|mut e| {
                     e.emit();
-                    ()
                 })
             },
         );
@@ -1151,7 +1140,6 @@ let x = 4";
             |p| {
                 p.parse_module().map_err(|mut e| {
                     e.emit();
-                    ()
                 })
             },
         );
@@ -1167,7 +1155,6 @@ let x = 4";
             |p| {
                 p.parse_module().map_err(|mut e| {
                     e.emit();
-                    ()
                 })
             },
         );
@@ -1185,7 +1172,6 @@ let x = 4";
             |p| {
                 p.parse_module().map_err(|mut e| {
                     e.emit();
-                    ()
                 })
             },
         );
@@ -1202,7 +1188,6 @@ export default function waitUntil(callback, options = {}) {
             |p| {
                 p.parse_module().map_err(|mut e| {
                     e.emit();
-                    ()
                 })
             },
         );
@@ -1219,7 +1204,6 @@ export default function waitUntil(callback, options = {}) {
             |p| {
                 p.parse_module().map_err(|mut e| {
                     e.emit();
-                    ()
                 })
             },
         );
@@ -1233,7 +1217,6 @@ export default function waitUntil(callback, options = {}) {
             |p| {
                 p.parse_module().map_err(|mut e| {
                     e.emit();
-                    ()
                 })
             },
         );
@@ -1255,7 +1238,6 @@ export default function waitUntil(callback, options = {}) {
         test_parser("export default function(){};", Default::default(), |p| {
             p.parse_module().map_err(|mut e| {
                 e.emit();
-                ()
             })
         });
     }
@@ -1268,7 +1250,6 @@ export default function waitUntil(callback, options = {}) {
             |p| {
                 p.parse_module().map_err(|mut e| {
                     e.emit();
-                    ()
                 })
             },
         );
@@ -1279,7 +1260,6 @@ export default function waitUntil(callback, options = {}) {
         test_parser("export default function*(){};", Default::default(), |p| {
             p.parse_module().map_err(|mut e| {
                 e.emit();
-                ()
             })
         });
     }
@@ -1289,7 +1269,6 @@ export default function waitUntil(callback, options = {}) {
         test_parser("export default class {};", Default::default(), |p| {
             p.parse_module().map_err(|mut e| {
                 e.emit();
-                ()
             })
         });
     }
@@ -1302,7 +1281,6 @@ export default function waitUntil(callback, options = {}) {
             |p| {
                 p.parse_module().map_err(|mut e| {
                     e.emit();
-                    ()
                 })
             },
         );
@@ -1319,7 +1297,6 @@ export default function waitUntil(callback, options = {}) {
             |p| {
                 p.parse_module().map_err(|mut e| {
                     e.emit();
-                    ()
                 })
             },
         );
@@ -1341,7 +1318,6 @@ export default function waitUntil(callback, options = {}) {
             |p| {
                 p.parse_module().map_err(|mut e| {
                     e.emit();
-                    ()
                 })
             },
         );
@@ -1358,7 +1334,6 @@ export default function waitUntil(callback, options = {}) {
             |p| {
                 p.parse_module().map_err(|mut e| {
                     e.emit();
-                    ()
                 })
             },
         );

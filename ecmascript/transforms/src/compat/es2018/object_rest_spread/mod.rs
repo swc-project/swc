@@ -18,13 +18,14 @@ pub fn object_rest_spread() -> impl Pass {
 
 struct ObjectRest;
 
+#[allow(clippy::vec_box)]
 struct RestFolder {
     /// Injected before the original statement.
     vars: Vec<VarDeclarator>,
     /// Variables which should ceclaraed using `var`
     mutable_vars: Vec<VarDeclarator>,
     /// Assignment expressions.
-    exprs: Vec<Box<Expr>>,
+    exprs: Vec<Box<ast::Expr>>,
 }
 
 macro_rules! impl_for_for_stmt {
@@ -259,7 +260,7 @@ impl Fold<Expr> for RestFolder {
                         right: box var_ident.clone().into(),
                     })),
                 }
-                self.exprs.push(box var_ident.clone().into());
+                self.exprs.push(box var_ident.into());
                 Expr::Seq(SeqExpr {
                     span: DUMMY_SP,
                     exprs: mem::replace(&mut self.exprs, vec![]),
@@ -483,7 +484,7 @@ impl RestFolder {
 
         match decl.name {
             Pat::Object(ObjectPat { ref props, .. }) => {
-                if props.len() == 0 {
+                if props.is_empty() {
                     return;
                 }
             }
@@ -507,7 +508,7 @@ impl RestFolder {
 
         match decl.name {
             Pat::Object(ObjectPat { ref props, .. }) => {
-                if props.len() == 0 {
+                if props.is_empty() {
                     return;
                 }
             }
@@ -582,7 +583,7 @@ impl RestFolder {
                         );
                         Pat::Assign(AssignPat {
                             span,
-                            left: box Pat::Ident(var_ident.clone()),
+                            left: box Pat::Ident(var_ident),
                             right,
                             ..n
                         })
@@ -598,7 +599,7 @@ impl RestFolder {
                                 definite: false,
                             },
                         );
-                        Pat::Ident(var_ident.clone())
+                        Pat::Ident(var_ident)
                     }
                 }
             })
@@ -765,14 +766,14 @@ impl RestFolder {
                 span: DUMMY_SP,
                 left: PatOrExpr::Pat(last.arg),
                 op: op!("="),
-                right: box object_without_properties(obj.clone(), excluded_props),
+                right: box object_without_properties(obj, excluded_props),
             }));
         } else {
             // println!("Var: rest = objectWithoutProperties()",);
             self.push_var_if_not_empty(VarDeclarator {
                 span: DUMMY_SP,
                 name: *last.arg,
-                init: Some(box object_without_properties(obj.clone(), excluded_props)),
+                init: Some(box object_without_properties(obj, excluded_props)),
                 definite: false,
             });
         }

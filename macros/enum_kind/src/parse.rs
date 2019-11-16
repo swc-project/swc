@@ -127,6 +127,7 @@ impl Parse for VariantAttrs {
 
 impl AddAssign<StdResult<Self, Attribute>> for VariantAttrs {
     fn add_assign(&mut self, rhs: StdResult<Self, Attribute>) {
+        #[allow(clippy::suspicious_op_assign_impl)]
         match rhs {
             Ok(attr) => {
                 self.fn_values.extend(attr.fn_values);

@@ -40,7 +40,6 @@ fn main() {
             .parse_module()
             .map_err(|mut e| {
                 e.emit();
-                ()
             })
             .expect("failed to parser module");
 

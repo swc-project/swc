@@ -303,7 +303,6 @@ where
         ))
         .map_err(|mut e| {
             e.emit();
-            ()
         });
 
         res

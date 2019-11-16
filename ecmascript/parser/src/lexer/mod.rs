@@ -15,7 +15,7 @@ use crate::{
     Context, Session, Syntax,
 };
 use ast::Str;
-use either::Either;
+
 use smallvec::SmallVec;
 use std::char;
 use swc_atoms::JsWord;
@@ -223,11 +223,9 @@ impl<'a, I: Input> Lexer<'a, I> {
                 let mut token = if is_mul { BinOp(Mul) } else { BinOp(Mod) };
 
                 // check for **
-                if is_mul {
-                    if self.input.cur() == Some('*') {
-                        self.input.bump();
-                        token = BinOp(Exp)
-                    }
+                if is_mul && self.input.cur() == Some('*') {
+                    self.input.bump();
+                    token = BinOp(Exp)
                 }
 
                 if self.input.cur() == Some('=') {
@@ -327,24 +325,20 @@ impl<'a, I: Input> Lexer<'a, I> {
                         } else {
                             BinOp(EqEqEq)
                         }
+                    } else if c == '!' {
+                        BinOp(NotEq)
                     } else {
-                        if c == '!' {
-                            BinOp(NotEq)
-                        } else {
-                            BinOp(EqEq)
-                        }
+                        BinOp(EqEq)
                     }
                 } else if c == '=' && self.input.cur() == Some('>') {
                     // "=>"
                     self.input.bump();
 
                     Arrow
+                } else if c == '!' {
+                    Bang
                 } else {
-                    if c == '!' {
-                        Bang
-                    } else {
-                        AssignOp(Assign)
-                    }
+                    AssignOp(Assign)
                 }
             }
             '~' => {
@@ -396,7 +390,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             }
         } else {
             self.input.reset_to(start);
-            return Ok(false);
+            Ok(false)
         }
     }
 
@@ -594,16 +588,13 @@ impl<'a, I: Input> Lexer<'a, I> {
         // should know context or parser should handle this error. Our approach to this
         // problem is former one.
         if has_escape && self.ctx.is_reserved_word(&word) {
-            self.error(
-                start,
-                SyntaxError::EscapeInReservedWord { word: word.into() },
-            )?
+            self.error(start, SyntaxError::EscapeInReservedWord { word })?
         } else {
             Ok(Word(word.into()))
         }
     }
 
-    fn may_read_word_as_str(&mut self) -> LexResult<(Option<(JsWord, bool)>)> {
+    fn may_read_word_as_str(&mut self) -> LexResult<Option<(JsWord, bool)>> {
         match self.cur() {
             Some(c) if c.is_ident_start() => self.read_word_as_str().map(Some),
             _ => Ok(None),
@@ -622,7 +613,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             // Optimization
             {
                 let s = self.input.uncons_while(|c| c.is_ident_part());
-                if s.len() != 0 {
+                if !s.is_empty() {
                     first = false;
                 }
                 word.push_str(s)
@@ -706,7 +697,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         let start = self.cur_pos();
         let val = self.read_int_u32(16, 0, raw)?;
         match val {
-            Some(val) if 0x10FFFF >= val => match char::from_u32(val) {
+            Some(val) if 0x0010_FFFF >= val => match char::from_u32(val) {
                 Some(c) => Ok(c.into()),
                 None => self.error(start, SyntaxError::InvalidCodePoint)?,
             },

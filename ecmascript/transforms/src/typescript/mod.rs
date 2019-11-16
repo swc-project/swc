@@ -201,7 +201,7 @@ impl Fold<Vec<ModuleItem>> for Strip {
         let items = items.fold_children(self);
 
         let old = self.phase;
-        self.phase = Phase::DropImports.into();
+        self.phase = Phase::DropImports;
 
         // Second pass
         let items = items.move_flat_map(|item| match item {
@@ -293,7 +293,7 @@ impl Fold<Vec<ModuleItem>> for Strip {
                         {
                             e.has_concrete
                         } else {
-                            return true;
+                            true
                         }
                     }
                     _ => true,
@@ -399,7 +399,7 @@ impl Fold<Decl> for Strip {
         self.handle_decl(&decl);
 
         let old = self.non_top_level;
-        self.non_top_level = true.into();
+        self.non_top_level = true;
         let decl = decl.fold_children(self);
         self.non_top_level = old;
         decl
@@ -417,7 +417,7 @@ impl Fold<Stmt> for Strip {
                 | Decl::TsModule(..)
                 | Decl::TsTypeAlias(..) => {
                     let span = decl.span();
-                    return Stmt::Empty(EmptyStmt { span });
+                    Stmt::Empty(EmptyStmt { span })
                 }
                 _ => Stmt::Decl(decl),
             },

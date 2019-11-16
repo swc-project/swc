@@ -82,7 +82,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
 }
 
 #[parser]
-impl<'a, I: Tokens> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
+impl<'a, I: Tokens> ParseObject<'a, Box<Expr>> for Parser<'a, I> {
     type Prop = PropOrSpread;
 
     fn make_object(&mut self, span: Span, props: Vec<Self::Prop>) -> PResult<'a, Box<Expr>> {
@@ -184,7 +184,7 @@ impl<'a, I: Tokens> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
             js_word!("get") | js_word!("set") | js_word!("async") => {
                 let key = self.parse_prop_name()?;
 
-                return match ident.sym {
+                match ident.sym {
                     js_word!("get") => self
                         .parse_fn_args_body(
                             // no decorator in an object literal
@@ -232,7 +232,7 @@ impl<'a, I: Tokens> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
                             PropOrSpread::Prop(Box::new(Prop::Method(MethodProp { key, function })))
                         }),
                     _ => unreachable!(),
-                };
+                }
             }
             _ => unexpected!(),
         }

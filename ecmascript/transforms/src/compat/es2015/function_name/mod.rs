@@ -44,7 +44,7 @@ impl Fold<VarDeclarator> for FnName {
                 };
                 let init = decl.init.fold_with(&mut folder);
 
-                return VarDeclarator { init, ..decl };
+                VarDeclarator { init, ..decl }
             }
             _ => decl,
         }
@@ -68,7 +68,7 @@ impl Fold<AssignExpr> for FnName {
 
                 let right = expr.right.fold_with(&mut folder);
 
-                return AssignExpr { right, ..expr };
+                AssignExpr { right, ..expr }
             }
             _ => expr,
         }

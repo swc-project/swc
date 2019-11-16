@@ -58,9 +58,9 @@ pub struct Resolver<'a> {
 impl<'a> Resolver<'a> {
     fn new(mark: Mark, current: Scope<'a>, cur_defining: Option<(JsWord, Mark)>) -> Self {
         Resolver {
-            mark: mark.into(),
-            current: current.into(),
-            cur_defining: cur_defining.into(),
+            mark,
+            current,
+            cur_defining,
             ident_type: IdentType::Ref,
         }
     }

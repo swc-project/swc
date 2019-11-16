@@ -54,7 +54,7 @@ impl Context {
             | js_word!("public")
                 if self.strict =>
             {
-                return true;
+                true
             }
 
             _ => false,
@@ -165,10 +165,8 @@ pub(super) trait ExprExt {
     fn is_valid_simple_assignment_target(&self, strict: bool) -> bool {
         match *self.as_expr() {
             Expr::Ident(Ident { ref sym, .. }) => {
-                if strict {
-                    if &*sym == "arguments" || &*sym == "eval" {
-                        return false;
-                    }
+                if strict && (&*sym == "arguments" || &*sym == "eval") {
+                    return false;
                 }
                 true
             }

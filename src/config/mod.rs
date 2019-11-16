@@ -113,7 +113,7 @@ impl Options {
         handler: &Handler,
         config: Option<Config>,
     ) -> BuiltConfig<impl Pass> {
-        let mut config = config.unwrap_or_else(|| Default::default());
+        let mut config = config.unwrap_or_else(Default::default);
         if let Some(ref c) = self.config {
             config.merge(c)
         }
@@ -139,8 +139,7 @@ impl Options {
 
         let optimizer = transform.optimizer;
         let enable_optimizer = optimizer.is_some();
-        let pass = if let Some(opts) =
-            optimizer.map(|o| o.globals.unwrap_or_else(|| Default::default()))
+        let pass = if let Some(opts) = optimizer.map(|o| o.globals.unwrap_or_else(Default::default))
         {
             opts.build(cm, handler)
         } else {
@@ -464,7 +463,6 @@ impl GlobalPassOption {
                 .parse_module()
                 .map_err(|mut e| {
                     e.emit();
-                    ()
                 })
                 .unwrap_or_else(|()| {
                     panic!(
@@ -504,8 +502,8 @@ fn default_env_name() -> String {
     }
 
     match env::var("NODE_ENV") {
-        Ok(v) => return v,
-        Err(_) => return "development".into(),
+        Ok(v) => v,
+        Err(_) => "development".into(),
     }
 }
 

@@ -371,21 +371,19 @@ impl<'a> Emitter<'a> {
             .replace("\0", "\\0");
         // let value = node.value.replace("\n", "\\n");
 
-        if !node.value.contains("'") {
+        if !node.value.contains('\'') {
             punct!("'");
             self.wr.write_str_lit(node.span, &value)?;
             punct!("'");
+        } else if !node.value.contains('\"') {
+            punct!("\"");
+            self.wr.write_str_lit(node.span, &value)?;
+            punct!("\"");
         } else {
-            if !node.value.contains("\"") {
-                punct!("\"");
-                self.wr.write_str_lit(node.span, &value)?;
-                punct!("\"");
-            } else {
-                punct!("'");
-                self.wr
-                    .write_str_lit(node.span, &value.replace("'", "\\'"))?;
-                punct!("'");
-            }
+            punct!("'");
+            self.wr
+                .write_str_lit(node.span, &value.replace("'", "\\'"))?;
+            punct!("'");
         }
     }
 
@@ -547,10 +545,10 @@ impl<'a> Emitter<'a> {
                         // check if numeric literal is a decimal literal that was originally written
                         // with a dot
                         if let Ok(text) = self.cm.span_to_snippet(span) {
-                            if text.contains(".") {
+                            if text.contains('.') {
                                 return false;
                             }
-                            return text.starts_with("0") || text.ends_with(" ");
+                            text.starts_with('0') || text.ends_with(' ')
                         } else {
                             true
                         }
@@ -960,10 +958,8 @@ impl<'a> Emitter<'a> {
 
         if should_emit_whitespace_before_operand(node) {
             space!();
-        } else {
-            if need_formatting_space {
-                formatting_space!();
-            }
+        } else if need_formatting_space {
+            formatting_space!();
         }
 
         emit!(node.arg);
@@ -1251,10 +1247,9 @@ impl<'a> Emitter<'a> {
                 }
             } else if format.contains(ListFormat::SpaceBetweenBraces)
                 && !(format.contains(ListFormat::NoSpaceIfEmpty))
+                && !self.cfg.minify
             {
-                if !self.cfg.minify {
-                    self.wr.write_space()?;
-                }
+                self.wr.write_space()?;
             }
         } else {
             let children = children.unwrap();
@@ -1271,17 +1266,13 @@ impl<'a> Emitter<'a> {
                     self.wr.write_line()?;
                 }
                 should_emit_intervening_comments = false;
-            } else if format.contains(ListFormat::SpaceBetweenBraces) {
-                if !self.cfg.minify {
-                    self.wr.write_space()?;
-                }
+            } else if format.contains(ListFormat::SpaceBetweenBraces) && !self.cfg.minify {
+                self.wr.write_space()?;
             }
 
             // Increase the indent, if requested.
-            if format.contains(ListFormat::Indented) {
-                if !self.cfg.minify {
-                    self.wr.increase_indent()?;
-                }
+            if format.contains(ListFormat::Indented) && !self.cfg.minify {
+                self.wr.increase_indent()?;
             }
 
             // Emit each child.
@@ -1318,11 +1309,10 @@ impl<'a> Emitter<'a> {
                         // line, we should increase the indent.
                         if (format & (ListFormat::LinesMask | ListFormat::Indented))
                             == ListFormat::SingleLine
+                            && !self.cfg.minify
                         {
-                            if !self.cfg.minify {
-                                self.wr.increase_indent()?;
-                                should_decrease_indent_after_emit = true;
-                            }
+                            self.wr.increase_indent()?;
+                            should_decrease_indent_after_emit = true;
                         }
 
                         if !self.cfg.minify {
@@ -1359,7 +1349,7 @@ impl<'a> Emitter<'a> {
                         if snippet.len() < 3 {
                             false
                         } else {
-                            snippet[..snippet.len() - 1].trim().ends_with(",")
+                            snippet[..snippet.len() - 1].trim().ends_with(',')
                         }
                     }
                     _ => false,
@@ -1397,10 +1387,8 @@ impl<'a> Emitter<'a> {
             }
 
             // Decrease the indent, if requested.
-            if format.contains(ListFormat::Indented) {
-                if !self.cfg.minify {
-                    self.wr.decrease_indent()?;
-                }
+            if format.contains(ListFormat::Indented) && !self.cfg.minify {
+                self.wr.decrease_indent()?;
             }
 
             // Write the closing line terminator or closing whitespace.
@@ -1411,10 +1399,8 @@ impl<'a> Emitter<'a> {
                 if !self.cfg.minify {
                     self.wr.write_line()?;
                 }
-            } else if format.contains(ListFormat::SpaceBetweenBraces) {
-                if !self.cfg.minify {
-                    self.wr.write_space()?;
-                }
+            } else if format.contains(ListFormat::SpaceBetweenBraces) && !self.cfg.minify {
+                self.wr.write_space()?;
             }
         }
 

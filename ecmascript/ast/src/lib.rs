@@ -6,14 +6,11 @@
 #![deny(unreachable_pub)]
 #![deny(variant_size_differences)]
 
-extern crate enum_kind;
-extern crate serde;
+use serde;
 #[macro_use]
 extern crate string_enum;
-#[cfg(test)]
-extern crate serde_json;
-extern crate swc_atoms;
-extern crate swc_common;
+
+use swc_common;
 
 pub use self::{
     class::{

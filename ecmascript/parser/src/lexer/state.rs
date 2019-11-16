@@ -316,7 +316,7 @@ impl State {
         };
 
         if is_next_keyword && prev == Some(TokenType::Dot) {
-            return false;
+            false
         } else {
             // ported updateContext
             match *next {
@@ -345,7 +345,7 @@ impl State {
                     }
 
                     // expression cannot follow expression
-                    return !out.is_expr();
+                    !out.is_expr()
                 }
 
                 tok!("function") => {
@@ -356,7 +356,7 @@ impl State {
                     {
                         context.push(TokenContext::FnExpr);
                     }
-                    return false;
+                    false
                 }
 
                 // for (a of b) {}
@@ -371,7 +371,7 @@ impl State {
 
                 Word(Word::Ident(ref ident)) => {
                     // variable declaration
-                    return match prev {
+                    match prev {
                         Some(prev) => match prev {
                             // handle automatic semicolon insertion.
                             TokenType::Keyword(Let)
@@ -384,7 +384,7 @@ impl State {
                             _ => false,
                         },
                         _ => false,
-                    };
+                    }
                 }
 
                 tok!('{') => {
@@ -414,7 +414,7 @@ impl State {
 
                 tok!("${") => {
                     context.push(TokenContext::TplQuasi);
-                    return true;
+                    true
                 }
 
                 tok!('(') => {
@@ -428,7 +428,7 @@ impl State {
                         },
                         _ => TokenContext::ParenExpr,
                     });
-                    return true;
+                    true
                 }
 
                 // remains unchanged.
@@ -441,14 +441,14 @@ impl State {
                     } else {
                         context.push(TokenContext::Tpl { start });
                     }
-                    return false;
+                    false
                 }
 
                 // tt.jsxTagStart.updateContext
                 Token::JSXTagStart => {
                     context.push(TokenContext::JSXExpr); // treat as beginning of JSX expression
                     context.push(TokenContext::JSXOpeningTag); // start opening tag context
-                    return false;
+                    false
                 }
 
                 // tt.jsxTagEnd.updateContext
@@ -459,15 +459,13 @@ impl State {
                         || out == Some(TokenContext::JSXClosingTag)
                     {
                         context.pop();
-                        return context.current() == Some(TokenContext::JSXExpr);
+                        context.current() == Some(TokenContext::JSXExpr)
                     } else {
-                        return true;
+                        true
                     }
                 }
 
-                _ => {
-                    return next.before_expr();
-                }
+                _ => next.before_expr(),
             }
         }
     }
@@ -524,7 +522,7 @@ impl TokenContexts {
             _ => {}
         }
 
-        return !is_expr_allowed;
+        !is_expr_allowed
     }
 
     pub fn len(&self) -> usize {

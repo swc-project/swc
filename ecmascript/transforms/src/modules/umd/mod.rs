@@ -38,7 +38,7 @@ struct Umd {
 
 impl Fold<Module> for Umd {
     fn fold(&mut self, module: Module) -> Module {
-        self.in_top_level = true.into();
+        self.in_top_level = true;
 
         let filename = self.cm.span_to_filename(module.span);
 
@@ -437,7 +437,7 @@ impl Fold<Module> for Umd {
 
         if !initialized.is_empty() {
             stmts.push(Stmt::Expr(initialize_to_undefined(
-                exports_ident.clone(),
+                exports_ident,
                 initialized,
             )));
         }

@@ -216,7 +216,7 @@ impl OptChaining {
                 let obj_span = obj.span();
 
                 let (left, right, alt) = match obj {
-                    Expr::Ident(..) => (box obj.clone(), box obj.clone(), e.expr),
+                    Expr::Ident(..) => (box obj.clone(), box obj, e.expr),
                     _ => {
                         let i = private_ident!(obj_span, "ref");
                         self.vars.push(VarDeclarator {
@@ -235,7 +235,7 @@ impl OptChaining {
                             }),
                             box Expr::Ident(i.clone()),
                             box Expr::Member(MemberExpr {
-                                obj: ExprOrSuper::Expr(box Expr::Ident(i.clone())),
+                                obj: ExprOrSuper::Expr(box Expr::Ident(i)),
                                 computed,
                                 span,
                                 prop,
@@ -285,7 +285,7 @@ impl OptChaining {
                 };
 
                 let (left, right, alt) = match obj {
-                    Expr::Ident(..) => (box obj.clone(), box obj.clone(), e.expr),
+                    Expr::Ident(..) => (box obj.clone(), box obj, e.expr),
                     _ => {
                         let i = private_ident!(obj_span, "ref");
                         self.vars.push(VarDeclarator {
@@ -315,7 +315,7 @@ impl OptChaining {
                                 args: once(if is_super_access {
                                     ThisExpr { span }.as_arg()
                                 } else {
-                                    i.clone().as_arg()
+                                    i.as_arg()
                                 })
                                 .chain(args)
                                 .collect(),

@@ -81,7 +81,6 @@ impl<'a> Tester<'a> {
         self.with_parser(file_name, Syntax::default(), src, |p| {
             p.parse_module().map_err(|mut e| {
                 e.emit();
-                ()
             })
         })
     }
@@ -91,7 +90,6 @@ impl<'a> Tester<'a> {
             p.parse_script()
                 .map_err(|mut e| {
                     e.emit();
-                    ()
                 })
                 .map(|script| script.body)
         })?;
@@ -126,7 +124,6 @@ impl<'a> Tester<'a> {
                 let mut p = Parser::new(sess, syntax, SourceFileInput::from(&*fm), None);
                 p.parse_module().map_err(|mut e| {
                     e.emit();
-                    ()
                 })?
             };
             // println!("parsed {} as a module\n{:?}", src, module);
@@ -250,7 +247,7 @@ pub(crate) fn test_transform<F, P>(
             );
         }
 
-        return Err(());
+        Err(())
     });
 }
 

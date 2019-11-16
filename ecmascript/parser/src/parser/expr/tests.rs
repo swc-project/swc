@@ -13,7 +13,6 @@ fn lhs(s: &'static str) -> Box<Expr> {
     test_parser(s, syntax(), |p| {
         p.parse_lhs_expr().map_err(|mut e| {
             e.emit();
-            ()
         })
     })
 }
@@ -22,7 +21,6 @@ fn new_expr(s: &'static str) -> Box<Expr> {
     test_parser(s, syntax(), |p| {
         p.parse_new_expr().map_err(|mut e| {
             e.emit();
-            ()
         })
     })
 }
@@ -31,7 +29,6 @@ fn member_expr(s: &'static str) -> Box<Expr> {
     test_parser(s, syntax(), |p| {
         p.parse_member_expr().map_err(|mut e| {
             e.emit();
-            ()
         })
     })
 }
@@ -45,7 +42,6 @@ fn expr(s: &'static str) -> Box<Expr> {
             })
             .map_err(|mut e| {
                 e.emit();
-                ()
             })
     })
 }
@@ -108,8 +104,7 @@ fn object_rest_pat() {
                     type_ann: None,
                 })],
                 type_ann: None
-            })
-            .into()],
+            })],
             body: BlockStmtOrExpr::BlockStmt(BlockStmt {
                 span,
                 stmts: vec![]
@@ -204,7 +199,7 @@ fn arrow_fn() {
             span,
             is_async: false,
             is_generator: false,
-            params: vec![Pat::Ident(Ident::new("a".into(), span)).into()],
+            params: vec![Pat::Ident(Ident::new("a".into(), span))],
             body: BlockStmtOrExpr::Expr(expr("1")),
             return_type: None,
             type_params: None,
@@ -223,8 +218,7 @@ fn arrow_fn_rest() {
                 dot3_token: span,
                 arg: box Pat::Ident(Ident::new("a".into(), span)),
                 type_ann: None
-            })
-            .into()],
+            })],
             body: BlockStmtOrExpr::Expr(expr("1")),
             return_type: None,
             type_params: None,
@@ -239,7 +233,7 @@ fn arrow_fn_no_paren() {
             span,
             is_async: false,
             is_generator: false,
-            params: vec![Pat::Ident(Ident::new("a".into(), span)).into()],
+            params: vec![Pat::Ident(Ident::new("a".into(), span))],
             body: BlockStmtOrExpr::Expr(expr("1")),
             type_params: None,
             return_type: None,
@@ -308,7 +302,7 @@ fn max_integer() {
         expr("1.7976931348623157e+308"),
         box Expr::Lit(Lit::Num(Number {
             span,
-            value: 1.7976931348623157e+308
+            value: 1.797_693_134_862_315_7e308
         }))
     )
 }
@@ -354,7 +348,6 @@ fn issue_328() {
             |p| {
                 p.parse_stmt(true).map_err(|mut e| {
                     e.emit();
-                    ()
                 })
             }
         ),
@@ -382,7 +375,6 @@ fn issue_337() {
         |p| {
             p.parse_module().map_err(|mut e| {
                 e.emit();
-                ()
             })
         },
     );

@@ -89,7 +89,7 @@ impl<'a, W: Write> JsWriter<'a, W> {
             }};
         }
 
-        if data.len() > 0 {
+        if !data.is_empty() {
             if let Some(span) = span {
                 if !span.is_dummy() {
                     srcmap!(span.lo())

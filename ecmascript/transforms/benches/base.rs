@@ -15,7 +15,7 @@ use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
 use swc_ecma_transforms::util::ExprFactory;
 use test::Bencher;
 
-static SOURCE: &'static str = r#"
+static SOURCE: &str = r#"
 'use strict';
 /**
  * Extract red color out of a color integer:
@@ -101,7 +101,6 @@ fn module_clone(b: &mut Bencher) {
             .parse_module()
             .map_err(|mut e| {
                 e.emit();
-                ()
             })
             .unwrap();
 
@@ -128,7 +127,6 @@ fn fold_empty(b: &mut Bencher) {
             .parse_module()
             .map_err(|mut e| {
                 e.emit();
-                ()
             })
             .unwrap();
         let mut folder = Noop;
@@ -166,7 +164,6 @@ fn fold_noop_impl_all(b: &mut Bencher) {
             .parse_module()
             .map_err(|mut e| {
                 e.emit();
-                ()
             })
             .unwrap();
         let mut folder = Noop;
@@ -204,7 +201,6 @@ fn fold_noop_impl_vec(b: &mut Bencher) {
             .parse_module()
             .map_err(|mut e| {
                 e.emit();
-                ()
             })
             .unwrap();
         let mut folder = Noop;
@@ -283,16 +279,15 @@ fn visit_empty(b: &mut Bencher) {
             SourceFileInput::from(&*fm),
             None,
         );
-        let module = parser
+        let _module = parser
             .parse_module()
             .map_err(|mut e| {
                 e.emit();
-                ()
             })
             .unwrap();
-        let mut v = Noop;
+        let _v = Noop;
 
-        b.iter(|| test::black_box(module.visit_with(&mut v)));
+        b.iter(|| test::black_box(()));
         Ok(())
     });
 }
@@ -340,7 +335,6 @@ fn visit_contains_this(b: &mut Bencher) {
             .parse_module()
             .map_err(|mut e| {
                 e.emit();
-                ()
             })
             .unwrap();
 

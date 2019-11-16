@@ -1,3 +1,4 @@
+#![allow(clippy::vec_box)]
 #![allow(missing_copy_implementations)]
 use crate::{
     class::Decorator,
@@ -559,7 +560,7 @@ impl<'de> Deserialize<'de> for TruePlusMinus {
 
         impl<'de> Visitor<'de> for TruePlusMinusVisitor {
             type Value = TruePlusMinus;
-            fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+            fn expecting(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
                 formatter.write_str("one of '+', '-', true")
             }
 

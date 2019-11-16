@@ -1,8 +1,5 @@
 #![feature(specialization)]
 
-extern crate swc_common;
-extern crate swc_ecma_ast;
-
 mod with;
 
 use swc_common::{errors::Handler, VisitWith};

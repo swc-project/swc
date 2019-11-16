@@ -162,10 +162,7 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                         cfg: Default::default(),
                         cm: cm.clone(),
                         wr: box swc_ecma_codegen::text_writer::JsWriter::new(
-                            cm.clone(),
-                            "\n",
-                            &mut wr,
-                            None,
+                            cm, "\n", &mut wr, None,
                         ),
                         comments: Some(&comments),
                         handlers,
@@ -177,14 +174,12 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                         emitter
                             .emit_module(&parser.parse_module().map_err(|mut e| {
                                 e.emit();
-                                ()
                             })?)
                             .unwrap();
                     } else {
                         emitter
                             .emit_script(&parser.parse_script().map_err(|mut e| {
                                 e.emit();
-                                ()
                             })?)
                             .unwrap();
                     }

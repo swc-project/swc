@@ -67,16 +67,10 @@ fn parse_then_emit(from: &str, cfg: Config) -> String {
             );
             parser.parse_module().map_err(|mut e| {
                 e.emit();
-                ()
             })?
         };
 
-        let out = Builder {
-            cfg,
-            cm: cm.clone(),
-            comments,
-        }
-        .text(from, |e| e.emit_module(&res).unwrap());
+        let out = Builder { cfg, cm, comments }.text(from, |e| e.emit_module(&res).unwrap());
         Ok(out)
     })
     .unwrap()

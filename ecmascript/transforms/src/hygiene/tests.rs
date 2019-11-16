@@ -79,7 +79,6 @@ where
             let expected = tester.with_parser("expected.js", Syntax::default(), expected, |p| {
                 p.parse_module().map_err(|mut e| {
                     e.emit();
-                    ()
                 })
             })?;
             tester.print(&expected)

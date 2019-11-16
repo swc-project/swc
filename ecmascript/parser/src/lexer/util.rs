@@ -102,7 +102,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             span,
             error: kind,
         };
-        Err(err)?
+        Err(err.into())
     }
 
     /// Skip comments or whitespaces.
@@ -170,21 +170,18 @@ impl<'a, I: Input> Lexer<'a, I> {
         }
 
         let pos = self.cur_pos();
-        match self.comments {
-            Some(ref comments) => {
-                let s = self.input.slice(slice_start, pos);
-                let cmt = Comment {
-                    kind: CommentKind::Line,
-                    span: Span::new(start, pos, SyntaxContext::empty()),
-                    text: s.into(),
-                };
-                if is_for_next {
-                    self.leading_comments_buffer.as_mut().unwrap().push(cmt);
-                } else {
-                    comments.add_trailing(self.state.prev_hi, cmt);
-                }
+        if let Some(ref comments) = self.comments {
+            let s = self.input.slice(slice_start, pos);
+            let cmt = Comment {
+                kind: CommentKind::Line,
+                span: Span::new(start, pos, SyntaxContext::empty()),
+                text: s.into(),
+            };
+            if is_for_next {
+                self.leading_comments_buffer.as_mut().unwrap().push(cmt);
+            } else {
+                comments.add_trailing(self.state.prev_hi, cmt);
             }
-            None => {}
         }
     }
 
@@ -215,22 +212,19 @@ impl<'a, I: Input> Lexer<'a, I> {
                 self.bump(); // '/'
 
                 let pos = self.cur_pos();
-                match self.comments {
-                    Some(ref comments) => {
-                        let src = self.input.slice(slice_start, pos);
-                        let s = &src[..src.len() - 2];
-                        let cmt = Comment {
-                            kind: CommentKind::Block,
-                            span: Span::new(start, pos, SyntaxContext::empty()),
-                            text: s.into(),
-                        };
-                        if is_for_next {
-                            self.leading_comments_buffer.as_mut().unwrap().push(cmt);
-                        } else {
-                            comments.add_trailing(self.state.prev_hi, cmt);
-                        }
+                if let Some(ref comments) = self.comments {
+                    let src = self.input.slice(slice_start, pos);
+                    let s = &src[..src.len() - 2];
+                    let cmt = Comment {
+                        kind: CommentKind::Block,
+                        span: Span::new(start, pos, SyntaxContext::empty()),
+                        text: s.into(),
+                    };
+                    if is_for_next {
+                        self.leading_comments_buffer.as_mut().unwrap().push(cmt);
+                    } else {
+                        comments.add_trailing(self.state.prev_hi, cmt);
                     }
-                    None => {}
                 }
                 // TODO: push comment
                 return Ok(());

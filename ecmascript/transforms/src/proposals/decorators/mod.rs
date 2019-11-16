@@ -483,7 +483,7 @@ impl Decorators {
                     function: Function {
                         span: DUMMY_SP,
 
-                        params: iter::once(Pat::Ident(initialize.clone()))
+                        params: iter::once(Pat::Ident(initialize))
                             .chain(super_class_ident.map(Pat::Ident))
                             .collect(),
 
@@ -518,7 +518,7 @@ impl Decorators {
                                     props: vec![
                                         PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
                                             key: PropName::Ident(quote_ident!("F")),
-                                            value: box Expr::Ident(ident.clone()),
+                                            value: box Expr::Ident(ident),
                                         })),
                                         PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
                                             key: PropName::Ident(quote_ident!("d")),

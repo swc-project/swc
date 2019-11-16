@@ -441,7 +441,7 @@ impl Fold<Module> for Amd {
 
         if !initialized.is_empty() {
             stmts.push(Stmt::Expr(initialize_to_undefined(
-                exports_ident.clone(),
+                exports_ident,
                 initialized,
             )));
         }

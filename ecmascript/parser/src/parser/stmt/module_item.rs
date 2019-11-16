@@ -123,11 +123,11 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 }
 
                 let local = orig_name;
-                return Ok(ImportSpecifier::Specific(ImportSpecific {
+                Ok(ImportSpecifier::Specific(ImportSpecific {
                     span: span!(start),
                     local,
                     imported: None,
-                }));
+                }))
             }
             _ => unexpected!(),
         }
@@ -423,10 +423,10 @@ impl<'a, I: Tokens> Parser<'a, I> {
             }));
         };
 
-        return Ok(ModuleDecl::ExportDecl(ExportDecl {
+        Ok(ModuleDecl::ExportDecl(ExportDecl {
             span: span!(start),
             decl,
-        }));
+        }))
     }
 
     fn parse_named_export_specifier(&mut self) -> PResult<'a, NamedExportSpecifier> {

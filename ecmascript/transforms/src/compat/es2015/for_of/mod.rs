@@ -177,13 +177,13 @@ impl Actual {
                 arg: {
                     let step_expr = box Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
-                        left: PatOrExpr::Pat(box Pat::Ident(step.clone())),
+                        left: PatOrExpr::Pat(box Pat::Ident(step)),
                         op: op!("="),
                         // `_iterator.next()`
                         right: box Expr::Call(CallExpr {
                             span: DUMMY_SP,
                             // `_iterator.next`
-                            callee: iterator.clone().member(quote_ident!("next")).as_callee(),
+                            callee: iterator.member(quote_ident!("next")).as_callee(),
                             args: vec![],
                             type_args: Default::default(),
                         }),
@@ -281,13 +281,11 @@ impl Fold<Stmt> for Actual {
                             await_token: None, ..
                         },
                     ) => self.fold_for_stmt(Some(label), stmt),
-                    _ => {
-                        return Stmt::Labeled(LabeledStmt {
-                            span,
-                            label,
-                            body: body.fold_children(self),
-                        });
-                    }
+                    _ => Stmt::Labeled(LabeledStmt {
+                        span,
+                        label,
+                        body: body.fold_children(self),
+                    }),
                 }
             }
             Stmt::ForOf(

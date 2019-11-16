@@ -68,7 +68,7 @@ pub fn expand(
                     .collect::<Punctuated<_, token::Comma>>();
 
                 assert!(
-                    tags.len() >= 1,
+                    !tags.is_empty(),
                     "All #[ast_node] enum variants have one or more tag"
                 );
                 if tags.len() == 1
@@ -173,7 +173,7 @@ pub fn expand(
                 }
             ))
             .parse::<ItemImpl>()
-            .with_generics(generics.clone())
+            .with_generics(generics)
     };
 
     vec![deserialize]

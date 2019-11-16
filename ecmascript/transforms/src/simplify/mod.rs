@@ -106,11 +106,11 @@ impl Fold<Stmt> for Simplifier {
             },
 
             Stmt::Block(BlockStmt { span, stmts }) => {
-                if stmts.len() == 0 {
-                    return Stmt::Empty(EmptyStmt { span });
+                if stmts.is_empty() {
+                    Stmt::Empty(EmptyStmt { span })
                 } else if stmts.len() == 1 {
                     // TODO: Check if lexical variable exists.
-                    return stmts.into_iter().next().unwrap();
+                    stmts.into_iter().next().unwrap()
                 } else {
                     Stmt::Block(BlockStmt { span, stmts })
                 }

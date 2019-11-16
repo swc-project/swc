@@ -15,12 +15,12 @@ impl<'a, I: Tokens> Parser<'a, I> {
         // itself. And "static". TODO: Would be nice to avoid lookahead. Want a
         // hasLineBreakUpNext() method...
         bump!();
-        return Ok(!self.input.had_line_break_before_cur()
+        Ok(!self.input.had_line_break_before_cur()
             && !is!('(')
             && !is!(')')
             && !is!(':')
             && !is!('=')
-            && !is!('?'));
+            && !is!('?'))
     }
 
     /// Parses a modifier matching one the given modifier names.
@@ -49,7 +49,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
             return Ok(Some(allowed_modifiers[pos.unwrap()]));
         }
 
-        return Ok(None);
+        Ok(None)
     }
 
     /// `tsIsListTerminator`
@@ -357,7 +357,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 Ok(res)
             }
             Err(mut err) => {
-                let _ = err.cancel();
+                err.cancel();
                 Ok(false)
             }
             _ => Ok(false),
@@ -381,7 +381,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
             }
             Ok(None) => None,
             Err(mut err) => {
-                let _ = err.cancel();
+                err.cancel();
                 None
             }
         }
@@ -666,11 +666,11 @@ impl<'a, I: Tokens> Parser<'a, I> {
         let type_ann = self.in_type().parse_with(|p| p.parse_ts_type())?;
         expect!('>');
         let expr = self.parse_unary_expr()?;
-        return Ok(TsTypeAssertion {
+        Ok(TsTypeAssertion {
             span: span!(start),
             type_ann,
             expr,
-        });
+        })
     }
 
     /// `tsParseHeritageClause`
@@ -1032,7 +1032,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
             // -----
 
             self.parse_ts_type_member_semicolon()?;
-            return Ok(Either::Right(TsMethodSignature {
+            Ok(Either::Right(TsMethodSignature {
                 span: span!(start),
                 computed,
                 readonly,
@@ -1041,12 +1041,12 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 type_params,
                 params,
                 type_ann,
-            }));
+            }))
         } else {
             let type_ann = self.try_parse_ts_type_ann()?;
 
             self.parse_ts_type_member_semicolon()?;
-            return Ok(Either::Left(TsPropertySignature {
+            Ok(Either::Left(TsPropertySignature {
                 span: span!(start),
                 computed,
                 readonly,
@@ -1056,7 +1056,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 type_params: None,
                 params: vec![],
                 type_ann,
-            }));
+            }))
         }
     }
 
@@ -1659,9 +1659,9 @@ impl<'a, I: Tokens> Parser<'a, I> {
                             ref mut declare, ..
                         }) => *declare = true,
                     }
-                    return Ok(Some(decl));
+                    Ok(Some(decl))
                 } else {
-                    return Ok(None);
+                    Ok(None)
                 }
             }
             "global" => {
@@ -1676,7 +1676,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                         .parse_ts_module_block()
                         .map(TsNamespaceBody::from)
                         .map(Some)?;
-                    return Ok(Some(
+                    Ok(Some(
                         TsModuleDecl {
                             span: span!(start),
                             global,
@@ -1685,12 +1685,12 @@ impl<'a, I: Tokens> Parser<'a, I> {
                             body,
                         }
                         .into(),
-                    ));
+                    ))
                 } else {
                     Ok(None)
                 }
             }
-            _ => return self.parse_ts_decl(start, decorators, expr.sym, /* next */ false),
+            _ => self.parse_ts_decl(start, decorators, expr.sym, /* next */ false),
         }
     }
 
@@ -1937,10 +1937,10 @@ impl<'a, I: Tokens> Parser<'a, I> {
         // `<C<number> />`, so set exprAllowed = false
         self.input.set_expr_allowed(false);
         expect!('>');
-        return Ok(TsTypeParamInstantiation {
+        Ok(TsTypeParamInstantiation {
             span: span!(start),
             params,
-        });
+        })
     }
 
     /// `tsParseIntersectionTypeOrHigher`

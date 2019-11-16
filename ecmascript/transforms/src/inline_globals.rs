@@ -33,7 +33,7 @@ impl Fold<Expr> for InlineGlobals {
             Expr::Ident(Ident { ref sym, .. }) => {
                 // It's ok because we don't recurse into member expressions.
                 if let Some(value) = self.globals.get(sym) {
-                    return value.clone().fold_with(self);
+                    value.clone().fold_with(self)
                 } else {
                     expr
                 }
@@ -69,7 +69,7 @@ impl Fold<Expr> for InlineGlobals {
                     }
                     _ => {}
                 }
-                return Expr::Member(MemberExpr {
+                Expr::Member(MemberExpr {
                     span,
                     obj: ExprOrSuper::Expr(box Expr::Member(MemberExpr {
                         obj: ExprOrSuper::Expr(box Expr::Ident(Ident::new(
@@ -82,7 +82,7 @@ impl Fold<Expr> for InlineGlobals {
                     })),
                     prop,
                     computed,
-                });
+                })
             }
             _ => expr,
         }

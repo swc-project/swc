@@ -53,10 +53,8 @@ impl Fold<MemberExpr> for Validator {
             eq!(self, MemberExpr, node.span().lo(), node.obj.span().lo());
         }
 
-        if !node.computed {
-            if !node.prop.span().is_dummy() {
-                eq!(self, MemberExpr, node.span().hi(), node.prop.span().hi());
-            }
+        if !node.computed && !node.prop.span().is_dummy() {
+            eq!(self, MemberExpr, node.span().hi(), node.prop.span().hi());
         }
 
         node.fold_children(self)
@@ -123,10 +121,8 @@ impl Fold<UpdateExpr> for Validator {
             if !node.arg.span().is_dummy() {
                 eq!(self, UpdateExpr, node.arg.span().hi(), node.span().hi())
             }
-        } else {
-            if !node.arg.span().is_dummy() {
-                eq!(self, UpdateExpr, node.arg.span().lo(), node.span().lo())
-            }
+        } else if !node.arg.span().is_dummy() {
+            eq!(self, UpdateExpr, node.arg.span().lo(), node.span().lo())
         }
 
         node.fold_children(self)

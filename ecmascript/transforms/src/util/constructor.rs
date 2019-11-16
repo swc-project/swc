@@ -3,7 +3,8 @@ use ast::*;
 use std::iter;
 use swc_common::{util::move_map::MoveMap, Fold, FoldWith, DUMMY_SP};
 
-pub(crate) fn inject_after_super(mut c: Constructor, exprs: Vec<Box<Expr>>) -> Constructor {
+#[allow(clippy::vec_box)]
+pub(crate) fn inject_after_super(mut c: Constructor, exprs: Vec<Box<ast::Expr>>) -> Constructor {
     // Allow using super multiple time
     let mut folder = Injector {
         exprs: &exprs,

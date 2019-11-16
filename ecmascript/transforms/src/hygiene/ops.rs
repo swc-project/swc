@@ -155,7 +155,7 @@ impl Fold<Ident> for VarFolder<'_, '_> {
                     }));
                 i
             }
-            Err(i) => return i,
+            Err(i) => i,
         }
     }
 }

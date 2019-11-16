@@ -447,7 +447,7 @@ impl ClassProperties {
         (
             vars,
             Decl::Class(ClassDecl {
-                ident: ident.clone(),
+                ident,
                 declare: false,
                 class: Class {
                     body: members,
@@ -458,12 +458,13 @@ impl ClassProperties {
         )
     }
 
+    #[allow(clippy::vec_box)]
     fn process_constructor(
         &mut self,
         constructor: Option<Constructor>,
         has_super: bool,
         used_names: &[JsWord],
-        constructor_exprs: Vec<Box<Expr>>,
+        constructor_exprs: Vec<Box<ast::Expr>>,
     ) -> Constructor {
         let constructor = constructor
             .map(|c| {

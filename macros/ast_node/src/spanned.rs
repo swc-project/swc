@@ -87,7 +87,7 @@ fn make_body_for_variant(v: &VariantBinder, bindings: Vec<BindedField>) -> Box<E
         )
     }
 
-    if bindings.len() == 0 {
+    if bindings.is_empty() {
         panic!("#[derive(Spanned)] requires a field to get span from")
     }
 

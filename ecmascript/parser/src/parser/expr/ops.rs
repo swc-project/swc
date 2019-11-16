@@ -6,7 +6,7 @@ use swc_common::Spanned;
 #[parser]
 impl<'a, I: Tokens> Parser<'a, I> {
     /// Name from spec: 'LogicalORExpression'
-    pub(super) fn parse_bin_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
+    pub(super) fn parse_bin_expr(&mut self) -> PResult<'a, Box<Expr>> {
         let left = self.parse_unary_expr()?;
 
         return_if_arrow!(left);
@@ -27,26 +27,28 @@ impl<'a, I: Tokens> Parser<'a, I> {
     ) -> PResult<'a, Box<Expr>> {
         const PREC_OF_IN: u8 = 7;
 
-        if self.input.syntax().typescript() {
-            if PREC_OF_IN > min_prec && !self.input.had_line_break_before_cur() && is!("as") {
-                let span = span!(left.span().lo());
-                let expr = left;
-                let node = if peeked_is!("const") {
-                    bump!(); // as
-                    let _ = cur!(false);
-                    bump!(); // const
-                    Box::new(Expr::TsConstAssertion(TsConstAssertion { span, expr }))
-                } else {
-                    let type_ann = self.next_then_parse_ts_type()?;
-                    Box::new(Expr::TsAs(TsAsExpr {
-                        span,
-                        expr,
-                        type_ann,
-                    }))
-                };
+        if self.input.syntax().typescript()
+            && PREC_OF_IN > min_prec
+            && !self.input.had_line_break_before_cur()
+            && is!("as")
+        {
+            let span = span!(left.span().lo());
+            let expr = left;
+            let node = if peeked_is!("const") {
+                bump!(); // as
+                let _ = cur!(false);
+                bump!(); // const
+                Box::new(Expr::TsConstAssertion(TsConstAssertion { span, expr }))
+            } else {
+                let type_ann = self.next_then_parse_ts_type()?;
+                Box::new(Expr::TsAs(TsAsExpr {
+                    span,
+                    expr,
+                    type_ann,
+                }))
+            };
 
-                return self.parse_bin_op_recursively(node, min_prec);
-            }
+            return self.parse_bin_op_recursively(node, min_prec);
         }
 
         let ctx = self.ctx();
@@ -127,7 +129,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     /// Parse unary expression and update expression.
     ///
     /// spec: 'UnaryExpression'
-    pub(in crate::parser) fn parse_unary_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
+    pub(in crate::parser) fn parse_unary_expr(&mut self) -> PResult<'a, Box<Expr>> {
         let start = cur_pos!();
 
         if !self.input.syntax().jsx() && self.input.syntax().typescript() && eat!('<') {
@@ -218,7 +220,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         Ok(expr)
     }
 
-    fn parse_await_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
+    fn parse_await_expr(&mut self) -> PResult<'a, Box<Expr>> {
         let start = cur_pos!();
 
         assert_and_bump!("await");
@@ -245,7 +247,6 @@ mod tests {
         test_parser(s, Syntax::default(), |p| {
             p.parse_bin_expr().map_err(|mut e| {
                 e.emit();
-                ()
             })
         })
     }

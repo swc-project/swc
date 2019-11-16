@@ -305,7 +305,7 @@ swcHelpers._throw();",
                     crate::tests::DebugUsingDisplay(&actual_src),
                     crate::tests::DebugUsingDisplay(&expected_src)
                 );
-                return Err(());
+                Err(())
             })
         });
     }

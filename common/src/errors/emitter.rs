@@ -58,7 +58,7 @@ impl Emitter for EmitterWriter {
                !sugg.substitutions[0].parts[0].snippet.contains('\n')
             {
                 let substitution = &sugg.substitutions[0].parts[0].snippet.trim();
-                let msg = if substitution.len() == 0 || !sugg.show_code_when_inline {
+                let msg = if substitution.is_empty() || !sugg.show_code_when_inline {
                     // This substitution is only removal or we explicitly don't want to show the
                     // code inline, don't show it
                     format!("help: {}", sugg.msg)
@@ -111,8 +111,8 @@ pub enum ColorConfig {
 }
 
 impl ColorConfig {
-    fn to_color_choice(&self) -> ColorChoice {
-        match *self {
+    fn to_color_choice(self) -> ColorChoice {
+        match self {
             ColorConfig::Always => {
                 if atty::is(atty::Stream::Stderr) {
                     ColorChoice::Always
@@ -278,7 +278,7 @@ impl EmitterWriter {
         for item in multiline_annotations.clone() {
             let ann = item.1;
             for item in multiline_annotations.iter_mut() {
-                let ref mut a = item.1;
+                let a = &mut item.1;
                 // Move all other multiline annotations overlapping with this one
                 // one level to the right.
                 if &ann != a
@@ -557,7 +557,7 @@ impl EmitterWriter {
         // 3 |
         // 4 |   }
         //   |
-        for pos in 0..line_len + 1 {
+        for pos in 0..=line_len {
             draw_col_separator(buffer, line_offset + pos + 1, width_offset - 2);
             buffer.putc(
                 line_offset + pos + 1,
@@ -631,7 +631,7 @@ impl EmitterWriter {
             let pos = pos + 1;
 
             if pos > 1 && (annotation.has_label() || annotation.takes_space()) {
-                for p in line_offset + 1..line_offset + pos + 1 {
+                for p in line_offset + 1..=line_offset + pos {
                     buffer.putc(p, code_offset + annotation.start_col, '|', style);
                 }
             }
@@ -642,7 +642,7 @@ impl EmitterWriter {
                     }
                 }
                 AnnotationType::MultilineEnd(depth) => {
-                    for p in line_offset..line_offset + pos + 1 {
+                    for p in line_offset..=line_offset + pos {
                         buffer.putc(p, width_offset + depth - 1, '|', style);
                     }
                 }
@@ -1266,7 +1266,7 @@ impl EmitterWriter {
                         }
                         // underline removals too
                         if underline_start == underline_end {
-                            for p in underline_start - 1..underline_start + 1 {
+                            for p in underline_start - 1..=underline_start {
                                 buffer.putc(
                                     row_num,
                                     max_line_num_len + 3 + p as usize,

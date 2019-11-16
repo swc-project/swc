@@ -272,7 +272,7 @@ impl Fold<Expr> for MethodFolder {
                             .as_callee(),
                             args: vec![ExprOrSpread {
                                 spread: Some(DUMMY_SP),
-                                expr: box args_ident.clone().into(),
+                                expr: box args_ident.into(),
                             }],
                             type_args: Default::default(),
                         })),
@@ -572,7 +572,7 @@ impl Actual {
                     })]
                 },
             }),
-            params: params.clone(),
+            params,
             is_generator: false,
             is_async: false,
             decorators: Default::default(),

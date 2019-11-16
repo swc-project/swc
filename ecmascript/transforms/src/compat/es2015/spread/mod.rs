@@ -62,7 +62,7 @@ impl Fold<Expr> for ActualFolder {
 
                 let args_array = concat_args(span, elems.into_iter(), true);
 
-                return args_array;
+                args_array
             }
 
             // super(...spread) should be removed by es2015::classes pass

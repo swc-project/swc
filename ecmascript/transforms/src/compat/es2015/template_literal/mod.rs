@@ -92,7 +92,7 @@ impl Fold<Expr> for TemplateLiteral {
                         type_args: Default::default(),
                     });
                 }
-                return *obj;
+                *obj
             }
 
             Expr::TaggedTpl(TaggedTpl {
@@ -226,7 +226,7 @@ impl Fold<Expr> for TemplateLiteral {
                     args: iter::once(
                         Expr::Call(CallExpr {
                             span: DUMMY_SP,
-                            callee: fn_ident.clone().as_callee(),
+                            callee: fn_ident.as_callee(),
                             args: vec![],
                             type_args: Default::default(),
                         })

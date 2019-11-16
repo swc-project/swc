@@ -13,7 +13,7 @@ impl<'a> Fold<Expr> for ClassNameTdzFolder<'a> {
                 //
 
                 if i.sym == self.class_name.sym {
-                    return Expr::Seq(SeqExpr {
+                    Expr::Seq(SeqExpr {
                         span: DUMMY_SP,
                         exprs: vec![
                             box Expr::Call(CallExpr {
@@ -30,7 +30,7 @@ impl<'a> Fold<Expr> for ClassNameTdzFolder<'a> {
                             }),
                             box Expr::Ident(i),
                         ],
-                    });
+                    })
                 } else {
                     Expr::Ident(i)
                 }

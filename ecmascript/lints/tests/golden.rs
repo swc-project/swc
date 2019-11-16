@@ -1,12 +1,9 @@
 #![feature(box_syntax)]
 #![feature(test)]
 
-extern crate swc_common;
 extern crate swc_ecma_lints as lints;
 extern crate swc_ecma_parser as parser;
 extern crate test;
-extern crate testing;
-extern crate walkdir;
 
 use self::{
     parser::{SourceFileInput, Syntax},
@@ -104,7 +101,6 @@ fn add_golden_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                     .parse_module()
                     .map_err(|mut e| {
                         e.emit();
-                        ()
                     })?
                 };
 

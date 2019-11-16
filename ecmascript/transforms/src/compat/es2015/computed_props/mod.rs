@@ -241,7 +241,7 @@ impl Fold<Expr> for ObjectLitFolder {
                 }
 
                 // Last value
-                exprs.push(box Expr::Ident(obj_ident.clone()));
+                exprs.push(box Expr::Ident(obj_ident));
                 Expr::Seq(SeqExpr {
                     span: DUMMY_SP,
                     exprs,

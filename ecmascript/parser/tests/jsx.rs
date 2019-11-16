@@ -97,9 +97,9 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                 }
 
                 // Parse source
-                let err = parse_module(cm, handler, &path).expect_err("should fail, but parsed as");
+                parse_module(cm, handler, &path).expect_err("should fail, but parsed as");
 
-                Err(err)
+                Err(())
             })
             .expect_err("should fail, but parsed as");
 
@@ -220,7 +220,6 @@ where
     ))
     .map_err(|mut e| {
         e.emit();
-        ()
     });
 
     res

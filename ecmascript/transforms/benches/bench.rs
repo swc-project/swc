@@ -17,7 +17,7 @@ use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
 use swc_ecma_transforms::{compat, helpers};
 use test::Bencher;
 
-static SOURCE: &'static str = r#"
+static SOURCE: &str = r#"
 'use strict';
 /**
  * Extract red color out of a color integer:

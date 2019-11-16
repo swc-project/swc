@@ -37,7 +37,7 @@ impl Default for Context {
 impl Fold<KeyValuePatProp> for Fixer {
     fn fold(&mut self, node: KeyValuePatProp) -> KeyValuePatProp {
         let old = self.ctx;
-        self.ctx = Context::ForcedExpr { is_var_decl: false }.into();
+        self.ctx = Context::ForcedExpr { is_var_decl: false };
         let key = node.key.fold_with(self);
         self.ctx = old;
 
@@ -52,7 +52,7 @@ impl Fold<AssignPatProp> for Fixer {
         let key = node.key.fold_children(self);
 
         let old = self.ctx;
-        self.ctx = Context::ForcedExpr { is_var_decl: false }.into();
+        self.ctx = Context::ForcedExpr { is_var_decl: false };
         let value = node.value.fold_with(self);
         self.ctx = old;
 
@@ -65,7 +65,7 @@ impl Fold<VarDeclarator> for Fixer {
         let name = node.name.fold_children(self);
 
         let old = self.ctx;
-        self.ctx = Context::ForcedExpr { is_var_decl: true }.into();
+        self.ctx = Context::ForcedExpr { is_var_decl: true };
         let init = node.init.fold_with(self);
         self.ctx = old;
 
@@ -92,7 +92,7 @@ impl Fold<Stmt> for Fixer {
         let stmt = match stmt {
             Stmt::Expr(expr) => {
                 let old = self.ctx;
-                self.ctx = Context::Default.into();
+                self.ctx = Context::Default;
                 let expr = expr.fold_with(self);
                 self.ctx = old;
                 Stmt::Expr(expr)
@@ -165,7 +165,7 @@ impl Fold<KeyValueProp> for Fixer {
                 value: box (*prop.value).wrap_with_paren(),
                 ..prop
             },
-            _ => return prop,
+            _ => prop,
         }
     }
 }

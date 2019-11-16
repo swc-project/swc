@@ -102,10 +102,13 @@ cfg_if! {
             let mut intra_chunk_offset = 0;
 
             for chunk_index in 0 .. chunk_count {
-                let ptr = src_bytes.as_ptr() as *const __m128i;
-                // We don't know if the pointer is aligned to 16 bytes, so we
-                // use `loadu`, which supports unaligned loading.
-                let chunk = _mm_loadu_si128(ptr.offset(chunk_index as isize));
+                #[allow(clippy::cast_ptr_alignment)]
+                let chunk = {
+                    let ptr = src_bytes.as_ptr() as *const __m128i;
+                    // We don't know if the pointer is aligned to 16 bytes, so we
+                    // use `loadu`, which supports unaligned loading.
+                    _mm_loadu_si128(ptr.add(chunk_index))
+                };
 
                 // For character in the chunk, see if its byte value is < 0, which
                 // indicates that it's part of a UTF-8 char.
@@ -136,7 +139,7 @@ cfg_if! {
 
                         if control_char_mask == newlines_mask {
                             // All control characters are newlines, record them
-                            let mut newlines_mask = 0xFFFF0000 | newlines_mask as u32;
+                            let mut newlines_mask = 0xFFFF_0000 | newlines_mask as u32;
                             let output_offset = output_offset +
                                 BytePos::from_usize(chunk_index * CHUNK_SIZE + 1);
 
@@ -296,7 +299,7 @@ macro_rules! test {
             let (lines, multi_byte_chars, non_narrow_chars) =
                 analyze_source_file($text, BytePos($source_file_start_pos));
 
-            let expected_lines: Vec<BytePos> = $lines.into_iter().map(|pos| BytePos(pos)).collect();
+            let expected_lines: Vec<BytePos> = $lines.into_iter().map(BytePos).collect();
 
             assert_eq!(lines, expected_lines);
 

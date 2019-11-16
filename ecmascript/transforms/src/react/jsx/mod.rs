@@ -78,7 +78,6 @@ fn parse_option(name: &str, src: String) -> Box<Expr> {
     .parse_expr()
     .map_err(|mut e| {
         e.emit();
-        ()
     })
     .map(drop_span)
     .unwrap_or_else(|()| {
@@ -373,7 +372,7 @@ fn to_prop_name(n: JSXAttrName) -> PropName {
 
     match n {
         JSXAttrName::Ident(i) => {
-            if i.sym.contains("-") {
+            if i.sym.contains('-') {
                 PropName::Str(Str {
                     span,
                     value: i.sym,

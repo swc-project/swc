@@ -6,7 +6,7 @@ use swc_common::Spanned;
 
 #[parser]
 impl<'a, I: Tokens> Parser<'a, I> {
-    pub(super) fn parse_opt_binding_ident(&mut self) -> PResult<'a, (Option<Ident>)> {
+    pub(super) fn parse_opt_binding_ident(&mut self) -> PResult<'a, Option<Ident>> {
         if is!(BindingIdent) || (self.input.syntax().typescript() && is!("this")) {
             self.parse_binding_ident().map(Some)
         } else {
@@ -227,7 +227,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         } else {
             (None, false)
         };
-        if accessibility == None && readonly == false {
+        if accessibility == None && !readonly {
             self.parse_formal_param().map(PatOrTsParamProp::from)
         } else {
             Ok(PatOrTsParamProp::TsParamProp(TsParamProp {
@@ -401,7 +401,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 let AssignExpr {
                     span, left, right, ..
                 } = assign_expr;
-                return Ok(Pat::Assign(AssignPat {
+                Ok(Pat::Assign(AssignPat {
                     span,
                     left: match left {
                         PatOrExpr::Expr(left) => Box::new(self.reparse_expr_as_pat(pat_ty, left)?),
@@ -409,11 +409,11 @@ impl<'a, I: Tokens> Parser<'a, I> {
                     },
                     right,
                     type_ann: None,
-                }));
+                }))
             }
             Expr::Object(ObjectLit { span, props }) => {
                 // {}
-                return Ok(Pat::Object(ObjectPat {
+                Ok(Pat::Object(ObjectPat {
                     span,
                     props: props
                         .into_iter()
@@ -424,7 +424,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                                     Prop::Shorthand(id) => {
                                         Ok(ObjectPatProp::Assign(AssignPatProp {
                                             span: id.span(),
-                                            key: id.into(),
+                                            key: id,
                                             value: None,
                                         }))
                                     }
@@ -459,15 +459,15 @@ impl<'a, I: Tokens> Parser<'a, I> {
                                 }
                             }
                         })
-                        .collect::<(PResult<'a, _>)>()?,
+                        .collect::<PResult<'a, _>>()?,
                     type_ann: None,
-                }));
+                }))
             }
-            Expr::Ident(ident) => return Ok(ident.into()),
+            Expr::Ident(ident) => Ok(ident.into()),
             Expr::Array(ArrayLit {
                 elems: mut exprs, ..
             }) => {
-                if exprs.len() == 0 {
+                if exprs.is_empty() {
                     return Ok(Pat::Array(ArrayPat {
                         span,
                         elems: vec![],
@@ -532,11 +532,11 @@ impl<'a, I: Tokens> Parser<'a, I> {
                     };
                     params.push(last);
                 }
-                return Ok(Pat::Array(ArrayPat {
+                Ok(Pat::Array(ArrayPat {
                     span,
                     elems: params,
                     type_ann: None,
-                }));
+                }))
             }
 
             // Invalid patterns.
@@ -623,7 +623,6 @@ mod tests {
         test_parser(s, Syntax::default(), |p| {
             p.parse_array_binding_pat().map_err(|mut e| {
                 e.emit();
-                ()
             })
         })
     }
