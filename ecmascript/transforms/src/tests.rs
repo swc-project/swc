@@ -1,4 +1,8 @@
-use crate::helpers::{InjectHelpers, HELPERS};
+use crate::{
+    chain_at,
+    helpers::{InjectHelpers, HELPERS},
+    pass::Pass,
+};
 use ast::*;
 use sourcemap::SourceMapBuilder;
 use std::{
@@ -169,12 +173,12 @@ impl<'a> Tester<'a> {
     }
 }
 
-fn make_tr<F, P>(op: F, tester: &mut Tester) -> P
+fn make_tr<F, P>(name: &'static str, op: F, tester: &mut Tester) -> impl Pass
 where
     F: FnOnce(&mut Tester) -> P,
-    P: Fold<Module>,
+    P: Pass,
 {
-    op(tester)
+    chain_at!(Module, crate::debug::validator::validator(name), op(tester))
 }
 
 #[cfg(test)]
@@ -203,7 +207,7 @@ pub(crate) fn test_transform<F, P>(
 
         eprintln!("----- Actual -----");
 
-        let tr = crate::tests::make_tr(tr, tester);
+        let tr = crate::tests::make_tr("actual", tr, tester);
         let actual = tester.apply_transform(tr, "input.js", syntax, input)?;
 
         match ::std::env::var("PRINT_HYGIENE") {
@@ -288,12 +292,12 @@ macro_rules! exec_tr {
     }};
 }
 
-pub(crate) fn exec_tr<F, P>(test_name: &str, syntax: Syntax, tr: F, input: &str)
+pub(crate) fn exec_tr<F, P>(test_name: &'static str, syntax: Syntax, tr: F, input: &str)
 where
     F: FnOnce(&mut Tester) -> P,
 {
     Tester::run(|tester| {
-        let tr = make_tr(tr, tester);
+        let tr = make_tr(test_name, tr, tester);
 
         let module = tester.apply_transform(
             tr,

@@ -59,6 +59,7 @@ mod macros;
 mod hygiene;
 pub mod compat;
 mod const_modules;
+pub(crate) mod debug;
 mod fixer;
 mod inline_globals;
 pub mod modules;
