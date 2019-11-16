@@ -12,12 +12,12 @@ impl Fold<MemberExpr> for Validator {
         if node.span.is_dummy() {
             debug_assert!(
                 node.obj.span().is_dummy(),
-                "{}: MemberExpr: obj.span() should not be same as node.span()",
+                "{}: MemberExpr: obj.span() should be dummy",
                 self.name
             );
             debug_assert!(
                 node.prop.span().is_dummy(),
-                "{}: MemberExpr: obj.span() should not be same as node.span()",
+                "{}: MemberExpr: prop.span() should be dummy",
                 self.name
             );
             return node.fold_children(self);
