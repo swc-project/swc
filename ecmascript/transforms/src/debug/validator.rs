@@ -40,7 +40,7 @@ impl Fold<MemberExpr> for Validator {
             );
         }
 
-        if node.computed {
+        if !node.computed {
             if !node.prop.span().is_dummy() {
                 debug_assert_eq!(
                     node.span().hi(),
