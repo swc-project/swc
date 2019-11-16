@@ -7,6 +7,34 @@ pub struct Validator {
     pub name: &'static str,
 }
 
+macro_rules! ne {
+    ($v:expr, $T:ty, $l:expr, $r:expr) => {{
+        debug_assert_ne!(
+            $l,
+            $r,
+            "{}: {}: {} should not be same as {}",
+            $v.name,
+            stringify!($T),
+            stringify!($l),
+            stringify!($r),
+        );
+    }};
+}
+
+macro_rules! eq {
+    ($v:expr, $T:ty, $l:expr, $r:expr) => {{
+        debug_assert_eq!(
+            $l,
+            $r,
+            "{}: {}: {} should not be same as {}",
+            $v.name,
+            stringify!($T),
+            stringify!($l),
+            stringify!($r),
+        );
+    }};
+}
+
 impl Fold<MemberExpr> for Validator {
     fn fold(&mut self, node: MemberExpr) -> MemberExpr {
         if node.span.is_dummy() {
@@ -14,41 +42,39 @@ impl Fold<MemberExpr> for Validator {
         }
 
         if !node.obj.span().is_dummy() {
-            debug_assert_ne!(
-                node.span(),
-                node.obj.span(),
-                "{}: MemberExpr: obj.span() should not be same as node.span()",
-                self.name
-            );
+            ne!(self, MemberExpr, node.span(), node.obj.span());
         }
 
         if !node.prop.span().is_dummy() {
-            debug_assert_ne!(
-                node.span(),
-                node.prop.span(),
-                "{}: MemberExpr: prop.span() should not be same as node.span()",
-                self.name
-            );
+            ne!(self, MemberExpr, node.span(), node.prop.span());
         }
 
         if !node.obj.span().is_dummy() {
-            debug_assert_eq!(
-                node.span().lo(),
-                node.obj.span().lo(),
-                "{}: MemberExpr: node.span().lo() should be node.obj.span().lo()",
-                self.name
-            );
+            eq!(self, MemberExpr, node.span().lo(), node.obj.span().lo());
         }
 
         if !node.computed {
             if !node.prop.span().is_dummy() {
-                debug_assert_eq!(
-                    node.span().hi(),
-                    node.prop.span().hi(),
-                    "{}: MemberExpr: node.span().hi() should be same as node.prop.span().hi()",
-                    self.name
-                );
+                eq!(self, MemberExpr, node.span().hi(), node.prop.span().hi());
             }
+        }
+
+        node.fold_children(self)
+    }
+}
+
+impl Fold<BinExpr> for Validator {
+    fn fold(&mut self, node: BinExpr) -> BinExpr {
+        if node.span.is_dummy() {
+            return node.fold_children(self);
+        }
+
+        if !node.left.span().is_dummy() {
+            eq!(self, BinExpr, node.left.span().lo(), node.span().lo());
+        }
+
+        if !node.right.span().is_dummy() {
+            eq!(self, BinExpr, node.right.span().hi(), node.span().hi());
         }
 
         node.fold_children(self)

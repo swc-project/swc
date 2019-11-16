@@ -1,3 +1,5 @@
+use crate::pass::Pass;
+
 macro_rules! impl_fold_fn {
     ($T:path) => {
         impl Fold<Function> for $T {
@@ -181,18 +183,15 @@ macro_rules! chain_at {
     }};
 }
 
+#[cfg(test)]
+pub(crate) fn validating(name: &'static str, tr: impl Pass + 'static) -> Box<dyn Pass> {
+    box ::swc_common::Fold::then(tr, crate::debug::validator::Validator { name })
+}
+
+#[cfg(test)]
 macro_rules! validating {
     ($folder:expr) => {{
-        if !cfg!(debug_assertions) {
-            panic!("not in debug mode");
-        }
-
-        ::swc_common::Fold::then(
-            $folder,
-            $crate::debug::validator::Validator {
-                name: stringify!($folder),
-            },
-        )
+        crate::macros::validating(stringify!($folder), $folder)
     }};
 }
 
