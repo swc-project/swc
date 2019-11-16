@@ -149,13 +149,13 @@
                 "test": {
                   "type": "MemberExpression",
                   "span": {
-                    "start": 24,
+                    "start": 21,
                     "end": 28,
                     "ctxt": 0,
                     "loc": {
                       "start": {
                         "line": 1,
-                        "column": 24
+                        "column": 21
                       },
                       "end": {
                         "line": 1,
@@ -242,13 +242,13 @@
                     "test": {
                       "type": "MemberExpression",
                       "span": {
-                        "start": 39,
+                        "start": 32,
                         "end": 43,
                         "ctxt": 0,
                         "loc": {
                           "start": {
                             "line": 1,
-                            "column": 39
+                            "column": 32
                           },
                           "end": {
                             "line": 1,
@@ -259,13 +259,13 @@
                       "object": {
                         "type": "MemberExpression",
                         "span": {
-                          "start": 35,
+                          "start": 32,
                           "end": 39,
                           "ctxt": 0,
                           "loc": {
                             "start": {
                               "line": 1,
-                              "column": 35
+                              "column": 32
                             },
                             "end": {
                               "line": 1,

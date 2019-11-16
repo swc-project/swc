@@ -375,6 +375,10 @@ macro_rules! test_exec {
     ($syntax:expr, $tr:expr, $test_name:ident, $input:expr) => {
         #[test]
         fn $test_name() {
+            if ::std::env::var("EXEC").unwrap_or(String::from("")) == "0" {
+                return;
+            }
+
             exec_tr!($syntax, $tr, $test_name, $input)
         }
     };

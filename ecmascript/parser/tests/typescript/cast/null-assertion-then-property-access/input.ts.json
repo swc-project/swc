@@ -19,13 +19,13 @@
     {
       "type": "MemberExpression",
       "span": {
-        "start": 2,
+        "start": 1,
         "end": 4,
         "ctxt": 0,
         "loc": {
           "start": {
             "line": 1,
-            "column": 2
+            "column": 1
           },
           "end": {
             "line": 1,

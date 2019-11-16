@@ -36,13 +36,13 @@
       "callee": {
         "type": "MemberExpression",
         "span": {
-          "start": 6,
+          "start": 0,
           "end": 9,
           "ctxt": 0,
           "loc": {
             "start": {
               "line": 1,
-              "column": 6
+              "column": 0
             },
             "end": {
               "line": 1,

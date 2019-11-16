@@ -535,13 +535,13 @@
           "key": {
             "type": "MemberExpression",
             "span": {
-              "start": 60,
+              "start": 54,
               "end": 69,
               "ctxt": 0,
               "loc": {
                 "start": {
                   "line": 3,
-                  "column": 11
+                  "column": 5
                 },
                 "end": {
                   "line": 3,

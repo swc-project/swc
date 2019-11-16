@@ -111,13 +111,13 @@
             "value": {
               "type": "MemberExpression",
               "span": {
-                "start": 12,
+                "start": 7,
                 "end": 15,
                 "ctxt": 0,
                 "loc": {
                   "start": {
                     "line": 1,
-                    "column": 12
+                    "column": 7
                   },
                   "end": {
                     "line": 1,
@@ -128,13 +128,13 @@
               "object": {
                 "type": "MemberExpression",
                 "span": {
-                  "start": 9,
+                  "start": 7,
                   "end": 12,
                   "ctxt": 0,
                   "loc": {
                     "start": {
                       "line": 1,
-                      "column": 9
+                      "column": 7
                     },
                     "end": {
                       "line": 1,
@@ -247,13 +247,13 @@
             "value": {
               "type": "MemberExpression",
               "span": {
-                "start": 26,
+                "start": 21,
                 "end": 29,
                 "ctxt": 0,
                 "loc": {
                   "start": {
                     "line": 1,
-                    "column": 26
+                    "column": 21
                   },
                   "end": {
                     "line": 1,
@@ -264,13 +264,13 @@
               "object": {
                 "type": "MemberExpression",
                 "span": {
-                  "start": 23,
+                  "start": 21,
                   "end": 26,
                   "ctxt": 0,
                   "loc": {
                     "start": {
                       "line": 1,
-                      "column": 23
+                      "column": 21
                     },
                     "end": {
                       "line": 1,
@@ -409,13 +409,13 @@
               "expression": {
                 "type": "MemberExpression",
                 "span": {
-                  "start": 39,
+                  "start": 37,
                   "end": 41,
                   "ctxt": 0,
                   "loc": {
                     "start": {
                       "line": 1,
-                      "column": 39
+                      "column": 37
                     },
                     "end": {
                       "line": 1,

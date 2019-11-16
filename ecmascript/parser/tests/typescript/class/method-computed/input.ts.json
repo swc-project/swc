@@ -75,13 +75,13 @@
           "key": {
             "type": "MemberExpression",
             "span": {
-              "start": 21,
+              "start": 15,
               "end": 30,
               "ctxt": 0,
               "loc": {
                 "start": {
                   "line": 2,
-                  "column": 11
+                  "column": 5
                 },
                 "end": {
                   "line": 2,
@@ -214,13 +214,13 @@
           "key": {
             "type": "MemberExpression",
             "span": {
-              "start": 52,
+              "start": 46,
               "end": 61,
               "ctxt": 0,
               "loc": {
                 "start": {
                   "line": 3,
-                  "column": 11
+                  "column": 5
                 },
                 "end": {
                   "line": 3,

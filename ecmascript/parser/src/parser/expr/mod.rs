@@ -837,9 +837,13 @@ impl<'a, I: Tokens> Parser<'a, I> {
         {
             let prop = self.include_in_expr(true).parse_expr()?;
             expect!(']');
+            let span = Span::new(obj.span().lo(), self.input.cur_pos(), Default::default());
+            debug_assert_eq!(obj.span().lo(), span.lo());
+            // This is wrong: debug_assert_eq!(prop.span().hi(), span.hi());
+
             return Ok((
                 Box::new(wrap!(Expr::Member(MemberExpr {
-                    span: span!(self, start),
+                    span,
                     obj,
                     prop,
                     computed: true,
@@ -870,9 +874,13 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 Either::Left(p) => Expr::PrivateName(p),
                 Either::Right(i) => Expr::Ident(i),
             })?);
+            let span = span!(obj.span().lo());
+            debug_assert_eq!(obj.span().lo(), span.lo());
+            debug_assert_eq!(prop.span().hi(), span.hi());
+
             return Ok((
                 Box::new(wrap!(Expr::Member(MemberExpr {
-                    span: span!(self, start),
+                    span,
                     obj,
 
                     prop,

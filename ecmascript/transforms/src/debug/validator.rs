@@ -44,8 +44,8 @@ impl Fold<MemberExpr> for Validator {
         );
         debug_assert_eq!(
             node.span().hi(),
-            node.obj.span().hi(),
-            "{}: MemberExpr: node.span().hi() should be same as node.obj.span().hi()",
+            node.prop.span().hi(),
+            "{}: MemberExpr: node.span().hi() should be same as node.prop.span().hi()",
             self.name
         );
 
