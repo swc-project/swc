@@ -7,9 +7,18 @@ use crate::{
 struct ParenRemover;
 impl Fold<Expr> for ParenRemover {
     fn fold(&mut self, expr: Expr) -> Expr {
+        let expr = validate!(expr);
+        let span = expr.span();
+
         let expr = expr.fold_children(self);
+
+        println!("Visit<Expr>: {:?}", expr);
         validate!(match expr {
-            Expr::Paren(ParenExpr { expr, .. }) => *expr,
+            Expr::Paren(ParenExpr { expr, .. }) => match *expr {
+                Expr::Member(e) => Expr::Member(MemberExpr { span, ..e }),
+                Expr::New(e) => Expr::New(NewExpr { span, ..e }),
+                _ => *expr,
+            },
             _ => expr,
         })
     }
