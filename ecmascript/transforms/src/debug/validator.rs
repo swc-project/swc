@@ -26,7 +26,7 @@ macro_rules! eq {
         debug_assert_eq!(
             $l,
             $r,
-            "{}: {}: {} should not be same as {}",
+            "{}: {}: {} should be same as {}",
             $v.name,
             stringify!($T),
             stringify!($l),
@@ -119,8 +119,14 @@ impl Fold<UpdateExpr> for Validator {
             return node.fold_children(self);
         }
 
-        if !node.arg.span().is_dummy() {
-            eq!(self, UnaryExpr, node.arg.span().hi(), node.span().hi())
+        if node.prefix {
+            if !node.arg.span().is_dummy() {
+                eq!(self, UpdateExpr, node.arg.span().hi(), node.span().hi())
+            }
+        } else {
+            if !node.arg.span().is_dummy() {
+                eq!(self, UpdateExpr, node.arg.span().lo(), node.span().lo())
+            }
         }
 
         node.fold_children(self)
