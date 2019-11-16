@@ -10,16 +10,6 @@ pub struct Validator {
 impl Fold<MemberExpr> for Validator {
     fn fold(&mut self, node: MemberExpr) -> MemberExpr {
         if node.span.is_dummy() {
-            debug_assert!(
-                node.obj.span().is_dummy(),
-                "{}: MemberExpr: obj.span() should be dummy",
-                self.name
-            );
-            debug_assert!(
-                node.prop.span().is_dummy(),
-                "{}: MemberExpr: prop.span() should be dummy",
-                self.name
-            );
             return node.fold_children(self);
         }
 
