@@ -91,9 +91,9 @@ impl Fold<AssignExpr> for Validator {
             eq!(self, AssignExpr, node.left.span().lo(), node.span().lo());
         }
 
-        if !node.right.span().is_dummy() {
-            eq!(self, AssignExpr, node.right.span().hi(), node.span().hi());
-        }
+        //        if !node.right.span().is_dummy() {
+        //            eq!(self, AssignExpr, node.right.span().hi(), node.span().hi());
+        //        }
 
         node.fold_children(self)
     }

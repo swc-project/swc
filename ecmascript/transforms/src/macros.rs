@@ -1,3 +1,4 @@
+#[cfg(test)]
 use crate::pass::Pass;
 
 macro_rules! impl_fold_fn {
