@@ -13,32 +13,42 @@ impl Fold<MemberExpr> for Validator {
             return node.fold_children(self);
         }
 
-        debug_assert_ne!(
-            node.span(),
-            node.obj.span(),
-            "{}: MemberExpr: obj.span() should not be same as node.span()",
-            self.name
-        );
-        debug_assert_ne!(
-            node.span(),
-            node.prop.span(),
-            "{}: MemberExpr: prop.span() should not be same as node.span()",
-            self.name
-        );
-
-        debug_assert_eq!(
-            node.span().lo(),
-            node.obj.span().lo(),
-            "{}: MemberExpr: node.span().lo() should be node.obj.span().lo()",
-            self.name
-        );
-        if node.computed {
-            debug_assert_eq!(
-                node.span().hi(),
-                node.prop.span().hi(),
-                "{}: MemberExpr: node.span().hi() should be same as node.prop.span().hi()",
+        if !node.obj.span().is_dummy() {
+            debug_assert_ne!(
+                node.span(),
+                node.obj.span(),
+                "{}: MemberExpr: obj.span() should not be same as node.span()",
                 self.name
             );
+        }
+
+        if !node.prop.span().is_dummy() {
+            debug_assert_ne!(
+                node.span(),
+                node.prop.span(),
+                "{}: MemberExpr: prop.span() should not be same as node.span()",
+                self.name
+            );
+        }
+
+        if !node.obj.span().is_dummy() {
+            debug_assert_eq!(
+                node.span().lo(),
+                node.obj.span().lo(),
+                "{}: MemberExpr: node.span().lo() should be node.obj.span().lo()",
+                self.name
+            );
+        }
+
+        if node.computed {
+            if !node.prop.span().is_dummy() {
+                debug_assert_eq!(
+                    node.span().hi(),
+                    node.prop.span().hi(),
+                    "{}: MemberExpr: node.span().hi() should be same as node.prop.span().hi()",
+                    self.name
+                );
+            }
         }
 
         node.fold_children(self)
