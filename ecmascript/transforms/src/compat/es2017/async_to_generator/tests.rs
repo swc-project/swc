@@ -7,6 +7,8 @@ use crate::{
 struct ParenRemover;
 impl Fold<Expr> for ParenRemover {
     fn fold(&mut self, expr: Expr) -> Expr {
+        let expr = validate!(expr);
+
         let expr = expr.fold_children(self);
         match expr {
             Expr::Paren(ParenExpr { expr, .. }) => *expr,

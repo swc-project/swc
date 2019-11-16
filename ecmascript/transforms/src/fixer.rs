@@ -43,7 +43,7 @@ impl Fold<KeyValuePatProp> for Fixer {
 
         let value = node.value.fold_with(self);
 
-        KeyValuePatProp { key, value, ..node }
+        validate!(KeyValuePatProp { key, value, ..node })
     }
 }
 
@@ -56,7 +56,7 @@ impl Fold<AssignPatProp> for Fixer {
         let value = node.value.fold_with(self);
         self.ctx = old;
 
-        AssignPatProp { key, value, ..node }
+        validate!(AssignPatProp { key, value, ..node })
     }
 }
 
@@ -106,7 +106,7 @@ impl Fold<Stmt> for Fixer {
             _ => stmt,
         };
 
-        stmt
+        validate!(stmt)
     }
 }
 
@@ -181,7 +181,8 @@ impl Fold<Expr> for Fixer {
                 _ => e,
             }
         }
-        let expr = expr.fold_children(self);
+        let expr = validate!(expr);
+        let expr = validate!(expr.fold_children(self));
         let expr = unwrap_expr(expr);
 
         match expr {

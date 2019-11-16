@@ -180,3 +180,16 @@ macro_rules! chain_at {
         }
     }};
 }
+
+#[macro_export]
+macro_rules! validate {
+    ($e:expr) => {{
+        if cfg!(debug_assertions) {
+            $e.fold_with(&mut $crate::debug::validator::Validator {
+                name: concat!(file!(), ':', line!(), ':', column!()),
+            })
+        } else {
+            $e
+        }
+    }};
+}

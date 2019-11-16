@@ -53,6 +53,7 @@ struct ObjectLitFolder {
 
 impl Fold<Expr> for ObjectLitFolder {
     fn fold(&mut self, expr: Expr) -> Expr {
+        let expr = validate!(expr);
         let expr = expr.fold_children(self);
 
         match expr {

@@ -164,6 +164,7 @@ impl MethodFolder {
 
 impl Fold<Expr> for MethodFolder {
     fn fold(&mut self, expr: Expr) -> Expr {
+        let expr = validate!(expr);
         // TODO(kdy): Cache (Reuse declaration for same property)
 
         match expr {
@@ -390,6 +391,8 @@ impl Fold<ClassMethod> for Actual {
 
 impl Fold<Expr> for Actual {
     fn fold(&mut self, expr: Expr) -> Expr {
+        let expr = validate!(expr);
+
         match expr {
             // Optimization for iife.
             Expr::Call(CallExpr {
@@ -626,7 +629,7 @@ fn make_fn_ref(mut expr: FnExpr) -> Expr {
     let expr = if contains_this {
         Expr::Call(CallExpr {
             span: DUMMY_SP,
-            callee: expr.member(quote_ident!("bind")).as_callee(),
+            callee: validate!(expr.member(quote_ident!("bind"))).as_callee(),
             args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
             type_args: Default::default(),
         })

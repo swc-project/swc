@@ -1,5 +1,4 @@
 use crate::{
-    chain_at,
     helpers::{InjectHelpers, HELPERS},
     pass::Pass,
 };
@@ -173,12 +172,12 @@ impl<'a> Tester<'a> {
     }
 }
 
-fn make_tr<F, P>(name: &'static str, op: F, tester: &mut Tester) -> impl Pass
+fn make_tr<F, P>(_: &'static str, op: F, tester: &mut Tester) -> impl Pass
 where
     F: FnOnce(&mut Tester) -> P,
     P: Pass,
 {
-    chain_at!(Module, crate::debug::validator::validator(name), op(tester))
+    op(tester)
 }
 
 #[cfg(test)]
@@ -219,8 +218,11 @@ pub(crate) fn test_transform<F, P>(
         }
 
         let actual = actual
+            .fold_with(&mut crate::debug::validator::Validator { name: "actual-1" })
             .fold_with(&mut crate::hygiene::hygiene())
-            .fold_with(&mut crate::fixer::fixer());
+            .fold_with(&mut crate::debug::validator::Validator { name: "actual-2" })
+            .fold_with(&mut crate::fixer::fixer())
+            .fold_with(&mut crate::debug::validator::Validator { name: "actual-3" });
 
         if actual == expected {
             return Ok(());
@@ -311,8 +313,11 @@ where
             ),
         )?;
         let module = module
+            .fold_with(&mut crate::debug::validator::Validator { name: "actual-1" })
             .fold_with(&mut crate::hygiene::hygiene())
-            .fold_with(&mut crate::fixer::fixer());
+            .fold_with(&mut crate::debug::validator::Validator { name: "actual-2" })
+            .fold_with(&mut crate::fixer::fixer())
+            .fold_with(&mut crate::debug::validator::Validator { name: "actual-3" });
 
         let src_without_helpers = tester.print(&module);
         let module = module.fold_with(&mut InjectHelpers {});
