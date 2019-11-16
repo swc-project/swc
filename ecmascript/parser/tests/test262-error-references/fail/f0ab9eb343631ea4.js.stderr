@@ -5,8 +5,8 @@ error: Expected ';', '}' or <eof>
   |    ^
   |
 note: This is the expression part of an expression statement
- --> $DIR/tests/test262-parser/fail/f0ab9eb343631ea4.js:1:2
+ --> $DIR/tests/test262-parser/fail/f0ab9eb343631ea4.js:1:1
   |
 1 | a++``
-  |  ^^
+  | ^^^
 
