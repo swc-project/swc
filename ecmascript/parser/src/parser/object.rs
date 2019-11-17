@@ -152,7 +152,7 @@ impl<'a, I: Tokens> ParseObject<'a, Box<Expr>> for Parser<'a, I> {
         let key = self.parse_prop_name()?;
 
         if self.input.syntax().typescript()
-            && !is_one_of!('(', '[', ':', ',', '?', IdentName)
+            && !is_one_of!('(', '[', ':', ',', '?', '=', IdentName)
             && !(self.input.syntax().typescript() && is!('<'))
             && !(is!('}')
                 && match key {
