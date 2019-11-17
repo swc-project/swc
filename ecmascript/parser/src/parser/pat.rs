@@ -143,7 +143,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         let has_modifier = self.eat_any_ts_modifier()?;
 
         let mut pat = self.parse_binding_element()?;
-        let mut opt = false;
+        // let mut opt = false;
 
         if self.input.syntax().typescript() {
             if eat!('?') {
@@ -152,7 +152,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                         ref mut optional, ..
                     }) => {
                         *optional = true;
-                        opt = true;
+                        // opt = true;
                     }
                     _ => syntax_error!(
                         self.input.prev_span(),
@@ -185,10 +185,10 @@ impl<'a, I: Tokens> Parser<'a, I> {
         }
 
         let pat = if eat!('=') {
-            // `=` cannot follow optional parameter.
-            if opt {
-                self.emit_err(pat.span(), SyntaxError::TS1015);
-            }
+            // // `=` cannot follow optional parameter.
+            // if opt {
+            //     self.emit_err(pat.span(), SyntaxError::TS1015);
+            // }
 
             let right = self.parse_assignment_expr()?;
             if self.ctx().in_declare {
