@@ -1,0 +1,6 @@
+error: Expected Comma, got Some(Dot)
+ --> $DIR/tests/test262-parser/fail/1b2e164ac5015a12.js:1:10
+  |
+1 | ({a({e: a.b}){}})
+  |          ^
+

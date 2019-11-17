@@ -286,6 +286,12 @@ impl<'a, I: Tokens> ParseObject<'a, Box<Expr>> for Parser<'a, I> {
                                     p.emit_err(key_span, SyntaxError::TS1094);
                                 }
 
+                                if !params.is_empty() {
+                                    if let Pat::Rest(..) = params[0] {
+                                        p.emit_err(params[0].span(), SyntaxError::RestPatInSetter);
+                                    }
+                                }
+
                                 if p.input.syntax().typescript()
                                     && p.input.target() <= JscTarget::Es3
                                 {

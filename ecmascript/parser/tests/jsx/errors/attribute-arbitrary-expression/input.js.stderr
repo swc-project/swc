@@ -1,0 +1,6 @@
+error: JSX value should be either an expression or a quoted JSX text
+ --> $DIR/tests/jsx/errors/attribute-arbitrary-expression/input.js:1:10
+  |
+1 | <Foo bar=bar() />
+  |          ^
+

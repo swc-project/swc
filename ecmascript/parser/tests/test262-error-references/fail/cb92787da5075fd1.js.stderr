@@ -1,0 +1,6 @@
+error: Not a pattern
+ --> $DIR/tests/test262-parser/fail/cb92787da5075fd1.js:1:25
+  |
+1 | ([[[[[[[[[[[[[[[[[[[[{a:b[0]}]]]]]]]]]]]]]]]]]]]])=>0;
+  |                         ^^^^
+

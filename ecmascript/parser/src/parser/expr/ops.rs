@@ -13,6 +13,14 @@ impl<'a, I: Tokens> Parser<'a, I> {
             Ok(v) => v,
             Err(mut err) => {
                 match {
+                    let is_err_token = match self.input.cur() {
+                        Some(&Token::Error(..)) => true,
+                        _ => false,
+                    };
+                    if is_err_token {
+                        return Err(err);
+                    }
+
                     match cur!(false) {
                         Ok(cur) => cur,
                         Err(..) => return Err(err),

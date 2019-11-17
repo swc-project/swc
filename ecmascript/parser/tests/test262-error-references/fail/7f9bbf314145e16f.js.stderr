@@ -1,0 +1,6 @@
+error: Expected Comma, got Some(Num(0.0))
+ --> $DIR/tests/test262-parser/fail/7f9bbf314145e16f.js:1:6
+  |
+1 | ({}=>0)
+  |      ^
+

@@ -1,0 +1,6 @@
+error: Unexpected token Some(Semi)
+ --> $DIR/tests/test262-parser/fail/8dc7370bc6dec92b.js:1:6
+  |
+1 | throw;
+  |      ^
+

@@ -1,6 +1,6 @@
-error: TS1005
- --> $DIR/tests/test262-parser/fail/c0ad1c20e662c8ed.js:1:10
+error: assignment property is invalid syntax
+ --> $DIR/tests/test262-parser/fail/c0ad1c20e662c8ed.js:1:8
   |
 1 | obj = {x = 0}
-  |          ^
+  |        ^^^^^
 

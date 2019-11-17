@@ -1,6 +1,6 @@
-error: TS1056
- --> $DIR/tests/test262-parser/fail/2f95824f19005b11.js:1:15
+error: RestPatInSetter
+ --> $DIR/tests/test262-parser/fail/2f95824f19005b11.js:1:19
   |
 1 | var a = { set foo(...v) {} };
-  |               ^^^
+  |                   ^^^^
 

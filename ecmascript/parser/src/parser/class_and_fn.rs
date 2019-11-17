@@ -608,6 +608,12 @@ impl<'a, I: Tokens> Parser<'a, I> {
                                 p.emit_err(key_span, SyntaxError::TS1094);
                             }
 
+                            if !params.is_empty() {
+                                if let Pat::Rest(..) = params[0] {
+                                    p.emit_err(params[0].span(), SyntaxError::RestPatInSetter);
+                                }
+                            }
+
                             Ok(params)
                         },
                         MakeMethodArgs {

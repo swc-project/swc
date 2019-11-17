@@ -1,0 +1,12 @@
+error: Expected ';', '}' or <eof>
+ --> $DIR/tests/test262-parser/fail/37b860dbda4d4c9c.js:1:21
+  |
+1 | (function() { yield 3; })
+  |                     ^
+  |
+note: This is the expression part of an expression statement
+ --> $DIR/tests/test262-parser/fail/37b860dbda4d4c9c.js:1:15
+  |
+1 | (function() { yield 3; })
+  |               ^^^^^
+

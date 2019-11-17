@@ -1,0 +1,6 @@
+error: Class property requires `jsc.parser.classProperty` to be true
+ --> $DIR/tests/test262-parser/fail/ef81b93cf9bdb4ec.js:1:9
+  |
+1 | (class {a=0})
+  |         ^
+

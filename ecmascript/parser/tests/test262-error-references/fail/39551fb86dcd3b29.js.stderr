@@ -1,0 +1,6 @@
+error: Unexpected token Some(Semi)
+ --> $DIR/tests/test262-parser/fail/39551fb86dcd3b29.js:1:21
+  |
+1 | for (const let = 1;;;) {}
+  |                     ^
+

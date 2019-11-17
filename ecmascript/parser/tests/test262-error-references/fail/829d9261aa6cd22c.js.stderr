@@ -1,0 +1,6 @@
+error: Not a pattern
+ --> $DIR/tests/test262-parser/fail/829d9261aa6cd22c.js:1:3
+  |
+1 | ([a.b]) => 0
+  |   ^^^
+

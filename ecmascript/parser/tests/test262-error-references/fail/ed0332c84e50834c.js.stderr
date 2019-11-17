@@ -1,0 +1,6 @@
+error: Expected RBracket, got Some(Comma)
+ --> $DIR/tests/test262-parser/fail/ed0332c84e50834c.js:1:11
+  |
+1 | (class {[a,b](){}})
+  |           ^
+

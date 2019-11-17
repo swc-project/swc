@@ -1,6 +1,6 @@
-error: TS1005
- --> $DIR/tests/test262-parser/fail/1a5b0dfa9fde985d.js:1:27
+error: assignment property is invalid syntax
+ --> $DIR/tests/test262-parser/fail/1a5b0dfa9fde985d.js:1:25
   |
 1 | function* f() { [yield {a = 0}]; }
-  |                           ^
+  |                         ^^^^^
 

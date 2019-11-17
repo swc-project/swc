@@ -1,0 +1,6 @@
+error: Unexpected eof
+ --> $DIR/tests/test262-parser/fail/8d33f520a3c4cef8.js:1:2
+  |
+1 | `
+  |  ^
+

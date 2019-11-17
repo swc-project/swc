@@ -1,0 +1,6 @@
+error: Expected unicode escape
+ --> $DIR/tests/test262-parser/fail/e7087ec92f0f3c44.js:1:17
+  |
+1 | var x = /[P QR]/\\u0067
+  |                 ^
+

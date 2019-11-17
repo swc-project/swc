@@ -1,0 +1,6 @@
+error: Expected LParen, got Some(RBrace)
+ --> $DIR/tests/test262-parser/fail/7b70beed5a327548.js:1:7
+  |
+1 | ({ *a })
+  |       ^
+

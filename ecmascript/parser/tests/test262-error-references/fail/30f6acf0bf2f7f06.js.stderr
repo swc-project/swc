@@ -1,0 +1,6 @@
+error: 'yield' cannot be used as a parameter within generator
+ --> $DIR/tests/test262-parser/fail/30f6acf0bf2f7f06.js:1:26
+  |
+1 | function *g(){ (a, b, c, yield) => 42 }
+  |                          ^^^^^
+

@@ -1,0 +1,6 @@
+error: Unexpected token Some(RBracket)
+ --> $DIR/tests/test262-parser/fail/3118eaa619345896.js:2:3
+  |
+2 | */]
+  |   ^
+

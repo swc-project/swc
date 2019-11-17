@@ -52,6 +52,7 @@ pub enum SyntaxError {
     ExpectedDigit {
         radix: u8,
     },
+    RestPatInSetter,
 
     UnterminatedBlockComment,
     UnterminatedStrLit,

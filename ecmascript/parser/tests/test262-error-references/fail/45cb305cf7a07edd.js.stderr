@@ -4,9 +4,3 @@ error: TS1094
 1 | ({ set prop() {} })
   |        ^^^^
 
-error: TS1056
- --> $DIR/tests/test262-parser/fail/45cb305cf7a07edd.js:1:8
-  |
-1 | ({ set prop() {} })
-  |        ^^^^
-
