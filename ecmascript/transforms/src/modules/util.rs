@@ -53,13 +53,7 @@ impl Lazy {
     pub fn is_lazy(&self, src: &JsWord) -> bool {
         match *self {
             Lazy::Bool(false) => false,
-            Lazy::Bool(true) => {
-                if src.starts_with(".") {
-                    false
-                } else {
-                    true
-                }
-            }
+            Lazy::Bool(true) => !src.starts_with('.'),
             Lazy::List(ref srcs) => srcs.contains(&src),
         }
     }
@@ -369,7 +363,7 @@ impl Scope {
             v.cloned()
         };
         match v {
-            None => return Err(i),
+            None => Err(i),
             Some((src, prop)) => {
                 if top_level {
                     folder.scope_mut().lazy_blacklist.insert(src.clone());
@@ -409,7 +403,7 @@ impl Scope {
                     // import * as foo from 'foo';
                     Ok(obj)
                 } else {
-                    Ok(obj.member(Ident::new(prop.clone(), DUMMY_SP)))
+                    Ok(obj.member(Ident::new(prop, DUMMY_SP)))
                 }
             }
         }
@@ -507,14 +501,12 @@ impl Scope {
 
                         *e
                     }
-                    _ => {
-                        return Expr::Update(UpdateExpr {
-                            span,
-                            arg: box Expr::Ident(arg),
-                            op,
-                            prefix,
-                        });
-                    }
+                    _ => Expr::Update(UpdateExpr {
+                        span,
+                        arg: box Expr::Ident(arg),
+                        op,
+                        prefix,
+                    }),
                 }
             }
 
@@ -563,7 +555,7 @@ impl Scope {
                                                     args: Some(vec![quote_str!("\"")
                                                         .make_bin(
                                                             op!(bin, "+"),
-                                                            quote_str!(i.span, i.sym.clone()),
+                                                            quote_str!(i.span, i.sym),
                                                         )
                                                         .make_bin(
                                                             op!(bin, "+"),
@@ -603,12 +595,10 @@ impl Scope {
 
                                 *e
                             }
-                            _ => {
-                                return Expr::Assign(AssignExpr {
-                                    left: expr.left,
-                                    ..expr
-                                });
-                            }
+                            _ => Expr::Assign(AssignExpr {
+                                left: expr.left,
+                                ..expr
+                            }),
                         }
                     }
                     _ => {
@@ -663,11 +653,11 @@ pub(super) fn make_require_call(src: JsWord) -> Expr {
 }
 
 pub(super) fn local_name_for_src(src: &JsWord) -> JsWord {
-    if !src.contains("/") {
+    if !src.contains('/') {
         return format!("_{}", src.to_camel_case()).into();
     }
 
-    return format!("_{}", src.split("/").last().unwrap().to_camel_case()).into();
+    format!("_{}", src.split('/').last().unwrap().to_camel_case()).into()
 }
 
 pub(super) fn define_property(args: Vec<ExprOrSpread>) -> Expr {

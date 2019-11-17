@@ -3,6 +3,7 @@ use ast::*;
 use std::iter;
 use swc_common::{util::move_map::MoveMap, Fold, FoldWith, DUMMY_SP};
 
+#[allow(clippy::vec_box)]
 pub(crate) fn inject_after_super(mut c: Constructor, exprs: Vec<Box<Expr>>) -> Constructor {
     // Allow using super multiple time
     let mut folder = Injector {
@@ -63,7 +64,7 @@ impl<'a> Fold<Vec<Stmt>> for Injector<'a> {
                     let stmt = stmt.fold_with(&mut folder);
 
                     self.injected |= folder.injected;
-                    let iter = folder
+                    folder
                         .injected_tmp
                         .map(|ident| {
                             Stmt::Decl(Decl::Var(VarDecl {
@@ -80,9 +81,7 @@ impl<'a> Fold<Vec<Stmt>> for Injector<'a> {
                         })
                         .into_iter()
                         .chain(iter::once(stmt))
-                        .chain((&[]).iter().cloned().map(Stmt::Expr));
-
-                    iter
+                        .chain((&[]).iter().cloned().map(Stmt::Expr))
                 }
             }
         })

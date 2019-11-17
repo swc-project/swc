@@ -140,7 +140,7 @@ pub struct IfStmt {
     pub cons: Box<Stmt>,
 
     #[serde(default, rename = "alternate", skip_serializing_if = "Option::is_none")]
-    pub alt: Option<(Box<Stmt>)>,
+    pub alt: Option<Box<Stmt>>,
 }
 
 #[ast_node("SwitchStatement")]

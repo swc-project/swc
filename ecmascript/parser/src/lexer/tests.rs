@@ -2,7 +2,7 @@ use super::{
     state::{lex, lex_module, lex_tokens, with_lexer},
     *,
 };
-use error::{Error, SyntaxError};
+use crate::error::{Error, SyntaxError};
 use std::{ops::Range, str};
 use test::Bencher;
 
@@ -793,7 +793,7 @@ a"
 fn jsx_01() {
     assert_eq!(
         lex_tokens(
-            ::Syntax::Es(::EsConfig {
+            crate::Syntax::Es(crate::EsConfig {
                 jsx: true,
                 ..Default::default()
             }),
@@ -812,7 +812,7 @@ fn jsx_01() {
 fn jsx_02() {
     assert_eq!(
         lex_tokens(
-            ::Syntax::Es(::EsConfig {
+            crate::Syntax::Es(crate::EsConfig {
                 jsx: true,
                 ..Default::default()
             }),
@@ -835,7 +835,7 @@ fn jsx_02() {
 fn jsx_03() {
     assert_eq!(
         lex_tokens(
-            ::Syntax::Es(::EsConfig {
+            crate::Syntax::Es(crate::EsConfig {
                 jsx: true,
                 ..Default::default()
             }),
@@ -863,7 +863,7 @@ fn jsx_03() {
 fn jsx_04() {
     assert_eq!(
         lex_tokens(
-            ::Syntax::Es(::EsConfig {
+            crate::Syntax::Es(crate::EsConfig {
                 jsx: true,
                 ..Default::default()
             }),
@@ -885,27 +885,27 @@ fn jsx_04() {
 
 #[test]
 fn max_integer() {
-    lex_tokens(::Syntax::default(), "1.7976931348623157e+308");
+    lex_tokens(crate::Syntax::default(), "1.7976931348623157e+308");
 }
 
 #[test]
 fn shebang() {
     assert_eq!(
-        lex_tokens(::Syntax::default(), "#!/usr/bin/env node",),
+        lex_tokens(crate::Syntax::default(), "#!/usr/bin/env node",),
         vec![Token::Shebang("/usr/bin/env node".into())]
     );
 }
 
 #[test]
 fn empty() {
-    assert_eq!(lex_tokens(::Syntax::default(), "",), vec![]);
+    assert_eq!(lex_tokens(crate::Syntax::default(), "",), vec![]);
 }
 
 #[test]
 fn issue_191() {
     assert_eq!(
         lex_tokens(
-            ::Syntax::Es(::EsConfig {
+            crate::Syntax::Es(crate::EsConfig {
                 jsx: true,
                 ..Default::default()
             }),
@@ -935,7 +935,7 @@ fn issue_191() {
 fn jsx_05() {
     assert_eq!(
         lex_tokens(
-            ::Syntax::Es(::EsConfig {
+            crate::Syntax::Es(crate::EsConfig {
                 jsx: true,
                 ..Default::default()
             }),
@@ -961,7 +961,7 @@ fn jsx_05() {
 fn issue_299_01() {
     assert_eq!(
         lex_tokens(
-            ::Syntax::Es(::EsConfig {
+            crate::Syntax::Es(crate::EsConfig {
                 jsx: true,
                 ..Default::default()
             }),
@@ -995,7 +995,7 @@ fn issue_299_01() {
 fn issue_299_02() {
     assert_eq!(
         lex_tokens(
-            ::Syntax::Es(::EsConfig {
+            crate::Syntax::Es(crate::EsConfig {
                 jsx: true,
                 ..Default::default()
             }),
@@ -1029,7 +1029,7 @@ fn issue_299_02() {
 fn issue_299_03() {
     assert_eq!(
         lex_tokens(
-            ::Syntax::Es(::EsConfig {
+            crate::Syntax::Es(crate::EsConfig {
                 jsx: true,
                 ..Default::default()
             }),

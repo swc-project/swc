@@ -6,7 +6,7 @@ license = "Apache-2.0/MIT"
 repository = "https://github.com/swc-project/swc.git"
 documentation = "https://swc-project.github.io/rustdoc/swc_ecma_codegen_macros/"
 description = "Macros for swc_ecma_codegen."
-
+edition = "2018"
 
 [lib]
 proc-macro = true

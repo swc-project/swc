@@ -1,13 +1,12 @@
 #![recursion_limit = "1024"]
 
-extern crate darling;
+use darling;
 #[macro_use]
 extern crate pmutil;
 extern crate proc_macro;
-extern crate proc_macro2;
-extern crate quote;
-extern crate swc_macros_common;
-extern crate syn;
+use proc_macro2;
+
+use syn;
 
 use pmutil::{Quote, ToTokensExt};
 use swc_macros_common::prelude::*;

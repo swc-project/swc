@@ -9,9 +9,7 @@ use syn::{
 };
 
 pub fn expand(_attr: TokenStream, item: Item) -> Item {
-    let item = InjectSelf { parser: None }.fold_item(item);
-
-    item
+    InjectSelf { parser: None }.fold_item(item)
 }
 
 struct InjectSelf {
@@ -36,12 +34,11 @@ fn get_joinned_span(t: &dyn ToTokens) -> Span {
 
 #[cfg(not(procmacro2_semver_exempt))]
 fn get_joinned_span(t: &dyn ToTokens) -> Span {
-    let tts: TokenStream = t.dump().into();
+    let tts: TokenStream = t.dump();
     let mut first = None;
     for tt in tts {
-        match first {
-            None => first = Some(tt.span()),
-            _ => {}
+        if first.is_none() {
+            first = Some(tt.span());
         }
 
         // last = Some(tt.span());
@@ -131,35 +128,35 @@ impl Fold for InjectSelf {
         let span = get_joinned_span(&i.path);
 
         match &*name {
-            "smallvec" | "vec" | "unreachable" | "tok" | "op" | "js_word" => return i,
+            "smallvec" | "vec" | "unreachable" | "tok" | "op" | "js_word" => i,
             "println" | "print" | "format" | "assert" | "assert_eq" | "assert_ne"
             | "debug_assert" | "debug_assert_eq" | "debug_assert_ne" | "dbg" => {
-                let mut args: Punctuated<Expr, token::Comma> = parse_args(i.tts.into());
+                let mut args: Punctuated<Expr, token::Comma> = parse_args(i.tts);
                 args = args
                     .into_pairs()
                     .map(|el| el.map_item(|expr| self.fold_expr(expr)))
                     .collect();
-                return Macro {
-                    tts: args.dump().into(),
+                Macro {
+                    tts: args.dump(),
                     ..i
-                };
+                }
             }
 
-            "trace" | "debug" | "info" | "warn" | "error" | "macro_rules" | "wrap" => return i,
+            "trace" | "debug" | "info" | "warn" | "error" | "macro_rules" | "wrap" => i,
             //TODO
-            "unimplemented" => return i,
+            "unimplemented" => i,
 
             "spanned" => {
                 let block: Block =
                     parse(i.tts.into()).expect("failed to parse input to spanned as a block");
                 let block = self.fold_block(block);
-                return Macro {
-                    tts: TokenStream::from(quote_spanned!(span => #parser, ))
+                Macro {
+                    tts: quote_spanned!(span => #parser, )
                         .into_iter()
-                        .chain(TokenStream::from(block.dump()))
+                        .chain(block.dump())
                         .collect(),
                     ..i
-                };
+                }
             }
 
             //TODO: Collect expect and give that list to unexpected
@@ -168,22 +165,22 @@ impl Fold for InjectSelf {
             | "peek" | "peek_ahead" | "last_pos" | "return_if_arrow" | "span" | "syntax_error"
             | "unexpected" => {
                 let tts = if i.tts.is_empty() {
-                    quote_spanned!(span => #parser).into()
+                    quote_spanned!(span => #parser)
                 } else {
-                    let args: Punctuated<Expr, token::Comma> = parse_args(i.tts.into());
+                    let args: Punctuated<Expr, token::Comma> = parse_args(i.tts);
                     let args = args
                         .into_pairs()
                         .map(|el| el.map_item(|expr| self.fold_expr(expr)))
                         .map(|arg| arg.dump())
-                        .flat_map(|t| TokenStream::from(t));
+                        .flatten();
 
-                    TokenStream::from(quote_spanned!(span => #parser,))
+                    quote_spanned!(span => #parser,)
                         .into_iter()
                         .chain(args)
                         .collect()
                 };
 
-                return Macro { tts, ..i };
+                Macro { tts, ..i }
             }
             _ => {
                 unimplemented!("Macro: {:#?}", i);

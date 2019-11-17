@@ -12,7 +12,7 @@ pub struct Args {
 }
 
 impl Parse for Args {
-    fn parse(i: ParseStream) -> syn::Result<Self> {
+    fn parse(i: ParseStream<'_>) -> syn::Result<Self> {
         Ok(Args { ty: i.parse()? })
     }
 }
@@ -36,7 +36,7 @@ pub fn expand_struct(args: Args, i: DeriveInput) -> Vec<ItemImpl> {
                 }
             ))
             .parse::<ItemImpl>()
-            .with_generics(generics.clone()),
+            .with_generics(generics),
     );
 
     // let ident = i.ident.clone();

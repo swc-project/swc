@@ -3,11 +3,8 @@
 #![feature(specialization)]
 #![feature(test)]
 
-extern crate swc_common;
-extern crate swc_ecma_ast;
-extern crate swc_ecma_parser;
 extern crate test;
-extern crate testing;
+
 use std::{
     env,
     fs::{read_dir, File},
@@ -288,7 +285,7 @@ fn parse_module<'a>(file_name: &Path) -> Result<Module, NormalizedOutput> {
 
 fn with_parser<F, Ret>(file_name: &Path, f: F) -> Result<Ret, StdErr>
 where
-    F: for<'a> FnOnce(&mut Parser<'a, Lexer<'a, SourceFileInput>>) -> PResult<'a, Ret>,
+    F: for<'a> FnOnce(&mut Parser<'a, Lexer<'a, SourceFileInput<'_>>>) -> PResult<'a, Ret>,
 {
     let output = ::testing::run_test(false, |cm, handler| {
         let fm = cm
@@ -303,7 +300,6 @@ where
         ))
         .map_err(|mut e| {
             e.emit();
-            ()
         });
 
         res

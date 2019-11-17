@@ -67,29 +67,26 @@ impl<'a, W: Write> JsWriter<'a, W> {
 
         macro_rules! srcmap {
             ($byte_pos:expr) => {{
-                match self.srcmap {
-                    Some(ref mut srcmap) => {
-                        let loc = self.cm.lookup_char_pos($byte_pos);
+                if let Some(ref mut srcmap) = self.srcmap {
+                    let loc = self.cm.lookup_char_pos($byte_pos);
 
-                        let src = match loc.file.name {
-                            FileName::Real(ref p) => Some(p.display().to_string()),
-                            _ => None,
-                        };
-                        srcmap.add(
-                            self.line_count as _,
-                            self.line_pos as _,
-                            (loc.line - 1) as _,
-                            loc.col.0 as _,
-                            src.as_ref().map(|s| &**s),
-                            None,
-                        );
-                    }
-                    _ => {}
+                    let src = match loc.file.name {
+                        FileName::Real(ref p) => Some(p.display().to_string()),
+                        _ => None,
+                    };
+                    srcmap.add(
+                        self.line_count as _,
+                        self.line_pos as _,
+                        (loc.line - 1) as _,
+                        loc.col.0 as _,
+                        src.as_ref().map(|s| &**s),
+                        None,
+                    );
                 }
             }};
         }
 
-        if data.len() > 0 {
+        if !data.is_empty() {
             if let Some(span) = span {
                 if !span.is_dummy() {
                     srcmap!(span.lo())

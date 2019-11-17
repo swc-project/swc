@@ -27,7 +27,7 @@ impl<'a> From<Eof<'a>> for DiagnosticBuilder<'a> {
 }
 
 impl<'a> Debug for Eof<'a> {
-    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         Debug::fmt("<eof>", f)
     }
 }

@@ -164,7 +164,7 @@ _asyncToGenerator(function*() {
 test!(
     ::swc_ecma_parser::Syntax::default(),
     |_| tr(),
-    async,
+    r#async,
     r#"
 class Foo {
   async foo() {

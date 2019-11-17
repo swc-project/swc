@@ -11,10 +11,11 @@ struct VariantAttr {
 }
 
 impl Parse for VariantAttr {
-    fn parse(input: ParseStream) -> syn::Result<Self> {
+    fn parse(input: ParseStream<'_>) -> syn::Result<Self> {
         let content;
+        let _paren_token = parenthesized!(content in input);
         Ok(VariantAttr {
-            _paren_token: parenthesized!(content in input),
+            _paren_token,
             tags: content.parse_terminated(Lit::parse)?,
         })
     }
@@ -68,7 +69,7 @@ pub fn expand(
                     .collect::<Punctuated<_, token::Comma>>();
 
                 assert!(
-                    tags.len() >= 1,
+                    !tags.is_empty(),
                     "All #[ast_node] enum variants have one or more tag"
                 );
                 if tags.len() == 1
@@ -173,7 +174,7 @@ pub fn expand(
                 }
             ))
             .parse::<ItemImpl>()
-            .with_generics(generics.clone())
+            .with_generics(generics)
     };
 
     vec![deserialize]

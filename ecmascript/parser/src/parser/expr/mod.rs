@@ -10,7 +10,7 @@ mod verifier;
 
 #[parser]
 impl<'a, I: Tokens> Parser<'a, I> {
-    pub fn parse_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
+    pub fn parse_expr(&mut self) -> PResult<'a, Box<Expr>> {
         let expr = self.parse_assignment_expr()?;
         let start = expr.span().lo();
 
@@ -30,7 +30,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     }
 
     ///`parseMaybeAssign` (overrided)
-    pub(super) fn parse_assignment_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
+    pub(super) fn parse_assignment_expr(&mut self) -> PResult<'a, Box<Expr>> {
         if self.input.syntax().typescript() {
             // Note: When the JSX plugin is on, type assertions (`<T> x`) aren't valid
             // syntax.
@@ -87,7 +87,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     /// operators like `+=`.
     ///
     /// `parseMaybeAssign`
-    fn parse_assignment_expr_base(&mut self) -> PResult<'a, (Box<Expr>)> {
+    fn parse_assignment_expr_base(&mut self) -> PResult<'a, Box<Expr>> {
         if self.ctx().in_generator && is!("yield") {
             return self.parse_yield_expr();
         }
@@ -151,7 +151,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     }
 
     /// Spec: 'ConditionalExpression'
-    fn parse_cond_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
+    fn parse_cond_expr(&mut self) -> PResult<'a, Box<Expr>> {
         let start = cur_pos!();
 
         let test = self.parse_bin_expr()?;
@@ -178,12 +178,13 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 span: span!(start),
             })))
         } else {
-            return Ok(test);
+            Ok(test)
         }
     }
 
     /// Parse a primary expression or arrow function
-    pub(super) fn parse_primary_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
+    #[allow(clippy::cognitive_complexity)]
+    pub(super) fn parse_primary_expr(&mut self) -> PResult<'a, Box<Expr>> {
         let _ = cur!(false);
         let start = cur_pos!();
 
@@ -242,25 +243,21 @@ impl<'a, I: Tokens> Parser<'a, I> {
         }
 
         // Literals
-        if {
-            match cur!(false) {
-                Ok(&tok!("null"))
-                | Ok(&tok!("true"))
-                | Ok(&tok!("false"))
-                | Ok(&Token::Num(..))
-                | Ok(Token::Str { .. }) => true,
-                _ => false,
-            }
+        if match cur!(false) {
+            Ok(&tok!("null"))
+            | Ok(&tok!("true"))
+            | Ok(&tok!("false"))
+            | Ok(&Token::Num(..))
+            | Ok(Token::Str { .. }) => true,
+            _ => false,
         } {
             return Ok(Box::new(Expr::Lit(self.parse_lit()?)));
         }
 
         // Regexp
-        if {
-            match cur!(false) {
-                Ok(&Token::Regex(..)) => true,
-                _ => false,
-            }
+        if match cur!(false) {
+            Ok(&Token::Regex(..)) => true,
+            _ => false,
         } {
             match bump!() {
                 Token::Regex(exp, flags) => {
@@ -324,7 +321,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         unexpected!()
     }
 
-    fn parse_array_lit(&mut self) -> PResult<'a, (Box<Expr>)> {
+    fn parse_array_lit(&mut self) -> PResult<'a, Box<Expr>> {
         let start = cur_pos!();
 
         assert_and_bump!('[');
@@ -352,12 +349,12 @@ impl<'a, I: Tokens> Parser<'a, I> {
         Ok(Box::new(Expr::Array(ArrayLit { span, elems })))
     }
 
-    fn parse_member_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
+    fn parse_member_expr(&mut self) -> PResult<'a, Box<Expr>> {
         self.parse_member_expr_or_new_expr(false)
     }
 
     /// `is_new_expr`: true iff we are parsing production 'NewExpression'.
-    fn parse_member_expr_or_new_expr(&mut self, is_new_expr: bool) -> PResult<'a, (Box<Expr>)> {
+    fn parse_member_expr_or_new_expr(&mut self, is_new_expr: bool) -> PResult<'a, Box<Expr>> {
         let start = cur_pos!();
         if eat!("new") {
             let span_of_new = span!(start);
@@ -427,15 +424,12 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
     /// Parse `NewExpresion`.
     /// This includes `MemberExpression`.
-    pub(super) fn parse_new_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
+    pub(super) fn parse_new_expr(&mut self) -> PResult<'a, Box<Expr>> {
         self.parse_member_expr_or_new_expr(true)
     }
 
     /// Parse `Arguments[Yield, Await]`
-    pub(super) fn parse_args(
-        &mut self,
-        is_dynamic_import: bool,
-    ) -> PResult<'a, (Vec<ExprOrSpread>)> {
+    pub(super) fn parse_args(&mut self, is_dynamic_import: bool) -> PResult<'a, Vec<ExprOrSpread>> {
         let start = cur_pos!();
         expect!('(');
 
@@ -485,7 +479,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         &mut self,
         can_be_arrow: bool,
         async_span: Option<Span>,
-    ) -> PResult<'a, (Box<Expr>)> {
+    ) -> PResult<'a, Box<Expr>> {
         let start = cur_pos!();
 
         // At this point, we can't know if it's parenthesized
@@ -558,7 +552,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
         // It was not head of arrow function.
 
-        if expr_or_spreads.len() == 0 {
+        if expr_or_spreads.is_empty() {
             syntax_error!(
                 Span::new(start, last_pos!(), Default::default()),
                 SyntaxError::EmptyParenExpr
@@ -576,10 +570,10 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 } => syntax_error!(expr.span(), SyntaxError::SpreadInParenExpr),
                 ExprOrSpread { expr, .. } => expr,
             };
-            return Ok(Box::new(Expr::Paren(ParenExpr {
+            Ok(Box::new(Expr::Paren(ParenExpr {
                 span: span!(start),
                 expr,
-            })));
+            })))
         } else {
             debug_assert!(expr_or_spreads.len() >= 2);
 
@@ -604,13 +598,14 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 ),
                 exprs,
             }));
-            return Ok(Box::new(Expr::Paren(ParenExpr {
+            Ok(Box::new(Expr::Paren(ParenExpr {
                 span: span!(start),
                 expr: seq_expr,
-            })));
+            })))
         }
     }
 
+    #[allow(clippy::vec_box)]
     fn parse_tpl_elements(
         &mut self,
         is_tagged: bool,
@@ -708,11 +703,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         })
     }
 
-    fn parse_subscripts(
-        &mut self,
-        mut obj: ExprOrSuper,
-        no_call: bool,
-    ) -> PResult<'a, (Box<Expr>)> {
+    fn parse_subscripts(&mut self, mut obj: ExprOrSuper, no_call: bool) -> PResult<'a, Box<Expr>> {
         loop {
             obj = match self.parse_subscript(obj, no_call)? {
                 (expr, false) => return Ok(expr),
@@ -722,6 +713,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     }
 
     /// returned bool is true if this method should be called again.
+    #[allow(clippy::cognitive_complexity)]
     fn parse_subscript(
         &mut self,
         obj: ExprOrSuper,
@@ -784,7 +776,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                         // above. (won't be any undefined arguments)
                         let args = p.parse_args(is_import(&obj))?;
 
-                        return Ok(Some((
+                        Ok(Some((
                             Box::new(Expr::Call(CallExpr {
                                 span: span!(start),
                                 callee: obj,
@@ -792,18 +784,17 @@ impl<'a, I: Tokens> Parser<'a, I> {
                                 args,
                             })),
                             true,
-                        )));
+                        )))
                     } else if is!('`') {
-                        return p
-                            .parse_tagged_tpl(
-                                match obj {
-                                    ExprOrSuper::Expr(obj) => obj,
-                                    _ => unreachable!(),
-                                },
-                                Some(type_args),
-                            )
-                            .map(|expr| (Box::new(Expr::TaggedTpl(expr)), true))
-                            .map(Some);
+                        p.parse_tagged_tpl(
+                            match obj {
+                                ExprOrSuper::Expr(obj) => obj,
+                                _ => unreachable!(),
+                            },
+                            Some(type_args),
+                        )
+                        .map(|expr| (Box::new(Expr::TaggedTpl(expr)), true))
+                        .map(Some)
                     } else {
                         unexpected!()
                     }
@@ -909,7 +900,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         }
     }
     /// Parse call, dot, and `[]`-subscript expressions.
-    pub(super) fn parse_lhs_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
+    pub(super) fn parse_lhs_expr(&mut self) -> PResult<'a, Box<Expr>> {
         let start = cur_pos!();
 
         // parse jsx
@@ -917,7 +908,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
             fn into_expr(e: Either<JSXFragment, JSXElement>) -> Box<Expr> {
                 match e {
                     Either::Left(l) => Box::new(l.into()),
-                    Either::Right(r) => Box::new(r.into()),
+                    Either::Right(r) => Box::new(Box::new(r).into()),
                 }
             }
             match *cur!(true)? {
@@ -967,22 +958,19 @@ impl<'a, I: Tokens> Parser<'a, I> {
             None
         };
 
-        match *callee {
+        if let Expr::New(ne @ NewExpr { args: None, .. }) = *callee {
             // If this is parsed using 'NewExpression' rule, just return it.
             // Because it's not left-recursive.
-            Expr::New(ne @ NewExpr { args: None, .. }) => {
-                if type_args.is_some() {
-                    // This fails with `expected (`
-                    expect!('(');
-                }
-                assert_ne!(
-                    cur!(false).ok(),
-                    Some(&tok!('(')),
-                    "parse_new_expr() should eat paren if it exists"
-                );
-                return Ok(Box::new(Expr::New(NewExpr { type_args, ..ne })));
+            if type_args.is_some() {
+                // This fails with `expected (`
+                expect!('(');
             }
-            _ => {}
+            assert_ne!(
+                cur!(false).ok(),
+                Some(&tok!('(')),
+                "parse_new_expr() should eat paren if it exists"
+            );
+            return Ok(Box::new(Expr::New(NewExpr { type_args, ..ne })));
         }
         // 'CallExpr' rule contains 'MemberExpr (...)',
         // and 'MemberExpr' rule contains 'new MemberExpr (...)'
@@ -1013,10 +1001,11 @@ impl<'a, I: Tokens> Parser<'a, I> {
         Ok(callee)
     }
 
-    pub(super) fn parse_expr_or_pat(&mut self) -> PResult<'a, (Box<Expr>)> {
+    pub(super) fn parse_expr_or_pat(&mut self) -> PResult<'a, Box<Expr>> {
         self.parse_expr()
     }
 
+    #[allow(clippy::cognitive_complexity)]
     pub(super) fn parse_args_or_pats(&mut self) -> PResult<'a, Vec<PatOrExprOrSpread>> {
         expect!('(');
 
@@ -1064,11 +1053,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
                     } else {
                         let mut expr = self.parse_bin_expr()?;
 
-                        match cur!(false) {
-                            Ok(&Token::AssignOp(..)) => {
-                                expr = self.finish_assignment_expr(start, expr)?
-                            }
-                            _ => {}
+                        if let Ok(&Token::AssignOp(..)) = cur!(false) {
+                            expr = self.finish_assignment_expr(start, expr)?
                         }
 
                         expr
@@ -1244,7 +1230,7 @@ pub(in crate::parser) enum PatOrExprOrSpread {
 /// simple leaf methods.
 #[parser]
 impl<'a, I: Tokens> Parser<'a, I> {
-    fn parse_yield_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
+    fn parse_yield_expr(&mut self) -> PResult<'a, Box<Expr>> {
         let start = cur_pos!();
 
         assert_and_bump!("yield");

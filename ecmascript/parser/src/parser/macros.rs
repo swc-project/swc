@@ -244,8 +244,7 @@ macro_rules! bump {
 
 macro_rules! cur_pos {
     ($p:expr) => {{
-        let pos = $p.input.cur_pos();
-        pos
+        $p.input.cur_pos()
     }};
 }
 
@@ -266,9 +265,8 @@ macro_rules! return_if_arrow {
         //     None => false
         // };
         // if is_cur {
-        match *$expr {
-            Expr::Arrow { .. } => return Ok($expr),
-            _ => {}
+        if let Expr::Arrow { .. } = *$expr {
+            return Ok($expr);
         }
         // }
     }};

@@ -1,11 +1,9 @@
-use super::{Input, Lexer};
-use crate::{lexer::util::CharExt, token::*, Syntax};
+use super::{Context, Input, Lexer};
+use crate::{input::Tokens, lexer::util::CharExt, token::*, Syntax};
 use enum_kind::Kind;
-use input::Tokens;
 use smallvec::SmallVec;
 use std::mem;
 use swc_common::BytePos;
-use Context;
 
 /// State of lexer.
 ///
@@ -132,12 +130,7 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
 
             // skip spaces before getting next character, if we are allowed to.
             if self.state.can_skip_space() {
-                match self.skip_space() {
-                    Err(err) => {
-                        return Err(err);
-                    }
-                    _ => {}
-                }
+                self.skip_space()?;
                 start = self.input.cur_pos();
             };
 
@@ -310,13 +303,13 @@ impl State {
         had_line_break: bool,
         is_expr_allowed: bool,
     ) -> bool {
-        let is_next_keyword = match next {
-            &Word(Word::Keyword(..)) => true,
+        let is_next_keyword = match *next {
+            Word(Word::Keyword(..)) => true,
             _ => false,
         };
 
         if is_next_keyword && prev == Some(TokenType::Dot) {
-            return false;
+            false
         } else {
             // ported updateContext
             match *next {
@@ -345,7 +338,7 @@ impl State {
                     }
 
                     // expression cannot follow expression
-                    return !out.is_expr();
+                    !out.is_expr()
                 }
 
                 tok!("function") => {
@@ -356,7 +349,7 @@ impl State {
                     {
                         context.push(TokenContext::FnExpr);
                     }
-                    return false;
+                    false
                 }
 
                 // for (a of b) {}
@@ -371,7 +364,7 @@ impl State {
 
                 Word(Word::Ident(ref ident)) => {
                     // variable declaration
-                    return match prev {
+                    match prev {
                         Some(prev) => match prev {
                             // handle automatic semicolon insertion.
                             TokenType::Keyword(Let)
@@ -384,7 +377,7 @@ impl State {
                             _ => false,
                         },
                         _ => false,
-                    };
+                    }
                 }
 
                 tok!('{') => {
@@ -414,7 +407,7 @@ impl State {
 
                 tok!("${") => {
                     context.push(TokenContext::TplQuasi);
-                    return true;
+                    true
                 }
 
                 tok!('(') => {
@@ -428,7 +421,7 @@ impl State {
                         },
                         _ => TokenContext::ParenExpr,
                     });
-                    return true;
+                    true
                 }
 
                 // remains unchanged.
@@ -441,14 +434,14 @@ impl State {
                     } else {
                         context.push(TokenContext::Tpl { start });
                     }
-                    return false;
+                    false
                 }
 
                 // tt.jsxTagStart.updateContext
                 Token::JSXTagStart => {
                     context.push(TokenContext::JSXExpr); // treat as beginning of JSX expression
                     context.push(TokenContext::JSXOpeningTag); // start opening tag context
-                    return false;
+                    false
                 }
 
                 // tt.jsxTagEnd.updateContext
@@ -459,15 +452,13 @@ impl State {
                         || out == Some(TokenContext::JSXClosingTag)
                     {
                         context.pop();
-                        return context.current() == Some(TokenContext::JSXExpr);
+                        context.current() == Some(TokenContext::JSXExpr)
                     } else {
-                        return true;
+                        true
                     }
                 }
 
-                _ => {
-                    return next.before_expr();
-                }
+                _ => next.before_expr(),
             }
         }
     }
@@ -484,15 +475,14 @@ impl TokenContexts {
         had_line_break: bool,
         is_expr_allowed: bool,
     ) -> bool {
-        match prev {
-            Some(TokenType::Colon) => match self.current() {
+        if let Some(TokenType::Colon) = prev {
+            match self.current() {
                 Some(TokenContext::BraceStmt) => return true,
                 // `{ a: {} }`
                 //     ^ ^
                 Some(TokenContext::BraceExpr) => return false,
                 _ => {}
-            },
-            _ => {}
+            };
         }
 
         match prev {
@@ -524,11 +514,14 @@ impl TokenContexts {
             _ => {}
         }
 
-        return !is_expr_allowed;
+        !is_expr_allowed
     }
 
     pub fn len(&self) -> usize {
         self.0.len()
+    }
+    pub fn is_empty(&self) -> bool {
+        self.0.is_empty()
     }
     pub fn pop(&mut self) -> Option<TokenContext> {
         let opt = self.0.pop();
@@ -581,7 +574,7 @@ pub(crate) fn with_lexer<F, Ret>(
     f: F,
 ) -> Result<Ret, ::testing::StdErr>
 where
-    F: FnOnce(&mut Lexer<crate::lexer::input::SourceFileInput>) -> Result<Ret, ()>,
+    F: FnOnce(&mut Lexer<'_, crate::lexer::input::SourceFileInput<'_>>) -> Result<Ret, ()>,
 {
     crate::with_test_sess(s, |sess, fm| {
         let mut l = Lexer::new(sess, syntax, fm, None);

@@ -1,4 +1,3 @@
-extern crate swc_ecma_parser;
 use self::swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
 use super::*;
 use crate::config::Config;
@@ -8,6 +7,7 @@ use std::{
     sync::{Arc, RwLock},
 };
 use swc_common::{comments::Comments, FileName, SourceMap};
+use swc_ecma_parser;
 
 struct Noop;
 impl Handlers for Noop {}
@@ -21,7 +21,7 @@ struct Builder {
 impl Builder {
     pub fn with<F, Ret>(self, src: &str, s: &mut Vec<u8>, op: F) -> Ret
     where
-        F: FnOnce(&mut Emitter) -> Ret,
+        F: FnOnce(&mut Emitter<'_>) -> Ret,
     {
         let mut e = Emitter {
             cfg: self.cfg,
@@ -39,7 +39,7 @@ impl Builder {
 
     pub fn text<F>(self, src: &str, op: F) -> String
     where
-        F: FnOnce(&mut Emitter),
+        F: FnOnce(&mut Emitter<'_>),
     {
         let mut buf = vec![];
 
@@ -67,16 +67,10 @@ fn parse_then_emit(from: &str, cfg: Config) -> String {
             );
             parser.parse_module().map_err(|mut e| {
                 e.emit();
-                ()
             })?
         };
 
-        let out = Builder {
-            cfg,
-            cm: cm.clone(),
-            comments,
-        }
-        .text(from, |e| e.emit_module(&res).unwrap());
+        let out = Builder { cfg, cm, comments }.text(from, |e| e.emit_module(&res).unwrap());
         Ok(out)
     })
     .unwrap()
@@ -188,7 +182,7 @@ impl Write for Buf {
 struct DebugUsingDisplay<'a>(&'a str);
 
 impl<'a> Debug for DebugUsingDisplay<'a> {
-    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         Display::fmt(self.0, f)
     }
 }

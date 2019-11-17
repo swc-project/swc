@@ -33,7 +33,7 @@ impl Fold<Expr> for InlineGlobals {
             Expr::Ident(Ident { ref sym, .. }) => {
                 // It's ok because we don't recurse into member expressions.
                 if let Some(value) = self.globals.get(sym) {
-                    return value.clone().fold_with(self);
+                    value.clone().fold_with(self)
                 } else {
                     expr
                 }
@@ -69,7 +69,7 @@ impl Fold<Expr> for InlineGlobals {
                     }
                     _ => {}
                 }
-                return Expr::Member(MemberExpr {
+                Expr::Member(MemberExpr {
                     span,
                     obj: ExprOrSuper::Expr(box Expr::Member(MemberExpr {
                         obj: ExprOrSuper::Expr(box Expr::Ident(Ident::new(
@@ -82,7 +82,7 @@ impl Fold<Expr> for InlineGlobals {
                     })),
                     prop,
                     computed,
-                });
+                })
             }
             _ => expr,
         }
@@ -94,7 +94,7 @@ mod tests {
     use super::*;
 
     fn mk_map(
-        tester: &mut crate::tests::Tester,
+        tester: &mut crate::tests::Tester<'_>,
         values: &[(&str, &str)],
         is_env: bool,
     ) -> HashMap<JsWord, Expr> {
@@ -127,12 +127,15 @@ mod tests {
         m
     }
 
-    fn envs(tester: &mut crate::tests::Tester, values: &[(&str, &str)]) -> HashMap<JsWord, Expr> {
+    fn envs(
+        tester: &mut crate::tests::Tester<'_>,
+        values: &[(&str, &str)],
+    ) -> HashMap<JsWord, Expr> {
         mk_map(tester, values, true)
     }
 
     fn globals(
-        tester: &mut crate::tests::Tester,
+        tester: &mut crate::tests::Tester<'_>,
         values: &[(&str, &str)],
     ) -> HashMap<JsWord, Expr> {
         mk_map(tester, values, false)

@@ -51,7 +51,7 @@ impl Params {
                     })
                 }
                 Pat::Rest(RestPat {
-                    dot3_token: _, arg, ..
+                    arg, ..
                 }) => {
                     // Inject a for statement
                     //
@@ -153,7 +153,7 @@ impl Params {
                                 // _key = 0
                                 VarDeclarator {
                                     span,
-                                    name: Pat::Ident(idx_ident.clone().into()),
+                                    name: Pat::Ident(idx_ident.clone()),
                                     init: Some(box Expr::Lit(Lit::Num(Number {
                                         span,
                                         value: i as f64,

@@ -63,7 +63,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
             });
             node = new_node;
         }
-        return Ok(node);
+        Ok(node)
     }
 
     /// Parses any type of JSX attribute value.
@@ -126,7 +126,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
             self.parse_expr().map(JSXExpr::Expr)?
         };
         expect!('}');
-        return Ok(JSXExprContainer { expr });
+        Ok(JSXExprContainer { expr })
     }
 
     /// Parses following JSX attribute name-value pair.
@@ -365,8 +365,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
         let start_pos = cur_pos!();
 
-        let element = self.parse_jsx_element_at(start_pos);
-        element
+        self.parse_jsx_element_at(start_pos)
     }
 
     pub(super) fn parse_jsx_text(&mut self) -> PResult<'a, JSXText> {

@@ -3,11 +3,11 @@
 #[macro_use]
 extern crate pmutil;
 extern crate proc_macro;
-extern crate proc_macro2;
+use proc_macro2;
 #[macro_use]
 extern crate quote;
-extern crate swc_macros_common;
-extern crate syn;
+
+use syn;
 
 use pmutil::prelude::Quote;
 use swc_macros_common::prelude::*;
@@ -106,7 +106,6 @@ fn derive_fmt(i: &DeriveInput, trait_path: TokenStream) -> ItemImpl {
         ))
         .parse::<ItemImpl>()
         .with_generics(i.generics.clone())
-        .into()
 }
 
 fn get_str_value(attrs: &[Attribute]) -> String {
@@ -114,7 +113,7 @@ fn get_str_value(attrs: &[Attribute]) -> String {
     let docs: Vec<_> = attrs.iter().map(doc_str).filter_map(|o| o).collect();
     for raw_line in docs {
         let line = raw_line.trim();
-        if line.starts_with("`") && line.ends_with("`") {
+        if line.starts_with('`') && line.ends_with('`') {
             let mut s: String = line.split_at(1).1.into();
             let new_len = s.len() - 1;
             s.truncate(new_len);
@@ -201,7 +200,6 @@ fn make_from_str(i: &DeriveInput) -> ItemImpl {
         ))
         .parse::<ItemImpl>()
         .with_generics(i.generics.clone())
-        .into()
 }
 
 fn make_as_str(i: &DeriveInput) -> ItemImpl {
@@ -284,7 +282,6 @@ fn make_as_str(i: &DeriveInput) -> ItemImpl {
         ))
         .parse::<ItemImpl>()
         .with_generics(i.generics.clone())
-        .into()
 }
 
 fn make_as_str_ident() -> Ident {
@@ -305,7 +302,6 @@ fn make_serialize(i: &DeriveInput) -> ItemImpl {
         }))
         .parse::<ItemImpl>()
         .with_generics(i.generics.clone())
-        .into()
 }
 
 fn make_deserialize(i: &DeriveInput) -> ItemImpl {
@@ -341,5 +337,4 @@ fn make_deserialize(i: &DeriveInput) -> ItemImpl {
         }))
         .parse::<ItemImpl>()
         .with_generics(i.generics.clone())
-        .into()
 }

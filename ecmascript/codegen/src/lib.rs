@@ -3,15 +3,9 @@
 
 #[macro_use]
 extern crate bitflags;
-extern crate sourcemap;
-extern crate swc_atoms;
-extern crate swc_ecma_codegen_macros;
+
 #[macro_use]
 extern crate swc_common;
-extern crate hashbrown;
-extern crate swc_ecma_ast;
-#[cfg(test)]
-extern crate testing;
 
 pub use self::config::Config;
 use self::{
@@ -49,15 +43,15 @@ pub trait Handlers {
 }
 
 pub trait Node: Spanned {
-    fn emit_with(&self, e: &mut Emitter) -> Result;
+    fn emit_with(&self, e: &mut Emitter<'_>) -> Result;
 }
 impl<N: Node> Node for Box<N> {
-    fn emit_with(&self, e: &mut Emitter) -> Result {
+    fn emit_with(&self, e: &mut Emitter<'_>) -> Result {
         (**self).emit_with(e)
     }
 }
 impl<'a, N: Node> Node for &'a N {
-    fn emit_with(&self, e: &mut Emitter) -> Result {
+    fn emit_with(&self, e: &mut Emitter<'_>) -> Result {
         (**self).emit_with(e)
     }
 }
@@ -80,7 +74,7 @@ impl<'a> Emitter<'a> {
                 stmts
                     .last()
                     .map(|s| s.span().hi())
-                    .unwrap_or(stmts[0].span().lo()),
+                    .unwrap_or_else(|| stmts[0].span().lo()),
             )
         };
 
@@ -371,21 +365,19 @@ impl<'a> Emitter<'a> {
             .replace("\0", "\\0");
         // let value = node.value.replace("\n", "\\n");
 
-        if !node.value.contains("'") {
+        if !node.value.contains('\'') {
             punct!("'");
             self.wr.write_str_lit(node.span, &value)?;
             punct!("'");
+        } else if !node.value.contains('\"') {
+            punct!("\"");
+            self.wr.write_str_lit(node.span, &value)?;
+            punct!("\"");
         } else {
-            if !node.value.contains("\"") {
-                punct!("\"");
-                self.wr.write_str_lit(node.span, &value)?;
-                punct!("\"");
-            } else {
-                punct!("'");
-                self.wr
-                    .write_str_lit(node.span, &value.replace("'", "\\'"))?;
-                punct!("'");
-            }
+            punct!("'");
+            self.wr
+                .write_str_lit(node.span, &value.replace("'", "\\'"))?;
+            punct!("'");
         }
     }
 
@@ -547,10 +539,10 @@ impl<'a> Emitter<'a> {
                         // check if numeric literal is a decimal literal that was originally written
                         // with a dot
                         if let Ok(text) = self.cm.span_to_snippet(span) {
-                            if text.contains(".") {
+                            if text.contains('.') {
                                 return false;
                             }
-                            return text.starts_with("0") || text.ends_with(" ");
+                            text.starts_with('0') || text.ends_with(' ')
                         } else {
                             true
                         }
@@ -960,10 +952,8 @@ impl<'a> Emitter<'a> {
 
         if should_emit_whitespace_before_operand(node) {
             space!();
-        } else {
-            if need_formatting_space {
-                formatting_space!();
-            }
+        } else if need_formatting_space {
+            formatting_space!();
         }
 
         emit!(node.arg);
@@ -1204,6 +1194,7 @@ impl<'a> Emitter<'a> {
         )
     }
 
+    #[allow(clippy::cognitive_complexity)]
     pub fn emit_list5<N: Node>(
         &mut self,
         parent_node: Span,
@@ -1251,10 +1242,9 @@ impl<'a> Emitter<'a> {
                 }
             } else if format.contains(ListFormat::SpaceBetweenBraces)
                 && !(format.contains(ListFormat::NoSpaceIfEmpty))
+                && !self.cfg.minify
             {
-                if !self.cfg.minify {
-                    self.wr.write_space()?;
-                }
+                self.wr.write_space()?;
             }
         } else {
             let children = children.unwrap();
@@ -1271,17 +1261,13 @@ impl<'a> Emitter<'a> {
                     self.wr.write_line()?;
                 }
                 should_emit_intervening_comments = false;
-            } else if format.contains(ListFormat::SpaceBetweenBraces) {
-                if !self.cfg.minify {
-                    self.wr.write_space()?;
-                }
+            } else if format.contains(ListFormat::SpaceBetweenBraces) && !self.cfg.minify {
+                self.wr.write_space()?;
             }
 
             // Increase the indent, if requested.
-            if format.contains(ListFormat::Indented) {
-                if !self.cfg.minify {
-                    self.wr.increase_indent()?;
-                }
+            if format.contains(ListFormat::Indented) && !self.cfg.minify {
+                self.wr.increase_indent()?;
             }
 
             // Emit each child.
@@ -1318,11 +1304,10 @@ impl<'a> Emitter<'a> {
                         // line, we should increase the indent.
                         if (format & (ListFormat::LinesMask | ListFormat::Indented))
                             == ListFormat::SingleLine
+                            && !self.cfg.minify
                         {
-                            if !self.cfg.minify {
-                                self.wr.increase_indent()?;
-                                should_decrease_indent_after_emit = true;
-                            }
+                            self.wr.increase_indent()?;
+                            should_decrease_indent_after_emit = true;
                         }
 
                         if !self.cfg.minify {
@@ -1359,7 +1344,7 @@ impl<'a> Emitter<'a> {
                         if snippet.len() < 3 {
                             false
                         } else {
-                            snippet[..snippet.len() - 1].trim().ends_with(",")
+                            snippet[..snippet.len() - 1].trim().ends_with(',')
                         }
                     }
                     _ => false,
@@ -1397,10 +1382,8 @@ impl<'a> Emitter<'a> {
             }
 
             // Decrease the indent, if requested.
-            if format.contains(ListFormat::Indented) {
-                if !self.cfg.minify {
-                    self.wr.decrease_indent()?;
-                }
+            if format.contains(ListFormat::Indented) && !self.cfg.minify {
+                self.wr.decrease_indent()?;
             }
 
             // Write the closing line terminator or closing whitespace.
@@ -1411,10 +1394,8 @@ impl<'a> Emitter<'a> {
                 if !self.cfg.minify {
                     self.wr.write_line()?;
                 }
-            } else if format.contains(ListFormat::SpaceBetweenBraces) {
-                if !self.cfg.minify {
-                    self.wr.write_space()?;
-                }
+            } else if format.contains(ListFormat::SpaceBetweenBraces) && !self.cfg.minify {
+                self.wr.write_space()?;
             }
         }
 
@@ -2017,7 +1998,7 @@ impl<N> Node for Option<N>
 where
     N: Node,
 {
-    fn emit_with(&self, e: &mut Emitter) -> Result {
+    fn emit_with(&self, e: &mut Emitter<'_>) -> Result {
         match *self {
             Some(ref n) => n.emit_with(e),
             None => Ok(()),

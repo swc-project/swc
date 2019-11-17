@@ -46,7 +46,6 @@ impl Config {
                         .parse_expr()
                         .map_err(|mut e| {
                             e.emit();
-                            ()
                         })
                         .unwrap()
                     };
@@ -64,11 +63,11 @@ pub(super) struct BuiltConfig {
 
 impl BuiltConfig {
     pub fn global_name(&self, src: &JsWord) -> JsWord {
-        if !src.contains("/") {
+        if !src.contains('/') {
             return src.to_camel_case().into();
         }
 
-        return src.split("/").last().unwrap().to_camel_case().into();
+        src.split('/').last().unwrap().to_camel_case().into()
     }
     pub fn determine_export_name(&self, filename: FileName) -> Expr {
         match filename {

@@ -474,7 +474,7 @@ impl Decorators {
             .map(Some)
             .collect();
 
-        let decorate_call = Expr::Call(make_decorate_call(
+        Expr::Call(make_decorate_call(
             class.decorators,
             iter::once({
                 // function(_initialize) {}
@@ -483,7 +483,7 @@ impl Decorators {
                     function: Function {
                         span: DUMMY_SP,
 
-                        params: iter::once(Pat::Ident(initialize.clone()))
+                        params: iter::once(Pat::Ident(initialize))
                             .chain(super_class_ident.map(Pat::Ident))
                             .collect(),
 
@@ -518,7 +518,7 @@ impl Decorators {
                                     props: vec![
                                         PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
                                             key: PropName::Ident(quote_ident!("F")),
-                                            value: box Expr::Ident(ident.clone()),
+                                            value: box Expr::Ident(ident),
                                         })),
                                         PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
                                             key: PropName::Ident(quote_ident!("d")),
@@ -540,9 +540,7 @@ impl Decorators {
                 .as_arg()
             })
             .chain(super_class_expr.map(|e| e.as_arg())),
-        ));
-
-        decorate_call
+        ))
     }
 }
 

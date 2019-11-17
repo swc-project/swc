@@ -1,4 +1,4 @@
-use crate::{BytePos, Span};
+use crate::syntax_pos::{BytePos, Span};
 use chashmap::{CHashMap, ReadGuard};
 
 type CommentMap = CHashMap<BytePos, Vec<Comment>>;
@@ -24,11 +24,11 @@ impl Comments {
         });
     }
 
-    pub fn trailing_comments(&self, pos: BytePos) -> Option<ReadGuard<BytePos, Vec<Comment>>> {
+    pub fn trailing_comments(&self, pos: BytePos) -> Option<ReadGuard<'_, BytePos, Vec<Comment>>> {
         self.trailing.get(&pos)
     }
 
-    pub fn leading_comments(&self, pos: BytePos) -> Option<ReadGuard<BytePos, Vec<Comment>>> {
+    pub fn leading_comments(&self, pos: BytePos) -> Option<ReadGuard<'_, BytePos, Vec<Comment>>> {
         self.leading.get(&pos)
     }
 }

@@ -5,14 +5,14 @@ use swc_common::Spanned;
 #[parser]
 /// Parser for function expression and function declaration.
 impl<'a, I: Tokens> Parser<'a, I> {
-    pub(super) fn parse_async_fn_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
+    pub(super) fn parse_async_fn_expr(&mut self) -> PResult<'a, Box<Expr>> {
         let start = cur_pos!();
         expect!("async");
         self.parse_fn(Some(start), vec![])
     }
 
     /// Parse function expression
-    pub(super) fn parse_fn_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
+    pub(super) fn parse_fn_expr(&mut self) -> PResult<'a, Box<Expr>> {
         self.parse_fn(None, vec![])
     }
 
@@ -297,6 +297,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         self.parse_class_member_with_is_static(accessibility, static_token, decorators)
     }
 
+    #[allow(clippy::cognitive_complexity)]
     fn parse_class_member_with_is_static(
         &mut self,
         accessibility: Option<Accessibility>,
@@ -947,7 +948,6 @@ mod tests {
         test_parser(s, Syntax::default(), |p| {
             p.parse_lhs_expr().map_err(|mut e| {
                 e.emit();
-                ()
             })
         })
     }
@@ -956,7 +956,6 @@ mod tests {
         test_parser(s, Syntax::default(), |p| {
             p.parse_expr().map_err(|mut e| {
                 e.emit();
-                ()
             })
         })
     }

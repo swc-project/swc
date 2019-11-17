@@ -116,11 +116,11 @@ impl CodeSuggestion {
     /// Returns the assembled code suggestions and whether they should be shown
     /// with an underline.
     pub fn splice_lines(&self, cm: &SourceMapperDyn) -> Vec<(String, Vec<SubstitutionPart>)> {
-        use syntax_pos::{CharPos, Pos};
+        use crate::syntax_pos::{CharPos, Pos};
 
         fn push_trailing(
             buf: &mut String,
-            line_opt: Option<&Cow<str>>,
+            line_opt: Option<&Cow<'_, str>>,
             lo: &Loc,
             hi_opt: Option<&Loc>,
         ) {
@@ -133,7 +133,7 @@ impl CodeSuggestion {
                         None => &line[lo..],
                     });
                 }
-                if let None = hi_opt {
+                if hi_opt.is_none() {
                     buf.push('\n');
                 }
             }
@@ -238,7 +238,7 @@ impl FatalError {
 }
 
 impl fmt::Display for FatalError {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "parser fatal error")
     }
 }
@@ -255,7 +255,7 @@ impl error::Error for FatalError {
 pub struct ExplicitBug;
 
 impl fmt::Display for ExplicitBug {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "parser internal bug")
     }
 }
@@ -402,7 +402,7 @@ impl Handler {
         self.err_count.store(0, SeqCst);
     }
 
-    pub fn struct_dummy<'a>(&'a self) -> DiagnosticBuilder<'a> {
+    pub fn struct_dummy(&self) -> DiagnosticBuilder<'_> {
         DiagnosticBuilder::new(self, Level::Cancelled, "")
     }
 
@@ -497,7 +497,7 @@ impl Handler {
         DiagnosticBuilder::new(self, Level::Fatal, msg)
     }
 
-    pub fn cancel(&self, err: &mut DiagnosticBuilder) {
+    pub fn cancel(&self, err: &mut DiagnosticBuilder<'_>) {
         err.cancel();
     }
 
@@ -707,12 +707,12 @@ impl Handler {
         self.taught_diagnostics.borrow_mut().insert(code.clone())
     }
 
-    pub fn force_print_db(&self, mut db: DiagnosticBuilder) {
+    pub fn force_print_db(&self, mut db: DiagnosticBuilder<'_>) {
         self.emitter.borrow_mut().emit(&db);
         db.cancel();
     }
 
-    fn emit_db(&self, db: &DiagnosticBuilder) {
+    fn emit_db(&self, db: &DiagnosticBuilder<'_>) {
         let diagnostic = &**db;
 
         TRACK_DIAGNOSTICS.with(|track_diagnostics| {
@@ -763,7 +763,7 @@ pub enum Level {
 }
 
 impl fmt::Display for Level {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         self.to_str().fmt(f)
     }
 }
@@ -802,8 +802,8 @@ impl Level {
         }
     }
 
-    pub fn is_failure_note(&self) -> bool {
-        match *self {
+    pub fn is_failure_note(self) -> bool {
+        match self {
             FailureNote => true,
             _ => false,
         }

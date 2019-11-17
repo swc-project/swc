@@ -1,13 +1,11 @@
 #![feature(box_syntax)]
 #![feature(specialization)]
 #![feature(test)]
-extern crate sourcemap;
-extern crate swc_common;
-extern crate swc_ecma_ast;
-extern crate swc_ecma_codegen;
-extern crate swc_ecma_parser;
+
+use swc_ecma_codegen;
+
 extern crate test;
-extern crate testing;
+
 use std::{
     env,
     fs::{read_dir, File},
@@ -150,7 +148,7 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
 
                 let comments = Comments::default();
                 let handlers = box MyHandlers;
-                let mut parser: Parser<Lexer<SourceFileInput>> = Parser::new(
+                let mut parser: Parser<'_, Lexer<'_, SourceFileInput<'_>>> = Parser::new(
                     Session { handler: &handler },
                     Syntax::default(),
                     (&*src).into(),
@@ -162,10 +160,7 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                         cfg: Default::default(),
                         cm: cm.clone(),
                         wr: box swc_ecma_codegen::text_writer::JsWriter::new(
-                            cm.clone(),
-                            "\n",
-                            &mut wr,
-                            None,
+                            cm, "\n", &mut wr, None,
                         ),
                         comments: Some(&comments),
                         handlers,
@@ -177,14 +172,12 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                         emitter
                             .emit_module(&parser.parse_module().map_err(|mut e| {
                                 e.emit();
-                                ()
                             })?)
                             .unwrap();
                     } else {
                         emitter
                             .emit_script(&parser.parse_script().map_err(|mut e| {
                                 e.emit();
-                                ()
                             })?)
                             .unwrap();
                     }

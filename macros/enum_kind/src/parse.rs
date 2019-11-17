@@ -1,11 +1,10 @@
-use input::*;
+use crate::{input::*, util::is_bool};
 use std::{fmt::Display, ops::AddAssign, result::Result as StdResult};
 use swc_macros_common::prelude::*;
 use syn::{
     parse::{Parse, ParseStream},
     *,
 };
-use util::is_bool;
 
 impl From<DeriveInput> for Input {
     fn from(
@@ -33,7 +32,7 @@ impl From<DeriveInput> for Input {
 }
 
 impl Parse for EnumAttrs {
-    fn parse(input: ParseStream) -> Result<Self> {
+    fn parse(input: ParseStream<'_>) -> Result<Self> {
         let _function: Ident = input.parse()?;
 
         let fns;
@@ -76,7 +75,7 @@ impl FnDef {
 }
 
 impl Parse for FnDef {
-    fn parse(input: ParseStream) -> Result<Self> {
+    fn parse(input: ParseStream<'_>) -> Result<Self> {
         let name: Ident = input.parse()?;
         let _: Token!(=) = input.parse()?;
         let return_type: LitStr = input.parse()?;
@@ -112,7 +111,7 @@ impl From<Variant> for EnumVar {
 }
 
 impl Parse for VariantAttrs {
-    fn parse(input: ParseStream) -> Result<Self> {
+    fn parse(input: ParseStream<'_>) -> Result<Self> {
         let fn_values: Punctuated<_, token::Comma> = Punctuated::parse_terminated(input)?;
         let has_delegate = fn_values
             .iter()
@@ -127,6 +126,7 @@ impl Parse for VariantAttrs {
 
 impl AddAssign<StdResult<Self, Attribute>> for VariantAttrs {
     fn add_assign(&mut self, rhs: StdResult<Self, Attribute>) {
+        #[allow(clippy::suspicious_op_assign_impl)]
         match rhs {
             Ok(attr) => {
                 self.fn_values.extend(attr.fn_values);
@@ -139,7 +139,7 @@ impl AddAssign<StdResult<Self, Attribute>> for VariantAttrs {
 }
 
 impl Parse for VariantAttr {
-    fn parse(input: ParseStream) -> Result<Self> {
+    fn parse(input: ParseStream<'_>) -> Result<Self> {
         let fn_name: Ident = input.parse()?;
 
         let lookahead = input.lookahead1();

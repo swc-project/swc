@@ -2,8 +2,7 @@ pub use self::{
     hygiene::{ExpnInfo, Mark, SyntaxContext},
     span_encoding::{Span, DUMMY_SP},
 };
-use crate::{sync::Lock, SourceMap};
-use rustc_data_structures::stable_hasher::StableHasher;
+use crate::{rustc_data_structures::stable_hasher::StableHasher, sync::Lock, SourceMap};
 use serde::{Deserialize, Serialize};
 use std::{
     borrow::Cow,
@@ -76,7 +75,7 @@ pub enum FileName {
 }
 
 impl std::fmt::Display for FileName {
-    fn fmt(&self, fmt: &mut std::fmt::Formatter) -> std::fmt::Result {
+    fn fmt(&self, fmt: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match *self {
             FileName::Real(ref path) => write!(fmt, "{}", path.display()),
             FileName::Macros(ref name) => write!(fmt, "<{} macros>", name),
@@ -250,7 +249,7 @@ impl Span {
     ///
     /// Use this instead of `==` when either span could be generated code,
     /// and you only care that they point to the same bytes of source text.
-    pub fn source_equal(&self, other: &Span) -> bool {
+    pub fn source_equal(self, other: Span) -> bool {
         let span = self.data();
         let other = other.data();
         span.lo == other.lo && span.hi == other.hi
@@ -301,7 +300,7 @@ impl Span {
     /// Check if a span is "internal" to a macro in which #[unstable]
     /// items can be used (that is, a macro marked with
     /// `#[allow_internal_unstable]`).
-    pub fn allows_unstable(&self) -> bool {
+    pub fn allows_unstable(self) -> bool {
         match self.ctxt().outer().expn_info() {
             Some(info) => info.allow_internal_unstable,
             None => false,
@@ -453,7 +452,7 @@ impl Default for Span {
     }
 }
 
-fn default_span_debug(span: Span, f: &mut fmt::Formatter) -> fmt::Result {
+fn default_span_debug(span: Span, f: &mut fmt::Formatter<'_>) -> fmt::Result {
     let span = span.data();
     f.debug_struct("Span")
         .field("lo", &span.lo)
@@ -463,13 +462,13 @@ fn default_span_debug(span: Span, f: &mut fmt::Formatter) -> fmt::Result {
 }
 
 impl fmt::Debug for Span {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         SPAN_DEBUG.with(|span_debug| span_debug.get()(*self, f))
     }
 }
 
 impl fmt::Debug for SpanData {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         SPAN_DEBUG.with(|span_debug| span_debug.get()(Span::new(self.lo, self.hi, self.ctxt), f))
     }
 }
@@ -621,15 +620,15 @@ impl NonNarrowChar {
     }
 
     /// Returns the absolute offset of the character in the SourceMap
-    pub fn pos(&self) -> BytePos {
-        match *self {
+    pub fn pos(self) -> BytePos {
+        match self {
             NonNarrowChar::ZeroWidth(p) | NonNarrowChar::Wide(p) | NonNarrowChar::Tab(p) => p,
         }
     }
 
     /// Returns the width of the character, 0 (zero-width) or 2 (wide)
-    pub fn width(&self) -> usize {
-        match *self {
+    pub fn width(self) -> usize {
+        match self {
             NonNarrowChar::ZeroWidth(_) => 0,
             NonNarrowChar::Wide(_) => 2,
             NonNarrowChar::Tab(_) => 4,
@@ -694,7 +693,7 @@ pub struct SourceFile {
 }
 
 impl fmt::Debug for SourceFile {
-    fn fmt(&self, fmt: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, fmt: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(fmt, "SourceFile({})", self.name)
     }
 }
@@ -748,7 +747,7 @@ impl SourceFile {
 
     /// Get a line from the list of pre-computed line-beginnings.
     /// The line number here is 0-based.
-    pub fn get_line(&self, line_number: usize) -> Option<Cow<str>> {
+    pub fn get_line(&self, line_number: usize) -> Option<Cow<'_, str>> {
         fn get_until_newline(src: &str, begin: usize) -> &str {
             // We can't use `lines.get(line_number+1)` because we might
             // be parsing when we call this function and thus the current
@@ -789,7 +788,7 @@ impl SourceFile {
     /// number. If the source_file is empty or the position is located before
     /// the first line, None is returned.
     pub fn lookup_line(&self, pos: BytePos) -> Option<usize> {
-        if self.lines.len() == 0 {
+        if self.lines.is_empty() {
             return None;
         }
 
@@ -990,7 +989,7 @@ pub struct FileLines {
     pub lines: Vec<LineInfo>,
 }
 
-thread_local!(pub static SPAN_DEBUG: Cell<fn(Span, &mut fmt::Formatter) -> fmt::Result> =
+thread_local!(pub static SPAN_DEBUG: Cell<fn(Span, &mut fmt::Formatter<'_>) -> fmt::Result> =
                 Cell::new(default_span_debug));
 
 // _____________________________________________________________________________

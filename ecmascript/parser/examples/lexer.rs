@@ -1,5 +1,4 @@
-extern crate swc_common;
-extern crate swc_ecma_parser;
+use swc_common;
 
 use std::sync::Arc;
 use swc_common::{
@@ -40,7 +39,6 @@ fn main() {
             .parse_module()
             .map_err(|mut e| {
                 e.emit();
-                ()
             })
             .expect("failed to parser module");
 

@@ -26,7 +26,7 @@ fn syntax() -> Syntax {
 // general_assignment
 test!(
     syntax(),
-    |_| tr(Default::default()),
+    |_| tr(()),
     general_assignment,
     r#"
 "use strict";
@@ -77,7 +77,7 @@ val = obj === null || obj === void 0 ? void 0 : (ref2 = obj.a) === null || ref2 
 // general_memoize
 test!(
     syntax(),
-    |_| tr(Default::default()),
+    |_| tr(()),
     general_memoize,
     r#"
 function test(foo) {
@@ -123,7 +123,7 @@ function test(foo) {
 // general_containers
 test!(
     syntax(),
-    |_| tr(Default::default()),
+    |_| tr(()),
     general_containers,
     r#"
 var street = user.address?.street
@@ -152,7 +152,7 @@ a === null || a === void 0 ? void 0 : a.b, 2;
 // general_delete_exec
 test_exec!(
     syntax(),
-    |_| tr(Default::default()),
+    |_| tr(()),
     general_delete_exec,
     r#"
 "use strict";
@@ -184,7 +184,7 @@ expect(obj.a).toBeUndefined();
 // general_member_access
 test!(
     syntax(),
-    |_| tr(Default::default()),
+    |_| tr(()),
     general_member_access,
     r#"
 foo?.bar;
@@ -226,7 +226,7 @@ orders[client === null || client === void 0 ? void 0 : client.key].price;
 // general_unary
 test!(
     syntax(),
-    |_| tr(Default::default()),
+    |_| tr(()),
     general_unary,
     r#"
 "use strict";
@@ -269,7 +269,7 @@ test = +(obj === null || obj === void 0 ? void 0 : (ref2 = obj.b) === null || re
 // general_function_call
 test!(
     syntax(),
-    |_| tr(Default::default()),
+    |_| tr(()),
     general_function_call,
     r#"
 foo?.(foo);
@@ -311,7 +311,7 @@ foo === null || foo === void 0 ? void 0 : (ref7 = foo.bar) === null || ref7 === 
 // general_unary_exec
 test_exec!(
     syntax(),
-    |_| tr(Default::default()),
+    |_| tr(()),
     general_unary_exec,
     r#"
 "use strict";
@@ -340,7 +340,7 @@ expect(test).toBe(NaN);
 // general_call_exec
 test_exec!(
     syntax(),
-    |_| tr(Default::default()),
+    |_| tr(()),
     general_call_exec,
     r#"
 
@@ -350,7 +350,7 @@ test_exec!(
 // general_delete
 test!(
     syntax(),
-    |_| tr(Default::default()),
+    |_| tr(()),
     general_delete,
     r#"
 "use strict";
@@ -391,7 +391,7 @@ obj === null || obj === void 0 ? void 0 : delete obj.a;
 // regression_8354_exec
 test_exec!(
     syntax(),
-    |_| tr(Default::default()),
+    |_| tr(()),
     regression_8354_exec,
     r#"
 const foo = undefined;
@@ -405,7 +405,7 @@ expect(foobar).toBe(undefined);
 // general_assignment_exec
 test_exec!(
     syntax(),
-    |_| tr(Default::default()),
+    |_| tr(()),
     general_assignment_exec,
     r#"
 "use strict";
@@ -443,7 +443,7 @@ expect(() => {
 // general_super_method_call
 test!(
     syntax(),
-    |_| tr(Default::default()),
+    |_| tr(()),
     general_super_method_call,
     r#"
 "use strict";
@@ -484,7 +484,7 @@ class Derived extends Base {
 
 test!(
     syntax(),
-    |_| tr(Default::default()),
+    |_| tr(()),
     simple_1,
     "obj?.a",
     "obj === null || obj === void 0 ? void 0 : obj.a;"
@@ -492,7 +492,7 @@ test!(
 
 test!(
     syntax(),
-    |_| tr(Default::default()),
+    |_| tr(()),
     simple_2,
     "obj?.a?.b",
     "var ref;
@@ -502,7 +502,7 @@ obj === null || obj === void 0 ? void 0 : (ref = obj.a) === null || ref === void
 
 test!(
     syntax(),
-    |_| tr(Default::default()),
+    |_| tr(()),
     simple_3,
     "obj?.a?.b.c",
     "var ref;
@@ -512,7 +512,7 @@ obj === null || obj === void 0 ? void 0 : (ref = obj.a) === null || ref === void
 
 test!(
     syntax(),
-    |_| tr(Default::default()),
+    |_| tr(()),
     call_1,
     "obj?.a?.b()",
     "var ref;
@@ -523,7 +523,7 @@ obj === null || obj === void 0 ? void 0 : (ref = obj.a) === null || ref === void
 
 test!(
     syntax(),
-    |_| tr(Default::default()),
+    |_| tr(()),
     call_2,
     "a?.b?.c?.()",
     "var ref, ref1;

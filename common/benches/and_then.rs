@@ -13,6 +13,7 @@ extern crate test;
 use swc_common::FoldWith;
 use test::{black_box, Bencher};
 
+#[allow(clippy::vec_box)]
 fn mk_vec() -> Vec<Box<String>> {
     (0..1000).map(|s| box s.to_string()).collect()
 }

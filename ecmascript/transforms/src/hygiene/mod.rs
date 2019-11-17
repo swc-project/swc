@@ -108,7 +108,7 @@ impl<'a> Hygiene<'a> {
             ctxt
         );
         old.retain(|c| *c != ctxt);
-        debug_assert!(old.len() == 0 || old.len() == 1);
+        debug_assert!(old.is_empty() || old.len() == 1);
 
         let new = declared_symbols.entry(renamed.clone()).or_default();
         new.push(ctxt);
@@ -176,7 +176,7 @@ impl<'a> Fold<TryStmt> for Hygiene<'a> {
 impl<'a> Fold<BlockStmt> for Hygiene<'a> {
     fn fold(&mut self, node: BlockStmt) -> BlockStmt {
         let mut folder = Hygiene {
-            current: Scope::new(ScopeKind::Block, Some(&self.current)).into(),
+            current: Scope::new(ScopeKind::Block, Some(&self.current)),
             ident_type: IdentType::Ref,
         };
         let node = node.fold_children(&mut folder);
@@ -195,7 +195,7 @@ impl<'a> Hygiene<'a> {
         }
 
         let mut folder = Hygiene {
-            current: Scope::new(ScopeKind::Fn, Some(&self.current)).into(),
+            current: Scope::new(ScopeKind::Fn, Some(&self.current)),
             ident_type: IdentType::Ref,
         };
 
@@ -321,7 +321,7 @@ impl<'a> Scope<'a> {
         }
     }
 
-    fn scope_of(&self, sym: JsWord, ctxt: SyntaxContext) -> &'a Scope {
+    fn scope_of(&self, sym: JsWord, ctxt: SyntaxContext) -> &'a Scope<'_> {
         if let Some(prev) = self.declared_symbols.borrow().get(&sym) {
             if prev.contains(&ctxt) {
                 return self;
@@ -345,12 +345,7 @@ impl<'a> Scope<'a> {
         }
 
         if let Some(ctxts) = self.declared_symbols.borrow().get(&sym) {
-            if ctxts.contains(&ctxt) {
-                // Already declared with same context.
-                true
-            } else {
-                false
-            }
+            ctxts.contains(&ctxt)
         } else {
             // No variable named `sym` is declared
             true
@@ -591,7 +586,7 @@ track_ident!(Hygiene);
 impl<'a> Fold<ArrowExpr> for Hygiene<'a> {
     fn fold(&mut self, mut node: ArrowExpr) -> ArrowExpr {
         let mut folder = Hygiene {
-            current: Scope::new(ScopeKind::Fn, Some(&self.current)).into(),
+            current: Scope::new(ScopeKind::Fn, Some(&self.current)),
             ident_type: IdentType::Ref,
         };
 

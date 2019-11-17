@@ -447,7 +447,7 @@ impl ClassProperties {
         (
             vars,
             Decl::Class(ClassDecl {
-                ident: ident.clone(),
+                ident,
                 declare: false,
                 class: Class {
                     body: members,
@@ -458,6 +458,7 @@ impl ClassProperties {
         )
     }
 
+    #[allow(clippy::vec_box)]
     fn process_constructor(
         &mut self,
         constructor: Option<Constructor>,

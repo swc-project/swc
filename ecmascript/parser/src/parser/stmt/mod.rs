@@ -10,7 +10,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         mut allow_directives: bool,
         top_level: bool,
         end: Option<&Token>,
-    ) -> PResult<'a, (Vec<Type>)>
+    ) -> PResult<'a, Vec<Type>>
     where
         Self: StmtLikeParser<'a, Type>,
         Type: IsDirective + From<Stmt>,
@@ -20,8 +20,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         let mut stmts = vec![];
         while {
             let c = cur!(false).ok();
-            let b = c != end;
-            b
+            c != end
         } {
             let stmt = self.parse_stmt_like(true, top_level)?;
             if allow_directives {
@@ -80,6 +79,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     }
 
     /// `parseStatementContent`
+    #[allow(clippy::cognitive_complexity)]
     fn parse_stmt_internal(
         &mut self,
         include_decl: bool,
@@ -223,21 +223,14 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 }
                 Box::new(Expr::Ident(ident))
             }
-            _ => {
-                let expr = self.verify_expr(expr)?;
-
-                expr
-            }
+            _ => self.verify_expr(expr)?,
         };
-        match *expr {
-            Expr::Ident(ref ident) => {
-                if self.input.syntax().typescript() {
-                    if let Some(decl) = self.parse_ts_expr_stmt(decorators, ident.clone())? {
-                        return Ok(Stmt::Decl(decl));
-                    }
+        if let Expr::Ident(ref ident) = *expr {
+            if self.input.syntax().typescript() {
+                if let Some(decl) = self.parse_ts_expr_stmt(decorators, ident.clone())? {
+                    return Ok(Stmt::Decl(decl));
                 }
             }
-            _ => {}
         }
 
         if eat!(';') {
@@ -304,6 +297,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         }
     }
 
+    #[allow(clippy::cognitive_complexity)]
     fn parse_switch_stmt(&mut self) -> PResult<'a, Stmt> {
         let switch_start = cur_pos!();
 
@@ -532,14 +526,15 @@ impl<'a, I: Tokens> Parser<'a, I> {
             None
         };
 
-        return Ok(VarDeclarator {
+        Ok(VarDeclarator {
             span: span!(start),
             name,
             init,
             definite,
-        });
+        })
     }
 
+    #[allow(clippy::cognitive_complexity)]
     fn parse_do_stmt(&mut self) -> PResult<'a, Stmt> {
         let start = cur_pos!();
 
@@ -608,22 +603,22 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
         for l in &self.state.labels {
             if label.sym == *l {
-                syntax_error!(SyntaxError::DuplicateLabel(label.sym.clone()));
+                syntax_error!(SyntaxError::DuplicateLabel(label.sym));
             }
         }
         let body = Box::new(if is!("function") {
             let f = self.parse_fn_decl(vec![])?;
-            match f {
-                Decl::Fn(FnDecl {
-                    function:
-                        Function {
-                            span,
-                            is_generator: true,
-                            ..
-                        },
-                    ..
-                }) => syntax_error!(span, SyntaxError::LabelledGenerator),
-                _ => {}
+            if let Decl::Fn(FnDecl {
+                function:
+                    Function {
+                        span,
+                        is_generator: true,
+                        ..
+                    },
+                ..
+            }) = f
+            {
+                syntax_error!(span, SyntaxError::LabelledGenerator)
             }
 
             f.into()
@@ -762,8 +757,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
 enum ForHead {
     For {
         init: Option<VarDeclOrExpr>,
-        test: Option<(Box<Expr>)>,
-        update: Option<(Box<Expr>)>,
+        test: Option<Box<Expr>>,
+        update: Option<Box<Expr>>,
     },
     ForIn {
         left: VarDeclOrPat,
@@ -826,7 +821,6 @@ mod tests {
         test_parser(s, Syntax::default(), |p| {
             p.parse_stmt(true).map_err(|mut e| {
                 e.emit();
-                ()
             })
         })
     }
@@ -835,7 +829,6 @@ mod tests {
         test_parser(s, Syntax::default(), |p| {
             p.parse_stmt_like(true, true).map_err(|mut e| {
                 e.emit();
-                ()
             })
         })
     }
@@ -843,7 +836,6 @@ mod tests {
         test_parser(s, Syntax::default(), |p| {
             p.parse_expr().map_err(|mut e| {
                 e.emit();
-                ()
             })
         })
     }
@@ -969,7 +961,6 @@ mod tests {
                 }),
                 |p| p.parse_stmt_list_item(true).map_err(|mut e| {
                     e.emit();
-                    ()
                 }),
             ),
             Stmt::Decl(Decl::Class(ClassDecl {
@@ -1020,7 +1011,6 @@ ReactDOM.render(<App />, document.getElementById('root'))
             |p| {
                 p.parse_module().map_err(|mut e| {
                     e.emit();
-                    ()
                 })
             },
         );
@@ -1044,7 +1034,6 @@ export default App"#;
             |p| {
                 p.parse_module().map_err(|mut e| {
                     e.emit();
-                    ()
                 })
             },
         );
@@ -1062,7 +1051,6 @@ export default App"#;
             |p| {
                 p.parse_module().map_err(|mut e| {
                     e.emit();
-                    ()
                 })
             },
         );
@@ -1080,7 +1068,6 @@ export default App"#;
             |p| {
                 p.parse_module().map_err(|mut e| {
                     e.emit();
-                    ()
                 })
             },
         );
@@ -1098,7 +1085,6 @@ export default App"#;
             |p| {
                 p.parse_module().map_err(|mut e| {
                     e.emit();
-                    ()
                 })
             },
         );
@@ -1116,7 +1102,6 @@ export default App"#;
             |p| {
                 p.parse_module().map_err(|mut e| {
                     e.emit();
-                    ()
                 })
             },
         );
@@ -1133,7 +1118,6 @@ export default App"#;
             |p| {
                 p.parse_module().map_err(|mut e| {
                     e.emit();
-                    ()
                 })
             },
         );
@@ -1151,7 +1135,6 @@ let x = 4";
             |p| {
                 p.parse_module().map_err(|mut e| {
                     e.emit();
-                    ()
                 })
             },
         );
@@ -1167,7 +1150,6 @@ let x = 4";
             |p| {
                 p.parse_module().map_err(|mut e| {
                     e.emit();
-                    ()
                 })
             },
         );
@@ -1185,7 +1167,6 @@ let x = 4";
             |p| {
                 p.parse_module().map_err(|mut e| {
                     e.emit();
-                    ()
                 })
             },
         );
@@ -1202,7 +1183,6 @@ export default function waitUntil(callback, options = {}) {
             |p| {
                 p.parse_module().map_err(|mut e| {
                     e.emit();
-                    ()
                 })
             },
         );
@@ -1219,7 +1199,6 @@ export default function waitUntil(callback, options = {}) {
             |p| {
                 p.parse_module().map_err(|mut e| {
                     e.emit();
-                    ()
                 })
             },
         );
@@ -1233,7 +1212,6 @@ export default function waitUntil(callback, options = {}) {
             |p| {
                 p.parse_module().map_err(|mut e| {
                     e.emit();
-                    ()
                 })
             },
         );
@@ -1255,7 +1233,6 @@ export default function waitUntil(callback, options = {}) {
         test_parser("export default function(){};", Default::default(), |p| {
             p.parse_module().map_err(|mut e| {
                 e.emit();
-                ()
             })
         });
     }
@@ -1268,7 +1245,6 @@ export default function waitUntil(callback, options = {}) {
             |p| {
                 p.parse_module().map_err(|mut e| {
                     e.emit();
-                    ()
                 })
             },
         );
@@ -1279,7 +1255,6 @@ export default function waitUntil(callback, options = {}) {
         test_parser("export default function*(){};", Default::default(), |p| {
             p.parse_module().map_err(|mut e| {
                 e.emit();
-                ()
             })
         });
     }
@@ -1289,7 +1264,6 @@ export default function waitUntil(callback, options = {}) {
         test_parser("export default class {};", Default::default(), |p| {
             p.parse_module().map_err(|mut e| {
                 e.emit();
-                ()
             })
         });
     }
@@ -1302,7 +1276,6 @@ export default function waitUntil(callback, options = {}) {
             |p| {
                 p.parse_module().map_err(|mut e| {
                     e.emit();
-                    ()
                 })
             },
         );
@@ -1319,7 +1292,6 @@ export default function waitUntil(callback, options = {}) {
             |p| {
                 p.parse_module().map_err(|mut e| {
                     e.emit();
-                    ()
                 })
             },
         );
@@ -1341,7 +1313,6 @@ export default function waitUntil(callback, options = {}) {
             |p| {
                 p.parse_module().map_err(|mut e| {
                     e.emit();
-                    ()
                 })
             },
         );
@@ -1358,7 +1329,6 @@ export default function waitUntil(callback, options = {}) {
             |p| {
                 p.parse_module().map_err(|mut e| {
                     e.emit();
-                    ()
                 })
             },
         );

@@ -265,7 +265,7 @@ impl<'a> Fold<Expr> for ConstructorFolder<'a> {
                     right,
                 })
             }
-            _ => return expr,
+            _ => expr,
         }
     }
 }
@@ -474,10 +474,10 @@ impl<'a> Fold<Pat> for VarRenamer<'a> {
         match pat {
             Pat::Ident(ident) => {
                 if *self.class_name == ident.sym {
-                    return Pat::Ident(Ident {
+                    Pat::Ident(Ident {
                         span: ident.span.apply_mark(self.mark),
                         ..ident
-                    });
+                    })
                 } else {
                     Pat::Ident(ident)
                 }

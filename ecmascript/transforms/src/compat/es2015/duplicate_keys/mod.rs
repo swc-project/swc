@@ -52,12 +52,12 @@ impl Fold<Prop> for PropFolder {
                 if !self.getter_props.insert(ident.sym.clone())
                     || !self.setter_props.insert(ident.sym.clone())
                 {
-                    return Prop::KeyValue(KeyValueProp {
+                    Prop::KeyValue(KeyValueProp {
                         key: PropName::Computed(box Expr::Lit(Lit::Str(quote_str!(ident
                             .sym
                             .clone())))),
                         value: box Expr::Ident(ident),
-                    });
+                    })
                 } else {
                     Prop::Shorthand(ident)
                 }
@@ -99,18 +99,18 @@ impl<'a> Fold<PropName> for PropNameFolder<'a> {
         match name {
             PropName::Ident(ident) => {
                 if !self.props.insert(ident.sym.clone()) {
-                    return PropName::Computed(box Expr::Lit(Lit::Str(Str {
+                    PropName::Computed(box Expr::Lit(Lit::Str(Str {
                         span,
-                        value: ident.sym.clone(),
+                        value: ident.sym,
                         has_escape: false,
-                    })));
+                    })))
                 } else {
                     PropName::Ident(ident)
                 }
             }
             PropName::Str(s) => {
                 if !self.props.insert(s.value.clone()) {
-                    return PropName::Computed(box Expr::Lit(Lit::Str(s.clone())));
+                    PropName::Computed(box Expr::Lit(Lit::Str(s)))
                 } else {
                     PropName::Str(s)
                 }

@@ -266,7 +266,7 @@ impl Fold<Vec<VarDeclarator>> for AssignFolder {
 
                                         let var_decl = VarDeclarator {
                                             span: prop_span,
-                                            name: Pat::Ident(key.clone().into()),
+                                            name: Pat::Ident(key.clone()),
                                             init: Some(box make_cond_expr(ref_ident, value)),
                                             definite: false,
                                         };
@@ -275,7 +275,7 @@ impl Fold<Vec<VarDeclarator>> for AssignFolder {
                                     None => {
                                         let var_decl = VarDeclarator {
                                             span: prop_span,
-                                            name: Pat::Ident(key.clone().into()),
+                                            name: Pat::Ident(key.clone()),
                                             init: Some(box make_ref_prop_expr(
                                                 &ref_ident,
                                                 box key.clone().into(),
@@ -298,7 +298,7 @@ impl Fold<Vec<VarDeclarator>> for AssignFolder {
                     span,
                     left,
                     right: def_value,
-                    type_ann: _,
+                    ..
                 }) => {
                     assert!(
                         decl.init.is_some(),
@@ -425,14 +425,12 @@ impl Fold<Expr> for AssignFolder {
                         right,
                     }),
 
-                    Pat::Ident(..) => {
-                        return Expr::Assign(AssignExpr {
-                            span,
-                            left: PatOrExpr::Pat(pat),
-                            op: op!("="),
-                            right,
-                        });
-                    }
+                    Pat::Ident(..) => Expr::Assign(AssignExpr {
+                        span,
+                        left: PatOrExpr::Pat(pat),
+                        op: op!("="),
+                        right,
+                    }),
                     Pat::Array(ArrayPat { elems, .. }) => {
                         // initialized by first element of sequence expression
                         let ref_ident = make_ref_ident(&mut self.vars, None);
@@ -568,9 +566,7 @@ impl Fold<Expr> for AssignFolder {
 
                                             exprs.push(box Expr::Assign(AssignExpr {
                                                 span,
-                                                left: PatOrExpr::Pat(box Pat::Ident(
-                                                    key.clone().into(),
-                                                )),
+                                                left: PatOrExpr::Pat(box Pat::Ident(key.clone())),
                                                 op: op!("="),
                                                 right: box make_cond_expr(prop_ident, value),
                                             }));
@@ -578,9 +574,7 @@ impl Fold<Expr> for AssignFolder {
                                         None => {
                                             exprs.push(box Expr::Assign(AssignExpr {
                                                 span,
-                                                left: PatOrExpr::Pat(box Pat::Ident(
-                                                    key.clone().into(),
-                                                )),
+                                                left: PatOrExpr::Pat(box Pat::Ident(key.clone())),
                                                 op: op!("="),
                                                 right: box make_ref_prop_expr(
                                                     &ref_ident,
@@ -609,14 +603,12 @@ impl Fold<Expr> for AssignFolder {
                     Pat::Assign(pat) => unimplemented!("assignment pattern {:?}", pat),
                     Pat::Rest(pat) => unimplemented!("rest pattern {:?}", pat),
                 },
-                _ => {
-                    return Expr::Assign(AssignExpr {
-                        span,
-                        left,
-                        op: op!("="),
-                        right,
-                    });
-                }
+                _ => Expr::Assign(AssignExpr {
+                    span,
+                    left,
+                    op: op!("="),
+                    right,
+                }),
             },
             _ => expr,
         }

@@ -60,7 +60,7 @@ impl Fold<Expr> for SimplifyExpr {
                 } else {
                     assert!(!exprs.is_empty(), "sequence expression should not be empty");
                     //TODO: remove unused
-                    return Expr::Seq(SeqExpr { span, exprs });
+                    Expr::Seq(SeqExpr { span, exprs })
                 }
             }
 
@@ -76,6 +76,7 @@ fn fold_member_expr(e: MemberExpr) -> Expr {
         /// [a, b].length
         Len,
 
+        #[allow(dead_code)]
         Index(u32),
 
         /// ({}).foo
@@ -149,10 +150,10 @@ fn fold_member_expr(e: MemberExpr) -> Expr {
                 });
             }
 
-            return Expr::Lit(Lit::Num(Number {
+            Expr::Lit(Lit::Num(Number {
                 value: elems.len() as _,
                 span,
-            }));
+            }))
         }
 
         // { foo: true }['foo']
@@ -227,16 +228,13 @@ fn fold_bin(
                         span,
                     }) => {
                         if !left.may_have_side_effects() && !right.may_have_side_effects() {
-                            match (left.as_string(), right.as_string()) {
-                                (Known(l), Known(r)) => {
-                                    return Expr::Lit(Lit::Str(Str {
-                                        value: format!("{}{}", l, r).into(),
-                                        span,
-                                        // TODO
-                                        has_escape: false,
-                                    }));
-                                }
-                                _ => {}
+                            if let (Known(l), Known(r)) = (left.as_string(), right.as_string()) {
+                                return Expr::Lit(Lit::Str(Str {
+                                    value: format!("{}{}", l, r).into(),
+                                    span,
+                                    // TODO
+                                    has_escape: false,
+                                }));
                             }
                         }
 
@@ -253,10 +251,7 @@ fn fold_bin(
                 Known(BoolType) | Known(NullType) | Known(NumberType) | Known(UndefinedType) => {
                     bin = match bin {
                         Expr::Bin(BinExpr {
-                            left,
-                            op: _,
-                            right,
-                            span,
+                            left, right, span, ..
                         }) => match perform_arithmetic_op(op!(bin, "+"), &left, &right) {
                             Known(v) => {
                                 return preserve_effects(
@@ -292,14 +287,12 @@ fn fold_bin(
                         // 0 && $right
                         return *left;
                     }
+                } else if val {
+                    // 1 || $right
+                    return *left;
                 } else {
-                    if val {
-                        // 1 || $right
-                        return *left;
-                    } else {
-                        // 0 || $right
-                        right
-                    }
+                    // 0 || $right
+                    right
                 };
 
                 return if !left.may_have_side_effects() {
@@ -378,7 +371,7 @@ fn fold_bin(
             /// to how JavaScript would convert a number before applying a bit
             /// operation.
             fn js_convert_double_to_bits(d: f64) -> i32 {
-                return ((d.floor() as i64) & 0xffffffff) as i32;
+                ((d.floor() as i64) & 0xffff_ffff) as i32
             }
 
             fn try_fold_shift(op: BinaryOp, left: &Expr, right: &Expr) -> Value<f64> {
@@ -420,7 +413,7 @@ fn fold_bin(
                         // JavaScript always treats the result of >>> as unsigned.
                         // We must force Java to do the same here.
                         // unimplemented!(">>> (Zerofill rshift)")
-                        (0xffffffffu32 & res) as f64
+                        res as f64
                     }
 
                     _ => unreachable!("Unknown bit operator {:?}", op),
@@ -436,31 +429,29 @@ fn fold_bin(
             let (mut left, right) = try_replace!(number, perform_arithmetic_op(op, &left, &right));
 
             // Try left.rhs * right
-            match *left {
-                Expr::Bin(BinExpr {
-                    span: left_span,
+            if let Expr::Bin(BinExpr {
+                span: left_span,
+                left: left_lhs,
+                op: left_op,
+                right: left_rhs,
+            }) = *left
+            {
+                if left_op == op {
+                    if let Known(value) = perform_arithmetic_op(op, &left_rhs, &right) {
+                        return Expr::Bin(BinExpr {
+                            span,
+                            left: left_lhs,
+                            op: left_op,
+                            right: box Expr::Lit(Lit::Num(Number { value, span })),
+                        });
+                    }
+                }
+                left = box Expr::Bin(BinExpr {
                     left: left_lhs,
                     op: left_op,
+                    span: left_span,
                     right: left_rhs,
-                }) => {
-                    if left_op == op {
-                        if let Known(value) = perform_arithmetic_op(op, &left_rhs, &right) {
-                            return Expr::Bin(BinExpr {
-                                span,
-                                left: left_lhs,
-                                op: left_op,
-                                right: box Expr::Lit(Lit::Num(Number { value, span })),
-                            });
-                        }
-                    }
-                    left = box Expr::Bin(BinExpr {
-                        left: left_lhs,
-                        op: left_op,
-                        span: left_span,
-                        right: left_rhs,
-                    })
-                }
-                _ => {}
+                })
             }
 
             (left, right)
@@ -793,22 +784,16 @@ fn perform_abstract_rel_cmp(
     // Try to evaluate based on the general type.
     let (lt, rt) = (left.get_type(), right.get_type());
 
-    match (lt, rt) {
-        (Known(StringType), Known(StringType)) => {
-            match (left.as_string(), right.as_string()) {
-                (Known(lv), Known(rv)) => {
-                    // In JS, browsers parse \v differently. So do not compare strings if one
-                    // contains \v.
-                    if lv.contains('\u{000B}') || rv.contains('\u{000B}') {
-                        return Unknown;
-                    } else {
-                        return Known(lv < rv);
-                    }
-                }
-                _ => {}
+    if let (Known(StringType), Known(StringType)) = (lt, rt) {
+        if let (Known(lv), Known(rv)) = (left.as_string(), right.as_string()) {
+            // In JS, browsers parse \v differently. So do not compare strings if one
+            // contains \v.
+            if lv.contains('\u{000B}') || rv.contains('\u{000B}') {
+                return Unknown;
+            } else {
+                return Known(lv < rv);
             }
         }
-        _ => {}
     }
 
     // Then, try to evaluate based on the value of the node. Try comparing as
@@ -818,7 +803,7 @@ fn perform_abstract_rel_cmp(
         return Known(will_negate);
     }
 
-    return Known(lv < rv);
+    Known(lv < rv)
 }
 
 /// https://tc39.github.io/ecma262/#sec-abstract-equality-comparison
@@ -830,31 +815,27 @@ fn perform_abstract_eq_cmp(span: Span, left: &Expr, right: &Expr) -> Value<bool>
     }
 
     match (lt, rt) {
-        (NullType, UndefinedType) | (UndefinedType, NullType) => return Known(true),
+        (NullType, UndefinedType) | (UndefinedType, NullType) => Known(true),
         (NumberType, StringType) | (_, BoolType) => {
             let rv = right.as_number()?;
-            return perform_abstract_eq_cmp(
-                span,
-                left,
-                &Expr::Lit(Lit::Num(Number { value: rv, span })),
-            );
+            perform_abstract_eq_cmp(span, left, &Expr::Lit(Lit::Num(Number { value: rv, span })))
         }
 
         (StringType, NumberType) | (BoolType, _) => {
             let lv = left.as_number()?;
-            return perform_abstract_eq_cmp(
+            perform_abstract_eq_cmp(
                 span,
                 &Expr::Lit(Lit::Num(Number { value: lv, span })),
                 right,
-            );
+            )
         }
 
         (StringType, ObjectType)
         | (NumberType, ObjectType)
         | (ObjectType, StringType)
-        | (ObjectType, NumberType) => return Unknown,
+        | (ObjectType, NumberType) => Unknown,
 
-        _ => return Known(false),
+        _ => Known(false),
     }
 }
 
@@ -888,10 +869,8 @@ fn perform_strict_eq_cmp(_span: Span, left: &Expr, right: &Expr) -> Value<bool> 
     }
 
     match lt {
-        UndefinedType | NullType => return Known(true),
-        NumberType => {
-            return Known(left.as_number()? == right.as_number()?);
-        }
+        UndefinedType | NullType => Known(true),
+        NumberType => Known(left.as_number()? == right.as_number()?),
         StringType => {
             let (lv, rv) = (left.as_string()?, right.as_string()?);
             // In JS, browsers parse \v differently. So do not consider strings
@@ -899,16 +878,16 @@ fn perform_strict_eq_cmp(_span: Span, left: &Expr, right: &Expr) -> Value<bool> 
             if lv.contains('\u{000B}') || rv.contains('\u{000B}') {
                 return Unknown;
             }
-            return Known(lv == rv);
+            Known(lv == rv)
         }
         BoolType => {
             let (lv, rv) = (left.as_pure_bool(), right.as_pure_bool());
 
             // lv && rv || !lv && !rv
 
-            return lv.and(rv).or((!lv).and(!rv));
+            lv.and(rv).or((!lv).and(!rv))
         }
-        ObjectType | SymbolType => return Unknown,
+        ObjectType | SymbolType => Unknown,
     }
 }
 
@@ -927,6 +906,7 @@ where
 {
     /// Add side effects of `expr` to `v`
     /// preserving order and conditions. (think a() ? yield b() : c())
+    #[allow(clippy::vec_box)]
     fn add_effects(v: &mut Vec<Box<Expr>>, box expr: Box<Expr>) {
         match expr {
             Expr::Lit(..)
@@ -934,9 +914,7 @@ where
             | Expr::Fn(..)
             | Expr::Arrow(..)
             | Expr::Ident(..)
-            | Expr::PrivateName(..) => {
-                return;
-            }
+            | Expr::PrivateName(..) => {}
 
             // In most case, we can do nothing for this.
             Expr::Update(_) | Expr::Assign(_) | Expr::Yield(_) | Expr::Await(_) => v.push(box expr),
@@ -969,21 +947,21 @@ where
             Expr::Object(ObjectLit { props, .. }) => {
                 props.into_iter().for_each(|node| match node {
                     PropOrSpread::Prop(box node) => match node {
-                        Prop::Shorthand(..) => return,
+                        Prop::Shorthand(..) => {}
                         Prop::KeyValue(KeyValueProp { key, value }) => {
-                            match key {
-                                PropName::Computed(e) => add_effects(v, e),
-                                _ => {}
+                            if let PropName::Computed(e) = key {
+                                add_effects(v, e);
                             }
 
                             add_effects(v, value)
                         }
                         Prop::Getter(GetterProp { key, .. })
                         | Prop::Setter(SetterProp { key, .. })
-                        | Prop::Method(MethodProp { key, .. }) => match key {
-                            PropName::Computed(e) => add_effects(v, e),
-                            _ => {}
-                        },
+                        | Prop::Method(MethodProp { key, .. }) => {
+                            if let PropName::Computed(e) = key {
+                                add_effects(v, e)
+                            }
+                        }
                         Prop::Assign(..) => {
                             unreachable!("assign property in object literal is not a valid syntax")
                         }
@@ -998,7 +976,6 @@ where
 
                     v
                 });
-                return;
             }
 
             Expr::TaggedTpl { .. } => unimplemented!("add_effects for tagged template literal"),
@@ -1026,7 +1003,7 @@ where
     });
 
     if exprs.is_empty() {
-        return val;
+        val
     } else {
         exprs.push(box val);
 

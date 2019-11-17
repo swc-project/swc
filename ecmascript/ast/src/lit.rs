@@ -75,7 +75,7 @@ pub struct Number {
 }
 
 impl Display for Number {
-    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         if self.value.is_infinite() {
             if self.value.is_sign_positive() {
                 Display::fmt("Infinity", f)

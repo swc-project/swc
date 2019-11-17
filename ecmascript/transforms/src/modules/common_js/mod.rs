@@ -34,10 +34,8 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
         let mut stmts = Vec::with_capacity(items.len() + 4);
         let mut extra_stmts = Vec::with_capacity(items.len());
 
-        if self.config.strict_mode {
-            if !has_use_strict(&items) {
-                stmts.push(ModuleItem::Stmt(use_strict()));
-            }
+        if self.config.strict_mode && !has_use_strict(&items) {
+            stmts.push(ModuleItem::Stmt(use_strict()));
         }
 
         let mut exports = vec![];
@@ -351,7 +349,7 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
 
                                 // When we are in top level we make import not lazy.
                                 let is_top_level = if lazy { !is_reexport } else { true };
-                                self.in_top_level = is_top_level.into();
+                                self.in_top_level = is_top_level;
 
                                 let value = match imported {
                                     Some(ref imported) => {

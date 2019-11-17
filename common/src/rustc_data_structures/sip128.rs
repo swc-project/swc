@@ -112,10 +112,10 @@ impl SipHasher128 {
     #[inline]
     fn reset(&mut self) {
         self.length = 0;
-        self.state.v0 = self.k0 ^ 0x736f6d6570736575;
-        self.state.v1 = self.k1 ^ 0x646f72616e646f6d;
-        self.state.v2 = self.k0 ^ 0x6c7967656e657261;
-        self.state.v3 = self.k1 ^ 0x7465646279746573;
+        self.state.v0 = self.k0 ^ 0x736f_6d65_7073_6575;
+        self.state.v1 = self.k1 ^ 0x646f_7261_6e64_6f6d;
+        self.state.v2 = self.k0 ^ 0x6c79_6765_6e65_7261;
+        self.state.v3 = self.k1 ^ 0x7465_6462_7974_6573;
         self.ntail = 0;
 
         // This is only done in the 128 bit version:
@@ -240,7 +240,7 @@ impl Hasher for SipHasher128 {
 
         if self.ntail != 0 {
             needed = 8 - self.ntail;
-            self.tail |= unsafe { u8to64_le(msg, 0, cmp::min(length, needed)) } << 8 * self.ntail;
+            self.tail |= unsafe { u8to64_le(msg, 0, cmp::min(length, needed)) } << (8 * self.ntail);
             if length < needed {
                 self.ntail += length;
                 return;
@@ -643,7 +643,7 @@ mod test {
     fn test_hash_idempotent() {
         let val64 = 0xdeadbeef_deadbeef_u64;
         assert_eq!(hash(&val64), hash(&val64));
-        let val32 = 0xdeadbeef_u32;
+        let val32 = 0xdead_beef_u32;
         assert_eq!(hash(&val32), hash(&val32));
     }
 
@@ -668,7 +668,7 @@ mod test {
 
     #[test]
     fn test_hash_no_bytes_dropped_32() {
-        let val = 0xdeadbeef_u32;
+        let val = 0xdead_beef_u32;
 
         assert!(hash(&val) != hash(&zero_byte(val, 0)));
         assert!(hash(&val) != hash(&zero_byte(val, 1)));
@@ -700,7 +700,7 @@ mod test {
 
     #[test]
     fn test_write_short_works() {
-        let test_usize = 0xd0c0b0a0usize;
+        let test_usize = 0xd0c0_b0a0usize;
         let mut h1 = SipHasher128::new_with_keys(0, 0);
         h1.write_usize(test_usize);
         h1.write(b"bytes");

@@ -1,4 +1,4 @@
-use def_site;
+use crate::def_site;
 use pmutil::prelude::*;
 use syn::{punctuated::Pair, *};
 
@@ -47,13 +47,11 @@ impl ItemImplExt for ItemImpl {
         }
 
         // Respan
-        match generics.lt_token {
-            Some(t) => self.generics.lt_token = Some(t),
-            None => {}
+        if let Some(t) = generics.lt_token {
+            self.generics.lt_token = Some(t)
         }
-        match generics.gt_token {
-            Some(t) => self.generics.gt_token = Some(t),
-            None => {}
+        if let Some(t) = generics.gt_token {
+            self.generics.gt_token = Some(t)
         }
 
         let ty = self.self_ty;

@@ -9,8 +9,8 @@
 // except according to those terms.
 
 use super::{snippet::Style, Applicability, CodeSuggestion, Level, Substitution, SubstitutionPart};
+use crate::syntax_pos::{MultiSpan, Span};
 use std::fmt;
-use syntax_pos::{MultiSpan, Span};
 
 #[must_use]
 #[derive(Clone, Debug, PartialEq, Hash)]
@@ -38,12 +38,12 @@ pub struct SubDiagnostic {
     pub render_span: Option<MultiSpan>,
 }
 
-#[derive(PartialEq, Eq)]
+#[derive(PartialEq, Eq, Default)]
 pub struct DiagnosticStyledString(pub Vec<StringPart>);
 
 impl DiagnosticStyledString {
     pub fn new() -> DiagnosticStyledString {
-        DiagnosticStyledString(vec![])
+        Default::default()
     }
     pub fn push_normal<S: Into<String>>(&mut self, t: S) {
         self.0.push(StringPart::Normal(t.into()));

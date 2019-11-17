@@ -86,9 +86,9 @@ pub trait SourceMapperExt {
                 return first_child.starts_on_new_line(format);
             }
 
-            return !self.is_on_same_line(parent_node.lo(), first_child.lo());
+            !self.is_on_same_line(parent_node.lo(), first_child.lo())
         } else {
-            return false;
+            false
         }
     }
 
@@ -113,12 +113,12 @@ pub trait SourceMapperExt {
 
             let last_child = children[children.len() - 1].span();
             if parent_node.is_synthesized() || last_child.is_synthesized() {
-                return last_child.starts_on_new_line(format);
+                last_child.starts_on_new_line(format)
             } else {
-                return !self.is_on_same_line(parent_node.hi(), last_child.hi());
+                !self.is_on_same_line(parent_node.hi(), last_child.hi())
             }
         } else {
-            return false;
+            false
         }
     }
 }
@@ -173,7 +173,7 @@ impl StartsWithAlphaNum for Expr {
             Expr::Assign(AssignExpr { ref left, .. }) => left.starts_with_alpha_num(),
 
             Expr::Bin(BinExpr { ref left, .. }) | Expr::Cond(CondExpr { test: ref left, .. }) => {
-                return left.starts_with_alpha_num();
+                left.starts_with_alpha_num()
             }
             Expr::Call(CallExpr {
                 callee: ref left, ..
@@ -252,7 +252,7 @@ impl StartsWithAlphaNum for ExprOrSuper {
     fn starts_with_alpha_num(&self) -> bool {
         match *self {
             ExprOrSuper::Super(_) => true,
-            ExprOrSuper::Expr(ref e) => return e.starts_with_alpha_num(),
+            ExprOrSuper::Expr(ref e) => e.starts_with_alpha_num(),
         }
     }
 }

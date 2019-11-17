@@ -1,9 +1,9 @@
 #[macro_use]
 extern crate pmutil;
 extern crate proc_macro;
-extern crate proc_macro2;
-extern crate swc_macros_common;
-extern crate syn;
+use proc_macro2;
+
+use syn;
 
 use swc_macros_common::prelude::*;
 

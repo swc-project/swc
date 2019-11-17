@@ -1,4 +1,4 @@
-use def_site;
+use crate::def_site;
 use pmutil::ToTokensExt;
 use proc_macro2::TokenStream;
 use quote::ToTokens;
@@ -24,12 +24,9 @@ impl<'a> Derive<'a> {
                 .clone()
                 .into_pairs()
                 .map(|mut pair| {
-                    match *pair.value_mut() {
-                        GenericParam::Type(ref mut t) => {
-                            t.eq_token = None;
-                            t.default = None;
-                        }
-                        _ => {}
+                    if let GenericParam::Type(ref mut t) = *pair.value_mut() {
+                        t.eq_token = None;
+                        t.default = None;
                     }
 
                     pair

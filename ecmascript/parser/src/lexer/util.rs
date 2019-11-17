@@ -5,9 +5,8 @@
 //!
 //!
 //! [babylon/util/identifier.js]:https://github.com/babel/babel/blob/master/packages/babylon/src/util/identifier.js
-use super::{input::Input, LexResult, Lexer};
+use super::{input::Input, Char, LexResult, Lexer};
 use crate::error::{ErrorToDiag, SyntaxError};
-use lexer::Char;
 use std::char;
 use swc_common::{
     comments::{Comment, CommentKind},
@@ -20,16 +19,14 @@ pub(super) struct Raw(pub Option<String>);
 impl Raw {
     #[inline]
     pub fn push_str(&mut self, s: &str) {
-        match self.0 {
-            Some(ref mut st) => st.push_str(s),
-            _ => {}
+        if let Some(ref mut st) = self.0 {
+            st.push_str(s)
         }
     }
     #[inline]
     pub fn push(&mut self, c: char) {
-        match self.0 {
-            Some(ref mut st) => st.push(c),
-            _ => {}
+        if let Some(ref mut st) = self.0 {
+            st.push(c)
         }
     }
 }
@@ -102,7 +99,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             span,
             error: kind,
         };
-        Err(err)?
+        Err(err.into())
     }
 
     /// Skip comments or whitespaces.
@@ -170,21 +167,18 @@ impl<'a, I: Input> Lexer<'a, I> {
         }
 
         let pos = self.cur_pos();
-        match self.comments {
-            Some(ref comments) => {
-                let s = self.input.slice(slice_start, pos);
-                let cmt = Comment {
-                    kind: CommentKind::Line,
-                    span: Span::new(start, pos, SyntaxContext::empty()),
-                    text: s.into(),
-                };
-                if is_for_next {
-                    self.leading_comments_buffer.as_mut().unwrap().push(cmt);
-                } else {
-                    comments.add_trailing(self.state.prev_hi, cmt);
-                }
+        if let Some(ref comments) = self.comments {
+            let s = self.input.slice(slice_start, pos);
+            let cmt = Comment {
+                kind: CommentKind::Line,
+                span: Span::new(start, pos, SyntaxContext::empty()),
+                text: s.into(),
+            };
+            if is_for_next {
+                self.leading_comments_buffer.as_mut().unwrap().push(cmt);
+            } else {
+                comments.add_trailing(self.state.prev_hi, cmt);
             }
-            None => {}
         }
     }
 
@@ -215,22 +209,19 @@ impl<'a, I: Input> Lexer<'a, I> {
                 self.bump(); // '/'
 
                 let pos = self.cur_pos();
-                match self.comments {
-                    Some(ref comments) => {
-                        let src = self.input.slice(slice_start, pos);
-                        let s = &src[..src.len() - 2];
-                        let cmt = Comment {
-                            kind: CommentKind::Block,
-                            span: Span::new(start, pos, SyntaxContext::empty()),
-                            text: s.into(),
-                        };
-                        if is_for_next {
-                            self.leading_comments_buffer.as_mut().unwrap().push(cmt);
-                        } else {
-                            comments.add_trailing(self.state.prev_hi, cmt);
-                        }
+                if let Some(ref comments) = self.comments {
+                    let src = self.input.slice(slice_start, pos);
+                    let s = &src[..src.len() - 2];
+                    let cmt = Comment {
+                        kind: CommentKind::Block,
+                        span: Span::new(start, pos, SyntaxContext::empty()),
+                        text: s.into(),
+                    };
+                    if is_for_next {
+                        self.leading_comments_buffer.as_mut().unwrap().push(cmt);
+                    } else {
+                        comments.add_trailing(self.state.prev_hi, cmt);
                     }
-                    None => {}
                 }
                 // TODO: push comment
                 return Ok(());

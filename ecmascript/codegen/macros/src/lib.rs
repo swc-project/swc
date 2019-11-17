@@ -1,11 +1,11 @@
 #[macro_use]
 extern crate pmutil;
 extern crate proc_macro;
-extern crate proc_macro2;
+use proc_macro2;
 #[macro_use]
 extern crate quote;
-extern crate swc_macros_common;
-extern crate syn;
+
+use syn;
 
 use pmutil::{Quote, ToTokensExt};
 use proc_macro::TokenStream;
@@ -36,8 +36,7 @@ fn expand(i: ImplItemMethod) -> ImplItemMethod {
                 .inputs
                 .clone()
                 .into_iter()
-                .skip(1)
-                .next()
+                .nth(1)
                 .and_then(|arg| match arg {
                     FnArg::Ignored(ty) | FnArg::Captured(ArgCaptured { ty, .. }) => Some(ty),
                     _ => None,
@@ -69,8 +68,8 @@ fn (&mut self, node: Node) -> Result;
                 {
                     {
                         const _FOO: () = {
-                            impl ::Node for NodeType {
-                                fn emit_with(&self, e: &mut ::Emitter) -> Result {
+                            impl crate::Node for NodeType {
+                                fn emit_with(&self, e: &mut crate::Emitter) -> Result {
                                     e.mtd_name(self)
                                 }
                             }

@@ -68,20 +68,21 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
                             .dump()
                         });
 
-                    let value = match should_skip_field(binding.field()) {
-                        true => Quote::new(def_site::<Span>()).quote_with(smart_quote!(
+                    let value = if should_skip_field(binding.field()) {
+                        Quote::new(def_site::<Span>()).quote_with(smart_quote!(
                             Vars {
                                 binded_field: binding.name(),
                             },
                             { binded_field }
-                        )),
-                        false => Quote::new(def_site::<Span>()).quote_with(smart_quote!(
+                        ))
+                    } else {
+                        Quote::new(def_site::<Span>()).quote_with(smart_quote!(
                             Vars {
                                 FieldType: &binding.field().ty,
                                 binded_field: binding.name(),
                             },
                             { swc_common::Fold::<FieldType>::fold(_f, binded_field,) }
-                        )),
+                        ))
                     };
 
                     let v = Quote::new(def_site::<Span>())
@@ -171,6 +172,7 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
             {
                 impl<__Fold> swc_common::FoldWith<__Fold> for Type {
                     #[inline]
+                    #[allow(clippy::needless_return)]
                     fn fold_children(self, _f: &mut __Fold) -> Self {
                         body
                     }
@@ -178,11 +180,7 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
             }
         ))
         .parse();
-    let item = derive_generics.append_to(item);
-
-    // println!("Expaned:\n {}\n\n", item.dump());
-
-    item
+    derive_generics.append_to(item)
 }
 
 fn should_skip_field(field: &Field) -> bool {
@@ -218,11 +216,8 @@ fn normalize_type_for_bound(ty: Type) -> Type {
                         if let GenericArgument::Type(ref ty) =
                             *args.args.last().unwrap().into_value()
                         {
-                            match *ty {
-                                Type::Path(TypePath { ref path, .. }) => {
-                                    return self.fold_path(path.clone());
-                                }
-                                _ => {}
+                            if let Type::Path(TypePath { ref path, .. }) = *ty {
+                                return self.fold_path(path.clone());
                             }
                         }
                     }
@@ -233,6 +228,5 @@ fn normalize_type_for_bound(ty: Type) -> Type {
         }
     }
 
-    let out = Norm.fold_type(ty);
-    out
+    Norm.fold_type(ty)
 }

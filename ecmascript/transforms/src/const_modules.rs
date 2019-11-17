@@ -53,7 +53,6 @@ fn parse_option(name: &str, src: String) -> Arc<Expr> {
     .parse_expr()
     .map_err(|mut e| {
         e.emit();
-        ()
     })
     .map(drop_span)
     .unwrap_or_else(|()| {
@@ -142,7 +141,7 @@ impl Fold<Expr> for ConstModules {
             Expr::Ident(Ident { ref sym, .. }) => {
                 // It's ok because we don't recurse into member expressions.
                 if let Some(value) = self.scope.imported.get(sym) {
-                    return (**value).clone();
+                    (**value).clone()
                 } else {
                     expr
                 }
@@ -157,7 +156,7 @@ mod tests {
     use super::*;
     use crate::tests::Tester;
 
-    fn tr(_: &mut Tester, sources: &[(&str, &[(&str, &str)])]) -> impl Fold<Module> {
+    fn tr(_: &mut Tester<'_>, sources: &[(&str, &[(&str, &str)])]) -> impl Fold<Module> {
         let mut m = HashMap::default();
 
         for (src, values) in sources {

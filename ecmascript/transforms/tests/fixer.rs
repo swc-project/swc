@@ -2,14 +2,11 @@
 #![feature(box_patterns)]
 #![feature(specialization)]
 #![feature(test)]
-extern crate sourcemap;
-extern crate swc_common;
-extern crate swc_ecma_ast;
-extern crate swc_ecma_codegen;
-extern crate swc_ecma_parser;
-extern crate swc_ecma_transforms;
+
+use swc_ecma_codegen;
+
 extern crate test;
-extern crate testing;
+
 use std::{
     env,
     fs::{read_dir, File},
@@ -171,7 +168,7 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                     {
                         let handlers = box MyHandlers;
                         let handlers2 = box MyHandlers;
-                        let mut parser: Parser<Lexer<SourceFileInput>> = Parser::new(
+                        let mut parser: Parser<'_, Lexer<'_, SourceFileInput<'_>>> = Parser::new(
                             Session { handler: &handler },
                             Syntax::default(),
                             (&*src).into(),
@@ -195,10 +192,7 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                             cfg: swc_ecma_codegen::Config { minify: false },
                             cm: cm.clone(),
                             wr: box swc_ecma_codegen::text_writer::JsWriter::new(
-                                cm.clone(),
-                                "\n",
-                                &mut wr2,
-                                None,
+                                cm, "\n", &mut wr2, None,
                             ),
                             comments: None,
                             handlers: handlers2,
@@ -207,7 +201,7 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
 
                         // Parse source
 
-                        let mut e_parser: Parser<Lexer<SourceFileInput>> = Parser::new(
+                        let mut e_parser: Parser<'_, Lexer<'_, SourceFileInput<'_>>> = Parser::new(
                             Session { handler: &handler },
                             Syntax::default(),
                             (&*expected).into(),
@@ -221,14 +215,12 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                                 .map(|p| p.fold_with(&mut fixer()))
                                 .map_err(|mut e| {
                                     e.emit();
-                                    ()
                                 })?;
                             let module2 = e_parser
                                 .parse_module()
                                 .map(normalize)
                                 .map_err(|mut e| {
                                     e.emit();
-                                    ()
                                 })
                                 .expect("failed to parse reference file");
                             if module == module2 {
@@ -243,7 +235,6 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                                 .map(|p| p.fold_with(&mut fixer()))
                                 .map_err(|mut e| {
                                     e.emit();
-                                    ()
                                 })?;
                             let script2 = e_parser
                                 .parse_script()
@@ -251,7 +242,6 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                                 .map(|p| p.fold_with(&mut fixer()))
                                 .map_err(|mut e| {
                                     e.emit();
-                                    ()
                                 })?;
 
                             if script == script2 {

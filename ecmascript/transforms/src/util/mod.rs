@@ -247,7 +247,6 @@ pub trait ExprExt {
 
             Expr::Unary(UnaryExpr {
                 op: op!("void"),
-                arg: _,
                 ..
             }) => Known(false),
 
@@ -298,12 +297,12 @@ pub trait ExprExt {
                         sym: js_word!("Infinity"),
                         ..
                     }),
-                span: _,
+                ..
             }) => -INFINITY,
             Expr::Unary(UnaryExpr {
                 op: op!("!"),
                 ref arg,
-                span: _,
+                ..
             }) => match arg.as_bool() {
                 (Pure, Known(v)) => {
                     if v {
@@ -317,7 +316,7 @@ pub trait ExprExt {
             Expr::Unary(UnaryExpr {
                 op: op!("void"),
                 ref arg,
-                span: _,
+                ..
             }) => {
                 if arg.may_have_side_effects() {
                     return Unknown;
@@ -336,7 +335,7 @@ pub trait ExprExt {
         Known(v)
     }
 
-    fn as_string(&self) -> Value<Cow<str>> {
+    fn as_string(&self) -> Value<Cow<'_, str>> {
         let expr = self.as_expr_kind();
         match *expr {
             Expr::Lit(ref l) => match *l {
@@ -436,7 +435,7 @@ pub trait ExprExt {
                 cons: ref left,
                 alt: ref right,
                 ..
-            }) => return and(left.get_type(), right.get_type()),
+            }) => and(left.get_type(), right.get_type()),
 
             Expr::Bin(BinExpr {
                 ref left,
@@ -470,7 +469,7 @@ pub trait ExprExt {
                 // There are some pretty weird cases for object types:
                 //   {} + [] === "0"
                 //   [] + {} ==== "[object Object]"
-                return Unknown;
+                Unknown
             }
 
             Expr::Assign(AssignExpr {
@@ -481,16 +480,14 @@ pub trait ExprExt {
                 if right.get_type() == Known(StringType) {
                     return Known(StringType);
                 }
-                return Unknown;
+                Unknown
             }
 
-            Expr::Ident(Ident { ref sym, .. }) => {
-                return Known(match *sym {
-                    js_word!("undefined") => UndefinedType,
-                    js_word!("NaN") | js_word!("Infinity") => NumberType,
-                    _ => return Unknown,
-                });
-            }
+            Expr::Ident(Ident { ref sym, .. }) => Known(match *sym {
+                js_word!("undefined") => UndefinedType,
+                js_word!("NaN") | js_word!("Infinity") => NumberType,
+                _ => return Unknown,
+            }),
 
             Expr::Lit(Lit::Num(..))
             | Expr::Assign(AssignExpr { op: op!("&="), .. })
@@ -529,7 +526,7 @@ pub trait ExprExt {
             | Expr::Unary(UnaryExpr {
                 op: op!(unary, "-"),
                 ..
-            }) => return Known(NumberType),
+            }) => Known(NumberType),
 
             // Primitives
             Expr::Lit(Lit::Bool(..))
@@ -549,25 +546,25 @@ pub trait ExprExt {
             | Expr::Unary(UnaryExpr { op: op!("!"), .. })
             | Expr::Unary(UnaryExpr {
                 op: op!("delete"), ..
-            }) => return Known(BoolType),
+            }) => Known(BoolType),
 
             Expr::Unary(UnaryExpr {
                 op: op!("typeof"), ..
             })
             | Expr::Lit(Lit::Str { .. })
-            | Expr::Tpl(..) => return Known(StringType),
+            | Expr::Tpl(..) => Known(StringType),
 
-            Expr::Lit(Lit::Null(..)) => return Known(NullType),
+            Expr::Lit(Lit::Null(..)) => Known(NullType),
 
             Expr::Unary(UnaryExpr {
                 op: op!("void"), ..
-            }) => return Known(UndefinedType),
+            }) => Known(UndefinedType),
 
             Expr::Fn(..)
             | Expr::New(NewExpr { .. })
             | Expr::Array(ArrayLit { .. })
             | Expr::Object(ObjectLit { .. })
-            | Expr::Lit(Lit::Regex(..)) => return Known(ObjectType),
+            | Expr::Lit(Lit::Regex(..)) => Known(ObjectType),
 
             _ => Unknown,
         }
@@ -659,7 +656,7 @@ fn and(lt: Value<Type>, rt: Value<Type>) -> Value<Type> {
     if lt == rt {
         return lt;
     }
-    return Unknown;
+    Unknown
 }
 
 /// Return if the node is possibly a string.
@@ -758,14 +755,14 @@ pub(crate) fn to_int32(d: f64) -> i32 {
 
     let d = if d >= 0.0 { d.floor() } else { d.ceil() };
 
-    const TWO32: f64 = 4294967296.0;
+    const TWO32: f64 = 4_294_967_296.0;
     let d = d % TWO32;
     // (double)(long)d == d should hold here
 
     let l = d as i64;
     // returning (int)d does not work as d can be outside int range
     // but the result must always be 32 lower bits of l
-    return l as i32;
+    l as i32
 }
 
 // pub(crate) fn to_u32(_d: f64) -> u32 {

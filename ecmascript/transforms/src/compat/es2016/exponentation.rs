@@ -72,12 +72,12 @@ impl Fold<Expr> for AssignFolder {
                         });
                     }
                 };
-                return Expr::Assign(AssignExpr {
+                Expr::Assign(AssignExpr {
                     span,
                     left,
                     op: op!("="),
                     right: box mk_call(span, box lhs.into(), right),
-                });
+                })
             }
             Expr::Bin(BinExpr {
                 span,

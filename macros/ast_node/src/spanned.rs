@@ -75,7 +75,7 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
         .with_generics(input.generics)
 }
 
-fn make_body_for_variant(v: &VariantBinder, bindings: Vec<BindedField>) -> Box<Expr> {
+fn make_body_for_variant(v: &VariantBinder<'_>, bindings: Vec<BindedField<'_>>) -> Box<Expr> {
     /// `swc_common::Spanned::span(#field)`
     fn simple_field(field: &dyn ToTokens) -> Box<Expr> {
         Box::new(
@@ -87,17 +87,14 @@ fn make_body_for_variant(v: &VariantBinder, bindings: Vec<BindedField>) -> Box<E
         )
     }
 
-    if bindings.len() == 0 {
+    if bindings.is_empty() {
         panic!("#[derive(Spanned)] requires a field to get span from")
     }
 
     if bindings.len() == 1 {
-        match *v.data() {
-            Fields::Unnamed(..) => {
-                // Call self.0.span()
-                return simple_field(&bindings[0]);
-            }
-            _ => {}
+        if let Fields::Unnamed(..) = *v.data() {
+            // Call self.0.span()
+            return simple_field(&bindings[0]);
         }
     }
 

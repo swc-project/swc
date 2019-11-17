@@ -5,14 +5,13 @@ use swc_common::DUMMY_SP as span;
 fn jsx(src: &'static str) -> Box<Expr> {
     test_parser(
         src,
-        ::Syntax::Es(::EsConfig {
+        crate::Syntax::Es(crate::EsConfig {
             jsx: true,
             ..Default::default()
         }),
         |p| {
             p.parse_expr().map_err(|mut e| {
                 e.emit();
-                ()
             })
         },
     )
@@ -22,7 +21,7 @@ fn jsx(src: &'static str) -> Box<Expr> {
 fn self_closing_01() {
     assert_eq_ignore_span!(
         jsx("<a />"),
-        box Expr::JSXElement(JSXElement {
+        box Expr::JSXElement(box JSXElement {
             span,
             opening: JSXOpeningElement {
                 span,
@@ -41,7 +40,7 @@ fn self_closing_01() {
 fn normal_01() {
     assert_eq_ignore_span!(
         jsx("<a>foo</a>"),
-        box Expr::JSXElement(JSXElement {
+        box Expr::JSXElement(box JSXElement {
             span,
             opening: JSXOpeningElement {
                 span,
@@ -67,7 +66,7 @@ fn normal_01() {
 fn escape_in_attr() {
     assert_eq_ignore_span!(
         jsx(r#"<div id="w &lt; w" />;"#),
-        box Expr::JSXElement(JSXElement {
+        box Expr::JSXElement(box JSXElement {
             span,
             opening: JSXOpeningElement {
                 span,

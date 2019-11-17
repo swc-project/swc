@@ -3,14 +3,9 @@
 #![feature(specialization)]
 #![feature(test)]
 
-extern crate pretty_assertions;
-extern crate serde_json;
-extern crate swc_common;
-extern crate swc_ecma_ast;
-extern crate swc_ecma_parser;
+use serde_json;
+
 extern crate test;
-extern crate testing;
-extern crate walkdir;
 
 use pretty_assertions::assert_eq;
 use std::{
@@ -97,9 +92,9 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                 }
 
                 // Parse source
-                let err = parse_module(cm, handler, &path).expect_err("should fail, but parsed as");
+                parse_module(cm, handler, &path).expect_err("should fail, but parsed as");
 
-                Err(err)
+                Err(())
             })
             .expect_err("should fail, but parsed as");
 
@@ -203,7 +198,7 @@ fn with_parser<F, Ret>(
     f: F,
 ) -> Result<Ret, ()>
 where
-    F: for<'a> FnOnce(&mut Parser<'a, Lexer<'a, SourceFileInput>>) -> PResult<'a, Ret>,
+    F: for<'a> FnOnce(&mut Parser<'a, Lexer<'a, SourceFileInput<'_>>>) -> PResult<'a, Ret>,
 {
     let fm = cm
         .load_file(file_name)
@@ -220,7 +215,6 @@ where
     ))
     .map_err(|mut e| {
         e.emit();
-        ()
     });
 
     res

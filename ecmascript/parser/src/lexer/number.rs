@@ -139,7 +139,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         );
         debug_assert_eq!(self.cur(), Some('0'));
 
-        let start = self.bump(); // 0
+        self.bump(); // 0
         self.bump(); // x
 
         let val = self.read_number_no_dot(radix)?;
@@ -292,12 +292,12 @@ impl<'a, I: Input> Lexer<'a, I> {
 
     fn make_legacy_octal(&mut self, start: BytePos, val: f64) -> LexResult<f64> {
         self.ensure_not_ident()?;
-        return if self.ctx.strict {
+        if self.ctx.strict {
             self.error(start, SyntaxError::LegacyOctal)?
         } else {
             // FIXME
             Ok(val)
-        };
+        }
     }
 }
 
@@ -308,17 +308,17 @@ mod tests {
 
     fn lex<F, Ret>(s: &'static str, f: F) -> Ret
     where
-        F: FnOnce(&mut Lexer<SourceFileInput>) -> Ret,
+        F: FnOnce(&mut Lexer<'_, SourceFileInput<'_>>) -> Ret,
     {
         crate::with_test_sess(s, |sess, fm| {
-            let mut l = Lexer::new(sess, Syntax::default(), fm.into(), None);
+            let mut l = Lexer::new(sess, Syntax::default(), fm, None);
             Ok(f(&mut l))
         })
         .unwrap()
     }
 
     fn num(s: &'static str) -> f64 {
-        lex(s, |l| l.read_number(s.starts_with(".")).unwrap())
+        lex(s, |l| l.read_number(s.starts_with('.')).unwrap())
     }
 
     fn int(radix: u8, s: &'static str) -> u32 {
@@ -346,7 +346,7 @@ mod tests {
     #[ignore]
     fn num_big_many_zero() {
         assert_eq!(
-            1000000000000000000000000000000f64,
+            1_000_000_000_000_000_000_000_000_000_000f64,
             num("1000000000000000000000000000000")
         )
     }
@@ -414,11 +414,8 @@ mod tests {
                 assert_eq!(vec.len(), 1);
                 let token = vec.into_iter().next().unwrap();
                 assert_eq!(Num(expected), token);
-            } else {
-                match vec {
-                    Ok(vec) => assert_ne!(vec![Num(expected)], vec),
-                    _ => {}
-                }
+            } else if let Ok(vec) = vec {
+                assert_ne!(vec![Num(expected)], vec)
             }
         }
     }

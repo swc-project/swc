@@ -19,13 +19,10 @@ impl Fold<Module> for ImportAnalyzer {
         module.visit_with(self);
 
         for (_, ty) in self.scope.import_types.drain() {
-            match ty {
-                true => {
-                    enable_helper!(interop_require_wildcard);
-                }
-                false => {
-                    enable_helper!(interop_require_default);
-                }
+            if ty {
+                enable_helper!(interop_require_wildcard);
+            } else {
+                enable_helper!(interop_require_default);
             }
         }
 

@@ -122,7 +122,7 @@ impl<'a> Fold<Expr> for SuperCalleeFolder<'a> {
                         op,
                         box Expr::Lit(Lit::Num(Number {
                             span: DUMMY_SP,
-                            value: 1.0.into(),
+                            value: 1.0,
                         })),
                     )
                 }
@@ -297,11 +297,8 @@ impl<'a> SuperCalleeFolder<'a> {
         let rhs_arg = match op {
             op!("=") => rhs.as_arg(),
             _ => {
-                let left = box self.super_to_get_call(
-                    super_token,
-                    box Expr::Ident(ref_ident.clone()),
-                    true,
-                );
+                let left =
+                    box self.super_to_get_call(super_token, box Expr::Ident(ref_ident), true);
                 let left = if is_update {
                     box AssignExpr {
                         span: DUMMY_SP,
@@ -426,56 +423,54 @@ impl<'a> Fold<Expr> for SuperFieldAccessFolder<'a> {
             self.this_alias_mark = callee_folder.this_alias_mark;
         }
 
-        if callee_folder.inject_get {
-            if should_invoke_call {
-                match n {
-                    Expr::Call(CallExpr {
-                        span: _,
-                        callee,
-                        mut args,
-                        type_args,
-                    }) => {
-                        let this = match self.constructor_this_mark {
-                            Some(mark) => quote_ident!(DUMMY_SP.apply_mark(mark), "_this").as_arg(),
-                            _ => ThisExpr { span: DUMMY_SP }.as_arg(),
-                        };
+        if callee_folder.inject_get && should_invoke_call {
+            match n {
+                Expr::Call(CallExpr {
+                    callee,
+                    mut args,
+                    type_args,
+                    ..
+                }) => {
+                    let this = match self.constructor_this_mark {
+                        Some(mark) => quote_ident!(DUMMY_SP.apply_mark(mark), "_this").as_arg(),
+                        _ => ThisExpr { span: DUMMY_SP }.as_arg(),
+                    };
 
-                        if args.len() == 1 && is_rest_arguments(&args[0]) {
-                            return Expr::Call(CallExpr {
-                                span: DUMMY_SP,
-                                callee: MemberExpr {
-                                    span: DUMMY_SP,
-                                    obj: callee,
-                                    prop: box Expr::Ident(quote_ident!("apply")),
-                                    computed: false,
-                                }
-                                .as_callee(),
-                                args: iter::once(this)
-                                    .chain(iter::once({
-                                        let mut arg = args.pop().unwrap();
-                                        arg.spread = None;
-                                        arg
-                                    }))
-                                    .collect(),
-                                type_args,
-                            });
-                        }
-
+                    if args.len() == 1 && is_rest_arguments(&args[0]) {
                         return Expr::Call(CallExpr {
                             span: DUMMY_SP,
                             callee: MemberExpr {
                                 span: DUMMY_SP,
                                 obj: callee,
-                                prop: box Expr::Ident(quote_ident!("call")),
+                                prop: box Expr::Ident(quote_ident!("apply")),
                                 computed: false,
                             }
                             .as_callee(),
-                            args: iter::once(this).chain(args).collect(),
+                            args: iter::once(this)
+                                .chain(iter::once({
+                                    let mut arg = args.pop().unwrap();
+                                    arg.spread = None;
+                                    arg
+                                }))
+                                .collect(),
                             type_args,
                         });
                     }
-                    _ => unreachable!(),
+
+                    return Expr::Call(CallExpr {
+                        span: DUMMY_SP,
+                        callee: MemberExpr {
+                            span: DUMMY_SP,
+                            obj: callee,
+                            prop: box Expr::Ident(quote_ident!("call")),
+                            computed: false,
+                        }
+                        .as_callee(),
+                        args: iter::once(this).chain(args).collect(),
+                        type_args,
+                    });
                 }
+                _ => unreachable!(),
             }
         }
 

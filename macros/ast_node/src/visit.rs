@@ -49,9 +49,10 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
                 .filter_map(|binding| {
                     // This closure will not be called for unit-like struct.
 
-                    let value = match should_skip_field(binding.field()) {
-                        true => None,
-                        false => Some(
+                    let value = if should_skip_field(binding.field()) {
+                        None
+                    } else {
+                        Some(
                             Quote::new(def_site::<Span>())
                                 .quote_with(smart_quote!(
                                     Vars {
@@ -63,7 +64,7 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
                                     }
                                 ))
                                 .parse::<Stmt>(),
-                        ),
+                        )
                     };
 
                     let _attrs = binding
@@ -147,11 +148,7 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
             }
         ))
         .parse();
-    let item = derive_generics.append_to(item);
-
-    // println!("Expaned:\n {}\n\n", item.dump());
-
-    item
+    derive_generics.append_to(item)
 }
 
 fn should_skip_field(field: &Field) -> bool {
@@ -187,11 +184,8 @@ fn normalize_type_for_bound(ty: Type) -> Type {
                         if let GenericArgument::Type(ref ty) =
                             *args.args.last().unwrap().into_value()
                         {
-                            match *ty {
-                                Type::Path(TypePath { ref path, .. }) => {
-                                    return self.fold_path(path.clone());
-                                }
-                                _ => {}
+                            if let Type::Path(TypePath { ref path, .. }) = *ty {
+                                return self.fold_path(path.clone());
                             }
                         }
                     }
@@ -202,6 +196,5 @@ fn normalize_type_for_bound(ty: Type) -> Type {
         }
     }
 
-    let out = Norm.fold_type(ty);
-    out
+    Norm.fold_type(ty)
 }

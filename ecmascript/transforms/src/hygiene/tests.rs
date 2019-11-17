@@ -50,7 +50,7 @@ impl Fold<Ident> for OnceMarker {
 
 fn test<F>(op: F, expected: &str)
 where
-    F: FnOnce(&mut crate::tests::Tester) -> Result<Vec<Stmt>, ()>,
+    F: FnOnce(&mut crate::tests::Tester<'_>) -> Result<Vec<Stmt>, ()>,
 {
     test_module(
         |tester| {
@@ -66,9 +66,9 @@ where
 
 fn test_module<F>(op: F, expected: &str)
 where
-    F: FnOnce(&mut crate::tests::Tester) -> Result<Module, ()>,
+    F: FnOnce(&mut crate::tests::Tester<'_>) -> Result<Module, ()>,
 {
-    ::tests::Tester::run(|tester| {
+    crate::tests::Tester::run(|tester| {
         let module = op(tester)?;
 
         let module = module.fold_with(&mut hygiene());
@@ -79,7 +79,6 @@ where
             let expected = tester.with_parser("expected.js", Syntax::default(), expected, |p| {
                 p.parse_module().map_err(|mut e| {
                     e.emit();
-                    ()
                 })
             })?;
             tester.print(&expected)

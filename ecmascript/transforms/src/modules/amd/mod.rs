@@ -441,7 +441,7 @@ impl Fold<Module> for Amd {
 
         if !initialized.is_empty() {
             stmts.push(Stmt::Expr(initialize_to_undefined(
-                exports_ident.clone(),
+                exports_ident,
                 initialized,
             )));
         }
@@ -464,31 +464,27 @@ impl Fold<Module> for Amd {
                 // handle interop
                 let ty = self.scope.import_types.get(&src);
 
-                match ty {
-                    Some(&wildcard) => {
+                if let Some(&wildcard) = ty {
+                    if !self.config.config.no_interop {
                         let imported = ident.clone();
-
-                        if !self.config.config.no_interop {
-                            let right = box Expr::Call(CallExpr {
-                                span: DUMMY_SP,
-                                callee: if wildcard {
-                                    helper!(interop_require_wildcard, "interopRequireWildcard")
-                                } else {
-                                    helper!(interop_require_default, "interopRequireDefault")
-                                },
-                                args: vec![imported.as_arg()],
-                                type_args: Default::default(),
-                            });
-                            import_stmts.push(Stmt::Expr(box Expr::Assign(AssignExpr {
-                                span: DUMMY_SP,
-                                left: PatOrExpr::Pat(box Pat::Ident(ident.clone())),
-                                op: op!("="),
-                                right,
-                            })));
-                        }
+                        let right = box Expr::Call(CallExpr {
+                            span: DUMMY_SP,
+                            callee: if wildcard {
+                                helper!(interop_require_wildcard, "interopRequireWildcard")
+                            } else {
+                                helper!(interop_require_default, "interopRequireDefault")
+                            },
+                            args: vec![imported.as_arg()],
+                            type_args: Default::default(),
+                        });
+                        import_stmts.push(Stmt::Expr(box Expr::Assign(AssignExpr {
+                            span: DUMMY_SP,
+                            left: PatOrExpr::Pat(box Pat::Ident(ident.clone())),
+                            op: op!("="),
+                            right,
+                        })));
                     }
-                    _ => {}
-                };
+                }
             }
         }
 

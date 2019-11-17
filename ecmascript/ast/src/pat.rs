@@ -28,7 +28,7 @@ pub struct ArrayPat {
     pub span: Span,
 
     #[serde(rename = "elements")]
-    pub elems: Vec<(Option<Pat>)>,
+    pub elems: Vec<Option<Pat>>,
 
     #[serde(
         default,

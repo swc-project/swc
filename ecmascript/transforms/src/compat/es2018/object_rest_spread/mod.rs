@@ -18,6 +18,7 @@ pub fn object_rest_spread() -> impl Pass {
 
 struct ObjectRest;
 
+#[allow(clippy::vec_box)]
 struct RestFolder {
     /// Injected before the original statement.
     vars: Vec<VarDeclarator>,
@@ -259,7 +260,7 @@ impl Fold<Expr> for RestFolder {
                         right: box var_ident.clone().into(),
                     })),
                 }
-                self.exprs.push(box var_ident.clone().into());
+                self.exprs.push(box var_ident.into());
                 Expr::Seq(SeqExpr {
                     span: DUMMY_SP,
                     exprs: mem::replace(&mut self.exprs, vec![]),
@@ -469,49 +470,35 @@ impl_fold_fn!(RestFolder);
 
 impl RestFolder {
     fn insert_var_if_not_empty(&mut self, idx: usize, decl: VarDeclarator) {
-        match decl.init {
-            Some(box Expr::Ident(ref i1)) => match decl.name {
-                Pat::Ident(ref i2) => {
-                    if *i1 == *i2 {
-                        return;
-                    }
-                }
-                _ => {}
-            },
-            _ => {}
-        }
-
-        match decl.name {
-            Pat::Object(ObjectPat { ref props, .. }) => {
-                if props.len() == 0 {
+        if let Some(box Expr::Ident(ref i1)) = decl.init {
+            if let Pat::Ident(ref i2) = decl.name {
+                if *i1 == *i2 {
                     return;
                 }
             }
-            _ => {}
+        }
+
+        if let Pat::Object(ObjectPat { ref props, .. }) = decl.name {
+            if props.is_empty() {
+                return;
+            }
         }
         self.vars.insert(idx, decl)
     }
 
     fn push_var_if_not_empty(&mut self, decl: VarDeclarator) {
-        match decl.init {
-            Some(box Expr::Ident(ref i1)) => match decl.name {
-                Pat::Ident(ref i2) => {
-                    if *i1 == *i2 {
-                        return;
-                    }
-                }
-                _ => {}
-            },
-            _ => {}
-        }
-
-        match decl.name {
-            Pat::Object(ObjectPat { ref props, .. }) => {
-                if props.len() == 0 {
+        if let Some(box Expr::Ident(ref i1)) = decl.init {
+            if let Pat::Ident(ref i2) = decl.name {
+                if *i1 == *i2 {
                     return;
                 }
             }
-            _ => {}
+        }
+
+        if let Pat::Object(ObjectPat { ref props, .. }) = decl.name {
+            if props.is_empty() {
+                return;
+            }
         }
         self.vars.push(decl)
     }
@@ -582,7 +569,7 @@ impl RestFolder {
                         );
                         Pat::Assign(AssignPat {
                             span,
-                            left: box Pat::Ident(var_ident.clone()),
+                            left: box Pat::Ident(var_ident),
                             right,
                             ..n
                         })
@@ -598,7 +585,7 @@ impl RestFolder {
                                 definite: false,
                             },
                         );
-                        Pat::Ident(var_ident.clone())
+                        Pat::Ident(var_ident)
                     }
                 }
             })
@@ -765,14 +752,14 @@ impl RestFolder {
                 span: DUMMY_SP,
                 left: PatOrExpr::Pat(last.arg),
                 op: op!("="),
-                right: box object_without_properties(obj.clone(), excluded_props),
+                right: box object_without_properties(obj, excluded_props),
             }));
         } else {
             // println!("Var: rest = objectWithoutProperties()",);
             self.push_var_if_not_empty(VarDeclarator {
                 span: DUMMY_SP,
                 name: *last.arg,
-                init: Some(box object_without_properties(obj.clone(), excluded_props)),
+                init: Some(box object_without_properties(obj, excluded_props)),
                 definite: false,
             });
         }
@@ -913,8 +900,8 @@ impl Fold<Expr> for ObjectSpread {
                         match prop {
                             PropOrSpread::Prop(..) => obj.props.push(prop),
                             PropOrSpread::Spread(SpreadElement {
-                                dot3_token: _,
                                 expr,
+                                ..
                             }) => {
                                 // Push object if it's not empty
                                 if first || !obj.props.is_empty() {

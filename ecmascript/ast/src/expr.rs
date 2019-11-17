@@ -1,3 +1,4 @@
+#![allow(clippy::vec_box)]
 use crate::{
     class::Class,
     function::Function,
@@ -118,7 +119,7 @@ pub enum Expr {
     JSXEmpty(JSXEmptyExpr),
 
     #[tag("JSXElement")]
-    JSXElement(JSXElement),
+    JSXElement(Box<JSXElement>),
 
     #[tag("JSXFragment")]
     JSXFragment(JSXFragment),
@@ -157,7 +158,7 @@ pub struct ArrayLit {
     pub span: Span,
 
     #[serde(default, rename = "elements", skip_serializing_if = "Vec::is_empty")]
-    pub elems: Vec<(Option<ExprOrSpread>)>,
+    pub elems: Vec<Option<ExprOrSpread>>,
 }
 
 /// Object literal.
@@ -315,7 +316,7 @@ pub struct NewExpr {
     pub callee: Box<Expr>,
 
     #[serde(default, rename = "arguments")]
-    pub args: Option<(Vec<ExprOrSpread>)>,
+    pub args: Option<Vec<ExprOrSpread>>,
 
     #[serde(default, rename = "typeArguments")]
     pub type_args: Option<TsTypeParamInstantiation>,

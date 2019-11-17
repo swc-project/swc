@@ -54,7 +54,7 @@ impl Context {
             | js_word!("public")
                 if self.strict =>
             {
-                return true;
+                true
             }
 
             _ => false,
@@ -134,7 +134,7 @@ pub trait ParseObject<'a, Obj> {
     fn parse_object_prop(&mut self) -> PResult<'a, Self::Prop>;
 }
 
-pub struct WithCtx<'w, 'a: 'w, I: 'w + Tokens> {
+pub struct WithCtx<'w, 'a, I: Tokens> {
     inner: &'w mut Parser<'a, I>,
     orig_ctx: Context,
 }
@@ -165,10 +165,8 @@ pub(super) trait ExprExt {
     fn is_valid_simple_assignment_target(&self, strict: bool) -> bool {
         match *self.as_expr() {
             Expr::Ident(Ident { ref sym, .. }) => {
-                if strict {
-                    if &*sym == "arguments" || &*sym == "eval" {
-                        return false;
-                    }
+                if strict && (&*sym == "arguments" || &*sym == "eval") {
+                    return false;
                 }
                 true
             }

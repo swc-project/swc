@@ -60,24 +60,22 @@ impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
                     _ => false,
                 } {
                     ThisExpr { span: DUMMY_SP }.as_arg()
+                } else if is_static {
+                    obj.as_arg()
                 } else {
-                    if is_static {
-                        obj.as_arg()
-                    } else {
-                        self.vars.push(VarDeclarator {
-                            span: DUMMY_SP,
-                            name: Pat::Ident(var.clone()),
-                            init: None,
-                            definite: false,
-                        });
-                        AssignExpr {
-                            span: obj.span(),
-                            left: PatOrExpr::Pat(box Pat::Ident(var.clone())),
-                            op: op!("="),
-                            right: obj,
-                        }
-                        .as_arg()
+                    self.vars.push(VarDeclarator {
+                        span: DUMMY_SP,
+                        name: Pat::Ident(var.clone()),
+                        init: None,
+                        definite: false,
+                    });
+                    AssignExpr {
+                        span: obj.span(),
+                        left: PatOrExpr::Pat(box Pat::Ident(var.clone())),
+                        op: op!("="),
+                        right: obj,
                     }
+                    .as_arg()
                 };
                 // Used iff !prefix
                 let old_var = alias_ident_for(&arg.prop, "old");
@@ -117,7 +115,7 @@ impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
                         },
                         right: box Expr::Lit(Lit::Num(Number {
                             span: DUMMY_SP,
-                            value: 1.0.into(),
+                            value: 1.0,
                         })),
                     }
                     .as_arg()
@@ -213,24 +211,22 @@ impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
                     _ => false,
                 } {
                     ThisExpr { span: DUMMY_SP }.as_arg()
+                } else if op == op!("=") {
+                    obj.as_arg()
                 } else {
-                    if op == op!("=") {
-                        obj.as_arg()
-                    } else {
-                        self.vars.push(VarDeclarator {
-                            span: DUMMY_SP,
-                            name: Pat::Ident(var.clone()),
-                            init: None,
-                            definite: false,
-                        });
-                        AssignExpr {
-                            span: obj.span(),
-                            left: PatOrExpr::Pat(box Pat::Ident(var.clone())),
-                            op: op!("="),
-                            right: obj,
-                        }
-                        .as_arg()
+                    self.vars.push(VarDeclarator {
+                        span: DUMMY_SP,
+                        name: Pat::Ident(var.clone()),
+                        init: None,
+                        definite: false,
+                    });
+                    AssignExpr {
+                        span: obj.span(),
+                        left: PatOrExpr::Pat(box Pat::Ident(var.clone())),
+                        op: op!("="),
+                        right: obj,
                     }
+                    .as_arg()
                 };
 
                 let value = if op == op!("=") {
@@ -317,7 +313,7 @@ impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
                 }
             }
             Expr::Member(e) => self.fold_private_get(e, None).0,
-            _ => return e.fold_children(self),
+            _ => e.fold_children(self),
         }
     }
 }
@@ -371,7 +367,7 @@ impl<'a> FieldAccessFolder<'a> {
                     args: vec![
                         obj.as_arg(),
                         self.class_name.clone().as_arg(),
-                        ident.clone().as_arg(),
+                        ident.as_arg(),
                     ],
                     type_args: Default::default(),
                 }),

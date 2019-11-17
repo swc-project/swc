@@ -26,7 +26,7 @@ impl Fold<VarDeclarator> for DisplayName {
                     }))),
                 });
 
-                return VarDeclarator { init, ..decl };
+                VarDeclarator { init, ..decl }
             }
             _ => decl,
         }
@@ -91,7 +91,7 @@ impl Fold<AssignExpr> for DisplayName {
                     }))),
                 });
 
-                return AssignExpr { right, ..expr };
+                AssignExpr { right, ..expr }
             }
             _ => expr,
         }

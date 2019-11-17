@@ -14,32 +14,16 @@ extern crate lazy_static;
 extern crate swc_atoms;
 #[macro_use]
 extern crate swc_common;
-extern crate chashmap;
-extern crate fxhash;
-extern crate hashbrown;
-extern crate indexmap;
-extern crate inflector;
-extern crate ordered_float;
-extern crate scoped_tls;
+
 extern crate swc_ecma_ast as ast;
-#[cfg(test)]
-extern crate swc_ecma_codegen;
-extern crate swc_ecma_parser;
+
 #[cfg(test)]
 #[macro_use]
 extern crate pretty_assertions;
-#[cfg(test)]
-extern crate sourcemap;
-#[cfg(test)]
-extern crate tempfile;
-#[cfg(test)]
-extern crate test;
+
 #[cfg(test)]
 #[macro_use]
 extern crate testing;
-extern crate either;
-extern crate serde;
-extern crate unicode_xid;
 
 pub use self::{
     const_modules::const_modules, fixer::fixer, hygiene::hygiene, inline_globals::InlineGlobals,

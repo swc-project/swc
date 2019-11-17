@@ -81,7 +81,6 @@
 #![deny(unreachable_patterns)]
 #![deny(unsafe_code)]
 
-extern crate either;
 #[macro_use]
 extern crate smallvec;
 extern crate swc_ecma_parser_macros as parser_macros;
@@ -89,21 +88,17 @@ extern crate swc_ecma_parser_macros as parser_macros;
 extern crate log;
 #[macro_use(js_word)]
 extern crate swc_atoms;
-extern crate enum_kind;
-extern crate regex;
-extern crate serde;
-extern crate swc_common;
+
 #[macro_use]
 extern crate lazy_static;
 extern crate swc_ecma_ast as ast;
 #[macro_use]
 #[cfg(test)]
 extern crate testing;
-#[cfg(test)]
-extern crate env_logger;
+
 #[cfg(test)]
 extern crate test;
-extern crate unicode_xid;
+
 pub use self::{
     lexer::input::{Input, SourceFileInput},
     parser::*,
@@ -358,7 +353,7 @@ pub struct Session<'a> {
 #[cfg(test)]
 fn with_test_sess<F, Ret>(src: &'static str, f: F) -> Result<Ret, ::testing::StdErr>
 where
-    F: FnOnce(Session, SourceFileInput) -> Result<Ret, ()>,
+    F: FnOnce(Session<'_>, SourceFileInput<'_>) -> Result<Ret, ()>,
 {
     use swc_common::FileName;
 

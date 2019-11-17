@@ -1,5 +1,3 @@
-extern crate serde;
-extern crate swc_common;
 use swc_common::{BytePos, Span, Spanned};
 
 #[test]

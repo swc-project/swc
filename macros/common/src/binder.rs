@@ -32,8 +32,7 @@
 //! -----
 //!
 //! Adopted from `synstructure`.
-use def_site;
-use is_attr_name;
+use crate::{def_site, is_attr_name, syn_ext::PairExt};
 use pmutil::prelude::*;
 use proc_macro2::Span;
 use quote::ToTokens;
@@ -42,7 +41,6 @@ use syn::{
     token::{Mut, Ref},
     *,
 };
-use syn_ext::PairExt;
 
 /// Used to bind whole struct or enum.
 #[derive(Debug, Clone)]
@@ -143,15 +141,15 @@ impl<'a> VariantBinder<'a> {
     ) -> (Pat, Vec<BindedField<'a>>) {
         let path = self.qual_path();
 
-        let (pat, bindings) = match self.data {
-            &Fields::Unit => {
+        let (pat, bindings) = match *self.data {
+            Fields::Unit => {
                 // EnumName::VariantName
                 let pat = Pat::Path(PatPath { qself: None, path });
 
                 // Unit struct does not have any field to bind
                 (pat, vec![])
             }
-            &Fields::Named(FieldsNamed {
+            Fields::Named(FieldsNamed {
                 named: ref fields,
                 brace_token,
             }) => {
@@ -205,7 +203,7 @@ impl<'a> VariantBinder<'a> {
                 });
                 (pat, bindings)
             }
-            &Fields::Unnamed(FieldsUnnamed {
+            Fields::Unnamed(FieldsUnnamed {
                 unnamed: ref fields,
                 paren_token,
             }) => {

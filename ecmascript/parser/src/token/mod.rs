@@ -198,7 +198,7 @@ pub enum BinOpToken {
 }
 
 impl BinOpToken {
-    pub const fn before_expr(&self) -> bool {
+    pub const fn before_expr(self) -> bool {
         true
     }
 }
@@ -347,7 +347,7 @@ impl From<Word> for JsWord {
 }
 
 impl Debug for Word {
-    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         match *self {
             Word::Ident(ref s) => Display::fmt(s, f),
             _ => {
@@ -498,7 +498,7 @@ impl Keyword {
 }
 
 impl Debug for Keyword {
-    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         write!(f, "keyword '{}'", self.into_js_word())?;
 
         Ok(())

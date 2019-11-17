@@ -1,12 +1,9 @@
 #![feature(box_syntax)]
 #![feature(test)]
 
-extern crate sourcemap;
-extern crate swc_common;
-extern crate swc_ecma_codegen;
-extern crate swc_ecma_parser;
+use swc_ecma_codegen;
+
 extern crate test;
-extern crate testing;
 
 use sourcemap::SourceMapBuilder;
 use swc_common::FileName;
@@ -103,7 +100,6 @@ fn emit_colors(b: &mut Bencher) {
             .parse_module()
             .map_err(|mut e| {
                 e.emit();
-                ()
             })
             .unwrap();
 
