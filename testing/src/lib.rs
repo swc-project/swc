@@ -5,8 +5,11 @@
 
 #[macro_use]
 extern crate lazy_static;
-
-use swc_common;
+extern crate difference;
+extern crate regex;
+extern crate relative_path;
+extern crate swc_common;
+extern crate test;
 
 pub use self::output::{NormalizedOutput, StdErr, StdOut, TestOutput};
 use difference::Changeset;
