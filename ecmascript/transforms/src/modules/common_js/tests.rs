@@ -536,7 +536,7 @@ export {foo as default, bar};
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.bar = exports.default = void 0;
+exports.default = exports.bar = void 0;
 var foo, bar;
 exports.default = foo;
 exports.bar = bar;
