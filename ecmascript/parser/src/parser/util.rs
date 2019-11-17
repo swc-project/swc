@@ -73,6 +73,15 @@ impl<'a, I: Tokens> Parser<'a, I> {
         }
     }
 
+    /// Original state is restored when returned guard is dropped.
+    pub(super) fn with_state<'w>(&'w mut self, state: State) -> WithState<'w, 'a, I> {
+        let orig_state = std::mem::replace(&mut self.state, state);
+        WithState {
+            orig_state,
+            inner: self,
+        }
+    }
+
     pub(super) fn set_ctx(&mut self, ctx: Context) {
         self.input.set_ctx(ctx);
     }
@@ -134,19 +143,40 @@ pub trait ParseObject<'a, Obj> {
     fn parse_object_prop(&mut self) -> PResult<'a, Self::Prop>;
 }
 
-pub struct WithCtx<'w, 'a, I: Tokens> {
+pub struct WithState<'w, 'a: 'w, I: 'w + Tokens> {
+    inner: &'w mut Parser<'a, I>,
+    orig_state: State,
+}
+impl<'w, 'a, I: Tokens> Deref for WithState<'w, 'a, I> {
+    type Target = Parser<'a, I>;
+
+    fn deref(&self) -> &Parser<'a, I> {
+        &self.inner
+    }
+}
+impl<'w, 'a, I: Tokens> DerefMut for WithState<'w, 'a, I> {
+    fn deref_mut(&mut self) -> &mut Parser<'a, I> {
+        &mut self.inner
+    }
+}
+impl<'w, 'a, I: Tokens> Drop for WithState<'w, 'a, I> {
+    fn drop(&mut self) {
+        std::mem::swap(&mut self.inner.state, &mut self.orig_state);
+    }
+}
+
+pub struct WithCtx<'w, 'a: 'w, I: 'w + Tokens> {
     inner: &'w mut Parser<'a, I>,
     orig_ctx: Context,
 }
 impl<'w, 'a, I: Tokens> Deref for WithCtx<'w, 'a, I> {
     type Target = Parser<'a, I>;
-    #[inline(always)]
+
     fn deref(&self) -> &Parser<'a, I> {
         &self.inner
     }
 }
 impl<'w, 'a, I: Tokens> DerefMut for WithCtx<'w, 'a, I> {
-    #[inline(always)]
     fn deref_mut(&mut self) -> &mut Parser<'a, I> {
         &mut self.inner
     }
@@ -221,6 +251,8 @@ pub(super) trait ExprExt {
             }
 
             Expr::TsConstAssertion(..) => false,
+
+            Expr::Invalid(..) => false,
         }
     }
 }

@@ -1,6 +1,6 @@
-error: Expected LBrace, got Some(Word(v))
- --> $DIR/tests/test262-parser/fail/fc75a023944da475.js:1:23
+error: TS1056
+ --> $DIR/tests/test262-parser/fail/fc75a023944da475.js:1:11
   |
 1 | x = { set method(val) v = val }
-  |                       ^
+  |           ^^^^^^
 

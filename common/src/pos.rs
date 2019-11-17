@@ -5,6 +5,7 @@ pub use crate::syntax_pos::{
     SourceFile, SourceFileAndBytePos, SourceFileAndLine, Span, SpanData, SpanLinesError,
     SyntaxContext, CM, DUMMY_SP, GLOBALS, NO_EXPANSION,
 };
+use std::{borrow::Cow, sync::Arc};
 
 ///
 /// # Derive
@@ -12,6 +13,16 @@ pub use crate::syntax_pos::{
 pub trait Spanned {
     /// Get span of `self`.
     fn span(&self) -> Span;
+}
+
+impl<'a, T> Spanned for Cow<'a, T>
+where
+    T: Spanned + Clone,
+{
+    #[inline(always)]
+    fn span(&self) -> Span {
+        (**self).span()
+    }
 }
 
 impl Spanned for Span {
@@ -38,6 +49,15 @@ where
             Some(ref s) => s.span(),
             None => DUMMY_SP,
         }
+    }
+}
+
+impl<S> Spanned for Arc<S>
+where
+    S: ?Sized + Spanned,
+{
+    fn span(&self) -> Span {
+        <S as Spanned>::span(&*self)
     }
 }
 

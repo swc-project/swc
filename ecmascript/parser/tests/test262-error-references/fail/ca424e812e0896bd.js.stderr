@@ -1,6 +1,0 @@
-error: Unexpected token Some(Dot)
- --> $DIR/tests/test262-parser/fail/ca424e812e0896bd.js:1:15
-  |
-1 | (function* ([a.b]) {})
-  |               ^
-

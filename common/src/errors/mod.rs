@@ -22,7 +22,7 @@ use crate::{
 use hashbrown::HashSet;
 use std::{
     borrow::Cow,
-    cell::Cell,
+    cell::RefCell,
     error, fmt, panic,
     sync::{
         atomic::{AtomicUsize, Ordering::SeqCst},
@@ -293,8 +293,8 @@ pub struct Handler {
 
 fn default_track_diagnostic(_: &Diagnostic) {}
 
-thread_local!(pub static TRACK_DIAGNOSTICS: Cell<fn(&Diagnostic)> =
-                Cell::new(default_track_diagnostic));
+thread_local!(pub static TRACK_DIAGNOSTICS: RefCell<Box<dyn Fn(&Diagnostic)>> =
+                RefCell::new(Box::new(default_track_diagnostic)));
 
 #[derive(Default)]
 pub struct HandlerFlags {
@@ -716,7 +716,7 @@ impl Handler {
         let diagnostic = &**db;
 
         TRACK_DIAGNOSTICS.with(|track_diagnostics| {
-            track_diagnostics.get()(diagnostic);
+            track_diagnostics.borrow()(diagnostic);
         });
 
         if let Some(ref code) = diagnostic.code {

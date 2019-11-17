@@ -1,6 +1,6 @@
 error: Unterminated string constant
- --> $DIR/tests/test262-parser/fail/89036b2edb64c00c.js:1:2
+ --> $DIR/tests/test262-parser/fail/89036b2edb64c00c.js:2:1
   |
-1 | ('
-  |  ^
+2 | ')
+  | ^^
 

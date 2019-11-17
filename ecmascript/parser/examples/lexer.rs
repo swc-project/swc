@@ -27,6 +27,7 @@ fn main() {
         let lexer = Lexer::new(
             session,
             Syntax::Es(Default::default()),
+            Default::default(),
             SourceFileInput::from(&*fm),
             None,
         );

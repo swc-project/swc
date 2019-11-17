@@ -1,6 +1,0 @@
-error: Unexpected token Some(Word(if))
- --> $DIR/tests/test262-parser/fail/4c3f75c2ad9dc102.js:1:11
-  |
-1 | ({ set: s(if) { } })
-  |           ^^
-

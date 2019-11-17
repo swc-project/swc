@@ -70,9 +70,10 @@ impl NormalizedOutput {
                 String::new()
             });
 
-        let path_for_actual = paths::test_results_dir()
-            .join("ui")
-            .join(path.strip_prefix(&paths::manifest_dir()).unwrap());
+        let path_for_actual = paths::test_results_dir().join("ui").join(
+            path.strip_prefix(&paths::manifest_dir())
+                .expect("failed to strip prefix: CARGO_MANIFEST_DIR"),
+        );
         eprintln!("{}:{}", path.display(), path_for_actual.display());
         if self.0 == expected {
             let _ = remove_file(path_for_actual);

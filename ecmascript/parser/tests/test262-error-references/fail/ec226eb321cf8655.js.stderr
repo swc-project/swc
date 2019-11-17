@@ -1,6 +1,0 @@
-error: Unexpected token Some(AssignOp("="))
- --> $DIR/tests/test262-parser/fail/ec226eb321cf8655.js:1:17
-  |
-1 | {a = [...b, c]} = 0
-  |                 ^
-

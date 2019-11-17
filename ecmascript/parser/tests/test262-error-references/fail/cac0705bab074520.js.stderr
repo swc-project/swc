@@ -1,6 +1,0 @@
-error: Unexpected token Some(Word(unknown_property))
- --> $DIR/tests/test262-parser/fail/cac0705bab074520.js:1:26
-  |
-1 | var f = function() { new.unknown_property; }
-  |                          ^^^^^^^^^^^^^^^^
-

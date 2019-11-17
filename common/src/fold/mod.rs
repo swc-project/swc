@@ -1,6 +1,7 @@
 use self::and_then::AndThen;
 use crate::util::{map::Map, move_map::MoveMap};
 use either::Either;
+use std::{borrow::Cow, sync::Arc};
 use string_cache::{Atom, StaticAtomSet};
 
 pub mod and_then;
@@ -280,5 +281,35 @@ where
             Either::Left(ref a) => f.visit(a),
             Either::Right(ref b) => f.visit(b),
         }
+    }
+}
+
+impl<T, F> VisitWith<F> for Arc<T>
+where
+    T: ?Sized,
+    F: Visit<T>,
+{
+    fn visit_children(&self, f: &mut F) {
+        f.visit(&**self)
+    }
+}
+
+impl<'a, A, F> FoldWith<F> for Cow<'a, A>
+where
+    A: Clone + FoldWith<F>,
+{
+    /// `#[inline(always)]`: To optimize .into_owned()
+    #[inline(always)]
+    fn fold_children(self, f: &mut F) -> Self {
+        Cow::Owned(self.into_owned().fold_with(f))
+    }
+}
+
+impl<A, F> VisitWith<F> for Cow<'_, A>
+where
+    A: Clone + VisitWith<F>,
+{
+    fn visit_children(&self, f: &mut F) {
+        (**self).visit_children(f)
     }
 }

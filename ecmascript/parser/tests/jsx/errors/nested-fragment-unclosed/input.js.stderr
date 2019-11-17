@@ -1,6 +1,0 @@
-error: Unterminated JSX contents
- --> $DIR/tests/jsx/errors/nested-fragment-unclosed/input.js:1:8
-  |
-1 | <><></>
-  |        ^
-

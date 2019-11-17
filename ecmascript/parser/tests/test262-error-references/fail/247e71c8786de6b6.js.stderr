@@ -1,6 +1,0 @@
-error: Unexpected token Some(Word(yield))
- --> $DIR/tests/test262-parser/fail/247e71c8786de6b6.js:1:31
-  |
-1 | (function() { "use strict"; f(yield v) })
-  |                               ^^^^^
-

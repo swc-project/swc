@@ -1,6 +1,0 @@
-error: Expected RBracket, got Some(Comma)
- --> $DIR/tests/test262-parser/fail/96d7443d69f12eea.js:1:8
-  |
-1 | ({get[a,b]:0})
-  |        ^
-

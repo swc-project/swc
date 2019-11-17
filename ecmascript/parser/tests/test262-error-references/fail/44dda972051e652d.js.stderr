@@ -1,6 +1,12 @@
-error: Expected RParen, got Some(Word(x))
- --> $DIR/tests/test262-parser/fail/44dda972051e652d.js:1:20
+error: TS1094
+ --> $DIR/tests/test262-parser/fail/44dda972051e652d.js:1:11
   |
 1 | class A { get prop(x) {} }
-  |                    ^
+  |           ^^^
+
+error: TS1056
+ --> $DIR/tests/test262-parser/fail/44dda972051e652d.js:1:15
+  |
+1 | class A { get prop(x) {} }
+  |               ^^^^
 

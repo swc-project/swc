@@ -899,10 +899,7 @@ impl Fold<Expr> for ObjectSpread {
                     for prop in props {
                         match prop {
                             PropOrSpread::Prop(..) => obj.props.push(prop),
-                            PropOrSpread::Spread(SpreadElement {
-                                expr,
-                                ..
-                            }) => {
+                            PropOrSpread::Spread(SpreadElement { expr, .. }) => {
                                 // Push object if it's not empty
                                 if first || !obj.props.is_empty() {
                                     let obj = mem::replace(

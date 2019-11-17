@@ -1,6 +1,0 @@
-error: Invalid unciode code point
- --> $DIR/tests/test262-parser/fail/aca911e336954a5b.js:1:6
-  |
-1 | ("\u{110000}")
-  |      ^^^^^^
-

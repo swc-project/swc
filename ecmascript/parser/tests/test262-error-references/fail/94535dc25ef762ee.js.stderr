@@ -1,6 +1,6 @@
-error: Expected unicode escape
- --> $DIR/tests/test262-parser/fail/94535dc25ef762ee.js:1:16
+error: Expected 4 hex characters
+ --> $DIR/tests/test262-parser/fail/94535dc25ef762ee.js:1:17
   |
 1 | var x = /[a-z]/\\ux
-  |                ^
+  |                 ^^
 

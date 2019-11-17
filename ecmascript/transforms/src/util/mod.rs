@@ -246,8 +246,7 @@ pub trait ExprExt {
             }
 
             Expr::Unary(UnaryExpr {
-                op: op!("void"),
-                ..
+                op: op!("void"), ..
             }) => Known(false),
 
             Expr::Lit(ref lit) => {

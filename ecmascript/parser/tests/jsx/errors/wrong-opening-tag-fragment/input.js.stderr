@@ -1,6 +1,0 @@
-error: Expected corresponding JSX closing tag for <something>
- --> $DIR/tests/jsx/errors/wrong-opening-tag-fragment/input.js:1:14
-  |
-1 | <something></>
-  |              ^
-

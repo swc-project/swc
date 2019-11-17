@@ -56,13 +56,13 @@
       "right": {
         "type": "TsTypeAssertion",
         "span": {
-          "start": 5,
+          "start": 4,
           "end": 14,
           "ctxt": 0,
           "loc": {
             "start": {
               "line": 1,
-              "column": 5
+              "column": 4
             },
             "end": {
               "line": 1,

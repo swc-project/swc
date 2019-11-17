@@ -84,7 +84,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
             // "package", "private", "protected",  "public", "static", or "yield".
             match w {
                 Word::Ident(js_word!("enum")) => {
-                    syntax_error!(p.input.prev_span(), SyntaxError::InvalidIdentInStrict)
+                    p.emit_err(p.input.prev_span(), SyntaxError::InvalidIdentInStrict);
                 }
                 Word::Keyword(Keyword::Yield)
                 | Word::Ident(js_word!("static"))
@@ -97,7 +97,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 | Word::Ident(js_word!("public"))
                     if strict =>
                 {
-                    syntax_error!(p.input.prev_span(), SyntaxError::InvalidIdentInStrict)
+                    p.emit_err(p.input.prev_span(), SyntaxError::InvalidIdentInStrict);
                 }
                 _ => {}
             }

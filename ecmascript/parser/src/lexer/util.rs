@@ -10,6 +10,7 @@ use crate::error::{ErrorToDiag, SyntaxError};
 use std::char;
 use swc_common::{
     comments::{Comment, CommentKind},
+    errors::DiagnosticBuilder,
     BytePos, Span, SyntaxContext,
 };
 use unicode_xid::UnicodeXID;
@@ -100,6 +101,22 @@ impl<'a, I: Input> Lexer<'a, I> {
             error: kind,
         };
         Err(err.into())
+    }
+
+    #[cold]
+    pub(super) fn emit_error(&mut self, start: BytePos, kind: SyntaxError) {
+        let span = self.span(start);
+        self.emit_error_span(span, kind)
+    }
+
+    #[cold]
+    pub(super) fn emit_error_span(&mut self, span: Span, kind: SyntaxError) {
+        let err = ErrorToDiag {
+            handler: self.session.handler,
+            span,
+            error: kind,
+        };
+        DiagnosticBuilder::from(err).emit();
     }
 
     /// Skip comments or whitespaces.

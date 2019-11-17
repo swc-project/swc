@@ -2,6 +2,7 @@ use crate::{builder::PassBuilder, error::Error};
 use atoms::JsWord;
 use chashmap::CHashMap;
 use common::{errors::Handler, FileName, SourceMap};
+pub use ecmascript::parser::JscTarget;
 use ecmascript::{
     ast::{Expr, Module, ModuleItem, Stmt},
     parser::{Parser, Session as ParseSess, SourceFileInput, Syntax},
@@ -343,30 +344,6 @@ pub struct JscConfig {
 
     #[serde(default)]
     pub target: JscTarget,
-}
-
-#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialOrd, Ord, PartialEq, Eq)]
-pub enum JscTarget {
-    #[serde(rename = "es3")]
-    Es3,
-    #[serde(rename = "es5")]
-    Es5,
-    #[serde(rename = "es2015")]
-    Es2015,
-    #[serde(rename = "es2016")]
-    Es2016,
-    #[serde(rename = "es2017")]
-    Es2017,
-    #[serde(rename = "es2018")]
-    Es2018,
-    #[serde(rename = "es2019")]
-    Es2019,
-}
-
-impl Default for JscTarget {
-    fn default() -> Self {
-        JscTarget::Es3
-    }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

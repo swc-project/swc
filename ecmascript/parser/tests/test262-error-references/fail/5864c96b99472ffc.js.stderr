@@ -1,6 +1,0 @@
-error: Unexpected token Some(RParen)
- --> $DIR/tests/test262-parser/fail/5864c96b99472ffc.js:1:22
-  |
-1 | function f() { (super)() }
-  |                      ^
-

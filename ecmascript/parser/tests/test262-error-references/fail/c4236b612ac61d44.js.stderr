@@ -1,6 +1,6 @@
-error: Unexpected token Some(Semi)
- --> $DIR/tests/test262-parser/fail/c4236b612ac61d44.js:1:11
+error: TS1009
+ --> $DIR/tests/test262-parser/fail/c4236b612ac61d44.js:1:9
   |
 1 | let x, y, ;
-  |           ^
+  |         ^
 

@@ -16,6 +16,20 @@
 //!   |          ^^^^^
 //! ```
 //!
+//! ## Error recovery
+//!
+//! The parser can recover from some parsing erros. For example, parser returns
+//! `Ok(Module)` for the code below, while emitting error to handler.
+//!
+//! ```ts
+//! const CONST = 9000 % 2;
+//! const enum D {
+//!     // Comma is requied, but parser can recover because of the newline.
+//!     d = 10
+//!     g = CONST
+//! }
+//! ```
+//!
 //! # Example (lexer)
 //!
 //! See `lexer.rs` in examples directory.
@@ -37,7 +51,8 @@
 //!     swc_common::GLOBALS.set(&swc_common::Globals::new(), || {
 //!         let cm: Arc<SourceMap> = Default::default();
 //!         let handler =
-//!             Handler::with_tty_emitter(ColorConfig::Auto, true, false, Some(cm.clone()));
+//!             Handler::with_tty_emitter(ColorConfig::Auto, true, false,
+//! Some(cm.clone()));
 //!
 //!         let session = Session { handler: &handler };
 //!
@@ -104,7 +119,7 @@ pub use self::{
     parser::*,
 };
 use serde::{Deserialize, Serialize};
-use swc_common::errors::Handler;
+use swc_common::{errors::Handler, Span};
 
 #[macro_use]
 mod macros;
@@ -264,6 +279,30 @@ pub struct TsConfig {
     pub dynamic_import: bool,
 }
 
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialOrd, Ord, PartialEq, Eq)]
+pub enum JscTarget {
+    #[serde(rename = "es3")]
+    Es3,
+    #[serde(rename = "es5")]
+    Es5,
+    #[serde(rename = "es2015")]
+    Es2015,
+    #[serde(rename = "es2016")]
+    Es2016,
+    #[serde(rename = "es2017")]
+    Es2017,
+    #[serde(rename = "es2018")]
+    Es2018,
+    #[serde(rename = "es2019")]
+    Es2019,
+}
+
+impl Default for JscTarget {
+    fn default() -> Self {
+        JscTarget::Es3
+    }
+}
+
 #[derive(Clone, Copy, Default, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct EsConfig {
@@ -326,9 +365,13 @@ pub struct Context {
     /// keyword.
     in_generator: bool,
 
+    is_continue_allowed: bool,
+    is_break_allowed: bool,
+
     in_type: bool,
     /// Typescript extension.
     in_declare: bool,
+    span_of_fn_name: Option<Span>,
 
     /// If true, `:` should not be treated as a type annotation.
     in_cond_expr: bool,

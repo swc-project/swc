@@ -1,6 +1,0 @@
-error: Unterminated string constant
- --> $DIR/tests/test262-parser/fail/dc431bcf293513a0.js:1:2
-  |
-1 | (')
-  |  ^^
-

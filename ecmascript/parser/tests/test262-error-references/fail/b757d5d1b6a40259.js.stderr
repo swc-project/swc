@@ -1,6 +1,12 @@
-error: Expected RParen, got Some(Comma)
- --> $DIR/tests/test262-parser/fail/b757d5d1b6a40259.js:1:21
+error: TS1094
+ --> $DIR/tests/test262-parser/fail/b757d5d1b6a40259.js:1:11
   |
 1 | class A { set prop(x, y) {} }
-  |                     ^
+  |           ^^^
+
+error: TS1056
+ --> $DIR/tests/test262-parser/fail/b757d5d1b6a40259.js:1:15
+  |
+1 | class A { set prop(x, y) {} }
+  |               ^^^^
 

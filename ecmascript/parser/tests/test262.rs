@@ -302,6 +302,10 @@ where
             e.emit();
         });
 
+        if handler.has_errors() {
+            return Err(());
+        }
+
         res
     });
 

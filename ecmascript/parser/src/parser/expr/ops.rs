@@ -1,5 +1,5 @@
 //! Parser for unary operations and binary operations.
-use super::{util::ExprExt, *};
+use super::*;
 use crate::token::Keyword;
 use swc_common::Spanned;
 
@@ -7,7 +7,40 @@ use swc_common::Spanned;
 impl<'a, I: Tokens> Parser<'a, I> {
     /// Name from spec: 'LogicalORExpression'
     pub(super) fn parse_bin_expr(&mut self) -> PResult<'a, Box<Expr>> {
-        let left = self.parse_unary_expr()?;
+        let ctx = self.ctx();
+
+        let left = match self.parse_unary_expr() {
+            Ok(v) => v,
+            Err(mut err) => {
+                err.cancel();
+                match {
+                    match cur!(false) {
+                        Ok(cur) => cur,
+                        Err(..) => return Err(err),
+                    }
+                } {
+                    &Word(Word::Keyword(Keyword::In)) if ctx.include_in_expr => {
+                        err.cancel();
+
+                        self.emit_err(self.input.cur_span(), SyntaxError::TS1109);
+
+                        Box::new(Expr::Invalid(Invalid {
+                            span: err.span.primary_span().unwrap(),
+                        }))
+                    }
+                    &Word(Word::Keyword(Keyword::InstanceOf)) | &Token::BinOp(..) => {
+                        err.cancel();
+
+                        self.emit_err(self.input.cur_span(), SyntaxError::TS1109);
+
+                        Box::new(Expr::Invalid(Invalid {
+                            span: err.span.primary_span().unwrap(),
+                        }))
+                    }
+                    _ => return Err(err),
+                }
+            }
+        };
 
         return_if_arrow!(left);
         self.parse_bin_op_recursively(left, 0)
@@ -20,7 +53,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     /// operator that has a lower precedence than the set it is parsing.
     ///
     /// `parseExprOp`
-    fn parse_bin_op_recursively(
+    pub(in crate::parser) fn parse_bin_op_recursively(
         &mut self,
         left: Box<Expr>,
         min_prec: u8,
@@ -141,7 +174,10 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 })));
             }
 
-            return self.parse_ts_type_assertion().map(Expr::from).map(Box::new);
+            return self
+                .parse_ts_type_assertion(start)
+                .map(Expr::from)
+                .map(Box::new);
         }
 
         // Parse update expression
@@ -153,11 +189,9 @@ impl<'a, I: Tokens> Parser<'a, I> {
             };
 
             let arg = self.parse_unary_expr()?;
-            if !arg.is_valid_simple_assignment_target(self.ctx().strict) {
-                // This is early ReferenceError
-                syntax_error!(arg.span(), SyntaxError::NotSimpleAssign)
-            }
             let span = Span::new(start, arg.span().hi(), Default::default());
+            self.check_assign_target(&arg, false);
+
             return Ok(Box::new(Expr::Update(UpdateExpr {
                 span,
                 prefix: true,
@@ -178,9 +212,45 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 tok!('!') => op!("!"),
                 _ => unreachable!(),
             };
-            let arg = self.parse_unary_expr()?;
+            let arg_start = cur_pos!() - BytePos(1);
+            let arg = match self.parse_unary_expr() {
+                Ok(expr) => expr,
+                Err(mut err) => {
+                    err.emit();
+                    Box::new(Expr::Invalid(Invalid {
+                        span: Span::new(arg_start, arg_start, Default::default()),
+                    }))
+                }
+            };
             let span = Span::new(start, arg.span().hi(), Default::default());
-            return Ok(Box::new(Expr::Unary(UnaryExpr { span, op, arg })));
+
+            if self.ctx().strict {
+                if op == op!("delete") {
+                    match *arg {
+                        Expr::Ident(ref i) => self.emit_err(i.span, SyntaxError::TS1102),
+                        _ => {}
+                    }
+                }
+            }
+
+            if op == op!("delete") {
+                fn unwrap_paren(e: &Expr) -> &Expr {
+                    match *e {
+                        Expr::Paren(ref p) => unwrap_paren(&p.expr),
+                        _ => e,
+                    }
+                }
+                match *arg {
+                    Expr::Member(..) => {}
+                    _ => self.emit_err(unwrap_paren(&arg).span(), SyntaxError::TS2703),
+                }
+            }
+
+            return Ok(Box::new(Expr::Unary(UnaryExpr {
+                span: span!(start),
+                op,
+                arg,
+            })));
         }
 
         if self.ctx().in_async && is!("await") {
@@ -197,10 +267,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         }
 
         if is_one_of!("++", "--") {
-            if !expr.is_valid_simple_assignment_target(self.ctx().strict) {
-                // This is eary ReferenceError
-                syntax_error!(expr.span(), SyntaxError::NotSimpleAssign)
-            }
+            self.check_assign_target(&expr, false);
 
             let start = cur_pos!();
             let op = if bump!() == tok!("++") {

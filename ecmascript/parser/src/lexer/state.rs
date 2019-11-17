@@ -1,5 +1,5 @@
 use super::{Context, Input, Lexer};
-use crate::{input::Tokens, lexer::util::CharExt, token::*, Syntax};
+use crate::{input::Tokens, lexer::util::CharExt, token::*, JscTarget, Syntax};
 use enum_kind::Kind;
 use smallvec::SmallVec;
 use std::mem;
@@ -96,6 +96,9 @@ impl<I: Input> Tokens for Lexer<'_, I> {
     fn syntax(&self) -> Syntax {
         self.syntax
     }
+    fn target(&self) -> JscTarget {
+        self.target
+    }
 
     fn set_expr_allowed(&mut self, allow: bool) {
         self.set_expr_allowed(allow)
@@ -136,7 +139,23 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
 
             let c = match self.input.cur() {
                 Some(c) => c,
-                None => return Ok(None),
+                None => {
+                    if self
+                        .leading_comments_buffer
+                        .as_ref()
+                        .map(|v| !v.is_empty())
+                        .unwrap_or(false)
+                    {
+                        self.comments.as_mut().unwrap().add_leading(
+                            self.state.start,
+                            std::mem::replace(
+                                &mut self.leading_comments_buffer.as_mut().unwrap(),
+                                vec![],
+                            ),
+                        );
+                    }
+                    return Ok(None);
+                }
             };
 
             // println!(
@@ -577,7 +596,7 @@ where
     F: FnOnce(&mut Lexer<'_, crate::lexer::input::SourceFileInput<'_>>) -> Result<Ret, ()>,
 {
     crate::with_test_sess(s, |sess, fm| {
-        let mut l = Lexer::new(sess, syntax, fm, None);
+        let mut l = Lexer::new(sess, syntax, Default::default(), fm, None);
         let res = f(&mut l);
 
         let c: SmallVec<[TokenContext; 32]> = smallvec![TokenContext::BraceStmt];

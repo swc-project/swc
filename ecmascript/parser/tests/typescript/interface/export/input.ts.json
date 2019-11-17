@@ -94,7 +94,7 @@
       }
     },
     {
-      "type": "ExportDeclaration",
+      "type": "ExportDefaultDeclaration",
       "span": {
         "start": 22,
         "end": 51,
@@ -110,7 +110,7 @@
           }
         }
       },
-      "declaration": {
+      "decl": {
         "type": "TsInterfaceDeclaration",
         "span": {
           "start": 47,

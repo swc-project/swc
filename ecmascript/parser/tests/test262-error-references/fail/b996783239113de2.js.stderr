@@ -1,6 +1,0 @@
-error: Expected Comma, got Some(DotDotDot)
- --> $DIR/tests/test262-parser/fail/b996783239113de2.js:1:4
-  |
-1 | (a ...b) => 0
-  |    ^^^
-

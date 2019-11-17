@@ -97,6 +97,7 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
             let path = dir.join(&file_name);
             if errors {
                 let module = with_parser(false, &path, |p| p.parse_module());
+
                 let err = module.expect_err("should fail, but parsed as");
                 if err
                     .compare_to_file(format!("{}.stderr", path.display()))
@@ -164,6 +165,10 @@ where
                 e.emit();
             });
 
+            if handler.has_errors() {
+                return Err(());
+            }
+
             res
         })
     });
@@ -213,7 +218,10 @@ impl Fold<PropName> for Normalizer {
         let node = node.fold_children(self);
 
         match node {
-            PropName::Computed(box Expr::Lit(ref l)) => match l {
+            PropName::Computed(ComputedPropName {
+                expr: box Expr::Lit(ref l),
+                ..
+            }) => match l {
                 Lit::Str(s) => s.clone().into(),
                 Lit::Num(v) => v.clone().into(),
 

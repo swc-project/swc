@@ -1,6 +1,0 @@
-error: Unexpected token Some(Comma)
- --> $DIR/tests/test262-parser/fail/d82c20dfe6ce915a.js:1:5
-  |
-1 | ({a,,a} = 0)
-  |     ^
-

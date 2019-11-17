@@ -1,4 +1,4 @@
-error: Cannot assign to this
+error: TS2406
  --> $DIR/tests/test262-parser/fail/95682e688db64065.js:1:6
   |
 1 | for (this of that);

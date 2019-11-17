@@ -1,7 +1,7 @@
 use super::*;
 use crate::lexer::TokenContexts;
 use either::Either;
-use swc_common::Spanned;
+use swc_common::{Spanned, SyntaxContext};
 
 #[parser]
 impl<'a, I: Tokens> Parser<'a, I> {
@@ -53,13 +53,15 @@ impl<'a, I: Tokens> Parser<'a, I> {
     }
 
     /// `tsIsListTerminator`
-    #[inline(always)]
+
     fn is_ts_list_terminator(&mut self, kind: ParsingContext) -> PResult<'a, bool> {
         debug_assert!(self.input.syntax().typescript());
 
         Ok(match kind {
             ParsingContext::EnumMembers | ParsingContext::TypeMembers => is!('}'),
-            ParsingContext::HeritageClauseElement => is!('{'),
+            ParsingContext::HeritageClauseElement { .. } => {
+                is!('{') || is!("implements") || is!("extends")
+            }
             ParsingContext::TupleElementTypes => is!(']'),
             ParsingContext::TypeParametersOrArguments => is!('>'),
         })
@@ -94,6 +96,22 @@ impl<'a, I: Tokens> Parser<'a, I> {
     where
         F: FnMut(&mut Self) -> PResult<'a, T>,
     {
+        self.parse_ts_delimited_list_inner(kind, |p| {
+            let start = p.input.cur_pos();
+
+            Ok((start, parse_element(p)?))
+        })
+    }
+
+    /// `tsParseDelimitedList`
+    fn parse_ts_delimited_list_inner<T, F>(
+        &mut self,
+        kind: ParsingContext,
+        mut parse_element: F,
+    ) -> PResult<'a, Vec<T>>
+    where
+        F: FnMut(&mut Self) -> PResult<'a, (BytePos, T)>,
+    {
         debug_assert!(self.input.syntax().typescript());
 
         let mut buf = vec![];
@@ -102,8 +120,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
             if self.is_ts_list_terminator(kind)? {
                 break;
             }
-
-            let element = parse_element(self)?;
+            let (start, element) = parse_element(self)?;
             buf.push(element);
 
             if eat!(',') {
@@ -114,6 +131,20 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 break;
             }
 
+            match kind {
+                // Recover
+                // const enum D {
+                //     d = 10
+                //     g = 11
+                // }
+                ParsingContext::EnumMembers => {
+                    const TOKEN: &Token = &Token::Comma;
+                    let cur = format!("{:?}", cur!(false).ok());
+                    self.emit_err(self.input.cur_span(), SyntaxError::Expected(TOKEN, cur));
+                    continue;
+                }
+                _ => {}
+            }
             // This will fail with an error about a missing comma
             expect!(',');
         }
@@ -157,8 +188,33 @@ impl<'a, I: Tokens> Parser<'a, I> {
     fn parse_ts_entity_name(&mut self, allow_reserved_words: bool) -> PResult<'a, TsEntityName> {
         debug_assert!(self.input.syntax().typescript());
 
-        let mut entity = TsEntityName::Ident(self.parse_ident_name()?);
+        let init = self.parse_ident_name()?;
+        match init {
+            // Handle
+            //
+            // var a: void.x
+            //            ^
+            Ident {
+                sym: js_word!("void"),
+                ..
+            } => {
+                let dot_start = cur_pos!();
+                let dot_span = span!(dot_start);
+                self.emit_err(dot_span, SyntaxError::TS1005)
+            }
+            _ => {}
+        }
+        let mut entity = TsEntityName::Ident(init);
         while eat!('.') {
+            let dot_start = cur_pos!();
+            if !is!('#') && !is!(IdentName) {
+                self.emit_err(
+                    Span::new(dot_start, dot_start, Default::default()),
+                    SyntaxError::TS1003,
+                );
+                return Ok(entity);
+            }
+
             let left = entity;
             let right = if allow_reserved_words {
                 self.parse_ident_name()?
@@ -176,12 +232,20 @@ impl<'a, I: Tokens> Parser<'a, I> {
         debug_assert!(self.input.syntax().typescript());
 
         let start = cur_pos!();
-        let type_name = self.parse_ts_entity_name(/* allow_reserved_words */ false)?;
+
+        let has_modifier = self.eat_any_ts_modifier()?;
+
+        let type_name = self.parse_ts_entity_name(/* allow_reserved_words */ true)?;
         let type_params = if !self.input.had_line_break_before_cur() && is!('<') {
             Some(self.parse_ts_type_args()?)
         } else {
             None
         };
+
+        if has_modifier {
+            self.emit_err(span!(start), SyntaxError::TS2369);
+        }
+
         Ok(TsTypeRef {
             span: span!(start),
             type_name,
@@ -459,11 +523,43 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 Lit::Str(s) => TsEnumMemberId::Str(s),
                 _ => unreachable!(),
             })?,
+            Token::Num(v) => {
+                bump!();
+                let span = span!(start);
+                // Recover from error
+                self.emit_err(span, SyntaxError::TS2452);
+
+                TsEnumMemberId::Str(Str {
+                    span,
+                    value: v.to_string().into(),
+                    has_escape: false,
+                })
+            }
+            Token::LBracket => {
+                assert_and_bump!('[');
+                let _ = self.parse_expr()?;
+
+                self.emit_err(span!(start), SyntaxError::TS1164);
+
+                expect!(']');
+
+                TsEnumMemberId::Ident(Ident::new(js_word!(""), span!(start)))
+            }
             _ => self.parse_ident_name().map(TsEnumMemberId::from)?,
         };
+
         let init = if eat!('=') {
             Some(self.parse_assignment_expr()?)
+        } else if is!(',') || is!('}') {
+            None
         } else {
+            let start = cur_pos!();
+            bump!();
+            store!(',');
+            self.emit_err(
+                Span::new(start, start, SyntaxContext::empty()),
+                SyntaxError::TS1005,
+            );
             None
         };
 
@@ -589,10 +685,16 @@ impl<'a, I: Tokens> Parser<'a, I> {
         })
     }
 
+    pub fn parse_type(&mut self) -> PResult<'a, Box<TsType>> {
+        debug_assert!(self.input.syntax().typescript());
+
+        self.in_type().parse_ts_type()
+    }
+
     /// Be sure to be in a type context before calling self.
     ///
     /// `tsParseType`
-    fn parse_ts_type(&mut self) -> PResult<'a, Box<TsType>> {
+    pub(super) fn parse_ts_type(&mut self) -> PResult<'a, Box<TsType>> {
         debug_assert!(self.input.syntax().typescript());
 
         // Need to set `state.inType` so that we don't parse JSX in a type context.
@@ -657,10 +759,12 @@ impl<'a, I: Tokens> Parser<'a, I> {
     }
 
     /// `tsParseTypeAssertion`
-    pub(super) fn parse_ts_type_assertion(&mut self) -> PResult<'a, TsTypeAssertion> {
+    pub(super) fn parse_ts_type_assertion(
+        &mut self,
+        start: BytePos,
+    ) -> PResult<'a, TsTypeAssertion> {
         debug_assert!(self.input.syntax().typescript());
 
-        let start = cur_pos!();
         // Not actually necessary to set state.inType because we never reach here if JSX
         // plugin is enabled, but need `tsInType` to satisfy the assertion in
         // `tsParseType`.
@@ -711,6 +815,22 @@ impl<'a, I: Tokens> Parser<'a, I> {
         let start = cur_pos!();
 
         let id = self.parse_ident_name()?;
+        match id.sym {
+            js_word!("string")
+            | js_word!("null")
+            | js_word!("number")
+            | js_word!("object")
+            | js_word!("any")
+            | js_word!("unknown")
+            | js_word!("boolean")
+            | js_word!("bigint")
+            | js_word!("symbol")
+            | js_word!("void")
+            | js_word!("never") => {
+                self.emit_err(id.span, SyntaxError::TS2427);
+            }
+            _ => {}
+        }
         let type_params = self.try_parse_ts_type_params()?;
 
         let extends = if eat!("extends") {
@@ -718,6 +838,17 @@ impl<'a, I: Tokens> Parser<'a, I> {
         } else {
             vec![]
         };
+
+        // Recover from
+        //
+        //     interface I extends A extends B {}
+        if is!("extends") {
+            self.emit_err(self.input.cur_span(), SyntaxError::TS1172);
+
+            while !eof!() && !is!('{') {
+                bump!();
+            }
+        }
 
         let body_start = cur_pos!();
         let body = self
@@ -818,7 +949,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         })
     }
 
-    fn ts_look_ahead<T, F>(&mut self, op: F) -> PResult<'a, T>
+    pub(super) fn ts_look_ahead<T, F>(&mut self, op: F) -> PResult<'a, T>
     where
         F: FnOnce(&mut Self) -> PResult<'a, T>,
     {
@@ -857,6 +988,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
     /// `tsSkipParameterStart`
     fn skip_ts_parameter_start(&mut self) -> PResult<'a, bool> {
         debug_assert!(self.input.syntax().typescript());
+
+        let _ = self.eat_any_ts_modifier()?;
 
         if is_one_of!(IdentRef, "this") {
             bump!();
@@ -945,7 +1078,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
         // Note: babel's comment is wrong
         assert_and_bump!('['); // Skip '['
 
-        Ok(eat!(IdentRef) && is!(':'))
+        // ',' is for error recovery
+        Ok(eat!(IdentRef) && is_one_of!(':', ','))
     }
 
     /// `tsTryParseIndexSignature`
@@ -962,7 +1096,12 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
         let mut id = self.parse_ident_name()?;
 
-        expect!(':');
+        if eat!(',') {
+            self.emit_err(id.span, SyntaxError::TS1096);
+        } else {
+            expect!(':');
+        }
+
         let cur_pos = cur_pos!();
         id.type_ann = self
             .parse_ts_type_ann(/* eat_colon */ false, cur_pos)
@@ -1534,7 +1673,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     }
 
     /// `tsParseArrayTypeOrHigher`
-    fn parse_ts_array_type_or_higher(&mut self) -> PResult<'a, Box<TsType>> {
+    fn parse_ts_array_type_or_higher(&mut self, readonly: bool) -> PResult<'a, Box<TsType>> {
         debug_assert!(self.input.syntax().typescript());
 
         let mut ty = self.parse_ts_non_array_type()?;
@@ -1550,6 +1689,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 expect!(']');
                 ty = Box::new(TsType::TsIndexedAccessType(TsIndexedAccessType {
                     span: span!(ty.span().lo()),
+                    readonly,
                     obj_type: ty,
                     index_type,
                 }))
@@ -1620,7 +1760,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 if is!("infer") {
                     self.parse_ts_infer_type().map(TsType::from).map(Box::new)
                 } else {
-                    self.parse_ts_array_type_or_higher()
+                    let readonly = self.parse_ts_modifier(&["readonly"])?.is_some();
+                    self.parse_ts_array_type_or_higher(readonly)
                 }
             }
         }
@@ -1706,6 +1847,11 @@ impl<'a, I: Tokens> Parser<'a, I> {
             !is!("declare"),
             "try_parse_ts_declare should be called after eating `declare`"
         );
+
+        if self.ctx().in_declare {
+            let span_of_declare = span!(start);
+            self.emit_err(span_of_declare, SyntaxError::TS1038);
+        }
 
         let ctx = Context {
             in_declare: true,
@@ -1812,7 +1958,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
             }
 
             js_word!("interface") => {
-                if next || is!(IdentRef) {
+                if next || (is!(IdentRef)) {
                     if next {
                         bump!();
                     }
@@ -1917,7 +2063,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     }
 
     /// `tsParseTypeArguments`
-    pub(super) fn parse_ts_type_args(&mut self) -> PResult<'a, TsTypeParamInstantiation> {
+    pub fn parse_ts_type_args(&mut self) -> PResult<'a, TsTypeParamInstantiation> {
         debug_assert!(self.input.syntax().typescript());
 
         let start = cur_pos!();
@@ -2029,7 +2175,7 @@ enum UnionOrIntersection {
     Intersection,
 }
 
-#[derive(Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum ParsingContext {
     EnumMembers,
     HeritageClauseElement,

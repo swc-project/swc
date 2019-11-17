@@ -1,6 +1,0 @@
-error: Unexpected token Some(Bang)
- --> $DIR/tests/test262-parser/fail/7fc173197c3cc75d.js:1:16
-  |
-1 | (class extends !a {})
-  |                ^
-
