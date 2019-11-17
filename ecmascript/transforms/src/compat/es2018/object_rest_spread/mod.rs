@@ -716,7 +716,7 @@ impl RestFolder {
                                         has_escape: false,
                                     }))
                                 }
-                                PropName::Computed(ref expr) => expr.clone(),
+                                PropName::Computed(ref c) => c.expr.clone(),
                             },
                         }
                         .into(),
@@ -822,7 +822,7 @@ fn excluded_props(props: &[ObjectPatProp]) -> Vec<Option<ExprOrSpread>> {
                     has_escape: false,
                 })
                 .as_arg(),
-                PropName::Computed(expr) => expr.clone().as_arg(),
+                PropName::Computed(c) => c.expr.clone().as_arg(),
             },
             ObjectPatProp::Assign(AssignPatProp { key, .. }) => Lit::Str(Str {
                 span: key.span,

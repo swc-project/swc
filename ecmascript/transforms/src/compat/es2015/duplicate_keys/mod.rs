@@ -53,9 +53,10 @@ impl Fold<Prop> for PropFolder {
                     || !self.setter_props.insert(ident.sym.clone())
                 {
                     Prop::KeyValue(KeyValueProp {
-                        key: PropName::Computed(box Expr::Lit(Lit::Str(quote_str!(ident
-                            .sym
-                            .clone())))),
+                        key: PropName::Computed(ComputedPropName {
+                            span: ident.span,
+                            expr: box Expr::Lit(Lit::Str(quote_str!(ident.sym.clone()))),
+                        }),
                         value: box Expr::Ident(ident),
                     })
                 } else {
@@ -99,31 +100,37 @@ impl<'a> Fold<PropName> for PropNameFolder<'a> {
         match name {
             PropName::Ident(ident) => {
                 if !self.props.insert(ident.sym.clone()) {
-                    PropName::Computed(box Expr::Lit(Lit::Str(Str {
+                    PropName::Computed(ComputedPropName {
                         span,
-                        value: ident.sym,
-                        has_escape: false,
-                    })))
+                        expr: box Expr::Lit(Lit::Str(Str {
+                            span,
+                            value: ident.sym,
+                            has_escape: false,
+                        })),
+                    })
                 } else {
                     PropName::Ident(ident)
                 }
             }
             PropName::Str(s) => {
                 if !self.props.insert(s.value.clone()) {
-                    PropName::Computed(box Expr::Lit(Lit::Str(s)))
+                    PropName::Computed(ComputedPropName {
+                        span: s.span,
+                        expr: box Expr::Lit(Lit::Str(s)),
+                    })
                 } else {
                     PropName::Str(s)
                 }
             }
-            PropName::Computed(box expr) => {
+            PropName::Computed(ComputedPropName { span, expr }) => {
                 // Computed property might collide
-                match expr {
+                match *expr {
                     Expr::Lit(Lit::Str(Str { ref value, .. })) => {
                         self.props.insert(value.clone());
                     }
                     _ => {}
                 }
-                PropName::Computed(box expr)
+                PropName::Computed(ComputedPropName { span, expr })
             }
             _ => name,
         }

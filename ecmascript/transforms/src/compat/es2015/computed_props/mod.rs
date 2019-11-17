@@ -321,7 +321,7 @@ fn prop_name_to_expr(p: PropName) -> Expr {
         })),
         PropName::Str(s) => Expr::Lit(Lit::Str(s)),
         PropName::Num(n) => Expr::Lit(Lit::Num(n)),
-        PropName::Computed(expr) => *expr,
+        PropName::Computed(c) => *c.expr,
     }
 }
 
