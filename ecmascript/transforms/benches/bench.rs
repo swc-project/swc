@@ -6,11 +6,8 @@ use std::alloc::System;
 static GLOBAL: System = System;
 #[macro_use]
 extern crate swc_common;
-extern crate swc_ecma_ast;
-extern crate swc_ecma_parser;
-extern crate swc_ecma_transforms;
+
 extern crate test;
-extern crate testing;
 
 use swc_common::{FileName, FoldWith};
 use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};

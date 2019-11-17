@@ -134,7 +134,7 @@ pub trait ParseObject<'a, Obj> {
     fn parse_object_prop(&mut self) -> PResult<'a, Self::Prop>;
 }
 
-pub struct WithCtx<'w, 'a: 'w, I: 'w + Tokens> {
+pub struct WithCtx<'w, 'a, I: Tokens> {
     inner: &'w mut Parser<'a, I>,
     orig_ctx: Context,
 }

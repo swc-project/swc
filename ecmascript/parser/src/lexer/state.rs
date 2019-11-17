@@ -1,11 +1,9 @@
-use super::{Input, Lexer};
-use crate::{lexer::util::CharExt, token::*, Syntax};
+use super::{Context, Input, Lexer};
+use crate::{input::Tokens, lexer::util::CharExt, token::*, Syntax};
 use enum_kind::Kind;
-use input::Tokens;
 use smallvec::SmallVec;
 use std::mem;
 use swc_common::BytePos;
-use Context;
 
 /// State of lexer.
 ///
@@ -576,7 +574,7 @@ pub(crate) fn with_lexer<F, Ret>(
     f: F,
 ) -> Result<Ret, ::testing::StdErr>
 where
-    F: FnOnce(&mut Lexer<crate::lexer::input::SourceFileInput>) -> Result<Ret, ()>,
+    F: FnOnce(&mut Lexer<'_, crate::lexer::input::SourceFileInput<'_>>) -> Result<Ret, ()>,
 {
     crate::with_test_sess(s, |sess, fm| {
         let mut l = Lexer::new(sess, syntax, fm, None);

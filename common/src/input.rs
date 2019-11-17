@@ -1,4 +1,4 @@
-use crate::{BytePos, SourceFile};
+use crate::syntax_pos::{BytePos, SourceFile};
 use std::str;
 
 #[derive(Clone)]

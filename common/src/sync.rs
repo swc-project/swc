@@ -96,7 +96,7 @@ impl<K: Eq + Hash, V: Eq, S: BuildHasher> HashMapExt<K, V> for HashMap<K, V, S> 
 }
 
 impl<T: Copy + Debug> Debug for LockCell<T> {
-    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         f.debug_struct("LockCell")
             .field("value", &self.get())
             .finish()
@@ -164,7 +164,7 @@ impl<T> Lock<T> {
     }
 
     #[inline(always)]
-    pub fn lock(&self) -> LockGuard<T> {
+    pub fn lock(&self) -> LockGuard<'_, T> {
         if ERROR_CHECKING {
             self.0.try_lock().expect("lock was already held")
         } else {
@@ -173,12 +173,12 @@ impl<T> Lock<T> {
     }
 
     #[inline(always)]
-    pub fn borrow(&self) -> LockGuard<T> {
+    pub fn borrow(&self) -> LockGuard<'_, T> {
         self.lock()
     }
 
     #[inline(always)]
-    pub fn borrow_mut(&self) -> LockGuard<T> {
+    pub fn borrow_mut(&self) -> LockGuard<'_, T> {
         self.lock()
     }
 }
@@ -208,7 +208,7 @@ impl<T> RwLock<T> {
     }
 
     #[inline(always)]
-    pub fn read(&self) -> ReadGuard<T> {
+    pub fn read(&self) -> ReadGuard<'_, T> {
         if ERROR_CHECKING {
             self.0.try_read().expect("lock was already held")
         } else {
@@ -217,7 +217,7 @@ impl<T> RwLock<T> {
     }
 
     #[inline(always)]
-    pub fn borrow(&self) -> ReadGuard<T> {
+    pub fn borrow(&self) -> ReadGuard<'_, T> {
         self.read()
     }
 }

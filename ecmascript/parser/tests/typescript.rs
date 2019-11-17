@@ -3,13 +3,7 @@
 #![feature(specialization)]
 #![feature(test)]
 
-extern crate pretty_assertions;
-extern crate swc_common;
-extern crate swc_ecma_ast;
-extern crate swc_ecma_parser;
 extern crate test;
-extern crate testing;
-extern crate walkdir;
 
 use pretty_assertions::assert_eq;
 use std::{
@@ -146,7 +140,7 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
 
 fn with_parser<F, Ret>(treat_error_as_bug: bool, file_name: &Path, f: F) -> Result<Ret, StdErr>
 where
-    F: for<'a> FnOnce(&mut Parser<'a, Lexer<'a, SourceFileInput>>) -> PResult<'a, Ret>,
+    F: for<'a> FnOnce(&mut Parser<'a, Lexer<'a, SourceFileInput<'_>>>) -> PResult<'a, Ret>,
 {
     let fname = file_name.display().to_string();
     let output = ::testing::run_test(treat_error_as_bug, |cm, handler| {

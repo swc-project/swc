@@ -2,8 +2,7 @@ pub use self::{
     hygiene::{ExpnInfo, Mark, SyntaxContext},
     span_encoding::{Span, DUMMY_SP},
 };
-use crate::{sync::Lock, SourceMap};
-use rustc_data_structures::stable_hasher::StableHasher;
+use crate::{rustc_data_structures::stable_hasher::StableHasher, sync::Lock, SourceMap};
 use serde::{Deserialize, Serialize};
 use std::{
     borrow::Cow,
@@ -76,7 +75,7 @@ pub enum FileName {
 }
 
 impl std::fmt::Display for FileName {
-    fn fmt(&self, fmt: &mut std::fmt::Formatter) -> std::fmt::Result {
+    fn fmt(&self, fmt: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match *self {
             FileName::Real(ref path) => write!(fmt, "{}", path.display()),
             FileName::Macros(ref name) => write!(fmt, "<{} macros>", name),
@@ -453,7 +452,7 @@ impl Default for Span {
     }
 }
 
-fn default_span_debug(span: Span, f: &mut fmt::Formatter) -> fmt::Result {
+fn default_span_debug(span: Span, f: &mut fmt::Formatter<'_>) -> fmt::Result {
     let span = span.data();
     f.debug_struct("Span")
         .field("lo", &span.lo)
@@ -463,13 +462,13 @@ fn default_span_debug(span: Span, f: &mut fmt::Formatter) -> fmt::Result {
 }
 
 impl fmt::Debug for Span {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         SPAN_DEBUG.with(|span_debug| span_debug.get()(*self, f))
     }
 }
 
 impl fmt::Debug for SpanData {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         SPAN_DEBUG.with(|span_debug| span_debug.get()(Span::new(self.lo, self.hi, self.ctxt), f))
     }
 }
@@ -694,7 +693,7 @@ pub struct SourceFile {
 }
 
 impl fmt::Debug for SourceFile {
-    fn fmt(&self, fmt: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, fmt: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(fmt, "SourceFile({})", self.name)
     }
 }
@@ -748,7 +747,7 @@ impl SourceFile {
 
     /// Get a line from the list of pre-computed line-beginnings.
     /// The line number here is 0-based.
-    pub fn get_line(&self, line_number: usize) -> Option<Cow<str>> {
+    pub fn get_line(&self, line_number: usize) -> Option<Cow<'_, str>> {
         fn get_until_newline(src: &str, begin: usize) -> &str {
             // We can't use `lines.get(line_number+1)` because we might
             // be parsing when we call this function and thus the current
@@ -990,7 +989,7 @@ pub struct FileLines {
     pub lines: Vec<LineInfo>,
 }
 
-thread_local!(pub static SPAN_DEBUG: Cell<fn(Span, &mut fmt::Formatter) -> fmt::Result> =
+thread_local!(pub static SPAN_DEBUG: Cell<fn(Span, &mut fmt::Formatter<'_>) -> fmt::Result> =
                 Cell::new(default_span_debug));
 
 // _____________________________________________________________________________

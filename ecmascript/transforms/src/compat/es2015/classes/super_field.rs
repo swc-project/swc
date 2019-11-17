@@ -426,10 +426,10 @@ impl<'a> Fold<Expr> for SuperFieldAccessFolder<'a> {
         if callee_folder.inject_get && should_invoke_call {
             match n {
                 Expr::Call(CallExpr {
-                    span: _,
                     callee,
                     mut args,
                     type_args,
+                    ..
                 }) => {
                     let this = match self.constructor_this_mark {
                         Some(mark) => quote_ident!(DUMMY_SP.apply_mark(mark), "_this").as_arg(),

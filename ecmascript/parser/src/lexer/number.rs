@@ -308,7 +308,7 @@ mod tests {
 
     fn lex<F, Ret>(s: &'static str, f: F) -> Ret
     where
-        F: FnOnce(&mut Lexer<SourceFileInput>) -> Ret,
+        F: FnOnce(&mut Lexer<'_, SourceFileInput<'_>>) -> Ret,
     {
         crate::with_test_sess(s, |sess, fm| {
             let mut l = Lexer::new(sess, Syntax::default(), fm, None);
@@ -414,11 +414,8 @@ mod tests {
                 assert_eq!(vec.len(), 1);
                 let token = vec.into_iter().next().unwrap();
                 assert_eq!(Num(expected), token);
-            } else {
-                match vec {
-                    Ok(vec) => assert_ne!(vec![Num(expected)], vec),
-                    _ => {}
-                }
+            } else if let Ok(vec) = vec {
+                assert_ne!(vec![Num(expected)], vec)
             }
         }
     }

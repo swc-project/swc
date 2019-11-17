@@ -124,7 +124,7 @@ impl Fold<Constructor> for Strip {
                         span,
                         left: box Pat::Ident(i),
                         right,
-                        type_ann: _,
+                        ..
                     }) => (
                         i.clone(),
                         Pat::Assign(AssignPat {

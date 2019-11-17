@@ -16,12 +16,14 @@
 //! `spans` and used pervasively in the compiler. They are absolute positions
 //! within the SourceMap, which upon request can be converted to line and column
 //! information, source code snippets, etc.
-use crate::sync::{Lock, LockGuard, MappedLockGuard};
 pub use crate::syntax_pos::{hygiene::ExpnInfo, *};
-use errors::SourceMapper;
+use crate::{
+    errors::SourceMapper,
+    rustc_data_structures::stable_hasher::StableHasher,
+    sync::{Lock, LockGuard, MappedLockGuard},
+};
 use hashbrown::HashMap;
 use log::debug;
-use rustc_data_structures::stable_hasher::StableHasher;
 use std::{
     cmp, env, fs,
     hash::Hash,
@@ -161,7 +163,7 @@ impl SourceMap {
         Ok(self.new_source_file(filename, src))
     }
 
-    pub fn files(&self) -> MappedLockGuard<Vec<Arc<SourceFile>>> {
+    pub fn files(&self) -> MappedLockGuard<'_, Vec<Arc<SourceFile>>> {
         LockGuard::map(self.files.borrow(), |files| &mut files.source_files)
     }
 

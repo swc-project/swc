@@ -5,9 +5,8 @@
 //!
 //!
 //! [babylon/util/identifier.js]:https://github.com/babel/babel/blob/master/packages/babylon/src/util/identifier.js
-use super::{input::Input, LexResult, Lexer};
+use super::{input::Input, Char, LexResult, Lexer};
 use crate::error::{ErrorToDiag, SyntaxError};
-use lexer::Char;
 use std::char;
 use swc_common::{
     comments::{Comment, CommentKind},

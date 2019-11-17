@@ -4,12 +4,12 @@ pub use self::input::{Capturing, Tokens, TokensInput};
 use self::{input::Buffer, util::ParseObject};
 use crate::{
     error::SyntaxError,
+    lexer::Lexer,
     parser_macros::parser,
     token::{Token, Word},
     Context, Session, Syntax,
 };
 use ast::*;
-use lexer::Lexer;
 use std::ops::{Deref, DerefMut};
 use swc_atoms::JsWord;
 use swc_common::{comments::Comments, errors::DiagnosticBuilder, input::Input, BytePos, Span};
@@ -122,7 +122,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
 #[cfg(test)]
 pub fn test_parser<F, Ret>(s: &'static str, syntax: Syntax, f: F) -> Ret
 where
-    F: for<'a> FnOnce(&'a mut Parser<'a, Lexer<'a, ::SourceFileInput>>) -> Result<Ret, ()>,
+    F: for<'a> FnOnce(&'a mut Parser<'a, Lexer<'a, crate::SourceFileInput<'_>>>) -> Result<Ret, ()>,
 {
     crate::with_test_sess(s, |sess, input| {
         f(&mut Parser::new(sess, syntax, input, None))

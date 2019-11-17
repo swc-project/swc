@@ -5,7 +5,7 @@ fn syntax() -> ::swc_ecma_parser::Syntax {
     Default::default()
 }
 
-fn tr(tester: &mut crate::tests::Tester, config: Config) -> impl Fold<Module> {
+fn tr(tester: &mut crate::tests::Tester<'_>, config: Config) -> impl Fold<Module> {
     chain!(resolver(), umd(tester.cm.clone(), config))
 }
 

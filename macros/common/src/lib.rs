@@ -1,10 +1,10 @@
 #[macro_use]
 extern crate pmutil;
 extern crate proc_macro;
-extern crate proc_macro2;
+use proc_macro2;
 #[macro_use]
 extern crate quote;
-extern crate syn;
+
 use pmutil::{synom_ext::FromSpan, SpanExt};
 use proc_macro2::Span;
 use syn::*;

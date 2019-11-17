@@ -14,7 +14,7 @@
 // The encoding format for inline spans were obtained by optimizing over crates
 // in rustc/libstd. See https://internals.rust-lang.org/t/rfc-compiler-refactoring-spans/1357/28
 use super::hygiene::SyntaxContext;
-use crate::syntax_pos::CM;
+use crate::syntax_pos::{BytePos, SpanData, CM, GLOBALS};
 use hashbrown::HashMap;
 use serde::{
     de::Deserializer,
@@ -22,9 +22,6 @@ use serde::{
     Deserialize, Serialize,
 };
 use std::hash::{Hash, Hasher};
-use BytePos;
-use SpanData;
-use GLOBALS;
 
 /// A compressed span.
 /// Contains either fields of `SpanData` inline if they are small, or index into

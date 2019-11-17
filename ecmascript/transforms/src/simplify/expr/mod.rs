@@ -228,16 +228,13 @@ fn fold_bin(
                         span,
                     }) => {
                         if !left.may_have_side_effects() && !right.may_have_side_effects() {
-                            match (left.as_string(), right.as_string()) {
-                                (Known(l), Known(r)) => {
-                                    return Expr::Lit(Lit::Str(Str {
-                                        value: format!("{}{}", l, r).into(),
-                                        span,
-                                        // TODO
-                                        has_escape: false,
-                                    }));
-                                }
-                                _ => {}
+                            if let (Known(l), Known(r)) = (left.as_string(), right.as_string()) {
+                                return Expr::Lit(Lit::Str(Str {
+                                    value: format!("{}{}", l, r).into(),
+                                    span,
+                                    // TODO
+                                    has_escape: false,
+                                }));
                             }
                         }
 
@@ -254,10 +251,7 @@ fn fold_bin(
                 Known(BoolType) | Known(NullType) | Known(NumberType) | Known(UndefinedType) => {
                     bin = match bin {
                         Expr::Bin(BinExpr {
-                            left,
-                            op: _,
-                            right,
-                            span,
+                            left, right, span, ..
                         }) => match perform_arithmetic_op(op!(bin, "+"), &left, &right) {
                             Known(v) => {
                                 return preserve_effects(
@@ -419,7 +413,7 @@ fn fold_bin(
                         // JavaScript always treats the result of >>> as unsigned.
                         // We must force Java to do the same here.
                         // unimplemented!(">>> (Zerofill rshift)")
-                        (0xffff_ffffu32 & res) as f64
+                        res as f64
                     }
 
                     _ => unreachable!("Unknown bit operator {:?}", op),
@@ -435,31 +429,29 @@ fn fold_bin(
             let (mut left, right) = try_replace!(number, perform_arithmetic_op(op, &left, &right));
 
             // Try left.rhs * right
-            match *left {
-                Expr::Bin(BinExpr {
-                    span: left_span,
+            if let Expr::Bin(BinExpr {
+                span: left_span,
+                left: left_lhs,
+                op: left_op,
+                right: left_rhs,
+            }) = *left
+            {
+                if left_op == op {
+                    if let Known(value) = perform_arithmetic_op(op, &left_rhs, &right) {
+                        return Expr::Bin(BinExpr {
+                            span,
+                            left: left_lhs,
+                            op: left_op,
+                            right: box Expr::Lit(Lit::Num(Number { value, span })),
+                        });
+                    }
+                }
+                left = box Expr::Bin(BinExpr {
                     left: left_lhs,
                     op: left_op,
+                    span: left_span,
                     right: left_rhs,
-                }) => {
-                    if left_op == op {
-                        if let Known(value) = perform_arithmetic_op(op, &left_rhs, &right) {
-                            return Expr::Bin(BinExpr {
-                                span,
-                                left: left_lhs,
-                                op: left_op,
-                                right: box Expr::Lit(Lit::Num(Number { value, span })),
-                            });
-                        }
-                    }
-                    left = box Expr::Bin(BinExpr {
-                        left: left_lhs,
-                        op: left_op,
-                        span: left_span,
-                        right: left_rhs,
-                    })
-                }
-                _ => {}
+                })
             }
 
             (left, right)
@@ -792,22 +784,16 @@ fn perform_abstract_rel_cmp(
     // Try to evaluate based on the general type.
     let (lt, rt) = (left.get_type(), right.get_type());
 
-    match (lt, rt) {
-        (Known(StringType), Known(StringType)) => {
-            match (left.as_string(), right.as_string()) {
-                (Known(lv), Known(rv)) => {
-                    // In JS, browsers parse \v differently. So do not compare strings if one
-                    // contains \v.
-                    if lv.contains('\u{000B}') || rv.contains('\u{000B}') {
-                        return Unknown;
-                    } else {
-                        return Known(lv < rv);
-                    }
-                }
-                _ => {}
+    if let (Known(StringType), Known(StringType)) = (lt, rt) {
+        if let (Known(lv), Known(rv)) = (left.as_string(), right.as_string()) {
+            // In JS, browsers parse \v differently. So do not compare strings if one
+            // contains \v.
+            if lv.contains('\u{000B}') || rv.contains('\u{000B}') {
+                return Unknown;
+            } else {
+                return Known(lv < rv);
             }
         }
-        _ => {}
     }
 
     // Then, try to evaluate based on the value of the node. Try comparing as
@@ -963,19 +949,19 @@ where
                     PropOrSpread::Prop(box node) => match node {
                         Prop::Shorthand(..) => {}
                         Prop::KeyValue(KeyValueProp { key, value }) => {
-                            match key {
-                                PropName::Computed(e) => add_effects(v, e),
-                                _ => {}
+                            if let PropName::Computed(e) = key {
+                                add_effects(v, e);
                             }
 
                             add_effects(v, value)
                         }
                         Prop::Getter(GetterProp { key, .. })
                         | Prop::Setter(SetterProp { key, .. })
-                        | Prop::Method(MethodProp { key, .. }) => match key {
-                            PropName::Computed(e) => add_effects(v, e),
-                            _ => {}
-                        },
+                        | Prop::Method(MethodProp { key, .. }) => {
+                            if let PropName::Computed(e) = key {
+                                add_effects(v, e)
+                            }
+                        }
                         Prop::Assign(..) => {
                             unreachable!("assign property in object literal is not a valid syntax")
                         }

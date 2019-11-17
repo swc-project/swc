@@ -172,6 +172,7 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
             {
                 impl<__Fold> swc_common::FoldWith<__Fold> for Type {
                     #[inline]
+                    #[allow(clippy::needless_return)]
                     fn fold_children(self, _f: &mut __Fold) -> Self {
                         body
                     }
@@ -227,6 +228,5 @@ fn normalize_type_for_bound(ty: Type) -> Type {
         }
     }
 
-    let out = Norm.fold_type(ty);
-    out
+    Norm.fold_type(ty)
 }

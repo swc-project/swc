@@ -156,7 +156,7 @@ mod tests {
     use super::*;
     use crate::tests::Tester;
 
-    fn tr(_: &mut Tester, sources: &[(&str, &[(&str, &str)])]) -> impl Fold<Module> {
+    fn tr(_: &mut Tester<'_>, sources: &[(&str, &[(&str, &str)])]) -> impl Fold<Module> {
         let mut m = HashMap::default();
 
         for (src, values) in sources {

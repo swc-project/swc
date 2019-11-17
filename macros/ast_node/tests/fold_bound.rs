@@ -2,8 +2,6 @@
 
 #![feature(specialization)]
 
-extern crate serde;
-extern crate swc_common;
 use std::fmt::Debug;
 use swc_common::{AstNode, Fold};
 

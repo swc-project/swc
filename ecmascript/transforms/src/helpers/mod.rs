@@ -312,7 +312,7 @@ swcHelpers._throw();",
 
     #[test]
     fn use_strict_before_helper() {
-        ::tests::test_transform(
+        crate::tests::test_transform(
             Default::default(),
             |_| {
                 enable_helper!(throw);
@@ -330,7 +330,7 @@ function _throw(e) {
 
     #[test]
     fn name_conflict() {
-        ::tests::test_transform(
+        crate::tests::test_transform(
             Default::default(),
             |_| {
                 enable_helper!(throw);
@@ -347,7 +347,7 @@ let _throw1 = null;
     }
     #[test]
     fn use_strict_abort() {
-        ::tests::test_transform(
+        crate::tests::test_transform(
             Default::default(),
             |_| {},
             "'use strict'

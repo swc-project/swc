@@ -1,19 +1,5 @@
 #![cfg_attr(feature = "fold", feature(specialization))]
 
-extern crate ast_node;
-extern crate atty;
-extern crate cfg_if;
-extern crate chashmap;
-extern crate either;
-extern crate hashbrown;
-extern crate log;
-extern crate parking_lot;
-extern crate scoped_tls;
-extern crate serde;
-extern crate string_cache;
-extern crate termcolor;
-extern crate unicode_width;
-
 #[cfg(feature = "fold")]
 pub use self::fold::{Fold, FoldWith, Visit, VisitWith};
 pub use self::{

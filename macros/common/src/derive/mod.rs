@@ -1,4 +1,4 @@
-use def_site;
+use crate::def_site;
 use pmutil::ToTokensExt;
 use proc_macro2::TokenStream;
 use quote::ToTokens;

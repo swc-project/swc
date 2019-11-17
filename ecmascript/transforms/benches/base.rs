@@ -2,12 +2,7 @@
 #![feature(specialization)]
 #![feature(box_syntax)]
 
-extern crate swc_common;
-extern crate swc_ecma_ast;
-extern crate swc_ecma_parser;
-extern crate swc_ecma_transforms;
 extern crate test;
-extern crate testing;
 
 use swc_common::{FileName, Fold, FoldWith, Visit, VisitWith, DUMMY_SP};
 use swc_ecma_ast::*;

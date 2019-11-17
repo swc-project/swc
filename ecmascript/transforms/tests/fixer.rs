@@ -2,14 +2,11 @@
 #![feature(box_patterns)]
 #![feature(specialization)]
 #![feature(test)]
-extern crate sourcemap;
-extern crate swc_common;
-extern crate swc_ecma_ast;
-extern crate swc_ecma_codegen;
-extern crate swc_ecma_parser;
-extern crate swc_ecma_transforms;
+
+use swc_ecma_codegen;
+
 extern crate test;
-extern crate testing;
+
 use std::{
     env,
     fs::{read_dir, File},
@@ -171,7 +168,7 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                     {
                         let handlers = box MyHandlers;
                         let handlers2 = box MyHandlers;
-                        let mut parser: Parser<Lexer<SourceFileInput>> = Parser::new(
+                        let mut parser: Parser<'_, Lexer<'_, SourceFileInput<'_>>> = Parser::new(
                             Session { handler: &handler },
                             Syntax::default(),
                             (&*src).into(),
@@ -204,7 +201,7 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
 
                         // Parse source
 
-                        let mut e_parser: Parser<Lexer<SourceFileInput>> = Parser::new(
+                        let mut e_parser: Parser<'_, Lexer<'_, SourceFileInput<'_>>> = Parser::new(
                             Session { handler: &handler },
                             Syntax::default(),
                             (&*expected).into(),

@@ -238,10 +238,10 @@ impl Fold<Expr> for MethodFolder {
                 span,
                 callee:
                     ExprOrSuper::Expr(box Expr::Member(MemberExpr {
-                        span: _,
                         obj: ExprOrSuper::Super(super_token),
                         prop,
                         computed,
+                        ..
                     })),
                 args,
                 type_args,

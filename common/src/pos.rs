@@ -1,6 +1,6 @@
 #[cfg(feature = "fold")]
-use fold::{FoldWith, VisitWith};
-pub use syntax_pos::{
+use crate::fold::{FoldWith, VisitWith};
+pub use crate::syntax_pos::{
     hygiene, BytePos, CharPos, ExpnInfo, FileName, Globals, Loc, LocWithOpt, Mark, MultiSpan,
     SourceFile, SourceFileAndBytePos, SourceFileAndLine, Span, SpanData, SpanLinesError,
     SyntaxContext, CM, DUMMY_SP, GLOBALS, NO_EXPANSION,

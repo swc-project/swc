@@ -247,7 +247,6 @@ pub trait ExprExt {
 
             Expr::Unary(UnaryExpr {
                 op: op!("void"),
-                arg: _,
                 ..
             }) => Known(false),
 
@@ -298,12 +297,12 @@ pub trait ExprExt {
                         sym: js_word!("Infinity"),
                         ..
                     }),
-                span: _,
+                ..
             }) => -INFINITY,
             Expr::Unary(UnaryExpr {
                 op: op!("!"),
                 ref arg,
-                span: _,
+                ..
             }) => match arg.as_bool() {
                 (Pure, Known(v)) => {
                     if v {
@@ -317,7 +316,7 @@ pub trait ExprExt {
             Expr::Unary(UnaryExpr {
                 op: op!("void"),
                 ref arg,
-                span: _,
+                ..
             }) => {
                 if arg.may_have_side_effects() {
                     return Unknown;
@@ -336,7 +335,7 @@ pub trait ExprExt {
         Known(v)
     }
 
-    fn as_string(&self) -> Value<Cow<str>> {
+    fn as_string(&self) -> Value<Cow<'_, str>> {
         let expr = self.as_expr_kind();
         match *expr {
             Expr::Lit(ref l) => match *l {

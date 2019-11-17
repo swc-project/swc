@@ -9,8 +9,8 @@
 // except according to those terms.
 
 use super::{snippet::Style, Applicability, CodeSuggestion, Level, Substitution, SubstitutionPart};
+use crate::syntax_pos::{MultiSpan, Span};
 use std::fmt;
-use syntax_pos::{MultiSpan, Span};
 
 #[must_use]
 #[derive(Clone, Debug, PartialEq, Hash)]

@@ -75,7 +75,7 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
         .with_generics(input.generics)
 }
 
-fn make_body_for_variant(v: &VariantBinder, bindings: Vec<BindedField>) -> Box<Expr> {
+fn make_body_for_variant(v: &VariantBinder<'_>, bindings: Vec<BindedField<'_>>) -> Box<Expr> {
     /// `swc_common::Spanned::span(#field)`
     fn simple_field(field: &dyn ToTokens) -> Box<Expr> {
         Box::new(

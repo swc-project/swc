@@ -51,7 +51,7 @@ impl Params {
                     })
                 }
                 Pat::Rest(RestPat {
-                    dot3_token: _, arg, ..
+                    arg, ..
                 }) => {
                     // Inject a for statement
                     //

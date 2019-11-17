@@ -298,7 +298,7 @@ impl Fold<Vec<VarDeclarator>> for AssignFolder {
                     span,
                     left,
                     right: def_value,
-                    type_ann: _,
+                    ..
                 }) => {
                     assert!(
                         decl.init.is_some(),

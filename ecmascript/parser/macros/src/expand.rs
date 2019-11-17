@@ -9,9 +9,7 @@ use syn::{
 };
 
 pub fn expand(_attr: TokenStream, item: Item) -> Item {
-    let item = InjectSelf { parser: None }.fold_item(item);
-
-    item
+    InjectSelf { parser: None }.fold_item(item)
 }
 
 struct InjectSelf {
@@ -39,9 +37,8 @@ fn get_joinned_span(t: &dyn ToTokens) -> Span {
     let tts: TokenStream = t.dump();
     let mut first = None;
     for tt in tts {
-        match first {
-            None => first = Some(tt.span()),
-            _ => {}
+        if first.is_none() {
+            first = Some(tt.span());
         }
 
         // last = Some(tt.span());

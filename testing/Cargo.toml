@@ -6,6 +6,7 @@ license = "Apache-2.0/MIT"
 repository = "https://github.com/swc-project/swc.git"
 documentation = "https://swc-project.github.io/rustdoc/testing/"
 description = "Testing utilities for the swc project."
+edition = "2018"
 
 [dependencies]
 swc_common = { version = "0.3", path ="../common", features = ["fold"] }

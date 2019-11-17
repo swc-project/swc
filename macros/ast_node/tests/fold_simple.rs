@@ -1,7 +1,5 @@
 #![feature(specialization)]
 
-extern crate serde;
-extern crate swc_common;
 use swc_common::{Fold, FoldWith};
 
 pub trait AssertFold<T>: Fold<T> {}

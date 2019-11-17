@@ -3,15 +3,9 @@
 
 #[macro_use]
 extern crate bitflags;
-extern crate sourcemap;
-extern crate swc_atoms;
-extern crate swc_ecma_codegen_macros;
+
 #[macro_use]
 extern crate swc_common;
-extern crate hashbrown;
-extern crate swc_ecma_ast;
-#[cfg(test)]
-extern crate testing;
 
 pub use self::config::Config;
 use self::{
@@ -49,15 +43,15 @@ pub trait Handlers {
 }
 
 pub trait Node: Spanned {
-    fn emit_with(&self, e: &mut Emitter) -> Result;
+    fn emit_with(&self, e: &mut Emitter<'_>) -> Result;
 }
 impl<N: Node> Node for Box<N> {
-    fn emit_with(&self, e: &mut Emitter) -> Result {
+    fn emit_with(&self, e: &mut Emitter<'_>) -> Result {
         (**self).emit_with(e)
     }
 }
 impl<'a, N: Node> Node for &'a N {
-    fn emit_with(&self, e: &mut Emitter) -> Result {
+    fn emit_with(&self, e: &mut Emitter<'_>) -> Result {
         (**self).emit_with(e)
     }
 }
@@ -2004,7 +1998,7 @@ impl<N> Node for Option<N>
 where
     N: Node,
 {
-    fn emit_with(&self, e: &mut Emitter) -> Result {
+    fn emit_with(&self, e: &mut Emitter<'_>) -> Result {
         match *self {
             Some(ref n) => n.emit_with(e),
             None => Ok(()),

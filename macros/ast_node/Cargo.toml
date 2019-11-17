@@ -6,6 +6,7 @@ license = "Apache-2.0/MIT"
 repository = "https://github.com/swc-project/swc.git"
 documentation = "https://swc-project.github.io/rustdoc/ast_node/"
 description = "Macros for ast nodes."
+edition = "2018"
 
 [lib]
 proc-macro = true

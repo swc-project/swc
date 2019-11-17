@@ -1,9 +1,6 @@
 #![feature(test)]
 
-extern crate swc_common;
-extern crate swc_ecma_parser;
 extern crate test;
-extern crate testing;
 
 use swc_common::FileName;
 use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};

@@ -1,8 +1,7 @@
-use input::*;
+use crate::{input::*, util::is_bool};
 use pmutil::{Quote, SpanExt};
 use swc_macros_common::prelude::*;
 use syn::*;
-use util::is_bool;
 
 pub fn expand(
     Input {

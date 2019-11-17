@@ -470,49 +470,35 @@ impl_fold_fn!(RestFolder);
 
 impl RestFolder {
     fn insert_var_if_not_empty(&mut self, idx: usize, decl: VarDeclarator) {
-        match decl.init {
-            Some(box Expr::Ident(ref i1)) => match decl.name {
-                Pat::Ident(ref i2) => {
-                    if *i1 == *i2 {
-                        return;
-                    }
-                }
-                _ => {}
-            },
-            _ => {}
-        }
-
-        match decl.name {
-            Pat::Object(ObjectPat { ref props, .. }) => {
-                if props.is_empty() {
+        if let Some(box Expr::Ident(ref i1)) = decl.init {
+            if let Pat::Ident(ref i2) = decl.name {
+                if *i1 == *i2 {
                     return;
                 }
             }
-            _ => {}
+        }
+
+        if let Pat::Object(ObjectPat { ref props, .. }) = decl.name {
+            if props.is_empty() {
+                return;
+            }
         }
         self.vars.insert(idx, decl)
     }
 
     fn push_var_if_not_empty(&mut self, decl: VarDeclarator) {
-        match decl.init {
-            Some(box Expr::Ident(ref i1)) => match decl.name {
-                Pat::Ident(ref i2) => {
-                    if *i1 == *i2 {
-                        return;
-                    }
-                }
-                _ => {}
-            },
-            _ => {}
-        }
-
-        match decl.name {
-            Pat::Object(ObjectPat { ref props, .. }) => {
-                if props.is_empty() {
+        if let Some(box Expr::Ident(ref i1)) = decl.init {
+            if let Pat::Ident(ref i2) = decl.name {
+                if *i1 == *i2 {
                     return;
                 }
             }
-            _ => {}
+        }
+
+        if let Pat::Object(ObjectPat { ref props, .. }) = decl.name {
+            if props.is_empty() {
+                return;
+            }
         }
         self.vars.push(decl)
     }
@@ -914,8 +900,8 @@ impl Fold<Expr> for ObjectSpread {
                         match prop {
                             PropOrSpread::Prop(..) => obj.props.push(prop),
                             PropOrSpread::Spread(SpreadElement {
-                                dot3_token: _,
                                 expr,
+                                ..
                             }) => {
                                 // Push object if it's not empty
                                 if first || !obj.props.is_empty() {

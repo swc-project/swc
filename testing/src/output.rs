@@ -1,4 +1,4 @@
-use paths;
+use crate::paths;
 use std::{
     fmt,
     fs::{create_dir_all, remove_file, File},
@@ -38,13 +38,13 @@ pub struct Diff {
 pub struct NormalizedOutput(String);
 
 impl fmt::Display for NormalizedOutput {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         fmt::Display::fmt(&self.0, f)
     }
 }
 
 impl fmt::Debug for NormalizedOutput {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         fmt::Display::fmt(&self.0, f)
     }
 }
@@ -80,7 +80,7 @@ impl NormalizedOutput {
         }
         create_dir_all(path_for_actual.parent().unwrap()).expect("failed to run `mkdir -p`");
         // ::write_to_file(&path_for_actual, &self.0);
-        ::write_to_file(&path, &self.0);
+        crate::write_to_file(&path, &self.0);
 
         eprintln!(
             "Assertion failed: \nActual file printed to {}",

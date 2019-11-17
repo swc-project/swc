@@ -14,6 +14,7 @@ use super::{
     styled_buffer::StyledBuffer,
     CodeSuggestion, DiagnosticBuilder, DiagnosticId, Level, SourceMapperDyn, SubDiagnostic,
 };
+use crate::syntax_pos::{MultiSpan, SourceFile, Span};
 use atty;
 use hashbrown::HashMap;
 use std::{
@@ -23,7 +24,6 @@ use std::{
     ops::Range,
     sync::Arc,
 };
-use syntax_pos::{MultiSpan, SourceFile, Span};
 use termcolor::{Buffer, BufferWriter, Color, ColorChoice, ColorSpec, StandardStream, WriteColor};
 use unicode_width;
 
@@ -32,7 +32,7 @@ const ANONYMIZED_LINE_NUM: &str = "LL";
 /// Emitter trait for emitting errors.
 pub trait Emitter {
     /// Emit a structured diagnostic.
-    fn emit(&mut self, db: &DiagnosticBuilder);
+    fn emit(&mut self, db: &DiagnosticBuilder<'_>);
 
     /// Check if should show explanations about "rustc --explain"
     fn should_show_explain(&self) -> bool {
@@ -41,7 +41,7 @@ pub trait Emitter {
 }
 
 impl Emitter for EmitterWriter {
-    fn emit(&mut self, db: &DiagnosticBuilder) {
+    fn emit(&mut self, db: &DiagnosticBuilder<'_>) {
         let mut primary_span = db.span.clone();
         let mut children = db.children.clone();
         let mut suggestions: &[_] = &[];

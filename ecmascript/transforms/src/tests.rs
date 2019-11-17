@@ -30,7 +30,7 @@ pub(crate) struct Tester<'a> {
 impl<'a> Tester<'a> {
     pub fn run<F>(op: F)
     where
-        F: FnOnce(&mut Tester) -> Result<(), ()>,
+        F: FnOnce(&mut Tester<'_>) -> Result<(), ()>,
     {
         let out = ::testing::run_test(false, |cm, handler| {
             crate::util::HANDLER.set(handler, || {
@@ -58,7 +58,7 @@ impl<'a> Tester<'a> {
         op: F,
     ) -> Result<T, ()>
     where
-        F: FnOnce(&mut Parser<Lexer<SourceFileInput>>) -> Result<T, ()>,
+        F: FnOnce(&mut Parser<'_, Lexer<'_, SourceFileInput<'_>>>) -> Result<T, ()>,
     {
         let fm = self
             .cm
@@ -120,15 +120,10 @@ impl<'a> Tester<'a> {
                 handler: &self.handler,
             };
 
-            let module = {
-                let mut p = Parser::new(sess, syntax, SourceFileInput::from(&*fm), None);
-                p.parse_module().map_err(|mut e| {
-                    e.emit();
-                })?
-            };
-            // println!("parsed {} as a module\n{:?}", src, module);
-
-            module
+            let mut p = Parser::new(sess, syntax, SourceFileInput::from(&*fm), None);
+            p.parse_module().map_err(|mut e| {
+                e.emit();
+            })?
         };
 
         let module = validate!(module)
@@ -169,9 +164,9 @@ impl<'a> Tester<'a> {
     }
 }
 
-fn make_tr<F, P>(_: &'static str, op: F, tester: &mut Tester) -> impl Pass
+fn make_tr<F, P>(_: &'static str, op: F, tester: &mut Tester<'_>) -> impl Pass
 where
-    F: FnOnce(&mut Tester) -> P,
+    F: FnOnce(&mut Tester<'_>) -> P,
     P: Pass,
 {
     op(tester)
@@ -195,7 +190,7 @@ pub(crate) fn test_transform<F, P>(
     expected: &str,
     ok_if_code_eq: bool,
 ) where
-    F: FnOnce(&mut Tester) -> P,
+    F: FnOnce(&mut Tester<'_>) -> P,
 {
     crate::tests::Tester::run(|tester| {
         let expected =
@@ -254,7 +249,7 @@ pub(crate) fn test_transform<F, P>(
 #[derive(PartialEq, Eq)]
 pub(crate) struct DebugUsingDisplay<'a>(pub &'a str);
 impl<'a> fmt::Debug for DebugUsingDisplay<'a> {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         fmt::Display::fmt(self.0, f)
     }
 }
@@ -293,7 +288,7 @@ macro_rules! exec_tr {
 
 pub(crate) fn exec_tr<F, P>(test_name: &'static str, syntax: Syntax, tr: F, input: &str)
 where
-    F: FnOnce(&mut Tester) -> P,
+    F: FnOnce(&mut Tester<'_>) -> P,
 {
     Tester::run(|tester| {
         let tr = make_tr(test_name, tr, tester);

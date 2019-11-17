@@ -5,7 +5,7 @@ use swc_common::DUMMY_SP as span;
 fn jsx(src: &'static str) -> Box<Expr> {
     test_parser(
         src,
-        ::Syntax::Es(::EsConfig {
+        crate::Syntax::Es(crate::EsConfig {
             jsx: true,
             ..Default::default()
         }),

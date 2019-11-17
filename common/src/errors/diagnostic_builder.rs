@@ -9,13 +9,13 @@
 // except according to those terms.
 
 use super::{Applicability, Diagnostic, DiagnosticId, DiagnosticStyledString, Handler, Level};
+use crate::syntax_pos::{MultiSpan, Span};
 use log::debug;
 use std::{
     fmt::{self, Debug},
     ops::{Deref, DerefMut},
     thread::panicking,
 };
-use syntax_pos::{MultiSpan, Span};
 
 /// Used for emitting structured error messages and other diagnostic
 /// information.
@@ -314,7 +314,7 @@ impl<'a> DiagnosticBuilder<'a> {
 }
 
 impl<'a> Debug for DiagnosticBuilder<'a> {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         self.diagnostic.fmt(f)
     }
 }

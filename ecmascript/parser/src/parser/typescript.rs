@@ -1,6 +1,6 @@
 use super::*;
+use crate::lexer::TokenContexts;
 use either::Either;
-use lexer::TokenContexts;
 use swc_common::Spanned;
 
 #[parser]

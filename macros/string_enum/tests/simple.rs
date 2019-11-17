@@ -1,4 +1,3 @@
-extern crate serde;
 #[macro_use]
 extern crate string_enum;
 use std::fmt::{Debug, Display};

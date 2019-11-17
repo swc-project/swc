@@ -12,7 +12,7 @@ pub struct Args {
 }
 
 impl Parse for Args {
-    fn parse(i: ParseStream) -> syn::Result<Self> {
+    fn parse(i: ParseStream<'_>) -> syn::Result<Self> {
         Ok(Args { ty: i.parse()? })
     }
 }

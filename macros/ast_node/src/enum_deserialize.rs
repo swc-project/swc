@@ -11,10 +11,11 @@ struct VariantAttr {
 }
 
 impl Parse for VariantAttr {
-    fn parse(input: ParseStream) -> syn::Result<Self> {
+    fn parse(input: ParseStream<'_>) -> syn::Result<Self> {
         let content;
+        let _paren_token = parenthesized!(content in input);
         Ok(VariantAttr {
-            _paren_token: parenthesized!(content in input),
+            _paren_token,
             tags: content.parse_terminated(Lit::parse)?,
         })
     }

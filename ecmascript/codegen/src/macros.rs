@@ -20,7 +20,7 @@ macro_rules! opt {
 
 macro_rules! emit {
     ($emitter:expr, $e:expr) => {{
-        ::Node::emit_with(&$e, $emitter)?;
+        crate::Node::emit_with(&$e, $emitter)?;
     }};
 }
 

@@ -5,13 +5,12 @@
 //! rust does not support token munching (destructing `$b:block` into `{
 //! $($t:tt)* }`).
 
-extern crate pmutil;
 extern crate proc_macro;
-extern crate proc_macro2;
+
 #[macro_use]
 extern crate quote;
-extern crate swc_macros_common;
-extern crate syn;
+
+use syn;
 
 use pmutil::ToTokensExt;
 use proc_macro::TokenStream;

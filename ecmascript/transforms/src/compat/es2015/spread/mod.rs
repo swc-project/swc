@@ -60,9 +60,7 @@ impl Fold<Expr> for ActualFolder {
                     return Expr::Array(ArrayLit { span, elems });
                 }
 
-                let args_array = concat_args(span, elems.into_iter(), true);
-
-                args_array
+                concat_args(span, elems.into_iter(), true)
             }
 
             // super(...spread) should be removed by es2015::classes pass

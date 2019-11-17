@@ -43,7 +43,7 @@ impl Fold<KeyValuePatProp> for Fixer {
 
         let value = node.value.fold_with(self);
 
-        validate!(KeyValuePatProp { key, value, ..node })
+        validate!(KeyValuePatProp { key, value })
     }
 }
 
@@ -321,10 +321,6 @@ impl Fold<Expr> for Fixer {
                                 }
                             }
                             _ => buf.push(expr),
-                        }
-
-                        if is_last {
-                        } else {
                         }
                     }
 

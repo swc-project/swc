@@ -1,4 +1,4 @@
-extern crate string_cache_codegen;
+use string_cache_codegen;
 
 use std::{env, path::Path};
 

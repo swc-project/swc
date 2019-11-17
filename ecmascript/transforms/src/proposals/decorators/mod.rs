@@ -474,7 +474,7 @@ impl Decorators {
             .map(Some)
             .collect();
 
-        let decorate_call = Expr::Call(make_decorate_call(
+        Expr::Call(make_decorate_call(
             class.decorators,
             iter::once({
                 // function(_initialize) {}
@@ -540,9 +540,7 @@ impl Decorators {
                 .as_arg()
             })
             .chain(super_class_expr.map(|e| e.as_arg())),
-        ));
-
-        decorate_call
+        ))
     }
 }
 
