@@ -25,7 +25,7 @@ struct RestFolder {
     /// Variables which should ceclaraed using `var`
     mutable_vars: Vec<VarDeclarator>,
     /// Assignment expressions.
-    exprs: Vec<Box<ast::Expr>>,
+    exprs: Vec<Box<Expr>>,
 }
 
 macro_rules! impl_for_for_stmt {

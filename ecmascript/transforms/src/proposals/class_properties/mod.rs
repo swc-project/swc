@@ -464,7 +464,7 @@ impl ClassProperties {
         constructor: Option<Constructor>,
         has_super: bool,
         used_names: &[JsWord],
-        constructor_exprs: Vec<Box<ast::Expr>>,
+        constructor_exprs: Vec<Box<Expr>>,
     ) -> Constructor {
         let constructor = constructor
             .map(|c| {

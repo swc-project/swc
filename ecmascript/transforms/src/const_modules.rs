@@ -162,7 +162,7 @@ mod tests {
         for (src, values) in sources {
             let values = values
                 .iter()
-                .map(|(k, v)| ((*k).into(), (*v).to_string()))
+                .map(|(k, v)| ((*k).into(), v.to_string()))
                 .collect();
 
             m.insert((*src).into(), values);

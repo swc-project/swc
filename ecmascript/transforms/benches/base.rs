@@ -264,7 +264,6 @@ fn boxing_unboxed(b: &mut Bencher) {
 fn visit_empty(b: &mut Bencher) {
     b.bytes = SOURCE.len() as _;
 
-    struct Noop;
     let _ = ::testing::run_test(false, |cm, handler| {
         let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
 
@@ -280,7 +279,6 @@ fn visit_empty(b: &mut Bencher) {
                 e.emit();
             })
             .unwrap();
-        let _v = Noop;
 
         b.iter(|| test::black_box(()));
         Ok(())
