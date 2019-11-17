@@ -1146,9 +1146,11 @@ impl<'a, I: Tokens> Parser<'a, I> {
             if optional || (self.input.syntax().typescript() && is!(':')) {
                 let start = cur_pos!();
 
-                if self.input.syntax().typescript() && optional && arg.spread.is_some() {
-                    self.emit_err(self.input.prev_span(), SyntaxError::TS1047)
-                }
+                // TODO: `async(...args?: any[]) : any => {}`
+                //
+                // if self.input.syntax().typescript() && optional && arg.spread.is_some() {
+                //     self.emit_err(self.input.prev_span(), SyntaxError::TS1047)
+                // }
 
                 let mut pat = self.reparse_expr_as_pat(PatType::BindingPat, arg.expr)?;
                 if optional {
