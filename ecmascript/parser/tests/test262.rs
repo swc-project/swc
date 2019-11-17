@@ -66,6 +66,9 @@ const IGNORED_PASS_TESTS: &[&str] = &[
     "59ae0289778b80cd.js",
     "a4d62a651f69d815.js",
     "c06df922631aeabc.js",
+    // Wrong test - strict mode
+    "8f8bfb27569ac008.js",
+    "ce569e89a005c02a.js",
 ];
 
 fn add_test<F: FnOnce() + Send + 'static>(

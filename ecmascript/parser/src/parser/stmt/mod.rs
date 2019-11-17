@@ -959,7 +959,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
             let pat = self.reparse_expr_as_pat(PatType::AssignPat, init)?;
 
             // for ({} in foo) is invalid
-            if is_in {
+            if self.input.syntax().typescript() && is_in {
                 match pat {
                     Pat::Ident(ref v) => {}
                     Pat::Expr(..) => {}

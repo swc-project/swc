@@ -151,7 +151,8 @@ impl<'a, I: Tokens> ParseObject<'a, Box<Expr>> for Parser<'a, I> {
 
         let key = self.parse_prop_name()?;
 
-        if !is_one_of!('(', '[', ':', ',', '?', IdentName)
+        if self.input.syntax().typescript()
+            && !is_one_of!('(', '[', ':', ',', '?', IdentName)
             && !(self.input.syntax().typescript() && is!('<'))
             && !(is!('}')
                 && match key {
@@ -260,7 +261,9 @@ impl<'a, I: Tokens> ParseObject<'a, Box<Expr>> for Parser<'a, I> {
                                     self.emit_err(type_params.unwrap().span(), SyntaxError::TS1094);
                                 }
 
-                                if self.input.target() <= JscTarget::Es3 {
+                                if self.input.syntax().typescript()
+                                    && self.input.target() <= JscTarget::Es3
+                                {
                                     self.emit_err(key_span, SyntaxError::TS1056);
                                 }
 
@@ -283,7 +286,9 @@ impl<'a, I: Tokens> ParseObject<'a, Box<Expr>> for Parser<'a, I> {
                                     p.emit_err(key_span, SyntaxError::TS1094);
                                 }
 
-                                if p.input.target() <= JscTarget::Es3 {
+                                if p.input.syntax().typescript()
+                                    && p.input.target() <= JscTarget::Es3
+                                {
                                     p.emit_err(key_span, SyntaxError::TS1056);
                                 }
 

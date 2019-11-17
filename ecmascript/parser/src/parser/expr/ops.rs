@@ -12,7 +12,6 @@ impl<'a, I: Tokens> Parser<'a, I> {
         let left = match self.parse_unary_expr() {
             Ok(v) => v,
             Err(mut err) => {
-                err.cancel();
                 match {
                     match cur!(false) {
                         Ok(cur) => cur,
@@ -233,7 +232,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 }
             }
 
-            if op == op!("delete") {
+            if self.input.syntax().typescript() && op == op!("delete") {
                 fn unwrap_paren(e: &Expr) -> &Expr {
                     match *e {
                         Expr::Paren(ref p) => unwrap_paren(&p.expr),
