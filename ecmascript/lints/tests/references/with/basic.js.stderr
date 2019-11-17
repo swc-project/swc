@@ -1,6 +1,0 @@
-error: With statement are not allowed in strict mode
- --> $DIR/tests/references/with/basic.js:2:1
-  |
-2 | with (obj) {
-  | ^^^^
-
