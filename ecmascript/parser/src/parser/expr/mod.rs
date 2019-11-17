@@ -183,6 +183,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     }
 
     /// Parse a primary expression or arrow function
+    #[allow(clippy::cognitive_complexity)]
     pub(super) fn parse_primary_expr(&mut self) -> PResult<'a, Box<Expr>> {
         let _ = cur!(false);
         let start = cur_pos!();
@@ -242,25 +243,21 @@ impl<'a, I: Tokens> Parser<'a, I> {
         }
 
         // Literals
-        if {
-            match cur!(false) {
-                Ok(&tok!("null"))
-                | Ok(&tok!("true"))
-                | Ok(&tok!("false"))
-                | Ok(&Token::Num(..))
-                | Ok(Token::Str { .. }) => true,
-                _ => false,
-            }
+        if match cur!(false) {
+            Ok(&tok!("null"))
+            | Ok(&tok!("true"))
+            | Ok(&tok!("false"))
+            | Ok(&Token::Num(..))
+            | Ok(Token::Str { .. }) => true,
+            _ => false,
         } {
             return Ok(Box::new(Expr::Lit(self.parse_lit()?)));
         }
 
         // Regexp
-        if {
-            match cur!(false) {
-                Ok(&Token::Regex(..)) => true,
-                _ => false,
-            }
+        if match cur!(false) {
+            Ok(&Token::Regex(..)) => true,
+            _ => false,
         } {
             match bump!() {
                 Token::Regex(exp, flags) => {
@@ -439,7 +436,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         let mut first = true;
         let mut expr_or_spreads = vec![];
 
-        while !eof!() && !is!(']') {
+        while !eof!() && !is!(')') {
             if first {
                 first = false;
             } else {
@@ -716,6 +713,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     }
 
     /// returned bool is true if this method should be called again.
+    #[allow(clippy::cognitive_complexity)]
     fn parse_subscript(
         &mut self,
         obj: ExprOrSuper,
@@ -910,7 +908,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
             fn into_expr(e: Either<JSXFragment, JSXElement>) -> Box<Expr> {
                 match e {
                     Either::Left(l) => Box::new(l.into()),
-                    Either::Right(r) => Box::new(r.into()),
+                    Either::Right(r) => Box::new(Box::new(r).into()),
                 }
             }
             match *cur!(true)? {
@@ -960,22 +958,19 @@ impl<'a, I: Tokens> Parser<'a, I> {
             None
         };
 
-        match *callee {
+        if let Expr::New(ne @ NewExpr { args: None, .. }) = *callee {
             // If this is parsed using 'NewExpression' rule, just return it.
             // Because it's not left-recursive.
-            Expr::New(ne @ NewExpr { args: None, .. }) => {
-                if type_args.is_some() {
-                    // This fails with `expected (`
-                    expect!('(');
-                }
-                assert_ne!(
-                    cur!(false).ok(),
-                    Some(&tok!('(')),
-                    "parse_new_expr() should eat paren if it exists"
-                );
-                return Ok(Box::new(Expr::New(NewExpr { type_args, ..ne })));
+            if type_args.is_some() {
+                // This fails with `expected (`
+                expect!('(');
             }
-            _ => {}
+            assert_ne!(
+                cur!(false).ok(),
+                Some(&tok!('(')),
+                "parse_new_expr() should eat paren if it exists"
+            );
+            return Ok(Box::new(Expr::New(NewExpr { type_args, ..ne })));
         }
         // 'CallExpr' rule contains 'MemberExpr (...)',
         // and 'MemberExpr' rule contains 'new MemberExpr (...)'
@@ -1010,6 +1005,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         self.parse_expr()
     }
 
+    #[allow(clippy::cognitive_complexity)]
     pub(super) fn parse_args_or_pats(&mut self) -> PResult<'a, Vec<PatOrExprOrSpread>> {
         expect!('(');
 
@@ -1057,11 +1053,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
                     } else {
                         let mut expr = self.parse_bin_expr()?;
 
-                        match cur!(false) {
-                            Ok(&Token::AssignOp(..)) => {
-                                expr = self.finish_assignment_expr(start, expr)?
-                            }
-                            _ => {}
+                        if let Ok(&Token::AssignOp(..)) = cur!(false) {
+                            expr = self.finish_assignment_expr(start, expr)?
                         }
 
                         expr

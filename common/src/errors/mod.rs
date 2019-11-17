@@ -133,7 +133,7 @@ impl CodeSuggestion {
                         None => &line[lo..],
                     });
                 }
-                if let None = hi_opt {
+                if hi_opt.is_none() {
                     buf.push('\n');
                 }
             }
@@ -402,7 +402,7 @@ impl Handler {
         self.err_count.store(0, SeqCst);
     }
 
-    pub fn struct_dummy<'a>(&'a self) -> DiagnosticBuilder<'a> {
+    pub fn struct_dummy(&self) -> DiagnosticBuilder<'_> {
         DiagnosticBuilder::new(self, Level::Cancelled, "")
     }
 
@@ -802,8 +802,8 @@ impl Level {
         }
     }
 
-    pub fn is_failure_note(&self) -> bool {
-        match *self {
+    pub fn is_failure_note(self) -> bool {
+        match self {
             FailureNote => true,
             _ => false,
         }

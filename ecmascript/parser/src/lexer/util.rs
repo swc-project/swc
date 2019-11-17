@@ -20,16 +20,14 @@ pub(super) struct Raw(pub Option<String>);
 impl Raw {
     #[inline]
     pub fn push_str(&mut self, s: &str) {
-        match self.0 {
-            Some(ref mut st) => st.push_str(s),
-            _ => {}
+        if let Some(ref mut st) = self.0 {
+            st.push_str(s)
         }
     }
     #[inline]
     pub fn push(&mut self, c: char) {
-        match self.0 {
-            Some(ref mut st) => st.push(c),
-            _ => {}
+        if let Some(ref mut st) = self.0 {
+            st.push(c)
         }
     }
 }

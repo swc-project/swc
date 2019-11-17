@@ -125,13 +125,14 @@ pub const DUMMY_SP: Span = Span(0);
 impl Span {
     #[inline]
     pub fn new(lo: BytePos, hi: BytePos, ctxt: SyntaxContext) -> Self {
-        encode(&match lo <= hi {
-            true => SpanData { lo, hi, ctxt },
-            false => SpanData {
+        encode(&if lo <= hi {
+            SpanData { lo, hi, ctxt }
+        } else {
+            SpanData {
                 lo: hi,
                 hi: lo,
                 ctxt,
-            },
+            }
         })
     }
 

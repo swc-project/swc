@@ -119,7 +119,7 @@ pub enum Expr {
     JSXEmpty(JSXEmptyExpr),
 
     #[tag("JSXElement")]
-    JSXElement(JSXElement),
+    JSXElement(Box<JSXElement>),
 
     #[tag("JSXFragment")]
     JSXFragment(JSXFragment),

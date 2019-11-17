@@ -297,6 +297,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         self.parse_class_member_with_is_static(accessibility, static_token, decorators)
     }
 
+    #[allow(clippy::cognitive_complexity)]
     fn parse_class_member_with_is_static(
         &mut self,
         accessibility: Option<Accessibility>,

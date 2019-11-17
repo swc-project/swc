@@ -143,15 +143,15 @@ impl<'a> VariantBinder<'a> {
     ) -> (Pat, Vec<BindedField<'a>>) {
         let path = self.qual_path();
 
-        let (pat, bindings) = match self.data {
-            &Fields::Unit => {
+        let (pat, bindings) = match *self.data {
+            Fields::Unit => {
                 // EnumName::VariantName
                 let pat = Pat::Path(PatPath { qself: None, path });
 
                 // Unit struct does not have any field to bind
                 (pat, vec![])
             }
-            &Fields::Named(FieldsNamed {
+            Fields::Named(FieldsNamed {
                 named: ref fields,
                 brace_token,
             }) => {
@@ -205,7 +205,7 @@ impl<'a> VariantBinder<'a> {
                 });
                 (pat, bindings)
             }
-            &Fields::Unnamed(FieldsUnnamed {
+            Fields::Unnamed(FieldsUnnamed {
                 unnamed: ref fields,
                 paren_token,
             }) => {

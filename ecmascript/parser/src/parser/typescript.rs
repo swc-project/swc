@@ -43,10 +43,10 @@ impl<'a, I: Tokens> Parser<'a, I> {
             allowed_modifiers.iter().position(|s| **s == **modifier)
         };
 
-        if pos.is_some()
-            && self.try_parse_ts_bool(|p| p.ts_next_token_can_follow_modifier().map(Some))?
-        {
-            return Ok(Some(allowed_modifiers[pos.unwrap()]));
+        if let Some(pos) = pos {
+            if self.try_parse_ts_bool(|p| p.ts_next_token_can_follow_modifier().map(Some))? {
+                return Ok(Some(allowed_modifiers[pos]));
+            }
         }
 
         Ok(None)
@@ -121,6 +121,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         Ok(buf)
     }
 
+    #[allow(clippy::cognitive_complexity)]
     fn parse_ts_bracketed_list<T, F>(
         &mut self,
         kind: ParsingContext,
@@ -795,6 +796,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     }
 
     /// `tsParseExternalModuleReference`
+    #[allow(clippy::cognitive_complexity)]
     fn parse_ts_external_module_ref(&mut self) -> PResult<'a, TsExternalModuleRef> {
         debug_assert!(self.input.syntax().typescript());
 
@@ -844,11 +846,9 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 // ( xxx =
                 return Ok(true);
             }
-            if eat!(')') {
-                if is!("=>") {
-                    // ( xxx ) =>
-                    return Ok(true);
-                }
+            if eat!(')') && is!("=>") {
+                // ( xxx ) =>
+                return Ok(true);
             }
         }
         Ok(false)
@@ -1170,6 +1170,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     }
 
     /// `tsParseMappedType`
+    #[allow(clippy::cognitive_complexity)]
     fn parse_ts_mapped_type(&mut self) -> PResult<'a, TsMappedType> {
         debug_assert!(self.input.syntax().typescript());
 
@@ -1412,6 +1413,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     }
 
     /// `tsParseNonArrayType`
+    #[allow(clippy::cognitive_complexity)]
     fn parse_ts_non_array_type(&mut self) -> PResult<'a, Box<TsType>> {
         debug_assert!(self.input.syntax().typescript());
 
@@ -1719,16 +1721,14 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 return p.parse_class_decl(decorators).map(Some);
             }
 
-            if is!("const") {
-                if peeked_is!("enum") {
-                    assert_and_bump!("const");
-                    assert_and_bump!("enum");
+            if is!("const") && peeked_is!("enum") {
+                assert_and_bump!("const");
+                assert_and_bump!("enum");
 
-                    return p
-                        .parse_ts_enum_decl(start, /* is_const */ true)
-                        .map(From::from)
-                        .map(Some);
-                }
+                return p
+                    .parse_ts_enum_decl(start, /* is_const */ true)
+                    .map(From::from)
+                    .map(Some);
             }
             if is_one_of!("const", "var", "let") {
                 return p.parse_var_stmt(false).map(From::from).map(Some);
@@ -1769,6 +1769,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     /// tsParseExpressionStatement.
     ///
     /// `tsParseDeclaration`
+    #[allow(clippy::cognitive_complexity)]
     fn parse_ts_decl(
         &mut self,
         start: BytePos,
@@ -1825,11 +1826,9 @@ impl<'a, I: Tokens> Parser<'a, I> {
                     bump!();
                 }
 
-                if {
-                    match *cur!(true)? {
-                        Token::Str { .. } => true,
-                        _ => false,
-                    }
+                if match *cur!(true)? {
+                    Token::Str { .. } => true,
+                    _ => false,
                 } {
                     return self
                         .parse_ts_ambient_external_module_decl(start)

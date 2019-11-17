@@ -20,8 +20,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         let mut stmts = vec![];
         while {
             let c = cur!(false).ok();
-            let b = c != end;
-            b
+            c != end
         } {
             let stmt = self.parse_stmt_like(true, top_level)?;
             if allow_directives {
@@ -80,6 +79,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     }
 
     /// `parseStatementContent`
+    #[allow(clippy::cognitive_complexity)]
     fn parse_stmt_internal(
         &mut self,
         include_decl: bool,
@@ -223,21 +223,14 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 }
                 Box::new(Expr::Ident(ident))
             }
-            _ => {
-                let expr = self.verify_expr(expr)?;
-
-                expr
-            }
+            _ => self.verify_expr(expr)?,
         };
-        match *expr {
-            Expr::Ident(ref ident) => {
-                if self.input.syntax().typescript() {
-                    if let Some(decl) = self.parse_ts_expr_stmt(decorators, ident.clone())? {
-                        return Ok(Stmt::Decl(decl));
-                    }
+        if let Expr::Ident(ref ident) = *expr {
+            if self.input.syntax().typescript() {
+                if let Some(decl) = self.parse_ts_expr_stmt(decorators, ident.clone())? {
+                    return Ok(Stmt::Decl(decl));
                 }
             }
-            _ => {}
         }
 
         if eat!(';') {
@@ -304,6 +297,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         }
     }
 
+    #[allow(clippy::cognitive_complexity)]
     fn parse_switch_stmt(&mut self) -> PResult<'a, Stmt> {
         let switch_start = cur_pos!();
 
@@ -540,6 +534,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         })
     }
 
+    #[allow(clippy::cognitive_complexity)]
     fn parse_do_stmt(&mut self) -> PResult<'a, Stmt> {
         let start = cur_pos!();
 
@@ -613,17 +608,17 @@ impl<'a, I: Tokens> Parser<'a, I> {
         }
         let body = Box::new(if is!("function") {
             let f = self.parse_fn_decl(vec![])?;
-            match f {
-                Decl::Fn(FnDecl {
-                    function:
-                        Function {
-                            span,
-                            is_generator: true,
-                            ..
-                        },
-                    ..
-                }) => syntax_error!(span, SyntaxError::LabelledGenerator),
-                _ => {}
+            if let Decl::Fn(FnDecl {
+                function:
+                    Function {
+                        span,
+                        is_generator: true,
+                        ..
+                    },
+                ..
+            }) = f
+            {
+                syntax_error!(span, SyntaxError::LabelledGenerator)
             }
 
             f.into()

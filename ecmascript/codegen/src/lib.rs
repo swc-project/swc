@@ -80,7 +80,7 @@ impl<'a> Emitter<'a> {
                 stmts
                     .last()
                     .map(|s| s.span().hi())
-                    .unwrap_or(stmts[0].span().lo()),
+                    .unwrap_or_else(|| stmts[0].span().lo()),
             )
         };
 
@@ -1200,6 +1200,7 @@ impl<'a> Emitter<'a> {
         )
     }
 
+    #[allow(clippy::cognitive_complexity)]
     pub fn emit_list5<N: Node>(
         &mut self,
         parent_node: Span,

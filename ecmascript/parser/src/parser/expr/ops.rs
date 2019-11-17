@@ -52,16 +52,16 @@ impl<'a, I: Tokens> Parser<'a, I> {
         }
 
         let ctx = self.ctx();
-        let op = match {
+        let op = match *{
             // Return left on eof
             match cur!(false) {
                 Ok(cur) => cur,
                 Err(..) => return Ok(left),
             }
         } {
-            &Word(Word::Keyword(Keyword::In)) if ctx.include_in_expr => op!("in"),
-            &Word(Word::Keyword(Keyword::InstanceOf)) => op!("instanceof"),
-            &Token::BinOp(op) => op.into(),
+            Word(Word::Keyword(Keyword::In)) if ctx.include_in_expr => op!("in"),
+            Word(Word::Keyword(Keyword::InstanceOf)) => op!("instanceof"),
+            Token::BinOp(op) => op.into(),
             _ => {
                 return Ok(left);
             }

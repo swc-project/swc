@@ -250,7 +250,7 @@ impl Span {
     ///
     /// Use this instead of `==` when either span could be generated code,
     /// and you only care that they point to the same bytes of source text.
-    pub fn source_equal(&self, other: &Span) -> bool {
+    pub fn source_equal(self, other: Span) -> bool {
         let span = self.data();
         let other = other.data();
         span.lo == other.lo && span.hi == other.hi
@@ -301,7 +301,7 @@ impl Span {
     /// Check if a span is "internal" to a macro in which #[unstable]
     /// items can be used (that is, a macro marked with
     /// `#[allow_internal_unstable]`).
-    pub fn allows_unstable(&self) -> bool {
+    pub fn allows_unstable(self) -> bool {
         match self.ctxt().outer().expn_info() {
             Some(info) => info.allow_internal_unstable,
             None => false,
@@ -621,15 +621,15 @@ impl NonNarrowChar {
     }
 
     /// Returns the absolute offset of the character in the SourceMap
-    pub fn pos(&self) -> BytePos {
-        match *self {
+    pub fn pos(self) -> BytePos {
+        match self {
             NonNarrowChar::ZeroWidth(p) | NonNarrowChar::Wide(p) | NonNarrowChar::Tab(p) => p,
         }
     }
 
     /// Returns the width of the character, 0 (zero-width) or 2 (wide)
-    pub fn width(&self) -> usize {
-        match *self {
+    pub fn width(self) -> usize {
+        match self {
             NonNarrowChar::ZeroWidth(_) => 0,
             NonNarrowChar::Wide(_) => 2,
             NonNarrowChar::Tab(_) => 4,

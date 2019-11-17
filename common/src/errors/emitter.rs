@@ -82,7 +82,7 @@ impl Emitter for EmitterWriter {
         );
 
         self.emit_messages_default(
-            &db.level,
+            db.level,
             &db.styled_message(),
             &db.code,
             &primary_span,
@@ -314,6 +314,7 @@ impl EmitterWriter {
         output
     }
 
+    #[allow(clippy::cognitive_complexity)]
     fn render_source_line(
         &self,
         buffer: &mut StyledBuffer,
@@ -912,12 +913,13 @@ impl EmitterWriter {
         }
     }
 
+    #[allow(clippy::cognitive_complexity)]
     fn emit_message_default(
         &mut self,
         msp: &MultiSpan,
         msg: &[(String, Style)],
         code: &Option<DiagnosticId>,
-        level: &Level,
+        level: Level,
         max_line_num_len: usize,
         is_secondary: bool,
     ) -> io::Result<()> {
@@ -947,13 +949,13 @@ impl EmitterWriter {
         } else {
             let level_str = level.to_string();
             if !level_str.is_empty() {
-                buffer.append(0, &level_str, Style::Level(level.clone()));
+                buffer.append(0, &level_str, Style::Level(level));
             }
             // only render error codes, not lint codes
             if let Some(DiagnosticId::Error(ref code)) = *code {
-                buffer.append(0, "[", Style::Level(level.clone()));
-                buffer.append(0, &code, Style::Level(level.clone()));
-                buffer.append(0, "]", Style::Level(level.clone()));
+                buffer.append(0, "[", Style::Level(level));
+                buffer.append(0, &code, Style::Level(level));
+                buffer.append(0, "]", Style::Level(level));
             }
             if !level_str.is_empty() {
                 buffer.append(0, ": ", header_style);
@@ -1177,7 +1179,7 @@ impl EmitterWriter {
     fn emit_suggestion_default(
         &mut self,
         suggestion: &CodeSuggestion,
-        level: &Level,
+        level: Level,
         max_line_num_len: usize,
     ) -> io::Result<()> {
         if let Some(ref sm) = self.sm {
@@ -1186,7 +1188,7 @@ impl EmitterWriter {
             // Render the suggestion message
             let level_str = level.to_string();
             if !level_str.is_empty() {
-                buffer.append(0, &level_str, Style::Level(level.clone()));
+                buffer.append(0, &level_str, Style::Level(level));
                 buffer.append(0, ": ", Style::HeaderMsg);
             }
             self.msg_to_buffer(
@@ -1215,9 +1217,8 @@ impl EmitterWriter {
 
                 let line_start = sm.lookup_char_pos(parts[0].span.lo()).line;
                 draw_col_separator_no_space(&mut buffer, 1, max_line_num_len + 1);
-                let mut line_pos = 0;
                 let mut lines = complete.lines();
-                for line in lines.by_ref().take(MAX_HIGHLIGHT_LINES) {
+                for (line_pos, line) in lines.by_ref().take(MAX_HIGHLIGHT_LINES).enumerate() {
                     // Print the span column to avoid confusion
                     buffer.puts(
                         row_num,
@@ -1228,7 +1229,6 @@ impl EmitterWriter {
                     // print the suggestion
                     draw_col_separator(&mut buffer, row_num, max_line_num_len + 1);
                     buffer.append(row_num, line, Style::NoStyle);
-                    line_pos += 1;
                     row_num += 1;
                 }
 
@@ -1312,7 +1312,7 @@ impl EmitterWriter {
 
     fn emit_messages_default(
         &mut self,
-        level: &Level,
+        level: Level,
         message: &[(String, Style)],
         code: &Option<DiagnosticId>,
         span: &MultiSpan,
@@ -1345,22 +1345,22 @@ impl EmitterWriter {
                 if !self.short_message {
                     for child in children {
                         let span = child.render_span.as_ref().unwrap_or(&child.span);
-                        match self.emit_message_default(
+                        if let Err(e) = self.emit_message_default(
                             &span,
                             &child.styled_message(),
                             &None,
-                            &child.level,
+                            child.level,
                             max_line_num_len,
                             true,
                         ) {
-                            Err(e) => panic!("failed to emit error: {}", e),
-                            _ => (),
+                            panic!("failed to emit error: {}", e)
                         }
                     }
                     for sugg in suggestions {
-                        match self.emit_suggestion_default(sugg, &Level::Help, max_line_num_len) {
-                            Err(e) => panic!("failed to emit error: {}", e),
-                            _ => (),
+                        if let Err(e) =
+                            self.emit_suggestion_default(sugg, Level::Help, max_line_num_len)
+                        {
+                            panic!("failed to emit error: {}", e)
                         }
                     }
                 }
@@ -1369,12 +1369,8 @@ impl EmitterWriter {
         }
 
         let mut dst = self.dst.writable();
-        match write!(dst, "\n") {
-            Err(e) => panic!("failed to emit error: {}", e),
-            _ => match dst.flush() {
-                Err(e) => panic!("failed to emit error: {}", e),
-                _ => (),
-            },
+        if let Err(e) = writeln!(dst).and_then(|_| dst.flush()) {
+            panic!("failed to emit error: {}", e)
         }
     }
 }
@@ -1448,7 +1444,7 @@ fn overlaps(a1: &Annotation, a2: &Annotation, padding: usize) -> bool {
 
 fn emit_to_destination(
     rendered_buffer: &[Vec<StyledString>],
-    lvl: &Level,
+    lvl: Level,
     dst: &mut Destination,
     short_message: bool,
 ) -> io::Result<()> {
@@ -1473,12 +1469,12 @@ fn emit_to_destination(
     let _buffer_lock = lock::acquire_global_lock("rustc_errors");
     for (pos, line) in rendered_buffer.iter().enumerate() {
         for part in line {
-            dst.apply_style(lvl.clone(), part.style)?;
+            dst.apply_style(lvl, part.style)?;
             write!(dst, "{}", part.text)?;
             dst.reset()?;
         }
         if !short_message && (!lvl.is_failure_note() || pos != rendered_buffer.len() - 1) {
-            write!(dst, "\n")?;
+            writeln!(dst)?;
         }
     }
     dst.flush()?;
@@ -1494,7 +1490,7 @@ pub enum Destination {
 pub enum WritableDst<'a> {
     Terminal(&'a mut StandardStream),
     Buffered(&'a mut BufferWriter, Buffer),
-    Raw(&'a mut Box<dyn Write + Send>),
+    Raw(&'a mut (dyn Write + Send)),
 }
 
 impl Destination {
@@ -1513,7 +1509,7 @@ impl Destination {
         }
     }
 
-    fn writable<'a>(&'a mut self) -> WritableDst<'a> {
+    fn writable(&mut self) -> WritableDst<'_> {
         match *self {
             Destination::Terminal(ref mut t) => WritableDst::Terminal(t),
             Destination::Buffered(ref mut t) => {
@@ -1607,11 +1603,8 @@ impl<'a> Write for WritableDst<'a> {
 
 impl<'a> Drop for WritableDst<'a> {
     fn drop(&mut self) {
-        match *self {
-            WritableDst::Buffered(ref mut dst, ref mut buf) => {
-                drop(dst.print(buf));
-            }
-            _ => {}
+        if let WritableDst::Buffered(ref mut dst, ref mut buf) = self {
+            drop(dst.print(buf));
         }
     }
 }

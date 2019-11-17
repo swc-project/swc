@@ -92,12 +92,9 @@ fn make_body_for_variant(v: &VariantBinder, bindings: Vec<BindedField>) -> Box<E
     }
 
     if bindings.len() == 1 {
-        match *v.data() {
-            Fields::Unnamed(..) => {
-                // Call self.0.span()
-                return simple_field(&bindings[0]);
-            }
-            _ => {}
+        if let Fields::Unnamed(..) = *v.data() {
+            // Call self.0.span()
+            return simple_field(&bindings[0]);
         }
     }
 

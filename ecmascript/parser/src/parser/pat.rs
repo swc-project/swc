@@ -20,10 +20,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
     pub(super) fn parse_binding_ident(&mut self) -> PResult<'a, Ident> {
         // "yield" and "await" is **lexically** accepted.
         let ident = self.parse_ident(true, true)?;
-        if self.ctx().strict {
-            if &*ident.sym == "arguments" || &*ident.sym == "eval" {
-                syntax_error!(SyntaxError::EvalAndArgumentsInStrict);
-            }
+        if self.ctx().strict && (&*ident.sym == "arguments" || &*ident.sym == "eval") {
+            syntax_error!(SyntaxError::EvalAndArgumentsInStrict);
         }
         if self.ctx().in_async && ident.sym == js_word!("await") {
             syntax_error!(ident.span, SyntaxError::ExpectedIdent)

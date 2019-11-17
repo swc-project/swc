@@ -365,8 +365,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
         let start_pos = cur_pos!();
 
-        let element = self.parse_jsx_element_at(start_pos);
-        element
+        self.parse_jsx_element_at(start_pos)
     }
 
     pub(super) fn parse_jsx_text(&mut self) -> PResult<'a, JSXText> {

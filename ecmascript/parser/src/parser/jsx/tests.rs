@@ -21,7 +21,7 @@ fn jsx(src: &'static str) -> Box<Expr> {
 fn self_closing_01() {
     assert_eq_ignore_span!(
         jsx("<a />"),
-        box Expr::JSXElement(JSXElement {
+        box Expr::JSXElement(box JSXElement {
             span,
             opening: JSXOpeningElement {
                 span,
@@ -40,7 +40,7 @@ fn self_closing_01() {
 fn normal_01() {
     assert_eq_ignore_span!(
         jsx("<a>foo</a>"),
-        box Expr::JSXElement(JSXElement {
+        box Expr::JSXElement(box JSXElement {
             span,
             opening: JSXOpeningElement {
                 span,
@@ -66,7 +66,7 @@ fn normal_01() {
 fn escape_in_attr() {
     assert_eq_ignore_span!(
         jsx(r#"<div id="w &lt; w" />;"#),
-        box Expr::JSXElement(JSXElement {
+        box Expr::JSXElement(box JSXElement {
             span,
             opening: JSXOpeningElement {
                 span,

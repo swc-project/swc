@@ -2,32 +2,29 @@ use super::*;
 
 #[parser]
 impl<'a, I: Tokens> Parser<'a, I> {
+    #[allow(clippy::cognitive_complexity)]
     fn parse_import(&mut self) -> PResult<'a, ModuleItem> {
         let start = cur_pos!();
         assert_and_bump!("import");
 
-        if self.input.syntax().typescript() {
-            if is!(IdentRef) && peeked_is!('=') {
-                return self
-                    .parse_ts_import_equals_decl(start, false)
-                    .map(ModuleDecl::from)
-                    .map(ModuleItem::from);
-            }
+        if self.input.syntax().typescript() && is!(IdentRef) && peeked_is!('=') {
+            return self
+                .parse_ts_import_equals_decl(start, false)
+                .map(ModuleDecl::from)
+                .map(ModuleItem::from);
         }
 
-        if self.input.syntax().dynamic_import() {
-            if is!('(') {
-                return self
-                    .parse_dynamic_import(start)
-                    .map(Stmt::from)
-                    .map(ModuleItem::from);
-            }
+        if self.input.syntax().dynamic_import() && is!('(') {
+            return self
+                .parse_dynamic_import(start)
+                .map(Stmt::from)
+                .map(ModuleItem::from);
         }
 
         // Handle import 'mod.js'
         let str_start = cur_pos!();
-        match cur!(false) {
-            Ok(&Token::Str { .. }) => match bump!() {
+        if let Ok(&Token::Str { .. }) = cur!(false) {
+            match bump!() {
                 Token::Str { value, has_escape } => {
                     expect!(';');
                     return Ok(ModuleDecl::Import(ImportDecl {
@@ -42,8 +39,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                     .map(ModuleItem::from);
                 }
                 _ => unreachable!(),
-            },
-            _ => {}
+            }
         }
 
         let mut specifiers = vec![];
@@ -74,12 +70,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 while !eof!() && !is!('}') {
                     if first {
                         first = false;
-                    } else {
-                        if eat!(',') {
-                            if is!('}') {
-                                break;
-                            }
-                        }
+                    } else if eat!(',') && is!('}') {
+                        break;
                     }
 
                     specifiers.push(self.parse_import_specifier()?);
@@ -146,6 +138,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         self.with_ctx(ctx).parse_binding_ident()
     }
 
+    #[allow(clippy::cognitive_complexity)]
     fn parse_export(&mut self, decorators: Vec<Decorator>) -> PResult<'a, ModuleDecl> {
         let start = cur_pos!();
         assert_and_bump!("export");
@@ -392,12 +385,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
             while is_one_of!(',', IdentName) {
                 if first {
                     first = false;
-                } else {
-                    if eat!(',') {
-                        if is!('}') {
-                            break;
-                        }
-                    }
+                } else if eat!(',') && is!('}') {
+                    break;
                 }
 
                 specifiers.push(

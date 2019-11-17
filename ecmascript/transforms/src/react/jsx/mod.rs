@@ -268,7 +268,7 @@ impl Fold<Expr> for Jsx {
             })
             | Expr::JSXElement(el) => {
                 // <div></div> => React.createElement('div', null);
-                self.jsx_elem_to_expr(el)
+                self.jsx_elem_to_expr(*el)
             }
             Expr::Paren(ParenExpr {
                 expr: box Expr::JSXFragment(frag),

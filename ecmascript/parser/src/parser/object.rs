@@ -247,19 +247,17 @@ impl<'a, I: Tokens> ParseObject<'a, Pat> for Parser<'a, I> {
         let len = props.len();
         for (i, p) in props.iter().enumerate() {
             if i == len - 1 {
-                match p {
-                    ObjectPatProp::Rest(ref rest) => match *rest.arg {
+                if let ObjectPatProp::Rest(ref rest) = p {
+                    match *rest.arg {
                         Pat::Ident(..) => {}
                         _ => syntax_error!(p.span(), SyntaxError::DotsWithoutIdentifier),
-                    },
-                    _ => {}
+                    }
                 }
                 continue;
             }
 
-            match p {
-                ObjectPatProp::Rest(..) => syntax_error!(p.span(), SyntaxError::NonLastRestParam),
-                _ => {}
+            if let ObjectPatProp::Rest(..) = p {
+                syntax_error!(p.span(), SyntaxError::NonLastRestParam)
             }
         }
 

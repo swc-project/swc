@@ -38,12 +38,12 @@ pub struct SubDiagnostic {
     pub render_span: Option<MultiSpan>,
 }
 
-#[derive(PartialEq, Eq)]
+#[derive(PartialEq, Eq, Default)]
 pub struct DiagnosticStyledString(pub Vec<StringPart>);
 
 impl DiagnosticStyledString {
     pub fn new() -> DiagnosticStyledString {
-        DiagnosticStyledString(vec![])
+        Default::default()
     }
     pub fn push_normal<S: Into<String>>(&mut self, t: S) {
         self.0.push(StringPart::Normal(t.into()));

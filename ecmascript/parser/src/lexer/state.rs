@@ -132,12 +132,7 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
 
             // skip spaces before getting next character, if we are allowed to.
             if self.state.can_skip_space() {
-                match self.skip_space() {
-                    Err(err) => {
-                        return Err(err);
-                    }
-                    _ => {}
-                }
+                self.skip_space()?;
                 start = self.input.cur_pos();
             };
 
@@ -310,8 +305,8 @@ impl State {
         had_line_break: bool,
         is_expr_allowed: bool,
     ) -> bool {
-        let is_next_keyword = match next {
-            &Word(Word::Keyword(..)) => true,
+        let is_next_keyword = match *next {
+            Word(Word::Keyword(..)) => true,
             _ => false,
         };
 
@@ -482,15 +477,14 @@ impl TokenContexts {
         had_line_break: bool,
         is_expr_allowed: bool,
     ) -> bool {
-        match prev {
-            Some(TokenType::Colon) => match self.current() {
+        if let Some(TokenType::Colon) = prev {
+            match self.current() {
                 Some(TokenContext::BraceStmt) => return true,
                 // `{ a: {} }`
                 //     ^ ^
                 Some(TokenContext::BraceExpr) => return false,
                 _ => {}
-            },
-            _ => {}
+            };
         }
 
         match prev {
@@ -527,6 +521,9 @@ impl TokenContexts {
 
     pub fn len(&self) -> usize {
         self.0.len()
+    }
+    pub fn is_empty(&self) -> bool {
+        self.0.is_empty()
     }
     pub fn pop(&mut self) -> Option<TokenContext> {
         let opt = self.0.pop();
