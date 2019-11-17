@@ -950,7 +950,7 @@ where
                         Prop::Shorthand(..) => {}
                         Prop::KeyValue(KeyValueProp { key, value }) => {
                             if let PropName::Computed(e) = key {
-                                add_effects(v, e);
+                                add_effects(v, e.expr);
                             }
 
                             add_effects(v, value)
@@ -959,7 +959,7 @@ where
                         | Prop::Setter(SetterProp { key, .. })
                         | Prop::Method(MethodProp { key, .. }) => {
                             if let PropName::Computed(e) = key {
-                                add_effects(v, e)
+                                add_effects(v, e.expr)
                             }
                         }
                         Prop::Assign(..) => {
@@ -994,6 +994,8 @@ where
             | Expr::TsAs(TsAsExpr { expr, .. })
             | Expr::TsConstAssertion(TsConstAssertion { expr, .. }) => add_effects(v, expr),
             Expr::TsOptChain(e) => add_effects(v, e.expr),
+
+            Expr::Invalid(..) => unreachable!(),
         }
     }
 

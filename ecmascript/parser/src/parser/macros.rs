@@ -143,6 +143,13 @@ macro_rules! eat_exact {
     }};
 }
 
+macro_rules! is_exact {
+    ($p:expr, $t:tt) => {{
+        const TOKEN: &Token = &token_including_semi!($t);
+        $p.input.is(TOKEN)
+    }};
+}
+
 /// This handles automatic semicolon insertion.
 macro_rules! expect {
     ($p:expr, $t:tt) => {{
@@ -161,6 +168,14 @@ macro_rules! expect_exact {
             let cur = format!("{:?}", cur!($p, false).ok());
             syntax_error!($p, $p.input.cur_span(), SyntaxError::Expected(TOKEN, cur))
         }
+    }};
+}
+
+macro_rules! store {
+    ($p:expr, $t:tt) => {{
+        const TOKEN: Token = token_including_semi!($t);
+
+        $p.input.store(TOKEN);
     }};
 }
 
@@ -288,17 +303,23 @@ macro_rules! span {
     }};
 }
 
+macro_rules! make_error {
+    ($p:expr, $span:expr, $err:expr) => {{
+        ::swc_common::errors::DiagnosticBuilder::from($crate::error::ErrorToDiag {
+            handler: $p.session.handler,
+            span: $span,
+            error: $err,
+        })
+    }};
+}
+
 macro_rules! syntax_error {
     ($p:expr, $err:expr) => {
         syntax_error!($p, $p.input.cur_span(), $err)
     };
 
     ($p:expr, $span:expr, $err:expr) => {{
-        let err = ::swc_common::errors::DiagnosticBuilder::from($crate::error::ErrorToDiag {
-            handler: $p.session.handler,
-            span: $span,
-            error: $err,
-        });
+        let err = make_error!($p, $span, $err);
         return Err(err.into());
     }};
 }

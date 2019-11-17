@@ -1,4 +1,5 @@
 use super::{pat::PatType, *};
+use crate::error::SyntaxError;
 use swc_common::Spanned;
 
 mod module_item;
@@ -110,6 +111,22 @@ impl<'a, I: Tokens> Parser<'a, I> {
             };
 
             let span = span!(start);
+            if is_break {
+                if label.is_some() && !self.state.labels.contains(&label.as_ref().unwrap().sym) {
+                    self.emit_err(span, SyntaxError::TS1116);
+                } else if !self.ctx().is_break_allowed {
+                    self.emit_err(span, SyntaxError::TS1105);
+                }
+            } else {
+                if !self.ctx().is_continue_allowed {
+                    self.emit_err(span, SyntaxError::TS1115);
+                } else if label.is_some()
+                    && !self.state.labels.contains(&label.as_ref().unwrap().sym)
+                {
+                    self.emit_err(span, SyntaxError::TS1107);
+                }
+            }
+
             return Ok(if is_break {
                 Stmt::Break(BreakStmt { span, label })
             } else {
@@ -160,6 +177,26 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
         if is!("throw") {
             return self.parse_throw_stmt();
+        }
+
+        // Error
+        if is!("catch") {
+            let span = self.input.cur_span();
+            self.emit_err(span, SyntaxError::TS1005);
+
+            let _ = self.parse_catch_clause();
+            let _ = self.parse_finally_block();
+
+            return Ok(Stmt::Expr(Box::new(Expr::Invalid(Invalid { span }))));
+        }
+
+        if is!("finally") {
+            let span = self.input.cur_span();
+            self.emit_err(span, SyntaxError::TS1005);
+
+            let _ = self.parse_finally_block();
+
+            return Ok(Stmt::Expr(Box::new(Expr::Invalid(Invalid { span }))));
         }
 
         if is!("try") {
@@ -226,6 +263,15 @@ impl<'a, I: Tokens> Parser<'a, I> {
             _ => self.verify_expr(expr)?,
         };
         if let Expr::Ident(ref ident) = *expr {
+            if *ident.sym == js_word!("interface")
+                && self.input.had_line_break_before_cur()
+                && self.ctx().strict
+            {
+                self.emit_err(ident.span, SyntaxError::InvalidIdentInStrict);
+
+                return Ok(Stmt::Expr(expr));
+            }
+
             if self.input.syntax().typescript() {
                 if let Some(decl) = self.parse_ts_expr_stmt(decorators, ident.clone())? {
                     return Ok(Stmt::Decl(decl));
@@ -233,9 +279,48 @@ impl<'a, I: Tokens> Parser<'a, I> {
             }
         }
 
+        if self.ctx().strict {
+            match *expr {
+                Expr::Ident(Ident { ref sym, span, .. }) => match sym {
+                    js_word!("enum") | js_word!("interface") => {
+                        self.emit_err(span, SyntaxError::InvalidIdentInStrict);
+                    }
+                    _ => {}
+                },
+                _ => {}
+            }
+        }
+
+        if self.syntax().typescript() {
+            match *expr {
+                Expr::Ident(ref i) => match i.sym {
+                    js_word!("public") | js_word!("static") => {
+                        if eat!("interface") {
+                            self.emit_err(i.span, SyntaxError::TS2427);
+                            return self
+                                .parse_ts_interface_decl()
+                                .map(Decl::from)
+                                .map(Stmt::from);
+                        }
+                    }
+                    _ => {}
+                },
+                _ => {}
+            }
+        }
+
         if eat!(';') {
             Ok(Stmt::Expr(expr))
         } else {
+            match *cur!(false)? {
+                Token::BinOp(..) => {
+                    self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
+                    return self.parse_bin_op_recursively(expr, 0).map(Stmt::Expr);
+                }
+
+                _ => {}
+            }
+
             syntax_error!(SyntaxError::ExpectedSemiForExprStmt { expr: expr.span() });
         }
     }
@@ -291,10 +376,10 @@ impl<'a, I: Tokens> Parser<'a, I> {
         });
 
         if !self.ctx().in_function {
-            syntax_error!(span!(start), SyntaxError::ReturnNotAllowed)
-        } else {
-            stmt
+            self.emit_err(span!(start), SyntaxError::ReturnNotAllowed);
         }
+
+        stmt
     }
 
     #[allow(clippy::cognitive_complexity)]
@@ -314,36 +399,45 @@ impl<'a, I: Tokens> Parser<'a, I> {
         expect!('{');
         while !eof!() && !is!('}') {
             let case_start = cur_pos!();
-            if is_one_of!("case", "default") {
-                let is_case = is!("case");
-                let start_of_case = cur_pos!();
-                bump!();
-                cases.extend(cur.take());
-                let test = if is_case {
-                    self.include_in_expr(true).parse_expr().map(Some)?
+            let ctx = Context {
+                is_break_allowed: true,
+                ..self.ctx()
+            };
+
+            self.with_ctx(ctx).parse_with(|p| {
+                if is_one_of!("case", "default") {
+                    let is_case = is!("case");
+                    let start_of_case = cur_pos!();
+                    bump!();
+                    cases.extend(cur.take());
+                    let test = if is_case {
+                        p.include_in_expr(true).parse_expr().map(Some)?
+                    } else {
+                        if let Some(previous) = span_of_previous_default {
+                            syntax_error!(SyntaxError::MultipleDefault { previous });
+                        }
+                        span_of_previous_default = Some(span!(start_of_case));
+
+                        None
+                    };
+                    expect!(':');
+
+                    cur = Some(SwitchCase {
+                        span: span!(case_start),
+                        test,
+                        cons: vec![],
+                    });
                 } else {
-                    if let Some(previous) = span_of_previous_default {
-                        syntax_error!(SyntaxError::MultipleDefault { previous });
+                    match cur {
+                        Some(ref mut cur) => {
+                            cur.cons.push(p.parse_stmt_list_item(false)?);
+                        }
+                        None => unexpected!(),
                     }
-                    span_of_previous_default = Some(span!(start_of_case));
-
-                    None
-                };
-                expect!(':');
-
-                cur = Some(SwitchCase {
-                    span: span!(case_start),
-                    test,
-                    cons: vec![],
-                });
-            } else {
-                match cur {
-                    Some(ref mut cur) => {
-                        cur.cons.push(self.parse_stmt_list_item(false)?);
-                    }
-                    None => unexpected!(),
                 }
-            }
+
+                Ok(())
+            })?
         }
 
         // eof or rbrace
@@ -376,33 +470,17 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
     fn parse_try_stmt(&mut self) -> PResult<'a, Stmt> {
         let start = cur_pos!();
-
         assert_and_bump!("try");
 
         let block = self.parse_block(false)?;
 
         let catch_start = cur_pos!();
-        let handler = if eat!("catch") {
-            let param = self.parse_catch_param()?;
-            self.parse_block(false)
-                .map(|body| CatchClause {
-                    span: span!(catch_start),
-                    param,
-                    body,
-                })
-                .map(Some)?
-        } else {
-            None
-        };
+        let handler = self.parse_catch_clause()?;
+        let finalizer = self.parse_finally_block()?;
 
-        let finalizer = if eat!("finally") {
-            self.parse_block(false).map(Some)?
-        } else {
-            if handler.is_none() {
-                unexpected!();
-            }
-            None
-        };
+        if handler.is_none() && finalizer.is_none() {
+            self.emit_err(span!(catch_start), SyntaxError::TS1005);
+        }
 
         let span = span!(start);
         Ok(Stmt::Try(TryStmt {
@@ -413,10 +491,46 @@ impl<'a, I: Tokens> Parser<'a, I> {
         }))
     }
 
-    /// It's optinal since es2019
+    fn parse_catch_clause(&mut self) -> PResult<'a, Option<CatchClause>> {
+        let start = cur_pos!();
+
+        Ok(if eat!("catch") {
+            let param = self.parse_catch_param()?;
+
+            self.parse_block(false)
+                .map(|body| CatchClause {
+                    span: span!(start),
+                    param,
+                    body,
+                })
+                .map(Some)?
+        } else {
+            None
+        })
+    }
+
+    fn parse_finally_block(&mut self) -> PResult<'a, Option<BlockStmt>> {
+        Ok(if eat!("finally") {
+            self.parse_block(false).map(Some)?
+        } else {
+            None
+        })
+    }
+
+    /// It's optional since es2019
     fn parse_catch_param(&mut self) -> PResult<'a, Option<Pat>> {
         if eat!('(') {
             let pat = self.parse_binding_pat_or_ident()?;
+
+            if self.syntax().typescript() && eat!(':') {
+                let ctx = Context {
+                    in_type: true,
+                    ..self.ctx()
+                };
+
+                let ty = self.with_ctx(ctx).parse_with(|p| p.parse_ts_type())?;
+                self.emit_err(ty.span(), SyntaxError::TS1196);
+            }
             expect!(')');
             Ok(Some(pat))
         } else {
@@ -432,7 +546,41 @@ impl<'a, I: Tokens> Parser<'a, I> {
             tok!("var") => VarDeclKind::Var,
             _ => unreachable!(),
         };
+        let var_span = span!(start);
         let should_include_in = kind != VarDeclKind::Var || !for_loop;
+
+        if self.syntax().typescript() && for_loop {
+            let res = self.ts_look_ahead(|p| {
+                //
+                if !eat!("of") && !eat!("in") {
+                    return Ok(false);
+                }
+
+                p.parse_assignment_expr()?;
+                expect!(')');
+
+                Ok(true)
+            });
+
+            match res {
+                Ok(true) => {
+                    let pos = var_span.hi();
+                    let span = Span::new(pos, pos, Default::default());
+                    self.emit_err(span, SyntaxError::TS1123);
+
+                    return Ok(VarDecl {
+                        span: span!(start),
+                        kind,
+                        declare: false,
+                        decls: vec![],
+                    });
+                }
+                Err(mut err) => {
+                    err.cancel();
+                }
+                _ => {}
+            }
+        }
 
         let mut decls = vec![];
         let mut first = true;
@@ -449,10 +597,38 @@ impl<'a, I: Tokens> Parser<'a, I> {
             } else {
                 self.ctx()
             };
+
+            // Handle
+            //      var a,;
+            //
+            // NewLine is ok
+            if is_exact!(';') || eof!() {
+                let prev_span = self.input.prev_span();
+                let span = if prev_span == var_span {
+                    Span::new(prev_span.hi(), prev_span.hi(), Default::default())
+                } else {
+                    prev_span
+                };
+                self.emit_err(span, SyntaxError::TS1009);
+                break;
+            }
+
             decls.push(self.with_ctx(ctx).parse_var_declarator(for_loop)?);
         }
+
         if !for_loop {
-            expect!(';');
+            if !eat!(';') {
+                self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
+
+                let _ = self.parse_expr().map_err(|mut e| {
+                    e.emit();
+                    ()
+                });
+
+                while !eat!(';') {
+                    bump!();
+                }
+            }
         }
 
         Ok(VarDecl {
@@ -498,7 +674,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 }) => {
                     *type_ann = type_annotation;
                 }
-                Pat::Expr(expr) => unreachable!("invalid syntax: Pat(expr): {:?}", expr),
+                _ => unreachable!("invalid syntax: Pat: {:?}", name),
             }
         }
 
@@ -540,7 +716,12 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
         assert_and_bump!("do");
 
-        let body = self.parse_stmt(false).map(Box::new)?;
+        let ctx = Context {
+            is_break_allowed: true,
+            is_continue_allowed: true,
+            ..self.ctx()
+        };
+        let body = self.with_ctx(ctx).parse_stmt(false).map(Box::new)?;
         expect!("while");
         expect!('(');
         let test = self.include_in_expr(true).parse_expr()?;
@@ -562,15 +743,26 @@ impl<'a, I: Tokens> Parser<'a, I> {
         let test = self.include_in_expr(true).parse_expr()?;
         expect!(')');
 
-        let body = self.parse_stmt(false).map(Box::new)?;
+        let ctx = Context {
+            is_break_allowed: true,
+            is_continue_allowed: true,
+            ..self.ctx()
+        };
+        let body = self.with_ctx(ctx).parse_stmt(false).map(Box::new)?;
 
         let span = span!(start);
         Ok(Stmt::While(WhileStmt { span, test, body }))
     }
 
     fn parse_with_stmt(&mut self) -> PResult<'a, Stmt> {
+        if self.syntax().typescript() {
+            let span = self.input.cur_span();
+            self.emit_err(span, SyntaxError::TS2410);
+        }
+
         if self.ctx().strict {
-            syntax_error!(SyntaxError::WithInStrict)
+            let span = self.input.cur_span();
+            self.emit_err(span, SyntaxError::WithInStrict);
         }
 
         let start = cur_pos!();
@@ -581,7 +773,11 @@ impl<'a, I: Tokens> Parser<'a, I> {
         let obj = self.include_in_expr(true).parse_expr()?;
         expect!(')');
 
-        let body = self.parse_stmt(false).map(Box::new)?;
+        let ctx = Context {
+            in_function: true,
+            ..self.ctx()
+        };
+        let body = self.with_ctx(ctx).parse_stmt(false).map(Box::new)?;
 
         let span = span!(start);
         Ok(Stmt::With(WithStmt { span, obj, body }))
@@ -598,39 +794,54 @@ impl<'a, I: Tokens> Parser<'a, I> {
         Ok(BlockStmt { span, stmts })
     }
 
-    fn parse_labelled_stmt(&mut self, label: Ident) -> PResult<'a, Stmt> {
-        let start = label.span.lo();
+    fn parse_labelled_stmt(&mut self, l: Ident) -> PResult<'a, Stmt> {
+        let ctx = Context {
+            is_break_allowed: true,
+            ..self.ctx()
+        };
+        self.with_ctx(ctx).parse_with(|p| {
+            let start = l.span.lo();
 
-        for l in &self.state.labels {
-            if label.sym == *l {
-                syntax_error!(SyntaxError::DuplicateLabel(label.sym));
+            for lb in &p.state.labels {
+                if l.sym == *lb {
+                    p.emit_err(l.span, SyntaxError::DuplicateLabel(l.sym.clone()));
+                }
             }
-        }
-        let body = Box::new(if is!("function") {
-            let f = self.parse_fn_decl(vec![])?;
-            if let Decl::Fn(FnDecl {
-                function:
-                    Function {
-                        span,
-                        is_generator: true,
+            p.state.labels.push(l.sym.clone());
+
+            let body = Box::new(if is!("function") {
+                let f = p.parse_fn_decl(vec![])?;
+                match f {
+                    Decl::Fn(FnDecl {
+                        function:
+                            Function {
+                                span,
+                                is_generator: true,
+                                ..
+                            },
                         ..
-                    },
-                ..
-            }) = f
+                    }) => syntax_error!(span, SyntaxError::LabelledGenerator),
+                    _ => {}
+                }
+
+                f.into()
+            } else {
+                p.parse_stmt(false)?
+            });
+
             {
-                syntax_error!(span, SyntaxError::LabelledGenerator)
+                let pos = p.state.labels.iter().position(|v| v == &l.sym);
+                if let Some(pos) = pos {
+                    p.state.labels.remove(pos);
+                }
             }
 
-            f.into()
-        } else {
-            self.parse_stmt(false)?
-        });
-
-        Ok(Stmt::Labeled(LabeledStmt {
-            span: span!(start),
-            label,
-            body,
-        }))
+            Ok(Stmt::Labeled(LabeledStmt {
+                span: span!(start),
+                label: l,
+                body,
+            }))
+        })
     }
 
     fn parse_for_stmt(&mut self) -> PResult<'a, Stmt> {
@@ -645,7 +856,12 @@ impl<'a, I: Tokens> Parser<'a, I> {
         expect!('(');
         let head = self.parse_for_head()?;
         expect!(')');
-        let body = self.parse_stmt(false).map(Box::new)?;
+        let ctx = Context {
+            is_break_allowed: true,
+            is_continue_allowed: true,
+            ..self.ctx()
+        };
+        let body = self.with_ctx(ctx).parse_stmt(false).map(Box::new)?;
 
         let span = span!(start);
         Ok(match head {
@@ -692,11 +908,35 @@ impl<'a, I: Tokens> Parser<'a, I> {
             let decl = self.parse_var_stmt(true)?;
 
             if is_one_of!("of", "in") {
+                let is_in = is!("in");
+
                 if decl.decls.len() != 1 {
-                    syntax_error!(decl.span, SyntaxError::TooManyVarInForInHead);
-                }
-                if decl.decls[0].init.is_some() {
-                    syntax_error!(decl.span, SyntaxError::VarInitializerInForInHead);
+                    for d in decl.decls.iter().skip(1) {
+                        self.emit_err(d.name.span(), SyntaxError::TooManyVarInForInHead);
+                    }
+                } else {
+                    if decl.decls[0].init.is_some() {
+                        self.emit_err(
+                            decl.decls[0].name.span(),
+                            SyntaxError::VarInitializerInForInHead,
+                        );
+                    }
+
+                    {
+                        let type_ann = match decl.decls[0].name {
+                            Pat::Ident(ref v) => Some(&v.type_ann),
+                            Pat::Array(ref v) => Some(&v.type_ann),
+                            Pat::Assign(ref v) => Some(&v.type_ann),
+                            Pat::Rest(ref v) => Some(&v.type_ann),
+                            Pat::Object(ref v) => Some(&v.type_ann),
+                            _ => None,
+                        };
+                        if let Some(type_ann) = type_ann {
+                            if type_ann.is_some() {
+                                self.emit_err(decl.decls[0].name.span(), SyntaxError::TS2483);
+                            }
+                        }
+                    }
                 }
 
                 return self.parse_for_each_head(VarDeclOrPat::VarDecl(decl));
@@ -714,7 +954,18 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
         // for (a of b)
         if is_one_of!("of", "in") {
+            let is_in = is!("in");
+
             let pat = self.reparse_expr_as_pat(PatType::AssignPat, init)?;
+
+            // for ({} in foo) is invalid
+            if self.input.syntax().typescript() && is_in {
+                match pat {
+                    Pat::Ident(ref v) => {}
+                    Pat::Expr(..) => {}
+                    ref v => self.emit_err(v.span(), SyntaxError::TS2491),
+                }
+            }
             return self.parse_for_each_head(VarDeclOrPat::Pat(pat));
         }
 

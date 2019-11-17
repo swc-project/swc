@@ -1,4 +1,4 @@
-use crate::paths;
+use paths;
 use std::{
     fmt,
     fs::{create_dir_all, remove_file, File},
@@ -38,13 +38,13 @@ pub struct Diff {
 pub struct NormalizedOutput(String);
 
 impl fmt::Display for NormalizedOutput {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         fmt::Display::fmt(&self.0, f)
     }
 }
 
 impl fmt::Debug for NormalizedOutput {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         fmt::Display::fmt(&self.0, f)
     }
 }
@@ -70,9 +70,10 @@ impl NormalizedOutput {
                 String::new()
             });
 
-        let path_for_actual = paths::test_results_dir()
-            .join("ui")
-            .join(path.strip_prefix(&paths::manifest_dir()).unwrap());
+        let path_for_actual = paths::test_results_dir().join("ui").join(
+            path.strip_prefix(&paths::manifest_dir())
+                .expect("failed to strip prefix: CARGO_MANIFEST_DIR"),
+        );
         eprintln!("{}:{}", path.display(), path_for_actual.display());
         if self.0 == expected {
             let _ = remove_file(path_for_actual);
@@ -80,7 +81,7 @@ impl NormalizedOutput {
         }
         create_dir_all(path_for_actual.parent().unwrap()).expect("failed to run `mkdir -p`");
         // ::write_to_file(&path_for_actual, &self.0);
-        crate::write_to_file(&path, &self.0);
+        ::write_to_file(&path, &self.0);
 
         eprintln!(
             "Assertion failed: \nActual file printed to {}",

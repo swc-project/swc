@@ -14,7 +14,9 @@ use std::{
 };
 use swc_common::{Fold, FoldWith, CM};
 use swc_ecma_ast::*;
-use swc_ecma_parser::{lexer::Lexer, PResult, Parser, Session, SourceFileInput, Syntax, TsConfig};
+use swc_ecma_parser::{
+    lexer::Lexer, JscTarget, PResult, Parser, Session, SourceFileInput, Syntax, TsConfig,
+};
 use test::{
     test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,
 };
@@ -97,6 +99,7 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
             let path = dir.join(&file_name);
             if errors {
                 let module = with_parser(false, &path, |p| p.parse_module());
+
                 let err = module.expect_err("should fail, but parsed as");
                 if err
                     .compare_to_file(format!("{}.stderr", path.display()))
@@ -149,7 +152,7 @@ where
                 .load_file(file_name)
                 .unwrap_or_else(|e| panic!("failed to load {}: {}", file_name.display(), e));
 
-            let res = f(&mut Parser::new(
+            let lexer = Lexer::new(
                 Session { handler: &handler },
                 Syntax::Typescript(TsConfig {
                     tsx: fname.contains("tsx"),
@@ -157,12 +160,19 @@ where
                     decorators: true,
                     ..Default::default()
                 }),
+                JscTarget::Es2015,
                 (&*fm).into(),
                 None,
-            ))
-            .map_err(|mut e| {
-                e.emit();
-            });
+            );
+
+            let res =
+                f(&mut Parser::new_from(Session { handler: &handler }, lexer)).map_err(|mut e| {
+                    e.emit();
+                });
+
+            if handler.has_errors() {
+                return Err(());
+            }
 
             res
         })
@@ -213,7 +223,10 @@ impl Fold<PropName> for Normalizer {
         let node = node.fold_children(self);
 
         match node {
-            PropName::Computed(box Expr::Lit(ref l)) => match l {
+            PropName::Computed(ComputedPropName {
+                expr: box Expr::Lit(ref l),
+                ..
+            }) => match l {
                 Lit::Str(s) => s.clone().into(),
                 Lit::Num(v) => v.clone().into(),
 

@@ -21,13 +21,13 @@ impl<'a, I: Tokens> Parser<'a, I> {
         // "yield" and "await" is **lexically** accepted.
         let ident = self.parse_ident(true, true)?;
         if self.ctx().strict && (&*ident.sym == "arguments" || &*ident.sym == "eval") {
-            syntax_error!(SyntaxError::EvalAndArgumentsInStrict);
+            self.emit_err(ident.span, SyntaxError::EvalAndArgumentsInStrict);
         }
         if self.ctx().in_async && ident.sym == js_word!("await") {
-            syntax_error!(ident.span, SyntaxError::ExpectedIdent)
+            self.emit_err(ident.span, SyntaxError::ExpectedIdent);
         }
         if self.ctx().in_generator && ident.sym == js_word!("yield") {
-            syntax_error!(ident.span, SyntaxError::ExpectedIdent)
+            self.emit_err(ident.span, SyntaxError::ExpectedIdent);
         }
 
         Ok(ident)
@@ -55,6 +55,10 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
         if eat!('=') {
             let right = self.include_in_expr(true).parse_assignment_expr()?;
+            if self.ctx().in_declare {
+                self.emit_err(span!(start), SyntaxError::TS2371);
+            }
+
             return Ok(Pat::Assign(AssignPat {
                 span: span!(start),
                 left: Box::new(left),
@@ -113,13 +117,34 @@ impl<'a, I: Tokens> Parser<'a, I> {
         }))
     }
 
+    pub(super) fn eat_any_ts_modifier(&mut self) -> PResult<'a, bool> {
+        let has_modifier = self.syntax().typescript()
+            && match *cur!(false)? {
+                Word(Word::Ident(js_word!("public")))
+                | Word(Word::Ident(js_word!("protected")))
+                | Word(Word::Ident(js_word!("private")))
+                | Word(Word::Ident(js_word!("readonly"))) => true,
+                _ => false,
+            }
+            && (peeked_is!(IdentName) || peeked_is!('{') || peeked_is!('['));
+        if has_modifier {
+            let _ = self.parse_ts_modifier(&["public", "protected", "private", "readonly"]);
+        }
+
+        return Ok(has_modifier);
+    }
+
     /// spec: 'FormalParameter'
     ///
     /// babel: `parseAssignableListItem`
     pub(super) fn parse_formal_param(&mut self) -> PResult<'a, Pat> {
         let start = cur_pos!();
 
+        let has_modifier = self.eat_any_ts_modifier()?;
+
         let mut pat = self.parse_binding_element()?;
+        // let mut opt = false;
+
         if self.input.syntax().typescript() {
             if eat!('?') {
                 match pat {
@@ -127,6 +152,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                         ref mut optional, ..
                     }) => {
                         *optional = true;
+                        // opt = true;
                     }
                     _ => syntax_error!(
                         self.input.prev_span(),
@@ -153,20 +179,37 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 }) => {
                     *type_ann = self.try_parse_ts_type_ann()?;
                 }
-                Pat::Expr(expr) => unreachable!("invalid syntax: Pat(expr): {:?}", expr),
+                Pat::Invalid(..) => {}
+                _ => unreachable!("invalid syntax: Pat: {:?}", pat),
             }
         }
-        if eat!('=') {
+
+        let pat = if eat!('=') {
+            // // `=` cannot follow optional parameter.
+            // if opt {
+            //     self.emit_err(pat.span(), SyntaxError::TS1015);
+            // }
+
             let right = self.parse_assignment_expr()?;
-            Ok(Pat::Assign(AssignPat {
+            if self.ctx().in_declare {
+                self.emit_err(span!(start), SyntaxError::TS2371);
+            }
+            Pat::Assign(AssignPat {
                 span: span!(start),
                 left: Box::new(pat),
                 type_ann: None,
                 right,
-            }))
+            })
         } else {
-            Ok(pat)
+            pat
+        };
+
+        if has_modifier {
+            self.emit_err(span!(start), SyntaxError::TS2369);
+            return Ok(pat);
         }
+
+        Ok(pat)
     }
 
     pub(super) fn parse_constructor_params(&mut self) -> PResult<'a, Vec<PatOrTsParamProp>> {
@@ -245,12 +288,20 @@ impl<'a, I: Tokens> Parser<'a, I> {
     pub(super) fn parse_formal_params(&mut self) -> PResult<'a, Vec<Pat>> {
         let mut first = true;
         let mut params = vec![];
+        let mut dot3_token = Span::default();
 
         while !eof!() && !is!(')') {
             if first {
                 first = false;
             } else {
-                expect!(',');
+                if dot3_token.is_dummy() {
+                    expect!(',');
+                } else {
+                    // We are handling error.
+
+                    eat!(',');
+                }
+
                 // Handle trailing comma.
                 if is!(')') {
                     break;
@@ -259,13 +310,31 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
             let start = cur_pos!();
 
-            if eat!("...") {
-                let dot3_token = span!(start);
+            if !dot3_token.is_dummy() {
+                self.emit_err(dot3_token, SyntaxError::TS1014);
+            }
 
-                let pat = self.parse_binding_pat_or_ident()?;
+            if eat!("...") {
+                dot3_token = span!(start);
+
+                let mut pat = self.parse_binding_pat_or_ident()?;
+
+                if eat!('=') {
+                    let right = self.parse_assignment_expr()?;
+                    self.emit_err(pat.span(), SyntaxError::TS1048);
+                    pat = AssignPat {
+                        span: span!(start),
+                        left: Box::new(pat),
+                        right,
+                        type_ann: None,
+                    }
+                    .into();
+                }
+
                 let type_ann = if self.input.syntax().typescript() && is!(':') {
                     let cur_pos = cur_pos!();
-                    Some(self.parse_ts_type_ann(/* eat_colon */ true, cur_pos)?)
+                    let ty = self.parse_ts_type_ann(/* eat_colon */ true, cur_pos)?;
+                    Some(ty)
                 } else {
                     None
                 };
@@ -276,10 +345,19 @@ impl<'a, I: Tokens> Parser<'a, I> {
                     type_ann,
                 });
                 params.push(pat);
-                break;
-            } else {
-                params.push(self.parse_formal_param()?);
+
+                if self.syntax().typescript() && eat!('?') {
+                    self.emit_err(self.input.prev_span(), SyntaxError::TS1047);
+                    //
+                }
+
+                // continue instead of break to recover from
+                //
+                //      function foo(...A, B) { }
+                continue;
             }
+
+            params.push(self.parse_formal_param()?);
         }
 
         Ok(params)
@@ -317,7 +395,9 @@ impl<'a, I: Tokens> Parser<'a, I> {
         pat_ty: PatType,
         expr: Box<Expr>,
     ) -> PResult<'a, Pat> {
-        let span = expr.span();
+        if let Expr::Invalid(i) = *expr {
+            return Ok(Pat::Invalid(i));
+        }
 
         if pat_ty == PatType::AssignPat {
             match *expr {
@@ -329,27 +409,44 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 }
 
                 _ => {
-                    // It is an early Reference Error if LeftHandSideExpression is neither
-                    // an ObjectLiteral nor an ArrayLiteral and
-                    // IsValidSimpleAssignmentTarget of LeftHandSideExpression is false.
-                    if !expr.is_valid_simple_assignment_target(self.ctx().strict) {
-                        syntax_error!(span, SyntaxError::NotSimpleAssign)
-                    }
-                    match *expr {
-                        // It is a Syntax Error if the LeftHandSideExpression is
-                        // CoverParenthesizedExpressionAndArrowParameterList:(Expression) and
-                        // Expression derives a phrase that would produce a Syntax Error according
-                        // to these rules if that phrase were substituted for
-                        // LeftHandSideExpression. This rule is recursively applied.
-                        Expr::Paren(ParenExpr { expr, .. }) => {
-                            return self.reparse_expr_as_pat(pat_ty, expr);
-                        }
-                        Expr::Ident(i) => return Ok(i.into()),
-                        _ => {
-                            return Ok(Pat::Expr(expr));
-                        }
-                    }
+                    self.check_assign_target(&expr, true);
                 }
+            }
+        }
+
+        self.reparse_expr_as_pat_inner(pat_ty, expr)
+    }
+
+    pub(super) fn reparse_expr_as_pat_inner(
+        &mut self,
+        pat_ty: PatType,
+        expr: Box<Expr>,
+    ) -> PResult<'a, Pat> {
+        let span = expr.span();
+
+        if pat_ty == PatType::AssignPat {
+            match *expr {
+                Expr::Object(..) | Expr::Array(..) => {
+                    // It is a Syntax Error if LeftHandSideExpression is either
+                    // an ObjectLiteral or an ArrayLiteral
+                    // and LeftHandSideExpression cannot
+                    // be reparsed as an AssignmentPattern.
+                }
+
+                _ => match *expr {
+                    // It is a Syntax Error if the LeftHandSideExpression is
+                    // CoverParenthesizedExpressionAndArrowParameterList:(Expression) and
+                    // Expression derives a phrase that would produce a Syntax Error according
+                    // to these rules if that phrase were substituted for
+                    // LeftHandSideExpression. This rule is recursively applied.
+                    Expr::Paren(ParenExpr { expr, .. }) => {
+                        return self.reparse_expr_as_pat_inner(pat_ty, expr);
+                    }
+                    Expr::Ident(i) => return Ok(i.into()),
+                    _ => {
+                        return Ok(Pat::Expr(expr));
+                    }
+                },
             }
         }
 
@@ -371,7 +468,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 | Expr::Class(..)
                 | Expr::Tpl(..) => {
                     if !expr.is_valid_simple_assignment_target(self.ctx().strict) {
-                        syntax_error!(span, SyntaxError::NotSimpleAssign)
+                        self.emit_err(span, SyntaxError::NotSimpleAssign)
                     }
                     match *expr {
                         Expr::Ident(i) => return Ok(i.into()),

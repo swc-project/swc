@@ -6,7 +6,7 @@ use crate::{
     ident::Ident,
     lit::{Bool, Number, Str},
     module::ModuleItem,
-    pat::{AssignPat, ObjectPat, RestPat},
+    pat::{ArrayPat, AssignPat, ObjectPat, RestPat},
 };
 use serde::{
     de::{self, Unexpected, Visitor},
@@ -367,6 +367,9 @@ pub enum TsFnParam {
     #[tag("Identifier")]
     Ident(Ident),
 
+    #[tag("ObjectPattern")]
+    Array(ArrayPat),
+
     #[tag("RestElement")]
     Rest(RestPat),
 
@@ -525,6 +528,7 @@ pub enum TsTypeOperatorOp {
 #[ast_node("TsIndexedAccessType")]
 pub struct TsIndexedAccessType {
     pub span: Span,
+    pub readonly: bool,
     #[serde(rename = "objectType")]
     pub obj_type: Box<TsType>,
     pub index_type: Box<TsType>,
@@ -685,6 +689,8 @@ pub struct TsEnumMember {
     pub init: Option<Box<Expr>>,
 }
 
+///
+/// - Invalid: [Ident] with empty symbol.
 #[ast_node]
 pub enum TsEnumMemberId {
     #[tag("Identifier")]

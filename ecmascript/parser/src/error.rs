@@ -52,6 +52,7 @@ pub enum SyntaxError {
     ExpectedDigit {
         radix: u8,
     },
+    RestPatInSetter,
 
     UnterminatedBlockComment,
     UnterminatedStrLit,
@@ -159,6 +160,50 @@ pub enum SyntaxError {
     ExportNamespaceFrom,
 
     DotsWithoutIdentifier,
+
+    TS1003,
+    TS1005,
+    TS1009,
+    TS1014,
+    TS1015,
+    TS1031,
+    TS1038,
+    TS1042,
+    TS1047,
+    TS1048,
+    TS1056,
+    TS1085,
+    TS1092,
+    TS1096,
+    TS1098,
+    TS1102,
+    TS1105,
+    TS1107,
+    TS1109,
+    TS1114,
+    TS1115,
+    TS1116,
+    TS1123,
+    TS1162,
+    TS1164,
+    TS1171,
+    TS1172,
+    TS1174,
+    TS1175,
+    TS1183,
+    TS1093,
+    TS1094,
+    TS1196,
+    TS2369,
+    TS2371,
+    TS2406,
+    TS2410,
+    TS2414,
+    TS2427,
+    TS2452,
+    TS2483,
+    TS2491,
+    TS2703,
 }
 
 impl<'a> From<ErrorToDiag<'a>> for Error {
@@ -211,7 +256,7 @@ impl<'a> From<ErrorToDiag<'a>> for DiagnosticBuilder<'a> {
                                      as an identifier in strict mode"
                 .into(),
             EvalAndArgumentsInStrict => "'eval' and 'arguments' cannot be used as a binding \
-                                         identifier in string mode"
+                                         identifier in strict mode"
                 .into(),
             UnaryInExp { .. } => "** cannot be applied to unary expression".into(),
             Hash => "Unexpected token '#'".into(),
@@ -306,6 +351,9 @@ impl<'a> From<ErrorToDiag<'a>> for DiagnosticBuilder<'a> {
             DotsWithoutIdentifier => {
                 "`...` must be followed by an identifier in declaration contexts".into()
             }
+
+            // TODO:
+            _ => format!("{:?}", e.error).into(),
         };
 
         let mut db = e.handler.struct_err(&msg);

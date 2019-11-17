@@ -1,6 +1,6 @@
-error: Expected RParen, got Some(Comma)
- --> $DIR/tests/test262-parser/fail/338848861369f3b7.js:1:15
+error: TS1014
+ --> $DIR/tests/test262-parser/fail/338848861369f3b7.js:1:11
   |
 1 | (function(...a, b){})
-  |               ^
+  |           ^^^
 

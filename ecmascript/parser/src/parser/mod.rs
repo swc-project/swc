@@ -3,11 +3,11 @@
 pub use self::input::{Capturing, Tokens, TokensInput};
 use self::{input::Buffer, util::ParseObject};
 use crate::{
-    error::SyntaxError,
+    error::{ErrorToDiag, SyntaxError},
     lexer::Lexer,
     parser_macros::parser,
     token::{Token, Word},
-    Context, Session, Syntax,
+    Context, JscTarget, Session, Syntax,
 };
 use ast::*;
 use std::ops::{Deref, DerefMut};
@@ -52,18 +52,29 @@ impl<'a, I: Input> Parser<'a, Lexer<'a, I>> {
         input: I,
         comments: Option<&'a Comments>,
     ) -> Self {
-        Self::new_from(session, Lexer::new(session, syntax, input, comments))
+        Self::new_from(
+            session,
+            Lexer::new(session, syntax, Default::default(), input, comments),
+        )
     }
 }
 
 #[parser]
 impl<'a, I: Tokens> Parser<'a, I> {
     pub fn new_from(session: Session<'a>, input: I) -> Self {
+        Self::new_with(session, input)
+    }
+
+    pub fn new_with(session: Session<'a>, input: I) -> Self {
         Parser {
             session,
             input: Buffer::new(input),
             state: Default::default(),
         }
+    }
+
+    pub(crate) fn target(&self) -> JscTarget {
+        self.input.target()
     }
 
     pub fn parse_script(&mut self) -> PResult<'a, Script> {
@@ -78,6 +89,28 @@ impl<'a, I: Tokens> Parser<'a, I> {
         let shebang = self.parse_shebang()?;
 
         self.parse_block_body(true, true, None).map(|body| Script {
+            span: span!(start),
+            body,
+            shebang,
+        })
+    }
+
+    pub fn parse_typescript_module(&mut self) -> PResult<'a, Module> {
+        assert!(self.syntax().typescript());
+
+        //TODO: parse() -> PResult<'a, Program>
+        let ctx = Context {
+            module: true,
+            //            strict: true,
+            ..self.ctx()
+        };
+        // Module code is always in strict mode
+        self.set_ctx(ctx);
+
+        let start = cur_pos!();
+        let shebang = self.parse_shebang()?;
+
+        self.parse_block_body(true, true, None).map(|body| Module {
             span: span!(start),
             body,
             shebang,
@@ -116,6 +149,15 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
     fn ctx(&self) -> Context {
         self.input.get_ctx()
+    }
+
+    fn emit_err(&self, span: Span, error: SyntaxError) {
+        DiagnosticBuilder::from(ErrorToDiag {
+            handler: self.session.handler,
+            span,
+            error,
+        })
+        .emit();
     }
 }
 

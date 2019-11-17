@@ -100,18 +100,19 @@ impl WithSpan for AssignOpToken {
     }
 }
 
-#[test]
-fn module_legacy_octal() {
-    assert_eq!(
-        lex_module(Syntax::default(), "01"),
-        vec![Token::Error(Error {
-            span: sp(0..2),
-            error: SyntaxError::LegacyOctal,
-        })
-        .span(0..2)
-        .lb(),]
-    );
-}
+//#[test]
+//fn module_legacy_octal() {
+//    assert_eq!(
+//        lex_module(Syntax::default(), "01"),
+//        vec![Token::Error(Error {
+//            span: sp(0..2),
+//            error: SyntaxError::LegacyOctal,
+//        })
+//        .span(0..2)
+//        .lb(),]
+//    );
+//}
+
 #[test]
 fn module_legacy_decimal() {
     assert_eq!(

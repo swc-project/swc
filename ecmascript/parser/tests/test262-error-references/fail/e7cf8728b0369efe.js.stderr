@@ -1,6 +1,6 @@
-error: Parenthized expression cannot be empty
- --> $DIR/tests/test262-parser/fail/e7cf8728b0369efe.js:1:1
+error: TS1109
+ --> $DIR/tests/test262-parser/fail/e7cf8728b0369efe.js:1:4
   |
 1 | () <= 0
-  | ^^
+  |    ^^
 

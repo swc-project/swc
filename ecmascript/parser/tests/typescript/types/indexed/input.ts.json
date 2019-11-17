@@ -105,6 +105,7 @@
                     }
                   }
                 },
+                "readonly": false,
                 "objectType": {
                   "type": "TsTypeReference",
                   "span": {

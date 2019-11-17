@@ -1,6 +1,6 @@
-error: Unexpected token None
- --> $DIR/tests/test262-parser/fail/525c5220320e32ee.js:1:7
+error: TS1005
+ --> $DIR/tests/test262-parser/fail/525c5220320e32ee.js:1:8
   |
 1 | try { }
-  |       ^
+  |        ^
 

@@ -2,7 +2,7 @@ use super::Parser;
 use crate::{
     lexer::{self},
     token::*,
-    Context, Syntax,
+    Context, JscTarget, Syntax,
 };
 use lexer::TokenContexts;
 use std::mem;
@@ -12,6 +12,7 @@ pub trait Tokens: Clone + Iterator<Item = TokenAndSpan> {
     fn set_ctx(&mut self, ctx: Context);
     fn ctx(&self) -> Context;
     fn syntax(&self) -> Syntax;
+    fn target(&self) -> JscTarget;
 
     fn set_expr_allowed(&mut self, allow: bool);
     fn token_context(&self) -> &lexer::TokenContexts;
@@ -24,15 +25,17 @@ pub struct TokensInput {
     iter: <Vec<TokenAndSpan> as IntoIterator>::IntoIter,
     ctx: Context,
     syntax: Syntax,
+    target: JscTarget,
     token_ctx: TokenContexts,
 }
 
 impl TokensInput {
-    pub fn new(tokens: Vec<TokenAndSpan>, ctx: Context, syntax: Syntax) -> Self {
+    pub fn new(tokens: Vec<TokenAndSpan>, ctx: Context, syntax: Syntax, target: JscTarget) -> Self {
         TokensInput {
             iter: tokens.into_iter(),
             ctx,
             syntax,
+            target,
             token_ctx: Default::default(),
         }
     }
@@ -57,6 +60,9 @@ impl Tokens for TokensInput {
 
     fn syntax(&self) -> Syntax {
         self.syntax
+    }
+    fn target(&self) -> JscTarget {
+        self.target
     }
 
     fn set_expr_allowed(&mut self, _: bool) {}
@@ -117,6 +123,9 @@ impl<I: Tokens> Tokens for Capturing<I> {
     fn syntax(&self) -> Syntax {
         self.inner.syntax()
     }
+    fn target(&self) -> JscTarget {
+        self.inner.target()
+    }
 
     fn set_expr_allowed(&mut self, allow: bool) {
         self.inner.set_expr_allowed(allow)
@@ -162,6 +171,18 @@ impl<I: Tokens> Buffer<I> {
         }
     }
 
+    pub fn store(&mut self, token: Token) {
+        assert!(self.next.is_none());
+        assert!(self.cur.is_none());
+        let span = self.prev_span;
+
+        self.cur = Some(TokenAndSpan {
+            span,
+            token,
+            had_line_break: false,
+        });
+    }
+
     fn bump_inner(&mut self) -> Option<Token> {
         let prev = self.cur.take();
         self.prev_span = match prev {
@@ -194,7 +215,6 @@ impl<I: Tokens> Buffer<I> {
         prev.token
     }
 
-    #[inline(always)]
     pub fn knows_cur(&self) -> bool {
         self.cur.is_some()
     }
@@ -307,6 +327,9 @@ impl<I: Tokens> Buffer<I> {
 
     pub fn syntax(&self) -> Syntax {
         self.iter.syntax()
+    }
+    pub fn target(&self) -> JscTarget {
+        self.iter.target()
     }
 
     pub(crate) fn set_expr_allowed(&mut self, allow: bool) {

@@ -4,3 +4,15 @@ error: Expected RBracket, got Some(Comma)
 1 | void { [1, 2]: 3 };
   |          ^
 
+error: Expected ';', '}' or <eof>
+ --> $DIR/tests/test262-parser/fail/58707e130fe451a8.js:1:13
+  |
+1 | void { [1, 2]: 3 };
+  |             ^
+  |
+note: This is the expression part of an expression statement
+ --> $DIR/tests/test262-parser/fail/58707e130fe451a8.js:1:1
+  |
+1 | void { [1, 2]: 3 };
+  | ^^^^^^^^^^^^
+

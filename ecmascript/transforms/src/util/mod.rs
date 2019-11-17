@@ -246,8 +246,7 @@ pub trait ExprExt {
             }
 
             Expr::Unary(UnaryExpr {
-                op: op!("void"),
-                ..
+                op: op!("void"), ..
             }) => Known(false),
 
             Expr::Lit(ref lit) => {
@@ -627,7 +626,7 @@ pub trait ExprExt {
                     Prop::Shorthand(..) => false,
                     Prop::KeyValue(KeyValueProp { ref key, ref value }) => {
                         let k = match *key {
-                            PropName::Computed(ref e) => e.may_have_side_effects(),
+                            PropName::Computed(ref e) => e.expr.may_have_side_effects(),
                             _ => false,
                         };
 
@@ -649,6 +648,8 @@ pub trait ExprExt {
             | Expr::TsTypeAssertion(TsTypeAssertion { ref expr, .. })
             | Expr::TsTypeCast(TsTypeCastExpr { ref expr, .. }) => expr.may_have_side_effects(),
             Expr::TsOptChain(ref e) => e.expr.may_have_side_effects(),
+
+            Expr::Invalid(..) => unreachable!(),
         }
     }
 }
@@ -802,7 +803,7 @@ pub(crate) fn prop_name_to_expr(p: PropName) -> Expr {
         PropName::Ident(i) => Expr::Ident(i),
         PropName::Str(s) => Expr::Lit(Lit::Str(s)),
         PropName::Num(n) => Expr::Lit(Lit::Num(n)),
-        PropName::Computed(expr) => *expr,
+        PropName::Computed(c) => *c.expr,
     }
 }
 /// Simillar to `prop_name_to_expr`, but used for value position.
@@ -817,7 +818,7 @@ pub(crate) fn prop_name_to_expr_value(p: PropName) -> Expr {
         })),
         PropName::Str(s) => Expr::Lit(Lit::Str(s)),
         PropName::Num(n) => Expr::Lit(Lit::Num(n)),
-        PropName::Computed(expr) => *expr,
+        PropName::Computed(c) => *c.expr,
     }
 }
 

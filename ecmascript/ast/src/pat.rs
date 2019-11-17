@@ -1,4 +1,4 @@
-use crate::{expr::Expr, ident::Ident, prop::PropName, typescript::TsTypeAnn};
+use crate::{expr::Expr, ident::Ident, prop::PropName, typescript::TsTypeAnn, Invalid};
 use swc_common::{ast_node, Span};
 
 #[ast_node]
@@ -17,6 +17,9 @@ pub enum Pat {
 
     #[tag("AssignmentPattern")]
     Assign(AssignPat),
+
+    #[tag("Invalid")]
+    Invalid(Invalid),
 
     /// Only for for-in / for-of loops. This is *syntatically* valid.
     #[tag("*")]

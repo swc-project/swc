@@ -273,7 +273,7 @@ impl ClassProperties {
                 ClassMember::Method(method) => {
                     // we handle computed key here to preserve the execution order
                     let key = match method.key {
-                        PropName::Computed(expr) => {
+                        PropName::Computed(ComputedPropName { span: c_span, expr }) => {
                             let expr =
                                 expr.fold_with(&mut ClassNameTdzFolder { class_name: &ident });
                             let ident = private_ident!("tmp");
@@ -286,7 +286,10 @@ impl ClassProperties {
                             });
                             // We use computed because `classes` pass converts PropName::Ident to
                             // string.
-                            PropName::Computed(box Expr::Ident(ident))
+                            PropName::Computed(ComputedPropName {
+                                span: c_span,
+                                expr: box Expr::Ident(ident),
+                            })
                         }
                         _ => method.key,
                     };

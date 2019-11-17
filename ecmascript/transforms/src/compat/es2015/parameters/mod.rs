@@ -50,9 +50,7 @@ impl Params {
                         definite: false,
                     })
                 }
-                Pat::Rest(RestPat {
-                    arg, ..
-                }) => {
+                Pat::Rest(RestPat { arg, .. }) => {
                     // Inject a for statement
                     //
                     // for(var _len = arguments.length, a1 = new Array(_len), _key = 0; _key <

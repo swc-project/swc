@@ -13,6 +13,7 @@ use crate::{
         TsAsExpr, TsConstAssertion, TsNonNullExpr, TsOptChain, TsTypeAnn, TsTypeAssertion,
         TsTypeCastExpr, TsTypeParamDecl, TsTypeParamInstantiation,
     },
+    Invalid,
 };
 use serde::{self, Deserialize, Serialize};
 #[cfg(feature = "fold")]
@@ -144,6 +145,9 @@ pub enum Expr {
 
     #[tag("TsOptionalChainingExpression")]
     TsOptChain(TsOptChain),
+
+    #[tag("Invalid")]
+    Invalid(Invalid),
 }
 
 #[ast_node("ThisExpression")]

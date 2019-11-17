@@ -1,4 +1,0 @@
-// Foo
-with (obj) {
-
-}

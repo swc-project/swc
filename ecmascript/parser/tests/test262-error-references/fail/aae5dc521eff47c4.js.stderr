@@ -1,6 +1,6 @@
-error: Unexpected token Some(DotDotDot)
+error: RestPatInSetter
  --> $DIR/tests/test262-parser/fail/aae5dc521eff47c4.js:1:19
   |
 1 | class a { set foo(...v) {} };
-  |                   ^^^
+  |                   ^^^^
 

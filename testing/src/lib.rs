@@ -5,8 +5,11 @@
 
 #[macro_use]
 extern crate lazy_static;
-
-use swc_common;
+extern crate difference;
+extern crate regex;
+extern crate relative_path;
+extern crate swc_common;
+extern crate test;
 
 pub use self::output::{NormalizedOutput, StdErr, StdOut, TestOutput};
 use difference::Changeset;
@@ -19,20 +22,25 @@ use std::{
     sync::Arc,
     thread,
 };
-use swc_common::{errors::Handler, FilePathMapping, Fold, FoldWith, SourceMap, Span, DUMMY_SP};
+use swc_common::{
+    errors::{Diagnostic, Handler},
+    FilePathMapping, Fold, FoldWith, SourceMap, Span, DUMMY_SP,
+};
 
 #[macro_use]
 mod macros;
-mod errors;
+mod diag_errors;
 mod output;
 mod paths;
+mod string_errors;
 
+/// Run test and print errors.
 pub fn run_test<F, Ret>(treat_err_as_bug: bool, op: F) -> Result<Ret, StdErr>
 where
     F: FnOnce(Arc<SourceMap>, &Handler) -> Result<Ret, ()>,
 {
     let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
-    let (handler, errors) = self::errors::new_handler(cm.clone(), treat_err_as_bug);
+    let (handler, errors) = self::string_errors::new_handler(cm.clone(), treat_err_as_bug);
     let result = swc_common::GLOBALS.set(&swc_common::Globals::new(), || op(cm, &handler));
 
     match result {
@@ -41,17 +49,71 @@ where
     }
 }
 
+/// Run test and print errors.
 pub fn run_test2<F, Ret>(treat_err_as_bug: bool, op: F) -> Result<Ret, StdErr>
 where
     F: FnOnce(Arc<SourceMap>, Handler) -> Result<Ret, ()>,
 {
     let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
-    let (handler, errors) = self::errors::new_handler(cm.clone(), treat_err_as_bug);
+    let (handler, errors) = self::string_errors::new_handler(cm.clone(), treat_err_as_bug);
     let result = swc_common::GLOBALS.set(&swc_common::Globals::new(), || op(cm, handler));
 
     match result {
         Ok(res) => Ok(res),
         Err(()) => Err(errors.into()),
+    }
+}
+
+pub struct Tester {
+    pub cm: Arc<SourceMap>,
+    pub globals: swc_common::Globals,
+}
+
+impl Tester {
+    pub fn new() -> Self {
+        Tester {
+            cm: Arc::new(SourceMap::new(FilePathMapping::empty())),
+            globals: swc_common::Globals::new(),
+        }
+    }
+
+    /// Run test and print errors.
+    pub fn print_errors<F, Ret>(&self, op: F) -> Result<Ret, StdErr>
+    where
+        F: FnOnce(Arc<SourceMap>, Handler) -> Result<Ret, ()>,
+    {
+        let (handler, errors) = self::string_errors::new_handler(self.cm.clone(), false);
+        let result = swc_common::GLOBALS.set(&self.globals, || op(self.cm.clone(), handler));
+
+        match result {
+            Ok(res) => Ok(res),
+            Err(()) => Err(errors.into()),
+        }
+    }
+
+    /// Run test and collect errors.
+    pub fn errors<F, Ret>(&self, op: F) -> Result<Ret, Vec<Diagnostic>>
+    where
+        F: FnOnce(Arc<SourceMap>, Handler) -> Result<Ret, ()>,
+    {
+        let (handler, errors) = self::diag_errors::new_handler(self.cm.clone());
+        let result = swc_common::GLOBALS.set(&self.globals, || op(self.cm.clone(), handler));
+
+        let mut errs: Vec<_> = errors.into();
+        errs.sort_by_key(|d| {
+            let span = d.span.primary_span().unwrap();
+            let cp = self.cm.lookup_char_pos(span.lo());
+
+            let line = cp.line;
+            let column = cp.col.0 + 1;
+
+            line * 10000 + column
+        });
+
+        match result {
+            Ok(res) => Ok(res),
+            Err(()) => Err(errs),
+        }
     }
 }
 

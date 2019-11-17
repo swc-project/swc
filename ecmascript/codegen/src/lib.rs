@@ -472,6 +472,7 @@ impl<'a> Emitter<'a> {
             Expr::TsConstAssertion(ref n) => emit!(n),
             Expr::TsTypeCast(ref n) => emit!(n),
             Expr::TsOptChain(ref n) => emit!(n),
+            Expr::Invalid(..) => unimplemented!("emit Expr::Invalid"),
         }
     }
 
@@ -808,12 +809,15 @@ impl<'a> Emitter<'a> {
             PropName::Ident(ref n) => emit!(n),
             PropName::Str(ref n) => emit!(n),
             PropName::Num(ref n) => emit!(n),
-            PropName::Computed(ref n) => {
-                punct!("[");
-                emit!(n);
-                punct!("]");
-            }
+            PropName::Computed(ref n) => emit!(n),
         }
+    }
+
+    #[emitter]
+    pub fn emit_computed_prop_name(&mut self, node: &ComputedPropName) -> Result {
+        punct!("[");
+        emit!(node.expr);
+        punct!("]");
     }
 
     #[emitter]
@@ -1427,6 +1431,7 @@ impl<'a> Emitter<'a> {
             Pat::Ident(ref n) => emit!(n),
             Pat::Object(ref n) => emit!(n),
             Pat::Rest(ref n) => emit!(n),
+            Pat::Invalid(..) => unimplemented!("emit Pat::Invalid"),
         }
     }
 

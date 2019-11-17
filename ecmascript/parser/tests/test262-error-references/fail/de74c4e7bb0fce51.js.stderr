@@ -1,6 +1,6 @@
-error: Unexpected eof
- --> $DIR/tests/test262-parser/fail/de74c4e7bb0fce51.js:1:13
+error: TS1009
+ --> $DIR/tests/test262-parser/fail/de74c4e7bb0fce51.js:1:12
   |
 1 | const x = 0,
-  |             ^
+  |            ^
 

@@ -583,7 +583,7 @@ impl Classes {
                     }
                     PropName::Str(ref s) => box Expr::Lit(Lit::Str(s.clone())),
                     PropName::Num(n) => box Expr::Lit(Lit::Num(n)),
-                    PropName::Computed(ref expr) => expr.clone(),
+                    PropName::Computed(ref c) => c.expr.clone(),
                 },
             })
         }

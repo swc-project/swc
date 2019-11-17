@@ -533,27 +533,27 @@
             }
           },
           "key": {
-            "type": "MemberExpression",
+            "type": "Computed",
             "span": {
-              "start": 54,
-              "end": 69,
+              "start": 53,
+              "end": 70,
               "ctxt": 0,
               "loc": {
                 "start": {
                   "line": 3,
-                  "column": 5
+                  "column": 4
                 },
                 "end": {
                   "line": 3,
-                  "column": 20
+                  "column": 21
                 }
               }
             },
-            "object": {
-              "type": "Identifier",
+            "expr": {
+              "type": "MemberExpression",
               "span": {
                 "start": 54,
-                "end": 60,
+                "end": 69,
                 "ctxt": 0,
                 "loc": {
                   "start": {
@@ -562,34 +562,52 @@
                   },
                   "end": {
                     "line": 3,
-                    "column": 11
-                  }
-                }
-              },
-              "value": "Symbol",
-              "optional": false
-            },
-            "property": {
-              "type": "Identifier",
-              "span": {
-                "start": 61,
-                "end": 69,
-                "ctxt": 0,
-                "loc": {
-                  "start": {
-                    "line": 3,
-                    "column": 12
-                  },
-                  "end": {
-                    "line": 3,
                     "column": 20
                   }
                 }
               },
-              "value": "iterator",
-              "optional": false
-            },
-            "computed": false
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 54,
+                  "end": 60,
+                  "ctxt": 0,
+                  "loc": {
+                    "start": {
+                      "line": 3,
+                      "column": 5
+                    },
+                    "end": {
+                      "line": 3,
+                      "column": 11
+                    }
+                  }
+                },
+                "value": "Symbol",
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 61,
+                  "end": 69,
+                  "ctxt": 0,
+                  "loc": {
+                    "start": {
+                      "line": 3,
+                      "column": 12
+                    },
+                    "end": {
+                      "line": 3,
+                      "column": 20
+                    }
+                  }
+                },
+                "value": "iterator",
+                "optional": false
+              },
+              "computed": false
+            }
           },
           "function": {
             "params": [],

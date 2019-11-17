@@ -1,6 +1,6 @@
-error: Expected RParen, got Some(AssignOp("="))
- --> $DIR/tests/test262-parser/fail/043ab1c3982db3cd.js:1:17
+error: TS1048
+ --> $DIR/tests/test262-parser/fail/043ab1c3982db3cd.js:1:15
   |
 1 | function x(...a = 1){}
-  |                 ^
+  |               ^
 

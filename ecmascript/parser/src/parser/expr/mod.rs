@@ -129,7 +129,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                     //It is an early Reference Error if IsValidSimpleAssignmentTarget of
                     // LeftHandSideExpression is false.
                     if !cond.is_valid_simple_assignment_target(self.ctx().strict) {
-                        syntax_error!(cond.span(), SyntaxError::NotSimpleAssign)
+                        self.emit_err(cond.span(), SyntaxError::NotSimpleAssign)
                     }
 
                     // TODO
@@ -283,6 +283,26 @@ impl<'a, I: Tokens> Parser<'a, I> {
         if is!("let") || (self.input.syntax().typescript() && is!(IdentName)) || is!(IdentRef) {
             // TODO: Handle [Yield, Await]
             let id = self.parse_ident_name()?;
+            if self.ctx().strict {
+                match id.sym {
+                    js_word!("eval") | js_word!("arguments") => {
+                        self.emit_err(id.span, SyntaxError::EvalAndArgumentsInStrict)
+                    }
+
+                    js_word!("yield")
+                    | js_word!("static")
+                    | js_word!("implements")
+                    | js_word!("let")
+                    | js_word!("package")
+                    | js_word!("private")
+                    | js_word!("protected")
+                    | js_word!("public") => {
+                        self.emit_err(self.input.prev_span(), SyntaxError::InvalidIdentInStrict);
+                    }
+                    _ => {}
+                }
+            }
+
             if can_be_arrow && id.sym == js_word!("async") && is!(BindingIdent) {
                 // async a => body
                 let arg = self.parse_binding_ident().map(Pat::from)?;
@@ -720,7 +740,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         no_call: bool,
     ) -> PResult<'a, (Box<Expr>, bool)> {
         let _ = cur!(false);
-        let start = cur_pos!();
+        let start = obj.span().lo();
 
         if self.input.syntax().typescript() {
             if !self.input.had_line_break_before_cur() && is!('!') {
@@ -1034,7 +1054,11 @@ impl<'a, I: Tokens> Parser<'a, I> {
                     break;
                 }
             }
+
             let start = cur_pos!();
+            let modifier_start = start;
+
+            let has_modifier = self.eat_any_ts_modifier()?;
 
             let mut arg = {
                 if self.input.syntax().typescript()
@@ -1065,10 +1089,11 @@ impl<'a, I: Tokens> Parser<'a, I> {
                     self.include_in_expr(true).parse_expr_or_spread()?
                 }
             };
+
             let optional = if self.input.syntax().typescript() {
                 if is!('?') {
                     if peeked_is!(',') || peeked_is!(':') || peeked_is!(')') || peeked_is!('=') {
-                        bump!();
+                        assert_and_bump!('?');
                         let _ = cur!(false);
                         match *arg.expr {
                             Expr::Ident(..) => {}
@@ -1120,6 +1145,13 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
             if optional || (self.input.syntax().typescript() && is!(':')) {
                 let start = cur_pos!();
+
+                // TODO: `async(...args?: any[]) : any => {}`
+                //
+                // if self.input.syntax().typescript() && optional && arg.spread.is_some() {
+                //     self.emit_err(self.input.prev_span(), SyntaxError::TS1047)
+                // }
+
                 let mut pat = self.reparse_expr_as_pat(PatType::BindingPat, arg.expr)?;
                 if optional {
                     match pat {
@@ -1156,6 +1188,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                         ref mut type_ann, ..
                     }) => *type_ann = self.try_parse_ts_type_ann()?,
                     Pat::Expr(ref expr) => unreachable!("invalid pattern: Expr({:?})", expr),
+                    Pat::Invalid(ref i) => unreachable!("invalid pattern: {:?}", i.span),
                 }
 
                 if eat!('=') {
@@ -1168,8 +1201,16 @@ impl<'a, I: Tokens> Parser<'a, I> {
                     });
                 }
 
+                if has_modifier {
+                    self.emit_err(span!(modifier_start), SyntaxError::TS2369);
+                }
+
                 items.push(PatOrExprOrSpread::Pat(pat))
             } else {
+                if has_modifier {
+                    self.emit_err(span!(modifier_start), SyntaxError::TS2369);
+                }
+
                 items.push(PatOrExprOrSpread::ExprOrSpread(arg));
             }
 
@@ -1330,6 +1371,41 @@ impl<'a, I: Tokens> Parser<'a, I> {
         }));
 
         self.parse_subscripts(ExprOrSuper::Expr(import), true)
+    }
+
+    pub(super) fn check_assign_target(&mut self, expr: &Expr, deny_call: bool) {
+        // We follow behavior of tsc
+        if self.input.syntax().typescript() {
+            let is_eval_or_arguments = match *expr {
+                Expr::Ident(ref i) => i.sym == js_word!("eval") || i.sym == js_word!("arguments"),
+                _ => false,
+            };
+
+            fn should_deny(e: &Expr, deny_call: bool) -> bool {
+                match e {
+                    Expr::Lit(..) => false,
+                    Expr::Call(..) => deny_call,
+                    Expr::Bin(..) => false,
+                    Expr::Paren(ref p) => should_deny(&p.expr, deny_call),
+
+                    _ => true,
+                }
+            }
+
+            // It is an early Reference Error if LeftHandSideExpression is neither
+            // an ObjectLiteral nor an ArrayLiteral and
+            // IsValidSimpleAssignmentTarget of LeftHandSideExpression is false.
+            if !is_eval_or_arguments
+                && !expr.is_valid_simple_assignment_target(self.ctx().strict)
+                && should_deny(&expr, deny_call)
+            {
+                self.emit_err(expr.span(), SyntaxError::TS2406);
+            }
+        } else {
+            if !expr.is_valid_simple_assignment_target(self.ctx().strict) {
+                self.emit_err(expr.span(), SyntaxError::TS2406);
+            }
+        }
     }
 }
 

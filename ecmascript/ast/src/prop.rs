@@ -83,6 +83,13 @@ pub enum PropName {
     /// Numeric literal.
     #[tag("NumericLiteral")]
     Num(Number),
-    #[tag("*")]
-    Computed(Box<Expr>),
+    #[tag("Computed")]
+    Computed(ComputedPropName),
+}
+
+#[ast_node("Computed")]
+pub struct ComputedPropName {
+    /// Span including `[` and `]`.
+    pub span: Span,
+    pub expr: Box<Expr>,
 }

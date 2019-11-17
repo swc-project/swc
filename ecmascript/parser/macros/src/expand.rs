@@ -61,26 +61,36 @@ impl Fold for InjectSelf {
     fn fold_expr_method_call(&mut self, i: ExprMethodCall) -> ExprMethodCall {
         /// Extract `p` from `self.parse_with(|p|{})`
         fn get_parser_arg(call: &ExprMethodCall) -> Ident {
-            assert_eq!(call.args.len(), 1);
-            let expr = call.args.iter().next().unwrap();
+            //            assert_eq!(call.args.len(), 1);
+            let expr = &call.args[if call.method == "parse_fn_args_body" {
+                2
+            } else {
+                0
+            }];
 
-            let inputs = match expr {
-                &Expr::Closure(ref c) => &c.inputs,
-                _ => unreachable!("Parser.parse_with and Parser.spanned accepts a closure"),
+            let inputs = match *expr {
+                Expr::Closure(ref c) => &c.inputs,
+                _ => unreachable!(
+                    "Parser.parse_with and Parser.spanned accepts a closure\n{:?}",
+                    expr
+                ),
             };
             assert_eq!(inputs.len(), 1);
 
             let p = inputs.clone().into_iter().next().unwrap();
             match p {
                 FnArg::Inferred(Pat::Ident(PatIdent { ident, .. })) => ident,
-                _ => unreachable!("Expected (|p| {..})"),
+                _ => unreachable!("Expected (|p| {{..}})\nGot {:?}", p),
             }
         }
 
         if i.method == "parse_with"
+            || i.method == "make_method"
+            || i.method == "parse_fn_args_body"
             || i.method == "spanned"
             || i.method == "try_parse_ts"
             || i.method == "ts_in_no_context"
+            || i.method == "ts_look_ahead"
         {
             //TODO
             let parser = get_parser_arg(&i);
@@ -161,9 +171,9 @@ impl Fold for InjectSelf {
 
             //TODO: Collect expect and give that list to unexpected
             "assert_and_bump" | "bump" | "cur" | "cur_pos" | "eat" | "eof" | "eat_exact"
-            | "expect" | "expect_exact" | "into_spanned" | "is" | "is_one_of" | "peeked_is"
-            | "peek" | "peek_ahead" | "last_pos" | "return_if_arrow" | "span" | "syntax_error"
-            | "unexpected" => {
+            | "expect" | "expect_exact" | "into_spanned" | "is" | "is_exact" | "is_one_of"
+            | "peeked_is" | "peek" | "peek_ahead" | "last_pos" | "return_if_arrow" | "span"
+            | "syntax_error" | "make_error" | "emit_error" | "unexpected" | "store" => {
                 let tts = if i.tts.is_empty() {
                     quote_spanned!(span => #parser)
                 } else {
