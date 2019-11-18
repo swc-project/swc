@@ -15,9 +15,14 @@ struct Fixer {
     ctx: Context,
 }
 
+#[repr(u8)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum Context {
     Default,
+
+    Callee {
+        is_new: bool,
+    },
     /// Always treated as expr. (But number of comma-separated expression
     /// matters)
     ///
@@ -111,7 +116,7 @@ impl Fold<Stmt> for Fixer {
 }
 
 macro_rules! context_fn_args {
-    ($T:tt) => {
+    ($T:tt, $is_new:expr) => {
         impl Fold<$T> for Fixer {
             fn fold(&mut self, node: $T) -> $T {
                 let $T {
@@ -122,13 +127,18 @@ macro_rules! context_fn_args {
                 } = node;
 
                 let old = self.ctx;
-                self.ctx = Context::ForcedExpr { is_var_decl: false }.into();
+                self.ctx = Context::ForcedExpr { is_var_decl: false };
                 let args = args.fold_with(self);
+                self.ctx = old;
+
+                let old = self.ctx;
+                self.ctx = Context::Callee { is_new: $is_new };
+                let callee = callee.fold_with(self);
                 self.ctx = old;
 
                 $T {
                     span,
-                    callee: callee.fold_children(self),
+                    callee,
                     args,
                     type_args,
                 }
@@ -136,8 +146,8 @@ macro_rules! context_fn_args {
         }
     };
 }
-context_fn_args!(NewExpr);
-context_fn_args!(CallExpr);
+context_fn_args!(NewExpr, true);
+context_fn_args!(CallExpr, false);
 
 macro_rules! array {
     ($T:tt) => {
@@ -476,6 +486,14 @@ impl Fold<Expr> for Fixer {
                     args,
                     type_args,
                 }),
+
+                Context::Callee { is_new: true } => Expr::Call(CallExpr {
+                    span,
+                    callee: callee.as_callee(),
+                    args,
+                    type_args,
+                })
+                .wrap_with_paren(),
 
                 _ => Expr::Call(CallExpr {
                     span,
@@ -838,5 +856,30 @@ var store = global[SHARED] || (global[SHARED] = {});
       .then(() => {})
   ;
 };"
+    );
+
+    test_fixer!(
+        issue_451,
+        "const instance = new (
+  function() {
+    function klass(opts) {
+      this.options = opts;
+    }
+    return (Object.assign(klass.prototype, {
+      method() {}
+    }), klass);
+  }()
+)({ foo: 1 });",
+        "const instance = new (function() {
+    function klass(opts) {
+        this.options = opts;
+    }
+    return Object.assign(klass.prototype, {
+        method () {
+        }
+    }), klass;
+}())({
+    foo: 1
+});"
     );
 }
