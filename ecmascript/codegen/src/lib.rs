@@ -935,8 +935,7 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     pub fn emit_quasi(&mut self, node: &TplElement) -> Result {
-        self.wr
-            .write_str_lit(node.span, &node.raw.value.replace('`', "\\`"))?;
+        self.wr.write_str_lit(node.span, &node.raw.value)?;
         return Ok(());
     }
 
