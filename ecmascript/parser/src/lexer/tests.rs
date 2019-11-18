@@ -230,7 +230,7 @@ multiline`"
             tok!('`'),
             Token::Template {
                 cooked: "this\nis\nmultiline".into(),
-                raw: "this\\nis\\nmultiline".into(),
+                raw: "this\nis\nmultiline".into(),
                 has_escape: false
             },
             tok!('`'),
