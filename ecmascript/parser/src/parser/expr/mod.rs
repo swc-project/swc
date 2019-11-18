@@ -285,10 +285,10 @@ impl<'a, I: Tokens> Parser<'a, I> {
             let id = self.parse_ident_name()?;
             if self.ctx().strict {
                 match id.sym {
-                    js_word!("eval") | js_word!("arguments") => {
-                        self.emit_err(id.span, SyntaxError::EvalAndArgumentsInStrict)
-                    }
-
+                    //                    js_word!("eval") | js_word!("arguments") => {
+                    //                        self.emit_err(id.span,
+                    // SyntaxError::EvalAndArgumentsInStrict)                   
+                    // }
                     js_word!("yield")
                     | js_word!("static")
                     | js_word!("implements")
