@@ -166,6 +166,22 @@ fn no_octal_escape() {
     );
 }
 
+#[test]
+fn issue_450() {
+    test_from_to(
+        r#"console.log(`
+\`\`\`html
+<h1>It works!</h1>
+\`\`\`
+`)"#,
+        r#"console.log(`
+```html
+<h1>It works!</h1>
+```
+`);"#,
+    );
+}
+
 #[derive(Debug, Clone)]
 struct Buf(Arc<RwLock<Vec<u8>>>);
 impl Write for Buf {
