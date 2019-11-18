@@ -175,9 +175,9 @@ fn issue_450() {
 \`\`\`
 `)"#,
         r#"console.log(`
-```html
+\`\`\`html
 <h1>It works!</h1>
-```
+\`\`\`
 `);"#,
     );
 }
