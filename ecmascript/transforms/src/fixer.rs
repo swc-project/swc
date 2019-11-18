@@ -122,13 +122,18 @@ macro_rules! context_fn_args {
                 } = node;
 
                 let old = self.ctx;
-                self.ctx = Context::ForcedExpr { is_var_decl: false }.into();
+                self.ctx = Context::ForcedExpr { is_var_decl: false };
                 let args = args.fold_with(self);
+                self.ctx = old;
+
+                let old = self.ctx;
+                self.ctx = Context::Default;
+                let callee = callee.fold_with(self);
                 self.ctx = old;
 
                 $T {
                     span,
-                    callee: callee.fold_children(self),
+                    callee,
                     args,
                     type_args,
                 }
