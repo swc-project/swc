@@ -510,7 +510,10 @@ impl<'a, I: Input> Lexer<'a, I> {
 
                 return Ok(Some(value as char).map(From::from));
             }
-            _ => c,
+            _ => {
+                raw.push(c);
+                c
+            }
         };
         self.input.bump();
 
@@ -876,10 +879,10 @@ impl<'a, I: Input> Lexer<'a, I> {
                     '\n'
                 } else {
                     match c {
-                        '\n' => raw.push_str("\\n"),
-                        '\r' => raw.push_str("\\r"),
-                        '\u{2028}' => raw.push_str("\\u{2028}"),
-                        '\u{2029}' => raw.push_str("\\u{2029}"),
+                        '\n' => raw.push_str("\n"),
+                        '\r' => raw.push_str("\r"),
+                        '\u{2028}' => raw.push_str("\u{2028}"),
+                        '\u{2029}' => raw.push_str("\u{2029}"),
                         _ => unreachable!(),
                     }
                     c
