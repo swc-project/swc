@@ -839,4 +839,30 @@ var store = global[SHARED] || (global[SHARED] = {});
   ;
 };"
     );
+
+
+    test_fixer!(
+        issue_451,
+        "const instance = new (
+  function() {
+    function klass(opts) {
+      this.options = opts;
+    }
+    return (Object.assign(klass.prototype, {
+      method() {}
+    }), klass);
+  }()
+)({ foo: 1 });",
+        "const instance = new (function() {
+    function klass(opts) {
+        this.options = opts;
+    }
+    return Object.assign(klass.prototype, {
+        method () {
+        }
+    }), klass;
+}())({
+    foo: 1
+});"
+    );
 }
