@@ -12,7 +12,6 @@ impl Fold<Expr> for ParenRemover {
 
         let expr = expr.fold_children(self);
 
-        println!("Visit<Expr>: {:?}", expr);
         validate!(match expr {
             Expr::Paren(ParenExpr { expr, .. }) => match *expr {
                 Expr::Member(e) => Expr::Member(MemberExpr { span, ..e }),
