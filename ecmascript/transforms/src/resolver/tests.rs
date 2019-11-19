@@ -751,3 +751,29 @@ to!(
         return _setPrototypeOf(o, p);
     }"
 );
+
+to!(
+    issue_454_1,
+    "var a = 2;
+function foo() {
+  try {
+    var a = 1;
+    console.log(a);
+  } catch (err) {
+    // ignored
+  }
+  console.log(a);
+}",
+    ""
+);
+to!(
+    issue_454_2,
+    "function a() {}
+function foo() {
+  function b() {
+    a();
+  }
+  function a() {}
+}",
+    ""
+);
