@@ -682,6 +682,23 @@ var Foo = function Foo() {
 );
 
 identical!(
+    issue_308_2,
+    "
+function wrapper(){
+    function bar(props) {}
+    var Foo = function Foo() {
+        _classCallCheck(this, Foo);
+        super();
+        _defineProperty(this, 'onBar', ()=>{
+            bar();
+        });
+        bar();
+    };   
+}
+"
+);
+
+identical!(
     issue_369_1,
     "export function input(name) {
     return `${name}.md?render`;

@@ -137,7 +137,7 @@ impl<'a> Resolver<'a> {
             (true, self.mark)
         };
 
-        let mut mark = if should_insert && use_parent_mark {
+        let mut mark = if should_insert && use_parent_mark && false {
             mark.parent()
         } else {
             mark
@@ -237,7 +237,7 @@ impl<'a> Fold<FnDecl> for Resolver<'a> {
     fn fold(&mut self, node: FnDecl) -> FnDecl {
         let old_hoist = self.hoist;
         self.hoist = true;
-        let ident = self.fold_binding_ident(node.ident, true);
+        let mut ident = self.fold_binding_ident(node.ident, true);
         self.hoist = old_hoist;
 
         let function = {
@@ -250,6 +250,11 @@ impl<'a> Fold<FnDecl> for Resolver<'a> {
                 Scope::new(ScopeKind::Fn, Some(&self.current)),
                 None,
             );
+
+            let old_hoist = self.hoist;
+            self.hoist = false;
+            ident = folder.fold_binding_ident(ident, false);
+            self.hoist = old_hoist;
 
             folder.cur_defining = Some((ident.sym.clone(), ident.span.ctxt().remove_mark()));
 
