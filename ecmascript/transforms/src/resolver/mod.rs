@@ -137,7 +137,11 @@ impl<'a> Resolver<'a> {
             (true, self.mark)
         };
 
-        let mut mark = if use_parent_mark { mark.parent() } else { mark };
+        let mut mark = if should_insert && use_parent_mark {
+            mark.parent()
+        } else {
+            mark
+        };
 
         if should_insert {
             if self.hoist {
@@ -219,9 +223,11 @@ impl<'a> Fold<FnExpr> for Resolver<'a> {
             self.phase,
             child_mark,
             Scope::new(ScopeKind::Fn, Some(&self.current)),
-            None,
+            self.cur_defining.take(),
         );
         let function = e.function.fold_with(&mut folder);
+
+        self.cur_defining = folder.cur_defining;
 
         FnExpr { ident, function }
     }
