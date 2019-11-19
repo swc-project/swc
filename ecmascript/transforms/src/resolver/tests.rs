@@ -791,5 +791,13 @@ function foo() {
   }
   function a() {}
 }",
-    ""
+    "function a() {
+}
+function foo() {
+    function b() {
+        a1();
+    }
+    function a1() {
+    }
+}"
 );
