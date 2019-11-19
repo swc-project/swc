@@ -101,7 +101,7 @@ impl<'a> Resolver<'a> {
         None
     }
 
-    fn fold_binding_ident(&mut self, ident: Ident, use_parent_mark: bool) -> Ident {
+    fn fold_binding_ident(&mut self, ident: Ident) -> Ident {
         if cfg!(debug_assertions) && LOG {
             eprintln!("resolver: Binding {}{:?}", ident.sym, ident.span.ctxt());
         }
@@ -120,11 +120,7 @@ impl<'a> Resolver<'a> {
             (true, self.mark)
         };
 
-        let mut mark = if should_insert && use_parent_mark && false {
-            mark.parent()
-        } else {
-            mark
-        };
+        let mut mark = mark;
 
         if should_insert {
             if self.hoist {
@@ -193,7 +189,7 @@ impl<'a> Fold<BlockStmt> for Resolver<'a> {
 impl<'a> Fold<FnExpr> for Resolver<'a> {
     fn fold(&mut self, e: FnExpr) -> FnExpr {
         let ident = if let Some(ident) = e.ident {
-            Some(self.fold_binding_ident(ident, false))
+            Some(self.fold_binding_ident(ident))
         } else {
             None
         };
@@ -312,7 +308,7 @@ impl Fold<VarDecl> for Resolver<'_> {
 impl<'a> Fold<Ident> for Resolver<'a> {
     fn fold(&mut self, i: Ident) -> Ident {
         match self.ident_type {
-            IdentType::Binding => self.fold_binding_ident(i, false),
+            IdentType::Binding => self.fold_binding_ident(i),
             IdentType::Ref => {
                 let Ident { span, sym, .. } = i;
 
@@ -336,7 +332,7 @@ impl<'a> Fold<Ident> for Resolver<'a> {
                         eprintln!("\t -> Unresolved");
                     }
                     // Support hoisting
-                    self.fold_binding_ident(Ident { sym, span, ..i }, false)
+                    self.fold_binding_ident(Ident { sym, span, ..i })
                 }
             }
             IdentType::Label => {
@@ -403,7 +399,8 @@ struct Hoister<'a, 'b> {
 
 impl Fold<FnDecl> for Hoister<'_, '_> {
     fn fold(&mut self, node: FnDecl) -> FnDecl {
-        let ident = self.resolver.fold_binding_ident(node.ident, false);
+        self.resolver.hoist = false;
+        let ident = self.resolver.fold_binding_ident(node.ident);
 
         FnDecl { ident, ..node }
     }
