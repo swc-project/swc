@@ -94,7 +94,8 @@ to!(
             _classCallCheck(this, ConstructorScoping);
             var bar;
             {
-                var bar;
+                let bar;
+                use(bar);
             }
         }
         ",
@@ -104,6 +105,7 @@ to!(
             var bar;
             {
                 var bar1;
+                use(bar1);
             }
         }
         "
