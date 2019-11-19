@@ -5490,3 +5490,48 @@ expect(obj.test).toBe(2);
 
 "#
 );
+
+test!(
+    syntax(),
+    |_| spec_tr(),
+    issue_454_followup,
+    "if (true){
+    class Foo extends Bar { }
+}",
+    "if (true) {
+    var Foo = function(_Bar) {
+        _inherits(Foo, _Bar);
+        function Foo() {
+            _classCallCheck(this, Foo);
+            return _possibleConstructorReturn(this, _getPrototypeOf(Foo).apply(this, arguments));
+        }
+        return Foo;
+    }(Bar);
+}"
+);
+
+test!(
+    syntax(),
+    |_| spec_tr(),
+    issue_454_followup_2,
+    "function broken(x, ...foo) {
+  if (true) {
+    class Foo extends Bar { }
+    return hello(...foo)
+  }
+}",
+    "function broken(x, ...foo) {
+    if (true) {
+        var Foo = function(_Bar) {
+            _inherits(Foo, _Bar);
+            function Foo() {
+                _classCallCheck(this, Foo);
+                return _possibleConstructorReturn(this, _getPrototypeOf(Foo).apply(this, \
+     arguments));
+            }
+            return Foo;
+        }(Bar);
+        return hello.apply(void 0, foo);
+    }
+}"
+);

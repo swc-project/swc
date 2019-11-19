@@ -67,7 +67,7 @@ pub trait ModuleItemLike: StmtLike {
     }
 }
 
-pub trait StmtLike: Sized {
+pub trait StmtLike: Sized + 'static {
     fn try_into_stmt(self) -> Result<Stmt, Self>;
     fn as_stmt(&self) -> Option<&Stmt>;
     fn from_stmt(stmt: Stmt) -> Self;

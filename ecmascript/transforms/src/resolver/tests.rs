@@ -86,7 +86,8 @@ to!(
             _classCallCheck(this, ConstructorScoping);
             var bar;
             {
-                var bar;
+                let bar;
+                use(bar);
             }
         }
         ",
@@ -96,6 +97,7 @@ to!(
             var bar;
             {
                 var bar1;
+                use(bar1);
             }
         }
         "
@@ -659,8 +661,7 @@ class Foo {
 
 identical!(
     issue_308,
-    "function bar(props) {
-}
+    "function bar(props) {}
 var Foo = function Foo() {
     _classCallCheck(this, Foo);
     super();
@@ -669,6 +670,23 @@ var Foo = function Foo() {
     });
     bar();
 };
+"
+);
+
+identical!(
+    issue_308_2,
+    "
+function wrapper(){
+    function bar(props) {}
+    var Foo = function Foo() {
+        _classCallCheck(this, Foo);
+        super();
+        _defineProperty(this, 'onBar', ()=>{
+            bar();
+        });
+        bar();
+    };   
+}
 "
 );
 
@@ -750,4 +768,86 @@ to!(
         };
         return _setPrototypeOf(o, p);
     }"
+);
+
+to!(
+    issue_454_1,
+    "var a = 2;
+function foo() {
+  try {
+    var a = 1;
+    a;
+  } catch (err) {
+    // ignored
+  }
+  a;
+}",
+    "var a = 2;
+function foo() {
+    try {
+        var a1 = 1;
+        a1;
+    } catch (err) {
+    }
+    a1;
+}"
+);
+
+to!(
+    issue_454_2,
+    "function a() {}
+function foo() {
+  function b() {
+    a();
+  }
+  function a() {}
+}",
+    "function a1() {
+}
+function foo() {
+    function b() {
+        a2();
+    }
+    function a2() {
+    }
+}"
+);
+
+to!(
+    issue_454_3,
+    "function a() {}
+function foo() {
+    function b() {
+        a();
+    }
+    function a() {
+        b();
+    }
+}",
+    "function a1() {
+}
+function foo() {
+    function b() {
+        a2();
+    }
+    function a2() {
+        b();
+    }
+}"
+);
+
+identical!(
+    regression_of_454,
+    "function broken(x) {
+        var Foo = function(_Bar) {
+            _inherits(Foo, _Bar);
+            function Foo() {
+                _classCallCheck(this, Foo);
+                return _possibleConstructorReturn(this, _getPrototypeOf(Foo).apply(this, \
+     arguments));
+            }
+            return Foo;
+        }(Bar);
+}
+"
 );
