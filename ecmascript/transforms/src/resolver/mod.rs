@@ -174,26 +174,14 @@ impl<'a> Resolver<'a> {
 
 impl<'a> Fold<Function> for Resolver<'a> {
     fn fold(&mut self, mut f: Function) -> Function {
-        let child_mark = Mark::fresh(self.mark);
+        self.ident_type = IdentType::Ref;
+        f.decorators = f.decorators.fold_with(self);
 
-        // Child folder
-        let mut folder = Resolver::new(
-            self.phase,
-            child_mark,
-            Scope::new(ScopeKind::Fn, Some(&self.current)),
-            self.cur_defining.take(),
-        );
+        self.ident_type = IdentType::Binding;
+        f.params = f.params.fold_with(self);
 
-        folder.ident_type = IdentType::Ref;
-        f.decorators = f.decorators.fold_with(&mut folder);
-
-        folder.ident_type = IdentType::Binding;
-        f.params = f.params.fold_with(&mut folder);
-
-        folder.ident_type = IdentType::Ref;
-        f.body = f.body.map(|stmt| stmt.fold_children(&mut folder));
-
-        self.cur_defining = folder.cur_defining;
+        self.ident_type = IdentType::Ref;
+        f.body = f.body.map(|stmt| stmt.fold_children(self));
 
         f
     }
@@ -224,7 +212,16 @@ impl<'a> Fold<FnExpr> for Resolver<'a> {
             None
         };
 
-        let function = e.function.fold_with(self);
+        let child_mark = Mark::fresh(self.mark);
+
+        // Child folder
+        let mut folder = Resolver::new(
+            self.phase,
+            child_mark,
+            Scope::new(ScopeKind::Fn, Some(&self.current)),
+            None,
+        );
+        let function = e.function.fold_with(&mut folder);
 
         FnExpr { ident, function }
     }
@@ -237,12 +234,19 @@ impl<'a> Fold<FnDecl> for Resolver<'a> {
         let ident = self.fold_binding_ident(node.ident);
         self.hoist = old_hoist;
 
-        let old = self.cur_defining.take();
-        self.cur_defining = Some((ident.sym.clone(), ident.span.ctxt().remove_mark()));
+        let function = {
+            let child_mark = Mark::fresh(self.mark);
 
-        let function = node.function.fold_with(self);
+            // Child folder
+            let mut folder = Resolver::new(
+                self.phase,
+                child_mark,
+                Scope::new(ScopeKind::Fn, Some(&self.current)),
+                Some((ident.sym.clone(), ident.span.ctxt().remove_mark())),
+            );
 
-        self.cur_defining = old;
+            node.function.fold_with(&mut folder)
+        };
 
         FnDecl {
             ident,
@@ -410,7 +414,7 @@ where
         // Phase 2: Fold statements other than function / variables.
         println!("Starting resolver: {:?}", self.current);
         self.phase = Phase::Resolving;
-        let stmts = stmts.move_map(|stmt| stmt.fold_with(self));
+        let stmts = stmts.fold_children(self);
 
         println!("<<<<<");
 
