@@ -7,7 +7,7 @@ use ast::*;
 use hashbrown::HashSet;
 use std::cell::RefCell;
 use swc_atoms::JsWord;
-use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Mark, SyntaxContext};
+use swc_common::{Fold, FoldWith, Mark, SyntaxContext};
 
 #[cfg(test)]
 mod tests;
@@ -405,13 +405,7 @@ where
 
         // Phase 1: Fold function / variables.
         self.phase = Phase::Hoisting;
-        let stmts = stmts.move_map(|stmt| {
-            if is_hoisted(&stmt) {
-                stmt.fold_with(self)
-            } else {
-                stmt
-            }
-        });
+        let stmts = stmts.fold_children(self);
 
         // Phase 2: Fold statements other than function / variables.
         println!("Starting resolver: {:?}", self.current);
