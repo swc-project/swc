@@ -242,8 +242,10 @@ impl<'a> Fold<FnDecl> for Resolver<'a> {
                 self.phase,
                 child_mark,
                 Scope::new(ScopeKind::Fn, Some(&self.current)),
-                Some((ident.sym.clone(), ident.span.ctxt().remove_mark())),
+                None,
             );
+
+            folder.cur_defining = Some((ident.sym.clone(), ident.span.ctxt().remove_mark()));
 
             node.function.fold_with(&mut folder)
         };
