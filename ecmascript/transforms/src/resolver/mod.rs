@@ -5,6 +5,7 @@ use crate::{
 };
 use ast::*;
 use hashbrown::HashSet;
+use std::cell::RefCell;
 use swc_atoms::JsWord;
 use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Mark, SyntaxContext};
 
@@ -32,6 +33,7 @@ struct Scope<'a> {
 
     /// All references declared in this scope
     declared_symbols: HashSet<JsWord>,
+    hoisted_symbols: RefCell<HashSet<JsWord>>,
 }
 
 impl<'a> Default for Scope<'a> {
@@ -46,6 +48,7 @@ impl<'a> Scope<'a> {
             parent,
             kind,
             declared_symbols: Default::default(),
+            hoisted_symbols: Default::default(),
         }
     }
 }
@@ -56,8 +59,14 @@ enum Phase {
     Resolving,
 }
 
-pub struct Resolver<'a> {
+/// # Phases
+///
+/// ## Hoisting phase
+///
+/// ## Resolving phase
+struct Resolver<'a> {
     phase: Phase,
+    hoist: bool,
     mark: Mark,
     current: Scope<'a>,
     cur_defining: Option<(JsWord, Mark)>,
@@ -73,6 +82,7 @@ impl<'a> Resolver<'a> {
     ) -> Self {
         Resolver {
             phase,
+            hoist: false,
             mark,
             current,
             cur_defining,
@@ -85,7 +95,7 @@ impl<'a> Resolver<'a> {
         let mut scope = Some(&self.current);
 
         while let Some(cur) = scope {
-            if cur.declared_symbols.contains(sym) {
+            if cur.declared_symbols.contains(sym) || cur.hoisted_symbols.borrow().contains(sym) {
                 if mark == Mark::root() {
                     return None;
                 }
@@ -127,8 +137,23 @@ impl<'a> Resolver<'a> {
             (true, self.mark)
         };
 
+        let mut mark = mark;
+
         if should_insert {
-            self.current.declared_symbols.insert(ident.sym.clone());
+            if self.hoist {
+                let mut cursor = Some(&self.current);
+
+                while let Some(c) = cursor {
+                    if c.kind == ScopeKind::Fn {
+                        c.hoisted_symbols.borrow_mut().insert(ident.sym.clone());
+                        break;
+                    }
+                    cursor = c.parent;
+                    mark = mark.parent();
+                }
+            } else {
+                self.current.declared_symbols.insert(ident.sym.clone());
+            }
         }
 
         Ident {
@@ -207,7 +232,10 @@ impl<'a> Fold<FnExpr> for Resolver<'a> {
 
 impl<'a> Fold<FnDecl> for Resolver<'a> {
     fn fold(&mut self, node: FnDecl) -> FnDecl {
+        let old_hoist = self.hoist;
+        self.hoist = true;
         let ident = self.fold_binding_ident(node.ident);
+        self.hoist = old_hoist;
 
         let old = self.cur_defining.take();
         self.cur_defining = Some((ident.sym.clone(), ident.span.ctxt().remove_mark()));
@@ -275,6 +303,19 @@ impl<'a> Fold<VarDeclarator> for Resolver<'a> {
         self.cur_defining = old_defining;
 
         VarDeclarator { name, init, ..decl }
+    }
+}
+
+impl Fold<VarDecl> for Resolver<'_> {
+    fn fold(&mut self, decl: VarDecl) -> VarDecl {
+        let old_hoist = self.hoist;
+
+        self.hoist = VarDeclKind::Var == decl.kind;
+        let decls = decl.decls.fold_with(self);
+
+        self.hoist = old_hoist;
+
+        VarDecl { decls, ..decl }
     }
 }
 
@@ -367,6 +408,7 @@ where
         });
 
         // Phase 2: Fold statements other than function / variables.
+        println!("Starting resolver: {:?}", self.current);
         self.phase = Phase::Resolving;
         let stmts = stmts.move_map(|stmt| stmt.fold_with(self));
 
