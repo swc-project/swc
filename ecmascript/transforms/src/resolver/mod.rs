@@ -393,20 +393,6 @@ where
     T: FoldWith<Self> + StmtLike,
 {
     fn fold(&mut self, stmts: Vec<T>) -> Vec<T> {
-        fn is_hoisted<T>(stmt: &T) -> bool
-        where
-            T: StmtLike,
-        {
-            match stmt.as_stmt() {
-                Some(Stmt::Decl(Decl::Fn(..))) => true,
-                Some(Stmt::Decl(Decl::Var(VarDecl {
-                    kind: VarDeclKind::Var,
-                    ..
-                }))) => true,
-                _ => false,
-            }
-        }
-
         println!(">>>>>");
 
         // Phase 1: Fold function / variables.
