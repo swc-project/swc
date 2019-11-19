@@ -802,13 +802,13 @@ function foo() {
   }
   function a() {}
 }",
-    "function a() {
+    "function a1() {
 }
 function foo() {
     function b() {
-        a1();
+        a2();
     }
-    function a1() {
+    function a2() {
     }
 }"
 );
@@ -824,14 +824,14 @@ function foo() {
         b();
     }
 }",
-    "function a() {
+    "function a1() {
 }
 function foo() {
     function b() {
-        a1();
+        a2();
     }
-    function a1() {
-        b(); 
+    function a2() {
+        b();
     }
 }"
 );
