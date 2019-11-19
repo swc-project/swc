@@ -394,32 +394,36 @@ impl<'a> Fold<ArrowExpr> for Resolver<'a> {
         ArrowExpr { params, body, ..e }
     }
 }
-//
-//impl<T> Fold<Vec<T>> for Resolver<'_>
-//where
-//    T: FoldWith<Self> + StmtLike,
-//{
-//    fn fold(&mut self, stmts: Vec<T>) -> Vec<T> {
-//        println!(">>>>>");
-//
-//        let old_phase = self.phase;
-//
-//        // Phase 1: Fold function / variables.
-//        self.phase = Phase::Hoisting;
-//        let stmts = stmts.fold_children(self);
-//
-//        // Phase 2: Fold statements other than function / variables.
-//        println!("Starting resolver: {:?}", self.current);
-//        self.phase = Phase::Resolving;
-//        let stmts = stmts.fold_children(self);
-//
-//        println!("<<<<<");
-//
-//        self.phase = old_phase;
-//
-//        stmts
-//    }
-//}
+
+impl<T> Fold<Vec<T>> for Resolver<'_>
+where
+    T: FoldWith<Self> + StmtLike,
+{
+    fn fold(&mut self, stmts: Vec<T>) -> Vec<T> {
+        if self.current.kind != ScopeKind::Fn {
+            return stmts.fold_children(self);
+        }
+
+        println!(">>>>>");
+
+        let old_phase = self.phase;
+
+        // Phase 1: Fold function / variables.
+        self.phase = Phase::Hoisting;
+        let stmts = stmts.fold_children(self);
+
+        // Phase 2: Fold statements other than function / variables.
+        println!("Starting resolver: {:?}", self.current);
+        self.phase = Phase::Resolving;
+        let stmts = stmts.fold_children(self);
+
+        println!("<<<<<");
+
+        self.phase = old_phase;
+
+        stmts
+    }
+}
 
 //impl Fold<Stmt> for Resolver<'_> {
 //    fn fold(&mut self, stmt: Stmt) -> Stmt {
