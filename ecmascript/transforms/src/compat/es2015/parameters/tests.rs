@@ -1195,7 +1195,7 @@ function d(thing) {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| chain!(Classes, tr(), crate::compat::es2015::spread()),
+    |_| chain!(tr(), Classes, crate::compat::es2015::spread()),
     rest_nested_iife,
     r#"function broken(x, ...foo) {
   if (true) {
@@ -1209,7 +1209,7 @@ test!(
         foo[_key - 1] = arguments[_key];
     }
     if (true) {
-        var Foo = function(_Bar) {
+        let Foo = function(_Bar) {
             _inherits(Foo, _Bar);
             function Foo() {
                 _classCallCheck(this, Foo);
