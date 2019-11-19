@@ -14,6 +14,8 @@ mod tests;
 
 const LOG: bool = true;
 
+/// TODO: Split this into two struct
+
 pub fn resolver() -> impl Pass + 'static {
     Resolver::new(
         Phase::Hoisting,
@@ -115,9 +117,9 @@ impl<'a> Resolver<'a> {
     }
 
     fn fold_binding_ident(&mut self, ident: Ident, use_parent_mark: bool) -> Ident {
-        if let Phase::Resolving = self.phase {
-            return ident;
-        }
+        // if let Phase::Resolving = self.phase {
+        //     return ident;
+        // }
 
         if cfg!(debug_assertions) && LOG {
             eprintln!("resolver: Binding {}{:?}", ident.sym, ident.span.ctxt());
@@ -341,9 +343,9 @@ impl<'a> Fold<Ident> for Resolver<'a> {
         match self.ident_type {
             IdentType::Binding => self.fold_binding_ident(i, false),
             IdentType::Ref => {
-                if let Phase::Hoisting = self.phase {
-                    return i;
-                }
+                // if let Phase::Hoisting = self.phase {
+                //     return i;
+                // }
 
                 let Ident { span, sym, .. } = i;
 
@@ -392,32 +394,32 @@ impl<'a> Fold<ArrowExpr> for Resolver<'a> {
         ArrowExpr { params, body, ..e }
     }
 }
-
-impl<T> Fold<Vec<T>> for Resolver<'_>
-where
-    T: FoldWith<Self> + StmtLike,
-{
-    fn fold(&mut self, stmts: Vec<T>) -> Vec<T> {
-        println!(">>>>>");
-
-        let old_phase = self.phase;
-
-        // Phase 1: Fold function / variables.
-        self.phase = Phase::Hoisting;
-        let stmts = stmts.fold_children(self);
-
-        // Phase 2: Fold statements other than function / variables.
-        println!("Starting resolver: {:?}", self.current);
-        self.phase = Phase::Resolving;
-        let stmts = stmts.fold_children(self);
-
-        println!("<<<<<");
-
-        self.phase = old_phase;
-
-        stmts
-    }
-}
+//
+//impl<T> Fold<Vec<T>> for Resolver<'_>
+//where
+//    T: FoldWith<Self> + StmtLike,
+//{
+//    fn fold(&mut self, stmts: Vec<T>) -> Vec<T> {
+//        println!(">>>>>");
+//
+//        let old_phase = self.phase;
+//
+//        // Phase 1: Fold function / variables.
+//        self.phase = Phase::Hoisting;
+//        let stmts = stmts.fold_children(self);
+//
+//        // Phase 2: Fold statements other than function / variables.
+//        println!("Starting resolver: {:?}", self.current);
+//        self.phase = Phase::Resolving;
+//        let stmts = stmts.fold_children(self);
+//
+//        println!("<<<<<");
+//
+//        self.phase = old_phase;
+//
+//        stmts
+//    }
+//}
 
 //impl Fold<Stmt> for Resolver<'_> {
 //    fn fold(&mut self, stmt: Stmt) -> Stmt {
