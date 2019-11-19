@@ -800,6 +800,7 @@ function foo() {
     a1;
 }"
 );
+
 to!(
     issue_454_2,
     "function a() {}
@@ -816,6 +817,29 @@ function foo() {
         a1();
     }
     function a1() {
+    }
+}"
+);
+
+to!(
+    issue_454_3,
+    "function a() {}
+function foo() {
+    function b() {
+        a();
+    }
+    function a() {
+        b();
+    }
+}",
+    "function a() {
+}
+function foo() {
+    function b() {
+        a1();
+    }
+    function a1() {
+        b(); 
     }
 }"
 );
