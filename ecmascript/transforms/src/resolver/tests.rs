@@ -33,14 +33,8 @@ fn test_mark_for() {
         let mark3 = Mark::fresh(mark2);
         let mark4 = Mark::fresh(mark3);
 
-        let folder1 = Resolver::new(
-            Phase::Resolving,
-            mark1,
-            Scope::new(ScopeKind::Block, None),
-            None,
-        );
+        let folder1 = Resolver::new(mark1, Scope::new(ScopeKind::Block, None), None);
         let mut folder2 = Resolver::new(
-            Phase::Resolving,
             mark2,
             Scope::new(ScopeKind::Block, Some(&folder1.current)),
             None,
@@ -48,7 +42,6 @@ fn test_mark_for() {
         folder2.current.declared_symbols.insert("foo".into());
 
         let mut folder3 = Resolver::new(
-            Phase::Resolving,
             mark3,
             Scope::new(ScopeKind::Block, Some(&folder2.current)),
             None,
@@ -57,7 +50,6 @@ fn test_mark_for() {
         assert_eq!(folder3.mark_for(&"bar".into()), Some(mark3));
 
         let mut folder4 = Resolver::new(
-            Phase::Resolving,
             mark4,
             Scope::new(ScopeKind::Block, Some(&folder3.current)),
             None,

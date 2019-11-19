@@ -1,7 +1,6 @@
 use crate::{
     pass::Pass,
     scope::{IdentType, ScopeKind},
-    util::StmtLike,
 };
 use ast::*;
 use hashbrown::HashSet;
@@ -12,13 +11,12 @@ use swc_common::{Fold, FoldWith, Mark, SyntaxContext};
 #[cfg(test)]
 mod tests;
 
-const LOG: bool = true;
+const LOG: bool = false;
 
 /// TODO: Split this into two struct
 
 pub fn resolver() -> impl Pass + 'static {
     Resolver::new(
-        Phase::Hoisting,
         Mark::fresh(Mark::root()),
         Scope::new(ScopeKind::Fn, None),
         None,
@@ -55,19 +53,12 @@ impl<'a> Scope<'a> {
     }
 }
 
-#[derive(Debug, Copy, Clone)]
-enum Phase {
-    Hoisting,
-    Resolving,
-}
-
 /// # Phases
 ///
 /// ## Hoisting phase
 ///
 /// ## Resolving phase
 struct Resolver<'a> {
-    phase: Phase,
     hoist: bool,
     mark: Mark,
     current: Scope<'a>,
@@ -76,14 +67,8 @@ struct Resolver<'a> {
 }
 
 impl<'a> Resolver<'a> {
-    fn new(
-        phase: Phase,
-        mark: Mark,
-        current: Scope<'a>,
-        cur_defining: Option<(JsWord, Mark)>,
-    ) -> Self {
+    fn new(mark: Mark, current: Scope<'a>, cur_defining: Option<(JsWord, Mark)>) -> Self {
         Resolver {
-            phase,
             hoist: false,
             mark,
             current,
@@ -117,10 +102,6 @@ impl<'a> Resolver<'a> {
     }
 
     fn fold_binding_ident(&mut self, ident: Ident, use_parent_mark: bool) -> Ident {
-        // if let Phase::Resolving = self.phase {
-        //     return ident;
-        // }
-
         if cfg!(debug_assertions) && LOG {
             eprintln!("resolver: Binding {}{:?}", ident.sym, ident.span.ctxt());
         }
@@ -198,7 +179,6 @@ impl<'a> Fold<BlockStmt> for Resolver<'a> {
         let child_mark = Mark::fresh(self.mark);
 
         let mut child_folder = Resolver::new(
-            self.phase,
             child_mark,
             Scope::new(ScopeKind::Block, Some(&self.current)),
             self.cur_defining.take(),
@@ -222,7 +202,6 @@ impl<'a> Fold<FnExpr> for Resolver<'a> {
 
         // Child folder
         let mut folder = Resolver::new(
-            self.phase,
             child_mark,
             Scope::new(ScopeKind::Fn, Some(&self.current)),
             self.cur_defining.take(),
@@ -237,26 +216,18 @@ impl<'a> Fold<FnExpr> for Resolver<'a> {
 
 impl<'a> Fold<FnDecl> for Resolver<'a> {
     fn fold(&mut self, node: FnDecl) -> FnDecl {
-        let old_hoist = self.hoist;
-        self.hoist = true;
-        let mut ident = self.fold_binding_ident(node.ident, true);
-        self.hoist = old_hoist;
+        // We don't fold this as Hoister handles this.
+        let ident = node.ident;
 
         let function = {
             let child_mark = Mark::fresh(self.mark);
 
             // Child folder
             let mut folder = Resolver::new(
-                self.phase,
                 child_mark,
                 Scope::new(ScopeKind::Fn, Some(&self.current)),
                 None,
             );
-
-            let old_hoist = self.hoist;
-            self.hoist = false;
-            ident = folder.fold_binding_ident(ident, false);
-            self.hoist = old_hoist;
 
             folder.cur_defining = Some((ident.sym.clone(), ident.span.ctxt().remove_mark()));
 
@@ -343,10 +314,6 @@ impl<'a> Fold<Ident> for Resolver<'a> {
         match self.ident_type {
             IdentType::Binding => self.fold_binding_ident(i, false),
             IdentType::Ref => {
-                // if let Phase::Hoisting = self.phase {
-                //     return i;
-                // }
-
                 let Ident { span, sym, .. } = i;
 
                 if cfg!(debug_assertions) && LOG {
@@ -395,40 +362,49 @@ impl<'a> Fold<ArrowExpr> for Resolver<'a> {
     }
 }
 
-impl<T> Fold<Vec<T>> for Resolver<'_>
-where
-    T: FoldWith<Self> + StmtLike,
-{
-    fn fold(&mut self, stmts: Vec<T>) -> Vec<T> {
+impl Fold<Vec<Stmt>> for Resolver<'_> {
+    fn fold(&mut self, stmts: Vec<Stmt>) -> Vec<Stmt> {
         if self.current.kind != ScopeKind::Fn {
             return stmts.fold_children(self);
         }
 
-        println!(">>>>>");
+        // Phase 1: Handle hoisting
+        let stmts = {
+            let mut hoister = Hoister { resolver: self };
+            stmts.fold_children(&mut hoister)
+        };
 
-        let old_phase = self.phase;
-
-        // Phase 1: Fold function / variables.
-        self.phase = Phase::Hoisting;
-        let stmts = stmts.fold_children(self);
-
-        // Phase 2: Fold statements other than function / variables.
-        println!("Starting resolver: {:?}", self.current);
-        self.phase = Phase::Resolving;
-        let stmts = stmts.fold_children(self);
-
-        println!("<<<<<");
-
-        self.phase = old_phase;
-
-        stmts
+        // Phase 2.
+        stmts.fold_children(self)
     }
 }
 
-//impl Fold<Stmt> for Resolver<'_> {
-//    fn fold(&mut self, stmt: Stmt) -> Stmt {
-//        println!("Visit<Stmt>: {:?}", stmt);
-//
-//        stmt.fold_children(self)
-//    }
-//}
+impl Fold<Vec<ModuleItem>> for Resolver<'_> {
+    fn fold(&mut self, stmts: Vec<ModuleItem>) -> Vec<ModuleItem> {
+        if self.current.kind != ScopeKind::Fn {
+            return stmts.fold_children(self);
+        }
+
+        // Phase 1: Handle hoisting
+        let stmts = {
+            let mut hoister = Hoister { resolver: self };
+            stmts.fold_children(&mut hoister)
+        };
+
+        // Phase 2.
+        stmts.fold_children(self)
+    }
+}
+
+/// The folder which handles function hoisting.
+struct Hoister<'a, 'b> {
+    resolver: &'a mut Resolver<'b>,
+}
+
+impl Fold<FnDecl> for Hoister<'_, '_> {
+    fn fold(&mut self, node: FnDecl) -> FnDecl {
+        let ident = self.resolver.fold_binding_ident(node.ident, false);
+
+        FnDecl { ident, ..node }
+    }
+}
