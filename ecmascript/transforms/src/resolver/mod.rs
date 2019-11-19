@@ -114,7 +114,7 @@ impl<'a> Resolver<'a> {
         None
     }
 
-    fn fold_binding_ident(&mut self, ident: Ident) -> Ident {
+    fn fold_binding_ident(&mut self, ident: Ident, use_parent_mark: bool) -> Ident {
         if let Phase::Resolving = self.phase {
             return ident;
         }
@@ -137,7 +137,7 @@ impl<'a> Resolver<'a> {
             (true, self.mark)
         };
 
-        let mut mark = mark;
+        let mut mark = if use_parent_mark { mark.parent() } else { mark };
 
         if should_insert {
             if self.hoist {
@@ -207,7 +207,7 @@ impl<'a> Fold<BlockStmt> for Resolver<'a> {
 impl<'a> Fold<FnExpr> for Resolver<'a> {
     fn fold(&mut self, e: FnExpr) -> FnExpr {
         let ident = if let Some(ident) = e.ident {
-            Some(self.fold_binding_ident(ident))
+            Some(self.fold_binding_ident(ident, false))
         } else {
             None
         };
@@ -231,7 +231,7 @@ impl<'a> Fold<FnDecl> for Resolver<'a> {
     fn fold(&mut self, node: FnDecl) -> FnDecl {
         let old_hoist = self.hoist;
         self.hoist = true;
-        let ident = self.fold_binding_ident(node.ident);
+        let ident = self.fold_binding_ident(node.ident, true);
         self.hoist = old_hoist;
 
         let function = {
@@ -328,7 +328,7 @@ impl Fold<VarDecl> for Resolver<'_> {
 impl<'a> Fold<Ident> for Resolver<'a> {
     fn fold(&mut self, i: Ident) -> Ident {
         match self.ident_type {
-            IdentType::Binding => self.fold_binding_ident(i),
+            IdentType::Binding => self.fold_binding_ident(i, false),
             IdentType::Ref => {
                 if let Phase::Hoisting = self.phase {
                     return i;
@@ -356,7 +356,7 @@ impl<'a> Fold<Ident> for Resolver<'a> {
                         eprintln!("\t -> Unresolved");
                     }
                     // Support hoisting
-                    self.fold_binding_ident(Ident { sym, span, ..i })
+                    self.fold_binding_ident(Ident { sym, span, ..i }, false)
                 }
             }
             IdentType::Label => {
