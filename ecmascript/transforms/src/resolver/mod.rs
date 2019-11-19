@@ -395,6 +395,8 @@ where
     fn fold(&mut self, stmts: Vec<T>) -> Vec<T> {
         println!(">>>>>");
 
+        let old_phase = self.phase;
+
         // Phase 1: Fold function / variables.
         self.phase = Phase::Hoisting;
         let stmts = stmts.fold_children(self);
@@ -405,6 +407,8 @@ where
         let stmts = stmts.fold_children(self);
 
         println!("<<<<<");
+
+        self.phase = old_phase;
 
         stmts
     }

@@ -669,8 +669,7 @@ class Foo {
 
 identical!(
     issue_308,
-    "function bar(props) {
-}
+    "function bar(props) {}
 var Foo = function Foo() {
     _classCallCheck(this, Foo);
     super();
