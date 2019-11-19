@@ -1,19 +1,21 @@
 use crate::{
     pass::Pass,
     scope::{IdentType, ScopeKind},
+    util::StmtLike,
 };
 use ast::*;
 use hashbrown::HashSet;
 use swc_atoms::JsWord;
-use swc_common::{Fold, FoldWith, Mark, SyntaxContext};
+use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Mark, SyntaxContext};
 
 #[cfg(test)]
 mod tests;
 
-const LOG: bool = false;
+const LOG: bool = true;
 
 pub fn resolver() -> impl Pass + 'static {
     Resolver::new(
+        Phase::Hoisting,
         Mark::fresh(Mark::root()),
         Scope::new(ScopeKind::Fn, None),
         None,
@@ -48,7 +50,14 @@ impl<'a> Scope<'a> {
     }
 }
 
+#[derive(Debug, Copy, Clone)]
+enum Phase {
+    Hoisting,
+    Resolving,
+}
+
 pub struct Resolver<'a> {
+    phase: Phase,
     mark: Mark,
     current: Scope<'a>,
     cur_defining: Option<(JsWord, Mark)>,
@@ -56,8 +65,14 @@ pub struct Resolver<'a> {
 }
 
 impl<'a> Resolver<'a> {
-    fn new(mark: Mark, current: Scope<'a>, cur_defining: Option<(JsWord, Mark)>) -> Self {
+    fn new(
+        phase: Phase,
+        mark: Mark,
+        current: Scope<'a>,
+        cur_defining: Option<(JsWord, Mark)>,
+    ) -> Self {
         Resolver {
+            phase,
             mark,
             current,
             cur_defining,
@@ -90,6 +105,10 @@ impl<'a> Resolver<'a> {
     }
 
     fn fold_binding_ident(&mut self, ident: Ident) -> Ident {
+        if let Phase::Resolving = self.phase {
+            return ident;
+        }
+
         if cfg!(debug_assertions) && LOG {
             eprintln!("resolver: Binding {}{:?}", ident.sym, ident.span.ctxt());
         }
@@ -116,10 +135,11 @@ impl<'a> Resolver<'a> {
             span: if mark == Mark::root() {
                 ident.span
             } else {
+                let span = ident.span.apply_mark(mark);
                 if cfg!(debug_assertions) && LOG {
-                    eprintln!("\t-> {:?}", mark);
+                    eprintln!("\t-> {:?}", span.ctxt());
                 }
-                ident.span.apply_mark(mark)
+                span
             },
             sym: ident.sym,
             ..ident
@@ -133,6 +153,7 @@ impl<'a> Fold<Function> for Resolver<'a> {
 
         // Child folder
         let mut folder = Resolver::new(
+            self.phase,
             child_mark,
             Scope::new(ScopeKind::Fn, Some(&self.current)),
             self.cur_defining.take(),
@@ -158,6 +179,7 @@ impl<'a> Fold<BlockStmt> for Resolver<'a> {
         let child_mark = Mark::fresh(self.mark);
 
         let mut child_folder = Resolver::new(
+            self.phase,
             child_mark,
             Scope::new(ScopeKind::Block, Some(&self.current)),
             self.cur_defining.take(),
@@ -261,6 +283,10 @@ impl<'a> Fold<Ident> for Resolver<'a> {
         match self.ident_type {
             IdentType::Binding => self.fold_binding_ident(i),
             IdentType::Ref => {
+                if let Phase::Hoisting = self.phase {
+                    return i;
+                }
+
                 let Ident { span, sym, .. } = i;
 
                 if cfg!(debug_assertions) && LOG {
@@ -272,14 +298,12 @@ impl<'a> Fold<Ident> for Resolver<'a> {
                 }
 
                 if let Some(mark) = self.mark_for(&sym) {
+                    let span = span.apply_mark(mark);
+
                     if cfg!(debug_assertions) && LOG {
-                        eprintln!("\t -> {:?}", mark);
+                        eprintln!("\t -> {:?}", span.ctxt());
                     }
-                    Ident {
-                        sym,
-                        span: span.apply_mark(mark),
-                        ..i
-                    }
+                    Ident { sym, span, ..i }
                 } else {
                     if cfg!(debug_assertions) && LOG {
                         eprintln!("\t -> Unresolved");
@@ -310,3 +334,52 @@ impl<'a> Fold<ArrowExpr> for Resolver<'a> {
         ArrowExpr { params, body, ..e }
     }
 }
+
+impl<T> Fold<Vec<T>> for Resolver<'_>
+where
+    T: FoldWith<Self> + StmtLike,
+{
+    fn fold(&mut self, stmts: Vec<T>) -> Vec<T> {
+        fn is_hoisted<T>(stmt: &T) -> bool
+        where
+            T: StmtLike,
+        {
+            match stmt.as_stmt() {
+                Some(Stmt::Decl(Decl::Fn(..))) => true,
+                Some(Stmt::Decl(Decl::Var(VarDecl {
+                    kind: VarDeclKind::Var,
+                    ..
+                }))) => true,
+                _ => false,
+            }
+        }
+
+        println!(">>>>>");
+
+        // Phase 1: Fold function / variables.
+        self.phase = Phase::Hoisting;
+        let stmts = stmts.move_map(|stmt| {
+            if is_hoisted(&stmt) {
+                stmt.fold_with(self)
+            } else {
+                stmt
+            }
+        });
+
+        // Phase 2: Fold statements other than function / variables.
+        self.phase = Phase::Resolving;
+        let stmts = stmts.move_map(|stmt| stmt.fold_with(self));
+
+        println!("<<<<<");
+
+        stmts
+    }
+}
+
+//impl Fold<Stmt> for Resolver<'_> {
+//    fn fold(&mut self, stmt: Stmt) -> Stmt {
+//        println!("Visit<Stmt>: {:?}", stmt);
+//
+//        stmt.fold_children(self)
+//    }
+//}
