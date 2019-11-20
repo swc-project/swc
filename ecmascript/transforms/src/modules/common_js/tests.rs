@@ -3982,3 +3982,60 @@ var _default = Test;
 exports.default = _default;
 "
 );
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        strict: false,
+        strict_mode: true,
+        no_interop: true,
+        ..Default::default()
+    }),
+    issue_456_1,
+    "import { join as e } from 'path';
+export const foo = function () {
+  function e(t) {}
+  return A(e, {}), e
+}();",
+    "'use strict';
+Object.defineProperty(exports, '__esModule', {
+    value: true
+});
+exports.foo = void 0;
+var _path = require('path');
+const foo = function() {
+    function e(t) {
+    }
+    return A(e, {}), e;
+}();
+exports.foo = foo;
+"
+);
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        strict: false,
+        strict_mode: true,
+        no_interop: true,
+        ..Default::default()
+    }),
+    issue_456_2,
+    "import { join as e } from 'path';
+export const foo = function () {
+  var e = 1;
+  return A(e, {}), e
+}();",
+    "'use strict';
+Object.defineProperty(exports, '__esModule', {
+    value: true
+});
+exports.foo = void 0;
+var _path = require('path');
+const foo = function() {
+    var e = 1;
+    return A(e, {
+    }), e;
+}();
+exports.foo = foo;"
+);

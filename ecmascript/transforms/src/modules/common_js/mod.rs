@@ -625,6 +625,16 @@ impl Fold<VarDecl> for CommonJs {
     }
 }
 
+impl Fold<FnDecl> for CommonJs {
+    fn fold(&mut self, node: FnDecl) -> FnDecl {
+        self.scope
+            .declared_vars
+            .push((node.ident.sym.clone(), node.ident.span.ctxt()));
+
+        node.fold_children(self)
+    }
+}
+
 impl ModulePass for CommonJs {
     fn config(&self) -> &Config {
         &self.config
