@@ -13,8 +13,6 @@ mod tests;
 
 const LOG: bool = false;
 
-/// TODO: Split this into two struct
-
 pub fn resolver() -> impl Pass + 'static {
     Resolver::new(
         Mark::fresh(Mark::root()),
