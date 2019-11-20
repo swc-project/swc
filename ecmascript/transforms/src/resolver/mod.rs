@@ -397,7 +397,6 @@ struct Hoister<'a, 'b> {
 
 impl Fold<FnDecl> for Hoister<'_, '_> {
     fn fold(&mut self, node: FnDecl) -> FnDecl {
-        println!("Fold<FnDecl>: {:?}", node.ident);
         self.resolver.hoist = false;
         let ident = self.resolver.fold_binding_ident(node.ident);
 
