@@ -1109,3 +1109,57 @@ define(["exports"], function (_exports) {
 
 "#
 );
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        ..Default::default()
+    }),
+    issue_456_1,
+    "import { join as e } from 'path';
+export const foo = function () {
+  function e(t) {}
+  return A(e, {}), e
+}();",
+    "define(['exports', 'path'], function(_exports, _path) {
+    'use strict';
+    Object.defineProperty(_exports, '__esModule', {
+        value: true
+    });
+    _exports.foo = void 0;
+    const foo = function() {
+        function e(t) {
+        }
+        return A(e, {
+        }), e;
+    }();
+    _exports.foo = foo;
+});"
+);
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        ..Default::default()
+    }),
+    issue_456_2,
+    "import { join as e } from 'path';
+export const foo = function () {
+  var e = 1;
+  return A(e, {}), e
+}();",
+    "define(['exports', 'path'], function(_exports, _path) {
+    'use strict';
+    Object.defineProperty(_exports, '__esModule', {
+        value: true
+    });
+    _exports.foo = void 0;
+    const foo = function() {
+        var e = 1;
+        return A(e, {
+        }), e;
+    }();
+    _exports.foo = foo;
+});
+"
+);
