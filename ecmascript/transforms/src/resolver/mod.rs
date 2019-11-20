@@ -13,8 +13,6 @@ mod tests;
 
 const LOG: bool = false;
 
-/// TODO: Split this into two struct
-
 pub fn resolver() -> impl Pass + 'static {
     Resolver::new(
         Mark::fresh(Mark::root()),
@@ -403,5 +401,11 @@ impl Fold<FnDecl> for Hoister<'_, '_> {
         let ident = self.resolver.fold_binding_ident(node.ident);
 
         FnDecl { ident, ..node }
+    }
+}
+
+impl Fold<Function> for Hoister<'_, '_> {
+    fn fold(&mut self, node: Function) -> Function {
+        node
     }
 }
