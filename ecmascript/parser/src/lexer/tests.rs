@@ -1101,3 +1101,19 @@ fn lex_colors_js(b: &mut Bencher) {
         );
     });
 }
+
+#[bench]
+fn lex_colors_ts(b: &mut Bencher) {
+    b.bytes = include_str!("../../colors.js").len() as _;
+
+    b.iter(|| {
+        let _ = with_lexer(
+            Syntax::Typescript(Default::default()),
+            include_str!("../../colors.js"),
+            |lexer| {
+                for _ in lexer {}
+                Ok(())
+            },
+        );
+    });
+}
