@@ -184,7 +184,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         debug_assert!(self.input.syntax().jsx());
         let start = name.span().lo();
 
-        let type_args = if self.input.syntax().typescript() {
+        let type_args = if self.input.syntax().typescript() && is!('<') {
             self.try_parse_ts(|p| p.parse_ts_type_args().map(Some))
         } else {
             None
