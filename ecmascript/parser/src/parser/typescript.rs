@@ -358,7 +358,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 syntax_error!(span, SyntaxError::Expected(return_token, cur))
             }
 
-            let type_pred_var = if is!(IdentRef) {
+            let type_pred_var = if is!(IdentRef) && peeked_is!("is") {
                 p.try_parse_ts(|p| p.parse_ts_type_predicate_prefix())
             } else {
                 None
