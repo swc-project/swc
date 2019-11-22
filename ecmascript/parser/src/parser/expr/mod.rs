@@ -287,7 +287,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 match id.sym {
                     //                    js_word!("eval") | js_word!("arguments") => {
                     //                        self.emit_err(id.span,
-                    // SyntaxError::EvalAndArgumentsInStrict)                   
+                    // SyntaxError::EvalAndArgumentsInStrict)
                     // }
                     js_word!("yield")
                     | js_word!("static")
