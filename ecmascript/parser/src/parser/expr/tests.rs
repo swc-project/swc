@@ -1,6 +1,8 @@
 use super::*;
 use crate::EsConfig;
+use std::hint::black_box;
 use swc_common::DUMMY_SP as span;
+use test::Bencher;
 
 fn syntax() -> Syntax {
     Syntax::Es(EsConfig {
@@ -405,5 +407,18 @@ fn issue_380() {
          to be
     })
 }",
+    );
+}
+
+#[bench]
+fn bench_new_expr(b: &mut Bencher) {
+    bench_parser(
+        b,
+        "new Foo()",
+        Syntax::Typescript(Default::default()),
+        |p| {
+            black_box(p.parse_expr()?);
+            Ok(())
+        },
     );
 }
