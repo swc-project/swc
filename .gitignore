@@ -16,3 +16,4 @@ Cargo.lock
 .DS_Store
 
 node_modules/
+*.html
