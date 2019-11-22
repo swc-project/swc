@@ -411,7 +411,7 @@ fn issue_380() {
 }
 
 #[bench]
-fn bench_new_exp_ts(b: &mut Bencher) {
+fn bench_new_expr_ts(b: &mut Bencher) {
     bench_parser(
         b,
         "new Foo()",
