@@ -88,14 +88,18 @@ impl<'a, I: Input> Lexer<'a, I> {
 
             // Read numbers after dot
             let dec_val = self.read_int(10, 0, &mut Raw(None))?;
-            let mut s = String::new();
-            write!(s, "{}.", val).unwrap();
+            //            let mut s = String::new();
+            //            write!(s, "{}.", val).unwrap();
+            //
+            //            if let Some(ref n) = dec_val {
+            //                write!(s, "{}", n).unwrap();
+            //            }
 
-            if let Some(ref n) = dec_val {
-                write!(s, "{}", n).unwrap();
-            }
-
-            val = s.parse().expect("failed to parse float using rust's impl");
+            val += if let Some(n) = dec_val {
+                0.1f64.powi(digits(n as u64, 10).count() as i32)
+            } else {
+                0f64
+            };
         }
 
         // Handle 'e' and 'E'
