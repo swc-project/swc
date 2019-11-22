@@ -17,34 +17,34 @@ impl<'a, I: Tokens> Parser<'a, I> {
         self.parse_fn(None, vec![])
     }
 
-    pub(super) fn parse_async_fn_decl(&mut self, decoraters: Vec<Decorator>) -> PResult<'a, Decl> {
+    pub(super) fn parse_async_fn_decl(&mut self, decorators: Vec<Decorator>) -> PResult<'a, Decl> {
         let start = cur_pos!();
         expect!("async");
-        self.parse_fn(Some(start), decoraters)
+        self.parse_fn(Some(start), decorators)
     }
 
-    pub(super) fn parse_fn_decl(&mut self, decoraters: Vec<Decorator>) -> PResult<'a, Decl> {
-        self.parse_fn(None, decoraters)
+    pub(super) fn parse_fn_decl(&mut self, decorators: Vec<Decorator>) -> PResult<'a, Decl> {
+        self.parse_fn(None, decorators)
     }
 
     pub(super) fn parse_default_async_fn(
         &mut self,
-        decoraters: Vec<Decorator>,
+        decorators: Vec<Decorator>,
     ) -> PResult<'a, ExportDefaultDecl> {
         let start = cur_pos!();
         expect!("async");
-        self.parse_fn(Some(start), decoraters)
+        self.parse_fn(Some(start), decorators)
     }
 
     pub(super) fn parse_default_fn(
         &mut self,
-        decoraters: Vec<Decorator>,
+        decorators: Vec<Decorator>,
     ) -> PResult<'a, ExportDefaultDecl> {
-        self.parse_fn(None, decoraters)
+        self.parse_fn(None, decorators)
     }
 
-    pub(super) fn parse_class_decl(&mut self, decoraters: Vec<Decorator>) -> PResult<'a, Decl> {
-        self.parse_class(decoraters)
+    pub(super) fn parse_class_decl(&mut self, decorators: Vec<Decorator>) -> PResult<'a, Decl> {
+        self.parse_class(decorators)
     }
 
     pub(super) fn parse_class_expr(
@@ -56,9 +56,9 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
     pub(super) fn parse_default_class(
         &mut self,
-        decoraters: Vec<Decorator>,
+        decorators: Vec<Decorator>,
     ) -> PResult<'a, ExportDefaultDecl> {
-        self.parse_class(decoraters)
+        self.parse_class(decorators)
     }
 
     fn parse_class<T>(&mut self, decorators: Vec<Decorator>) -> PResult<'a, T>
