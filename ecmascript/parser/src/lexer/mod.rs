@@ -765,11 +765,21 @@ impl<'a, I: Input> Lexer<'a, I> {
         self.bump();
 
         let (mut escaped, mut in_class) = (false, false);
-        // TODO: Optimize (chunk, cow)
         let mut content = String::new();
         let content_start = self.cur_pos();
 
         while let Some(c) = self.cur() {
+            if !escaped {
+                let chunk = self.input.uncons_while(|c| {
+                    !c.is_line_break() && c != '[' && c != ']' && c != '/' && c != '\\'
+                });
+
+                if !chunk.is_empty() {
+                    content.push_str(chunk);
+                    continue;
+                }
+            }
+
             // This is ported from babel.
             // Seems like regexp literal cannot contain linebreak.
             if c.is_line_break() {
