@@ -62,7 +62,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
             }
         }
 
-        if self.input.syntax().typescript() && (is!('<') || is!(JSXTagStart)) {
+        if self.input.syntax().typescript() && (is_one_of!('<', JSXTagStart)) {
             let res = self.try_parse_ts(|p| {
                 let type_parameters = p.parse_ts_type_params()?;
                 let mut arrow = p.parse_assignment_expr_base()?;
