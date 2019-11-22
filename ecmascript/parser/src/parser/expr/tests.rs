@@ -411,7 +411,7 @@ fn issue_380() {
 }
 
 #[bench]
-fn bench_new_expr(b: &mut Bencher) {
+fn bench_ts_new_expr(b: &mut Bencher) {
     bench_parser(
         b,
         "new Foo()",
@@ -421,4 +421,33 @@ fn bench_new_expr(b: &mut Bencher) {
             Ok(())
         },
     );
+}
+
+#[bench]
+fn bench_es_new_expr(b: &mut Bencher) {
+    bench_parser(b, "new Foo()", Syntax::Es(Default::default()), |p| {
+        black_box(p.parse_expr()?);
+        Ok(())
+    });
+}
+
+#[bench]
+fn bench_ts_member_expr(b: &mut Bencher) {
+    bench_parser(
+        b,
+        "a.b.c.d.e.f",
+        Syntax::Typescript(Default::default()),
+        |p| {
+            black_box(p.parse_expr()?);
+            Ok(())
+        },
+    );
+}
+
+#[bench]
+fn bench_es_member_expr(b: &mut Bencher) {
+    bench_parser(b, "a.b.c.d.e.f", Syntax::Es(Default::default()), |p| {
+        black_box(p.parse_expr()?);
+        Ok(())
+    });
 }
