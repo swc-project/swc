@@ -4,7 +4,7 @@
 //! See https://tc39.github.io/ecma262/#sec-literals-numeric-literals
 use super::*;
 use crate::error::SyntaxError;
-use std::{fmt::Write, iter::FusedIterator};
+use std::iter::FusedIterator;
 
 impl<'a, I: Input> Lexer<'a, I> {
     /// Reads an integer, octal integer, or floating-point number
