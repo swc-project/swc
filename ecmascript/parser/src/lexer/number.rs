@@ -9,7 +9,7 @@ use std::{fmt::Write, iter::FusedIterator};
 impl<'a, I: Input> Lexer<'a, I> {
     /// Reads an integer, octal integer, or floating-point number
     pub(super) fn read_number(&mut self, starts_with_dot: bool) -> LexResult<f64> {
-        assert!(self.cur().is_some());
+        debug_assert!(self.cur().is_some());
         if starts_with_dot {
             debug_assert_eq!(
                 self.cur(),
@@ -82,8 +82,8 @@ impl<'a, I: Input> Lexer<'a, I> {
         if self.cur() == Some('.') {
             self.bump();
             if starts_with_dot {
-                assert!(self.cur().is_some());
-                assert!(self.cur().unwrap().is_digit(10));
+                debug_assert!(self.cur().is_some());
+                debug_assert!(self.cur().unwrap().is_digit(10));
             }
 
             // Read numbers after dot
@@ -378,19 +378,19 @@ mod tests {
                         0000000000000000000000000000000000000000000000000000";
     #[test]
     fn num_inf() {
-        assert_eq!(num(LONG), INFINITY);
+        debug_assert_eq!(num(LONG), INFINITY);
     }
 
     /// Number >= 2^53
     #[test]
     fn num_big_exp() {
-        assert_eq!(1e30, num("1e30"));
+        debug_assert_eq!(1e30, num("1e30"));
     }
 
     #[test]
     #[ignore]
     fn num_big_many_zero() {
-        assert_eq!(
+        debug_assert_eq!(
             1_000_000_000_000_000_000_000_000_000_000f64,
             num("1000000000000000000000000000000")
         )
@@ -398,23 +398,23 @@ mod tests {
 
     #[test]
     fn num_legacy_octal() {
-        assert_eq!(0o12 as f64, num("0012"));
+        debug_assert_eq!(0o12 as f64, num("0012"));
     }
 
     #[test]
     fn read_int_1() {
-        assert_eq!(60, int(10, "60"));
-        assert_eq!(0o73, int(8, "73"));
+        debug_assert_eq!(60, int(10, "60"));
+        debug_assert_eq!(0o73, int(8, "73"));
     }
 
     #[test]
     fn read_int_short() {
-        assert_eq!(7, int(10, "7"));
+        debug_assert_eq!(7, int(10, "7"));
     }
 
     #[test]
     fn read_radix_number() {
-        assert_eq!(
+        debug_assert_eq!(
             0o73 as f64,
             lex("0o73", |l| l.read_radix_number(8).unwrap())
         );
@@ -457,11 +457,11 @@ mod tests {
                     Ok(vec) => vec,
                     Err(err) => panic::resume_unwind(err),
                 };
-                assert_eq!(vec.len(), 1);
+                debug_assert_eq!(vec.len(), 1);
                 let token = vec.into_iter().next().unwrap();
-                assert_eq!(Num(expected), token);
+                debug_assert_eq!(Num(expected), token);
             } else if let Ok(vec) = vec {
-                assert_ne!(vec![Num(expected)], vec)
+                debug_assert_ne!(vec![Num(expected)], vec)
             }
         }
     }

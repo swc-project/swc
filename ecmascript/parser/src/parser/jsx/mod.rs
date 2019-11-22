@@ -356,7 +356,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     /// babel: `jsxParseElement`
     pub(super) fn parse_jsx_element(&mut self) -> PResult<'a, Either<JSXFragment, JSXElement>> {
         debug_assert!(self.input.syntax().jsx());
-        assert!({
+        debug_assert!({
             match *cur!(true)? {
                 Token::JSXTagStart | tok!('<') => true,
                 _ => false,
@@ -370,7 +370,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
     pub(super) fn parse_jsx_text(&mut self) -> PResult<'a, JSXText> {
         debug_assert!(self.input.syntax().jsx());
-        assert!({
+        debug_assert!({
             match cur!(false) {
                 Ok(&Token::JSXText { .. }) => true,
                 _ => false,

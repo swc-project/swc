@@ -1843,7 +1843,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         start: BytePos,
         decorators: Vec<Decorator>,
     ) -> PResult<'a, Option<Decl>> {
-        assert!(
+        debug_assert!(
             !is!("declare"),
             "try_parse_ts_declare should be called after eating `declare`"
         );

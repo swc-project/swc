@@ -600,7 +600,7 @@ where
         let res = f(&mut l);
 
         let c: SmallVec<[TokenContext; 32]> = smallvec![TokenContext::BraceStmt];
-        assert_eq!(l.state.context.0, c);
+        debug_assert_eq!(l.state.context.0, c);
 
         res
     })

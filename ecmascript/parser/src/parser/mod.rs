@@ -96,7 +96,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     }
 
     pub fn parse_typescript_module(&mut self) -> PResult<'a, Module> {
-        assert!(self.syntax().typescript());
+        debug_assert!(self.syntax().typescript());
 
         //TODO: parse() -> PResult<'a, Program>
         let ctx = Context {

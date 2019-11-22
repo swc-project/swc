@@ -37,9 +37,9 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
             if is!(JSXTagStart) {
                 let cur_context = self.input.token_context().current();
-                assert_eq!(cur_context, Some(TokenContext::JSXOpeningTag));
+                debug_assert_eq!(cur_context, Some(TokenContext::JSXOpeningTag));
                 // Only time j_oTag is pushed is right after j_expr.
-                assert_eq!(
+                debug_assert_eq!(
                     self.input.token_context().0[self.input.token_context().len() - 2],
                     TokenContext::JSXExpr
                 );
@@ -48,12 +48,12 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 if let Some(res) = res {
                     return Ok(res);
                 } else {
-                    assert_eq!(
+                    debug_assert_eq!(
                         self.input.token_context().current(),
                         Some(TokenContext::JSXOpeningTag)
                     );
                     self.input.token_context_mut().pop();
-                    assert_eq!(
+                    debug_assert_eq!(
                         self.input.token_context().current(),
                         Some(TokenContext::JSXExpr)
                     );
@@ -985,7 +985,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 // This fails with `expected (`
                 expect!('(');
             }
-            assert_ne!(
+            debug_assert_ne!(
                 cur!(false).ok(),
                 Some(&tok!('(')),
                 "parse_new_expr() should eat paren if it exists"
