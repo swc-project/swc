@@ -62,22 +62,24 @@ impl<'a, I: Tokens> Parser<'a, I> {
             }
         }
 
-        let res = self.try_parse_ts(|p| {
-            let type_parameters = p.parse_ts_type_params()?;
-            let mut arrow = p.parse_assignment_expr_base()?;
-            match *arrow {
-                Expr::Arrow(ArrowExpr {
-                    ref mut type_params,
-                    ..
-                }) => {
-                    *type_params = Some(type_parameters);
+        if self.input.syntax().typescript() && (is!('<') || is!(JSXTagStart)) {
+            let res = self.try_parse_ts(|p| {
+                let type_parameters = p.parse_ts_type_params()?;
+                let mut arrow = p.parse_assignment_expr_base()?;
+                match *arrow {
+                    Expr::Arrow(ArrowExpr {
+                        ref mut type_params,
+                        ..
+                    }) => {
+                        *type_params = Some(type_parameters);
+                    }
+                    _ => unexpected!(),
                 }
-                _ => unexpected!(),
+                Ok(Some(arrow))
+            });
+            if let Some(res) = res {
+                return Ok(res);
             }
-            Ok(Some(arrow))
-        });
-        if let Some(res) = res {
-            return Ok(res);
         }
 
         self.parse_assignment_expr_base()
