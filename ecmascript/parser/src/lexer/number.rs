@@ -4,7 +4,7 @@
 //! See https://tc39.github.io/ecma262/#sec-literals-numeric-literals
 use super::*;
 use crate::error::SyntaxError;
-use std::iter::FusedIterator;
+use std::{fmt::Write, iter::FusedIterator};
 
 impl<'a, I: Input> Lexer<'a, I> {
     /// Reads an integer, octal integer, or floating-point number
@@ -88,18 +88,14 @@ impl<'a, I: Input> Lexer<'a, I> {
 
             // Read numbers after dot
             let dec_val = self.read_int(10, 0, &mut Raw(None))?;
-            //            let mut s = String::new();
-            //            write!(s, "{}.", val).unwrap();
-            //
-            //            if let Some(ref n) = dec_val {
-            //                write!(s, "{}", n).unwrap();
-            //            }
+            let mut s = String::new();
+            write!(s, "{}.", val).unwrap();
 
-            val += if let Some(n) = dec_val {
-                0.1f64.powi(digits(n as u64, 10).count() as i32)
-            } else {
-                0f64
-            };
+            if let Some(ref n) = dec_val {
+                write!(s, "{}", n).unwrap();
+            }
+
+            val = s.parse().expect("failed to parse float using rust's impl");
         }
 
         // Handle 'e' and 'E'
