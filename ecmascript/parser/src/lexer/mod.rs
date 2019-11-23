@@ -17,7 +17,7 @@ use crate::{
 use ast::Str;
 
 use smallvec::SmallVec;
-use std::{borrow::Cow, char, iter::FusedIterator};
+use std::{char, iter::FusedIterator};
 use swc_atoms::JsWord;
 use swc_common::{
     comments::{Comment, Comments},
