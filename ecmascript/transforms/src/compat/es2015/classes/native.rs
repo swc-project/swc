@@ -7,7 +7,7 @@ macro_rules! native {
             $i:tt
         ),*
     ) => {
-        match $sym{
+        match *$sym{
             $(
                 js_word!($i) => true,
             )*

@@ -618,6 +618,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     /// This method is optimized for texts without escape sequences.
     fn read_word_as_str(&mut self) -> LexResult<(JsWord, bool)> {
         debug_assert!(self.cur().is_some());
+        let mut first = true;
 
         let mut has_escape = false;
         let mut word = {
@@ -635,10 +636,11 @@ impl<'a, I: Input> Lexer<'a, I> {
             if !has_escape {
                 return Ok((s.into(), false));
             }
+            if !s.is_empty() {
+                first = false;
+            }
             String::from(s)
         };
-
-        let mut first = true;
 
         while let Some(c) = {
             // Optimization
