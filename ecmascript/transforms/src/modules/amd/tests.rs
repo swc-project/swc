@@ -1101,7 +1101,7 @@ define(["exports"], function (_exports) {
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports.default = _exports.bar = void 0;
+  _exports.bar = _exports.default = void 0;
   var foo, bar;
   _exports.default = foo;
   _exports.bar = bar;

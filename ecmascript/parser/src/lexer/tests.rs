@@ -4,7 +4,7 @@ use super::{
 };
 use crate::error::{Error, SyntaxError};
 use std::{ops::Range, str};
-use test::Bencher;
+use test::{black_box, Bencher};
 
 fn sp(r: Range<usize>) -> Span {
     Span::new(
@@ -102,7 +102,7 @@ impl WithSpan for AssignOpToken {
 
 //#[test]
 //fn module_legacy_octal() {
-//    debug_assert_eq!(
+//    assert_eq!(
 //        lex_module(Syntax::default(), "01"),
 //        vec![Token::Error(Error {
 //            span: sp(0..2),
@@ -115,7 +115,7 @@ impl WithSpan for AssignOpToken {
 
 #[test]
 fn module_legacy_decimal() {
-    debug_assert_eq!(
+    assert_eq!(
         lex_module(Syntax::default(), "08"),
         vec![Token::Error(Error {
             span: sp(0..2),
@@ -128,7 +128,7 @@ fn module_legacy_decimal() {
 
 #[test]
 fn module_legacy_comment_1() {
-    debug_assert_eq!(
+    assert_eq!(
         lex_module(Syntax::default(), "<!-- foo oo"),
         vec![Token::Error(Error {
             span: sp(0..11),
@@ -141,7 +141,7 @@ fn module_legacy_comment_1() {
 
 #[test]
 fn module_legacy_comment_2() {
-    debug_assert_eq!(
+    assert_eq!(
         lex_module(Syntax::default(), "-->"),
         vec![Token::Error(Error {
             span: sp(0..3),
@@ -154,7 +154,7 @@ fn module_legacy_comment_2() {
 
 #[test]
 fn test262_lexer_error_0001() {
-    debug_assert_eq!(
+    assert_eq!(
         lex(Syntax::default(), "123..a(1)"),
         vec![
             123f64.span(0..4).lb(),
@@ -169,7 +169,7 @@ fn test262_lexer_error_0001() {
 
 #[test]
 fn test262_lexer_error_0002() {
-    debug_assert_eq!(
+    assert_eq!(
         lex(Syntax::default(), r#"'use\x20strict';"#),
         vec![
             Token::Str {
@@ -185,7 +185,7 @@ fn test262_lexer_error_0002() {
 
 #[test]
 fn test262_lexer_error_0003() {
-    debug_assert_eq!(
+    assert_eq!(
         lex(Syntax::default(), r#"\u0061"#),
         vec!["a".span(0..6).lb()]
     );
@@ -193,7 +193,7 @@ fn test262_lexer_error_0003() {
 
 #[test]
 fn test262_lexer_error_0004() {
-    debug_assert_eq!(
+    assert_eq!(
         lex_tokens(Syntax::default(), "+{} / 1"),
         vec![tok!('+'), tok!('{'), tok!('}'), tok!('/'), 1.into_token()]
     );
@@ -201,7 +201,7 @@ fn test262_lexer_error_0004() {
 
 #[test]
 fn ident_escape_unicode() {
-    debug_assert_eq!(
+    assert_eq!(
         lex(Syntax::default(), r#"a\u0061"#),
         vec!["aa".span(0..7).lb()]
     );
@@ -209,9 +209,9 @@ fn ident_escape_unicode() {
 
 #[test]
 fn ident_escape_unicode_2() {
-    debug_assert_eq!(lex(Syntax::default(), "℘℘"), vec!["℘℘".span(0..6).lb()]);
+    assert_eq!(lex(Syntax::default(), "℘℘"), vec!["℘℘".span(0..6).lb()]);
 
-    debug_assert_eq!(
+    assert_eq!(
         lex(Syntax::default(), r#"℘\u2118"#),
         vec!["℘℘".span(0..9).lb()]
     );
@@ -219,7 +219,7 @@ fn ident_escape_unicode_2() {
 
 #[test]
 fn tpl_multiline() {
-    debug_assert_eq!(
+    assert_eq!(
         lex_tokens(
             Syntax::default(),
             "`this
@@ -240,7 +240,7 @@ multiline`"
 
 #[test]
 fn tpl_raw_unicode_escape() {
-    debug_assert_eq!(
+    assert_eq!(
         lex_tokens(Syntax::default(), r"`\u{0010}`"),
         vec![
             tok!('`'),
@@ -256,7 +256,7 @@ fn tpl_raw_unicode_escape() {
 
 #[test]
 fn str_escape() {
-    debug_assert_eq!(
+    assert_eq!(
         lex_tokens(Syntax::default(), r#"'\n'"#),
         vec![Token::Str {
             value: "\n".into(),
@@ -267,7 +267,7 @@ fn str_escape() {
 
 #[test]
 fn str_escape_2() {
-    debug_assert_eq!(
+    assert_eq!(
         lex_tokens(Syntax::default(), r#"'\\n'"#),
         vec![Token::Str {
             value: "\\n".into(),
@@ -278,7 +278,7 @@ fn str_escape_2() {
 
 #[test]
 fn str_escape_hex() {
-    debug_assert_eq!(
+    assert_eq!(
         lex(Syntax::default(), r#"'\x61'"#),
         vec![Token::Str {
             value: "a".into(),
@@ -291,7 +291,7 @@ fn str_escape_hex() {
 
 #[test]
 fn str_escape_octal() {
-    debug_assert_eq!(
+    assert_eq!(
         lex(Syntax::default(), r#"'Hello\012World'"#),
         vec![Token::Str {
             value: "Hello\nWorld".into(),
@@ -304,7 +304,7 @@ fn str_escape_octal() {
 
 #[test]
 fn str_escape_unicode_long() {
-    debug_assert_eq!(
+    assert_eq!(
         lex(Syntax::default(), r#"'\u{00000000034}'"#),
         vec![Token::Str {
             value: "4".into(),
@@ -317,7 +317,7 @@ fn str_escape_unicode_long() {
 
 #[test]
 fn regexp_unary_void() {
-    debug_assert_eq!(
+    assert_eq!(
         lex(Syntax::default(), "void /test/"),
         vec![
             Void.span(0..4).lb(),
@@ -332,7 +332,7 @@ fn regexp_unary_void() {
             .span(5..11),
         ]
     );
-    debug_assert_eq!(
+    assert_eq!(
         lex(Syntax::default(), "void (/test/)"),
         vec![
             Void.span(0..4).lb(),
@@ -353,7 +353,7 @@ fn regexp_unary_void() {
 
 #[test]
 fn non_regexp_unary_plus() {
-    debug_assert_eq!(
+    assert_eq!(
         lex(Syntax::default(), "+{} / 1"),
         vec![
             tok!('+').span(0..1).lb(),
@@ -369,7 +369,7 @@ fn non_regexp_unary_plus() {
 
 #[test]
 fn paren_semi() {
-    debug_assert_eq!(
+    assert_eq!(
         lex(Syntax::default(), "();"),
         vec![LParen.span(0).lb(), RParen.span(1), Semi.span(2)]
     );
@@ -377,7 +377,7 @@ fn paren_semi() {
 
 #[test]
 fn ident_paren() {
-    debug_assert_eq!(
+    assert_eq!(
         lex(Syntax::default(), "a(bc);"),
         vec![
             "a".span(0).lb(),
@@ -391,7 +391,7 @@ fn ident_paren() {
 
 #[test]
 fn read_word() {
-    debug_assert_eq!(
+    assert_eq!(
         lex(Syntax::default(), "a b c"),
         vec!["a".span(0).lb(), "b".span(2), "c".span(4)]
     )
@@ -399,7 +399,7 @@ fn read_word() {
 
 #[test]
 fn simple_regex() {
-    debug_assert_eq!(
+    assert_eq!(
         lex(Syntax::default(), "x = /42/i"),
         vec![
             "x".span(0).lb(),
@@ -420,7 +420,7 @@ fn simple_regex() {
         ],
     );
 
-    debug_assert_eq!(
+    assert_eq!(
         lex(Syntax::default(), "/42/"),
         vec![Regex(
             Str {
@@ -468,7 +468,7 @@ fn complex_regex() {
 
 #[test]
 fn simple_div() {
-    debug_assert_eq!(
+    assert_eq!(
         lex(Syntax::default(), "a / b"),
         vec!["a".span(0).lb(), Div.span(2), "b".span(4)],
     );
@@ -476,7 +476,7 @@ fn simple_div() {
 
 #[test]
 fn complex_divide() {
-    debug_assert_eq!(
+    assert_eq!(
         lex_tokens(Syntax::default(), "x = function foo() {} /a/i"),
         vec![
             Word(Word::Ident("x".into())),
@@ -521,7 +521,7 @@ fn spec_001() {
         Semi,
     ];
 
-    debug_assert_eq!(
+    assert_eq!(
         lex_tokens(
             Syntax::default(),
             "a = b
@@ -529,7 +529,7 @@ fn spec_001() {
         ),
         expected
     );
-    debug_assert_eq!(
+    assert_eq!(
         lex_tokens(Syntax::default(), "a = b / hi / g.exec(c).map(d);"),
         expected
     );
@@ -539,7 +539,7 @@ fn spec_001() {
 
 #[test]
 fn after_if() {
-    debug_assert_eq!(
+    assert_eq!(
         lex(Syntax::default(), "if(x){} /y/.test(z)"),
         vec![
             Keyword::If.span(0..2).lb(),
@@ -569,7 +569,7 @@ fn after_if() {
 // #[test]
 // #[ignore]
 // fn leading_comment() {
-//     debug_assert_eq!(
+//     assert_eq!(
 //         vec![
 //             BlockComment(" hello world ".into()).span(0..17),
 //             Regex("42".into(), "".into()).span(17..21),
@@ -581,7 +581,7 @@ fn after_if() {
 // #[test]
 // #[ignore]
 // fn line_comment() {
-//     debug_assert_eq!(
+//     assert_eq!(
 //         vec![
 //             Keyword::Var.span(0..3),
 //             "answer".span(4..10),
@@ -595,7 +595,7 @@ fn after_if() {
 
 #[test]
 fn migrated_0002() {
-    debug_assert_eq!(
+    assert_eq!(
         lex(Syntax::default(), "tokenize(/42/)"),
         vec![
             "tokenize".span(0..8).lb(),
@@ -616,7 +616,7 @@ fn migrated_0002() {
 
 #[test]
 fn migrated_0003() {
-    debug_assert_eq!(
+    assert_eq!(
         lex(Syntax::default(), "(false) /42/"),
         vec![
             LParen.span(0).lb(),
@@ -631,7 +631,7 @@ fn migrated_0003() {
 
 #[test]
 fn migrated_0004() {
-    debug_assert_eq!(
+    assert_eq!(
         lex(Syntax::default(), "function f(){} /42/"),
         vec![
             Function.span(0..8).lb(),
@@ -657,7 +657,7 @@ fn migrated_0004() {
 //
 // #[test]
 // fn migrated_0005() {
-//     debug_assert_eq!(
+//     assert_eq!(
 //         vec![
 //             Function.span(0..8),
 //             LParen.span(9),
@@ -674,12 +674,12 @@ fn migrated_0004() {
 #[test]
 fn migrated_0006() {
     // This test seems wrong.
-    // debug_assert_eq!(
+    // assert_eq!(
     //     vec![LBrace.span(0).lb(), RBrace.span(1), Div.span(3), 42.span(4..6)],
     //     lex(Syntax::default(), "{} /42")
     // )
 
-    debug_assert_eq!(
+    assert_eq!(
         lex(Syntax::default(), "{} /42/"),
         vec![
             LBrace.span(0).lb(),
@@ -699,7 +699,7 @@ fn migrated_0006() {
 
 #[test]
 fn str_lit() {
-    debug_assert_eq!(
+    assert_eq!(
         lex_tokens(Syntax::default(), "'abcde'"),
         vec![Token::Str {
             value: "abcde".into(),
@@ -717,7 +717,7 @@ fn str_lit() {
 
 #[test]
 fn tpl_empty() {
-    debug_assert_eq!(
+    assert_eq!(
         lex_tokens(Syntax::default(), r#"``"#),
         vec![
             tok!('`'),
@@ -733,7 +733,7 @@ fn tpl_empty() {
 
 #[test]
 fn tpl() {
-    debug_assert_eq!(
+    assert_eq!(
         lex_tokens(Syntax::default(), r#"`${a}`"#),
         vec![
             tok!('`'),
@@ -757,7 +757,7 @@ fn tpl() {
 
 #[test]
 fn comment() {
-    debug_assert_eq!(
+    assert_eq!(
         lex(
             Syntax::default(),
             "// foo
@@ -774,7 +774,7 @@ a"
 
 #[test]
 fn comment_2() {
-    debug_assert_eq!(
+    assert_eq!(
         lex(
             Syntax::default(),
             "// foo
@@ -792,7 +792,7 @@ a"
 
 #[test]
 fn jsx_01() {
-    debug_assert_eq!(
+    assert_eq!(
         lex_tokens(
             crate::Syntax::Es(crate::EsConfig {
                 jsx: true,
@@ -811,7 +811,7 @@ fn jsx_01() {
 
 #[test]
 fn jsx_02() {
-    debug_assert_eq!(
+    assert_eq!(
         lex_tokens(
             crate::Syntax::Es(crate::EsConfig {
                 jsx: true,
@@ -834,7 +834,7 @@ fn jsx_02() {
 
 #[test]
 fn jsx_03() {
-    debug_assert_eq!(
+    assert_eq!(
         lex_tokens(
             crate::Syntax::Es(crate::EsConfig {
                 jsx: true,
@@ -862,7 +862,7 @@ fn jsx_03() {
 
 #[test]
 fn jsx_04() {
-    debug_assert_eq!(
+    assert_eq!(
         lex_tokens(
             crate::Syntax::Es(crate::EsConfig {
                 jsx: true,
@@ -891,7 +891,7 @@ fn max_integer() {
 
 #[test]
 fn shebang() {
-    debug_assert_eq!(
+    assert_eq!(
         lex_tokens(crate::Syntax::default(), "#!/usr/bin/env node",),
         vec![Token::Shebang("/usr/bin/env node".into())]
     );
@@ -899,12 +899,12 @@ fn shebang() {
 
 #[test]
 fn empty() {
-    debug_assert_eq!(lex_tokens(crate::Syntax::default(), "",), vec![]);
+    assert_eq!(lex_tokens(crate::Syntax::default(), "",), vec![]);
 }
 
 #[test]
 fn issue_191() {
-    debug_assert_eq!(
+    assert_eq!(
         lex_tokens(
             crate::Syntax::Es(crate::EsConfig {
                 jsx: true,
@@ -934,7 +934,7 @@ fn issue_191() {
 
 #[test]
 fn jsx_05() {
-    debug_assert_eq!(
+    assert_eq!(
         lex_tokens(
             crate::Syntax::Es(crate::EsConfig {
                 jsx: true,
@@ -960,7 +960,7 @@ fn jsx_05() {
 
 #[test]
 fn issue_299_01() {
-    debug_assert_eq!(
+    assert_eq!(
         lex_tokens(
             crate::Syntax::Es(crate::EsConfig {
                 jsx: true,
@@ -994,7 +994,7 @@ fn issue_299_01() {
 
 #[test]
 fn issue_299_02() {
-    debug_assert_eq!(
+    assert_eq!(
         lex_tokens(
             crate::Syntax::Es(crate::EsConfig {
                 jsx: true,
@@ -1028,7 +1028,7 @@ fn issue_299_02() {
 
 #[test]
 fn issue_299_03() {
-    debug_assert_eq!(
+    assert_eq!(
         lex_tokens(
             crate::Syntax::Es(crate::EsConfig {
                 jsx: true,
@@ -1062,7 +1062,7 @@ fn issue_299_03() {
 
 #[test]
 fn issue_316() {
-    debug_assert_eq!(
+    assert_eq!(
         lex_tokens(Default::default(), "'Hi\\r\\n..'"),
         vec![Token::Str {
             value: "Hi\r\n..".into(),
@@ -1073,7 +1073,7 @@ fn issue_316() {
 
 #[test]
 fn issue_401() {
-    debug_assert_eq!(
+    assert_eq!(
         lex_tokens(Default::default(), "'17' as const"),
         vec![
             Token::Str {
@@ -1095,7 +1095,9 @@ fn lex_colors_js(b: &mut Bencher) {
             Syntax::default(),
             include_str!("../../colors.js"),
             |lexer| {
-                for _ in lexer {}
+                for t in lexer {
+                    black_box(t);
+                }
                 Ok(())
             },
         );
@@ -1111,9 +1113,153 @@ fn lex_colors_ts(b: &mut Bencher) {
             Syntax::Typescript(Default::default()),
             include_str!("../../colors.js"),
             |lexer| {
-                for _ in lexer {}
+                for t in lexer {
+                    black_box(t);
+                }
                 Ok(())
             },
         );
     });
+}
+
+/// Benchmarks [Lexer] using [Iterator] interface.
+fn bench_simple(b: &mut Bencher, s: &str) {
+    bench(b, Default::default(), s)
+}
+
+/// Benchmarks [Lexer] using [Iterator] interface.
+fn bench(b: &mut Bencher, syntax: Syntax, s: &str) {
+    b.bytes = s.len() as _;
+
+    b.iter(|| {
+        let _ = with_lexer(syntax, s, |lexer| {
+            for t in lexer {
+                black_box(t);
+            }
+            Ok(())
+        });
+    });
+}
+
+#[bench]
+fn lex_large_number(b: &mut Bencher) {
+    bench_simple(
+        b,
+        "10000000000000000;
+        571293857289;
+        32147859245;
+        129478120974;
+        238597230957293;
+        542375984375;
+        349578395;
+        34857983412590716249;
+        1238570129;
+        123875102935;",
+    );
+}
+
+#[bench]
+fn lex_escaped_char(b: &mut Bencher) {
+    bench_simple(
+        b,
+        "'\\x00\\01\\02\\03\\x00\\01\\02\\03\\x00\\01\\02\\03\\x00\\01\\02\\03\\x00\\01\\02\\03\\\
+         x00\\01\\02\\03\\x00\\01\\02\\03\\x00\\01\\02\\03\\x00\\01\\02\\03\\x00\\01\\02\\03\\x00\\
+         \
+         \01\\02\\03\\x00\\01\\02\\03\\x00\\01\\02\\03\\x00\\01\\02\\03\\x00\\01\\02\\03\\x00\\01\\
+         \02\\03'",
+    );
+}
+
+#[bench]
+fn lex_legact_octal_lit(b: &mut Bencher) {
+    bench_simple(
+        b,
+        "01756123617;01756123617;01756123617;01756123617;01756123617;01756123617;01756123617;\
+         01756123617;01756123617;01756123617;01756123617;01756123617;01756123617;01756123617;\
+         01756123617;01756123617;01756123617;01756123617;01756123617;01756123617;01756123617;\
+         01756123617;01756123617;01756123617;01756123617;01756123617;01756123617;01756123617;\
+         01756123617;01756123617;01756123617;01756123617;01756123617;01756123617;01756123617;\
+         01756123617;01756123617;01756123617;01756123617;01756123617;01756123617;01756123617;\
+         01756123617;01756123617;01756123617;01756123617;01756123617;01756123617;01756123617;\
+         01756123617;01756123617;",
+    );
+}
+
+#[bench]
+fn lex_dec_lit(b: &mut Bencher) {
+    bench_simple(
+        b,
+        "14389675923;14389675923;14389675923;14389675923;14389675923;14389675923;14389675923;\
+         14389675923;14389675923;14389675923;14389675923;14389675923;14389675923;14389675923;\
+         14389675923;14389675923;14389675923;14389675923;14389675923;14389675923;14389675923;\
+         14389675923;14389675923;14389675923;14389675923;14389675923;14389675923;14389675923;\
+         14389675923;14389675923;14389675923;14389675923;14389675923;14389675923;14389675923;\
+         14389675923;14389675923;14389675923;14389675923;14389675923;14389675923;14389675923;\
+         14389675923;14389675923;14389675923;",
+    );
+}
+
+#[bench]
+fn lex_ident(b: &mut Bencher) {
+    bench_simple(
+        b,
+        "Lorem;Ipsum;is;simply;dummy;text;of;the;printing;and;typesetting;industry;Lorem;Ipsum;\
+         has;been;the;industry;s;standard;dummy;text;ever;since;the;1500s;when;an;unknown;printer;\
+         took;a;galley;of;type;and;scrambled;it;to;make;a;type;specimen;book;It;has;survived;not;\
+         only;five;centuries;but;also;the;leap;into;electronic;typesetting;remaining;essentially;\
+         unchanged;It;was;popularised;in;the;1960s;with;the;release;of;Letraset;sheets;containing;\
+         Lorem;Ipsum;passages;and;more;recently;with;desktop;publishing;software;like;Aldus;\
+         PageMaker;including;versions;of;Lorem;Ipsum",
+    );
+}
+
+#[bench]
+fn lex_regex(b: &mut Bencher) {
+    bench_simple(
+        b,
+        "/Lorem/;/Ipsum/;/is/;/simply/;/dummy/;/text/;/of/;/the/;/printing;and/;/typesetting;\
+         industry;Lorem;Ipsum/;has;been/;the;industry/;s;standard/;/dummy;text/;",
+    );
+}
+
+#[bench]
+fn lex_long_ident(b: &mut Bencher) {
+    bench_simple(
+        b,
+        "LoremIpsumissimplydummytextoftheprintingandtypesettingindustryLoremIpsum\
+         hasbeentheindustrysstandarddummytexteversincethe1500swhenanunknownprinter\
+         tookagalleyoftypeandscrambledittomakeatypespecimenbookIthassurvivednot\
+         onlyfivecenturiesbutalsotheleapintoelectronictypesettingremainingessentially\
+         unchangedItwaspopularisedinthe1960swiththereleaseofLetrasetsheetscontaining\
+         LoremIpsumpassagesandmorerecentlywithdesktoppublishingsoftwarelikeAldus\
+         PageMakerincludingversionsofLoremIpsum",
+    );
+}
+
+#[bench]
+fn lex_semicolons(b: &mut Bencher) {
+    bench_simple(
+        b,
+        ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;\
+         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;\
+         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;\
+         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;\
+         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;\
+         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;\
+         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;\
+         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;\
+         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;\
+         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;\
+         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;\
+         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;\
+         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;\
+         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;\
+         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;\
+         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;\
+         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;\
+         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;\
+         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;\
+         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;\
+         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;",
+    );
 }

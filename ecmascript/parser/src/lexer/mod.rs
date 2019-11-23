@@ -17,7 +17,7 @@ use crate::{
 use ast::Str;
 
 use smallvec::SmallVec;
-use std::char;
+use std::{char, iter::FusedIterator};
 use swc_atoms::JsWord;
 use swc_common::{
     comments::{Comment, Comments},
@@ -92,6 +92,8 @@ impl Iterator for CharIter {
     }
 }
 
+impl FusedIterator for CharIter {}
+
 #[derive(Clone)]
 pub struct Lexer<'a, I: Input> {
     session: Session<'a>,
@@ -103,6 +105,8 @@ pub struct Lexer<'a, I: Input> {
     pub(crate) syntax: Syntax,
     pub(crate) target: JscTarget,
 }
+
+impl<I: Input> FusedIterator for Lexer<'_, I> {}
 
 impl<'a, I: Input> Lexer<'a, I> {
     pub fn new(
@@ -610,12 +614,33 @@ impl<'a, I: Input> Lexer<'a, I> {
     }
 
     /// returns (word, has_escape)
+    ///
+    /// This method is optimized for texts without escape sequences.
     fn read_word_as_str(&mut self) -> LexResult<(JsWord, bool)> {
         debug_assert!(self.cur().is_some());
+        let mut first = true;
 
         let mut has_escape = false;
-        let mut word = String::new();
-        let mut first = true;
+        let mut word = {
+            // Optimize for idents without escpae
+            let s = self.input.uncons_while(|c| {
+                if c.is_ident_part() {
+                    return true;
+                }
+                if c == '\\' {
+                    has_escape = true;
+                }
+                false
+            });
+
+            if !has_escape {
+                return Ok((s.into(), false));
+            }
+            if !s.is_empty() {
+                first = false;
+            }
+            String::from(s)
+        };
 
         while let Some(c) = {
             // Optimization
@@ -625,7 +650,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                     first = false;
                 }
                 word.push_str(s)
-            };
+            }
 
             self.cur()
         } {

@@ -73,6 +73,30 @@ impl<'a> Input for SourceFileInput<'a> {
         ret
     }
 
+    fn find<F>(&mut self, mut pred: F) -> Option<BytePos>
+    where
+        F: FnMut(char) -> bool,
+    {
+        let s = self.iter.as_str();
+        let mut last = 0;
+
+        for (i, c) in s.char_indices() {
+            if pred(c) {
+                last = i + c.len_utf8();
+                break;
+            }
+        }
+        if last == 0 {
+            return None;
+        }
+
+        self.last_pos = self.last_pos + BytePos(last as _);
+        self.start_pos = self.last_pos;
+        self.iter = s[last..].char_indices();
+
+        Some(self.last_pos)
+    }
+
     fn uncons_while<F>(&mut self, mut pred: F) -> &str
     where
         F: FnMut(char) -> bool,
@@ -131,76 +155,101 @@ pub trait Input: Clone {
     where
         F: FnMut(char) -> bool;
 
+    /// This method modifies [last_pos()] and [cur_pos()].
+    fn find<F>(&mut self, f: F) -> Option<BytePos>
+    where
+        F: FnMut(char) -> bool;
+
     fn reset_to(&mut self, to: BytePos);
 }
 
 #[cfg(test)]
 mod tests {
-    //    use super::*;
-    //    use crate::lexer::util::CharExt;
-    //
-    //    #[test]
-    //    fn src_input_slice_1() {
-    //        let _ = crate::with_test_sess("foo/d", |_, mut i| {
-    //            assert_eq!(i.slice(BytePos(0), BytePos(1)), "f");
-    //            assert_eq!(i.last_pos, BytePos(1));
-    //            assert_eq!(i.start_pos, BytePos(1));
-    //            assert_eq!(i.cur(), Some('o'));
-    //
-    //            assert_eq!(i.slice(BytePos(1), BytePos(3)), "oo");
-    //            assert_eq!(i.slice(BytePos(0), BytePos(3)), "foo");
-    //            assert_eq!(i.last_pos, BytePos(3));
-    //            assert_eq!(i.start_pos, BytePos(3));
-    //            assert_eq!(i.cur(), Some('/'));
-    //
-    //            Ok(())
-    //        });
-    //    }
-    //
-    //    #[test]
-    //    fn src_input_reset_to_1() {
-    //        let _ = crate::with_test_sess("foad", |_, mut i| {
-    //            assert_eq!(i.slice(BytePos(0), BytePos(2)), "fo");
-    //            assert_eq!(i.last_pos, BytePos(2));
-    //            assert_eq!(i.start_pos, BytePos(2));
-    //            assert_eq!(i.cur(), Some('a'));
-    //            i.reset_to(BytePos(0));
-    //
-    //            assert_eq!(i.cur(), Some('f'));
-    //            assert_eq!(i.last_pos, BytePos(0));
-    //            assert_eq!(i.start_pos, BytePos(0));
-    //
-    //            Ok(())
-    //        });
-    //    }
-    //
-    //    #[test]
-    //    fn src_input_smoke_01() {
-    //        let _ = crate::with_test_sess("foo/d", |_, mut i| {
-    //            assert_eq!(i.cur_pos(), BytePos(0));
-    //            assert_eq!(i.last_pos, BytePos(0));
-    //            assert_eq!(i.start_pos, BytePos(0));
-    //            assert_eq!(i.uncons_while(|c| c.is_alphabetic()), "foo");
-    //
-    //            // assert_eq!(i.cur_pos(), BytePos(4));
-    //            assert_eq!(i.last_pos, BytePos(3));
-    //            assert_eq!(i.start_pos, BytePos(3));
-    //            assert_eq!(i.cur(), Some('/'));
-    //
-    //            i.bump();
-    //            assert_eq!(i.last_pos, BytePos(4));
-    //            assert_eq!(i.cur(), Some('d'));
-    //
-    //            i.bump();
-    //            assert_eq!(i.last_pos, BytePos(5));
-    //            assert_eq!(i.cur(), None);
-    //            Ok(())
-    //        });
-    //    }
-    //
+    use super::*;
+    use crate::{FileName, FilePathMapping, SourceMap};
+    use std::sync::Arc;
+
+    fn with_test_sess<F>(src: &str, f: F)
+    where
+        F: FnOnce(SourceFileInput<'_>),
+    {
+        let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
+        let fm = cm.new_source_file(FileName::Real("testing".into()), src.into());
+
+        f((&*fm).into())
+    }
+
+    #[test]
+    fn src_input_slice_1() {
+        let _ = with_test_sess("foo/d", |mut i| {
+            assert_eq!(i.slice(BytePos(0), BytePos(1)), "f");
+            assert_eq!(i.last_pos, BytePos(1));
+            assert_eq!(i.start_pos, BytePos(1));
+            assert_eq!(i.cur(), Some('o'));
+
+            assert_eq!(i.slice(BytePos(1), BytePos(3)), "oo");
+            assert_eq!(i.slice(BytePos(0), BytePos(3)), "foo");
+            assert_eq!(i.last_pos, BytePos(3));
+            assert_eq!(i.start_pos, BytePos(3));
+            assert_eq!(i.cur(), Some('/'));
+        });
+    }
+
+    #[test]
+    fn src_input_reset_to_1() {
+        let _ = with_test_sess("foad", |mut i| {
+            assert_eq!(i.slice(BytePos(0), BytePos(2)), "fo");
+            assert_eq!(i.last_pos, BytePos(2));
+            assert_eq!(i.start_pos, BytePos(2));
+            assert_eq!(i.cur(), Some('a'));
+            i.reset_to(BytePos(0));
+
+            assert_eq!(i.cur(), Some('f'));
+            assert_eq!(i.last_pos, BytePos(0));
+            assert_eq!(i.start_pos, BytePos(0));
+        });
+    }
+
+    #[test]
+    fn src_input_smoke_01() {
+        let _ = with_test_sess("foo/d", |mut i| {
+            assert_eq!(i.cur_pos(), BytePos(0));
+            assert_eq!(i.last_pos, BytePos(0));
+            assert_eq!(i.start_pos, BytePos(0));
+            assert_eq!(i.uncons_while(|c| c.is_alphabetic()), "foo");
+
+            // assert_eq!(i.cur_pos(), BytePos(4));
+            assert_eq!(i.last_pos, BytePos(3));
+            assert_eq!(i.start_pos, BytePos(3));
+            assert_eq!(i.cur(), Some('/'));
+
+            i.bump();
+            assert_eq!(i.last_pos, BytePos(4));
+            assert_eq!(i.cur(), Some('d'));
+
+            i.bump();
+            assert_eq!(i.last_pos, BytePos(5));
+            assert_eq!(i.cur(), None);
+        });
+    }
+
+    #[test]
+    fn src_input_find_01() {
+        let _ = with_test_sess("foo/d", |mut i| {
+            assert_eq!(i.cur_pos(), BytePos(0));
+            assert_eq!(i.last_pos, BytePos(0));
+            assert_eq!(i.start_pos, BytePos(0));
+
+            assert_eq!(i.find(|c| c == '/'), Some(BytePos(4)));
+            assert_eq!(i.start_pos, BytePos(4));
+            assert_eq!(i.last_pos, BytePos(4));
+            assert_eq!(i.cur(), Some('d'));
+        });
+    }
+
     //    #[test]
     //    fn src_input_smoke_02() {
-    //        let _ = crate::with_test_sess("℘℘/℘℘", |_, mut i| {
+    //        let _ = crate::with_test_sess("℘℘/℘℘", | mut i| {
     //            assert_eq!(i.iter.as_str(), "℘℘/℘℘");
     //            assert_eq!(i.cur_pos(), BytePos(0));
     //            assert_eq!(i.last_pos, BytePos(0));
