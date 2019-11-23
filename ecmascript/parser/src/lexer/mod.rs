@@ -17,7 +17,7 @@ use crate::{
 use ast::Str;
 
 use smallvec::SmallVec;
-use std::{char, iter::FusedIterator};
+use std::{borrow::Cow, char, iter::FusedIterator};
 use swc_atoms::JsWord;
 use swc_common::{
     comments::{Comment, Comments},
@@ -614,11 +614,31 @@ impl<'a, I: Input> Lexer<'a, I> {
     }
 
     /// returns (word, has_escape)
+    ///
+    /// This method is optimized for texts without escape sequences.
     fn read_word_as_str(&mut self) -> LexResult<(JsWord, bool)> {
         debug_assert!(self.cur().is_some());
 
         let mut has_escape = false;
         let mut word = String::new();
+        {
+            // Optimize for idents without escpae
+            let s = self.input.uncons_while(|c| {
+                if c.is_ident_part() {
+                    return true;
+                }
+                if c == '\\' {
+                    has_escape = true;
+                }
+                false
+            });
+
+            if !has_escape {
+                return Ok((s.into(), false));
+            }
+            word.push_str(s);
+        }
+
         let mut first = true;
 
         while let Some(c) = {
@@ -629,7 +649,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                     first = false;
                 }
                 word.push_str(s)
-            };
+            }
 
             self.cur()
         } {
