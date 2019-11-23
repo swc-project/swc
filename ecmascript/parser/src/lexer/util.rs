@@ -222,7 +222,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
         while let Some(c) = self.cur() {
             if was_star && c == '/' {
-                assert_eq!(self.cur(), Some('/'));
+                debug_assert_eq!(self.cur(), Some('/'));
                 self.bump(); // '/'
 
                 let pos = self.cur_pos();

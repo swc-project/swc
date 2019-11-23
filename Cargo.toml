@@ -31,6 +31,7 @@ sourcemap = "2.2"
 name = "usage"
 
 [profile.bench]
+codegen-units = 1
 lto = true
 
 [profile.release]

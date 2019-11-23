@@ -550,17 +550,21 @@ impl<'a, I: Tokens> Parser<'a, I> {
         let should_include_in = kind != VarDeclKind::Var || !for_loop;
 
         if self.syntax().typescript() && for_loop {
-            let res = self.ts_look_ahead(|p| {
-                //
-                if !eat!("of") && !eat!("in") {
-                    return Ok(false);
-                }
+            let res = if is_one_of!("in", "of") {
+                self.ts_look_ahead(|p| {
+                    //
+                    if !eat!("of") && !eat!("in") {
+                        return Ok(false);
+                    }
 
-                p.parse_assignment_expr()?;
-                expect!(')');
+                    p.parse_assignment_expr()?;
+                    expect!(')');
 
-                Ok(true)
-            });
+                    Ok(true)
+                })
+            } else {
+                Ok(false)
+            };
 
             match res {
                 Ok(true) => {

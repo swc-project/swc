@@ -172,8 +172,8 @@ impl<I: Tokens> Buffer<I> {
     }
 
     pub fn store(&mut self, token: Token) {
-        assert!(self.next.is_none());
-        assert!(self.cur.is_none());
+        debug_assert!(self.next.is_none());
+        debug_assert!(self.cur.is_none());
         let span = self.prev_span;
 
         self.cur = Some(TokenAndSpan {

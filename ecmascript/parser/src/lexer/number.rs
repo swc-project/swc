@@ -2,15 +2,14 @@
 //!
 //!
 //! See https://tc39.github.io/ecma262/#sec-literals-numeric-literals
-
 use super::*;
 use crate::error::SyntaxError;
-use std::fmt::Display;
+use std::{fmt::Write, iter::FusedIterator};
 
 impl<'a, I: Input> Lexer<'a, I> {
     /// Reads an integer, octal integer, or floating-point number
     pub(super) fn read_number(&mut self, starts_with_dot: bool) -> LexResult<f64> {
-        assert!(self.cur().is_some());
+        debug_assert!(self.cur().is_some());
         if starts_with_dot {
             debug_assert_eq!(
                 self.cur(),
@@ -48,21 +47,24 @@ impl<'a, I: Input> Lexer<'a, I> {
                     // strict mode hates non-zero decimals starting with zero.
                     // e.g. 08.1 is strict mode violation but 0.1 is valid float.
 
-                    let s = format!("{}", val); // TODO: Remove allocation.
+                    if val.fract() < 1e-10 {
+                        let d = digits(val.round() as u64, 10);
 
-                    // if it contains '8' or '9', it's decimal.
-                    if s.contains('8') || s.contains('9') {
-                        if self.ctx.strict {
-                            self.error(start, SyntaxError::LegacyDecimal)?
+                        // if it contains '8' or '9', it's decimal.
+                        if d.clone().any(|v| v == 8 || v == 9) {
+                            if self.ctx.strict {
+                                self.error(start, SyntaxError::LegacyDecimal)?
+                            }
+                        } else {
+                            // It's Legacy octal, and we should reinterpret value.
+                            let val = u64::from_str_radix(&val.to_string(), 8)
+                                .expect("Does this can really happen?");
+                            let val = val
+                                .to_string()
+                                .parse()
+                                .expect("failed to parse numeric value as f64");
+                            return self.make_legacy_octal(start, val);
                         }
-                    } else {
-                        // It's Legacy octal, and we should reinterpret value.
-                        let val = u64::from_str_radix(&format!("{}", val), 8)
-                            .expect("Does this can really happen?");
-                        let val = format!("{}", val)
-                            .parse()
-                            .expect("failed to parse numeric value as f64");
-                        return self.make_legacy_octal(start, val);
                     }
                 }
             }
@@ -80,23 +82,20 @@ impl<'a, I: Input> Lexer<'a, I> {
         if self.cur() == Some('.') {
             self.bump();
             if starts_with_dot {
-                assert!(self.cur().is_some());
-                assert!(self.cur().unwrap().is_digit(10));
+                debug_assert!(self.cur().is_some());
+                debug_assert!(self.cur().unwrap().is_digit(10));
             }
 
             // Read numbers after dot
             let dec_val = self.read_int(10, 0, &mut Raw(None))?;
+            let mut s = String::new();
+            write!(s, "{}.", val).unwrap();
 
-            let dec: &dyn Display = match dec_val {
-                Some(ref n) => n,
-                // "0.", "0.e1" is valid
-                None => &"",
-            };
+            if let Some(ref n) = dec_val {
+                write!(s, "{}", n).unwrap();
+            }
 
-            // TODO
-            val = format!("{}.{}", val, dec)
-                .parse()
-                .expect("failed to parse float using rust's impl");
+            val = s.parse().expect("failed to parse float using rust's impl");
         }
 
         // Handle 'e' and 'E'
@@ -307,6 +306,46 @@ impl<'a, I: Input> Lexer<'a, I> {
     }
 }
 
+fn digits(value: u64, radix: u64) -> impl Iterator<Item = u64> + Clone + 'static {
+    debug_assert!(radix > 0);
+
+    #[derive(Clone, Copy)]
+    struct Digits {
+        n: u64,
+        divisor: u64,
+    }
+
+    impl Digits {
+        fn new(n: u64, radix: u64) -> Self {
+            let mut divisor = 1;
+            while n >= divisor * radix {
+                divisor *= radix;
+            }
+
+            Digits { n, divisor }
+        }
+    }
+
+    impl Iterator for Digits {
+        type Item = u64;
+
+        fn next(&mut self) -> Option<u64> {
+            if self.divisor == 0 {
+                None
+            } else {
+                let v = Some(self.n / self.divisor);
+                self.n %= self.divisor;
+                self.divisor /= 10;
+                v
+            }
+        }
+    }
+
+    impl FusedIterator for Digits {}
+
+    Digits::new(value, radix)
+}
+
 #[cfg(test)]
 mod tests {
     use super::{input::SourceFileInput, *};
@@ -339,19 +378,19 @@ mod tests {
                         0000000000000000000000000000000000000000000000000000";
     #[test]
     fn num_inf() {
-        assert_eq!(num(LONG), INFINITY);
+        debug_assert_eq!(num(LONG), INFINITY);
     }
 
     /// Number >= 2^53
     #[test]
     fn num_big_exp() {
-        assert_eq!(1e30, num("1e30"));
+        debug_assert_eq!(1e30, num("1e30"));
     }
 
     #[test]
     #[ignore]
     fn num_big_many_zero() {
-        assert_eq!(
+        debug_assert_eq!(
             1_000_000_000_000_000_000_000_000_000_000f64,
             num("1000000000000000000000000000000")
         )
@@ -359,23 +398,23 @@ mod tests {
 
     #[test]
     fn num_legacy_octal() {
-        assert_eq!(0o12 as f64, num("0012"));
+        debug_assert_eq!(0o12 as f64, num("0012"));
     }
 
     #[test]
     fn read_int_1() {
-        assert_eq!(60, int(10, "60"));
-        assert_eq!(0o73, int(8, "73"));
+        debug_assert_eq!(60, int(10, "60"));
+        debug_assert_eq!(0o73, int(8, "73"));
     }
 
     #[test]
     fn read_int_short() {
-        assert_eq!(7, int(10, "7"));
+        debug_assert_eq!(7, int(10, "7"));
     }
 
     #[test]
     fn read_radix_number() {
-        assert_eq!(
+        debug_assert_eq!(
             0o73 as f64,
             lex("0o73", |l| l.read_radix_number(8).unwrap())
         );
@@ -418,11 +457,11 @@ mod tests {
                     Ok(vec) => vec,
                     Err(err) => panic::resume_unwind(err),
                 };
-                assert_eq!(vec.len(), 1);
+                debug_assert_eq!(vec.len(), 1);
                 let token = vec.into_iter().next().unwrap();
-                assert_eq!(Num(expected), token);
+                debug_assert_eq!(Num(expected), token);
             } else if let Ok(vec) = vec {
-                assert_ne!(vec![Num(expected)], vec)
+                debug_assert_ne!(vec![Num(expected)], vec)
             }
         }
     }

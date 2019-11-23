@@ -236,11 +236,11 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
                 );
             }
             self.state.update(start, &token);
-            self.state.prev_hi = span.hi();
+            self.state.prev_hi = self.last_pos();
         }
 
         token.map(|token| {
-            // Attatch span to token.
+            // Attach span to token.
             TokenAndSpan {
                 token,
                 had_line_break: self.had_line_break_before_last(),
@@ -600,7 +600,7 @@ where
         let res = f(&mut l);
 
         let c: SmallVec<[TokenContext; 32]> = smallvec![TokenContext::BraceStmt];
-        assert_eq!(l.state.context.0, c);
+        debug_assert_eq!(l.state.context.0, c);
 
         res
     })

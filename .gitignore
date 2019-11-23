@@ -16,3 +16,7 @@ Cargo.lock
 .DS_Store
 
 node_modules/
+
+# Flamegraph
+*.html
+*.svg

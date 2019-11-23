@@ -184,7 +184,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         debug_assert!(self.input.syntax().jsx());
         let start = name.span().lo();
 
-        let type_args = if self.input.syntax().typescript() {
+        let type_args = if self.input.syntax().typescript() && is!('<') {
             self.try_parse_ts(|p| p.parse_ts_type_args().map(Some))
         } else {
             None
@@ -356,7 +356,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     /// babel: `jsxParseElement`
     pub(super) fn parse_jsx_element(&mut self) -> PResult<'a, Either<JSXFragment, JSXElement>> {
         debug_assert!(self.input.syntax().jsx());
-        assert!({
+        debug_assert!({
             match *cur!(true)? {
                 Token::JSXTagStart | tok!('<') => true,
                 _ => false,
@@ -370,7 +370,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
     pub(super) fn parse_jsx_text(&mut self) -> PResult<'a, JSXText> {
         debug_assert!(self.input.syntax().jsx());
-        assert!({
+        debug_assert!({
             match cur!(false) {
                 Ok(&Token::JSXText { .. }) => true,
                 _ => false,

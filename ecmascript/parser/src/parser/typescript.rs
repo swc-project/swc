@@ -358,7 +358,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 syntax_error!(span, SyntaxError::Expected(return_token, cur))
             }
 
-            let type_pred_var = if is!(IdentRef) {
+            let type_pred_var = if is!(IdentRef) && peeked_is!("is") {
                 p.try_parse_ts(|p| p.parse_ts_type_predicate_prefix())
             } else {
                 None
@@ -1843,7 +1843,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         start: BytePos,
         decorators: Vec<Decorator>,
     ) -> PResult<'a, Option<Decl>> {
-        assert!(
+        debug_assert!(
             !is!("declare"),
             "try_parse_ts_declare should be called after eating `declare`"
         );
@@ -2023,17 +2023,21 @@ impl<'a, I: Tokens> Parser<'a, I> {
         &mut self,
         start: BytePos,
     ) -> PResult<'a, Option<ArrowExpr>> {
-        let res = self.try_parse_ts(|p| {
-            let type_params = p.parse_ts_type_params()?;
-            // Don't use overloaded parseFunctionParams which would look for "<" again.
-            expect!('(');
-            let params = p.parse_formal_params()?;
-            expect!(')');
-            let return_type = p.try_parse_ts_type_or_type_predicate_ann()?;
-            expect!("=>");
+        let res = if is_one_of!('<', JSXTagStart) {
+            self.try_parse_ts(|p| {
+                let type_params = p.parse_ts_type_params()?;
+                // Don't use overloaded parseFunctionParams which would look for "<" again.
+                expect!('(');
+                let params = p.parse_formal_params()?;
+                expect!(')');
+                let return_type = p.try_parse_ts_type_or_type_predicate_ann()?;
+                expect!("=>");
 
-            Ok(Some((type_params, params, return_type)))
-        });
+                Ok(Some((type_params, params, return_type)))
+            })
+        } else {
+            None
+        };
 
         let (type_params, params, return_type) = match res {
             Some(v) => v,

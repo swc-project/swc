@@ -13,6 +13,8 @@ use ast::*;
 use std::ops::{Deref, DerefMut};
 use swc_atoms::JsWord;
 use swc_common::{comments::Comments, errors::DiagnosticBuilder, input::Input, BytePos, Span};
+#[cfg(test)]
+use test::Bencher;
 
 #[macro_use]
 mod macros;
@@ -96,7 +98,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     }
 
     pub fn parse_typescript_module(&mut self) -> PResult<'a, Module> {
-        assert!(self.syntax().typescript());
+        debug_assert!(self.syntax().typescript());
 
         //TODO: parse() -> PResult<'a, Program>
         let ctx = Context {
@@ -170,4 +172,22 @@ where
         f(&mut Parser::new(sess, syntax, input, None))
     })
     .unwrap_or_else(|output| panic!("test_parser(): failed to parse \n{}\n{}", s, output))
+}
+
+#[cfg(test)]
+pub fn bench_parser<F>(b: &mut Bencher, s: &'static str, syntax: Syntax, mut f: F)
+where
+    F: for<'a> FnMut(&'a mut Parser<'a, Lexer<'a, crate::SourceFileInput<'_>>>) -> PResult<'a, ()>,
+{
+    b.bytes = s.len() as u64;
+
+    let _ = crate::with_test_sess(s, |sess, input| {
+        b.iter(|| {
+            let _ = f(&mut Parser::new(sess, syntax, input.clone(), None)).map_err(|mut err| {
+                err.emit();
+            });
+        });
+
+        Ok(())
+    });
 }

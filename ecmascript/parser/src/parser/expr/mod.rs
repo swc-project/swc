@@ -37,9 +37,9 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
             if is!(JSXTagStart) {
                 let cur_context = self.input.token_context().current();
-                assert_eq!(cur_context, Some(TokenContext::JSXOpeningTag));
+                debug_assert_eq!(cur_context, Some(TokenContext::JSXOpeningTag));
                 // Only time j_oTag is pushed is right after j_expr.
-                assert_eq!(
+                debug_assert_eq!(
                     self.input.token_context().0[self.input.token_context().len() - 2],
                     TokenContext::JSXExpr
                 );
@@ -48,12 +48,12 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 if let Some(res) = res {
                     return Ok(res);
                 } else {
-                    assert_eq!(
+                    debug_assert_eq!(
                         self.input.token_context().current(),
                         Some(TokenContext::JSXOpeningTag)
                     );
                     self.input.token_context_mut().pop();
-                    assert_eq!(
+                    debug_assert_eq!(
                         self.input.token_context().current(),
                         Some(TokenContext::JSXExpr)
                     );
@@ -62,22 +62,27 @@ impl<'a, I: Tokens> Parser<'a, I> {
             }
         }
 
-        let res = self.try_parse_ts(|p| {
-            let type_parameters = p.parse_ts_type_params()?;
-            let mut arrow = p.parse_assignment_expr_base()?;
-            match *arrow {
-                Expr::Arrow(ArrowExpr {
-                    ref mut type_params,
-                    ..
-                }) => {
-                    *type_params = Some(type_parameters);
+        if self.input.syntax().typescript()
+            && (is_one_of!('<', JSXTagStart))
+            && peeked_is!(IdentName)
+        {
+            let res = self.try_parse_ts(|p| {
+                let type_parameters = p.parse_ts_type_params()?;
+                let mut arrow = p.parse_assignment_expr_base()?;
+                match *arrow {
+                    Expr::Arrow(ArrowExpr {
+                        ref mut type_params,
+                        ..
+                    }) => {
+                        *type_params = Some(type_parameters);
+                    }
+                    _ => unexpected!(),
                 }
-                _ => unexpected!(),
+                Ok(Some(arrow))
+            });
+            if let Some(res) = res {
+                return Ok(res);
             }
-            Ok(Some(arrow))
-        });
-        if let Some(res) = res {
-            return Ok(res);
         }
 
         self.parse_assignment_expr_base()
@@ -287,7 +292,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 match id.sym {
                     //                    js_word!("eval") | js_word!("arguments") => {
                     //                        self.emit_err(id.span,
-                    // SyntaxError::EvalAndArgumentsInStrict)                   
+                    // SyntaxError::EvalAndArgumentsInStrict)
                     // }
                     js_word!("yield")
                     | js_word!("static")
@@ -760,8 +765,6 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 ));
             }
 
-            // TODO(kdy1): Remove this.
-            let obj = obj.clone();
             if {
                 match obj {
                     ExprOrSuper::Expr(..) => true,
@@ -770,13 +773,14 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 }
             } && is!('<')
             {
+                let obj_ref = &obj;
                 // tsTryParseAndCatch is expensive, so avoid if not necessary.
                 // There are number of things we are going to "maybe" parse, like type arguments
                 // on tagged template expressions. If any of them fail, walk it back and
                 // continue.
                 let result = self.try_parse_ts(|p| {
                     if !no_call
-                        && p.at_possible_async(match obj {
+                        && p.at_possible_async(match obj_ref {
                             ExprOrSuper::Expr(ref expr) => &*expr,
                             _ => unreachable!(),
                         })?
@@ -799,7 +803,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                         Ok(Some((
                             Box::new(Expr::Call(CallExpr {
                                 span: span!(start),
-                                callee: obj,
+                                callee: obj_ref.clone(),
                                 type_args: Some(type_args),
                                 args,
                             })),
@@ -807,8 +811,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
                         )))
                     } else if is!('`') {
                         p.parse_tagged_tpl(
-                            match obj {
-                                ExprOrSuper::Expr(obj) => obj,
+                            match *obj_ref {
+                                ExprOrSuper::Expr(ref obj) => obj.clone(),
                                 _ => unreachable!(),
                             },
                             Some(type_args),
@@ -985,7 +989,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 // This fails with `expected (`
                 expect!('(');
             }
-            assert_ne!(
+            debug_assert_ne!(
                 cur!(false).ok(),
                 Some(&tok!('(')),
                 "parse_new_expr() should eat paren if it exists"
