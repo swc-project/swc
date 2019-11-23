@@ -620,8 +620,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         debug_assert!(self.cur().is_some());
 
         let mut has_escape = false;
-        let mut word = String::new();
-        {
+        let mut word = {
             // Optimize for idents without escpae
             let s = self.input.uncons_while(|c| {
                 if c.is_ident_part() {
@@ -636,8 +635,8 @@ impl<'a, I: Input> Lexer<'a, I> {
             if !has_escape {
                 return Ok((s.into(), false));
             }
-            word.push_str(s);
-        }
+            String::from(s)
+        };
 
         let mut first = true;
 
