@@ -345,12 +345,22 @@ track_ident!(Resolver);
 
 impl<'a> Fold<ArrowExpr> for Resolver<'a> {
     fn fold(&mut self, e: ArrowExpr) -> ArrowExpr {
-        let old = self.ident_type;
-        self.ident_type = IdentType::Binding;
-        let params = e.params.fold_with(self);
-        self.ident_type = old;
+        let child_mark = Mark::fresh(self.mark);
 
-        let body = e.body.fold_with(self);
+        // Child folder
+        let mut folder = Resolver::new(
+            child_mark,
+            Scope::new(ScopeKind::Fn, Some(&self.current)),
+            self.cur_defining.take(),
+        );
+        let old = folder.ident_type;
+        folder.ident_type = IdentType::Binding;
+        let params = e.params.fold_with(&mut folder);
+        folder.ident_type = old;
+
+        let body = e.body.fold_with(&mut folder);
+
+        self.cur_defining = folder.cur_defining;
 
         ArrowExpr { params, body, ..e }
     }

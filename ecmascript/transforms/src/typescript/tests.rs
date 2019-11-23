@@ -174,3 +174,16 @@ const dict: PlainObject = {};
 import 'simplytyped';
 const dict = {};"
 );
+
+test!(
+    ::swc_ecma_parser::Syntax::Typescript(Default::default()),
+    |_| strip(),
+    issue_461,
+    "for (let x in ['']) {
+  (x => 0)(x);
+}",
+    "for(let x in ['']){
+    ((x)=>0
+    )(x);
+}"
+);
