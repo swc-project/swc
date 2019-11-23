@@ -852,9 +852,15 @@ identical!(
 "
 );
 
-identical!(
+to!(
     issue_461,
-    "for (var x in ['']) {
-  (x => 0)(x);
-}"
+    "
+for (var x in ['']) {
+    (x => 0)(x);
+}",
+    "
+for(var x in ['']){
+    ((x1)=>0)(x);
+}
+"
 );

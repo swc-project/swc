@@ -354,9 +354,9 @@ impl<'a> Fold<ArrowExpr> for Resolver<'a> {
             self.cur_defining.take(),
         );
         let old = folder.ident_type;
-        self.ident_type = IdentType::Binding;
+        folder.ident_type = IdentType::Binding;
         let params = e.params.fold_with(&mut folder);
-        self.ident_type = old;
+        folder.ident_type = old;
 
         let body = e.body.fold_with(&mut folder);
 
