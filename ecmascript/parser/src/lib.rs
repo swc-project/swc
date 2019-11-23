@@ -395,7 +395,7 @@ pub struct Session<'a> {
 }
 
 #[cfg(test)]
-fn with_test_sess<F, Ret>(src: &'static str, f: F) -> Result<Ret, ::testing::StdErr>
+fn with_test_sess<F, Ret>(src: &str, f: F) -> Result<Ret, ::testing::StdErr>
 where
     F: FnOnce(Session<'_>, SourceFileInput<'_>) -> Result<Ret, ()>,
 {

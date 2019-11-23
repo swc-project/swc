@@ -17,7 +17,7 @@ use crate::{
 use ast::Str;
 
 use smallvec::SmallVec;
-use std::char;
+use std::{char, iter::FusedIterator};
 use swc_atoms::JsWord;
 use swc_common::{
     comments::{Comment, Comments},
@@ -92,6 +92,8 @@ impl Iterator for CharIter {
     }
 }
 
+impl FusedIterator for CharIter {}
+
 #[derive(Clone)]
 pub struct Lexer<'a, I: Input> {
     session: Session<'a>,
@@ -103,6 +105,8 @@ pub struct Lexer<'a, I: Input> {
     pub(crate) syntax: Syntax,
     pub(crate) target: JscTarget,
 }
+
+impl<I: Input> FusedIterator for Lexer<'_, I> {}
 
 impl<'a, I: Input> Lexer<'a, I> {
     pub fn new(

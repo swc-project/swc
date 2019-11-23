@@ -589,7 +589,7 @@ pub enum TokenContext {
 #[cfg(test)]
 pub(crate) fn with_lexer<F, Ret>(
     syntax: crate::Syntax,
-    s: &'static str,
+    s: &str,
     f: F,
 ) -> Result<Ret, ::testing::StdErr>
 where

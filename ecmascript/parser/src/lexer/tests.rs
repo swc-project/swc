@@ -3,7 +3,7 @@ use super::{
     *,
 };
 use crate::error::{Error, SyntaxError};
-use std::{ops::Range, str};
+use std::{hint::black_box, ops::Range, str};
 use test::Bencher;
 
 fn sp(r: Range<usize>) -> Span {
@@ -1095,7 +1095,9 @@ fn lex_colors_js(b: &mut Bencher) {
             Syntax::default(),
             include_str!("../../colors.js"),
             |lexer| {
-                for _ in lexer {}
+                for t in lexer {
+                    black_box(t);
+                }
                 Ok(())
             },
         );
@@ -1111,9 +1113,62 @@ fn lex_colors_ts(b: &mut Bencher) {
             Syntax::Typescript(Default::default()),
             include_str!("../../colors.js"),
             |lexer| {
-                for _ in lexer {}
+                for t in lexer {
+                    black_box(t);
+                }
                 Ok(())
             },
         );
     });
+}
+
+/// Benchmarks [Lexer] using [Iterator] interface.
+fn bench_simple(b: &mut Bencher, s: &str) {
+    bench(b, Default::default(), s)
+}
+
+/// Benchmarks [Lexer] using [Iterator] interface.
+fn bench(b: &mut Bencher, syntax: Syntax, s: &str) {
+    b.bytes = s.len() as _;
+
+    b.iter(|| {
+        let _ = with_lexer(syntax, s, |lexer| {
+            for t in lexer {
+                black_box(t);
+            }
+            Ok(())
+        });
+    });
+}
+
+#[bench]
+fn lex_large_number(b: &mut Bencher) {
+    bench_simple(
+        b,
+        "10000000000000000;
+        571293857289;
+        32147859245;
+        129478120974;
+        238597230957293;
+        542375984375;
+        349578395;
+        34857983412590716249;
+        1238570129;
+        123875102935;",
+    );
+}
+
+#[bench]
+fn lex_escaped_char(b: &mut Bencher) {
+    bench_simple(b, "'\\x00\\01\\02\\03'");
+}
+
+#[bench]
+fn lex_octal_lit(b: &mut Bencher) {
+    bench_simple(b, "01756123617");
+}
+
+#[bench]
+fn lex_dec_lit(b: &mut Bencher) {
+    bench_simple(b, "14389675923");
 }
