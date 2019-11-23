@@ -2821,7 +2821,7 @@ test!(
     "let Foo = function Foo(bar) {
     _classCallCheck(this, Foo);
     _defineProperty(this, 'qux', {
-        frob: (bar)=>{
+        frob: (bar1)=>{
         }
     });
     this._bar = bar;
