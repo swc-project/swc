@@ -62,7 +62,10 @@ impl<'a, I: Tokens> Parser<'a, I> {
             }
         }
 
-        if self.input.syntax().typescript() && (is_one_of!('<', JSXTagStart)) {
+        if self.input.syntax().typescript()
+            && (is_one_of!('<', JSXTagStart))
+            && peeked_is!(IdentName)
+        {
             let res = self.try_parse_ts(|p| {
                 let type_parameters = p.parse_ts_type_params()?;
                 let mut arrow = p.parse_assignment_expr_base()?;
@@ -762,8 +765,6 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 ));
             }
 
-            // TODO(kdy1): Remove this.
-            let obj = obj.clone();
             if {
                 match obj {
                     ExprOrSuper::Expr(..) => true,
@@ -772,13 +773,14 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 }
             } && is!('<')
             {
+                let obj_ref = &obj;
                 // tsTryParseAndCatch is expensive, so avoid if not necessary.
                 // There are number of things we are going to "maybe" parse, like type arguments
                 // on tagged template expressions. If any of them fail, walk it back and
                 // continue.
                 let result = self.try_parse_ts(|p| {
                     if !no_call
-                        && p.at_possible_async(match obj {
+                        && p.at_possible_async(match obj_ref {
                             ExprOrSuper::Expr(ref expr) => &*expr,
                             _ => unreachable!(),
                         })?
@@ -801,7 +803,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                         Ok(Some((
                             Box::new(Expr::Call(CallExpr {
                                 span: span!(start),
-                                callee: obj,
+                                callee: obj_ref.clone(),
                                 type_args: Some(type_args),
                                 args,
                             })),
@@ -809,8 +811,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
                         )))
                     } else if is!('`') {
                         p.parse_tagged_tpl(
-                            match obj {
-                                ExprOrSuper::Expr(obj) => obj,
+                            match *obj_ref {
+                                ExprOrSuper::Expr(ref obj) => obj.clone(),
                                 _ => unreachable!(),
                             },
                             Some(type_args),
