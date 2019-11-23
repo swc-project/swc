@@ -851,3 +851,10 @@ identical!(
 }
 "
 );
+
+identical!(
+    issue_461,
+    "for (var x in ['']) {
+  (x => 0)(x);
+}"
+);
