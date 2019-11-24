@@ -139,9 +139,8 @@ impl FnDef {
                     };
 
                     Arm {
-                        pats: vec![Element::End(pat)].into_iter().collect(),
+                        pat,
                         body,
-                        leading_vert: None,
 
                         // Forward cfg attributes.
                         attrs: v
@@ -173,31 +172,29 @@ impl FnDef {
         });
 
         ImplItemMethod {
-            sig: MethodSig {
+            // fn (&self) -> ReturnTpe
+            sig: Signature {
                 asyncness: None,
                 constness: None,
                 unsafety: None,
                 abi: None,
-                // fn (&self) -> ReturnTpe
-                decl: FnDecl {
-                    fn_token: name.span().as_token(),
-                    paren_token: name.span().as_token(),
-                    inputs: vec![
-                        // TODO
-                        Element::End(FnArg::SelfRef(ArgSelfRef {
-                            and_token: name_span.as_token(),
-                            self_token: name_span.as_token(),
-                            lifetime: None,
-                            mutability: None,
-                        })),
-                    ]
-                    .into_iter()
-                    .collect(),
-                    output: ReturnType::Type(name_span.as_token(), Box::new(return_type)),
-                    generics: Default::default(),
-                    variadic: None,
-                },
+                fn_token: name.span().as_token(),
+                paren_token: name.span().as_token(),
+                inputs: vec![
+                    // TODO
+                    Element::End(FnArg::Receiver(Receiver {
+                        reference: Some((name_span.as_token(), None)),
+                        self_token: name_span.as_token(),
+                        mutability: None,
+                        attrs: Default::default(),
+                    })),
+                ]
+                .into_iter()
+                .collect(),
                 ident: name,
+                generics: Default::default(),
+                variadic: None,
+                output: ReturnType::Type(name_span.as_token(), Box::new(return_type)),
             },
 
             block: Block {
