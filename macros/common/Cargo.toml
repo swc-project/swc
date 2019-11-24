@@ -9,10 +9,10 @@ description = "Common utilities for swc macros."
 edition = "2018"
 
 [dependencies]
-pmutil = "0.3"
-proc-macro2 = "0.4.27"
-quote = "0.6.11"
+pmutil = "0.5.1"
+proc-macro2 = "1"
+quote = "1"
 
 [dependencies.syn]
-version = "0.15.26"
+version = "1"
 features = ["derive", "visit", "parsing", "full", "printing", "extra-traits"]

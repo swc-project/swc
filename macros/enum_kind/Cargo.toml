@@ -13,11 +13,11 @@ proc-macro = true
 
 [dependencies]
 swc_macros_common = { version = "0.2", path ="../common" }
-pmutil = "0.3"
-proc-macro2 = "0.4.27"
+pmutil = "0.5.1"
+proc-macro2 = "1"
 
 [dependencies.syn]
-version = "0.15.26"
+version = "1"
 features = ["full", "parsing", "printing", "extra-traits"]
 
 
