@@ -36,11 +36,10 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
                     .filter(|attr| is_attr_name(attr, "cfg"))
                     .cloned()
                     .collect(),
-                pats: vec![Element::End(pat)].into_iter().collect(),
+                pat,
                 guard: None,
                 fat_arrow_token: def_site(),
                 comma: Some(def_site()),
-                leading_vert: None,
             }
         })
         .collect();
@@ -169,6 +168,6 @@ fn has_empty_span_attr(attrs: &[Attribute]) -> bool {
             return false;
         }
 
-        attr.tts.is_empty()
+        attr.tokens.is_empty()
     })
 }

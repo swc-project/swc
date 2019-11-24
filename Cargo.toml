@@ -22,10 +22,10 @@ serde_json = "1"
 failure = "0.1"
 path-clean = "0.1"
 lazy_static = "1"
-hashbrown = "0.5"
+hashbrown = "0.6"
 regex = "1"
 chashmap = "2.2.2"
-sourcemap = "2.2"
+sourcemap = "4.1.1  "
 
 [[example]]
 name = "usage"
@@ -37,7 +37,3 @@ lto = true
 [profile.release]
 codegen-units = 1
 lto = true
-
-[patch.crates-io]
-# This reduces compile time
-sourcemap = { git = "https://github.com/kdy1/rust-sourcemap.git" }

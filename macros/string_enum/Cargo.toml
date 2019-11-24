@@ -1,6 +1,6 @@
 [package]
 name = "string_enum"
-version = "0.2.0"
+version = "0.3.0"
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 license = "Apache-2.0/MIT"
 repository = "https://github.com/swc-project/swc.git"
@@ -12,13 +12,13 @@ edition = "2018"
 proc-macro = true
 
 [dependencies]
-swc_macros_common = { version = "0.2", path ="../common" }
-pmutil = "0.3"
-proc-macro2 = "0.4.27"
-quote = "0.6.11"
+swc_macros_common = { version = "0.3", path ="../common" }
+pmutil = "0.5.1"
+proc-macro2 = "1"
+quote = "1"
 
 [dependencies.syn]
-version = "0.15.26"
+version = "1"
 features = ["full", "parsing", "printing", "extra-traits"]
 
 [dev-dependencies]

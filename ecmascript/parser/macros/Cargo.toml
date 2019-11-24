@@ -1,6 +1,6 @@
 [package]
 name = "swc_ecma_parser_macros"
-version = "0.3.0"
+version = "0.4.0"
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 license = "Apache-2.0/MIT"
 repository = "https://github.com/swc-project/swc.git"
@@ -12,14 +12,14 @@ edition = "2018"
 proc-macro = true
 
 [dependencies]
-swc_macros_common = { version = "0.2", path ="../../../macros/common" }
-proc-macro2 = "0.4"
-pmutil = "0.3"
+swc_macros_common = { version = "0.3", path ="../../../macros/common" }
+proc-macro2 = "1"
+pmutil = "0.5.1"
 
 [dependencies.syn]
-version = "0.15"
-features = ["fold", "parsing"]
+version = "1"
+features = ["fold", "parsing", "full"]
 
 
 [dependencies.quote]
-version = "0.6"
+version = "1"

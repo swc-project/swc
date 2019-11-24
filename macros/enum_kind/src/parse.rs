@@ -191,7 +191,7 @@ where
         }
 
         if is_attr_name(&attr, "kind") {
-            let tts = unwrap_paren(attr.tts);
+            let tts = unwrap_paren(attr.tokens);
             let parsed: T = parse(tts.into())
                 .unwrap_or_else(|err| panic!("failed to parse attribute: {}", err));
 

@@ -35,7 +35,7 @@
 use crate::{def_site, is_attr_name, syn_ext::PairExt};
 use pmutil::prelude::*;
 use proc_macro2::Span;
-use quote::ToTokens;
+use quote::{ToTokens, __rt::TokenStream};
 use syn::{
     punctuated::Pair,
     token::{Mut, Ref},
@@ -144,7 +144,11 @@ impl<'a> VariantBinder<'a> {
         let (pat, bindings) = match *self.data {
             Fields::Unit => {
                 // EnumName::VariantName
-                let pat = Pat::Path(PatPath { qself: None, path });
+                let pat = Pat::Path(PatPath {
+                    qself: None,
+                    path,
+                    attrs: Default::default(),
+                });
 
                 // Unit struct does not have any field to bind
                 (pat, vec![])
@@ -189,6 +193,7 @@ impl<'a> VariantBinder<'a> {
                                     mutability,
                                     ident: binded_ident,
                                     subpat: None,
+                                    attrs: Default::default(),
                                 })),
                             }
                         })
@@ -200,6 +205,7 @@ impl<'a> VariantBinder<'a> {
                     fields,
                     brace_token,
                     dot2_token: None,
+                    attrs: Default::default(),
                 });
                 (pat, bindings)
             }
@@ -232,6 +238,7 @@ impl<'a> VariantBinder<'a> {
                                 mutability,
                                 ident: binded_ident,
                                 subpat: None,
+                                attrs: Default::default(),
                             })
                         })
                     })
@@ -240,12 +247,11 @@ impl<'a> VariantBinder<'a> {
                 let pat = Pat::TupleStruct(PatTupleStruct {
                     path,
                     pat: PatTuple {
-                        dot2_token: None,
-                        front: pats,
-                        back: Default::default(),
+                        elems: pats,
                         paren_token,
-                        comma_token: None,
+                        attrs: Default::default(),
                     },
+                    attrs: Default::default(),
                 });
                 (pat, bindings)
             }

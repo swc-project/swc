@@ -3,7 +3,6 @@
 #[macro_use]
 extern crate pmutil;
 extern crate proc_macro;
-use proc_macro2;
 #[macro_use]
 extern crate quote;
 
@@ -155,11 +154,10 @@ fn make_from_str(i: &DeriveInput) -> ItemImpl {
                     .filter(|attr| is_attr_name(attr, "cfg"))
                     .cloned()
                     .collect(),
-                pats: vec![Element::End(pat)].into_iter().collect(),
+                pat,
                 guard: None,
                 fat_arrow_token: def_site(),
                 comma: Some(def_site()),
-                leading_vert: None,
             }
         })
         .chain(::std::iter::once({
@@ -222,6 +220,7 @@ fn make_as_str(i: &DeriveInput) -> ItemImpl {
                 Fields::Unit => Box::new(Pat::Path(PatPath {
                     qself: None,
                     path: qual_name,
+                    attrs: Default::default(),
                 })),
                 _ => Box::new(
                     Quote::new(def_site::<Span>())
@@ -238,17 +237,15 @@ fn make_as_str(i: &DeriveInput) -> ItemImpl {
                     .filter(|attr| is_attr_name(attr, "cfg"))
                     .cloned()
                     .collect(),
-                pats: vec![Element::End(Pat::Ref(PatRef {
+                pat: Pat::Reference(PatReference {
                     and_token: def_site(),
                     mutability: None,
                     pat,
-                }))]
-                .into_iter()
-                .collect(),
+                    attrs: Default::default(),
+                }),
                 guard: None,
                 fat_arrow_token: def_site(),
                 comma: Some(def_site()),
-                leading_vert: None,
             }
         })
         .collect();

@@ -57,7 +57,7 @@ pub fn is_attr_name(attr: &Attribute, name: &str) -> bool {
                     ref segments,
                 },
             ..
-        } if segments.len() == 1 => segments.first().unwrap().into_value().ident == name,
+        } if segments.len() == 1 => segments.first().unwrap().ident == name,
         _ => false,
     }
 }
@@ -65,12 +65,12 @@ pub fn is_attr_name(attr: &Attribute, name: &str) -> bool {
 /// Returns `None` if `attr` is not a doc attribute.
 pub fn doc_str(attr: &Attribute) -> Option<String> {
     fn parse_tts(attr: &Attribute) -> String {
-        let meta = attr.interpret_meta();
+        let meta = attr.parse_meta().ok();
         match meta {
             Some(Meta::NameValue(MetaNameValue {
                 lit: Lit::Str(s), ..
             })) => s.value(),
-            _ => panic!("failed to parse {}", attr.tts),
+            _ => panic!("failed to parse {}", attr.tokens),
         }
     }
 

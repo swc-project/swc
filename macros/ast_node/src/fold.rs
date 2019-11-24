@@ -22,9 +22,9 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
         .all_generic_fields()
         .into_iter()
         .filter(|f| {
-            f.attrs
-                .iter()
-                .any(|attr| is_attr_name(attr, "fold") && (attr.tts.to_string().contains("bound")))
+            f.attrs.iter().any(|attr| {
+                is_attr_name(attr, "fold") && (attr.tokens.to_string().contains("bound"))
+            })
         })
         .map(|f| f.ty.clone())
         .map(normalize_type_for_bound)
@@ -142,11 +142,10 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
                     .filter(|attr| is_attr_name(attr, "cfg"))
                     .cloned()
                     .collect(),
-                pats: vec![Element::End(pat)].into_iter().collect(),
+                pat,
                 guard: None,
                 fat_arrow_token: def_site(),
                 comma: Some(def_site()),
-                leading_vert: None,
             }
         })
         .collect();
@@ -213,9 +212,7 @@ fn normalize_type_for_bound(ty: Type) -> Type {
 
                 if let PathArguments::AngleBracketed(ref args) = seg.arguments {
                     if args.args.len() == 1 {
-                        if let GenericArgument::Type(ref ty) =
-                            *args.args.last().unwrap().into_value()
-                        {
+                        if let GenericArgument::Type(ref ty) = *args.args.last().unwrap() {
                             if let Type::Path(TypePath { ref path, .. }) = *ty {
                                 return self.fold_path(path.clone());
                             }

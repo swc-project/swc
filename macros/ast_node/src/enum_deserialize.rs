@@ -42,12 +42,13 @@ pub fn expand(
             .map(|variant| {
                 let field_type = match variant.fields {
                     Fields::Unnamed(ref fields) => {
-                        assert!(
-                            fields.unnamed.len() == 1,
+                        assert_eq!(
+                            fields.unnamed.len(),
+                            1,
                             "#[ast_node] enum cannot contain variant with multiple fields"
                         );
 
-                        fields.unnamed.last().unwrap().into_value().ty.clone()
+                        fields.unnamed.last().unwrap().ty.clone()
                     }
                     _ => {
                         unreachable!("#[ast_node] enum cannot contain named fields or unit variant")
@@ -61,7 +62,7 @@ pub fn expand(
                             return None;
                         }
                         let tags =
-                            parse2(attr.tts.clone()).expect("failed to parse #[tag] attribute");
+                            parse2(attr.tokens.clone()).expect("failed to parse #[tag] attribute");
 
                         Some(tags)
                     })
@@ -73,7 +74,7 @@ pub fn expand(
                     "All #[ast_node] enum variants have one or more tag"
                 );
                 if tags.len() == 1
-                    && match tags.first().map(Pair::into_value) {
+                    && match tags.first() {
                         Some(Lit::Str(s)) => &*s.value() == "*",
                         _ => false,
                     }

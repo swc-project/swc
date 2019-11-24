@@ -12,7 +12,7 @@ impl<'a> Derive<'a> {
         impl<'a, 'b> Visit<'a> for TypeVisitor<'b> {
             fn visit_path(&mut self, path: &Path) {
                 if let Some(seg) = path.segments.last() {
-                    if seg.into_value().ident == "PhantomData" {
+                    if seg.ident == "PhantomData" {
                         // Hardcoded exception.
                         // This assumes name of the associated type is not PhantomData.
                         return;
@@ -21,7 +21,7 @@ impl<'a> Derive<'a> {
 
                 if path.leading_colon.is_none() {
                     if let Some(seg) = path.segments.first() {
-                        let id = &seg.value().ident;
+                        let id = &seg.ident;
                         if self.params.contains(id) {
                             self.is_generic = true;
                         }

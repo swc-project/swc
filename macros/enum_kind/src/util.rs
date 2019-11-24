@@ -10,7 +10,7 @@ pub fn is_bool(ty: &Type) -> bool {
     }) = ty
     {
         // check for bool
-        if segments.len() == 1 && segments.first().unwrap().value().ident == "bool" {
+        if segments.len() == 1 && segments.first().unwrap().ident == "bool" {
             return true;
         }
     }

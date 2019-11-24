@@ -1,7 +1,6 @@
 #[macro_use]
 extern crate pmutil;
 extern crate proc_macro;
-use proc_macro2;
 
 use syn;
 
