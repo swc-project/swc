@@ -19,4 +19,4 @@ sourcemap = "4.1.1"
 
 [dev-dependencies]
 testing = { version = "0.4", path ="../../testing" }
-swc_ecma_parser = { version = "0.11", path ="../parser" }
+swc_ecma_parser = { version = "0.12", path ="../parser" }
