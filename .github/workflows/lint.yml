@@ -3,16 +3,11 @@ name: Lint
 on: [push]
 
 jobs:
-  rustfmt:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - name: Format
+      - name: rustfmt
         run: cargo fmt --all -- --check
-
-  clippy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - name: Clippy
+      - name: clippy
         run: cargo clippy --all
