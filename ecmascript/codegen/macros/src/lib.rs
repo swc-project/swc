@@ -1,7 +1,6 @@
 #[macro_use]
 extern crate pmutil;
 extern crate proc_macro;
-use proc_macro2;
 #[macro_use]
 extern crate quote;
 
@@ -32,18 +31,17 @@ fn expand(i: ImplItemMethod) -> ImplItemMethod {
     let block = {
         let node_type = {
             i.sig
-                .decl
                 .inputs
                 .clone()
                 .into_iter()
                 .nth(1)
                 .and_then(|arg| match arg {
-                    FnArg::Ignored(ty) | FnArg::Captured(ArgCaptured { ty, .. }) => Some(ty),
+                    FnArg::Typed(ty) => Some(ty.ty),
                     _ => None,
                 })
                 .map(|ty| {
                     // &Ident -> Ident
-                    match ty {
+                    match *ty {
                         Type::Reference(TypeReference { elem, .. }) => *elem,
                         _ => panic!(
                             "Type of node parameter should be reference but got {}",
