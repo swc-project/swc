@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - name: rustfmt
+      - name: Run cargo fmt
         run: cargo fmt --all -- --check
-      - name: clippy
+      - name: Run cargo clippy
         run: cargo clippy --all
