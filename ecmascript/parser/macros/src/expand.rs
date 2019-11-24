@@ -81,8 +81,9 @@ impl Fold for InjectSelf {
             match p {
                 Pat::Type(PatType { pat, .. }) => match *pat {
                     Pat::Ident(PatIdent { ident, .. }) => ident.clone(),
-                    _ => unreachable!("Expected (|p| {{..}})\nGot {:?}", pat),
+                    _ => unreachable!("ident: Expected (|p| {{..}})\nGot {:?}", pat),
                 },
+                Pat::Ident(PatIdent { ident, .. }) => ident.clone(),
                 _ => unreachable!("Expected (|p| {{..}})\nGot {:?}", p),
             }
         }
@@ -107,30 +108,22 @@ impl Fold for InjectSelf {
 
         fold::fold_expr_method_call(self, i)
     }
+
     fn fold_signature(&mut self, i: Signature) -> Signature {
-        self.parser = i.inputs.first().cloned().and_then(|arg| match arg {
-            FnArg::Receiver(Receiver {
-                self_token,
-                mutability: Some(..),
-                ..
-            })
-            | FnArg::Receiver(Receiver { self_token, .. }) => {
+        self.parser = match i.inputs.first().cloned().and_then(|arg| match arg {
+            FnArg::Receiver(Receiver { self_token, .. }) => {
                 Some(Ident::new("self", self_token.span()))
             }
             _ => None,
-        });
+        }) {
+            Some(i) => Some(i),
+            None => return i,
+        };
+
         i
     }
 
     fn fold_macro(&mut self, i: Macro) -> Macro {
-        let parser = match self.parser {
-            Some(ref s) => s.clone(),
-            _ => {
-                // If we are not in parser, don't do anything.
-                return i;
-            }
-        };
-
         let name = i.path.dump().to_string();
         let span = get_joinned_span(&i.path);
 
@@ -154,6 +147,14 @@ impl Fold for InjectSelf {
             "unimplemented" => i,
 
             "spanned" => {
+                let parser = match self.parser {
+                    Some(ref s) => s.clone(),
+                    _ => {
+                        // If we are not in parser, don't do anything.
+                        unreachable!("spanned() from outside of #[parser]");
+                    }
+                };
+
                 let block: Block =
                     parse(i.tokens.into()).expect("failed to parse input to spanned as a block");
                 let block = self.fold_block(block);
@@ -171,6 +172,12 @@ impl Fold for InjectSelf {
             | "expect" | "expect_exact" | "into_spanned" | "is" | "is_exact" | "is_one_of"
             | "peeked_is" | "peek" | "peek_ahead" | "last_pos" | "return_if_arrow" | "span"
             | "syntax_error" | "make_error" | "emit_error" | "unexpected" | "store" => {
+                let parser = match self.parser {
+                    Some(ref s) => s.clone(),
+                    _ => {
+                        unreachable!("outside of #[parser]");
+                    }
+                };
                 let tokens = if i.tokens.is_empty() {
                     quote_spanned!(span => #parser)
                 } else {
@@ -181,10 +188,11 @@ impl Fold for InjectSelf {
                         .map(|arg| arg.dump())
                         .flatten();
 
-                    quote_spanned!(span => #parser,)
+                    let tokens = quote_spanned!(span => #parser,)
                         .into_iter()
                         .chain(args)
-                        .collect()
+                        .collect();
+                    tokens
                 };
 
                 Macro { tokens, ..i }
