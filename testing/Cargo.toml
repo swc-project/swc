@@ -1,6 +1,6 @@
 [package]
 name = "testing"
-version = "0.3.1"
+version = "0.4.0"
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 license = "Apache-2.0/MIT"
 repository = "https://github.com/swc-project/swc.git"
@@ -8,8 +8,8 @@ documentation = "https://swc-project.github.io/rustdoc/testing/"
 description = "Testing utilities for the swc project."
 
 [dependencies]
-swc_common = { version = "0.3", path ="../common", features = ["fold"] }
+swc_common = { version = "0.4", path ="../common", features = ["fold"] }
 lazy_static = "1"
-regex = "0.2.5"
+regex = "1"
 relative-path = "0.4.0"
 difference = "2.0"
