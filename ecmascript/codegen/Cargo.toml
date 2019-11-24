@@ -10,7 +10,7 @@ edition = "2018"
 
 [dependencies]
 bitflags = "1"
-hashbrown = "0.5"
+hashbrown = "0.6"
 swc_atoms = { version = "0.2", path ="../../atoms" }
 swc_common = { version = "0.4.0", path ="../../common" }
 swc_ecma_ast = { version = "0.10.0", path ="../ast" }

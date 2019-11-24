@@ -25,6 +25,6 @@ cfg-if = "0.1.2"
 log = "0.4"
 atty = "0.2"
 parking_lot = "0.7.1"
-hashbrown = "0.5"
+hashbrown = "0.6"
 termcolor = "1.0"
 serde = { version = "1", features = ["derive"] }

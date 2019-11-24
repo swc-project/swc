@@ -17,7 +17,7 @@ chashmap = "2.2.0"
 either = "1.5"
 fxhash = "0.2"
 indexmap = "1"
-hashbrown = { version = "0.5", features = ["serde"] }
+hashbrown = { version = "0.6", features = ["serde"] }
 lazy_static = "1"
 serde = { version = "1", features = ["derive"] }
 ordered-float = "1.0.1"
