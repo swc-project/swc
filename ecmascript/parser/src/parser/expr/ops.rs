@@ -155,7 +155,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         };
 
         let node = Box::new(Expr::Bin(BinExpr {
-            span: span!(left.span().lo()),
+            span: Span::new(left.span().lo(), right.span().hi(), Default::default()),
             op,
             left,
             right,
