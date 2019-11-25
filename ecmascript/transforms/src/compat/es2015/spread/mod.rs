@@ -47,7 +47,7 @@ where
 
 impl Fold<Expr> for ActualFolder {
     fn fold(&mut self, e: Expr) -> Expr {
-        let e = e.fold_children(self);
+        let e = validate!(e.fold_children(self));
 
         match e {
             Expr::Array(ArrayLit { span, elems }) => {

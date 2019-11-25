@@ -30,11 +30,11 @@ where
 
 impl Fold<Expr> for TemplateLiteral {
     fn fold(&mut self, e: Expr) -> Expr {
-        let e = e.fold_children(self);
+        let e = validate!(e.fold_children(self));
 
         match e {
             Expr::Tpl(Tpl { exprs, quasis, .. }) => {
-                assert!(quasis.len() == exprs.len() + 1);
+                assert_eq!(quasis.len(), exprs.len() + 1);
 
                 // TODO: Optimize
 
@@ -82,7 +82,7 @@ impl Fold<Expr> for TemplateLiteral {
                     obj = box Expr::Call(CallExpr {
                         span: expr.span(),
                         callee: ExprOrSuper::Expr(box Expr::Member(MemberExpr {
-                            span: expr.span(),
+                            span: DUMMY_SP,
                             obj: ExprOrSuper::Expr(obj),
                             prop: box Expr::Ident(Ident::new(js_word!("concat"), expr.span())),
 
