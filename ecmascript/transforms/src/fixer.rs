@@ -180,24 +180,23 @@ impl Fold<KeyValueProp> for Fixer {
     }
 }
 
+/// Removes paren
+fn unwrap_expr(mut e: Expr) -> Expr {
+    match e {
+        Expr::Seq(SeqExpr { ref mut exprs, .. }) if exprs.len() == 1 => {
+            unwrap_expr(*exprs.pop().unwrap())
+        }
+        Expr::Paren(ParenExpr { expr, .. }) => unwrap_expr(*expr),
+        _ => validate!(e),
+    }
+}
+
 impl Fold<Expr> for Fixer {
     fn fold(&mut self, expr: Expr) -> Expr {
-        fn unwrap_expr(mut e: Expr) -> Expr {
-            match e {
-                Expr::Seq(SeqExpr { ref mut exprs, .. }) if exprs.len() == 1 => {
-                    unwrap_expr(*exprs.pop().unwrap())
-                }
-                Expr::Paren(ParenExpr { span, expr }) => match *expr {
-                    Expr::Member(v) => Expr::Member(MemberExpr { span, ..v }),
-                    Expr::Ident(v) => Expr::Ident(Ident { span, ..v }),
-                    expr => unwrap_expr(expr),
-                },
-                _ => e,
-            }
-        }
         let expr = validate!(expr);
-        let expr = validate!(expr.fold_children(self));
-        let expr = validate!(unwrap_expr(expr));
+        let expr = expr.fold_children(self);
+        let expr = validate!(expr);
+        let expr = unwrap_expr(expr);
 
         match expr {
             Expr::Member(MemberExpr {

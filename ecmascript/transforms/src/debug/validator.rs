@@ -98,11 +98,11 @@ impl Fold<BinExpr> for Validator {
         }
 
         if !node.left.span().is_dummy() {
-            lte!(self, BinExpr, node.left.span().lo(), node.span().lo());
+            gte!(self, BinExpr, node.left.span().lo(), node.span().lo());
         }
 
         if !node.right.span().is_dummy() {
-            gte!(self, BinExpr, node.right.span().hi(), node.span().hi());
+            gte!(self, BinExpr, node.span().hi(), node.right.span().hi());
         }
 
         node.fold_children(self)
@@ -134,7 +134,7 @@ impl Fold<UnaryExpr> for Validator {
         }
 
         if !node.arg.span().is_dummy() {
-            eq!(self, UnaryExpr, node.arg.span().hi(), node.span().hi())
+            lte!(self, UnaryExpr, node.arg.span().hi(), node.span().hi())
         }
 
         node.fold_children(self)
@@ -149,10 +149,10 @@ impl Fold<UpdateExpr> for Validator {
 
         if node.prefix {
             if !node.arg.span().is_dummy() {
-                eq!(self, UpdateExpr, node.arg.span().hi(), node.span().hi())
+                lte!(self, UpdateExpr, node.arg.span().hi(), node.span().hi())
             }
         } else if !node.arg.span().is_dummy() {
-            eq!(self, UpdateExpr, node.arg.span().lo(), node.span().lo())
+            gte!(self, UpdateExpr, node.arg.span().lo(), node.span().lo())
         }
 
         node.fold_children(self)
@@ -166,11 +166,11 @@ impl Fold<CondExpr> for Validator {
         }
 
         if !node.test.span().is_dummy() {
-            eq!(self, CondExpr, node.test.span().lo(), node.span().lo());
+            gte!(self, CondExpr, node.test.span().lo(), node.span().lo());
         }
 
         if !node.alt.span().is_dummy() {
-            eq!(self, CondExpr, node.alt.span().hi(), node.span().hi());
+            lte!(self, CondExpr, node.alt.span().hi(), node.span().hi());
         }
 
         node.fold_children(self)
