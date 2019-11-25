@@ -1,7 +1,7 @@
 use crate::util::{ExprFactory, StmtLike};
 use ast::*;
 use std::iter;
-use swc_common::{Fold, FoldWith, Spanned, DUMMY_SP};
+use swc_common::{BytePos, Fold, FoldWith, Spanned, DUMMY_SP};
 #[cfg(test)]
 mod tests;
 
@@ -30,10 +30,18 @@ where
 
 impl Fold<Expr> for TemplateLiteral {
     fn fold(&mut self, e: Expr) -> Expr {
-        let e = validate!(e.fold_children(self));
+        let e = validate!(e);
+
+        let e = e.fold_children(self);
+        let e = validate!(e);
 
         match e {
-            Expr::Tpl(Tpl { exprs, quasis, .. }) => {
+            Expr::Tpl(Tpl {
+                span,
+                exprs,
+                quasis,
+                ..
+            }) => {
                 assert_eq!(quasis.len(), exprs.len() + 1);
 
                 // TODO: Optimize
@@ -79,8 +87,8 @@ impl Fold<Expr> for TemplateLiteral {
                     //     right: expr.into(),
                     // });
 
-                    obj = box Expr::Call(CallExpr {
-                        span: expr.span(),
+                    obj = box validate!(Expr::Call(CallExpr {
+                        span: span.with_hi(expr.span().hi() + BytePos(1)),
                         callee: ExprOrSuper::Expr(box Expr::Member(MemberExpr {
                             span: DUMMY_SP,
                             obj: ExprOrSuper::Expr(validate!(obj)),
@@ -90,15 +98,15 @@ impl Fold<Expr> for TemplateLiteral {
                         })),
                         args: vec![ExprOrSpread { expr, spread: None }],
                         type_args: Default::default(),
-                    });
+                    }));
                 }
-                *obj
+                validate!(*obj)
             }
 
             Expr::TaggedTpl(TaggedTpl {
                 tag, exprs, quasis, ..
             }) => {
-                assert!(quasis.len() == exprs.len() + 1);
+                assert_eq!(quasis.len(), exprs.len() + 1);
 
                 let fn_ident = private_ident!("_templateObject");
 
@@ -220,7 +228,7 @@ impl Fold<Expr> for TemplateLiteral {
                     function: f,
                 })));
 
-                Expr::Call(CallExpr {
+                validate!(Expr::Call(CallExpr {
                     span: DUMMY_SP,
                     callee: tag.as_callee(),
                     args: iter::once(
@@ -235,7 +243,7 @@ impl Fold<Expr> for TemplateLiteral {
                     .chain(exprs.into_iter().map(|e| e.as_arg()))
                     .collect(),
                     type_args: Default::default(),
-                })
+                }))
             }
 
             _ => e,
