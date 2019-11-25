@@ -129,7 +129,7 @@ pub mod lexer;
 mod parser;
 mod token;
 
-#[derive(Clone, Copy, Deserialize, Serialize)]
+#[derive(Debug, Clone, Copy, Deserialize, Serialize)]
 #[serde(tag = "syntax")]
 pub enum Syntax {
     /// Standard
@@ -267,7 +267,7 @@ impl Syntax {
     }
 }
 
-#[derive(Clone, Copy, Default, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, Default, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct TsConfig {
     #[serde(default)]
@@ -304,7 +304,7 @@ impl Default for JscTarget {
     }
 }
 
-#[derive(Clone, Copy, Default, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, Default, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct EsConfig {
     #[serde(default)]
