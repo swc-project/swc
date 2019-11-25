@@ -173,7 +173,7 @@ impl OptChaining {
                     expr: alt,
                 });
 
-                return CondExpr { alt, ..obj };
+                return validate!(CondExpr { alt, ..obj });
             }
 
             Expr::Call(CallExpr {
@@ -192,7 +192,7 @@ impl OptChaining {
                 });
                 let alt = box Expr::TsOptChain(TsOptChain { span, expr: alt });
 
-                return CondExpr { alt, ..obj };
+                return validate!(CondExpr { alt, ..obj });
             }
 
             _ => {}
@@ -253,12 +253,12 @@ impl OptChaining {
                     }),
                 });
 
-                CondExpr {
+                validate!(CondExpr {
                     span,
                     test,
                     cons,
                     alt,
-                }
+                })
             }
 
             Expr::Call(CallExpr {
@@ -334,12 +334,12 @@ impl OptChaining {
                     }),
                 });
 
-                CondExpr {
+                validate!(CondExpr {
                     span,
                     test,
                     cons,
                     alt,
-                }
+                })
             }
             _ => unreachable!("TsOptChain.expr = {:?}", e.expr),
         }
