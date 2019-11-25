@@ -29,6 +29,7 @@ sourcemap = "4.1.1  "
 
 [dev-dependencies]
 testing = { path = "./testing" }
+walkdir = "2"
 
 [[example]]
 name = "usage"
