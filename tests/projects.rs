@@ -1,5 +1,5 @@
 use swc::{config::Options, Compiler};
-use testing::{StdErr, Tester};
+use testing::Tester;
 use walkdir::WalkDir;
 
 fn project(dir: &str) {
