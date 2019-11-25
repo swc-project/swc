@@ -56,13 +56,23 @@ fn project(dir: &str) {
 }
 
 #[test]
-fn issue_467() {
-    project("tests/projects/issue-467");
+fn angular_core() {
+    project("tests/projects/angular-core");
 }
 
 #[test]
-fn angular_core() {
-    project("tests/projects/angular-core");
+fn rxjs() {
+    project("tests/projects/rxjs");
+}
+
+#[test]
+fn webpack() {
+    project("tests/projects/webpack");
+}
+
+#[test]
+fn issue_467() {
+    project("tests/projects/issue-467");
 }
 
 /// should respect modules config in .swcrc

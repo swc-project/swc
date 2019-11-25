@@ -177,10 +177,10 @@ impl<'a, I: Tokens> Parser<'a, I> {
             let alt = self.with_ctx(ctx).parse_assignment_expr()?;
 
             Ok(Box::new(Expr::Cond(CondExpr {
+                span: Span::new(start, alt.span().hi(), Default::default()),
                 test,
                 cons,
                 alt,
-                span: span!(start),
             })))
         } else {
             Ok(test)
@@ -1128,7 +1128,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                         arg = ExprOrSpread {
                             spread: None,
                             expr: Box::new(Expr::Cond(CondExpr {
-                                span: span!(start),
+                                span: Span::new(start, alt.span().hi(), Default::default()),
 
                                 test,
                                 cons,

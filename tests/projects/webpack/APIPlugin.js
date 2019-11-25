@@ -1,0 +1,155 @@
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+
+"use strict";
+
+const RuntimeGlobals = require("./RuntimeGlobals");
+const WebpackError = require("./WebpackError");
+const ConstDependency = require("./dependencies/ConstDependency");
+const {
+	toConstantDependency,
+	evaluateToString
+} = require("./javascript/JavascriptParserHelpers");
+const ChunkNameRuntimeModule = require("./runtime/ChunkNameRuntimeModule");
+const GetFullHashRuntimeModule = require("./runtime/GetFullHashRuntimeModule");
+
+/** @typedef {import("./Compiler")} Compiler */
+
+/* eslint-disable camelcase */
+const REPLACEMENTS = {
+	__webpack_require__: {
+		expr: RuntimeGlobals.require,
+		req: [RuntimeGlobals.require],
+		type: "function",
+		assign: false
+	},
+	__webpack_public_path__: {
+		expr: RuntimeGlobals.publicPath,
+		req: [RuntimeGlobals.publicPath],
+		type: "string",
+		assign: true
+	},
+	__webpack_modules__: {
+		expr: RuntimeGlobals.moduleFactories,
+		req: [RuntimeGlobals.moduleFactories],
+		type: "object",
+		assign: false
+	},
+	__webpack_chunk_load__: {
+		expr: RuntimeGlobals.ensureChunk,
+		req: [RuntimeGlobals.ensureChunk],
+		type: "function",
+		assign: true
+	},
+	__non_webpack_require__: {
+		expr: "require",
+		req: null,
+		type: undefined, // type is not know, depends on environment
+		assign: true
+	},
+	__webpack_nonce__: {
+		expr: RuntimeGlobals.scriptNonce,
+		req: [RuntimeGlobals.scriptNonce],
+		type: "string",
+		assign: true
+	},
+	__webpack_hash__: {
+		expr: `${RuntimeGlobals.getFullHash}()`,
+		req: [RuntimeGlobals.getFullHash],
+		type: "string",
+		assign: false
+	},
+	__webpack_chunkname__: {
+		expr: RuntimeGlobals.chunkName,
+		req: [RuntimeGlobals.chunkName],
+		type: "string",
+		assign: false
+	},
+	__webpack_get_script_filename__: {
+		expr: RuntimeGlobals.getChunkScriptFilename,
+		req: [RuntimeGlobals.getChunkScriptFilename],
+		type: "function",
+		assign: true
+	},
+	"require.onError": {
+		expr: RuntimeGlobals.uncaughtErrorHandler,
+		req: [RuntimeGlobals.uncaughtErrorHandler],
+		type: undefined, // type is not know, could be function or undefined
+		assign: true // is never a pattern
+	}
+};
+/* eslint-enable camelcase */
+
+class APIPlugin {
+	/**
+	 * Apply the plugin
+	 * @param {Compiler} compiler the compiler instance
+	 * @returns {void}
+	 */
+	apply(compiler) {
+		compiler.hooks.compilation.tap(
+			"APIPlugin",
+			(compilation, { normalModuleFactory }) => {
+				compilation.dependencyTemplates.set(
+					ConstDependency,
+					new ConstDependency.Template()
+				);
+
+				compilation.hooks.runtimeRequirementInTree
+					.for(RuntimeGlobals.chunkName)
+					.tap("APIPlugin", chunk => {
+						compilation.addRuntimeModule(
+							chunk,
+							new ChunkNameRuntimeModule(chunk.name)
+						);
+						return true;
+					});
+
+				compilation.hooks.runtimeRequirementInTree
+					.for(RuntimeGlobals.getFullHash)
+					.tap("APIPlugin", chunk => {
+						compilation.addRuntimeModule(chunk, new GetFullHashRuntimeModule());
+						return true;
+					});
+
+				const handler = parser => {
+					Object.keys(REPLACEMENTS).forEach(key => {
+						const info = REPLACEMENTS[key];
+						parser.hooks.expression
+							.for(key)
+							.tap(
+								"APIPlugin",
+								toConstantDependency(parser, info.expr, info.req)
+							);
+						if (info.assign === false) {
+							parser.hooks.assign.for(key).tap("APIPlugin", expr => {
+								const err = new WebpackError(`${key} must not be assigned`);
+								err.loc = expr.loc;
+								throw err;
+							});
+						}
+						if (info.type) {
+							parser.hooks.evaluateTypeof
+								.for(key)
+								.tap("APIPlugin", evaluateToString(info.type));
+						}
+					});
+				};
+
+				normalModuleFactory.hooks.parser
+					.for("javascript/auto")
+					.tap("APIPlugin", handler);
+				normalModuleFactory.hooks.parser
+					.for("javascript/dynamic")
+					.tap("APIPlugin", handler);
+				normalModuleFactory.hooks.parser
+					.for("javascript/esm")
+					.tap("APIPlugin", handler);
+			}
+		);
+	}
+}
+
+module.exports = APIPlugin;
