@@ -44,3 +44,13 @@ fn issue_467() {
 fn angular_core() {
     project("tests/projects/angular-core");
 }
+
+#[test]
+fn issue_466_1() {
+    project("tests/projects/issue-466-1");
+}
+
+#[test]
+fn issue_466_2() {
+    project("tests/projects/issue-466-2");
+}
