@@ -505,7 +505,6 @@ impl<'a> Emitter<'a> {
     #[emitter]
     pub fn emit_member_expr(&mut self, node: &MemberExpr) -> Result {
         self.emit_leading_comments_of_pos(node.span().lo())?;
-        debug_assert_eq!(node.span().lo(), node.obj.span().lo());
 
         emit!(node.obj);
 

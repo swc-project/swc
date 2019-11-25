@@ -83,7 +83,7 @@ impl Fold<Expr> for TemplateLiteral {
                         span: expr.span(),
                         callee: ExprOrSuper::Expr(box Expr::Member(MemberExpr {
                             span: DUMMY_SP,
-                            obj: ExprOrSuper::Expr(obj),
+                            obj: ExprOrSuper::Expr(validate!(obj)),
                             prop: box Expr::Ident(Ident::new(js_word!("concat"), expr.span())),
 
                             computed: false,
