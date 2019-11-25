@@ -254,7 +254,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
             }
 
             return Ok(Box::new(Expr::Unary(UnaryExpr {
-                span: span!(start),
+                span: Span::new(start, arg.span().hi(), Default::default()),
                 op,
                 arg,
             })));
