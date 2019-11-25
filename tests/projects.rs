@@ -1,3 +1,4 @@
+use std::path::Path;
 use swc::{config::Options, Compiler};
 use testing::{NormalizedOutput, StdErr, Tester};
 use walkdir::WalkDir;
@@ -6,7 +7,7 @@ fn file(f: &str) -> Result<NormalizedOutput, StdErr> {
     Tester::new().print_errors(|cm, handler| {
         let c = Compiler::new(cm.clone(), handler);
 
-        let fm = cm.load_file(entry.path()).expect("failed to load file");
+        let fm = cm.load_file(Path::new(f)).expect("failed to load file");
         let s = c.process_js_file(
             fm,
             Options {
@@ -79,6 +80,14 @@ fn issue_226() {
 
     assert!(s.contains("import * as _Foo from 'bar';"));
     assert!(s.contains("export { _Foo as Foo };"));
+}
+
+/// should handle react correctly
+#[test]
+fn issue_351() {
+    let s = file("tests/issue-226/input.js").unwrap();
+
+    assert!(s.contains(".default.createElement('div', null);"));
 }
 
 #[test]
