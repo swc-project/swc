@@ -2,7 +2,7 @@ use swc::{config::Options, Compiler};
 use testing::{StdErr, Tester};
 use walkdir::WalkDir;
 
-fn project(dir: &str) -> Result<(), StdErr> {
+fn project(dir: &str) {
     Tester::new()
         .print_errors(|cm, handler| {
             let c = Compiler::new(cm.clone(), handler);
@@ -20,27 +20,27 @@ fn project(dir: &str) -> Result<(), StdErr> {
                 }
 
                 let fm = cm.load_file(entry.path()).expect("failed to load file");
-                c.process_js_file(
+                let _ = c.process_js_file(
                     fm,
                     Options {
                         swcrc: true,
                         ..Default::default()
                     },
-                )
-                .expect("failed to process js file");
+                );
             }
 
             Ok(())
         })
         .map(|_| ())
+        .expect("");
 }
 
 #[test]
 fn issue_467() {
-    project("tests/projects/issue-467").unwrap();
+    project("tests/projects/issue-467");
 }
 
 #[test]
 fn angular_core() {
-    project("tests/projects/angular-core").unwrap();
+    project("tests/projects/angular-core");
 }
