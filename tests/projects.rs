@@ -1,6 +1,25 @@
 use swc::{config::Options, Compiler};
-use testing::Tester;
+use testing::{NormalizedOutput, StdErr, Tester};
 use walkdir::WalkDir;
+
+fn file(f: &str) -> Result<NormalizedOutput, StdErr> {
+    Tester::new().print_errors(|cm, handler| {
+        let c = Compiler::new(cm.clone(), handler);
+
+        let fm = cm.load_file(entry.path()).expect("failed to load file");
+        let s = c.process_js_file(
+            fm,
+            Options {
+                swcrc: true,
+                ..Default::default()
+            },
+        );
+        match s {
+            Ok(v) => Ok(v.code.into()),
+            Err(e) => Err(()),
+        }
+    })
+}
 
 fn project(dir: &str) {
     Tester::new()
@@ -43,6 +62,14 @@ fn issue_467() {
 #[test]
 fn angular_core() {
     project("tests/projects/angular-core");
+}
+
+/// should respect modules config in .swcrc
+#[test]
+fn issue_225() {
+    let s = file("tests/issue-225/input.js").unwrap();
+    assert!(s.contains("function _interopRequireDefault"));
+    assert!(s.contains("var _foo = _interopRequireDefault(require('foo'))"));
 }
 
 #[test]
