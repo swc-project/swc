@@ -1,0 +1,14 @@
+[
+  {
+    "test": ".*.js$",
+    "module": {
+      "type": "commonjs"
+    }
+  },
+  {
+    "test": ".*.ts$",
+    "module": {
+      "type": "amd"
+    }
+  }
+]

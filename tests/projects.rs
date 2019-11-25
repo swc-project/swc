@@ -106,6 +106,16 @@ fn issue_406() {
     assert!(s.contains("return true"));
 }
 
+/// should handle multiple entries in swcrc
+#[test]
+fn issue_414() {
+    let s1 = file("tests/issue-414/a.js").unwrap();
+    assert!(s1.contains("require('foo')"));
+
+    let s2 = file("tests/issue-414/b.ts").unwrap();
+    assert!(s2.contains("define(['bar'], function(_bar) {"));
+}
+
 #[test]
 fn issue_466_1() {
     project("tests/projects/issue-466-1");
