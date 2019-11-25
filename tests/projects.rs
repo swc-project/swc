@@ -17,7 +17,7 @@ fn file(f: &str) -> Result<NormalizedOutput, StdErr> {
         );
         match s {
             Ok(v) => Ok(v.code.into()),
-            Err(e) => Err(()),
+            Err(..) => Err(()),
         }
     })
 }
@@ -68,7 +68,9 @@ fn angular_core() {
 /// should respect modules config in .swcrc
 #[test]
 fn issue_225() {
-    let s = file("tests/issue-225/input.js").unwrap();
+    let s = file("tests/projects/issue-225/input.js").unwrap();
+    println!("{}", s);
+
     assert!(s.contains("function _interopRequireDefault"));
     assert!(s.contains("var _foo = _interopRequireDefault(require('foo'))"));
 }
@@ -76,16 +78,18 @@ fn issue_225() {
 /// should handle exportNamespaceFrom configured by .swcrc
 #[test]
 fn issue_226() {
-    let s = file("tests/issue-226/input.js").unwrap();
+    let s = file("tests/projects/issue-226/input.js").unwrap();
+    println!("{}", s);
 
     assert!(s.contains("import * as _Foo from 'bar';"));
-    assert!(s.contains("export { _Foo as Foo };"));
+    assert!(s.contains("export { _Foo as Foo }"));
 }
 
 /// should handle react correctly
 #[test]
 fn issue_351() {
-    let s = file("tests/issue-226/input.js").unwrap();
+    let s = file("tests/projects/issue-351/input.js").unwrap();
+    println!("{}", s);
 
     assert!(s.contains(".default.createElement('div', null);"));
 }
@@ -93,7 +97,8 @@ fn issue_351() {
 /// should handle cjs imports
 #[test]
 fn issue_389() {
-    let s = file("tests/issue-226/input.js").unwrap();
+    let s = file("tests/projects/issue-389/input.js").unwrap();
+    println!("{}", s);
 
     assert!(s.contains(".default.bar = true"));
 }
@@ -101,7 +106,8 @@ fn issue_389() {
 /// should handle comments in arrow expression
 #[test]
 fn issue_406() {
-    let s = file("tests/issue-406/input.js").unwrap();
+    let s = file("tests/projects/issue-406/input.js").unwrap();
+    println!("{}", s);
 
     assert!(s.contains("return true"));
 }
@@ -109,11 +115,21 @@ fn issue_406() {
 /// should handle multiple entries in swcrc
 #[test]
 fn issue_414() {
-    let s1 = file("tests/issue-414/a.js").unwrap();
+    let s1 = file("tests/projects/issue-414/a.js").unwrap();
+    println!("{}", s1);
     assert!(s1.contains("require('foo')"));
 
-    let s2 = file("tests/issue-414/b.ts").unwrap();
+    let s2 = file("tests/projects/issue-414/b.ts").unwrap();
+    println!("{}", s2);
     assert!(s2.contains("define(['bar'], function(_bar) {"));
+}
+
+/// should handle comments in return statement
+#[test]
+fn issue_415() {
+    let s = file("tests/projects/issue-415/input.js").unwrap();
+
+    assert!(s.replace(" ", "").contains("return(/*#__PURE__*/"));
 }
 
 #[test]

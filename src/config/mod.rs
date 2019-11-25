@@ -323,6 +323,10 @@ impl FileMatcher {
 
         match self {
             FileMatcher::Regex(ref s) => {
+                if s.is_empty() {
+                    return Ok(false);
+                }
+
                 if !CACHE.contains_key(&*s) {
                     let re = Regex::new(&s).map_err(|err| Error::InvalidRegex {
                         regex: s.into(),
@@ -361,6 +365,7 @@ impl Config {
             if include.matches(filename)? {
                 return Ok(true);
             }
+            return Ok(false);
         }
 
         Ok(true)
