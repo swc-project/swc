@@ -48,14 +48,14 @@ where
 impl Fold<Expr> for OptChaining {
     fn fold(&mut self, e: Expr) -> Expr {
         let e = match e {
-            Expr::TsOptChain(e) => Expr::Cond(self.unwrap(e)),
-            Expr::Unary(e) => self.handle_unary(e),
-            Expr::Member(e) => self.handle_member(e),
-            Expr::Call(e) => self.handle_call(e),
+            Expr::TsOptChain(e) => Expr::Cond(validate!(self.unwrap(e))),
+            Expr::Unary(e) => validate!(self.handle_unary(e)),
+            Expr::Member(e) => validate!(self.handle_member(e)),
+            Expr::Call(e) => validate!(self.handle_call(e)),
             _ => e,
         };
 
-        e.fold_children(self)
+        validate!(e.fold_children(self))
     }
 }
 
