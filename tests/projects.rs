@@ -72,6 +72,15 @@ fn issue_225() {
     assert!(s.contains("var _foo = _interopRequireDefault(require('foo'))"));
 }
 
+/// should handle exportNamespaceFrom configured by .swcrc
+#[test]
+fn issue_226() {
+    let s = file("tests/issue-226/input.js").unwrap();
+
+    assert!(s.contains("import * as _Foo from 'bar';"));
+    assert!(s.contains("export { _Foo as Foo };"));
+}
+
 #[test]
 fn issue_466_1() {
     project("tests/projects/issue-466-1");
