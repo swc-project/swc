@@ -196,8 +196,7 @@ impl Fold<Expr> for Fixer {
             }
         }
         let expr = validate!(expr);
-        let expr = expr.fold_children(self);
-        let expr = validate!(expr);
+        let expr = validate!(expr.fold_children(self));
         let expr = validate!(unwrap_expr(expr));
 
         match expr {
