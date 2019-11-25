@@ -35,6 +35,36 @@ macro_rules! eq {
     }};
 }
 
+macro_rules! lte {
+    ($v:expr, $T:ty, $l:expr, $r:expr) => {{
+        debug_assert!(
+            $l <= $r,
+            "{}: {}: {} should be <= {}; l={:?}; r={:?}",
+            $v.name,
+            stringify!($T),
+            stringify!($l),
+            stringify!($r),
+            $l,
+            $r
+        );
+    }};
+}
+
+macro_rules! gte {
+    ($v:expr, $T:ty, $l:expr, $r:expr) => {{
+        debug_assert!(
+            $l >= $r,
+            "{}: {}: {} should be >= {}; l={:?}; r={:?}",
+            $v.name,
+            stringify!($T),
+            stringify!($l),
+            stringify!($r),
+            $l,
+            $r
+        );
+    }};
+}
+
 impl Fold<MemberExpr> for Validator {
     fn fold(&mut self, node: MemberExpr) -> MemberExpr {
         if node.span.is_dummy() {
@@ -50,11 +80,11 @@ impl Fold<MemberExpr> for Validator {
         }
 
         if !node.obj.span().is_dummy() {
-            eq!(self, MemberExpr, node.span().lo(), node.obj.span().lo());
+            lte!(self, MemberExpr, node.span().lo(), node.obj.span().lo());
         }
 
         if !node.computed && !node.prop.span().is_dummy() {
-            eq!(self, MemberExpr, node.span().hi(), node.prop.span().hi());
+            gte!(self, MemberExpr, node.span().hi(), node.prop.span().hi());
         }
 
         node.fold_children(self)
@@ -68,11 +98,11 @@ impl Fold<BinExpr> for Validator {
         }
 
         if !node.left.span().is_dummy() {
-            eq!(self, BinExpr, node.left.span().lo(), node.span().lo());
+            lte!(self, BinExpr, node.left.span().lo(), node.span().lo());
         }
 
         if !node.right.span().is_dummy() {
-            eq!(self, BinExpr, node.right.span().hi(), node.span().hi());
+            gte!(self, BinExpr, node.right.span().hi(), node.span().hi());
         }
 
         node.fold_children(self)
