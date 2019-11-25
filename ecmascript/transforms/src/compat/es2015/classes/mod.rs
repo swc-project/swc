@@ -348,8 +348,8 @@ impl Classes {
                 ClassMember::PrivateProp(..) => unreachable!(
                     "classes pass: private property\nclass_properties pass should remove this"
                 ),
-                ClassMember::TsIndexSignature(s) => {
-                    unimplemented!("typescript index signature {:?}", s)
+                ClassMember::TsIndexSignature(..) => {
+                    // We just strip this.
                 }
             }
         }
