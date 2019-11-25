@@ -32,9 +32,15 @@ use swc_common::{Fold, FoldWith};
 #[derive(Default, Clone, Copy)]
 pub struct PropertyLiteral;
 
+impl Fold<Module> for PropertyLiteral {
+    fn fold(&mut self, node: Module) -> Module {
+        validate!(node.fold_children(self))
+    }
+}
+
 impl Fold<PropName> for PropertyLiteral {
     fn fold(&mut self, n: PropName) -> PropName {
-        let n = n.fold_children(self);
+        let n = validate!(n.fold_children(self));
 
         match n {
             PropName::Str(Str {
