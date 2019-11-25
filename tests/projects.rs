@@ -90,6 +90,14 @@ fn issue_351() {
     assert!(s.contains(".default.createElement('div', null);"));
 }
 
+/// should handle cjs imports
+#[test]
+fn issue_389() {
+    let s = file("tests/issue-226/input.js").unwrap();
+
+    assert!(s.contains(".default.bar = true"));
+}
+
 #[test]
 fn issue_466_1() {
     project("tests/projects/issue-466-1");
