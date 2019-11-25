@@ -98,6 +98,14 @@ fn issue_389() {
     assert!(s.contains(".default.bar = true"));
 }
 
+/// should handle comments in arrow expression
+#[test]
+fn issue_406() {
+    let s = file("tests/issue-406/input.js").unwrap();
+
+    assert!(s.contains("return true"));
+}
+
 #[test]
 fn issue_466_1() {
     project("tests/projects/issue-466-1");
