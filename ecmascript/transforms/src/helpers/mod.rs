@@ -246,7 +246,8 @@ impl InjectHelpers {
 }
 
 impl Fold<Module> for InjectHelpers {
-    fn fold(&mut self, mut module: Module) -> Module {
+    fn fold(&mut self, module: Module) -> Module {
+        let mut module = validate!(module);
         let helpers = self.mk_helpers();
 
         prepend_stmts(&mut module.body, helpers.into_iter());
