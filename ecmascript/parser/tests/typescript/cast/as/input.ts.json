@@ -192,7 +192,7 @@
       "type": "BinaryExpression",
       "span": {
         "start": 49,
-        "end": 66,
+        "end": 56,
         "ctxt": 0,
         "loc": {
           "start": {
@@ -201,7 +201,7 @@
           },
           "end": {
             "line": 3,
-            "column": 17
+            "column": 7
           }
         }
       },
