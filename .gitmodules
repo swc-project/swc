@@ -4,3 +4,6 @@
 [submodule "tests/projects/rxjs"]
 	path = tests/projects/rxjs
 	url = git@github.com:ReactiveX/rxjs.git
+[submodule "tests/projects/webpack"]
+	path = tests/projects/webpack
+	url = git@github.com:webpack/webpack.git

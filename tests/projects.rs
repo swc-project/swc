@@ -67,7 +67,7 @@ fn rxjs() {
 
 #[test]
 fn webpack() {
-    project("tests/projects/webpack");
+    project("tests/projects/webpack/lib");
 }
 
 #[test]
