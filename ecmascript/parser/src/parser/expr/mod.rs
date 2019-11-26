@@ -175,9 +175,9 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 ..self.ctx()
             };
             let alt = self.with_ctx(ctx).parse_assignment_expr()?;
-
+            let span = Span::new(start, alt.span().hi(), Default::default());
             Ok(Box::new(Expr::Cond(CondExpr {
-                span: Span::new(start, alt.span().hi(), Default::default()),
+                span,
                 test,
                 cons,
                 alt,
@@ -852,9 +852,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
         {
             let prop = self.include_in_expr(true).parse_expr()?;
             expect!(']');
-            let span = Span::new(obj.span().lo(), self.input.cur_pos(), Default::default());
+            let span = Span::new(obj.span().lo(), self.input.last_pos(), Default::default());
             debug_assert_eq!(obj.span().lo(), span.lo());
-            // This is wrong: debug_assert_eq!(prop.span().hi(), span.hi());
 
             return Ok((
                 Box::new(wrap!(Expr::Member(MemberExpr {

@@ -215,7 +215,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
             while eat!('.') {
                 let ident = self.parse_ident(true, true)?;
 
-                let span = span!(start);
+                let span = Span::new(start, expr.span().hi(), Default::default());
                 debug_assert_eq!(expr.span().lo(), span.lo());
 
                 expr = Box::new(Expr::Member(MemberExpr {
