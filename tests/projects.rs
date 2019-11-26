@@ -32,6 +32,8 @@ fn project(dir: &str) {
                 if entry.metadata().unwrap().is_dir() {
                     continue;
                 }
+                println!("File: {}", entry.path().to_string_lossy());
+
                 if !entry.file_name().to_string_lossy().ends_with(".ts")
                     && !entry.file_name().to_string_lossy().ends_with(".js")
                     && !entry.file_name().to_string_lossy().ends_with(".tsx")
@@ -57,7 +59,7 @@ fn project(dir: &str) {
 
 #[test]
 fn angular_core() {
-    project("tests/projects/angular/repo/packages/core");
+    project("tests/projects/angular/repo/packages/core/src");
 }
 
 #[test]
