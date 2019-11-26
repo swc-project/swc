@@ -456,7 +456,6 @@ type_to_none!(TsType, TsTypeAnn, TsTypeParamDecl, TsTypeParamInstantiation);
 
 impl Fold<Expr> for Strip {
     fn fold(&mut self, expr: Expr) -> Expr {
-        let before = format!("{:?}", expr);
         let expr = match expr {
             Expr::Member(MemberExpr {
                 span,
@@ -477,10 +476,7 @@ impl Fold<Expr> for Strip {
             Expr::TsNonNull(TsNonNullExpr { expr, .. }) => validate!(*expr),
             Expr::TsTypeAssertion(TsTypeAssertion { expr, .. }) => validate!(*expr),
             Expr::TsTypeCast(TsTypeCastExpr { expr, .. }) => validate!(*expr),
-            _ => {
-                println!("=====\n{}\n{:?}", before, expr);
-                validate!(expr)
-            }
+            _ => validate!(expr),
         }
     }
 }
