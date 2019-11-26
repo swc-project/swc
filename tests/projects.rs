@@ -62,7 +62,7 @@ fn angular_core() {
 
 #[test]
 fn rxjs() {
-    project("tests/projects/rxjs");
+    project("tests/projects/rxjs/src");
 }
 
 #[test]
