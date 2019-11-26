@@ -57,17 +57,17 @@ fn project(dir: &str) {
 
 #[test]
 fn angular_core() {
-    project("tests/projects/angular-core");
+    project("tests/projects/angular/repo/packages/core");
 }
 
 #[test]
 fn rxjs() {
-    project("tests/projects/rxjs/src");
+    project("tests/projects/rxjs/repo/src");
 }
 
 #[test]
 fn webpack() {
-    project("tests/projects/webpack/lib");
+    project("tests/projects/webpack/repo/lib");
 }
 
 #[test]

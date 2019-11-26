@@ -2,8 +2,11 @@
 	path = ecmascript/parser/tests/test262-parser
 	url = https://github.com/tc39/test262-parser-tests.git
 [submodule "tests/projects/rxjs"]
-	path = tests/projects/rxjs
+	path = tests/projects/rxjs/repo
 	url = git@github.com:ReactiveX/rxjs.git
 [submodule "tests/projects/webpack"]
-	path = tests/projects/webpack
+	path = tests/projects/webpack/repo
 	url = git@github.com:webpack/webpack.git
+[submodule "tests/projects/angular/repo"]
+	path = tests/projects/angular/repo
+	url = git@github.com:angular/angular.git
