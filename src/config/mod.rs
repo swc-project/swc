@@ -153,6 +153,7 @@ impl Options {
             Optional::new(react::react(cm.clone(), transform.react), syntax.jsx()),
             Optional::new(typescript::strip(), syntax.typescript()),
             Optional::new(typescript::optional_chaining(), syntax.typescript()),
+            Optional::new(class_properties(), syntax.typescript()),
             resolver(),
             const_modules,
             pass,
