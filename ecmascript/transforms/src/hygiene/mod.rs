@@ -156,9 +156,9 @@ impl<'a> Hygiene<'a> {
 
 impl<'a> Fold<Module> for Hygiene<'a> {
     fn fold(&mut self, module: Module) -> Module {
-        let module = module.fold_children(self);
+        let module = validate!(module.fold_children(self));
 
-        self.apply_ops(module)
+        validate!(self.apply_ops(module))
     }
 }
 

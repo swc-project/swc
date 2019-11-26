@@ -180,19 +180,22 @@ impl Fold<KeyValueProp> for Fixer {
     }
 }
 
+/// Removes paren
+fn unwrap_expr(mut e: Expr) -> Expr {
+    match e {
+        Expr::Seq(SeqExpr { ref mut exprs, .. }) if exprs.len() == 1 => {
+            unwrap_expr(*exprs.pop().unwrap())
+        }
+        Expr::Paren(ParenExpr { expr, .. }) => unwrap_expr(*expr),
+        _ => validate!(e),
+    }
+}
+
 impl Fold<Expr> for Fixer {
     fn fold(&mut self, expr: Expr) -> Expr {
-        fn unwrap_expr(mut e: Expr) -> Expr {
-            match e {
-                Expr::Seq(SeqExpr { ref mut exprs, .. }) if exprs.len() == 1 => {
-                    unwrap_expr(*exprs.pop().unwrap())
-                }
-                Expr::Paren(ParenExpr { expr, .. }) => unwrap_expr(*expr),
-                _ => e,
-            }
-        }
         let expr = validate!(expr);
-        let expr = validate!(expr.fold_children(self));
+        let expr = expr.fold_children(self);
+        let expr = validate!(expr);
         let expr = unwrap_expr(expr);
 
         match expr {
@@ -273,12 +276,12 @@ impl Fold<Expr> for Fixer {
                 computed,
                 obj: ExprOrSuper::Expr(obj @ box Expr::Await(..)),
                 prop,
-            }) => MemberExpr {
+            }) => validate!(MemberExpr {
                 span,
                 computed,
                 obj: obj.wrap_with_paren().as_obj(),
                 prop,
-            }
+            })
             .into(),
 
             // Flatten seq expr
@@ -308,7 +311,7 @@ impl Fold<Expr> for Fixer {
                     if exprs.len() == 1 {
                         return *exprs.pop().unwrap();
                     }
-                    Expr::Seq(SeqExpr { span, exprs })
+                    validate!(Expr::Seq(SeqExpr { span, exprs }))
                 } else {
                     let mut buf = Vec::with_capacity(len);
                     for (i, expr) in exprs.into_iter().enumerate() {
@@ -338,15 +341,15 @@ impl Fold<Expr> for Fixer {
                         return *buf.pop().unwrap();
                     }
                     buf.shrink_to_fit();
-                    Expr::Seq(SeqExpr { span, exprs: buf })
+                    validate!(Expr::Seq(SeqExpr { span, exprs: buf }))
                 };
 
                 match self.ctx {
-                    Context::ForcedExpr { .. } => Expr::Paren(ParenExpr {
+                    Context::ForcedExpr { .. } => validate!(Expr::Paren(ParenExpr {
                         span,
                         expr: box expr,
-                    }),
-                    _ => expr,
+                    })),
+                    _ => validate!(expr),
                 }
             }
 
@@ -356,15 +359,15 @@ impl Fold<Expr> for Fixer {
                     | e @ Expr::Seq(..)
                     | e @ Expr::Yield(..)
                     | e @ Expr::Cond(..)
-                    | e @ Expr::Arrow(..) => box e.wrap_with_paren(),
+                    | e @ Expr::Arrow(..) => box validate!(e).wrap_with_paren(),
                     Expr::Bin(BinExpr { op: op_of_rhs, .. }) => {
                         if op_of_rhs.precedence() <= expr.op.precedence() {
                             box expr.right.wrap_with_paren()
                         } else {
-                            expr.right
+                            validate!(expr.right)
                         }
                     }
-                    _ => expr.right,
+                    _ => validate!(expr.right),
                 };
 
                 match *expr.left {
@@ -372,12 +375,12 @@ impl Fold<Expr> for Fixer {
                     // But it should be `(1 + x) * Nan`
                     Expr::Bin(BinExpr { op: op_of_lhs, .. }) => {
                         if op_of_lhs.precedence() < expr.op.precedence() {
-                            Expr::Bin(BinExpr {
+                            Expr::Bin(validate!(BinExpr {
                                 left: box expr.left.wrap_with_paren(),
                                 ..expr
-                            })
+                            }))
                         } else {
-                            Expr::Bin(expr)
+                            Expr::Bin(validate!(expr))
                         }
                     }
 
@@ -385,11 +388,11 @@ impl Fold<Expr> for Fixer {
                     | e @ Expr::Yield(..)
                     | e @ Expr::Cond(..)
                     | e @ Expr::Assign(..)
-                    | e @ Expr::Arrow(..) => Expr::Bin(BinExpr {
+                    | e @ Expr::Arrow(..) => validate!(Expr::Bin(BinExpr {
                         left: box e.wrap_with_paren(),
                         ..expr
-                    }),
-                    _ => Expr::Bin(expr),
+                    })),
+                    _ => validate!(Expr::Bin(expr)),
                 }
             }
 
@@ -419,12 +422,12 @@ impl Fold<Expr> for Fixer {
                     e @ Expr::Seq(..) => box e.wrap_with_paren(),
                     _ => expr.alt,
                 };
-                Expr::Cond(CondExpr {
+                validate!(Expr::Cond(CondExpr {
                     test,
                     cons,
                     alt,
                     ..expr
-                })
+                }))
             }
 
             Expr::Unary(expr) => {
@@ -438,7 +441,7 @@ impl Fold<Expr> for Fixer {
                     _ => expr.arg,
                 };
 
-                Expr::Unary(UnaryExpr { arg, ..expr })
+                validate!(Expr::Unary(UnaryExpr { arg, ..expr }))
             }
 
             Expr::Assign(expr) => {
@@ -458,7 +461,7 @@ impl Fold<Expr> for Fixer {
                     _ => expr.right,
                 };
 
-                Expr::Assign(AssignExpr { right, ..expr })
+                validate!(Expr::Assign(AssignExpr { right, ..expr }))
             }
 
             Expr::Call(CallExpr {
@@ -466,12 +469,12 @@ impl Fold<Expr> for Fixer {
                 callee: ExprOrSuper::Expr(callee @ box Expr::Arrow(_)),
                 args,
                 type_args,
-            }) => Expr::Call(CallExpr {
+            }) => validate!(Expr::Call(CallExpr {
                 span,
                 callee: callee.wrap_with_paren().as_callee(),
                 args,
                 type_args,
-            }),
+            })),
 
             // Function expression cannot start with `function`
             Expr::Call(CallExpr {
@@ -480,39 +483,39 @@ impl Fold<Expr> for Fixer {
                 args,
                 type_args,
             }) => match self.ctx {
-                Context::ForcedExpr { .. } => Expr::Call(CallExpr {
+                Context::ForcedExpr { .. } => validate!(Expr::Call(CallExpr {
                     span,
                     callee: callee.as_callee(),
                     args,
                     type_args,
-                }),
+                })),
 
-                Context::Callee { is_new: true } => Expr::Call(CallExpr {
+                Context::Callee { is_new: true } => validate!(Expr::Call(CallExpr {
                     span,
                     callee: callee.as_callee(),
                     args,
                     type_args,
-                })
+                }))
                 .wrap_with_paren(),
 
-                _ => Expr::Call(CallExpr {
+                _ => validate!(Expr::Call(CallExpr {
                     span,
                     callee: callee.wrap_with_paren().as_callee(),
                     args,
                     type_args,
-                }),
+                })),
             },
             Expr::Call(CallExpr {
                 span,
                 callee: ExprOrSuper::Expr(callee @ box Expr::Assign(_)),
                 args,
                 type_args,
-            }) => Expr::Call(CallExpr {
+            }) => validate!(Expr::Call(CallExpr {
                 span,
                 callee: callee.wrap_with_paren().as_callee(),
                 args,
                 type_args,
-            }),
+            })),
             _ => expr,
         }
     }

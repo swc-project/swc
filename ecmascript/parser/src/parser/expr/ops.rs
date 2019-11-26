@@ -155,7 +155,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         };
 
         let node = Box::new(Expr::Bin(BinExpr {
-            span: span!(left.span().lo()),
+            span: Span::new(left.span().lo(), right.span().hi(), Default::default()),
             op,
             left,
             right,
@@ -254,7 +254,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
             }
 
             return Ok(Box::new(Expr::Unary(UnaryExpr {
-                span: span!(start),
+                span: Span::new(start, arg.span().hi(), Default::default()),
                 op,
                 arg,
             })));

@@ -152,6 +152,8 @@ impl Options {
             // handle jsx
             Optional::new(react::react(cm.clone(), transform.react), syntax.jsx()),
             Optional::new(typescript::strip(), syntax.typescript()),
+            Optional::new(typescript::optional_chaining(), syntax.typescript()),
+            Optional::new(class_properties(), syntax.typescript()),
             resolver(),
             const_modules,
             pass,
@@ -287,7 +289,10 @@ impl Rc {
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct Config {
     #[serde(default)]
-    pub test: Option<String>,
+    pub test: Option<FileMatcher>,
+
+    #[serde(default)]
+    pub exclude: Option<FileMatcher>,
 
     #[serde(default)]
     pub jsc: JscConfig,
@@ -299,25 +304,73 @@ pub struct Config {
     pub minify: Option<bool>,
 }
 
-impl Config {
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum FileMatcher {
+    Regex(String),
+    Multi(Vec<FileMatcher>),
+}
+
+impl Default for FileMatcher {
+    fn default() -> Self {
+        Self::Regex(String::from(""))
+    }
+}
+
+impl FileMatcher {
     pub fn matches(&self, filename: &Path) -> Result<bool, Error> {
         lazy_static! {
             static ref CACHE: CHashMap<String, Regex> = Default::default();
         }
 
-        match self.test {
-            Some(ref test) => {
-                if !CACHE.contains_key(&*test) {
-                    let re = Regex::new(&test).map_err(|err| Error::InvalidRegex { err })?;
-                    CACHE.insert(test.clone(), re);
+        match self {
+            FileMatcher::Regex(ref s) => {
+                if s.is_empty() {
+                    return Ok(false);
                 }
 
-                let re = CACHE.get(&*test).unwrap();
+                if !CACHE.contains_key(&*s) {
+                    let re = Regex::new(&s).map_err(|err| Error::InvalidRegex {
+                        regex: s.into(),
+                        err,
+                    })?;
+                    CACHE.insert(s.clone(), re);
+                }
 
-                Ok(re.is_match(&filename.display().to_string()))
+                let re = CACHE.get(&*s).unwrap();
+
+                Ok(re.is_match(&filename.to_string_lossy()))
             }
-            None => Ok(true),
+            FileMatcher::Multi(ref v) => {
+                //
+                for m in v {
+                    if m.matches(filename)? {
+                        return Ok(true);
+                    }
+                }
+
+                Ok(false)
+            }
         }
+    }
+}
+
+impl Config {
+    pub fn matches(&self, filename: &Path) -> Result<bool, Error> {
+        if let Some(ref exclude) = self.exclude {
+            if exclude.matches(filename)? {
+                return Ok(false);
+            }
+        }
+
+        if let Some(ref include) = self.test {
+            if include.matches(filename)? {
+                return Ok(true);
+            }
+            return Ok(false);
+        }
+
+        Ok(true)
     }
 }
 

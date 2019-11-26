@@ -27,6 +27,10 @@ regex = "1"
 chashmap = "2.2.2"
 sourcemap = "4.1.1  "
 
+[dev-dependencies]
+testing = { path = "./testing" }
+walkdir = "2"
+
 [[example]]
 name = "usage"
 

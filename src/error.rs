@@ -28,8 +28,8 @@ pub enum Error {
     #[fail(display = "sourcemap is not utf8: {}", err)]
     SourceMapNotUtf8 { err: FromUtf8Error },
 
-    #[fail(display = "invalid regexp: {}", err)]
-    InvalidRegex { err: regex::Error },
+    #[fail(display = "invalid regexp: {}: {}", regex, err)]
+    InvalidRegex { regex: String, err: regex::Error },
 
     /* #[fail(display = "generated code is not utf8: {}", err)]
      * GeneratedCodeNotUtf8 { err: FromUtf8Error }, */

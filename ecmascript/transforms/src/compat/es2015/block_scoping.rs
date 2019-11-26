@@ -153,6 +153,12 @@ impl Fold<VarDeclarator> for BlockScoping {
     }
 }
 
+impl Fold<Module> for BlockScoping {
+    fn fold(&mut self, node: Module) -> Module {
+        validate!(node.fold_children(self))
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::block_scoping;

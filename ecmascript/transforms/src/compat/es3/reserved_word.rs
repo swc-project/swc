@@ -55,6 +55,12 @@ impl Fold<ImportSpecific> for ReservedWord {
     }
 }
 
+impl Fold<Module> for ReservedWord {
+    fn fold(&mut self, node: Module) -> Module {
+        validate!(node.fold_children(self))
+    }
+}
+
 impl Fold<MemberExpr> for ReservedWord {
     fn fold(&mut self, e: MemberExpr) -> MemberExpr {
         if e.computed {

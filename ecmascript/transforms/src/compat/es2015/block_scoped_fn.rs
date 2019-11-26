@@ -21,7 +21,7 @@ impl Fold<Vec<Stmt>> for BlockScopedFns {
 
             // This is to preserve function Class()
             if stmt.span().is_dummy() {
-                extra_stmts.push(stmt)
+                extra_stmts.push(validate!(stmt))
             } else {
                 match stmt {
                     Stmt::Decl(Decl::Fn(decl)) => {
@@ -44,14 +44,14 @@ impl Fold<Vec<Stmt>> for BlockScopedFns {
                             declare: false,
                         })))
                     }
-                    _ => extra_stmts.push(stmt.fold_children(self)),
+                    _ => extra_stmts.push(validate!(stmt.fold_children(self))),
                 }
             }
         }
 
         stmts.append(&mut extra_stmts);
 
-        stmts
+        validate!(stmts)
     }
 }
 

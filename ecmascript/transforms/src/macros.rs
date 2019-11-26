@@ -9,6 +9,7 @@ macro_rules! impl_fold_fn {
                     return f;
                 }
 
+                let f = validate!(f);
                 let f = f.fold_children(self);
 
                 let (params, body) = self.fold_fn_like(f.params, f.body.unwrap());

@@ -396,13 +396,14 @@ impl Visit<TsEntityName> for Strip {
 
 impl Fold<Decl> for Strip {
     fn fold(&mut self, decl: Decl) -> Decl {
+        let decl = validate!(decl);
         self.handle_decl(&decl);
 
         let old = self.non_top_level;
         self.non_top_level = true;
         let decl = decl.fold_children(self);
         self.non_top_level = old;
-        decl
+        validate!(decl)
     }
 }
 
@@ -471,11 +472,19 @@ impl Fold<Expr> for Strip {
         };
 
         match expr {
-            Expr::TsAs(TsAsExpr { expr, .. }) => *expr,
-            Expr::TsNonNull(TsNonNullExpr { expr, .. }) => *expr,
-            Expr::TsTypeAssertion(TsTypeAssertion { expr, .. }) => *expr,
-            Expr::TsTypeCast(TsTypeCastExpr { expr, .. }) => *expr,
-            _ => expr,
+            Expr::TsAs(TsAsExpr { expr, .. }) => validate!(*expr),
+            Expr::TsNonNull(TsNonNullExpr { expr, .. }) => validate!(*expr),
+            Expr::TsTypeAssertion(TsTypeAssertion { expr, .. }) => validate!(*expr),
+            Expr::TsTypeCast(TsTypeCastExpr { expr, .. }) => validate!(*expr),
+            _ => validate!(expr),
         }
+    }
+}
+
+impl Fold<Module> for Strip {
+    fn fold(&mut self, node: Module) -> Module {
+        let node = validate!(node);
+
+        validate!(node.fold_children(self))
     }
 }

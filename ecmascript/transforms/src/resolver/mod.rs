@@ -385,6 +385,8 @@ impl Fold<Vec<Stmt>> for Resolver<'_> {
 
 impl Fold<Vec<ModuleItem>> for Resolver<'_> {
     fn fold(&mut self, stmts: Vec<ModuleItem>) -> Vec<ModuleItem> {
+        let stmts = validate!(stmts);
+
         if self.current.kind != ScopeKind::Fn {
             return stmts.fold_children(self);
         }

@@ -178,7 +178,7 @@ impl Fold<Decl> for Classes {
             _ => n,
         };
 
-        n.fold_children(self)
+        validate!(n.fold_children(self))
     }
 }
 
@@ -186,10 +186,10 @@ impl Fold<Expr> for Classes {
     fn fold(&mut self, n: Expr) -> Expr {
         let n = validate!(n);
 
-        match n {
+        validate!(match n {
             Expr::Class(e) => self.fold_class(e.ident, e.class).fold_children(self),
             _ => n.fold_children(self),
-        }
+        })
     }
 }
 
@@ -348,8 +348,8 @@ impl Classes {
                 ClassMember::PrivateProp(..) => unreachable!(
                     "classes pass: private property\nclass_properties pass should remove this"
                 ),
-                ClassMember::TsIndexSignature(s) => {
-                    unimplemented!("typescript index signature {:?}", s)
+                ClassMember::TsIndexSignature(..) => {
+                    // We just strip this.
                 }
             }
         }

@@ -22,9 +22,15 @@ use swc_common::{Fold, FoldWith};
 #[derive(Default, Clone, Copy)]
 pub struct MemberExprLit;
 
+impl Fold<Module> for MemberExprLit {
+    fn fold(&mut self, node: Module) -> Module {
+        validate!(node.fold_children(self))
+    }
+}
+
 impl Fold<MemberExpr> for MemberExprLit {
     fn fold(&mut self, e: MemberExpr) -> MemberExpr {
-        let mut e = e.fold_children(self);
+        let mut e = validate!(e.fold_children(self));
 
         macro_rules! handle {
             ($sym:expr, $span:expr) => {

@@ -187,3 +187,66 @@ test!(
     )(x);
 }"
 );
+
+test!(
+    ::swc_ecma_parser::Syntax::Typescript(Default::default()),
+    |_| strip(),
+    issue_468_1,
+    "tView.firstCreatePass ?
+      getOrCreateTNode(tView, lView[T_HOST], index, TNodeType.Element, null, null) :
+      tView.data[adjustedIndex] as TElementNode",
+    "tView.firstCreatePass ? getOrCreateTNode(tView, lView[T_HOST], index, TNodeType.Element, \
+     null, null) : tView.data[adjustedIndex];"
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::Typescript(Default::default()),
+    |_| strip(),
+    issue_468_2,
+    "tView.firstCreatePass ?
+      getOrCreateTNode(tView, lView[T_HOST], index, TNodeType.Element, null, null) :
+      tView.data[adjustedIndex] as TElementNode",
+    "tView.firstCreatePass ? getOrCreateTNode(tView, lView[T_HOST], index, TNodeType.Element, \
+     null, null) : tView.data[adjustedIndex];"
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::Typescript(Default::default()),
+    |_| strip(),
+    issue_468_3,
+    "tView.firstCreatePass ?
+      getOrCreateTNode() : tView.data[adjustedIndex] as TElementNode",
+    "tView.firstCreatePass ? getOrCreateTNode() : tView.data[adjustedIndex];"
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::Typescript(Default::default()),
+    |_| strip(),
+    issue_468_4,
+    "a ? b : c",
+    "a ? b : c"
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::Typescript(Default::default()),
+    |_| strip(),
+    issue_468_5,
+    "a ? b : c as T",
+    "a ? b : c"
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::Typescript(Default::default()),
+    |_| strip(),
+    issue_468_6,
+    "a.b ? c() : d.e[f] as T",
+    "a.b ? c() : d.e[f];"
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::Typescript(Default::default()),
+    |_| strip(),
+    issue_468_7,
+    "tView.firstCreatePass ? getOrCreateTNode() : tView.data[adjustedIndex]",
+    "tView.firstCreatePass ? getOrCreateTNode() : tView.data[adjustedIndex];"
+);
