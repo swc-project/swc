@@ -106,7 +106,7 @@ pub struct WithStmt {
 #[ast_node("ReturnStatement")]
 pub struct ReturnStmt {
     pub span: Span,
-    #[serde(default, rename = "argument", skip_serializing_if = "Option::is_none")]
+    #[serde(default, rename = "argument")]
     pub arg: Option<Box<Expr>>,
 }
 
@@ -120,14 +120,14 @@ pub struct LabeledStmt {
 #[ast_node("BreakStatement")]
 pub struct BreakStmt {
     pub span: Span,
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(default)]
     pub label: Option<Ident>,
 }
 
 #[ast_node("ContinueStatement")]
 pub struct ContinueStmt {
     pub span: Span,
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(default)]
     pub label: Option<Ident>,
 }
 
@@ -139,7 +139,7 @@ pub struct IfStmt {
     #[serde(rename = "consequent")]
     pub cons: Box<Stmt>,
 
-    #[serde(default, rename = "alternate", skip_serializing_if = "Option::is_none")]
+    #[serde(default, rename = "alternate")]
     pub alt: Option<Box<Stmt>>,
 }
 
@@ -163,10 +163,10 @@ pub struct TryStmt {
 
     pub block: BlockStmt,
 
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(default)]
     pub handler: Option<CatchClause>,
 
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(default)]
     pub finalizer: Option<BlockStmt>,
 }
 
@@ -188,13 +188,13 @@ pub struct DoWhileStmt {
 pub struct ForStmt {
     pub span: Span,
 
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(default)]
     pub init: Option<VarDeclOrExpr>,
 
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(default)]
     pub test: Option<Box<Expr>>,
 
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(default)]
     pub update: Option<Box<Expr>>,
 
     pub body: Box<Stmt>,
@@ -216,7 +216,7 @@ pub struct ForOfStmt {
     /// es2018
     ///
     /// for-await-of statements, e.g., `for await (const x of xs) {`
-    #[serde(default, rename = "await", skip_serializing_if = "Option::is_none")]
+    #[serde(default, rename = "await")]
     pub await_token: Option<Span>,
     pub left: VarDeclOrPat,
     pub right: Box<Expr>,
@@ -228,7 +228,7 @@ pub struct SwitchCase {
     pub span: Span,
 
     /// None for `default:`
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(default)]
     pub test: Option<Box<Expr>>,
 
     #[serde(rename = "consequent")]
@@ -242,7 +242,7 @@ pub struct CatchClause {
     ///
     /// The param is null if the catch binding is omitted. E.g., try { foo() }
     /// catch { bar() }
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(default)]
     pub param: Option<Pat>,
 
     pub body: BlockStmt,

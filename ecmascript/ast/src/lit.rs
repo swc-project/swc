@@ -61,7 +61,7 @@ pub struct Regex {
     #[serde(rename = "pattern")]
     pub exp: Str,
 
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(default)]
     pub flags: Option<RegexFlags>,
 }
 

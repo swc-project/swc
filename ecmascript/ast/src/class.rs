@@ -18,26 +18,26 @@ use swc_common::{ast_node, Span};
 pub struct Class {
     pub span: Span,
 
-    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    #[serde(default)]
     pub decorators: Vec<Decorator>,
 
-    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    #[serde(default)]
     pub body: Vec<ClassMember>,
 
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(default)]
     pub super_class: Option<Box<Expr>>,
 
     #[serde(default)]
     pub is_abstract: bool,
 
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(default)]
     pub type_params: Option<TsTypeParamDecl>,
 
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(default)]
     pub super_type_params: Option<TsTypeParamInstantiation>,
 
     /// Typescript extension.
-    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    #[serde(default)]
     pub implements: Vec<TsExprWithTypeArgs>,
 }
 
@@ -68,27 +68,23 @@ macro_rules! property {
 
             pub key: $KEY,
 
-            #[serde(default, skip_serializing_if = "Option::is_none")]
+            #[serde(default)]
             pub value: Option<Box<Expr>>,
 
-            #[serde(
-                default,
-                rename = "typeAnnotation",
-                skip_serializing_if = "Option::is_none"
-            )]
+            #[serde(default, rename = "typeAnnotation")]
             pub type_ann: Option<TsTypeAnn>,
 
             #[serde(default)]
             pub is_static: bool,
 
-            #[serde(default, skip_serializing_if = "Vec::is_empty")]
+            #[serde(default)]
             pub decorators: Vec<Decorator>,
 
             #[serde(default)]
             pub computed: bool,
 
             /// Typescript extension.
-            #[serde(default, skip_serializing_if = "Option::is_none")]
+            #[serde(default)]
             pub accessibility: Option<Accessibility>,
 
             /// Typescript extension.
@@ -128,7 +124,7 @@ macro_rules! method {
             pub is_static: bool,
 
             /// Typescript extension.
-            #[serde(default, skip_serializing_if = "Option::is_none")]
+            #[serde(default)]
             pub accessibility: Option<Accessibility>,
 
             /// Typescript extension.
@@ -152,10 +148,10 @@ pub struct Constructor {
 
     pub params: Vec<PatOrTsParamProp>,
 
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(default)]
     pub body: Option<BlockStmt>,
 
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(default)]
     pub accessibility: Option<Accessibility>,
 
     #[serde(default)]

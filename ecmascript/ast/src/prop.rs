@@ -52,7 +52,7 @@ pub struct AssignProp {
 pub struct GetterProp {
     pub span: Span,
     pub key: PropName,
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(default)]
     pub body: Option<BlockStmt>,
 }
 #[ast_node("SetterProperty")]
@@ -60,7 +60,7 @@ pub struct SetterProp {
     pub span: Span,
     pub key: PropName,
     pub param: Pat,
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(default)]
     pub body: Option<BlockStmt>,
 }
 #[ast_node("MethodProperty")]

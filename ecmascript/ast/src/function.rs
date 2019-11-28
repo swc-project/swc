@@ -11,7 +11,7 @@ use swc_common::{ast_node, Span};
 pub struct Function {
     pub params: Vec<Pat>,
 
-    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    #[serde(default)]
     pub decorators: Vec<Decorator>,
 
     pub span: Span,
@@ -27,14 +27,10 @@ pub struct Function {
     #[serde(default, rename = "async")]
     pub is_async: bool,
 
-    #[serde(
-        default,
-        rename = "typeParameters",
-        skip_serializing_if = "Option::is_none"
-    )]
+    #[serde(default, rename = "typeParameters")]
     pub type_params: Option<TsTypeParamDecl>,
 
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(default)]
     pub return_type: Option<TsTypeAnn>,
 }
 

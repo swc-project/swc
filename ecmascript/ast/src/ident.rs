@@ -9,11 +9,7 @@ pub struct Ident {
     #[serde(rename = "value")]
     #[cfg_attr(feature = "fold", fold(ignore))]
     pub sym: JsWord,
-    #[serde(
-        default,
-        rename = "typeAnnotation",
-        skip_serializing_if = "Option::is_none"
-    )]
+    #[serde(default, rename = "typeAnnotation")]
     pub type_ann: Option<TsTypeAnn>,
     /// TypeScript only. Used in case of an optional parameter.
     #[serde(default)]

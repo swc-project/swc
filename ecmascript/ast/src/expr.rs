@@ -161,7 +161,7 @@ pub struct ThisExpr {
 pub struct ArrayLit {
     pub span: Span,
 
-    #[serde(default, rename = "elements", skip_serializing_if = "Vec::is_empty")]
+    #[serde(default, rename = "elements")]
     pub elems: Vec<Option<ExprOrSpread>>,
 }
 
@@ -170,7 +170,7 @@ pub struct ArrayLit {
 pub struct ObjectLit {
     pub span: Span,
 
-    #[serde(default, rename = "properties", skip_serializing_if = "Vec::is_empty")]
+    #[serde(default, rename = "properties"]
     pub props: Vec<PropOrSpread>,
 }
 
@@ -236,8 +236,7 @@ pub struct BinExpr {
 pub struct FnExpr {
     #[serde(
         default,
-        rename = "identifier",
-        skip_serializing_if = "Option::is_none"
+        rename = "identifier"
     )]
     pub ident: Option<Ident>,
 
@@ -251,8 +250,7 @@ pub struct FnExpr {
 pub struct ClassExpr {
     #[serde(
         default,
-        rename = "identifier",
-        skip_serializing_if = "Option::is_none"
+        rename = "identifier"
     )]
     pub ident: Option<Ident>,
 
@@ -351,12 +349,11 @@ pub struct ArrowExpr {
 
     #[serde(
         default,
-        rename = "typeParameters",
-        skip_serializing_if = "Option::is_none"
+        rename = "typeParameters"
     )]
     pub type_params: Option<TsTypeParamDecl>,
 
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(default)]
     pub return_type: Option<TsTypeAnn>,
 }
 
@@ -364,7 +361,7 @@ pub struct ArrowExpr {
 pub struct YieldExpr {
     pub span: Span,
 
-    #[serde(default, rename = "argument", skip_serializing_if = "Option::is_none")]
+    #[serde(default, rename = "argument")]
     pub arg: Option<Box<Expr>>,
 
     #[serde(default)]
@@ -411,8 +408,7 @@ pub struct TaggedTpl {
 
     #[serde(
         default,
-        rename = "typeParameters",
-        skip_serializing_if = "Option::is_none"
+        rename = "typeParameters"
     )]
     pub type_params: Option<TsTypeParamInstantiation>,
 }
@@ -452,7 +448,7 @@ pub struct Super {
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "fold", derive(Fold))]
 pub struct ExprOrSpread {
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(default)]
     pub spread: Option<Span>,
 
     pub expr: Box<Expr>,

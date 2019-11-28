@@ -83,7 +83,7 @@ pub struct JSXOpeningElement {
 
     pub span: Span,
 
-    #[serde(default, rename = "attributes", skip_serializing_if = "Vec::is_empty")]
+    #[serde(default, rename = "attributes")]
     pub attrs: Vec<JSXAttrOrSpread>,
 
     #[serde(rename = "selfClosing")]
@@ -91,11 +91,7 @@ pub struct JSXOpeningElement {
 
     /// Note: This field's name is differrent from one from babel because it is
     /// misleading
-    #[serde(
-        default,
-        rename = "typeArguments",
-        skip_serializing_if = "Option::is_none"
-    )]
+    #[serde(default, rename = "typeArguments")]
     pub type_args: Option<TsTypeParamInstantiation>,
 }
 
@@ -119,7 +115,7 @@ pub struct JSXAttr {
     pub span: Span,
     pub name: JSXAttrName,
     /// Babel uses Expr instead of JSXAttrValue
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(default)]
     pub value: Option<Box<Expr>>,
 }
 
@@ -190,7 +186,7 @@ pub struct JSXFragment {
 
     pub opening: JSXOpeningFragment,
 
-    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    #[serde(default)]
     pub children: Vec<JSXElementChild>,
 
     pub closing: JSXClosingFragment,

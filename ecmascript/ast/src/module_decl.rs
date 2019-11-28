@@ -57,7 +57,7 @@ pub struct ExportDecl {
 pub struct ImportDecl {
     pub span: Span,
 
-    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    #[serde(default)]
     pub specifiers: Vec<ImportSpecifier>,
 
     #[serde(rename = "source")]
@@ -137,7 +137,7 @@ pub struct ImportSpecific {
 
     pub local: Ident,
 
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(default)]
     pub imported: Option<Ident>,
 }
 
@@ -173,6 +173,6 @@ pub struct NamedExportSpecifier {
     /// `foo` in `export { foo as bar }`
     pub orig: Ident,
     /// `Some(bar)` in `export { foo as bar }`
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(default)]
     pub exported: Option<Ident>,
 }
