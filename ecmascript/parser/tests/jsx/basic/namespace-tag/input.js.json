@@ -2,7 +2,7 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 32,
+    "end": 33,
     "ctxt": 0,
     "loc": {
       "start": {
@@ -55,6 +55,7 @@
               }
             },
             "value": "Foo",
+            "typeAnnotation": null,
             "optional": false
           },
           "name": {
@@ -75,6 +76,7 @@
               }
             },
             "value": "Bar",
+            "typeAnnotation": null,
             "optional": false
           }
         },
@@ -93,7 +95,9 @@
             }
           }
         },
-        "selfClosing": true
+        "attributes": [],
+        "selfClosing": true,
+        "typeArguments": null
       },
       "children": [],
       "closing": null
@@ -101,8 +105,8 @@
     {
       "type": "JSXElement",
       "span": {
-        "start": 13,
-        "end": 32,
+        "start": 14,
+        "end": 33,
         "ctxt": 0,
         "loc": {
           "start": {
@@ -122,8 +126,8 @@
           "namespace": {
             "type": "Identifier",
             "span": {
-              "start": 14,
-              "end": 17,
+              "start": 15,
+              "end": 18,
               "ctxt": 0,
               "loc": {
                 "start": {
@@ -137,13 +141,14 @@
               }
             },
             "value": "Foo",
+            "typeAnnotation": null,
             "optional": false
           },
           "name": {
             "type": "Identifier",
             "span": {
-              "start": 18,
-              "end": 21,
+              "start": 19,
+              "end": 22,
               "ctxt": 0,
               "loc": {
                 "start": {
@@ -157,12 +162,13 @@
               }
             },
             "value": "Bar",
+            "typeAnnotation": null,
             "optional": false
           }
         },
         "span": {
-          "start": 14,
-          "end": 22,
+          "start": 15,
+          "end": 23,
           "ctxt": 0,
           "loc": {
             "start": {
@@ -175,14 +181,16 @@
             }
           }
         },
-        "selfClosing": false
+        "attributes": [],
+        "selfClosing": false,
+        "typeArguments": null
       },
       "children": [],
       "closing": {
         "type": "JSXClosingElement",
         "span": {
-          "start": 24,
-          "end": 32,
+          "start": 25,
+          "end": 33,
           "ctxt": 0,
           "loc": {
             "start": {
@@ -200,8 +208,8 @@
           "namespace": {
             "type": "Identifier",
             "span": {
-              "start": 24,
-              "end": 27,
+              "start": 25,
+              "end": 28,
               "ctxt": 0,
               "loc": {
                 "start": {
@@ -215,13 +223,14 @@
               }
             },
             "value": "Foo",
+            "typeAnnotation": null,
             "optional": false
           },
           "name": {
             "type": "Identifier",
             "span": {
-              "start": 28,
-              "end": 31,
+              "start": 29,
+              "end": 32,
               "ctxt": 0,
               "loc": {
                 "start": {
@@ -235,10 +244,12 @@
               }
             },
             "value": "Bar",
+            "typeAnnotation": null,
             "optional": false
           }
         }
       }
     }
-  ]
+  ],
+  "interpreter": null
 }

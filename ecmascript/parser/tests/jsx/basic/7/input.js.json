@@ -2,7 +2,7 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 51,
+    "end": 55,
     "ctxt": 0,
     "loc": {
       "start": {
@@ -20,7 +20,7 @@
       "type": "JSXElement",
       "span": {
         "start": 0,
-        "end": 51,
+        "end": 55,
         "ctxt": 0,
         "loc": {
           "start": {
@@ -53,11 +53,12 @@
             }
           },
           "value": "AbC-def",
+          "typeAnnotation": null,
           "optional": false
         },
         "span": {
           "start": 1,
-          "end": 32,
+          "end": 33,
           "ctxt": 0,
           "loc": {
             "start": {
@@ -74,8 +75,8 @@
           {
             "type": "JSXAttribute",
             "span": {
-              "start": 11,
-              "end": 31,
+              "start": 12,
+              "end": 32,
               "ctxt": 0,
               "loc": {
                 "start": {
@@ -91,8 +92,8 @@
             "name": {
               "type": "Identifier",
               "span": {
-                "start": 11,
-                "end": 15,
+                "start": 12,
+                "end": 16,
                 "ctxt": 0,
                 "loc": {
                   "start": {
@@ -106,13 +107,14 @@
                 }
               },
               "value": "test",
+              "typeAnnotation": null,
               "optional": false
             },
             "value": {
               "type": "StringLiteral",
               "span": {
-                "start": 16,
-                "end": 31,
+                "start": 17,
+                "end": 32,
                 "ctxt": 0,
                 "loc": {
                   "start": {
@@ -130,14 +132,15 @@
             }
           }
         ],
-        "selfClosing": false
+        "selfClosing": false,
+        "typeArguments": null
       },
       "children": [
         {
           "type": "JSXText",
           "span": {
-            "start": 32,
-            "end": 41,
+            "start": 33,
+            "end": 45,
             "ctxt": 0,
             "loc": {
               "start": {
@@ -150,15 +153,15 @@
               }
             }
           },
-          "value": "\n\nbar\n\nbaz\n\n",
-          "raw": "\n\nbar\n\nbaz\n\n"
+          "value": "\n\r\nbar\n\r\nbaz\n\r\n",
+          "raw": "\n\r\nbar\n\r\nbaz\n\r\n"
         }
       ],
       "closing": {
         "type": "JSXClosingElement",
         "span": {
-          "start": 43,
-          "end": 51,
+          "start": 47,
+          "end": 55,
           "ctxt": 0,
           "loc": {
             "start": {
@@ -174,8 +177,8 @@
         "name": {
           "type": "Identifier",
           "span": {
-            "start": 43,
-            "end": 50,
+            "start": 47,
+            "end": 54,
             "ctxt": 0,
             "loc": {
               "start": {
@@ -189,9 +192,11 @@
             }
           },
           "value": "AbC-def",
+          "typeAnnotation": null,
           "optional": false
         }
       }
     }
-  ]
+  ],
+  "interpreter": null
 }

@@ -53,6 +53,7 @@
             }
           },
           "value": "A",
+          "typeAnnotation": null,
           "optional": false
         },
         "span": {
@@ -106,6 +107,7 @@
                 }
               },
               "value": "aa",
+              "typeAnnotation": null,
               "optional": false
             },
             "value": {
@@ -160,6 +162,7 @@
                     }
                   },
                   "value": "aa",
+                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -180,6 +183,7 @@
                     }
                   },
                   "value": "bb",
+                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -202,6 +206,7 @@
                   }
                 },
                 "value": "cc",
+                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -242,6 +247,7 @@
                 }
               },
               "value": "bb",
+              "typeAnnotation": null,
               "optional": false
             },
             "value": {
@@ -296,6 +302,7 @@
                     }
                   },
                   "value": "bb",
+                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -316,6 +323,7 @@
                     }
                   },
                   "value": "cc",
+                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -338,13 +346,15 @@
                   }
                 },
                 "value": "dd",
+                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
             }
           }
         ],
-        "selfClosing": false
+        "selfClosing": false,
+        "typeArguments": null
       },
       "children": [
         {
@@ -384,6 +394,7 @@
                 }
               },
               "value": "div",
+              "typeAnnotation": null,
               "optional": false
             },
             "span": {
@@ -401,7 +412,9 @@
                 }
               }
             },
-            "selfClosing": false
+            "attributes": [],
+            "selfClosing": false,
+            "typeArguments": null
           },
           "children": [
             {
@@ -441,6 +454,7 @@
                     }
                   },
                   "value": "aa",
+                  "typeAnnotation": null,
                   "optional": false
                 },
                 "property": {
@@ -461,6 +475,7 @@
                     }
                   },
                   "value": "b",
+                  "typeAnnotation": null,
                   "optional": false
                 },
                 "computed": false
@@ -502,6 +517,7 @@
                 }
               },
               "value": "div",
+              "typeAnnotation": null,
               "optional": false
             }
           }
@@ -542,9 +558,11 @@
             }
           },
           "value": "A",
+          "typeAnnotation": null,
           "optional": false
         }
       }
     }
-  ]
+  ],
+  "interpreter": null
 }

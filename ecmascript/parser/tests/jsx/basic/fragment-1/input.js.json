@@ -51,6 +51,7 @@
           }
         }
       },
+      "children": [],
       "closing": {
         "type": "JSXClosingFragment",
         "span": {
@@ -70,5 +71,6 @@
         }
       }
     }
-  ]
+  ],
+  "interpreter": null
 }

@@ -53,6 +53,7 @@
             }
           },
           "value": "div",
+          "typeAnnotation": null,
           "optional": false
         },
         "span": {
@@ -106,14 +107,17 @@
                 }
               },
               "value": "props",
+              "typeAnnotation": null,
               "optional": false
             }
           }
         ],
-        "selfClosing": true
+        "selfClosing": true,
+        "typeArguments": null
       },
       "children": [],
       "closing": null
     }
-  ]
+  ],
+  "interpreter": null
 }

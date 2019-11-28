@@ -53,6 +53,7 @@
             }
           },
           "value": "div",
+          "typeAnnotation": null,
           "optional": false
         },
         "span": {
@@ -106,6 +107,7 @@
                 }
               },
               "value": "pre",
+              "typeAnnotation": null,
               "optional": false
             },
             "value": {
@@ -164,6 +166,7 @@
                 }
               },
               "value": "pre2",
+              "typeAnnotation": null,
               "optional": false
             },
             "value": {
@@ -222,11 +225,13 @@
                 }
               },
               "value": "props",
+              "typeAnnotation": null,
               "optional": false
             }
           }
         ],
-        "selfClosing": false
+        "selfClosing": false,
+        "typeArguments": null
       },
       "children": [],
       "closing": {
@@ -264,9 +269,11 @@
             }
           },
           "value": "div",
+          "typeAnnotation": null,
           "optional": false
         }
       }
     }
-  ]
+  ],
+  "interpreter": null
 }

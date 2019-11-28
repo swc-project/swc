@@ -2,7 +2,7 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 35,
+    "end": 37,
     "ctxt": 0,
     "loc": {
       "start": {
@@ -36,13 +36,15 @@
           }
         },
         "value": "it",
+        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
       "params": [],
+      "decorators": [],
       "span": {
         "start": 0,
-        "end": 35,
+        "end": 37,
         "ctxt": 0,
         "loc": {
           "start": {
@@ -59,7 +61,7 @@
         "type": "BlockStatement",
         "span": {
           "start": 13,
-          "end": 35,
+          "end": 37,
           "ctxt": 0,
           "loc": {
             "start": {
@@ -76,8 +78,8 @@
           {
             "type": "YieldExpression",
             "span": {
-              "start": 19,
-              "end": 32,
+              "start": 20,
+              "end": 33,
               "ctxt": 0,
               "loc": {
                 "start": {
@@ -93,8 +95,8 @@
             "argument": {
               "type": "JSXElement",
               "span": {
-                "start": 25,
-                "end": 32,
+                "start": 26,
+                "end": 33,
                 "ctxt": 0,
                 "loc": {
                   "start": {
@@ -112,8 +114,8 @@
                 "name": {
                   "type": "Identifier",
                   "span": {
-                    "start": 26,
-                    "end": 27,
+                    "start": 27,
+                    "end": 28,
                     "ctxt": 0,
                     "loc": {
                       "start": {
@@ -127,11 +129,12 @@
                     }
                   },
                   "value": "a",
+                  "typeAnnotation": null,
                   "optional": false
                 },
                 "span": {
-                  "start": 26,
-                  "end": 28,
+                  "start": 27,
+                  "end": 29,
                   "ctxt": 0,
                   "loc": {
                     "start": {
@@ -144,14 +147,16 @@
                     }
                   }
                 },
-                "selfClosing": false
+                "attributes": [],
+                "selfClosing": false,
+                "typeArguments": null
               },
               "children": [],
               "closing": {
                 "type": "JSXClosingElement",
                 "span": {
-                  "start": 30,
-                  "end": 32,
+                  "start": 31,
+                  "end": 33,
                   "ctxt": 0,
                   "loc": {
                     "start": {
@@ -167,8 +172,8 @@
                 "name": {
                   "type": "Identifier",
                   "span": {
-                    "start": 30,
-                    "end": 31,
+                    "start": 31,
+                    "end": 32,
                     "ctxt": 0,
                     "loc": {
                       "start": {
@@ -182,6 +187,7 @@
                     }
                   },
                   "value": "a",
+                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -191,7 +197,10 @@
         ]
       },
       "generator": true,
-      "async": false
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
     }
-  ]
+  ],
+  "interpreter": null
 }

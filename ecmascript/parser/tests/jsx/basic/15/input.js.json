@@ -57,6 +57,7 @@
                 }
               },
               "value": "a",
+              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -77,6 +78,7 @@
                 }
               },
               "value": "b",
+              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -98,6 +100,7 @@
               }
             },
             "value": "c",
+            "typeAnnotation": null,
             "optional": false
           }
         },
@@ -116,7 +119,9 @@
             }
           }
         },
-        "selfClosing": false
+        "attributes": [],
+        "selfClosing": false,
+        "typeArguments": null
       },
       "children": [],
       "closing": {
@@ -158,6 +163,7 @@
                 }
               },
               "value": "a",
+              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -178,6 +184,7 @@
                 }
               },
               "value": "b",
+              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -199,10 +206,12 @@
               }
             },
             "value": "c",
+            "typeAnnotation": null,
             "optional": false
           }
         }
       }
     }
-  ]
+  ],
+  "interpreter": null
 }

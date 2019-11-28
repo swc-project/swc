@@ -53,6 +53,7 @@
             }
           },
           "value": "LeftRight",
+          "typeAnnotation": null,
           "optional": false
         },
         "span": {
@@ -106,6 +107,7 @@
                 }
               },
               "value": "left",
+              "typeAnnotation": null,
               "optional": false
             },
             "value": {
@@ -145,6 +147,7 @@
                     }
                   },
                   "value": "a",
+                  "typeAnnotation": null,
                   "optional": false
                 },
                 "span": {
@@ -162,7 +165,9 @@
                     }
                   }
                 },
-                "selfClosing": true
+                "attributes": [],
+                "selfClosing": true,
+                "typeArguments": null
               },
               "children": [],
               "closing": null
@@ -203,6 +208,7 @@
                 }
               },
               "value": "right",
+              "typeAnnotation": null,
               "optional": false
             },
             "value": {
@@ -242,6 +248,7 @@
                     }
                   },
                   "value": "b",
+                  "typeAnnotation": null,
                   "optional": false
                 },
                 "span": {
@@ -259,7 +266,9 @@
                     }
                   }
                 },
-                "selfClosing": false
+                "attributes": [],
+                "selfClosing": false,
+                "typeArguments": null
               },
               "children": [
                 {
@@ -318,16 +327,19 @@
                     }
                   },
                   "value": "b",
+                  "typeAnnotation": null,
                   "optional": false
                 }
               }
             }
           }
         ],
-        "selfClosing": true
+        "selfClosing": true,
+        "typeArguments": null
       },
       "children": [],
       "closing": null
     }
-  ]
+  ],
+  "interpreter": null
 }

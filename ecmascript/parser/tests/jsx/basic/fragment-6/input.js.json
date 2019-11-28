@@ -89,6 +89,7 @@
                 }
               },
               "value": "div",
+              "typeAnnotation": null,
               "optional": false
             },
             "span": {
@@ -106,7 +107,9 @@
                 }
               }
             },
-            "selfClosing": false
+            "attributes": [],
+            "selfClosing": false,
+            "typeArguments": null
           },
           "children": [
             {
@@ -165,6 +168,7 @@
                 }
               },
               "value": "div",
+              "typeAnnotation": null,
               "optional": false
             }
           }
@@ -232,5 +236,6 @@
         }
       }
     }
-  ]
+  ],
+  "interpreter": null
 }

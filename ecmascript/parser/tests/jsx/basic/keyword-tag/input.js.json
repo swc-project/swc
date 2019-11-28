@@ -53,6 +53,7 @@
             }
           },
           "value": "var",
+          "typeAnnotation": null,
           "optional": false
         },
         "span": {
@@ -70,7 +71,9 @@
             }
           }
         },
-        "selfClosing": false
+        "attributes": [],
+        "selfClosing": false,
+        "typeArguments": null
       },
       "children": [],
       "closing": {
@@ -108,9 +111,11 @@
             }
           },
           "value": "var",
+          "typeAnnotation": null,
           "optional": false
         }
       }
     }
-  ]
+  ],
+  "interpreter": null
 }

@@ -52,6 +52,7 @@
             }
           },
           "value": "foo",
+          "typeAnnotation": null,
           "optional": false
         }
       ],
@@ -176,5 +177,6 @@
         }
       ]
     }
-  ]
+  ],
+  "interpreter": null
 }

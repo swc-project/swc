@@ -53,6 +53,7 @@
             }
           },
           "value": "div",
+          "typeAnnotation": null,
           "optional": false
         },
         "span": {
@@ -70,7 +71,9 @@
             }
           }
         },
-        "selfClosing": false
+        "attributes": [],
+        "selfClosing": false,
+        "typeArguments": null
       },
       "children": [
         {
@@ -110,6 +113,7 @@
                 }
               },
               "value": "br",
+              "typeAnnotation": null,
               "optional": false
             },
             "span": {
@@ -127,7 +131,9 @@
                 }
               }
             },
-            "selfClosing": true
+            "attributes": [],
+            "selfClosing": true,
+            "typeArguments": null
           },
           "children": [],
           "closing": null
@@ -188,9 +194,11 @@
             }
           },
           "value": "div",
+          "typeAnnotation": null,
           "optional": false
         }
       }
     }
-  ]
+  ],
+  "interpreter": null
 }

@@ -2,7 +2,7 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 62,
+    "end": 68,
     "ctxt": 0,
     "loc": {
       "start": {
@@ -20,7 +20,7 @@
       "type": "JSXFragment",
       "span": {
         "start": 0,
-        "end": 62,
+        "end": 68,
         "ctxt": 0,
         "loc": {
           "start": {
@@ -36,8 +36,8 @@
       "opening": {
         "type": "JSXOpeningFragment",
         "span": {
-          "start": 29,
-          "end": 30,
+          "start": 32,
+          "end": 33,
           "ctxt": 0,
           "loc": {
             "start": {
@@ -55,8 +55,8 @@
         {
           "type": "JSXText",
           "span": {
-            "start": 30,
-            "end": 33,
+            "start": 33,
+            "end": 37,
             "ctxt": 0,
             "loc": {
               "start": {
@@ -69,14 +69,14 @@
               }
             }
           },
-          "value": "\n\n  ",
-          "raw": "\n\n  "
+          "value": "\n\r\n  ",
+          "raw": "\n\r\n  "
         },
         {
           "type": "JSXElement",
           "span": {
-            "start": 33,
-            "end": 44,
+            "start": 37,
+            "end": 48,
             "ctxt": 0,
             "loc": {
               "start": {
@@ -94,8 +94,8 @@
             "name": {
               "type": "Identifier",
               "span": {
-                "start": 34,
-                "end": 37,
+                "start": 38,
+                "end": 41,
                 "ctxt": 0,
                 "loc": {
                   "start": {
@@ -109,11 +109,12 @@
                 }
               },
               "value": "div",
+              "typeAnnotation": null,
               "optional": false
             },
             "span": {
-              "start": 34,
-              "end": 38,
+              "start": 38,
+              "end": 42,
               "ctxt": 0,
               "loc": {
                 "start": {
@@ -126,14 +127,16 @@
                 }
               }
             },
-            "selfClosing": false
+            "attributes": [],
+            "selfClosing": false,
+            "typeArguments": null
           },
           "children": [],
           "closing": {
             "type": "JSXClosingElement",
             "span": {
-              "start": 40,
-              "end": 44,
+              "start": 44,
+              "end": 48,
               "ctxt": 0,
               "loc": {
                 "start": {
@@ -149,8 +152,8 @@
             "name": {
               "type": "Identifier",
               "span": {
-                "start": 40,
-                "end": 43,
+                "start": 44,
+                "end": 47,
                 "ctxt": 0,
                 "loc": {
                   "start": {
@@ -164,6 +167,7 @@
                 }
               },
               "value": "div",
+              "typeAnnotation": null,
               "optional": false
             }
           }
@@ -171,8 +175,8 @@
         {
           "type": "JSXText",
           "span": {
-            "start": 44,
-            "end": 47,
+            "start": 48,
+            "end": 52,
             "ctxt": 0,
             "loc": {
               "start": {
@@ -185,14 +189,14 @@
               }
             }
           },
-          "value": "\n\n  ",
-          "raw": "\n\n  "
+          "value": "\n\r\n  ",
+          "raw": "\n\r\n  "
         },
         {
           "type": "JSXElement",
           "span": {
-            "start": 47,
-            "end": 58,
+            "start": 52,
+            "end": 63,
             "ctxt": 0,
             "loc": {
               "start": {
@@ -210,8 +214,8 @@
             "name": {
               "type": "Identifier",
               "span": {
-                "start": 48,
-                "end": 51,
+                "start": 53,
+                "end": 56,
                 "ctxt": 0,
                 "loc": {
                   "start": {
@@ -225,11 +229,12 @@
                 }
               },
               "value": "div",
+              "typeAnnotation": null,
               "optional": false
             },
             "span": {
-              "start": 48,
-              "end": 52,
+              "start": 53,
+              "end": 57,
               "ctxt": 0,
               "loc": {
                 "start": {
@@ -242,14 +247,16 @@
                 }
               }
             },
-            "selfClosing": false
+            "attributes": [],
+            "selfClosing": false,
+            "typeArguments": null
           },
           "children": [],
           "closing": {
             "type": "JSXClosingElement",
             "span": {
-              "start": 54,
-              "end": 58,
+              "start": 59,
+              "end": 63,
               "ctxt": 0,
               "loc": {
                 "start": {
@@ -265,8 +272,8 @@
             "name": {
               "type": "Identifier",
               "span": {
-                "start": 54,
-                "end": 57,
+                "start": 59,
+                "end": 62,
                 "ctxt": 0,
                 "loc": {
                   "start": {
@@ -280,6 +287,7 @@
                 }
               },
               "value": "div",
+              "typeAnnotation": null,
               "optional": false
             }
           }
@@ -287,8 +295,8 @@
         {
           "type": "JSXText",
           "span": {
-            "start": 58,
-            "end": 59,
+            "start": 63,
+            "end": 65,
             "ctxt": 0,
             "loc": {
               "start": {
@@ -301,15 +309,15 @@
               }
             }
           },
-          "value": "\n\n",
-          "raw": "\n\n"
+          "value": "\n\r\n",
+          "raw": "\n\r\n"
         }
       ],
       "closing": {
         "type": "JSXClosingFragment",
         "span": {
-          "start": 61,
-          "end": 62,
+          "start": 67,
+          "end": 68,
           "ctxt": 0,
           "loc": {
             "start": {
@@ -324,5 +332,6 @@
         }
       }
     }
-  ]
+  ],
+  "interpreter": null
 }

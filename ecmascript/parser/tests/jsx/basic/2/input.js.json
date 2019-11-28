@@ -55,6 +55,7 @@
               }
             },
             "value": "n",
+            "typeAnnotation": null,
             "optional": false
           },
           "name": {
@@ -75,6 +76,7 @@
               }
             },
             "value": "a",
+            "typeAnnotation": null,
             "optional": false
           }
         },
@@ -131,6 +133,7 @@
                   }
                 },
                 "value": "n",
+                "typeAnnotation": null,
                 "optional": false
               },
               "name": {
@@ -151,15 +154,19 @@
                   }
                 },
                 "value": "v",
+                "typeAnnotation": null,
                 "optional": false
               }
-            }
+            },
+            "value": null
           }
         ],
-        "selfClosing": true
+        "selfClosing": true,
+        "typeArguments": null
       },
       "children": [],
       "closing": null
     }
-  ]
+  ],
+  "interpreter": null
 }

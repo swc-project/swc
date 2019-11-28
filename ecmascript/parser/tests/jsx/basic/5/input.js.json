@@ -2,7 +2,7 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 5,
+    "end": 6,
     "ctxt": 0,
     "loc": {
       "start": {
@@ -20,7 +20,7 @@
       "type": "JSXElement",
       "span": {
         "start": 0,
-        "end": 5,
+        "end": 6,
         "ctxt": 0,
         "loc": {
           "start": {
@@ -53,11 +53,12 @@
             }
           },
           "value": "a",
+          "typeAnnotation": null,
           "optional": false
         },
         "span": {
           "start": 1,
-          "end": 5,
+          "end": 6,
           "ctxt": 0,
           "loc": {
             "start": {
@@ -70,10 +71,13 @@
             }
           }
         },
-        "selfClosing": true
+        "attributes": [],
+        "selfClosing": true,
+        "typeArguments": null
       },
       "children": [],
       "closing": null
     }
-  ]
+  ],
+  "interpreter": null
 }

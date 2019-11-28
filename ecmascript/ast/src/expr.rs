@@ -170,7 +170,7 @@ pub struct ArrayLit {
 pub struct ObjectLit {
     pub span: Span,
 
-    #[serde(default, rename = "properties"]
+    #[serde(default, rename = "properties")]
     pub props: Vec<PropOrSpread>,
 }
 
@@ -234,10 +234,7 @@ pub struct BinExpr {
 /// Function expression.
 #[ast_node("FunctionExpression")]
 pub struct FnExpr {
-    #[serde(
-        default,
-        rename = "identifier"
-    )]
+    #[serde(default, rename = "identifier")]
     pub ident: Option<Ident>,
 
     #[serde(flatten)]
@@ -248,10 +245,7 @@ pub struct FnExpr {
 /// Class expression.
 #[ast_node("ClassExpression")]
 pub struct ClassExpr {
-    #[serde(
-        default,
-        rename = "identifier"
-    )]
+    #[serde(default, rename = "identifier")]
     pub ident: Option<Ident>,
 
     #[serde(flatten)]
@@ -347,10 +341,7 @@ pub struct ArrowExpr {
     #[serde(default, rename = "generator")]
     pub is_generator: bool,
 
-    #[serde(
-        default,
-        rename = "typeParameters"
-    )]
+    #[serde(default, rename = "typeParameters")]
     pub type_params: Option<TsTypeParamDecl>,
 
     #[serde(default)]
@@ -406,10 +397,7 @@ pub struct TaggedTpl {
     pub exprs: Vec<Box<Expr>>,
     pub quasis: Vec<TplElement>,
 
-    #[serde(
-        default,
-        rename = "typeParameters"
-    )]
+    #[serde(default, rename = "typeParameters")]
     pub type_params: Option<TsTypeParamInstantiation>,
 }
 

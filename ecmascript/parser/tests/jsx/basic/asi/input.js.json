@@ -2,7 +2,7 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 34,
+    "end": 37,
     "ctxt": 0,
     "loc": {
       "start": {
@@ -36,13 +36,15 @@
           }
         },
         "value": "x",
+        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
       "params": [],
+      "decorators": [],
       "span": {
         "start": 0,
-        "end": 34,
+        "end": 37,
         "ctxt": 0,
         "loc": {
           "start": {
@@ -59,7 +61,7 @@
         "type": "BlockStatement",
         "span": {
           "start": 13,
-          "end": 34,
+          "end": 37,
           "ctxt": 0,
           "loc": {
             "start": {
@@ -76,8 +78,8 @@
           {
             "type": "VariableDeclaration",
             "span": {
-              "start": 17,
-              "end": 22,
+              "start": 18,
+              "end": 23,
               "ctxt": 0,
               "loc": {
                 "start": {
@@ -96,8 +98,8 @@
               {
                 "type": "VariableDeclarator",
                 "span": {
-                  "start": 21,
-                  "end": 22,
+                  "start": 22,
+                  "end": 23,
                   "ctxt": 0,
                   "loc": {
                     "start": {
@@ -113,8 +115,8 @@
                 "id": {
                   "type": "Identifier",
                   "span": {
-                    "start": 21,
-                    "end": 22,
+                    "start": 22,
+                    "end": 23,
                     "ctxt": 0,
                     "loc": {
                       "start": {
@@ -128,8 +130,10 @@
                     }
                   },
                   "value": "x",
+                  "typeAnnotation": null,
                   "optional": false
                 },
+                "init": null,
                 "definite": false
               }
             ]
@@ -137,8 +141,8 @@
           {
             "type": "JSXElement",
             "span": {
-              "start": 25,
-              "end": 32,
+              "start": 27,
+              "end": 34,
               "ctxt": 0,
               "loc": {
                 "start": {
@@ -156,8 +160,8 @@
               "name": {
                 "type": "Identifier",
                 "span": {
-                  "start": 26,
-                  "end": 29,
+                  "start": 28,
+                  "end": 31,
                   "ctxt": 0,
                   "loc": {
                     "start": {
@@ -171,11 +175,12 @@
                   }
                 },
                 "value": "div",
+                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
-                "start": 26,
-                "end": 32,
+                "start": 28,
+                "end": 34,
                 "ctxt": 0,
                 "loc": {
                   "start": {
@@ -188,7 +193,9 @@
                   }
                 }
               },
-              "selfClosing": true
+              "attributes": [],
+              "selfClosing": true,
+              "typeArguments": null
             },
             "children": [],
             "closing": null
@@ -196,7 +203,10 @@
         ]
       },
       "generator": false,
-      "async": false
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
     }
-  ]
+  ],
+  "interpreter": null
 }

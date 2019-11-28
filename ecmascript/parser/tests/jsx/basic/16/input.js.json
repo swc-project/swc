@@ -88,6 +88,7 @@
                 }
               },
               "value": "div",
+              "typeAnnotation": null,
               "optional": false
             },
             "span": {
@@ -105,7 +106,9 @@
                 }
               }
             },
-            "selfClosing": true
+            "attributes": [],
+            "selfClosing": true,
+            "typeArguments": null
           },
           "children": [],
           "closing": null
@@ -129,8 +132,10 @@
           }
         },
         "value": "x",
+        "typeAnnotation": null,
         "optional": false
       }
     }
-  ]
+  ],
+  "interpreter": null
 }

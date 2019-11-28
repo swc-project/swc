@@ -53,6 +53,7 @@
             }
           },
           "value": "a",
+          "typeAnnotation": null,
           "optional": false
         },
         "span": {
@@ -106,6 +107,7 @@
                 }
               },
               "value": "b",
+              "typeAnnotation": null,
               "optional": false
             },
             "value": {
@@ -143,6 +145,7 @@
                   }
                 },
                 "value": "x",
+                "typeAnnotation": null,
                 "optional": false
               },
               "consequent": {
@@ -182,6 +185,7 @@
                       }
                     },
                     "value": "c",
+                    "typeAnnotation": null,
                     "optional": false
                   },
                   "span": {
@@ -199,7 +203,9 @@
                       }
                     }
                   },
-                  "selfClosing": true
+                  "attributes": [],
+                  "selfClosing": true,
+                  "typeArguments": null
                 },
                 "children": [],
                 "closing": null
@@ -241,6 +247,7 @@
                       }
                     },
                     "value": "d",
+                    "typeAnnotation": null,
                     "optional": false
                   },
                   "span": {
@@ -258,7 +265,9 @@
                       }
                     }
                   },
-                  "selfClosing": true
+                  "attributes": [],
+                  "selfClosing": true,
+                  "typeArguments": null
                 },
                 "children": [],
                 "closing": null
@@ -266,10 +275,12 @@
             }
           }
         ],
-        "selfClosing": true
+        "selfClosing": true,
+        "typeArguments": null
       },
       "children": [],
       "closing": null
     }
-  ]
+  ],
+  "interpreter": null
 }

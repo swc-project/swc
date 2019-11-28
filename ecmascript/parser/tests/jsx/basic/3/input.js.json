@@ -53,6 +53,7 @@
             }
           },
           "value": "a",
+          "typeAnnotation": null,
           "optional": false
         },
         "span": {
@@ -108,6 +109,7 @@
                   }
                 },
                 "value": "n",
+                "typeAnnotation": null,
                 "optional": false
               },
               "name": {
@@ -128,6 +130,7 @@
                   }
                 },
                 "value": "foo",
+                "typeAnnotation": null,
                 "optional": false
               }
             },
@@ -153,7 +156,8 @@
             }
           }
         ],
-        "selfClosing": false
+        "selfClosing": false,
+        "typeArguments": null
       },
       "children": [
         {
@@ -196,6 +200,7 @@
               }
             },
             "value": "value",
+            "typeAnnotation": null,
             "optional": false
           }
         },
@@ -256,6 +261,7 @@
                 }
               },
               "value": "b",
+              "typeAnnotation": null,
               "optional": false
             },
             "span": {
@@ -273,7 +279,9 @@
                 }
               }
             },
-            "selfClosing": false
+            "attributes": [],
+            "selfClosing": false,
+            "typeArguments": null
           },
           "children": [
             {
@@ -313,6 +321,7 @@
                     }
                   },
                   "value": "c",
+                  "typeAnnotation": null,
                   "optional": false
                 },
                 "span": {
@@ -330,7 +339,9 @@
                     }
                   }
                 },
-                "selfClosing": true
+                "attributes": [],
+                "selfClosing": true,
+                "typeArguments": null
               },
               "children": [],
               "closing": null
@@ -371,6 +382,7 @@
                 }
               },
               "value": "b",
+              "typeAnnotation": null,
               "optional": false
             }
           }
@@ -411,9 +423,11 @@
             }
           },
           "value": "a",
+          "typeAnnotation": null,
           "optional": false
         }
       }
     }
-  ]
+  ],
+  "interpreter": null
 }

@@ -53,6 +53,7 @@
             }
           },
           "value": "div",
+          "typeAnnotation": null,
           "optional": false
         },
         "span": {
@@ -106,6 +107,7 @@
                 }
               },
               "value": "props",
+              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -144,6 +146,7 @@
                 }
               },
               "value": "post",
+              "typeAnnotation": null,
               "optional": false
             },
             "value": {
@@ -168,10 +171,12 @@
             }
           }
         ],
-        "selfClosing": true
+        "selfClosing": true,
+        "typeArguments": null
       },
       "children": [],
       "closing": null
     }
-  ]
+  ],
+  "interpreter": null
 }
