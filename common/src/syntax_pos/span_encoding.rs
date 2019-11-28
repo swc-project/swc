@@ -62,8 +62,8 @@ impl Serialize for Span {
     {
         let data = self.data();
         let mut s = serializer.serialize_struct("Span", 3)?;
-        s.serialize_field("start", &data.lo.0)?;
-        s.serialize_field("end", &data.hi.0)?;
+        s.serialize_field("start", &data.lo)?;
+        s.serialize_field("end", &data.hi)?;
         s.serialize_field("ctxt", &data.ctxt)?;
 
         if !self.is_dummy() {

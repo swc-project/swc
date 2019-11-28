@@ -841,6 +841,7 @@ pub trait Pos {
 /// A byte offset. Keep this small (currently 32-bits), as AST contains
 /// a lot of them.
 #[derive(Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, Debug, Serialize, Deserialize)]
+#[serde(transparent)]
 pub struct BytePos(pub u32);
 
 /// A character offset. Because of multibyte utf8 characters, a byte offset
