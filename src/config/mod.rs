@@ -35,7 +35,7 @@ pub struct ParseOptions {
     pub syntax: Syntax,
 }
 
-#[derive(Default, Serialize, Deserialize)]
+#[derive(Default, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct Options {
     #[serde(flatten, default)]
@@ -79,9 +79,6 @@ pub struct Options {
 
     #[serde(default)]
     pub source_root: Option<String>,
-
-    #[serde(skip)]
-    pub hook: Option<Box<dyn Pass + 'static>>,
 }
 
 #[derive(Clone, Serialize, Deserialize)]
@@ -112,7 +109,7 @@ impl Default for InputSourceMap {
 
 impl Options {
     pub fn build(
-        self,
+        &self,
         cm: &Arc<SourceMap>,
         handler: &Handler,
         config: Option<Config>,
@@ -152,7 +149,6 @@ impl Options {
 
         let pass = chain_at!(
             Module,
-            self.hook.unwrap_or_else(|| box noop()),
             // handle jsx
             Optional::new(react::react(cm.clone(), transform.react), syntax.jsx()),
             Optional::new(typescript::strip(), syntax.typescript()),
