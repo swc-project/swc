@@ -61,7 +61,7 @@ impl Compiler {
     where
         F: FnOnce() -> R,
     {
-        GLOBALS.set(&self.globals, op)
+        GLOBALS.set(&self.globals, || common::CM.set(&self.cm, || op()))
     }
 
     /// This method parses a javascript / typescript file
@@ -165,21 +165,15 @@ impl Compiler {
     /// This method handles merging of config.
     pub fn config_for_file(
         &self,
-        opts: &Options,
+        opts: Options,
         fm: &SourceFile,
     ) -> Result<BuiltConfig<impl Pass>, Error> {
-        let Options {
-            ref root,
-            root_mode,
-            swcrc,
-            config_file,
-            ..
-        } = opts;
-        let root = root
+        let root = opts
+            .root
             .clone()
             .unwrap_or_else(|| ::std::env::current_dir().unwrap());
 
-        let config_file = match config_file {
+        let config_file = match opts.config_file {
             Some(ConfigFile::Str(ref s)) => {
                 let path = Path::new(s);
                 let r = File::open(&path).map_err(|err| Error::FailedToReadConfigFile { err })?;
@@ -192,7 +186,7 @@ impl Compiler {
 
         match fm.name {
             FileName::Real(ref path) => {
-                if *swcrc {
+                if opts.swcrc {
                     let mut parent = path.parent();
                     while let Some(dir) = parent {
                         let swcrc = dir.join(".swcrc");
@@ -210,7 +204,7 @@ impl Compiler {
                             return Ok(built);
                         }
 
-                        if dir == root && *root_mode == RootMode::Root {
+                        if dir == root && opts.root_mode == RootMode::Root {
                             break;
                         }
                         parent = dir.parent();
@@ -245,7 +239,7 @@ impl Compiler {
         fm: Arc<SourceFile>,
         opts: Options,
     ) -> Result<TransformOutput, Error> {
-        let config = self.run(|| self.config_for_file(&opts, &*fm))?;
+        let config = self.run(|| self.config_for_file(opts, &*fm))?;
 
         self.process_js(fm, config)
     }
