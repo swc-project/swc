@@ -10,7 +10,7 @@ fn file(f: &str) -> Result<NormalizedOutput, StdErr> {
         let fm = cm.load_file(Path::new(f)).expect("failed to load file");
         let s = c.process_js_file(
             fm,
-            Options {
+            &Options {
                 swcrc: true,
                 ..Default::default()
             },
@@ -44,7 +44,7 @@ fn project(dir: &str) {
                 let fm = cm.load_file(entry.path()).expect("failed to load file");
                 let _ = c.process_js_file(
                     fm,
-                    Options {
+                    &Options {
                         swcrc: true,
                         ..Default::default()
                     },

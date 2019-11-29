@@ -20,7 +20,7 @@ fn main() {
 
     c.process_js_file(
         fm,
-        Options {
+        &Options {
             ..Default::default()
         },
     )
