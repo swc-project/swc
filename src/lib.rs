@@ -43,7 +43,7 @@ pub struct Compiler {
     globals: Globals,
     /// CodeMap
     pub cm: Arc<SourceMap>,
-    handler: Handler,
+    pub handler: Handler,
 }
 
 #[derive(Serialize)]
