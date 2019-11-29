@@ -24,7 +24,6 @@ use ecmascript::{
     parser::{Parser, Session as ParseSess, Syntax},
     transforms::{
         helpers::{self, Helpers},
-        pass::noop,
         util,
     },
 };
@@ -248,7 +247,7 @@ impl Compiler {
     ) -> Result<TransformOutput, Error> {
         let config = self.run(|| self.config_for_file(opts, &*fm))?;
 
-        self.process_js(fm, noop(), config)
+        self.process_js(fm, config)
     }
 
     /// You can use custom pass with this method.
@@ -257,7 +256,6 @@ impl Compiler {
     pub fn process_js(
         &self,
         fm: Arc<SourceFile>,
-        mut hook: impl Pass,
         config: BuiltConfig<impl Pass>,
     ) -> Result<TransformOutput, Error> {
         self.run(|| {
@@ -275,7 +273,7 @@ impl Compiler {
             let module = helpers::HELPERS.set(&Helpers::new(config.external_helpers), || {
                 util::HANDLER.set(&self.handler, || {
                     // Fold module
-                    module.fold_with(&mut hook).fold_with(&mut pass)
+                    module.fold_with(&mut pass)
                 })
             });
 
