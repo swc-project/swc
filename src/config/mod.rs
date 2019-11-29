@@ -81,7 +81,7 @@ pub struct Options {
     pub source_root: Option<String>,
 
     #[serde(skip)]
-    pub hook: Option<Box<dyn Pass + 'static>>,
+    pub hook: Option<Box<dyn Pass + Send + Sync + 'static>>,
 }
 
 #[derive(Clone, Serialize, Deserialize)]
