@@ -91,5 +91,6 @@ pub enum PropName {
 pub struct ComputedPropName {
     /// Span including `[` and `]`.
     pub span: Span,
+    #[serde(rename = "expression")]
     pub expr: Box<Expr>,
 }
