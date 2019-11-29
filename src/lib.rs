@@ -243,9 +243,9 @@ impl Compiler {
     pub fn process_js_file(
         &self,
         fm: Arc<SourceFile>,
-        opts: Options,
+        opts: &Options,
     ) -> Result<TransformOutput, Error> {
-        let config = self.run(|| self.config_for_file(&opts, &*fm))?;
+        let config = self.run(|| self.config_for_file(opts, &*fm))?;
 
         self.process_js(fm, config)
     }
