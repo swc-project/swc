@@ -57,20 +57,20 @@ fn project(dir: &str) {
         .expect("");
 }
 
-#[test]
-fn angular_core() {
-    project("tests/projects/angular/repo/packages/core/src");
-}
-
-#[test]
-fn rxjs() {
-    project("tests/projects/rxjs/repo/src");
-}
-
-#[test]
-fn webpack() {
-    project("tests/projects/webpack/repo/lib");
-}
+//#[test]
+//fn angular_core() {
+//    project("tests/projects/angular/repo/packages/core/src");
+//}
+//
+//#[test]
+//fn rxjs() {
+//    project("tests/projects/rxjs/repo/src");
+//}
+//
+//#[test]
+//fn webpack() {
+//    project("tests/projects/webpack/repo/lib");
+//}
 
 #[test]
 fn issue_467() {
