@@ -35,7 +35,7 @@ pub struct ParseOptions {
     pub syntax: Syntax,
 }
 
-#[derive(Default, Clone, Serialize, Deserialize)]
+#[derive(Default, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct Options {
     #[serde(flatten, default)]

@@ -6,7 +6,10 @@ use crate::error::Error;
 pub(crate) use ast::AssignOp as AssignOpToken;
 use ast::{BinaryOp, Str};
 use enum_kind::Kind;
-use std::fmt::{self, Debug, Display, Formatter};
+use std::{
+    borrow::Cow,
+    fmt::{self, Debug, Display, Formatter},
+};
 use swc_atoms::JsWord;
 #[cfg(feature = "fold")]
 use swc_common::Fold;
@@ -547,6 +550,18 @@ impl Token {
             tok!('{') | tok!('[') | Word(Word::Ident(..)) | tok!("yield") | tok!("await") => true,
 
             _ => false,
+        }
+    }
+}
+
+impl Word {
+    pub(crate) fn cow(&self) -> Cow<JsWord> {
+        match *self {
+            Word::Keyword(k) => Cow::Owned(k.into_js_word()),
+            Word::Ident(ref w) => Cow::Borrowed(&w),
+            Word::False => Cow::Owned(js_word!("false")),
+            Word::True => Cow::Owned(js_word!("true")),
+            Word::Null => Cow::Owned(js_word!("null")),
         }
     }
 }

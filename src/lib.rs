@@ -42,7 +42,7 @@ pub struct Compiler {
     globals: Globals,
     /// CodeMap
     pub cm: Arc<SourceMap>,
-    handler: Handler,
+    pub handler: Handler,
 }
 
 #[derive(Serialize)]
@@ -61,7 +61,7 @@ impl Compiler {
     where
         F: FnOnce() -> R,
     {
-        GLOBALS.set(&self.globals, op)
+        GLOBALS.set(&self.globals, || common::CM.set(&self.cm, || op()))
     }
 
     /// This method parses a javascript / typescript file
@@ -243,9 +243,9 @@ impl Compiler {
     pub fn process_js_file(
         &self,
         fm: Arc<SourceFile>,
-        opts: Options,
+        opts: &Options,
     ) -> Result<TransformOutput, Error> {
-        let config = self.run(|| self.config_for_file(&opts, &*fm))?;
+        let config = self.run(|| self.config_for_file(opts, &*fm))?;
 
         self.process_js(fm, config)
     }
