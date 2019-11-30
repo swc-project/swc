@@ -117,7 +117,7 @@ pub fn expand(
                                 {
                                     const TAGS: &[&str] = &[tags];
                                     if TAGS.contains(&&*ty.ty) {
-                                        if let Ok(v) = std::result::Result::map(
+                                        return std::result::Result::map(
                                             <VariantFieldType as serde::Deserialize>::deserialize(
                                                 serde::private::de::ContentRefDeserializer::<
                                                     D::Error,
@@ -126,9 +126,7 @@ pub fn expand(
                                                 ),
                                             ),
                                             Enum::Variant,
-                                        ) {
-                                            return Ok(v);
-                                        }
+                                        );
                                     }
                                 }
                             }
