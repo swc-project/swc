@@ -69,3 +69,16 @@ fn color_ts() {
     })
     .expect("failed");
 }
+
+#[test]
+fn super_js() {
+    with_parser("tests/serde/supers.js", |p| {
+        let m = p.parse_module()?;
+
+        let s = serde_json::to_string(&m).expect("failed to serialize");
+        let _: Module = serde_json::from_str(&s).expect("failed to deserialize");
+
+        Ok(())
+    })
+    .expect("failed");
+}
