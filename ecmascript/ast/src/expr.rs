@@ -439,7 +439,6 @@ pub struct ExprOrSpread {
     #[serde(default)]
     pub spread: Option<Span>,
 
-    #[serde(flatten)]
     pub expr: Box<Expr>,
 }
 
