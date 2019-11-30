@@ -155,6 +155,7 @@ pub fn expand(
                 },
                 {
                     impl<'de> serde::Deserialize<'de> for Enum {
+                        #[allow(unreachable_code)]
                         fn deserialize<D>(Deserializer: D) -> ::std::result::Result<Self, D::Error>
                         where
                             D: serde::Deserializer<'de>,
