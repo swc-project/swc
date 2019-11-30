@@ -3,17 +3,7 @@
   "span": {
     "start": 0,
     "end": 15,
-    "ctxt": 0,
-    "loc": {
-      "start": {
-        "line": 1,
-        "column": 0
-      },
-      "end": {
-        "line": 1,
-        "column": 15
-      }
-    }
+    "ctxt": 0
   },
   "body": [
     {
@@ -21,17 +11,7 @@
       "span": {
         "start": 0,
         "end": 15,
-        "ctxt": 0,
-        "loc": {
-          "start": {
-            "line": 1,
-            "column": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 15
-          }
-        }
+        "ctxt": 0
       },
       "opening": {
         "type": "JSXOpeningElement",
@@ -40,17 +20,7 @@
           "span": {
             "start": 1,
             "end": 2,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 1,
-                "column": 1
-              },
-              "end": {
-                "line": 1,
-                "column": 2
-              }
-            }
+            "ctxt": 0
           },
           "value": "A",
           "typeAnnotation": null,
@@ -59,17 +29,7 @@
         "span": {
           "start": 1,
           "end": 3,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 1,
-              "column": 1
-            },
-            "end": {
-              "line": 1,
-              "column": 3
-            }
-          }
+          "ctxt": 0
         },
         "attributes": [],
         "selfClosing": false,
@@ -81,17 +41,7 @@
           "span": {
             "start": 3,
             "end": 11,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 1,
-                "column": 3
-              },
-              "end": {
-                "line": 1,
-                "column": 11
-              }
-            }
+            "ctxt": 0
           },
           "value": "&#1f4a9;",
           "raw": "&#1f4a9;"
@@ -102,34 +52,14 @@
         "span": {
           "start": 13,
           "end": 15,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 1,
-              "column": 13
-            },
-            "end": {
-              "line": 1,
-              "column": 15
-            }
-          }
+          "ctxt": 0
         },
         "name": {
           "type": "Identifier",
           "span": {
             "start": 13,
             "end": 14,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 1,
-                "column": 13
-              },
-              "end": {
-                "line": 1,
-                "column": 14
-              }
-            }
+            "ctxt": 0
           },
           "value": "A",
           "typeAnnotation": null,
