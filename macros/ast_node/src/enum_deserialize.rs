@@ -87,21 +87,7 @@ pub fn expand(
                                 VariantFieldType: &field_type,
                             },
                             {
-                                //                                if let Ok(v) =
-                                // std::result::Result::map(
-                                //                                    <VariantFieldType as
-                                // serde::Deserialize>::deserialize(
-                                //
-                                // serde::private::de::ContentRefDeserializer::<D::Error>::new(
-                                //                                            &content,
-                                //                                        ),
-                                //                                    ),
-                                //                                    Enum::Variant,
-                                //                                ) {
-                                //                                    return Ok(v);
-                                //                                }
-
-                                match std::result::Result::map(
+                                if let Ok(v) = std::result::Result::map(
                                     <VariantFieldType as serde::Deserialize>::deserialize(
                                         serde::private::de::ContentRefDeserializer::<D::Error>::new(
                                             &content,
@@ -109,8 +95,7 @@ pub fn expand(
                                     ),
                                     Enum::Variant,
                                 ) {
-                                    Ok(v) => return Ok(v),
-                                    Err(err) => return Err(err),
+                                    return Ok(v);
                                 }
                             }
                         ))
