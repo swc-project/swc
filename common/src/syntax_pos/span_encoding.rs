@@ -165,17 +165,6 @@ struct LineCol {
     pub column: usize,
 }
 
-macro_rules! ser {
-    ($cm:expr, $bp:expr) => {{
-        let loc = $cm.lookup_char_pos($bp);
-
-        LineCol {
-            line: loc.line,
-            column: loc.col_display,
-        }
-    }};
-}
-
 impl Serialize for Span {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
@@ -187,17 +176,30 @@ impl Serialize for Span {
         s.serialize_field("end", &data.hi)?;
         s.serialize_field("ctxt", &data.ctxt)?;
 
-        if !self.is_dummy() {
-            CM.with(|cm| {
-                s.serialize_field(
-                    "loc",
-                    &Loc {
-                        start: ser!(cm, data.lo),
-                        end: ser!(cm, data.hi),
-                    },
-                )
-            })?;
-        }
+        CM.with(|cm| {
+            macro_rules! ser {
+                ($bp:expr) => {{
+                    if $bp == BytePos(0) {
+                        LineCol { line: 0, column: 0 }
+                    } else {
+                        let loc = cm.lookup_char_pos($bp);
+
+                        LineCol {
+                            line: loc.line,
+                            column: loc.col_display,
+                        }
+                    }
+                }};
+            }
+
+            s.serialize_field(
+                "loc",
+                &Loc {
+                    start: ser!(data.lo),
+                    end: ser!(data.hi),
+                },
+            )
+        })?;
 
         s.end()
     }
