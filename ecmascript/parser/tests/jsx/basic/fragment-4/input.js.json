@@ -3,17 +3,7 @@
   "span": {
     "start": 0,
     "end": 55,
-    "ctxt": 0,
-    "loc": {
-      "start": {
-        "line": 1,
-        "column": 0
-      },
-      "end": {
-        "line": 7,
-        "column": 3
-      }
-    }
+    "ctxt": 0
   },
   "body": [
     {
@@ -21,34 +11,14 @@
       "span": {
         "start": 0,
         "end": 55,
-        "ctxt": 0,
-        "loc": {
-          "start": {
-            "line": 1,
-            "column": 0
-          },
-          "end": {
-            "line": 7,
-            "column": 3
-          }
-        }
+        "ctxt": 0
       },
       "opening": {
         "type": "JSXOpeningFragment",
         "span": {
           "start": 1,
           "end": 2,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 1,
-              "column": 1
-            },
-            "end": {
-              "line": 1,
-              "column": 2
-            }
-          }
+          "ctxt": 0
         }
       },
       "children": [
@@ -57,17 +27,7 @@
           "span": {
             "start": 2,
             "end": 6,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 1,
-                "column": 2
-              },
-              "end": {
-                "line": 2,
-                "column": 2
-              }
-            }
+            "ctxt": 0
           },
           "value": "\n\r\n  ",
           "raw": "\n\r\n  "
@@ -77,34 +37,14 @@
           "span": {
             "start": 6,
             "end": 50,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 2,
-                "column": 2
-              },
-              "end": {
-                "line": 6,
-                "column": 5
-              }
-            }
+            "ctxt": 0
           },
           "opening": {
             "type": "JSXOpeningFragment",
             "span": {
               "start": 7,
               "end": 8,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 2,
-                  "column": 3
-                },
-                "end": {
-                  "line": 2,
-                  "column": 4
-                }
-              }
+              "ctxt": 0
             }
           },
           "children": [
@@ -113,17 +53,7 @@
               "span": {
                 "start": 8,
                 "end": 14,
-                "ctxt": 0,
-                "loc": {
-                  "start": {
-                    "line": 2,
-                    "column": 4
-                  },
-                  "end": {
-                    "line": 3,
-                    "column": 4
-                  }
-                }
+                "ctxt": 0
               },
               "value": "\n\r\n    ",
               "raw": "\n\r\n    "
@@ -133,34 +63,14 @@
               "span": {
                 "start": 14,
                 "end": 43,
-                "ctxt": 0,
-                "loc": {
-                  "start": {
-                    "line": 3,
-                    "column": 4
-                  },
-                  "end": {
-                    "line": 5,
-                    "column": 7
-                  }
-                }
+                "ctxt": 0
               },
               "opening": {
                 "type": "JSXOpeningFragment",
                 "span": {
                   "start": 15,
                   "end": 16,
-                  "ctxt": 0,
-                  "loc": {
-                    "start": {
-                      "line": 3,
-                      "column": 5
-                    },
-                    "end": {
-                      "line": 3,
-                      "column": 6
-                    }
-                  }
+                  "ctxt": 0
                 }
               },
               "children": [
@@ -169,17 +79,7 @@
                   "span": {
                     "start": 16,
                     "end": 40,
-                    "ctxt": 0,
-                    "loc": {
-                      "start": {
-                        "line": 3,
-                        "column": 6
-                      },
-                      "end": {
-                        "line": 5,
-                        "column": 4
-                      }
-                    }
+                    "ctxt": 0
                   },
                   "value": "\n\r\n      super deep\n\r\n    ",
                   "raw": "\n\r\n      super deep\n\r\n    "
@@ -190,17 +90,7 @@
                 "span": {
                   "start": 42,
                   "end": 43,
-                  "ctxt": 0,
-                  "loc": {
-                    "start": {
-                      "line": 5,
-                      "column": 6
-                    },
-                    "end": {
-                      "line": 5,
-                      "column": 7
-                    }
-                  }
+                  "ctxt": 0
                 }
               }
             },
@@ -209,17 +99,7 @@
               "span": {
                 "start": 43,
                 "end": 47,
-                "ctxt": 0,
-                "loc": {
-                  "start": {
-                    "line": 5,
-                    "column": 7
-                  },
-                  "end": {
-                    "line": 6,
-                    "column": 2
-                  }
-                }
+                "ctxt": 0
               },
               "value": "\n\r\n  ",
               "raw": "\n\r\n  "
@@ -230,17 +110,7 @@
             "span": {
               "start": 49,
               "end": 50,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 6,
-                  "column": 4
-                },
-                "end": {
-                  "line": 6,
-                  "column": 5
-                }
-              }
+              "ctxt": 0
             }
           }
         },
@@ -249,17 +119,7 @@
           "span": {
             "start": 50,
             "end": 52,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 6,
-                "column": 5
-              },
-              "end": {
-                "line": 7,
-                "column": 0
-              }
-            }
+            "ctxt": 0
           },
           "value": "\n\r\n",
           "raw": "\n\r\n"
@@ -270,17 +130,7 @@
         "span": {
           "start": 54,
           "end": 55,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 7,
-              "column": 2
-            },
-            "end": {
-              "line": 7,
-              "column": 3
-            }
-          }
+          "ctxt": 0
         }
       }
     }

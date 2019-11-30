@@ -3,17 +3,7 @@
   "span": {
     "start": 0,
     "end": 27,
-    "ctxt": 0,
-    "loc": {
-      "start": {
-        "line": 1,
-        "column": 0
-      },
-      "end": {
-        "line": 1,
-        "column": 27
-      }
-    }
+    "ctxt": 0
   },
   "body": [
     {
@@ -21,17 +11,7 @@
       "span": {
         "start": 0,
         "end": 27,
-        "ctxt": 0,
-        "loc": {
-          "start": {
-            "line": 1,
-            "column": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 27
-          }
-        }
+        "ctxt": 0
       },
       "opening": {
         "type": "JSXOpeningElement",
@@ -40,17 +20,7 @@
           "span": {
             "start": 1,
             "end": 2,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 1,
-                "column": 1
-              },
-              "end": {
-                "line": 1,
-                "column": 2
-              }
-            }
+            "ctxt": 0
           },
           "value": "a",
           "typeAnnotation": null,
@@ -59,17 +29,7 @@
         "span": {
           "start": 1,
           "end": 27,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 1,
-              "column": 1
-            },
-            "end": {
-              "line": 1,
-              "column": 27
-            }
-          }
+          "ctxt": 0
         },
         "attributes": [
           {
@@ -77,34 +37,14 @@
             "span": {
               "start": 3,
               "end": 24,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 1,
-                  "column": 3
-                },
-                "end": {
-                  "line": 1,
-                  "column": 24
-                }
-              }
+              "ctxt": 0
             },
             "name": {
               "type": "Identifier",
               "span": {
                 "start": 3,
                 "end": 4,
-                "ctxt": 0,
-                "loc": {
-                  "start": {
-                    "line": 1,
-                    "column": 3
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 4
-                  }
-                }
+                "ctxt": 0
               },
               "value": "b",
               "typeAnnotation": null,
@@ -115,34 +55,14 @@
               "span": {
                 "start": 6,
                 "end": 23,
-                "ctxt": 0,
-                "loc": {
-                  "start": {
-                    "line": 1,
-                    "column": 6
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 23
-                  }
-                }
+                "ctxt": 0
               },
               "test": {
                 "type": "Identifier",
                 "span": {
                   "start": 6,
                   "end": 7,
-                  "ctxt": 0,
-                  "loc": {
-                    "start": {
-                      "line": 1,
-                      "column": 6
-                    },
-                    "end": {
-                      "line": 1,
-                      "column": 7
-                    }
-                  }
+                  "ctxt": 0
                 },
                 "value": "x",
                 "typeAnnotation": null,
@@ -153,17 +73,7 @@
                 "span": {
                   "start": 10,
                   "end": 15,
-                  "ctxt": 0,
-                  "loc": {
-                    "start": {
-                      "line": 1,
-                      "column": 10
-                    },
-                    "end": {
-                      "line": 1,
-                      "column": 15
-                    }
-                  }
+                  "ctxt": 0
                 },
                 "opening": {
                   "type": "JSXOpeningElement",
@@ -172,17 +82,7 @@
                     "span": {
                       "start": 11,
                       "end": 12,
-                      "ctxt": 0,
-                      "loc": {
-                        "start": {
-                          "line": 1,
-                          "column": 11
-                        },
-                        "end": {
-                          "line": 1,
-                          "column": 12
-                        }
-                      }
+                      "ctxt": 0
                     },
                     "value": "c",
                     "typeAnnotation": null,
@@ -191,17 +91,7 @@
                   "span": {
                     "start": 11,
                     "end": 15,
-                    "ctxt": 0,
-                    "loc": {
-                      "start": {
-                        "line": 1,
-                        "column": 11
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 15
-                      }
-                    }
+                    "ctxt": 0
                   },
                   "attributes": [],
                   "selfClosing": true,
@@ -215,17 +105,7 @@
                 "span": {
                   "start": 18,
                   "end": 23,
-                  "ctxt": 0,
-                  "loc": {
-                    "start": {
-                      "line": 1,
-                      "column": 18
-                    },
-                    "end": {
-                      "line": 1,
-                      "column": 23
-                    }
-                  }
+                  "ctxt": 0
                 },
                 "opening": {
                   "type": "JSXOpeningElement",
@@ -234,17 +114,7 @@
                     "span": {
                       "start": 19,
                       "end": 20,
-                      "ctxt": 0,
-                      "loc": {
-                        "start": {
-                          "line": 1,
-                          "column": 19
-                        },
-                        "end": {
-                          "line": 1,
-                          "column": 20
-                        }
-                      }
+                      "ctxt": 0
                     },
                     "value": "d",
                     "typeAnnotation": null,
@@ -253,17 +123,7 @@
                   "span": {
                     "start": 19,
                     "end": 23,
-                    "ctxt": 0,
-                    "loc": {
-                      "start": {
-                        "line": 1,
-                        "column": 19
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 23
-                      }
-                    }
+                    "ctxt": 0
                   },
                   "attributes": [],
                   "selfClosing": true,

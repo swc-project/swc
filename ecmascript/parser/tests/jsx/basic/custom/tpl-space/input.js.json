@@ -3,17 +3,7 @@
   "span": {
     "start": 0,
     "end": 14,
-    "ctxt": 0,
-    "loc": {
-      "start": {
-        "line": 1,
-        "column": 0
-      },
-      "end": {
-        "line": 1,
-        "column": 14
-      }
-    }
+    "ctxt": 0
   },
   "body": [
     {
@@ -21,17 +11,7 @@
       "span": {
         "start": 0,
         "end": 14,
-        "ctxt": 0,
-        "loc": {
-          "start": {
-            "line": 1,
-            "column": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 14
-          }
-        }
+        "ctxt": 0
       },
       "expressions": [
         {
@@ -39,17 +19,7 @@
           "span": {
             "start": 3,
             "end": 6,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 1,
-                "column": 3
-              },
-              "end": {
-                "line": 1,
-                "column": 6
-              }
-            }
+            "ctxt": 0
           },
           "value": "foo",
           "typeAnnotation": null,
@@ -62,17 +32,7 @@
           "span": {
             "start": 1,
             "end": 1,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 1,
-                "column": 1
-              },
-              "end": {
-                "line": 1,
-                "column": 1
-              }
-            }
+            "ctxt": 0
           },
           "tail": false,
           "cooked": {
@@ -80,17 +40,7 @@
             "span": {
               "start": 1,
               "end": 1,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 1,
-                  "column": 1
-                },
-                "end": {
-                  "line": 1,
-                  "column": 1
-                }
-              }
+              "ctxt": 0
             },
             "value": "",
             "hasEscape": false
@@ -100,17 +50,7 @@
             "span": {
               "start": 1,
               "end": 1,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 1,
-                  "column": 1
-                },
-                "end": {
-                  "line": 1,
-                  "column": 1
-                }
-              }
+              "ctxt": 0
             },
             "value": "",
             "hasEscape": false
@@ -121,17 +61,7 @@
           "span": {
             "start": 7,
             "end": 13,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 1,
-                "column": 7
-              },
-              "end": {
-                "line": 1,
-                "column": 13
-              }
-            }
+            "ctxt": 0
           },
           "tail": true,
           "cooked": {
@@ -139,17 +69,7 @@
             "span": {
               "start": 7,
               "end": 13,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 1,
-                  "column": 7
-                },
-                "end": {
-                  "line": 1,
-                  "column": 13
-                }
-              }
+              "ctxt": 0
             },
             "value": " <bar>",
             "hasEscape": false
@@ -159,17 +79,7 @@
             "span": {
               "start": 7,
               "end": 13,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 1,
-                  "column": 7
-                },
-                "end": {
-                  "line": 1,
-                  "column": 13
-                }
-              }
+              "ctxt": 0
             },
             "value": " <bar>",
             "hasEscape": false

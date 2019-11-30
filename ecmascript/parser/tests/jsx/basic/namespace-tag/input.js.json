@@ -3,17 +3,7 @@
   "span": {
     "start": 0,
     "end": 33,
-    "ctxt": 0,
-    "loc": {
-      "start": {
-        "line": 1,
-        "column": 0
-      },
-      "end": {
-        "line": 2,
-        "column": 19
-      }
-    }
+    "ctxt": 0
   },
   "body": [
     {
@@ -21,17 +11,7 @@
       "span": {
         "start": 0,
         "end": 11,
-        "ctxt": 0,
-        "loc": {
-          "start": {
-            "line": 1,
-            "column": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 11
-          }
-        }
+        "ctxt": 0
       },
       "opening": {
         "type": "JSXOpeningElement",
@@ -42,17 +22,7 @@
             "span": {
               "start": 1,
               "end": 4,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 1,
-                  "column": 1
-                },
-                "end": {
-                  "line": 1,
-                  "column": 4
-                }
-              }
+              "ctxt": 0
             },
             "value": "Foo",
             "typeAnnotation": null,
@@ -63,17 +33,7 @@
             "span": {
               "start": 5,
               "end": 8,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 1,
-                  "column": 5
-                },
-                "end": {
-                  "line": 1,
-                  "column": 8
-                }
-              }
+              "ctxt": 0
             },
             "value": "Bar",
             "typeAnnotation": null,
@@ -83,17 +43,7 @@
         "span": {
           "start": 1,
           "end": 11,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 1,
-              "column": 1
-            },
-            "end": {
-              "line": 1,
-              "column": 11
-            }
-          }
+          "ctxt": 0
         },
         "attributes": [],
         "selfClosing": true,
@@ -107,17 +57,7 @@
       "span": {
         "start": 14,
         "end": 33,
-        "ctxt": 0,
-        "loc": {
-          "start": {
-            "line": 2,
-            "column": 0
-          },
-          "end": {
-            "line": 2,
-            "column": 19
-          }
-        }
+        "ctxt": 0
       },
       "opening": {
         "type": "JSXOpeningElement",
@@ -128,17 +68,7 @@
             "span": {
               "start": 15,
               "end": 18,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 2,
-                  "column": 1
-                },
-                "end": {
-                  "line": 2,
-                  "column": 4
-                }
-              }
+              "ctxt": 0
             },
             "value": "Foo",
             "typeAnnotation": null,
@@ -149,17 +79,7 @@
             "span": {
               "start": 19,
               "end": 22,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 2,
-                  "column": 5
-                },
-                "end": {
-                  "line": 2,
-                  "column": 8
-                }
-              }
+              "ctxt": 0
             },
             "value": "Bar",
             "typeAnnotation": null,
@@ -169,17 +89,7 @@
         "span": {
           "start": 15,
           "end": 23,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 2,
-              "column": 1
-            },
-            "end": {
-              "line": 2,
-              "column": 9
-            }
-          }
+          "ctxt": 0
         },
         "attributes": [],
         "selfClosing": false,
@@ -191,17 +101,7 @@
         "span": {
           "start": 25,
           "end": 33,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 2,
-              "column": 11
-            },
-            "end": {
-              "line": 2,
-              "column": 19
-            }
-          }
+          "ctxt": 0
         },
         "name": {
           "type": "JSXNamespacedName",
@@ -210,17 +110,7 @@
             "span": {
               "start": 25,
               "end": 28,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 2,
-                  "column": 11
-                },
-                "end": {
-                  "line": 2,
-                  "column": 14
-                }
-              }
+              "ctxt": 0
             },
             "value": "Foo",
             "typeAnnotation": null,
@@ -231,17 +121,7 @@
             "span": {
               "start": 29,
               "end": 32,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 2,
-                  "column": 15
-                },
-                "end": {
-                  "line": 2,
-                  "column": 18
-                }
-              }
+              "ctxt": 0
             },
             "value": "Bar",
             "typeAnnotation": null,
