@@ -439,6 +439,7 @@ pub struct ExprOrSpread {
     #[serde(default)]
     pub spread: Option<Span>,
 
+    #[serde(rename = "expression")]
     pub expr: Box<Expr>,
 }
 

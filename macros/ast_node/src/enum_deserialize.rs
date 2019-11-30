@@ -87,7 +87,7 @@ pub fn expand(
                                 VariantFieldType: &field_type,
                             },
                             {
-                                if let Ok(v) = std::result::Result::map(
+                                match std::result::Result::map(
                                     <VariantFieldType as serde::Deserialize>::deserialize(
                                         serde::private::de::ContentRefDeserializer::<D::Error>::new(
                                             &content,
@@ -95,7 +95,8 @@ pub fn expand(
                                     ),
                                     Enum::Variant,
                                 ) {
-                                    return Ok(v);
+                                    Ok(v) => return Ok(v),
+                                    Err(err) => return Err(err),
                                 }
                             }
                         ))
@@ -116,7 +117,7 @@ pub fn expand(
                                 {
                                     const TAGS: &[&str] = &[tags];
                                     if TAGS.contains(&&*ty.ty) {
-                                        if let Ok(v) = std::result::Result::map(
+                                        return std::result::Result::map(
                                             <VariantFieldType as serde::Deserialize>::deserialize(
                                                 serde::private::de::ContentRefDeserializer::<
                                                     D::Error,
@@ -125,9 +126,7 @@ pub fn expand(
                                                 ),
                                             ),
                                             Enum::Variant,
-                                        ) {
-                                            return Ok(v);
-                                        }
+                                        );
                                     }
                                 }
                             }
@@ -154,6 +153,7 @@ pub fn expand(
                 },
                 {
                     impl<'de> serde::Deserialize<'de> for Enum {
+                        #[allow(unreachable_code)]
                         fn deserialize<D>(Deserializer: D) -> ::std::result::Result<Self, D::Error>
                         where
                             D: serde::Deserializer<'de>,
