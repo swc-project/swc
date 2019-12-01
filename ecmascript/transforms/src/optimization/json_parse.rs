@@ -1,6 +1,7 @@
 use crate::{pass::Pass, util::ExprFactory};
 use ast::*;
-use swc_common::{Fold, FoldWith, Visit, VisitWith, DUMMY_SP};
+use serde_json::Value;
+use swc_common::{Fold, FoldWith, Spanned, Visit, VisitWith, DUMMY_SP};
 
 /// Converts pure object literals like `{a: 1, b: 2}` to
 /// `JSON.parse('{"a":1, "b"}')` as it's faster.
@@ -16,24 +17,36 @@ impl Fold<Expr> for JsonParse {
     /// Hnaldes parent expressions before child expressions.
     fn fold(&mut self, e: Expr) -> Expr {
         let e = match e {
-            Expr::Object(o) => {
+            Expr::Array(..) | Expr::Object(..) => {
                 let mut v = LiteralVisitor { is_lit: true };
-                o.visit_with(&mut v);
+                e.visit_with(&mut v);
                 if v.is_lit {
-                    Expr::Call(CallExpr {
-                        span: o.span,
+                    return Expr::Call(CallExpr {
+                        span: e.span(),
                         callee: member_expr!(DUMMY_SP, JSON.parse).as_callee(),
-                        args: vec![],
+                        args: vec![Lit::Str(Str {
+                            span: DUMMY_SP,
+                            has_escape: false,
+                        })
+                        .as_arg()],
                         type_args: Default::default(),
-                    })
-                } else {
-                    Expr::Object(o)
+                    });
                 }
             }
             _ => e,
         };
 
         e.fold_children(self)
+    }
+}
+
+fn jsonify(e: Expr) -> Value {
+    match e {
+        Expr::Object(o) => Value::Object(o.props.into_iter().map(|p| match p {
+            PropOrSpread::Prop(p) => (p),
+            _ => unreachable!(),
+        })),
+        Expr::Array(..) => Value::Array(),
     }
 }
 
@@ -44,7 +57,7 @@ struct LiteralVisitor {
 macro_rules! not_lit {
     ($T:ty) => {
         impl Visit<$T> for LiteralVisitor {
-            fn visit(&mut self, node: &$T) {
+            fn visit(&mut self, _: &$T) {
                 self.is_lit = false;
             }
         }
@@ -90,6 +103,7 @@ not_lit!(TsConstAssertion);
 not_lit!(PrivateName);
 not_lit!(TsOptChain);
 
+not_lit!(SpreadElement);
 not_lit!(Invalid);
 
 impl Visit<Expr> for LiteralVisitor {
@@ -111,6 +125,6 @@ mod tests {
         |_| json_parse(),
         simple_string,
         "let a = {b: 'foo'}",
-        "let a = JSON.parse(\"{\"b\": \"foo\"}\")"
+        r#"let a = JSON.parse('{"b": "foo"}')"#
     );
 }
