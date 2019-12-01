@@ -3,8 +3,26 @@ use ast::*;
 use serde_json::Value;
 use swc_common::{Fold, FoldWith, Spanned, Visit, VisitWith, DUMMY_SP};
 
-/// Converts pure object literals like `{a: 1, b: 2}` to
-/// `JSON.parse('{"a":1, "b"}')` as it's faster.
+/// Trnasform to optimize performance of literals.
+///
+///
+/// This transform converts pure object literals like
+///
+/// ```js
+/// {a: 1, b: 2}
+/// ```
+///
+/// to
+///
+/// ```js
+/// JSON.parse('{"a":1, "b"}')
+/// ```
+///
+/// # COnditions
+/// If any of the conditions below is matched, pure object literal is converter
+/// to `JSON.parse`
+///
+///   - Object literal is deeply nested (threshold: )
 ///
 /// See https://github.com/swc-project/swc/issues/409
 #[derive(Debug)]
@@ -198,7 +216,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| JsonParse::default(),
+        |_| JsonParse { min_json_size: 0 },
         simple_object,
         "let a = {b: 'foo'}",
         r#"let a = JSON.parse('{"b":"foo"}')"#
@@ -206,7 +224,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| JsonParse::default(),
+        |_| JsonParse { min_json_size: 0 },
         simple_arr,
         "let a = ['foo']",
         r#"let a = JSON.parse('["foo"]')"#
@@ -214,7 +232,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| JsonParse::default(),
+        |_| JsonParse { min_json_size: 0 },
         empty_object,
         "const a = {};",
         r#"const a = JSON.parse('{}');"#
