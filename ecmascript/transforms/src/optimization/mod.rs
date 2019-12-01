@@ -1,3 +1,3 @@
-pub use self::json_parse::json_parse;
+pub use self::json_parse::JsonParse;
 
 mod json_parse;

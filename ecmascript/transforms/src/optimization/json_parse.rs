@@ -7,11 +7,18 @@ use swc_common::{Fold, FoldWith, Spanned, Visit, VisitWith, DUMMY_SP};
 /// `JSON.parse('{"a":1, "b"}')` as it's faster.
 ///
 /// See https://github.com/swc-project/swc/issues/409
-pub fn json_parse() -> impl Pass {
-    JsonParse
+#[derive(Debug)]
+pub struct JsonParse {
+    pub min_json_size: usize,
 }
 
-struct JsonParse;
+impl Default for JsonParse {
+    fn default() -> Self {
+        JsonParse {
+            min_json_size: 1024,
+        }
+    }
+}
 
 impl Fold<Expr> for JsonParse {
     /// Hnaldes parent expressions before child expressions.
@@ -26,12 +33,22 @@ impl Fold<Expr> for JsonParse {
                         callee: member_expr!(DUMMY_SP, JSON.parse).as_callee(),
                         args: vec![Lit::Str(Str {
                             span: DUMMY_SP,
+                            value: serde_json::to_string(&jsonify(e))
+                                .unwrap_or_else(|err| {
+                                    unreachable!(
+                                        "failed to serialize serde_json::Value as json: {}",
+                                        err
+                                    )
+                                })
+                                .into(),
                             has_escape: false,
                         })
                         .as_arg()],
                         type_args: Default::default(),
                     });
                 }
+
+                e
             }
             _ => e,
         };
@@ -42,11 +59,36 @@ impl Fold<Expr> for JsonParse {
 
 fn jsonify(e: Expr) -> Value {
     match e {
-        Expr::Object(o) => Value::Object(o.props.into_iter().map(|p| match p {
-            PropOrSpread::Prop(p) => (p),
-            _ => unreachable!(),
-        })),
-        Expr::Array(..) => Value::Array(),
+        Expr::Object(obj) => Value::Object(
+            obj.props
+                .into_iter()
+                .map(|v| match v {
+                    PropOrSpread::Prop(box Prop::KeyValue(p)) => p,
+                    _ => unreachable!(),
+                })
+                .map(|p| {
+                    let value = jsonify(*p.value);
+                    let key = match p.key {
+                        PropName::Str(s) => s.value.to_string(),
+                        PropName::Ident(id) => id.sym.to_string(),
+                        _ => unreachable!(),
+                    };
+                    (key, value)
+                })
+                .collect(),
+        ),
+        Expr::Array(arr) => Value::Array(
+            arr.elems
+                .into_iter()
+                .map(|v| jsonify(*v.unwrap().expr))
+                .collect(),
+        ),
+        Expr::Lit(Lit::Str(Str { value, .. })) => Value::String(value.to_string()),
+        Expr::Lit(Lit::Num(Number { value, .. })) => Value::Number(
+            serde_json::Number::from_f64(value)
+                .unwrap_or_else(|| unreachable!("invalid number: {}", value)),
+        ),
+        _ => unreachable!("Expr: {:?}", e),
     }
 }
 
@@ -116,15 +158,65 @@ impl Visit<Expr> for LiteralVisitor {
     }
 }
 
+impl Visit<Prop> for LiteralVisitor {
+    fn visit(&mut self, p: &Prop) {
+        p.visit_children(self);
+
+        match p {
+            Prop::KeyValue(..) => {}
+            _ => self.is_lit = false,
+        }
+    }
+}
+
+impl Visit<ArrayLit> for LiteralVisitor {
+    fn visit(&mut self, e: &ArrayLit) {
+        e.visit_children(self);
+
+        for elem in &e.elems {
+            if elem.is_none() {
+                self.is_lit = false;
+            }
+        }
+    }
+}
+
+impl Visit<PropName> for LiteralVisitor {
+    fn visit(&mut self, p: &PropName) {
+        p.visit_children(self);
+
+        match *p {
+            PropName::Num(..) | PropName::Computed(..) => self.is_lit = false,
+            _ => {}
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
-    use super::json_parse;
+    use super::JsonParse;
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| json_parse(),
-        simple_string,
+        |_| JsonParse::default(),
+        simple_object,
         "let a = {b: 'foo'}",
-        r#"let a = JSON.parse('{"b": "foo"}')"#
+        r#"let a = JSON.parse('{"b":"foo"}')"#
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| JsonParse::default(),
+        simple_arr,
+        "let a = ['foo']",
+        r#"let a = JSON.parse('["foo"]')"#
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| JsonParse::default(),
+        empty_object,
+        "const a = {};",
+        r#"const a = JSON.parse('{}');"#
     );
 }
