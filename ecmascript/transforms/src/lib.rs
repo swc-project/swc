@@ -47,6 +47,7 @@ pub mod debug;
 mod fixer;
 mod inline_globals;
 pub mod modules;
+pub mod optimization;
 pub mod pass;
 pub mod proposals;
 pub mod react;

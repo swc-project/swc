@@ -397,6 +397,11 @@ mod tests {
     }
 
     #[test]
+    fn big_number_with_fract() {
+        debug_assert_eq!(77777777777777777.1f64, num("77777777777777777.1"))
+    }
+
+    #[test]
     fn num_legacy_octal() {
         debug_assert_eq!(0o12 as f64, num("0012"));
     }

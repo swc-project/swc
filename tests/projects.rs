@@ -124,6 +124,22 @@ fn issue_406() {
     assert!(s.contains("return true"));
 }
 
+#[test]
+fn issue_409_1() {
+    let s = file("tests/projects/issue-409-1/input.js").unwrap();
+    println!("{}", s);
+
+    assert!(s.contains("JSON.parse"));
+}
+
+#[test]
+fn issue_409_2() {
+    let s = file("tests/projects/issue-409-2/input.js").unwrap();
+    println!("{}", s);
+
+    assert!(!s.contains("JSON.parse"));
+}
+
 /// should handle multiple entries in swcrc
 #[test]
 fn issue_414() {
