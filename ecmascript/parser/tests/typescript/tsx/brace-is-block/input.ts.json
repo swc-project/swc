@@ -1,19 +1,9 @@
 {
   "type": "Module",
   "span": {
-    "start": 99,
-    "end": 127,
-    "ctxt": 0,
-    "loc": {
-      "start": {
-        "line": 2,
-        "column": 0
-      },
-      "end": {
-        "line": 3,
-        "column": 4
-      }
-    }
+    "start": 100,
+    "end": 129,
+    "ctxt": 0
   },
   "body": [
     {
@@ -21,177 +11,99 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 105,
-          "end": 106,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 2,
-              "column": 6
-            },
-            "end": {
-              "line": 2,
-              "column": 7
-            }
-          }
+          "start": 106,
+          "end": 107,
+          "ctxt": 0
         },
         "value": "C",
+        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
       "span": {
-        "start": 99,
-        "end": 122,
-        "ctxt": 0,
-        "loc": {
-          "start": {
-            "line": 2,
-            "column": 0
-          },
-          "end": {
-            "line": 2,
-            "column": 23
-          }
-        }
+        "start": 100,
+        "end": 123,
+        "ctxt": 0
       },
+      "decorators": [],
+      "body": [],
       "superClass": {
         "type": "Identifier",
         "span": {
-          "start": 115,
-          "end": 116,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 2,
-              "column": 16
-            },
-            "end": {
-              "line": 2,
-              "column": 17
-            }
-          }
+          "start": 116,
+          "end": 117,
+          "ctxt": 0
         },
         "value": "D",
+        "typeAnnotation": null,
         "optional": false
       },
       "isAbstract": false,
+      "typeParams": null,
       "superTypeParams": {
         "type": "TsTypeParameterInstantiation",
         "span": {
-          "start": 116,
-          "end": 119,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 2,
-              "column": 17
-            },
-            "end": {
-              "line": 2,
-              "column": 20
-            }
-          }
+          "start": 117,
+          "end": 120,
+          "ctxt": 0
         },
         "params": [
           {
             "type": "TsTypeReference",
             "span": {
-              "start": 117,
-              "end": 118,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 2,
-                  "column": 18
-                },
-                "end": {
-                  "line": 2,
-                  "column": 19
-                }
-              }
+              "start": 118,
+              "end": 119,
+              "ctxt": 0
             },
             "typeName": {
               "type": "Identifier",
               "span": {
-                "start": 117,
-                "end": 118,
-                "ctxt": 0,
-                "loc": {
-                  "start": {
-                    "line": 2,
-                    "column": 18
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 19
-                  }
-                }
+                "start": 118,
+                "end": 119,
+                "ctxt": 0
               },
               "value": "T",
+              "typeAnnotation": null,
               "optional": false
-            }
+            },
+            "typeParams": null
           }
         ]
-      }
+      },
+      "implements": []
     },
     {
       "type": "JSXElement",
       "span": {
-        "start": 123,
-        "end": 127,
-        "ctxt": 0,
-        "loc": {
-          "start": {
-            "line": 3,
-            "column": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 4
-          }
-        }
+        "start": 125,
+        "end": 129,
+        "ctxt": 0
       },
       "opening": {
         "type": "JSXOpeningElement",
         "name": {
           "type": "Identifier",
           "span": {
-            "start": 124,
-            "end": 125,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 3,
-                "column": 1
-              },
-              "end": {
-                "line": 3,
-                "column": 2
-              }
-            }
+            "start": 126,
+            "end": 127,
+            "ctxt": 0
           },
           "value": "C",
+          "typeAnnotation": null,
           "optional": false
         },
         "span": {
-          "start": 124,
-          "end": 127,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 3,
-              "column": 1
-            },
-            "end": {
-              "line": 3,
-              "column": 4
-            }
-          }
+          "start": 126,
+          "end": 129,
+          "ctxt": 0
         },
-        "selfClosing": true
+        "attributes": [],
+        "selfClosing": true,
+        "typeArguments": null
       },
       "children": [],
       "closing": null
     }
-  ]
+  ],
+  "interpreter": null
 }

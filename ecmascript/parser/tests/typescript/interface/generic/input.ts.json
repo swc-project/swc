@@ -3,17 +3,7 @@
   "span": {
     "start": 0,
     "end": 48,
-    "ctxt": 0,
-    "loc": {
-      "start": {
-        "line": 1,
-        "column": 0
-      },
-      "end": {
-        "line": 1,
-        "column": 48
-      }
-    }
+    "ctxt": 0
   },
   "body": [
     {
@@ -21,36 +11,17 @@
       "span": {
         "start": 10,
         "end": 48,
-        "ctxt": 0,
-        "loc": {
-          "start": {
-            "line": 1,
-            "column": 10
-          },
-          "end": {
-            "line": 1,
-            "column": 48
-          }
-        }
+        "ctxt": 0
       },
       "id": {
         "type": "Identifier",
         "span": {
           "start": 10,
           "end": 11,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 1,
-              "column": 10
-            },
-            "end": {
-              "line": 1,
-              "column": 11
-            }
-          }
+          "ctxt": 0
         },
         "value": "I",
+        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -59,17 +30,7 @@
         "span": {
           "start": 11,
           "end": 45,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 1,
-              "column": 11
-            },
-            "end": {
-              "line": 1,
-              "column": 45
-            }
-          }
+          "ctxt": 0
         },
         "parameters": [
           {
@@ -77,36 +38,17 @@
             "span": {
               "start": 12,
               "end": 44,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 1,
-                  "column": 12
-                },
-                "end": {
-                  "line": 1,
-                  "column": 44
-                }
-              }
+              "ctxt": 0
             },
             "name": {
               "type": "Identifier",
               "span": {
                 "start": 12,
                 "end": 13,
-                "ctxt": 0,
-                "loc": {
-                  "start": {
-                    "line": 1,
-                    "column": 12
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 13
-                  }
-                }
+                "ctxt": 0
               },
               "value": "T",
+              "typeAnnotation": null,
               "optional": false
             },
             "constraint": {
@@ -114,17 +56,7 @@
               "span": {
                 "start": 22,
                 "end": 28,
-                "ctxt": 0,
-                "loc": {
-                  "start": {
-                    "line": 1,
-                    "column": 22
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 28
-                  }
-                }
+                "ctxt": 0
               },
               "kind": "object"
             },
@@ -133,17 +65,7 @@
               "span": {
                 "start": 31,
                 "end": 44,
-                "ctxt": 0,
-                "loc": {
-                  "start": {
-                    "line": 1,
-                    "column": 31
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 44
-                  }
-                }
+                "ctxt": 0
               },
               "members": [
                 {
@@ -151,17 +73,7 @@
                   "span": {
                     "start": 33,
                     "end": 42,
-                    "ctxt": 0,
-                    "loc": {
-                      "start": {
-                        "line": 1,
-                        "column": 33
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 42
-                      }
-                    }
+                    "ctxt": 0
                   },
                   "readonly": false,
                   "key": {
@@ -169,61 +81,34 @@
                     "span": {
                       "start": 33,
                       "end": 34,
-                      "ctxt": 0,
-                      "loc": {
-                        "start": {
-                          "line": 1,
-                          "column": 33
-                        },
-                        "end": {
-                          "line": 1,
-                          "column": 34
-                        }
-                      }
+                      "ctxt": 0
                     },
                     "value": "x",
+                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
                   "optional": false,
+                  "init": null,
                   "params": [],
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
                       "start": 34,
                       "end": 42,
-                      "ctxt": 0,
-                      "loc": {
-                        "start": {
-                          "line": 1,
-                          "column": 34
-                        },
-                        "end": {
-                          "line": 1,
-                          "column": 42
-                        }
-                      }
+                      "ctxt": 0
                     },
                     "typeAnnotation": {
                       "type": "TsKeywordType",
                       "span": {
                         "start": 36,
                         "end": 42,
-                        "ctxt": 0,
-                        "loc": {
-                          "start": {
-                            "line": 1,
-                            "column": 36
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 42
-                          }
-                        }
+                        "ctxt": 0
                       },
                       "kind": "number"
                     }
-                  }
+                  },
+                  "typeParams": null
                 }
               ]
             }
@@ -236,20 +121,11 @@
         "span": {
           "start": 46,
           "end": 48,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 1,
-              "column": 46
-            },
-            "end": {
-              "line": 1,
-              "column": 48
-            }
-          }
+          "ctxt": 0
         },
         "body": []
       }
     }
-  ]
+  ],
+  "interpreter": null
 }

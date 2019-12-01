@@ -3,17 +3,7 @@
   "span": {
     "start": 0,
     "end": 55,
-    "ctxt": 0,
-    "loc": {
-      "start": {
-        "line": 1,
-        "column": 0
-      },
-      "end": {
-        "line": 1,
-        "column": 55
-      }
-    }
+    "ctxt": 0
   },
   "body": [
     {
@@ -21,17 +11,7 @@
       "span": {
         "start": 0,
         "end": 55,
-        "ctxt": 0,
-        "loc": {
-          "start": {
-            "line": 1,
-            "column": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 55
-          }
-        }
+        "ctxt": 0
       },
       "kind": "let",
       "declare": false,
@@ -41,34 +21,14 @@
           "span": {
             "start": 4,
             "end": 54,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 1,
-                "column": 4
-              },
-              "end": {
-                "line": 1,
-                "column": 54
-              }
-            }
+            "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 4,
               "end": 5,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 1,
-                  "column": 4
-                },
-                "end": {
-                  "line": 1,
-                  "column": 5
-                }
-              }
+              "ctxt": 0
             },
             "value": "f",
             "typeAnnotation": {
@@ -76,34 +36,14 @@
               "span": {
                 "start": 5,
                 "end": 54,
-                "ctxt": 0,
-                "loc": {
-                  "start": {
-                    "line": 1,
-                    "column": 5
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 54
-                  }
-                }
+                "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsFunctionType",
                 "span": {
                   "start": 7,
                   "end": 54,
-                  "ctxt": 0,
-                  "loc": {
-                    "start": {
-                      "line": 1,
-                      "column": 7
-                    },
-                    "end": {
-                      "line": 1,
-                      "column": 54
-                    }
-                  }
+                  "ctxt": 0
                 },
                 "params": [
                   {
@@ -111,17 +51,7 @@
                     "span": {
                       "start": 8,
                       "end": 9,
-                      "ctxt": 0,
-                      "loc": {
-                        "start": {
-                          "line": 1,
-                          "column": 8
-                        },
-                        "end": {
-                          "line": 1,
-                          "column": 9
-                        }
-                      }
+                      "ctxt": 0
                     },
                     "value": "a",
                     "typeAnnotation": {
@@ -129,34 +59,14 @@
                       "span": {
                         "start": 9,
                         "end": 17,
-                        "ctxt": 0,
-                        "loc": {
-                          "start": {
-                            "line": 1,
-                            "column": 9
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 17
-                          }
-                        }
+                        "ctxt": 0
                       },
                       "typeAnnotation": {
                         "type": "TsKeywordType",
                         "span": {
                           "start": 11,
                           "end": 17,
-                          "ctxt": 0,
-                          "loc": {
-                            "start": {
-                              "line": 1,
-                              "column": 11
-                            },
-                            "end": {
-                              "line": 1,
-                              "column": 17
-                            }
-                          }
+                          "ctxt": 0
                         },
                         "kind": "number"
                       }
@@ -168,17 +78,7 @@
                     "span": {
                       "start": 19,
                       "end": 20,
-                      "ctxt": 0,
-                      "loc": {
-                        "start": {
-                          "line": 1,
-                          "column": 19
-                        },
-                        "end": {
-                          "line": 1,
-                          "column": 20
-                        }
-                      }
+                      "ctxt": 0
                     },
                     "value": "b",
                     "typeAnnotation": {
@@ -186,34 +86,14 @@
                       "span": {
                         "start": 21,
                         "end": 29,
-                        "ctxt": 0,
-                        "loc": {
-                          "start": {
-                            "line": 1,
-                            "column": 21
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 29
-                          }
-                        }
+                        "ctxt": 0
                       },
                       "typeAnnotation": {
                         "type": "TsKeywordType",
                         "span": {
                           "start": 23,
                           "end": 29,
-                          "ctxt": 0,
-                          "loc": {
-                            "start": {
-                              "line": 1,
-                              "column": 23
-                            },
-                            "end": {
-                              "line": 1,
-                              "column": 29
-                            }
-                          }
+                          "ctxt": 0
                         },
                         "kind": "number"
                       }
@@ -225,36 +105,17 @@
                     "rest": {
                       "start": 31,
                       "end": 34,
-                      "ctxt": 0,
-                      "loc": {
-                        "start": {
-                          "line": 1,
-                          "column": 31
-                        },
-                        "end": {
-                          "line": 1,
-                          "column": 34
-                        }
-                      }
+                      "ctxt": 0
                     },
                     "argument": {
                       "type": "Identifier",
                       "span": {
                         "start": 34,
                         "end": 35,
-                        "ctxt": 0,
-                        "loc": {
-                          "start": {
-                            "line": 1,
-                            "column": 34
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 35
-                          }
-                        }
+                        "ctxt": 0
                       },
                       "value": "c",
+                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeAnnotation": {
@@ -262,51 +123,21 @@
                       "span": {
                         "start": 35,
                         "end": 45,
-                        "ctxt": 0,
-                        "loc": {
-                          "start": {
-                            "line": 1,
-                            "column": 35
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 45
-                          }
-                        }
+                        "ctxt": 0
                       },
                       "typeAnnotation": {
                         "type": "TsArrayType",
                         "span": {
                           "start": 37,
                           "end": 45,
-                          "ctxt": 0,
-                          "loc": {
-                            "start": {
-                              "line": 1,
-                              "column": 37
-                            },
-                            "end": {
-                              "line": 1,
-                              "column": 45
-                            }
-                          }
+                          "ctxt": 0
                         },
                         "elemType": {
                           "type": "TsKeywordType",
                           "span": {
                             "start": 37,
                             "end": 43,
-                            "ctxt": 0,
-                            "loc": {
-                              "start": {
-                                "line": 1,
-                                "column": 37
-                              },
-                              "end": {
-                                "line": 1,
-                                "column": 43
-                              }
-                            }
+                            "ctxt": 0
                           },
                           "kind": "number"
                         }
@@ -314,39 +145,20 @@
                     }
                   }
                 ],
+                "typeParams": null,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
                     "start": 47,
                     "end": 54,
-                    "ctxt": 0,
-                    "loc": {
-                      "start": {
-                        "line": 1,
-                        "column": 47
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 54
-                      }
-                    }
+                    "ctxt": 0
                   },
                   "typeAnnotation": {
                     "type": "TsKeywordType",
                     "span": {
                       "start": 50,
                       "end": 54,
-                      "ctxt": 0,
-                      "loc": {
-                        "start": {
-                          "line": 1,
-                          "column": 50
-                        },
-                        "end": {
-                          "line": 1,
-                          "column": 54
-                        }
-                      }
+                      "ctxt": 0
                     },
                     "kind": "void"
                   }
@@ -355,9 +167,11 @@
             },
             "optional": false
           },
+          "init": null,
           "definite": false
         }
       ]
     }
-  ]
+  ],
+  "interpreter": null
 }

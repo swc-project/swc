@@ -2,18 +2,8 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 199,
-    "ctxt": 0,
-    "loc": {
-      "start": {
-        "line": 1,
-        "column": 0
-      },
-      "end": {
-        "line": 6,
-        "column": 35
-      }
-    }
+    "end": 204,
+    "ctxt": 0
   },
   "body": [
     {
@@ -23,230 +13,146 @@
         "span": {
           "start": 15,
           "end": 16,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 1,
-              "column": 15
-            },
-            "end": {
-              "line": 1,
-              "column": 16
-            }
-          }
+          "ctxt": 0
         },
         "value": "C",
+        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 9,
         "end": 19,
-        "ctxt": 0,
-        "loc": {
-          "start": {
-            "line": 1,
-            "column": 9
-          },
-          "end": {
-            "line": 1,
-            "column": 19
-          }
-        }
+        "ctxt": 0
       },
-      "isAbstract": true
+      "decorators": [],
+      "body": [],
+      "superClass": null,
+      "isAbstract": true,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
     },
     {
       "type": "ClassDeclaration",
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 43,
-          "end": 44,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 2,
-              "column": 23
-            },
-            "end": {
-              "line": 2,
-              "column": 24
-            }
-          }
+          "start": 44,
+          "end": 45,
+          "ctxt": 0
         },
         "value": "C",
+        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
       "span": {
-        "start": 37,
-        "end": 47,
-        "ctxt": 0,
-        "loc": {
-          "start": {
-            "line": 2,
-            "column": 17
-          },
-          "end": {
-            "line": 2,
-            "column": 27
-          }
-        }
+        "start": 38,
+        "end": 48,
+        "ctxt": 0
       },
-      "isAbstract": true
+      "decorators": [],
+      "body": [],
+      "superClass": null,
+      "isAbstract": true,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
     },
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 48,
-        "end": 74,
-        "ctxt": 0,
-        "loc": {
-          "start": {
-            "line": 3,
-            "column": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 26
-          }
-        }
+        "start": 50,
+        "end": 76,
+        "ctxt": 0
       },
       "declaration": {
         "type": "ClassDeclaration",
         "identifier": {
           "type": "Identifier",
           "span": {
-            "start": 70,
-            "end": 71,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 3,
-                "column": 22
-              },
-              "end": {
-                "line": 3,
-                "column": 23
-              }
-            }
+            "start": 72,
+            "end": 73,
+            "ctxt": 0
           },
           "value": "C",
+          "typeAnnotation": null,
           "optional": false
         },
         "declare": false,
         "span": {
-          "start": 64,
-          "end": 74,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 3,
-              "column": 16
-            },
-            "end": {
-              "line": 3,
-              "column": 26
-            }
-          }
+          "start": 66,
+          "end": 76,
+          "ctxt": 0
         },
-        "isAbstract": true
+        "decorators": [],
+        "body": [],
+        "superClass": null,
+        "isAbstract": true,
+        "typeParams": null,
+        "superTypeParams": null,
+        "implements": []
       }
     },
     {
       "type": "ExportDefaultDeclaration",
       "span": {
-        "start": 154,
-        "end": 163,
-        "ctxt": 0,
-        "loc": {
-          "start": {
-            "line": 5,
-            "column": 24
-          },
-          "end": {
-            "line": 5,
-            "column": 33
-          }
-        }
+        "start": 158,
+        "end": 167,
+        "ctxt": 0
       },
       "decl": {
         "type": "ClassExpression",
+        "identifier": null,
         "span": {
-          "start": 154,
-          "end": 163,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 5,
-              "column": 24
-            },
-            "end": {
-              "line": 5,
-              "column": 33
-            }
-          }
+          "start": 158,
+          "end": 167,
+          "ctxt": 0
         },
-        "isAbstract": true
+        "decorators": [],
+        "body": [],
+        "superClass": null,
+        "isAbstract": true,
+        "typeParams": null,
+        "superTypeParams": null,
+        "implements": []
       }
     },
     {
       "type": "ExportDefaultDeclaration",
       "span": {
-        "start": 188,
-        "end": 199,
-        "ctxt": 0,
-        "loc": {
-          "start": {
-            "line": 6,
-            "column": 24
-          },
-          "end": {
-            "line": 6,
-            "column": 35
-          }
-        }
+        "start": 193,
+        "end": 204,
+        "ctxt": 0
       },
       "decl": {
         "type": "ClassExpression",
         "identifier": {
           "type": "Identifier",
           "span": {
-            "start": 194,
-            "end": 195,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 6,
-                "column": 30
-              },
-              "end": {
-                "line": 6,
-                "column": 31
-              }
-            }
+            "start": 199,
+            "end": 200,
+            "ctxt": 0
           },
           "value": "C",
+          "typeAnnotation": null,
           "optional": false
         },
         "span": {
-          "start": 188,
-          "end": 199,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 6,
-              "column": 24
-            },
-            "end": {
-              "line": 6,
-              "column": 35
-            }
-          }
+          "start": 193,
+          "end": 204,
+          "ctxt": 0
         },
-        "isAbstract": true
+        "decorators": [],
+        "body": [],
+        "superClass": null,
+        "isAbstract": true,
+        "typeParams": null,
+        "superTypeParams": null,
+        "implements": []
       }
     }
-  ]
+  ],
+  "interpreter": null
 }

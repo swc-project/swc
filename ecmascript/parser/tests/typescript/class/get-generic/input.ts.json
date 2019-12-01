@@ -2,18 +2,8 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 39,
-    "ctxt": 0,
-    "loc": {
-      "start": {
-        "line": 1,
-        "column": 0
-      },
-      "end": {
-        "line": 3,
-        "column": 1
-      }
-    }
+    "end": 41,
+    "ctxt": 0
   },
   "body": [
     {
@@ -23,91 +13,45 @@
         "span": {
           "start": 14,
           "end": 15,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 1,
-              "column": 14
-            },
-            "end": {
-              "line": 1,
-              "column": 15
-            }
-          }
+          "ctxt": 0
         },
         "value": "C",
+        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
       "span": {
         "start": 8,
-        "end": 39,
-        "ctxt": 0,
-        "loc": {
-          "start": {
-            "line": 1,
-            "column": 8
-          },
-          "end": {
-            "line": 3,
-            "column": 1
-          }
-        }
+        "end": 41,
+        "ctxt": 0
       },
+      "decorators": [],
       "body": [
         {
           "type": "ClassMethod",
           "span": {
-            "start": 22,
-            "end": 37,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 2,
-                "column": 4
-              },
-              "end": {
-                "line": 2,
-                "column": 19
-              }
-            }
+            "start": 23,
+            "end": 38,
+            "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 22,
-              "end": 25,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 2,
-                  "column": 4
-                },
-                "end": {
-                  "line": 2,
-                  "column": 7
-                }
-              }
+              "start": 23,
+              "end": 26,
+              "ctxt": 0
             },
             "value": "get",
+            "typeAnnotation": null,
             "optional": false
           },
           "function": {
             "params": [],
+            "decorators": [],
             "span": {
-              "start": 22,
-              "end": 37,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 2,
-                  "column": 4
-                },
-                "end": {
-                  "line": 2,
-                  "column": 19
-                }
-              }
+              "start": 23,
+              "end": 38,
+              "ctxt": 0
             },
             "body": null,
             "generator": false,
@@ -115,94 +59,47 @@
             "typeParameters": {
               "type": "TsTypeParameterDeclaration",
               "span": {
-                "start": 25,
-                "end": 28,
-                "ctxt": 0,
-                "loc": {
-                  "start": {
-                    "line": 2,
-                    "column": 7
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 10
-                  }
-                }
+                "start": 26,
+                "end": 29,
+                "ctxt": 0
               },
               "parameters": [
                 {
                   "type": "TsTypeParameter",
                   "span": {
-                    "start": 26,
-                    "end": 27,
-                    "ctxt": 0,
-                    "loc": {
-                      "start": {
-                        "line": 2,
-                        "column": 8
-                      },
-                      "end": {
-                        "line": 2,
-                        "column": 9
-                      }
-                    }
+                    "start": 27,
+                    "end": 28,
+                    "ctxt": 0
                   },
                   "name": {
                     "type": "Identifier",
                     "span": {
-                      "start": 26,
-                      "end": 27,
-                      "ctxt": 0,
-                      "loc": {
-                        "start": {
-                          "line": 2,
-                          "column": 8
-                        },
-                        "end": {
-                          "line": 2,
-                          "column": 9
-                        }
-                      }
+                      "start": 27,
+                      "end": 28,
+                      "ctxt": 0
                     },
                     "value": "T",
+                    "typeAnnotation": null,
                     "optional": false
-                  }
+                  },
+                  "constraint": null,
+                  "default": null
                 }
               ]
             },
             "returnType": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 30,
-                "end": 36,
-                "ctxt": 0,
-                "loc": {
-                  "start": {
-                    "line": 2,
-                    "column": 12
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 18
-                  }
-                }
+                "start": 31,
+                "end": 37,
+                "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 32,
-                  "end": 36,
-                  "ctxt": 0,
-                  "loc": {
-                    "start": {
-                      "line": 2,
-                      "column": 14
-                    },
-                    "end": {
-                      "line": 2,
-                      "column": 18
-                    }
-                  }
+                  "start": 33,
+                  "end": 37,
+                  "ctxt": 0
                 },
                 "kind": "void"
               }
@@ -210,11 +107,17 @@
           },
           "kind": "method",
           "isStatic": false,
+          "accessibility": null,
           "isAbstract": false,
           "isOptional": false
         }
       ],
-      "isAbstract": false
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
     }
-  ]
+  ],
+  "interpreter": null
 }

@@ -2,18 +2,8 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 31,
-    "ctxt": 0,
-    "loc": {
-      "start": {
-        "line": 1,
-        "column": 0
-      },
-      "end": {
-        "line": 2,
-        "column": 16
-      }
-    }
+    "end": 32,
+    "ctxt": 0
   },
   "body": [
     {
@@ -21,52 +11,26 @@
       "span": {
         "start": 0,
         "end": 13,
-        "ctxt": 0,
-        "loc": {
-          "start": {
-            "line": 1,
-            "column": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 13
-          }
-        }
+        "ctxt": 0
       },
       "expression": {
         "type": "ClassExpression",
+        "identifier": null,
         "span": {
           "start": 1,
           "end": 12,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 1,
-              "column": 1
-            },
-            "end": {
-              "line": 1,
-              "column": 12
-            }
-          }
+          "ctxt": 0
         },
+        "decorators": [],
+        "body": [],
+        "superClass": null,
         "isAbstract": false,
         "typeParams": {
           "type": "TsTypeParameterDeclaration",
           "span": {
             "start": 6,
             "end": 9,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 1,
-                "column": 6
-              },
-              "end": {
-                "line": 1,
-                "column": 9
-              }
-            }
+            "ctxt": 0
           },
           "parameters": [
             {
@@ -74,157 +38,92 @@
               "span": {
                 "start": 7,
                 "end": 8,
-                "ctxt": 0,
-                "loc": {
-                  "start": {
-                    "line": 1,
-                    "column": 7
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 8
-                  }
-                }
+                "ctxt": 0
               },
               "name": {
                 "type": "Identifier",
                 "span": {
                   "start": 7,
                   "end": 8,
-                  "ctxt": 0,
-                  "loc": {
-                    "start": {
-                      "line": 1,
-                      "column": 7
-                    },
-                    "end": {
-                      "line": 1,
-                      "column": 8
-                    }
-                  }
+                  "ctxt": 0
                 },
                 "value": "T",
+                "typeAnnotation": null,
                 "optional": false
-              }
+              },
+              "constraint": null,
+              "default": null
             }
           ]
-        }
+        },
+        "superTypeParams": null,
+        "implements": []
       }
     },
     {
       "type": "ParenthesisExpression",
       "span": {
-        "start": 15,
-        "end": 30,
-        "ctxt": 0,
-        "loc": {
-          "start": {
-            "line": 2,
-            "column": 0
-          },
-          "end": {
-            "line": 2,
-            "column": 15
-          }
-        }
+        "start": 16,
+        "end": 31,
+        "ctxt": 0
       },
       "expression": {
         "type": "ClassExpression",
         "identifier": {
           "type": "Identifier",
           "span": {
-            "start": 22,
-            "end": 23,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 2,
-                "column": 7
-              },
-              "end": {
-                "line": 2,
-                "column": 8
-              }
-            }
+            "start": 23,
+            "end": 24,
+            "ctxt": 0
           },
           "value": "C",
+          "typeAnnotation": null,
           "optional": false
         },
         "span": {
-          "start": 16,
-          "end": 29,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 2,
-              "column": 1
-            },
-            "end": {
-              "line": 2,
-              "column": 14
-            }
-          }
+          "start": 17,
+          "end": 30,
+          "ctxt": 0
         },
+        "decorators": [],
+        "body": [],
+        "superClass": null,
         "isAbstract": false,
         "typeParams": {
           "type": "TsTypeParameterDeclaration",
           "span": {
-            "start": 23,
-            "end": 26,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 2,
-                "column": 8
-              },
-              "end": {
-                "line": 2,
-                "column": 11
-              }
-            }
+            "start": 24,
+            "end": 27,
+            "ctxt": 0
           },
           "parameters": [
             {
               "type": "TsTypeParameter",
               "span": {
-                "start": 24,
-                "end": 25,
-                "ctxt": 0,
-                "loc": {
-                  "start": {
-                    "line": 2,
-                    "column": 9
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 10
-                  }
-                }
+                "start": 25,
+                "end": 26,
+                "ctxt": 0
               },
               "name": {
                 "type": "Identifier",
                 "span": {
-                  "start": 24,
-                  "end": 25,
-                  "ctxt": 0,
-                  "loc": {
-                    "start": {
-                      "line": 2,
-                      "column": 9
-                    },
-                    "end": {
-                      "line": 2,
-                      "column": 10
-                    }
-                  }
+                  "start": 25,
+                  "end": 26,
+                  "ctxt": 0
                 },
                 "value": "T",
+                "typeAnnotation": null,
                 "optional": false
-              }
+              },
+              "constraint": null,
+              "default": null
             }
           ]
-        }
+        },
+        "superTypeParams": null,
+        "implements": []
       }
     }
-  ]
+  ],
+  "interpreter": null
 }

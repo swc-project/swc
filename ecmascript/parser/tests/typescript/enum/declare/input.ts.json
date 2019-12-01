@@ -3,17 +3,7 @@
   "span": {
     "start": 0,
     "end": 17,
-    "ctxt": 0,
-    "loc": {
-      "start": {
-        "line": 1,
-        "column": 0
-      },
-      "end": {
-        "line": 1,
-        "column": 17
-      }
-    }
+    "ctxt": 0
   },
   "body": [
     {
@@ -21,17 +11,7 @@
       "span": {
         "start": 0,
         "end": 17,
-        "ctxt": 0,
-        "loc": {
-          "start": {
-            "line": 1,
-            "column": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 17
-          }
-        }
+        "ctxt": 0
       },
       "declare": true,
       "isConst": false,
@@ -40,22 +20,14 @@
         "span": {
           "start": 13,
           "end": 14,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 1,
-              "column": 13
-            },
-            "end": {
-              "line": 1,
-              "column": 14
-            }
-          }
+          "ctxt": 0
         },
         "value": "E",
+        "typeAnnotation": null,
         "optional": false
       },
       "members": []
     }
-  ]
+  ],
+  "interpreter": null
 }

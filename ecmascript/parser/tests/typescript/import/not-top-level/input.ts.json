@@ -2,36 +2,16 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 50,
-    "ctxt": 0,
-    "loc": {
-      "start": {
-        "line": 1,
-        "column": 0
-      },
-      "end": {
-        "line": 3,
-        "column": 1
-      }
-    }
+    "end": 52,
+    "ctxt": 0
   },
   "body": [
     {
       "type": "TsModuleDeclaration",
       "span": {
         "start": 0,
-        "end": 50,
-        "ctxt": 0,
-        "loc": {
-          "start": {
-            "line": 1,
-            "column": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 1
-          }
-        }
+        "end": 52,
+        "ctxt": 0
       },
       "declare": true,
       "global": false,
@@ -40,17 +20,7 @@
         "span": {
           "start": 15,
           "end": 18,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 1,
-              "column": 15
-            },
-            "end": {
-              "line": 1,
-              "column": 18
-            }
-          }
+          "ctxt": 0
         },
         "value": "m",
         "hasEscape": false
@@ -59,73 +29,34 @@
         "type": "TsModuleBlock",
         "span": {
           "start": 19,
-          "end": 50,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 1,
-              "column": 19
-            },
-            "end": {
-              "line": 3,
-              "column": 1
-            }
-          }
+          "end": 52,
+          "ctxt": 0
         },
         "body": [
           {
             "type": "ImportDeclaration",
             "span": {
-              "start": 25,
-              "end": 48,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 2,
-                  "column": 4
-                },
-                "end": {
-                  "line": 2,
-                  "column": 27
-                }
-              }
+              "start": 26,
+              "end": 49,
+              "ctxt": 0
             },
             "specifiers": [
               {
                 "type": "ImportNamespaceSpecifier",
                 "span": {
-                  "start": 32,
-                  "end": 38,
-                  "ctxt": 0,
-                  "loc": {
-                    "start": {
-                      "line": 2,
-                      "column": 11
-                    },
-                    "end": {
-                      "line": 2,
-                      "column": 17
-                    }
-                  }
+                  "start": 33,
+                  "end": 39,
+                  "ctxt": 0
                 },
                 "local": {
                   "type": "Identifier",
                   "span": {
-                    "start": 37,
-                    "end": 38,
-                    "ctxt": 0,
-                    "loc": {
-                      "start": {
-                        "line": 2,
-                        "column": 16
-                      },
-                      "end": {
-                        "line": 2,
-                        "column": 17
-                      }
-                    }
+                    "start": 38,
+                    "end": 39,
+                    "ctxt": 0
                   },
                   "value": "a",
+                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -133,19 +64,9 @@
             "source": {
               "type": "StringLiteral",
               "span": {
-                "start": 44,
-                "end": 48,
-                "ctxt": 0,
-                "loc": {
-                  "start": {
-                    "line": 2,
-                    "column": 23
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 27
-                  }
-                }
+                "start": 45,
+                "end": 49,
+                "ctxt": 0
               },
               "value": "a",
               "hasEscape": false
@@ -154,5 +75,6 @@
         ]
       }
     }
-  ]
+  ],
+  "interpreter": null
 }

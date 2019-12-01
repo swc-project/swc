@@ -2,18 +2,8 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 55,
-    "ctxt": 0,
-    "loc": {
-      "start": {
-        "line": 1,
-        "column": 0
-      },
-      "end": {
-        "line": 2,
-        "column": 27
-      }
-    }
+    "end": 56,
+    "ctxt": 0
   },
   "body": [
     {
@@ -23,74 +13,37 @@
         "span": {
           "start": 17,
           "end": 18,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 1,
-              "column": 17
-            },
-            "end": {
-              "line": 1,
-              "column": 18
-            }
-          }
+          "ctxt": 0
         },
         "value": "f",
+        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
       "params": [],
+      "decorators": [],
       "span": {
         "start": 8,
         "end": 27,
-        "ctxt": 0,
-        "loc": {
-          "start": {
-            "line": 1,
-            "column": 8
-          },
-          "end": {
-            "line": 1,
-            "column": 27
-          }
-        }
+        "ctxt": 0
       },
       "body": null,
       "generator": false,
       "async": false,
+      "typeParameters": null,
       "returnType": {
         "type": "TsTypeAnnotation",
         "span": {
           "start": 20,
           "end": 26,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 1,
-              "column": 20
-            },
-            "end": {
-              "line": 1,
-              "column": 26
-            }
-          }
+          "ctxt": 0
         },
         "typeAnnotation": {
           "type": "TsKeywordType",
           "span": {
             "start": 22,
             "end": 26,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 1,
-                "column": 22
-              },
-              "end": {
-                "line": 1,
-                "column": 26
-              }
-            }
+            "ctxt": 0
           },
           "kind": "void"
         }
@@ -101,39 +54,21 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 45,
-          "end": 46,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 2,
-              "column": 17
-            },
-            "end": {
-              "line": 2,
-              "column": 18
-            }
-          }
+          "start": 46,
+          "end": 47,
+          "ctxt": 0
         },
         "value": "f",
+        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
       "params": [],
+      "decorators": [],
       "span": {
-        "start": 36,
-        "end": 55,
-        "ctxt": 0,
-        "loc": {
-          "start": {
-            "line": 2,
-            "column": 8
-          },
-          "end": {
-            "line": 2,
-            "column": 27
-          }
-        }
+        "start": 37,
+        "end": 56,
+        "ctxt": 0
       },
       "body": null,
       "generator": false,
@@ -141,117 +76,63 @@
       "typeParameters": {
         "type": "TsTypeParameterDeclaration",
         "span": {
-          "start": 46,
-          "end": 49,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 2,
-              "column": 18
-            },
-            "end": {
-              "line": 2,
-              "column": 21
-            }
-          }
+          "start": 47,
+          "end": 50,
+          "ctxt": 0
         },
         "parameters": [
           {
             "type": "TsTypeParameter",
             "span": {
-              "start": 47,
-              "end": 48,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 2,
-                  "column": 19
-                },
-                "end": {
-                  "line": 2,
-                  "column": 20
-                }
-              }
+              "start": 48,
+              "end": 49,
+              "ctxt": 0
             },
             "name": {
               "type": "Identifier",
               "span": {
-                "start": 47,
-                "end": 48,
-                "ctxt": 0,
-                "loc": {
-                  "start": {
-                    "line": 2,
-                    "column": 19
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 20
-                  }
-                }
+                "start": 48,
+                "end": 49,
+                "ctxt": 0
               },
               "value": "T",
+              "typeAnnotation": null,
               "optional": false
-            }
+            },
+            "constraint": null,
+            "default": null
           }
         ]
       },
       "returnType": {
         "type": "TsTypeAnnotation",
         "span": {
-          "start": 51,
-          "end": 54,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 2,
-              "column": 23
-            },
-            "end": {
-              "line": 2,
-              "column": 26
-            }
-          }
+          "start": 52,
+          "end": 55,
+          "ctxt": 0
         },
         "typeAnnotation": {
           "type": "TsTypeReference",
           "span": {
-            "start": 53,
-            "end": 54,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 2,
-                "column": 25
-              },
-              "end": {
-                "line": 2,
-                "column": 26
-              }
-            }
+            "start": 54,
+            "end": 55,
+            "ctxt": 0
           },
           "typeName": {
             "type": "Identifier",
             "span": {
-              "start": 53,
-              "end": 54,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 2,
-                  "column": 25
-                },
-                "end": {
-                  "line": 2,
-                  "column": 26
-                }
-              }
+              "start": 54,
+              "end": 55,
+              "ctxt": 0
             },
             "value": "T",
+            "typeAnnotation": null,
             "optional": false
-          }
+          },
+          "typeParams": null
         }
       }
     }
-  ]
+  ],
+  "interpreter": null
 }

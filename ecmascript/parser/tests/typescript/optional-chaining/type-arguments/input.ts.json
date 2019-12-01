@@ -3,17 +3,7 @@
   "span": {
     "start": 0,
     "end": 30,
-    "ctxt": 0,
-    "loc": {
-      "start": {
-        "line": 1,
-        "column": 0
-      },
-      "end": {
-        "line": 1,
-        "column": 30
-      }
-    }
+    "ctxt": 0
   },
   "body": [
     {
@@ -21,87 +11,38 @@
       "span": {
         "start": 0,
         "end": 30,
-        "ctxt": 0,
-        "loc": {
-          "start": {
-            "line": 1,
-            "column": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 30
-          }
-        }
+        "ctxt": 0
       },
       "callee": {
         "type": "TsOptionalChainingExpression",
         "span": {
           "start": 0,
           "end": 20,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 1,
-              "column": 0
-            },
-            "end": {
-              "line": 1,
-              "column": 20
-            }
-          }
+          "ctxt": 0
         },
         "expr": {
           "type": "MemberExpression",
           "span": {
             "start": 0,
             "end": 20,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 1,
-                "column": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 20
-              }
-            }
+            "ctxt": 0
           },
           "object": {
             "type": "MemberExpression",
             "span": {
               "start": 0,
               "end": 13,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 1,
-                  "column": 0
-                },
-                "end": {
-                  "line": 1,
-                  "column": 13
-                }
-              }
+              "ctxt": 0
             },
             "object": {
               "type": "Identifier",
               "span": {
                 "start": 0,
                 "end": 7,
-                "ctxt": 0,
-                "loc": {
-                  "start": {
-                    "line": 1,
-                    "column": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 7
-                  }
-                }
+                "ctxt": 0
               },
               "value": "example",
+              "typeAnnotation": null,
               "optional": false
             },
             "property": {
@@ -109,19 +50,10 @@
               "span": {
                 "start": 8,
                 "end": 13,
-                "ctxt": 0,
-                "loc": {
-                  "start": {
-                    "line": 1,
-                    "column": 8
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 13
-                  }
-                }
+                "ctxt": 0
               },
               "value": "inner",
+              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
@@ -131,19 +63,10 @@
             "span": {
               "start": 15,
               "end": 20,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 1,
-                  "column": 15
-                },
-                "end": {
-                  "line": 1,
-                  "column": 20
-                }
-              }
+              "ctxt": 0
             },
             "value": "greet",
+            "typeAnnotation": null,
             "optional": false
           },
           "computed": false
@@ -155,17 +78,7 @@
         "span": {
           "start": 20,
           "end": 28,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 1,
-              "column": 20
-            },
-            "end": {
-              "line": 1,
-              "column": 28
-            }
-          }
+          "ctxt": 0
         },
         "params": [
           {
@@ -173,22 +86,13 @@
             "span": {
               "start": 21,
               "end": 27,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 1,
-                  "column": 21
-                },
-                "end": {
-                  "line": 1,
-                  "column": 27
-                }
-              }
+              "ctxt": 0
             },
             "kind": "string"
           }
         ]
       }
     }
-  ]
+  ],
+  "interpreter": null
 }

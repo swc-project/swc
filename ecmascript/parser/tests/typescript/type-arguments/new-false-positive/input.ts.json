@@ -3,17 +3,7 @@
   "span": {
     "start": 0,
     "end": 10,
-    "ctxt": 0,
-    "loc": {
-      "start": {
-        "line": 1,
-        "column": 0
-      },
-      "end": {
-        "line": 1,
-        "column": 10
-      }
-    }
+    "ctxt": 0
   },
   "body": [
     {
@@ -21,17 +11,7 @@
       "span": {
         "start": 0,
         "end": 9,
-        "ctxt": 0,
-        "loc": {
-          "start": {
-            "line": 1,
-            "column": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 9
-          }
-        }
+        "ctxt": 0
       },
       "operator": "<",
       "left": {
@@ -39,36 +19,17 @@
         "span": {
           "start": 0,
           "end": 5,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 1,
-              "column": 0
-            },
-            "end": {
-              "line": 1,
-              "column": 5
-            }
-          }
+          "ctxt": 0
         },
         "callee": {
           "type": "Identifier",
           "span": {
             "start": 4,
             "end": 5,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 1,
-                "column": 4
-              },
-              "end": {
-                "line": 1,
-                "column": 5
-              }
-            }
+            "ctxt": 0
           },
           "value": "A",
+          "typeAnnotation": null,
           "optional": false
         },
         "arguments": null,
@@ -79,21 +40,13 @@
         "span": {
           "start": 8,
           "end": 9,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 1,
-              "column": 8
-            },
-            "end": {
-              "line": 1,
-              "column": 9
-            }
-          }
+          "ctxt": 0
         },
         "value": "T",
+        "typeAnnotation": null,
         "optional": false
       }
     }
-  ]
+  ],
+  "interpreter": null
 }

@@ -2,18 +2,8 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 38,
-    "ctxt": 0,
-    "loc": {
-      "start": {
-        "line": 1,
-        "column": 0
-      },
-      "end": {
-        "line": 3,
-        "column": 1
-      }
-    }
+    "end": 40,
+    "ctxt": 0
   },
   "body": [
     {
@@ -23,128 +13,63 @@
         "span": {
           "start": 6,
           "end": 7,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 1,
-              "column": 6
-            },
-            "end": {
-              "line": 1,
-              "column": 7
-            }
-          }
+          "ctxt": 0
         },
         "value": "C",
+        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 0,
-        "end": 38,
-        "ctxt": 0,
-        "loc": {
-          "start": {
-            "line": 1,
-            "column": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 1
-          }
-        }
+        "end": 40,
+        "ctxt": 0
       },
+      "decorators": [],
       "body": [
         {
           "type": "ClassMethod",
           "span": {
-            "start": 21,
-            "end": 36,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 2,
-                "column": 11
-              },
-              "end": {
-                "line": 2,
-                "column": 26
-              }
-            }
+            "start": 22,
+            "end": 37,
+            "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 21,
-              "end": 27,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 2,
-                  "column": 11
-                },
-                "end": {
-                  "line": 2,
-                  "column": 17
-                }
-              }
+              "start": 22,
+              "end": 28,
+              "ctxt": 0
             },
             "value": "delete",
+            "typeAnnotation": null,
             "optional": false
           },
           "function": {
             "params": [],
+            "decorators": [],
             "span": {
-              "start": 21,
-              "end": 36,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 2,
-                  "column": 11
-                },
-                "end": {
-                  "line": 2,
-                  "column": 26
-                }
-              }
+              "start": 22,
+              "end": 37,
+              "ctxt": 0
             },
             "body": null,
             "generator": false,
             "async": false,
+            "typeParameters": null,
             "returnType": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 29,
-                "end": 35,
-                "ctxt": 0,
-                "loc": {
-                  "start": {
-                    "line": 2,
-                    "column": 19
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 25
-                  }
-                }
+                "start": 30,
+                "end": 36,
+                "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 31,
-                  "end": 35,
-                  "ctxt": 0,
-                  "loc": {
-                    "start": {
-                      "line": 2,
-                      "column": 21
-                    },
-                    "end": {
-                      "line": 2,
-                      "column": 25
-                    }
-                  }
+                  "start": 32,
+                  "end": 36,
+                  "ctxt": 0
                 },
                 "kind": "void"
               }
@@ -157,7 +82,12 @@
           "isOptional": false
         }
       ],
-      "isAbstract": false
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
     }
-  ]
+  ],
+  "interpreter": null
 }

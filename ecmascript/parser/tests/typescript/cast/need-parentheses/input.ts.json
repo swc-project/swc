@@ -2,18 +2,8 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 28,
-    "ctxt": 0,
-    "loc": {
-      "start": {
-        "line": 1,
-        "column": 0
-      },
-      "end": {
-        "line": 3,
-        "column": 5
-      }
-    }
+    "end": 30,
+    "ctxt": 0
   },
   "body": [
     {
@@ -21,70 +11,31 @@
       "span": {
         "start": 0,
         "end": 9,
-        "ctxt": 0,
-        "loc": {
-          "start": {
-            "line": 1,
-            "column": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 9
-          }
-        }
+        "ctxt": 0
       },
       "object": {
         "type": "ParenthesisExpression",
         "span": {
           "start": 0,
           "end": 7,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 1,
-              "column": 0
-            },
-            "end": {
-              "line": 1,
-              "column": 7
-            }
-          }
+          "ctxt": 0
         },
         "expression": {
           "type": "TsTypeAssertion",
           "span": {
             "start": 1,
             "end": 6,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 1,
-                "column": 1
-              },
-              "end": {
-                "line": 1,
-                "column": 6
-              }
-            }
+            "ctxt": 0
           },
           "expression": {
             "type": "Identifier",
             "span": {
               "start": 5,
               "end": 6,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 1,
-                  "column": 5
-                },
-                "end": {
-                  "line": 1,
-                  "column": 6
-                }
-              }
+              "ctxt": 0
             },
             "value": "x",
+            "typeAnnotation": null,
             "optional": false
           },
           "typeAnnotation": {
@@ -92,38 +43,20 @@
             "span": {
               "start": 2,
               "end": 3,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 1,
-                  "column": 2
-                },
-                "end": {
-                  "line": 1,
-                  "column": 3
-                }
-              }
+              "ctxt": 0
             },
             "typeName": {
               "type": "Identifier",
               "span": {
                 "start": 2,
                 "end": 3,
-                "ctxt": 0,
-                "loc": {
-                  "start": {
-                    "line": 1,
-                    "column": 2
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 3
-                  }
-                }
+                "ctxt": 0
               },
               "value": "T",
+              "typeAnnotation": null,
               "optional": false
-            }
+            },
+            "typeParams": null
           }
         }
       },
@@ -132,19 +65,10 @@
         "span": {
           "start": 8,
           "end": 9,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 1,
-              "column": 8
-            },
-            "end": {
-              "line": 1,
-              "column": 9
-            }
-          }
+          "ctxt": 0
         },
         "value": "y",
+        "typeAnnotation": null,
         "optional": false
       },
       "computed": false
@@ -152,132 +76,66 @@
     {
       "type": "MemberExpression",
       "span": {
-        "start": 11,
-        "end": 21,
-        "ctxt": 0,
-        "loc": {
-          "start": {
-            "line": 2,
-            "column": 0
-          },
-          "end": {
-            "line": 2,
-            "column": 10
-          }
-        }
+        "start": 12,
+        "end": 22,
+        "ctxt": 0
       },
       "object": {
         "type": "ParenthesisExpression",
         "span": {
-          "start": 11,
-          "end": 19,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 2,
-              "column": 0
-            },
-            "end": {
-              "line": 2,
-              "column": 8
-            }
-          }
+          "start": 12,
+          "end": 20,
+          "ctxt": 0
         },
         "expression": {
           "type": "TsAsExpression",
           "span": {
-            "start": 12,
-            "end": 13,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 2,
-                "column": 1
-              },
-              "end": {
-                "line": 2,
-                "column": 2
-              }
-            }
+            "start": 13,
+            "end": 14,
+            "ctxt": 0
           },
           "expression": {
             "type": "Identifier",
             "span": {
-              "start": 12,
-              "end": 13,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 2,
-                  "column": 1
-                },
-                "end": {
-                  "line": 2,
-                  "column": 2
-                }
-              }
+              "start": 13,
+              "end": 14,
+              "ctxt": 0
             },
             "value": "x",
+            "typeAnnotation": null,
             "optional": false
           },
           "typeAnnotation": {
             "type": "TsTypeReference",
             "span": {
-              "start": 17,
-              "end": 18,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 2,
-                  "column": 6
-                },
-                "end": {
-                  "line": 2,
-                  "column": 7
-                }
-              }
+              "start": 18,
+              "end": 19,
+              "ctxt": 0
             },
             "typeName": {
               "type": "Identifier",
               "span": {
-                "start": 17,
-                "end": 18,
-                "ctxt": 0,
-                "loc": {
-                  "start": {
-                    "line": 2,
-                    "column": 6
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 7
-                  }
-                }
+                "start": 18,
+                "end": 19,
+                "ctxt": 0
               },
               "value": "T",
+              "typeAnnotation": null,
               "optional": false
-            }
+            },
+            "typeParams": null
           }
         }
       },
       "property": {
         "type": "Identifier",
         "span": {
-          "start": 20,
-          "end": 21,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 2,
-              "column": 9
-            },
-            "end": {
-              "line": 2,
-              "column": 10
-            }
-          }
+          "start": 21,
+          "end": 22,
+          "ctxt": 0
         },
         "value": "y",
+        "typeAnnotation": null,
         "optional": false
       },
       "computed": false
@@ -285,79 +143,42 @@
     {
       "type": "MemberExpression",
       "span": {
-        "start": 23,
-        "end": 27,
-        "ctxt": 0,
-        "loc": {
-          "start": {
-            "line": 3,
-            "column": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 4
-          }
-        }
+        "start": 25,
+        "end": 29,
+        "ctxt": 0
       },
       "object": {
         "type": "TsNonNullExpression",
         "span": {
-          "start": 23,
-          "end": 25,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 3,
-              "column": 0
-            },
-            "end": {
-              "line": 3,
-              "column": 2
-            }
-          }
+          "start": 25,
+          "end": 27,
+          "ctxt": 0
         },
         "expression": {
           "type": "Identifier",
           "span": {
-            "start": 23,
-            "end": 24,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 3,
-                "column": 0
-              },
-              "end": {
-                "line": 3,
-                "column": 1
-              }
-            }
+            "start": 25,
+            "end": 26,
+            "ctxt": 0
           },
           "value": "x",
+          "typeAnnotation": null,
           "optional": false
         }
       },
       "property": {
         "type": "Identifier",
         "span": {
-          "start": 26,
-          "end": 27,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 3,
-              "column": 3
-            },
-            "end": {
-              "line": 3,
-              "column": 4
-            }
-          }
+          "start": 28,
+          "end": 29,
+          "ctxt": 0
         },
         "value": "y",
+        "typeAnnotation": null,
         "optional": false
       },
       "computed": false
     }
-  ]
+  ],
+  "interpreter": null
 }

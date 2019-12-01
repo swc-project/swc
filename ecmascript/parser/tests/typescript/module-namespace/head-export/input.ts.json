@@ -2,18 +2,8 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 42,
-    "ctxt": 0,
-    "loc": {
-      "start": {
-        "line": 1,
-        "column": 0
-      },
-      "end": {
-        "line": 2,
-        "column": 18
-      }
-    }
+    "end": 43,
+    "ctxt": 0
   },
   "body": [
     {
@@ -21,34 +11,14 @@
       "span": {
         "start": 0,
         "end": 23,
-        "ctxt": 0,
-        "loc": {
-          "start": {
-            "line": 1,
-            "column": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 23
-          }
-        }
+        "ctxt": 0
       },
       "declaration": {
         "type": "TsModuleDeclaration",
         "span": {
           "start": 7,
           "end": 23,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 1,
-              "column": 7
-            },
-            "end": {
-              "line": 1,
-              "column": 23
-            }
-          }
+          "ctxt": 0
         },
         "declare": false,
         "global": false,
@@ -57,19 +27,10 @@
           "span": {
             "start": 17,
             "end": 18,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 1,
-                "column": 17
-              },
-              "end": {
-                "line": 1,
-                "column": 18
-              }
-            }
+            "ctxt": 0
           },
           "value": "X",
+          "typeAnnotation": null,
           "optional": false
         },
         "body": {
@@ -77,17 +38,7 @@
           "span": {
             "start": 19,
             "end": 23,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 1,
-                "column": 19
-              },
-              "end": {
-                "line": 1,
-                "column": 23
-              }
-            }
+            "ctxt": 0
           },
           "declare": false,
           "global": false,
@@ -96,19 +47,10 @@
             "span": {
               "start": 19,
               "end": 20,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 1,
-                  "column": 19
-                },
-                "end": {
-                  "line": 1,
-                  "column": 20
-                }
-              }
+              "ctxt": 0
             },
             "value": "Y",
+            "typeAnnotation": null,
             "optional": false
           },
           "body": {
@@ -116,17 +58,7 @@
             "span": {
               "start": 21,
               "end": 23,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 1,
-                  "column": 21
-                },
-                "end": {
-                  "line": 1,
-                  "column": 23
-                }
-              }
+              "ctxt": 0
             },
             "body": []
           }
@@ -136,79 +68,41 @@
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 24,
-        "end": 42,
-        "ctxt": 0,
-        "loc": {
-          "start": {
-            "line": 2,
-            "column": 0
-          },
-          "end": {
-            "line": 2,
-            "column": 18
-          }
-        }
+        "start": 25,
+        "end": 43,
+        "ctxt": 0
       },
       "declaration": {
         "type": "TsModuleDeclaration",
         "span": {
-          "start": 31,
-          "end": 42,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 2,
-              "column": 7
-            },
-            "end": {
-              "line": 2,
-              "column": 18
-            }
-          }
+          "start": 32,
+          "end": 43,
+          "ctxt": 0
         },
         "declare": false,
         "global": false,
         "id": {
           "type": "Identifier",
           "span": {
-            "start": 38,
-            "end": 39,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 2,
-                "column": 14
-              },
-              "end": {
-                "line": 2,
-                "column": 15
-              }
-            }
+            "start": 39,
+            "end": 40,
+            "ctxt": 0
           },
           "value": "X",
+          "typeAnnotation": null,
           "optional": false
         },
         "body": {
           "type": "TsModuleBlock",
           "span": {
-            "start": 40,
-            "end": 42,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 2,
-                "column": 16
-              },
-              "end": {
-                "line": 2,
-                "column": 18
-              }
-            }
+            "start": 41,
+            "end": 43,
+            "ctxt": 0
           },
           "body": []
         }
       }
     }
-  ]
+  ],
+  "interpreter": null
 }

@@ -3,17 +3,7 @@
   "span": {
     "start": 0,
     "end": 33,
-    "ctxt": 0,
-    "loc": {
-      "start": {
-        "line": 1,
-        "column": 0
-      },
-      "end": {
-        "line": 1,
-        "column": 33
-      }
-    }
+    "ctxt": 0
   },
   "body": [
     {
@@ -21,17 +11,7 @@
       "span": {
         "start": 0,
         "end": 33,
-        "ctxt": 0,
-        "loc": {
-          "start": {
-            "line": 1,
-            "column": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 33
-          }
-        }
+        "ctxt": 0
       },
       "kind": "let",
       "declare": false,
@@ -41,36 +21,17 @@
           "span": {
             "start": 4,
             "end": 32,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 1,
-                "column": 4
-              },
-              "end": {
-                "line": 1,
-                "column": 32
-              }
-            }
+            "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 4,
               "end": 5,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 1,
-                  "column": 4
-                },
-                "end": {
-                  "line": 1,
-                  "column": 5
-                }
-              }
+              "ctxt": 0
             },
             "value": "z",
+            "typeAnnotation": null,
             "optional": false
           },
           "init": {
@@ -78,34 +39,14 @@
             "span": {
               "start": 8,
               "end": 32,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 1,
-                  "column": 8
-                },
-                "end": {
-                  "line": 1,
-                  "column": 32
-                }
-              }
+              "ctxt": 0
             },
             "expr": {
               "type": "ObjectExpression",
               "span": {
                 "start": 15,
                 "end": 32,
-                "ctxt": 0,
-                "loc": {
-                  "start": {
-                    "line": 1,
-                    "column": 15
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 32
-                  }
-                }
+                "ctxt": 0
               },
               "properties": [
                 {
@@ -115,19 +56,10 @@
                     "span": {
                       "start": 17,
                       "end": 21,
-                      "ctxt": 0,
-                      "loc": {
-                        "start": {
-                          "line": 1,
-                          "column": 17
-                        },
-                        "end": {
-                          "line": 1,
-                          "column": 21
-                        }
-                      }
+                      "ctxt": 0
                     },
                     "value": "text",
+                    "typeAnnotation": null,
                     "optional": false
                   },
                   "value": {
@@ -135,17 +67,7 @@
                     "span": {
                       "start": 23,
                       "end": 30,
-                      "ctxt": 0,
-                      "loc": {
-                        "start": {
-                          "line": 1,
-                          "column": 23
-                        },
-                        "end": {
-                          "line": 1,
-                          "column": 30
-                        }
-                      }
+                      "ctxt": 0
                     },
                     "value": "hello",
                     "hasEscape": false
@@ -158,5 +80,6 @@
         }
       ]
     }
-  ]
+  ],
+  "interpreter": null
 }

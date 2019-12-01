@@ -3,17 +3,7 @@
   "span": {
     "start": 0,
     "end": 22,
-    "ctxt": 0,
-    "loc": {
-      "start": {
-        "line": 1,
-        "column": 0
-      },
-      "end": {
-        "line": 1,
-        "column": 22
-      }
-    }
+    "ctxt": 0
   },
   "body": [
     {
@@ -21,17 +11,7 @@
       "span": {
         "start": 0,
         "end": 22,
-        "ctxt": 0,
-        "loc": {
-          "start": {
-            "line": 1,
-            "column": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 22
-          }
-        }
+        "ctxt": 0
       },
       "declare": false,
       "isExport": true,
@@ -40,19 +20,10 @@
         "span": {
           "start": 14,
           "end": 15,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 1,
-              "column": 14
-            },
-            "end": {
-              "line": 1,
-              "column": 15
-            }
-          }
+          "ctxt": 0
         },
         "value": "A",
+        "typeAnnotation": null,
         "optional": false
       },
       "moduleRef": {
@@ -62,19 +33,10 @@
           "span": {
             "start": 18,
             "end": 19,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 1,
-                "column": 18
-              },
-              "end": {
-                "line": 1,
-                "column": 19
-              }
-            }
+            "ctxt": 0
           },
           "value": "B",
+          "typeAnnotation": null,
           "optional": false
         },
         "right": {
@@ -82,22 +44,14 @@
           "span": {
             "start": 20,
             "end": 21,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 1,
-                "column": 20
-              },
-              "end": {
-                "line": 1,
-                "column": 21
-              }
-            }
+            "ctxt": 0
           },
           "value": "C",
+          "typeAnnotation": null,
           "optional": false
         }
       }
     }
-  ]
+  ],
+  "interpreter": null
 }

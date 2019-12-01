@@ -2,18 +2,8 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 34,
-    "ctxt": 0,
-    "loc": {
-      "start": {
-        "line": 1,
-        "column": 0
-      },
-      "end": {
-        "line": 2,
-        "column": 13
-      }
-    }
+    "end": 35,
+    "ctxt": 0
   },
   "body": [
     {
@@ -21,38 +11,19 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 27,
-          "end": 31,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 2,
-              "column": 6
-            },
-            "end": {
-              "line": 2,
-              "column": 10
-            }
-          }
+          "start": 28,
+          "end": 32,
+          "ctxt": 0
         },
         "value": "Test",
+        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
       "span": {
-        "start": 21,
-        "end": 34,
-        "ctxt": 0,
-        "loc": {
-          "start": {
-            "line": 2,
-            "column": 0
-          },
-          "end": {
-            "line": 2,
-            "column": 13
-          }
-        }
+        "start": 22,
+        "end": 35,
+        "ctxt": 0
       },
       "decorators": [
         {
@@ -60,53 +31,24 @@
           "span": {
             "start": 0,
             "end": 20,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 1,
-                "column": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 20
-              }
-            }
+            "ctxt": 0
           },
           "expression": {
             "type": "CallExpression",
             "span": {
               "start": 1,
               "end": 20,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 1,
-                  "column": 1
-                },
-                "end": {
-                  "line": 1,
-                  "column": 20
-                }
-              }
+              "ctxt": 0
             },
             "callee": {
               "type": "Identifier",
               "span": {
                 "start": 1,
                 "end": 10,
-                "ctxt": 0,
-                "loc": {
-                  "start": {
-                    "line": 1,
-                    "column": 1
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 10
-                  }
-                }
+                "ctxt": 0
               },
               "value": "decorator",
+              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],
@@ -114,7 +56,13 @@
           }
         }
       ],
-      "isAbstract": false
+      "body": [],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
     }
-  ]
+  ],
+  "interpreter": null
 }
