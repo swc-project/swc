@@ -250,3 +250,16 @@ test!(
     "tView.firstCreatePass ? getOrCreateTNode() : tView.data[adjustedIndex]",
     "tView.firstCreatePass ? getOrCreateTNode() : tView.data[adjustedIndex];"
 );
+
+test!(
+    ::swc_ecma_parser::Syntax::Typescript(Default::default()),
+    |_| strip(),
+    enum_simple,
+    "enum Foo{ a }",
+    "
+var Foo;
+(function (Foo) {
+    Foo[Foo['a'] = 0] = 'a';
+})(Foo || (Foo = {}));",
+    ok_if_code_eq
+);
