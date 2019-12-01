@@ -90,6 +90,7 @@ fn jsonify(e: Expr) -> Value {
                     let key = match p.key {
                         PropName::Str(s) => s.value.to_string(),
                         PropName::Ident(id) => id.sym.to_string(),
+                        PropName::Num(n) => (n.value as i64).to_string(),
                         _ => unreachable!(),
                     };
                     (key, value)
@@ -103,11 +104,10 @@ fn jsonify(e: Expr) -> Value {
                 .collect(),
         ),
         Expr::Lit(Lit::Str(Str { value, .. })) => Value::String(value.to_string()),
-        Expr::Lit(Lit::Num(Number { value, .. })) => Value::Number(
-            serde_json::Number::from_f64(value)
-                .unwrap_or_else(|| unreachable!("invalid number: {}", value)),
-        ),
-        _ => unreachable!("Expr: {:?}", e),
+        Expr::Lit(Lit::Num(Number { value, .. })) => Value::Number((value as i64).into()),
+        Expr::Lit(Lit::Null(..)) => Value::Null,
+        Expr::Lit(Lit::Bool(v)) => Value::Bool(v.value),
+        _ => unreachable!("jsonify: Expr {:?} cannot be converted to json", e),
     }
 }
 
@@ -210,7 +210,15 @@ impl Visit<PropName> for LiteralVisitor {
         match node {
             PropName::Str(ref s) => self.cost += 2 + s.value.len(),
             PropName::Ident(ref id) => self.cost += 2 + id.sym.len(),
-            PropName::Num(..) | PropName::Computed(..) => self.is_lit = false,
+            PropName::Num(n) => {
+                if n.value.fract() < 1e-10 {
+                    // TODO: Count digits
+                    self.cost += 5;
+                } else {
+                    self.is_lit = false
+                }
+            }
+            PropName::Computed(..) => self.is_lit = false,
         }
     }
 }
@@ -233,9 +241,25 @@ impl Visit<ArrayLit> for LiteralVisitor {
     }
 }
 
+impl Visit<Number> for LiteralVisitor {
+    fn visit(&mut self, node: &Number) {
+        if node.value.is_infinite() {
+            self.is_lit = false;
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
-    use super::JsonParse;
+    use super::*;
+
+    struct Normalizer;
+    impl Fold<Str> for Normalizer {
+        fn fold(&mut self, mut node: Str) -> Str {
+            node.has_escape = false;
+            node
+        }
+    }
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
@@ -332,7 +356,8 @@ mod tests {
         |_| JsonParse { min_cost: 0 },
         string_single_quote_1,
         r#"const a = { b: "'abc'" };"#,
-        r#"const a = JSON.parse('{"b":"\'abc\'"}');"#
+        r#"const a = JSON.parse('{"b":"\'abc\'"}');"#,
+        ok_if_code_eq
     );
 
     test!(
@@ -340,7 +365,8 @@ mod tests {
         |_| JsonParse { min_cost: 0 },
         string_single_quote_2,
         r#"const a = { b: "ab\'c" };"#,
-        r#"const a = JSON.parse('{"b":"ab\'c"}');"#
+        r#"const a = JSON.parse('{"b":"ab\'c"}');"#,
+        ok_if_code_eq
     );
 
     test!(
