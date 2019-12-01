@@ -1,4 +1,4 @@
-use crate::{pass::Pass, util::ExprFactory};
+use crate::util::ExprFactory;
 use ast::*;
 use serde_json::Value;
 use swc_common::{Fold, FoldWith, Spanned, Visit, VisitWith, DUMMY_SP};
@@ -27,14 +27,12 @@ use swc_common::{Fold, FoldWith, Spanned, Visit, VisitWith, DUMMY_SP};
 /// See https://github.com/swc-project/swc/issues/409
 #[derive(Debug)]
 pub struct JsonParse {
-    pub min_json_size: usize,
+    pub min_cost: usize,
 }
 
 impl Default for JsonParse {
     fn default() -> Self {
-        JsonParse {
-            min_json_size: 1024,
-        }
+        JsonParse { min_cost: 1024 }
     }
 }
 
@@ -43,9 +41,12 @@ impl Fold<Expr> for JsonParse {
     fn fold(&mut self, e: Expr) -> Expr {
         let e = match e {
             Expr::Array(..) | Expr::Object(..) => {
-                let mut v = LiteralVisitor { is_lit: true };
+                let mut v = LiteralVisitor {
+                    is_lit: true,
+                    cost: 0,
+                };
                 e.visit_with(&mut v);
-                if v.is_lit {
+                if v.is_lit && v.cost >= self.min_cost {
                     return Expr::Call(CallExpr {
                         span: e.span(),
                         callee: member_expr!(DUMMY_SP, JSON.parse).as_callee(),
@@ -112,6 +113,7 @@ fn jsonify(e: Expr) -> Value {
 
 struct LiteralVisitor {
     is_lit: bool,
+    cost: usize,
 }
 
 macro_rules! not_lit {
@@ -168,6 +170,10 @@ not_lit!(Invalid);
 
 impl Visit<Expr> for LiteralVisitor {
     fn visit(&mut self, e: &Expr) {
+        if !self.is_lit {
+            return;
+        }
+
         match *e {
             Expr::Ident(..) | Expr::Lit(Lit::Regex(..)) => self.is_lit = false,
             Expr::Tpl(ref tpl) if !tpl.exprs.is_empty() => self.is_lit = false,
@@ -178,17 +184,45 @@ impl Visit<Expr> for LiteralVisitor {
 
 impl Visit<Prop> for LiteralVisitor {
     fn visit(&mut self, p: &Prop) {
+        if !self.is_lit {
+            return;
+        }
+
         p.visit_children(self);
 
         match p {
-            Prop::KeyValue(..) => {}
+            Prop::KeyValue(..) => {
+                self.cost += 1;
+            }
             _ => self.is_lit = false,
+        }
+    }
+}
+
+impl Visit<PropName> for LiteralVisitor {
+    fn visit(&mut self, node: &PropName) {
+        if !self.is_lit {
+            return;
+        }
+
+        node.visit_children(self);
+
+        match node {
+            PropName::Str(ref s) => self.cost += 2 + s.value.len(),
+            PropName::Ident(ref id) => self.cost += 2 + id.sym.len(),
+            PropName::Num(..) | PropName::Computed(..) => self.is_lit = false,
         }
     }
 }
 
 impl Visit<ArrayLit> for LiteralVisitor {
     fn visit(&mut self, e: &ArrayLit) {
+        if !self.is_lit {
+            return;
+        }
+
+        self.cost += 2 + e.elems.len();
+
         e.visit_children(self);
 
         for elem in &e.elems {
@@ -199,24 +233,13 @@ impl Visit<ArrayLit> for LiteralVisitor {
     }
 }
 
-impl Visit<PropName> for LiteralVisitor {
-    fn visit(&mut self, p: &PropName) {
-        p.visit_children(self);
-
-        match *p {
-            PropName::Num(..) | PropName::Computed(..) => self.is_lit = false,
-            _ => {}
-        }
-    }
-}
-
 #[cfg(test)]
 mod tests {
     use super::JsonParse;
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| JsonParse { min_json_size: 0 },
+        |_| JsonParse { min_cost: 0 },
         simple_object,
         "let a = {b: 'foo'}",
         r#"let a = JSON.parse('{"b":"foo"}')"#
@@ -224,7 +247,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| JsonParse { min_json_size: 0 },
+        |_| JsonParse { min_cost: 0 },
         simple_arr,
         "let a = ['foo']",
         r#"let a = JSON.parse('["foo"]')"#
@@ -232,9 +255,147 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| JsonParse { min_json_size: 0 },
+        |_| JsonParse { min_cost: 0 },
         empty_object,
         "const a = {};",
         r#"const a = JSON.parse('{}');"#
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| JsonParse { min_cost: 15 },
+        min_cost_15,
+        "const a = { b: 1, c: 2 };",
+        "const a = { b: 1, c: 2 };"
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| JsonParse { min_cost: 0 },
+        min_cost_0,
+        "const a = { b: 1, c: 2 };",
+        r#"const a = JSON.parse('{"b":1,"c":2}');"#
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| JsonParse { min_cost: 0 },
+        spread,
+        "const a = { ...a, b: 1 };",
+        "const a = { ...a, b: 1 };"
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| JsonParse { min_cost: 0 },
+        object_method,
+        "const a = {
+        method(arg) {
+          return arg;
+        }, 
+        b: 1 
+      };",
+        "const a = {
+        method(arg) {
+          return arg;
+        }, 
+        b: 1 
+      };"
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| JsonParse { min_cost: 0 },
+        computed_property,
+        r#"const a = { b : "b_val", ["c"]: "c_val" };"#,
+        r#"const a = { b : "b_val", ["c"]: "c_val" };"#
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| JsonParse { min_cost: 0 },
+        invalid_numeric_key,
+        r#"const a ={ 77777777777777777.1: "foo" };"#,
+        r#"const a ={ 77777777777777777.1: "foo" };"#
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| JsonParse { min_cost: 0 },
+        string,
+        r#"const a = { b: "b_val" };"#,
+        r#"const a = { b: "b_val" };"#
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| JsonParse { min_cost: 0 },
+        string_single_quote_1,
+        r#"const a = { b: "'abc'" };"#,
+        r#"const a = JSON.parse('{"b":"\\'abc\\'"}');"#
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| JsonParse { min_cost: 0 },
+        string_single_quote_2,
+        r#"const a = { b: "ab\'c" };"#,
+        r#"const a = JSON.parse('{"b":"ab\\'c"}');"#
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| JsonParse { min_cost: 0 },
+        number,
+        "const a = { b: 1 };",
+        r#"const a = JSON.parse('{"b":1}');"#
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| JsonParse { min_cost: 0 },
+        null,
+        "const a = { b: null };",
+        r#"const a = JSON.parse('{"b":null}');"#
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| JsonParse { min_cost: 0 },
+        boolean,
+        "const a = { b: false };",
+        r#"const a = JSON.parse('{"b":false}');"#
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| JsonParse { min_cost: 0 },
+        array,
+        "const a = { b: [1, 'b_val', null] };",
+        r#"const a = JSON.parse('{"b":[1,"b_val",null]}');"#
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| JsonParse { min_cost: 0 },
+        nested_array,
+        "const a = { b: [1, ['b_val', { a: 1 }], null] };",
+        r#"const a = JSON.parse('{"b":[1,["b_val",{"a":1}],null]}');"#
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| JsonParse { min_cost: 0 },
+        object,
+        "const a = { b: { c: 1 } };",
+        r#"const a = JSON.parse('{"b":{"c":1}}');"#
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| JsonParse { min_cost: 0 },
+        object_numeric_keys,
+        r#"const a = { 1: "123", 23: 45, b: "b_val" };"#,
+        r#"const a = JSON.parse('{"1":"123","23":45,"b":"b_val"}');"#
     );
 }
