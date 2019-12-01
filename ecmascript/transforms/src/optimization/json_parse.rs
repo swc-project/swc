@@ -1,6 +1,7 @@
 use crate::util::ExprFactory;
 use ast::*;
 use serde_json::Value;
+use std::usize;
 use swc_common::{Fold, FoldWith, Spanned, Visit, VisitWith, DUMMY_SP};
 
 /// Trnasform to optimize performance of literals.
@@ -39,6 +40,10 @@ impl Default for JsonParse {
 impl Fold<Expr> for JsonParse {
     /// Hnaldes parent expressions before child expressions.
     fn fold(&mut self, e: Expr) -> Expr {
+        if self.min_cost == usize::MAX {
+            return e;
+        }
+
         let e = match e {
             Expr::Array(..) | Expr::Object(..) => {
                 let mut v = LiteralVisitor {

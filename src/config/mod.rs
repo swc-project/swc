@@ -1,4 +1,4 @@
-use crate::{builder::PassBuilder, error::Error};
+use crate::{builder::PassBuilder, ecmascript::transforms::optimization::JsonParse, error::Error};
 use atoms::JsWord;
 use chashmap::CHashMap;
 use common::{errors::Handler, FileName, SourceMap};
@@ -21,6 +21,7 @@ use std::{
     env,
     path::{Path, PathBuf},
     sync::Arc,
+    usize,
 };
 
 #[cfg(test)]
@@ -140,12 +141,26 @@ impl Options {
 
         let optimizer = transform.optimizer;
         let enable_optimizer = optimizer.is_some();
+        let json_parse_pass = {
+            if let Some(ref cfg) = optimizer.as_ref().and_then(|v| v.jsonify) {
+                JsonParse {
+                    min_cost: cfg.min_cost,
+                }
+            } else {
+                JsonParse {
+                    min_cost: usize::MAX,
+                }
+            }
+        };
+
         let pass = if let Some(opts) = optimizer.map(|o| o.globals.unwrap_or_else(Default::default))
         {
             opts.build(cm, handler)
         } else {
             GlobalPassOption::default().build(cm, handler)
         };
+
+        let pass = chain_at!(Module, pass, json_parse_pass);
 
         let pass = chain_at!(
             Module,
@@ -447,6 +462,15 @@ pub struct ConstModulesConfig {
 pub struct OptimizerConfig {
     #[serde(default)]
     pub globals: Option<GlobalPassOption>,
+
+    #[serde(default)]
+    pub jsonify: Option<JsonifyOption>,
+}
+
+#[derive(Debug, Default, Clone, Copy, Serialize, Deserialize)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
+pub struct JsonifyOption {
+    pub min_cost: usize,
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
