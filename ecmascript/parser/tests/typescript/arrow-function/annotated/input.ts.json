@@ -3,17 +3,7 @@
   "span": {
     "start": 0,
     "end": 25,
-    "ctxt": 0,
-    "loc": {
-      "start": {
-        "line": 1,
-        "column": 0
-      },
-      "end": {
-        "line": 1,
-        "column": 25
-      }
-    }
+    "ctxt": 0
   },
   "body": [
     {
@@ -21,17 +11,7 @@
       "span": {
         "start": 0,
         "end": 24,
-        "ctxt": 0,
-        "loc": {
-          "start": {
-            "line": 1,
-            "column": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 24
-          }
-        }
+        "ctxt": 0
       },
       "params": [
         {
@@ -39,17 +19,7 @@
           "span": {
             "start": 1,
             "end": 2,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 1,
-                "column": 1
-              },
-              "end": {
-                "line": 1,
-                "column": 2
-              }
-            }
+            "ctxt": 0
           },
           "value": "x",
           "typeAnnotation": {
@@ -57,34 +27,14 @@
             "span": {
               "start": 2,
               "end": 10,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 1,
-                  "column": 2
-                },
-                "end": {
-                  "line": 1,
-                  "column": 10
-                }
-              }
+              "ctxt": 0
             },
             "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
                 "start": 4,
                 "end": 10,
-                "ctxt": 0,
-                "loc": {
-                  "start": {
-                    "line": 1,
-                    "column": 4
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 10
-                  }
-                }
+                "ctxt": 0
               },
               "kind": "number"
             }
@@ -97,60 +47,33 @@
         "span": {
           "start": 23,
           "end": 24,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 1,
-              "column": 23
-            },
-            "end": {
-              "line": 1,
-              "column": 24
-            }
-          }
+          "ctxt": 0
         },
         "value": "x",
+        "typeAnnotation": null,
         "optional": false
       },
       "async": false,
       "generator": false,
+      "typeParameters": null,
       "returnType": {
         "type": "TsTypeAnnotation",
         "span": {
           "start": 11,
           "end": 19,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 1,
-              "column": 11
-            },
-            "end": {
-              "line": 1,
-              "column": 19
-            }
-          }
+          "ctxt": 0
         },
         "typeAnnotation": {
           "type": "TsKeywordType",
           "span": {
             "start": 13,
             "end": 19,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 1,
-                "column": 13
-              },
-              "end": {
-                "line": 1,
-                "column": 19
-              }
-            }
+            "ctxt": 0
           },
           "kind": "number"
         }
       }
     }
-  ]
+  ],
+  "interpreter": null
 }

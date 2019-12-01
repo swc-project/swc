@@ -3,17 +3,7 @@
   "span": {
     "start": 0,
     "end": 15,
-    "ctxt": 0,
-    "loc": {
-      "start": {
-        "line": 1,
-        "column": 0
-      },
-      "end": {
-        "line": 1,
-        "column": 15
-      }
-    }
+    "ctxt": 0
   },
   "body": [
     {
@@ -21,17 +11,7 @@
       "span": {
         "start": 0,
         "end": 14,
-        "ctxt": 0,
-        "loc": {
-          "start": {
-            "line": 1,
-            "column": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 14
-          }
-        }
+        "ctxt": 0
       },
       "operator": "+",
       "left": {
@@ -39,34 +19,14 @@
         "span": {
           "start": 0,
           "end": 10,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 1,
-              "column": 0
-            },
-            "end": {
-              "line": 1,
-              "column": 10
-            }
-          }
+          "ctxt": 0
         },
         "expression": {
           "type": "NumericLiteral",
           "span": {
             "start": 9,
             "end": 10,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 1,
-                "column": 9
-              },
-              "end": {
-                "line": 1,
-                "column": 10
-              }
-            }
+            "ctxt": 0
           },
           "value": 1.0
         },
@@ -75,17 +35,7 @@
           "span": {
             "start": 1,
             "end": 7,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 1,
-                "column": 1
-              },
-              "end": {
-                "line": 1,
-                "column": 7
-              }
-            }
+            "ctxt": 0
           },
           "kind": "number"
         }
@@ -95,20 +45,11 @@
         "span": {
           "start": 13,
           "end": 14,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 1,
-              "column": 13
-            },
-            "end": {
-              "line": 1,
-              "column": 14
-            }
-          }
+          "ctxt": 0
         },
         "value": 1.0
       }
     }
-  ]
+  ],
+  "interpreter": null
 }

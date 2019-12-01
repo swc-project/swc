@@ -2,36 +2,16 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 38,
-    "ctxt": 0,
-    "loc": {
-      "start": {
-        "line": 1,
-        "column": 0
-      },
-      "end": {
-        "line": 5,
-        "column": 1
-      }
-    }
+    "end": 42,
+    "ctxt": 0
   },
   "body": [
     {
       "type": "TsEnumDeclaration",
       "span": {
         "start": 0,
-        "end": 38,
-        "ctxt": 0,
-        "loc": {
-          "start": {
-            "line": 1,
-            "column": 0
-          },
-          "end": {
-            "line": 5,
-            "column": 1
-          }
-        }
+        "end": 42,
+        "ctxt": 0
       },
       "declare": false,
       "isConst": true,
@@ -40,137 +20,75 @@
         "span": {
           "start": 11,
           "end": 14,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 1,
-              "column": 11
-            },
-            "end": {
-              "line": 1,
-              "column": 14
-            }
-          }
+          "ctxt": 0
         },
         "value": "Foo",
+        "typeAnnotation": null,
         "optional": false
       },
       "members": [
         {
           "type": "TsEnumMember",
           "span": {
-            "start": 21,
-            "end": 22,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 2,
-                "column": 4
-              },
-              "end": {
-                "line": 2,
-                "column": 5
-              }
-            }
+            "start": 22,
+            "end": 23,
+            "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 21,
-              "end": 22,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 2,
-                  "column": 4
-                },
-                "end": {
-                  "line": 2,
-                  "column": 5
-                }
-              }
+              "start": 22,
+              "end": 23,
+              "ctxt": 0
             },
             "value": "A",
+            "typeAnnotation": null,
             "optional": false
-          }
+          },
+          "init": null
         },
         {
           "type": "TsEnumMember",
           "span": {
-            "start": 28,
-            "end": 29,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 3,
-                "column": 4
-              },
-              "end": {
-                "line": 3,
-                "column": 5
-              }
-            }
+            "start": 30,
+            "end": 31,
+            "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 28,
-              "end": 29,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 3,
-                  "column": 4
-                },
-                "end": {
-                  "line": 3,
-                  "column": 5
-                }
-              }
+              "start": 30,
+              "end": 31,
+              "ctxt": 0
             },
             "value": "B",
+            "typeAnnotation": null,
             "optional": false
-          }
+          },
+          "init": null
         },
         {
           "type": "TsEnumMember",
           "span": {
-            "start": 35,
-            "end": 36,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 4,
-                "column": 4
-              },
-              "end": {
-                "line": 4,
-                "column": 5
-              }
-            }
+            "start": 38,
+            "end": 39,
+            "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 35,
-              "end": 36,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 4,
-                  "column": 4
-                },
-                "end": {
-                  "line": 4,
-                  "column": 5
-                }
-              }
+              "start": 38,
+              "end": 39,
+              "ctxt": 0
             },
             "value": "C",
+            "typeAnnotation": null,
             "optional": false
-          }
+          },
+          "init": null
         }
       ]
     }
-  ]
+  ],
+  "interpreter": null
 }

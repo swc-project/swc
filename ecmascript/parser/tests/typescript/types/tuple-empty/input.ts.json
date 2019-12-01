@@ -3,17 +3,7 @@
   "span": {
     "start": 0,
     "end": 10,
-    "ctxt": 0,
-    "loc": {
-      "start": {
-        "line": 1,
-        "column": 0
-      },
-      "end": {
-        "line": 1,
-        "column": 10
-      }
-    }
+    "ctxt": 0
   },
   "body": [
     {
@@ -21,17 +11,7 @@
       "span": {
         "start": 0,
         "end": 10,
-        "ctxt": 0,
-        "loc": {
-          "start": {
-            "line": 1,
-            "column": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 10
-          }
-        }
+        "ctxt": 0
       },
       "kind": "let",
       "declare": false,
@@ -41,34 +21,14 @@
           "span": {
             "start": 4,
             "end": 9,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 1,
-                "column": 4
-              },
-              "end": {
-                "line": 1,
-                "column": 9
-              }
-            }
+            "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 4,
               "end": 5,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 1,
-                  "column": 4
-                },
-                "end": {
-                  "line": 1,
-                  "column": 5
-                }
-              }
+              "ctxt": 0
             },
             "value": "x",
             "typeAnnotation": {
@@ -76,43 +36,25 @@
               "span": {
                 "start": 5,
                 "end": 9,
-                "ctxt": 0,
-                "loc": {
-                  "start": {
-                    "line": 1,
-                    "column": 5
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 9
-                  }
-                }
+                "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsTupleType",
                 "span": {
                   "start": 7,
                   "end": 9,
-                  "ctxt": 0,
-                  "loc": {
-                    "start": {
-                      "line": 1,
-                      "column": 7
-                    },
-                    "end": {
-                      "line": 1,
-                      "column": 9
-                    }
-                  }
+                  "ctxt": 0
                 },
                 "elemTypes": []
               }
             },
             "optional": false
           },
+          "init": null,
           "definite": false
         }
       ]
     }
-  ]
+  ],
+  "interpreter": null
 }

@@ -2,72 +2,33 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 11,
-    "ctxt": 0,
-    "loc": {
-      "start": {
-        "line": 1,
-        "column": 0
-      },
-      "end": {
-        "line": 2,
-        "column": 2
-      }
-    }
+    "end": 12,
+    "ctxt": 0
   },
   "body": [
     {
       "type": "NewExpression",
       "span": {
         "start": 0,
-        "end": 11,
-        "ctxt": 0,
-        "loc": {
-          "start": {
-            "line": 1,
-            "column": 0
-          },
-          "end": {
-            "line": 2,
-            "column": 2
-          }
-        }
+        "end": 12,
+        "ctxt": 0
       },
       "callee": {
         "type": "TaggedTemplateExpression",
         "span": {
-          "start": 9,
-          "end": 11,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 2,
-              "column": 0
-            },
-            "end": {
-              "line": 2,
-              "column": 2
-            }
-          }
+          "start": 10,
+          "end": 12,
+          "ctxt": 0
         },
         "tag": {
           "type": "Identifier",
           "span": {
             "start": 4,
             "end": 5,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 1,
-                "column": 4
-              },
-              "end": {
-                "line": 1,
-                "column": 5
-              }
-            }
+            "ctxt": 0
           },
           "value": "C",
+          "typeAnnotation": null,
           "optional": false
         },
         "expressions": [],
@@ -75,37 +36,17 @@
           {
             "type": "TemplateElement",
             "span": {
-              "start": 10,
-              "end": 10,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 2,
-                  "column": 1
-                },
-                "end": {
-                  "line": 2,
-                  "column": 1
-                }
-              }
+              "start": 11,
+              "end": 11,
+              "ctxt": 0
             },
             "tail": true,
             "cooked": {
               "type": "StringLiteral",
               "span": {
-                "start": 10,
-                "end": 10,
-                "ctxt": 0,
-                "loc": {
-                  "start": {
-                    "line": 2,
-                    "column": 1
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 1
-                  }
-                }
+                "start": 11,
+                "end": 11,
+                "ctxt": 0
               },
               "value": "",
               "hasEscape": false
@@ -113,19 +54,9 @@
             "raw": {
               "type": "StringLiteral",
               "span": {
-                "start": 10,
-                "end": 10,
-                "ctxt": 0,
-                "loc": {
-                  "start": {
-                    "line": 2,
-                    "column": 1
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 1
-                  }
-                }
+                "start": 11,
+                "end": 11,
+                "ctxt": 0
               },
               "value": "",
               "hasEscape": false
@@ -137,17 +68,7 @@
           "span": {
             "start": 5,
             "end": 8,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 1,
-                "column": 5
-              },
-              "end": {
-                "line": 1,
-                "column": 8
-              }
-            }
+            "ctxt": 0
           },
           "params": [
             {
@@ -155,38 +76,20 @@
               "span": {
                 "start": 6,
                 "end": 7,
-                "ctxt": 0,
-                "loc": {
-                  "start": {
-                    "line": 1,
-                    "column": 6
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 7
-                  }
-                }
+                "ctxt": 0
               },
               "typeName": {
                 "type": "Identifier",
                 "span": {
                   "start": 6,
                   "end": 7,
-                  "ctxt": 0,
-                  "loc": {
-                    "start": {
-                      "line": 1,
-                      "column": 6
-                    },
-                    "end": {
-                      "line": 1,
-                      "column": 7
-                    }
-                  }
+                  "ctxt": 0
                 },
                 "value": "T",
+                "typeAnnotation": null,
                 "optional": false
-              }
+              },
+              "typeParams": null
             }
           ]
         }
@@ -194,5 +97,6 @@
       "arguments": null,
       "typeArguments": null
     }
-  ]
+  ],
+  "interpreter": null
 }

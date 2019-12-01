@@ -3,17 +3,7 @@
   "span": {
     "start": 0,
     "end": 29,
-    "ctxt": 0,
-    "loc": {
-      "start": {
-        "line": 1,
-        "column": 0
-      },
-      "end": {
-        "line": 1,
-        "column": 29
-      }
-    }
+    "ctxt": 0
   },
   "body": [
     {
@@ -21,56 +11,28 @@
       "span": {
         "start": 10,
         "end": 29,
-        "ctxt": 0,
-        "loc": {
-          "start": {
-            "line": 1,
-            "column": 10
-          },
-          "end": {
-            "line": 1,
-            "column": 29
-          }
-        }
+        "ctxt": 0
       },
       "id": {
         "type": "Identifier",
         "span": {
           "start": 10,
           "end": 11,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 1,
-              "column": 10
-            },
-            "end": {
-              "line": 1,
-              "column": 11
-            }
-          }
+          "ctxt": 0
         },
         "value": "I",
+        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
+      "typeParams": null,
       "extends": [
         {
           "type": "TsExpressionWithTypeArguments",
           "span": {
             "start": 20,
             "end": 26,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 1,
-                "column": 20
-              },
-              "end": {
-                "line": 1,
-                "column": 26
-              }
-            }
+            "ctxt": 0
           },
           "expression": {
             "type": "TsQualifiedName",
@@ -79,19 +41,10 @@
               "span": {
                 "start": 20,
                 "end": 21,
-                "ctxt": 0,
-                "loc": {
-                  "start": {
-                    "line": 1,
-                    "column": 20
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 21
-                  }
-                }
+                "ctxt": 0
               },
               "value": "X",
+              "typeAnnotation": null,
               "optional": false
             },
             "right": {
@@ -99,19 +52,10 @@
               "span": {
                 "start": 22,
                 "end": 23,
-                "ctxt": 0,
-                "loc": {
-                  "start": {
-                    "line": 1,
-                    "column": 22
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 23
-                  }
-                }
+                "ctxt": 0
               },
               "value": "Y",
+              "typeAnnotation": null,
               "optional": false
             }
           },
@@ -120,17 +64,7 @@
             "span": {
               "start": 23,
               "end": 26,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 1,
-                  "column": 23
-                },
-                "end": {
-                  "line": 1,
-                  "column": 26
-                }
-              }
+              "ctxt": 0
             },
             "params": [
               {
@@ -138,38 +72,20 @@
                 "span": {
                   "start": 24,
                   "end": 25,
-                  "ctxt": 0,
-                  "loc": {
-                    "start": {
-                      "line": 1,
-                      "column": 24
-                    },
-                    "end": {
-                      "line": 1,
-                      "column": 25
-                    }
-                  }
+                  "ctxt": 0
                 },
                 "typeName": {
                   "type": "Identifier",
                   "span": {
                     "start": 24,
                     "end": 25,
-                    "ctxt": 0,
-                    "loc": {
-                      "start": {
-                        "line": 1,
-                        "column": 24
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 25
-                      }
-                    }
+                    "ctxt": 0
                   },
                   "value": "Z",
+                  "typeAnnotation": null,
                   "optional": false
-                }
+                },
+                "typeParams": null
               }
             ]
           }
@@ -180,20 +96,11 @@
         "span": {
           "start": 27,
           "end": 29,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 1,
-              "column": 27
-            },
-            "end": {
-              "line": 1,
-              "column": 29
-            }
-          }
+          "ctxt": 0
         },
         "body": []
       }
     }
-  ]
+  ],
+  "interpreter": null
 }

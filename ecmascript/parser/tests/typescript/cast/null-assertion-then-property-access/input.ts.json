@@ -3,17 +3,7 @@
   "span": {
     "start": 0,
     "end": 5,
-    "ctxt": 0,
-    "loc": {
-      "start": {
-        "line": 1,
-        "column": 0
-      },
-      "end": {
-        "line": 1,
-        "column": 5
-      }
-    }
+    "ctxt": 0
   },
   "body": [
     {
@@ -21,53 +11,24 @@
       "span": {
         "start": 0,
         "end": 4,
-        "ctxt": 0,
-        "loc": {
-          "start": {
-            "line": 1,
-            "column": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 4
-          }
-        }
+        "ctxt": 0
       },
       "object": {
         "type": "TsNonNullExpression",
         "span": {
           "start": 0,
           "end": 2,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 1,
-              "column": 0
-            },
-            "end": {
-              "line": 1,
-              "column": 2
-            }
-          }
+          "ctxt": 0
         },
         "expression": {
           "type": "Identifier",
           "span": {
             "start": 0,
             "end": 1,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 1,
-                "column": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 1
-              }
-            }
+            "ctxt": 0
           },
           "value": "x",
+          "typeAnnotation": null,
           "optional": false
         }
       },
@@ -76,22 +37,14 @@
         "span": {
           "start": 3,
           "end": 4,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 1,
-              "column": 3
-            },
-            "end": {
-              "line": 1,
-              "column": 4
-            }
-          }
+          "ctxt": 0
         },
         "value": "y",
+        "typeAnnotation": null,
         "optional": false
       },
       "computed": false
     }
-  ]
+  ],
+  "interpreter": null
 }

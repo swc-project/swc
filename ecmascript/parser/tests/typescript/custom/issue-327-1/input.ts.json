@@ -3,17 +3,7 @@
   "span": {
     "start": 0,
     "end": 67,
-    "ctxt": 0,
-    "loc": {
-      "start": {
-        "line": 1,
-        "column": 0
-      },
-      "end": {
-        "line": 1,
-        "column": 67
-      }
-    }
+    "ctxt": 0
   },
   "body": [
     {
@@ -21,17 +11,7 @@
       "span": {
         "start": 0,
         "end": 67,
-        "ctxt": 0,
-        "loc": {
-          "start": {
-            "line": 1,
-            "column": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 67
-          }
-        }
+        "ctxt": 0
       },
       "kind": "const",
       "declare": false,
@@ -41,36 +21,17 @@
           "span": {
             "start": 6,
             "end": 67,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 1,
-                "column": 6
-              },
-              "end": {
-                "line": 1,
-                "column": 67
-              }
-            }
+            "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 6,
               "end": 8,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 1,
-                  "column": 6
-                },
-                "end": {
-                  "line": 1,
-                  "column": 8
-                }
-              }
+              "ctxt": 0
             },
             "value": "fn",
+            "typeAnnotation": null,
             "optional": false
           },
           "init": {
@@ -78,17 +39,7 @@
             "span": {
               "start": 11,
               "end": 67,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 1,
-                  "column": 11
-                },
-                "end": {
-                  "line": 1,
-                  "column": 67
-                }
-              }
+              "ctxt": 0
             },
             "params": [
               {
@@ -96,19 +47,10 @@
                 "span": {
                   "start": 11,
                   "end": 14,
-                  "ctxt": 0,
-                  "loc": {
-                    "start": {
-                      "line": 1,
-                      "column": 11
-                    },
-                    "end": {
-                      "line": 1,
-                      "column": 14
-                    }
-                  }
+                  "ctxt": 0
                 },
                 "value": "foo",
+                "typeAnnotation": null,
                 "optional": false
               }
             ],
@@ -117,70 +59,31 @@
               "span": {
                 "start": 18,
                 "end": 67,
-                "ctxt": 0,
-                "loc": {
-                  "start": {
-                    "line": 1,
-                    "column": 18
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 67
-                  }
-                }
+                "ctxt": 0
               },
               "expression": {
                 "type": "ConditionalExpression",
                 "span": {
                   "start": 19,
                   "end": 66,
-                  "ctxt": 0,
-                  "loc": {
-                    "start": {
-                      "line": 1,
-                      "column": 19
-                    },
-                    "end": {
-                      "line": 1,
-                      "column": 66
-                    }
-                  }
+                  "ctxt": 0
                 },
                 "test": {
                   "type": "MemberExpression",
                   "span": {
                     "start": 19,
                     "end": 26,
-                    "ctxt": 0,
-                    "loc": {
-                      "start": {
-                        "line": 1,
-                        "column": 19
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 26
-                      }
-                    }
+                    "ctxt": 0
                   },
                   "object": {
                     "type": "Identifier",
                     "span": {
                       "start": 19,
                       "end": 22,
-                      "ctxt": 0,
-                      "loc": {
-                        "start": {
-                          "line": 1,
-                          "column": 19
-                        },
-                        "end": {
-                          "line": 1,
-                          "column": 22
-                        }
-                      }
+                      "ctxt": 0
                     },
                     "value": "foo",
+                    "typeAnnotation": null,
                     "optional": false
                   },
                   "property": {
@@ -188,19 +91,10 @@
                     "span": {
                       "start": 23,
                       "end": 26,
-                      "ctxt": 0,
-                      "loc": {
-                        "start": {
-                          "line": 1,
-                          "column": 23
-                        },
-                        "end": {
-                          "line": 1,
-                          "column": 26
-                        }
-                      }
+                      "ctxt": 0
                     },
                     "value": "bar",
+                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false
@@ -210,87 +104,38 @@
                   "span": {
                     "start": 29,
                     "end": 58,
-                    "ctxt": 0,
-                    "loc": {
-                      "start": {
-                        "line": 1,
-                        "column": 29
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 58
-                      }
-                    }
+                    "ctxt": 0
                   },
                   "expression": {
                     "type": "ConditionalExpression",
                     "span": {
                       "start": 30,
                       "end": 57,
-                      "ctxt": 0,
-                      "loc": {
-                        "start": {
-                          "line": 1,
-                          "column": 30
-                        },
-                        "end": {
-                          "line": 1,
-                          "column": 57
-                        }
-                      }
+                      "ctxt": 0
                     },
                     "test": {
                       "type": "MemberExpression",
                       "span": {
                         "start": 30,
                         "end": 41,
-                        "ctxt": 0,
-                        "loc": {
-                          "start": {
-                            "line": 1,
-                            "column": 30
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 41
-                          }
-                        }
+                        "ctxt": 0
                       },
                       "object": {
                         "type": "MemberExpression",
                         "span": {
                           "start": 30,
                           "end": 37,
-                          "ctxt": 0,
-                          "loc": {
-                            "start": {
-                              "line": 1,
-                              "column": 30
-                            },
-                            "end": {
-                              "line": 1,
-                              "column": 37
-                            }
-                          }
+                          "ctxt": 0
                         },
                         "object": {
                           "type": "Identifier",
                           "span": {
                             "start": 30,
                             "end": 33,
-                            "ctxt": 0,
-                            "loc": {
-                              "start": {
-                                "line": 1,
-                                "column": 30
-                              },
-                              "end": {
-                                "line": 1,
-                                "column": 33
-                              }
-                            }
+                            "ctxt": 0
                           },
                           "value": "foo",
+                          "typeAnnotation": null,
                           "optional": false
                         },
                         "property": {
@@ -298,19 +143,10 @@
                           "span": {
                             "start": 34,
                             "end": 37,
-                            "ctxt": 0,
-                            "loc": {
-                              "start": {
-                                "line": 1,
-                                "column": 34
-                              },
-                              "end": {
-                                "line": 1,
-                                "column": 37
-                              }
-                            }
+                            "ctxt": 0
                           },
                           "value": "bar",
+                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false
@@ -320,19 +156,10 @@
                         "span": {
                           "start": 38,
                           "end": 41,
-                          "ctxt": 0,
-                          "loc": {
-                            "start": {
-                              "line": 1,
-                              "column": 38
-                            },
-                            "end": {
-                              "line": 1,
-                              "column": 41
-                            }
-                          }
+                          "ctxt": 0
                         },
                         "value": "bas",
+                        "typeAnnotation": null,
                         "optional": false
                       },
                       "computed": false
@@ -342,17 +169,7 @@
                       "span": {
                         "start": 44,
                         "end": 49,
-                        "ctxt": 0,
-                        "loc": {
-                          "start": {
-                            "line": 1,
-                            "column": 44
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 49
-                          }
-                        }
+                        "ctxt": 0
                       },
                       "value": "bas",
                       "hasEscape": false
@@ -362,17 +179,7 @@
                       "span": {
                         "start": 52,
                         "end": 57,
-                        "ctxt": 0,
-                        "loc": {
-                          "start": {
-                            "line": 1,
-                            "column": 52
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 57
-                          }
-                        }
+                        "ctxt": 0
                       },
                       "value": "bar",
                       "hasEscape": false
@@ -384,17 +191,7 @@
                   "span": {
                     "start": 61,
                     "end": 66,
-                    "ctxt": 0,
-                    "loc": {
-                      "start": {
-                        "line": 1,
-                        "column": 61
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 66
-                      }
-                    }
+                    "ctxt": 0
                   },
                   "value": "bat",
                   "hasEscape": false
@@ -402,11 +199,14 @@
               }
             },
             "async": false,
-            "generator": false
+            "generator": false,
+            "typeParameters": null,
+            "returnType": null
           },
           "definite": false
         }
       ]
     }
-  ]
+  ],
+  "interpreter": null
 }

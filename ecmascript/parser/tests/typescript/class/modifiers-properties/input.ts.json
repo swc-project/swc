@@ -2,18 +2,8 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 396,
-    "ctxt": 0,
-    "loc": {
-      "start": {
-        "line": 1,
-        "column": 0
-      },
-      "end": {
-        "line": 21,
-        "column": 1
-      }
-    }
+    "end": 416,
+    "ctxt": 0
   },
   "body": [
     {
@@ -23,77 +13,44 @@
         "span": {
           "start": 15,
           "end": 16,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 1,
-              "column": 15
-            },
-            "end": {
-              "line": 1,
-              "column": 16
-            }
-          }
+          "ctxt": 0
         },
         "value": "C",
+        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 9,
-        "end": 396,
-        "ctxt": 0,
-        "loc": {
-          "start": {
-            "line": 1,
-            "column": 9
-          },
-          "end": {
-            "line": 21,
-            "column": 1
-          }
-        }
+        "end": 416,
+        "ctxt": 0
       },
+      "decorators": [],
       "body": [
         {
           "type": "ClassProperty",
           "span": {
-            "start": 23,
-            "end": 34,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 2,
-                "column": 4
-              },
-              "end": {
-                "line": 2,
-                "column": 15
-              }
-            }
+            "start": 24,
+            "end": 35,
+            "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 32,
-              "end": 33,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 2,
-                  "column": 13
-                },
-                "end": {
-                  "line": 2,
-                  "column": 14
-                }
-              }
+              "start": 33,
+              "end": 34,
+              "ctxt": 0
             },
             "value": "r",
+            "typeAnnotation": null,
             "optional": false
           },
+          "value": null,
+          "typeAnnotation": null,
           "isStatic": false,
+          "decorators": [],
           "computed": false,
+          "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
           "readonly": false,
@@ -102,79 +59,43 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 39,
-            "end": 60,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 3,
-                "column": 4
-              },
-              "end": {
-                "line": 3,
-                "column": 25
-              }
-            }
+            "start": 41,
+            "end": 62,
+            "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 48,
-              "end": 50,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 3,
-                  "column": 13
-                },
-                "end": {
-                  "line": 3,
-                  "column": 15
-                }
-              }
+              "start": 50,
+              "end": 52,
+              "ctxt": 0
             },
             "value": "r2",
+            "typeAnnotation": null,
             "optional": false
           },
+          "value": null,
           "typeAnnotation": {
             "type": "TsTypeAnnotation",
             "span": {
-              "start": 51,
-              "end": 59,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 3,
-                  "column": 16
-                },
-                "end": {
-                  "line": 3,
-                  "column": 24
-                }
-              }
+              "start": 53,
+              "end": 61,
+              "ctxt": 0
             },
             "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
-                "start": 53,
-                "end": 59,
-                "ctxt": 0,
-                "loc": {
-                  "start": {
-                    "line": 3,
-                    "column": 18
-                  },
-                  "end": {
-                    "line": 3,
-                    "column": 24
-                  }
-                }
+                "start": 55,
+                "end": 61,
+                "ctxt": 0
               },
               "kind": "number"
             }
           },
           "isStatic": false,
+          "decorators": [],
           "computed": false,
+          "accessibility": null,
           "isAbstract": false,
           "isOptional": true,
           "readonly": false,
@@ -183,42 +104,27 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 65,
-            "end": 76,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 4,
-                "column": 4
-              },
-              "end": {
-                "line": 4,
-                "column": 15
-              }
-            }
+            "start": 68,
+            "end": 79,
+            "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 74,
-              "end": 75,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 4,
-                  "column": 13
-                },
-                "end": {
-                  "line": 4,
-                  "column": 14
-                }
-              }
+              "start": 77,
+              "end": 78,
+              "ctxt": 0
             },
             "value": "a",
+            "typeAnnotation": null,
             "optional": false
           },
+          "value": null,
+          "typeAnnotation": null,
           "isStatic": false,
+          "decorators": [],
           "computed": false,
+          "accessibility": null,
           "isAbstract": true,
           "isOptional": false,
           "readonly": false,
@@ -227,42 +133,27 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 81,
-            "end": 90,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 5,
-                "column": 4
-              },
-              "end": {
-                "line": 5,
-                "column": 13
-              }
-            }
+            "start": 85,
+            "end": 94,
+            "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 88,
-              "end": 89,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 5,
-                  "column": 11
-                },
-                "end": {
-                  "line": 5,
-                  "column": 12
-                }
-              }
+              "start": 92,
+              "end": 93,
+              "ctxt": 0
             },
             "value": "s",
+            "typeAnnotation": null,
             "optional": false
           },
+          "value": null,
+          "typeAnnotation": null,
           "isStatic": true,
+          "decorators": [],
           "computed": false,
+          "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
           "readonly": false,
@@ -271,41 +162,25 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 103,
-            "end": 106,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 7,
-                "column": 11
-              },
-              "end": {
-                "line": 7,
-                "column": 14
-              }
-            }
+            "start": 109,
+            "end": 112,
+            "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 103,
-              "end": 105,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 7,
-                  "column": 11
-                },
-                "end": {
-                  "line": 7,
-                  "column": 13
-                }
-              }
+              "start": 109,
+              "end": 111,
+              "ctxt": 0
             },
             "value": "pu",
+            "typeAnnotation": null,
             "optional": false
           },
+          "value": null,
+          "typeAnnotation": null,
           "isStatic": false,
+          "decorators": [],
           "computed": false,
           "accessibility": "public",
           "isAbstract": false,
@@ -316,41 +191,25 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 121,
-            "end": 124,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 8,
-                "column": 14
-              },
-              "end": {
-                "line": 8,
-                "column": 17
-              }
-            }
+            "start": 128,
+            "end": 131,
+            "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 121,
-              "end": 123,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 8,
-                  "column": 14
-                },
-                "end": {
-                  "line": 8,
-                  "column": 16
-                }
-              }
+              "start": 128,
+              "end": 130,
+              "ctxt": 0
             },
             "value": "po",
+            "typeAnnotation": null,
             "optional": false
           },
+          "value": null,
+          "typeAnnotation": null,
           "isStatic": false,
+          "decorators": [],
           "computed": false,
           "accessibility": "protected",
           "isAbstract": false,
@@ -361,41 +220,25 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 137,
-            "end": 140,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 9,
-                "column": 12
-              },
-              "end": {
-                "line": 9,
-                "column": 15
-              }
-            }
+            "start": 145,
+            "end": 148,
+            "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 137,
-              "end": 139,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 9,
-                  "column": 12
-                },
-                "end": {
-                  "line": 9,
-                  "column": 14
-                }
-              }
+              "start": 145,
+              "end": 147,
+              "ctxt": 0
             },
             "value": "pi",
+            "typeAnnotation": null,
             "optional": false
           },
+          "value": null,
+          "typeAnnotation": null,
           "isStatic": false,
+          "decorators": [],
           "computed": false,
           "accessibility": "private",
           "isAbstract": false,
@@ -406,42 +249,27 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 146,
-            "end": 167,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 11,
-                "column": 4
-              },
-              "end": {
-                "line": 11,
-                "column": 25
-              }
-            }
+            "start": 156,
+            "end": 177,
+            "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 164,
-              "end": 166,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 11,
-                  "column": 22
-                },
-                "end": {
-                  "line": 11,
-                  "column": 24
-                }
-              }
+              "start": 174,
+              "end": 176,
+              "ctxt": 0
             },
             "value": "ra",
+            "typeAnnotation": null,
             "optional": false
           },
+          "value": null,
+          "typeAnnotation": null,
           "isStatic": false,
+          "decorators": [],
           "computed": false,
+          "accessibility": null,
           "isAbstract": true,
           "isOptional": false,
           "readonly": false,
@@ -450,42 +278,27 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 172,
-            "end": 193,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 12,
-                "column": 4
-              },
-              "end": {
-                "line": 12,
-                "column": 25
-              }
-            }
+            "start": 183,
+            "end": 204,
+            "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 190,
-              "end": 192,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 12,
-                  "column": 22
-                },
-                "end": {
-                  "line": 12,
-                  "column": 24
-                }
-              }
+              "start": 201,
+              "end": 203,
+              "ctxt": 0
             },
             "value": "ar",
+            "typeAnnotation": null,
             "optional": false
           },
+          "value": null,
+          "typeAnnotation": null,
           "isStatic": false,
+          "decorators": [],
           "computed": false,
+          "accessibility": null,
           "isAbstract": true,
           "isOptional": false,
           "readonly": false,
@@ -494,42 +307,27 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 198,
-            "end": 217,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 13,
-                "column": 4
-              },
-              "end": {
-                "line": 13,
-                "column": 23
-              }
-            }
+            "start": 210,
+            "end": 229,
+            "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 214,
-              "end": 216,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 13,
-                  "column": 20
-                },
-                "end": {
-                  "line": 13,
-                  "column": 22
-                }
-              }
+              "start": 226,
+              "end": 228,
+              "ctxt": 0
             },
             "value": "sr",
+            "typeAnnotation": null,
             "optional": false
           },
+          "value": null,
+          "typeAnnotation": null,
           "isStatic": true,
+          "decorators": [],
           "computed": false,
+          "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
           "readonly": false,
@@ -538,41 +336,25 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 230,
-            "end": 243,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 15,
-                "column": 11
-              },
-              "end": {
-                "line": 15,
-                "column": 24
-              }
-            }
+            "start": 244,
+            "end": 257,
+            "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 239,
-              "end": 242,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 15,
-                  "column": 20
-                },
-                "end": {
-                  "line": 15,
-                  "column": 23
-                }
-              }
+              "start": 253,
+              "end": 256,
+              "ctxt": 0
             },
             "value": "pur",
+            "typeAnnotation": null,
             "optional": false
           },
+          "value": null,
+          "typeAnnotation": null,
           "isStatic": false,
+          "decorators": [],
           "computed": false,
           "accessibility": "public",
           "isAbstract": false,
@@ -583,41 +365,25 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 255,
-            "end": 268,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 16,
-                "column": 11
-              },
-              "end": {
-                "line": 16,
-                "column": 24
-              }
-            }
+            "start": 270,
+            "end": 283,
+            "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 264,
-              "end": 267,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 16,
-                  "column": 20
-                },
-                "end": {
-                  "line": 16,
-                  "column": 23
-                }
-              }
+              "start": 279,
+              "end": 282,
+              "ctxt": 0
             },
             "value": "pua",
+            "typeAnnotation": null,
             "optional": false
           },
+          "value": null,
+          "typeAnnotation": null,
           "isStatic": false,
+          "decorators": [],
           "computed": false,
           "accessibility": "public",
           "isAbstract": true,
@@ -628,41 +394,25 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 280,
-            "end": 291,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 17,
-                "column": 11
-              },
-              "end": {
-                "line": 17,
-                "column": 22
-              }
-            }
+            "start": 296,
+            "end": 307,
+            "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 287,
-              "end": 290,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 17,
-                  "column": 18
-                },
-                "end": {
-                  "line": 17,
-                  "column": 21
-                }
-              }
+              "start": 303,
+              "end": 306,
+              "ctxt": 0
             },
             "value": "pus",
+            "typeAnnotation": null,
             "optional": false
           },
+          "value": null,
+          "typeAnnotation": null,
           "isStatic": true,
+          "decorators": [],
           "computed": false,
           "accessibility": "public",
           "isAbstract": false,
@@ -673,41 +423,25 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 303,
-            "end": 326,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 18,
-                "column": 11
-              },
-              "end": {
-                "line": 18,
-                "column": 34
-              }
-            }
+            "start": 320,
+            "end": 343,
+            "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 321,
-              "end": 325,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 18,
-                  "column": 29
-                },
-                "end": {
-                  "line": 18,
-                  "column": 33
-                }
-              }
+              "start": 338,
+              "end": 342,
+              "ctxt": 0
             },
             "value": "pura",
+            "typeAnnotation": null,
             "optional": false
           },
+          "value": null,
+          "typeAnnotation": null,
           "isStatic": false,
+          "decorators": [],
           "computed": false,
           "accessibility": "public",
           "isAbstract": true,
@@ -718,41 +452,25 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 338,
-            "end": 361,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 19,
-                "column": 11
-              },
-              "end": {
-                "line": 19,
-                "column": 34
-              }
-            }
+            "start": 356,
+            "end": 379,
+            "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 356,
-              "end": 360,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 19,
-                  "column": 29
-                },
-                "end": {
-                  "line": 19,
-                  "column": 33
-                }
-              }
+              "start": 374,
+              "end": 378,
+              "ctxt": 0
             },
             "value": "puar",
+            "typeAnnotation": null,
             "optional": false
           },
+          "value": null,
+          "typeAnnotation": null,
           "isStatic": false,
+          "decorators": [],
           "computed": false,
           "accessibility": "public",
           "isAbstract": true,
@@ -763,41 +481,25 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 373,
-            "end": 394,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 20,
-                "column": 11
-              },
-              "end": {
-                "line": 20,
-                "column": 32
-              }
-            }
+            "start": 392,
+            "end": 413,
+            "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 389,
-              "end": 393,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 20,
-                  "column": 27
-                },
-                "end": {
-                  "line": 20,
-                  "column": 31
-                }
-              }
+              "start": 408,
+              "end": 412,
+              "ctxt": 0
             },
             "value": "pusr",
+            "typeAnnotation": null,
             "optional": false
           },
+          "value": null,
+          "typeAnnotation": null,
           "isStatic": true,
+          "decorators": [],
           "computed": false,
           "accessibility": "public",
           "isAbstract": false,
@@ -806,7 +508,12 @@
           "definite": false
         }
       ],
-      "isAbstract": true
+      "superClass": null,
+      "isAbstract": true,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
     }
-  ]
+  ],
+  "interpreter": null
 }

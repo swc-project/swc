@@ -3,17 +3,7 @@
   "span": {
     "start": 0,
     "end": 14,
-    "ctxt": 0,
-    "loc": {
-      "start": {
-        "line": 1,
-        "column": 0
-      },
-      "end": {
-        "line": 1,
-        "column": 14
-      }
-    }
+    "ctxt": 0
   },
   "body": [
     {
@@ -21,17 +11,7 @@
       "span": {
         "start": 0,
         "end": 14,
-        "ctxt": 0,
-        "loc": {
-          "start": {
-            "line": 1,
-            "column": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 14
-          }
-        }
+        "ctxt": 0
       },
       "declare": false,
       "id": {
@@ -39,58 +19,31 @@
         "span": {
           "start": 5,
           "end": 6,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 1,
-              "column": 5
-            },
-            "end": {
-              "line": 1,
-              "column": 6
-            }
-          }
+          "ctxt": 0
         },
         "value": "T",
+        "typeAnnotation": null,
         "optional": false
       },
+      "typeParams": null,
       "typeAnnotation": {
         "type": "TsParenthesizedType",
         "span": {
           "start": 9,
           "end": 13,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 1,
-              "column": 9
-            },
-            "end": {
-              "line": 1,
-              "column": 13
-            }
-          }
+          "ctxt": 0
         },
         "typeAnnotation": {
           "type": "TsTypeLiteral",
           "span": {
             "start": 10,
             "end": 12,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 1,
-                "column": 10
-              },
-              "end": {
-                "line": 1,
-                "column": 12
-              }
-            }
+            "ctxt": 0
           },
           "members": []
         }
       }
     }
-  ]
+  ],
+  "interpreter": null
 }

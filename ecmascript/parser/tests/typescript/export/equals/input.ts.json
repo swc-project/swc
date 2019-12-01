@@ -3,17 +3,7 @@
   "span": {
     "start": 0,
     "end": 11,
-    "ctxt": 0,
-    "loc": {
-      "start": {
-        "line": 1,
-        "column": 0
-      },
-      "end": {
-        "line": 1,
-        "column": 11
-      }
-    }
+    "ctxt": 0
   },
   "body": [
     {
@@ -21,38 +11,20 @@
       "span": {
         "start": 0,
         "end": 11,
-        "ctxt": 0,
-        "loc": {
-          "start": {
-            "line": 1,
-            "column": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 11
-          }
-        }
+        "ctxt": 0
       },
       "expression": {
         "type": "Identifier",
         "span": {
           "start": 9,
           "end": 10,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 1,
-              "column": 9
-            },
-            "end": {
-              "line": 1,
-              "column": 10
-            }
-          }
+          "ctxt": 0
         },
         "value": "f",
+        "typeAnnotation": null,
         "optional": false
       }
     }
-  ]
+  ],
+  "interpreter": null
 }

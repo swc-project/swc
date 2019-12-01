@@ -3,17 +3,7 @@
   "span": {
     "start": 0,
     "end": 22,
-    "ctxt": 0,
-    "loc": {
-      "start": {
-        "line": 1,
-        "column": 0
-      },
-      "end": {
-        "line": 1,
-        "column": 22
-      }
-    }
+    "ctxt": 0
   },
   "body": [
     {
@@ -21,59 +11,32 @@
       "span": {
         "start": 18,
         "end": 22,
-        "ctxt": 0,
-        "loc": {
-          "start": {
-            "line": 1,
-            "column": 18
-          },
-          "end": {
-            "line": 1,
-            "column": 22
-          }
-        }
+        "ctxt": 0
       },
       "id": {
         "type": "Identifier",
         "span": {
           "start": 18,
           "end": 19,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 1,
-              "column": 18
-            },
-            "end": {
-              "line": 1,
-              "column": 19
-            }
-          }
+          "ctxt": 0
         },
         "value": "I",
+        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
+      "typeParams": null,
       "extends": [],
       "body": {
         "type": "TsInterfaceBody",
         "span": {
           "start": 20,
           "end": 22,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 1,
-              "column": 20
-            },
-            "end": {
-              "line": 1,
-              "column": 22
-            }
-          }
+          "ctxt": 0
         },
         "body": []
       }
     }
-  ]
+  ],
+  "interpreter": null
 }

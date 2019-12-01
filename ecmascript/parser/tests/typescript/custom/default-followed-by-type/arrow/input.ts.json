@@ -2,36 +2,16 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 97,
-    "ctxt": 0,
-    "loc": {
-      "start": {
-        "line": 1,
-        "column": 0
-      },
-      "end": {
-        "line": 3,
-        "column": 2
-      }
-    }
+    "end": 99,
+    "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 0,
-        "end": 97,
-        "ctxt": 0,
-        "loc": {
-          "start": {
-            "line": 1,
-            "column": 0
-          },
-          "end": {
-            "line": 3,
-            "column": 2
-          }
-        }
+        "end": 99,
+        "ctxt": 0
       },
       "kind": "var",
       "declare": false,
@@ -40,55 +20,26 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 4,
-            "end": 96,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 1,
-                "column": 4
-              },
-              "end": {
-                "line": 3,
-                "column": 1
-              }
-            }
+            "end": 98,
+            "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 4,
               "end": 5,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 1,
-                  "column": 4
-                },
-                "end": {
-                  "line": 1,
-                  "column": 5
-                }
-              }
+              "ctxt": 0
             },
             "value": "a",
+            "typeAnnotation": null,
             "optional": false
           },
           "init": {
             "type": "ArrowFunctionExpression",
             "span": {
               "start": 8,
-              "end": 96,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 1,
-                  "column": 8
-                },
-                "end": {
-                  "line": 3,
-                  "column": 1
-                }
-              }
+              "end": 98,
+              "ctxt": 0
             },
             "params": [
               {
@@ -96,34 +47,14 @@
                 "span": {
                   "start": 17,
                   "end": 35,
-                  "ctxt": 0,
-                  "loc": {
-                    "start": {
-                      "line": 1,
-                      "column": 17
-                    },
-                    "end": {
-                      "line": 1,
-                      "column": 35
-                    }
-                  }
+                  "ctxt": 0
                 },
                 "left": {
                   "type": "Identifier",
                   "span": {
                     "start": 9,
                     "end": 17,
-                    "ctxt": 0,
-                    "loc": {
-                      "start": {
-                        "line": 1,
-                        "column": 9
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 17
-                      }
-                    }
+                    "ctxt": 0
                   },
                   "value": "greeting",
                   "typeAnnotation": {
@@ -131,34 +62,14 @@
                     "span": {
                       "start": 17,
                       "end": 25,
-                      "ctxt": 0,
-                      "loc": {
-                        "start": {
-                          "line": 1,
-                          "column": 17
-                        },
-                        "end": {
-                          "line": 1,
-                          "column": 25
-                        }
-                      }
+                      "ctxt": 0
                     },
                     "typeAnnotation": {
                       "type": "TsKeywordType",
                       "span": {
                         "start": 19,
                         "end": 25,
-                        "ctxt": 0,
-                        "loc": {
-                          "start": {
-                            "line": 1,
-                            "column": 19
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 25
-                          }
-                        }
+                        "ctxt": 0
                       },
                       "kind": "string"
                     }
@@ -170,38 +81,19 @@
                   "span": {
                     "start": 28,
                     "end": 35,
-                    "ctxt": 0,
-                    "loc": {
-                      "start": {
-                        "line": 1,
-                        "column": 28
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 35
-                      }
-                    }
+                    "ctxt": 0
                   },
                   "value": "Hello",
                   "hasEscape": false
-                }
+                },
+                "typeAnnotation": null
               },
               {
                 "type": "Identifier",
                 "span": {
                   "start": 37,
                   "end": 43,
-                  "ctxt": 0,
-                  "loc": {
-                    "start": {
-                      "line": 1,
-                      "column": 37
-                    },
-                    "end": {
-                      "line": 1,
-                      "column": 43
-                    }
-                  }
+                  "ctxt": 0
                 },
                 "value": "target",
                 "typeAnnotation": {
@@ -209,34 +101,14 @@
                   "span": {
                     "start": 43,
                     "end": 51,
-                    "ctxt": 0,
-                    "loc": {
-                      "start": {
-                        "line": 1,
-                        "column": 43
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 51
-                      }
-                    }
+                    "ctxt": 0
                   },
                   "typeAnnotation": {
                     "type": "TsKeywordType",
                     "span": {
                       "start": 45,
                       "end": 51,
-                      "ctxt": 0,
-                      "loc": {
-                        "start": {
-                          "line": 1,
-                          "column": 45
-                        },
-                        "end": {
-                          "line": 1,
-                          "column": 51
-                        }
-                      }
+                      "ctxt": 0
                     },
                     "kind": "string"
                   }
@@ -248,93 +120,45 @@
               "type": "BlockStatement",
               "span": {
                 "start": 56,
-                "end": 96,
-                "ctxt": 0,
-                "loc": {
-                  "start": {
-                    "line": 1,
-                    "column": 56
-                  },
-                  "end": {
-                    "line": 3,
-                    "column": 1
-                  }
-                }
+                "end": 98,
+                "ctxt": 0
               },
               "stmts": [
                 {
                   "type": "ReturnStatement",
                   "span": {
-                    "start": 62,
-                    "end": 94,
-                    "ctxt": 0,
-                    "loc": {
-                      "start": {
-                        "line": 2,
-                        "column": 4
-                      },
-                      "end": {
-                        "line": 2,
-                        "column": 36
-                      }
-                    }
+                    "start": 63,
+                    "end": 95,
+                    "ctxt": 0
                   },
                   "argument": {
                     "type": "TemplateLiteral",
                     "span": {
-                      "start": 69,
-                      "end": 93,
-                      "ctxt": 0,
-                      "loc": {
-                        "start": {
-                          "line": 2,
-                          "column": 11
-                        },
-                        "end": {
-                          "line": 2,
-                          "column": 35
-                        }
-                      }
+                      "start": 70,
+                      "end": 94,
+                      "ctxt": 0
                     },
                     "expressions": [
                       {
                         "type": "Identifier",
                         "span": {
-                          "start": 72,
-                          "end": 80,
-                          "ctxt": 0,
-                          "loc": {
-                            "start": {
-                              "line": 2,
-                              "column": 14
-                            },
-                            "end": {
-                              "line": 2,
-                              "column": 22
-                            }
-                          }
+                          "start": 73,
+                          "end": 81,
+                          "ctxt": 0
                         },
                         "value": "greeting",
+                        "typeAnnotation": null,
                         "optional": false
                       },
                       {
                         "type": "Identifier",
                         "span": {
-                          "start": 84,
-                          "end": 90,
-                          "ctxt": 0,
-                          "loc": {
-                            "start": {
-                              "line": 2,
-                              "column": 26
-                            },
-                            "end": {
-                              "line": 2,
-                              "column": 32
-                            }
-                          }
+                          "start": 85,
+                          "end": 91,
+                          "ctxt": 0
                         },
                         "value": "target",
+                        "typeAnnotation": null,
                         "optional": false
                       }
                     ],
@@ -342,37 +166,17 @@
                       {
                         "type": "TemplateElement",
                         "span": {
-                          "start": 70,
-                          "end": 70,
-                          "ctxt": 0,
-                          "loc": {
-                            "start": {
-                              "line": 2,
-                              "column": 12
-                            },
-                            "end": {
-                              "line": 2,
-                              "column": 12
-                            }
-                          }
+                          "start": 71,
+                          "end": 71,
+                          "ctxt": 0
                         },
                         "tail": false,
                         "cooked": {
                           "type": "StringLiteral",
                           "span": {
-                            "start": 70,
-                            "end": 70,
-                            "ctxt": 0,
-                            "loc": {
-                              "start": {
-                                "line": 2,
-                                "column": 12
-                              },
-                              "end": {
-                                "line": 2,
-                                "column": 12
-                              }
-                            }
+                            "start": 71,
+                            "end": 71,
+                            "ctxt": 0
                           },
                           "value": "",
                           "hasEscape": false
@@ -380,19 +184,9 @@
                         "raw": {
                           "type": "StringLiteral",
                           "span": {
-                            "start": 70,
-                            "end": 70,
-                            "ctxt": 0,
-                            "loc": {
-                              "start": {
-                                "line": 2,
-                                "column": 12
-                              },
-                              "end": {
-                                "line": 2,
-                                "column": 12
-                              }
-                            }
+                            "start": 71,
+                            "end": 71,
+                            "ctxt": 0
                           },
                           "value": "",
                           "hasEscape": false
@@ -401,37 +195,17 @@
                       {
                         "type": "TemplateElement",
                         "span": {
-                          "start": 81,
-                          "end": 82,
-                          "ctxt": 0,
-                          "loc": {
-                            "start": {
-                              "line": 2,
-                              "column": 23
-                            },
-                            "end": {
-                              "line": 2,
-                              "column": 24
-                            }
-                          }
+                          "start": 82,
+                          "end": 83,
+                          "ctxt": 0
                         },
                         "tail": false,
                         "cooked": {
                           "type": "StringLiteral",
                           "span": {
-                            "start": 81,
-                            "end": 82,
-                            "ctxt": 0,
-                            "loc": {
-                              "start": {
-                                "line": 2,
-                                "column": 23
-                              },
-                              "end": {
-                                "line": 2,
-                                "column": 24
-                              }
-                            }
+                            "start": 82,
+                            "end": 83,
+                            "ctxt": 0
                           },
                           "value": " ",
                           "hasEscape": false
@@ -439,19 +213,9 @@
                         "raw": {
                           "type": "StringLiteral",
                           "span": {
-                            "start": 81,
-                            "end": 82,
-                            "ctxt": 0,
-                            "loc": {
-                              "start": {
-                                "line": 2,
-                                "column": 23
-                              },
-                              "end": {
-                                "line": 2,
-                                "column": 24
-                              }
-                            }
+                            "start": 82,
+                            "end": 83,
+                            "ctxt": 0
                           },
                           "value": " ",
                           "hasEscape": false
@@ -460,37 +224,17 @@
                       {
                         "type": "TemplateElement",
                         "span": {
-                          "start": 91,
-                          "end": 92,
-                          "ctxt": 0,
-                          "loc": {
-                            "start": {
-                              "line": 2,
-                              "column": 33
-                            },
-                            "end": {
-                              "line": 2,
-                              "column": 34
-                            }
-                          }
+                          "start": 92,
+                          "end": 93,
+                          "ctxt": 0
                         },
                         "tail": true,
                         "cooked": {
                           "type": "StringLiteral",
                           "span": {
-                            "start": 91,
-                            "end": 92,
-                            "ctxt": 0,
-                            "loc": {
-                              "start": {
-                                "line": 2,
-                                "column": 33
-                              },
-                              "end": {
-                                "line": 2,
-                                "column": 34
-                              }
-                            }
+                            "start": 92,
+                            "end": 93,
+                            "ctxt": 0
                           },
                           "value": "!",
                           "hasEscape": false
@@ -498,19 +242,9 @@
                         "raw": {
                           "type": "StringLiteral",
                           "span": {
-                            "start": 91,
-                            "end": 92,
-                            "ctxt": 0,
-                            "loc": {
-                              "start": {
-                                "line": 2,
-                                "column": 33
-                              },
-                              "end": {
-                                "line": 2,
-                                "column": 34
-                              }
-                            }
+                            "start": 92,
+                            "end": 93,
+                            "ctxt": 0
                           },
                           "value": "!",
                           "hasEscape": false
@@ -522,11 +256,14 @@
               ]
             },
             "async": false,
-            "generator": false
+            "generator": false,
+            "typeParameters": null,
+            "returnType": null
           },
           "definite": false
         }
       ]
     }
-  ]
+  ],
+  "interpreter": null
 }

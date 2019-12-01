@@ -3,17 +3,7 @@
   "span": {
     "start": 0,
     "end": 24,
-    "ctxt": 0,
-    "loc": {
-      "start": {
-        "line": 1,
-        "column": 0
-      },
-      "end": {
-        "line": 1,
-        "column": 24
-      }
-    }
+    "ctxt": 0
   },
   "body": [
     {
@@ -21,17 +11,7 @@
       "span": {
         "start": 0,
         "end": 23,
-        "ctxt": 0,
-        "loc": {
-          "start": {
-            "line": 1,
-            "column": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 23
-          }
-        }
+        "ctxt": 0
       },
       "params": [
         {
@@ -39,17 +19,7 @@
           "span": {
             "start": 10,
             "end": 11,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 1,
-                "column": 10
-              },
-              "end": {
-                "line": 1,
-                "column": 11
-              }
-            }
+            "ctxt": 0
           },
           "value": "a",
           "typeAnnotation": {
@@ -57,55 +27,27 @@
             "span": {
               "start": 11,
               "end": 14,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 1,
-                  "column": 11
-                },
-                "end": {
-                  "line": 1,
-                  "column": 14
-                }
-              }
+              "ctxt": 0
             },
             "typeAnnotation": {
               "type": "TsTypeReference",
               "span": {
                 "start": 13,
                 "end": 14,
-                "ctxt": 0,
-                "loc": {
-                  "start": {
-                    "line": 1,
-                    "column": 13
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 14
-                  }
-                }
+                "ctxt": 0
               },
               "typeName": {
                 "type": "Identifier",
                 "span": {
                   "start": 13,
                   "end": 14,
-                  "ctxt": 0,
-                  "loc": {
-                    "start": {
-                      "line": 1,
-                      "column": 13
-                    },
-                    "end": {
-                      "line": 1,
-                      "column": 14
-                    }
-                  }
+                  "ctxt": 0
                 },
                 "value": "T",
+                "typeAnnotation": null,
                 "optional": false
-              }
+              },
+              "typeParams": null
             }
           },
           "optional": false
@@ -116,19 +58,10 @@
         "span": {
           "start": 22,
           "end": 23,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 1,
-              "column": 22
-            },
-            "end": {
-              "line": 1,
-              "column": 23
-            }
-          }
+          "ctxt": 0
         },
         "value": "a",
+        "typeAnnotation": null,
         "optional": false
       },
       "async": true,
@@ -138,17 +71,7 @@
         "span": {
           "start": 6,
           "end": 9,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 1,
-              "column": 6
-            },
-            "end": {
-              "line": 1,
-              "column": 9
-            }
-          }
+          "ctxt": 0
         },
         "parameters": [
           {
@@ -156,38 +79,21 @@
             "span": {
               "start": 7,
               "end": 8,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 1,
-                  "column": 7
-                },
-                "end": {
-                  "line": 1,
-                  "column": 8
-                }
-              }
+              "ctxt": 0
             },
             "name": {
               "type": "Identifier",
               "span": {
                 "start": 7,
                 "end": 8,
-                "ctxt": 0,
-                "loc": {
-                  "start": {
-                    "line": 1,
-                    "column": 7
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 8
-                  }
-                }
+                "ctxt": 0
               },
               "value": "T",
+              "typeAnnotation": null,
               "optional": false
-            }
+            },
+            "constraint": null,
+            "default": null
           }
         ]
       },
@@ -196,57 +102,30 @@
         "span": {
           "start": 15,
           "end": 18,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 1,
-              "column": 15
-            },
-            "end": {
-              "line": 1,
-              "column": 18
-            }
-          }
+          "ctxt": 0
         },
         "typeAnnotation": {
           "type": "TsTypeReference",
           "span": {
             "start": 17,
             "end": 18,
-            "ctxt": 0,
-            "loc": {
-              "start": {
-                "line": 1,
-                "column": 17
-              },
-              "end": {
-                "line": 1,
-                "column": 18
-              }
-            }
+            "ctxt": 0
           },
           "typeName": {
             "type": "Identifier",
             "span": {
               "start": 17,
               "end": 18,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 1,
-                  "column": 17
-                },
-                "end": {
-                  "line": 1,
-                  "column": 18
-                }
-              }
+              "ctxt": 0
             },
             "value": "T",
+            "typeAnnotation": null,
             "optional": false
-          }
+          },
+          "typeParams": null
         }
       }
     }
-  ]
+  ],
+  "interpreter": null
 }

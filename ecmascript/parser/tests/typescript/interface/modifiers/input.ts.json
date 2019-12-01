@@ -2,158 +2,84 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 39,
-    "ctxt": 0,
-    "loc": {
-      "start": {
-        "line": 1,
-        "column": 0
-      },
-      "end": {
-        "line": 3,
-        "column": 1
-      }
-    }
+    "end": 41,
+    "ctxt": 0
   },
   "body": [
     {
       "type": "TsInterfaceDeclaration",
       "span": {
         "start": 10,
-        "end": 39,
-        "ctxt": 0,
-        "loc": {
-          "start": {
-            "line": 1,
-            "column": 10
-          },
-          "end": {
-            "line": 3,
-            "column": 1
-          }
-        }
+        "end": 41,
+        "ctxt": 0
       },
       "id": {
         "type": "Identifier",
         "span": {
           "start": 10,
           "end": 11,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 1,
-              "column": 10
-            },
-            "end": {
-              "line": 1,
-              "column": 11
-            }
-          }
+          "ctxt": 0
         },
         "value": "I",
+        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
+      "typeParams": null,
       "extends": [],
       "body": {
         "type": "TsInterfaceBody",
         "span": {
           "start": 12,
-          "end": 39,
-          "ctxt": 0,
-          "loc": {
-            "start": {
-              "line": 1,
-              "column": 12
-            },
-            "end": {
-              "line": 3,
-              "column": 1
-            }
-          }
+          "end": 41,
+          "ctxt": 0
         },
         "body": [
           {
             "type": "TsPropertySignature",
             "span": {
-              "start": 18,
-              "end": 37,
-              "ctxt": 0,
-              "loc": {
-                "start": {
-                  "line": 2,
-                  "column": 4
-                },
-                "end": {
-                  "line": 2,
-                  "column": 23
-                }
-              }
+              "start": 19,
+              "end": 38,
+              "ctxt": 0
             },
             "readonly": true,
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 27,
-                "end": 28,
-                "ctxt": 0,
-                "loc": {
-                  "start": {
-                    "line": 2,
-                    "column": 13
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 14
-                  }
-                }
+                "start": 28,
+                "end": 29,
+                "ctxt": 0
               },
               "value": "x",
+              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
             "optional": false,
+            "init": null,
             "params": [],
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 28,
-                "end": 36,
-                "ctxt": 0,
-                "loc": {
-                  "start": {
-                    "line": 2,
-                    "column": 14
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 22
-                  }
-                }
+                "start": 29,
+                "end": 37,
+                "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 30,
-                  "end": 36,
-                  "ctxt": 0,
-                  "loc": {
-                    "start": {
-                      "line": 2,
-                      "column": 16
-                    },
-                    "end": {
-                      "line": 2,
-                      "column": 22
-                    }
-                  }
+                  "start": 31,
+                  "end": 37,
+                  "ctxt": 0
                 },
                 "kind": "number"
               }
-            }
+            },
+            "typeParams": null
           }
         ]
       }
     }
-  ]
+  ],
+  "interpreter": null
 }
