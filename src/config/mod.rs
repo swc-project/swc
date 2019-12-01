@@ -160,8 +160,6 @@ impl Options {
             GlobalPassOption::default().build(cm, handler)
         };
 
-        let pass = chain_at!(Module, pass, json_parse_pass);
-
         let pass = chain_at!(
             Module,
             // handle jsx
@@ -179,6 +177,7 @@ impl Options {
                 syntax.export_default_from() || syntax.export_namespace_from()
             ),
             Optional::new(simplifier(), enable_optimizer),
+            json_parse_pass
         );
 
         let pass = PassBuilder::new(&cm, &handler, pass)
