@@ -351,7 +351,7 @@ pub enum TsFnParam {
     #[tag("Identifier")]
     Ident(Ident),
 
-    #[tag("ObjectPattern")]
+    #[tag("ArrayPattern")]
     Array(ArrayPat),
 
     #[tag("RestElement")]
