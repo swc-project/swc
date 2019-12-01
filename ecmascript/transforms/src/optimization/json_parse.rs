@@ -324,7 +324,7 @@ mod tests {
         |_| JsonParse { min_cost: 0 },
         string,
         r#"const a = { b: "b_val" };"#,
-        r#"const a = { b: "b_val" };"#
+        r#"const a = JSON.parse('{"b":"b_val"}');"#
     );
 
     test!(
@@ -332,7 +332,7 @@ mod tests {
         |_| JsonParse { min_cost: 0 },
         string_single_quote_1,
         r#"const a = { b: "'abc'" };"#,
-        r#"const a = JSON.parse('{"b":"\\'abc\\'"}');"#
+        r#"const a = JSON.parse('{"b":"\'abc\'"}');"#
     );
 
     test!(
@@ -340,7 +340,7 @@ mod tests {
         |_| JsonParse { min_cost: 0 },
         string_single_quote_2,
         r#"const a = { b: "ab\'c" };"#,
-        r#"const a = JSON.parse('{"b":"ab\\'c"}');"#
+        r#"const a = JSON.parse('{"b":"ab\'c"}');"#
     );
 
     test!(
