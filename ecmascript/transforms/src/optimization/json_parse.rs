@@ -90,7 +90,7 @@ fn jsonify(e: Expr) -> Value {
                     let key = match p.key {
                         PropName::Str(s) => s.value.to_string(),
                         PropName::Ident(id) => id.sym.to_string(),
-                        PropName::Num(n) => (n.value as i64).to_string(),
+                        PropName::Num(n) => format!("{}", n.value),
                         _ => unreachable!(),
                     };
                     (key, value)
@@ -340,7 +340,7 @@ mod tests {
         |_| JsonParse { min_cost: 0 },
         invalid_numeric_key,
         r#"const a ={ 77777777777777777.1: "foo" };"#,
-        r#"const a ={ 77777777777777777.1: "foo" };"#
+        r#"const a = JSON.parse('{"77777777777777780":"foo"}');"#
     );
 
     test!(
