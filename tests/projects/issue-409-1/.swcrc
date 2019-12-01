@@ -1,0 +1,11 @@
+{
+  "jsc": {
+    "transform": {
+      "optimizer": {
+        "jsonify": {
+            "minCost": 0
+        }
+      }
+    }
+  }
+}

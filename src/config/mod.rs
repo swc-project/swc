@@ -470,7 +470,12 @@ pub struct OptimizerConfig {
 #[derive(Debug, Default, Clone, Copy, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct JsonifyOption {
+    #[serde(default = "default_jsonify_min_cost")]
     pub min_cost: usize,
+}
+
+fn default_jsonify_min_cost() -> usize {
+    1024
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
