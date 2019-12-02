@@ -393,11 +393,14 @@ fn to_prop_name(n: JSXAttrName) -> PropName {
 }
 
 fn jsx_text_to_str(t: JsWord) -> JsWord {
+    if t == *" " {
+        return t;
+    }
     if !t.contains(' ') && !t.contains('\n') {
         return t;
     }
 
-    let mut buf = String::from(" ");
+    let mut buf = String::from("");
     for s in t.replace("\n", " ").split_ascii_whitespace() {
         buf.push_str(s);
         buf.push(' ');
