@@ -9,7 +9,7 @@ use crate::{
     util::{prepend_stmts, var::VarCollector, DestructuringFinder, ExprFactory},
 };
 use ast::*;
-use hashbrown::HashSet;
+use fxhash::FxHashSet;
 use std::sync::Arc;
 use swc_atoms::js_word;
 use swc_common::{Fold, FoldWith, Mark, SourceMap, VisitWith, DUMMY_SP};
@@ -53,7 +53,7 @@ impl Fold<Module> for Umd {
         }
 
         let mut exports = vec![];
-        let mut initialized = HashSet::default();
+        let mut initialized = FxHashSet::default();
         let mut export_alls = vec![];
         let mut emitted_esmodule = false;
         let mut has_export = false;

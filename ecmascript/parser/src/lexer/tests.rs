@@ -1088,6 +1088,36 @@ fn issue_401() {
     );
 }
 
+#[test]
+fn issue_481() {
+    assert_eq!(
+        lex_tokens(
+            crate::Syntax::Es(crate::EsConfig {
+                jsx: true,
+                ..Default::default()
+            }),
+            "<span> {foo}</span>"
+        ),
+        vec![
+            Token::JSXTagStart,
+            Token::JSXName {
+                name: "span".into()
+            },
+            Token::JSXTagEnd,
+            JSXText { raw: " ".into() },
+            LBrace,
+            Word(Word::Ident("foo".into())),
+            RBrace,
+            JSXTagStart,
+            BinOp(Div),
+            JSXName {
+                name: "span".into()
+            },
+            JSXTagEnd,
+        ]
+    );
+}
+
 #[bench]
 fn lex_colors_js(b: &mut Bencher) {
     b.bytes = include_str!("../../colors.js").len() as _;

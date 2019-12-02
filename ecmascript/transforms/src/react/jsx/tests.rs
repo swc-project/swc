@@ -1066,3 +1066,17 @@ test!(
 var _react = _interopRequireDefault(require('react'));
 _react.default.createElement('div', null);"
 );
+
+test!(
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |_| tr(Options {
+        use_builtins: true,
+        ..Default::default()
+    }),
+    issue_481,
+    "<span> {foo}</span>;",
+    "React.createElement('span', null, ' ', foo);"
+);

@@ -1,5 +1,6 @@
 use crate::util::{undefined, DestructuringFinder, ExprFactory};
 use ast::*;
+use fxhash::FxHashSet;
 use hashbrown::{hash_map::Entry, HashMap, HashSet};
 use indexmap::IndexMap;
 use inflector::Inflector;
@@ -718,7 +719,7 @@ pub(super) fn use_strict() -> Stmt {
 /// ```js
 /// exports.default = exports.foo = void 0;
 /// ```
-pub(super) fn initialize_to_undefined(exports: Ident, initialized: HashSet<JsWord>) -> Box<Expr> {
+pub(super) fn initialize_to_undefined(exports: Ident, initialized: FxHashSet<JsWord>) -> Box<Expr> {
     let mut rhs = undefined(DUMMY_SP);
 
     for name in initialized.into_iter() {
