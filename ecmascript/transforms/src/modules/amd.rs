@@ -7,7 +7,7 @@ use crate::{
     util::{prepend_stmts, var::VarCollector, DestructuringFinder, ExprFactory},
 };
 use ast::*;
-use hashbrown::HashSet;
+use fxhash::FxHashSet;
 use serde::{Deserialize, Serialize};
 use std::iter;
 use swc_atoms::js_word;
@@ -55,7 +55,7 @@ impl Fold<Module> for Amd {
         }
 
         let mut exports = vec![];
-        let mut initialized = HashSet::default();
+        let mut initialized = FxHashSet::default();
         let mut export_alls = vec![];
         let mut emitted_esmodule = false;
         let mut has_export = false;

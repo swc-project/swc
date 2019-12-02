@@ -8,7 +8,7 @@ use crate::{
     util::{var::VarCollector, DestructuringFinder, ExprFactory},
 };
 use ast::*;
-use hashbrown::HashSet;
+use fxhash::FxHashSet;
 use swc_atoms::js_word;
 use swc_common::{Fold, FoldWith, VisitWith, DUMMY_SP};
 
@@ -40,7 +40,7 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
         }
 
         let mut exports = vec![];
-        let mut initialized = HashSet::default();
+        let mut initialized = FxHashSet::default();
         let mut export_alls = vec![];
 
         for item in items {
