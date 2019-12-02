@@ -1,15 +1,11 @@
 #![recursion_limit = "1024"]
 
-use darling;
-#[macro_use]
-extern crate pmutil;
 extern crate proc_macro;
 
-use syn;
-
-use pmutil::{Quote, ToTokensExt};
+use darling;
+use pmutil::{smart_quote, Quote, ToTokensExt};
 use swc_macros_common::prelude::*;
-use syn::*;
+use syn::{self, *};
 
 mod ast_node_macro;
 mod enum_deserialize;
@@ -42,7 +38,6 @@ pub fn derive_fold(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
         },
         {
             const NAME: () = {
-                extern crate swc_common;
                 fold_item
                 visit_item
             };
@@ -200,10 +195,7 @@ fn print_item<T: Into<TokenStream>>(
             NAME: Ident::new(&const_name, Span::call_site())
         },
         {
-            const NAME: () = {
-                extern crate swc_common;
-                item
-            };
+            const NAME: () = { item };
         }
     ));
     print(name, item)

@@ -1,6 +1,7 @@
 use super::{pat::PatType, util::ExprExt, *};
 use crate::{lexer::TokenContext, token::AssignOpToken};
 use either::Either;
+use swc_atoms::js_word;
 use swc_common::{ast_node, Spanned};
 
 mod ops;

@@ -6,9 +6,6 @@
 #![deny(unreachable_pub)]
 #![deny(variant_size_differences)]
 
-#[macro_use]
-extern crate string_enum;
-
 pub use self::{
     class::{
         Class, ClassMember, ClassMethod, ClassProp, Constructor, Decorator, MethodKind,

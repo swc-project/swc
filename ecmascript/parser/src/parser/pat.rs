@@ -2,6 +2,7 @@
 use super::{util::ExprExt, *};
 use crate::{parser::expr::PatOrExprOrSpread, token::AssignOpToken};
 use std::iter;
+use swc_atoms::js_word;
 use swc_common::Spanned;
 
 #[parser]
@@ -728,7 +729,7 @@ mod tests {
 
     #[test]
     fn array_pat_simple() {
-        assert_eq_ignore_span!(
+        testing::assert_eq_ignore_span!(
             array_pat("[a, [b], [c]]"),
             Pat::Array(ArrayPat {
                 span,
@@ -752,7 +753,7 @@ mod tests {
 
     #[test]
     fn array_pat_empty_start() {
-        assert_eq_ignore_span!(
+        testing::assert_eq_ignore_span!(
             array_pat("[, a, [b], [c]]"),
             Pat::Array(ArrayPat {
                 span,
@@ -777,7 +778,7 @@ mod tests {
 
     #[test]
     fn array_pat_empty() {
-        assert_eq_ignore_span!(
+        testing::assert_eq_ignore_span!(
             array_pat("[a, , [b], [c]]"),
             Pat::Array(ArrayPat {
                 span,

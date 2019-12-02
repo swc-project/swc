@@ -1,15 +1,9 @@
-#[macro_use]
-extern crate pmutil;
 extern crate proc_macro;
-#[macro_use]
-extern crate quote;
 
-use syn;
-
-use pmutil::{Quote, ToTokensExt};
+use pmutil::{smart_quote, Quote, ToTokensExt};
 use proc_macro::TokenStream;
 use swc_macros_common::prelude::*;
-use syn::{fold::Fold, *};
+use syn::{self, fold::Fold, *};
 
 mod fold;
 
@@ -65,18 +59,13 @@ fn (&mut self, node: Node) -> Result;
                 },
                 {
                     {
-                        const _FOO: () = {
-                            impl crate::Node for NodeType {
-                                fn emit_with(&self, e: &mut crate::Emitter) -> Result {
-                                    e.mtd_name(self)
-                                }
+                        impl crate::Node for NodeType {
+                            fn emit_with(&self, e: &mut crate::Emitter) -> Result {
+                                e.mtd_name(self)
                             }
-                            ()
-                        };
+                        }
 
-                        {
-                            block
-                        };
+                        block
 
                         // Emitter methods return Result<_, _>
                         // We inject this to avoid writing Ok(()) every time.

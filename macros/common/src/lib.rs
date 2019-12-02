@@ -1,9 +1,4 @@
-#[macro_use]
-extern crate pmutil;
 extern crate proc_macro;
-use proc_macro2;
-#[macro_use]
-extern crate quote;
 
 use pmutil::{synom_ext::FromSpan, SpanExt};
 use proc_macro2::Span;
@@ -15,7 +10,7 @@ pub mod prelude;
 mod syn_ext;
 
 pub fn call_site<T: FromSpan>() -> T {
-    Span::call_site().as_token()
+    T::from_span(Span::call_site())
 }
 
 /// `Span::def_site().located_at(Span::call_site()).as_token()`

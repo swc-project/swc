@@ -1,16 +1,11 @@
 #![recursion_limit = "1024"]
 
-#[macro_use]
-extern crate pmutil;
 extern crate proc_macro;
-#[macro_use]
-extern crate quote;
 
-use syn;
-
-use pmutil::prelude::Quote;
+use pmutil::{smart_quote, Quote};
+use quote::quote_spanned;
 use swc_macros_common::prelude::*;
-use syn::*;
+use syn::{self, *};
 
 /// Creates `.as_str()` and then implements `Debug` and `Display` using it.
 ///

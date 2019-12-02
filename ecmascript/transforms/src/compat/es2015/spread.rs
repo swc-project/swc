@@ -4,6 +4,7 @@ use crate::{
 };
 use ast::*;
 use std::{iter, mem};
+use swc_atoms::js_word;
 use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Span, Spanned, DUMMY_SP};
 
 #[cfg(test)]

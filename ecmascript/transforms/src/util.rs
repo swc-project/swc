@@ -17,7 +17,7 @@ use std::{
     num::FpCategory,
     ops::Add,
 };
-use swc_atoms::JsWord;
+use swc_atoms::{js_word, JsWord};
 use swc_common::{
     errors::Handler, Fold, FoldWith, Mark, Span, Spanned, Visit, VisitWith, DUMMY_SP,
 };

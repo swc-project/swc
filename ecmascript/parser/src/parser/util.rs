@@ -1,4 +1,5 @@
 use super::*;
+use swc_atoms::js_word;
 
 impl Context {
     pub fn is_reserved_word(self, word: &JsWord) -> bool {

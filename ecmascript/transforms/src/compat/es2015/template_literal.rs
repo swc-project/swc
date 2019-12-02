@@ -1,6 +1,7 @@
 use crate::util::{ExprFactory, StmtLike};
 use ast::*;
 use std::iter;
+use swc_atoms::js_word;
 use swc_common::{BytePos, Fold, FoldWith, Spanned, DUMMY_SP};
 #[cfg(test)]
 mod tests;

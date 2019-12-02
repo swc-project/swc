@@ -4,6 +4,7 @@ use crate::{
     react::jsx,
     resolver,
 };
+use swc_common::chain;
 use swc_ecma_parser::{EsConfig, Syntax};
 
 fn syntax() -> Syntax {

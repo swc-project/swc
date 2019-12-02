@@ -1,6 +1,5 @@
-#[macro_use]
-extern crate string_enum;
 use std::fmt::{Debug, Display};
+use string_enum::*;
 
 pub trait Assert: Debug + Display {}
 

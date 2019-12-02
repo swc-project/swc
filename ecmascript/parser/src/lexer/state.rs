@@ -1,7 +1,8 @@
 use super::{Context, Input, Lexer};
 use crate::{input::Tokens, lexer::util::CharExt, token::*, JscTarget, Syntax};
 use enum_kind::Kind;
-use smallvec::SmallVec;
+use log::trace;
+use smallvec::{smallvec, SmallVec};
 use std::mem;
 use swc_common::BytePos;
 

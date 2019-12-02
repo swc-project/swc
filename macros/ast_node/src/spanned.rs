@@ -1,5 +1,5 @@
 use darling::FromField;
-use pmutil::{Quote, ToTokensExt};
+use pmutil::{smart_quote, Quote, ToTokensExt};
 use swc_macros_common::prelude::*;
 use syn::*;
 

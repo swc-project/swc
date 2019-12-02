@@ -6,10 +6,6 @@
 #![feature(specialization)]
 #![feature(test)]
 
-#[macro_use]
-extern crate swc_common;
-extern crate test;
-
 use swc_common::FoldWith;
 use test::{black_box, Bencher};
 

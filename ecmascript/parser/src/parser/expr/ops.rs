@@ -1,6 +1,7 @@
 //! Parser for unary operations and binary operations.
 use super::*;
 use crate::token::Keyword;
+use log::trace;
 use swc_common::Spanned;
 
 #[parser]
@@ -326,7 +327,7 @@ mod tests {
 
     #[test]
     fn simple() {
-        assert_eq_ignore_span!(
+        testing::assert_eq_ignore_span!(
             bin("5 + 4 * 7"),
             Box::new(Expr::Bin(BinExpr {
                 span,
@@ -339,7 +340,7 @@ mod tests {
 
     #[test]
     fn same_prec() {
-        assert_eq_ignore_span!(
+        testing::assert_eq_ignore_span!(
             bin("5 + 4 + 7"),
             Box::new(Expr::Bin(BinExpr {
                 span,

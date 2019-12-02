@@ -7,6 +7,8 @@ pub use self::{
 };
 use crate::pass::Pass;
 use ast::{Expr, Module};
+#[cfg(test)]
+use swc_common::chain;
 
 mod arrow;
 mod block_scoped_fn;

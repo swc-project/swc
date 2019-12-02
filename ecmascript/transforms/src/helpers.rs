@@ -3,6 +3,7 @@ use crate::util::{
     prepend_stmts, DropSpan,
 };
 use ast::*;
+use lazy_static::lazy_static;
 use scoped_tls::scoped_thread_local;
 use std::sync::atomic::{AtomicBool, Ordering};
 use swc_common::{FileName, Fold, FoldWith, Mark, Span, DUMMY_SP};
@@ -22,7 +23,7 @@ macro_rules! add_to {
     ($buf:expr, $name:ident, $b:expr, $mark:expr) => {{
         lazy_static! {
             static ref STMTS: Vec<Stmt> = {
-                let code = include_str!(concat!("_", stringify!($name), ".js"));
+                let code = include_str!(concat!("helpers/_", stringify!($name), ".js"));
                 let fm =
                     CM.new_source_file(FileName::Custom(stringify!($name).into()), code.into());
 

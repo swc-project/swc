@@ -1,6 +1,8 @@
 use super::{ident::MaybeOptionalIdentParser, *};
-use crate::error::SyntaxError;
+use crate::{error::SyntaxError, Tokens};
 use either::Either;
+use parser_macros::parser;
+use swc_atoms::js_word;
 use swc_common::Spanned;
 
 #[parser]
@@ -1167,7 +1169,7 @@ mod tests {
 
     #[test]
     fn class_expr() {
-        assert_eq_ignore_span!(
+        testing::assert_eq_ignore_span!(
             expr("(class extends a {})"),
             Box::new(Expr::Paren(ParenExpr {
                 span,

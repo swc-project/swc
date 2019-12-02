@@ -5,14 +5,16 @@ use self::{input::Buffer, util::ParseObject};
 use crate::{
     error::{ErrorToDiag, SyntaxError},
     lexer::Lexer,
-    parser_macros::parser,
     token::{Token, Word},
     Context, JscTarget, Session, Syntax,
 };
 use ast::*;
+use parser_macros::parser;
 use std::ops::{Deref, DerefMut};
 use swc_atoms::JsWord;
 use swc_common::{comments::Comments, errors::DiagnosticBuilder, input::Input, BytePos, Span};
+#[cfg(test)]
+extern crate test;
 #[cfg(test)]
 use test::Bencher;
 

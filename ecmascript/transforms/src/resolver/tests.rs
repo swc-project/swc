@@ -1,5 +1,6 @@
 use super::*;
 use crate::compat::es2015::block_scoping;
+use swc_common::chain;
 use swc_ecma_parser::{EsConfig, Syntax};
 
 fn tr() -> impl Fold<Module> {

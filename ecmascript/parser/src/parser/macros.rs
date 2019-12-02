@@ -114,6 +114,7 @@ macro_rules! assert_and_bump {
 ///     if token has data like string.
 macro_rules! eat {
     ($p:expr, ';') => {{
+        use log::trace;
         trace!("eat(';'): cur={:?}", cur!($p, true));
         $p.input.eat(&Token::Semi)
             || eof!($p)

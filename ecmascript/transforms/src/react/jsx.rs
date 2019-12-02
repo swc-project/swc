@@ -8,9 +8,10 @@ use crate::{
 };
 use ast::*;
 use chashmap::CHashMap;
+use lazy_static::lazy_static;
 use serde::{Deserialize, Serialize};
 use std::{iter, mem, sync::Arc};
-use swc_atoms::JsWord;
+use swc_atoms::{js_word, JsWord};
 use swc_common::{FileName, Fold, FoldWith, Spanned, DUMMY_SP};
 use swc_ecma_parser::{Parser, SourceFileInput, Syntax};
 

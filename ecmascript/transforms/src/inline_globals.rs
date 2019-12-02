@@ -1,6 +1,6 @@
 use ast::*;
 use hashbrown::HashMap;
-use swc_atoms::JsWord;
+use swc_atoms::{js_word, JsWord};
 use swc_common::{Fold, FoldWith};
 
 #[derive(Clone)]

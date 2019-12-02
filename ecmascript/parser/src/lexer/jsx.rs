@@ -1,5 +1,6 @@
 use super::*;
 use either::Either;
+use lazy_static::lazy_static;
 use regex::Regex;
 
 impl<'a, I: Input> Lexer<'a, I> {

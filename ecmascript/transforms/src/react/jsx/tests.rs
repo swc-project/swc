@@ -7,6 +7,7 @@ use crate::{
     modules::common_js::common_js,
     react::display_name,
 };
+use swc_common::chain;
 
 fn tr(options: Options) -> impl Fold<Module> {
     chain!(jsx(options), display_name(), Classes, arrow(),)

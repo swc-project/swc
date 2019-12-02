@@ -1,6 +1,9 @@
 use super::{pat::PatType, *};
 use crate::error::SyntaxError;
+use swc_atoms::js_word;
 use swc_common::Spanned;
+#[cfg(test)]
+use testing::assert_eq_ignore_span;
 
 mod module_item;
 

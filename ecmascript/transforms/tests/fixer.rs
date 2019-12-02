@@ -3,10 +3,9 @@
 #![feature(specialization)]
 #![feature(test)]
 
-use swc_ecma_codegen;
-
 extern crate test;
 
+use ast::*;
 use std::{
     env,
     fs::{read_dir, File},
@@ -15,8 +14,7 @@ use std::{
     sync::{Arc, RwLock},
 };
 use swc_common::{Fold, FoldWith};
-use swc_ecma_ast::*;
-use swc_ecma_codegen::Emitter;
+use swc_ecma_codegen::{self, Emitter};
 use swc_ecma_parser::{lexer::Lexer, Parser, Session, SourceFileInput, Syntax};
 use swc_ecma_transforms::fixer;
 use test::{

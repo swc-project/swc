@@ -5,7 +5,7 @@ use indexmap::IndexMap;
 use inflector::Inflector;
 use serde::{Deserialize, Serialize};
 use std::iter;
-use swc_atoms::JsWord;
+use swc_atoms::{js_word, JsWord};
 use swc_common::{FoldWith, Mark, Span, SyntaxContext, VisitWith, DUMMY_SP};
 
 pub(super) trait ModulePass {

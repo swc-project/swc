@@ -5,7 +5,7 @@ use crate::{
 use ast::*;
 use std::{iter, mem};
 use swc_common::{
-    util::move_map::MoveMap, Fold, FoldWith, Mark, Spanned, Visit, VisitWith, DUMMY_SP,
+    chain, util::move_map::MoveMap, Fold, FoldWith, Mark, Spanned, Visit, VisitWith, DUMMY_SP,
 };
 
 #[cfg(test)]

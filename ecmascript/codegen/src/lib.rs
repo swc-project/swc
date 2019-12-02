@@ -1,12 +1,6 @@
 #![recursion_limit = "1024"]
 #![allow(unused_variables)]
 
-#[macro_use]
-extern crate bitflags;
-
-#[macro_use]
-extern crate swc_common;
-
 pub use self::config::Config;
 use self::{
     list::ListFormat,

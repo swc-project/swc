@@ -10,7 +10,7 @@ use crate::{
     typescript,
 };
 use ast::*;
-use swc_common::Fold;
+use swc_common::{chain, Fold};
 
 fn syntax() -> ::swc_ecma_parser::Syntax {
     Default::default()

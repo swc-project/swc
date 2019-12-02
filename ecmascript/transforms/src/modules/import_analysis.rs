@@ -1,6 +1,7 @@
 use super::util::Scope;
 use crate::pass::Pass;
 use ast::*;
+use swc_atoms::js_word;
 use swc_common::{Fold, Visit, VisitWith};
 
 pub fn import_analyzer() -> impl Pass {

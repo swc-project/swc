@@ -14,9 +14,9 @@ use crate::{
     token::*,
     Context, JscTarget, Session, Syntax,
 };
-use ast::Str;
 
-use smallvec::SmallVec;
+use ast::Str;
+use smallvec::{smallvec, SmallVec};
 use std::{char, iter::FusedIterator};
 use swc_atoms::JsWord;
 use swc_common::{

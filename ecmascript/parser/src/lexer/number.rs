@@ -4,6 +4,7 @@
 //! See https://tc39.github.io/ecma262/#sec-literals-numeric-literals
 use super::*;
 use crate::error::SyntaxError;
+use log::trace;
 use std::{fmt::Write, iter::FusedIterator};
 
 impl<'a, I: Input> Lexer<'a, I> {

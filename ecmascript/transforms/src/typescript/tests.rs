@@ -1,5 +1,6 @@
 use super::strip;
 use crate::resolver;
+use swc_common::chain;
 
 macro_rules! to {
     ($name:ident, $from:expr, $to:expr) => {
