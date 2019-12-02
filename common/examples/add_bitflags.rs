@@ -1,8 +1,7 @@
 #![allow(non_upper_case_globals)]
 #![recursion_limit = "512"]
 
-#[macro_use]
-extern crate swc_common;
+use swc_common::add_bitflags;
 
 fn main() {
     // NOOP

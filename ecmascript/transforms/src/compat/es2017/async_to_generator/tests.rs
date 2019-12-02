@@ -3,6 +3,7 @@ use crate::{
     compat::es2015::{arrow, destructuring, es2015, function_name, parameters},
     fixer::fixer,
 };
+use swc_common::chain;
 
 struct ParenRemover;
 impl Fold<Expr> for ParenRemover {

@@ -2,6 +2,7 @@ use super::get_prototype_of;
 use crate::util::{alias_ident_for, is_rest_arguments, ExprFactory};
 use ast::*;
 use std::iter;
+use swc_atoms::js_word;
 use swc_common::{Fold, FoldWith, Mark, Span, Spanned, DUMMY_SP};
 
 /// Process function body.

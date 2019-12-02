@@ -1,3 +1,5 @@
+extern crate test;
+
 use super::{
     state::{lex, lex_module, lex_tokens, with_lexer},
     *,
@@ -437,7 +439,7 @@ fn simple_regex() {
 
 #[test]
 fn complex_regex() {
-    assert_eq_ignore_span!(
+    testing::assert_eq_ignore_span!(
         lex_tokens(Syntax::default(), "f(); function foo() {} /42/i"),
         vec![
             Word(Word::Ident("f".into())),
@@ -706,7 +708,7 @@ fn str_lit() {
             has_escape: false,
         }],
     );
-    assert_eq_ignore_span!(
+    testing::assert_eq_ignore_span!(
         lex_tokens(Syntax::default(), "'\\\nabc'"),
         vec![Token::Str {
             value: "abc".into(),

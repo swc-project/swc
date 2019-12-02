@@ -5,7 +5,7 @@ use crate::{
 };
 use ast::*;
 use hashbrown::HashMap;
-use swc_atoms::JsWord;
+use swc_atoms::{js_word, JsWord};
 use swc_common::{
     util::move_map::MoveMap, Fold, FoldWith, Spanned, SyntaxContext, Visit, VisitWith, DUMMY_SP,
 };

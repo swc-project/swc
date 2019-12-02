@@ -9,6 +9,7 @@ use crate::{
 };
 use ast::*;
 use hashbrown::HashSet;
+use swc_atoms::js_word;
 use swc_common::{Fold, FoldWith, VisitWith, DUMMY_SP};
 
 #[cfg(test)]

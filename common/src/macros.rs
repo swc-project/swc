@@ -1,4 +1,5 @@
 /// Create a impl block with some bitflags.
+#[doc(hidden)]
 #[macro_export]
 macro_rules! make_impl_block {
     (
@@ -12,7 +13,7 @@ macro_rules! make_impl_block {
 
         $($rest:tt)+
     ) => {
-        make_impl_block!(
+        $crate::make_impl_block!(
             @VALUE,
             Cur {},
             Done {
@@ -40,7 +41,7 @@ macro_rules! make_impl_block {
 
         $($rest:tt)*
     ) => {
-        make_impl_block!(
+        $crate::make_impl_block!(
             @NAME,
             Done {
                 $($done)*
@@ -66,7 +67,7 @@ macro_rules! make_impl_block {
 
         $($rest:tt)+
     ) => {
-        make_impl_block!(
+        $crate::make_impl_block!(
             @VALUE,
             Cur {
                 $($cur)*
@@ -92,7 +93,7 @@ macro_rules! make_impl_block {
 
         $tok:tt
     ) => {
-        make_impl_block!(
+        $crate::make_impl_block!(
             @VALUE,
             Cur {
                 $($cur)*
@@ -123,19 +124,20 @@ macro_rules! make_impl_block {
         impl $STRUCT {
             $(
                 $(#[$attr])*
-                pub const $name: Self = $STRUCT { bits: value_of_bitflag!($($val)*) };
+                pub const $name: Self = $STRUCT { bits: $crate::value_of_bitflag!($($val)*) };
             )*
         }
     };
 }
 
+#[doc(hidden)]
 #[macro_export]
 macro_rules! value_of_bitflag {
     (
         $i:ident |
         $($rest:tt)*
     ) => {
-        Self::$i.bits | value_of_bitflag!($($rest)*)
+        Self::$i.bits | $crate::value_of_bitflag!($($rest)*)
     };
 
     (
@@ -163,11 +165,11 @@ macro_rules! add_bitflags {
         $($rest:tt)*
     ) => {
         $(#[$attr])*
-        make_impl_block!(@NAME, Done {
+        $crate::make_impl_block!(@NAME, Done {
             $STRUCT;
         }, $($tt)*);
 
-        add_bitflags!(
+        $crate::add_bitflags!(
             $STRUCT,
             $($rest)*
         );

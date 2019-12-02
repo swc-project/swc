@@ -8,23 +8,6 @@
 #![cfg_attr(test, feature(test))]
 #![recursion_limit = "1024"]
 
-#[macro_use]
-extern crate lazy_static;
-#[macro_use(js_word)]
-extern crate swc_atoms;
-#[macro_use]
-extern crate swc_common;
-
-extern crate swc_ecma_ast as ast;
-
-#[cfg(test)]
-#[macro_use]
-extern crate pretty_assertions;
-
-#[cfg(test)]
-#[macro_use]
-extern crate testing;
-
 pub use self::{
     const_modules::const_modules, fixer::fixer, hygiene::hygiene, inline_globals::InlineGlobals,
     resolver::resolver, simplify::simplifier,

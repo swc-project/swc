@@ -4,10 +4,6 @@ use std::alloc::System;
 
 #[global_allocator]
 static GLOBAL: System = System;
-#[macro_use]
-extern crate swc_common;
-
-extern crate test;
 
 use swc_common::{FileName, FoldWith};
 use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};

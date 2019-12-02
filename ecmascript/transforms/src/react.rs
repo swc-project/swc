@@ -6,7 +6,7 @@ pub use self::{
 };
 use crate::pass::Pass;
 use std::sync::Arc;
-use swc_common::SourceMap;
+use swc_common::{chain, SourceMap};
 
 mod display_name;
 mod jsx;

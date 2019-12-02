@@ -3,16 +3,9 @@
 #![feature(test)]
 #![feature(unboxed_closures)]
 
-#[macro_use]
-extern crate lazy_static;
-extern crate difference;
-extern crate regex;
-extern crate relative_path;
-extern crate swc_common;
-extern crate test;
-
 pub use self::output::{NormalizedOutput, StdErr, StdOut, TestOutput};
 use difference::Changeset;
+use lazy_static::lazy_static;
 use regex::Regex;
 use std::{
     fmt::Debug,

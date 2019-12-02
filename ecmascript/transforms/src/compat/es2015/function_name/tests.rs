@@ -1,5 +1,6 @@
 use super::*;
 use crate::{compat::es2015::block_scoping, resolver};
+use swc_common::chain;
 
 fn tr() -> impl Fold<Module> {
     chain!(resolver(), function_name(), block_scoping())

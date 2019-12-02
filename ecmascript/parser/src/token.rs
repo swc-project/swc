@@ -10,7 +10,7 @@ use std::{
     borrow::Cow,
     fmt::{self, Debug, Display, Formatter},
 };
-use swc_atoms::JsWord;
+use swc_atoms::{js_word, JsWord};
 #[cfg(feature = "fold")]
 use swc_common::Fold;
 use swc_common::Span;

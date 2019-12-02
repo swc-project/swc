@@ -1,4 +1,6 @@
 #![allow(non_upper_case_globals)]
+use bitflags::bitflags;
+use swc_common::add_bitflags;
 
 bitflags! {
     pub struct ListFormat: u32 {

@@ -1,5 +1,6 @@
 use crate::def_site;
-use pmutil::prelude::*;
+use pmutil::ToTokensExt;
+use quote::quote;
 use syn::{punctuated::Pair, *};
 
 /// Extension trait for `ItemImpl` (impl block).

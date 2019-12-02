@@ -139,7 +139,7 @@ mod tests {
     fn quote_member_expr() {
         let expr: Box<Expr> = member_expr!(span, Function.prototype.bind);
 
-        assert_eq_ignore_span!(
+        testing::assert_eq_ignore_span!(
             expr,
             box Expr::Member(MemberExpr {
                 span,

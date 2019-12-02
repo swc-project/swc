@@ -1,7 +1,5 @@
 #![feature(test)]
 
-extern crate test;
-
 use std::hint::black_box;
 use swc_common::FileName;
 use swc_ecma_parser::{lexer::Lexer, Session, SourceFileInput, Syntax};

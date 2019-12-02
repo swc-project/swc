@@ -7,14 +7,10 @@
 
 extern crate proc_macro;
 
-#[macro_use]
-extern crate quote;
-
-use syn;
-
 use pmutil::ToTokensExt;
 use proc_macro::TokenStream;
 use swc_macros_common::prelude::*;
+use syn;
 
 mod expand;
 

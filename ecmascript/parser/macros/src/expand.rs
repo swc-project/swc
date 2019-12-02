@@ -1,4 +1,5 @@
 use pmutil::ToTokensExt;
+use quote::quote_spanned;
 use swc_macros_common::prelude::*;
 use syn::{
     fold::{self, Fold},

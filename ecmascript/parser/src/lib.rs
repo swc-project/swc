@@ -97,24 +97,6 @@
 #![deny(unreachable_patterns)]
 #![deny(unsafe_code)]
 
-#[macro_use]
-extern crate smallvec;
-extern crate swc_ecma_parser_macros as parser_macros;
-#[macro_use]
-extern crate log;
-#[macro_use(js_word)]
-extern crate swc_atoms;
-
-#[macro_use]
-extern crate lazy_static;
-extern crate swc_ecma_ast as ast;
-#[macro_use]
-#[cfg(test)]
-extern crate testing;
-
-#[cfg(test)]
-extern crate test;
-
 pub use self::{
     lexer::input::{Input, SourceFileInput},
     parser::*,

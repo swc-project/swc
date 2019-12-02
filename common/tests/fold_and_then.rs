@@ -4,11 +4,8 @@
 #![feature(test)]
 #![cfg(feature = "fold")]
 
-#[macro_use]
-extern crate swc_common;
-
 use std::{cell::RefCell, rc::Rc};
-use swc_common::{Fold, FoldWith};
+use swc_common::{chain, Fold, FoldWith};
 
 struct Named(&'static str, Rc<RefCell<Vec<(&'static str, String)>>>);
 impl Fold<String> for Named {

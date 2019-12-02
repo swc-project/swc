@@ -1,10 +1,11 @@
-use pmutil::Quote;
+use pmutil::{smart_quote, Quote};
 use swc_macros_common::prelude::*;
 use syn::{
     self,
     parse::{Parse, ParseStream},
     *,
 };
+
 struct VariantAttr {
     _paren_token: token::Paren,
     tags: Punctuated<Lit, Token![,]>,

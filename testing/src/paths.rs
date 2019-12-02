@@ -1,3 +1,4 @@
+use lazy_static::lazy_static;
 use std::{env, path::PathBuf, sync::Arc};
 
 pub fn manifest_dir() -> PathBuf {

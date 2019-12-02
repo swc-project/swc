@@ -2,8 +2,6 @@
 #![feature(specialization)]
 #![feature(test)]
 
-use swc_ecma_codegen;
-
 extern crate test;
 
 use std::{
@@ -14,7 +12,7 @@ use std::{
     sync::{Arc, RwLock},
 };
 use swc_common::comments::Comments;
-use swc_ecma_codegen::Emitter;
+use swc_ecma_codegen::{self, Emitter};
 use swc_ecma_parser::{lexer::Lexer, Parser, Session, SourceFileInput, Syntax};
 use test::{
     test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,

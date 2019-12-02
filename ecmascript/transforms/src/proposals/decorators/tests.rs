@@ -1,5 +1,6 @@
 use super::*;
 use crate::{proposals::class_properties, resolver::resolver, typescript};
+use swc_common::chain;
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 
 fn syntax(decorators_before_export: bool) -> Syntax {

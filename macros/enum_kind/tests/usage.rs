@@ -1,5 +1,4 @@
-#[macro_use]
-extern crate enum_kind;
+use enum_kind::*;
 
 #[derive(Debug, Kind)]
 #[kind(functions(is_a = "bool", prec = "u8"))]

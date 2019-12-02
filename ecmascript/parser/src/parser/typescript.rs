@@ -1,6 +1,8 @@
 use super::*;
 use crate::lexer::TokenContexts;
 use either::Either;
+use smallvec::smallvec;
+use swc_atoms::js_word;
 use swc_common::{Spanned, SyntaxContext};
 
 #[parser]

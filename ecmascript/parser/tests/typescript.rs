@@ -5,6 +5,7 @@
 
 extern crate test;
 
+use ast::*;
 use pretty_assertions::assert_eq;
 use std::{
     env,
@@ -13,7 +14,6 @@ use std::{
     path::Path,
 };
 use swc_common::{Fold, FoldWith, CM};
-use swc_ecma_ast::*;
 use swc_ecma_parser::{
     lexer::Lexer, JscTarget, PResult, Parser, Session, SourceFileInput, Syntax, TsConfig,
 };

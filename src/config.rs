@@ -1,4 +1,4 @@
-use crate::{builder::PassBuilder, ecmascript::transforms::optimization::JsonParse, error::Error};
+use crate::{builder::PassBuilder, error::Error};
 use atoms::JsWord;
 use chashmap::CHashMap;
 use common::{errors::Handler, FileName, SourceMap};
@@ -8,6 +8,7 @@ use ecmascript::{
     parser::{Parser, Session as ParseSess, SourceFileInput, Syntax},
     transforms::{
         chain_at, const_modules, modules,
+        optimization::JsonParse,
         pass::{noop, Optional, Pass},
         proposals::{class_properties, decorators, export},
         react, resolver, simplifier, typescript, InlineGlobals,

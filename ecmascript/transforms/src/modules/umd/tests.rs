@@ -1,5 +1,6 @@
 use super::*;
 use crate::resolver;
+use swc_common::chain;
 
 fn syntax() -> ::swc_ecma_parser::Syntax {
     Default::default()

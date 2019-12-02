@@ -1,5 +1,6 @@
 use super::*;
 use crate::{compat::es2015, resolver};
+use swc_common::chain;
 
 fn tr() -> impl Fold<Module> {
     Destructuring

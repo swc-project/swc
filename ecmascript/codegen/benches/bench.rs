@@ -1,13 +1,9 @@
 #![feature(box_syntax)]
 #![feature(test)]
 
-use swc_ecma_codegen;
-
-extern crate test;
-
 use sourcemap::SourceMapBuilder;
 use swc_common::FileName;
-use swc_ecma_codegen::Emitter;
+use swc_ecma_codegen::{self, Emitter};
 use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
 use test::Bencher;
 

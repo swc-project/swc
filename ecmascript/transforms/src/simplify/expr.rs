@@ -1,7 +1,7 @@
 use crate::util::*;
 use ast::{Ident, Lit, *};
 use std::iter;
-use swc_atoms::JsWord;
+use swc_atoms::{js_word, JsWord};
 use swc_common::{Fold, FoldWith, Span, Spanned};
 
 #[cfg(test)]

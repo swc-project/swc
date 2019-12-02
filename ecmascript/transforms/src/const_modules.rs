@@ -8,6 +8,7 @@ use crate::{
 use ast::*;
 use chashmap::CHashMap;
 use hashbrown::HashMap;
+use lazy_static::lazy_static;
 use std::sync::Arc;
 use swc_atoms::JsWord;
 use swc_common::{util::move_map::MoveMap, FileName, Fold, FoldWith};

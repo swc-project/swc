@@ -1,7 +1,7 @@
 use super::object_rest_spread;
 use crate::compat::es2015::spread;
 use ast::Module;
-use swc_common::Fold;
+use swc_common::{chain, Fold};
 
 fn tr() -> impl Fold<Module> {
     object_rest_spread()
