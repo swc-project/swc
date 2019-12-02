@@ -172,6 +172,7 @@ impl Jsx {
                 if s.value.is_empty() {
                     return None;
                 }
+
                 Lit::Str(s).as_arg()
             }
             JSXElementChild::JSXExprContainer(JSXExprContainer {
@@ -396,7 +397,7 @@ fn jsx_text_to_str(t: JsWord) -> JsWord {
         return t;
     }
 
-    let mut buf = String::new();
+    let mut buf = String::from(" ");
     for s in t.replace("\n", " ").split_ascii_whitespace() {
         buf.push_str(s);
         buf.push(' ');
