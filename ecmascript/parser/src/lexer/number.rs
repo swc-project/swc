@@ -87,13 +87,14 @@ impl<'a, I: Input> Lexer<'a, I> {
                 debug_assert!(self.cur().unwrap().is_digit(10));
             }
 
+            let mut raw = Raw(Some(String::new()));
             // Read numbers after dot
-            let dec_val = self.read_int(10, 0, &mut Raw(None))?;
+            let dec_val = self.read_int(10, 0, &mut raw)?;
             let mut s = String::new();
             write!(s, "{}.", val).unwrap();
 
-            if let Some(ref n) = dec_val {
-                write!(s, "{}", n).unwrap();
+            if let Some(..) = dec_val {
+                s.push_str(&raw.0.as_ref().unwrap());
             }
 
             val = s.parse().expect("failed to parse float using rust's impl");
@@ -400,6 +401,11 @@ mod tests {
     #[test]
     fn big_number_with_fract() {
         debug_assert_eq!(77777777777777777.1f64, num("77777777777777777.1"))
+    }
+
+    #[test]
+    fn issue_480() {
+        debug_assert_eq!(9.09, num("9.09"))
     }
 
     #[test]
