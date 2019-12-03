@@ -1,7 +1,0 @@
-{
-  "presets": ["env"],
-  "plugins": [
-    "transform-member-expression-literals",
-    "transform-property-literals"
-  ]
-}
