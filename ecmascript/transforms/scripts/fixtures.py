@@ -10,7 +10,7 @@ fm = {}
 
 for f in files:
     name = join('./fixtures', f)
-    if f == '.DS_Store':
+    if '.DS_Store' in f:
         continue
     test_name, file_type = f.rsplit('-', 1)
     if file_type == 'input.mjs':
