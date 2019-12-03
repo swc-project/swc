@@ -1,8 +1,0 @@
-{
-  "plugins": [
-    ["transform-arrow-functions", { "spec": true }],
-    "transform-regenerator",
-    "transform-async-to-generator",
-    "external-helpers"
-  ]
-}

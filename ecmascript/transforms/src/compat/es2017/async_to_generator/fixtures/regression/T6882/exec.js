@@ -1,3 +1,0 @@
-foo();
-
-async function foo() {}
