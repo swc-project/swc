@@ -56,10 +56,6 @@ for name in fm:
             ))
     elif 'stdout.txt' in m:
         pass
-    elif len(m.keys()) == 1 and 'options.json' in m:
-        pass
-    elif len(m.keys()) == 2 and 'input.js' in m and 'options.json' in m:
-        pass
     else:
         print(m.keys())
-        raise Exception(m)
+        raise Exception(name, m)
