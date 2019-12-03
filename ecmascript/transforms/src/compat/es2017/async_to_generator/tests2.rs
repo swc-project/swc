@@ -1,19 +1,17 @@
 // regression_7178
-test!(syntax(),|_| tr("{
-  "plugins": [
-    "transform-async-to-generator",
-    "transform-react-jsx",
-    "transform-react-constant-elements"
-  ]
-}
-"), regression_7178, r#"
+test!(
+    syntax(),
+    |_| chain!(jsx(), jsc_constant_elements(), AsyncToGenerator {},),
+    regression_7178,
+    r#"
 const title = "Neem contact op";
 
 async function action() {
   return <Contact title={title} />;
 }
 
-"#, r#"
+"#,
+    r#"
 const title = "Neem contact op";
 
 function action() {
@@ -33,12 +31,13 @@ function _action() {
   return _action.apply(this, arguments);
 }
 
-"#);
+"#
+);
 
 // bluebird_coroutines_named_expression
 test!(
     syntax(),
-    |_| tr(Default::default()),
+    |_| AsyncToGenerator {},
     bluebird_coroutines_named_expression,
     r#"
 var foo = async function bar() {
@@ -69,7 +68,7 @@ function () {
 // export_async_lone_export
 test!(
     syntax(),
-    |_| tr(Default::default()),
+    |_| AsyncToGenerator {},
     export_async_lone_export,
     r#"
 export async function foo () { }
@@ -98,7 +97,7 @@ function _foo() {
 // bluebird_coroutines_arrow_function
 test!(
     syntax(),
-    |_| tr(Default::default()),
+    |_| AsyncToGenerator {},
     bluebird_coroutines_arrow_function,
     r#"
 (async () => { await foo(); })()
@@ -117,14 +116,11 @@ _coroutine(function* () {
 // regression_T6882
 
 // regression_T7194
-test!(syntax(),|_| tr("{
-  "plugins": [
-    "transform-arrow-functions",
-    "transform-async-to-generator",
-    "external-helpers"
-  ]
-}
-"), regression_T7194, r#"
+test!(
+    syntax(),
+    |_| chain!(AsyncToGenerator {}, Arrow),
+    regression_t7194,
+    r#"
 function f() {
   g(async function() {
     c(() => this);
@@ -139,7 +135,8 @@ function f() {
   })()
 }).call('foo')
 
-"#, r#"
+"#,
+    r#"
 function f() {
   g(
   /*#__PURE__*/
@@ -163,19 +160,22 @@ babelHelpers.asyncToGenerator(function* () {
   })();
 }).call('foo');
 
-"#);
+"#
+);
 
 // async_to_generator_shadowed_promise
-test!(syntax(),|_| tr("{
-  "plugins": ["transform-async-to-generator"]
-}
-"), async_to_generator_shadowed_promise, r#"
+test!(
+    syntax(),
+    |_| AsyncToGenerator {},
+    async_to_generator_shadowed_promise,
+    r#"
 let Promise;
 async function foo() {
   await new Promise(resolve => { resolve() });
 }
 
-"#, r#"
+"#,
+    r#"
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
@@ -195,12 +195,13 @@ function _foo() {
   return _foo.apply(this, arguments);
 }
 
-"#);
+"#
+);
 
 // async_to_generator_object_method_with_arrows
 test!(
     syntax(),
-    |_| tr(Default::default()),
+    |_| AsyncToGenerator {},
     async_to_generator_object_method_with_arrows,
     r#"
 class Class {
@@ -281,7 +282,7 @@ class Class {
 // async_to_generator_object_method
 test!(
     syntax(),
-    |_| tr(Default::default()),
+    |_| AsyncToGenerator {},
     async_to_generator_object_method,
     r#"
 let obj = {
@@ -310,7 +311,7 @@ let obj = {
 // bluebird_coroutines_class
 test!(
     syntax(),
-    |_| tr(Default::default()),
+    |_| AsyncToGenerator {},
     bluebird_coroutines_class,
     r#"
 class Foo {
@@ -336,21 +337,18 @@ class Foo {
 );
 
 // async_to_generator_async_iife_with_regenerator
-test!(syntax(),|_| tr("{
-  "plugins": [
-    "transform-arrow-functions",
-    "transform-regenerator",
-    "transform-async-to-generator",
-    "external-helpers"
-  ]
-}
-"), async_to_generator_async_iife_with_regenerator, r#"
+test!(
+    syntax(),
+    |_| chain!(AsyncToGenerator {}, regenerator(), arrow(),),
+    async_to_generator_async_iife_with_regenerator,
+    r#"
 (async function() { await 'ok' })();
 (async () => { await 'ok' })();
 (async function notIIFE() { await 'ok' });
 (async () => { await 'not iife' });
 
-"#, r#"
+"#,
+    r#"
 babelHelpers.asyncToGenerator(
 /*#__PURE__*/
 regeneratorRuntime.mark(function _callee() {
@@ -424,80 +422,81 @@ regeneratorRuntime.mark(function _callee4() {
   }, _callee4);
 }));
 
-"#);
+"#
+);
 
-// regression_gh_6923
-test!(syntax(),|_| tr("{
-  "presets": [
-    [
-      "env",
-      {
-        "targets": {
-          "chrome": "62",
-          "edge": "15",
-          "firefox": "52",
-          "safari": "11"
-        }
-      }
-    ]
-  ]
-}
-"), regression_gh_6923, r#"
-async function foo() {
-	(async function (number) {
-		const tmp = number
-	})
-}
-"#, r#"
-function foo() {
-  return _foo.apply(this, arguments);
-}
-
-function _foo() {
-  _foo = babelHelpers.asyncToGenerator(
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee2() {
-    return regeneratorRuntime.wrap(function _callee2$(_context2) {
-      while (1) switch (_context2.prev = _context2.next) {
-        case 0:
-          /*#__PURE__*/
-          (function () {
-            var _ref = babelHelpers.asyncToGenerator(
-            /*#__PURE__*/
-            regeneratorRuntime.mark(function _callee(number) {
-              var tmp;
-              return regeneratorRuntime.wrap(function _callee$(_context) {
-                while (1) switch (_context.prev = _context.next) {
-                  case 0:
-                    tmp = number;
-
-                  case 1:
-                  case "end":
-                    return _context.stop();
-                }
-              }, _callee);
-            }));
-
-            return function (_x) {
-              return _ref.apply(this, arguments);
-            };
-          })();
-
-        case 1:
-        case "end":
-          return _context2.stop();
-      }
-    }, _callee2);
-  }));
-  return _foo.apply(this, arguments);
-}
-
-"#);
+//// regression_gh_6923
+//test!(syntax(),|_| tr("{
+//  "presets": [
+//    [
+//      "env",
+//      {
+//        "targets": {
+//          "chrome": "62",
+//          "edge": "15",
+//          "firefox": "52",
+//          "safari": "11"
+//        }
+//      }
+//    ]
+//  ]
+//}
+//"), regression_gh_6923, r#"
+//async function foo() {
+//	(async function (number) {
+//		const tmp = number
+//	})
+//}
+//"#, r#"
+//function foo() {
+//  return _foo.apply(this, arguments);
+//}
+//
+//function _foo() {
+//  _foo = babelHelpers.asyncToGenerator(
+//  /*#__PURE__*/
+//  regeneratorRuntime.mark(function _callee2() {
+//    return regeneratorRuntime.wrap(function _callee2$(_context2) {
+//      while (1) switch (_context2.prev = _context2.next) {
+//        case 0:
+//          /*#__PURE__*/
+//          (function () {
+//            var _ref = babelHelpers.asyncToGenerator(
+//            /*#__PURE__*/
+//            regeneratorRuntime.mark(function _callee(number) {
+//              var tmp;
+//              return regeneratorRuntime.wrap(function _callee$(_context) {
+//                while (1) switch (_context.prev = _context.next) {
+//                  case 0:
+//                    tmp = number;
+//
+//                  case 1:
+//                  case "end":
+//                    return _context.stop();
+//                }
+//              }, _callee);
+//            }));
+//
+//            return function (_x) {
+//              return _ref.apply(this, arguments);
+//            };
+//          })();
+//
+//        case 1:
+//        case "end":
+//          return _context2.stop();
+//      }
+//    }, _callee2);
+//  }));
+//  return _foo.apply(this, arguments);
+//}
+//
+//"#);
 
 // async_to_generator_named_expression
 test!(
     syntax(),
-    |_| tr(Default::default()),
+    |_| AsyncToGenerator {},
     async_to_generator_named_expression,
     r#"
 var foo = async function bar() {
@@ -621,7 +620,7 @@ regeneratorRuntime.mark(function _callee4() {
 // async_to_generator_async_arrow_in_method
 test!(
     syntax(),
-    |_| tr(Default::default()),
+    |_| AsyncToGenerator {},
     async_to_generator_async_arrow_in_method,
     r#"
 let TestClass = {
@@ -665,7 +664,7 @@ let TestClass = {
 // bluebird_coroutines_statement
 test!(
     syntax(),
-    |_| tr(Default::default()),
+    |_| AsyncToGenerator {},
     bluebird_coroutines_statement,
     r#"
 async function foo() {
@@ -742,7 +741,7 @@ function _foo() {
 // export_async_default_arrow_export
 test!(
     syntax(),
-    |_| tr(Default::default()),
+    |_| AsyncToGenerator {},
     export_async_default_arrow_export,
     r#"
 export default async () => { return await foo(); }
@@ -873,7 +872,7 @@ class Foo extends class {} {
 // export_async_default_export
 test!(
     syntax(),
-    |_| tr(Default::default()),
+    |_| AsyncToGenerator {},
     export_async_default_export,
     r#"
 export default async function myFunc() {}
@@ -902,7 +901,7 @@ function _myFunc() {
 // async_to_generator_async
 test!(
     syntax(),
-    |_| tr(Default::default()),
+    |_| AsyncToGenerator {},
     async_to_generator_async,
     r#"
 class Foo {
@@ -960,7 +959,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 // async_to_generator_deeply_nested_asyncs
 test!(
     syntax(),
-    |_| tr(Default::default()),
+    |_| AsyncToGenerator {},
     async_to_generator_deeply_nested_asyncs,
     r#"
 async function s(x, ...args) {
@@ -1040,7 +1039,7 @@ function _s() {
 // export_async_import_and_export
 test!(
     syntax(),
-    |_| tr(Default::default()),
+    |_| AsyncToGenerator {},
     export_async_import_and_export,
     r#"
 import bar from 'bar';
@@ -1126,7 +1125,7 @@ function _foo() {
 // regression_4599
 test!(
     syntax(),
-    |_| tr(Default::default()),
+    |_| AsyncToGenerator {},
     regression_4599,
     r#"
 async () => await promise
@@ -1151,7 +1150,7 @@ babelHelpers.asyncToGenerator(function* () {
 // regression_4943_exec
 test_exec!(
     syntax(),
-    |_| tr(Default::default()),
+    |_| AsyncToGenerator {},
     regression_4943_exec,
     r#"
 "use strict";
@@ -1174,7 +1173,7 @@ return foo().then(() => {
 // regression_8783_exec
 test_exec!(
     syntax(),
-    |_| tr(Default::default()),
+    |_| AsyncToGenerator {},
     regression_8783_exec,
     r#"
 let log = [];
@@ -1198,7 +1197,7 @@ return main.then(() => {
 // bluebird_coroutines_expression
 test!(
     syntax(),
-    |_| tr(Default::default()),
+    |_| AsyncToGenerator {},
     bluebird_coroutines_expression,
     r#"
 var foo = async function () {
@@ -1227,7 +1226,7 @@ function () {
 // async_to_generator_expression
 test!(
     syntax(),
-    |_| tr(Default::default()),
+    |_| AsyncToGenerator {},
     async_to_generator_expression,
     r#"
 var foo = async function () {
@@ -1284,7 +1283,7 @@ function () {
 // async_to_generator_statement
 test!(
     syntax(),
-    |_| tr(Default::default()),
+    |_| AsyncToGenerator {},
     async_to_generator_statement,
     r#"
 async function foo() {
@@ -1341,7 +1340,7 @@ function _foo() {
 // async_to_generator_parameters
 test!(
     syntax(),
-    |_| tr(Default::default()),
+    |_| AsyncToGenerator {},
     async_to_generator_parameters,
     r#"
 async function foo(bar) {
@@ -1367,7 +1366,7 @@ function _foo() {
 // regression_T6882_exec
 test_exec!(
     syntax(),
-    |_| tr(Default::default()),
+    |_| AsyncToGenerator {},
     regression_T6882_exec,
     r#"
 foo();
