@@ -1219,3 +1219,1741 @@ test!(
     r#"var z = { ...x };"#,
     r#"var z = _objectSpread({}, x);"#
 );
+
+// object_spread_assignment
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    object_spread_assignment,
+    r#"
+z = { x, ...y };
+
+z = { x, w: { ...y } };
+
+"#,
+    r#"
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+z = _objectSpread({
+  x
+}, y);
+z = {
+  x,
+  w: _objectSpread({}, y)
+};
+
+"#
+);
+
+// regression_gh_7304
+test!(syntax(),|_| tr("{
+  "presets": [
+    [
+      "env",
+      {
+        "shippedProposals": true,
+        "targets": {
+          "node": 8
+        },
+        "useBuiltIns": "usage",
+        "corejs": 3
+      }
+    ]
+  ],
+  "plugins": ["external-helpers"]
+}
+"), regression_gh_7304, r#"
+export default class {
+  method ({ ...object }) {}
+}
+"#, r#"
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+class _default {
+  method(_ref) {
+    let object = Object.assign({}, _ref);
+  }
+
+}
+
+exports.default = _default;
+
+"#);
+
+// object_rest_symbol
+test!(syntax(),|_| tr("{
+  "plugins": [
+    "syntax-async-generators",
+    "proposal-object-rest-spread",
+    ["external-helpers", { "helperVersion": "7.1.5" }]
+  ]
+}
+"), object_rest_symbol, r#"
+let {
+  [Symbol.for("foo")]: foo,
+  ...rest
+} = {};
+
+({ [Symbol.for("foo")]: foo, ...rest } = {});
+
+if ({ [Symbol.for("foo")]: foo, ...rest } = {}) {}
+
+"#, r#"
+var _ref3, _Symbol$for3;
+
+let _ref = {},
+    _Symbol$for = Symbol.for("foo"),
+    {
+  [_Symbol$for]: foo
+} = _ref,
+    rest = babelHelpers.objectWithoutProperties(_ref, [_Symbol$for].map(babelHelpers.toPropertyKey));
+
+var _ref2 = {};
+
+var _Symbol$for2 = Symbol.for("foo");
+
+({
+  [_Symbol$for2]: foo
+} = _ref2);
+rest = babelHelpers.objectWithoutProperties(_ref2, [_Symbol$for2].map(babelHelpers.toPropertyKey));
+_ref2;
+
+if (_ref3 = {}, _Symbol$for3 = Symbol.for("foo"), ({
+  [_Symbol$for3]: foo
+} = _ref3), rest = babelHelpers.objectWithoutProperties(_ref3, [_Symbol$for3].map(babelHelpers.toPropertyKey)), _ref3) {}
+
+"#);
+
+// object_rest_symbol_exec_exec
+test_exec!(
+    syntax(),
+    |_| tr(Default::default()),
+    object_rest_symbol_exec_exec,
+    r#"
+const sym = Symbol("test");
+const sym2 = Symbol("not enumerable");
+
+const src = { a: "string" };
+Object.defineProperty(src, "b", { value: "not enumerable" })
+Object.defineProperty(src, sym, { enumerable: true, value: "symbol" });
+Object.defineProperty(src, sym2, { value: "not enumerable" });
+
+const {...rest} = src;
+
+expect(rest[sym]).toBe("symbol");
+expect(rest.a).toBe("string");
+expect(Object.getOwnPropertyNames(rest)).toEqual(["a"]);
+expect(Object.getOwnPropertySymbols(rest)).toEqual([sym]);
+
+const { [sym]: dst, ...noSym } = src;
+
+expect(dst).toBe("symbol");
+expect(noSym.a).toBe("string");
+expect(Object.getOwnPropertySymbols(noSym)).toEqual([]);
+
+"#
+);
+
+// object_rest_impure_computed
+test!(syntax(),|_| tr("{
+  "plugins": [
+    "syntax-async-generators",
+    "proposal-object-rest-spread",
+    ["external-helpers", { "helperVersion": "7.1.5" }]
+  ]
+}
+"), object_rest_impure_computed, r#"
+var key, x, y, z;
+// impure
+key = 1;
+var { [key++]: y, ...x } = { 1: 1, a: 1 };
+expect(x).toEqual({ a: 1 });
+expect(key).toBe(2);
+expect(y).toBe(1);
+
+// takes care of the order
+
+key = 1;
+var { [++key]: y, [++key]: z, ...rest} = {2: 2, 3: 3};
+expect(y).toBe(2);
+expect(z).toBe(3);
+
+// pure, computed property should remain as-is
+key = 2;
+({ [key]: y, z, ...x } = {2: "two", z: "zee"});
+expect(y).toBe("two");
+expect(x).toEqual({});
+expect(z).toBe("zee");
+
+"#, r#"
+var key, x, y, z; // impure
+
+key = 1;
+
+var _$a = {
+  1: 1,
+  a: 1
+},
+    _ref = key++,
+    {
+  [_ref]: y
+} = _$a,
+    x = babelHelpers.objectWithoutProperties(_$a, [_ref].map(babelHelpers.toPropertyKey));
+
+expect(x).toEqual({
+  a: 1
+});
+expect(key).toBe(2);
+expect(y).toBe(1); // takes care of the order
+
+key = 1;
+
+var _$ = {
+  2: 2,
+  3: 3
+},
+    _ref2 = ++key,
+    _ref3 = ++key,
+    {
+  [_ref2]: y,
+  [_ref3]: z
+} = _$,
+    rest = babelHelpers.objectWithoutProperties(_$, [_ref2, _ref3].map(babelHelpers.toPropertyKey));
+
+expect(y).toBe(2);
+expect(z).toBe(3); // pure, computed property should remain as-is
+
+key = 2;
+var _$z = {
+  2: "two",
+  z: "zee"
+};
+({
+  [key]: y,
+  z
+} = _$z);
+x = babelHelpers.objectWithoutProperties(_$z, [key, "z"].map(babelHelpers.toPropertyKey));
+_$z;
+expect(y).toBe("two");
+expect(x).toEqual({});
+expect(z).toBe("zee");
+
+"#);
+
+// object_rest_catch_clause
+test!(syntax(),|_| tr("{
+  "plugins": [
+    "syntax-async-generators",
+    "proposal-object-rest-spread",
+    ["external-helpers", { "helperVersion": "7.1.5" }]
+  ]
+}
+"), object_rest_catch_clause, r#"
+try {} catch({ ...a34 }) {}
+try {} catch({a1, ...b1}) {}
+try {} catch({a2, b2, ...c2}) {}
+try {} catch({a2, b2, c2: { c3, ...c4 }}) {}
+
+// Unchanged
+try {} catch(a) {}
+try {} catch({ b }) {}
+
+"#, r#"
+try {} catch (_ref) {
+  let a34 = babelHelpers.extends({}, _ref);
+}
+
+try {} catch (_ref2) {
+  let {
+    a1
+  } = _ref2,
+      b1 = babelHelpers.objectWithoutProperties(_ref2, ["a1"]);
+}
+
+try {} catch (_ref3) {
+  let {
+    a2,
+    b2
+  } = _ref3,
+      c2 = babelHelpers.objectWithoutProperties(_ref3, ["a2", "b2"]);
+}
+
+try {} catch (_ref4) {
+  let {
+    a2,
+    b2,
+    c2: {
+      c3
+    }
+  } = _ref4,
+      c4 = babelHelpers.objectWithoutProperties(_ref4.c2, ["c3"]);
+} // Unchanged
+
+
+try {} catch (a) {}
+
+try {} catch ({
+  b
+}) {}
+
+"#);
+
+// object_rest_variable_destructuring
+test!(syntax(),|_| tr("{
+  "plugins": [
+    "syntax-async-generators",
+    "proposal-object-rest-spread",
+    ["external-helpers", { "helperVersion": "7.1.5" }]
+  ]
+}
+"), object_rest_variable_destructuring, r#"
+var z = {};
+var { ...x } = z;
+var { ...a } = { a: 1 };
+var { ...x } = a.b;
+var { ...x } = a();
+var {x1, ...y1} = z;
+x1++;
+var { [a]: b, ...c } = z;
+var {x1, ...y1} = z;
+let {x2, y2, ...z2} = z;
+const {w3, x3, y3, ...z4} = z;
+
+let {
+  x: { a: xa, [d]: f, ...asdf },
+  y: { ...d },
+  ...g
+} = complex;
+
+let { x4: { ...y4 } } = z;
+
+"#, r#"
+var z = {};
+var x = babelHelpers.extends({}, z);
+var a = babelHelpers.extends({}, {
+  a: 1
+});
+var x = babelHelpers.extends({}, a.b);
+var x = babelHelpers.extends({}, a());
+var {
+  x1
+} = z,
+    y1 = babelHelpers.objectWithoutProperties(z, ["x1"]);
+x1++;
+var {
+  [a]: b
+} = z,
+    c = babelHelpers.objectWithoutProperties(z, [a].map(babelHelpers.toPropertyKey));
+var {
+  x1
+} = z,
+    y1 = babelHelpers.objectWithoutProperties(z, ["x1"]);
+let {
+  x2,
+  y2
+} = z,
+    z2 = babelHelpers.objectWithoutProperties(z, ["x2", "y2"]);
+const {
+  w3,
+  x3,
+  y3
+} = z,
+      z4 = babelHelpers.objectWithoutProperties(z, ["w3", "x3", "y3"]);
+let {
+  x: {
+    a: xa,
+    [d]: f
+  }
+} = complex,
+    asdf = babelHelpers.objectWithoutProperties(complex.x, ["a", d].map(babelHelpers.toPropertyKey)),
+    d = babelHelpers.extends({}, complex.y),
+    g = babelHelpers.objectWithoutProperties(complex, ["x"]);
+let {} = z,
+    y4 = babelHelpers.extends({}, z.x4);
+
+"#);
+
+// object_rest_non_string_computed_exec
+
+// regression_gh_8323
+test!(syntax(),|_| tr("{
+  "presets": [["env", { "targets": { "node": "8" } }]],
+  "plugins": [["proposal-object-rest-spread", { "loose": true }]]
+}
+"), regression_gh_8323, r#"
+const get = () => {
+  fireTheMissiles();
+  return 3;
+};
+
+const f = ({ a = get(), b, c, ...z }) => {
+  const v = b + 3;
+};
+
+"#, r#"
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+const get = () => {
+  fireTheMissiles();
+  return 3;
+};
+
+const f = (_ref) => {
+  let {
+    a = get(),
+    b
+  } = _ref,
+      z = _objectWithoutPropertiesLoose(_ref, ["a", "b", "c"]);
+
+  const v = b + 3;
+};
+
+"#);
+
+// regression_gh_5151
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    regression_gh_5151,
+    r#"
+const { x, ...y } = a,
+  z = foo(y);
+
+const { ...s } = r,
+  t = foo(s);
+
+// ordering is preserved
+var l = foo(),
+    { m: { n, ...o }, ...p } = bar(),
+    q = baz();
+
+"#,
+    r#"
+const {
+  x
+} = a,
+      y = babelHelpers.objectWithoutProperties(a, ["x"]),
+      z = foo(y);
+const s = babelHelpers.extends({}, r),
+      t = foo(s); // ordering is preserved
+
+var l = foo(),
+    _bar = bar(),
+    {
+  m: {
+    n
+  }
+} = _bar,
+    o = babelHelpers.objectWithoutProperties(_bar.m, ["n"]),
+    p = babelHelpers.objectWithoutProperties(_bar, ["m"]),
+    q = baz();
+
+"#
+);
+
+// object_rest_parameters
+test!(syntax(),|_| tr("{
+  "plugins": [
+    "syntax-async-generators",
+    "proposal-object-rest-spread",
+    ["external-helpers", { "helperVersion": "7.1.5" }]
+  ]
+}
+"), object_rest_parameters, r#"
+function a({ ...a34 }) {}
+function a2({a1, ...b1}) {}
+function a3({a2, b2, ...c2}) {}
+function a4({a3, ...c3}, {a5, ...c5}) {}
+function a5({a3, b2: { ba1, ...ba2 }, ...c3}) {}
+function a6({a3, b2: { ba1, ...ba2 } }) {}
+function a7({a1 = 1, ...b1} = {}) {}
+function a8([{...a1}]) {}
+function a9([{a1, ...a2}]) {}
+function a10([a1, {...a2}]) {}
+// Unchanged
+function b(a) {}
+function b2(a, ...b) {}
+function b3({ b }) {}
+
+"#, r#"
+function a(_ref) {
+  let a34 = babelHelpers.extends({}, _ref);
+}
+
+function a2(_ref2) {
+  let {
+    a1
+  } = _ref2,
+      b1 = babelHelpers.objectWithoutProperties(_ref2, ["a1"]);
+}
+
+function a3(_ref3) {
+  let {
+    a2,
+    b2
+  } = _ref3,
+      c2 = babelHelpers.objectWithoutProperties(_ref3, ["a2", "b2"]);
+}
+
+function a4(_ref5, _ref4) {
+  let {
+    a3
+  } = _ref5,
+      c3 = babelHelpers.objectWithoutProperties(_ref5, ["a3"]);
+  let {
+    a5
+  } = _ref4,
+      c5 = babelHelpers.objectWithoutProperties(_ref4, ["a5"]);
+}
+
+function a5(_ref6) {
+  let {
+    a3,
+    b2: {
+      ba1
+    }
+  } = _ref6,
+      ba2 = babelHelpers.objectWithoutProperties(_ref6.b2, ["ba1"]),
+      c3 = babelHelpers.objectWithoutProperties(_ref6, ["a3", "b2"]);
+}
+
+function a6(_ref7) {
+  let {
+    a3,
+    b2: {
+      ba1
+    }
+  } = _ref7,
+      ba2 = babelHelpers.objectWithoutProperties(_ref7.b2, ["ba1"]);
+}
+
+function a7(_ref8 = {}) {
+  let {
+    a1 = 1
+  } = _ref8,
+      b1 = babelHelpers.objectWithoutProperties(_ref8, ["a1"]);
+}
+
+function a8([_ref9]) {
+  let a1 = babelHelpers.extends({}, _ref9);
+}
+
+function a9([_ref10]) {
+  let {
+    a1
+  } = _ref10,
+      a2 = babelHelpers.objectWithoutProperties(_ref10, ["a1"]);
+}
+
+function a10([a1, _ref11]) {
+  let a2 = babelHelpers.extends({}, _ref11);
+} // Unchanged
+
+
+function b(a) {}
+
+function b2(a, ...b) {}
+
+function b3({
+  b
+}) {}
+
+"#);
+
+// object_rest_for_x_array_pattern
+test!(syntax(),|_| tr("{
+  "plugins": [
+    "syntax-async-generators",
+    "proposal-object-rest-spread",
+    ["external-helpers", { "helperVersion": "7.1.5" }]
+  ]
+}
+"), object_rest_for_x_array_pattern, r#"
+// ForXStatement
+for (const [{a, ...b}] of []) {}
+for ([{a, ...b}] of []) {}
+async function a() {
+  for await ([{a, ...b}] of []) {}
+}
+
+// skip
+for ([{a}] in {}) {}
+for ([{a}] of []) {}
+async function a() {
+  for await ([{a}] of []) {}
+}
+
+for ([a, ...b] in {}) {}
+for ([a, ...b] of []) {}
+async function a() {
+  for await ([a, ...b] of []) {}
+}
+
+"#, r#"
+// ForXStatement
+for (const _ref of []) {
+  const [_ref2] = _ref;
+  const {
+    a
+  } = _ref2,
+        b = babelHelpers.objectWithoutProperties(_ref2, ["a"]);
+}
+
+for (var _ref3 of []) {
+  [_ref4] = _ref3;
+  var {
+    a
+  } = _ref4,
+      b = babelHelpers.objectWithoutProperties(_ref4, ["a"]);
+}
+
+async function a() {
+  for await (var _ref5 of []) {
+    [_ref6] = _ref5;
+    var {
+      a
+    } = _ref6,
+        b = babelHelpers.objectWithoutProperties(_ref6, ["a"]);
+  }
+} // skip
+
+
+for ([{
+  a
+}] in {}) {}
+
+for ([{
+  a
+}] of []) {}
+
+async function a() {
+  for await ([{
+    a
+  }] of []) {}
+}
+
+for ([a, ...b] in {}) {}
+
+for ([a, ...b] of []) {}
+
+async function a() {
+  for await ([a, ...b] of []) {}
+}
+
+"#);
+
+// object_rest_nested_computed_key
+test!(syntax(),|_| tr("{
+  "plugins": [
+    "syntax-async-generators",
+    "proposal-object-rest-spread",
+    ["external-helpers", { "helperVersion": "7.1.5" }]
+  ]
+}
+"), object_rest_nested_computed_key, r#"
+const {
+  [({ ...rest }) => {
+    let { ...b } = {};
+  }]: a,
+  [({ ...d } = {})]: c,
+} = {};
+"#, r#"
+var _ref2;
+
+const {
+  [(_ref) => {
+    let rest = babelHelpers.extends({}, _ref);
+    let b = babelHelpers.extends({}, {});
+  }]: a,
+  [(_ref2 = {}, ({} = _ref2), d = babelHelpers.extends({}, _ref2), _ref2)]: c
+} = {};
+
+"#);
+
+// regression_gh_7388
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    regression_gh_7388,
+    r#"
+function fn0(obj0) {
+  const {
+    fn1 = (obj1 = {}) => {
+      const {
+        fn2 = (obj2 = {}) => {
+          const {a, ...rest} = obj2;
+          console.log(rest);
+        }
+      } = obj1;
+    }
+  } = obj0;
+}
+
+"#,
+    r#"
+function fn0(obj0) {
+  const {
+    fn1 = (obj1 = {}) => {
+      const {
+        fn2 = (obj2 = {}) => {
+          const {
+            a
+          } = obj2,
+                rest = babelHelpers.objectWithoutProperties(obj2, ["a"]);
+          console.log(rest);
+        }
+      } = obj1;
+    }
+  } = obj0;
+}
+
+"#
+);
+
+// object_rest_impure_computed_exec
+
+// object_rest_nested
+test!(syntax(),|_| tr("{
+  "plugins": [
+    "syntax-async-generators",
+    "proposal-object-rest-spread",
+    ["external-helpers", { "helperVersion": "7.1.5" }]
+  ]
+}
+"), object_rest_nested, r#"
+const defunct = {
+  outer: {
+    inner: {
+      three: 'three',
+      four: 'four'
+    }
+  }
+}
+
+const { outer: { inner: { three, ...other } } } = defunct
+
+"#, r#"
+const defunct = {
+  outer: {
+    inner: {
+      three: 'three',
+      four: 'four'
+    }
+  }
+};
+const {
+  outer: {
+    inner: {
+      three
+    }
+  }
+} = defunct,
+      other = babelHelpers.objectWithoutProperties(defunct.outer.inner, ["three"]);
+
+"#);
+
+// object_rest_with_array_rest
+test!(syntax(),|_| tr("{
+  "plugins": [
+    "syntax-async-generators",
+    "proposal-object-rest-spread",
+    ["external-helpers", { "helperVersion": "7.1.5" }]
+  ]
+}
+"), object_rest_with_array_rest, r#"
+let {
+  a: [b, ...arrayRest],
+  c = function(...functionRest){},
+  ...objectRest
+} = {
+  a: [1, 2, 3, 4],
+  d: "oyez"
+};
+
+"#, r#"
+let _a$d = {
+  a: [1, 2, 3, 4],
+  d: "oyez"
+},
+    {
+  a: [b, ...arrayRest],
+  c = function (...functionRest) {}
+} = _a$d,
+    objectRest = babelHelpers.objectWithoutProperties(_a$d, ["a", "c"]);
+
+"#);
+
+// object_rest_nested_array_2
+test!(syntax(),|_| tr("{
+  "plugins": [
+    "syntax-async-generators",
+    "proposal-object-rest-spread",
+    ["external-helpers", { "helperVersion": "7.1.5" }]
+  ]
+}
+"), object_rest_nested_array_2, r#"
+const [a, [{b, ...c}], {d, ...e}, [{ f, ...g}, {h: [i, {j, ...k}] }]] = x;
+
+"#, r#"
+const [a, [_ref], _ref2, [_ref3, {
+  h: [i, _ref4]
+}]] = x;
+const {
+  b
+} = _ref,
+      c = babelHelpers.objectWithoutProperties(_ref, ["b"]),
+      {
+  d
+} = _ref2,
+      e = babelHelpers.objectWithoutProperties(_ref2, ["d"]),
+      {
+  f
+} = _ref3,
+      g = babelHelpers.objectWithoutProperties(_ref3, ["f"]),
+      {
+  j
+} = _ref4,
+      k = babelHelpers.objectWithoutProperties(_ref4, ["j"]);
+
+"#);
+
+// object_rest_impure_computed_exec_exec
+test_exec!(
+    syntax(),
+    |_| tr(Default::default()),
+    object_rest_impure_computed_exec_exec,
+    r#"
+var key, x, y, z;
+// impure
+key = 1;
+var { [key++]: y, ...x } = { 1: 1, a: 1 };
+expect(x).toEqual({ a: 1 });
+expect(key).toBe(2);
+expect(1).toBe(y);
+
+// takes care of the order
+
+key = 1;
+var { [++key]: y, [++key]: z, ...rest} = {2: 2, 3: 3};
+expect(y).toBe(2);
+expect(z).toBe(3);
+
+// pure, computed property should remain as-is
+key = 2;
+({ [key]: y, z, ...x } = {2: "two", z: "zee"});
+expect(y).toBe("two");
+expect(x).toEqual({});
+expect(z).toBe("zee");
+
+// rhs evaluated before lhs
+var order = [];
+function left() {
+  order.push("left");
+  return 0;
+}
+function right() {
+  order.push("right");
+  return {};
+}
+var { [left()]: y, ...x} = right();
+expect(order).toEqual(["right", "left"]);
+
+"#
+);
+
+// object_spread_loose_mode_builtins
+test!(syntax(),|_| tr("{
+  "plugins": [
+    ["proposal-object-rest-spread", { "loose": true, "useBuiltIns": true }]
+  ]
+}
+"), object_spread_loose_mode_builtins, r#"
+z = { x, ...y };
+
+z = { x, w: { ...y } };
+
+"#, r#"
+z = Object.assign({
+  x
+}, y);
+z = {
+  x,
+  w: Object.assign({}, y)
+};
+
+"#);
+
+// object_rest_duplicate_decl_bug
+test!(syntax(),|_| tr("{
+  "plugins": [
+    "./plugin-clear-scope",
+    "proposal-object-rest-spread",
+    "external-helpers"
+  ]
+}
+"), object_rest_duplicate_decl_bug, r#"
+it("es7.objectRestSpread", () => {
+  let original = { a: 1, b: 2 };
+  let { ...copy } = original;
+});
+
+"#, r#"
+it("es7.objectRestSpread", () => {
+  let original = {
+    a: 1,
+    b: 2
+  };
+  let copy = babelHelpers.extends({}, original);
+});
+
+"#);
+
+// object_rest_remove_unused_excluded_keys_loose
+test!(syntax(),|_| tr("{
+  "plugins": [
+    "external-helpers",
+    ["proposal-object-rest-spread", { "loose": true }]
+  ]
+}
+"), object_rest_remove_unused_excluded_keys_loose, r#"
+// should not remove when destructuring into existing bindings
+({ a2, ...b2 } = c2);
+
+class Comp extends React.Component {
+  render() {
+    const {
+      excluded,
+      excluded2: excludedRenamed,
+      used,
+      used2: usedRenamed,
+      ...props
+    } = this.props;
+
+    console.log(used, usedRenamed);
+
+    return React.createElement("input", props);
+  }
+}
+
+function smth({ unused, ...rest }) {
+  call(rest);
+}
+
+"#, r#"
+// should not remove when destructuring into existing bindings
+var _c = c2;
+({
+  a2
+} = _c);
+b2 = babelHelpers.objectWithoutPropertiesLoose(_c, ["a2"]);
+_c;
+
+class Comp extends React.Component {
+  render() {
+    const _this$props = this.props,
+          {
+      used,
+      used2: usedRenamed
+    } = _this$props,
+          props = babelHelpers.objectWithoutPropertiesLoose(_this$props, ["excluded", "excluded2", "used", "used2"]);
+    console.log(used, usedRenamed);
+    return React.createElement("input", props);
+  }
+
+}
+
+function smth(_ref) {
+  let rest = babelHelpers.objectWithoutPropertiesLoose(_ref, ["unused"]);
+  call(rest);
+}
+
+"#);
+
+// regression_T7178
+test!(syntax(),|_| tr("{
+  "plugins": [
+    "transform-modules-commonjs",
+    "transform-destructuring",
+    "proposal-object-rest-spread",
+    "external-helpers"
+  ]
+}
+"), regression_T7178, r#"
+import props from "props";
+
+console.log(props);
+
+(function(){
+  const { ...props } = this.props;
+
+  console.log(props);
+})();
+
+"#, r#"
+"use strict";
+
+var _props = babelHelpers.interopRequireDefault(require("props"));
+
+console.log(_props.default);
+
+(function () {
+  const props = babelHelpers.extends({}, this.props);
+  console.log(props);
+})();
+
+"#);
+
+// object_spread_expression_exec
+test_exec!(
+    syntax(),
+    |_| tr(Default::default()),
+    object_spread_expression_exec,
+    r#"
+var log = [];
+
+var a = {
+  ...{ get foo() { log.push(1); } },
+  get bar() { log.push(2); }
+};
+
+expect(log).toEqual([1]);
+
+"#
+);
+
+// object_rest_nested_default_value
+test!(syntax(),|_| tr("{
+  "plugins": [
+    "syntax-async-generators",
+    "proposal-object-rest-spread",
+    ["external-helpers", { "helperVersion": "7.1.5" }]
+  ]
+}
+"), object_rest_nested_default_value, r#"
+const {
+  a = ({ ...rest }) => {
+    let { ...b } = {};
+  },
+  c = ({ ...d } = {}),
+} = {};
+"#, r#"
+var _ref2;
+
+const {
+  a = (_ref) => {
+    let rest = babelHelpers.extends({}, _ref);
+    let b = babelHelpers.extends({}, {});
+  },
+  c = (_ref2 = {}, ({} = _ref2), d = babelHelpers.extends({}, _ref2), _ref2)
+} = {};
+
+"#);
+
+// object_rest_export
+test!(syntax(),|_| tr("{
+  "plugins": [
+    "syntax-async-generators",
+    "proposal-object-rest-spread",
+    ["external-helpers", { "helperVersion": "7.1.5" }]
+  ]
+}
+"), object_rest_export, r#"
+// ExportNamedDeclaration
+export var { b, ...c } = asdf2;
+// Skip
+export var { bb, cc } = ads;
+export var [ dd, ee ] = ads;
+
+"#, r#"
+// ExportNamedDeclaration
+var {
+  b
+} = asdf2,
+    c = babelHelpers.objectWithoutProperties(asdf2, ["b"]); // Skip
+
+export { b, c };
+export var {
+  bb,
+  cc
+} = ads;
+export var [dd, ee] = ads;
+
+"#);
+
+// object_rest_non_string_computed
+test!(syntax(),|_| tr("{
+  "plugins": [
+    "syntax-async-generators",
+    "proposal-object-rest-spread",
+    ["external-helpers", { "helperVersion": "7.1.5" }]
+  ]
+}
+"), object_rest_non_string_computed, r#"
+const a = {
+  "3": "three",
+  "foo": "bar"
+}
+
+const {
+  [3]: omit,
+  ...rest
+} = a;
+
+expect(rest).toEqual({"foo": "bar"});
+expect(omit).toBe("three");
+
+const [k1, k2, k3, k4, k5] = [null, undefined, true, false, {toString() { return "warrior"; }}];
+const c = {
+  [k1]: "1",
+  [k2]: "2",
+  [k3]: "3",
+  [k4]: "4",
+  [k5]: "5"
+};
+
+const {
+  [k1]: v1,
+  [k2]: v2,
+  [k3]: v3,
+  [k4]: v4,
+  [k5]: v5,
+  ...vrest
+} = c;
+
+expect(v1).toBe("1");
+expect(v2).toBe("2");
+expect(v3).toBe("3");
+expect(v4).toBe("4");
+expect(v5).toBe("5");
+expect(vrest).toEqual({});
+
+// shouldn't convert symbols to strings
+const sx = Symbol();
+const sy = Symbol();
+
+const d = {
+  [sx]: "sx",
+  [sy]: "sy"
+}
+
+const {
+  [sx]: dx,
+  [sy]: dy
+} = d;
+
+expect(dx).toBe("sx");
+expect(dy).toBe("sy");
+
+"#, r#"
+const a = {
+  "3": "three",
+  "foo": "bar"
+};
+const {
+  [3]: omit
+} = a,
+      rest = babelHelpers.objectWithoutProperties(a, ["3"]);
+expect(rest).toEqual({
+  "foo": "bar"
+});
+expect(omit).toBe("three");
+const [k1, k2, k3, k4, k5] = [null, undefined, true, false, {
+  toString() {
+    return "warrior";
+  }
+
+}];
+const c = {
+  [k1]: "1",
+  [k2]: "2",
+  [k3]: "3",
+  [k4]: "4",
+  [k5]: "5"
+};
+const {
+  [k1]: v1,
+  [k2]: v2,
+  [k3]: v3,
+  [k4]: v4,
+  [k5]: v5
+} = c,
+      vrest = babelHelpers.objectWithoutProperties(c, [k1, k2, k3, k4, k5].map(babelHelpers.toPropertyKey));
+expect(v1).toBe("1");
+expect(v2).toBe("2");
+expect(v3).toBe("3");
+expect(v4).toBe("4");
+expect(v5).toBe("5");
+expect(vrest).toEqual({}); // shouldn't convert symbols to strings
+
+const sx = Symbol();
+const sy = Symbol();
+const d = {
+  [sx]: "sx",
+  [sy]: "sy"
+};
+const {
+  [sx]: dx,
+  [sy]: dy
+} = d;
+expect(dx).toBe("sx");
+expect(dy).toBe("sy");
+
+"#);
+
+// object_spread_variable_declaration
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    object_spread_variable_declaration,
+    r#"
+var z = { ...x };
+
+"#,
+    r#"
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var z = _objectSpread({}, x);
+
+"#
+);
+
+// object_rest_nested_array
+test!(syntax(),|_| tr("{
+  "plugins": [
+    "syntax-async-generators",
+    "proposal-object-rest-spread",
+    ["external-helpers", { "helperVersion": "7.1.5" }]
+  ]
+}
+"), object_rest_nested_array, r#"
+const [a, {b, ...c}] = x;
+
+let [d, {e, ...f}] = x;
+
+[g, {h, ...i}] = x;
+
+
+"#, r#"
+const [a, _ref] = x;
+const {
+  b
+} = _ref,
+      c = babelHelpers.objectWithoutProperties(_ref, ["b"]);
+let [d, _ref2] = x;
+let {
+  e
+} = _ref2,
+    f = babelHelpers.objectWithoutProperties(_ref2, ["e"]);
+[g, _ref3] = x;
+var {
+  h
+} = _ref3,
+    i = babelHelpers.objectWithoutProperties(_ref3, ["h"]);
+
+"#);
+
+// object_spread_no_object_assign_exec_exec
+test_exec!(
+    syntax(),
+    |_| tr(Default::default()),
+    object_spread_no_object_assign_exec_exec,
+    r#"
+Object.defineProperty(Object.prototype, 'NOSET', {
+  set(value) {
+    // noop
+  },
+});
+
+Object.defineProperty(Object.prototype, 'NOWRITE', {
+  writable: false,
+  value: 'abc',
+});
+
+const obj = { NOSET: 123 };
+// this wouldn't work as expected if transformed as Object.assign (or equivalent)
+// because those trigger object setters (spread don't)
+const objSpread = { ...obj };
+
+const obj2 = { NOSET: 123, NOWRITE: 456 };
+// this line would throw `TypeError: Cannot assign to read only property 'NOWRITE'`
+// if transformed as Object.assign (or equivalent) because those use *assignment* for creating properties
+// (spread defines them)
+const obj2Spread = { ...obj2 };
+
+expect(objSpread).toEqual(obj);
+expect(obj2Spread).toEqual(obj2);
+
+const KEY = Symbol('key');
+const obj3Spread = { ...{ get foo () { return 'bar' } }, [KEY]: 'symbol' };
+expect(Object.getOwnPropertyDescriptor(obj3Spread, 'foo').value).toBe('bar');
+expect(Object.getOwnPropertyDescriptor(obj3Spread, KEY).value).toBe('symbol');
+
+const obj4Spread = { ...Object.prototype };
+expect(Object.getOwnPropertyDescriptor(obj4Spread, 'hasOwnProperty')).toBeUndefined();
+
+expect(() => ({ ...null, ...undefined })).not.toThrow();
+
+const o = Object.create(null);
+o.a = 'foo';
+o.__proto__ = [];
+const o2 = { ...o };
+expect(Array.isArray(Object.getPrototypeOf(o2))).toBe(false);
+
+"#
+);
+
+// object_rest_non_string_computed_exec_exec
+test_exec!(
+    syntax(),
+    |_| tr(Default::default()),
+    object_rest_non_string_computed_exec_exec,
+    r#"
+const a = {
+  "3": "three",
+  "foo": "bar"
+}
+
+const {
+  [3]: omit,
+  ...rest
+} = a;
+
+expect(rest).toEqual({"foo": "bar"});
+expect(omit).toBe("three");
+
+const [k1, k2, k3, k4, k5] = [null, undefined, true, false, {toString() { return "warrior"; }}];
+const c = {
+  [k1]: "1",
+  [k2]: "2",
+  [k3]: "3",
+  [k4]: "4",
+  [k5]: "5"
+};
+
+const {
+  [k1]: v1,
+  [k2]: v2,
+  [k3]: v3,
+  [k4]: v4,
+  [k5]: v5,
+  ...vrest
+} = c;
+
+expect(v1).toBe("1");
+expect(v2).toBe("2");
+expect(v3).toBe("3");
+expect(v4).toBe("4");
+expect(v5).toBe("5");
+expect(vrest).toEqual({});
+
+// shouldn't convert symbols to strings
+const sx = Symbol();
+const sy = Symbol();
+
+const d = {
+  [sx]: "sx",
+  [sy]: "sy"
+}
+
+const {
+  [sx]: dx,
+  [sy]: dy
+} = d;
+
+expect(dx).toBe("sx");
+expect(dy).toBe("sy");
+
+"#
+);
+
+// object_rest_variable_exec
+
+// object_rest_variable_exec_exec
+test_exec!(
+    syntax(),
+    |_| tr(Default::default()),
+    object_rest_variable_exec_exec,
+    r#"
+// var { x, y, ...z } = { x: 1, y: 2, a: 3, b: 4 };
+
+// expect(x).toBe(1);
+// expect(y).toBe(2);
+// expect(z).toEqual({ a: 3, b: 4 });
+
+// var complex = {
+//   x: { a: 1, b: 2, c: 3 },
+// };
+
+// var {
+//   x: { a: xa, ...xbc }
+// } = complex;
+
+// expect(xa).toBe(1);
+// expect(xbc).toEqual({ b: 2, c: 3});
+
+// // own properties
+// function ownX({ ...properties }) {
+//   return properties.x;
+// }
+// expect(ownX(Object.create({ x: 1 }))).toBeUndefined();
+
+"#
+);
+
+// object_rest_nested_2
+test!(syntax(),|_| tr("{
+  "plugins": [
+    "syntax-async-generators",
+    "proposal-object-rest-spread",
+    ["external-helpers", { "helperVersion": "7.1.5" }]
+  ]
+}
+"), object_rest_nested_2, r#"
+const test = {
+  foo: {
+    bar: {
+      baz: {
+        a: {
+          x: 1,
+          y: 2,
+          z: 3,
+        },
+      },
+    },
+  },
+};
+
+const { foo: { bar: { baz: { a: { x, ...other } } } } } = test;
+
+"#, r#"
+const test = {
+  foo: {
+    bar: {
+      baz: {
+        a: {
+          x: 1,
+          y: 2,
+          z: 3
+        }
+      }
+    }
+  }
+};
+const {
+  foo: {
+    bar: {
+      baz: {
+        a: {
+          x
+        }
+      }
+    }
+  }
+} = test,
+      other = babelHelpers.objectWithoutProperties(test.foo.bar.baz.a, ["x"]);
+
+"#);
+
+// object_spread_no_getOwnPropertyDescriptors_exec
+test_exec!(
+    syntax(),
+    |_| tr(Default::default()),
+    object_spread_no_getOwnPropertyDescriptors_exec,
+    r#"
+const oldGOPDs = Object.getOwnPropertyDescriptors;
+Object.getOwnPropertyDescriptors = null;
+
+({ ...{ a: 1 }, b: 1, ...{} });
+
+Object.getOwnPropertyDescriptors = oldGOPDs;
+
+"#
+);
+
+// object_rest_for_x
+test!(syntax(),|_| tr("{
+  "plugins": [
+    "syntax-async-generators",
+    "proposal-object-rest-spread",
+    ["external-helpers", { "helperVersion": "7.1.5" }]
+  ]
+}
+"), object_rest_for_x, r#"
+// ForXStatement
+for (var {a, ...b} of []) {}
+for ({a, ...b} of []) {}
+async function a() {
+  for await ({a, ...b} of []) {}
+}
+
+// skip
+for ({a} in {}) {}
+for ({a} of []) {}
+async function a() {
+  for await ({a} of []) {}
+}
+
+for (a in {}) {}
+for (a of []) {}
+async function a() {
+  for await (a of []) {}
+}
+
+"#, r#"
+// ForXStatement
+for (var _ref of []) {
+  var {
+    a
+  } = _ref,
+      b = babelHelpers.objectWithoutProperties(_ref, ["a"]);
+}
+
+for (var _ref2 of []) {
+  var _ref3 = _ref2;
+  ({
+    a
+  } = _ref3);
+  b = babelHelpers.objectWithoutProperties(_ref3, ["a"]);
+  _ref3;
+}
+
+async function a() {
+  for await (var _ref4 of []) {
+    var _ref5 = _ref4;
+    ({
+      a
+    } = _ref5);
+    b = babelHelpers.objectWithoutProperties(_ref5, ["a"]);
+    _ref5;
+  }
+} // skip
+
+
+for ({
+  a
+} in {}) {}
+
+for ({
+  a
+} of []) {}
+
+async function a() {
+  for await ({
+    a
+  } of []) {}
+}
+
+for (a in {}) {}
+
+for (a of []) {}
+
+async function a() {
+  for await (a of []) {}
+}
+
+"#);
+
+// object_rest_template_literal_property_allLiterals_false
+test!(syntax(),|_| tr("{
+  "plugins": [
+    "syntax-async-generators",
+    "proposal-object-rest-spread",
+    ["external-helpers", { "helperVersion": "7.1.5" }]
+  ]
+}
+"), object_rest_template_literal_property_allLiterals_false, r#"
+const input = {};
+
+const {
+  given_name: givenName,
+  'last_name': lastName,
+  [`country`]: country,
+  [prefix + 'state']: state,
+  [`${prefix}consents`]: consents,
+  ...rest
+} = input;
+
+"#, r#"
+const input = {};
+
+const _ref = prefix + 'state',
+      _ref2 = `${prefix}consents`,
+      {
+  given_name: givenName,
+  'last_name': lastName,
+  [`country`]: country,
+  [_ref]: state,
+  [_ref2]: consents
+} = input,
+      rest = babelHelpers.objectWithoutProperties(input, ["given_name", "last_name", `country`, _ref, _ref2].map(babelHelpers.toPropertyKey));
+
+"#);
+
+// object_rest_symbol_exec
+
+// object_spread_loose_mode
+test!(syntax(),|_| tr("{
+  "plugins": [["proposal-object-rest-spread", { "loose": true }]]
+}
+"), object_spread_loose_mode, r#"
+z = { x, ...y };
+
+z = { x, w: { ...y } };
+
+const { q, ...rest } = z;
+
+"#, r#"
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+z = _extends({
+  x
+}, y);
+z = {
+  x,
+  w: _extends({}, y)
+};
+
+const rest = _objectWithoutPropertiesLoose(z, ["q"]);
+
+"#);
+
+// object_rest_for_x_completion_record
+test!(syntax(),|_| tr("{
+  "plugins": [
+    "syntax-async-generators",
+    "proposal-object-rest-spread",
+    ["external-helpers", { "helperVersion": "7.1.5" }]
+  ]
+}
+"), object_rest_for_x_completion_record, r#"
+for ({a, ...b} of []) {}
+
+"#, r#"
+for (var _ref of []) {
+  var _ref2 = _ref;
+  ({
+    a
+  } = _ref2);
+  b = babelHelpers.objectWithoutProperties(_ref2, ["a"]);
+  _ref2;
+  void 0;
+}
+
+"#);
+
+// regression_gh_4904
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    regression_gh_4904,
+    r#"
+const { s, ...t } = foo();
+
+const { s: { q1, ...q2 }, ...q3 } = bar();
+
+const { a } = foo(({ b, ...c }) => {
+  console.log(b, c);
+});
+
+"#,
+    r#"
+const _foo = foo(),
+      {
+  s
+} = _foo,
+      t = babelHelpers.objectWithoutProperties(_foo, ["s"]);
+
+const _bar = bar(),
+      {
+  s: {
+    q1
+  }
+} = _bar,
+      q2 = babelHelpers.objectWithoutProperties(_bar.s, ["q1"]),
+      q3 = babelHelpers.objectWithoutProperties(_bar, ["s"]);
+
+const {
+  a
+} = foo((_ref) => {
+  let {
+    b
+  } = _ref,
+      c = babelHelpers.objectWithoutProperties(_ref, ["b"]);
+  console.log(b, c);
+});
+
+"#
+);
+
+// object_spread_expression
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    object_spread_expression,
+    r#"
+({ x, ...y, a, ...b, c });
+
+({ ...Object.prototype });
+
+({ ...{ foo: 'bar' } });
+
+({ ...{ foo: 'bar' }, ...{ bar: 'baz' } });
+
+({ ...{ get foo () { return 'foo' } } });
+
+"#,
+    r#"
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+_objectSpread({
+  x
+}, y, {
+  a
+}, b, {
+  c
+});
+
+_objectSpread({}, Object.prototype);
+
+_objectSpread({}, {
+  foo: 'bar'
+});
+
+_objectSpread({}, {
+  foo: 'bar'
+}, {}, {
+  bar: 'baz'
+});
+
+_objectSpread({}, {
+  get foo() {
+    return 'foo';
+  }
+
+});
+
+"#
+);
+
+// regression
+
+// object_spread
