@@ -402,6 +402,29 @@ impl Fold<Vec<ModuleItem>> for Resolver<'_> {
     }
 }
 
+impl Fold<CatchClause> for Resolver<'_> {
+    fn fold(&mut self, c: CatchClause) -> CatchClause {
+        let child_mark = Mark::fresh(self.mark);
+
+        // Child folder
+        let mut folder = Resolver::new(
+            child_mark,
+            Scope::new(ScopeKind::Fn, Some(&self.current)),
+            self.cur_defining.take(),
+        );
+
+        folder.ident_type = IdentType::Binding;
+        let param = c.param.fold_with(&mut folder);
+        folder.ident_type = IdentType::Ref;
+
+        let body = c.body.fold_with(&mut folder);
+
+        self.cur_defining = folder.cur_defining;
+
+        CatchClause { param, body, ..c }
+    }
+}
+
 /// The folder which handles function hoisting.
 struct Hoister<'a, 'b> {
     resolver: &'a mut Resolver<'b>,

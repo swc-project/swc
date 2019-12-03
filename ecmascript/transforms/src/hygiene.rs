@@ -495,19 +495,6 @@ macro_rules! track_ident {
         //     }
         // }
 
-        impl<'a> Fold<CatchClause> for $T<'a> {
-            fn fold(&mut self, c: CatchClause) -> CatchClause {
-                let old = self.ident_type;
-                self.ident_type = IdentType::Binding;
-                let param = c.param.fold_with(self);
-                self.ident_type = old;
-
-                let body = c.body.fold_with(self);
-
-                CatchClause { param, body, ..c }
-            }
-        }
-
         impl<'a> Fold<LabeledStmt> for $T<'a> {
             fn fold(&mut self, s: LabeledStmt) -> LabeledStmt {
                 let old = self.ident_type;
@@ -597,5 +584,21 @@ impl<'a> Fold<ArrowExpr> for Hygiene<'a> {
         node.body = node.body.fold_with(&mut folder);
 
         folder.apply_ops(node)
+    }
+}
+
+impl Fold<CatchClause> for Hygiene<'_> {
+    fn fold(&mut self, c: CatchClause) -> CatchClause {
+        let mut folder = Hygiene {
+            current: Scope::new(ScopeKind::Fn, Some(&self.current)),
+            ident_type: IdentType::Ref,
+        };
+        folder.ident_type = IdentType::Binding;
+        let param = c.param.fold_with(&mut folder);
+        folder.ident_type = IdentType::Ref;
+
+        let body = c.body.fold_with(&mut folder);
+
+        CatchClause { param, body, ..c }
     }
 }
