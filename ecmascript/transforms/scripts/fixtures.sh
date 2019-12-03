@@ -2,7 +2,7 @@
 
 set -e
 
-rm -r /tmp/.swc
+rm -rf /tmp/.swc
 mkdir -p /tmp/.swc/fixtures
 
 (cd fixtures && find . -depth -exec sh -c '
