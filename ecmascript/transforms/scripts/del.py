@@ -8,9 +8,15 @@ from os.path import isfile, join
 
 def search(dir):
     print('Searching ', dir)
-    if len(listdir(dir)) == 1 and 'fixtures' in dir:
+    entries = listdir(dir)
+    if len(entries) == 1 and 'fixtures' in dir:
         shutil.rmtree(dir, ignore_errors=True)
         return True
+
+    if len(entries) == 2 and 'fixtures' in dir and 'options.json' in entries and 'input.js' in entries:
+        shutil.rmtree(dir, ignore_errors=True)
+        return True
+
 
     shouldDelete = True;
     for f in listdir(dir):
