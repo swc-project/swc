@@ -1,7 +1,0 @@
-{
-  "plugins": [
-    "transform-classes",
-    "transform-block-scoping",
-    "transform-typeof-symbol"
-  ]
-}
