@@ -1,1 +1,0 @@
-class List extends Array {}
