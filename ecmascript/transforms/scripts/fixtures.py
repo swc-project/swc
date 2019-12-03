@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 
 from os import listdir
@@ -10,6 +10,8 @@ fm = {}
 
 for f in files:
     name = join('./fixtures', f)
+    if f == '.DS_Store':
+        continue
     test_name, file_type = f.rsplit('-', 1)
     if file_type == 'input.mjs':
         file_type = 'input.js'
