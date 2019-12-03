@@ -35,13 +35,23 @@ for name in fm:
     print()
     print('// {}'.format(name))
     if 'exec.js' in m:
-        print('test_exec!(syntax(), |_| tr(Default::default()), {}, r#"\n{}\n"#);'.format(
-            name, m['exec.js']
-        ))
+        if 'options.json' in m:
+            print('test_exec!(syntax(), |_| tr("{}"), {}, r#"\n{}\n"#);'.format(
+                m['options.json'],name, m['exec.js']
+            ))
+        else:
+            print('test_exec!(syntax(), |_| tr(Default::default()), {}, r#"\n{}\n"#);'.format(
+                name, m['exec.js']
+            ))
     elif 'input.js' in m and 'output.js' in m:
-        print('test!(syntax(),|_| tr(Default::default()), {}, r#"\n{}\n"#, r#"\n{}\n"#);'.format(
-            name, m['input.js'], m['output.js']
-        ))
+        if 'options.json' in m:
+            print('test!(syntax(),|_| tr("{}"), {}, r#"\n{}\n"#, r#"\n{}\n"#);'.format(
+                m['options.json'], name, m['input.js'], m['output.js']
+            ))
+        else:
+            print('test!(syntax(),|_| tr(Default::default()), {}, r#"\n{}\n"#, r#"\n{}\n"#);'.format(
+                name, m['input.js'], m['output.js']
+            ))
     elif 'stdout.txt' in m:
         pass
     elif len(m.keys()) == 1 and 'options.json' in m:
