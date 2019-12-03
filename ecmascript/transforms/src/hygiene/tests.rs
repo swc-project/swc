@@ -1054,7 +1054,7 @@ fn issue_281_02() {
         "function foo(e) {
             e: {
                 try {
-                } catch (e1) {
+                } catch (e) {
                     o = null;
                     break e
                 }
