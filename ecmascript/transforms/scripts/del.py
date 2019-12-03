@@ -7,6 +7,10 @@ import shutil
 
 def search(dir):
     print('Searching ', dir)
+    if len(listdir(dir)) == 1:
+        shutil.rmtree(dir, ignore_errors=True)
+        return True
+
     shouldDelete = True;
     for f in listdir(dir):
         p = join(dir, f);
