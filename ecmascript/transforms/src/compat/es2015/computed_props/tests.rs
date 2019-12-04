@@ -1,4 +1,13 @@
 use super::*;
+use swc_ecma_parser::Syntax;
+
+fn syntax() -> Syntax {
+    ::swc_ecma_parser::Syntax::default()
+}
+
+fn tr(_: ()) -> impl Pass {
+    ComputedProps
+}
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
@@ -185,29 +194,6 @@ test!(
 test!(
     ::swc_ecma_parser::Syntax::default(),
     |_| ComputedProps,
-    two,
-    r#"var obj = {
-  first: "first",
-  ["second"]: "second",
-};"#,
-    r#"var _obj;
-var obj = ( _obj = {
-}, _defineProperty(_obj, 'first', 'first'), _defineProperty(_obj, 'second', 'second'), _obj);"#
-);
-
-test!(
-    ::swc_ecma_parser::Syntax::default(),
-    |_| ComputedProps,
-    variable,
-    r#"var foo = {
-  [bar]: "foobar"
-};"#,
-    r#"var foo = _defineProperty({}, bar, "foobar");"#
-);
-
-test!(
-    ::swc_ecma_parser::Syntax::default(),
-    |_| ComputedProps,
     issue_315_1,
     "
 ({
@@ -224,15 +210,15 @@ test!(
 export function corge() {}
 ",
     "
-var _obj, _obj1;
-_obj1 = {
-}, _defineProperty(_obj1, 'foo', (_obj = {
-}, _defineProperty(_obj, 'bar', null), _defineProperty(_obj, baz, null), _obj)), \
-     _defineProperty(_obj1, bon, {
+_defineProperty({
+    foo: _defineProperty({
+        bar: null
+    }, baz, null)
+}, bon, {
     flab: null
-}), _obj1;
-export function corge() {}
-"
+});
+export function corge() {
+}"
 );
 
 test!(
@@ -266,15 +252,15 @@ export function corge() {}
 });
 ",
     "
-export function corge() {}
-
-var _obj, _obj1;
-_obj1 = {
-}, _defineProperty(_obj1, 'foo', (_obj = {
-}, _defineProperty(_obj, 'bar', null), _defineProperty(_obj, baz, null), _obj)), \
-     _defineProperty(_obj1, bon, {
+export function corge() {
+}
+_defineProperty({
+    foo: _defineProperty({
+        bar: null
+    }, baz, null)
+}, bon, {
     flab: null
-}), _obj1;
+});
 "
 );
 
@@ -299,12 +285,228 @@ export class Foo {}
     "
 export class Foo {}
 
-var _obj, _obj1;
-_obj1 = {
-}, _defineProperty(_obj1, 'foo', (_obj = {
-}, _defineProperty(_obj, 'bar', null), _defineProperty(_obj, baz, null), _obj)), \
-     _defineProperty(_obj1, bon, {
+_defineProperty({
+    foo: _defineProperty({
+        bar: null
+    }, baz, null)
+}, bon, {
     flab: null
-}), _obj1;
+});
 "
+);
+
+// spec_mixed
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    spec_mixed,
+    r#"
+var obj = {
+  ["x" + foo]: "heh",
+  ["y" + bar]: "noo",
+  foo: "foo",
+  bar: "bar"
+};
+
+"#,
+    r#"
+var _obj;
+
+var obj = (_obj = {}, _defineProperty(_obj, "x" + foo, "heh"), _defineProperty(_obj, "y" + bar, "noo"), _defineProperty(_obj, "foo", "foo"), _defineProperty(_obj, "bar", "bar"), _obj);
+
+"#
+);
+
+// spec_single
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    spec_single,
+    r#"
+var obj = {
+  ["x" + foo]: "heh"
+};
+
+"#,
+    r#"
+var obj = _defineProperty({}, "x" + foo, "heh");
+
+"#
+);
+
+// spec
+
+// regression_7144
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    regression_7144,
+    r#"
+export default {
+  [a]: b,
+  [c]: d
+};
+"#,
+    r#"
+var _obj;
+
+export default (_obj = {}, _defineProperty(_obj, a, b), _defineProperty(_obj, c, d), _obj);
+
+"#
+);
+
+// spec_multiple
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    spec_multiple,
+    r#"
+var obj = {
+  ["x" + foo]: "heh",
+  ["y" + bar]: "noo"
+};
+
+"#,
+    r#"
+var _obj;
+
+var obj = (_obj = {}, _defineProperty(_obj, "x" + foo, "heh"), _defineProperty(_obj, "y" + bar, "noo"), _obj);
+
+"#
+);
+
+// spec_this
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    spec_this,
+    r#"
+var obj = {
+  ["x" + foo.bar]: "heh"
+};
+
+"#,
+    r#"
+var obj = _defineProperty({}, "x" + foo.bar, "heh");
+
+"#
+);
+
+// spec_method
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    spec_method,
+    r#"
+var obj = {
+  [foobar]() {
+    return "foobar";
+  },
+  test() {
+    return "regular method after computed property";
+  }
+};
+
+"#,
+    r#"
+var _obj;
+
+var obj = (_obj = {}, _defineProperty(_obj, foobar, function () {
+  return "foobar";
+}), _defineProperty(_obj, "test", function () {
+  return "regular method after computed property";
+}), _obj);
+
+"#
+);
+
+// spec_assignment
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    spec_assignment,
+    r#"
+foo = {
+  [bar]: "foobar"
+};
+
+"#,
+    r#"
+foo = _defineProperty({}, bar, "foobar");
+
+"#
+);
+
+// spec_argument
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    spec_argument,
+    r#"
+foo({
+  [bar]: "foobar"
+});
+
+"#,
+    r#"
+foo(_defineProperty({}, bar, "foobar"));
+
+"#
+);
+
+// spec_two
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    spec_two,
+    r#"
+var obj = {
+  first: "first",
+  ["second"]: "second",
+};
+
+"#,
+    r#"
+var obj = _defineProperty({
+  first: "first"
+}, "second", "second");
+
+"#
+);
+
+// spec_variable
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    spec_variable,
+    r#"
+var foo = {
+  [bar]: "foobar"
+};
+
+"#,
+    r#"
+var foo = _defineProperty({}, bar, "foobar");
+
+"#
+);
+
+// spec_symbol_exec
+test_exec!(
+    syntax(),
+    |_| tr(Default::default()),
+    spec_symbol_exec,
+    r#"
+var k = Symbol();
+var foo = {
+  [Symbol.iterator]: "foobar",
+  get [k]() {
+    return k;
+  }
+};
+
+expect(foo[Symbol.iterator]).toBe("foobar")
+expect(foo[k]).toBe(k)
+
+"#
 );

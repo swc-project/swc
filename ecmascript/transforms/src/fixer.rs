@@ -521,6 +521,36 @@ impl Fold<Expr> for Fixer {
     }
 }
 
+impl Fold<ExportDefaultExpr> for Fixer {
+    fn fold(&mut self, node: ExportDefaultExpr) -> ExportDefaultExpr {
+        let old = self.ctx;
+        self.ctx = Context::Default;
+        let mut node = node.fold_children(self);
+        node.expr = match *node.expr {
+            Expr::Seq(..) => box node.expr.wrap_with_paren(),
+            _ => node.expr,
+        };
+        self.ctx = old;
+        node
+    }
+}
+
+impl Fold<ArrowExpr> for Fixer {
+    fn fold(&mut self, node: ArrowExpr) -> ArrowExpr {
+        let old = self.ctx;
+        self.ctx = Context::Default;
+        let mut node = node.fold_children(self);
+        node.body = match node.body {
+            BlockStmtOrExpr::Expr(e @ box Expr::Seq(..)) => {
+                BlockStmtOrExpr::Expr(box e.wrap_with_paren())
+            }
+            _ => node.body,
+        };
+        self.ctx = old;
+        node
+    }
+}
+
 fn ignore_return_value(expr: Box<Expr>) -> Option<Box<Expr>> {
     match *expr {
         Expr::Ident(..) | Expr::Fn(..) | Expr::Lit(..) => None,
