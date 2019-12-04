@@ -264,3 +264,17 @@ var Foo;
 })(Foo || (Foo = {}));",
     ok_if_code_eq
 );
+
+test!(
+    ::swc_ecma_parser::Syntax::Typescript(Default::default()),
+    |_| strip(),
+    enum_str,
+    "export enum State {
+  closed = 'closed',
+  opened = 'opened',
+  mounted = 'mounted',
+  unmounted = 'unmounted',
+}",
+    "",
+    ok_if_code_eq
+);
