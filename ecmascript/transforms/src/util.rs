@@ -785,17 +785,202 @@ pub(crate) fn to_int32(d: f64) -> i32 {
 //     unimplemented!("to_u32")
 // }
 
-/// Used to determine super_class_ident
-pub fn alias_ident_for(expr: &Expr, default: &str) -> Ident {
-    fn sym(expr: &Expr, default: &str) -> JsWord {
-        match *expr {
-            Expr::Ident(ref ident) => format!("_{}", ident.sym).into(),
-            Expr::Member(ref member) => sym(&member.prop, default),
-            _ => default.into(),
+pub(crate) fn has_rest_pat<T: VisitWith<RestPatVisitor>>(node: &T) -> bool {
+    let mut v = RestPatVisitor { found: false };
+    node.visit_with(&mut v);
+    v.found
+}
+
+pub(crate) struct RestPatVisitor {
+    found: bool,
+}
+
+impl Visit<RestPat> for RestPatVisitor {
+    fn visit(&mut self, _: &RestPat) {
+        self.found = true;
+    }
+}
+
+#[inline]
+pub fn is_literal(e: &Expr) -> bool {
+    let (v, _) = calc_literal_cost(e, true);
+    v
+}
+
+#[inline(never)]
+pub fn calc_literal_cost(e: &Expr, allow_non_json_value: bool) -> (bool, usize) {
+    struct LiteralVisitor {
+        is_lit: bool,
+        cost: usize,
+        allow_non_json_value: bool,
+    }
+
+    macro_rules! not_lit {
+        ($T:ty) => {
+            impl Visit<$T> for LiteralVisitor {
+                fn visit(&mut self, _: &$T) {
+                    self.is_lit = false;
+                }
+            }
+        };
+    }
+
+    not_lit!(ThisExpr);
+    not_lit!(FnExpr);
+    not_lit!(UnaryExpr);
+    not_lit!(UpdateExpr);
+    not_lit!(AssignExpr);
+    not_lit!(MemberExpr);
+    not_lit!(CondExpr);
+    not_lit!(CallExpr);
+    not_lit!(NewExpr);
+    not_lit!(SeqExpr);
+    not_lit!(TaggedTpl);
+    not_lit!(ArrowExpr);
+    not_lit!(ClassExpr);
+    not_lit!(YieldExpr);
+    not_lit!(MetaPropExpr);
+    not_lit!(AwaitExpr);
+
+    // TODO:
+    not_lit!(BinExpr);
+
+    not_lit!(JSXMemberExpr);
+    not_lit!(JSXNamespacedName);
+    not_lit!(JSXEmptyExpr);
+    not_lit!(JSXElement);
+    not_lit!(JSXFragment);
+
+    // TODO: TsTypeCastExpr,
+    // TODO: TsAsExpr,
+
+    // TODO: ?
+    not_lit!(TsNonNullExpr);
+    // TODO: ?
+    not_lit!(TsTypeAssertion);
+    // TODO: ?
+    not_lit!(TsConstAssertion);
+
+    not_lit!(PrivateName);
+    not_lit!(TsOptChain);
+
+    not_lit!(SpreadElement);
+    not_lit!(Invalid);
+
+    impl Visit<Expr> for LiteralVisitor {
+        fn visit(&mut self, e: &Expr) {
+            if !self.is_lit {
+                return;
+            }
+
+            match *e {
+                Expr::Ident(..) | Expr::Lit(Lit::Regex(..)) => self.is_lit = false,
+                Expr::Tpl(ref tpl) if !tpl.exprs.is_empty() => self.is_lit = false,
+                _ => e.visit_children(self),
+            }
         }
     }
+
+    impl Visit<Prop> for LiteralVisitor {
+        fn visit(&mut self, p: &Prop) {
+            if !self.is_lit {
+                return;
+            }
+
+            p.visit_children(self);
+
+            match p {
+                Prop::KeyValue(..) => {
+                    self.cost += 1;
+                }
+                _ => self.is_lit = false,
+            }
+        }
+    }
+
+    impl Visit<PropName> for LiteralVisitor {
+        fn visit(&mut self, node: &PropName) {
+            if !self.is_lit {
+                return;
+            }
+
+            node.visit_children(self);
+
+            match node {
+                PropName::Str(ref s) => self.cost += 2 + s.value.len(),
+                PropName::Ident(ref id) => self.cost += 2 + id.sym.len(),
+                PropName::Num(n) => {
+                    if n.value.fract() < 1e-10 {
+                        // TODO: Count digits
+                        self.cost += 5;
+                    } else {
+                        self.is_lit = false
+                    }
+                }
+                PropName::Computed(..) => self.is_lit = false,
+            }
+        }
+    }
+
+    impl Visit<ArrayLit> for LiteralVisitor {
+        fn visit(&mut self, e: &ArrayLit) {
+            if !self.is_lit {
+                return;
+            }
+
+            self.cost += 2 + e.elems.len();
+
+            e.visit_children(self);
+
+            for elem in &e.elems {
+                if !self.allow_non_json_value && elem.is_none() {
+                    self.is_lit = false;
+                }
+            }
+        }
+    }
+
+    impl Visit<Number> for LiteralVisitor {
+        fn visit(&mut self, node: &Number) {
+            if !self.allow_non_json_value && node.value.is_infinite() {
+                self.is_lit = false;
+            }
+        }
+    }
+
+    let mut v = LiteralVisitor {
+        is_lit: true,
+        cost: 0,
+        allow_non_json_value,
+    };
+    e.visit_with(&mut v);
+
+    (v.is_lit, v.cost)
+}
+
+fn sym(expr: &Expr, default: &str) -> JsWord {
+    match *expr {
+        Expr::Ident(ref ident) => format!("_{}", ident.sym).into(),
+        Expr::Member(ref member) => sym(&member.prop, default),
+        _ => default.into(),
+    }
+}
+
+/// Used to determine super_class_ident
+pub fn alias_ident_for(expr: &Expr, default: &str) -> Ident {
     let span = expr.span().apply_mark(Mark::fresh(Mark::root()));
     quote_ident!(span, sym(expr, default))
+}
+
+/// Returns `(ident, aliased)`
+pub fn alias_if_required(expr: &Expr, default: &str) -> (Ident, bool) {
+    match *expr {
+        Expr::Ident(ref i) => return (Ident::new(i.sym.clone(), i.span), false),
+        _ => {}
+    }
+
+    let span = expr.span().apply_mark(Mark::fresh(Mark::root()));
+    (quote_ident!(span, sym(expr, default)), true)
 }
 
 pub(crate) fn prop_name_to_expr(p: PropName) -> Expr {
@@ -916,6 +1101,29 @@ pub(crate) fn prepend_stmts<T: StmtLike>(
     debug_assert!(to.is_empty());
 
     *to = buf
+}
+
+pub(super) trait IsDirective {
+    fn as_ref(&self) -> Option<&Stmt>;
+    fn is_use_strict(&self) -> bool {
+        match self.as_ref() {
+            Some(&Stmt::Expr(ref expr)) => match **expr {
+                Expr::Lit(Lit::Str(Str {
+                    ref value,
+                    has_escape: false,
+                    ..
+                })) => value == "use strict",
+                _ => false,
+            },
+            _ => false,
+        }
+    }
+}
+
+impl IsDirective for Stmt {
+    fn as_ref(&self) -> Option<&Stmt> {
+        Some(self)
+    }
 }
 
 pub trait IdentExt {

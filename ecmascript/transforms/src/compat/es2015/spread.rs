@@ -3,6 +3,7 @@ use crate::{
     util::{alias_ident_for, prepend, undefined, ExprFactory, StmtLike},
 };
 use ast::*;
+use serde::Deserialize;
 use std::{iter, mem};
 use swc_atoms::js_word;
 use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Span, Spanned, DUMMY_SP};
@@ -10,13 +11,21 @@ use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Span, Spanned, DUMMY_S
 #[cfg(test)]
 mod tests;
 
-pub fn spread() -> impl Pass {
-    Spread
+pub fn spread(c: Config) -> impl Pass {
+    Spread { c }
+}
+
+#[derive(Debug, Default, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Config {
+    pub loose: bool,
 }
 
 /// es2015 - `SpreadElement`
-#[derive(Default, Clone)]
-struct Spread;
+#[derive(Default)]
+struct Spread {
+    c: Config,
+}
 
 #[derive(Default)]
 struct ActualFolder {

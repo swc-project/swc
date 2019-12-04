@@ -438,7 +438,9 @@ impl ClassProperties {
 
         let constructor =
             self.process_constructor(constructor, has_super, &used_names, constructor_exprs);
-        members.push(ClassMember::Constructor(constructor));
+        if let Some(c) = constructor {
+            members.push(ClassMember::Constructor(c));
+        }
 
         let members = members.fold_with(&mut FieldAccessFolder {
             mark: self.mark,
@@ -468,7 +470,7 @@ impl ClassProperties {
         has_super: bool,
         used_names: &[JsWord],
         constructor_exprs: Vec<Box<Expr>>,
-    ) -> Constructor {
+    ) -> Option<Constructor> {
         let constructor = constructor
             .map(|c| {
                 let mut folder = UsedNameRenamer {
@@ -481,8 +483,18 @@ impl ClassProperties {
                 let params = c.params.fold_with(&mut folder);
                 Constructor { body, params, ..c }
             })
-            .unwrap_or_else(|| default_constructor(has_super));
+            .or_else(|| {
+                if constructor_exprs.is_empty() {
+                    None
+                } else {
+                    Some(default_constructor(has_super))
+                }
+            });
 
-        inject_after_super(constructor, constructor_exprs)
+        if let Some(c) = constructor {
+            Some(inject_after_super(c, constructor_exprs))
+        } else {
+            None
+        }
     }
 }

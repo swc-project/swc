@@ -1,4 +1,4 @@
-use crate::util::{alias_ident_for, prepend, ExprFactory};
+use crate::util::{alias_ident_for, alias_if_required, prepend, ExprFactory};
 use ast::*;
 use hashbrown::HashSet;
 use std::{iter, mem};
@@ -389,14 +389,18 @@ impl<'a> FieldAccessFolder<'a> {
                     Some(Expr::This(this)),
                 ),
                 _ => {
+                    let mut aliased = false;
                     let var = obj_alias.unwrap_or_else(|| {
-                        let var = alias_ident_for(&obj, "_ref");
-                        self.vars.push(VarDeclarator {
-                            span: DUMMY_SP,
-                            name: Pat::Ident(var.clone()),
-                            init: None,
-                            definite: false,
-                        });
+                        let (var, a) = alias_if_required(&obj, "_ref");
+                        if a {
+                            aliased = true;
+                            self.vars.push(VarDeclarator {
+                                span: DUMMY_SP,
+                                name: Pat::Ident(var.clone()),
+                                init: None,
+                                definite: false,
+                            });
+                        }
                         var
                     });
 
@@ -408,13 +412,17 @@ impl<'a> FieldAccessFolder<'a> {
                                 if is_alias_initialized {
                                     var.clone().as_arg()
                                 } else {
-                                    AssignExpr {
-                                        span: DUMMY_SP,
-                                        left: PatOrExpr::Pat(box Pat::Ident(var.clone())),
-                                        op: op!("="),
-                                        right: obj,
+                                    if aliased {
+                                        AssignExpr {
+                                            span: DUMMY_SP,
+                                            left: PatOrExpr::Pat(box Pat::Ident(var.clone())),
+                                            op: op!("="),
+                                            right: obj,
+                                        }
+                                        .as_arg()
+                                    } else {
+                                        var.clone().as_arg()
                                     }
-                                    .as_arg()
                                 },
                                 ident.as_arg(),
                             ],

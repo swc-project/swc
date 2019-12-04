@@ -8,8 +8,8 @@ use self::{
     super_field::SuperFieldAccessFolder,
 };
 use crate::util::{
-    alias_ident_for, default_constructor, prepend, prop_name_to_expr, ExprFactory, ModuleItemLike,
-    StmtLike,
+    alias_ident_for, default_constructor, prepend, prop_name_to_expr, ExprFactory, IsDirective,
+    ModuleItemLike, StmtLike,
 };
 use ast::*;
 use fxhash::FxBuildHasher;
@@ -59,7 +59,9 @@ type IndexMap<K, V> = indexmap::IndexMap<K, V, FxBuildHasher>;
 /// }();
 /// ```
 #[derive(Default, Clone, Copy)]
-pub struct Classes;
+pub struct Classes {
+    in_strict: bool,
+}
 
 struct Data {
     key_prop: Box<Prop>,
@@ -74,6 +76,8 @@ where
 {
     fn fold(&mut self, stmts: Vec<T>) -> Vec<T> {
         let mut buf = Vec::with_capacity(stmts.len());
+        let mut first = true;
+        let old = self.in_strict;
 
         for stmt in stmts {
             match T::try_into_stmt(stmt) {
@@ -143,11 +147,18 @@ where
                     Err(..) => unreachable!(),
                 },
                 Ok(stmt) => {
+                    if first {
+                        self.in_strict |= stmt.is_use_strict();
+                    }
+
                     let stmt = stmt.fold_children(self);
                     buf.push(T::from_stmt(stmt));
                 }
             }
+            first = false;
         }
+
+        self.in_strict = old;
 
         buf
     }
@@ -259,7 +270,7 @@ impl Classes {
 
         let mut stmts = self.class_to_stmts(class_name, super_ident, class);
 
-        if stmts.len() == 1 {
+        if stmts.len() == 2 {
             //    class Foo {}
             //
             // should be
@@ -278,10 +289,14 @@ impl Classes {
             //    }();
 
             let stmt = stmts.pop().unwrap();
+            let use_strict = stmts.pop().unwrap();
             match stmt {
                 Stmt::Decl(Decl::Fn(FnDecl {
-                    ident, function, ..
+                    ident,
+                    mut function,
+                    ..
                 })) => {
+                    prepend(&mut function.body.as_mut().unwrap().stmts, use_strict);
                     return Expr::Fn(FnExpr {
                         ident: Some(ident),
                         function,
@@ -500,7 +515,18 @@ impl Classes {
         // stmts.extend(self.fold_class_methods(class_name.clone(), priv_methods));
         stmts.extend(self.fold_class_methods(class_name.clone(), methods));
 
-        if is_named && stmts.len() == 1 {
+        if stmts.first().map(|v| !v.is_use_strict()).unwrap_or(false) && !self.in_strict {
+            prepend(
+                &mut stmts,
+                Stmt::Expr(box Expr::Lit(Lit::Str(Str {
+                    span: DUMMY_SP,
+                    value: "use strict".into(),
+                    has_escape: false,
+                }))),
+            )
+        }
+
+        if is_named && stmts.len() == 2 {
             return stmts;
         }
 
@@ -565,6 +591,7 @@ impl Classes {
                 })),
             );
         }
+
         body
     }
 

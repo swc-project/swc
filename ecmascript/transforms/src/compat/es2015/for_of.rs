@@ -3,6 +3,7 @@ use crate::{
     util::{ExprFactory, StmtLike},
 };
 use ast::*;
+use serde::Deserialize;
 use swc_atoms::js_word;
 use swc_common::{Fold, FoldWith, Mark, Spanned, Visit, VisitWith, DUMMY_SP};
 
@@ -43,11 +44,19 @@ mod tests;
 ///   }
 /// }
 /// ```
-pub fn for_of() -> impl Pass {
-    ForOf
+pub fn for_of(c: Config) -> impl Pass {
+    ForOf { c }
 }
 
-struct ForOf;
+#[derive(Debug, Default, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Config {
+    pub assume_array: bool,
+}
+
+struct ForOf {
+    c: Config,
+}
 
 /// Real folder.
 #[derive(Default)]

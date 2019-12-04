@@ -1,6 +1,6 @@
 use crate::{
     pass::Pass,
-    util::{prop_name_to_expr, ExprFactory, StmtLike},
+    util::{has_rest_pat, is_literal, prop_name_to_expr, undefined, ExprFactory, StmtLike},
 };
 use ast::*;
 use std::iter;
@@ -128,215 +128,276 @@ impl Fold<Vec<VarDeclarator>> for AssignFolder {
         if !is_complex {
             return declarators;
         }
-        let mut decls = vec![];
+        let mut decls = Vec::with_capacity(declarators.len());
 
         for decl in declarators {
-            match decl.name {
-                Pat::Ident(..) => decls.push(decl),
-                Pat::Array(ArrayPat { elems, .. }) => {
-                    assert!(
-                        decl.init.is_some(),
-                        "destructuring pattern binding requires initializer"
-                    );
-
-                    // Make ref var if required
-                    let ref_ident = make_ref_ident(
-                        if self.exporting {
-                            &mut self.vars
-                        } else {
-                            &mut decls
-                        },
-                        decl.init,
-                    );
-
-                    for (i, elem) in elems.into_iter().enumerate() {
-                        let elem: Pat = match elem {
-                            Some(elem) => elem,
-                            None => continue,
-                        };
-
-                        let var_decl = match elem {
-                            Pat::Rest(RestPat {
-                                dot3_token,
-                                box arg,
-                                ..
-                            }) => VarDeclarator {
-                                span: dot3_token,
-                                name: arg,
-                                init: Some(box Expr::Call(CallExpr {
-                                    span: DUMMY_SP,
-                                    callee: ref_ident
-                                        .clone()
-                                        .member(quote_ident!("slice"))
-                                        .as_callee(),
-                                    args: vec![Lit::Num(Number {
-                                        value: i as f64,
-                                        span: dot3_token,
-                                    })
-                                    .as_arg()],
-                                    type_args: Default::default(),
-                                })),
-                                definite: false,
-                            },
-                            _ => VarDeclarator {
-                                span: elem.span(),
-                                // This might be pattern.
-                                // So we fold it again.
-                                name: elem,
-                                init: Some(box make_ref_idx_expr(&ref_ident, i)),
-                                definite: false,
-                            },
-                        };
-                        decls.extend(vec![var_decl].fold_with(self));
-                    }
-                }
-                Pat::Object(ObjectPat { props, .. }) => {
-                    assert!(
-                        decl.init.is_some(),
-                        "destructuring pattern binding requires initializer"
-                    );
-                    let can_be_null = can_be_null(decl.init.as_ref().unwrap());
-                    let ref_ident = make_ref_ident(&mut decls, decl.init);
-
-                    let ref_ident = if can_be_null {
-                        make_ref_ident(
-                            &mut decls,
-                            Some(box Expr::Cond(CondExpr {
-                                span: DUMMY_SP,
-                                test: box Expr::Ident(ref_ident.clone()),
-                                cons: box Expr::Ident(ref_ident.clone()),
-                                // _throw(new TypeError())
-                                alt: box Expr::Call(CallExpr {
-                                    span: DUMMY_SP,
-                                    callee: helper!(throw, "throw"),
-                                    // new TypeError()
-                                    args: vec![NewExpr {
-                                        span: DUMMY_SP,
-                                        callee: box Expr::Ident(quote_ident!("TypeError")),
-                                        args: Some(vec![Lit::Str(quote_str!(
-                                            "Cannot destructure 'undefined' or 'null'"
-                                        ))
-                                        .as_arg()]),
-                                        type_args: Default::default(),
-                                    }
-                                    .as_arg()],
-                                    type_args: Default::default(),
-                                }),
-                            })),
-                        )
-                    } else {
-                        ref_ident
-                    };
-
-                    for prop in props {
-                        let prop_span = prop.span();
-
-                        match prop {
-                            ObjectPatProp::KeyValue(KeyValuePatProp { key, value }) => {
-                                let computed = match key {
-                                    PropName::Computed(..) => true,
-                                    _ => false,
-                                };
-
-                                let var_decl = VarDeclarator {
-                                    span: prop_span,
-                                    name: *value,
-                                    init: Some(box make_ref_prop_expr(
-                                        &ref_ident,
-                                        box prop_name_to_expr(key),
-                                        computed,
-                                    )),
-                                    definite: false,
-                                };
-                                decls.extend(vec![var_decl].fold_with(self));
-                            }
-                            ObjectPatProp::Assign(AssignPatProp { key, value, .. }) => {
-                                let computed = false;
-
-                                match value {
-                                    Some(value) => {
-                                        let ref_ident = make_ref_ident(
-                                            &mut decls,
-                                            Some(box make_ref_prop_expr(
-                                                &ref_ident,
-                                                box key.clone().into(),
-                                                computed,
-                                            )),
-                                        );
-
-                                        let var_decl = VarDeclarator {
-                                            span: prop_span,
-                                            name: Pat::Ident(key.clone()),
-                                            init: Some(box make_cond_expr(ref_ident, value)),
-                                            definite: false,
-                                        };
-                                        decls.extend(vec![var_decl].fold_with(self));
-                                    }
-                                    None => {
-                                        let var_decl = VarDeclarator {
-                                            span: prop_span,
-                                            name: Pat::Ident(key.clone()),
-                                            init: Some(box make_ref_prop_expr(
-                                                &ref_ident,
-                                                box key.clone().into(),
-                                                computed,
-                                            )),
-                                            definite: false,
-                                        };
-                                        decls.extend(vec![var_decl].fold_with(self));
-                                    }
-                                }
-                            }
-                            ObjectPatProp::Rest(..) => unreachable!(
-                                "Object rest pattern should be removed by \
-                                 es2018::object_rest_spread pass"
-                            ),
-                        }
-                    }
-                }
-                Pat::Assign(AssignPat {
-                    span,
-                    left,
-                    right: def_value,
-                    ..
-                }) => {
-                    assert!(
-                        decl.init.is_some(),
-                        "desturcturing pattern binding requires initializer"
-                    );
-
-                    let tmp_ident = match decl.init {
-                        Some(box Expr::Ident(ref i)) if i.span.ctxt() != SyntaxContext::empty() => {
-                            i.clone()
-                        }
-                        _ => {
-                            let tmp_ident = private_ident!(span, "tmp");
-                            decls.push(VarDeclarator {
-                                span: DUMMY_SP,
-                                name: Pat::Ident(tmp_ident.clone()),
-                                init: decl.init,
-                                definite: false,
-                            });
-
-                            tmp_ident
-                        }
-                    };
-
-                    let var_decl = VarDeclarator {
-                        span,
-                        name: *left,
-                        // tmp === void 0 ? def_value : tmp
-                        init: Some(box make_cond_expr(tmp_ident, def_value)),
-                        definite: false,
-                    };
-                    decls.extend(vec![var_decl].fold_with(self))
-                }
-
-                _ => unimplemented!("Pattern {:?}", decl),
-            }
+            self.fold_var_decl(&mut decls, decl)
         }
 
         decls
+    }
+}
+
+impl AssignFolder {
+    fn fold_var_decl(&mut self, decls: &mut Vec<VarDeclarator>, decl: VarDeclarator) {
+        match decl.name {
+            Pat::Ident(..) => decls.push(decl),
+            Pat::Rest(..) => unreachable!(
+                "rest pattern should handled by array pattern handler: {:?}",
+                decl.name
+            ),
+            Pat::Array(ArrayPat { elems, .. }) => {
+                assert!(
+                    decl.init.is_some(),
+                    "destructuring pattern binding requires initializer"
+                );
+
+                let init = decl.init.unwrap();
+
+                if is_literal(&init) {
+                    match *init {
+                        Expr::Array(arr)
+                            if elems.len() == arr.elems.len() || has_rest_pat(&elems) =>
+                        {
+                            let mut arr_elems = Some(arr.elems.into_iter());
+                            elems.into_iter().for_each(|p| match p {
+                                Some(Pat::Rest(p)) => {
+                                    self.fold_var_decl(
+                                        decls,
+                                        VarDeclarator {
+                                            span: p.span(),
+                                            name: *p.arg,
+                                            init: Some(box Expr::Array(ArrayLit {
+                                                span: DUMMY_SP,
+                                                elems: arr_elems
+                                                    .take()
+                                                    .expect("two rest element?")
+                                                    .collect(),
+                                            })),
+                                            definite: false,
+                                        },
+                                    );
+                                }
+                                Some(p) => {
+                                    let e = arr_elems
+                                        .as_mut()
+                                        .expect("pattern after rest element?")
+                                        .next()
+                                        .unwrap();
+                                    self.fold_var_decl(
+                                        decls,
+                                        VarDeclarator {
+                                            span: p.span(),
+                                            init: e.map(|e| {
+                                                debug_assert_eq!(e.spread, None);
+                                                e.expr
+                                            }),
+                                            name: p,
+                                            definite: false,
+                                        },
+                                    )
+                                }
+
+                                None => {}
+                            });
+                            return;
+                        }
+                        _ => {}
+                    }
+                }
+
+                // Make ref var if required
+                let ref_ident = make_ref_ident(
+                    if self.exporting {
+                        &mut self.vars
+                    } else {
+                        decls
+                    },
+                    Some(init),
+                );
+
+                for (i, elem) in elems.into_iter().enumerate() {
+                    let elem: Pat = match elem {
+                        Some(elem) => elem,
+                        None => continue,
+                    };
+
+                    let var_decl = match elem {
+                        Pat::Rest(RestPat {
+                            dot3_token,
+                            box arg,
+                            ..
+                        }) => VarDeclarator {
+                            span: dot3_token,
+                            name: arg,
+                            init: Some(box Expr::Call(CallExpr {
+                                span: DUMMY_SP,
+                                callee: ref_ident.clone().member(quote_ident!("slice")).as_callee(),
+                                args: vec![Lit::Num(Number {
+                                    value: i as f64,
+                                    span: dot3_token,
+                                })
+                                .as_arg()],
+                                type_args: Default::default(),
+                            })),
+                            definite: false,
+                        },
+                        _ => VarDeclarator {
+                            span: elem.span(),
+                            // This might be pattern.
+                            // So we fold it again.
+                            name: elem,
+                            init: Some(box make_ref_idx_expr(&ref_ident, i)),
+                            definite: false,
+                        },
+                    };
+                    decls.extend(vec![var_decl].fold_with(self));
+                }
+            }
+            Pat::Object(ObjectPat { props, .. }) => {
+                assert!(
+                    decl.init.is_some(),
+                    "destructuring pattern binding requires initializer"
+                );
+                let can_be_null = can_be_null(decl.init.as_ref().unwrap());
+                let ref_ident = make_ref_ident(decls, decl.init);
+
+                let ref_ident = if can_be_null {
+                    make_ref_ident(
+                        decls,
+                        Some(box Expr::Cond(CondExpr {
+                            span: DUMMY_SP,
+                            test: box Expr::Ident(ref_ident.clone()),
+                            cons: box Expr::Ident(ref_ident.clone()),
+                            // _throw(new TypeError())
+                            alt: box Expr::Call(CallExpr {
+                                span: DUMMY_SP,
+                                callee: helper!(throw, "throw"),
+                                // new TypeError()
+                                args: vec![NewExpr {
+                                    span: DUMMY_SP,
+                                    callee: box Expr::Ident(quote_ident!("TypeError")),
+                                    args: Some(vec![Lit::Str(quote_str!(
+                                        "Cannot destructure 'undefined' or 'null'"
+                                    ))
+                                    .as_arg()]),
+                                    type_args: Default::default(),
+                                }
+                                .as_arg()],
+                                type_args: Default::default(),
+                            }),
+                        })),
+                    )
+                } else {
+                    ref_ident
+                };
+
+                for prop in props {
+                    let prop_span = prop.span();
+
+                    match prop {
+                        ObjectPatProp::KeyValue(KeyValuePatProp { key, value }) => {
+                            let computed = match key {
+                                PropName::Computed(..) => true,
+                                _ => false,
+                            };
+
+                            let var_decl = VarDeclarator {
+                                span: prop_span,
+                                name: *value,
+                                init: Some(box make_ref_prop_expr(
+                                    &ref_ident,
+                                    box prop_name_to_expr(key),
+                                    computed,
+                                )),
+                                definite: false,
+                            };
+                            decls.extend(vec![var_decl].fold_with(self));
+                        }
+                        ObjectPatProp::Assign(AssignPatProp { key, value, .. }) => {
+                            let computed = false;
+
+                            match value {
+                                Some(value) => {
+                                    let ref_ident = make_ref_ident(
+                                        decls,
+                                        Some(box make_ref_prop_expr(
+                                            &ref_ident,
+                                            box key.clone().into(),
+                                            computed,
+                                        )),
+                                    );
+
+                                    let var_decl = VarDeclarator {
+                                        span: prop_span,
+                                        name: Pat::Ident(key.clone()),
+                                        init: Some(box make_cond_expr(ref_ident, value)),
+                                        definite: false,
+                                    };
+                                    decls.extend(vec![var_decl].fold_with(self));
+                                }
+                                None => {
+                                    let var_decl = VarDeclarator {
+                                        span: prop_span,
+                                        name: Pat::Ident(key.clone()),
+                                        init: Some(box make_ref_prop_expr(
+                                            &ref_ident,
+                                            box key.clone().into(),
+                                            computed,
+                                        )),
+                                        definite: false,
+                                    };
+                                    decls.extend(vec![var_decl].fold_with(self));
+                                }
+                            }
+                        }
+                        ObjectPatProp::Rest(..) => unreachable!(
+                            "Object rest pattern should be removed by es2018::object_rest_spread \
+                             pass"
+                        ),
+                    }
+                }
+            }
+            Pat::Assign(AssignPat {
+                span,
+                left,
+                right: def_value,
+                ..
+            }) => {
+                assert!(
+                    decl.init.is_some(),
+                    "desturcturing pattern binding requires initializer"
+                );
+
+                let tmp_ident = match decl.init {
+                    Some(box Expr::Ident(ref i)) if i.span.ctxt() != SyntaxContext::empty() => {
+                        i.clone()
+                    }
+                    _ => {
+                        let tmp_ident = private_ident!(span, "tmp");
+                        decls.push(VarDeclarator {
+                            span: DUMMY_SP,
+                            name: Pat::Ident(tmp_ident.clone()),
+                            init: decl.init,
+                            definite: false,
+                        });
+
+                        tmp_ident
+                    }
+                };
+
+                let var_decl = VarDeclarator {
+                    span,
+                    name: *left,
+                    // tmp === void 0 ? def_value : tmp
+                    init: Some(box make_cond_expr(tmp_ident, def_value)),
+                    definite: false,
+                };
+                decls.extend(vec![var_decl].fold_with(self))
+            }
+
+            _ => unimplemented!("Pattern {:?}", decl),
+        }
     }
 }
 
@@ -432,10 +493,60 @@ impl Fold<Expr> for AssignFolder {
                         right,
                     }),
                     Pat::Array(ArrayPat { elems, .. }) => {
+                        let mut exprs = Vec::with_capacity(elems.len() + 1);
+
+                        if is_literal(&right) {
+                            match *right {
+                                Expr::Array(arr)
+                                    if elems.len() == arr.elems.len() || has_rest_pat(&elems) =>
+                                {
+                                    let mut arr_elems = Some(arr.elems.into_iter());
+                                    elems.into_iter().for_each(|p| match p {
+                                        Some(Pat::Rest(p)) => {
+                                            exprs.push(box Expr::Assign(AssignExpr {
+                                                span: p.span(),
+                                                left: PatOrExpr::Pat(p.arg),
+                                                op: op!("="),
+                                                right: box Expr::Array(ArrayLit {
+                                                    span: DUMMY_SP,
+                                                    elems: arr_elems
+                                                        .take()
+                                                        .expect("two rest element?")
+                                                        .collect(),
+                                                }),
+                                            }));
+                                        }
+                                        Some(p) => {
+                                            let e = arr_elems
+                                                .as_mut()
+                                                .expect("pattern after rest element?")
+                                                .next()
+                                                .unwrap();
+                                            let right = e
+                                                .map(|e| {
+                                                    debug_assert_eq!(e.spread, None);
+                                                    e.expr
+                                                })
+                                                .unwrap_or_else(|| undefined(p.span()));
+                                            exprs.push(box Expr::Assign(AssignExpr {
+                                                span: p.span(),
+                                                left: PatOrExpr::Pat(box p),
+                                                op: op!("="),
+                                                right,
+                                            }));
+                                        }
+
+                                        None => {}
+                                    });
+                                    return SeqExpr { span, exprs }.into();
+                                }
+                                _ => {}
+                            }
+                        }
+
                         // initialized by first element of sequence expression
                         let ref_ident = make_ref_ident(&mut self.vars, None);
 
-                        let mut exprs = vec![];
                         exprs.push(box Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
                             op: op!("="),

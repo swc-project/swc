@@ -222,7 +222,9 @@ fn es2015_shorthand_property(b: &mut Bencher) {
 
 #[bench]
 fn es2015_spread(b: &mut Bencher) {
-    tr!(b, || compat::es2015::spread());
+    tr!(b, || compat::es2015::spread(spread::Config {
+        ..Default::default()
+    }));
 }
 
 #[bench]

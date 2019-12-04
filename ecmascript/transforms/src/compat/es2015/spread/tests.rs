@@ -1,4 +1,5 @@
 use super::*;
+use crate::modules::common_js::common_js;
 use swc_common::chain;
 
 fn syntax() -> ::swc_ecma_parser::Syntax {
@@ -6,7 +7,12 @@ fn syntax() -> ::swc_ecma_parser::Syntax {
 }
 
 fn tr() -> impl Fold<Module> {
-    chain!(crate::compat::es2015::parameters(), spread())
+    chain!(
+        crate::compat::es2015::parameters(),
+        spread(Config {
+            ..Default::default()
+        })
+    )
 }
 
 test!(
@@ -253,7 +259,7 @@ var _foob, _test;
 "#
 );
 
-// regression_T6761
+// regression_t6761
 test!(
     syntax(),
     |_| tr(),
@@ -654,3 +660,395 @@ function foo() {
 );
 
 // regression
+
+// spread_new_expression
+test!(
+    syntax(),
+    |_| tr(),
+    spread_new_expression,
+    r#"
+new Numbers(...nums);
+new Numbers(1, ...nums);
+
+"#,
+    r#"
+_construct(Numbers, _toConsumableArray(nums));
+_construct(Numbers, [1].concat(_toConsumableArray(nums)));
+
+"#
+);
+
+// spread_array_literal_with_hole
+test!(
+    syntax(),
+    |_| tr(),
+    spread_array_literal_with_hole,
+    r#"
+var arr = [ 'a',, 'b', ...c ];
+
+"#,
+    r#"
+var arr = ['a',, 'b'].concat(_toConsumableArray(c));
+
+"#
+);
+
+// regression_6647
+test!(
+    syntax(),
+    |_| chain!(
+        spread(Config {
+            ..Default::default()
+        }),
+        common_js(Default::default())
+    ),
+    regression_6647,
+    r#"
+import a from 'a';
+a.preview(...c);
+
+"#,
+    r#"
+"use strict";
+
+var _a = _interopRequireDefault(require("a"));
+
+_a.default.preview.apply(_a.default, _toConsumableArray(c));
+
+"#
+);
+
+// spread_single
+test_exec!(
+    syntax(),
+    |_| tr(),
+    spread_single_exec,
+    r#"
+// test that toConsumableArray clones the array.
+const arr = [];
+const foo = () => arr;
+
+const x = [...foo()];
+
+expect(x).not.toBe(arr);
+
+"#
+);
+
+// spread_contexted_method_call_multiple_args
+test!(
+    syntax(),
+    |_| tr(),
+    spread_contexted_method_call_multiple_args,
+    r#"
+foob.add(foo, bar, ...numbers);
+foob.test.add(foo, bar, ...numbers);
+
+"#,
+    r#"
+var _foob, _foob$test;
+
+(_foob = foob).add.apply(_foob, [foo, bar].concat(_toConsumableArray(numbers)));
+
+(_foob$test = foob.test).add.apply(_foob$test, [foo, bar].concat(_toConsumableArray(numbers)));
+
+"#
+);
+
+// spread_method_call_array_literal
+test!(
+    syntax(),
+    |_| tr(),
+    spread_method_call_array_literal,
+    r#"
+f(...[1, 2, 3]);
+
+"#,
+    r#"
+f.apply(void 0, [1, 2, 3]);
+
+"#
+);
+
+// spread_method_call_single_arg
+test!(
+    syntax(),
+    |_| tr(),
+    spread_method_call_single_arg,
+    r#"
+add(...numbers);
+
+"#,
+    r#"
+add.apply(void 0, _toConsumableArray(numbers));
+
+"#
+);
+
+// spread_known_rest
+test!(
+    syntax(),
+    |_| tr(),
+    spread_known_rest,
+    r#"
+function foo(...bar) {
+  return [...bar];
+}
+
+"#,
+    r#"
+function foo() {
+  for (var _len = arguments.length, bar = new Array(_len), _key = 0; _key < _len; _key++) {
+    bar[_key] = arguments[_key];
+  }
+
+  return [].concat(bar);
+}
+
+"#
+);
+
+// spread_method_call_middle
+test!(
+    syntax(),
+    |_| tr(),
+    spread_method_call_middle,
+    r#"
+add(foo, ...numbers, bar);
+
+"#,
+    r#"
+add.apply(void 0, [foo].concat(_toConsumableArray(numbers), [bar]));
+
+"#
+);
+
+// spread_method_call_first
+test!(
+    syntax(),
+    |_| tr(),
+    spread_method_call_first,
+    r#"
+add(...numbers, foo, bar);
+
+"#,
+    r#"
+add.apply(void 0, _toConsumableArray(numbers).concat([foo, bar]));
+
+"#
+);
+
+// spread_contexted_method_call_super_single_arg
+test!(
+    syntax(),
+    |_| tr(),
+    spread_contexted_method_call_super_single_arg,
+    r#"
+class Foo {
+	bar() {
+		super.bar(...args);
+	}
+}
+
+"#,
+    r#"
+class Foo {
+  bar() {
+    super.bar.apply(this, _toConsumableArray(args));
+  }
+
+}
+
+"#
+);
+
+// spread_contexted_method_call_single_arg
+test!(
+    syntax(),
+    |_| tr(),
+    spread_contexted_method_call_single_arg,
+    r#"
+foob.add(...numbers);
+foob.test.add(...numbers);
+
+"#,
+    r#"
+var _foob, _foob$test;
+
+(_foob = foob).add.apply(_foob, _toConsumableArray(numbers));
+
+(_foob$test = foob.test).add.apply(_foob$test, _toConsumableArray(numbers));
+
+"#
+);
+
+// spread_array_literal_middle
+test!(
+    syntax(),
+    |_| tr(),
+    spread_array_literal_middle,
+    r#"
+var a = [b, ...c, d];
+
+"#,
+    r#"
+var a = [b].concat(_toConsumableArray(c), [d]);
+
+"#
+);
+
+// spread_array_literals
+test!(
+    syntax(),
+    |_| tr(),
+    spread_array_literals,
+    r#"
+var lyrics = ["head", "and", "toes", ...parts];
+
+"#,
+    r#"
+var lyrics = ["head", "and", "toes"].concat(_toConsumableArray(parts));
+
+"#
+);
+
+// regression_10416
+test!(
+    syntax(),
+    |_| tr(),
+    regression_10416,
+    r#"
+const E_ARR = [];
+
+export default function () {
+  const someVar = E_ARR;
+  return [...someVar];
+}
+"#,
+    r#"
+const E_ARR = [];
+export default function () {
+  const someVar = E_ARR;
+  return _toConsumableArray(someVar);
+}
+
+"#
+);
+
+// spread_method_call_multiple
+test!(
+    syntax(),
+    |_| tr(),
+    spread_method_call_multiple,
+    r#"
+add(foo, ...numbers, bar, what, ...test);
+
+"#,
+    r#"
+add.apply(void 0, [foo].concat(_toConsumableArray(numbers), [bar, what], _toConsumableArray(test)));
+
+"#
+);
+
+// spread_arguments
+test!(
+    syntax(),
+    |_| tr(),
+    spread_arguments,
+    r#"
+function foo() {
+  return bar(...arguments);
+}
+
+function bar(one, two, three) {
+  return [one, two, three];
+}
+
+foo("foo", "bar");
+
+"#,
+    r#"
+function foo() {
+  return bar.apply(void 0, arguments);
+}
+
+function bar(one, two, three) {
+  return [one, two, three];
+}
+
+foo("foo", "bar");
+
+"#
+);
+
+// spread_contexted_method_call_super_multiple_args
+test!(
+    syntax(),
+    |_| tr(),
+    spread_contexted_method_call_super_multiple_args,
+    r#"
+class Foo {
+	bar() {
+		super.bar(arg1, arg2, ...args);
+	}
+}
+
+"#,
+    r#"
+class Foo {
+  bar() {
+    super.bar.apply(this, [arg1, arg2].concat(_toConsumableArray(args)));
+  }
+
+}
+
+"#
+);
+
+// spread_contexted_computed_method_call_single_arg
+test!(
+    syntax(),
+    |_| tr(),
+    spread_contexted_computed_method_call_single_arg,
+    r#"
+obj[method](...args);
+
+"#,
+    r#"
+var _obj;
+
+(_obj = obj)[method].apply(_obj, _toConsumableArray(args));
+
+"#
+);
+
+// spread_arguments_concat
+test!(
+    syntax(),
+    |_| tr(),
+    spread_arguments_concat,
+    r#"
+function foo() {
+  return bar("test", ...arguments);
+}
+
+function bar(one, two, three) {
+  return [one, two, three];
+}
+
+foo("foo", "bar");
+
+"#,
+    r#"
+function foo() {
+  return bar.apply(void 0, ["test"].concat(Array.prototype.slice.call(arguments)));
+}
+
+function bar(one, two, three) {
+  return [one, two, three];
+}
+
+foo("foo", "bar");
+
+"#
+);

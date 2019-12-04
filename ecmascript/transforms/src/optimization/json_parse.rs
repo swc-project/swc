@@ -1,8 +1,8 @@
-use crate::util::ExprFactory;
+use crate::util::{calc_literal_cost, ExprFactory};
 use ast::*;
 use serde_json::Value;
 use std::usize;
-use swc_common::{Fold, FoldWith, Spanned, Visit, VisitWith, DUMMY_SP};
+use swc_common::{Fold, FoldWith, Spanned, DUMMY_SP};
 
 /// Trnasform to optimize performance of literals.
 ///
@@ -46,12 +46,8 @@ impl Fold<Expr> for JsonParse {
 
         let e = match e {
             Expr::Array(..) | Expr::Object(..) => {
-                let mut v = LiteralVisitor {
-                    is_lit: true,
-                    cost: 0,
-                };
-                e.visit_with(&mut v);
-                if v.is_lit && v.cost >= self.min_cost {
+                let (is_lit, cost) = calc_literal_cost(&e, false);
+                if is_lit && cost >= self.min_cost {
                     return Expr::Call(CallExpr {
                         span: e.span(),
                         callee: member_expr!(DUMMY_SP, JSON.parse).as_callee(),
@@ -113,144 +109,6 @@ fn jsonify(e: Expr) -> Value {
         Expr::Lit(Lit::Null(..)) => Value::Null,
         Expr::Lit(Lit::Bool(v)) => Value::Bool(v.value),
         _ => unreachable!("jsonify: Expr {:?} cannot be converted to json", e),
-    }
-}
-
-struct LiteralVisitor {
-    is_lit: bool,
-    cost: usize,
-}
-
-macro_rules! not_lit {
-    ($T:ty) => {
-        impl Visit<$T> for LiteralVisitor {
-            fn visit(&mut self, _: &$T) {
-                self.is_lit = false;
-            }
-        }
-    };
-}
-
-not_lit!(ThisExpr);
-not_lit!(FnExpr);
-not_lit!(UnaryExpr);
-not_lit!(UpdateExpr);
-not_lit!(AssignExpr);
-not_lit!(MemberExpr);
-not_lit!(CondExpr);
-not_lit!(CallExpr);
-not_lit!(NewExpr);
-not_lit!(SeqExpr);
-not_lit!(TaggedTpl);
-not_lit!(ArrowExpr);
-not_lit!(ClassExpr);
-not_lit!(YieldExpr);
-not_lit!(MetaPropExpr);
-not_lit!(AwaitExpr);
-
-// TODO:
-not_lit!(BinExpr);
-
-not_lit!(JSXMemberExpr);
-not_lit!(JSXNamespacedName);
-not_lit!(JSXEmptyExpr);
-not_lit!(JSXElement);
-not_lit!(JSXFragment);
-
-// TODO: TsTypeCastExpr,
-// TODO: TsAsExpr,
-
-// TODO: ?
-not_lit!(TsNonNullExpr);
-// TODO: ?
-not_lit!(TsTypeAssertion);
-// TODO: ?
-not_lit!(TsConstAssertion);
-
-not_lit!(PrivateName);
-not_lit!(TsOptChain);
-
-not_lit!(SpreadElement);
-not_lit!(Invalid);
-
-impl Visit<Expr> for LiteralVisitor {
-    fn visit(&mut self, e: &Expr) {
-        if !self.is_lit {
-            return;
-        }
-
-        match *e {
-            Expr::Ident(..) | Expr::Lit(Lit::Regex(..)) => self.is_lit = false,
-            Expr::Tpl(ref tpl) if !tpl.exprs.is_empty() => self.is_lit = false,
-            _ => e.visit_children(self),
-        }
-    }
-}
-
-impl Visit<Prop> for LiteralVisitor {
-    fn visit(&mut self, p: &Prop) {
-        if !self.is_lit {
-            return;
-        }
-
-        p.visit_children(self);
-
-        match p {
-            Prop::KeyValue(..) => {
-                self.cost += 1;
-            }
-            _ => self.is_lit = false,
-        }
-    }
-}
-
-impl Visit<PropName> for LiteralVisitor {
-    fn visit(&mut self, node: &PropName) {
-        if !self.is_lit {
-            return;
-        }
-
-        node.visit_children(self);
-
-        match node {
-            PropName::Str(ref s) => self.cost += 2 + s.value.len(),
-            PropName::Ident(ref id) => self.cost += 2 + id.sym.len(),
-            PropName::Num(n) => {
-                if n.value.fract() < 1e-10 {
-                    // TODO: Count digits
-                    self.cost += 5;
-                } else {
-                    self.is_lit = false
-                }
-            }
-            PropName::Computed(..) => self.is_lit = false,
-        }
-    }
-}
-
-impl Visit<ArrayLit> for LiteralVisitor {
-    fn visit(&mut self, e: &ArrayLit) {
-        if !self.is_lit {
-            return;
-        }
-
-        self.cost += 2 + e.elems.len();
-
-        e.visit_children(self);
-
-        for elem in &e.elems {
-            if elem.is_none() {
-                self.is_lit = false;
-            }
-        }
-    }
-}
-
-impl Visit<Number> for LiteralVisitor {
-    fn visit(&mut self, node: &Number) {
-        if node.value.is_infinite() {
-            self.is_lit = false;
-        }
     }
 }
 

@@ -2,11 +2,14 @@
 
 set -e
 
+rm -rf /tmp/.swc
+mkdir -p /tmp/.swc/fixtures
+
 (cd fixtures && find . -depth -exec sh -c '
     for source; do
       case $source in ./*/*)
-        target="$(printf %sz "${source#./}" | tr / -)";
-        mv -i -- "$source" "${target%z}";;
+        target="$(printf %sz "${source#./}" | tr / _)";
+        cp -r -- "$source" "/tmp/.swc/fixtures/${target%z}";;
       esac
     done
 ' _ {} +)
@@ -14,4 +17,4 @@ set -e
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-python3 $SCRIPT_DIR/fixtures.py
+(cd /tmp/.swc && python3 $SCRIPT_DIR/fixtures.py)
