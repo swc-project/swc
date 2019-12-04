@@ -399,16 +399,14 @@ impl Strip {
                                             // Foo["a"] = 0
                                             prop: box Expr::Assign(AssignExpr {
                                                 span: DUMMY_SP,
-                                                left: PatOrExpr::Expr(m.init.unwrap_or_else(
-                                                    || {
-                                                        box Expr::Member(MemberExpr {
-                                                            span: DUMMY_SP,
-                                                            obj: id.clone().as_obj(),
-                                                            prop: box Expr::Lit(Lit::Str(
-                                                                value.clone(),
-                                                            )),
-                                                            computed: true,
-                                                        })
+                                                left: PatOrExpr::Expr(box Expr::Member(
+                                                    MemberExpr {
+                                                        span: DUMMY_SP,
+                                                        obj: id.clone().as_obj(),
+                                                        prop: m.init.unwrap_or_else(|| {
+                                                            box Expr::Lit(Lit::Str(value.clone()))
+                                                        }),
+                                                        computed: true,
                                                     },
                                                 )),
                                                 op: op!("="),

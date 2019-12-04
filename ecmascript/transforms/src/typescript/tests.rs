@@ -269,12 +269,41 @@ test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
     |_| strip(),
     enum_str,
+    "enum State {
+  closed = 'closed',
+  opened = 'opened',
+  mounted = 'mounted',
+  unmounted = 'unmounted',
+}",
+    "var State;
+(function(State) {
+    State[State['closed'] = 0] = 'closed';
+    State[State['opened'] = 1] = 'opened';
+    State[State['mounted'] = 2] = 'mounted';
+    State[State['unmounted'] = 3] = 'unmounted';
+})(State || (State = {
+}));
+",
+    ok_if_code_eq
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::Typescript(Default::default()),
+    |_| strip(),
+    enum_export_str,
     "export enum State {
   closed = 'closed',
   opened = 'opened',
   mounted = 'mounted',
   unmounted = 'unmounted',
 }",
-    "",
+    "export var State;
+(function(State) {
+    State[State['closed'] = 0] = 'closed';
+    State[State['opened'] = 1] = 'opened';
+    State[State['mounted'] = 2] = 'mounted';
+    State[State['unmounted'] = 3] = 'unmounted';
+})(State || (State = {
+}));",
     ok_if_code_eq
 );
