@@ -212,8 +212,24 @@ impl Fold<Vec<ModuleItem>> for Strip {
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
                     decl: Decl::TsEnum(e),
                     ..
-                }))
-                | ModuleItem::Stmt(Stmt::Decl(Decl::TsEnum(e))) => {
+                })) => {
+                    stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                        span: e.span,
+                        decl: Decl::Var(VarDecl {
+                            span: DUMMY_SP,
+                            kind: VarDeclKind::Var,
+                            declare: false,
+                            decls: vec![VarDeclarator {
+                                span: e.span,
+                                name: Pat::Ident(e.id.clone()),
+                                definite: false,
+                                init: None,
+                            }],
+                        }),
+                    })));
+                    self.handle_enum(e, &mut stmts)
+                }
+                ModuleItem::Stmt(Stmt::Decl(Decl::TsEnum(e))) => {
                     // var Foo;
                     // (function (Foo) {
                     //     Foo[Foo["a"] = 0] = "a";
@@ -233,110 +249,7 @@ impl Fold<Vec<ModuleItem>> for Strip {
                         }))
                         .into(),
                     );
-                    let id = e.id;
-                    stmts.push(
-                        Stmt::Expr(box Expr::Call(CallExpr {
-                            span: DUMMY_SP,
-                            callee: FnExpr {
-                                ident: None,
-                                function: Function {
-                                    span: DUMMY_SP,
-                                    decorators: Default::default(),
-                                    is_async: false,
-                                    is_generator: false,
-                                    type_params: Default::default(),
-                                    params: vec![Pat::Ident(id.clone())],
-                                    body: Some(BlockStmt {
-                                        span: DUMMY_SP,
-                                        stmts: e
-                                            .members
-                                            .into_iter()
-                                            .enumerate()
-                                            .map(|(i, m)| {
-                                                let value = match m.id {
-                                                    TsEnumMemberId::Str(s) => s,
-                                                    TsEnumMemberId::Ident(i) => Str {
-                                                        span: i.span,
-                                                        value: i.sym,
-                                                        has_escape: false,
-                                                    },
-                                                };
-
-                                                // Foo[Foo["a"] = 0] = "a";
-                                                Stmt::Expr(box Expr::Assign(AssignExpr {
-                                                    span: DUMMY_SP,
-                                                    left: PatOrExpr::Expr(box Expr::Member(
-                                                        MemberExpr {
-                                                            obj: id.clone().as_obj(),
-                                                            span: DUMMY_SP,
-                                                            computed: true,
-
-                                                            // Foo["a"] = 0
-                                                            prop: box Expr::Assign(AssignExpr {
-                                                                span: DUMMY_SP,
-                                                                left: PatOrExpr::Expr(
-                                                                    m.init.unwrap_or_else(|| {
-                                                                        box Expr::Member(
-                                                                            MemberExpr {
-                                                                                span: DUMMY_SP,
-                                                                                obj: id
-                                                                                    .clone()
-                                                                                    .as_obj(),
-                                                                                prop: box Expr::Lit(
-                                                                                    Lit::Str(
-                                                                                        value
-                                                                                            .clone(
-                                                                                            ),
-                                                                                    ),
-                                                                                ),
-                                                                                computed: true,
-                                                                            },
-                                                                        )
-                                                                    }),
-                                                                ),
-                                                                op: op!("="),
-                                                                right: box Expr::Lit(Lit::Num(
-                                                                    Number {
-                                                                        span: DUMMY_SP,
-                                                                        value: i as _,
-                                                                    },
-                                                                )),
-                                                            }),
-                                                        },
-                                                    )),
-                                                    op: op!("="),
-                                                    right: box Expr::Lit(Lit::Str(Str {
-                                                        span: DUMMY_SP,
-                                                        value: value.value,
-                                                        has_escape: false,
-                                                    })),
-                                                }))
-                                            })
-                                            .collect(),
-                                    }),
-                                    return_type: Default::default(),
-                                },
-                            }
-                            .as_callee(),
-                            args: vec![BinExpr {
-                                span: DUMMY_SP,
-                                left: box Expr::Ident(id.clone()),
-                                op: op!("||"),
-                                right: box Expr::Assign(AssignExpr {
-                                    span: DUMMY_SP,
-                                    left: PatOrExpr::Pat(Pat::Ident(id.clone()).into()),
-                                    op: op!("="),
-                                    right: box Expr::Object(ObjectLit {
-                                        span: DUMMY_SP,
-                                        props: vec![],
-                                    }),
-                                }),
-                            }
-                            .as_arg()],
-                            type_args: Default::default(),
-                        }))
-                        .into(),
-                    )
+                    self.handle_enum(e, &mut stmts)
                 }
 
                 ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
@@ -441,6 +354,101 @@ impl Fold<Vec<ModuleItem>> for Strip {
         self.phase = old;
 
         stmts
+    }
+}
+
+impl Strip {
+    fn handle_enum(&mut self, e: TsEnumDecl, stmts: &mut Vec<ModuleItem>) {
+        let id = e.id;
+        stmts.push(
+            Stmt::Expr(box Expr::Call(CallExpr {
+                span: DUMMY_SP,
+                callee: FnExpr {
+                    ident: None,
+                    function: Function {
+                        span: DUMMY_SP,
+                        decorators: Default::default(),
+                        is_async: false,
+                        is_generator: false,
+                        type_params: Default::default(),
+                        params: vec![Pat::Ident(id.clone())],
+                        body: Some(BlockStmt {
+                            span: DUMMY_SP,
+                            stmts: e
+                                .members
+                                .into_iter()
+                                .enumerate()
+                                .map(|(i, m)| {
+                                    let value = match m.id {
+                                        TsEnumMemberId::Str(s) => s,
+                                        TsEnumMemberId::Ident(i) => Str {
+                                            span: i.span,
+                                            value: i.sym,
+                                            has_escape: false,
+                                        },
+                                    };
+
+                                    // Foo[Foo["a"] = 0] = "a";
+                                    Stmt::Expr(box Expr::Assign(AssignExpr {
+                                        span: DUMMY_SP,
+                                        left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
+                                            obj: id.clone().as_obj(),
+                                            span: DUMMY_SP,
+                                            computed: true,
+
+                                            // Foo["a"] = 0
+                                            prop: box Expr::Assign(AssignExpr {
+                                                span: DUMMY_SP,
+                                                left: PatOrExpr::Expr(box Expr::Member(
+                                                    MemberExpr {
+                                                        span: DUMMY_SP,
+                                                        obj: id.clone().as_obj(),
+                                                        prop: m.init.unwrap_or_else(|| {
+                                                            box Expr::Lit(Lit::Str(value.clone()))
+                                                        }),
+                                                        computed: true,
+                                                    },
+                                                )),
+                                                op: op!("="),
+                                                right: box Expr::Lit(Lit::Num(Number {
+                                                    span: DUMMY_SP,
+                                                    value: i as _,
+                                                })),
+                                            }),
+                                        })),
+                                        op: op!("="),
+                                        right: box Expr::Lit(Lit::Str(Str {
+                                            span: DUMMY_SP,
+                                            value: value.value,
+                                            has_escape: false,
+                                        })),
+                                    }))
+                                })
+                                .collect(),
+                        }),
+                        return_type: Default::default(),
+                    },
+                }
+                .as_callee(),
+                args: vec![BinExpr {
+                    span: DUMMY_SP,
+                    left: box Expr::Ident(id.clone()),
+                    op: op!("||"),
+                    right: box Expr::Assign(AssignExpr {
+                        span: DUMMY_SP,
+                        left: PatOrExpr::Pat(Pat::Ident(id.clone()).into()),
+                        op: op!("="),
+                        right: box Expr::Object(ObjectLit {
+                            span: DUMMY_SP,
+                            props: vec![],
+                        }),
+                    }),
+                }
+                .as_arg()],
+                type_args: Default::default(),
+            }))
+            .into(),
+        )
     }
 }
 
