@@ -158,7 +158,7 @@ impl Fold<Vec<VarDeclarator>> for RestFolder {
 
             let decl = decl.fold_children(self);
 
-            let (var_ident, aliased) = match decl.name {
+            let (var_ident, _) = match decl.name {
                 Pat::Ident(ref i) => (i.clone(), false),
 
                 _ => match decl.init {
@@ -169,6 +169,43 @@ impl Fold<Vec<VarDeclarator>> for RestFolder {
 
             let has_init = decl.init.is_some();
             if let Some(init) = decl.init {
+                match decl.name {
+                    // Optimize { ...props } = this.props
+                    Pat::Object(ObjectPat { props, .. })
+                        if props.len() == 1
+                            && (match props[0] {
+                                ObjectPatProp::Rest(..) => true,
+                                _ => false,
+                            }) =>
+                    {
+                        let prop = match props.into_iter().next().unwrap() {
+                            ObjectPatProp::Rest(r) => r,
+                            _ => unreachable!(),
+                        };
+
+                        self.vars.push(VarDeclarator {
+                            span: prop.span(),
+                            name: *prop.arg,
+                            init: Some(box Expr::Call(CallExpr {
+                                span: DUMMY_SP,
+                                callee: helper!(extends, "extends"),
+                                args: vec![
+                                    ObjectLit {
+                                        span: DUMMY_SP,
+                                        props: vec![],
+                                    }
+                                    .as_arg(),
+                                    init.as_arg(),
+                                ],
+                                type_args: Default::default(),
+                            })),
+                            definite: false,
+                        });
+                        continue;
+                    }
+                    _ => {}
+                }
+
                 match *init {
                     // skip `z = z`
                     Expr::Ident(..) => {}
@@ -189,6 +226,7 @@ impl Fold<Vec<VarDeclarator>> for RestFolder {
             match pat {
                 // skip `{} = z`
                 Pat::Object(ObjectPat { ref props, .. }) if props.is_empty() => {}
+
                 _ => {
                     // insert at index to create
                     // `var { a } = _ref, b = _objectWithoutProperties(_ref, ['a']);`
