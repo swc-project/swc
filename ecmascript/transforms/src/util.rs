@@ -801,153 +801,19 @@ impl Visit<RestPat> for RestPatVisitor {
     }
 }
 
-#[inline]
-pub fn is_literal(e: &Expr) -> bool {
-    let (v, _) = calc_literal_cost(e, true);
+pub(crate) fn is_literal<T>(node: &T) -> bool
+where
+    T: VisitWith<LiteralVisitor>,
+{
+    let (v, _) = calc_literal_cost(node, true);
     v
 }
 
 #[inline(never)]
-pub fn calc_literal_cost(e: &Expr, allow_non_json_value: bool) -> (bool, usize) {
-    struct LiteralVisitor {
-        is_lit: bool,
-        cost: usize,
-        allow_non_json_value: bool,
-    }
-
-    macro_rules! not_lit {
-        ($T:ty) => {
-            impl Visit<$T> for LiteralVisitor {
-                fn visit(&mut self, _: &$T) {
-                    self.is_lit = false;
-                }
-            }
-        };
-    }
-
-    not_lit!(ThisExpr);
-    not_lit!(FnExpr);
-    not_lit!(UnaryExpr);
-    not_lit!(UpdateExpr);
-    not_lit!(AssignExpr);
-    not_lit!(MemberExpr);
-    not_lit!(CondExpr);
-    not_lit!(CallExpr);
-    not_lit!(NewExpr);
-    not_lit!(SeqExpr);
-    not_lit!(TaggedTpl);
-    not_lit!(ArrowExpr);
-    not_lit!(ClassExpr);
-    not_lit!(YieldExpr);
-    not_lit!(MetaPropExpr);
-    not_lit!(AwaitExpr);
-
-    // TODO:
-    not_lit!(BinExpr);
-
-    not_lit!(JSXMemberExpr);
-    not_lit!(JSXNamespacedName);
-    not_lit!(JSXEmptyExpr);
-    not_lit!(JSXElement);
-    not_lit!(JSXFragment);
-
-    // TODO: TsTypeCastExpr,
-    // TODO: TsAsExpr,
-
-    // TODO: ?
-    not_lit!(TsNonNullExpr);
-    // TODO: ?
-    not_lit!(TsTypeAssertion);
-    // TODO: ?
-    not_lit!(TsConstAssertion);
-
-    not_lit!(PrivateName);
-    not_lit!(TsOptChain);
-
-    not_lit!(SpreadElement);
-    not_lit!(Invalid);
-
-    impl Visit<Expr> for LiteralVisitor {
-        fn visit(&mut self, e: &Expr) {
-            if !self.is_lit {
-                return;
-            }
-
-            match *e {
-                Expr::Ident(..) | Expr::Lit(Lit::Regex(..)) => self.is_lit = false,
-                Expr::Tpl(ref tpl) if !tpl.exprs.is_empty() => self.is_lit = false,
-                _ => e.visit_children(self),
-            }
-        }
-    }
-
-    impl Visit<Prop> for LiteralVisitor {
-        fn visit(&mut self, p: &Prop) {
-            if !self.is_lit {
-                return;
-            }
-
-            p.visit_children(self);
-
-            match p {
-                Prop::KeyValue(..) => {
-                    self.cost += 1;
-                }
-                _ => self.is_lit = false,
-            }
-        }
-    }
-
-    impl Visit<PropName> for LiteralVisitor {
-        fn visit(&mut self, node: &PropName) {
-            if !self.is_lit {
-                return;
-            }
-
-            node.visit_children(self);
-
-            match node {
-                PropName::Str(ref s) => self.cost += 2 + s.value.len(),
-                PropName::Ident(ref id) => self.cost += 2 + id.sym.len(),
-                PropName::Num(n) => {
-                    if n.value.fract() < 1e-10 {
-                        // TODO: Count digits
-                        self.cost += 5;
-                    } else {
-                        self.is_lit = false
-                    }
-                }
-                PropName::Computed(..) => self.is_lit = false,
-            }
-        }
-    }
-
-    impl Visit<ArrayLit> for LiteralVisitor {
-        fn visit(&mut self, e: &ArrayLit) {
-            if !self.is_lit {
-                return;
-            }
-
-            self.cost += 2 + e.elems.len();
-
-            e.visit_children(self);
-
-            for elem in &e.elems {
-                if !self.allow_non_json_value && elem.is_none() {
-                    self.is_lit = false;
-                }
-            }
-        }
-    }
-
-    impl Visit<Number> for LiteralVisitor {
-        fn visit(&mut self, node: &Number) {
-            if !self.allow_non_json_value && node.value.is_infinite() {
-                self.is_lit = false;
-            }
-        }
-    }
-
+pub(crate) fn calc_literal_cost<T>(e: &T, allow_non_json_value: bool) -> (bool, usize)
+where
+    T: VisitWith<LiteralVisitor>,
+{
     let mut v = LiteralVisitor {
         is_lit: true,
         cost: 0,
@@ -956,6 +822,145 @@ pub fn calc_literal_cost(e: &Expr, allow_non_json_value: bool) -> (bool, usize) 
     e.visit_with(&mut v);
 
     (v.is_lit, v.cost)
+}
+
+pub(crate) struct LiteralVisitor {
+    is_lit: bool,
+    cost: usize,
+    allow_non_json_value: bool,
+}
+
+macro_rules! not_lit {
+    ($T:ty) => {
+        impl Visit<$T> for LiteralVisitor {
+            fn visit(&mut self, _: &$T) {
+                self.is_lit = false;
+            }
+        }
+    };
+}
+
+not_lit!(ThisExpr);
+not_lit!(FnExpr);
+not_lit!(UnaryExpr);
+not_lit!(UpdateExpr);
+not_lit!(AssignExpr);
+not_lit!(MemberExpr);
+not_lit!(CondExpr);
+not_lit!(CallExpr);
+not_lit!(NewExpr);
+not_lit!(SeqExpr);
+not_lit!(TaggedTpl);
+not_lit!(ArrowExpr);
+not_lit!(ClassExpr);
+not_lit!(YieldExpr);
+not_lit!(MetaPropExpr);
+not_lit!(AwaitExpr);
+
+// TODO:
+not_lit!(BinExpr);
+
+not_lit!(JSXMemberExpr);
+not_lit!(JSXNamespacedName);
+not_lit!(JSXEmptyExpr);
+not_lit!(JSXElement);
+not_lit!(JSXFragment);
+
+// TODO: TsTypeCastExpr,
+// TODO: TsAsExpr,
+
+// TODO: ?
+not_lit!(TsNonNullExpr);
+// TODO: ?
+not_lit!(TsTypeAssertion);
+// TODO: ?
+not_lit!(TsConstAssertion);
+
+not_lit!(PrivateName);
+not_lit!(TsOptChain);
+
+not_lit!(SpreadElement);
+not_lit!(Invalid);
+
+impl Visit<Expr> for LiteralVisitor {
+    fn visit(&mut self, e: &Expr) {
+        if !self.is_lit {
+            return;
+        }
+
+        match *e {
+            Expr::Ident(..) | Expr::Lit(Lit::Regex(..)) => self.is_lit = false,
+            Expr::Tpl(ref tpl) if !tpl.exprs.is_empty() => self.is_lit = false,
+            _ => e.visit_children(self),
+        }
+    }
+}
+
+impl Visit<Prop> for LiteralVisitor {
+    fn visit(&mut self, p: &Prop) {
+        if !self.is_lit {
+            return;
+        }
+
+        p.visit_children(self);
+
+        match p {
+            Prop::KeyValue(..) => {
+                self.cost += 1;
+            }
+            _ => self.is_lit = false,
+        }
+    }
+}
+
+impl Visit<PropName> for LiteralVisitor {
+    fn visit(&mut self, node: &PropName) {
+        if !self.is_lit {
+            return;
+        }
+
+        node.visit_children(self);
+
+        match node {
+            PropName::Str(ref s) => self.cost += 2 + s.value.len(),
+            PropName::Ident(ref id) => self.cost += 2 + id.sym.len(),
+            PropName::Num(n) => {
+                if n.value.fract() < 1e-10 {
+                    // TODO: Count digits
+                    self.cost += 5;
+                } else {
+                    self.is_lit = false
+                }
+            }
+            PropName::Computed(..) => self.is_lit = false,
+        }
+    }
+}
+
+impl Visit<ArrayLit> for LiteralVisitor {
+    fn visit(&mut self, e: &ArrayLit) {
+        if !self.is_lit {
+            return;
+        }
+
+        self.cost += 2 + e.elems.len();
+
+        e.visit_children(self);
+
+        for elem in &e.elems {
+            if !self.allow_non_json_value && elem.is_none() {
+                self.is_lit = false;
+            }
+        }
+    }
+}
+
+impl Visit<Number> for LiteralVisitor {
+    fn visit(&mut self, node: &Number) {
+        if !self.allow_non_json_value && node.value.is_infinite() {
+            self.is_lit = false;
+        }
+    }
 }
 
 fn sym(expr: &Expr, default: &str) -> JsWord {
