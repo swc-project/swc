@@ -55,7 +55,7 @@ impl Fold<KeyValueProp> for FnName {
                 //
                 if let PropName::Ident(ref i) = p.key {
                     box Expr::Fn(FnExpr {
-                        ident: Some(prepare(i.clone(), true)),
+                        ident: Some(i.clone()),
                         ..expr
                     })
                 } else {
@@ -133,7 +133,7 @@ macro_rules! impl_for {
                         if UsageFinder::find(&name, &node) {
                             // self.name = Some(name);
                             $T {
-                                ident: None,
+                                ident: Some(prepare(name, true)),
                                 ..node
                             }
                         } else {
