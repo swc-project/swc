@@ -1329,11 +1329,10 @@ function () {
     console.log(bar);
   });
 
-  function bar() {
+  return function bar() {
     return _bar.apply(this, arguments);
-  }
+  };
 
-  return bar;
 }();
 
 "#
