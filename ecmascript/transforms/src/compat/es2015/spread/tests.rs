@@ -210,7 +210,7 @@ var lyrics = [...parts, "head", "and", "toes"];
 
 "#,
     r#"
-var lyrics = [].concat(_toConsumableArray(parts), ["head", "and", "toes"]);
+var lyrics = _toConsumableArray(parts).concat(['head', 'and', 'toes']);
 
 "#
 );
@@ -336,20 +336,6 @@ var a = [b, ...c, d];
     r#"
 var a = [b].concat(_toConsumableArray(c), [d]);
 
-"#
-);
-
-// method_call_first
-test!(
-    syntax(),
-    |_| tr(),
-    method_call_first,
-    r#"
-add(...numbers, foo, bar);
-
-"#,
-    r#"
-add.apply(void 0, [].concat(_toConsumableArray(numbers), [foo, bar]));
 "#
 );
 

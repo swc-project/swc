@@ -345,18 +345,34 @@ impl ActualFolder {
         }
         make_arr!();
 
-        if !buf.is_empty() && buf[0].spread.is_none() && first_arr.is_none() {
+        if !buf.is_empty()
+            && match first_arr {
+                None => true,
+                Some(Expr::Array(ref arr)) if arr.elems.is_empty() => true,
+                _ => false,
+            }
+        {
             let callee = buf
                 .remove(0)
                 .expr
                 .member(Ident::new(js_word!("concat"), DUMMY_SP))
                 .as_callee();
-            return Expr::Call(CallExpr {
-                span,
-                callee,
-                args: buf,
-                type_args: Default::default(),
-            });
+
+            if buf[0].spread.is_none() {
+                return Expr::Call(CallExpr {
+                    span,
+                    callee,
+                    args: buf,
+                    type_args: Default::default(),
+                });
+            } else {
+                return Expr::Call(CallExpr {
+                    span,
+                    callee,
+                    args: buf,
+                    type_args: Default::default(),
+                });
+            }
         }
 
         Expr::Call(CallExpr {
@@ -369,7 +385,6 @@ impl ActualFolder {
                     // No arg
 
                     // assert!(args.is_empty());
-
                     Expr::Array(ArrayLit {
                         span,
                         elems: vec![],
