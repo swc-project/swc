@@ -1,5 +1,5 @@
 use super::*;
-use crate::modules::common_js::common_js;
+use crate::{compat::es2015::block_scoping, modules::common_js::common_js};
 use swc_common::chain;
 
 fn syntax() -> ::swc_ecma_parser::Syntax {
@@ -694,7 +694,7 @@ add.apply(void 0, _toConsumableArray(numbers));
 // spread_known_rest
 test!(
     syntax(),
-    |_| tr(),
+    |_| chain!(tr(), block_scoping()),
     spread_known_rest,
     r#"
 function foo(...bar) {
