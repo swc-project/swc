@@ -1,6 +1,6 @@
 use crate::{
     pass::Pass,
-    util::{alias_ident_for, var::VarCollector, ExprFactory, StmtLike},
+    util::{alias_ident_for, alias_if_required, var::VarCollector, ExprFactory, StmtLike},
 };
 use ast::*;
 use std::{iter, mem};
@@ -158,11 +158,11 @@ impl Fold<Vec<VarDeclarator>> for RestFolder {
 
             let decl = decl.fold_children(self);
 
-            let var_ident = match decl.init {
-                Some(box Expr::Ident(ref ident)) => ident.clone(),
+            let (var_ident, aliased) = match decl.init {
+                Some(ref e) => alias_if_required(e, "_ref"),
                 _ => match decl.name {
-                    Pat::Ident(ref i) => i.clone(),
-                    _ => private_ident!("_ref"),
+                    Pat::Ident(ref i) => (i.clone(), false),
+                    _ => (private_ident!("_ref"), true),
                 },
             };
 
@@ -170,7 +170,7 @@ impl Fold<Vec<VarDeclarator>> for RestFolder {
             if let Some(init) = decl.init {
                 match *init {
                     // skip `z = z`
-                    Expr::Ident(..) => {}
+                    _ if !aliased => {}
                     _ => {
                         // println!("Var: var_ident = init",);
                         self.push_var_if_not_empty(VarDeclarator {
