@@ -236,6 +236,16 @@ impl<'a> Fold<FnDecl> for Resolver<'a> {
     }
 }
 
+impl Fold<Pat> for Resolver<'_> {
+    fn fold(&mut self, p: Pat) -> Pat {
+        let old = self.cur_defining.take();
+        let p = p.fold_children(self);
+
+        self.cur_defining = old;
+        p
+    }
+}
+
 impl<'a> Fold<Expr> for Resolver<'a> {
     fn fold(&mut self, expr: Expr) -> Expr {
         let expr = validate!(expr);
