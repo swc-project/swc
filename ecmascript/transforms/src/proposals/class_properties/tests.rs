@@ -4623,8 +4623,8 @@ export class Foo extends Bar {
 "#,
     r#"
 export class Foo extends Bar {
-  constructor(..._args) {
-    super(..._args);
+  constructor(...args) {
+    super(...args);
     _defineProperty(this, "test", args);
   }
 
