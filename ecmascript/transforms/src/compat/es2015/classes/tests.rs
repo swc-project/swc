@@ -1873,7 +1873,7 @@ function Foo() {
     value: function foo() {}
   }, {
     key: "foo",
-    value: function foo1() {}
+    value: function foo() {}
   }, {
     key: bar,
     value: function() {}
