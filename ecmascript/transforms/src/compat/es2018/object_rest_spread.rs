@@ -171,7 +171,7 @@ impl Fold<Vec<VarDeclarator>> for RestFolder {
             if let Some(init) = decl.init {
                 match *init {
                     // skip `z = z`
-                    _ if !aliased => {}
+                    Expr::Ident(..) => {}
                     _ => {
                         // println!("Var: var_ident = init",);
                         self.push_var_if_not_empty(VarDeclarator {
