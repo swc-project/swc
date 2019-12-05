@@ -1658,14 +1658,14 @@ const s = _extends({}, r),
       t = foo(s); // ordering is preserved
 
 var l = foo(),
-    _bar = bar(),
+    _ref = bar(),
     {
   m: {
     n
   }
-} = _bar,
-    o = _objectWithoutProperties(_bar.m, ["n"]),
-    p = _objectWithoutProperties(_bar, ["m"]),
+} = _ref,
+    o = _objectWithoutProperties(_ref.m, ["n"]),
+    p = _objectWithoutProperties(_ref, ["m"]),
     q = baz();
 
 "#
