@@ -585,9 +585,7 @@ for (let a of b) {
 
 "#,
     r#"
-var _iteratorNormalCompletion = true;
-var _didIteratorError = false;
-var _iteratorError = undefined;
+var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
 
 try {
   myLabel: //woops
