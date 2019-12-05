@@ -2,6 +2,7 @@ use super::object_rest_spread;
 use crate::{
     compat::es2015::{destructuring, spread},
     modules::common_js::common_js,
+    resolver,
 };
 use ast::Module;
 use swc_common::{chain, Fold};
@@ -2110,7 +2111,12 @@ expect(order).toEqual(["right", "left"]);
 // regression_t7178
 test!(
     syntax(),
-    |_| chain!(tr(), destructuring(), common_js(Default::default()),),
+    |_| chain!(
+        resolver(),
+        tr(),
+        destructuring(),
+        common_js(Default::default()),
+    ),
     regression_t7178,
     r#"
 import props from "props";
