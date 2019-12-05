@@ -5114,6 +5114,8 @@ test!(
 
 // extend_builtins_shadowed
 test!(
+    // Cost is too high while being uesless
+    ignore,
     syntax(),
     |_| tr(),
     extend_builtins_shadowed,
