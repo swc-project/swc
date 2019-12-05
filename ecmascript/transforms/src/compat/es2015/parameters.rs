@@ -68,6 +68,12 @@ impl Params {
 
                     let arg = match *arg {
                         Pat::Ident(ident) => {
+                            decls.push(VarDeclarator {
+                                span: DUMMY_SP,
+                                name: Pat::Ident(ident.clone()),
+                                init: None,
+                                definite: false,
+                            });
                             // params.push(Pat::Ident(ident.clone()));
                             ident
                         }

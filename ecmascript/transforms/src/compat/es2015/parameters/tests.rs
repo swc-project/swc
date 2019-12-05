@@ -44,6 +44,7 @@ test!(
 }",
     "
 export default function fn1() {
+    var args;
     for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++){
         args[_key] = arguments[_key];
     }
@@ -84,6 +85,7 @@ function foo(...a) {
 }"#,
     r#"var a = 'bar';
 function foo() {
+    var a1;
     for(var _len = arguments.length, a1 = new Array(_len), _key = 0; _key < _len; _key++){
         a1[_key] = arguments[_key];
     }
@@ -307,7 +309,7 @@ function rest(b = a, ...a) {
 rest(undefined, 2)"#,
     r#"var a = 1;
 function rest(param) {
-    var b = param === void 0 ? a : param;
+    var b = param === void 0 ? a : param, a1;
     for(var _len = arguments.length, a1 = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
         a1[_key - 1] = arguments[_key];
     }
@@ -327,7 +329,7 @@ test!(
 rest2(undefined, 2);"#,
     r#"var a = 1;
 function rest2(param) {
-    var b = param === void 0 ? a : param;
+    var b = param === void 0 ? a : param, a1;
     for(var _len = arguments.length, a1 = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
         a1[_key - 1] = arguments[_key];
     }
@@ -347,7 +349,7 @@ test!(
 rest3(undefined, 2)"#,
     r#"var a = 1;
 function rest3(param) {
-    var b = param === void 0 ? a : param;
+    var b = param === void 0 ? a : param, a1;
     for(var _len = arguments.length, a1 = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
         a1[_key - 1] = arguments[_key];
     }
@@ -434,7 +436,7 @@ function t(x = "default", { a, b }, ...args) {
     "// #3861
 function t(param, param1) {
     var x = param === void 0 ? 'default' : param, ref = param1 ? param1 : _throw(new \
-     TypeError(\"Cannot destructure 'undefined' or 'null'\")), a = ref.a, b = ref.b;
+     TypeError(\"Cannot destructure 'undefined' or 'null'\")), a = ref.a, b = ref.b, args;
     for(var _len = arguments.length, args = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < \
      _len; _key++){
         args[_key - 2] = arguments[_key];
@@ -454,6 +456,7 @@ function foo(...args) {
 }"#,
     r#"var args = 'bar';
 function foo() {
+    var args1;
     for(var _len = arguments.length, args1 = new Array(_len), _key = 0; _key < _len; _key++){
         args1[_key] = arguments[_key];
     }
@@ -471,6 +474,7 @@ test!(
   return values[index++];
 }"#,
     r#"function first() {
+    var values;
     for(var _len = arguments.length, values = new Array(_len), _key = 0; _key < _len; _key++){
         values[_key] = arguments[_key];
     }
@@ -520,6 +524,7 @@ function f(a, ...rest) {
   return rest[-1];
 }"#,
     r#"function f(a) {
+    var rest;
     for(var _len = arguments.length, rest = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
         rest[_key - 1] = arguments[_key];
     }
@@ -529,6 +534,7 @@ function f(a, ...rest) {
     return [a, b, c, d];
 }
 function f(a) {
+    var rest;
     for(var _len = arguments.length, rest = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
         rest[_key - 1] = arguments[_key];
     }
@@ -563,6 +569,7 @@ test!(
 }"#,
     r#"
 function x() {
+  var rest;
   for (var _len = arguments.length, rest = new Array(_len), _key = 0; _key < _len; _key++) {
     rest[_key] = arguments[_key];
   }
@@ -727,6 +734,7 @@ test!(
     r#"const deepAssign = (...args) => args = [];
 "#,
     r#"var deepAssign = function () {
+  var args;
   for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
     args[_key] = arguments[_key];
   }
@@ -948,6 +956,7 @@ function t(f, ...items) {
   items[items.length - 1];
 }"#,
     r#"var t = function(f) {
+    var items;
     for(var _len = arguments.length, items = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
         items[_key - 1] = arguments[_key];
     }
@@ -955,6 +964,7 @@ function t(f, ...items) {
     items[items.length - 1];
 };
 function t(f) {
+    var items;
     for(var _len = arguments.length, items = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
         items[_key - 1] = arguments[_key];
     }
@@ -1118,6 +1128,7 @@ function u(f, g, ...items) {
     var z = items[2] | 0 || 12;
 }"#,
     r#"var t = function(f) {
+    var items;
     for(var _len = arguments.length, items = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
         items[_key - 1] = arguments[_key];
     }
@@ -1126,6 +1137,7 @@ function u(f, g, ...items) {
     x = items[1];
 };
 function t(f) {
+    var items;
     for(var _len = arguments.length, items = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
         items[_key - 1] = arguments[_key];
     }
@@ -1134,6 +1146,7 @@ function t(f) {
     x = items[1];
 }
 function u(f, g) {
+    var items;
     for(var _len = arguments.length, items = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
         items[_key - 2] = arguments[_key];
     }
@@ -1224,6 +1237,7 @@ test!(
   }
 }"#,
     r#"function broken(x) {
+    var foo;
     for(var _len = arguments.length, foo = new Array(_len > 1 ? _len - 1 : 0),
         _key = 1; _key < _len; _key++){
         foo[_key - 1] = arguments[_key];
@@ -1634,6 +1648,7 @@ function foo(...a) {
 const a = 'bar';
 
 function foo() {
+  let a;
   for (let _len = arguments.length, a = new Array(_len), _key = 0; _key < _len; _key++) {
     a[_key] = arguments[_key];
   }
@@ -1660,6 +1675,7 @@ function foo(...args) {
 var args = 'bar';
 
 function foo() {
+  var args;
   for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
     args[_key] = arguments[_key];
   }
