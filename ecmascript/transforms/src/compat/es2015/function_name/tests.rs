@@ -291,10 +291,8 @@ var obj = {
   }
 };
 
-function search({
-  search
-}) {
-  console.log(search);
+function search({ search: search1 }) {
+    console.log(search1);
 }
 
 "#
@@ -827,11 +825,12 @@ console.log(new Template().events());
     r#"
 "use strict";
 
-var _events2 = _interopRequireDefault(require("events"));
+var _events = _interopRequireDefault(require("events"));
 
 let Template =
 /*#__PURE__*/
 function () {
+  'use strict';
   function Template() {
     _classCallCheck(this, Template);
   }
@@ -839,7 +838,7 @@ function () {
   _createClass(Template, [{
     key: "events",
     value: function events() {
-      return _events2.default;
+      return _events.default;
     }
   }]);
   return Template;
