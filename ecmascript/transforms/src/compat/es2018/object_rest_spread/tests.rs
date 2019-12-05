@@ -998,10 +998,10 @@ var _ref = {
   a: 1 
 }, a = _extends({
 }, _ref);
-var _ref1 = a.b, x = _extends({
+var _b = a.b, x = _extends({
+}, _b);
+var _ref1 = a(), x = _extends({
 }, _ref1);
-var _ref2 = a(), x = _extends({
-}, _ref2);
 var {
   x1
 } = z,
