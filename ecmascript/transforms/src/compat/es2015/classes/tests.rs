@@ -4974,7 +4974,7 @@ test!(
             }
             return Foo;
         }(Bar);
-        return hello.apply(void 0, foo);
+        return hello.apply(void 0, _toConsumableArray(foo));
     }
 }"
 );
