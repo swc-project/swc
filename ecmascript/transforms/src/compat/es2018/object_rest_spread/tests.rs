@@ -1142,7 +1142,7 @@ z = {
 test!(
     syntax(),
     |_| tr(),
-    spread_expression,
+    object_spread_expression,
     r#"
 ({ x, ...y, a, ...b, c });
 
@@ -2791,55 +2791,3 @@ const {
 
 "#
 );
-
-// object_spread_expression
-test!(
-    syntax(),
-    |_| tr(),
-    object_spread_expression,
-    r#"
-({ x, ...y, a, ...b, c });
-
-({ ...Object.prototype });
-
-({ ...{ foo: 'bar' } });
-
-({ ...{ foo: 'bar' }, ...{ bar: 'baz' } });
-
-({ ...{ get foo () { return 'foo' } } });
-
-"#,
-    r#"
-_objectSpread({
-  x
-}, y, {
-  a
-}, b, {
-  c
-});
-
-_objectSpread({}, Object.prototype);
-
-_objectSpread({}, {
-  foo: 'bar'
-});
-
-_objectSpread({}, {
-  foo: 'bar'
-}, {}, {
-  bar: 'baz'
-});
-
-_objectSpread({}, {
-  get foo() {
-    return 'foo';
-  }
-
-});
-
-"#
-);
-
-// regression
-
-// object_spread
