@@ -297,17 +297,29 @@ impl ActualFolder {
                                 }
                                 // [].concat(arr) is shorter than _toConsumableArray(arr)
                                 if args_len == 1 {
-                                    return Expr::Call(CallExpr {
-                                        span: DUMMY_SP,
-                                        callee: ArrayLit {
+                                    return if self.c.loose {
+                                        Expr::Call(CallExpr {
                                             span: DUMMY_SP,
-                                            elems: vec![],
-                                        }
-                                        .member(quote_ident!("concat"))
-                                        .as_callee(),
-                                        args: vec![expr.as_arg()],
-                                        type_args: Default::default(),
-                                    });
+                                            callee: ArrayLit {
+                                                span: DUMMY_SP,
+                                                elems: vec![],
+                                            }
+                                            .member(quote_ident!("concat"))
+                                            .as_callee(),
+                                            args: vec![expr.as_arg()],
+                                            type_args: Default::default(),
+                                        })
+                                    } else {
+                                        Expr::Call(CallExpr {
+                                            span,
+                                            callee: helper!(
+                                                to_consumable_array,
+                                                "toConsumableArray"
+                                            ),
+                                            args: vec![expr.as_arg()],
+                                            type_args: Default::default(),
+                                        })
+                                    };
                                 }
 
                                 Expr::Call(CallExpr {
