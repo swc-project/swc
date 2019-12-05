@@ -1,4 +1,4 @@
-use crate::util::UsageFinder;
+use crate::{compat::es3::ReservedWord, util::UsageFinder};
 use ast::*;
 use swc_common::{Fold, FoldWith};
 
@@ -40,7 +40,7 @@ impl Fold<VarDeclarator> for FnName {
         match decl.name {
             Pat::Ident(ref mut ident) => {
                 let mut folder = Renamer {
-                    name: Some(ident.clone()),
+                    name: Some(ident.clone().fold_with(&mut ReservedWord)),
                 };
                 let init = decl.init.fold_with(&mut folder);
 
