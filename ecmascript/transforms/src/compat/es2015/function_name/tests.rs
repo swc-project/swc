@@ -148,6 +148,7 @@ identical!(
 test!(
     syntax(),
     |_| chain!(
+        resolver(),
         decorators(decorators::Config { legacy: true }),
         Classes::default(),
         function_name(),
@@ -211,6 +212,7 @@ function _f() {
 test!(
     syntax(),
     |tester| chain!(
+        resolver(),
         function_name(),
         Shorthand,
         arrow(),
@@ -262,6 +264,7 @@ export default (a) => {
 test!(
     syntax(),
     |_| chain!(
+        resolver(),
         decorators(decorators::Config { legacy: true }),
         Classes::default(),
         function_name(),
@@ -320,6 +323,7 @@ export const y = function y() {};
 test!(
     syntax(),
     |_| chain!(
+        resolver(),
         decorators(decorators::Config { legacy: true }),
         Classes::default(),
         function_name(),
@@ -442,6 +446,7 @@ exports.default = Container;
 test!(
     syntax(),
     |_| chain!(
+        resolver(),
         decorators(decorators::Config { legacy: true }),
         Classes::default(),
         function_name(),
@@ -466,6 +471,7 @@ var obj = {
 test!(
     syntax(),
     |_| chain!(
+        resolver(),
         decorators(decorators::Config { legacy: true }),
         Classes::default(),
         function_name(),
@@ -523,6 +529,7 @@ test!(
     ignore,
     syntax(),
     |_| chain!(
+        resolver(),
         decorators(decorators::Config { legacy: true }),
         Classes::default(),
         function_name(),
@@ -616,6 +623,7 @@ define(["exports"], function (_exports) {
 test!(
     syntax(),
     |_| chain!(
+        resolver(),
         function_name(),
         Classes::default(),
         decorators(decorators::Config { legacy: true })
@@ -671,6 +679,7 @@ var obj = {
 test!(
     syntax(),
     |_| chain!(
+        resolver(),
         function_name(),
         Classes::default(),
         decorators(decorators::Config { legacy: true })
@@ -729,6 +738,7 @@ var bar = {
 test!(
     syntax(),
     |_| chain!(
+        resolver(),
         decorators(decorators::Config { legacy: true }),
         function_name(),
         Classes::default(),
@@ -795,6 +805,7 @@ const z = {
 test!(
     syntax(),
     |_| chain!(
+        resolver(),
         decorators(decorators::Config { legacy: true }),
         Classes::default(),
         function_name(),
@@ -843,6 +854,7 @@ console.log(new Template().events());
 test!(
     syntax(),
     |_| chain!(
+        resolver(),
         function_name(),
         Classes::default(),
         decorators(decorators::Config { legacy: true })
@@ -870,6 +882,7 @@ var a = {
 test!(
     syntax(),
     |_| chain!(
+        resolver(),
         function_name(),
         Classes::default(),
         decorators(decorators::Config { legacy: true }),
@@ -925,6 +938,7 @@ exports.default = Login;
 test!(
     syntax(),
     |_| chain!(
+        resolver(),
         decorators(decorators::Config { legacy: true }),
         Classes::default(),
         function_name(),
@@ -1082,6 +1096,7 @@ test!(
     ignore,
     syntax(),
     |_| chain!(
+        resolver(),
         decorators(decorators::Config { legacy: true }),
         function_name(),
         Classes::default()
@@ -1145,6 +1160,7 @@ const z = {
 test!(
     syntax(),
     |_| chain!(
+        resolver(),
         decorators(decorators::Config { legacy: true }),
         Classes::default(),
         function_name(),
@@ -1169,6 +1185,7 @@ test!(
     ignore,
     syntax(),
     |_| chain!(
+        resolver(),
         decorators(decorators::Config { legacy: true }),
         Classes::default(),
         function_name(),
