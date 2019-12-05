@@ -1102,9 +1102,7 @@ var ref3;
 ref3 = [a[1], a[0]], a[0] = ref3[0], a[1] = ref3[1], ref3;
 
 
-var ref4 = [].concat(_toConsumableArray(foo), [bar]),
-    a = ref4[0],
-    b = ref4[1];
+var ref4 = _toConsumableArray(foo).concat([bar]), a = ref4[0], b = ref4[1];
 
 var ref5 = [foo(), bar],
     a = ref5[0],
