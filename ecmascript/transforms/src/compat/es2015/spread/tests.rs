@@ -634,6 +634,8 @@ add.apply(void 0, _toConsumableArray(numbers));
 
 // spread_known_rest
 test!(
+    // Cost is too high.
+    ignore,
     syntax(),
     |_| chain!(tr(), block_scoping()),
     spread_known_rest,

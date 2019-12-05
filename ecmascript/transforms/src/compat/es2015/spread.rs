@@ -1,6 +1,6 @@
 use crate::{
     pass::Pass,
-    util::{alias_ident_for, prepend, undefined, ExprFactory, StmtLike},
+    util::{alias_ident_for, is_literal, prepend, undefined, ExprFactory, StmtLike},
 };
 use ast::*;
 use serde::Deserialize;
@@ -157,7 +157,14 @@ impl Fold<Expr> for ActualFolder {
                     ),
                 };
 
-                let args_array = self.concat_args(span, args.into_iter().map(Some), false);
+                let args_array = if is_literal(&args) {
+                    Expr::Array(ArrayLit {
+                        span,
+                        elems: expand_literal_args(args.into_iter().map(Some)),
+                    })
+                } else {
+                    self.concat_args(span, args.into_iter().map(Some), false)
+                };
                 let apply = MemberExpr {
                     span: DUMMY_SP,
                     obj: callee.as_callee(),
@@ -168,9 +175,7 @@ impl Fold<Expr> for ActualFolder {
                 Expr::Call(CallExpr {
                     span,
                     callee: apply.as_callee(),
-                    args: iter::once(this.as_arg())
-                        .chain(iter::once(args_array.as_arg()))
-                        .collect(),
+                    args: vec![this.as_arg(), args_array.as_arg()],
                     type_args: None,
                 })
             }
@@ -340,6 +345,20 @@ impl ActualFolder {
         }
         make_arr!();
 
+        if !buf.is_empty() && buf[0].spread.is_none() && first_arr.is_none() {
+            let callee = buf
+                .remove(0)
+                .expr
+                .member(Ident::new(js_word!("concat"), DUMMY_SP))
+                .as_callee();
+            return Expr::Call(CallExpr {
+                span,
+                callee,
+                args: buf,
+                type_args: Default::default(),
+            });
+        }
+
         Expr::Call(CallExpr {
             // TODO
             span,
@@ -363,4 +382,27 @@ impl ActualFolder {
             type_args: Default::default(),
         })
     }
+}
+
+fn expand_literal_args(
+    args: impl ExactSizeIterator + Iterator<Item = Option<ExprOrSpread>>,
+) -> Vec<Option<ExprOrSpread>> {
+    fn expand(
+        buf: &mut Vec<Option<ExprOrSpread>>,
+        args: impl ExactSizeIterator + Iterator<Item = Option<ExprOrSpread>>,
+    ) {
+        for arg in args {
+            match arg {
+                Some(ExprOrSpread {
+                    spread: Some(..),
+                    expr: box Expr::Array(arr),
+                }) => expand(buf, arr.elems.into_iter()),
+                _ => buf.push(arg),
+            }
+        }
+    }
+
+    let mut buf = Vec::with_capacity(args.len() + 4);
+    expand(&mut buf, args);
+    buf
 }
