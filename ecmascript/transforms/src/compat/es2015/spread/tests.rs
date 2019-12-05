@@ -97,30 +97,6 @@ var obj = {
 "#
 );
 
-// contexted_method_call_super_single_arg
-test!(
-    syntax(),
-    |_| tr(),
-    contexted_method_call_super_single_arg,
-    r#"
-class Foo {
-	bar() {
-		super.bar(...args);
-	}
-}
-
-"#,
-    r#"
-class Foo {
-  bar() {
-    super.bar.apply(this, args);
-  }
-
-}
-
-"#
-);
-
 // arguments_array
 test!(
     syntax(),
@@ -235,26 +211,6 @@ var lyrics = [...parts, "head", "and", "toes"];
 "#,
     r#"
 var lyrics = [].concat(_toConsumableArray(parts), ["head", "and", "toes"]);
-
-"#
-);
-
-// contexted_method_call_single_arg
-test!(
-    syntax(),
-    |_| tr(),
-    contexted_method_call_single_arg,
-    r#"
-foob.add(...numbers);
-foob.test.add(...numbers);
-
-"#,
-    r#"
-var _foob, _test;
-
-(_foob = foob).add.apply(_foob, numbers);
-
-(_test = foob.test).add.apply(_test, numbers);
 
 "#
 );
@@ -500,39 +456,7 @@ foo("foo", "bar");
 "#
 );
 
-// method_call_array_literal
-test!(
-    syntax(),
-    |_| tr(),
-    method_call_array_literal,
-    r#"
-f(...[1, 2, 3]);
-
-"#,
-    r#"
-f.apply(void 0, [1, 2, 3]);
-
-"#
-);
-
 // spread
-
-// contexted_computed_method_call_single_arg
-test!(
-    syntax(),
-    |_| tr(),
-    contexted_computed_method_call_single_arg,
-    r#"
-obj[method](...args);
-
-"#,
-    r#"
-var _obj;
-
-(_obj = obj)[method].apply(_obj, args);
-
-"#
-);
 
 // new_expression
 test!(
@@ -547,21 +471,6 @@ new Numbers(1, ...nums);
     r#"
 _construct(Numbers, [].concat(nums));
 _construct(Numbers, [1].concat(_toConsumableArray(nums)));
-
-"#
-);
-
-// method_call_single_arg
-test!(
-    syntax(),
-    |_| tr(),
-    method_call_single_arg,
-    r#"
-add(...numbers);
-
-"#,
-    r#"
-add.apply(void 0, numbers);
 
 "#
 );
@@ -871,12 +780,9 @@ foob.test.add(...numbers);
 
 "#,
     r#"
-var _foob, _foob$test;
-
+var _foob, _test;
 (_foob = foob).add.apply(_foob, _toConsumableArray(numbers));
-
-(_foob$test = foob.test).add.apply(_foob$test, _toConsumableArray(numbers));
-
+(_test = foob.test).add.apply(_test, _toConsumableArray(numbers));
 "#
 );
 
