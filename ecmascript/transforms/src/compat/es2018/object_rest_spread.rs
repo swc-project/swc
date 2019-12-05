@@ -158,10 +158,11 @@ impl Fold<Vec<VarDeclarator>> for RestFolder {
 
             let decl = decl.fold_children(self);
 
-            let (var_ident, aliased) = match decl.init {
-                Some(ref e) => alias_if_required(e, "_ref"),
-                _ => match decl.name {
-                    Pat::Ident(ref i) => (i.clone(), false),
+            let (var_ident, aliased) = match decl.name {
+                Pat::Ident(ref i) => (i.clone(), false),
+
+                _ => match decl.init {
+                    Some(ref e) => alias_if_required(e, "_ref"),
                     _ => (private_ident!("_ref"), true),
                 },
             };
