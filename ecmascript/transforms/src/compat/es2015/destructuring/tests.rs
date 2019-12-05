@@ -1089,32 +1089,32 @@ var a = 1,
 var a = 1,
     b = 2,
     c = [3, 4];
-var _ref = [1, 2, 3],
-    a = _ref[0],
-    b = _ref[1];
-var _ref1 = [1, 2, 3],
-    a = _ref1[0],
-    b = _ref1[1];
-var _ref2 = [a, b],
-    a = _ref2[0],
-    b = _ref2[1];
-var _ref3;
-_ref3 = [a[1], a[0]], a[0] = _ref3[0], a[1] = _ref3[1], _ref3;
+var ref = [1, 2, 3],
+    a = ref[0],
+    b = ref[1];
+var ref1 = [1, 2, 3],
+    a = ref1[0],
+    b = ref1[1];
+var ref2 = [a, b],
+    a = ref2[0],
+    b = ref2[1];
+var ref3;
+ref3 = [a[1], a[0]], a[0] = ref3[0], a[1] = ref3[1], ref3;
 
 
-var _ref4 = [].concat(_toConsumableArray(foo), [bar]),
-    a = _ref4[0],
-    b = _ref4[1];
+var ref4 = [].concat(_toConsumableArray(foo), [bar]),
+    a = ref4[0],
+    b = ref4[1];
 
-var _ref5 = [foo(), bar],
-    a = _ref5[0],
-    b = _ref5[1];
-var _ref6 = [clazz.foo(), bar],
-    a = _ref6[0],
-    b = _ref6[1];
-var _ref7 = [clazz.foo, bar],
-    a = _ref7[0],
-    b = _ref7[1];
+var ref5 = [foo(), bar],
+    a = ref5[0],
+    b = ref5[1];
+var ref6 = [clazz.foo(), bar],
+    a = ref6[0],
+    b = ref6[1];
+var ref7 = [clazz.foo, bar],
+    a = ref7[0],
+    b = ref7[1];
 var a,
     b = 2;
 a = 1, b = 2;
@@ -1541,12 +1541,8 @@ if (true) [a, b] = [b, a];
 
 "#,
     r#"
-if (true) {
-  var _ref = [b, a];
-  a = _ref[0];
-  b = _ref[1];
-  _ref;
-}
+var ref;
+if (true) ref = [b, a], a = ref[0], b = ref[1], ref;
 
 "#
 );
