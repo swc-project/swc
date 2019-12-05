@@ -711,10 +711,8 @@ a.preview(...c);
     r#"
 "use strict";
 
-var _a = _interopRequireDefault(require("a"));
-
-_a.default.preview.apply(_a.default, _toConsumableArray(c));
-
+var _a1;
+(_a1 = _a.default).preview.apply(_a1, c);
 "#
 );
 
