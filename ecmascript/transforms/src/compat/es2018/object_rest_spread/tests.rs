@@ -2764,20 +2764,20 @@ const { a } = foo(({ b, ...c }) => {
 
 "#,
     r#"
-const _foo = foo(),
+const _ref = foo(),
       {
   s
-} = _foo,
-      t = _objectWithoutProperties(_foo, ["s"]);
+} = _ref,
+      t = _objectWithoutProperties(_ref, ["s"]);
 
-const _bar = bar(),
+const _ref1 = bar(),
       {
   s: {
     q1
   }
-} = _bar,
-      q2 = _objectWithoutProperties(_bar.s, ["q1"]),
-      q3 = _objectWithoutProperties(_bar, ["s"]);
+} = _ref1,
+      q2 = _objectWithoutProperties(_ref1.s, ["q1"]),
+      q3 = _objectWithoutProperties(_ref1, ["s"]);
 
 const {
   a
