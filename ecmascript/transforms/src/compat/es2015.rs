@@ -133,10 +133,11 @@ var HomePage = function(_Component) {
 }",
         "
 export default function fn1() {
+    var args;
     for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++){
         args[_key] = arguments[_key];
     }
-    fn2.apply(void 0, args);
+    fn2.apply(void 0, _toConsumableArray(args));
 }
 "
     );
@@ -234,6 +235,7 @@ class B extends A {
 }
 ",
         "var A = function() {
+    'use strict';
     function A() {
         _classCallCheck(this, A);
         this.a_num = 10;
@@ -247,6 +249,7 @@ class B extends A {
     return A;
 }();
 var B = function(_A) {
+    'use strict';
     _inherits(B, _A);
     function B(num) {
         var _this;
