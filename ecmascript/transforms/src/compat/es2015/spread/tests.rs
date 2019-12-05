@@ -21,7 +21,7 @@ test!(
     issue_270,
     "instance[name](...args);",
     "var _instance;
-(_instance = instance)[name].apply(_instance, args);"
+(_instance = instance)[name].apply(_instance, _toConsumableArray(args));"
 );
 
 test!(
