@@ -1,4 +1,5 @@
 use crate::{
+    compat::es2015::arrow,
     pass::Pass,
     util::{contains_this_expr, ExprFactory, StmtLike},
 };
@@ -451,6 +452,11 @@ impl Fold<Expr> for Actual {
                     type_args: Default::default(),
                 })
             }
+
+            Expr::Arrow(ArrowExpr { is_async: true, .. }) => {
+                // Apply arrow
+                expr.fold_with(&mut arrow()).fold_with(self)
+            }
             _ => expr,
         }
     }
@@ -473,7 +479,6 @@ impl Fold<FnDecl> for Actual {
 }
 
 impl Actual {
-    #[inline(always)]
     fn fold_fn(&mut self, raw_ident: Option<Ident>, f: Function, is_decl: bool) -> Function {
         if f.body.is_none() {
             return f;
