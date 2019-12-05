@@ -341,6 +341,22 @@ impl<'a> Fold<Ident> for Resolver<'a> {
     }
 }
 
+impl Fold<ObjectLit> for Resolver<'_> {
+    fn fold(&mut self, o: ObjectLit) -> ObjectLit {
+        let child_mark = Mark::fresh(self.mark);
+
+        let mut child_folder = Resolver::new(
+            child_mark,
+            Scope::new(ScopeKind::Block, Some(&self.current)),
+            self.cur_defining.take(),
+        );
+
+        let o = o.fold_children(&mut child_folder);
+        self.cur_defining = child_folder.cur_defining;
+        o
+    }
+}
+
 track_ident!(Resolver);
 
 impl<'a> Fold<ArrowExpr> for Resolver<'a> {
