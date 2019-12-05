@@ -247,7 +247,7 @@ var obj = {
 
 switch (true) {
   case true:
-    (_obj = obj.obj).fn.apply(_obj, args);
+    (_obj = obj.obj).fn.apply(_obj, _toConsumableArray(args));
 
     break;
 }
@@ -618,10 +618,9 @@ a.preview(...c);
 
 "#,
     r#"
-"use strict";
-
+var _a = _interopRequireDefault(require('a'));
 var _a1;
-(_a1 = _a.default).preview.apply(_a1, c);
+(_a1 = _a.default).preview.apply(_a1, _toConsumableArray(c));
 "#
 );
 
