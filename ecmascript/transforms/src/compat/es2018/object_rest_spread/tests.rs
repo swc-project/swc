@@ -995,14 +995,14 @@ const {w3, x3, y3, ...z4} = z;
     r#"
 var z = {};
 var x = _extends({}, z);
-var _ref = {
-  a: 1 
-}, a = _extends({
-}, _ref);
-var _b = a.b, x = _extends({
-}, _b);
-var _ref1 = a(), x = _extends({
-}, _ref1);
+var a = _extends({
+}, {
+    a: 1
+});
+var x = _extends({
+}, a.b);
+var x = _extends({
+}, a());
 var {
   x1
 } = z,
