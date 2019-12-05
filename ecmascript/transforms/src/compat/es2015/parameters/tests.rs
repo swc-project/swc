@@ -1,7 +1,7 @@
 use super::*;
 use crate::{
     compat::{
-        es2015::{arrow, block_scoping, Classes},
+        es2015::{arrow, block_scoping, destructuring, Classes},
         es2017::async_to_generator,
     },
     modules::common_js::common_js,
@@ -187,6 +187,7 @@ test!(
 }
 Ref.nextID = 0"#,
     r#"var Ref = function Ref(param) {
+        'use strict';
         var id = param === void 0 ? ++Ref.nextID : param;
         _classCallCheck(this, Ref);
         this.id = id;
@@ -227,11 +228,13 @@ class X {
   }
 }"#,
     r#"var Ref = function Ref(param) {
+        'use strict';
         var ref = param === void 0 ? Ref : param;
         _classCallCheck(this, Ref);
         this.ref = ref;
     }
 var X = function X(param) {
+        'use strict';
         var x = param === void 0 ? foo : param;
         _classCallCheck(this, X);
         this.x = x;
@@ -1227,6 +1230,7 @@ test!(
     }
     if (true) {
         let Foo = function(_Bar) {
+            'use strict';
             _inherits(Foo, _Bar);
             function Foo() {
                 _classCallCheck(this, Foo);
@@ -1235,7 +1239,7 @@ test!(
             }
             return Foo;
         }(Bar);
-        return hello.apply(void 0, foo);
+        return hello.apply(void 0, _toConsumableArray(foo));
     }
 }"#
 );
@@ -1512,6 +1516,7 @@ test!(
     |_| chain!(
         Classes::default(),
         parameters(),
+        destructuring(),
         block_scoping(),
         common_js(Default::default()),
     ),
@@ -1537,6 +1542,7 @@ var _copyPaste = require("./copyPaste");
 var Thing =
 /*#__PURE__*/
 function () {
+  'use strict';
   function Thing() {
     _classCallCheck(this, Thing);
   }
@@ -1544,12 +1550,12 @@ function () {
   _createClass(Thing, [{
     key: "handleCopySomething",
     value: function handleCopySomething() {
-      (0, _copyPaste.copy)();
+      _copyPaste.copy();
     }
   }, {
     key: "completelyUnrelated",
-    value: function completelyUnrelated() {
-      var copy = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 123;
+    value: function completelyUnrelated(param) {
+      var copy = param === void 0 ? 123 : param;
     }
   }]);
 
@@ -1628,7 +1634,7 @@ function foo(...a) {
 const a = 'bar';
 
 function foo() {
-  for (var _len = arguments.length, a = new Array(_len), _key = 0; _key < _len; _key++) {
+  for (let _len = arguments.length, a = new Array(_len), _key = 0; _key < _len; _key++) {
     a[_key] = arguments[_key];
   }
 
