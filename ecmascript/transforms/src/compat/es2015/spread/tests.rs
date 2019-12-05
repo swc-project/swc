@@ -372,6 +372,35 @@ var arr = ['a',, 'b'].concat(_toConsumableArray(c));
 test!(
     syntax(),
     |_| tr(),
+    regression_issue_8907_modified,
+    r#"
+const arr = [];
+
+arr.concat = () => {
+    throw new Error('Should not be called');
+};
+
+const x = [...arr];
+
+"#,
+    r#"
+const arr = [];
+
+arr.concat = () => {
+  throw new Error('Should not be called');
+};
+
+const x = _toConsumableArray(arr);
+
+"#
+);
+
+// regression_issue_8907
+test!(
+    // Cost is too high
+    ignore,
+    syntax(),
+    |_| tr(),
     regression_issue_8907,
     r#"
 const arr = [];
