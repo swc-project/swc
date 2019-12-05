@@ -4,7 +4,7 @@ use crate::{
 };
 use ast::*;
 use serde::Deserialize;
-use std::{iter, mem};
+use std::mem;
 use swc_atoms::js_word;
 use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Span, Spanned, DUMMY_SP};
 
