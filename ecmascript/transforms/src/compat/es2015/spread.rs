@@ -281,7 +281,19 @@ impl ActualFolder {
                             }
                             _ => {
                                 if args_len == 1 && !need_array {
-                                    return *expr;
+                                    return if self.c.loose {
+                                        *expr
+                                    } else {
+                                        Expr::Call(CallExpr {
+                                            span,
+                                            callee: helper!(
+                                                to_consumable_array,
+                                                "toConsumableArray"
+                                            ),
+                                            args: vec![expr.as_arg()],
+                                            type_args: Default::default(),
+                                        })
+                                    };
                                 }
                                 // [].concat(arr) is shorter than _toConsumableArray(arr)
                                 if args_len == 1 {
