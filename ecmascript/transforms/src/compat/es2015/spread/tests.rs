@@ -410,21 +410,6 @@ add.apply(void 0, [foo].concat(_toConsumableArray(numbers), [bar, what], _toCons
 "#
 );
 
-// single
-test!(
-    syntax(),
-    |_| tr(),
-    single,
-    r#"
-[...foo];
-
-"#,
-    r#"
-[].concat(foo);
-
-"#
-);
-
 // arguments
 test!(
     syntax(),
@@ -452,25 +437,6 @@ function bar(one, two, three) {
 }
 
 foo("foo", "bar");
-
-"#
-);
-
-// spread
-
-// new_expression
-test!(
-    syntax(),
-    |_| tr(),
-    new_expression,
-    r#"
-new Numbers(...nums);
-new Numbers(1, ...nums);
-
-"#,
-    r#"
-_construct(Numbers, [].concat(nums));
-_construct(Numbers, [1].concat(_toConsumableArray(nums)));
 
 "#
 );
@@ -545,29 +511,6 @@ var lyrics = ["head", "and", "toes"].concat(_toConsumableArray(parts));
 "#
 );
 
-// known_rest
-test!(
-    syntax(),
-    |_| tr(),
-    known_rest,
-    r#"
-function foo(...bar) {
-  return [...bar];
-}
-
-"#,
-    r#"
-function foo() {
-  for (let _len = arguments.length, bar = new Array(_len), _key = 0; _key < _len; _key++) {
-    bar[_key] = arguments[_key];
-  }
-
-  return [].concat(bar);
-}
-
-"#
-);
-
 // regression
 
 // spread_new_expression
@@ -618,6 +561,7 @@ a.preview(...c);
 
 "#,
     r#"
+'use strict';
 var _a = _interopRequireDefault(require('a'));
 var _a1;
 (_a1 = _a.default).preview.apply(_a1, _toConsumableArray(c));
@@ -652,12 +596,9 @@ foob.test.add(foo, bar, ...numbers);
 
 "#,
     r#"
-var _foob, _foob$test;
-
+var _foob, _test;
 (_foob = foob).add.apply(_foob, [foo, bar].concat(_toConsumableArray(numbers)));
-
-(_foob$test = foob.test).add.apply(_foob$test, [foo, bar].concat(_toConsumableArray(numbers)));
-
+(_test = foob.test).add.apply(_test, [foo, bar].concat(_toConsumableArray(numbers)))
 "#
 );
 
