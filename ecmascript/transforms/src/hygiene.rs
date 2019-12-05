@@ -185,6 +185,18 @@ impl<'a> Fold<BlockStmt> for Hygiene<'a> {
     }
 }
 
+impl Fold<ObjectLit> for Hygiene<'_> {
+    fn fold(&mut self, node: ObjectLit) -> ObjectLit {
+        let mut folder = Hygiene {
+            current: Scope::new(ScopeKind::Block, Some(&self.current)),
+            ident_type: IdentType::Ref,
+        };
+        let node = node.fold_children(&mut folder);
+
+        folder.apply_ops(node)
+    }
+}
+
 impl<'a> Hygiene<'a> {
     fn fold_fn(&mut self, ident: Option<Ident>, mut node: Function) -> Function {
         match ident {
