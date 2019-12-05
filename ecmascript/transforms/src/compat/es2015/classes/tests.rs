@@ -5792,7 +5792,7 @@ expect(obj.get()).toBeUndefined();
 // regression_t7010
 test!(
     syntax(),
-    |_| tr(),
+    |_| chain!(tr(), block_scoping()),
     regression_t7010,
     r#"
 class Foo {
