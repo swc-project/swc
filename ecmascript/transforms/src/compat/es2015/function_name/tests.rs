@@ -282,9 +282,9 @@ function search({search}) {
     r#"
 var obj = {
   search: function search({
-    search: _search
+    search: search1
   }) {
-    console.log(_search);
+    console.log(search1);
   }
 };
 
@@ -898,8 +898,9 @@ var _store = require("./store");
 
 let Login =
 /*#__PURE__*/
-function (_React$Component) {
-  _inherits(Login, _React$Component);
+function (_Component) {
+  'use strict';
+  _inherits(Login, _Component);
 
   function Login() {
     _classCallCheck(this, Login);
@@ -909,7 +910,7 @@ function (_React$Component) {
   _createClass(Login, [{
     key: "getForm",
     value: function getForm() {
-      return (0, _store.getForm)().toJS();
+      return _store.getForm().toJS();
     }
   }]);
   return Login;
@@ -982,6 +983,8 @@ exports.default = _default;
 
 // issues_7199
 test!(
+    // Not important
+    ignore,
     syntax(),
     |_| function_name(),
     issues_7199,
@@ -1246,19 +1249,13 @@ var j = function () {
 
 "#,
     r#"
-var _i = function i() {
-  _i = 5;
+var i = function i1() {
+    i = 5;
 };
-
-var _j = function j() {
-  ({
-    j: _j
-  } = 5);
-  ({
-    y: _j
-  } = 5);
-  ;
+var j = function j1() {
+    ({ j  } = 5);
+    ({ y: j  } = 5);
+    ;
 };
-
 "#
 );

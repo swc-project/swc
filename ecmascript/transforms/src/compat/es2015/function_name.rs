@@ -1,4 +1,4 @@
-use crate::{compat::es3::ReservedWord, util::UsageFinder};
+use crate::{pass::Pass, util::UsageFinder};
 use ast::*;
 use swc_common::{Fold, FoldWith};
 
@@ -22,15 +22,51 @@ mod tests;
 /// }
 /// var Foo = (class Foo {});
 /// ```
-pub fn function_name() -> FnName {
+pub fn function_name() -> impl Pass {
     FnName
 }
 
 #[derive(Clone, Copy)]
-pub struct FnName;
+struct FnName;
 
 struct Renamer {
     name: Option<Ident>,
+}
+
+/// This function makes a new private identifier if required.
+fn prepare(i: Ident, force: bool) -> Ident {
+    if i.is_reserved_for_es3() || i.sym == *"await" || i.sym == *"eval" {
+        return private_ident!(i.span, format!("_{}", i.sym));
+    }
+
+    if force {
+        private_ident!(i.span, i.sym)
+    } else {
+        i
+    }
+}
+
+impl Fold<KeyValueProp> for FnName {
+    fn fold(&mut self, p: KeyValueProp) -> KeyValueProp {
+        let mut p = p.fold_children(self);
+
+        p.value = match *p.value {
+            Expr::Fn(expr @ FnExpr { ident: None, .. }) => {
+                //
+                if let PropName::Ident(ref i) = p.key {
+                    box Expr::Fn(FnExpr {
+                        ident: Some(prepare(i.clone(), true)),
+                        ..expr
+                    })
+                } else {
+                    box Expr::Fn(expr)
+                }
+            }
+            _ => p.value,
+        };
+
+        p
+    }
 }
 
 impl Fold<VarDeclarator> for FnName {
@@ -40,7 +76,7 @@ impl Fold<VarDeclarator> for FnName {
         match decl.name {
             Pat::Ident(ref mut ident) => {
                 let mut folder = Renamer {
-                    name: Some(ident.clone().fold_with(&mut ReservedWord)),
+                    name: Some(prepare(ident.clone(), false)),
                 };
                 let init = decl.init.fold_with(&mut folder);
 
