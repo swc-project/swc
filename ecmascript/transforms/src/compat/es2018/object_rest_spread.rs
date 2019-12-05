@@ -158,6 +158,12 @@ impl Fold<Vec<VarDeclarator>> for RestFolder {
 
             let decl = decl.fold_children(self);
 
+            if !contains_rest(&decl.name) {
+                // println!("Var: no rest",);
+                self.vars.push(decl);
+                continue;
+            }
+
             let (var_ident, _) = match decl.name {
                 Pat::Ident(ref i) => (i.clone(), false),
 

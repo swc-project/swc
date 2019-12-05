@@ -497,16 +497,16 @@ const {
 "#,
     r#"
 var _tmp;
-const _ref = {
-}, { [(_param)=>{
+const { [(_param)=>{
     var rest = _extends({
     }, _param);
     let b = _extends({
     }, {
     });
-}]: a , [( _tmp = {
+}]: a , [(_tmp = {
 }, d = _extends({
-}, _tmp), _tmp)]: c  } = _ref;
+}, _tmp), _tmp)]: c  } = {
+};
 "#
 );
 
@@ -542,16 +542,16 @@ const {
 "#,
     r#"
 var _tmp;
-const _ref = {
-}, { a =(_param)=>{
+const { a =(_param)=>{
     var rest = _extends({
     }, _param);
     let b = _extends({
     }, {
     });
-} , c =( _tmp = {
+} , c =(_tmp = {
 }, d = _extends({
-}, _tmp), _tmp)  } = _ref;
+}, _tmp), _tmp)  } = {
+};
 "#
 );
 
@@ -2787,11 +2787,11 @@ const _ref1 = bar(),
 
 const {
   a
-} = foo((_ref) => {
-  let {
+} = foo((_param) => {
+  var {
     b
-  } = _ref,
-      c = _objectWithoutProperties(_ref, ["b"]);
+  } = _param,
+      c = _objectWithoutProperties(_param, ["b"]);
   console.log(b, c);
 });
 
