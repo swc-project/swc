@@ -1388,9 +1388,9 @@ var [a, [b], [c]] = ["hello", [", ", "junk"], ["world"]];
 
 "#,
     r#"
-var ref = ['hello', [', ', 'junk'], ['world']], a = ref[0], ref1 = ref[1], b = ref1[0], ref2 = ref[2], c = ref2[0];
-var ref3, ref4, ref5;
-ref3 = ['hello', [', ', 'junk'], ['world']], a = ref3[0], ref4 = ref3[1], b = ref4[0], ref5 = ref3[2], c = ref5[0], ref3;
+var a = 'hello', ref = [', ', 'junk'], b = ref[0], c = 'world';
+a = 'hello', [b] = [', ', 'junk'], [c] = ['world'];
+
 "#
 );
 
