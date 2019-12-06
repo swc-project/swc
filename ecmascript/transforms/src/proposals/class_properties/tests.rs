@@ -3751,9 +3751,7 @@ class A {
 
 "#,
     r#"
-let _x$x;
-
-_x$x = {
+var _x = {
   x: (_classNameTDZError("A"), A) || 0
 }.x;
 
@@ -3763,7 +3761,7 @@ let A = function A() {
   _classCallCheck(this, A);
 };
 
-_defineProperty(A, _x$x, void 0);
+_defineProperty(A, _x, void 0);
 
 "#
 );

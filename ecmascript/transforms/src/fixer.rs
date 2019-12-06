@@ -202,6 +202,25 @@ impl Fold<Expr> for Fixer {
             Expr::Member(MemberExpr {
                 span,
                 computed,
+                obj: obj @ ExprOrSuper::Expr(box Expr::Object(..)),
+                prop,
+            }) if match self.ctx {
+                Context::ForcedExpr { is_var_decl: true } => true,
+                _ => false,
+            } =>
+            {
+                MemberExpr {
+                    span,
+                    computed,
+                    obj,
+                    prop,
+                }
+                .into()
+            }
+
+            Expr::Member(MemberExpr {
+                span,
+                computed,
                 obj: ExprOrSuper::Expr(obj @ box Expr::Fn(_)),
                 prop,
             })
