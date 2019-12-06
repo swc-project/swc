@@ -3217,24 +3217,24 @@ class Sub2 extends Base {}
     r#"
 class Base {
   static getThis() {
-    return _classStaticPrivateFieldSpecGet(this, Base, _foo);
+    return _classStaticPrivateFieldSpecGet(this, Base, _foo1);
   }
 
   static updateThis(val) {
-    return _classStaticPrivateFieldSpecSet(this, Base, _foo, val);
+    return _classStaticPrivateFieldSpecSet(this, Base, _foo1, val);
   }
 
   static getClass() {
-    return _classStaticPrivateFieldSpecGet(Base, Base, _foo);
+    return _classStaticPrivateFieldSpecGet(Base, Base, _foo1);
   }
 
   static updateClass(val) {
-    return _classStaticPrivateFieldSpecSet(Base, Base, _foo, val);
+    return _classStaticPrivateFieldSpecSet(Base, Base, _foo1, val);
   }
 
 }
 
-var _foo = {
+var _foo1 = {
   writable: true,
   value: 1
 };
@@ -3372,12 +3372,16 @@ export default class {
 
 "#,
     r#"
-var _class, _temp, _test;
+call(function() {
+    class _class{
+    }
+    var _test = {
+        writable: true,
+        value: true
+    };
+    return _class;
+}());
 
-call((_temp = _class = class {}, _test = {
-  writable: true,
-  value: true
-}, _temp));
 export default class _class2 {}
 var _test2 = {
   writable: true,
@@ -3730,12 +3734,13 @@ var _property = {
   writable: true,
   value: value
 };
-export default class MyClass2 {}
-var _property2 = {
+class MyClass2{
+}
+var _property1 = {
   writable: true,
   value: value
 };
-
+export { MyClass2 as default }
 "#
 );
 
