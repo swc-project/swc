@@ -6,8 +6,8 @@ use self::{
 use crate::{
     pass::Pass,
     util::{
-        alias_ident_for, constructor::inject_after_super, default_constructor, undefined,
-        ExprFactory, ModuleItemLike, StmtLike,
+        alias_ident_for, alias_if_required, constructor::inject_after_super, default_constructor,
+        undefined, ExprFactory, ModuleItemLike, StmtLike,
     },
 };
 use ast::*;
@@ -312,15 +312,17 @@ impl ClassProperties {
                         Expr::Lit(ref lit) if !prop.computed => lit.clone().as_arg(),
 
                         _ => {
-                            let mut ident = alias_ident_for(&prop.key, "_ref");
-                            ident.span = ident.span.apply_mark(Mark::fresh(Mark::root()));
-                            // Handle computed property
-                            vars.push(VarDeclarator {
-                                span: DUMMY_SP,
-                                name: Pat::Ident(ident.clone()),
-                                init: Some(prop.key),
-                                definite: false,
-                            });
+                            let (ident, aliased) = alias_if_required(&prop.key, "_ref");
+                            // ident.span = ident.span.apply_mark(Mark::fresh(Mark::root()));
+                            if aliased {
+                                // Handle computed property
+                                vars.push(VarDeclarator {
+                                    span: DUMMY_SP,
+                                    name: Pat::Ident(ident.clone()),
+                                    init: Some(prop.key),
+                                    definite: false,
+                                });
+                            }
                             ident.as_arg()
                         }
                     };
