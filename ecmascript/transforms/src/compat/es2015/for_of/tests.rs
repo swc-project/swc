@@ -304,7 +304,7 @@ for (const elm of array) {
 
 var _foo = require("foo");
 
-for(var _i = 0; _i < _foo.array.length; _i++){
+for(let _i = 0; _i < _foo.array.length; _i++){
   let elm = _foo.array[_i];
   console.log(elm);
 }
@@ -356,7 +356,7 @@ for (const elm of array) {
 define(["foo"], function (_foo) {
   "use strict";
 
-  for(var _i = 0; _i < _foo.array.length; _i++){
+  for(let _i = 0; _i < _foo.array.length; _i++){
     let elm = _foo.array[_i];
     console.log(elm);
   }
@@ -403,7 +403,7 @@ function f(...t) {
 "#,
     r#"
 function f(...t) {
-  for(var _i = 0; _i < t.length; _i++){
+  for(let _i = 0; _i < t.length; _i++){
     let o = t[_i];
     const t = o;
   }
@@ -510,7 +510,7 @@ for (const elm of array) {
     r#"
 const array = [];
 
-for(var _i = 0; _i < array.length; _i++){
+for(let _i = 0; _i < array.length; _i++){
   let elm = array[_i];
   console.log(elm);
 }
@@ -536,7 +536,7 @@ for (elm of array) {
 const array = [];
 let elm;
 
-for (var _i = 0; _i < array.length; _i++) {
+for (let _i = 0; _i < array.length; _i++) {
   elm = array[_i];
   console.log(elm);
 }
@@ -560,7 +560,7 @@ for (const elm of array) {
     r#"
 import { array } from "foo";
 
-for(var _i = 0; _i < array.length; _i++){
+for(let _i = 0; _i < array.length; _i++){
   let elm = array[_i];
   console.log(elm);
 }

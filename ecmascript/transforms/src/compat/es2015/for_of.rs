@@ -145,12 +145,11 @@ impl Actual {
                         1,
                         "Variable declarator of for of loop cannot contain multiple entires"
                     );
-                    //
                     prepend(
                         &mut body.stmts,
                         Stmt::Decl(Decl::Var(VarDecl {
                             span: DUMMY_SP,
-                            kind: VarDeclKind::Let,
+                            kind: var.kind,
                             declare: false,
                             decls: vec![VarDeclarator {
                                 span: DUMMY_SP,
@@ -162,25 +161,22 @@ impl Actual {
                     )
                 }
 
-                VarDeclOrPat::Pat(pat) => {
-                    //
-                    prepend(
-                        &mut body.stmts,
-                        Stmt::Expr(box Expr::Assign(AssignExpr {
-                            span: DUMMY_SP,
-                            left: PatOrExpr::Pat(box pat),
-                            op: op!("="),
-                            right: box Expr::Ident(arr.clone()).computed_member(i),
-                        })),
-                    )
-                }
+                VarDeclOrPat::Pat(pat) => prepend(
+                    &mut body.stmts,
+                    Stmt::Expr(box Expr::Assign(AssignExpr {
+                        span: DUMMY_SP,
+                        left: PatOrExpr::Pat(box pat),
+                        op: op!("="),
+                        right: box Expr::Ident(arr.clone()).computed_member(i),
+                    })),
+                ),
             }
 
             return Stmt::For(ForStmt {
                 span,
                 init: Some(VarDeclOrExpr::VarDecl(VarDecl {
                     span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
+                    kind: VarDeclKind::Let,
                     declare: false,
                     decls,
                 })),
