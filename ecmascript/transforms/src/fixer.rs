@@ -546,7 +546,7 @@ impl Fold<ExportDefaultExpr> for Fixer {
         self.ctx = Context::Default;
         let mut node = node.fold_children(self);
         node.expr = match *node.expr {
-            Expr::Seq(..) => box node.expr.wrap_with_paren(),
+            Expr::Arrow(..) | Expr::Seq(..) => box node.expr.wrap_with_paren(),
             _ => node.expr,
         };
         self.ctx = old;
