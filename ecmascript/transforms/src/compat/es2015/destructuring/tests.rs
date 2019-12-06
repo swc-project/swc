@@ -729,8 +729,7 @@ test!(
 "#,
     r#"
 () => {
-  var ref;
-  ref = [1, 2], a = ref[0], b = ref[1], ref;
+  a = 1, b = 2;
 };
 
 "#
@@ -1153,6 +1152,7 @@ var x = z[0],
 test!(
     syntax(),
     |_| chain!(
+        object_rest_spread(),
         spread(spread::Config {
             ..Default::default()
         }),
@@ -1354,18 +1354,10 @@ test!(
     destructuring_assignment_statement,
     r#"
 [a, b] = f();
-;
-
 "#,
     r#"
-var _f = f();
-
-var _f2 = _slicedToArray(_f, 2);
-
-a = _f2[0];
-b = _f2[1];
-;
-
+            var ref;
+ref = f(), a = ref[0], b = ref[1], ref;
 "#
 );
 
