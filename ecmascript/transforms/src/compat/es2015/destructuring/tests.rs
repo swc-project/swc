@@ -70,8 +70,7 @@ test!(
     |_| tr(),
     obj_assign_pat,
     r#"let { a = 1 } = foo"#,
-    r#"let ref = foo ? foo : _throw(new TypeError("Cannot destructure 'undefined' or 'null'")),
-        _ref$a = ref.a, a = _ref$a === void 0 ? 1 : _ref$a;"#
+    r#"let _foo$a = foo.a, a = _foo$a === void 0 ? 1 : _foo$a;"#
 );
 
 test!(
@@ -98,7 +97,8 @@ test!(
     |_| tr(),
     array2,
     r#"[a, [b], [c]] = ["hello", [", ", "junk"], ["world"]];"#,
-    r#"a = 'hello', [b] = [', ', 'junk'], [c] = ['world'];"#
+    r#"a = 'hello', [b] = [', ', 'junk'], [c] = ['world'];
+"#
 );
 
 test!(
@@ -107,7 +107,8 @@ test!(
     assign_expr_completion_record,
     r#"var x, y;
 [x, y] = [1, 2];"#,
-    r#"x = 1, y = 2;"#
+    r#"var x, y;
+x = 1, y = 2"#
 );
 
 test!(
@@ -118,9 +119,7 @@ test!(
 var { x: { y } = {} } = z;"#,
     r#"var z = {
 };
-var ref = z ? z : _throw(new TypeError("Cannot destructure 'undefined' or 'null'")), tmp = ref.x,
- ref1 = tmp === void 0 ? {
-} : tmp, ref2 = ref1 ? ref1 : _throw(new TypeError("Cannot destructure 'undefined' or 'null'")), y = ref2.y;"#
+var tmp = z.x, ref = tmp === void 0 ? {} : tmp, y = ref.y;"#
 );
 
 test!(
@@ -398,25 +397,12 @@ test!(
 test!(
     syntax(),
     |_| tr(),
-    mixed,
-    r#"var rect = {};
-var {topLeft: [x1, y1], bottomRight: [x2, y2] } = rect;"#,
-    r#"var rect = {};
-var ref = rect ? rect : _throw(new TypeError("Cannot destructure 'undefined' or 'null'")),
-    _ref$topLeft = ref.topLeft, x1 = _ref$topLeft[0], y1 = _ref$topLeft[1],
-    _ref$bottomRight = ref.bottomRight, x2 = _ref$bottomRight[0], y2 = _ref$bottomRight[1];"#
-);
-
-test!(
-    syntax(),
-    |_| tr(),
     multiple,
     r#"var coords = [1, 2];
 var { x, y } = coords,
     foo = "bar";"#,
     r#"var coords = [1, 2];
-var ref = coords ? coords : _throw(new TypeError("Cannot destructure 'undefined' or 'null'")),
-     x = ref.x, y = ref.y, foo = 'bar';"#
+var x = coords.x, y = coords.y, foo = 'bar';"#
 );
 
 test_exec!(
@@ -445,22 +431,10 @@ var {topLeft: {x: x1, y: y1}, bottomRight: {x: x2, y: y2}} = rect;
 var { 3: foo, 5: bar } = [0, 1, 2, 3, 4, 5, 6];"#,
     r#"var rect = {
 };
-var ref = rect ? rect : _throw(new TypeError("Cannot destructure 'undefined' or 'null'")),
-    _ref$topLeft = ref.topLeft, ref1 = _ref$topLeft ? _ref$topLeft : 
-    _throw(new TypeError("Cannot destructure 'undefined' or 'null'")), x1 = ref1.x, y1 = ref1.y,
-    _ref$bottomRight = ref.bottomRight, ref2 = _ref$bottomRight ? _ref$bottomRight :
-    _throw(new TypeError("Cannot destructure 'undefined' or 'null'")), x2 = ref2.x, y2 = ref2.y;
-var ref3 = [0, 1, 2, 3, 4, 5, 6], foo = ref3[3], bar = ref3[5];"#
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    object_basic,
-    r#"var coords = [1, 2];
-var { x, y } = coords;"#,
-    r#"var coords = [1, 2];
-var ref = coords ? coords : _throw(new TypeError("Cannot destructure 'undefined' or 'null'")), x = ref.x, y = ref.y;"#
+var _rect$topLeft = rect.topLeft, x1 = _rect$topLeft.x,
+    y1 = _rect$topLeft.y, _rect$bottomRight = rect.bottomRight,
+    x2 = _rect$bottomRight.x, y2 = _rect$bottomRight.y;
+var ref = [0, 1, 2, 3, 4, 5, 6], foo = ref[3], bar = ref[5];"#
 );
 
 test_exec!(
@@ -518,9 +492,7 @@ const bar = {
         qux: 'baz'
     }
 };
-const ref = bar ? bar : _throw(new TypeError(\"Cannot destructure 'undefined' or 'null'\")), \
-     _ref$Foo = ref[Foo], ref1 = _ref$Foo ? _ref$Foo : _throw(new TypeError(\"Cannot destructure \
-     'undefined' or 'null'\")), qux = ref1.qux;"
+const _bar$Foo = bar[Foo], qux = _bar$Foo.qux;"
 );
 
 test!(
@@ -548,8 +520,7 @@ test!(
     |_| tr(),
     issue_336,
     "const { 'foo-bar': fooBar } = baz;",
-    "const ref = baz ? baz : _throw(new TypeError(\"Cannot destructure 'undefined' or 'null'\")), \
-     fooBar = ref['foo-bar'];"
+    "const fooBar = baz['foo-bar'];"
 );
 
 test!(
@@ -562,8 +533,7 @@ test!(
 }",
     "
 function foo(bar) {
-    const ref = bar ? bar : _throw(new TypeError(\"Cannot destructure 'undefined' or 'null'\")), \
-     foo = ref.foo;
+    const foo = bar.foo;
     return foo;
 }"
 );
@@ -578,8 +548,7 @@ test!(
 }",
     "
 function foo(bar) {
-    var ref = bar ? bar : _throw(new TypeError(\"Cannot destructure 'undefined' or 'null'\")), \
-     foo1 = ref.foo;
+    var foo1 = bar.foo;
     return foo1;
 }"
 );
@@ -594,8 +563,7 @@ test!(
 }",
     "
 function foo(bar) {
-    var ref = bar ? bar : _throw(new TypeError(\"Cannot destructure 'undefined' or 'null'\")), \
-     foo1 = ref.foo;
+    var foo1 = bar.foo;;
     return foo1;
 }
 "
@@ -1086,32 +1054,30 @@ var a = 1,
 var a = 1,
     b = 2,
     c = [3, 4];
-var _ref = [1, 2, 3],
-    a = _ref[0],
-    b = _ref[1];
-var _ref1 = [1, 2, 3],
-    a = _ref1[0],
-    b = _ref1[1];
-var _ref2 = [a, b],
-    a = _ref2[0],
-    b = _ref2[1];
-var _ref3;
-_ref3 = [a[1], a[0]], a[0] = _ref3[0], a[1] = _ref3[1], _ref3;
+var ref = [1, 2, 3],
+    a = ref[0],
+    b = ref[1];
+var ref1 = [1, 2, 3],
+    a = ref1[0],
+    b = ref1[1];
+var ref2 = [a, b],
+    a = ref2[0],
+    b = ref2[1];
+var ref3;
+ref3 = [a[1], a[0]], a[0] = ref3[0], a[1] = ref3[1], ref3;
 
 
-var _ref4 = [].concat(_toConsumableArray(foo), [bar]),
-    a = _ref4[0],
-    b = _ref4[1];
+var ref4 = _toConsumableArray(foo).concat([bar]), a = ref4[0], b = ref4[1];
 
-var _ref5 = [foo(), bar],
-    a = _ref5[0],
-    b = _ref5[1];
-var _ref6 = [clazz.foo(), bar],
-    a = _ref6[0],
-    b = _ref6[1];
-var _ref7 = [clazz.foo, bar],
-    a = _ref7[0],
-    b = _ref7[1];
+var ref5 = [foo(), bar],
+    a = ref5[0],
+    b = ref5[1];
+var ref6 = [clazz.foo(), bar],
+    a = ref6[0],
+    b = ref6[1];
+var ref7 = [clazz.foo, bar],
+    a = ref7[0],
+    b = ref7[1];
 var a,
     b = 2;
 a = 1, b = 2;
@@ -1152,6 +1118,7 @@ var x = z[0],
 test!(
     syntax(),
     |_| chain!(
+        object_rest_spread(),
         spread(spread::Config {
             ..Default::default()
         }),
@@ -1173,8 +1140,8 @@ var { [x]: x, ...y } = z;
 "#,
     r#"
 var z = {};
-var _z = z,
-    x = _extends({}, _z);
+var x = _extends({
+}, z);
 var _z2 = z,
     x = _z2.x,
     y = _objectWithoutProperties(_z2, ["x"]);
@@ -1187,11 +1154,10 @@ var _z3 = z,
       y = _objectWithoutProperties(_ref, ["x"]);
 });
 
-var _o = o;
-x = _o.x;
-y = _o.y;
-z = _objectWithoutProperties(_o, ["x", "y"]);
-_o;
+var _o;
+var ref;
+_o = o, z = _objectWithoutProperties(_o, ['x', 'y']), ref = _o, x = ref.x, y = ref.y, _o;
+
 
 "#
 );
@@ -1231,10 +1197,7 @@ var { x: { y } = {} } = z;
 "#,
     r#"
 var z = {};
-var _z$x = z.x;
-_z$x = _z$x === void 0 ? {} : _z$x;
-var y = _z$x.y;
-
+var tmp = z.x, ref = tmp === void 0 ? {} : tmp, y = ref.y;
 "#
 );
 
@@ -1265,9 +1228,9 @@ var _rect$topLeft = rect.topLeft,
     _rect$bottomRight = rect.bottomRight,
     x2 = _rect$bottomRight.x,
     y2 = _rect$bottomRight.y;
-var _ref = [0, 1, 2, 3, 4, 5, 6],
-    foo = _ref[3],
-    bar = _ref[5];
+var ref = [0, 1, 2, 3, 4, 5, 6],
+    foo = ref[3],
+    bar = ref[5];
 
 "#
 );
@@ -1353,18 +1316,10 @@ test!(
     destructuring_assignment_statement,
     r#"
 [a, b] = f();
-;
-
 "#,
     r#"
-var _f = f();
-
-var _f2 = _slicedToArray(_f, 2);
-
-a = _f2[0];
-b = _f2[1];
-;
-
+            var ref;
+ref = f(), a = ref[0], b = ref[1], ref;
 "#
 );
 
@@ -1387,9 +1342,9 @@ var [a, [b], [c]] = ["hello", [", ", "junk"], ["world"]];
 
 "#,
     r#"
-var ref = ['hello', [', ', 'junk'], ['world']], a = ref[0], ref1 = ref[1], b = ref1[0], ref2 = ref[2], c = ref2[0];
-var ref3, ref4, ref5;
-ref3 = ['hello', [', ', 'junk'], ['world']], a = ref3[0], ref4 = ref3[1], b = ref4[0], ref5 = ref3[2], c = ref5[0], ref3;
+var a = 'hello', ref = [', ', 'junk'], b = ref[0], c = 'world';
+a = 'hello', [b] = [', ', 'junk'], [c] = ['world'];
+
 "#
 );
 
@@ -1420,6 +1375,7 @@ var ref;
 test!(
     syntax(),
     |_| chain!(
+        object_rest_spread(),
         spread(spread::Config {
             ..Default::default()
         }),
@@ -1538,12 +1494,8 @@ if (true) [a, b] = [b, a];
 
 "#,
     r#"
-if (true) {
-  var _ref = [b, a];
-  a = _ref[0];
-  b = _ref[1];
-  _ref;
-}
+var ref;
+if (true) ref = [b, a], a = ref[0], b = ref[1], ref;
 
 "#
 );

@@ -133,7 +133,6 @@ var HomePage = function(_Component) {
 }",
         "
 export default function fn1() {
-    var args;
     for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++){
         args[_key] = arguments[_key];
     }

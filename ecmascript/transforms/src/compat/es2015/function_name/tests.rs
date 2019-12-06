@@ -734,6 +734,8 @@ var bar = {
 
 // function_name_global
 test!(
+    // Cost of development is too high.
+    ignore,
     syntax(),
     |_| chain!(
         resolver(),

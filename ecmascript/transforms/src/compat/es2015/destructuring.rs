@@ -263,31 +263,8 @@ impl AssignFolder {
                 let ref_ident = make_ref_ident(decls, decl.init);
 
                 let ref_ident = if can_be_null {
-                    make_ref_ident(
-                        decls,
-                        Some(box Expr::Cond(CondExpr {
-                            span: DUMMY_SP,
-                            test: box Expr::Ident(ref_ident.clone()),
-                            cons: box Expr::Ident(ref_ident.clone()),
-                            // _throw(new TypeError())
-                            alt: box Expr::Call(CallExpr {
-                                span: DUMMY_SP,
-                                callee: helper!(throw, "throw"),
-                                // new TypeError()
-                                args: vec![NewExpr {
-                                    span: DUMMY_SP,
-                                    callee: box Expr::Ident(quote_ident!("TypeError")),
-                                    args: Some(vec![Lit::Str(quote_str!(
-                                        "Cannot destructure 'undefined' or 'null'"
-                                    ))
-                                    .as_arg()]),
-                                    type_args: Default::default(),
-                                }
-                                .as_arg()],
-                                type_args: Default::default(),
-                            }),
-                        })),
-                    )
+                    let init = box Expr::Ident(ref_ident.clone());
+                    make_ref_ident(decls, Some(init))
                 } else {
                     ref_ident
                 };

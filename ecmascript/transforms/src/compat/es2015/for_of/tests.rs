@@ -304,7 +304,7 @@ for (const elm of array) {
 
 var _foo = require("foo");
 
-for (let _i = 0; _i < _foo.array.length; _i++) {
+for(let _i = 0; _i < _foo.array.length; _i++){
   const elm = _foo.array[_i];
   console.log(elm);
 }
@@ -328,8 +328,8 @@ for (elm of array) {
     r#"
 let elm;
 
-for (let _i = 0, _array = array; _i < _array.length; _i++) {
-  elm = _array[_i];
+for(let _i = 0; _i < array.length; _i++){
+  elm = array[_i];
   console.log(elm);
 }
 
@@ -356,7 +356,7 @@ for (const elm of array) {
 define(["foo"], function (_foo) {
   "use strict";
 
-  for (let _i = 0; _i < _foo.array.length; _i++) {
+  for(let _i = 0; _i < _foo.array.length; _i++){
     const elm = _foo.array[_i];
     console.log(elm);
   }
@@ -380,8 +380,8 @@ for ([elm] of array) {
     r#"
 let elm;
 
-for (let _i = 0, _array = array; _i < _array.length; _i++) {
-  [elm] = _array[_i];
+for(let _i = 0; _i < array.length; _i++){
+  [elm] = array[_i];
   console.log(elm);
 }
 
@@ -391,9 +391,7 @@ for (let _i = 0, _array = array; _i < _array.length; _i++) {
 // regression_redeclare_array_8913
 test!(
     syntax(),
-    |_| for_of(Config {
-        ..Default::default()
-    }),
+    |_| for_of(Config { assume_array: true }),
     regression_redeclare_array_8913,
     r#"
 function f(...t) {
@@ -405,8 +403,8 @@ function f(...t) {
 "#,
     r#"
 function f(...t) {
-  for (var _i = 0, _t = t; _i < _t.length; _i++) {
-    let o = _t[_i];
+  for(let _i = 0; _i < t.length; _i++){
+    let o = t[_i];
     const t = o;
   }
 }
@@ -426,11 +424,10 @@ for (const [elm] of array) {
 
 "#,
     r#"
-for (let _i = 0, _array = array; _i < _array.length; _i++) {
-  const [elm] = _array[_i];
-  console.log(elm);
+for(let _i = 0; _i < array.length; _i++){
+    const [elm] = array[_i];
+    console.log(elm);
 }
-
 "#
 );
 
@@ -447,8 +444,8 @@ for (i of items) i;
     r#"
 let i;
 
-for (let _i = 0, _items = items; _i < _items.length; _i++) {
-  i = _items[_i];
+for(let _i = 0; _i < items.length; _i++){
+  i = items[_i];
   i;
 }
 
@@ -467,8 +464,8 @@ for (const elm of array) {
 
 "#,
     r#"
-for (let _i = 0, _array = array; _i < _array.length; _i++) {
-  const elm = _array[_i];
+for(let _i = 0; _i < array.length; _i++){
+  const elm = array[_i];
   console.log(elm);
 }
 
@@ -512,7 +509,7 @@ for (const elm of array) {
     r#"
 const array = [];
 
-for (let _i = 0; _i < array.length; _i++) {
+for(let _i = 0; _i < array.length; _i++){
   const elm = array[_i];
   console.log(elm);
 }
@@ -562,7 +559,7 @@ for (const elm of array) {
     r#"
 import { array } from "foo";
 
-for (let _i = 0; _i < array.length; _i++) {
+for(let _i = 0; _i < array.length; _i++){
   const elm = array[_i];
   console.log(elm);
 }
@@ -585,9 +582,7 @@ for (let a of b) {
 
 "#,
     r#"
-var _iteratorNormalCompletion = true;
-var _didIteratorError = false;
-var _iteratorError = undefined;
+var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
 
 try {
   myLabel: //woops
@@ -616,9 +611,7 @@ try {
 // regression_if_label_3858
 test!(
     syntax(),
-    |_| for_of(Config {
-        ..Default::default()
-    }),
+    |_| for_of(Config { assume_array: true }),
     regression_if_label_3858,
     r#"
 if ( true )

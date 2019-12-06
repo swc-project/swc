@@ -55,7 +55,7 @@ impl Fold<KeyValueProp> for FnName {
                 //
                 if let PropName::Ident(ref i) = p.key {
                     box Expr::Fn(FnExpr {
-                        ident: Some(prepare(i.clone(), true)),
+                        ident: Some(prepare(i.clone(), false)),
                         ..expr
                     })
                 } else {
