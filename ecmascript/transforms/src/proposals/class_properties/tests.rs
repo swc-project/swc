@@ -99,13 +99,11 @@ test('foo');
 "#,
     r#"
 function test(x) {
-  var _x = x;
-
   var F = function F() {
     'use strict';
 
     _classCallCheck(this, F);
-    _defineProperty(this, _x, 1);
+    _defineProperty(this, x, 1);
   };
 
   x = 'deadbeef';
@@ -2233,7 +2231,7 @@ export default param =>
 
 "#,
     r#"
-export default (param)=>{
+export default ((param)=>{
   var App = function() {
     'use strict';
     function App() {
@@ -2251,7 +2249,7 @@ export default (param)=>{
     prop1: 'prop1', prop2: 'prop2' 
   });
   return App;
-};
+});
 "#
 );
 
@@ -4775,7 +4773,7 @@ function (_A) {
 
   function B() {
     _classCallCheck(this, B);
-    return _possibleConstructorReturn(this, _getPrototypeOf(B).apply(this, arguments));
+    return _possibleConstructorReturn(this,  _getPrototypeOf(B).apply(this, arguments));
   }
 
   return B;
