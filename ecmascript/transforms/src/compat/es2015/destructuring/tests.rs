@@ -1153,11 +1153,10 @@ var _z3 = z,
       y = _objectWithoutProperties(_ref, ["x"]);
 });
 
-var _o = o;
-x = _o.x;
-y = _o.y;
-z = _objectWithoutProperties(_o, ["x", "y"]);
-_o;
+var _o;
+var ref;
+_o = o, z = _objectWithoutProperties(_o, ['x', 'y']), ref = _o, x = ref.x, y = ref.y, _o;
+
 
 "#
 );
