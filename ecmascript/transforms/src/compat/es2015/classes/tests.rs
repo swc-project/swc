@@ -1873,7 +1873,7 @@ function Foo() {
     value: function foo() {}
   }, {
     key: "foo",
-    value: function foo1() {}
+    value: function foo() {}
   }, {
     key: bar,
     value: function() {}
@@ -4974,7 +4974,7 @@ test!(
             }
             return Foo;
         }(Bar);
-        return hello.apply(void 0, foo);
+        return hello.apply(void 0, _toConsumableArray(foo));
     }
 }"
 );
