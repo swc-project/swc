@@ -120,9 +120,7 @@ test!(
 var { x: { y } = {} } = z;"#,
     r#"var z = {
 };
-var ref = z ? z : _throw(new TypeError("Cannot destructure 'undefined' or 'null'")), tmp = ref.x,
- ref1 = tmp === void 0 ? {
-} : tmp, ref2 = ref1 ? ref1 : _throw(new TypeError("Cannot destructure 'undefined' or 'null'")), y = ref2.y;"#
+var tmp = z.x, ref = tmp === void 0 ? {} : tmp, y = ref.y;"#
 );
 
 test!(
@@ -311,8 +309,7 @@ for (let i = 0, { length } = list; i < length; i++) {
   list[i];
 }"#,
     r#"let list = [1, 2, 3, 4];
-for(let i = 0, ref = list ? list : _throw(new TypeError("Cannot destructure 'undefined' or 'null'")),
-  length = ref.length; i < length; i++){
+for(let i = 0, length = list.length; i < length; i++){
     list[i];
 }
 "#
@@ -417,8 +414,7 @@ test!(
 var { x, y } = coords,
     foo = "bar";"#,
     r#"var coords = [1, 2];
-var ref = coords ? coords : _throw(new TypeError("Cannot destructure 'undefined' or 'null'")),
-     x = ref.x, y = ref.y, foo = 'bar';"#
+var x = coords.x, y = coords.y, foo = 'bar';"#
 );
 
 test_exec!(
@@ -453,16 +449,6 @@ var ref = rect ? rect : _throw(new TypeError("Cannot destructure 'undefined' or 
     _ref$bottomRight = ref.bottomRight, ref2 = _ref$bottomRight ? _ref$bottomRight :
     _throw(new TypeError("Cannot destructure 'undefined' or 'null'")), x2 = ref2.x, y2 = ref2.y;
 var ref3 = [0, 1, 2, 3, 4, 5, 6], foo = ref3[3], bar = ref3[5];"#
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    object_basic,
-    r#"var coords = [1, 2];
-var { x, y } = coords;"#,
-    r#"var coords = [1, 2];
-var ref = coords ? coords : _throw(new TypeError("Cannot destructure 'undefined' or 'null'")), x = ref.x, y = ref.y;"#
 );
 
 test_exec!(
@@ -520,9 +506,7 @@ const bar = {
         qux: 'baz'
     }
 };
-const ref = bar ? bar : _throw(new TypeError(\"Cannot destructure 'undefined' or 'null'\")), \
-     _ref$Foo = ref[Foo], ref1 = _ref$Foo ? _ref$Foo : _throw(new TypeError(\"Cannot destructure \
-     'undefined' or 'null'\")), qux = ref1.qux;"
+const _bar$Foo = bar[Foo], qux = _bar$Foo.qux;"
 );
 
 test!(
@@ -580,8 +564,7 @@ test!(
 }",
     "
 function foo(bar) {
-    var ref = bar ? bar : _throw(new TypeError(\"Cannot destructure 'undefined' or 'null'\")), \
-     foo1 = ref.foo;
+    var foo1 = bar.foo;
     return foo1;
 }"
 );
@@ -596,8 +579,7 @@ test!(
 }",
     "
 function foo(bar) {
-    var ref = bar ? bar : _throw(new TypeError(\"Cannot destructure 'undefined' or 'null'\")), \
-     foo1 = ref.foo;
+    var foo1 = bar.foo;;
     return foo1;
 }
 "
@@ -1232,10 +1214,7 @@ var { x: { y } = {} } = z;
 "#,
     r#"
 var z = {};
-var _z$x = z.x;
-_z$x = _z$x === void 0 ? {} : _z$x;
-var y = _z$x.y;
-
+var tmp = z.x, ref = tmp === void 0 ? {} : tmp, y = ref.y;
 "#
 );
 
@@ -1266,9 +1245,9 @@ var _rect$topLeft = rect.topLeft,
     _rect$bottomRight = rect.bottomRight,
     x2 = _rect$bottomRight.x,
     y2 = _rect$bottomRight.y;
-var _ref = [0, 1, 2, 3, 4, 5, 6],
-    foo = _ref[3],
-    bar = _ref[5];
+var ref = [0, 1, 2, 3, 4, 5, 6],
+    foo = ref[3],
+    bar = ref[5];
 
 "#
 );
@@ -1413,6 +1392,7 @@ var ref;
 test!(
     syntax(),
     |_| chain!(
+        object_rest_spread(),
         spread(spread::Config {
             ..Default::default()
         }),
