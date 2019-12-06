@@ -90,8 +90,7 @@ test!(
     |_| tr(),
     array1,
     r#"var [a, [b], [c]] = ["hello", [", ", "junk"], ["world"]];"#,
-    r#"var ref = ['hello', [', ', 'junk'], ['world']], a = ref[0], ref1 = ref[1], 
-    b = ref1[0], ref2 = ref[2], c = ref2[0];"#
+    r#"var a = 'hello', ref = [', ', 'junk'], b = ref[0], c = 'world';"#
 );
 
 test!(
@@ -99,10 +98,7 @@ test!(
     |_| tr(),
     array2,
     r#"[a, [b], [c]] = ["hello", [", ", "junk"], ["world"]];"#,
-    r#"var ref, ref1, ref2;
-ref = ['hello', [', ', 'junk'], ['world']], a = ref[0], ref1 = ref[1],
-     b = ref1[0], ref2 = ref[2], c = ref2[0], ref;
-"#
+    r#"a = 'hello', [b] = [', ', 'junk'], [c] = ['world'];"#
 );
 
 test!(
@@ -111,9 +107,7 @@ test!(
     assign_expr_completion_record,
     r#"var x, y;
 [x, y] = [1, 2];"#,
-    r#"var x, y;
-var ref;
-ref = [1, 2], x = ref[0], y = ref[1], ref;"#
+    r#"x = 1, y = 2;"#
 );
 
 test!(
@@ -315,8 +309,8 @@ for (let i = 0, { length } = list; i < length; i++) {
   list[i];
 }"#,
     r#"let list = [1, 2, 3, 4];
-for(let i = 0, _ref = list ? list : _throw(new TypeError("Cannot destructure 'undefined' or 'null'")),
-  length = _ref.length; i < length; i++){
+for(let i = 0, ref = list ? list : _throw(new TypeError("Cannot destructure 'undefined' or 'null'")),
+     length = ref.length; i < length; i++){
     list[i];
 }
 "#
@@ -733,8 +727,7 @@ test!(
 "#,
     r#"
 () => {
-  var ref;
-  ref = [1, 2], a = ref[0], b = ref[1], ref;
+  a = 1, b = 2;
 };
 
 "#

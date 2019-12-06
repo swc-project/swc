@@ -1419,10 +1419,7 @@ var Outer = function Outer() {
     value: void 0
   });
 
-  var Test =
-  /*#__PURE__*/
-  function (_super) {
-    'use strict';
+  var Test = function (_super) {
     _inherits(Test, _super);
 
     function Test() {
@@ -3381,13 +3378,14 @@ call(function() {
     };
     return _class;
 }());
-
-export default class _class2 {}
-var _test2 = {
-  writable: true,
-  value: true
+class _class{
+}
+var _test = {
+    writable: true,
+    value: true
 };
-;
+export { _class as default }
+
 
 "#
 );
