@@ -155,7 +155,7 @@ impl Actual {
                             decls: vec![VarDeclarator {
                                 span: DUMMY_SP,
                                 name: var.decls.into_iter().next().unwrap().name,
-                                init: Some(box Expr::Ident(arr.clone())),
+                                init: Some(box Expr::Ident(arr.clone()).computed_member(i)),
                                 definite: false,
                             }],
                         })),
@@ -166,12 +166,15 @@ impl Actual {
                     //
                     prepend(
                         &mut body.stmts,
-                        Stmt::Expr(box Expr::Assign(AssignExpr {
-                            span: DUMMY_SP,
-                            left: PatOrExpr::Pat(box pat),
-                            op: op!("="),
-                            right: box Expr::Ident(arr.clone()),
-                        })),
+                        Stmt::Expr(
+                            box Expr::Assign(AssignExpr {
+                                span: DUMMY_SP,
+                                left: PatOrExpr::Pat(box pat),
+                                op: op!("="),
+                                right: box Expr::Ident(arr.clone()),
+                            })
+                            .computed_member(i),
+                        ),
                     )
                 }
             }
