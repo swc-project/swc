@@ -4359,22 +4359,22 @@ export default param =>
 
 "#,
     r#"
-export default (param => {
-  var _class, _temp, _props;
-
-  return _temp = _class = class App {
-    getParam() {
-      return param;
+export default ((param)=>{
+    class App{
+         getParam() {
+            return param;
+        }
     }
-
-  }, _props = {
-    writable: true,
-    value: {
-      prop1: 'prop1',
-      prop2: 'prop2'
-    }
-  }, _temp;
+    var _props = {
+        writable: true,
+        value: {
+            prop1: 'prop1',
+            prop2: 'prop2'
+        }
+    };
+    return App;
 });
+
 
 "#
 );
