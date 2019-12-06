@@ -449,6 +449,7 @@ impl ClassProperties {
             statics: &statics,
             vars: vec![],
             class_name: &ident,
+            in_assign_pat: false,
         });
 
         (
