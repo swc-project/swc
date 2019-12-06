@@ -1129,9 +1129,6 @@ expect(Foo.str = "bar").toBe("bar");
 );
 
 test_exec!(
-    // TOOOOO long to read
-    // TODO(kdy1): unignore
-    ignore,
     syntax(),
     |_| tr(),
     regression_7371_exec,
@@ -4587,6 +4584,8 @@ class Foo {
 
 // private_static_infer_name
 test!(
+    // Seems useless, while being hard to implement.
+    ignore,
     syntax(),
     |_| chain!(class_properties(), block_scoping()),
     private_static_infer_name,
