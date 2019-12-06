@@ -70,8 +70,7 @@ test!(
     |_| tr(),
     obj_assign_pat,
     r#"let { a = 1 } = foo"#,
-    r#"let ref = foo ? foo : _throw(new TypeError("Cannot destructure 'undefined' or 'null'")),
-        _ref$a = ref.a, a = _ref$a === void 0 ? 1 : _ref$a;"#
+    r#"let _foo$a = foo.a, a = _foo$a === void 0 ? 1 : _foo$a;"#
 );
 
 test!(
@@ -431,12 +430,10 @@ var {topLeft: {x: x1, y: y1}, bottomRight: {x: x2, y: y2}} = rect;
 var { 3: foo, 5: bar } = [0, 1, 2, 3, 4, 5, 6];"#,
     r#"var rect = {
 };
-var ref = rect ? rect : _throw(new TypeError("Cannot destructure 'undefined' or 'null'")),
-    _ref$topLeft = ref.topLeft, ref1 = _ref$topLeft ? _ref$topLeft : 
-    _throw(new TypeError("Cannot destructure 'undefined' or 'null'")), x1 = ref1.x, y1 = ref1.y,
-    _ref$bottomRight = ref.bottomRight, ref2 = _ref$bottomRight ? _ref$bottomRight :
-    _throw(new TypeError("Cannot destructure 'undefined' or 'null'")), x2 = ref2.x, y2 = ref2.y;
-var ref3 = [0, 1, 2, 3, 4, 5, 6], foo = ref3[3], bar = ref3[5];"#
+var _rect$topLeft = rect.topLeft, x1 = _rect$topLeft.x,
+    y1 = _rect$topLeft.y, _rect$bottomRight = rect.bottomRight,
+    x2 = _rect$bottomRight.x, y2 = _rect$bottomRight.y;
+var ref = [0, 1, 2, 3, 4, 5, 6], foo = ref[3], bar = ref[5];"#
 );
 
 test_exec!(
