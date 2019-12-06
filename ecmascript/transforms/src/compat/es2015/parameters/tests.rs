@@ -432,8 +432,7 @@ function t(x = "default", { a, b }, ...args) {
 }"#,
     "// #3861
 function t(param, param1) {
-    var x = param === void 0 ? 'default' : param, ref = param1 ? param1 : _throw(new \
-     TypeError(\"Cannot destructure 'undefined' or 'null'\")), a = ref.a, b = ref.b;
+    var x = param === void 0 ? 'default' : param, a = param1.a, b = param1.b;
     for(var _len = arguments.length, args = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < \
      _len; _key++){
         args[_key - 2] = arguments[_key];
