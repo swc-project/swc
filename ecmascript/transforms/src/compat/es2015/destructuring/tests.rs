@@ -397,18 +397,6 @@ test!(
 test!(
     syntax(),
     |_| tr(),
-    mixed,
-    r#"var rect = {};
-var {topLeft: [x1, y1], bottomRight: [x2, y2] } = rect;"#,
-    r#"var rect = {};
-var ref = rect ? rect : _throw(new TypeError("Cannot destructure 'undefined' or 'null'")),
-    _ref$topLeft = ref.topLeft, x1 = _ref$topLeft[0], y1 = _ref$topLeft[1],
-    _ref$bottomRight = ref.bottomRight, x2 = _ref$bottomRight[0], y2 = _ref$bottomRight[1];"#
-);
-
-test!(
-    syntax(),
-    |_| tr(),
     multiple,
     r#"var coords = [1, 2];
 var { x, y } = coords,
@@ -534,8 +522,7 @@ test!(
     |_| tr(),
     issue_336,
     "const { 'foo-bar': fooBar } = baz;",
-    "const ref = baz ? baz : _throw(new TypeError(\"Cannot destructure 'undefined' or 'null'\")), \
-     fooBar = ref['foo-bar'];"
+    "const fooBar = baz['foo-bar'];"
 );
 
 test!(
@@ -548,8 +535,7 @@ test!(
 }",
     "
 function foo(bar) {
-    const ref = bar ? bar : _throw(new TypeError(\"Cannot destructure 'undefined' or 'null'\")), \
-     foo = ref.foo;
+    const foo = bar.foo;
     return foo;
 }"
 );
