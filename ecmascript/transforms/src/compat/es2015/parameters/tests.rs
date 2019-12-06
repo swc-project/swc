@@ -288,10 +288,9 @@ test!(
   a5,
   {a6, a7} = {}) {}"#,
     "function fn(a1, param, param1, a5, param2) {
-    var a2 = param === void 0 ? 4 : param, ref = param1 ? param1 : _throw(new TypeError(\"Cannot \
-     destructure 'undefined' or 'null'\")), a3 = ref.a3, a4 = ref.a4, ref1 = param2 === void 0 ? {
-    } : param2, ref2 = ref1 ? ref1 : _throw(new TypeError(\"Cannot destructure 'undefined' or \
-     'null'\")), a6 = ref2.a6, a7 = ref2.a7;
+    var a2 = param === void 0 ? 4 : param, a3 = param1.a3, a4 = param1.a4, ref = param2 === void 0 \
+     ? {
+    } : param2, a6 = ref.a6, a7 = ref.a7;
 }
 "
 );
