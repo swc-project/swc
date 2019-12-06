@@ -172,7 +172,7 @@ impl Actual {
                 ),
             }
 
-            return Stmt::For(ForStmt {
+            let stmt = Stmt::For(ForStmt {
                 span,
                 init: Some(VarDeclOrExpr::VarDecl(VarDecl {
                     span: DUMMY_SP,
@@ -184,6 +184,16 @@ impl Actual {
                 update,
                 body: box Stmt::Block(body),
             });
+
+            return match label {
+                Some(label) => LabeledStmt {
+                    span,
+                    label,
+                    body: box stmt,
+                }
+                .into(),
+                _ => stmt,
+            };
         }
 
         let var_span = left.span().apply_mark(Mark::fresh(Mark::root()));
