@@ -391,9 +391,7 @@ for (let _i = 0, _array = array; _i < _array.length; _i++) {
 // regression_redeclare_array_8913
 test!(
     syntax(),
-    |_| for_of(Config {
-        ..Default::default()
-    }),
+    |_| for_of(Config { assume_array: true }),
     regression_redeclare_array_8913,
     r#"
 function f(...t) {
@@ -614,9 +612,7 @@ try {
 // regression_if_label_3858
 test!(
     syntax(),
-    |_| for_of(Config {
-        ..Default::default()
-    }),
+    |_| for_of(Config { assume_array: true }),
     regression_if_label_3858,
     r#"
 if ( true )
