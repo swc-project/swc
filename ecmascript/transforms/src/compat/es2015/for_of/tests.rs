@@ -403,8 +403,8 @@ function f(...t) {
 "#,
     r#"
 function f(...t) {
-  for (var _i = 0, _t = t; _i < _t.length; _i++) {
-    let o = _t[_i];
+  for(var _i = 0; _i < t.length; _i++){
+    let o = t[_i];
     const t = o;
   }
 }
@@ -510,8 +510,8 @@ for (const elm of array) {
     r#"
 const array = [];
 
-for (let _i = 0; _i < array.length; _i++) {
-  const elm = array[_i];
+for(var _i = 0; _i < array.length; _i++){
+  let elm = array[_i];
   console.log(elm);
 }
 
