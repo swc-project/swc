@@ -1139,8 +1139,8 @@ var { [x]: x, ...y } = z;
 "#,
     r#"
 var z = {};
-var _z = z,
-    x = _extends({}, _z);
+var x = _extends({
+}, z);
 var _z2 = z,
     x = _z2.x,
     y = _objectWithoutProperties(_z2, ["x"]);
