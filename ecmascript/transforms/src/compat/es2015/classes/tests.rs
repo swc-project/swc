@@ -67,8 +67,8 @@ let Sub = function(Foo) {
     'use strict';
     _inherits(Sub, Foo);
     function Sub() {
-        var _this;
         _classCallCheck(this, Sub);
+        var _this;
         if (singleton) {
             return _possibleConstructorReturn(_this, singleton);
         }
@@ -88,9 +88,9 @@ test!(
     class List extends Array {}
 "#,
     r#"
-let List = function(_Array) {
+let List = function(Array) {
     'use strict';
-    _inherits(List, _Array);
+    _inherits(List, Array);
     function List() {
         _classCallCheck(this, List);
         return _possibleConstructorReturn(this, _getPrototypeOf(List).apply(this, arguments));
@@ -327,9 +327,9 @@ function () {
 
 let Obj =
 /*#__PURE__*/
-function (_Base) {
+function (Base) {
   'use strict';
-  _inherits(Obj, _Base);
+  _inherits(Obj, Base);
 
   function Obj() {
     _classCallCheck(this, Obj);
@@ -387,9 +387,10 @@ function (Bar) {
   _inherits(Foo, Bar);
 
   function Foo() {
+    _classCallCheck(this, Foo);
+
     var _this;
 
-    _classCallCheck(this, Foo);
     return _possibleConstructorReturn(_this);
   }
 
@@ -434,9 +435,9 @@ Base.prototype.test = 1;
 
 let Obj =
 /*#__PURE__*/
-function (_Base) {
+function (Base) {
   'use strict';
-  _inherits(Obj, _Base);
+  _inherits(Obj, Base);
 
   function Obj() {
     _classCallCheck(this, Obj);
@@ -492,31 +493,20 @@ expect(constructor).toBe(CustomElement);
 
 "#,
     r#"
-// Pretend that `Reflect.construct` isn't supported.
 this.Reflect = undefined;
-
-this.HTMLElement = function () {
-  // Here, `this.HTMLElement` is this function, not the original HTMLElement
-  // constructor. `this.constructor` should be this function too, but isn't.
-  constructor = this.constructor;
+this.HTMLElement = function() {
+    constructor = this.constructor;
 };
-
 var constructor;
-
-let CustomElement =
-/*#__PURE__*/
-function (_HTMLElement) {
-  'use strict';
-_inherits(CustomElement, _HTMLElement);
-
-  function CustomElement() {
-    _classCallCheck(this, CustomElement);
-    return _possibleConstructorReturn(this, _getPrototypeOf(CustomElement).apply(this, arguments));
-  }
-
-  return CustomElement;
+let CustomElement = function(HTMLElement) {
+    'use strict';
+    _inherits(CustomElement, HTMLElement);
+    function CustomElement() {
+        _classCallCheck(this, CustomElement);
+        return _possibleConstructorReturn(this, _getPrototypeOf(CustomElement).apply(this, arguments));
+    }
+    return CustomElement;
 }(_wrapNativeSuper(HTMLElement));
-
 ;
 new CustomElement();
 expect(constructor).toBe(CustomElement);
@@ -541,31 +531,24 @@ class A extends B {
 
 "#,
     r#"
-let A =
-/*#__PURE__*/
-function (_B) {
-  'use strict';
-_inherits(A, _B);
-
-  function A() {
-    var _this;
-
-    _classCallCheck(this, A);
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(A).call(this));
-
-    _this.arrow1 = function (x) {
-      return x;
-    };
-
-    _this.arrow2 = function (x) {
-      return x;
-    };
-
-    return _this;
-  }
-
-  return A;
+let A = function(B) {
+    'use strict';
+    _inherits(A, B);
+    function A() {
+        _classCallCheck(this, A);
+        var _this;
+        _this = _possibleConstructorReturn(this, _getPrototypeOf(A).call(this));
+        _this.arrow1 = function(x) {
+            return x;
+        };
+        _this.arrow2 = function(x) {
+            return x;
+        };
+        return _this;
+    }
+    return A;
 }(B);
+
 
 "#
 );
@@ -614,9 +597,9 @@ let value = 2;
 
 let Obj =
 /*#__PURE__*/
-function (_Base) {
+function (Base) {
   'use strict';
-  _inherits(Obj, _Base);
+  _inherits(Obj, Base);
 
   function Obj() {
     _classCallCheck(this, Obj);
@@ -702,9 +685,9 @@ function () {
 
 let Obj =
 /*#__PURE__*/
-function (_Base) {
+function (Base) {
   'use strict';
-  _inherits(Obj, _Base);
+  _inherits(Obj, Base);
 
   function Obj() {
     _classCallCheck(this, Obj);
@@ -1097,9 +1080,9 @@ function () {
 
 let Obj =
 /*#__PURE__*/
-function (_Base) {
+function (Base) {
   'use strict';
-  _inherits(Obj, _Base);
+  _inherits(Obj, Base);
 
   function Obj() {
     _classCallCheck(this, Obj);
@@ -1226,9 +1209,9 @@ function () {
 
 let Obj =
 /*#__PURE__*/
-function (_Base) {
+function (Base) {
   'use strict';
-  _inherits(Obj, _Base);
+  _inherits(Obj, Base);
 
   function Obj() {
     _classCallCheck(this, Obj);
@@ -1361,9 +1344,9 @@ function () {
 
 let Obj =
 /*#__PURE__*/
-function (_Base) {
+function (Base) {
   'use strict';
-  _inherits(Obj, _Base);
+  _inherits(Obj, Base);
 
   function Obj() {
     _classCallCheck(this, Obj);
@@ -1522,9 +1505,9 @@ const proper = {
 
 let Obj =
 /*#__PURE__*/
-function (_Base) {
+function (Base) {
   'use strict';
-  _inherits(Obj, _Base);
+  _inherits(Obj, Base);
 
   function Obj() {
     _classCallCheck(this, Obj);
@@ -1919,9 +1902,9 @@ Object.defineProperty(Base.prototype, 'test', {
 
 let Obj =
 /*#__PURE__*/
-function (_Base) {
+function (Base) {
   'use strict';
-  _inherits(Obj, _Base);
+  _inherits(Obj, Base);
 
   function Obj() {
     _classCallCheck(this, Obj);
@@ -1988,9 +1971,9 @@ let Base = function Base() {
 
 let Obj =
 /*#__PURE__*/
-function (_Base) {
+function (Base) {
   'use strict';
-  _inherits(Obj, _Base);
+  _inherits(Obj, Base);
 
   function Obj() {
     _classCallCheck(this, Obj);
@@ -2142,14 +2125,14 @@ function Point() {
 
 let ColorPoint =
 /*#__PURE__*/
-function (_Point) {
+function (Point) {
   'use strict';
-_inherits(ColorPoint, _Point);
+_inherits(ColorPoint, Point);
 
   function ColorPoint() {
+    _classCallCheck(this, ColorPoint);
     var _this;
 
-    _classCallCheck(this, ColorPoint);
     _this = _possibleConstructorReturn(this, _getPrototypeOf(ColorPoint).call(this));
     _this.x = 2;
     _set(_getPrototypeOf(ColorPoint.prototype), 'x', 3, this, true);
@@ -2438,9 +2421,9 @@ var Outer = function (Hello) {
   _inherits(Outer, Hello);
 
   function Outer() {
+    _classCallCheck(this, Outer);
     var _this;
 
-    _classCallCheck(this, Outer);
     var Inner = {
       [_this = _possibleConstructorReturn(this, _getPrototypeOf(Outer).call(this))]() {
         return 'hello';
@@ -2491,9 +2474,9 @@ let Base = function Base() {
 
 let Obj =
 /*#__PURE__*/
-function (_Base) {
+function (Base) {
   'use strict';
-  _inherits(Obj, _Base);
+  _inherits(Obj, Base);
 
   function Obj() {
     _classCallCheck(this, Obj);
@@ -2534,21 +2517,15 @@ class Child extends Base {
 
 "#,
     r#"
-var Child =
-/*#__PURE__*/
-function (_Base) {
-  'use strict';
-
-  _inherits(Child, _Base);
-
-  function Child() {
-    var _this;
-
-    _classCallCheck(this, Child);
-    return _possibleConstructorReturn(_this, false);
-  }
-
-  return Child;
+var Child = function(Base) {
+    'use strict';
+    _inherits(Child, Base);
+    function Child() {
+        _classCallCheck(this, Child);
+        var _this;
+        return _possibleConstructorReturn(_this, false);
+    }
+    return Child;
 }(Base);
 
 "#
@@ -2635,8 +2612,8 @@ function (Bar) {
   _inherits(Foo, Bar);
 
   function Foo() {
-    var _this;
     _classCallCheck(this, Foo);
+    var _this;
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this));
     _this.state = "test";
     return _this;
@@ -2734,22 +2711,18 @@ class Child extends Base {
 
 "#,
     r#"
-var Child =
-/*#__PURE__*/
-function (_Base) {
-  'use strict';
-
-  _inherits(Child, _Base);
-
-  function Child() {
-    var _this;
-
-    _classCallCheck(this, Child);
-    return _possibleConstructorReturn(_this, {});
-  }
-
-  return Child;
+var Child = function(Base) {
+    'use strict';
+    _inherits(Child, Base);
+    function Child() {
+        _classCallCheck(this, Child);
+        var _this;
+        return _possibleConstructorReturn(_this, {
+        });
+    }
+    return Child;
 }(Base);
+
 
 "#
 );
@@ -2856,14 +2829,14 @@ _classCallCheck(this, A);
 
 let B =
 /*#__PURE__*/
-function (_A) {
+function (A) {
   'use strict';
-_inherits(B, _A);
+_inherits(B, A);
 
   function B() {
+    _classCallCheck(this, B);
     var _this;
 
-    _classCallCheck(this, B);
     return _possibleConstructorReturn(_this, _this = _possibleConstructorReturn(this, _getPrototypeOf(B).call(this)));
   }
 
@@ -3603,9 +3576,9 @@ function () {
 
 let Obj =
 /*#__PURE__*/
-function (_Base) {
+function (Base) {
   'use strict';
-  _inherits(Obj, _Base);
+  _inherits(Obj, Base);
 
   function Obj() {
     _classCallCheck(this, Obj);
@@ -3677,9 +3650,9 @@ let Base = function Base() {
 
 let Obj =
 /*#__PURE__*/
-function (_Base) {
+function (Base) {
   'use strict';
-  _inherits(Obj, _Base);
+  _inherits(Obj, Base);
 
   function Obj() {
     _classCallCheck(this, Obj);
@@ -3935,9 +3908,9 @@ function () {
 
 let Obj =
 /*#__PURE__*/
-function (_Base) {
+function (Base) {
   'use strict';
-  _inherits(Obj, _Base);
+  _inherits(Obj, Base);
 
   function Obj() {
     _classCallCheck(this, Obj);
@@ -4055,9 +4028,9 @@ function (Bar) {
   _inherits(Foo, Bar);
 
   function Foo() {
+    _classCallCheck(this, Foo);
     var _this;
 
-    _classCallCheck(this, Foo);
     if (eval("false")) _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this));
     return _possibleConstructorReturn(_this);
   }
@@ -4091,9 +4064,9 @@ function (Bar) {
   _inherits(Foo, Bar);
 
   function Foo() {
-    var _this;
-
     _classCallCheck(this, Foo);
+
+    var _this;
 
     var fn = () => _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this));
 
@@ -4166,9 +4139,9 @@ let Base = function Base() {
 
 let Obj =
 /*#__PURE__*/
-function (_Base) {
+function (Base) {
   'use strict';
-  _inherits(Obj, _Base);
+  _inherits(Obj, Base);
 
   function Obj() {
     _classCallCheck(this, Obj);
@@ -4278,9 +4251,9 @@ const proper = {
 
 let Obj =
 /*#__PURE__*/
-function (_Base) {
+function (Base) {
   'use strict';
-  _inherits(Obj, _Base);
+  _inherits(Obj, Base);
 
   function Obj() {
     _classCallCheck(this, Obj);
@@ -4458,9 +4431,9 @@ function (Bar) {
   _inherits(Foo, Bar);
 
   function Foo() {
+    _classCallCheck(this, Foo);
     var _this;
 
-    _classCallCheck(this, Foo);
 
     var fn = () => _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this));
 
@@ -4546,9 +4519,10 @@ function (Bar) {
   _inherits(Foo, Bar);
 
   function Foo() {
+    _classCallCheck(this, Foo);
+
     var _this;
 
-    _classCallCheck(this, Foo);
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this, () => {
       _this.test;
     }));
@@ -4651,9 +4625,9 @@ let Base = function Base() {
 
 let Obj =
 /*#__PURE__*/
-function (_Base) {
+function (Base) {
   'use strict';
-  _inherits(Obj, _Base);
+  _inherits(Obj, Base);
 
   function Obj() {
     _classCallCheck(this, Obj);
@@ -4780,9 +4754,9 @@ export default class extends A {}
     r#"
 var _default =
 /*#__PURE__*/
-function (_A) {
+function (A) {
   'use strict';
-  _inherits(_default, _A);
+  _inherits(_default, A);
 
   function _default() {
     _classCallCheck(this, _default);
@@ -5064,10 +5038,10 @@ test!(
 //
 //var B =
 // /*#__PURE__*/
-//function (_A) {
+//function (A) {
 //  "use strict";
 //
-//  _inherits(B, _A);
+//  _inherits(B, A);
 //
 //  function B() {
 //    var _this;
@@ -5103,10 +5077,10 @@ let Array = function Array() {
 
 let List =
 /*#__PURE__*/
-function (_Array) {
+function (Array) {
   "use strict";
 
-  _inherits(List, _Array);
+  _inherits(List, Array);
 
   function List() {
     _classCallCheck(this, List);
@@ -5147,12 +5121,12 @@ function (_Array) {
 //});
 //exports["default"] = void 0;
 //
-//var _BaseFoo2 = _interopRequireDefault(require("./BaseFoo"));
+//var BaseFoo2 = _interopRequireDefault(require("./BaseFoo"));
 //
 //var SubFoo =
 // /*#__PURE__*/
-//function (_BaseFoo) {
-//  _inherits(SubFoo, _BaseFoo);
+//function (BaseFoo) {
+//  _inherits(SubFoo, BaseFoo);
 //
 //  function SubFoo() {
 //    _classCallCheck(this, SubFoo);
@@ -5167,7 +5141,7 @@ function (_Array) {
 //    }
 //  }]);
 //  return SubFoo;
-//}(_BaseFoo2["default"]);
+//}(BaseFoo2["default"]);
 //
 //exports["default"] = SubFoo;
 //
