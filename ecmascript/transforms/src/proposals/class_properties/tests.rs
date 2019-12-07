@@ -3812,11 +3812,9 @@ var qux = function() {
 (function () {
   class Foo {
     constructor() {
-      var _this = this;
-
-      _defineProperty(this, "fn", function () {
-        return console.log(_this);
-      });
+      _defineProperty(this, 'fn', (function() {
+        return console.log(this);
+      }).bind(this));
     }
 
   }

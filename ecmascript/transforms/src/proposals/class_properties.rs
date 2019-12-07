@@ -1,6 +1,7 @@
 use self::{
     class_name_tdz::ClassNameTdzFolder,
     private_field::FieldAccessFolder,
+    this_in_static::ThisInStaticFolder,
     used_name::{UsedNameCollector, UsedNameRenamer},
 };
 use crate::{
@@ -19,6 +20,7 @@ mod class_name_tdz;
 mod private_field;
 #[cfg(test)]
 mod tests;
+mod this_in_static;
 mod used_name;
 
 ///
@@ -339,7 +341,13 @@ impl ClassProperties {
                         extra_stmts.push(Stmt::Expr(box Expr::Call(CallExpr {
                             span: DUMMY_SP,
                             callee,
-                            args: vec![ident.clone().as_arg(), key, value],
+                            args: vec![
+                                ident.clone().as_arg(),
+                                key,
+                                value.fold_with(&mut ThisInStaticFolder {
+                                    ident: ident.clone(),
+                                }),
+                            ],
                             type_args: Default::default(),
                         })))
                     } else {
