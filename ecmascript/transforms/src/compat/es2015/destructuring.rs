@@ -149,21 +149,17 @@ impl Fold<Vec<VarDeclarator>> for AssignFolder {
     }
 }
 
-impl Fold<ArrowExpr> for AssignFolder {
-    fn fold(&mut self, e: ArrowExpr) -> ArrowExpr {
-        let params = e.params.fold_with(self);
-
-        let body = match e.body {
-            BlockStmtOrExpr::Expr(e) => {
-                self.is_arrow_body = Some(());
-                let e = e.fold_children(self);
-                assert_eq!(self.is_arrow_body, None);
-                BlockStmtOrExpr::Expr(e)
+impl Fold<Stmt> for AssignFolder {
+    fn fold(&mut self, s: Stmt) -> Stmt {
+        match s {
+            Stmt::Expr(e) => {
+                self.ignore_return_value = Some(());
+                let e = e.fold_with(self);
+                assert_eq!(self.ignore_return_value, None);
+                Stmt::Expr(e)
             }
-            _ => e.body.fold_with(self),
-        };
-
-        ArrowExpr { params, body, ..e }
+            _ => s.fold_children(self),
+        }
     }
 }
 
@@ -464,7 +460,7 @@ struct AssignFolder {
     exporting: bool,
     vars: Vec<VarDeclarator>,
     /// Used like `.take().is_some()`.
-    is_arrow_body: Option<()>,
+    ignore_return_value: Option<()>,
 }
 
 impl Fold<ExportDecl> for AssignFolder {
@@ -479,7 +475,7 @@ impl Fold<ExportDecl> for AssignFolder {
 
 impl Fold<Expr> for AssignFolder {
     fn fold(&mut self, expr: Expr) -> Expr {
-        let should_preserve = self.is_arrow_body.take().is_some();
+        let ignore_return_value = self.ignore_return_value.take().is_some();
 
         let expr = match expr {
             // Handle iife
@@ -511,7 +507,7 @@ impl Fold<Expr> for AssignFolder {
                     Pat::Array(ArrayPat { elems, .. }) => {
                         let mut exprs = Vec::with_capacity(elems.len() + 1);
 
-                        if is_literal(&right) && !should_preserve {
+                        if is_literal(&right) && ignore_return_value {
                             match *right {
                                 Expr::Array(arr)
                                     if elems.len() == arr.elems.len() || has_rest_pat(&elems) =>
@@ -775,7 +771,7 @@ where
                 c: self.c,
                 exporting: false,
                 vars: vec![],
-                is_arrow_body: None,
+                ignore_return_value: None,
             };
 
             match stmt.try_into_stmt() {

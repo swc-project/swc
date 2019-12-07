@@ -51,9 +51,8 @@ test!(
     syntax(),
     |_| tr(),
     issue_260_02,
-    "[code = 1, ...rest] = []",
-    "var ref, ref1;
-ref = [], ref1 = ref[0], code = ref1 === void 0 ? 1 : ref1, rest = ref.slice(1), ref;"
+    "[code = 1, ...rest] = [];",
+    "code = 1 = void 0, rest = [];"
 );
 
 test!(
@@ -127,7 +126,8 @@ test!(
     |_| tr(),
     assign_expr,
     r#"console.log([x] = [123]);"#,
-    r#"console.log(x = 123);"#
+    r#"var ref;
+console.log((ref = [123], x = ref[0], ref));"#
 );
 
 test_exec!(
@@ -1510,4 +1510,13 @@ var [...xs] = f();
 expect(xs).toEqual([0, 1, 2]);
 
 "#
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    custom_call,
+    "foo([a, b] = [1, 2])",
+    "var ref;
+foo((ref = [1, 2], a = ref[0], b = ref[1], ref));"
 );
