@@ -1241,8 +1241,8 @@ function isSorted([x, y, ...wow]) {
 
 "#,
     r#"
-function isSorted(_ref) {
-  var _ref2 = _toArray(_ref),
+function isSorted(param) {
+  var _ref2 = _toArray(param),
       x = _ref2[0],
       y = _ref2[1],
       wow = _ref2.slice(2);
