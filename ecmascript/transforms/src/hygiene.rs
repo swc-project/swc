@@ -577,6 +577,32 @@ macro_rules! track_ident {
                 }
             }
         }
+
+        impl Fold<Class> for $T<'_> {
+            fn fold(&mut self, c: Class) -> Class {
+                let old = self.ident_type;
+                self.ident_type = IdentType::Ref;
+                let decorators = c.decorators.fold_with(self);
+                self.ident_type = IdentType::Ref;
+                let super_class = c.super_class.fold_with(self);
+                self.ident_type = IdentType::Ref;
+                let implements = c.implements.fold_with(self);
+                self.ident_type = old;
+
+                let body = c.body.fold_with(self);
+
+                Class {
+                    span: c.span,
+                    decorators,
+                    is_abstract: c.is_abstract,
+                    implements,
+                    body,
+                    super_class,
+                    type_params: c.type_params,
+                    super_type_params: c.super_type_params,
+                }
+            }
+        }
     };
 }
 
