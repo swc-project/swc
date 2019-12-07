@@ -3517,6 +3517,8 @@ var _client = new WeakMap();
 
 // decorators_legacy_interop_strict
 test!(
+    // See: https://github.com/swc-project/swc/issues/421
+    ignore,
     syntax(),
     |_| chain!(
         decorators(decorators::Config { legacy: true }),
@@ -4405,6 +4407,8 @@ class A {
 
 // decorators_legacy_interop_local_define_property
 test!(
+    // See: https://github.com/swc-project/swc/issues/421
+    ignore,
     syntax(),
     |_| chain!(
         decorators(decorators::Config { legacy: true }),
