@@ -1414,10 +1414,6 @@ async function foo() {
     r#"
 var _coroutine = require("bluebird").coroutine;
 
-function foo() {
-  return _foo.apply(this, arguments);
-}
-
 function _foo() {
   _foo = _coroutine(function* () {
     var wat = yield bar();
@@ -1425,6 +1421,9 @@ function _foo() {
   return _foo.apply(this, arguments);
 }
 
+function foo() {
+  return _foo.apply(this, arguments);
+}
 "#
 );
 
@@ -1456,10 +1455,6 @@ function mandatory(paramName) {
   throw new Error(`Missing parameter: ${paramName}`);
 }
 
-function foo(_x) {
-  return _foo.apply(this, arguments);
-}
-
 function _foo() {
   _foo = _asyncToGenerator(function* (_ref) {
     let a = _ref.a,
@@ -1467,6 +1462,10 @@ function _foo() {
         b = _ref$b === void 0 ? mandatory("b") : _ref$b;
     return Promise.resolve(b);
   });
+  return _foo.apply(this, arguments);
+}
+
+function foo(_x) {
   return _foo.apply(this, arguments);
 }
 
