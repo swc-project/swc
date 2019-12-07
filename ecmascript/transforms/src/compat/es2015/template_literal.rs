@@ -56,29 +56,38 @@ impl Fold<Expr> for TemplateLiteral {
                 )
                 .into();
 
-                for i in 0..quasis.len() + exprs.len() {
+                let len = quasis.len() + exprs.len();
+
+                let mut quasis = quasis.into_iter();
+                let mut exprs = exprs.into_iter();
+
+                for i in 0..len {
                     if i == 0 {
+                        quasis.next();
                         continue;
                     }
 
-                    let idx = i / 2;
-
                     let expr = if i % 2 == 0 {
                         // Quasis
-                        if quasis[idx].raw.is_empty() {
+
+                        match quasis.next() {
                             // Skip empty ones
-                            continue;
+                            Some(TplElement {
+                                raw:
+                                    Str {
+                                        value: js_word!(""),
+                                        ..
+                                    },
+                                ..
+                            }) => continue,
+                            Some(TplElement { cooked, raw, .. }) => {
+                                box Lit::Str(cooked.unwrap_or_else(|| raw)).into()
+                            }
+                            _ => unreachable!(),
                         }
-                        box Lit::Str(
-                            quasis[idx]
-                                .cooked
-                                .clone()
-                                .unwrap_or_else(|| quasis[idx].raw.clone()),
-                        )
-                        .into()
                     } else {
                         // Expression
-                        exprs[idx].clone()
+                        exprs.next().unwrap()
                     };
 
                     // obj = box Expr::Bin(BinExpr {
