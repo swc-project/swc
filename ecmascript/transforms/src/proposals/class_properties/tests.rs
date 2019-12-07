@@ -1137,7 +1137,7 @@ expect(Foo.str = "bar").toBe("bar");
 test_exec!(
     syntax(),
     |_| tr(),
-    regression_7371_exec,
+    regression_7371_exec_1,
     r#"
 
 class C {
@@ -1164,7 +1164,14 @@ class A extends C {
 }
 
 new A();
+"#
+);
 
+test_exec!(
+    syntax(),
+    |_| tr(),
+    regression_7371_exec_2,
+    r#"
 class Obj {
   constructor() {
     return {};
