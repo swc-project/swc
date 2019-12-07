@@ -18,7 +18,7 @@ fn tr() -> impl Fold<Module> {
     chain!(
         resolver(),
         Params,
-        crate::compat::es2015::destructuring(),
+        crate::compat::es2015::destructuring(destructuring::Config { loose: false }),
         crate::compat::es2015::block_scoping(),
     )
 }
@@ -1514,7 +1514,7 @@ test!(
     |_| chain!(
         Classes::default(),
         parameters(),
-        destructuring(),
+        destructuring(Default::default()),
         block_scoping(),
         common_js(Default::default()),
     ),

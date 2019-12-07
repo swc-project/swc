@@ -34,7 +34,7 @@ fn tr() -> impl Fold<Module> {
         ParenRemover,
         validating!(arrow()),
         validating!(parameters()),
-        validating!(destructuring()),
+        validating!(destructuring(destructuring::Config { loose: false })),
         validating!(function_name()),
         AsyncToGenerator {},
         fixer()
@@ -1507,7 +1507,11 @@ function _foo() {
 // regression_4943
 test!(
     syntax(),
-    |_| chain!(AsyncToGenerator {}, parameters(), destructuring(),),
+    |_| chain!(
+        AsyncToGenerator {},
+        parameters(),
+        destructuring(destructuring::Config { loose: false }),
+    ),
     regression_4943,
     r#"
 "use strict";

@@ -3,6 +3,7 @@ use crate::{
     util::{has_rest_pat, is_literal, prop_name_to_expr, undefined, ExprFactory, StmtLike},
 };
 use ast::*;
+use serde::Deserialize;
 use std::iter;
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Spanned, SyntaxContext, Visit, VisitWith, DUMMY_SP};
@@ -31,11 +32,19 @@ mod tests;
 ///     b = _arr2[1],
 ///     rest = _arr2.slice(2);
 /// ```
-pub fn destructuring() -> impl Pass {
-    Destructuring
+pub fn destructuring(c: Config) -> impl Pass {
+    Destructuring { c }
 }
 
-struct Destructuring;
+struct Destructuring {
+    c: Config,
+}
+
+#[derive(Debug, Default, Clone, Copy, Deserialize)]
+pub struct Config {
+    #[serde(default)]
+    pub loose: bool,
+}
 
 macro_rules! impl_for_for_stmt {
     ($T:tt) => {
@@ -424,8 +433,8 @@ impl Destructuring {
     }
 }
 
-#[derive(Default)]
 struct AssignFolder {
+    c: Config,
     exporting: bool,
     vars: Vec<VarDeclarator>,
 }
@@ -444,7 +453,7 @@ impl Fold<Expr> for AssignFolder {
     fn fold(&mut self, expr: Expr) -> Expr {
         let expr = match expr {
             // Handle iife
-            Expr::Fn(..) | Expr::Object(..) => Destructuring.fold(expr),
+            Expr::Fn(..) | Expr::Object(..) => Destructuring { c: self.c }.fold(expr),
             _ => expr.fold_children(self),
         };
 
@@ -721,7 +730,11 @@ where
         let mut buf = Vec::with_capacity(stmts.len());
 
         for stmt in stmts {
-            let mut folder = AssignFolder::default();
+            let mut folder = AssignFolder {
+                c: self.c,
+                exporting: false,
+                vars: vec![],
+            };
 
             match stmt.try_into_stmt() {
                 Err(item) => {

@@ -15,7 +15,7 @@ fn syntax() -> Syntax {
 }
 
 fn tr() -> impl Fold<Module> {
-    Destructuring
+    destructuring(Default::default())
 }
 
 test!(
@@ -132,7 +132,7 @@ test!(
 
 test_exec!(
     syntax(),
-    |_| Destructuring,
+    |_| destructuring(Config { loose: true }),
     chained,
     r#"var a, b, c, d;
 ({ a, b } = ({ c, d } = { a: 1, b: 2, c: 3, d: 4}));
@@ -144,7 +144,7 @@ expect(d).toBe(4);"#
 
 test_exec!(
     syntax(),
-    |_| Destructuring,
+    |_| destructuring(Config { loose: true }),
     empty_obj_pat_1,
     r#"expect(function () {
   var {} = null;
@@ -291,7 +291,7 @@ test!(
 test_exec!(
     ignore,
     syntax(),
-    |_| Destructuring,
+    |_| destructuring(Config { loose: true }),
     fn_key_with_obj_rest_spread,
     r#"const { [(() => 1)()]: a, ...rest } = { 1: "a" };
 
@@ -316,7 +316,7 @@ for(let i = 0, length = list.length; i < length; i++){
 
 test_exec!(
     syntax(),
-    |_| Destructuring,
+    |_| destructuring(Config { loose: true }),
     babel_issue_5090,
     r#"const assign = function([...arr], index, value) {
   arr[index] = value;
@@ -407,7 +407,7 @@ var x = coords.x, y = coords.y, foo = 'bar';"#
 test_exec!(
     ignore,
     syntax(),
-    |_| Destructuring,
+    |_| destructuring(Config { loose: true }),
     number_key_with_object_spread,
     r#"const foo = {
   1: "a",
@@ -439,7 +439,7 @@ var ref = [0, 1, 2, 3, 4, 5, 6], foo = ref[3], bar = ref[5];"#
 test_exec!(
     ignore,
     syntax(),
-    |_| Destructuring,
+    |_| destructuring(Config { loose: true }),
     spread_generator,
     r#"function* f() {
   for (var i = 0; i < 3; i++) {
@@ -571,7 +571,7 @@ function foo(bar) {
 // destructuring_function_key_with_object_rest_spread
 test_exec!(
     syntax(),
-    |_| chain!(object_rest_spread(), destructuring()),
+    |_| chain!(object_rest_spread(), destructuring(Default::default())),
     destructuring_function_key_with_object_rest_spread_exec,
     r#"
 const { [(() => 1)()]: a, ...rest } = { 1: "a" };
@@ -585,7 +585,7 @@ expect(rest).toEqual({});
 // regression_8528
 test!(
     syntax(),
-    |_| destructuring(),
+    |_| destructuring(Default::default()),
     regression_8528,
     r#"
 function isBetween(x, a, b) {
@@ -613,7 +613,7 @@ test!(
             ..Default::default()
         }),
         parameters(),
-        destructuring(),
+        destructuring(Default::default()),
         block_scoping(),
         object_rest_spread(),
     ),
@@ -657,7 +657,7 @@ test!(
             ..Default::default()
         }),
         parameters(),
-        destructuring(),
+        destructuring(Default::default()),
         block_scoping(),
         object_rest_spread(),
     ),
@@ -683,7 +683,7 @@ test!(
             ..Default::default()
         }),
         parameters(),
-        destructuring(),
+        destructuring(Default::default()),
         block_scoping(),
         object_rest_spread(),
     ),
@@ -708,7 +708,7 @@ test_exec!(
             ..Default::default()
         }),
         parameters(),
-        destructuring(),
+        destructuring(Default::default()),
         block_scoping(),
         object_rest_spread(),
     ),
@@ -735,7 +735,7 @@ test_exec!(
             ..Default::default()
         }),
         parameters(),
-        destructuring(),
+        destructuring(Default::default()),
         block_scoping(),
         object_rest_spread(),
     ),
@@ -756,7 +756,7 @@ test_exec!(
             ..Default::default()
         }),
         parameters(),
-        destructuring(),
+        destructuring(Default::default()),
         block_scoping(),
         object_rest_spread(),
     ),
@@ -780,7 +780,7 @@ test_exec!(
             ..Default::default()
         }),
         parameters(),
-        destructuring(),
+        destructuring(Default::default()),
         block_scoping(),
         object_rest_spread(),
     ),
@@ -832,7 +832,7 @@ test_exec!(
             ..Default::default()
         }),
         parameters(),
-        destructuring(),
+        destructuring(Default::default()),
         block_scoping(),
         object_rest_spread(),
     ),
@@ -859,7 +859,7 @@ test_exec!(
             ..Default::default()
         }),
         parameters(),
-        destructuring(),
+        destructuring(Default::default()),
         block_scoping(),
         object_rest_spread(),
     ),
@@ -892,7 +892,7 @@ expect(f2({a: 1})).toEqual([1, 1, 1]);
 //    |_| tr(r#"{
 //  "plugins": [
 //
-//    [destructuring(), { "useBuiltIns": true }],
+//    [destructuring(Default::default()), { "useBuiltIns": true }],
 //    spread(spread::Config{..Default::default()}),
 //    parameters(),
 //    block_scoping(),
@@ -944,7 +944,7 @@ test!(
             ..Default::default()
         }),
         parameters(),
-        destructuring(),
+        destructuring(Default::default()),
         block_scoping(),
         object_rest_spread(),
     ),
@@ -1017,7 +1017,7 @@ test!(
             ..Default::default()
         }),
         parameters(),
-        destructuring(),
+        destructuring(Default::default()),
         block_scoping(),
         object_rest_spread(),
     ),
@@ -1095,7 +1095,7 @@ test!(
             ..Default::default()
         }),
         parameters(),
-        destructuring(),
+        destructuring(Default::default()),
         block_scoping(),
         object_rest_spread(),
     ),
@@ -1122,7 +1122,7 @@ test!(
             ..Default::default()
         }),
         parameters(),
-        destructuring(),
+        destructuring(Default::default()),
         block_scoping(),
         object_rest_spread(),
     ),
@@ -1164,7 +1164,7 @@ _o = o, z = _objectWithoutProperties(_o, ['x', 'y']), ref = _o, x = ref.x, y = r
 // destructuring_const
 test_exec!(
     syntax(),
-    |_| destructuring(),
+    |_| destructuring(Default::default()),
     destructuring_const_exec,
     r#"
 const getState = () => ({});
@@ -1185,7 +1185,7 @@ test!(
             ..Default::default()
         }),
         parameters(),
-        destructuring(),
+        destructuring(Default::default()),
         block_scoping(),
     ),
     destructuring_assignment_expression_pattern,
@@ -1209,7 +1209,7 @@ test!(
             ..Default::default()
         }),
         parameters(),
-        destructuring(),
+        destructuring(Default::default()),
         block_scoping(),
     ),
     destructuring_object_advanced,
@@ -1243,7 +1243,7 @@ test!(
             ..Default::default()
         }),
         parameters(),
-        destructuring(),
+        destructuring(Default::default()),
         block_scoping(),
     ),
     destructuring_spread,
@@ -1279,7 +1279,7 @@ test!(
             ..Default::default()
         }),
         parameters(),
-        destructuring(),
+        destructuring(Default::default()),
         block_scoping(),
     ),
     destructuring_mixed,
@@ -1305,7 +1305,7 @@ var _rect$topLeft = _slicedToArray(rect.topLeft, 2),
 test!(
     syntax(),
     |_| chain!(
-        destructuring(),
+        destructuring(Default::default()),
         spread(spread::Config {
             ..Default::default()
         }),
@@ -1330,7 +1330,7 @@ test!(
             ..Default::default()
         }),
         parameters(),
-        destructuring(),
+        destructuring(Default::default()),
         block_scoping(),
         object_rest_spread(),
     ),
@@ -1355,7 +1355,7 @@ test!(
             ..Default::default()
         }),
         parameters(),
-        destructuring(),
+        destructuring(Default::default()),
         block_scoping(),
         object_rest_spread(),
     ),
@@ -1379,7 +1379,7 @@ test!(
             ..Default::default()
         }),
         parameters(),
-        destructuring(),
+        destructuring(Default::default()),
         block_scoping(),
         object_rest_spread(),
     ),
@@ -1415,7 +1415,7 @@ var _ref = prefix + 'state',
 // destructuring_number_key_with_object_rest_spread
 test_exec!(
     syntax(),
-    |_| chain!(object_rest_spread(), destructuring()),
+    |_| chain!(object_rest_spread(), destructuring(Default::default())),
     destructuring_number_key_with_object_rest_spread_exec,
     r#"
 const foo = {
@@ -1440,7 +1440,7 @@ test!(
             ..Default::default()
         }),
         parameters(),
-        destructuring(),
+        destructuring(Default::default()),
         block_scoping(),
         object_rest_spread(),
     ),
@@ -1483,7 +1483,7 @@ test!(
             ..Default::default()
         }),
         parameters(),
-        destructuring(),
+        destructuring(Default::default()),
         block_scoping(),
         object_rest_spread(),
     ),
@@ -1507,7 +1507,7 @@ test_exec!(
             ..Default::default()
         }),
         parameters(),
-        destructuring(),
+        destructuring(Default::default()),
         block_scoping(),
         object_rest_spread(),
     ),

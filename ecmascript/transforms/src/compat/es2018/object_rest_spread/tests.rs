@@ -2114,7 +2114,7 @@ test!(
     |_| chain!(
         resolver(),
         tr(),
-        destructuring(),
+        destructuring(destructuring::Config { loose: false }),
         common_js(Default::default()),
     ),
     regression_t7178,

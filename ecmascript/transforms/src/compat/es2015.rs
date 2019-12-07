@@ -16,7 +16,7 @@ mod block_scoped_fn;
 mod block_scoping;
 mod classes;
 mod computed_props;
-mod destructuring;
+pub mod destructuring;
 mod duplicate_keys;
 pub mod for_of;
 mod function_name;
@@ -53,7 +53,7 @@ pub fn es2015(c: Config) -> impl Pass {
         parameters(),
         for_of(c.for_of),
         computed_properties(),
-        destructuring(),
+        destructuring(c.destructuring),
         block_scoping(),
     )
 }
@@ -62,6 +62,9 @@ pub fn es2015(c: Config) -> impl Pass {
 pub struct Config {
     #[serde(flatten)]
     pub for_of: for_of::Config,
+
+    #[serde(flatten)]
+    pub destructuring: destructuring::Config,
 
     #[serde(flatten)]
     pub spread: spread::Config,
