@@ -1074,6 +1074,8 @@ a = void 0, b = 2;
 
 // destructuring_known_array
 test!(
+    // We will use constant propagation instead of optimizing in each pass
+    ignore,
     syntax(),
     |_| chain!(
         spread(spread::Config {

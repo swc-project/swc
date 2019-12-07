@@ -834,7 +834,12 @@ fn make_ref_ident_for_array(
                     span,
                     name: Pat::Ident(ref_ident.clone()),
                     init: init.map(|v| {
-                        if c.loose {
+                        if c.loose
+                            || match *v {
+                                Expr::Array(..) => true,
+                                _ => false,
+                            }
+                        {
                             v
                         } else {
                             match elem_cnt {
