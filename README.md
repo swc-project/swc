@@ -10,7 +10,7 @@
 
 <p align="center">
    <a href="https://www.npmjs.com/package/@swc/core">
-      <img alt="npm Downloads" src="https://img.shields.io/npm/dm/swc.svg?maxAge=43200&label=npm%20downloads">
+      <img alt="npm Downloads" src="https://img.shields.io/npm/dw/@swc/core">
    </a>
     <a href="https://crates.io/crates/swc_ecma_parser">
       <img alt="undefined" src="https://img.shields.io/crates/d/swc_ecma_parser.svg?label=crates.io%20dowloads">
@@ -138,17 +138,17 @@ New generation javascript to old-days javascript.
 
 # Performance
 
-The lower bound of the speedup compared to babel is **16**. The benchmarks were run on Macbook pro, dual core, 2.3GHz Intel Core i5, 16 GB ram
+The lower bound of the speedup compared to babel is **18**. The benchmarks were run on Macbook pro, dual core, 2.3GHz Intel Core i5, 16 GB ram
 
-|                    |               performance               |
-| ------------------ | :-------------------------------------: |
-| swc (es3)          |  610 ops/sec ±1.76% (82 runs sampled)   |
-| swc (es2015)       |  682 ops/sec ±0.63% (88 runs sampled)   |
-| swc (es2016)       | 1,659 ops/sec ±4.32% (79 runs sampled)  |
-| swc (es2017)       | 1,384 ops/sec ±7.24% (82 runs sampled)  |
-| swc (es2018)       | 1,765 ops/sec ±11.78% (82 runs sampled) |
-| swc-optimize (es3) |  535 ops/sec ±1.01% (83 runs sampled)   |
-| babel              | 42.12 ops/sec ±6.27% (55 runs sampled)  |
+|                    |              performance               |
+| ------------------ | :------------------------------------: |
+| swc (es3)          |  761 ops/sec ±0.23% (89 runs sampled)  |
+| swc (es2015)       |  800 ops/sec ±1.02% (87 runs sampled)  |
+| swc (es2016)       | 2,123 ops/sec ±0.84% (88 runs sampled) |
+| swc (es2017)       | 2,131 ops/sec ±1.13% (90 runs sampled) |
+| swc (es2018)       | 2,981 ops/sec ±0.25% (90 runs sampled) |
+| swc-optimize (es3) |  712 ops/sec ±0.21% (86 runs sampled)  |
+| babel              | 41.75 ops/sec ±8.07% (56 runs sampled) |
 
 ## Contributing
 
