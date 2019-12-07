@@ -8,8 +8,8 @@ use self::{
     super_field::SuperFieldAccessFolder,
 };
 use crate::util::{
-    alias_ident_for, default_constructor, prepend, prop_name_to_expr, ExprFactory, IsDirective,
-    ModuleItemLike, StmtLike,
+    alias_ident_for, alias_if_required, default_constructor, prepend, prop_name_to_expr,
+    ExprFactory, IsDirective, ModuleItemLike, StmtLike,
 };
 use ast::*;
 use fxhash::FxBuildHasher;
@@ -240,7 +240,7 @@ impl Classes {
         let super_ident = class
             .super_class
             .as_ref()
-            .map(|e| alias_ident_for(e, "_super"));
+            .map(|e| alias_if_required(e, "_super").0);
 
         let (params, args) = if let Some(ref super_ident) = super_ident {
             let params = vec![Pat::Ident(super_ident.clone())];
