@@ -1,6 +1,6 @@
-use crate::util::{ExprFactory, StmtLike};
+use crate::util::{is_literal, ExprFactory, StmtLike};
 use ast::*;
-use std::iter;
+use std::{iter, mem};
 use swc_atoms::js_word;
 use swc_common::{BytePos, Fold, FoldWith, Spanned, DUMMY_SP};
 #[cfg(test)]
@@ -58,6 +58,7 @@ impl Fold<Expr> for TemplateLiteral {
 
                 let len = quasis.len() + exprs.len();
 
+                let mut args = vec![];
                 let mut quasis = quasis.into_iter();
                 let mut exprs = exprs.into_iter();
 
@@ -66,20 +67,12 @@ impl Fold<Expr> for TemplateLiteral {
                         quasis.next();
                         continue;
                     }
+                    let last = i == len - 1;
 
                     let expr = if i % 2 == 0 {
                         // Quasis
 
                         match quasis.next() {
-                            // Skip empty ones
-                            Some(TplElement {
-                                raw:
-                                    Str {
-                                        value: js_word!(""),
-                                        ..
-                                    },
-                                ..
-                            }) => continue,
                             Some(TplElement { cooked, raw, .. }) => {
                                 box Lit::Str(cooked.unwrap_or_else(|| raw)).into()
                             }
@@ -96,20 +89,79 @@ impl Fold<Expr> for TemplateLiteral {
                     //     op: op!(bin, "+"),
                     //     right: expr.into(),
                     // });
+                    let expr_span = expr.span();
+                    let is_lit = is_literal(&expr);
 
-                    obj = box validate!(Expr::Call(CallExpr {
-                        span: span.with_hi(expr.span().hi() + BytePos(1)),
-                        callee: ExprOrSuper::Expr(box Expr::Member(MemberExpr {
-                            span: DUMMY_SP,
-                            obj: ExprOrSuper::Expr(validate!(obj)),
-                            prop: box Expr::Ident(Ident::new(js_word!("concat"), expr.span())),
+                    if is_lit {
+                        let is_empty = match *expr {
+                            Expr::Lit(Lit::Str(Str {
+                                value: js_word!(""),
+                                ..
+                            })) => true,
+                            _ => false,
+                        };
 
-                            computed: false,
-                        })),
-                        args: vec![ExprOrSpread { expr, spread: None }],
-                        type_args: Default::default(),
-                    }));
+                        if !is_empty {
+                            args.push(ExprOrSpread { expr, spread: None });
+                        }
+
+                        if last && !args.is_empty() {
+                            obj = box validate!(Expr::Call(CallExpr {
+                                span: span.with_hi(expr_span.hi() + BytePos(1)),
+                                callee: ExprOrSuper::Expr(box Expr::Member(MemberExpr {
+                                    span: DUMMY_SP,
+                                    obj: ExprOrSuper::Expr(validate!(obj)),
+                                    prop: box Expr::Ident(Ident::new(
+                                        js_word!("concat"),
+                                        expr_span
+                                    )),
+
+                                    computed: false,
+                                })),
+                                args: mem::replace(&mut args, vec![]),
+                                type_args: Default::default(),
+                            }));
+                        }
+                    } else {
+                        if !args.is_empty() {
+                            obj = box validate!(Expr::Call(CallExpr {
+                                span: span.with_hi(expr_span.hi() + BytePos(1)),
+                                callee: ExprOrSuper::Expr(box Expr::Member(MemberExpr {
+                                    span: DUMMY_SP,
+                                    obj: ExprOrSuper::Expr(validate!(obj)),
+                                    prop: box Expr::Ident(Ident::new(
+                                        js_word!("concat"),
+                                        expr_span
+                                    )),
+
+                                    computed: false,
+                                })),
+                                args: mem::replace(&mut args, vec![]),
+                                type_args: Default::default(),
+                            }));
+                        }
+                        debug_assert!(args.is_empty());
+
+                        args.push(ExprOrSpread { expr, spread: None });
+                    }
                 }
+
+                //                if !args.is_empty() {
+                //                    obj = box validate!(Expr::Call(CallExpr {
+                //                        span: span.with_hi(expr_span.hi() + BytePos(1)),
+                //                        callee: ExprOrSuper::Expr(box Expr::Member(MemberExpr
+                // {                            span: DUMMY_SP,
+                //                            obj: ExprOrSuper::Expr(validate!(obj)),
+                //                            prop: box
+                // Expr::Ident(Ident::new(js_word!("concat"), expr_span)),
+                //
+                //                            computed: false,
+                //                        })),
+                //                        args: mem::replace(&mut args, vec![]),
+                //                        type_args: Default::default(),
+                //                    }));
+                //                }
+
                 validate!(*obj)
             }
 
