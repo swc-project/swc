@@ -394,7 +394,7 @@ impl Classes {
         }
 
         // Marker for `_this`
-        let mark = Mark::fresh(Mark::root());
+        let this_mark = Mark::fresh(Mark::root());
 
         {
             // Process constructor
@@ -417,14 +417,11 @@ impl Classes {
             let mut insert_this = false;
 
             if super_class_ident.is_some() {
-                let (c, inserted_this) = replace_this_in_constructor(mark, constructor);
+                let (c, inserted_this) = replace_this_in_constructor(this_mark, constructor);
 
                 constructor = c;
                 insert_this |= inserted_this;
             }
-
-            // inject _classCallCheck(this, Bar);
-            inject_class_call_check(&mut constructor, class_name.clone());
 
             let mut body = constructor.body.unwrap().stmts;
             // should we insert `var _this`?
@@ -448,10 +445,9 @@ impl Classes {
                     }
                 }
             };
-            dbg!(mode);
 
             if super_class_ident.is_some() {
-                let this = quote_ident!(DUMMY_SP.apply_mark(mark), "_this");
+                let this = quote_ident!(DUMMY_SP.apply_mark(this_mark), "_this");
 
                 // We should fold body instead of constructor itself.
                 // Handle `super()`
@@ -464,7 +460,7 @@ impl Classes {
                     } else {
                         mode
                     },
-                    mark,
+                    mark: this_mark,
                     ignore_return: false,
                 });
 
@@ -501,7 +497,7 @@ impl Classes {
                     } else {
                         let possible_return_value =
                             box make_possible_return_value(ReturningMode::Returning {
-                                mark,
+                                mark: this_mark,
                                 arg: None,
                             });
                         body.push(Stmt::Return(ReturnStmt {
@@ -519,8 +515,15 @@ impl Classes {
             body = self.handle_super_access(
                 &class_name,
                 body,
-                if is_this_declared { Some(mark) } else { None },
+                if is_this_declared {
+                    Some(this_mark)
+                } else {
+                    None
+                },
             );
+
+            // inject _classCallCheck(this, Bar);
+            inject_class_call_check(&mut body, class_name.clone());
 
             stmts.push(Stmt::Decl(Decl::Fn(FnDecl {
                 ident: class_name.clone(),
@@ -812,7 +815,7 @@ fn get_prototype_of(obj: &Expr) -> Expr {
     })
 }
 
-fn inject_class_call_check(c: &mut Constructor, name: Ident) {
+fn inject_class_call_check(c: &mut Vec<Stmt>, name: Ident) {
     let class_call_check = Stmt::Expr(box Expr::Call(CallExpr {
         span: DUMMY_SP,
         callee: helper!(class_call_check, "classCallCheck"),
@@ -823,7 +826,7 @@ fn inject_class_call_check(c: &mut Constructor, name: Ident) {
         type_args: Default::default(),
     }));
 
-    prepend(&mut c.body.as_mut().unwrap().stmts, class_call_check)
+    prepend(c, class_call_check)
 }
 
 /// Returns true if no `super` is used before `super()` call.

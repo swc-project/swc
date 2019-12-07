@@ -254,6 +254,7 @@ impl<'a> Fold<Expr> for ConstructorFolder<'a> {
         let expr = expr.fold_children(self);
 
         match expr {
+            Expr::This(e) => Expr::Ident(Ident::new("_this".into(), e.span.apply_mark(self.mark))),
             Expr::Call(CallExpr {
                 callee: ExprOrSuper::Super(..),
                 args,
