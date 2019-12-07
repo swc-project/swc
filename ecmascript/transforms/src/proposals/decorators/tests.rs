@@ -1216,7 +1216,7 @@ function* g() {
       F: A,
       d: []
     };
-  }, yield B);
+  }, (yield B));
 }
 
 "#
