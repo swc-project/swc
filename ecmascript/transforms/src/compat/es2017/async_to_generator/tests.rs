@@ -116,7 +116,7 @@ function mandatory(paramName) {
 }
 function _foo() {
     _foo = _asyncToGenerator(function*(param) {
-        let ref = param ? param : _throw(new TypeError("Cannot destructure 'undefined' or 'null'")), a = ref.a, _ref$b = ref.b, b = _ref$b === void 0 ? mandatory('b') : _ref$b;
+        let a = param.a, _param$b = param.b, b = _param$b === void 0 ? mandatory('b') : _param$b;
         return Promise.resolve(b);
     });
     return _foo.apply(this, arguments);
