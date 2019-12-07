@@ -1206,12 +1206,12 @@ var { 3: foo, 5: bar } = [0, 1, 2, 3, 4, 5, 6];
 "#,
     r#"
 var rect = {};
-var _rect$topLeft = rect.topLeft,
-    x1 = _rect$topLeft.x,
-    y1 = _rect$topLeft.y,
-    _rect$bottomRight = rect.bottomRight,
-    x2 = _rect$bottomRight.x,
-    y2 = _rect$bottomRight.y;
+var _topLeft = rect.topLeft,
+    x1 = _topLeft.x,
+    y1 = _topLeft.y,
+    _bottomRight = rect.bottomRight,
+    x2 = _bottomRight.x,
+    y2 = _bottomRight.y;
 var ref = [0, 1, 2, 3, 4, 5, 6],
     foo = ref[3],
     bar = ref[5];
