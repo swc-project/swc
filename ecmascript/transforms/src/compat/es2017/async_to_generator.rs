@@ -402,6 +402,16 @@ impl Fold<Expr> for Actual {
                 callee: ExprOrSuper::Expr(box Expr::Fn(fn_expr)),
                 args,
                 type_args,
+            })
+            | Expr::Call(CallExpr {
+                span,
+                callee:
+                    ExprOrSuper::Expr(box Expr::Paren(ParenExpr {
+                        expr: box Expr::Fn(fn_expr),
+                        ..
+                    })),
+                args,
+                type_args,
             }) => {
                 if !args.is_empty() || !fn_expr.function.is_async {
                     return Expr::Call(CallExpr {
@@ -414,12 +424,25 @@ impl Fold<Expr> for Actual {
 
                 return make_fn_ref(fn_expr);
             }
+
             _ => {}
         }
 
         let expr = expr.fold_children(self);
 
         match expr {
+            Expr::Arrow(ArrowExpr { is_async: true, .. }) => {
+                // Apply arrow
+                let expr = expr.fold_with(&mut arrow());
+
+                let f = match expr {
+                    Expr::Fn(f) => f,
+                    _ => return expr,
+                };
+
+                return make_fn_ref(f);
+            }
+
             Expr::Fn(
                 expr @ FnExpr {
                     function:
@@ -453,10 +476,6 @@ impl Fold<Expr> for Actual {
                 })
             }
 
-            Expr::Arrow(ArrowExpr { is_async: true, .. }) => {
-                // Apply arrow
-                expr.fold_with(&mut arrow()).fold_with(self)
-            }
             _ => expr,
         }
     }
