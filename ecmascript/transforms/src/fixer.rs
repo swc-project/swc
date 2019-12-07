@@ -540,6 +540,26 @@ impl Fold<Expr> for Fixer {
     }
 }
 
+impl Fold<ExprOrSpread> for Fixer {
+    fn fold(&mut self, e: ExprOrSpread) -> ExprOrSpread {
+        let e = e.fold_children(self);
+
+        if e.spread.is_none() {
+            match *e.expr {
+                Expr::Yield(..) => {
+                    return ExprOrSpread {
+                        spread: None,
+                        expr: box e.expr.wrap_with_paren(),
+                    }
+                }
+                _ => {}
+            }
+        }
+
+        e
+    }
+}
+
 impl Fold<ExportDefaultExpr> for Fixer {
     fn fold(&mut self, node: ExportDefaultExpr) -> ExportDefaultExpr {
         let old = self.ctx;
