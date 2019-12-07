@@ -11,17 +11,13 @@ pub struct TemplateLiteral {
     added: Vec<Stmt>,
 }
 
-impl<T: StmtLike> Fold<Vec<T>> for TemplateLiteral
-where
-    T: FoldWith<Self>,
-    Vec<T>: FoldWith<Self>,
-{
-    fn fold(&mut self, stmts: Vec<T>) -> Vec<T> {
-        let mut stmts = stmts.fold_children(self);
+impl Fold<Module> for TemplateLiteral {
+    fn fold(&mut self, m: Module) -> Module {
+        let mut body = m.body.fold_children(self);
 
-        prepend_stmts(&mut stmts, self.added.drain(..).map(T::from_stmt));
+        prepend_stmts(&mut body, self.added.drain(..).map(ModuleItem::from_stmt));
 
-        stmts
+        Module { body, ..m }
     }
 }
 

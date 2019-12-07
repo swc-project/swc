@@ -718,7 +718,7 @@ function _templateObject() {
 function _templateObject1() {
   const data = _taggedTemplateLiteral(["some template"]);
 
-  _templateObject2 = function () {
+  _templateObject1 = function () {
     return data;
   };
 
