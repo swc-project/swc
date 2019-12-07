@@ -97,6 +97,16 @@ impl Visit<CallExpr> for SuperCallFinder {
     }
 }
 
+/// Don't recurse into class declaration.
+impl Visit<Class> for SuperCallFinder {
+    fn visit(&mut self, _: &Class) {}
+}
+
+/// Don't recurse into funcrion.
+impl Visit<Function> for SuperCallFinder {
+    fn visit(&mut self, _: &Function) {}
+}
+
 pub(super) fn constructor_fn(c: Constructor) -> Function {
     Function {
         span: DUMMY_SP,

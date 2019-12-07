@@ -12,7 +12,6 @@ pub(crate) fn inject_after_super(mut c: Constructor, exprs: Vec<Box<Expr>>) -> C
     };
 
     c.body = c.body.fold_with(&mut folder);
-
     if !folder.injected {
         // there was no super() call
         prepend_stmts(
@@ -88,6 +87,12 @@ impl<'a> Fold<Vec<Stmt>> for Injector<'a> {
     }
 }
 
+impl Fold<Class> for Injector<'_> {
+    fn fold(&mut self, c: Class) -> Class {
+        c
+    }
+}
+
 macro_rules! fold_noop {
     ($T:tt) => {
         impl<'a> Fold<$T> for Injector<'a> {
@@ -104,7 +109,6 @@ macro_rules! fold_noop {
     };
 }
 fold_noop!(Function);
-fold_noop!(Class);
 fold_noop!(Constructor);
 
 /// Handles code like `foo(super())`
@@ -112,6 +116,14 @@ struct ExprInjector<'a> {
     injected: bool,
     exprs: &'a [Box<Expr>],
     injected_tmp: Option<Ident>,
+}
+
+impl Fold<Class> for ExprInjector<'_> {
+    fn fold(&mut self, c: Class) -> Class {
+        let super_class = c.super_class.fold_with(self);
+
+        Class { super_class, ..c }
+    }
 }
 
 impl<'a> Fold<Expr> for ExprInjector<'a> {

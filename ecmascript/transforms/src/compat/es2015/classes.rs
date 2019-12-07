@@ -8,8 +8,8 @@ use self::{
     super_field::SuperFieldAccessFolder,
 };
 use crate::util::{
-    alias_ident_for, alias_if_required, default_constructor, prepend, prop_name_to_expr,
-    ExprFactory, IsDirective, ModuleItemLike, StmtLike,
+    alias_if_required, default_constructor, prepend, prop_name_to_expr, ExprFactory, IsDirective,
+    ModuleItemLike, StmtLike,
 };
 use ast::*;
 use fxhash::FxBuildHasher;
@@ -241,7 +241,7 @@ impl Classes {
             .super_class
             .as_ref()
             .map(|e| alias_if_required(e, "_super").0);
-
+        let has_super = super_ident.is_some();
         let (params, args) = if let Some(ref super_ident) = super_ident {
             let params = vec![Pat::Ident(super_ident.clone())];
 
@@ -270,7 +270,14 @@ impl Classes {
 
         let mut stmts = self.class_to_stmts(class_name, super_ident, class);
 
-        if stmts.len() == 2 {
+        let cnt_of_non_directive = stmts
+            .iter()
+            .filter(|stmt| match stmt {
+                Stmt::Expr(box Expr::Lit(Lit::Str(..))) => false,
+                _ => true,
+            })
+            .count();
+        if !has_super && cnt_of_non_directive == 1 {
             //    class Foo {}
             //
             // should be
@@ -280,6 +287,7 @@ impl Classes {
             //    };
             //
             // instead of
+            //
             //    var Foo = function(){
             //      function Foo() {
             //          _classCallCheck(this, Foo);
@@ -289,14 +297,15 @@ impl Classes {
             //    }();
 
             let stmt = stmts.pop().unwrap();
-            let use_strict = stmts.pop().unwrap();
             match stmt {
                 Stmt::Decl(Decl::Fn(FnDecl {
                     ident,
                     mut function,
                     ..
                 })) => {
-                    prepend(&mut function.body.as_mut().unwrap().stmts, use_strict);
+                    if let Some(use_strict) = stmts.pop() {
+                        prepend(&mut function.body.as_mut().unwrap().stmts, use_strict);
+                    }
                     return Expr::Fn(FnExpr {
                         ident: Some(ident),
                         function,
@@ -305,6 +314,7 @@ impl Classes {
                 _ => unreachable!(),
             }
         }
+
         let body = BlockStmt {
             span: DUMMY_SP,
             stmts,
@@ -408,12 +418,14 @@ impl Classes {
 
             if super_class_ident.is_some() {
                 let (c, inserted_this) = replace_this_in_constructor(mark, constructor);
+
                 constructor = c;
                 insert_this |= inserted_this;
             }
 
             // inject _classCallCheck(this, Bar);
             inject_class_call_check(&mut constructor, class_name.clone());
+
             let mut body = constructor.body.unwrap().stmts;
             // should we insert `var _this`?
 
@@ -425,11 +437,18 @@ impl Classes {
             }
 
             // inject possibleReturnCheck
-            let mode = if insert_this {
-                Some(SuperFoldingMode::Assign)
-            } else {
-                SuperCallFinder::find(&body)
+            let found_mode = SuperCallFinder::find(&body);
+            let mode = match found_mode {
+                None => None,
+                _ => {
+                    if insert_this {
+                        Some(SuperFoldingMode::Assign)
+                    } else {
+                        found_mode
+                    }
+                }
             };
+            dbg!(mode);
 
             if super_class_ident.is_some() {
                 let this = quote_ident!(DUMMY_SP.apply_mark(mark), "_this");
@@ -439,7 +458,12 @@ impl Classes {
                 body = body.fold_with(&mut ConstructorFolder {
                     is_constructor_default,
                     class_name: &class_name,
-                    mode,
+                    // This if expression is required to handle super() call in all case
+                    mode: if insert_this {
+                        Some(SuperFoldingMode::Assign)
+                    } else {
+                        mode
+                    },
                     mark,
                     ignore_return: false,
                 });
@@ -523,11 +547,11 @@ impl Classes {
                     value: "use strict".into(),
                     has_escape: false,
                 }))),
-            )
-        }
+            );
 
-        if is_named && stmts.len() == 2 {
-            return stmts;
+            if is_named && stmts.len() == 2 {
+                return stmts;
+            }
         }
 
         // `return Foo`
