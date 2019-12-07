@@ -1989,7 +1989,7 @@ function () {
     var wat = yield bar();
   });
 
-  return function foo() {
+  return function () {
     return _ref.apply(this, arguments);
   };
 }();
@@ -2001,7 +2001,7 @@ function () {
     var wat = yield bar();
   });
 
-  return function foo2() {
+  return function () {
     return _ref.apply(this, arguments);
   };
 }(),
@@ -2012,7 +2012,7 @@ function () {
     var wat = yield foo();
   });
 
-  return function bar() {
+  return function () {
     return _ref.apply(this, arguments);
   };
 }();
