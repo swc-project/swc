@@ -3360,7 +3360,7 @@ call(class {
 
 export default class {
   static #test = true
-};
+}
 
 "#,
     r#"
