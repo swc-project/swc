@@ -8,7 +8,6 @@ use crate::{
 use ast::*;
 use serde::Deserialize;
 use std::iter;
-use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Spanned, SyntaxContext, Visit, VisitWith, DUMMY_SP};
 
 #[cfg(test)]
@@ -147,6 +146,24 @@ impl Fold<Vec<VarDeclarator>> for AssignFolder {
         }
 
         decls
+    }
+}
+
+impl Fold<ArrowExpr> for AssignFolder {
+    fn fold(&mut self, e: ArrowExpr) -> ArrowExpr {
+        let params = e.params.fold_with(self);
+
+        let body = match e.body {
+            BlockStmtOrExpr::Expr(e) => {
+                self.is_arrow_body = Some(());
+                let e = e.fold_children(self);
+                assert_eq!(self.is_arrow_body, None);
+                BlockStmtOrExpr::Expr(e)
+            }
+            _ => e.body.fold_with(self),
+        };
+
+        ArrowExpr { params, body, ..e }
     }
 }
 
@@ -446,6 +463,8 @@ struct AssignFolder {
     c: Config,
     exporting: bool,
     vars: Vec<VarDeclarator>,
+    /// Used like `.take().is_some()`.
+    is_arrow_body: Option<()>,
 }
 
 impl Fold<ExportDecl> for AssignFolder {
@@ -460,6 +479,8 @@ impl Fold<ExportDecl> for AssignFolder {
 
 impl Fold<Expr> for AssignFolder {
     fn fold(&mut self, expr: Expr) -> Expr {
+        let should_preserve = self.is_arrow_body.take().is_some();
+
         let expr = match expr {
             // Handle iife
             Expr::Fn(..) | Expr::Object(..) => Destructuring { c: self.c }.fold(expr),
@@ -490,7 +511,7 @@ impl Fold<Expr> for AssignFolder {
                     Pat::Array(ArrayPat { elems, .. }) => {
                         let mut exprs = Vec::with_capacity(elems.len() + 1);
 
-                        if is_literal(&right) {
+                        if is_literal(&right) && !should_preserve {
                             match *right {
                                 Expr::Array(arr)
                                     if elems.len() == arr.elems.len() || has_rest_pat(&elems) =>
@@ -754,6 +775,7 @@ where
                 c: self.c,
                 exporting: false,
                 vars: vec![],
+                is_arrow_body: None,
             };
 
             match stmt.try_into_stmt() {
