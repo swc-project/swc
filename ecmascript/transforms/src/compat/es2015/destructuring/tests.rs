@@ -308,8 +308,7 @@ for (let i = 0, { length } = list; i < length; i++) {
   list[i];
 }"#,
     r#"let list = [1, 2, 3, 4];
-for(let i = 0, ref = list ? list : _throw(new TypeError("Cannot destructure 'undefined' or 'null'")),
-     length = ref.length; i < length; i++){
+for(let i = 0, length = list.length; i < length; i++){
     list[i];
 }
 "#
