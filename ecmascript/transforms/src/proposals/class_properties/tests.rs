@@ -10,7 +10,13 @@ use crate::{
     resolver, typescript,
 };
 use swc_common::chain;
-use swc_ecma_parser::{EsConfig, Syntax};
+use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
+
+fn ts() -> Syntax {
+    Syntax::Typescript(TsConfig {
+        ..Default::default()
+    })
+}
 
 fn syntax() -> Syntax {
     Syntax::Es(EsConfig {
@@ -4224,7 +4230,7 @@ for (let i = 0; i <= 10; ++i) {
 
 // compile_to_class_constructor_collision_ignores_types
 test!(
-    syntax(),
+    ts(),
     |_| chain!(typescript::strip(), class_properties()),
     compile_to_class_constructor_collision_ignores_types,
     r#"
