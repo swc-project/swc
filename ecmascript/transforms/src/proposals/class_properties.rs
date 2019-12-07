@@ -6,8 +6,8 @@ use self::{
 use crate::{
     pass::Pass,
     util::{
-        alias_ident_for, alias_if_required, constructor::inject_after_super, default_constructor,
-        undefined, ExprFactory, ModuleItemLike, StmtLike,
+        alias_if_required, constructor::inject_after_super, default_constructor, undefined,
+        ExprFactory, ModuleItemLike, StmtLike,
     },
 };
 use ast::*;
