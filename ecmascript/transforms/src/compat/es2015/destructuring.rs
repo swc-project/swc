@@ -217,9 +217,8 @@ impl AssignFolder {
                         _ => {}
                     }
                 }
-
                 // Make ref var if required
-                let ref_ident = make_ref_ident(
+                let ref_ident = make_ref_ident_for_array(
                     self.c,
                     if self.exporting {
                         &mut self.vars
@@ -227,6 +226,11 @@ impl AssignFolder {
                         decls
                     },
                     Some(init),
+                    Some(if has_rest_pat(&elems) {
+                        std::usize::MAX
+                    } else {
+                        elems.len()
+                    }),
                 );
 
                 for (i, elem) in elems.into_iter().enumerate() {
@@ -536,7 +540,16 @@ impl Fold<Expr> for AssignFolder {
                         }
 
                         // initialized by first element of sequence expression
-                        let ref_ident = make_ref_ident(self.c, &mut self.vars, None);
+                        let ref_ident = make_ref_ident_for_array(
+                            self.c,
+                            &mut self.vars,
+                            None,
+                            Some(if has_rest_pat(&elems) {
+                                std::usize::MAX
+                            } else {
+                                elems.len()
+                            }),
+                        );
 
                         exprs.push(box Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
@@ -788,8 +801,17 @@ fn make_ref_idx_expr(ref_ident: &Ident, i: usize) -> Expr {
 }
 
 fn make_ref_ident(c: Config, decls: &mut Vec<VarDeclarator>, init: Option<Box<Expr>>) -> Ident {
+    make_ref_ident_for_array(c, decls, init, None)
+}
+
+fn make_ref_ident_for_array(
+    c: Config,
+    decls: &mut Vec<VarDeclarator>,
+    init: Option<Box<Expr>>,
+    elem_cnt: Option<usize>,
+) -> Ident {
     match init {
-        Some(box Expr::Ident(i)) => i,
+        Some(box Expr::Ident(i)) if elem_cnt.is_none() => i,
         init => {
             let span = init.span();
 
@@ -811,7 +833,36 @@ fn make_ref_ident(c: Config, decls: &mut Vec<VarDeclarator>, init: Option<Box<Ex
                 decls.push(VarDeclarator {
                     span,
                     name: Pat::Ident(ref_ident.clone()),
-                    init,
+                    init: init.map(|v| {
+                        if c.loose {
+                            v
+                        } else {
+                            match elem_cnt {
+                                None => v,
+                                Some(std::usize::MAX) => box CallExpr {
+                                    span: DUMMY_SP,
+                                    callee: helper!(to_array, "toArray"),
+                                    args: vec![v.as_arg()],
+                                    type_args: Default::default(),
+                                }
+                                .into(),
+                                Some(value) => box CallExpr {
+                                    span: DUMMY_SP,
+                                    callee: helper!(sliced_to_array, "slicedToArray"),
+                                    args: vec![
+                                        v.as_arg(),
+                                        Lit::Num(Number {
+                                            span: DUMMY_SP,
+                                            value: value as _,
+                                        })
+                                        .as_arg(),
+                                    ],
+                                    type_args: Default::default(),
+                                }
+                                .into(),
+                            }
+                        }
+                    }),
                     definite: false,
                 });
             }

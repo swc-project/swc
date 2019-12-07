@@ -1242,10 +1242,10 @@ function isSorted([x, y, ...wow]) {
 "#,
     r#"
 function isSorted(param) {
-  var _ref2 = _toArray(param),
-      x = _ref2[0],
-      y = _ref2[1],
-      wow = _ref2.slice(2);
+  var _param = _toArray(param),
+    x = _param[0],
+    y = _param[1],
+    wow = _param.slice(2);
 
   if (!zs.length) return true;
   if (y > x) return isSorted(zs);
@@ -1276,12 +1276,12 @@ var {topLeft: [x1, y1], bottomRight: [x2, y2] } = rect;
     r#"
 var rect = {};
 
-var _rect$topLeft = _slicedToArray(rect.topLeft, 2),
-    x1 = _rect$topLeft[0],
-    y1 = _rect$topLeft[1],
-    _rect$bottomRight = _slicedToArray(rect.bottomRight, 2),
-    x2 = _rect$bottomRight[0],
-    y2 = _rect$bottomRight[1];
+var _topLeft = _slicedToArray(rect.topLeft, 2),
+    x1 = _topLeft[0],
+    y1 = _topLeft[1],
+    _bottomRight = _slicedToArray(rect.bottomRight, 2),
+    x2 = _bottomRight[0],
+    y2 = _bottomRight[1];
 
 "#
 );
