@@ -976,15 +976,15 @@ console.log(unpackObject({
 }));
 
 var unpackArray = function (_ref3, _ref4) {
-  var _ref5 = _slicedToArray(_ref3, 3),
-      a = _ref5[0],
-      b = _ref5[1],
-      c = _ref5[2];
-
-  var _ref6 = _slicedToArray(_ref4, 3),
-      x = _ref6[0],
-      y = _ref6[1],
-      z = _ref6[2];
+var unpackArray = function(param, param1) {
+    var _param = _slicedToArray(param, 3),
+        a = _param[0],
+        b = _param[1],
+        c = _param[2],
+        _param1 = _slicedToArray(param1, 3),
+        x = _param1[0],
+        y = _param1[1],
+        z = _param1[2];
 
   return a + b + c;
 };
