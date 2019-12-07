@@ -1837,14 +1837,14 @@ function _foo() {
     let Promise;
     yield bar();
 
-    function bar() {
-      return _bar.apply(this, arguments);
-    }
-
     function _bar() {
       _bar = _asyncToGenerator(function* () {
         return Promise.resolve();
       });
+      return _bar.apply(this, arguments);
+    }
+    
+    function bar() {
       return _bar.apply(this, arguments);
     }
   });
@@ -2033,14 +2033,14 @@ async function foo() {
 
 "#,
     r#"
-function foo() {
-  return _foo.apply(this, arguments);
-}
-
 function _foo() {
   _foo = _asyncToGenerator(function* () {
     var wat = yield bar();
   });
+  return _foo.apply(this, arguments);
+}
+
+function foo() {
   return _foo.apply(this, arguments);
 }
 
