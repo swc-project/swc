@@ -6,7 +6,7 @@ use ast::*;
 use sourcemap::SourceMapBuilder;
 use std::{
     fmt,
-    fs::{create_dir_all, OpenOptions},
+    fs::{create_dir_all, remove_dir_all, OpenOptions},
     io::{self, Write},
     path::Path,
     process::Command,
@@ -327,6 +327,9 @@ where
             .join("target")
             .join("testing")
             .join(test_name);
+
+        // Remove outputs from previous tests
+        let _ = remove_dir_all(&root);
 
         create_dir_all(&root).expect("failed to create parent directory for temp directory");
 
