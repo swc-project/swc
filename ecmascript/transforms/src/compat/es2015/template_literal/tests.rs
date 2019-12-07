@@ -123,32 +123,6 @@ expect(calls).toEqual([1, 2]);"#
 test!(
     syntax(),
     |_| tr(Default::default()),
-    simple_tag,
-    r#"var foo = tag`wow`;
-var bar = tag`first${1}second`;"#,
-    r#"
-function _templateObject() {
-    const data = _taggedTemplateLiteral(['wow']);
-    _templateObject = function() {
-        return data;
-    };
-    return data;
-}
-var foo = tag(_templateObject());
-function _templateObject1() {
-    const data = _taggedTemplateLiteral(['first', 'second']);
-    _templateObject1 = function() {
-        return data;
-    };
-    return data;
-}
-var bar = tag(_templateObject1(), 1);
-"#
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
     single,
     r#"var foo = `test ${foo}`;"#,
     r#"var foo = 'test '.concat(foo);"#
@@ -173,45 +147,7 @@ expect(fn).toThrow(TypeError);"#
 );
 
 test!(
-    syntax(),
-    |_| tr(Default::default()),
-    tag,
-    r#"
-var foo = bar`wow\na${ 42 }b ${_.foobar()}`;
-var bar = bar`wow\nab${ 42 } ${_.foobar()}`;
-var bar = bar`wow\naB${ 42 } ${_.baz()}`;
-"#,
-    r#"
-function _templateObject() {
-    const data = _taggedTemplateLiteral(['wow\na', 'b ', ''], ['wow\\na', 'b ', '']);
-    _templateObject = function() {
-        return data;
-    };
-    return data;
-}
-var foo = bar(_templateObject(), 42, _.foobar());
-function _templateObject1() {
-    const data = _taggedTemplateLiteral(['wow\nab', ' ', ''], ['wow\\nab', ' ', '']);
-    _templateObject1 = function() {
-        return data;
-    };
-    return data;
-}
-var bar = bar(_templateObject1(), 42, _.foobar());
-function _templateObject2() {
-    const data = _taggedTemplateLiteral(['wow\naB', ' ', ''], ['wow\\naB', ' ', '']);
-    _templateObject2 = function() {
-        return data;
-    };
-    return data;
-}
-var bar = bar(_templateObject2(), 42, _.baz());
-"#,
-    ok_if_code_eq
-);
-
-// TODO: Fix parser
-test!(
+    // TODO: Fix parser
     ignore,
     syntax(),
     |_| tr(Default::default()),
