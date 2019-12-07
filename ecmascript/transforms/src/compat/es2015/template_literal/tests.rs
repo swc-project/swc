@@ -439,7 +439,7 @@ var foo = `${1}${f}oo${true}${b}ar${0}${baz}`;
 
 "#,
     r#"
-var foo = "".concat(1, f, "oo", true).concat(b, "ar", 0).concat(baz);
+var foo = ''.concat(1).concat(f, 'oo', true).concat(b, 'ar', 0).concat(baz);
 
 "#
 );
@@ -458,7 +458,8 @@ actually multiline!`;
     r#"
 var o = "wow\nthis is\nactually multiline!";
 
-"#
+"#,
+    ok_if_code_eq
 );
 
 // default_template_revision
@@ -755,26 +756,6 @@ var bar = bar`wow\naB${ 42 } ${_.baz()}`;
 
 "#,
     r#"
-function _templateObject3() {
-  const data = _taggedTemplateLiteral(["wow\naB", " ", ""], ["wow\\naB", " ", ""]);
-
-  _templateObject3 = function () {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject2() {
-  const data = _taggedTemplateLiteral(["wow\nab", " ", ""], ["wow\\nab", " ", ""]);
-
-  _templateObject2 = function () {
-    return data;
-  };
-
-  return data;
-}
-
 function _templateObject() {
   const data = _taggedTemplateLiteral(["wow\na", "b ", ""], ["wow\\na", "b ", ""]);
 
@@ -785,11 +766,30 @@ function _templateObject() {
   return data;
 }
 
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+function _templateObject1() {
+  const data = _taggedTemplateLiteral(["wow\nab", " ", ""], ["wow\\nab", " ", ""]);
+
+  _templateObject1 = function () {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject2() {
+  const data = _taggedTemplateLiteral(["wow\naB", " ", ""], ["wow\\naB", " ", ""]);
+
+  _templateObject2 = function () {
+    return data;
+  };
+
+  return data;
+}
+
 
 var foo = bar(_templateObject(), 42, _.foobar());
-var bar = bar(_templateObject2(), 42, _.foobar());
-var bar = bar(_templateObject3(), 42, _.baz());
+var bar = bar(_templateObject1(), 42, _.foobar());
+var bar = bar(_templateObject2(), 42, _.baz());
 
 "#
 );

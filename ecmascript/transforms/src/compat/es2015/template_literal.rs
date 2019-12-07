@@ -1,4 +1,4 @@
-use crate::util::{is_literal, ExprFactory, StmtLike};
+use crate::util::{is_literal, prepend_stmts, ExprFactory, StmtLike};
 use ast::*;
 use std::{iter, mem};
 use swc_atoms::js_word;
@@ -17,15 +17,11 @@ where
     Vec<T>: FoldWith<Self>,
 {
     fn fold(&mut self, stmts: Vec<T>) -> Vec<T> {
-        let mut buf = Vec::with_capacity(stmts.len());
+        let mut stmts = stmts.fold_children(self);
 
-        for stmt in stmts {
-            let stmt = stmt.fold_with(self);
-            buf.extend(self.added.drain(..).map(T::from_stmt));
-            buf.push(stmt);
-        }
+        prepend_stmts(&mut stmts, self.added.drain(..).map(T::from_stmt));
 
-        buf
+        stmts
     }
 }
 
