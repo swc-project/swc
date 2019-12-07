@@ -116,7 +116,7 @@ function mandatory(paramName) {
 }
 function _foo() {
     _foo = _asyncToGenerator(function*(param) {
-        let a = param.a, _param$b = param.b, b = _param$b === void 0 ? mandatory('b') : _param$b;
+        let a = param.a, _b = param.b, b = _b === void 0 ? mandatory('b') : _b;
         return Promise.resolve(b);
     });
     return _foo.apply(this, arguments);
@@ -1989,23 +1989,23 @@ function () {
 var foo2 =
 /*#__PURE__*/
 function () {
-  var _ref2 = _asyncToGenerator(function* () {
+  var _ref = _asyncToGenerator(function* () {
     var wat = yield bar();
   });
 
   return function foo2() {
-    return _ref2.apply(this, arguments);
+    return _ref.apply(this, arguments);
   };
 }(),
     bar =
 /*#__PURE__*/
 function () {
-  var _ref3 = _asyncToGenerator(function* () {
+  var _ref = _asyncToGenerator(function* () {
     var wat = yield foo();
   });
 
   return function bar() {
-    return _ref3.apply(this, arguments);
+    return _ref.apply(this, arguments);
   };
 }();
 
