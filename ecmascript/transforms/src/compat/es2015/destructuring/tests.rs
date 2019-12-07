@@ -15,7 +15,7 @@ fn syntax() -> Syntax {
 }
 
 fn tr() -> impl Fold<Module> {
-    destructuring(Default::default())
+    destructuring(Config { loose: true })
 }
 
 test!(
@@ -70,7 +70,7 @@ test!(
     |_| tr(),
     obj_assign_pat,
     r#"let { a = 1 } = foo"#,
-    r#"let _foo$a = foo.a, a = _foo$a === void 0 ? 1 : _foo$a;"#
+    r#"let _a = foo.a, a = _a === void 0 ? 1 : _a;"#
 );
 
 test!(
@@ -1008,50 +1008,50 @@ test!(
     ),
     destructuring_array_unpack_optimisation,
     r#"
-var [a, b] = [1, 2];
-var [[a, b]] = [[1, 2]];
-var [a, b, ...c] = [1, 2, 3, 4];
-var [[a, b, ...c]] = [[1, 2, 3, 4]];
-
-var [a, b] = [1, 2, 3];
-var [[a, b]] = [[1, 2, 3]];
-var [a, b] = [a, b];
-[a[0], a[1]] = [a[1], a[0]];
-var [a, b] = [...foo, bar];
-var [a, b] = [foo(), bar];
-var [a, b] = [clazz.foo(), bar];
-var [a, b] = [clazz.foo, bar];
-var [a, b] = [, 2];
-[a, b] = [1, 2];
-[a, b] = [, 2];
-; // Avoid completion record special case
-
-"#,
+    var [a, b] = [1, 2];
+    var [[a, b]] = [[1, 2]];
+    var [a, b, ...c] = [1, 2, 3, 4];
+    var [[a, b, ...c]] = [[1, 2, 3, 4]];
+    
+    var [a, b] = [1, 2, 3];
+    var [[a, b]] = [[1, 2, 3]];
+    var [a, b] = [a, b];
+    [a[0], a[1]] = [a[1], a[0]];
+    var [a, b] = [...foo, bar];
+    var [a, b] = [foo(), bar];
+    var [a, b] = [clazz.foo(), bar];
+    var [a, b] = [clazz.foo, bar];
+    var [a, b] = [, 2];
+    [a, b] = [1, 2];
+    [a, b] = [, 2];
+    ; // Avoid completion record special case
+    
+    "#,
     r#"
-var a = 1,
-    b = 2;
-var a = 1,
-    b = 2;
-var a = 1,
-    b = 2,
-    c = [3, 4];
-var a = 1,
-    b = 2,
-    c = [3, 4];
-var ref = [1, 2, 3],
-    a = ref[0],
-    b = ref[1];
-var ref1 = [1, 2, 3],
-    a = ref1[0],
-    b = ref1[1];
-var ref2 = [a, b],
-    a = ref2[0],
-    b = ref2[1];
-var ref3;
-ref3 = [a[1], a[0]], a[0] = ref3[0], a[1] = ref3[1], ref3;
-
-
-var ref4 = _toConsumableArray(foo).concat([bar]), a = ref4[0], b = ref4[1];
+    var a = 1,
+        b = 2;
+    var a = 1,
+        b = 2;
+    var a = 1,
+        b = 2,
+        c = [3, 4];
+    var a = 1,
+        b = 2,
+        c = [3, 4];
+    var ref = [1, 2, 3],
+        a = ref[0],
+        b = ref[1];
+    var ref1 = [1, 2, 3],
+        a = ref1[0],
+        b = ref1[1];
+    var ref2 = [a, b],
+        a = ref2[0],
+        b = ref2[1];
+    var ref3;
+    ref3 = [a[1], a[0]], a[0] = ref3[0], a[1] = ref3[1], ref3;
+    
+    
+    var ref4 = _toConsumableArray(foo).concat([bar]), a = ref4[0], b = ref4[1];
 
 var ref5 = [foo(), bar],
     a = ref5[0],
