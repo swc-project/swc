@@ -38,32 +38,7 @@ test!(
     |_| tr(Default::default()),
     escape_quotes,
     r#"var t = `'${foo}' "${bar}"`;"#,
-    r#"var t = "'".concat(foo).concat('\' "').concat(bar).concat('"');"#,
-    ok_if_code_eq
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    expr_first,
-    r#"var foo = 5;
-var bar = 10;
-var baz = 15;
-
-var example = `${"a"}`;
-var example2 = `${1}`;
-var example3 = 1 + `${foo}${bar}${baz}`;
-var example4 = 1 + `${foo}bar${baz}`;
-var example5 = `${""}`;"#,
-    r#"var foo = 5;
-var bar = 10;
-var baz = 15;
-var example = ''.concat('a');
-var example2 = ''.concat(1);
-var example3 = 1 + ''.concat(foo).concat(bar).concat(baz);
-var example4 = 1 + ''.concat(foo).concat('bar').concat(baz);
-var example5 = ''.concat('');
-"#,
+    r#"var t = "'".concat(foo, '\' "').concat(bar, '"');"#,
     ok_if_code_eq
 );
 
@@ -72,7 +47,7 @@ test!(
     |_| tr(Default::default()),
     multiple,
     r#"var foo = `test ${foo} ${bar}`;"#,
-    r#"var foo = 'test '.concat(foo).concat(' ').concat(bar);"#
+    r#"var foo = 'test '.concat(foo, ' ').concat(bar);"#
 );
 
 test!(
