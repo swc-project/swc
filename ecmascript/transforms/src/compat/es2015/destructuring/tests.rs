@@ -385,13 +385,13 @@ var x = z[0],
     y = z.slice(1);"#
 );
 
-test!(
-    syntax(),
-    |_| tr(),
-    member_expr,
-    r#"[foo.foo, foo.bar] = [1, 2];"#,
-    r#"foo.foo = 1, foo.bar = 2;"#
-);
+//test!(
+//    syntax(),
+//    |_| tr(),
+//    member_expr,
+//    r#"[foo.foo, foo.bar] = [1, 2];"#,
+//    r#"foo.foo = 1, foo.bar = 2;"#
+//);
 
 test!(
     syntax(),
