@@ -103,6 +103,36 @@ impl Fold<Expr> for TemplateLiteral {
                             _ => false,
                         };
 
+                        if !is_empty && args.is_empty() {
+                            if let Expr::Lit(Lit::Str(Str {
+                                span,
+                                value,
+                                has_escape,
+                            })) = *obj
+                            {
+                                if let Expr::Lit(Lit::Str(Str {
+                                    span: r_span,
+                                    value: r_value,
+                                    has_escape: r_has_escape,
+                                })) = *expr
+                                {
+                                    obj = box Expr::Lit(Lit::Str(Str {
+                                        span: span.with_hi(r_span.hi()),
+                                        value: format!("{}{}", value, r_value).into(),
+                                        has_escape: has_escape || r_has_escape,
+                                    }));
+
+                                    continue;
+                                } else {
+                                    obj = box Expr::Lit(Lit::Str(Str {
+                                        span,
+                                        value,
+                                        has_escape,
+                                    }))
+                                }
+                            }
+                        }
+
                         if !is_empty {
                             args.push(ExprOrSpread { expr, spread: None });
                         }
