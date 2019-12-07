@@ -805,16 +805,6 @@ var bar = tag`first${1}second`;
 
 "#,
     r#"
-function _templateObject2() {
-  const data = _taggedTemplateLiteral(["first", "second"]);
-
-  _templateObject2 = function () {
-    return data;
-  };
-
-  return data;
-}
-
 function _templateObject() {
   const data = _taggedTemplateLiteral(["wow"]);
 
@@ -825,10 +815,18 @@ function _templateObject() {
   return data;
 }
 
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+function _templateObject1() {
+  const data = _taggedTemplateLiteral(["first", "second"]);
+
+  _templateObject1 = function () {
+    return data;
+  };
+
+  return data;
+}
 
 var foo = tag(_templateObject());
-var bar = tag(_templateObject2(), 1);
+var bar = tag(_templateObject1(), 1);
 
 "#
 );
