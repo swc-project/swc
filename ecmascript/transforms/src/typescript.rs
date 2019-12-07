@@ -171,7 +171,8 @@ impl Fold<Vec<ClassMember>> for Strip {
             | ClassMember::Method(ClassMethod {
                 function: Function { body: None, .. },
                 ..
-            }) => None,
+            })
+            | ClassMember::ClassProp(ClassProp { value: None, .. }) => None,
 
             _ => Some(member),
         })
