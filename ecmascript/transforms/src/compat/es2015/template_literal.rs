@@ -90,6 +90,8 @@ impl Fold<Expr> for TemplateLiteral {
                     //     right: expr.into(),
                     // });
                     let expr_span = expr.span();
+
+                    // We can optimize if expression is a literal or ident
                     let is_lit = is_literal(&expr);
 
                     if is_lit {
