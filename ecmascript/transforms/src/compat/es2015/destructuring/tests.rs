@@ -52,7 +52,8 @@ test!(
     |_| tr(),
     issue_260_02,
     "[code = 1, ...rest] = [];",
-    "code = 1 = void 0, rest = [];"
+    "code = 1 = void 0, rest = [];",
+    ok_if_code_eq
 );
 
 test!(
