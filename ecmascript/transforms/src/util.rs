@@ -44,6 +44,16 @@ impl Visit<FnExpr> for ThisVisitor {
     fn visit(&mut self, _: &FnExpr) {}
 }
 
+impl Visit<Function> for ThisVisitor {
+    /// Don't recurse into fn
+    fn visit(&mut self, _: &Function) {}
+}
+
+impl Visit<Constructor> for ThisVisitor {
+    /// Don't recurse into constructor
+    fn visit(&mut self, _: &Constructor) {}
+}
+
 impl Visit<FnDecl> for ThisVisitor {
     /// Don't recurse into fn
     fn visit(&mut self, _: &FnDecl) {}
