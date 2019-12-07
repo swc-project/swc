@@ -3825,30 +3825,26 @@ var qux = function() {
 });
 
 (function () {
-  var _class, _temp;
-
-  return _temp = _class = class Bar {
+  class Bar {
     constructor() {
-      var _this2 = this;
-
-      _defineProperty(this, "fn", function () {
-        return console.log(_this2);
-      });
+      _defineProperty(this, 'fn', (function() {
+        return console.log(this);
+      }).bind(this));
     }
 
-  }, _defineProperty(_class, "fn", function () {
-    return console.log(_class);
-  }), _temp;
+  }
+  _defineProperty(Bar, "fn", function () {
+    return console.log(Bar);
+  });
+  return Bar;
 });
 
 (function () {
   class Baz {
-    constructor(_force) {
-      var _this3 = this;
-
-      _defineProperty(this, "fn", function () {
-        return console.log(_this3);
-      });
+    constructor(force1){
+      _defineProperty(this, 'fn', (function() {
+        return console.log(this);
+      }).bind(this));
       _defineProperty(this, "force", force);
     }
 
@@ -3859,14 +3855,12 @@ var qux = function() {
   });
 });
 
-var qux = function () {
+var qux = (function () {
   class Qux {
     constructor() {
-      var _this4 = this;
-
-      _defineProperty(this, "fn", function () {
-        return console.log(_this4);
-      });
+      _defineProperty(this, 'fn', (function() {
+        return console.log(this);
+      }).bind(this));
     }
 
   }
@@ -3874,7 +3868,7 @@ var qux = function () {
   _defineProperty(Qux, "fn", function () {
     return console.log(Qux);
   });
-}.bind(this);
+}).bind(this);
 
 "#
 );
