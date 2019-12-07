@@ -70,33 +70,6 @@ var example5 = ''.concat('');
 test!(
     syntax(),
     |_| tr(Default::default()),
-    functions,
-    r#"var foo = `test ${_.test(foo)} ${bar}`;"#,
-    r#"var foo = 'test '.concat(_.test(foo)).concat(' ').concat(bar);"#
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    literals,
-    r#"var foo = `${1}${f}oo${true}${b}ar${0}${baz}`;"#,
-    r#"var foo = ''.concat(1).concat(f).concat('oo').concat(true).concat(b).concat('ar').concat(0).concat(baz);"#
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    multiline,
-    r#"var o = `wow
-this is
-actually multiline!`;"#,
-    r#"var o = "wow\nthis is\nactually multiline!";"#,
-    ok_if_code_eq
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
     multiple,
     r#"var foo = `test ${foo} ${bar}`;"#,
     r#"var foo = 'test '.concat(foo).concat(' ').concat(bar);"#
