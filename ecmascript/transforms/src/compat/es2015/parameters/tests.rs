@@ -1251,7 +1251,7 @@ test!(
     for(var _len = arguments.length, _tmp = new Array(_len), _key = 0; _key < _len; _key++){
         _tmp[_key] = arguments[_key];
     }
-    var a = _tmp[0];
+    var __tmp = _slicedToArray(_tmp, 1), a = __tmp[0];
 }"#
 );
 
