@@ -963,16 +963,16 @@ impl Visit<Number> for LiteralVisitor {
     }
 }
 
-fn sym(expr: &Expr, default: &str) -> JsWord {
-    match *expr {
-        Expr::Ident(ref ident) => format!("_{}", ident.sym).into(),
-        Expr::Member(ref member) => sym(&member.prop, default),
-        _ => default.into(),
-    }
-}
-
 /// Used to determine super_class_ident
 pub fn alias_ident_for(expr: &Expr, default: &str) -> Ident {
+    fn sym(expr: &Expr, default: &str) -> JsWord {
+        match *expr {
+            Expr::Ident(ref ident) => format!("_{}", ident.sym).into(),
+            Expr::Member(ref member) => sym(&member.prop, default),
+            _ => default.into(),
+        }
+    }
+
     let span = expr.span().apply_mark(Mark::fresh(Mark::root()));
     quote_ident!(span, sym(expr, default))
 }
@@ -984,8 +984,7 @@ pub fn alias_if_required(expr: &Expr, default: &str) -> (Ident, bool) {
         _ => {}
     }
 
-    let span = expr.span().apply_mark(Mark::fresh(Mark::root()));
-    (quote_ident!(span, sym(expr, default)), true)
+    (alias_ident_for(expr, default), true)
 }
 
 pub(crate) fn prop_name_to_expr(p: PropName) -> Expr {
