@@ -801,6 +801,8 @@ function () {
 
 // export_async_lone_export
 test!(
+    // TODO: Enable this test after implementing es6 module pass.
+    ignore,
     syntax(),
     |_| AsyncToGenerator {},
     export_async_lone_export,
@@ -1472,6 +1474,8 @@ function _foo() {
 
 // export_async_default_arrow_export
 test!(
+    // TODO: Enable this test after implementing es6 module pass.
+    ignore,
     syntax(),
     |_| AsyncToGenerator {},
     export_async_default_arrow_export,
@@ -1609,6 +1613,8 @@ class Foo extends class {} {
 
 // export_async_default_export
 test!(
+    // TODO: Enable this test after implementing es6 module pass.
+    ignore,
     syntax(),
     |_| AsyncToGenerator {},
     export_async_default_export,
@@ -1770,6 +1776,8 @@ function _s() {
 
 // export_async_import_and_export
 test!(
+    // TODO: Enable this test after implementing es6 module pass.
+    ignore,
     syntax(),
     |_| AsyncToGenerator {},
     export_async_import_and_export,
