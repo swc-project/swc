@@ -1565,25 +1565,19 @@ function () {
 
 // parameters_rest_async_arrow_functions
 test!(
+    // See https://github.com/swc-project/swc/issues/490
+    ignore,
     syntax(),
     |_| chain!(async_to_generator(), arrow(), parameters(),),
-    parameters_rest_async_arrow_functions,
+    parameters_rest_async_arrow_functions_1,
     r#"
 var concat = async (...arrs) => {
   var x = arrs[0];
   var y = arrs[1];
 };
-
-var x = async (...rest) => {
-  if (noNeedToWork) return 0;
-  return rest;
-};
-
 "#,
     r#"
-var concat =
-/*#__PURE__*/
-function () {
+var concat = function () {
   var _ref = _asyncToGenerator(function* () {
     var x = arguments.length <= 0 ? undefined : arguments[0];
     var y = arguments.length <= 1 ? undefined : arguments[1];
@@ -1593,11 +1587,26 @@ function () {
     return _ref.apply(this, arguments);
   };
 }();
+"#
+);
 
-var x =
-/*#__PURE__*/
-function () {
-  var _ref2 = _asyncToGenerator(function* () {
+// parameters_rest_async_arrow_functions
+test!(
+    // See https://github.com/swc-project/swc/issues/490
+    ignore,
+    syntax(),
+    |_| chain!(async_to_generator(), arrow(), parameters(),),
+    parameters_rest_async_arrow_functions_2,
+    r#"
+var x = async (...rest) => {
+  if (noNeedToWork) return 0;
+  return rest;
+};
+
+"#,
+    r#"
+var x = function () {
+  var _ref = _asyncToGenerator(function* () {
     if (noNeedToWork) return 0;
 
     for (var _len = arguments.length, rest = new Array(_len), _key = 0; _key < _len; _key++) {
@@ -1608,7 +1617,7 @@ function () {
   });
 
   return function x() {
-    return _ref2.apply(this, arguments);
+    return _ref.apply(this, arguments);
   };
 }();
 
