@@ -1,6 +1,9 @@
 use crate::{
     pass::Pass,
-    util::{has_rest_pat, is_literal, prop_name_to_expr, undefined, ExprFactory, StmtLike},
+    util::{
+        alias_ident_for, alias_if_required, has_rest_pat, is_literal, prop_name_to_expr, undefined,
+        ExprFactory, StmtLike,
+    },
 };
 use ast::*;
 use serde::Deserialize;
@@ -217,6 +220,7 @@ impl AssignFolder {
 
                 // Make ref var if required
                 let ref_ident = make_ref_ident(
+                    self.c,
                     if self.exporting {
                         &mut self.vars
                     } else {
@@ -269,11 +273,11 @@ impl AssignFolder {
                     "destructuring pattern binding requires initializer"
                 );
                 let can_be_null = can_be_null(decl.init.as_ref().unwrap());
-                let ref_ident = make_ref_ident(decls, decl.init);
+                let ref_ident = make_ref_ident(self.c, decls, decl.init);
 
                 let ref_ident = if can_be_null {
                     let init = box Expr::Ident(ref_ident.clone());
-                    make_ref_ident(decls, Some(init))
+                    make_ref_ident(self.c, decls, Some(init))
                 } else {
                     ref_ident
                 };
@@ -306,6 +310,7 @@ impl AssignFolder {
                             match value {
                                 Some(value) => {
                                     let ref_ident = make_ref_ident(
+                                        self.c,
                                         decls,
                                         Some(box make_ref_prop_expr(
                                             &ref_ident,
@@ -507,7 +512,7 @@ impl Fold<Expr> for AssignFolder {
                                                 .as_mut()
                                                 .expect("pattern after rest element?")
                                                 .next()
-                                                .unwrap();
+                                                .and_then(|v| v);
                                             let right = e
                                                 .map(|e| {
                                                     debug_assert_eq!(e.spread, None);
@@ -531,7 +536,7 @@ impl Fold<Expr> for AssignFolder {
                         }
 
                         // initialized by first element of sequence expression
-                        let ref_ident = make_ref_ident(&mut self.vars, None);
+                        let ref_ident = make_ref_ident(self.c, &mut self.vars, None);
 
                         exprs.push(box Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
@@ -552,7 +557,8 @@ impl Fold<Expr> for AssignFolder {
                                     span, left, right, ..
                                 }) => {
                                     // initialized by sequence expression.
-                                    let assign_ref_ident = make_ref_ident(&mut self.vars, None);
+                                    let assign_ref_ident =
+                                        make_ref_ident(self.c, &mut self.vars, None);
                                     exprs.push(box Expr::Assign(AssignExpr {
                                         span: DUMMY_SP,
                                         left: PatOrExpr::Pat(box Pat::Ident(
@@ -610,7 +616,7 @@ impl Fold<Expr> for AssignFolder {
                         })
                     }
                     Pat::Object(ObjectPat { span, props, .. }) => {
-                        let ref_ident = make_ref_ident(&mut self.vars, None);
+                        let ref_ident = make_ref_ident(self.c, &mut self.vars, None);
 
                         let mut exprs = vec![];
 
@@ -646,7 +652,8 @@ impl Fold<Expr> for AssignFolder {
 
                                     match value {
                                         Some(value) => {
-                                            let prop_ident = make_ref_ident(&mut self.vars, None);
+                                            let prop_ident =
+                                                make_ref_ident(self.c, &mut self.vars, None);
 
                                             exprs.push(box Expr::Assign(AssignExpr {
                                                 span,
@@ -780,29 +787,34 @@ fn make_ref_idx_expr(ref_ident: &Ident, i: usize) -> Expr {
     ref_ident.clone().computed_member(i as f64)
 }
 
-fn make_ref_ident(decls: &mut Vec<VarDeclarator>, init: Option<Box<Expr>>) -> Ident {
+fn make_ref_ident(c: Config, decls: &mut Vec<VarDeclarator>, init: Option<Box<Expr>>) -> Ident {
     match init {
         Some(box Expr::Ident(i)) => i,
         init => {
-            let s: JsWord = match init {
-                Some(box Expr::Member(MemberExpr {
-                    obj: ExprOrSuper::Expr(box Expr::Ident(ref i1)),
-                    prop: box Expr::Ident(ref i2),
-                    ..
-                })) => format!("_{}${}", i1.sym, i2.sym).into(),
+            let span = init.span();
 
-                _ => "ref".into(),
+            let (ref_ident, aliased) = if c.loose {
+                if let Some(ref init) = init {
+                    alias_if_required(&init, "ref")
+                } else {
+                    (private_ident!(span, "ref"), true)
+                }
+            } else {
+                if let Some(ref init) = init {
+                    (alias_ident_for(&init, "ref"), true)
+                } else {
+                    (private_ident!(span, "ref"), true)
+                }
             };
 
-            let span = init.span();
-            let ref_ident = private_ident!(span, s);
-
-            decls.push(VarDeclarator {
-                span,
-                name: Pat::Ident(ref_ident.clone()),
-                init,
-                definite: false,
-            });
+            if aliased {
+                decls.push(VarDeclarator {
+                    span,
+                    name: Pat::Ident(ref_ident.clone()),
+                    init,
+                    definite: false,
+                });
+            }
 
             ref_ident
         }
