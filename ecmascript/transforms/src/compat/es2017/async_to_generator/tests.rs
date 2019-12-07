@@ -2,6 +2,7 @@ use super::*;
 use crate::{
     compat::es2015::{arrow, destructuring, es2015, function_name, parameters},
     fixer::fixer,
+    resolver,
 };
 use swc_common::chain;
 use swc_ecma_parser::Syntax;
@@ -903,7 +904,7 @@ _asyncToGenerator(function* () {
 // async_to_generator_shadowed_promise
 test!(
     syntax(),
-    |_| AsyncToGenerator {},
+    |_| chain!(resolver(), AsyncToGenerator {}),
     async_to_generator_shadowed_promise,
     r#"
 let Promise;
@@ -915,16 +916,16 @@ async function foo() {
     r#"
 let _Promise;
 
-function foo() {
-  return _foo.apply(this, arguments);
-}
-
 function _foo() {
   _foo = _asyncToGenerator(function* () {
     yield new _Promise(resolve => {
       resolve();
     });
   });
+  return _foo.apply(this, arguments);
+}
+
+function foo() {
   return _foo.apply(this, arguments);
 }
 
@@ -1812,7 +1813,7 @@ function _foo() {
 // async_to_generator_shadowed_promise_nested
 test!(
     syntax(),
-    |_| AsyncToGenerator {},
+    |_| chain!(resolver(), AsyncToGenerator {}),
     async_to_generator_shadowed_promise_nested,
     r#"
 let Promise;
@@ -1831,10 +1832,6 @@ async function foo() {
     r#"
 let _Promise;
 
-function foo() {
-  return _foo.apply(this, arguments);
-}
-
 function _foo() {
   _foo = _asyncToGenerator(function* () {
     let Promise;
@@ -1851,6 +1848,10 @@ function _foo() {
       return _bar.apply(this, arguments);
     }
   });
+  return _foo.apply(this, arguments);
+}
+
+function foo() {
   return _foo.apply(this, arguments);
 }
 
@@ -2049,7 +2050,7 @@ function _foo() {
 // async_to_generator_shadowed_promise_import
 test!(
     syntax(),
-    |_| AsyncToGenerator {},
+    |_| chain!(resolver(), AsyncToGenerator {}),
     async_to_generator_shadowed_promise_import,
     r#"
 import Promise from 'somewhere';
@@ -2062,14 +2063,14 @@ async function foo() {
     r#"
 import _Promise from 'somewhere';
 
-function foo() {
-  return _foo.apply(this, arguments);
-}
-
 function _foo() {
   _foo = _asyncToGenerator(function* () {
     yield _Promise.resolve();
   });
+  return _foo.apply(this, arguments);
+}
+
+function foo() {
   return _foo.apply(this, arguments);
 }
 
