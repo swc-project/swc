@@ -4179,18 +4179,26 @@ test!(
     regression_8882,
     r#"
 const classes = [];
-for (let i = 0; i <= 10; ++i) {
-  classes.push(
-    class A {
-      [i] = `computed field ${i}`;
-      static foo = `static field ${i}`;
-      #bar = `private field ${i}`;
-      getBar() {
-        return this.#bar;
-      }
-    }
-  );
+for(let i = 0; i <= 10; ++i){
+    classes.push(function() {
+        class A{
+             getBar() {
+                return _classPrivateFieldGet(this, _bar);
+            }
+            constructor(){
+                _defineProperty(this, i, `computed field ${i}`);
+                _bar.set(this, {
+                    writable: true,
+                    value: `private field ${i}`
+                });
+            }
+        }
+        _defineProperty(A, 'foo', `static field ${i}`);
+        var _bar = new WeakMap();
+        return A;
+    }());
 }
+
 "#,
     r#"
 const classes = [];
