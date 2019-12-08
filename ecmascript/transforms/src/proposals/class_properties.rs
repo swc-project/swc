@@ -5,6 +5,7 @@ use self::{
     used_name::{UsedNameCollector, UsedNameRenamer},
 };
 use crate::{
+    compat::es2015::classes::SuperFieldAccessFolder,
     pass::Pass,
     util::{
         alias_if_required, constructor::inject_after_super, default_constructor, undefined,
@@ -344,9 +345,20 @@ impl ClassProperties {
                             args: vec![
                                 ident.clone().as_arg(),
                                 key,
-                                value.fold_with(&mut ThisInStaticFolder {
-                                    ident: ident.clone(),
-                                }),
+                                value
+                                    .fold_with(&mut SuperFieldAccessFolder {
+                                        class_name: &ident,
+                                        vars: &mut vars,
+                                        constructor_this_mark: None,
+                                        is_static: true,
+                                        folding_constructor: false,
+                                        in_injected_define_property_call: false,
+                                        in_nested_scope: false,
+                                        this_alias_mark: None,
+                                    })
+                                    .fold_with(&mut ThisInStaticFolder {
+                                        ident: ident.clone(),
+                                    }),
                             ],
                             type_args: Default::default(),
                         })))

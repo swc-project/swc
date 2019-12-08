@@ -1,3 +1,4 @@
+pub(crate) use self::super_field::SuperFieldAccessFolder;
 use self::{
     constructor::{
         constructor_fn, make_possible_return_value, replace_this_in_constructor, ConstructorFolder,
@@ -5,7 +6,6 @@ use self::{
     },
     native::is_native,
     prop_name::HashKey,
-    super_field::SuperFieldAccessFolder,
 };
 use crate::util::{
     alias_if_required, default_constructor, prepend, prop_name_to_expr, ExprFactory, IsDirective,
@@ -199,6 +199,7 @@ impl Fold<Expr> for Classes {
 
         validate!(match n {
             Expr::Class(e) => self.fold_class(e.ident, e.class).fold_children(self),
+
             _ => n.fold_children(self),
         })
     }

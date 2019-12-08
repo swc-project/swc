@@ -14,7 +14,7 @@ use swc_common::chain;
 mod arrow;
 mod block_scoped_fn;
 mod block_scoping;
-mod classes;
+pub mod classes;
 mod computed_props;
 pub mod destructuring;
 mod duplicate_keys;
