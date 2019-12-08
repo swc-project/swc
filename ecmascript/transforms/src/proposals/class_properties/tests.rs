@@ -2917,40 +2917,49 @@ export default class MyClass3 {
     r#"
 class MyClass {
   constructor() {
-    _defineProperty(this, 'myAsyncMethod', (async function() {
-      console.log(this);
-    }).bind(this));
+    _defineProperty(this, 'myAsyncMethod', (function() {
+        var _ref = _asyncToGenerator((function*() {
+            console.log(this);
+        }).bind(this));
+        return function() {
+            return _ref.apply(this, arguments);
+        };
+    })().bind(this));
 
   }
 
 }
 
-(class MyClass2 {
-  constructor() {
-    var _this2 = this;
+(function() {
+    class MyClass2{
+        constructor(){
+            _defineProperty(this, 'myAsyncMethod', (function() {
+                var _ref = _asyncToGenerator((function*() {
+                    console.log(this);
+                }).bind(this));
+                return function() {
+                    return _ref.apply(this, arguments);
+                };
+            })().bind(this));
+        }
+    }
+    return MyClass2;
+})();
 
-    _defineProperty(this, "myAsyncMethod",
-    /*#__PURE__*/
-    _asyncToGenerator(function* () {
-      console.log(_this2);
-    }));
-  }
 
-});
-
-export default class MyClass3 {
-  constructor() {
-    var _this3 = this;
-
-    _defineProperty(this, "myAsyncMethod",
-    /*#__PURE__*/
-    _asyncToGenerator(function* () {
-      console.log(_this3);
-    }));
-  }
-
+class MyClass3{
+    constructor(){
+        _defineProperty(this, 'myAsyncMethod', (function() {
+            var _ref = _asyncToGenerator((function*() {
+                console.log(this);
+            }).bind(this));
+            return function() {
+                return _ref.apply(this, arguments);
+            };
+        })().bind(this));
+    }
 }
-
+export { MyClass3 as default }
 "#
 );
 
