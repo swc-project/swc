@@ -68,6 +68,38 @@ where
     visitor.found
 }
 
+pub(crate) fn contains_ident_ref<'a, N>(body: &N, ident: &'a Ident) -> bool
+where
+    N: VisitWith<IdentFinder<'a>>,
+{
+    let mut visitor = IdentFinder {
+        found: false,
+        ident,
+    };
+    body.visit_with(&mut visitor);
+    visitor.found
+}
+
+pub(crate) struct IdentFinder<'a> {
+    ident: &'a Ident,
+    found: bool,
+}
+
+impl Visit<Expr> for IdentFinder<'_> {
+    fn visit(&mut self, e: &Expr) {
+        e.visit_children(self);
+
+        match *e {
+            Expr::Ident(ref i)
+                if i.sym == self.ident.sym && i.span.ctxt() == self.ident.span.ctxt() =>
+            {
+                self.found = true;
+            }
+            _ => {}
+        }
+    }
+}
+
 pub trait ModuleItemLike: StmtLike {
     fn try_into_module_decl(self) -> Result<ModuleDecl, Self> {
         Err(self)

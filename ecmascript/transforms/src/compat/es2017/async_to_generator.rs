@@ -1,7 +1,7 @@
 use crate::{
     compat::es2015::arrow,
     pass::Pass,
-    util::{contains_this_expr, ExprFactory, StmtLike},
+    util::{contains_ident_ref, contains_this_expr, ExprFactory, StmtLike},
 };
 use ast::*;
 use std::iter;
@@ -420,6 +420,19 @@ impl Fold<Expr> for Actual {
                         args,
                         type_args,
                     });
+                }
+
+                // https://github.com/babel/babel/issues/8783
+                if fn_expr.ident.is_some()
+                    && contains_ident_ref(&fn_expr.function.body, fn_expr.ident.as_ref().unwrap())
+                {
+                    return Expr::Call(CallExpr {
+                        span,
+                        callee: ExprOrSuper::Expr(box Expr::Fn(fn_expr)),
+                        args,
+                        type_args,
+                    })
+                    .fold_children(self);
                 }
 
                 return make_fn_ref(fn_expr);
