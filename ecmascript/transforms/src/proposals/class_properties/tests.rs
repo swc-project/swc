@@ -1030,12 +1030,12 @@ var MyClass = function() {
     function MyClass() {
         _classCallCheck(this, MyClass);
         _defineProperty(this, _ref4, 'null');
-        _defineProperty(this, _undefined, 'undefined');
+        _defineProperty(this, undefined, 'undefined');
         _defineProperty(this, _ref5, 'void 0');
         _defineProperty(this, _ref6, 'regex');
-        _defineProperty(this, _foo, 'foo');
-        _defineProperty(this, _bar, 'bar');
-        _defineProperty(this, _baz, 'baz');
+        _defineProperty(this, foo, 'foo');
+        _defineProperty(this, bar, 'bar');
+        _defineProperty(this, baz, 'baz');
         _defineProperty(this, _ref7, 'template');
         _defineProperty(this, _ref8, 'template-with-expression');
     }
@@ -4695,23 +4695,14 @@ const createClass = (k) => class { [k()] = 2 };
 
 "#,
     r#"
-var createClass = k => {
-  var _temp;
-
-  var _k;
-
-  return _temp = (_k = k(),
-  /*#__PURE__*/
-  function () {
-    "use strict";
-
-    function _class2() {
-      _classCallCheck(this, _class2);
-      _defineProperty(this, _k, 2);
-    }
-
-    return _class2;
-  }()), _temp;
+var createClass = (k)=>{
+    var _ref = k();
+    var _class = function _class() {
+        'use strict';
+        _classCallCheck(this, _class);
+        _defineProperty(this, _ref, 2);
+    };
+    return _class;
 };
 
 "#
