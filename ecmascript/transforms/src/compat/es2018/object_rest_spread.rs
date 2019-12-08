@@ -1,6 +1,8 @@
 use crate::{
     pass::Pass,
-    util::{alias_ident_for, alias_if_required, var::VarCollector, ExprFactory, StmtLike},
+    util::{
+        alias_ident_for, alias_if_required, is_literal, var::VarCollector, ExprFactory, StmtLike,
+    },
 };
 use ast::*;
 use std::{iter, mem};
@@ -839,11 +841,26 @@ fn object_without_properties(obj: Box<Expr>, excluded_props: Vec<Option<ExprOrSp
         callee: helper!(object_without_properties, "objectWithoutProperties"),
         args: vec![
             obj.as_arg(),
-            ArrayLit {
-                span: DUMMY_SP,
-                elems: excluded_props,
-            }
-            .as_arg(),
+            if is_literal(&excluded_props) {
+                ArrayLit {
+                    span: DUMMY_SP,
+                    elems: excluded_props,
+                }
+                .as_arg()
+            } else {
+                CallExpr {
+                    span: DUMMY_SP,
+                    callee: ArrayLit {
+                        span: DUMMY_SP,
+                        elems: excluded_props,
+                    }
+                    .member(Ident::new("map".into(), DUMMY_SP))
+                    .as_callee(),
+                    args: vec![helper_expr!(to_property_key, "toPropertyKey").as_arg()],
+                    type_args: Default::default(),
+                }
+                .as_arg()
+            },
         ],
         type_args: Default::default(),
     })
