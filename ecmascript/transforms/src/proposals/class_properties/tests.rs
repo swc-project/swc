@@ -2879,7 +2879,7 @@ _defineProperty(foo, 'MODE', MODE);"
 // public_regression_t7364
 test!(
     syntax(),
-    |_| chain!(async_to_generator(), class_properties()),
+    |_| chain!(class_properties(), async_to_generator()),
     public_regression_t7364,
     r#"
 class MyClass {
