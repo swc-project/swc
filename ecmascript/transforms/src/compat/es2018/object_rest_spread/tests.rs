@@ -1011,7 +1011,7 @@ x1++;
 var {
   [a]: b
 } = z,
-    c = _objectWithoutProperties(z, [a]);
+    c = _objectWithoutProperties(z, [a].map(_toPropertyKey));
 var {
   x1
 } = z,
@@ -1048,7 +1048,7 @@ let {
     [d]: f
   }
 } = complex,
-    asdf = _objectWithoutProperties(complex.x, ["a", d]),
+    asdf = _objectWithoutProperties(complex.x, ["a", d].map(_toPropertyKey)),
     d = _extends({}, complex.y),
     g = _objectWithoutProperties(complex, ["x", "y"]);
 "#
