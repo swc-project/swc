@@ -140,15 +140,15 @@ class Foo extends Bar {
     r#"
 var Foo =
 /*#__PURE__*/
-function (_Bar) {
+function (Bar) {
   'use strict';
 
-  _inherits(Foo, _Bar);
+  _inherits(Foo, Bar);
 
   function Foo() {
+    _classCallCheck(this, Foo);
     var _this;
 
-    _classCallCheck(this, Foo);
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this));
     _defineProperty(_assertThisInitialized(_this), "bar", "foo");
     return _this;
@@ -179,15 +179,15 @@ class Child extends Parent {
     r#"
 var Child =
 /*#__PURE__*/
-function (_Parent) {
+function (Parent) {
   'use strict';
 
-  _inherits(Child, _Parent);
+  _inherits(Child, Parent);
 
   function Child() {
+    _classCallCheck(this, Child);
     var _this;
 
-    _classCallCheck(this, Child);
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Child).call(this));
 
     _scopedFunctionWithThis.set(_assertThisInitialized(_this), {
@@ -253,15 +253,15 @@ class Foo extends Bar {
     r#"
 var Foo =
 /*#__PURE__*/
-function (_Bar) {
+function (Bar) {
   'use strict';
 
-  _inherits(Foo, _Bar);
+  _inherits(Foo, Bar);
 
   function Foo() {
+    _classCallCheck(this, Foo);
     var _this;
 
-    _classCallCheck(this, Foo);
 
     if (condition) {
       _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this));
@@ -388,9 +388,9 @@ function withContext(ComposedComponent) {
     r#"
 function withContext(ComposedComponent) {
   return (function() {
-    var WithContext = function(_Component) {
+    var WithContext = function(Component) {
       'use strict';
-      _inherits(WithContext, _Component);
+      _inherits(WithContext, Component);
       function WithContext() {
         _classCallCheck(this, WithContext);
         return _possibleConstructorReturn(this, _getPrototypeOf(WithContext).apply(this, arguments));
@@ -571,6 +571,7 @@ expect(new Outer().hello).toBe('hello');
 
 
 var Hello = function Hello() {
+  'use strict';
   _classCallCheck(this, Hello);
   return {
     toString() {
@@ -580,14 +581,13 @@ var Hello = function Hello() {
   };
 };
 
-var Outer = function (_Hello) {
+var Outer = function (Hello) {
   'use strict';
-  _inherits(Outer, _Hello);
+  _inherits(Outer, Hello);
 
   function Outer() {
-    var _this;
-
     _classCallCheck(this, Outer);
+    var _this;
 
     var _ref = _this = _possibleConstructorReturn(this, _getPrototypeOf(Outer).call(this));
 
@@ -649,15 +649,15 @@ class Foo extends Bar {
     r#"
 var Foo =
 /*#__PURE__*/
-function (_Bar) {
+function (Bar) {
   'use strict';
 
-  _inherits(Foo, _Bar);
+  _inherits(Foo, Bar);
 
   function Foo() {
+    _classCallCheck(this, Foo);
     var _this;
 
-    _classCallCheck(this, Foo);
 
     if (condition) {
       _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this));
@@ -891,16 +891,15 @@ function () {
 
 var B =
 /*#__PURE__*/
-function (_A) {
+function (A) {
   'use strict';
-  
 
-  _inherits(B, _A);
+  _inherits(B, A);
 
   function B() {
+    _classCallCheck(this, B);
     var _this;
 
-    _classCallCheck(this, B);
     _this = _possibleConstructorReturn(this, _getPrototypeOf(B).apply(this, arguments));
     _defineProperty(_assertThisInitialized(_this), "foo", _get(_getPrototypeOf(B.prototype), "foo", _assertThisInitialized(_this)).call(_this));
     return _this;
@@ -1372,15 +1371,15 @@ class Foo extends Bar {
     r#"
 var Foo =
 /*#__PURE__*/
-function (_Bar) {
+function (Bar) {
   'use strict';
 
-  _inherits(Foo, _Bar);
+  _inherits(Foo, Bar);
 
   function Foo() {
+    _classCallCheck(this, Foo);
     var _this;
 
-    _classCallCheck(this, Foo);
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this));
 
     _bar.set(_assertThisInitialized(_this), {
@@ -1417,10 +1416,8 @@ class Outer {
     r#"
 var Outer = function Outer() {
  'use strict';
-  var _this = this;
-
-
   _classCallCheck(this, Outer);
+  var _this = this;
 
   _outer.set(this, {
     writable: true,
@@ -1510,15 +1507,15 @@ class Foo extends Bar {
 
 "#,
     r#"
-var Foo = function (_Bar) {
+var Foo = function (Bar) {
   'use strict';
 
-  _inherits(Foo, _Bar);
+  _inherits(Foo, Bar);
 
   function Foo() {
+    _classCallCheck(this, Foo);
     var _this;
 
-    _classCallCheck(this, Foo);
     var _temp;
     foo((_temp = _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this)), _defineProperty(_assertThisInitialized(_this), "bar", "foo"), _temp));
     return _possibleConstructorReturn(_this);
@@ -1704,15 +1701,15 @@ var _prop1 = new WeakMap();
 
 var Bar =
 /*#__PURE__*/
-function (_Foo) {
+function (Foo) {
   'use strict';  
 
-  _inherits(Bar, _Foo);
+  _inherits(Bar, Foo);
 
   function Bar() {
+    _classCallCheck(this, Bar);
     var _this;
 
-    _classCallCheck(this, Bar);
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Bar).apply(this, arguments));
 
     _prop2.set(_assertThisInitialized(_this), {
@@ -1766,15 +1763,15 @@ var A = function () {
 
 var B =
 /*#__PURE__*/
-function (_A) {
+function (A) {
   'use strict';
 
-  _inherits(B, _A);
+  _inherits(B, A);
 
   function B() {
+    _classCallCheck(this, B);
     var _this;
 
-    _classCallCheck(this, B);
     _this = _possibleConstructorReturn(this, _getPrototypeOf(B).apply(this, arguments));
 
     _foo.set(_assertThisInitialized(_this), {
@@ -1871,8 +1868,8 @@ expect(new Outer().hello).toBe('hello');
 
 
 var Hello = function () {
+  'use strict';
   function Hello() {
-    'use strict';
     _classCallCheck(this, Hello);
   }
 
@@ -1885,9 +1882,9 @@ var Hello = function () {
   return Hello;
 }();
 
-var Outer = function (_Hello) {
+var Outer = function (Hello) {
   'use strict';
-  _inherits(Outer, _Hello);
+  _inherits(Outer, Hello);
 
   function Outer() {
     _classCallCheck(this, Outer);
@@ -2152,15 +2149,15 @@ class Foo extends Bar {
     r#"
 var Foo =
 /*#__PURE__*/
-function (_Bar) {
+function (Bar) {
   'use strict';
 
-  _inherits(Foo, _Bar);
+  _inherits(Foo, Bar);
 
   function Foo() {
+    _classCallCheck(this, Foo);
     var _this;
 
-    _classCallCheck(this, Foo);
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).apply(this, arguments))
     _defineProperty(_assertThisInitialized(_this), "bar", "foo");
     return _this;
@@ -2337,8 +2334,8 @@ var Foo = function () {
   'use strict';
 
   function Foo() {
-    var _this = this;
     _classCallCheck(this, Foo);
+    var _this = this;
 
     _foo.set(this, {
       writable: true,
@@ -2643,15 +2640,15 @@ class Foo extends Bar {
     r#"
 var Foo =
 /*#__PURE__*/
-function (_Bar) {
+function (Bar) {
   'use strict';
 
-  _inherits(Foo, _Bar);
+  _inherits(Foo, Bar);
 
   function Foo() {
+    _classCallCheck(this, Foo);
     var _this;
 
-    _classCallCheck(this, Foo);
     var _temp;
     foo((_temp = _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this)),
      _bar.set(_assertThisInitialized(_this), {
@@ -2908,13 +2905,10 @@ export default class MyClass3 {
     r#"
 class MyClass {
   constructor() {
-    var _this = this;
+    _defineProperty(this, 'myAsyncMethod', (async function() {
+      console.log(this);
+    }).bind(this));
 
-    _defineProperty(this, "myAsyncMethod",
-    /*#__PURE__*/
-    _asyncToGenerator(function* () {
-      console.log(_this);
-    }));
   }
 
 }
@@ -4774,10 +4768,10 @@ _defineProperty(A, "prop", 1);
 
 var B =
 /*#__PURE__*/
-function (_A) {
+function (A) {
   "use strict";
 
-  _inherits(B, _A);
+  _inherits(B, A);
 
   function B() {
     _classCallCheck(this, B);
