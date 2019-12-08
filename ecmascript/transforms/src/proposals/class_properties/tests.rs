@@ -1893,7 +1893,6 @@ var Outer = function (Hello) {
     var _ref = _get(_getPrototypeOf(Outer.prototype), 'toString', _assertThisInitialized(_this)).call(_this);
 
     var Inner = function Inner() {
-      'use strict';
       _classCallCheck(this, Inner);
       _defineProperty(this, _ref, 'hello');
     };

@@ -557,6 +557,19 @@ impl Classes {
             }
         }
 
+        if super_class_ident.is_none()
+            && stmts
+                .iter()
+                .filter(|stmt| match stmt {
+                    Stmt::Expr(box Expr::Lit(Lit::Str(..))) => false,
+                    _ => true,
+                })
+                .count()
+                == 1
+        {
+            return stmts;
+        }
+
         // `return Foo`
         stmts.push(Stmt::Return(ReturnStmt {
             span: DUMMY_SP,
