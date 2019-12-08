@@ -590,6 +590,20 @@ impl Fold<ArrowExpr> for Fixer {
     }
 }
 
+impl Fold<Class> for Fixer {
+    fn fold(&mut self, node: Class) -> Class {
+        let old = self.ctx;
+        self.ctx = Context::Default;
+        let mut node = node.fold_children(self);
+        node.super_class = match node.super_class {
+            Some(e @ box Expr::Seq(..)) => Some(box e.wrap_with_paren()),
+            _ => node.super_class,
+        };
+        self.ctx = old;
+        node
+    }
+}
+
 fn ignore_return_value(expr: Box<Expr>) -> Option<Box<Expr>> {
     match *expr {
         Expr::Ident(..) | Expr::Fn(..) | Expr::Lit(..) => None,
