@@ -8,8 +8,8 @@ use crate::{
     compat::es2015::classes::SuperFieldAccessFolder,
     pass::Pass,
     util::{
-        alias_if_required, constructor::inject_after_super, default_constructor, undefined,
-        ExprFactory, ModuleItemLike, StmtLike,
+        alias_ident_for, alias_if_required, constructor::inject_after_super, default_constructor,
+        undefined, ExprFactory, ModuleItemLike, StmtLike,
     },
 };
 use ast::*;
@@ -265,6 +265,7 @@ impl ClassProperties {
         let (mut constructor_exprs, mut vars, mut extra_stmts, mut members, mut constructor) =
             (vec![], vec![], vec![], vec![], None);
         let mut used_names = vec![];
+        let mut used_key_names = vec![];
         let mut statics = HashSet::default();
 
         for member in class.body {
@@ -305,6 +306,16 @@ impl ClassProperties {
                         .key
                         .fold_with(&mut ClassNameTdzFolder { class_name: &ident });
 
+                    if !prop.is_static {
+                        prop.key.visit_with(&mut UsedNameCollector {
+                            used_names: &mut used_key_names,
+                        });
+
+                        prop.value.visit_with(&mut UsedNameCollector {
+                            used_names: &mut used_names,
+                        });
+                    }
+
                     let key = match *prop.key {
                         Expr::Ident(ref i) if !prop.computed => Lit::Str(Str {
                             span: i.span,
@@ -315,7 +326,15 @@ impl ClassProperties {
                         Expr::Lit(ref lit) if !prop.computed => lit.clone().as_arg(),
 
                         _ => {
-                            let (ident, aliased) = alias_if_required(&prop.key, "_ref");
+                            let (ident, aliased) = if let Expr::Ident(ref i) = *prop.key {
+                                if used_key_names.contains(&i.sym) {
+                                    (alias_ident_for(&prop.key, "_ref"), true)
+                                } else {
+                                    alias_if_required(&prop.key, "_ref")
+                                }
+                            } else {
+                                alias_if_required(&prop.key, "_ref")
+                            };
                             // ident.span = ident.span.apply_mark(Mark::fresh(Mark::root()));
                             if aliased {
                                 // Handle computed property
@@ -329,11 +348,7 @@ impl ClassProperties {
                             ident.as_arg()
                         }
                     };
-                    if !prop.is_static {
-                        prop.value.visit_with(&mut UsedNameCollector {
-                            used_names: &mut used_names,
-                        });
-                    }
+
                     let value = prop.value.unwrap_or_else(|| undefined(prop_span)).as_arg();
 
                     let callee = helper!(define_property, "defineProperty");
