@@ -2965,19 +2965,23 @@ function withContext(ComposedComponent) {
 "#,
     r#"
 function withContext(ComposedComponent) {
-  var _class, _temp, _propTypes;
-
-  return _temp = _class = class WithContext extends Component {}, _propTypes = {
-    writable: true,
-    value: {
-      context: PropTypes.shape({
-        addCss: PropTypes.func,
-        setTitle: PropTypes.func,
-        setMeta: PropTypes.func
-      })
-    }
-  }, _temp;
+    return (function() {
+        class WithContext extends Component{
+        }
+        var _propTypes = {
+            writable: true,
+            value: {
+                context: PropTypes.shape({
+                    addCss: PropTypes.func,
+                    setTitle: PropTypes.func,
+                    setMeta: PropTypes.func
+                })
+            }
+        };
+        return WithContext;
+    })();
 }
+
 
 "#
 );
@@ -3458,7 +3462,7 @@ var _myAsyncMethod = new WeakMap();
 
 var _myAsyncMethod2 = new WeakMap();
 
-export default class MyClass3 {
+class MyClass3 {
   constructor() {
     var _this3 = this;
 
@@ -3475,8 +3479,8 @@ export default class MyClass3 {
       }()
     });
   }
-
 }
+export { MyClass3 as default }
 
 var _myAsyncMethod3 = new WeakMap();
 
