@@ -1019,32 +1019,36 @@ var bar = ()=>{
 };
 var four = 4;
 var _ref = one(),
-        _ref1 = 2 * 4 + 7,
-        _ref2 = 2 * four + 7,
-        _ref3 = 2 * four + seven,
-        _ref4 = null,
-        _ref5 = void 0,
-        tmp = 'whatever',
-        tmp1 = 'whatever',
-        tmp2 = computed(),
-        tmp3 = computed(),
-        tmp4 = 'test' + one,
-        tmp5 = 10,
-        _ref6 = /regex/,
-        _ref7 = `template`,
-        _ref8 = `template${expression}`;
+    _ref1 = 2 * 4 + 7,
+    _ref2 = 2 * four + 7,
+    _ref3 = 2 * four + seven,
+    _ref4 = null,
+    _undefined = undefined,
+    _ref5 = void 0,
+    tmp = 'whatever',
+    tmp1 = 'whatever',
+    tmp2 = computed(),
+    tmp3 = computed(),
+    tmp4 = 'test' + one,
+    tmp5 = 10,
+    _ref6 = /regex/,
+    _foo = foo,
+    _bar = bar,
+    _baz = baz,
+    _ref7 = `template`, _ref8 = `template${expression}`;
+
 
 var MyClass = function() {
     'use strict';
     function MyClass() {
         _classCallCheck(this, MyClass);
         _defineProperty(this, _ref4, 'null');
-        _defineProperty(this, undefined, 'undefined');
+        _defineProperty(this, _undefined, 'undefined');
         _defineProperty(this, _ref5, 'void 0');
         _defineProperty(this, _ref6, 'regex');
-        _defineProperty(this, foo, 'foo');
-        _defineProperty(this, bar, 'bar');
-        _defineProperty(this, baz, 'baz');
+        _defineProperty(this, _foo, 'foo');
+        _defineProperty(this, _bar, 'bar');
+        _defineProperty(this, _baz, 'baz');
         _defineProperty(this, _ref7, 'template');
         _defineProperty(this, _ref8, 'template-with-expression');
     }
@@ -4396,13 +4400,13 @@ class A {
 "#,
     r#"
 const field = Symbol('field');
-
-class A {
-  constructor() {
-    _defineProperty(this, field, 10);
-  }
-
+var _field = field;
+class A{
+    constructor(){
+        _defineProperty(this, _field, 10);
+    }
 }
+
 
 "#
 );
