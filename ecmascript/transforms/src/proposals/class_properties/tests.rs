@@ -3055,38 +3055,35 @@ function classFactory() {
 "#,
     r#"
 function classFactory() {
-  var _class, _temp, _foo, _bar;
-
-  return _temp = _class = class Foo {
-    constructor() {
-      _foo.set(this, {
-        writable: true,
-        value: "foo"
-      });
-    }
-
-    instance() {
-      return _classPrivateFieldGet(this, _foo);
-    }
-
-    static() {
-      return _classStaticPrivateFieldSpecGet(Foo, _class, _bar);
-    }
-
-    static instance(inst) {
-      return _classPrivateFieldGet(inst, _foo);
-    }
-
-    static static() {
-      return _classStaticPrivateFieldSpecGet(Foo, _class, _bar);
-    }
-
-  }, _foo = new WeakMap(), _bar = {
-    writable: true,
-    value: "bar"
-  }, _temp;
+    return (function() {
+        class Foo{
+             instance() {
+                return _classPrivateFieldGet(this, _foo);
+            }
+             static() {
+                return _classStaticPrivateFieldSpecGet(Foo, Foo, _bar);
+            }
+            static  instance(inst) {
+                return _classPrivateFieldGet(inst, _foo);
+            }
+            static  static() {
+                return _classStaticPrivateFieldSpecGet(Foo, Foo, _bar);
+            }
+            constructor(){
+                _foo.set(this, {
+                    writable: true,
+                    value: 'foo'
+                });
+            }
+        }
+        var _foo = new WeakMap();
+        var _bar = {
+            writable: true,
+            value: 'bar'
+        };
+        return Foo;
+    })();
 }
-
 "#
 );
 
