@@ -1227,9 +1227,9 @@ test!(
         foo[_key - 1] = arguments[_key];
     }
     if (true) {
-        let Foo = function(_Bar) {
+        let Foo = function(Bar) {
             'use strict';
-            _inherits(Foo, _Bar);
+            _inherits(Foo, Bar);
             function Foo() {
                 _classCallCheck(this, Foo);
                 return _possibleConstructorReturn(this,
