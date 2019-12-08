@@ -250,12 +250,12 @@ class B extends A {
         }]);
     return A;
 }();
-var B = function(_A) {
+var B = function(A) {
     'use strict';
-    _inherits(B, _A);
+    _inherits(B, A);
     function B(num) {
-        var _this;
         _classCallCheck(this, B);
+        var _this;
         _this = _possibleConstructorReturn(this, _getPrototypeOf(B).call(this));
         _this.b_num = num;
         return _this;
