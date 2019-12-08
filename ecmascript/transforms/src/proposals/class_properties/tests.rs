@@ -1020,11 +1020,22 @@ var foo = 'foo';
 var bar = ()=>{
 };
 var four = 4;
-var _ref = one(), _ref1 = 2 * 4 + 7, _ref2 = 2 * four + 7, _ref3 = 2 * four + seven,
-  _ref4 = null, _undefined = undefined, _ref5 = void 0, tmp = 'whatever',
-  tmp1 = 'whatever', tmp2 = computed(), tmp3 = computed(), tmp4 = 'test' + one,
-  tmp5 = 10, _ref6 = /regex/, _foo = foo, _bar = bar, _baz = baz,
-  _ref7 = `template`, _ref8 = `template${expression}`;
+var _ref = one(),
+        _ref1 = 2 * 4 + 7,
+        _ref2 = 2 * four + 7,
+        _ref3 = 2 * four + seven,
+        _ref4 = null,
+        _ref5 = void 0,
+        tmp = 'whatever',
+        tmp1 = 'whatever',
+        tmp2 = computed(),
+        tmp3 = computed(),
+        tmp4 = 'test' + one,
+        tmp5 = 10,
+        _ref6 = /regex/,
+        _ref7 = `template`,
+        _ref8 = `template${expression}`;
+
 var MyClass = function() {
     'use strict';
     function MyClass() {
