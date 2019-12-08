@@ -954,20 +954,15 @@ console.log(unpackArray(["hello", ", ", "world"], [1, 2, 3]));
 
 "#,
     r#"
-function somethingAdvanced(_ref, p2, p3) {
-  var _ref$topLeft = _ref.topLeft;
-  _ref$topLeft = _ref$topLeft === void 0 ? {} : _ref$topLeft;
-  var x1 = _ref$topLeft.x,
-      y1 = _ref$topLeft.y,
-      _ref$bottomRight = _ref.bottomRight;
-  _ref$bottomRight = _ref$bottomRight === void 0 ? {} : _ref$bottomRight;
-  var x2 = _ref$bottomRight.x,
-      y2 = _ref$bottomRight.y;
+function somethingAdvanced(param, p2, p3) {
+  var tmp = param.topLeft, ref = tmp === void 0 ? {
+    } : tmp, x1 = ref.x, y1 = ref.y, tmp1 = param.bottomRight, ref1 = tmp1 === void 0 ? {
+    } : tmp1, x2 = ref1.x, y2 = ref1.y;
 }
 
-function unpackObject(_ref2) {
-  var title = _ref2.title,
-      author = _ref2.author;
+function unpackObject(param) {
+  var title = param.title,
+      author = param.author;
   return title + " " + author;
 }
 
@@ -976,8 +971,7 @@ console.log(unpackObject({
   author: "author"
 }));
 
-var unpackArray = function (_ref3, _ref4) {
-var unpackArray = function(param, param1) {
+ var unpackArray = function(param, param1) {
     var _param = _slicedToArray(param, 3),
         a = _param[0],
         b = _param[1],
@@ -1130,16 +1124,14 @@ var { [x]: x, ...y } = z;
 var z = {};
 var x = _extends({
 }, z);
-var _z2 = z,
-    x = _z2.x,
-    y = _objectWithoutProperties(_z2, ["x"]);
-var _z3 = z,
-    x = _z3[x],
-    y = _objectWithoutProperties(_z3, [x].map(_toPropertyKey));
+var x = z.x,
+    y = _objectWithoutProperties(z, ["x"]);
+var x = z[x],
+    y = _objectWithoutProperties(z, [x].map(_toPropertyKey));
 
-(function (_ref) {
-  var x = _ref.x,
-      y = _objectWithoutProperties(_ref, ["x"]);
+(function (_param) {
+  var x = _param.x,
+      y = _objectWithoutProperties(_param, ["x"]);
 });
 
 var _o;
