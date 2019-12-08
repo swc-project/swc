@@ -2915,17 +2915,10 @@ function (_super) {
   }
 
   return TestEmpty;
-}(
-/*#__PURE__*/
-function () {
-  'use strict';
-
-  function _class() {
+}(function _class() {
+    'use strict';
     _classCallCheck(this, _class);
-  }
-
-  return _class;
-}());
+});
 
 var TestConstructorOnly =
 /*#__PURE__*/
@@ -2940,16 +2933,10 @@ function (_super) {
   }
 
   return TestConstructorOnly;
-}(/*#__PURE__*/
-function () {
+}(function _class() {
   'use strict';
-
-  function _class() {
-    _classCallCheck(this, _class);
-  }
-
-  return _class;
-}());
+  _classCallCheck(this, _class);
+});
 
 var TestMethodOnly =
 /*#__PURE__*/
@@ -3812,8 +3799,6 @@ expect(obj.test).toBe(3);
 );
 
 // exec_expression
-
-// regression_t7010
 
 // spec_this_not_allowed_before_super_in_derived_classes_2_exec
 test_exec!(
@@ -5735,6 +5720,8 @@ expect(obj.get()).toBeUndefined();
 
 // regression_t7010
 test!(
+    // TODO: Unignore this
+    ignore,
     syntax(),
     |_| chain!(tr(), block_scoping()),
     regression_t7010,
