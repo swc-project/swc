@@ -6,6 +6,7 @@ use crate::{
     },
 };
 use ast::*;
+use serde::Deserialize;
 use std::iter;
 use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Spanned, Visit, VisitWith, DUMMY_SP};
 
@@ -52,14 +53,20 @@ mod tests;
 ///   }
 /// }
 /// ```
-pub fn decorators() -> impl Pass {
+pub fn decorators(c: Config) -> impl Pass {
     Decorators {
+        c,
         is_in_strict: false,
     }
 }
 
-#[derive(Clone)]
+#[derive(Debug, Default, Deserialize)]
+pub struct Config {
+    pub legacy: bool,
+}
+
 struct Decorators {
+    c: Config,
     is_in_strict: bool,
 }
 

@@ -2,8 +2,10 @@ use super::*;
 use crate::{
     compat::es2015::{arrow, destructuring, es2015, function_name, parameters},
     fixer::fixer,
+    resolver,
 };
 use swc_common::chain;
+use swc_ecma_parser::Syntax;
 
 struct ParenRemover;
 impl Fold<Expr> for ParenRemover {
@@ -24,12 +26,16 @@ impl Fold<Expr> for ParenRemover {
     }
 }
 
+fn syntax() -> Syntax {
+    Syntax::default()
+}
+
 fn tr() -> impl Fold<Module> {
     chain!(
         ParenRemover,
         validating!(arrow()),
         validating!(parameters()),
-        validating!(destructuring()),
+        validating!(destructuring(destructuring::Config { loose: false })),
         validating!(function_name()),
         AsyncToGenerator {},
         fixer()
@@ -37,7 +43,7 @@ fn tr() -> impl Fold<Module> {
 }
 
 test!(
-    ::swc_ecma_parser::Syntax::default(),
+    syntax(),
     |_| tr(),
     issue_216,
     r#"
@@ -59,7 +65,7 @@ function foo(bar) {
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::default(),
+    syntax(),
     |_| tr(),
     async_arrow_in_method,
     r#"
@@ -93,7 +99,7 @@ let TestClass = {
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::default(),
+    syntax(),
     |_| tr(),
     async_default_arguments,
     r#"
@@ -111,7 +117,7 @@ function mandatory(paramName) {
 }
 function _foo() {
     _foo = _asyncToGenerator(function*(param) {
-        let ref = param ? param : _throw(new TypeError("Cannot destructure 'undefined' or 'null'")), a = ref.a, _ref$b = ref.b, b = _ref$b === void 0 ? mandatory('b') : _ref$b;
+        let a = param.a, _b = param.b, b = _b === void 0 ? mandatory('b') : _b;
         return Promise.resolve(b);
     });
     return _foo.apply(this, arguments);
@@ -123,7 +129,7 @@ function foo(param) {
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::default(),
+    syntax(),
     |_| tr(),
     async_iife,
     r#"
@@ -162,7 +168,7 @@ _asyncToGenerator(function*() {
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::default(),
+    syntax(),
     |_| tr(),
     r#async,
     r#"
@@ -185,7 +191,7 @@ class Foo {
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::default(),
+    syntax(),
     |_| tr(),
     deeply_nested_asyncs,
     r#"
@@ -247,7 +253,7 @@ function s(x) {
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::default(),
+    syntax(),
     |_| tr(),
     expression,
     r#"
@@ -294,86 +300,7 @@ var foo2 = function () {
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::default(),
-    |_| tr(),
-    function_arity,
-    r#"
-async function one(a, b = 1) {}
-async function two(a, b, ...c) {}
-async function three(a, b = 1, c, d = 3) {}
-async function four(a, b = 1, c, ...d) {}
-async function five(a, {b}){}
-async function six(a, {b} = {}){}
-"#,
-    r#"
-function _one() {
-  _one = _asyncToGenerator(function*(a, param) {
-    let b = param === void 0 ? 1 : param;
-  });
-  return _one.apply(this, arguments);
-}
-function one(a, param) {
-  return _one.apply(this, arguments);
-}
-function _two() {
-  _two = _asyncToGenerator(function*(a, b) {
-      for(let _len = arguments.length, c = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
-        c[_key - 2] = arguments[_key];
-      }
-  });
-  return _two.apply(this, arguments);
-}
-function two(a, b) {
-  return _two.apply(this, arguments);
-}
-function _three() {
-  _three = _asyncToGenerator(function*(a, param, c, param1) {
-    let b = param === void 0 ? 1 : param, d = param1 === void 0 ? 3 : param1;
-  });
-  return _three.apply(this, arguments);
-}
-function three(a, param, c, param1) {
-  return _three.apply(this, arguments);
-}
-function _four() {
-  _four = _asyncToGenerator(function*(a, param, c) {
-    let b = param === void 0 ? 1 : param;
-    for(let _len = arguments.length, d = new Array(_len > 3 ? _len - 3 : 0), _key = 3; _key < _len; _key++){
-      d[_key - 3] = arguments[_key];
-    }
-  });
-  return _four.apply(this, arguments);
-}
-function four(a, param, c) {
-  return _four.apply(this, arguments);
-}
-function _five() {
-  _five = _asyncToGenerator(function*(a, param) {
-    let ref = param ? param : _throw(new TypeError("Cannot destructure 'undefined' or 'null'")), b = ref.b;
-  });
-  return _five.apply(this, arguments);
-}
-function five(a, param) {
-  return _five.apply(this, arguments);
-}
-function _six() {
-  _six = _asyncToGenerator(function*(a, param) {
-    let ref = param === void 0 ? {
-      } : param, ref1 = ref ? ref : _throw(
-          new TypeError("Cannot destructure 'undefined' or 'null'")
-          ), b = ref1.b;
-
-  });
-  return _six.apply(this, arguments);
-}
-function six(a, param) {
-  return _six.apply(this, arguments);
-}
-"#
-);
-
-test!(
-    ::swc_ecma_parser::Syntax::default(),
+    syntax(),
     |_| tr(),
     named_expression,
     r#"
@@ -394,7 +321,7 @@ var foo = function() {
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::default(),
+    syntax(),
     |_| tr(),
     no_parameters_and_no_id,
     r#"
@@ -412,7 +339,7 @@ foo(function() {
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::default(),
+    syntax(),
     |_| tr(),
     object_method_with_arrows,
     r#"
@@ -488,7 +415,7 @@ class Class{
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::default(),
+    syntax(),
     |_| tr(),
     object_method_with_super,
     r#"class Foo extends class {} {
@@ -515,7 +442,7 @@ class Foo extends class{
 );
 
 test_exec!(
-    ::swc_ecma_parser::Syntax::default(),
+    syntax(),
     |_| tr(),
     class_method_this,
     r#"
@@ -534,7 +461,7 @@ return foo.foo().then(cur => {
 );
 
 test_exec!(
-    ::swc_ecma_parser::Syntax::default(),
+    syntax(),
     |_| tr(),
     class_method_super,
     r#"
@@ -558,7 +485,7 @@ return bar.bar().then(cur => {
 );
 
 test_exec!(
-    ::swc_ecma_parser::Syntax::default(),
+    syntax(),
     |_| tr(),
     class_getter_super,
     r#"
@@ -584,7 +511,7 @@ return bar.bar().then(foo => {
 );
 
 test_exec!(
-    ::swc_ecma_parser::Syntax::default(),
+    syntax(),
     |_| tr(),
     class_setter_super,
     r#"
@@ -611,7 +538,7 @@ return bar.bar().then(bar => {
 );
 
 test_exec!(
-    ::swc_ecma_parser::Syntax::default(),
+    syntax(),
     |_| tr(),
     class_method_this_complex,
     r#"
@@ -644,7 +571,7 @@ return c.method();
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::default(),
+    syntax(),
     |_| tr(),
     object_method,
     r#"
@@ -668,7 +595,7 @@ let obj = {
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::default(),
+    syntax(),
     |_| tr(),
     babel_parameters,
     r#"
@@ -688,7 +615,7 @@ function foo(bar) {
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::default(),
+    syntax(),
     |_| tr(),
     statement,
     r#"
@@ -711,7 +638,7 @@ function foo() {
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::default(),
+    syntax(),
     |_| tr(),
     issue_319,
     "export default obj({
@@ -730,8 +657,8 @@ test!(
 );
 
 test_exec!(
-    ::swc_ecma_parser::Syntax::default(),
-    |_| chain_at!(Module, tr(), es2015()),
+    syntax(),
+    |_| chain_at!(Module, tr(), es2015(Default::default())),
     issue_400_1,
     "class A {
     constructor() {
@@ -759,7 +686,7 @@ return (new B(20)).print().then(() => console.log('Done'));"
 );
 
 test_exec!(
-    ::swc_ecma_parser::Syntax::default(),
+    syntax(),
     |_| AsyncToGenerator,
     issue_400_2,
     "class A {
@@ -789,8 +716,8 @@ return (new B(20)).print().then(() => console.log('Done'));"
 );
 
 test_exec!(
-    ::swc_ecma_parser::Syntax::default(),
-    |_| chain_at!(Module, AsyncToGenerator, es2015()),
+    syntax(),
+    |_| chain_at!(Module, AsyncToGenerator, es2015(Default::default())),
     issue_400_3,
     "class A {
     constructor() {
@@ -803,4 +730,1365 @@ test_exec!(
 }
 
 return (new A()).print();"
+);
+
+//// regression_7178
+//test!(
+//    syntax(),
+//    |_| chain!(jsx(), jsc_constant_elements(), AsyncToGenerator {},),
+//    regression_7178,
+//    r#"
+//const title = "Neem contact op";
+//
+//async function action() {
+//  return <Contact title={title} />;
+//}
+//
+//"#,
+//    r#"
+//const title = "Neem contact op";
+//
+//function action() {
+//  return _action.apply(this, arguments);
+//}
+//
+//var _ref =
+// /*#__PURE__*/
+//React.createElement(Contact, {
+//  title: title
+//});
+//
+//function _action() {
+//  _action = _asyncToGenerator(function* () {
+//    return _ref;
+//  });
+//  return _action.apply(this, arguments);
+//}
+//
+//"#
+//);
+
+// bluebird_coroutines_named_expression
+test!(
+    ignore,
+    syntax(),
+    |_| AsyncToGenerator {},
+    bluebird_coroutines_named_expression,
+    r#"
+var foo = async function bar() {
+  console.log(bar);
+};
+
+"#,
+    r#"
+var _coroutine = require("bluebird").coroutine;
+
+var foo =
+/*#__PURE__*/
+function () {
+  var _bar = _coroutine(function* () {
+    console.log(bar);
+  });
+
+  function bar() {
+    return _bar.apply(this, arguments);
+  }
+
+  return bar;
+}();
+
+"#
+);
+
+// export_async_lone_export
+test!(
+    // TODO: Enable this test after implementing es6 module pass.
+    ignore,
+    syntax(),
+    |_| AsyncToGenerator {},
+    export_async_lone_export,
+    r#"
+export async function foo () { }
+
+"#,
+    r#"
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.foo = foo;
+
+function foo() {
+  return _foo.apply(this, arguments);
+}
+
+function _foo() {
+  _foo = _asyncToGenerator(function* () {});
+  return _foo.apply(this, arguments);
+}
+
+"#
+);
+
+// bluebird_coroutines_arrow_function
+test!(
+    ignore,
+    syntax(),
+    |_| AsyncToGenerator {},
+    bluebird_coroutines_arrow_function,
+    r#"
+(async () => { await foo(); })()
+
+"#,
+    r#"
+var _coroutine = require("bluebird").coroutine;
+
+_coroutine(function* () {
+  yield foo();
+})();
+
+"#
+);
+
+// regression_t6882
+
+// regression_t7194
+test!(
+    // Optimization
+    ignore,
+    syntax(),
+    |_| chain!(AsyncToGenerator {}, arrow()),
+    regression_t7194,
+    r#"
+function f() {
+  g(async function() {
+    c(() => this);
+  });
+}
+
+(async function () {
+  console.log('async wrapper:', this === 'foo')
+
+  ;(() => {
+    console.log('nested arrow:', this === 'foo')
+  })()
+}).call('foo')
+
+"#,
+    r#"
+function f() {
+  g(
+  /*#__PURE__*/
+  _asyncToGenerator(function* () {
+    var _this = this;
+
+    c(function () {
+      return _this;
+    });
+  }));
+}
+
+/*#__PURE__*/
+_asyncToGenerator(function* () {
+  var _this2 = this;
+
+  console.log('async wrapper:', this === 'foo');
+
+  (function () {
+    console.log('nested arrow:', _this2 === 'foo');
+  })();
+}).call('foo');
+
+"#
+);
+
+// async_to_generator_shadowed_promise
+test!(
+    // TODO: Unignore this
+    ignore,
+    syntax(),
+    |_| chain!(resolver(), AsyncToGenerator {}),
+    async_to_generator_shadowed_promise,
+    r#"
+let Promise;
+async function foo() {
+  await new Promise(resolve => { resolve() });
+}
+
+"#,
+    r#"
+let _Promise;
+
+function _foo() {
+  _foo = _asyncToGenerator(function* () {
+    yield new _Promise(resolve => {
+      resolve();
+    });
+  });
+  return _foo.apply(this, arguments);
+}
+
+function foo() {
+  return _foo.apply(this, arguments);
+}
+
+"#
+);
+
+// async_to_generator_object_method_with_arrows
+test!(
+    syntax(),
+    |_| AsyncToGenerator {},
+    async_to_generator_object_method_with_arrows,
+    r#"
+class Class {
+  async method() {
+    this;
+    () => this;
+    () => {
+      this;
+      () => this;
+      function x() {
+        this;
+        () => {this}
+        async () => {this}
+      }
+    }
+    function x() {
+      this;
+      () => {this}
+      async () => {this}
+    }
+  }
+}
+
+"#,
+    r#"
+class Class{
+     method() {
+        return _asyncToGenerator((function*() {
+            this;
+            ()=>this
+            ;
+            ()=>{
+                this;
+                ()=>this
+                ;
+                function x() {
+                    this;
+                    ()=>{
+                        this;
+                    };
+                    (function() {
+                        var _ref = _asyncToGenerator((function*() {
+                            this;
+                        }).bind(this));
+                        return function() {
+                            return _ref.apply(this, arguments);
+                        };
+                    })().bind(this);
+                }
+            };
+            function x() {
+                this;
+                ()=>{
+                    this;
+                };
+                (function() {
+                    var _ref = _asyncToGenerator((function*() {
+                        this;
+                    }).bind(this));
+                    return function() {
+                        return _ref.apply(this, arguments);
+                    };
+                })().bind(this);
+            }
+        }).bind(this))();
+    }
+}
+
+"#
+);
+
+// async_to_generator_object_method
+test!(
+    syntax(),
+    |_| AsyncToGenerator {},
+    async_to_generator_object_method,
+    r#"
+let obj = {
+  a: 123,
+  async foo(bar) {
+    return await baz(bar);
+  }
+}
+
+"#,
+    r#"
+let obj = {
+  a: 123,
+
+  foo(bar) {
+    return _asyncToGenerator(function* () {
+      return yield baz(bar);
+    })();
+  }
+
+};
+
+"#
+);
+
+// bluebird_coroutines_class
+test!(
+    ignore,
+    syntax(),
+    |_| AsyncToGenerator {},
+    bluebird_coroutines_class,
+    r#"
+class Foo {
+  async foo() {
+    var wat = await bar();
+  }
+}
+
+"#,
+    r#"
+var _coroutine = require("bluebird").coroutine;
+
+class Foo {
+  foo() {
+    return _coroutine(function* () {
+      var wat = yield bar();
+    })();
+  }
+
+}
+
+"#
+);
+
+// async_to_generator_async_iife_with_regenerator
+test!(
+    // regenerator is not implemented yet.
+    ignore,
+    syntax(),
+    |_| chain!(
+        AsyncToGenerator {},
+        //regenerator(),
+        arrow(),
+    ),
+    async_to_generator_async_iife_with_regenerator,
+    r#"
+(async function() { await 'ok' })();
+(async () => { await 'ok' })();
+(async function notIIFE() { await 'ok' });
+(async () => { await 'not iife' });
+
+"#,
+    r#"
+_asyncToGenerator(
+ /*#__PURE__*/
+regeneratorRuntime.mark(function _callee() {
+  return regeneratorRuntime.wrap(function _callee$(_context) {
+    while (1) switch (_context.prev = _context.next) {
+      case 0:
+        _context.next = 2;
+        return 'ok';
+
+      case 2:
+      case "end":
+        return _context.stop();
+    }
+  }, _callee);
+}))();
+_asyncToGenerator(
+ /*#__PURE__*/
+regeneratorRuntime.mark(function _callee2() {
+  return regeneratorRuntime.wrap(function _callee2$(_context2) {
+    while (1) switch (_context2.prev = _context2.next) {
+      case 0:
+        _context2.next = 2;
+        return 'ok';
+
+      case 2:
+      case "end":
+        return _context2.stop();
+    }
+  }, _callee2);
+}))();
+
+ /*#__PURE__*/
+(function () {
+  var _notIIFE = _asyncToGenerator(
+  /*#__PURE__*/
+  regeneratorRuntime.mark(function _callee3() {
+    return regeneratorRuntime.wrap(function _callee3$(_context3) {
+      while (1) switch (_context3.prev = _context3.next) {
+        case 0:
+          _context3.next = 2;
+          return 'ok';
+
+        case 2:
+        case "end":
+          return _context3.stop();
+      }
+    }, _callee3);
+  }));
+
+  function notIIFE() {
+    return _notIIFE.apply(this, arguments);
+  }
+
+  return notIIFE;
+})();
+
+ /*#__PURE__*/
+_asyncToGenerator(
+ /*#__PURE__*/
+regeneratorRuntime.mark(function _callee4() {
+  return regeneratorRuntime.wrap(function _callee4$(_context4) {
+    while (1) switch (_context4.prev = _context4.next) {
+      case 0:
+        _context4.next = 2;
+        return 'not iife';
+
+      case 2:
+      case "end":
+        return _context4.stop();
+    }
+  }, _callee4);
+}));
+
+"#
+);
+
+//// regression_gh_6923
+//test!(syntax(),|_| tr("{
+//  "presets": [
+//    [
+//      "env",
+//      {
+//        "targets": {
+//          "chrome": "62",
+//          "edge": "15",
+//          "firefox": "52",
+//          "safari": "11"
+//        }
+//      }
+//    ]
+//  ]
+//}
+//"), regression_gh_6923, r#"
+//async function foo() {
+//	(async function (number) {
+//		const tmp = number
+//	})
+//}
+//"#, r#"
+//function foo() {
+//  return _foo.apply(this, arguments);
+//}
+//
+//function _foo() {
+//  _foo = _asyncToGenerator(
+//  /*#__PURE__*/
+//  regeneratorRuntime.mark(function _callee2() {
+//    return regeneratorRuntime.wrap(function _callee2$(_context2) {
+//      while (1) switch (_context2.prev = _context2.next) {
+//        case 0:
+//          /*#__PURE__*/
+//          (function () {
+//            var _ref = _asyncToGenerator(
+//            /*#__PURE__*/
+//            regeneratorRuntime.mark(function _callee(number) {
+//              var tmp;
+//              return regeneratorRuntime.wrap(function _callee$(_context) {
+//                while (1) switch (_context.prev = _context.next) {
+//                  case 0:
+//                    tmp = number;
+//
+//                  case 1:
+//                  case "end":
+//                    return _context.stop();
+//                }
+//              }, _callee);
+//            }));
+//
+//            return function (_x) {
+//              return _ref.apply(this, arguments);
+//            };
+//          })();
+//
+//        case 1:
+//        case "end":
+//          return _context2.stop();
+//      }
+//    }, _callee2);
+//  }));
+//  return _foo.apply(this, arguments);
+//}
+//
+//"#);
+
+// async_to_generator_named_expression
+test!(
+    syntax(),
+    |_| AsyncToGenerator {},
+    async_to_generator_named_expression,
+    r#"
+var foo = async function bar() {
+  console.log(bar);
+};
+
+"#,
+    r#"
+var foo =
+/*#__PURE__*/
+function () {
+  var _bar = _asyncToGenerator(function* () {
+    console.log(bar);
+  });
+
+  return function bar() {
+    return _bar.apply(this, arguments);
+  };
+
+}();
+
+"#
+);
+
+//// async_to_generator_async_iife_with_regenerator_spec
+//test!(
+//    syntax(),
+//    |_| chain!(AsyncToGenerator {}, arrow(), regenerator(),),
+//    async_to_generator_async_iife_with_regenerator_spec,
+//    r#"
+//(async function() { await 'ok' })();
+//(async () => { await 'ok' })();
+//(async function notIIFE() { await 'ok' });
+//(async () => { await 'not iife' });
+//
+//"#,
+//    r#"
+//var _this = this;
+//
+//_asyncToGenerator(
+// /*#__PURE__*/
+//regeneratorRuntime.mark(function _callee() {
+//  return regeneratorRuntime.wrap(function _callee$(_context) {
+//    while (1) switch (_context.prev = _context.next) {
+//      case 0:
+//        _context.next = 2;
+//        return 'ok';
+//
+//      case 2:
+//      case "end":
+//        return _context.stop();
+//    }
+//  }, _callee);
+//}))();
+//_asyncToGenerator(
+// /*#__PURE__*/
+//regeneratorRuntime.mark(function _callee2() {
+//  return regeneratorRuntime.wrap(function _callee2$(_context2) {
+//    while (1) switch (_context2.prev = _context2.next) {
+//      case 0:
+//        _newArrowCheck(this, _this);
+//        _context2.next = 3;
+//        return 'ok';
+//
+//      case 3:
+//      case "end":
+//        return _context2.stop();
+//    }
+//  }, _callee2, this);
+//})).bind(this)();
+//
+// /*#__PURE__*/
+//(function () {
+//  var _notIIFE = _asyncToGenerator(
+//  /*#__PURE__*/
+//  regeneratorRuntime.mark(function _callee3() {
+//    return regeneratorRuntime.wrap(function _callee3$(_context3) {
+//      while (1) switch (_context3.prev = _context3.next) {
+//        case 0:
+//          _context3.next = 2;
+//          return 'ok';
+//
+//        case 2:
+//        case "end":
+//          return _context3.stop();
+//      }
+//    }, _callee3);
+//  }));
+//
+//  function notIIFE() {
+//    return _notIIFE.apply(this, arguments);
+//  }
+//
+//  return notIIFE;
+//})();
+//
+// /*#__PURE__*/
+//_asyncToGenerator(
+// /*#__PURE__*/
+//regeneratorRuntime.mark(function _callee4() {
+//  return regeneratorRuntime.wrap(function _callee4$(_context4) {
+//    while (1) switch (_context4.prev = _context4.next) {
+//      case 0:
+//        _newArrowCheck(this, _this);
+//        _context4.next = 3;
+//        return 'not iife';
+//
+//      case 3:
+//      case "end":
+//        return _context4.stop();
+//    }
+//  }, _callee4, this);
+//})).bind(this);
+//
+//"#
+//);
+
+// async_to_generator_async_arrow_in_method
+test!(
+    syntax(),
+    |_| AsyncToGenerator {},
+    async_to_generator_async_arrow_in_method,
+    r#"
+let TestClass = {
+  name: "John Doe",
+
+  testMethodFailure() {
+    return new Promise(async (resolve) => {
+      console.log(this);
+      setTimeout(resolve, 1000);
+    });
+  }
+};
+
+"#,
+    r#"
+let TestClass = {
+    name: 'John Doe',
+    testMethodFailure () {
+        return new Promise((function(resolve) {
+            var _ref = _asyncToGenerator((function*(resolve) {
+                console.log(this);
+                setTimeout(resolve, 1000);
+            }).bind(this));
+            return function() {
+                return _ref.apply(this, arguments);
+            };
+        })().bind(this));
+    }
+};
+
+"#
+);
+
+// bluebird_coroutines_statement
+test!(
+    ignore,
+    syntax(),
+    |_| AsyncToGenerator {},
+    bluebird_coroutines_statement,
+    r#"
+async function foo() {
+  var wat = await bar();
+}
+
+"#,
+    r#"
+var _coroutine = require("bluebird").coroutine;
+
+function _foo() {
+  _foo = _coroutine(function* () {
+    var wat = yield bar();
+  });
+  return _foo.apply(this, arguments);
+}
+
+function foo() {
+  return _foo.apply(this, arguments);
+}
+"#
+);
+
+// regression_4943
+test!(
+    syntax(),
+    |_| chain!(
+        AsyncToGenerator {},
+        parameters(),
+        destructuring(destructuring::Config { loose: false }),
+    ),
+    regression_4943,
+    r#"
+"use strict";
+
+function mandatory(paramName) {
+  throw new Error(`Missing parameter: ${paramName}`);
+}
+
+async function foo({ a, b = mandatory("b") }) {
+  return Promise.resolve(b);
+}
+
+"#,
+    r#"
+"use strict";
+
+function mandatory(paramName) {
+  throw new Error(`Missing parameter: ${paramName}`);
+}
+
+function _foo() {
+  _foo = _asyncToGenerator(function* (param) {
+    let a = param.a,
+        _b = param.b,
+        b = _b === void 0 ? mandatory("b") : _b;
+    return Promise.resolve(b);
+  });
+  return _foo.apply(this, arguments);
+}
+
+function foo(_) {
+    return _foo.apply(this, arguments);
+}
+
+"#
+);
+
+// export_async_default_arrow_export
+test!(
+    // TODO: Enable this test after implementing es6 module pass.
+    ignore,
+    syntax(),
+    |_| AsyncToGenerator {},
+    export_async_default_arrow_export,
+    r#"
+export default async () => { return await foo(); }
+
+"#,
+    r#"
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _default =
+/*#__PURE__*/
+_asyncToGenerator(function* () {
+  return yield foo();
+});
+
+exports.default = _default;
+
+"#
+);
+
+// async_to_generator_function_arity
+test!(
+    syntax(),
+    |_| AsyncToGenerator {},
+    async_to_generator_function_arity,
+    r#"
+async function one(a, b = 1) {}
+async function two(a, b, ...c) {}
+async function three(a, b = 1, c, d = 3) {}
+async function four(a, b = 1, c, ...d) {}
+async function five(a, {b}){}
+async function six(a, {b} = {}){}
+
+"#,
+    r#"
+
+function _one() {
+  _one = _asyncToGenerator(function* (a, b = 1) {});
+  return _one.apply(this, arguments);
+}
+
+function one(a) {
+  return _one.apply(this, arguments);
+}
+
+function _two() {
+  _two = _asyncToGenerator(function* (a, b, ...c) {});
+  return _two.apply(this, arguments);
+}
+
+function two(a, b) {
+  return _two.apply(this, arguments);
+}
+
+function _three() {
+  _three = _asyncToGenerator(function* (a, b = 1, c, d = 3) {});
+  return _three.apply(this, arguments);
+}
+
+function three(a) {
+  return _three.apply(this, arguments);
+}
+
+function _four() {
+  _four = _asyncToGenerator(function* (a, b = 1, c, ...d) {});
+  return _four.apply(this, arguments);
+}
+
+function four(a) {
+  return _four.apply(this, arguments);
+}
+
+function _five() {
+  _five = _asyncToGenerator(function* (a, {
+    b
+  }) {});
+  return _five.apply(this, arguments);
+}
+
+function five(a, _) {
+  return _five.apply(this, arguments);
+}
+
+function _six() {
+  _six = _asyncToGenerator(function* (a, {
+    b
+  } = {}) {});
+  return _six.apply(this, arguments);
+}
+
+function six(a) {
+  return _six.apply(this, arguments);
+}
+
+"#
+);
+
+// async_to_generator_object_method_with_super
+test!(
+    // TODO: Implement caching
+    ignore,
+    syntax(),
+    |_| AsyncToGenerator {},
+    async_to_generator_object_method_with_super_caching,
+    r#"
+class Foo extends class {} {
+  async method() {
+    super.method();
+
+    var arrow = () => super.method();
+  }
+}
+
+"#,
+    r#"
+class Foo extends class {} {
+  method() {
+    var _superprop_getMethod = () => super.method,
+        _this = this;
+
+    return _asyncToGenerator(function* () {
+      _superprop_getMethod().call(_this);
+
+      var arrow = () => _superprop_getMethod().call(_this);
+    })();
+  }
+
+}
+
+"#
+);
+
+// export_async_default_export
+test!(
+    // TODO: Enable this test after implementing es6 module pass.
+    ignore,
+    syntax(),
+    |_| AsyncToGenerator {},
+    export_async_default_export,
+    r#"
+export default async function myFunc() {}
+
+"#,
+    r#"
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = myFunc;
+
+function myFunc() {
+  return _myFunc.apply(this, arguments);
+}
+
+function _myFunc() {
+  _myFunc = _asyncToGenerator(function* () {});
+  return _myFunc.apply(this, arguments);
+}
+
+"#
+);
+
+// async_to_generator_async
+test!(
+    syntax(),
+    |_| AsyncToGenerator {},
+    async_to_generator_async,
+    r#"
+class Foo {
+  async foo() {
+    var wat = await bar();
+  }
+}
+
+"#,
+    r#"
+class Foo {
+  foo() {
+    return _asyncToGenerator(function* () {
+      var wat = yield bar();
+    })();
+  }
+
+}
+
+"#
+);
+
+// regression_8783
+test!(
+    syntax(),
+    |_| AsyncToGenerator {},
+    regression_8783,
+    r#"
+(async function poll() {
+  console.log(await Promise.resolve('Hello'))
+  setTimeout(poll, 1000);
+})();
+"#,
+    r#"
+(function () {
+  var _poll = _asyncToGenerator(function* () {
+    console.log((yield Promise.resolve('Hello')));
+    setTimeout(poll, 1000);
+  });
+
+  return function poll() {
+    return _poll.apply(this, arguments);
+  }
+})()();
+
+"#
+);
+
+// async_to_generator_deeply_nested_asyncs
+test!(
+    syntax(),
+    |_| AsyncToGenerator {},
+    async_to_generator_deeply_nested_asyncs,
+    r#"
+async function s(x, ...args) {
+  let t = async (y, a) => {
+    let r = async (z, b, ...innerArgs) =>  {
+      await z;
+      console.log(this, innerArgs, arguments);
+      return this.x;
+    }
+    await r();
+
+    console.log(this, args, arguments);
+    return this.g(r);
+  }
+
+  await t();
+  return this.h(t);
+}
+
+"#,
+    r#"
+function _s() {
+    _s = _asyncToGenerator((function*(x, ...args) {
+        let t = (function(y, a) {
+            var _ref = _asyncToGenerator((function*(y, a) {
+                let r = (function(z, b) {
+                    var _ref1 = _asyncToGenerator((function*(z, b, ...innerArgs) {
+                        yield z;
+                        console.log(this, innerArgs, arguments);
+                        return this.x;
+                    }).bind(this));
+                    return function() {
+                        return _ref1.apply(this, arguments);
+                    };
+                })().bind(this);
+                yield r();
+                console.log(this, args, arguments);
+                return this.g(r);
+            }).bind(this));
+            return function() {
+                return _ref.apply(this, arguments);
+            };
+        })().bind(this);
+        yield t();
+        return this.h(t);
+    }).bind(this));
+    return _s.apply(this, arguments);
+}
+
+
+function s(x) {
+  return _s.apply(this, arguments);
+}
+
+"#
+);
+
+// export_async_import_and_export
+test!(
+    // TODO: Enable this test after implementing es6 module pass.
+    ignore,
+    syntax(),
+    |_| AsyncToGenerator {},
+    export_async_import_and_export,
+    r#"
+import bar from 'bar';
+
+export async function foo () { }
+
+"#,
+    r#"
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.foo = foo;
+
+var _bar = _interopRequireDefault(require("bar"));
+
+function foo() {
+  return _foo.apply(this, arguments);
+}
+
+function _foo() {
+  _foo = _asyncToGenerator(function* () {});
+  return _foo.apply(this, arguments);
+}
+
+"#
+);
+
+// async_to_generator_shadowed_promise_nested
+test!(
+    // TODO: Unignore this
+    ignore,
+    syntax(),
+    |_| chain!(resolver(), AsyncToGenerator {}),
+    async_to_generator_shadowed_promise_nested,
+    r#"
+let Promise;
+
+async function foo() {
+  let Promise;
+
+  await bar();
+
+  async function bar() {
+    return Promise.resolve();
+  }
+}
+
+"#,
+    r#"
+let _Promise;
+
+function _foo() {
+  _foo = _asyncToGenerator(function* () {
+    let Promise;
+    yield bar();
+
+    function _bar() {
+      _bar = _asyncToGenerator(function* () {
+        return Promise.resolve();
+      });
+      return _bar.apply(this, arguments);
+    }
+    
+    function bar() {
+      return _bar.apply(this, arguments);
+    }
+  });
+  return _foo.apply(this, arguments);
+}
+
+function foo() {
+  return _foo.apply(this, arguments);
+}
+
+"#
+);
+
+// bluebird_coroutines
+
+// export_async
+
+// regression_4599
+test!(
+    syntax(),
+    |_| AsyncToGenerator {},
+    regression_4599,
+    r#"
+async () => await promise
+
+async () => { await promise }
+
+"#,
+    r#"
+/*#__PURE__*/
+_asyncToGenerator(function* () {
+  return yield promise;
+});
+
+/*#__PURE__*/
+_asyncToGenerator(function* () {
+  yield promise;
+});
+
+"#
+);
+
+// regression_4943_exec
+test_exec!(
+    syntax(),
+    |_| AsyncToGenerator {},
+    regression_4943_exec,
+    r#"
+"use strict";
+
+function mandatory(paramName) {
+  throw new Error(`Missing parameter: ${paramName}`);
+}
+
+async function foo({ a, b = mandatory("b") } = {}) {
+  return Promise.resolve(b);
+}
+
+return foo().then(() => {
+  throw new Error('should not occur');
+}, () => true);
+
+"#
+);
+
+// regression_8783_exec
+test_exec!(
+    syntax(),
+    |_| AsyncToGenerator {},
+    regression_8783_exec,
+    r#"
+let log = [];
+
+let resolve;
+const main = new Promise(r => { resolve = r });
+
+(async function poll(count) {
+  log.push(await Promise.resolve(count))
+  if (count < 3) setTimeout(poll, 10, count + 1);
+  else resolve();
+})(0)
+
+return main.then(() => {
+  expect(log).toEqual([0, 1, 2, 3]);
+});
+
+"#
+);
+
+// bluebird_coroutines_expression
+test!(
+    ignore,
+    syntax(),
+    |_| AsyncToGenerator {},
+    bluebird_coroutines_expression,
+    r#"
+var foo = async function () {
+  var wat = await bar();
+};
+
+"#,
+    r#"
+var _coroutine = require("bluebird").coroutine;
+
+var foo =
+/*#__PURE__*/
+function () {
+  var _ref = _coroutine(function* () {
+    var wat = yield bar();
+  });
+
+  return function foo() {
+    return _ref.apply(this, arguments);
+  };
+}();
+
+"#
+);
+
+// async_to_generator_expression
+test!(
+    syntax(),
+    |_| AsyncToGenerator {},
+    async_to_generator_expression,
+    r#"
+var foo = async function () {
+  var wat = await bar();
+};
+
+var foo2 = async function () {
+  var wat = await bar();
+},
+bar = async function () {
+  var wat = await foo();
+};
+
+"#,
+    r#"
+var foo =
+/*#__PURE__*/
+function () {
+  var _ref = _asyncToGenerator(function* () {
+    var wat = yield bar();
+  });
+
+  return function () {
+    return _ref.apply(this, arguments);
+  };
+}();
+
+var foo2 =
+/*#__PURE__*/
+function () {
+  var _ref = _asyncToGenerator(function* () {
+    var wat = yield bar();
+  });
+
+  return function () {
+    return _ref.apply(this, arguments);
+  };
+}(),
+    bar =
+/*#__PURE__*/
+function () {
+  var _ref = _asyncToGenerator(function* () {
+    var wat = yield foo();
+  });
+
+  return function () {
+    return _ref.apply(this, arguments);
+  };
+}();
+
+"#
+);
+
+// async_to_generator_statement
+test!(
+    syntax(),
+    |_| AsyncToGenerator {},
+    async_to_generator_statement,
+    r#"
+async function foo() {
+  var wat = await bar();
+}
+
+"#,
+    r#"
+function _foo() {
+  _foo = _asyncToGenerator(function* () {
+    var wat = yield bar();
+  });
+  return _foo.apply(this, arguments);
+}
+
+function foo() {
+  return _foo.apply(this, arguments);
+}
+
+"#
+);
+
+// async_to_generator_shadowed_promise_import
+test!(
+    // TODO: Unignore this
+    ignore,
+    syntax(),
+    |_| chain!(resolver(), AsyncToGenerator {}),
+    async_to_generator_shadowed_promise_import,
+    r#"
+import Promise from 'somewhere';
+
+async function foo() {
+  await Promise.resolve();
+}
+
+"#,
+    r#"
+import _Promise from 'somewhere';
+
+function _foo() {
+  _foo = _asyncToGenerator(function* () {
+    yield _Promise.resolve();
+  });
+  return _foo.apply(this, arguments);
+}
+
+function foo() {
+  return _foo.apply(this, arguments);
+}
+
+"#
+);
+
+// async_to_generator_parameters
+test!(
+    syntax(),
+    |_| AsyncToGenerator {},
+    async_to_generator_parameters,
+    r#"
+async function foo(bar) {
+
+}
+
+"#,
+    r#"
+function _foo() {
+  _foo = _asyncToGenerator(function* (bar) {});
+  return _foo.apply(this, arguments);
+}
+
+function foo(bar) {
+  return _foo.apply(this, arguments);
+}
+"#
+);
+
+// async_to_generator
+
+// regression_t6882_exec
+test_exec!(
+    syntax(),
+    |_| AsyncToGenerator {},
+    regression_t6882_exec,
+    r#"
+foo();
+
+async function foo() {}
+
+"#
 );

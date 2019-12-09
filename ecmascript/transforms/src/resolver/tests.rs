@@ -887,3 +887,25 @@ function se(t, e, n, r) {
 }
 "
 );
+
+identical!(
+    in_constructor,
+    "
+class C {
+}
+
+class A extends C {
+  constructor() {
+    super();
+
+    class B extends C {
+      constructor() {
+        super();
+      }
+    }
+
+    new B();
+  }
+}
+"
+);

@@ -126,6 +126,7 @@ impl Options {
             syntax,
             external_helpers,
             target,
+            loose,
         } = config.jsc;
 
         let syntax = syntax.unwrap_or_default();
@@ -171,7 +172,7 @@ impl Options {
             resolver(),
             const_modules,
             pass,
-            Optional::new(decorators(), syntax.decorators()),
+            Optional::new(decorators(Default::default()), syntax.decorators()),
             Optional::new(class_properties(), syntax.class_props()),
             Optional::new(
                 export(),
@@ -181,7 +182,7 @@ impl Options {
             json_parse_pass
         );
 
-        let pass = PassBuilder::new(&cm, &handler, pass)
+        let pass = PassBuilder::new(&cm, &handler, loose, pass)
             .target(target)
             .finalize(config.module);
 
@@ -412,6 +413,9 @@ pub struct JscConfig {
 
     #[serde(default)]
     pub target: JscTarget,
+
+    #[serde(default)]
+    pub loose: bool,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

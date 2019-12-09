@@ -6,7 +6,7 @@ use ast::*;
 use sourcemap::SourceMapBuilder;
 use std::{
     fmt,
-    fs::{create_dir_all, OpenOptions},
+    fs::{create_dir_all, remove_dir_all, OpenOptions},
     io::{self, Write},
     path::Path,
     process::Command,
@@ -304,6 +304,14 @@ where
                 input
             ),
         )?;
+        match ::std::env::var("PRINT_HYGIENE") {
+            Ok(ref s) if s == "1" => {
+                let hygiene_src = tester.print(&module.clone().fold_with(&mut HygieneVisualizer));
+                println!("----- Hygiene -----\n{}", hygiene_src);
+            }
+            _ => {}
+        }
+
         let module = module
             .fold_with(&mut crate::debug::validator::Validator { name: "actual-1" })
             .fold_with(&mut crate::hygiene::hygiene())
@@ -319,6 +327,9 @@ where
             .join("target")
             .join("testing")
             .join(test_name);
+
+        // Remove outputs from previous tests
+        let _ = remove_dir_all(&root);
 
         create_dir_all(&root).expect("failed to create parent directory for temp directory");
 

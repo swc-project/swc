@@ -57,7 +57,7 @@ impl Fold<Expr> for ObjectLitFolder {
         let expr = expr.fold_children(self);
 
         match expr {
-            Expr::Object(ObjectLit { props, span }) => {
+            Expr::Object(ObjectLit { mut props, span }) => {
                 if !is_complex(&props) {
                     return Expr::Object(ObjectLit { span, props });
                 }
@@ -68,17 +68,31 @@ impl Fold<Expr> for ObjectLitFolder {
                 let mut exprs = Vec::with_capacity(props.len() + 2);
                 let mutator_map = quote_ident!(span.apply_mark(mark), "_mutatorMap");
 
-                exprs.push(box Expr::Assign(AssignExpr {
-                    span: DUMMY_SP,
-                    left: PatOrExpr::Pat(box Pat::Ident(obj_ident.clone())),
-                    op: op!("="),
-                    right: box Expr::Object(ObjectLit {
-                        span: DUMMY_SP,
-                        props: vec![],
-                    }),
-                }));
+                // Optimization
+                let obj_props = {
+                    let idx = props.iter().position(|v| is_complex(v)).unwrap_or(0);
+
+                    props.drain(0..idx).collect()
+                };
 
                 let props_cnt = props.len();
+
+                exprs.push(if props_cnt == 1 {
+                    box Expr::Object(ObjectLit {
+                        span: DUMMY_SP,
+                        props: obj_props,
+                    })
+                } else {
+                    box Expr::Assign(AssignExpr {
+                        span: DUMMY_SP,
+                        left: PatOrExpr::Pat(box Pat::Ident(obj_ident.clone())),
+                        op: op!("="),
+                        right: box Expr::Object(ObjectLit {
+                            span: DUMMY_SP,
+                            props: obj_props,
+                        }),
+                    })
+                });
 
                 for prop in props {
                     let span = prop.span();
@@ -196,15 +210,7 @@ impl Fold<Expr> for ObjectLitFolder {
                         return Expr::Call(CallExpr {
                             span,
                             callee: helper!(define_property, "defineProperty"),
-                            args: vec![
-                                ObjectLit {
-                                    span,
-                                    props: vec![],
-                                }
-                                .as_arg(),
-                                key.as_arg(),
-                                value.as_arg(),
-                            ],
+                            args: vec![exprs.pop().unwrap().as_arg(), key.as_arg(), value.as_arg()],
                             type_args: Default::default(),
                         });
                     }
@@ -252,24 +258,24 @@ impl Fold<Expr> for ObjectLitFolder {
     }
 }
 
-fn is_complex(props: &[PropOrSpread]) -> bool {
-    #[derive(Default)]
-    struct Visitor {
-        found: bool,
-    }
+fn is_complex<T: VisitWith<ComplexVisitor>>(node: &T) -> bool {
+    let mut visitor = ComplexVisitor::default();
+    node.visit_children(&mut visitor);
+    visitor.found
+}
 
-    impl Visit<PropName> for Visitor {
-        fn visit(&mut self, pn: &PropName) {
-            match *pn {
-                PropName::Computed(..) => self.found = true,
-                _ => {}
-            }
+#[derive(Default)]
+struct ComplexVisitor {
+    found: bool,
+}
+
+impl Visit<PropName> for ComplexVisitor {
+    fn visit(&mut self, pn: &PropName) {
+        match *pn {
+            PropName::Computed(..) => self.found = true,
+            _ => {}
         }
     }
-
-    let mut visitor = Visitor::default();
-    props.visit_children(&mut visitor);
-    visitor.found
 }
 
 impl<T> Fold<Vec<T>> for ComputedProps

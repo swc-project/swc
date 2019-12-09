@@ -21,20 +21,6 @@ macro_rules! ne {
     }};
 }
 
-macro_rules! eq {
-    ($v:expr, $T:ty, $l:expr, $r:expr) => {{
-        debug_assert_eq!(
-            $l,
-            $r,
-            "{}: {}: {} should be same as {}",
-            $v.name,
-            stringify!($T),
-            stringify!($l),
-            stringify!($r),
-        );
-    }};
-}
-
 macro_rules! lte {
     ($v:expr, $T:ty, $l:expr, $r:expr) => {{
         debug_assert!(
@@ -116,7 +102,7 @@ impl Fold<AssignExpr> for Validator {
         }
 
         if !node.left.span().is_dummy() {
-            eq!(self, AssignExpr, node.left.span().lo(), node.span().lo());
+            gte!(self, AssignExpr, node.left.span().lo(), node.span().lo());
         }
 
         //        if !node.right.span().is_dummy() {

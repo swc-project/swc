@@ -26,9 +26,9 @@ macro_rules! external_name {
     };
 }
 
-macro_rules! helper {
+macro_rules! helper_expr {
     ($field_name:ident, $s:tt) => {{
-        helper!(::swc_common::DUMMY_SP, $field_name, $s)
+        helper_expr!(::swc_common::DUMMY_SP, $field_name, $s)
     }};
 
     ($span:expr, $field_name:ident, $s:tt) => {{
@@ -41,12 +41,20 @@ macro_rules! helper {
         let external = crate::helpers::HELPERS.with(|helper| helper.external());
 
         if external {
-            quote_ident!(span, "swcHelpers")
-                .member(quote_ident!($span, external_name!($s)))
-                .as_callee()
+            quote_ident!(span, "swcHelpers").member(quote_ident!($span, external_name!($s)))
         } else {
-            quote_ident!(span, concat!('_', $s)).as_callee()
+            Expr::from(quote_ident!(span, concat!('_', $s)))
         }
+    }};
+}
+
+macro_rules! helper {
+    ($field_name:ident, $s:tt) => {{
+        helper!(::swc_common::DUMMY_SP, $field_name, $s)
+    }};
+
+    ($span:expr, $field_name:ident, $s:tt) => {{
+        helper_expr!($span, $field_name, $s).as_callee()
     }};
 }
 

@@ -1,5 +1,9 @@
 use super::*;
-use crate::{proposals::class_properties, resolver::resolver, typescript};
+use crate::{
+    proposals::{class_properties, decorators},
+    resolver::resolver,
+    typescript,
+};
 use swc_common::chain;
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 
@@ -13,12 +17,12 @@ fn syntax(decorators_before_export: bool) -> Syntax {
 }
 
 fn tr() -> impl Fold<Module> {
-    chain!(decorators(), class_properties(),)
+    chain!(decorators(Default::default()), class_properties(),)
 }
 
 /// Folder for `transformation_*` tests
 fn transformation() -> impl Fold<Module> {
-    chain!(decorators(), class_properties(),)
+    chain!(decorators(Default::default()), class_properties(),)
 }
 
 // transformation_declaration
@@ -1212,7 +1216,7 @@ function* g() {
       F: A,
       d: []
     };
-  }, yield B);
+  }, (yield B));
 }
 
 "#
@@ -2015,4 +2019,2156 @@ let A = _decorate([], function(_initialize) {
     };
 });
 "
+);
+
+// legacy_class_constructors_return_new_constructor
+test_exec!(
+    // legacy decorator: https://github.com/swc-project/swc/issues/421
+    ignore,
+    syntax(false),
+    |_| chain!(
+        decorators(decorators::Config { legacy: true }),
+        class_properties(),
+    ),
+    legacy_class_constructors_return_new_constructor_exec,
+    r#"
+function dec(cls){
+  return class Child extends cls {
+    child(){}
+  };
+}
+
+@dec
+class Parent {
+  parent(){}
+}
+
+expect(typeof Parent.prototype.parent).toBe("function");
+expect(typeof Parent.prototype.child).toBe("function");
+
+"#
+);
+
+// legacy_regression_10264
+test!(
+    // legacy decorator: https://github.com/swc-project/swc/issues/421
+    ignore,
+    syntax(false),
+    |_| chain!(
+        typescript::strip(),
+        decorators(decorators::Config { legacy: true })
+    ),
+    legacy_regression_10264,
+    r#"
+function myDecorator(decoratee) {}
+
+@myDecorator
+export default class {}
+
+"#,
+    r#"
+var _class2;
+
+function myDecorator(decoratee) {}
+
+let _class = myDecorator(_class2 = class {}) || _class2;
+
+export { _class as default };
+
+"#
+);
+
+//// legacy_regression_7030
+//test!(
+//    syntax(false),
+//    |_| tr(r#"{
+//  "presets": ["env"]
+//}
+//"#),
+//    legacy_regression_7030,
+//    r#"
+//function generateAsyncAction(type) {
+//  type = type.toUpperCase()
+//  const request = createAction(type+'_REQUEST',
+//      undefined, requestMetaCreator
+//  )
+//  request.request = request // crazy
+//  request.success = createAction(type+'_SUCCESS', undefined, metaCreator)
+//  request.error = createAction(type+'_ERROR', undefined, metaCreator)
+//  request.cancel = createAction(type+'_CANCEL', undefined, metaCreator)
+//  request.progress = createAction(type+'_PROGRESS', undefined, metaCreator)
+//  request.process = createAction(type+'_PROCESS', undefined, metaCreator)
+//
+//  return request
+//}
+//
+//class A extends B {
+//  constructor(timestamp) {
+//    super()
+//    this.timestamp = timestamp
+//    this.moment = moment(timestamp)
+//  }
+//}
+//
+//"#,
+//    r#"
+//function _typeof(obj) { if (typeof Symbol === "function" && typeof
+// Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return
+// typeof obj; }; } else { _typeof = function _typeof(obj) { return obj &&
+// typeof Symbol === "function" && obj.constructor === Symbol && obj !==
+// Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+//
+//function _classCallCheck(instance, Constructor) { if (!(instance instanceof
+// Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+//
+//function _possibleConstructorReturn(self, call) { if (call && (_typeof(call)
+// === "object" || typeof call === "function")) { return call; } return
+// _assertThisInitialized(self); }
+//
+//function _assertThisInitialized(self) { if (self === void 0) { throw new
+// ReferenceError("this hasn't been initialised - super() hasn't been called");
+// } return self; }
+//
+//function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ?
+// Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ ||
+// Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+//
+//function _inherits(subClass, superClass) { if (typeof superClass !==
+// "function" && superClass !== null) { throw new TypeError("Super expression
+// must either be null or a function"); } subClass.prototype =
+// Object.create(superClass && superClass.prototype, { constructor: { value:
+// subClass, writable: true, configurable: true } }); if (superClass)
+// _setPrototypeOf(subClass, superClass); }
+//
+//function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ||
+// function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return
+// _setPrototypeOf(o, p); }
+//
+//function generateAsyncAction(type) {
+//  type = type.toUpperCase();
+//  var request = createAction(type + '_REQUEST', undefined,
+// requestMetaCreator);  request.request = request; // crazy
+//
+//  request.success = createAction(type + '_SUCCESS', undefined, metaCreator);
+//  request.error = createAction(type + '_ERROR', undefined, metaCreator);
+//  request.cancel = createAction(type + '_CANCEL', undefined, metaCreator);
+//  request.progress = createAction(type + '_PROGRESS', undefined, metaCreator);
+//  request.process = createAction(type + '_PROCESS', undefined, metaCreator);
+//  return request;
+//}
+//
+//var A =
+// /*#__PURE__*/
+//function (_B) {
+//  "use strict";
+//
+//  _inherits(A, _B);
+//
+//  function A(timestamp) {
+//    var _this;
+//
+//    _classCallCheck(this, A);
+//
+//    _this = _possibleConstructorReturn(this, _getPrototypeOf(A).call(this));
+//    _this.timestamp = timestamp;
+//    _this.moment = moment(timestamp);
+//    return _this;
+//  }
+//
+//  return A;
+//}(B);
+//
+//"#
+//);
+
+//// legacy_class_static_methods_numeric_props
+//test_exec!(
+//    syntax(false),
+//    |_| tr(r#"{
+//  "presets": ["env"],
+//  "plugins": [
+//    ["proposal-decorators", { "legacy": true }],
+//    [class_properties(), { "loose": true }]
+//  ]
+//}
+//"#),
+//    legacy_class_static_methods_numeric_props_exec,
+//    r#"
+//function dec(target, name, descriptor){
+//  expect(target).toBeTruthy();
+//  expect(name).toBe(4);
+//  expect(typeof descriptor).toBe("object");
+//}
+//
+//class Example {
+//  @dec
+//  static 4() {}
+//}
+//
+//"#
+//);
+
+//// legacy_class_prototype_properties_mutate_descriptor
+//test_exec!(
+//    syntax(false),
+//    |_| tr(r#"{
+//  "presets": ["env"],
+//  "plugins": [
+//    ["proposal-decorators", { "legacy": true }],
+//    [class_properties(), { "loose": true }]
+//  ]
+//}
+//"#),
+//    legacy_class_prototype_properties_mutate_descriptor_exec,
+//    r#"
+//function dec(target, name, descriptor) {
+//  expect(target).toBeTruthy();
+//  expect(typeof name).toBe("string");
+//  expect(typeof descriptor).toBe("object");
+//
+//  target.decoratedProps = (target.decoratedProps || []).concat([name]);
+//
+//  let initializer = descriptor.initializer;
+//  Object.assign(descriptor, {
+//    enumerable: name.indexOf('enum') !== -1,
+//    configurable: name.indexOf('conf') !== -1,
+//    writable: name.indexOf('write') !== -1,
+//    initializer: function(...args){
+//      return '__' + initializer.apply(this, args) + '__';
+//    },
+//  });
+//}
+//
+//function plainDec(target, name, descriptor) {
+//  expect(target).toBeTruthy();
+//  expect(typeof name).toBe("string");
+//  expect(typeof descriptor).toBe("object");
+//
+//  target.decoratedProps = (target.decoratedProps || []).concat([name]);
+//
+//  return descriptor;
+//}
+//
+//class Example {
+//  @dec
+//  enumconfwrite = 1;
+//
+//  @dec
+//  enumconf = 2;
+//
+//  @dec
+//  enumwrite = 3;
+//
+//  @dec
+//  enum = 4;
+//
+//  @dec
+//  confwrite = 5;
+//
+//  @dec
+//  conf = 6;
+//
+//  @dec
+//  write = 7;
+//
+//  @dec
+//  _ = 8;
+//
+//  @plainDec
+//  plain = 9;
+//}
+//
+//const inst = new Example();
+//
+//expect(Example.prototype).toHaveProperty("decoratedProps");
+//expect(inst.decoratedProps).toEqual([
+//  "enumconfwrite",
+//  "enumconf",
+//  "enumwrite",
+//  "enum",
+//  "confwrite",
+//  "conf",
+//  "write",
+//  "_",
+//  "plain",
+//]);
+//
+//const descs = Object.getOwnPropertyDescriptors(inst);
+//
+//expect(descs.enumconfwrite.enumerable).toBeTruthy();
+//expect(descs.enumconfwrite.writable).toBeTruthy();
+//expect(descs.enumconfwrite.configurable).toBeTruthy();
+//expect(inst.enumconfwrite).toBe("__1__");
+//
+//expect(descs.enumconf.enumerable).toBeTruthy();
+//expect(descs.enumconf.writable).toBe(false);
+//expect(descs.enumconf.configurable).toBeTruthy();
+//expect(inst.enumconf).toBe("__2__");
+//
+//expect(descs.enumwrite.enumerable).toBeTruthy();
+//expect(descs.enumwrite.writable).toBeTruthy();
+//expect(descs.enumwrite.configurable).toBe(false);
+//expect(inst.enumwrite).toBe("__3__");
+//
+//expect(descs.enum.enumerable).toBeTruthy();
+//expect(descs.enum.writable).toBe(false);
+//expect(descs.enum.configurable).toBe(false);
+//expect(inst.enum).toBe("__4__");
+//
+//expect(descs.confwrite.enumerable).toBe(false);
+//expect(descs.confwrite.writable).toBeTruthy();
+//expect(descs.confwrite.configurable).toBeTruthy();
+//expect(inst.confwrite).toBe("__5__");
+//
+//expect(descs.conf.enumerable).toBe(false);
+//expect(descs.conf.writable).toBe(false);
+//expect(descs.conf.configurable).toBeTruthy();
+//expect(inst.conf).toBe("__6__");
+//
+//expect(descs.write.enumerable).toBe(false);
+//expect(descs.write.writable).toBeTruthy();
+//expect(descs.write.configurable).toBe(false);
+//expect(inst.write).toBe("__7__");
+//
+//expect(descs._.enumerable).toBe(false);
+//expect(descs._.writable).toBe(false);
+//expect(descs._.configurable).toBe(false);
+//expect(inst._).toBe("__8__");
+//
+//expect(descs.plain.enumerable).toBeTruthy();
+//expect(descs.plain.writable).toBeTruthy();
+//expect(descs.plain.configurable).toBeTruthy();
+//expect(inst.plain).toBe(9);
+//
+//"#
+//);
+
+//// legacy_object_properties_mutate_descriptor
+//test_exec!(
+//    syntax(false),
+//    |_| tr(r#"{
+//  "presets": ["env"],
+//  "plugins": [
+//    ["proposal-decorators", { "legacy": true }],
+//    [class_properties(), { "loose": true }]
+//  ]
+//}
+//"#),
+//    legacy_object_properties_mutate_descriptor_exec,
+//    r#"
+//function dec(target, name, descriptor) {
+//  expect(target).toBeTruthy();
+//  expect(typeof name).toBe("string");
+//  expect(typeof descriptor).toBe("object");
+//
+//  target.decoratedProps = (target.decoratedProps || []).concat([name]);
+//
+//  let initializer = descriptor.initializer;
+//  Object.assign(descriptor, {
+//    enumerable: name.indexOf("enum") !== -1,
+//    configurable: name.indexOf("conf") !== -1,
+//    writable: name.indexOf("write") !== -1,
+//    initializer: function(...args){
+//      return '__' + initializer.apply(this, args) + '__';
+//    },
+//  });
+//}
+//
+//const inst = {
+//  @dec
+//  enumconfwrite: 1,
+//
+//  @dec
+//  enumconf: 2,
+//
+//  @dec
+//  enumwrite: 3,
+//
+//  @dec
+//  enum: 4,
+//
+//  @dec
+//  confwrite: 5,
+//
+//  @dec
+//  conf: 6,
+//
+//  @dec
+//  write: 7,
+//
+//  @dec
+//  _: 8,
+//};
+//
+//
+//expect(inst).toHaveProperty("decoratedProps");
+//expect(inst.decoratedProps).toEqual([
+//  "enumconfwrite",
+//  "enumconf",
+//  "enumwrite",
+//  "enum",
+//  "confwrite",
+//  "conf",
+//  "write",
+//  "_",
+//]);
+//
+//const descs = Object.getOwnPropertyDescriptors(inst);
+//
+//expect(descs.enumconfwrite.enumerable).toBeTruthy();
+//expect(descs.enumconfwrite.writable).toBeTruthy();
+//expect(descs.enumconfwrite.configurable).toBeTruthy();
+//expect(inst.enumconfwrite).toBe("__1__");
+//
+//expect(descs.enumconf.enumerable).toBeTruthy();
+//expect(descs.enumconf.writable).toBe(false);
+//expect(descs.enumconf.configurable).toBeTruthy();
+//expect(inst.enumconf).toBe("__2__");
+//
+//expect(descs.enumwrite.enumerable).toBeTruthy();
+//expect(descs.enumwrite.writable).toBeTruthy();
+//expect(descs.enumwrite.configurable).toBe(false);
+//expect(inst.enumwrite).toBe("__3__");
+//
+//expect(descs.enum.enumerable).toBeTruthy();
+//expect(descs.enum.writable).toBe(false);
+//expect(descs.enum.configurable).toBe(false);
+//expect(inst.enum).toBe("__4__");
+//
+//expect(descs.confwrite.enumerable).toBe(false);
+//expect(descs.confwrite.writable).toBeTruthy();
+//expect(descs.confwrite.configurable).toBeTruthy();
+//expect(inst.confwrite).toBe("__5__");
+//
+//expect(descs.conf.enumerable).toBe(false);
+//expect(descs.conf.writable).toBe(false);
+//expect(descs.conf.configurable).toBeTruthy();
+//expect(inst.conf).toBe("__6__");
+//
+//expect(descs.write.enumerable).toBe(false);
+//expect(descs.write.writable).toBeTruthy();
+//expect(descs.write.configurable).toBe(false);
+//expect(inst.write).toBe("__7__");
+//
+//expect(descs._.enumerable).toBe(false);
+//expect(descs._.writable).toBe(false);
+//expect(descs._.configurable).toBe(false);
+//expect(inst._).toBe("__8__");
+//
+//"#
+//);
+
+// legacy_decl_to_expression_class_decorators
+test!(
+    // legacy decorator: https://github.com/swc-project/swc/issues/421
+    ignore,
+    syntax(false),
+    |_| decorators(Config { legacy: true }),
+    legacy_decl_to_expression_class_decorators,
+    r#"
+export default @dec class A {}
+@dec class B {}
+"#,
+    r#"
+var _class, _class2;
+
+let A = dec(_class2 = class A {}) || _class2;
+
+export { A as default };
+
+let B = dec(_class = class B {}) || _class;
+
+"#
+);
+
+// legacy_class_prototype_methods_numeric_props
+test_exec!(
+    // legacy decorator: https://github.com/swc-project/swc/issues/421
+    ignore,
+    syntax(false),
+    |_| chain!(
+        decorators(decorators::Config { legacy: true }),
+        class_properties(),
+    ),
+    legacy_class_prototype_methods_numeric_props_exec,
+    r#"
+function dec(target, name, descriptor) {
+  expect(target).toBeTruthy();
+  expect(name).toBe(4);
+  expect(typeof descriptor).toBe("object");
+}
+
+class Example {
+  @dec
+  4() {};
+}
+
+"#
+);
+
+// legacy_class_static_properties_mutate_descriptor
+test_exec!(
+    // legacy decorator: https://github.com/swc-project/swc/issues/421
+    ignore,
+    syntax(false),
+    |_| chain!(
+        decorators(decorators::Config { legacy: true }),
+        class_properties(),
+    ),
+    legacy_class_static_properties_mutate_descriptor_exec,
+    r#"
+function dec(target, name, descriptor) {
+  expect(target).toBeTruthy();
+  expect(typeof name).toBe("string");
+  expect(typeof descriptor).toBe("object");
+
+  target.decoratedProps = (target.decoratedProps || []).concat([name]);
+
+  let initializer = descriptor.initializer;
+  Object.assign(descriptor, {
+    enumerable: name.indexOf("enum") !== -1,
+    configurable: name.indexOf("conf") !== -1,
+    writable: name.indexOf("write") !== -1,
+    initializer: function(...args){
+      return '__' + initializer.apply(this, args) + '__';
+    },
+  });
+}
+
+class Example {
+  @dec
+  static enumconfwrite = 1;
+
+  @dec
+  static enumconf = 2;
+
+  @dec
+  static enumwrite = 3;
+
+  @dec
+  static enum = 4;
+
+  @dec
+  static confwrite = 5;
+
+  @dec
+  static conf = 6;
+
+  @dec
+  static write = 7;
+
+  @dec
+  static _ = 8;
+}
+
+const inst = new Example();
+
+expect(Example).toHaveProperty("decoratedProps");
+expect(Example.decoratedProps).toEqual([
+  "enumconfwrite",
+  "enumconf",
+  "enumwrite",
+  "enum",
+  "confwrite",
+  "conf",
+  "write",
+  "_",
+]);
+
+const descs = Object.getOwnPropertyDescriptors(Example);
+
+expect(descs.enumconfwrite.enumerable).toBeTruthy();
+expect(descs.enumconfwrite.writable).toBeTruthy();
+expect(descs.enumconfwrite.configurable).toBeTruthy();
+expect(Example.enumconfwrite).toBe("__1__");
+
+expect(descs.enumconf.enumerable).toBeTruthy();
+expect(descs.enumconf.writable).toBe(false);
+expect(descs.enumconf.configurable).toBeTruthy();
+expect(Example.enumconf).toBe("__2__");
+
+expect(descs.enumwrite.enumerable).toBeTruthy();
+expect(descs.enumwrite.writable).toBeTruthy();
+expect(descs.enumwrite.configurable).toBe(false);
+expect(Example.enumwrite).toBe("__3__");
+
+expect(descs.enum.enumerable).toBeTruthy();
+expect(descs.enum.writable).toBe(false);
+expect(descs.enum.configurable).toBe(false);
+expect(Example.enum).toBe("__4__");
+
+expect(descs.confwrite.enumerable).toBe(false);
+expect(descs.confwrite.writable).toBeTruthy();
+expect(descs.confwrite.configurable).toBeTruthy();
+expect(Example.confwrite).toBe("__5__");
+
+expect(descs.conf.enumerable).toBe(false);
+expect(descs.conf.writable).toBe(false);
+expect(descs.conf.configurable).toBeTruthy();
+expect(Example.conf).toBe("__6__");
+
+expect(descs.write.enumerable).toBe(false);
+expect(descs.write.writable).toBeTruthy();
+expect(descs.write.configurable).toBe(false);
+expect(Example.write).toBe("__7__");
+
+expect(descs._.enumerable).toBe(false);
+expect(descs._.writable).toBe(false);
+expect(descs._.configurable).toBe(false);
+expect(Example._).toBe("__8__");
+
+"#
+);
+
+// legacy_class_static_methods_string_props
+test_exec!(
+    // legacy decorator: https://github.com/swc-project/swc/issues/421
+    ignore,
+    syntax(false),
+    |_| chain!(
+        decorators(decorators::Config { legacy: true }),
+        class_properties(),
+    ),
+    legacy_class_static_methods_string_props_exec,
+    r#"
+function dec(target, name, descriptor) {
+  expect(target).toBeTruthy();
+  expect(name).toBe("str");
+  expect(typeof descriptor).toBe("object");
+}
+
+class Example {
+   @dec
+   static "str"() {};
+}
+
+"#
+);
+
+// legacy_class_prototype_properties_string_literal_properties
+test_exec!(
+    // legacy decorator: https://github.com/swc-project/swc/issues/421
+    ignore,
+    syntax(false),
+    |_| chain!(
+        decorators(decorators::Config { legacy: true }),
+        class_properties(),
+    ),
+    legacy_class_prototype_properties_string_literal_properties_exec,
+    r#"
+function dec(target, name, descriptor) {
+  expect(target).toBeTruthy();
+  expect(typeof name).toBe("string");
+  expect(typeof descriptor).toBe("object");
+
+  target.decoratedProps = (target.decoratedProps || []).concat([name]);
+
+  return descriptor;
+}
+
+class Example {
+  @dec "a-prop";
+}
+
+let inst = new Example();
+
+expect(Example.prototype).toHaveProperty("decoratedProps");
+expect(inst.decoratedProps).toEqual([
+  "a-prop"
+]);
+
+expect(inst).toHaveProperty("a-prop");
+expect(inst["a-prop"]).toBeUndefined();
+
+const descs = Object.getOwnPropertyDescriptors(inst);
+
+expect(descs["a-prop"].enumerable).toBeTruthy();
+expect(descs["a-prop"].writable).toBeTruthy();
+expect(descs["a-prop"].configurable).toBeTruthy();
+
+"#
+);
+
+// legacy_class_prototype_methods_mutate_descriptor
+test_exec!(
+    // legacy decorator: https://github.com/swc-project/swc/issues/421
+    ignore,
+    syntax(false),
+    |_| chain!(
+        decorators(decorators::Config { legacy: true }),
+        class_properties(),
+    ),
+    legacy_class_prototype_methods_mutate_descriptor_exec,
+    r#"
+function dec(target, name, descriptor) {
+  expect(target).toBeTruthy();
+  expect(typeof name).toBe("string");
+  expect(typeof descriptor).toBe("object");
+
+  target.decoratedProps = (target.decoratedProps || []).concat([name]);
+
+  let value = descriptor.value;
+  Object.assign(descriptor, {
+    enumerable: name.indexOf("enum") !== -1,
+    configurable: name.indexOf("conf") !== -1,
+    writable: name.indexOf("write") !== -1,
+    value: function(...args) {
+      return "__" + value.apply(this, args) + "__";
+    },
+  });
+}
+
+class Example {
+  @dec
+  enumconfwrite(){
+    return 1;
+  }
+
+  @dec
+  enumconf(){
+    return 2;
+  }
+
+  @dec
+  enumwrite(){
+    return 3;
+  }
+
+  @dec
+  enum(){
+    return 4;
+  }
+
+  @dec
+  confwrite(){
+    return 5;
+  }
+
+  @dec
+  conf(){
+    return 6;
+  }
+
+  @dec
+  write(){
+    return 7;
+  }
+
+  @dec
+  _(){
+    return 8;
+  }
+}
+
+expect(Example.prototype).toHaveProperty('decoratedProps');
+expect(Example.prototype.decoratedProps).toEqual([
+  "enumconfwrite",
+  "enumconf",
+  "enumwrite",
+  "enum",
+  "confwrite",
+  "conf",
+  "write",
+  "_",
+]);
+
+const inst = new Example();
+
+const descs = Object.getOwnPropertyDescriptors(Example.prototype);
+
+expect(descs.enumconfwrite.enumerable).toBeTruthy();
+expect(descs.enumconfwrite.writable).toBeTruthy();
+expect(descs.enumconfwrite.configurable).toBeTruthy();
+expect(inst.enumconfwrite()).toBe("__1__");
+
+expect(descs.enumconf.enumerable).toBeTruthy();
+expect(descs.enumconf.writable).toBe(false);
+expect(descs.enumconf.configurable).toBeTruthy();
+expect(inst.enumconf()).toBe("__2__");
+
+expect(descs.enumwrite.enumerable).toBeTruthy();
+expect(descs.enumwrite.writable).toBeTruthy();
+expect(descs.enumwrite.configurable).toBe(false);
+expect(inst.enumwrite()).toBe("__3__");
+
+expect(descs.enum.enumerable).toBeTruthy();
+expect(descs.enum.writable).toBe(false);
+expect(descs.enum.configurable).toBe(false);
+expect(inst.enum()).toBe("__4__");
+
+expect(descs.confwrite.enumerable).toBe(false);
+expect(descs.confwrite.writable).toBeTruthy();
+expect(descs.confwrite.configurable).toBeTruthy();
+expect(inst.confwrite()).toBe("__5__");
+
+expect(descs.conf.enumerable).toBe(false);
+expect(descs.conf.writable).toBe(false);
+expect(descs.conf.configurable).toBeTruthy();
+expect(inst.conf()).toBe("__6__");
+
+expect(descs.write.enumerable).toBe(false);
+expect(descs.write.writable).toBeTruthy();
+expect(descs.write.configurable).toBe(false);
+expect(inst.write()).toBe("__7__");
+
+expect(descs._.enumerable).toBe(false);
+expect(descs._.writable).toBe(false);
+expect(descs._.configurable).toBe(false);
+expect(inst._()).toBe("__8__");
+
+"#
+);
+
+// legacy_object_properties_numeric_props
+test_exec!(
+    // legacy decorator: https://github.com/swc-project/swc/issues/421
+    ignore,
+    syntax(false),
+    |_| chain!(
+        decorators(decorators::Config { legacy: true }),
+        class_properties(),
+    ),
+    legacy_object_properties_numeric_props_exec,
+    r#"
+function dec(target, name, descriptor){
+  expect(target).toBeTruthy();
+  expect(name).toBe(4);
+  expect(typeof descriptor).toBe("object");
+}
+
+const inst = {
+  @dec
+  4: 1
+};
+
+"#
+);
+
+// legacy_decl_to_expression_method_decorators
+test!(
+    // legacy decorator: https://github.com/swc-project/swc/issues/421
+    ignore,
+    syntax(false),
+    |_| decorators(Config { legacy: true }),
+    legacy_decl_to_expression_method_decorators,
+    r#"
+export default class A {
+  @dec foo() {}
+}
+class B {
+  @dec foo() {}
+}
+"#,
+    r#"
+var _class, _class2;
+
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
+
+let A = (_class2 = class A {
+  foo() {}
+
+}, (_applyDecoratedDescriptor(_class2.prototype, "foo", [dec], Object.getOwnPropertyDescriptor(_class2.prototype, "foo"), _class2.prototype)), _class2);
+export { A as default };
+let B = (_class = class B {
+  foo() {}
+
+}, (_applyDecoratedDescriptor(_class.prototype, "foo", [dec], Object.getOwnPropertyDescriptor(_class.prototype, "foo"), _class.prototype)), _class);
+
+"#
+);
+
+// legacy_class_prototype_properties_return_descriptor
+test_exec!(
+    // legacy decorator: https://github.com/swc-project/swc/issues/421
+    ignore,
+    syntax(false),
+    |_| chain!(
+        decorators(decorators::Config { legacy: true }),
+        class_properties(),
+    ),
+    legacy_class_prototype_properties_return_descriptor_exec,
+    r#"
+function dec(target, name, descriptor) {
+  expect(target).toBeTruthy();
+  expect(typeof name).toBe("string");
+  expect(typeof descriptor).toBe("object");
+
+  target.decoratedProps = (target.decoratedProps || []).concat([name]);
+
+  let initializer = descriptor.initializer;
+  return {
+    enumerable: name.indexOf('enum') !== -1,
+    configurable: name.indexOf('conf') !== -1,
+    writable: name.indexOf('write') !== -1,
+    initializer: function(...args){
+      return '__' + initializer.apply(this, args) + '__';
+    },
+  };
+}
+
+class Example {
+  @dec
+  enumconfwrite = 1;
+
+  @dec
+  enumconf = 2;
+
+  @dec
+  enumwrite = 3;
+
+  @dec
+  enum = 4;
+
+  @dec
+  confwrite = 5;
+
+  @dec
+  conf = 6;
+
+  @dec
+  write = 7;
+
+  @dec
+  _ = 8;
+}
+
+const inst = new Example();
+
+expect(Example.prototype).toHaveProperty("decoratedProps");
+expect(inst.decoratedProps).toEqual([
+  "enumconfwrite",
+  "enumconf",
+  "enumwrite",
+  "enum",
+  "confwrite",
+  "conf",
+  "write",
+  "_",
+]);
+
+const descs = Object.getOwnPropertyDescriptors(inst);
+
+expect(descs.enumconfwrite.enumerable).toBeTruthy();
+expect(descs.enumconfwrite.writable).toBeTruthy();
+expect(descs.enumconfwrite.configurable).toBeTruthy();
+expect(inst.enumconfwrite).toBe("__1__");
+
+expect(descs.enumconf.enumerable).toBeTruthy();
+expect(descs.enumconf.writable).toBe(false);
+expect(descs.enumconf.configurable).toBeTruthy();
+expect(inst.enumconf).toBe("__2__");
+
+expect(descs.enumwrite.enumerable).toBeTruthy();
+expect(descs.enumwrite.writable).toBeTruthy();
+expect(descs.enumwrite.configurable).toBe(false);
+expect(inst.enumwrite).toBe("__3__");
+
+expect(descs.enum.enumerable).toBeTruthy();
+expect(descs.enum.writable).toBe(false);
+expect(descs.enum.configurable).toBe(false);
+expect(inst.enum).toBe("__4__");
+
+expect(descs.confwrite.enumerable).toBe(false);
+expect(descs.confwrite.writable).toBeTruthy();
+expect(descs.confwrite.configurable).toBeTruthy();
+expect(inst.confwrite).toBe("__5__");
+
+expect(descs.conf.enumerable).toBe(false);
+expect(descs.conf.writable).toBe(false);
+expect(descs.conf.configurable).toBeTruthy();
+expect(inst.conf).toBe("__6__");
+
+expect(descs.write.enumerable).toBe(false);
+expect(descs.write.writable).toBeTruthy();
+expect(descs.write.configurable).toBe(false);
+expect(inst.write).toBe("__7__");
+
+expect(descs._.enumerable).toBe(false);
+expect(descs._.writable).toBe(false);
+expect(descs._.configurable).toBe(false);
+expect(inst._).toBe("__8__");
+
+"#
+);
+
+// legacy_object_properties_string_props
+test_exec!(
+    // legacy decorator: https://github.com/swc-project/swc/issues/421
+    ignore,
+    syntax(false),
+    |_| chain!(
+        decorators(decorators::Config { legacy: true }),
+        class_properties(),
+    ),
+    legacy_object_properties_string_props_exec,
+    r#"
+function dec(target, name, descriptor){
+  expect(target).toBeTruthy();
+  expect(name).toBe("str");
+  expect(typeof descriptor).toBe("object");
+}
+
+const inst = {
+  @dec
+  "str": 1
+};
+
+"#
+);
+
+// legacy_object_properties_return_descriptor
+test_exec!(
+    // legacy decorator: https://github.com/swc-project/swc/issues/421
+    ignore,
+    syntax(false),
+    |_| chain!(
+        decorators(decorators::Config { legacy: true }),
+        class_properties(),
+    ),
+    legacy_object_properties_return_descriptor_exec,
+    r#"
+function dec(target, name, descriptor) {
+  expect(target).toBeTruthy();
+  expect(typeof name).toBe("string");
+  expect(typeof descriptor).toBe("object");
+
+  target.decoratedProps = (target.decoratedProps || []).concat([name]);
+
+  let initializer = descriptor.initializer;
+  return {
+    enumerable: name.indexOf('enum') !== -1,
+    configurable: name.indexOf('conf') !== -1,
+    writable: name.indexOf('write') !== -1,
+    initializer: function(...args){
+      return '__' + initializer.apply(this, args) + '__';
+    },
+  };
+}
+
+const inst = {
+  @dec
+  enumconfwrite: 1,
+
+  @dec
+  enumconf: 2,
+
+  @dec
+  enumwrite: 3,
+
+  @dec
+  enum: 4,
+
+  @dec
+  confwrite: 5,
+
+  @dec
+  conf: 6,
+
+  @dec
+  write: 7,
+
+  @dec
+  _: 8,
+};
+
+expect(inst).toHaveProperty("decoratedProps");
+expect(inst.decoratedProps).toEqual([
+  "enumconfwrite",
+  "enumconf",
+  "enumwrite",
+  "enum",
+  "confwrite",
+  "conf",
+  "write",
+  "_",
+]);
+
+const descs = Object.getOwnPropertyDescriptors(inst);
+
+expect(descs.enumconfwrite.enumerable).toBeTruthy();
+expect(descs.enumconfwrite.writable).toBeTruthy();
+expect(descs.enumconfwrite.configurable).toBeTruthy();
+expect(inst.enumconfwrite).toBe("__1__");
+
+expect(descs.enumconf.enumerable).toBeTruthy();
+expect(descs.enumconf.writable).toBe(false);
+expect(descs.enumconf.configurable).toBeTruthy();
+expect(inst.enumconf).toBe("__2__");
+
+expect(descs.enumwrite.enumerable).toBeTruthy();
+expect(descs.enumwrite.writable).toBeTruthy();
+expect(descs.enumwrite.configurable).toBe(false);
+expect(inst.enumwrite).toBe("__3__");
+
+expect(descs.enum.enumerable).toBeTruthy();
+expect(descs.enum.writable).toBe(false);
+expect(descs.enum.configurable).toBe(false);
+expect(inst.enum).toBe("__4__");
+
+expect(descs.confwrite.enumerable).toBe(false);
+expect(descs.confwrite.writable).toBeTruthy();
+expect(descs.confwrite.configurable).toBeTruthy();
+expect(inst.confwrite).toBe("__5__");
+
+expect(descs.conf.enumerable).toBe(false);
+expect(descs.conf.writable).toBe(false);
+expect(descs.conf.configurable).toBeTruthy();
+expect(inst.conf).toBe("__6__");
+
+expect(descs.write.enumerable).toBe(false);
+expect(descs.write.writable).toBeTruthy();
+expect(descs.write.configurable).toBe(false);
+expect(inst.write).toBe("__7__");
+
+expect(descs._.enumerable).toBe(false);
+expect(descs._.writable).toBe(false);
+expect(descs._.configurable).toBe(false);
+expect(inst._).toBe("__8__");
+
+"#
+);
+
+// legacy_class_prototype_methods_string_props
+test_exec!(
+    // legacy decorator: https://github.com/swc-project/swc/issues/421
+    ignore,
+    syntax(false),
+    |_| chain!(
+        decorators(decorators::Config { legacy: true }),
+        class_properties(),
+    ),
+    legacy_class_prototype_methods_string_props_exec,
+    r#"
+function dec(target, name, descriptor) {
+  expect(target).toBeTruthy();
+  expect(name).toBe("str");
+  expect(typeof descriptor).toBe("object");
+}
+
+class Example {
+   @dec
+   "str"() {};
+}
+
+"#
+);
+
+// legacy_regression_8041
+test!(
+    // legacy decorator: https://github.com/swc-project/swc/issues/421
+    ignore,
+    syntax(false),
+    |_| chain!(
+        decorators(decorators::Config { legacy: true }),
+        class_properties(),
+    ),
+    legacy_regression_8041,
+    r#"
+export default class {
+  @foo
+  bar() {}
+}
+
+"#,
+    r#"
+var _class2;
+
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
+
+let _class = (_class2 = class {
+  bar() {}
+
+}, (_applyDecoratedDescriptor(_class2.prototype, "bar", [foo], Object.getOwnPropertyDescriptor(_class2.prototype, "bar"), _class2.prototype)), _class2);
+
+export { _class as default };
+
+"#
+);
+
+// legacy_class_prototype_methods_return_descriptor
+test_exec!(
+    // legacy decorator: https://github.com/swc-project/swc/issues/421
+    ignore,
+    syntax(false),
+    |_| chain!(
+        decorators(decorators::Config { legacy: true }),
+        class_properties(),
+    ),
+    legacy_class_prototype_methods_return_descriptor_exec,
+    r#"
+function dec(target, name, descriptor) {
+  expect(target).toBeTruthy();
+  expect(typeof name).toBe("string");
+  expect(typeof descriptor).toBe("object");
+
+  target.decoratedProps = (target.decoratedProps || []).concat([name]);
+
+  let value = descriptor.value;
+  return {
+    enumerable: name.indexOf('enum') !== -1,
+    configurable: name.indexOf('conf') !== -1,
+    writable: name.indexOf('write') !== -1,
+    value: function(...args){
+      return '__' + value.apply(this, args) + '__';
+    },
+  };
+}
+
+class Example {
+  @dec
+  enumconfwrite() {
+    return 1;
+  }
+
+  @dec
+  enumconf() {
+    return 2;
+  }
+
+  @dec
+  enumwrite() {
+    return 3;
+  }
+
+  @dec
+  enum() {
+    return 4;
+  }
+
+  @dec
+  confwrite() {
+    return 5;
+  }
+
+  @dec
+  conf() {
+    return 6;
+  }
+
+  @dec
+  write() {
+    return 7;
+  }
+
+  @dec
+  _() {
+    return 8;
+  }
+}
+
+
+expect(Example.prototype).toHaveProperty('decoratedProps');
+expect(Example.prototype.decoratedProps).toEqual([
+  "enumconfwrite",
+  "enumconf",
+  "enumwrite",
+  "enum",
+  "confwrite",
+  "conf",
+  "write",
+  "_",
+]);
+
+
+const inst = new Example();
+
+const descs = Object.getOwnPropertyDescriptors(Example.prototype);
+
+expect(descs.enumconfwrite.enumerable).toBeTruthy();
+expect(descs.enumconfwrite.writable).toBeTruthy();
+expect(descs.enumconfwrite.configurable).toBeTruthy();
+expect(inst.enumconfwrite()).toBe("__1__");
+
+expect(descs.enumconf.enumerable).toBeTruthy();
+expect(descs.enumconf.writable).toBe(false);
+expect(descs.enumconf.configurable).toBeTruthy();
+expect(inst.enumconf()).toBe("__2__");
+
+expect(descs.enumwrite.enumerable).toBeTruthy();
+expect(descs.enumwrite.writable).toBeTruthy();
+expect(descs.enumwrite.configurable).toBe(false);
+expect(inst.enumwrite()).toBe("__3__");
+
+expect(descs.enum.enumerable).toBeTruthy();
+expect(descs.enum.writable).toBe(false);
+expect(descs.enum.configurable).toBe(false);
+expect(inst.enum()).toBe("__4__");
+
+expect(descs.confwrite.enumerable).toBe(false);
+expect(descs.confwrite.writable).toBeTruthy();
+expect(descs.confwrite.configurable).toBeTruthy();
+expect(inst.confwrite()).toBe("__5__");
+
+expect(descs.conf.enumerable).toBe(false);
+expect(descs.conf.writable).toBe(false);
+expect(descs.conf.configurable).toBeTruthy();
+expect(inst.conf()).toBe("__6__");
+
+expect(descs.write.enumerable).toBe(false);
+expect(descs.write.writable).toBeTruthy();
+expect(descs.write.configurable).toBe(false);
+expect(inst.write()).toBe("__7__");
+
+expect(descs._.enumerable).toBe(false);
+expect(descs._.writable).toBe(false);
+expect(descs._.configurable).toBe(false);
+expect(inst._()).toBe("__8__");
+
+"#
+);
+
+// legacy_object_ordering_reverse_order
+test_exec!(
+    // legacy decorator: https://github.com/swc-project/swc/issues/421
+    ignore,
+    syntax(false),
+    |_| chain!(
+        decorators(decorators::Config { legacy: true }),
+        class_properties(),
+    ),
+    legacy_object_ordering_reverse_order_exec,
+    r#"
+const calls = [];
+function dec(id){
+  return function(){
+    calls.push(id);
+  };
+}
+
+const obj = {
+  @dec(2)
+  @dec(1)
+  method1(){},
+
+  @dec(4)
+  @dec(3)
+  prop1: 1,
+
+  @dec(6)
+  @dec(5)
+  method2(){},
+
+  @dec(8)
+  @dec(7)
+  prop2: 2,
+}
+
+expect(calls).toEqual([1, 2, 3, 4, 5, 6, 7, 8]);
+
+"#
+);
+
+// legacy_object_methods_numeric_props
+test_exec!(
+    // legacy decorator: https://github.com/swc-project/swc/issues/421
+    ignore,
+    syntax(false),
+    |_| chain!(
+        decorators(decorators::Config { legacy: true }),
+        class_properties(),
+    ),
+    legacy_object_methods_numeric_props_exec,
+    r#"
+function dec(target, name, descriptor){
+  expect(target).toBeTruthy();
+  expect(name).toBe(4);
+  expect(typeof descriptor).toBe("object");
+}
+
+const inst = {
+  @dec
+  4(){
+  }
+};
+
+"#
+);
+
+// legacy_class_static_properties_return_descriptor
+test_exec!(
+    // legacy decorator: https://github.com/swc-project/swc/issues/421
+    ignore,
+    syntax(false),
+    |_| chain!(
+        decorators(decorators::Config { legacy: true }),
+        class_properties(),
+    ),
+    legacy_class_static_properties_return_descriptor_exec,
+    r#"
+function dec(target, name, descriptor) {
+  expect(target).toBeTruthy();
+  expect(typeof name).toBe("string");
+  expect(typeof descriptor).toBe("object");
+
+  target.decoratedProps = (target.decoratedProps || []).concat([name]);
+
+  let initializer = descriptor.initializer;
+  return {
+    enumerable: name.indexOf('enum') !== -1,
+    configurable: name.indexOf('conf') !== -1,
+    writable: name.indexOf('write') !== -1,
+    initializer: function(...args){
+      return '__' + initializer.apply(this, args) + '__';
+    },
+  };
+}
+
+class Example {
+  @dec
+  static enumconfwrite = 1;
+
+  @dec
+  static enumconf = 2;
+
+  @dec
+  static enumwrite = 3;
+
+  @dec
+  static enum = 4;
+
+  @dec
+  static confwrite = 5;
+
+  @dec
+  static conf = 6;
+
+  @dec
+  static write = 7;
+
+  @dec
+  static _ = 8;
+}
+
+const inst = new Example();
+
+expect(Example).toHaveProperty("decoratedProps");
+expect(Example.decoratedProps).toEqual([
+  "enumconfwrite",
+  "enumconf",
+  "enumwrite",
+  "enum",
+  "confwrite",
+  "conf",
+  "write",
+  "_",
+]);
+
+const descs = Object.getOwnPropertyDescriptors(Example);
+
+expect(descs.enumconfwrite.enumerable).toBeTruthy();
+expect(descs.enumconfwrite.writable).toBeTruthy();
+expect(descs.enumconfwrite.configurable).toBeTruthy();
+expect(Example.enumconfwrite).toBe("__1__");
+
+expect(descs.enumconf.enumerable).toBeTruthy();
+expect(descs.enumconf.writable).toBe(false);
+expect(descs.enumconf.configurable).toBeTruthy();
+expect(Example.enumconf).toBe("__2__");
+
+expect(descs.enumwrite.enumerable).toBeTruthy();
+expect(descs.enumwrite.writable).toBeTruthy();
+expect(descs.enumwrite.configurable).toBe(false);
+expect(Example.enumwrite).toBe("__3__");
+
+expect(descs.enum.enumerable).toBeTruthy();
+expect(descs.enum.writable).toBe(false);
+expect(descs.enum.configurable).toBe(false);
+expect(Example.enum).toBe("__4__");
+
+expect(descs.confwrite.enumerable).toBe(false);
+expect(descs.confwrite.writable).toBeTruthy();
+expect(descs.confwrite.configurable).toBeTruthy();
+expect(Example.confwrite).toBe("__5__");
+
+expect(descs.conf.enumerable).toBe(false);
+expect(descs.conf.writable).toBe(false);
+expect(descs.conf.configurable);
+expect(Example.conf).toBe("__6__");
+
+expect(descs.write.enumerable).toBe(false);
+expect(descs.write.writable).toBeTruthy();
+expect(descs.write.configurable).toBe(false);
+expect(Example.write).toBe("__7__");
+
+expect(descs._.enumerable).toBe(false);
+expect(descs._.writable).toBe(false);
+expect(descs._.configurable).toBe(false);
+expect(Example._).toBe("__8__");
+
+"#
+);
+
+// legacy_class_export_default
+test_exec!(
+    // legacy decorator: https://github.com/swc-project/swc/issues/421
+    ignore,
+    syntax(false),
+    |_| chain!(
+        decorators(decorators::Config { legacy: true }),
+        class_properties(),
+    ),
+    legacy_class_export_default_exec,
+    r#"
+const calls = [];
+
+function foo(target) {
+  calls.push(target.name);
+}
+
+@foo
+export default class Foo {
+  bar() {
+    class Baz {}
+  }
+}
+
+expect(calls).toEqual(["Foo"]);
+
+"#
+);
+
+// legacy_class_ordering_reverse_order
+test_exec!(
+    // legacy decorator: https://github.com/swc-project/swc/issues/421
+    ignore,
+    syntax(false),
+    |_| chain!(
+        decorators(decorators::Config { legacy: true }),
+        class_properties(),
+    ),
+    legacy_class_ordering_reverse_order_exec,
+    r#"
+const calls = [];
+
+function dec(id){
+  return function(){
+    calls.push(id);
+  };
+}
+
+@dec(10)
+@dec(9)
+class Example2 {
+  @dec(2)
+  @dec(1)
+  method1() {};
+
+  @dec(4)
+  @dec(3)
+  prop1 = 1;
+
+  @dec(6)
+  @dec(5)
+  method2() {};
+
+  @dec(8)
+  @dec(7)
+  prop2 = 2;
+}
+
+expect(calls).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+
+"#
+);
+
+// legacy_object_methods_mutate_descriptor
+test_exec!(
+    // legacy decorator: https://github.com/swc-project/swc/issues/421
+    ignore,
+    syntax(false),
+    |_| chain!(
+        decorators(decorators::Config { legacy: true }),
+        class_properties(),
+    ),
+    legacy_object_methods_mutate_descriptor_exec,
+    r#"
+function dec(target, name, descriptor) {
+  expect(target).toBeTruthy();
+  expect(typeof name).toBe("string");
+  expect(typeof descriptor).toBe("object");
+
+  target.decoratedProps = (target.decoratedProps || []).concat([name]);
+
+  let value = descriptor.value;
+  Object.assign(descriptor, {
+    enumerable: name.indexOf("enum") !== -1,
+    configurable: name.indexOf("conf") !== -1,
+    writable: name.indexOf("write") !== -1,
+    value: function(...args) {
+      return "__" + value.apply(this, args) + "__";
+    },
+  });
+}
+
+const inst = {
+  @dec
+  enumconfwrite(){
+    return 1;
+  },
+
+  @dec
+  enumconf(){
+    return 2;
+  },
+
+  @dec
+  enumwrite(){
+    return 3;
+  },
+
+  @dec
+  enum(){
+    return 4;
+  },
+
+  @dec
+  confwrite(){
+    return 5;
+  },
+
+  @dec
+  conf(){
+    return 6;
+  },
+
+  @dec
+  write(){
+    return 7;
+  },
+
+  @dec
+  _(){
+    return 8;
+  },
+}
+
+expect(inst).toHaveProperty('decoratedProps');
+expect(inst.decoratedProps).toEqual([
+  "enumconfwrite",
+  "enumconf",
+  "enumwrite",
+  "enum",
+  "confwrite",
+  "conf",
+  "write",
+  "_",
+]);
+
+const descs = Object.getOwnPropertyDescriptors(inst);
+
+expect(descs.enumconfwrite.enumerable).toBeTruthy();
+expect(descs.enumconfwrite.writable).toBeTruthy();
+expect(descs.enumconfwrite.configurable).toBeTruthy();
+expect(inst.enumconfwrite()).toBe("__1__");
+
+expect(descs.enumconf.enumerable).toBeTruthy();
+expect(descs.enumconf.writable).toBe(false);
+expect(descs.enumconf.configurable).toBeTruthy();
+expect(inst.enumconf()).toBe("__2__");
+
+expect(descs.enumwrite.enumerable).toBeTruthy();
+expect(descs.enumwrite.writable).toBeTruthy();
+expect(descs.enumwrite.configurable).toBe(false);
+expect(inst.enumwrite()).toBe("__3__");
+
+expect(descs.enum.enumerable).toBeTruthy();
+expect(descs.enum.writable).toBe(false);
+expect(descs.enum.configurable).toBe(false);
+expect(inst.enum()).toBe("__4__");
+
+expect(descs.confwrite.enumerable).toBe(false);
+expect(descs.confwrite.writable).toBeTruthy();
+expect(descs.confwrite.configurable);
+expect(inst.confwrite()).toBe("__5__");
+
+expect(descs.conf.enumerable).toBe(false);
+expect(descs.conf.writable).toBe(false);
+expect(descs.conf.configurable).toBeTruthy();
+expect(inst.conf()).toBe("__6__");
+
+expect(descs.write.enumerable).toBe(false);
+expect(descs.write.writable).toBeTruthy();
+expect(descs.write.configurable).toBe(false);
+expect(inst.write()).toBe("__7__");
+
+expect(descs._.enumerable).toBe(false);
+expect(descs._.writable).toBe(false);
+expect(descs._.configurable).toBe(false);
+expect(inst._()).toBe("__8__");
+
+"#
+);
+
+// legacy_class_static_methods_return_descriptor
+test_exec!(
+    // legacy decorator: https://github.com/swc-project/swc/issues/421
+    ignore,
+    syntax(false),
+    |_| chain!(
+        decorators(decorators::Config { legacy: true }),
+        class_properties(),
+    ),
+    legacy_class_static_methods_return_descriptor_exec,
+    r#"
+function dec(target, name, descriptor) {
+  expect(target).toBeTruthy();
+  expect(typeof name).toBe("string");
+  expect(typeof descriptor).toBe("object");
+
+  target.decoratedProps = (target.decoratedProps || []).concat([name]);
+
+  let value = descriptor.value;
+  return {
+    enumerable: name.indexOf('enum') !== -1,
+    configurable: name.indexOf('conf') !== -1,
+    writable: name.indexOf('write') !== -1,
+    value: function(...args){
+      return '__' + value.apply(this, args) + '__';
+    },
+  };
+}
+
+class Example {
+  @dec
+  static enumconfwrite() {
+    return 1;
+  }
+
+  @dec
+  static enumconf() {
+    return 2;
+  }
+
+  @dec
+  static enumwrite() {
+    return 3;
+  }
+
+  @dec
+  static enum() {
+    return 4;
+  }
+
+  @dec
+  static confwrite() {
+    return 5;
+  }
+
+  @dec
+  static conf() {
+    return 6;
+  }
+
+  @dec
+  static write() {
+    return 7;
+  }
+
+  @dec
+  static _() {
+    return 8;
+  }
+}
+
+
+expect(Example).toHaveProperty("decoratedProps");
+expect(Example.decoratedProps).toEqual([
+  "enumconfwrite",
+  "enumconf",
+  "enumwrite",
+  "enum",
+  "confwrite",
+  "conf",
+  "write",
+  "_",
+]);
+
+const descs = Object.getOwnPropertyDescriptors(Example);
+
+expect(descs.enumconfwrite.enumerable).toBeTruthy();
+expect(descs.enumconfwrite.writable).toBeTruthy();
+expect(descs.enumconfwrite.configurable).toBeTruthy();
+expect(Example.enumconfwrite()).toBe("__1__");
+
+expect(descs.enumconf.enumerable).toBeTruthy();
+expect(descs.enumconf.writable).toBe(false);
+expect(descs.enumconf.configurable).toBeTruthy();
+expect(Example.enumconf()).toBe("__2__");
+
+expect(descs.enumwrite.enumerable).toBeTruthy();
+expect(descs.enumwrite.writable).toBeTruthy();
+expect(descs.enumwrite.configurable).toBe(false);
+expect(Example.enumwrite()).toBe("__3__");
+
+expect(descs.enum.enumerable).toBeTruthy();
+expect(descs.enum.writable).toBe(false);
+expect(descs.enum.configurable).toBe(false);
+expect(Example.enum()).toBe("__4__");
+
+expect(descs.confwrite.enumerable).toBe(false);
+expect(descs.confwrite.writable).toBeTruthy();
+expect(descs.confwrite.configurable);
+expect(Example.confwrite()).toBe("__5__");
+
+expect(descs.conf.enumerable).toBe(false);
+expect(descs.conf.writable).toBe(false);
+expect(descs.conf.configurable).toBeTruthy();
+expect(Example.conf()).toBe("__6__");
+
+expect(descs.write.enumerable).toBe(false);
+expect(descs.write.writable).toBeTruthy();
+expect(descs.write.configurable).toBe(false);
+expect(Example.write()).toBe("__7__");
+
+expect(descs._.enumerable).toBe(false);
+expect(descs._.writable).toBe(false);
+expect(descs._.configurable).toBe(false);
+expect(Example._()).toBe("__8__");
+
+"#
+);
+
+// legacy_object_methods_return_descriptor
+test_exec!(
+    // legacy decorator: https://github.com/swc-project/swc/issues/421
+    ignore,
+    syntax(false),
+    |_| chain!(
+        decorators(decorators::Config { legacy: true }),
+        class_properties(),
+    ),
+    legacy_object_methods_return_descriptor_exec,
+    r#"
+function dec(target, name, descriptor) {
+  expect(target).toBeTruthy();
+  expect(typeof name).toBe("string");
+  expect(typeof descriptor).toBe("object");
+
+  target.decoratedProps = (target.decoratedProps || []).concat([name]);
+
+  let value = descriptor.value;
+  return {
+    enumerable: name.indexOf('enum') !== -1,
+    configurable: name.indexOf('conf') !== -1,
+    writable: name.indexOf('write') !== -1,
+    value: function(...args){
+      return '__' + value.apply(this, args) + '__';
+    },
+  };
+}
+
+const inst = {
+  @dec
+  enumconfwrite(){
+    return 1;
+  },
+
+  @dec
+  enumconf(){
+    return 2;
+  },
+
+  @dec
+  enumwrite(){
+    return 3;
+  },
+
+  @dec
+  enum(){
+    return 4;
+  },
+
+  @dec
+  confwrite(){
+    return 5;
+  },
+
+  @dec
+  conf(){
+    return 6;
+  },
+
+  @dec
+  write(){
+    return 7;
+  },
+
+  @dec
+  _(){
+    return 8;
+  },
+}
+
+expect(inst).toHaveProperty('decoratedProps');
+expect(inst.decoratedProps).toEqual([
+  "enumconfwrite",
+  "enumconf",
+  "enumwrite",
+  "enum",
+  "confwrite",
+  "conf",
+  "write",
+  "_",
+]);
+
+const descs = Object.getOwnPropertyDescriptors(inst);
+
+expect(descs.enumconfwrite.enumerable).toBeTruthy();
+expect(descs.enumconfwrite.writable).toBeTruthy();
+expect(descs.enumconfwrite.configurable).toBeTruthy();
+expect(inst.enumconfwrite()).toBe("__1__");
+
+expect(descs.enumconf.enumerable).toBeTruthy();
+expect(descs.enumconf.writable).toBe(false);
+expect(descs.enumconf.configurable).toBeTruthy();
+expect(inst.enumconf()).toBe("__2__");
+
+expect(descs.enumwrite.enumerable).toBeTruthy();
+expect(descs.enumwrite.writable).toBeTruthy();
+expect(descs.enumwrite.configurable).toBe(false);
+expect(inst.enumwrite()).toBe("__3__");
+
+expect(descs.enum.enumerable).toBeTruthy();
+expect(descs.enum.writable).toBe(false);
+expect(descs.enum.configurable).toBe(false);
+expect(inst.enum()).toBe("__4__");
+
+expect(descs.confwrite.enumerable).toBe(false);
+expect(descs.confwrite.writable).toBeTruthy();
+expect(descs.confwrite.configurable).toBeTruthy();
+expect(inst.confwrite()).toBe("__5__");
+
+expect(descs.conf.enumerable).toBe(false);
+expect(descs.conf.writable).toBe(false);
+expect(descs.conf.configurable).toBeTruthy();
+expect(inst.conf()).toBe("__6__");
+
+expect(descs.write.enumerable).toBe(false);
+expect(descs.write.writable).toBeTruthy();
+expect(descs.write.configurable).toBe(false);
+expect(inst.write()).toBe("__7__");
+
+expect(descs._.enumerable).toBe(false);
+expect(descs._.writable).toBe(false);
+expect(descs._.configurable).toBe(false);
+expect(inst._()).toBe("__8__");
+
+"#
+);
+
+// legacy_object_methods_string_props
+test_exec!(
+    // legacy decorator: https://github.com/swc-project/swc/issues/421
+    ignore,
+    syntax(false),
+    |_| chain!(
+        decorators(decorators::Config { legacy: true }),
+        class_properties(),
+    ),
+    legacy_object_methods_string_props_exec,
+    r#"
+function dec(target, name, descriptor){
+  expect(target).toBeTruthy();
+  expect(name).toBe("str");
+  expect(typeof descriptor).toBe("object");
+}
+
+const inst = {
+  @dec
+  "str"(){
+
+  }
+};
+
+"#
+);
+
+// legacy_class_prototype_properties_child_classes_properties
+test_exec!(
+    // legacy decorator: https://github.com/swc-project/swc/issues/421
+    ignore,
+    syntax(false),
+    |_| chain!(
+        decorators(decorators::Config { legacy: true }),
+        class_properties(),
+    ),
+    legacy_class_prototype_properties_child_classes_properties_exec,
+    r#"
+function dec(target, name, descriptor){
+  expect(target).toBeTruthy();
+  expect(typeof name).toBe("string");
+  expect(typeof descriptor).toBe("object");
+
+  target.decoratedProps = (target.decoratedProps || []).concat([name]);
+
+  let initializer = descriptor.initializer;
+  descriptor.initializer = function(...args){
+    return "__" + initializer.apply(this, args) + "__";
+  };
+}
+
+class Base {
+  @dec
+  prop2 = 4;
+}
+
+class Example extends Base {
+  @dec
+  prop = 3;
+}
+
+let inst = new Example();
+
+expect(inst.prop).toBe("__3__");
+expect(inst.prop2).toBe("__4__");
+
+"#
+);
+
+// legacy_class_static_methods_mutate_descriptor
+test_exec!(
+    // legacy decorator: https://github.com/swc-project/swc/issues/421
+    ignore,
+    syntax(false),
+    |_| chain!(
+        decorators(decorators::Config { legacy: true }),
+        class_properties(),
+    ),
+    legacy_class_static_methods_mutate_descriptor_exec,
+    r#"
+function dec(target, name, descriptor) {
+  expect(target).toBeTruthy();
+  expect(typeof name).toBe("string");
+  expect(typeof descriptor).toBe("object");
+
+  target.decoratedProps = (target.decoratedProps || []).concat([name]);
+
+  let value = descriptor.value;
+  Object.assign(descriptor, {
+    enumerable: name.indexOf("enum") !== -1,
+    configurable: name.indexOf("conf") !== -1,
+    writable: name.indexOf("write") !== -1,
+    value: function(...args) {
+      return "__" + value.apply(this, args) + "__";
+    },
+  });
+}
+
+class Example {
+  @dec
+  static enumconfwrite(){
+    return 1;
+  }
+
+  @dec
+  static enumconf(){
+    return 2;
+  }
+
+  @dec
+  static enumwrite(){
+    return 3;
+  }
+
+  @dec
+  static enum(){
+    return 4;
+  }
+
+  @dec
+  static confwrite(){
+    return 5;
+  }
+
+  @dec
+  static conf(){
+    return 6;
+  }
+
+  @dec
+  static write(){
+    return 7;
+  }
+
+  @dec
+  static _(){
+    return 8;
+  }
+}
+
+expect(Example).toHaveProperty("decoratedProps");
+expect(Example.decoratedProps).toEqual([
+  "enumconfwrite",
+  "enumconf",
+  "enumwrite",
+  "enum",
+  "confwrite",
+  "conf",
+  "write",
+  "_",
+]);
+
+const descs = Object.getOwnPropertyDescriptors(Example);
+
+expect(descs.enumconfwrite.enumerable).toBeTruthy();
+expect(descs.enumconfwrite.writable).toBeTruthy();
+expect(descs.enumconfwrite.configurable).toBeTruthy();
+expect(Example.enumconfwrite()).toBe("__1__");
+
+expect(descs.enumconf.enumerable).toBeTruthy();
+expect(descs.enumconf.writable).toBe(false);
+expect(descs.enumconf.configurable).toBeTruthy();
+expect(Example.enumconf()).toBe("__2__");
+
+expect(descs.enumwrite.enumerable).toBeTruthy();
+expect(descs.enumwrite.writable).toBeTruthy();
+expect(descs.enumwrite.configurable).toBe(false);
+expect(Example.enumwrite()).toBe("__3__");
+
+expect(descs.enum.enumerable).toBeTruthy();
+expect(descs.enum.writable).toBe(false);
+expect(descs.enum.configurable).toBe(false);
+expect(Example.enum()).toBe("__4__");
+
+expect(descs.confwrite.enumerable).toBe(false);
+expect(descs.confwrite.writable).toBeTruthy();
+expect(descs.confwrite.configurable).toBeTruthy();
+expect(Example.confwrite()).toBe("__5__");
+
+expect(descs.conf.enumerable).toBe(false);
+expect(descs.conf.writable).toBe(false);
+expect(descs.conf.configurable).toBeTruthy();
+expect(Example.conf()).toBe("__6__");
+
+expect(descs.write.enumerable).toBe(false);
+expect(descs.write.writable).toBeTruthy();
+expect(descs.write.configurable).toBe(false);
+expect(Example.write()).toBe("__7__");
+
+expect(descs._.enumerable).toBe(false);
+expect(descs._.writable).toBe(false);
+expect(descs._.configurable).toBe(false);
+expect(Example._()).toBe("__8__");
+
+"#
+);
+
+// legacy_regression_8512
+test_exec!(
+    // legacy decorator: https://github.com/swc-project/swc/issues/421
+    ignore,
+    syntax(false),
+    |_| decorators(Config { legacy: true }),
+    legacy_regression_8512_exec,
+    r#"
+function dec(Class, key, desc) {
+  return desc;
+}
+
+class Foo {
+  @dec
+  get bar() {}
+}
+
+"#
 );

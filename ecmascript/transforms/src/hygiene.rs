@@ -185,6 +185,18 @@ impl<'a> Fold<BlockStmt> for Hygiene<'a> {
     }
 }
 
+impl Fold<ObjectLit> for Hygiene<'_> {
+    fn fold(&mut self, node: ObjectLit) -> ObjectLit {
+        let mut folder = Hygiene {
+            current: Scope::new(ScopeKind::Block, Some(&self.current)),
+            ident_type: IdentType::Ref,
+        };
+        let node = node.fold_children(&mut folder);
+
+        folder.apply_ops(node)
+    }
+}
+
 impl<'a> Hygiene<'a> {
     fn fold_fn(&mut self, ident: Option<Ident>, mut node: Function) -> Function {
         match ident {
@@ -559,9 +571,44 @@ macro_rules! track_ident {
         impl<'a> Fold<KeyValuePatProp> for $T<'a> {
             fn fold(&mut self, n: KeyValuePatProp) -> KeyValuePatProp {
                 KeyValuePatProp {
-                    key: n.key,
+                    key: n.key.fold_with(self),
                     value: n.value.fold_with(self),
                     ..n
+                }
+            }
+        }
+
+        impl Fold<Class> for $T<'_> {
+            fn fold(&mut self, c: Class) -> Class {
+                let old = self.ident_type;
+                self.ident_type = IdentType::Ref;
+                let decorators = c.decorators.fold_with(self);
+                self.ident_type = IdentType::Ref;
+                let super_class = c.super_class.fold_with(self);
+                self.ident_type = IdentType::Ref;
+                let implements = c.implements.fold_with(self);
+                self.ident_type = old;
+
+                let body = c.body.fold_with(self);
+
+                Class {
+                    span: c.span,
+                    decorators,
+                    is_abstract: c.is_abstract,
+                    implements,
+                    body,
+                    super_class,
+                    type_params: c.type_params,
+                    super_type_params: c.super_type_params,
+                }
+            }
+        }
+
+        impl Fold<PropName> for $T<'_> {
+            fn fold(&mut self, n: PropName) -> PropName {
+                match n {
+                    PropName::Computed(c) => PropName::Computed(c.fold_with(self)),
+                    _ => n,
                 }
             }
         }

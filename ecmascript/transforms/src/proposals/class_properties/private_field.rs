@@ -1,4 +1,4 @@
-use crate::util::{alias_ident_for, prepend, ExprFactory};
+use crate::util::{alias_ident_for, alias_if_required, prepend, ExprFactory};
 use ast::*;
 use hashbrown::HashSet;
 use std::{iter, mem};
@@ -10,6 +10,7 @@ pub(super) struct FieldAccessFolder<'a> {
     pub class_name: &'a Ident,
     pub vars: Vec<VarDeclarator>,
     pub statics: &'a HashSet<JsWord>,
+    pub in_assign_pat: bool,
 }
 
 impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
@@ -22,7 +23,7 @@ impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
                 arg: box Expr::Member(arg),
             }) => {
                 let n = match *arg.prop {
-                    Expr::PrivateName(ref n) => n.clone(),
+                    Expr::PrivateName(ref n) => n,
                     _ => {
                         return Expr::Update(UpdateExpr {
                             span,
@@ -287,6 +288,24 @@ impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
                 }
             }
 
+            Expr::Assign(AssignExpr {
+                span,
+                left: PatOrExpr::Pat(left),
+                op,
+                right,
+            }) => {
+                self.in_assign_pat = true;
+                let left = left.fold_with(self);
+                self.in_assign_pat = false;
+
+                Expr::Assign(AssignExpr {
+                    span,
+                    left: PatOrExpr::Pat(left),
+                    op,
+                    right,
+                })
+            }
+
             Expr::Call(CallExpr {
                 span,
                 callee: ExprOrSuper::Expr(box Expr::Member(callee)),
@@ -314,6 +333,28 @@ impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
             }
             Expr::Member(e) => self.fold_private_get(e, None).0,
             _ => e.fold_children(self),
+        }
+    }
+}
+
+impl Fold<Pat> for FieldAccessFolder<'_> {
+    fn fold(&mut self, p: Pat) -> Pat {
+        match p {
+            Pat::Expr(box Expr::Member(MemberExpr {
+                prop: box Expr::PrivateName(..),
+                ..
+            })) => {
+                self.in_assign_pat = true;
+                let p = p.fold_children(self);
+                self.in_assign_pat = false;
+
+                p
+            }
+            _ => {
+                self.in_assign_pat = false;
+
+                p.fold_children(self)
+            }
         }
     }
 }
@@ -374,6 +415,29 @@ impl<'a> FieldAccessFolder<'a> {
                 Some(Expr::Ident(self.class_name.clone())),
             )
         } else {
+            if self.in_assign_pat {
+                let set = helper!(
+                    class_private_field_destructure,
+                    "classPrivateFieldDestructureSet"
+                );
+
+                return match *obj {
+                    Expr::This(this) => (
+                        CallExpr {
+                            span: DUMMY_SP,
+                            callee: set,
+                            args: vec![this.as_arg(), ident.as_arg()],
+
+                            type_args: Default::default(),
+                        }
+                        .member(quote_ident!("value"))
+                        .into(),
+                        Some(Expr::This(this)),
+                    ),
+                    _ => unimplemented!("destructuring set for object except this"),
+                };
+            }
+
             let get = helper!(class_private_field_get, "classPrivateFieldGet");
 
             match *obj {
@@ -389,14 +453,18 @@ impl<'a> FieldAccessFolder<'a> {
                     Some(Expr::This(this)),
                 ),
                 _ => {
+                    let mut aliased = false;
                     let var = obj_alias.unwrap_or_else(|| {
-                        let var = alias_ident_for(&obj, "_ref");
-                        self.vars.push(VarDeclarator {
-                            span: DUMMY_SP,
-                            name: Pat::Ident(var.clone()),
-                            init: None,
-                            definite: false,
-                        });
+                        let (var, a) = alias_if_required(&obj, "_ref");
+                        if a {
+                            aliased = true;
+                            self.vars.push(VarDeclarator {
+                                span: DUMMY_SP,
+                                name: Pat::Ident(var.clone()),
+                                init: None,
+                                definite: false,
+                            });
+                        }
                         var
                     });
 
@@ -408,13 +476,17 @@ impl<'a> FieldAccessFolder<'a> {
                                 if is_alias_initialized {
                                     var.clone().as_arg()
                                 } else {
-                                    AssignExpr {
-                                        span: DUMMY_SP,
-                                        left: PatOrExpr::Pat(box Pat::Ident(var.clone())),
-                                        op: op!("="),
-                                        right: obj,
+                                    if aliased {
+                                        AssignExpr {
+                                            span: DUMMY_SP,
+                                            left: PatOrExpr::Pat(box Pat::Ident(var.clone())),
+                                            op: op!("="),
+                                            right: obj,
+                                        }
+                                        .as_arg()
+                                    } else {
+                                        var.clone().as_arg()
                                     }
-                                    .as_arg()
                                 },
                                 ident.as_arg(),
                             ],

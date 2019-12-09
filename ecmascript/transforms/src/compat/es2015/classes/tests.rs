@@ -12,11 +12,18 @@ fn syntax() -> Syntax {
 }
 
 fn tr() -> impl Fold<Module> {
-    Classes
+    Classes::default()
 }
 
 fn spec_tr() -> impl Fold<Module> {
-    chain!(resolver(), Classes, spread(), block_scoping(),)
+    chain!(
+        resolver(),
+        Classes::default(),
+        spread(spread::Config {
+            ..Default::default()
+        }),
+        block_scoping(),
+    )
 }
 
 test!(
@@ -28,6 +35,7 @@ class HomePage extends React.Component {}
 "#,
     r#"
 let HomePage = function(_Component) {
+    'use strict';
     _inherits(HomePage, _Component);
     function HomePage() {
         _classCallCheck(this, HomePage);
@@ -55,11 +63,12 @@ class Sub extends Foo {
 "#,
     r#"
 let singleton;
-let Sub = function(_Foo) {
-    _inherits(Sub, _Foo);
+let Sub = function(Foo) {
+    'use strict';
+    _inherits(Sub, Foo);
     function Sub() {
-        var _this;
         _classCallCheck(this, Sub);
+        var _this;
         if (singleton) {
             return _possibleConstructorReturn(_this, singleton);
         }
@@ -79,8 +88,9 @@ test!(
     class List extends Array {}
 "#,
     r#"
-let List = function(_Array) {
-    _inherits(List, _Array);
+let List = function(Array) {
+    'use strict';
+    _inherits(List, Array);
     function List() {
         _classCallCheck(this, List);
         return _possibleConstructorReturn(this, _getPrototypeOf(List).apply(this, arguments));
@@ -133,9 +143,8 @@ class Foo {
 "#,
     r#"
 var Foo = function Foo() {
-  
-
-  _classCallCheck(this, Foo);
+  'use strict';
+_classCallCheck(this, Foo);
 };
 
 "#
@@ -227,25 +236,22 @@ var BaseView = class {
 "#,
     r#"
 var BaseView = function BaseView() {
-  
-
-  _classCallCheck(this, BaseView);
+  'use strict';
+_classCallCheck(this, BaseView);
   this.autoRender = true;
 };
 
 var BaseView = function BaseView() {
-  
-
-  _classCallCheck(this, BaseView);
+  'use strict';
+_classCallCheck(this, BaseView);
   this.autoRender = true;
 };
 
 var BaseView =
 /*#__PURE__*/
 function () {
-  
-
-  function BaseView() {
+  'use strict';
+function BaseView() {
     _classCallCheck(this, BaseView);
   }
 
@@ -302,6 +308,7 @@ expect(obj.test).toBe(2);
 let Base =
 /*#__PURE__*/
 function () {
+  'use strict';
   function Base() {
     _classCallCheck(this, Base);
   }
@@ -320,8 +327,9 @@ function () {
 
 let Obj =
 /*#__PURE__*/
-function (_Base) {
-  _inherits(Obj, _Base);
+function (Base) {
+  'use strict';
+  _inherits(Obj, Base);
 
   function Obj() {
     _classCallCheck(this, Obj);
@@ -373,15 +381,16 @@ class Foo extends Bar {
     r#"
 var Foo =
 /*#__PURE__*/
-function (_Bar) {
-  
+function (Bar) {
+  'use strict';
 
-  _inherits(Foo, _Bar);
+  _inherits(Foo, Bar);
 
   function Foo() {
+    _classCallCheck(this, Foo);
+
     var _this;
 
-    _classCallCheck(this, Foo);
     return _possibleConstructorReturn(_this);
   }
 
@@ -418,6 +427,7 @@ expect(obj.get()).toBe(1);
 
 
 let Base = function Base() {
+  'use strict';
   _classCallCheck(this, Base);
 };
 
@@ -425,8 +435,9 @@ Base.prototype.test = 1;
 
 let Obj =
 /*#__PURE__*/
-function (_Base) {
-  _inherits(Obj, _Base);
+function (Base) {
+  'use strict';
+  _inherits(Obj, Base);
 
   function Obj() {
     _classCallCheck(this, Obj);
@@ -448,75 +459,6 @@ Obj.prototype.test = 2;
 const obj = new Obj();
 expect(obj.test).toBe(2);
 expect(obj.get()).toBe(1);
-
-"#
-);
-
-// get_set_call_semantics_setter_defined_on_parent_exec
-test_exec!(
-    syntax(),
-    |_| tr(),
-    get_set_call_semantics_setter_defined_on_parent_exec,
-    r#"
-
-class Base {
-  set test(v) {
-    throw new Error("gobbledygook");
-  }
-}
-
-class Obj extends Base {
-  call() {
-    return super.test();
-  }
-
-  test() {
-    throw new Error("gobbledygook");
-  }
-}
-
-const obj = new Obj();
-expect(() => {
-  obj.call();
-
-  // Asser that this throws, but that it's not
-  // a gobbledygook error that is thrown
-}).toThrowError(TypeError)
-
-"#
-);
-
-// get_set_set_semantics_data_defined_on_parent_exec
-test_exec!(
-    syntax(),
-    |_| tr(),
-    get_set_set_semantics_data_defined_on_parent_exec,
-    r#"
-
-class Base  {
-}
-Object.defineProperty(Base.prototype, 'test', {
-  value: 1,
-  writable: true,
-  configurable: true,
-});
-
-class Obj extends Base {
-  set() {
-    return super.test = 3;
-  }
-}
-Object.defineProperty(Obj.prototype, 'test', {
-  value: 2,
-  writable: true,
-  configurable: true,
-});
-
-const obj = new Obj();
-expect(obj.set()).toBe(3);
-expect(Base.prototype.test).toBe(1);
-expect(Obj.prototype.test).toBe(2);
-expect(obj.test).toBe(3);
 
 "#
 );
@@ -551,32 +493,20 @@ expect(constructor).toBe(CustomElement);
 
 "#,
     r#"
-// Pretend that `Reflect.construct` isn't supported.
 this.Reflect = undefined;
-
-this.HTMLElement = function () {
-  // Here, `this.HTMLElement` is this function, not the original HTMLElement
-  // constructor. `this.constructor` should be this function too, but isn't.
-  constructor = this.constructor;
+this.HTMLElement = function() {
+    constructor = this.constructor;
 };
-
 var constructor;
-
-let CustomElement =
-/*#__PURE__*/
-function (_HTMLElement) {
-  
-
-  _inherits(CustomElement, _HTMLElement);
-
-  function CustomElement() {
-    _classCallCheck(this, CustomElement);
-    return _possibleConstructorReturn(this, _getPrototypeOf(CustomElement).apply(this, arguments));
-  }
-
-  return CustomElement;
+let CustomElement = function(HTMLElement) {
+    'use strict';
+    _inherits(CustomElement, HTMLElement);
+    function CustomElement() {
+        _classCallCheck(this, CustomElement);
+        return _possibleConstructorReturn(this, _getPrototypeOf(CustomElement).apply(this, arguments));
+    }
+    return CustomElement;
 }(_wrapNativeSuper(HTMLElement));
-
 ;
 new CustomElement();
 expect(constructor).toBe(CustomElement);
@@ -601,32 +531,24 @@ class A extends B {
 
 "#,
     r#"
-let A =
-/*#__PURE__*/
-function (_B) {
-  
-
-  _inherits(A, _B);
-
-  function A() {
-    var _this;
-
-    _classCallCheck(this, A);
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(A).call(this));
-
-    _this.arrow1 = function (x) {
-      return x;
-    };
-
-    _this.arrow2 = function (x) {
-      return x;
-    };
-
-    return _this;
-  }
-
-  return A;
+let A = function(B) {
+    'use strict';
+    _inherits(A, B);
+    function A() {
+        _classCallCheck(this, A);
+        var _this;
+        _this = _possibleConstructorReturn(this, _getPrototypeOf(A).call(this));
+        _this.arrow1 = function(x) {
+            return x;
+        };
+        _this.arrow2 = function(x) {
+            return x;
+        };
+        return _this;
+    }
+    return A;
 }(B);
+
 
 "#
 );
@@ -667,6 +589,7 @@ expect(obj.test).toBe(3);
 
 
 let Base = function Base() {
+  'use strict';
   _classCallCheck(this, Base);
 };
 
@@ -674,8 +597,9 @@ let value = 2;
 
 let Obj =
 /*#__PURE__*/
-function (_Base) {
-  _inherits(Obj, _Base);
+function (Base) {
+  'use strict';
+  _inherits(Obj, Base);
 
   function Obj() {
     _classCallCheck(this, Obj);
@@ -744,6 +668,7 @@ expect(obj.get()).toBeUndefined();
 let Base =
 /*#__PURE__*/
 function () {
+  'use strict';
   function Base() {
     _classCallCheck(this, Base);
   }
@@ -760,8 +685,9 @@ function () {
 
 let Obj =
 /*#__PURE__*/
-function (_Base) {
-  _inherits(Obj, _Base);
+function (Base) {
+  'use strict';
+  _inherits(Obj, Base);
 
   function Obj() {
     _classCallCheck(this, Obj);
@@ -807,28 +733,20 @@ class Foo extends Bar {
 
 "#,
     r#"
-var Foo =
-/*#__PURE__*/
-function (_Bar) {
-  
-
-  _inherits(Foo, _Bar);
-
-  function Foo() {
-    var _this;
-
-    _classCallCheck(this, Foo);
-
-    var fn = () => _assertThisInitialized(_this);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this));
-    fn();
-    return _this;
-  }
-
-  return Foo;
+var Foo = function(Bar) {
+    'use strict';
+    _inherits(Foo, Bar);
+    function Foo() {
+        _classCallCheck(this, Foo);
+        var _this;
+        var fn = ()=>_assertThisInitialized(_this)
+        ;
+        _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this));
+        fn();
+        return _this;
+    }
+    return Foo;
 }(Bar);
-
 "#
 );
 
@@ -854,10 +772,9 @@ class Test extends Foo {
     r#"
 var Test =
 /*#__PURE__*/
-function (_Foo) {
-  
-
-  _inherits(Test, _Foo);
+function (Foo) {
+  'use strict';
+_inherits(Test, Foo);
 
   function Test() {
     _classCallCheck(this, Test);
@@ -903,7 +820,7 @@ class Test {
 var Test =
 /*#__PURE__*/
 function () {
-  
+  'use strict';
 
   function Test() {
     _classCallCheck(this, Test);
@@ -952,7 +869,7 @@ exports.default = _default;
 "#
 );
 
-// regression_T2494
+// regression_t2494
 test!(
     syntax(),
     |_| tr(),
@@ -967,10 +884,9 @@ var x = {
 var x = {
   Foo:
   /*#__PURE__*/
-  function (_Foo) {
-    
-
-    _inherits(_class, _Foo);
+  function (Foo) {
+  'use strict';
+_inherits(_class, Foo);
 
     function _class() {
       _classCallCheck(this, _class);
@@ -996,7 +912,7 @@ var o = { foo: class foo {} };
     r#"
 var o = {
   foo: function foo() {
-    
+    'use strict';
 
     _classCallCheck(this, foo);
   }
@@ -1063,7 +979,7 @@ expect(Test.test()).toBe(Function);
 var Test =
 /*#__PURE__*/
 function () {
-  
+  'use strict';
 
   function Test() {
     _classCallCheck(this, Test);
@@ -1103,6 +1019,7 @@ class Test {
 "#,
     r#"
 var Test = function Test() {
+  'use strict';
   _classCallCheck(this, Test);
   return _get(_getPrototypeOf(Test.prototype), "constructor", this);
 }
@@ -1145,6 +1062,7 @@ expect(obj.get()).toBe(1);
 let Base =
 /*#__PURE__*/
 function () {
+  'use strict';
   function Base() {
     _classCallCheck(this, Base);
   }
@@ -1162,8 +1080,9 @@ function () {
 
 let Obj =
 /*#__PURE__*/
-function (_Base) {
-  _inherits(Obj, _Base);
+function (Base) {
+  'use strict';
+  _inherits(Obj, Base);
 
   function Obj() {
     _classCallCheck(this, Obj);
@@ -1210,24 +1129,19 @@ class Foo extends Bar {
 
 "#,
     r#"
-var Foo =
-/*#__PURE__*/
-function (_Bar) {
-  
-
-  _inherits(Foo, _Bar);
-
-  function Foo() {
-    var _this;
-
-    _classCallCheck(this, Foo);
-    _this.foo = "bar";
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this))
-    return _this;
-  }
-
-  return Foo;
+var Foo = function(Bar) {
+    'use strict';
+    _inherits(Foo, Bar);
+    function Foo() {
+        _classCallCheck(this, Foo);
+        var _this;
+        _this.foo = 'bar';
+        _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this));
+        return _this;
+    }
+    return Foo;
 }(Bar);
+
 
 "#
 );
@@ -1273,6 +1187,7 @@ expect(obj.call(1, 2, 3)).toBe(1);
 let Base =
 /*#__PURE__*/
 function () {
+  'use strict';
   function Base() {
     _classCallCheck(this, Base);
   }
@@ -1294,8 +1209,9 @@ function () {
 
 let Obj =
 /*#__PURE__*/
-function (_Base) {
-  _inherits(Obj, _Base);
+function (Base) {
+  'use strict';
+  _inherits(Obj, Base);
 
   function Obj() {
     _classCallCheck(this, Obj);
@@ -1362,58 +1278,11 @@ export default class Foo {}
 "#,
     r#"
 var Foo = function Foo() {
+  'use strict';
   _classCallCheck(this, Foo);
 };
 
 export { Foo as default };
-
-"#
-);
-
-// get_set_call_semantics_data_defined_on_parent_exec
-test_exec!(
-    syntax(),
-    |_| tr(),
-    get_set_call_semantics_data_defined_on_parent_exec,
-    r#"
-
-class Base {
-  test(...args) {
-    expect(this).toBe(obj);
-    expect(args).toEqual([1, 2, 3]);
-    return 1;
-  }
-}
-
-class Obj extends Base {
-  call() {
-    super.test(1, 2, 3);
-    super.test(1, ...[2, 3]);
-    super.test(...[1, 2, 3]);
-    return super.test(...arguments);
-  }
-
-  test() {
-    throw new Error("called");
-  }
-}
-
-const obj = new Obj();
-expect(obj.call(1, 2, 3)).toBe(1);
-
-"#
-);
-
-// extend_builtins_spec_exec
-test_exec!(
-    syntax(),
-    |_| tr(),
-    extend_builtins_spec_exec,
-    r#"
-class List extends Array {}
-
-expect(new List).toBeInstanceOf(List);
-expect(new List).toBeInstanceOf(Array);
 
 "#
 );
@@ -1456,6 +1325,7 @@ expect(obj.call(1, 2, 3)).toBe(1);
 let Base =
 /*#__PURE__*/
 function () {
+  'use strict';
   function Base() {
     _classCallCheck(this, Base);
   }
@@ -1474,8 +1344,9 @@ function () {
 
 let Obj =
 /*#__PURE__*/
-function (_Base) {
-  _inherits(Obj, _Base);
+function (Base) {
+  'use strict';
+  _inherits(Obj, Base);
 
   function Obj() {
     _classCallCheck(this, Obj);
@@ -1535,7 +1406,7 @@ class A {
 var A =
 /*#__PURE__*/
 function () {
-  
+  'use strict';
 
   function A() {
     _classCallCheck(this, A);
@@ -1555,7 +1426,7 @@ function () {
 "#
 );
 
-// regression_T6755
+// regression_t6755
 
 // get_set_memoized_update
 test!(
@@ -1610,6 +1481,7 @@ expect(obj[1]).toBe(2);
 
 
 let Base = function Base() {
+  'use strict';
   _classCallCheck(this, Base);
 };
 
@@ -1633,8 +1505,9 @@ const proper = {
 
 let Obj =
 /*#__PURE__*/
-function (_Base) {
-  _inherits(Obj, _Base);
+function (Base) {
+  'use strict';
+  _inherits(Obj, Base);
 
   function Obj() {
     _classCallCheck(this, Obj);
@@ -1709,6 +1582,7 @@ expect(new Outer().hello()).toBe('hello');
 var Hello =
 /*#__PURE__*/
 function () {
+  'use strict';
   function Hello() {
     _classCallCheck(this, Hello);
   }
@@ -1722,10 +1596,9 @@ function () {
   return Hello;
 }();
 
-var Outer =
-/*#__PURE__*/
-function (_Hello) {
-  _inherits(Outer, _Hello);
+var Outer = function (Hello) {
+  'use strict';
+  _inherits(Outer, Hello);
 
   function Outer() {
     _classCallCheck(this, Outer);
@@ -1772,23 +1645,18 @@ class Foo extends Bar {
 
 "#,
     r#"
-var Foo =
-/*#__PURE__*/
-function (_Bar) {
-  
-
-  _inherits(Foo, _Bar);
-
-  function Foo() {
-    var _this;
-
-    _classCallCheck(this, Foo);
-    _get(_getPrototypeOf(Foo.prototype), (_this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this))).method, _assertThisInitialized(_this)).call(_this);
-    return _possibleConstructorReturn(_this);
-  }
-
-  return Foo;
+var Foo = function(Bar) {
+    'use strict';
+    _inherits(Foo, Bar);
+    function Foo() {
+        _classCallCheck(this, Foo);
+        var _this;
+        _get(_getPrototypeOf(Foo.prototype), (_this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this))).method, _assertThisInitialized(_this)).call(_this);
+        return _possibleConstructorReturn(_this);
+    }
+    return Foo;
 }(Bar);
+
 
 "#
 );
@@ -1885,15 +1753,14 @@ class Foo extends Bar {
     r#"
 var Foo =
 /*#__PURE__*/
-function (_Bar) {
-  
+function (Bar) {
+  'use strict';
 
-  _inherits(Foo, _Bar);
+  _inherits(Foo, Bar);
 
   function Foo() {
-    var _this;
-
     _classCallCheck(this, Foo);
+    var _this;
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this, _assertThisInitialized(_this)));
     return _this;
   }
@@ -1922,10 +1789,9 @@ class Test extends Foo {
     r#"
 var Test =
 /*#__PURE__*/
-function (_Foo) {
-  
-
-  _inherits(Test, _Foo);
+function (Foo) {
+  'use strict';
+_inherits(Test, Foo);
 
   function Test() {
     _classCallCheck(this, Test);
@@ -1961,9 +1827,8 @@ class Foo {
 var Foo =
 /*#__PURE__*/
 function () {
-  
-
-  function Foo() {
+  'use strict';
+function Foo() {
     _classCallCheck(this, Foo);
   }
 
@@ -1972,7 +1837,7 @@ function () {
     value: function foo() {}
   }, {
     key: "foo",
-    value: function foo1() {}
+    value: function foo() {}
   }, {
     key: bar,
     value: function() {}
@@ -1987,36 +1852,6 @@ function () {
 );
 
 // extend_builtins_shadowed
-
-// get_set_set_semantics_not_defined_on_parent_data_on_obj_exec
-test_exec!(
-    syntax(),
-    |_| tr(),
-    get_set_set_semantics_not_defined_on_parent_data_on_obj_exec,
-    r#"
-
-class Base {
-}
-
-class Obj extends Base {
-  set() {
-    return super.test = 3;
-  }
-}
-Object.defineProperty(Obj.prototype, 'test', {
-  value: 2,
-  writable: true,
-  configurable: true,
-});
-
-const obj = new Obj();
-expect(obj.set()).toBe(3);
-expect(Base.prototype.test).toBeUndefined();
-expect(Obj.prototype.test).toBe(2);
-expect(obj.test).toBe(3);
-
-"#
-);
 
 // get_set_set_semantics_data_defined_on_parent
 test!(
@@ -2055,6 +1890,7 @@ expect(obj.test).toBe(3);
 
 
 let Base = function Base() {
+  'use strict';
   _classCallCheck(this, Base);
 };
 
@@ -2066,8 +1902,9 @@ Object.defineProperty(Base.prototype, 'test', {
 
 let Obj =
 /*#__PURE__*/
-function (_Base) {
-  _inherits(Obj, _Base);
+function (Base) {
+  'use strict';
+  _inherits(Obj, Base);
 
   function Obj() {
     _classCallCheck(this, Obj);
@@ -2128,13 +1965,15 @@ expect(obj.test).toBe(3);
 
 
 let Base = function Base() {
+  'use strict';
   _classCallCheck(this, Base);
 };
 
 let Obj =
 /*#__PURE__*/
-function (_Base) {
-  _inherits(Obj, _Base);
+function (Base) {
+  'use strict';
+  _inherits(Obj, Base);
 
   function Obj() {
     _classCallCheck(this, Obj);
@@ -2270,9 +2109,8 @@ cp.m();
 let Point =
 /*#__PURE__*/
 function () {
-  
-
-  function Point() {
+  'use strict';
+function Point() {
     _classCallCheck(this, Point);
   }
 
@@ -2287,15 +2125,14 @@ function () {
 
 let ColorPoint =
 /*#__PURE__*/
-function (_Point) {
-  
-
-  _inherits(ColorPoint, _Point);
+function (Point) {
+  'use strict';
+_inherits(ColorPoint, Point);
 
   function ColorPoint() {
+    _classCallCheck(this, ColorPoint);
     var _this;
 
-    _classCallCheck(this, ColorPoint);
     _this = _possibleConstructorReturn(this, _getPrototypeOf(ColorPoint).call(this));
     _this.x = 2;
     _set(_getPrototypeOf(ColorPoint.prototype), 'x', 3, this, true);
@@ -2336,7 +2173,7 @@ class Test {
 "#,
     r#"
 var Test = function Test() {
-  
+  'use strict';
 
   _classCallCheck(this, Test);
   _get(_getPrototypeOf(Test.prototype), "hasOwnProperty", this).call(this, "test");
@@ -2409,55 +2246,7 @@ exports.default = RandomComponent;
 "#
 );
 
-// regression_T7537
-
-// extend_builtins_imported_babel_plugin_transform_builtin_classes_exec
-test_exec!(
-    syntax(),
-    |_| tr(),
-    extend_builtins_imported_babel_plugin_transform_builtin_classes_exec,
-    r#"
-
-class List extends Array {
-  constructor(value) {
-    super().push(value);
-  }
-  push(value) {
-    super.push(value);
-    return this;
-  }
-}
-
-expect(new List(1)).toBeInstanceOf(List);
-expect(new List(2)).toBeInstanceOf(Array);
-
-var l = new List(3);
-expect(l).toHaveLength(1);
-expect(l[0]).toBe(3);
-expect(l.push(4)).toBe(l);
-expect(l).toHaveLength(2);
-expect(l.join()).toBe('3,4');
-
-class SecondLevel extends List {
-  method() {
-    return this;
-  }
-}
-
-expect(new SecondLevel(1)).toBeInstanceOf(SecondLevel);
-expect(new SecondLevel(2)).toBeInstanceOf(List);
-expect(new SecondLevel(3)).toBeInstanceOf(Array);
-
-var s = new SecondLevel(4);
-expect(s).toHaveLength(1);
-expect(s[0]).toBe(4);
-expect(s.push(5)).toBe(s);
-expect(s).toHaveLength(2);
-expect(s.join()).toBe('4,5');
-expect(s.method()).toBe(s);
-
-"#
-);
+// regression_t7537
 
 // regression_3028
 test!(
@@ -2563,7 +2352,7 @@ class Test {
 var Test =
 /*#__PURE__*/
 function () {
-  
+  'use strict';
 
   function Test() {
     _classCallCheck(this, Test);
@@ -2617,6 +2406,7 @@ expect(new Outer().hello()).toBe('hello');
 
 
 var Hello = function Hello() {
+  'use strict';
   _classCallCheck(this, Hello);
   return {
     toString() {
@@ -2626,15 +2416,14 @@ var Hello = function Hello() {
   };
 };
 
-var Outer =
-/*#__PURE__*/
-function (_Hello) {
-  _inherits(Outer, _Hello);
+var Outer = function (Hello) {
+  'use strict';
+  _inherits(Outer, Hello);
 
   function Outer() {
+    _classCallCheck(this, Outer);
     var _this;
 
-    _classCallCheck(this, Outer);
     var Inner = {
       [_this = _possibleConstructorReturn(this, _getPrototypeOf(Outer).call(this))]() {
         return 'hello';
@@ -2679,13 +2468,15 @@ expect(obj.test).toBe(3);
 
 
 let Base = function Base() {
+  'use strict';
   _classCallCheck(this, Base);
 };
 
 let Obj =
 /*#__PURE__*/
-function (_Base) {
-  _inherits(Obj, _Base);
+function (Base) {
+  'use strict';
+  _inherits(Obj, Base);
 
   function Obj() {
     _classCallCheck(this, Obj);
@@ -2726,21 +2517,15 @@ class Child extends Base {
 
 "#,
     r#"
-var Child =
-/*#__PURE__*/
-function (_Base) {
-  
-
-  _inherits(Child, _Base);
-
-  function Child() {
-    var _this;
-
-    _classCallCheck(this, Child);
-    return _possibleConstructorReturn(_this, false);
-  }
-
-  return Child;
+var Child = function(Base) {
+    'use strict';
+    _inherits(Child, Base);
+    function Child() {
+        _classCallCheck(this, Child);
+        var _this;
+        return _possibleConstructorReturn(_this, false);
+    }
+    return Child;
 }(Base);
 
 "#
@@ -2762,15 +2547,14 @@ class Foo extends Bar {
     r#"
 var Foo =
 /*#__PURE__*/
-function (_Bar) {
-  
+function (Bar) {
+  'use strict';
 
-  _inherits(Foo, _Bar);
+  _inherits(Foo, Bar);
 
   function Foo() {
-    var _this;
-
     _classCallCheck(this, Foo);
+    var _this;
     Foo[_assertThisInitialized(_this)];
     return _possibleConstructorReturn(_this);
   }
@@ -2814,7 +2598,7 @@ class ConstructorScoping {
 "#,
     r#"
 var Test = function Test() {
-  
+  'use strict';
 
   _classCallCheck(this, Test);
   this.state = "test";
@@ -2822,14 +2606,14 @@ var Test = function Test() {
 
 var Foo =
 /*#__PURE__*/
-function (_Bar) {
-  
+function (Bar) {  
+  'use strict';
 
-  _inherits(Foo, _Bar);
+  _inherits(Foo, Bar);
 
   function Foo() {
-    var _this;
     _classCallCheck(this, Foo);
+    var _this;
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this));
     _this.state = "test";
     return _this;
@@ -2839,7 +2623,7 @@ function (_Bar) {
 }(Bar);
 
 var ConstructorScoping = function ConstructorScoping() {
-  
+  'use strict';  
 
   _classCallCheck(this, ConstructorScoping);
   var bar;
@@ -2884,7 +2668,7 @@ class MyCtrl3 {
     r#"
 var MyCtrl = function MyCtrl(a) {
   "any directive prologue";
-  
+  'use strict';
 
   _classCallCheck(this, MyCtrl);
   foo;
@@ -2893,15 +2677,15 @@ var MyCtrl = function MyCtrl(a) {
 var MyCtrl2 = function MyCtrl2(a) {
   "a";
   "b";
+  'use strict';
   
-
   _classCallCheck(this, MyCtrl2);
   foo;
 };
 
 var MyCtrl3 = function MyCtrl3(a) {
   "a";
-  
+  'use strict';
 
   _classCallCheck(this, MyCtrl3);
   foo;
@@ -2927,59 +2711,23 @@ class Child extends Base {
 
 "#,
     r#"
-var Child =
-/*#__PURE__*/
-function (_Base) {
-  
-
-  _inherits(Child, _Base);
-
-  function Child() {
-    var _this;
-
-    _classCallCheck(this, Child);
-    return _possibleConstructorReturn(_this, {});
-  }
-
-  return Child;
+var Child = function(Base) {
+    'use strict';
+    _inherits(Child, Base);
+    function Child() {
+        _classCallCheck(this, Child);
+        var _this;
+        return _possibleConstructorReturn(_this, {
+        });
+    }
+    return Child;
 }(Base);
 
-"#
-);
-
-// get_set_get_semantics_getter_defined_on_parent_exec
-test_exec!(
-    syntax(),
-    |_| tr(),
-    get_set_get_semantics_getter_defined_on_parent_exec,
-    r#"
-
-class Base {
-  get test() {
-    expect(this).toBe(obj);
-    return 1;
-  }
-}
-
-class Obj extends Base {
-  get() {
-    return super.test;
-  }
-}
-Object.defineProperty(Obj.prototype, 'test', {
-  value: 2,
-  writable: true,
-  configurable: true,
-});
-
-const obj = new Obj();
-expect(obj.test).toBe(2);
-expect(obj.get()).toBe(1);
 
 "#
 );
 
-// regression_T6750
+// regression_t6750
 test!(
     // Module
     ignore,
@@ -3040,7 +2788,7 @@ class Test {
 var Test =
 /*#__PURE__*/
 function () {
-  
+  'use strict';
 
   function Test() {
     _classCallCheck(this, Test);
@@ -3058,7 +2806,7 @@ function () {
 "#
 );
 
-// regression_T2997
+// regression_t2997
 test!(
     syntax(),
     |_| tr(),
@@ -3075,22 +2823,20 @@ class B extends A {
 "#,
     r#"
 let A = function A() {
-  
-
-  _classCallCheck(this, A);
+  'use strict';
+_classCallCheck(this, A);
 };
 
 let B =
 /*#__PURE__*/
-function (_A) {
-  
-
-  _inherits(B, _A);
+function (A) {
+  'use strict';
+_inherits(B, A);
 
   function B() {
+    _classCallCheck(this, B);
     var _this;
 
-    _classCallCheck(this, B);
     return _possibleConstructorReturn(_this, _this = _possibleConstructorReturn(this, _getPrototypeOf(B).call(this)));
   }
 
@@ -3117,9 +2863,8 @@ var t = new Example();
 "#,
     r#"
 var Example = function Example() {
-  
-
-  _classCallCheck(this, Example);
+  'use strict';
+_classCallCheck(this, Example);
 
   var Example1;
 };
@@ -3160,7 +2905,7 @@ class TestMultipleMethods extends (class {
 var TestEmpty =
 /*#__PURE__*/
 function (_super) {
-  
+  'use strict';
 
   _inherits(TestEmpty, _super);
 
@@ -3170,22 +2915,15 @@ function (_super) {
   }
 
   return TestEmpty;
-}(
-/*#__PURE__*/
-function () {
-  
-
-  function _class() {
+}(function _class() {
+    'use strict';
     _classCallCheck(this, _class);
-  }
-
-  return _class;
-}());
+});
 
 var TestConstructorOnly =
 /*#__PURE__*/
 function (_super) {
-  
+  'use strict';
 
   _inherits(TestConstructorOnly, _super);
 
@@ -3195,21 +2933,15 @@ function (_super) {
   }
 
   return TestConstructorOnly;
-}(/*#__PURE__*/
-function () {
-  
-
-  function _class() {
-    _classCallCheck(this, _class);
-  }
-
-  return _class;
-}());
+}(function _class() {
+  'use strict';
+  _classCallCheck(this, _class);
+});
 
 var TestMethodOnly =
 /*#__PURE__*/
 function (_super) {
-  
+  'use strict';
 
   _inherits(TestMethodOnly, _super);
 
@@ -3222,7 +2954,7 @@ function (_super) {
 }(
 /*#__PURE__*/
 function () {
-  
+  'use strict';
 
   function _class() {
     _classCallCheck(this, _class);
@@ -3238,7 +2970,7 @@ function () {
 var TestConstructorAndMethod =
 /*#__PURE__*/
 function (_super) {
-  
+  'use strict';
 
   _inherits(TestConstructorAndMethod, _super);
 
@@ -3251,7 +2983,7 @@ function (_super) {
 }(
 /*#__PURE__*/
 function () {
-  
+  'use strict';
 
   function _class() {
     _classCallCheck(this, _class);
@@ -3267,7 +2999,7 @@ function () {
 var TestMultipleMethods =
 /*#__PURE__*/
 function (_super) {
-  
+  'use strict';
 
   _inherits(TestMultipleMethods, _super);
 
@@ -3280,7 +3012,7 @@ function (_super) {
 }(
 /*#__PURE__*/
 function () {
-  
+  'use strict';
 
   function _class() {
     _classCallCheck(this, _class);
@@ -3337,6 +3069,7 @@ expect(new Outer().hello()).toBe('hello');
 
 
 var Hello = function Hello() {
+  'use strict';
   _classCallCheck(this, Hello);
   return {
     toString() {
@@ -3346,17 +3079,14 @@ var Hello = function Hello() {
   };
 };
 
-var Outer =
-/*#__PURE__*/
-function (_Hello) {
-  _inherits(Outer, _Hello);
+var Outer = function (Hello) {
+  'use strict';
+  _inherits(Outer, Hello);
 
   function Outer() {
-    var _this = this;
-
-    var _this1;
-
     _classCallCheck(this, Outer);
+    var _this = this;
+    var _this1;
 
     var Inner =
     /*#__PURE__*/
@@ -3381,39 +3111,6 @@ function (_Hello) {
 }(Hello);
 
 expect(new Outer().hello()).toBe('hello');
-
-"#
-);
-
-// get_set_get_semantics_data_defined_on_parent_exec
-test_exec!(
-    syntax(),
-    |_| tr(),
-    get_set_get_semantics_data_defined_on_parent_exec,
-    r#"
-
-class Base {
-}
-Object.defineProperty(Base.prototype, 'test', {
-  value: 1,
-  writable: true,
-  configurable: true,
-});
-
-class Obj extends Base {
-  get() {
-    return super.test;
-  }
-}
-Object.defineProperty(Obj.prototype, 'test', {
-  value: 2,
-  writable: true,
-  configurable: true,
-});
-
-const obj = new Obj();
-expect(obj.test).toBe(2);
-expect(obj.get()).toBe(1);
 
 "#
 );
@@ -3583,7 +3280,7 @@ class Test {
 var Test =
 /*#__PURE__*/
 function () {
-  
+  'use strict';
 
   function Test() {
     _classCallCheck(this, Test);
@@ -3617,27 +3314,21 @@ class Foo extends Bar {
 
 "#,
     r#"
-var Foo =
-/*#__PURE__*/
-function (_Bar) {
-  
-
-  _inherits(Foo, _Bar);
-
-  function Foo() {
-    var _this;
-
-    _classCallCheck(this, Foo);
-
-    var fn = () => _assertThisInitialized(_this);
-
-    fn();
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this))
-    return _this;
-  }
-
-  return Foo;
+var Foo = function(Bar) {
+    'use strict';
+    _inherits(Foo, Bar);
+    function Foo() {
+        _classCallCheck(this, Foo);
+        var _this;
+        var fn = ()=>_assertThisInitialized(_this)
+        ;
+        fn();
+        _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this));
+        return _this;
+    }
+    return Foo;
 }(Bar);
+
 
 "#
 );
@@ -3680,10 +3371,9 @@ class Test extends Foo {
     r#"
 var Test =
 /*#__PURE__*/
-function (_Foo) {
-  
-
-  _inherits(Test, _Foo);
+function (Foo) {
+  'use strict';
+  _inherits(Test, Foo);
 
   function Test() {
     var _babelHelpers$getProt, _babelHelpers$get;
@@ -3726,43 +3416,6 @@ function (_Foo) {
   }]);
   return Test;
 }(Foo);
-
-"#
-);
-
-// get_set_call_semantics_getter_defined_on_parent_exec
-test_exec!(
-    syntax(),
-    |_| tr(),
-    get_set_call_semantics_getter_defined_on_parent_exec,
-    r#"
-
-class Base {
-  get test() {
-    expect(this).toBe(obj);
-    return function(...args) {
-      expect(this).toBe(obj);
-      expect(args).toEqual([1, 2, 3]);
-      return 1;
-    };
-  }
-}
-
-class Obj extends Base {
-  call() {
-    super.test(1, 2, 3);
-    super.test(1, ...[2, 3]);
-    super.test(...[1, 2, 3]);
-    return super.test(...arguments);
-  }
-
-  test() {
-    throw new Error("called");
-  }
-}
-
-const obj = new Obj();
-expect(obj.call(1, 2, 3)).toBe(1);
 
 "#
 );
@@ -3818,7 +3471,7 @@ expect(new Outer().hello()).toBe('hello');
 "#
 );
 
-// regression_T6712
+// regression_t6712
 test!(
     syntax(),
     |_| tr(),
@@ -3835,9 +3488,8 @@ class A {
 let A =
 /*#__PURE__*/
 function () {
-  
-
-  function A() {
+  'use strict';
+function A() {
     _classCallCheck(this, A);
   }
 
@@ -3894,6 +3546,7 @@ let value = 1;
 let Base =
 /*#__PURE__*/
 function () {
+  'use strict';
   function Base() {
     _classCallCheck(this, Base);
   }
@@ -3910,8 +3563,9 @@ function () {
 
 let Obj =
 /*#__PURE__*/
-function (_Base) {
-  _inherits(Obj, _Base);
+function (Base) {
+  'use strict';
+  _inherits(Obj, Base);
 
   function Obj() {
     _classCallCheck(this, Obj);
@@ -3977,13 +3631,15 @@ expect(() => {
 
 
 let Base = function Base() {
+  'use strict';
   _classCallCheck(this, Base);
 };
 
 let Obj =
 /*#__PURE__*/
-function (_Base) {
-  _inherits(Obj, _Base);
+function (Base) {
+  'use strict';
+  _inherits(Obj, Base);
 
   function Obj() {
     _classCallCheck(this, Obj);
@@ -4071,6 +3727,7 @@ expect(new Outer().hello()).toBe('hello');
 var Hello =
 /*#__PURE__*/
 function () {
+  'use strict';
   function Hello() {
     _classCallCheck(this, Hello);
   }
@@ -4086,8 +3743,9 @@ function () {
 
 var Outer =
 /*#__PURE__*/
-function (_Hello) {
-  _inherits(Outer, _Hello);
+function (Hello) {
+  'use strict';
+  _inherits(Outer, Hello);
 
   function Outer() {
     _classCallCheck(this, Outer);
@@ -4142,8 +3800,6 @@ expect(obj.test).toBe(3);
 
 // exec_expression
 
-// regression_T7010
-
 // spec_this_not_allowed_before_super_in_derived_classes_2_exec
 test_exec!(
     syntax(),
@@ -4160,19 +3816,6 @@ class Foo extends Bar {
 
 expect(() => new Foo()).toThrow("this hasn't been initialised");
 
-"#
-);
-
-// extend_builtins_overwritten_null_exec
-test_exec!(
-    syntax(),
-    |_| tr(),
-    extend_builtins_overwritten_null_exec,
-    r#"
-let Array = null;
-
-class List extends Array {}
-expect(List.prototype.__proto__).toBeUndefined();
 "#
 );
 
@@ -4233,6 +3876,7 @@ expect(() => {
 let Base =
 /*#__PURE__*/
 function () {
+  'use strict';
   function Base() {
     _classCallCheck(this, Base);
   }
@@ -4249,8 +3893,9 @@ function () {
 
 let Obj =
 /*#__PURE__*/
-function (_Base) {
-  _inherits(Obj, _Base);
+function (Base) {
+  'use strict';
+  _inherits(Obj, Base);
 
   function Obj() {
     _classCallCheck(this, Obj);
@@ -4294,10 +3939,10 @@ class Test extends Foo { }
     r#"
 var Test =
 /*#__PURE__*/
-function (_Foo) {
-  
+function (Foo) {
+  'use strict';
 
-  _inherits(Test, _Foo);
+  _inherits(Test, Foo);
 
   function Test() {
     _classCallCheck(this, Test);
@@ -4362,15 +4007,15 @@ class Foo extends Bar {
     r#"
 var Foo =
 /*#__PURE__*/
-function (_Bar) {
-  
+function (Bar) {
+  'use strict';
 
-  _inherits(Foo, _Bar);
+  _inherits(Foo, Bar);
 
   function Foo() {
+    _classCallCheck(this, Foo);
     var _this;
 
-    _classCallCheck(this, Foo);
     if (eval("false")) _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this));
     return _possibleConstructorReturn(_this);
   }
@@ -4398,15 +4043,15 @@ class Foo extends Bar {
     r#"
 var Foo =
 /*#__PURE__*/
-function (_Bar) {
-  
+function (Bar) {
+  'use strict';
 
-  _inherits(Foo, _Bar);
+  _inherits(Foo, Bar);
 
   function Foo() {
-    var _this;
-
     _classCallCheck(this, Foo);
+
+    var _this;
 
     var fn = () => _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this));
 
@@ -4437,34 +4082,6 @@ class Foo extends Bar {
 }
 
 expect(() => new Foo()).toThrow("this hasn't been initialised");
-
-"#
-);
-
-// get_set_get_semantics_not_defined_on_parent_exec
-test_exec!(
-    syntax(),
-    |_| tr(),
-    get_set_get_semantics_not_defined_on_parent_exec,
-    r#"
-
-class Base {
-}
-
-class Obj extends Base {
-  get() {
-    return super.test;
-  }
-}
-Object.defineProperty(Obj.prototype, 'test', {
-  value: 2,
-  writable: true,
-  configurable: true,
-});
-
-const obj = new Obj();
-expect(obj.test).toBe(2);
-expect(obj.get()).toBeUndefined();
 
 "#
 );
@@ -4501,13 +4118,15 @@ expect(obj.test).toBe(3);
 
 
 let Base = function Base() {
+  'use strict';
   _classCallCheck(this, Base);
 };
 
 let Obj =
 /*#__PURE__*/
-function (_Base) {
-  _inherits(Obj, _Base);
+function (Base) {
+  'use strict';
+  _inherits(Obj, Base);
 
   function Obj() {
     _classCallCheck(this, Obj);
@@ -4538,39 +4157,6 @@ expect(obj.test).toBe(3);
 
 "#
 );
-
-// get_set_set_semantics_not_defined_on_parent_getter_on_obj_exec
-test_exec!(
-    syntax(),
-    |_| tr(),
-    get_set_set_semantics_not_defined_on_parent_getter_on_obj_exec,
-    r#"
-
-class Base {
-}
-
-let called = false;
-class Obj extends Base {
-  get test() {
-    called = true;
-  }
-
-  set() {
-    return super.test = 3;
-  }
-}
-
-const obj = new Obj();
-expect(obj.set()).toBe(3);
-expect(called).toBe(false);
-expect(Base.prototype.test).toBeUndefined();
-expect(Obj.prototype.test).toBeUndefined();
-expect(obj.test).toBe(3);
-
-"#
-);
-
-// exec
 
 // get_set_memoized_assign
 test!(
@@ -4625,8 +4211,10 @@ expect(obj[1]).toBe(2);
 
 
 let Base = function Base() {
+  'use strict';
   _classCallCheck(this, Base);
 };
+
 
 Object.defineProperty(Base.prototype, 0, {
   value: 0,
@@ -4648,8 +4236,9 @@ const proper = {
 
 let Obj =
 /*#__PURE__*/
-function (_Base) {
-  _inherits(Obj, _Base);
+function (Base) {
+  'use strict';
+  _inherits(Obj, Base);
 
   function Obj() {
     _classCallCheck(this, Obj);
@@ -4685,51 +4274,6 @@ obj.assign2();
 expect(i).toBe(1);
 expect(obj[0]).toBe(1);
 expect(obj[1]).toBe(2);
-
-"#
-);
-
-// extend_builtins_builtin_objects_throw_when_wrapped_exec
-test_exec!(
-    syntax(),
-    |_| tr(),
-    extend_builtins_builtin_objects_throw_when_wrapped_exec,
-    r#"
-// JSON is wrapped because it starts with an uppercase letter, but it
-// should not be possible to extend it anyway.
-
-expect(() => class BetterJSON extends JSON {}).toThrow();
-
-"#
-);
-
-// get_set_call_semantics_not_defined_on_parent_exec
-test_exec!(
-    syntax(),
-    |_| tr(),
-    get_set_call_semantics_not_defined_on_parent_exec,
-    r#"
-
-class Base {
-}
-
-class Obj extends Base {
-  call() {
-    return super.test();
-  }
-
-  test() {
-    throw new Error("gobbledygook");
-  }
-}
-
-const obj = new Obj();
-expect(() => {
-  obj.call();
-
-  // Asser that this throws, but that it's not
-  // Obj.p.test's error that is thrown
-}).toThrowError(TypeError)
 
 "#
 );
@@ -4784,7 +4328,7 @@ class Foo {
 var Foo =
 /*#__PURE__*/
 function () {
-  
+  'use strict';
 
   function Foo() {
     _classCallCheck(this, Foo);
@@ -4823,57 +4367,6 @@ new Foo();
 "#
 );
 
-// get_set_memoized_update_exec
-test_exec!(
-    syntax(),
-    |_| tr(),
-    get_set_memoized_update_exec,
-    r#"
-
-class Base {}
-Object.defineProperty(Base.prototype, 0, {
-  value: 0,
-  writable: true,
-  configurable: true,
-});
-Object.defineProperty(Base.prototype, 1, {
-  value: 1,
-  writable: true,
-  configurable: true,
-});
-
-let i = 0;
-const proper = {
-  get prop() {
-    return i++;
-  },
-};
-
-class Obj extends Base {
-  update() {
-    super[proper.prop]++;
-  }
-
-  update2() {
-    super[i]++;
-  }
-}
-
-const obj = new Obj();
-
-obj.update();
-expect(i).toBe(1);
-expect(obj[0]).toBe(1);
-expect(obj[1]).toBe(1);
-
-obj.update2();
-expect(i).toBe(1);
-expect(obj[0]).toBe(1);
-expect(obj[1]).toBe(2);
-
-"#
-);
-
 // spec_computed_methods_exec
 test_exec!(
     syntax(),
@@ -4901,57 +4394,6 @@ expect(i[sym]()).toBe(3);
 "#
 );
 
-// get_set_memoized_assign_exec
-test_exec!(
-    syntax(),
-    |_| tr(),
-    get_set_memoized_assign_exec,
-    r#"
-
-class Base {}
-Object.defineProperty(Base.prototype, 0, {
-  value: 0,
-  writable: true,
-  configurable: true,
-});
-Object.defineProperty(Base.prototype, 1, {
-  value: 1,
-  writable: true,
-  configurable: true,
-});
-
-let i = 0;
-const proper = {
-  get prop() {
-    return i++;
-  },
-};
-
-class Obj extends Base {
-  assign() {
-    super[proper.prop] += 1;
-  }
-
-  assign2() {
-    super[i] += 1;
-  }
-}
-
-const obj = new Obj();
-
-obj.assign();
-expect(i).toBe(1);
-expect(obj[0]).toBe(1);
-expect(obj[1]).toBe(1);
-
-obj.assign2();
-expect(i).toBe(1);
-expect(obj[0]).toBe(1);
-expect(obj[1]).toBe(2);
-
-"#
-);
-
 // spec_derived_constructor_must_call_super_4
 test!(
     syntax(),
@@ -4968,15 +4410,15 @@ class Foo extends Bar {
     r#"
 var Foo =
 /*#__PURE__*/
-function (_Bar) {
-  
+function (Bar) {
+  'use strict';
 
-  _inherits(Foo, _Bar);
+  _inherits(Foo, Bar);
 
   function Foo() {
+    _classCallCheck(this, Foo);
     var _this;
 
-    _classCallCheck(this, Foo);
 
     var fn = () => _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this));
 
@@ -5008,7 +4450,7 @@ class BaseController2 extends Chaplin.Controller.Another {
 var BaseController =
 /*#__PURE__*/
 function (_Controller) {
-  
+  'use strict';
 
   _inherits(BaseController, _Controller);
 
@@ -5023,7 +4465,7 @@ function (_Controller) {
 var BaseController2 =
 /*#__PURE__*/
 function (_Another) {
-  
+  'use strict';
 
   _inherits(BaseController2, _Another);
 
@@ -5056,15 +4498,16 @@ class Foo extends Bar {
     r#"
 var Foo =
 /*#__PURE__*/
-function (_Bar) {
-  
+function (Bar) {
+  'use strict';
 
-  _inherits(Foo, _Bar);
+  _inherits(Foo, Bar);
 
   function Foo() {
+    _classCallCheck(this, Foo);
+
     var _this;
 
-    _classCallCheck(this, Foo);
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this, () => {
       _this.test;
     }));
@@ -5161,13 +4604,15 @@ expect(obj.get()).toBeUndefined();
 
 
 let Base = function Base() {
+  'use strict';
   _classCallCheck(this, Base);
 };
 
 let Obj =
 /*#__PURE__*/
-function (_Base) {
-  _inherits(Obj, _Base);
+function (Base) {
+  'use strict';
+  _inherits(Obj, Base);
 
   function Obj() {
     _classCallCheck(this, Obj);
@@ -5210,7 +4655,7 @@ class Test { }
 "#,
     r#"
 var Test = function Test() {
-  
+  'use strict';
 
   _classCallCheck(this, Test);
 };
@@ -5261,83 +4706,6 @@ expect(() => new Foo()).toThrow("this hasn't been initialised");
 "#
 );
 
-// get_set_set_semantics_not_defined_on_parent_not_on_obj_exec
-test_exec!(
-    syntax(),
-    |_| tr(),
-    get_set_set_semantics_not_defined_on_parent_not_on_obj_exec,
-    r#"
-
-class Base {
-}
-
-class Obj extends Base {
-  set() {
-    return super.test = 3;
-  }
-}
-
-const obj = new Obj();
-expect(obj.set()).toBe(3);
-expect(Base.prototype.test).toBeUndefined();
-expect(Obj.prototype.test).toBeUndefined();
-expect(obj.test).toBe(3);
-
-"#
-);
-
-// get_set_get_semantics_setter_defined_on_parent_exec
-test_exec!(
-    syntax(),
-    |_| tr(),
-    get_set_get_semantics_setter_defined_on_parent_exec,
-    r#"
-
-class Base {
-  set test(v) {
-    throw new Error("called");
-  }
-}
-
-class Obj extends Base {
-  get() {
-    return super.test;
-  }
-}
-Object.defineProperty(Obj.prototype, 'test', {
-  value: 2,
-  writable: true,
-  configurable: true,
-});
-
-const obj = new Obj();
-expect(obj.test).toBe(2);
-expect(obj.get()).toBeUndefined();
-
-"#
-);
-
-// extend_builtins_super_called_exec
-test_exec!(
-    syntax(),
-    |_| tr(),
-    extend_builtins_super_called_exec,
-    r#"
-var called = false;
-
-function Array() {
-  called = true;
-}
-
-
-class List extends Array {};
-new List();
-
-expect(called).toBe(true);
-
-"#
-);
-
 // spec_derived_constructor_must_call_super_exec
 test_exec!(
     syntax(),
@@ -5371,8 +4739,9 @@ export default class extends A {}
     r#"
 var _default =
 /*#__PURE__*/
-function (_A) {
-  _inherits(_default, _A);
+function (A) {
+  'use strict';
+  _inherits(_default, A);
 
   function _default() {
     _classCallCheck(this, _default);
@@ -5500,8 +4869,9 @@ test!(
     class Foo extends Bar { }
 }",
     "if (true) {
-    var Foo = function(_Bar) {
-        _inherits(Foo, _Bar);
+    var Foo = function(Bar) {
+        'use strict';
+        _inherits(Foo, Bar);
         function Foo() {
             _classCallCheck(this, Foo);
             return _possibleConstructorReturn(this, _getPrototypeOf(Foo).apply(this, arguments));
@@ -5523,8 +4893,9 @@ test!(
 }",
     "function broken(x, ...foo) {
     if (true) {
-        var Foo = function(_Bar) {
-            _inherits(Foo, _Bar);
+        var Foo = function(Bar) {
+            'use strict';
+            _inherits(Foo, Bar);
             function Foo() {
                 _classCallCheck(this, Foo);
                 return _possibleConstructorReturn(this, _getPrototypeOf(Foo).apply(this, \
@@ -5532,7 +4903,1201 @@ test!(
             }
             return Foo;
         }(Bar);
-        return hello.apply(void 0, foo);
+        return hello.apply(void 0, _toConsumableArray(foo));
     }
 }"
+);
+
+//// regression_3028
+//test!(
+//    syntax(),
+//    |_| tr(r#"{
+//  "plugins": [ "proposal-class-properties"],
+//  "presets": ["env", "react"]
+//}
+//"#),
+//    regression_3028,
+//    r#"
+//class b {
+//}
+//
+//class a1 extends b {
+//  constructor() {
+//    super();
+//    this.x = () => this;
+//  }
+//}
+//
+//export default class a2 extends b {
+//  constructor() {
+//    super();
+//    this.x = () => this;
+//  }
+//}
+//
+//"#,
+//    r#"
+//"use strict";
+//
+//Object.defineProperty(exports, "__esModule", {
+//  value: true
+//});
+//exports["default"] = void 0;
+//
+//var b = function b() {
+//  _classCallCheck(this, b);
+//};
+//
+//var a1 =
+// /*#__PURE__*/
+//function (_b) {
+//  _inherits(a1, _b);
+//
+//  function a1() {
+//    var _this;
+//
+//    _classCallCheck(this, a1);
+//    _this = _possibleConstructorReturn(this, _getPrototypeOf(a1).call(this));
+//
+//    _this.x = function () {
+//      return _assertThisInitialized(_this);
+//    };
+//
+//    return _this;
+//  }
+//
+//  return a1;
+//}(b);
+//
+//var a2 =
+// /*#__PURE__*/
+//function (_b2) {
+//  _inherits(a2, _b2);
+//
+//  function a2() {
+//    var _this2;
+//
+//    _classCallCheck(this, a2);
+//    _this2 = _possibleConstructorReturn(this, _getPrototypeOf(a2).call(this));
+//
+//    _this2.x = function () {
+//      return _assertThisInitialized(_this2);
+//    };
+//
+//    return _this2;
+//  }
+//
+//  return a2;
+//}(b);
+//
+//exports["default"] = a2;
+//
+//"#
+//);
+
+//// regression_t2997
+//test!(
+//    syntax(),
+//    |_| tr(r#"{
+//  "plugins": [ "proposal-class-properties"],
+//  "presets": ["env", "react"]
+//}
+//"#),
+//    regression_t2997,
+//    r#"
+//class A {}
+//
+//class B extends A {
+//  constructor() {
+//    return super();
+//  }
+//}
+//
+//"#,
+//    r#"
+//var A = function A() {
+//  "use strict";
+//
+//  _classCallCheck(this, A);
+//};
+//
+//var B =
+// /*#__PURE__*/
+//function (A) {
+//  "use strict";
+//
+//  _inherits(B, A);
+//
+//  function B() {
+//    var _this;
+//
+//    _classCallCheck(this, B);
+//    return _possibleConstructorReturn(_this, _this =
+// _possibleConstructorReturn(this, _getPrototypeOf(B).call(this)));  }
+//
+//  return B;
+//}(A);
+//
+//"#
+//);
+
+// extend_builtins_shadowed
+test!(
+    // Cost is too high while being uesless
+    ignore,
+    syntax(),
+    |_| tr(),
+    extend_builtins_shadowed,
+    r#"
+class Array {}
+
+class List extends Array {}
+"#,
+    r#"
+let Array = function Array() {
+  "use strict";
+
+  _classCallCheck(this, Array);
+};
+
+let List =
+/*#__PURE__*/
+function (Array) {
+  "use strict";
+
+  _inherits(List, Array);
+
+  function List() {
+    _classCallCheck(this, List);
+    return _possibleConstructorReturn(this, _getPrototypeOf(List).apply(this, arguments));
+  }
+
+  return List;
+}(Array);
+
+"#
+);
+
+//// regression_2694
+//test!(
+//    syntax(),
+//    |_| tr(r#"{
+//  "plugins": [],
+//  "presets": ["env"]
+//}
+//"#),
+//    regression_2694,
+//    r#"
+//import BaseFoo from './BaseFoo';
+//
+//export default class SubFoo extends BaseFoo {
+//  static talk() {
+//    super.talk();
+//    console.log('SubFoo.talk');
+//  }
+//}
+//
+//"#,
+//    r#"
+//"use strict";
+//
+//Object.defineProperty(exports, "__esModule", {
+//  value: true
+//});
+//exports["default"] = void 0;
+//
+//var BaseFoo2 = _interopRequireDefault(require("./BaseFoo"));
+//
+//var SubFoo =
+// /*#__PURE__*/
+//function (BaseFoo) {
+//  _inherits(SubFoo, BaseFoo);
+//
+//  function SubFoo() {
+//    _classCallCheck(this, SubFoo);
+//    return _possibleConstructorReturn(this,
+// _getPrototypeOf(SubFoo).apply(this, arguments));  }
+//
+//  _createClass(SubFoo, null, [{
+//    key: "talk",
+//    value: function talk() {
+//      _get(_getPrototypeOf(SubFoo), "talk", this).call(this);
+//      console.log('SubFoo.talk');
+//    }
+//  }]);
+//  return SubFoo;
+//}(BaseFoo2["default"]);
+//
+//exports["default"] = SubFoo;
+//
+//"#
+//);
+
+//// regression_t2494
+//test!(
+//    syntax(),
+//    |_| tr(r#"{
+//  "plugins": [ "proposal-class-properties"],
+//  "presets": ["env", "react"]
+//}
+//"#),
+//    regression_t2494,
+//    r#"
+//var x = {
+//  Foo: class extends Foo {}
+//};
+//
+//"#,
+//    r#"
+//var x = {
+//  Foo:
+//  /*#__PURE__*/
+//  function (Foo) {
+//    "use strict";
+//
+//    _inherits(_class, Foo);
+//
+//    function _class() {
+//      _classCallCheck(this, _class);
+//      return _possibleConstructorReturn(this,
+// _getPrototypeOf(_class).apply(this, arguments));    }
+//
+//    return _class;
+//  }(Foo)
+//};
+//
+//"#
+//);
+
+// extend_builtins_imported_babel_plugin_transform_builtin_classes
+test_exec!(
+    syntax(),
+    |_| chain!(Classes::default(), block_scoping()),
+    extend_builtins_imported_babel_plugin_transform_builtin_classes_exec,
+    r#"
+// Imported from
+// https://github.com/WebReflection/babel-plugin-transform-builtin-classes/blob/85efe1374e1c59a8323c7eddd4326f6c93d9f64f/test/test.js
+
+class List extends Array {
+  constructor(value) {
+    super().push(value);
+  }
+  push(value) {
+    super.push(value);
+    return this;
+  }
+}
+
+expect(new List(1)).toBeInstanceOf(List);
+expect(new List(2)).toBeInstanceOf(Array);
+
+var l = new List(3);
+expect(l).toHaveLength(1);
+expect(l[0]).toBe(3);
+expect(l.push(4)).toBe(l);
+expect(l).toHaveLength(2);
+expect(l.join()).toBe('3,4');
+
+class SecondLevel extends List {
+  method() {
+    return this;
+  }
+}
+
+expect(new SecondLevel(1)).toBeInstanceOf(SecondLevel);
+expect(new SecondLevel(2)).toBeInstanceOf(List);
+expect(new SecondLevel(3)).toBeInstanceOf(Array);
+
+var s = new SecondLevel(4);
+expect(s).toHaveLength(1);
+expect(s[0]).toBe(4);
+expect(s.push(5)).toBe(s);
+expect(s).toHaveLength(2);
+expect(s.join()).toBe('4,5');
+expect(s.method()).toBe(s);
+
+"#
+);
+
+// get_set_call_semantics_setter_defined_on_parent
+test_exec!(
+    syntax(),
+    |_| tr(),
+    get_set_call_semantics_setter_defined_on_parent_exec,
+    r#"
+"use strict";
+class Base {
+  set test(v) {
+    throw new Error("gobbledygook");
+  }
+}
+
+class Obj extends Base {
+  call() {
+    return super.test();
+  }
+
+  test() {
+    throw new Error("gobbledygook");
+  }
+}
+
+const obj = new Obj();
+expect(() => {
+  obj.call();
+
+  // Asser that this throws, but that it's not
+  // a gobbledygook error that is thrown
+}).toThrowError(TypeError)
+
+"#
+);
+
+// get_set_call_semantics_not_defined_on_parent
+test_exec!(
+    syntax(),
+    |_| tr(),
+    get_set_call_semantics_not_defined_on_parent_exec,
+    r#"
+"use strict";
+class Base {
+}
+
+class Obj extends Base {
+  call() {
+    return super.test();
+  }
+
+  test() {
+    throw new Error("gobbledygook");
+  }
+}
+
+const obj = new Obj();
+expect(() => {
+  obj.call();
+
+  // Asser that this throws, but that it's not
+  // Obj.p.test's error that is thrown
+}).toThrowError(TypeError)
+
+"#
+);
+
+// get_set_set_semantics_not_defined_on_parent_getter_on_obj
+test_exec!(
+    syntax(),
+    |_| tr(),
+    get_set_set_semantics_not_defined_on_parent_getter_on_obj_exec,
+    r#"
+"use strict";
+class Base {
+}
+
+let called = false;
+class Obj extends Base {
+  get test() {
+    called = true;
+  }
+
+  set() {
+    return super.test = 3;
+  }
+}
+
+const obj = new Obj();
+expect(obj.set()).toBe(3);
+expect(called).toBe(false);
+expect(Base.prototype.test).toBeUndefined();
+expect(Obj.prototype.test).toBeUndefined();
+expect(obj.test).toBe(3);
+
+"#
+);
+
+//// regression_t6712
+//test!(
+//    syntax(),
+//    |_| tr(r#"{
+//  "plugins": [ "proposal-class-properties"],
+//  "presets": ["env", "react"]
+//}
+//"#),
+//    regression_t6712,
+//    r#"
+//class A {
+//  foo() {
+//    const foo = 2;
+//  }
+//}
+//
+//"#,
+//    r#"
+//var A =
+// /*#__PURE__*/
+//function () {
+//  "use strict";
+//
+//  function A() {
+//    _classCallCheck(this, A);
+//  }
+//
+//  _createClass(A, [{
+//    key: "foo",
+//    value: function foo() {
+//      var foo = 2;
+//    }
+//  }]);
+//  return A;
+//}();
+//
+//"#
+//);
+
+// get_set_set_semantics_not_defined_on_parent_data_on_obj
+test_exec!(
+    syntax(),
+    |_| tr(),
+    get_set_set_semantics_not_defined_on_parent_data_on_obj_exec,
+    r#"
+"use strict";
+class Base {
+}
+
+class Obj extends Base {
+  set() {
+    return super.test = 3;
+  }
+}
+Object.defineProperty(Obj.prototype, 'test', {
+  value: 2,
+  writable: true,
+  configurable: true,
+});
+
+const obj = new Obj();
+expect(obj.set()).toBe(3);
+expect(Base.prototype.test).toBeUndefined();
+expect(Obj.prototype.test).toBe(2);
+expect(obj.test).toBe(3);
+
+"#
+);
+
+//// regression_2663
+//test!(
+//    syntax(),
+//    |_| tr(r#"{
+//  "plugins": [ "proposal-class-properties"],
+//  "presets": ["env", "react"]
+//}
+//"#),
+//    regression_2663,
+//    r#"
+//import net from 'net';
+//import { EventEmitter } from 'events';
+//import BinarySerializer from './helpers/binary-serializer';
+//// import ...
+//
+//export default class Connection extends EventEmitter {
+//    constructor(endpoint, joinKey, joinData, roomId) {
+//        super();
+//
+//        this.isConnected = false;
+//        this.roomId = roomId;
+//
+//        // ...
+//    }
+//
+//    send(message) {
+//        this.sock.write(BinarySerializer.serializeMessage(message));
+//    }
+//
+//    disconnect() {
+//        this.sock.close();
+//    }
+//}
+//
+//"#,
+//    r#"
+//"use strict";
+//
+//Object.defineProperty(exports, "__esModule", {
+//  value: true
+//});
+//exports["default"] = void 0;
+//
+//var _net = _interopRequireDefault(require("net"));
+//
+//var _events = require("events");
+//
+//var _binarySerializer =
+// _interopRequireDefault(require("./helpers/binary-serializer"));
+//
+//// import ...
+//var Connection =
+// /*#__PURE__*/
+//function (_EventEmitter) {
+//  _inherits(Connection, _EventEmitter);
+//
+//  function Connection(endpoint, joinKey, joinData, roomId) {
+//    var _this;
+//
+//    _classCallCheck(this, Connection);
+//    _this = _possibleConstructorReturn(this,
+// _getPrototypeOf(Connection).call(this));    _this.isConnected = false;
+//    _this.roomId = roomId; // ...
+//
+//    return _this;
+//  }
+//
+//  _createClass(Connection, [{
+//    key: "send",
+//    value: function send(message) {
+//      this.sock.write(_binarySerializer["default"].serializeMessage(message));
+//    }
+//  }, {
+//    key: "disconnect",
+//    value: function disconnect() {
+//      this.sock.close();
+//    }
+//  }]);
+//  return Connection;
+//}(_events.EventEmitter);
+//
+//exports["default"] = Connection;
+//
+//"#
+//);
+
+// extend_builtins_spec
+test_exec!(
+    syntax(),
+    |_| chain!(Classes::default(), block_scoping()),
+    extend_builtins_spec_exec,
+    r#"
+class List extends Array {}
+
+expect(new List).toBeInstanceOf(List);
+expect(new List).toBeInstanceOf(Array);
+
+"#
+);
+
+// get_set_call_semantics_data_defined_on_parent
+test_exec!(
+    syntax(),
+    |_| tr(),
+    get_set_call_semantics_data_defined_on_parent_exec,
+    r#"
+"use strict";
+class Base {
+  test(...args) {
+    expect(this).toBe(obj);
+    expect(args).toEqual([1, 2, 3]);
+    return 1;
+  }
+}
+
+class Obj extends Base {
+  call() {
+    super.test(1, 2, 3);
+    super.test(1, ...[2, 3]);
+    super.test(...[1, 2, 3]);
+    return super.test(...arguments);
+  }
+
+  test() {
+    throw new Error("called");
+  }
+}
+
+const obj = new Obj();
+expect(obj.call(1, 2, 3)).toBe(1);
+
+"#
+);
+
+// get_set_memoized_assign
+test_exec!(
+    syntax(),
+    |_| tr(),
+    get_set_memoized_assign_exec,
+    r#"
+"use strict";
+class Base {}
+Object.defineProperty(Base.prototype, 0, {
+  value: 0,
+  writable: true,
+  configurable: true,
+});
+Object.defineProperty(Base.prototype, 1, {
+  value: 1,
+  writable: true,
+  configurable: true,
+});
+
+let i = 0;
+const proper = {
+  get prop() {
+    return i++;
+  },
+};
+
+class Obj extends Base {
+  assign() {
+    super[proper.prop] += 1;
+  }
+
+  assign2() {
+    super[i] += 1;
+  }
+}
+
+const obj = new Obj();
+
+obj.assign();
+expect(i).toBe(1);
+expect(obj[0]).toBe(1);
+expect(obj[1]).toBe(1);
+
+obj.assign2();
+expect(i).toBe(1);
+expect(obj[0]).toBe(1);
+expect(obj[1]).toBe(2);
+
+"#
+);
+
+//// regression_5769
+//test_exec!(
+//    syntax(),
+//    |_| tr(r#"{
+//  "plugins": [ "proposal-class-properties"],
+//  "presets": ["env", "react"]
+//}
+//"#),
+//    regression_5769_exec,
+//    r#"
+//class Point {
+//  getX() {
+//    expect(this.x).toBe(3); // C
+//  }
+//}
+//
+//class ColorPoint extends Point {
+//  constructor() {
+//    super();
+//    this.x = 2;
+//    super.x = 3;
+//    expect(this.x).toBe(3);   // A
+//    expect(super.x).toBeUndefined();  // B
+//  }
+//
+//  m() {
+//    this.getX()
+//  }
+//}
+//
+//const cp = new ColorPoint();
+//cp.m();
+//
+//"#
+//);
+
+// get_set_get_semantics_setter_defined_on_parent
+test_exec!(
+    syntax(),
+    |_| tr(),
+    get_set_get_semantics_setter_defined_on_parent_exec,
+    r#"
+"use strict";
+class Base {
+  set test(v) {
+    throw new Error("called");
+  }
+}
+
+class Obj extends Base {
+  get() {
+    return super.test;
+  }
+}
+Object.defineProperty(Obj.prototype, 'test', {
+  value: 2,
+  writable: true,
+  configurable: true,
+});
+
+const obj = new Obj();
+expect(obj.test).toBe(2);
+expect(obj.get()).toBeUndefined();
+
+"#
+);
+
+//// regression_t7537
+//test!(
+//    syntax(),
+//    |_| tr(r#"{
+//  "plugins": ["transform-exponentiation-operator"],
+//  "presets": ["env"]
+//}
+//"#),
+//    regression_t7537,
+//    r#"
+//class B{}
+//class A extends B{
+//  constructor(track){
+//    if (track !== undefined) super(track);
+//    else super();
+//  }
+//}
+//
+//"#,
+//    r#"
+//function _typeof(obj) { if (typeof Symbol === "function" && typeof
+// Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return
+// typeof obj; }; } else { _typeof = function _typeof(obj) { return obj &&
+// typeof Symbol === "function" && obj.constructor === Symbol && obj !==
+// Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+//
+//function _possibleConstructorReturn(self, call) { if (call && (_typeof(call)
+// === "object" || typeof call === "function")) { return call; } return
+// _assertThisInitialized(self); }
+//
+//function _assertThisInitialized(self) { if (self === void 0) { throw new
+// ReferenceError("this hasn't been initialised - super() hasn't been called");
+// } return self; }
+//
+//function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ?
+// Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ ||
+// Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+//
+//function _inherits(subClass, superClass) { if (typeof superClass !==
+// "function" && superClass !== null) { throw new TypeError("Super expression
+// must either be null or a function"); } subClass.prototype =
+// Object.create(superClass && superClass.prototype, { constructor: { value:
+// subClass, writable: true, configurable: true } }); if (superClass)
+// _setPrototypeOf(subClass, superClass); }
+//
+//function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ||
+// function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return
+// _setPrototypeOf(o, p); }
+//
+//function _classCallCheck(instance, Constructor) { if (!(instance instanceof
+// Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+//
+//var B = function B() {
+//  "use strict";
+//
+//  _classCallCheck(this, B);
+//};
+//
+//var A =
+// /*#__PURE__*/
+//function (_B) {
+//  "use strict";
+//
+//  _inherits(A, _B);
+//
+//  function A(track) {
+//    var _this;
+//
+//    _classCallCheck(this, A);
+//
+//    if (track !== undefined) _this = _possibleConstructorReturn(this,
+// _getPrototypeOf(A).call(this, track));else _this =
+// _possibleConstructorReturn(this, _getPrototypeOf(A).call(this));
+//    return _possibleConstructorReturn(_this);
+//  }
+//
+//  return A;
+//}(B);
+//
+//"#
+//);
+
+// regression_t7010
+test!(
+    // TODO: Unignore this
+    ignore,
+    syntax(),
+    |_| chain!(tr(), block_scoping()),
+    regression_t7010,
+    r#"
+class Foo {
+  constructor(val){
+    this._val = val;
+  }
+  foo2(){
+    return foo2(this._val);
+  }
+}
+
+"#,
+    r#"
+var Foo =
+/*#__PURE__*/
+function () {
+  "use strict";
+
+  function Foo(val) {
+    _classCallCheck(this, Foo);
+    this._val = val;
+  }
+
+  _createClass(Foo, [{
+    key: "foo2",
+    value: function (_foo) {
+      function foo2() {
+        return _foo.apply(this, arguments);
+      }
+
+      foo2.toString = function () {
+        return _foo.toString();
+      };
+
+      return foo2;
+    }(function () {
+      return foo2(this._val);
+    })
+  }]);
+  return Foo;
+}();
+
+"#
+);
+
+//// regression_2941
+//test!(
+//    syntax(),
+//    |_| tr(r#"{
+//  "plugins": [ "proposal-class-properties"],
+//  "presets": ["env", "react"]
+//}
+//"#),
+//    regression_2941,
+//    r#"
+//export default class {}
+//
+//"#,
+//    r#"
+//"use strict";
+//
+//Object.defineProperty(exports, "__esModule", {
+//  value: true
+//});
+//exports["default"] = void 0;
+//
+//var _default = function _default() {
+//  _classCallCheck(this, _default);
+//};
+//
+//exports["default"] = _default;
+//
+//"#
+//);
+
+// get_set_call_semantics_getter_defined_on_parent
+test_exec!(
+    syntax(),
+    |_| tr(),
+    get_set_call_semantics_getter_defined_on_parent_exec,
+    r#"
+"use strict";
+class Base {
+  get test() {
+    expect(this).toBe(obj);
+    return function(...args) {
+      expect(this).toBe(obj);
+      expect(args).toEqual([1, 2, 3]);
+      return 1;
+    };
+  }
+}
+
+class Obj extends Base {
+  call() {
+    super.test(1, 2, 3);
+    super.test(1, ...[2, 3]);
+    super.test(...[1, 2, 3]);
+    return super.test(...arguments);
+  }
+
+  test() {
+    throw new Error("called");
+  }
+}
+
+const obj = new Obj();
+expect(obj.call(1, 2, 3)).toBe(1);
+
+"#
+);
+
+// get_set_set_semantics_data_defined_on_parent
+test_exec!(
+    syntax(),
+    |_| tr(),
+    get_set_set_semantics_data_defined_on_parent_exec,
+    r#"
+"use strict";
+class Base  {
+}
+Object.defineProperty(Base.prototype, 'test', {
+  value: 1,
+  writable: true,
+  configurable: true,
+});
+
+class Obj extends Base {
+  set() {
+    return super.test = 3;
+  }
+}
+Object.defineProperty(Obj.prototype, 'test', {
+  value: 2,
+  writable: true,
+  configurable: true,
+});
+
+const obj = new Obj();
+expect(obj.set()).toBe(3);
+expect(Base.prototype.test).toBe(1);
+expect(Obj.prototype.test).toBe(2);
+expect(obj.test).toBe(3);
+
+"#
+);
+
+// get_set_get_semantics_getter_defined_on_parent
+test_exec!(
+    syntax(),
+    |_| tr(),
+    get_set_get_semantics_getter_defined_on_parent_exec,
+    r#"
+"use strict";
+class Base {
+  get test() {
+    expect(this).toBe(obj);
+    return 1;
+  }
+}
+
+class Obj extends Base {
+  get() {
+    return super.test;
+  }
+}
+Object.defineProperty(Obj.prototype, 'test', {
+  value: 2,
+  writable: true,
+  configurable: true,
+});
+
+const obj = new Obj();
+expect(obj.test).toBe(2);
+expect(obj.get()).toBe(1);
+
+"#
+);
+
+// get_set_memoized_update
+test_exec!(
+    syntax(),
+    |_| tr(),
+    get_set_memoized_update_exec,
+    r#"
+"use strict";
+class Base {}
+Object.defineProperty(Base.prototype, 0, {
+  value: 0,
+  writable: true,
+  configurable: true,
+});
+Object.defineProperty(Base.prototype, 1, {
+  value: 1,
+  writable: true,
+  configurable: true,
+});
+
+let i = 0;
+const proper = {
+  get prop() {
+    return i++;
+  },
+};
+
+class Obj extends Base {
+  update() {
+    super[proper.prop]++;
+  }
+
+  update2() {
+    super[i]++;
+  }
+}
+
+const obj = new Obj();
+
+obj.update();
+expect(i).toBe(1);
+expect(obj[0]).toBe(1);
+expect(obj[1]).toBe(1);
+
+obj.update2();
+expect(i).toBe(1);
+expect(obj[0]).toBe(1);
+expect(obj[1]).toBe(2);
+
+"#
+);
+
+// get_set_get_semantics_not_defined_on_parent
+test_exec!(
+    syntax(),
+    |_| tr(),
+    get_set_get_semantics_not_defined_on_parent_exec,
+    r#"
+"use strict";
+class Base {
+}
+
+class Obj extends Base {
+  get() {
+    return super.test;
+  }
+}
+Object.defineProperty(Obj.prototype, 'test', {
+  value: 2,
+  writable: true,
+  configurable: true,
+});
+
+const obj = new Obj();
+expect(obj.test).toBe(2);
+expect(obj.get()).toBeUndefined();
+
+"#
+);
+
+// get_set_set_semantics_not_defined_on_parent_not_on_obj
+test_exec!(
+    syntax(),
+    |_| tr(),
+    get_set_set_semantics_not_defined_on_parent_not_on_obj_exec,
+    r#"
+"use strict";
+class Base {
+}
+
+class Obj extends Base {
+  set() {
+    return super.test = 3;
+  }
+}
+
+const obj = new Obj();
+expect(obj.set()).toBe(3);
+expect(Base.prototype.test).toBeUndefined();
+expect(Obj.prototype.test).toBeUndefined();
+expect(obj.test).toBe(3);
+
+"#
+);
+
+// extend_builtins_builtin_objects_throw_when_wrapped
+test_exec!(
+    syntax(),
+    |_| chain!(Classes::default(), block_scoping()),
+    extend_builtins_builtin_objects_throw_when_wrapped_exec,
+    r#"
+// JSON is wrapped because it starts with an uppercase letter, but it
+// should not be possible to extend it anyway.
+
+expect(() => class BetterJSON extends JSON {}).toThrow();
+
+"#
+);
+
+// get_set_get_semantics_data_defined_on_parent
+test_exec!(
+    syntax(),
+    |_| tr(),
+    get_set_get_semantics_data_defined_on_parent_exec,
+    r#"
+"use strict";
+class Base {
+}
+Object.defineProperty(Base.prototype, 'test', {
+  value: 1,
+  writable: true,
+  configurable: true,
+});
+
+class Obj extends Base {
+  get() {
+    return super.test;
+  }
+}
+Object.defineProperty(Obj.prototype, 'test', {
+  value: 2,
+  writable: true,
+  configurable: true,
+});
+
+const obj = new Obj();
+expect(obj.test).toBe(2);
+expect(obj.get()).toBe(1);
+
+"#
+);
+
+// extend_builtins_overwritten_null
+test_exec!(
+    // Just don't do this.
+    ignore,
+    syntax(),
+    |_| chain!(Classes::default(), block_scoping()),
+    extend_builtins_overwritten_null_exec,
+    r#"
+var env = {
+  Array: null,
+};
+
+// We need to use "with" to avoid leaking the modified Array to other tests.
+with (env) {
+  class List extends Array {}
+  expect(List.prototype.__proto__).toBeUndefined();
+}
+
+"#
+);
+
+// extend_builtins_super_called
+test_exec!(
+    // Just don't do this. With is evil.
+    ignore,
+    syntax(),
+    |_| chain!(Classes::default(), block_scoping()),
+    extend_builtins_super_called_exec,
+    r#"
+var called = false;
+
+var env = {
+  Array: function Array() {
+    called = true;
+  }
+};
+
+// We need to use "with" to avoid leaking the modified Array to other tests.
+with (env) {
+  class List extends Array {};
+  new List();
+
+  expect(called).toBe(true);
+}
+
+"#
 );

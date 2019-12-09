@@ -10,7 +10,7 @@ use crate::{
 use swc_common::chain;
 
 fn tr(options: Options) -> impl Fold<Module> {
-    chain!(jsx(options), display_name(), Classes, arrow(),)
+    chain!(jsx(options), display_name(), Classes::default(), arrow(),)
 }
 
 test!(

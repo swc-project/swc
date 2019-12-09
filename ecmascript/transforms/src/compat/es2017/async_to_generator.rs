@@ -1,6 +1,7 @@
 use crate::{
+    compat::es2015::arrow,
     pass::Pass,
-    util::{contains_this_expr, ExprFactory, StmtLike},
+    util::{contains_ident_ref, contains_this_expr, ExprFactory, StmtLike},
 };
 use ast::*;
 use std::iter;
@@ -401,6 +402,16 @@ impl Fold<Expr> for Actual {
                 callee: ExprOrSuper::Expr(box Expr::Fn(fn_expr)),
                 args,
                 type_args,
+            })
+            | Expr::Call(CallExpr {
+                span,
+                callee:
+                    ExprOrSuper::Expr(box Expr::Paren(ParenExpr {
+                        expr: box Expr::Fn(fn_expr),
+                        ..
+                    })),
+                args,
+                type_args,
             }) => {
                 if !args.is_empty() || !fn_expr.function.is_async {
                     return Expr::Call(CallExpr {
@@ -411,14 +422,40 @@ impl Fold<Expr> for Actual {
                     });
                 }
 
+                // https://github.com/babel/babel/issues/8783
+                if fn_expr.ident.is_some()
+                    && contains_ident_ref(&fn_expr.function.body, fn_expr.ident.as_ref().unwrap())
+                {
+                    return Expr::Call(CallExpr {
+                        span,
+                        callee: ExprOrSuper::Expr(box Expr::Fn(fn_expr)),
+                        args,
+                        type_args,
+                    })
+                    .fold_children(self);
+                }
+
                 return make_fn_ref(fn_expr);
             }
+
             _ => {}
         }
 
         let expr = expr.fold_children(self);
 
         match expr {
+            Expr::Arrow(ArrowExpr { is_async: true, .. }) => {
+                // Apply arrow
+                let expr = expr.fold_with(&mut arrow());
+
+                let f = match expr {
+                    Expr::Fn(f) => f,
+                    _ => return expr,
+                };
+
+                return make_fn_ref(f);
+            }
+
             Expr::Fn(
                 expr @ FnExpr {
                     function:
@@ -451,6 +488,7 @@ impl Fold<Expr> for Actual {
                     type_args: Default::default(),
                 })
             }
+
             _ => expr,
         }
     }
@@ -473,13 +511,33 @@ impl Fold<FnDecl> for Actual {
 }
 
 impl Actual {
-    #[inline(always)]
     fn fold_fn(&mut self, raw_ident: Option<Ident>, f: Function, is_decl: bool) -> Function {
         if f.body.is_none() {
             return f;
         }
         let span = f.span();
-        let params = f.params.clone();
+        let params = {
+            let mut done = false;
+            f.params
+                .iter()
+                .filter_map(|p| {
+                    if done {
+                        None
+                    } else {
+                        match *p {
+                            Pat::Ident(..) => Some(p.clone()),
+                            Pat::Array(..) | Pat::Object(..) => {
+                                Some(Pat::Ident(private_ident!("_")))
+                            }
+                            _ => {
+                                done = true;
+                                None
+                            }
+                        }
+                    }
+                })
+                .collect()
+        };
         let ident = raw_ident.clone().unwrap_or_else(|| quote_ident!("ref"));
 
         let real_fn_ident = private_ident!(ident.span, format!("_{}", ident.sym));

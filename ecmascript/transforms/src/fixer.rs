@@ -202,6 +202,25 @@ impl Fold<Expr> for Fixer {
             Expr::Member(MemberExpr {
                 span,
                 computed,
+                obj: obj @ ExprOrSuper::Expr(box Expr::Object(..)),
+                prop,
+            }) if match self.ctx {
+                Context::ForcedExpr { is_var_decl: true } => true,
+                _ => false,
+            } =>
+            {
+                MemberExpr {
+                    span,
+                    computed,
+                    obj,
+                    prop,
+                }
+                .into()
+            }
+
+            Expr::Member(MemberExpr {
+                span,
+                computed,
                 obj: ExprOrSuper::Expr(obj @ box Expr::Fn(_)),
                 prop,
             })
@@ -518,6 +537,70 @@ impl Fold<Expr> for Fixer {
             })),
             _ => expr,
         }
+    }
+}
+
+impl Fold<ExprOrSpread> for Fixer {
+    fn fold(&mut self, e: ExprOrSpread) -> ExprOrSpread {
+        let e = e.fold_children(self);
+
+        if e.spread.is_none() {
+            match *e.expr {
+                Expr::Yield(..) => {
+                    return ExprOrSpread {
+                        spread: None,
+                        expr: box e.expr.wrap_with_paren(),
+                    }
+                }
+                _ => {}
+            }
+        }
+
+        e
+    }
+}
+
+impl Fold<ExportDefaultExpr> for Fixer {
+    fn fold(&mut self, node: ExportDefaultExpr) -> ExportDefaultExpr {
+        let old = self.ctx;
+        self.ctx = Context::Default;
+        let mut node = node.fold_children(self);
+        node.expr = match *node.expr {
+            Expr::Arrow(..) | Expr::Seq(..) => box node.expr.wrap_with_paren(),
+            _ => node.expr,
+        };
+        self.ctx = old;
+        node
+    }
+}
+
+impl Fold<ArrowExpr> for Fixer {
+    fn fold(&mut self, node: ArrowExpr) -> ArrowExpr {
+        let old = self.ctx;
+        self.ctx = Context::Default;
+        let mut node = node.fold_children(self);
+        node.body = match node.body {
+            BlockStmtOrExpr::Expr(e @ box Expr::Seq(..)) => {
+                BlockStmtOrExpr::Expr(box e.wrap_with_paren())
+            }
+            _ => node.body,
+        };
+        self.ctx = old;
+        node
+    }
+}
+
+impl Fold<Class> for Fixer {
+    fn fold(&mut self, node: Class) -> Class {
+        let old = self.ctx;
+        self.ctx = Context::Default;
+        let mut node = node.fold_children(self);
+        node.super_class = match node.super_class {
+            Some(e @ box Expr::Seq(..)) => Some(box e.wrap_with_paren()),
+            _ => node.super_class,
+        };
+        self.ctx = old;
+        node
     }
 }
 

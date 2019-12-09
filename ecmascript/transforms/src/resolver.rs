@@ -236,6 +236,16 @@ impl<'a> Fold<FnDecl> for Resolver<'a> {
     }
 }
 
+impl Fold<Pat> for Resolver<'_> {
+    fn fold(&mut self, p: Pat) -> Pat {
+        let old = self.cur_defining.take();
+        let p = p.fold_children(self);
+
+        self.cur_defining = old;
+        p
+    }
+}
+
 impl<'a> Fold<Expr> for Resolver<'a> {
     fn fold(&mut self, expr: Expr) -> Expr {
         let expr = validate!(expr);
@@ -338,6 +348,22 @@ impl<'a> Fold<Ident> for Resolver<'a> {
                 i
             }
         }
+    }
+}
+
+impl Fold<ObjectLit> for Resolver<'_> {
+    fn fold(&mut self, o: ObjectLit) -> ObjectLit {
+        let child_mark = Mark::fresh(self.mark);
+
+        let mut child_folder = Resolver::new(
+            child_mark,
+            Scope::new(ScopeKind::Block, Some(&self.current)),
+            self.cur_defining.take(),
+        );
+
+        let o = o.fold_children(&mut child_folder);
+        self.cur_defining = child_folder.cur_defining;
+        o
     }
 }
 

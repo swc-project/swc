@@ -1,25 +1,35 @@
 use crate::{
     pass::Pass,
-    util::{alias_ident_for, prepend, undefined, ExprFactory, StmtLike},
+    util::{alias_ident_for, is_literal, prepend, undefined, ExprFactory, StmtLike},
 };
 use ast::*;
-use std::{iter, mem};
+use serde::Deserialize;
+use std::mem;
 use swc_atoms::js_word;
 use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Span, Spanned, DUMMY_SP};
 
 #[cfg(test)]
 mod tests;
 
-pub fn spread() -> impl Pass {
-    Spread
+pub fn spread(c: Config) -> impl Pass {
+    Spread { c }
+}
+
+#[derive(Debug, Clone, Copy, Default, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Config {
+    pub loose: bool,
 }
 
 /// es2015 - `SpreadElement`
-#[derive(Default, Clone)]
-struct Spread;
+#[derive(Default)]
+struct Spread {
+    c: Config,
+}
 
 #[derive(Default)]
 struct ActualFolder {
+    c: Config,
     vars: Vec<VarDeclarator>,
 }
 
@@ -28,7 +38,10 @@ where
     T: StmtLike + FoldWith<ActualFolder> + FoldWith<Self>,
 {
     fn fold(&mut self, items: Vec<T>) -> Vec<T> {
-        let mut folder = ActualFolder::default();
+        let mut folder = ActualFolder {
+            c: self.c,
+            vars: vec![],
+        };
         let mut items = items.move_map(|item| item.fold_with(&mut folder));
         if !folder.vars.is_empty() {
             prepend(
@@ -61,7 +74,7 @@ impl Fold<Expr> for ActualFolder {
                     return Expr::Array(ArrayLit { span, elems });
                 }
 
-                concat_args(span, elems.into_iter(), true)
+                self.concat_args(span, elems.into_iter(), true)
             }
 
             // super(...spread) should be removed by es2015::classes pass
@@ -144,7 +157,14 @@ impl Fold<Expr> for ActualFolder {
                     ),
                 };
 
-                let args_array = concat_args(span, args.into_iter().map(Some), false);
+                let args_array = if is_literal(&args) {
+                    Expr::Array(ArrayLit {
+                        span,
+                        elems: expand_literal_args(args.into_iter().map(Some)),
+                    })
+                } else {
+                    self.concat_args(span, args.into_iter().map(Some), false)
+                };
                 let apply = MemberExpr {
                     span: DUMMY_SP,
                     obj: callee.as_callee(),
@@ -155,9 +175,7 @@ impl Fold<Expr> for ActualFolder {
                 Expr::Call(CallExpr {
                     span,
                     callee: apply.as_callee(),
-                    args: iter::once(this.as_arg())
-                        .chain(iter::once(args_array.as_arg()))
-                        .collect(),
+                    args: vec![this.as_arg(), args_array.as_arg()],
                     type_args: None,
                 })
             }
@@ -179,7 +197,7 @@ impl Fold<Expr> for ActualFolder {
                     });
                 }
 
-                let args = concat_args(span, args.into_iter().map(Some), true);
+                let args = self.concat_args(span, args.into_iter().map(Some), true);
 
                 Expr::Call(CallExpr {
                     span,
@@ -193,131 +211,213 @@ impl Fold<Expr> for ActualFolder {
     }
 }
 
-fn concat_args(
-    span: Span,
-    args: impl ExactSizeIterator + Iterator<Item = Option<ExprOrSpread>>,
-    need_array: bool,
-) -> Expr {
-    //
-    // []
-    //
-    let mut first_arr = None;
+impl ActualFolder {
+    fn concat_args(
+        &self,
+        span: Span,
+        args: impl ExactSizeIterator + Iterator<Item = Option<ExprOrSpread>>,
+        need_array: bool,
+    ) -> Expr {
+        //
+        // []
+        //
+        let mut first_arr = None;
 
-    let mut tmp_arr = vec![];
-    let mut buf = vec![];
-    let args_len = args.len();
+        let mut tmp_arr = vec![];
+        let mut buf = vec![];
+        let args_len = args.len();
 
-    macro_rules! make_arr {
-        () => {
-            let elems = mem::replace(&mut tmp_arr, vec![]);
-            match first_arr {
-                Some(_) => {
-                    if !elems.is_empty() {
-                        buf.push(Expr::Array(ArrayLit { span, elems }).as_arg());
+        macro_rules! make_arr {
+            () => {
+                let elems = mem::replace(&mut tmp_arr, vec![]);
+                match first_arr {
+                    Some(_) => {
+                        if !elems.is_empty() {
+                            buf.push(Expr::Array(ArrayLit { span, elems }).as_arg());
+                        }
+                    }
+                    None => {
+                        first_arr = Some(Expr::Array(ArrayLit { span, elems }));
                     }
                 }
-                None => {
-                    first_arr = Some(Expr::Array(ArrayLit { span, elems }));
-                }
-            }
-        };
-    }
+            };
+        }
 
-    for arg in args {
-        if let Some(arg) = arg {
-            let ExprOrSpread { expr, spread } = arg;
+        for arg in args {
+            if let Some(arg) = arg {
+                let ExprOrSpread { expr, spread } = arg;
 
-            match spread {
-                // ...b -> toConsumableArray(b)
-                Some(span) => {
-                    //
-                    make_arr!();
+                match spread {
+                    // ...b -> toConsumableArray(b)
+                    Some(span) => {
+                        //
+                        make_arr!();
 
-                    buf.push(match *expr {
-                        Expr::Ident(Ident {
-                            sym: js_word!("arguments"),
-                            ..
-                        }) => {
-                            if args_len == 1 {
-                                if need_array {
-                                    return Expr::Call(CallExpr {
+                        buf.push(match *expr {
+                            Expr::Ident(Ident {
+                                sym: js_word!("arguments"),
+                                ..
+                            }) => {
+                                if args_len == 1 {
+                                    if need_array {
+                                        return Expr::Call(CallExpr {
+                                            span,
+                                            callee: member_expr!(
+                                                DUMMY_SP,
+                                                Array.prototype.slice.call
+                                            )
+                                            .as_callee(),
+                                            args: vec![expr.as_arg()],
+                                            type_args: Default::default(),
+                                        });
+                                    } else {
+                                        return *expr;
+                                    }
+                                } else {
+                                    Expr::Call(CallExpr {
                                         span,
                                         callee: member_expr!(DUMMY_SP, Array.prototype.slice.call)
                                             .as_callee(),
                                         args: vec![expr.as_arg()],
                                         type_args: Default::default(),
-                                    });
-                                } else {
-                                    return *expr;
+                                    })
+                                    .as_arg()
                                 }
-                            } else {
+                            }
+                            _ => {
+                                if args_len == 1 && !need_array {
+                                    return if self.c.loose {
+                                        *expr
+                                    } else {
+                                        Expr::Call(CallExpr {
+                                            span,
+                                            callee: helper!(
+                                                to_consumable_array,
+                                                "toConsumableArray"
+                                            ),
+                                            args: vec![expr.as_arg()],
+                                            type_args: Default::default(),
+                                        })
+                                    };
+                                }
+                                // [].concat(arr) is shorter than _toConsumableArray(arr)
+                                if args_len == 1 {
+                                    return if self.c.loose {
+                                        Expr::Call(CallExpr {
+                                            span: DUMMY_SP,
+                                            callee: ArrayLit {
+                                                span: DUMMY_SP,
+                                                elems: vec![],
+                                            }
+                                            .member(quote_ident!("concat"))
+                                            .as_callee(),
+                                            args: vec![expr.as_arg()],
+                                            type_args: Default::default(),
+                                        })
+                                    } else {
+                                        Expr::Call(CallExpr {
+                                            span,
+                                            callee: helper!(
+                                                to_consumable_array,
+                                                "toConsumableArray"
+                                            ),
+                                            args: vec![expr.as_arg()],
+                                            type_args: Default::default(),
+                                        })
+                                    };
+                                }
+
                                 Expr::Call(CallExpr {
                                     span,
-                                    callee: member_expr!(DUMMY_SP, Array.prototype.slice.call)
-                                        .as_callee(),
+                                    callee: helper!(to_consumable_array, "toConsumableArray"),
                                     args: vec![expr.as_arg()],
                                     type_args: Default::default(),
                                 })
                                 .as_arg()
                             }
-                        }
-                        _ => {
-                            if args_len == 1 && !need_array {
-                                return *expr;
-                            }
-                            // [].concat(arr) is shorter than _toConsumableArray(arr)
-                            if args_len == 1 {
-                                return Expr::Call(CallExpr {
-                                    span: DUMMY_SP,
-                                    callee: ArrayLit {
-                                        span: DUMMY_SP,
-                                        elems: vec![],
-                                    }
-                                    .member(quote_ident!("concat"))
-                                    .as_callee(),
-                                    args: vec![expr.as_arg()],
-                                    type_args: Default::default(),
-                                });
-                            }
-
-                            Expr::Call(CallExpr {
-                                span,
-                                callee: helper!(to_consumable_array, "toConsumableArray"),
-                                args: vec![expr.as_arg()],
-                                type_args: Default::default(),
-                            })
-                            .as_arg()
-                        }
-                    });
+                        });
+                    }
+                    None => tmp_arr.push(Some(expr.as_arg())),
                 }
-                None => tmp_arr.push(Some(expr.as_arg())),
+            } else {
+                tmp_arr.push(None);
             }
-        } else {
-            tmp_arr.push(None);
+        }
+        make_arr!();
+
+        if !buf.is_empty()
+            && match first_arr {
+                None => true,
+                Some(Expr::Array(ref arr)) if arr.elems.is_empty() => true,
+                _ => false,
+            }
+        {
+            let callee = buf
+                .remove(0)
+                .expr
+                .member(Ident::new(js_word!("concat"), DUMMY_SP))
+                .as_callee();
+
+            if buf[0].spread.is_none() {
+                return Expr::Call(CallExpr {
+                    span,
+                    callee,
+                    args: buf,
+                    type_args: Default::default(),
+                });
+            } else {
+                return Expr::Call(CallExpr {
+                    span,
+                    callee,
+                    args: buf,
+                    type_args: Default::default(),
+                });
+            }
+        }
+
+        Expr::Call(CallExpr {
+            // TODO
+            span,
+
+            callee: first_arr
+                .take()
+                .unwrap_or_else(|| {
+                    // No arg
+
+                    // assert!(args.is_empty());
+                    Expr::Array(ArrayLit {
+                        span,
+                        elems: vec![],
+                    })
+                })
+                .member(Ident::new(js_word!("concat"), span))
+                .as_callee(),
+
+            args: buf,
+            type_args: Default::default(),
+        })
+    }
+}
+
+fn expand_literal_args(
+    args: impl ExactSizeIterator + Iterator<Item = Option<ExprOrSpread>>,
+) -> Vec<Option<ExprOrSpread>> {
+    fn expand(
+        buf: &mut Vec<Option<ExprOrSpread>>,
+        args: impl ExactSizeIterator + Iterator<Item = Option<ExprOrSpread>>,
+    ) {
+        for arg in args {
+            match arg {
+                Some(ExprOrSpread {
+                    spread: Some(..),
+                    expr: box Expr::Array(arr),
+                }) => expand(buf, arr.elems.into_iter()),
+                _ => buf.push(arg),
+            }
         }
     }
-    make_arr!();
 
-    Expr::Call(CallExpr {
-        // TODO
-        span,
-
-        callee: first_arr
-            .take()
-            .unwrap_or_else(|| {
-                // No arg
-
-                // assert!(args.is_empty());
-
-                Expr::Array(ArrayLit {
-                    span,
-                    elems: vec![],
-                })
-            })
-            .member(Ident::new(js_word!("concat"), span))
-            .as_callee(),
-
-        args: buf,
-        type_args: Default::default(),
-    })
+    let mut buf = Vec::with_capacity(args.len() + 4);
+    expand(&mut buf, args);
+    buf
 }

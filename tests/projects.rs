@@ -72,11 +72,6 @@ fn project(dir: &str) {
 //    project("tests/projects/webpack/repo/lib");
 //}
 
-#[test]
-fn issue_467() {
-    project("tests/projects/issue-467");
-}
-
 /// should respect modules config in .swcrc
 #[test]
 fn issue_225() {
@@ -168,4 +163,14 @@ fn issue_466_1() {
 #[test]
 fn issue_466_2() {
     project("tests/projects/issue-466-2");
+}
+
+#[test]
+fn issue_467() {
+    project("tests/projects/issue-467/");
+}
+
+#[test]
+fn issue_468() {
+    file("tests/projects/issue-468/input.ts").expect("failed to parse typescript");
 }

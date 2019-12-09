@@ -1,3 +1,4 @@
+pub(crate) use self::super_field::SuperFieldAccessFolder;
 use self::{
     constructor::{
         constructor_fn, make_possible_return_value, replace_this_in_constructor, ConstructorFolder,
@@ -5,11 +6,10 @@ use self::{
     },
     native::is_native,
     prop_name::HashKey,
-    super_field::SuperFieldAccessFolder,
 };
 use crate::util::{
-    alias_ident_for, default_constructor, prepend, prop_name_to_expr, ExprFactory, ModuleItemLike,
-    StmtLike,
+    alias_if_required, default_constructor, prepend, prop_name_to_expr, ExprFactory, IsDirective,
+    ModuleItemLike, StmtLike,
 };
 use ast::*;
 use fxhash::FxBuildHasher;
@@ -59,7 +59,9 @@ type IndexMap<K, V> = indexmap::IndexMap<K, V, FxBuildHasher>;
 /// }();
 /// ```
 #[derive(Default, Clone, Copy)]
-pub struct Classes;
+pub struct Classes {
+    in_strict: bool,
+}
 
 struct Data {
     key_prop: Box<Prop>,
@@ -74,6 +76,8 @@ where
 {
     fn fold(&mut self, stmts: Vec<T>) -> Vec<T> {
         let mut buf = Vec::with_capacity(stmts.len());
+        let mut first = true;
+        let old = self.in_strict;
 
         for stmt in stmts {
             match T::try_into_stmt(stmt) {
@@ -143,11 +147,18 @@ where
                     Err(..) => unreachable!(),
                 },
                 Ok(stmt) => {
+                    if first {
+                        self.in_strict |= stmt.is_use_strict();
+                    }
+
                     let stmt = stmt.fold_children(self);
                     buf.push(T::from_stmt(stmt));
                 }
             }
+            first = false;
         }
+
+        self.in_strict = old;
 
         buf
     }
@@ -188,6 +199,7 @@ impl Fold<Expr> for Classes {
 
         validate!(match n {
             Expr::Class(e) => self.fold_class(e.ident, e.class).fold_children(self),
+
             _ => n.fold_children(self),
         })
     }
@@ -229,8 +241,8 @@ impl Classes {
         let super_ident = class
             .super_class
             .as_ref()
-            .map(|e| alias_ident_for(e, "_super"));
-
+            .map(|e| alias_if_required(e, "_super").0);
+        let has_super = super_ident.is_some();
         let (params, args) = if let Some(ref super_ident) = super_ident {
             let params = vec![Pat::Ident(super_ident.clone())];
 
@@ -259,7 +271,14 @@ impl Classes {
 
         let mut stmts = self.class_to_stmts(class_name, super_ident, class);
 
-        if stmts.len() == 1 {
+        let cnt_of_non_directive = stmts
+            .iter()
+            .filter(|stmt| match stmt {
+                Stmt::Expr(box Expr::Lit(Lit::Str(..))) => false,
+                _ => true,
+            })
+            .count();
+        if !has_super && cnt_of_non_directive == 1 {
             //    class Foo {}
             //
             // should be
@@ -269,6 +288,7 @@ impl Classes {
             //    };
             //
             // instead of
+            //
             //    var Foo = function(){
             //      function Foo() {
             //          _classCallCheck(this, Foo);
@@ -280,8 +300,13 @@ impl Classes {
             let stmt = stmts.pop().unwrap();
             match stmt {
                 Stmt::Decl(Decl::Fn(FnDecl {
-                    ident, function, ..
+                    ident,
+                    mut function,
+                    ..
                 })) => {
+                    if let Some(use_strict) = stmts.pop() {
+                        prepend(&mut function.body.as_mut().unwrap().stmts, use_strict);
+                    }
                     return Expr::Fn(FnExpr {
                         ident: Some(ident),
                         function,
@@ -290,6 +315,7 @@ impl Classes {
                 _ => unreachable!(),
             }
         }
+
         let body = BlockStmt {
             span: DUMMY_SP,
             stmts,
@@ -369,7 +395,7 @@ impl Classes {
         }
 
         // Marker for `_this`
-        let mark = Mark::fresh(Mark::root());
+        let this_mark = Mark::fresh(Mark::root());
 
         {
             // Process constructor
@@ -392,13 +418,12 @@ impl Classes {
             let mut insert_this = false;
 
             if super_class_ident.is_some() {
-                let (c, inserted_this) = replace_this_in_constructor(mark, constructor);
+                let (c, inserted_this) = replace_this_in_constructor(this_mark, constructor);
+
                 constructor = c;
                 insert_this |= inserted_this;
             }
 
-            // inject _classCallCheck(this, Bar);
-            inject_class_call_check(&mut constructor, class_name.clone());
             let mut body = constructor.body.unwrap().stmts;
             // should we insert `var _this`?
 
@@ -410,22 +435,33 @@ impl Classes {
             }
 
             // inject possibleReturnCheck
-            let mode = if insert_this {
-                Some(SuperFoldingMode::Assign)
-            } else {
-                SuperCallFinder::find(&body)
+            let found_mode = SuperCallFinder::find(&body);
+            let mode = match found_mode {
+                None => None,
+                _ => {
+                    if insert_this {
+                        Some(SuperFoldingMode::Assign)
+                    } else {
+                        found_mode
+                    }
+                }
             };
 
             if super_class_ident.is_some() {
-                let this = quote_ident!(DUMMY_SP.apply_mark(mark), "_this");
+                let this = quote_ident!(DUMMY_SP.apply_mark(this_mark), "_this");
 
                 // We should fold body instead of constructor itself.
                 // Handle `super()`
                 body = body.fold_with(&mut ConstructorFolder {
                     is_constructor_default,
                     class_name: &class_name,
-                    mode,
-                    mark,
+                    // This if expression is required to handle super() call in all case
+                    mode: if insert_this {
+                        Some(SuperFoldingMode::Assign)
+                    } else {
+                        mode
+                    },
+                    mark: this_mark,
                     ignore_return: false,
                 });
 
@@ -462,7 +498,7 @@ impl Classes {
                     } else {
                         let possible_return_value =
                             box make_possible_return_value(ReturningMode::Returning {
-                                mark,
+                                mark: this_mark,
                                 arg: None,
                             });
                         body.push(Stmt::Return(ReturnStmt {
@@ -480,8 +516,15 @@ impl Classes {
             body = self.handle_super_access(
                 &class_name,
                 body,
-                if is_this_declared { Some(mark) } else { None },
+                if is_this_declared {
+                    Some(this_mark)
+                } else {
+                    None
+                },
             );
+
+            // inject _classCallCheck(this, Bar);
+            inject_class_call_check(&mut body, class_name.clone());
 
             stmts.push(Stmt::Decl(Decl::Fn(FnDecl {
                 ident: class_name.clone(),
@@ -500,7 +543,31 @@ impl Classes {
         // stmts.extend(self.fold_class_methods(class_name.clone(), priv_methods));
         stmts.extend(self.fold_class_methods(class_name.clone(), methods));
 
-        if is_named && stmts.len() == 1 {
+        if stmts.first().map(|v| !v.is_use_strict()).unwrap_or(false) && !self.in_strict {
+            prepend(
+                &mut stmts,
+                Stmt::Expr(box Expr::Lit(Lit::Str(Str {
+                    span: DUMMY_SP,
+                    value: "use strict".into(),
+                    has_escape: false,
+                }))),
+            );
+
+            if is_named && stmts.len() == 2 {
+                return stmts;
+            }
+        }
+
+        if super_class_ident.is_none()
+            && stmts
+                .iter()
+                .filter(|stmt| match stmt {
+                    Stmt::Expr(box Expr::Lit(Lit::Str(..))) => false,
+                    _ => true,
+                })
+                .count()
+                == 1
+        {
             return stmts;
         }
 
@@ -565,6 +632,7 @@ impl Classes {
                 })),
             );
         }
+
         body
     }
 
@@ -761,7 +829,7 @@ fn get_prototype_of(obj: &Expr) -> Expr {
     })
 }
 
-fn inject_class_call_check(c: &mut Constructor, name: Ident) {
+fn inject_class_call_check(c: &mut Vec<Stmt>, name: Ident) {
     let class_call_check = Stmt::Expr(box Expr::Call(CallExpr {
         span: DUMMY_SP,
         callee: helper!(class_call_check, "classCallCheck"),
@@ -772,7 +840,7 @@ fn inject_class_call_check(c: &mut Constructor, name: Ident) {
         type_args: Default::default(),
     }));
 
-    prepend(&mut c.body.as_mut().unwrap().stmts, class_call_check)
+    prepend(c, class_call_check)
 }
 
 /// Returns true if no `super` is used before `super()` call.

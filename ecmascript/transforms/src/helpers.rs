@@ -220,6 +220,8 @@ define_helpers!(Helpers {
         set_prototype_of,
         is_native_function
     ),
+
+    class_private_field_destructure: (),
 });
 
 #[derive(Clone)]

@@ -1,4 +1,5 @@
-use crate::util::ExprFactory;
+use crate::util::{prepend_stmts, ExprFactory};
+use arrayvec::ArrayVec;
 use ast::*;
 use swc_common::{Fold, FoldWith, Mark, Spanned, DUMMY_SP};
 
@@ -66,10 +67,7 @@ impl Params {
                     let len_ident = quote_ident!(span.apply_mark(mark), "_len");
 
                     let arg = match *arg {
-                        Pat::Ident(ident) => {
-                            // params.push(Pat::Ident(ident.clone()));
-                            ident
-                        }
+                        Pat::Ident(ident) => ident,
                         arg => {
                             let tmp_ident = quote_ident!(span.apply_mark(mark), "_tmp");
                             decls_after_unpack.push(VarDeclarator {
@@ -206,30 +204,27 @@ impl Params {
             }
         }
 
-        let stmts = if decls.is_empty() {
-            None
-        } else {
-            Some(Stmt::Decl(Decl::Var(VarDecl {
+        let mut stmts = body.stmts;
+        let mut iter: ArrayVec<[_; 3]> = Default::default();
+
+        if !decls.is_empty() {
+            iter.push(Stmt::Decl(Decl::Var(VarDecl {
                 span: DUMMY_SP,
                 kind: VarDeclKind::Let,
                 decls: validate!(decls),
                 declare: false,
             })))
         }
-        .into_iter()
-        .chain(validate!(unpack_rest))
-        .chain(if decls_after_unpack.is_empty() {
-            None
-        } else {
-            Some(Stmt::Decl(Decl::Var(VarDecl {
+        iter.extend(validate!(unpack_rest));
+        if !decls_after_unpack.is_empty() {
+            iter.push(Stmt::Decl(Decl::Var(VarDecl {
                 span: DUMMY_SP,
                 kind: VarDeclKind::Let,
                 decls: validate!(decls_after_unpack),
                 declare: false,
-            })))
-        })
-        .chain(body.stmts)
-        .collect::<Vec<_>>();
+            })));
+        }
+        prepend_stmts(&mut stmts, iter.into_iter());
 
         (
             params,

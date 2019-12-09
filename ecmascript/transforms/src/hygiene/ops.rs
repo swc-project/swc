@@ -170,6 +170,7 @@ impl Fold<Expr> for VarFolder<'_, '_> {
 impl<'a> Fold<KeyValuePatProp> for Operator<'a> {
     fn fold(&mut self, p: KeyValuePatProp) -> KeyValuePatProp {
         KeyValuePatProp {
+            key: p.key.fold_with(self),
             value: p.value.fold_with(self),
             ..p
         }
@@ -330,6 +331,15 @@ impl<'a> Fold<ImportSpecific> for Operator<'a> {
                 ..s
             },
             Err(local) => ImportSpecific { local, ..s },
+        }
+    }
+}
+
+impl Fold<PropName> for Operator<'_> {
+    fn fold(&mut self, n: PropName) -> PropName {
+        match n {
+            PropName::Computed(c) => PropName::Computed(c.fold_with(self)),
+            _ => n,
         }
     }
 }

@@ -100,14 +100,14 @@ test!(
     syntax(),
     |_| chain!(
         typescript::strip(),
-        decorators(),
+        decorators(Default::default()),
         class_properties(),
         export(),
         simplifier(),
         compat::es2018(),
         compat::es2017(),
         compat::es2016(),
-        compat::es2015(),
+        compat::es2015(Default::default()),
         compat::es3(),
         super::super::import_analysis::import_analyzer(),
         InjectHelpers,
@@ -360,7 +360,7 @@ exports.isOdd = isOdd;
 "#
 );
 
-// regression_T7199
+// regression_t7199
 
 // misc_undefined_this_root_declaration
 test!(
@@ -444,7 +444,7 @@ var _moduleWithGetter = _interopRequireWildcard(require("./moduleWithGetter"));
 
 // source_map
 
-// regression_T7165
+// regression_t7165
 
 // regression_lazy_7176
 
@@ -871,7 +871,7 @@ Object.keys(_foo).forEach(function (key) {
 
 // misc_copy_getters_setters_star
 
-// regression_T7160
+// regression_t7160
 
 // lazy_local_sideeffect
 test!(
@@ -1958,7 +1958,7 @@ void 0;
 "#
 );
 
-// regression_T7272
+// regression_t7272
 
 // interop_export_default_10
 test!(
@@ -3908,7 +3908,7 @@ fn issue_395_syntax() -> ::swc_ecma_parser::Syntax {
 test!(
     issue_395_syntax(),
     |_| chain!(
-        decorators(),
+        decorators(Default::default()),
         common_js(Config {
             strict: false,
             strict_mode: true,
@@ -3949,7 +3949,7 @@ let Demo = _decorate([_moduleAJs.default('0.0.1')], function(_initialize) {
 test!(
     issue_395_syntax(),
     |_| chain!(
-        decorators(),
+        decorators(Default::default()),
         common_js(Config {
             strict: false,
             strict_mode: true,

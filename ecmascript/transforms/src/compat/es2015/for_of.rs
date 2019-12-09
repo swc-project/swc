@@ -1,8 +1,9 @@
 use crate::{
     pass::Pass,
-    util::{ExprFactory, StmtLike},
+    util::{alias_if_required, prepend, ExprFactory, StmtLike},
 };
 use ast::*;
+use serde::Deserialize;
 use swc_atoms::js_word;
 use swc_common::{Fold, FoldWith, Mark, Spanned, Visit, VisitWith, DUMMY_SP};
 
@@ -43,15 +44,23 @@ mod tests;
 ///   }
 /// }
 /// ```
-pub fn for_of() -> impl Pass {
-    ForOf
+pub fn for_of(c: Config) -> impl Pass {
+    ForOf { c }
 }
 
-struct ForOf;
+#[derive(Debug, Clone, Copy, Default, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Config {
+    pub assume_array: bool,
+}
+
+struct ForOf {
+    c: Config,
+}
 
 /// Real folder.
-#[derive(Default)]
 struct Actual {
+    c: Config,
     ///```js
     /// var _iteratorNormalCompletion = true;
     /// var _didIteratorError = false;
@@ -73,9 +82,121 @@ impl Actual {
         }: ForOfStmt,
     ) -> Stmt {
         assert!(await_token.is_none());
+
+        if self.c.assume_array {
+            // Convert to normal for loop if rhs is array
+            //
+            // babel's output:
+            //
+            //    for(var _i = 0, _t = t; _i < _t.length; _i++){
+            //        let o = _t[_i];
+            //        const t = o;
+            //    }
+
+            let (arr, aliased) = alias_if_required(&right, "_iter");
+
+            let i = private_ident!("_i");
+
+            let test = Some(box Expr::Bin(BinExpr {
+                span: DUMMY_SP,
+                left: box Expr::Ident(i.clone()),
+                op: op!("<"),
+                right: box arr.clone().member(quote_ident!("length")),
+            }));
+            let update = Some(box Expr::Update(UpdateExpr {
+                span: DUMMY_SP,
+                prefix: false,
+                op: op!("++"),
+                arg: box Expr::Ident(i.clone()),
+            }));
+
+            let mut decls = Vec::with_capacity(2);
+            decls.push(VarDeclarator {
+                span: DUMMY_SP,
+                name: Pat::Ident(i.clone()),
+                init: Some(box Expr::Lit(Lit::Num(Number {
+                    span: DUMMY_SP,
+                    value: 0f64,
+                }))),
+                definite: false,
+            });
+
+            if aliased {
+                decls.push(VarDeclarator {
+                    span: DUMMY_SP,
+                    name: Pat::Ident(arr.clone()),
+                    init: Some(right),
+                    definite: false,
+                });
+            }
+
+            let mut body = match *body {
+                Stmt::Block(b) => b,
+                _ => BlockStmt {
+                    span: DUMMY_SP,
+                    stmts: vec![*body],
+                },
+            };
+
+            match left {
+                VarDeclOrPat::VarDecl(var) => {
+                    assert_eq!(
+                        var.decls.len(),
+                        1,
+                        "Variable declarator of for of loop cannot contain multiple entires"
+                    );
+                    prepend(
+                        &mut body.stmts,
+                        Stmt::Decl(Decl::Var(VarDecl {
+                            span: DUMMY_SP,
+                            kind: var.kind,
+                            declare: false,
+                            decls: vec![VarDeclarator {
+                                span: DUMMY_SP,
+                                name: var.decls.into_iter().next().unwrap().name,
+                                init: Some(box Expr::Ident(arr.clone()).computed_member(i)),
+                                definite: false,
+                            }],
+                        })),
+                    )
+                }
+
+                VarDeclOrPat::Pat(pat) => prepend(
+                    &mut body.stmts,
+                    Stmt::Expr(box Expr::Assign(AssignExpr {
+                        span: DUMMY_SP,
+                        left: PatOrExpr::Pat(box pat),
+                        op: op!("="),
+                        right: box Expr::Ident(arr.clone()).computed_member(i),
+                    })),
+                ),
+            }
+
+            let stmt = Stmt::For(ForStmt {
+                span,
+                init: Some(VarDeclOrExpr::VarDecl(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Let,
+                    declare: false,
+                    decls,
+                })),
+                test,
+                update,
+                body: box Stmt::Block(body),
+            });
+
+            return match label {
+                Some(label) => LabeledStmt {
+                    span,
+                    label,
+                    body: box stmt,
+                }
+                .into(),
+                _ => stmt,
+            };
+        }
+
         let var_span = left.span().apply_mark(Mark::fresh(Mark::root()));
-        // TODO(kdy): convert to normal for loop if rhs is array
-        // TODO(kdy): Type annotation to determine if rhs is array
 
         let mut body = match *body {
             Stmt::Block(block) => block,
@@ -91,7 +212,7 @@ impl Actual {
             0,
             match left {
                 VarDeclOrPat::VarDecl(mut var) => {
-                    assert!(var.decls.len() == 1);
+                    assert_eq!(var.decls.len(), 1);
                     Stmt::Decl(Decl::Var(VarDecl {
                         span: var.span,
                         kind: var.kind,
@@ -398,7 +519,10 @@ where
             match stmt.try_into_stmt() {
                 Err(module_item) => buf.push(module_item),
                 Ok(stmt) => {
-                    let mut folder = Actual::default();
+                    let mut folder = Actual {
+                        c: self.c,
+                        top_level_vars: Default::default(),
+                    };
                     let stmt = stmt.fold_with(&mut folder);
 
                     // Add variable declaration

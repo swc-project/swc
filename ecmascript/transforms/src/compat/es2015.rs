@@ -7,22 +7,23 @@ pub use self::{
 };
 use crate::pass::Pass;
 use ast::{Expr, Module};
+use serde::Deserialize;
 #[cfg(test)]
 use swc_common::chain;
 
 mod arrow;
 mod block_scoped_fn;
 mod block_scoping;
-mod classes;
+pub mod classes;
 mod computed_props;
-mod destructuring;
+pub mod destructuring;
 mod duplicate_keys;
-mod for_of;
+pub mod for_of;
 mod function_name;
 mod instanceof;
 mod parameters;
 mod shorthand_property;
-mod spread;
+pub mod spread;
 mod sticky_regex;
 mod template_literal;
 mod typeof_symbol;
@@ -40,21 +41,33 @@ fn exprs() -> impl Pass {
 }
 
 /// Compiles es2015 to es5.
-pub fn es2015() -> impl Pass {
+pub fn es2015(c: Config) -> impl Pass {
     chain_at!(
         Module,
         BlockScopedFns,
         TemplateLiteral::default(),
-        Classes,
-        spread(),
+        Classes::default(),
+        spread(c.spread),
         function_name(),
         exprs(),
         parameters(),
-        for_of(),
+        for_of(c.for_of),
         computed_properties(),
-        destructuring(),
+        destructuring(c.destructuring),
         block_scoping(),
     )
+}
+
+#[derive(Debug, Default, Deserialize)]
+pub struct Config {
+    #[serde(flatten)]
+    pub for_of: for_of::Config,
+
+    #[serde(flatten)]
+    pub destructuring: destructuring::Config,
+
+    #[serde(flatten)]
+    pub spread: spread::Config,
 }
 
 #[cfg(test)]
@@ -64,7 +77,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| es2015(),
+        |_| es2015(Default::default()),
         issue_169,
         r#"
 export class Foo {
@@ -75,6 +88,7 @@ export class Foo {
 "#,
         r#"
 export var Foo = function() {
+    'use strict';
     function Foo() {
         _classCallCheck(this, Foo);
     }
@@ -95,13 +109,14 @@ export var Foo = function() {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| es2015(),
+        |_| es2015(Default::default()),
         issue_189,
         r#"
 class HomePage extends React.Component {}
 "#,
         r#"
 var HomePage = function(_Component) {
+    'use strict';
     _inherits(HomePage, _Component);
     function HomePage() {
         _classCallCheck(this, HomePage);
@@ -114,7 +129,7 @@ var HomePage = function(_Component) {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| es2015(),
+        |_| es2015(Default::default()),
         issue_227,
         "export default function fn1(...args) {
   fn2(...args);
@@ -124,7 +139,7 @@ export default function fn1() {
     for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++){
         args[_key] = arguments[_key];
     }
-    fn2.apply(void 0, args);
+    fn2.apply(void 0, _toConsumableArray(args));
 }
 "
     );
@@ -160,9 +175,9 @@ function foo(scope) {
     //             // Optional::new(compat::es2018(), target <= JscTarget::Es2018),
     //             // Optional::new(compat::es2017(), target <= JscTarget::Es2017),
     //             // Optional::new(compat::es2016(), target <= JscTarget::Es2016),
-    //             // Optional::new(compat::es2015(), target <= JscTarget::Es2015),
-    //             // Optional::new(compat::es3(), target <= JscTarget::Es3),
-    //             hygiene(),
+    //             // Optional::new(compat::es2015(Default::default()), target <=
+    // JscTarget::Es2015),             // Optional::new(compat::es3(), target <=
+    // JscTarget::Es3),             hygiene(),
     //             fixer(),
     //         ),
     //         issue_405,
@@ -181,7 +196,7 @@ function foo(scope) {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| es2015(),
+        |_| es2015(Default::default()),
         issue_413,
         r#"
 export const getBadgeBorderRadius = (text, color) => {
@@ -197,7 +212,7 @@ export var getBadgeBorderRadius = function(text, color) {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| es2015(),
+        |_| es2015(Default::default()),
         issue_400_1,
         "class A {
     constructor() {
@@ -222,6 +237,7 @@ class B extends A {
 }
 ",
         "var A = function() {
+    'use strict';
     function A() {
         _classCallCheck(this, A);
         this.a_num = 10;
@@ -234,11 +250,12 @@ class B extends A {
         }]);
     return A;
 }();
-var B = function(_A) {
-    _inherits(B, _A);
+var B = function(A) {
+    'use strict';
+    _inherits(B, A);
     function B(num) {
-        var _this;
         _classCallCheck(this, B);
+        var _this;
         _this = _possibleConstructorReturn(this, _getPrototypeOf(B).call(this));
         _this.b_num = num;
         return _this;
@@ -256,7 +273,7 @@ var B = function(_A) {
 
     test_exec!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| es2015(),
+        |_| es2015(Default::default()),
         issue_400_2,
         "class A {
     constructor() {

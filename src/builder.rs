@@ -18,15 +18,17 @@ pub struct PassBuilder<'a, 'b, P: Pass> {
     handler: &'b Handler,
     pass: P,
     target: JscTarget,
+    loose: bool,
 }
 
 impl<'a, 'b, P: Pass> PassBuilder<'a, 'b, P> {
-    pub fn new(cm: &'a Arc<SourceMap>, handler: &'b Handler, pass: P) -> Self {
+    pub fn new(cm: &'a Arc<SourceMap>, handler: &'b Handler, loose: bool, pass: P) -> Self {
         PassBuilder {
             cm,
             handler,
             pass,
             target: JscTarget::Es5,
+            loose,
         }
     }
 
@@ -37,6 +39,7 @@ impl<'a, 'b, P: Pass> PassBuilder<'a, 'b, P> {
             handler: self.handler,
             pass,
             target: self.target,
+            loose: self.loose,
         }
     }
 
@@ -88,7 +91,16 @@ impl<'a, 'b, P: Pass> PassBuilder<'a, 'b, P> {
             Optional::new(compat::es2018(), self.target <= JscTarget::Es2018),
             Optional::new(compat::es2017(), self.target <= JscTarget::Es2017),
             Optional::new(compat::es2016(), self.target <= JscTarget::Es2016),
-            Optional::new(compat::es2015(), self.target <= JscTarget::Es2015),
+            Optional::new(
+                compat::es2015(compat::es2015::Config {
+                    for_of: compat::es2015::for_of::Config {
+                        assume_array: self.loose
+                    },
+                    spread: compat::es2015::spread::Config { loose: self.loose },
+                    destructuring: compat::es2015::destructuring::Config { loose: self.loose },
+                }),
+                self.target <= JscTarget::Es2015
+            ),
             Optional::new(compat::es3(), self.target <= JscTarget::Es3),
             // module / helper
             Optional::new(
