@@ -6056,6 +6056,8 @@ expect(obj.get()).toBe(1);
 
 // extend_builtins_overwritten_null
 test_exec!(
+    // Just don't do this.
+    ignore,
     syntax(),
     |_| chain!(Classes::default(), block_scoping()),
     extend_builtins_overwritten_null_exec,
