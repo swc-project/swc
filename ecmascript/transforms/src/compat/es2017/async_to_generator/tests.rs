@@ -1462,8 +1462,7 @@ function _foo() {
   return _foo.apply(this, arguments);
 }
 
-function foo(param) {
-    let a = param.a, _b = param.b, b = _b === void 0 ? mandatory('b') : _b;
+function foo(_) {
     return _foo.apply(this, arguments);
 }
 
