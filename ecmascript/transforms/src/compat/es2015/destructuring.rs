@@ -295,11 +295,72 @@ impl AssignFolder {
                     decls.extend(vec![var_decl].fold_with(self));
                 }
             }
+            Pat::Object(ObjectPat { span, props, .. }) if props.is_empty() => {
+                let (ident, aliased) = alias_if_required(&decl.init.as_ref().unwrap(), "ref");
+                if aliased {
+                    decls.push(VarDeclarator {
+                        span: DUMMY_SP,
+                        name: Pat::Ident(ident.clone()),
+                        init: decl.init,
+                        definite: false,
+                    });
+                }
+
+                // We should convert
+                //
+                //      var {} = null;
+                //
+                // to
+                //
+                //      var _ref = null;
+                //      _objectDestructuringEmpty(_ref);
+                //
+                decls.push(VarDeclarator {
+                    span,
+                    name: Pat::Ident(ident.clone()),
+                    init: Some(box Expr::Cond(CondExpr {
+                        span: DUMMY_SP,
+                        test: box Expr::Bin(BinExpr {
+                            span: DUMMY_SP,
+                            left: box Expr::Ident(ident.clone()),
+                            op: op!("!=="),
+                            right: box Expr::Lit(Lit::Null(Null { span: DUMMY_SP })),
+                        }),
+                        cons: box Expr::Ident(ident.clone()),
+                        alt: box Expr::Call(CallExpr {
+                            span: DUMMY_SP,
+                            callee: helper!(throw, "throw"),
+                            args: vec![
+                                // new TypeError("Cannot destructure undefined")
+                                NewExpr {
+                                    span: DUMMY_SP,
+                                    callee: box Expr::Ident(Ident::new(
+                                        "TypeError".into(),
+                                        DUMMY_SP,
+                                    )),
+                                    args: Some(vec![Lit::Str(Str {
+                                        span: DUMMY_SP,
+                                        value: "Cannot destructure undefined".into(),
+                                        has_escape: false,
+                                    })
+                                    .as_arg()]),
+                                    type_args: Default::default(),
+                                }
+                                .as_arg(),
+                            ],
+                            type_args: Default::default(),
+                        }),
+                    })),
+                    definite: false,
+                })
+            }
+
             Pat::Object(ObjectPat { props, .. }) => {
                 assert!(
                     decl.init.is_some(),
                     "destructuring pattern binding requires initializer"
                 );
+
                 let can_be_null = can_be_null(decl.init.as_ref().unwrap());
                 let ref_ident = make_ref_ident(self.c, decls, decl.init);
 
