@@ -1377,25 +1377,18 @@ let TestClass = {
 "#,
     r#"
 let TestClass = {
-  name: "John Doe",
-
-  testMethodFailure() {
-    var _this = this;
-
-    return new Promise(
-    /*#__PURE__*/
-    function () {
-      var _ref = _asyncToGenerator(function* (resolve) {
-        console.log(_this);
-        setTimeout(resolve, 1000);
-      });
-
-      return function (_x) {
-        return _ref.apply(this, arguments);
-      };
-    }());
-  }
-
+    name: 'John Doe',
+    testMethodFailure () {
+        return new Promise((function(resolve) {
+            var _ref = _asyncToGenerator((function*(resolve) {
+                console.log(this);
+                setTimeout(resolve, 1000);
+            }).bind(this));
+            return function() {
+                return _ref.apply(this, arguments);
+            };
+        })().bind(this));
+    }
 };
 
 "#
