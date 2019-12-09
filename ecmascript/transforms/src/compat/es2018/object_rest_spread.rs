@@ -836,6 +836,23 @@ fn object_without_properties(obj: Box<Expr>, excluded_props: Vec<Option<ExprOrSp
         });
     }
 
+    let excluded_props = excluded_props
+        .into_iter()
+        .map(|v| {
+            v.map(|v| match *v.expr {
+                Expr::Lit(Lit::Num(Number { span, value })) => ExprOrSpread {
+                    expr: box Expr::Lit(Lit::Str(Str {
+                        span,
+                        value: value.to_string().into(),
+                        has_escape: false,
+                    })),
+                    ..v
+                },
+                _ => v,
+            })
+        })
+        .collect();
+
     Expr::Call(CallExpr {
         span: DUMMY_SP,
         callee: helper!(object_without_properties, "objectWithoutProperties"),
