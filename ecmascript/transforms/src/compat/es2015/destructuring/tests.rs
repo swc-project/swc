@@ -736,13 +736,13 @@ expect(d).toBe(4);
 test_exec!(
     syntax(),
     |_| chain!(
+        object_rest_spread(),
         spread(spread::Config {
             ..Default::default()
         }),
         parameters(),
         destructuring(Default::default()),
         block_scoping(),
-        object_rest_spread(),
     ),
     destructuring_object_rest_impure_computed_keys_exec,
     r#"
