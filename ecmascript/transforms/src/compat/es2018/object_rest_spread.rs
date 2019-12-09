@@ -57,6 +57,7 @@ macro_rules! impl_for_for_stmt {
                             .into_iter()
                             .map(|decl| VarDeclarator {
                                 name: self.fold_rest(
+                                    &mut 0,
                                     decl.name,
                                     box Expr::Ident(ref_ident.clone()),
                                     false,
@@ -75,9 +76,14 @@ macro_rules! impl_for_for_stmt {
                     }
                     VarDeclOrPat::Pat(pat) => {
                         let var_ident = private_ident!("_ref");
-                        let index = self.vars.len();
-                        let pat =
-                            self.fold_rest(pat, box Expr::Ident(var_ident.clone()), false, true);
+                        let mut index = self.vars.len();
+                        let pat = self.fold_rest(
+                            &mut index,
+                            pat,
+                            box Expr::Ident(var_ident.clone()),
+                            false,
+                            true,
+                        );
 
                         // initialize (or destructure)
                         match pat {
@@ -160,11 +166,11 @@ impl Fold<Vec<VarDeclarator>> for RestFolder {
 
             let decl = decl.fold_children(self);
 
-            if !contains_rest(&decl.name) {
-                // println!("Var: no rest",);
-                self.vars.push(decl);
-                continue;
-            }
+            //            if !contains_rest(&decl.name) {
+            //                // println!("Var: no rest",);
+            //                self.vars.push(decl);
+            //                continue;
+            //            }
 
             let (var_ident, _) = match decl.name {
                 Pat::Ident(ref i) => (i.clone(), false),
@@ -229,8 +235,14 @@ impl Fold<Vec<VarDeclarator>> for RestFolder {
                 }
             }
 
-            let index = self.vars.len();
-            let pat = self.fold_rest(decl.name, box Expr::Ident(var_ident.clone()), false, true);
+            let mut index = self.vars.len();
+            let pat = self.fold_rest(
+                &mut index,
+                decl.name,
+                box Expr::Ident(var_ident.clone()),
+                false,
+                true,
+            );
             match pat {
                 // skip `{} = z`
                 Pat::Object(ObjectPat { ref props, .. }) if props.is_empty() => {}
@@ -296,7 +308,8 @@ impl Fold<Expr> for RestFolder {
                     op: op!("="),
                     right,
                 }));
-                let pat = self.fold_rest(pat, box Expr::Ident(var_ident.clone()), true, true);
+                let pat =
+                    self.fold_rest(&mut 0, pat, box Expr::Ident(var_ident.clone()), true, true);
 
                 match pat {
                     Pat::Object(ObjectPat { ref props, .. }) if props.is_empty() => {}
@@ -561,7 +574,13 @@ impl RestFolder {
             .map(|param| {
                 let var_ident = private_ident!(param.span(), "_param");
                 let mut index = self.vars.len();
-                let param = self.fold_rest(param, box Expr::Ident(var_ident.clone()), false, false);
+                let param = self.fold_rest(
+                    &mut index,
+                    param,
+                    box Expr::Ident(var_ident.clone()),
+                    false,
+                    false,
+                );
                 match param {
                     Pat::Rest(..) | Pat::Ident(..) => param,
                     Pat::Assign(AssignPat {
@@ -661,6 +680,7 @@ impl RestFolder {
 
     fn fold_rest(
         &mut self,
+        index: &mut usize,
         pat: Pat,
         obj: Box<Expr>,
         use_expr_for_assign: bool,
@@ -685,8 +705,13 @@ impl RestFolder {
                 let AssignPat {
                     span, left, right, ..
                 } = n;
-                let left =
-                    box self.fold_rest(*left, obj, use_expr_for_assign, use_member_for_array);
+                let left = box self.fold_rest(
+                    index,
+                    *left,
+                    obj,
+                    use_expr_for_assign,
+                    use_member_for_array,
+                );
                 return Pat::Assign(AssignPat {
                     span,
                     left,
@@ -701,6 +726,7 @@ impl RestFolder {
                     .enumerate()
                     .map(|(i, elem)| match elem {
                         Some(elem) => Some(self.fold_rest(
+                            index,
                             elem,
                             if use_member_for_array {
                                 box obj.clone().computed_member(i as f64)
@@ -728,6 +754,7 @@ impl RestFolder {
                     } = n;
 
                     let pat = self.fold_rest(
+                        index,
                         *arg,
                         // TODO: fix this. this is wrong
                         obj.clone(),
@@ -741,30 +768,65 @@ impl RestFolder {
                     })
                 }
                 ObjectPatProp::KeyValue(KeyValuePatProp { key, value }) => {
+                    let computed = match key {
+                        PropName::Computed(..) => true,
+                        PropName::Num(..) => true,
+                        _ => false,
+                    };
+
+                    let (key, prop) = match key {
+                        PropName::Ident(ref ident) => {
+                            let ident = ident.clone();
+                            (key, box Expr::Ident(ident))
+                        }
+                        PropName::Str(Str {
+                            ref value, span, ..
+                        }) => {
+                            let value = value.clone();
+                            (key, box Expr::Ident(quote_ident!(span, value)))
+                        }
+                        PropName::Num(Number { span, value }) => (
+                            key,
+                            box Expr::Lit(Lit::Str(Str {
+                                span,
+                                value: format!("{}", value).into(),
+                                has_escape: false,
+                            })),
+                        ),
+                        PropName::Computed(ref c) if is_literal(&c.expr) => {
+                            let expr = c.expr.clone();
+                            (key, expr)
+                        }
+                        PropName::Computed(c) => {
+                            let (ident, aliased) = alias_if_required(&c.expr, "key");
+                            if aliased {
+                                *index += 1;
+                                self.vars.push(VarDeclarator {
+                                    span: DUMMY_SP,
+                                    name: Pat::Ident(ident.clone()),
+                                    init: Some(c.expr),
+                                    definite: false,
+                                });
+                            }
+
+                            (
+                                PropName::Computed(ComputedPropName {
+                                    span: c.span,
+                                    expr: box Expr::Ident(ident.clone()),
+                                }),
+                                box Expr::Ident(ident),
+                            )
+                        }
+                    };
+
                     let value = box self.fold_rest(
+                        index,
                         *value,
                         box MemberExpr {
                             span: DUMMY_SP,
                             obj: obj.clone().as_obj(),
-                            computed: match key {
-                                PropName::Computed(..) => true,
-                                PropName::Num(..) => true,
-                                _ => false,
-                            },
-                            prop: match key {
-                                PropName::Ident(ref ident) => box Expr::Ident(ident.clone()),
-                                PropName::Str(Str {
-                                    ref value, span, ..
-                                }) => box Expr::Ident(quote_ident!(span, value.clone())),
-                                PropName::Num(Number { span, value }) => {
-                                    box Expr::Lit(Lit::Str(Str {
-                                        span,
-                                        value: format!("{}", value).into(),
-                                        has_escape: false,
-                                    }))
-                                }
-                                PropName::Computed(ref c) => c.expr.clone(),
-                            },
+                            computed,
+                            prop,
                         }
                         .into(),
                         use_expr_for_assign,
