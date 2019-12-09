@@ -497,16 +497,17 @@ const {
 "#,
     r#"
 var _tmp;
-const { [(_param)=>{
+const _ref = {
+}, key = (_param)=>{
     var rest = _extends({
     }, _param);
     let b = _extends({
     }, {
     });
-}]: a , [(_tmp = {
+}, key1 = (_tmp = {
 }, d = _extends({
-}, _tmp), _tmp)]: c  } = {
-};
+}, _tmp), _tmp), { [key]: a , [key]: c  } = _ref;
+
 "#
 );
 
@@ -542,7 +543,8 @@ const {
 "#,
     r#"
 var _tmp;
-const { a =(_param)=>{
+const _ref = {
+}, { a =(_param)=>{
     var rest = _extends({
     }, _param);
     let b = _extends({
@@ -550,8 +552,8 @@ const { a =(_param)=>{
     });
 } , c =(_tmp = {
 }, d = _extends({
-}, _tmp), _tmp)  } = {
-};
+}, _tmp), _tmp)  } = _ref;
+
 "#
 );
 
@@ -2770,30 +2772,13 @@ const { a } = foo(({ b, ...c }) => {
 
 "#,
     r#"
-const _ref = foo(),
-      {
-  s
-} = _ref,
-      t = _objectWithoutProperties(_ref, ["s"]);
+const _ref = foo(), { s  } = _ref, t = _objectWithoutProperties(_ref, ['s']);
+const _ref1 = bar(), { s: { q1  }  } = _ref1, q2 = _objectWithoutProperties(_ref1.s, ['q1']), q3 = _objectWithoutProperties(_ref1, ['s']);
+const _ref2 = foo((_param)=>{
+    var { b  } = _param, c = _objectWithoutProperties(_param, ['b']);
+    console.log(b, c);
+}), { a  } = _ref2;
 
-const _ref1 = bar(),
-      {
-  s: {
-    q1
-  }
-} = _ref1,
-      q2 = _objectWithoutProperties(_ref1.s, ["q1"]),
-      q3 = _objectWithoutProperties(_ref1, ["s"]);
-
-const {
-  a
-} = foo((_param) => {
-  var {
-    b
-  } = _param,
-      c = _objectWithoutProperties(_param, ["b"]);
-  console.log(b, c);
-});
 
 "#
 );

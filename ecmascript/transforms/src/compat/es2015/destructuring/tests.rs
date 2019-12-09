@@ -1355,14 +1355,14 @@ const {
     r#"
 var input = {};
 
-var givenName = input.given_name,
+var key = prefix + 'state',
+    key1 = `${prefix}consents`,
+    givenName = input.given_name,
     lastName = input['last_name'],
     country = input[`country`],
-    state = input[prefix + 'state'],
-    consents = input[`${prefix}consents`],
-    rest = _objectWithoutProperties(input,
-            ['given_name', 'last_name', `country`, prefix + 'state', `${prefix}consents`].map(_toPropertyKey)
-        );
+    state = input[key],
+    consents = input[key1],
+    rest = _objectWithoutProperties(input, ['given_name', 'last_name', `country`, key, key1].map(_toPropertyKey));
 
 
 "#
