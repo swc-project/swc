@@ -965,53 +965,47 @@ class Class {
 
 "#,
     r#"
-class Class {
-  method() {
-    var _this = this;
-
-    return _asyncToGenerator(function* () {
-      _this;
-
-      () => _this;
-
-      () => {
-        _this;
-
-        () => _this;
-
-        function x() {
-          var _this2 = this;
-
-          this;
-
-          () => {
+class Class{
+     method() {
+        return _asyncToGenerator((function*() {
             this;
-          };
-
-          /*#__PURE__*/
-          _asyncToGenerator(function* () {
-            _this2;
-          });
-        }
-      };
-
-      function x() {
-        var _this3 = this;
-
-        this;
-
-        () => {
-          this;
-        };
-
-        /*#__PURE__*/
-        _asyncToGenerator(function* () {
-          _this3;
-        });
-      }
-    })();
-  }
-
+            ()=>this
+            ;
+            ()=>{
+                this;
+                ()=>this
+                ;
+                function x() {
+                    this;
+                    ()=>{
+                        this;
+                    };
+                    (function() {
+                        var _ref = _asyncToGenerator((function*() {
+                            this;
+                        }).bind(this));
+                        return function() {
+                            return _ref.apply(this, arguments);
+                        };
+                    })().bind(this);
+                }
+            };
+            function x() {
+                this;
+                ()=>{
+                    this;
+                };
+                (function() {
+                    var _ref = _asyncToGenerator((function*() {
+                        this;
+                    }).bind(this));
+                    return function() {
+                        return _ref.apply(this, arguments);
+                    };
+                })().bind(this);
+            }
+        }).bind(this))();
+    }
 }
 
 "#
@@ -1571,45 +1565,6 @@ function _six() {
 
 function six(a) {
   return _six.apply(this, arguments);
-}
-
-"#
-);
-
-// async_to_generator_object_method_with_super
-test!(
-    syntax(),
-    |_| AsyncToGenerator {},
-    async_to_generator_object_method_with_super,
-    r#"
-class Foo extends class {} {
-     method() {
-        var _super_method = (..._args)=>super.method(..._args)
-        , _super_method1 = (..._args)=>super.method(..._args)
-        ;
-        return _asyncToGenerator(function*() {
-            _super_method();
-            var arrow = ()=>_super_method1()
-            ;
-        })();
-    }
-}
-
-
-"#,
-    r#"
-class Foo extends class {} {
-  method() {
-    var _superprop_getMethod = () => super.method,
-        _this = this;
-
-    return _asyncToGenerator(function* () {
-      _superprop_getMethod().call(_this);
-
-      var arrow = () => _superprop_getMethod().call(_this);
-    })();
-  }
-
 }
 
 "#
