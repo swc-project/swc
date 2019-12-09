@@ -1714,54 +1714,35 @@ async function s(x, ...args) {
 "#,
     r#"
 function _s() {
-  _s = _asyncToGenerator(function* (x) {
-    var _arguments = arguments,
-        _this = this;
-
-    for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-      args[_key - 1] = arguments[_key];
-    }
-
-    let t =
-    /*#__PURE__*/
-    function () {
-      var _ref = _asyncToGenerator(function* (y, a) {
-        let r =
-        /*#__PURE__*/
-        function () {
-          var _ref2 = _asyncToGenerator(function* (z, b) {
-            yield z;
-
-            for (var _len2 = arguments.length, innerArgs = new Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
-              innerArgs[_key2 - 2] = arguments[_key2];
-            }
-
-            console.log(_this, innerArgs, _arguments);
-            return _this.x;
-          });
-
-          return function r(_x4, _x5) {
-            return _ref2.apply(this, arguments);
-          };
-        }();
-
-        yield r();
-        console.log(_this, args, _arguments);
-        return _this.g(r);
-      });
-
-      return function t(_x2, _x3) {
-        return _ref.apply(this, arguments);
-      };
-    }();
-
-    yield t();
-    return this.h(t);
-  });
-  return _s.apply(this, arguments);
+    _s = _asyncToGenerator((function*(x, ...args) {
+        let t = (function(y, a) {
+            var _ref = _asyncToGenerator((function*(y, a) {
+                let r = (function(z, b) {
+                    var _ref1 = _asyncToGenerator((function*(z, b, ...innerArgs) {
+                        yield z;
+                        console.log(this, innerArgs, arguments);
+                        return this.x;
+                    }).bind(this));
+                    return function() {
+                        return _ref1.apply(this, arguments);
+                    };
+                })().bind(this);
+                yield r();
+                console.log(this, args, arguments);
+                return this.g(r);
+            }).bind(this));
+            return function() {
+                return _ref.apply(this, arguments);
+            };
+        })().bind(this);
+        yield t();
+        return this.h(t);
+    }).bind(this));
+    return _s.apply(this, arguments);
 }
 
-function s(_x) {
+
+function s(x) {
   return _s.apply(this, arguments);
 }
 
