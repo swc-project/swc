@@ -571,7 +571,7 @@ macro_rules! track_ident {
         impl<'a> Fold<KeyValuePatProp> for $T<'a> {
             fn fold(&mut self, n: KeyValuePatProp) -> KeyValuePatProp {
                 KeyValuePatProp {
-                    key: n.key,
+                    key: n.key.fold_with(self),
                     value: n.value.fold_with(self),
                     ..n
                 }
@@ -600,6 +600,15 @@ macro_rules! track_ident {
                     super_class,
                     type_params: c.type_params,
                     super_type_params: c.super_type_params,
+                }
+            }
+        }
+
+        impl Fold<PropName> for $T<'_> {
+            fn fold(&mut self, n: PropName) -> PropName {
+                match n {
+                    PropName::Computed(c) => PropName::Computed(c.fold_with(self)),
+                    _ => n,
                 }
             }
         }

@@ -506,7 +506,7 @@ const _ref = {
     });
 }, key1 = (_tmp = {
 }, d = _extends({
-}, _tmp), _tmp), { [key]: a , [key]: c  } = _ref;
+}, _tmp), _tmp), { [key]: a , [key1]: c  } = _ref;
 
 "#
 );
