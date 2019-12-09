@@ -143,23 +143,6 @@ expect(c).toBe(3);
 expect(d).toBe(4);"#
 );
 
-test_exec!(
-    syntax(),
-    |_| destructuring(Config { loose: true }),
-    empty_obj_pat_1,
-    r#"expect(function () {
-  var {} = null;
-}).toThrow("Cannot destructure 'undefined' or 'null'");"#
-);
-
-// test!(syntax(),
-//     |_| tr(),
-//     empty_obj_pat_2,
-//     r#"var {} = null;"#,
-//     r#"var _ref = null;
-// _objectDestructuringEmpty(_ref);"#
-// );
-
 test!(
     syntax(),
     |_| tr(),
@@ -615,21 +598,12 @@ for ([ name, before, after ] of test.expectation.registers) {
 
 "#,
     r#"
-for (var _ref of test.expectation.registers) {
-  var _ref2 = _slicedToArray(_ref, 3);
-
-  var name = _ref2[0];
-  var before = _ref2[1];
-  var after = _ref2[2];
+for (var ref2 of test.expectation.registers){
+    var _ref = _slicedToArray(ref2, 3), name = _ref[0], before = _ref[1], after = _ref[2];
 }
-
-for (var _ref3 of test.expectation.registers) {
-  var _ref4 = _slicedToArray(_ref3, 3);
-
-  name = _ref4[0];
-  before = _ref4[1];
-  after = _ref4[2];
-  void 0;
+var ref1;
+for (ref of test.expectation.registers){
+    ref1 = ref, name = ref1[0], before = ref1[1], after = ref1[2], ref1;
 }
 
 "#
@@ -1438,23 +1412,15 @@ for ([name, value] in obj) {
 
 "#,
     r#"
-for (var _ref in obj) {
-  var _ref2 = _slicedToArray(_ref, 2);
-
-  var name = _ref2[0];
-  var value = _ref2[1];
-  print("Name: " + name + ", Value: " + value);
+for(var ref2 in obj){
+    var _ref = _slicedToArray(ref2, 2), name = _ref[0], value = _ref[1];
+    print('Name: ' + name + ', Value: ' + value);
 }
-
-for (var _ref3 in obj) {
-  var _ref4 = _slicedToArray(_ref3, 2);
-
-  name = _ref4[0];
-  value = _ref4[1];
-  print("Name: " + name + ", Value: " + value);
-}
-
-"#
+var ref1;
+for(ref in obj){
+    ref1 = ref, name = ref1[0], value = ref1[1], ref1;
+    print('Name: ' + name + ', Value: ' + value);
+}"#
 );
 
 // destructuring_issue_5744

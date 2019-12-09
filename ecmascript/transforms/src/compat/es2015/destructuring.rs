@@ -100,7 +100,18 @@ macro_rules! impl_for_for_stmt {
                                 ..for_stmt
                             };
                         }
-                        _ => unimplemented!("for in/of loop without let / const / var"),
+                        _ => {
+                            let left_ident = make_ref_ident_for_for_stmt();
+                            let left = VarDeclOrPat::Pat(Pat::Ident(left_ident.clone()));
+                            // Unpack variables
+                            let stmt = Stmt::Expr(box Expr::Assign(AssignExpr {
+                                span: DUMMY_SP,
+                                left: PatOrExpr::Pat(box pat),
+                                op: op!("="),
+                                right: box left_ident.into(),
+                            }));
+                            (left, stmt)
+                        }
                     },
                 };
                 for_stmt.left = left;
@@ -112,7 +123,7 @@ macro_rules! impl_for_for_stmt {
                     },
                     body => BlockStmt {
                         span: DUMMY_SP,
-                        stmts: iter::once(stmt).chain(iter::once(body)).collect(),
+                        stmts: vec![stmt, body],
                     },
                 });
 
