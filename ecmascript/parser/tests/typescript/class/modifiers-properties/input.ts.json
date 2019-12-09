@@ -2,7 +2,7 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 396,
+    "end": 416,
     "ctxt": 0
   },
   "body": [
@@ -22,7 +22,7 @@
       "declare": false,
       "span": {
         "start": 9,
-        "end": 396,
+        "end": 416,
         "ctxt": 0
       },
       "decorators": [],
@@ -30,15 +30,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 23,
-            "end": 34,
+            "start": 24,
+            "end": 35,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 32,
-              "end": 33,
+              "start": 33,
+              "end": 34,
               "ctxt": 0
             },
             "value": "r",
@@ -59,15 +59,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 39,
-            "end": 60,
+            "start": 41,
+            "end": 62,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 48,
-              "end": 50,
+              "start": 50,
+              "end": 52,
               "ctxt": 0
             },
             "value": "r2",
@@ -78,15 +78,15 @@
           "typeAnnotation": {
             "type": "TsTypeAnnotation",
             "span": {
-              "start": 51,
-              "end": 59,
+              "start": 53,
+              "end": 61,
               "ctxt": 0
             },
             "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
-                "start": 53,
-                "end": 59,
+                "start": 55,
+                "end": 61,
                 "ctxt": 0
               },
               "kind": "number"
@@ -104,15 +104,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 65,
-            "end": 76,
+            "start": 68,
+            "end": 79,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 74,
-              "end": 75,
+              "start": 77,
+              "end": 78,
               "ctxt": 0
             },
             "value": "a",
@@ -133,15 +133,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 81,
-            "end": 90,
+            "start": 85,
+            "end": 94,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 88,
-              "end": 89,
+              "start": 92,
+              "end": 93,
               "ctxt": 0
             },
             "value": "s",
@@ -162,15 +162,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 103,
-            "end": 106,
+            "start": 109,
+            "end": 112,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 103,
-              "end": 105,
+              "start": 109,
+              "end": 111,
               "ctxt": 0
             },
             "value": "pu",
@@ -191,15 +191,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 121,
-            "end": 124,
+            "start": 128,
+            "end": 131,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 121,
-              "end": 123,
+              "start": 128,
+              "end": 130,
               "ctxt": 0
             },
             "value": "po",
@@ -220,15 +220,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 137,
-            "end": 140,
+            "start": 145,
+            "end": 148,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 137,
-              "end": 139,
+              "start": 145,
+              "end": 147,
               "ctxt": 0
             },
             "value": "pi",
@@ -249,15 +249,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 146,
-            "end": 167,
+            "start": 156,
+            "end": 177,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 164,
-              "end": 166,
+              "start": 174,
+              "end": 176,
               "ctxt": 0
             },
             "value": "ra",
@@ -278,15 +278,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 172,
-            "end": 193,
+            "start": 183,
+            "end": 204,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 190,
-              "end": 192,
+              "start": 201,
+              "end": 203,
               "ctxt": 0
             },
             "value": "ar",
@@ -307,15 +307,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 198,
-            "end": 217,
+            "start": 210,
+            "end": 229,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 214,
-              "end": 216,
+              "start": 226,
+              "end": 228,
               "ctxt": 0
             },
             "value": "sr",
@@ -336,15 +336,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 230,
-            "end": 243,
+            "start": 244,
+            "end": 257,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 239,
-              "end": 242,
+              "start": 253,
+              "end": 256,
               "ctxt": 0
             },
             "value": "pur",
@@ -365,15 +365,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 255,
-            "end": 268,
+            "start": 270,
+            "end": 283,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 264,
-              "end": 267,
+              "start": 279,
+              "end": 282,
               "ctxt": 0
             },
             "value": "pua",
@@ -394,15 +394,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 280,
-            "end": 291,
+            "start": 296,
+            "end": 307,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 287,
-              "end": 290,
+              "start": 303,
+              "end": 306,
               "ctxt": 0
             },
             "value": "pus",
@@ -423,15 +423,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 303,
-            "end": 326,
+            "start": 320,
+            "end": 343,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 321,
-              "end": 325,
+              "start": 338,
+              "end": 342,
               "ctxt": 0
             },
             "value": "pura",
@@ -452,15 +452,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 338,
-            "end": 361,
+            "start": 356,
+            "end": 379,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 356,
-              "end": 360,
+              "start": 374,
+              "end": 378,
               "ctxt": 0
             },
             "value": "puar",
@@ -481,15 +481,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 373,
-            "end": 394,
+            "start": 392,
+            "end": 413,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 389,
-              "end": 393,
+              "start": 408,
+              "end": 412,
               "ctxt": 0
             },
             "value": "pusr",

@@ -2,7 +2,7 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 51,
+    "end": 52,
     "ctxt": 0
   },
   "body": [
@@ -48,22 +48,22 @@
     {
       "type": "ExportDefaultDeclaration",
       "span": {
-        "start": 22,
-        "end": 51,
+        "start": 23,
+        "end": 52,
         "ctxt": 0
       },
       "decl": {
         "type": "TsInterfaceDeclaration",
         "span": {
-          "start": 47,
-          "end": 51,
+          "start": 48,
+          "end": 52,
           "ctxt": 0
         },
         "id": {
           "type": "Identifier",
           "span": {
-            "start": 47,
-            "end": 48,
+            "start": 48,
+            "end": 49,
             "ctxt": 0
           },
           "value": "A",
@@ -76,8 +76,8 @@
         "body": {
           "type": "TsInterfaceBody",
           "span": {
-            "start": 49,
-            "end": 51,
+            "start": 50,
+            "end": 52,
             "ctxt": 0
           },
           "body": []

@@ -2,7 +2,7 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 199,
+    "end": 204,
     "ctxt": 0
   },
   "body": [
@@ -38,8 +38,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 43,
-          "end": 44,
+          "start": 44,
+          "end": 45,
           "ctxt": 0
         },
         "value": "C",
@@ -48,8 +48,8 @@
       },
       "declare": true,
       "span": {
-        "start": 37,
-        "end": 47,
+        "start": 38,
+        "end": 48,
         "ctxt": 0
       },
       "decorators": [],
@@ -63,8 +63,8 @@
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 48,
-        "end": 74,
+        "start": 50,
+        "end": 76,
         "ctxt": 0
       },
       "declaration": {
@@ -72,8 +72,8 @@
         "identifier": {
           "type": "Identifier",
           "span": {
-            "start": 70,
-            "end": 71,
+            "start": 72,
+            "end": 73,
             "ctxt": 0
           },
           "value": "C",
@@ -82,8 +82,8 @@
         },
         "declare": false,
         "span": {
-          "start": 64,
-          "end": 74,
+          "start": 66,
+          "end": 76,
           "ctxt": 0
         },
         "decorators": [],
@@ -98,16 +98,16 @@
     {
       "type": "ExportDefaultDeclaration",
       "span": {
-        "start": 154,
-        "end": 163,
+        "start": 158,
+        "end": 167,
         "ctxt": 0
       },
       "decl": {
         "type": "ClassExpression",
         "identifier": null,
         "span": {
-          "start": 154,
-          "end": 163,
+          "start": 158,
+          "end": 167,
           "ctxt": 0
         },
         "decorators": [],
@@ -122,8 +122,8 @@
     {
       "type": "ExportDefaultDeclaration",
       "span": {
-        "start": 188,
-        "end": 199,
+        "start": 193,
+        "end": 204,
         "ctxt": 0
       },
       "decl": {
@@ -131,8 +131,8 @@
         "identifier": {
           "type": "Identifier",
           "span": {
-            "start": 194,
-            "end": 195,
+            "start": 199,
+            "end": 200,
             "ctxt": 0
           },
           "value": "C",
@@ -140,8 +140,8 @@
           "optional": false
         },
         "span": {
-          "start": 188,
-          "end": 199,
+          "start": 193,
+          "end": 204,
           "ctxt": 0
         },
         "decorators": [],
