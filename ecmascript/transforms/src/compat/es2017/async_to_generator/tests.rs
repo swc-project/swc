@@ -855,6 +855,8 @@ _coroutine(function* () {
 
 // regression_t7194
 test!(
+    // Optimization
+    ignore,
     syntax(),
     |_| chain!(AsyncToGenerator {}, arrow()),
     regression_t7194,
