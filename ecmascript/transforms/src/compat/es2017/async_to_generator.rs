@@ -516,7 +516,28 @@ impl Actual {
             return f;
         }
         let span = f.span();
-        let params = f.params.clone();
+        let params = {
+            let mut done = false;
+            f.params
+                .iter()
+                .filter_map(|p| {
+                    if done {
+                        None
+                    } else {
+                        match *p {
+                            Pat::Ident(..) => Some(p.clone()),
+                            Pat::Array(..) | Pat::Object(..) => {
+                                Some(Pat::Ident(private_ident!("_")))
+                            }
+                            _ => {
+                                done = true;
+                                None
+                            }
+                        }
+                    }
+                })
+                .collect()
+        };
         let ident = raw_ident.clone().unwrap_or_else(|| quote_ident!("ref"));
 
         let real_fn_ident = private_ident!(ident.span, format!("_{}", ident.sym));

@@ -1515,17 +1515,14 @@ async function six(a, {b} = {}){}
 
 "#,
     r#"
-function one(_x) {
-  return _one.apply(this, arguments);
-}
 
 function _one() {
   _one = _asyncToGenerator(function* (a, b = 1) {});
   return _one.apply(this, arguments);
 }
 
-function two(_x2, _x3) {
-  return _two.apply(this, arguments);
+function one(a) {
+  return _one.apply(this, arguments);
 }
 
 function _two() {
@@ -1533,8 +1530,8 @@ function _two() {
   return _two.apply(this, arguments);
 }
 
-function three(_x4) {
-  return _three.apply(this, arguments);
+function two(a, b) {
+  return _two.apply(this, arguments);
 }
 
 function _three() {
@@ -1542,8 +1539,8 @@ function _three() {
   return _three.apply(this, arguments);
 }
 
-function four(_x5) {
-  return _four.apply(this, arguments);
+function three(a) {
+  return _three.apply(this, arguments);
 }
 
 function _four() {
@@ -1551,8 +1548,8 @@ function _four() {
   return _four.apply(this, arguments);
 }
 
-function five(_x6, _x7) {
-  return _five.apply(this, arguments);
+function four(a) {
+  return _four.apply(this, arguments);
 }
 
 function _five() {
@@ -1562,14 +1559,18 @@ function _five() {
   return _five.apply(this, arguments);
 }
 
-function six(_x8) {
-  return _six.apply(this, arguments);
+function five(a, _) {
+  return _five.apply(this, arguments);
 }
 
 function _six() {
   _six = _asyncToGenerator(function* (a, {
     b
   } = {}) {});
+  return _six.apply(this, arguments);
+}
+
+function six(a) {
   return _six.apply(this, arguments);
 }
 
@@ -1758,10 +1759,6 @@ async function s(x, ...args) {
 
 "#,
     r#"
-function s(_x) {
-  return _s.apply(this, arguments);
-}
-
 function _s() {
   _s = _asyncToGenerator(function* (x) {
     var _arguments = arguments,
@@ -1807,6 +1804,10 @@ function _s() {
     yield t();
     return this.h(t);
   });
+  return _s.apply(this, arguments);
+}
+
+function s(_x) {
   return _s.apply(this, arguments);
 }
 
