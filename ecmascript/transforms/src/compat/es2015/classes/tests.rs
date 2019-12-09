@@ -6077,6 +6077,8 @@ with (env) {
 
 // extend_builtins_super_called
 test_exec!(
+    // Just don't do this. With is evil.
+    ignore,
     syntax(),
     |_| chain!(Classes::default(), block_scoping()),
     extend_builtins_super_called_exec,
