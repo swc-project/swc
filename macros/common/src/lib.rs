@@ -1,6 +1,6 @@
 extern crate proc_macro;
 
-use pmutil::{synom_ext::FromSpan, SpanExt};
+use pmutil::{synom_ext::FromSpan};
 use proc_macro2::Span;
 use syn::*;
 
