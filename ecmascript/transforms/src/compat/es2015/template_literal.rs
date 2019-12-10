@@ -21,6 +21,16 @@ impl Fold<Module> for TemplateLiteral {
     }
 }
 
+impl Fold<Script> for TemplateLiteral {
+    fn fold(&mut self, m: Script) -> Script {
+        let mut body = m.body.fold_children(self);
+
+        prepend_stmts(&mut body, self.added.drain(..));
+
+        Script { body, ..m }
+    }
+}
+
 impl Fold<Expr> for TemplateLiteral {
     fn fold(&mut self, e: Expr) -> Expr {
         let e = validate!(e);
