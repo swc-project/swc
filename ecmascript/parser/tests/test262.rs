@@ -5,7 +5,6 @@
 
 extern crate test;
 
-use swc_ecma_ast::*;
 use std::{
     env,
     fs::{read_dir, File},
@@ -13,6 +12,7 @@ use std::{
     path::Path,
 };
 use swc_common::{Fold, FoldWith, Span};
+use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, PResult, Parser, Session, SourceFileInput, Syntax};
 use test::{
     test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,

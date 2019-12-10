@@ -3,8 +3,6 @@
 //! [babel/bablyon]:https://github.com/babel/babel/blob/2d378d076eb0c5fe63234a8b509886005c01d7ee/packages/babylon/src/tokenizer/types.js
 pub(crate) use self::{AssignOpToken::*, BinOpToken::*, Keyword::*, Token::*};
 use crate::error::Error;
-pub(crate) use swc_ecma_ast::AssignOp as AssignOpToken;
-use swc_ecma_ast::{BinaryOp, Str};
 use enum_kind::Kind;
 use std::{
     borrow::Cow,
@@ -14,6 +12,8 @@ use swc_atoms::{js_word, JsWord};
 #[cfg(feature = "fold")]
 use swc_common::Fold;
 use swc_common::Span;
+pub(crate) use swc_ecma_ast::AssignOp as AssignOpToken;
+use swc_ecma_ast::{BinaryOp, Str};
 
 #[derive(Kind, Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "fold", derive(Fold))]
