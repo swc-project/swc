@@ -15,7 +15,6 @@ use crate::{
     Context, JscTarget, Session, Syntax,
 };
 
-use ast::Str;
 use smallvec::{smallvec, SmallVec};
 use std::{char, iter::FusedIterator};
 use swc_atoms::JsWord;
@@ -23,6 +22,7 @@ use swc_common::{
     comments::{Comment, Comments},
     BytePos, Span,
 };
+use swc_ecma_ast::Str;
 
 pub mod input;
 mod jsx;

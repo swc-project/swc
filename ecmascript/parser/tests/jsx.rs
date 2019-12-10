@@ -5,7 +5,6 @@
 
 extern crate test;
 
-use ast::*;
 use pretty_assertions::assert_eq;
 use serde_json;
 use std::{
@@ -16,6 +15,7 @@ use std::{
     sync::Arc,
 };
 use swc_common::{errors::Handler, Fold, FoldWith, SourceMap, CM};
+use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, PResult, Parser, Session, SourceFileInput};
 use test::{
     test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,

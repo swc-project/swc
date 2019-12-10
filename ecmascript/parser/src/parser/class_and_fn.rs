@@ -1,9 +1,9 @@
 use super::{ident::MaybeOptionalIdentParser, *};
 use crate::{error::SyntaxError, Tokens};
 use either::Either;
-use parser_macros::parser;
 use swc_atoms::js_word;
 use swc_common::Spanned;
+use swc_ecma_parser_macros::parser;
 
 #[parser]
 /// Parser for function expression and function declaration.
