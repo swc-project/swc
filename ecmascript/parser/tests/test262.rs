@@ -5,7 +5,7 @@
 
 extern crate test;
 
-use ast::*;
+use swc_ecma_ast::*;
 use std::{
     env,
     fs::{read_dir, File},

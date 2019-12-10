@@ -3,8 +3,8 @@
 //! [babel/bablyon]:https://github.com/babel/babel/blob/2d378d076eb0c5fe63234a8b509886005c01d7ee/packages/babylon/src/tokenizer/types.js
 pub(crate) use self::{AssignOpToken::*, BinOpToken::*, Keyword::*, Token::*};
 use crate::error::Error;
-pub(crate) use ast::AssignOp as AssignOpToken;
-use ast::{BinaryOp, Str};
+pub(crate) use swc_ecma_ast::AssignOp as AssignOpToken;
+use swc_ecma_ast::{BinaryOp, Str};
 use enum_kind::Kind;
 use std::{
     borrow::Cow,

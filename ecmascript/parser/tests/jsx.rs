@@ -5,7 +5,7 @@
 
 extern crate test;
 
-use ast::*;
+use swc_ecma_ast::*;
 use pretty_assertions::assert_eq;
 use serde_json;
 use std::{

@@ -8,8 +8,8 @@ use crate::{
     token::{Token, Word},
     Context, JscTarget, Session, Syntax,
 };
-use ast::*;
-use parser_macros::parser;
+use swc_ecma_ast::*;
+use swc_ecma_parser_macros::parser;
 use std::ops::{Deref, DerefMut};
 use swc_atoms::JsWord;
 use swc_common::{comments::Comments, errors::DiagnosticBuilder, input::Input, BytePos, Span};

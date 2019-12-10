@@ -2,7 +2,7 @@
 use super::*;
 use crate::token::Keyword;
 use either::Either;
-use parser_macros::parser;
+use swc_ecma_parser_macros::parser;
 use swc_atoms::js_word;
 
 #[parser]
