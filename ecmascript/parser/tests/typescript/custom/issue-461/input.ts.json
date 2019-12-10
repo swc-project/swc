@@ -2,7 +2,7 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 40,
+    "end": 38,
     "ctxt": 0
   },
   "body": [
@@ -10,7 +10,7 @@
       "type": "ForInStatement",
       "span": {
         "start": 0,
-        "end": 40,
+        "end": 38,
         "ctxt": 0
       },
       "left": {
@@ -73,37 +73,37 @@
         "type": "BlockStatement",
         "span": {
           "start": 20,
-          "end": 40,
+          "end": 38,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "CallExpression",
             "span": {
-              "start": 25,
-              "end": 36,
+              "start": 24,
+              "end": 35,
               "ctxt": 0
             },
             "callee": {
               "type": "ParenthesisExpression",
               "span": {
-                "start": 25,
-                "end": 33,
+                "start": 24,
+                "end": 32,
                 "ctxt": 0
               },
               "expression": {
                 "type": "ArrowFunctionExpression",
                 "span": {
-                  "start": 26,
-                  "end": 33,
+                  "start": 25,
+                  "end": 32,
                   "ctxt": 0
                 },
                 "params": [
                   {
                     "type": "Identifier",
                     "span": {
-                      "start": 26,
-                      "end": 27,
+                      "start": 25,
+                      "end": 26,
                       "ctxt": 0
                     },
                     "value": "x",
@@ -114,8 +114,8 @@
                 "body": {
                   "type": "NumericLiteral",
                   "span": {
-                    "start": 31,
-                    "end": 32,
+                    "start": 30,
+                    "end": 31,
                     "ctxt": 0
                   },
                   "value": 0.0
@@ -132,8 +132,8 @@
                 "expression": {
                   "type": "Identifier",
                   "span": {
-                    "start": 34,
-                    "end": 35,
+                    "start": 33,
+                    "end": 34,
                     "ctxt": 0
                   },
                   "value": "x",

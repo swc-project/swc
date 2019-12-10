@@ -2,7 +2,7 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 55,
+    "end": 49,
     "ctxt": 0
   },
   "body": [
@@ -10,7 +10,7 @@
       "type": "JSXFragment",
       "span": {
         "start": 0,
-        "end": 55,
+        "end": 49,
         "ctxt": 0
       },
       "opening": {
@@ -26,24 +26,24 @@
           "type": "JSXText",
           "span": {
             "start": 2,
-            "end": 6,
+            "end": 5,
             "ctxt": 0
           },
-          "value": "\n\r\n  ",
-          "raw": "\n\r\n  "
+          "value": "\n\n  ",
+          "raw": "\n\n  "
         },
         {
           "type": "JSXFragment",
           "span": {
-            "start": 6,
-            "end": 50,
+            "start": 5,
+            "end": 45,
             "ctxt": 0
           },
           "opening": {
             "type": "JSXOpeningFragment",
             "span": {
-              "start": 7,
-              "end": 8,
+              "start": 6,
+              "end": 7,
               "ctxt": 0
             }
           },
@@ -51,25 +51,25 @@
             {
               "type": "JSXText",
               "span": {
-                "start": 8,
-                "end": 14,
+                "start": 7,
+                "end": 12,
                 "ctxt": 0
               },
-              "value": "\n\r\n    ",
-              "raw": "\n\r\n    "
+              "value": "\n\n    ",
+              "raw": "\n\n    "
             },
             {
               "type": "JSXFragment",
               "span": {
-                "start": 14,
-                "end": 43,
+                "start": 12,
+                "end": 39,
                 "ctxt": 0
               },
               "opening": {
                 "type": "JSXOpeningFragment",
                 "span": {
-                  "start": 15,
-                  "end": 16,
+                  "start": 13,
+                  "end": 14,
                   "ctxt": 0
                 }
               },
@@ -77,19 +77,19 @@
                 {
                   "type": "JSXText",
                   "span": {
-                    "start": 16,
-                    "end": 40,
+                    "start": 14,
+                    "end": 36,
                     "ctxt": 0
                   },
-                  "value": "\n\r\n      super deep\n\r\n    ",
-                  "raw": "\n\r\n      super deep\n\r\n    "
+                  "value": "\n\n      super deep\n\n    ",
+                  "raw": "\n\n      super deep\n\n    "
                 }
               ],
               "closing": {
                 "type": "JSXClosingFragment",
                 "span": {
-                  "start": 42,
-                  "end": 43,
+                  "start": 38,
+                  "end": 39,
                   "ctxt": 0
                 }
               }
@@ -97,19 +97,19 @@
             {
               "type": "JSXText",
               "span": {
-                "start": 43,
-                "end": 47,
+                "start": 39,
+                "end": 42,
                 "ctxt": 0
               },
-              "value": "\n\r\n  ",
-              "raw": "\n\r\n  "
+              "value": "\n\n  ",
+              "raw": "\n\n  "
             }
           ],
           "closing": {
             "type": "JSXClosingFragment",
             "span": {
-              "start": 49,
-              "end": 50,
+              "start": 44,
+              "end": 45,
               "ctxt": 0
             }
           }
@@ -117,19 +117,19 @@
         {
           "type": "JSXText",
           "span": {
-            "start": 50,
-            "end": 52,
+            "start": 45,
+            "end": 46,
             "ctxt": 0
           },
-          "value": "\n\r\n",
-          "raw": "\n\r\n"
+          "value": "\n\n",
+          "raw": "\n\n"
         }
       ],
       "closing": {
         "type": "JSXClosingFragment",
         "span": {
-          "start": 54,
-          "end": 55,
+          "start": 48,
+          "end": 49,
           "ctxt": 0
         }
       }

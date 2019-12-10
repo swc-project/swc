@@ -2,7 +2,7 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 6,
+    "end": 5,
     "ctxt": 0
   },
   "body": [
@@ -10,7 +10,7 @@
       "type": "JSXElement",
       "span": {
         "start": 0,
-        "end": 6,
+        "end": 5,
         "ctxt": 0
       },
       "opening": {
@@ -28,7 +28,7 @@
         },
         "span": {
           "start": 1,
-          "end": 6,
+          "end": 5,
           "ctxt": 0
         },
         "attributes": [],

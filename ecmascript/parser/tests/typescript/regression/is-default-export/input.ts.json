@@ -2,7 +2,7 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 64,
+    "end": 62,
     "ctxt": 0
   },
   "body": [
@@ -47,15 +47,15 @@
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 25,
-        "end": 41,
+        "start": 24,
+        "end": 40,
         "ctxt": 0
       },
       "declaration": {
         "type": "TsEnumDeclaration",
         "span": {
-          "start": 32,
-          "end": 41,
+          "start": 31,
+          "end": 40,
           "ctxt": 0
         },
         "declare": false,
@@ -63,8 +63,8 @@
         "id": {
           "type": "Identifier",
           "span": {
-            "start": 37,
-            "end": 38,
+            "start": 36,
+            "end": 37,
             "ctxt": 0
           },
           "value": "E",
@@ -77,22 +77,22 @@
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 43,
-        "end": 64,
+        "start": 41,
+        "end": 62,
         "ctxt": 0
       },
       "declaration": {
         "type": "TsInterfaceDeclaration",
         "span": {
-          "start": 60,
-          "end": 64,
+          "start": 58,
+          "end": 62,
           "ctxt": 0
         },
         "id": {
           "type": "Identifier",
           "span": {
-            "start": 60,
-            "end": 61,
+            "start": 58,
+            "end": 59,
             "ctxt": 0
           },
           "value": "I",
@@ -105,8 +105,8 @@
         "body": {
           "type": "TsInterfaceBody",
           "span": {
-            "start": 62,
-            "end": 64,
+            "start": 60,
+            "end": 62,
             "ctxt": 0
           },
           "body": []
