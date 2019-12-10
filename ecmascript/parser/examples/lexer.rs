@@ -41,7 +41,7 @@ fn main() {
             .map_err(|mut e| {
                 e.emit();
             })
-            .expect("failed to parser module");
+            .expect("Failed to parse module.");
 
         println!("Tokens: {:?}", parser.input().take());
     });
