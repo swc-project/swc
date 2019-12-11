@@ -1,4 +1,3 @@
-use rayon::prelude::*;
 use std::path::Path;
 use swc::{config::Options, error::Error, Compiler};
 use testing::{NormalizedOutput, StdErr, Tester};
