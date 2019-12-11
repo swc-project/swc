@@ -177,3 +177,8 @@ fn issue_467() {
 fn issue_468() {
     file("tests/projects/issue-468/input.ts").expect("failed to parse typescript");
 }
+
+#[test]
+fn typescript() {
+    project("tests/projects/TypeScript");
+}
