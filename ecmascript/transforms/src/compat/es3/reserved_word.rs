@@ -19,11 +19,13 @@ use swc_common::{Fold, FoldWith};
 /// var x = _abstract + 1;
 /// ```
 #[derive(Default, Clone, Copy)]
-pub struct ReservedWord;
+pub struct ReservedWord {
+    pub preserve_import: bool,
+}
 
 impl Fold<Ident> for ReservedWord {
     fn fold(&mut self, i: Ident) -> Ident {
-        fold_ident(i)
+        fold_ident(self.preserve_import, i)
     }
 }
 
@@ -78,7 +80,11 @@ impl Fold<MemberExpr> for ReservedWord {
     }
 }
 
-fn fold_ident(i: Ident) -> Ident {
+fn fold_ident(preserve_import: bool, i: Ident) -> Ident {
+    if preserve_import && i.sym == *"import" {
+        return i;
+    }
+
     if i.is_reserved_for_es3() {
         return Ident {
             sym: format!("_{}", i.sym).into(),
@@ -97,7 +103,9 @@ mod tests {
         ($name:ident, $src:literal) => {
             test!(
                 ::swc_ecma_parser::Syntax::default(),
-                |_| ReservedWord,
+                |_| ReservedWord {
+                    preserve_import: false
+                },
                 $name,
                 $src,
                 $src
@@ -107,7 +115,9 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| ReservedWord,
+        |_| ReservedWord {
+            preserve_import: false
+        },
         babel_issue_6477,
         r#"
 function utf8CheckByte(byte) {

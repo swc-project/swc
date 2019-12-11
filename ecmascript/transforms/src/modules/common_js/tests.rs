@@ -108,7 +108,7 @@ test!(
         compat::es2017(),
         compat::es2016(),
         compat::es2015(Default::default()),
-        compat::es3(),
+        compat::es3(true),
         super::super::import_analysis::import_analyzer(),
         InjectHelpers,
         common_js(Default::default()),

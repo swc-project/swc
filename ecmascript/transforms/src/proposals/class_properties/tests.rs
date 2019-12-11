@@ -33,7 +33,9 @@ fn tr() -> impl Fold<Module> {
         class_properties(),
         Classes::default(),
         block_scoping(),
-        ReservedWord,
+        ReservedWord {
+            preserve_import: false
+        },
     )
 }
 
