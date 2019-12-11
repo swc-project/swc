@@ -27,7 +27,7 @@ pub use self::{
         JSXOpeningFragment, JSXSpreadChild, JSXText,
     },
     lit::{Bool, Lit, Null, Number, Regex, RegexFlags, Str},
-    module::{Module, ModuleItem, Script},
+    module::{Module, ModuleItem, Program, Script},
     module_decl::{
         DefaultDecl, DefaultExportSpecifier, ExportAll, ExportDecl, ExportDefaultDecl,
         ExportDefaultExpr, ExportSpecifier, ImportDecl, ImportDefault, ImportSpecific,
