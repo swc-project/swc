@@ -35,6 +35,9 @@ pub struct ParseOptions {
     pub comments: bool,
     #[serde(flatten)]
     pub syntax: Syntax,
+
+    #[serde(default = "default_is_module")]
+    pub is_module: bool,
 }
 
 #[derive(Default, Serialize, Deserialize)]
