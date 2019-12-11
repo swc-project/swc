@@ -262,6 +262,9 @@ pub enum TsType {
 
     #[tag("TsTypePredicate")]
     TsTypePredicate(TsTypePredicate),
+
+    #[tag("TsImportType")]
+    TsImportType(TsImportType),
 }
 
 #[ast_node]
@@ -413,7 +416,26 @@ pub enum TsThisTypeOrIdent {
 #[ast_node("TsTypeQuery")]
 pub struct TsTypeQuery {
     pub span: Span,
-    pub expr_name: TsEntityName,
+    pub expr_name: TsTypeQueryExpr,
+}
+
+#[ast_node]
+pub enum TsTypeQueryExpr {
+    #[tag("TsQualifiedName")]
+    #[tag("Identifier")]
+    TsEntityName(TsEntityName),
+    #[tag("TsImportType")]
+    Import(TsImportType),
+}
+
+#[ast_node("TsImportType")]
+pub struct TsImportType {
+    pub span: Span,
+    #[serde(rename = "argument")]
+    pub arg: Str,
+    pub qualifier: Option<TsEntityName>,
+    #[serde(rename = "typeParameters")]
+    pub type_params: Option<TsTypeParamInstantiation>,
 }
 
 #[ast_node("TsTypeLiteral")]

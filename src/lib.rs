@@ -218,6 +218,7 @@ impl Compiler {
                             let mut config = serde_json::from_reader(r)
                                 .map_err(|err| Error::FailedToParseConfigFile { err })
                                 .and_then(|rc: Rc| rc.into_config(Some(path)))?;
+
                             if let Some(config_file) = config_file {
                                 config.merge(&config_file.into_config(Some(path))?)
                             }

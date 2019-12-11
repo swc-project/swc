@@ -1,0 +1,597 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 400,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 0,
+        "end": 400,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "VariableDeclaration",
+        "span": {
+          "start": 7,
+          "end": 400,
+          "ctxt": 0
+        },
+        "kind": "const",
+        "declare": false,
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "span": {
+              "start": 13,
+              "end": 399,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 13,
+                "end": 27,
+                "ctxt": 0
+              },
+              "value": "assertEachNode",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "init": {
+              "type": "ConditionalExpression",
+              "span": {
+                "start": 30,
+                "end": 399,
+                "ctxt": 0
+              },
+              "test": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 30,
+                  "end": 65,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 30,
+                    "end": 42,
+                    "ctxt": 0
+                  },
+                  "value": "shouldAssert",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "MemberExpression",
+                      "span": {
+                        "start": 43,
+                        "end": 64,
+                        "ctxt": 0
+                      },
+                      "object": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 43,
+                          "end": 57,
+                          "ctxt": 0
+                        },
+                        "value": "AssertionLevel",
+                        "typeAnnotation": null,
+                        "optional": false
+                      },
+                      "property": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 58,
+                          "end": 64,
+                          "ctxt": 0
+                        },
+                        "value": "Normal",
+                        "typeAnnotation": null,
+                        "optional": false
+                      },
+                      "computed": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              },
+              "consequent": {
+                "type": "ArrowFunctionExpression",
+                "span": {
+                  "start": 144,
+                  "end": 380,
+                  "ctxt": 0
+                },
+                "params": [
+                  {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 81,
+                      "end": 86,
+                      "ctxt": 0
+                    },
+                    "value": "nodes",
+                    "typeAnnotation": {
+                      "type": "TsTypeAnnotation",
+                      "span": {
+                        "start": 86,
+                        "end": 94,
+                        "ctxt": 0
+                      },
+                      "typeAnnotation": {
+                        "type": "TsArrayType",
+                        "span": {
+                          "start": 88,
+                          "end": 94,
+                          "ctxt": 0
+                        },
+                        "elemType": {
+                          "type": "TsTypeReference",
+                          "span": {
+                            "start": 88,
+                            "end": 92,
+                            "ctxt": 0
+                          },
+                          "typeName": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 88,
+                              "end": 92,
+                              "ctxt": 0
+                            },
+                            "value": "Node",
+                            "typeAnnotation": null,
+                            "optional": false
+                          },
+                          "typeParams": null
+                        }
+                      }
+                    },
+                    "optional": false
+                  },
+                  {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 96,
+                      "end": 100,
+                      "ctxt": 0
+                    },
+                    "value": "test",
+                    "typeAnnotation": {
+                      "type": "TsTypeAnnotation",
+                      "span": {
+                        "start": 100,
+                        "end": 125,
+                        "ctxt": 0
+                      },
+                      "typeAnnotation": {
+                        "type": "TsFunctionType",
+                        "span": {
+                          "start": 102,
+                          "end": 125,
+                          "ctxt": 0
+                        },
+                        "params": [
+                          {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 103,
+                              "end": 107,
+                              "ctxt": 0
+                            },
+                            "value": "node",
+                            "typeAnnotation": {
+                              "type": "TsTypeAnnotation",
+                              "span": {
+                                "start": 107,
+                                "end": 113,
+                                "ctxt": 0
+                              },
+                              "typeAnnotation": {
+                                "type": "TsTypeReference",
+                                "span": {
+                                  "start": 109,
+                                  "end": 113,
+                                  "ctxt": 0
+                                },
+                                "typeName": {
+                                  "type": "Identifier",
+                                  "span": {
+                                    "start": 109,
+                                    "end": 113,
+                                    "ctxt": 0
+                                  },
+                                  "value": "Node",
+                                  "typeAnnotation": null,
+                                  "optional": false
+                                },
+                                "typeParams": null
+                              }
+                            },
+                            "optional": false
+                          }
+                        ],
+                        "typeParams": null,
+                        "typeAnnotation": {
+                          "type": "TsTypeAnnotation",
+                          "span": {
+                            "start": 115,
+                            "end": 125,
+                            "ctxt": 0
+                          },
+                          "typeAnnotation": {
+                            "type": "TsKeywordType",
+                            "span": {
+                              "start": 118,
+                              "end": 125,
+                              "ctxt": 0
+                            },
+                            "kind": "boolean"
+                          }
+                        }
+                      }
+                    },
+                    "optional": false
+                  },
+                  {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 127,
+                      "end": 134,
+                      "ctxt": 0
+                    },
+                    "value": "message",
+                    "typeAnnotation": {
+                      "type": "TsTypeAnnotation",
+                      "span": {
+                        "start": 135,
+                        "end": 143,
+                        "ctxt": 0
+                      },
+                      "typeAnnotation": {
+                        "type": "TsKeywordType",
+                        "span": {
+                          "start": 137,
+                          "end": 143,
+                          "ctxt": 0
+                        },
+                        "kind": "string"
+                      }
+                    },
+                    "optional": true
+                  }
+                ],
+                "body": {
+                  "type": "CallExpression",
+                  "span": {
+                    "start": 154,
+                    "end": 380,
+                    "ctxt": 0
+                  },
+                  "callee": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 154,
+                      "end": 160,
+                      "ctxt": 0
+                    },
+                    "value": "assert",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "arguments": [
+                    {
+                      "spread": null,
+                      "expression": {
+                        "type": "BinaryExpression",
+                        "span": {
+                          "start": 178,
+                          "end": 218,
+                          "ctxt": 0
+                        },
+                        "operator": "||",
+                        "left": {
+                          "type": "BinaryExpression",
+                          "span": {
+                            "start": 178,
+                            "end": 196,
+                            "ctxt": 0
+                          },
+                          "operator": "===",
+                          "left": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 178,
+                              "end": 182,
+                              "ctxt": 0
+                            },
+                            "value": "test",
+                            "typeAnnotation": null,
+                            "optional": false
+                          },
+                          "right": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 187,
+                              "end": 196,
+                              "ctxt": 0
+                            },
+                            "value": "undefined",
+                            "typeAnnotation": null,
+                            "optional": false
+                          }
+                        },
+                        "right": {
+                          "type": "CallExpression",
+                          "span": {
+                            "start": 200,
+                            "end": 218,
+                            "ctxt": 0
+                          },
+                          "callee": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 200,
+                              "end": 205,
+                              "ctxt": 0
+                            },
+                            "value": "every",
+                            "typeAnnotation": null,
+                            "optional": false
+                          },
+                          "arguments": [
+                            {
+                              "spread": null,
+                              "expression": {
+                                "type": "Identifier",
+                                "span": {
+                                  "start": 206,
+                                  "end": 211,
+                                  "ctxt": 0
+                                },
+                                "value": "nodes",
+                                "typeAnnotation": null,
+                                "optional": false
+                              }
+                            },
+                            {
+                              "spread": null,
+                              "expression": {
+                                "type": "Identifier",
+                                "span": {
+                                  "start": 213,
+                                  "end": 217,
+                                  "ctxt": 0
+                                },
+                                "value": "test",
+                                "typeAnnotation": null,
+                                "optional": false
+                              }
+                            }
+                          ],
+                          "typeArguments": null
+                        }
+                      }
+                    },
+                    {
+                      "spread": null,
+                      "expression": {
+                        "type": "BinaryExpression",
+                        "span": {
+                          "start": 236,
+                          "end": 265,
+                          "ctxt": 0
+                        },
+                        "operator": "||",
+                        "left": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 236,
+                            "end": 243,
+                            "ctxt": 0
+                          },
+                          "value": "message",
+                          "typeAnnotation": null,
+                          "optional": false
+                        },
+                        "right": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 247,
+                            "end": 265,
+                            "ctxt": 0
+                          },
+                          "value": "Unexpected node.",
+                          "hasEscape": false
+                        }
+                      }
+                    },
+                    {
+                      "spread": null,
+                      "expression": {
+                        "type": "ArrowFunctionExpression",
+                        "span": {
+                          "start": 283,
+                          "end": 347,
+                          "ctxt": 0
+                        },
+                        "params": [],
+                        "body": {
+                          "type": "TemplateLiteral",
+                          "span": {
+                            "start": 289,
+                            "end": 347,
+                            "ctxt": 0
+                          },
+                          "expressions": [
+                            {
+                              "type": "CallExpression",
+                              "span": {
+                                "start": 322,
+                                "end": 343,
+                                "ctxt": 0
+                              },
+                              "callee": {
+                                "type": "Identifier",
+                                "span": {
+                                  "start": 322,
+                                  "end": 337,
+                                  "ctxt": 0
+                                },
+                                "value": "getFunctionName",
+                                "typeAnnotation": null,
+                                "optional": false
+                              },
+                              "arguments": [
+                                {
+                                  "spread": null,
+                                  "expression": {
+                                    "type": "Identifier",
+                                    "span": {
+                                      "start": 338,
+                                      "end": 342,
+                                      "ctxt": 0
+                                    },
+                                    "value": "test",
+                                    "typeAnnotation": null,
+                                    "optional": false
+                                  }
+                                }
+                              ],
+                              "typeArguments": null
+                            }
+                          ],
+                          "quasis": [
+                            {
+                              "type": "TemplateElement",
+                              "span": {
+                                "start": 290,
+                                "end": 320,
+                                "ctxt": 0
+                              },
+                              "tail": false,
+                              "cooked": {
+                                "type": "StringLiteral",
+                                "span": {
+                                  "start": 290,
+                                  "end": 320,
+                                  "ctxt": 0
+                                },
+                                "value": "Node array did not pass test '",
+                                "hasEscape": false
+                              },
+                              "raw": {
+                                "type": "StringLiteral",
+                                "span": {
+                                  "start": 290,
+                                  "end": 320,
+                                  "ctxt": 0
+                                },
+                                "value": "Node array did not pass test '",
+                                "hasEscape": false
+                              }
+                            },
+                            {
+                              "type": "TemplateElement",
+                              "span": {
+                                "start": 344,
+                                "end": 346,
+                                "ctxt": 0
+                              },
+                              "tail": true,
+                              "cooked": {
+                                "type": "StringLiteral",
+                                "span": {
+                                  "start": 344,
+                                  "end": 346,
+                                  "ctxt": 0
+                                },
+                                "value": "'.",
+                                "hasEscape": false
+                              },
+                              "raw": {
+                                "type": "StringLiteral",
+                                "span": {
+                                  "start": 344,
+                                  "end": 346,
+                                  "ctxt": 0
+                                },
+                                "value": "'.",
+                                "hasEscape": false
+                              }
+                            }
+                          ]
+                        },
+                        "async": false,
+                        "generator": false,
+                        "typeParameters": null,
+                        "returnType": null
+                      }
+                    },
+                    {
+                      "spread": null,
+                      "expression": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 365,
+                          "end": 379,
+                          "ctxt": 0
+                        },
+                        "value": "assertEachNode",
+                        "typeAnnotation": null,
+                        "optional": false
+                      }
+                    }
+                  ],
+                  "typeArguments": null
+                },
+                "async": false,
+                "generator": false,
+                "typeParameters": null,
+                "returnType": {
+                  "type": "TsTypeAnnotation",
+                  "span": {
+                    "start": 144,
+                    "end": 150,
+                    "ctxt": 0
+                  },
+                  "typeAnnotation": {
+                    "type": "TsKeywordType",
+                    "span": {
+                      "start": 146,
+                      "end": 150,
+                      "ctxt": 0
+                    },
+                    "kind": "void"
+                  }
+                }
+              },
+              "alternate": {
+                "type": "Identifier",
+                "span": {
+                  "start": 395,
+                  "end": 399,
+                  "ctxt": 0
+                },
+                "value": "noop",
+                "typeAnnotation": null,
+                "optional": false
+              }
+            },
+            "definite": false
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

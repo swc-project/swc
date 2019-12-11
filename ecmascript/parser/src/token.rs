@@ -55,6 +55,7 @@ pub enum Token {
     /// ']'
     RBracket,
     /// '{'
+    #[kind(before_expr, starts_expr)]
     LBrace,
     /// '}'
     RBrace,

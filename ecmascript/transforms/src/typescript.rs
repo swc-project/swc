@@ -299,21 +299,20 @@ impl Fold<Vec<ModuleItem>> for Strip {
                         continue;
                     }
 
-                    stmts.push(ModuleItem::ModuleDecl(
-                        ModuleDecl::ExportNamed(NamedExport {
+                    stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                        span: DUMMY_SP,
+                        decl: Decl::Var(VarDecl {
                             span: DUMMY_SP,
-                            specifiers: vec![ExportSpecifier::Named(NamedExportSpecifier {
+                            kind: VarDeclKind::Var,
+                            decls: vec![VarDeclarator {
                                 span: DUMMY_SP,
-                                exported: Some(import.id),
-                                orig: match import.module_ref {
-                                    TsModuleRef::TsEntityName(TsEntityName::Ident(i)) => i,
-                                    _ => unimplemented!("export import A = B where B != Ident"),
-                                },
-                            })],
-                            src: None,
-                        })
-                        .fold_with(self),
-                    ))
+                                name: Pat::Ident(import.id),
+                                init: Some(box module_ref_to_expr(import.module_ref)),
+                                definite: false,
+                            }],
+                            declare: false,
+                        }),
+                    })));
                 }
 
                 ModuleItem::ModuleDecl(ModuleDecl::TsExportAssignment(export)) => {
@@ -621,5 +620,25 @@ impl Fold<Module> for Strip {
         let node = validate!(node);
 
         validate!(node.fold_children(self))
+    }
+}
+
+fn module_ref_to_expr(r: TsModuleRef) -> Expr {
+    match r {
+        TsModuleRef::TsEntityName(name) => ts_entity_name_to_expr(name),
+        _ => unimplemented!("export import A = B where B != TsEntityName\nB: {:?}", r),
+    }
+}
+
+fn ts_entity_name_to_expr(n: TsEntityName) -> Expr {
+    match n {
+        TsEntityName::Ident(i) => i.into(),
+        TsEntityName::TsQualifiedName(box TsQualifiedName { left, right }) => MemberExpr {
+            span: DUMMY_SP,
+            obj: ExprOrSuper::Expr(box ts_entity_name_to_expr(left)),
+            prop: box right.into(),
+            computed: false,
+        }
+        .into(),
     }
 }

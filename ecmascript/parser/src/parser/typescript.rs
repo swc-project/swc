@@ -287,16 +287,64 @@ impl<'a, I: Tokens> Parser<'a, I> {
         })
     }
 
+    /// `tsParseImportType`
+    fn parse_ts_import_type(&mut self) -> PResult<'a, TsImportType> {
+        let start = cur_pos!();
+        assert_and_bump!("import");
+
+        expect!('(');
+
+        let lit = self.parse_lit()?;
+        let arg = match lit {
+            Lit::Str(arg) => arg,
+            _ => {
+                self.emit_err(lit.span(), SyntaxError::TS1141);
+                Str {
+                    span: lit.span(),
+                    value: "".into(),
+                    has_escape: false,
+                }
+            }
+        };
+
+        expect!(')');
+
+        let qualifier = if eat!('.') {
+            self.parse_ts_entity_name(false).map(Some)?
+        } else {
+            None
+        };
+
+        let type_params = if is!('<') {
+            self.parse_ts_type_args().map(Some)?
+        } else {
+            None
+        };
+
+        Ok(TsImportType {
+            span: span!(start),
+            arg,
+            qualifier,
+            type_params,
+        })
+    }
+
     /// `tsParseTypeQuery`
     fn parse_ts_type_query(&mut self) -> PResult<'a, TsTypeQuery> {
         debug_assert!(self.input.syntax().typescript());
 
         let start = cur_pos!();
         expect!("typeof");
-        let expr_name = self.parse_ts_entity_name(
-            // allow_reserved_word
-            true,
-        )?;
+        let expr_name = if is!("import") {
+            self.parse_ts_import_type().map(From::from)?
+        } else {
+            self.parse_ts_entity_name(
+                // allow_reserved_word
+                true,
+            )
+            .map(From::from)?
+        };
+
         Ok(TsTypeQuery {
             span: span!(start),
             expr_name,
@@ -1633,6 +1681,10 @@ impl<'a, I: Tokens> Parser<'a, I> {
                     span: span!(start),
                     lit,
                 })));
+            }
+
+            tok!("import") => {
+                return self.parse_ts_import_type().map(TsType::from).map(Box::new);
             }
 
             tok!("this") => {
