@@ -20,7 +20,7 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 4,
-            "end": 20,
+            "end": 32,
             "ctxt": 0
           },
           "id": {
@@ -35,26 +35,35 @@
               "type": "TsTypeAnnotation",
               "span": {
                 "start": 5,
-                "end": 20,
+                "end": 32,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsTypeQuery",
                 "span": {
                   "start": 7,
-                  "end": 20,
+                  "end": 32,
                   "ctxt": 0
                 },
                 "exprName": {
-                  "type": "Identifier",
+                  "type": "TsImportType",
                   "span": {
                     "start": 14,
-                    "end": 20,
+                    "end": 32,
                     "ctxt": 0
                   },
-                  "value": "import",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "argument": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 21,
+                      "end": 31,
+                      "ctxt": 0
+                    },
+                    "value": "readline",
+                    "hasEscape": false
+                  },
+                  "qualifier": null,
+                  "typeParameters": null
                 }
               }
             },
