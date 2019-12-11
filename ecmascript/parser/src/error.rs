@@ -352,7 +352,7 @@ impl<'a> From<ErrorToDiag<'a>> for DiagnosticBuilder<'a> {
                 "`...` must be followed by an identifier in declaration contexts".into()
             }
 
-            TS1056 => "jsc.taraget is should be es5 or upper to use getter / setter".into(),
+            TS1056 => "jsc.taraget should be es5 or upper to use getter / setter".into(),
 
             // TODO:
             _ => format!("{:?}", e.error).into(),
