@@ -19,7 +19,7 @@ use common::{
     GLOBALS,
 };
 use ecmascript::{
-    ast::Module,
+    ast::Program,
     codegen::{self, Emitter},
     parser::{Parser, Session as ParseSess, Syntax},
     transforms::{
@@ -69,25 +69,39 @@ impl Compiler {
         &self,
         fm: Arc<SourceFile>,
         syntax: Syntax,
+        is_module: bool,
         comments: Option<&Comments>,
-    ) -> Result<Module, Error> {
+    ) -> Result<Program, Error> {
         self.run(|| {
             let session = ParseSess {
                 handler: &self.handler,
             };
             let mut parser = Parser::new(session, syntax, SourceFileInput::from(&*fm), comments);
-            let module = parser.parse_module().map_err(|mut e| {
-                e.emit();
-                Error::FailedToParseModule {}
-            })?;
+            let program = if is_module {
+                parser
+                    .parse_module()
+                    .map_err(|mut e| {
+                        e.emit();
+                        Error::FailedToParseModule {}
+                    })
+                    .map(Program::Module)?
+            } else {
+                parser
+                    .parse_script()
+                    .map_err(|mut e| {
+                        e.emit();
+                        Error::FailedToParseModule {}
+                    })
+                    .map(Program::Script)?
+            };
 
-            Ok(module)
+            Ok(program)
         })
     }
 
     pub fn print(
         &self,
-        module: &Module,
+        program: &Program,
         fm: Arc<SourceFile>,
         comments: &Comments,
         source_map: bool,
@@ -127,7 +141,7 @@ impl Compiler {
                     };
 
                     emitter
-                        .emit_module(&module)
+                        .emit_program(&program)
                         .map_err(|err| Error::FailedToEmitModule { err })?;
                 }
                 // Invalid utf8 is valid in javascript world.
@@ -173,6 +187,7 @@ impl Compiler {
             root_mode,
             swcrc,
             config_file,
+            is_module,
             ..
         } = opts;
         let root = root
@@ -206,7 +221,8 @@ impl Compiler {
                             if let Some(config_file) = config_file {
                                 config.merge(&config_file.into_config(Some(path))?)
                             }
-                            let built = opts.build(&self.cm, &self.handler, Some(config));
+                            let built =
+                                opts.build(&self.cm, &self.handler, *is_module, Some(config));
                             return Ok(built);
                         }
 
@@ -221,6 +237,7 @@ impl Compiler {
                     let built = opts.build(
                         &self.cm,
                         &self.handler,
+                        *is_module,
                         Some(config_file.into_config(Some(path))?),
                     );
                     return Ok(built);
@@ -232,6 +249,7 @@ impl Compiler {
         let built = opts.build(
             &self.cm,
             &self.handler,
+            *is_module,
             match config_file {
                 Some(config_file) => Some(config_file.into_config(None)?),
                 None => None,
@@ -267,6 +285,7 @@ impl Compiler {
             let module = self.parse_js(
                 fm.clone(),
                 config.syntax,
+                config.is_module,
                 if config.minify { None } else { Some(&comments) },
             )?;
             let mut pass = config.pass;

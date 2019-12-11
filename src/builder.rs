@@ -2,7 +2,7 @@ use crate::config::{GlobalPassOption, JscTarget, ModuleConfig};
 use atoms::JsWord;
 use common::{errors::Handler, SourceMap};
 use ecmascript::{
-    ast::Module,
+    ast::Program,
     parser::Syntax,
     transforms::{
         chain_at, compat, const_modules, fixer, helpers, hygiene, modules,
@@ -33,8 +33,8 @@ impl<'a, 'b, P: Pass> PassBuilder<'a, 'b, P> {
         }
     }
 
-    pub fn then<N>(self, next: N) -> PassBuilder<'a, 'b, JoinedPass<P, N, Module>> {
-        let pass = chain_at!(Module, self.pass, next);
+    pub fn then<N>(self, next: N) -> PassBuilder<'a, 'b, JoinedPass<P, N, Program>> {
+        let pass = chain_at!(Program, self.pass, next);
         PassBuilder {
             cm: self.cm,
             handler: self.handler,
@@ -86,7 +86,7 @@ impl<'a, 'b, P: Pass> PassBuilder<'a, 'b, P> {
         };
 
         chain_at!(
-            Module,
+            Program,
             self.pass,
             // compat
             Optional::new(compat::es2018(), self.target <= JscTarget::Es2018),

@@ -12,6 +12,7 @@ fn file(f: &str) -> Result<NormalizedOutput, StdErr> {
             fm,
             &Options {
                 swcrc: true,
+                is_module: true,
                 ..Default::default()
             },
         );
@@ -46,6 +47,8 @@ fn project(dir: &str) {
                     fm,
                     &Options {
                         swcrc: true,
+                        is_module: true,
+
                         ..Default::default()
                     },
                 );

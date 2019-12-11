@@ -2,6 +2,14 @@ use crate::{module_decl::ModuleDecl, stmt::Stmt};
 use swc_atoms::JsWord;
 use swc_common::{ast_node, Span};
 
+#[ast_node]
+pub enum Program {
+    #[tag("Module")]
+    Module(Module),
+    #[tag("Script")]
+    Script(Script),
+}
+
 #[ast_node("Module")]
 pub struct Module {
     pub span: Span,
