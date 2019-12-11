@@ -53,7 +53,7 @@ fn project(dir: &str) {
                         ..Default::default()
                     },
                 ) {
-                    Ok(v) => {}
+                    Ok(..) => {}
                     Err(Error::Unmatched) => {}
                     Err(..) => return Err(()),
                 }
@@ -91,7 +91,7 @@ fn par_project(dir: &str) {
 
             entries.into_par_iter().for_each(|entry| {
                 let fm = cm.load_file(entry.path()).expect("failed to load file");
-                c.process_js_file(
+                let _ = c.process_js_file(
                     fm,
                     &Options {
                         swcrc: true,
@@ -232,10 +232,10 @@ fn issue_468() {
 
 #[test]
 fn unpar_typescript() {
-    project("tests/projects/TypeScript");
+    project("ecmascript/parser/tests/typescript/projects//TypeScript");
 }
 
 #[test]
 fn par_typescript() {
-    par_project("tests/projects/TypeScript");
+    par_project("ecmascript/parser/tests/typescript/projects//TypeScript");
 }
