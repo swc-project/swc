@@ -421,7 +421,8 @@ pub struct TsTypeQuery {
 
 #[ast_node]
 pub enum TsTypeQueryExpr {
-    #[tag("TsEntityName")]
+    #[tag("TsQualifiedName")]
+    #[tag("Identifier")]
     TsEntityName(TsEntityName),
     #[tag("TsImportType")]
     Import(TsImportType),
