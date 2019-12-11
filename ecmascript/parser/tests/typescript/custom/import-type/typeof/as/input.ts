@@ -1,0 +1,1 @@
+const tty = require("tty") as typeof import("tty")
