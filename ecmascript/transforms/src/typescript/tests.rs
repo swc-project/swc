@@ -41,7 +41,7 @@ to!(
 }"
 );
 
-to!(export_import, "export import A = B", "export { B as A }");
+to!(export_import, "export import A = B", "export var A = B;");
 
 to!(export_equals, "export = Foo", "export default Foo");
 
