@@ -78,6 +78,14 @@ impl<'a> Emitter<'a> {
     }
 
     #[emitter]
+    pub fn emit_program(&mut self, node: &Program) -> Result {
+        match *node {
+            Program::Module(ref m) => emit!(m),
+            Program::Script(ref s) => emit!(s),
+        }
+    }
+
+    #[emitter]
     pub fn emit_module(&mut self, node: &Module) -> Result {
         if let Some(ref shebang) = node.shebang {
             punct!("#!");

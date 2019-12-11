@@ -4,7 +4,7 @@ use chashmap::CHashMap;
 use common::{errors::Handler, FileName, SourceMap};
 pub use ecmascript::parser::JscTarget;
 use ecmascript::{
-    ast::{Expr, Module, ModuleItem, Stmt},
+    ast::{Expr, ModuleItem, Program, Stmt},
     parser::{Parser, Session as ParseSess, SourceFileInput, Syntax},
     transforms::{
         chain_at, const_modules, modules,
@@ -81,6 +81,13 @@ pub struct Options {
 
     #[serde(default)]
     pub source_root: Option<String>,
+
+    #[serde(default = "default_is_module")]
+    pub is_module: bool,
+}
+
+fn default_is_module() -> bool {
+    true
 }
 
 #[derive(Clone, Serialize, Deserialize)]
@@ -114,6 +121,7 @@ impl Options {
         &self,
         cm: &Arc<SourceMap>,
         handler: &Handler,
+        is_module: bool,
         config: Option<Config>,
     ) -> BuiltConfig<impl Pass> {
         let mut config = config.unwrap_or_else(Default::default);
@@ -163,7 +171,7 @@ impl Options {
         };
 
         let pass = chain_at!(
-            Module,
+            Program,
             // handle jsx
             Optional::new(react::react(cm.clone(), transform.react), syntax.jsx()),
             Optional::new(typescript::strip(), syntax.typescript()),
@@ -191,6 +199,7 @@ impl Options {
             pass,
             external_helpers,
             syntax,
+            is_module,
             source_maps: self
                 .source_maps
                 .as_ref()
@@ -397,6 +406,7 @@ pub struct BuiltConfig<P: Pass> {
     pub minify: bool,
     pub external_helpers: bool,
     pub source_maps: bool,
+    pub is_module: bool,
 }
 
 #[derive(Default, Clone, Serialize, Deserialize)]
