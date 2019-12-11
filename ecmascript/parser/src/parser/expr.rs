@@ -519,6 +519,37 @@ impl<'a, I: Tokens> Parser<'a, I> {
             _ => false,
         });
 
+        // This is slow path. We handle arrow in conditional expression.
+        if self.syntax().typescript() && self.ctx().in_cond_expr && is!(':') {
+            // TODO: Remove clone
+            let items_ref = &paren_items;
+            if let Some(expr) = self.try_parse_ts(|p| {
+                let start = cur_pos!();
+                let return_type = p.parse_ts_type_or_type_predicate_ann(&tok!(':'))?;
+
+                expect!("=>");
+
+                let params = p
+                    .parse_paren_items_as_params(items_ref.clone())?
+                    .into_iter()
+                    .collect();
+
+                let body: BlockStmtOrExpr = p.parse_fn_body(async_span.is_some(), false)?;
+
+                Ok(Some(Box::new(Expr::Arrow(ArrowExpr {
+                    span: span!(start),
+                    is_async: async_span.is_some(),
+                    is_generator: false,
+                    params,
+                    body,
+                    return_type: Some(return_type),
+                    type_params: None,
+                }))))
+            }) {
+                return Ok(expr);
+            }
+        }
+
         let return_type =
             if !self.ctx().in_cond_expr && self.input.syntax().typescript() && is!(':') {
                 let start = cur_pos!();
