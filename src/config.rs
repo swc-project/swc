@@ -313,7 +313,7 @@ impl Rc {
 }
 
 /// A single object in the `.swcrc` file
-#[derive(Default, Clone, Serialize, Deserialize)]
+#[derive(Debug, Default, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct Config {
     #[serde(default)]
@@ -412,7 +412,7 @@ pub struct BuiltConfig<P: Pass> {
     pub is_module: bool,
 }
 
-#[derive(Default, Clone, Serialize, Deserialize)]
+#[derive(Debug, Default, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct JscConfig {
     #[serde(rename = "parser", default)]

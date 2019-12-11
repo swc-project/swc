@@ -1,5 +1,6 @@
+use rayon::prelude::*;
 use std::path::Path;
-use swc::{config::Options, Compiler};
+use swc::{config::Options, error::Error, Compiler};
 use testing::{NormalizedOutput, StdErr, Tester};
 use walkdir::WalkDir;
 
@@ -43,7 +44,54 @@ fn project(dir: &str) {
                 }
 
                 let fm = cm.load_file(entry.path()).expect("failed to load file");
-                let _ = c.process_js_file(
+                match c.process_js_file(
+                    fm,
+                    &Options {
+                        swcrc: true,
+                        is_module: true,
+
+                        ..Default::default()
+                    },
+                ) {
+                    Ok(v) => {}
+                    Err(Error::Unmatched) => {}
+                    Err(..) => return Err(()),
+                }
+            }
+
+            Ok(())
+        })
+        .map(|_| ())
+        .expect("failed");
+}
+
+fn par_project(dir: &str) {
+    Tester::new()
+        .print_errors(|cm, handler| {
+            let c = Compiler::new(cm.clone(), handler);
+
+            let entries = WalkDir::new(dir)
+                .into_iter()
+                .map(|entry| entry.unwrap())
+                .filter(|e| {
+                    if e.metadata().unwrap().is_dir() {
+                        return false;
+                    }
+
+                    if !e.file_name().to_string_lossy().ends_with(".ts")
+                        && !e.file_name().to_string_lossy().ends_with(".js")
+                        && !e.file_name().to_string_lossy().ends_with(".tsx")
+                    {
+                        return false;
+                    }
+
+                    true
+                })
+                .collect::<Vec<_>>();
+
+            entries.into_par_iter().for_each(|entry| {
+                let fm = cm.load_file(entry.path()).expect("failed to load file");
+                c.process_js_file(
                     fm,
                     &Options {
                         swcrc: true,
@@ -52,9 +100,13 @@ fn project(dir: &str) {
                         ..Default::default()
                     },
                 );
-            }
+            });
 
-            Ok(())
+            if c.handler.has_errors() {
+                Err(())
+            } else {
+                Ok(())
+            }
         })
         .map(|_| ())
         .expect("");
@@ -179,6 +231,11 @@ fn issue_468() {
 }
 
 #[test]
-fn typescript() {
+fn unpar_typescript() {
     project("tests/projects/TypeScript");
+}
+
+#[test]
+fn par_typescript() {
+    par_project("tests/projects/TypeScript");
 }

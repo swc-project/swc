@@ -1,5 +1,5 @@
 {
-  "exclude": "^invalid.ts$",
+  "exclude": "invalid.ts$",
   "jsc": {
     "parser": {
       "syntax": "typescript",
