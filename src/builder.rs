@@ -3,6 +3,7 @@ use atoms::JsWord;
 use common::{errors::Handler, SourceMap};
 use ecmascript::{
     ast::Module,
+    parser::Syntax,
     transforms::{
         chain_at, compat, const_modules, fixer, helpers, hygiene, modules,
         pass::{JoinedPass, Optional, Pass},
@@ -76,7 +77,7 @@ impl<'a, 'b, P: Pass> PassBuilder<'a, 'b, P> {
     ///  - helper injector
     ///  - identifier hygiene handler
     ///  - fixer
-    pub fn finalize(self, module: Option<ModuleConfig>) -> impl Pass {
+    pub fn finalize(self, syntax: Syntax, module: Option<ModuleConfig>) -> impl Pass {
         let need_interop_analysis = match module {
             Some(ModuleConfig::CommonJs(ref c)) => !c.no_interop,
             Some(ModuleConfig::Amd(ref c)) => !c.config.no_interop,
@@ -101,7 +102,10 @@ impl<'a, 'b, P: Pass> PassBuilder<'a, 'b, P> {
                 }),
                 self.target <= JscTarget::Es2015
             ),
-            Optional::new(compat::es3(), self.target <= JscTarget::Es3),
+            Optional::new(
+                compat::es3(syntax.dynamic_import()),
+                self.target <= JscTarget::Es3
+            ),
             // module / helper
             Optional::new(
                 modules::import_analysis::import_analyzer(),

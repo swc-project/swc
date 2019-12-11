@@ -184,7 +184,7 @@ impl Options {
 
         let pass = PassBuilder::new(&cm, &handler, loose, pass)
             .target(target)
-            .finalize(config.module);
+            .finalize(syntax, config.module);
 
         BuiltConfig {
             minify: config.minify.unwrap_or(false),
