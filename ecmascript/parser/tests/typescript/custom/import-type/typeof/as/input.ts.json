@@ -1,0 +1,105 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 50,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 0,
+        "end": 50,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 6,
+            "end": 43,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 6,
+              "end": 9,
+              "ctxt": 0
+            },
+            "value": "tty",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "TsAsExpression",
+            "span": {
+              "start": 12,
+              "end": 26,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "CallExpression",
+              "span": {
+                "start": 12,
+                "end": 26,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 12,
+                  "end": 19,
+                  "ctxt": 0
+                },
+                "value": "require",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 20,
+                      "end": 25,
+                      "ctxt": 0
+                    },
+                    "value": "tty",
+                    "hasEscape": false
+                  }
+                }
+              ],
+              "typeArguments": null
+            },
+            "typeAnnotation": {
+              "type": "TsTypeQuery",
+              "span": {
+                "start": 30,
+                "end": 43,
+                "ctxt": 0
+              },
+              "exprName": {
+                "type": "Identifier",
+                "span": {
+                  "start": 37,
+                  "end": 43,
+                  "ctxt": 0
+                },
+                "value": "import",
+                "typeAnnotation": null,
+                "optional": false
+              }
+            }
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}
