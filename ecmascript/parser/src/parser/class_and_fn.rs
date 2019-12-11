@@ -941,7 +941,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
         match kind {
             MethodKind::Getter | MethodKind::Setter
-                if self.input.syntax().typescript() && self.input.target() <= JscTarget::Es3 =>
+                if self.input.syntax().typescript() && self.input.target() == JscTarget::Es3 =>
             {
                 self.emit_err(key.span(), SyntaxError::TS1056);
             }
