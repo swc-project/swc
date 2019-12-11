@@ -65,52 +65,52 @@ fn project(dir: &str) {
         .expect("failed");
 }
 
-fn par_project(dir: &str) {
-    Tester::new()
-        .print_errors(|cm, handler| {
-            let c = Compiler::new(cm.clone(), handler);
-
-            let entries = WalkDir::new(dir)
-                .into_iter()
-                .map(|entry| entry.unwrap())
-                .filter(|e| {
-                    if e.metadata().unwrap().is_dir() {
-                        return false;
-                    }
-
-                    if !e.file_name().to_string_lossy().ends_with(".ts")
-                        && !e.file_name().to_string_lossy().ends_with(".js")
-                        && !e.file_name().to_string_lossy().ends_with(".tsx")
-                    {
-                        return false;
-                    }
-
-                    true
-                })
-                .collect::<Vec<_>>();
-
-            entries.into_par_iter().for_each(|entry| {
-                let fm = cm.load_file(entry.path()).expect("failed to load file");
-                let _ = c.process_js_file(
-                    fm,
-                    &Options {
-                        swcrc: true,
-                        is_module: true,
-
-                        ..Default::default()
-                    },
-                );
-            });
-
-            if c.handler.has_errors() {
-                Err(())
-            } else {
-                Ok(())
-            }
-        })
-        .map(|_| ())
-        .expect("");
-}
+//fn par_project(dir: &str) {
+//    Tester::new()
+//        .print_errors(|cm, handler| {
+//            let c = Compiler::new(cm.clone(), handler);
+//
+//            let entries = WalkDir::new(dir)
+//                .into_iter()
+//                .map(|entry| entry.unwrap())
+//                .filter(|e| {
+//                    if e.metadata().unwrap().is_dir() {
+//                        return false;
+//                    }
+//
+//                    if !e.file_name().to_string_lossy().ends_with(".ts")
+//                        && !e.file_name().to_string_lossy().ends_with(".js")
+//                        && !e.file_name().to_string_lossy().ends_with(".tsx")
+//                    {
+//                        return false;
+//                    }
+//
+//                    true
+//                })
+//                .collect::<Vec<_>>();
+//
+//            entries.into_par_iter().for_each(|entry| {
+//                let fm = cm.load_file(entry.path()).expect("failed to load
+// file");                let _ = c.process_js_file(
+//                    fm,
+//                    &Options {
+//                        swcrc: true,
+//                        is_module: true,
+//
+//                        ..Default::default()
+//                    },
+//                );
+//            });
+//
+//            if c.handler.has_errors() {
+//                Err(())
+//            } else {
+//                Ok(())
+//            }
+//        })
+//        .map(|_| ())
+//        .expect("");
+//}
 
 //#[test]
 //fn angular_core() {
@@ -228,14 +228,4 @@ fn issue_467() {
 #[test]
 fn issue_468() {
     file("tests/projects/issue-468/input.ts").expect("failed to parse typescript");
-}
-
-#[test]
-fn unpar_typescript() {
-    project("ecmascript/parser/tests/typescript/projects//TypeScript");
-}
-
-#[test]
-fn par_typescript() {
-    par_project("ecmascript/parser/tests/typescript/projects//TypeScript");
 }
