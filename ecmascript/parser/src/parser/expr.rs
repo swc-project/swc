@@ -1290,14 +1290,12 @@ impl<'a, I: Tokens> Parser<'a, I> {
         }
 
         if is!(';') || (!is!('*') && !cur!(false).map(Token::starts_expr).unwrap_or(true)) {
-            println!("FUCK");
             Ok(Box::new(Expr::Yield(YieldExpr {
                 span: span!(start),
                 arg: None,
                 delegate: false,
             })))
         } else {
-            println!("FUCK - NOT");
             let has_star = eat!('*');
             let arg = self.parse_assignment_expr()?;
 
