@@ -16,7 +16,7 @@
 //! `spans` and used pervasively in the compiler. They are absolute positions
 //! within the SourceMap, which upon request can be converted to line and column
 //! information, source code snippets, etc.
-pub use crate::syntax_pos::{hygiene::ExpnInfo, *};
+pub use crate::syntax_pos::*;
 use crate::{
     errors::SourceMapper,
     rustc_data_structures::stable_hasher::StableHasher,
