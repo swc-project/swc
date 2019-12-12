@@ -190,7 +190,7 @@ impl SyntaxContext {
         HygieneData::with(|data| {
             let syntax_contexts = &mut data.syntax_contexts;
             let mut opaque = syntax_contexts[self.0 as usize].opaque;
-            let mut opaque_and_semitransparent =
+            let opaque_and_semitransparent =
                 syntax_contexts[self.0 as usize].opaque_and_semitransparent;
 
             let prev_ctxt = opaque;
