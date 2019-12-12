@@ -187,7 +187,7 @@ fn es2015_computed_props(b: &mut Bencher) {
 
 #[bench]
 fn es2015_destructuring(b: &mut Bencher) {
-    tr!(b, compat::es2015::destructuring);
+    tr!(b, || compat::es2015::destructuring(Default::default()));
 }
 
 #[bench]
@@ -207,7 +207,7 @@ fn es2015_fn_name(b: &mut Bencher) {
 
 #[bench]
 fn es2015_for_of(b: &mut Bencher) {
-    tr!(b, || compat::es2015::for_of());
+    tr!(b, || compat::es2015::for_of(Default::default()));
 }
 
 #[bench]
@@ -239,5 +239,5 @@ fn es2015_typeof_symbol(b: &mut Bencher) {
 
 #[bench]
 fn es3(b: &mut Bencher) {
-    tr!(b, || compat::es3());
+    tr!(b, || compat::es3(Default::default()));
 }
