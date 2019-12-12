@@ -38,3 +38,6 @@ pretty_assertions = "0.6"
 
 [[example]]
 name = "lexer"
+
+[[example]]
+name = "typescript"
