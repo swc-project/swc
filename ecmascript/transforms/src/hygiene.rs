@@ -333,6 +333,7 @@ impl<'a> Scope<'a> {
         }
     }
 
+    #[inline(never)]
     fn scope_of(&self, sym: JsWord, ctxt: SyntaxContext) -> &'a Scope<'_> {
         if let Some(prev) = self.declared_symbols.borrow().get(&sym) {
             if prev.contains(&ctxt) {
@@ -346,6 +347,7 @@ impl<'a> Scope<'a> {
         }
     }
 
+    #[inline(never)]
     fn can_declare(&self, sym: JsWord, ctxt: SyntaxContext) -> bool {
         match self.parent {
             None => {}
@@ -368,7 +370,6 @@ impl<'a> Scope<'a> {
     ///
     /// It other words, all `SyntaxContext`s with same `sym` will be returned,
     /// even when defined on parent scope.
-
     fn conflicts(&self, sym: JsWord, ctxt: SyntaxContext) -> Vec<SyntaxContext> {
         if cfg!(debug_assertions) && LOG {
             eprintln!("Finding conflicts for {}{:?} ", sym, ctxt);
@@ -414,6 +415,7 @@ impl<'a> Scope<'a> {
         sym
     }
 
+    #[inline(never)]
     fn is_declared(&self, sym: &JsWord) -> bool {
         if self.declared_symbols.borrow().contains_key(sym) {
             return true;
