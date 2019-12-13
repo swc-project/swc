@@ -33,15 +33,16 @@ impl<'a> Fold<Vec<Stmt>> for Injector<'a> {
             return stmts;
         }
 
-        stmts.move_flat_map(|stmt| match stmt {
+        let mut buf = Vec::with_capacity(stmts.len() + 8);
+
+        stmts.into_iter().for_each(|stmt| match stmt {
             Stmt::Expr(box Expr::Call(CallExpr {
                 callee: ExprOrSuper::Super(..),
                 ..
             })) => {
                 self.injected = true;
-                None.into_iter()
-                    .chain(iter::once(stmt))
-                    .chain(self.exprs.iter().cloned().map(Stmt::Expr))
+                buf.push(stmt);
+                buf.extend(self.exprs.iter().cloned().map(Stmt::Expr));
             }
             _ => {
                 let mut folder = Injector {
@@ -51,9 +52,7 @@ impl<'a> Fold<Vec<Stmt>> for Injector<'a> {
                 let stmt = stmt.fold_children(&mut folder);
                 self.injected |= folder.injected;
                 if folder.injected {
-                    None.into_iter()
-                        .chain(iter::once(stmt))
-                        .chain((&[]).iter().cloned().map(Stmt::Expr))
+                    buf.push(stmt);
                 } else {
                     let mut folder = ExprInjector {
                         injected: false,
@@ -63,27 +62,26 @@ impl<'a> Fold<Vec<Stmt>> for Injector<'a> {
                     let stmt = stmt.fold_with(&mut folder);
 
                     self.injected |= folder.injected;
-                    folder
-                        .injected_tmp
-                        .map(|ident| {
-                            Stmt::Decl(Decl::Var(VarDecl {
+
+                    buf.extend(folder.injected_tmp.map(|ident| {
+                        Stmt::Decl(Decl::Var(VarDecl {
+                            span: DUMMY_SP,
+                            kind: VarDeclKind::Var,
+                            decls: vec![VarDeclarator {
                                 span: DUMMY_SP,
-                                kind: VarDeclKind::Var,
-                                decls: vec![VarDeclarator {
-                                    span: DUMMY_SP,
-                                    name: Pat::Ident(ident),
-                                    init: None,
-                                    definite: false,
-                                }],
-                                declare: false,
-                            }))
-                        })
-                        .into_iter()
-                        .chain(iter::once(stmt))
-                        .chain((&[]).iter().cloned().map(Stmt::Expr))
+                                name: Pat::Ident(ident),
+                                init: None,
+                                definite: false,
+                            }],
+                            declare: false,
+                        }))
+                    }));
+                    buf.push(stmt);
                 }
             }
-        })
+        });
+
+        buf
     }
 }
 
