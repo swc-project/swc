@@ -61,7 +61,7 @@ impl Compiler {
     where
         F: FnOnce() -> R,
     {
-        GLOBALS.set(&self.globals, || common::CM.set(&self.cm, || op()))
+        GLOBALS.set(&self.globals, || op())
     }
 
     /// This method parses a javascript / typescript file

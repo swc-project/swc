@@ -14,7 +14,7 @@ use std::{
     path::Path,
     sync::Arc,
 };
-use swc_common::{errors::Handler, Fold, FoldWith, SourceMap, CM};
+use swc_common::{errors::Handler, Fold, FoldWith, SourceMap};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, PResult, Parser, Session, SourceFileInput};
 use test::{
@@ -147,37 +147,34 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
         let name = format!("jsx::reference::{}", file_name);
         add_test(tests, name, ignore, move || {
             run_test(false, |cm, handler| {
-                CM.set(&cm, || {
-                    eprintln!(
-                        "\n\n========== Running reference test {}\nSource:\n{}\n",
-                        file_name, input
-                    );
+                eprintln!(
+                    "\n\n========== Running reference test {}\nSource:\n{}\n",
+                    file_name, input
+                );
 
-                    let path = dir.join(&file_name);
-                    // Parse source
-                    let module =
-                        parse_module(cm.clone(), handler, &path)?.fold_with(&mut Normalizer);
-                    let json = serde_json::to_string_pretty(&module)
-                        .expect("failed to serialize module as json");
-                    if StdErr::from(json.clone())
-                        .compare_to_file(format!("{}.json", path.display()))
-                        .is_err()
-                    {
-                        panic!()
-                    }
+                let path = dir.join(&file_name);
+                // Parse source
+                let module = parse_module(cm.clone(), handler, &path)?.fold_with(&mut Normalizer);
+                let json = serde_json::to_string_pretty(&module)
+                    .expect("failed to serialize module as json");
+                if StdErr::from(json.clone())
+                    .compare_to_file(format!("{}.json", path.display()))
+                    .is_err()
+                {
+                    panic!()
+                }
 
-                    let deser = serde_json::from_str::<Module>(&json)
-                        .unwrap_or_else(|err| {
-                            panic!(
-                                "failed to deserialize json back to module: {}\n{}",
-                                err, json
-                            )
-                        })
-                        .fold_with(&mut Normalizer);
-                    assert_eq!(module, deser, "JSON:\n{}", json);
+                let deser = serde_json::from_str::<Module>(&json)
+                    .unwrap_or_else(|err| {
+                        panic!(
+                            "failed to deserialize json back to module: {}\n{}",
+                            err, json
+                        )
+                    })
+                    .fold_with(&mut Normalizer);
+                assert_eq!(module, deser, "JSON:\n{}", json);
 
-                    Ok(())
-                })
+                Ok(())
             })
             .unwrap();
         });

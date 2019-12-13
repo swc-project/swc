@@ -2,7 +2,7 @@ pub use self::{
     hygiene::{Mark, SyntaxContext},
     span_encoding::{Span, DUMMY_SP},
 };
-use crate::{rustc_data_structures::stable_hasher::StableHasher, sync::Lock, SourceMap};
+use crate::{rustc_data_structures::stable_hasher::StableHasher, sync::Lock};
 use serde::{Deserialize, Serialize};
 use std::{
     borrow::Cow,
@@ -35,17 +35,6 @@ impl Globals {
 
 // scoped_thread_local!(pub static GLOBALS: Globals);
 pub static GLOBALS: ::scoped_tls::ScopedKey<Globals> = ::scoped_tls::ScopedKey {
-    inner: {
-        thread_local!(static FOO: ::std::cell::Cell<usize> = {
-            ::std::cell::Cell::new(0)
-        });
-        &FOO
-    },
-    _marker: ::std::marker::PhantomData,
-};
-
-/// SourceMap used while serializing Span.
-pub static CM: ::scoped_tls::ScopedKey<SourceMap> = ::scoped_tls::ScopedKey {
     inner: {
         thread_local!(static FOO: ::std::cell::Cell<usize> = {
             ::std::cell::Cell::new(0)
