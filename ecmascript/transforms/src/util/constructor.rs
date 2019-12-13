@@ -1,7 +1,7 @@
 use crate::util::prepend_stmts;
 use ast::*;
 use std::iter;
-use swc_common::{util::move_map::MoveMap, Fold, FoldWith, DUMMY_SP};
+use swc_common::{Fold, FoldWith, DUMMY_SP};
 
 #[allow(clippy::vec_box)]
 pub(crate) fn inject_after_super(mut c: Constructor, exprs: Vec<Box<Expr>>) -> Constructor {
