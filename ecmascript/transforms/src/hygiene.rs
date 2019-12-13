@@ -5,6 +5,7 @@ use crate::{
 };
 use ast::*;
 use hashbrown::HashMap;
+use smallvec::{smallvec, SmallVec};
 use std::cell::RefCell;
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Span, SyntaxContext};
@@ -19,6 +20,8 @@ struct Hygiene<'a> {
     current: Scope<'a>,
     ident_type: IdentType,
 }
+
+struct Contexts(SmallVec<[SyntaxContext; 32]>);
 
 impl<'a> Hygiene<'a> {
     fn add_declared_ref(&mut self, ident: Ident) {
@@ -55,10 +58,10 @@ impl<'a> Hygiene<'a> {
         // We rename declaration instead of usage
         let conflicts = self.current.conflicts(ident.sym.clone(), ctxt);
 
-        if cfg!(debug_assertions) && LOG && !conflicts.is_empty() {
+        if cfg!(debug_assertions) && LOG && !conflicts.0.is_empty() {
             eprintln!("Renaming from usage");
         }
-        for cx in conflicts {
+        for cx in conflicts.0 {
             self.rename(ident.sym.clone(), cx)
         }
     }
@@ -380,15 +383,17 @@ impl<'a> Scope<'a> {
         // let scope = self.scope_of(&sym, ctxt);
 
         let mut cur = Some(self);
-        let mut ctxts = vec![];
+        let mut ctxts = Contexts(smallvec![]);
+
         while let Some(scope) = cur {
             if let Some(cxs) = scope.declared_symbols.borrow().get(&sym) {
-                ctxts.extend_from_slice(&cxs);
+                ctxts.0.extend_from_slice(&cxs);
             }
 
             cur = scope.parent;
         }
-        ctxts.retain(|c| *c != ctxt);
+
+        ctxts.0.retain(|c| *c != ctxt);
 
         ctxts
     }

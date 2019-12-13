@@ -196,7 +196,7 @@ pub(crate) fn test_transform<F, P>(
         let expected =
             tester.apply_transform(::testing::DropSpan, "output.js", syntax, expected)?;
 
-        eprintln!("----- Actual -----");
+        println!("----- Actual -----");
 
         let tr = crate::tests::make_tr("actual", tr, tester);
         let actual = tester.apply_transform(tr, "input.js", syntax, input)?;
