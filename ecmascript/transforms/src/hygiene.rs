@@ -386,8 +386,6 @@ impl<'a> Scope<'a> {
                     ctxts.extend_from_slice(&cxs);
                 }
             }
-
-            ctxts.retain(|c| *c != ctxt);
         }
 
         let mut cur = self.parent;
