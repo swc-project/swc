@@ -131,3 +131,11 @@ fn fixer(b: &mut Bencher) {
 fn hygiene(b: &mut Bencher) {
     tr!(b, || swc_ecma_transforms::hygiene());
 }
+
+#[bench]
+fn resolver_with_hygiene(b: &mut Bencher) {
+    tr!(b, || chain!(
+        swc_ecma_transforms::resolver(),
+        swc_ecma_transforms::hygiene()
+    ));
+}
