@@ -188,7 +188,7 @@ impl<'a> SuperCalleeFolder<'a> {
     fn super_to_get_call(&mut self, super_token: Span, prop: Box<Expr>, computed: bool) -> Expr {
         self.inject_get = true;
 
-        let proto_arg = get_prototype_of(&if self.is_static {
+        let proto_arg = get_prototype_of(if self.is_static {
             // Foo
             Expr::Ident(self.class_name.clone())
         } else {
@@ -270,7 +270,7 @@ impl<'a> SuperCalleeFolder<'a> {
         }
 
         let proto_arg =
-            get_prototype_of(&self.class_name.clone().member(quote_ident!("prototype"))).as_arg();
+            get_prototype_of(self.class_name.clone().member(quote_ident!("prototype"))).as_arg();
 
         let prop_arg = match *prop {
             Expr::Ident(Ident {

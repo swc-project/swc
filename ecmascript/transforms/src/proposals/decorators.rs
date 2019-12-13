@@ -8,7 +8,7 @@ use crate::{
 use ast::*;
 use serde::Deserialize;
 use std::iter;
-use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Spanned, Visit, VisitWith, DUMMY_SP};
+use swc_common::{Fold, FoldWith, Spanned, Visit, VisitWith, DUMMY_SP};
 
 #[cfg(test)]
 mod tests;
@@ -75,7 +75,8 @@ impl Fold<Vec<ModuleItem>> for Decorators {
         let old_strict = self.is_in_strict;
         self.is_in_strict = true;
 
-        let items = items.move_flat_map(|item| {
+        let mut buf = Vec::with_capacity(items.len() + 4);
+        items.into_iter().for_each(|item| {
             //
             match item {
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
@@ -96,7 +97,7 @@ impl Fold<Vec<ModuleItem>> for Decorators {
                 })) => {
                     let decorate_call = box self.fold_class(ident.clone(), class);
 
-                    Some(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                    buf.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
                         span: DUMMY_SP,
                         kind: VarDeclKind::Let,
                         declare: false,
@@ -106,11 +107,11 @@ impl Fold<Vec<ModuleItem>> for Decorators {
                             init: Some(decorate_call),
                             definite: false,
                         }],
-                    }))))
-                    .into_iter()
-                    .chain(iter::once({
-                        // export { Foo as default }
-                        ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
+                    }))));
+
+                    // export { Foo as default }
+                    buf.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                        NamedExport {
                             span: DUMMY_SP,
                             specifiers: vec![NamedExportSpecifier {
                                 span: DUMMY_SP,
@@ -119,15 +120,17 @@ impl Fold<Vec<ModuleItem>> for Decorators {
                             }
                             .into()],
                             src: None,
-                        }))
-                    }))
+                        },
+                    )));
                 }
-                _ => None.into_iter().chain(iter::once(self.fold(item))),
+                _ => {
+                    buf.push(self.fold(item));
+                }
             }
         });
 
         self.is_in_strict = old_strict;
-        items
+        buf
     }
 }
 

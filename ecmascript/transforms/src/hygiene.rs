@@ -5,6 +5,7 @@ use crate::{
 };
 use ast::*;
 use hashbrown::HashMap;
+use smallvec::{smallvec, SmallVec};
 use std::cell::RefCell;
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Span, SyntaxContext};
@@ -19,6 +20,8 @@ struct Hygiene<'a> {
     current: Scope<'a>,
     ident_type: IdentType,
 }
+
+type Contexts = SmallVec<[SyntaxContext; 32]>;
 
 impl<'a> Hygiene<'a> {
     fn add_declared_ref(&mut self, ident: Ident) {
@@ -369,24 +372,34 @@ impl<'a> Scope<'a> {
     /// It other words, all `SyntaxContext`s with same `sym` will be returned,
     /// even when defined on parent scope.
 
-    fn conflicts(&self, sym: JsWord, ctxt: SyntaxContext) -> Vec<SyntaxContext> {
+    fn conflicts(&mut self, sym: JsWord, ctxt: SyntaxContext) -> Contexts {
         if cfg!(debug_assertions) && LOG {
             eprintln!("Finding conflicts for {}{:?} ", sym, ctxt);
         }
 
         let sym = self.change_symbol(sym, ctxt);
 
-        // let scope = self.scope_of(&sym, ctxt);
+        let mut ctxts = smallvec![];
+        {
+            if let Some(cxs) = self.declared_symbols.get_mut().get(&sym) {
+                if cxs.len() != 1 || cxs[0] != ctxt {
+                    ctxts.extend_from_slice(&cxs);
+                }
+            }
+        }
 
-        let mut cur = Some(self);
-        let mut ctxts = vec![];
+        let mut cur = self.parent;
+
         while let Some(scope) = cur {
             if let Some(cxs) = scope.declared_symbols.borrow().get(&sym) {
-                ctxts.extend_from_slice(&cxs);
+                if cxs.len() != 1 || cxs[0] != ctxt {
+                    ctxts.extend_from_slice(&cxs);
+                }
             }
 
             cur = scope.parent;
         }
+
         ctxts.retain(|c| *c != ctxt);
 
         ctxts

@@ -1,9 +1,9 @@
 #[cfg(feature = "fold")]
 use crate::fold::{FoldWith, VisitWith};
 pub use crate::syntax_pos::{
-    hygiene, BytePos, CharPos, ExpnInfo, FileName, Globals, Loc, LocWithOpt, Mark, MultiSpan,
-    SourceFile, SourceFileAndBytePos, SourceFileAndLine, Span, SpanData, SpanLinesError,
-    SyntaxContext, CM, DUMMY_SP, GLOBALS, NO_EXPANSION,
+    hygiene, BytePos, CharPos, FileName, Globals, Loc, LocWithOpt, Mark, MultiSpan, SourceFile,
+    SourceFileAndBytePos, SourceFileAndLine, Span, SpanData, SpanLinesError, SyntaxContext,
+    DUMMY_SP, GLOBALS, NO_EXPANSION,
 };
 use std::{borrow::Cow, sync::Arc};
 

@@ -12,7 +12,7 @@ use std::{
     io::{self, Read},
     path::Path,
 };
-use swc_common::{Fold, FoldWith, CM};
+use swc_common::{Fold, FoldWith};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{
     lexer::Lexer, JscTarget, PResult, Parser, Session, SourceFileInput, Syntax, TsConfig,
@@ -147,35 +147,33 @@ where
 {
     let fname = file_name.display().to_string();
     let output = ::testing::run_test(treat_error_as_bug, |cm, handler| {
-        CM.set(&cm, || {
-            let fm = cm
-                .load_file(file_name)
-                .unwrap_or_else(|e| panic!("failed to load {}: {}", file_name.display(), e));
+        let fm = cm
+            .load_file(file_name)
+            .unwrap_or_else(|e| panic!("failed to load {}: {}", file_name.display(), e));
 
-            let lexer = Lexer::new(
-                Session { handler: &handler },
-                Syntax::Typescript(TsConfig {
-                    tsx: fname.contains("tsx"),
-                    dynamic_import: true,
-                    decorators: true,
-                    ..Default::default()
-                }),
-                JscTarget::Es2015,
-                (&*fm).into(),
-                None,
-            );
+        let lexer = Lexer::new(
+            Session { handler: &handler },
+            Syntax::Typescript(TsConfig {
+                tsx: fname.contains("tsx"),
+                dynamic_import: true,
+                decorators: true,
+                ..Default::default()
+            }),
+            JscTarget::Es2015,
+            (&*fm).into(),
+            None,
+        );
 
-            let res =
-                f(&mut Parser::new_from(Session { handler: &handler }, lexer)).map_err(|mut e| {
-                    e.emit();
-                });
+        let res =
+            f(&mut Parser::new_from(Session { handler: &handler }, lexer)).map_err(|mut e| {
+                e.emit();
+            });
 
-            if handler.has_errors() {
-                return Err(());
-            }
+        if handler.has_errors() {
+            return Err(());
+        }
 
-            res
-        })
+        res
     });
 
     output

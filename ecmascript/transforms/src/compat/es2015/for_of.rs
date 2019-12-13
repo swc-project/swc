@@ -399,7 +399,9 @@ impl Fold<Stmt> for Actual {
                 // Handle label
                 match *body {
                     Stmt::ForOf(
-                        stmt @ ForOfStmt {
+                        stmt
+                        @
+                        ForOfStmt {
                             await_token: None, ..
                         },
                     ) => self.fold_for_stmt(Some(label), stmt),

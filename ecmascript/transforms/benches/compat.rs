@@ -1,11 +1,13 @@
 #![feature(test)]
 #![feature(specialization)]
-use std::alloc::System;
+
+extern crate test;
 
 #[global_allocator]
 static GLOBAL: System = System;
 
-use swc_common::{FileName, FoldWith};
+use std::alloc::System;
+use swc_common::{chain, FileName, FoldWith};
 use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
 use swc_ecma_transforms::{compat, helpers};
 use test::Bencher;
@@ -120,8 +122,8 @@ fn all(b: &mut Bencher) {
     tr!(b, || chain!(
         compat::es2017(),
         compat::es2016(),
-        compat::es2015(),
-        compat::es3(),
+        compat::es2015(Default::default()),
+        compat::es3(Default::default()),
     ));
 }
 
@@ -157,7 +159,7 @@ fn es2016_exponentation(b: &mut Bencher) {
 
 #[bench]
 fn es2015(b: &mut Bencher) {
-    tr!(b, || compat::es2015());
+    tr!(b, || compat::es2015(Default::default()));
 }
 
 #[bench]
@@ -177,7 +179,7 @@ fn es2015_block_scoping(b: &mut Bencher) {
 
 #[bench]
 fn es2015_classes(b: &mut Bencher) {
-    tr!(b, || compat::es2015::Classes);
+    tr!(b, || compat::es2015::Classes::default());
 }
 
 #[bench]
@@ -187,7 +189,7 @@ fn es2015_computed_props(b: &mut Bencher) {
 
 #[bench]
 fn es2015_destructuring(b: &mut Bencher) {
-    tr!(b, compat::es2015::destructuring);
+    tr!(b, || compat::es2015::destructuring(Default::default()));
 }
 
 #[bench]
@@ -207,7 +209,7 @@ fn es2015_fn_name(b: &mut Bencher) {
 
 #[bench]
 fn es2015_for_of(b: &mut Bencher) {
-    tr!(b, || compat::es2015::for_of());
+    tr!(b, || compat::es2015::for_of(Default::default()));
 }
 
 #[bench]
@@ -222,9 +224,11 @@ fn es2015_shorthand_property(b: &mut Bencher) {
 
 #[bench]
 fn es2015_spread(b: &mut Bencher) {
-    tr!(b, || compat::es2015::spread(spread::Config {
-        ..Default::default()
-    }));
+    tr!(b, || compat::es2015::spread(
+        compat::es2015::spread::Config {
+            ..Default::default()
+        }
+    ));
 }
 
 #[bench]
@@ -239,5 +243,5 @@ fn es2015_typeof_symbol(b: &mut Bencher) {
 
 #[bench]
 fn es3(b: &mut Bencher) {
-    tr!(b, || compat::es3());
+    tr!(b, || compat::es3(Default::default()));
 }

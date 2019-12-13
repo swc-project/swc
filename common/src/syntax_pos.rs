@@ -1,8 +1,8 @@
 pub use self::{
-    hygiene::{ExpnInfo, Mark, SyntaxContext},
+    hygiene::{Mark, SyntaxContext},
     span_encoding::{Span, DUMMY_SP},
 };
-use crate::{rustc_data_structures::stable_hasher::StableHasher, sync::Lock, SourceMap};
+use crate::{rustc_data_structures::stable_hasher::StableHasher, sync::Lock};
 use serde::{Deserialize, Serialize};
 use std::{
     borrow::Cow,
@@ -35,17 +35,6 @@ impl Globals {
 
 // scoped_thread_local!(pub static GLOBALS: Globals);
 pub static GLOBALS: ::scoped_tls::ScopedKey<Globals> = ::scoped_tls::ScopedKey {
-    inner: {
-        thread_local!(static FOO: ::std::cell::Cell<usize> = {
-            ::std::cell::Cell::new(0)
-        });
-        &FOO
-    },
-    _marker: ::std::marker::PhantomData,
-};
-
-/// SourceMap used while serializing Span.
-pub static CM: ::scoped_tls::ScopedKey<SourceMap> = ::scoped_tls::ScopedKey {
     inner: {
         thread_local!(static FOO: ::std::cell::Cell<usize> = {
             ::std::cell::Cell::new(0)
@@ -266,46 +255,6 @@ impl Span {
         }
     }
 
-    /// Return the source span - this is either the supplied span, or the span
-    /// for the macro callsite that expanded to it.
-    pub fn source_callsite(self) -> Span {
-        self.ctxt()
-            .outer()
-            .expn_info()
-            .map(|info| info.call_site.source_callsite())
-            .unwrap_or(self)
-    }
-
-    /// The `Span` for the tokens in the previous macro expansion from which
-    /// `self` was generated, if any
-    pub fn parent(self) -> Option<Span> {
-        self.ctxt().outer().expn_info().map(|i| i.call_site)
-    }
-
-    /// Return the source callee.
-    ///
-    /// Returns `None` if the supplied span has no expansion trace,
-    /// else returns the `ExpnInfo` for the macro definition
-    /// corresponding to the source callsite.
-    pub fn source_callee(self) -> Option<ExpnInfo> {
-        fn source_callee(info: ExpnInfo) -> ExpnInfo {
-            match info.call_site.ctxt().outer().expn_info() {
-                Some(info) => source_callee(info),
-                None => info,
-            }
-        }
-        self.ctxt().outer().expn_info().map(source_callee)
-    }
-
-    /// Check if a span is "internal" to a macro in which #[unstable]
-    /// items can be used (that is, a macro marked with
-    /// `#[allow_internal_unstable]`).
-    pub fn allows_unstable(self) -> bool {
-        match self.ctxt().outer().expn_info() {
-            Some(info) => info.allow_internal_unstable,
-            None => false,
-        }
-    }
     /// Return a `Span` that would enclose both `self` and `end`.
     pub fn to(self, end: Span) -> Span {
         let span_data = self.data();
@@ -418,18 +367,6 @@ impl Span {
         let mark = span.ctxt.reverse_glob_adjust(expansion, glob_ctxt);
         *self = Span::new(span.lo, span.hi, span.ctxt);
         mark
-    }
-
-    #[inline]
-    pub fn modern(self) -> Span {
-        let span = self.data();
-        span.with_ctxt(span.ctxt.modern())
-    }
-
-    #[inline]
-    pub fn modern_and_legacy(self) -> Span {
-        let span = self.data();
-        span.with_ctxt(span.ctxt.modern_and_legacy())
     }
 }
 

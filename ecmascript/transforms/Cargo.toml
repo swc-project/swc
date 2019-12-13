@@ -26,6 +26,7 @@ scoped-tls = "1"
 unicode-xid = "0.2"
 arrayvec = "0.5.1"
 serde_json = "1"
+smallvec = "1"
 
 [dev-dependencies]
 testing = { version = "0.4", path ="../../testing" }
