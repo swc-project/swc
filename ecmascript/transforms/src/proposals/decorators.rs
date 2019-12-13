@@ -8,7 +8,7 @@ use crate::{
 use ast::*;
 use serde::Deserialize;
 use std::iter;
-use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Spanned, Visit, VisitWith, DUMMY_SP};
+use swc_common::{Fold, FoldWith, Spanned, Visit, VisitWith, DUMMY_SP};
 
 #[cfg(test)]
 mod tests;
@@ -76,7 +76,7 @@ impl Fold<Vec<ModuleItem>> for Decorators {
         self.is_in_strict = true;
 
         let mut buf = Vec::with_capacity(items.len() + 4);
-        let items = items.into_iter().for_each(|item| {
+        items.into_iter().for_each(|item| {
             //
             match item {
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
