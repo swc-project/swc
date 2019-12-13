@@ -164,9 +164,10 @@ where
             None,
         );
 
-        let res = f(&mut Parser::new_from(Session { handler: &handler }, lexer)).map_err(|mut e| {
-            e.emit();
-        });
+        let res =
+            f(&mut Parser::new_from(Session { handler: &handler }, lexer)).map_err(|mut e| {
+                e.emit();
+            });
 
         if handler.has_errors() {
             return Err(());

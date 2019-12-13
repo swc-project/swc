@@ -16,7 +16,8 @@ test_exec!(
     issue_231,
     "const truthy = 'a=b';
 const foo = `http://example.com/foo/bar${truthy && '?'}${truthy}`;
-expect(foo).toBe('http://example.com/foo/bar?a=b');"
+expect(foo).toBe('http://example.com/foo/bar?a=b');\
+     "
 );
 
 test_exec!(

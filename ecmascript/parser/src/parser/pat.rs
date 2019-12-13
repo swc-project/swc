@@ -489,7 +489,9 @@ impl<'a, I: Tokens> Parser<'a, I> {
         match *expr {
             Expr::Paren(inner) => syntax_error!(span, SyntaxError::InvalidPat),
             Expr::Assign(
-                assign_expr @ AssignExpr {
+                assign_expr
+                @
+                AssignExpr {
                     op: AssignOpToken::Assign,
                     ..
                 },
@@ -589,7 +591,9 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 for expr in exprs.drain(..idx_of_rest_not_allowed) {
                     match expr {
                         Some(
-                            expr @ ExprOrSpread {
+                            expr
+                            @
+                            ExprOrSpread {
                                 spread: Some(..), ..
                             },
                         ) => syntax_error!(expr.span(), SyntaxError::NonLastRestParam),

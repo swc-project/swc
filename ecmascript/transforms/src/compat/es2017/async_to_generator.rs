@@ -457,7 +457,9 @@ impl Fold<Expr> for Actual {
             }
 
             Expr::Fn(
-                expr @ FnExpr {
+                expr
+                @
+                FnExpr {
                     function:
                         Function {
                             is_async: true,
