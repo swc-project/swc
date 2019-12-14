@@ -2,7 +2,7 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 34,
+    "end": 35,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 27,
-          "end": 31,
+          "start": 28,
+          "end": 32,
           "ctxt": 0
         },
         "value": "Test",
@@ -21,8 +21,8 @@
       },
       "declare": false,
       "span": {
-        "start": 21,
-        "end": 34,
+        "start": 22,
+        "end": 35,
         "ctxt": 0
       },
       "decorators": [
