@@ -1,6 +1,8 @@
 #![feature(box_syntax)]
 #![feature(test)]
 
+extern crate test;
+
 use sourcemap::SourceMapBuilder;
 use swc_common::FileName;
 use swc_ecma_codegen::{self, Emitter};

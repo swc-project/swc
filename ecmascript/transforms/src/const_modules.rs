@@ -12,7 +12,7 @@ use lazy_static::lazy_static;
 use std::sync::Arc;
 use swc_atoms::JsWord;
 use swc_common::{util::move_map::MoveMap, FileName, Fold, FoldWith};
-use swc_ecma_parser::{Parser, SourceFileInput, Syntax};
+use swc_ecma_parser::{lexer::Lexer, Parser, SourceFileInput};
 
 pub fn const_modules(globals: HashMap<JsWord, HashMap<JsWord, String>>) -> impl Pass {
     ConstModules {
@@ -45,23 +45,25 @@ fn parse_option(name: &str, src: String) -> Arc<Expr> {
         return expr.clone();
     }
 
-    let expr = Parser::new(
+    let lexer = Lexer::new(
         *SESSION,
-        Syntax::default(),
+        Default::default(),
+        Default::default(),
         SourceFileInput::from(&*fm),
         None,
-    )
-    .parse_expr()
-    .map_err(|mut e| {
-        e.emit();
-    })
-    .map(drop_span)
-    .unwrap_or_else(|()| {
-        panic!(
-            "faield to parse jsx option {}: '{}' is not an expression",
-            name, fm.src,
-        )
-    });
+    );
+    let expr = Parser::new_from(*SESSION, lexer)
+        .parse_expr()
+        .map_err(|mut e| {
+            e.emit();
+        })
+        .map(drop_span)
+        .unwrap_or_else(|()| {
+            panic!(
+                "faield to parse jsx option {}: '{}' is not an expression",
+                name, fm.src,
+            )
+        });
 
     let expr = Arc::new(*expr);
 

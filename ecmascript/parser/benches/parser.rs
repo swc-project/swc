@@ -3,7 +3,7 @@
 extern crate test;
 
 use swc_common::FileName;
-use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
+use swc_ecma_parser::{lexer::Lexer, Parser, Session, SourceFileInput, Syntax};
 use test::Bencher;
 
 #[bench]
@@ -153,7 +153,14 @@ fn bench_module(b: &mut Bencher, syntax: Syntax, src: &'static str) {
 
         b.iter(|| {
             let _ = test::black_box({
-                let mut parser = Parser::new(session, syntax, SourceFileInput::from(&*fm), None);
+                let lexer = Lexer::new(
+                    session,
+                    syntax,
+                    Default::default(),
+                    SourceFileInput::from(&*fm),
+                    None,
+                );
+                let mut parser = Parser::new_from(session, lexer);
                 parser.parse_module()
             });
         });

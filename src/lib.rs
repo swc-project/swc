@@ -11,7 +11,7 @@ pub mod error;
 
 pub use crate::builder::PassBuilder;
 use crate::{
-    config::{BuiltConfig, ConfigFile, Merge, Options, Rc, RootMode},
+    config::{BuiltConfig, ConfigFile, JscTarget, Merge, Options, Rc, RootMode},
     error::Error,
 };
 use common::{
@@ -21,7 +21,7 @@ use common::{
 use ecmascript::{
     ast::Program,
     codegen::{self, Emitter},
-    parser::{Parser, Session as ParseSess, Syntax},
+    parser::{lexer::Lexer, Parser, Session as ParseSess, Syntax},
     transforms::{
         helpers::{self, Helpers},
         util,
@@ -68,6 +68,7 @@ impl Compiler {
     pub fn parse_js(
         &self,
         fm: Arc<SourceFile>,
+        target: JscTarget,
         syntax: Syntax,
         is_module: bool,
         comments: Option<&Comments>,
@@ -76,7 +77,14 @@ impl Compiler {
             let session = ParseSess {
                 handler: &self.handler,
             };
-            let mut parser = Parser::new(session, syntax, SourceFileInput::from(&*fm), comments);
+            let lexer = Lexer::new(
+                session,
+                syntax,
+                target,
+                SourceFileInput::from(&*fm),
+                comments,
+            );
+            let mut parser = Parser::new_from(session, lexer);
             let program = if is_module {
                 parser
                     .parse_module()
@@ -285,6 +293,7 @@ impl Compiler {
             let comments = Default::default();
             let module = self.parse_js(
                 fm.clone(),
+                config.target,
                 config.syntax,
                 config.is_module,
                 if config.minify { None } else { Some(&comments) },

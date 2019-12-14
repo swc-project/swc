@@ -9,7 +9,7 @@ use swc_common::{
     errors::{ColorConfig, Handler},
     FileName, SourceMap,
 };
-use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
+use swc_ecma_parser::{lexer::Lexer, Parser, Session, SourceFileInput, Syntax};
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
@@ -37,17 +37,19 @@ impl Config {
                         let fm = cm
                             .new_source_file(FileName::Custom(format!("<umd-config-{}.js>", s)), s);
 
-                        Parser::new(
+                        let lexer = Lexer::new(
                             session,
                             Syntax::default(),
+                            Default::default(),
                             SourceFileInput::from(&*fm),
                             None,
-                        )
-                        .parse_expr()
-                        .map_err(|mut e| {
-                            e.emit();
-                        })
-                        .unwrap()
+                        );
+                        Parser::new_from(session, lexer)
+                            .parse_expr()
+                            .map_err(|mut e| {
+                                e.emit();
+                            })
+                            .unwrap()
                     };
                     (k, parse(v))
                 })

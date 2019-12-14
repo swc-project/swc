@@ -17,19 +17,21 @@ where
             .load_file(Path::new(file_name))
             .unwrap_or_else(|e| panic!("failed to load {}: {}", file_name, e));
 
-        let res = f(&mut Parser::new(
+        let lexer = Lexer::new(
             Session { handler: &handler },
             if file_name.ends_with(".ts") {
                 Syntax::Typescript(Default::default())
             } else {
                 Syntax::default()
             },
+            Default::default(),
             (&*fm).into(),
             None,
-        ))
-        .map_err(|mut e| {
-            e.emit();
-        });
+        );
+        let res =
+            f(&mut Parser::new_from(Session { handler: &handler }, lexer)).map_err(|mut e| {
+                e.emit();
+            });
 
         if handler.has_errors() {
             return Err(());

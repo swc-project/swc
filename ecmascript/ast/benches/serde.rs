@@ -1,5 +1,7 @@
 #![feature(test)]
 
+extern crate test;
+
 use serde_json;
 use swc_ecma_ast::Module;
 use test::Bencher;

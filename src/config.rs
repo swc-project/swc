@@ -5,7 +5,7 @@ use common::{errors::Handler, FileName, SourceMap};
 pub use ecmascript::parser::JscTarget;
 use ecmascript::{
     ast::{Expr, ModuleItem, Program, Stmt},
-    parser::{Parser, Session as ParseSess, SourceFileInput, Syntax},
+    parser::{lexer::Lexer, Parser, Session as ParseSess, SourceFileInput, Syntax},
     transforms::{
         chain_at, const_modules, modules,
         optimization::JsonParse,
@@ -202,6 +202,7 @@ impl Options {
             pass,
             external_helpers,
             syntax,
+            target,
             is_module,
             source_maps: self
                 .source_maps
@@ -406,6 +407,7 @@ impl Config {
 pub struct BuiltConfig<P: Pass> {
     pub pass: P,
     pub syntax: Syntax,
+    pub target: JscTarget,
     pub minify: bool,
     pub external_helpers: bool,
     pub source_maps: bool,
@@ -530,22 +532,25 @@ impl GlobalPassOption {
                 let v_str = v.clone();
                 let fm = cm.new_source_file(FileName::Custom(format!("GLOBAL.{}", k)), v);
                 let session = ParseSess { handler };
-                let mut module = Parser::new(
+                let lexer = Lexer::new(
                     session,
                     Syntax::Es(Default::default()),
+                    Default::default(),
                     SourceFileInput::from(&*fm),
                     None,
-                )
-                .parse_module()
-                .map_err(|mut e| {
-                    e.emit();
-                })
-                .unwrap_or_else(|()| {
-                    panic!(
-                        "failed to parse global variable {}=`{}` as module",
-                        k, v_str
-                    )
-                });
+                );
+
+                let mut module = Parser::new_from(session, lexer)
+                    .parse_module()
+                    .map_err(|mut e| {
+                        e.emit();
+                    })
+                    .unwrap_or_else(|()| {
+                        panic!(
+                            "failed to parse global variable {}=`{}` as module",
+                            k, v_str
+                        )
+                    });
 
                 let expr = match module.body.pop() {
                     Some(ModuleItem::Stmt(Stmt::Expr(box expr))) => expr,

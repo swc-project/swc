@@ -7,7 +7,7 @@ use lazy_static::lazy_static;
 use scoped_tls::scoped_thread_local;
 use std::sync::atomic::{AtomicBool, Ordering};
 use swc_common::{FileName, Fold, FoldWith, Mark, Span, DUMMY_SP};
-use swc_ecma_parser::{Parser, SourceFileInput, Syntax};
+use swc_ecma_parser::{lexer::Lexer, Parser, SourceFileInput};
 
 #[macro_export]
 macro_rules! enable_helper {
@@ -26,20 +26,21 @@ macro_rules! add_to {
                 let code = include_str!(concat!("helpers/_", stringify!($name), ".js"));
                 let fm =
                     CM.new_source_file(FileName::Custom(stringify!($name).into()), code.into());
-
-                let stmts = Parser::new(
+                let lexer = Lexer::new(
                     *SESSION,
-                    Syntax::default(),
+                    Default::default(),
+                    Default::default(),
                     SourceFileInput::from(&*fm),
                     None,
-                )
-                .parse_script()
-                .map(|script| script.body.fold_with(&mut DropSpan))
-                .map_err(|mut e| {
-                    e.emit();
-                    ()
-                })
-                .unwrap();
+                );
+                let stmts = Parser::new_from(*SESSION, lexer)
+                    .parse_script()
+                    .map(|script| script.body.fold_with(&mut DropSpan))
+                    .map_err(|mut e| {
+                        e.emit();
+                        ()
+                    })
+                    .unwrap();
                 stmts
             };
         }

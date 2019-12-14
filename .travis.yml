@@ -35,6 +35,7 @@ install:
   - npm i -g jest
 
 script:
+  - RUST_BACKTRACE=full cargo check --color always --all --all-features --all-targets
   - RUST_BACKTRACE=full cargo test --color always --all --all-features
 
 before_deploy:

@@ -2,7 +2,7 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 34,
+    "end": 37,
     "ctxt": 0
   },
   "body": [
@@ -24,22 +24,22 @@
       "decorators": [],
       "span": {
         "start": 0,
-        "end": 34,
+        "end": 37,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 13,
-          "end": 34,
+          "end": 37,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "VariableDeclaration",
             "span": {
-              "start": 17,
-              "end": 22,
+              "start": 18,
+              "end": 23,
               "ctxt": 0
             },
             "kind": "let",
@@ -48,15 +48,15 @@
               {
                 "type": "VariableDeclarator",
                 "span": {
-                  "start": 21,
-                  "end": 22,
+                  "start": 22,
+                  "end": 23,
                   "ctxt": 0
                 },
                 "id": {
                   "type": "Identifier",
                   "span": {
-                    "start": 21,
-                    "end": 22,
+                    "start": 22,
+                    "end": 23,
                     "ctxt": 0
                   },
                   "value": "x",
@@ -71,8 +71,8 @@
           {
             "type": "JSXElement",
             "span": {
-              "start": 25,
-              "end": 32,
+              "start": 27,
+              "end": 34,
               "ctxt": 0
             },
             "opening": {
@@ -80,8 +80,8 @@
               "name": {
                 "type": "Identifier",
                 "span": {
-                  "start": 26,
-                  "end": 29,
+                  "start": 28,
+                  "end": 31,
                   "ctxt": 0
                 },
                 "value": "div",
@@ -89,8 +89,8 @@
                 "optional": false
               },
               "span": {
-                "start": 26,
-                "end": 32,
+                "start": 28,
+                "end": 34,
                 "ctxt": 0
               },
               "attributes": [],

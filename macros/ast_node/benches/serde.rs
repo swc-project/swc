@@ -1,6 +1,8 @@
 #![feature(box_syntax)]
 #![feature(test)]
 
+extern crate test;
+
 use ast_node::ast_node;
 use serde::{Deserialize, Serialize};
 use std::hint::black_box;
