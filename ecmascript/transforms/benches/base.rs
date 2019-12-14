@@ -6,7 +6,7 @@ extern crate test;
 
 use ast::*;
 use swc_common::{FileName, Fold, FoldWith, Visit, VisitWith, DUMMY_SP};
-use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
+use swc_ecma_parser::{lexer::Lexer, Parser, Session, SourceFileInput, Syntax};
 use swc_ecma_transforms::util::ExprFactory;
 use test::Bencher;
 
@@ -85,13 +85,14 @@ module.exports = {
 fn module_clone(b: &mut Bencher) {
     let _ = ::testing::run_test(false, |cm, handler| {
         let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
-
-        let mut parser = Parser::new(
+        let lexer = Lexer::new(
             Session { handler: &handler },
             Syntax::default(),
+            Default::default(),
             SourceFileInput::from(&*fm),
             None,
         );
+        let mut parser = Parser::new_from(Session { handler: &handler }, lexer);
         let module = parser
             .parse_module()
             .map_err(|mut e| {
@@ -111,13 +112,14 @@ fn fold_empty(b: &mut Bencher) {
     struct Noop;
     let _ = ::testing::run_test(false, |cm, handler| {
         let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
-
-        let mut parser = Parser::new(
+        let lexer = Lexer::new(
             Session { handler: &handler },
             Syntax::default(),
+            Default::default(),
             SourceFileInput::from(&*fm),
             None,
         );
+        let mut parser = Parser::new_from(Session { handler: &handler }, lexer);
         let module = parser
             .parse_module()
             .map_err(|mut e| {
@@ -149,12 +151,14 @@ fn fold_noop_impl_all(b: &mut Bencher) {
     let _ = ::testing::run_test(false, |cm, handler| {
         let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
 
-        let mut parser = Parser::new(
+        let lexer = Lexer::new(
             Session { handler: &handler },
             Syntax::default(),
+            Default::default(),
             SourceFileInput::from(&*fm),
             None,
         );
+        let mut parser = Parser::new_from(Session { handler: &handler }, lexer);
         let module = parser
             .parse_module()
             .map_err(|mut e| {
@@ -185,13 +189,14 @@ fn fold_noop_impl_vec(b: &mut Bencher) {
 
     let _ = ::testing::run_test(false, |cm, handler| {
         let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
-
-        let mut parser = Parser::new(
+        let lexer = Lexer::new(
             Session { handler: &handler },
             Syntax::default(),
+            Default::default(),
             SourceFileInput::from(&*fm),
             None,
         );
+        let mut parser = Parser::new_from(Session { handler: &handler }, lexer);
         let module = parser
             .parse_module()
             .map_err(|mut e| {
@@ -266,13 +271,14 @@ fn visit_empty(b: &mut Bencher) {
 
     let _ = ::testing::run_test(false, |cm, handler| {
         let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
-
-        let mut parser = Parser::new(
+        let lexer = Lexer::new(
             Session { handler: &handler },
             Syntax::default(),
+            Default::default(),
             SourceFileInput::from(&*fm),
             None,
         );
+        let mut parser = Parser::new_from(Session { handler: &handler }, lexer);
         let _module = parser
             .parse_module()
             .map_err(|mut e| {
@@ -317,13 +323,14 @@ fn visit_contains_this(b: &mut Bencher) {
 
     let _ = ::testing::run_test(false, |cm, handler| {
         let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
-
-        let mut parser = Parser::new(
+        let lexer = Lexer::new(
             Session { handler: &handler },
             Syntax::default(),
+            Default::default(),
             SourceFileInput::from(&*fm),
             None,
         );
+        let mut parser = Parser::new_from(Session { handler: &handler }, lexer);
         let module = parser
             .parse_module()
             .map_err(|mut e| {

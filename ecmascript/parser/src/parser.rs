@@ -50,7 +50,7 @@ struct State {
 }
 
 impl<'a, I: Input> Parser<'a, Lexer<'a, I>> {
-    #[deprecated(since = "0.12.3", note = "Please use new_from instead")]
+    //    #[deprecated(since = "0.12.3", note = "Please use new_from instead")]
     pub fn new(
         session: Session<'a>,
         syntax: Syntax,
@@ -168,7 +168,8 @@ where
     F: for<'a> FnOnce(&'a mut Parser<'a, Lexer<'a, crate::SourceFileInput<'_>>>) -> Result<Ret, ()>,
 {
     crate::with_test_sess(s, |sess, input| {
-        f(&mut Parser::new(sess, syntax, input, None))
+        let lexer = Lexer::new(sess, Syntax::default(), Default::default(), input, None);
+        f(&mut Parser::new_from(sess, lexer))
     })
     .unwrap_or_else(|output| panic!("test_parser(): failed to parse \n{}\n{}", s, output))
 }
@@ -182,7 +183,14 @@ where
 
     let _ = crate::with_test_sess(s, |sess, input| {
         b.iter(|| {
-            let _ = f(&mut Parser::new(sess, syntax, input.clone(), None)).map_err(|mut err| {
+            let lexer = Lexer::new(
+                sess,
+                Syntax::default(),
+                Default::default(),
+                input.clone(),
+                None,
+            );
+            let _ = f(&mut Parser::new_from(sess, lexer)).map_err(|mut err| {
                 err.emit();
             });
         });
