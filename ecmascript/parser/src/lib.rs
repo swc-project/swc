@@ -109,7 +109,7 @@ mod macros;
 mod error;
 pub mod lexer;
 mod parser;
-mod token;
+pub mod token;
 
 #[derive(Debug, Clone, Copy, Deserialize, Serialize)]
 #[serde(tag = "syntax")]
