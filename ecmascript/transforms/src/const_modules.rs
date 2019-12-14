@@ -12,7 +12,7 @@ use lazy_static::lazy_static;
 use std::sync::Arc;
 use swc_atoms::JsWord;
 use swc_common::{util::move_map::MoveMap, FileName, Fold, FoldWith};
-use swc_ecma_parser::{lexer::Lexer, Parser, SourceFileInput, Syntax};
+use swc_ecma_parser::{lexer::Lexer, Parser, SourceFileInput};
 
 pub fn const_modules(globals: HashMap<JsWord, HashMap<JsWord, String>>) -> impl Pass {
     ConstModules {

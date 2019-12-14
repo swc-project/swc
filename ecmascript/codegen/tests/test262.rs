@@ -146,12 +146,15 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
 
                 let comments = Comments::default();
                 let handlers = box MyHandlers;
-                let mut parser: Parser<'_, Lexer<'_, SourceFileInput<'_>>> = Parser::new(
+                let lexer = Lexer::new(
                     Session { handler: &handler },
                     Syntax::default(),
+                    Default::default(),
                     (&*src).into(),
                     Some(&comments),
                 );
+                let mut parser: Parser<'_, Lexer<'_, SourceFileInput<'_>>> =
+                    Parser::new_from(Session { handler: &handler }, lexer);
 
                 {
                     let mut emitter = Emitter {
