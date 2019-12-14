@@ -6,7 +6,9 @@
 #![feature(specialization)]
 #![feature(test)]
 
-use swc_common::FoldWith;
+extern crate test;
+
+use swc_common::{chain, FoldWith};
 use test::{black_box, Bencher};
 
 #[allow(clippy::vec_box)]

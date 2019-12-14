@@ -50,6 +50,7 @@ struct State {
 }
 
 impl<'a, I: Input> Parser<'a, Lexer<'a, I>> {
+    #[deprecated(since = "0.12.3", note = "Please use new_from instead")]
     pub fn new(
         session: Session<'a>,
         syntax: Syntax,
@@ -66,10 +67,6 @@ impl<'a, I: Input> Parser<'a, Lexer<'a, I>> {
 #[parser]
 impl<'a, I: Tokens> Parser<'a, I> {
     pub fn new_from(session: Session<'a>, input: I) -> Self {
-        Self::new_with(session, input)
-    }
-
-    pub fn new_with(session: Session<'a>, input: I) -> Self {
         Parser {
             session,
             input: Buffer::new(input),
