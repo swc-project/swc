@@ -38,6 +38,9 @@ pub struct ParseOptions {
 
     #[serde(default = "default_is_module")]
     pub is_module: bool,
+
+    #[serde(default)]
+    pub target: JscTarget,
 }
 
 #[derive(Default, Serialize, Deserialize)]
