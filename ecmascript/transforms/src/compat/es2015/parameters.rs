@@ -178,7 +178,7 @@ impl Params {
                             stmts: vec![{
                                 let prop = box Expr::Ident(idx_ident.clone());
                                 // a1[_key - i] = arguments[_key];
-                                let expr = Stmt::Expr(box Expr::Assign(AssignExpr {
+                                let expr = AssignExpr {
                                     span,
                                     left: PatOrExpr::Expr(
                                         box arg.computed_member(make_minus_i(&idx_ident, false)),
@@ -193,7 +193,8 @@ impl Params {
                                         prop,
                                     })
                                     .into(),
-                                }));
+                                }
+                                .into_stmt();
 
                                 validate!(expr)
                             }],

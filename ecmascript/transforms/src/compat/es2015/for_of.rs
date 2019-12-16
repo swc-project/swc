@@ -163,12 +163,13 @@ impl Actual {
 
                 VarDeclOrPat::Pat(pat) => prepend(
                     &mut body.stmts,
-                    Stmt::Expr(box Expr::Assign(AssignExpr {
+                    AssignExpr {
                         span: DUMMY_SP,
                         left: PatOrExpr::Pat(box pat),
                         op: op!("="),
                         right: box Expr::Ident(arr.clone()).computed_member(i),
-                    })),
+                    }
+                    .into_stmt(),
                 ),
             }
 
@@ -223,12 +224,13 @@ impl Actual {
                         declare: false,
                     }))
                 }
-                VarDeclOrPat::Pat(pat) => Stmt::Expr(box Expr::Assign(AssignExpr {
+                VarDeclOrPat::Pat(pat) => AssignExpr {
                     span: DUMMY_SP,
                     left: PatOrExpr::Pat(box pat),
                     op: op!("="),
                     right: step_value,
-                })),
+                }
+                .into_stmt(),
             },
         );
 
@@ -360,7 +362,7 @@ impl Actual {
                     span: DUMMY_SP,
                     stmts: vec![
                         // _didIteratorError = true;
-                        Stmt::Expr(box Expr::Assign(AssignExpr {
+                        AssignExpr {
                             span: DUMMY_SP,
                             left: PatOrExpr::Pat(box Pat::Ident(error_flag_ident.clone())),
                             op: op!("="),
@@ -368,14 +370,16 @@ impl Actual {
                                 span: DUMMY_SP,
                                 value: true,
                             })),
-                        })),
+                        }
+                        .into_stmt(),
                         // _iteratorError = err;
-                        Stmt::Expr(box Expr::Assign(AssignExpr {
+                        AssignExpr {
                             span: DUMMY_SP,
                             left: PatOrExpr::Pat(box Pat::Ident(error_ident.clone())),
                             op: op!("="),
                             right: box Expr::Ident(quote_ident!("err")),
-                        })),
+                        }
+                        .into_stmt(),
                     ],
                 },
             }),
@@ -468,12 +472,13 @@ fn make_finally_block(
                     }),
                     cons: box Stmt::Block(BlockStmt {
                         span: DUMMY_SP,
-                        stmts: vec![Stmt::Expr(box Expr::Call(CallExpr {
+                        stmts: vec![CallExpr {
                             span: DUMMY_SP,
                             callee: iterator_return.as_callee(),
                             args: vec![],
                             type_args: Default::default(),
-                        }))],
+                        }
+                        .into_stmt()],
                     }),
                     alt: None,
                 }),

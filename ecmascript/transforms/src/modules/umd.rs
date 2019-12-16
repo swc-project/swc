@@ -147,14 +147,17 @@ impl Fold<Module> for Umd {
                                 &mut stmts
                             };
 
-                            append_to.push(Stmt::Expr(box Expr::Assign(AssignExpr {
-                                span: DUMMY_SP,
-                                left: PatOrExpr::Expr(
-                                    box exports_ident.clone().member(ident.clone()),
-                                ),
-                                op: op!("="),
-                                right: box ident.into(),
-                            })));
+                            append_to.push(
+                                AssignExpr {
+                                    span: DUMMY_SP,
+                                    left: PatOrExpr::Expr(
+                                        box exports_ident.clone().member(ident.clone()),
+                                    ),
+                                    op: op!("="),
+                                    right: box ident.into(),
+                                }
+                                .into_stmt(),
+                            );
                         }
                         ModuleDecl::ExportDecl(ExportDecl {
                             decl: Decl::Var(var),
@@ -179,14 +182,17 @@ impl Fold<Module> for Umd {
                                         .push((ident.sym.clone(), ident.span.ctxt()));
                                     init_export!(ident.sym);
 
-                                    extra_stmts.push(Stmt::Expr(box Expr::Assign(AssignExpr {
-                                        span: DUMMY_SP,
-                                        left: PatOrExpr::Expr(
-                                            box exports_ident.clone().member(ident.clone()),
-                                        ),
-                                        op: op!("="),
-                                        right: box ident.into(),
-                                    })));
+                                    extra_stmts.push(
+                                        AssignExpr {
+                                            span: DUMMY_SP,
+                                            left: PatOrExpr::Expr(
+                                                box exports_ident.clone().member(ident.clone()),
+                                            ),
+                                            op: op!("="),
+                                            right: box ident.into(),
+                                        }
+                                        .into_stmt(),
+                                    );
                                 }
                             }
                         }
@@ -200,14 +206,19 @@ impl Fold<Module> for Umd {
                                     declare: false,
                                 })));
 
-                                extra_stmts.push(Stmt::Expr(box Expr::Assign(AssignExpr {
-                                    span: DUMMY_SP,
-                                    left: PatOrExpr::Expr(
-                                        box exports_ident.clone().member(quote_ident!("default")),
-                                    ),
-                                    op: op!("="),
-                                    right: box ident.into(),
-                                })));
+                                extra_stmts.push(
+                                    AssignExpr {
+                                        span: DUMMY_SP,
+                                        left: PatOrExpr::Expr(
+                                            box exports_ident
+                                                .clone()
+                                                .member(quote_ident!("default")),
+                                        ),
+                                        op: op!("="),
+                                        right: box ident.into(),
+                                    }
+                                    .into_stmt(),
+                                );
                             }
                             DefaultDecl::Fn(FnExpr { ident, function }) => {
                                 let ident = ident.unwrap_or_else(|| private_ident!("_default"));
@@ -221,14 +232,19 @@ impl Fold<Module> for Umd {
                                     .fold_with(self),
                                 )));
 
-                                extra_stmts.push(Stmt::Expr(box Expr::Assign(AssignExpr {
-                                    span: DUMMY_SP,
-                                    left: PatOrExpr::Expr(
-                                        box exports_ident.clone().member(quote_ident!("default")),
-                                    ),
-                                    op: op!("="),
-                                    right: box ident.into(),
-                                })));
+                                extra_stmts.push(
+                                    AssignExpr {
+                                        span: DUMMY_SP,
+                                        left: PatOrExpr::Expr(
+                                            box exports_ident
+                                                .clone()
+                                                .member(quote_ident!("default")),
+                                        ),
+                                        op: op!("="),
+                                        right: box ident.into(),
+                                    }
+                                    .into_stmt(),
+                                );
                             }
                             _ => {}
                         },
@@ -248,14 +264,17 @@ impl Fold<Module> for Umd {
                                 }],
                                 declare: false,
                             })));
-                            extra_stmts.push(Stmt::Expr(box Expr::Assign(AssignExpr {
-                                span: DUMMY_SP,
-                                left: PatOrExpr::Expr(
-                                    box exports_ident.clone().member(quote_ident!("default")),
-                                ),
-                                op: op!("="),
-                                right: box ident.into(),
-                            })));
+                            extra_stmts.push(
+                                AssignExpr {
+                                    span: DUMMY_SP,
+                                    left: PatOrExpr::Expr(
+                                        box exports_ident.clone().member(quote_ident!("default")),
+                                    ),
+                                    op: op!("="),
+                                    right: box ident.into(),
+                                }
+                                .into_stmt(),
+                            );
                         }
 
                         // export { foo } from 'foo';
@@ -327,30 +346,36 @@ impl Fold<Module> for Umd {
                                         .unwrap_or_else(|| orig.sym.clone());
                                     init_export!(exported_symbol);
 
-                                    extra_stmts.push(Stmt::Expr(box Expr::Assign(AssignExpr {
-                                        span: DUMMY_SP,
-                                        left: PatOrExpr::Expr(
-                                            box exports_ident
-                                                .clone()
-                                                .member(exported.unwrap_or(orig)),
-                                        ),
-                                        op: op!("="),
-                                        right: value,
-                                    })));
+                                    extra_stmts.push(
+                                        AssignExpr {
+                                            span: DUMMY_SP,
+                                            left: PatOrExpr::Expr(
+                                                box exports_ident
+                                                    .clone()
+                                                    .member(exported.unwrap_or(orig)),
+                                            ),
+                                            op: op!("="),
+                                            right: value,
+                                        }
+                                        .into_stmt(),
+                                    );
                                 } else {
-                                    stmts.push(Stmt::Expr(box define_property(vec![
-                                        exports_ident.clone().as_arg(),
-                                        {
-                                            // export { foo }
-                                            //  -> 'foo'
+                                    stmts.push(
+                                        define_property(vec![
+                                            exports_ident.clone().as_arg(),
+                                            {
+                                                // export { foo }
+                                                //  -> 'foo'
 
-                                            // export { foo as bar }
-                                            //  -> 'bar'
-                                            let i = exported.unwrap_or_else(|| orig);
-                                            Lit::Str(quote_str!(i.span, i.sym)).as_arg()
-                                        },
-                                        make_descriptor(value).as_arg(),
-                                    ])));
+                                                // export { foo as bar }
+                                                //  -> 'bar'
+                                                let i = exported.unwrap_or_else(|| orig);
+                                                Lit::Str(quote_str!(i.span, i.sym)).as_arg()
+                                            },
+                                            make_descriptor(value).as_arg(),
+                                        ])
+                                        .into_stmt(),
+                                    );
                                 }
                             }
                         }
@@ -437,10 +462,7 @@ impl Fold<Module> for Umd {
         }
 
         if !initialized.is_empty() {
-            stmts.push(Stmt::Expr(initialize_to_undefined(
-                exports_ident,
-                initialized,
-            )));
+            stmts.push(initialize_to_undefined(exports_ident, initialized).into_stmt());
         }
 
         for (src, import) in self.scope.imports.drain(..) {
@@ -480,12 +502,15 @@ impl Fold<Module> for Umd {
                                 type_args: Default::default(),
                             });
 
-                            import_stmts.push(Stmt::Expr(box Expr::Assign(AssignExpr {
-                                span: DUMMY_SP,
-                                left: PatOrExpr::Pat(box Pat::Ident(ident.clone())),
-                                op: op!("="),
-                                right,
-                            })));
+                            import_stmts.push(
+                                AssignExpr {
+                                    span: DUMMY_SP,
+                                    left: PatOrExpr::Pat(box Pat::Ident(ident.clone())),
+                                    op: op!("="),
+                                    right,
+                                }
+                                .into_stmt(),
+                            );
                         }
                     }
                     _ => {}
@@ -535,7 +560,7 @@ impl Fold<Module> for Umd {
                             span: DUMMY_SP,
                             stmts: vec![
                                 // define(['foo'], factory)
-                                Stmt::Expr(box Expr::Call(CallExpr {
+                                CallExpr {
                                     span: DUMMY_SP,
                                     callee: quote_ident!("define").as_callee(),
                                     args: vec![
@@ -543,7 +568,8 @@ impl Fold<Module> for Umd {
                                         quote_ident!("factory").as_arg(),
                                     ],
                                     type_args: Default::default(),
-                                })),
+                                }
+                                .into_stmt(),
                             ],
                         }),
                         alt: Some(box Stmt::If(IfStmt {
@@ -553,12 +579,13 @@ impl Fold<Module> for Umd {
                                 span: DUMMY_SP,
                                 stmts: vec![
                                     // factory(require('foo'))
-                                    Stmt::Expr(box Expr::Call(CallExpr {
+                                    CallExpr {
                                         span: DUMMY_SP,
                                         callee: quote_ident!("factory").as_callee(),
                                         args: factory_args,
                                         type_args: Default::default(),
-                                    })),
+                                    }
+                                    .into_stmt(),
                                 ],
                             }),
                             alt: Some(box Stmt::Block(BlockStmt {
@@ -588,24 +615,26 @@ impl Fold<Module> for Umd {
                                         }],
                                         declare: false,
                                     })),
-                                    Stmt::Expr(box Expr::Call(CallExpr {
+                                    CallExpr {
                                         span: DUMMY_SP,
                                         callee: quote_ident!("factory").as_callee(),
                                         args: global_factory_args,
                                         type_args: Default::default(),
-                                    })),
+                                    }
+                                    .into_stmt(),
                                     {
                                         let exported_name =
                                             self.config.determine_export_name(filename);
 
-                                        Stmt::Expr(box Expr::Assign(AssignExpr {
+                                        AssignExpr {
                                             span: DUMMY_SP,
                                             left: PatOrExpr::Expr(
                                                 box quote_ident!("global").member(exported_name),
                                             ),
                                             op: op!("="),
                                             right: member_expr!(DUMMY_SP,mod.exports),
-                                        }))
+                                        }
+                                        .into_stmt()
                                     },
                                 ],
                             })),
@@ -638,7 +667,7 @@ impl Fold<Module> for Umd {
         .as_arg();
 
         Module {
-            body: vec![ModuleItem::Stmt(Stmt::Expr(box Expr::Call(CallExpr {
+            body: vec![CallExpr {
                 span: DUMMY_SP,
                 callee: FnExpr {
                     ident: None,
@@ -648,7 +677,9 @@ impl Fold<Module> for Umd {
                 .as_callee(),
                 args: vec![ThisExpr { span: DUMMY_SP }.as_arg(), factory_arg],
                 type_args: Default::default(),
-            })))],
+            }
+            .into_stmt()
+            .into()],
             ..module
         }
     }

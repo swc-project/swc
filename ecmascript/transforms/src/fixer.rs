@@ -106,7 +106,10 @@ impl Fold<Stmt> for Fixer {
         };
 
         let stmt = match stmt {
-            Stmt::Expr(expr) => Stmt::Expr(expr.map(handle_expr_stmt)),
+            Stmt::Expr(ExprStmt { span, expr }) => Stmt::Expr(ExprStmt {
+                span,
+                expr: expr.map(handle_expr_stmt),
+            }),
 
             _ => stmt,
         };

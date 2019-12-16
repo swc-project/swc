@@ -5,11 +5,21 @@ use swc_common::{Span, Spanned, DUMMY_SP};
 
 /// Extension methods for [Expr].
 pub trait ExprFactory: Into<Expr> {
+    #[inline]
     fn as_arg(self) -> ExprOrSpread {
         ExprOrSpread {
             expr: box self.into(),
             spread: None,
         }
+    }
+
+    /// Creates an expression statement with `self`.
+    #[inline]
+    fn into_stmt(self) -> Stmt {
+        Stmt::Expr(ExprStmt {
+            span: DUMMY_SP,
+            expr: box self.into(),
+        })
     }
 
     #[inline]
@@ -33,6 +43,7 @@ pub trait ExprFactory: Into<Expr> {
         })
     }
 
+    #[inline]
     fn wrap_with_paren(self) -> Expr {
         let expr = box self.into();
         let span = expr.span();
@@ -40,6 +51,7 @@ pub trait ExprFactory: Into<Expr> {
     }
 
     /// Creates a binrary expr `$self === `
+    #[inline]
     fn make_eq<T>(self, right: T) -> Expr
     where
         T: Into<Expr>,
@@ -48,6 +60,7 @@ pub trait ExprFactory: Into<Expr> {
     }
 
     /// Creates a binrary expr `$self $op $rhs`
+    #[inline]
     fn make_bin<T>(self, op: BinaryOp, right: T) -> Expr
     where
         T: Into<Expr>,
@@ -62,6 +75,7 @@ pub trait ExprFactory: Into<Expr> {
         })
     }
 
+    #[inline]
     fn member<T>(self, prop: T) -> Expr
     where
         T: Into<Expr>,
@@ -74,6 +88,7 @@ pub trait ExprFactory: Into<Expr> {
         })
     }
 
+    #[inline]
     fn computed_member<T>(self, prop: T) -> Expr
     where
         T: Into<Expr>,

@@ -81,13 +81,17 @@ where
 
 impl Fold<Stmt> for Simplifier {
     fn fold(&mut self, stmt: Stmt) -> Stmt {
-        // Simplfy expressions.
+        // Simplify expressions.
         let stmt = stmt.fold_children(&mut SimplifyExpr);
         let stmt = stmt.fold_children(self);
 
         match stmt {
             // `1;` -> `;`
-            Stmt::Expr(box node) => match node {
+            Stmt::Expr(ExprStmt {
+                span,
+                expr: box node,
+                ..
+            }) => match node {
                 Expr::Lit(Lit::Num(..)) | Expr::Lit(Lit::Bool(..)) | Expr::Lit(Lit::Regex(..)) => {
                     Stmt::Empty(EmptyStmt { span: DUMMY_SP })
                 }
@@ -102,7 +106,10 @@ impl Fold<Stmt> for Simplifier {
                     function: Function { span, .. },
                     ..
                 }) => Stmt::Empty(EmptyStmt { span }),
-                _ => Stmt::Expr(box node),
+                _ => Stmt::Expr(ExprStmt {
+                    span,
+                    expr: box node,
+                }),
             },
 
             Stmt::Block(BlockStmt { span, stmts }) => {

@@ -293,7 +293,10 @@ impl Fold<Stmt> for Normalizer {
         let stmt = stmt.fold_children(self);
 
         match stmt {
-            Stmt::Expr(box Expr::Paren(ParenExpr { expr, .. })) => Stmt::Expr(expr),
+            Stmt::Expr(ExprStmt {
+                span,
+                expr: box Expr::Paren(ParenExpr { expr, .. }),
+            }) => Stmt::Expr(ExprStmt { span, expr }),
             _ => stmt,
         }
     }

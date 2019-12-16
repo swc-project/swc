@@ -306,7 +306,7 @@ impl Fold<Expr> for TemplateLiteral {
 
                             stmts: vec![
                                 Stmt::Decl(Decl::Var(data_decl)),
-                                Stmt::Expr(box assign_expr),
+                                assign_expr.into_stmt(),
                                 Stmt::Return(ReturnStmt {
                                     span: DUMMY_SP,
                                     arg: Some(box quote_ident!("data").into()),

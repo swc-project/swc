@@ -1073,7 +1073,7 @@ pub fn default_constructor(has_super: bool) -> Constructor {
         body: Some(BlockStmt {
             span: DUMMY_SP,
             stmts: if has_super {
-                vec![Stmt::Expr(box Expr::Call(CallExpr {
+                vec![CallExpr {
                     span: DUMMY_SP,
                     callee: ExprOrSuper::Super(Super { span: DUMMY_SP }),
                     args: vec![ExprOrSpread {
@@ -1081,7 +1081,8 @@ pub fn default_constructor(has_super: bool) -> Constructor {
                         expr: box Expr::Ident(quote_ident!(span, "args")),
                     }],
                     type_args: Default::default(),
-                }))]
+                }
+                .into_stmt()]
             } else {
                 vec![]
             },
@@ -1117,7 +1118,10 @@ pub(crate) fn prepend<T: StmtLike>(stmts: &mut Vec<T>, stmt: T) {
     let idx = stmts
         .iter()
         .position(|item| match item.as_stmt() {
-            Some(&Stmt::Expr(box Expr::Lit(Lit::Str(..)))) => false,
+            Some(&Stmt::Expr(ExprStmt {
+                expr: box Expr::Lit(Lit::Str(..)),
+                ..
+            })) => false,
             _ => true,
         })
         .unwrap_or(stmts.len());
@@ -1133,7 +1137,10 @@ pub(crate) fn prepend_stmts<T: StmtLike>(
     let idx = to
         .iter()
         .position(|item| match item.as_stmt() {
-            Some(&Stmt::Expr(box Expr::Lit(Lit::Str(..)))) => false,
+            Some(&Stmt::Expr(ExprStmt {
+                expr: box Expr::Lit(Lit::Str(..)),
+                ..
+            })) => false,
             _ => true,
         })
         .unwrap_or(to.len());
@@ -1153,7 +1160,7 @@ pub(super) trait IsDirective {
     fn as_ref(&self) -> Option<&Stmt>;
     fn is_use_strict(&self) -> bool {
         match self.as_ref() {
-            Some(&Stmt::Expr(ref expr)) => match **expr {
+            Some(&Stmt::Expr(ref expr)) => match *expr.expr {
                 Expr::Lit(Lit::Str(Str {
                     ref value,
                     has_escape: false,

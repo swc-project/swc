@@ -557,12 +557,13 @@ impl Actual {
                     body: Some(BlockStmt {
                         span: DUMMY_SP,
                         stmts: vec![
-                            Stmt::Expr(box Expr::Assign(AssignExpr {
+                            AssignExpr {
                                 span: DUMMY_SP,
                                 left: PatOrExpr::Pat(box Pat::Ident(real_fn_ident.clone())),
                                 op: op!("="),
                                 right: box right,
-                            })),
+                            }
+                            .into_stmt(),
                             Stmt::Return(ReturnStmt {
                                 span: DUMMY_SP,
                                 arg: Some(box real_fn_ident.clone().apply(

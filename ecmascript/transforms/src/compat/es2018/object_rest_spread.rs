@@ -440,7 +440,13 @@ where
 
             buf.push(stmt);
 
-            buf.extend(folder.exprs.into_iter().map(Stmt::Expr).map(T::from_stmt));
+            buf.extend(
+                folder
+                    .exprs
+                    .into_iter()
+                    .map(|v| v.into_stmt())
+                    .map(T::from_stmt),
+            );
         }
 
         buf

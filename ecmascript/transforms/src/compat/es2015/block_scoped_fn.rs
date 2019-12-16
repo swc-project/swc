@@ -12,7 +12,10 @@ impl Fold<Vec<Stmt>> for BlockScopedFns {
 
         for stmt in items {
             match stmt {
-                Stmt::Expr(box Expr::Lit(Lit::Str(..))) => {
+                Stmt::Expr(ExprStmt {
+                    expr: box Expr::Lit(Lit::Str(..)),
+                    ..
+                }) => {
                     stmts.push(stmt);
                     continue;
                 }

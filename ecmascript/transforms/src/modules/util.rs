@@ -195,18 +195,21 @@ impl Scope {
                         None
                     }
                 })
-                .chain(iter::once(Stmt::Expr(box define_property(vec![
-                    exports.as_arg(),
-                    key_ident.clone().as_arg(),
-                    make_descriptor(box imported.clone().computed_member(key_ident)).as_arg(),
-                ]))))
+                .chain(iter::once(
+                    define_property(vec![
+                        exports.as_arg(),
+                        key_ident.clone().as_arg(),
+                        make_descriptor(box imported.clone().computed_member(key_ident)).as_arg(),
+                    ])
+                    .into_stmt(),
+                ))
                 .collect(),
             }),
             return_type: Default::default(),
             type_params: Default::default(),
         };
 
-        Stmt::Expr(box Expr::Call(CallExpr {
+        CallExpr {
             span: DUMMY_SP,
             // Object.keys(_foo).forEach
             callee: CallExpr {
@@ -223,7 +226,8 @@ impl Scope {
             }
             .as_arg()],
             type_args: Default::default(),
-        }))
+        }
+        .into_stmt()
     }
 
     /// Import src to export fomr it.
@@ -680,7 +684,7 @@ pub(super) fn define_property(args: Vec<ExprOrSpread>) -> Expr {
 ///  });
 /// ```
 pub(super) fn define_es_module(exports: Ident) -> Stmt {
-    Stmt::Expr(box define_property(vec![
+    define_property(vec![
         exports.as_arg(),
         Lit::Str(quote_str!("__esModule")).as_arg(),
         ObjectLit {
@@ -695,7 +699,8 @@ pub(super) fn define_es_module(exports: Ident) -> Stmt {
             }))],
         }
         .as_arg(),
-    ]))
+    ])
+    .into_stmt()
 }
 
 pub(super) fn has_use_strict(stmts: &[ModuleItem]) -> bool {
@@ -703,15 +708,16 @@ pub(super) fn has_use_strict(stmts: &[ModuleItem]) -> bool {
         return false;
     }
     match *stmts.first().unwrap() {
-        ModuleItem::Stmt(Stmt::Expr(box Expr::Lit(Lit::Str(Str { ref value, .. })))) => {
-            &*value == "use strict"
-        }
+        ModuleItem::Stmt(Stmt::Expr(ExprStmt {
+            expr: box Expr::Lit(Lit::Str(Str { ref value, .. })),
+            ..
+        })) => &*value == "use strict",
         _ => false,
     }
 }
 
 pub(super) fn use_strict() -> Stmt {
-    Stmt::Expr(box Expr::Lit(Lit::Str(quote_str!("use strict"))))
+    Lit::Str(quote_str!("use strict")).into_stmt()
 }
 
 /// Creates

@@ -1,7 +1,7 @@
 use crate::util::ExprFactory;
 use ast::*;
-use std::iter;
-use swc_common::{Fold, FoldWith};
+use swc_atoms::JsWord;
+use swc_common::{Fold, FoldWith, DUMMY_SP};
 
 /// Compile ES2015 sticky regex to an ES5 RegExp constructor
 ///
@@ -26,21 +26,19 @@ impl Fold<Expr> for StickyRegex {
 
         match e {
             Expr::Lit(Lit::Regex(Regex { exp, flags, span })) => {
-                if flags
-                    .as_ref()
-                    .map(|s| s.value.contains('y'))
-                    .unwrap_or(false)
-                {
-                    let str_lit = |s: Str| box Expr::Lit(Lit::Str(s));
+                if flags.contains('y') {
+                    let str_lit = |s: JsWord| {
+                        box Expr::Lit(Lit::Str(Str {
+                            span: DUMMY_SP,
+                            value: s,
+                            has_escape: false,
+                        }))
+                    };
 
                     Expr::New(NewExpr {
                         span,
                         callee: box quote_ident!(span, "RegExp").into(),
-                        args: Some(
-                            iter::once(str_lit(exp).as_arg())
-                                .chain(flags.map(|flags| str_lit(flags).as_arg()))
-                                .collect(),
-                        ),
+                        args: Some(vec![str_lit(exp).as_arg(), str_lit(flags).as_arg()]),
                         type_args: Default::default(),
                     })
                 } else {
