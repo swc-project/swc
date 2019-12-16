@@ -323,9 +323,7 @@ impl<'a> Emitter<'a> {
                 punct!("/");
                 self.wr.write_str(&n.exp)?;
                 punct!("/");
-                if let Some(ref flags) = n.flags {
-                    self.wr.write_str(&flags)?;
-                }
+                self.wr.write_str(&n.flags)?;
             }
             Lit::JSXText(ref n) => emit!(n),
         }
