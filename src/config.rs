@@ -8,10 +8,10 @@ use ecmascript::{
     parser::{lexer::Lexer, Parser, Session as ParseSess, SourceFileInput, Syntax},
     transforms::{
         chain_at, const_modules, modules,
-        optimization::JsonParse,
+        optimization::{simplifier, InlineGlobals, JsonParse},
         pass::{noop, Optional, Pass},
         proposals::{class_properties, decorators, export},
-        react, resolver, simplifier, typescript, InlineGlobals,
+        react, resolver, typescript,
     },
 };
 use hashbrown::{HashMap, HashSet};

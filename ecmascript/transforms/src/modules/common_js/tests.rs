@@ -4,10 +4,9 @@ use crate::{
     fixer::fixer,
     helpers::InjectHelpers,
     hygiene::hygiene,
+    optimization::simplifier,
     proposals::{class_properties, decorators, export},
-    resolver,
-    simplify::simplifier,
-    typescript,
+    resolver, typescript,
 };
 use ast::*;
 use swc_common::{chain, Fold};

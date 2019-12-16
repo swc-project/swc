@@ -1,3 +1,5 @@
-pub use self::json_parse::JsonParse;
+pub use self::{inline_globals::InlineGlobals, json_parse::JsonParse, simplify::simplifier};
 
+mod inline_globals;
 mod json_parse;
+mod simplify;
