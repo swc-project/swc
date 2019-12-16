@@ -7,52 +7,60 @@
   },
   "body": [
     {
-      "type": "JSXElement",
+      "type": "ExpressionStatement",
       "span": {
         "start": 0,
         "end": 23,
         "ctxt": 0
       },
-      "opening": {
-        "type": "JSXOpeningElement",
-        "name": {
-          "type": "Identifier",
-          "span": {
-            "start": 1,
-            "end": 10,
-            "ctxt": 0
-          },
-          "value": "日本語",
-          "typeAnnotation": null,
-          "optional": false
-        },
+      "expression": {
+        "type": "JSXElement",
         "span": {
-          "start": 1,
-          "end": 11,
-          "ctxt": 0
-        },
-        "attributes": [],
-        "selfClosing": false,
-        "typeArguments": null
-      },
-      "children": [],
-      "closing": {
-        "type": "JSXClosingElement",
-        "span": {
-          "start": 13,
+          "start": 0,
           "end": 23,
           "ctxt": 0
         },
-        "name": {
-          "type": "Identifier",
+        "opening": {
+          "type": "JSXOpeningElement",
+          "name": {
+            "type": "Identifier",
+            "span": {
+              "start": 1,
+              "end": 10,
+              "ctxt": 0
+            },
+            "value": "日本語",
+            "typeAnnotation": null,
+            "optional": false
+          },
           "span": {
-            "start": 13,
-            "end": 22,
+            "start": 1,
+            "end": 11,
             "ctxt": 0
           },
-          "value": "日本語",
-          "typeAnnotation": null,
-          "optional": false
+          "attributes": [],
+          "selfClosing": false,
+          "typeArguments": null
+        },
+        "children": [],
+        "closing": {
+          "type": "JSXClosingElement",
+          "span": {
+            "start": 13,
+            "end": 23,
+            "ctxt": 0
+          },
+          "name": {
+            "type": "Identifier",
+            "span": {
+              "start": 13,
+              "end": 22,
+              "ctxt": 0
+            },
+            "value": "日本語",
+            "typeAnnotation": null,
+            "optional": false
+          }
         }
       }
     }

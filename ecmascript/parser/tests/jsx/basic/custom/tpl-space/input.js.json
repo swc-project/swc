@@ -7,85 +7,93 @@
   },
   "body": [
     {
-      "type": "TemplateLiteral",
+      "type": "ExpressionStatement",
       "span": {
         "start": 0,
         "end": 14,
         "ctxt": 0
       },
-      "expressions": [
-        {
-          "type": "Identifier",
-          "span": {
-            "start": 3,
-            "end": 6,
-            "ctxt": 0
-          },
-          "value": "foo",
-          "typeAnnotation": null,
-          "optional": false
-        }
-      ],
-      "quasis": [
-        {
-          "type": "TemplateElement",
-          "span": {
-            "start": 1,
-            "end": 1,
-            "ctxt": 0
-          },
-          "tail": false,
-          "cooked": {
-            "type": "StringLiteral",
-            "span": {
-              "start": 1,
-              "end": 1,
-              "ctxt": 0
-            },
-            "value": "",
-            "hasEscape": false
-          },
-          "raw": {
-            "type": "StringLiteral",
-            "span": {
-              "start": 1,
-              "end": 1,
-              "ctxt": 0
-            },
-            "value": "",
-            "hasEscape": false
-          }
+      "expression": {
+        "type": "TemplateLiteral",
+        "span": {
+          "start": 0,
+          "end": 14,
+          "ctxt": 0
         },
-        {
-          "type": "TemplateElement",
-          "span": {
-            "start": 7,
-            "end": 13,
-            "ctxt": 0
-          },
-          "tail": true,
-          "cooked": {
-            "type": "StringLiteral",
+        "expressions": [
+          {
+            "type": "Identifier",
             "span": {
-              "start": 7,
-              "end": 13,
+              "start": 3,
+              "end": 6,
               "ctxt": 0
             },
-            "value": " <bar>",
-            "hasEscape": false
-          },
-          "raw": {
-            "type": "StringLiteral",
-            "span": {
-              "start": 7,
-              "end": 13,
-              "ctxt": 0
-            },
-            "value": " <bar>",
-            "hasEscape": false
+            "value": "foo",
+            "typeAnnotation": null,
+            "optional": false
           }
-        }
-      ]
+        ],
+        "quasis": [
+          {
+            "type": "TemplateElement",
+            "span": {
+              "start": 1,
+              "end": 1,
+              "ctxt": 0
+            },
+            "tail": false,
+            "cooked": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 1,
+                "end": 1,
+                "ctxt": 0
+              },
+              "value": "",
+              "hasEscape": false
+            },
+            "raw": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 1,
+                "end": 1,
+                "ctxt": 0
+              },
+              "value": "",
+              "hasEscape": false
+            }
+          },
+          {
+            "type": "TemplateElement",
+            "span": {
+              "start": 7,
+              "end": 13,
+              "ctxt": 0
+            },
+            "tail": true,
+            "cooked": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 7,
+                "end": 13,
+                "ctxt": 0
+              },
+              "value": " <bar>",
+              "hasEscape": false
+            },
+            "raw": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 7,
+                "end": 13,
+                "ctxt": 0
+              },
+              "value": " <bar>",
+              "hasEscape": false
+            }
+          }
+        ]
+      }
     }
   ],
   "interpreter": null

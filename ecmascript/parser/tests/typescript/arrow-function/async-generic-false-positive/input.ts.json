@@ -7,100 +7,116 @@
   },
   "body": [
     {
-      "type": "BinaryExpression",
+      "type": "ExpressionStatement",
       "span": {
         "start": 0,
-        "end": 9,
+        "end": 10,
         "ctxt": 0
       },
-      "operator": "<",
-      "left": {
-        "type": "Identifier",
+      "expression": {
+        "type": "BinaryExpression",
         "span": {
           "start": 0,
-          "end": 5,
-          "ctxt": 0
-        },
-        "value": "async",
-        "typeAnnotation": null,
-        "optional": false
-      },
-      "right": {
-        "type": "NumericLiteral",
-        "span": {
-          "start": 8,
           "end": 9,
           "ctxt": 0
         },
-        "value": 1.0
-      }
-    },
-    {
-      "type": "BinaryExpression",
-      "span": {
-        "start": 12,
-        "end": 27,
-        "ctxt": 0
-      },
-      "operator": "==",
-      "left": {
-        "type": "CallExpression",
-        "span": {
-          "start": 12,
-          "end": 22,
-          "ctxt": 0
-        },
-        "callee": {
+        "operator": "<",
+        "left": {
           "type": "Identifier",
           "span": {
-            "start": 12,
-            "end": 17,
+            "start": 0,
+            "end": 5,
             "ctxt": 0
           },
           "value": "async",
           "typeAnnotation": null,
           "optional": false
         },
-        "arguments": [],
-        "typeArguments": {
-          "type": "TsTypeParameterInstantiation",
+        "right": {
+          "type": "NumericLiteral",
           "span": {
-            "start": 17,
-            "end": 20,
+            "start": 8,
+            "end": 9,
             "ctxt": 0
           },
-          "params": [
-            {
-              "type": "TsTypeReference",
-              "span": {
-                "start": 18,
-                "end": 19,
-                "ctxt": 0
-              },
-              "typeName": {
-                "type": "Identifier",
+          "value": 1.0
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 12,
+        "end": 28,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 12,
+          "end": 27,
+          "ctxt": 0
+        },
+        "operator": "==",
+        "left": {
+          "type": "CallExpression",
+          "span": {
+            "start": 12,
+            "end": 22,
+            "ctxt": 0
+          },
+          "callee": {
+            "type": "Identifier",
+            "span": {
+              "start": 12,
+              "end": 17,
+              "ctxt": 0
+            },
+            "value": "async",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "arguments": [],
+          "typeArguments": {
+            "type": "TsTypeParameterInstantiation",
+            "span": {
+              "start": 17,
+              "end": 20,
+              "ctxt": 0
+            },
+            "params": [
+              {
+                "type": "TsTypeReference",
                 "span": {
                   "start": 18,
                   "end": 19,
                   "ctxt": 0
                 },
-                "value": "T",
-                "typeAnnotation": null,
-                "optional": false
-              },
-              "typeParams": null
-            }
-          ]
-        }
-      },
-      "right": {
-        "type": "NumericLiteral",
-        "span": {
-          "start": 26,
-          "end": 27,
-          "ctxt": 0
+                "typeName": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 18,
+                    "end": 19,
+                    "ctxt": 0
+                  },
+                  "value": "T",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "typeParams": null
+              }
+            ]
+          }
         },
-        "value": 0.0
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 26,
+            "end": 27,
+            "ctxt": 0
+          },
+          "value": 0.0
+        }
       }
     }
   ],

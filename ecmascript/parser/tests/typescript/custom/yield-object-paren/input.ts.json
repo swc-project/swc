@@ -36,30 +36,38 @@
         },
         "stmts": [
           {
-            "type": "YieldExpression",
+            "type": "ExpressionStatement",
             "span": {
               "start": 22,
-              "end": 33,
+              "end": 34,
               "ctxt": 0
             },
-            "argument": {
-              "type": "ParenthesisExpression",
+            "expression": {
+              "type": "YieldExpression",
               "span": {
-                "start": 28,
+                "start": 22,
                 "end": 33,
                 "ctxt": 0
               },
-              "expression": {
-                "type": "ObjectExpression",
+              "argument": {
+                "type": "ParenthesisExpression",
                 "span": {
-                  "start": 29,
-                  "end": 32,
+                  "start": 28,
+                  "end": 33,
                   "ctxt": 0
                 },
-                "properties": []
-              }
-            },
-            "delegate": false
+                "expression": {
+                  "type": "ObjectExpression",
+                  "span": {
+                    "start": 29,
+                    "end": 32,
+                    "ctxt": 0
+                  },
+                  "properties": []
+                }
+              },
+              "delegate": false
+            }
           }
         ]
       },

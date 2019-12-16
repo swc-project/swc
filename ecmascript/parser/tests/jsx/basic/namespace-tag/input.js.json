@@ -7,125 +7,141 @@
   },
   "body": [
     {
-      "type": "JSXElement",
+      "type": "ExpressionStatement",
       "span": {
         "start": 0,
-        "end": 11,
+        "end": 12,
         "ctxt": 0
       },
-      "opening": {
-        "type": "JSXOpeningElement",
-        "name": {
-          "type": "JSXNamespacedName",
-          "namespace": {
-            "type": "Identifier",
-            "span": {
-              "start": 1,
-              "end": 4,
-              "ctxt": 0
-            },
-            "value": "Foo",
-            "typeAnnotation": null,
-            "optional": false
-          },
-          "name": {
-            "type": "Identifier",
-            "span": {
-              "start": 5,
-              "end": 8,
-              "ctxt": 0
-            },
-            "value": "Bar",
-            "typeAnnotation": null,
-            "optional": false
-          }
-        },
+      "expression": {
+        "type": "JSXElement",
         "span": {
-          "start": 1,
+          "start": 0,
           "end": 11,
           "ctxt": 0
         },
-        "attributes": [],
-        "selfClosing": true,
-        "typeArguments": null
-      },
-      "children": [],
-      "closing": null
+        "opening": {
+          "type": "JSXOpeningElement",
+          "name": {
+            "type": "JSXNamespacedName",
+            "namespace": {
+              "type": "Identifier",
+              "span": {
+                "start": 1,
+                "end": 4,
+                "ctxt": 0
+              },
+              "value": "Foo",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 5,
+                "end": 8,
+                "ctxt": 0
+              },
+              "value": "Bar",
+              "typeAnnotation": null,
+              "optional": false
+            }
+          },
+          "span": {
+            "start": 1,
+            "end": 11,
+            "ctxt": 0
+          },
+          "attributes": [],
+          "selfClosing": true,
+          "typeArguments": null
+        },
+        "children": [],
+        "closing": null
+      }
     },
     {
-      "type": "JSXElement",
+      "type": "ExpressionStatement",
       "span": {
         "start": 14,
         "end": 33,
         "ctxt": 0
       },
-      "opening": {
-        "type": "JSXOpeningElement",
-        "name": {
-          "type": "JSXNamespacedName",
-          "namespace": {
-            "type": "Identifier",
-            "span": {
-              "start": 15,
-              "end": 18,
-              "ctxt": 0
-            },
-            "value": "Foo",
-            "typeAnnotation": null,
-            "optional": false
-          },
-          "name": {
-            "type": "Identifier",
-            "span": {
-              "start": 19,
-              "end": 22,
-              "ctxt": 0
-            },
-            "value": "Bar",
-            "typeAnnotation": null,
-            "optional": false
-          }
-        },
+      "expression": {
+        "type": "JSXElement",
         "span": {
-          "start": 15,
-          "end": 23,
-          "ctxt": 0
-        },
-        "attributes": [],
-        "selfClosing": false,
-        "typeArguments": null
-      },
-      "children": [],
-      "closing": {
-        "type": "JSXClosingElement",
-        "span": {
-          "start": 25,
+          "start": 14,
           "end": 33,
           "ctxt": 0
         },
-        "name": {
-          "type": "JSXNamespacedName",
-          "namespace": {
-            "type": "Identifier",
-            "span": {
-              "start": 25,
-              "end": 28,
-              "ctxt": 0
+        "opening": {
+          "type": "JSXOpeningElement",
+          "name": {
+            "type": "JSXNamespacedName",
+            "namespace": {
+              "type": "Identifier",
+              "span": {
+                "start": 15,
+                "end": 18,
+                "ctxt": 0
+              },
+              "value": "Foo",
+              "typeAnnotation": null,
+              "optional": false
             },
-            "value": "Foo",
-            "typeAnnotation": null,
-            "optional": false
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 19,
+                "end": 22,
+                "ctxt": 0
+              },
+              "value": "Bar",
+              "typeAnnotation": null,
+              "optional": false
+            }
+          },
+          "span": {
+            "start": 15,
+            "end": 23,
+            "ctxt": 0
+          },
+          "attributes": [],
+          "selfClosing": false,
+          "typeArguments": null
+        },
+        "children": [],
+        "closing": {
+          "type": "JSXClosingElement",
+          "span": {
+            "start": 25,
+            "end": 33,
+            "ctxt": 0
           },
           "name": {
-            "type": "Identifier",
-            "span": {
-              "start": 29,
-              "end": 32,
-              "ctxt": 0
+            "type": "JSXNamespacedName",
+            "namespace": {
+              "type": "Identifier",
+              "span": {
+                "start": 25,
+                "end": 28,
+                "ctxt": 0
+              },
+              "value": "Foo",
+              "typeAnnotation": null,
+              "optional": false
             },
-            "value": "Bar",
-            "typeAnnotation": null,
-            "optional": false
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 29,
+                "end": 32,
+                "ctxt": 0
+              },
+              "value": "Bar",
+              "typeAnnotation": null,
+              "optional": false
+            }
           }
         }
       }

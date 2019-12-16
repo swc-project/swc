@@ -7,189 +7,205 @@
   },
   "body": [
     {
-      "type": "ParenthesisExpression",
+      "type": "ExpressionStatement",
       "span": {
         "start": 0,
-        "end": 28,
+        "end": 29,
         "ctxt": 0
       },
       "expression": {
-        "type": "ClassExpression",
-        "identifier": null,
+        "type": "ParenthesisExpression",
         "span": {
-          "start": 1,
-          "end": 27,
+          "start": 0,
+          "end": 28,
           "ctxt": 0
         },
-        "decorators": [],
-        "body": [],
-        "superClass": null,
-        "isAbstract": false,
-        "typeParams": null,
-        "superTypeParams": null,
-        "implements": [
-          {
-            "type": "TsExpressionWithTypeArguments",
-            "span": {
-              "start": 18,
-              "end": 24,
-              "ctxt": 0
-            },
-            "expression": {
-              "type": "TsQualifiedName",
-              "left": {
-                "type": "Identifier",
-                "span": {
-                  "start": 18,
-                  "end": 19,
-                  "ctxt": 0
-                },
-                "value": "X",
-                "typeAnnotation": null,
-                "optional": false
-              },
-              "right": {
-                "type": "Identifier",
-                "span": {
-                  "start": 20,
-                  "end": 21,
-                  "ctxt": 0
-                },
-                "value": "Y",
-                "typeAnnotation": null,
-                "optional": false
-              }
-            },
-            "typeParams": {
-              "type": "TsTypeParameterInstantiation",
+        "expression": {
+          "type": "ClassExpression",
+          "identifier": null,
+          "span": {
+            "start": 1,
+            "end": 27,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "body": [],
+          "superClass": null,
+          "isAbstract": false,
+          "typeParams": null,
+          "superTypeParams": null,
+          "implements": [
+            {
+              "type": "TsExpressionWithTypeArguments",
               "span": {
-                "start": 21,
+                "start": 18,
                 "end": 24,
                 "ctxt": 0
               },
-              "params": [
-                {
-                  "type": "TsTypeReference",
+              "expression": {
+                "type": "TsQualifiedName",
+                "left": {
+                  "type": "Identifier",
                   "span": {
-                    "start": 22,
-                    "end": 23,
+                    "start": 18,
+                    "end": 19,
                     "ctxt": 0
                   },
-                  "typeName": {
-                    "type": "Identifier",
+                  "value": "X",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "right": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 20,
+                    "end": 21,
+                    "ctxt": 0
+                  },
+                  "value": "Y",
+                  "typeAnnotation": null,
+                  "optional": false
+                }
+              },
+              "typeParams": {
+                "type": "TsTypeParameterInstantiation",
+                "span": {
+                  "start": 21,
+                  "end": 24,
+                  "ctxt": 0
+                },
+                "params": [
+                  {
+                    "type": "TsTypeReference",
                     "span": {
                       "start": 22,
                       "end": 23,
                       "ctxt": 0
                     },
-                    "value": "T",
-                    "typeAnnotation": null,
-                    "optional": false
-                  },
-                  "typeParams": null
-                }
-              ]
+                    "typeName": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 22,
+                        "end": 23,
+                        "ctxt": 0
+                      },
+                      "value": "T",
+                      "typeAnnotation": null,
+                      "optional": false
+                    },
+                    "typeParams": null
+                  }
+                ]
+              }
             }
-          }
-        ]
+          ]
+        }
       }
     },
     {
-      "type": "ParenthesisExpression",
+      "type": "ExpressionStatement",
       "span": {
         "start": 31,
-        "end": 61,
+        "end": 62,
         "ctxt": 0
       },
       "expression": {
-        "type": "ClassExpression",
-        "identifier": {
-          "type": "Identifier",
-          "span": {
-            "start": 38,
-            "end": 39,
-            "ctxt": 0
-          },
-          "value": "C",
-          "typeAnnotation": null,
-          "optional": false
-        },
+        "type": "ParenthesisExpression",
         "span": {
-          "start": 32,
-          "end": 60,
+          "start": 31,
+          "end": 61,
           "ctxt": 0
         },
-        "decorators": [],
-        "body": [],
-        "superClass": null,
-        "isAbstract": false,
-        "typeParams": null,
-        "superTypeParams": null,
-        "implements": [
-          {
-            "type": "TsExpressionWithTypeArguments",
+        "expression": {
+          "type": "ClassExpression",
+          "identifier": {
+            "type": "Identifier",
             "span": {
-              "start": 51,
-              "end": 57,
+              "start": 38,
+              "end": 39,
               "ctxt": 0
             },
-            "expression": {
-              "type": "TsQualifiedName",
-              "left": {
-                "type": "Identifier",
-                "span": {
-                  "start": 51,
-                  "end": 52,
-                  "ctxt": 0
-                },
-                "value": "X",
-                "typeAnnotation": null,
-                "optional": false
-              },
-              "right": {
-                "type": "Identifier",
-                "span": {
-                  "start": 53,
-                  "end": 54,
-                  "ctxt": 0
-                },
-                "value": "Y",
-                "typeAnnotation": null,
-                "optional": false
-              }
-            },
-            "typeParams": {
-              "type": "TsTypeParameterInstantiation",
+            "value": "C",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "span": {
+            "start": 32,
+            "end": 60,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "body": [],
+          "superClass": null,
+          "isAbstract": false,
+          "typeParams": null,
+          "superTypeParams": null,
+          "implements": [
+            {
+              "type": "TsExpressionWithTypeArguments",
               "span": {
-                "start": 54,
+                "start": 51,
                 "end": 57,
                 "ctxt": 0
               },
-              "params": [
-                {
-                  "type": "TsTypeReference",
+              "expression": {
+                "type": "TsQualifiedName",
+                "left": {
+                  "type": "Identifier",
                   "span": {
-                    "start": 55,
-                    "end": 56,
+                    "start": 51,
+                    "end": 52,
                     "ctxt": 0
                   },
-                  "typeName": {
-                    "type": "Identifier",
+                  "value": "X",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "right": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 53,
+                    "end": 54,
+                    "ctxt": 0
+                  },
+                  "value": "Y",
+                  "typeAnnotation": null,
+                  "optional": false
+                }
+              },
+              "typeParams": {
+                "type": "TsTypeParameterInstantiation",
+                "span": {
+                  "start": 54,
+                  "end": 57,
+                  "ctxt": 0
+                },
+                "params": [
+                  {
+                    "type": "TsTypeReference",
                     "span": {
                       "start": 55,
                       "end": 56,
                       "ctxt": 0
                     },
-                    "value": "T",
-                    "typeAnnotation": null,
-                    "optional": false
-                  },
-                  "typeParams": null
-                }
-              ]
+                    "typeName": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 55,
+                        "end": 56,
+                        "ctxt": 0
+                      },
+                      "value": "T",
+                      "typeAnnotation": null,
+                      "optional": false
+                    },
+                    "typeParams": null
+                  }
+                ]
+              }
             }
-          }
-        ]
+          ]
+        }
       }
     }
   ],

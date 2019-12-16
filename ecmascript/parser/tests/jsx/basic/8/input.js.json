@@ -7,139 +7,147 @@
   },
   "body": [
     {
-      "type": "JSXElement",
+      "type": "ExpressionStatement",
       "span": {
         "start": 0,
         "end": 27,
         "ctxt": 0
       },
-      "opening": {
-        "type": "JSXOpeningElement",
-        "name": {
-          "type": "Identifier",
-          "span": {
-            "start": 1,
-            "end": 2,
-            "ctxt": 0
-          },
-          "value": "a",
-          "typeAnnotation": null,
-          "optional": false
-        },
+      "expression": {
+        "type": "JSXElement",
         "span": {
-          "start": 1,
+          "start": 0,
           "end": 27,
           "ctxt": 0
         },
-        "attributes": [
-          {
-            "type": "JSXAttribute",
+        "opening": {
+          "type": "JSXOpeningElement",
+          "name": {
+            "type": "Identifier",
             "span": {
-              "start": 3,
-              "end": 24,
+              "start": 1,
+              "end": 2,
               "ctxt": 0
             },
-            "name": {
-              "type": "Identifier",
+            "value": "a",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "span": {
+            "start": 1,
+            "end": 27,
+            "ctxt": 0
+          },
+          "attributes": [
+            {
+              "type": "JSXAttribute",
               "span": {
                 "start": 3,
-                "end": 4,
+                "end": 24,
                 "ctxt": 0
               },
-              "value": "b",
-              "typeAnnotation": null,
-              "optional": false
-            },
-            "value": {
-              "type": "ConditionalExpression",
-              "span": {
-                "start": 6,
-                "end": 23,
-                "ctxt": 0
-              },
-              "test": {
+              "name": {
                 "type": "Identifier",
                 "span": {
-                  "start": 6,
-                  "end": 7,
+                  "start": 3,
+                  "end": 4,
                   "ctxt": 0
                 },
-                "value": "x",
+                "value": "b",
                 "typeAnnotation": null,
                 "optional": false
               },
-              "consequent": {
-                "type": "JSXElement",
+              "value": {
+                "type": "ConditionalExpression",
                 "span": {
-                  "start": 10,
-                  "end": 15,
-                  "ctxt": 0
-                },
-                "opening": {
-                  "type": "JSXOpeningElement",
-                  "name": {
-                    "type": "Identifier",
-                    "span": {
-                      "start": 11,
-                      "end": 12,
-                      "ctxt": 0
-                    },
-                    "value": "c",
-                    "typeAnnotation": null,
-                    "optional": false
-                  },
-                  "span": {
-                    "start": 11,
-                    "end": 15,
-                    "ctxt": 0
-                  },
-                  "attributes": [],
-                  "selfClosing": true,
-                  "typeArguments": null
-                },
-                "children": [],
-                "closing": null
-              },
-              "alternate": {
-                "type": "JSXElement",
-                "span": {
-                  "start": 18,
+                  "start": 6,
                   "end": 23,
                   "ctxt": 0
                 },
-                "opening": {
-                  "type": "JSXOpeningElement",
-                  "name": {
-                    "type": "Identifier",
+                "test": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 6,
+                    "end": 7,
+                    "ctxt": 0
+                  },
+                  "value": "x",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "consequent": {
+                  "type": "JSXElement",
+                  "span": {
+                    "start": 10,
+                    "end": 15,
+                    "ctxt": 0
+                  },
+                  "opening": {
+                    "type": "JSXOpeningElement",
+                    "name": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 11,
+                        "end": 12,
+                        "ctxt": 0
+                      },
+                      "value": "c",
+                      "typeAnnotation": null,
+                      "optional": false
+                    },
                     "span": {
-                      "start": 19,
-                      "end": 20,
+                      "start": 11,
+                      "end": 15,
                       "ctxt": 0
                     },
-                    "value": "d",
-                    "typeAnnotation": null,
-                    "optional": false
+                    "attributes": [],
+                    "selfClosing": true,
+                    "typeArguments": null
                   },
+                  "children": [],
+                  "closing": null
+                },
+                "alternate": {
+                  "type": "JSXElement",
                   "span": {
-                    "start": 19,
+                    "start": 18,
                     "end": 23,
                     "ctxt": 0
                   },
-                  "attributes": [],
-                  "selfClosing": true,
-                  "typeArguments": null
-                },
-                "children": [],
-                "closing": null
+                  "opening": {
+                    "type": "JSXOpeningElement",
+                    "name": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 19,
+                        "end": 20,
+                        "ctxt": 0
+                      },
+                      "value": "d",
+                      "typeAnnotation": null,
+                      "optional": false
+                    },
+                    "span": {
+                      "start": 19,
+                      "end": 23,
+                      "ctxt": 0
+                    },
+                    "attributes": [],
+                    "selfClosing": true,
+                    "typeArguments": null
+                  },
+                  "children": [],
+                  "closing": null
+                }
               }
             }
-          }
-        ],
-        "selfClosing": true,
-        "typeArguments": null
-      },
-      "children": [],
-      "closing": null
+          ],
+          "selfClosing": true,
+          "typeArguments": null
+        },
+        "children": [],
+        "closing": null
+      }
     }
   ],
   "interpreter": null

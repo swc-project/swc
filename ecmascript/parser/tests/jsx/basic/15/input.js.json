@@ -7,107 +7,115 @@
   },
   "body": [
     {
-      "type": "JSXElement",
+      "type": "ExpressionStatement",
       "span": {
         "start": 0,
         "end": 15,
         "ctxt": 0
       },
-      "opening": {
-        "type": "JSXOpeningElement",
-        "name": {
-          "type": "JSXMemberExpression",
-          "object": {
-            "type": "JSXMemberExpression",
-            "object": {
-              "type": "Identifier",
-              "span": {
-                "start": 1,
-                "end": 2,
-                "ctxt": 0
-              },
-              "value": "a",
-              "typeAnnotation": null,
-              "optional": false
-            },
-            "property": {
-              "type": "Identifier",
-              "span": {
-                "start": 3,
-                "end": 4,
-                "ctxt": 0
-              },
-              "value": "b",
-              "typeAnnotation": null,
-              "optional": false
-            }
-          },
-          "property": {
-            "type": "Identifier",
-            "span": {
-              "start": 5,
-              "end": 6,
-              "ctxt": 0
-            },
-            "value": "c",
-            "typeAnnotation": null,
-            "optional": false
-          }
-        },
+      "expression": {
+        "type": "JSXElement",
         "span": {
-          "start": 1,
-          "end": 7,
-          "ctxt": 0
-        },
-        "attributes": [],
-        "selfClosing": false,
-        "typeArguments": null
-      },
-      "children": [],
-      "closing": {
-        "type": "JSXClosingElement",
-        "span": {
-          "start": 9,
+          "start": 0,
           "end": 15,
           "ctxt": 0
         },
-        "name": {
-          "type": "JSXMemberExpression",
-          "object": {
+        "opening": {
+          "type": "JSXOpeningElement",
+          "name": {
             "type": "JSXMemberExpression",
             "object": {
-              "type": "Identifier",
-              "span": {
-                "start": 9,
-                "end": 10,
-                "ctxt": 0
+              "type": "JSXMemberExpression",
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1,
+                  "end": 2,
+                  "ctxt": 0
+                },
+                "value": "a",
+                "typeAnnotation": null,
+                "optional": false
               },
-              "value": "a",
-              "typeAnnotation": null,
-              "optional": false
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 3,
+                  "end": 4,
+                  "ctxt": 0
+                },
+                "value": "b",
+                "typeAnnotation": null,
+                "optional": false
+              }
             },
             "property": {
               "type": "Identifier",
               "span": {
-                "start": 11,
-                "end": 12,
+                "start": 5,
+                "end": 6,
                 "ctxt": 0
               },
-              "value": "b",
+              "value": "c",
               "typeAnnotation": null,
               "optional": false
             }
           },
-          "property": {
-            "type": "Identifier",
-            "span": {
-              "start": 13,
-              "end": 14,
-              "ctxt": 0
+          "span": {
+            "start": 1,
+            "end": 7,
+            "ctxt": 0
+          },
+          "attributes": [],
+          "selfClosing": false,
+          "typeArguments": null
+        },
+        "children": [],
+        "closing": {
+          "type": "JSXClosingElement",
+          "span": {
+            "start": 9,
+            "end": 15,
+            "ctxt": 0
+          },
+          "name": {
+            "type": "JSXMemberExpression",
+            "object": {
+              "type": "JSXMemberExpression",
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 9,
+                  "end": 10,
+                  "ctxt": 0
+                },
+                "value": "a",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 11,
+                  "end": 12,
+                  "ctxt": 0
+                },
+                "value": "b",
+                "typeAnnotation": null,
+                "optional": false
+              }
             },
-            "value": "c",
-            "typeAnnotation": null,
-            "optional": false
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 13,
+                "end": 14,
+                "ctxt": 0
+              },
+              "value": "c",
+              "typeAnnotation": null,
+              "optional": false
+            }
           }
         }
       }

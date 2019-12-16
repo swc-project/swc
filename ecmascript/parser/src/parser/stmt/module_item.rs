@@ -15,10 +15,13 @@ impl<'a, I: Tokens> Parser<'a, I> {
         }
 
         if self.input.syntax().dynamic_import() && is!('(') {
-            return self
-                .parse_dynamic_import(start)
-                .map(Stmt::from)
-                .map(ModuleItem::from);
+            let expr = self.parse_dynamic_import(start)?;
+
+            return Ok(Stmt::Expr(ExprStmt {
+                span: span!(start),
+                expr,
+            })
+            .into());
         }
 
         // Handle import 'mod.js'

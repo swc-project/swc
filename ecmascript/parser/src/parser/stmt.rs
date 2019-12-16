@@ -190,7 +190,10 @@ impl<'a, I: Tokens> Parser<'a, I> {
             let _ = self.parse_catch_clause();
             let _ = self.parse_finally_block();
 
-            return Ok(Stmt::Expr(Box::new(Expr::Invalid(Invalid { span }))));
+            return Ok(Stmt::Expr(ExprStmt {
+                span,
+                expr: Box::new(Expr::Invalid(Invalid { span })),
+            }));
         }
 
         if is!("finally") {
@@ -199,7 +202,10 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
             let _ = self.parse_finally_block();
 
-            return Ok(Stmt::Expr(Box::new(Expr::Invalid(Invalid { span }))));
+            return Ok(Stmt::Expr(ExprStmt {
+                span,
+                expr: Box::new(Expr::Invalid(Invalid { span })),
+            }));
         }
 
         if is!("try") {
@@ -272,7 +278,12 @@ impl<'a, I: Tokens> Parser<'a, I> {
             {
                 self.emit_err(ident.span, SyntaxError::InvalidIdentInStrict);
 
-                return Ok(Stmt::Expr(expr));
+                eat!(';');
+
+                return Ok(Stmt::Expr(ExprStmt {
+                    span: span!(start),
+                    expr,
+                }));
             }
 
             if self.input.syntax().typescript() {
@@ -313,12 +324,20 @@ impl<'a, I: Tokens> Parser<'a, I> {
         }
 
         if eat!(';') {
-            Ok(Stmt::Expr(expr))
+            Ok(Stmt::Expr(ExprStmt {
+                span: span!(start),
+                expr,
+            }))
         } else {
             match *cur!(false)? {
                 Token::BinOp(..) => {
                     self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
-                    return self.parse_bin_op_recursively(expr, 0).map(Stmt::Expr);
+                    let expr = self.parse_bin_op_recursively(expr, 0)?;
+                    return Ok(ExprStmt {
+                        span: span!(start),
+                        expr,
+                    }
+                    .into());
                 }
 
                 _ => {}
@@ -1032,7 +1051,7 @@ pub(super) trait IsDirective {
     fn as_ref(&self) -> Option<&Stmt>;
     fn is_use_strict(&self) -> bool {
         match self.as_ref() {
-            Some(&Stmt::Expr(ref expr)) => match **expr {
+            Some(&Stmt::Expr(ref expr)) => match *expr.expr {
                 Expr::Lit(Lit::Str(Str {
                     ref value,
                     has_escape: false,
@@ -1062,8 +1081,15 @@ pub(super) trait StmtLikeParser<'a, Type: IsDirective> {
 #[parser]
 impl<'a, I: Tokens> StmtLikeParser<'a, Stmt> for Parser<'a, I> {
     fn handle_import_export(&mut self, top_level: bool, _: Vec<Decorator>) -> PResult<'a, Stmt> {
+        let start = cur_pos!();
         if self.input.syntax().dynamic_import() && is!("import") {
-            return self.parse_primary_expr().map(Stmt::Expr);
+            let expr = self.parse_primary_expr()?;
+
+            return Ok(ExprStmt {
+                span: span!(start),
+                expr,
+            }
+            .into());
         }
         syntax_error!(SyntaxError::ImportExportInScript);
     }
@@ -1100,7 +1126,13 @@ mod tests {
 
     #[test]
     fn expr_stmt() {
-        assert_eq_ignore_span!(stmt("a + b + c"), Stmt::Expr(expr("a + b + c")))
+        assert_eq_ignore_span!(
+            stmt("a + b + c"),
+            Stmt::Expr(ExprStmt {
+                span,
+                expr: expr("a + b + c")
+            })
+        )
     }
 
     #[test]

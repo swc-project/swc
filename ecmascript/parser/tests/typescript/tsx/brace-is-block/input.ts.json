@@ -73,36 +73,44 @@
       "implements": []
     },
     {
-      "type": "JSXElement",
+      "type": "ExpressionStatement",
       "span": {
         "start": 125,
         "end": 129,
         "ctxt": 0
       },
-      "opening": {
-        "type": "JSXOpeningElement",
-        "name": {
-          "type": "Identifier",
-          "span": {
-            "start": 126,
-            "end": 127,
-            "ctxt": 0
-          },
-          "value": "C",
-          "typeAnnotation": null,
-          "optional": false
-        },
+      "expression": {
+        "type": "JSXElement",
         "span": {
-          "start": 126,
+          "start": 125,
           "end": 129,
           "ctxt": 0
         },
-        "attributes": [],
-        "selfClosing": true,
-        "typeArguments": null
-      },
-      "children": [],
-      "closing": null
+        "opening": {
+          "type": "JSXOpeningElement",
+          "name": {
+            "type": "Identifier",
+            "span": {
+              "start": 126,
+              "end": 127,
+              "ctxt": 0
+            },
+            "value": "C",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "span": {
+            "start": 126,
+            "end": 129,
+            "ctxt": 0
+          },
+          "attributes": [],
+          "selfClosing": true,
+          "typeArguments": null
+        },
+        "children": [],
+        "closing": null
+      }
     }
   ],
   "interpreter": null

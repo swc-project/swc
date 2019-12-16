@@ -7,153 +7,161 @@
   },
   "body": [
     {
-      "type": "JSXElement",
+      "type": "ExpressionStatement",
       "span": {
         "start": 0,
         "end": 40,
         "ctxt": 0
       },
-      "opening": {
-        "type": "JSXOpeningElement",
-        "name": {
-          "type": "Identifier",
-          "span": {
-            "start": 1,
-            "end": 2,
-            "ctxt": 0
-          },
-          "value": "a",
-          "typeAnnotation": null,
-          "optional": false
-        },
+      "expression": {
+        "type": "JSXElement",
         "span": {
-          "start": 1,
+          "start": 0,
           "end": 40,
           "ctxt": 0
         },
-        "attributes": [
-          {
-            "type": "JSXAttribute",
+        "opening": {
+          "type": "JSXOpeningElement",
+          "name": {
+            "type": "Identifier",
             "span": {
-              "start": 3,
-              "end": 10,
+              "start": 1,
+              "end": 2,
               "ctxt": 0
             },
-            "name": {
-              "type": "Identifier",
+            "value": "a",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "span": {
+            "start": 1,
+            "end": 40,
+            "ctxt": 0
+          },
+          "attributes": [
+            {
+              "type": "JSXAttribute",
               "span": {
                 "start": 3,
-                "end": 4,
+                "end": 10,
                 "ctxt": 0
               },
-              "value": "b",
-              "typeAnnotation": null,
-              "optional": false
-            },
-            "value": {
-              "type": "StringLiteral",
-              "span": {
-                "start": 6,
-                "end": 9,
-                "ctxt": 0
+              "name": {
+                "type": "Identifier",
+                "span": {
+                  "start": 3,
+                  "end": 4,
+                  "ctxt": 0
+                },
+                "value": "b",
+                "typeAnnotation": null,
+                "optional": false
               },
-              "value": " ",
-              "hasEscape": false
-            }
-          },
-          {
-            "type": "JSXAttribute",
-            "span": {
-              "start": 11,
-              "end": 16,
-              "ctxt": 0
+              "value": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 6,
+                  "end": 9,
+                  "ctxt": 0
+                },
+                "value": " ",
+                "hasEscape": false
+              }
             },
-            "name": {
-              "type": "Identifier",
+            {
+              "type": "JSXAttribute",
               "span": {
                 "start": 11,
-                "end": 12,
-                "ctxt": 0
-              },
-              "value": "c",
-              "typeAnnotation": null,
-              "optional": false
-            },
-            "value": {
-              "type": "StringLiteral",
-              "span": {
-                "start": 13,
                 "end": 16,
                 "ctxt": 0
               },
-              "value": " ",
-              "hasEscape": false
-            }
-          },
-          {
-            "type": "JSXAttribute",
-            "span": {
-              "start": 17,
-              "end": 26,
-              "ctxt": 0
+              "name": {
+                "type": "Identifier",
+                "span": {
+                  "start": 11,
+                  "end": 12,
+                  "ctxt": 0
+                },
+                "value": "c",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "value": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 13,
+                  "end": 16,
+                  "ctxt": 0
+                },
+                "value": " ",
+                "hasEscape": false
+              }
             },
-            "name": {
-              "type": "Identifier",
+            {
+              "type": "JSXAttribute",
               "span": {
                 "start": 17,
-                "end": 18,
-                "ctxt": 0
-              },
-              "value": "d",
-              "typeAnnotation": null,
-              "optional": false
-            },
-            "value": {
-              "type": "StringLiteral",
-              "span": {
-                "start": 19,
                 "end": 26,
                 "ctxt": 0
               },
-              "value": "&",
-              "hasEscape": false
-            }
-          },
-          {
-            "type": "JSXAttribute",
-            "span": {
-              "start": 27,
-              "end": 37,
-              "ctxt": 0
+              "name": {
+                "type": "Identifier",
+                "span": {
+                  "start": 17,
+                  "end": 18,
+                  "ctxt": 0
+                },
+                "value": "d",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "value": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 19,
+                  "end": 26,
+                  "ctxt": 0
+                },
+                "value": "&",
+                "hasEscape": false
+              }
             },
-            "name": {
-              "type": "Identifier",
+            {
+              "type": "JSXAttribute",
               "span": {
                 "start": 27,
-                "end": 28,
-                "ctxt": 0
-              },
-              "value": "e",
-              "typeAnnotation": null,
-              "optional": false
-            },
-            "value": {
-              "type": "StringLiteral",
-              "span": {
-                "start": 29,
                 "end": 37,
                 "ctxt": 0
               },
-              "value": "&ampr;",
-              "hasEscape": false
+              "name": {
+                "type": "Identifier",
+                "span": {
+                  "start": 27,
+                  "end": 28,
+                  "ctxt": 0
+                },
+                "value": "e",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "value": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 29,
+                  "end": 37,
+                  "ctxt": 0
+                },
+                "value": "&ampr;",
+                "hasEscape": false
+              }
             }
-          }
-        ],
-        "selfClosing": true,
-        "typeArguments": null
-      },
-      "children": [],
-      "closing": null
+          ],
+          "selfClosing": true,
+          "typeArguments": null
+        },
+        "children": [],
+        "closing": null
+      }
     }
   ],
   "interpreter": null

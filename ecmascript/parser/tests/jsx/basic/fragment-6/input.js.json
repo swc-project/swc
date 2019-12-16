@@ -7,112 +7,120 @@
   },
   "body": [
     {
-      "type": "JSXFragment",
+      "type": "ExpressionStatement",
       "span": {
         "start": 0,
         "end": 59,
         "ctxt": 0
       },
-      "opening": {
-        "type": "JSXOpeningFragment",
+      "expression": {
+        "type": "JSXFragment",
         "span": {
-          "start": 1,
-          "end": 2,
+          "start": 0,
+          "end": 59,
           "ctxt": 0
-        }
-      },
-      "children": [
-        {
-          "type": "JSXElement",
+        },
+        "opening": {
+          "type": "JSXOpeningFragment",
           "span": {
-            "start": 2,
-            "end": 23,
+            "start": 1,
+            "end": 2,
             "ctxt": 0
-          },
-          "opening": {
-            "type": "JSXOpeningElement",
-            "name": {
-              "type": "Identifier",
-              "span": {
-                "start": 3,
-                "end": 6,
-                "ctxt": 0
-              },
-              "value": "div",
-              "typeAnnotation": null,
-              "optional": false
-            },
+          }
+        },
+        "children": [
+          {
+            "type": "JSXElement",
             "span": {
-              "start": 3,
-              "end": 7,
-              "ctxt": 0
-            },
-            "attributes": [],
-            "selfClosing": false,
-            "typeArguments": null
-          },
-          "children": [
-            {
-              "type": "JSXText",
-              "span": {
-                "start": 7,
-                "end": 17,
-                "ctxt": 0
-              },
-              "value": "JSXElement",
-              "raw": "JSXElement"
-            }
-          ],
-          "closing": {
-            "type": "JSXClosingElement",
-            "span": {
-              "start": 19,
+              "start": 2,
               "end": 23,
               "ctxt": 0
             },
-            "name": {
-              "type": "Identifier",
+            "opening": {
+              "type": "JSXOpeningElement",
+              "name": {
+                "type": "Identifier",
+                "span": {
+                  "start": 3,
+                  "end": 6,
+                  "ctxt": 0
+                },
+                "value": "div",
+                "typeAnnotation": null,
+                "optional": false
+              },
               "span": {
-                "start": 19,
-                "end": 22,
+                "start": 3,
+                "end": 7,
                 "ctxt": 0
               },
-              "value": "div",
-              "typeAnnotation": null,
-              "optional": false
+              "attributes": [],
+              "selfClosing": false,
+              "typeArguments": null
+            },
+            "children": [
+              {
+                "type": "JSXText",
+                "span": {
+                  "start": 7,
+                  "end": 17,
+                  "ctxt": 0
+                },
+                "value": "JSXElement",
+                "raw": "JSXElement"
+              }
+            ],
+            "closing": {
+              "type": "JSXClosingElement",
+              "span": {
+                "start": 19,
+                "end": 23,
+                "ctxt": 0
+              },
+              "name": {
+                "type": "Identifier",
+                "span": {
+                  "start": 19,
+                  "end": 22,
+                  "ctxt": 0
+                },
+                "value": "div",
+                "typeAnnotation": null,
+                "optional": false
+              }
             }
-          }
-        },
-        {
-          "type": "JSXText",
-          "span": {
-            "start": 23,
-            "end": 30,
-            "ctxt": 0
           },
-          "value": "JSXText",
-          "raw": "JSXText"
-        },
-        {
-          "type": "JSXExpressionContainer",
-          "expression": {
-            "type": "StringLiteral",
+          {
+            "type": "JSXText",
             "span": {
-              "start": 31,
-              "end": 55,
+              "start": 23,
+              "end": 30,
               "ctxt": 0
             },
-            "value": "JSXExpressionContainer",
-            "hasEscape": false
+            "value": "JSXText",
+            "raw": "JSXText"
+          },
+          {
+            "type": "JSXExpressionContainer",
+            "expression": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 31,
+                "end": 55,
+                "ctxt": 0
+              },
+              "value": "JSXExpressionContainer",
+              "hasEscape": false
+            }
           }
-        }
-      ],
-      "closing": {
-        "type": "JSXClosingFragment",
-        "span": {
-          "start": 58,
-          "end": 59,
-          "ctxt": 0
+        ],
+        "closing": {
+          "type": "JSXClosingFragment",
+          "span": {
+            "start": 58,
+            "end": 59,
+            "ctxt": 0
+          }
         }
       }
     }

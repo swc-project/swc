@@ -7,177 +7,201 @@
   },
   "body": [
     {
-      "type": "MemberExpression",
+      "type": "ExpressionStatement",
       "span": {
         "start": 0,
-        "end": 9,
+        "end": 10,
         "ctxt": 0
       },
-      "object": {
-        "type": "ParenthesisExpression",
+      "expression": {
+        "type": "MemberExpression",
         "span": {
           "start": 0,
-          "end": 7,
+          "end": 9,
           "ctxt": 0
         },
-        "expression": {
-          "type": "TsTypeAssertion",
+        "object": {
+          "type": "ParenthesisExpression",
           "span": {
-            "start": 1,
-            "end": 6,
+            "start": 0,
+            "end": 7,
             "ctxt": 0
           },
           "expression": {
-            "type": "Identifier",
+            "type": "TsTypeAssertion",
             "span": {
-              "start": 5,
+              "start": 1,
               "end": 6,
               "ctxt": 0
             },
-            "value": "x",
-            "typeAnnotation": null,
-            "optional": false
-          },
-          "typeAnnotation": {
-            "type": "TsTypeReference",
-            "span": {
-              "start": 2,
-              "end": 3,
-              "ctxt": 0
-            },
-            "typeName": {
+            "expression": {
               "type": "Identifier",
+              "span": {
+                "start": 5,
+                "end": 6,
+                "ctxt": 0
+              },
+              "value": "x",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "typeAnnotation": {
+              "type": "TsTypeReference",
               "span": {
                 "start": 2,
                 "end": 3,
                 "ctxt": 0
               },
-              "value": "T",
-              "typeAnnotation": null,
-              "optional": false
-            },
-            "typeParams": null
+              "typeName": {
+                "type": "Identifier",
+                "span": {
+                  "start": 2,
+                  "end": 3,
+                  "ctxt": 0
+                },
+                "value": "T",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "typeParams": null
+            }
           }
-        }
-      },
-      "property": {
-        "type": "Identifier",
-        "span": {
-          "start": 8,
-          "end": 9,
-          "ctxt": 0
         },
-        "value": "y",
-        "typeAnnotation": null,
-        "optional": false
-      },
-      "computed": false
+        "property": {
+          "type": "Identifier",
+          "span": {
+            "start": 8,
+            "end": 9,
+            "ctxt": 0
+          },
+          "value": "y",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "computed": false
+      }
     },
     {
-      "type": "MemberExpression",
+      "type": "ExpressionStatement",
       "span": {
         "start": 12,
-        "end": 22,
+        "end": 23,
         "ctxt": 0
       },
-      "object": {
-        "type": "ParenthesisExpression",
+      "expression": {
+        "type": "MemberExpression",
         "span": {
           "start": 12,
-          "end": 20,
+          "end": 22,
           "ctxt": 0
         },
-        "expression": {
-          "type": "TsAsExpression",
+        "object": {
+          "type": "ParenthesisExpression",
           "span": {
-            "start": 13,
-            "end": 14,
+            "start": 12,
+            "end": 20,
             "ctxt": 0
           },
           "expression": {
-            "type": "Identifier",
+            "type": "TsAsExpression",
             "span": {
               "start": 13,
               "end": 14,
               "ctxt": 0
             },
-            "value": "x",
-            "typeAnnotation": null,
-            "optional": false
-          },
-          "typeAnnotation": {
-            "type": "TsTypeReference",
-            "span": {
-              "start": 18,
-              "end": 19,
-              "ctxt": 0
-            },
-            "typeName": {
+            "expression": {
               "type": "Identifier",
+              "span": {
+                "start": 13,
+                "end": 14,
+                "ctxt": 0
+              },
+              "value": "x",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "typeAnnotation": {
+              "type": "TsTypeReference",
               "span": {
                 "start": 18,
                 "end": 19,
                 "ctxt": 0
               },
-              "value": "T",
-              "typeAnnotation": null,
-              "optional": false
-            },
-            "typeParams": null
+              "typeName": {
+                "type": "Identifier",
+                "span": {
+                  "start": 18,
+                  "end": 19,
+                  "ctxt": 0
+                },
+                "value": "T",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "typeParams": null
+            }
           }
-        }
-      },
-      "property": {
-        "type": "Identifier",
-        "span": {
-          "start": 21,
-          "end": 22,
-          "ctxt": 0
         },
-        "value": "y",
-        "typeAnnotation": null,
-        "optional": false
-      },
-      "computed": false
-    },
-    {
-      "type": "MemberExpression",
-      "span": {
-        "start": 25,
-        "end": 29,
-        "ctxt": 0
-      },
-      "object": {
-        "type": "TsNonNullExpression",
-        "span": {
-          "start": 25,
-          "end": 27,
-          "ctxt": 0
-        },
-        "expression": {
+        "property": {
           "type": "Identifier",
           "span": {
-            "start": 25,
-            "end": 26,
+            "start": 21,
+            "end": 22,
             "ctxt": 0
           },
-          "value": "x",
+          "value": "y",
           "typeAnnotation": null,
           "optional": false
-        }
+        },
+        "computed": false
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 25,
+        "end": 30,
+        "ctxt": 0
       },
-      "property": {
-        "type": "Identifier",
+      "expression": {
+        "type": "MemberExpression",
         "span": {
-          "start": 28,
+          "start": 25,
           "end": 29,
           "ctxt": 0
         },
-        "value": "y",
-        "typeAnnotation": null,
-        "optional": false
-      },
-      "computed": false
+        "object": {
+          "type": "TsNonNullExpression",
+          "span": {
+            "start": 25,
+            "end": 27,
+            "ctxt": 0
+          },
+          "expression": {
+            "type": "Identifier",
+            "span": {
+              "start": 25,
+              "end": 26,
+              "ctxt": 0
+            },
+            "value": "x",
+            "typeAnnotation": null,
+            "optional": false
+          }
+        },
+        "property": {
+          "type": "Identifier",
+          "span": {
+            "start": 28,
+            "end": 29,
+            "ctxt": 0
+          },
+          "value": "y",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "computed": false
+      }
     }
   ],
   "interpreter": null

@@ -7,40 +7,48 @@
   },
   "body": [
     {
-      "type": "ConditionalExpression",
+      "type": "ExpressionStatement",
       "span": {
         "start": 0,
         "end": 11,
         "ctxt": 0
       },
-      "test": {
-        "type": "Identifier",
+      "expression": {
+        "type": "ConditionalExpression",
         "span": {
           "start": 0,
-          "end": 3,
-          "ctxt": 0
-        },
-        "value": "foo",
-        "typeAnnotation": null,
-        "optional": false
-      },
-      "consequent": {
-        "type": "NumericLiteral",
-        "span": {
-          "start": 6,
-          "end": 7,
-          "ctxt": 0
-        },
-        "value": 1.0
-      },
-      "alternate": {
-        "type": "NumericLiteral",
-        "span": {
-          "start": 10,
           "end": 11,
           "ctxt": 0
         },
-        "value": 2.0
+        "test": {
+          "type": "Identifier",
+          "span": {
+            "start": 0,
+            "end": 3,
+            "ctxt": 0
+          },
+          "value": "foo",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "consequent": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 6,
+            "end": 7,
+            "ctxt": 0
+          },
+          "value": 1.0
+        },
+        "alternate": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 10,
+            "end": 11,
+            "ctxt": 0
+          },
+          "value": 2.0
+        }
       }
     }
   ],

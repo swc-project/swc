@@ -36,22 +36,30 @@
         },
         "stmts": [
           {
-            "type": "YieldExpression",
+            "type": "ExpressionStatement",
             "span": {
               "start": 22,
-              "end": 31,
+              "end": 32,
               "ctxt": 0
             },
-            "argument": {
-              "type": "ObjectExpression",
+            "expression": {
+              "type": "YieldExpression",
               "span": {
-                "start": 28,
+                "start": 22,
                 "end": 31,
                 "ctxt": 0
               },
-              "properties": []
-            },
-            "delegate": false
+              "argument": {
+                "type": "ObjectExpression",
+                "span": {
+                  "start": 28,
+                  "end": 31,
+                  "ctxt": 0
+                },
+                "properties": []
+              },
+              "delegate": false
+            }
           }
         ]
       },

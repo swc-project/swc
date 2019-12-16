@@ -7,66 +7,74 @@
   },
   "body": [
     {
-      "type": "AssignmentExpression",
+      "type": "ExpressionStatement",
       "span": {
         "start": 0,
-        "end": 25,
+        "end": 26,
         "ctxt": 0
       },
-      "operator": "=",
-      "left": {
-        "type": "TsAsExpression",
+      "expression": {
+        "type": "AssignmentExpression",
         "span": {
-          "start": 1,
-          "end": 12,
+          "start": 0,
+          "end": 25,
           "ctxt": 0
         },
-        "expression": {
+        "operator": "=",
+        "left": {
           "type": "TsAsExpression",
           "span": {
             "start": 1,
-            "end": 2,
+            "end": 12,
             "ctxt": 0
           },
           "expression": {
-            "type": "Identifier",
+            "type": "TsAsExpression",
             "span": {
               "start": 1,
               "end": 2,
               "ctxt": 0
             },
-            "value": "a",
-            "typeAnnotation": null,
-            "optional": false
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 1,
+                "end": 2,
+                "ctxt": 0
+              },
+              "value": "a",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "typeAnnotation": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 6,
+                "end": 12,
+                "ctxt": 0
+              },
+              "kind": "number"
+            }
           },
           "typeAnnotation": {
             "type": "TsKeywordType",
             "span": {
-              "start": 6,
-              "end": 12,
+              "start": 16,
+              "end": 19,
               "ctxt": 0
             },
-            "kind": "number"
+            "kind": "any"
           }
         },
-        "typeAnnotation": {
-          "type": "TsKeywordType",
+        "right": {
+          "type": "NumericLiteral",
           "span": {
-            "start": 16,
-            "end": 19,
+            "start": 23,
+            "end": 25,
             "ctxt": 0
           },
-          "kind": "any"
+          "value": 42.0
         }
-      },
-      "right": {
-        "type": "NumericLiteral",
-        "span": {
-          "start": 23,
-          "end": 25,
-          "ctxt": 0
-        },
-        "value": 42.0
       }
     }
   ],

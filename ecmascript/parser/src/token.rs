@@ -13,7 +13,7 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::Fold;
 use swc_common::Span;
 pub(crate) use swc_ecma_ast::AssignOp as AssignOpToken;
-use swc_ecma_ast::{BinaryOp, Str};
+use swc_ecma_ast::BinaryOp;
 
 #[derive(Kind, Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "fold", derive(Fold))]
@@ -118,7 +118,7 @@ pub enum Token {
 
     /// Regexp literal.
     #[kind(starts_expr)]
-    Regex(Str, Option<Str>),
+    Regex(JsWord, JsWord),
 
     /// TODO: Make Num as enum and separate decimal, binary, ..etc
     #[kind(starts_expr)]
