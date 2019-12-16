@@ -62,10 +62,8 @@ pub struct Regex {
     pub exp: JsWord,
 
     #[serde(default)]
-    pub flags: Option<RegexFlags>,
+    pub flags: JsWord,
 }
-
-pub type RegexFlags = JsWord;
 
 #[ast_node("NumericLiteral")]
 #[derive(Copy)]
