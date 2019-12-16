@@ -262,7 +262,7 @@ impl StartsWithAlphaNum for ExprOrSuper {
 impl StartsWithAlphaNum for Stmt {
     fn starts_with_alpha_num(&self) -> bool {
         match *self {
-            Stmt::Expr(ref expr) => expr.starts_with_alpha_num(),
+            Stmt::Expr(ref expr) => expr.expr.starts_with_alpha_num(),
             Stmt::Decl(ref decl) => decl.starts_with_alpha_num(),
             Stmt::Debugger(..)
             | Stmt::With(..)
