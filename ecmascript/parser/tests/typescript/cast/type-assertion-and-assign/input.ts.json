@@ -7,57 +7,65 @@
   },
   "body": [
     {
-      "type": "AssignmentExpression",
+      "type": "ExpressionStatement",
       "span": {
         "start": 0,
-        "end": 17,
+        "end": 18,
         "ctxt": 0
       },
-      "operator": "+=",
-      "left": {
-        "type": "ParenthesisExpression",
+      "expression": {
+        "type": "AssignmentExpression",
         "span": {
           "start": 0,
-          "end": 12,
-          "ctxt": 0
-        },
-        "expression": {
-          "type": "TsTypeAssertion",
-          "span": {
-            "start": 1,
-            "end": 11,
-            "ctxt": 0
-          },
-          "expression": {
-            "type": "Identifier",
-            "span": {
-              "start": 10,
-              "end": 11,
-              "ctxt": 0
-            },
-            "value": "x",
-            "typeAnnotation": null,
-            "optional": false
-          },
-          "typeAnnotation": {
-            "type": "TsKeywordType",
-            "span": {
-              "start": 2,
-              "end": 8,
-              "ctxt": 0
-            },
-            "kind": "number"
-          }
-        }
-      },
-      "right": {
-        "type": "NumericLiteral",
-        "span": {
-          "start": 16,
           "end": 17,
           "ctxt": 0
         },
-        "value": 1.0
+        "operator": "+=",
+        "left": {
+          "type": "ParenthesisExpression",
+          "span": {
+            "start": 0,
+            "end": 12,
+            "ctxt": 0
+          },
+          "expression": {
+            "type": "TsTypeAssertion",
+            "span": {
+              "start": 1,
+              "end": 11,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 10,
+                "end": 11,
+                "ctxt": 0
+              },
+              "value": "x",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "typeAnnotation": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 2,
+                "end": 8,
+                "ctxt": 0
+              },
+              "kind": "number"
+            }
+          }
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 16,
+            "end": 17,
+            "ctxt": 0
+          },
+          "value": 1.0
+        }
       }
     }
   ],

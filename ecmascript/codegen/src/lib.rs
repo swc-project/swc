@@ -321,11 +321,9 @@ impl<'a> Emitter<'a> {
             Lit::Num(ref n) => emit!(n),
             Lit::Regex(ref n) => {
                 punct!("/");
-                self.emit_js_word(n.exp.span, &n.exp.value)?;
+                self.wr.write_str(&n.exp)?;
                 punct!("/");
-                if let Some(ref flags) = n.flags {
-                    self.emit_js_word(flags.span, &flags.value)?;
-                }
+                self.wr.write_str(&n.flags)?;
             }
             Lit::JSXText(ref n) => emit!(n),
         }
@@ -1552,10 +1550,7 @@ impl<'a> Emitter<'a> {
     #[emitter]
     pub fn emit_stmt(&mut self, node: &Stmt) -> Result {
         match *node {
-            Stmt::Expr(ref e) => {
-                emit!(e);
-                semi!();
-            }
+            Stmt::Expr(ref e) => emit!(e),
             Stmt::Block(ref e) => {
                 emit!(e);
                 return Ok(());
@@ -1583,6 +1578,12 @@ impl<'a> Emitter<'a> {
         if !self.cfg.minify {
             self.wr.write_line()?;
         }
+    }
+
+    #[emitter]
+    pub fn emit_expr_stmt(&mut self, e: &ExprStmt) -> Result {
+        emit!(e.expr);
+        semi!();
     }
 
     #[emitter]

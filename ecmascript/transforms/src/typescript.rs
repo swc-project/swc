@@ -136,12 +136,17 @@ impl Fold<Constructor> for Strip {
                     ),
                     _ => unreachable!("destructuring pattern inside TsParameterProperty"),
                 };
-                stmts.push(Stmt::Expr(box Expr::Assign(AssignExpr {
-                    span: DUMMY_SP,
-                    left: PatOrExpr::Expr(box ThisExpr { span: DUMMY_SP }.member(ident.clone())),
-                    op: op!("="),
-                    right: box Expr::Ident(ident),
-                })));
+                stmts.push(
+                    AssignExpr {
+                        span: DUMMY_SP,
+                        left: PatOrExpr::Expr(
+                            box ThisExpr { span: DUMMY_SP }.member(ident.clone()),
+                        ),
+                        op: op!("="),
+                        right: box Expr::Ident(ident),
+                    }
+                    .into_stmt(),
+                );
 
                 PatOrTsParamProp::Pat(param)
             }
@@ -361,7 +366,7 @@ impl Strip {
     fn handle_enum(&mut self, e: TsEnumDecl, stmts: &mut Vec<ModuleItem>) {
         let id = e.id;
         stmts.push(
-            Stmt::Expr(box Expr::Call(CallExpr {
+            CallExpr {
                 span: DUMMY_SP,
                 callee: FnExpr {
                     ident: None,
@@ -389,7 +394,7 @@ impl Strip {
                                     };
 
                                     // Foo[Foo["a"] = 0] = "a";
-                                    Stmt::Expr(box Expr::Assign(AssignExpr {
+                                    AssignExpr {
                                         span: DUMMY_SP,
                                         left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
                                             obj: id.clone().as_obj(),
@@ -422,7 +427,8 @@ impl Strip {
                                             value: value.value,
                                             has_escape: false,
                                         })),
-                                    }))
+                                    }
+                                    .into_stmt()
                                 })
                                 .collect(),
                         }),
@@ -446,7 +452,8 @@ impl Strip {
                 }
                 .as_arg()],
                 type_args: Default::default(),
-            }))
+            }
+            .into_stmt()
             .into(),
         )
     }

@@ -354,29 +354,32 @@ impl ClassProperties {
                     let callee = helper!(define_property, "defineProperty");
 
                     if prop.is_static {
-                        extra_stmts.push(Stmt::Expr(box Expr::Call(CallExpr {
-                            span: DUMMY_SP,
-                            callee,
-                            args: vec![
-                                ident.clone().as_arg(),
-                                key,
-                                value
-                                    .fold_with(&mut SuperFieldAccessFolder {
-                                        class_name: &ident,
-                                        vars: &mut vars,
-                                        constructor_this_mark: None,
-                                        is_static: true,
-                                        folding_constructor: false,
-                                        in_injected_define_property_call: false,
-                                        in_nested_scope: false,
-                                        this_alias_mark: None,
-                                    })
-                                    .fold_with(&mut ThisInStaticFolder {
-                                        ident: ident.clone(),
-                                    }),
-                            ],
-                            type_args: Default::default(),
-                        })))
+                        extra_stmts.push(
+                            CallExpr {
+                                span: DUMMY_SP,
+                                callee,
+                                args: vec![
+                                    ident.clone().as_arg(),
+                                    key,
+                                    value
+                                        .fold_with(&mut SuperFieldAccessFolder {
+                                            class_name: &ident,
+                                            vars: &mut vars,
+                                            constructor_this_mark: None,
+                                            is_static: true,
+                                            folding_constructor: false,
+                                            in_injected_define_property_call: false,
+                                            in_nested_scope: false,
+                                            this_alias_mark: None,
+                                        })
+                                        .fold_with(&mut ThisInStaticFolder {
+                                            ident: ident.clone(),
+                                        }),
+                                ],
+                                type_args: Default::default(),
+                            }
+                            .into_stmt(),
+                        )
                     } else {
                         constructor_exprs.push(box Expr::Call(CallExpr {
                             span: DUMMY_SP,

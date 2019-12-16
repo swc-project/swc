@@ -7,95 +7,103 @@
   },
   "body": [
     {
-      "type": "NewExpression",
+      "type": "ExpressionStatement",
       "span": {
         "start": 0,
         "end": 12,
         "ctxt": 0
       },
-      "callee": {
-        "type": "TaggedTemplateExpression",
+      "expression": {
+        "type": "NewExpression",
         "span": {
-          "start": 10,
+          "start": 0,
           "end": 12,
           "ctxt": 0
         },
-        "tag": {
-          "type": "Identifier",
+        "callee": {
+          "type": "TaggedTemplateExpression",
           "span": {
-            "start": 4,
-            "end": 5,
+            "start": 10,
+            "end": 12,
             "ctxt": 0
           },
-          "value": "C",
-          "typeAnnotation": null,
-          "optional": false
-        },
-        "expressions": [],
-        "quasis": [
-          {
-            "type": "TemplateElement",
+          "tag": {
+            "type": "Identifier",
             "span": {
-              "start": 11,
-              "end": 11,
+              "start": 4,
+              "end": 5,
               "ctxt": 0
             },
-            "tail": true,
-            "cooked": {
-              "type": "StringLiteral",
-              "span": {
-                "start": 11,
-                "end": 11,
-                "ctxt": 0
-              },
-              "value": "",
-              "hasEscape": false
-            },
-            "raw": {
-              "type": "StringLiteral",
-              "span": {
-                "start": 11,
-                "end": 11,
-                "ctxt": 0
-              },
-              "value": "",
-              "hasEscape": false
-            }
-          }
-        ],
-        "typeParameters": {
-          "type": "TsTypeParameterInstantiation",
-          "span": {
-            "start": 5,
-            "end": 8,
-            "ctxt": 0
+            "value": "C",
+            "typeAnnotation": null,
+            "optional": false
           },
-          "params": [
+          "expressions": [],
+          "quasis": [
             {
-              "type": "TsTypeReference",
+              "type": "TemplateElement",
               "span": {
-                "start": 6,
-                "end": 7,
+                "start": 11,
+                "end": 11,
                 "ctxt": 0
               },
-              "typeName": {
-                "type": "Identifier",
+              "tail": true,
+              "cooked": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 11,
+                  "end": 11,
+                  "ctxt": 0
+                },
+                "value": "",
+                "hasEscape": false
+              },
+              "raw": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 11,
+                  "end": 11,
+                  "ctxt": 0
+                },
+                "value": "",
+                "hasEscape": false
+              }
+            }
+          ],
+          "typeParameters": {
+            "type": "TsTypeParameterInstantiation",
+            "span": {
+              "start": 5,
+              "end": 8,
+              "ctxt": 0
+            },
+            "params": [
+              {
+                "type": "TsTypeReference",
                 "span": {
                   "start": 6,
                   "end": 7,
                   "ctxt": 0
                 },
-                "value": "T",
-                "typeAnnotation": null,
-                "optional": false
-              },
-              "typeParams": null
-            }
-          ]
-        }
-      },
-      "arguments": null,
-      "typeArguments": null
+                "typeName": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 6,
+                    "end": 7,
+                    "ctxt": 0
+                  },
+                  "value": "T",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "typeParams": null
+              }
+            ]
+          }
+        },
+        "arguments": null,
+        "typeArguments": null
+      }
     }
   ],
   "interpreter": null

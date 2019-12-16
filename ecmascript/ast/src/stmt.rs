@@ -78,8 +78,15 @@ pub enum Stmt {
     #[tag("TsModuleDeclaration")]
     Decl(Decl),
 
-    #[tag("*")]
-    Expr(Box<Expr>),
+    #[tag("ExpressionStatement")]
+    Expr(ExprStmt),
+}
+
+#[ast_node("ExpressionStatement")]
+pub struct ExprStmt {
+    pub span: Span,
+    #[serde(rename = "expression")]
+    pub expr: Box<Expr>,
 }
 
 #[ast_node("EmptyStatement")]

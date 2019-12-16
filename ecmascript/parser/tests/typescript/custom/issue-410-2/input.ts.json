@@ -7,26 +7,34 @@
   },
   "body": [
     {
-      "type": "ArrowFunctionExpression",
+      "type": "ExpressionStatement",
       "span": {
-        "start": 6,
-        "end": 14,
+        "start": 0,
+        "end": 15,
         "ctxt": 0
       },
-      "params": [],
-      "body": {
-        "type": "BlockStatement",
+      "expression": {
+        "type": "ArrowFunctionExpression",
         "span": {
-          "start": 12,
+          "start": 6,
           "end": 14,
           "ctxt": 0
         },
-        "stmts": []
-      },
-      "async": true,
-      "generator": false,
-      "typeParameters": null,
-      "returnType": null
+        "params": [],
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 12,
+            "end": 14,
+            "ctxt": 0
+          },
+          "stmts": []
+        },
+        "async": true,
+        "generator": false,
+        "typeParameters": null,
+        "returnType": null
+      }
     }
   ],
   "interpreter": null

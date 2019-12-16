@@ -7,64 +7,72 @@
   },
   "body": [
     {
-      "type": "JSXElement",
+      "type": "ExpressionStatement",
       "span": {
         "start": 0,
         "end": 9,
         "ctxt": 0
       },
-      "opening": {
-        "type": "JSXOpeningElement",
-        "name": {
-          "type": "Identifier",
-          "span": {
-            "start": 1,
-            "end": 2,
-            "ctxt": 0
-          },
-          "value": "a",
-          "typeAnnotation": null,
-          "optional": false
-        },
+      "expression": {
+        "type": "JSXElement",
         "span": {
-          "start": 1,
-          "end": 3,
-          "ctxt": 0
-        },
-        "attributes": [],
-        "selfClosing": false,
-        "typeArguments": null
-      },
-      "children": [
-        {
-          "type": "JSXExpressionContainer",
-          "expression": {
-            "type": "JSXEmptyExpression",
-            "span": {
-              "start": 4,
-              "end": 4,
-              "ctxt": 0
-            }
-          }
-        }
-      ],
-      "closing": {
-        "type": "JSXClosingElement",
-        "span": {
-          "start": 7,
+          "start": 0,
           "end": 9,
           "ctxt": 0
         },
-        "name": {
-          "type": "Identifier",
+        "opening": {
+          "type": "JSXOpeningElement",
+          "name": {
+            "type": "Identifier",
+            "span": {
+              "start": 1,
+              "end": 2,
+              "ctxt": 0
+            },
+            "value": "a",
+            "typeAnnotation": null,
+            "optional": false
+          },
           "span": {
-            "start": 7,
-            "end": 8,
+            "start": 1,
+            "end": 3,
             "ctxt": 0
           },
-          "value": "a",
-          "typeAnnotation": null,
-          "optional": false
+          "attributes": [],
+          "selfClosing": false,
+          "typeArguments": null
+        },
+        "children": [
+          {
+            "type": "JSXExpressionContainer",
+            "expression": {
+              "type": "JSXEmptyExpression",
+              "span": {
+                "start": 4,
+                "end": 4,
+                "ctxt": 0
+              }
+            }
+          }
+        ],
+        "closing": {
+          "type": "JSXClosingElement",
+          "span": {
+            "start": 7,
+            "end": 9,
+            "ctxt": 0
+          },
+          "name": {
+            "type": "Identifier",
+            "span": {
+              "start": 7,
+              "end": 8,
+              "ctxt": 0
+            },
+            "value": "a",
+            "typeAnnotation": null,
+            "optional": false
+          }
         }
       }
     }

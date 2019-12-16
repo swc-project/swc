@@ -7,122 +7,138 @@
   },
   "body": [
     {
-      "type": "JSXElement",
+      "type": "ExpressionStatement",
       "span": {
         "start": 0,
-        "end": 15,
+        "end": 16,
         "ctxt": 0
       },
-      "opening": {
-        "type": "JSXOpeningElement",
-        "name": {
-          "type": "Identifier",
-          "span": {
-            "start": 1,
-            "end": 2,
-            "ctxt": 0
-          },
-          "value": "C",
-          "typeAnnotation": null,
-          "optional": false
-        },
+      "expression": {
+        "type": "JSXElement",
         "span": {
-          "start": 1,
-          "end": 11,
-          "ctxt": 0
-        },
-        "attributes": [],
-        "selfClosing": false,
-        "typeArguments": {
-          "type": "TsTypeParameterInstantiation",
-          "span": {
-            "start": 2,
-            "end": 10,
-            "ctxt": 0
-          },
-          "params": [
-            {
-              "type": "TsKeywordType",
-              "span": {
-                "start": 3,
-                "end": 9,
-                "ctxt": 0
-              },
-              "kind": "number"
-            }
-          ]
-        }
-      },
-      "children": [],
-      "closing": {
-        "type": "JSXClosingElement",
-        "span": {
-          "start": 13,
+          "start": 0,
           "end": 15,
           "ctxt": 0
         },
-        "name": {
-          "type": "Identifier",
+        "opening": {
+          "type": "JSXOpeningElement",
+          "name": {
+            "type": "Identifier",
+            "span": {
+              "start": 1,
+              "end": 2,
+              "ctxt": 0
+            },
+            "value": "C",
+            "typeAnnotation": null,
+            "optional": false
+          },
           "span": {
-            "start": 13,
-            "end": 14,
+            "start": 1,
+            "end": 11,
             "ctxt": 0
           },
-          "value": "C",
-          "typeAnnotation": null,
-          "optional": false
+          "attributes": [],
+          "selfClosing": false,
+          "typeArguments": {
+            "type": "TsTypeParameterInstantiation",
+            "span": {
+              "start": 2,
+              "end": 10,
+              "ctxt": 0
+            },
+            "params": [
+              {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 3,
+                  "end": 9,
+                  "ctxt": 0
+                },
+                "kind": "number"
+              }
+            ]
+          }
+        },
+        "children": [],
+        "closing": {
+          "type": "JSXClosingElement",
+          "span": {
+            "start": 13,
+            "end": 15,
+            "ctxt": 0
+          },
+          "name": {
+            "type": "Identifier",
+            "span": {
+              "start": 13,
+              "end": 14,
+              "ctxt": 0
+            },
+            "value": "C",
+            "typeAnnotation": null,
+            "optional": false
+          }
         }
       }
     },
     {
-      "type": "JSXElement",
+      "type": "ExpressionStatement",
       "span": {
         "start": 18,
-        "end": 30,
+        "end": 31,
         "ctxt": 0
       },
-      "opening": {
-        "type": "JSXOpeningElement",
-        "name": {
-          "type": "Identifier",
-          "span": {
-            "start": 19,
-            "end": 20,
-            "ctxt": 0
-          },
-          "value": "C",
-          "typeAnnotation": null,
-          "optional": false
-        },
+      "expression": {
+        "type": "JSXElement",
         "span": {
-          "start": 19,
+          "start": 18,
           "end": 30,
           "ctxt": 0
         },
-        "attributes": [],
-        "selfClosing": true,
-        "typeArguments": {
-          "type": "TsTypeParameterInstantiation",
+        "opening": {
+          "type": "JSXOpeningElement",
+          "name": {
+            "type": "Identifier",
+            "span": {
+              "start": 19,
+              "end": 20,
+              "ctxt": 0
+            },
+            "value": "C",
+            "typeAnnotation": null,
+            "optional": false
+          },
           "span": {
-            "start": 20,
-            "end": 28,
+            "start": 19,
+            "end": 30,
             "ctxt": 0
           },
-          "params": [
-            {
-              "type": "TsKeywordType",
-              "span": {
-                "start": 21,
-                "end": 27,
-                "ctxt": 0
-              },
-              "kind": "number"
-            }
-          ]
-        }
-      },
-      "children": [],
-      "closing": null
+          "attributes": [],
+          "selfClosing": true,
+          "typeArguments": {
+            "type": "TsTypeParameterInstantiation",
+            "span": {
+              "start": 20,
+              "end": 28,
+              "ctxt": 0
+            },
+            "params": [
+              {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 21,
+                  "end": 27,
+                  "ctxt": 0
+                },
+                "kind": "number"
+              }
+            ]
+          }
+        },
+        "children": [],
+        "closing": null
+      }
     }
   ],
   "interpreter": null

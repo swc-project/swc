@@ -14,15 +14,13 @@ use crate::{
     token::*,
     Context, JscTarget, Session, Syntax,
 };
-
 use smallvec::{smallvec, SmallVec};
 use std::{char, iter::FusedIterator};
-use swc_atoms::JsWord;
+use swc_atoms::{js_word, JsWord};
 use swc_common::{
     comments::{Comment, Comments},
     BytePos, Span,
 };
-use swc_ecma_ast::Str;
 
 pub mod input;
 mod jsx;
@@ -830,21 +828,12 @@ impl<'a, I: Input> Lexer<'a, I> {
         // Need to use `read_word` because '\uXXXX' sequences are allowed
         // here (don't ask).
         let flags_start = self.cur_pos();
-        let flags = self.may_read_word_as_str()?.map(|(value, has_escape)| Str {
-            span: Span::new(flags_start, self.cur_pos(), Default::default()),
-            value,
-            has_escape,
-        });
+        let flags = self
+            .may_read_word_as_str()?
+            .map(|(value, _)| value)
+            .unwrap_or(js_word!(""));
 
-        Ok(Regex(
-            Str {
-                span: content_span,
-                value: content.into(),
-                // TODO
-                has_escape: false,
-            },
-            flags,
-        ))
+        Ok(Regex(content.into(), flags))
     }
 
     fn read_shebang(&mut self) -> LexResult<Option<JsWord>> {

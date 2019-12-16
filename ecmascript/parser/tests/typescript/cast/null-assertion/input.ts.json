@@ -7,22 +7,30 @@
   },
   "body": [
     {
-      "type": "TsNonNullExpression",
+      "type": "ExpressionStatement",
       "span": {
         "start": 0,
-        "end": 2,
+        "end": 3,
         "ctxt": 0
       },
       "expression": {
-        "type": "Identifier",
+        "type": "TsNonNullExpression",
         "span": {
           "start": 0,
-          "end": 1,
+          "end": 2,
           "ctxt": 0
         },
-        "value": "x",
-        "typeAnnotation": null,
-        "optional": false
+        "expression": {
+          "type": "Identifier",
+          "span": {
+            "start": 0,
+            "end": 1,
+            "ctxt": 0
+          },
+          "value": "x",
+          "typeAnnotation": null,
+          "optional": false
+        }
       }
     }
   ],

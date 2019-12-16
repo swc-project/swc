@@ -274,7 +274,10 @@ impl Classes {
         let cnt_of_non_directive = stmts
             .iter()
             .filter(|stmt| match stmt {
-                Stmt::Expr(box Expr::Lit(Lit::Str(..))) => false,
+                Stmt::Expr(ExprStmt {
+                    expr: box Expr::Lit(Lit::Str(..)),
+                    ..
+                }) => false,
                 _ => true,
             })
             .count();
@@ -383,15 +386,18 @@ impl Classes {
         if let Some(ref super_class_ident) = super_class_ident {
             // inject helper methods
 
-            stmts.push(Stmt::Expr(box Expr::Call(CallExpr {
-                span: DUMMY_SP,
-                callee: helper!(inherits, "inherits"),
-                args: vec![
-                    class_name.clone().as_arg(),
-                    super_class_ident.clone().as_arg(),
-                ],
-                type_args: Default::default(),
-            })));
+            stmts.push(
+                CallExpr {
+                    span: DUMMY_SP,
+                    callee: helper!(inherits, "inherits"),
+                    args: vec![
+                        class_name.clone().as_arg(),
+                        super_class_ident.clone().as_arg(),
+                    ],
+                    type_args: Default::default(),
+                }
+                .into_stmt(),
+            );
         }
 
         // Marker for `_this`
@@ -546,11 +552,12 @@ impl Classes {
         if stmts.first().map(|v| !v.is_use_strict()).unwrap_or(false) && !self.in_strict {
             prepend(
                 &mut stmts,
-                Stmt::Expr(box Expr::Lit(Lit::Str(Str {
+                Lit::Str(Str {
                     span: DUMMY_SP,
                     value: "use strict".into(),
                     has_escape: false,
-                }))),
+                })
+                .into_stmt(),
             );
 
             if is_named && stmts.len() == 2 {
@@ -562,7 +569,10 @@ impl Classes {
             && stmts
                 .iter()
                 .filter(|stmt| match stmt {
-                    Stmt::Expr(box Expr::Lit(Lit::Str(..))) => false,
+                    Stmt::Expr(ExprStmt {
+                        expr: box Expr::Lit(Lit::Str(..)),
+                        ..
+                    }) => false,
                     _ => true,
                 })
                 .count()
@@ -702,7 +712,7 @@ impl Classes {
             methods: ExprOrSpread,
             static_methods: Option<ExprOrSpread>,
         ) -> Stmt {
-            Stmt::Expr(box Expr::Call(CallExpr {
+            CallExpr {
                 span: DUMMY_SP,
                 callee: helper!(create_class, "createClass"),
                 args: iter::once(class_name.as_arg())
@@ -710,7 +720,8 @@ impl Classes {
                     .chain(static_methods)
                     .collect(),
                 type_args: Default::default(),
-            }))
+            }
+            .into_stmt()
         }
 
         let (mut props, mut static_props) = (IndexMap::default(), IndexMap::default());
@@ -830,7 +841,7 @@ fn get_prototype_of(obj: Expr) -> Expr {
 }
 
 fn inject_class_call_check(c: &mut Vec<Stmt>, name: Ident) {
-    let class_call_check = Stmt::Expr(box Expr::Call(CallExpr {
+    let class_call_check = CallExpr {
         span: DUMMY_SP,
         callee: helper!(class_call_check, "classCallCheck"),
         args: vec![
@@ -838,7 +849,8 @@ fn inject_class_call_check(c: &mut Vec<Stmt>, name: Ident) {
             Expr::Ident(name).as_arg(),
         ],
         type_args: Default::default(),
-    }));
+    }
+    .into_stmt();
 
     prepend(c, class_call_check)
 }
@@ -859,10 +871,14 @@ fn is_always_initialized(body: &[Stmt]) -> bool {
     }
 
     let pos = match body.iter().position(|s| match s {
-        Stmt::Expr(box Expr::Call(CallExpr {
-            callee: ExprOrSuper::Super(..),
+        Stmt::Expr(ExprStmt {
+            expr:
+                box Expr::Call(CallExpr {
+                    callee: ExprOrSuper::Super(..),
+                    ..
+                }),
             ..
-        })) => true,
+        }) => true,
         _ => false,
     }) {
         Some(pos) => pos,

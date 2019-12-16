@@ -1,5 +1,6 @@
 (function() {
     var a = 1;
-    a;
+    a; // 'i' should remain (dynamic)
+
     eval('');
 }());

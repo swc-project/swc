@@ -7,66 +7,74 @@
   },
   "body": [
     {
-      "type": "ArrowFunctionExpression",
+      "type": "ExpressionStatement",
       "span": {
         "start": 0,
-        "end": 16,
+        "end": 17,
         "ctxt": 0
       },
-      "params": [
-        {
-          "type": "ObjectPattern",
-          "span": {
-            "start": 1,
-            "end": 10,
-            "ctxt": 0
-          },
-          "properties": [
-            {
-              "type": "AssignmentPatternProperty",
-              "span": {
-                "start": 3,
-                "end": 8,
-                "ctxt": 0
-              },
-              "key": {
-                "type": "Identifier",
-                "span": {
-                  "start": 3,
-                  "end": 4,
-                  "ctxt": 0
-                },
-                "value": "a",
-                "typeAnnotation": null,
-                "optional": false
-              },
-              "value": {
-                "type": "NumericLiteral",
-                "span": {
-                  "start": 7,
-                  "end": 8,
-                  "ctxt": 0
-                },
-                "value": 0.0
-              }
-            }
-          ],
-          "typeAnnotation": null
-        }
-      ],
-      "body": {
-        "type": "NumericLiteral",
+      "expression": {
+        "type": "ArrowFunctionExpression",
         "span": {
-          "start": 15,
+          "start": 0,
           "end": 16,
           "ctxt": 0
         },
-        "value": 0.0
-      },
-      "async": false,
-      "generator": false,
-      "typeParameters": null,
-      "returnType": null
+        "params": [
+          {
+            "type": "ObjectPattern",
+            "span": {
+              "start": 1,
+              "end": 10,
+              "ctxt": 0
+            },
+            "properties": [
+              {
+                "type": "AssignmentPatternProperty",
+                "span": {
+                  "start": 3,
+                  "end": 8,
+                  "ctxt": 0
+                },
+                "key": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 3,
+                    "end": 4,
+                    "ctxt": 0
+                  },
+                  "value": "a",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "value": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 7,
+                    "end": 8,
+                    "ctxt": 0
+                  },
+                  "value": 0.0
+                }
+              }
+            ],
+            "typeAnnotation": null
+          }
+        ],
+        "body": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 15,
+            "end": 16,
+            "ctxt": 0
+          },
+          "value": 0.0
+        },
+        "async": false,
+        "generator": false,
+        "typeParameters": null,
+        "returnType": null
+      }
     }
   ],
   "interpreter": null

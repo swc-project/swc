@@ -78,71 +78,79 @@
         },
         "stmts": [
           {
-            "type": "CallExpression",
+            "type": "ExpressionStatement",
             "span": {
               "start": 25,
-              "end": 36,
+              "end": 37,
               "ctxt": 0
             },
-            "callee": {
-              "type": "ParenthesisExpression",
+            "expression": {
+              "type": "CallExpression",
               "span": {
                 "start": 25,
-                "end": 33,
+                "end": 36,
                 "ctxt": 0
               },
-              "expression": {
-                "type": "ArrowFunctionExpression",
+              "callee": {
+                "type": "ParenthesisExpression",
                 "span": {
-                  "start": 26,
+                  "start": 25,
                   "end": 33,
                   "ctxt": 0
                 },
-                "params": [
-                  {
+                "expression": {
+                  "type": "ArrowFunctionExpression",
+                  "span": {
+                    "start": 26,
+                    "end": 33,
+                    "ctxt": 0
+                  },
+                  "params": [
+                    {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 26,
+                        "end": 27,
+                        "ctxt": 0
+                      },
+                      "value": "x",
+                      "typeAnnotation": null,
+                      "optional": false
+                    }
+                  ],
+                  "body": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 31,
+                      "end": 32,
+                      "ctxt": 0
+                    },
+                    "value": 0.0
+                  },
+                  "async": false,
+                  "generator": false,
+                  "typeParameters": null,
+                  "returnType": null
+                }
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
                     "type": "Identifier",
                     "span": {
-                      "start": 26,
-                      "end": 27,
+                      "start": 34,
+                      "end": 35,
                       "ctxt": 0
                     },
                     "value": "x",
                     "typeAnnotation": null,
                     "optional": false
                   }
-                ],
-                "body": {
-                  "type": "NumericLiteral",
-                  "span": {
-                    "start": 31,
-                    "end": 32,
-                    "ctxt": 0
-                  },
-                  "value": 0.0
-                },
-                "async": false,
-                "generator": false,
-                "typeParameters": null,
-                "returnType": null
-              }
-            },
-            "arguments": [
-              {
-                "spread": null,
-                "expression": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 34,
-                    "end": 35,
-                    "ctxt": 0
-                  },
-                  "value": "x",
-                  "typeAnnotation": null,
-                  "optional": false
                 }
-              }
-            ],
-            "typeArguments": null
+              ],
+              "typeArguments": null
+            }
           }
         ]
       }

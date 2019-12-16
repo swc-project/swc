@@ -1,4 +1,4 @@
-use crate::util::prepend_stmts;
+use crate::util::{prepend_stmts, ExprFactory};
 use ast::*;
 use std::iter;
 use swc_common::{Fold, FoldWith, DUMMY_SP};
@@ -16,7 +16,7 @@ pub(crate) fn inject_after_super(mut c: Constructor, exprs: Vec<Box<Expr>>) -> C
         // there was no super() call
         prepend_stmts(
             &mut c.body.as_mut().unwrap().stmts,
-            exprs.into_iter().map(Stmt::Expr),
+            exprs.into_iter().map(|v| v.into_stmt()),
         );
     }
     c
@@ -36,13 +36,17 @@ impl<'a> Fold<Vec<Stmt>> for Injector<'a> {
         let mut buf = Vec::with_capacity(stmts.len() + 8);
 
         stmts.into_iter().for_each(|stmt| match stmt {
-            Stmt::Expr(box Expr::Call(CallExpr {
-                callee: ExprOrSuper::Super(..),
+            Stmt::Expr(ExprStmt {
+                expr:
+                    box Expr::Call(CallExpr {
+                        callee: ExprOrSuper::Super(..),
+                        ..
+                    }),
                 ..
-            })) => {
+            }) => {
                 self.injected = true;
                 buf.push(stmt);
-                buf.extend(self.exprs.iter().cloned().map(Stmt::Expr));
+                buf.extend(self.exprs.iter().cloned().map(|v| v.into_stmt()));
             }
             _ => {
                 let mut folder = Injector {

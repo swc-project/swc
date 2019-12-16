@@ -104,12 +104,13 @@ macro_rules! impl_for_for_stmt {
                             let left_ident = make_ref_ident_for_for_stmt();
                             let left = VarDeclOrPat::Pat(Pat::Ident(left_ident.clone()));
                             // Unpack variables
-                            let stmt = Stmt::Expr(box Expr::Assign(AssignExpr {
+                            let stmt = AssignExpr {
                                 span: DUMMY_SP,
                                 left: PatOrExpr::Pat(box pat),
                                 op: op!("="),
                                 right: box left_ident.into(),
-                            }));
+                            }
+                            .into_stmt();
                             (left, stmt)
                         }
                     },

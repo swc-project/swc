@@ -131,7 +131,7 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                                 &mut stmts
                             };
 
-                            append_to.push(ModuleItem::Stmt(Stmt::Expr(box Expr::Assign(
+                            append_to.push(
                                 AssignExpr {
                                     span: DUMMY_SP,
                                     left: PatOrExpr::Expr(
@@ -139,8 +139,10 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                                     ),
                                     op: op!("="),
                                     right: box ident.into(),
-                                },
-                            ))));
+                                }
+                                .into_stmt()
+                                .into(),
+                            );
                         }
                         ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
                             decl: Decl::Var(var),
@@ -167,16 +169,18 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                                         .push((ident.sym.clone(), ident.span.ctxt()));
                                     init_export!(ident.sym);
 
-                                    extra_stmts.push(ModuleItem::Stmt(Stmt::Expr(
-                                        box Expr::Assign(AssignExpr {
+                                    extra_stmts.push(
+                                        AssignExpr {
                                             span: DUMMY_SP,
                                             left: PatOrExpr::Expr(
                                                 box quote_ident!("exports").member(ident.clone()),
                                             ),
                                             op: op!("="),
                                             right: box ident.into(),
-                                        }),
-                                    )));
+                                        }
+                                        .into_stmt()
+                                        .into(),
+                                    );
                                 }
                             }
                         }
@@ -199,8 +203,8 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                                         },
                                     ))));
 
-                                    extra_stmts.push(ModuleItem::Stmt(Stmt::Expr(
-                                        box Expr::Assign(AssignExpr {
+                                    extra_stmts.push(
+                                        AssignExpr {
                                             span: DUMMY_SP,
                                             left: PatOrExpr::Expr(member_expr!(
                                                 DUMMY_SP,
@@ -208,8 +212,10 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                                             )),
                                             op: op!("="),
                                             right: box ident.into(),
-                                        }),
-                                    )));
+                                        }
+                                        .into_stmt()
+                                        .into(),
+                                    );
                                 }
                                 DefaultDecl::Fn(FnExpr { ident, function }) => {
                                     // init_export!("default");
@@ -225,8 +231,8 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                                         .fold_with(self),
                                     ))));
 
-                                    extra_stmts.push(ModuleItem::Stmt(Stmt::Expr(
-                                        box Expr::Assign(AssignExpr {
+                                    extra_stmts.push(
+                                        AssignExpr {
                                             span: DUMMY_SP,
                                             left: PatOrExpr::Expr(member_expr!(
                                                 DUMMY_SP,
@@ -234,8 +240,10 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                                             )),
                                             op: op!("="),
                                             right: box ident.into(),
-                                        }),
-                                    )));
+                                        }
+                                        .into_stmt()
+                                        .into(),
+                                    );
                                 }
                                 _ => extra_stmts.push(
                                     ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(decl))
@@ -262,14 +270,16 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                                 }],
                                 declare: false,
                             }))));
-                            extra_stmts.push(ModuleItem::Stmt(Stmt::Expr(box Expr::Assign(
+                            extra_stmts.push(
                                 AssignExpr {
                                     span: DUMMY_SP,
                                     left: PatOrExpr::Expr(member_expr!(DUMMY_SP, exports.default)),
                                     op: op!("="),
                                     right: box ident.into(),
-                                },
-                            ))));
+                                }
+                                .into_stmt()
+                                .into(),
+                            );
                         }
 
                         // export { foo } from 'foo';
@@ -374,8 +384,8 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                                         .unwrap_or_else(|| orig.sym.clone());
                                     init_export!(exported_symbol);
 
-                                    extra_stmts.push(ModuleItem::Stmt(Stmt::Expr(
-                                        box Expr::Assign(AssignExpr {
+                                    extra_stmts.push(
+                                        AssignExpr {
                                             span: DUMMY_SP,
                                             left: PatOrExpr::Expr(
                                                 box quote_ident!("exports")
@@ -383,11 +393,13 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                                             ),
                                             op: op!("="),
                                             right: value,
-                                        }),
-                                    )));
+                                        }
+                                        .into_stmt()
+                                        .into(),
+                                    );
                                 } else {
-                                    stmts.push(ModuleItem::Stmt(Stmt::Expr(box define_property(
-                                        vec![
+                                    stmts.push(
+                                        define_property(vec![
                                             quote_ident!("exports").as_arg(),
                                             {
                                                 // export { foo }
@@ -399,8 +411,10 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                                                 Lit::Str(quote_str!(i.span, i.sym)).as_arg()
                                             },
                                             make_descriptor(value).as_arg(),
-                                        ],
-                                    ))));
+                                        ])
+                                        .into_stmt()
+                                        .into(),
+                                    );
                                 }
                             }
                         }
@@ -465,10 +479,11 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
         }
 
         if !initialized.is_empty() {
-            stmts.push(ModuleItem::Stmt(Stmt::Expr(initialize_to_undefined(
-                quote_ident!("exports"),
-                initialized,
-            ))));
+            stmts.push(
+                initialize_to_undefined(quote_ident!("exports"), initialized)
+                    .into_stmt()
+                    .into(),
+            );
         }
 
         for (src, import) in self.scope.imports.drain(..) {
@@ -531,7 +546,7 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                                             declare: false,
                                         })),
                                         // foo = function() { return data; };
-                                        Stmt::Expr(box Expr::Assign(AssignExpr {
+                                        AssignExpr {
                                             span: DUMMY_SP,
                                             left: PatOrExpr::Pat(box Pat::Ident(ident)),
                                             op: op!("="),
@@ -552,7 +567,8 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                                                 },
                                             }
                                             .into(),
-                                        })),
+                                        }
+                                        .into_stmt(),
                                         // return data
                                         return_data,
                                     ],
@@ -578,7 +594,7 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                     }
                 }
                 None => {
-                    stmts.push(ModuleItem::Stmt(Stmt::Expr(box require)));
+                    stmts.push(require.into_stmt().into());
                 }
             }
         }

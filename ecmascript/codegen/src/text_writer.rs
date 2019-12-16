@@ -30,6 +30,7 @@ pub trait WriteJs {
     fn write_comment(&mut self, span: Span, s: &str) -> Result;
 
     fn write_str_lit(&mut self, span: Span, s: &str) -> Result;
+    fn write_str(&mut self, s: &str) -> Result;
 
     fn write_symbol(&mut self, span: Span, s: &str) -> Result;
 
@@ -76,6 +77,9 @@ where
 
     fn write_str_lit(&mut self, span: Span, s: &str) -> Result {
         (**self).write_str_lit(span, s)
+    }
+    fn write_str(&mut self, s: &str) -> Result {
+        (**self).write_str(s)
     }
 
     fn write_symbol(&mut self, span: Span, s: &str) -> Result {

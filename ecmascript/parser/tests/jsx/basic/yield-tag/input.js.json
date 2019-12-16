@@ -36,63 +36,71 @@
         },
         "stmts": [
           {
-            "type": "YieldExpression",
+            "type": "ExpressionStatement",
             "span": {
               "start": 20,
-              "end": 33,
+              "end": 34,
               "ctxt": 0
             },
-            "argument": {
-              "type": "JSXElement",
+            "expression": {
+              "type": "YieldExpression",
               "span": {
-                "start": 26,
+                "start": 20,
                 "end": 33,
                 "ctxt": 0
               },
-              "opening": {
-                "type": "JSXOpeningElement",
-                "name": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 27,
-                    "end": 28,
-                    "ctxt": 0
-                  },
-                  "value": "a",
-                  "typeAnnotation": null,
-                  "optional": false
-                },
+              "argument": {
+                "type": "JSXElement",
                 "span": {
-                  "start": 27,
-                  "end": 29,
-                  "ctxt": 0
-                },
-                "attributes": [],
-                "selfClosing": false,
-                "typeArguments": null
-              },
-              "children": [],
-              "closing": {
-                "type": "JSXClosingElement",
-                "span": {
-                  "start": 31,
+                  "start": 26,
                   "end": 33,
                   "ctxt": 0
                 },
-                "name": {
-                  "type": "Identifier",
+                "opening": {
+                  "type": "JSXOpeningElement",
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 27,
+                      "end": 28,
+                      "ctxt": 0
+                    },
+                    "value": "a",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
                   "span": {
-                    "start": 31,
-                    "end": 32,
+                    "start": 27,
+                    "end": 29,
                     "ctxt": 0
                   },
-                  "value": "a",
-                  "typeAnnotation": null,
-                  "optional": false
+                  "attributes": [],
+                  "selfClosing": false,
+                  "typeArguments": null
+                },
+                "children": [],
+                "closing": {
+                  "type": "JSXClosingElement",
+                  "span": {
+                    "start": 31,
+                    "end": 33,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 31,
+                      "end": 32,
+                      "ctxt": 0
+                    },
+                    "value": "a",
+                    "typeAnnotation": null,
+                    "optional": false
+                  }
                 }
-              }
-            },
-            "delegate": false
+              },
+              "delegate": false
+            }
           }
         ]
       },

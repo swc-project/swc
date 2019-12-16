@@ -69,36 +69,44 @@
             ]
           },
           {
-            "type": "JSXElement",
+            "type": "ExpressionStatement",
             "span": {
               "start": 27,
               "end": 34,
               "ctxt": 0
             },
-            "opening": {
-              "type": "JSXOpeningElement",
-              "name": {
-                "type": "Identifier",
-                "span": {
-                  "start": 28,
-                  "end": 31,
-                  "ctxt": 0
-                },
-                "value": "div",
-                "typeAnnotation": null,
-                "optional": false
-              },
+            "expression": {
+              "type": "JSXElement",
               "span": {
-                "start": 28,
+                "start": 27,
                 "end": 34,
                 "ctxt": 0
               },
-              "attributes": [],
-              "selfClosing": true,
-              "typeArguments": null
-            },
-            "children": [],
-            "closing": null
+              "opening": {
+                "type": "JSXOpeningElement",
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 28,
+                    "end": 31,
+                    "ctxt": 0
+                  },
+                  "value": "div",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "span": {
+                  "start": 28,
+                  "end": 34,
+                  "ctxt": 0
+                },
+                "attributes": [],
+                "selfClosing": true,
+                "typeArguments": null
+              },
+              "children": [],
+              "closing": null
+            }
           }
         ]
       },

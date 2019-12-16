@@ -42,7 +42,7 @@ fn expr(s: &'static str) -> Box<Expr> {
     test_parser(s, syntax(), |p| {
         p.parse_stmt(true)
             .map(|stmt| match stmt {
-                Stmt::Expr(expr) => expr,
+                Stmt::Expr(expr) => expr.expr,
                 _ => unreachable!(),
             })
             .map_err(|mut e| {
@@ -356,19 +356,22 @@ fn issue_328() {
                 })
             }
         ),
-        Stmt::Expr(box Expr::Call(CallExpr {
+        Stmt::Expr(ExprStmt {
             span,
-            callee: ExprOrSuper::Expr(box Expr::Ident(Ident::new("import".into(), span))),
-            args: vec![ExprOrSpread {
-                spread: None,
-                expr: box Expr::Lit(Lit::Str(Str {
-                    span,
-                    value: "test".into(),
-                    has_escape: false
-                }))
-            }],
-            type_args: Default::default(),
-        }))
+            expr: box Expr::Call(CallExpr {
+                span,
+                callee: ExprOrSuper::Expr(box Expr::Ident(Ident::new("import".into(), span))),
+                args: vec![ExprOrSpread {
+                    spread: None,
+                    expr: box Expr::Lit(Lit::Str(Str {
+                        span,
+                        value: "test".into(),
+                        has_escape: false
+                    }))
+                }],
+                type_args: Default::default(),
+            })
+        })
     );
 }
 

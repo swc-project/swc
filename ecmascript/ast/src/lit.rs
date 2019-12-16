@@ -59,13 +59,11 @@ pub struct Regex {
     pub span: Span,
 
     #[serde(rename = "pattern")]
-    pub exp: Str,
+    pub exp: JsWord,
 
     #[serde(default)]
-    pub flags: Option<RegexFlags>,
+    pub flags: JsWord,
 }
-
-pub type RegexFlags = Str;
 
 #[ast_node("NumericLiteral")]
 #[derive(Copy)]

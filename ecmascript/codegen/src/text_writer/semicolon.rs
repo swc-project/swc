@@ -51,6 +51,7 @@ impl<W: WriteJs> WriteJs for OmitTrailingSemi<W> {
     with_semi!(write_line());
     with_semi!(write_lit(span: Span, s: &str));
     with_semi!(write_str_lit(span: Span, s: &str));
+    with_semi!(write_str(s: &str));
     with_semi!(write_symbol(span: Span, s: &str));
     with_semi!(write_punct(s: &'static str));
 }

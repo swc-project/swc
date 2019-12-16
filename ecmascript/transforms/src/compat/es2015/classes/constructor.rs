@@ -18,10 +18,14 @@ impl SuperCallFinder {
     /// - `Some(Assign)`: `_this = ...`
     pub fn find(node: &Vec<Stmt>) -> Option<SuperFoldingMode> {
         match node.last() {
-            Some(Stmt::Expr(box Expr::Call(CallExpr {
-                callee: ExprOrSuper::Super(..),
+            Some(Stmt::Expr(ExprStmt {
+                expr:
+                    box Expr::Call(CallExpr {
+                        callee: ExprOrSuper::Super(..),
+                        ..
+                    }),
                 ..
-            }))) => return None,
+            })) => return None,
             _ => {}
         }
 
@@ -162,11 +166,15 @@ impl<'a> Fold<Stmt> for ConstructorFolder<'a> {
         let stmt = stmt.fold_children(self);
 
         match stmt {
-            Stmt::Expr(box Expr::Call(CallExpr {
-                callee: ExprOrSuper::Super(..),
-                args,
+            Stmt::Expr(ExprStmt {
+                expr:
+                    box Expr::Call(CallExpr {
+                        callee: ExprOrSuper::Super(..),
+                        args,
+                        ..
+                    }),
                 ..
-            })) => {
+            }) => {
                 let expr = make_possible_return_value(ReturningMode::Prototype {
                     is_constructor_default: self.is_constructor_default,
                     class_name: self.class_name.clone(),
@@ -174,7 +182,7 @@ impl<'a> Fold<Stmt> for ConstructorFolder<'a> {
                 });
 
                 match self.mode {
-                    Some(SuperFoldingMode::Assign) => Stmt::Expr(box Expr::Assign(AssignExpr {
+                    Some(SuperFoldingMode::Assign) => AssignExpr {
                         span: DUMMY_SP,
                         left: PatOrExpr::Pat(box Pat::Ident(quote_ident!(
                             DUMMY_SP.apply_mark(self.mark),
@@ -182,7 +190,8 @@ impl<'a> Fold<Stmt> for ConstructorFolder<'a> {
                         ))),
                         op: op!("="),
                         right: box expr,
-                    })),
+                    }
+                    .into_stmt(),
                     Some(SuperFoldingMode::Var) => Stmt::Decl(Decl::Var(VarDecl {
                         span: DUMMY_SP,
                         declare: false,

@@ -4,5 +4,6 @@
     } finally{
         b();
     }
-    c();
+    c(); // This should be removed.
+
 }());

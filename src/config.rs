@@ -4,14 +4,14 @@ use chashmap::CHashMap;
 use common::{errors::Handler, FileName, SourceMap};
 pub use ecmascript::parser::JscTarget;
 use ecmascript::{
-    ast::{Expr, ModuleItem, Program, Stmt},
+    ast::{Expr, ExprStmt, ModuleItem, Program, Stmt},
     parser::{lexer::Lexer, Parser, Session as ParseSess, SourceFileInput, Syntax},
     transforms::{
         chain_at, const_modules, modules,
-        optimization::JsonParse,
+        optimization::{simplifier, InlineGlobals, JsonParse},
         pass::{noop, Optional, Pass},
         proposals::{class_properties, decorators, export},
-        react, resolver, simplifier, typescript, InlineGlobals,
+        react, resolver, typescript,
     },
 };
 use hashbrown::{HashMap, HashSet};
@@ -556,7 +556,7 @@ impl GlobalPassOption {
                     });
 
                 let expr = match module.body.pop() {
-                    Some(ModuleItem::Stmt(Stmt::Expr(box expr))) => expr,
+                    Some(ModuleItem::Stmt(Stmt::Expr(ExprStmt { box expr, .. }))) => expr,
                     _ => panic!("{} is not a valid expression", v_str),
                 };
 

@@ -266,7 +266,7 @@ impl Decorators {
                         span: DUMMY_SP,
                         stmts: if super_class_ident.is_some() {
                             vec![
-                                Stmt::Expr(box Expr::Call(CallExpr {
+                                CallExpr {
                                     span: DUMMY_SP,
                                     callee: ExprOrSuper::Super(Super { span: DUMMY_SP }),
                                     args: vec![ExprOrSpread {
@@ -274,11 +274,12 @@ impl Decorators {
                                         expr: box Expr::Ident(quote_ident!("args")),
                                     }],
                                     type_args: Default::default(),
-                                })),
-                                Stmt::Expr(initialize_call),
+                                }
+                                .into_stmt(),
+                                initialize_call.into_stmt(),
                             ]
                         } else {
-                            vec![Stmt::Expr(initialize_call)]
+                            vec![initialize_call.into_stmt()]
                         },
                     }),
                 }),
@@ -505,9 +506,7 @@ impl Decorators {
                             span: DUMMY_SP,
                             stmts: if !self.is_in_strict {
                                 // 'use strict';
-                                Some(Stmt::Expr(box Expr::Lit(Lit::Str(quote_str!(
-                                    "use strict"
-                                )))))
+                                Some(Lit::Str(quote_str!("use strict")).into_stmt())
                             } else {
                                 None
                             }

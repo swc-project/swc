@@ -3,5 +3,6 @@
         throw 'a';
     } catch (b) {
     }
-    c();
+    c(); // This must not be removed.
+
 }());
