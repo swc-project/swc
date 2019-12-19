@@ -145,6 +145,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     fn parse_export(&mut self, decorators: Vec<Decorator>) -> PResult<'a, ModuleDecl> {
         let start = cur_pos!();
         assert_and_bump!("export");
+        let _ = cur!(true);
 
         // "export declare" is equivalent to just "export".
         let declare = self.input.syntax().typescript() && eat!("declare");
@@ -240,6 +241,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 if is!("abstract") && peeked_is!("class") {
                     let start = cur_pos!();
                     assert_and_bump!("abstract");
+                    let _ = cur!(true);
+
                     let mut class = self.parse_default_class(decorators)?;
                     match class {
                         ExportDefaultDecl {
@@ -299,6 +302,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         } else if self.input.syntax().typescript() && is!("const") && peeked_is!("enum") {
             let start = cur_pos!();
             assert_and_bump!("const");
+            let _ = cur!(true);
             assert_and_bump!("enum");
             return self
                 .parse_ts_enum_decl(start, /* is_const */ true)

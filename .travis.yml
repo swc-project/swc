@@ -27,16 +27,11 @@ before_install:
 
 install:
   - cargo test --no-run --color always --all --all-features
-  - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then rm -rf ~/.nvm ; fi
-  - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then git clone https://github.com/creationix/nvm.git ~/.nvm ; fi
-  - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then source ~/.nvm/nvm.sh ; fi
-  - nvm install 11.6.0
-  - nvm use 11.6.0
-  - npm i -g jest
 
 script:
-  - RUST_BACKTRACE=full cargo check --color always --all --all-features --all-targets
+  - cargo check --color always --all --all-features --all-targets
   - RUST_BACKTRACE=full cargo test --color always --all --all-features
+  - (cd ecmascript/parser && RUST_BACKTRACE=full cargo test --release --color always --all --all-features)
 
 before_deploy:
   - CARGO_TARGET_DIR=$HOME/cargo-target cargo doc --color always

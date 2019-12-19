@@ -1897,7 +1897,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         start: BytePos,
         decorators: Vec<Decorator>,
     ) -> PResult<'a, Option<Decl>> {
-        debug_assert!(
+        assert!(
             !is!("declare"),
             "try_parse_ts_declare should be called after eating `declare`"
         );
@@ -1923,6 +1923,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
             if is!("const") && peeked_is!("enum") {
                 assert_and_bump!("const");
+                let _ = cur!(true);
                 assert_and_bump!("enum");
 
                 return p
