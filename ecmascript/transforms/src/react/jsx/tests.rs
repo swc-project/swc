@@ -1097,7 +1097,7 @@ test!(
     issue_517,
     "import React from 'react';
 
-<div style='white-space: pre'>Hello World </div>;",
+<div style='white-space: pre'>Hello World</div>;",
     "'use strict';
 var _react = _interopRequireDefault(require('react'));
 _react.default.createElement('div', {
