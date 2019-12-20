@@ -1080,3 +1080,27 @@ test!(
     "<span> {foo}</span>;",
     "React.createElement('span', null, ' ', foo);"
 );
+
+// https://github.com/swc-project/swc/issues/517
+test!(
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |_| chain!(
+        tr(Options {
+            use_builtins: true,
+            ..Default::default()
+        }),
+        common_js(Default::default())
+    ),
+    issue_517,
+    "import React from 'react';
+
+<div style='white-space: pre'>Hello World </div>;",
+    "'use strict';
+var _react = _interopRequireDefault(require('react'));
+_react.default.createElement('div', {
+    style: 'white-space: pre'
+}, 'Hello World');"
+);
