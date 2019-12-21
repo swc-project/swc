@@ -9,10 +9,11 @@ use crate::{
 use ast::*;
 use chashmap::CHashMap;
 use lazy_static::lazy_static;
+use regex::Regex;
 use serde::{Deserialize, Serialize};
 use std::{iter, mem, sync::Arc};
 use swc_atoms::{js_word, JsWord};
-use swc_common::{FileName, Fold, FoldWith, Spanned, DUMMY_SP};
+use swc_common::{iter::IdentifyLast, FileName, Fold, FoldWith, Spanned, DUMMY_SP};
 use swc_ecma_parser::{Parser, SourceFileInput, Syntax};
 
 #[cfg(test)]
@@ -393,6 +394,11 @@ fn to_prop_name(n: JSXAttrName) -> PropName {
 }
 
 fn jsx_text_to_str(t: JsWord) -> JsWord {
+    lazy_static! {
+        static ref SPACE_NL_START: Regex = { Regex::new("^\\s*\n\\s*").unwrap() };
+        static ref SPACE_NL_END: Regex = { Regex::new("\\s*\n\\s*$").unwrap() };
+    };
+
     if t == *" " {
         return t;
     }
@@ -400,9 +406,20 @@ fn jsx_text_to_str(t: JsWord) -> JsWord {
         return t;
     }
 
+    let s = SPACE_NL_START.replace_all(&t, "");
+    let s = SPACE_NL_END.replace_all(&s, "");
+    let need_space = s.ends_with(' ');
+
     let mut buf = String::from("");
-    for s in t.replace("\n", " ").split_ascii_whitespace() {
+
+    for (last, s) in s.split_ascii_whitespace().identify_last() {
         buf.push_str(s);
+        if !last {
+            buf.push(' ');
+        }
+    }
+
+    if need_space && !buf.ends_with(' ') {
         buf.push(' ');
     }
 
