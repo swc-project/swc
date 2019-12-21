@@ -21,6 +21,7 @@ pub mod errors;
 #[cfg(feature = "fold")]
 pub mod fold;
 pub mod input;
+pub mod iter;
 pub mod macros;
 mod pos;
 mod rustc_data_structures;

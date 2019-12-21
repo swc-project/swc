@@ -12,7 +12,7 @@ use lazy_static::lazy_static;
 use serde::{Deserialize, Serialize};
 use std::{iter, mem, sync::Arc};
 use swc_atoms::{js_word, JsWord};
-use swc_common::{FileName, Fold, FoldWith, Spanned, DUMMY_SP};
+use swc_common::{iter::IdentifyLast, FileName, Fold, FoldWith, Spanned, DUMMY_SP};
 use swc_ecma_parser::{Parser, SourceFileInput, Syntax};
 
 #[cfg(test)]
@@ -400,9 +400,22 @@ fn jsx_text_to_str(t: JsWord) -> JsWord {
         return t;
     }
 
+    let need_space = t.ends_with(' ') || t.ends_with('\n');
+
     let mut buf = String::from("");
-    for s in t.replace("\n", " ").split_ascii_whitespace() {
+
+    for (last, s) in t
+        .replace("\n", " ")
+        .split_ascii_whitespace()
+        .identify_last()
+    {
         buf.push_str(s);
+        if !last {
+            buf.push(' ');
+        }
+    }
+
+    if need_space && !buf.ends_with(' ') {
         buf.push(' ');
     }
 

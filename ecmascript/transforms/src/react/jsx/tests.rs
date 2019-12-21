@@ -85,8 +85,9 @@ var x =
   </div>
   "#,
     r#"
-var x = React.createElement("div", null, "foo ", "bar", "baz ",
-    React.createElement("div", null, "buz bang "), "qux ", null, "quack ");
+var x = React.createElement("div", null, "foo", "bar", "baz",
+    React.createElement("div", null, "buz bang"), "qux", null, "quack"
+);
 "#
 );
 
@@ -262,7 +263,7 @@ test!(
   Press Cmd+R to reload
 </Text>
 "#,
-    r#"React.createElement(Text, null, "To get started, edit index.ios.js!!! ", "\n", "Press Cmd+R to reload ");"#
+    r#"React.createElement(Text, null, "To get started, edit index.ios.js!!!", "\n", "Press Cmd+R to reload");"#
 );
 
 test!(
@@ -681,11 +682,11 @@ test!(
     r#"
 React.createElement("div", null, "wow");
 React.createElement("div", null, "w\xF4w");
-React.createElement("div", null, "w & w ");
-React.createElement("div", null, "w & w ");
-React.createElement("div", null, "w \xA0 w ");
+React.createElement("div", null, "w & w");
+React.createElement("div", null, "w & w");
+React.createElement("div", null, "w \xA0 w");
 React.createElement("div", null, "this should parse as unicode: ", '\u00a0 ');
-React.createElement("div", null, "w < w ");
+React.createElement("div", null, "w < w");
 "#,
     ok_if_code_eq
 );
@@ -701,7 +702,7 @@ test!(
 <div>this should not parse as unicode: \u00a0</div>;
 "#,
     r#"
-React.createElement("div", null, "this should not parse as unicode: \\u00a0 ");
+React.createElement("div", null, "this should not parse as unicode: \\u00a0");
 "#,
     ok_if_code_eq
 );
@@ -751,7 +752,7 @@ var HelloMessage = React.createClass({
   displayName: "HelloMessage",
 });
 React.render(React.createElement(HelloMessage, {
-  name: React.createElement("span", null, "Sebastian ")
+  name: React.createElement("span", null, "Sebastian")
 }), mountNode);
 "#
 );
@@ -869,7 +870,7 @@ test!(
     |_| tr(Default::default()),
     react_should_not_strip_nbsp_even_coupled_with_other_whitespace,
     r#"<div>&nbsp; </div>;"#,
-    r#"React.createElement("div", null, "\xA0 ");"#,
+    r#"React.createElement("div", null, "\xA0");"#,
     ok_if_code_eq
 );
 
@@ -1080,3 +1081,33 @@ test!(
     "<span> {foo}</span>;",
     "React.createElement('span', null, ' ', foo);"
 );
+
+// https://github.com/swc-project/swc/issues/517
+test!(
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |_| chain!(
+        tr(Options {
+            use_builtins: true,
+            ..Default::default()
+        }),
+        common_js(Default::default())
+    ),
+    issue_517,
+    "import React from 'react';
+<div style='white-space: pre'>Hello World</div>;",
+    "'use strict';
+var _react = _interopRequireDefault(require('react'));
+_react.default.createElement('div', {
+    style: 'white-space: pre'
+}, 'Hello World');"
+);
+
+#[test]
+fn jsx_text() {
+    assert_eq!(jsx_text_to_str(" ".into()), *" ");
+    assert_eq!(jsx_text_to_str("Hello world".into()), *"Hello world");
+    //    assert_eq!(jsx_text_to_str(" \n".into()), *" ");
+}
