@@ -2,7 +2,7 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 33,
+    "end": 32,
     "ctxt": 0
   },
   "body": [
@@ -63,15 +63,15 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 14,
-        "end": 33,
+        "start": 13,
+        "end": 32,
         "ctxt": 0
       },
       "expression": {
         "type": "JSXElement",
         "span": {
-          "start": 14,
-          "end": 33,
+          "start": 13,
+          "end": 32,
           "ctxt": 0
         },
         "opening": {
@@ -81,8 +81,8 @@
             "namespace": {
               "type": "Identifier",
               "span": {
-                "start": 15,
-                "end": 18,
+                "start": 14,
+                "end": 17,
                 "ctxt": 0
               },
               "value": "Foo",
@@ -92,8 +92,8 @@
             "name": {
               "type": "Identifier",
               "span": {
-                "start": 19,
-                "end": 22,
+                "start": 18,
+                "end": 21,
                 "ctxt": 0
               },
               "value": "Bar",
@@ -102,8 +102,8 @@
             }
           },
           "span": {
-            "start": 15,
-            "end": 23,
+            "start": 14,
+            "end": 22,
             "ctxt": 0
           },
           "attributes": [],
@@ -114,8 +114,8 @@
         "closing": {
           "type": "JSXClosingElement",
           "span": {
-            "start": 25,
-            "end": 33,
+            "start": 24,
+            "end": 32,
             "ctxt": 0
           },
           "name": {
@@ -123,8 +123,8 @@
             "namespace": {
               "type": "Identifier",
               "span": {
-                "start": 25,
-                "end": 28,
+                "start": 24,
+                "end": 27,
                 "ctxt": 0
               },
               "value": "Foo",
@@ -134,8 +134,8 @@
             "name": {
               "type": "Identifier",
               "span": {
-                "start": 29,
-                "end": 32,
+                "start": 28,
+                "end": 31,
                 "ctxt": 0
               },
               "value": "Bar",
