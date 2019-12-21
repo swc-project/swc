@@ -9,6 +9,7 @@ use crate::{
 use ast::*;
 use chashmap::CHashMap;
 use lazy_static::lazy_static;
+use regex::Regex;
 use serde::{Deserialize, Serialize};
 use std::{iter, mem, sync::Arc};
 use swc_atoms::{js_word, JsWord};
@@ -393,6 +394,11 @@ fn to_prop_name(n: JSXAttrName) -> PropName {
 }
 
 fn jsx_text_to_str(t: JsWord) -> JsWord {
+    lazy_static! {
+        static ref SPACE_NL_START: Regex = { Regex::new("^\\s*\n\\s*").unwrap() };
+        static ref SPACE_NL_END: Regex = { Regex::new("\\s*\n\\s*$").unwrap() };
+    };
+
     if t == *" " {
         return t;
     }
@@ -400,15 +406,13 @@ fn jsx_text_to_str(t: JsWord) -> JsWord {
         return t;
     }
 
-    let need_space = t.ends_with(' ') || t.ends_with('\n');
+    let s = SPACE_NL_START.replace_all(&t, "");
+    let s = SPACE_NL_END.replace_all(&s, "");
+    let need_space = s.ends_with(' ');
 
     let mut buf = String::from("");
 
-    for (last, s) in t
-        .replace("\n", " ")
-        .split_ascii_whitespace()
-        .identify_last()
-    {
+    for (last, s) in s.split_ascii_whitespace().identify_last() {
         buf.push_str(s);
         if !last {
             buf.push(' ');
