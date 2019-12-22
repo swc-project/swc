@@ -4,12 +4,13 @@
 //! See https://tc39.github.io/ecma262/#sec-literals-numeric-literals
 use super::*;
 use crate::error::SyntaxError;
+use either::Either;
 use log::trace;
 use std::{fmt::Write, iter::FusedIterator};
 
 impl<'a, I: Input> Lexer<'a, I> {
     /// Reads an integer, octal integer, or floating-point number
-    pub(super) fn read_number(&mut self, starts_with_dot: bool) -> LexResult<f64> {
+    pub(super) fn read_number(&mut self, starts_with_dot: bool) -> LexResult<Either<f64, JsWord>> {
         debug_assert!(self.cur().is_some());
         if starts_with_dot {
             debug_assert_eq!(
@@ -27,7 +28,11 @@ impl<'a, I: Input> Lexer<'a, I> {
             0f64
         } else {
             // Use read_number_no_dot to support long numbers.
-            let val = self.read_number_no_dot(10)?;
+            let (val, s) = self.read_number_no_dot_as_str(10)?;
+            if self.input.cur() == Some('n') {
+                self.input.bump();
+                return Ok(Either::Right(s));
+            }
             if starts_with_zero {
                 // TODO: I guess it would be okay if I don't use -ffast-math
                 // (or something like that), but needs review.
@@ -42,7 +47,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                     if start.0 != self.last_pos().0 - 1 {
                         // `-1` is utf 8 length of `0`
 
-                        return self.make_legacy_octal(start, 0f64);
+                        return self.make_legacy_octal(start, 0f64).map(Either::Left);
                     }
                 } else {
                     // strict mode hates non-zero decimals starting with zero.
@@ -64,7 +69,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                                 .to_string()
                                 .parse()
                                 .expect("failed to parse numeric value as f64");
-                            return self.make_legacy_octal(start, val);
+                            return self.make_legacy_octal(start, val).map(Either::Left);
                         }
                     }
                 }
@@ -132,10 +137,11 @@ impl<'a, I: Input> Lexer<'a, I> {
 
         self.ensure_not_ident()?;
 
-        Ok(val)
+        Ok(Either::Left(val))
     }
 
-    pub(super) fn read_radix_number(&mut self, radix: u8) -> LexResult<f64> {
+    /// Returns `Left(value)` or `Right(BigInt)`
+    pub(super) fn read_radix_number(&mut self, radix: u8) -> LexResult<Either<f64, JsWord>> {
         debug_assert!(
             radix == 2 || radix == 8 || radix == 16,
             "radix should be one of 2, 8, 16, but got {}",
@@ -146,10 +152,15 @@ impl<'a, I: Input> Lexer<'a, I> {
         self.bump(); // 0
         self.bump(); // x
 
-        let val = self.read_number_no_dot(radix)?;
+        let (val, s) = self.read_number_no_dot_as_str(radix)?;
+        if self.cur() == Some('n') {
+            self.input.bump();
+            return Ok(Either::Right(s));
+        }
+
         self.ensure_not_ident()?;
 
-        Ok(val)
+        Ok(Either::Left(val))
     }
 
     /// This can read long integers like
@@ -178,6 +189,37 @@ impl<'a, I: Input> Lexer<'a, I> {
             self.error(start, SyntaxError::ExpectedDigit { radix })?;
         }
         res
+    }
+
+    /// This can read long integers like
+    /// "13612536612375123612312312312312312312312".
+    fn read_number_no_dot_as_str(&mut self, radix: u8) -> LexResult<(f64, JsWord)> {
+        debug_assert!(
+            radix == 2 || radix == 8 || radix == 10 || radix == 16,
+            "radix for read_number_no_dot should be one of 2, 8, 10, 16, but got {}",
+            radix
+        );
+        let start = self.cur_pos();
+
+        let mut read_any = false;
+
+        let mut raw = Raw(Some(String::new()));
+
+        let val = self.read_digits(
+            radix,
+            |total, radix, v| {
+                read_any = true;
+                (f64::mul_add(total, radix as f64, v as f64), true)
+            },
+            &mut raw,
+            true,
+        )?;
+
+        if !read_any {
+            self.error(start, SyntaxError::ExpectedDigit { radix })?;
+        }
+
+        Ok((val, raw.0.take().unwrap().into()))
     }
 
     /// Ensure that ident cannot directly follow numbers.
@@ -412,7 +454,9 @@ mod tests {
     }
 
     fn num(s: &'static str) -> f64 {
-        lex(s, |l| l.read_number(s.starts_with('.')).unwrap())
+        lex(s, |l| {
+            l.read_number(s.starts_with('.')).unwrap().left().unwrap()
+        })
     }
 
     fn int(radix: u8, s: &'static str) -> u32 {
@@ -475,7 +519,7 @@ mod tests {
     fn read_radix_number() {
         assert_eq!(
             0o73 as f64,
-            lex("0o73", |l| l.read_radix_number(8).unwrap())
+            lex("0o73", |l| l.read_radix_number(8).unwrap().left().unwrap())
         );
     }
 
@@ -485,6 +529,17 @@ mod tests {
         assert_eq!(0xAEBECE, int(16, "AE_BE_CE"));
         assert_eq!(0b1010000110000101, int(2, "1010_0001_1000_0101"));
         assert_eq!(0o0666, int(8, "0_6_6_6"));
+    }
+
+    #[test]
+    fn read_bigint() {
+        assert_eq!(
+            lex(
+                "10000000000000000000000000000000000000000000000000000n",
+                |l| l.read_number(false).unwrap().right().unwrap()
+            ),
+            *"10000000000000000000000000000000000000000000000000000",
+        );
     }
 
     /// Valid even on strict mode.

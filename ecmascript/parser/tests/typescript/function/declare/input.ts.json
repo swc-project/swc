@@ -2,7 +2,7 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 55,
+    "end": 56,
     "ctxt": 0
   },
   "body": [
@@ -54,8 +54,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 45,
-          "end": 46,
+          "start": 46,
+          "end": 47,
           "ctxt": 0
         },
         "value": "f",
@@ -66,8 +66,8 @@
       "params": [],
       "decorators": [],
       "span": {
-        "start": 36,
-        "end": 55,
+        "start": 37,
+        "end": 56,
         "ctxt": 0
       },
       "body": null,
@@ -76,23 +76,23 @@
       "typeParameters": {
         "type": "TsTypeParameterDeclaration",
         "span": {
-          "start": 46,
-          "end": 49,
+          "start": 47,
+          "end": 50,
           "ctxt": 0
         },
         "parameters": [
           {
             "type": "TsTypeParameter",
             "span": {
-              "start": 47,
-              "end": 48,
+              "start": 48,
+              "end": 49,
               "ctxt": 0
             },
             "name": {
               "type": "Identifier",
               "span": {
-                "start": 47,
-                "end": 48,
+                "start": 48,
+                "end": 49,
                 "ctxt": 0
               },
               "value": "T",
@@ -107,22 +107,22 @@
       "returnType": {
         "type": "TsTypeAnnotation",
         "span": {
-          "start": 51,
-          "end": 54,
+          "start": 52,
+          "end": 55,
           "ctxt": 0
         },
         "typeAnnotation": {
           "type": "TsTypeReference",
           "span": {
-            "start": 53,
-            "end": 54,
+            "start": 54,
+            "end": 55,
             "ctxt": 0
           },
           "typeName": {
             "type": "Identifier",
             "span": {
-              "start": 53,
-              "end": 54,
+              "start": 54,
+              "end": 55,
               "ctxt": 0
             },
             "value": "T",

@@ -2,7 +2,7 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 49,
+    "end": 55,
     "ctxt": 0
   },
   "body": [
@@ -10,14 +10,14 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 0,
-        "end": 49,
+        "end": 55,
         "ctxt": 0
       },
       "expression": {
         "type": "JSXFragment",
         "span": {
           "start": 0,
-          "end": 49,
+          "end": 55,
           "ctxt": 0
         },
         "opening": {
@@ -33,24 +33,24 @@
             "type": "JSXText",
             "span": {
               "start": 2,
-              "end": 5,
+              "end": 6,
               "ctxt": 0
             },
-            "value": "\n\n  ",
-            "raw": "\n\n  "
+            "value": "\n\r\n  ",
+            "raw": "\n\r\n  "
           },
           {
             "type": "JSXFragment",
             "span": {
-              "start": 5,
-              "end": 45,
+              "start": 6,
+              "end": 50,
               "ctxt": 0
             },
             "opening": {
               "type": "JSXOpeningFragment",
               "span": {
-                "start": 6,
-                "end": 7,
+                "start": 7,
+                "end": 8,
                 "ctxt": 0
               }
             },
@@ -58,25 +58,25 @@
               {
                 "type": "JSXText",
                 "span": {
-                  "start": 7,
-                  "end": 12,
+                  "start": 8,
+                  "end": 14,
                   "ctxt": 0
                 },
-                "value": "\n\n    ",
-                "raw": "\n\n    "
+                "value": "\n\r\n    ",
+                "raw": "\n\r\n    "
               },
               {
                 "type": "JSXFragment",
                 "span": {
-                  "start": 12,
-                  "end": 39,
+                  "start": 14,
+                  "end": 43,
                   "ctxt": 0
                 },
                 "opening": {
                   "type": "JSXOpeningFragment",
                   "span": {
-                    "start": 13,
-                    "end": 14,
+                    "start": 15,
+                    "end": 16,
                     "ctxt": 0
                   }
                 },
@@ -84,19 +84,19 @@
                   {
                     "type": "JSXText",
                     "span": {
-                      "start": 14,
-                      "end": 36,
+                      "start": 16,
+                      "end": 40,
                       "ctxt": 0
                     },
-                    "value": "\n\n      super deep\n\n    ",
-                    "raw": "\n\n      super deep\n\n    "
+                    "value": "\n\r\n      super deep\n\r\n    ",
+                    "raw": "\n\r\n      super deep\n\r\n    "
                   }
                 ],
                 "closing": {
                   "type": "JSXClosingFragment",
                   "span": {
-                    "start": 38,
-                    "end": 39,
+                    "start": 42,
+                    "end": 43,
                     "ctxt": 0
                   }
                 }
@@ -104,19 +104,19 @@
               {
                 "type": "JSXText",
                 "span": {
-                  "start": 39,
-                  "end": 42,
+                  "start": 43,
+                  "end": 47,
                   "ctxt": 0
                 },
-                "value": "\n\n  ",
-                "raw": "\n\n  "
+                "value": "\n\r\n  ",
+                "raw": "\n\r\n  "
               }
             ],
             "closing": {
               "type": "JSXClosingFragment",
               "span": {
-                "start": 44,
-                "end": 45,
+                "start": 49,
+                "end": 50,
                 "ctxt": 0
               }
             }
@@ -124,19 +124,19 @@
           {
             "type": "JSXText",
             "span": {
-              "start": 45,
-              "end": 46,
+              "start": 50,
+              "end": 52,
               "ctxt": 0
             },
-            "value": "\n\n",
-            "raw": "\n\n"
+            "value": "\n\r\n",
+            "raw": "\n\r\n"
           }
         ],
         "closing": {
           "type": "JSXClosingFragment",
           "span": {
-            "start": 48,
-            "end": 49,
+            "start": 54,
+            "end": 55,
             "ctxt": 0
           }
         }
