@@ -6,11 +6,15 @@ use super::*;
 use crate::error::SyntaxError;
 use either::Either;
 use log::trace;
+use num_bigint::BigInt as BigIntValue;
 use std::{fmt::Write, iter::FusedIterator};
 
 impl<'a, I: Input> Lexer<'a, I> {
     /// Reads an integer, octal integer, or floating-point number
-    pub(super) fn read_number(&mut self, starts_with_dot: bool) -> LexResult<Either<f64, JsWord>> {
+    pub(super) fn read_number(
+        &mut self,
+        starts_with_dot: bool,
+    ) -> LexResult<Either<f64, BigIntValue>> {
         debug_assert!(self.cur().is_some());
         if starts_with_dot {
             debug_assert_eq!(
@@ -141,7 +145,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     }
 
     /// Returns `Left(value)` or `Right(BigInt)`
-    pub(super) fn read_radix_number(&mut self, radix: u8) -> LexResult<Either<f64, JsWord>> {
+    pub(super) fn read_radix_number(&mut self, radix: u8) -> LexResult<Either<f64, BigIntValue>> {
         debug_assert!(
             radix == 2 || radix == 8 || radix == 16,
             "radix should be one of 2, 8, 16, but got {}",
@@ -193,7 +197,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
     /// This can read long integers like
     /// "13612536612375123612312312312312312312312".
-    fn read_number_no_dot_as_str(&mut self, radix: u8) -> LexResult<(f64, JsWord)> {
+    fn read_number_no_dot_as_str(&mut self, radix: u8) -> LexResult<(f64, BigIntValue)> {
         debug_assert!(
             radix == 2 || radix == 8 || radix == 10 || radix == 16,
             "radix for read_number_no_dot should be one of 2, 8, 10, 16, but got {}",
@@ -219,7 +223,11 @@ impl<'a, I: Input> Lexer<'a, I> {
             self.error(start, SyntaxError::ExpectedDigit { radix })?;
         }
 
-        Ok((val, raw.0.take().unwrap().into()))
+        Ok((
+            val,
+            BigIntValue::parse_bytes(&raw.0.take().unwrap().as_bytes(), radix as _)
+                .expect("failed to parse string as a bigint"),
+        ))
     }
 
     /// Ensure that ident cannot directly follow numbers.
@@ -538,7 +546,9 @@ mod tests {
                 "10000000000000000000000000000000000000000000000000000n",
                 |l| l.read_number(false).unwrap().right().unwrap()
             ),
-            *"10000000000000000000000000000000000000000000000000000",
+            "10000000000000000000000000000000000000000000000000000"
+                .parse::<BigIntValue>()
+                .unwrap(),
         );
     }
 

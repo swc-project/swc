@@ -1,4 +1,5 @@
 use crate::jsx::JSXText;
+use num_bigint::BigInt as BigIntValue;
 use std::fmt::{self, Display, Formatter};
 use swc_atoms::JsWord;
 use swc_common::{ast_node, Span};
@@ -30,7 +31,8 @@ pub enum Lit {
 #[ast_node("BigIntLiteral")]
 pub struct BigInt {
     pub span: Span,
-    pub value: JsWord,
+    #[fold(ignore)]
+    pub value: BigIntValue,
 }
 
 #[ast_node("StringLiteral")]

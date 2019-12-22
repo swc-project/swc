@@ -299,7 +299,7 @@ pub trait ExprExt {
                             FpCategory::Nan | FpCategory::Zero => false,
                             _ => true,
                         },
-                        Lit::BigInt(ref v) => v.value.contains(|c: char| match c {
+                        Lit::BigInt(ref v) => v.value.to_string().contains(|c: char| match c {
                             '1'..='9' => true,
                             _ => false,
                         }),

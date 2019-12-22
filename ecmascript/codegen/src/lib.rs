@@ -401,8 +401,8 @@ impl<'a> Emitter<'a> {
     pub fn emit_big_lit(&mut self, v: &BigInt) -> Result {
         self.emit_leading_comments_of_pos(v.span.lo())?;
 
-        self.wr.write_str_lit(v.span, &v.value)?;
-        self.wr.write_str_lit(v.span, "n")?;
+        self.wr.write_lit(v.span, &v.value.to_string())?;
+        self.wr.write_lit(v.span, "n")?;
     }
 
     // pub fn emit_object_binding_pat(&mut self, node: &ObjectPat) -> Result {
