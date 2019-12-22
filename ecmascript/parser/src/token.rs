@@ -124,6 +124,9 @@ pub enum Token {
     #[kind(starts_expr)]
     Num(f64),
 
+    #[kind(starts_expr)]
+    BigInt(JsWord),
+
     JSXName {
         name: JsWord,
     },

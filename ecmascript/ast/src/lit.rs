@@ -17,11 +17,20 @@ pub enum Lit {
     #[tag("NumericLiteral")]
     Num(Number),
 
+    #[tag("BigIntLiteral")]
+    BigInt(BigInt),
+
     #[tag("RegExpLiteral")]
     Regex(Regex),
 
     #[tag("JSXText")]
     JSXText(JSXText),
+}
+
+#[ast_node("BigIntLiteral")]
+pub struct BigInt {
+    pub span: Span,
+    pub value: JsWord,
 }
 
 #[ast_node("StringLiteral")]
