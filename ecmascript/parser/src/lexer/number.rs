@@ -171,6 +171,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                 (f64::mul_add(total, radix as f64, v as f64), true)
             },
             &mut Raw(None),
+            true,
         );
 
         if !read_any {
@@ -204,6 +205,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                 (Some(total), count != len)
             },
             raw,
+            true,
         )?;
         if len != 0 && count != len {
             Ok(None)
@@ -227,6 +229,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                 (Some(total), count != len)
             },
             raw,
+            true,
         )?;
         if len != 0 && count != len {
             Ok(None)
@@ -236,7 +239,13 @@ impl<'a, I: Input> Lexer<'a, I> {
     }
 
     /// `op`- |total, radix, value| -> (total * radix + value, continue)
-    fn read_digits<F, Ret>(&mut self, radix: u8, mut op: F, raw: &mut Raw) -> LexResult<Ret>
+    fn read_digits<F, Ret>(
+        &mut self,
+        radix: u8,
+        mut op: F,
+        raw: &mut Raw,
+        allow_num_separator: bool,
+    ) -> LexResult<Ret>
     where
         F: FnMut(Ret, u8, u32) -> (Ret, bool),
         Ret: Copy + Default,
@@ -252,26 +261,51 @@ impl<'a, I: Input> Lexer<'a, I> {
 
         let mut total: Ret = Default::default();
 
+        let mut prev = None;
         while let Some(c) = self.cur() {
-            if self.syntax.num_sep() {
-                // let prev: char = unimplemented!("prev");
-                // let next = self.input.peek();
+            if allow_num_separator && self.syntax.num_sep() && c == '_' {
+                let is_allowed = |c: Option<char>| {
+                    if c.is_none() {
+                        return false;
+                    }
+                    let c = c.unwrap();
+                    c.is_digit(radix as _)
+                };
+                let is_forbidden = |c: Option<char>| {
+                    if c.is_none() {
+                        return true;
+                    }
 
-                // if c == '_' {
-                //     if !allowed_siblings.contains(&next) {
-                //         unimplemented!("Error(Invalid or unexpected token)");
-                //     }
+                    if radix == 16 {
+                        match c.unwrap() {
+                            '.' | 'X' | '_' | 'x' => true,
+                            _ => false,
+                        }
+                    } else {
+                        match c.unwrap() {
+                            '.' | 'B' | 'E' | 'O' | '_' | 'b' | 'e' | 'o' => true,
+                            _ => false,
+                        }
+                    }
+                };
 
-                // if forbidden_siblings.contains(&prev) ||
-                // forbidden_siblings.contains(&next) ||
-                // Number::is_nan(next)     {
-                //         unimplemented!("Error(Invalid or unexpected token)");
-                //     }
+                let next = self.input.peek();
 
-                //     // Ignore this _ character
-                //     self.input.bump();
-                // }
-                unimplemented!("numeric separator")
+                if !is_allowed(next) {
+                    self.emit_error(
+                        start,
+                        SyntaxError::NumericSeparatorIsAllowedOnlyBetweenTwoDigits,
+                    );
+                } else if is_forbidden(prev) || is_forbidden(next) {
+                    self.emit_error(
+                        start,
+                        SyntaxError::NumericSeparatorIsAllowedOnlyBetweenTwoDigits,
+                    );
+                }
+
+                // Ignore this _ character
+                self.input.bump();
+                continue;
             }
 
             // e.g. (val for a) = 10  where radix = 16
@@ -289,6 +323,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             if !cont {
                 return Ok(total);
             }
+            prev = Some(c);
         }
 
         Ok(total)
@@ -351,6 +386,7 @@ fn digits(value: u64, radix: u64) -> impl Iterator<Item = u64> + Clone + 'static
 #[cfg(test)]
 mod tests {
     use super::{input::SourceFileInput, *};
+    use crate::EsConfig;
     use std::{f64::INFINITY, panic};
 
     fn lex<F, Ret>(s: &'static str, f: F) -> Ret
@@ -358,8 +394,19 @@ mod tests {
         F: FnOnce(&mut Lexer<'_, SourceFileInput<'_>>) -> Ret,
     {
         crate::with_test_sess(s, |sess, fm| {
-            let mut l = Lexer::new(sess, Syntax::default(), Default::default(), fm.into(), None);
-            Ok(f(&mut l))
+            let mut l = Lexer::new(
+                sess,
+                Syntax::Es(EsConfig {
+                    num_sep: true,
+                    ..Default::default()
+                }),
+                Default::default(),
+                fm.into(),
+                None,
+            );
+            let ret = f(&mut l);
+            assert_eq!(l.input.cur(), None);
+            Ok(ret)
         })
         .unwrap()
     }
@@ -380,19 +427,19 @@ mod tests {
                         0000000000000000000000000000000000000000000000000000";
     #[test]
     fn num_inf() {
-        debug_assert_eq!(num(LONG), INFINITY);
+        assert_eq!(num(LONG), INFINITY);
     }
 
     /// Number >= 2^53
     #[test]
     fn num_big_exp() {
-        debug_assert_eq!(1e30, num("1e30"));
+        assert_eq!(1e30, num("1e30"));
     }
 
     #[test]
     #[ignore]
     fn num_big_many_zero() {
-        debug_assert_eq!(
+        assert_eq!(
             1_000_000_000_000_000_000_000_000_000_000f64,
             num("1000000000000000000000000000000")
         )
@@ -400,36 +447,44 @@ mod tests {
 
     #[test]
     fn big_number_with_fract() {
-        debug_assert_eq!(77777777777777777.1f64, num("77777777777777777.1"))
+        assert_eq!(77777777777777777.1f64, num("77777777777777777.1"))
     }
 
     #[test]
     fn issue_480() {
-        debug_assert_eq!(9.09, num("9.09"))
+        assert_eq!(9.09, num("9.09"))
     }
 
     #[test]
     fn num_legacy_octal() {
-        debug_assert_eq!(0o12 as f64, num("0012"));
+        assert_eq!(0o12 as f64, num("0012"));
     }
 
     #[test]
     fn read_int_1() {
-        debug_assert_eq!(60, int(10, "60"));
-        debug_assert_eq!(0o73, int(8, "73"));
+        assert_eq!(60, int(10, "60"));
+        assert_eq!(0o73, int(8, "73"));
     }
 
     #[test]
     fn read_int_short() {
-        debug_assert_eq!(7, int(10, "7"));
+        assert_eq!(7, int(10, "7"));
     }
 
     #[test]
     fn read_radix_number() {
-        debug_assert_eq!(
+        assert_eq!(
             0o73 as f64,
             lex("0o73", |l| l.read_radix_number(8).unwrap())
         );
+    }
+
+    #[test]
+    fn read_num_sep() {
+        assert_eq!(1_000, int(10, "1_000"));
+        assert_eq!(0xAEBECE, int(10, "0xAE_BE_CE"));
+        assert_eq!(0b1010000110000101, int(10, "0b1010_0001_1000_0101"));
+        assert_eq!(0o0666, int(10, "0o0_6_6_6"));
     }
 
     /// Valid even on strict mode.
@@ -469,11 +524,11 @@ mod tests {
                     Ok(vec) => vec,
                     Err(err) => panic::resume_unwind(err),
                 };
-                debug_assert_eq!(vec.len(), 1);
+                assert_eq!(vec.len(), 1);
                 let token = vec.into_iter().next().unwrap();
-                debug_assert_eq!(Num(expected), token);
+                assert_eq!(Num(expected), token);
             } else if let Ok(vec) = vec {
-                debug_assert_ne!(vec![Num(expected)], vec)
+                assert_ne!(vec![Num(expected)], vec)
             }
         }
     }

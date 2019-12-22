@@ -161,6 +161,8 @@ pub enum SyntaxError {
 
     DotsWithoutIdentifier,
 
+    NumericSeparatorIsAllowedOnlyBetweenTwoDigits,
+
     TS1003,
     TS1005,
     TS1009,
@@ -353,8 +355,13 @@ impl<'a> From<ErrorToDiag<'a>> for DiagnosticBuilder<'a> {
                 "`...` must be followed by an identifier in declaration contexts".into()
             }
 
+            NumericSeparatorIsAllowedOnlyBetweenTwoDigits => {
+                "A numeric separator is only allowed between two digits".into()
+            }
+
             TS1056 => "jsc.taraget should be es5 or upper to use getter / setter".into(),
             TS1141 => "literal in an import type should be string literal".into(),
+
             // TODO:
             _ => format!("{:?}", e.error).into(),
         };
