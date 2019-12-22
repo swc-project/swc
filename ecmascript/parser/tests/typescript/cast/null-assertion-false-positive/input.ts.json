@@ -2,7 +2,7 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 4,
+    "end": 5,
     "ctxt": 0
   },
   "body": [
@@ -28,23 +28,23 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 2,
-        "end": 4,
+        "start": 3,
+        "end": 5,
         "ctxt": 0
       },
       "expression": {
         "type": "UnaryExpression",
         "span": {
-          "start": 2,
-          "end": 4,
+          "start": 3,
+          "end": 5,
           "ctxt": 0
         },
         "operator": "!",
         "argument": {
           "type": "Identifier",
           "span": {
-            "start": 3,
-            "end": 4,
+            "start": 4,
+            "end": 5,
             "ctxt": 0
           },
           "value": "b",

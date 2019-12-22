@@ -11,8 +11,8 @@ edition = "2018"
 [dependencies]
 swc_atoms = { version = "0.2.0", path ="../../atoms" }
 swc_common = { version = "0.4.2", path ="../../common" }
-ast = { package = "swc_ecma_ast", version = "0.11.0", path ="../ast" }
-swc_ecma_parser = { version = "0.13", path ="../parser", features = ["verify"] }
+ast = { package = "swc_ecma_ast", version = "0.12.0", path ="../ast" }
+swc_ecma_parser = { version = "0.14", path ="../parser", features = ["verify"] }
 chashmap = "2.2.0"
 either = "1.5"
 fxhash = "0.2"
@@ -31,7 +31,7 @@ smallvec = "1"
 
 [dev-dependencies]
 testing = { version = "0.4", path ="../../testing" }
-swc_ecma_codegen = { version = "0.9.0", path ="../codegen" }
+swc_ecma_codegen = { version = "0.10.0", path ="../codegen" }
 tempfile = "3"
 pretty_assertions = "0.6"
 sourcemap = "4.1.1"

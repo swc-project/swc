@@ -84,6 +84,7 @@ pub enum Expr {
     #[tag("NumericLiteral")]
     #[tag("RegExpLiteral")]
     #[tag("JSXText")]
+    #[tag("BigIntLiteral")]
     Lit(Lit),
 
     #[tag("TemplateLiteral")]

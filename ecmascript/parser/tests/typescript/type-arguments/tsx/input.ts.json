@@ -2,7 +2,7 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 30,
+    "end": 31,
     "ctxt": 0
   },
   "body": [
@@ -85,15 +85,15 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 17,
-        "end": 30,
+        "start": 18,
+        "end": 31,
         "ctxt": 0
       },
       "expression": {
         "type": "JSXElement",
         "span": {
-          "start": 17,
-          "end": 29,
+          "start": 18,
+          "end": 30,
           "ctxt": 0
         },
         "opening": {
@@ -101,8 +101,8 @@
           "name": {
             "type": "Identifier",
             "span": {
-              "start": 18,
-              "end": 19,
+              "start": 19,
+              "end": 20,
               "ctxt": 0
             },
             "value": "C",
@@ -110,8 +110,8 @@
             "optional": false
           },
           "span": {
-            "start": 18,
-            "end": 29,
+            "start": 19,
+            "end": 30,
             "ctxt": 0
           },
           "attributes": [],
@@ -119,16 +119,16 @@
           "typeArguments": {
             "type": "TsTypeParameterInstantiation",
             "span": {
-              "start": 19,
-              "end": 27,
+              "start": 20,
+              "end": 28,
               "ctxt": 0
             },
             "params": [
               {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 20,
-                  "end": 26,
+                  "start": 21,
+                  "end": 27,
                   "ctxt": 0
                 },
                 "kind": "number"

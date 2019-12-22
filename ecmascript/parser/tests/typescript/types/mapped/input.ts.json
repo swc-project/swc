@@ -2,7 +2,7 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 180,
+    "end": 183,
     "ctxt": 0
   },
   "body": [
@@ -97,8 +97,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 37,
-        "end": 83,
+        "start": 38,
+        "end": 84,
         "ctxt": 0
       },
       "kind": "let",
@@ -107,45 +107,45 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 41,
-            "end": 82,
+            "start": 42,
+            "end": 83,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 41,
-              "end": 44,
+              "start": 42,
+              "end": 45,
               "ctxt": 0
             },
             "value": "map",
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 44,
-                "end": 82,
+                "start": 45,
+                "end": 83,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsMappedType",
                 "span": {
-                  "start": 46,
-                  "end": 82,
+                  "start": 47,
+                  "end": 83,
                   "ctxt": 0
                 },
                 "readonly": true,
                 "typeParam": {
                   "type": "TsTypeParameter",
                   "span": {
-                    "start": 58,
-                    "end": 69,
+                    "start": 59,
+                    "end": 70,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "Identifier",
                     "span": {
-                      "start": 58,
-                      "end": 59,
+                      "start": 59,
+                      "end": 60,
                       "ctxt": 0
                     },
                     "value": "P",
@@ -155,8 +155,8 @@
                   "constraint": {
                     "type": "TsKeywordType",
                     "span": {
-                      "start": 63,
-                      "end": 69,
+                      "start": 64,
+                      "end": 70,
                       "ctxt": 0
                     },
                     "kind": "string"
@@ -167,8 +167,8 @@
                 "typeAnnotation": {
                   "type": "TsKeywordType",
                   "span": {
-                    "start": 73,
-                    "end": 79,
+                    "start": 74,
+                    "end": 80,
                     "ctxt": 0
                   },
                   "kind": "number"
@@ -185,8 +185,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 84,
-        "end": 132,
+        "start": 86,
+        "end": 134,
         "ctxt": 0
       },
       "kind": "let",
@@ -195,45 +195,45 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 88,
-            "end": 131,
+            "start": 90,
+            "end": 133,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 88,
-              "end": 91,
+              "start": 90,
+              "end": 93,
               "ctxt": 0
             },
             "value": "map",
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 91,
-                "end": 131,
+                "start": 93,
+                "end": 133,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsMappedType",
                 "span": {
-                  "start": 93,
-                  "end": 131,
+                  "start": 95,
+                  "end": 133,
                   "ctxt": 0
                 },
                 "readonly": "+",
                 "typeParam": {
                   "type": "TsTypeParameter",
                   "span": {
-                    "start": 106,
-                    "end": 117,
+                    "start": 108,
+                    "end": 119,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "Identifier",
                     "span": {
-                      "start": 106,
-                      "end": 107,
+                      "start": 108,
+                      "end": 109,
                       "ctxt": 0
                     },
                     "value": "P",
@@ -243,8 +243,8 @@
                   "constraint": {
                     "type": "TsKeywordType",
                     "span": {
-                      "start": 111,
-                      "end": 117,
+                      "start": 113,
+                      "end": 119,
                       "ctxt": 0
                     },
                     "kind": "string"
@@ -255,8 +255,8 @@
                 "typeAnnotation": {
                   "type": "TsKeywordType",
                   "span": {
-                    "start": 122,
-                    "end": 128,
+                    "start": 124,
+                    "end": 130,
                     "ctxt": 0
                   },
                   "kind": "number"
@@ -273,8 +273,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 133,
-        "end": 180,
+        "start": 136,
+        "end": 183,
         "ctxt": 0
       },
       "kind": "let",
@@ -283,45 +283,45 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 137,
-            "end": 179,
+            "start": 140,
+            "end": 182,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 137,
-              "end": 140,
+              "start": 140,
+              "end": 143,
               "ctxt": 0
             },
             "value": "map",
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 140,
-                "end": 179,
+                "start": 143,
+                "end": 182,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsMappedType",
                 "span": {
-                  "start": 142,
-                  "end": 179,
+                  "start": 145,
+                  "end": 182,
                   "ctxt": 0
                 },
                 "readonly": "-",
                 "typeParam": {
                   "type": "TsTypeParameter",
                   "span": {
-                    "start": 155,
-                    "end": 166,
+                    "start": 158,
+                    "end": 169,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "Identifier",
                     "span": {
-                      "start": 155,
-                      "end": 156,
+                      "start": 158,
+                      "end": 159,
                       "ctxt": 0
                     },
                     "value": "P",
@@ -331,8 +331,8 @@
                   "constraint": {
                     "type": "TsKeywordType",
                     "span": {
-                      "start": 160,
-                      "end": 166,
+                      "start": 163,
+                      "end": 169,
                       "ctxt": 0
                     },
                     "kind": "string"
@@ -343,8 +343,8 @@
                 "typeAnnotation": {
                   "type": "TsKeywordType",
                   "span": {
-                    "start": 171,
-                    "end": 177,
+                    "start": 174,
+                    "end": 180,
                     "ctxt": 0
                   },
                   "kind": "number"

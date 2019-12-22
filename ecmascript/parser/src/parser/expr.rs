@@ -254,6 +254,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
             | Ok(&tok!("true"))
             | Ok(&tok!("false"))
             | Ok(&Token::Num(..))
+            | Ok(&Token::BigInt(..))
             | Ok(Token::Str { .. }) => true,
             _ => false,
         } {
@@ -1378,6 +1379,13 @@ impl<'a, I: Tokens> Parser<'a, I> {
             },
             Token::Num(..) => match bump!() {
                 Token::Num(value) => Lit::Num(Number {
+                    span: span!(start),
+                    value,
+                }),
+                _ => unreachable!(),
+            },
+            Token::BigInt(..) => match bump!() {
+                Token::BigInt(value) => Lit::BigInt(BigInt {
                     span: span!(start),
                     value,
                 }),

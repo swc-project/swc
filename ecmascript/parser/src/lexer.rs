@@ -14,6 +14,7 @@ use crate::{
     token::*,
     Context, JscTarget, Session, Syntax,
 };
+use either::Either::{Left, Right};
 use smallvec::{smallvec, SmallVec};
 use std::{char, iter::FusedIterator};
 use swc_atoms::{js_word, JsWord};
@@ -157,7 +158,13 @@ impl<'a, I: Input> Lexer<'a, I> {
                     }
                 };
                 if '0' <= next && next <= '9' {
-                    return self.read_number(true).map(Token::Num).map(Some);
+                    return self
+                        .read_number(true)
+                        .map(|v| match v {
+                            Left(v) => Num(v),
+                            Right(v) => BigInt(v),
+                        })
+                        .map(Some);
                 }
 
                 self.input.bump(); // 1st `.`
@@ -213,12 +220,34 @@ impl<'a, I: Input> Lexer<'a, I> {
                     Some('x') | Some('X') => 16,
                     Some('o') | Some('O') => 8,
                     Some('b') | Some('B') => 2,
-                    _ => return self.read_number(false).map(Num).map(Some),
+                    _ => {
+                        return self
+                            .read_number(false)
+                            .map(|v| match v {
+                                Left(v) => Num(v),
+                                Right(v) => BigInt(v),
+                            })
+                            .map(Some)
+                    }
                 };
 
-                return self.read_radix_number(radix).map(Num).map(Some);
+                return self
+                    .read_radix_number(radix)
+                    .map(|v| match v {
+                        Left(v) => Num(v),
+                        Right(v) => BigInt(v),
+                    })
+                    .map(Some);
             }
-            '1'..='9' => return self.read_number(false).map(Num).map(Some),
+            '1'..='9' => {
+                return self
+                    .read_number(false)
+                    .map(|v| match v {
+                        Left(v) => Num(v),
+                        Right(v) => BigInt(v),
+                    })
+                    .map(Some)
+            }
 
             '"' | '\'' => return self.read_str_lit().map(Some),
 

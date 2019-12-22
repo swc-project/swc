@@ -4,6 +4,7 @@
 pub(crate) use self::{AssignOpToken::*, BinOpToken::*, Keyword::*, Token::*};
 use crate::error::Error;
 use enum_kind::Kind;
+use num_bigint::BigInt as BigIntValue;
 use std::{
     borrow::Cow,
     fmt::{self, Debug, Display, Formatter},
@@ -123,6 +124,9 @@ pub enum Token {
     /// TODO: Make Num as enum and separate decimal, binary, ..etc
     #[kind(starts_expr)]
     Num(f64),
+
+    #[kind(starts_expr)]
+    BigInt(#[cfg_attr(feature = "fold", fold(ignore))] BigIntValue),
 
     JSXName {
         name: JsWord,

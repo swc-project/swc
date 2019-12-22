@@ -318,6 +318,7 @@ impl<'a> Emitter<'a> {
             }
             Lit::Null(Null { span }) => keyword!(span, "null"),
             Lit::Str(ref s) => emit!(s),
+            Lit::BigInt(ref s) => emit!(s),
             Lit::Num(ref n) => emit!(n),
             Lit::Regex(ref n) => {
                 punct!("/");
@@ -394,6 +395,14 @@ impl<'a> Emitter<'a> {
         } else {
             self.wr.write_str_lit(num.span, &format!("{}", num.value))?;
         }
+    }
+
+    #[emitter]
+    pub fn emit_big_lit(&mut self, v: &BigInt) -> Result {
+        self.emit_leading_comments_of_pos(v.span.lo())?;
+
+        self.wr.write_lit(v.span, &v.value.to_string())?;
+        self.wr.write_lit(v.span, "n")?;
     }
 
     // pub fn emit_object_binding_pat(&mut self, node: &ObjectPat) -> Result {
