@@ -31,7 +31,7 @@ pub enum Lit {
 #[ast_node("BigIntLiteral")]
 pub struct BigInt {
     pub span: Span,
-    #[fold(ignore)]
+    #[cfg_attr(feature = "fold", fold(ignore))]
     pub value: BigIntValue,
 }
 
