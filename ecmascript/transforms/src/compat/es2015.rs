@@ -6,7 +6,7 @@ pub use self::{
     sticky_regex::StickyRegex, template_literal::TemplateLiteral, typeof_symbol::TypeOfSymbol,
 };
 use crate::pass::Pass;
-use ast::{Expr, Module};
+use ast::{Expr, Program};
 use serde::Deserialize;
 #[cfg(test)]
 use swc_common::chain;
@@ -43,7 +43,7 @@ fn exprs() -> impl Pass {
 /// Compiles es2015 to es5.
 pub fn es2015(c: Config) -> impl Pass {
     chain_at!(
-        Module,
+        Program,
         BlockScopedFns,
         TemplateLiteral::default(),
         Classes::default(),

@@ -20,3 +20,4 @@ node_modules/
 # Flamegraph
 *.html
 *.svg
+package-lock.json

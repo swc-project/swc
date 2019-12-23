@@ -1,15 +1,17 @@
 use crate::config::{GlobalPassOption, JscTarget, ModuleConfig};
 use atoms::JsWord;
-use common::{errors::Handler, SourceMap};
+use common::{chain, errors::Handler, SourceMap};
 use ecmascript::{
     ast::Program,
     parser::Syntax,
+    preset_env,
     transforms::{
         chain_at, compat, const_modules, fixer, helpers, hygiene, modules,
         pass::{JoinedPass, Optional, Pass},
         typescript,
     },
 };
+use either::Either;
 use hashbrown::hash_map::HashMap;
 use std::sync::Arc;
 
@@ -17,6 +19,7 @@ use std::sync::Arc;
 pub struct PassBuilder<'a, 'b, P: Pass> {
     cm: &'a Arc<SourceMap>,
     handler: &'b Handler,
+    env: Option<preset_env::Config>,
     pass: P,
     target: JscTarget,
     loose: bool,
@@ -30,6 +33,7 @@ impl<'a, 'b, P: Pass> PassBuilder<'a, 'b, P> {
             pass,
             target: JscTarget::Es5,
             loose,
+            env: None,
         }
     }
 
@@ -41,6 +45,7 @@ impl<'a, 'b, P: Pass> PassBuilder<'a, 'b, P> {
             pass,
             target: self.target,
             loose: self.loose,
+            env: self.env,
         }
     }
 
@@ -65,6 +70,11 @@ impl<'a, 'b, P: Pass> PassBuilder<'a, 'b, P> {
         self
     }
 
+    pub fn preset_env(mut self, env: Option<preset_env::Config>) -> Self {
+        self.env = env;
+        self
+    }
+
     /// # Arguments
     /// ## module
     ///  - Use `None` if you want swc to emit import statements.
@@ -85,27 +95,35 @@ impl<'a, 'b, P: Pass> PassBuilder<'a, 'b, P> {
             None => false,
         };
 
+        // compat
+        let compat_pass = if let Some(env) = self.env {
+            Either::Left(preset_env::preset_env(env))
+        } else {
+            Either::Right(chain!(
+                Optional::new(compat::es2018(), self.target <= JscTarget::Es2018),
+                Optional::new(compat::es2017(), self.target <= JscTarget::Es2017),
+                Optional::new(compat::es2016(), self.target <= JscTarget::Es2016),
+                Optional::new(
+                    compat::es2015(compat::es2015::Config {
+                        for_of: compat::es2015::for_of::Config {
+                            assume_array: self.loose
+                        },
+                        spread: compat::es2015::spread::Config { loose: self.loose },
+                        destructuring: compat::es2015::destructuring::Config { loose: self.loose },
+                    }),
+                    self.target <= JscTarget::Es2015
+                ),
+                Optional::new(
+                    compat::es3(syntax.dynamic_import()),
+                    self.target <= JscTarget::Es3
+                )
+            ))
+        };
+
         chain_at!(
             Program,
             self.pass,
-            // compat
-            Optional::new(compat::es2018(), self.target <= JscTarget::Es2018),
-            Optional::new(compat::es2017(), self.target <= JscTarget::Es2017),
-            Optional::new(compat::es2016(), self.target <= JscTarget::Es2016),
-            Optional::new(
-                compat::es2015(compat::es2015::Config {
-                    for_of: compat::es2015::for_of::Config {
-                        assume_array: self.loose
-                    },
-                    spread: compat::es2015::spread::Config { loose: self.loose },
-                    destructuring: compat::es2015::destructuring::Config { loose: self.loose },
-                }),
-                self.target <= JscTarget::Es2015
-            ),
-            Optional::new(
-                compat::es3(syntax.dynamic_import()),
-                self.target <= JscTarget::Es3
-            ),
+            compat_pass,
             // module / helper
             Optional::new(
                 modules::import_analysis::import_analyzer(),

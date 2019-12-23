@@ -83,6 +83,8 @@ module.exports = {
 
 #[bench]
 fn module_clone(b: &mut Bencher) {
+    b.bytes = SOURCE.len() as _;
+
     let _ = ::testing::run_test(false, |cm, handler| {
         let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
         let lexer = Lexer::new(

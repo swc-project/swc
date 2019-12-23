@@ -167,12 +167,12 @@ impl Fold<Module> for Umd {
                                 to: &mut self.scope.declared_vars,
                             });
 
-                            let mut found = vec![];
+                            let mut found: Vec<Ident> = vec![];
                             for decl in var.decls {
                                 let mut v = DestructuringFinder { found: &mut found };
                                 decl.visit_with(&mut v);
 
-                                for ident in found.drain(..).map(|v| Ident::new(v.0, v.1)) {
+                                for ident in found.drain(..) {
                                     self.scope
                                         .exported_vars
                                         .entry((ident.sym.clone(), ident.span.ctxt()))

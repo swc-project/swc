@@ -55,7 +55,6 @@ impl Fold<MemberExpr> for MemberExprLit {
         }
 
         e.prop = match *e.prop {
-            Expr::Lit(Lit::Str(Str { value, span, .. })) => handle!(value, span),
             Expr::Ident(i) => {
                 if e.computed {
                     box Expr::Ident(i)

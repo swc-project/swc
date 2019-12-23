@@ -517,6 +517,18 @@ impl Fold<Expr> for Fixer {
                         left: box self.wrap(e),
                         ..expr
                     })),
+                    e @ Expr::Object(..)
+                        if expr.op == op!("instanceof")
+                            || expr.op == op!("==")
+                            || expr.op == op!("===")
+                            || expr.op == op!("!=")
+                            || expr.op == op!("!==") =>
+                    {
+                        validate!(Expr::Bin(BinExpr {
+                            left: box e.wrap_with_paren(),
+                            ..expr
+                        }))
+                    }
                     _ => validate!(Expr::Bin(expr)),
                 }
             }
