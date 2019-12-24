@@ -1,6 +1,9 @@
 #![feature(box_syntax)]
+#![feature(test)]
 #![feature(box_patterns)]
 #![feature(specialization)]
+
+use swc_ecma_transforms::compat::es2015::arrow;
 
 #[macro_use]
 mod common;

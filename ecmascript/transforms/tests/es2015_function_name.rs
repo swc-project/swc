@@ -1,12 +1,14 @@
 #![feature(box_syntax)]
+#![feature(test)]
 #![feature(box_patterns)]
 #![feature(specialization)]
 
 use swc_common::chain;
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{
-    compat::es2015::{arrow, block_scoping, classes::Classes, shorthand_property::Shorthand},
+    compat::es2015::{arrow, block_scoping, classes::Classes, function_name, Shorthand},
     modules::{amd::amd, common_js::common_js, umd::umd},
+    pass::Pass,
     proposals::decorators,
     resolver,
 };
@@ -18,7 +20,7 @@ fn syntax() -> Syntax {
     Default::default()
 }
 
-fn tr() -> impl Fold<Module> {
+fn tr() -> impl Pass {
     chain!(resolver(), function_name(), block_scoping())
 }
 

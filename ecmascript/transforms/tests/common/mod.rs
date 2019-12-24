@@ -1,3 +1,6 @@
+#![allow(unused_macros)]
+#![allow(dead_code)]
+
 use ast::*;
 use sourcemap::SourceMapBuilder;
 use std::{
@@ -17,7 +20,7 @@ use swc_ecma_transforms::{
 };
 use tempfile::tempdir_in;
 
-pub(crate) fn validating(name: &'static str, tr: impl Pass + 'static) -> Box<dyn Pass> {
+pub fn validating(name: &'static str, tr: impl Pass + 'static) -> Box<dyn Pass> {
     box ::swc_common::Fold::then(
         tr,
         swc_ecma_transforms::debug::validator::Validator { name },
@@ -26,12 +29,13 @@ pub(crate) fn validating(name: &'static str, tr: impl Pass + 'static) -> Box<dyn
 
 macro_rules! validating {
     ($folder:expr) => {{
-        ::common::validating(stringify!($folder), $folder)
+        common::validating(stringify!($folder), $folder)
     }};
 }
 
 macro_rules! validate {
     ($e:expr) => {{
+        use swc_common::fold::FoldWith;
         if cfg!(debug_assertions) {
             $e.fold_with(&mut swc_ecma_transforms::debug::validator::Validator {
                 name: concat!(file!(), ':', line!(), ':', column!()),
@@ -267,7 +271,7 @@ where
 }
 
 #[derive(PartialEq, Eq)]
-pub(crate) struct DebugUsingDisplay<'a>(pub &'a str);
+pub struct DebugUsingDisplay<'a>(pub &'a str);
 impl<'a> fmt::Debug for DebugUsingDisplay<'a> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         fmt::Display::fmt(self.0, f)
@@ -302,11 +306,11 @@ macro_rules! test {
 
 macro_rules! exec_tr {
     ($syntax:expr, $tr:expr, $test_name:ident, $input:expr) => {{
-        exec_tr(stringify!($test_name), $syntax, $tr, $input);
+        common::exec_tr(stringify!($test_name), $syntax, $tr, $input);
     }};
 }
 
-pub(crate) fn exec_tr<F, P>(test_name: &'static str, syntax: Syntax, tr: F, input: &str)
+pub fn exec_tr<F, P>(test_name: &'static str, syntax: Syntax, tr: F, input: &str)
 where
     F: FnOnce(&mut Tester<'_>) -> P,
 {

@@ -1,8 +1,10 @@
 #![feature(box_syntax)]
+#![feature(test)]
 #![feature(box_patterns)]
 #![feature(specialization)]
 
 use swc_ecma_parser::{Syntax, TsConfig};
+use swc_ecma_transforms::{pass::Pass, proposals::optional_chaining};
 
 #[macro_use]
 mod common;

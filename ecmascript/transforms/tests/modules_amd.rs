@@ -1,4 +1,5 @@
 #![feature(box_syntax)]
+#![feature(test)]
 #![feature(box_patterns)]
 #![feature(specialization)]
 
@@ -6,7 +7,10 @@ use ast::Module;
 use swc_common::{chain, Fold};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{
-    modules::{amd, amd::Config, util},
+    modules::{
+        amd::{amd, Config},
+        util,
+    },
     resolver,
 };
 

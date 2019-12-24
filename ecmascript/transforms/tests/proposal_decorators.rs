@@ -1,13 +1,14 @@
 #![feature(box_syntax)]
+#![feature(test)]
 #![feature(box_patterns)]
 #![feature(specialization)]
 
 use swc_common::chain;
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms::{
-    proposals::{class_properties, decorators},
-    resolver::resolver,
-    typescript,
+    pass::Pass,
+    proposals::{class_properties, decorators, decorators::Config},
+    resolver, typescript,
 };
 
 #[macro_use]
@@ -22,12 +23,12 @@ fn syntax(decorators_before_export: bool) -> Syntax {
     })
 }
 
-fn tr() -> impl Fold<Module> {
+fn tr() -> impl Pass {
     chain!(decorators(Default::default()), class_properties(),)
 }
 
 /// Folder for `transformation_*` tests
-fn transformation() -> impl Fold<Module> {
+fn transformation() -> impl Pass {
     chain!(decorators(Default::default()), class_properties(),)
 }
 

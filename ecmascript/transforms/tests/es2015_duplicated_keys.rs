@@ -1,8 +1,10 @@
 #![feature(box_syntax)]
+#![feature(test)]
 #![feature(box_patterns)]
 #![feature(specialization)]
 
 use swc_ecma_parser::Syntax;
+use swc_ecma_transforms::compat::es2015::duplicate_keys;
 
 #[macro_use]
 mod common;
@@ -13,7 +15,7 @@ fn syntax() -> Syntax {
 
 test!(
     syntax(),
-    |_| DuplicateKeys,
+    |_| duplicate_keys(),
     issue_203,
     r#"
 const obj = {};
@@ -46,7 +48,7 @@ obj.prop = {
 test!(
     ignore,
     syntax(),
-    |_| DuplicateKeys,
+    |_| duplicate_keys(),
     combination_dupes,
     r#"var x = { a: 5, a: 6 };"#,
     r#"var x = _defineProperty({
@@ -56,7 +58,7 @@ test!(
 
 test!(
     syntax(),
-    |_| DuplicateKeys,
+    |_| duplicate_keys(),
     combination_no_dupes,
     r#"var x = { a: 5, b: 6 };"#,
     r#"var x = { a: 5, b: 6 };"#
@@ -64,7 +66,7 @@ test!(
 
 test!(
     syntax(),
-    |_| DuplicateKeys,
+    |_| duplicate_keys(),
     dup_keys_both_quoted,
     r#"var x = { "a\n b": 5, "a\n b": 6 };"#,
     r#"var x = {
@@ -75,7 +77,7 @@ test!(
 
 test!(
     syntax(),
-    |_| DuplicateKeys,
+    |_| duplicate_keys(),
     dup_keys_dupes,
     r#"var x = { a: 5, a: 6 };"#,
     r#"var x = {
@@ -86,7 +88,7 @@ test!(
 
 test!(
     syntax(),
-    |_| DuplicateKeys,
+    |_| duplicate_keys(),
     dup_keys_getter,
     r#"var x = { a: 5, get a() {return 6;} };"#,
     r#"var x = {
@@ -101,7 +103,7 @@ test!(
 
 test!(
     syntax(),
-    |_| DuplicateKeys,
+    |_| duplicate_keys(),
     dup_keys_getter_and_setter,
     r#"var x = {
   get a() {},
@@ -152,7 +154,7 @@ test!(
 
 test!(
     syntax(),
-    |_| DuplicateKeys,
+    |_| duplicate_keys(),
     dup_keys_one_quoted,
     r#"var x = { a: 5, "a": 6 };"#,
     r#"var x = {
@@ -164,7 +166,7 @@ test!(
 // duplicate_keys_getter
 test!(
     syntax(),
-    |_| DuplicateKeys,
+    |_| duplicate_keys(),
     duplicate_keys_getter,
     r#"
 var x = { a: 5, get a() {return 6;} };
@@ -186,7 +188,7 @@ var x = {
 // duplicate_keys_dupes
 test!(
     syntax(),
-    |_| DuplicateKeys,
+    |_| duplicate_keys(),
     duplicate_keys_dupes,
     r#"
 var x = { a: 5, a: 6 };
@@ -204,7 +206,7 @@ var x = {
 // duplicate_keys_both_quoted
 test!(
     syntax(),
-    |_| DuplicateKeys,
+    |_| duplicate_keys(),
     duplicate_keys_both_quoted,
     r#"
 var x = { "a\n b": 5, "a\n b": 6 };
@@ -222,7 +224,7 @@ var x = {
 // duplicate_keys_no_dupes
 test!(
     syntax(),
-    |_| DuplicateKeys,
+    |_| duplicate_keys(),
     duplicate_keys_no_dupes,
     r#"
 var x = { a: 5, b: 6 };
@@ -240,7 +242,7 @@ var x = {
 // duplicate_keys_getters_and_setters
 test!(
     syntax(),
-    |_| DuplicateKeys,
+    |_| duplicate_keys(),
     duplicate_keys_getters_and_setters,
     r#"
 var x = {
@@ -298,7 +300,7 @@ var x = {
 // duplicate_keys_one_quoted
 test!(
     syntax(),
-    |_| DuplicateKeys,
+    |_| duplicate_keys(),
     duplicate_keys_one_quoted,
     r#"
 var x = { a: 5, "a": 6 };

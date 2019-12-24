@@ -1,4 +1,5 @@
 #![feature(box_syntax)]
+#![feature(test)]
 #![feature(box_patterns)]
 #![feature(specialization)]
 use swc_common::chain;
@@ -10,6 +11,7 @@ use swc_ecma_transforms::{
         es2017::async_to_generator,
         es3::ReservedWord,
     },
+    pass::Pass,
     proposals::{class_properties, decorators},
     resolver, typescript,
 };
@@ -31,7 +33,7 @@ fn syntax() -> Syntax {
     })
 }
 
-fn tr() -> impl Fold<Module> {
+fn tr() -> impl Pass {
     chain!(
         resolver(),
         function_name(),

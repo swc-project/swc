@@ -1,9 +1,18 @@
 #![feature(box_syntax)]
+#![feature(test)]
 #![feature(box_patterns)]
 #![feature(specialization)]
 
+use common::Tester;
 use swc_common::chain;
-use swc_ecma_transforms::resolver;
+use swc_ecma_transforms::{
+    modules::{
+        umd::{umd, Config},
+        util,
+    },
+    pass::Pass,
+    resolver,
+};
 
 #[macro_use]
 mod common;
@@ -12,7 +21,7 @@ fn syntax() -> ::swc_ecma_parser::Syntax {
     Default::default()
 }
 
-fn tr(tester: &mut swc_ecma_transforms::tests::Tester<'_>, config: Config) -> impl Fold<Module> {
+fn tr(tester: &mut Tester<'_>, config: Config) -> impl Pass {
     chain!(resolver(), umd(tester.cm.clone(), config))
 }
 

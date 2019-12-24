@@ -1,9 +1,14 @@
 #![feature(box_syntax)]
+#![feature(test)]
 #![feature(box_patterns)]
 #![feature(specialization)]
 
 use swc_common::chain;
-use swc_ecma_transforms::{compat::es2015::block_scoping, modules::common_js::common_js};
+use swc_ecma_transforms::{
+    compat::es2015::{block_scoping, spread, spread::Config},
+    modules::common_js::common_js,
+    pass::Pass,
+};
 
 #[macro_use]
 mod common;
@@ -12,7 +17,7 @@ fn syntax() -> ::swc_ecma_parser::Syntax {
     Default::default()
 }
 
-fn tr() -> impl Fold<Module> {
+fn tr() -> impl Pass {
     chain!(
         swc_ecma_transforms::compat::es2015::parameters(),
         spread(Config {

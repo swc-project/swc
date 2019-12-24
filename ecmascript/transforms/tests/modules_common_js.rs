@@ -1,4 +1,5 @@
 #![feature(box_syntax)]
+#![feature(test)]
 #![feature(box_patterns)]
 #![feature(specialization)]
 
@@ -8,7 +9,11 @@ use swc_ecma_transforms::{
     compat, fixer,
     helpers::InjectHelpers,
     hygiene,
-    modules::{common_js, common_js::Config, util::Lazy},
+    modules::{
+        common_js::{common_js, Config},
+        import_analysis::import_analyzer,
+        util::Lazy,
+    },
     optimization::simplifier,
     proposals::{class_properties, decorators, export},
     resolver, typescript,

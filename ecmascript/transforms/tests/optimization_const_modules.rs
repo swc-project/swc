@@ -1,9 +1,10 @@
 #![feature(box_syntax)]
+#![feature(test)]
 #![feature(box_patterns)]
 #![feature(specialization)]
 
 use common::Tester;
-use std::collections::HashMap;
+use hashbrown::HashMap;
 use swc_ecma_transforms::{const_modules, pass::Pass};
 
 #[macro_use]

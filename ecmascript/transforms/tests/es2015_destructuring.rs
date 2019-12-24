@@ -1,4 +1,5 @@
 #![feature(box_syntax)]
+#![feature(test)]
 #![feature(box_patterns)]
 #![feature(specialization)]
 
@@ -7,9 +8,14 @@ use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{
     compat::{
         es2015,
-        es2015::{block_scoping, parameters, spread},
+        es2015::{
+            block_scoping,
+            destructuring::{destructuring, Config},
+            parameters, spread,
+        },
         es2018::object_rest_spread,
     },
+    pass::Pass,
     resolver,
 };
 
@@ -20,7 +26,7 @@ fn syntax() -> Syntax {
     Default::default()
 }
 
-fn tr() -> impl Fold<Module> {
+fn tr() -> impl Pass {
     destructuring(Config { loose: true })
 }
 
