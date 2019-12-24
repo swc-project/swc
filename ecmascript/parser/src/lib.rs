@@ -247,6 +247,18 @@ impl Syntax {
             _ => false,
         }
     }
+
+    pub fn nullish_coalescing(self) -> bool {
+        match self {
+            Syntax::Es(EsConfig {
+                nullish_coalescing: true,
+                ..
+            })
+            | Syntax::Typescript(..) => true,
+
+            _ => false,
+        }
+    }
 }
 
 #[derive(Debug, Clone, Copy, Default, Serialize, Deserialize)]

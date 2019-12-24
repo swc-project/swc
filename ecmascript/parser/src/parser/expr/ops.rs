@@ -107,6 +107,10 @@ impl<'a, I: Tokens> Parser<'a, I> {
             }
         };
 
+        if !self.syntax().nullish_coalescing() && op == op!("??") {
+            syntax_error!(left.span(), SyntaxError::NullishCoalescingNotEnabled)
+        }
+
         if op.precedence() <= min_prec {
             trace!(
                 "returning {:?} without parsing {:?} because min_prec={}, prec={}",
@@ -154,6 +158,33 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 },
             )?
         };
+        /* this check is for all ?? operators
+         * a ?? b && c for this example
+         * b && c => This is considered as a logical expression in the ast tree
+         * a => Identifier
+         * so for ?? operator we need to check in this case the right expression to
+         * have parenthesis second case a && b ?? c
+         * here a && b => This is considered as a logical expression in the ast tree
+         * c => identifier
+         * so now here for ?? operator we need to check the left expression to have
+         * parenthesis if the parenthesis is missing we raise an error and
+         * throw it
+         */
+        if op == op!("??") {
+            match *left {
+                Expr::Bin(BinExpr { span, op, .. }) if op == op!("&&") || op == op!("||") => {
+                    syntax_error!(span, SyntaxError::NullishCoalescingWithLogicalOp);
+                }
+                _ => {}
+            }
+
+            match *right {
+                Expr::Bin(BinExpr { span, op, .. }) if op == op!("&&") || op == op!("||") => {
+                    syntax_error!(span, SyntaxError::NullishCoalescingWithLogicalOp);
+                }
+                _ => {}
+            }
+        }
 
         let node = Box::new(Expr::Bin(BinExpr {
             span: Span::new(left.span().lo(), right.span().hi(), Default::default()),
@@ -163,6 +194,16 @@ impl<'a, I: Tokens> Parser<'a, I> {
         }));
 
         let expr = self.parse_bin_op_recursively(node, min_prec)?;
+
+        if op == op!("??") {
+            match *expr {
+                Expr::Bin(BinExpr { span, op, .. }) if op == op!("&&") || op == op!("||") => {
+                    syntax_error!(span, SyntaxError::NullishCoalescingWithLogicalOp);
+                }
+
+                _ => {}
+            }
+        }
         Ok(expr)
     }
 

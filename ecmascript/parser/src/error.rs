@@ -103,6 +103,9 @@ pub enum SyntaxError {
     AwaitStar,
     ReservedWordInObjShorthandOrPat,
 
+    NullishCoalescingWithLogicalOp,
+    NullishCoalescingNotEnabled,
+
     MultipleDefault {
         /// Span of the previous default case
         previous: Span,
@@ -357,6 +360,13 @@ impl<'a> From<ErrorToDiag<'a>> for DiagnosticBuilder<'a> {
 
             NumericSeparatorIsAllowedOnlyBetweenTwoDigits => {
                 "A numeric separator is only allowed between two digits".into()
+            }
+
+            NullishCoalescingWithLogicalOp => "Nullish coalescing operator(??) requires parens \
+                                               when mixing with logical operators"
+                .into(),
+            NullishCoalescingNotEnabled => {
+                "Nullish coalescing operator(??) requires jsc.parser.Coalescing".into()
             }
 
             TS1056 => "jsc.taraget should be es5 or upper to use getter / setter".into(),
