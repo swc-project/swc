@@ -480,8 +480,37 @@ impl<'a> Emitter<'a> {
             Expr::TsTypeAssertion(ref n) => emit!(n),
             Expr::TsConstAssertion(ref n) => emit!(n),
             Expr::TsTypeCast(ref n) => emit!(n),
-            Expr::TsOptChain(ref n) => emit!(n),
+            Expr::OptChain(ref n) => emit!(n),
             Expr::Invalid(..) => unimplemented!("emit Expr::Invalid"),
+        }
+    }
+
+    #[emitter]
+    pub fn emit_opt_chain(&mut self, n: &OptChainExpr) -> Result {
+        self.emit_leading_comments_of_pos(n.span().lo())?;
+
+        match *n.expr {
+            Expr::Member(ref e) => {
+                emit!(e.obj);
+                self.wr.write_operator("?.")?;
+
+                if e.computed {
+                    punct!("[");
+                    emit!(e.prop);
+                    punct!("]");
+                } else {
+                    emit!(e.prop);
+                }
+            }
+            Expr::Call(ref e) => {
+                emit!(e.callee);
+                self.wr.write_operator("?.")?;
+
+                punct!("(");
+                self.emit_expr_or_spreads(n.span(), &e.args, ListFormat::CallExpressionArguments)?;
+                punct!(")");
+            }
+            _ => {}
         }
     }
 

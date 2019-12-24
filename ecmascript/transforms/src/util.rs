@@ -693,7 +693,7 @@ pub trait ExprExt {
             | Expr::TsNonNull(TsNonNullExpr { ref expr, .. })
             | Expr::TsTypeAssertion(TsTypeAssertion { ref expr, .. })
             | Expr::TsTypeCast(TsTypeCastExpr { ref expr, .. }) => expr.may_have_side_effects(),
-            Expr::TsOptChain(ref e) => e.expr.may_have_side_effects(),
+            Expr::OptChain(ref e) => e.expr.may_have_side_effects(),
 
             Expr::Invalid(..) => unreachable!(),
         }
@@ -923,7 +923,7 @@ not_lit!(TsTypeAssertion);
 not_lit!(TsConstAssertion);
 
 not_lit!(PrivateName);
-not_lit!(TsOptChain);
+not_lit!(OptChainExpr);
 
 not_lit!(SpreadElement);
 not_lit!(Invalid);
