@@ -10,7 +10,7 @@ use ecmascript::{
         chain_at, const_modules, modules,
         optimization::{simplifier, InlineGlobals, JsonParse},
         pass::{noop, Optional, Pass},
-        proposals::{class_properties, decorators, export, optional_chaining},
+        proposals::{class_properties, decorators, export, nullish_coalescing, optional_chaining},
         react, resolver, typescript,
     },
 };
@@ -181,6 +181,7 @@ impl Options {
             // handle jsx
             Optional::new(react::react(cm.clone(), transform.react), syntax.jsx()),
             Optional::new(typescript::strip(), syntax.typescript()),
+            Optional::new(nullish_coalescing(), syntax.nullish_coalescing()),
             Optional::new(optional_chaining(), syntax.typescript()),
             Optional::new(class_properties(), syntax.typescript()),
             resolver(),
