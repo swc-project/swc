@@ -183,7 +183,6 @@ impl Options {
             Optional::new(typescript::strip(), syntax.typescript()),
             Optional::new(nullish_coalescing(), syntax.nullish_coalescing()),
             Optional::new(optional_chaining(), syntax.typescript()),
-            Optional::new(class_properties(), syntax.typescript()),
             resolver(),
             const_modules,
             pass,
