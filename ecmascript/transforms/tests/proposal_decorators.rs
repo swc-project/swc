@@ -2030,8 +2030,6 @@ let A = _decorate([], function(_initialize) {
 
 // legacy_class_constructors_return_new_constructor
 test_exec!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
-    ignore,
     syntax(false),
     |_| chain!(
         decorators(decorators::Config { legacy: true }),
@@ -2058,8 +2056,6 @@ expect(typeof Parent.prototype.child).toBe("function");
 
 // legacy_regression_10264
 test!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
-    ignore,
     syntax(false),
     |_| chain!(
         typescript::strip(),
@@ -2467,8 +2463,6 @@ export { _class as default };
 
 // legacy_decl_to_expression_class_decorators
 test!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
-    ignore,
     syntax(false),
     |_| decorators(Config { legacy: true }),
     legacy_decl_to_expression_class_decorators,
@@ -2490,8 +2484,6 @@ let B = dec(_class = class B {}) || _class;
 
 // legacy_class_prototype_methods_numeric_props
 test_exec!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
-    ignore,
     syntax(false),
     |_| chain!(
         decorators(decorators::Config { legacy: true }),
@@ -2515,8 +2507,6 @@ class Example {
 
 // legacy_class_static_properties_mutate_descriptor
 test_exec!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
-    ignore,
     syntax(false),
     |_| chain!(
         decorators(decorators::Config { legacy: true }),
@@ -2629,8 +2619,6 @@ expect(Example._).toBe("__8__");
 
 // legacy_class_static_methods_string_props
 test_exec!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
-    ignore,
     syntax(false),
     |_| chain!(
         decorators(decorators::Config { legacy: true }),
@@ -2654,8 +2642,6 @@ class Example {
 
 // legacy_class_prototype_properties_string_literal_properties
 test_exec!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
-    ignore,
     syntax(false),
     |_| chain!(
         decorators(decorators::Config { legacy: true }),
@@ -2698,8 +2684,6 @@ expect(descs["a-prop"].configurable).toBeTruthy();
 
 // legacy_class_prototype_methods_mutate_descriptor
 test_exec!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
-    ignore,
     syntax(false),
     |_| chain!(
         decorators(decorators::Config { legacy: true }),
@@ -2828,8 +2812,6 @@ expect(inst._()).toBe("__8__");
 
 // legacy_object_properties_numeric_props
 test_exec!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
-    ignore,
     syntax(false),
     |_| chain!(
         decorators(decorators::Config { legacy: true }),
@@ -2853,8 +2835,6 @@ const inst = {
 
 // legacy_decl_to_expression_method_decorators
 test!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
-    ignore,
     syntax(false),
     |_| decorators(Config { legacy: true }),
     legacy_decl_to_expression_method_decorators,
@@ -2886,8 +2866,6 @@ let B = (_class = class B {
 
 // legacy_class_prototype_properties_return_descriptor
 test_exec!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
-    ignore,
     syntax(false),
     |_| chain!(
         decorators(decorators::Config { legacy: true }),
@@ -3000,8 +2978,6 @@ expect(inst._).toBe("__8__");
 
 // legacy_object_properties_string_props
 test_exec!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
-    ignore,
     syntax(false),
     |_| chain!(
         decorators(decorators::Config { legacy: true }),
@@ -3025,8 +3001,6 @@ const inst = {
 
 // legacy_object_properties_return_descriptor
 test_exec!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
-    ignore,
     syntax(false),
     |_| chain!(
         decorators(decorators::Config { legacy: true }),
@@ -3137,8 +3111,6 @@ expect(inst._).toBe("__8__");
 
 // legacy_class_prototype_methods_string_props
 test_exec!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
-    ignore,
     syntax(false),
     |_| chain!(
         decorators(decorators::Config { legacy: true }),
@@ -3162,8 +3134,6 @@ class Example {
 
 // legacy_regression_8041
 test!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
-    ignore,
     syntax(false),
     |_| chain!(
         decorators(decorators::Config { legacy: true }),
@@ -3194,8 +3164,6 @@ export { _class as default };
 
 // legacy_class_prototype_methods_return_descriptor
 test_exec!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
-    ignore,
     syntax(false),
     |_| chain!(
         decorators(decorators::Config { legacy: true }),
@@ -3326,8 +3294,6 @@ expect(inst._()).toBe("__8__");
 
 // legacy_object_ordering_reverse_order
 test_exec!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
-    ignore,
     syntax(false),
     |_| chain!(
         decorators(decorators::Config { legacy: true }),
@@ -3367,8 +3333,6 @@ expect(calls).toEqual([1, 2, 3, 4, 5, 6, 7, 8]);
 
 // legacy_object_methods_numeric_props
 test_exec!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
-    ignore,
     syntax(false),
     |_| chain!(
         decorators(decorators::Config { legacy: true }),
@@ -3393,8 +3357,6 @@ const inst = {
 
 // legacy_class_static_properties_return_descriptor
 test_exec!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
-    ignore,
     syntax(false),
     |_| chain!(
         decorators(decorators::Config { legacy: true }),
@@ -3507,8 +3469,6 @@ expect(Example._).toBe("__8__");
 
 // legacy_class_export_default
 test_exec!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
-    ignore,
     syntax(false),
     |_| chain!(
         decorators(decorators::Config { legacy: true }),
@@ -3536,8 +3496,6 @@ expect(calls).toEqual(["Foo"]);
 
 // legacy_class_ordering_reverse_order
 test_exec!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
-    ignore,
     syntax(false),
     |_| chain!(
         decorators(decorators::Config { legacy: true }),
@@ -3580,8 +3538,6 @@ expect(calls).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
 
 // legacy_object_methods_mutate_descriptor
 test_exec!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
-    ignore,
     syntax(false),
     |_| chain!(
         decorators(decorators::Config { legacy: true }),
@@ -3708,8 +3664,6 @@ expect(inst._()).toBe("__8__");
 
 // legacy_class_static_methods_return_descriptor
 test_exec!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
-    ignore,
     syntax(false),
     |_| chain!(
         decorators(decorators::Config { legacy: true }),
@@ -3837,8 +3791,6 @@ expect(Example._()).toBe("__8__");
 
 // legacy_object_methods_return_descriptor
 test_exec!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
-    ignore,
     syntax(false),
     |_| chain!(
         decorators(decorators::Config { legacy: true }),
@@ -3965,8 +3917,6 @@ expect(inst._()).toBe("__8__");
 
 // legacy_object_methods_string_props
 test_exec!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
-    ignore,
     syntax(false),
     |_| chain!(
         decorators(decorators::Config { legacy: true }),
@@ -3992,8 +3942,6 @@ const inst = {
 
 // legacy_class_prototype_properties_child_classes_properties
 test_exec!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
-    ignore,
     syntax(false),
     |_| chain!(
         decorators(decorators::Config { legacy: true }),
@@ -4034,8 +3982,6 @@ expect(inst.prop2).toBe("__4__");
 
 // legacy_class_static_methods_mutate_descriptor
 test_exec!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
-    ignore,
     syntax(false),
     |_| chain!(
         decorators(decorators::Config { legacy: true }),
@@ -4162,8 +4108,6 @@ expect(Example._()).toBe("__8__");
 
 // legacy_regression_8512
 test_exec!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
-    ignore,
     syntax(false),
     |_| decorators(Config { legacy: true }),
     legacy_regression_8512_exec,
