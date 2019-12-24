@@ -2030,7 +2030,7 @@ let A = _decorate([], function(_initialize) {
 
 // legacy_class_constructors_return_new_constructor
 test_exec!(
-    syntax(false),
+    syntax(true),
     |_| chain!(
         decorators(decorators::Config { legacy: true }),
         class_properties(),
@@ -3469,7 +3469,8 @@ expect(Example._).toBe("__8__");
 
 // legacy_class_export_default
 test_exec!(
-    syntax(false),
+    ignore,
+    syntax(true),
     |_| chain!(
         decorators(decorators::Config { legacy: true }),
         class_properties(),
@@ -3496,7 +3497,7 @@ expect(calls).toEqual(["Foo"]);
 
 // legacy_class_ordering_reverse_order
 test_exec!(
-    syntax(false),
+    syntax(true),
     |_| chain!(
         decorators(decorators::Config { legacy: true }),
         class_properties(),
@@ -3538,7 +3539,7 @@ expect(calls).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
 
 // legacy_object_methods_mutate_descriptor
 test_exec!(
-    syntax(false),
+    syntax(true),
     |_| chain!(
         decorators(decorators::Config { legacy: true }),
         class_properties(),
