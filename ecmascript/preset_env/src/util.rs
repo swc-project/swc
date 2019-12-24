@@ -1,0 +1,133 @@
+macro_rules! val {
+    (& $v:expr) => {
+        &$v
+    };
+    ($v:expr) => {
+        &$v
+    };
+}
+
+macro_rules! data_map {
+    (
+        Map {
+            $($rest:tt)+
+        }
+    ) => {
+        data_map!(@Ident, Map {}, Rest {$($rest)*})
+    };
+
+    (
+        @Ident,
+        Map {
+            $($i:ident : $e:expr,)*
+        },
+        Rest {
+            $ni:ident : $($rest:tt)+
+        }
+    ) => {
+        data_map!(@Value, Map {
+            $(
+                $i : $e,
+            )*
+        },
+        Rest {
+            $($rest)*
+        },
+        Wip {
+            $ni
+        })
+    };
+
+    (
+        @Value,
+        Map {
+            $($i:ident : $e:expr,)*
+        },
+        Rest {
+            [$($v:tt)*], $($rest:tt)*
+        },
+        Wip {
+            $ni:ident
+        }
+    ) => {
+        data_map!(@Ident, Map {
+            $(
+                $i : $e,
+            )*
+            $ni : val!(&[$($v)*]),
+        }, Rest {$($rest)*})
+    };
+
+    (
+        @Value,
+        Map {
+            $($i:ident : $e:expr,)*
+        },
+        Rest {
+            &[$($v:tt)*], $($rest:tt)*
+        },
+        Wip {
+            $ni:ident
+        }
+    ) => {
+        data_map!(@Ident, Map {
+            $(
+                $i : $e,
+            )*
+            $ni : val!(&[$($v)*]),
+        },
+        Rest {
+            $($rest)*
+        })
+    };
+
+
+    (
+        @Value,
+        Map {
+            $($i:ident : $e:expr,)*
+        },
+        Rest {
+            $v:ident, $($rest:tt)*
+        },
+        Wip {
+            $ni:ident
+        }
+    ) => {
+        data_map!(@Ident, Map {
+            $(
+                $i : $e,
+            )*
+            $ni : $v,
+        },
+        Rest {
+            $($rest)*
+        })
+    };
+
+    // Done
+    (
+        @Ident,
+        Map {
+            $($i:ident : $e:expr,)*
+        },
+        Rest {}
+    ) => {
+        crate::util::DataMap::from(
+            &[
+                $(
+                    (stringify!($i), $e)
+                ),*
+            ]
+        )
+    };
+}
+
+pub(crate) struct DataMap<T: 'static>(&'static [(&'static str, T)]);
+pub(crate) type FeatureMap = DataMap<&'static [&'static str]>;
+
+impl<T: 'static> DataMap<T> {
+    pub const fn from(v: &'static [(&'static str, T)]) -> Self {
+        Self(v)
+    }
+}

@@ -1,6 +1,7 @@
 #![feature(box_syntax)]
 #![feature(box_patterns)]
 #![feature(specialization)]
+#![feature(trace_macros)]
 
 pub use self::transform_data::{parse_version, Feature};
 use semver::Version;
@@ -16,6 +17,8 @@ use swc_ecma_transforms::{
     util::prepend_stmts,
 };
 
+#[macro_use]
+mod util;
 mod corejs2;
 mod corejs3;
 mod transform_data;
