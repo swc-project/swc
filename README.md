@@ -133,6 +133,18 @@ New generation javascript to old-days javascript.
   - [x] optional-catch-binding
   - [ ] unicode-property-regex
 
+- es2019 (stage 4)
+ - [x] optional catch binding
+ - [x] big int literal
+
+- stage 3
+ - [x] class fields
+ - [x] numeric separator
+ - [ ] nullish coalescing
+
+- stage 2
+ - [x] decorators
+
 - react
   - [x] jsx
 
