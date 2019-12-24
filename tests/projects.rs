@@ -231,18 +231,22 @@ fn issue_468() {
 
 #[test]
 fn issue_528() {
-    let f = file("tests/projects/issue-528/input.js").unwrap();
+    let f = file("tests/projects/issue-528/input.js")
+        .unwrap()
+        .replace(" ", "");
+    let f = f.trim();
+
     println!("{}", f);
     assert_eq!(
-        f.to_string(),
-        "// bar
+        f,
+        "\
+//bar
 [
-    // foo
-    a, //bar
-
-    //bar
-    //baz
-    b
-]"
+//foo
+a,
+//baz
+//bar
+b
+];"
     );
 }

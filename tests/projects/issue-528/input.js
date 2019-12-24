@@ -1,7 +1,7 @@
 // bar
 [
     // foo
-    a, //bar
+    a,
 
     //bar
     (

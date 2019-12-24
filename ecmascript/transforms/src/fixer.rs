@@ -59,7 +59,7 @@ impl Fold<Program> for Fixer {
         let p = p.fold_children(self);
 
         COMMENTS.with(|c| {
-            for (from, to) in self.span_map.drain() {
+            for (to, from) in self.span_map.drain() {
                 let (from, to) = (from.data(), to.data());
                 c.move_leading(from.lo, to.lo);
                 c.move_trailing(from.hi, to.hi);
