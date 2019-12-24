@@ -81,6 +81,76 @@ macro_rules! data_map {
         })
     };
 
+    (
+        @Value,
+        Map {
+            $($i:ident : $e:expr,)*
+        },
+        Rest {
+            $v:literal, $($rest:tt)*
+        },
+        Wip {
+            $ni:ident
+        }
+    ) => {
+        data_map!(@Ident, Map {
+            $(
+                $i : $e,
+            )*
+            $ni : &[$v],
+        },
+        Rest {
+            $($rest)*
+        })
+    };
+
+    (
+        @Value,
+        Map {
+            $($i:ident : $e:expr,)*
+        },
+        Rest {
+            $v:literal $($rest:tt)*
+        },
+        Wip {
+            $ni:ident
+        }
+    ) => {
+        data_map!(@Ident, Map {
+            $(
+                $i : $e,
+            )*
+            $ni : &[$v],
+        },
+        Rest {
+            $($rest)*
+        })
+    };
+
+
+    (
+        @Value,
+        Map {
+            $($i:ident : $e:expr,)*
+        },
+        Rest {
+            Map { $($m:tt)* }, $($rest:tt)*
+        },
+        Wip {
+            $ni:ident
+        }
+    ) => {
+        data_map!(@Ident, Map {
+            $(
+                $i : $e,
+            )*
+            $ni : data_map!(Map { $($m)* }),
+        },
+        Rest {
+            $($rest)*
+        })
+    };
+
 
     (
         @Value,
