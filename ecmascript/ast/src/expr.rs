@@ -10,8 +10,8 @@ use crate::{
     prop::Prop,
     stmt::BlockStmt,
     typescript::{
-        TsAsExpr, TsConstAssertion, TsNonNullExpr, TsOptChain, TsTypeAnn, TsTypeAssertion,
-        TsTypeCastExpr, TsTypeParamDecl, TsTypeParamInstantiation,
+        TsAsExpr, TsConstAssertion, TsNonNullExpr, TsTypeAnn, TsTypeAssertion, TsTypeCastExpr,
+        TsTypeParamDecl, TsTypeParamInstantiation,
     },
     Invalid,
 };
@@ -144,8 +144,8 @@ pub enum Expr {
     #[tag("PrivateName")]
     PrivateName(PrivateName),
 
-    #[tag("TsOptionalChainingExpression")]
-    TsOptChain(TsOptChain),
+    #[tag("OptionalChainingExpression")]
+    OptChain(OptChainExpr),
 
     #[tag("Invalid")]
     Invalid(Invalid),
@@ -542,6 +542,12 @@ impl From<Str> for Expr {
     fn from(v: Str) -> Self {
         Expr::Lit(Lit::Str(v))
     }
+}
+
+#[ast_node("OptionalChainingExpression")]
+pub struct OptChainExpr {
+    pub span: Span,
+    pub expr: Box<Expr>,
 }
 
 test_de!(

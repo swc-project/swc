@@ -869,7 +869,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         macro_rules! wrap {
             ($e:expr) => {{
                 if is_optional_chaining {
-                    Expr::TsOptChain(TsOptChain {
+                    Expr::OptChain(OptChainExpr {
                         span: span!(self, start),
                         expr: Box::new($e),
                     })

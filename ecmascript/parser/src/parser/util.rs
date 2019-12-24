@@ -243,7 +243,7 @@ pub(super) trait ExprExt {
             | Expr::JSXFragment(..) => false,
 
             // typescript
-            Expr::TsOptChain(TsOptChain { ref expr, .. })
+            Expr::OptChain(OptChainExpr { ref expr, .. })
             | Expr::TsNonNull(TsNonNullExpr { ref expr, .. })
             | Expr::TsTypeAssertion(TsTypeAssertion { ref expr, .. })
             | Expr::TsTypeCast(TsTypeCastExpr { ref expr, .. })

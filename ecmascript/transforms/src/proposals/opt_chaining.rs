@@ -48,7 +48,7 @@ where
 impl Fold<Expr> for OptChaining {
     fn fold(&mut self, e: Expr) -> Expr {
         let e = match e {
-            Expr::TsOptChain(e) => Expr::Cond(validate!(self.unwrap(e))),
+            Expr::OptChain(e) => Expr::Cond(validate!(self.unwrap(e))),
             Expr::Unary(e) => validate!(self.handle_unary(e)),
             Expr::Member(e) => validate!(self.handle_member(e)),
             Expr::Call(e) => validate!(self.handle_call(e)),
@@ -66,7 +66,7 @@ impl OptChaining {
 
         if let op!("delete") = e.op {
             match *e.arg {
-                Expr::TsOptChain(o) => {
+                Expr::OptChain(o) => {
                     let expr = self.unwrap(o);
 
                     return CondExpr {
@@ -83,7 +83,7 @@ impl OptChaining {
 
                 Expr::Member(MemberExpr {
                     span,
-                    obj: ExprOrSuper::Expr(box Expr::TsOptChain(o)),
+                    obj: ExprOrSuper::Expr(box Expr::OptChain(o)),
                     prop,
                     computed,
                 }) => {
@@ -114,7 +114,7 @@ impl OptChaining {
 
     /// Only called from [Fold<Expr>].
     fn handle_call(&mut self, e: CallExpr) -> Expr {
-        if let ExprOrSuper::Expr(box Expr::TsOptChain(o)) = e.callee {
+        if let ExprOrSuper::Expr(box Expr::OptChain(o)) = e.callee {
             let expr = self.unwrap(o);
 
             return CondExpr {
@@ -133,7 +133,7 @@ impl OptChaining {
 
     /// Only called from `[Fold<Expr>].
     fn handle_member(&mut self, e: MemberExpr) -> Expr {
-        if let ExprOrSuper::Expr(box Expr::TsOptChain(o)) = e.obj {
+        if let ExprOrSuper::Expr(box Expr::OptChain(o)) = e.obj {
             let expr = self.unwrap(o);
 
             return CondExpr {
@@ -150,13 +150,13 @@ impl OptChaining {
         Expr::Member(e)
     }
 
-    fn unwrap(&mut self, e: TsOptChain) -> CondExpr {
+    fn unwrap(&mut self, e: OptChainExpr) -> CondExpr {
         let span = e.span;
         let cons = undefined(span);
 
         match *e.expr {
             Expr::Member(MemberExpr {
-                obj: ExprOrSuper::Expr(box Expr::TsOptChain(o)),
+                obj: ExprOrSuper::Expr(box Expr::OptChain(o)),
                 prop,
                 computed,
                 span: m_span,
@@ -170,7 +170,7 @@ impl OptChaining {
                     prop,
                     computed,
                 });
-                let alt = box Expr::TsOptChain(TsOptChain {
+                let alt = box Expr::OptChain(OptChainExpr {
                     span: o_span,
                     expr: alt,
                 });
@@ -180,7 +180,7 @@ impl OptChaining {
 
             Expr::Call(CallExpr {
                 span,
-                callee: ExprOrSuper::Expr(box Expr::TsOptChain(o)),
+                callee: ExprOrSuper::Expr(box Expr::OptChain(o)),
                 args,
                 type_args,
             }) => {
@@ -192,7 +192,7 @@ impl OptChaining {
                     args,
                     type_args,
                 });
-                let alt = box Expr::TsOptChain(TsOptChain { span, expr: alt });
+                let alt = box Expr::OptChain(OptChainExpr { span, expr: alt });
 
                 return validate!(CondExpr {
                     span: DUMMY_SP,

@@ -837,9 +837,3 @@ pub struct TsConstAssertion {
     pub span: Span,
     pub expr: Box<Expr>,
 }
-
-#[ast_node("TsOptionalChainingExpression")]
-pub struct TsOptChain {
-    pub span: Span,
-    pub expr: Box<Expr>,
-}

@@ -228,3 +228,25 @@ fn issue_467() {
 fn issue_468() {
     file("tests/projects/issue-468/input.ts").expect("failed to parse typescript");
 }
+
+#[test]
+fn issue_528() {
+    let f = file("tests/projects/issue-528/input.js")
+        .unwrap()
+        .replace(" ", "");
+    let f = f.trim();
+
+    println!("{}", f);
+    assert_eq!(
+        f,
+        "\
+//bar
+[
+//foo
+a,
+//baz
+//bar
+b
+];"
+    );
+}

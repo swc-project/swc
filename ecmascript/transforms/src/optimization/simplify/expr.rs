@@ -993,7 +993,7 @@ where
             | Expr::TsTypeCast(TsTypeCastExpr { expr, .. })
             | Expr::TsAs(TsAsExpr { expr, .. })
             | Expr::TsConstAssertion(TsConstAssertion { expr, .. }) => add_effects(v, expr),
-            Expr::TsOptChain(e) => add_effects(v, e.expr),
+            Expr::OptChain(e) => add_effects(v, e.expr),
 
             Expr::Invalid(..) => unreachable!(),
         }

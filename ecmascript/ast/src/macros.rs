@@ -106,6 +106,9 @@ macro_rules! op {
     ("**") => {
         $crate::BinaryOp::Exp
     };
+    ("??") => {
+        $crate::BinaryOp::NullishCoalescing
+    };
 
     ("=") => {
         $crate::AssignOp::Assign

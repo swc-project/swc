@@ -203,6 +203,9 @@ pub enum BinOpToken {
     LogicalOr,
     /// `&&`
     LogicalAnd,
+
+    /// `??`
+    NullishCoalescing,
 }
 
 impl BinOpToken {
@@ -539,6 +542,7 @@ impl From<BinOpToken> for BinaryOp {
             BinOpToken::LogicalOr => LogicalOr,
             BinOpToken::LogicalAnd => LogicalAnd,
             BinOpToken::Exp => Exp,
+            BinOpToken::NullishCoalescing => NullishCoalescing,
         }
     }
 }

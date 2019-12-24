@@ -1,4 +1,3 @@
-pub use self::opt_chaining::optional_chaining;
 use crate::{
     pass::Pass,
     util::{prepend_stmts, var::VarCollector, ExprFactory},
@@ -10,7 +9,6 @@ use swc_common::{
     util::move_map::MoveMap, Fold, FoldWith, Spanned, SyntaxContext, Visit, VisitWith, DUMMY_SP,
 };
 
-mod opt_chaining;
 #[cfg(test)]
 mod tests;
 
