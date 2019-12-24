@@ -127,6 +127,29 @@ macro_rules! data_map {
         })
     };
 
+    (
+        @Value,
+        Map {
+            $($i:ident : $e:expr,)*
+        },
+        Rest {
+            &$v:ident, $($rest:tt)*
+        },
+        Wip {
+            $ni:ident
+        }
+    ) => {
+        data_map!(@Ident, Map {
+            $(
+                $i : $e,
+            )*
+            $ni : $v,
+        },
+        Rest {
+            $($rest)*
+        })
+    };
+
 
     (
         @Value,
@@ -183,21 +206,19 @@ macro_rules! data_map {
         },
         Rest {}
     ) => {
-        crate::util::DataMap::from(
-            &[
-                $(
-                    (stringify!($i), $e)
-                ),*
-            ]
-        )
+        &[
+            $(
+                (stringify!($i), $e)
+            ),*
+        ]
     };
 }
 
-pub(crate) struct DataMap<T: 'static>(&'static [(&'static str, T)]);
+pub(crate) type DataMap<T> = (&'static [(&'static str, T)]);
 pub(crate) type FeatureMap = DataMap<&'static [&'static str]>;
 
-impl<T: 'static> DataMap<T> {
-    pub const fn from(v: &'static [(&'static str, T)]) -> Self {
-        Self(v)
-    }
-}
+//impl<T: 'static> DataMap<T> {
+//    pub const fn from(v: &'static [(&'static str, T)]) -> Self {
+//        Self(v)
+//    }
+//}

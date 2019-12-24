@@ -2,6 +2,7 @@
 #![feature(box_patterns)]
 #![feature(specialization)]
 #![feature(trace_macros)]
+#![recursion_limit = "256"]
 
 pub use self::transform_data::{parse_version, Feature};
 use semver::Version;
