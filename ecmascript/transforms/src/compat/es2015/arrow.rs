@@ -5,9 +5,6 @@ use crate::{
 use ast::*;
 use swc_common::{Fold, FoldWith, Spanned, Visit, VisitWith, DUMMY_SP};
 
-#[cfg(test)]
-mod tests;
-
 /// Compile ES2015 arrow functions to ES5
 ///
 ///# Example

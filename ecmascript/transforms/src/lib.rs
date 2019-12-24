@@ -12,9 +12,6 @@ pub use self::{const_modules::const_modules, fixer::fixer, hygiene::hygiene, res
 
 #[macro_use]
 mod macros;
-#[cfg(test)]
-#[macro_use]
-mod tests;
 #[macro_use]
 mod quote;
 #[macro_use]
