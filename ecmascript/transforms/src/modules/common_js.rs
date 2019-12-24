@@ -12,9 +12,6 @@ use fxhash::FxHashSet;
 use swc_atoms::js_word;
 use swc_common::{Fold, FoldWith, VisitWith, DUMMY_SP};
 
-#[cfg(test)]
-mod tests;
-
 pub fn common_js(config: Config) -> impl Pass {
     CommonJs {
         config,

@@ -9,9 +9,6 @@ use swc_common::{
     util::move_map::MoveMap, Fold, FoldWith, Spanned, SyntaxContext, Visit, VisitWith, DUMMY_SP,
 };
 
-#[cfg(test)]
-mod tests;
-
 /// Strips type annotations out.
 pub fn strip() -> impl Pass {
     Strip::default()

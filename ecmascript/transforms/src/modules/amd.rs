@@ -13,9 +13,6 @@ use std::iter;
 use swc_atoms::js_word;
 use swc_common::{Fold, FoldWith, Mark, VisitWith, DUMMY_SP};
 
-#[cfg(test)]
-mod tests;
-
 pub fn amd(config: Config) -> impl Pass {
     Amd {
         config,

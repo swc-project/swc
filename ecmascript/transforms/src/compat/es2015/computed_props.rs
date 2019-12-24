@@ -5,9 +5,6 @@ use crate::{
 use ast::*;
 use swc_common::{Fold, FoldWith, Mark, Spanned, Visit, VisitWith, DUMMY_SP};
 
-#[cfg(test)]
-mod tests;
-
 /// `@babel/plugin-transform-computed-properties`
 ///
 /// # Example

@@ -1,8 +1,16 @@
-use super::*;
+#![feature(box_syntax)]
+#![feature(test)]
+#![feature(box_patterns)]
+#![feature(specialization)]
+
+use swc_ecma_transforms::compat::es2015::arrow;
+
+#[macro_use]
+mod common;
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| Arrow,
+    |_| arrow(),
     issue_233,
     "const foo = () => ({ x, ...y }) => y",
     "const foo = function() {
@@ -14,7 +22,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| Arrow,
+    |_| arrow(),
     destructuring,
     r#"let foo = ({bar}) => undefined;"#,
     r#"let foo = function ({bar}) {
@@ -24,7 +32,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| Arrow,
+    |_| arrow(),
     basic,
     r#"let echo = (bar) => bar"#,
     r#"let echo = function(bar) {
@@ -34,7 +42,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| Arrow,
+    |_| arrow(),
     empty_arguments,
     r#"var t = () => 5 + 5;"#,
     r#"var t = function () {
@@ -44,7 +52,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| Arrow,
+    |_| arrow(),
     expression,
     r#"arr.map(x => x * x);"#,
     r#"arr.map(function (x) {
@@ -54,7 +62,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| Arrow,
+    |_| arrow(),
     inside_call,
     r#"arr.map(i => i + 1);"#,
     r#"arr.map(function (i) {
@@ -64,7 +72,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| Arrow,
+    |_| arrow(),
     multiple_arguments,
     r#"var t = (i, x) => i * x;"#,
     r#"var t = function (i, x) {
@@ -73,7 +81,7 @@ test!(
 );
 
 // test!(::swc_ecma_parser::Syntax::default(),
-//     |_| Arrow,
+//     |_| arrow(),
 //     nested,
 //     r#"module.exports = {
 //   init: function () {
@@ -108,7 +116,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| Arrow,
+    |_| arrow(),
     paren_insertion,
     r#"var t = i => i * 5;"#,
     r#"var t = function (i) {
@@ -118,7 +126,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| Arrow,
+    |_| arrow(),
     single_argument,
     r#"var t = (i) => i * 5;"#,
     r#"var t = function (i) {
@@ -128,7 +136,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| Arrow,
+    |_| arrow(),
     statement,
     r#"nums.forEach(v => {
   if (v % 5 === 0) {
@@ -144,7 +152,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| Arrow,
+    |_| arrow(),
     issue_413,
     r#"
 export const getBadgeBorderRadius = (text, color) => {

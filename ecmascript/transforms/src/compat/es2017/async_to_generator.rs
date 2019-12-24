@@ -7,9 +7,6 @@ use ast::*;
 use std::iter;
 use swc_common::{Fold, FoldWith, Mark, Spanned, Visit, VisitWith, DUMMY_SP};
 
-#[cfg(test)]
-mod tests;
-
 /// `@babel/plugin-transform-async-to-generator`
 ///
 /// ## In

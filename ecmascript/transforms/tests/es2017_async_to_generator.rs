@@ -1,11 +1,21 @@
-use super::*;
-use crate::{
-    compat::es2015::{arrow, destructuring, es2015, function_name, parameters},
-    fixer::fixer,
-    resolver,
-};
-use swc_common::chain;
+#![feature(box_syntax)]
+#![feature(test)]
+#![feature(box_patterns)]
+#![feature(specialization)]
+
+use ast::*;
+use swc_common::{chain, fold::FoldWith, Fold, Spanned};
 use swc_ecma_parser::Syntax;
+use swc_ecma_transforms::{
+    compat::{
+        es2015::{arrow, destructuring, es2015, function_name, parameters},
+        es2017::async_to_generator,
+    },
+    fixer, resolver,
+};
+
+#[macro_use]
+mod common;
 
 struct ParenRemover;
 impl Fold<Expr> for ParenRemover {
@@ -37,7 +47,7 @@ fn tr() -> impl Fold<Module> {
         validating!(parameters()),
         validating!(destructuring(destructuring::Config { loose: false })),
         validating!(function_name()),
-        AsyncToGenerator {},
+        async_to_generator(),
         fixer()
     )
 }
@@ -658,7 +668,7 @@ test!(
 
 test_exec!(
     syntax(),
-    |_| chain_at!(Module, tr(), es2015(Default::default())),
+    |_| chain!(tr(), es2015(Default::default())),
     issue_400_1,
     "class A {
     constructor() {
@@ -687,7 +697,7 @@ return (new B(20)).print().then(() => console.log('Done'));"
 
 test_exec!(
     syntax(),
-    |_| AsyncToGenerator,
+    |_| async_to_generator(),
     issue_400_2,
     "class A {
     constructor() {
@@ -717,7 +727,7 @@ return (new B(20)).print().then(() => console.log('Done'));"
 
 test_exec!(
     syntax(),
-    |_| chain_at!(Module, AsyncToGenerator, es2015(Default::default())),
+    |_| chain!(async_to_generator(), es2015(Default::default())),
     issue_400_3,
     "class A {
     constructor() {
@@ -735,7 +745,7 @@ return (new A()).print();"
 //// regression_7178
 //test!(
 //    syntax(),
-//    |_| chain!(jsx(), jsc_constant_elements(), AsyncToGenerator {},),
+//    |_| chain!(jsx(), jsc_constant_elements(), async_to_generator(),),
 //    regression_7178,
 //    r#"
 //const title = "Neem contact op";
@@ -772,7 +782,7 @@ return (new A()).print();"
 test!(
     ignore,
     syntax(),
-    |_| AsyncToGenerator {},
+    |_| async_to_generator(),
     bluebird_coroutines_named_expression,
     r#"
 var foo = async function bar() {
@@ -805,7 +815,7 @@ test!(
     // TODO: Enable this test after implementing es6 module pass.
     ignore,
     syntax(),
-    |_| AsyncToGenerator {},
+    |_| async_to_generator(),
     export_async_lone_export,
     r#"
 export async function foo () { }
@@ -835,7 +845,7 @@ function _foo() {
 test!(
     ignore,
     syntax(),
-    |_| AsyncToGenerator {},
+    |_| async_to_generator(),
     bluebird_coroutines_arrow_function,
     r#"
 (async () => { await foo(); })()
@@ -858,7 +868,7 @@ test!(
     // Optimization
     ignore,
     syntax(),
-    |_| chain!(AsyncToGenerator {}, arrow()),
+    |_| chain!(async_to_generator(), arrow()),
     regression_t7194,
     r#"
 function f() {
@@ -908,7 +918,7 @@ test!(
     // TODO: Unignore this
     ignore,
     syntax(),
-    |_| chain!(resolver(), AsyncToGenerator {}),
+    |_| chain!(resolver(), async_to_generator()),
     async_to_generator_shadowed_promise,
     r#"
 let Promise;
@@ -939,7 +949,7 @@ function foo() {
 // async_to_generator_object_method_with_arrows
 test!(
     syntax(),
-    |_| AsyncToGenerator {},
+    |_| async_to_generator(),
     async_to_generator_object_method_with_arrows,
     r#"
 class Class {
@@ -1014,7 +1024,7 @@ class Class{
 // async_to_generator_object_method
 test!(
     syntax(),
-    |_| AsyncToGenerator {},
+    |_| async_to_generator(),
     async_to_generator_object_method,
     r#"
 let obj = {
@@ -1044,7 +1054,7 @@ let obj = {
 test!(
     ignore,
     syntax(),
-    |_| AsyncToGenerator {},
+    |_| async_to_generator(),
     bluebird_coroutines_class,
     r#"
 class Foo {
@@ -1075,7 +1085,7 @@ test!(
     ignore,
     syntax(),
     |_| chain!(
-        AsyncToGenerator {},
+        async_to_generator(),
         //regenerator(),
         arrow(),
     ),
@@ -1235,7 +1245,7 @@ regeneratorRuntime.mark(function _callee4() {
 // async_to_generator_named_expression
 test!(
     syntax(),
-    |_| AsyncToGenerator {},
+    |_| async_to_generator(),
     async_to_generator_named_expression,
     r#"
 var foo = async function bar() {
@@ -1263,7 +1273,7 @@ function () {
 //// async_to_generator_async_iife_with_regenerator_spec
 //test!(
 //    syntax(),
-//    |_| chain!(AsyncToGenerator {}, arrow(), regenerator(),),
+//    |_| chain!(async_to_generator(), arrow(), regenerator(),),
 //    async_to_generator_async_iife_with_regenerator_spec,
 //    r#"
 //(async function() { await 'ok' })();
@@ -1356,7 +1366,7 @@ function () {
 // async_to_generator_async_arrow_in_method
 test!(
     syntax(),
-    |_| AsyncToGenerator {},
+    |_| async_to_generator(),
     async_to_generator_async_arrow_in_method,
     r#"
 let TestClass = {
@@ -1394,7 +1404,7 @@ let TestClass = {
 test!(
     ignore,
     syntax(),
-    |_| AsyncToGenerator {},
+    |_| async_to_generator(),
     bluebird_coroutines_statement,
     r#"
 async function foo() {
@@ -1422,7 +1432,7 @@ function foo() {
 test!(
     syntax(),
     |_| chain!(
-        AsyncToGenerator {},
+        async_to_generator(),
         parameters(),
         destructuring(destructuring::Config { loose: false }),
     ),
@@ -1468,7 +1478,7 @@ test!(
     // TODO: Enable this test after implementing es6 module pass.
     ignore,
     syntax(),
-    |_| AsyncToGenerator {},
+    |_| async_to_generator(),
     export_async_default_arrow_export,
     r#"
 export default async () => { return await foo(); }
@@ -1496,7 +1506,7 @@ exports.default = _default;
 // async_to_generator_function_arity
 test!(
     syntax(),
-    |_| AsyncToGenerator {},
+    |_| async_to_generator(),
     async_to_generator_function_arity,
     r#"
 async function one(a, b = 1) {}
@@ -1575,7 +1585,7 @@ test!(
     // TODO: Implement caching
     ignore,
     syntax(),
-    |_| AsyncToGenerator {},
+    |_| async_to_generator(),
     async_to_generator_object_method_with_super_caching,
     r#"
 class Foo extends class {} {
@@ -1610,7 +1620,7 @@ test!(
     // TODO: Enable this test after implementing es6 module pass.
     ignore,
     syntax(),
-    |_| AsyncToGenerator {},
+    |_| async_to_generator(),
     export_async_default_export,
     r#"
 export default async function myFunc() {}
@@ -1639,7 +1649,7 @@ function _myFunc() {
 // async_to_generator_async
 test!(
     syntax(),
-    |_| AsyncToGenerator {},
+    |_| async_to_generator(),
     async_to_generator_async,
     r#"
 class Foo {
@@ -1665,7 +1675,7 @@ class Foo {
 // regression_8783
 test!(
     syntax(),
-    |_| AsyncToGenerator {},
+    |_| async_to_generator(),
     regression_8783,
     r#"
 (async function poll() {
@@ -1691,7 +1701,7 @@ test!(
 // async_to_generator_deeply_nested_asyncs
 test!(
     syntax(),
-    |_| AsyncToGenerator {},
+    |_| async_to_generator(),
     async_to_generator_deeply_nested_asyncs,
     r#"
 async function s(x, ...args) {
@@ -1754,7 +1764,7 @@ test!(
     // TODO: Enable this test after implementing es6 module pass.
     ignore,
     syntax(),
-    |_| AsyncToGenerator {},
+    |_| async_to_generator(),
     export_async_import_and_export,
     r#"
 import bar from 'bar';
@@ -1789,7 +1799,7 @@ test!(
     // TODO: Unignore this
     ignore,
     syntax(),
-    |_| chain!(resolver(), AsyncToGenerator {}),
+    |_| chain!(resolver(), async_to_generator()),
     async_to_generator_shadowed_promise_nested,
     r#"
 let Promise;
@@ -1841,7 +1851,7 @@ function foo() {
 // regression_4599
 test!(
     syntax(),
-    |_| AsyncToGenerator {},
+    |_| async_to_generator(),
     regression_4599,
     r#"
 async () => await promise
@@ -1866,7 +1876,7 @@ _asyncToGenerator(function* () {
 // regression_4943_exec
 test_exec!(
     syntax(),
-    |_| AsyncToGenerator {},
+    |_| async_to_generator(),
     regression_4943_exec,
     r#"
 "use strict";
@@ -1889,7 +1899,7 @@ return foo().then(() => {
 // regression_8783_exec
 test_exec!(
     syntax(),
-    |_| AsyncToGenerator {},
+    |_| async_to_generator(),
     regression_8783_exec,
     r#"
 let log = [];
@@ -1914,7 +1924,7 @@ return main.then(() => {
 test!(
     ignore,
     syntax(),
-    |_| AsyncToGenerator {},
+    |_| async_to_generator(),
     bluebird_coroutines_expression,
     r#"
 var foo = async function () {
@@ -1943,7 +1953,7 @@ function () {
 // async_to_generator_expression
 test!(
     syntax(),
-    |_| AsyncToGenerator {},
+    |_| async_to_generator(),
     async_to_generator_expression,
     r#"
 var foo = async function () {
@@ -2000,7 +2010,7 @@ function () {
 // async_to_generator_statement
 test!(
     syntax(),
-    |_| AsyncToGenerator {},
+    |_| async_to_generator(),
     async_to_generator_statement,
     r#"
 async function foo() {
@@ -2028,7 +2038,7 @@ test!(
     // TODO: Unignore this
     ignore,
     syntax(),
-    |_| chain!(resolver(), AsyncToGenerator {}),
+    |_| chain!(resolver(), async_to_generator()),
     async_to_generator_shadowed_promise_import,
     r#"
 import Promise from 'somewhere';
@@ -2058,7 +2068,7 @@ function foo() {
 // async_to_generator_parameters
 test!(
     syntax(),
-    |_| AsyncToGenerator {},
+    |_| async_to_generator(),
     async_to_generator_parameters,
     r#"
 async function foo(bar) {
@@ -2083,7 +2093,7 @@ function foo(bar) {
 // regression_t6882_exec
 test_exec!(
     syntax(),
-    |_| AsyncToGenerator {},
+    |_| async_to_generator(),
     regression_t6882_exec,
     r#"
 foo();

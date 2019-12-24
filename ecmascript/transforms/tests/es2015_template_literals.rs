@@ -1,6 +1,13 @@
-use super::*;
-use crate::pass::Pass;
+#![feature(box_syntax)]
+#![feature(test)]
+#![feature(box_patterns)]
+#![feature(specialization)]
+
 use swc_ecma_parser::Syntax;
+use swc_ecma_transforms::{compat::es2015::TemplateLiteral, pass::Pass};
+
+#[macro_use]
+mod common;
 
 fn syntax() -> Syntax {
     Default::default()

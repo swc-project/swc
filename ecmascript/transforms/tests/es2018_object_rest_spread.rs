@@ -1,12 +1,22 @@
-use super::object_rest_spread;
-use crate::{
-    compat::es2015::{destructuring, spread},
-    modules::common_js::common_js,
-    resolver,
-};
+#![feature(box_syntax)]
+#![feature(test)]
+#![feature(box_patterns)]
+#![feature(specialization)]
+
 use ast::Module;
 use swc_common::{chain, Fold};
 use swc_ecma_parser::Syntax;
+use swc_ecma_transforms::{
+    compat::{
+        es2015::{destructuring, spread},
+        es2018::object_rest_spread,
+    },
+    modules::common_js::common_js,
+    resolver,
+};
+
+#[macro_use]
+mod common;
 
 fn syntax() -> Syntax {
     Syntax::default()

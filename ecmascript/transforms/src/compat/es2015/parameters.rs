@@ -3,9 +3,6 @@ use arrayvec::ArrayVec;
 use ast::*;
 use swc_common::{Fold, FoldWith, Mark, Spanned, DUMMY_SP};
 
-#[cfg(test)]
-mod tests;
-
 pub fn parameters() -> Params {
     Params
 }

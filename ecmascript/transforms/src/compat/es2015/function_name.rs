@@ -2,9 +2,6 @@ use crate::{pass::Pass, util::UsageFinder};
 use ast::*;
 use swc_common::{Fold, FoldWith};
 
-#[cfg(test)]
-mod tests;
-
 /// `@babel/plugin-transform-function-name`
 ///
 /// # Example

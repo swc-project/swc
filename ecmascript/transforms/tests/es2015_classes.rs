@@ -1,21 +1,29 @@
-use super::*;
-use crate::{
-    compat::es2015::{arrow, block_scoping, spread},
+#![feature(box_syntax)]
+#![feature(test)]
+#![feature(box_patterns)]
+#![feature(specialization)]
+
+use swc_common::chain;
+use swc_ecma_parser::{EsConfig, Syntax};
+use swc_ecma_transforms::{
+    compat::es2015::{arrow, block_scoping, spread, Classes},
+    pass::Pass,
     react::jsx,
     resolver,
 };
-use swc_common::chain;
-use swc_ecma_parser::{EsConfig, Syntax};
+
+#[macro_use]
+mod common;
 
 fn syntax() -> Syntax {
     Syntax::default()
 }
 
-fn tr() -> impl Fold<Module> {
+fn tr() -> impl Pass {
     Classes::default()
 }
 
-fn spec_tr() -> impl Fold<Module> {
+fn spec_tr() -> impl Pass {
     chain!(
         resolver(),
         Classes::default(),

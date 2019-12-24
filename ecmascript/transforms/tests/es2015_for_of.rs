@@ -1,7 +1,17 @@
-use super::*;
-use crate::modules::{amd::amd, common_js::common_js};
+#![feature(box_syntax)]
+#![feature(test)]
+#![feature(box_patterns)]
+#![feature(specialization)]
+
 use swc_common::chain;
 use swc_ecma_parser::Syntax;
+use swc_ecma_transforms::{
+    compat::es2015::for_of::{for_of, Config},
+    modules::{amd::amd, common_js::common_js},
+};
+
+#[macro_use]
+mod common;
 
 fn syntax() -> Syntax {
     Default::default()

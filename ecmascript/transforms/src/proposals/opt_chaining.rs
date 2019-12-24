@@ -6,9 +6,6 @@ use ast::*;
 use std::{fmt::Debug, iter::once, mem};
 use swc_common::{Fold, FoldWith, Spanned, DUMMY_SP};
 
-#[cfg(test)]
-mod tests;
-
 pub fn optional_chaining() -> impl Pass {
     OptChaining::default()
 }

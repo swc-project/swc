@@ -1,17 +1,25 @@
-use super::*;
+#![feature(box_syntax)]
+#![feature(test)]
+#![feature(box_patterns)]
+#![feature(specialization)]
+
 use swc_ecma_parser::Syntax;
+use swc_ecma_transforms::{compat::es2015::computed_properties, pass::Pass};
+
+#[macro_use]
+mod common;
 
 fn syntax() -> Syntax {
     ::swc_ecma_parser::Syntax::default()
 }
 
 fn tr(_: ()) -> impl Pass {
-    ComputedProps
+    computed_properties()
 }
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| ComputedProps,
+    |_| computed_properties(),
     issue_210,
     "
 const b = {[a]: 1}
@@ -25,7 +33,7 @@ export const c = _defineProperty({
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| ComputedProps,
+    |_| computed_properties(),
     accessors,
     r#"var obj = {
   get [foobar]() {
@@ -62,7 +70,7 @@ var obj = ( _obj = {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| ComputedProps,
+    |_| computed_properties(),
     argument,
     r#"foo({
   [bar]: "foobar"
@@ -73,7 +81,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| ComputedProps,
+    |_| computed_properties(),
     assignment,
     r#"foo = {
   [bar]: "foobar"
@@ -83,7 +91,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| ComputedProps,
+    |_| computed_properties(),
     method,
     r#"var obj = {
   [foobar]() {
@@ -104,7 +112,7 @@ var obj = (_obj = {}, _defineProperty(_obj, foobar, function () {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| ComputedProps,
+    |_| computed_properties(),
     mixed,
     r#"var obj = {
   ["x" + foo]: "heh",
@@ -120,7 +128,7 @@ var obj = (_obj = {}, _defineProperty(_obj, "x" + foo, "heh"), _defineProperty(_
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| ComputedProps,
+    |_| computed_properties(),
     multiple,
     r#"var obj = {
   ["x" + foo]: "heh",
@@ -134,7 +142,7 @@ _defineProperty(_obj, "y" + bar, "noo"), _obj);"#
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| ComputedProps,
+    |_| computed_properties(),
     single,
     r#"var obj = {
   ["x" + foo]: "heh"
@@ -144,7 +152,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| ComputedProps,
+    |_| computed_properties(),
     symbol,
     r#"var k = Symbol();
 var foo = {
@@ -166,7 +174,7 @@ var foo = ( _obj = {
 
 test_exec!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| ComputedProps,
+    |_| computed_properties(),
     symbol_exec,
     r#"
 var k = Symbol();
@@ -183,7 +191,7 @@ expect(foo[k]).toBe(k)"#
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| ComputedProps,
+    |_| computed_properties(),
     this,
     r#"var obj = {
   ["x" + foo.bar]: "heh"
@@ -193,7 +201,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| ComputedProps,
+    |_| computed_properties(),
     issue_315_1,
     "
 ({
@@ -223,7 +231,7 @@ export function corge() {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| ComputedProps,
+    |_| computed_properties(),
     issue_315_2,
     "
 export function corge() {}
@@ -235,7 +243,7 @@ export function corge() {}
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| ComputedProps,
+    |_| computed_properties(),
     issue_315_3,
     "
 export function corge() {}
@@ -266,7 +274,7 @@ _defineProperty({
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| ComputedProps,
+    |_| computed_properties(),
     issue_315_4,
     "
 export class Foo {}

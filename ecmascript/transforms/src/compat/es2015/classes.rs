@@ -22,8 +22,6 @@ mod constructor;
 mod native;
 mod prop_name;
 mod super_field;
-#[cfg(test)]
-mod tests;
 
 type IndexMap<K, V> = indexmap::IndexMap<K, V, FxBuildHasher>;
 

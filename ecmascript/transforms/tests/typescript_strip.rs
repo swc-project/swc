@@ -1,6 +1,13 @@
-use super::strip;
-use crate::resolver;
+#![feature(box_syntax)]
+#![feature(test)]
+#![feature(box_patterns)]
+#![feature(specialization)]
+
 use swc_common::chain;
+use swc_ecma_transforms::{resolver, typescript::strip};
+
+#[macro_use]
+mod common;
 
 macro_rules! to {
     ($name:ident, $from:expr, $to:expr) => {

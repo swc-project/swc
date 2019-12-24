@@ -7,9 +7,6 @@ use serde::Deserialize;
 use swc_atoms::js_word;
 use swc_common::{Fold, FoldWith, Mark, Spanned, Visit, VisitWith, DUMMY_SP};
 
-#[cfg(test)]
-mod tests;
-
 /// `@babel/plugin-transform-for-of`
 ///
 /// ## In

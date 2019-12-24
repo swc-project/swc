@@ -15,8 +15,6 @@ use swc_atoms::js_word;
 use swc_common::{Fold, FoldWith, Mark, SourceMap, VisitWith, DUMMY_SP};
 
 mod config;
-#[cfg(test)]
-mod tests;
 
 pub fn umd(cm: Arc<SourceMap>, config: Config) -> impl Pass {
     Umd {

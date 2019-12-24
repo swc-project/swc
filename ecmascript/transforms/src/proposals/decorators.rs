@@ -10,9 +10,6 @@ use serde::Deserialize;
 use std::iter;
 use swc_common::{Fold, FoldWith, Spanned, Visit, VisitWith, DUMMY_SP};
 
-#[cfg(test)]
-mod tests;
-
 /// ## Simple class decorator
 ///
 /// ```js

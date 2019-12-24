@@ -1,15 +1,28 @@
-use super::{super::util, amd, Config};
-use crate::resolver;
+#![feature(box_syntax)]
+#![feature(test)]
+#![feature(box_patterns)]
+#![feature(specialization)]
+
 use ast::Module;
-use swc_common::Fold;
+use swc_common::{chain, Fold};
 use swc_ecma_parser::Syntax;
+use swc_ecma_transforms::{
+    modules::{
+        amd::{amd, Config},
+        util,
+    },
+    resolver,
+};
+
+#[macro_use]
+mod common;
 
 fn syntax() -> Syntax {
     Default::default()
 }
 
 fn tr(config: Config) -> impl Fold<Module> {
-    chain_at!(Module, resolver(), amd(config))
+    chain!(resolver(), amd(config))
 }
 
 test!(
