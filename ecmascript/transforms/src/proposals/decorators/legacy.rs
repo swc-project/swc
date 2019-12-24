@@ -31,6 +31,20 @@ where
     }
 }
 
+impl Fold<ClassMember> for Legacy {
+    fn fold(&mut self, m: ClassMember) -> ClassMember {
+        let m: ClassMember = m.fold_children(self);
+
+        match m {
+            ClassMember::Method(m) if !m.function.decorators.is_empty() => {}
+
+            _ => {}
+        }
+
+        m
+    }
+}
+
 impl Fold<Expr> for Legacy {
     fn fold(&mut self, e: Expr) -> Expr {
         let e: Expr = e.fold_children(self);
