@@ -31,7 +31,7 @@ install:
 script:
   - cargo check --color always --all --all-features --all-targets
   - RUST_BACKTRACE=full cargo test --color always --all --all-features
-  - (cd ecmascript/parser && RUST_BACKTRACE=full cargo test --release --color always --all --all-features)
+  - (cd ecmascript/parser && RUST_BACKTRACE=full cargo test --release --color always --all-features)
 
 before_deploy:
   - CARGO_TARGET_DIR=$HOME/cargo-target cargo doc --color always
