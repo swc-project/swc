@@ -105,7 +105,7 @@ impl Legacy {
         });
 
         let mut expr = var_init;
-        for dec in c.class.decorators {
+        for dec in c.class.decorators.into_iter().rev() {
             expr = box Expr::Call(CallExpr {
                 span: DUMMY_SP,
                 callee: dec.expr.as_callee(),
