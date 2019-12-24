@@ -1,5 +1,10 @@
-use super::*;
-use crate::{
+#![feature(box_syntax)]
+#![feature(box_patterns)]
+#![feature(specialization)]
+
+use swc_common::chain;
+use swc_ecma_parser::Syntax;
+use swc_ecma_transforms::{
     compat::{
         es2015,
         es2015::{block_scoping, parameters, spread},
@@ -7,8 +12,9 @@ use crate::{
     },
     resolver,
 };
-use swc_common::chain;
-use swc_ecma_parser::Syntax;
+
+#[macro_use]
+mod common;
 
 fn syntax() -> Syntax {
     Default::default()

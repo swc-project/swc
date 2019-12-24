@@ -1,12 +1,18 @@
-use super::*;
-use crate::resolver;
+#![feature(box_syntax)]
+#![feature(box_patterns)]
+#![feature(specialization)]
+
 use swc_common::chain;
+use swc_ecma_transforms::resolver;
+
+#[macro_use]
+mod common;
 
 fn syntax() -> ::swc_ecma_parser::Syntax {
     Default::default()
 }
 
-fn tr(tester: &mut crate::tests::Tester<'_>, config: Config) -> impl Fold<Module> {
+fn tr(tester: &mut swc_ecma_transforms::tests::Tester<'_>, config: Config) -> impl Fold<Module> {
     chain!(resolver(), umd(tester.cm.clone(), config))
 }
 

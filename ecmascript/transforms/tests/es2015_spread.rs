@@ -1,6 +1,12 @@
-use super::*;
-use crate::{compat::es2015::block_scoping, modules::common_js::common_js};
+#![feature(box_syntax)]
+#![feature(box_patterns)]
+#![feature(specialization)]
+
 use swc_common::chain;
+use swc_ecma_transforms::{compat::es2015::block_scoping, modules::common_js::common_js};
+
+#[macro_use]
+mod common;
 
 fn syntax() -> ::swc_ecma_parser::Syntax {
     Default::default()
@@ -8,7 +14,7 @@ fn syntax() -> ::swc_ecma_parser::Syntax {
 
 fn tr() -> impl Fold<Module> {
     chain!(
-        crate::compat::es2015::parameters(),
+        swc_ecma_transforms::compat::es2015::parameters(),
         spread(Config {
             ..Default::default()
         })

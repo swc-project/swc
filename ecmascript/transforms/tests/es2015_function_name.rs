@@ -1,12 +1,18 @@
-use super::*;
-use crate::{
+#![feature(box_syntax)]
+#![feature(box_patterns)]
+#![feature(specialization)]
+
+use swc_common::chain;
+use swc_ecma_parser::Syntax;
+use swc_ecma_transforms::{
     compat::es2015::{arrow, block_scoping, classes::Classes, shorthand_property::Shorthand},
     modules::{amd::amd, common_js::common_js, umd::umd},
     proposals::decorators,
     resolver,
 };
-use swc_common::chain;
-use swc_ecma_parser::Syntax;
+
+#[macro_use]
+mod common;
 
 fn syntax() -> Syntax {
     Default::default()

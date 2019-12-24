@@ -1,15 +1,21 @@
-use super::{super::util::Lazy, common_js, Config};
-use crate::{
-    compat,
-    fixer::fixer,
+#![feature(box_syntax)]
+#![feature(box_patterns)]
+#![feature(specialization)]
+
+use ast::*;
+use swc_common::{chain, Fold};
+use swc_ecma_transforms::{
+    compat, fixer,
     helpers::InjectHelpers,
-    hygiene::hygiene,
+    hygiene,
+    modules::{common_js, common_js::Config, util::Lazy},
     optimization::simplifier,
     proposals::{class_properties, decorators, export},
     resolver, typescript,
 };
-use ast::*;
-use swc_common::{chain, Fold};
+
+#[macro_use]
+mod common;
 
 fn syntax() -> ::swc_ecma_parser::Syntax {
     Default::default()
@@ -72,7 +78,7 @@ test!(
     |_| chain!(
         resolver(),
         // Optional::new(typescript::strip(), syntax.typescript()),
-        super::super::import_analysis::import_analyzer(),
+        import_analyzer(),
         InjectHelpers,
         common_js(Default::default()),
         hygiene(),
@@ -108,7 +114,7 @@ test!(
         compat::es2016(),
         compat::es2015(Default::default()),
         compat::es3(true),
-        super::super::import_analysis::import_analyzer(),
+        import_analyzer(),
         InjectHelpers,
         common_js(Default::default()),
     ),

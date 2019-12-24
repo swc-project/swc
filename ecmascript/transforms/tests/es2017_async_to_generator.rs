@@ -1,11 +1,17 @@
-use super::*;
-use crate::{
-    compat::es2015::{arrow, destructuring, es2015, function_name, parameters},
-    fixer::fixer,
-    resolver,
-};
-use swc_common::chain;
+#![feature(box_syntax)]
+#![feature(box_patterns)]
+#![feature(specialization)]
+
+use swc_common::{chain, Fold};
 use swc_ecma_parser::Syntax;
+use swc_ecma_transforms::{
+    compat::es2015::{arrow, destructuring, es2015, function_name, parameters},
+    fixer, resolver,
+};
+use swc_ecmascript_ast::*;
+
+#[macro_use]
+mod common;
 
 struct ParenRemover;
 impl Fold<Expr> for ParenRemover {
@@ -658,7 +664,7 @@ test!(
 
 test_exec!(
     syntax(),
-    |_| chain_at!(Module, tr(), es2015(Default::default())),
+    |_| chain!(tr(), es2015(Default::default())),
     issue_400_1,
     "class A {
     constructor() {
@@ -717,7 +723,7 @@ return (new B(20)).print().then(() => console.log('Done'));"
 
 test_exec!(
     syntax(),
-    |_| chain_at!(Module, AsyncToGenerator, es2015(Default::default())),
+    |_| chain!(AsyncToGenerator, es2015(Default::default())),
     issue_400_3,
     "class A {
     constructor() {

@@ -10,9 +10,6 @@ use serde::Deserialize;
 use std::iter;
 use swc_common::{Fold, FoldWith, Spanned, SyntaxContext, Visit, VisitWith, DUMMY_SP};
 
-#[cfg(test)]
-mod tests;
-
 /// `@babel/plugin-transform-destructuring`
 ///
 /// # Example

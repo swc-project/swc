@@ -3,8 +3,6 @@ use ast::*;
 use std::{iter, mem};
 use swc_atoms::js_word;
 use swc_common::{BytePos, Fold, FoldWith, Spanned, DUMMY_SP};
-#[cfg(test)]
-mod tests;
 
 #[derive(Default, Clone)]
 pub struct TemplateLiteral {

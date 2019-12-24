@@ -1,5 +1,11 @@
-use super::*;
+#![feature(box_syntax)]
+#![feature(box_patterns)]
+#![feature(specialization)]
+
 use swc_ecma_parser::{Syntax, TsConfig};
+
+#[macro_use]
+mod common;
 
 fn tr(_: ()) -> impl Pass {
     optional_chaining()

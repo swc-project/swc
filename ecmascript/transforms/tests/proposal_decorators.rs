@@ -1,11 +1,17 @@
-use super::*;
-use crate::{
+#![feature(box_syntax)]
+#![feature(box_patterns)]
+#![feature(specialization)]
+
+use swc_common::chain;
+use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
+use swc_ecma_transforms::{
     proposals::{class_properties, decorators},
     resolver::resolver,
     typescript,
 };
-use swc_common::chain;
-use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
+
+#[macro_use]
+mod common;
 
 fn syntax(decorators_before_export: bool) -> Syntax {
     Syntax::Es(EsConfig {

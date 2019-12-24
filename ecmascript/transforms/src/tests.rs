@@ -1,3 +1,7 @@
+use crate::{
+    helpers::{InjectHelpers, HELPERS},
+    pass::Pass,
+};
 use ast::*;
 use sourcemap::SourceMapBuilder;
 use std::{
@@ -11,42 +15,13 @@ use std::{
 use swc_common::{comments::Comments, errors::Handler, FileName, Fold, FoldWith, SourceMap};
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{lexer::Lexer, Parser, Session, SourceFileInput, Syntax};
-use swc_ecma_transforms::{
-    helpers::{InjectHelpers, HELPERS},
-    pass::Pass,
-};
 use tempfile::tempdir_in;
-
-pub(crate) fn validating(name: &'static str, tr: impl Pass + 'static) -> Box<dyn Pass> {
-    box ::swc_common::Fold::then(
-        tr,
-        swc_ecma_transforms::debug::validator::Validator { name },
-    )
-}
-
-macro_rules! validating {
-    ($folder:expr) => {{
-        ::common::validating(stringify!($folder), $folder)
-    }};
-}
-
-macro_rules! validate {
-    ($e:expr) => {{
-        if cfg!(debug_assertions) {
-            $e.fold_with(&mut swc_ecma_transforms::debug::validator::Validator {
-                name: concat!(file!(), ':', line!(), ':', column!()),
-            })
-        } else {
-            $e
-        }
-    }};
-}
 
 struct MyHandlers;
 
 impl swc_ecma_codegen::Handlers for MyHandlers {}
 
-pub struct Tester<'a> {
+pub(crate) struct Tester<'a> {
     pub cm: Arc<SourceMap>,
     pub handler: &'a Handler,
     pub comments: Comments,
@@ -58,7 +33,7 @@ impl<'a> Tester<'a> {
         F: FnOnce(&mut Tester<'_>) -> Result<(), ()>,
     {
         let out = ::testing::run_test(false, |cm, handler| {
-            swc_ecma_transforms::util::HANDLER.set(handler, || {
+            crate::util::HANDLER.set(handler, || {
                 HELPERS.set(&Default::default(), || {
                     op(&mut Tester {
                         cm,
@@ -204,21 +179,26 @@ macro_rules! test_transform {
     };
 
     ($syntax:expr, $tr:expr, $input:expr, $expected:expr, $ok_if_code_eq:expr) => {{
-        common::test_transform($syntax, $tr, $input, $expected, $ok_if_code_eq);
+        crate::tests::test_transform($syntax, $tr, $input, $expected, $ok_if_code_eq);
     }};
 }
 
-pub fn test_transform<F, P>(syntax: Syntax, tr: F, input: &str, expected: &str, ok_if_code_eq: bool)
-where
+pub(crate) fn test_transform<F, P>(
+    syntax: Syntax,
+    tr: F,
+    input: &str,
+    expected: &str,
+    ok_if_code_eq: bool,
+) where
     F: FnOnce(&mut Tester<'_>) -> P,
 {
-    Tester::run(|tester| {
+    crate::tests::Tester::run(|tester| {
         let expected =
             tester.apply_transform(::testing::DropSpan, "output.js", syntax, expected)?;
 
         println!("----- Actual -----");
 
-        let tr = make_tr("actual", tr, tester);
+        let tr = crate::tests::make_tr("actual", tr, tester);
         let actual = tester.apply_transform(tr, "input.js", syntax, input)?;
 
         match ::std::env::var("PRINT_HYGIENE") {
@@ -230,11 +210,11 @@ where
         }
 
         let actual = actual
-            .fold_with(&mut swc_ecma_transforms::debug::validator::Validator { name: "actual-1" })
-            .fold_with(&mut swc_ecma_transforms::hygiene())
-            .fold_with(&mut swc_ecma_transforms::debug::validator::Validator { name: "actual-2" })
-            .fold_with(&mut swc_ecma_transforms::fixer())
-            .fold_with(&mut swc_ecma_transforms::debug::validator::Validator { name: "actual-3" });
+            .fold_with(&mut crate::debug::validator::Validator { name: "actual-1" })
+            .fold_with(&mut crate::hygiene::hygiene())
+            .fold_with(&mut crate::debug::validator::Validator { name: "actual-2" })
+            .fold_with(&mut crate::fixer::fixer())
+            .fold_with(&mut crate::debug::validator::Validator { name: "actual-3" });
 
         if actual == expected {
             return Ok(());
@@ -302,7 +282,7 @@ macro_rules! test {
 
 macro_rules! exec_tr {
     ($syntax:expr, $tr:expr, $test_name:ident, $input:expr) => {{
-        exec_tr(stringify!($test_name), $syntax, $tr, $input);
+        crate::tests::exec_tr(stringify!($test_name), $syntax, $tr, $input);
     }};
 }
 
@@ -333,11 +313,11 @@ where
         }
 
         let module = module
-            .fold_with(&mut swc_ecma_transforms::debug::validator::Validator { name: "actual-1" })
-            .fold_with(&mut swc_ecma_transforms::hygiene())
-            .fold_with(&mut swc_ecma_transforms::debug::validator::Validator { name: "actual-2" })
-            .fold_with(&mut swc_ecma_transforms::fixer())
-            .fold_with(&mut swc_ecma_transforms::debug::validator::Validator { name: "actual-3" });
+            .fold_with(&mut crate::debug::validator::Validator { name: "actual-1" })
+            .fold_with(&mut crate::hygiene::hygiene())
+            .fold_with(&mut crate::debug::validator::Validator { name: "actual-2" })
+            .fold_with(&mut crate::fixer::fixer())
+            .fold_with(&mut crate::debug::validator::Validator { name: "actual-3" });
 
         let src_without_helpers = tester.print(&module);
         let module = module.fold_with(&mut InjectHelpers {});

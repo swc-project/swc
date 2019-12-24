@@ -1,16 +1,21 @@
-use super::*;
-use crate::{
+#![feature(box_syntax)]
+#![feature(box_patterns)]
+#![feature(specialization)]
+use swc_common::chain;
+use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
+use swc_ecma_transforms::{
     compat::{
         es2015::{arrow, block_scoping, function_name, Classes},
         es2016::exponentation,
         es2017::async_to_generator,
         es3::ReservedWord,
     },
-    proposals::decorators,
+    proposals::{class_properties, decorators},
     resolver, typescript,
 };
-use swc_common::chain;
-use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
+
+#[macro_use]
+mod common;
 
 fn ts() -> Syntax {
     Syntax::Typescript(TsConfig {

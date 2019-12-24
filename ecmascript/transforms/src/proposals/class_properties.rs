@@ -19,8 +19,6 @@ use swc_common::{Fold, FoldWith, Mark, Spanned, VisitWith, DUMMY_SP};
 
 mod class_name_tdz;
 mod private_field;
-#[cfg(test)]
-mod tests;
 mod this_in_static;
 mod used_name;
 

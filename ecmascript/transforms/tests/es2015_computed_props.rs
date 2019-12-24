@@ -1,5 +1,11 @@
-use super::*;
+#![feature(box_syntax)]
+#![feature(box_patterns)]
+#![feature(specialization)]
+
 use swc_ecma_parser::Syntax;
+
+#[macro_use]
+mod common;
 
 fn syntax() -> Syntax {
     ::swc_ecma_parser::Syntax::default()

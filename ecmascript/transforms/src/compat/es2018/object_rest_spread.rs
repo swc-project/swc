@@ -10,9 +10,6 @@ use swc_common::{
     chain, util::move_map::MoveMap, Fold, FoldWith, Mark, Spanned, Visit, VisitWith, DUMMY_SP,
 };
 
-#[cfg(test)]
-mod tests;
-
 /// `@babel/plugin-proposal-object-rest-spread`
 pub fn object_rest_spread() -> impl Pass {
     chain!(ObjectRest, ObjectSpread)
