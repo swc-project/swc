@@ -85,6 +85,10 @@ pub enum BinaryOp {
     /// `**`
     #[kind(precedence = "11")]
     Exp,
+
+    /// `??`
+    #[kind(precedence = "1")]
+    NullishCoalescing,
 }
 
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash)]

@@ -292,6 +292,7 @@ pub struct EsConfig {
     #[serde(default)]
     pub jsx: bool,
     /// Support numeric separator.
+    /// Stage 3.
     #[serde(rename = "numericSeparator")]
     #[serde(default)]
     pub num_sep: bool,
@@ -332,6 +333,10 @@ pub struct EsConfig {
 
     #[serde(default)]
     pub dynamic_import: bool,
+
+    /// Stage 3.
+    #[serde(default)]
+    pub nullish_coalescing: bool,
 }
 
 /// Syntactic context.

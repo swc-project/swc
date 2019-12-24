@@ -179,7 +179,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                 return Ok(Some(tok!('.')));
             }
 
-            '(' | ')' | ';' | ',' | '[' | ']' | '{' | '}' | '@' | '?' => {
+            '(' | ')' | ';' | ',' | '[' | ']' | '{' | '}' | '@' => {
                 // These tokens are emitted directly.
                 self.input.bump();
                 return Ok(Some(match c {
@@ -196,6 +196,18 @@ impl<'a, I: Input> Lexer<'a, I> {
                     _ => unreachable!(),
                 }));
             }
+
+            '?' => match self.input.peek() {
+                Some('?') => {
+                    self.input.bump();
+                    self.input.bump();
+                    return Ok(Some(tok!("??")));
+                }
+                _ => {
+                    self.input.bump();
+                    return Ok(Some(tok!('?')));
+                }
+            },
 
             '`' => {
                 self.bump();
