@@ -31,6 +31,34 @@ impl Comments {
     pub fn leading_comments(&self, pos: BytePos) -> Option<ReadGuard<'_, BytePos, Vec<Comment>>> {
         self.leading.get(&pos)
     }
+
+    pub fn move_leading(&self, from: BytePos, to: BytePos) {
+        let cmt = self.leading.remove(&from);
+
+        if let Some(cmt) = cmt {
+            self.leading.alter(to, |v| match v {
+                Some(mut value) => {
+                    value.extend(cmt);
+                    Some(value)
+                }
+                None => Some(cmt),
+            });
+        }
+    }
+
+    pub fn move_trailing(&self, from: BytePos, to: BytePos) {
+        let cmt = self.trailing.remove(&from);
+
+        if let Some(cmt) = cmt {
+            self.trailing.alter(to, |v| match v {
+                Some(mut value) => {
+                    value.extend(cmt);
+                    Some(value)
+                }
+                None => Some(cmt),
+            });
+        }
+    }
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]

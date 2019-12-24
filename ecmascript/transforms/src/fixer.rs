@@ -1,18 +1,29 @@
-use crate::{pass::Pass, util::ExprFactory};
+use crate::{
+    pass::Pass,
+    util::{ExprFactory, COMMENTS},
+};
 use ast::*;
+use fxhash::FxHashMap;
 use swc_common::{
     util::{map::Map, move_map::MoveMap},
-    Fold, FoldWith,
+    Fold, FoldWith, Span, Spanned,
 };
 
 pub fn fixer() -> impl Pass {
     Fixer {
         ctx: Default::default(),
+        span_map: Default::default(),
     }
 }
 
+#[derive(Debug)]
 struct Fixer {
     ctx: Context,
+    /// A hash map to preserve original span.
+    ///
+    /// Key is span of inner expression, and value is span of the paren
+    /// expression.
+    span_map: FxHashMap<Span, Span>,
 }
 
 #[repr(u8)]
@@ -33,9 +44,29 @@ enum Context {
         is_var_decl: bool,
     },
 }
+
 impl Default for Context {
     fn default() -> Self {
         Context::Default
+    }
+}
+
+impl Fold<Program> for Fixer {
+    fn fold(&mut self, p: Program) -> Program {
+        debug_assert!(self.span_map.is_empty());
+        self.span_map.clear();
+
+        let p = p.fold_children(self);
+
+        COMMENTS.with(|c| {
+            for (from, to) in self.span_map.drain() {
+                let (from, to) = (from.data(), to.data());
+                c.move_leading(from.lo, to.lo);
+                c.move_trailing(from.hi, to.hi);
+            }
+        });
+
+        p
     }
 }
 
@@ -84,7 +115,7 @@ impl Fold<BlockStmtOrExpr> for Fixer {
 
         match body {
             BlockStmtOrExpr::Expr(box expr @ Expr::Object(..)) => {
-                BlockStmtOrExpr::Expr(box expr.wrap_with_paren())
+                BlockStmtOrExpr::Expr(box self.wrap(expr))
             }
 
             _ => body,
@@ -108,7 +139,7 @@ impl Fold<Stmt> for Fixer {
         let stmt = match stmt {
             Stmt::Expr(ExprStmt { span, expr }) => Stmt::Expr(ExprStmt {
                 span,
-                expr: expr.map(handle_expr_stmt),
+                expr: expr.map(|e| self.handle_expr_stmt(e)),
             }),
 
             _ => stmt,
@@ -175,7 +206,7 @@ impl Fold<KeyValueProp> for Fixer {
 
         match *prop.value {
             Expr::Seq(..) => KeyValueProp {
-                value: box (*prop.value).wrap_with_paren(),
+                value: box self.wrap(*prop.value),
                 ..prop
             },
             _ => prop,
@@ -183,14 +214,86 @@ impl Fold<KeyValueProp> for Fixer {
     }
 }
 
-/// Removes paren
-fn unwrap_expr(mut e: Expr) -> Expr {
-    match e {
-        Expr::Seq(SeqExpr { ref mut exprs, .. }) if exprs.len() == 1 => {
-            unwrap_expr(*exprs.pop().unwrap())
+impl Fixer {
+    fn wrap<T>(&mut self, e: T) -> Expr
+    where
+        T: Into<Expr>,
+    {
+        let expr = box e.into();
+        let span = expr.span();
+
+        let span = if let Some(span) = self.span_map.remove(&span) {
+            span
+        } else {
+            span
+        };
+
+        Expr::Paren(ParenExpr { expr, span })
+    }
+
+    /// Removes paren
+    fn unwrap_expr(&mut self, mut e: Expr) -> Expr {
+        match e {
+            Expr::Seq(SeqExpr { ref mut exprs, .. }) if exprs.len() == 1 => {
+                self.unwrap_expr(*exprs.pop().unwrap())
+            }
+            Expr::Paren(ParenExpr {
+                span: paren_span,
+                expr,
+                ..
+            }) => {
+                let e = self.unwrap_expr(*expr);
+
+                self.span_map.insert(e.span(), paren_span);
+                e
+            }
+            _ => validate!(e),
         }
-        Expr::Paren(ParenExpr { expr, .. }) => unwrap_expr(*expr),
-        _ => validate!(e),
+    }
+
+    fn handle_expr_stmt(&mut self, expr: Expr) -> Expr {
+        match expr {
+            // It's important for arrow pass to work properly.
+            Expr::Object(..) | Expr::Class(..) | Expr::Fn(..) => self.wrap(expr),
+
+            // ({ a } = foo)
+            Expr::Assign(AssignExpr {
+                span,
+                left: PatOrExpr::Pat(left @ box Pat::Object(..)),
+                op,
+                right,
+            }) => self.wrap(AssignExpr {
+                span,
+                left: PatOrExpr::Pat(left),
+                op,
+                right,
+            }),
+
+            Expr::Seq(SeqExpr { span, exprs }) => {
+                debug_assert!(
+                    exprs.len() != 1,
+                    "SeqExpr should be unwrapped if exprs.len() == 1, but length is 1"
+                );
+
+                let mut i = 0;
+                let len = exprs.len();
+                Expr::Seq(SeqExpr {
+                    span,
+                    exprs: exprs.move_map(|expr| {
+                        i += 1;
+                        let is_last = len == i;
+
+                        if !is_last {
+                            expr.map(|e| self.handle_expr_stmt(e))
+                        } else {
+                            expr
+                        }
+                    }),
+                })
+            }
+
+            _ => expr,
+        }
     }
 }
 
@@ -199,7 +302,7 @@ impl Fold<Expr> for Fixer {
         let expr = validate!(expr);
         let expr = expr.fold_children(self);
         let expr = validate!(expr);
-        let expr = unwrap_expr(expr);
+        let expr = self.unwrap_expr(expr);
 
         match expr {
             Expr::Member(MemberExpr {
@@ -301,7 +404,7 @@ impl Fold<Expr> for Fixer {
             }) => validate!(MemberExpr {
                 span,
                 computed,
-                obj: obj.wrap_with_paren().as_obj(),
+                obj: self.wrap(*obj).as_obj(),
                 prop,
             })
             .into(),
@@ -381,10 +484,10 @@ impl Fold<Expr> for Fixer {
                     | e @ Expr::Seq(..)
                     | e @ Expr::Yield(..)
                     | e @ Expr::Cond(..)
-                    | e @ Expr::Arrow(..) => box validate!(e).wrap_with_paren(),
+                    | e @ Expr::Arrow(..) => box self.wrap(e),
                     Expr::Bin(BinExpr { op: op_of_rhs, .. }) => {
                         if op_of_rhs.precedence() <= expr.op.precedence() {
-                            box expr.right.wrap_with_paren()
+                            box self.wrap(*expr.right)
                         } else {
                             validate!(expr.right)
                         }
@@ -398,7 +501,7 @@ impl Fold<Expr> for Fixer {
                     Expr::Bin(BinExpr { op: op_of_lhs, .. }) => {
                         if op_of_lhs.precedence() < expr.op.precedence() {
                             Expr::Bin(validate!(BinExpr {
-                                left: box expr.left.wrap_with_paren(),
+                                left: box self.wrap(*expr.left),
                                 ..expr
                             }))
                         } else {
@@ -411,7 +514,7 @@ impl Fold<Expr> for Fixer {
                     | e @ Expr::Cond(..)
                     | e @ Expr::Assign(..)
                     | e @ Expr::Arrow(..) => validate!(Expr::Bin(BinExpr {
-                        left: box e.wrap_with_paren(),
+                        left: box self.wrap(e),
                         ..expr
                     })),
                     _ => validate!(Expr::Bin(expr)),
@@ -423,11 +526,11 @@ impl Fold<Expr> for Fixer {
                     e @ Expr::Seq(..)
                     | e @ Expr::Assign(..)
                     | e @ Expr::Cond(..)
-                    | e @ Expr::Arrow(..) => box e.wrap_with_paren(),
+                    | e @ Expr::Arrow(..) => box self.wrap(e),
 
                     e @ Expr::Object(..) | e @ Expr::Fn(..) | e @ Expr::Class(..) => {
                         if self.ctx == Context::Default {
-                            box e.wrap_with_paren()
+                            box self.wrap(e)
                         } else {
                             box e
                         }
@@ -436,12 +539,12 @@ impl Fold<Expr> for Fixer {
                 };
 
                 let cons = match *expr.cons {
-                    e @ Expr::Seq(..) => box e.wrap_with_paren(),
+                    e @ Expr::Seq(..) => box self.wrap(e),
                     _ => expr.cons,
                 };
 
                 let alt = match *expr.alt {
-                    e @ Expr::Seq(..) => box e.wrap_with_paren(),
+                    e @ Expr::Seq(..) => box self.wrap(e),
                     _ => expr.alt,
                 };
                 validate!(Expr::Cond(CondExpr {
@@ -459,7 +562,7 @@ impl Fold<Expr> for Fixer {
                     | e @ Expr::Seq(..)
                     | e @ Expr::Cond(..)
                     | e @ Expr::Arrow(..)
-                    | e @ Expr::Yield(..) => box e.wrap_with_paren(),
+                    | e @ Expr::Yield(..) => box self.wrap(e),
                     _ => expr.arg,
                 };
 
@@ -479,7 +582,7 @@ impl Fold<Expr> for Fixer {
                     }) => expr.right,
 
                     // Handle `foo = bar = init()
-                    Expr::Seq(right) => box right.wrap_with_paren(),
+                    Expr::Seq(right) => box self.wrap(right),
                     _ => expr.right,
                 };
 
@@ -493,7 +596,7 @@ impl Fold<Expr> for Fixer {
                 type_args,
             }) => validate!(Expr::Call(CallExpr {
                 span,
-                callee: callee.wrap_with_paren().as_callee(),
+                callee: self.wrap(*callee).as_callee(),
                 args,
                 type_args,
             })),
@@ -512,17 +615,16 @@ impl Fold<Expr> for Fixer {
                     type_args,
                 })),
 
-                Context::Callee { is_new: true } => validate!(Expr::Call(CallExpr {
+                Context::Callee { is_new: true } => self.wrap(CallExpr {
                     span,
                     callee: callee.as_callee(),
                     args,
                     type_args,
-                }))
-                .wrap_with_paren(),
+                }),
 
                 _ => validate!(Expr::Call(CallExpr {
                     span,
-                    callee: callee.wrap_with_paren().as_callee(),
+                    callee: self.wrap(*callee).as_callee(),
                     args,
                     type_args,
                 })),
@@ -534,7 +636,7 @@ impl Fold<Expr> for Fixer {
                 type_args,
             }) => validate!(Expr::Call(CallExpr {
                 span,
-                callee: callee.wrap_with_paren().as_callee(),
+                callee: self.wrap(*callee).as_callee(),
                 args,
                 type_args,
             })),
@@ -552,7 +654,7 @@ impl Fold<ExprOrSpread> for Fixer {
                 Expr::Yield(..) => {
                     return ExprOrSpread {
                         spread: None,
-                        expr: box e.expr.wrap_with_paren(),
+                        expr: box self.wrap(*e.expr),
                     }
                 }
                 _ => {}
@@ -569,7 +671,7 @@ impl Fold<ExportDefaultExpr> for Fixer {
         self.ctx = Context::Default;
         let mut node = node.fold_children(self);
         node.expr = match *node.expr {
-            Expr::Arrow(..) | Expr::Seq(..) => box node.expr.wrap_with_paren(),
+            Expr::Arrow(..) | Expr::Seq(..) => box self.wrap(*node.expr),
             _ => node.expr,
         };
         self.ctx = old;
@@ -584,7 +686,7 @@ impl Fold<ArrowExpr> for Fixer {
         let mut node = node.fold_children(self);
         node.body = match node.body {
             BlockStmtOrExpr::Expr(e @ box Expr::Seq(..)) => {
-                BlockStmtOrExpr::Expr(box e.wrap_with_paren())
+                BlockStmtOrExpr::Expr(box self.wrap(*e))
             }
             _ => node.body,
         };
@@ -599,7 +701,7 @@ impl Fold<Class> for Fixer {
         self.ctx = Context::Default;
         let mut node = node.fold_children(self);
         node.super_class = match node.super_class {
-            Some(e @ box Expr::Seq(..)) => Some(box e.wrap_with_paren()),
+            Some(e @ box Expr::Seq(..)) => Some(box self.wrap(*e)),
             _ => node.super_class,
         };
         self.ctx = old;
@@ -616,52 +718,6 @@ fn ignore_return_value(expr: Box<Expr>) -> Option<Box<Expr>> {
             ..
         }) => ignore_return_value(arg),
         _ => Some(expr),
-    }
-}
-
-fn handle_expr_stmt(expr: Expr) -> Expr {
-    match expr {
-        // It's important for arrow pass to work properly.
-        Expr::Object(..) | Expr::Class(..) | Expr::Fn(..) => expr.wrap_with_paren(),
-
-        // ({ a } = foo)
-        Expr::Assign(AssignExpr {
-            span,
-            left: PatOrExpr::Pat(left @ box Pat::Object(..)),
-            op,
-            right,
-        }) => AssignExpr {
-            span,
-            left: PatOrExpr::Pat(left),
-            op,
-            right,
-        }
-        .wrap_with_paren(),
-
-        Expr::Seq(SeqExpr { span, exprs }) => {
-            debug_assert!(
-                exprs.len() != 1,
-                "SeqExpr should be unwrapped if exprs.len() == 1, but length is 1"
-            );
-
-            let mut i = 0;
-            let len = exprs.len();
-            Expr::Seq(SeqExpr {
-                span,
-                exprs: exprs.move_map(|expr| {
-                    i += 1;
-                    let is_last = len == i;
-
-                    if !is_last {
-                        expr.map(handle_expr_stmt)
-                    } else {
-                        expr
-                    }
-                }),
-            })
-        }
-
-        _ => expr,
     }
 }
 

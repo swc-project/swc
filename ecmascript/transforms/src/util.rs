@@ -19,7 +19,8 @@ use std::{
 };
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
-    errors::Handler, Fold, FoldWith, Mark, Span, Spanned, Visit, VisitWith, DUMMY_SP,
+    comments::Comments, errors::Handler, Fold, FoldWith, Mark, Span, Spanned, Visit, VisitWith,
+    DUMMY_SP,
 };
 use unicode_xid::UnicodeXID;
 
@@ -1283,3 +1284,4 @@ impl<'a> UsageFinder<'a> {
 }
 
 scoped_thread_local!(pub static HANDLER: Handler);
+scoped_thread_local!(pub static COMMENTS: Comments);

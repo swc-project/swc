@@ -25,6 +25,7 @@ use ecmascript::{
     transforms::{
         helpers::{self, Helpers},
         util,
+        util::COMMENTS,
     },
 };
 pub use ecmascript::{
@@ -43,6 +44,7 @@ pub struct Compiler {
     /// CodeMap
     pub cm: Arc<SourceMap>,
     pub handler: Handler,
+    comments: Comments,
 }
 
 #[derive(Serialize)]
@@ -54,6 +56,10 @@ pub struct TransformOutput {
 
 /// These are **low-level** apis.
 impl Compiler {
+    pub fn comments(&self) -> &Comments {
+        &self.comments
+    }
+
     /// Runs `op` in current compiler's context.
     ///
     /// Note: Other methods of `Compiler` already uses this internally.
@@ -61,7 +67,13 @@ impl Compiler {
     where
         F: FnOnce() -> R,
     {
-        GLOBALS.set(&self.globals, || op())
+        GLOBALS.set(&self.globals, || {
+            //
+            COMMENTS.set(&self.comments, || {
+                //
+                op()
+            })
+        })
     }
 
     /// This method parses a javascript / typescript file
@@ -71,7 +83,7 @@ impl Compiler {
         target: JscTarget,
         syntax: Syntax,
         is_module: bool,
-        comments: Option<&Comments>,
+        parse_comments: bool,
     ) -> Result<Program, Error> {
         self.run(|| {
             let session = ParseSess {
@@ -82,7 +94,11 @@ impl Compiler {
                 syntax,
                 target,
                 SourceFileInput::from(&*fm),
-                comments,
+                if parse_comments {
+                    Some(&self.comments)
+                } else {
+                    None
+                },
             );
             let mut parser = Parser::new_from(session, lexer);
             let program = if is_module {
@@ -181,6 +197,7 @@ impl Compiler {
             cm,
             handler,
             globals: Globals::new(),
+            comments: Default::default(),
         }
     }
 
@@ -290,13 +307,12 @@ impl Compiler {
                 eprintln!("processing js file: {:?}", fm)
             }
 
-            let comments = Default::default();
             let module = self.parse_js(
                 fm.clone(),
                 config.target,
                 config.syntax,
                 config.is_module,
-                if config.minify { None } else { Some(&comments) },
+                !config.minify,
             )?;
             let mut pass = config.pass;
             let module = helpers::HELPERS.set(&Helpers::new(config.external_helpers), || {
@@ -306,7 +322,13 @@ impl Compiler {
                 })
             });
 
-            self.print(&module, fm, &comments, config.source_maps, config.minify)
+            self.print(
+                &module,
+                fm,
+                &self.comments,
+                config.source_maps,
+                config.minify,
+            )
         })
     }
 }
