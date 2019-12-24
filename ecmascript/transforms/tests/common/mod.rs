@@ -1,7 +1,3 @@
-use crate::{
-    helpers::{InjectHelpers, HELPERS},
-    pass::Pass,
-};
 use ast::*;
 use sourcemap::SourceMapBuilder;
 use std::{
@@ -15,6 +11,10 @@ use std::{
 use swc_common::{comments::Comments, errors::Handler, FileName, Fold, FoldWith, SourceMap};
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{lexer::Lexer, Parser, Session, SourceFileInput, Syntax};
+use swc_ecma_transforms::{
+    helpers::{InjectHelpers, HELPERS},
+    pass::Pass,
+};
 use tempfile::tempdir_in;
 
 struct MyHandlers;
