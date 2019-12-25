@@ -1,5 +1,5 @@
 use crate::util::{
-    alias_if_required, default_constructor, prepend, prop_name_to_expr, ExprFactory, StmtLike,
+    alias_if_required, default_constructor, prepend, prop_name_to_expr_value, ExprFactory, StmtLike,
 };
 use ast::*;
 use smallvec::SmallVec;
@@ -131,8 +131,7 @@ impl Legacy {
                     PropName::Computed(..) => {
                         unimplemented!("decorators on methods with computed key")
                     }
-
-                    _ => prop_name_to_expr(m.key.clone()),
+                    _ => prop_name_to_expr_value(m.key.clone()),
                 };
 
                 extra_exprs.push(box Expr::Call(CallExpr {
