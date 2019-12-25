@@ -1,4 +1,5 @@
-use std::{cmp, cmp::Ordering, hash, str::FromStr};
+use serde::{de, de::Visitor, Deserialize, Deserializer};
+use std::{cmp, cmp::Ordering, fmt, hash, str::FromStr};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct Version {
@@ -72,5 +73,47 @@ impl hash::Hash for Version {
         self.major.hash(into);
         self.minor.hash(into);
         self.patch.hash(into);
+    }
+}
+
+struct SerdeVisitor;
+
+impl<'de> Visitor<'de> for SerdeVisitor {
+    type Value = Version;
+
+    fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        formatter.write_str("a browser version")
+    }
+
+    fn visit_str<E>(self, v: &str) -> Result<Self::Value, E>
+    where
+        E: de::Error,
+    {
+        v.parse()
+            .map_err(|_| de::Error::invalid_type(de::Unexpected::Str(v), &self))
+    }
+
+    #[inline]
+    fn visit_borrowed_str<E>(self, v: &'de str) -> Result<Self::Value, E>
+    where
+        E: de::Error,
+    {
+        self.visit_str(v)
+    }
+
+    fn visit_string<E>(self, v: String) -> Result<Self::Value, E>
+    where
+        E: de::Error,
+    {
+        self.visit_str(&v)
+    }
+}
+
+impl<'de> Deserialize<'de> for Version {
+    fn deserialize<D>(deserializer: D) -> Result<Version, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        deserializer.deserialize_str(SerdeVisitor)
     }
 }

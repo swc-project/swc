@@ -21,7 +21,7 @@ use swc_common::{fold::FoldWith, input::SourceFileInput, FromVariant};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{Parser, Session};
-use swc_ecma_preset_env::{parse_version, preset_env, BrowserData, Config, Mode, Target};
+use swc_ecma_preset_env::{preset_env, BrowserData, Config, Mode, Target};
 use test::{test_main, ShouldPanic, TestDesc, TestDescAndFn, TestFn, TestName, TestType};
 use testing::Tester;
 use walkdir::WalkDir;
@@ -201,7 +201,7 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
         .collect();
 
     let versions =
-        BrowserData::<()>::default().map(|k, ()| browsers.get(&*k).map(|s| parse_version(s)));
+        BrowserData::<()>::default().map(|k, ()| browsers.get(&*k).map(|s| s.parse().unwrap()));
 
     let mut pass = preset_env(Config {
         debug: c.debug,
