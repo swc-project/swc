@@ -144,7 +144,11 @@ impl Options {
         } = config.jsc;
 
         let syntax = syntax.unwrap_or_default();
-        let transform = transform.unwrap_or_default();
+        let mut transform = transform.unwrap_or_default();
+
+        if syntax.typescript() {
+            transform.legacy_decorator = true;
+        }
 
         let const_modules = {
             let enabled = transform.const_modules.is_some();
