@@ -14,13 +14,14 @@ use swc_common::{Visit, VisitWith};
 use swc_ecma_ast::*;
 
 pub(crate) struct UsageVisitor {
+    shipped_proposals: bool,
     is_any_target: bool,
     target: Versions,
     pub required: Vec<JsWord>,
 }
 
 impl UsageVisitor {
-    pub fn new(target: Versions) -> Self {
+    pub fn new(target: Versions, shipped_proposals: bool) -> Self {
         //        let mut v = Self { required: vec![] };
         //
         //
@@ -41,6 +42,7 @@ impl UsageVisitor {
         //        v
 
         Self {
+            shipped_proposals,
             is_any_target: target.is_any_target(),
             target,
             required: vec![],
@@ -50,6 +52,10 @@ impl UsageVisitor {
     /// Add imports
     fn add(&mut self, features: &[&str]) {
         for f in features {
+            if !self.shipped_proposals && f.starts_with("esnext.") {
+                continue;
+            }
+
             let feature = CORE_JS_COMPAT_DATA.get(&**f);
 
             if !self.is_any_target {

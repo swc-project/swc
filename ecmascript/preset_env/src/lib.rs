@@ -136,6 +136,7 @@ pub fn preset_env(mut c: Config) -> impl Pass {
         Polyfills {
             mode: c.mode,
             corejs: c.core_js,
+            shipped_proposals: c.shipped_proposals,
             targets
         }
     )
@@ -177,6 +178,7 @@ pub struct BrowserData<T: Default> {
 struct Polyfills {
     mode: Option<Mode>,
     targets: Versions,
+    shipped_proposals: bool,
     corejs: usize,
 }
 
@@ -193,7 +195,7 @@ impl Fold<Module> for Polyfills {
                     v.required
                 }
                 3 => {
-                    let mut v = corejs3::UsageVisitor::new(self.targets);
+                    let mut v = corejs3::UsageVisitor::new(self.targets, self.shipped_proposals);
                     node.visit_with(&mut v);
                     v.required
                 }
@@ -282,6 +284,9 @@ pub struct Config {
 
     #[serde(default)]
     pub targets: Option<Target>,
+
+    #[serde(default)]
+    pub shipped_proposals: bool,
 }
 
 #[derive(Debug, Clone, Deserialize, FromVariant)]
