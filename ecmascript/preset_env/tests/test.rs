@@ -133,10 +133,6 @@ fn load() -> Result<Vec<TestDescAndFn>, Error> {
             _ => continue,
         }
 
-        if e.path().to_string_lossy().contains(".") {
-            continue;
-        }
-
         let cfg: BabelOptions =
             serde_json::from_reader(File::open(e.path().join("options.json"))?)?;
         assert_eq!(cfg.presets.len(), 1);
@@ -151,9 +147,10 @@ fn load() -> Result<Vec<TestDescAndFn>, Error> {
         tests.push(TestDescAndFn {
             desc: TestDesc {
                 test_type: TestType::IntegrationTest,
-                ignore: env::var("TEST")
-                    .map(|s| !name.contains(&s))
-                    .unwrap_or(false),
+                ignore: e.path().to_string_lossy().contains(".")
+                    || env::var("TEST")
+                        .map(|s| !name.contains(&s))
+                        .unwrap_or(false),
                 name: TestName::DynTestName(name),
                 allow_fail: false,
                 should_panic: ShouldPanic::No,
