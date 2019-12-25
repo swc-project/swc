@@ -87,6 +87,13 @@ impl Legacy {
 
         let mut extra_exprs = vec![];
 
+        let prototype = MemberExpr {
+            span: DUMMY_SP,
+            obj: ExprOrSuper::Expr(box Expr::Ident(cls_ident.clone())),
+            prop: box quote_ident!("prototype").into(),
+            computed: false,
+        };
+
         c.class.body = c.class.body.move_flat_map(|m| match m {
             ClassMember::Method(m) if !m.function.decorators.is_empty() => {
                 // _applyDecoratedDescriptor(_class2.prototype, "method2", [_dec7, _dec8],
@@ -110,12 +117,6 @@ impl Legacy {
 
                 let callee = helper!(apply_decorated_descriptor, "applyDecoratedDescriptor");
 
-                let prototype = MemberExpr {
-                    span: DUMMY_SP,
-                    obj: ExprOrSuper::Expr(box Expr::Ident(cls_ident.clone())),
-                    prop: box quote_ident!("prototype").into(),
-                    computed: false,
-                };
                 let name = Lit::Str(Str {
                     span: m.key.span(),
                     value: match m.key {
@@ -155,7 +156,7 @@ impl Legacy {
                         }
                         .as_arg(),
                         // _class2.prototype
-                        prototype.as_arg(),
+                        prototype.clone().as_arg(),
                     ],
                     type_args: None,
                 }));
@@ -166,6 +167,129 @@ impl Legacy {
                         ..m.function
                     },
                     ..m
+                }))
+            }
+
+            ClassMember::ClassProp(p) if !p.decorators.is_empty() => {
+                //
+                let descriptor = private_ident!("_descriptor");
+
+                let mut dec_exprs = vec![];
+                for dec in p.decorators.into_iter() {
+                    let (i, aliased) = alias_if_required(&dec.expr, "_dec");
+                    if aliased {
+                        self.vars.push(VarDeclarator {
+                            span: DUMMY_SP,
+                            name: Pat::Ident(i.clone()),
+                            init: Some(dec.expr),
+                            definite: false,
+                        });
+                    }
+
+                    dec_exprs.push(Some(i.as_arg()))
+                }
+
+                // TODO: Handle s prop name
+                let name = match *p.key {
+                    Expr::Ident(ref i) => box Expr::Lit(Lit::Str(Str {
+                        span: i.span,
+                        value: i.sym.clone(),
+                        has_escape: false,
+                    })),
+                    _ => p.key.clone(),
+                };
+
+                // _applyDecoratedDescriptor(_class2.prototype, "prop2", [_dec9, _dec10], {
+                //     configurable: true,
+                //     enumerable: true,
+                //     writable: true,
+                //     initializer: function () {
+                //         return 2;
+                //     }
+                // }))
+                let call_expr = box Expr::Call(CallExpr {
+                    span: DUMMY_SP,
+                    callee: helper!(apply_decorated_descriptor, "applyDecoratedDescriptor"),
+                    args: vec![
+                        prototype.clone().as_arg(),
+                        name.as_arg(),
+                        ArrayLit {
+                            span: DUMMY_SP,
+                            elems: dec_exprs,
+                        }
+                        .as_arg(),
+                        ObjectLit {
+                            span: DUMMY_SP,
+                            props: vec![
+                                // configurable: true,
+                                PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
+                                    key: quote_ident!("configurable").into(),
+                                    value: box Expr::Lit(Lit::Bool(Bool {
+                                        span: DUMMY_SP,
+                                        value: true,
+                                    })),
+                                })), // enumerable: true,
+                                PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
+                                    key: quote_ident!("enumerable").into(),
+                                    value: box Expr::Lit(Lit::Bool(Bool {
+                                        span: DUMMY_SP,
+                                        value: true,
+                                    })),
+                                })),
+                                // writable: true,
+                                PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
+                                    key: quote_ident!("writable").into(),
+                                    value: box Expr::Lit(Lit::Bool(Bool {
+                                        span: DUMMY_SP,
+                                        value: true,
+                                    })),
+                                })),
+                                // initializer: function () {
+                                //     return 2;
+                                // }
+                                PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
+                                    key: quote_ident!("initializer").into(),
+                                    value: box Expr::Fn(FnExpr {
+                                        ident: None,
+                                        function: Function {
+                                            decorators: Default::default(),
+                                            is_generator: false,
+                                            is_async: false,
+                                            span: DUMMY_SP,
+                                            params: vec![],
+
+                                            body: Some(BlockStmt {
+                                                span: DUMMY_SP,
+                                                stmts: vec![ReturnStmt {
+                                                    span: DUMMY_SP,
+                                                    arg: p.value,
+                                                }
+                                                .into()],
+                                            }),
+
+                                            type_params: Default::default(),
+                                            return_type: Default::default(),
+                                        },
+                                    }),
+                                })),
+                            ],
+                        }
+                        .as_arg(),
+                    ],
+                    type_args: Default::default(),
+                });
+
+                extra_exprs.push(box Expr::Assign(AssignExpr {
+                    span: DUMMY_SP,
+                    op: op!("="),
+                    left: PatOrExpr::Pat(box Pat::Ident(descriptor.clone())),
+                    right: call_expr,
+                }));
+
+                Some(ClassMember::ClassProp(ClassProp {
+                    decorators: vec![],
+                    value: None,
+                    ..p
                 }))
             }
 
