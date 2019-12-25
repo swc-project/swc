@@ -1,3 +1,4 @@
+use crate::Versions;
 use serde::{de, de::Visitor, Deserialize, Deserializer};
 use std::{cmp, cmp::Ordering, fmt, hash, str::FromStr};
 
@@ -116,4 +117,32 @@ impl<'de> Deserialize<'de> for Version {
     {
         deserializer.deserialize_str(SerdeVisitor)
     }
+}
+
+pub fn should_enable(target: Versions, feature: Versions, default: bool) -> bool {
+    if target
+        .iter()
+        .zip(feature.iter())
+        .all(|((_, target_version), (_, f))| target_version.is_none() && f.is_none())
+    {
+        return default;
+    }
+
+    target
+        .iter()
+        .zip(feature.iter())
+        .any(|((_, target_version), (_, f))| {
+            if target_version.is_none() {
+                return false;
+            }
+
+            if f.is_none() {
+                return true;
+            }
+
+            let f = f.as_ref().unwrap();
+            let target = target_version.unwrap();
+
+            *f >= target
+        })
 }

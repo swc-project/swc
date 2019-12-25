@@ -1,37 +1,13 @@
-use crate::{BrowserData, Version, Versions};
+use crate::{version, version::should_enable, BrowserData, Version, Versions};
 use hashbrown::HashMap;
 use once_cell::sync::Lazy;
 use string_enum::StringEnum;
 
 impl Feature {
-    pub fn should_enable(self, c: &Versions, default: bool) -> bool {
+    pub fn should_enable(self, target: Versions, default: bool) -> bool {
         let f = &FEATURES[&self];
 
-        if c.as_ref()
-            .iter()
-            .zip(f.iter())
-            .all(|((_, target_version), (_, f))| target_version.is_none() && f.is_none())
-        {
-            return default;
-        }
-
-        c.as_ref()
-            .iter()
-            .zip(f.iter())
-            .any(|((_, target_version), (_, f))| {
-                if target_version.is_none() {
-                    return false;
-                }
-
-                if f.is_none() {
-                    return true;
-                }
-
-                let f = f.as_ref().unwrap();
-                let target = target_version.unwrap();
-
-                *f >= *target
-            })
+        should_enable(target, *f, default)
     }
 }
 
@@ -157,7 +133,7 @@ mod tests {
     #[test]
     fn arrow() {
         assert!(Feature::ArrowFunctions.should_enable(
-            &BrowserData {
+            BrowserData {
                 ie: Some("11.0.0".parse().unwrap()),
                 ..Default::default()
             },
@@ -168,7 +144,7 @@ mod tests {
     #[test]
     fn tpl_lit() {
         assert!(!Feature::TemplateLiterals.should_enable(
-            &BrowserData {
+            BrowserData {
                 chrome: Some("71.0.0".parse().unwrap()),
                 ..Default::default()
             },

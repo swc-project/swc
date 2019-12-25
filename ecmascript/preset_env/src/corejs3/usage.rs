@@ -3,6 +3,7 @@ use crate::{
     corejs::CORE_JS_COMPAT_DATA,
     corejs3::data::{COMMON_ITERATORS, PROMISE_DEPENDENCIES},
     util::DataMapExt,
+    version::should_enable,
     Versions,
 };
 use swc_atoms::{js_word, JsWord};
@@ -46,7 +47,13 @@ impl UsageVisitor {
     /// Add imports
     fn add(&mut self, features: &[&str]) {
         for f in features {
-            let feature = CORE_JS_COMPAT_DATA[f];
+            let feature = CORE_JS_COMPAT_DATA.get(&**f);
+
+            if let Some(feature) = feature {
+                if !should_enable(self.target, *feature, true) {
+                    continue;
+                }
+            }
 
             if !self.is_any_target {}
 
