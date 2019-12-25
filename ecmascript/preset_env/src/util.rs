@@ -214,11 +214,9 @@ macro_rules! data_map {
     };
 }
 
-pub(crate) type DataMap<T> = (&'static [(&'static str, T)]);
+pub(crate) type DataMap<T> = &'static [(&'static str, T)];
 pub(crate) type FeatureMap = DataMap<&'static [&'static str]>;
 
-//impl<T: 'static> DataMap<T> {
-//    pub const fn from(v: &'static [(&'static str, T)]) -> Self {
-//        Self(v)
-//    }
-//}
+trait DataMapExt<T> {}
+
+impl<T> DataMapExt<T> for DataMap<T> {}
