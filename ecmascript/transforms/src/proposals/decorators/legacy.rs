@@ -9,8 +9,60 @@ use swc_common::{util::move_map::MoveMap, Fold, FoldWith, DUMMY_SP};
 
 #[derive(Debug, Default)]
 pub(super) struct Legacy {
-    vars: Vec<VarDeclarator>,
+    uninitialized_vars: Vec<VarDeclarator>,
+    initialized_vars: Vec<VarDeclarator>,
     exports: Vec<ExportSpecifier>,
+}
+
+impl Fold<Module> for Legacy {
+    fn fold(&mut self, m: Module) -> Module {
+        let mut m = m.fold_children(self);
+
+        if !self.uninitialized_vars.is_empty() {
+            prepend(
+                &mut m.body,
+                Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    decls: replace(&mut self.uninitialized_vars, Default::default()),
+                    declare: false,
+                }))
+                .into(),
+            );
+        }
+
+        if !self.exports.is_empty() {
+            let decl = ModuleDecl::ExportNamed(NamedExport {
+                span: DUMMY_SP,
+                specifiers: replace(&mut self.exports, Default::default()),
+                src: None,
+            });
+
+            m.body.push(decl.into());
+        }
+
+        m
+    }
+}
+
+impl Fold<Script> for Legacy {
+    fn fold(&mut self, s: Script) -> Script {
+        let mut s = s.fold_children(self);
+
+        if !self.uninitialized_vars.is_empty() {
+            prepend(
+                &mut s.body,
+                Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    decls: replace(&mut self.uninitialized_vars, Default::default()),
+                    declare: false,
+                })),
+            );
+        }
+
+        s
+    }
 }
 
 impl<T> Fold<Vec<T>> for Legacy
@@ -23,37 +75,16 @@ where
         for stmt in stmts {
             let stmt = stmt.fold_with(self);
 
-            if !self.vars.is_empty() {
+            if !self.initialized_vars.is_empty() {
                 buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
+                    decls: replace(&mut self.initialized_vars, Default::default()),
                     declare: false,
-                    decls: replace(&mut self.vars, Default::default()),
                 }))));
             }
 
             buf.push(stmt);
-
-            if !self.exports.is_empty() {
-                let decl = ModuleDecl::ExportNamed(NamedExport {
-                    span: DUMMY_SP,
-                    specifiers: replace(&mut self.exports, Default::default()),
-                    src: None,
-                });
-
-                match T::try_from_module_decl(decl) {
-                    Ok(t) => buf.push(t),
-                    Err(decl) => {
-                        // Restore
-                        match decl {
-                            ModuleDecl::ExportNamed(NamedExport { specifiers, .. }) => {
-                                replace(&mut self.exports, specifiers);
-                            }
-                            _ => {}
-                        }
-                    }
-                }
-            }
         }
 
         buf
@@ -152,7 +183,7 @@ impl Legacy {
     fn handle(&mut self, mut c: ClassExpr) -> Box<Expr> {
         let cls_ident = private_ident!("_class");
 
-        self.vars.push(VarDeclarator {
+        self.uninitialized_vars.push(VarDeclarator {
             span: DUMMY_SP,
             name: Pat::Ident(cls_ident.clone()),
             init: None,
@@ -186,7 +217,7 @@ impl Legacy {
                 for dec in m.function.decorators.into_iter() {
                     let (i, aliased) = alias_if_required(&dec.expr, "_dec");
                     if aliased {
-                        self.vars.push(VarDeclarator {
+                        self.initialized_vars.push(VarDeclarator {
                             span: DUMMY_SP,
                             name: Pat::Ident(i.clone()),
                             init: Some(dec.expr),
@@ -257,7 +288,7 @@ impl Legacy {
                 //
                 let descriptor = private_ident!("_descriptor");
                 if !p.is_static {
-                    self.vars.push(VarDeclarator {
+                    self.uninitialized_vars.push(VarDeclarator {
                         span: DUMMY_SP,
                         name: Pat::Ident(descriptor.clone()),
                         init: None,
@@ -271,7 +302,7 @@ impl Legacy {
                 for dec in p.decorators.into_iter() {
                     let (i, aliased) = alias_if_required(&dec.expr, "_dec");
                     if aliased {
-                        self.vars.push(VarDeclarator {
+                        self.initialized_vars.push(VarDeclarator {
                             span: DUMMY_SP,
                             name: Pat::Ident(i.clone()),
                             init: Some(dec.expr),
@@ -293,7 +324,7 @@ impl Legacy {
                 };
                 let init = private_ident!("_init");
                 if p.is_static {
-                    self.vars.push(VarDeclarator {
+                    self.uninitialized_vars.push(VarDeclarator {
                         span: DUMMY_SP,
                         name: Pat::Ident(init.clone()),
                         init: None,
@@ -571,7 +602,7 @@ impl Legacy {
         for dec in decorators.into_iter().rev() {
             let (i, aliased) = alias_if_required(&dec.expr, "_dec");
             if aliased {
-                self.vars.push(VarDeclarator {
+                self.initialized_vars.push(VarDeclarator {
                     span: DUMMY_SP,
                     name: Pat::Ident(i.clone()),
                     init: Some(dec.expr),
