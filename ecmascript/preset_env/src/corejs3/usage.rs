@@ -80,15 +80,20 @@ impl UsageVisitor {
         }
     }
     fn add_property_deps(&mut self, obj: &Expr, prop: &Expr) {
-        let obj = match obj {
-            Expr::Ident(i) => &i.sym,
-            _ => return,
-        };
-
         let prop = match prop {
             Expr::Ident(i) => &i.sym,
             Expr::Lit(Lit::Str(s)) => &s.value,
             _ => return,
+        };
+
+        let obj = match obj {
+            Expr::Ident(i) => &i.sym,
+            _ => {
+                if let Some(features) = INSTANCE_PROPERTIES.get_data(&prop) {
+                    self.add(features);
+                }
+                return;
+            }
         };
 
         self.add_property_deps_inner(obj, prop)
