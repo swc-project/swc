@@ -1,7 +1,10 @@
 use super::data::BUILTINS;
 use crate::{
     corejs::CORE_JS_COMPAT_DATA,
-    corejs3::data::{COMMON_ITERATORS, PROMISE_DEPENDENCIES},
+    corejs3::data::{
+        COMMON_ITERATORS, INSTANCE_PROPERTIES, POSSIBLE_GLOBAL_OBJECTS, PROMISE_DEPENDENCIES,
+        STATIC_PROPERTIES,
+    },
     util::DataMapExt,
     version::should_enable,
     Versions,
@@ -72,26 +75,30 @@ impl UsageVisitor {
     }
 
     fn add_property_deps(&mut self, obj: &Expr, prop: &Expr) {
-        //        const { builtIn, instanceType, isNamespaced } = source;
-        //        if (isNamespaced) return;
-        //        if (PossibleGlobalObjects.has(builtIn)) {
-        //            this.addBuiltInDependencies(key);
-        //        } else if (has(StaticProperties, builtIn)) {
-        //            const BuiltInProperties = StaticProperties[builtIn];
-        //            if (has(BuiltInProperties, key)) {
-        //                const StaticPropertyDependencies =
-        // BuiltInProperties[key];                return
-        // this.addUnsupported(StaticPropertyDependencies);            }
-        //        }
-        //        if (!has(InstanceProperties, key)) return;
-        //        let InstancePropertyDependencies = InstanceProperties[key];
-        //        if (instanceType) {
-        //            InstancePropertyDependencies =
-        // InstancePropertyDependencies.filter(                m =>
-        // m.includes(instanceType) || CommonInstanceDependencies.has(m),
-        //            );
-        //        }
-        //        this.addUnsupported(InstancePropertyDependencies);
+        let obj = match obj {
+            Expr::Ident(i) => &i.sym,
+            _ => return,
+        };
+
+        let prop = match prop {
+            Expr::Ident(i) => &i.sym,
+            _ => return,
+        };
+
+        if POSSIBLE_GLOBAL_OBJECTS.contains(&&**obj) {
+            self.add_builtin(prop);
+            return;
+        }
+
+        if let Some(map) = STATIC_PROPERTIES.get_data(&obj) {
+            if let Some(features) = map.get_data(&prop) {
+                self.add(features);
+            }
+        }
+
+        if let Some(features) = INSTANCE_PROPERTIES.get_data(&prop) {
+            self.add(features);
+        }
     }
 }
 
@@ -228,15 +235,9 @@ impl Visit<BinExpr> for UsageVisitor {
 
         match e.op {
             op!("in") => {
-
-                //const source = resolveSource(path.get("right"));
-                //const key = resolveKey(path.get("left"), true);
-                //
-                //// 'entries' in Object
-                //// 'entries' in [1, 2, 3]
-                //this.addPropertyDependencies(source, key);
-                //},
-                //};
+                // 'entries' in Object
+                // 'entries' in [1, 2, 3]
+                self.add_property_deps(&e.right, &e.left);
             }
             _ => {}
         }

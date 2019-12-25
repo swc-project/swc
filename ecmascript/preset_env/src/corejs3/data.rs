@@ -919,5 +919,4 @@ pub static COMMON_INSTANCE_DEPENDENCIES: &[&str] = &[
     "es.regexp.exec",
 ];
 
-//pub static POSSIBLE_GLOBAL_OBJECTS: &[&str] = &["global", "globalThis",
-// "self", "window"];
+pub static POSSIBLE_GLOBAL_OBJECTS: &[&str] = &["global", "globalThis", "self", "window"];
