@@ -13,6 +13,7 @@ use swc_atoms::{js_word, JsWord};
 #[cfg(feature = "fold")]
 use swc_common::Fold;
 use swc_common::Span;
+use swc_common::Spanned;
 pub(crate) use swc_ecma_ast::AssignOp as AssignOpToken;
 use swc_ecma_ast::BinaryOp;
 
@@ -214,7 +215,7 @@ impl BinOpToken {
     }
 }
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Spanned)]
 pub struct TokenAndSpan {
     pub token: Token,
     /// Had a line break before this token?
