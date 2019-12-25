@@ -1,5 +1,6 @@
 use super::data::BUILTINS;
 use crate::{
+    corejs::CORE_JS_COMPAT_DATA,
     corejs3::data::{COMMON_ITERATORS, PROMISE_DEPENDENCIES},
     util::DataMapExt,
     Versions,
@@ -45,6 +46,8 @@ impl UsageVisitor {
     /// Add imports
     fn add(&mut self, features: &[&str]) {
         for f in features {
+            let feature = CORE_JS_COMPAT_DATA[f];
+
             if !self.is_any_target {}
 
             let v = format!("core-js/modules/{}", f);
