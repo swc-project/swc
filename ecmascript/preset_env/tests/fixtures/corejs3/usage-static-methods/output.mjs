@@ -4,7 +4,5 @@ import "core-js/modules/es.object.define-property";
 import "core-js/modules/es.object.keys";
 Object.keys(foo);
 var getOwnPropertySymbols = Object.getOwnPropertySymbols;
-var {
-  assign: assign
-} = Object;
+var { assign } = Object;
 'defineProperty' in Object;
