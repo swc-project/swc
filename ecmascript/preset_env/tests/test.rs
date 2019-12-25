@@ -133,6 +133,10 @@ fn load() -> Result<Vec<TestDescAndFn>, Error> {
             _ => continue,
         }
 
+        if e.path().starts_with(".") {
+            continue;
+        }
+
         let cfg: BabelOptions =
             serde_json::from_reader(File::open(e.path().join("options.json"))?)?;
         assert_eq!(cfg.presets.len(), 1);
