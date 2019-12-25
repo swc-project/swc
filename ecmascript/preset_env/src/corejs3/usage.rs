@@ -10,7 +10,7 @@ use crate::{
     Versions,
 };
 use swc_atoms::{js_word, JsWord};
-use swc_common::{Visit, VisitWith};
+use swc_common::{Visit, VisitWith, DUMMY_SP};
 use swc_ecma_ast::*;
 
 pub(crate) struct UsageVisitor {
@@ -89,24 +89,24 @@ impl UsageVisitor {
         let obj = match obj {
             Expr::Ident(i) => &i.sym,
             _ => {
-                if let Some(features) = INSTANCE_PROPERTIES.get_data(&prop) {
-                    self.add(features);
-                }
+                self.add_property_deps_inner(None, prop);
                 return;
             }
         };
 
-        self.add_property_deps_inner(obj, prop)
+        self.add_property_deps_inner(Some(obj), prop)
     }
-    fn add_property_deps_inner(&mut self, obj: &JsWord, prop: &JsWord) {
-        if POSSIBLE_GLOBAL_OBJECTS.contains(&&**obj) {
-            self.add_builtin(prop);
-            return;
-        }
 
-        if let Some(map) = STATIC_PROPERTIES.get_data(&obj) {
-            if let Some(features) = map.get_data(&prop) {
-                self.add(features);
+    fn add_property_deps_inner(&mut self, obj: Option<&JsWord>, prop: &JsWord) {
+        if let Some(obj) = obj {
+            if POSSIBLE_GLOBAL_OBJECTS.contains(&&**obj) {
+                self.add_builtin(prop);
+            }
+
+            if let Some(map) = STATIC_PROPERTIES.get_data(&obj) {
+                if let Some(features) = map.get_data(&prop) {
+                    self.add(features);
+                }
             }
         }
 
@@ -117,8 +117,8 @@ impl UsageVisitor {
 
     fn visit_object_pat_props(&mut self, obj: &Expr, props: &[ObjectPatProp]) {
         let obj = match obj {
-            Expr::Ident(i) => &i.sym,
-            _ => return,
+            Expr::Ident(i) => Some(&i.sym),
+            _ => None,
         };
 
         for p in props {
@@ -238,6 +238,15 @@ impl Visit<VarDeclarator> for UsageVisitor {
             match d.name {
                 // const { keys, values } = Object
                 Pat::Object(ref o) => self.visit_object_pat_props(&init, &o.props),
+                _ => {}
+            }
+        } else {
+            match d.name {
+                // const { keys, values } = Object
+                Pat::Object(ref o) => self.visit_object_pat_props(
+                    &Expr::Ident(Ident::new(js_word!(""), DUMMY_SP)),
+                    &o.props,
+                ),
                 _ => {}
             }
         }
