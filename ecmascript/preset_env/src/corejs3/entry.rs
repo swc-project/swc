@@ -9,7 +9,7 @@ static ENTRIES: Lazy<FxHashMap<String, Vec<String>>> = Lazy::new(|| {
 
 #[derive(Debug)]
 pub struct Entry {
-    imports: Vec<JsWord>,
+    pub imports: Vec<JsWord>,
 }
 
 impl Entry {

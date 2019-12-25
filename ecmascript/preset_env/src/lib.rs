@@ -186,8 +186,9 @@ impl Fold<Module> for Polyfills {
     fn fold(&mut self, mut node: Module) -> Module {
         let span = node.span;
 
-        if self.mode == Some(Mode::Usage) {
-            let mut required = match self.corejs {
+        let mut required = match self.mode {
+            None => vec![],
+            Some(Mode::Usage) => match self.corejs {
                 2 => {
                     let mut v = corejs2::UsageVisitor::new(self.targets);
                     node.visit_with(&mut v);
@@ -201,27 +202,35 @@ impl Fold<Module> for Polyfills {
                 }
 
                 _ => unimplemented!("corejs version other than 2 / 3"),
-            };
+            },
+            Some(Mode::Entry) => match self.corejs {
+                3 => {
+                    let mut v = corejs3::Entry::new();
+                    node.visit_with(&mut v);
+                    v.imports
+                }
 
-            if cfg!(debug_assertions) {
-                required.sort();
-            }
-
-            prepend_stmts(
-                &mut node.body,
-                required.into_iter().map(|src| {
-                    ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
-                        span,
-                        specifiers: vec![],
-                        src: Str {
-                            span: DUMMY_SP,
-                            value: src,
-                            has_escape: false,
-                        },
-                    }))
-                }),
-            );
+                _ => unimplemented!("corejs version other than 3"),
+            },
+        };
+        if cfg!(debug_assertions) {
+            required.sort();
         }
+
+        prepend_stmts(
+            &mut node.body,
+            required.into_iter().map(|src| {
+                ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
+                    span,
+                    specifiers: vec![],
+                    src: Str {
+                        span: DUMMY_SP,
+                        value: src,
+                        has_escape: false,
+                    },
+                }))
+            }),
+        );
 
         node
     }
