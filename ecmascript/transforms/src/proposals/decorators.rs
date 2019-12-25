@@ -13,6 +13,7 @@ use std::iter;
 use swc_common::{Fold, FoldWith, Spanned, Visit, VisitWith, DUMMY_SP};
 
 mod legacy;
+mod usage;
 
 /// ## Simple class decorator
 ///
@@ -76,11 +77,20 @@ struct Decorators {
 
 impl Fold<Vec<ModuleItem>> for Decorators {
     fn fold(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
+        if !self::usage::has_decorator(&items) {
+            return items;
+        }
+
         let old_strict = self.is_in_strict;
         self.is_in_strict = true;
 
         let mut buf = Vec::with_capacity(items.len() + 4);
         items.into_iter().for_each(|item| {
+            if !self::usage::has_decorator(&item) {
+                buf.push(item);
+                return;
+            }
+
             //
             match item {
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {

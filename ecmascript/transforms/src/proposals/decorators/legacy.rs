@@ -1,3 +1,4 @@
+use super::usage::DecoratorFinder;
 use crate::util::{
     alias_if_required, default_constructor, prepend, prop_name_to_expr_value, undefined,
     ExprFactory, ModuleItemLike, StmtLike,
@@ -5,7 +6,7 @@ use crate::util::{
 use ast::*;
 use smallvec::SmallVec;
 use std::mem::replace;
-use swc_common::{util::move_map::MoveMap, Fold, FoldWith, DUMMY_SP};
+use swc_common::{util::move_map::MoveMap, Fold, FoldWith, VisitWith, DUMMY_SP};
 
 #[derive(Debug, Default)]
 pub(super) struct Legacy {
@@ -67,12 +68,22 @@ impl Fold<Script> for Legacy {
 
 impl<T> Fold<Vec<T>> for Legacy
 where
-    T: FoldWith<Self> + StmtLike + ModuleItemLike,
+    T: FoldWith<Self> + VisitWith<DecoratorFinder> + StmtLike + ModuleItemLike,
+    Vec<T>: VisitWith<DecoratorFinder>,
 {
     fn fold(&mut self, stmts: Vec<T>) -> Vec<T> {
+        if !super::usage::has_decorator(&stmts) {
+            return stmts;
+        }
+
         let mut buf = Vec::with_capacity(stmts.len() + 4);
 
         for stmt in stmts {
+            if !super::usage::has_decorator(&stmt) {
+                buf.push(stmt);
+                continue;
+            }
+
             let stmt = stmt.fold_with(self);
 
             if !self.initialized_vars.is_empty() {
