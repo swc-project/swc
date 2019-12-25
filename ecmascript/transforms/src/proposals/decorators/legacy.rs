@@ -1,7 +1,8 @@
-use crate::util::{prepend, ExprFactory, StmtLike};
+use crate::util::{alias_if_required, prepend, ExprFactory, StmtLike};
 use ast::*;
+use smallvec::SmallVec;
 use std::mem::replace;
-use swc_common::{Fold, FoldWith, DUMMY_SP};
+use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Spanned, DUMMY_SP};
 
 #[derive(Debug, Default)]
 pub(super) struct Legacy {
@@ -28,20 +29,6 @@ where
         }
 
         stmts
-    }
-}
-
-impl Fold<ClassMember> for Legacy {
-    fn fold(&mut self, m: ClassMember) -> ClassMember {
-        let m: ClassMember = m.fold_children(self);
-
-        match m {
-            ClassMember::Method(m) if !m.function.decorators.is_empty() => {}
-
-            _ => {}
-        }
-
-        m
     }
 }
 
@@ -95,8 +82,98 @@ impl Fold<Decl> for Legacy {
 }
 
 impl Legacy {
-    fn handle(&mut self, c: ClassExpr) -> Box<Expr> {
+    fn handle(&mut self, mut c: ClassExpr) -> Box<Expr> {
         let cls_ident = private_ident!("_class");
+
+        let mut extra_exprs = vec![];
+
+        c.class.body = c.class.body.move_flat_map(|m| match m {
+            ClassMember::Method(m) => {
+                if !m.function.decorators.is_empty() {
+                    // _applyDecoratedDescriptor(_class2.prototype, "method2", [_dec7, _dec8],
+                    // Object.getOwnPropertyDescriptor(_class2.prototype, "method2"),
+                    // _class2.prototype)
+
+                    let mut dec_exprs = vec![];
+                    for dec in m.function.decorators.into_iter() {
+                        let (i, aliased) = alias_if_required(&dec.expr, "_dec");
+                        if aliased {
+                            self.vars.push(VarDeclarator {
+                                span: DUMMY_SP,
+                                name: Pat::Ident(i.clone()),
+                                init: Some(dec.expr),
+                                definite: false,
+                            });
+                        }
+
+                        dec_exprs.push(Some(i.as_arg()))
+                    }
+
+                    let callee = helper!(apply_decorated_descriptor, "applyDecoratedDescriptor");
+
+                    let prototype = MemberExpr {
+                        span: DUMMY_SP,
+                        obj: ExprOrSuper::Expr(box Expr::Ident(cls_ident.clone())),
+                        prop: box quote_ident!("prototype").into(),
+                        computed: false,
+                    };
+                    let name = Lit::Str(Str {
+                        span: m.key.span(),
+                        value: match m.key {
+                            PropName::Ident(ref i) => i.sym.clone(),
+                            PropName::Str(ref v) => v.value.clone(),
+                            _ => unimplemented!(
+                                "decorators on methods with key other than ident / string"
+                            ),
+                        },
+                        has_escape: false,
+                    });
+
+                    extra_exprs.push(box Expr::Call(CallExpr {
+                        span: DUMMY_SP,
+                        callee,
+                        // (_class2.prototype, "method2", [_dec7, _dec8],
+                        // Object.getOwnPropertyDescriptor(_class2.prototype, "method2"),
+                        // _class2.prototype)
+                        args: vec![
+                            // _class2.prototype,
+                            prototype.clone().as_arg(),
+                            // "method2"
+                            name.clone().as_arg(),
+                            // [_dec7, _dec8],
+                            ArrayLit {
+                                span: DUMMY_SP,
+                                elems: dec_exprs,
+                            }
+                            .as_arg(),
+                            // Object.getOwnPropertyDescriptor(_class2.prototype, "method2"),
+                            CallExpr {
+                                span: DUMMY_SP,
+                                callee: member_expr!(DUMMY_SP, Object.getOwnPropertyDescriptor)
+                                    .as_callee(),
+                                args: vec![prototype.clone().as_arg(), name.as_arg()],
+                                type_args: None,
+                            }
+                            .as_arg(),
+                            // _class2.prototype
+                            prototype.as_arg(),
+                        ],
+                        type_args: None,
+                    }))
+                }
+                //
+
+                Some(ClassMember::Method(ClassMethod {
+                    function: Function {
+                        decorators: vec![],
+                        ..m.function
+                    },
+                    ..m
+                }))
+            }
+
+            _ => Some(m),
+        });
 
         let cls_assign = box Expr::Assign(AssignExpr {
             span: DUMMY_SP,
@@ -115,14 +192,40 @@ impl Legacy {
             span: DUMMY_SP,
             left: cls_assign,
             op: op!("||"),
-            right: box Expr::Ident(cls_ident),
+            right: box Expr::Ident(cls_ident.clone()),
         });
 
-        let mut expr = var_init;
-        for dec in c.class.decorators.into_iter().rev() {
+        let expr = self.apply(var_init, c.class.decorators);
+
+        if extra_exprs.is_empty() {
+            expr
+        } else {
+            extra_exprs.insert(0, expr);
+            // Return value.
+            extra_exprs.push(box Expr::Ident(cls_ident));
+
+            box Expr::Seq(SeqExpr {
+                span: DUMMY_SP,
+                exprs: extra_exprs,
+            })
+        }
+    }
+
+    fn apply(&mut self, mut expr: Box<Expr>, decorators: Vec<Decorator>) -> Box<Expr> {
+        for dec in decorators.into_iter().rev() {
+            let (i, aliased) = alias_if_required(&dec.expr, "_dec");
+            if aliased {
+                self.vars.push(VarDeclarator {
+                    span: DUMMY_SP,
+                    name: Pat::Ident(i.clone()),
+                    init: Some(dec.expr),
+                    definite: false,
+                });
+            }
+
             expr = box Expr::Call(CallExpr {
                 span: DUMMY_SP,
-                callee: dec.expr.as_callee(),
+                callee: i.as_callee(),
                 args: vec![expr.as_arg()],
                 type_args: None,
             });
