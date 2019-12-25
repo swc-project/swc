@@ -4,4 +4,6 @@ import "core-js/modules/web.dom-collections.iterator";
 
 try {
   a();
-} catch ([b, c]) {}
+} catch (param) {
+  var [b, c] = param;
+}
