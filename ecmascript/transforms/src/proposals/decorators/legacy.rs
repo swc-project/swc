@@ -85,6 +85,13 @@ impl Legacy {
     fn handle(&mut self, mut c: ClassExpr) -> Box<Expr> {
         let cls_ident = private_ident!("_class");
 
+        self.vars.push(VarDeclarator {
+            span: DUMMY_SP,
+            name: Pat::Ident(cls_ident.clone()),
+            init: None,
+            definite: false,
+        });
+
         let mut extra_exprs = vec![];
 
         let prototype = MemberExpr {
@@ -173,6 +180,13 @@ impl Legacy {
             ClassMember::ClassProp(p) if !p.decorators.is_empty() => {
                 //
                 let descriptor = private_ident!("_descriptor");
+
+                self.vars.push(VarDeclarator {
+                    span: DUMMY_SP,
+                    name: Pat::Ident(descriptor.clone()),
+                    init: None,
+                    definite: false,
+                });
 
                 let mut dec_exprs = vec![];
                 for dec in p.decorators.into_iter() {
