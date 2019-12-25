@@ -6,6 +6,7 @@
 use swc_common::chain;
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms::{
+    modules::common_js::common_js,
     pass::Pass,
     proposals::{class_properties, decorators, decorators::Config},
     resolver, typescript,
@@ -3471,6 +3472,11 @@ expect(Example._).toBe("__8__");
 
 // legacy_class_export_default
 test_exec!(
+    // We wrap exec tests in a function like it('should work', function(){
+    //  // .. code
+    // }), but it prevents swc_ecma_parser from parsing the code
+    // below correctly.
+    ignore,
     syntax(true),
     |_| chain!(
         decorators(decorators::Config { legacy: true }),
