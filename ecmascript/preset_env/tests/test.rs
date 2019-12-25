@@ -20,7 +20,7 @@ use std::{
 use swc_common::{fold::FoldWith, input::SourceFileInput, FromVariant};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
-use swc_ecma_parser::{Parser, Session};
+use swc_ecma_parser::{EsConfig, Parser, Session, Syntax};
 use swc_ecma_preset_env::{preset_env, BrowserData, Config, Mode, Target};
 use test::{test_main, ShouldPanic, TestDesc, TestDescAndFn, TestFn, TestName, TestType};
 use testing::Tester;
@@ -262,7 +262,10 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
                 .expect("failed to load file");
             let mut p = Parser::new(
                 Session { handler: &handler },
-                Default::default(),
+                Syntax::Es(EsConfig {
+                    dynamic_import: true,
+                    ..Default::default()
+                }),
                 SourceFileInput::from(&*fm),
                 None,
             );
@@ -290,7 +293,10 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
 
                 let mut p = Parser::new(
                     Session { handler: &handler },
-                    Default::default(),
+                    Syntax::Es(EsConfig {
+                        dynamic_import: true,
+                        ..Default::default()
+                    }),
                     SourceFileInput::from(&*fm),
                     None,
                 );
