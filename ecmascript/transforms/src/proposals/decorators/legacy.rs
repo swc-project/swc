@@ -195,20 +195,23 @@ impl Legacy {
             right: box Expr::Ident(cls_ident.clone()),
         });
 
-        let expr = self.apply(var_init, c.class.decorators);
+        let expr = self.apply(
+            if extra_exprs.is_empty() {
+                var_init
+            } else {
+                extra_exprs.insert(0, var_init);
+                // Return value.
+                extra_exprs.push(box Expr::Ident(cls_ident));
 
-        if extra_exprs.is_empty() {
-            expr
-        } else {
-            extra_exprs.insert(0, expr);
-            // Return value.
-            extra_exprs.push(box Expr::Ident(cls_ident));
+                box Expr::Seq(SeqExpr {
+                    span: DUMMY_SP,
+                    exprs: extra_exprs,
+                })
+            },
+            c.class.decorators,
+        );
 
-            box Expr::Seq(SeqExpr {
-                span: DUMMY_SP,
-                exprs: extra_exprs,
-            })
-        }
+        expr
     }
 
     fn apply(&mut self, mut expr: Box<Expr>, decorators: Vec<Decorator>) -> Box<Expr> {
