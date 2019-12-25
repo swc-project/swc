@@ -6,7 +6,6 @@
 use swc_common::chain;
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms::{
-    modules::common_js::common_js,
     pass::Pass,
     proposals::{class_properties, decorators, decorators::Config},
     resolver, typescript,
