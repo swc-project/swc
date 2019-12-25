@@ -203,7 +203,10 @@ impl Visit<Expr> for UsageVisitor {
 
 impl Visit<MemberExpr> for UsageVisitor {
     fn visit(&mut self, e: &MemberExpr) {
-        e.visit_children(self);
+        e.obj.visit_with(self);
+        if e.computed {
+            e.prop.visit_with(self);
+        }
 
         // Object.entries
         // [1, 2, 3].entries

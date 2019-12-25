@@ -108,7 +108,10 @@ impl Visit<Ident> for UsageVisitor {
 ///  - `Array.from`
 impl Visit<MemberExpr> for UsageVisitor {
     fn visit(&mut self, node: &MemberExpr) {
-        node.visit_children(self);
+        node.obj.visit_with(self);
+        if node.computed {
+            node.prop.visit_with(self);
+        }
         //enter(path: NodePath) {
         //    const { node } = path;
         //    const { object, property } = node;
