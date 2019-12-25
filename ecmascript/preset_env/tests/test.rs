@@ -218,7 +218,10 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
         dynamic_import: true,
         include: c.include.into_iter().map(|v| v.parse().unwrap()).collect(),
         exclude: c.exclude.into_iter().map(|v| v.parse().unwrap()).collect(),
-        core_js: 2,
+        core_js: match c.corejs {
+            CoreJs::Ver(v) => v,
+            ref s => unimplemented!("Unknown core js version: {:?}", s),
+        },
         targets: Some(Target::Versions(versions)),
     });
 

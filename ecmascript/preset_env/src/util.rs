@@ -217,6 +217,22 @@ macro_rules! data_map {
 pub(crate) type DataMap<T> = &'static [(&'static str, T)];
 pub(crate) type FeatureMap = DataMap<&'static [&'static str]>;
 
-trait DataMapExt<T> {}
+pub(crate) trait DataMapExt<T> {
+    fn as_ref(&self) -> DataMap<T>;
 
-impl<T> DataMapExt<T> for DataMap<T> {}
+    fn get_data(&self, s: &str) -> Option<&'static T> {
+        for (k, v) in self.as_ref() {
+            if *k == s {
+                return Some(v);
+            }
+        }
+
+        None
+    }
+}
+
+impl<T> DataMapExt<T> for DataMap<T> {
+    fn as_ref(&self) -> &'static [(&'static str, T)] {
+        self
+    }
+}
