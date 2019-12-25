@@ -16,7 +16,6 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
     desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
     desc.initializer = undefined;
   }
-  console.log(desc);
   if (desc.initializer === void 0) {
     Object.defineProperty(target, property, desc);
     desc = null;
