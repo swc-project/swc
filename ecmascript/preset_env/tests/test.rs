@@ -133,7 +133,7 @@ fn load() -> Result<Vec<TestDescAndFn>, Error> {
             _ => continue,
         }
 
-        if e.path().starts_with(".") {
+        if e.path().to_string_lossy().contains(".") {
             continue;
         }
 
