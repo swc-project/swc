@@ -12,7 +12,7 @@ use std::{
     str::FromStr,
 };
 use swc_atoms::JsWord;
-use swc_common::{chain, Fold, FromVariant, Visit, VisitWith, DUMMY_SP};
+use swc_common::{chain, Fold, FromVariant, VisitWith, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms::{
     compat::{es2015, es2016, es2017, es2018, es3},

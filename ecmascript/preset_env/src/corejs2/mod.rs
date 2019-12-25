@@ -142,16 +142,16 @@ impl Visit<MemberExpr> for UsageVisitor {
         //        }
         //    }
         //
-        //    if (has(StaticProperties, evaluatedPropType)) {
-        //        const BuiltInProperties = StaticProperties[evaluatedPropType];
+        //    if (has(STATIC_PROPERTIES, evaluatedPropType)) {
+        //        const BuiltInProperties = STATIC_PROPERTIES[evaluatedPropType];
         //        if (has(BuiltInProperties, propertyName)) {
         //            const StaticPropertyDependencies =
         // BuiltInProperties[propertyName];
         // this.addUnsupported(StaticPropertyDependencies);        }
         //    }
         //
-        //    if (has(InstanceProperties, propertyName)) {
-        //        let InstancePropertyDependencies = InstanceProperties[propertyName];
+        //    if (has(INSTANCE_PROPERTIES, propertyName)) {
+        //        let InstancePropertyDependencies = INSTANCE_PROPERTIES[propertyName];
         //        if (instanceType) {
         //            InstancePropertyDependencies =
         // InstancePropertyDependencies.filter(                module =>
@@ -165,10 +165,10 @@ impl Visit<MemberExpr> for UsageVisitor {
         //exit(path: NodePath) {
         //    const { name } = path.node.object;
         //
-        //    if (!has(BuiltIns, name)) return;
+        //    if (!has(BUILT_INS, name)) return;
         //    if (path.scope.getBindingIdentifier(name)) return;
         //
-        //    const BuiltInDependencies = BuiltIns[name];
+        //    const BuiltInDependencies = BUILT_INS[name];
         //    this.addUnsupported(BuiltInDependencies);
         //},
 
@@ -286,10 +286,10 @@ impl Visit<VarDeclarator> for UsageVisitor {
         //    if (
         //        !node.computed &&
         //            t.isIdentifier(key) &&
-        //            has(InstanceProperties, key.name)
+        //            has(INSTANCE_PROPERTIES, key.name)
         //    ) {
         //        const InstancePropertyDependencies =
-        // InstanceProperties[key.name];        this.
+        // INSTANCE_PROPERTIES[key.name];        this.
         // addUnsupported(InstancePropertyDependencies);    }
         //}
     }
