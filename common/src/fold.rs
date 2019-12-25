@@ -284,6 +284,30 @@ where
     }
 }
 
+impl<A, B, T> Fold<T> for Either<A, B>
+where
+    T: FoldWith<A> + FoldWith<B> + FoldWith<Self>,
+{
+    fn fold(&mut self, node: T) -> T {
+        match *self {
+            Either::Left(ref mut l) => node.fold_with(l),
+            Either::Right(ref mut r) => node.fold_with(r),
+        }
+    }
+}
+
+impl<A, B, T> Visit<T> for Either<A, B>
+where
+    T: VisitWith<A> + VisitWith<B> + VisitWith<Self>,
+{
+    fn visit(&mut self, node: &T) {
+        match *self {
+            Either::Left(ref mut l) => node.visit_with(l),
+            Either::Right(ref mut r) => node.visit_with(r),
+        }
+    }
+}
+
 impl<T, F> VisitWith<F> for Arc<T>
 where
     T: ?Sized,

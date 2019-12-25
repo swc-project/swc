@@ -114,25 +114,6 @@ impl<'a> Tester<'a> {
         })
     }
 
-    pub fn parse_stmts(&mut self, file_name: &str, src: &str) -> Result<Vec<Stmt>, ()> {
-        let stmts = self.with_parser(file_name, Syntax::default(), src, |p| {
-            p.parse_script()
-                .map_err(|mut e| {
-                    e.emit();
-                })
-                .map(|script| script.body)
-        })?;
-
-        Ok(stmts)
-    }
-
-    pub fn parse_stmt(&mut self, file_name: &str, src: &str) -> Result<Stmt, ()> {
-        let mut stmts = self.parse_stmts(file_name, src)?;
-        assert!(stmts.len() == 1);
-
-        Ok(stmts.pop().unwrap())
-    }
-
     pub fn apply_transform<T: Fold<Module>>(
         &mut self,
         mut tr: T,

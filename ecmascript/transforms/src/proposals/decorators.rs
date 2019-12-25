@@ -1,3 +1,4 @@
+use self::legacy::Legacy;
 use crate::{
     pass::Pass,
     util::{
@@ -6,9 +7,13 @@ use crate::{
     },
 };
 use ast::*;
+use either::Either;
 use serde::Deserialize;
 use std::iter;
 use swc_common::{Fold, FoldWith, Spanned, Visit, VisitWith, DUMMY_SP};
+
+mod legacy;
+mod usage;
 
 /// ## Simple class decorator
 ///
@@ -51,9 +56,12 @@ use swc_common::{Fold, FoldWith, Spanned, Visit, VisitWith, DUMMY_SP};
 /// }
 /// ```
 pub fn decorators(c: Config) -> impl Pass {
-    Decorators {
-        c,
-        is_in_strict: false,
+    if c.legacy {
+        Either::Left(Legacy::default())
+    } else {
+        Either::Right(Decorators {
+            is_in_strict: false,
+        })
     }
 }
 
@@ -62,18 +70,27 @@ pub struct Config {
     pub legacy: bool,
 }
 
+#[derive(Debug, Default)]
 struct Decorators {
-    c: Config,
     is_in_strict: bool,
 }
 
 impl Fold<Vec<ModuleItem>> for Decorators {
     fn fold(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
+        if !self::usage::has_decorator(&items) {
+            return items;
+        }
+
         let old_strict = self.is_in_strict;
         self.is_in_strict = true;
 
         let mut buf = Vec::with_capacity(items.len() + 4);
         items.into_iter().for_each(|item| {
+            if !self::usage::has_decorator(&item) {
+                buf.push(item);
+                return;
+            }
+
             //
             match item {
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {

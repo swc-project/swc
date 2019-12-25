@@ -2030,9 +2030,7 @@ let A = _decorate([], function(_initialize) {
 
 // legacy_class_constructors_return_new_constructor
 test_exec!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
-    ignore,
-    syntax(false),
+    syntax(true),
     |_| chain!(
         decorators(decorators::Config { legacy: true }),
         class_properties(),
@@ -2058,9 +2056,7 @@ expect(typeof Parent.prototype.child).toBe("function");
 
 // legacy_regression_10264
 test!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
-    ignore,
-    syntax(false),
+    syntax(true),
     |_| chain!(
         typescript::strip(),
         decorators(decorators::Config { legacy: true })
@@ -2074,13 +2070,13 @@ export default class {}
 
 "#,
     r#"
-var _class2;
+var _class;
+function myDecorator(decoratee) {
+}
+let _class1 = myDecorator((_class = class{
+}) || _class);
+export { _class1 as default }
 
-function myDecorator(decoratee) {}
-
-let _class = myDecorator(_class2 = class {}) || _class2;
-
-export { _class as default };
 
 "#
 );
@@ -2467,8 +2463,6 @@ export { _class as default };
 
 // legacy_decl_to_expression_class_decorators
 test!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
-    ignore,
     syntax(false),
     |_| decorators(Config { legacy: true }),
     legacy_decl_to_expression_class_decorators,
@@ -2477,21 +2471,16 @@ export default @dec class A {}
 @dec class B {}
 "#,
     r#"
-var _class, _class2;
-
-let A = dec(_class2 = class A {}) || _class2;
-
-export { A as default };
-
-let B = dec(_class = class B {}) || _class;
-
+var _class, _class1;
+export default dec((_class = class A{
+}) || _class);
+let B = dec((_class1 = class B{
+}) || _class1);
 "#
 );
 
 // legacy_class_prototype_methods_numeric_props
 test_exec!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
-    ignore,
     syntax(false),
     |_| chain!(
         decorators(decorators::Config { legacy: true }),
@@ -2515,8 +2504,6 @@ class Example {
 
 // legacy_class_static_properties_mutate_descriptor
 test_exec!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
-    ignore,
     syntax(false),
     |_| chain!(
         decorators(decorators::Config { legacy: true }),
@@ -2629,8 +2616,6 @@ expect(Example._).toBe("__8__");
 
 // legacy_class_static_methods_string_props
 test_exec!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
-    ignore,
     syntax(false),
     |_| chain!(
         decorators(decorators::Config { legacy: true }),
@@ -2654,8 +2639,6 @@ class Example {
 
 // legacy_class_prototype_properties_string_literal_properties
 test_exec!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
-    ignore,
     syntax(false),
     |_| chain!(
         decorators(decorators::Config { legacy: true }),
@@ -2698,8 +2681,6 @@ expect(descs["a-prop"].configurable).toBeTruthy();
 
 // legacy_class_prototype_methods_mutate_descriptor
 test_exec!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
-    ignore,
     syntax(false),
     |_| chain!(
         decorators(decorators::Config { legacy: true }),
@@ -2828,7 +2809,7 @@ expect(inst._()).toBe("__8__");
 
 // legacy_object_properties_numeric_props
 test_exec!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
+    // Legacy decorator for object literals
     ignore,
     syntax(false),
     |_| chain!(
@@ -2853,8 +2834,6 @@ const inst = {
 
 // legacy_decl_to_expression_method_decorators
 test!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
-    ignore,
     syntax(false),
     |_| decorators(Config { legacy: true }),
     legacy_decl_to_expression_method_decorators,
@@ -2867,27 +2846,22 @@ class B {
 }
 "#,
     r#"
-var _class, _class2;
-
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
-
-let A = (_class2 = class A {
-  foo() {}
-
-}, (_applyDecoratedDescriptor(_class2.prototype, "foo", [dec], Object.getOwnPropertyDescriptor(_class2.prototype, "foo"), _class2.prototype)), _class2);
-export { A as default };
-let B = (_class = class B {
-  foo() {}
-
-}, (_applyDecoratedDescriptor(_class.prototype, "foo", [dec], Object.getOwnPropertyDescriptor(_class.prototype, "foo"), _class.prototype)), _class);
+var _class, _class1;
+let A = ((_class = class A{
+     foo() {
+    }
+}) || _class, _applyDecoratedDescriptor(_class.prototype, 'foo', [dec], Object.getOwnPropertyDescriptor(_class.prototype, 'foo'), _class.prototype), _class);
+let B = ((_class1 = class B{
+     foo() {
+    }
+}) || _class1, _applyDecoratedDescriptor(_class1.prototype, 'foo', [dec], Object.getOwnPropertyDescriptor(_class1.prototype, 'foo'), _class1.prototype), _class1);
+export { A as default }
 
 "#
 );
 
 // legacy_class_prototype_properties_return_descriptor
 test_exec!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
-    ignore,
     syntax(false),
     |_| chain!(
         decorators(decorators::Config { legacy: true }),
@@ -3000,7 +2974,7 @@ expect(inst._).toBe("__8__");
 
 // legacy_object_properties_string_props
 test_exec!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
+    // Legacy decorator for object literals
     ignore,
     syntax(false),
     |_| chain!(
@@ -3025,7 +2999,7 @@ const inst = {
 
 // legacy_object_properties_return_descriptor
 test_exec!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
+    // Legacy decorator for object literals
     ignore,
     syntax(false),
     |_| chain!(
@@ -3137,8 +3111,6 @@ expect(inst._).toBe("__8__");
 
 // legacy_class_prototype_methods_string_props
 test_exec!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
-    ignore,
     syntax(false),
     |_| chain!(
         decorators(decorators::Config { legacy: true }),
@@ -3162,8 +3134,6 @@ class Example {
 
 // legacy_regression_8041
 test!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
-    ignore,
     syntax(false),
     |_| chain!(
         decorators(decorators::Config { legacy: true }),
@@ -3178,24 +3148,20 @@ export default class {
 
 "#,
     r#"
-var _class2;
-
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
-
-let _class = (_class2 = class {
-  bar() {}
-
-}, (_applyDecoratedDescriptor(_class2.prototype, "bar", [foo], Object.getOwnPropertyDescriptor(_class2.prototype, "bar"), _class2.prototype)), _class2);
-
-export { _class as default };
-
+var _class;
+let _class1 = ((_class = function() {
+    class _class2{
+         bar() {
+        }
+    }
+    return _class2;
+}()) || _class, _applyDecoratedDescriptor(_class.prototype, 'bar', [foo], Object.getOwnPropertyDescriptor(_class.prototype, 'bar'), _class.prototype), _class);
+export { _class1 as default }
 "#
 );
 
 // legacy_class_prototype_methods_return_descriptor
 test_exec!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
-    ignore,
     syntax(false),
     |_| chain!(
         decorators(decorators::Config { legacy: true }),
@@ -3326,7 +3292,7 @@ expect(inst._()).toBe("__8__");
 
 // legacy_object_ordering_reverse_order
 test_exec!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
+    // Legacy decorator for object literals
     ignore,
     syntax(false),
     |_| chain!(
@@ -3367,7 +3333,7 @@ expect(calls).toEqual([1, 2, 3, 4, 5, 6, 7, 8]);
 
 // legacy_object_methods_numeric_props
 test_exec!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
+    // Legacy decorator for object literals
     ignore,
     syntax(false),
     |_| chain!(
@@ -3393,8 +3359,6 @@ const inst = {
 
 // legacy_class_static_properties_return_descriptor
 test_exec!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
-    ignore,
     syntax(false),
     |_| chain!(
         decorators(decorators::Config { legacy: true }),
@@ -3507,9 +3471,12 @@ expect(Example._).toBe("__8__");
 
 // legacy_class_export_default
 test_exec!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
+    // We wrap exec tests in a function like it('should work', function(){
+    //  // .. code
+    // }), but it prevents swc_ecma_parser from parsing the code
+    // below correctly.
     ignore,
-    syntax(false),
+    syntax(true),
     |_| chain!(
         decorators(decorators::Config { legacy: true }),
         class_properties(),
@@ -3536,9 +3503,7 @@ expect(calls).toEqual(["Foo"]);
 
 // legacy_class_ordering_reverse_order
 test_exec!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
-    ignore,
-    syntax(false),
+    syntax(true),
     |_| chain!(
         decorators(decorators::Config { legacy: true }),
         class_properties(),
@@ -3580,9 +3545,9 @@ expect(calls).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
 
 // legacy_object_methods_mutate_descriptor
 test_exec!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
+    // Legacy decorator for object literals
     ignore,
-    syntax(false),
+    syntax(true),
     |_| chain!(
         decorators(decorators::Config { legacy: true }),
         class_properties(),
@@ -3708,8 +3673,6 @@ expect(inst._()).toBe("__8__");
 
 // legacy_class_static_methods_return_descriptor
 test_exec!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
-    ignore,
     syntax(false),
     |_| chain!(
         decorators(decorators::Config { legacy: true }),
@@ -3837,7 +3800,7 @@ expect(Example._()).toBe("__8__");
 
 // legacy_object_methods_return_descriptor
 test_exec!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
+    // Legacy decorator for object literals
     ignore,
     syntax(false),
     |_| chain!(
@@ -3965,7 +3928,7 @@ expect(inst._()).toBe("__8__");
 
 // legacy_object_methods_string_props
 test_exec!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
+    // Legacy decorator for object literals
     ignore,
     syntax(false),
     |_| chain!(
@@ -3992,8 +3955,6 @@ const inst = {
 
 // legacy_class_prototype_properties_child_classes_properties
 test_exec!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
-    ignore,
     syntax(false),
     |_| chain!(
         decorators(decorators::Config { legacy: true }),
@@ -4034,8 +3995,6 @@ expect(inst.prop2).toBe("__4__");
 
 // legacy_class_static_methods_mutate_descriptor
 test_exec!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
-    ignore,
     syntax(false),
     |_| chain!(
         decorators(decorators::Config { legacy: true }),
@@ -4162,8 +4121,6 @@ expect(Example._()).toBe("__8__");
 
 // legacy_regression_8512
 test_exec!(
-    // legacy decorator: https://github.com/swc-project/swc/issues/421
-    ignore,
     syntax(false),
     |_| decorators(Config { legacy: true }),
     legacy_regression_8512_exec,
