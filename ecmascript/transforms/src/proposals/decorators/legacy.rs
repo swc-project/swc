@@ -1,4 +1,6 @@
-use crate::util::{alias_if_required, default_constructor, prepend, ExprFactory, StmtLike};
+use crate::util::{
+    alias_if_required, default_constructor, prepend, prop_name_to_expr, ExprFactory, StmtLike,
+};
 use ast::*;
 use smallvec::SmallVec;
 use std::mem::replace;
@@ -125,17 +127,13 @@ impl Legacy {
 
                 let callee = helper!(apply_decorated_descriptor, "applyDecoratedDescriptor");
 
-                let name = Lit::Str(Str {
-                    span: m.key.span(),
-                    value: match m.key {
-                        PropName::Ident(ref i) => i.sym.clone(),
-                        PropName::Str(ref v) => v.value.clone(),
-                        _ => unimplemented!(
-                            "decorators on methods with key other than ident / string"
-                        ),
-                    },
-                    has_escape: false,
-                });
+                let name = match m.key {
+                    PropName::Computed(..) => {
+                        unimplemented!("decorators on methods with computed key")
+                    }
+
+                    _ => prop_name_to_expr(m.key.clone()),
+                };
 
                 extra_exprs.push(box Expr::Call(CallExpr {
                     span: DUMMY_SP,
