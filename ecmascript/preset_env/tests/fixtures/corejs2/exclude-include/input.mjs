@@ -1,4 +1,4 @@
-import "@babel/polyfill";
+import "@swc/polyfill";
 
 async function a() {
   await 1;

@@ -1,3 +1,3 @@
-import "@babel/polyfill";
+import "@swc/polyfill";
 
 const a = 1;

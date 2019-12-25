@@ -1,4 +1,4 @@
-import "@babel/polyfill";
+import "@swc/polyfill";
 
 const foo = {
   a: true,

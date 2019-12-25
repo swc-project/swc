@@ -42,7 +42,7 @@ Using plugins:
 
 Using polyfills with `entry` option:
 
-[<CWD>/packages/babel-preset-env/test/fixtures/debug/entry-corejs2-proposals/input.mjs] Replaced @babel/polyfill entries with the following polyfills:
+[<CWD>/packages/babel-preset-env/test/fixtures/debug/entry-corejs2-proposals/input.mjs] Replaced @swc/polyfill entries with the following polyfills:
   es6.array.copy-within {}
   es6.array.every {}
   es6.array.fill {}
