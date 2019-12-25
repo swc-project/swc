@@ -343,16 +343,32 @@ impl Legacy {
                 let call_expr = box Expr::Call(CallExpr {
                     span: DUMMY_SP,
                     callee: helper!(apply_decorated_descriptor, "applyDecoratedDescriptor"),
-                    args: vec![
-                        prototype,
-                        name.clone().as_arg(),
-                        ArrayLit {
-                            span: DUMMY_SP,
-                            elems: dec_exprs,
+                    args: {
+                        if p.is_static {
+                            vec![
+                                prototype,
+                                name.clone().as_arg(),
+                                ArrayLit {
+                                    span: DUMMY_SP,
+                                    elems: dec_exprs,
+                                }
+                                .as_arg(),
+                                property_descriptor.as_arg(),
+                                cls_ident.clone().as_arg(),
+                            ]
+                        } else {
+                            vec![
+                                prototype,
+                                name.clone().as_arg(),
+                                ArrayLit {
+                                    span: DUMMY_SP,
+                                    elems: dec_exprs,
+                                }
+                                .as_arg(),
+                                property_descriptor.as_arg(),
+                            ]
                         }
-                        .as_arg(),
-                        property_descriptor.as_arg(),
-                    ],
+                    },
                     type_args: Default::default(),
                 });
 
