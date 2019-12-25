@@ -45,7 +45,7 @@ pub fn preset_env(mut c: Config) -> impl Pass {
             let f = transform_data::Feature::$feature;
 
             let enable = !c.exclude.contains(&f)
-                && (is_any_target || c.include.contains(&f) || f.should_enable(&targets, $default));
+                && (is_any_target || c.include.contains(&f) || f.should_enable(targets, $default));
             if c.debug {
                 println!("{}: {:?}", f.as_str(), enable);
             }
@@ -169,25 +169,8 @@ pub struct BrowserData<T: Default> {
     pub electron: T,
     #[serde(default)]
     pub phantom: T,
-}
-
-impl<T> BrowserData<Option<T>> {
-    pub fn as_ref(&self) -> BrowserData<Option<&T>> {
-        BrowserData {
-            chrome: self.chrome.as_ref(),
-            ie: self.ie.as_ref(),
-            edge: self.edge.as_ref(),
-            firefox: self.firefox.as_ref(),
-            safari: self.safari.as_ref(),
-            node: self.node.as_ref(),
-            ios: self.ios.as_ref(),
-            samsung: self.samsung.as_ref(),
-            opera: self.opera.as_ref(),
-            android: self.android.as_ref(),
-            electron: self.electron.as_ref(),
-            phantom: self.phantom.as_ref(),
-        }
-    }
+    #[serde(default)]
+    pub opera_mobile: T,
 }
 
 #[derive(Debug)]
