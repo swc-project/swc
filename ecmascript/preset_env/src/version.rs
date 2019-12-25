@@ -143,6 +143,6 @@ pub fn should_enable(target: Versions, feature: Versions, default: bool) -> bool
             let f = f.as_ref().unwrap();
             let target = target_version.unwrap();
 
-            *f >= target
+            *f > target
         })
 }

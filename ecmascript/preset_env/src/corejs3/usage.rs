@@ -49,13 +49,13 @@ impl UsageVisitor {
         for f in features {
             let feature = CORE_JS_COMPAT_DATA.get(&**f);
 
-            if let Some(feature) = feature {
-                if !should_enable(self.target, *feature, true) {
-                    continue;
+            if !self.is_any_target {
+                if let Some(feature) = feature {
+                    if !should_enable(self.target, *feature, true) {
+                        continue;
+                    }
                 }
             }
-
-            if !self.is_any_target {}
 
             let v = format!("core-js/modules/{}", f);
 
