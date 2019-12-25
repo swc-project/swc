@@ -1,14 +1,15 @@
 use super::data::BUILTINS;
 use crate::Versions;
+use swc_atoms::JsWord;
 
-pub(crate) struct UsageVisitor<'a> {
+pub(crate) struct UsageVisitor {
     is_any_target: bool,
-    target: &'a Versions,
+    target: Versions,
     pub required: Vec<JsWord>,
 }
 
-impl<'a> UsageVisitor<'a> {
-    pub fn new(target: &'a Versions) -> Self {
+impl UsageVisitor {
+    pub fn new(target: Versions) -> Self {
         //        let mut v = Self { required: vec![] };
         //
         //
@@ -38,29 +39,7 @@ impl<'a> UsageVisitor<'a> {
     /// Add imports
     fn add(&mut self, features: &[&str]) {
         for f in features {
-            if !self.is_any_target {
-                if let Some(v) = BUILTINS.get(&**f) {
-                    // Skip
-                    if v.iter().zip(self.target.iter()).all(|((_, fv), (_, tv))| {
-                        // fv: feature's version
-                        // tv: target's version
-
-                        // We are not targeting the platform. So ignore it.
-                        if tv.is_none() {
-                            return true;
-                        }
-
-                        // Not supported by browser (even on latest version)
-                        if fv.is_none() {
-                            return false;
-                        }
-
-                        *fv <= *tv
-                    }) {
-                        continue;
-                    }
-                }
-            }
+            if !self.is_any_target {}
 
             let v = format!("core-js/modules/{}", f);
 

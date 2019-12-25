@@ -1,7 +1,6 @@
-use crate::{BrowserData, Versions};
+use crate::{BrowserData, Version, Versions};
 use hashbrown::HashMap;
 use once_cell::sync::Lazy;
-use semver::Version;
 use string_enum::StringEnum;
 
 impl Feature {
@@ -135,32 +134,6 @@ pub enum Feature {
     ReservedWords,
 }
 
-pub fn parse_version(v: &str) -> Version {
-    if !v.contains(".") {
-        return Version {
-            major: v.parse().unwrap(),
-            minor: 0,
-            patch: 0,
-            pre: vec![],
-            build: vec![],
-        };
-    }
-
-    if v.split(".").count() == 2 {
-        let mut s = v.split(".");
-        return Version {
-            major: s.next().unwrap().parse().unwrap(),
-            minor: s.next().unwrap().parse().unwrap(),
-            patch: 0,
-            pre: vec![],
-            build: vec![],
-        };
-    }
-
-    v.parse()
-        .unwrap_or_else(|err| panic!("failed to parse {} as semver: {}", v, err))
-}
-
 pub(crate) static FEATURES: Lazy<HashMap<Feature, BrowserData<Option<Version>>>> =
     Lazy::new(|| {
         let map: HashMap<Feature, BrowserData<Option<String>>> =
@@ -171,7 +144,7 @@ pub(crate) static FEATURES: Lazy<HashMap<Feature, BrowserData<Option<Version>>>>
             .map(|(feature, version)| {
                 (
                     feature,
-                    version.map_value(|version| version.map(|v| parse_version(&*v))),
+                    version.map_value(|version| version.map(|v| v.parse().unwrap())),
                 )
             })
             .collect()

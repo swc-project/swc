@@ -10,14 +10,14 @@ use swc_ecma_ast::*;
 mod builtin;
 mod data;
 
-pub(super) struct UsageVisitor<'a> {
+pub(crate) struct UsageVisitor {
     is_any_target: bool,
-    target: &'a Versions,
+    target: Versions,
     pub required: Vec<JsWord>,
 }
 
-impl<'a> UsageVisitor<'a> {
-    pub fn new(target: &'a Versions) -> Self {
+impl UsageVisitor {
+    pub fn new(target: Versions) -> Self {
         //        let mut v = Self { required: vec![] };
         //
         //
@@ -91,7 +91,7 @@ impl<'a> UsageVisitor<'a> {
 //    },
 
 /// Detects usage of types
-impl Visit<Ident> for UsageVisitor<'_> {
+impl Visit<Ident> for UsageVisitor {
     fn visit(&mut self, node: &Ident) {
         node.visit_children(self);
 
@@ -106,7 +106,7 @@ impl Visit<Ident> for UsageVisitor<'_> {
 /// Detects usage of instance properties and static properties.
 ///
 ///  - `Array.from`
-impl Visit<MemberExpr> for UsageVisitor<'_> {
+impl Visit<MemberExpr> for UsageVisitor {
     fn visit(&mut self, node: &MemberExpr) {
         node.visit_children(self);
         //enter(path: NodePath) {
@@ -224,7 +224,7 @@ impl Visit<MemberExpr> for UsageVisitor<'_> {
 
 ///
 /// - `arr[Symbol.iterator]()`
-impl Visit<CallExpr> for UsageVisitor<'_> {
+impl Visit<CallExpr> for UsageVisitor {
     fn visit(&mut self, e: &CallExpr) {
         e.visit_children(self);
 
@@ -245,7 +245,7 @@ impl Visit<CallExpr> for UsageVisitor<'_> {
 
 ///
 /// - `Symbol.iterator in arr`
-impl Visit<BinExpr> for UsageVisitor<'_> {
+impl Visit<BinExpr> for UsageVisitor {
     fn visit(&mut self, e: &BinExpr) {
         e.visit_children(self);
 
@@ -258,7 +258,7 @@ impl Visit<BinExpr> for UsageVisitor<'_> {
 
 ///
 /// - `yield*`
-impl Visit<YieldExpr> for UsageVisitor<'_> {
+impl Visit<YieldExpr> for UsageVisitor {
     fn visit(&mut self, e: &YieldExpr) {
         e.visit_children(self);
         println!("Yield");
@@ -270,7 +270,7 @@ impl Visit<YieldExpr> for UsageVisitor<'_> {
 }
 
 /// var { repeat, startsWith } = String
-impl Visit<VarDeclarator> for UsageVisitor<'_> {
+impl Visit<VarDeclarator> for UsageVisitor {
     fn visit(&mut self, v: &VarDeclarator) {
         v.visit_children(self);
 

@@ -4,13 +4,15 @@
 #![feature(trace_macros)]
 #![recursion_limit = "256"]
 
-pub use self::transform_data::{parse_version, Feature};
-use semver::Version;
+pub use self::{transform_data::Feature, version::Version};
 use serde::Deserialize;
 use st_map::StaticMap;
-use std::convert::{TryFrom, TryInto};
+use std::{
+    convert::{TryFrom, TryInto},
+    str::FromStr,
+};
 use swc_atoms::JsWord;
-use swc_common::{chain, Fold, FromVariant, VisitWith, DUMMY_SP};
+use swc_common::{chain, Fold, FromVariant, Visit, VisitWith, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms::{
     compat::{es2015, es2016, es2017, es2018, es3},
@@ -23,6 +25,7 @@ mod util;
 mod corejs2;
 mod corejs3;
 mod transform_data;
+mod version;
 
 pub fn preset_env(mut c: Config) -> impl Pass {
     if c.core_js == 0 {
@@ -131,6 +134,7 @@ pub fn preset_env(mut c: Config) -> impl Pass {
         pass,
         Polyfills {
             mode: c.mode,
+            corejs: c.core_js,
             targets
         }
     )
@@ -185,9 +189,11 @@ impl<T> BrowserData<Option<T>> {
     }
 }
 
+#[derive(Debug)]
 struct Polyfills {
     mode: Option<Mode>,
     targets: Versions,
+    corejs: usize,
 }
 
 impl Fold<Module> for Polyfills {
@@ -195,16 +201,29 @@ impl Fold<Module> for Polyfills {
         let span = node.span;
 
         if self.mode == Some(Mode::Usage) {
-            let mut v = corejs2::UsageVisitor::new(&self.targets);
-            node.visit_with(&mut v);
+            let mut required = match self.corejs {
+                2 => {
+                    let mut v = corejs2::UsageVisitor::new(self.targets);
+                    node.visit_with(&mut v);
+
+                    v.required
+                }
+                3 => {
+                    let mut v = corejs3::UsageVisitor::new(self.targets);
+                    node.visit_with(&mut v);
+                    v.required
+                }
+
+                _ => unimplemented!("corejs version other than 2 / 3"),
+            };
 
             if cfg!(debug_assertions) {
-                v.required.sort();
+                required.sort();
             }
 
             prepend_stmts(
                 &mut node.body,
-                v.required.into_iter().map(|src| {
+                required.into_iter().map(|src| {
                     ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
                         span,
                         specifiers: vec![],

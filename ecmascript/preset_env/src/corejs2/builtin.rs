@@ -1,4 +1,4 @@
-use crate::{parse_version, BrowserData, Versions};
+use crate::{BrowserData, Versions};
 use hashbrown::HashMap;
 use once_cell::sync::Lazy;
 
@@ -10,7 +10,7 @@ pub(crate) static BUILTINS: Lazy<HashMap<String, Versions>> = Lazy::new(|| {
         .map(|(feature, version)| {
             (
                 feature,
-                version.map_value(|version| version.map(|v| parse_version(&*v))),
+                version.map_value(|version| version.map(|v| v.parse().unwrap())),
             )
         })
         .collect()
