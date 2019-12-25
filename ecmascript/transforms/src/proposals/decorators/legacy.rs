@@ -1,20 +1,21 @@
 use crate::util::{
     alias_if_required, default_constructor, prepend, prop_name_to_expr_value, undefined,
-    ExprFactory, StmtLike,
+    ExprFactory, ModuleItemLike, StmtLike,
 };
 use ast::*;
 use smallvec::SmallVec;
 use std::mem::replace;
-use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Spanned, DUMMY_SP};
+use swc_common::{util::move_map::MoveMap, Fold, FoldWith, DUMMY_SP};
 
 #[derive(Debug, Default)]
 pub(super) struct Legacy {
     vars: Vec<VarDeclarator>,
+    exports: Vec<ExportSpecifier>,
 }
 
 impl<T> Fold<Vec<T>> for Legacy
 where
-    T: FoldWith<Self> + StmtLike + ::std::fmt::Debug,
+    T: FoldWith<Self> + StmtLike + ModuleItemLike,
 {
     fn fold(&mut self, stmts: Vec<T>) -> Vec<T> {
         let mut stmts = stmts.fold_children(self);
@@ -31,7 +32,68 @@ where
             );
         }
 
+        if !self.exports.is_empty() {
+            let decl = ModuleDecl::ExportNamed(NamedExport {
+                span: DUMMY_SP,
+                specifiers: replace(&mut self.exports, Default::default()),
+                src: None,
+            });
+
+            match T::try_from_module_decl(decl) {
+                Ok(t) => stmts.push(t),
+                Err(decl) => {
+                    // Restore
+                    match decl {
+                        ModuleDecl::ExportNamed(NamedExport { specifiers, .. }) => {
+                            replace(&mut self.exports, specifiers);
+                        }
+                        _ => {}
+                    }
+                }
+            }
+        }
+
         stmts
+    }
+}
+
+impl Fold<ModuleItem> for Legacy {
+    fn fold(&mut self, item: ModuleItem) -> ModuleItem {
+        let item: ModuleItem = item.fold_children(self);
+
+        match item {
+            ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                decl: DefaultDecl::Class(c),
+                ..
+            })) => {
+                let export_ident = c.ident.clone().unwrap_or_else(|| private_ident!("_class"));
+
+                let expr = self.handle(c);
+
+                self.exports
+                    .push(ExportSpecifier::Named(NamedExportSpecifier {
+                        span: DUMMY_SP,
+                        orig: export_ident.clone(),
+                        exported: Some(quote_ident!("default")),
+                    }));
+
+                return ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Let,
+                    declare: false,
+                    decls: vec![VarDeclarator {
+                        span: DUMMY_SP,
+                        name: Pat::Ident(export_ident),
+                        init: Some(expr),
+                        definite: false,
+                    }],
+                })));
+            }
+
+            _ => {}
+        }
+
+        item
     }
 }
 
@@ -40,7 +102,7 @@ impl Fold<Expr> for Legacy {
         let e: Expr = e.fold_children(self);
 
         match e {
-            Expr::Class(e) if !e.class.decorators.is_empty() => {
+            Expr::Class(e) => {
                 let expr = self.handle(e);
 
                 return *expr;
