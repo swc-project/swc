@@ -88,80 +88,77 @@ impl Legacy {
         let mut extra_exprs = vec![];
 
         c.class.body = c.class.body.move_flat_map(|m| match m {
-            ClassMember::Method(m) => {
-                if !m.function.decorators.is_empty() {
-                    // _applyDecoratedDescriptor(_class2.prototype, "method2", [_dec7, _dec8],
-                    // Object.getOwnPropertyDescriptor(_class2.prototype, "method2"),
-                    // _class2.prototype)
+            ClassMember::Method(m) if !m.function.decorators.is_empty() => {
+                // _applyDecoratedDescriptor(_class2.prototype, "method2", [_dec7, _dec8],
+                // Object.getOwnPropertyDescriptor(_class2.prototype, "method2"),
+                // _class2.prototype)
 
-                    let mut dec_exprs = vec![];
-                    for dec in m.function.decorators.into_iter() {
-                        let (i, aliased) = alias_if_required(&dec.expr, "_dec");
-                        if aliased {
-                            self.vars.push(VarDeclarator {
-                                span: DUMMY_SP,
-                                name: Pat::Ident(i.clone()),
-                                init: Some(dec.expr),
-                                definite: false,
-                            });
-                        }
-
-                        dec_exprs.push(Some(i.as_arg()))
+                let mut dec_exprs = vec![];
+                for dec in m.function.decorators.into_iter() {
+                    let (i, aliased) = alias_if_required(&dec.expr, "_dec");
+                    if aliased {
+                        self.vars.push(VarDeclarator {
+                            span: DUMMY_SP,
+                            name: Pat::Ident(i.clone()),
+                            init: Some(dec.expr),
+                            definite: false,
+                        });
                     }
 
-                    let callee = helper!(apply_decorated_descriptor, "applyDecoratedDescriptor");
-
-                    let prototype = MemberExpr {
-                        span: DUMMY_SP,
-                        obj: ExprOrSuper::Expr(box Expr::Ident(cls_ident.clone())),
-                        prop: box quote_ident!("prototype").into(),
-                        computed: false,
-                    };
-                    let name = Lit::Str(Str {
-                        span: m.key.span(),
-                        value: match m.key {
-                            PropName::Ident(ref i) => i.sym.clone(),
-                            PropName::Str(ref v) => v.value.clone(),
-                            _ => unimplemented!(
-                                "decorators on methods with key other than ident / string"
-                            ),
-                        },
-                        has_escape: false,
-                    });
-
-                    extra_exprs.push(box Expr::Call(CallExpr {
-                        span: DUMMY_SP,
-                        callee,
-                        // (_class2.prototype, "method2", [_dec7, _dec8],
-                        // Object.getOwnPropertyDescriptor(_class2.prototype, "method2"),
-                        // _class2.prototype)
-                        args: vec![
-                            // _class2.prototype,
-                            prototype.clone().as_arg(),
-                            // "method2"
-                            name.clone().as_arg(),
-                            // [_dec7, _dec8],
-                            ArrayLit {
-                                span: DUMMY_SP,
-                                elems: dec_exprs,
-                            }
-                            .as_arg(),
-                            // Object.getOwnPropertyDescriptor(_class2.prototype, "method2"),
-                            CallExpr {
-                                span: DUMMY_SP,
-                                callee: member_expr!(DUMMY_SP, Object.getOwnPropertyDescriptor)
-                                    .as_callee(),
-                                args: vec![prototype.clone().as_arg(), name.as_arg()],
-                                type_args: None,
-                            }
-                            .as_arg(),
-                            // _class2.prototype
-                            prototype.as_arg(),
-                        ],
-                        type_args: None,
-                    }))
+                    dec_exprs.push(Some(i.as_arg()))
                 }
-                //
+
+                let callee = helper!(apply_decorated_descriptor, "applyDecoratedDescriptor");
+
+                let prototype = MemberExpr {
+                    span: DUMMY_SP,
+                    obj: ExprOrSuper::Expr(box Expr::Ident(cls_ident.clone())),
+                    prop: box quote_ident!("prototype").into(),
+                    computed: false,
+                };
+                let name = Lit::Str(Str {
+                    span: m.key.span(),
+                    value: match m.key {
+                        PropName::Ident(ref i) => i.sym.clone(),
+                        PropName::Str(ref v) => v.value.clone(),
+                        _ => unimplemented!(
+                            "decorators on methods with key other than ident / string"
+                        ),
+                    },
+                    has_escape: false,
+                });
+
+                extra_exprs.push(box Expr::Call(CallExpr {
+                    span: DUMMY_SP,
+                    callee,
+                    // (_class2.prototype, "method2", [_dec7, _dec8],
+                    // Object.getOwnPropertyDescriptor(_class2.prototype, "method2"),
+                    // _class2.prototype)
+                    args: vec![
+                        // _class2.prototype,
+                        prototype.clone().as_arg(),
+                        // "method2"
+                        name.clone().as_arg(),
+                        // [_dec7, _dec8],
+                        ArrayLit {
+                            span: DUMMY_SP,
+                            elems: dec_exprs,
+                        }
+                        .as_arg(),
+                        // Object.getOwnPropertyDescriptor(_class2.prototype, "method2"),
+                        CallExpr {
+                            span: DUMMY_SP,
+                            callee: member_expr!(DUMMY_SP, Object.getOwnPropertyDescriptor)
+                                .as_callee(),
+                            args: vec![prototype.clone().as_arg(), name.as_arg()],
+                            type_args: None,
+                        }
+                        .as_arg(),
+                        // _class2.prototype
+                        prototype.as_arg(),
+                    ],
+                    type_args: None,
+                }));
 
                 Some(ClassMember::Method(ClassMethod {
                     function: Function {
