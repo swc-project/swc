@@ -1,4 +1,4 @@
-use crate::util::{alias_if_required, prepend, ExprFactory, StmtLike};
+use crate::util::{alias_if_required, default_constructor, prepend, ExprFactory, StmtLike};
 use ast::*;
 use smallvec::SmallVec;
 use std::mem::replace;
@@ -93,6 +93,7 @@ impl Legacy {
         });
 
         let mut extra_exprs = vec![];
+        let mut constructor_stmts = SmallVec::<[_; 8]>::new();
 
         let prototype = MemberExpr {
             span: DUMMY_SP,
@@ -226,7 +227,7 @@ impl Legacy {
                     callee: helper!(apply_decorated_descriptor, "applyDecoratedDescriptor"),
                     args: vec![
                         prototype.clone().as_arg(),
-                        name.as_arg(),
+                        name.clone().as_arg(),
                         ArrayLit {
                             span: DUMMY_SP,
                             elems: dec_exprs,
@@ -300,15 +301,70 @@ impl Legacy {
                     right: call_expr,
                 }));
 
-                Some(ClassMember::ClassProp(ClassProp {
-                    decorators: vec![],
-                    value: None,
-                    ..p
-                }))
+                constructor_stmts.push(
+                    CallExpr {
+                        span: DUMMY_SP,
+                        callee: helper!(initializer_define_property, "initializerDefineProperty"),
+                        args: vec![
+                            ThisExpr { span: DUMMY_SP }.as_arg(),
+                            name.as_arg(),
+                            descriptor.as_arg(),
+                            ThisExpr { span: DUMMY_SP }.as_arg(),
+                        ],
+                        type_args: None,
+                    }
+                    .into_stmt(),
+                );
+
+                None
             }
 
             _ => Some(m),
         });
+
+        if !constructor_stmts.is_empty() {
+            {
+                // Create constructors as required
+
+                let has = c.class.body.iter().any(|m| match m {
+                    ClassMember::Constructor(..) => true,
+                    _ => false,
+                });
+
+                if !has {
+                    c.class
+                        .body
+                        .push(ClassMember::Constructor(default_constructor(
+                            c.class.super_class.is_some(),
+                        )))
+                }
+            }
+
+            let constructor = c
+                .class
+                .body
+                .iter_mut()
+                .filter_map(|m| match m {
+                    ClassMember::Constructor(c) => Some(c),
+                    _ => None,
+                })
+                .next()
+                .unwrap();
+
+            if constructor.body.is_none() {
+                constructor.body = Some(BlockStmt {
+                    span: DUMMY_SP,
+                    stmts: vec![],
+                });
+            }
+
+            constructor
+                .body
+                .as_mut()
+                .unwrap()
+                .stmts
+                .extend(constructor_stmts)
+        }
 
         let cls_assign = box Expr::Assign(AssignExpr {
             span: DUMMY_SP,
