@@ -1,9 +1,11 @@
 use super::data::BUILTINS;
 use crate::{
-    corejs::CORE_JS_COMPAT_DATA,
-    corejs3::data::{
-        COMMON_ITERATORS, INSTANCE_PROPERTIES, POSSIBLE_GLOBAL_OBJECTS, PROMISE_DEPENDENCIES,
-        STATIC_PROPERTIES,
+    corejs3::{
+        compat::DATA as CORE_JS_COMPAT_DATA,
+        data::{
+            COMMON_ITERATORS, INSTANCE_PROPERTIES, POSSIBLE_GLOBAL_OBJECTS, PROMISE_DEPENDENCIES,
+            STATIC_PROPERTIES,
+        },
     },
     util::DataMapExt,
     version::should_enable,

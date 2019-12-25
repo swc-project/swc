@@ -22,7 +22,6 @@ use swc_ecma_transforms::{
 
 #[macro_use]
 mod util;
-mod corejs;
 mod corejs2;
 mod corejs3;
 mod transform_data;
