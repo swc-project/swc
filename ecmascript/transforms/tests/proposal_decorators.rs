@@ -2070,13 +2070,13 @@ export default class {}
 
 "#,
     r#"
-var _class2;
+var _class;
+function myDecorator(decoratee) {
+}
+let _class1 = myDecorator((_class = class{
+}) || _class);
+export { _class1 as default }
 
-function myDecorator(decoratee) {}
-
-let _class = myDecorator(_class2 = class {}) || _class2;
-
-export { _class as default };
 
 "#
 );
@@ -3149,15 +3149,15 @@ export default class {
 
 "#,
     r#"
-var _class2;
-
-let _class = (_class2 = class {
-  bar() {}
-
-}, (_applyDecoratedDescriptor(_class2.prototype, "bar", [foo], Object.getOwnPropertyDescriptor(_class2.prototype, "bar"), _class2.prototype)), _class2);
-
-export { _class as default };
-
+var _class;
+let _class1 = ((_class = function() {
+    class _class2{
+         bar() {
+        }
+    }
+    return _class2;
+}()) || _class, _applyDecoratedDescriptor(_class.prototype, 'bar', [foo], Object.getOwnPropertyDescriptor(_class.prototype, 'bar'), _class.prototype), _class);
+export { _class1 as default }
 "#
 );
 
