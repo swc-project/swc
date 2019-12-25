@@ -73,7 +73,6 @@ impl UsageVisitor {
             self.add(features)
         }
     }
-
     fn add_property_deps(&mut self, obj: &Expr, prop: &Expr) {
         let obj = match obj {
             Expr::Ident(i) => &i.sym,
@@ -85,6 +84,9 @@ impl UsageVisitor {
             _ => return,
         };
 
+        self.add_property_deps_inner(obj, prop)
+    }
+    fn add_property_deps_inner(&mut self, obj: &JsWord, prop: &JsWord) {
         if POSSIBLE_GLOBAL_OBJECTS.contains(&&**obj) {
             self.add_builtin(prop);
             return;
@@ -98,6 +100,27 @@ impl UsageVisitor {
 
         if let Some(features) = INSTANCE_PROPERTIES.get_data(&prop) {
             self.add(features);
+        }
+    }
+
+    fn visit_object_pat_props(&mut self, obj: &Expr, props: &[ObjectPatProp]) {
+        let obj = match obj {
+            Expr::Ident(i) => &i.sym,
+            _ => return,
+        };
+
+        for p in props {
+            match p {
+                ObjectPatProp::KeyValue(KeyValuePatProp {
+                    key: PropName::Ident(i),
+                    ..
+                }) => self.add_property_deps_inner(obj, &i.sym),
+                ObjectPatProp::Assign(AssignPatProp { key, .. }) => {
+                    self.add_property_deps_inner(obj, &key.sym)
+                }
+
+                _ => {}
+            }
         }
     }
 }
@@ -182,9 +205,6 @@ impl Visit<MemberExpr> for UsageVisitor {
     fn visit(&mut self, e: &MemberExpr) {
         e.visit_children(self);
 
-        //const source = resolveSource(path.get("object"));
-        //const key = resolveKey(path.get("property"));
-
         // Object.entries
         // [1, 2, 3].entries
 
@@ -195,39 +215,35 @@ impl Visit<MemberExpr> for UsageVisitor {
     }
 }
 
-impl Visit<ObjectPat> for UsageVisitor {
-    fn visit(&mut self, p: &ObjectPat) {
-        p.visit_children(self);
+impl Visit<VarDeclarator> for UsageVisitor {
+    fn visit(&mut self, d: &VarDeclarator) {
+        d.visit_children(self);
+
+        if let Some(ref init) = d.init {
+            match d.name {
+                // const { keys, values } = Object
+                Pat::Object(ref o) => self.visit_object_pat_props(&init, &o.props),
+                _ => {}
+            }
+        }
     }
 }
 
-//ObjectPattern(path: NodePath) {
-//const { parentPath, parent, key } = path;
-//let source;
-//
-//// const { keys, values } = Object
-//if (parentPath.isVariableDeclarator()) {
-//source = resolveSource(parentPath.get("init"));
-//// ({ keys, values } = Object)
-//} else if (parentPath.isAssignmentExpression()) {
-//source = resolveSource(parentPath.get("right"));
-//// !function ({ keys, values }) {...} (Object)
-//// resolution does not work after properties transform :-(
-//} else if (parentPath.isFunctionExpression()) {
-//const grand = parentPath.parentPath;
-//if (grand.isCallExpression() || grand.isNewExpression()) {
-//if (grand.node.callee === parent) {
-//source = resolveSource(grand.get("arguments")[key]);
-//}
-//
-//for (const property of path.get("properties")) {
-//if (property.isObjectProperty()) {
-//const key = resolveKey(property.get("key"));
-//// const { keys, values } = Object
-//// const { keys, values } = [1, 2, 3]
-//this.addPropertyDependencies(source, key);
-//},
-//
+impl Visit<AssignExpr> for UsageVisitor {
+    fn visit(&mut self, e: &AssignExpr) {
+        e.visit_children(self);
+
+        match e.left {
+            // ({ keys, values } = Object)
+            PatOrExpr::Pat(box Pat::Object(ref o)) => {
+                self.visit_object_pat_props(&e.right, &o.props)
+            }
+            _ => {}
+        }
+    }
+}
+
+// TODO: https://github.com/babel/babel/blob/00758308/packages/babel-preset-env/src/polyfills/corejs3/usage-plugin.js#L198-L206
 
 impl Visit<BinExpr> for UsageVisitor {
     fn visit(&mut self, e: &BinExpr) {
