@@ -1,6 +1,6 @@
 use crate::util::{
     alias_if_required, default_constructor, prepend, prop_name_to_expr_value, undefined,
-    ExprFactory,
+    ExprFactory, ModuleItemLike, StmtLike,
 };
 use ast::*;
 use smallvec::SmallVec;
@@ -13,22 +13,26 @@ pub(super) struct Legacy {
     exports: Vec<ExportSpecifier>,
 }
 
-/// Optimization: merge var declarations.
-impl Fold<Module> for Legacy {
-    fn fold(&mut self, m: Module) -> Module {
-        let mut m = m.fold_children(self);
+impl<T> Fold<Vec<T>> for Legacy
+where
+    T: FoldWith<Self> + StmtLike + ModuleItemLike,
+{
+    fn fold(&mut self, stmts: Vec<T>) -> Vec<T> {
+        let mut buf = Vec::with_capacity(stmts.len() + 4);
 
-        if !self.vars.is_empty() {
-            prepend(
-                &mut m.body,
-                Stmt::Decl(Decl::Var(VarDecl {
+        for stmt in stmts {
+            let stmt = stmt.fold_with(self);
+
+            if !self.vars.is_empty() {
+                buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
-                    decls: replace(&mut self.vars, Default::default()),
                     declare: false,
-                }))
-                .into(),
-            );
+                    decls: replace(&mut self.vars, Default::default()),
+                }))));
+            }
+
+            buf.push(stmt);
 
             if !self.exports.is_empty() {
                 let decl = ModuleDecl::ExportNamed(NamedExport {
@@ -36,35 +40,25 @@ impl Fold<Module> for Legacy {
                     specifiers: replace(&mut self.exports, Default::default()),
                     src: None,
                 });
-                m.body.push(decl.into());
+
+                match T::try_from_module_decl(decl) {
+                    Ok(t) => buf.push(t),
+                    Err(decl) => {
+                        // Restore
+                        match decl {
+                            ModuleDecl::ExportNamed(NamedExport { specifiers, .. }) => {
+                                replace(&mut self.exports, specifiers);
+                            }
+                            _ => {}
+                        }
+                    }
+                }
             }
         }
 
-        m
+        buf
     }
 }
-
-/// Optimization: merge var declarations.
-impl Fold<Script> for Legacy {
-    fn fold(&mut self, s: Script) -> Script {
-        let mut s = s.fold_children(self);
-
-        if !self.vars.is_empty() {
-            prepend(
-                &mut s.body,
-                Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    decls: replace(&mut self.vars, Default::default()),
-                    declare: false,
-                })),
-            )
-        }
-
-        s
-    }
-}
-
 impl Fold<ModuleItem> for Legacy {
     fn fold(&mut self, item: ModuleItem) -> ModuleItem {
         let item: ModuleItem = item.fold_children(self);
