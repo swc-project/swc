@@ -106,6 +106,13 @@ impl Legacy {
 
         c.class.body = c.class.body.move_flat_map(|m| match m {
             ClassMember::Method(m) if !m.function.decorators.is_empty() => {
+                let prototype = if m.is_static {
+                    cls_ident.clone().as_arg()
+                } else {
+                    // _class2.prototype,
+                    prototype.clone().as_arg()
+                };
+
                 // _applyDecoratedDescriptor(_class2.prototype, "method2", [_dec7, _dec8],
                 // Object.getOwnPropertyDescriptor(_class2.prototype, "method2"),
                 // _class2.prototype)
@@ -141,8 +148,7 @@ impl Legacy {
                     // Object.getOwnPropertyDescriptor(_class2.prototype, "method2"),
                     // _class2.prototype)
                     args: vec![
-                        // _class2.prototype,
-                        prototype.clone().as_arg(),
+                        prototype.clone(),
                         // "method2"
                         name.clone().as_arg(),
                         // [_dec7, _dec8],
@@ -156,12 +162,12 @@ impl Legacy {
                             span: DUMMY_SP,
                             callee: member_expr!(DUMMY_SP, Object.getOwnPropertyDescriptor)
                                 .as_callee(),
-                            args: vec![prototype.clone().as_arg(), name.as_arg()],
+                            args: vec![prototype.clone(), name.as_arg()],
                             type_args: None,
                         }
                         .as_arg(),
                         // _class2.prototype
-                        prototype.clone().as_arg(),
+                        prototype.clone(),
                     ],
                     type_args: None,
                 }));
