@@ -2056,7 +2056,7 @@ expect(typeof Parent.prototype.child).toBe("function");
 
 // legacy_regression_10264
 test!(
-    syntax(false),
+    syntax(true),
     |_| chain!(
         typescript::strip(),
         decorators(decorators::Config { legacy: true })
