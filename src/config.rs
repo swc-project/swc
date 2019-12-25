@@ -186,7 +186,12 @@ impl Options {
             resolver(),
             const_modules,
             pass,
-            Optional::new(decorators(Default::default()), syntax.decorators()),
+            Optional::new(
+                decorators(decorators::Config {
+                    legacy: transform.legacy_decorator
+                }),
+                syntax.decorators()
+            ),
             Optional::new(class_properties(), syntax.class_props()),
             Optional::new(
                 export(),
@@ -470,6 +475,9 @@ pub struct TransformConfig {
 
     #[serde(default)]
     pub optimizer: Option<OptimizerConfig>,
+
+    #[serde(default)]
+    pub legacy_decorator: bool,
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
