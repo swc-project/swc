@@ -81,6 +81,7 @@ impl UsageVisitor {
 
         let prop = match prop {
             Expr::Ident(i) => &i.sym,
+            Expr::Lit(Lit::Str(s)) => &s.value,
             _ => return,
         };
 
