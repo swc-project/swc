@@ -55,7 +55,7 @@ impl Fold<Decl> for Legacy {
         let decl: Decl = decl.fold_children(self);
 
         match decl {
-            Decl::Class(c) if !c.class.decorators.is_empty() => {
+            Decl::Class(c) => {
                 let expr = self.handle(ClassExpr {
                     class: c.class,
                     ident: Some(c.ident.clone()),
