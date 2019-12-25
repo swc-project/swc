@@ -12,8 +12,7 @@ use std::{
 use swc_atoms::{js_word, JsWord};
 #[cfg(feature = "fold")]
 use swc_common::Fold;
-use swc_common::Span;
-use swc_common::Spanned;
+use swc_common::{Span, Spanned};
 pub(crate) use swc_ecma_ast::AssignOp as AssignOpToken;
 use swc_ecma_ast::BinaryOp;
 
