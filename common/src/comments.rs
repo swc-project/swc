@@ -1,4 +1,7 @@
-use crate::syntax_pos::{BytePos, Span};
+use crate::{
+    pos::Spanned,
+    syntax_pos::{BytePos, Span},
+};
 use chashmap::{CHashMap, ReadGuard};
 
 type CommentMap = CHashMap<BytePos, Vec<Comment>>;
@@ -66,6 +69,12 @@ pub struct Comment {
     pub kind: CommentKind,
     pub span: Span,
     pub text: String,
+}
+
+impl Spanned for Comment {
+    fn span(&self) -> Span {
+        self.span
+    }
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
