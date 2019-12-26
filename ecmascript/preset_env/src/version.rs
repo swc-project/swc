@@ -86,6 +86,28 @@ impl<'de> Visitor<'de> for SerdeVisitor {
         formatter.write_str("a browser version")
     }
 
+    fn visit_i64<E>(self, v: i64) -> Result<Self::Value, E>
+    where
+        E: de::Error,
+    {
+        Ok(Version {
+            major: v as _,
+            minor: 0,
+            patch: 0,
+        })
+    }
+
+    fn visit_u64<E>(self, v: u64) -> Result<Self::Value, E>
+    where
+        E: de::Error,
+    {
+        Ok(Version {
+            major: v as _,
+            minor: 0,
+            patch: 0,
+        })
+    }
+
     fn visit_str<E>(self, v: &str) -> Result<Self::Value, E>
     where
         E: de::Error,
@@ -108,28 +130,6 @@ impl<'de> Visitor<'de> for SerdeVisitor {
     {
         self.visit_str(&v)
     }
-
-    fn visit_i64<E>(self, v: i64) -> Result<Self::Value, E>
-    where
-        E: de::Error,
-    {
-        Ok(Version {
-            major: v as _,
-            minor: 0,
-            patch: 0,
-        })
-    }
-
-    fn visit_u64<E>(self, v: u64) -> Result<Self::Value, E>
-    where
-        E: de::Error,
-    {
-        Ok(Version {
-            major: v as _,
-            minor: 0,
-            patch: 0,
-        })
-    }
 }
 
 impl<'de> Deserialize<'de> for Version {
@@ -137,7 +137,7 @@ impl<'de> Deserialize<'de> for Version {
     where
         D: Deserializer<'de>,
     {
-        deserializer.deserialize_str(SerdeVisitor)
+        deserializer.deserialize_any(SerdeVisitor)
     }
 }
 

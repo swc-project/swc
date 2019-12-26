@@ -126,6 +126,7 @@ fn load() -> Result<Vec<TestDescAndFn>, Error> {
 
     for entry in WalkDir::new(&dir) {
         let e = entry?;
+        println!("File: {}", e.path().display());
 
         if e.metadata()?.is_file() {
             continue;
@@ -136,8 +137,8 @@ fn load() -> Result<Vec<TestDescAndFn>, Error> {
             _ => continue,
         }
 
-        let cfg: BabelOptions =
-            serde_json::from_reader(File::open(e.path().join("options.json"))?)?;
+        let cfg: BabelOptions = serde_json::from_reader(File::open(e.path().join("options.json"))?)
+            .map_err(|err| Error::Msg(format!("failed to parse options.json: {}", err)))?;
         assert_eq!(cfg.presets.len(), 1);
         let cfg = cfg.presets.into_iter().map(|v| v.1).next().unwrap();
 
