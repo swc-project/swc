@@ -81,8 +81,8 @@ impl Entry {
 
 impl Fold<ImportDecl> for Entry {
     fn fold(&mut self, i: ImportDecl) -> ImportDecl {
-        let i = i.fold_children(self);
-        if self.add(&i.src.value) {
+        let i: ImportDecl = i.fold_children(self);
+        if i.specifiers.is_empty() && self.add(&i.src.value) {
             ImportDecl {
                 src: Str {
                     span: DUMMY_SP,
