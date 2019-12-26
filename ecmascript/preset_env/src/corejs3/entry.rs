@@ -58,7 +58,7 @@ impl Entry {
                     }
                 }
 
-                println!("{} -> {}", src, f);
+                //                println!("{} -> {}", src, f);
 
                 for (_, features) in MODULES_BY_VERSION
                     .iter()
@@ -82,7 +82,10 @@ impl Entry {
 impl Fold<ImportDecl> for Entry {
     fn fold(&mut self, i: ImportDecl) -> ImportDecl {
         let i: ImportDecl = i.fold_children(self);
-        if i.specifiers.is_empty() && self.add(&i.src.value) {
+
+        let remove = i.specifiers.is_empty() && self.add(&i.src.value);
+
+        if remove {
             ImportDecl {
                 src: Str {
                     span: DUMMY_SP,

@@ -24,6 +24,7 @@ use swc_ecma_transforms::{
 mod util;
 mod corejs2;
 mod corejs3;
+mod regenerator;
 mod transform_data;
 mod version;
 
@@ -131,6 +132,7 @@ pub fn preset_env(mut c: Config) -> impl Pass {
         pass,
         Polyfills {
             mode: c.mode,
+            regenerator: c.regenerator,
             corejs: c.core_js.unwrap_or(Version {
                 major: 3,
                 minor: 0,
@@ -180,6 +182,7 @@ struct Polyfills {
     targets: Versions,
     shipped_proposals: bool,
     corejs: Version,
+    regenerator: bool,
 }
 
 impl Fold<Module> for Polyfills {
@@ -188,26 +191,41 @@ impl Fold<Module> for Polyfills {
 
         let mut required = match self.mode {
             None => Default::default(),
-            Some(Mode::Usage) => match self.corejs {
-                Version { major: 2, .. } => {
-                    let mut v = corejs2::UsageVisitor::new(self.targets);
-                    m.visit_with(&mut v);
+            Some(Mode::Usage) => {
+                let mut r = match self.corejs {
+                    Version { major: 2, .. } => {
+                        let mut v = corejs2::UsageVisitor::new(self.targets);
+                        m.visit_with(&mut v);
 
-                    v.required
-                }
-                Version { major: 3, .. } => {
-                    let mut v = corejs3::UsageVisitor::new(self.targets, self.shipped_proposals);
-                    m.visit_with(&mut v);
-                    v.required
+                        v.required
+                    }
+                    Version { major: 3, .. } => {
+                        let mut v =
+                            corejs3::UsageVisitor::new(self.targets, self.shipped_proposals);
+                        m.visit_with(&mut v);
+                        v.required
+                    }
+
+                    _ => unimplemented!("corejs version other than 2 / 3"),
+                };
+
+                if regenerator::is_required(&m) {
+                    r.insert("regenerator-runtime/runtime".into());
                 }
 
-                _ => unimplemented!("corejs version other than 2 / 3"),
-            },
+                r
+            }
             Some(Mode::Entry) => match self.corejs {
                 Version { major: 3, .. } => {
                     let mut v = corejs3::Entry::new(self.targets, self.corejs);
                     m = m.fold_with(&mut v);
-                    v.imports
+                    let mut imports = v.imports;
+
+                    if !self.regenerator {
+                        imports.remove(&"regenerator-runtime/runtime".into());
+                    }
+
+                    imports
                 }
 
                 _ => unimplemented!("corejs version other than 3"),
@@ -325,6 +343,9 @@ pub struct Config {
 
     #[serde(default)]
     pub shipped_proposals: bool,
+
+    #[serde(default)]
+    pub regenerator: bool,
 }
 
 #[derive(Debug, Clone, Deserialize, FromVariant)]
