@@ -22,10 +22,11 @@ pub struct Entry {
     target: Versions,
     corejs_version: Version,
     pub imports: FxHashSet<JsWord>,
+    remove_regenerator: bool,
 }
 
 impl Entry {
-    pub fn new(target: Versions, corejs_version: Version) -> Self {
+    pub fn new(target: Versions, corejs_version: Version, remove_regenerator: bool) -> Self {
         assert_eq!(corejs_version.major, 3);
 
         Entry {
@@ -33,6 +34,7 @@ impl Entry {
             target,
             corejs_version,
             imports: Default::default(),
+            remove_regenerator,
         }
     }
 
@@ -43,8 +45,13 @@ impl Entry {
             is_any_target,
             target,
             corejs_version,
+            remove_regenerator,
             ..
         } = self;
+
+        if *remove_regenerator && src == "regenerator-runtime/runtime" {
+            return true;
+        }
 
         if let Some(features) = ENTRIES.get(src) {
             self.imports.extend(features.iter().filter_map(|f| {

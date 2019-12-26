@@ -217,15 +217,9 @@ impl Fold<Module> for Polyfills {
             }
             Some(Mode::Entry) => match self.corejs {
                 Version { major: 3, .. } => {
-                    let mut v = corejs3::Entry::new(self.targets, self.corejs);
+                    let mut v = corejs3::Entry::new(self.targets, self.corejs, !self.regenerator);
                     m = m.fold_with(&mut v);
-                    let mut imports = v.imports;
-
-                    if !self.regenerator {
-                        imports.remove(&"regenerator-runtime/runtime".into());
-                    }
-
-                    imports
+                    v.imports
                 }
 
                 _ => unimplemented!("corejs version other than 3"),
