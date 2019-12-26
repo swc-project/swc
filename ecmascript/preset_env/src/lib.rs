@@ -229,7 +229,7 @@ impl Fold<Module> for Polyfills {
             }
             Some(Mode::Entry) => match self.corejs {
                 Version { major: 2, .. } => {
-                    let mut v = corejs2::Entry::new(self.targets);
+                    let mut v = corejs2::Entry::new(self.targets, self.regenerator);
                     m = m.fold_with(&mut v);
                     v.imports
                 }

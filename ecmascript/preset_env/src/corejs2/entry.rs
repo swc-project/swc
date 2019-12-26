@@ -13,7 +13,7 @@ pub struct Entry {
 }
 
 impl Entry {
-    pub fn new(target: Versions) -> Self {
+    pub fn new(target: Versions, regenerator: bool) -> Self {
         let is_any_target = target.is_any_target();
         let is_web_target = target.iter().any(|(k, v)| {
             if k == "node" {
@@ -32,6 +32,10 @@ impl Entry {
             v.imports.insert("core-js/modules/web.timers".into());
             v.imports.insert("core-js/modules/web.immediate".into());
             v.imports.insert("core-js/modules/web.dom.iterable".into());
+        }
+
+        if regenerator {
+            v.imports.insert("regenerator-runtime/runtime".into());
         }
 
         v
