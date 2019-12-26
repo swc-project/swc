@@ -10,6 +10,9 @@ use serde::Deserialize;
 use st_map::StaticMap;
 use std::{
     convert::{TryFrom, TryInto},
+    env,
+    path::PathBuf,
+    process::Command,
     str::FromStr,
 };
 use swc_atoms::{js_word, JsWord};
@@ -376,7 +379,7 @@ pub struct Config {
     pub core_js: Option<Version>,
 
     #[serde(default)]
-    pub targets: Option<Target>,
+    pub targets: Option<Targets>,
 
     #[serde(default)]
     pub shipped_proposals: bool,
@@ -387,19 +390,58 @@ pub struct Config {
 
 #[derive(Debug, Clone, Deserialize, FromVariant)]
 #[serde(untagged)]
-pub enum Target {
+pub enum Targets {
     Versions(Versions),
     Queries(Vec<String>),
     Query(String),
 }
 
-impl TryFrom<Option<Target>> for Versions {
+impl TryFrom<Option<Targets>> for Versions {
     type Error = ();
 
-    fn try_from(v: Option<Target>) -> Result<Self, Self::Error> {
+    fn try_from(v: Option<Targets>) -> Result<Self, Self::Error> {
+        fn query(s: &[&str]) -> Result<Versions, ()> {
+            let output = {
+                if s.len() == 0 {
+                    b"[]".to_vec()
+                } else {
+                    let mut qjs = PathBuf::from(
+                        env::var("CARGO_MANIFEST_DIR").expect("failed to read CARGO_MANIFEST_DIR"),
+                    );
+                    qjs.push("tests");
+                    qjs.push("query.js");
+
+                    let output = Command::new("node")
+                        .arg(&qjs)
+                        .arg(serde_json::to_string(&s).expect("failed to serialize with serde"))
+                        .output()
+                        .expect("failed to collect output");
+
+                    if !output.status.success() {
+                        println!(
+                            "{}\n{}",
+                            String::from_utf8_lossy(&output.stdout),
+                            String::from_utf8_lossy(&output.stderr),
+                        );
+                        println!("query.js: Status {:?}", output.status,);
+                        return Err(());
+                    }
+
+                    output.stdout
+                }
+            };
+
+            let browsers: Vec<String> =
+                serde_json::from_slice(&output).expect("failed to read browser data output");
+            let versions = BrowserData::parse_versions(browsers.iter().map(|s| &**s))
+                .expect("failed to parse browser version");
+
+            Ok(versions)
+        }
+
         match v {
             None => Ok(Versions::default()),
-            Some(Target::Versions(v)) => Ok(v),
+            Some(Targets::Versions(v)) => Ok(v),
             _ => unimplemented!(),
         }
     }

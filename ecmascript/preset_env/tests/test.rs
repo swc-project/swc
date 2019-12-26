@@ -21,7 +21,7 @@ use swc_common::{fold::FoldWith, input::SourceFileInput, FromVariant};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{EsConfig, Parser, Session, Syntax};
-use swc_ecma_preset_env::{preset_env, BrowserData, Config, Mode, Target, Version};
+use swc_ecma_preset_env::{preset_env, BrowserData, Config, Mode, Targets, Version};
 use test::{test_main, ShouldPanic, TestDesc, TestDescAndFn, TestFn, TestName, TestType};
 use testing::Tester;
 use walkdir::WalkDir;
@@ -45,7 +45,7 @@ struct PresetConfig {
     pub modules: ModulesConfig,
 
     #[serde(default)]
-    pub targets: HashMap<String, Value>,
+    pub targets: Option<Targets>,
 
     #[serde(default)]
     pub include: Vec<String>,
@@ -170,35 +170,7 @@ fn load() -> Result<Vec<TestDescAndFn>, Error> {
 }
 
 fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
-    let output = {
-        if c.targets.is_empty() {
-            b"[]".to_vec()
-        } else {
-            let mut qjs = PathBuf::from(env::var("CARGO_MANIFEST_DIR")?);
-            qjs.push("tests");
-            qjs.push("query.js");
-
-            let output = Command::new("node")
-                .arg(&qjs)
-                .arg(serde_json::to_string(&c.targets)?)
-                .output()?;
-
-            if !output.status.success() {
-                println!(
-                    "{}\n{}",
-                    String::from_utf8_lossy(&output.stdout),
-                    String::from_utf8_lossy(&output.stderr),
-                );
-                return Err(Error::Msg(format!("query.js: Status {:?}", output.status,)));
-            }
-
-            output.stdout
-        }
-    };
-
-    let browsers: Vec<String> = serde_json::from_slice(&output)?;
-    let versions = BrowserData::parse_versions(browsers.iter().map(|s| &**s))
-        .expect("failed to parse browser version");
+    println!("Config: {:?}", c);
 
     let mut pass = preset_env(Config {
         debug: c.debug,
@@ -221,11 +193,8 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
         },
         force_all_transforms: c.force_all_transforms,
         shipped_proposals: c.shipped_proposals,
-        targets: Some(Target::Versions(versions)),
+        targets: c.targets,
     });
-
-    println!("Browsers: {:?}", browsers);
-    println!("Config: {:?}", c);
 
     Tester::new()
         .print_errors(|cm, handler| {
