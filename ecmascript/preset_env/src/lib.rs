@@ -204,7 +204,7 @@ impl Fold<Module> for Polyfills {
             },
             Some(Mode::Entry) => match self.corejs {
                 3 => {
-                    let mut v = corejs3::Entry::new();
+                    let mut v = corejs3::Entry::new(self.targets);
                     node.visit_with(&mut v);
                     v.imports
                 }
