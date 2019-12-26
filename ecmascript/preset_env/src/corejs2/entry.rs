@@ -50,7 +50,7 @@ impl Entry {
             ..
         } = self;
 
-        if src != "@swc/polyfill" {
+        if src != "@swc/polyfill" && src != "core-js" {
             return false;
         }
 
