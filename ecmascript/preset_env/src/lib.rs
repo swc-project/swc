@@ -11,8 +11,8 @@ use std::{
     convert::{TryFrom, TryInto},
     str::FromStr,
 };
-use swc_atoms::JsWord;
-use swc_common::{chain, Fold, FromVariant, VisitWith, DUMMY_SP};
+use swc_atoms::{js_word, JsWord};
+use swc_common::{chain, Fold, FoldWith, FromVariant, VisitWith, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms::{
     compat::{es2015, es2016, es2017, es2018, es3},
@@ -183,21 +183,21 @@ struct Polyfills {
 }
 
 impl Fold<Module> for Polyfills {
-    fn fold(&mut self, mut node: Module) -> Module {
-        let span = node.span;
+    fn fold(&mut self, mut m: Module) -> Module {
+        let span = m.span;
 
         let mut required = match self.mode {
             None => Default::default(),
             Some(Mode::Usage) => match self.corejs {
                 Version { major: 2, .. } => {
                     let mut v = corejs2::UsageVisitor::new(self.targets);
-                    node.visit_with(&mut v);
+                    m.visit_with(&mut v);
 
                     v.required
                 }
                 Version { major: 3, .. } => {
                     let mut v = corejs3::UsageVisitor::new(self.targets, self.shipped_proposals);
-                    node.visit_with(&mut v);
+                    m.visit_with(&mut v);
                     v.required
                 }
 
@@ -206,7 +206,7 @@ impl Fold<Module> for Polyfills {
             Some(Mode::Entry) => match self.corejs {
                 Version { major: 3, .. } => {
                     let mut v = corejs3::Entry::new(self.targets, self.corejs);
-                    node.visit_with(&mut v);
+                    m = m.fold_with(&mut v);
                     v.imports
                 }
 
@@ -218,7 +218,7 @@ impl Fold<Module> for Polyfills {
             let mut v = required.into_iter().collect::<Vec<_>>();
             v.sort();
             prepend_stmts(
-                &mut node.body,
+                &mut m.body,
                 v.into_iter().map(|src| {
                     ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
                         span,
@@ -233,7 +233,7 @@ impl Fold<Module> for Polyfills {
             );
         } else {
             prepend_stmts(
-                &mut node.body,
+                &mut m.body,
                 required.into_iter().map(|src| {
                     ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
                         span,
@@ -248,7 +248,20 @@ impl Fold<Module> for Polyfills {
             );
         }
 
-        node
+        m.body.retain(|item| match item {
+            ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
+                src:
+                    Str {
+                        span: DUMMY_SP,
+                        value: js_word!(""),
+                        ..
+                    },
+                ..
+            })) => false,
+            _ => true,
+        });
+
+        m
     }
 }
 

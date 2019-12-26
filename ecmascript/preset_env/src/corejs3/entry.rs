@@ -2,8 +2,8 @@ use super::compat::DATA as CORE_JS_COMPAT_DATA;
 use crate::{version::should_enable, Version, Versions};
 use fxhash::{FxHashMap, FxHashSet};
 use once_cell::sync::Lazy;
-use swc_atoms::JsWord;
-use swc_common::{Visit, VisitWith};
+use swc_atoms::{js_word, JsWord};
+use swc_common::{Fold, FoldWith, DUMMY_SP};
 use swc_ecma_ast::*;
 
 static ENTRIES: Lazy<FxHashMap<String, Vec<String>>> = Lazy::new(|| {
@@ -36,8 +36,9 @@ impl Entry {
         }
     }
 
-    /// Add imports
-    fn add(&mut self, src: &str) {
+    /// Add imports.
+    /// Returns true if it's replaced.
+    fn add(&mut self, src: &str) -> bool {
         let Entry {
             is_any_target,
             target,
@@ -70,14 +71,28 @@ impl Entry {
 
                 Some(format!("core-js/modules/{}", f).into())
             }));
+
+            true
+        } else {
+            false
         }
     }
 }
 
-impl Visit<ImportDecl> for Entry {
-    fn visit(&mut self, i: &ImportDecl) {
-        i.visit_children(self);
-
-        self.add(&i.src.value);
+impl Fold<ImportDecl> for Entry {
+    fn fold(&mut self, i: ImportDecl) -> ImportDecl {
+        let i = i.fold_children(self);
+        if self.add(&i.src.value) {
+            ImportDecl {
+                src: Str {
+                    span: DUMMY_SP,
+                    value: js_word!(""),
+                    ..i.src
+                },
+                ..i
+            }
+        } else {
+            i
+        }
     }
 }
