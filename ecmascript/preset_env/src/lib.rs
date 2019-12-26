@@ -6,7 +6,7 @@
 
 pub use self::{transform_data::Feature, version::Version};
 use fxhash::FxHashMap;
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use st_map::StaticMap;
 use std::{
     convert::{TryFrom, TryInto},
@@ -392,15 +392,25 @@ pub struct Config {
 #[serde(untagged)]
 pub enum Targets {
     Versions(Versions),
-    Queries(Vec<String>),
-    Query(String),
+    Query(Query),
+    HashMap(FxHashMap<String, Query>),
+}
+
+#[derive(Debug, Clone, Deserialize, FromVariant)]
+#[serde(untagged)]
+pub enum Query {
+    Single(String),
+    Multiple(Vec<String>),
 }
 
 impl TryFrom<Option<Targets>> for Versions {
     type Error = ();
 
     fn try_from(v: Option<Targets>) -> Result<Self, Self::Error> {
-        fn query(s: &[&str]) -> Result<Versions, ()> {
+        fn query<T>(s: &[T]) -> Result<Versions, ()>
+        where
+            T: AsRef<str> + Serialize,
+        {
             let output = {
                 if s.len() == 0 {
                     b"[]".to_vec()
@@ -442,6 +452,10 @@ impl TryFrom<Option<Targets>> for Versions {
         match v {
             None => Ok(Versions::default()),
             Some(Targets::Versions(v)) => Ok(v),
+            Some(Targets::Query(q)) => match q {
+                Query::Single(ref s) => query(&[s]),
+                Query::Multiple(ref s) => query(&s),
+            },
             _ => unimplemented!(),
         }
     }

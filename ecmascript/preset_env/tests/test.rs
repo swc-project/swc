@@ -15,13 +15,12 @@ use std::{
     io,
     io::Read,
     path::{Path, PathBuf},
-    process::Command,
 };
 use swc_common::{fold::FoldWith, input::SourceFileInput, FromVariant};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{EsConfig, Parser, Session, Syntax};
-use swc_ecma_preset_env::{preset_env, BrowserData, Config, Mode, Targets, Version};
+use swc_ecma_preset_env::{preset_env, Config, Mode, Targets, Version};
 use test::{test_main, ShouldPanic, TestDesc, TestDescAndFn, TestFn, TestName, TestType};
 use testing::Tester;
 use walkdir::WalkDir;
