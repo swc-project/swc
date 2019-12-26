@@ -5,5 +5,6 @@ use fxhash::FxHashMap;
 use once_cell::sync::Lazy;
 
 pub static DATA: Lazy<FxHashMap<String, Versions>> = Lazy::new(|| {
-    serde_json::from_str(include_str!("data.json")).expect("failed parse corejs3-compat data.json")
+    serde_json::from_str(include_str!("compat.json"))
+        .expect("failed parse corejs3-compat data.json")
 });

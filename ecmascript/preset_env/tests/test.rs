@@ -215,8 +215,8 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
         debug: c.debug,
         mode: match c.use_built_ins {
             UseBuiltIns::Bool(false) => None,
-            UseBuiltIns::Str(s) if s == "usage" => Some(Mode::Usage),
-            UseBuiltIns::Str(s) if s == "entry" => Some(Mode::Entry),
+            UseBuiltIns::Str(ref s) if s == "usage" => Some(Mode::Usage),
+            UseBuiltIns::Str(ref s) if s == "entry" => Some(Mode::Entry),
             v => unreachable!("invalid: {:?}", v),
         },
         regenerator: c.regenerator,
@@ -225,8 +225,8 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
         loose: true,
         // TODO
         dynamic_import: true,
-        include: c.include.into_iter().map(|v| v.parse().unwrap()).collect(),
-        exclude: c.exclude.into_iter().map(|v| v.parse().unwrap()).collect(),
+        include: c.include.iter().map(|v| v.parse().unwrap()).collect(),
+        exclude: c.exclude.iter().map(|v| v.parse().unwrap()).collect(),
         core_js: match c.corejs {
             CoreJs::Ver(v) => Some(v),
             ref s => unimplemented!("Unknown core js version: {:?}", s),
@@ -236,6 +236,7 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
     });
 
     println!("Browsers: {:?}", browsers);
+    println!("Config: {:?}", c);
 
     Tester::new()
         .print_errors(|cm, handler| {
