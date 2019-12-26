@@ -108,6 +108,28 @@ impl<'de> Visitor<'de> for SerdeVisitor {
     {
         self.visit_str(&v)
     }
+
+    fn visit_i64<E>(self, v: i64) -> Result<Self::Value, E>
+    where
+        E: de::Error,
+    {
+        Ok(Version {
+            major: v as _,
+            minor: 0,
+            patch: 0,
+        })
+    }
+
+    fn visit_u64<E>(self, v: u64) -> Result<Self::Value, E>
+    where
+        E: de::Error,
+    {
+        Ok(Version {
+            major: v as _,
+            minor: 0,
+            patch: 0,
+        })
+    }
 }
 
 impl<'de> Deserialize<'de> for Version {
