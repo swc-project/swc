@@ -219,6 +219,7 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
             CoreJs::Ver(v) => Some(v),
             ref s => unimplemented!("Unknown core js version: {:?}", s),
         },
+        force_all_transforms: c.force_all_transforms,
         shipped_proposals: c.shipped_proposals,
         targets: Some(Target::Versions(versions)),
     });

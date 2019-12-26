@@ -40,7 +40,10 @@ pub fn preset_env(mut c: Config) -> impl Pass {
         ($feature:ident, $default:expr) => {{
             let f = transform_data::Feature::$feature;
             !c.exclude.contains(&f)
-                && (is_any_target || c.include.contains(&f) || f.should_enable(targets, $default))
+                && (c.force_all_transforms
+                    || (is_any_target
+                        || c.include.contains(&f)
+                        || f.should_enable(targets, $default)))
         }};
     }
 
@@ -371,6 +374,9 @@ pub struct Config {
 
     #[serde(default)]
     pub shipped_proposals: bool,
+
+    #[serde(default)]
+    pub force_all_transforms: bool,
 }
 
 #[derive(Debug, Clone, Deserialize, FromVariant)]
