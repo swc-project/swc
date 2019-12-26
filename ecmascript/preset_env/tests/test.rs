@@ -64,9 +64,6 @@ struct PresetConfig {
 
     #[serde(default)]
     pub debug: bool,
-
-    #[serde(default)]
-    pub regenerator: bool,
 }
 
 #[derive(Debug, Deserialize)]
@@ -219,7 +216,6 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
             UseBuiltIns::Str(ref s) if s == "entry" => Some(Mode::Entry),
             v => unreachable!("invalid: {:?}", v),
         },
-        regenerator: c.regenerator,
         skip: vec![],
         // TODO
         loose: true,

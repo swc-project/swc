@@ -132,7 +132,8 @@ pub fn preset_env(mut c: Config) -> impl Pass {
         pass,
         Polyfills {
             mode: c.mode,
-            regenerator: c.regenerator,
+            // TODO: regenerator
+            regenerator: false,
             corejs: c.core_js.unwrap_or(Version {
                 major: 3,
                 minor: 0,
@@ -337,9 +338,6 @@ pub struct Config {
 
     #[serde(default)]
     pub shipped_proposals: bool,
-
-    #[serde(default)]
-    pub regenerator: bool,
 }
 
 #[derive(Debug, Clone, Deserialize, FromVariant)]
