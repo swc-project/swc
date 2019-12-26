@@ -228,13 +228,19 @@ impl Fold<Module> for Polyfills {
                 r
             }
             Some(Mode::Entry) => match self.corejs {
+                Version { major: 2, .. } => {
+                    let mut v = corejs2::Entry::new(self.targets);
+                    m = m.fold_with(&mut v);
+                    v.imports
+                }
+
                 Version { major: 3, .. } => {
                     let mut v = corejs3::Entry::new(self.targets, self.corejs, !self.regenerator);
                     m = m.fold_with(&mut v);
                     v.imports
                 }
 
-                _ => unimplemented!("corejs version other than 3"),
+                _ => unimplemented!("corejs version other than 2 / 3"),
             },
         };
 

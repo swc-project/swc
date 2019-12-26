@@ -1,3 +1,4 @@
+pub(crate) use self::entry::Entry;
 use self::{
     builtin::BUILTINS,
     data::{BUILTIN_TYPES, INSTANCE_PROPERTIES, STATIC_PROPERTIES},
@@ -10,6 +11,7 @@ use swc_ecma_ast::*;
 
 mod builtin;
 mod data;
+mod entry;
 
 pub(crate) struct UsageVisitor {
     is_any_target: bool,
