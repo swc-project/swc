@@ -197,18 +197,8 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
     };
 
     let browsers: Vec<String> = serde_json::from_slice(&output)?;
-    let mut browsers: HashMap<_, _> = browsers
-        .into_iter()
-        .map(|v| {
-            let mut v = v.split(' ');
-            (v.next().unwrap().to_string(), v.next().unwrap().to_string())
-        })
-        .collect();
-
-    let versions =
-        BrowserData::<()>::default().map(|k, ()| browsers.remove(&*k).map(|s| s.parse().unwrap()));
-
-    assert_eq!(browsers, HashMap::default());
+    let versions = BrowserData::parse_versions(browsers.iter().map(|s| &**s))
+        .expect("failed to parse browser version");
 
     let mut pass = preset_env(Config {
         debug: c.debug,

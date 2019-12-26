@@ -5,6 +5,7 @@
 #![recursion_limit = "256"]
 
 pub use self::{transform_data::Feature, version::Version};
+use fxhash::FxHashMap;
 use serde::Deserialize;
 use st_map::StaticMap;
 use std::{
@@ -298,6 +299,31 @@ pub type Versions = BrowserData<Option<Version>>;
 impl BrowserData<Option<Version>> {
     pub fn is_any_target(&self) -> bool {
         self.iter().all(|(_, v)| v.is_none())
+    }
+
+    pub fn parse_versions<'a>(lines: impl Iterator<Item = &'a str>) -> Result<Self, &'a str> {
+        fn remap(key: &str) -> String {
+            match key {
+                "and_chr" => "chrome".into(),
+                "and_ff" => "firefox".into(),
+                "ie_mob" => "ie".into(),
+                "ios_saf" => "ios".into(),
+                "op_mob" => "opera".into(),
+                _ => key.into(),
+            }
+        }
+
+        let mut browsers: FxHashMap<_, _> = lines
+            .map(|v| {
+                let mut v = v.split(' ');
+                (remap(v.next().unwrap()), v.next().unwrap().to_string())
+            })
+            .collect();
+
+        let versions = BrowserData::<()>::default()
+            .map(|k, ()| browsers.remove(&*k).map(|s| s.parse().unwrap()));
+
+        Ok(versions)
     }
 }
 
