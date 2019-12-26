@@ -28,9 +28,6 @@ mod transform_data;
 mod version;
 
 pub fn preset_env(mut c: Config) -> impl Pass {
-    if c.core_js == 0 {
-        c.core_js = 2;
-    }
     let loose = c.loose;
     let targets: Versions = c.targets.try_into().expect("failed to parse targets");
     let is_any_target = targets.is_any_target();
@@ -134,7 +131,11 @@ pub fn preset_env(mut c: Config) -> impl Pass {
         pass,
         Polyfills {
             mode: c.mode,
-            corejs: c.core_js,
+            corejs: c.core_js.unwrap_or(Version {
+                major: 3,
+                minor: 0,
+                patch: 0
+            }),
             shipped_proposals: c.shipped_proposals,
             targets
         }
@@ -178,7 +179,7 @@ struct Polyfills {
     mode: Option<Mode>,
     targets: Versions,
     shipped_proposals: bool,
-    corejs: usize,
+    corejs: Version,
 }
 
 impl Fold<Module> for Polyfills {
@@ -188,13 +189,13 @@ impl Fold<Module> for Polyfills {
         let mut required = match self.mode {
             None => Default::default(),
             Some(Mode::Usage) => match self.corejs {
-                2 => {
+                Version { major: 2, .. } => {
                     let mut v = corejs2::UsageVisitor::new(self.targets);
                     node.visit_with(&mut v);
 
                     v.required
                 }
-                3 => {
+                Version { major: 3, .. } => {
                     let mut v = corejs3::UsageVisitor::new(self.targets, self.shipped_proposals);
                     node.visit_with(&mut v);
                     v.required
@@ -203,8 +204,8 @@ impl Fold<Module> for Polyfills {
                 _ => unimplemented!("corejs version other than 2 / 3"),
             },
             Some(Mode::Entry) => match self.corejs {
-                3 => {
-                    let mut v = corejs3::Entry::new(self.targets);
+                Version { major: 3, .. } => {
+                    let mut v = corejs3::Entry::new(self.targets, self.corejs);
                     node.visit_with(&mut v);
                     v.imports
                 }
@@ -213,20 +214,39 @@ impl Fold<Module> for Polyfills {
             },
         };
 
-        prepend_stmts(
-            &mut node.body,
-            required.into_iter().map(|src| {
-                ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
-                    span,
-                    specifiers: vec![],
-                    src: Str {
-                        span: DUMMY_SP,
-                        value: src,
-                        has_escape: false,
-                    },
-                }))
-            }),
-        );
+        if cfg!(debug_assertions) {
+            let mut v = required.into_iter().collect::<Vec<_>>();
+            v.sort();
+            prepend_stmts(
+                &mut node.body,
+                v.into_iter().map(|src| {
+                    ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
+                        span,
+                        specifiers: vec![],
+                        src: Str {
+                            span: DUMMY_SP,
+                            value: src,
+                            has_escape: false,
+                        },
+                    }))
+                }),
+            );
+        } else {
+            prepend_stmts(
+                &mut node.body,
+                required.into_iter().map(|src| {
+                    ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
+                        span,
+                        specifiers: vec![],
+                        src: Str {
+                            span: DUMMY_SP,
+                            value: src,
+                            has_escape: false,
+                        },
+                    }))
+                }),
+            );
+        }
 
         node
     }
@@ -285,7 +305,7 @@ pub struct Config {
 
     /// The version of the used core js.
     #[serde(default)]
-    pub core_js: usize,
+    pub core_js: Option<Version>,
 
     #[serde(default)]
     pub targets: Option<Target>,

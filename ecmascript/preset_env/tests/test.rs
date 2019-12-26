@@ -21,7 +21,7 @@ use swc_common::{fold::FoldWith, input::SourceFileInput, FromVariant};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{EsConfig, Parser, Session, Syntax};
-use swc_ecma_preset_env::{preset_env, BrowserData, Config, Mode, Target};
+use swc_ecma_preset_env::{preset_env, BrowserData, Config, Mode, Target, Version};
 use test::{test_main, ShouldPanic, TestDesc, TestDescAndFn, TestFn, TestName, TestType};
 use testing::Tester;
 use walkdir::WalkDir;
@@ -70,14 +70,17 @@ struct PresetConfig {
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 #[serde(untagged)]
 pub enum CoreJs {
-    Ver(usize),
-    VerWithMinor(String),
+    Ver(Version),
     Val(HashMap<String, Value>),
 }
 
 impl Default for CoreJs {
     fn default() -> Self {
-        Self::Ver(2)
+        Self::Ver(Version {
+            major: 2,
+            minor: 0,
+            patch: 0,
+        })
     }
 }
 
@@ -220,7 +223,7 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
         include: c.include.into_iter().map(|v| v.parse().unwrap()).collect(),
         exclude: c.exclude.into_iter().map(|v| v.parse().unwrap()).collect(),
         core_js: match c.corejs {
-            CoreJs::Ver(v) => v,
+            CoreJs::Ver(v) => Some(v),
             ref s => unimplemented!("Unknown core js version: {:?}", s),
         },
         shipped_proposals: c.shipped_proposals,
