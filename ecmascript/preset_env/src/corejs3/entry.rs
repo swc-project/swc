@@ -1,4 +1,4 @@
-use fxhash::FxHashMap;
+use fxhash::{FxHashMap, FxHashSet};
 use once_cell::sync::Lazy;
 use swc_atoms::JsWord;
 use swc_common::{Visit, VisitWith};
@@ -11,7 +11,7 @@ static ENTRIES: Lazy<FxHashMap<String, Vec<String>>> = Lazy::new(|| {
 
 #[derive(Debug)]
 pub struct Entry {
-    pub imports: Vec<JsWord>,
+    pub imports: FxHashSet<JsWord>,
 }
 
 impl Entry {
@@ -24,9 +24,11 @@ impl Entry {
     /// Add imports
     fn add(&mut self, src: &str) {
         if let Some(features) = ENTRIES.get(src) {
-            for f in &**features {
-                self.imports.push(format!("core-js/modules/{}", f).into());
-            }
+            self.imports.extend(
+                features
+                    .iter()
+                    .filter_map(|f| Some(format!("core-js/modules/{}", f).into())),
+            );
         }
     }
 }

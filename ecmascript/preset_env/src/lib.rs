@@ -186,7 +186,7 @@ impl Fold<Module> for Polyfills {
         let span = node.span;
 
         let mut required = match self.mode {
-            None => vec![],
+            None => Default::default(),
             Some(Mode::Usage) => match self.corejs {
                 2 => {
                     let mut v = corejs2::UsageVisitor::new(self.targets);
@@ -212,9 +212,6 @@ impl Fold<Module> for Polyfills {
                 _ => unimplemented!("corejs version other than 3"),
             },
         };
-        if cfg!(debug_assertions) {
-            required.sort();
-        }
 
         prepend_stmts(
             &mut node.body,

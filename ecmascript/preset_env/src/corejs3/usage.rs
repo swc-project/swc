@@ -11,6 +11,7 @@ use crate::{
     version::should_enable,
     Versions,
 };
+use fxhash::FxHashSet;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{Visit, VisitWith, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -19,7 +20,7 @@ pub(crate) struct UsageVisitor {
     shipped_proposals: bool,
     is_any_target: bool,
     target: Versions,
-    pub required: Vec<JsWord>,
+    pub required: FxHashSet<JsWord>,
 }
 
 impl UsageVisitor {
@@ -47,33 +48,36 @@ impl UsageVisitor {
             shipped_proposals,
             is_any_target: target.is_any_target(),
             target,
-            required: vec![],
+            required: Default::default(),
         }
     }
 
     /// Add imports
     fn add(&mut self, features: &[&str]) {
-        for f in features {
-            if !self.shipped_proposals && f.starts_with("esnext.") {
-                continue;
+        let UsageVisitor {
+            shipped_proposals,
+            is_any_target,
+            target,
+            ..
+        } = self;
+
+        self.required.extend(features.iter().filter_map(|f| {
+            if !*shipped_proposals && f.starts_with("esnext.") {
+                return None;
             }
 
             let feature = CORE_JS_COMPAT_DATA.get(&**f);
 
-            if !self.is_any_target {
+            if !*is_any_target {
                 if let Some(feature) = feature {
-                    if !should_enable(self.target, *feature, true) {
-                        continue;
+                    if !should_enable(*target, *feature, true) {
+                        return None;
                     }
                 }
             }
 
-            let v = format!("core-js/modules/{}", f);
-
-            if self.required.iter().all(|import| *import != *v) {
-                self.required.push(v.into())
-            }
-        }
+            Some(format!("core-js/modules/{}", f).into())
+        }));
     }
 
     fn add_builtin(&mut self, built_in: &str) {

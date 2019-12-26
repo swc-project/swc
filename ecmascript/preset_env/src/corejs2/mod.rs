@@ -2,7 +2,8 @@ use self::{
     builtin::BUILTINS,
     data::{BUILTIN_TYPES, INSTANCE_PROPERTIES, STATIC_PROPERTIES},
 };
-use crate::Versions;
+use crate::{version::should_enable, Versions};
+use fxhash::FxHashSet;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{Visit, VisitWith};
 use swc_ecma_ast::*;
@@ -13,7 +14,7 @@ mod data;
 pub(crate) struct UsageVisitor {
     is_any_target: bool,
     target: Versions,
-    pub required: Vec<JsWord>,
+    pub required: FxHashSet<JsWord>,
 }
 
 impl UsageVisitor {
@@ -40,43 +41,30 @@ impl UsageVisitor {
         Self {
             is_any_target: target.is_any_target(),
             target,
-            required: vec![],
+            required: Default::default(),
         }
     }
 
     /// Add imports
     fn add(&mut self, features: &[&str]) {
-        for f in features {
-            if !self.is_any_target {
+        let UsageVisitor {
+            is_any_target,
+            target,
+            ..
+        } = self;
+
+        self.required.extend(features.iter().filter_map(|f| {
+            if !*is_any_target {
                 if let Some(v) = BUILTINS.get(&**f) {
                     // Skip
-                    if v.iter().zip(self.target.iter()).all(|((_, fv), (_, tv))| {
-                        // fv: feature's version
-                        // tv: target's version
-
-                        // We are not targeting the platform. So ignore it.
-                        if tv.is_none() {
-                            return true;
-                        }
-
-                        // Not supported by browser (even on latest version)
-                        if fv.is_none() {
-                            return false;
-                        }
-
-                        *fv <= *tv
-                    }) {
-                        continue;
+                    if !should_enable(*target, *v, true) {
+                        return None;
                     }
                 }
             }
 
-            let v = format!("core-js/modules/{}", f);
-
-            if self.required.iter().all(|import| *import != *v) {
-                self.required.push(v.into())
-            }
-        }
+            Some(format!("core-js/modules/{}", f).into())
+        }));
     }
 }
 
