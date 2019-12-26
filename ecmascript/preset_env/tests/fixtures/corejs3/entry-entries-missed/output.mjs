@@ -1,4 +1,3 @@
-import 'core-js/features/something.new';
 import "core-js/modules/esnext.set.add-all";
 import "core-js/modules/esnext.set.delete-all";
 import "core-js/modules/esnext.set.difference";
@@ -17,3 +16,4 @@ import "core-js/modules/esnext.set.reduce";
 import "core-js/modules/esnext.set.some";
 import "core-js/modules/esnext.set.symmetric-difference";
 import "core-js/modules/esnext.set.union";
+import 'core-js/features/something.new';
