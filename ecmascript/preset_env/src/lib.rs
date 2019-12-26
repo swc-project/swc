@@ -35,6 +35,15 @@ pub fn preset_env(mut c: Config) -> impl Pass {
     let is_any_target = targets.is_any_target();
 
     let pass = noop();
+
+    macro_rules! should_enable {
+        ($feature:ident, $default:expr) => {{
+            let f = transform_data::Feature::$feature;
+            !c.exclude.contains(&f)
+                && (is_any_target || c.include.contains(&f) || f.should_enable(targets, $default))
+        }};
+    }
+
     macro_rules! add {
         ($prev:expr, $feature:ident, $pass:expr) => {{
             add!($prev, $feature, $pass, false)
@@ -42,8 +51,7 @@ pub fn preset_env(mut c: Config) -> impl Pass {
         ($prev:expr, $feature:ident, $pass:expr, $default:expr) => {{
             let f = transform_data::Feature::$feature;
 
-            let enable = !c.exclude.contains(&f)
-                && (is_any_target || c.include.contains(&f) || f.should_enable(targets, $default));
+            let enable = should_enable!($feature, $default);
             if c.debug {
                 println!("{}: {:?}", f.as_str(), enable);
             }
@@ -133,8 +141,7 @@ pub fn preset_env(mut c: Config) -> impl Pass {
         pass,
         Polyfills {
             mode: c.mode,
-            // TODO: regenerator
-            regenerator: false,
+            regenerator: should_enable!(Regenerator, true),
             corejs: c.core_js.unwrap_or(Version {
                 major: 3,
                 minor: 0,
