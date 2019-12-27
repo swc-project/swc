@@ -450,9 +450,9 @@ impl FeatureOrModule {
 #[derive(Debug, Clone, Deserialize, FromVariant)]
 #[serde(untagged)]
 pub enum Targets {
-    Versions(Versions),
     Query(Query),
     EsModules(EsModules),
+    Versions(Versions),
     HashMap(FxHashMap<String, QueryOrVersion>),
 }
 
