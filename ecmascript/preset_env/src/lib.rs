@@ -556,7 +556,7 @@ impl TryFrom<Option<Targets>> for Versions {
 
                 unimplemented!("Targets: {:?}", map)
             }
-            _ => unimplemented!(),
+            _ => unimplemented!("Option<Targets>: {:?}", v),
         }
     }
 }
