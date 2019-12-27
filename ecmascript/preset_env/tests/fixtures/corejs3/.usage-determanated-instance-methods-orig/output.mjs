@@ -1,5 +1,3 @@
-import "core-js/modules/es.array.includes";
-import "core-js/modules/es.array.index-of";
 import "core-js/modules/es.array.iterator";
 import "core-js/modules/es.function.bind";
 import "core-js/modules/es.object.define-getter";
@@ -8,9 +6,6 @@ import "core-js/modules/es.regexp.exec";
 import "core-js/modules/es.regexp.flags";
 import "core-js/modules/es.string.includes";
 import "core-js/modules/es.string.replace";
-import "core-js/modules/es.string.trim";
-import "core-js/modules/web.dom-collections.iterator";
-
 var a = [];
 a.values();
 ''.replace();
@@ -18,8 +13,8 @@ a.values();
 /./gi.flags;
 ''.indexOf();
 
-a['__defineGetter__']('foo', function () {
-    return 42;
+a.__defineGetter__('foo', function () {
+  return 42;
 });
 
 a.trim;
