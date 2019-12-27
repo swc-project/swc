@@ -281,3 +281,15 @@ fn env_entry_chrome_71() {
 
     assert_eq!(f.lines().count(), 5);
 }
+
+#[test]
+fn env_query_chrome_71() {
+    let f = file("tests/env/query/chrome-71/input.js")
+        .unwrap()
+        .replace(" ", "");
+    let f = f.trim();
+
+    println!("{}", f);
+
+    assert_eq!(f.lines().count(), 5);
+}
