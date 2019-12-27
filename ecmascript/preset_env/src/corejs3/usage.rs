@@ -104,6 +104,8 @@ impl UsageVisitor {
     }
 
     fn add_property_deps_inner(&mut self, obj: Option<&JsWord>, prop: &JsWord) {
+        println!("Prop: {}", prop);
+
         if let Some(obj) = obj {
             if POSSIBLE_GLOBAL_OBJECTS.contains(&&**obj) {
                 self.add_builtin(prop);
@@ -117,6 +119,8 @@ impl UsageVisitor {
         }
 
         if let Some(features) = INSTANCE_PROPERTIES.get_data(&prop) {
+            println!("Instance prop: {}", prop);
+
             self.add(features);
         }
     }

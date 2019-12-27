@@ -502,7 +502,7 @@ pub static INSTANCE_PROPERTIES: DataMap<&[&str]> = data_map!(Map {
     lastIndexOf: ["es.array.last-index-of"],
     lastItem: ["esnext.array.last-item"],
     link: ["es.string.link"],
-    r#match: ["es.string.match", "es.regexp.exec"],
+    match: ["es.string.match", "es.regexp.exec"],
     matchAll: ["esnext.string.match-all"],
     map: ["es.array.map"],
     name: ["es.function.name"],
@@ -831,7 +831,7 @@ pub static STATIC_PROPERTIES: DataMap<DataMap<&[&str]>> = data_map!(Map {
             "web.dom-collections.iterator",
         ],
         race: PROMISE_DEPENDENCIES_WITH_ITERATORS,
-        r#try: [
+        try: [
             "esnext.promise.try",
             "es.promise",
             "es.object.to-string",
@@ -878,7 +878,7 @@ pub static STATIC_PROPERTIES: DataMap<DataMap<&[&str]>> = data_map!(Map {
             "es.array.iterator",
             "web.dom-collections.iterator",
         ],
-        r#match: ["es.symbol.match", "es.string.match"],
+        match: ["es.symbol.match", "es.string.match"],
         observable: ["esnext.symbol.observable"],
         patternMatch: ["esnext.symbol.pattern-match"],
         replace: ["es.symbol.replace", "es.string.replace"],
