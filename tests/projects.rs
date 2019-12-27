@@ -259,7 +259,7 @@ b
 }
 
 #[test]
-fn preset_env_entry_chrome_49() {
+fn env_entry_chrome_49() {
     let f = file("tests/env/entry/chrome-49/input.js")
         .unwrap()
         .replace(" ", "");
@@ -271,7 +271,7 @@ fn preset_env_entry_chrome_49() {
 }
 
 #[test]
-fn preset_env_entry_chrome_71() {
+fn env_entry_chrome_71() {
     let f = file("tests/env/entry/chrome-71/input.js")
         .unwrap()
         .replace(" ", "");
