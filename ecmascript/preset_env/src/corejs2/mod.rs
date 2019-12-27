@@ -40,11 +40,16 @@ impl UsageVisitor {
         // "web.dom.iterable"]);        }
         //        v
 
-        Self {
+        let mut v = Self {
             is_any_target: target.is_any_target(),
             target,
             required: Default::default(),
-        }
+        };
+        //if target.is_any_target() || target.node.is_none() {
+        //    v.add(&["web.timers", "web.immediate", "web.dom.iterable"]);
+        //}
+
+        v
     }
 
     /// Add imports
@@ -293,16 +298,14 @@ impl Visit<CallExpr> for UsageVisitor {
     fn visit(&mut self, e: &CallExpr) {
         e.visit_children(self);
 
-        if !e.args.is_empty()
-            && match e.callee {
-                ExprOrSuper::Expr(box Expr::Member(MemberExpr {
-                    computed: true,
-                    ref prop,
-                    ..
-                })) if is_symbol_iterator(&prop) => true,
-                _ => false,
-            }
-        {
+        if match e.callee {
+            ExprOrSuper::Expr(box Expr::Member(MemberExpr {
+                computed: true,
+                ref prop,
+                ..
+            })) if is_symbol_iterator(&prop) => true,
+            _ => false,
+        } {
             self.add(&["web.dom.iterable"])
         }
     }
