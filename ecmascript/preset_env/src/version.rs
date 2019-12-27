@@ -15,7 +15,9 @@ impl FromStr for Version {
     fn from_str(v: &str) -> Result<Self, Self::Err> {
         if !v.contains(".") {
             return Ok(Version {
-                major: v.parse().unwrap(),
+                major: v
+                    .parse()
+                    .unwrap_or_else(|err| panic!("failed to parse `{}` as a version: {}", v, err)),
                 minor: 0,
                 patch: 0,
             });
