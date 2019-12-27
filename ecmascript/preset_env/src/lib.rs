@@ -416,10 +416,8 @@ pub enum Query {
     Multiple(Vec<String>),
 }
 
-impl TryFrom<Option<Targets>> for Versions {
-    type Error = ();
-
-    fn try_from(v: Option<Targets>) -> Result<Self, Self::Error> {
+impl Query {
+    fn exec(&self) -> Result<Versions, ()> {
         fn query<T>(s: &[T]) -> Result<Versions, ()>
         where
             T: AsRef<str> + Serialize,
@@ -431,7 +429,7 @@ impl TryFrom<Option<Targets>> for Versions {
                     let mut qjs = PathBuf::from(
                         env::var("CARGO_MANIFEST_DIR").expect("failed to read CARGO_MANIFEST_DIR"),
                     );
-                    qjs.push("tests");
+                    qjs.push("src");
                     qjs.push("query.js");
 
                     let output = Command::new("node")
@@ -462,13 +460,34 @@ impl TryFrom<Option<Targets>> for Versions {
             Ok(versions)
         }
 
+        match *self {
+            Query::Single(ref s) => query(&[s]),
+            Query::Multiple(ref s) => query(&s),
+        }
+    }
+}
+
+impl TryFrom<Option<Targets>> for Versions {
+    type Error = ();
+
+    fn try_from(v: Option<Targets>) -> Result<Self, Self::Error> {
         match v {
             None => Ok(Versions::default()),
             Some(Targets::Versions(v)) => Ok(v),
-            Some(Targets::Query(q)) => match q {
-                Query::Single(ref s) => query(&[s]),
-                Query::Multiple(ref s) => query(&s),
-            },
+            Some(Targets::Query(q)) => q.exec(),
+            Some(Targets::HashMap(mut map)) => {
+                let q = map.remove("browsers").map(|q| match q {
+                    QueryOrVersion::Query(q) => q.exec().expect("failed to run query"),
+                    _ => unreachable!(),
+                });
+                if map.is_empty() {
+                    if let Some(q) = q {
+                        return Ok(q);
+                    }
+                }
+
+                unimplemented!("Targets: {:?}", map)
+            }
             _ => unimplemented!(),
         }
     }
