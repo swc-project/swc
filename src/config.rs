@@ -5,11 +5,11 @@ pub use common::chain;
 use common::{errors::Handler, FileName, SourceMap};
 pub use ecmascript::parser::JscTarget;
 use ecmascript::{
-    ast::{Expr, ExprStmt, ModuleItem, Program, Stmt},
+    ast::{Expr, ExprStmt, ModuleItem, Stmt},
     parser::{lexer::Lexer, Parser, Session as ParseSess, SourceFileInput, Syntax},
     preset_env,
     transforms::{
-        chain_at, const_modules, modules,
+        const_modules, modules,
         optimization::{simplifier, InlineGlobals, JsonParse},
         pass::{noop, Optional, Pass},
         proposals::{class_properties, decorators, export, nullish_coalescing, optional_chaining},
@@ -186,8 +186,7 @@ impl Options {
             pass
         };
 
-        let pass = chain_at!(
-            Program,
+        let pass = chain!(
             // handle jsx
             Optional::new(react::react(cm.clone(), transform.react), syntax.jsx()),
             Optional::new(typescript::strip(), syntax.typescript()),

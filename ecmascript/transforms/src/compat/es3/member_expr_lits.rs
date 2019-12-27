@@ -81,7 +81,7 @@ mod tests {
 
 obj.const = "isKeyword";
 obj["var"] = "isKeyword";"#,
-        r#"obj.foo = "isValid";
+        r#"obj["foo"] = "isValid";
 
 obj["const"] = "isKeyword";
 obj["var"] = "isKeyword";"#

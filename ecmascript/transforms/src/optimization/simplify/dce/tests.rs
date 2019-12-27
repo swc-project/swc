@@ -1240,11 +1240,11 @@ fn test_call() {
 fn test_call_containing_spread() {
     // We use a function with no side-effects, otherwise the entire invocation would
     // be preserved.
-    test("Math.sin(...c)", "([...c])");
-    test("Math.sin(4, ...c, a)", "([...c])");
-    test("Math.sin(foo(), ...c, bar())", "([foo(), ...c, bar()])");
-    test("Math.sin(...a, b, ...c)", "([...a, ...c])");
-    test("Math.sin(...b, ...c)", "([...b, ...c])");
+    test("Math.sin(...c)", "[...c]");
+    test("Math.sin(4, ...c, a)", "[...c]");
+    test("Math.sin(foo(), ...c, bar())", "[foo(), ...c, bar()]");
+    test("Math.sin(...a, b, ...c)", "[...a, ...c]");
+    test("Math.sin(...b, ...c)", "[...b, ...c]");
 }
 
 #[test]
@@ -1260,10 +1260,10 @@ fn test_new() {
 fn test_new_containing_spread_1() {
     // We use a function with no side-effects, otherwise the entire invocation would
     // be preserved.
-    test("new Date(...c)", "([...c])");
-    test("new Date(4, ...c, a)", "([...c])");
-    test("new Date(...a, b, ...c)", "([...a, ...c])");
-    test("new Date(...b, ...c)", "([...b, ...c])");
+    test("new Date(...c)", "[...c]");
+    test("new Date(4, ...c, a)", "[...c]");
+    test("new Date(...a, b, ...c)", "[...a, ...c]");
+    test("new Date(...b, ...c)", "[...b, ...c]");
 }
 
 #[test]
@@ -1345,12 +1345,11 @@ fn test_array_literal() {
 
 #[test]
 fn test_array_literal_containing_spread() {
-    test_same("([...c])");
-    test("([4, ...c, a])", "([...c])");
-    test("([foo(), ...c, bar()])", "([foo(), ...c, bar()])");
-    test("([...a, b, ...c])", "([...a, ...c])");
-    test_same("([...b, ...c])"); // It would also be fine if the spreads were
-                                 // split apart.
+    test("([...c])", "[...c]");
+    test("([4, ...c, a])", "[...c]");
+    test("([foo(), ...c, bar()])", "[foo(), ...c, bar()]");
+    test("([...a, b, ...c])", "[...a, ...c]");
+    test("([...b, ...c])", "[...b, ...c]");
 }
 
 #[test]
