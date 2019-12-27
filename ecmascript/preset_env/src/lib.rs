@@ -146,6 +146,10 @@ pub fn preset_env(mut c: Config) -> impl Pass {
         }
     );
 
+    //    if c.debug {
+    println!("Targets: {:?}", targets);
+    //    }
+
     chain!(
         pass,
         Polyfills {
