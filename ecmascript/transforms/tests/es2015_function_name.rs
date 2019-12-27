@@ -130,9 +130,9 @@ test!(
   return extendStatics(d, b);
 };",
     "var extendStatics = function (d, b) {
-      extendStatics = Object.setPrototypeOf || {
+      extendStatics = Object.setPrototypeOf || ({
         __proto__: []
-      } instanceof Array && function (d1, b1) {
+      }) instanceof Array && function (d1, b1) {
         d1.__proto__ = b1;
   } || function (d1, b1) {
     for (var p in b1) if (b1.hasOwnProperty(p)) d1[p] = b1[p];
