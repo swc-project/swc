@@ -20,7 +20,7 @@ pub(crate) struct UsageVisitor {
     shipped_proposals: bool,
     is_any_target: bool,
     target: Versions,
-    pub required: FxHashSet<JsWord>,
+    pub required: FxHashSet<&'static str>,
 }
 
 impl UsageVisitor {
@@ -53,7 +53,7 @@ impl UsageVisitor {
     }
 
     /// Add imports
-    fn add(&mut self, features: &[&str]) {
+    fn add(&mut self, features: &[&'static str]) {
         let UsageVisitor {
             shipped_proposals,
             is_any_target,
@@ -76,7 +76,7 @@ impl UsageVisitor {
                 }
             }
 
-            Some(format!("core-js/modules/{}", f).into())
+            Some(f)
         }));
     }
 

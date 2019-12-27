@@ -9,7 +9,7 @@ use swc_ecma_ast::*;
 pub struct Entry {
     is_any_target: bool,
     target: Versions,
-    pub imports: FxHashSet<JsWord>,
+    pub imports: FxHashSet<&'static str>,
 }
 
 impl Entry {
@@ -29,9 +29,9 @@ impl Entry {
             imports: Default::default(),
         };
         if is_any_target || is_web_target {
-            v.imports.insert("core-js/modules/web.timers".into());
-            v.imports.insert("core-js/modules/web.immediate".into());
-            v.imports.insert("core-js/modules/web.dom.iterable".into());
+            v.imports.insert("web.timers".into());
+            v.imports.insert("web.immediate".into());
+            v.imports.insert("web.dom.iterable".into());
         }
 
         if regenerator {
@@ -61,16 +61,15 @@ impl Entry {
         true
     }
 
-    fn add(&mut self, feature: &str) {
+    fn add(&mut self, feature: &'static str) {
         if let Some(version) = BUILTINS.get(feature) {
             self.add_inner(feature, *version);
         }
     }
 
-    fn add_inner(&mut self, feature: &str, version: Versions) {
+    fn add_inner(&mut self, feature: &'static str, version: Versions) {
         if self.is_any_target || should_enable(self.target, version, true) {
-            self.imports
-                .insert(format!("core-js/modules/{}", feature).into());
+            self.imports.insert(feature);
         }
     }
 }

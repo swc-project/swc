@@ -253,6 +253,16 @@ impl Fold<Module> for Polyfills {
                 _ => unimplemented!("corejs version other than 2 / 3"),
             },
         };
+        let mut required = required
+            .into_iter()
+            .filter(|s| !self.excludes.contains(&**s))
+            .map(|s| -> JsWord { format!("core-js/modules/{}", s).into() })
+            .chain(
+                self.includes
+                    .iter()
+                    .map(|s| format!("core-js/modules/{}", s).into()),
+            )
+            .collect::<Vec<_>>();
 
         if cfg!(debug_assertions) {
             let mut v = required.into_iter().collect::<Vec<_>>();

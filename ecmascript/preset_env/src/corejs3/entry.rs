@@ -6,14 +6,34 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::{Fold, FoldWith, DUMMY_SP};
 use swc_ecma_ast::*;
 
-static ENTRIES: Lazy<FxHashMap<String, Vec<String>>> = Lazy::new(|| {
-    serde_json::from_str(include_str!("entries.json"))
+static ENTRIES: Lazy<FxHashMap<String, Vec<&'static str>>> = Lazy::new(|| {
+    serde_json::from_str::<FxHashMap<String, Vec<String>>>(include_str!("entries.json"))
         .expect("failed to parse entries.json from core js 3")
+        .into_iter()
+        .map(|(k, v)| {
+            (
+                k,
+                v.into_iter()
+                    .map(|s: String| &*Box::leak(s.into_boxed_str()))
+                    .collect::<Vec<_>>(),
+            )
+        })
+        .collect()
 });
 
-static MODULES_BY_VERSION: Lazy<FxHashMap<Version, Vec<String>>> = Lazy::new(|| {
-    serde_json::from_str(include_str!("modules-by-versions.json"))
+static MODULES_BY_VERSION: Lazy<FxHashMap<Version, Vec<&'static str>>> = Lazy::new(|| {
+    serde_json::from_str::<FxHashMap<_, _>>(include_str!("modules-by-versions.json"))
         .expect("failed to parse modules-by-versions.json")
+        .into_iter()
+        .map(|(k, v): (Version, Vec<String>)| {
+            (
+                k,
+                v.into_iter()
+                    .map(|s: String| &*Box::leak(s.into_boxed_str()))
+                    .collect::<Vec<_>>(),
+            )
+        })
+        .collect()
 });
 
 #[derive(Debug)]
@@ -21,7 +41,7 @@ pub struct Entry {
     is_any_target: bool,
     target: Versions,
     corejs_version: Version,
-    pub imports: FxHashSet<JsWord>,
+    pub imports: FxHashSet<&'static str>,
     remove_regenerator: bool,
 }
 
@@ -71,12 +91,12 @@ impl Entry {
                     .iter()
                     .filter(|(version, features)| *corejs_version < **version)
                 {
-                    if features.contains(&f) {
+                    if features.contains(&*f) {
                         return None;
                     }
                 }
 
-                Some(format!("core-js/modules/{}", f).into())
+                Some(f)
             }));
 
             true
