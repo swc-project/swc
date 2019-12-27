@@ -2,7 +2,7 @@ use super::compat::DATA as CORE_JS_COMPAT_DATA;
 use crate::{version::should_enable, Version, Versions};
 use fxhash::{FxHashMap, FxHashSet};
 use once_cell::sync::Lazy;
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::js_word;
 use swc_common::{Fold, FoldWith, DUMMY_SP};
 use swc_ecma_ast::*;
 
@@ -89,7 +89,7 @@ impl Entry {
 
                 for (_, features) in MODULES_BY_VERSION
                     .iter()
-                    .filter(|(version, features)| *corejs_version < **version)
+                    .filter(|(version, _features)| *corejs_version < **version)
                 {
                     if features.contains(&*f) {
                         return None;

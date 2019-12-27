@@ -13,7 +13,6 @@ use std::{
     env,
     path::PathBuf,
     process::Command,
-    str::FromStr,
 };
 use swc_atoms::{js_word, JsWord};
 use swc_common::{chain, Fold, FoldWith, FromVariant, VisitWith, DUMMY_SP};
@@ -32,7 +31,7 @@ mod regenerator;
 mod transform_data;
 mod version;
 
-pub fn preset_env(mut c: Config) -> impl Pass {
+pub fn preset_env(c: Config) -> impl Pass {
     let loose = c.loose;
     let targets: Versions = c.targets.try_into().expect("failed to parse targets");
     let is_any_target = targets.is_any_target();
@@ -215,7 +214,7 @@ impl Fold<Module> for Polyfills {
     fn fold(&mut self, mut m: Module) -> Module {
         let span = m.span;
 
-        let mut required = match self.mode {
+        let required = match self.mode {
             None => Default::default(),
             Some(Mode::Usage) => {
                 let mut r = match self.corejs {
@@ -257,7 +256,7 @@ impl Fold<Module> for Polyfills {
                 _ => unimplemented!("corejs version other than 2 / 3"),
             },
         };
-        let mut required = required
+        let required = required
             .into_iter()
             .filter(|s| !self.excludes.contains(&**s))
             .map(|s| -> JsWord {
@@ -537,7 +536,7 @@ impl TryFrom<Option<Targets>> for Versions {
             Some(Targets::Versions(v)) => Ok(v),
             Some(Targets::Query(q)) => q.exec(),
             Some(Targets::HashMap(mut map)) => {
-                let mut q = map.remove("browsers").map(|q| match q {
+                let q = map.remove("browsers").map(|q| match q {
                     QueryOrVersion::Query(q) => q.exec().expect("failed to run query"),
                     _ => unreachable!(),
                 });

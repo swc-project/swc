@@ -11,41 +11,41 @@ static ARRAY_NATURE_ITERATORS_WITH_TAG: &[&str] = &[
     "es.array.iterator",
     "web.dom-collections.iterator",
 ];
-static COMMON_ITERATORS_WITH_TAG: &[&str] = &[
-    "es.object.to-string",
-    "es.string.iterator",
-    "es.array.iterator",
-    "web.dom-collections.iterator",
-];
+//static COMMON_ITERATORS_WITH_TAG: &[&str] = &[
+//    "es.object.to-string",
+//    "es.string.iterator",
+//    "es.array.iterator",
+//    "web.dom-collections.iterator",
+//];
 //
-static TYPED_ARRAY_DEPENDENCIES: &[&str] = &[
-    "es.typed-array.copy-within",
-    "es.typed-array.every",
-    "es.typed-array.fill",
-    "es.typed-array.filter",
-    "es.typed-array.find",
-    "es.typed-array.find-index",
-    "es.typed-array.for-each",
-    "es.typed-array.includes",
-    "es.typed-array.index-of",
-    "es.typed-array.iterator",
-    "es.typed-array.join",
-    "es.typed-array.last-index-of",
-    "es.typed-array.map",
-    "es.typed-array.reduce",
-    "es.typed-array.reduce-right",
-    "es.typed-array.reverse",
-    "es.typed-array.set",
-    "es.typed-array.slice",
-    "es.typed-array.some",
-    "es.typed-array.sort",
-    "es.typed-array.subarray",
-    "es.typed-array.to-locale-string",
-    "es.typed-array.to-string",
-    "es.object.to-string",
-    "es.array.iterator",
-    "es.array-buffer.slice",
-];
+//static TYPED_ARRAY_DEPENDENCIES: &[&str] = &[
+//    "es.typed-array.copy-within",
+//    "es.typed-array.every",
+//    "es.typed-array.fill",
+//    "es.typed-array.filter",
+//    "es.typed-array.find",
+//    "es.typed-array.find-index",
+//    "es.typed-array.for-each",
+//    "es.typed-array.includes",
+//    "es.typed-array.index-of",
+//    "es.typed-array.iterator",
+//    "es.typed-array.join",
+//    "es.typed-array.last-index-of",
+//    "es.typed-array.map",
+//    "es.typed-array.reduce",
+//    "es.typed-array.reduce-right",
+//    "es.typed-array.reverse",
+//    "es.typed-array.set",
+//    "es.typed-array.slice",
+//    "es.typed-array.some",
+//    "es.typed-array.sort",
+//    "es.typed-array.subarray",
+//    "es.typed-array.to-locale-string",
+//    "es.typed-array.to-string",
+//    "es.object.to-string",
+//    "es.array.iterator",
+//    "es.array-buffer.slice",
+//];
 //
 static TYPED_ARRAY_STATIC_METHODS: FeatureMap = data_map!(Map {
     from: &["es.typed-array.from"],
@@ -910,13 +910,13 @@ pub static STATIC_PROPERTIES: DataMap<DataMap<&[&str]>> = data_map!(Map {
     Float64Array: &TYPED_ARRAY_STATIC_METHODS,
 });
 
-pub static COMMON_INSTANCE_DEPENDENCIES: &[&str] = &[
-    "es.object.to-string",
-    "es.object.define-getter",
-    "es.object.define-setter",
-    "es.object.lookup-getter",
-    "es.object.lookup-setter",
-    "es.regexp.exec",
-];
+//pub static COMMON_INSTANCE_DEPENDENCIES: &[&str] = &[
+//    "es.object.to-string",
+//    "es.object.define-getter",
+//    "es.object.define-setter",
+//    "es.object.lookup-getter",
+//    "es.object.lookup-setter",
+//    "es.regexp.exec",
+//];
 
 pub static POSSIBLE_GLOBAL_OBJECTS: &[&str] = &["global", "globalThis", "self", "window"];

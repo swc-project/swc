@@ -1,7 +1,7 @@
 use super::builtin::BUILTINS;
-use crate::{version::should_enable, Version, Versions};
+use crate::{version::should_enable, Versions};
 use fxhash::FxHashSet;
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::js_word;
 use swc_common::{util::move_map::MoveMap, Fold, FoldWith, DUMMY_SP};
 use swc_ecma_ast::*;
 
@@ -44,12 +44,6 @@ impl Entry {
     /// Add imports.
     /// Returns true if it's replaced.
     fn add_all(&mut self, src: &str) -> bool {
-        let Entry {
-            is_any_target,
-            target,
-            ..
-        } = self;
-
         if src != "@babel/polyfill" && src != "@swc/polyfill" && src != "core-js" {
             return false;
         }
@@ -59,12 +53,6 @@ impl Entry {
         }
 
         true
-    }
-
-    fn add(&mut self, feature: &'static str) {
-        if let Some(version) = BUILTINS.get(feature) {
-            self.add_inner(feature, *version);
-        }
     }
 
     fn add_inner(&mut self, feature: &'static str, version: Versions) {

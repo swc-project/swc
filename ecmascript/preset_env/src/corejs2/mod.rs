@@ -40,7 +40,7 @@ impl UsageVisitor {
         // "web.dom.iterable"]);        }
         //        v
 
-        let mut v = Self {
+        let v = Self {
             is_any_target: target.is_any_target(),
             target,
             required: Default::default(),
