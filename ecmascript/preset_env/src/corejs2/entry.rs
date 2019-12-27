@@ -54,10 +54,8 @@ impl Entry {
             return false;
         }
 
-        if !*is_any_target {
-            for (feature, version) in BUILTINS.iter() {
-                self.add_inner(&feature, *version);
-            }
+        for (feature, version) in BUILTINS.iter() {
+            self.add_inner(&feature, *version);
         }
 
         true
@@ -70,7 +68,7 @@ impl Entry {
     }
 
     fn add_inner(&mut self, feature: &str, version: Versions) {
-        if should_enable(self.target, version, true) {
+        if self.is_any_target || should_enable(self.target, version, true) {
             self.imports
                 .insert(format!("core-js/modules/{}", feature).into());
         }
