@@ -3,10 +3,10 @@ use self::{
     builtin::BUILTINS,
     data::{BUILTIN_TYPES, INSTANCE_PROPERTIES, STATIC_PROPERTIES},
 };
-use crate::{version::should_enable, Versions};
+use crate::{util::DataMapExt, version::should_enable, Versions};
 use fxhash::FxHashSet;
 use swc_atoms::{js_word, JsWord};
-use swc_common::{Visit, VisitWith};
+use swc_common::{Visit, VisitWith, DUMMY_SP};
 use swc_ecma_ast::*;
 
 mod builtin;
@@ -68,6 +68,41 @@ impl UsageVisitor {
             Some(f)
         }));
     }
+
+    fn add_property_deps_inner(&mut self, obj: Option<&JsWord>, prop: &JsWord) {
+        if let Some(obj) = obj {
+            if let Some(map) = STATIC_PROPERTIES.get_data(&obj) {
+                if let Some(features) = map.get_data(&prop) {
+                    self.add(features);
+                }
+            }
+        }
+
+        if let Some(features) = INSTANCE_PROPERTIES.get_data(&prop) {
+            self.add(features);
+        }
+    }
+
+    fn visit_object_pat_props(&mut self, obj: &Expr, props: &[ObjectPatProp]) {
+        let obj = match obj {
+            Expr::Ident(i) => Some(&i.sym),
+            _ => None,
+        };
+
+        for p in props {
+            match p {
+                ObjectPatProp::KeyValue(KeyValuePatProp {
+                    key: PropName::Ident(i),
+                    ..
+                }) => self.add_property_deps_inner(obj, &i.sym),
+                ObjectPatProp::Assign(AssignPatProp { key, .. }) => {
+                    self.add_property_deps_inner(obj, &key.sym)
+                }
+
+                _ => {}
+            }
+        }
+    }
 }
 
 // TODO:
@@ -89,6 +124,43 @@ impl Visit<Ident> for UsageVisitor {
             if node.sym == **name {
                 self.add(builtin)
             }
+        }
+    }
+}
+
+impl Visit<VarDeclarator> for UsageVisitor {
+    fn visit(&mut self, d: &VarDeclarator) {
+        d.visit_children(self);
+
+        if let Some(ref init) = d.init {
+            match d.name {
+                // const { keys, values } = Object
+                Pat::Object(ref o) => self.visit_object_pat_props(&init, &o.props),
+                _ => {}
+            }
+        } else {
+            match d.name {
+                // const { keys, values } = Object
+                Pat::Object(ref o) => self.visit_object_pat_props(
+                    &Expr::Ident(Ident::new(js_word!(""), DUMMY_SP)),
+                    &o.props,
+                ),
+                _ => {}
+            }
+        }
+    }
+}
+
+impl Visit<AssignExpr> for UsageVisitor {
+    fn visit(&mut self, e: &AssignExpr) {
+        e.visit_children(self);
+
+        match e.left {
+            // ({ keys, values } = Object)
+            PatOrExpr::Pat(box Pat::Object(ref o)) => {
+                self.visit_object_pat_props(&e.right, &o.props)
+            }
+            _ => {}
         }
     }
 }
@@ -259,32 +331,6 @@ impl Visit<YieldExpr> for UsageVisitor {
         if e.delegate {
             self.add(&["web.dom.iterable"])
         }
-    }
-}
-
-/// var { repeat, startsWith } = String
-impl Visit<VarDeclarator> for UsageVisitor {
-    fn visit(&mut self, v: &VarDeclarator) {
-        v.visit_children(self);
-
-        //const { node } = path;
-        //const { id, init } = node;
-        //
-        //if (!t.isObjectPattern(id)) return;
-        //
-        //// doesn't reference the global
-        //if (init && path.scope.getBindingIdentifier(init.name)) return;
-        //
-        //for (const { key } of id.properties) {
-        //    if (
-        //        !node.computed &&
-        //            t.isIdentifier(key) &&
-        //            has(INSTANCE_PROPERTIES, key.name)
-        //    ) {
-        //        const InstancePropertyDependencies =
-        // INSTANCE_PROPERTIES[key.name];        this.
-        // addUnsupported(InstancePropertyDependencies);    }
-        //}
     }
 }
 
