@@ -26,6 +26,7 @@ before_install:
   - git submodule update --init --recursive
 
 install:
+  - npm install browserslist
   - cargo test --no-run --color always --all --all-features
 
 script:

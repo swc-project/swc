@@ -485,14 +485,9 @@ impl Query {
                 if s.len() == 0 {
                     b"[]".to_vec()
                 } else {
-                    let mut qjs = PathBuf::from(
-                        env::var("CARGO_MANIFEST_DIR").expect("failed to read CARGO_MANIFEST_DIR"),
-                    );
-                    qjs.push("src");
-                    qjs.push("query.js");
-
                     let output = Command::new("node")
-                        .arg(&qjs)
+                        .arg("-e")
+                        .arg(include_str!("query.js"))
                         .arg(serde_json::to_string(&s).expect("failed to serialize with serde"))
                         .output()
                         .expect("failed to collect output");
