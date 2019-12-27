@@ -145,9 +145,9 @@ pub fn preset_env(c: Config) -> impl Pass {
         }
     );
 
-    //    if c.debug {
-    println!("Targets: {:?}", targets);
-    //    }
+    if c.debug {
+        println!("Targets: {:?}", targets);
+    }
 
     chain!(
         pass,
@@ -333,7 +333,6 @@ impl Fold<Script> for Polyfills {
 }
 
 #[derive(Debug, Clone, Copy, Deserialize, PartialEq, Eq)]
-#[serde(untagged)]
 pub enum Mode {
     #[serde(rename = "usage")]
     Usage,
