@@ -2,7 +2,7 @@ use super::builtin::BUILTINS;
 use crate::{version::should_enable, Version, Versions};
 use fxhash::FxHashSet;
 use swc_atoms::{js_word, JsWord};
-use swc_common::{Fold, FoldWith, DUMMY_SP};
+use swc_common::{util::move_map::MoveMap, Fold, FoldWith, DUMMY_SP};
 use swc_ecma_ast::*;
 
 #[derive(Debug)]
@@ -50,7 +50,7 @@ impl Entry {
             ..
         } = self;
 
-        if src != "@swc/polyfill" && src != "core-js" {
+        if src != "@babel/polyfill" && src != "@swc/polyfill" && src != "core-js" {
             return false;
         }
 
@@ -72,6 +72,52 @@ impl Entry {
             self.imports
                 .insert(format!("core-js/modules/{}", feature).into());
         }
+    }
+}
+
+impl Fold<Vec<ModuleItem>> for Entry {
+    fn fold(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
+        items.move_flat_map(|item| {
+            let item: ModuleItem = item.fold_with(self);
+
+            match item {
+                ModuleItem::Stmt(Stmt::Expr(ExprStmt {
+                    expr:
+                        box Expr::Call(CallExpr {
+                            callee:
+                                ExprOrSuper::Expr(box Expr::Ident(Ident {
+                                    sym: js_word!("require"),
+                                    ..
+                                })),
+                            ref args,
+                            ..
+                        }),
+                    ..
+                })) => {
+                    if args.len() == 1
+                        && match args[0] {
+                            ExprOrSpread {
+                                spread: None,
+                                expr: box Expr::Lit(Lit::Str(ref s)),
+                            } => {
+                                s.value == *"core-js"
+                                    || s.value == *"@swc/polyfill"
+                                    || s.value == *"@babel/polyfill"
+                            }
+                            _ => false,
+                        }
+                    {
+                        if self.add_all("@swc/polyfill") {
+                            return None;
+                        }
+                    }
+                }
+
+                _ => {}
+            }
+
+            Some(item)
+        })
     }
 }
 
