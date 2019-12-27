@@ -108,6 +108,17 @@ impl<'de> Visitor<'de> for SerdeVisitor {
         })
     }
 
+    fn visit_f64<E>(self, v: f64) -> Result<Self::Value, E>
+    where
+        E: de::Error,
+    {
+        Ok(Version {
+            major: v.floor() as _,
+            minor: v.fract() as _,
+            patch: 0,
+        })
+    }
+
     fn visit_str<E>(self, v: &str) -> Result<Self::Value, E>
     where
         E: de::Error,
@@ -129,17 +140,6 @@ impl<'de> Visitor<'de> for SerdeVisitor {
         E: de::Error,
     {
         self.visit_str(&v)
-    }
-
-    fn visit_f64<E>(self, v: f64) -> Result<Self::Value, E>
-    where
-        E: de::Error,
-    {
-        Ok(Version {
-            major: v.floor() as _,
-            minor: v.fract() as _,
-            patch: 0,
-        })
     }
 }
 

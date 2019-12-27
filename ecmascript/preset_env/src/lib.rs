@@ -339,8 +339,15 @@ impl BrowserData<Option<Version>> {
             })
             .collect();
 
-        let versions = BrowserData::<()>::default()
-            .map(|k, ()| browsers.remove(&*k).map(|s| s.parse().unwrap()));
+        let versions = BrowserData::<()>::default().map(|k, ()| {
+            browsers.remove(&*k).map(|s| {
+                if s.contains("-") {
+                    s.split('-').next().unwrap().parse().unwrap()
+                } else {
+                    s.parse().unwrap()
+                }
+            })
+        });
 
         Ok(versions)
     }
@@ -476,12 +483,19 @@ impl TryFrom<Option<Targets>> for Versions {
             Some(Targets::Versions(v)) => Ok(v),
             Some(Targets::Query(q)) => q.exec(),
             Some(Targets::HashMap(mut map)) => {
-                let q = map.remove("browsers").map(|q| match q {
+                let mut q = map.remove("browsers").map(|q| match q {
                     QueryOrVersion::Query(q) => q.exec().expect("failed to run query"),
                     _ => unreachable!(),
                 });
+
+                let node = map.remove("node").map(|q| match q {
+                    QueryOrVersion::Version(v) => v,
+                    QueryOrVersion::Query(..) => unreachable!(),
+                });
+
                 if map.is_empty() {
-                    if let Some(q) = q {
+                    if let Some(mut q) = q {
+                        q.node = node;
                         return Ok(q);
                     }
                 }
