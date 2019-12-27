@@ -10,8 +10,6 @@ use serde::{Deserialize, Serialize};
 use st_map::StaticMap;
 use std::{
     convert::{TryFrom, TryInto},
-    env,
-    path::PathBuf,
     process::Command,
 };
 use swc_atoms::{js_word, JsWord};
