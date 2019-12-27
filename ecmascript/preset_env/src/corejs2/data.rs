@@ -93,7 +93,7 @@ pub static INSTANCE_PROPERTIES: DataMap<&[&str]> = data_map!(Map {
     lastIndexOf: ["es6.array.last-index-of"],
     link: ["es6.string.link"],
     map: ["es6.array.map"],
-    r#match: ["es6.regexp.match"],
+    match: ["es6.regexp.match"],
     name: ["es6.function.name"],
     padStart: ["es7.string.pad-start"],
     padEnd: ["es7.string.pad-end"],
