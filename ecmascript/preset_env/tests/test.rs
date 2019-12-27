@@ -20,7 +20,7 @@ use swc_common::{fold::FoldWith, input::SourceFileInput, FromVariant};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{EsConfig, Parser, Session, Syntax};
-use swc_ecma_preset_env::{preset_env, Config, Mode, Targets, Version};
+use swc_ecma_preset_env::{preset_env, Config, FeatureOrModule, Mode, Targets, Version};
 use test::{test_main, ShouldPanic, TestDesc, TestDescAndFn, TestFn, TestName, TestType};
 use testing::Tester;
 use walkdir::WalkDir;
@@ -47,10 +47,10 @@ struct PresetConfig {
     pub targets: Option<Targets>,
 
     #[serde(default)]
-    pub include: Vec<String>,
+    pub include: Vec<FeatureOrModule>,
 
     #[serde(default)]
-    pub exclude: Vec<String>,
+    pub exclude: Vec<FeatureOrModule>,
 
     #[serde(default)]
     pub force_all_transforms: bool,
@@ -184,8 +184,8 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
         loose: true,
         // TODO
         dynamic_import: true,
-        include: c.include.iter().map(|v| v.parse().unwrap()).collect(),
-        exclude: c.exclude.iter().map(|v| v.parse().unwrap()).collect(),
+        include: c.include,
+        exclude: c.exclude,
         core_js: match c.corejs {
             CoreJs::Ver(v) => Some(v),
             ref s => unimplemented!("Unknown core js version: {:?}", s),

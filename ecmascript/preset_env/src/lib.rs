@@ -5,7 +5,7 @@
 #![recursion_limit = "256"]
 
 pub use self::{transform_data::Feature, version::Version};
-use fxhash::FxHashMap;
+use fxhash::{FxHashMap, FxHashSet};
 use serde::{Deserialize, Serialize};
 use st_map::StaticMap;
 use std::{
@@ -37,15 +37,18 @@ pub fn preset_env(mut c: Config) -> impl Pass {
     let targets: Versions = c.targets.try_into().expect("failed to parse targets");
     let is_any_target = targets.is_any_target();
 
+    let (include, included_modules) = FeatureOrModule::split(c.include);
+    let (exclude, excluded_modules) = FeatureOrModule::split(c.exclude);
+
     let pass = noop();
 
     macro_rules! should_enable {
         ($feature:ident, $default:expr) => {{
             let f = transform_data::Feature::$feature;
-            !c.exclude.contains(&f)
+            !exclude.contains(&f)
                 && (c.force_all_transforms
                     || (is_any_target
-                        || c.include.contains(&f)
+                        || include.contains(&f)
                         || f.should_enable(targets, $default)))
         }};
     }
@@ -154,7 +157,9 @@ pub fn preset_env(mut c: Config) -> impl Pass {
                 patch: 0
             }),
             shipped_proposals: c.shipped_proposals,
-            targets
+            targets,
+            includes: included_modules,
+            excludes: excluded_modules,
         }
     )
 }
@@ -198,6 +203,8 @@ struct Polyfills {
     shipped_proposals: bool,
     corejs: Version,
     regenerator: bool,
+    includes: FxHashSet<String>,
+    excludes: FxHashSet<String>,
 }
 
 impl Fold<Module> for Polyfills {
@@ -376,10 +383,10 @@ pub struct Config {
     pub skip: Vec<JsWord>,
 
     #[serde(default)]
-    pub include: Vec<Feature>,
+    pub include: Vec<FeatureOrModule>,
 
     #[serde(default)]
-    pub exclude: Vec<Feature>,
+    pub exclude: Vec<FeatureOrModule>,
 
     /// The version of the used core js.
     #[serde(default)]
@@ -393,6 +400,31 @@ pub struct Config {
 
     #[serde(default)]
     pub force_all_transforms: bool,
+}
+
+#[derive(Debug, Clone, Deserialize, FromVariant)]
+#[serde(untagged)]
+pub enum FeatureOrModule {
+    Feature(Feature),
+    CoreJsModule(String),
+}
+
+impl FeatureOrModule {
+    pub fn split(vec: Vec<FeatureOrModule>) -> (Vec<Feature>, FxHashSet<String>) {
+        let mut features: Vec<_> = Default::default();
+        let mut modules: FxHashSet<_> = Default::default();
+
+        for v in vec {
+            match v {
+                FeatureOrModule::Feature(f) => features.push(f),
+                FeatureOrModule::CoreJsModule(m) => {
+                    modules.insert(m);
+                }
+            }
+        }
+
+        (features, modules)
+    }
 }
 
 #[derive(Debug, Clone, Deserialize, FromVariant)]
