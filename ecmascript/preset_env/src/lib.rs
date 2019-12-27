@@ -256,12 +256,20 @@ impl Fold<Module> for Polyfills {
         let mut required = required
             .into_iter()
             .filter(|s| !self.excludes.contains(&**s))
-            .map(|s| -> JsWord { format!("core-js/modules/{}", s).into() })
-            .chain(
-                self.includes
-                    .iter()
-                    .map(|s| format!("core-js/modules/{}", s).into()),
-            )
+            .map(|s| -> JsWord {
+                if s != "regenerator-runtime/runtime" {
+                    format!("core-js/modules/{}", s).into()
+                } else {
+                    format!("regenerator-runtime/runtime").into()
+                }
+            })
+            .chain(self.includes.iter().map(|s| {
+                if s != "regenerator-runtime/runtime" {
+                    format!("core-js/modules/{}", s).into()
+                } else {
+                    format!("regenerator-runtime/runtime").into()
+                }
+            }))
             .collect::<Vec<_>>();
 
         if cfg!(debug_assertions) {
