@@ -1,5 +1,5 @@
 const browserslist = require('browserslist')
-let target = JSON.parse(process.argv[2]);
+let target = JSON.parse(process.argv[1]);
 
 target = target.browsers ? target.browsers : target;
 target = Array.isArray(target) ? target : (typeof target === 'string' ? [target] : Object.keys(target).map((k) => `${k} ${target[k]}`));
