@@ -7,5 +7,7 @@ target = target.filter(v => !v.startsWith('esmodules'));
 
 // console.log('Target: ', target);
 
-const browsers = browserslist(target)
+const browsers = browserslist(target, {
+    mobileToDesktop: true,
+})
 console.log(JSON.stringify(browsers))
