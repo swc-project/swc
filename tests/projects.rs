@@ -293,3 +293,8 @@ fn env_query_chrome_71() {
 
     assert_eq!(f.lines().count(), 5);
 }
+
+#[test]
+fn project_env() {
+    project("tests/projects/env/");
+}
