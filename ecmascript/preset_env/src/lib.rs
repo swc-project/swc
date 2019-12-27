@@ -409,7 +409,7 @@ pub enum QueryOrVersion {
     Version(Version),
 }
 
-#[derive(Debug, Clone, Deserialize, FromVariant)]
+#[derive(Debug, Clone, Deserialize, FromVariant, Eq, PartialEq, PartialOrd, Ord, Hash)]
 #[serde(untagged)]
 pub enum Query {
     Single(String),
