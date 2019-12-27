@@ -10,7 +10,6 @@ import "core-js/modules/es.promise";
 import "core-js/modules/es.regexp.exec";
 import "core-js/modules/es.string.iterator";
 import "core-js/modules/es.string.match";
-import "core-js/modules/es.weak-map";
 import "core-js/modules/web.dom-collections.iterator";
 import "core-js/modules/web.queue-microtask";
 Array.from; // static method
