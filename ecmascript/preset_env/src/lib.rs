@@ -393,7 +393,20 @@ pub struct Config {
 pub enum Targets {
     Versions(Versions),
     Query(Query),
-    HashMap(FxHashMap<String, Query>),
+    EsModules(EsModules),
+    HashMap(FxHashMap<String, QueryOrVersion>),
+}
+
+#[derive(Debug, Clone, Copy, Deserialize)]
+pub struct EsModules {
+    esmodules: bool,
+}
+
+#[derive(Debug, Clone, Deserialize, FromVariant)]
+#[serde(untagged)]
+pub enum QueryOrVersion {
+    Query(Query),
+    Version(Version),
 }
 
 #[derive(Debug, Clone, Deserialize, FromVariant)]

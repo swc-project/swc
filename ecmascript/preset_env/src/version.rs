@@ -130,6 +130,17 @@ impl<'de> Visitor<'de> for SerdeVisitor {
     {
         self.visit_str(&v)
     }
+
+    fn visit_f64<E>(self, v: f64) -> Result<Self::Value, E>
+    where
+        E: de::Error,
+    {
+        Ok(Version {
+            major: v.floor() as _,
+            minor: v.fract() as _,
+            patch: 0,
+        })
+    }
 }
 
 impl<'de> Deserialize<'de> for Version {
