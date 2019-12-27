@@ -5,7 +5,9 @@
 #![recursion_limit = "256"]
 
 pub use self::{transform_data::Feature, version::Version};
+use chashmap::CHashMap;
 use fxhash::{FxHashMap, FxHashSet};
+use once_cell::sync::Lazy;
 use serde::{Deserialize, Serialize};
 use st_map::StaticMap;
 use std::{
@@ -473,9 +475,11 @@ pub enum Query {
     Multiple(Vec<String>),
 }
 
+type QueryResult = Result<Versions, ()>;
+
 impl Query {
-    fn exec(&self) -> Result<Versions, ()> {
-        fn query<T>(s: &[T]) -> Result<Versions, ()>
+    fn exec(&self) -> QueryResult {
+        fn query<T>(s: &[T]) -> QueryResult
         where
             T: AsRef<str> + Serialize,
         {
@@ -512,10 +516,23 @@ impl Query {
             Ok(versions)
         }
 
-        match *self {
+        static CACHE: Lazy<CHashMap<Query, QueryResult>> = Lazy::new(Default::default);
+
+        if let Some(v) = CACHE.get(self) {
+            return match &*v {
+                Ok(v) => Ok(*v),
+                Err(err) => Err(*err),
+            };
+        }
+
+        let result = match *self {
             Query::Single(ref s) => query(&[s]),
             Query::Multiple(ref s) => query(&s),
-        }
+        };
+
+        CACHE.insert(self.clone(), result);
+
+        result
     }
 }
 
