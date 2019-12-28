@@ -54,8 +54,8 @@
         {
           "type": "ImportDefaultSpecifier",
           "span": {
-            "start": 7,
-            "end": 12,
+            "start": 48,
+            "end": 52,
             "ctxt": 0
           },
           "local": {
