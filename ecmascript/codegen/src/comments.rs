@@ -43,6 +43,8 @@ impl<'a> Emitter<'a> {
             return Ok(());
         }
 
+        println!("Using: prev_hi: {:?}", pos);
+
         let comments = match self.comments {
             Some(ref comments) => comments,
             None => return Ok(()),

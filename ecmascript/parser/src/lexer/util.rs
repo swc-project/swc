@@ -234,13 +234,18 @@ impl<'a, I: Input> Lexer<'a, I> {
                         span: Span::new(start, pos, SyntaxContext::empty()),
                         text: s.into(),
                     };
-                    if is_for_next {
+
+                    let peek = self.input.peek();
+                    let next = is_for_next;
+                    if next {
+                        println!("Storing: leading: {:?}", peek);
+
                         self.leading_comments_buffer.as_mut().unwrap().push(cmt);
                     } else {
+                        println!("Storing: prev_hi: {:?}", self.state.prev_hi);
                         comments.add_trailing(self.state.prev_hi, cmt);
                     }
                 }
-                // TODO: push comment
                 return Ok(());
             }
             if c.is_line_break() {
