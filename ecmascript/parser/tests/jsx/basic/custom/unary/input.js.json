@@ -10,7 +10,7 @@
       "type": "ImportDeclaration",
       "span": {
         "start": 0,
-        "end": 27,
+        "end": 26,
         "ctxt": 0
       },
       "specifiers": [
@@ -38,7 +38,7 @@
         "type": "StringLiteral",
         "span": {
           "start": 18,
-          "end": 26,
+          "end": 25,
           "ctxt": 0
         },
         "value": "react",

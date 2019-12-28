@@ -87,7 +87,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         let src = self.parse_from_clause_and_semi()?;
 
         Ok(ModuleDecl::Import(ImportDecl {
-            span: Span::new(start, src.span.hi(), Default::default()),
+            span: span!(start),
             specifiers,
             src,
         }))
