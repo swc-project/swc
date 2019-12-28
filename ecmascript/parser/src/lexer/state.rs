@@ -90,7 +90,7 @@ impl<'a> From<&'a Token> for TokenType {
                     | Token::DollarLBrace
                     | Token::Regex(..)
                     | Token::BigInt(..)
-                    | Token::JSXText(..) => true,
+                    | Token::JSXText { .. } => true,
 
                     _ => false,
                 },
@@ -292,9 +292,10 @@ impl State {
             .unwrap_or(false)
     }
 
-    pub fn can_has_trailing_comment(&self) -> bool {
+    pub fn can_have_trailing_comment(&self) -> bool {
         match self.token_type {
             Some(TokenType::Keyword(..)) => false,
+            Some(TokenType::Semi) => true,
             Some(TokenType::Other {
                 can_has_trailing_comment,
                 ..
