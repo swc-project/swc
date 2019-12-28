@@ -359,24 +359,38 @@ impl BrowserData<Option<Version>> {
             }
         }
 
-        let mut browsers: FxHashMap<_, _> = lines
-            .map(|v| {
-                let mut v = v.split(' ');
-                (remap(v.next().unwrap()), v.next().unwrap().to_string())
-            })
-            .collect();
-
-        let versions = BrowserData::<()>::default().map(|k, ()| {
-            browsers.remove(&*k).map(|s| {
-                if s.contains("-") {
-                    s.split('-').next().unwrap().parse().unwrap()
-                } else {
-                    s.parse().unwrap()
-                }
-            })
+        let browsers = lines.map(|v| {
+            let mut v = v.split(' ');
+            (remap(v.next().unwrap()), v.next().unwrap().to_string())
         });
 
-        Ok(versions)
+        let mut data: Versions = BrowserData::default();
+        for (browser, version) in browsers {
+            match &*browser {
+                "and_qq" | "and_uc" | "baidu" | "bb" | "kaios" | "op_mini" => continue,
+
+                _ => {}
+            }
+
+            let version = if version.contains("-") {
+                version.split('-').next().unwrap().parse().unwrap()
+            } else {
+                version.parse().unwrap()
+            };
+
+            // lowest version
+            if data[&browser].is_none() || data[&browser].unwrap() > version {
+                for (k, v) in data.iter_mut() {
+                    if browser == k {
+                        *v = Some(version);
+                    }
+                }
+            }
+        }
+
+        println!("Versions: {:?}", data);
+
+        Ok(data)
     }
 }
 
@@ -500,6 +514,7 @@ impl Query {
                             String::from_utf8_lossy(&output.stdout),
                             String::from_utf8_lossy(&output.stderr),
                         );
+
                         println!("query.js: Status {:?}", output.status,);
                         return Err(());
                     }
