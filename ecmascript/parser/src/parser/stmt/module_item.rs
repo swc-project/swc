@@ -29,15 +29,15 @@ impl<'a, I: Tokens> Parser<'a, I> {
         if let Ok(&Token::Str { .. }) = cur!(false) {
             match bump!() {
                 Token::Str { value, has_escape } => {
-                    let str_end = self.input.prev_span().hi();
+                    let src = Str {
+                        span: span!(str_start),
+                        value,
+                        has_escape,
+                    };
                     expect!(';');
                     return Ok(ModuleDecl::Import(ImportDecl {
                         span: span!(start),
-                        src: Str {
-                            span: Span::new(str_start, str_end, Default::default()),
-                            value,
-                            has_escape,
-                        },
+                        src,
                         specifiers: vec![],
                     }))
                     .map(ModuleItem::from);
@@ -451,14 +451,13 @@ impl<'a, I: Tokens> Parser<'a, I> {
         match *cur!(true)? {
             Token::Str { .. } => match bump!() {
                 Token::Str { value, has_escape } => {
-                    let str_end = self.input.prev_span().hi();
-                    expect!(';');
-
-                    Ok(Str {
+                    let src = Str {
                         value,
                         has_escape,
-                        span: Span::new(str_start, str_end, Default::default()),
-                    })
+                        span: span!(str_start),
+                    };
+                    expect!(';');
+                    Ok(src)
                 }
                 _ => unreachable!(),
             },
