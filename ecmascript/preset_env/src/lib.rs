@@ -388,8 +388,6 @@ impl BrowserData<Option<Version>> {
             }
         }
 
-        println!("Versions: {:?}", data);
-
         Ok(data)
     }
 }
@@ -426,7 +424,7 @@ pub struct Config {
     #[serde(default)]
     pub core_js: Option<Version>,
 
-    #[serde(default)]
+    #[serde(default = "default_targets")]
     pub targets: Option<Targets>,
 
     #[serde(default)]
@@ -434,6 +432,10 @@ pub struct Config {
 
     #[serde(default)]
     pub force_all_transforms: bool,
+}
+
+fn default_targets() -> Option<Targets> {
+    Some(Targets::Query(Query::Single("".into())))
 }
 
 #[derive(Debug, Clone, Deserialize, FromVariant)]
@@ -498,29 +500,24 @@ impl Query {
             T: AsRef<str> + Serialize,
         {
             let output = {
-                if s.len() == 0 {
-                    b"[]".to_vec()
-                } else {
-                    let output = Command::new("node")
-                        .arg("-e")
-                        .arg(include_str!("query.js"))
-                        .arg(serde_json::to_string(&s).expect("failed to serialize with serde"))
-                        .output()
-                        .expect("failed to collect output");
+                let output = Command::new("node")
+                    .arg("-e")
+                    .arg(include_str!("query.js"))
+                    .arg(serde_json::to_string(&s).expect("failed to serialize with serde"))
+                    .output()
+                    .expect("failed to collect output");
 
-                    if !output.status.success() {
-                        println!(
-                            "{}\n{}",
-                            String::from_utf8_lossy(&output.stdout),
-                            String::from_utf8_lossy(&output.stderr),
-                        );
-
-                        println!("query.js: Status {:?}", output.status,);
-                        return Err(());
-                    }
-
-                    output.stdout
+                println!(
+                    "{}\n{}",
+                    String::from_utf8_lossy(&output.stdout),
+                    String::from_utf8_lossy(&output.stderr),
+                );
+                if !output.status.success() {
+                    println!("query.js: Status {:?}", output.status,);
+                    return Err(());
                 }
+
+                output.stdout
             };
 
             let browsers: Vec<String> =
@@ -556,7 +553,7 @@ impl TryFrom<Option<Targets>> for Versions {
 
     fn try_from(v: Option<Targets>) -> Result<Self, Self::Error> {
         match v {
-            None => Ok(Versions::default()),
+            None => Ok(Default::default()),
             Some(Targets::Versions(v)) => Ok(v),
             Some(Targets::Query(q)) => q.exec(),
             Some(Targets::HashMap(mut map)) => {
@@ -581,5 +578,19 @@ impl TryFrom<Option<Targets>> for Versions {
             }
             _ => unimplemented!("Option<Targets>: {:?}", v),
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::Query;
+
+    #[test]
+    fn test_empty() {
+        let res = Query::Single("".into()).exec().unwrap();
+        assert!(
+            !res.is_any_target(),
+            "empty query should return non-empty result"
+        );
     }
 }
