@@ -38,7 +38,7 @@
         "type": "StringLiteral",
         "span": {
           "start": 18,
-          "end": 26,
+          "end": 25,
           "ctxt": 0
         },
         "value": "react",

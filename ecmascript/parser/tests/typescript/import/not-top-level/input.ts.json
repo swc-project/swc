@@ -65,7 +65,7 @@
               "type": "StringLiteral",
               "span": {
                 "start": 45,
-                "end": 49,
+                "end": 48,
                 "ctxt": 0
               },
               "value": "a",
