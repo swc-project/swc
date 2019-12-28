@@ -125,7 +125,7 @@
       "type": "ExportNamedDeclaration",
       "span": {
         "start": 44,
-        "end": 60,
+        "end": 59,
         "ctxt": 0
       },
       "specifiers": [
@@ -151,6 +151,14 @@
         }
       ],
       "source": null
+    },
+    {
+      "type": "EmptyStatement",
+      "span": {
+        "start": 59,
+        "end": 60,
+        "ctxt": 0
+      }
     }
   ],
   "interpreter": null
