@@ -184,7 +184,6 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                             ),
                             comments: None,
                             handlers,
-                            pos_of_leading_comments: Default::default(),
                         };
                         let mut expected_emitter = Emitter {
                             cfg: swc_ecma_codegen::Config { minify: false },
@@ -194,7 +193,6 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                             ),
                             comments: None,
                             handlers: handlers2,
-                            pos_of_leading_comments: Default::default(),
                         };
 
                         // Parse source

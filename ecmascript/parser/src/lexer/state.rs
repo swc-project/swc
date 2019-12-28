@@ -44,7 +44,7 @@ enum TokenType {
     JSXTagEnd,
     Other {
         before_expr: bool,
-        can_has_trailing_comment: bool,
+        can_have_trailing_comment: bool,
     },
 }
 impl TokenType {
@@ -83,14 +83,15 @@ impl<'a> From<&'a Token> for TokenType {
             Token::Word(Word::Keyword(k)) => TokenType::Keyword(k),
             _ => TokenType::Other {
                 before_expr: t.before_expr(),
-                can_has_trailing_comment: match *t {
+                can_have_trailing_comment: match *t {
                     Token::Num(..)
                     | Token::Str { .. }
                     | Token::Word(Word::Ident(..))
                     | Token::DollarLBrace
                     | Token::Regex(..)
                     | Token::BigInt(..)
-                    | Token::JSXText { .. } => true,
+                    | Token::JSXText { .. }
+                    | Token::RBrace => true,
 
                     _ => false,
                 },
@@ -295,11 +296,11 @@ impl State {
     pub fn can_have_trailing_comment(&self) -> bool {
         match self.token_type {
             Some(TokenType::Keyword(..)) => false,
-            Some(TokenType::Semi) => true,
+            Some(TokenType::Semi) | Some(TokenType::LBrace) => true,
             Some(TokenType::Other {
-                can_has_trailing_comment,
+                can_have_trailing_comment,
                 ..
-            }) => can_has_trailing_comment,
+            }) => can_have_trailing_comment,
             _ => false,
         }
     }

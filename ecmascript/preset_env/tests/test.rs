@@ -212,7 +212,6 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
                             None,
                         ),
                         handlers,
-                        pos_of_leading_comments: Default::default(),
                     };
 
                     emitter.emit_module(m).expect("failed to emit module");

@@ -218,7 +218,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             false
         };
 
-        let is_for_next = self.state.had_line_break || !self.state.can_have_trailing_comment();
+        let is_for_next = self.state.had_line_break && !self.state.can_have_trailing_comment();
 
         while let Some(c) = self.cur() {
             if was_star && c == '/' {
@@ -236,7 +236,6 @@ impl<'a, I: Input> Lexer<'a, I> {
                     };
 
                     let peek = self.input.peek();
-                    let next = is_for_next;
                     if is_for_next {
                         self.leading_comments_buffer.as_mut().unwrap().push(cmt);
                     } else {
