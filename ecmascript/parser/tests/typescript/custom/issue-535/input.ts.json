@@ -2,7 +2,7 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 21,
+    "end": 68,
     "ctxt": 0
   },
   "body": [
@@ -10,14 +10,14 @@
       "type": "ExportAllDeclaration",
       "span": {
         "start": 0,
-        "end": 21,
+        "end": 22,
         "ctxt": 0
       },
       "source": {
         "type": "StringLiteral",
         "span": {
           "start": 14,
-          "end": 21,
+          "end": 20,
           "ctxt": 0
         },
         "value": "test",

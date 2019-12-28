@@ -29,11 +29,12 @@ impl<'a, I: Tokens> Parser<'a, I> {
         if let Ok(&Token::Str { .. }) = cur!(false) {
             match bump!() {
                 Token::Str { value, has_escape } => {
+                    let str_end = self.input.prev_span().hi();
                     expect!(';');
                     return Ok(ModuleDecl::Import(ImportDecl {
                         span: span!(start),
                         src: Str {
-                            span: span!(str_start),
+                            span: Span::new(str_start, str_end, Default::default()),
                             value,
                             has_escape,
                         },
@@ -450,12 +451,13 @@ impl<'a, I: Tokens> Parser<'a, I> {
         match *cur!(true)? {
             Token::Str { .. } => match bump!() {
                 Token::Str { value, has_escape } => {
+                    let end = self.input.prev_span().hi();
                     expect!(';');
 
                     Ok(Str {
                         value,
                         has_escape,
-                        span: Span::new(start, self.input.prev_span().hi(), Default::default()),
+                        span: Span::new(start, end, Default::default()),
                     })
                 }
                 _ => unreachable!(),
