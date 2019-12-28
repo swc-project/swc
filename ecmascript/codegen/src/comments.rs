@@ -43,8 +43,6 @@ impl<'a> Emitter<'a> {
             return Ok(());
         }
 
-        println!("Using: prev_hi: {:?}", pos);
-
         let comments = match self.comments {
             Some(ref comments) => comments,
             None => return Ok(()),
@@ -69,6 +67,8 @@ impl<'a> Emitter<'a> {
             return Ok(());
         }
         self.pos_of_leading_comments.insert(pos);
+
+        println!("Using: lo: {:?}", pos);
 
         write_comments!(self, false, comments.leading_comments(pos))
     }

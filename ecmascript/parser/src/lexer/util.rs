@@ -237,12 +237,12 @@ impl<'a, I: Input> Lexer<'a, I> {
 
                     let peek = self.input.peek();
                     let next = is_for_next;
-                    if next {
-                        println!("Storing: leading: {:?}", peek);
-
+                    if is_for_next {
+                        println!("Storing: leading: {:?}: {}", self.state.prev_hi, cmt.text);
                         self.leading_comments_buffer.as_mut().unwrap().push(cmt);
                     } else {
-                        println!("Storing: prev_hi: {:?}", self.state.prev_hi);
+                        println!("Storing: trailing: {:?}: {}", self.state.prev_hi, cmt.text);
+
                         comments.add_trailing(self.state.prev_hi, cmt);
                     }
                 }

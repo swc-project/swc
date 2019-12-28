@@ -1371,6 +1371,8 @@ impl<'a> Emitter<'a> {
                     }
                 }
 
+                child.emit_with(self)?;
+
                 // Emit this child.
                 if should_emit_intervening_comments {
                     let comment_range = child.comment_range();
@@ -1378,8 +1380,6 @@ impl<'a> Emitter<'a> {
                 } else {
                     should_emit_intervening_comments = may_emit_intervening_comments;
                 }
-
-                child.emit_with(self)?;
 
                 if should_decrease_indent_after_emit {
                     self.wr.decrease_indent()?;
