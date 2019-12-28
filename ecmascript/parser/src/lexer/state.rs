@@ -42,7 +42,10 @@ enum TokenType {
     JSXText,
     JSXTagStart,
     JSXTagEnd,
-    Other { before_expr: bool },
+    Other {
+        before_expr: bool,
+        can_have_trailing_comment: bool,
+    },
 }
 impl TokenType {
     fn before_expr(self) -> bool {
@@ -57,7 +60,7 @@ impl TokenType {
             TokenType::JSXText | TokenType::Colon | TokenType::LBrace | TokenType::Semi => true,
             TokenType::BinOp(b) => b.before_expr(),
             TokenType::Keyword(k) => k.before_expr(),
-            TokenType::Other { before_expr } => before_expr,
+            TokenType::Other { before_expr, .. } => before_expr,
         }
     }
 }
@@ -80,6 +83,18 @@ impl<'a> From<&'a Token> for TokenType {
             Token::Word(Word::Keyword(k)) => TokenType::Keyword(k),
             _ => TokenType::Other {
                 before_expr: t.before_expr(),
+                can_have_trailing_comment: match *t {
+                    Token::Num(..)
+                    | Token::Str { .. }
+                    | Token::Word(Word::Ident(..))
+                    | Token::DollarLBrace
+                    | Token::Regex(..)
+                    | Token::BigInt(..)
+                    | Token::JSXText { .. }
+                    | Token::RBrace => true,
+
+                    _ => false,
+                },
             },
         }
     }
@@ -278,9 +293,14 @@ impl State {
             .unwrap_or(false)
     }
 
-    pub fn last_was_return(&self) -> bool {
+    pub fn can_have_trailing_comment(&self) -> bool {
         match self.token_type {
-            Some(TokenType::Keyword(Keyword::Return)) => true,
+            Some(TokenType::Keyword(..)) => false,
+            Some(TokenType::Semi) | Some(TokenType::LBrace) => true,
+            Some(TokenType::Other {
+                can_have_trailing_comment,
+                ..
+            }) => can_have_trailing_comment,
             _ => false,
         }
     }

@@ -27,8 +27,16 @@ impl Comments {
         });
     }
 
+    pub fn take_trailing_comments(&self, pos: BytePos) -> Option<Vec<Comment>> {
+        self.trailing.remove(&pos)
+    }
+
     pub fn trailing_comments(&self, pos: BytePos) -> Option<ReadGuard<'_, BytePos, Vec<Comment>>> {
         self.trailing.get(&pos)
+    }
+
+    pub fn take_leading_comments(&self, pos: BytePos) -> Option<Vec<Comment>> {
+        self.leading.remove(&pos)
     }
 
     pub fn leading_comments(&self, pos: BytePos) -> Option<ReadGuard<'_, BytePos, Vec<Comment>>> {

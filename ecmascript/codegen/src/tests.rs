@@ -29,7 +29,6 @@ impl Builder {
             wr: Box::new(text_writer::JsWriter::new(self.cm.clone(), "\n", s, None)),
             comments: Some(&self.comments),
             handlers: Box::new(Noop),
-            pos_of_leading_comments: Default::default(),
         };
 
         let ret = op(&mut e);

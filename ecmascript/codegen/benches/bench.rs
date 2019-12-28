@@ -119,7 +119,6 @@ fn emit_colors(b: &mut Bencher) {
                         Some(&mut src_map_builder),
                     ),
                     handlers,
-                    pos_of_leading_comments: Default::default(),
                 };
 
                 emitter.emit_module(&module)

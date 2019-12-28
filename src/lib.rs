@@ -161,7 +161,6 @@ impl Compiler {
                             },
                         ),
                         handlers,
-                        pos_of_leading_comments: Default::default(),
                     };
 
                     emitter

@@ -1,1 +1,2 @@
-throw a;
+throw /* ‪ */
+a;

@@ -48,7 +48,7 @@ impl<'a> Emitter<'a> {
             None => return Ok(()),
         };
 
-        let cmts = comments.trailing_comments(pos);
+        let cmts = comments.take_trailing_comments(pos);
 
         write_comments!(self, prefix_space, &cmts)
     }
@@ -63,11 +63,6 @@ impl<'a> Emitter<'a> {
             None => return Ok(()),
         };
 
-        if self.pos_of_leading_comments.contains(&pos) {
-            return Ok(());
-        }
-        self.pos_of_leading_comments.insert(pos);
-
-        write_comments!(self, false, comments.leading_comments(pos))
+        write_comments!(self, false, comments.take_leading_comments(pos))
     }
 }

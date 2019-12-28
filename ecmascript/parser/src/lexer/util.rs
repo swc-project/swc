@@ -218,7 +218,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             false
         };
 
-        let is_for_next = self.state.had_line_break || self.state.last_was_return();
+        let is_for_next = self.state.had_line_break || !self.state.can_have_trailing_comment();
 
         while let Some(c) = self.cur() {
             if was_star && c == '/' {
@@ -234,13 +234,14 @@ impl<'a, I: Input> Lexer<'a, I> {
                         span: Span::new(start, pos, SyntaxContext::empty()),
                         text: s.into(),
                     };
+
+                    let peek = self.input.peek();
                     if is_for_next {
                         self.leading_comments_buffer.as_mut().unwrap().push(cmt);
                     } else {
                         comments.add_trailing(self.state.prev_hi, cmt);
                     }
                 }
-                // TODO: push comment
                 return Ok(());
             }
             if c.is_line_break() {

@@ -1,5 +1,6 @@
 while(true){
-    continue; /* Multiline
+    continue;
+    /* Multiline
 Comment */
     a;
 }

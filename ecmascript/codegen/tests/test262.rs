@@ -165,7 +165,6 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                         ),
                         comments: Some(&comments),
                         handlers,
-                        pos_of_leading_comments: Default::default(),
                     };
 
                     // Parse source

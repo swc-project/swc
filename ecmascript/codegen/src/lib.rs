@@ -7,7 +7,6 @@ use self::{
     text_writer::WriteJs,
     util::{SourceMapperExt, SpanExt, StartsWithAlphaNum},
 };
-use hashbrown::HashSet;
 use std::{io, sync::Arc};
 use swc_atoms::JsWord;
 use swc_common::{comments::Comments, BytePos, SourceMap, Span, Spanned, SyntaxContext, DUMMY_SP};
@@ -56,7 +55,6 @@ pub struct Emitter<'a> {
     pub comments: Option<&'a Comments>,
     pub wr: Box<(dyn 'a + WriteJs)>,
     pub handlers: Box<(dyn 'a + Handlers)>,
-    pub pos_of_leading_comments: HashSet<BytePos>,
 }
 
 impl<'a> Emitter<'a> {
@@ -1371,6 +1369,8 @@ impl<'a> Emitter<'a> {
                     }
                 }
 
+                child.emit_with(self)?;
+
                 // Emit this child.
                 if should_emit_intervening_comments {
                     let comment_range = child.comment_range();
@@ -1378,8 +1378,6 @@ impl<'a> Emitter<'a> {
                 } else {
                     should_emit_intervening_comments = may_emit_intervening_comments;
                 }
-
-                child.emit_with(self)?;
 
                 if should_decrease_indent_after_emit {
                     self.wr.decrease_indent()?;
@@ -1684,10 +1682,8 @@ impl<'a> Emitter<'a> {
             let need_paren = if let Some(cmt) = self.comments {
                 let lo = node.arg.span().lo();
 
-                !self.pos_of_leading_comments.contains(&lo) && {
-                    // see #415
-                    cmt.leading_comments(lo).is_some()
-                }
+                // see #415
+                cmt.leading_comments(lo).is_some()
             } else {
                 false
             };
