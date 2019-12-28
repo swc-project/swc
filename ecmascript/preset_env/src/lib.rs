@@ -498,29 +498,25 @@ impl Query {
             T: AsRef<str> + Serialize,
         {
             let output = {
-                if s.len() == 0 {
-                    b"[]".to_vec()
-                } else {
-                    let output = Command::new("node")
-                        .arg("-e")
-                        .arg(include_str!("query.js"))
-                        .arg(serde_json::to_string(&s).expect("failed to serialize with serde"))
-                        .output()
-                        .expect("failed to collect output");
+                let output = Command::new("node")
+                    .arg("-e")
+                    .arg(include_str!("query.js"))
+                    .arg(serde_json::to_string(&s).expect("failed to serialize with serde"))
+                    .output()
+                    .expect("failed to collect output");
 
-                    if !output.status.success() {
-                        println!(
-                            "{}\n{}",
-                            String::from_utf8_lossy(&output.stdout),
-                            String::from_utf8_lossy(&output.stderr),
-                        );
+                if !output.status.success() {
+                    println!(
+                        "{}\n{}",
+                        String::from_utf8_lossy(&output.stdout),
+                        String::from_utf8_lossy(&output.stderr),
+                    );
 
-                        println!("query.js: Status {:?}", output.status,);
-                        return Err(());
-                    }
-
-                    output.stdout
+                    println!("query.js: Status {:?}", output.status,);
+                    return Err(());
                 }
+
+                output.stdout
             };
 
             let browsers: Vec<String> =
@@ -556,9 +552,9 @@ impl TryFrom<Option<Targets>> for Versions {
 
     fn try_from(v: Option<Targets>) -> Result<Self, Self::Error> {
         match v {
-            None => Ok(Versions::default()),
             Some(Targets::Versions(v)) => Ok(v),
             Some(Targets::Query(q)) => q.exec(),
+            None => Query::Single(String::from("")).exec(),
             Some(Targets::HashMap(mut map)) => {
                 let q = map.remove("browsers").map(|q| match q {
                     QueryOrVersion::Query(q) => q.exec().expect("failed to run query"),
@@ -581,5 +577,16 @@ impl TryFrom<Option<Targets>> for Versions {
             }
             _ => unimplemented!("Option<Targets>: {:?}", v),
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::Query;
+
+    #[test]
+    fn test_empty() {
+        //        let res = Query::Single("".into()).exec().unwrap();
+        //        println!("{:?}", res)
     }
 }
