@@ -447,17 +447,17 @@ impl<'a, I: Tokens> Parser<'a, I> {
     fn parse_from_clause_and_semi(&mut self) -> PResult<'a, Str> {
         expect!("from");
 
-        let start = cur_pos!();
+        let str_start = cur_pos!();
         match *cur!(true)? {
             Token::Str { .. } => match bump!() {
                 Token::Str { value, has_escape } => {
-                    let end = self.input.prev_span().hi();
+                    let str_end = self.input.prev_span().hi();
                     expect!(';');
 
                     Ok(Str {
                         value,
                         has_escape,
-                        span: Span::new(start, end, Default::default()),
+                        span: Span::new(str_start, str_end, Default::default()),
                     })
                 }
                 _ => unreachable!(),
