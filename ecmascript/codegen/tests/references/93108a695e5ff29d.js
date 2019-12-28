@@ -1,6 +1,7 @@
 (function() {
     var a;
-    if (b) return; /* I would
+    if (b) return;
+    /* I would
                               insert something
                               there, but I'm sort
                               of lazy so whatever.
@@ -9,8 +10,9 @@
     return a;
 })()(function() {
     var a;
-    if (b) return; /* I would insert something there, */
-     /*
+    if (b) return;
+    /* I would insert something there, */
+    /*
                              but I'm sort of lazy so
   */
     /*                      whatever. */

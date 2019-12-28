@@ -1,3 +1,3 @@
 if (a) {
-    b(); /* Some comment */
+    b();
 }
