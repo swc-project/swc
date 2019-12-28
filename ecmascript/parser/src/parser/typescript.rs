@@ -1914,11 +1914,23 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
         self.with_ctx(ctx).parse_with(|p| {
             if is!("function") {
-                return p.parse_fn_decl(decorators).map(Some);
+                return p
+                    .parse_fn_decl(decorators)
+                    .map(|decl| match decl {
+                        Decl::Fn(f) => Decl::Fn(FnDecl { declare: true, ..f }),
+                        _ => decl,
+                    })
+                    .map(Some);
             }
 
             if is!("class") {
-                return p.parse_class_decl(decorators).map(Some);
+                return p
+                    .parse_class_decl(decorators)
+                    .map(|decl| match decl {
+                        Decl::Class(c) => Decl::Class(ClassDecl { declare: true, ..c }),
+                        _ => decl,
+                    })
+                    .map(Some);
             }
 
             if is!("const") && peeked_is!("enum") {
@@ -1928,11 +1940,22 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
                 return p
                     .parse_ts_enum_decl(start, /* is_const */ true)
+                    .map(|decl| TsEnumDecl {
+                        declare: true,
+                        ..decl
+                    })
                     .map(From::from)
                     .map(Some);
             }
             if is_one_of!("const", "var", "let") {
-                return p.parse_var_stmt(false).map(From::from).map(Some);
+                return p
+                    .parse_var_stmt(false)
+                    .map(|decl| VarDecl {
+                        declare: true,
+                        ..decl
+                    })
+                    .map(From::from)
+                    .map(Some);
             }
 
             if is!("global") {
