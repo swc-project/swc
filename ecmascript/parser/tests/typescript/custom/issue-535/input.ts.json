@@ -2,7 +2,7 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 68,
+    "end": 66,
     "ctxt": 0
   },
   "body": [
@@ -18,6 +18,64 @@
         "span": {
           "start": 14,
           "end": 20,
+          "ctxt": 0
+        },
+        "value": "test",
+        "hasEscape": false
+      }
+    },
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 24,
+        "end": 39,
+        "ctxt": 0
+      },
+      "specifiers": [],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 31,
+          "end": 37,
+          "ctxt": 0
+        },
+        "value": "test",
+        "hasEscape": false
+      }
+    },
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 41,
+        "end": 66,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ImportDefaultSpecifier",
+          "span": {
+            "start": 7,
+            "end": 12,
+            "ctxt": 0
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 48,
+              "end": 52,
+              "ctxt": 0
+            },
+            "value": "Test",
+            "typeAnnotation": null,
+            "optional": false
+          }
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 58,
+          "end": 64,
           "ctxt": 0
         },
         "value": "test",
