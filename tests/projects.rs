@@ -298,3 +298,25 @@ fn env_query_chrome_71() {
 fn project_env() {
     project("tests/projects/env/");
 }
+
+#[test]
+fn issue_532() {
+    let f = file("tests/projects/issue-532-block/input.js")
+        .unwrap()
+        .replace(" ", "");
+    let f = f.trim();
+
+    println!("{}", f);
+
+    assert_eq!(
+        f,
+        "\
+/*OK 1*/
+test(/*LOST 2*/);
+test(123/*WRONG 3*/);
+test(/*LOST 4*/123);
+test(/*LOST 5*/123/*WRONG 6*/);
+test(/*LOST 7*/123,/*LOST 8*/456);
+test(123/*WRONG 9*/,456/*WRONG 10*/);"
+    )
+}
