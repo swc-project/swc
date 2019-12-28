@@ -8,7 +8,7 @@ use hashbrown::HashMap;
 use smallvec::{smallvec, SmallVec};
 use std::cell::RefCell;
 use swc_atoms::JsWord;
-use swc_common::{Fold, FoldWith, Span, SyntaxContext};
+use swc_common::{chain, Fold, FoldWith, Span, SyntaxContext};
 
 mod ops;
 #[cfg(test)]
@@ -133,8 +133,7 @@ pub fn hygiene() -> impl Pass + 'static {
         }
     }
 
-    chain_at!(
-        Module,
+    chain!(
         Hygiene {
             current: Default::default(),
             ident_type: IdentType::Ref,

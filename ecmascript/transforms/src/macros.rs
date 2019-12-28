@@ -186,11 +186,13 @@ macro_rules! chain_at {
 }
 
 #[cfg(test)]
+#[allow(dead_code)]
 pub(crate) fn validating(name: &'static str, tr: impl Pass + 'static) -> Box<dyn Pass> {
     box ::swc_common::Fold::then(tr, crate::debug::validator::Validator { name })
 }
 
 #[cfg(test)]
+#[allow(unused_macros)]
 macro_rules! validating {
     ($folder:expr) => {{
         crate::macros::validating(stringify!($folder), $folder)

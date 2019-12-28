@@ -1,0 +1,8 @@
+{
+  "env": {
+    "mode": "entry",
+    "targets": [
+      "last 3 versions"
+    ]
+  }
+}

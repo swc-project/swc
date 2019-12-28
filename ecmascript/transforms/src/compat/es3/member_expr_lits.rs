@@ -55,7 +55,6 @@ impl Fold<MemberExpr> for MemberExprLit {
         }
 
         e.prop = match *e.prop {
-            Expr::Lit(Lit::Str(Str { value, span, .. })) => handle!(value, span),
             Expr::Ident(i) => {
                 if e.computed {
                     box Expr::Ident(i)
@@ -82,7 +81,7 @@ mod tests {
 
 obj.const = "isKeyword";
 obj["var"] = "isKeyword";"#,
-        r#"obj.foo = "isValid";
+        r#"obj["foo"] = "isValid";
 
 obj["const"] = "isKeyword";
 obj["var"] = "isKeyword";"#

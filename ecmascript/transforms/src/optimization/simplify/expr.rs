@@ -1,16 +1,30 @@
 use crate::util::*;
 use ast::{Ident, Lit, *};
-use std::iter;
+use std::{iter, iter::once};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{Fold, FoldWith, Span, Spanned};
 
 #[cfg(test)]
 mod tests;
 
+/// Ported from [PeepholeFoldConstants](https://github.com/google/closure-compiler/blob/9203e01b/src/com/google/javascript/jscomp/PeepholeFoldConstants.java)
 pub(super) struct SimplifyExpr;
 
+impl Fold<Pat> for SimplifyExpr {
+    #[inline(always)]
+    fn fold(&mut self, p: Pat) -> Pat {
+        match p {
+            Pat::Assign(a) => AssignPat {
+                right: a.right.fold_with(self),
+                ..a
+            }
+            .into(),
+            _ => p,
+        }
+    }
+}
+
 impl Fold<Expr> for SimplifyExpr {
-    /// Ported from [optimizeSubtree](https://github.com/google/closure-compiler/blob/9203e01b/src/com/google/javascript/jscomp/PeepholeFoldConstants.java#L74-L98)
     fn fold(&mut self, expr: Expr) -> Expr {
         // fold children before doing something more.
         let expr = expr.fold_children(self);
@@ -64,6 +78,69 @@ impl Fold<Expr> for SimplifyExpr {
                 }
             }
 
+            Expr::Array(ArrayLit { span, elems, .. }) => {
+                let mut e = Vec::with_capacity(elems.len());
+
+                for elem in elems {
+                    match elem {
+                        Some(ExprOrSpread {
+                            spread: Some(..),
+                            expr: box Expr::Array(ArrayLit { elems, .. }),
+                        }) => e.extend(elems),
+
+                        _ => e.push(elem),
+                    }
+                }
+
+                ArrayLit { span, elems: e }.into()
+            }
+
+            Expr::Object(ObjectLit { span, props, .. }) => {
+                let should_work = props.iter().any(|p| match &*p {
+                    PropOrSpread::Spread(..) => true,
+                    _ => false,
+                });
+                if !should_work {
+                    return ObjectLit { span, props }.into();
+                }
+
+                let mut ps = Vec::with_capacity(props.len());
+
+                for p in props {
+                    match p {
+                        PropOrSpread::Spread(SpreadElement {
+                            expr: box Expr::Object(ObjectLit { props, .. }),
+                            ..
+                        }) => ps.extend(props),
+
+                        _ => ps.push(p),
+                    }
+                }
+
+                ObjectLit { span, props: ps }.into()
+            }
+
+            Expr::New(e) => {
+                if e.callee.is_ident_ref_to(js_word!("String"))
+                    && e.args.is_some()
+                    && e.args.as_ref().unwrap().len() == 1
+                    && e.args.as_ref().unwrap()[0].spread.is_none()
+                    && is_literal(&e.args.as_ref().unwrap()[0].expr)
+                {
+                    let e = &*e.args.into_iter().next().unwrap().pop().unwrap().expr;
+                    if let Known(value) = e.as_string() {
+                        return Expr::Lit(Lit::Str(Str {
+                            span: e.span(),
+                            value: value.into(),
+                            has_escape: false,
+                        }));
+                    }
+                    unreachable!()
+                }
+
+                return NewExpr { ..e }.into();
+            }
+
             // be conservative.
             _ => expr,
         }
@@ -76,8 +153,7 @@ fn fold_member_expr(e: MemberExpr) -> Expr {
         /// [a, b].length
         Len,
 
-        #[allow(dead_code)]
-        Index(u32),
+        Index(i64),
 
         /// ({}).foo
         IndexStr(JsWord),
@@ -88,14 +164,9 @@ fn fold_member_expr(e: MemberExpr) -> Expr {
             ..
         }) => KnownOp::Len,
         Expr::Ident(Ident { ref sym, .. }) => KnownOp::IndexStr(sym.clone()),
-        // Lit(Lit::Num(Number(f)))=>{
-        //     if f==0{
-
-        //     }else{
-
-        //     }
-        //     // TODO: Report error
-        //     KnownOp::Index(f)},
+        Expr::Lit(Lit::Num(Number { value, .. })) if value.fract() == 0.0 => {
+            KnownOp::Index(value as _)
+        }
         _ => return Expr::Member(e),
     };
 
@@ -115,17 +186,22 @@ fn fold_member_expr(e: MemberExpr) -> Expr {
             })),
 
             // 'foo'[1]
-            KnownOp::Index(idx) if (idx as usize) < value.len() => Expr::Lit(Lit::Str(Str {
-                value: value
-                    .chars()
-                    .nth(idx as _)
-                    .unwrap_or_else(|| panic!("failed to index char?"))
-                    .to_string()
-                    .into(),
-                span,
-                has_escape: false,
-            })),
-
+            KnownOp::Index(idx) if (idx as usize) < value.len() => {
+                return if idx < 0 {
+                    *undefined(span)
+                } else {
+                    Expr::Lit(Lit::Str(Str {
+                        value: value
+                            .chars()
+                            .nth(idx as _)
+                            .unwrap_or_else(|| panic!("failed to index char?"))
+                            .to_string()
+                            .into(),
+                        span,
+                        has_escape: false,
+                    }))
+                }
+            }
             _ => Expr::Member(MemberExpr {
                 obj: ExprOrSuper::Expr(box obj),
                 ..e
@@ -156,11 +232,102 @@ fn fold_member_expr(e: MemberExpr) -> Expr {
             }))
         }
 
+        Expr::Array(ArrayLit { span, mut elems })
+            if match op {
+                KnownOp::Index(..) => true,
+                _ => false,
+            } =>
+        {
+            // do nothing if spread exists
+            let has_spread = elems.iter().any(|elem| {
+                elem.as_ref()
+                    .map(|elem| elem.spread.is_some())
+                    .unwrap_or(false)
+            });
+
+            if has_spread {
+                return Expr::Member(MemberExpr {
+                    obj: ExprOrSuper::Expr(box Expr::Array(ArrayLit { span, elems })),
+                    ..e
+                });
+            }
+
+            let idx = match op {
+                KnownOp::Index(i) => i,
+                _ => unreachable!(),
+            };
+
+            let e = if elems.len() > idx as _ && idx >= 0 {
+                elems.remove(idx as _)
+            } else {
+                None
+            };
+            let v = match e {
+                None => *undefined(span),
+                Some(e) => *e.expr,
+            };
+
+            preserve_effects(span, v, once(box Expr::Array(ArrayLit { span, elems })))
+        }
+
         // { foo: true }['foo']
-        Expr::Object(ObjectLit { props, span }) => match op {
-            // TODO
-            // KnownOp::IndexStr(key) => {
-            // }
+        Expr::Object(ObjectLit { mut props, span }) => match op {
+            KnownOp::IndexStr(key) if is_literal(&props) => {
+                // do nothing if spread exists
+                let has_spread = props.iter().any(|prop| match prop {
+                    PropOrSpread::Spread(..) => true,
+                    _ => false,
+                });
+
+                if has_spread {
+                    return Expr::Member(MemberExpr {
+                        obj: ExprOrSuper::Expr(box Expr::Object(ObjectLit { props, span })),
+                        ..e
+                    });
+                }
+
+                let idx = props.iter().rev().position(|p| match &*p {
+                    PropOrSpread::Prop(p) => match &**p {
+                        Prop::Shorthand(i) => i.sym == key,
+                        Prop::KeyValue(k) => prop_name_eq(&k.key, &key),
+                        Prop::Assign(p) => p.key.sym == key,
+                        Prop::Getter(..) => false,
+                        Prop::Setter(..) => false,
+                        // TODO
+                        Prop::Method(..) => false,
+                    },
+                    _ => unreachable!(),
+                });
+                //
+
+                match idx {
+                    Some(i) => {
+                        let v = props.remove(i);
+
+                        preserve_effects(
+                            span,
+                            match v {
+                                PropOrSpread::Prop(p) => match *p {
+                                    Prop::Shorthand(i) => Expr::Ident(i),
+                                    Prop::KeyValue(p) => *p.value,
+                                    Prop::Assign(p) => *p.value,
+                                    Prop::Getter(..) => unreachable!(),
+                                    Prop::Setter(..) => unreachable!(),
+                                    // TODO
+                                    Prop::Method(..) => unreachable!(),
+                                },
+                                _ => unreachable!(),
+                            },
+                            once(box Expr::Object(ObjectLit { props, span })),
+                        )
+                    }
+                    None => preserve_effects(
+                        span,
+                        *undefined(span),
+                        once(box Expr::Object(ObjectLit { props, span })),
+                    ),
+                }
+            }
             _ => Expr::Member(MemberExpr {
                 obj: ExprOrSuper::Expr(box Expr::Object(ObjectLit { props, span })),
                 ..e
@@ -210,6 +377,19 @@ fn fold_bin(
     let (left, right) = match op {
         op!(bin, "+") => {
             // It's string concatenation if either left or right is string.
+
+            if left.is_str() || left.is_array_lit() || right.is_str() || right.is_array_lit() {
+                if let (Known(l), Known(r)) = (left.as_string(), right.as_string()) {
+                    let mut l = l.into_owned();
+                    l.push_str(&r);
+                    return Expr::Lit(Lit::Str(Str {
+                        value: l.into(),
+                        span,
+                        // TODO
+                        has_escape: false,
+                    }));
+                }
+            }
 
             let mut bin = Expr::Bin(BinExpr {
                 span,
@@ -361,7 +541,7 @@ fn fold_bin(
         }
 
         // Arithmetic operations
-        op!(bin, "-") | op!("/") | op!("%") => {
+        op!(bin, "-") | op!("/") | op!("%") | op!("**") => {
             try_replace!(number, perform_arithmetic_op(op, &left, &right))
         }
 
@@ -615,6 +795,24 @@ fn fold_unary(UnaryExpr { span, op, arg }: UnaryExpr) -> Expr {
                 span,
             });
         }
+
+        op!("~") => {
+            if let Known(value) = arg.as_number() {
+                if value.fract() == 0.0 {
+                    return Expr::Lit(Lit::Num(Number {
+                        span,
+                        value: !(value as u32) as i32 as f64,
+                    }));
+                }
+                // TODO: Report error
+            }
+
+            return Expr::Unary(UnaryExpr {
+                span,
+                op: op!("~"),
+                arg,
+            });
+        }
         _ => {}
     }
 
@@ -722,6 +920,10 @@ fn perform_arithmetic_op(op: BinaryOp, left: &Expr, right: &Expr) -> Value<f64> 
         }
 
         op!("**") => {
+            if Known(0.0) == rv {
+                return Known(1.0);
+            }
+
             if let (Known(lv), Known(rv)) = (lv, rv) {
                 return try_replace!(lv.powf(rv));
             }
@@ -897,118 +1099,4 @@ where
     I: IntoIterator<Item = Box<Expr>>,
 {
     preserve_effects(span, Expr::Lit(Lit::Bool(Bool { value, span })), orig)
-}
-
-/// make a new expression which evaluates `val` preserving side effects, if any.
-fn preserve_effects<I>(span: Span, val: Expr, exprs: I) -> Expr
-where
-    I: IntoIterator<Item = Box<Expr>>,
-{
-    /// Add side effects of `expr` to `v`
-    /// preserving order and conditions. (think a() ? yield b() : c())
-    #[allow(clippy::vec_box)]
-    fn add_effects(v: &mut Vec<Box<Expr>>, box expr: Box<Expr>) {
-        match expr {
-            Expr::Lit(..)
-            | Expr::This(..)
-            | Expr::Fn(..)
-            | Expr::Arrow(..)
-            | Expr::Ident(..)
-            | Expr::PrivateName(..) => {}
-
-            // In most case, we can do nothing for this.
-            Expr::Update(_) | Expr::Assign(_) | Expr::Yield(_) | Expr::Await(_) => v.push(box expr),
-
-            // TODO
-            Expr::MetaProp(_) => v.push(box expr),
-
-            Expr::Call(_) => v.push(box expr),
-            Expr::New(NewExpr {
-                callee: box Expr::Ident(Ident { ref sym, .. }),
-                ref args,
-                ..
-            }) if *sym == js_word!("Date") && args.is_empty() => {}
-            Expr::New(_) => v.push(box expr),
-            Expr::Member(_) => v.push(box expr),
-
-            // We are at here because we could not determine value of test.
-            //TODO: Drop values if it does not have side effects.
-            Expr::Cond(_) => v.push(box expr),
-
-            Expr::Unary(UnaryExpr { arg, .. }) => add_effects(v, arg),
-            Expr::Bin(BinExpr { left, right, .. }) => {
-                add_effects(v, left);
-                add_effects(v, right);
-            }
-            Expr::Seq(SeqExpr { exprs, .. }) => exprs.into_iter().for_each(|e| add_effects(v, e)),
-
-            Expr::Paren(e) => add_effects(v, e.expr),
-
-            Expr::Object(ObjectLit { props, .. }) => {
-                props.into_iter().for_each(|node| match node {
-                    PropOrSpread::Prop(box node) => match node {
-                        Prop::Shorthand(..) => {}
-                        Prop::KeyValue(KeyValueProp { key, value }) => {
-                            if let PropName::Computed(e) = key {
-                                add_effects(v, e.expr);
-                            }
-
-                            add_effects(v, value)
-                        }
-                        Prop::Getter(GetterProp { key, .. })
-                        | Prop::Setter(SetterProp { key, .. })
-                        | Prop::Method(MethodProp { key, .. }) => {
-                            if let PropName::Computed(e) = key {
-                                add_effects(v, e.expr)
-                            }
-                        }
-                        Prop::Assign(..) => {
-                            unreachable!("assign property in object literal is not a valid syntax")
-                        }
-                    },
-                    PropOrSpread::Spread(SpreadElement { expr, .. }) => add_effects(v, expr),
-                })
-            }
-
-            Expr::Array(ArrayLit { elems, .. }) => {
-                elems.into_iter().filter_map(|e| e).fold(v, |v, e| {
-                    add_effects(v, e.expr);
-
-                    v
-                });
-            }
-
-            Expr::TaggedTpl { .. } => unimplemented!("add_effects for tagged template literal"),
-            Expr::Tpl { .. } => unimplemented!("add_effects for template literal"),
-            Expr::Class(ClassExpr { .. }) => unimplemented!("add_effects for class expression"),
-
-            Expr::JSXMebmer(..)
-            | Expr::JSXNamespacedName(..)
-            | Expr::JSXEmpty(..)
-            | Expr::JSXElement(..)
-            | Expr::JSXFragment(..) => unreachable!("simplyfing jsx"),
-
-            Expr::TsTypeAssertion(TsTypeAssertion { expr, .. })
-            | Expr::TsNonNull(TsNonNullExpr { expr, .. })
-            | Expr::TsTypeCast(TsTypeCastExpr { expr, .. })
-            | Expr::TsAs(TsAsExpr { expr, .. })
-            | Expr::TsConstAssertion(TsConstAssertion { expr, .. }) => add_effects(v, expr),
-            Expr::OptChain(e) => add_effects(v, e.expr),
-
-            Expr::Invalid(..) => unreachable!(),
-        }
-    }
-
-    let mut exprs = exprs.into_iter().fold(vec![], |mut v, e| {
-        add_effects(&mut v, e);
-        v
-    });
-
-    if exprs.is_empty() {
-        val
-    } else {
-        exprs.push(box val);
-
-        Expr::Seq(SeqExpr { exprs, span })
-    }
 }

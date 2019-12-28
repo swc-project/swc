@@ -13,7 +13,7 @@ pub(super) struct DecoratorFinder {
 }
 
 impl Visit<Decorator> for DecoratorFinder {
-    fn visit(&mut self, node: &Decorator) {
+    fn visit(&mut self, _: &Decorator) {
         self.found = true;
     }
 }

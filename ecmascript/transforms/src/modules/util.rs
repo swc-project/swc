@@ -519,7 +519,7 @@ impl Scope {
                 expr.left = expr.left.fold_with(folder);
                 expr.right = expr.right.fold_with(folder);
 
-                let mut found = vec![];
+                let mut found: Vec<(JsWord, Span)> = vec![];
                 let mut v = DestructuringFinder { found: &mut found };
                 expr.left.visit_with(&mut v);
                 if v.found.is_empty() {

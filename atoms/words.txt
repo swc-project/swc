@@ -576,7 +576,6 @@ abstract
 any
 apply
 arguments
-arguments
 as
 async
 await
@@ -620,6 +619,7 @@ infer
 instanceof
 interface
 is
+iterator
 key
 keyof
 length

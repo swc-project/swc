@@ -16,9 +16,16 @@ fn file(f: &str) -> Result<NormalizedOutput, StdErr> {
                 ..Default::default()
             },
         );
+
         match s {
-            Ok(v) => Ok(v.code.into()),
-            Err(..) => Err(()),
+            Ok(v) => {
+                if c.handler.has_errors() {
+                    Err(())
+                } else {
+                    Ok(v.code.into())
+                }
+            }
+            Err(err) => panic!("Error: {}", err),
         }
     })
 }
@@ -249,4 +256,45 @@ a,
 b
 ];"
     );
+}
+
+#[test]
+fn env_entry_chrome_49() {
+    let f = file("tests/env/entry/chrome-49/input.js")
+        .unwrap()
+        .replace(" ", "");
+    let f = f.trim();
+
+    println!("{}", f);
+
+    assert_eq!(f.lines().count(), 76);
+}
+
+#[test]
+fn env_entry_chrome_71() {
+    let f = file("tests/env/entry/chrome-71/input.js")
+        .unwrap()
+        .replace(" ", "");
+    let f = f.trim();
+
+    println!("{}", f);
+
+    assert_eq!(f.lines().count(), 5);
+}
+
+#[test]
+fn env_query_chrome_71() {
+    let f = file("tests/env/query/chrome-71/input.js")
+        .unwrap()
+        .replace(" ", "");
+    let f = f.trim();
+
+    println!("{}", f);
+
+    assert_eq!(f.lines().count(), 5);
+}
+
+#[test]
+fn project_env() {
+    project("tests/projects/env/");
 }

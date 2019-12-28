@@ -1,0 +1,2 @@
+import "@swc/polyfill";
+

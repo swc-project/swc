@@ -393,7 +393,11 @@ impl<'a> Emitter<'a> {
             }
             self.wr.write_str_lit(num.span, "Infinity")?;
         } else {
-            self.wr.write_str_lit(num.span, &format!("{}", num.value))?;
+            if num.value.is_sign_negative() && num.value == 0.0 {
+                self.wr.write_str_lit(num.span, "-0.0")?;
+            } else {
+                self.wr.write_str_lit(num.span, &format!("{}", num.value))?;
+            }
         }
     }
 
@@ -481,7 +485,7 @@ impl<'a> Emitter<'a> {
             Expr::TsConstAssertion(ref n) => emit!(n),
             Expr::TsTypeCast(ref n) => emit!(n),
             Expr::OptChain(ref n) => emit!(n),
-            Expr::Invalid(..) => unimplemented!("emit Expr::Invalid"),
+            Expr::Invalid(ref n) => emit!(n),
         }
     }
 
@@ -512,6 +516,13 @@ impl<'a> Emitter<'a> {
             }
             _ => {}
         }
+    }
+
+    #[emitter]
+    pub fn emit_invalid(&mut self, n: &Invalid) -> Result {
+        self.emit_leading_comments_of_pos(n.span.lo())?;
+
+        self.wr.write_str_lit(n.span, "<invalid>")?;
     }
 
     #[emitter]

@@ -47,7 +47,7 @@ pub struct Compiler {
     comments: Comments,
 }
 
-#[derive(Serialize)]
+#[derive(Debug, Serialize)]
 pub struct TransformOutput {
     pub code: String,
     #[serde(skip_serializing_if = "Option::is_none")]

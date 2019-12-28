@@ -148,6 +148,11 @@ New generation javascript to old-days javascript.
 - react
   - [x] jsx
 
+- preset-env
+  - [x] `entry` with core-js@2/3
+  - [ ] `usage` with core-js@2/3
+It's implemented, but it's not perfect.
+
 # Performance
 
 The lower bound of the speedup compared to babel is **18**. The benchmarks were run on Macbook pro, dual core, 2.3GHz Intel Core i5, 16 GB ram

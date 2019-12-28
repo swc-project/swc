@@ -24,6 +24,7 @@ path-clean = "0.1"
 lazy_static = "1"
 hashbrown = "0.6"
 regex = "1"
+either = "1"
 chashmap = "2.2.2"
 sourcemap = "4.1.1  "
 
