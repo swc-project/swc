@@ -216,7 +216,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
             if is!("from") {
                 let src = self.parse_from_clause_and_semi()?;
                 return Ok(ModuleDecl::ExportAll(ExportAll {
-                    span: Span::new(start, src.span.hi(), Default::default()),
+                    span: span!(start),
                     src,
                 }));
             }
