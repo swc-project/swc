@@ -406,6 +406,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
             let src = if is!("from") {
                 Some(self.parse_from_clause_and_semi()?)
             } else {
+                eat!(';');
                 if has_default || has_ns {
                     syntax_error!(span!(start), SyntaxError::ExportDefaultWithOutFrom);
                 }
