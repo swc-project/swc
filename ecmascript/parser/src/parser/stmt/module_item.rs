@@ -27,23 +27,21 @@ impl<'a, I: Tokens> Parser<'a, I> {
         // Handle import 'mod.js'
         let str_start = cur_pos!();
         if let Ok(&Token::Str { .. }) = cur!(false) {
-            match bump!() {
-                Token::Str { value, has_escape } => {
-                    let src = Str {
-                        span: span!(str_start),
-                        value,
-                        has_escape,
-                    };
-                    expect!(';');
-                    return Ok(ModuleDecl::Import(ImportDecl {
-                        span: span!(start),
-                        src,
-                        specifiers: vec![],
-                    }))
-                    .map(ModuleItem::from);
-                }
+            let src = match bump!() {
+                Token::Str { value, has_escape } => Str {
+                    span: span!(str_start),
+                    value,
+                    has_escape,
+                },
                 _ => unreachable!(),
-            }
+            };
+            expect!(';');
+            return Ok(ModuleDecl::Import(ImportDecl {
+                span: span!(start),
+                src,
+                specifiers: vec![],
+            }))
+            .map(ModuleItem::from);
         }
 
         let mut specifiers = vec![];
@@ -448,21 +446,19 @@ impl<'a, I: Tokens> Parser<'a, I> {
         expect!("from");
 
         let str_start = cur_pos!();
-        match *cur!(true)? {
+        let src = match *cur!(true)? {
             Token::Str { .. } => match bump!() {
-                Token::Str { value, has_escape } => {
-                    let src = Str {
-                        value,
-                        has_escape,
-                        span: span!(str_start),
-                    };
-                    expect!(';');
-                    Ok(src)
-                }
+                Token::Str { value, has_escape } => Str {
+                    value,
+                    has_escape,
+                    span: span!(str_start),
+                },
                 _ => unreachable!(),
             },
             _ => unexpected!(),
-        }
+        };
+        expect!(';');
+        Ok(src)
     }
 }
 
