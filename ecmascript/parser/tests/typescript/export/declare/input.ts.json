@@ -83,7 +83,7 @@
           "typeAnnotation": null,
           "optional": false
         },
-        "declare": false,
+        "declare": true,
         "params": [],
         "decorators": [],
         "span": {
@@ -134,7 +134,7 @@
           "typeAnnotation": null,
           "optional": false
         },
-        "declare": false,
+        "declare": true,
         "span": {
           "start": 84,
           "end": 94,

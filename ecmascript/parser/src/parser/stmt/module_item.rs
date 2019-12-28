@@ -86,7 +86,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         let src = self.parse_from_clause_and_semi()?;
 
         Ok(ModuleDecl::Import(ImportDecl {
-            span: span!(start),
+            span: Span::new(start, src.span.hi(), Default::default()),
             specifiers,
             src,
         }))
@@ -215,7 +215,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
             if is!("from") {
                 let src = self.parse_from_clause_and_semi()?;
                 return Ok(ModuleDecl::ExportAll(ExportAll {
-                    span: span!(start),
+                    span: Span::new(start, src.span.hi(), Default::default()),
                     src,
                 }));
             }
@@ -330,11 +330,11 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
             if is!("from") {
                 if let Some(s) = export_ns {
-                    let src = self.parse_from_clause_and_semi().map(Some)?;
+                    let src = self.parse_from_clause_and_semi()?;
                     return Ok(ModuleDecl::ExportNamed(NamedExport {
-                        span: span!(start),
+                        span: Span::new(start, src.span.hi(), Default::default()),
                         specifiers: vec![s],
-                        src,
+                        src: Some(src),
                     }));
                 }
             }
@@ -352,13 +352,13 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
             if is!("from") {
                 if let Some(default) = default {
-                    let src = self.parse_from_clause_and_semi().map(Some)?;
+                    let src = self.parse_from_clause_and_semi()?;
                     return Ok(ModuleDecl::ExportNamed(NamedExport {
-                        span: span!(start),
+                        span: Span::new(start, src.span.hi(), Default::default()),
                         specifiers: vec![ExportSpecifier::Default(DefaultExportSpecifier {
                             exported: default,
                         })],
-                        src,
+                        src: Some(src),
                     }));
                 }
             }
@@ -367,7 +367,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 // improve error message for `export * from foo`
                 let src = self.parse_from_clause_and_semi()?;
                 return Ok(ModuleDecl::ExportAll(ExportAll {
-                    span: span!(start),
+                    span: Span::new(start, src.span.hi(), Default::default()),
                     src,
                 }));
             }
@@ -406,12 +406,12 @@ impl<'a, I: Tokens> Parser<'a, I> {
             let src = if is!("from") {
                 Some(self.parse_from_clause_and_semi()?)
             } else {
+                eat!(';');
                 if has_default || has_ns {
                     syntax_error!(span!(start), SyntaxError::ExportDefaultWithOutFrom);
                 }
                 None
             };
-            eat!(';');
             return Ok(ModuleDecl::ExportNamed(NamedExport {
                 span: span!(start),
                 specifiers,
@@ -451,10 +451,11 @@ impl<'a, I: Tokens> Parser<'a, I> {
             Token::Str { .. } => match bump!() {
                 Token::Str { value, has_escape } => {
                     expect!(';');
+
                     Ok(Str {
                         value,
                         has_escape,
-                        span: span!(start),
+                        span: Span::new(start, self.input.prev_span().hi(), Default::default()),
                     })
                 }
                 _ => unreachable!(),
