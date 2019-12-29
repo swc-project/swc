@@ -1129,3 +1129,19 @@ fn jsx_text() {
     assert_eq!(jsx_text_to_str("Hello world".into()), *"Hello world");
     //    assert_eq!(jsx_text_to_str(" \n".into()), *" ");
 }
+
+// https://github.com/swc-project/swc/issues/542
+test!(
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |_| tr(Options {
+        use_builtins: true,
+        ..Default::default()
+    }),
+    issue_542,
+    "let page = <p>Click <em>New melody</em> listen to a randomly generated melody</p>",
+    "let page = React.createElement('p', null, 'Click ', React.createElement('em', null, 'New \
+     melody'), ' listen to a randomly generated melody');"
+);
