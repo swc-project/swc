@@ -1,6 +1,6 @@
 function a(b, c) {
     // circular reference
-function d() {
+    function d() {
         return e();
     }
     function e() {

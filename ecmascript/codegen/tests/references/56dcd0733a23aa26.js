@@ -3,7 +3,7 @@ if (a) {
     } catch (b) {
     }
     // do not optimize it
-(function() {
+    (function() {
         c('d');
     }());
 } else {
@@ -11,7 +11,7 @@ if (a) {
     } catch (b) {
     }
     // do not optimize it
-(function() {
+    (function() {
         c('d');
     }());
 }

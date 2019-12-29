@@ -3,7 +3,7 @@ while(a){
     } catch (b) {
     }
     // do not optimize it
-(function() {
+    (function() {
         c('d');
     }());
 }

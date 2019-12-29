@@ -1,6 +1,6 @@
 if (a) {
     // optimize it
-(function() {
+    (function() {
         b('c');
     }());
     try {
