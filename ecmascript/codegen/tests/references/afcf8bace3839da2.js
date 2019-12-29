@@ -3,5 +3,4 @@ for(;;){
         continue;
     }
     b(); // This should be removed.
-
 }

@@ -1,6 +1,6 @@
 (function() {
     // 'a'
-b: {
+    b: {
         if (a) break b;
         if (a) break b;
         if (a) break b;

@@ -1,5 +1,5 @@
 function a() {
     // do not remove it
-var b = 1;
+    var b = 1;
     ++b;
 }

@@ -1,5 +1,4 @@
 (function() {
     return; // Comment
-
     a;
 });

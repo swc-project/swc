@@ -4,7 +4,7 @@ if (a) {
     } catch (c) {
     }
     // do not optimize it
-(function() {
+    (function() {
         b('d');
     }());
 }

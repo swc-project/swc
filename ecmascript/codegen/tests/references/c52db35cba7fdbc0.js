@@ -5,5 +5,4 @@
         b();
     }
     c(); // This should be removed.
-
 }());
