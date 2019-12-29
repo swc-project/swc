@@ -408,9 +408,10 @@ fn jsx_text_to_str(t: JsWord) -> JsWord {
 
     let s = SPACE_NL_START.replace_all(&t, "");
     let s = SPACE_NL_END.replace_all(&s, "");
-    let need_space = s.ends_with(' ');
+    let need_leading_space = s.starts_with(' ');
+    let need_trailing_space = s.ends_with(' ');
 
-    let mut buf = String::from("");
+    let mut buf = String::from(if need_leading_space { " " } else { "" });
 
     for (last, s) in s.split_ascii_whitespace().identify_last() {
         buf.push_str(s);
@@ -419,7 +420,7 @@ fn jsx_text_to_str(t: JsWord) -> JsWord {
         }
     }
 
-    if need_space && !buf.ends_with(' ') {
+    if need_trailing_space && !buf.ends_with(' ') {
         buf.push(' ');
     }
 
