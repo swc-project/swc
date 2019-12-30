@@ -135,6 +135,7 @@ impl Regenerator {
             };
 
             while let Some(stmt) = stmts.next() {
+                let stmt = stmt.fold_with(&mut CaseHandler { ctx: &ctx });
                 match stmt {
                     Stmt::Expr(ExprStmt {
                         span,
@@ -267,8 +268,48 @@ impl Regenerator {
 }
 
 #[derive(Debug)]
-struct CaseHandler {
-    ctx: Ident,
+struct CaseHandler<'a> {
+    ctx: &'a Ident,
+}
+
+impl Fold<Stmt> for CaseHandler<'_> {
+    fn fold(&mut self, s: Stmt) -> Stmt {
+        let s: Stmt = s.fold_children(self);
+
+        match s {
+            Stmt::Return(ret) => {
+                return ReturnStmt {
+                    arg: Some(
+                        box CallExpr {
+                            span: DUMMY_SP,
+                            callee: self.ctx.clone().member(quote_ident!("abrupt")).as_callee(),
+                            args: {
+                                let ret_arg = Lit::Str(Str {
+                                    span: DUMMY_SP,
+                                    value: "return".into(),
+                                    has_escape: false,
+                                })
+                                .as_arg();
+
+                                if let Some(arg) = ret.arg {
+                                    vec![ret_arg, arg.as_arg()]
+                                } else {
+                                    vec![ret_arg]
+                                }
+                            },
+                            type_args: Default::default(),
+                        }
+                        .into(),
+                    ),
+                    ..ret
+                }
+                .into()
+            }
+            _ => {}
+        }
+
+        s
+    }
 }
 
 fn make_next(ctx: Ident, next_idx: u32) -> Stmt {
