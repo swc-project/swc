@@ -254,12 +254,12 @@ test!(
 let a =
 /*#__PURE__*/
 regeneratorRuntime.mark(function foo(a, b, c) {
-  return regeneratorRuntime.wrap(function foo$(_context) {
+  return regeneratorRuntime.wrap(function foo$(_ctx) {
     while (1) {
-      switch (_context.prev = _context.next) {
+      switch (_ctx.prev = _ctx.next) {
         case 0:
         case "end":
-          return _context.stop();
+          return _ctx.stop();
       }
     }
   }, foo);
@@ -275,12 +275,12 @@ test!(
     "
 /*#__PURE__*/
 regeneratorRuntime.mark(function _callee(a, b, c) {
-  return regeneratorRuntime.wrap(function _callee$(_context) {
+  return regeneratorRuntime.wrap(function _callee$(_ctx) {
     while (1) {
-      switch (_context.prev = _context.next) {
+      switch (_ctx.prev = _ctx.next) {
         case 0:
         case 'end':
-          return _context.stop();
+          return _ctx.stop();
       }
     }
   }, _callee);
