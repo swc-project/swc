@@ -63,14 +63,14 @@ var o = {
     return (
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) switch (_context.prev = _context.next) {
+        return regeneratorRuntime.wrap(function _callee$(_ctx) {
+          while (1) switch (_ctx.prev = _ctx.next) {
             case 0:
-              return _context.abrupt("return", "foo");
+              return _ctx.abrupt("return", "foo");
 
             case 1:
             case "end":
-              return _context.stop();
+              return _ctx.stop();
           }
         }, _callee);
       })()
@@ -121,12 +121,12 @@ _regeneratorRuntime.mark(fn);
 Object.keys({});
 
 function fn() {
-  return _regeneratorRuntime.wrap(function fn$(_context) {
+  return _regeneratorRuntime.wrap(function fn$(_ctx) {
     while (1) {
-      switch (_context.prev = _context.next) {
+      switch (_ctx.prev = _ctx.next) {
         case 0:
         case "end":
-          return _context.stop();
+          return _ctx.stop();
       }
     }
   }, _marked);
@@ -155,15 +155,15 @@ function test(fn) {
 function test(fn) {
   return function _callee() {
     var _args = arguments;
-    return regeneratorRuntime.async(function _callee$(_context) {
+    return regeneratorRuntime.async(function _callee$(_ctx) {
       while (1) {
-        switch (_context.prev = _context.next) {
+        switch (_ctx.prev = _ctx.next) {
           case 0:
-            return _context.abrupt("return", fn.apply(void 0, _args));
+            return _ctx.abrupt("return", fn.apply(void 0, _args));
 
           case 1:
           case "end":
-            return _context.stop();
+            return _ctx.stop();
         }
       }
     });
@@ -199,24 +199,91 @@ regeneratorRuntime.mark(_callee);
 
 function _callee() {
   var x;
-  return regeneratorRuntime.wrap(function _callee$(_context) {
+  return regeneratorRuntime.wrap(function _callee$(_ctx) {
     while (1) {
-      switch (_context.prev = _context.next) {
+      switch (_ctx.prev = _ctx.next) {
         case 0:
-          _context.next = 2;
+          _ctx.next = 2;
           return 5;
 
         case 2:
-          x = _context.sent;
-          return _context.abrupt("return", 5);
+          x = _ctx.sent;
+          return _ctx.abrupt("return", 5);
 
         case 4:
         case "end":
-          return _context.stop();
+          return _ctx.stop();
       }
     }
   }, _marked);
 }
 
 "#
+);
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    fn_decl_1,
+    "function* foo(a,b,c){}
+",
+    r#"
+var _marked = regeneratorRuntime.mark(foo);
+
+function foo(a, b, c) {
+  return regeneratorRuntime.wrap(function foo$(_ctx) {
+    while (1) {
+      switch (_ctx.prev = _ctx.next) {
+        case 0:
+        case "end":
+          return _ctx.stop();
+      }
+    }
+  }, _marked);
+}
+"#
+);
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    fn_expr_1,
+    "let a = function* foo(a,b,c){}
+",
+    r#"
+let a =
+/*#__PURE__*/
+regeneratorRuntime.mark(function foo(a, b, c) {
+  return regeneratorRuntime.wrap(function foo$(_context) {
+    while (1) {
+      switch (_context.prev = _context.next) {
+        case 0:
+        case "end":
+          return _context.stop();
+      }
+    }
+  }, foo);
+});
+"#
+);
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    fn_expr_2,
+    "(function* (a,b,c){})",
+    "
+/*#__PURE__*/
+regeneratorRuntime.mark(function _callee(a, b, c) {
+  return regeneratorRuntime.wrap(function _callee$(_context) {
+    while (1) {
+      switch (_context.prev = _context.next) {
+        case 0:
+        case 'end':
+          return _context.stop();
+      }
+    }
+  }, _callee);
+});
+"
 );
