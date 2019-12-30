@@ -135,7 +135,9 @@ impl Regenerator {
             };
 
             while let Some(stmt) = stmts.next() {
-                let stmt = stmt.fold_with(&mut CaseHandler { ctx: &ctx });
+                let mut handler = CaseHandler { ctx: &ctx };
+
+                let stmt = stmt.fold_with(&mut handler);
                 match stmt {
                     Stmt::Expr(ExprStmt {
                         span,
