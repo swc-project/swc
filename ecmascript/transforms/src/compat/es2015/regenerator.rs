@@ -46,6 +46,10 @@ where
 
 impl Fold<Expr> for Regenerator {
     fn fold(&mut self, e: Expr) -> Expr {
+        if !Finder::find(&e) {
+            return e;
+        }
+
         let e: Expr = e.fold_children(self);
 
         match e {
@@ -75,6 +79,10 @@ impl Fold<Expr> for Regenerator {
 
 impl Fold<FnDecl> for Regenerator {
     fn fold(&mut self, f: FnDecl) -> FnDecl {
+        if !Finder::find(&e) {
+            return f;
+        }
+
         let f = f.fold_children(self);
 
         let marked = private_ident!("_marked");
@@ -135,7 +143,10 @@ impl Regenerator {
             };
 
             while let Some(stmt) = stmts.next() {
-                let mut handler = CaseHandler { ctx: &ctx };
+                let mut handler = CaseHandler {
+                    ctx: &ctx,
+                    idx: &mut idx,
+                };
 
                 let stmt = stmt.fold_with(&mut handler);
                 match stmt {
@@ -272,6 +283,7 @@ impl Regenerator {
 #[derive(Debug)]
 struct CaseHandler<'a> {
     ctx: &'a Ident,
+    idx: &'a mut u32,
 }
 
 impl Fold<Stmt> for CaseHandler<'_> {
