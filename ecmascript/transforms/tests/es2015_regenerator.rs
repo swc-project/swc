@@ -224,7 +224,7 @@ function _callee() {
 test!(
     syntax(),
     |_| tr(Default::default()),
-    fn_decl_1,
+    empty_fn_decl_1,
     "function* foo(a,b,c){}
 ",
     r#"
@@ -247,7 +247,7 @@ function foo(a, b, c) {
 test!(
     syntax(),
     |_| tr(Default::default()),
-    fn_expr_1,
+    empty_fn_expr_1,
     "let a = function* foo(a,b,c){}
 ",
     r#"
@@ -270,7 +270,7 @@ regeneratorRuntime.mark(function foo(a, b, c) {
 test!(
     syntax(),
     |_| tr(Default::default()),
-    fn_expr_2,
+    empty_fn_expr_2,
     "(function* (a,b,c){})",
     "
 /*#__PURE__*/
@@ -279,6 +279,112 @@ regeneratorRuntime.mark(function _callee(a, b, c) {
     while (1) {
       switch (_ctx.prev = _ctx.next) {
         case 0:
+        case 'end':
+          return _ctx.stop();
+      }
+    }
+  }, _callee);
+});
+"
+);
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    fn_expr_yield_1,
+    "(function* (){
+  a;
+  b;
+  yield 3;
+  yield b;
+})",
+    "
+/*#__PURE__*/
+regeneratorRuntime.mark(function _callee() {
+  return regeneratorRuntime.wrap(function _callee$(_ctx) {
+    while (1) {
+      switch (_ctx.prev = _ctx.next) {
+        case 0:
+          a;
+          b;
+          _ctx.next = 1;
+          return 3;
+
+        case 1:
+          _ctx.next = 2;
+          return b;
+
+        case 2:
+        case 'end':
+          return _ctx.stop();
+      }
+    }
+  }, _callee);
+});
+"
+);
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    fn_expr_yield_return_1,
+    "(function* (){
+  a;
+  yield 3;
+  b;
+  return
+})",
+    "
+/*#__PURE__*/
+regeneratorRuntime.mark(function _callee() {
+  return regeneratorRuntime.wrap(function _callee$(_ctx) {
+    while (1) {
+      switch (_ctx.prev = _ctx.next) {
+        case 0:
+          a;
+          _ctx.next = 1;
+          return 3;
+
+        case 1:
+          b;
+          return _ctx.abrupt('return');
+
+        case 2:
+        case 'end':
+          return _ctx.stop();
+      }
+    }
+  }, _callee);
+});
+"
+);
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    fn_expr_yield_return_2,
+    "(function* (){
+  a;
+  yield 3;
+  b;
+  return a;
+})",
+    "
+/*#__PURE__*/
+regeneratorRuntime.mark(function _callee() {
+  return regeneratorRuntime.wrap(function _callee$(_ctx) {
+    while (1) {
+      switch (_ctx.prev = _ctx.next) {
+        case 0:
+          a;
+          _ctx.next = 1;
+          return 3;
+
+        case 1:
+          b;
+          return _ctx.abrupt('return', a);
+
+        case 2:
         case 'end':
           return _ctx.stop();
       }

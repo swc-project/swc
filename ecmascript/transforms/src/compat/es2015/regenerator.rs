@@ -112,6 +112,8 @@ impl Regenerator {
             return (i, f);
         }
 
+        let body_span = f.body.span();
+
         let inner_name = i
             .as_ref()
             .map(|i| Ident::new(format!("{}$", i.sym).into(), i.span))
@@ -119,6 +121,63 @@ impl Regenerator {
         let ctx = private_ident!("_ctx");
 
         let mut cases = vec![];
+        let mut idx = 0u32;
+        let mut stmts = f.body.unwrap().stmts.into_iter();
+
+        loop {
+            let mut case = SwitchCase {
+                span: DUMMY_SP,
+                test: Some(box Expr::Lit(Lit::Num(Number {
+                    span: DUMMY_SP,
+                    value: idx as _,
+                }))),
+                cons: vec![],
+            };
+
+            while let Some(stmt) = stmts.next() {
+                match stmt {
+                    Stmt::Expr(ExprStmt {
+                        span,
+                        expr: box Expr::Yield(expr),
+                    }) => {
+                        case.cons.push(make_next(ctx.clone(), idx + 1));
+
+                        case.cons.push(
+                            ReturnStmt {
+                                span,
+                                arg: expr.arg,
+                            }
+                            .into(),
+                        );
+                        break;
+                    }
+
+                    _ => {}
+                }
+
+                case.cons.push(stmt);
+            }
+            let is_empty = case.cons.is_empty();
+
+            cases.push(case);
+
+            idx += 1;
+
+            if stmts.len() == 0 {
+                if !is_empty {
+                    cases.push(SwitchCase {
+                        span: DUMMY_SP,
+                        test: Some(box Expr::Lit(Lit::Num(Number {
+                            span: DUMMY_SP,
+                            value: idx as _,
+                        }))),
+                        // fallthrough
+                        cons: vec![],
+                    });
+                }
+                break;
+            }
+        }
 
         cases.push(SwitchCase {
             span: DUMMY_SP,
@@ -170,7 +229,7 @@ impl Regenerator {
             Function {
                 is_generator: false,
                 body: Some(BlockStmt {
-                    span: f.body.span(),
+                    span: body_span,
                     stmts: vec![ReturnStmt {
                         span: DUMMY_SP,
                         arg: Some(box Expr::Call(CallExpr {
@@ -205,6 +264,24 @@ impl Regenerator {
             },
         )
     }
+}
+
+#[derive(Debug)]
+struct CaseHandler {
+    ctx: Ident,
+}
+
+fn make_next(ctx: Ident, next_idx: u32) -> Stmt {
+    AssignExpr {
+        span: DUMMY_SP,
+        op: op!("="),
+        left: PatOrExpr::Expr(box ctx.member(quote_ident!("next"))),
+        right: box Expr::Lit(Lit::Num(Number {
+            span: DUMMY_SP,
+            value: next_idx as _,
+        })),
+    }
+    .into_stmt()
 }
 
 /// Finds a generator function
