@@ -613,6 +613,7 @@ let v = (function* () {
 
 
 expect(v.next()).toEqual({ done: false, value: 2 });
+expect(v.next()).toEqual({ done: false, value: 2 });
 expect(v.next()).toEqual({ done: true });
 "
 );
