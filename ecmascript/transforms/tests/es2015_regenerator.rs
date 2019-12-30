@@ -540,7 +540,7 @@ test_exec!(
 expect(v.next()).toEqual({ done: false, value: 2 });
 expect(v.next()).toEqual({ done: false, value: 3 });
 expect(v.next()).toEqual({ done: false, value: 5 });
-expect(v.next()).toEqual({ done: true, value: undefined });
+expect(v.next()).toEqual({ done: true });
 "
 );
 
@@ -558,6 +558,24 @@ test_exec!(
 expect(v.next()).toEqual({ done: false, value: 2 });
 expect(v.next()).toEqual({ done: false, value: 3 });
 expect(v.next()).toEqual({ done: false, value: 5 });
-expect(v.next()).toEqual({ done: true, value: undefined });
+expect(v.next()).toEqual({ done: true });
+"
+);
+
+test_exec!(
+    syntax(),
+    |_| tr(Default::default()),
+    yield_in_call,
+    "var _regeneratorRuntime = require('@babel/runtime/regenerator');
+    
+    function id(v) { return v; }
+    
+    let v = (function* () {
+    if (true)
+        return (1, id(yield id(2)));
+})();
+
+expect(v.next()).toEqual({ done: false, value: 2 });
+expect(v.next()).toEqual({ done: true });
 "
 );
