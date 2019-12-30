@@ -312,6 +312,20 @@ impl Fold<Stmt> for CaseHandler<'_> {
     }
 }
 
+impl Fold<Function> for CaseHandler<'_> {
+    #[inline(always)]
+    fn fold(&mut self, f: Function) -> Function {
+        f
+    }
+}
+
+impl Fold<ArrowExpr> for CaseHandler<'_> {
+    #[inline(always)]
+    fn fold(&mut self, f: ArrowExpr) -> ArrowExpr {
+        f
+    }
+}
+
 fn make_next(ctx: Ident, next_idx: u32) -> Stmt {
     AssignExpr {
         span: DUMMY_SP,
