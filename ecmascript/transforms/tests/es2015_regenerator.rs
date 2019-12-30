@@ -7,6 +7,7 @@ use swc_common::chain;
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{
     compat::es2015::{parameters, regenerator, spread},
+    modules::common_js::common_js,
     pass::Pass,
 };
 
@@ -34,14 +35,22 @@ function* gen () {
 }
 
 "#,
-    r#"
-function* gen () {
-  const a = () => {
-    return 1;
-  };
+    "
+var _marked = regeneratorRuntime.mark(gen);
+function gen() {
+    return regeneratorRuntime.wrap(function gen$(_ctx) {
+        while(1){
+            switch(_ctx.prev = _ctx.next){
+                case 0: const a = ()=>{
+                    return 1;
+                };
+                case 1:
+                case 'end': return _ctx.stop();
+            }
+        }
+    }, _marked);
 }
-
-"#
+"
 );
 
 // computed_properties_example
@@ -176,7 +185,7 @@ function test(fn) {
 // regression_6733
 test!(
     syntax(),
-    |_| tr(Default::default()),
+    |_| chain!(tr(Default::default()), common_js(Default::default())),
     regression_6733,
     r#"
 export default function * () {
