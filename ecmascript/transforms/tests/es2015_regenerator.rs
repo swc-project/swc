@@ -526,3 +526,38 @@ expect(v.next()).toEqual({ done: false, value: 3 });
 expect(v.next()).toEqual({ done: true, value: undefined });
 "
 );
+
+test_exec!(
+    syntax(),
+    |_| tr(Default::default()),
+    yield_in_seq,
+    "var _regeneratorRuntime = require('@babel/runtime/regenerator');
+    
+    let v = (function* () {
+    return (1, yield 2, yield 3, 4, yield 5);
+})();
+
+expect(v.next()).toEqual({ done: false, value: 2 });
+expect(v.next()).toEqual({ done: false, value: 3 });
+expect(v.next()).toEqual({ done: false, value: 5 });
+expect(v.next()).toEqual({ done: true, value: undefined });
+"
+);
+
+test_exec!(
+    syntax(),
+    |_| tr(Default::default()),
+    yield_in_cond_seq,
+    "var _regeneratorRuntime = require('@babel/runtime/regenerator');
+    
+    let v = (function* () {
+    if (true)
+        return (1, yield 2, yield 3, 4, yield 5);
+})();
+
+expect(v.next()).toEqual({ done: false, value: 2 });
+expect(v.next()).toEqual({ done: false, value: 3 });
+expect(v.next()).toEqual({ done: false, value: 5 });
+expect(v.next()).toEqual({ done: true, value: undefined });
+"
+);
