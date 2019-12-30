@@ -417,30 +417,21 @@ test!(
     "
 /*#__PURE__*/
 regeneratorRuntime.mark(function _callee() {
-  return regeneratorRuntime.wrap(function _callee$(_ctx) {
-    while (1) {
-      switch (_ctx.prev = _ctx.next) {
-        case 0:
-          a;
-          _ctx.next = 1;
-          return 3;
-
-        case 1:
-          b;
-
-          if (a) 
-            return _ctx.abrupt('return', a);  
-          
-          
-          _ctx.next = 2;
-          break;
-
-        case 2:
-        case 'end':
-          return _ctx.stop();
-      }
-    }
-  }, _callee);
+    return regeneratorRuntime.wrap(function _callee$(_ctx) {
+        while(1){
+            switch(_ctx.prev = _ctx.next){
+                case 0:
+                    a;
+                    _ctx.next = 1;
+                    return 3;
+                case 1:
+                    b;
+                    if (a) return _ctx.abrupt('return', a);
+                case 2:
+                case 'end': return _ctx.stop();
+            }
+        }
+    }, _callee);
 });"
 );
 
@@ -459,34 +450,23 @@ test!(
     "
 /*#__PURE__*/
 regeneratorRuntime.mark(function _callee() {
-  return regeneratorRuntime.wrap(function _callee$(_ctx) {
-    while (1) {
-      switch (_ctx.prev = _ctx.next) {
-        case 0:
-          a;
-          _ctx.next = 1;
-          return 3;
-
-        case 1:
-          b;
-
-          if (a) 
-            return _ctx.abrupt('return', a);
-          
-
-          _ctx.next = 2;
-          break;
-
-        case 2:
-          _ctx.next = 8;
-          return 1;
-
-        case 8:
-        case 'end':
-          return _ctx.stop();
-      }
-    }
-  }, _callee);
+    return regeneratorRuntime.wrap(function _callee$(_ctx) {
+        while(1){
+            switch(_ctx.prev = _ctx.next){
+                case 0:
+                    a;
+                    _ctx.next = 1;
+                    return 3;
+                case 1:
+                    b;
+                    if (a) return _ctx.abrupt('return', a);
+                    _ctx.next = 2;
+                    return 1;
+                case 2:
+                case 'end': return _ctx.stop();
+            }
+        }
+    }, _callee);
 });"
 );
 
