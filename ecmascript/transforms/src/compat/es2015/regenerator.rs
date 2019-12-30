@@ -79,7 +79,7 @@ impl Fold<Expr> for Regenerator {
 
 impl Fold<FnDecl> for Regenerator {
     fn fold(&mut self, f: FnDecl) -> FnDecl {
-        if !Finder::find(&e) {
+        if !Finder::find(&f) {
             return f;
         }
 
