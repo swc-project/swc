@@ -118,6 +118,28 @@ impl Regenerator {
             .unwrap_or_else(|| private_ident!("ref$"));
         let ctx = private_ident!("_ctx");
 
+        let mut cases = vec![];
+
+        cases.push(SwitchCase {
+            span: DUMMY_SP,
+            test: Some(box Expr::Lit(Lit::Str(Str {
+                span: DUMMY_SP,
+                value: "end".into(),
+                has_escape: false,
+            }))),
+            cons: vec![ReturnStmt {
+                span: DUMMY_SP,
+                // _ctx.stop()
+                arg: Some(box Expr::Call(CallExpr {
+                    span: DUMMY_SP,
+                    callee: ctx.clone().member(quote_ident!("stop")).as_callee(),
+                    args: vec![],
+                    type_args: Default::default(),
+                })),
+            }
+            .into()],
+        });
+
         let stmts = vec![Stmt::While(WhileStmt {
             span: DUMMY_SP,
             test: box Expr::Lit(Lit::Num(Number {
@@ -136,7 +158,7 @@ impl Regenerator {
                         right: box ctx.clone().member(quote_ident!("next")),
                     }
                     .into(),
-                    cases: vec![],
+                    cases,
                 }
                 .into()],
             }
