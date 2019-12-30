@@ -130,6 +130,7 @@ impl Regenerator {
 
         let mut cases = vec![];
         let mut idx = 0u32;
+        let mut temp_idx = 0u32;
         let mut stmts = f.body.unwrap().stmts.into_iter();
 
         loop {
@@ -146,6 +147,7 @@ impl Regenerator {
                 let mut handler = CaseHandler {
                     ctx: &ctx,
                     idx: &mut idx,
+                    temp_idx: &mut temp_idx,
                 };
 
                 let stmt = stmt.fold_with(&mut handler);
@@ -284,6 +286,7 @@ impl Regenerator {
 struct CaseHandler<'a> {
     ctx: &'a Ident,
     idx: &'a mut u32,
+    temp_idx: &'a mut u32,
 }
 
 impl Fold<Stmt> for CaseHandler<'_> {
