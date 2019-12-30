@@ -118,6 +118,31 @@ impl Regenerator {
             .unwrap_or_else(|| private_ident!("ref$"));
         let ctx = private_ident!("_ctx");
 
+        let stmts = vec![Stmt::While(WhileStmt {
+            span: DUMMY_SP,
+            test: box Expr::Lit(Lit::Num(Number {
+                span: DUMMY_SP,
+                value: 1.0,
+            })),
+            body: box BlockStmt {
+                span: DUMMY_SP,
+                stmts: vec![SwitchStmt {
+                    span: DUMMY_SP,
+                    // _ctx.prev = _ctx.next
+                    discriminant: box AssignExpr {
+                        span: DUMMY_SP,
+                        op: op!("="),
+                        left: PatOrExpr::Expr(box ctx.clone().member(quote_ident!("prev"))),
+                        right: box ctx.clone().member(quote_ident!("next")),
+                    }
+                    .into(),
+                    cases: vec![],
+                }
+                .into()],
+            }
+            .into(),
+        })];
+
         (
             i,
             Function {
@@ -138,7 +163,7 @@ impl Regenerator {
                                         span: DUMMY_SP,
                                         body: Some(BlockStmt {
                                             span: DUMMY_SP,
-                                            stmts: vec![],
+                                            stmts,
                                         }),
                                         is_generator: false,
                                         is_async: false,
