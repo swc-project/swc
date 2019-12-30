@@ -54,6 +54,7 @@ pub fn es2015(c: Config) -> impl Pass {
         for_of(c.for_of),
         computed_properties(),
         destructuring(c.destructuring),
+        regenerator(),
         block_scoping(),
     )
 }
