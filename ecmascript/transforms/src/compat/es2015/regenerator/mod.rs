@@ -117,7 +117,7 @@ impl Regenerator {
         &mut self,
         i: Option<Ident>,
         marked_ident: Ident,
-        f: Function,
+        mut f: Function,
     ) -> (Option<Ident>, Function) {
         if !f.is_generator || f.body.is_none() {
             return (i, f);
@@ -130,6 +130,8 @@ impl Regenerator {
             .map(|i| Ident::new(format!("{}$", i.sym).into(), i.span))
             .unwrap_or_else(|| private_ident!("ref$"));
         let ctx = private_ident!("_ctx");
+
+        f.body = f.body.fold_with(&mut FnSentVisitor { ctx: ctx.clone() });
 
         let mut cases = vec![];
         let mut idx = 0u32;
@@ -297,6 +299,28 @@ fn make_next(ctx: Ident, next_idx: u32) -> Stmt {
         })),
     }
     .into_stmt()
+}
+
+struct FnSentVisitor {
+    ctx: Ident,
+}
+
+impl Fold<Expr> for FnSentVisitor {
+    fn fold(&mut self, e: Expr) -> Expr {
+        let e: Expr = e.fold_children(self);
+
+        match e {
+            Expr::MetaProp(MetaPropExpr { meta, prop })
+                if meta.sym == *"function" && prop.sym == *"sent" =>
+            {
+                return self.ctx.clone().member(quote_ident!("_sent"));
+            }
+
+            _ => {}
+        }
+
+        e
+    }
 }
 
 /// Finds a generator function
