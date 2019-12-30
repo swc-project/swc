@@ -1,6 +1,6 @@
 d: {
     // this 'test2' to 'a'
-b: {
+    b: {
         if (a) break b;
         if (a) break b;
         if (a) break b;

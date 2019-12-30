@@ -1,15 +1,15 @@
 (function() {
     // 'b'
-b: {
+    b: {
         if (a) break b;
         // 'a'
-c: {
+        c: {
             if (a) break c;
             if (a) break c;
             if (a) break c;
         }
         // 'a'
-c: {
+        c: {
             if (a) break c;
             if (a) break c;
             if (a) break c;

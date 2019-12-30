@@ -1,6 +1,6 @@
 do {
     // do not optimize it
-(function() {
+    (function() {
         a('b');
     }());
 }while (c)

@@ -169,6 +169,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         // bar
         //
         let is_for_next = self.state.had_line_break;
+        let mut end = self.cur_pos();
 
         while let Some(c) = self.cur() {
             self.bump();
@@ -179,16 +180,17 @@ impl<'a, I: Input> Lexer<'a, I> {
                 '\n' | '\r' | '\u{2028}' | '\u{2029}' => {
                     break;
                 }
-                _ => {}
+                _ => {
+                    end = self.cur_pos();
+                }
             }
         }
 
-        let pos = self.cur_pos();
         if let Some(ref comments) = self.comments {
-            let s = self.input.slice(slice_start, pos);
+            let s = self.input.slice(slice_start, end);
             let cmt = Comment {
                 kind: CommentKind::Line,
-                span: Span::new(start, pos, SyntaxContext::empty()),
+                span: Span::new(start, end, SyntaxContext::empty()),
                 text: s.into(),
             };
             if is_for_next {

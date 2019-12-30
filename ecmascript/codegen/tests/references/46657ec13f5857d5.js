@@ -1,7 +1,7 @@
 switch(a){
     case 1:
         // optimize it
-(function() {
+        (function() {
             b('c');
         }());
         b('d');

@@ -1,10 +1,10 @@
 (function() {
     // 'a'
-b: {
+    b: {
         if (a) break b;
         (function() {
             // 'a'
-b: {
+            b: {
                 if (a) break b;
                 c('d');
             }

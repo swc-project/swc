@@ -4,5 +4,4 @@
     } catch (b) {
     }
     c(); // This must not be removed.
-
 }());
