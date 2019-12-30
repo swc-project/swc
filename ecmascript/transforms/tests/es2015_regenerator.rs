@@ -565,7 +565,7 @@ expect(v.next()).toEqual({ done: true });
 test_exec!(
     syntax(),
     |_| tr(Default::default()),
-    yield_in_call,
+    yield_in_return_and_call,
     "var _regeneratorRuntime = require('@babel/runtime/regenerator');
     
     function id(v) { return v; }
@@ -574,6 +574,43 @@ test_exec!(
     if (true)
         return (1, id(yield id(2)));
 })();
+
+expect(v.next()).toEqual({ done: false, value: 2 });
+expect(v.next()).toEqual({ done: true });
+"
+);
+
+test_exec!(
+    syntax(),
+    |_| tr(Default::default()),
+    yield_in_call,
+    "var _regeneratorRuntime = require('@babel/runtime/regenerator');
+    
+function id(v) { return v; }
+    
+let v = (function* () {
+  return (1, id(yield id(2)));
+  return (3, id(yield id(4)));
+})();
+
+expect(v.next()).toEqual({ done: false, value: 2 });
+expect(v.next()).toEqual({ done: true });
+"
+);
+
+test_exec!(
+    syntax(),
+    |_| tr(Default::default()),
+    yield_temp,
+    "var _regeneratorRuntime = require('@babel/runtime/regenerator');
+    
+function id(v) { return v; }
+    
+let v = (function* () {
+  yield (1, id(yield id(2), 2));
+  return (3, id(yield id(4)));
+})();
+
 
 expect(v.next()).toEqual({ done: false, value: 2 });
 expect(v.next()).toEqual({ done: true });
