@@ -617,3 +617,20 @@ expect(v.next()).toEqual({ done: false, value: 2 });
 expect(v.next()).toEqual({ done: true });
 "
 );
+
+test_exec!(
+    syntax(),
+    |_| tr(Default::default()),
+    yield_next_value,
+    "var _regeneratorRuntime = require('@babel/runtime/regenerator');
+    
+let v = (function* () {
+  let bar = yield 'foo';
+  yield bar
+})();
+
+expect(v.next('bar')).toEqual({value: 'foo', done: false})
+expect(v.next()).toEqual({value: 'bar', done: false})
+expect(v.next()).toEqual({done: true})
+"
+);
