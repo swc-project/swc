@@ -393,3 +393,127 @@ regeneratorRuntime.mark(function _callee() {
 });
 "
 );
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    conditional_return_1,
+    "(function* (){
+  a;
+  yield 3;
+  b;
+  if (a)
+	  return a
+})",
+    "
+/*#__PURE__*/
+regeneratorRuntime.mark(function _callee() {
+  return regeneratorRuntime.wrap(function _callee$(_ctx) {
+    while (1) {
+      switch (_ctx.prev = _ctx.next) {
+        case 0:
+          a;
+          _ctx.next = 1;
+          return 3;
+
+        case 1:
+          b;
+
+          if (a) 
+            return _ctx.abrupt('return', a);  
+          
+          
+          _ctx.next = 2;
+          break;
+
+        case 2:
+        case 'end':
+          return _ctx.stop();
+      }
+    }
+  }, _callee);
+});"
+);
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    conditional_return_2,
+    "(function* (){
+  a;
+  yield 3;
+  b;
+  if (a)
+	  return a
+  yield 1
+})",
+    "
+/*#__PURE__*/
+regeneratorRuntime.mark(function _callee() {
+  return regeneratorRuntime.wrap(function _callee$(_ctx) {
+    while (1) {
+      switch (_ctx.prev = _ctx.next) {
+        case 0:
+          a;
+          _ctx.next = 1;
+          return 3;
+
+        case 1:
+          b;
+
+          if (a) 
+            return _ctx.abrupt('return', a);
+          
+
+          _ctx.next = 2;
+          break;
+
+        case 2:
+          _ctx.next = 8;
+          return 1;
+
+        case 8:
+        case 'end':
+          return _ctx.stop();
+      }
+    }
+  }, _callee);
+});"
+);
+
+test_exec!(
+    syntax(),
+    |_| tr(Default::default()),
+    conditional_return_exec_1,
+    "var _regeneratorRuntime = require('@babel/runtime/regenerator');
+    
+    let v = (function* (){
+  yield 3;
+  if (true)
+	  return 2;
+  yield 1
+})();
+
+expect(v.next()).toEqual({ done: false, value: 3 });
+expect(v.next()).toEqual({ done: true, value: 2 });
+"
+);
+
+test_exec!(
+    syntax(),
+    |_| tr(Default::default()),
+    conditional_return_exec_2,
+    "var _regeneratorRuntime = require('@babel/runtime/regenerator');
+    
+    let v = (function* (){
+  yield 3;
+  if (false)
+	  return 2;
+  yield 1
+})();
+
+expect(v.next()).toEqual({ done: false, value: 3 });
+expect(v.next()).toEqual({ done: false, value: 1 });
+expect(v.next()).toEqual({ done: true, value: undefined });
+"
+);
