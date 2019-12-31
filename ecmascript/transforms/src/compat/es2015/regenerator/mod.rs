@@ -134,10 +134,9 @@ impl Regenerator {
         let mut handler = CaseHandler::new(&ctx);
 
         f.body = f.body.fold_with(&mut FnSentVisitor { ctx: ctx.clone() });
-        f.body = f.body.fold_with(&mut handler);
+        handler.explode_stmts(f.body.unwrap().stmts);
 
         let mut cases = vec![];
-        let mut stmts = f.body.unwrap().stmts.into_iter();
 
         handler.extend_cases(&mut cases);
         //        loop {

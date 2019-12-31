@@ -10,20 +10,11 @@ pub(super) struct LeapManager {
 }
 
 impl LeapManager {
-    pub fn with<F, Ret>(&mut self, entry: Entry, op: F) -> Ret
-    where
-        F: FnOnce(&mut Self) -> Ret,
-    {
-        let prev_len = self.stack.len();
-
+    pub fn push(&mut self, entry: Entry) {
         self.stack.push(entry);
-
-        let ret = op(ctx, self);
-
+    }
+    pub fn pop(&mut self) {
         self.stack.pop();
-        assert_eq!(prev_len, self.stack.len());
-
-        ret
     }
 
     pub fn find_leap_loc<F>(&self, mut pred: F, label: Option<&JsWord>) -> Option<Loc>
@@ -76,6 +67,17 @@ impl LeapManager {
             },
             label,
         )
+    }
+}
+
+#[derive(Debug)]
+pub(super) struct WithEntry<'a> {
+    manager: &'a mut LeapManager,
+}
+
+impl Drop for WithEntry<'_> {
+    fn drop(&mut self) {
+        self.manager.stack.pop();
     }
 }
 

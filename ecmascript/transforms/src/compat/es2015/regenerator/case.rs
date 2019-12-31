@@ -2,7 +2,7 @@ use super::leap::{Entry, LeapManager};
 use crate::util::ExprFactory;
 use ast::*;
 use fxhash::FxHashSet;
-use swc_common::{util::map::Map, Fold, FoldWith, Spanned, Visit, VisitWith, DUMMY_SP};
+use swc_common::{util::map::Map, Spanned, Visit, VisitWith, DUMMY_SP};
 
 pub(super) type Loc = Number;
 
@@ -47,11 +47,9 @@ impl<'a> CaseHandler<'a> {
 }
 
 impl CaseHandler<'_> {
-    fn emit(&mut self, stmt: Stmt) -> Stmt {
+    fn emit(&mut self, stmt: Stmt) {
         let span = stmt.span();
         self.listing.push(stmt);
-
-        Stmt::Empty(EmptyStmt { span })
     }
 
     fn emit_assign(&mut self, lhs: Expr, right: Expr) {
@@ -70,7 +68,7 @@ impl CaseHandler<'_> {
         self.listing_len
     }
 
-    fn fold_expr(&mut self, e: Expr, ignore_result: bool) -> Expr {
+    fn explode_expr(&mut self, e: Expr, ignore_result: bool) -> Expr {
         let span = e.span();
 
         macro_rules! finish {
@@ -105,9 +103,14 @@ impl CaseHandler<'_> {
 
         match e {
             Expr::Member(me) => {
-                let obj = me.obj.fold_with(self);
+                let obj = match me.obj {
+                    ExprOrSuper::Expr(obj) => {
+                        ExprOrSuper::Expr(obj.map(|e| self.explode_expr(e, false)))
+                    }
+                    _ => me.obj,
+                };
                 let prop = if me.computed {
-                    me.prop.map(|prop| self.fold_expr(prop, false))
+                    me.prop.map(|prop| self.explode_expr(prop, false))
                 } else {
                     me.prop
                 };
@@ -133,10 +136,15 @@ impl CaseHandler<'_> {
                             // expression, then we must be careful that the object of the
                             // member expression still gets bound to `this` for the call.
 
-                            let obj = me.obj.fold_with(self);
+                            let obj = match me.obj {
+                                ExprOrSuper::Expr(e) => {
+                                    ExprOrSuper::Expr(e.map(|e| self.explode_expr(e, false)))
+                                }
+                                _ => me.obj,
+                            };
 
                             let prop = if me.computed {
-                                me.prop.fold_with(self)
+                                me.prop.map(|e| self.explode_expr(e, false))
                             } else {
                                 me.prop
                             };
@@ -159,12 +167,12 @@ impl CaseHandler<'_> {
                                 .member(quote_ident!("call")),
                             )
                         } else {
-                            ExprOrSuper::Expr(box Expr::Member(me)).fold_with(self)
+                            ExprOrSuper::Expr(box self.explode_expr(Expr::Member(me), false))
                         }
                     }
 
                     ExprOrSuper::Expr(box callee) => {
-                        let callee = callee.fold_with(self);
+                        let callee = self.explode_expr(callee, false);
 
                         let callee = match callee {
                             Expr::Member(..) => {
@@ -198,7 +206,10 @@ impl CaseHandler<'_> {
                     }
                 };
 
-                new_args.extend(args.fold_with(self));
+                new_args.extend(args.into_iter().map(|arg| ExprOrSpread {
+                    expr: arg.expr.map(|e| self.explode_expr(e, false)),
+                    ..arg
+                }));
 
                 finish!(Expr::Call(CallExpr {
                     span,
@@ -238,7 +249,7 @@ impl CaseHandler<'_> {
             Expr::Yield(e) => {
                 let after = self.loc();
 
-                let arg = e.arg.fold_with(self);
+                let arg = e.arg.map(|e| e.map(|e| self.explode_expr(e, false)));
 
                 if arg.is_some() && e.delegate {
                     // https://github.com/facebook/regenerator/blob/master/packages/regenerator-transform/src/emit.js#L1220-L1235
@@ -326,7 +337,7 @@ impl CaseHandler<'_> {
         ty: &'static str,
         arg: Option<ExprOrSpread>,
         target: Option<Loc>,
-    ) -> Stmt {
+    ) {
         let stmt = ReturnStmt {
             span: DUMMY_SP,
             arg: Some(
@@ -439,16 +450,14 @@ impl CaseHandler<'_> {
             .into(),
         );
     }
-}
 
-impl Fold<Expr> for CaseHandler<'_> {
-    fn fold(&mut self, e: Expr) -> Expr {
-        self.fold_expr(e, false)
+    pub fn explode_stmts(&mut self, stmts: Vec<Stmt>) {
+        for s in stmts {
+            self.explode_stmt(s)
+        }
     }
-}
 
-impl Fold<Stmt> for CaseHandler<'_> {
-    fn fold(&mut self, s: Stmt) -> Stmt {
+    pub fn explode_stmt(&mut self, s: Stmt) {
         if !contains_leap(&s) {
             // Technically we should be able to avoid emitting the statement
             // altogether if !meta.hasSideEffects(stmt), but that leads to
@@ -458,14 +467,18 @@ impl Fold<Stmt> for CaseHandler<'_> {
             return self.emit(s);
         }
 
-        let s: Stmt = s.fold_children(self);
-
         match s {
-            Stmt::Block(..) | Stmt::Empty(..) | Stmt::Debugger(..) => s,
+            Stmt::Empty(..) | Stmt::Debugger(..) => {}
+            Stmt::Block(s) => {
+                for s in s.stmts {
+                    self.explode_stmt(s);
+                }
+            }
+
             Stmt::With(..) => panic!("WithStatement not supported in generator functions"),
 
             Stmt::Expr(ExprStmt { span, expr, .. }) => {
-                let expr = expr.map(|expr| self.fold_expr(expr, true));
+                let expr = expr.map(|expr| self.explode_expr(expr, true));
                 self.emit(Stmt::Expr(ExprStmt { span, expr }))
             }
 
@@ -497,17 +510,14 @@ impl Fold<Stmt> for CaseHandler<'_> {
                 // statements are rare, and all of this logic happens at transform
                 // time, so it has no additional runtime cost.
 
-                self.leaps.with(
-                    Entry::Labeled {
-                        label: s.label.sym.clone(),
-                        break_loc: after,
-                    },
-                    |leaps| s.body.fold_with(self),
-                );
+                self.leaps.push(Entry::Labeled {
+                    label: s.label.sym.clone(),
+                    break_loc: after,
+                });
+                self.explode_stmt(*s.body);
+                self.leaps.pop();
 
                 self.mark(after);
-
-                Stmt::Empty(EmptyStmt { span: DUMMY_SP })
             }
 
             Stmt::Break(s) => {
@@ -530,26 +540,24 @@ impl Fold<Stmt> for CaseHandler<'_> {
                 };
                 let after = self.loc();
 
-                let test = s.test.fold_with(self);
+                let test = box self.explode_expr(*s.test, false);
                 self.jump_if_not(test, else_loc.unwrap_or(after));
 
-                s.cons.fold_with(self);
+                self.explode_stmt(*s.cons);
 
                 if let Some(else_loc) = else_loc {
                     self.jump(after);
                     self.mark(else_loc);
-                    s.alt.fold_with(self);
+                    self.explode_stmt(*s.alt.unwrap());
                 }
 
                 self.mark(after);
-
-                Stmt::Empty(EmptyStmt { span: DUMMY_SP })
             }
 
             Stmt::Switch(_) => unimplemented!("regenerator: switch statement"),
 
             Stmt::Throw(s) => {
-                let arg = s.arg.fold_with(self);
+                let arg = s.arg.map(|e| self.explode_expr(e, false));
                 self.emit(Stmt::Throw(ThrowStmt { span: s.span, arg }))
             }
 
@@ -567,20 +575,6 @@ impl Fold<Stmt> for CaseHandler<'_> {
 
             Stmt::Decl(_) => unimplemented!("Decl"),
         }
-    }
-}
-
-impl Fold<Function> for CaseHandler<'_> {
-    #[inline(always)]
-    fn fold(&mut self, f: Function) -> Function {
-        f
-    }
-}
-
-impl Fold<ArrowExpr> for CaseHandler<'_> {
-    #[inline(always)]
-    fn fold(&mut self, f: ArrowExpr) -> ArrowExpr {
-        f
     }
 }
 
