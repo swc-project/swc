@@ -78,9 +78,9 @@ impl CaseHandler<'_> {
 
         match e {
             Expr::Member(me) => {
-                let obj = self.fold(me.obj);
+                let obj = me.obj.fold_with(self);
                 let prop = if me.computed {
-                    box self.fold_expr(*me.prop, false)
+                    me.prop.map(|prop| self.fold_expr(prop, false))
                 } else {
                     me.prop
                 };
@@ -95,6 +95,18 @@ impl CaseHandler<'_> {
                 type_args,
             }) => {
                 let has_leaping_args = args.iter().any(|t| contains_leap(t));
+
+                match callee {
+                    ExprOrSuper::Expr(box Expr::Member(me)) => {}
+                    _ => {}
+                }
+
+                finish!(Expr::Call(CallExpr {
+                    span,
+                    callee,
+                    args,
+                    type_args
+                }))
             }
 
             _ => {}
