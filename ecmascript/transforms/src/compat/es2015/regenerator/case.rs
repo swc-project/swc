@@ -247,13 +247,21 @@ impl CaseHandler<'_> {
                 }))
             }
 
-            Expr::New(NewExpr { .. }) => {
-                //return finish(t.newExpression(
-                //    explodeViaTempVar(null, path.get("callee")),
-                //    path.get("arguments").map(function(argPath) {
-                //        return explodeViaTempVar(null, argPath);
-                //    })
-                //));
+            Expr::New(e) => {
+                let callee = e.callee.map(|e| self.explode_expr(e, false));
+                let args = if let Some(args) = e.args {
+                    Some(
+                        args.into_iter()
+                            .map(|arg| ExprOrSpread {
+                                expr: arg.expr.map(|e| self.explode_expr(e, false)),
+                                ..arg
+                            })
+                            .collect(),
+                    )
+                } else {
+                    None
+                };
+                return NewExpr { callee, args, ..e }.into();
             }
 
             Expr::Object(..) => {}
