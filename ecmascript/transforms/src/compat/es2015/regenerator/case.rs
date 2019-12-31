@@ -260,6 +260,10 @@ impl CaseHandler<'_> {
     }
 
     pub fn extend_cases(&mut self, cases: &mut Vec<SwitchCase>) {
+        if self.listing_len != 0 {
+            panic!("CaseHandler.extend_cases can be called only once")
+        }
+
         self.listing_len = self.listing.len();
         // If we encounter a break, continue, or return statement in a switch
         // case, we can skip the rest of the statements until the next case.
@@ -313,7 +317,10 @@ impl CaseHandler<'_> {
     /// Emits code for an unconditional jump to the given location, even if the
     /// exact value of the location is not yet known.
     fn jump(&mut self, n: Number) {
-        self.emit_assign(self.ctx.clone().member(quote_ident!("next")), n);
+        self.emit_assign(
+            self.ctx.clone().member(quote_ident!("next")),
+            Expr::Lit(Lit::Num(n)),
+        );
         self.emit(Stmt::Break(BreakStmt {
             span: DUMMY_SP,
             label: None,
@@ -325,7 +332,48 @@ impl CaseHandler<'_> {
             IfStmt {
                 span: DUMMY_SP,
                 test,
-                cons: BlockStmt {
+                cons: box BlockStmt {
+                    span: DUMMY_SP,
+                    stmts: vec![
+                        AssignExpr {
+                            span: DUMMY_SP,
+                            op: op!("="),
+                            left: PatOrExpr::Expr(
+                                box self.ctx.clone().member(quote_ident!("next")),
+                            ),
+                            right: box Expr::Lit(Lit::Num(to)),
+                        }
+                        .into_stmt(),
+                        Stmt::Break(BreakStmt {
+                            span: DUMMY_SP,
+                            label: None,
+                        }),
+                    ],
+                }
+                .into(),
+                alt: None,
+            }
+            .into(),
+        );
+    }
+
+    fn jump_if_not(&mut self, test: Box<Expr>, to: Number) {
+        let negated_test = match *test {
+            Expr::Unary(UnaryExpr {
+                op: op!("!"), arg, ..
+            }) => arg,
+            _ => box Expr::Unary(UnaryExpr {
+                span: test.span(),
+                op: op!("!"),
+                arg: test,
+            }),
+        };
+
+        self.emit(
+            IfStmt {
+                span: DUMMY_SP,
+                test: negated_test,
+                cons: box BlockStmt {
                     span: DUMMY_SP,
                     stmts: vec![
                         AssignExpr {
@@ -414,7 +462,29 @@ impl Fold<Stmt> for CaseHandler<'_> {
 
             Stmt::Continue(_) => {}
 
-            Stmt::If(_) => {}
+            Stmt::If(s) => {
+                let else_loc = if s.alt.is_some() {
+                    Some(self.loc())
+                } else {
+                    None
+                };
+                let after = self.loc();
+
+                let test = s.test.fold_with(self);
+                self.jump_if_not(test, else_loc.unwrap_or(after));
+
+                s.cons.fold_with(self);
+
+                if let Some(else_loc) = else_loc {
+                    self.jump(after);
+                    self.mark(else_loc);
+                    s.alt.fold_with(self);
+                }
+
+                self.mark(after);
+
+                Stmt::Empty(EmptyStmt { span: DUMMY_SP })
+            }
 
             Stmt::Switch(_) => {}
 
