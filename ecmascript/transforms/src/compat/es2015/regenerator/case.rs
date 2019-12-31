@@ -9,7 +9,7 @@ use smallvec::SmallVec;
 use std::mem::replace;
 use swc_common::{
     util::{map::Map, move_map::MoveMap},
-    Fold, FoldWith, Spanned, Visit, VisitWith, DUMMY_SP,
+    BytePos, Fold, FoldWith, Span, Spanned, SyntaxContext, Visit, VisitWith, DUMMY_SP,
 };
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
@@ -23,6 +23,13 @@ impl Loc {
             span: DUMMY_SP,
             value: self.idx as _,
         }))
+    }
+
+    /// Creates an invalid expression pointing `self`
+    fn expr(&self) -> Expr {
+        Expr::Invalid(Invalid {
+            span: Span::new(BytePos(self.idx), BytePos(self.idx), SyntaxContext::empty()),
+        })
     }
 }
 
@@ -117,7 +124,7 @@ impl CaseHandler<'_> {
             ($e:expr) => {{
                 if ignore_result {
                     self.emit($e.into_stmt());
-                    return Expr::Invalid(Invalid { span });
+                    return *undefined(span);
                 } else {
                     return $e;
                 }
@@ -358,10 +365,7 @@ impl CaseHandler<'_> {
                     unimplemented!("regenerator: yield* ")
                 }
 
-                self.emit_assign(
-                    self.ctx.clone().member(quote_ident!("next")),
-                    Expr::Invalid(Invalid { span: DUMMY_SP }),
-                );
+                self.emit_assign(self.ctx.clone().member(quote_ident!("next")), after.expr());
 
                 let ret = ReturnStmt {
                     span: DUMMY_SP,
@@ -433,11 +437,20 @@ impl CaseHandler<'_> {
             fn fold(&mut self, e: Expr) -> Expr {
                 let e = e.fold_children(self);
 
+                // TODO: Invalid 에 loc 속성 추가 (해시 맵 등의 방식으로)
                 match e {
-                    Expr::Invalid(..) => Expr::Lit(Lit::Num(Number {
-                        span: DUMMY_SP,
-                        value: self.idx as _,
-                    })),
+                    Expr::Invalid(Invalid { span }) => {
+                        //
+                        let data = span.data();
+                        if data.lo == data.hi {
+                            return Expr::Lit(Lit::Num(Number {
+                                span: DUMMY_SP,
+                                value: self.idx as _,
+                            }));
+                        }
+
+                        Expr::Invalid(Invalid { span })
+                    }
                     _ => e,
                 }
             }
@@ -492,10 +505,7 @@ impl CaseHandler<'_> {
     /// Emits code for an unconditional jump to the given location, even if the
     /// exact value of the location is not yet known.
     fn jump(&mut self, target: &Loc) {
-        self.emit_assign(
-            self.ctx.clone().member(quote_ident!("next")),
-            Expr::Invalid(Invalid { span: DUMMY_SP }),
-        );
+        self.emit_assign(self.ctx.clone().member(quote_ident!("next")), target.expr());
         self.emit(Stmt::Break(BreakStmt {
             span: DUMMY_SP,
             label: None,
@@ -516,7 +526,7 @@ impl CaseHandler<'_> {
                             left: PatOrExpr::Expr(
                                 box self.ctx.clone().member(quote_ident!("next")),
                             ),
-                            right: box Expr::Invalid(Invalid { span: DUMMY_SP }),
+                            right: box to.expr(),
                         }
                         .into_stmt(),
                         Stmt::Break(BreakStmt {
@@ -557,7 +567,7 @@ impl CaseHandler<'_> {
                             left: PatOrExpr::Expr(
                                 box self.ctx.clone().member(quote_ident!("next")),
                             ),
-                            right: box Expr::Invalid(Invalid { span: DUMMY_SP }),
+                            right: box to.expr(),
                         }
                         .into_stmt(),
                         Stmt::Break(BreakStmt {

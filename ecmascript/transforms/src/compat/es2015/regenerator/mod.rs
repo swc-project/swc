@@ -269,19 +269,6 @@ impl Regenerator {
     }
 }
 
-fn make_next(ctx: Ident, next_idx: u32) -> Stmt {
-    AssignExpr {
-        span: DUMMY_SP,
-        op: op!("="),
-        left: PatOrExpr::Expr(box ctx.member(quote_ident!("next"))),
-        right: box Expr::Lit(Lit::Num(Number {
-            span: DUMMY_SP,
-            value: next_idx as _,
-        })),
-    }
-    .into_stmt()
-}
-
 struct FnSentVisitor {
     ctx: Ident,
 }
