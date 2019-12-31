@@ -1,0 +1,92 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 21,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 0,
+        "end": 20,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 0,
+          "end": 20,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 0,
+            "end": 18,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "CallExpression",
+            "span": {
+              "start": 0,
+              "end": 13,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "Identifier",
+              "span": {
+                "start": 0,
+                "end": 13,
+                "ctxt": 0
+              },
+              "value": "import",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 7,
+                    "end": 12,
+                    "ctxt": 0
+                  },
+                  "value": "foo",
+                  "hasEscape": false
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 14,
+              "end": 18,
+              "ctxt": 0
+            },
+            "value": "from",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "computed": false
+        },
+        "arguments": [],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "EmptyStatement",
+      "span": {
+        "start": 20,
+        "end": 21,
+        "ctxt": 0
+      }
+    }
+  ],
+  "interpreter": null
+}

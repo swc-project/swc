@@ -181,6 +181,14 @@ fn issue_450() {
     );
 }
 
+#[test]
+fn issue_546() {
+    test_from_to(
+        "import availabilities, * as availabilityFunctions from 'reducers/availabilities';",
+        "import availabilities, * as availabilityFunctions from 'reducers/availabilities';",
+    );
+}
+
 #[derive(Debug, Clone)]
 struct Buf(Arc<RwLock<Vec<u8>>>);
 impl Write for Buf {

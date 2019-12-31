@@ -186,6 +186,11 @@ impl<'a> Emitter<'a> {
                     emitted_default = true;
                 }
                 ImportSpecifier::Namespace(ref ns) => {
+                    if emitted_default {
+                        punct!(",");
+                        formatting_space!();
+                    }
+
                     emitted_ns = true;
 
                     assert!(node.specifiers.len() <= 2);

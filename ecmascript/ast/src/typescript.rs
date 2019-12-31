@@ -660,8 +660,8 @@ pub struct TsExprWithTypeArgs {
     pub span: Span,
     #[serde(rename = "expression")]
     pub expr: TsEntityName,
-    #[serde(default)]
-    pub type_params: Option<TsTypeParamInstantiation>,
+    #[serde(default, rename = "typeArguments")]
+    pub type_args: Option<TsTypeParamInstantiation>,
 }
 
 #[ast_node("TsTypeAliasDeclaration")]

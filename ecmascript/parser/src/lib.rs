@@ -259,6 +259,17 @@ impl Syntax {
             _ => false,
         }
     }
+
+    pub fn import_meta(self) -> bool {
+        match self {
+            Syntax::Es(EsConfig {
+                import_meta: true, ..
+            })
+            | Syntax::Typescript(..) => true,
+
+            _ => false,
+        }
+    }
 }
 
 #[derive(Debug, Clone, Copy, Default, Serialize, Deserialize)]
@@ -349,6 +360,10 @@ pub struct EsConfig {
     /// Stage 3.
     #[serde(default)]
     pub nullish_coalescing: bool,
+
+    /// Stage 3.
+    #[serde(default)]
+    pub import_meta: bool,
 }
 
 /// Syntactic context.

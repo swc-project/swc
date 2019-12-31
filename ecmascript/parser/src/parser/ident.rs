@@ -48,7 +48,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         self.parse_ident(!ctx.in_generator, !ctx.in_async)
     }
 
-    /// Use this when spec says "IdentiferName".
+    /// Use this when spec says "IdentifierName".
     /// This allows idents like `catch`.
     pub(super) fn parse_ident_name(&mut self) -> PResult<'a, Ident> {
         let start = cur_pos!();

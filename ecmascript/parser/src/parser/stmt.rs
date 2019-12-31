@@ -1084,7 +1084,7 @@ impl<'a, I: Tokens> StmtLikeParser<'a, Stmt> for Parser<'a, I> {
     fn handle_import_export(&mut self, top_level: bool, _: Vec<Decorator>) -> PResult<'a, Stmt> {
         let start = cur_pos!();
         if self.input.syntax().dynamic_import() && is!("import") {
-            let expr = self.parse_primary_expr()?;
+            let expr = self.parse_expr()?;
 
             return Ok(ExprStmt {
                 span: span!(start),
@@ -1092,6 +1092,17 @@ impl<'a, I: Tokens> StmtLikeParser<'a, Stmt> for Parser<'a, I> {
             }
             .into());
         }
+
+        if self.input.syntax().import_meta() && is!("import") && peeked_is!('.') {
+            let expr = self.parse_expr()?;
+
+            return Ok(ExprStmt {
+                span: span!(start),
+                expr,
+            }
+            .into());
+        }
+
         syntax_error!(SyntaxError::ImportExportInScript);
     }
 }

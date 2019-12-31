@@ -359,7 +359,7 @@
           "accessibility": "public",
           "isAbstract": false,
           "isOptional": false,
-          "readonly": false,
+          "readonly": true,
           "definite": false
         },
         {

@@ -59,7 +59,7 @@
               "optional": false
             }
           },
-          "typeParams": {
+          "typeArguments": {
             "type": "TsTypeParameterInstantiation",
             "span": {
               "start": 23,

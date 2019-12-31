@@ -846,7 +846,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         // then has grammar errors later if it's not an EntityName.
 
         let expr = self.parse_ts_entity_name(/* allow_reserved_words */ false)?;
-        let type_params = if is!('<') {
+        let type_args = if is!('<') {
             Some(self.parse_ts_type_args()?)
         } else {
             None
@@ -855,7 +855,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         Ok(TsExprWithTypeArgs {
             span: span!(start),
             expr,
-            type_params,
+            type_args,
         })
     }
     /// `tsParseInterfaceDeclaration`
