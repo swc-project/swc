@@ -273,7 +273,16 @@ impl CaseHandler<'_> {
 
             Expr::Object(..) => {}
 
-            Expr::Array(..) => {}
+            Expr::Array(arr) => {
+                let elems = arr.elems.move_map(|opt| {
+                    opt.map(|elem| ExprOrSpread {
+                        expr: elem.expr.map(|e| self.explode_expr(e, false)),
+                        ..elem
+                    })
+                });
+
+                return ArrayLit { elems, ..arr }.into();
+            }
 
             Expr::Seq(e) => {
                 let len = e.exprs.len();
