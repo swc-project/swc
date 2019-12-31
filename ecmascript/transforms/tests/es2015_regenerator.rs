@@ -403,71 +403,40 @@ regeneratorRuntime.mark(function _callee() {
 "
 );
 
-test!(
+test_exec!(
     syntax(),
     |_| tr(Default::default()),
     conditional_return_1,
-    "(function* (){
-  a;
+    "var _regeneratorRuntime = require('@babel/runtime/regenerator');
+    
+let v = (function* (){
   yield 3;
-  b;
-  if (a)
-	  return a
-})",
-    "
-/*#__PURE__*/
-regeneratorRuntime.mark(function _callee() {
-    return regeneratorRuntime.wrap(function _callee$(_ctx) {
-        while(1){
-            switch(_ctx.prev = _ctx.next){
-                case 0:
-                    a;
-                    _ctx.next = 1;
-                    return 3;
-                case 1:
-                    b;
-                    if (a) return _ctx.abrupt('return', a);
-                case 2:
-                case 'end': return _ctx.stop();
-            }
-        }
-    }, _callee);
-});"
+  if (true)
+	  return 1
+})();
+
+expect(v.next()).toEqual({ value: 3, done: false });
+expect(v.next()).toEqual({ value: 1, done: true });
+"
 );
 
-test!(
+test_exec!(
     syntax(),
     |_| tr(Default::default()),
     conditional_return_2,
-    "(function* (){
-  a;
-  yield 3;
-  b;
-  if (a)
+    "var _regeneratorRuntime = require('@babel/runtime/regenerator');
+    
+let v = (function* (){
+  if (false)
 	  return a
   yield 1
-})",
-    "
-/*#__PURE__*/
-regeneratorRuntime.mark(function _callee() {
-    return regeneratorRuntime.wrap(function _callee$(_ctx) {
-        while(1){
-            switch(_ctx.prev = _ctx.next){
-                case 0:
-                    a;
-                    _ctx.next = 1;
-                    return 3;
-                case 1:
-                    b;
-                    if (a) return _ctx.abrupt('return', a);
-                    _ctx.next = 2;
-                    return 1;
-                case 2:
-                case 'end': return _ctx.stop();
-            }
-        }
-    }, _callee);
-});"
+})();
+
+expect(v.next()).toEqual({ value: 1, done: false });
+expect(v.next()).toEqual({ done: true });
+
+
+"
 );
 
 test_exec!(
