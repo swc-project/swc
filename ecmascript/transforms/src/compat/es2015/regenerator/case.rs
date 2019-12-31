@@ -498,12 +498,11 @@ impl Fold<Stmt> for CaseHandler<'_> {
                 // time, so it has no additional runtime cost.
 
                 self.leaps.with(
-                    self,
                     Entry::Labeled {
-                        label: s.label.clone(),
+                        label: s.label.sym.clone(),
                         break_loc: after,
                     },
-                    |folder, leaps| s.body.fold_with(folder),
+                    |leaps| s.body.fold_with(self),
                 );
 
                 self.mark(after);
@@ -547,24 +546,24 @@ impl Fold<Stmt> for CaseHandler<'_> {
                 Stmt::Empty(EmptyStmt { span: DUMMY_SP })
             }
 
-            Stmt::Switch(_) => {}
+            Stmt::Switch(_) => unimplemented!("regenerator: switch statement"),
 
             Stmt::Throw(s) => {
                 let arg = s.arg.fold_with(self);
                 self.emit(Stmt::Throw(ThrowStmt { span: s.span, arg }))
             }
 
-            Stmt::Try(_) => {}
+            Stmt::Try(_) => unimplemented!("regenerator: try statement"),
 
-            Stmt::While(_) => {}
+            Stmt::While(_) => unimplemented!("regenerator: while statement"),
 
-            Stmt::DoWhile(_) => {}
+            Stmt::DoWhile(_) => unimplemented!("regenerator: do while statement"),
 
-            Stmt::For(_) => {}
+            Stmt::For(_) => unimplemented!("regenerator: for statement"),
 
-            Stmt::ForIn(_) => {}
+            Stmt::ForIn(_) => unimplemented!("regenerator: for-in statement"),
 
-            Stmt::ForOf(_) => {}
+            Stmt::ForOf(_) => unimplemented!("regenerator: for-of statement"),
 
             Stmt::Decl(_) => unimplemented!("Decl"),
         }
