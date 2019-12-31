@@ -130,6 +130,13 @@ impl CaseHandler<'_> {
         };
 
         match e {
+            Expr::Paren(ParenExpr { span, expr }) => {
+                return Expr::Paren(ParenExpr {
+                    span,
+                    expr: expr.map(|e| self.explode_expr(e, ignore_result)),
+                })
+            }
+
             Expr::Member(me) => {
                 let obj = match me.obj {
                     ExprOrSuper::Expr(obj) => {
