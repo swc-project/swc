@@ -1,5 +1,5 @@
 use super::leap::{Entry, LeapManager};
-use crate::util::ExprFactory;
+use crate::{compat::es2015::regenerator::Finder, util::ExprFactory};
 use ast::*;
 use fxhash::FxHashSet;
 use smallvec::SmallVec;
@@ -39,7 +39,7 @@ pub(super) struct CaseHandler<'a> {
 
     /// A sparse array whose keys correspond to locations in this.listing
     /// that have been marked as branch/jump targets.
-    marked: Vec<(Loc, usize)>,
+    marked: FxHashSet<usize>,
 
     leaps: LeapManager,
 }
@@ -51,7 +51,11 @@ impl<'a> CaseHandler<'a> {
             idx: 0,
             temp_idx: 0,
             listing_len: 0,
-            marked: Default::default(),
+            marked: {
+                let mut set = FxHashSet::default();
+                set.insert(0);
+                set
+            },
             listing: vec![],
 
             leaps: Default::default(),
@@ -291,7 +295,6 @@ impl CaseHandler<'_> {
                 }
                 .into();
                 self.emit(ret);
-
                 self.mark(after);
 
                 return self.ctx.clone().member(quote_ident!("sent"));
@@ -309,38 +312,58 @@ impl CaseHandler<'_> {
         // case, we can skip the rest of the statements until the next case.
         let mut already_ended = false;
 
-        for (loc, cnt) in self.marked.drain(..) {
-            let case = SwitchCase {
+        for (i, stmt) in self.listing.drain(..).enumerate() {
+            let mut case = SwitchCase {
                 span: DUMMY_SP,
-                test: Some(box loc.id()),
-                cons: self.listing.drain(..cnt).collect(),
+                test: Some(box Expr::Lit(Lit::Num(Number {
+                    span: DUMMY_SP,
+                    value: i as _,
+                }))),
+                cons: vec![],
             };
-            assert_eq!(cnt, case.cons.len());
 
-            cases.push(case);
+            if self.marked.contains(&i) {
+                cases.push(case);
+                already_ended = false;
+            }
+
+            if !already_ended {
+                let is_completion = match stmt {
+                    Stmt::Return(..) | Stmt::Throw(..) | Stmt::Break(..) | Stmt::Continue(..) => {
+                        true
+                    }
+                    _ => false,
+                };
+                cases.last_mut().unwrap().cons.push(stmt);
+
+                if is_completion {
+                    already_ended = true;
+                }
+            }
         }
     }
 
     fn loc(&mut self) -> Loc {
-        println!("loc(): self.idx = {:?}", self.idx);
         let loc = Loc { idx: self.idx };
         self.idx += 1;
         loc
     }
 
     fn mark(&mut self, loc: Loc) {
-        let cnt = self.listing.len() - self.listing_len;
-        self.listing_len = self.listing.len();
+        let idx = self.listing.len();
 
         struct InvalidToLit {
-            loc: Loc,
+            idx: usize,
         }
         impl Fold<Expr> for InvalidToLit {
             fn fold(&mut self, e: Expr) -> Expr {
                 let e = e.fold_children(self);
 
                 match e {
-                    Expr::Invalid(..) => self.loc.id(),
+                    Expr::Invalid(..) => Expr::Lit(Lit::Num(Number {
+                        span: DUMMY_SP,
+                        value: self.idx as _,
+                    })),
                     _ => e,
                 }
             }
@@ -348,15 +371,13 @@ impl CaseHandler<'_> {
 
         // Convert <invalid> to number
 
-        let mut v = InvalidToLit { loc };
+        let mut v = InvalidToLit { idx };
         let buf = replace(&mut self.listing, vec![]);
         let buf = buf.move_map(|stmt| stmt.fold_with(&mut v));
         replace(&mut self.listing, buf);
 
-        println!("mark({}): {:?} statements", loc.idx, cnt);
-
         // Mark
-        self.marked.push((loc, cnt));
+        self.marked.insert(idx);
     }
 
     fn emit_abrupt_completion(
