@@ -318,8 +318,6 @@ impl Fold<Expr> for CaseHandler<'_> {
 
 impl Fold<Stmt> for CaseHandler<'_> {
     fn fold(&mut self, s: Stmt) -> Stmt {
-        let s: Stmt = s.fold_children(self);
-
         if !contains_leap(&s) {
             // Technically we should be able to avoid emitting the statement
             // altogether if !meta.hasSideEffects(stmt), but that leads to
@@ -329,7 +327,12 @@ impl Fold<Stmt> for CaseHandler<'_> {
             return self.emit(s);
         }
 
+        let s: Stmt = s.fold_children(self);
+
         match s {
+            Stmt::Block(..) | Stmt::Empty(..) | Stmt::Debugger(..) => s,
+            Stmt::With(..) => panic!("WithStatement not supported in generator functions"),
+
             Stmt::Expr(ExprStmt { span, expr, .. }) => {
                 let expr = expr.map(|expr| self.fold_expr(expr, true));
                 return self.emit(Stmt::Expr(ExprStmt { span, expr }));
@@ -363,10 +366,33 @@ impl Fold<Stmt> for CaseHandler<'_> {
                 }
                 .into()
             }
-            _ => {}
-        }
 
-        s
+            Stmt::Labeled(_) => {}
+
+            Stmt::Break(_) => {}
+
+            Stmt::Continue(_) => {}
+
+            Stmt::If(_) => {}
+
+            Stmt::Switch(_) => {}
+
+            Stmt::Throw(_) => {}
+
+            Stmt::Try(_) => {}
+
+            Stmt::While(_) => {}
+
+            Stmt::DoWhile(_) => {}
+
+            Stmt::For(_) => {}
+
+            Stmt::ForIn(_) => {}
+
+            Stmt::ForOf(_) => {}
+
+            Stmt::Decl(_) => {}
+        }
     }
 }
 
