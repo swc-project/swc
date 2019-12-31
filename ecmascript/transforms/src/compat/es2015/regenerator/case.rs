@@ -1,3 +1,4 @@
+use super::leap::LeapManager;
 use crate::util::ExprFactory;
 use ast::*;
 use fxhash::FxHashSet;
@@ -22,6 +23,8 @@ pub(super) struct CaseHandler<'a> {
     /// A sparse array whose keys correspond to locations in this.listing
     /// that have been marked as branch/jump targets.
     marked: FxHashSet<usize>,
+
+    leaps: LeapManager,
 }
 
 impl<'a> CaseHandler<'a> {
@@ -37,6 +40,8 @@ impl<'a> CaseHandler<'a> {
                 set
             },
             listing: vec![],
+
+            leaps: Default::default(),
         }
     }
 }

@@ -4,12 +4,12 @@ use is_macro::Is;
 use smallvec::SmallVec;
 use swc_atoms::JsWord;
 
-#[derive(Debug)]
-pub(super) struct EntryManager {
+#[derive(Debug, Default)]
+pub(super) struct LeapManager {
     stack: SmallVec<[Entry; 16]>,
 }
 
-impl EntryManager {
+impl LeapManager {
     pub fn with<F, Ret>(&mut self, entry: Entry, op: F) -> Ret
     where
         F: FnOnce(&mut Self) -> Ret,
