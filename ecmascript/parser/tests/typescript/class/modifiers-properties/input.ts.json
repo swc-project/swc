@@ -53,7 +53,7 @@
           "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
-          "readonly": false,
+          "readonly": true,
           "definite": false
         },
         {
@@ -98,7 +98,7 @@
           "accessibility": null,
           "isAbstract": false,
           "isOptional": true,
-          "readonly": false,
+          "readonly": true,
           "definite": false
         },
         {
@@ -272,7 +272,7 @@
           "accessibility": null,
           "isAbstract": true,
           "isOptional": false,
-          "readonly": false,
+          "readonly": true,
           "definite": false
         },
         {
@@ -301,7 +301,7 @@
           "accessibility": null,
           "isAbstract": true,
           "isOptional": false,
-          "readonly": false,
+          "readonly": true,
           "definite": false
         },
         {
@@ -330,7 +330,7 @@
           "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
-          "readonly": false,
+          "readonly": true,
           "definite": false
         },
         {
@@ -446,7 +446,7 @@
           "accessibility": "public",
           "isAbstract": true,
           "isOptional": false,
-          "readonly": false,
+          "readonly": true,
           "definite": false
         },
         {
@@ -475,7 +475,7 @@
           "accessibility": "public",
           "isAbstract": true,
           "isOptional": false,
-          "readonly": false,
+          "readonly": true,
           "definite": false
         },
         {
@@ -504,7 +504,7 @@
           "accessibility": "public",
           "isAbstract": false,
           "isOptional": false,
-          "readonly": false,
+          "readonly": true,
           "definite": false
         }
       ],
