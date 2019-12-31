@@ -47,6 +47,17 @@ impl<'a> CaseHandler<'a> {
 }
 
 impl CaseHandler<'_> {
+    fn with_entry<F, Ret>(&mut self, entry: Entry, op: F) -> Ret
+    where
+        F: FnOnce(&mut Self) -> Ret,
+    {
+        self.leaps.push(entry);
+        let ret = op(self);
+        self.leaps.pop();
+
+        ret
+    }
+
     fn emit(&mut self, stmt: Stmt) {
         let span = stmt.span();
         self.listing.push(stmt);
@@ -510,12 +521,13 @@ impl CaseHandler<'_> {
                 // statements are rare, and all of this logic happens at transform
                 // time, so it has no additional runtime cost.
 
-                self.leaps.push(Entry::Labeled {
-                    label: s.label.sym.clone(),
-                    break_loc: after,
-                });
-                self.explode_stmt(*s.body);
-                self.leaps.pop();
+                self.with_entry(
+                    Entry::Labeled {
+                        label: s.label.sym.clone(),
+                        break_loc: after,
+                    },
+                    |h| h.explode_stmt(*s.body),
+                );
 
                 self.mark(after);
             }
