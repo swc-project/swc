@@ -519,6 +519,7 @@ test_exec!(
 })();
 
 expect(v.next()).toEqual({ done: false, value: 1 });
+expect(v.next()).toEqual({ done: true });
 "
 );
 
