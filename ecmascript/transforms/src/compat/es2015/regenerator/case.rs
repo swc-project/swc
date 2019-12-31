@@ -3,6 +3,8 @@ use ast::*;
 use fxhash::FxHashSet;
 use swc_common::{util::map::Map, Fold, FoldWith, Spanned, Visit, VisitWith, DUMMY_SP};
 
+pub(super) type Loc = Number;
+
 #[derive(Debug)]
 pub(super) struct CaseHandler<'a> {
     /// In order to make sure the context object does not collide with  anything
