@@ -171,10 +171,12 @@ impl CaseHandler<'_> {
                     }
                 };
 
+                new_args.extend(args.fold_with(self));
+
                 finish!(Expr::Call(CallExpr {
                     span,
                     callee,
-                    args,
+                    args: new_args,
                     type_args
                 }))
             }
