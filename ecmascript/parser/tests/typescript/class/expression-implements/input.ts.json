@@ -67,7 +67,7 @@
                   "optional": false
                 }
               },
-              "typeParams": {
+              "typeArguments": {
                 "type": "TsTypeParameterInstantiation",
                 "span": {
                   "start": 21,
@@ -173,7 +173,7 @@
                   "optional": false
                 }
               },
-              "typeParams": {
+              "typeArguments": {
                 "type": "TsTypeParameterInstantiation",
                 "span": {
                   "start": 54,

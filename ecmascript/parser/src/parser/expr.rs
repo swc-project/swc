@@ -204,7 +204,15 @@ impl<'a, I: Tokens> Parser<'a, I> {
             return Ok(Box::new(Expr::This(ThisExpr { span: span!(start) })));
         }
 
-        if eat!("import") {
+        if is!("import") {
+            let import = self.parse_ident_name()?;
+            if self.input.syntax().import_meta() && is!('.') {
+                return self
+                    .parse_import_meta_prop(import)
+                    .map(Expr::MetaProp)
+                    .map(Box::new);
+            }
+
             return self.parse_dynamic_import(start);
         }
 
@@ -378,6 +386,23 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
     fn parse_member_expr(&mut self) -> PResult<'a, Box<Expr>> {
         self.parse_member_expr_or_new_expr(false)
+    }
+
+    /// `parseImportMetaProperty`
+    pub(super) fn parse_import_meta_prop(&mut self, import: Ident) -> PResult<'a, MetaPropExpr> {
+        let start = cur_pos!();
+
+        let meta = import;
+
+        expect!('.');
+
+        let prop = if is!("meta") {
+            self.parse_ident_name()?
+        } else {
+            unexpected!();
+        };
+
+        Ok(MetaPropExpr { meta, prop })
     }
 
     /// `is_new_expr`: true iff we are parsing production 'NewExpression'.

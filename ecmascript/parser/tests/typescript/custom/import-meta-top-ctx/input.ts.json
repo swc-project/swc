@@ -1,0 +1,72 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 21,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 0,
+        "end": 20,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "MemberExpression",
+        "span": {
+          "start": 0,
+          "end": 20,
+          "ctxt": 0
+        },
+        "object": {
+          "type": "MetaProperty",
+          "meta": {
+            "type": "Identifier",
+            "span": {
+              "start": 0,
+              "end": 6,
+              "ctxt": 0
+            },
+            "value": "import",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 7,
+              "end": 11,
+              "ctxt": 0
+            },
+            "value": "meta",
+            "typeAnnotation": null,
+            "optional": false
+          }
+        },
+        "property": {
+          "type": "Identifier",
+          "span": {
+            "start": 12,
+            "end": 20,
+            "ctxt": 0
+          },
+          "value": "someProp",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "computed": false
+      }
+    },
+    {
+      "type": "EmptyStatement",
+      "span": {
+        "start": 20,
+        "end": 21,
+        "ctxt": 0
+      }
+    }
+  ],
+  "interpreter": null
+}

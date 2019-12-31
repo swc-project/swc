@@ -624,6 +624,7 @@ key
 keyof
 length
 let
+meta
 module
 namespace
 never

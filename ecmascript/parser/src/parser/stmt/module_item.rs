@@ -5,23 +5,35 @@ impl<'a, I: Tokens> Parser<'a, I> {
     #[allow(clippy::cognitive_complexity)]
     fn parse_import(&mut self) -> PResult<'a, ModuleItem> {
         let start = cur_pos!();
-        assert_and_bump!("import");
 
-        if self.input.syntax().typescript() && is!(IdentRef) && peeked_is!('=') {
+        if self.input.syntax().import_meta() && peeked_is!('.') {
             return self
-                .parse_ts_import_equals_decl(start, false)
-                .map(ModuleDecl::from)
-                .map(ModuleItem::from);
+                .parse_expr()
+                .map(|expr| ExprStmt {
+                    span: span!(start),
+                    expr,
+                })
+                .map(Stmt::Expr)
+                .map(ModuleItem::Stmt);
         }
 
-        if self.input.syntax().dynamic_import() && is!('(') {
-            let expr = self.parse_dynamic_import(start)?;
+        if self.input.syntax().dynamic_import() && peeked_is!('(') {
+            let expr = self.parse_expr()?;
 
             return Ok(Stmt::Expr(ExprStmt {
                 span: span!(start),
                 expr,
             })
             .into());
+        }
+
+        expect!("import");
+
+        if self.input.syntax().typescript() && is!(IdentRef) && peeked_is!('=') {
+            return self
+                .parse_ts_import_equals_decl(start, false)
+                .map(ModuleDecl::from)
+                .map(ModuleItem::from);
         }
 
         // Handle import 'mod.js'
