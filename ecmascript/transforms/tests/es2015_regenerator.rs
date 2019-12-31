@@ -516,6 +516,21 @@ test_exec!(
     let v = (function* () {
   if (true)
   	yield 1
+})();
+
+expect(v.next()).toEqual({ done: false, value: 1 });
+"
+);
+
+test_exec!(
+    syntax(),
+    |_| tr(Default::default()),
+    conditional_yield_2,
+    "var _regeneratorRuntime = require('@babel/runtime/regenerator');
+    
+    let v = (function* () {
+  if (true)
+  	yield 1
   if (false)
     yield 2
   yield 3
