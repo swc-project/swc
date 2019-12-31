@@ -88,6 +88,15 @@ impl CaseHandler<'_> {
                 finish!(Expr::Member(MemberExpr { obj, prop, ..me }));
             }
 
+            Expr::Call(CallExpr {
+                span,
+                callee,
+                args,
+                type_args,
+            }) => {
+                let has_leaping_args = args.iter().any(|t| contains_leap(t));
+            }
+
             _ => {}
         }
 
@@ -121,6 +130,12 @@ impl CaseHandler<'_> {
                 //                }
             }
         }
+    }
+}
+
+impl Fold<Expr> for CaseHandler<'_> {
+    fn fold(&mut self, e: Expr) -> Expr {
+        self.fold_expr(e, false)
     }
 }
 
