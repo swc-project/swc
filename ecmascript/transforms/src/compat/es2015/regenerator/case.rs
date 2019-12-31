@@ -238,6 +238,7 @@ impl CaseHandler<'_> {
                     unimplemented!("regenerator: yield* ")
                 }
 
+                // TODO: Move this to after emit(ret).
                 let after = self.mark(after);
 
                 self.emit_assign(self.ctx.clone().member(quote_ident!("next")), after);
@@ -307,6 +308,46 @@ impl CaseHandler<'_> {
         self.marked.insert(idx + 1);
 
         Expr::Lit(Lit::Num(n))
+    }
+
+    /// Emits code for an unconditional jump to the given location, even if the
+    /// exact value of the location is not yet known.
+    fn jump(&mut self, n: Number) {
+        self.emit_assign(self.ctx.clone().member(quote_ident!("next")), n);
+        self.emit(Stmt::Break(BreakStmt {
+            span: DUMMY_SP,
+            label: None,
+        }));
+    }
+
+    fn jump_if(&mut self, test: Box<Expr>, to: Number) {
+        self.emit(
+            IfStmt {
+                span: DUMMY_SP,
+                test,
+                cons: BlockStmt {
+                    span: DUMMY_SP,
+                    stmts: vec![
+                        AssignExpr {
+                            span: DUMMY_SP,
+                            op: op!("="),
+                            left: PatOrExpr::Expr(
+                                box self.ctx.clone().member(quote_ident!("next")),
+                            ),
+                            right: box Expr::Lit(Lit::Num(to)),
+                        }
+                        .into_stmt(),
+                        Stmt::Break(BreakStmt {
+                            span: DUMMY_SP,
+                            label: None,
+                        }),
+                    ],
+                }
+                .into(),
+                alt: None,
+            }
+            .into(),
+        );
     }
 }
 
