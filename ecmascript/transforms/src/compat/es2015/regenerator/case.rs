@@ -321,6 +321,41 @@ impl CaseHandler<'_> {
         Expr::Lit(Lit::Num(n))
     }
 
+    fn emit_abrupt_completion(
+        &mut self,
+        ty: &'static str,
+        arg: Option<ExprOrSpread>,
+        target: Option<Loc>,
+    ) -> Stmt {
+        let stmt = ReturnStmt {
+            span: DUMMY_SP,
+            arg: Some(
+                box CallExpr {
+                    span: DUMMY_SP,
+                    callee: self.ctx.clone().member(quote_ident!("abrupt")).as_callee(),
+                    args: {
+                        let ty_arg = Lit::Str(Str {
+                            span: DUMMY_SP,
+                            value: ty.into(),
+                            has_escape: false,
+                        })
+                        .as_arg();
+
+                        if let Some(arg) = arg {
+                            vec![ty_arg, arg]
+                        } else {
+                            vec![ty_arg]
+                        }
+                    },
+                    type_args: Default::default(),
+                }
+                .into(),
+            ),
+        }
+        .into();
+        self.emit(stmt)
+    }
+
     /// Emits code for an unconditional jump to the given location, even if the
     /// exact value of the location is not yet known.
     fn jump(&mut self, n: Number) {
@@ -431,43 +466,26 @@ impl Fold<Stmt> for CaseHandler<'_> {
 
             Stmt::Expr(ExprStmt { span, expr, .. }) => {
                 let expr = expr.map(|expr| self.fold_expr(expr, true));
-                return self.emit(Stmt::Expr(ExprStmt { span, expr }));
+                self.emit(Stmt::Expr(ExprStmt { span, expr }))
             }
 
             Stmt::Return(ret) => {
-                return ReturnStmt {
-                    arg: Some(
-                        box CallExpr {
-                            span: DUMMY_SP,
-                            callee: self.ctx.clone().member(quote_ident!("abrupt")).as_callee(),
-                            args: {
-                                let ret_arg = Lit::Str(Str {
-                                    span: DUMMY_SP,
-                                    value: "return".into(),
-                                    has_escape: false,
-                                })
-                                .as_arg();
-
-                                if let Some(arg) = ret.arg {
-                                    vec![ret_arg, arg.as_arg()]
-                                } else {
-                                    vec![ret_arg]
-                                }
-                            },
-                            type_args: Default::default(),
-                        }
-                        .into(),
-                    ),
-                    ..ret
-                }
-                .into()
+                self.emit_abrupt_completion("return", ret.arg.map(|arg| arg.as_arg()), None)
             }
 
             Stmt::Labeled(_) => {}
 
-            Stmt::Break(_) => {}
+            Stmt::Break(s) => {
+                let target = self.leaps.find_break_loc(s.label.as_ref().map(|i| &i.sym));
+                self.emit_abrupt_completion("break", None, target)
+            }
 
-            Stmt::Continue(_) => {}
+            Stmt::Continue(s) => {
+                let target = self
+                    .leaps
+                    .find_continue_loc(s.label.as_ref().map(|i| &i.sym));
+                self.emit_abrupt_completion("continue", None, target)
+            }
 
             Stmt::If(s) => {
                 let else_loc = if s.alt.is_some() {
@@ -512,7 +530,7 @@ impl Fold<Stmt> for CaseHandler<'_> {
 
             Stmt::ForOf(_) => {}
 
-            Stmt::Decl(_) => {}
+            Stmt::Decl(_) => unimplemented!("Decl"),
         }
     }
 }

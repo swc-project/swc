@@ -26,7 +26,7 @@ impl LeapManager {
         ret
     }
 
-    pub fn find_leap_loc<F>(&self, pred: F, label: Option<JsWord>) -> Option<Loc>
+    pub fn find_leap_loc<F>(&self, pred: F, label: Option<&JsWord>) -> Option<Loc>
     where
         F: FnMut(&Entry) -> Option<Loc>,
     {
@@ -43,7 +43,7 @@ impl LeapManager {
                         _ => None,
                     };
 
-                    if label.as_ref() == entry_label {
+                    if label == entry_label {
                         return Some(loc);
                     }
                 } else if entry.is_labeled() {
@@ -55,7 +55,7 @@ impl LeapManager {
 
         None
     }
-    pub fn find_break_loc(&self, label: Option<JsWord>) -> Option<Loc> {
+    pub fn find_break_loc(&self, label: Option<&JsWord>) -> Option<Loc> {
         self.find_leap_loc(
             |entry| match *entry {
                 Entry::Labeled { break_loc, .. } => Some(break_loc),
@@ -68,7 +68,7 @@ impl LeapManager {
         )
     }
 
-    pub fn find_continue_loc(&self, label: Option<JsWord>) -> Option<Loc> {
+    pub fn find_continue_loc(&self, label: Option<&JsWord>) -> Option<Loc> {
         self.find_leap_loc(
             |entry| match *entry {
                 Entry::Loop { continue_loc, .. } => Some(continue_loc),
