@@ -523,7 +523,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 key,
                 is_static,
                 is_optional,
-                false,
+                readonly,
                 is_abstract,
             );
         }
