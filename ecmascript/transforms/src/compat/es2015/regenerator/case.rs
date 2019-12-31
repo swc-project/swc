@@ -1,5 +1,6 @@
 use crate::util::ExprFactory;
 use ast::*;
+use fxhash::FxHashSet;
 use swc_common::{util::map::Map, Fold, FoldWith, Spanned, Visit, VisitWith, DUMMY_SP};
 
 #[derive(Debug)]
@@ -16,7 +17,7 @@ pub(super) struct CaseHandler<'a> {
 
     /// A sparse array whose keys correspond to locations in this.listing
     /// that have been marked as branch/jump targets.
-    marked: Vec<bool>,
+    marked: FxHashSet<usize>,
 }
 
 impl<'a> CaseHandler<'a> {
@@ -25,7 +26,11 @@ impl<'a> CaseHandler<'a> {
             ctx,
             idx: 0,
             temp_idx: 0,
-            marked: vec![true],
+            marked: {
+                let mut set = FxHashSet::default();
+                set.insert(0);
+                set
+            },
             listing: vec![],
         }
     }
@@ -37,6 +42,18 @@ impl CaseHandler<'_> {
         self.listing.push(stmt);
 
         Stmt::Empty(EmptyStmt { span })
+    }
+
+    fn emit_assign(&mut self, lhs: Expr, right: Expr) {
+        self.emit(
+            AssignExpr {
+                span: DUMMY_SP,
+                op: op!("="),
+                left: PatOrExpr::Expr(box lhs),
+                right: box right,
+            }
+            .into_stmt(),
+        );
     }
 
     pub fn final_loc(&self) -> usize {
@@ -117,7 +134,7 @@ impl CaseHandler<'_> {
                             new_args.insert(
                                 0,
                                 match obj {
-                                    ExprOrSuper::Expr(ref e) => e.clone(),
+                                    ExprOrSuper::Expr(ref e) => e.clone().as_arg(),
                                     _ => unreachable!("super as callee in a generator function"),
                                 },
                             );
@@ -181,6 +198,57 @@ impl CaseHandler<'_> {
                 }))
             }
 
+            Expr::New(NewExpr { .. }) => {
+                //return finish(t.newExpression(
+                //    explodeViaTempVar(null, path.get("callee")),
+                //    path.get("arguments").map(function(argPath) {
+                //        return explodeViaTempVar(null, argPath);
+                //    })
+                //));
+            }
+
+            Expr::Object(..) => {}
+
+            Expr::Array(..) => {}
+
+            Expr::Seq(..) => {}
+
+            Expr::Bin(ref e) if e.op == op!("&&") || e.op == op!("||") => {}
+
+            Expr::Cond(..) => {}
+
+            Expr::Unary(..) => {}
+
+            Expr::Bin(..) => {}
+
+            Expr::Assign(AssignExpr { op: op!("="), .. }) => {}
+
+            Expr::Update(..) => {}
+
+            Expr::Yield(e) => {
+                let after = self.loc();
+
+                let arg = e.arg.fold_with(self);
+
+                if arg.is_some() && e.delegate {
+                    // https://github.com/facebook/regenerator/blob/master/packages/regenerator-transform/src/emit.js#L1220-L1235
+                    unimplemented!("regenerator: yield* ")
+                }
+
+                let after = self.mark(after);
+
+                self.emit_assign(self.ctx.clone().member(quote_ident!("next")), after);
+
+                let ret = ReturnStmt {
+                    span: DUMMY_SP,
+                    arg,
+                }
+                .into();
+                self.emit(ret);
+
+                return self.ctx.clone().member(quote_ident!("sent"));
+            }
+
             _ => {}
         }
 
@@ -202,7 +270,7 @@ impl CaseHandler<'_> {
                 cons: vec![],
             };
 
-            if self.marked.get(i) == Some(&true) {
+            if self.marked.contains(&i) {
                 cases.push(case);
                 already_ended = false;
             }
@@ -214,6 +282,27 @@ impl CaseHandler<'_> {
                 //                }
             }
         }
+    }
+
+    fn loc(&self) -> Number {
+        Number {
+            span: DUMMY_SP,
+            value: -1.0,
+        }
+    }
+
+    fn mark(&mut self, mut n: Number) -> Expr {
+        let idx = self.listing.len();
+        if n.value == -1.0 {
+            n.value = (idx + 1) as _;
+        } else {
+            assert_eq!(n.value, (idx + 1) as f64);
+        }
+
+        // Mark
+        self.marked.insert(idx + 1);
+
+        Expr::Lit(Lit::Num(n))
     }
 }
 
