@@ -268,7 +268,20 @@ impl CaseHandler<'_> {
 
             Expr::Array(..) => {}
 
-            Expr::Seq(..) => {}
+            Expr::Seq(e) => {
+                let len = e.exprs.len();
+                let exprs = e
+                    .exprs
+                    .into_iter()
+                    .enumerate()
+                    .map(|(i, e)| {
+                        e.map(|e| {
+                            self.explode_expr(e, if len - 1 == i { ignore_result } else { true })
+                        })
+                    })
+                    .collect();
+                return SeqExpr { exprs, ..e }.into();
+            }
 
             Expr::Bin(ref e) if e.op == op!("&&") || e.op == op!("||") => {}
 
@@ -539,7 +552,8 @@ impl CaseHandler<'_> {
             }
 
             Stmt::Return(ret) => {
-                self.emit_abrupt_completion("return", ret.arg.map(|arg| arg.as_arg()), None)
+                let arg = ret.arg.map(|e| e.map(|e| self.explode_expr(e, false)));
+                self.emit_abrupt_completion("return", arg.map(|arg| arg.as_arg()), None)
             }
 
             Stmt::Labeled(s) => {
