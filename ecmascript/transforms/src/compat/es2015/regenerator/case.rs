@@ -95,11 +95,81 @@ impl CaseHandler<'_> {
                 type_args,
             }) => {
                 let has_leaping_args = args.iter().any(|t| contains_leap(t));
+                let mut new_args = vec![];
 
-                match callee {
-                    ExprOrSuper::Expr(box Expr::Member(me)) => {}
-                    _ => {}
-                }
+                let callee = match callee {
+                    ExprOrSuper::Expr(box Expr::Member(me)) => {
+                        if has_leaping_args {
+                            // If the arguments of the CallExpression contained any yield
+                            // expressions, then we need to be sure to evaluate the callee
+                            // before evaluating the arguments, but if the callee was a member
+                            // expression, then we must be careful that the object of the
+                            // member expression still gets bound to `this` for the call.
+
+                            let obj = me.obj.fold_with(self);
+
+                            let prop = if me.computed {
+                                me.prop.fold_with(self)
+                            } else {
+                                me.prop
+                            };
+
+                            new_args.insert(
+                                0,
+                                match obj {
+                                    ExprOrSuper::Expr(ref e) => e.clone(),
+                                    _ => unreachable!("super as callee in a generator function"),
+                                },
+                            );
+
+                            ExprOrSuper::Expr(
+                                box MemberExpr {
+                                    span: me.span,
+                                    obj,
+                                    prop,
+                                    computed: me.computed,
+                                }
+                                .member(quote_ident!("call")),
+                            )
+                        } else {
+                            ExprOrSuper::Expr(box Expr::Member(me)).fold_with(self)
+                        }
+                    }
+
+                    ExprOrSuper::Expr(box callee) => {
+                        let callee = callee.fold_with(self);
+
+                        let callee = match callee {
+                            Expr::Member(..) => {
+                                // If the callee was not previously a MemberExpression, then the
+                                // CallExpression was "unqualified," meaning its `this` object
+                                // should be the global object. If the exploded expression has
+                                // become a MemberExpression (e.g. a context property, probably a
+                                // temporary variable), then we need to force it to be unqualified
+                                // by using the (0, object.property)(...) trick; otherwise, it
+                                // will receive the object of the MemberExpression as its `this`
+                                // object.
+                                ExprOrSuper::Expr(box Expr::Seq(SeqExpr {
+                                    span: DUMMY_SP,
+                                    exprs: vec![
+                                        box Lit::Num(Number {
+                                            span: DUMMY_SP,
+                                            value: 0.0,
+                                        })
+                                        .into(),
+                                        box callee,
+                                    ],
+                                }))
+                            }
+                            _ => ExprOrSuper::Expr(box callee),
+                        };
+
+                        callee
+                    }
+                    ExprOrSuper::Super(..) => {
+                        unreachable!("super as callee in a generator function")
+                    }
+                };
 
                 finish!(Expr::Call(CallExpr {
                     span,
