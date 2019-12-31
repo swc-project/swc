@@ -418,7 +418,10 @@ impl CaseHandler<'_> {
     /// Emits code for an unconditional jump to the given location, even if the
     /// exact value of the location is not yet known.
     fn jump(&mut self, target: &Loc) {
-        self.emit_assign(self.ctx.clone().member(quote_ident!("next")), target.id());
+        self.emit_assign(
+            self.ctx.clone().member(quote_ident!("next")),
+            Expr::Invalid(Invalid { span: DUMMY_SP }),
+        );
         self.emit(Stmt::Break(BreakStmt {
             span: DUMMY_SP,
             label: None,
@@ -439,7 +442,7 @@ impl CaseHandler<'_> {
                             left: PatOrExpr::Expr(
                                 box self.ctx.clone().member(quote_ident!("next")),
                             ),
-                            right: box to.id(),
+                            right: box Expr::Invalid(Invalid { span: DUMMY_SP }),
                         }
                         .into_stmt(),
                         Stmt::Break(BreakStmt {
@@ -480,7 +483,7 @@ impl CaseHandler<'_> {
                             left: PatOrExpr::Expr(
                                 box self.ctx.clone().member(quote_ident!("next")),
                             ),
-                            right: box to.id(),
+                            right: box Expr::Invalid(Invalid { span: DUMMY_SP }),
                         }
                         .into_stmt(),
                         Stmt::Break(BreakStmt {
