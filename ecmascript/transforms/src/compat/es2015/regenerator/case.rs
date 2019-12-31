@@ -14,6 +14,8 @@ pub(super) struct CaseHandler<'a> {
     /// An append-only list of Statements that grows each time this.emit is
     /// called.
     listing: Vec<Stmt>,
+    /// Computed on .extend_cases
+    listing_len: usize,
 
     /// A sparse array whose keys correspond to locations in this.listing
     /// that have been marked as branch/jump targets.
@@ -26,6 +28,7 @@ impl<'a> CaseHandler<'a> {
             ctx,
             idx: 0,
             temp_idx: 0,
+            listing_len: 0,
             marked: {
                 let mut set = FxHashSet::default();
                 set.insert(0);
@@ -57,7 +60,7 @@ impl CaseHandler<'_> {
     }
 
     pub fn final_loc(&self) -> usize {
-        self.listing.len()
+        self.listing_len
     }
 
     fn fold_expr(&mut self, e: Expr, ignore_result: bool) -> Expr {
@@ -256,6 +259,7 @@ impl CaseHandler<'_> {
     }
 
     pub fn extend_cases(&mut self, cases: &mut Vec<SwitchCase>) {
+        self.listing_len = self.listing.len();
         // If we encounter a break, continue, or return statement in a switch
         // case, we can skip the rest of the statements until the next case.
         let mut already_ended = false;
