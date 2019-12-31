@@ -2,9 +2,26 @@ use super::leap::{Entry, LeapManager};
 use crate::util::ExprFactory;
 use ast::*;
 use fxhash::FxHashSet;
-use swc_common::{util::map::Map, Spanned, Visit, VisitWith, DUMMY_SP};
+use smallvec::SmallVec;
+use std::mem::replace;
+use swc_common::{
+    util::{map::Map, move_map::MoveMap},
+    Fold, FoldWith, Spanned, Visit, VisitWith, DUMMY_SP,
+};
 
-pub(super) type Loc = Number;
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub(super) struct Loc {
+    idx: u32,
+}
+
+impl Loc {
+    fn id(&self) -> Expr {
+        Expr::Lit(Lit::Num(Number {
+            span: DUMMY_SP,
+            value: self.idx as _,
+        }))
+    }
+}
 
 #[derive(Debug)]
 pub(super) struct CaseHandler<'a> {
@@ -17,12 +34,12 @@ pub(super) struct CaseHandler<'a> {
     /// An append-only list of Statements that grows each time this.emit is
     /// called.
     listing: Vec<Stmt>,
-    /// Computed on .extend_cases
+
     listing_len: usize,
 
     /// A sparse array whose keys correspond to locations in this.listing
     /// that have been marked as branch/jump targets.
-    marked: FxHashSet<usize>,
+    marked: Vec<(Loc, usize)>,
 
     leaps: LeapManager,
 }
@@ -34,11 +51,7 @@ impl<'a> CaseHandler<'a> {
             idx: 0,
             temp_idx: 0,
             listing_len: 0,
-            marked: {
-                let mut set = FxHashSet::default();
-                set.insert(0);
-                set
-            },
+            marked: Default::default(),
             listing: vec![],
 
             leaps: Default::default(),
@@ -267,10 +280,10 @@ impl CaseHandler<'_> {
                     unimplemented!("regenerator: yield* ")
                 }
 
-                // TODO: Move this to after emit(ret).
-                let after = self.mark(after);
-
-                self.emit_assign(self.ctx.clone().member(quote_ident!("next")), after);
+                self.emit_assign(
+                    self.ctx.clone().member(quote_ident!("next")),
+                    Expr::Invalid(Invalid { span: DUMMY_SP }),
+                );
 
                 let ret = ReturnStmt {
                     span: DUMMY_SP,
@@ -278,6 +291,8 @@ impl CaseHandler<'_> {
                 }
                 .into();
                 self.emit(ret);
+
+                self.mark(after);
 
                 return self.ctx.clone().member(quote_ident!("sent"));
             }
@@ -289,65 +304,66 @@ impl CaseHandler<'_> {
     }
 
     pub fn extend_cases(&mut self, cases: &mut Vec<SwitchCase>) {
-        if self.listing_len != 0 {
-            panic!("CaseHandler.extend_cases can be called only once")
-        }
-
         self.listing_len = self.listing.len();
         // If we encounter a break, continue, or return statement in a switch
         // case, we can skip the rest of the statements until the next case.
         let mut already_ended = false;
 
-        for (i, stmt) in self.listing.drain(..).enumerate() {
-            let mut case = SwitchCase {
+        for (loc, cnt) in self.marked.drain(..) {
+            let case = SwitchCase {
                 span: DUMMY_SP,
-                test: Some(box Expr::Lit(Lit::Num(Number {
-                    span: DUMMY_SP,
-                    value: i as _,
-                }))),
-                cons: vec![],
+                test: Some(box loc.id()),
+                cons: self.listing.drain(..cnt).collect(),
             };
+            assert_eq!(cnt, case.cons.len());
 
-            if self.marked.contains(&i) {
-                cases.push(case);
-                already_ended = false;
-            }
-
-            if !already_ended {
-                cases.last_mut().unwrap().cons.push(stmt);
-                //                if isCompletionStatement(stmt) {
-                already_ended = true;
-                //                }
-            }
+            cases.push(case);
         }
     }
 
-    fn loc(&self) -> Number {
-        Number {
-            span: DUMMY_SP,
-            value: -1.0,
-        }
+    fn loc(&mut self) -> Loc {
+        println!("loc(): self.idx = {:?}", self.idx);
+        let loc = Loc { idx: self.idx };
+        self.idx += 1;
+        loc
     }
 
-    fn mark(&mut self, mut n: Number) -> Expr {
-        let idx = self.listing.len();
-        if n.value == -1.0 {
-            n.value = (idx + 1) as _;
-        } else {
-            assert_eq!(n.value, (idx + 1) as f64);
+    fn mark(&mut self, loc: Loc) {
+        let cnt = self.listing.len() - self.listing_len;
+        self.listing_len = self.listing.len();
+
+        struct InvalidToLit {
+            loc: Loc,
         }
+        impl Fold<Expr> for InvalidToLit {
+            fn fold(&mut self, e: Expr) -> Expr {
+                let e = e.fold_children(self);
+
+                match e {
+                    Expr::Invalid(..) => self.loc.id(),
+                    _ => e,
+                }
+            }
+        }
+
+        // Convert <invalid> to number
+
+        let mut v = InvalidToLit { loc };
+        let buf = replace(&mut self.listing, vec![]);
+        let buf = buf.move_map(|stmt| stmt.fold_with(&mut v));
+        replace(&mut self.listing, buf);
+
+        println!("mark({}): {:?} statements", loc.idx, cnt);
 
         // Mark
-        self.marked.insert(idx + 1);
-
-        Expr::Lit(Lit::Num(n))
+        self.marked.push((loc, cnt));
     }
 
     fn emit_abrupt_completion(
         &mut self,
         ty: &'static str,
         arg: Option<ExprOrSpread>,
-        target: Option<Loc>,
+        target: Option<&Loc>,
     ) {
         let stmt = ReturnStmt {
             span: DUMMY_SP,
@@ -380,18 +396,15 @@ impl CaseHandler<'_> {
 
     /// Emits code for an unconditional jump to the given location, even if the
     /// exact value of the location is not yet known.
-    fn jump(&mut self, n: Number) {
-        self.emit_assign(
-            self.ctx.clone().member(quote_ident!("next")),
-            Expr::Lit(Lit::Num(n)),
-        );
+    fn jump(&mut self, target: &Loc) {
+        self.emit_assign(self.ctx.clone().member(quote_ident!("next")), target.id());
         self.emit(Stmt::Break(BreakStmt {
             span: DUMMY_SP,
             label: None,
         }));
     }
 
-    fn jump_if(&mut self, test: Box<Expr>, to: Number) {
+    fn jump_if(&mut self, test: Box<Expr>, to: &Loc) {
         self.emit(
             IfStmt {
                 span: DUMMY_SP,
@@ -405,7 +418,7 @@ impl CaseHandler<'_> {
                             left: PatOrExpr::Expr(
                                 box self.ctx.clone().member(quote_ident!("next")),
                             ),
-                            right: box Expr::Lit(Lit::Num(to)),
+                            right: box to.id(),
                         }
                         .into_stmt(),
                         Stmt::Break(BreakStmt {
@@ -421,7 +434,7 @@ impl CaseHandler<'_> {
         );
     }
 
-    fn jump_if_not(&mut self, test: Box<Expr>, to: Number) {
+    fn jump_if_not(&mut self, test: Box<Expr>, to: &Loc) {
         let negated_test = match *test {
             Expr::Unary(UnaryExpr {
                 op: op!("!"), arg, ..
@@ -446,7 +459,7 @@ impl CaseHandler<'_> {
                             left: PatOrExpr::Expr(
                                 box self.ctx.clone().member(quote_ident!("next")),
                             ),
-                            right: box Expr::Lit(Lit::Num(to)),
+                            right: box to.id(),
                         }
                         .into_stmt(),
                         Stmt::Break(BreakStmt {
@@ -534,14 +547,14 @@ impl CaseHandler<'_> {
 
             Stmt::Break(s) => {
                 let target = self.leaps.find_break_loc(s.label.as_ref().map(|i| &i.sym));
-                self.emit_abrupt_completion("break", None, target)
+                self.emit_abrupt_completion("break", None, target.as_ref())
             }
 
             Stmt::Continue(s) => {
                 let target = self
                     .leaps
                     .find_continue_loc(s.label.as_ref().map(|i| &i.sym));
-                self.emit_abrupt_completion("continue", None, target)
+                self.emit_abrupt_completion("continue", None, target.as_ref())
             }
 
             Stmt::If(s) => {
@@ -553,12 +566,12 @@ impl CaseHandler<'_> {
                 let after = self.loc();
 
                 let test = box self.explode_expr(*s.test, false);
-                self.jump_if_not(test, else_loc.unwrap_or(after));
+                self.jump_if_not(test, else_loc.as_ref().unwrap_or(&after));
 
                 self.explode_stmt(*s.cons);
 
                 if let Some(else_loc) = else_loc {
-                    self.jump(after);
+                    self.jump(&after);
                     self.mark(else_loc);
                     self.explode_stmt(*s.alt.unwrap());
                 }
