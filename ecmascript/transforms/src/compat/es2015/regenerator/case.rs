@@ -1,5 +1,8 @@
 use super::leap::{Entry, LeapManager};
-use crate::{compat::es2015::regenerator::Finder, util::ExprFactory};
+use crate::{
+    compat::es2015::regenerator::Finder,
+    util::{undefined, ExprFactory},
+};
 use ast::*;
 use fxhash::FxHashSet;
 use smallvec::SmallVec;
@@ -94,6 +97,17 @@ impl CaseHandler<'_> {
 
     pub fn final_loc(&self) -> usize {
         self.listing_len
+    }
+
+    fn make_var(&mut self) -> Expr {
+        let res = self
+            .ctx
+            .clone()
+            .member(quote_ident!(format!("t{}", self.temp_idx)));
+
+        self.temp_idx += 1;
+
+        res
     }
 
     fn explode_expr(&mut self, e: Expr, ignore_result: bool) -> Expr {
@@ -301,7 +315,30 @@ impl CaseHandler<'_> {
 
             Expr::Bin(ref e) if e.op == op!("&&") || e.op == op!("||") => {}
 
-            Expr::Cond(..) => {}
+            Expr::Cond(e) => {
+                let else_loc = self.loc();
+                let after = self.loc();
+
+                let test = e.test.map(|e| self.explode_expr(e, false));
+
+                self.jump_if_not(test, &else_loc);
+
+                let result = if ignore_result {
+                    None
+                } else {
+                    Some(self.make_var())
+                };
+
+                self.explode_expr(*e.cons, ignore_result);
+                self.jump(&after);
+
+                self.mark(else_loc);
+                self.explode_expr(*e.alt, ignore_result);
+
+                self.mark(after);
+
+                return result.map(|e| e).unwrap_or_else(|| *undefined(DUMMY_SP));
+            }
 
             Expr::Unary(..) => {}
 

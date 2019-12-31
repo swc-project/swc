@@ -564,3 +564,18 @@ expect(v.next()).toEqual({ done: false, value: 1 });
 expect(v.next()).toEqual({ done: true });
 "
 );
+
+test_exec!(
+    syntax(),
+    |_| tr(Default::default()),
+    cond_expr,
+    "var _regeneratorRuntime = require('@babel/runtime/regenerator');
+    
+let v = (function* (){
+  true ? yield 1 : yield 2;
+})();
+
+expect(v.next()).toEqual({ value: 1, done: false });
+expect(v.next()).toEqual({ done: true });
+"
+);
