@@ -488,7 +488,10 @@ impl Fold<Stmt> for CaseHandler<'_> {
 
             Stmt::Switch(_) => {}
 
-            Stmt::Throw(_) => {}
+            Stmt::Throw(s) => {
+                let arg = s.arg.fold_with(self);
+                self.emit(Stmt::Throw(ThrowStmt { span: s.span, arg }))
+            }
 
             Stmt::Try(_) => {}
 
