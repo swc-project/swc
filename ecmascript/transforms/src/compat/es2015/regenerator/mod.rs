@@ -130,77 +130,58 @@ impl Regenerator {
             .map(|i| Ident::new(format!("{}$", i.sym).into(), i.span))
             .unwrap_or_else(|| private_ident!("ref$"));
         let ctx = private_ident!("_ctx");
+        let mut handler = CaseHandler::new(&ctx);
 
         f.body = f.body.fold_with(&mut FnSentVisitor { ctx: ctx.clone() });
+        f.body = f.body.fold_with(&mut handler);
 
         let mut cases = vec![];
-        let mut idx = 0u32;
-        let mut temp_idx = 0u32;
         let mut stmts = f.body.unwrap().stmts.into_iter();
 
-        loop {
-            let mut case = SwitchCase {
+        handler.extend_cases(&mut cases);
+        //        loop {
+
+        //
+        //            while let Some(stmt) = stmts.next() {
+        //                //                match stmt {
+        //                //                    Stmt::Expr(ExprStmt {
+        //                //                        span,
+        //                //                        expr: box Expr::Yield(expr),
+        //                //                    }) => {
+        //                //
+        // case.cons.push(make_next(ctx.clone(), idx + 1));                //
+        //                //                        case.cons.push(
+        //                //                            ReturnStmt {
+        //                //                                span,
+        //                //                                arg: expr.arg,
+        //                //                            }
+        //                //                            .into(),
+        //                //                        );
+        //                //                        break;
+        //                //                    }
+        //                //
+        //                //                    _ => {}
+        //                //                }
+        //
+        //                case.cons.push(stmt);
+        //            }
+        //            let is_empty = case.cons.is_empty();
+        //
+        //            cases.push(case);
+        //
+        //            idx += 1;
+        //
+
+        // Intentionally fall through to the "end" case...
+        cases.push(SwitchCase {
+            span: DUMMY_SP,
+            test: Some(box Expr::Lit(Lit::Num(Number {
                 span: DUMMY_SP,
-                test: Some(box Expr::Lit(Lit::Num(Number {
-                    span: DUMMY_SP,
-                    value: idx as _,
-                }))),
-                cons: vec![],
-            };
-
-            while let Some(stmt) = stmts.next() {
-                let mut handler = CaseHandler {
-                    ctx: &ctx,
-                    idx: &mut idx,
-                    temp_idx: &mut temp_idx,
-                    stmts: &mut case.cons,
-                };
-
-                let stmt = stmt.fold_with(&mut handler);
-                match stmt {
-                    Stmt::Expr(ExprStmt {
-                        span,
-                        expr: box Expr::Yield(expr),
-                    }) => {
-                        case.cons.push(make_next(ctx.clone(), idx + 1));
-
-                        case.cons.push(
-                            ReturnStmt {
-                                span,
-                                arg: expr.arg,
-                            }
-                            .into(),
-                        );
-                        break;
-                    }
-
-                    _ => {}
-                }
-
-                case.cons.push(stmt);
-            }
-            let is_empty = case.cons.is_empty();
-
-            cases.push(case);
-
-            idx += 1;
-
-            if stmts.len() == 0 {
-                if !is_empty {
-                    cases.push(SwitchCase {
-                        span: DUMMY_SP,
-                        test: Some(box Expr::Lit(Lit::Num(Number {
-                            span: DUMMY_SP,
-                            value: idx as _,
-                        }))),
-                        // fallthrough
-                        cons: vec![],
-                    });
-                }
-                break;
-            }
-        }
-
+                value: handler.final_loc() as _,
+            }))),
+            // fallthrough
+            cons: vec![],
+        });
         cases.push(SwitchCase {
             span: DUMMY_SP,
             test: Some(box Expr::Lit(Lit::Str(Str {
