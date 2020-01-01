@@ -394,7 +394,14 @@ impl CaseHandler<'_> {
                 result.map(|e| e).unwrap_or_else(|| *undefined(DUMMY_SP))
             }
 
-            Expr::Unary(..) => unimplemented!("regenerator: unary expression"),
+            Expr::Unary(e) => {
+                let expr = Expr::Unary(UnaryExpr {
+                    arg: e.arg.map(|e| self.explode_expr(e, false)),
+                    ..e
+                });
+
+                finish!(expr)
+            }
 
             Expr::Bin(..) => unimplemented!("regenerator: binary expression"),
 
