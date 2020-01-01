@@ -253,86 +253,6 @@ function foo(a, b, c) {
 "#
 );
 
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    empty_fn_expr_1,
-    "let a = function* foo(a,b,c){}
-",
-    r#"
-let a =
-/*#__PURE__*/
-regeneratorRuntime.mark(function foo(a, b, c) {
-  return regeneratorRuntime.wrap(function foo$(_ctx) {
-    while (1) {
-      switch (_ctx.prev = _ctx.next) {
-        case 0:
-        case "end":
-          return _ctx.stop();
-      }
-    }
-  }, foo);
-});
-"#
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    empty_fn_expr_2,
-    "(function* (a,b,c){})",
-    "
-/*#__PURE__*/
-regeneratorRuntime.mark(function _callee(a, b, c) {
-  return regeneratorRuntime.wrap(function _callee$(_ctx) {
-    while (1) {
-      switch (_ctx.prev = _ctx.next) {
-        case 0:
-        case 'end':
-          return _ctx.stop();
-      }
-    }
-  }, _callee);
-});
-"
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    fn_expr_yield_1,
-    "(function* (){
-  a;
-  b;
-  yield 3;
-  yield b;
-})",
-    "
-/*#__PURE__*/
-regeneratorRuntime.mark(function _callee() {
-  return regeneratorRuntime.wrap(function _callee$(_ctx) {
-    while (1) {
-      switch (_ctx.prev = _ctx.next) {
-        case 0:
-          a;
-          b;
-          _ctx.next = 1;
-          return 3;
-
-        case 1:
-          _ctx.next = 2;
-          return b;
-
-        case 2:
-        case 'end':
-          return _ctx.stop();
-      }
-    }
-  }, _callee);
-});
-"
-);
-
 test_exec!(
     syntax(),
     |_| tr(Default::default()),
@@ -568,7 +488,7 @@ expect(v.next()).toEqual({ done: true });
 test_exec!(
     syntax(),
     |_| tr(Default::default()),
-    cond_expr,
+    expr_cond,
     "var _regeneratorRuntime = require('@babel/runtime/regenerator');
     
 let v = (function* (){
@@ -576,6 +496,38 @@ let v = (function* (){
 })();
 
 expect(v.next()).toEqual({ value: 1, done: false });
+expect(v.next()).toEqual({ done: true });
+"
+);
+
+test_exec!(
+    syntax(),
+    |_| tr(Default::default()),
+    expr_array,
+    "var _regeneratorRuntime = require('@babel/runtime/regenerator');
+    
+let v = (function* (){
+  yield [yield 1, 2];
+})();
+
+expect(v.next('foo')).toEqual({ value: 1, done: false });
+expect(v.next()).toEqual({ value: ['foo', 2], done: false });
+expect(v.next()).toEqual({ done: true });
+"
+);
+
+test_exec!(
+    syntax(),
+    |_| tr(Default::default()),
+    expr_object,
+    "var _regeneratorRuntime = require('@babel/runtime/regenerator');
+    
+let v = (function* (){
+  yield { a: yield 1 };
+})();
+
+expect(v.next('foo')).toEqual({ value: 1, done: false });
+expect(v.next()).toEqual({ value: ['foo', 2], done: false });
 expect(v.next()).toEqual({ done: true });
 "
 );
