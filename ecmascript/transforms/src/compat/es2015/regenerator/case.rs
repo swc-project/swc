@@ -14,22 +14,22 @@ use swc_common::{
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub(super) struct Loc {
-    idx: u32,
-    cnt: usize,
+    id: u32,
+    stmt_index: usize,
 }
 
 impl Loc {
     fn id(&self) -> Expr {
         Expr::Lit(Lit::Num(Number {
             span: DUMMY_SP,
-            value: (self.idx) as _,
+            value: (self.id) as _,
         }))
     }
 
     /// Creates an invalid expression pointing `self`
     fn expr(&self) -> Expr {
         Expr::Invalid(Invalid {
-            span: Span::new(BytePos(self.idx), BytePos(self.idx), SyntaxContext::empty()),
+            span: Span::new(BytePos(self.id), BytePos(self.id), SyntaxContext::empty()),
         })
     }
 }
@@ -387,7 +387,7 @@ impl CaseHandler<'_> {
         // case, we can skip the rest of the statements until the next case.
         let mut already_ended = false;
 
-        self.marked.sort_by_key(|v| v.idx);
+        self.marked.sort_by_key(|v| v.id);
 
         for mark in self.marked.drain(..) {
             println!("Mark({}): {}", mark.idx, mark.cnt);
@@ -398,7 +398,14 @@ impl CaseHandler<'_> {
                     span: DUMMY_SP,
                     value: mark.idx as _,
                 }))),
-                cons: self.listing.drain(..mark.cnt).into_iter().collect(),
+                cons: self
+                    .listing
+                    .drain(..mark.cnt)
+                    .map(|stmt| {
+                        let mut v = InvalidToLit;
+                        stmt.fold_with(&mut v)
+                    })
+                    .collect(),
             };
 
             cases.push(case);
@@ -407,7 +414,7 @@ impl CaseHandler<'_> {
 
     fn loc(&mut self) -> Loc {
         let loc = Loc {
-            idx: self.idx,
+            id: self.idx,
             cnt: 0,
         };
         self.idx += 1;
@@ -415,17 +422,9 @@ impl CaseHandler<'_> {
     }
 
     fn mark(&mut self, mut loc: Loc) {
-        let cnt = self.listing.len() - self.listing_len;
-        self.listing_len = self.listing.len();
+        let idx = self.listing.len();
 
-        println!("index = {}; len = {}", loc.idx, self.listing_len);
-
-        loc.cnt = cnt;
-
-        let mut v = InvalidToLit;
-        let buf = replace(&mut self.listing, vec![]);
-        let buf = buf.move_map(|stmt| stmt.fold_with(&mut v));
-        replace(&mut self.listing, buf);
+        loc.stmt_index = idx;
 
         // Mark
         self.marked.push(loc);
