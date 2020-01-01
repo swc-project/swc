@@ -1432,6 +1432,20 @@ pub(crate) struct DestructuringFinder<'a, I: IdentLike> {
     pub found: &'a mut Vec<I>,
 }
 
+pub(crate) fn find_ids<T, I: IdentLike>(node: &T) -> Vec<I>
+where
+    T: for<'any> VisitWith<DestructuringFinder<'any, I>>,
+{
+    let mut found = vec![];
+
+    {
+        let mut v = DestructuringFinder { found: &mut found };
+        node.visit_with(&mut v);
+    }
+
+    found
+}
+
 impl<'a, I: IdentLike> Visit<Expr> for DestructuringFinder<'a, I> {
     /// No-op (we don't care about expressions)
     fn visit(&mut self, _: &Expr) {}
