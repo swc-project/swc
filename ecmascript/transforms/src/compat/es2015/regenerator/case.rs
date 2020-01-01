@@ -276,7 +276,37 @@ impl CaseHandler<'_> {
                 return NewExpr { callee, args, ..e }.into();
             }
 
-            Expr::Object(..) => {}
+            Expr::Object(obj) => {
+                let props = obj
+                    .props
+                    .into_iter()
+                    .map(|prop| {
+                        //
+                        match prop {
+                            PropOrSpread::Prop(box p) => PropOrSpread::Prop(box match p {
+                                Prop::Shorthand(_) => {
+                                    unimplemented!("regenerator: shorthand property")
+                                }
+                                Prop::KeyValue(p) => Prop::KeyValue(KeyValueProp {
+                                    value: p.value.map(|e| self.explode_expr(e, false)),
+                                    ..p
+                                }),
+                                Prop::Assign(p) => Prop::Assign(AssignProp {
+                                    value: p.value.map(|e| self.explode_expr(e, false)),
+                                    ..p
+                                }),
+                                Prop::Getter(_) => unimplemented!("regenerator: getter property"),
+                                Prop::Setter(_) => unimplemented!("regenerator: setter property"),
+                                Prop::Method(_) => unimplemented!("regenerator: method property"),
+                            }),
+                            _ => prop,
+                        }
+                    })
+                    .collect();
+
+                let expr = Expr::Object(ObjectLit { props, ..obj });
+                finish!(expr)
+            }
 
             Expr::Array(arr) => {
                 let elems = arr.elems.move_map(|opt| {
