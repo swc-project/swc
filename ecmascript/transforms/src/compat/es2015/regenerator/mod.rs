@@ -1,7 +1,7 @@
 use self::case::CaseHandler;
 use crate::{
     pass::Pass,
-    util::{prepend, ExprFactory, StmtLike},
+    util::{contains_this_expr, prepend, ExprFactory, StmtLike},
 };
 use ast::*;
 use std::mem::replace;
@@ -135,43 +135,14 @@ impl Regenerator {
         let mut handler = CaseHandler::new(&ctx);
 
         f.body = f.body.fold_with(&mut FnSentVisitor { ctx: ctx.clone() });
+        let uses_this = contains_this_expr(&f.body);
         handler.explode_stmts(f.body.unwrap().stmts);
 
         let mut cases = vec![];
 
         handler.extend_cases(&mut cases);
-        //        loop {
 
-        //
-        //            while let Some(stmt) = stmts.next() {
-        //                //                match stmt {
-        //                //                    Stmt::Expr(ExprStmt {
-        //                //                        span,
-        //                //                        expr: box Expr::Yield(expr),
-        //                //                    }) => {
-        //                //
-        // case.cons.push(make_next(ctx.clone(), idx + 1));                //
-        //                //                        case.cons.push(
-        //                //                            ReturnStmt {
-        //                //                                span,
-        //                //                                arg: expr.arg,
-        //                //                            }
-        //                //                            .into(),
-        //                //                        );
-        //                //                        break;
-        //                //                    }
-        //                //
-        //                //                    _ => {}
-        //                //                }
-        //
-        //                case.cons.push(stmt);
-        //            }
-        //            let is_empty = case.cons.is_empty();
-        //
-        //            cases.push(case);
-        //
-        //            idx += 1;
-        //
+        let try_locs_list = handler.get_try_locs_list();
 
         // Intentionally fall through to the "end" case...
         cases.push(SwitchCase {
@@ -239,8 +210,8 @@ impl Regenerator {
                         arg: Some(box Expr::Call(CallExpr {
                             span: DUMMY_SP,
                             callee: member_expr!(DUMMY_SP, regeneratorRuntime.wrap).as_callee(),
-                            args: vec![
-                                Expr::Fn(FnExpr {
+                            args: {
+                                let mut args = vec![Expr::Fn(FnExpr {
                                     ident: Some(inner_name),
                                     function: Function {
                                         params: vec![Pat::Ident(ctx.clone())],
@@ -256,9 +227,31 @@ impl Regenerator {
                                         return_type: None,
                                     },
                                 })
-                                .as_arg(),
-                                marked_ident.as_arg(),
-                            ],
+                                .as_arg()];
+
+                                if f.is_generator {
+                                    args.push(marked_ident.as_arg());
+                                } else if uses_this || try_locs_list.is_some() {
+                                    // Async functions that are not generators
+                                    // don't care about the
+                                    // outer function because they don't need it
+                                    // to be marked and don't
+                                    // inherit from its .prototype.
+                                    args.push(Lit::Null(Null { span: DUMMY_SP }).as_arg());
+                                }
+
+                                if uses_this {
+                                    args.push(ThisExpr { span: DUMMY_SP }.as_arg())
+                                } else if try_locs_list.is_some() {
+                                    args.push(Lit::Null(Null { span: DUMMY_SP }).as_arg());
+                                }
+
+                                if let Some(try_locs_list) = try_locs_list {
+                                    args.push(try_locs_list.as_arg())
+                                }
+
+                                args
+                            },
                             type_args: None,
                         })),
                     }

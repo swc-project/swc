@@ -18,6 +18,13 @@ pub(super) struct Loc {
 }
 
 impl Loc {
+    pub fn id(&self) -> Expr {
+        Expr::Lit(Lit::Num(Number {
+            span: DUMMY_SP,
+            value: self.id as _,
+        }))
+    }
+
     /// Creates an invalid expression pointing `self`
     fn expr(&self) -> Expr {
         Expr::Invalid(Invalid {
@@ -46,7 +53,7 @@ pub(super) struct CaseHandler<'a> {
 
     leaps: LeapManager,
 
-    try_entries: SmallVec<[TryEntry; 4]>,
+    try_entries: SmallVec<[TryEntry; 8]>,
 }
 
 impl<'a> CaseHandler<'a> {
@@ -75,6 +82,66 @@ impl CaseHandler<'_> {
         self.leaps.pop();
 
         ret
+    }
+
+    pub fn get_try_locs_list(&mut self) -> Option<ArrayLit> {
+        if self.try_entries.is_empty() {
+            // To avoid adding a needless [] to the majority of runtime.wrap
+            // argument lists, force the caller to handle this case specially.
+            return None;
+        }
+
+        let mut last_loc_value = 0;
+        Some(ArrayLit {
+            span: DUMMY_SP,
+            elems: replace(&mut self.try_entries, Default::default())
+                .into_iter()
+                .map(|entry: TryEntry| {
+                    let this_loc_value = entry.first_loc;
+                    assert!(this_loc_value.stmt_index >= last_loc_value);
+                    last_loc_value = this_loc_value.stmt_index;
+
+                    let ce = entry.catch_entry;
+                    let fe = entry.finally_entry;
+
+                    let mut locs = vec![
+                        Some(entry.first_loc),
+                        // The null here makes a hole in the array.
+                        if let Some(ce) = ce {
+                            Some(ce.first_loc)
+                        } else {
+                            None
+                        },
+                    ];
+
+                    if let Some(fe) = fe {
+                        locs.push(Some(fe.first_loc));
+                        locs.push(Some(fe.after_loc));
+                    }
+
+                    let elems = locs
+                        .into_iter()
+                        .map(|loc| {
+                            loc.map(|loc| ExprOrSpread {
+                                spread: None,
+                                expr: box loc.id(),
+                            })
+                        })
+                        .collect::<Vec<_>>();
+
+                    if elems.is_empty() {
+                        return None;
+                    }
+                    Some(ExprOrSpread {
+                        spread: None,
+                        expr: box Expr::Array(ArrayLit {
+                            span: DUMMY_SP,
+                            elems,
+                        }),
+                    })
+                })
+                .collect(),
+        })
     }
 
     /// The context.prev property takes the value of context.next whenever we
