@@ -1,11 +1,6 @@
 use super::leap::{Entry, LeapManager};
-use crate::{
-    compat::es2015::regenerator::Finder,
-    util::{undefined, ExprFactory},
-};
+use crate::util::{undefined, ExprFactory};
 use ast::*;
-use fxhash::{FxHashMap, FxHashSet};
-use smallvec::SmallVec;
 use std::mem::replace;
 use swc_common::{
     util::{map::Map, move_map::MoveMap},
@@ -19,13 +14,6 @@ pub(super) struct Loc {
 }
 
 impl Loc {
-    fn id(&self) -> Expr {
-        Expr::Lit(Lit::Num(Number {
-            span: DUMMY_SP,
-            value: (self.id) as _,
-        }))
-    }
-
     /// Creates an invalid expression pointing `self`
     fn expr(&self) -> Expr {
         Expr::Invalid(Invalid {
@@ -83,7 +71,6 @@ impl CaseHandler<'_> {
     }
 
     fn emit(&mut self, stmt: Stmt) {
-        let span = stmt.span();
         self.listing.push(stmt);
     }
 
@@ -387,7 +374,7 @@ impl CaseHandler<'_> {
         // case, we can skip the rest of the statements until the next case.
         let mut already_ended = false;
 
-        let mut stmts = {
+        let stmts = {
             let stmts = replace(&mut self.listing, vec![]);
             let mut v = InvalidToLit { map: &self.marked };
 
@@ -395,7 +382,7 @@ impl CaseHandler<'_> {
         };
 
         for (i, stmt) in stmts.into_iter().enumerate() {
-            let mut case = SwitchCase {
+            let case = SwitchCase {
                 span: DUMMY_SP,
                 test: Some(box Expr::Lit(Lit::Num(Number {
                     span: DUMMY_SP,

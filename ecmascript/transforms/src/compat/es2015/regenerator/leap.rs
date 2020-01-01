@@ -21,7 +21,7 @@ impl LeapManager {
     where
         F: FnMut(&Entry) -> Option<Loc>,
     {
-        for (i, entry) in self.stack.iter().enumerate().rev() {
+        for entry in self.stack.iter().rev() {
             let loc = pred(entry);
 
             if let Some(loc) = loc {
