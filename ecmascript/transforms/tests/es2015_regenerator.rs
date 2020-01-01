@@ -984,35 +984,3 @@ let v = (function* (){
 expect(v.next()).toEqual({ done: true });
 "
 );
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    hoist_1,
-    "var _regeneratorRuntime = require('@babel/runtime/regenerator');
-
-let v = (function* (){
-  function foo(){
-  }
-  
-  let bar;
-  const baz = 2;
-  {
-      let bar = 1;
-      use(bar)
-  }
-  
-  if (foo) {
-     let bar = 2;
-  }
-  
-  for(let a in b) {
-  }
-  
-  for(let [a, b] in b) {
-  }
-  
-})();
-",
-    ""
-);
