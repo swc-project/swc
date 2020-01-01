@@ -985,6 +985,30 @@ impl CaseHandler<'_> {
                             Entry::Finally(try_entry.finally_entry.clone().unwrap()),
                             |folder| folder.explode_stmts(finalizer.unwrap().stmts),
                         );
+
+                        let callee = folder
+                            .ctx
+                            .clone()
+                            .member(quote_ident!("finish"))
+                            .as_callee();
+                        folder.emit(
+                            ReturnStmt {
+                                span: DUMMY_SP,
+                                arg: Some(box Expr::Call(CallExpr {
+                                    span: DUMMY_SP,
+                                    args: vec![try_entry
+                                        .finally_entry
+                                        .as_ref()
+                                        .unwrap()
+                                        .first_loc
+                                        .to_stmt_index()
+                                        .as_arg()],
+                                    callee,
+                                    type_args: Default::default(),
+                                })),
+                            }
+                            .into(),
+                        );
                     }
                 });
 

@@ -649,7 +649,7 @@ let v = (function* (){
 })();
 
 expect(v.next()).toEqual({ value: 1, done: false });
-expect(() => v.next()).toThrow();
+expect(v.next()).toEqual({ value: 2, done: false });
 "
 );
 
@@ -693,7 +693,8 @@ let v = (function* (){
 
 expect(v.next()).toEqual({ value: 1, done: false });
 expect(v.next()).toEqual({ value: 2, done: false });
-expect(() => v.next()).toThrow();
+expect(v.next()).toEqual({ value: 3, done: false });
+
 "
 );
 
