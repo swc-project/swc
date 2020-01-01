@@ -31,19 +31,7 @@ where
             return items;
         }
 
-        let mut items = items.fold_children(self);
-
-        if !self.vars.is_empty() {
-            prepend(
-                &mut items,
-                T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    decls: replace(&mut self.vars, Default::default()),
-                    declare: false,
-                }))),
-            );
-        }
+        let items = items.fold_children(self);
 
         items
     }
@@ -137,25 +125,12 @@ impl Regenerator {
         f.body = f.body.fold_with(&mut FnSentVisitor { ctx: ctx.clone() });
         let uses_this = contains_this_expr(&f.body);
         let (mut body, vars) = hoist(f.body.unwrap());
-        if !vars.is_empty() {
-            prepend(
-                &mut body.stmts,
-                Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    declare: false,
-                    decls: vars
-                        .into_iter()
-                        .map(|id| VarDeclarator {
-                            span: DUMMY_SP,
-                            name: Pat::Ident(id),
-                            init: None,
-                            definite: false,
-                        })
-                        .collect(),
-                })),
-            );
-        }
+        self.vars.extend(vars.into_iter().map(|id| VarDeclarator {
+            span: DUMMY_SP,
+            name: Pat::Ident(id),
+            init: None,
+            definite: false,
+        }));
 
         handler.explode_stmts(body.stmts);
 
@@ -195,7 +170,7 @@ impl Regenerator {
             .into()],
         });
 
-        let stmts = vec![Stmt::While(WhileStmt {
+        let mut stmts = vec![Stmt::While(WhileStmt {
             span: DUMMY_SP,
             test: box Expr::Lit(Lit::Num(Number {
                 span: DUMMY_SP,
@@ -226,57 +201,74 @@ impl Regenerator {
                 is_generator: false,
                 body: Some(BlockStmt {
                     span: body_span,
-                    stmts: vec![ReturnStmt {
-                        span: DUMMY_SP,
-                        arg: Some(box Expr::Call(CallExpr {
-                            span: DUMMY_SP,
-                            callee: member_expr!(DUMMY_SP, regeneratorRuntime.wrap).as_callee(),
-                            args: {
-                                let mut args = vec![Expr::Fn(FnExpr {
-                                    ident: Some(inner_name),
-                                    function: Function {
-                                        params: vec![Pat::Ident(ctx.clone())],
-                                        decorators: Default::default(),
-                                        span: DUMMY_SP,
-                                        body: Some(BlockStmt {
-                                            span: DUMMY_SP,
-                                            stmts,
-                                        }),
-                                        is_generator: false,
-                                        is_async: false,
-                                        type_params: None,
-                                        return_type: None,
+                    stmts: {
+                        let mut buf = vec![];
+                        if !self.vars.is_empty() {
+                            buf.push(Stmt::Decl(Decl::Var(VarDecl {
+                                span: DUMMY_SP,
+                                kind: VarDeclKind::Var,
+                                decls: replace(&mut self.vars, Default::default()),
+                                declare: false,
+                            })));
+                        }
+
+                        buf.push(
+                            ReturnStmt {
+                                span: DUMMY_SP,
+                                arg: Some(box Expr::Call(CallExpr {
+                                    span: DUMMY_SP,
+                                    callee: member_expr!(DUMMY_SP, regeneratorRuntime.wrap)
+                                        .as_callee(),
+                                    args: {
+                                        let mut args = vec![Expr::Fn(FnExpr {
+                                            ident: Some(inner_name),
+                                            function: Function {
+                                                params: vec![Pat::Ident(ctx.clone())],
+                                                decorators: Default::default(),
+                                                span: DUMMY_SP,
+                                                body: Some(BlockStmt {
+                                                    span: DUMMY_SP,
+                                                    stmts,
+                                                }),
+                                                is_generator: false,
+                                                is_async: false,
+                                                type_params: None,
+                                                return_type: None,
+                                            },
+                                        })
+                                        .as_arg()];
+
+                                        if f.is_generator {
+                                            args.push(marked_ident.as_arg());
+                                        } else if uses_this || try_locs_list.is_some() {
+                                            // Async functions that are not generators
+                                            // don't care about the
+                                            // outer function because they don't need it
+                                            // to be marked and don't
+                                            // inherit from its .prototype.
+                                            args.push(Lit::Null(Null { span: DUMMY_SP }).as_arg());
+                                        }
+
+                                        if uses_this {
+                                            args.push(ThisExpr { span: DUMMY_SP }.as_arg())
+                                        } else if try_locs_list.is_some() {
+                                            args.push(Lit::Null(Null { span: DUMMY_SP }).as_arg());
+                                        }
+
+                                        if let Some(try_locs_list) = try_locs_list {
+                                            args.push(try_locs_list.as_arg())
+                                        }
+
+                                        args
                                     },
-                                })
-                                .as_arg()];
+                                    type_args: None,
+                                })),
+                            }
+                            .into(),
+                        );
 
-                                if f.is_generator {
-                                    args.push(marked_ident.as_arg());
-                                } else if uses_this || try_locs_list.is_some() {
-                                    // Async functions that are not generators
-                                    // don't care about the
-                                    // outer function because they don't need it
-                                    // to be marked and don't
-                                    // inherit from its .prototype.
-                                    args.push(Lit::Null(Null { span: DUMMY_SP }).as_arg());
-                                }
-
-                                if uses_this {
-                                    args.push(ThisExpr { span: DUMMY_SP }.as_arg())
-                                } else if try_locs_list.is_some() {
-                                    args.push(Lit::Null(Null { span: DUMMY_SP }).as_arg());
-                                }
-
-                                if let Some(try_locs_list) = try_locs_list {
-                                    args.push(try_locs_list.as_arg())
-                                }
-
-                                args
-                            },
-                            type_args: None,
-                        })),
-                    }
-                    .into()],
+                        buf
+                    },
                 }),
                 ..f
             },

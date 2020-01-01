@@ -719,7 +719,7 @@ impl CaseHandler<'_> {
             };
 
             let is_marked = self.marked.iter().any(|loc| i == 0 || loc.stmt_index == i);
-            if is_marked {
+            if is_marked || i == 0 {
                 cases.push(case);
                 already_ended = false;
             }
