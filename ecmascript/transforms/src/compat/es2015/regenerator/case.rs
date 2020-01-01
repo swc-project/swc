@@ -992,6 +992,7 @@ impl CaseHandler<'_> {
                 // test expressions overwrite values like context.sent.
                 let disc = self.make_var();
                 let discriminant = s.discriminant.map(|e| self.explode_expr(e, false));
+                self.emit_assign(disc.clone(), *discriminant);
 
                 let after = self.loc();
                 let mut default_loc = self.loc();
@@ -1025,10 +1026,6 @@ impl CaseHandler<'_> {
                         case_locs[i] = default_loc;
                     }
                 }
-
-                // let discriminant = path.get("discriminant");
-                // util.replaceWithOrRemove(discriminant, condition);
-                // self.jump(self.explodeExpression(discriminant));
 
                 self.jump_expr(condition);
 
@@ -1306,9 +1303,10 @@ impl CaseHandler<'_> {
                 {
                     let right = box key_info_tmp_var.clone().member(quote_ident!("value"));
                     match s.left {
-                        VarDeclOrPat::VarDecl(var) => {
-                            unreachable!("VarDeclaration in for-in statement must be hoisted")
-                        }
+                        VarDeclOrPat::VarDecl(var) => unreachable!(
+                            "VarDeclaration in for-in statement must be hoisted: {:?}",
+                            var
+                        ),
                         VarDeclOrPat::Pat(pat) => self.emit(
                             AssignExpr {
                                 span: DUMMY_SP,
