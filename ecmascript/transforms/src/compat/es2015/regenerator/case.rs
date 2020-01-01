@@ -579,8 +579,18 @@ impl CaseHandler<'_> {
                 finish!(expr)
             }
 
-            Expr::Assign(AssignExpr { op: op!("="), .. }) => {
-                unimplemented!("regenerator: assign expression with =")
+            Expr::Assign(e @ AssignExpr { op: op!("="), .. }) => {
+                let expr: Expr = AssignExpr {
+                    left: match e.left {
+                        PatOrExpr::Expr(e) => e.map(|e| self.explode_expr(e, false)).into(),
+                        _ => e.left,
+                    },
+                    op: op!("="),
+                    right: e.right.map(|e| self.explode_expr(e, false)),
+                    ..e
+                }
+                .into();
+                finish!(expr)
             }
 
             Expr::Assign(..) => unimplemented!("regenerator: assign expression"),
