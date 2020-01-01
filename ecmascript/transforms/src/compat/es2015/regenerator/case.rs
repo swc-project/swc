@@ -640,13 +640,44 @@ impl CaseHandler<'_> {
             }
 
             Expr::Yield(e) => {
+                let span = e.span;
                 let after = self.loc();
 
                 let arg = e.arg.map(|e| e.map(|e| self.explode_expr(e, false)));
 
                 if arg.is_some() && e.delegate {
-                    // https://github.com/facebook/regenerator/blob/master/packages/regenerator-transform/src/emit.js#L1220-L1235
-                    unimplemented!("regenerator: yield* ")
+                    let result = self.make_var();
+
+                    let ret = ReturnStmt {
+                        // Preserve span
+                        span,
+                        arg: Some(box Expr::Call(CallExpr {
+                            span: DUMMY_SP,
+                            callee: self
+                                .ctx
+                                .clone()
+                                .member(quote_ident!("delegateYield"))
+                                .as_callee(),
+                            args: vec![
+                                arg.unwrap().as_arg(),
+                                match result {
+                                    Expr::Ident(ref i) => i.clone().as_arg(),
+                                    _ => unreachable!(
+                                        "make_var() returned something other than ident: {:?}",
+                                        result
+                                    ),
+                                },
+                                after.to_stmt_index().as_arg(),
+                            ],
+                            type_args: Default::default(),
+                        })),
+                    }
+                    .into();
+
+                    self.emit(ret);
+                    self.mark(after);
+
+                    return result;
                 }
 
                 self.emit_assign(self.ctx.clone().member(quote_ident!("next")), after.expr());
