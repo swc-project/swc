@@ -804,7 +804,11 @@ impl CaseHandler<'_> {
     /// Emits code for an unconditional jump to the given location, even if the
     /// exact value of the location is not yet known.
     fn jump(&mut self, target: Loc) {
-        self.emit_assign(self.ctx.clone().member(quote_ident!("next")), target.expr());
+        self.jump_expr(target.expr())
+    }
+
+    fn jump_expr(&mut self, next: Expr) {
+        self.emit_assign(self.ctx.clone().member(quote_ident!("next")), next);
         self.emit(Stmt::Break(BreakStmt {
             span: DUMMY_SP,
             label: None,
@@ -1026,8 +1030,7 @@ impl CaseHandler<'_> {
                 // util.replaceWithOrRemove(discriminant, condition);
                 // self.jump(self.explodeExpression(discriminant));
 
-                self.explode_expr(condition, false);
-                // self.jump(condition);
+                self.jump_expr(condition);
 
                 let cases = s.cases;
                 self.with_entry(Entry::Switch { break_loc: after }, |folder| {
