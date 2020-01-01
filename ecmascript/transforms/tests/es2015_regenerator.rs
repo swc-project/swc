@@ -696,3 +696,143 @@ expect(v.next()).toEqual({ value: 2, done: false });
 expect(() => v.next()).toThrow();
 "
 );
+
+// TODO
+test_exec!(
+    syntax(),
+    |_| tr(Default::default()),
+    labeled_stmt_1,
+    "var _regeneratorRuntime = require('@babel/runtime/regenerator');
+    
+let v = (function* (){
+})();
+
+expect(v.next()).toEqual({ done: true });
+"
+);
+
+// TODO
+test_exec!(
+    syntax(),
+    |_| tr(Default::default()),
+    break_stmt_1,
+    "var _regeneratorRuntime = require('@babel/runtime/regenerator');
+    
+let v = (function* (){
+})();
+
+expect(v.next()).toEqual({ done: true });
+"
+);
+
+// TODO
+test_exec!(
+    syntax(),
+    |_| tr(Default::default()),
+    continue_stmt_1,
+    "var _regeneratorRuntime = require('@babel/runtime/regenerator');
+    
+let v = (function* (){
+})();
+
+expect(v.next()).toEqual({ done: true });
+"
+);
+
+// TODO
+test_exec!(
+    syntax(),
+    |_| tr(Default::default()),
+    switch_stmt_1,
+    "var _regeneratorRuntime = require('@babel/runtime/regenerator');
+    
+let v = (function* (){
+})();
+
+expect(v.next()).toEqual({ done: true });
+"
+);
+
+// TODO
+test_exec!(
+    syntax(),
+    |_| tr(Default::default()),
+    throw_stmt_1,
+    "var _regeneratorRuntime = require('@babel/runtime/regenerator');
+    
+let v = (function* (){
+})();
+
+expect(v.next()).toEqual({ done: true });
+"
+);
+
+// TODO
+test_exec!(
+    syntax(),
+    |_| tr(Default::default()),
+    while_stmt_1,
+    "var _regeneratorRuntime = require('@babel/runtime/regenerator');
+    
+let v = (function* (){
+})();
+
+expect(v.next()).toEqual({ done: true });
+"
+);
+
+// TODO
+test_exec!(
+    syntax(),
+    |_| tr(Default::default()),
+    do_while_stmt_1,
+    "var _regeneratorRuntime = require('@babel/runtime/regenerator');
+    
+let v = (function* (){
+})();
+
+expect(v.next()).toEqual({ done: true });
+"
+);
+
+// TODO
+test_exec!(
+    syntax(),
+    |_| tr(Default::default()),
+    for_stmt_1,
+    "var _regeneratorRuntime = require('@babel/runtime/regenerator');
+    
+let v = (function* (){
+})();
+
+expect(v.next()).toEqual({ done: true });
+"
+);
+
+// TODO
+test_exec!(
+    syntax(),
+    |_| tr(Default::default()),
+    for_of_stmt_1,
+    "var _regeneratorRuntime = require('@babel/runtime/regenerator');
+    
+let v = (function* (){
+})();
+
+expect(v.next()).toEqual({ done: true });
+"
+);
+
+// TODO
+test_exec!(
+    syntax(),
+    |_| tr(Default::default()),
+    for_in_stmt_1,
+    "var _regeneratorRuntime = require('@babel/runtime/regenerator');
+    
+let v = (function* (){
+})();
+
+expect(v.next()).toEqual({ done: true });
+"
+);
