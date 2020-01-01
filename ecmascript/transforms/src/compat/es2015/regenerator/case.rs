@@ -135,6 +135,37 @@ impl CaseHandler<'_> {
         };
 
         match e {
+            Expr::This(..)
+            | Expr::Ident(..)
+            | Expr::Fn(..)
+            | Expr::Lit(..)
+            | Expr::Tpl(..)
+            | Expr::TaggedTpl(..)
+            | Expr::Arrow(..)
+            | Expr::Class(..)
+            | Expr::MetaProp(..)
+            | Expr::JSXMebmer(..)
+            | Expr::JSXNamespacedName(..)
+            | Expr::JSXEmpty(..)
+            | Expr::JSXElement(..)
+            | Expr::JSXFragment(..)
+            | Expr::TsTypeAssertion(..)
+            | Expr::TsConstAssertion(..)
+            | Expr::TsNonNull(..)
+            | Expr::TsTypeCast(..)
+            | Expr::TsAs(..)
+            | Expr::PrivateName(..)
+            | Expr::Invalid(..) => return e,
+
+            Expr::OptChain(e) => {
+                return Expr::OptChain(OptChainExpr {
+                    expr: e.expr.map(|e| self.explode_expr(e, false)),
+                    ..e
+                })
+            }
+
+            Expr::Await(..) => unimplemented!("regenerator: await in generator"),
+
             Expr::Paren(ParenExpr { span, expr }) => {
                 return Expr::Paren(ParenExpr {
                     span,
@@ -316,7 +347,7 @@ impl CaseHandler<'_> {
                     })
                 });
 
-                return ArrayLit { elems, ..arr }.into();
+                ArrayLit { elems, ..arr }.into()
             }
 
             Expr::Seq(e) => {
@@ -331,7 +362,7 @@ impl CaseHandler<'_> {
                         })
                     })
                     .collect();
-                return SeqExpr { exprs, ..e }.into();
+                SeqExpr { exprs, ..e }.into()
             }
 
             Expr::Bin(ref e) if e.op == op!("&&") || e.op == op!("||") => {
@@ -360,7 +391,7 @@ impl CaseHandler<'_> {
 
                 self.mark(after);
 
-                return result.map(|e| e).unwrap_or_else(|| *undefined(DUMMY_SP));
+                result.map(|e| e).unwrap_or_else(|| *undefined(DUMMY_SP))
             }
 
             Expr::Unary(..) => unimplemented!("regenerator: unary expression"),
@@ -370,6 +401,8 @@ impl CaseHandler<'_> {
             Expr::Assign(AssignExpr { op: op!("="), .. }) => {
                 unimplemented!("regenerator: assign expression with =")
             }
+
+            Expr::Assign(..) => unimplemented!("regenerator: assign expression"),
 
             Expr::Update(..) => unimplemented!("regenerator: update expression"),
 
@@ -393,13 +426,9 @@ impl CaseHandler<'_> {
                 self.emit(ret);
                 self.mark(after);
 
-                return self.ctx.clone().member(quote_ident!("sent"));
+                self.ctx.clone().member(quote_ident!("sent"))
             }
-
-            _ => {}
         }
-
-        e
     }
 
     pub fn extend_cases(&mut self, cases: &mut Vec<SwitchCase>) {
