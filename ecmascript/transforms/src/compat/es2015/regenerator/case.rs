@@ -422,31 +422,6 @@ impl CaseHandler<'_> {
 
         loc.cnt = cnt;
 
-        struct InvalidToLit;
-        impl Fold<Expr> for InvalidToLit {
-            fn fold(&mut self, e: Expr) -> Expr {
-                let e = e.fold_children(self);
-
-                match e {
-                    Expr::Invalid(Invalid { span }) => {
-                        //
-                        let data = span.data();
-                        if data.lo == data.hi {
-                            return Expr::Lit(Lit::Num(Number {
-                                span: DUMMY_SP,
-                                value: data.lo.0 as _,
-                            }));
-                        }
-
-                        Expr::Invalid(Invalid { span })
-                    }
-                    _ => e,
-                }
-            }
-        }
-
-        // Convert <invalid> to number
-
         let mut v = InvalidToLit;
         let buf = replace(&mut self.listing, vec![]);
         let buf = buf.move_map(|stmt| stmt.fold_with(&mut v));
@@ -724,4 +699,28 @@ where
     let mut v = LeapFinder { found: false };
     node.visit_with(&mut v);
     v.found
+}
+
+/// Convert <invalid> to number
+struct InvalidToLit;
+impl Fold<Expr> for InvalidToLit {
+    fn fold(&mut self, e: Expr) -> Expr {
+        let e = e.fold_children(self);
+
+        match e {
+            Expr::Invalid(Invalid { span }) => {
+                //
+                let data = span.data();
+                if data.lo == data.hi {
+                    return Expr::Lit(Lit::Num(Number {
+                        span: DUMMY_SP,
+                        value: data.lo.0 as _,
+                    }));
+                }
+
+                Expr::Invalid(Invalid { span })
+            }
+            _ => e,
+        }
+    }
 }
