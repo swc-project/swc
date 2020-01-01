@@ -15,13 +15,14 @@ use swc_common::{
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub(super) struct Loc {
     idx: u32,
+    cnt: usize,
 }
 
 impl Loc {
     fn id(&self) -> Expr {
         Expr::Lit(Lit::Num(Number {
             span: DUMMY_SP,
-            value: self.idx as _,
+            value: (self.idx) as _,
         }))
     }
 
@@ -49,7 +50,7 @@ pub(super) struct CaseHandler<'a> {
 
     /// A sparse array whose keys correspond to locations in this.listing
     /// that have been marked as branch/jump targets.
-    marked: FxHashSet<usize>,
+    marked: Vec<Loc>,
 
     leaps: LeapManager,
 }
@@ -61,11 +62,7 @@ impl<'a> CaseHandler<'a> {
             idx: 0,
             temp_idx: 0,
             listing_len: 0,
-            marked: {
-                let mut set = FxHashSet::default();
-                set.insert(0);
-                set
-            },
+            marked: vec![],
             listing: vec![],
 
             leaps: Default::default(),
@@ -390,54 +387,46 @@ impl CaseHandler<'_> {
         // case, we can skip the rest of the statements until the next case.
         let mut already_ended = false;
 
-        for (i, stmt) in self.listing.drain(..).enumerate() {
-            let mut case = SwitchCase {
+        self.marked.sort_by_key(|v| v.idx);
+
+        for mark in self.marked.drain(..) {
+            println!("Mark({}): {}", mark.idx, mark.cnt);
+
+            let case = SwitchCase {
                 span: DUMMY_SP,
                 test: Some(box Expr::Lit(Lit::Num(Number {
                     span: DUMMY_SP,
-                    value: i as _,
+                    value: mark.idx as _,
                 }))),
-                cons: vec![],
+                cons: self.listing.drain(..mark.cnt).into_iter().collect(),
             };
 
-            if self.marked.contains(&i) {
-                cases.push(case);
-                already_ended = false;
-            }
-
-            if !already_ended {
-                let is_completion = match stmt {
-                    Stmt::Return(..) | Stmt::Throw(..) | Stmt::Break(..) | Stmt::Continue(..) => {
-                        true
-                    }
-                    _ => false,
-                };
-                cases.last_mut().unwrap().cons.push(stmt);
-
-                if is_completion {
-                    already_ended = true;
-                }
-            }
+            cases.push(case);
         }
     }
 
     fn loc(&mut self) -> Loc {
-        let loc = Loc { idx: self.idx };
+        let loc = Loc {
+            idx: self.idx,
+            cnt: 0,
+        };
         self.idx += 1;
         loc
     }
 
-    fn mark(&mut self, loc: Loc) {
-        let idx = self.listing.len();
+    fn mark(&mut self, mut loc: Loc) {
+        let cnt = self.listing.len() - self.listing_len;
+        self.listing_len = self.listing.len();
 
-        struct InvalidToLit {
-            idx: usize,
-        }
+        println!("index = {}; len = {}", loc.idx, self.listing_len);
+
+        loc.cnt = cnt;
+
+        struct InvalidToLit;
         impl Fold<Expr> for InvalidToLit {
             fn fold(&mut self, e: Expr) -> Expr {
                 let e = e.fold_children(self);
 
-                // TODO: Invalid 에 loc 속성 추가 (해시 맵 등의 방식으로)
                 match e {
                     Expr::Invalid(Invalid { span }) => {
                         //
@@ -445,7 +434,7 @@ impl CaseHandler<'_> {
                         if data.lo == data.hi {
                             return Expr::Lit(Lit::Num(Number {
                                 span: DUMMY_SP,
-                                value: self.idx as _,
+                                value: data.lo.0 as _,
                             }));
                         }
 
@@ -458,13 +447,13 @@ impl CaseHandler<'_> {
 
         // Convert <invalid> to number
 
-        let mut v = InvalidToLit { idx };
+        let mut v = InvalidToLit;
         let buf = replace(&mut self.listing, vec![]);
         let buf = buf.move_map(|stmt| stmt.fold_with(&mut v));
         replace(&mut self.listing, buf);
 
         // Mark
-        self.marked.insert(idx);
+        self.marked.push(loc);
     }
 
     fn emit_abrupt_completion(
@@ -601,11 +590,7 @@ impl CaseHandler<'_> {
 
         match s {
             Stmt::Empty(..) | Stmt::Debugger(..) => {}
-            Stmt::Block(s) => {
-                for s in s.stmts {
-                    self.explode_stmt(s);
-                }
-            }
+            Stmt::Block(s) => self.explode_stmts(s.stmts),
 
             Stmt::With(..) => panic!("WithStatement not supported in generator functions"),
 
