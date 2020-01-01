@@ -697,6 +697,28 @@ expect(() => v.next()).toThrow();
 "
 );
 
+test_exec!(
+    syntax(),
+    |_| tr(Default::default()),
+    try_stmt_5,
+    "var _regeneratorRuntime = require('@babel/runtime/regenerator');
+    
+let v = (function* (){
+  try {
+    yield 1;
+  } catch (e) {
+  }
+  try {
+    yield 2;
+  } catch (e) {
+  }
+})();
+
+expect(v.next()).toEqual({ value: 1, done: false });
+expect(v.next()).toEqual({ value: 2, done: false });
+"
+);
+
 // TODO
 test_exec!(
     syntax(),
