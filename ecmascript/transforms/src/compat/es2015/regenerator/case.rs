@@ -403,7 +403,15 @@ impl CaseHandler<'_> {
                 finish!(expr)
             }
 
-            Expr::Bin(..) => unimplemented!("regenerator: binary expression"),
+            Expr::Bin(e) => {
+                let expr = Expr::Bin(BinExpr {
+                    left: e.left.map(|e| self.explode_expr(e, false)),
+                    right: e.right.map(|e| self.explode_expr(e, false)),
+                    ..e
+                });
+
+                finish!(expr)
+            }
 
             Expr::Assign(AssignExpr { op: op!("="), .. }) => {
                 unimplemented!("regenerator: assign expression with =")
