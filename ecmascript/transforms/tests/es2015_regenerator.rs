@@ -538,7 +538,7 @@ test_exec!(
     "var _regeneratorRuntime = require('@babel/runtime/regenerator');
     
 let v = (function* (){
-  yield 1 && yield 2;
+  (yield 1) && (yield 2);
 })();
 
 expect(v.next()).toEqual({ value: 1, done: false });
@@ -553,7 +553,7 @@ test_exec!(
     "var _regeneratorRuntime = require('@babel/runtime/regenerator');
     
 let v = (function* (){
-  yield 1 || yield 2;
+  (yield 1) || (yield 2);
 })();
 
 expect(v.next()).toEqual({ value: 1, done: false });
