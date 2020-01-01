@@ -614,3 +614,85 @@ expect(v.next()).toEqual({ done: false });
 expect(v.next()).toEqual({ done: true });
 "
 );
+
+test_exec!(
+    syntax(),
+    |_| tr(Default::default()),
+    try_stmt_1,
+    "var _regeneratorRuntime = require('@babel/runtime/regenerator');
+    
+let v = (function* (){
+  try {
+    yield 1;
+  } catch(e){
+  }
+})();
+
+expect(v.next()).toEqual({ value: 1, done: false });
+expect(v.next()).toEqual({ done: true });
+"
+);
+
+test_exec!(
+    syntax(),
+    |_| tr(Default::default()),
+    try_stmt_2,
+    "var _regeneratorRuntime = require('@babel/runtime/regenerator');
+    
+let v = (function* (){
+  try {
+    yield 1;
+    throw new Error('');
+  } catch(e){
+    yield 2;
+  }
+})();
+
+expect(v.next()).toEqual({ value: 1, done: false });
+expect(() => v.next()).toThrow();
+"
+);
+
+test_exec!(
+    syntax(),
+    |_| tr(Default::default()),
+    try_stmt_3,
+    "var _regeneratorRuntime = require('@babel/runtime/regenerator');
+    
+let v = (function* (){
+  try {
+    yield 1;
+    throw new Error('');
+  } finally {
+    yield 2;
+  }
+})();
+
+expect(v.next()).toEqual({ value: 1, done: false });
+expect(v.next()).toEqual({ value: 2, done: false });
+expect(() => v.next()).toThrow();
+"
+);
+
+test_exec!(
+    syntax(),
+    |_| tr(Default::default()),
+    try_stmt_4,
+    "var _regeneratorRuntime = require('@babel/runtime/regenerator');
+    
+let v = (function* (){
+  try {
+    yield 1;
+    throw new Error('');
+  } catch (e) {
+    yield 2;
+  } finally {
+    yield 3;
+  }
+})();
+
+expect(v.next()).toEqual({ value: 1, done: false });
+expect(v.next()).toEqual({ value: 2, done: false });
+expect(() => v.next()).toThrow();
+"
+);
