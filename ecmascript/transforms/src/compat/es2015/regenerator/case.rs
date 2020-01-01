@@ -979,7 +979,62 @@ impl CaseHandler<'_> {
                 self.mark(after);
             }
 
-            Stmt::Switch(_) => unimplemented!("regenerator: switch statement"),
+            Stmt::Switch(s) => {
+                // Always save the discriminant into a temporary variable in case the
+                // test expressions overwrite values like context.sent.
+                let disc = self.make_var();
+                let discriminant = s.discriminant.map(|e| self.explode_expr(e, false));
+
+                let after = self.loc();
+                let mut default_loc = self.loc();
+                let condition = default_loc;
+                let len = s.cases.len();
+                let mut case_locs = vec![
+                    Loc {
+                        id: !0,
+                        stmt_index: !0
+                    };
+                    len
+                ];
+
+                for (i, c) in s.cases.iter().enumerate().rev() {
+                    if c.test.is_some() {
+                        case_locs[i] = self.loc();
+
+                    //                        condition =
+                    // t.conditionalExpression(
+                    //                            t.binaryExpression("===",
+                    // t.cloneDeep(disc), c.test),
+                    //                            caseLocs[i] = this.loc(),
+                    //                            condition,
+                    //                        );
+                    } else {
+                        case_locs[i] = default_loc;
+                    }
+                }
+
+                // let discriminant = path.get("discriminant");
+                // util.replaceWithOrRemove(discriminant, condition);
+                // self.jump(self.explodeExpression(discriminant));
+
+                self.jump(condition);
+
+                let cases = s.cases;
+                self.with_entry(Entry::Switch { break_loc: after }, |folder| {
+                    for (i, c) in cases.into_iter().enumerate() {
+                        case_locs[i] = folder.mark(case_locs[i]);
+
+                        folder.explode_stmts(c.cons);
+                    }
+                });
+
+                let after = self.mark(after);
+
+                if default_loc.stmt_index == 0 {
+                    default_loc = self.mark(default_loc);
+                    assert_eq!(default_loc.stmt_index, after.stmt_index);
+                }
+            }
 
             Stmt::Throw(s) => {
                 let arg = s.arg.map(|e| self.explode_expr(e, false));
