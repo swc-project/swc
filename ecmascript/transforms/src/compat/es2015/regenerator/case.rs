@@ -394,10 +394,6 @@ impl CaseHandler<'_> {
             stmts.fold_with(&mut v)
         };
 
-        let case_0_exists = self.marked.iter().any(|loc| loc.stmt_index == 0);
-
-        println!("Marks {:?}", self.marked);
-
         for (i, stmt) in stmts.into_iter().enumerate() {
             let mut case = SwitchCase {
                 span: DUMMY_SP,
