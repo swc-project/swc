@@ -389,23 +389,15 @@ impl CaseHandler<'_> {
 
         self.marked.sort_by_key(|v| v.id);
 
+        let mut stmts = replace(&mut self.listing, vec![]).fold_with(&mut InvalidToLit);
+
         for mark in self.marked.drain(..) {
-            println!("Mark({}): {}", mark.idx, mark.cnt);
+            println!("Mark({}): index = {}", mark.id, mark.stmt_index);
 
             let case = SwitchCase {
                 span: DUMMY_SP,
-                test: Some(box Expr::Lit(Lit::Num(Number {
-                    span: DUMMY_SP,
-                    value: mark.idx as _,
-                }))),
-                cons: self
-                    .listing
-                    .drain(..mark.cnt)
-                    .map(|stmt| {
-                        let mut v = InvalidToLit;
-                        stmt.fold_with(&mut v)
-                    })
-                    .collect(),
+                test: Some(box mark.id()),
+                cons: stmts.drain(..cnt).collect(),
             };
 
             cases.push(case);
@@ -415,7 +407,7 @@ impl CaseHandler<'_> {
     fn loc(&mut self) -> Loc {
         let loc = Loc {
             id: self.idx,
-            cnt: 0,
+            stmt_index: 0,
         };
         self.idx += 1;
         loc
