@@ -419,7 +419,14 @@ impl CaseHandler<'_> {
 
             Expr::Assign(..) => unimplemented!("regenerator: assign expression"),
 
-            Expr::Update(..) => unimplemented!("regenerator: update expression"),
+            Expr::Update(e) => {
+                let expr = Expr::Update(UpdateExpr {
+                    arg: e.arg.map(|e| self.explode_expr(e, false)),
+                    ..e
+                });
+
+                finish!(expr)
+            }
 
             Expr::Yield(e) => {
                 let after = self.loc();
