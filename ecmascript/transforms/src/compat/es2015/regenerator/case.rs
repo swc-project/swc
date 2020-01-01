@@ -4,7 +4,7 @@ use crate::{
     util::{undefined, ExprFactory},
 };
 use ast::*;
-use fxhash::FxHashSet;
+use fxhash::{FxHashMap, FxHashSet};
 use smallvec::SmallVec;
 use std::mem::replace;
 use swc_common::{
@@ -387,20 +387,46 @@ impl CaseHandler<'_> {
         // case, we can skip the rest of the statements until the next case.
         let mut already_ended = false;
 
-        self.marked.sort_by_key(|v| v.id);
+        let mut stmts = {
+            let stmts = replace(&mut self.listing, vec![]);
+            let mut v = InvalidToLit { map: &self.marked };
 
-        let mut stmts = replace(&mut self.listing, vec![]).fold_with(&mut InvalidToLit);
+            stmts.fold_with(&mut v)
+        };
 
-        for mark in self.marked.drain(..) {
-            println!("Mark({}): index = {}", mark.id, mark.stmt_index);
+        let case_0_exists = self.marked.iter().any(|loc| loc.stmt_index == 0);
 
-            let case = SwitchCase {
+        println!("Marks {:?}", self.marked);
+
+        for (i, stmt) in stmts.into_iter().enumerate() {
+            let mut case = SwitchCase {
                 span: DUMMY_SP,
-                test: Some(box mark.id()),
-                cons: stmts.drain(..cnt).collect(),
+                test: Some(box Expr::Lit(Lit::Num(Number {
+                    span: DUMMY_SP,
+                    value: i as _,
+                }))),
+                cons: vec![],
             };
 
-            cases.push(case);
+            let is_marked = self.marked.iter().any(|loc| i == 0 || loc.stmt_index == i);
+            if is_marked {
+                cases.push(case);
+                already_ended = false;
+            }
+
+            if !already_ended {
+                let is_completion = match stmt {
+                    Stmt::Return(..) | Stmt::Throw(..) | Stmt::Break(..) | Stmt::Continue(..) => {
+                        true
+                    }
+                    _ => false,
+                };
+                cases.last_mut().unwrap().cons.push(stmt);
+
+                if is_completion {
+                    already_ended = true;
+                }
+            }
         }
     }
 
@@ -693,8 +719,11 @@ where
 }
 
 /// Convert <invalid> to number
-struct InvalidToLit;
-impl Fold<Expr> for InvalidToLit {
+struct InvalidToLit<'a> {
+    // Map from loc-id to stmt index
+    map: &'a [Loc],
+}
+impl Fold<Expr> for InvalidToLit<'_> {
     fn fold(&mut self, e: Expr) -> Expr {
         let e = e.fold_children(self);
 
@@ -703,10 +732,14 @@ impl Fold<Expr> for InvalidToLit {
                 //
                 let data = span.data();
                 if data.lo == data.hi {
-                    return Expr::Lit(Lit::Num(Number {
-                        span: DUMMY_SP,
-                        value: data.lo.0 as _,
-                    }));
+                    if let Some(Loc { stmt_index, .. }) =
+                        self.map.iter().find(|loc| loc.id == data.lo.0)
+                    {
+                        return Expr::Lit(Lit::Num(Number {
+                            span: DUMMY_SP,
+                            value: (*stmt_index) as _,
+                        }));
+                    }
                 }
 
                 Expr::Invalid(Invalid { span })
