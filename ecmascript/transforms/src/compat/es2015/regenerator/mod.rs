@@ -19,6 +19,8 @@ pub fn regenerator() -> impl Pass {
 struct Regenerator {
     used: bool,
     vars: Vec<VarDeclarator>,
+    /// mark
+    fn_vars: Vec<VarDeclarator>,
 }
 
 impl<T> Fold<Vec<T>> for Regenerator
@@ -31,7 +33,19 @@ where
             return items;
         }
 
-        let items = items.fold_children(self);
+        let mut items = items.fold_children(self);
+
+        if !self.fn_vars.is_empty() {
+            prepend(
+                &mut items,
+                T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    declare: false,
+                    decls: replace(&mut self.fn_vars, Default::default()),
+                }))),
+            );
+        }
 
         items
     }
@@ -80,7 +94,7 @@ impl Fold<FnDecl> for Regenerator {
 
         let marked = private_ident!("_marked");
 
-        self.vars.push(VarDeclarator {
+        self.fn_vars.push(VarDeclarator {
             span: DUMMY_SP,
             name: Pat::Ident(marked.clone()),
             init: Some(box Expr::Call(CallExpr {
