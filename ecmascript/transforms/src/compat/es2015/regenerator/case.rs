@@ -1075,19 +1075,16 @@ impl CaseHandler<'_> {
                 let update = self.loc();
                 let after = self.loc();
 
-                let init = if let Some(init) = s.init {
+                if let Some(init) = s.init {
                     // We pass true here to indicate that if stmt.init is an
                     // expression then we do not care about
                     // its result.
-                    match init {
+                    Some(match init {
                         VarDeclOrExpr::Expr(box expr) => {
-                            VarDeclOrExpr::Expr(box self.explode_expr(expr, true))
+                            self.explode_expr(expr, true);
                         }
-                        // TODO(kdy1): Is this ok?
-                        _ => init,
-                    }
-                } else {
-                    None
+                        _ => unimplemented!("VarDecl in for statement"),
+                    })
                 };
 
                 self.mark(head);
@@ -1105,7 +1102,7 @@ impl CaseHandler<'_> {
                         continue_loc: update,
                         label,
                     },
-                    |folder| folder.explode_stmt(*body),
+                    |folder| folder.explode_stmt(*body, None),
                 );
 
                 self.mark(update);
@@ -1113,7 +1110,7 @@ impl CaseHandler<'_> {
                 if let Some(update) = s.update {
                     // We pass true here to indicate that if stmt.update is an
                     // expression then we do not care about its result.
-                    self.explode_expr(*update, true)
+                    self.explode_expr(*update, true);
                 }
 
                 self.jump(head);
@@ -1121,11 +1118,80 @@ impl CaseHandler<'_> {
                 self.mark(after);
             }
 
-            Stmt::ForIn(_) => unimplemented!("regenerator: for-in statement"),
+            Stmt::ForIn(s) => {
+                let body = s.body;
 
-            Stmt::ForOf(_) => unimplemented!("regenerator: for-of statement"),
+                let head = self.loc();
+                let after = self.loc();
 
-            Stmt::Decl(_) => unimplemented!("Decl"),
+                let key_iter_next_fn = self.make_var();
+
+                let right = s.right.map(|e| self.explode_expr(e, false));
+                self.emit_assign(
+                    key_iter_next_fn.clone(),
+                    CallExpr {
+                        span: DUMMY_SP,
+                        callee: member_expr!(DUMMY_SP, regeneratorRuntime.keys).as_callee(),
+                        args: vec![right.as_arg()],
+                        type_args: Default::default(),
+                    }
+                    .into(),
+                );
+
+                let head = self.mark(head);
+
+                let key_info_tmp_var = self.make_var();
+
+                self.jump_if(
+                    box AssignExpr {
+                        span: DUMMY_SP,
+                        op: op!("="),
+                        left: PatOrExpr::Expr(box key_info_tmp_var.clone().into()),
+                        right: box CallExpr {
+                            span: DUMMY_SP,
+                            callee: key_iter_next_fn.as_callee(),
+                            args: vec![],
+                            type_args: Default::default(),
+                        }
+                        .into(),
+                    }
+                    .member(quote_ident!("done")),
+                    after,
+                );
+
+                {
+                    let right = box key_info_tmp_var.clone().member(quote_ident!("value"));
+                    match s.left {
+                        VarDeclOrPat::VarDecl(var) => unimplemented!("VarDecl in for-in statement"),
+                        VarDeclOrPat::Pat(pat) => self.emit(
+                            AssignExpr {
+                                span: DUMMY_SP,
+                                op: op!("="),
+                                left: PatOrExpr::Pat(box pat),
+                                right,
+                            }
+                            .into_stmt(),
+                        ),
+                    }
+                }
+
+                self.with_entry(
+                    Entry::Loop {
+                        break_loc: after,
+                        continue_loc: head,
+                        label,
+                    },
+                    |folder| {
+                        folder.explode_stmt(*body, None);
+                    },
+                );
+
+                self.jump(head);
+
+                self.mark(after);
+            }
+
+            Stmt::Decl(_) | Stmt::ForOf(_) => self.emit(s),
         }
     }
 }
