@@ -8,6 +8,7 @@ use std::mem::replace;
 use swc_common::{Fold, FoldWith, Spanned, Visit, VisitWith, DUMMY_SP};
 
 mod case;
+mod hoist;
 mod leap;
 
 pub fn regenerator() -> impl Pass {
