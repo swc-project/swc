@@ -201,6 +201,25 @@ impl CaseHandler<'_> {
         res
     }
 
+    fn clear_pending_exception(&mut self, try_loc: Loc, assignee: Option<Expr>) {
+        let catch_call = Expr::Call(CallExpr {
+            span: DUMMY_SP,
+            callee: self
+                .ctx
+                .clone()
+                .computed_member(quote_str!("catch"))
+                .as_callee(),
+            args: vec![try_loc.to_stmt_index().as_arg()],
+            type_args: Default::default(),
+        });
+
+        if let Some(assignee) = assignee {
+            self.emit_assign(assignee, catch_call)
+        } else {
+            self.emit(catch_call.into_stmt())
+        }
+    }
+
     /// Not all offsets into emitter.listing are potential jump targets. For
     /// example, execution typically falls into the beginning of a try block
     /// without jumping directly there. This method returns the current offset
@@ -942,6 +961,9 @@ impl CaseHandler<'_> {
                         let mut loc = folder.mark(catch_loc);
                         folder.update_ctx_prev_loc(Some(&mut loc));
                         try_entry.catch_entry.as_mut().unwrap().first_loc = loc;
+
+                        let safe_param = folder.make_var();
+                        folder.clear_pending_exception(try_entry.first_loc, Some(safe_param));
 
                         //bodyPath.traverse(catchParamVisitor, {
                         //    getSafeParam: () => t.cloneDeep(safeParam),
