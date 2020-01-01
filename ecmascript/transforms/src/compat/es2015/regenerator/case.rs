@@ -1044,7 +1044,29 @@ impl CaseHandler<'_> {
                 self.mark(after);
             }
 
-            Stmt::DoWhile(_) => unimplemented!("regenerator: do while statement"),
+            Stmt::DoWhile(s) => {
+                let body = s.body;
+
+                let first = self.loc();
+                let test = self.loc();
+                let after = self.loc();
+
+                let first = self.mark(first);
+
+                self.with_entry(
+                    Entry::Loop {
+                        break_loc: after,
+                        continue_loc: test,
+                        label,
+                    },
+                    |folder| folder.explode_stmt(*body, None),
+                );
+
+                self.mark(test);
+                let test = s.test.map(|e| self.explode_expr(e, false));
+                self.jump_if(test, first);
+                self.mark(after);
+            }
 
             Stmt::For(_) => unimplemented!("regenerator: for statement"),
 
