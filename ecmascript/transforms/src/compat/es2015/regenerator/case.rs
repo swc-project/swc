@@ -365,8 +365,38 @@ impl CaseHandler<'_> {
                 SeqExpr { exprs, ..e }.into()
             }
 
-            Expr::Bin(ref e) if e.op == op!("&&") || e.op == op!("||") => {
-                unimplemented!("regenerator: logical expression")
+            Expr::Bin(e) if e.op == op!("&&") || e.op == op!("||") => {
+                let span = e.span;
+                let op = e.op;
+
+                let after = self.loc();
+
+                let result = if ignore_result {
+                    None
+                } else {
+                    Some(self.make_var())
+                };
+
+                let left = e.left.map(|e| self.explode_expr(e, false));
+
+                match e.op {
+                    op!("&&") => self.jump_if_not(left.clone(), after),
+                    op!("||") => self.jump_if(left.clone(), after),
+                    _ => unreachable!(),
+                }
+
+                let right = e.right.map(|e| self.explode_expr(e, false));
+
+                self.mark(after);
+
+                result.unwrap_or_else(|| {
+                    Expr::Bin(BinExpr {
+                        span,
+                        left,
+                        op,
+                        right,
+                    })
+                })
             }
 
             Expr::Cond(e) => {
@@ -375,7 +405,7 @@ impl CaseHandler<'_> {
 
                 let test = e.test.map(|e| self.explode_expr(e, false));
 
-                self.jump_if_not(test, &else_loc);
+                self.jump_if_not(test, else_loc);
 
                 let result = if ignore_result {
                     None
@@ -384,7 +414,7 @@ impl CaseHandler<'_> {
                 };
 
                 self.explode_expr(*e.cons, ignore_result);
-                self.jump(&after);
+                self.jump(after);
 
                 self.mark(else_loc);
                 self.explode_expr(*e.alt, ignore_result);
@@ -520,7 +550,7 @@ impl CaseHandler<'_> {
         &mut self,
         ty: &'static str,
         arg: Option<ExprOrSpread>,
-        target: Option<&Loc>,
+        target: Option<Loc>,
     ) {
         let stmt = ReturnStmt {
             span: DUMMY_SP,
@@ -553,7 +583,7 @@ impl CaseHandler<'_> {
 
     /// Emits code for an unconditional jump to the given location, even if the
     /// exact value of the location is not yet known.
-    fn jump(&mut self, target: &Loc) {
+    fn jump(&mut self, target: Loc) {
         self.emit_assign(self.ctx.clone().member(quote_ident!("next")), target.expr());
         self.emit(Stmt::Break(BreakStmt {
             span: DUMMY_SP,
@@ -561,7 +591,7 @@ impl CaseHandler<'_> {
         }));
     }
 
-    fn jump_if(&mut self, test: Box<Expr>, to: &Loc) {
+    fn jump_if(&mut self, test: Box<Expr>, to: Loc) {
         self.emit(
             IfStmt {
                 span: DUMMY_SP,
@@ -591,7 +621,7 @@ impl CaseHandler<'_> {
         );
     }
 
-    fn jump_if_not(&mut self, test: Box<Expr>, to: &Loc) {
+    fn jump_if_not(&mut self, test: Box<Expr>, to: Loc) {
         let negated_test = match *test {
             Expr::Unary(UnaryExpr {
                 op: op!("!"), arg, ..
@@ -701,14 +731,14 @@ impl CaseHandler<'_> {
 
             Stmt::Break(s) => {
                 let target = self.leaps.find_break_loc(s.label.as_ref().map(|i| &i.sym));
-                self.emit_abrupt_completion("break", None, target.as_ref())
+                self.emit_abrupt_completion("break", None, target)
             }
 
             Stmt::Continue(s) => {
                 let target = self
                     .leaps
                     .find_continue_loc(s.label.as_ref().map(|i| &i.sym));
-                self.emit_abrupt_completion("continue", None, target.as_ref())
+                self.emit_abrupt_completion("continue", None, target)
             }
 
             Stmt::If(s) => {
@@ -720,12 +750,12 @@ impl CaseHandler<'_> {
                 let after = self.loc();
 
                 let test = box self.explode_expr(*s.test, false);
-                self.jump_if_not(test, else_loc.as_ref().unwrap_or(&after));
+                self.jump_if_not(test, else_loc.unwrap_or(after));
 
                 self.explode_stmt(*s.cons);
 
                 if let Some(else_loc) = else_loc {
-                    self.jump(&after);
+                    self.jump(after);
                     self.mark(else_loc);
                     self.explode_stmt(*s.alt.unwrap());
                 }
