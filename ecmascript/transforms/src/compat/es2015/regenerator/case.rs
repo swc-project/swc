@@ -591,7 +591,44 @@ impl CaseHandler<'_> {
                 finish!(expr)
             }
 
-            Expr::Assign(..) => unimplemented!("regenerator: assign expression"),
+            Expr::Assign(e) => {
+                // For example,
+                //
+                //   x += yield y
+                //
+                // becomes
+                //
+                //   context.t0 = x
+                //   x = context.t0 += yield y
+                //
+                // so that the left-hand side expression is read before the yield.
+                // Fixes https://github.com/facebook/regenerator/issues/345.
+
+                let left = match e.left {
+                    PatOrExpr::Expr(e) => e.map(|e| self.explode_expr(e, false)),
+                    _ => unimplemented!("AssignmentPattern in generator"),
+                };
+                let tmp = self.make_var();
+                self.emit_assign(tmp.clone(), *left.clone());
+
+                let right = e.right.map(|e| self.explode_expr(e, false));
+
+                let expr: Expr = AssignExpr {
+                    left: PatOrExpr::Expr(left),
+                    op: op!("="),
+                    right: box AssignExpr {
+                        span: DUMMY_SP,
+                        left: PatOrExpr::Expr(box tmp),
+                        op: e.op,
+                        right,
+                    }
+                    .into(),
+                    ..e
+                }
+                .into();
+
+                finish!(expr)
+            }
 
             Expr::Update(e) => {
                 let expr = Expr::Update(UpdateExpr {
