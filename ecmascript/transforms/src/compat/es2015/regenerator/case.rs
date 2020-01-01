@@ -18,10 +18,10 @@ pub(super) struct Loc {
 }
 
 impl Loc {
-    pub fn id(&self) -> Expr {
+    pub fn to_stmt_index(&self) -> Expr {
         Expr::Lit(Lit::Num(Number {
             span: DUMMY_SP,
-            value: self.id as _,
+            value: self.stmt_index as _,
         }))
     }
 
@@ -124,7 +124,7 @@ impl CaseHandler<'_> {
                         .map(|loc| {
                             loc.map(|loc| ExprOrSpread {
                                 spread: None,
-                                expr: box loc.id(),
+                                expr: box loc.to_stmt_index(),
                             })
                         })
                         .collect::<Vec<_>>();
@@ -917,13 +917,13 @@ impl CaseHandler<'_> {
 
                 let mut try_entry = TryEntry {
                     first_loc: self.unmarked_loc(),
-                    catch_entry: catch_entry.clone(),
+                    catch_entry,
                     finally_entry,
                 };
-                self.try_entries.push(try_entry.clone());
+
                 self.update_ctx_prev_loc(Some(&mut try_entry.first_loc));
 
-                self.with_entry(Entry::TryEntry(try_entry), |folder| {
+                self.with_entry(Entry::TryEntry(try_entry.clone()), |folder| {
                     //
                     folder.explode_stmts(block.stmts);
 
@@ -941,26 +941,32 @@ impl CaseHandler<'_> {
 
                         let mut loc = folder.mark(catch_loc);
                         folder.update_ctx_prev_loc(Some(&mut loc));
+                        try_entry.catch_entry.as_mut().unwrap().first_loc = loc;
 
                         //bodyPath.traverse(catchParamVisitor, {
                         //    getSafeParam: () => t.cloneDeep(safeParam),
                         //    catchParamName: handler.param.name
                         //});
 
-                        folder.with_entry(Entry::Catch(catch_entry.unwrap()), |folder| {
-                            folder.explode_stmts(handler.unwrap().body.stmts)
-                        });
+                        folder.with_entry(
+                            Entry::Catch(try_entry.catch_entry.clone().unwrap()),
+                            |folder| folder.explode_stmts(handler.unwrap().body.stmts),
+                        );
                     }
 
                     if let Some(finally_loc) = finally_loc {
                         let mut loc = folder.mark(finally_loc);
                         folder.update_ctx_prev_loc(Some(&mut loc));
+                        try_entry.finally_entry.as_mut().unwrap().first_loc = loc;
 
-                        folder.with_entry(Entry::Finally(finally_entry.unwrap()), |folder| {
-                            folder.explode_stmts(finalizer.unwrap().stmts)
-                        });
+                        folder.with_entry(
+                            Entry::Finally(try_entry.finally_entry.clone().unwrap()),
+                            |folder| folder.explode_stmts(finalizer.unwrap().stmts),
+                        );
                     }
                 });
+
+                self.try_entries.push(try_entry);
 
                 self.mark(after);
             }

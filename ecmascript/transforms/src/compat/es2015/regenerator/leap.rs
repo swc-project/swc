@@ -122,7 +122,7 @@ pub(super) struct CatchEntry {
     pub param_id: Id,
 }
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone)]
 pub(super) struct FinallyEntry {
     pub first_loc: Loc,
     pub after_loc: Loc,
