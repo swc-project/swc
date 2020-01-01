@@ -304,7 +304,9 @@ impl CaseHandler<'_> {
                 return SeqExpr { exprs, ..e }.into();
             }
 
-            Expr::Bin(ref e) if e.op == op!("&&") || e.op == op!("||") => {}
+            Expr::Bin(ref e) if e.op == op!("&&") || e.op == op!("||") => {
+                unimplemented!("regenerator: logical expression")
+            }
 
             Expr::Cond(e) => {
                 let else_loc = self.loc();
@@ -331,13 +333,15 @@ impl CaseHandler<'_> {
                 return result.map(|e| e).unwrap_or_else(|| *undefined(DUMMY_SP));
             }
 
-            Expr::Unary(..) => {}
+            Expr::Unary(..) => unimplemented!("regenerator: unary expression"),
 
-            Expr::Bin(..) => {}
+            Expr::Bin(..) => unimplemented!("regenerator: binary expression"),
 
-            Expr::Assign(AssignExpr { op: op!("="), .. }) => {}
+            Expr::Assign(AssignExpr { op: op!("="), .. }) => {
+                unimplemented!("regenerator: assign expression with =")
+            }
 
-            Expr::Update(..) => {}
+            Expr::Update(..) => unimplemented!("regenerator: update expression"),
 
             Expr::Yield(e) => {
                 let after = self.loc();
