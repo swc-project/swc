@@ -4,6 +4,7 @@ use crate::{
     util::{ident::IdentLike, undefined, ExprFactory},
 };
 use ast::*;
+use smallvec::SmallVec;
 use std::mem::replace;
 use swc_common::{
     util::{map::Map, move_map::MoveMap},
@@ -45,7 +46,7 @@ pub(super) struct CaseHandler<'a> {
 
     leaps: LeapManager,
 
-    try_entries: Vec<TryEntry>,
+    try_entries: SmallVec<[TryEntry; 4]>,
 }
 
 impl<'a> CaseHandler<'a> {
@@ -567,7 +568,11 @@ impl CaseHandler<'_> {
                     }
                     _ => false,
                 };
-                cases.last_mut().unwrap().cons.push(stmt);
+                cases
+                    .last_mut()
+                    .unwrap()
+                    .cons
+                    .push(stmt.fold_with(&mut UnmarkedInvalidHandler { case_id: i }));
 
                 if is_completion {
                     already_ended = true;
@@ -838,8 +843,8 @@ impl CaseHandler<'_> {
                 });
 
                 let finally_loc = finalizer.as_ref().map(|_| self.loc());
-                let finally_entry = finalizer.as_ref().map(|handler| FinallyEntry {
-                    first_loc: catch_loc.unwrap(),
+                let finally_entry = finalizer.as_ref().map(|_| FinallyEntry {
+                    first_loc: finally_loc.unwrap(),
                     after_loc: after,
                 });
 
@@ -937,7 +942,26 @@ where
     v.found
 }
 
-/// Convert <invalid> to number
+struct UnmarkedInvalidHandler {
+    /// Id of the case statement
+    case_id: usize,
+}
+
+impl Fold<Expr> for UnmarkedInvalidHandler {
+    fn fold(&mut self, e: Expr) -> Expr {
+        let e = e.fold_children(self);
+
+        match e {
+            Expr::Invalid(Invalid { span }) => Expr::Lit(Lit::Num(Number {
+                span,
+                value: self.case_id as _,
+            })),
+            _ => e,
+        }
+    }
+}
+
+/// Convert <invalid> to case number
 struct InvalidToLit<'a> {
     // Map from loc-id to stmt index
     map: &'a [Loc],
