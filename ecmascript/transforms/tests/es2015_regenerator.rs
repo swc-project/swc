@@ -510,8 +510,8 @@ let v = (function* (){
   yield [yield 1, 2];
 })();
 
-expect(v.next('foo')).toEqual({ value: 1, done: false });
-expect(v.next()).toEqual({ value: ['foo', 2], done: false });
+expect(v.next()).toEqual({ value: 1, done: false });
+expect(v.next()).toEqual({ value: [undefined, 2], done: false });
 expect(v.next()).toEqual({ done: true });
 "
 );
@@ -523,11 +523,10 @@ test_exec!(
     "var _regeneratorRuntime = require('@babel/runtime/regenerator');
     
 let v = (function* (){
-  yield { a: yield 1 };
+  yield { a: 1 };
 })();
 
-expect(v.next('foo')).toEqual({ value: 1, done: false });
-expect(v.next()).toEqual({ value: ['foo', 2], done: false });
+expect(v.next()).toEqual({ value: { a: 1 }, done: false });
 expect(v.next()).toEqual({ done: true });
 "
 );
