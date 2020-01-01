@@ -907,7 +907,7 @@ pub trait ExprExt {
                 PropOrSpread::Spread(SpreadElement { expr, .. }) => expr.may_have_side_effects(),
             }),
 
-            Expr::JSXMebmer(..)
+            Expr::JSXMember(..)
             | Expr::JSXNamespacedName(..)
             | Expr::JSXEmpty(..)
             | Expr::JSXElement(..)
@@ -1633,7 +1633,7 @@ where
             Expr::Tpl { .. } => unimplemented!("add_effects for template literal"),
             Expr::Class(ClassExpr { .. }) => unimplemented!("add_effects for class expression"),
 
-            Expr::JSXMebmer(..)
+            Expr::JSXMember(..)
             | Expr::JSXNamespacedName(..)
             | Expr::JSXEmpty(..)
             | Expr::JSXElement(..)

@@ -236,7 +236,7 @@ pub(super) trait ExprExt {
             Expr::PrivateName(..) => false,
 
             // jsx
-            Expr::JSXMebmer(..)
+            Expr::JSXMember(..)
             | Expr::JSXNamespacedName(..)
             | Expr::JSXEmpty(..)
             | Expr::JSXElement(..)

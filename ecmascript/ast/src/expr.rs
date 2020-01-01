@@ -112,7 +112,7 @@ pub enum Expr {
     Paren(ParenExpr),
 
     #[tag("JSXMemberExpression")]
-    JSXMebmer(JSXMemberExpr),
+    JSXMember(JSXMemberExpr),
 
     #[tag("JSXNamespacedName")]
     JSXNamespacedName(JSXNamespacedName),

@@ -199,7 +199,7 @@ impl StartsWithAlphaNum for Expr {
             // start with `<`
             Expr::JSXFragment(..) | Expr::JSXElement(..) => false,
             Expr::JSXNamespacedName(..) => true,
-            Expr::JSXMebmer(..) => true,
+            Expr::JSXMember(..) => true,
 
             Expr::TsTypeAssertion(..) => false,
             Expr::TsNonNull(TsNonNullExpr { ref expr, .. })

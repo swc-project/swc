@@ -476,7 +476,7 @@ impl<'a> Emitter<'a> {
             Expr::Yield(ref n) => emit!(n),
             Expr::PrivateName(ref n) => emit!(n),
 
-            Expr::JSXMebmer(ref n) => emit!(n),
+            Expr::JSXMember(ref n) => emit!(n),
             Expr::JSXNamespacedName(ref n) => emit!(n),
             Expr::JSXEmpty(ref n) => emit!(n),
             Expr::JSXElement(ref n) => emit!(n),
