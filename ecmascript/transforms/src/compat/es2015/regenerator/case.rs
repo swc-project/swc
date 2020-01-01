@@ -782,10 +782,14 @@ impl CaseHandler<'_> {
                         })
                         .as_arg();
 
-                        if let Some(arg) = arg {
-                            vec![ty_arg, arg]
+                        if ty == "break" || ty == "continue" {
+                            vec![ty_arg, target.unwrap().expr().as_arg()]
                         } else {
-                            vec![ty_arg]
+                            if let Some(arg) = arg {
+                                vec![ty_arg, arg]
+                            } else {
+                                vec![ty_arg]
+                            }
                         }
                     },
                     type_args: Default::default(),
@@ -987,7 +991,7 @@ impl CaseHandler<'_> {
 
                 let after = self.loc();
                 let mut default_loc = self.loc();
-                let condition = default_loc;
+                let mut condition = default_loc.expr();
                 let len = s.cases.len();
                 let mut case_locs = vec![
                     Loc {
@@ -998,16 +1002,21 @@ impl CaseHandler<'_> {
                 ];
 
                 for (i, c) in s.cases.iter().enumerate().rev() {
-                    if c.test.is_some() {
+                    if let Some(test) = &c.test {
                         case_locs[i] = self.loc();
 
-                    //                        condition =
-                    // t.conditionalExpression(
-                    //                            t.binaryExpression("===",
-                    // t.cloneDeep(disc), c.test),
-                    //                            caseLocs[i] = this.loc(),
-                    //                            condition,
-                    //                        );
+                        condition = Expr::Cond(CondExpr {
+                            span: DUMMY_SP,
+
+                            test: box Expr::Bin(BinExpr {
+                                span: DUMMY_SP,
+                                left: box disc.clone(),
+                                op: op!("==="),
+                                right: test.clone(),
+                            }),
+                            cons: box case_locs[i].expr(),
+                            alt: box condition,
+                        });
                     } else {
                         case_locs[i] = default_loc;
                     }
@@ -1017,7 +1026,8 @@ impl CaseHandler<'_> {
                 // util.replaceWithOrRemove(discriminant, condition);
                 // self.jump(self.explodeExpression(discriminant));
 
-                self.jump(condition);
+                self.explode_expr(condition, false);
+                // self.jump(condition);
 
                 let cases = s.cases;
                 self.with_entry(Entry::Switch { break_loc: after }, |folder| {
