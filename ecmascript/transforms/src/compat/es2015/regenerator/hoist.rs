@@ -1,26 +1,31 @@
-use crate::util::{find_ids, Id};
+use crate::util::{find_ids, prepend, StmtLike};
 use ast::*;
 use smallvec::SmallVec;
+use std::mem::replace;
 use swc_common::{Fold, FoldWith, DUMMY_SP};
 
-pub(super) fn hoist<T>(node: T) -> T
+pub(super) type Vars = SmallVec<[Ident; 32]>;
+
+pub(super) fn hoist<T>(node: T) -> (T, Vars)
 where
     T: FoldWith<Hoister>,
 {
     let mut v = Hoister {
         vars: Default::default(),
     };
-    node.fold_with(&mut v)
+    let t = node.fold_with(&mut v);
+
+    (t, v.vars)
 }
 
 #[derive(Debug)]
 pub(super) struct Hoister {
-    vars: SmallVec<[Id; 32]>,
+    vars: Vars,
 }
 
 impl Hoister {
     fn var_decl_to_expr(&mut self, var: VarDecl) -> Expr {
-        println!("var_decl_to_expr");
+        let var = var.fold_children(self);
 
         let ids = find_ids(&var);
         self.vars.extend(ids);
@@ -48,10 +53,30 @@ impl Hoister {
     }
 }
 
+impl Fold<VarDeclOrPat> for Hoister {
+    fn fold(&mut self, v: VarDeclOrPat) -> VarDeclOrPat {
+        match v {
+            VarDeclOrPat::Pat(v) => VarDeclOrPat::Pat(v.fold_children(self)),
+
+            VarDeclOrPat::VarDecl(mut var) => {
+                if var.decls.len() == 1 && var.decls[0].init.is_none() {
+                    return var.decls.remove(0).name.into();
+                }
+
+                var.into()
+            }
+        }
+    }
+}
+
+impl Fold<VarDecl> for Hoister {
+    fn fold(&mut self, var: VarDecl) -> VarDecl {
+        unreachable!("VarDecl should be removed by other pass: {:?}", var);
+    }
+}
+
 impl Fold<VarDeclOrExpr> for Hoister {
     fn fold(&mut self, var: VarDeclOrExpr) -> VarDeclOrExpr {
-        println!("Fold<VarDeclOrExpr>");
-
         let var = var.fold_children(self);
 
         match var {
@@ -63,9 +88,6 @@ impl Fold<VarDeclOrExpr> for Hoister {
 
 impl Fold<Stmt> for Hoister {
     fn fold(&mut self, s: Stmt) -> Stmt {
-        println!("Fold<Stmt>");
-        let s: Stmt = s.fold_children(self);
-
         match s {
             Stmt::Decl(Decl::Var(var)) => {
                 let span = var.span;
@@ -77,20 +99,12 @@ impl Fold<Stmt> for Hoister {
             _ => {}
         }
 
-        s
-    }
-}
-
-impl Fold<VarDecl> for Hoister {
-    fn fold(&mut self, node: VarDecl) -> VarDecl {
-        unreachable!("VarDecl should be removed by other methods")
+        s.fold_children(self)
     }
 }
 
 impl Fold<ModuleDecl> for Hoister {
     fn fold(&mut self, decl: ModuleDecl) -> ModuleDecl {
-        let decl: ModuleDecl = decl.fold_children(self);
-
         match decl {
             ModuleDecl::ExportDecl(ExportDecl {
                 span,
@@ -105,60 +119,6 @@ impl Fold<ModuleDecl> for Hoister {
             _ => {}
         }
 
-        decl
+        decl.fold_children(self)
     }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::hoist;
-    use crate::pass::Pass;
-    use ast::*;
-    use swc_common::Fold;
-    use swc_ecma_parser::Syntax;
-
-    fn syntax() -> Syntax {
-        Default::default()
-    }
-
-    fn tr() -> impl Pass {
-        struct P;
-        impl Fold<Module> for P {
-            fn fold(&mut self, node: Module) -> Module {
-                hoist(node)
-            }
-        }
-
-        P
-    }
-
-    test!(
-        syntax(),
-        |_| tr(),
-        simple,
-        "\
-function wtf(){
-  function foo(){
-  }
-  
-  let bar;
-  const baz = 2;
-  {
-      let bar = 1;
-      use(bar)
-  }
-  
-  if (foo) {
-     let bar = 2;
-  }
-  
-  for(let a in b) {
-  }
-  
-  for(let [a, b] in b) {
-  }
-  
-}",
-        ""
-    );
 }

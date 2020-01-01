@@ -1,4 +1,4 @@
-use self::case::CaseHandler;
+use self::{case::CaseHandler, hoist::hoist};
 use crate::{
     pass::Pass,
     util::{contains_this_expr, prepend, ExprFactory, StmtLike},
@@ -136,7 +136,28 @@ impl Regenerator {
 
         f.body = f.body.fold_with(&mut FnSentVisitor { ctx: ctx.clone() });
         let uses_this = contains_this_expr(&f.body);
-        handler.explode_stmts(f.body.unwrap().stmts);
+        let (mut body, vars) = hoist(f.body.unwrap());
+        if !vars.is_empty() {
+            prepend(
+                &mut body.stmts,
+                Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    declare: false,
+                    decls: vars
+                        .into_iter()
+                        .map(|id| VarDeclarator {
+                            span: DUMMY_SP,
+                            name: Pat::Ident(id),
+                            init: None,
+                            definite: false,
+                        })
+                        .collect(),
+                })),
+            );
+        }
+
+        handler.explode_stmts(body.stmts);
 
         let mut cases = vec![];
 
