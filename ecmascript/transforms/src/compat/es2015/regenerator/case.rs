@@ -1,5 +1,8 @@
 use super::leap::{Entry, LeapManager};
-use crate::util::{undefined, ExprFactory};
+use crate::{
+    compat::es2015::regenerator::leap::{CatchEntry, FinallyEntry, TryEntry},
+    util::{ident::IdentLike, undefined, ExprFactory},
+};
 use ast::*;
 use std::mem::replace;
 use swc_common::{
@@ -41,6 +44,8 @@ pub(super) struct CaseHandler<'a> {
     marked: Vec<Loc>,
 
     leaps: LeapManager,
+
+    try_entries: Vec<TryEntry>,
 }
 
 impl<'a> CaseHandler<'a> {
@@ -54,6 +59,7 @@ impl<'a> CaseHandler<'a> {
             listing: vec![],
 
             leaps: Default::default(),
+            try_entries: Default::default(),
         }
     }
 }
@@ -68,6 +74,32 @@ impl CaseHandler<'_> {
         self.leaps.pop();
 
         ret
+    }
+
+    /// The context.prev property takes the value of context.next whenever we
+    /// evaluate the switch statement discriminant, which is generally good
+    /// enough for tracking the last location we jumped to, but sometimes
+    /// context.prev needs to be more precise, such as when we fall
+    /// successfully out of a try block and into a finally block without
+    /// jumping. This method exists to update context.prev to the freshest
+    /// available location. If we were implementing a full interpreter, we
+    /// would know the location of the current instruction with complete
+    /// precision at all times, but we don't have that luxury here, as it would
+    /// be costly and verbose to set context.prev before every statement.
+    fn update_ctx_prev_loc(&mut self, loc: Option<&mut Loc>) {
+        let loc = if let Some(loc) = loc {
+            if loc.stmt_index == 0 {
+                loc.stmt_index = self.listing.len();
+            } else {
+                assert_eq!(loc.stmt_index, self.listing.len());
+            }
+
+            *loc
+        } else {
+            self.unmarked_loc()
+        };
+
+        self.emit_assign(self.ctx.clone().member(quote_ident!("prev")), loc.expr());
     }
 
     fn emit(&mut self, stmt: Stmt) {
@@ -99,6 +131,22 @@ impl CaseHandler<'_> {
         self.temp_idx += 1;
 
         res
+    }
+
+    /// Not all offsets into emitter.listing are potential jump targets. For
+    /// example, execution typically falls into the beginning of a try block
+    /// without jumping directly there. This method returns the current offset
+    /// without marking it, so that a switch case will not necessarily be
+    /// generated for this offset (I say "not necessarily" because the same
+    /// location might end up being marked in the process of emitting other
+    /// statements). There's no logical harm in marking such locations as jump
+    /// targets, but minimizing the number of switch cases keeps the generated
+    /// code shorter.
+    fn unmarked_loc(&self) -> Loc {
+        Loc {
+            id: !0,
+            stmt_index: self.listing.len(),
+        }
     }
 
     fn explode_expr(&mut self, e: Expr, ignore_result: bool) -> Expr {
@@ -537,13 +585,13 @@ impl CaseHandler<'_> {
         loc
     }
 
-    fn mark(&mut self, mut loc: Loc) {
+    fn mark(&mut self, mut loc: Loc) -> Loc {
         let idx = self.listing.len();
-
         loc.stmt_index = idx;
 
         // Mark
         self.marked.push(loc);
+        loc
     }
 
     fn emit_abrupt_completion(
@@ -770,7 +818,80 @@ impl CaseHandler<'_> {
                 self.emit(Stmt::Throw(ThrowStmt { span: s.span, arg }))
             }
 
-            Stmt::Try(_) => unimplemented!("regenerator: try statement"),
+            Stmt::Try(s) => {
+                let after = self.loc();
+
+                let TryStmt {
+                    handler,
+                    block,
+                    finalizer,
+                    ..
+                } = s;
+
+                let catch_loc = handler.as_ref().map(|_| self.loc());
+                let catch_entry = handler.as_ref().map(|handler| CatchEntry {
+                    first_loc: catch_loc.unwrap(),
+                    param_id: match handler.param {
+                        Some(Pat::Ident(ref i)) => i.to_id(),
+                        _ => unimplemented!("regenerator: complex pattern in catch clause"),
+                    },
+                });
+
+                let finally_loc = finalizer.as_ref().map(|_| self.loc());
+                let finally_entry = finalizer.as_ref().map(|handler| FinallyEntry {
+                    first_loc: catch_loc.unwrap(),
+                    after_loc: after,
+                });
+
+                let mut try_entry = TryEntry {
+                    first_loc: self.unmarked_loc(),
+                    catch_entry: catch_entry.clone(),
+                    finally_entry,
+                };
+                self.try_entries.push(try_entry.clone());
+                self.update_ctx_prev_loc(Some(&mut try_entry.first_loc));
+
+                self.with_entry(Entry::TryEntry(try_entry), |folder| {
+                    //
+                    folder.explode_stmts(block.stmts);
+
+                    if let Some(catch_loc) = catch_loc {
+                        if let Some(finally_loc) = finally_loc {
+                            // If we have both a catch block and a finally block, then
+                            // because we emit the catch block first, we need to jump over
+                            // it to the finally block.
+                            folder.jump(finally_loc);
+                        } else {
+                            // If there is no finally block, then we need to jump over the
+                            // catch block to the fall-through location.
+                            folder.jump(after);
+                        }
+
+                        let mut loc = folder.mark(catch_loc);
+                        folder.update_ctx_prev_loc(Some(&mut loc));
+
+                        //bodyPath.traverse(catchParamVisitor, {
+                        //    getSafeParam: () => t.cloneDeep(safeParam),
+                        //    catchParamName: handler.param.name
+                        //});
+
+                        folder.with_entry(Entry::Catch(catch_entry.unwrap()), |folder| {
+                            folder.explode_stmts(handler.unwrap().body.stmts)
+                        });
+                    }
+
+                    if let Some(finally_loc) = finally_loc {
+                        let mut loc = folder.mark(finally_loc);
+                        folder.update_ctx_prev_loc(Some(&mut loc));
+
+                        folder.with_entry(Entry::Finally(finally_entry.unwrap()), |folder| {
+                            folder.explode_stmts(finalizer.unwrap().stmts)
+                        });
+                    }
+                });
+
+                self.mark(after);
+            }
 
             Stmt::While(_) => unimplemented!("regenerator: while statement"),
 

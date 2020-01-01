@@ -53,7 +53,9 @@ impl LeapManager {
                 Entry::Fn { .. } => None,
                 Entry::Loop { break_loc, .. } => Some(break_loc),
                 Entry::Switch { break_loc, .. } => Some(break_loc),
-                Entry::Try { .. } => None,
+                Entry::TryEntry { .. } => None,
+                Entry::Catch(..) => None,
+                Entry::Finally(..) => None,
             },
             label,
         )
@@ -102,20 +104,25 @@ pub(super) enum Entry {
         break_loc: Loc,
     },
 
-    Try {
-        first_loc: Loc,
-        catch_entry: Option<CatchEntry>,
-        finally_entry: Option<FinallyEntry>,
-    },
+    TryEntry(TryEntry),
+    Catch(CatchEntry),
+    Finally(FinallyEntry),
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
+pub(super) struct TryEntry {
+    pub first_loc: Loc,
+    pub catch_entry: Option<CatchEntry>,
+    pub finally_entry: Option<FinallyEntry>,
+}
+
+#[derive(Debug, Clone)]
 pub(super) struct CatchEntry {
     pub first_loc: Loc,
     pub param_id: Id,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 pub(super) struct FinallyEntry {
     pub first_loc: Loc,
     pub after_loc: Loc,
