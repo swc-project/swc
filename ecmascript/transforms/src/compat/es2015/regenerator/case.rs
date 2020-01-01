@@ -1068,7 +1068,58 @@ impl CaseHandler<'_> {
                 self.mark(after);
             }
 
-            Stmt::For(_) => unimplemented!("regenerator: for statement"),
+            Stmt::For(s) => {
+                let body = s.body;
+
+                let head = self.loc();
+                let update = self.loc();
+                let after = self.loc();
+
+                let init = if let Some(init) = s.init {
+                    // We pass true here to indicate that if stmt.init is an
+                    // expression then we do not care about
+                    // its result.
+                    match init {
+                        VarDeclOrExpr::Expr(box expr) => {
+                            VarDeclOrExpr::Expr(box self.explode_expr(expr, true))
+                        }
+                        // TODO(kdy1): Is this ok?
+                        _ => init,
+                    }
+                } else {
+                    None
+                };
+
+                self.mark(head);
+
+                if let Some(test) = s.test {
+                    let test = test.map(|e| self.explode_expr(e, false));
+                    self.jump_if_not(test, after);
+                } else {
+                    // No test means continue unconditionally.
+                }
+
+                self.with_entry(
+                    Entry::Loop {
+                        break_loc: after,
+                        continue_loc: update,
+                        label,
+                    },
+                    |folder| folder.explode_stmt(*body),
+                );
+
+                self.mark(update);
+
+                if let Some(update) = s.update {
+                    // We pass true here to indicate that if stmt.update is an
+                    // expression then we do not care about its result.
+                    self.explode_expr(*update, true)
+                }
+
+                self.jump(head);
+
+                self.mark(after);
+            }
 
             Stmt::ForIn(_) => unimplemented!("regenerator: for-in statement"),
 
