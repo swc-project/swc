@@ -9,6 +9,7 @@ use swc_ecma_transforms::{
     compat::es2015::{parameters, regenerator, spread},
     modules::common_js::common_js,
     pass::Pass,
+    resolver,
 };
 
 #[macro_use]
@@ -19,7 +20,7 @@ fn syntax() -> Syntax {
 }
 
 fn tr(_: ()) -> impl Pass {
-    regenerator()
+    chain!(resolver(), regenerator())
 }
 
 // arrow_inside_generator
