@@ -762,7 +762,6 @@ expect(v.next()).toEqual({ done: true });
 "
 );
 
-// TODO
 test_exec!(
     syntax(),
     |_| tr(Default::default()),
@@ -770,8 +769,53 @@ test_exec!(
     "var _regeneratorRuntime = require('@babel/runtime/regenerator');
     
 let v = (function* (){
+  switch(1) {
+  	case 1: 
+      yield 1
+      yield 2
+  }
 })();
 
+expect(v.next()).toEqual({ value: 1, done: false });
+expect(v.next()).toEqual({ value: 2, done: false });
+expect(v.next()).toEqual({ done: true });
+"
+);
+
+test_exec!(
+    syntax(),
+    |_| tr(Default::default()),
+    switch_stmt_2,
+    "var _regeneratorRuntime = require('@babel/runtime/regenerator');
+    
+let v = (function* (){
+  switch(2) {
+  	case 1: 
+      yield 1
+      yield 2
+  }
+})();
+
+expect(v.next()).toEqual({ done: true });
+"
+);
+
+test_exec!(
+    syntax(),
+    |_| tr(Default::default()),
+    switch_stmt_3,
+    "var _regeneratorRuntime = require('@babel/runtime/regenerator');
+    
+let v = (function* (){
+  switch(2) {
+  	default: 
+      yield 1
+      yield 2
+  }
+})();
+
+expect(v.next()).toEqual({ value: 1, done: false });
+expect(v.next()).toEqual({ value: 2, done: false });
 expect(v.next()).toEqual({ done: true });
 "
 );
