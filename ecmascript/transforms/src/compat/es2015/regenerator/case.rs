@@ -6,6 +6,7 @@ use crate::{
 use ast::*;
 use smallvec::SmallVec;
 use std::mem::replace;
+use swc_atoms::JsWord;
 use swc_common::{
     util::{map::Map, move_map::MoveMap},
     BytePos, Fold, FoldWith, Span, Spanned, SyntaxContext, Visit, VisitWith, DUMMY_SP,
@@ -803,11 +804,11 @@ impl CaseHandler<'_> {
 
     pub fn explode_stmts(&mut self, stmts: Vec<Stmt>) {
         for s in stmts {
-            self.explode_stmt(s)
+            self.explode_stmt(s, None)
         }
     }
 
-    pub fn explode_stmt(&mut self, s: Stmt) {
+    pub fn explode_stmt(&mut self, s: Stmt, label: Option<JsWord>) {
         if !contains_leap(&s) {
             // Technically we should be able to avoid emitting the statement
             // altogether if !meta.hasSideEffects(stmt), but that leads to
@@ -862,7 +863,7 @@ impl CaseHandler<'_> {
                         label: s.label.sym.clone(),
                         break_loc: after,
                     },
-                    |h| h.explode_stmt(*s.body),
+                    |h| h.explode_stmt(*s.body, None),
                 );
 
                 self.mark(after);
@@ -891,12 +892,12 @@ impl CaseHandler<'_> {
                 let test = box self.explode_expr(*s.test, false);
                 self.jump_if_not(test, else_loc.unwrap_or(after));
 
-                self.explode_stmt(*s.cons);
+                self.explode_stmt(*s.cons, None);
 
                 if let Some(else_loc) = else_loc {
                     self.jump(after);
                     self.mark(else_loc);
-                    self.explode_stmt(*s.alt.unwrap());
+                    self.explode_stmt(*s.alt.unwrap(), None);
                 }
 
                 self.mark(after);
@@ -1017,7 +1018,31 @@ impl CaseHandler<'_> {
                 self.mark(after);
             }
 
-            Stmt::While(_) => unimplemented!("regenerator: while statement"),
+            Stmt::While(s) => {
+                let body = s.body;
+
+                let before = self.loc();
+                let after = self.loc();
+
+                let before = self.mark(before);
+
+                let test = s.test.map(|e| self.explode_expr(e, false));
+                self.jump_if_not(test, after);
+
+                self.with_entry(
+                    Entry::Loop {
+                        break_loc: after,
+                        continue_loc: before,
+                        label: label.clone(),
+                    },
+                    |folder| {
+                        folder.explode_stmt(*body, None);
+                    },
+                );
+
+                self.jump(before);
+                self.mark(after);
+            }
 
             Stmt::DoWhile(_) => unimplemented!("regenerator: do while statement"),
 
