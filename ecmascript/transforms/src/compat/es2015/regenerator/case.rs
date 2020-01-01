@@ -451,9 +451,10 @@ impl CaseHandler<'_> {
                         //
                         match prop {
                             PropOrSpread::Prop(box p) => PropOrSpread::Prop(box match p {
-                                Prop::Shorthand(_) => {
-                                    unimplemented!("regenerator: shorthand property")
-                                }
+                                Prop::Method(_)
+                                | Prop::Setter(_)
+                                | Prop::Getter(_)
+                                | Prop::Shorthand(_) => p,
                                 Prop::KeyValue(p) => Prop::KeyValue(KeyValueProp {
                                     value: p.value.map(|e| self.explode_expr(e, false)),
                                     ..p
@@ -462,9 +463,6 @@ impl CaseHandler<'_> {
                                     value: p.value.map(|e| self.explode_expr(e, false)),
                                     ..p
                                 }),
-                                Prop::Getter(_) => unimplemented!("regenerator: getter property"),
-                                Prop::Setter(_) => unimplemented!("regenerator: setter property"),
-                                Prop::Method(_) => unimplemented!("regenerator: method property"),
                             }),
                             _ => prop,
                         }
@@ -1093,7 +1091,7 @@ impl CaseHandler<'_> {
                         VarDeclOrExpr::Expr(box expr) => {
                             self.explode_expr(expr, true);
                         }
-                        _ => unimplemented!("VarDecl in for statement"),
+                        _ => unreachable!("VarDeclaration in for loop must be hoisted"),
                     }
                 };
 
@@ -1172,7 +1170,9 @@ impl CaseHandler<'_> {
                 {
                     let right = box key_info_tmp_var.clone().member(quote_ident!("value"));
                     match s.left {
-                        VarDeclOrPat::VarDecl(var) => unimplemented!("VarDecl in for-in statement"),
+                        VarDeclOrPat::VarDecl(var) => {
+                            unreachable!("VarDeclaration in for-in statement must be hoisted")
+                        }
                         VarDeclOrPat::Pat(pat) => self.emit(
                             AssignExpr {
                                 span: DUMMY_SP,
