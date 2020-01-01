@@ -1079,12 +1079,12 @@ impl CaseHandler<'_> {
                     // We pass true here to indicate that if stmt.init is an
                     // expression then we do not care about
                     // its result.
-                    Some(match init {
+                    match init {
                         VarDeclOrExpr::Expr(box expr) => {
                             self.explode_expr(expr, true);
                         }
                         _ => unimplemented!("VarDecl in for statement"),
-                    })
+                    }
                 };
 
                 self.mark(head);
