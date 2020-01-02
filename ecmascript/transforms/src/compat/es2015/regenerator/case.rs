@@ -913,7 +913,7 @@ impl CaseHandler<'_> {
                 match *expr {
                     Expr::Unary(UnaryExpr {
                         op: op!("void"),
-                        arg: box Expr::Lit(Lit::Num(Number { value: 0.0, .. })),
+                        arg: box Expr::Lit(..),
                         ..
                     }) => {}
 
