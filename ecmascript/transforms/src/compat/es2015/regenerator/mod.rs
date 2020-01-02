@@ -168,6 +168,42 @@ impl Fold<FnDecl> for Regenerator {
     }
 }
 
+impl Fold<ModuleDecl> for Regenerator {
+    fn fold(&mut self, i: ModuleDecl) -> ModuleDecl {
+        if !Finder::find(&i) {
+            return i;
+        }
+
+        let i = i.fold_children(self);
+
+        match i {
+            ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                span,
+                decl:
+                    DefaultDecl::Fn(FnExpr {
+                        ident, function, ..
+                    }),
+            }) => {
+                let marked = ident.clone().unwrap_or_else(|| private_ident!("_callee"));
+                let (ident, function) = self.fold_fn(
+                    Some(ident.unwrap_or_else(|| marked.clone())),
+                    marked,
+                    function,
+                );
+
+                return ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
+                    span,
+                    expr: box FnExpr { ident, function }.into(),
+                });
+            }
+
+            _ => {}
+        }
+
+        i
+    }
+}
+
 impl Regenerator {
     fn fold_fn(
         &mut self,
@@ -236,7 +272,7 @@ impl Regenerator {
             .into()],
         });
 
-        let mut stmts = vec![Stmt::While(WhileStmt {
+        let stmts = vec![Stmt::While(WhileStmt {
             span: DUMMY_SP,
             test: box Expr::Lit(Lit::Num(Number {
                 span: DUMMY_SP,
