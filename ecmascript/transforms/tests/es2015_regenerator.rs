@@ -70,9 +70,7 @@ var o = {
     r#"
 var o = {
   foo() {
-    return (
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee() {
+    return regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
           while (1) switch (_ctx.prev = _ctx.next) {
             case 0:
@@ -84,7 +82,7 @@ var o = {
           }
         }, _callee);
       })()
-    );
+    ;
   }
 
 };
