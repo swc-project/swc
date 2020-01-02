@@ -23,37 +23,6 @@ fn tr(_: ()) -> impl Pass {
     chain!(resolver(), regenerator())
 }
 
-// arrow_inside_generator
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    arrow_inside_generator,
-    r#"
-function* gen () {
-  const a = () => {
-    return 1;
-  };
-}
-
-"#,
-    "
-var _marked = regeneratorRuntime.mark(gen);
-function gen() {
-    return regeneratorRuntime.wrap(function gen$(_ctx) {
-        while(1){
-            switch(_ctx.prev = _ctx.next){
-                case 0: const a = ()=>{
-                    return 1;
-                };
-                case 1:
-                case 'end': return _ctx.stop();
-            }
-        }
-    }, _marked);
-}
-"
-);
-
 // computed_properties_example
 test!(
     syntax(),
