@@ -3,6 +3,7 @@ use crate::{
     syntax_pos::{BytePos, Span},
 };
 use chashmap::{CHashMap, ReadGuard};
+use std::collections::HashMap;
 
 type CommentMap = CHashMap<BytePos, Vec<Comment>>;
 
@@ -69,6 +70,19 @@ impl Comments {
                 None => Some(cmt),
             });
         }
+    }
+
+    /// Takes all the comments as (leading, trailing).
+    pub fn take_all(
+        self,
+    ) -> (
+        HashMap<BytePos, Vec<Comment>>,
+        HashMap<BytePos, Vec<Comment>>,
+    ) {
+        (
+            self.leading.into_iter().collect(),
+            self.trailing.into_iter().collect(),
+        )
     }
 }
 
