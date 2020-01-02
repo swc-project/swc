@@ -226,7 +226,7 @@ impl Regenerator {
 
         f.body = f.body.fold_with(&mut FnSentVisitor { ctx: ctx.clone() });
         let uses_this = contains_this_expr(&f.body);
-        let (mut body, vars) = hoist(f.body.unwrap());
+        let (body, vars) = hoist(f.body.unwrap());
         self.vars.extend(vars.into_iter().map(|id| VarDeclarator {
             span: DUMMY_SP,
             name: Pat::Ident(id),
