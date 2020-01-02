@@ -936,3 +936,26 @@ expect(v.next()).toEqual({ value: 2, done: false });
 expect(v.next()).toEqual({ done: true });
 "
 );
+
+test_exec!(
+    syntax(),
+    |_| tr(Default::default()),
+    arguments_2,
+    "var regeneratorRuntime = require('@babel/runtime/regenerator');
+    
+function* gen(){
+    yield arguments[0];
+    yield arguments[1];
+}
+
+var v = gen(1, 2);
+expect(v.next()).toEqual({ value: 1, done: false });
+expect(v.next()).toEqual({ value: 2, done: false });
+expect(v.next()).toEqual({ done: true });
+
+var v = gen(3, 4);
+expect(v.next()).toEqual({ value: 3, done: false });
+expect(v.next()).toEqual({ value: 4, done: false });
+expect(v.next()).toEqual({ done: true });
+"
+);
