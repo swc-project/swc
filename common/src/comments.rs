@@ -5,7 +5,7 @@ use crate::{
 use chashmap::{CHashMap, ReadGuard};
 use std::collections::HashMap;
 
-type CommentMap = CHashMap<BytePos, Vec<Comment>>;
+pub type CommentMap = CHashMap<BytePos, Vec<Comment>>;
 
 #[derive(Debug, Default)]
 pub struct Comments {
@@ -73,16 +73,8 @@ impl Comments {
     }
 
     /// Takes all the comments as (leading, trailing).
-    pub fn take_all(
-        self,
-    ) -> (
-        HashMap<BytePos, Vec<Comment>>,
-        HashMap<BytePos, Vec<Comment>>,
-    ) {
-        (
-            self.leading.into_iter().collect(),
-            self.trailing.into_iter().collect(),
-        )
+    pub fn take_all(self) -> (CommentMap, CommentMap) {
+        (self.leading, self.trailing)
     }
 }
 
