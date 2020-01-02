@@ -6,10 +6,7 @@
 use swc_common::chain;
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{
-    compat::es2015::{parameters, regenerator, spread},
-    modules::common_js::common_js,
-    pass::Pass,
-    resolver,
+    compat::es2015::regenerator, modules::common_js::common_js, pass::Pass, resolver,
 };
 
 #[macro_use]
@@ -77,40 +74,40 @@ expect(test.iter().next().value).toBe(test);
 "#
 );
 
-// regression_T7041
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    regression_t7041,
-    r#"
-Object.keys({});
-
-function * fn(){}
-
-"#,
-    r#"
-var _regeneratorRuntime = require("@babel/runtime/regenerator");
-
-var _marked =
-/*#__PURE__*/
-_regeneratorRuntime.mark(fn);
-
-Object.keys({});
-
-function fn() {
-  return _regeneratorRuntime.wrap(function fn$(_ctx) {
-    while (1) {
-      switch (_ctx.prev = _ctx.next) {
-        case 0:
-        case "end":
-          return _ctx.stop();
-      }
-    }
-  }, _marked);
-}
-
-"#
-);
+//// regression_T7041
+//test!(
+//    syntax(),
+//    |_| tr(Default::default()),
+//    regression_t7041,
+//    r#"
+//var _regeneratorRuntime = require("@babel/runtime/regenerator");
+//
+//Object.keys({});
+//
+//function * fn(){}
+//
+//"#,
+//    r#"
+//var _regeneratorRuntime = require("@babel/runtime/regenerator");
+//
+//var _marked = _regeneratorRuntime.mark(fn);
+//
+//Object.keys({});
+//
+//function fn() {
+//  return _regeneratorRuntime.wrap(function fn$(_ctx) {
+//    while (1) {
+//      switch (_ctx.prev = _ctx.next) {
+//        case 0:
+//        case "end":
+//          return _ctx.stop();
+//      }
+//    }
+//  }, _marked);
+//}
+//
+//"#
+//);
 
 // regression_6733
 test!(
