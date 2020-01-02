@@ -690,7 +690,7 @@ impl CaseHandler<'_> {
                 self.emit(ret);
                 self.mark(after);
 
-                self.ctx.clone().member(quote_ident!("sent"))
+                finish!(self.ctx.clone().member(quote_ident!("sent")))
             }
         }
     }
@@ -910,7 +910,15 @@ impl CaseHandler<'_> {
 
             Stmt::Expr(ExprStmt { span, expr, .. }) => {
                 let expr = expr.map(|expr| self.explode_expr(expr, true));
-                self.emit(Stmt::Expr(ExprStmt { span, expr }))
+                match *expr {
+                    Expr::Unary(UnaryExpr {
+                        op: op!("void"),
+                        arg: box Expr::Lit(Lit::Num(Number { value: 0.0, .. })),
+                        ..
+                    }) => {}
+
+                    _ => self.emit(Stmt::Expr(ExprStmt { span, expr })),
+                }
             }
 
             Stmt::Return(ret) => {
