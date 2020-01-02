@@ -415,57 +415,49 @@ impl<'a, I: Tokens> Parser<'a, I> {
         let discriminant = self.include_in_expr(true).parse_expr()?;
         expect!(')');
 
-        let mut cur = None;
         let mut cases = vec![];
         let mut span_of_previous_default = None;
 
         expect!('{');
-        while !eof!() && !is!('}') {
-            let case_start = cur_pos!();
-            let ctx = Context {
-                is_break_allowed: true,
-                ..self.ctx()
-            };
+        let ctx = Context {
+            is_break_allowed: true,
+            ..self.ctx()
+        };
 
-            self.with_ctx(ctx).parse_with(|p| {
-                if is_one_of!("case", "default") {
-                    let is_case = is!("case");
-                    let start_of_case = cur_pos!();
-                    bump!();
-                    cases.extend(cur.take());
-                    let test = if is_case {
-                        p.include_in_expr(true).parse_expr().map(Some)?
-                    } else {
-                        if let Some(previous) = span_of_previous_default {
-                            syntax_error!(SyntaxError::MultipleDefault { previous });
-                        }
-                        span_of_previous_default = Some(span!(start_of_case));
-
-                        None
-                    };
-                    expect!(':');
-
-                    cur = Some(SwitchCase {
-                        span: span!(case_start),
-                        test,
-                        cons: vec![],
-                    });
+        self.with_ctx(ctx).parse_with(|p| {
+            while is_one_of!("case", "default") {
+                let mut cons = vec![];
+                let is_case = is!("case");
+                let case_start = cur_pos!();
+                bump!();
+                let test = if is_case {
+                    p.include_in_expr(true).parse_expr().map(Some)?
                 } else {
-                    match cur {
-                        Some(ref mut cur) => {
-                            cur.cons.push(p.parse_stmt_list_item(false)?);
-                        }
-                        None => unexpected!(),
+                    if let Some(previous) = span_of_previous_default {
+                        syntax_error!(SyntaxError::MultipleDefault { previous });
                     }
+                    span_of_previous_default = Some(span!(case_start));
+
+                    None
+                };
+                expect!(':');
+
+                while !eof!() && !is_one_of!("case", "default", '}') {
+                    cons.push(p.parse_stmt_list_item(false)?);
                 }
 
-                Ok(())
-            })?
-        }
+                cases.push(SwitchCase {
+                    span: Span::new(case_start, p.input.prev_span().hi(), Default::default()),
+                    test,
+                    cons,
+                });
+            }
+
+            Ok(())
+        })?;
 
         // eof or rbrace
         expect!('}');
-        cases.extend(cur);
 
         Ok(Stmt::Switch(SwitchStmt {
             span: span!(switch_start),
