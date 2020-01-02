@@ -1,7 +1,6 @@
-use crate::util::{find_ids, prepend, StmtLike};
+use crate::util::find_ids;
 use ast::*;
 use smallvec::SmallVec;
-use std::mem::replace;
 use swc_atoms::js_word;
 use swc_common::{Fold, FoldWith, DUMMY_SP};
 

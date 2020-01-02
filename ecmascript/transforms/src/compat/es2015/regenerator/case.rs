@@ -257,18 +257,18 @@ impl CaseHandler<'_> {
             finish!(e)
         }
 
-        // If any child contains a leap (such as a yield or labeled continue or
-        // break statement), then any sibling subexpressions will almost
-        // certainly have to be exploded in order to maintain the order of their
-        // side effects relative to the leaping child(ren).
-        let has_leaping_children = match e {
-            Expr::Yield(..) => true,
-            Expr::Seq(ref seq) => seq.exprs.iter().any(|e| match **e {
-                Expr::Yield(..) => true,
-                _ => false,
-            }),
-            _ => false,
-        };
+        //        // If any child contains a leap (such as a yield or labeled continue
+        // or        // break statement), then any sibling subexpressions will
+        // almost        // certainly have to be exploded in order to maintain
+        // the order of their        // side effects relative to the leaping
+        // child(ren).        let has_leaping_children = match e {
+        //            Expr::Yield(..) => true,
+        //            Expr::Seq(ref seq) => seq.exprs.iter().any(|e| match **e {
+        //                Expr::Yield(..) => true,
+        //                _ => false,
+        //            }),
+        //            _ => false,
+        //        };
 
         match e {
             Expr::This(..)
@@ -280,7 +280,7 @@ impl CaseHandler<'_> {
             | Expr::Arrow(..)
             | Expr::Class(..)
             | Expr::MetaProp(..)
-            | Expr::JSXMebmer(..)
+            | Expr::JSXMember(..)
             | Expr::JSXNamespacedName(..)
             | Expr::JSXEmpty(..)
             | Expr::JSXElement(..)

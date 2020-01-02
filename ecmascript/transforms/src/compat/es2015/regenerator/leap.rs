@@ -50,7 +50,7 @@ impl LeapManager {
         self.find_leap_loc(
             |entry| match *entry {
                 Entry::Labeled { break_loc, .. } => Some(break_loc),
-                Entry::Fn { .. } => None,
+                //                Entry::Fn { .. } => None,
                 Entry::Loop { break_loc, .. } => Some(break_loc),
                 Entry::Switch { break_loc, .. } => Some(break_loc),
                 Entry::TryEntry { .. } => None,
@@ -90,10 +90,9 @@ pub(super) enum Entry {
         break_loc: Loc,
     },
 
-    Fn {
-        return_loc: Loc,
-    },
-
+    //    Fn {
+    //        return_loc: Loc,
+    //    },
     Loop {
         break_loc: Loc,
         continue_loc: Loc,
