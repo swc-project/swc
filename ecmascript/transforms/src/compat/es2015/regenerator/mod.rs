@@ -60,15 +60,39 @@ impl Fold<Prop> for Regenerator {
                 //
                 let marked = private_ident!("_callee");
                 let (ident, function) = self.fold_fn(Some(marked.clone()), marked, p.function);
-                let expr = Expr::Call(CallExpr {
+                let mark_expr = Expr::Call(CallExpr {
                     span: DUMMY_SP,
                     callee: member_expr!(DUMMY_SP, regeneratorRuntime.mark).as_callee(),
                     args: vec![FnExpr { ident, function }.as_arg()],
                     type_args: None,
                 });
-                return Prop::KeyValue(KeyValueProp {
-                    key: p.key,
-                    value: box expr,
+                return Prop::Method(MethodProp {
+                    function: Function {
+                        span: DUMMY_SP,
+                        params: vec![],
+                        decorators: vec![],
+                        body: Some(BlockStmt {
+                            span: DUMMY_SP,
+                            stmts: vec![ReturnStmt {
+                                span: DUMMY_SP,
+                                arg: Some(
+                                    box CallExpr {
+                                        span: DUMMY_SP,
+                                        callee: mark_expr.as_callee(),
+                                        args: vec![],
+                                        type_args: Default::default(),
+                                    }
+                                    .into(),
+                                ),
+                            }
+                            .into()],
+                        }),
+                        is_generator: false,
+                        is_async: false,
+                        type_params: None,
+                        return_type: None,
+                    },
+                    ..p
                 });
             }
 
