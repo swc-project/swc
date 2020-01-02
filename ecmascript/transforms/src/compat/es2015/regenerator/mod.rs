@@ -242,21 +242,17 @@ impl Regenerator {
                 span: DUMMY_SP,
                 value: 1.0,
             })),
-            body: box BlockStmt {
+            body: box SwitchStmt {
                 span: DUMMY_SP,
-                stmts: vec![SwitchStmt {
+                // _ctx.prev = _ctx.next
+                discriminant: box AssignExpr {
                     span: DUMMY_SP,
-                    // _ctx.prev = _ctx.next
-                    discriminant: box AssignExpr {
-                        span: DUMMY_SP,
-                        op: op!("="),
-                        left: PatOrExpr::Expr(box ctx.clone().member(quote_ident!("prev"))),
-                        right: box ctx.clone().member(quote_ident!("next")),
-                    }
-                    .into(),
-                    cases,
+                    op: op!("="),
+                    left: PatOrExpr::Expr(box ctx.clone().member(quote_ident!("prev"))),
+                    right: box ctx.clone().member(quote_ident!("next")),
                 }
-                .into()],
+                .into(),
+                cases,
             }
             .into(),
         })];
