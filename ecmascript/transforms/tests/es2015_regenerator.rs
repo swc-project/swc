@@ -112,44 +112,6 @@ function fn() {
 "#
 );
 
-// regression_4219
-test!(
-    syntax(),
-    |_| chain!(
-        parameters(),
-        spread(Default::default()),
-        tr(Default::default())
-    ),
-    regression_4219,
-    r#"
-function test(fn) {
-    return async (...args) => {
-    return fn(...args);
-    };
-}
-"#,
-    r#"
-function test(fn) {
-  return function _callee() {
-    var _args = arguments;
-    return regeneratorRuntime.async(function _callee$(_ctx) {
-      while (1) {
-        switch (_ctx.prev = _ctx.next) {
-          case 0:
-            return _ctx.abrupt("return", fn.apply(void 0, _args));
-
-          case 1:
-          case "end":
-            return _ctx.stop();
-        }
-      }
-    });
-  };
-}
-
-"#
-);
-
 // regression_6733
 test!(
     syntax(),
