@@ -120,6 +120,7 @@ pub fn preset_env(c: Config) -> impl Pass {
         es2015::destructuring(es2015::destructuring::Config { loose }),
         true
     );
+    let pass = add!(pass, Regenerator, es2015::regenerator(), true);
     let pass = add!(pass, BlockScoping, es2015::block_scoping(), true);
 
     // TODO:
@@ -128,7 +129,6 @@ pub fn preset_env(c: Config) -> impl Pass {
     //    DotAllRegex,
     //    UnicodeRegex,
     //    NewTarget,
-    //    Regenerator,
     //    AsyncGeneratorFunctions,
     //    UnicodePropertyRegex,
     //    JsonStrings,
