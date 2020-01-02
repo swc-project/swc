@@ -51,6 +51,34 @@ where
     }
 }
 
+impl Fold<Prop> for Regenerator {
+    fn fold(&mut self, p: Prop) -> Prop {
+        let p = p.fold_children(self);
+
+        match p {
+            Prop::Method(p) if p.function.is_generator => {
+                //
+                let marked = private_ident!("_callee");
+                let (ident, function) = self.fold_fn(Some(marked.clone()), marked, p.function);
+                let expr = Expr::Call(CallExpr {
+                    span: DUMMY_SP,
+                    callee: member_expr!(DUMMY_SP, regeneratorRuntime.mark).as_callee(),
+                    args: vec![FnExpr { ident, function }.as_arg()],
+                    type_args: None,
+                });
+                return Prop::KeyValue(KeyValueProp {
+                    key: p.key,
+                    value: box expr,
+                });
+            }
+
+            _ => {}
+        }
+
+        p
+    }
+}
+
 impl Fold<Expr> for Regenerator {
     fn fold(&mut self, e: Expr) -> Expr {
         if !Finder::find(&e) {
