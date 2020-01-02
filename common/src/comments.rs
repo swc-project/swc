@@ -3,7 +3,6 @@ use crate::{
     syntax_pos::{BytePos, Span},
 };
 use chashmap::{CHashMap, ReadGuard};
-use std::collections::HashMap;
 
 pub type CommentMap = CHashMap<BytePos, Vec<Comment>>;
 
