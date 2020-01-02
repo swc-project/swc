@@ -900,7 +900,6 @@ expect(v.next()).toEqual({ done: true });
 "
 );
 
-// TODO
 test_exec!(
     syntax(),
     |_| tr(Default::default()),
@@ -918,6 +917,22 @@ expect(v.next()).toEqual({ value: 3, done: false });
 expect(v.next()).toEqual({ value: 1, done: false });
 expect(v.next()).toEqual({ value: 2, done: false });
 expect(v.next()).toEqual({ value: NaN, done: false });
+expect(v.next()).toEqual({ done: true });
+"
+);
+
+test_exec!(
+    syntax(),
+    |_| tr(Default::default()),
+    arguments_1,
+    "var regeneratorRuntime = require('@babel/runtime/regenerator');
+    
+function* gen(){
+    yield arguments;
+}
+
+var v = gen(1, 2);
+expect(v.next()).toEqual({ value: 2, done: false });
 expect(v.next()).toEqual({ done: true });
 "
 );
