@@ -5,6 +5,7 @@ use crate::{
 };
 use ast::*;
 use std::mem::replace;
+use swc_atoms::js_word;
 use swc_common::{Fold, FoldWith, Spanned, Visit, VisitWith, DUMMY_SP};
 
 mod case;
@@ -17,10 +18,53 @@ pub fn regenerator() -> impl Pass {
 
 #[derive(Debug, Default)]
 struct Regenerator {
-    used: bool,
-    vars: Vec<VarDeclarator>,
+    /// [Some] if used.
+    regenerator_runtime: Option<Ident>,
+    /// Variables delcared in outer function.
+    outer_fn_vars: Vec<VarDeclarator>,
     /// mark
-    fn_vars: Vec<VarDeclarator>,
+    top_level_vars: Vec<VarDeclarator>,
+}
+
+fn rt(rt: Ident) -> Stmt {
+    Stmt::Decl(Decl::Var(VarDecl {
+        span: DUMMY_SP,
+        kind: VarDeclKind::Var,
+        declare: false,
+        decls: vec![VarDeclarator {
+            span: DUMMY_SP,
+            name: Pat::Ident(rt),
+            init: Some(box Expr::Call(CallExpr {
+                span: DUMMY_SP,
+                callee: quote_ident!("require").as_callee(),
+                args: vec![quote_str!("@babel/runtime/regenerator").as_arg()],
+                type_args: Default::default(),
+            })),
+            definite: false,
+        }],
+    }))
+}
+
+/// Injects `var _regeneratorRuntime = require('@babel/runtime/regenerator');`
+impl Fold<Module> for Regenerator {
+    fn fold(&mut self, m: Module) -> Module {
+        let mut m: Module = m.fold_children(self);
+        if let Some(rt_ident) = self.regenerator_runtime.take() {
+            prepend(&mut m.body, rt(rt_ident).into());
+        }
+        m
+    }
+}
+
+/// Injects `var _regeneratorRuntime = require('@babel/runtime/regenerator');`
+impl Fold<Script> for Regenerator {
+    fn fold(&mut self, s: Script) -> Script {
+        let mut s: Script = s.fold_children(self);
+        if let Some(rt_ident) = self.regenerator_runtime.take() {
+            prepend(&mut s.body, rt(rt_ident).into());
+        }
+        s
+    }
 }
 
 impl<T> Fold<Vec<T>> for Regenerator
@@ -35,14 +79,14 @@ where
 
         let mut items = items.fold_children(self);
 
-        if !self.fn_vars.is_empty() {
+        if !self.top_level_vars.is_empty() {
             prepend(
                 &mut items,
                 T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
                     declare: false,
-                    decls: replace(&mut self.fn_vars, Default::default()),
+                    decls: replace(&mut self.top_level_vars, Default::default()),
                 }))),
             );
         }
@@ -62,7 +106,12 @@ impl Fold<Prop> for Regenerator {
                 let (ident, function) = self.fold_fn(Some(marked.clone()), marked, p.function);
                 let mark_expr = Expr::Call(CallExpr {
                     span: DUMMY_SP,
-                    callee: member_expr!(DUMMY_SP, regeneratorRuntime.mark).as_callee(),
+                    callee: self
+                        .regenerator_runtime
+                        .clone()
+                        .unwrap()
+                        .member(quote_ident!("mark"))
+                        .as_callee(),
                     args: vec![FnExpr { ident, function }.as_arg()],
                     type_args: None,
                 });
@@ -123,7 +172,12 @@ impl Fold<Expr> for Regenerator {
                 );
                 return Expr::Call(CallExpr {
                     span: DUMMY_SP,
-                    callee: member_expr!(DUMMY_SP, regeneratorRuntime.mark).as_callee(),
+                    callee: self
+                        .regenerator_runtime
+                        .clone()
+                        .unwrap()
+                        .member(quote_ident!("mark"))
+                        .as_callee(),
                     args: vec![FnExpr { ident, function }.as_arg()],
                     type_args: None,
                 });
@@ -142,16 +196,25 @@ impl Fold<FnDecl> for Regenerator {
             return f;
         }
 
+        if self.regenerator_runtime.is_none() {
+            self.regenerator_runtime = Some(private_ident!("regeneratorRuntime"));
+        }
+
         let f = f.fold_children(self);
 
         let marked = private_ident!("_marked");
 
-        self.fn_vars.push(VarDeclarator {
+        self.top_level_vars.push(VarDeclarator {
             span: DUMMY_SP,
             name: Pat::Ident(marked.clone()),
             init: Some(box Expr::Call(CallExpr {
                 span: DUMMY_SP,
-                callee: member_expr!(DUMMY_SP, regeneratorRuntime.mark).as_callee(),
+                callee: self
+                    .regenerator_runtime
+                    .clone()
+                    .unwrap()
+                    .member(quote_ident!("mark"))
+                    .as_callee(),
                 args: vec![f.ident.clone().as_arg()],
                 type_args: None,
             })),
@@ -214,6 +277,9 @@ impl Regenerator {
         if !f.is_generator || f.body.is_none() {
             return (i, f);
         }
+        if self.regenerator_runtime.is_none() {
+            self.regenerator_runtime = Some(private_ident!("regeneratorRuntime"));
+        }
 
         let body_span = f.body.span();
 
@@ -226,13 +292,29 @@ impl Regenerator {
 
         f.body = f.body.fold_with(&mut FnSentVisitor { ctx: ctx.clone() });
         let uses_this = contains_this_expr(&f.body);
-        let (body, vars) = hoist(f.body.unwrap());
-        self.vars.extend(vars.into_iter().map(|id| VarDeclarator {
-            span: DUMMY_SP,
-            name: Pat::Ident(id),
-            init: None,
-            definite: false,
-        }));
+        let (body, hoister) = hoist(f.body.unwrap());
+        self.outer_fn_vars
+            .extend(hoister.vars.into_iter().map(|id| VarDeclarator {
+                span: DUMMY_SP,
+                name: Pat::Ident(id),
+                init: None,
+                definite: false,
+            }));
+        self.outer_fn_vars
+            .extend(hoister.arguments.into_iter().map(|id| {
+                VarDeclarator {
+                    span: DUMMY_SP,
+                    name: Pat::Ident(id.clone()),
+                    init: Some(
+                        box Ident {
+                            sym: js_word!("arguments"),
+                            ..id
+                        }
+                        .into(),
+                    ),
+                    definite: false,
+                }
+            }));
 
         handler.explode_stmts(body.stmts);
 
@@ -301,11 +383,11 @@ impl Regenerator {
                     span: body_span,
                     stmts: {
                         let mut buf = vec![];
-                        if !self.vars.is_empty() {
+                        if !self.outer_fn_vars.is_empty() {
                             buf.push(Stmt::Decl(Decl::Var(VarDecl {
                                 span: DUMMY_SP,
                                 kind: VarDeclKind::Var,
-                                decls: replace(&mut self.vars, Default::default()),
+                                decls: replace(&mut self.outer_fn_vars, Default::default()),
                                 declare: false,
                             })));
                         }
@@ -315,7 +397,11 @@ impl Regenerator {
                                 span: DUMMY_SP,
                                 arg: Some(box Expr::Call(CallExpr {
                                     span: DUMMY_SP,
-                                    callee: member_expr!(DUMMY_SP, regeneratorRuntime.wrap)
+                                    callee: self
+                                        .regenerator_runtime
+                                        .clone()
+                                        .unwrap()
+                                        .member(quote_ident!("wrap"))
                                         .as_callee(),
                                     args: {
                                         let mut args = vec![Expr::Fn(FnExpr {

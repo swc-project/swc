@@ -2,25 +2,28 @@ use crate::util::{find_ids, prepend, StmtLike};
 use ast::*;
 use smallvec::SmallVec;
 use std::mem::replace;
+use swc_atoms::js_word;
 use swc_common::{Fold, FoldWith, DUMMY_SP};
 
 pub(super) type Vars = SmallVec<[Ident; 32]>;
 
-pub(super) fn hoist<T>(node: T) -> (T, Vars)
+pub(super) fn hoist<T>(node: T) -> (T, Hoister)
 where
     T: FoldWith<Hoister>,
 {
     let mut v = Hoister {
         vars: Default::default(),
+        arguments: None,
     };
     let t = node.fold_with(&mut v);
 
-    (t, v.vars)
+    (t, v)
 }
 
 #[derive(Debug)]
 pub(super) struct Hoister {
-    vars: Vars,
+    pub vars: Vars,
+    pub arguments: Option<Ident>,
 }
 
 impl Hoister {
@@ -120,5 +123,40 @@ impl Fold<ModuleDecl> for Hoister {
         }
 
         decl.fold_children(self)
+    }
+}
+
+impl Fold<MemberExpr> for Hoister {
+    fn fold(&mut self, mut e: MemberExpr) -> MemberExpr {
+        e.obj = e.obj.fold_with(self);
+
+        if e.computed {
+            e.prop = e.prop.fold_with(self);
+        }
+
+        e
+    }
+}
+
+impl Fold<Expr> for Hoister {
+    fn fold(&mut self, e: Expr) -> Expr {
+        let e = e.fold_children(self);
+
+        match e {
+            Expr::Ident(Ident {
+                sym: js_word!("arguments"),
+                ..
+            }) => {
+                if self.arguments.is_none() {
+                    self.arguments = Some(private_ident!("_args"));
+                }
+
+                return Expr::Ident(self.arguments.clone().unwrap());
+            }
+
+            _ => {}
+        }
+
+        e
     }
 }
