@@ -875,8 +875,9 @@ impl<'a, I: Tokens> Parser<'a, I> {
         let start = cur_pos!();
 
         assert_and_bump!("for");
+        let await_start = cur_pos!();
         let await_token = if eat!("await") {
-            Some(span!(start))
+            Some(span!(await_start))
         } else {
             None
         };
