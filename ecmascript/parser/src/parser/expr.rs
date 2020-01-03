@@ -1120,6 +1120,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
             let modifier_start = start;
 
             let has_modifier = self.eat_any_ts_modifier()?;
+            let pat_start = cur_pos!();
 
             let mut arg = {
                 if self.input.syntax().typescript()
@@ -1227,7 +1228,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                     }
                     rest_span = Some(span);
                     pat = Pat::Rest(RestPat {
-                        span: span!(start),
+                        span: span!(pat_start),
                         dot3_token: span,
                         arg: Box::new(pat),
                         type_ann: None,
@@ -1235,20 +1236,40 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 }
                 match pat {
                     Pat::Ident(Ident {
-                        ref mut type_ann, ..
+                        ref mut type_ann,
+                        ref mut span,
+                        ..
                     })
                     | Pat::Array(ArrayPat {
-                        ref mut type_ann, ..
+                        ref mut type_ann,
+                        ref mut span,
+                        ..
                     })
                     | Pat::Assign(AssignPat {
-                        ref mut type_ann, ..
+                        ref mut type_ann,
+                        ref mut span,
+                        ..
                     })
                     | Pat::Object(ObjectPat {
-                        ref mut type_ann, ..
+                        ref mut type_ann,
+                        ref mut span,
+                        ..
                     })
                     | Pat::Rest(RestPat {
-                        ref mut type_ann, ..
-                    }) => *type_ann = self.try_parse_ts_type_ann()?,
+                        ref mut type_ann,
+                        ref mut span,
+                        ..
+                    }) => {
+                        let new_type_ann = self.try_parse_ts_type_ann()?;
+                        if new_type_ann.is_some() {
+                            *span = Span::new(
+                                pat_start,
+                                self.input.prev_span().hi(),
+                                Default::default(),
+                            );
+                        }
+                        *type_ann = new_type_ann;
+                    }
                     Pat::Expr(ref expr) => unreachable!("invalid pattern: Expr({:?})", expr),
                     Pat::Invalid(ref i) => unreachable!("invalid pattern: {:?}", i.span),
                 }
