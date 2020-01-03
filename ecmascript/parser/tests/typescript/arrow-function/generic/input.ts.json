@@ -25,7 +25,7 @@
             "type": "Identifier",
             "span": {
               "start": 4,
-              "end": 5,
+              "end": 8,
               "ctxt": 0
             },
             "value": "a",
