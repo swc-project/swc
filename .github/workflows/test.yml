@@ -15,8 +15,11 @@ jobs:
 
       - name: Install node dependencies
         run: |
+          npm config set prefix ~/npm
           npm i browserslist
           npm i -g jest
+
+      - run: export PATH="$PATH:$HOME/npm/bin"
 
       - name: Run cargo check for all targets
         run: cargo check --all --all-targets
@@ -31,8 +34,11 @@ jobs:
 
       - name: Install node dependencies
         run: |
+          npm config set prefix ~/npm
           npm i browserslist
           npm i -g jest
+
+      - run: export PATH="$PATH:$HOME/npm/bin"
 
       - name: Run cargo test
         run: cargo test -p swc_ecma_parser --release
