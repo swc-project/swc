@@ -1,0 +1,38 @@
+name: Test
+
+on: [push, pull_request]
+
+env:
+  RUST_MIN_STACK: 16777216
+  CARGO_INCREMENTAL: 0
+
+jobs:
+  # Ensure that all components all compilable.
+  debug:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Install node dependencies
+        run: |
+          npm i browserslist
+          npm i -g jest
+
+      - name: Run cargo check for all targets
+        run: cargo check --all --all-targets
+
+      - name: Run cargo test
+        run: cargo test --all
+
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Install node dependencies
+        run: |
+          npm i browserslist
+          npm i -g jest
+
+      - name: Run cargo test
+        run: cargo test -p swc_ecma_parser --release
