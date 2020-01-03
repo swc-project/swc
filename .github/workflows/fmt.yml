@@ -1,13 +1,12 @@
-name: Lint
+name: Format
 
 on: [push, pull_request]
 
 jobs:
-  lint:
+  fmt:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
+
       - name: Run cargo fmt
         run: cargo fmt --all -- --check
-      # - name: Run cargo clippy
-      #   run: cargo clippy --all
