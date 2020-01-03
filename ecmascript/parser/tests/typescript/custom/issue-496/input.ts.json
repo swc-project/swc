@@ -102,7 +102,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 62,
-                  "end": 69,
+                  "end": 74,
                   "ctxt": 0
                 },
                 "value": "variant",

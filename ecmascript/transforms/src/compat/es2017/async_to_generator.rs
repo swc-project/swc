@@ -255,6 +255,7 @@ impl Fold<Expr> for MethodFolder {
                         is_async: false,
                         is_generator: false,
                         params: vec![Pat::Rest(RestPat {
+                            span: DUMMY_SP,
                             dot3_token: DUMMY_SP,
                             arg: box Pat::Ident(args_ident.clone()),
                             type_ann: Default::default(),

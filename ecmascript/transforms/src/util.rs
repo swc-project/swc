@@ -1291,6 +1291,7 @@ pub fn default_constructor(has_super: bool) -> Constructor {
         is_optional: false,
         params: if has_super {
             vec![PatOrTsParamProp::Pat(Pat::Rest(RestPat {
+                span: DUMMY_SP,
                 dot3_token: DUMMY_SP,
                 arg: box Pat::Ident(quote_ident!(span, "args")),
                 type_ann: Default::default(),
