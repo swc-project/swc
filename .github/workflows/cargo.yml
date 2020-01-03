@@ -5,7 +5,6 @@ on: [push, pull_request]
 env:
   RUST_MIN_STACK: 16777216
   CARGO_INCREMENTAL: 0
-  PATH: "$PATH:$HOME/npm/bin"
 
 jobs:
   fmt:
@@ -39,7 +38,9 @@ jobs:
         run: cargo check --all --all-targets
 
       - name: Run cargo test
-        run: cargo test --all
+        run: |
+          export PATH="$PATH:$HOME/npm/bin"
+          cargo test --all
 
   test-release:
     runs-on: ubuntu-latest
@@ -60,7 +61,9 @@ jobs:
           npm i -g jest
 
       - name: Run cargo test
-        run: cargo test -p swc_ecma_parser --release
+        run: |
+          export PATH="$PATH:$HOME/npm/bin"
+          cargo test -p swc_ecma_parser --release
 
   #
   deploy-docs:
