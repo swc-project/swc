@@ -8,29 +8,21 @@ env:
 
 jobs:
   # Ensure that all components all compilable.
-  check:
+  debug:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
 
-      - name: Run cargo check
-        run: cargo test --all --all-targets
-
-  # These tests are fast
-  test-no-exec:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
+      - name: Run cargo check for all targets
+        run: cargo check --all --all-targets
 
       - name: Run cargo test
         run: cargo test --all
-        env:
-          EXEC: 0
 
-  test-exec:
+  release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
 
       - name: Run cargo test
-        run: cargo test -p swc_ecma_transforms
+        run: cargo test -p swc_ecma_parser --release
