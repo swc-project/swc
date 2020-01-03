@@ -51,6 +51,7 @@ jobs:
   #
   deploy-docs:
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
     needs:
       - test-debug
       - test-release
