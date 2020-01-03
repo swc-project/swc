@@ -256,7 +256,10 @@ impl<'a, I: Tokens> ParseObject<'a, Box<Expr>> for Parser<'a, I> {
                         )
                         .map(
                             |Function {
-                                 body, type_params, ..
+                                 body,
+                                 type_params,
+                                 return_type,
+                                 ..
                              }| {
                                 if type_params.is_some() {
                                     self.emit_err(type_params.unwrap().span(), SyntaxError::TS1094);
@@ -271,6 +274,7 @@ impl<'a, I: Tokens> ParseObject<'a, Box<Expr>> for Parser<'a, I> {
                                 PropOrSpread::Prop(Box::new(Prop::Getter(GetterProp {
                                     span: span!(start),
                                     key,
+                                    type_ann: return_type,
                                     body,
                                 })))
                             },
