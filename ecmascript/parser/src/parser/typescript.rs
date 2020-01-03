@@ -315,7 +315,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
             None
         };
 
-        let type_params = if is!('<') {
+        let type_args = if is!('<') {
             self.parse_ts_type_args().map(Some)?
         } else {
             None
@@ -325,7 +325,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
             span: span!(start),
             arg,
             qualifier,
-            type_params,
+            type_args,
         })
     }
 
