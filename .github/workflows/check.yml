@@ -1,0 +1,15 @@
+name: Check
+
+on: [push, pull_request]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Run cargo check
+        run: cargo test --all --all-targets
+
+      - name: Run cargo test
+        run: cargo test --all
