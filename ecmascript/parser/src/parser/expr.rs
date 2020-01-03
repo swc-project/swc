@@ -1227,6 +1227,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                     }
                     rest_span = Some(span);
                     pat = Pat::Rest(RestPat {
+                        span: span!(start),
                         dot3_token: span,
                         arg: Box::new(pat),
                         type_ann: None,

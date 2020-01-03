@@ -63,12 +63,12 @@ pub struct AssignPat {
 /// EsTree `RestElement`
 #[ast_node("RestElement")]
 pub struct RestPat {
+    pub span: Span,
+
     #[serde(rename = "rest")]
-    #[span(lo)]
     pub dot3_token: Span,
 
     #[serde(rename = "argument")]
-    #[span(hi)]
     pub arg: Box<Pat>,
 
     #[serde(default, rename = "typeAnnotation")]

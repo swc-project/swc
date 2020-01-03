@@ -104,6 +104,7 @@ fn object_rest_pat() {
             params: vec![Pat::Object(ObjectPat {
                 span,
                 props: vec![ObjectPatProp::Rest(RestPat {
+                    span,
                     dot3_token: span,
                     arg: box Pat::Ident(Ident::new("a34".into(), span)),
                     type_ann: None,
@@ -220,6 +221,7 @@ fn arrow_fn_rest() {
             is_async: false,
             is_generator: false,
             params: vec![Pat::Rest(RestPat {
+                span,
                 dot3_token: span,
                 arg: box Pat::Ident(Ident::new("a".into(), span)),
                 type_ann: None
