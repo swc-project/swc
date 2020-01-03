@@ -162,14 +162,12 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
                         .map(|v| !v.is_empty())
                         .unwrap_or(false)
                     {
-                        self.comments.as_mut().unwrap().add_leading(
-                            self.state.start,
-                            std::mem::replace(
-                                &mut self.leading_comments_buffer.as_mut().unwrap(),
-                                vec![],
-                            ),
-                        );
+                        let last = self.state.prev_hi;
+                        for c in self.leading_comments_buffer.as_mut().unwrap().drain(..) {
+                            self.comments.as_mut().unwrap().add_trailing(last, c);
+                        }
                     }
+
                     return Ok(None);
                 }
             };
