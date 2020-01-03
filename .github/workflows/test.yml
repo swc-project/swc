@@ -1,0 +1,36 @@
+name: Test
+
+on: [push, pull_request]
+
+env:
+  RUST_MIN_STACK: 16777216
+  CARGO_INCREMENTAL: 0
+
+jobs:
+  # Ensure that all components all compilable.
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Run cargo check
+        run: cargo test --all --all-targets
+
+  # These tests are fast
+  test-no-exec:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Run cargo test
+        run: cargo test --all
+        env:
+          EXEC: 0
+
+  test-exec:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Run cargo test
+        run: cargo test -p swc_ecma_transforms
