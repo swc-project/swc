@@ -50,6 +50,7 @@ jobs:
 
   #
   deploy-docs:
+    runs-on: ubuntu-latest
     needs:
       - test-debug
       - test-release
