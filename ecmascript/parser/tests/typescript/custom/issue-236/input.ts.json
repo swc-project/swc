@@ -32,7 +32,7 @@
             "type": "Identifier",
             "span": {
               "start": 52,
-              "end": 56,
+              "end": 61,
               "ctxt": 0
             },
             "value": "this",
@@ -59,7 +59,7 @@
             "type": "Identifier",
             "span": {
               "start": 63,
-              "end": 69,
+              "end": 85,
               "ctxt": 0
             },
             "value": "$scope",
@@ -111,7 +111,7 @@
             "type": "Identifier",
             "span": {
               "start": 87,
-              "end": 93,
+              "end": 114,
               "ctxt": 0
             },
             "value": "$attrs",

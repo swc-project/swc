@@ -23,6 +23,11 @@
       "params": [
         {
           "type": "RestElement",
+          "span": {
+            "start": 13,
+            "end": 52,
+            "ctxt": 0
+          },
           "rest": {
             "start": 13,
             "end": 16,

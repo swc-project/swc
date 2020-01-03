@@ -86,7 +86,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 31,
-                  "end": 32,
+                  "end": 41,
                   "ctxt": 0
                 },
                 "value": "x",
@@ -111,6 +111,11 @@
               },
               {
                 "type": "RestElement",
+                "span": {
+                  "start": 43,
+                  "end": 57,
+                  "ctxt": 0
+                },
                 "rest": {
                   "start": 43,
                   "end": 46,
