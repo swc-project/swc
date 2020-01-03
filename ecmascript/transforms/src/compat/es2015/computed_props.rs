@@ -121,7 +121,12 @@ impl Fold<Expr> for ObjectLitFolder {
                                     _ => None,
                                 };
                                 let (key, function) = match prop {
-                                    Prop::Getter(GetterProp { span, body, key }) => (
+                                    Prop::Getter(GetterProp {
+                                        span,
+                                        body,
+                                        key,
+                                        type_ann,
+                                    }) => (
                                         key,
                                         Function {
                                             span,
@@ -131,7 +136,7 @@ impl Fold<Expr> for ObjectLitFolder {
                                             params: vec![],
                                             decorators: Default::default(),
                                             type_params: Default::default(),
-                                            return_type: Default::default(),
+                                            return_type: type_ann,
                                         },
                                     ),
                                     Prop::Setter(SetterProp {

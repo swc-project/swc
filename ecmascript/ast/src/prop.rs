@@ -5,6 +5,7 @@ use crate::{
     lit::{Number, Str},
     pat::Pat,
     stmt::BlockStmt,
+    typescript::TsTypeAnn,
 };
 use swc_common::{ast_node, Span};
 
@@ -52,6 +53,8 @@ pub struct AssignProp {
 pub struct GetterProp {
     pub span: Span,
     pub key: PropName,
+    #[serde(default, rename = "typeAnnotation")]
+    pub type_ann: Option<TsTypeAnn>,
     #[serde(default)]
     pub body: Option<BlockStmt>,
 }
