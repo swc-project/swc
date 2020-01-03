@@ -390,6 +390,7 @@ impl<'a, I: Tokens> ParseObject<'a, Pat> for Parser<'a, I> {
             let arg = Box::new(self.parse_binding_pat_or_ident()?);
 
             return Ok(ObjectPatProp::Rest(RestPat {
+                span: span!(start),
                 dot3_token,
                 arg,
                 type_ann: None,

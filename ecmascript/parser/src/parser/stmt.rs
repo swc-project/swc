@@ -1155,6 +1155,7 @@ mod tests {
                     param: Pat::Object(ObjectPat {
                         span,
                         props: vec![ObjectPatProp::Rest(RestPat {
+                            span,
                             dot3_token: span,
                             arg: box Pat::Ident(Ident::new("a34".into(), span)),
                             type_ann: None

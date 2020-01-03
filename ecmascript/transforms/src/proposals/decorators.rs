@@ -269,6 +269,7 @@ impl Decorators {
                     accessibility: Default::default(),
                     params: if super_class_ident.is_some() {
                         vec![PatOrTsParamProp::Pat(Pat::Rest(RestPat {
+                            span: DUMMY_SP,
                             dot3_token: DUMMY_SP,
                             arg: box Pat::Ident(quote_ident!("args")),
                             type_ann: Default::default(),

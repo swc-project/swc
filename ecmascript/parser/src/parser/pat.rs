@@ -97,6 +97,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
                 let pat = self.parse_binding_pat_or_ident()?;
                 let pat = Pat::Rest(RestPat {
+                    span: span!(start),
                     dot3_token,
                     arg: Box::new(pat),
                     type_ann: None,
@@ -143,6 +144,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
         let has_modifier = self.eat_any_ts_modifier()?;
 
+        let pat_start = cur_pos!();
         let mut pat = self.parse_binding_element()?;
         // let mut opt = false;
 
@@ -164,21 +166,36 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
             match pat {
                 Pat::Array(ArrayPat {
-                    ref mut type_ann, ..
+                    ref mut type_ann,
+                    ref mut span,
+                    ..
                 })
                 | Pat::Assign(AssignPat {
-                    ref mut type_ann, ..
+                    ref mut type_ann,
+                    ref mut span,
+                    ..
                 })
                 | Pat::Ident(Ident {
-                    ref mut type_ann, ..
+                    ref mut type_ann,
+                    ref mut span,
+                    ..
                 })
                 | Pat::Object(ObjectPat {
-                    ref mut type_ann, ..
+                    ref mut type_ann,
+                    ref mut span,
+                    ..
                 })
                 | Pat::Rest(RestPat {
-                    ref mut type_ann, ..
+                    ref mut type_ann,
+                    ref mut span,
+                    ..
                 }) => {
-                    *type_ann = self.try_parse_ts_type_ann()?;
+                    let new_type_ann = self.try_parse_ts_type_ann()?;
+                    if new_type_ann.is_some() {
+                        *span =
+                            Span::new(pat_start, self.input.prev_span().hi(), Default::default());
+                    }
+                    *type_ann = new_type_ann;
                 }
                 Pat::Invalid(..) => {}
                 _ => unreachable!("invalid syntax: Pat: {:?}", pat),
@@ -242,6 +259,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 };
 
                 let pat = Pat::Rest(RestPat {
+                    span: span!(start),
                     dot3_token,
                     arg: Box::new(pat),
                     type_ann,
@@ -341,6 +359,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 };
 
                 let pat = Pat::Rest(RestPat {
+                    span: span!(start),
                     dot3_token,
                     arg: Box::new(pat),
                     type_ann,
@@ -547,6 +566,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
                                 PropOrSpread::Spread(SpreadElement { dot3_token, expr }) => {
                                     Ok(ObjectPatProp::Rest(RestPat {
+                                        span,
                                         dot3_token,
                                         // FIXME: is BindingPat correct?
                                         arg: Box::new(
@@ -613,9 +633,11 @@ impl<'a, I: Tokens> Parser<'a, I> {
                             expr,
                         }) => {
                             // TODO: is BindingPat correct?
+                            let expr_span = expr.span();
                             self.reparse_expr_as_pat(pat_ty.element(), expr)
                                 .map(|pat| {
                                     Pat::Rest(RestPat {
+                                        span: expr_span,
                                         dot3_token,
                                         arg: Box::new(pat),
                                         type_ann: None,
@@ -696,13 +718,17 @@ impl<'a, I: Tokens> Parser<'a, I> {
             PatOrExprOrSpread::ExprOrSpread(ExprOrSpread {
                 spread: Some(dot3_token),
                 expr,
-            }) => self.reparse_expr_as_pat(pat_ty, expr).map(|pat| {
-                Pat::Rest(RestPat {
-                    dot3_token,
-                    arg: Box::new(pat),
-                    type_ann: None,
-                })
-            })?,
+            }) => {
+                let expr_span = expr.span();
+                self.reparse_expr_as_pat(pat_ty, expr).map(|pat| {
+                    Pat::Rest(RestPat {
+                        span: expr_span,
+                        dot3_token,
+                        arg: Box::new(pat),
+                        type_ann: None,
+                    })
+                })?
+            }
             PatOrExprOrSpread::ExprOrSpread(ExprOrSpread { expr, .. }) => {
                 self.reparse_expr_as_pat(pat_ty, expr)?
             }

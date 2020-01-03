@@ -82,7 +82,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 65,
-                  "end": 67,
+                  "end": 75,
                   "ctxt": 0
                 },
                 "value": "pu",
@@ -142,7 +142,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 118,
-                  "end": 120,
+                  "end": 129,
                   "ctxt": 0
                 },
                 "value": "pi",
@@ -249,7 +249,7 @@
                   "type": "Identifier",
                   "span": {
                     "start": 246,
-                    "end": 247,
+                    "end": 256,
                     "ctxt": 0
                   },
                   "value": "y",

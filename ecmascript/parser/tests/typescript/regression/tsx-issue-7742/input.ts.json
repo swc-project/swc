@@ -77,7 +77,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 28,
-                  "end": 31,
+                  "end": 34,
                   "ctxt": 0
                 },
                 "value": "bar",
