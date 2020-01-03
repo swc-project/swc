@@ -11,7 +11,7 @@ jobs:
   fmt:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - name: Run cargo fmt
         run: cargo fmt --all -- --check
@@ -19,7 +19,7 @@ jobs:
   test-debug:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - name: Checkout submodules
         shell: bash
@@ -44,7 +44,7 @@ jobs:
   test-release:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - name: Checkout submodules
         shell: bash
@@ -70,6 +70,6 @@ jobs:
       - test-debug
       - test-release
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: Create rustdoc
         run: cargo doc
