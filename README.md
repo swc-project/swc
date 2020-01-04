@@ -29,55 +29,44 @@
 
 <p align="center">
    <a href="#backers">
-      <img alt="Backers on Open Collective" src="https://opencollective.com/swc/backers/badge.svg" />
+      <img alt="Backers on Open Collective" src="https://opencollective.com/swc/tiers/backer/badge.svg?label=backer&color=brightgreen" />
    </a>
-   <a href="#sponsors">
-      <img alt="Sponsors on Open Collective" src="https://opencollective.com/swc/sponsors/badge.svg"/>
+   <a href="#gold-sponsors">
+      <img alt="Gold sponsors on Open Collective" src="https://opencollective.com/swc/tiers/gold-sponsors/badge.svg?label=Gold%20sponsors&color=brightgreen"/>
+   </a>
+   <a href="#silver-sponsors">
+      <img alt="Silver sponsors on Open Collective" src="https://opencollective.com/swc/tiers/silver-sponsors/badge.svg?label=Silver sponsors&color=brightgreen"/>
+   </a>
+   <a href="#bronze-sponsors">
+      <img alt="Bronze sponsors on Open Collective" src="https://opencollective.com/swc/tiers/bronze-sponsors/badge.svg?label=Bronze sponsors&color=brightgreen"/>
    </a>
 </p>
 
 swc is a community-driven project, and is maintained by a group of [volunteers](https://opencollective.com/swc#team). If you'd like to help support the future of the project, please consider:
 
-- Giving developer time on the project. (Message us on [Slack](https://swc-org.slack.com/) for guidance!)
-- Giving funds by becoming a sponsor (see below)! [Slackin for swc](https://swc-slackin.herokuapp.com)
+ - Giving developer time on the project. (Message us on [Slack](https://swc-org.slack.com/) for guidance!)
+ -  [Slackin for swc](https://swc-slackin.herokuapp.com)
+ - Giving funds by becoming a sponsor (see below)!
 
 ## Open Collective Sponsors
 
 Become a sponsor and get your logo on our README on Github with a link to your site. [[Become a sponsor](https://opencollective.com/swc#sponsor)]
 
-<h2 align="center">Gold Sponsors</h2>
+<h2 id="gold-sponsers" align="center">Gold Sponsors</h2>
+<img src="https://opencollective.com/swc/tiers/gold-sponsers.svg?avatarHeight=64">
 
-<a href="https://opencollective.com/swc/goldsponsor/0/website?requireActive=false" target="_blank"><img src="https://opencollective.com/swc/goldsponsor/0/avatar.svg?requireActive=false"></a>
-<a href="https://opencollective.com/swc/goldsponsor/1/website?requireActive=false" target="_blank"><img src="https://opencollective.com/swc/goldsponsor/1/avatar.svg?requireActive=false"></a>
 
-<h2 align="center">Silver Sponsors</h2>
+<h2 id="silver-sponsers" align="center">Silver Sponsors</h2>
+<img src="https://opencollective.com/swc/tiers/silver-sponsers.svg?avatarHeight=64">
 
-<a href="https://opencollective.com/swc/silversponsor/0/website?requireActive=false" target="_blank"><img src="https://opencollective.com/swc/silversponsor/0/avatar.svg?requireActive=false"></a>
-<a href="https://opencollective.com/swc/silversponsor/1/website?requireActive=false" target="_blank"><img src="https://opencollective.com/swc/silversponsor/1/avatar.svg?requireActive=false"></a>
+<h2 id="bronze-sponsers" align="center">Bronze Sponsors</h2>
+<img src="https://opencollective.com/swc/tiers/bronze-sponsers.svg?avatarHeight=64">
 
-<h2 align="center">Bronze Sponsors</h2>
-
-<a href="https://opencollective.com/swc/silversponsor/0/website?requireActive=false" target="_blank"><img src="https://opencollective.com/swc/silversponsor/0/avatar.svg?requireActive=false"></a>
-<a href="https://opencollective.com/swc/silversponsor/1/website?requireActive=false" target="_blank"><img src="https://opencollective.com/swc/silversponsor/1/avatar.svg?requireActive=false"></a>
-
-<h2 align="center">Backers</h2>
+<h2 id="backers" align="center">Backers</h2>
+<img src="https://opencollective.com/swc/tiers/backer.svg?avatarHeight=64">
 
 [Become a backer](https://opencollective.com/swc#backer) and get your image on our README on Github with a link to your site.
 
-<a href="https://opencollective.com/swc/backer/0/website?requireActive=false" target="_blank"><img src="https://opencollective.com/swc/backer/0/avatar.svg?requireActive=false"></a>
-<a href="https://opencollective.com/swc/backer/1/website?requireActive=false" target="_blank"><img src="https://opencollective.com/swc/backer/1/avatar.svg?requireActive=false"></a>
-<a href="https://opencollective.com/swc/backer/2/website?requireActive=false" target="_blank"><img src="https://opencollective.com/swc/backer/2/avatar.svg?requireActive=false"></a>
-<a href="https://opencollective.com/swc/backer/3/website?requireActive=false" target="_blank"><img src="https://opencollective.com/swc/backer/3/avatar.svg?requireActive=false"></a>
-<a href="https://opencollective.com/swc/backer/4/website?requireActive=false" target="_blank"><img src="https://opencollective.com/swc/backer/4/avatar.svg?requireActive=false"></a>
-<a href="https://opencollective.com/swc/backer/5/website?requireActive=false" target="_blank"><img src="https://opencollective.com/swc/backer/5/avatar.svg?requireActive=false"></a>
-<a href="https://opencollective.com/swc/backer/6/website?requireActive=false" target="_blank"><img src="https://opencollective.com/swc/backer/6/avatar.svg?requireActive=false"></a>
-<a href="https://opencollective.com/swc/backer/7/website?requireActive=false" target="_blank"><img src="https://opencollective.com/swc/backer/7/avatar.svg?requireActive=false"></a>
-<a href="https://opencollective.com/swc/backer/8/website?requireActive=false" target="_blank"><img src="https://opencollective.com/swc/backer/8/avatar.svg?requireActive=false"></a>
-<a href="https://opencollective.com/swc/backer/9/website?requireActive=false" target="_blank"><img src="https://opencollective.com/swc/backer/9/avatar.svg?requireActive=false"></a>
-<a href="https://opencollective.com/swc/backer/10/website?requireActive=false" target="_blank"><img src="https://opencollective.com/swc/backer/10/avatar.svg?requireActive=false"></a>
-<a href="https://opencollective.com/swc/backer/11/website?requireActive=false" target="_blank"><img src="https://opencollective.com/swc/backer/11/avatar.svg?requireActive=false"></a>
-<a href="https://opencollective.com/swc/backer/12/website?requireActive=false" target="_blank"><img src="https://opencollective.com/swc/backer/12/avatar.svg?requireActive=false"></a>
-<a href="https://opencollective.com/swc/backer/13/website?requireActive=false" target="_blank"><img src="https://opencollective.com/swc/backer/13/avatar.svg?requireActive=false"></a>
 
 # Documentation
 
