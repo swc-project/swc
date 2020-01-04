@@ -26,7 +26,8 @@ before_install:
   - git submodule update --init --recursive
 
 install:
-  - npm install browserslist
+  - npm install browserslist @babel/runtime
+  - npm install -g jest
   - cargo test --no-run --color always --all --all-features
 
 script:
