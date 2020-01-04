@@ -104,6 +104,8 @@
       "span": {
         "start": 154,
         "end": 163,
+        "start": 134,
+        "end": 167,
         "ctxt": 0
       },
       "decl": {
@@ -130,6 +132,8 @@
       "span": {
         "start": 188,
         "end": 199,
+        "start": 169,
+        "end": 204,
         "ctxt": 0
       },
       "decl": {
