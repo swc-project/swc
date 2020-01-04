@@ -1,2 +1,8 @@
 # Auto detect text files and perform LF normalization
 *        text=auto
+
+
+*.ts    text merge=union eol=lf
+*.rs    text merge=union eol=lf
+*.js    text merge=union eol=lf
+*.json  text merge=union eol=lf
