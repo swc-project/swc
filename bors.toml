@@ -1,5 +1,5 @@
 status = [
-  "Cargo",
-#  "continuous-integration/travis-ci/push"
+#  "Cargo",
+  "continuous-integration/travis-ci/push"
 ]
 use_squash_merge = true
