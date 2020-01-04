@@ -47,9 +47,18 @@ Become a sponsor and get your logo on our README on Github with a link to your s
 
 <h2 align="center">Gold Sponsors</h2>
 
+<a href="https://opencollective.com/swc/goldsponsor/0/website?requireActive=false" target="_blank"><img src="https://opencollective.com/swc/goldsponsor/0/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/swc/goldsponsor/1/website?requireActive=false" target="_blank"><img src="https://opencollective.com/swc/goldsponsor/1/avatar.svg?requireActive=false"></a>
+
 <h2 align="center">Silver Sponsors</h2>
 
+<a href="https://opencollective.com/swc/silversponsor/0/website?requireActive=false" target="_blank"><img src="https://opencollective.com/swc/silversponsor/0/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/swc/silversponsor/1/website?requireActive=false" target="_blank"><img src="https://opencollective.com/swc/silversponsor/1/avatar.svg?requireActive=false"></a>
+
 <h2 align="center">Bronze Sponsors</h2>
+
+<a href="https://opencollective.com/swc/silversponsor/0/website?requireActive=false" target="_blank"><img src="https://opencollective.com/swc/silversponsor/0/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/swc/silversponsor/1/website?requireActive=false" target="_blank"><img src="https://opencollective.com/swc/silversponsor/1/avatar.svg?requireActive=false"></a>
 
 <h2 align="center">Backers</h2>
 
@@ -65,6 +74,10 @@ Become a sponsor and get your logo on our README on Github with a link to your s
 <a href="https://opencollective.com/swc/backer/7/website?requireActive=false" target="_blank"><img src="https://opencollective.com/swc/backer/7/avatar.svg?requireActive=false"></a>
 <a href="https://opencollective.com/swc/backer/8/website?requireActive=false" target="_blank"><img src="https://opencollective.com/swc/backer/8/avatar.svg?requireActive=false"></a>
 <a href="https://opencollective.com/swc/backer/9/website?requireActive=false" target="_blank"><img src="https://opencollective.com/swc/backer/9/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/swc/backer/10/website?requireActive=false" target="_blank"><img src="https://opencollective.com/swc/backer/10/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/swc/backer/11/website?requireActive=false" target="_blank"><img src="https://opencollective.com/swc/backer/11/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/swc/backer/12/website?requireActive=false" target="_blank"><img src="https://opencollective.com/swc/backer/12/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/swc/backer/13/website?requireActive=false" target="_blank"><img src="https://opencollective.com/swc/backer/13/avatar.svg?requireActive=false"></a>
 
 # Documentation
 
@@ -72,86 +85,7 @@ Check out the documentation [in the website](https://swc-project.github.io/docs/
 
 # Features
 
-## Parsers
-
-- [x] es2019
-- [x] jsx
-- [x] typescript
-
-## Transforms
-
-New generation javascript to old-days javascript.
-
-- es3
-
-  - [x] member-expression-literals
-  - [x] property-literals
-  - [x] reserved-words
-
-- es5
-
-  - [ ] property-mutators
-
-- es2015
-
-  - [x] arrow-functions
-  - [x] block-scoped-functions
-  - [x] block-scoping
-  - [x] classes
-  - [x] computed-properties
-  - [x] destructuring
-  - [x] duplicate-keys
-  - [x] for-of
-  - [x] function-name
-  - [x] instanceof
-  - [x] literals
-  - [x] new-target
-  - [ ] object-super
-  - [x] parameters
-  - [x] shorthand-properties
-  - [x] spread
-  - [x] sticky regex (`y` flag)
-  - [x] template-literals
-    - [ ] invalid escape sequences inside tagged template literals. (aka es2018)
-  - [x] typeof-symbol
-  - [ ] unicode-regex
-
-- es2016
-
-  - [x] exponentiation-operator
-
-- es2017
-
-  - [x] async-to-generator
-
-- es2018
-
-  - [ ] async-generator-functions
-  - [ ] dotall-regex
-  - [x] object-rest-spread
-    - [ ] Using symbol as a key
-  - [x] optional-catch-binding
-  - [ ] unicode-property-regex
-
-- es2019 (stage 4)
- - [x] optional catch binding
- - [x] big int literal
-
-- stage 3
- - [x] class fields
- - [x] numeric separator
- - [ ] nullish coalescing
-
-- stage 2
- - [x] decorators
-
-- react
-  - [x] jsx
-
-- preset-env
-  - [x] `entry` with core-js@2/3
-  - [ ] `usage` with core-js@2/3
-It's implemented, but it's not perfect.
+Please see [comparison with babel](https://swc-project.github.io/docs/comparison-babel).
 
 # Performance
 
