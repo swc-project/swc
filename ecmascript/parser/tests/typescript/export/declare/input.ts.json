@@ -138,6 +138,8 @@
         "span": {
           "start": 82,
           "end": 92,
+          "start": 69,
+          "end": 94,
           "ctxt": 0
         },
         "decorators": [],
@@ -161,6 +163,8 @@
         "span": {
           "start": 118,
           "end": 122,
+          "start": 96,
+          "end": 125,
           "ctxt": 0
         },
         "id": {

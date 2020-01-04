@@ -23,6 +23,8 @@
       "span": {
         "start": 8,
         "end": 39,
+        "start": 0,
+        "end": 41,
         "ctxt": 0
       },
       "decorators": [],

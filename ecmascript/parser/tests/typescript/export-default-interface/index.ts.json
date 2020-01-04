@@ -16,7 +16,7 @@
       "decl": {
         "type": "TsInterfaceDeclaration",
         "span": {
-          "start": 25,
+          "start": 15,
           "end": 31,
           "ctxt": 0
         },
