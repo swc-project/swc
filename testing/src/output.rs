@@ -88,10 +88,16 @@ impl NormalizedOutput {
             path_for_actual.display()
         );
 
-        Err(Diff {
+        let diff = Diff {
             expected: NormalizedOutput(expected),
             actual: self,
-        })
+        };
+
+        if ::std::env::var("CI").unwrap_or(String::from("0")) == "1" {
+            println!("{}", diff);
+        }
+
+        Err(diff)
     }
 }
 
