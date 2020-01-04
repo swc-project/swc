@@ -139,6 +139,12 @@ fn test_if() {
         "x=3",
     );
     test("if (x){ x = 1; } else if (false) { x = 3; }", "if(x)x=1");
+    test_same(concat!(
+        "if (x) {",
+        "  if (y) log(1);",
+        "  else if (z) log(2);",
+        "} else log(3);",
+    ));
 }
 
 #[test]
