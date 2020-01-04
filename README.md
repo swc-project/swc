@@ -53,17 +53,26 @@ swc is a community-driven project, and is maintained by a group of [volunteers](
 Become a sponsor and get your logo on our README on Github with a link to your site. [[Become a sponsor](https://opencollective.com/swc#sponsor)]
 
 <h2 id="gold-sponsers" align="center">Gold Sponsors</h2>
-<img src="https://opencollective.com/swc/tiers/gold-sponsers.svg?avatarHeight=64">
-
+<a href="https://opencollective.com/swc">
+    <img src="https://opencollective.com/swc/tiers/gold-sponsers.svg?avatarHeight=64">
+</a>
 
 <h2 id="silver-sponsers" align="center">Silver Sponsors</h2>
-<img src="https://opencollective.com/swc/tiers/silver-sponsers.svg?avatarHeight=64">
+<a href="https://opencollective.com/swc">
+    <img src="https://opencollective.com/swc/tiers/silver-sponsers.svg?avatarHeight=64">
+</a>
+
 
 <h2 id="bronze-sponsers" align="center">Bronze Sponsors</h2>
-<img src="https://opencollective.com/swc/tiers/bronze-sponsers.svg?avatarHeight=64">
+<a href="https://opencollective.com/swc">
+    <img src="https://opencollective.com/swc/tiers/bronze-sponsers.svg?avatarHeight=64">
+</a>
+
 
 <h2 id="backers" align="center">Backers</h2>
-<img src="https://opencollective.com/swc/tiers/backer.svg?avatarHeight=64">
+<a href="https://opencollective.com/swc">
+    <img src="https://opencollective.com/swc/tiers/backer.svg?avatarHeight=64">
+</a>
 
 [Become a backer](https://opencollective.com/swc#backer) and get your image on our README on Github with a link to your site.
 
