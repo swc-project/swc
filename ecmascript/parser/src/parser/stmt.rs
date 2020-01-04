@@ -164,7 +164,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
             if !include_decl {
                 unexpected!()
             }
-            return self.parse_class_decl(decorators).map(Stmt::from);
+            return self.parse_class_decl(start, decorators).map(Stmt::from);
         }
 
         if is!("if") {
@@ -313,7 +313,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                         if eat!("interface") {
                             self.emit_err(i.span, SyntaxError::TS2427);
                             return self
-                                .parse_ts_interface_decl()
+                                .parse_ts_interface_decl(start)
                                 .map(Decl::from)
                                 .map(Stmt::from);
                         }

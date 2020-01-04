@@ -254,7 +254,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                     assert_and_bump!("abstract");
                     let _ = cur!(true);
 
-                    let mut class = self.parse_default_class(decorators)?;
+                    let mut class = self.parse_default_class(start, decorators)?;
                     match class {
                         ExportDefaultDecl {
                             decl: DefaultDecl::Class(ClassExpr { ref mut class, .. }),
@@ -265,8 +265,12 @@ impl<'a, I: Tokens> Parser<'a, I> {
                     return Ok(class.into());
                 }
 
-                if eat!("interface") {
-                    let decl = self.parse_ts_interface_decl().map(DefaultDecl::from)?;
+                if is!("interface") {
+                    let interface_start = cur_pos!();
+                    assert_and_bump!("interface");
+                    let decl = self
+                        .parse_ts_interface_decl(interface_start)
+                        .map(DefaultDecl::from)?;
                     return Ok(ExportDefaultDecl {
                         span: span!(start),
                         decl,
@@ -276,7 +280,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
             }
 
             if is!("class") {
-                let decl = self.parse_default_class(decorators)?;
+                let decl = self.parse_default_class(start, decorators)?;
                 return Ok(ModuleDecl::ExportDefaultDecl(decl));
             } else if is!("async")
                 && peeked_is!("function")
@@ -302,7 +306,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         }
 
         let decl = if is!("class") {
-            self.parse_class_decl(decorators)?
+            self.parse_class_decl(start, decorators)?
         } else if is!("async")
             && peeked_is!("function")
             && !self.input.has_linebreak_between_cur_and_peeked()

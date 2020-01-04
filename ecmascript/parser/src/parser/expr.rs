@@ -253,7 +253,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         if is!("function") {
             return self.parse_fn_expr();
         } else if is!("class") {
-            return self.parse_class_expr(decorators);
+            return self.parse_class_expr(start, decorators);
         }
 
         // Literals
