@@ -434,8 +434,8 @@ pub struct TsImportType {
     #[serde(rename = "argument")]
     pub arg: Str,
     pub qualifier: Option<TsEntityName>,
-    #[serde(rename = "typeParameters")]
-    pub type_params: Option<TsTypeParamInstantiation>,
+    #[serde(rename = "typeArguments")]
+    pub type_args: Option<TsTypeParamInstantiation>,
 }
 
 #[ast_node("TsTypeLiteral")]

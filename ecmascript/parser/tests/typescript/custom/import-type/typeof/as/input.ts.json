@@ -101,7 +101,7 @@
                   "hasEscape": false
                 },
                 "qualifier": null,
-                "typeParameters": null
+                "typeArguments": null
               }
             }
           },
