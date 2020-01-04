@@ -31,17 +31,17 @@ jobs:
       - name: Install node dependencies
         run: |
           npm config set prefix ~/npm
-          npm i browserslist
+          npm i browserslist @babel/runtime
           npm i -g jest
 
       # Ensure that all components all compilable.
       - name: Run cargo check for all targets
-        run: cargo check --all --all-targets
+        run: cargo check --color always --all --all-targets
 
       - name: Run cargo test
         run: |
           export PATH="$PATH:$HOME/npm/bin"
-          cargo test --all
+          cargo test --color always --all
 
   test-release:
     runs-on: ubuntu-latest
@@ -58,13 +58,13 @@ jobs:
       - name: Install node dependencies
         run: |
           npm config set prefix ~/npm
-          npm i browserslist
+          npm i browserslist @babel/runtime
           npm i -g jest
 
       - name: Run cargo test
         run: |
           export PATH="$PATH:$HOME/npm/bin"
-          cargo test -p swc_ecma_parser --release
+          cargo test --color always -p swc_ecma_parser --release
 
   #
   deploy-docs:
