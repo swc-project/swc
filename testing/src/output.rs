@@ -94,7 +94,7 @@ impl NormalizedOutput {
         };
 
         if ::std::env::var("CI").unwrap_or(String::from("0")) == "1" {
-            println!("{}", diff);
+            println!("Diff:\n{:?}", diff);
         }
 
         Err(diff)
