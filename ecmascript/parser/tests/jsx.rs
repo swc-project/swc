@@ -141,19 +141,7 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
             buf
         };
 
-        let ignore = match &**file_name {
-            "5/input.js"
-            | "7/input.js"
-            | "asi/input.js"
-            | "custom/unary-paren/input.js"
-            | "custom/unary/input.js"
-            | "fragment-3/input.js"
-            | "fragment-4/input.js"
-            | "fragment-5/input.js"
-            | "namespace-tag/input.js"
-            | "yield-tag/input.js" => true,
-            _ => false,
-        };
+        let ignore = false;
 
         let dir = dir.clone();
         let name = format!("jsx::reference::{}", file_name);
