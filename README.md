@@ -35,10 +35,10 @@
       <img alt="Gold sponsors on Open Collective" src="https://opencollective.com/swc/tiers/gold-sponsors/badge.svg?label=Gold%20sponsors&color=brightgreen"/>
    </a>
    <a href="#silver-sponsors">
-      <img alt="Silver sponsors on Open Collective" src="https://opencollective.com/swc/tiers/silver-sponsors/badge.svg?label=Silver sponsors&color=brightgreen"/>
+      <img alt="Silver sponsors on Open Collective" src="https://opencollective.com/swc/tiers/silver-sponsors/badge.svg?label=Silver%20sponsors&color=brightgreen"/>
    </a>
    <a href="#bronze-sponsors">
-      <img alt="Bronze sponsors on Open Collective" src="https://opencollective.com/swc/tiers/bronze-sponsors/badge.svg?label=Bronze sponsors&color=brightgreen"/>
+      <img alt="Bronze sponsors on Open Collective" src="https://opencollective.com/swc/tiers/bronze-sponsors/badge.svg?label=Bronze%20sponsors&color=brightgreen"/>
    </a>
 </p>
 
