@@ -141,7 +141,7 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
             buf
         };
 
-        let ignore = match &**file_name {
+        let ignore = match &*file_name {
             "5/input.js"
             | "7/input.js"
             | "asi/input.js"
