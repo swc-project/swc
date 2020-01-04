@@ -2,7 +2,7 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 12,
+    "end": 11,
     "ctxt": 0
   },
   "body": [
@@ -10,21 +10,21 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 0,
-        "end": 12,
+        "end": 11,
         "ctxt": 0
       },
       "expression": {
         "type": "NewExpression",
         "span": {
           "start": 0,
-          "end": 12,
+          "end": 11,
           "ctxt": 0
         },
         "callee": {
           "type": "TaggedTemplateExpression",
           "span": {
-            "start": 10,
-            "end": 12,
+            "start": 9,
+            "end": 11,
             "ctxt": 0
           },
           "tag": {
@@ -43,16 +43,16 @@
             {
               "type": "TemplateElement",
               "span": {
-                "start": 11,
-                "end": 11,
+                "start": 10,
+                "end": 10,
                 "ctxt": 0
               },
               "tail": true,
               "cooked": {
                 "type": "StringLiteral",
                 "span": {
-                  "start": 11,
-                  "end": 11,
+                  "start": 10,
+                  "end": 10,
                   "ctxt": 0
                 },
                 "value": "",
@@ -61,8 +61,8 @@
               "raw": {
                 "type": "StringLiteral",
                 "span": {
-                  "start": 11,
-                  "end": 11,
+                  "start": 10,
+                  "end": 10,
                   "ctxt": 0
                 },
                 "value": "",

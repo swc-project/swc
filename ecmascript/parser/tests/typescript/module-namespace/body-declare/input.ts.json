@@ -2,7 +2,7 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 46,
+    "end": 44,
     "ctxt": 0
   },
   "body": [
@@ -10,7 +10,7 @@
       "type": "TsModuleDeclaration",
       "span": {
         "start": 0,
-        "end": 46,
+        "end": 44,
         "ctxt": 0
       },
       "declare": true,
@@ -30,15 +30,15 @@
         "type": "TsModuleBlock",
         "span": {
           "start": 20,
-          "end": 46,
+          "end": 44,
           "ctxt": 0
         },
         "body": [
           {
             "type": "VariableDeclaration",
             "span": {
-              "start": 27,
-              "end": 43,
+              "start": 26,
+              "end": 42,
               "ctxt": 0
             },
             "kind": "const",
@@ -47,30 +47,30 @@
               {
                 "type": "VariableDeclarator",
                 "span": {
-                  "start": 33,
-                  "end": 42,
+                  "start": 32,
+                  "end": 41,
                   "ctxt": 0
                 },
                 "id": {
                   "type": "Identifier",
                   "span": {
-                    "start": 33,
-                    "end": 34,
+                    "start": 32,
+                    "end": 33,
                     "ctxt": 0
                   },
                   "value": "x",
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
-                      "start": 34,
-                      "end": 42,
+                      "start": 33,
+                      "end": 41,
                       "ctxt": 0
                     },
                     "typeAnnotation": {
                       "type": "TsKeywordType",
                       "span": {
-                        "start": 36,
-                        "end": 42,
+                        "start": 35,
+                        "end": 41,
                         "ctxt": 0
                       },
                       "kind": "number"

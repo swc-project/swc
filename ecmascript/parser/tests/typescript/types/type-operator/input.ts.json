@@ -2,7 +2,7 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 38,
+    "end": 37,
     "ctxt": 0
   },
   "body": [
@@ -78,8 +78,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 17,
-        "end": 38,
+        "start": 16,
+        "end": 37,
         "ctxt": 0
       },
       "kind": "let",
@@ -88,38 +88,38 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 21,
-            "end": 37,
+            "start": 20,
+            "end": 36,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 21,
-              "end": 22,
+              "start": 20,
+              "end": 21,
               "ctxt": 0
             },
             "value": "y",
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 22,
-                "end": 37,
+                "start": 21,
+                "end": 36,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsTypeOperator",
                 "span": {
-                  "start": 24,
-                  "end": 37,
+                  "start": 23,
+                  "end": 36,
                   "ctxt": 0
                 },
                 "op": "unique",
                 "typeAnnotation": {
                   "type": "TsKeywordType",
                   "span": {
-                    "start": 31,
-                    "end": 37,
+                    "start": 30,
+                    "end": 36,
                     "ctxt": 0
                   },
                   "kind": "symbol"
