@@ -164,7 +164,9 @@ impl<'a, I: Tokens> Parser<'a, I> {
             if !include_decl {
                 unexpected!()
             }
-            return self.parse_class_decl(start, decorators).map(Stmt::from);
+            return self
+                .parse_class_decl(start, start, decorators)
+                .map(Stmt::from);
         }
 
         if is!("if") {

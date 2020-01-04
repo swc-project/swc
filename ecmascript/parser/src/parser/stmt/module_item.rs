@@ -250,11 +250,11 @@ impl<'a, I: Tokens> Parser<'a, I> {
         if export_ns.is_none() && eat!("default") {
             if self.input.syntax().typescript() {
                 if is!("abstract") && peeked_is!("class") {
-                    let start = cur_pos!();
+                    let class_start = cur_pos!();
                     assert_and_bump!("abstract");
                     let _ = cur!(true);
 
-                    let mut class = self.parse_default_class(start, decorators)?;
+                    let mut class = self.parse_default_class(start, class_start, decorators)?;
                     match class {
                         ExportDefaultDecl {
                             decl: DefaultDecl::Class(ClassExpr { ref mut class, .. }),
@@ -280,7 +280,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
             }
 
             if is!("class") {
-                let decl = self.parse_default_class(start, decorators)?;
+                let class_start = cur_pos!();
+                let decl = self.parse_default_class(start, class_start, decorators)?;
                 return Ok(ModuleDecl::ExportDefaultDecl(decl));
             } else if is!("async")
                 && peeked_is!("function")
@@ -306,7 +307,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
         }
 
         let decl = if is!("class") {
-            self.parse_class_decl(start, decorators)?
+            let class_start = cur_pos!();
+            self.parse_class_decl(start, class_start, decorators)?
         } else if is!("async")
             && peeked_is!("function")
             && !self.input.has_linebreak_between_cur_and_peeked()
