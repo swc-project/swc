@@ -179,6 +179,22 @@ impl Fold<Stmt> for Remover {
                 cons,
                 alt,
             }) => {
+                match *cons {
+                    Stmt::If(IfStmt { alt: Some(..), .. }) => {
+                        return IfStmt {
+                            test,
+                            cons: box Stmt::Block(BlockStmt {
+                                span: DUMMY_SP,
+                                stmts: vec![*cons],
+                            }),
+                            alt,
+                            span,
+                        }
+                        .into()
+                    }
+                    _ => {}
+                }
+
                 let mut stmts = vec![];
                 if let (p, Known(v)) = test.as_bool() {
                     // Preserve effect of the test
