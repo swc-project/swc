@@ -23,9 +23,9 @@ struct Remover {
 }
 
 impl<T: StmtLike> Fold<Vec<T>> for Remover
-where
-    Self: Fold<T>,
-    T: VisitWith<Hoister>,
+    where
+        Self: Fold<T>,
+        T: VisitWith<Hoister>,
 {
     fn fold(&mut self, stmts: Vec<T>) -> Vec<T> {
         let is_block_stmt = self.normal_block;
@@ -46,9 +46,9 @@ where
                         Stmt::Empty(..) => continue,
 
                         Stmt::Expr(ExprStmt {
-                            expr: box Expr::Lit(..),
-                            ..
-                        }) if is_block_stmt => continue,
+                                       expr: box Expr::Lit(..),
+                                       ..
+                                   }) if is_block_stmt => continue,
 
                         // Control flow
                         Stmt::Throw(..)
@@ -89,7 +89,7 @@ where
                                     span,
                                     stmts: stmts.fold_with(self),
                                 }
-                                .into()
+                                    .into()
                             } else {
                                 buf.extend(
                                     stmts
@@ -106,11 +106,11 @@ where
 
                         // Optimize if statement.
                         Stmt::If(IfStmt {
-                            test,
-                            cons,
-                            alt,
-                            span,
-                        }) => {
+                                     test,
+                                     cons,
+                                     alt,
+                                     span,
+                                 }) => {
                             // check if
                             match test.as_bool() {
                                 (purity, Known(val)) => {
@@ -128,7 +128,7 @@ where
                                     if val {
                                         // Hoist vars from alt
                                         if let Some(var) =
-                                            alt.and_then(|alt| alt.extract_var_ids_as_var())
+                                        alt.and_then(|alt| alt.extract_var_ids_as_var())
                                         {
                                             buf.push(T::from_stmt(Stmt::Decl(Decl::Var(var))))
                                         }
@@ -174,11 +174,27 @@ impl Fold<Stmt> for Remover {
 
         match stmt {
             Stmt::If(IfStmt {
-                span,
-                test,
-                cons,
-                alt,
-            }) => {
+                         span,
+                         test,
+                         cons,
+                         alt,
+                     }) => {
+                match *cons {
+                    Stmt::If(IfStmt { alt: Some(..), .. }) => {
+                        return IfStmt {
+                            test,
+                            cons: box Stmt::Block(BlockStmt {
+                                span: DUMMY_SP,
+                                stmts: vec![*cons],
+                            }),
+                            alt,
+                            span,
+                        }
+                            .into()
+                    }
+                    _ => {}
+                }
+
                 let mut stmts = vec![];
                 if let (p, Known(v)) = test.as_bool() {
                     // Preserve effect of the test
@@ -245,27 +261,27 @@ impl Fold<Stmt> for Remover {
             }
 
             Stmt::Labeled(LabeledStmt {
-                span,
-                body: box Stmt::Empty(..),
-                ..
-            }) => Stmt::Empty(EmptyStmt { span }),
+                              span,
+                              body: box Stmt::Empty(..),
+                              ..
+                          }) => Stmt::Empty(EmptyStmt { span }),
 
             Stmt::Labeled(LabeledStmt {
-                span,
-                body:
-                    box Stmt::Break(BreakStmt {
-                        label: Some(ref b), ..
-                    }),
-                ref label,
-                ..
-            }) if label.sym == b.sym => Stmt::Empty(EmptyStmt { span }),
+                              span,
+                              body:
+                              box Stmt::Break(BreakStmt {
+                                                  label: Some(ref b), ..
+                                              }),
+                              ref label,
+                              ..
+                          }) if label.sym == b.sym => Stmt::Empty(EmptyStmt { span }),
 
             // `1;` -> `;`
             Stmt::Expr(ExprStmt {
-                span,
-                expr: box expr,
-                ..
-            }) => match ignore_result(expr) {
+                           span,
+                           expr: box expr,
+                           ..
+                       }) => match ignore_result(expr) {
                 Some(e) => Stmt::Expr(ExprStmt { span, expr: box e }),
                 None => Stmt::Empty(EmptyStmt { span: DUMMY_SP }),
             },
@@ -281,11 +297,11 @@ impl Fold<Stmt> for Remover {
             }
 
             Stmt::Try(TryStmt {
-                span,
-                block,
-                handler,
-                finalizer,
-            }) => {
+                          span,
+                          block,
+                          handler,
+                          finalizer,
+                      }) => {
                 // Only leave the finally block if try block is empty
                 if block.is_empty() {
                     let var = handler.and_then(|h| Stmt::from(h.body).extract_var_ids_as_var());
@@ -327,13 +343,13 @@ impl Fold<Stmt> for Remover {
                         if done {
                             match s {
                                 Stmt::Decl(Decl::Var(
-                                    var
-                                    @
-                                    VarDecl {
-                                        kind: VarDeclKind::Var,
-                                        ..
-                                    },
-                                )) => {
+                                               var
+                                               @
+                                               VarDecl {
+                                                   kind: VarDeclKind::Var,
+                                                   ..
+                                               },
+                                           )) => {
                                     return Some(Stmt::Decl(Decl::Var(VarDecl {
                                         span: DUMMY_SP,
                                         kind: VarDeclKind::Var,
@@ -367,11 +383,11 @@ impl Fold<Stmt> for Remover {
                     | Expr::Lit(Lit::Null(..))
                     | Expr::Lit(Lit::Num(..)) => true,
                     ref e
-                        if e.is_ident_ref_to(js_word!("NaN"))
-                            || e.is_ident_ref_to(js_word!("undefined")) =>
-                    {
-                        true
-                    }
+                    if e.is_ident_ref_to(js_word!("NaN"))
+                        || e.is_ident_ref_to(js_word!("undefined")) =>
+                        {
+                            true
+                        }
                     _ => false,
                 };
 
@@ -402,7 +418,7 @@ impl Fold<Stmt> for Remover {
                         span: s.span,
                         stmts,
                     })
-                    .fold_with(self);
+                        .fold_with(self);
                 }
 
                 let mut non_constant_case_idx = None;
@@ -418,8 +434,8 @@ impl Fold<Stmt> for Remover {
                             let v = match (&**test, &*s.discriminant) {
                                 (
                                     &Expr::Lit(Lit::Str(Str {
-                                        value: ref test, ..
-                                    })),
+                                                            value: ref test, ..
+                                                        })),
                                     &Expr::Lit(Lit::Str(Str { value: ref d, .. })),
                                 ) => *test == *d,
                                 (
@@ -496,7 +512,7 @@ impl Fold<Stmt> for Remover {
                             span: s.span,
                             stmts,
                         })
-                        .fold_with(self);
+                            .fold_with(self);
                     }
                 } else {
                     match *s.discriminant {
@@ -511,7 +527,7 @@ impl Fold<Stmt> for Remover {
                                         span: s.span,
                                         stmts,
                                     })
-                                    .fold_with(self);
+                                        .fold_with(self);
                                 }
                             }
                         }
@@ -586,17 +602,17 @@ impl Fold<Stmt> for Remover {
                             span: s.span,
                             stmts,
                         })
-                        .fold_with(self);
+                            .fold_with(self);
                     }
                 }
 
                 if is_matching_literal
                     && s.cases.iter().all(|case| match case.test {
-                        Some(box Expr::Lit(Lit::Str(..)))
-                        | Some(box Expr::Lit(Lit::Null(..)))
-                        | Some(box Expr::Lit(Lit::Num(..))) => true,
-                        _ => false,
-                    })
+                    Some(box Expr::Lit(Lit::Str(..)))
+                    | Some(box Expr::Lit(Lit::Null(..)))
+                    | Some(box Expr::Lit(Lit::Num(..))) => true,
+                    _ => false,
+                })
                 {
                     // No case can be matched.
                     if s.cases
@@ -702,7 +718,7 @@ impl Fold<Stmt> for Remover {
                                     test.into_stmt(),
                                 ],
                             }
-                            .into()
+                                .into()
                         } else {
                             prepare_loop_body_for_inlining(*s.body).fold_with(self)
                         }
@@ -749,27 +765,27 @@ impl Fold<Pat> for Remover {
 
         match p {
             Pat::Assign(p)
-                if p.right.is_undefined()
-                    || match *p.right {
-                        Expr::Unary(UnaryExpr {
-                            op: op!("void"),
-                            ref arg,
-                            ..
-                        }) => is_literal(&arg),
-                        _ => false,
-                    } =>
-            {
-                return *p.left;
-            }
+            if p.right.is_undefined()
+                || match *p.right {
+                Expr::Unary(UnaryExpr {
+                                op: op!("void"),
+                                ref arg,
+                                ..
+                            }) => is_literal(&arg),
+                _ => false,
+            } =>
+                {
+                    return *p.left;
+                }
 
             Pat::Assign(p)
-                if match *p.left {
-                    Pat::Object(ref o) => o.props.is_empty(),
-                    _ => false,
-                } && p.right.is_number() =>
-            {
-                return *p.left;
-            }
+            if match *p.left {
+                Pat::Object(ref o) => o.props.is_empty(),
+                _ => false,
+            } && p.right.is_number() =>
+                {
+                    return *p.left;
+                }
 
             _ => {}
         }
@@ -825,16 +841,16 @@ impl Fold<ObjectPat> for Remover {
 
         p.props.retain(|p| match p {
             ObjectPatProp::KeyValue(KeyValuePatProp {
-                key,
-                value: box Pat::Object(p),
-                ..
-            }) if !is_computed(&key) && p.props.is_empty() => false,
+                                        key,
+                                        value: box Pat::Object(p),
+                                        ..
+                                    }) if !is_computed(&key) && p.props.is_empty() => false,
 
             ObjectPatProp::KeyValue(KeyValuePatProp {
-                key,
-                value: box Pat::Array(p),
-                ..
-            }) if !is_computed(&key) && p.elems.is_empty() => false,
+                                        key,
+                                        value: box Pat::Array(p),
+                                        ..
+                                    }) if !is_computed(&key) && p.elems.is_empty() => false,
             _ => true,
         });
 
@@ -848,25 +864,25 @@ impl Fold<ObjectPatProp> for Remover {
 
         match p {
             ObjectPatProp::Assign(AssignPatProp {
-                span,
-                key,
-                value: Some(expr),
-            }) if expr.is_undefined()
+                                      span,
+                                      key,
+                                      value: Some(expr),
+                                  }) if expr.is_undefined()
                 || match *expr {
-                    Expr::Unary(UnaryExpr {
-                        op: op!("void"),
-                        ref arg,
-                        ..
-                    }) => is_literal(&arg),
-                    _ => false,
-                } =>
-            {
-                return ObjectPatProp::Assign(AssignPatProp {
-                    span,
-                    key,
-                    value: None,
-                });
-            }
+                Expr::Unary(UnaryExpr {
+                                op: op!("void"),
+                                ref arg,
+                                ..
+                            }) => is_literal(&arg),
+                _ => false,
+            } =>
+                {
+                    return ObjectPatProp::Assign(AssignPatProp {
+                        span,
+                        key,
+                        value: None,
+                    });
+                }
 
             _ => {}
         }
@@ -917,53 +933,53 @@ impl Fold<Expr> for Remover {
 
         match e {
             Expr::Assign(AssignExpr {
-                op: op!("="),
-                left: PatOrExpr::Pat(box Pat::Ident(ref l)),
-                right: box Expr::Ident(r),
-                ..
-            }) if l.sym == r.sym && l.span.ctxt() == r.span.ctxt() => return Expr::Ident(r),
+                             op: op!("="),
+                             left: PatOrExpr::Pat(box Pat::Ident(ref l)),
+                             right: box Expr::Ident(r),
+                             ..
+                         }) if l.sym == r.sym && l.span.ctxt() == r.span.ctxt() => return Expr::Ident(r),
 
             Expr::Assign(AssignExpr {
-                op: op!("="),
-                left: PatOrExpr::Pat(box Pat::Array(ref arr)),
-                right,
-                ..
-            }) if arr.elems.is_empty() || arr.elems.iter().all(|v| v.is_none()) => {
+                             op: op!("="),
+                             left: PatOrExpr::Pat(box Pat::Array(ref arr)),
+                             right,
+                             ..
+                         }) if arr.elems.is_empty() || arr.elems.iter().all(|v| v.is_none()) => {
                 return *right;
             }
 
             Expr::Assign(AssignExpr {
-                op: op!("="),
-                left: PatOrExpr::Pat(box Pat::Object(ref obj)),
-                right,
-                ..
-            }) if obj.props.is_empty() => {
+                             op: op!("="),
+                             left: PatOrExpr::Pat(box Pat::Object(ref obj)),
+                             right,
+                             ..
+                         }) if obj.props.is_empty() => {
                 return *right;
             }
 
             Expr::Cond(e)
-                if !e.test.may_have_side_effects()
-                    && (e.cons.is_undefined()
-                        || match *e.cons {
-                            Expr::Unary(UnaryExpr {
+            if !e.test.may_have_side_effects()
+                && (e.cons.is_undefined()
+                || match *e.cons {
+                Expr::Unary(UnaryExpr {
                                 op: op!("void"),
                                 ref arg,
                                 ..
                             }) if !arg.may_have_side_effects() => true,
-                            _ => false,
-                        })
-                    && (e.alt.is_undefined()
-                        || match *e.alt {
-                            Expr::Unary(UnaryExpr {
+                _ => false,
+            })
+                && (e.alt.is_undefined()
+                || match *e.alt {
+                Expr::Unary(UnaryExpr {
                                 op: op!("void"),
                                 ref arg,
                                 ..
                             }) if !arg.may_have_side_effects() => true,
-                            _ => false,
-                        }) =>
-            {
-                return *e.cons
-            }
+                _ => false,
+            }) =>
+                {
+                    return *e.cons
+                }
 
             _ => {}
         }
@@ -1018,18 +1034,18 @@ fn ignore_result(e: Expr) -> Option<Expr> {
         Expr::Paren(ParenExpr { expr, .. }) => ignore_result(*expr),
 
         Expr::Assign(AssignExpr {
-            op: op!("="),
-            left: PatOrExpr::Pat(box Pat::Ident(ref l)),
-            right: box Expr::Ident(r),
-            ..
-        }) if l.sym == r.sym && l.span.ctxt() == r.span.ctxt() => None,
+                         op: op!("="),
+                         left: PatOrExpr::Pat(box Pat::Ident(ref l)),
+                         right: box Expr::Ident(r),
+                         ..
+                     }) if l.sym == r.sym && l.span.ctxt() == r.span.ctxt() => None,
 
         Expr::Bin(BinExpr {
-            span,
-            left,
-            op,
-            right,
-        }) if op != op!("&&") && op != op!("||") => {
+                      span,
+                      left,
+                      op,
+                      right,
+                  }) if op != op!("&&") && op != op!("||") => {
             let left = ignore_result(*left);
             let right = ignore_result(*right);
 
@@ -1044,11 +1060,11 @@ fn ignore_result(e: Expr) -> Option<Expr> {
         }
 
         Expr::Bin(BinExpr {
-            span,
-            left,
-            op,
-            right,
-        }) => {
+                      span,
+                      left,
+                      op,
+                      right,
+                  }) => {
             if op == op!("&&") {
                 let right = if let Some(right) = ignore_result(*right) {
                     box right
@@ -1109,8 +1125,8 @@ fn ignore_result(e: Expr) -> Option<Expr> {
             let mut has_spread = false;
             let elems = elems.move_flat_map(|v| match v {
                 Some(ExprOrSpread {
-                    spread: Some(..), ..
-                }) => {
+                         spread: Some(..), ..
+                     }) => {
                     has_spread = true;
                     Some(v)
                 }
@@ -1162,11 +1178,11 @@ fn ignore_result(e: Expr) -> Option<Expr> {
         }
 
         Expr::New(NewExpr {
-            span,
-            ref callee,
-            args,
-            ..
-        }) if callee.is_pure_callee() => ignore_result(Expr::Array(ArrayLit {
+                      span,
+                      ref callee,
+                      args,
+                      ..
+                  }) if callee.is_pure_callee() => ignore_result(Expr::Array(ArrayLit {
             span,
             elems: args
                 .map(|args| args.into_iter().map(Some).collect())
@@ -1174,11 +1190,11 @@ fn ignore_result(e: Expr) -> Option<Expr> {
         })),
 
         Expr::Call(CallExpr {
-            span,
-            callee: ExprOrSuper::Expr(ref callee),
-            args,
-            ..
-        }) if callee.is_pure_callee() => ignore_result(Expr::Array(ArrayLit {
+                       span,
+                       callee: ExprOrSuper::Expr(ref callee),
+                       args,
+                       ..
+                   }) if callee.is_pure_callee() => ignore_result(Expr::Array(ArrayLit {
             span,
             elems: args.into_iter().map(Some).collect(),
         })),
@@ -1188,8 +1204,8 @@ fn ignore_result(e: Expr) -> Option<Expr> {
         }
 
         Expr::TaggedTpl(TaggedTpl {
-            span, tag, exprs, ..
-        }) if tag.is_pure_callee() => {
+                            span, tag, exprs, ..
+                        }) if tag.is_pure_callee() => {
             ignore_result(preserve_effects(span, *undefined(span), exprs))
         }
 
@@ -1202,8 +1218,8 @@ fn ignore_result(e: Expr) -> Option<Expr> {
         Expr::Fn(..) => None,
 
         Expr::Seq(SeqExpr {
-            span, mut exprs, ..
-        }) => {
+                      span, mut exprs, ..
+                  }) => {
             if exprs.is_empty() {
                 return None;
             }
@@ -1216,11 +1232,11 @@ fn ignore_result(e: Expr) -> Option<Expr> {
         }
 
         Expr::Cond(CondExpr {
-            span,
-            test,
-            cons,
-            alt,
-        }) => {
+                       span,
+                       test,
+                       cons,
+                       alt,
+                   }) => {
             let alt = if let Some(alt) = ignore_result(*alt) {
                 alt
             } else {
@@ -1299,9 +1315,9 @@ fn is_ok_to_inline_block(s: &[Stmt]) -> bool {
     // variable declared as `var` is hoisted
     let last_var = s.iter().rposition(|s| match s {
         Stmt::Decl(Decl::Var(VarDecl {
-            kind: VarDeclKind::Var,
-            ..
-        })) => true,
+                                 kind: VarDeclKind::Var,
+                                 ..
+                             })) => true,
         _ => false,
     });
 
@@ -1326,10 +1342,10 @@ fn is_ok_to_inline_block(s: &[Stmt]) -> bool {
 fn is_block_scoped_stuff(s: &Stmt) -> bool {
     match s {
         Stmt::Decl(Decl::Var(VarDecl { kind, .. }))
-            if *kind == VarDeclKind::Const || *kind == VarDeclKind::Let =>
-        {
-            return true;
-        }
+        if *kind == VarDeclKind::Const || *kind == VarDeclKind::Let =>
+            {
+                return true;
+            }
         Stmt::Decl(Decl::Fn(..)) | Stmt::Decl(Decl::Class(..)) => true,
         _ => false,
     }
