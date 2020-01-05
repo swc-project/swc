@@ -256,11 +256,15 @@ impl<'a, I: Tokens> Parser<'a, I> {
     }
 
     /// `tsParseThisTypePredicate`
-    fn parse_ts_this_type_predicate(&mut self, lhs: TsThisType) -> PResult<'a, TsTypePredicate> {
+    fn parse_ts_this_type_predicate(
+        &mut self,
+        start: BytePos,
+        has_asserts_keyword: bool,
+        lhs: TsThisType,
+    ) -> PResult<'a, TsTypePredicate> {
         debug_assert!(self.input.syntax().typescript());
 
         assert_and_bump!("is");
-        let start = cur_pos!();
 
         let param_name = TsThisTypeOrIdent::TsThisType(lhs);
         let cur_pos = cur_pos!();
@@ -271,6 +275,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
         Ok(TsTypePredicate {
             span: span!(start),
+            asserts: has_asserts_keyword,
             param_name,
             type_ann,
         })
@@ -408,6 +413,11 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 syntax_error!(span, SyntaxError::Expected(return_token, cur))
             }
 
+            let type_pred_asserts = is!("asserts") && peeked_is!(IdentRef);
+            if type_pred_asserts {
+                assert_and_bump!("asserts");
+            }
+
             let type_pred_var = if is!(IdentRef) && peeked_is!("is") {
                 p.try_parse_ts(|p| p.parse_ts_type_predicate_prefix())
             } else {
@@ -432,6 +442,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
             let node = Box::new(TsType::TsTypePredicate(TsTypePredicate {
                 span: span!(start),
+                asserts: type_pred_asserts,
                 param_name: type_pred_var,
                 type_ann,
             }));
@@ -1693,11 +1704,13 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 return self.parse_ts_import_type().map(TsType::from).map(Box::new);
             }
 
-            tok!("this") => {
+            tok!("this") | tok!("asserts") if is!("this") || peek_is!("this") => {
+                let start = cur_pos!();
+                let has_asserts_keyword = eat!("asserts");
                 let this_keyword = self.parse_ts_this_type_node()?;
                 if !self.input.had_line_break_before_cur() && is!("is") {
                     return self
-                        .parse_ts_this_type_predicate(this_keyword)
+                        .parse_ts_this_type_predicate(start, has_asserts_keyword, this_keyword)
                         .map(TsType::from)
                         .map(Box::new);
                 } else {
