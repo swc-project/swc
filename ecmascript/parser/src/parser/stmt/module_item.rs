@@ -157,13 +157,14 @@ impl<'a, I: Tokens> Parser<'a, I> {
         let start = cur_pos!();
         assert_and_bump!("export");
         let _ = cur!(true);
+        let after_export_start = cur_pos!();
 
         // "export declare" is equivalent to just "export".
         let declare = self.input.syntax().typescript() && eat!("declare");
 
         if declare {
             // TODO: Remove
-            if let Some(decl) = self.try_parse_ts_declare(start, decorators.clone())? {
+            if let Some(decl) = self.try_parse_ts_declare(after_export_start, decorators.clone())? {
                 return Ok(ModuleDecl::ExportDecl(ExportDecl {
                     span: span!(start),
                     decl,

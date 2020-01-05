@@ -55,10 +55,8 @@
       "decl": {
         "type": "TsInterfaceDeclaration",
         "span": {
-          "start": 47,
+          "start": 37,
           "end": 51,
-          "start": 38,
-          "end": 52,
           "ctxt": 0
         },
         "id": {

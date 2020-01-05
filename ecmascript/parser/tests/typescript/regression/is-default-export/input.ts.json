@@ -84,10 +84,8 @@
       "declaration": {
         "type": "TsInterfaceDeclaration",
         "span": {
-          "start": 58,
+          "start": 48,
           "end": 62,
-          "start": 50,
-          "end": 64,
           "ctxt": 0
         },
         "id": {

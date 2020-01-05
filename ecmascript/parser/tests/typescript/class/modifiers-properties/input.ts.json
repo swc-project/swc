@@ -21,10 +21,8 @@
       },
       "declare": false,
       "span": {
-        "start": 9,
-        "end": 396,
         "start": 0,
-        "end": 416,
+        "end": 396,
         "ctxt": 0
       },
       "decorators": [],

@@ -136,10 +136,8 @@
         },
         "declare": true,
         "span": {
-          "start": 82,
+          "start": 74,
           "end": 92,
-          "start": 69,
-          "end": 94,
           "ctxt": 0
         },
         "decorators": [],
@@ -161,10 +159,8 @@
       "declaration": {
         "type": "TsInterfaceDeclaration",
         "span": {
-          "start": 118,
+          "start": 100,
           "end": 122,
-          "start": 96,
-          "end": 125,
           "ctxt": 0
         },
         "id": {
@@ -202,7 +198,7 @@
       "declaration": {
         "type": "TsTypeAliasDeclaration",
         "span": {
-          "start": 123,
+          "start": 130,
           "end": 154,
           "ctxt": 0
         },
@@ -240,7 +236,7 @@
       "declaration": {
         "type": "TsModuleDeclaration",
         "span": {
-          "start": 155,
+          "start": 162,
           "end": 181,
           "ctxt": 0
         },
@@ -278,7 +274,7 @@
       "declaration": {
         "type": "TsModuleDeclaration",
         "span": {
-          "start": 182,
+          "start": 189,
           "end": 211,
           "ctxt": 0
         },

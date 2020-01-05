@@ -125,10 +125,8 @@
     {
       "type": "TsInterfaceDeclaration",
       "span": {
-        "start": 51,
+        "start": 41,
         "end": 80,
-        "start": 42,
-        "end": 81,
         "ctxt": 0
       },
       "id": {
@@ -243,10 +241,8 @@
     {
       "type": "TsInterfaceDeclaration",
       "span": {
-        "start": 91,
+        "start": 81,
         "end": 130,
-        "start": 83,
-        "end": 135,
         "ctxt": 0
       },
       "id": {

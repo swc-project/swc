@@ -9,10 +9,8 @@
     {
       "type": "TsInterfaceDeclaration",
       "span": {
-        "start": 10,
-        "end": 78,
         "start": 0,
-        "end": 81,
+        "end": 78,
         "ctxt": 0
       },
       "id": {
