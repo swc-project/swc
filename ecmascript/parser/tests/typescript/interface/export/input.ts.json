@@ -16,7 +16,7 @@
       "declaration": {
         "type": "TsInterfaceDeclaration",
         "span": {
-          "start": 17,
+          "start": 7,
           "end": 21,
           "ctxt": 0
         },
@@ -55,7 +55,7 @@
       "decl": {
         "type": "TsInterfaceDeclaration",
         "span": {
-          "start": 47,
+          "start": 37,
           "end": 51,
           "ctxt": 0
         },

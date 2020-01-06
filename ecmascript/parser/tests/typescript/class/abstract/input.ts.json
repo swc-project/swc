@@ -21,7 +21,7 @@
       },
       "declare": false,
       "span": {
-        "start": 9,
+        "start": 0,
         "end": 19,
         "ctxt": 0
       },
@@ -48,7 +48,7 @@
       },
       "declare": true,
       "span": {
-        "start": 37,
+        "start": 20,
         "end": 47,
         "ctxt": 0
       },
@@ -82,7 +82,7 @@
         },
         "declare": false,
         "span": {
-          "start": 64,
+          "start": 55,
           "end": 74,
           "ctxt": 0
         },
@@ -98,7 +98,7 @@
     {
       "type": "ExportDefaultDeclaration",
       "span": {
-        "start": 154,
+        "start": 130,
         "end": 163,
         "ctxt": 0
       },
@@ -106,7 +106,7 @@
         "type": "ClassExpression",
         "identifier": null,
         "span": {
-          "start": 154,
+          "start": 145,
           "end": 163,
           "ctxt": 0
         },
@@ -122,7 +122,7 @@
     {
       "type": "ExportDefaultDeclaration",
       "span": {
-        "start": 188,
+        "start": 164,
         "end": 199,
         "ctxt": 0
       },
@@ -140,7 +140,7 @@
           "optional": false
         },
         "span": {
-          "start": 188,
+          "start": 179,
           "end": 199,
           "ctxt": 0
         },

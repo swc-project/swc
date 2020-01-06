@@ -136,7 +136,7 @@
         },
         "declare": true,
         "span": {
-          "start": 82,
+          "start": 74,
           "end": 92,
           "ctxt": 0
         },
@@ -159,7 +159,7 @@
       "declaration": {
         "type": "TsInterfaceDeclaration",
         "span": {
-          "start": 118,
+          "start": 100,
           "end": 122,
           "ctxt": 0
         },
@@ -198,7 +198,7 @@
       "declaration": {
         "type": "TsTypeAliasDeclaration",
         "span": {
-          "start": 123,
+          "start": 130,
           "end": 154,
           "ctxt": 0
         },
@@ -236,7 +236,7 @@
       "declaration": {
         "type": "TsModuleDeclaration",
         "span": {
-          "start": 155,
+          "start": 162,
           "end": 181,
           "ctxt": 0
         },
@@ -274,7 +274,7 @@
       "declaration": {
         "type": "TsModuleDeclaration",
         "span": {
-          "start": 182,
+          "start": 189,
           "end": 211,
           "ctxt": 0
         },

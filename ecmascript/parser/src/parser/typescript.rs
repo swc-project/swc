@@ -859,10 +859,11 @@ impl<'a, I: Tokens> Parser<'a, I> {
         })
     }
     /// `tsParseInterfaceDeclaration`
-    pub(super) fn parse_ts_interface_decl(&mut self) -> PResult<'a, TsInterfaceDecl> {
+    pub(super) fn parse_ts_interface_decl(
+        &mut self,
+        start: BytePos,
+    ) -> PResult<'a, TsInterfaceDecl> {
         debug_assert!(self.input.syntax().typescript());
-
-        let start = cur_pos!();
 
         let id = self.parse_ident_name()?;
         match id.sym {
@@ -1925,7 +1926,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
             if is!("class") {
                 return p
-                    .parse_class_decl(decorators)
+                    .parse_class_decl(start, start, decorators)
                     .map(|decl| match decl {
                         Decl::Class(c) => Decl::Class(ClassDecl { declare: true, ..c }),
                         _ => decl,
@@ -2007,7 +2008,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                     if next {
                         bump!();
                     }
-                    let mut decl = self.parse_class_decl(decorators)?;
+                    let mut decl = self.parse_class_decl(start, start, decorators)?;
                     match decl {
                         Decl::Class(ClassDecl {
                             class:
@@ -2041,7 +2042,10 @@ impl<'a, I: Tokens> Parser<'a, I> {
                         bump!();
                     }
 
-                    return self.parse_ts_interface_decl().map(From::from).map(Some);
+                    return self
+                        .parse_ts_interface_decl(start)
+                        .map(From::from)
+                        .map(Some);
                 }
             }
 

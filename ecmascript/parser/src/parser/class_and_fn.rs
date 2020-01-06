@@ -45,31 +45,43 @@ impl<'a, I: Tokens> Parser<'a, I> {
         self.parse_fn(None, decorators)
     }
 
-    pub(super) fn parse_class_decl(&mut self, decorators: Vec<Decorator>) -> PResult<'a, Decl> {
-        self.parse_class(decorators)
+    pub(super) fn parse_class_decl(
+        &mut self,
+        start: BytePos,
+        class_start: BytePos,
+        decorators: Vec<Decorator>,
+    ) -> PResult<'a, Decl> {
+        self.parse_class(start, class_start, decorators)
     }
 
     pub(super) fn parse_class_expr(
         &mut self,
+        start: BytePos,
         decorators: Vec<Decorator>,
     ) -> PResult<'a, Box<Expr>> {
-        self.parse_class(decorators)
+        self.parse_class(start, start, decorators)
     }
 
     pub(super) fn parse_default_class(
         &mut self,
+        start: BytePos,
+        class_start: BytePos,
         decorators: Vec<Decorator>,
     ) -> PResult<'a, ExportDefaultDecl> {
-        self.parse_class(decorators)
+        self.parse_class(start, class_start, decorators)
     }
 
-    fn parse_class<T>(&mut self, decorators: Vec<Decorator>) -> PResult<'a, T>
+    fn parse_class<T>(
+        &mut self,
+        start: BytePos,
+        class_start: BytePos,
+        decorators: Vec<Decorator>,
+    ) -> PResult<'a, T>
     where
         T: OutputType,
         Self: MaybeOptionalIdentParser<'a, T::Ident>,
     {
         self.strict_mode().parse_with(|p| {
-            let start = cur_pos!();
             expect!("class");
 
             let ident = p.parse_maybe_opt_binding_ident()?;
@@ -156,7 +168,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 span!(start),
                 ident,
                 Class {
-                    span: Span::new(start, end, Default::default()),
+                    span: Span::new(class_start, end, Default::default()),
                     decorators,
                     is_abstract: false,
                     type_params,

@@ -157,13 +157,14 @@ impl<'a, I: Tokens> Parser<'a, I> {
         let start = cur_pos!();
         assert_and_bump!("export");
         let _ = cur!(true);
+        let after_export_start = cur_pos!();
 
         // "export declare" is equivalent to just "export".
         let declare = self.input.syntax().typescript() && eat!("declare");
 
         if declare {
             // TODO: Remove
-            if let Some(decl) = self.try_parse_ts_declare(start, decorators.clone())? {
+            if let Some(decl) = self.try_parse_ts_declare(after_export_start, decorators.clone())? {
                 return Ok(ModuleDecl::ExportDecl(ExportDecl {
                     span: span!(start),
                     decl,
@@ -250,11 +251,11 @@ impl<'a, I: Tokens> Parser<'a, I> {
         if export_ns.is_none() && eat!("default") {
             if self.input.syntax().typescript() {
                 if is!("abstract") && peeked_is!("class") {
-                    let start = cur_pos!();
+                    let class_start = cur_pos!();
                     assert_and_bump!("abstract");
                     let _ = cur!(true);
 
-                    let mut class = self.parse_default_class(decorators)?;
+                    let mut class = self.parse_default_class(start, class_start, decorators)?;
                     match class {
                         ExportDefaultDecl {
                             decl: DefaultDecl::Class(ClassExpr { ref mut class, .. }),
@@ -265,8 +266,12 @@ impl<'a, I: Tokens> Parser<'a, I> {
                     return Ok(class.into());
                 }
 
-                if eat!("interface") {
-                    let decl = self.parse_ts_interface_decl().map(DefaultDecl::from)?;
+                if is!("interface") {
+                    let interface_start = cur_pos!();
+                    assert_and_bump!("interface");
+                    let decl = self
+                        .parse_ts_interface_decl(interface_start)
+                        .map(DefaultDecl::from)?;
                     return Ok(ExportDefaultDecl {
                         span: span!(start),
                         decl,
@@ -276,7 +281,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
             }
 
             if is!("class") {
-                let decl = self.parse_default_class(decorators)?;
+                let class_start = cur_pos!();
+                let decl = self.parse_default_class(start, class_start, decorators)?;
                 return Ok(ModuleDecl::ExportDefaultDecl(decl));
             } else if is!("async")
                 && peeked_is!("function")
@@ -302,7 +308,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
         }
 
         let decl = if is!("class") {
-            self.parse_class_decl(decorators)?
+            let class_start = cur_pos!();
+            self.parse_class_decl(start, class_start, decorators)?
         } else if is!("async")
             && peeked_is!("function")
             && !self.input.has_linebreak_between_cur_and_peeked()
