@@ -5,7 +5,7 @@ use crate::{
     Context, JscTarget, Syntax,
 };
 use lexer::TokenContexts;
-use std::mem;
+use std::{cell::RefCell, mem, rc::Rc};
 use swc_common::{BytePos, Span, DUMMY_SP};
 
 pub trait Tokens: Clone + Iterator<Item = TokenAndSpan> {
@@ -84,19 +84,19 @@ impl Tokens for TokensInput {
 #[derive(Debug, Clone)]
 pub struct Capturing<I: Tokens> {
     inner: I,
-    captured: Vec<TokenAndSpan>,
+    captured: Rc<RefCell<Vec<TokenAndSpan>>>,
 }
 
 impl<I: Tokens> Capturing<I> {
     pub fn new(input: I) -> Self {
         Capturing {
             inner: input,
-            captured: vec![],
+            captured: Default::default(),
         }
     }
     /// Take captured tokens
     pub fn take(&mut self) -> Vec<TokenAndSpan> {
-        mem::replace(&mut self.captured, vec![])
+        mem::replace(&mut *self.captured.borrow_mut(), Default::default())
     }
 }
 
@@ -106,7 +106,7 @@ impl<I: Tokens> Iterator for Capturing<I> {
     fn next(&mut self) -> Option<Self::Item> {
         let next = self.inner.next();
 
-        self.captured.extend(next.clone());
+        self.captured.borrow_mut().extend(next.clone());
         next
     }
 }
