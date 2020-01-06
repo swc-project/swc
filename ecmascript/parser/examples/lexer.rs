@@ -1,7 +1,6 @@
-use swc_common;
-
 use std::sync::Arc;
 use swc_common::{
+    self,
     errors::{ColorConfig, Handler},
     FileName, SourceMap,
 };
