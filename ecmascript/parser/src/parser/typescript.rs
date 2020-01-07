@@ -465,10 +465,12 @@ impl<'a, I: Tokens> Parser<'a, I> {
             return Ok(false);
         }
         let mut cloned = self.clone();
+        cloned.emit_err = false;
         let res = op(&mut cloned);
         match res {
             Ok(Some(res)) if res => {
                 *self = cloned;
+                self.emit_err = true;
                 Ok(res)
             }
             Err(mut err) => {
@@ -488,10 +490,12 @@ impl<'a, I: Tokens> Parser<'a, I> {
             return None;
         }
         let mut cloned = self.clone();
+        cloned.emit_err = false;
         let res = op(&mut cloned);
         match res {
             Ok(Some(res)) => {
                 *self = cloned;
+                self.emit_err = true;
                 Some(res)
             }
             Ok(None) => None,
@@ -1007,6 +1011,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         debug_assert!(self.input.syntax().typescript());
 
         let mut cloned = self.clone();
+        cloned.emit_err = false;
         op(&mut cloned)
     }
 

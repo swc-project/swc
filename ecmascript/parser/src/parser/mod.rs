@@ -37,6 +37,8 @@ pub type PResult<'a, T> = Result<T, DiagnosticBuilder<'a>>;
 /// EcmaScript parser.
 #[derive(Clone)]
 pub struct Parser<'a, I: Tokens> {
+    /// [false] while backtracking
+    emit_err: bool,
     session: Session<'a>,
     state: State,
     input: Buffer<I>,
@@ -68,6 +70,7 @@ impl<'a, I: Input> Parser<'a, Lexer<'a, I>> {
 impl<'a, I: Tokens> Parser<'a, I> {
     pub fn new_from(session: Session<'a>, input: I) -> Self {
         Parser {
+            emit_err: true,
             session,
             input: Buffer::new(input),
             state: Default::default(),
@@ -153,6 +156,10 @@ impl<'a, I: Tokens> Parser<'a, I> {
     }
 
     fn emit_err(&self, span: Span, error: SyntaxError) {
+        if !self.emit_err {
+            return;
+        }
+
         DiagnosticBuilder::from(ErrorToDiag {
             handler: self.session.handler,
             span,
