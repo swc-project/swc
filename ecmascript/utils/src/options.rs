@@ -7,9 +7,9 @@ use swc_common::{
 use swc_ecma_parser::Session;
 
 lazy_static! {
-    pub(crate) static ref CM: Arc<SourceMap> =
+    pub static ref CM: Arc<SourceMap> =
         { Arc::new(SourceMap::new(FilePathMapping::empty())) };
-    pub(crate) static ref HANDLER: Handler =
+    pub static ref HANDLER: Handler =
         { Handler::with_tty_emitter(ColorConfig::Always, false, true, Some(CM.clone())) };
-    pub(crate) static ref SESSION: Session<'static> = { Session { handler: &*HANDLER } };
+    pub static ref SESSION: Session<'static> = { Session { handler: &*HANDLER } };
 }

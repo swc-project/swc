@@ -4,6 +4,7 @@ use ast::*;
 use std::iter;
 use swc_atoms::js_word;
 use swc_common::{Fold, FoldWith, Mark, Span, Spanned, DUMMY_SP};
+use utils::quote_ident;
 
 /// Process function body.
 ///

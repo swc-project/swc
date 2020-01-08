@@ -4,6 +4,7 @@ use ast::*;
 use std::iter;
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Mark, Visit, VisitWith, DUMMY_SP};
+use utils::quote_ident;
 
 pub(super) struct SuperCallFinder {
     mode: Option<SuperFoldingMode>,

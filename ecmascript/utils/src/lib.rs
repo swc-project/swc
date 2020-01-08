@@ -1,3 +1,8 @@
+#![feature(box_patterns)]
+#![feature(box_syntax)]
+#![feature(try_trait)]
+#![feature(specialization)]
+
 pub use self::{
     factory::ExprFactory,
     ident::{id, Id},
@@ -10,7 +15,7 @@ pub use self::{
     },
     Purity::{MayBeImpure, Pure},
 };
-use crate::util::ident::IdentLike;
+use crate::ident::IdentLike;
 use ast::*;
 use scoped_tls::scoped_thread_local;
 use std::{
@@ -26,14 +31,16 @@ use swc_common::{
 };
 use unicode_xid::UnicodeXID;
 
-pub(crate) mod constructor;
+#[macro_use]
+mod macros;
+pub mod constructor;
 mod factory;
 pub mod ident;
-pub(crate) mod options;
+pub mod options;
 mod value;
-pub(crate) mod var;
+pub mod var;
 
-pub(crate) struct ThisVisitor {
+pub struct ThisVisitor {
     found: bool,
 }
 
@@ -63,7 +70,7 @@ impl Visit<FnDecl> for ThisVisitor {
     fn visit(&mut self, _: &FnDecl) {}
 }
 
-pub(crate) fn contains_this_expr<N>(body: &N) -> bool
+pub fn contains_this_expr<N>(body: &N) -> bool
 where
     ThisVisitor: Visit<N>,
 {
@@ -72,7 +79,7 @@ where
     visitor.found
 }
 
-pub(crate) fn contains_ident_ref<'a, N>(body: &N, ident: &'a Ident) -> bool
+pub fn contains_ident_ref<'a, N>(body: &N, ident: &'a Ident) -> bool
 where
     N: VisitWith<IdentFinder<'a>>,
 {
@@ -84,7 +91,7 @@ where
     visitor.found
 }
 
-pub(crate) struct IdentFinder<'a> {
+pub struct IdentFinder<'a> {
     ident: &'a Ident,
     found: bool,
 }
@@ -213,7 +220,7 @@ impl<T> IsEmpty for Vec<T> {
 }
 
 /// Extracts hoisted variables
-pub(crate) fn extract_var_ids<T: VisitWith<Hoister>>(node: &T) -> Vec<Ident> {
+pub fn extract_var_ids<T: VisitWith<Hoister>>(node: &T) -> Vec<Ident> {
     let mut v = Hoister { vars: vec![] };
     node.visit_with(&mut v);
     v.vars
@@ -275,7 +282,7 @@ impl StmtExt for Box<Stmt> {
     }
 }
 
-pub(crate) struct Hoister {
+pub struct Hoister {
     vars: Vec<Ident>,
 }
 
@@ -1013,7 +1020,7 @@ impl Add for Purity {
 }
 
 /// Cast to javascript's int32
-pub(crate) fn to_int32(d: f64) -> i32 {
+pub fn to_int32(d: f64) -> i32 {
     let id = d as i32;
     if id as f64 == d {
         // This covers -0.0 as well
@@ -1036,7 +1043,7 @@ pub(crate) fn to_int32(d: f64) -> i32 {
     l as i32
 }
 
-// pub(crate) fn to_u32(_d: f64) -> u32 {
+// pub fn to_u32(_d: f64) -> u32 {
 //     //   if (Double.isNaN(d) || Double.isInfinite(d) || d == 0) {
 //     //   return 0;
 //     // }
@@ -1055,13 +1062,13 @@ pub(crate) fn to_int32(d: f64) -> i32 {
 //     unimplemented!("to_u32")
 // }
 
-pub(crate) fn has_rest_pat<T: VisitWith<RestPatVisitor>>(node: &T) -> bool {
+pub fn has_rest_pat<T: VisitWith<RestPatVisitor>>(node: &T) -> bool {
     let mut v = RestPatVisitor { found: false };
     node.visit_with(&mut v);
     v.found
 }
 
-pub(crate) struct RestPatVisitor {
+pub struct RestPatVisitor {
     found: bool,
 }
 
@@ -1071,7 +1078,7 @@ impl Visit<RestPat> for RestPatVisitor {
     }
 }
 
-pub(crate) fn is_literal<T>(node: &T) -> bool
+pub fn is_literal<T>(node: &T) -> bool
 where
     T: VisitWith<LiteralVisitor>,
 {
@@ -1080,7 +1087,7 @@ where
 }
 
 #[inline(never)]
-pub(crate) fn calc_literal_cost<T>(e: &T, allow_non_json_value: bool) -> (bool, usize)
+pub fn calc_literal_cost<T>(e: &T, allow_non_json_value: bool) -> (bool, usize)
 where
     T: VisitWith<LiteralVisitor>,
 {
@@ -1094,7 +1101,7 @@ where
     (v.is_lit, v.cost)
 }
 
-pub(crate) struct LiteralVisitor {
+pub struct LiteralVisitor {
     is_lit: bool,
     cost: usize,
     allow_non_json_value: bool,
@@ -1257,7 +1264,7 @@ pub fn alias_if_required(expr: &Expr, default: &str) -> (Ident, bool) {
     (alias_ident_for(expr, default), true)
 }
 
-pub(crate) fn prop_name_to_expr(p: PropName) -> Expr {
+pub fn prop_name_to_expr(p: PropName) -> Expr {
     match p {
         PropName::Ident(i) => Expr::Ident(i),
         PropName::Str(s) => Expr::Lit(Lit::Str(s)),
@@ -1268,7 +1275,7 @@ pub(crate) fn prop_name_to_expr(p: PropName) -> Expr {
 /// Simillar to `prop_name_to_expr`, but used for value position.
 ///
 /// e.g. value from `{ key: value }`
-pub(crate) fn prop_name_to_expr_value(p: PropName) -> Expr {
+pub fn prop_name_to_expr_value(p: PropName) -> Expr {
     match p {
         PropName::Ident(i) => Expr::Lit(Lit::Str(Str {
             span: i.span,
@@ -1320,7 +1327,7 @@ pub fn default_constructor(has_super: bool) -> Constructor {
 }
 
 /// Check if `e` is `...arguments`
-pub(crate) fn is_rest_arguments(e: &ExprOrSpread) -> bool {
+pub fn is_rest_arguments(e: &ExprOrSpread) -> bool {
     match *e {
         ExprOrSpread {
             spread: Some(..),
@@ -1335,7 +1342,7 @@ pub(crate) fn is_rest_arguments(e: &ExprOrSpread) -> bool {
 }
 
 #[inline]
-pub(crate) fn undefined(span: Span) -> Box<Expr> {
+pub fn undefined(span: Span) -> Box<Expr> {
     box Expr::Unary(UnaryExpr {
         span,
         op: op!("void"),
@@ -1429,11 +1436,11 @@ impl IdentExt for Ident {
 }
 
 /// Finds all idents of variable
-pub(crate) struct DestructuringFinder<'a, I: IdentLike> {
+pub struct DestructuringFinder<'a, I: IdentLike> {
     pub found: &'a mut Vec<I>,
 }
 
-pub(crate) fn find_ids<T, I: IdentLike>(node: &T) -> Vec<I>
+pub fn find_ids<T, I: IdentLike>(node: &T) -> Vec<I>
 where
     T: for<'any> VisitWith<DestructuringFinder<'any, I>>,
 {
@@ -1463,7 +1470,7 @@ impl<'a, I: IdentLike> Visit<Ident> for DestructuringFinder<'a, I> {
     }
 }
 
-pub(crate) fn is_valid_ident(s: &JsWord) -> bool {
+pub fn is_valid_ident(s: &JsWord) -> bool {
     if s.len() == 0 {
         return false;
     }
@@ -1471,14 +1478,14 @@ pub(crate) fn is_valid_ident(s: &JsWord) -> bool {
     UnicodeXID::is_xid_start(first) && s.chars().skip(1).all(UnicodeXID::is_xid_continue)
 }
 
-pub(crate) fn drop_span<T>(t: T) -> T
+pub fn drop_span<T>(t: T) -> T
 where
     T: FoldWith<DropSpan>,
 {
     t.fold_with(&mut DropSpan)
 }
 
-pub(crate) struct DropSpan;
+pub struct DropSpan;
 impl Fold<Span> for DropSpan {
     fn fold(&mut self, _: Span) -> Span {
         DUMMY_SP
@@ -1486,7 +1493,7 @@ impl Fold<Span> for DropSpan {
 }
 
 /// Finds usage of `ident`
-pub(crate) struct UsageFinder<'a> {
+pub struct UsageFinder<'a> {
     ident: &'a Ident,
     found: bool,
 }
@@ -1510,7 +1517,7 @@ impl<'a> Visit<Ident> for UsageFinder<'a> {
 }
 
 impl<'a> UsageFinder<'a> {
-    pub(crate) fn find<N>(ident: &'a Ident, node: &N) -> bool
+    pub fn find<N>(ident: &'a Ident, node: &N) -> bool
     where
         N: VisitWith<Self>,
     {
@@ -1527,7 +1534,7 @@ scoped_thread_local!(pub static HANDLER: Handler);
 scoped_thread_local!(pub static COMMENTS: Comments);
 
 /// make a new expression which evaluates `val` preserving side effects, if any.
-pub(crate) fn preserve_effects<I>(span: Span, val: Expr, exprs: I) -> Expr
+pub fn preserve_effects<I>(span: Span, val: Expr, exprs: I) -> Expr
 where
     I: IntoIterator<Item = Box<Expr>>,
 {
