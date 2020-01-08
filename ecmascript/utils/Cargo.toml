@@ -14,3 +14,6 @@ swc_ecma_parser = { version = "0.16", path ="../parser", features = ["verify"] }
 lazy_static = "1"
 scoped-tls = "1"
 unicode-xid = "0.2"
+
+[dev-dependencies]
+testing = { version = "0.4", path ="../../testing" }
