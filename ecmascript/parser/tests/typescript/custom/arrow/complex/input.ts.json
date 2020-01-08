@@ -526,6 +526,7 @@
                                       "end": 396,
                                       "ctxt": 0
                                     },
+                                    "asserts": false,
                                     "paramName": {
                                       "type": "Identifier",
                                       "span": {

@@ -260,6 +260,9 @@ macro_rules! tok {
     // ----------
     // Typescript
     // ----------
+    ("asserts") => {
+        crate::token::Token::Word(crate::token::Word::Ident(swc_atoms::js_word!("asserts")))
+    };
     ("implements") => {
         crate::token::Token::Word(crate::token::Word::Ident(swc_atoms::js_word!("implements")))
     };

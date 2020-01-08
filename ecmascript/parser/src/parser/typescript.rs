@@ -1627,6 +1627,17 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
         match *cur!(true)? {
             Token::Word(Word::Ident(..)) | tok!("void") | tok!("null") => {
+                if is!("asserts") && peeked_is!("this") {
+                    let start = cur_pos!();
+                    assert_and_bump!("this");
+                    assert_and_bump!("is");
+                    let this_keyword = self.parse_ts_this_type_node()?;
+                    return self
+                        .parse_ts_this_type_predicate(start, true, this_keyword)
+                        .map(TsType::from)
+                        .map(Box::new);
+                }
+
                 let kind = if is!("void") {
                     Some(TsKeywordTypeKind::TsVoidKeyword)
                 } else if is!("null") {
@@ -1704,13 +1715,12 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 return self.parse_ts_import_type().map(TsType::from).map(Box::new);
             }
 
-            tok!("this") | tok!("asserts") if is!("this") || peek_is!("this") => {
+            tok!("this") => {
                 let start = cur_pos!();
-                let has_asserts_keyword = eat!("asserts");
                 let this_keyword = self.parse_ts_this_type_node()?;
                 if !self.input.had_line_break_before_cur() && is!("is") {
                     return self
-                        .parse_ts_this_type_predicate(start, has_asserts_keyword, this_keyword)
+                        .parse_ts_this_type_predicate(start, false, this_keyword)
                         .map(TsType::from)
                         .map(Box::new);
                 } else {

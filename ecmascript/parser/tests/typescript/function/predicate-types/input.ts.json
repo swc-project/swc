@@ -81,6 +81,7 @@
             "end": 32,
             "ctxt": 0
           },
+          "asserts": false,
           "paramName": {
             "type": "Identifier",
             "span": {
@@ -190,6 +191,7 @@
                 "end": 67,
                 "ctxt": 0
               },
+              "asserts": false,
               "paramName": {
                 "type": "Identifier",
                 "span": {
