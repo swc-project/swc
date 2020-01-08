@@ -4,6 +4,7 @@ use crate::{
 };
 use ast::*;
 use swc_common::{Fold, FoldWith, Spanned, Visit, VisitWith, DUMMY_SP};
+use utils::quote_ident;
 
 /// Compile ES2015 arrow functions to ES5
 ///

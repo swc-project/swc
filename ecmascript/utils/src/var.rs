@@ -2,7 +2,7 @@ use ast::*;
 use swc_atoms::JsWord;
 use swc_common::{SyntaxContext, Visit, VisitWith};
 
-pub(crate) struct VarCollector<'a> {
+pub struct VarCollector<'a> {
     pub to: &'a mut Vec<(JsWord, SyntaxContext)>,
 }
 

@@ -1,13 +1,13 @@
-use crate::util::{
-    options::{CM, SESSION},
-    prepend_stmts, DropSpan,
-};
 use ast::*;
 use lazy_static::lazy_static;
 use scoped_tls::scoped_thread_local;
 use std::sync::atomic::{AtomicBool, Ordering};
 use swc_common::{FileName, Fold, FoldWith, Mark, Span, DUMMY_SP};
 use swc_ecma_parser::{lexer::Lexer, Parser, SourceFileInput};
+use utils::{
+    options::{CM, SESSION},
+    prepend_stmts, quote_ident, quote_str, DropSpan,
+};
 
 #[macro_export]
 macro_rules! enable_helper {

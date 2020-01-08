@@ -13,7 +13,8 @@ edition = "2018"
 ast = { package = "swc_ecma_ast", path ="./ast" }
 codegen = { package = "swc_ecma_codegen", path ="./codegen" }
 parser = { package = "swc_ecma_parser", path ="./parser", features = ["verify"] }
-transforms = { package = "swc_ecma_transforms", path ="./transforms" }
 preset_env = { package = "swc_ecma_preset_env", path ="preset_env" }
+utils = { package = "swc_ecma_utils", path ="./utils" }
+transforms = { package = "swc_ecma_transforms", path ="./transforms" }
 
 [dev-dependencies]

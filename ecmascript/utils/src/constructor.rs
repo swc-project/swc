@@ -1,10 +1,10 @@
-use crate::util::{prepend_stmts, ExprFactory};
+use crate::{prepend_stmts, ExprFactory};
 use ast::*;
 use std::iter;
 use swc_common::{Fold, FoldWith, DUMMY_SP};
 
 #[allow(clippy::vec_box)]
-pub(crate) fn inject_after_super(mut c: Constructor, exprs: Vec<Box<Expr>>) -> Constructor {
+pub fn inject_after_super(mut c: Constructor, exprs: Vec<Box<Expr>>) -> Constructor {
     // Allow using super multiple time
     let mut folder = Injector {
         exprs: &exprs,

@@ -8,6 +8,9 @@
 #![cfg_attr(test, feature(test))]
 #![recursion_limit = "1024"]
 
+#[macro_use]
+extern crate utils;
+
 pub use self::{const_modules::const_modules, fixer::fixer, hygiene::hygiene, resolver::resolver};
 
 #[macro_use]
@@ -33,4 +36,6 @@ pub mod react;
 mod resolver;
 pub mod scope;
 pub mod typescript;
-pub mod util;
+pub mod util {
+    pub use utils::*;
+}
