@@ -264,7 +264,9 @@ impl<'a, I: Tokens> Parser<'a, I> {
     ) -> PResult<'a, TsTypePredicate> {
         debug_assert!(self.input.syntax().typescript());
 
+        let _ = cur!(true)?;
         assert_and_bump!("is");
+        let _ = cur!(true)?;
 
         let param_name = TsThisTypeOrIdent::TsThisType(lhs);
         let cur_pos = cur_pos!();
@@ -416,7 +418,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
             let type_pred_asserts = is!("asserts") && peeked_is!(IdentRef);
             if type_pred_asserts {
                 assert_and_bump!("asserts");
-                cur!(false);
+                cur!(false)?;
             }
 
             let type_pred_var = if is!(IdentRef) && peeked_is!("is") {
