@@ -1628,8 +1628,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         match *cur!(true)? {
             Token::Word(Word::Ident(..)) | tok!("void") | tok!("null") => {
                 if is!("asserts") && peeked_is!("this") {
-                    assert_and_bump!("this");
-                    assert_and_bump!("is");
+                    bump!();
                     let this_keyword = self.parse_ts_this_type_node()?;
                     return self
                         .parse_ts_this_type_predicate(start, true, this_keyword)
