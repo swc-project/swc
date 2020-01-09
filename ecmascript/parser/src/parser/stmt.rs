@@ -94,7 +94,6 @@ impl<'a, I: Tokens> Parser<'a, I> {
     ) -> PResult<'a, Stmt> {
         if self.input.syntax().typescript() && is!("const") && peeked_is!("enum") {
             assert_and_bump!("const");
-            let _ = cur!(true)?;
             assert_and_bump!("enum");
             return self
                 .parse_ts_enum_decl(start, /* is_const */ true)
