@@ -416,6 +416,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
             let type_pred_asserts = is!("asserts") && peeked_is!(IdentRef);
             if type_pred_asserts {
                 assert_and_bump!("asserts");
+                cur!(false);
             }
 
             let type_pred_var = if is!(IdentRef) && peeked_is!("is") {
