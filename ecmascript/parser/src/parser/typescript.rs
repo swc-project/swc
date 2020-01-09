@@ -405,7 +405,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         debug_assert!(self.input.syntax().typescript());
 
         self.in_type().parse_with(|p| {
-            let start = cur_pos!();
+            let start = cur_pos!(); // todo: the starts below should not include the return_token
 
             if !p.input.eat(return_token) {
                 let cur = format!("{:?}", cur!(false).ok());
@@ -1628,7 +1628,6 @@ impl<'a, I: Tokens> Parser<'a, I> {
         match *cur!(true)? {
             Token::Word(Word::Ident(..)) | tok!("void") | tok!("null") => {
                 if is!("asserts") && peeked_is!("this") {
-                    let start = cur_pos!();
                     assert_and_bump!("this");
                     assert_and_bump!("is");
                     let this_keyword = self.parse_ts_this_type_node()?;
