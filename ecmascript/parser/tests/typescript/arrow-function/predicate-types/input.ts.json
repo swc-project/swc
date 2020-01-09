@@ -75,6 +75,7 @@
               "end": 21,
               "ctxt": 0
             },
+            "asserts": false,
             "paramName": {
               "type": "Identifier",
               "span": {

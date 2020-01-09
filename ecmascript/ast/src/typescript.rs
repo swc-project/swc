@@ -397,6 +397,7 @@ pub struct TsTypeRef {
 #[ast_node("TsTypePredicate")]
 pub struct TsTypePredicate {
     pub span: Span,
+    pub asserts: bool,
     pub param_name: TsThisTypeOrIdent,
     #[serde(rename = "typeAnnotation")]
     pub type_ann: TsTypeAnn,

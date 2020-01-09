@@ -256,11 +256,17 @@ impl<'a, I: Tokens> Parser<'a, I> {
     }
 
     /// `tsParseThisTypePredicate`
-    fn parse_ts_this_type_predicate(&mut self, lhs: TsThisType) -> PResult<'a, TsTypePredicate> {
+    fn parse_ts_this_type_predicate(
+        &mut self,
+        start: BytePos,
+        has_asserts_keyword: bool,
+        lhs: TsThisType,
+    ) -> PResult<'a, TsTypePredicate> {
         debug_assert!(self.input.syntax().typescript());
 
+        let _ = cur!(true)?;
         assert_and_bump!("is");
-        let start = cur_pos!();
+        let _ = cur!(true)?;
 
         let param_name = TsThisTypeOrIdent::TsThisType(lhs);
         let cur_pos = cur_pos!();
@@ -271,6 +277,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
         Ok(TsTypePredicate {
             span: span!(start),
+            asserts: has_asserts_keyword,
             param_name,
             type_ann,
         })
@@ -400,12 +407,18 @@ impl<'a, I: Tokens> Parser<'a, I> {
         debug_assert!(self.input.syntax().typescript());
 
         self.in_type().parse_with(|p| {
-            let start = cur_pos!();
+            let start = cur_pos!(); // todo: the starts below should not include the return_token
 
             if !p.input.eat(return_token) {
                 let cur = format!("{:?}", cur!(false).ok());
                 let span = p.input.cur_span();
                 syntax_error!(span, SyntaxError::Expected(return_token, cur))
+            }
+
+            let type_pred_asserts = is!("asserts") && peeked_is!(IdentRef);
+            if type_pred_asserts {
+                assert_and_bump!("asserts");
+                cur!(false)?;
             }
 
             let type_pred_var = if is!(IdentRef) && peeked_is!("is") {
@@ -432,6 +445,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
             let node = Box::new(TsType::TsTypePredicate(TsTypePredicate {
                 span: span!(start),
+                asserts: type_pred_asserts,
                 param_name: type_pred_var,
                 type_ann,
             }));
@@ -1616,6 +1630,15 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
         match *cur!(true)? {
             Token::Word(Word::Ident(..)) | tok!("void") | tok!("null") => {
+                if is!("asserts") && peeked_is!("this") {
+                    bump!();
+                    let this_keyword = self.parse_ts_this_type_node()?;
+                    return self
+                        .parse_ts_this_type_predicate(start, true, this_keyword)
+                        .map(TsType::from)
+                        .map(Box::new);
+                }
+
                 let kind = if is!("void") {
                     Some(TsKeywordTypeKind::TsVoidKeyword)
                 } else if is!("null") {
@@ -1694,10 +1717,11 @@ impl<'a, I: Tokens> Parser<'a, I> {
             }
 
             tok!("this") => {
+                let start = cur_pos!();
                 let this_keyword = self.parse_ts_this_type_node()?;
                 if !self.input.had_line_break_before_cur() && is!("is") {
                     return self
-                        .parse_ts_this_type_predicate(this_keyword)
+                        .parse_ts_this_type_predicate(start, false, this_keyword)
                         .map(TsType::from)
                         .map(Box::new);
                 } else {

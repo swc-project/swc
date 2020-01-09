@@ -2,7 +2,7 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 28,
+    "end": 107,
     "ctxt": 0
   },
   "body": [
@@ -22,7 +22,7 @@
       "declare": false,
       "span": {
         "start": 0,
-        "end": 28,
+        "end": 107,
         "ctxt": 0
       },
       "decorators": [],
@@ -80,6 +80,217 @@
                   "ctxt": 0
                 },
                 "kind": "void"
+              }
+            }
+          },
+          "kind": "method",
+          "isStatic": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false
+        },
+        {
+          "type": "ClassMethod",
+          "span": {
+            "start": 31,
+            "end": 63,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 31,
+              "end": 32,
+              "ctxt": 0
+            },
+            "value": "g",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "function": {
+            "params": [],
+            "decorators": [],
+            "span": {
+              "start": 31,
+              "end": 63,
+              "ctxt": 0
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 47,
+                "end": 63,
+                "ctxt": 0
+              },
+              "stmts": [
+                {
+                  "type": "ReturnStatement",
+                  "span": {
+                    "start": 49,
+                    "end": 61,
+                    "ctxt": 0
+                  },
+                  "argument": {
+                    "type": "BooleanLiteral",
+                    "span": {
+                      "start": 56,
+                      "end": 60,
+                      "ctxt": 0
+                    },
+                    "value": true
+                  }
+                }
+              ]
+            },
+            "generator": false,
+            "async": false,
+            "typeParameters": null,
+            "returnType": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 34,
+                "end": 46,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsTypePredicate",
+                "span": {
+                  "start": 36,
+                  "end": 46,
+                  "ctxt": 0
+                },
+                "asserts": false,
+                "paramName": {
+                  "type": "TsThisType",
+                  "span": {
+                    "start": 36,
+                    "end": 40,
+                    "ctxt": 0
+                  }
+                },
+                "typeAnnotation": {
+                  "type": "TsTypeAnnotation",
+                  "span": {
+                    "start": 44,
+                    "end": 46,
+                    "ctxt": 0
+                  },
+                  "typeAnnotation": {
+                    "type": "TsTypeLiteral",
+                    "span": {
+                      "start": 44,
+                      "end": 46,
+                      "ctxt": 0
+                    },
+                    "members": []
+                  }
+                }
+              }
+            }
+          },
+          "kind": "method",
+          "isStatic": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false
+        },
+        {
+          "type": "ClassMethod",
+          "span": {
+            "start": 68,
+            "end": 105,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 68,
+              "end": 69,
+              "ctxt": 0
+            },
+            "value": "h",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "function": {
+            "params": [],
+            "decorators": [],
+            "span": {
+              "start": 68,
+              "end": 105,
+              "ctxt": 0
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 92,
+                "end": 105,
+                "ctxt": 0
+              },
+              "stmts": [
+                {
+                  "type": "ThrowStatement",
+                  "span": {
+                    "start": 94,
+                    "end": 103,
+                    "ctxt": 0
+                  },
+                  "argument": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 100,
+                      "end": 102,
+                      "ctxt": 0
+                    },
+                    "value": "",
+                    "hasEscape": false
+                  }
+                }
+              ]
+            },
+            "generator": false,
+            "async": false,
+            "typeParameters": null,
+            "returnType": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 71,
+                "end": 91,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsTypePredicate",
+                "span": {
+                  "start": 73,
+                  "end": 91,
+                  "ctxt": 0
+                },
+                "asserts": true,
+                "paramName": {
+                  "type": "TsThisType",
+                  "span": {
+                    "start": 81,
+                    "end": 85,
+                    "ctxt": 0
+                  }
+                },
+                "typeAnnotation": {
+                  "type": "TsTypeAnnotation",
+                  "span": {
+                    "start": 89,
+                    "end": 91,
+                    "ctxt": 0
+                  },
+                  "typeAnnotation": {
+                    "type": "TsTypeLiteral",
+                    "span": {
+                      "start": 89,
+                      "end": 91,
+                      "ctxt": 0
+                    },
+                    "members": []
+                  }
+                }
               }
             }
           },
