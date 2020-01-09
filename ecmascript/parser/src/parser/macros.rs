@@ -104,7 +104,7 @@ macro_rules! assert_and_bump {
                 $p.input.cur()
             );
         }
-        let _ = cur!(true)?;
+        let _ = cur!($p, true)?;
         bump!($p);
     }};
 }
