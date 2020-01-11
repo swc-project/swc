@@ -522,7 +522,7 @@
                                   "typeAnnotation": {
                                     "type": "TsTypePredicate",
                                     "span": {
-                                      "start": 370,
+                                      "start": 372,
                                       "end": 396,
                                       "ctxt": 0
                                     },

@@ -407,14 +407,14 @@ impl<'a, I: Tokens> Parser<'a, I> {
         debug_assert!(self.input.syntax().typescript());
 
         self.in_type().parse_with(|p| {
-            let start = cur_pos!(); // todo: the starts below should not include the return_token
-
+            let return_token_start = cur_pos!();
             if !p.input.eat(return_token) {
                 let cur = format!("{:?}", cur!(false).ok());
                 let span = p.input.cur_span();
                 syntax_error!(span, SyntaxError::Expected(return_token, cur))
             }
 
+            let type_pred_start = cur_pos!();
             let type_pred_asserts = is!("asserts") && peeked_is!(IdentRef);
             if type_pred_asserts {
                 assert_and_bump!("asserts");
@@ -432,7 +432,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 None => {
                     return p.parse_ts_type_ann(
                         // eat_colon
-                        false, start,
+                        false,
+                        return_token_start,
                     );
                 }
             };
@@ -444,14 +445,14 @@ impl<'a, I: Tokens> Parser<'a, I> {
             )?;
 
             let node = Box::new(TsType::TsTypePredicate(TsTypePredicate {
-                span: span!(start),
+                span: span!(type_pred_start),
                 asserts: type_pred_asserts,
                 param_name: type_pred_var,
                 type_ann,
             }));
 
             Ok(TsTypeAnn {
-                span: span!(start),
+                span: span!(return_token_start),
                 type_ann: node,
             })
         })

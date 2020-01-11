@@ -71,7 +71,7 @@
           "typeAnnotation": {
             "type": "TsTypePredicate",
             "span": {
-              "start": 8,
+              "start": 10,
               "end": 21,
               "ctxt": 0
             },
