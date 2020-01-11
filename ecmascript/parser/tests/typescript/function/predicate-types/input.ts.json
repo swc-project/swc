@@ -77,7 +77,7 @@
         "typeAnnotation": {
           "type": "TsTypePredicate",
           "span": {
-            "start": 18,
+            "start": 20,
             "end": 32,
             "ctxt": 0
           },
@@ -187,7 +187,7 @@
             "typeAnnotation": {
               "type": "TsTypePredicate",
               "span": {
-                "start": 53,
+                "start": 55,
                 "end": 67,
                 "ctxt": 0
               },
@@ -296,7 +296,7 @@
         "typeAnnotation": {
           "type": "TsTypePredicate",
           "span": {
-            "start": 90,
+            "start": 92,
             "end": 112,
             "ctxt": 0
           },
