@@ -960,33 +960,7 @@ var instance = new SomeClass({
         console.log('CORRECT FUNCTION CALLED');
     }
 });
-instance.call()'use strict';
-var _depJs = require('./dep.js');
-let SomeClass = function() {
-    'use strict';
-    function SomeClass(properties) {
-        _classCallCheck(this, SomeClass);
-        this.props = properties;
-    }
-    _createClass(SomeClass, [{
-            key: 'call',
-            value: function call() {
-                var _props = this.props, myFunction = _props.myFunction;
-                if (myFunction) {
-                    myFunction();
-                } else {
-                    console.log('DID NOT WORK!');
-                }
-            }
-        }]);
-    return SomeClass;
-}();
-var instance = new SomeClass({
-    myFunction: ()=>{
-        console.log('CORRECT FUNCTION CALLED');
-    }
-});
-instance.call();;"
+instance.call()"
 );
 
 test!(
@@ -1022,5 +996,31 @@ let instance = new SomeClass({
 });
 
 instance.call()",
-    ""
+    "'use strict';
+var _depJs = require('./dep.js');
+let SomeClass = function() {
+    'use strict';
+    function SomeClass(properties) {
+        _classCallCheck(this, SomeClass);
+        this.props = properties;
+    }
+    _createClass(SomeClass, [{
+            key: 'call',
+            value: function call() {
+                var _props = this.props, myFunction = _props.myFunction;
+                if (myFunction) {
+                    myFunction();
+                } else {
+                    console.log('DID NOT WORK!');
+                }
+            }
+        }]);
+    return SomeClass;
+}();
+var instance = new SomeClass({
+    myFunction: ()=>{
+        console.log('CORRECT FUNCTION CALLED');
+    }
+});
+instance.call();"
 );
