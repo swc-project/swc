@@ -275,9 +275,9 @@ impl<'a, I: Tokens> Parser<'a, I> {
     }
 
     fn parse_constructor_param(&mut self) -> PResult<'a, PatOrTsParamProp> {
+        let start = cur_pos!();
         let decorators = self.parse_decorators(false)?;
 
-        let start = cur_pos!();
         let (accessibility, readonly) = if self.input.syntax().typescript() {
             let accessibility = self.parse_access_modifier()?;
             (
@@ -290,16 +290,17 @@ impl<'a, I: Tokens> Parser<'a, I> {
         if accessibility == None && !readonly {
             self.parse_formal_param().map(PatOrTsParamProp::from)
         } else {
+            let param = match self.parse_formal_param()? {
+                Pat::Ident(i) => TsParamPropParam::Ident(i),
+                Pat::Assign(a) => TsParamPropParam::Assign(a),
+                node => syntax_error!(node.span(), SyntaxError::TsInvalidParamPropPat),
+            };
             Ok(PatOrTsParamProp::TsParamProp(TsParamProp {
                 span: span!(start),
                 accessibility,
                 readonly,
                 decorators,
-                param: match self.parse_formal_param()? {
-                    Pat::Ident(i) => TsParamPropParam::Ident(i),
-                    Pat::Assign(a) => TsParamPropParam::Assign(a),
-                    node => syntax_error!(node.span(), SyntaxError::TsInvalidParamPropPat),
-                },
+                param,
             }))
         }
     }

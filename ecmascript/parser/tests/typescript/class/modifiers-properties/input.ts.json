@@ -162,7 +162,7 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 103,
+            "start": 96,
             "end": 106,
             "ctxt": 0
           },
@@ -191,7 +191,7 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 121,
+            "start": 111,
             "end": 124,
             "ctxt": 0
           },
@@ -220,7 +220,7 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 137,
+            "start": 129,
             "end": 140,
             "ctxt": 0
           },
@@ -336,7 +336,7 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 230,
+            "start": 223,
             "end": 243,
             "ctxt": 0
           },
@@ -365,7 +365,7 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 255,
+            "start": 248,
             "end": 268,
             "ctxt": 0
           },
@@ -394,7 +394,7 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 280,
+            "start": 273,
             "end": 291,
             "ctxt": 0
           },
@@ -423,7 +423,7 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 303,
+            "start": 296,
             "end": 326,
             "ctxt": 0
           },
@@ -452,7 +452,7 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 338,
+            "start": 331,
             "end": 361,
             "ctxt": 0
           },
@@ -481,7 +481,7 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 373,
+            "start": 366,
             "end": 394,
             "ctxt": 0
           },

@@ -68,7 +68,7 @@
         {
           "type": "ClassMethod",
           "span": {
-            "start": 37,
+            "start": 30,
             "end": 48,
             "ctxt": 0
           },
@@ -87,7 +87,7 @@
             "params": [],
             "decorators": [],
             "span": {
-              "start": 37,
+              "start": 30,
               "end": 48,
               "ctxt": 0
             },
@@ -106,7 +106,7 @@
         {
           "type": "ClassMethod",
           "span": {
-            "start": 63,
+            "start": 53,
             "end": 74,
             "ctxt": 0
           },
@@ -125,7 +125,7 @@
             "params": [],
             "decorators": [],
             "span": {
-              "start": 63,
+              "start": 53,
               "end": 74,
               "ctxt": 0
             },
@@ -144,7 +144,7 @@
         {
           "type": "ClassMethod",
           "span": {
-            "start": 87,
+            "start": 79,
             "end": 98,
             "ctxt": 0
           },
@@ -163,7 +163,7 @@
             "params": [],
             "decorators": [],
             "span": {
-              "start": 87,
+              "start": 79,
               "end": 98,
               "ctxt": 0
             },

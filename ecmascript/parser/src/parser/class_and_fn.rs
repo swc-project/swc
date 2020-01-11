@@ -295,9 +295,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
     }
 
     fn parse_class_member(&mut self) -> PResult<'a, ClassMember> {
-        let decorators = self.parse_decorators(false)?;
-
         let start = cur_pos!();
+        let decorators = self.parse_decorators(false)?;
 
         if eat!("declare") {
             self.emit_err(self.input.prev_span(), SyntaxError::TS1031);
@@ -364,19 +363,18 @@ impl<'a, I: Tokens> Parser<'a, I> {
             }
         }
 
-        self.parse_class_member_with_is_static(accessibility, static_token, decorators)
+        self.parse_class_member_with_is_static(start, accessibility, static_token, decorators)
     }
 
     #[allow(clippy::cognitive_complexity)]
     fn parse_class_member_with_is_static(
         &mut self,
+        start: BytePos,
         accessibility: Option<Accessibility>,
         static_token: Option<Span>,
         decorators: Vec<Decorator>,
     ) -> PResult<'a, ClassMember> {
         let is_static = static_token.is_some();
-        let start = static_token.map(|s| s.lo()).unwrap_or(cur_pos!());
-
         let modifier = self.parse_ts_modifier(&["abstract", "readonly"])?;
         let (is_abstract, readonly) = match modifier {
             Some("abstract") => (true, self.parse_ts_modifier(&["readonly"])?.is_some()),

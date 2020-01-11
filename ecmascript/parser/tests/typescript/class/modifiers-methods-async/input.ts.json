@@ -114,7 +114,7 @@
         {
           "type": "ClassMethod",
           "span": {
-            "start": 120,
+            "start": 113,
             "end": 141,
             "ctxt": 0
           },
@@ -133,7 +133,7 @@
             "params": [],
             "decorators": [],
             "span": {
-              "start": 120,
+              "start": 113,
               "end": 141,
               "ctxt": 0
             },
@@ -152,7 +152,7 @@
         {
           "type": "ClassMethod",
           "span": {
-            "start": 153,
+            "start": 146,
             "end": 174,
             "ctxt": 0
           },
@@ -171,7 +171,7 @@
             "params": [],
             "decorators": [],
             "span": {
-              "start": 153,
+              "start": 146,
               "end": 174,
               "ctxt": 0
             },
@@ -198,7 +198,7 @@
         {
           "type": "ClassMethod",
           "span": {
-            "start": 187,
+            "start": 180,
             "end": 200,
             "ctxt": 0
           },
@@ -217,7 +217,7 @@
             "params": [],
             "decorators": [],
             "span": {
-              "start": 187,
+              "start": 180,
               "end": 200,
               "ctxt": 0
             },
@@ -244,7 +244,7 @@
         {
           "type": "ClassMethod",
           "span": {
-            "start": 215,
+            "start": 205,
             "end": 228,
             "ctxt": 0
           },
@@ -263,7 +263,7 @@
             "params": [],
             "decorators": [],
             "span": {
-              "start": 215,
+              "start": 205,
               "end": 228,
               "ctxt": 0
             },
@@ -290,7 +290,7 @@
         {
           "type": "ClassMethod",
           "span": {
-            "start": 241,
+            "start": 233,
             "end": 254,
             "ctxt": 0
           },
@@ -309,7 +309,7 @@
             "params": [],
             "decorators": [],
             "span": {
-              "start": 241,
+              "start": 233,
               "end": 254,
               "ctxt": 0
             },

@@ -30,7 +30,7 @@
         {
           "type": "ClassMethod",
           "span": {
-            "start": 21,
+            "start": 14,
             "end": 36,
             "ctxt": 0
           },
@@ -49,7 +49,7 @@
             "params": [],
             "decorators": [],
             "span": {
-              "start": 21,
+              "start": 14,
               "end": 36,
               "ctxt": 0
             },
