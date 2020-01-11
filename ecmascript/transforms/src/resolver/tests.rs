@@ -1,5 +1,8 @@
 use super::*;
-use crate::compat::es2015::block_scoping;
+use crate::{
+    compat::es2015::{block_scoping, destructuring, Classes},
+    modules::common_js::common_js,
+};
 use swc_common::chain;
 use swc_ecma_parser::{EsConfig, Syntax};
 
@@ -908,4 +911,116 @@ class A extends C {
   }
 }
 "
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    issue_578_1,
+    "
+import { myFunction } from './dep.js'
+
+class SomeClass {
+  constructor(properties) {
+    this.props = properties;
+  }
+  call () {
+    const {myFunction} = this.props
+    if (myFunction) {
+      myFunction()
+    } else {
+      console.log('DID NOT WORK!')
+    }
+  }
+}
+
+let instance = new SomeClass({
+  myFunction: () => {
+    console.log('CORRECT FUNCTION CALLED')
+  }
+});
+
+instance.call()",
+    "import { myFunction } from './dep.js';
+class SomeClass{
+    constructor(properties){
+        this.props = properties;
+    }
+     call() {
+        var { myFunction: myFunction1  } = this.props;
+        if (myFunction1) {
+            myFunction1();
+        } else {
+            console.log('DID NOT WORK!');
+        }
+    }
+}
+var instance = new SomeClass({
+    myFunction: ()=>{
+        console.log('CORRECT FUNCTION CALLED');
+    }
+});
+instance.call()'use strict';
+var _depJs = require('./dep.js');
+let SomeClass = function() {
+    'use strict';
+    function SomeClass(properties) {
+        _classCallCheck(this, SomeClass);
+        this.props = properties;
+    }
+    _createClass(SomeClass, [{
+            key: 'call',
+            value: function call() {
+                var _props = this.props, myFunction = _props.myFunction;
+                if (myFunction) {
+                    myFunction();
+                } else {
+                    console.log('DID NOT WORK!');
+                }
+            }
+        }]);
+    return SomeClass;
+}();
+var instance = new SomeClass({
+    myFunction: ()=>{
+        console.log('CORRECT FUNCTION CALLED');
+    }
+});
+instance.call();;"
+);
+
+test!(
+    syntax(),
+    |_| chain!(
+        tr(),
+        Classes::default(),
+        destructuring(Default::default()),
+        common_js(Default::default())
+    ),
+    issue_578_2,
+    "
+import { myFunction } from './dep.js'
+
+class SomeClass {
+  constructor(properties) {
+    this.props = properties;
+  }
+  call () {
+    const {myFunction} = this.props
+    if (myFunction) {
+      myFunction()
+    } else {
+      console.log('DID NOT WORK!')
+    }
+  }
+}
+
+let instance = new SomeClass({
+  myFunction: () => {
+    console.log('CORRECT FUNCTION CALLED')
+  }
+});
+
+instance.call()",
+    ""
 );
