@@ -394,6 +394,13 @@ impl Fold<Expr> for Actual {
         let expr = validate!(expr);
 
         match expr {
+            Expr::Paren(ParenExpr { span, expr }) => {
+                return Expr::Paren(ParenExpr {
+                    span,
+                    expr: expr.fold_with(self),
+                })
+            }
+
             // Optimization for iife.
             Expr::Call(CallExpr {
                 span,
