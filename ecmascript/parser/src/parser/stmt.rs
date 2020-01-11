@@ -72,13 +72,14 @@ impl<'a, I: Tokens> Parser<'a, I> {
         Self: StmtLikeParser<'a, Type>,
         Type: IsDirective + From<Stmt>,
     {
+        let start = cur_pos!();
         let decorators = self.parse_decorators(true)?;
 
         if is_one_of!("import", "export") {
             return self.handle_import_export(top_level, decorators);
         }
 
-        self.parse_stmt_internal(include_decl, top_level, decorators)
+        self.parse_stmt_internal(start, include_decl, top_level, decorators)
             .map(From::from)
     }
 
@@ -86,12 +87,11 @@ impl<'a, I: Tokens> Parser<'a, I> {
     #[allow(clippy::cognitive_complexity)]
     fn parse_stmt_internal(
         &mut self,
+        start: BytePos,
         include_decl: bool,
         top_level: bool,
         decorators: Vec<Decorator>,
     ) -> PResult<'a, Stmt> {
-        let start = cur_pos!();
-
         if self.input.syntax().typescript() && is!("const") && peeked_is!("enum") {
             assert_and_bump!("const");
             let _ = cur!(true)?;
