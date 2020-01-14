@@ -23,7 +23,7 @@
         "opening": {
           "type": "JSXOpeningFragment",
           "span": {
-            "start": 2,
+            "start": 0,
             "end": 3,
             "ctxt": 0
           }
@@ -60,7 +60,7 @@
                 "optional": false
               },
               "span": {
-                "start": 7,
+                "start": 6,
                 "end": 12,
                 "ctxt": 0
               },
@@ -83,7 +83,7 @@
             "closing": {
               "type": "JSXClosingElement",
               "span": {
-                "start": 24,
+                "start": 22,
                 "end": 29,
                 "ctxt": 0
               },
@@ -131,7 +131,7 @@
                 "optional": false
               },
               "span": {
-                "start": 33,
+                "start": 32,
                 "end": 37,
                 "ctxt": 0
               },
@@ -154,7 +154,7 @@
             "closing": {
               "type": "JSXClosingElement",
               "span": {
-                "start": 42,
+                "start": 40,
                 "end": 46,
                 "ctxt": 0
               },
@@ -185,7 +185,7 @@
         "closing": {
           "type": "JSXClosingFragment",
           "span": {
-            "start": 49,
+            "start": 47,
             "end": 50,
             "ctxt": 0
           }

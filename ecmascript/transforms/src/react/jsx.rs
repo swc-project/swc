@@ -178,9 +178,11 @@ impl Jsx {
             }
             JSXElementChild::JSXExprContainer(JSXExprContainer {
                 expr: JSXExpr::Expr(e),
+                ..
             }) => e.as_arg(),
             JSXElementChild::JSXExprContainer(JSXExprContainer {
                 expr: JSXExpr::JSXEmptyExpr(..),
+                ..
             }) => return None,
             JSXElementChild::JSXElement(el) => self.jsx_elem_to_expr(*el).as_arg(),
             JSXElementChild::JSXFragment(el) => self.jsx_frag_to_expr(el).as_arg(),

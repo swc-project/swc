@@ -34,7 +34,7 @@
             "optional": false
           },
           "span": {
-            "start": 1,
+            "start": 0,
             "end": 32,
             "ctxt": 0
           },
@@ -87,7 +87,7 @@
         "closing": {
           "type": "JSXClosingElement",
           "span": {
-            "start": 43,
+            "start": 41,
             "end": 51,
             "ctxt": 0
           },

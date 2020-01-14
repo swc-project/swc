@@ -34,7 +34,7 @@
             "optional": false
           },
           "span": {
-            "start": 1,
+            "start": 0,
             "end": 40,
             "ctxt": 0
           },

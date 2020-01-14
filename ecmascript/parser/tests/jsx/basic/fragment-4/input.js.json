@@ -23,7 +23,7 @@
         "opening": {
           "type": "JSXOpeningFragment",
           "span": {
-            "start": 1,
+            "start": 0,
             "end": 2,
             "ctxt": 0
           }
@@ -49,7 +49,7 @@
             "opening": {
               "type": "JSXOpeningFragment",
               "span": {
-                "start": 6,
+                "start": 5,
                 "end": 7,
                 "ctxt": 0
               }
@@ -75,7 +75,7 @@
                 "opening": {
                   "type": "JSXOpeningFragment",
                   "span": {
-                    "start": 13,
+                    "start": 12,
                     "end": 14,
                     "ctxt": 0
                   }
@@ -95,7 +95,7 @@
                 "closing": {
                   "type": "JSXClosingFragment",
                   "span": {
-                    "start": 38,
+                    "start": 36,
                     "end": 39,
                     "ctxt": 0
                   }
@@ -115,7 +115,7 @@
             "closing": {
               "type": "JSXClosingFragment",
               "span": {
-                "start": 44,
+                "start": 42,
                 "end": 45,
                 "ctxt": 0
               }
@@ -135,7 +135,7 @@
         "closing": {
           "type": "JSXClosingFragment",
           "span": {
-            "start": 48,
+            "start": 46,
             "end": 49,
             "ctxt": 0
           }

@@ -41,7 +41,7 @@
               "optional": false
             },
             "span": {
-              "start": 8,
+              "start": 7,
               "end": 12,
               "ctxt": 0
             },
@@ -62,6 +62,11 @@
             },
             {
               "type": "JSXExpressionContainer",
+              "span": {
+                "start": 21,
+                "end": 169,
+                "ctxt": 0
+              },
               "expression": {
                 "type": "ConditionalExpression",
                 "span": {
@@ -108,7 +113,7 @@
                         "optional": false
                       },
                       "span": {
-                        "start": 65,
+                        "start": 64,
                         "end": 68,
                         "ctxt": 0
                       },
@@ -131,7 +136,7 @@
                     "closing": {
                       "type": "JSXClosingElement",
                       "span": {
-                        "start": 78,
+                        "start": 76,
                         "end": 81,
                         "ctxt": 0
                       },
@@ -177,7 +182,7 @@
                         "optional": false
                       },
                       "span": {
-                        "start": 119,
+                        "start": 118,
                         "end": 122,
                         "ctxt": 0
                       },
@@ -200,7 +205,7 @@
                     "closing": {
                       "type": "JSXClosingElement",
                       "span": {
-                        "start": 154,
+                        "start": 152,
                         "end": 157,
                         "ctxt": 0
                       },
@@ -234,7 +239,7 @@
           "closing": {
             "type": "JSXClosingElement",
             "span": {
-              "start": 176,
+              "start": 174,
               "end": 180,
               "ctxt": 0
             },

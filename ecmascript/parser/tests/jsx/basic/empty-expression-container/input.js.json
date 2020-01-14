@@ -34,7 +34,7 @@
             "optional": false
           },
           "span": {
-            "start": 1,
+            "start": 0,
             "end": 3,
             "ctxt": 0
           },
@@ -45,6 +45,11 @@
         "children": [
           {
             "type": "JSXExpressionContainer",
+            "span": {
+              "start": 3,
+              "end": 5,
+              "ctxt": 0
+            },
             "expression": {
               "type": "JSXEmptyExpression",
               "span": {
@@ -58,7 +63,7 @@
         "closing": {
           "type": "JSXClosingElement",
           "span": {
-            "start": 7,
+            "start": 5,
             "end": 9,
             "ctxt": 0
           },

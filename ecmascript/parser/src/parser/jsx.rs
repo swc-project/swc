@@ -76,7 +76,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
         match *cur!(true)? {
             tok!('{') => {
-                let node = self.parse_jsx_expr_container()?;
+                let node = self.parse_jsx_expr_container(start)?;
                 match node.expr {
                     JSXExpr::JSXEmptyExpr(..) => {
                         syntax_error!(span!(start), SyntaxError::EmptyJSXAttr)
@@ -111,11 +111,17 @@ impl<'a, I: Tokens> Parser<'a, I> {
         let expr = self.parse_expr()?;
         expect!('}');
 
-        Ok(JSXSpreadChild { expr })
+        Ok(JSXSpreadChild {
+            span: span!(start),
+            expr,
+        })
     }
 
     /// Parses JSX expression enclosed into curly brackets.
-    pub(super) fn parse_jsx_expr_container(&mut self) -> PResult<'a, JSXExprContainer> {
+    pub(super) fn parse_jsx_expr_container(
+        &mut self,
+        start: BytePos,
+    ) -> PResult<'a, JSXExprContainer> {
         debug_assert!(self.input.syntax().jsx());
 
         let start = cur_pos!();
@@ -126,7 +132,10 @@ impl<'a, I: Tokens> Parser<'a, I> {
             self.parse_expr().map(JSXExpr::Expr)?
         };
         expect!('}');
-        Ok(JSXExprContainer { expr })
+        Ok(JSXExprContainer {
+            span: span!(start),
+            expr,
+        })
     }
 
     /// Parses following JSX attribute name-value pair.
@@ -161,28 +170,26 @@ impl<'a, I: Tokens> Parser<'a, I> {
     /// Parses JSX opening tag starting after "<".
     pub(super) fn parse_jsx_opening_element_at(
         &mut self,
-        start_pos: BytePos,
+        start: BytePos,
     ) -> PResult<'a, Either<JSXOpeningFragment, JSXOpeningElement>> {
         debug_assert!(self.input.syntax().jsx());
-
-        let start = cur_pos!();
 
         if eat!(JSXTagEnd) {
             return Ok(Either::Left(JSXOpeningFragment { span: span!(start) }));
         }
 
         let name = self.parse_jsx_element_name()?;
-        self.parse_jsx_opening_element_after_name(name)
+        self.parse_jsx_opening_element_after_name(start, name)
             .map(Either::Right)
     }
 
     /// `jsxParseOpeningElementAfterName`
     pub(super) fn parse_jsx_opening_element_after_name(
         &mut self,
+        start: BytePos,
         name: JSXElementName,
     ) -> PResult<'a, JSXOpeningElement> {
         debug_assert!(self.input.syntax().jsx());
-        let start = name.span().lo();
 
         let type_args = if self.input.syntax().typescript() && is!('<') {
             self.try_parse_ts(|p| p.parse_ts_type_args().map(Some))
@@ -215,11 +222,9 @@ impl<'a, I: Tokens> Parser<'a, I> {
     /// Parses JSX closing tag starting after "</".
     fn parse_jsx_closing_element_at(
         &mut self,
-        start_pos: BytePos,
+        start: BytePos,
     ) -> PResult<'a, Either<JSXClosingFragment, JSXClosingElement>> {
         debug_assert!(self.input.syntax().jsx());
-
-        let start = cur_pos!();
 
         if eat!(JSXTagEnd) {
             return Ok(Either::Left(JSXClosingFragment { span: span!(start) }));
@@ -277,7 +282,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                                 assert_and_bump!('/');
 
                                 closing_element =
-                                    p.parse_jsx_closing_element_at(start_pos).map(Some)?;
+                                    p.parse_jsx_closing_element_at(start).map(Some)?;
                                 break 'contents;
                             }
 
@@ -290,12 +295,15 @@ impl<'a, I: Tokens> Parser<'a, I> {
                             children.push(p.parse_jsx_text().map(JSXElementChild::from)?)
                         }
                         tok!('{') => {
+                            let start = cur_pos!();
                             if peeked_is!("...") {
                                 children
                                     .push(p.parse_jsx_spread_child().map(JSXElementChild::from)?);
                             } else {
-                                children
-                                    .push(p.parse_jsx_expr_container().map(JSXElementChild::from)?);
+                                children.push(
+                                    p.parse_jsx_expr_container(start)
+                                        .map(JSXElementChild::from)?,
+                                );
                             }
                         }
                         _ => unexpected!(),

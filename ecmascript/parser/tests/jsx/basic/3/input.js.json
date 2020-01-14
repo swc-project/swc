@@ -34,7 +34,7 @@
             "optional": false
           },
           "span": {
-            "start": 1,
+            "start": 0,
             "end": 15,
             "ctxt": 0
           },
@@ -99,6 +99,11 @@
           },
           {
             "type": "JSXExpressionContainer",
+            "span": {
+              "start": 16,
+              "end": 23,
+              "ctxt": 0
+            },
             "expression": {
               "type": "Identifier",
               "span": {
@@ -142,7 +147,7 @@
                 "optional": false
               },
               "span": {
-                "start": 25,
+                "start": 24,
                 "end": 27,
                 "ctxt": 0
               },
@@ -172,7 +177,7 @@
                     "optional": false
                   },
                   "span": {
-                    "start": 28,
+                    "start": 27,
                     "end": 32,
                     "ctxt": 0
                   },
@@ -187,7 +192,7 @@
             "closing": {
               "type": "JSXClosingElement",
               "span": {
-                "start": 34,
+                "start": 32,
                 "end": 36,
                 "ctxt": 0
               },
@@ -208,7 +213,7 @@
         "closing": {
           "type": "JSXClosingElement",
           "span": {
-            "start": 38,
+            "start": 36,
             "end": 40,
             "ctxt": 0
           },

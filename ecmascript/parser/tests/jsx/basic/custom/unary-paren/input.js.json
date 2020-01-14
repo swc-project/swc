@@ -150,7 +150,7 @@
                     "optional": false
                   },
                   "span": {
-                    "start": 87,
+                    "start": 86,
                     "end": 91,
                     "ctxt": 0
                   },
@@ -190,7 +190,7 @@
                         "optional": false
                       },
                       "span": {
-                        "start": 99,
+                        "start": 98,
                         "end": 102,
                         "ctxt": 0
                       },
@@ -213,7 +213,7 @@
                     "closing": {
                       "type": "JSXClosingElement",
                       "span": {
-                        "start": 110,
+                        "start": 108,
                         "end": 113,
                         "ctxt": 0
                       },
@@ -242,6 +242,11 @@
                   },
                   {
                     "type": "JSXExpressionContainer",
+                    "span": {
+                      "start": 120,
+                      "end": 261,
+                      "ctxt": 0
+                    },
                     "expression": {
                       "type": "ConditionalExpression",
                       "span": {
@@ -288,7 +293,7 @@
                               "optional": false
                             },
                             "span": {
-                              "start": 155,
+                              "start": 154,
                               "end": 159,
                               "ctxt": 0
                             },
@@ -311,7 +316,7 @@
                           "closing": {
                             "type": "JSXClosingElement",
                             "span": {
-                              "start": 169,
+                              "start": 167,
                               "end": 173,
                               "ctxt": 0
                             },
@@ -357,7 +362,7 @@
                               "optional": false
                             },
                             "span": {
-                              "start": 201,
+                              "start": 200,
                               "end": 205,
                               "ctxt": 0
                             },
@@ -380,7 +385,7 @@
                           "closing": {
                             "type": "JSXClosingElement",
                             "span": {
-                              "start": 237,
+                              "start": 235,
                               "end": 241,
                               "ctxt": 0
                             },
@@ -414,7 +419,7 @@
                 "closing": {
                   "type": "JSXClosingElement",
                   "span": {
-                    "start": 268,
+                    "start": 266,
                     "end": 272,
                     "ctxt": 0
                   },

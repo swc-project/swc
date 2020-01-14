@@ -23,7 +23,7 @@
         "opening": {
           "type": "JSXOpeningFragment",
           "span": {
-            "start": 1,
+            "start": 0,
             "end": 2,
             "ctxt": 0
           }
@@ -32,7 +32,7 @@
         "closing": {
           "type": "JSXClosingFragment",
           "span": {
-            "start": 4,
+            "start": 2,
             "end": 5,
             "ctxt": 0
           }
