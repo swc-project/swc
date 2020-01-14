@@ -161,28 +161,26 @@ impl<'a, I: Tokens> Parser<'a, I> {
     /// Parses JSX opening tag starting after "<".
     pub(super) fn parse_jsx_opening_element_at(
         &mut self,
-        start_pos: BytePos,
+        start: BytePos,
     ) -> PResult<'a, Either<JSXOpeningFragment, JSXOpeningElement>> {
         debug_assert!(self.input.syntax().jsx());
-
-        let start = cur_pos!();
 
         if eat!(JSXTagEnd) {
             return Ok(Either::Left(JSXOpeningFragment { span: span!(start) }));
         }
 
         let name = self.parse_jsx_element_name()?;
-        self.parse_jsx_opening_element_after_name(name)
+        self.parse_jsx_opening_element_after_name(start, name)
             .map(Either::Right)
     }
 
     /// `jsxParseOpeningElementAfterName`
     pub(super) fn parse_jsx_opening_element_after_name(
         &mut self,
+        start: BytePos,
         name: JSXElementName,
     ) -> PResult<'a, JSXOpeningElement> {
         debug_assert!(self.input.syntax().jsx());
-        let start = name.span().lo();
 
         let type_args = if self.input.syntax().typescript() && is!('<') {
             self.try_parse_ts(|p| p.parse_ts_type_args().map(Some))
@@ -215,11 +213,9 @@ impl<'a, I: Tokens> Parser<'a, I> {
     /// Parses JSX closing tag starting after "</".
     fn parse_jsx_closing_element_at(
         &mut self,
-        start_pos: BytePos,
+        start: BytePos,
     ) -> PResult<'a, Either<JSXClosingFragment, JSXClosingElement>> {
         debug_assert!(self.input.syntax().jsx());
-
-        let start = cur_pos!();
 
         if eat!(JSXTagEnd) {
             return Ok(Either::Left(JSXClosingFragment { span: span!(start) }));
@@ -277,7 +273,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                                 assert_and_bump!('/');
 
                                 closing_element =
-                                    p.parse_jsx_closing_element_at(start_pos).map(Some)?;
+                                    p.parse_jsx_closing_element_at(start).map(Some)?;
                                 break 'contents;
                             }
 

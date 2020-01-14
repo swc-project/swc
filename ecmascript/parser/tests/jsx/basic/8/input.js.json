@@ -34,7 +34,7 @@
             "optional": false
           },
           "span": {
-            "start": 1,
+            "start": 0,
             "end": 27,
             "ctxt": 0
           },
@@ -96,7 +96,7 @@
                       "optional": false
                     },
                     "span": {
-                      "start": 11,
+                      "start": 10,
                       "end": 15,
                       "ctxt": 0
                     },
@@ -128,7 +128,7 @@
                       "optional": false
                     },
                     "span": {
-                      "start": 19,
+                      "start": 18,
                       "end": 23,
                       "ctxt": 0
                     },
