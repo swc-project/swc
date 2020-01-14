@@ -111,7 +111,10 @@ impl<'a, I: Tokens> Parser<'a, I> {
         let expr = self.parse_expr()?;
         expect!('}');
 
-        Ok(JSXSpreadChild { expr })
+        Ok(JSXSpreadChild {
+            span: span!(start),
+            expr,
+        })
     }
 
     /// Parses JSX expression enclosed into curly brackets.

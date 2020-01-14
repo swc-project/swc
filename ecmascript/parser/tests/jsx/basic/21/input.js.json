@@ -75,6 +75,11 @@
           },
           {
             "type": "JSXSpreadChild",
+            "span": {
+              "start": 13,
+              "end": 26,
+              "ctxt": 0
+            },
             "expression": {
               "type": "Identifier",
               "span": {
@@ -108,6 +113,11 @@
           },
           {
             "type": "JSXSpreadChild",
+            "span": {
+              "start": 29,
+              "end": 35,
+              "ctxt": 0
+            },
             "expression": {
               "type": "Identifier",
               "span": {
