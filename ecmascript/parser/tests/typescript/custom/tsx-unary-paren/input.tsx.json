@@ -62,6 +62,11 @@
             },
             {
               "type": "JSXExpressionContainer",
+              "span": {
+                "start": 21,
+                "end": 169,
+                "ctxt": 0
+              },
               "expression": {
                 "type": "ConditionalExpression",
                 "span": {

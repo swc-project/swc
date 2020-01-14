@@ -216,6 +216,11 @@
             "children": [
               {
                 "type": "JSXExpressionContainer",
+                "span": {
+                  "start": 36,
+                  "end": 42,
+                  "ctxt": 0
+                },
                 "expression": {
                   "type": "MemberExpression",
                   "span": {

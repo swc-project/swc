@@ -102,6 +102,11 @@
           },
           {
             "type": "JSXExpressionContainer",
+            "span": {
+              "start": 30,
+              "end": 56,
+              "ctxt": 0
+            },
             "expression": {
               "type": "StringLiteral",
               "span": {

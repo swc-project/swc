@@ -46,8 +46,8 @@ pub struct JSXEmptyExpr {
 
 #[ast_node("JSXExpressionContainer")]
 pub struct JSXExprContainer {
+    pub span: Span,
     #[serde(rename = "expression")]
-    #[span]
     pub expr: JSXExpr,
 }
 

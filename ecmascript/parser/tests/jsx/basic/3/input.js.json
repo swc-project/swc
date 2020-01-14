@@ -99,6 +99,11 @@
           },
           {
             "type": "JSXExpressionContainer",
+            "span": {
+              "start": 16,
+              "end": 23,
+              "ctxt": 0
+            },
             "expression": {
               "type": "Identifier",
               "span": {

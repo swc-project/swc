@@ -45,6 +45,11 @@
         "children": [
           {
             "type": "JSXExpressionContainer",
+            "span": {
+              "start": 3,
+              "end": 28,
+              "ctxt": 0
+            },
             "expression": {
               "type": "JSXEmptyExpression",
               "span": {

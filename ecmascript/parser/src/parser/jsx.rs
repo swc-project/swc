@@ -76,7 +76,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
         match *cur!(true)? {
             tok!('{') => {
-                let node = self.parse_jsx_expr_container()?;
+                let node = self.parse_jsx_expr_container(start)?;
                 match node.expr {
                     JSXExpr::JSXEmptyExpr(..) => {
                         syntax_error!(span!(start), SyntaxError::EmptyJSXAttr)
@@ -115,7 +115,10 @@ impl<'a, I: Tokens> Parser<'a, I> {
     }
 
     /// Parses JSX expression enclosed into curly brackets.
-    pub(super) fn parse_jsx_expr_container(&mut self) -> PResult<'a, JSXExprContainer> {
+    pub(super) fn parse_jsx_expr_container(
+        &mut self,
+        start: BytePos,
+    ) -> PResult<'a, JSXExprContainer> {
         debug_assert!(self.input.syntax().jsx());
 
         let start = cur_pos!();
@@ -126,7 +129,10 @@ impl<'a, I: Tokens> Parser<'a, I> {
             self.parse_expr().map(JSXExpr::Expr)?
         };
         expect!('}');
-        Ok(JSXExprContainer { expr })
+        Ok(JSXExprContainer {
+            span: span!(start),
+            expr,
+        })
     }
 
     /// Parses following JSX attribute name-value pair.
@@ -286,12 +292,15 @@ impl<'a, I: Tokens> Parser<'a, I> {
                             children.push(p.parse_jsx_text().map(JSXElementChild::from)?)
                         }
                         tok!('{') => {
+                            let start = cur_pos!();
                             if peeked_is!("...") {
                                 children
                                     .push(p.parse_jsx_spread_child().map(JSXElementChild::from)?);
                             } else {
-                                children
-                                    .push(p.parse_jsx_expr_container().map(JSXElementChild::from)?);
+                                children.push(
+                                    p.parse_jsx_expr_container(start)
+                                        .map(JSXElementChild::from)?,
+                                );
                             }
                         }
                         _ => unexpected!(),

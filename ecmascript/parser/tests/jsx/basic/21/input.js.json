@@ -89,6 +89,11 @@
           },
           {
             "type": "JSXExpressionContainer",
+            "span": {
+              "start": 26,
+              "end": 29,
+              "ctxt": 0
+            },
             "expression": {
               "type": "Identifier",
               "span": {
