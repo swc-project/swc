@@ -7,7 +7,8 @@ pub use self::{
     pos::*,
     source_map::{FileLines, FileLoader, FileName, FilePathMapping, SourceMap, SpanSnippetError},
 };
-pub use ast_node::{ast_node, DeserializeEnum, Fold, FromVariant, Spanned};
+pub use ast_node::{ast_node, DeserializeEnum, Fold, Spanned};
+pub use from_variant::FromVariant;
 use serde::Serialize;
 use std::fmt::Debug;
 

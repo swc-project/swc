@@ -1,8 +1,22 @@
-use pmutil::{smart_quote, Quote};
+use pmutil::{smart_quote, Quote, ToTokensExt};
 use swc_macros_common::prelude::*;
 use syn::*;
 
-pub fn derive(
+#[proc_macro_derive(FromVariant)]
+pub fn derive_from_variant(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
+    let input = parse::<DeriveInput>(input).expect("failed to parse input as DeriveInput");
+
+    let item = derive(input)
+        .into_iter()
+        .fold(TokenStream::new(), |mut t, item| {
+            item.to_tokens(&mut t);
+            t
+        });
+
+    print("derive(FromVariant)", item.dump())
+}
+
+fn derive(
     DeriveInput {
         generics,
         data,

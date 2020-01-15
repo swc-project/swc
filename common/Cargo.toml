@@ -1,6 +1,6 @@
 [package]
 name = "swc_common"
-version = "0.4.5"
+version = "0.4.6"
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 license = "Apache-2.0/MIT"
 repository = "https://github.com/swc-project/swc.git"
@@ -15,7 +15,8 @@ fold = ["ast_node/fold"]
 
 
 [dependencies]
-ast_node = { version = "0.5", path = "../macros/ast_node" }
+ast_node = { version = "0.6", path = "../macros/ast_node" }
+from_variant = { version = "0.1", path = "../macros/from_variant" }
 string_cache = "0.8"
 chashmap = "2.2"
 either = "1.5"
@@ -28,3 +29,7 @@ parking_lot = "0.7.1"
 hashbrown = "0.6"
 termcolor = "1.0"
 serde = { version = "1", features = ["derive"] }
+
+
+[dev-dependencies]
+serde_json = "1"
