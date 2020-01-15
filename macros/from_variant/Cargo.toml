@@ -1,24 +1,19 @@
 [package]
-name = "ast_node"
-version = "0.6.0"
+name = "from_variant"
+version = "0.1.0"
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
+edition = "2018"
 license = "Apache-2.0/MIT"
 repository = "https://github.com/swc-project/swc.git"
-documentation = "https://swc-project.github.io/rustdoc/ast_node/"
-description = "Macros for ast nodes."
-edition = "2018"
+documentation = "https://swc-project.github.io/rustdoc/from_variant/"
+description = "Automatically derive From impls for enums"
 
 [lib]
 proc-macro = true
 
-[features]
-default = []
-# Requires nightly.
-fold = []
-
 [dependencies]
 swc_macros_common = { version = "0.3", path = "../common" }
-pmutil = "0.5.1"
+pmutil = "0.5.3"
 proc-macro2 = "1"
 quote = "1"
 darling = "0.10"
@@ -26,4 +21,5 @@ darling = "0.10"
 [dependencies.syn]
 version = "1"
 features = ["derive", "fold", "parsing", "printing"]
+
 

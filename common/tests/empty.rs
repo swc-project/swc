@@ -1,4 +1,4 @@
-use ast_node::*;
+use swc_common::*;
 
 #[derive(Fold)]
 pub struct Struct {}

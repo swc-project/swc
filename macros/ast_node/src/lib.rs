@@ -10,7 +10,6 @@ use syn::{self, *};
 mod ast_node_macro;
 mod enum_deserialize;
 mod fold;
-mod from_variant;
 mod spanned;
 mod visit;
 
@@ -59,21 +58,6 @@ pub fn derive_spanned(input: proc_macro::TokenStream) -> proc_macro::TokenStream
         &format!("IMPL_SPANNED_FOR_{}", name),
         item.dump(),
     )
-}
-
-#[proc_macro_derive(FromVariant)]
-pub fn derive_from_variant(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
-    let input = parse::<DeriveInput>(input).expect("failed to parse input as DeriveInput");
-
-    let item =
-        self::from_variant::derive(input)
-            .into_iter()
-            .fold(TokenStream::new(), |mut t, item| {
-                item.to_tokens(&mut t);
-                t
-            });
-
-    print("derive(FromVariant)", item.dump())
 }
 
 #[proc_macro_derive(DeserializeEnum, attributes(tag))]
