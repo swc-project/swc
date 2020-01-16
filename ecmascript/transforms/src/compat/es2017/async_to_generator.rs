@@ -418,7 +418,7 @@ impl Fold<Expr> for Actual {
                 args,
                 type_args,
             }) => {
-                if !args.is_empty() || !fn_expr.function.is_async {
+                if !fn_expr.function.is_async {
                     return Expr::Call(CallExpr {
                         span,
                         callee: ExprOrSuper::Expr(box Expr::Fn(fn_expr)),
