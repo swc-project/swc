@@ -1,4 +1,4 @@
-extern crate proc_macro
+extern crate proc_macro;
 
 use pmutil::{smart_quote, Quote, ToTokensExt};
 use swc_macros_common::prelude::*;
