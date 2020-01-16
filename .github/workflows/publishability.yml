@@ -28,17 +28,17 @@ jobs:
       - name: Check swc_common
         run: (cd common && cargo +stable publish --dry-run)
 
-      - name: Check swc_ecma_ast
-        run: (cd ecmascript/ast && cargo +stable publish --dry-run)
-
-      - name: Check swc_ecma_parser
-        run: (cd ecmascript/parser && cargo +stable publish --dry-run)
-
-      - name: Check swc_ecma_codegen
-        run: (cd ecmascript/codegen && cargo +stable publish --dry-run)
-
-      - name: Check swc_ecma_utils (nightly only)
-        run: (cd ecmascript/utils && cargo publish --dry-run)
-
-      - name: Check swc_ecma_transforms (nightly only)
-        run: (cd ecmascript/utils && cargo publish --dry-run)
+#      - name: Check swc_ecma_ast
+#        run: (cd ecmascript/ast && cargo +stable publish --dry-run)
+#
+#      - name: Check swc_ecma_parser
+#        run: (cd ecmascript/parser && cargo +stable publish --dry-run)
+#
+#      - name: Check swc_ecma_codegen
+#        run: (cd ecmascript/codegen && cargo +stable publish --dry-run)
+#
+#      - name: Check swc_ecma_utils (nightly only)
+#        run: (cd ecmascript/utils && cargo publish --dry-run)
+#
+#      - name: Check swc_ecma_transforms (nightly only)
+#        run: (cd ecmascript/utils && cargo publish --dry-run)
