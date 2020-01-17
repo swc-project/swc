@@ -161,9 +161,10 @@ _asyncToGenerator(function*() {
     var _notIIFE = _asyncToGenerator(function*() {
         yield 'ok';
     });
-    return function notIIFE() {
+    function notIIFE() {
         return _notIIFE.apply(this, arguments);
-    };
+    }
+    return notIIFE;
 })();
 
 (function() {
@@ -278,35 +279,33 @@ bar = async function () {
   var wat = await foo();
 };
 "#,
-    r#"
-var foo = function () {
-  var _foo = _asyncToGenerator(function* () {
-    var wat = yield bar();
-  });
-
-  return function foo() {
-    return _foo.apply(this, arguments);
-  };
+    "
+var foo = function() {
+    var _foo = _asyncToGenerator(function*() {
+        var wat = yield bar();
+    });
+    function foo() {
+        return _foo.apply(this, arguments);
+    }
+    return foo;
 }();
-
-var foo2 = function () {
-  var _foo2 = _asyncToGenerator(function* () {
-    var wat = yield bar();
-  });
-
-  return function foo2() {
-    return _foo2.apply(this, arguments);
-  };
-}(),
-    bar = function () {
-  var _bar = _asyncToGenerator(function* () {
-    var wat = yield foo();
-  });
-
-  return function bar() {
-    return _bar.apply(this, arguments);
-  };
-}();"#
+var foo2 = function() {
+    var _foo2 = _asyncToGenerator(function*() {
+        var wat = yield bar();
+    });
+    function foo2() {
+        return _foo2.apply(this, arguments);
+    }
+    return foo2;
+}(), bar = function() {
+    var _bar = _asyncToGenerator(function*() {
+        var wat = yield foo();
+    });
+    function bar() {
+        return _bar.apply(this, arguments);
+    }
+    return bar;
+}();"
 );
 
 test!(
@@ -323,9 +322,11 @@ var foo = function() {
   var _bar = _asyncToGenerator(function*() {
     console.log(bar);
   });
-  return function bar() {
+  function bar() {
     return _bar.apply(this, arguments);
-  };
+  }
+  
+  return bar;
 }();
 "#
 );
@@ -1081,7 +1082,6 @@ class Foo {
 
 // async_to_generator_async_iife_with_regenerator
 test!(
-    // regenerator is not implemented yet.
     ignore,
     syntax(),
     |_| chain!(
@@ -1261,10 +1261,11 @@ function () {
     console.log(bar);
   });
 
-  return function bar() {
+  function bar() {
     return _bar.apply(this, arguments);
-  };
+  }
 
+  return bar;
 }();
 
 "#
@@ -1690,9 +1691,11 @@ test!(
     setTimeout(poll, 1000);
   });
 
-  return function poll() {
+  function poll() {
     return _poll.apply(this, arguments);
   }
+  
+  return poll;
 })()();
 
 "#

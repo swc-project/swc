@@ -617,25 +617,44 @@ impl Actual {
                 stmts: if is_decl {
                     vec![apply]
                 } else {
-                    vec![Stmt::Return(ReturnStmt {
+                    // function foo() {
+                    //      return _foo.apply(this, arguments);
+                    // }
+                    let f = Function {
                         span: DUMMY_SP,
-                        arg: Some(box Expr::Fn(FnExpr {
-                            ident: raw_ident,
-                            function: Function {
+                        is_async: false,
+                        is_generator: false,
+                        params: vec![],
+                        body: Some(BlockStmt {
+                            span: DUMMY_SP,
+                            stmts: vec![apply],
+                        }),
+                        decorators: Default::default(),
+                        type_params: Default::default(),
+                        return_type: Default::default(),
+                    };
+
+                    if raw_ident.is_some() {
+                        vec![
+                            Stmt::Decl(Decl::Fn(FnDecl {
+                                ident: raw_ident.clone().unwrap(),
+                                declare: false,
+                                function: f,
+                            })),
+                            Stmt::Return(ReturnStmt {
                                 span: DUMMY_SP,
-                                is_async: false,
-                                is_generator: false,
-                                params: vec![],
-                                body: Some(BlockStmt {
-                                    span: DUMMY_SP,
-                                    stmts: vec![apply],
-                                }),
-                                decorators: Default::default(),
-                                type_params: Default::default(),
-                                return_type: Default::default(),
-                            },
-                        })),
-                    })]
+                                arg: Some(box Expr::Ident(raw_ident.clone().unwrap())),
+                            }),
+                        ]
+                    } else {
+                        vec![Stmt::Return(ReturnStmt {
+                            span: DUMMY_SP,
+                            arg: Some(box Expr::Fn(FnExpr {
+                                ident: raw_ident,
+                                function: f,
+                            })),
+                        })]
+                    }
                 },
             }),
             params,
