@@ -18,6 +18,7 @@ env:
 
 jobs:
   fmt:
+    name: fmt
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -26,6 +27,7 @@ jobs:
         run: cargo fmt --all -- --check
 
   test-debug:
+    name: test-debug
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -52,36 +54,12 @@ jobs:
           export PATH="$PATH:$HOME/npm/bin"
           cargo test --color always --all
 
-  test-release:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Checkout submodules
-        shell: bash
-        run: |
-          auth_header="$(git config --local --get http.https://github.com/.extraheader)"
-          git submodule sync --recursive
-          git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
-
-      - name: Install node dependencies
-        run: |
-          npm config set prefix ~/npm
-          npm i browserslist @babel/runtime
-          npm i -g jest
-
-      - name: Run cargo test
-        run: |
-          export PATH="$PATH:$HOME/npm/bin"
-          cargo test --color always -p swc_ecma_parser --release
-
   #
   deploy-docs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
     needs:
       - test-debug
-      - test-release
     steps:
       - uses: actions/checkout@v2
       - name: Create rustdoc

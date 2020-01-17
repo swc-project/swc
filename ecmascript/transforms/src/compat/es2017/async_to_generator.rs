@@ -394,6 +394,13 @@ impl Fold<Expr> for Actual {
         let expr = validate!(expr);
 
         match expr {
+            Expr::Paren(ParenExpr { span, expr }) => {
+                return Expr::Paren(ParenExpr {
+                    span,
+                    expr: expr.fold_with(self),
+                })
+            }
+
             // Optimization for iife.
             Expr::Call(CallExpr {
                 span,
@@ -411,7 +418,7 @@ impl Fold<Expr> for Actual {
                 args,
                 type_args,
             }) => {
-                if !args.is_empty() || !fn_expr.function.is_async {
+                if !fn_expr.function.is_async {
                     return Expr::Call(CallExpr {
                         span,
                         callee: ExprOrSuper::Expr(box Expr::Fn(fn_expr)),
@@ -610,25 +617,44 @@ impl Actual {
                 stmts: if is_decl {
                     vec![apply]
                 } else {
-                    vec![Stmt::Return(ReturnStmt {
+                    // function foo() {
+                    //      return _foo.apply(this, arguments);
+                    // }
+                    let f = Function {
                         span: DUMMY_SP,
-                        arg: Some(box Expr::Fn(FnExpr {
-                            ident: raw_ident,
-                            function: Function {
+                        is_async: false,
+                        is_generator: false,
+                        params: vec![],
+                        body: Some(BlockStmt {
+                            span: DUMMY_SP,
+                            stmts: vec![apply],
+                        }),
+                        decorators: Default::default(),
+                        type_params: Default::default(),
+                        return_type: Default::default(),
+                    };
+
+                    if raw_ident.is_some() {
+                        vec![
+                            Stmt::Decl(Decl::Fn(FnDecl {
+                                ident: raw_ident.clone().unwrap(),
+                                declare: false,
+                                function: f,
+                            })),
+                            Stmt::Return(ReturnStmt {
                                 span: DUMMY_SP,
-                                is_async: false,
-                                is_generator: false,
-                                params: vec![],
-                                body: Some(BlockStmt {
-                                    span: DUMMY_SP,
-                                    stmts: vec![apply],
-                                }),
-                                decorators: Default::default(),
-                                type_params: Default::default(),
-                                return_type: Default::default(),
-                            },
-                        })),
-                    })]
+                                arg: Some(box Expr::Ident(raw_ident.clone().unwrap())),
+                            }),
+                        ]
+                    } else {
+                        vec![Stmt::Return(ReturnStmt {
+                            span: DUMMY_SP,
+                            arg: Some(box Expr::Fn(FnExpr {
+                                ident: raw_ident,
+                                function: f,
+                            })),
+                        })]
+                    }
                 },
             }),
             params,

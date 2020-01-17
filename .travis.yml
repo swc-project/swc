@@ -26,11 +26,17 @@ before_install:
   - git submodule update --init --recursive
 
 install:
+  - rm -rf ~/.nvm
+  - git clone https://github.com/creationix/nvm.git ~/.nvm
+  - source ~/.nvm/nvm.sh
+  - nvm install 8.15.0
+  - nvm use 8.15.0
   - npm install browserslist @babel/runtime
   - npm install -g jest
-  - cargo test --no-run --color always --all --all-features
+  - RUST_BACKTRACE=0 cargo test --no-run --color always --all --all-features
 
 script:
+  - RUST_BACKTRACE=0 cargo check --color always --all --all-targets
   - RUST_BACKTRACE=full cargo test --color always --all --all-features
 
 before_deploy:
@@ -64,8 +70,6 @@ notifications:
     secure: rJ4xuH2auOcENKwxAM+0K08IufQ5HY5nFxTHAnSW82bQQfnP9D2mwo1782b2Jo05rt72FzbRBBEqqhC2vU5Mzs8btdtcl4CsEZLEZ5JGcV8G/Xq4Wkug6xk65LvzrfW6v9ZNdsdXc41KCbbalCDouJR3KkQ3RDQBQviG1nQzI0GsyuraMqTH7aKwZh4S4U/PRAalriW3eMoLw3al4mn3X4S60mAmmLs9bO4glUwMXsc68630ItEt+u2lPGXFj3LaWFkmD9nMSWCbAfAibZWThtqZogSxOEEsE+nW//HTXzICsic5s50JsIvwCXPqpAWDALGJhSTt+gSsrGFtCVhRJ1VOCcG/Y1ttGtsii3eeJ9yGgGt5F4ywbofQH9Decc5MWnKLiWDKPkTLDUV573fexvc4kgHYk0JtSz3q/5jVe6FwCwg1YNKcKW9A28sIoBxvgt5FOWwrwDhl7Ha0HX9gV0ylE88uaR/5OPzl5kXrjlaR3eua5EqaJ1lkezZvyRffJJJA07BxoF0eI5cQnR8jrw5PmybJpJWHXN48gd2CmGj3YB+JwiLpRAlWtkyKhM62UnQihN2h7mHcvwygGG8AGTk9mdWBkUYXxahZ+PPQHb4Mip/QXWdfK0DTAd52CLsYjW+Wc0xxW6jwEff3GaDaRDxU6IjWBmEo74XCRPqUiPk=
 env:
   global:
-    # We run execution tests only in github action
-    - EXEC=0
     - CASHER_TIME_OUT=600
     - RUST_MIN_STACK=16777216
     - CARGO_INCREMENTAL=0

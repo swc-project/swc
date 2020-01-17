@@ -264,9 +264,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     ) -> PResult<'a, TsTypePredicate> {
         debug_assert!(self.input.syntax().typescript());
 
-        let _ = cur!(true)?;
         assert_and_bump!("is");
-        let _ = cur!(true)?;
 
         let param_name = TsThisTypeOrIdent::TsThisType(lhs);
         let cur_pos = cur_pos!();
