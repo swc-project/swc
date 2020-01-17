@@ -14,7 +14,7 @@ mod ops;
 #[cfg(test)]
 mod tests;
 
-const LOG: bool = false;
+const LOG: bool = true;
 
 struct Hygiene<'a> {
     current: Scope<'a>,

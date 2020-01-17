@@ -102,8 +102,10 @@ impl<'a> Fold<Vec<ModuleItem>> for Operator<'a> {
                     decl: Decl::Var(var),
                     ..
                 })) => {
+                    let decls = var.decls.fold_with(self);
+
                     let mut renamed: Vec<ExportSpecifier> = vec![];
-                    let decls = var.decls.move_map(|decl| {
+                    let decls = decls.move_map(|decl| {
                         let name = decl.name.fold_with(&mut VarFolder {
                             orig: self,
                             renamed: &mut renamed,
