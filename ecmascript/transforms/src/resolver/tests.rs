@@ -1023,9 +1023,4 @@ var instance = new SomeClass({
     }
 });
 instance.call();"
-to!(
-    async_fn,
-    "
-(async function poll(){})
-"
 );
