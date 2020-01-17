@@ -115,8 +115,7 @@ pub struct JSXAttr {
     pub span: Span,
     pub name: JSXAttrName,
     /// Babel uses Expr instead of JSXAttrValue
-    #[serde(default)]
-    pub value: Option<Box<Expr>>,
+    pub value: Option<JSXAttrValue>,
 }
 
 #[ast_node]

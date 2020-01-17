@@ -74,13 +74,42 @@ fn escape_in_attr() {
                 attrs: vec![JSXAttrOrSpread::JSXAttr(JSXAttr {
                     span,
                     name: JSXAttrName::Ident(Ident::new("id".into(), span)),
-                    value: Some(box Expr::Lit(Lit::Str(Str {
+                    value: Some(JSXAttrValue::JSXExprContainer(JSXExprContainer {
                         span,
-                        value: "w < w".into(),
-                        has_escape: false,
-                    }))),
+                        expr: JSXExpr::Expr(box Expr::Lit(Lit::Str(Str {
+                            span,
+                            value: "w < w".into(),
+                            has_escape: false,
+                        })))
+                    })),
                 })],
                 name: JSXElementName::Ident(Ident::new("div".into(), span)),
+                self_closing: true,
+                type_args: None,
+            },
+            children: vec![],
+            closing: None
+        })
+    );
+}
+
+#[test]
+fn issue_584() {
+    assert_eq_ignore_span!(
+        jsx(r#"<test other={4} />;"#),
+        box Expr::JSXElement(box JSXElement {
+            span,
+            opening: JSXOpeningElement {
+                span,
+                name: JSXElementName::Ident(Ident::new("test".into(), span)),
+                attrs: vec![JSXAttrOrSpread::JSXAttr(JSXAttr {
+                    span,
+                    name: JSXAttrName::Ident(Ident::new("other".into(), span)),
+                    value: Some(JSXAttrValue::JSXExprContainer(JSXExprContainer {
+                        span,
+                        expr: JSXExpr::Expr(box Expr::Lit(Lit::Num(Number { span, value: 4.0 })))
+                    })),
+                })],
                 self_closing: true,
                 type_args: None,
             },

@@ -55,6 +55,16 @@ impl<'a> Emitter<'a> {
     }
 
     #[emitter]
+    pub fn emit_jsx_attr_value(&mut self, node: &JSXAttrValue) -> Result {
+        match *node {
+            JSXAttrValue::Lit(ref n) => emit!(n),
+            JSXAttrValue::JSXExprContainer(ref n) => emit!(n),
+            JSXAttrValue::JSXElement(ref n) => emit!(n),
+            JSXAttrValue::JSXFragment(ref n) => emit!(n),
+        }
+    }
+
+    #[emitter]
     pub fn emit_jsx_attr_name(&mut self, node: &JSXAttrName) -> Result {
         match *node {
             JSXAttrName::Ident(ref n) => emit!(n),
