@@ -363,12 +363,21 @@ impl Jsx {
 
 fn attr_to_prop(a: JSXAttr) -> Prop {
     let key = to_prop_name(a.name);
-    let value = a.value.unwrap_or_else(|| {
-        box Expr::Lit(Lit::Bool(Bool {
-            span: key.span(),
-            value: true,
-        }))
-    });
+    let value = a
+        .value
+        .map(|v| match v {
+            JSXAttrValue::JSXExprContainer(JSXExprContainer {
+                expr: JSXExpr::Expr(e),
+                ..
+            }) => e,
+            _ => unreachable!(),
+        })
+        .unwrap_or_else(|| {
+            box Expr::Lit(Lit::Bool(Bool {
+                span: key.span(),
+                value: true,
+            }))
+        });
     Prop::KeyValue(KeyValueProp { key, value })
 }
 

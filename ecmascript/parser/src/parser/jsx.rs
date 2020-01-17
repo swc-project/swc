@@ -69,7 +69,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     /// Parses any type of JSX attribute value.
     ///
     /// TODO(kdy1): Change return type to JSXAttrValue
-    pub(super) fn parse_jsx_attr_value(&mut self) -> PResult<'a, Box<Expr>> {
+    pub(super) fn parse_jsx_attr_value(&mut self) -> PResult<'a, JSXAttrValue> {
         debug_assert!(self.input.syntax().jsx());
 
         let start = cur_pos!();
@@ -77,14 +77,20 @@ impl<'a, I: Tokens> Parser<'a, I> {
         match *cur!(true)? {
             tok!('{') => {
                 let node = self.parse_jsx_expr_container(start)?;
+
                 match node.expr {
                     JSXExpr::JSXEmptyExpr(..) => {
                         syntax_error!(span!(start), SyntaxError::EmptyJSXAttr)
                     }
-                    JSXExpr::Expr(expr) => Ok(expr),
+                    JSXExpr::Expr(..) => Ok(node.into()),
                 }
             }
-            Token::Str { .. } | Token::JSXTagStart => self.parse_lhs_expr(),
+            Token::Str { .. } | Token::JSXTagStart => {
+                Ok(JSXAttrValue::JSXExprContainer(JSXExprContainer {
+                    span: span!(start),
+                    expr: JSXExpr::Expr(self.parse_lhs_expr()?),
+                }))
+            }
 
             _ => syntax_error!(span!(start), SyntaxError::InvalidJSXValue),
         }

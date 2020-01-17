@@ -24,7 +24,10 @@ impl Fold<JSXOpeningElement> for JsxSelf {
         n.attrs.push(JSXAttrOrSpread::JSXAttr(JSXAttr {
             span: DUMMY_SP,
             name: JSXAttrName::Ident(quote_ident!("__self")),
-            value: Some(box ThisExpr { span: DUMMY_SP }.into()),
+            value: Some(JSXAttrValue::JSXExprContainer(JSXExprContainer {
+                span: DUMMY_SP,
+                expr: JSXExpr::Expr(box ThisExpr { span: DUMMY_SP }.into()),
+            })),
         }));
         n
     }
