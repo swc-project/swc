@@ -7,18 +7,21 @@ impl<'a, I: Tokens> Parser<'a, I> {
         let start = cur_pos!();
 
         if self.input.syntax().import_meta() && peeked_is!('.') {
-            return self
-                .parse_expr()
-                .map(|expr| ExprStmt {
-                    span: span!(start),
-                    expr,
-                })
-                .map(Stmt::Expr)
-                .map(ModuleItem::Stmt);
+            let expr = self.parse_expr()?;
+
+            eat!(';');
+
+            return Ok(Stmt::Expr(ExprStmt {
+                span: span!(start),
+                expr,
+            })
+            .into());
         }
 
         if self.input.syntax().dynamic_import() && peeked_is!('(') {
             let expr = self.parse_expr()?;
+
+            eat!(';');
 
             return Ok(Stmt::Expr(ExprStmt {
                 span: span!(start),

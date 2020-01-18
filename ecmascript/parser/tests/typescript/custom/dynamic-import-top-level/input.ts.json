@@ -10,7 +10,7 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 0,
-        "end": 20,
+        "end": 21,
         "ctxt": 0
       },
       "expression": {
@@ -38,7 +38,7 @@
               "type": "Identifier",
               "span": {
                 "start": 0,
-                "end": 13,
+                "end": 6,
                 "ctxt": 0
               },
               "value": "import",
@@ -77,14 +77,6 @@
         },
         "arguments": [],
         "typeArguments": null
-      }
-    },
-    {
-      "type": "EmptyStatement",
-      "span": {
-        "start": 20,
-        "end": 21,
-        "ctxt": 0
       }
     }
   ],

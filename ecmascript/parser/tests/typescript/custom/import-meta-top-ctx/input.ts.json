@@ -10,7 +10,7 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 0,
-        "end": 20,
+        "end": 21,
         "ctxt": 0
       },
       "expression": {
@@ -57,14 +57,6 @@
           "optional": false
         },
         "computed": false
-      }
-    },
-    {
-      "type": "EmptyStatement",
-      "span": {
-        "start": 20,
-        "end": 21,
-        "ctxt": 0
       }
     }
   ],
