@@ -79,7 +79,10 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 bump!(); // as
                 let _ = cur!(false);
                 bump!(); // const
-                Box::new(Expr::TsConstAssertion(TsConstAssertion { span: span!(start), expr }))
+                Box::new(Expr::TsConstAssertion(TsConstAssertion {
+                    span: span!(start),
+                    expr,
+                }))
             } else {
                 let type_ann = self.next_then_parse_ts_type()?;
                 Box::new(Expr::TsAs(TsAsExpr {
