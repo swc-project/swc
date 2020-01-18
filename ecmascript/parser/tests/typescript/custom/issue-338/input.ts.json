@@ -38,7 +38,7 @@
             "type": "TsAsExpression",
             "span": {
               "start": 12,
-              "end": 15,
+              "end": 37,
               "ctxt": 0
             },
             "expression": {

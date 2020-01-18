@@ -25,7 +25,7 @@
           "type": "TsAsExpression",
           "span": {
             "start": 1,
-            "end": 2,
+            "end": 12,
             "ctxt": 0
           },
           "expression": {
