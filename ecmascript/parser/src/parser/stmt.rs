@@ -1080,6 +1080,8 @@ impl<'a, I: Tokens> StmtLikeParser<'a, Stmt> for Parser<'a, I> {
         if self.input.syntax().dynamic_import() && is!("import") {
             let expr = self.parse_expr()?;
 
+            eat!(';');
+
             return Ok(ExprStmt {
                 span: span!(start),
                 expr,
@@ -1089,6 +1091,8 @@ impl<'a, I: Tokens> StmtLikeParser<'a, Stmt> for Parser<'a, I> {
 
         if self.input.syntax().import_meta() && is!("import") && peeked_is!('.') {
             let expr = self.parse_expr()?;
+
+            eat!(';');
 
             return Ok(ExprStmt {
                 span: span!(start),
