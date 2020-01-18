@@ -38,7 +38,7 @@
             "type": "TsConstAssertion",
             "span": {
               "start": 8,
-              "end": 25,
+              "end": 34,
               "ctxt": 0
             },
             "expr": {

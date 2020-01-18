@@ -73,17 +73,17 @@ impl<'a, I: Tokens> Parser<'a, I> {
             && !self.input.had_line_break_before_cur()
             && is!("as")
         {
-            let span = span!(left.span().lo());
+            let start = left.span().lo();
             let expr = left;
             let node = if peeked_is!("const") {
                 bump!(); // as
                 let _ = cur!(false);
                 bump!(); // const
-                Box::new(Expr::TsConstAssertion(TsConstAssertion { span, expr }))
+                Box::new(Expr::TsConstAssertion(TsConstAssertion { span: span!(start), expr }))
             } else {
                 let type_ann = self.next_then_parse_ts_type()?;
                 Box::new(Expr::TsAs(TsAsExpr {
-                    span,
+                    span: span!(start),
                     expr,
                     type_ann,
                 }))
