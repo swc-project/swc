@@ -1443,7 +1443,11 @@ impl<'a, I: Tokens> Parser<'a, I> {
         Ok(v)
     }
 
-    pub(super) fn parse_dynamic_import(&mut self, start: BytePos, import_ident: Ident) -> PResult<'a, Box<Expr>> {
+    pub(super) fn parse_dynamic_import(
+        &mut self,
+        start: BytePos,
+        import_ident: Ident,
+    ) -> PResult<'a, Box<Expr>> {
         if !self.input.syntax().dynamic_import() {
             syntax_error!(span!(start), SyntaxError::DynamicImport);
         }
