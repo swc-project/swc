@@ -38,7 +38,7 @@
               "type": "Identifier",
               "span": {
                 "start": 0,
-                "end": 13,
+                "end": 6,
                 "ctxt": 0
               },
               "value": "import",
