@@ -464,14 +464,17 @@ pub trait ExprExt {
                 let (lp, lv) = left.as_bool();
                 let (rp, rv) = right.as_bool();
 
-                if lp + rp == Pure {
-                    return (Pure, lv.and(rv));
-                }
-                if op == op!("&") {
+                let v = if op == op!("&") {
                     lv.and(rv)
                 } else {
                     lv.or(rv)
+                };
+
+                if lp + rp == Pure {
+                    return (Pure, v);
                 }
+
+                v
             }
 
             Expr::Fn(..) | Expr::Class(..) | Expr::New(..) | Expr::Array(..) | Expr::Object(..) => {
