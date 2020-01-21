@@ -413,6 +413,7 @@ impl<'a> Scope<'a> {
         }
 
         ctxts.retain(|c| *c != ctxt);
+        ctxts.dedup();
 
         ctxts
     }
@@ -456,6 +457,27 @@ impl<'a> Scope<'a> {
     }
 }
 
+impl Fold<Constructor> for Hygiene<'_> {
+    fn fold(&mut self, c: Constructor) -> Constructor {
+        let old = self.ident_type;
+        self.ident_type = IdentType::Binding;
+        let params = c.params.fold_with(self);
+        self.ident_type = old;
+
+        let body = c.body.map(|bs| bs.fold_children(self));
+        let key = c.key.fold_with(self);
+
+        let c = Constructor {
+            params,
+            body,
+            key,
+            ..c
+        };
+
+        self.apply_ops(c)
+    }
+}
+
 #[macro_export]
 macro_rules! track_ident {
     ($T:tt) => {
@@ -490,25 +512,6 @@ macro_rules! track_ident {
                 self.ident_type = old;
 
                 s
-            }
-        }
-
-        impl<'a> Fold<Constructor> for $T<'a> {
-            fn fold(&mut self, c: Constructor) -> Constructor {
-                let old = self.ident_type;
-                self.ident_type = IdentType::Binding;
-                let params = c.params.fold_with(self);
-                self.ident_type = old;
-
-                let body = c.body.fold_with(self);
-                let key = c.key.fold_with(self);
-
-                Constructor {
-                    params,
-                    body,
-                    key,
-                    ..c
-                }
             }
         }
 
