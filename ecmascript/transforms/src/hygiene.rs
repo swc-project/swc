@@ -55,12 +55,20 @@ impl<'a> Hygiene<'a> {
     fn add_used_ref(&mut self, ident: Ident) {
         let ctxt = ident.span.ctxt();
 
+        self.current
+            .declared_symbols
+            .borrow_mut()
+            .entry(ident.sym.clone())
+            .or_insert_with(Vec::new)
+            .push(ctxt);
+
         // We rename declaration instead of usage
         let conflicts = self.current.conflicts(ident.sym.clone(), ctxt);
 
         if cfg!(debug_assertions) && LOG && !conflicts.is_empty() {
             eprintln!("Renaming from usage");
         }
+
         for cx in conflicts {
             self.rename(ident.sym.clone(), cx)
         }

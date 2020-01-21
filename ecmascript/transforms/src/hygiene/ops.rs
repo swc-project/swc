@@ -45,6 +45,7 @@ impl<'a> Fold<Vec<ModuleItem>> for Operator<'a> {
                             declare,
                         }),
                 })) => {
+                    let class = class.fold_with(self);
                     let orig_ident = ident.clone();
                     match self.rename_ident(ident) {
                         Ok(ident) => {
@@ -76,6 +77,7 @@ impl<'a> Fold<Vec<ModuleItem>> for Operator<'a> {
                             declare,
                         }),
                 })) => {
+                    let function = function.fold_with(self);
                     let orig_ident = ident.clone();
                     match self.rename_ident(ident) {
                         Ok(ident) => {
