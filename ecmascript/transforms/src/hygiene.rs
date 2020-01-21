@@ -119,7 +119,7 @@ impl<'a> Hygiene<'a> {
             ctxt
         );
         old.retain(|c| *c != ctxt);
-        debug_assert!(old.is_empty() || old.len() == 1);
+        //        debug_assert!(old.is_empty() || old.len() == 1);
 
         let new = declared_symbols.entry(renamed.clone()).or_default();
         new.push(ctxt);
