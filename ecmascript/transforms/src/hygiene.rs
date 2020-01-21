@@ -265,6 +265,11 @@ impl<'a> Fold<FnDecl> for Hygiene<'a> {
 impl<'a> Fold<Ident> for Hygiene<'a> {
     /// Invoked for `IdetifierRefrence` / `BindingIdentifier`
     fn fold(&mut self, i: Ident) -> Ident {
+        // Special case
+        if i.sym == js_word!("arguments") {
+            return i;
+        }
+
         match self.ident_type {
             IdentType::Binding => self.add_declared_ref(i.clone()),
             IdentType::Ref => {
