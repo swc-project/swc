@@ -1002,8 +1002,9 @@ test_exec!(
     syntax(),
     |_| chain!(async_to_generator(), tr(Default::default())),
     issue_600_3,
-    "async function foo() {
+    "function* foo() {
 	    for (let a of b) {
+	        yield a
 	    }
     }"
 );
