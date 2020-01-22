@@ -408,7 +408,7 @@ impl Fold<PatOrExpr> for Normalizer {
     }
 }
 
-struct HygieneVisualizer;
+pub(crate) struct HygieneVisualizer;
 impl Fold<Ident> for HygieneVisualizer {
     fn fold(&mut self, ident: Ident) -> Ident {
         Ident {

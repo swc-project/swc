@@ -491,3 +491,22 @@ impl Fold<Function> for Hoister<'_, '_> {
         node
     }
 }
+
+impl Fold<Constructor> for Resolver<'_> {
+    fn fold(&mut self, c: Constructor) -> Constructor {
+        let old = self.ident_type;
+        self.ident_type = IdentType::Binding;
+        let params = c.params.fold_with(self);
+        self.ident_type = old;
+
+        let body = c.body.fold_with(self);
+        let key = c.key.fold_with(self);
+
+        Constructor {
+            params,
+            body,
+            key,
+            ..c
+        }
+    }
+}

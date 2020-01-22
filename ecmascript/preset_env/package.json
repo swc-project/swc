@@ -2,5 +2,7 @@
   "devDependencies": {
     "browserslist": "=4.7.3"
   },
-  "browserslist": ["defaults"]
+  "browserslist": [
+    "defaults"
+  ]
 }
