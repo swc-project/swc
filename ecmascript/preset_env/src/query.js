@@ -7,7 +7,8 @@ target = target.filter(v => !v.startsWith('esmodules') && !!v);
 
 // console.log('Target: ', target);
 
-const browsers = browserslist(target && target.length ? target : undefined, {
+let browsers = browserslist(target && target.length ? target : undefined, {
     mobileToDesktop: true,
 });
+browsers = browsers.filter((v) => !v.includes("TP"))
 console.log(JSON.stringify(browsers));
