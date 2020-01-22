@@ -6,7 +6,10 @@
 use swc_common::chain;
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{
-    compat::es2015::regenerator, modules::common_js::common_js, pass::Pass, resolver,
+    compat::{es2015::regenerator, es2017::async_to_generator},
+    modules::common_js::common_js,
+    pass::Pass,
+    resolver,
 };
 
 #[macro_use]
@@ -964,4 +967,43 @@ expect(v.next()).toEqual({ value: 3, done: false });
 expect(v.next()).toEqual({ value: 4, done: false });
 expect(v.next()).toEqual({ done: true });
 "
+);
+
+test_exec!(
+    syntax(),
+    |_| tr(Default::default()),
+    issue_600_1,
+    "
+    
+async function foo() {
+	for (let a of b) {
+	}
+}
+"
+);
+
+test_exec!(
+    syntax(),
+    |_| tr(Default::default()),
+    issue_600_2,
+    "function _foo() {
+    _foo = _asyncToGenerator(function*() {
+        for (let a of b){
+        }
+    });
+    return _foo.apply(this, arguments);
+}
+function foo() {
+    return _foo.apply(this, arguments);
+}"
+);
+
+test_exec!(
+    syntax(),
+    |_| chain!(async_to_generator(), tr(Default::default())),
+    issue_600_3,
+    "async function foo() {
+	    for (let a of b) {
+	    }
+    }"
 );
