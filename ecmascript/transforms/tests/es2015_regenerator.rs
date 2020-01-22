@@ -6,7 +6,7 @@
 use swc_common::chain;
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{
-    compat::{es2015::regenerator, es2017::async_to_generator},
+    compat::{es2015, es2015::regenerator, es2016, es2017, es2017::async_to_generator},
     modules::common_js::common_js,
     pass::Pass,
     resolver,
@@ -977,6 +977,7 @@ test_exec!(
     
 async function foo() {
 	for (let a of b) {
+	    await a;
 	}
 }
 "
@@ -989,13 +990,15 @@ test_exec!(
     "function _foo() {
     _foo = _asyncToGenerator(function*() {
         for (let a of b){
+            yield a;
         }
     });
     return _foo.apply(this, arguments);
 }
 function foo() {
     return _foo.apply(this, arguments);
-}"
+}
+"
 );
 
 test_exec!(
@@ -1007,4 +1010,41 @@ test_exec!(
 	        yield a
 	    }
     }"
+);
+
+test!(
+    syntax(),
+    |_| chain!(es2017(), es2016(), es2015(Default::default()),),
+    issue_600_full,
+    "async function foo() {
+	    for (let a of b) {
+	        await a
+	    }
+    }",
+    ""
+);
+
+test!(
+    syntax(),
+    |_| chain!(
+        async_to_generator(),
+        es2015::BlockScopedFns,
+        es2015::TemplateLiteral::default(),
+        es2015::Classes::default(),
+        es2015::spread(Default::default()),
+        es2015::function_name(),
+        es2015::parameters(),
+        es2015::for_of(Default::default()),
+        es2015::computed_properties(),
+        es2015::destructuring(Default::default()),
+        es2015::regenerator(),
+        es2015::block_scoping(),
+    ),
+    issue_600_min,
+    "async function foo() {
+	    for (let a of b) {
+	        await a
+	    }
+    }",
+    ""
 );
