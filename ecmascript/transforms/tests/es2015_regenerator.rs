@@ -992,9 +992,7 @@ test_exec!(
 	    for (let a of b) {
 	        await a
 	    }
-    }
-    throw new Error()
-    "
+    }"
 );
 
 test_exec!(
@@ -1002,19 +1000,12 @@ test_exec!(
     |_| es2015::regenerator(),
     issue_600_min,
     "function* foo() {
+        try {
+        } finally{
             try {
-            } catch (err) {
             } finally{
-                try {
-                    if (!_iteratorNormalCompletion && _iterator.return != null) {
-                        _iterator.return();
-                    }
-                } finally{
-                    if (_didIteratorError) {
-                        throw _iteratorError;
-                    }
-                }
+                throw new Error('foo');
             }
-    }
-    "
+        }
+    }"
 );
