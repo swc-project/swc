@@ -1,14 +1,20 @@
-const browserslist = require('browserslist')
-let target = JSON.parse(process.argv[1]);
+"use strict";
 
+var browserslist = require('browserslist');
+
+var target = JSON.parse(process.argv[1]);
 target = target.browsers ? target.browsers : target;
-target = Array.isArray(target) ? target : (typeof target === 'string' ? [target] : Object.keys(target).map((k) => `${k} ${target[k]}`));
-target = target.filter(v => !v.startsWith('esmodules') && !!v);
-
-// console.log('Target: ', target);
-
-let browsers = browserslist(target && target.length ? target : undefined, {
-    mobileToDesktop: true,
+target = Array.isArray(target) ? target : typeof target === 'string' ? [target] : Object.keys(target).map(function (k) {
+    return k + " " + target[k];
 });
-browsers = browsers.filter((v) => !v.includes("TP"))
+target = target.filter(function (v) {
+    return !v.startsWith('esmodules') && !!v;
+}); // console.log('Target: ', target);
+
+var browsers = browserslist(target && target.length ? target : undefined, {
+    mobileToDesktop: true
+});
+browsers = browsers.filter(function (v) {
+    return !v.includes("TP");
+});
 console.log(JSON.stringify(browsers));
