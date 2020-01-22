@@ -985,14 +985,36 @@ test_exec!(
     |_| chain!(
         async_to_generator(),
         es2015::for_of(Default::default()),
-        //        es2015::regenerator(),
+        es2015::regenerator(),
     ),
-    issue_600_min,
+    issue_600_exact_passes,
     "async function foo(b) {
 	    for (let a of b) {
 	        await a
 	    }
     }
     throw new Error()
+    "
+);
+
+test_exec!(
+    syntax(),
+    |_| es2015::regenerator(),
+    issue_600_min,
+    "function* foo() {
+            try {
+            } catch (err) {
+            } finally{
+                try {
+                    if (!_iteratorNormalCompletion && _iterator.return != null) {
+                        _iterator.return();
+                    }
+                } finally{
+                    if (_didIteratorError) {
+                        throw _iteratorError;
+                    }
+                }
+            }
+    }
     "
 );
