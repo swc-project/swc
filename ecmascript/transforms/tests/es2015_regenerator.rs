@@ -1012,39 +1012,28 @@ test_exec!(
     }"
 );
 
-test!(
+test_exec!(
     syntax(),
     |_| chain!(es2017(), es2016(), es2015(Default::default()),),
     issue_600_full,
-    "async function foo() {
+    "async function foo(b) {
 	    for (let a of b) {
 	        await a
 	    }
-    }",
-    ""
+    }"
 );
 
-test!(
+test_exec!(
     syntax(),
     |_| chain!(
         async_to_generator(),
-        es2015::BlockScopedFns,
-        es2015::TemplateLiteral::default(),
-        es2015::Classes::default(),
-        es2015::spread(Default::default()),
-        es2015::function_name(),
-        es2015::parameters(),
         es2015::for_of(Default::default()),
-        es2015::computed_properties(),
-        es2015::destructuring(Default::default()),
         es2015::regenerator(),
-        es2015::block_scoping(),
     ),
     issue_600_min,
-    "async function foo() {
+    "async function foo(b) {
 	    for (let a of b) {
 	        await a
 	    }
-    }",
-    ""
+    }"
 );
