@@ -1348,81 +1348,10 @@ impl CaseHandler<'_> {
                 self.mark(after);
             }
 
-            Stmt::ForOf(s) => {
-                let body = s.body;
-
-                let head = self.loc();
-                let after = self.loc();
-
-                let key_iter_next_fn = self.make_var();
-
-                let right = s.right.map(|e| self.explode_expr(e, false));
-                self.emit_assign(
-                    key_iter_next_fn.clone(),
-                    CallExpr {
-                        span: DUMMY_SP,
-                        callee: member_expr!(DUMMY_SP, regeneratorRuntime.keys).as_callee(),
-                        args: vec![right.as_arg()],
-                        type_args: Default::default(),
-                    }
-                    .into(),
-                );
-
-                let head = self.mark(head);
-
-                let key_info_tmp_var = self.make_var();
-
-                self.jump_if(
-                    box AssignExpr {
-                        span: DUMMY_SP,
-                        op: op!("="),
-                        left: PatOrExpr::Expr(box key_info_tmp_var.clone().into()),
-                        right: box CallExpr {
-                            span: DUMMY_SP,
-                            callee: key_iter_next_fn.as_callee(),
-                            args: vec![],
-                            type_args: Default::default(),
-                        }
-                        .into(),
-                    }
-                    .member(quote_ident!("done")),
-                    after,
-                );
-
-                {
-                    let right = box key_info_tmp_var.clone().member(quote_ident!("value"));
-                    match s.left {
-                        VarDeclOrPat::VarDecl(var) => unreachable!(
-                            "VarDeclaration in for-in statement must be hoisted: {:?}",
-                            var
-                        ),
-                        VarDeclOrPat::Pat(pat) => self.emit(
-                            AssignExpr {
-                                span: DUMMY_SP,
-                                op: op!("="),
-                                left: PatOrExpr::Pat(box pat),
-                                right,
-                            }
-                            .into_stmt(),
-                        ),
-                    }
-                }
-
-                self.with_entry(
-                    Entry::Loop {
-                        break_loc: after,
-                        continue_loc: head,
-                        label,
-                    },
-                    |folder| {
-                        folder.explode_stmt(*body, None);
-                    },
-                );
-
-                self.jump(head);
-
-                self.mark(after);
-            }
+            Stmt::ForOf(s) => unreachable!(
+                "for-of statement should be removed by es2015::for_of pass\n{:?}",
+                s
+            ),
 
             Stmt::Decl(_) => self.emit(s),
         }

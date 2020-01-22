@@ -971,49 +971,6 @@ expect(v.next()).toEqual({ done: true });
 
 test_exec!(
     syntax(),
-    |_| tr(Default::default()),
-    issue_600_1,
-    "
-    
-async function foo() {
-	for (let a of b) {
-	    await a;
-	}
-}
-"
-);
-
-test_exec!(
-    syntax(),
-    |_| tr(Default::default()),
-    issue_600_2,
-    "function _foo() {
-    _foo = _asyncToGenerator(function*() {
-        for (let a of b){
-            yield a;
-        }
-    });
-    return _foo.apply(this, arguments);
-}
-function foo() {
-    return _foo.apply(this, arguments);
-}
-"
-);
-
-test_exec!(
-    syntax(),
-    |_| chain!(async_to_generator(), tr(Default::default())),
-    issue_600_3,
-    "function* foo() {
-	    for (let a of b) {
-	        yield a
-	    }
-    }"
-);
-
-test_exec!(
-    syntax(),
     |_| chain!(es2017(), es2016(), es2015(Default::default()),),
     issue_600_full,
     "async function foo(b) {
@@ -1028,12 +985,14 @@ test_exec!(
     |_| chain!(
         async_to_generator(),
         es2015::for_of(Default::default()),
-        es2015::regenerator(),
+        //        es2015::regenerator(),
     ),
     issue_600_min,
     "async function foo(b) {
 	    for (let a of b) {
 	        await a
 	    }
-    }"
+    }
+    throw new Error()
+    "
 );
