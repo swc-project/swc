@@ -74,9 +74,9 @@ impl<'a> CaseHandler<'a> {
 }
 
 impl CaseHandler<'_> {
-    fn with_entry<F, Ret>(&mut self, entry: Entry, op: F) -> Ret
+    fn with_entry<F>(&mut self, entry: Entry, op: F)
     where
-        F: FnOnce(&mut Self) -> Ret,
+        F: FnOnce(&mut Self),
     {
         self.leaps.push(entry);
         let ret = op(self);
