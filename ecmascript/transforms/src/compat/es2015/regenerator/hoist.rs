@@ -79,11 +79,9 @@ impl Fold<VarDecl> for Hoister {
 
 impl Fold<VarDeclOrExpr> for Hoister {
     fn fold(&mut self, var: VarDeclOrExpr) -> VarDeclOrExpr {
-        let var = var.fold_children(self);
-
         match var {
             VarDeclOrExpr::VarDecl(var) => VarDeclOrExpr::Expr(box self.var_decl_to_expr(var)),
-            _ => var,
+            _ => var.fold_children(self),
         }
     }
 }

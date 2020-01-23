@@ -1,6 +1,6 @@
 ---
 name: Crash report
-about: Create a report to help us improve
+about: Use this when swc panics
 title: 'panic: '
 labels: C-bug
 assignees: ''

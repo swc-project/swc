@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Create a report to help us improve
+about: Use this when swc breaks something
 title: ''
 labels: C-bug
 assignees: ''

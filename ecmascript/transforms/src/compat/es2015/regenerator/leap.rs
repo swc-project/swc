@@ -13,8 +13,8 @@ impl LeapManager {
     pub fn push(&mut self, entry: Entry) {
         self.stack.push(entry);
     }
-    pub fn pop(&mut self) {
-        self.stack.pop();
+    pub fn pop(&mut self) -> Option<Entry> {
+        self.stack.pop()
     }
 
     pub fn find_leap_loc<F>(&self, mut pred: F, label: Option<&JsWord>) -> Option<Loc>

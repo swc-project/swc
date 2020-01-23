@@ -6,7 +6,10 @@
 use swc_common::chain;
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{
-    compat::es2015::regenerator, modules::common_js::common_js, pass::Pass, resolver,
+    compat::{es2015, es2015::regenerator, es2016, es2017, es2017::async_to_generator},
+    modules::common_js::common_js,
+    pass::Pass,
+    resolver,
 };
 
 #[macro_use]
@@ -964,4 +967,54 @@ expect(v.next()).toEqual({ value: 3, done: false });
 expect(v.next()).toEqual({ value: 4, done: false });
 expect(v.next()).toEqual({ done: true });
 "
+);
+
+test_exec!(
+    syntax(),
+    |_| chain!(es2017(), es2016(), es2015(Default::default()),),
+    issue_600_full,
+    "async function foo(b) {
+	    for (let a of b) {
+	        await a
+	    }
+    }"
+);
+
+test_exec!(
+    syntax(),
+    |_| chain!(
+        async_to_generator(),
+        es2015::for_of(Default::default()),
+        es2015::regenerator(),
+    ),
+    issue_600_exact_passes,
+    "async function foo(b) {
+	    for (let a of b) {
+	        await a
+	    }
+    }"
+);
+
+test_exec!(
+    syntax(),
+    |_| es2015::regenerator(),
+    issue_600_min,
+    "function* foo() {
+        try {
+            yield 1;
+            throw new Error('1')
+        } finally{
+            try {
+                yield 2;
+            } finally{
+                throw new Error('2');
+            }
+        }
+    }
+    
+    var v = foo();
+    expect(v.next()).toEqual({ value: 1, done: false });
+    expect(v.next()).toEqual({ value: 2, done: false });
+    expect(() => v.next()).toThrow('2')
+    "
 );
