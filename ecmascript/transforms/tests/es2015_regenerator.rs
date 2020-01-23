@@ -1001,11 +1001,20 @@ test_exec!(
     issue_600_min,
     "function* foo() {
         try {
+            yield 1;
+            throw new Error('1')
         } finally{
             try {
+                yield 2;
             } finally{
-                throw new Error('foo');
+                throw new Error('2');
             }
         }
-    }"
+    }
+    
+    var v = foo();
+    expect(v.next()).toEqual({ value: 1, done: false });
+    expect(v.next()).toEqual({ value: 2, done: false });
+    expect(() => v.next()).toThrow('2')
+    "
 );

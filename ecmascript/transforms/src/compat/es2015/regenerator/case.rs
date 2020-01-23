@@ -92,20 +92,20 @@ impl CaseHandler<'_> {
             return None;
         }
 
-        let mut last_loc_value = 0;
+        //        let mut last_loc_value = 0;
         Some(ArrayLit {
             span: DUMMY_SP,
             elems: replace(&mut self.try_entries, Default::default())
                 .into_iter()
                 .map(|entry: TryEntry| {
-                    let this_loc_value = entry.first_loc;
-                    assert!(
-                        this_loc_value.stmt_index >= last_loc_value,
-                        "this_loc_value = {:?}; last_loc_value = {};",
-                        this_loc_value,
-                        last_loc_value
-                    );
-                    last_loc_value = this_loc_value.stmt_index;
+                    //                    let this_loc_value = entry.first_loc;
+                    //                    assert!(
+                    //                        this_loc_value.stmt_index >= last_loc_value,
+                    //                        "this_loc_value = {:?}; last_loc_value = {};",
+                    //                        this_loc_value,
+                    //                        last_loc_value
+                    //                    );
+                    //                    last_loc_value = this_loc_value.stmt_index;
 
                     let ce = entry.catch_entry;
                     let fe = entry.finally_entry;
@@ -1096,7 +1096,7 @@ impl CaseHandler<'_> {
                 };
 
                 self.update_ctx_prev_loc(Some(&mut try_entry.first_loc));
-
+                // TODO: Track unmarked entries in a separate field,
                 self.with_entry(Entry::TryEntry(try_entry.clone()), |folder| {
                     //
                     folder.explode_stmts(block.stmts);
