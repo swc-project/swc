@@ -328,3 +328,11 @@ test(123/*post:9*/
 );"
     )
 }
+
+#[test]
+fn issue_602() {
+    let f = file("tests/projects/issue-602/input.js").unwrap();
+    println!("{}", f);
+
+    assert!(!f.contains("undefined1"));
+}
