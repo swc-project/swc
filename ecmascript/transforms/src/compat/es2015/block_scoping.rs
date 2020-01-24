@@ -3,10 +3,7 @@ use ast::*;
 use smallvec::SmallVec;
 use std::mem::replace;
 use swc_common::{util::map::Map, Fold, FoldWith, Spanned, Visit, VisitWith, DUMMY_SP};
-use utils::{
-    find_ids, ident::IdentLike, prepend, var::VarCollector, DestructuringFinder, ExprFactory, Id,
-    StmtLike,
-};
+use utils::{find_ids, ident::IdentLike, prepend, var::VarCollector, ExprFactory, Id, StmtLike};
 
 ///
 ///
@@ -32,6 +29,7 @@ enum ScopeKind {
     Loop,
     ForLetLoop {
         all: Vec<Id>,
+        args: Vec<Id>,
         /// Produced by identifier reference and consumed by for-of/in loop.
         used: Vec<Id>,
     },
@@ -69,7 +67,7 @@ impl BlockScoping {
     fn mark_as_used(&mut self, i: Id) {
         for (idx, scope) in self.scope.iter_mut().rev().enumerate() {
             match scope {
-                ScopeKind::ForLetLoop { all, used } => {
+                ScopeKind::ForLetLoop { all, used, .. } => {
                     //
                     if all.contains(&i) {
                         if idx == 0 {
@@ -98,7 +96,7 @@ impl BlockScoping {
     fn handle_vars(&mut self, body: Box<Stmt>) -> Box<Stmt> {
         body.map(|body| {
             //
-            if let Some(ScopeKind::ForLetLoop { used, .. }) = self.scope.pop() {
+            if let Some(ScopeKind::ForLetLoop { args, used, .. }) = self.scope.pop() {
                 if used.is_empty() {
                     return body;
                 }
@@ -113,7 +111,7 @@ impl BlockScoping {
                             ident: None,
                             function: Function {
                                 span: DUMMY_SP,
-                                params: used
+                                params: args
                                     .iter()
                                     .map(|i| {
                                         Pat::Ident(Ident::new(i.0.clone(), DUMMY_SP.with_ctxt(i.1)))
@@ -141,7 +139,7 @@ impl BlockScoping {
                 return CallExpr {
                     span: DUMMY_SP,
                     callee: var_name.as_callee(),
-                    args: used
+                    args: args
                         .into_iter()
                         .map(|i| ExprOrSpread {
                             spread: None,
@@ -182,6 +180,7 @@ impl Fold<ForStmt> for BlockScoping {
     fn fold(&mut self, node: ForStmt) -> ForStmt {
         let init = node.init.fold_with(self);
         let mut vars = find_vars(&init);
+        let args = vars.clone();
 
         let test = node.test.fold_with(self);
         let update = node.update.fold_with(self);
@@ -193,6 +192,7 @@ impl Fold<ForStmt> for BlockScoping {
         } else {
             ScopeKind::ForLetLoop {
                 all: vars,
+                args,
                 used: vec![],
             }
         };
@@ -213,6 +213,7 @@ impl Fold<ForOfStmt> for BlockScoping {
     fn fold(&mut self, node: ForOfStmt) -> ForOfStmt {
         let left = self.fold_with_scope(ScopeKind::Block, node.left);
         let mut vars = find_vars(&left);
+        let args = vars.clone();
 
         let right = node.right.fold_with(self);
 
@@ -223,6 +224,7 @@ impl Fold<ForOfStmt> for BlockScoping {
         } else {
             ScopeKind::ForLetLoop {
                 all: vars,
+                args,
                 used: vec![],
             }
         };
@@ -242,6 +244,7 @@ impl Fold<ForInStmt> for BlockScoping {
     fn fold(&mut self, node: ForInStmt) -> ForInStmt {
         let left = self.fold_with_scope(ScopeKind::Block, node.left);
         let mut vars = find_vars(&left);
+        let args = vars.clone();
 
         let right = node.right.fold_with(self);
 
@@ -252,6 +255,7 @@ impl Fold<ForInStmt> for BlockScoping {
         } else {
             ScopeKind::ForLetLoop {
                 all: vars,
+                args,
                 used: vec![],
             }
         };
@@ -440,6 +444,20 @@ impl Visit<AssignExpr> for InfectionFinder<'_> {
         }
 
         self.found = old;
+    }
+}
+
+impl Visit<MemberExpr> for InfectionFinder<'_> {
+    fn visit(&mut self, e: &MemberExpr) {
+        if self.found {
+            return;
+        }
+
+        e.obj.visit_with(self);
+
+        if e.computed {
+            e.prop.visit_with(self);
+        }
     }
 }
 
