@@ -344,3 +344,11 @@ fn issue_604_1() {
 
     assert!(f.contains("_loop(i)"));
 }
+
+#[test]
+fn issue_605() {
+    let f = file("tests/projects/issue-605/input.js").unwrap();
+    println!("{}", f);
+
+    assert!(f.contains("Object.keys(_c)"));
+}

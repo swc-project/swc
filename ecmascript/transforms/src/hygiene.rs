@@ -269,6 +269,9 @@ impl<'a> Fold<Ident> for Hygiene<'a> {
         if i.sym == js_word!("arguments")
             || i.sym == js_word!("undefined")
             || i.sym == js_word!("NaN")
+            || i.sym == js_word!("Object")
+            || i.sym == js_word!("Array")
+            || i.sym == js_word!("Number")
         {
             return i;
         }
