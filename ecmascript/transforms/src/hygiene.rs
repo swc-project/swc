@@ -266,7 +266,7 @@ impl<'a> Fold<FnDecl> for Hygiene<'a> {
 impl<'a> Fold<Ident> for Hygiene<'a> {
     /// Invoked for `IdetifierRefrence` / `BindingIdentifier`
     fn fold(&mut self, i: Ident) -> Ident {
-        if i.sym == js_word!("arguments") {
+        if i.sym == js_word!("arguments") || i.sym == js_word!("undefined") {
             return i;
         }
 
