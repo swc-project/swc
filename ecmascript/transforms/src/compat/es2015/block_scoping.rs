@@ -3,7 +3,7 @@ use ast::*;
 use smallvec::SmallVec;
 use std::mem::replace;
 use swc_common::{Fold, FoldWith, Spanned, VisitWith, DUMMY_SP};
-use utils::{prepend, var::VarCollector, Id, IdentFinder, UsageFinder};
+use utils::{prepend, var::VarCollector, Id};
 
 ///
 ///
@@ -44,8 +44,7 @@ impl BlockScoping {
     {
         self.scope.push(kind);
         let node = node.fold_with(self);
-        let last = self.scope.pop();
-        debug_assert_eq!(Some(kind), last);
+        self.scope.pop();
 
         node
     }
@@ -99,7 +98,7 @@ impl Fold<ForStmt> for BlockScoping {
 impl Fold<ForOfStmt> for BlockScoping {
     fn fold(&mut self, node: ForOfStmt) -> ForOfStmt {
         let left = node.left.fold_with(self);
-        let vars = find_vars(&node.left);
+        let vars = find_vars(&left);
 
         let right = node.right.fold_with(self);
 
@@ -122,7 +121,7 @@ impl Fold<ForOfStmt> for BlockScoping {
 impl Fold<ForInStmt> for BlockScoping {
     fn fold(&mut self, node: ForInStmt) -> ForInStmt {
         let left = node.left.fold_with(self);
-        let vars = find_vars(&node.left);
+        let vars = find_vars(&left);
 
         let right = node.right.fold_with(self);
 
