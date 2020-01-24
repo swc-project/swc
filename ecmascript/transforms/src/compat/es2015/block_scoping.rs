@@ -1,22 +1,45 @@
 use crate::{pass::Pass, util::undefined};
 use ast::*;
-use swc_common::{Fold, FoldWith, Spanned};
+use smallvec::SmallVec;
+use std::mem::replace;
+use swc_common::{Fold, FoldWith, Spanned, VisitWith, DUMMY_SP};
+use utils::{prepend, var::VarCollector, Id, IdentFinder, UsageFinder};
 
 pub fn block_scoping() -> impl Pass {
-    BlockScoping {
-        in_loop_body: false,
-    }
+    BlockScoping::default()
+}
+
+type ScopeStack = SmallVec<[ScopeKind; 8]>;
+
+#[derive(Debug, PartialEq, Eq)]
+enum ScopeKind {
+    Loop,
+    ForLetLoop(Vec<Id>),
+    Fn,
 }
 
 struct BlockScoping {
-    in_loop_body: bool,
+    scope: ScopeStack,
+    vars: Vec<VarDeclarator>,
+}
+
+impl BlockScoping {
+    fn fold_with_scope<T>(&mut self, kind: ScopeKind, node: T) -> T
+    where
+        T: FoldWith<Self>,
+    {
+        self.scope.push(kind);
+        let node = node.fold_with(self);
+        let last = self.scope.pop();
+        debug_assert_eq!(Some(kind), last);
+
+        node
+    }
 }
 
 impl Fold<DoWhileStmt> for BlockScoping {
     fn fold(&mut self, node: DoWhileStmt) -> DoWhileStmt {
-        let body = node
-            .body
-            .fold_with(&mut BlockScoping { in_loop_body: true });
+        let body = self.fold_with_scope(ScopeKind::Loop, node.body);
 
         let test = node.test.fold_with(self);
 
@@ -26,13 +49,9 @@ impl Fold<DoWhileStmt> for BlockScoping {
 
 impl Fold<WhileStmt> for BlockScoping {
     fn fold(&mut self, node: WhileStmt) -> WhileStmt {
-        let body = node
-            .body
-            .fold_with(&mut BlockScoping { in_loop_body: true });
+        let body = self.fold_with_scope(ScopeKind::Loop, node.body);
 
-        let test = node.test.fold_with(&mut BlockScoping {
-            in_loop_body: false,
-        });
+        let test = node.test.fold_with(self);
 
         WhileStmt { body, test, ..node }
     }
@@ -40,19 +59,11 @@ impl Fold<WhileStmt> for BlockScoping {
 
 impl Fold<ForStmt> for BlockScoping {
     fn fold(&mut self, node: ForStmt) -> ForStmt {
-        let body = node
-            .body
-            .fold_with(&mut BlockScoping { in_loop_body: true });
+        let init = node.init.fold_with(self);
+        let test = node.test.fold_with(self);
+        let update = node.update.fold_with(self);
 
-        let init = node.init.fold_with(&mut BlockScoping {
-            in_loop_body: false,
-        });
-        let test = node.test.fold_with(&mut BlockScoping {
-            in_loop_body: false,
-        });
-        let update = node.update.fold_with(&mut BlockScoping {
-            in_loop_body: false,
-        });
+        let body = self.fold_with_scope(ScopeKind::Loop, node.body);
 
         ForStmt {
             init,
@@ -66,16 +77,13 @@ impl Fold<ForStmt> for BlockScoping {
 
 impl Fold<ForOfStmt> for BlockScoping {
     fn fold(&mut self, node: ForOfStmt) -> ForOfStmt {
+        let left = node.left.fold_with(self);
+
+        let right = node.right.fold_with(self);
+
         let body = node
             .body
             .fold_with(&mut BlockScoping { in_loop_body: true });
-
-        let left = node.left.fold_with(&mut BlockScoping {
-            in_loop_body: false,
-        });
-        let right = node.right.fold_with(&mut BlockScoping {
-            in_loop_body: false,
-        });
 
         ForOfStmt {
             left,
@@ -88,16 +96,14 @@ impl Fold<ForOfStmt> for BlockScoping {
 
 impl Fold<ForInStmt> for BlockScoping {
     fn fold(&mut self, node: ForInStmt) -> ForInStmt {
+        let left = node.left.fold_with(self);
+        let vars = LoopCreator::find_vars(&node.left);
+
+        let right = node.right.fold_with(self);
+
         let body = node
             .body
             .fold_with(&mut BlockScoping { in_loop_body: true });
-
-        let left = node.left.fold_with(&mut BlockScoping {
-            in_loop_body: false,
-        });
-        let right = node.right.fold_with(&mut BlockScoping {
-            in_loop_body: false,
-        });
 
         ForInStmt {
             left,
@@ -110,21 +116,54 @@ impl Fold<ForInStmt> for BlockScoping {
 
 impl Fold<Function> for BlockScoping {
     fn fold(&mut self, f: Function) -> Function {
-        let f = f.fold_children(&mut BlockScoping {
-            in_loop_body: false,
-        });
-
-        f
+        Function {
+            params: f.params.fold_with(self),
+            decorators: f.decorators.fold_with(self),
+            body: self.fold_with_scope(ScopeKind::Fn, f.body),
+            ..f
+        }
     }
 }
 
 impl Fold<ArrowExpr> for BlockScoping {
     fn fold(&mut self, f: ArrowExpr) -> ArrowExpr {
-        let f = f.fold_children(&mut BlockScoping {
-            in_loop_body: false,
-        });
+        ArrowExpr {
+            params: f.params.fold_with(self),
+            body: self.fold_with_scope(ScopeKind::Fn, f.body),
+            ..f
+        }
+    }
+}
 
-        f
+impl Fold<Constructor> for BlockScoping {
+    fn fold(&mut self, f: Constructor) -> Constructor {
+        Constructor {
+            key: f.key.fold_with(self),
+            params: f.params.fold_with(self),
+            body: self.fold_with_scope(ScopeKind::Fn, f.body),
+            ..f
+        }
+    }
+}
+
+impl Fold<GetterProp> for BlockScoping {
+    fn fold(&mut self, f: GetterProp) -> GetterProp {
+        GetterProp {
+            key: f.key.fold_with(self),
+            body: self.fold_with_scope(ScopeKind::Fn, f.body),
+            ..f
+        }
+    }
+}
+
+impl Fold<SetterProp> for BlockScoping {
+    fn fold(&mut self, f: SetterProp) -> SetterProp {
+        SetterProp {
+            key: f.key.fold_with(self),
+            param: f.param.fold_with(self),
+            body: self.fold_with_scope(ScopeKind::Fn, f.body),
+            ..f
+        }
     }
 }
 
@@ -155,8 +194,49 @@ impl Fold<VarDeclarator> for BlockScoping {
 
 impl Fold<Module> for BlockScoping {
     fn fold(&mut self, node: Module) -> Module {
-        validate!(node.fold_children(self))
+        let mut module: Module = node.fold_children(self);
+
+        prepend(
+            &mut module.body,
+            ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                span: DUMMY_SP,
+                kind: VarDeclKind::Var,
+                declare: false,
+                decls: replace(&mut self.vars, Default::default()),
+            }))),
+        );
+
+        validate!(module)
     }
+}
+
+impl Fold<Script> for BlockScoping {
+    fn fold(&mut self, node: Script) -> Script {
+        let mut script: Script = node.fold_children(self);
+
+        prepend(
+            &mut script.body,
+            Stmt::Decl(Decl::Var(VarDecl {
+                span: DUMMY_SP,
+                kind: VarDeclKind::Var,
+                declare: false,
+                decls: replace(&mut self.vars, Default::default()),
+            })),
+        );
+
+        validate!(script)
+    }
+}
+
+fn find_vars<T>(node: &T) -> Vec<Id>
+where
+    T: for<'any> VisitWith<VarCollector<'any>>,
+{
+    let mut vars = vec![];
+    let mut v = VarCollector { to: &mut vars };
+    node.visit_with(&mut v);
+
+    vars
 }
 
 #[cfg(test)]
