@@ -29,6 +29,12 @@ macro_rules! to {
     };
 }
 
+macro_rules! identical_no_block {
+    ($name:ident, $src:literal) => {
+        test!(syntax(), |_| resolver(), $name, $src, $src);
+    };
+}
+
 #[test]
 fn test_mark_for() {
     ::testing::run_test(false, |_, _| {
@@ -311,7 +317,9 @@ test!(
 
 // TODO: try {} catch (a) { let a } should report error
 
-to!(
+test!(
+    Default::default(),
+    |_| resolver(),
     babel_issue_973,
     r#"let arr = [];
 for(let i = 0; i < 10; i++) {
@@ -621,7 +629,7 @@ identical!(
 }"
 );
 
-identical!(
+identical_no_block!(
     issue_292_1,
     "var __assign = function () {
   __assign = Object.assign || function __assign(t) {
@@ -638,7 +646,7 @@ identical!(
 };"
 );
 
-identical!(
+identical_no_block!(
     issue_292_2,
     "__assign = Object.assign || function __assign(t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -1023,4 +1031,16 @@ var instance = new SomeClass({
     }
 });
 instance.call();"
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    global_object,
+    "function foo(Object) {
+        Object.defineProperty()
+    }",
+    "function foo(Object1) {
+    Object1.defineProperty();
+}"
 );
