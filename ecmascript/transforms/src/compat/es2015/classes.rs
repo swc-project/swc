@@ -19,7 +19,7 @@ use swc_common::{Fold, FoldWith, Mark, Spanned, Visit, VisitWith, DUMMY_SP};
 #[macro_use]
 mod macros;
 mod constructor;
-mod native;
+pub(crate) mod native;
 mod prop_name;
 mod super_field;
 
