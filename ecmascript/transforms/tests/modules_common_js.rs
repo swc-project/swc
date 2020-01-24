@@ -4049,3 +4049,30 @@ const foo = function() {
 }();
 exports.foo = foo;"
 );
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        strict: false,
+        strict_mode: true,
+        no_interop: true,
+        ..Default::default()
+    }),
+    issue_605,
+    "export * from 'c';",
+    "'use strict';
+Object.defineProperty(exports, '__esModule', {
+    value: true
+});
+var _c = require('c');
+Object.keys(_c).forEach(function(key) {
+    if (key === 'default' || key === '__esModule') return;
+    Object.defineProperty(exports, key, {
+        enumerable: true,
+        get: function() {
+            return _c[key];
+        }
+    });
+});
+"
+);

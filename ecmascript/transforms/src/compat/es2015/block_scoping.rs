@@ -33,6 +33,7 @@ enum ScopeKind {
         used: Vec<Id>,
     },
     Fn,
+    Block,
 }
 
 #[derive(Default)]
@@ -82,10 +83,13 @@ impl BlockScoping {
     }
 
     fn in_loop_body(&self) -> bool {
-        self.scope.iter().any(|scope| match scope {
-            ScopeKind::ForLetLoop { .. } | ScopeKind::Loop => true,
-            _ => false,
-        })
+        self.scope
+            .last()
+            .map(|scope| match scope {
+                ScopeKind::ForLetLoop { .. } | ScopeKind::Loop => true,
+                _ => false,
+            })
+            .unwrap_or(false)
     }
 
     fn handle_vars(&mut self, body: Box<Stmt>) -> Box<Stmt> {
@@ -202,7 +206,7 @@ impl Fold<ForStmt> for BlockScoping {
 
 impl Fold<ForOfStmt> for BlockScoping {
     fn fold(&mut self, node: ForOfStmt) -> ForOfStmt {
-        let left = node.left.fold_with(self);
+        let left = self.fold_with_scope(ScopeKind::Block, node.left);
         let vars = find_vars(&left);
 
         let right = node.right.fold_with(self);
@@ -229,7 +233,7 @@ impl Fold<ForOfStmt> for BlockScoping {
 
 impl Fold<ForInStmt> for BlockScoping {
     fn fold(&mut self, node: ForInStmt) -> ForInStmt {
-        let left = node.left.fold_with(self);
+        let left = self.fold_with_scope(ScopeKind::Block, node.left);
         let vars = find_vars(&left);
 
         let right = node.right.fold_with(self);
