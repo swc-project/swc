@@ -2,8 +2,11 @@ use crate::{pass::Pass, util::undefined};
 use ast::*;
 use smallvec::SmallVec;
 use std::mem::replace;
-use swc_common::{util::map::Map, Fold, FoldWith, Spanned, VisitWith, DUMMY_SP};
-use utils::{ident::IdentLike, prepend, var::VarCollector, ExprFactory, Id, StmtLike};
+use swc_common::{util::map::Map, Fold, FoldWith, Spanned, Visit, VisitWith, DUMMY_SP};
+use utils::{
+    find_ids, ident::IdentLike, prepend, var::VarCollector, DestructuringFinder, ExprFactory, Id,
+    StmtLike,
+};
 
 ///
 ///
@@ -178,10 +181,12 @@ impl Fold<WhileStmt> for BlockScoping {
 impl Fold<ForStmt> for BlockScoping {
     fn fold(&mut self, node: ForStmt) -> ForStmt {
         let init = node.init.fold_with(self);
-        let vars = find_vars(&init);
+        let mut vars = find_vars(&init);
 
         let test = node.test.fold_with(self);
         let update = node.update.fold_with(self);
+
+        find_infected(&mut vars, &node.body);
 
         let kind = if vars.is_empty() {
             ScopeKind::Loop
@@ -207,9 +212,11 @@ impl Fold<ForStmt> for BlockScoping {
 impl Fold<ForOfStmt> for BlockScoping {
     fn fold(&mut self, node: ForOfStmt) -> ForOfStmt {
         let left = self.fold_with_scope(ScopeKind::Block, node.left);
-        let vars = find_vars(&left);
+        let mut vars = find_vars(&left);
 
         let right = node.right.fold_with(self);
+
+        find_infected(&mut vars, &node.body);
 
         let kind = if vars.is_empty() {
             ScopeKind::Loop
@@ -234,9 +241,11 @@ impl Fold<ForOfStmt> for BlockScoping {
 impl Fold<ForInStmt> for BlockScoping {
     fn fold(&mut self, node: ForInStmt) -> ForInStmt {
         let left = self.fold_with_scope(ScopeKind::Block, node.left);
-        let vars = find_vars(&left);
+        let mut vars = find_vars(&left);
 
         let right = node.right.fold_with(self);
+
+        find_infected(&mut vars, &node.body);
 
         let kind = if vars.is_empty() {
             ScopeKind::Loop
@@ -379,9 +388,81 @@ where
     vars
 }
 
+fn find_infected<T>(ids: &mut Vec<Id>, node: &T)
+where
+    T: for<'any> VisitWith<InfectionFinder<'any>>,
+{
+    let mut v = InfectionFinder {
+        vars: ids,
+        found: false,
+    };
+    node.visit_with(&mut v);
+}
+
+/// In the code below,
+///
+/// ```js
+/// let i = _step.value
+/// ```
+///
+/// `i` is infected by `_step`.
+struct InfectionFinder<'a> {
+    vars: &'a mut Vec<Id>,
+    found: bool,
+}
+
+impl Visit<VarDeclarator> for InfectionFinder<'_> {
+    fn visit(&mut self, node: &VarDeclarator) {
+        let old = self.found;
+        self.found = false;
+
+        node.init.visit_with(self);
+
+        if self.found {
+            let ids = find_ids(&node.name);
+            self.vars.extend(ids);
+        }
+
+        self.found = old;
+    }
+}
+
+impl Visit<AssignExpr> for InfectionFinder<'_> {
+    fn visit(&mut self, node: &AssignExpr) {
+        let old = self.found;
+        self.found = false;
+
+        node.right.visit_with(self);
+
+        if self.found {
+            let ids = find_ids(&node.left);
+            self.vars.extend(ids);
+        }
+
+        self.found = old;
+    }
+}
+
+impl Visit<Ident> for InfectionFinder<'_> {
+    fn visit(&mut self, i: &Ident) {
+        if self.found {
+            return;
+        }
+
+        for ident in &*self.vars {
+            if i.span.ctxt() == ident.1 && i.sym == ident.0 {
+                self.found = true;
+                break;
+            }
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::block_scoping;
+    use crate::compat::es2015::for_of::for_of;
+    use swc_common::chain;
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
@@ -463,6 +544,21 @@ expect(functions[7]()).toBe(7);
         ::swc_ecma_parser::Syntax::default(),
         |_| block_scoping(),
         for_let_of_exec,
+        "let functions = [];
+for (let i of [1, 3, 5, 7, 9]) {
+	functions.push(function() {
+		return i;
+	});
+}
+expect(functions[0]()).toBe(1);
+expect(functions[1]()).toBe(3);
+"
+    );
+
+    test_exec!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| chain!(for_of(Default::default()), block_scoping()),
+        issue_609_1,
         "let functions = [];
 for (let i of [1, 3, 5, 7, 9]) {
 	functions.push(function() {
