@@ -49,6 +49,13 @@ impl BlockScoping {
 
         node
     }
+
+    fn in_loop_body(&self) -> bool {
+        self.scope.iter().any(|scope| match scope {
+            ScopeKind::ForLetLoop(..) | ScopeKind::Loop => true,
+            _ => false,
+        })
+    }
 }
 
 impl Fold<DoWhileStmt> for BlockScoping {
@@ -203,7 +210,7 @@ impl Fold<VarDeclarator> for BlockScoping {
     fn fold(&mut self, var: VarDeclarator) -> VarDeclarator {
         let var = var.fold_children(self);
 
-        let init = if self.in_loop_body && var.init.is_none() {
+        let init = if self.in_loop_body() && var.init.is_none() {
             Some(undefined(var.span()))
         } else {
             var.init
