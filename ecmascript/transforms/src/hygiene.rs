@@ -1,5 +1,6 @@
 use self::ops::{Operator, ScopeOp};
 use crate::{
+    compat::es2015::classes::native::is_native,
     pass::Pass,
     scope::{IdentType, ScopeKind},
 };
@@ -265,17 +266,18 @@ impl<'a> Fold<FnDecl> for Hygiene<'a> {
 impl<'a> Fold<Ident> for Hygiene<'a> {
     /// Invoked for `IdetifierRefrence` / `BindingIdentifier`
     fn fold(&mut self, i: Ident) -> Ident {
-        // Special cases
-        if i.sym == js_word!("arguments")
-            || i.sym == js_word!("undefined")
-            || i.sym == js_word!("NaN")
-        {
+        if i.sym == js_word!("arguments") || i.sym == js_word!("undefined") {
             return i;
         }
 
         match self.ident_type {
             IdentType::Binding => self.add_declared_ref(i.clone()),
             IdentType::Ref => {
+                // Special cases
+                if is_native(&i.sym) {
+                    return i;
+                }
+
                 self.add_used_ref(i.clone());
             }
             IdentType::Label => {
@@ -372,6 +374,10 @@ impl<'a> Scope<'a> {
                     return false;
                 }
             }
+        }
+
+        if is_native(&sym) {
+            return false;
         }
 
         if let Some(ctxts) = self.declared_symbols.borrow().get(&sym) {

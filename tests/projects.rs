@@ -336,3 +336,19 @@ fn issue_602() {
 
     assert!(!f.contains("undefined1"));
 }
+
+#[test]
+fn issue_604_1() {
+    let f = file("tests/projects/issue-604-1/input.js").unwrap();
+    println!("{}", f);
+
+    assert!(f.contains("_loop(i)"));
+}
+
+#[test]
+fn issue_605() {
+    let f = file("tests/projects/issue-605/input.js").unwrap();
+    println!("{}", f);
+
+    assert!(f.contains("Object.keys(_c)"));
+}

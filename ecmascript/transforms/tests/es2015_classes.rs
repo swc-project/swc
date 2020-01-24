@@ -96,9 +96,9 @@ test!(
     class List extends Array {}
 "#,
     r#"
-let List = function(Array) {
+let List = function(Array1) {
     'use strict';
-    _inherits(List, Array);
+    _inherits(List, Array1);
     function List() {
         _classCallCheck(this, List);
         return _possibleConstructorReturn(this, _getPrototypeOf(List).apply(this, arguments));
@@ -506,9 +506,9 @@ this.HTMLElement = function() {
     constructor = this.constructor;
 };
 var constructor;
-let CustomElement = function(HTMLElement) {
+let CustomElement = function(HTMLElement1) {
     'use strict';
-    _inherits(CustomElement, HTMLElement);
+    _inherits(CustomElement, HTMLElement1);
     function CustomElement() {
         _classCallCheck(this, CustomElement);
         return _possibleConstructorReturn(this, _getPrototypeOf(CustomElement).apply(this, arguments));

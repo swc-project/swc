@@ -16,7 +16,7 @@ macro_rules! native {
     };
 }
 
-pub(super) fn is_native(sym: &JsWord) -> bool {
+pub(crate) fn is_native(sym: &JsWord) -> bool {
     native!(
         sym,
         "Array",
