@@ -74,14 +74,11 @@ fn escape_in_attr() {
                 attrs: vec![JSXAttrOrSpread::JSXAttr(JSXAttr {
                     span,
                     name: JSXAttrName::Ident(Ident::new("id".into(), span)),
-                    value: Some(JSXAttrValue::JSXExprContainer(JSXExprContainer {
+                    value: Some(JSXAttrValue::Lit(Lit::Str(Str {
                         span,
-                        expr: JSXExpr::Expr(box Expr::Lit(Lit::Str(Str {
-                            span,
-                            value: "w < w".into(),
-                            has_escape: false,
-                        })))
-                    })),
+                        value: "w < w".into(),
+                        has_escape: false,
+                    }))),
                 })],
                 name: JSXElementName::Ident(Ident::new("div".into(), span)),
                 self_closing: true,
