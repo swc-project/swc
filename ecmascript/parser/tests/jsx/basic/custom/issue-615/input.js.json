@@ -1,0 +1,105 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 28,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 0,
+        "end": 28,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 4,
+            "end": 27,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 4,
+              "end": 5,
+              "ctxt": 0
+            },
+            "value": "c",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "JSXElement",
+            "span": {
+              "start": 8,
+              "end": 27,
+              "ctxt": 0
+            },
+            "opening": {
+              "type": "JSXOpeningElement",
+              "name": {
+                "type": "Identifier",
+                "span": {
+                  "start": 9,
+                  "end": 13,
+                  "ctxt": 0
+                },
+                "value": "Test",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "span": {
+                "start": 8,
+                "end": 27,
+                "ctxt": 0
+              },
+              "attributes": [
+                {
+                  "type": "JSXAttribute",
+                  "span": {
+                    "start": 14,
+                    "end": 24,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 14,
+                      "end": 20,
+                      "ctxt": 0
+                    },
+                    "value": "attrib",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "value": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 21,
+                      "end": 24,
+                      "ctxt": 0
+                    },
+                    "value": "5",
+                    "hasEscape": false
+                  }
+                }
+              ],
+              "selfClosing": true,
+              "typeArguments": null
+            },
+            "children": [],
+            "closing": null
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}
