@@ -58,22 +58,14 @@
                 "optional": false
               },
               "value": {
-                "type": "JSXExpressionContainer",
+                "type": "StringLiteral",
                 "span": {
                   "start": 16,
-                  "end": 16,
+                  "end": 31,
                   "ctxt": 0
                 },
-                "expression": {
-                  "type": "StringLiteral",
-                  "span": {
-                    "start": 16,
-                    "end": 31,
-                    "ctxt": 0
-                  },
-                  "value": "&&",
-                  "hasEscape": false
-                }
+                "value": "&&",
+                "hasEscape": false
               }
             }
           ],

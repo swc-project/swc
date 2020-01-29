@@ -58,22 +58,14 @@
                 "optional": false
               },
               "value": {
-                "type": "JSXExpressionContainer",
+                "type": "StringLiteral",
                 "span": {
                   "start": 9,
-                  "end": 9,
+                  "end": 18,
                   "ctxt": 0
                 },
-                "expression": {
-                  "type": "StringLiteral",
-                  "span": {
-                    "start": 9,
-                    "end": 18,
-                    "ctxt": 0
-                  },
-                  "value": "leading",
-                  "hasEscape": false
-                }
+                "value": "leading",
+                "hasEscape": false
               }
             },
             {
@@ -95,22 +87,14 @@
                 "optional": false
               },
               "value": {
-                "type": "JSXExpressionContainer",
+                "type": "StringLiteral",
                 "span": {
                   "start": 24,
-                  "end": 24,
+                  "end": 35,
                   "ctxt": 0
                 },
-                "expression": {
-                  "type": "StringLiteral",
-                  "span": {
-                    "start": 24,
-                    "end": 35,
-                    "ctxt": 0
-                  },
-                  "value": "attribute",
-                  "hasEscape": false
-                }
+                "value": "attribute",
+                "hasEscape": false
               }
             },
             {
