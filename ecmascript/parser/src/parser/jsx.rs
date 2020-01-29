@@ -85,11 +85,16 @@ impl<'a, I: Tokens> Parser<'a, I> {
                     JSXExpr::Expr(..) => Ok(node.into()),
                 }
             }
-            Token::Str { .. } | Token::JSXTagStart => {
-                Ok(JSXAttrValue::JSXExprContainer(JSXExprContainer {
-                    span: span!(start),
-                    expr: JSXExpr::Expr(self.parse_lhs_expr()?),
-                }))
+            Token::Str { .. } => {
+                let lit = self.parse_lit()?;
+                Ok(JSXAttrValue::Lit(lit))
+            }
+            Token::JSXTagStart => {
+                let expr = self.parse_jsx_element()?;
+                match expr {
+                    Either::Left(n) => Ok(JSXAttrValue::JSXFragment(n)),
+                    Either::Right(n) => Ok(JSXAttrValue::JSXElement(Box::new(n))),
+                }
             }
 
             _ => syntax_error!(span!(start), SyntaxError::InvalidJSXValue),
