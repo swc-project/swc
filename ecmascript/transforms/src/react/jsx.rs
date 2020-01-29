@@ -254,6 +254,7 @@ impl Jsx {
                         _ => unreachable!(),
                     })
                     .map(attr_to_prop)
+                    .map(|v| v.fold_with(self))
                     .map(Box::new)
                     .map(PropOrSpread::Prop)
                     .collect(),
@@ -370,7 +371,7 @@ fn attr_to_prop(a: JSXAttr) -> Prop {
                 expr: JSXExpr::Expr(e),
                 ..
             }) => e,
-8            JSXAttrValue::JSXElement(e) => box Expr::JSXElement(e),
+            JSXAttrValue::JSXElement(e) => box Expr::JSXElement(e),
             JSXAttrValue::JSXFragment(e) => box Expr::JSXFragment(e),
             JSXAttrValue::Lit(lit) => box lit.into(),
             JSXAttrValue::JSXExprContainer(JSXExprContainer {
