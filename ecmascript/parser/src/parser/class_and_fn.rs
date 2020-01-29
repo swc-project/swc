@@ -760,9 +760,9 @@ impl<'a, I: Tokens> Parser<'a, I> {
         let is_generator = {
             let start = cur_pos!();
             if eat!('*') {
-                if is_async {
-                    syntax_error!(span!(start), SyntaxError::AsyncGenerator {});
-                }
+                // if is_async {
+                //     syntax_error!(span!(start), SyntaxError::AsyncGenerator {});
+                // }
                 true
             } else {
                 false
