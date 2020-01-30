@@ -723,7 +723,7 @@ impl SourceMap {
         let src = &local_begin.sf.src;
         let snippet = {
             let len = src.len();
-            (&src[start_index..len])
+            &src[start_index..len]
         };
         debug!("find_width_of_character_at_span: snippet=`{:?}`", snippet);
 
