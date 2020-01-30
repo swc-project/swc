@@ -29,6 +29,7 @@ hashbrown = "0.6"
 termcolor = "1.0"
 serde = { version = "1", features = ["derive"] }
 dashmap = "3.2.2"
+fxhash = "0.2.1"
 
 
 [dev-dependencies]
