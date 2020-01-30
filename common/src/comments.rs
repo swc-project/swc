@@ -2,14 +2,28 @@ use crate::{
     pos::Spanned,
     syntax_pos::{BytePos, Span},
 };
-use chashmap::{CHashMap, ReadGuard};
+use dashmap::{mapref::one::Ref, DashMap};
+use fxhash::FxBuildHasher;
 
-pub type CommentMap = CHashMap<BytePos, Vec<Comment>>;
+pub type CommentMap = DashMap<BytePos, Vec<Comment>, FxBuildHasher>;
 
-#[derive(Debug, Default)]
+#[derive(Debug)]
 pub struct Comments {
     leading: CommentMap,
     trailing: CommentMap,
+}
+
+impl Default for Comments {
+    fn default() -> Self {
+        fn mk() -> CommentMap {
+            DashMap::with_hasher(Default::default())
+        }
+
+        Comments {
+            leading: mk(),
+            trailing: mk(),
+        }
+    }
 }
 
 impl Comments {
@@ -18,28 +32,28 @@ impl Comments {
     }
 
     pub fn add_trailing(&self, pos: BytePos, cmt: Comment) {
-        self.trailing.alter(pos, |v| match v {
-            Some(mut value) => {
-                value.push(cmt);
-                Some(value)
-            }
-            None => Some(vec![cmt]),
-        });
+        self.trailing.entry(pos).or_default().push(cmt);
     }
 
     pub fn take_trailing_comments(&self, pos: BytePos) -> Option<Vec<Comment>> {
-        self.trailing.remove(&pos)
+        self.trailing.remove(&pos).map(|v| v.1)
     }
 
-    pub fn trailing_comments(&self, pos: BytePos) -> Option<ReadGuard<'_, BytePos, Vec<Comment>>> {
+    pub fn trailing_comments(
+        &self,
+        pos: BytePos,
+    ) -> Option<Ref<'_, BytePos, Vec<Comment>, FxBuildHasher>> {
         self.trailing.get(&pos)
     }
 
     pub fn take_leading_comments(&self, pos: BytePos) -> Option<Vec<Comment>> {
-        self.leading.remove(&pos)
+        self.leading.remove(&pos).map(|v| v.1)
     }
 
-    pub fn leading_comments(&self, pos: BytePos) -> Option<ReadGuard<'_, BytePos, Vec<Comment>>> {
+    pub fn leading_comments(
+        &self,
+        pos: BytePos,
+    ) -> Option<Ref<'_, BytePos, Vec<Comment>, FxBuildHasher>> {
         self.leading.get(&pos)
     }
 
@@ -47,13 +61,7 @@ impl Comments {
         let cmt = self.leading.remove(&from);
 
         if let Some(cmt) = cmt {
-            self.leading.alter(to, |v| match v {
-                Some(mut value) => {
-                    value.extend(cmt);
-                    Some(value)
-                }
-                None => Some(cmt),
-            });
+            self.leading.entry(to).or_default().extend(cmt.1);
         }
     }
 
@@ -61,13 +69,7 @@ impl Comments {
         let cmt = self.trailing.remove(&from);
 
         if let Some(cmt) = cmt {
-            self.trailing.alter(to, |v| match v {
-                Some(mut value) => {
-                    value.extend(cmt);
-                    Some(value)
-                }
-                None => Some(cmt),
-            });
+            self.trailing.entry(to).or_default().extend(cmt.1);
         }
     }
 

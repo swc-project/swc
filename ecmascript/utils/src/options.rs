@@ -1,4 +1,4 @@
-use lazy_static::lazy_static;
+use once_cell::sync::Lazy;
 use std::sync::Arc;
 use swc_common::{
     errors::{ColorConfig, Handler},
@@ -6,9 +6,10 @@ use swc_common::{
 };
 use swc_ecma_parser::Session;
 
-lazy_static! {
-    pub static ref CM: Arc<SourceMap> = { Arc::new(SourceMap::new(FilePathMapping::empty())) };
-    pub static ref HANDLER: Handler =
-        { Handler::with_tty_emitter(ColorConfig::Always, false, true, Some(CM.clone())) };
-    pub static ref SESSION: Session<'static> = { Session { handler: &*HANDLER } };
-}
+pub static CM: Lazy<Arc<SourceMap>> =
+    Lazy::new(|| Arc::new(SourceMap::new(FilePathMapping::empty())));
+
+pub static HANDLER: Lazy<Handler> =
+    Lazy::new(|| Handler::with_tty_emitter(ColorConfig::Always, false, true, Some(CM.clone())));
+
+pub static SESSION: Lazy<Session> = Lazy::new(|| Session { handler: &*HANDLER });

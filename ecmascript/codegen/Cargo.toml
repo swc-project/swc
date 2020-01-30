@@ -1,6 +1,6 @@
 [package]
 name = "swc_ecma_codegen"
-version = "0.14.0"
+version = "0.15.0"
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 license = "Apache-2.0/MIT"
 repository = "https://github.com/swc-project/swc.git"
@@ -12,12 +12,12 @@ edition = "2018"
 bitflags = "1"
 hashbrown = "0.6"
 swc_atoms = { version = "0.2", path ="../../atoms" }
-swc_common = { version = "0.4.4", path ="../../common" }
-swc_ecma_ast = { version = "0.15.0", path ="../ast" }
+swc_common = { version = "0.5", path ="../../common" }
+swc_ecma_ast = { version = "0.16.0", path ="../ast" }
 swc_ecma_codegen_macros = { version = "0.4", path ="./macros" }
 sourcemap = "4.1.1"
 num-bigint = { version = "0.2", features = ["serde"] }
 
 [dev-dependencies]
-testing = { version = "0.4", path ="../../testing" }
-swc_ecma_parser = { version = "0.17", path ="../parser" }
+testing = { version = "0.5", path ="../../testing" }
+swc_ecma_parser = { version = "0.18", path ="../parser" }

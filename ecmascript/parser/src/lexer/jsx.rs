@@ -1,6 +1,6 @@
 use super::*;
 use either::Either;
-use lazy_static::lazy_static;
+use once_cell::sync::Lazy;
 use regex::Regex;
 
 impl<'a, I: Input> Lexer<'a, I> {
@@ -71,12 +71,8 @@ impl<'a, I: Input> Lexer<'a, I> {
             Ok(c)
         }
 
-        lazy_static! {
-            static ref HEX_NUMBER: Regex = Regex::new(r"^[\da-fA-F]+$").unwrap();
-        }
-        lazy_static! {
-            static ref DECIMAL_NUMBER: Regex = Regex::new(r"^\d+$").unwrap();
-        }
+        static HEX_NUMBER: Lazy<Regex> = Lazy::new(|| Regex::new(r"^[\da-fA-F]+$").unwrap());
+        static DECIMAL_NUMBER: Lazy<Regex> = Lazy::new(|| Regex::new(r"^\d+$").unwrap());
 
         let mut s = String::new();
 

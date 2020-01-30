@@ -1,8 +1,8 @@
 use crate::{builder::PassBuilder, error::Error};
 use atoms::JsWord;
-use chashmap::CHashMap;
 pub use common::chain;
 use common::{errors::Handler, FileName, SourceMap};
+use dashmap::DashMap;
 pub use ecmascript::parser::JscTarget;
 use ecmascript::{
     ast::{Expr, ExprStmt, ModuleItem, Stmt},
@@ -17,7 +17,7 @@ use ecmascript::{
     },
 };
 use hashbrown::{HashMap, HashSet};
-use lazy_static::lazy_static;
+use once_cell::sync::Lazy;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
 use std::{
@@ -369,9 +369,7 @@ impl Default for FileMatcher {
 
 impl FileMatcher {
     pub fn matches(&self, filename: &Path) -> Result<bool, Error> {
-        lazy_static! {
-            static ref CACHE: CHashMap<String, Regex> = Default::default();
-        }
+        static CACHE: Lazy<DashMap<String, Regex>> = Lazy::new(Default::default);
 
         match self {
             FileMatcher::Regex(ref s) => {

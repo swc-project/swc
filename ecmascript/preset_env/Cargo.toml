@@ -21,7 +21,7 @@ once_cell = "1.2.0"
 hashbrown = "0.6"
 st-map = "0.1.2"
 fxhash = "0.2.1"
-chashmap = "2.2"
+dashmap = "3.2.2"
 
 [dev-dependencies]
 swc_ecma_codegen = { path = "../codegen" }

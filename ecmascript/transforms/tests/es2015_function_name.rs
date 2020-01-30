@@ -24,11 +24,11 @@ fn tr() -> impl Pass {
     chain!(resolver(), function_name(), block_scoping())
 }
 
-macro_rules! identical {
-    ($name:ident, $src:literal) => {
-        test!(syntax(), |_| tr(), $name, $src, $src);
-    };
-}
+//macro_rules! identical {
+//    ($name:ident, $src:literal) => {
+//        test!(syntax(), |_| tr(), $name, $src, $src);
+//    };
+//}
 
 test!(
     syntax(),
