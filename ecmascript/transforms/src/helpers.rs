@@ -1,5 +1,5 @@
 use ast::*;
-use lazy_static::lazy_static;
+use once_cell::sync::Lazy;
 use scoped_tls::scoped_thread_local;
 use std::sync::atomic::{AtomicBool, Ordering};
 use swc_common::{FileName, Fold, FoldWith, Mark, Span, DUMMY_SP};
@@ -21,29 +21,26 @@ macro_rules! enable_helper {
 
 macro_rules! add_to {
     ($buf:expr, $name:ident, $b:expr, $mark:expr) => {{
-        lazy_static! {
-            static ref STMTS: Vec<Stmt> = {
-                let code = include_str!(concat!("helpers/_", stringify!($name), ".js"));
-                let fm =
-                    CM.new_source_file(FileName::Custom(stringify!($name).into()), code.into());
-                let lexer = Lexer::new(
-                    *SESSION,
-                    Default::default(),
-                    Default::default(),
-                    SourceFileInput::from(&*fm),
-                    None,
-                );
-                let stmts = Parser::new_from(*SESSION, lexer)
-                    .parse_script()
-                    .map(|script| script.body.fold_with(&mut DropSpan))
-                    .map_err(|mut e| {
-                        e.emit();
-                        ()
-                    })
-                    .unwrap();
-                stmts
-            };
-        }
+        static STMTS: Lazy<Vec<Stmt>> = Lazy::new(|| {
+            let code = include_str!(concat!("helpers/_", stringify!($name), ".js"));
+            let fm = CM.new_source_file(FileName::Custom(stringify!($name).into()), code.into());
+            let lexer = Lexer::new(
+                *SESSION,
+                Default::default(),
+                Default::default(),
+                SourceFileInput::from(&*fm),
+                None,
+            );
+            let stmts = Parser::new_from(*SESSION, lexer)
+                .parse_script()
+                .map(|script| script.body.fold_with(&mut DropSpan))
+                .map_err(|mut e| {
+                    e.emit();
+                    ()
+                })
+                .unwrap();
+            stmts
+        });
 
         let enable = $b.load(Ordering::Relaxed);
         if enable {

@@ -6,9 +6,9 @@ use crate::{
     },
 };
 use ast::*;
-use chashmap::CHashMap;
+use dashmap::DashMap;
 use hashbrown::HashMap;
-use lazy_static::lazy_static;
+use once_cell::sync::Lazy;
 use std::sync::Arc;
 use swc_atoms::JsWord;
 use swc_common::{util::move_map::MoveMap, FileName, Fold, FoldWith};
@@ -36,9 +36,7 @@ pub fn const_modules(globals: HashMap<JsWord, HashMap<JsWord, String>>) -> impl 
 }
 
 fn parse_option(name: &str, src: String) -> Arc<Expr> {
-    lazy_static! {
-        static ref CACHE: CHashMap<Arc<String>, Arc<Expr>> = CHashMap::default();
-    }
+    static CACHE: Lazy<DashMap<Arc<String>, Arc<Expr>>> = Lazy::new(|| DashMap::default());
 
     let fm = CM.new_source_file(FileName::Custom(format!("<const-module-{}.js>", name)), src);
     if let Some(expr) = CACHE.get(&fm.src) {

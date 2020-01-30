@@ -5,6 +5,7 @@
 #![recursion_limit = "256"]
 
 pub use self::{transform_data::Feature, version::Version};
+use dashmap::DashMap;
 use fxhash::{FxHashMap, FxHashSet};
 use once_cell::sync::Lazy;
 use serde::{Deserialize, Serialize};
@@ -527,7 +528,7 @@ impl Query {
             Ok(versions)
         }
 
-        static CACHE: Lazy<CHashMap<Query, QueryResult>> = Lazy::new(Default::default);
+        static CACHE: Lazy<DashMap<Query, QueryResult>> = Lazy::new(Default::default);
 
         if let Some(v) = CACHE.get(self) {
             return match &*v {

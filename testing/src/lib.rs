@@ -5,7 +5,7 @@
 
 pub use self::output::{NormalizedOutput, StdErr, StdOut, TestOutput};
 use difference::Changeset;
-use lazy_static::lazy_static;
+use once_cell::sync::Lazy;
 use regex::Regex;
 use std::{
     fmt::Debug,
@@ -145,18 +145,15 @@ pub fn print_left_right(left: &dyn Debug, right: &dyn Debug) -> String {
 
         // Replace 'Span { lo: BytePos(0), hi: BytePos(0), ctxt: #0 }' with '_'
         let s = {
-            lazy_static! {
-                static ref RE: Regex = { Regex::new("Span \\{[\\a-zA-Z0#:\\(\\)]*\\}").unwrap() };
-            }
+            static RE: Lazy<Regex> =
+                Lazy::new(|| Regex::new("Span \\{[\\a-zA-Z0#:\\(\\)]*\\}").unwrap());
 
             &RE
         }
         .replace_all(&s, "_");
         // Remove 'span: _,'
         let s = {
-            lazy_static! {
-                static ref RE: Regex = { Regex::new("span: _[,]?\\s*").unwrap() };
-            }
+            static RE: Lazy<Regex> = Lazy::new(|| Regex::new("span: _[,]?\\s*").unwrap());
 
             &RE
         }

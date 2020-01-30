@@ -7,8 +7,8 @@ use crate::{
     },
 };
 use ast::*;
-use chashmap::CHashMap;
-use lazy_static::lazy_static;
+use dashmap::DashMap;
+use once_cell::sync::Lazy;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
 use std::{iter, mem, sync::Arc};
@@ -62,9 +62,7 @@ fn default_throw_if_namespace() -> bool {
 }
 
 fn parse_option(name: &str, src: String) -> Box<Expr> {
-    lazy_static! {
-        static ref CACHE: CHashMap<Arc<String>, Box<Expr>> = CHashMap::with_capacity(2);
-    }
+    static CACHE: Lazy<DashMap<Arc<String>, Box<Expr>>> = Lazy::new(|| DashMap::with_capacity(2));
 
     let fm = CM.new_source_file(FileName::Custom(format!("<jsx-config-{}.js>", name)), src);
     if let Some(expr) = CACHE.get(&fm.src) {
@@ -412,10 +410,8 @@ fn to_prop_name(n: JSXAttrName) -> PropName {
 }
 
 fn jsx_text_to_str(t: JsWord) -> JsWord {
-    lazy_static! {
-        static ref SPACE_NL_START: Regex = { Regex::new("^\\s*\n\\s*").unwrap() };
-        static ref SPACE_NL_END: Regex = { Regex::new("\\s*\n\\s*$").unwrap() };
-    };
+    static SPACE_NL_START: Lazy<Regex> = Lazy::new(|| Regex::new("^\\s*\n\\s*").unwrap());
+    static SPACE_NL_END: Lazy<Regex> = Lazy::new(|| Regex::new("\\s*\n\\s*$").unwrap());
 
     if t == *" " {
         return t;

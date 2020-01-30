@@ -1,4 +1,4 @@
-use lazy_static::lazy_static;
+use once_cell::sync::Lazy;
 use std::{env, path::PathBuf, sync::Arc};
 
 pub fn manifest_dir() -> PathBuf {
@@ -13,9 +13,7 @@ pub fn test_results_dir() -> Arc<PathBuf> {
         manifest_dir().join("target").join("swc-test-results")
     }
 
-    lazy_static! {
-        static ref DIR: Arc<PathBuf> = Arc::new(detect());
-    }
+    static DIR: Lazy<Arc<PathBuf>> = Lazy::new(|| Arc::new(detect()));
 
     DIR.clone()
 }
