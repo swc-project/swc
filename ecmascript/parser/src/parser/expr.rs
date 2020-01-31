@@ -888,7 +888,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         }
 
         let is_optional_chaining =
-            self.input.syntax().typescript() && is!('?') && peeked_is!('.') && eat!('?');
+            self.input.syntax().optional_chaining() && is!('?') && peeked_is!('.') && eat!('?');
 
         /// Wrap with optional chaining
         macro_rules! wrap {

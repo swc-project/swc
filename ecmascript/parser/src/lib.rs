@@ -137,6 +137,17 @@ impl Syntax {
         }
     }
 
+    pub fn optional_chaining(self) -> bool {
+        match self {
+            Syntax::Es(EsConfig {
+                optional_chaining: true,
+                ..
+            })
+            | Syntax::Typescript(TsConfig { .. }) => true,
+            _ => false,
+        }
+    }
+
     pub fn dynamic_import(self) -> bool {
         match self {
             Syntax::Es(EsConfig {
@@ -360,6 +371,9 @@ pub struct EsConfig {
     /// Stage 3.
     #[serde(default)]
     pub nullish_coalescing: bool,
+
+    #[serde(default)]
+    pub optional_chaining: bool,
 
     /// Stage 3.
     #[serde(default)]
