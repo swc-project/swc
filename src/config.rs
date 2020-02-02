@@ -191,7 +191,7 @@ impl Options {
             Optional::new(react::react(cm.clone(), transform.react), syntax.jsx()),
             Optional::new(typescript::strip(), syntax.typescript()),
             Optional::new(nullish_coalescing(), syntax.nullish_coalescing()),
-            Optional::new(optional_chaining(), syntax.typescript()),
+            Optional::new(optional_chaining(), syntax.optional_chaining()),
             resolver(),
             const_modules,
             optimization,
