@@ -22,18 +22,18 @@ use swc_common::{
     GLOBALS,
 };
 use swc_ecmascript::{
-    swc_ecma_ast::Program,
-    swc_ecma_codegen::{self, Emitter},
-    swc_ecma_parser::{lexer::Lexer, Parser, Session as ParseSess, Syntax},
-    swc_ecma_transforms::{
+    ast::Program,
+    codegen::{self, Emitter},
+    parser::{lexer::Lexer, Parser, Session as ParseSess, Syntax},
+    transforms::{
         helpers::{self, Helpers},
         util,
         util::COMMENTS,
     },
 };
 pub use swc_ecmascript::{
-    swc_ecma_parser::SourceFileInput,
-    swc_ecma_transforms::{chain_at, pass::Pass},
+    parser::SourceFileInput,
+    transforms::{chain_at, pass::Pass},
 };
 
 pub struct Compiler {
@@ -147,10 +147,10 @@ impl Compiler {
                 {
                     let handlers = box MyHandlers;
                     let mut emitter = Emitter {
-                        cfg: swc_ecma_codegen::Config { minify },
+                        cfg: codegen::Config { minify },
                         comments: if minify { None } else { Some(&comments) },
                         cm: self.cm.clone(),
-                        wr: box swc_ecma_codegen::text_writer::JsWriter::new(
+                        wr: box codegen::text_writer::JsWriter::new(
                             self.cm.clone(),
                             "\n",
                             &mut buf,
@@ -334,4 +334,4 @@ impl Compiler {
 
 struct MyHandlers;
 
-impl swc_ecmascript::swc_ecma_codegen::Handlers for MyHandlers {}
+impl swc_ecmascript::codegen::Handlers for MyHandlers {}

@@ -3,12 +3,12 @@ use swc_atoms::JsWord;
 pub use swc_common::chain;
 use swc_common::{errors::Handler, FileName, SourceMap};
 use dashmap::DashMap;
-pub use swc_ecmascript::swc_ecma_parser::JscTarget;
+pub use swc_ecmascript::parser::JscTarget;
 use swc_ecmascript::{
-    swc_ecma_ast::{Expr, ExprStmt, ModuleItem, Stmt},
-    swc_ecma_parser::{lexer::Lexer, Parser, Session as ParseSess, SourceFileInput, Syntax},
-    swc_ecma_preset_env,
-    swc_ecma_transforms::{
+    ast::{Expr, ExprStmt, ModuleItem, Stmt},
+    parser::{lexer::Lexer, Parser, Session as ParseSess, SourceFileInput, Syntax},
+    preset_env,
+    transforms::{
         const_modules, modules,
         optimization::{simplifier, InlineGlobals, JsonParse},
         pass::{noop, Optional, Pass},
@@ -336,7 +336,7 @@ impl Rc {
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct Config {
     #[serde(default)]
-    pub env: Option<swc_ecma_preset_env::Config>,
+    pub env: Option<preset_env::Config>,
 
     #[serde(default)]
     pub test: Option<FileMatcher>,
