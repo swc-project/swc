@@ -1,4 +1,4 @@
-use ast::*;
+use swc_ecma_ast::*;
 use ordered_float::OrderedFloat;
 use swc_atoms::JsWord;
 use swc_common::{Span, Spanned};

@@ -9,7 +9,7 @@
 #![recursion_limit = "1024"]
 
 #[macro_use]
-extern crate utils;
+extern crate swc_ecma_utils;
 
 pub use self::{const_modules::const_modules, fixer::fixer, hygiene::hygiene, resolver::resolver};
 
@@ -37,5 +37,5 @@ mod resolver;
 pub mod scope;
 pub mod typescript;
 pub mod util {
-    pub use utils::*;
+    pub use swc_ecma_utils::*;
 }

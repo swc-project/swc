@@ -3,8 +3,8 @@
 #![feature(box_patterns)]
 #![feature(specialization)]
 
-use common::Tester;
 use hashbrown::HashMap;
+use swc_common::Tester;
 use swc_ecma_transforms::{const_modules, pass::Pass};
 
 #[macro_use]

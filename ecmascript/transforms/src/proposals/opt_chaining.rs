@@ -2,7 +2,7 @@ use crate::{
     pass::Pass,
     util::{prepend, undefined, ExprFactory, StmtLike},
 };
-use ast::*;
+use swc_ecma_ast::*;
 use std::{fmt::Debug, iter::once, mem};
 use swc_common::{Fold, FoldWith, Spanned, DUMMY_SP};
 

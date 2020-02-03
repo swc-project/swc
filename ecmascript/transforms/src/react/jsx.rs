@@ -6,7 +6,7 @@ use crate::{
         ExprFactory, HANDLER,
     },
 };
-use ast::*;
+use swc_ecma_ast::*;
 use dashmap::DashMap;
 use once_cell::sync::Lazy;
 use regex::Regex;

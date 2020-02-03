@@ -5,7 +5,7 @@ use crate::{
         options::{CM, SESSION},
     },
 };
-use ast::*;
+use swc_ecma_ast::*;
 use dashmap::DashMap;
 use hashbrown::HashMap;
 use once_cell::sync::Lazy;

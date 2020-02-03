@@ -1,9 +1,9 @@
 #![feature(box_syntax, box_patterns)]
 
-pub use atoms;
-pub use common;
-pub use ecmascript;
 pub use sourcemap;
+pub use swc_atoms;
+pub use swc_common;
+pub use swc_ecmascript;
 
 mod builder;
 pub mod config;
@@ -14,27 +14,27 @@ use crate::{
     config::{BuiltConfig, ConfigFile, JscTarget, Merge, Options, Rc, RootMode},
     error::Error,
 };
-use common::{
+use serde::Serialize;
+use sourcemap::SourceMapBuilder;
+use std::{fs::File, path::Path, sync::Arc};
+use swc_common::{
     comments::Comments, errors::Handler, FileName, FoldWith, Globals, SourceFile, SourceMap,
     GLOBALS,
 };
-use ecmascript::{
-    ast::Program,
-    codegen::{self, Emitter},
-    parser::{lexer::Lexer, Parser, Session as ParseSess, Syntax},
-    transforms::{
+use swc_ecmascript::{
+    swc_ecma_ast::Program,
+    swc_ecma_codegen::{self, Emitter},
+    swc_ecma_parser::{lexer::Lexer, Parser, Session as ParseSess, Syntax},
+    swc_ecma_transforms::{
         helpers::{self, Helpers},
         util,
         util::COMMENTS,
     },
 };
-pub use ecmascript::{
-    parser::SourceFileInput,
-    transforms::{chain_at, pass::Pass},
+pub use swc_ecmascript::{
+    swc_ecma_parser::SourceFileInput,
+    swc_ecma_transforms::{chain_at, pass::Pass},
 };
-use serde::Serialize;
-use sourcemap::SourceMapBuilder;
-use std::{fs::File, path::Path, sync::Arc};
 
 pub struct Compiler {
     /// swc uses rustc's span interning.
@@ -147,10 +147,10 @@ impl Compiler {
                 {
                     let handlers = box MyHandlers;
                     let mut emitter = Emitter {
-                        cfg: codegen::Config { minify },
+                        cfg: swc_ecma_codegen::Config { minify },
                         comments: if minify { None } else { Some(&comments) },
                         cm: self.cm.clone(),
-                        wr: box codegen::text_writer::JsWriter::new(
+                        wr: box swc_ecma_codegen::text_writer::JsWriter::new(
                             self.cm.clone(),
                             "\n",
                             &mut buf,
@@ -334,4 +334,4 @@ impl Compiler {
 
 struct MyHandlers;
 
-impl ecmascript::codegen::Handlers for MyHandlers {}
+impl swc_ecmascript::swc_ecma_codegen::Handlers for MyHandlers {}

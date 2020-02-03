@@ -1,4 +1,4 @@
-use ast::*;
+use swc_ecma_ast::*;
 use swc_common::{Fold, FoldWith};
 
 /// Compile ES2015 shorthand properties to ES5

@@ -1,4 +1,4 @@
-use ast::*;
+use swc_ecma_ast::*;
 use std::marker::PhantomData;
 use swc_common::{Fold, FoldWith};
 

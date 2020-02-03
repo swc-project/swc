@@ -1,5 +1,5 @@
 use super::super::util;
-use ast::Expr;
+use swc_ecma_ast::Expr;
 use hashbrown::HashMap;
 use inflector::Inflector;
 use serde::{Deserialize, Serialize};

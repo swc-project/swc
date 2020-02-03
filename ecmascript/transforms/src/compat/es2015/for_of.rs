@@ -2,7 +2,7 @@ use crate::{
     pass::Pass,
     util::{alias_if_required, prepend, ExprFactory, StmtLike},
 };
-use ast::*;
+use swc_ecma_ast::*;
 use serde::Deserialize;
 use swc_atoms::js_word;
 use swc_common::{Fold, FoldWith, Mark, Spanned, Visit, VisitWith, DUMMY_SP};
@@ -424,7 +424,7 @@ impl Fold<Stmt> for Actual {
 }
 
 /// ```js
-/// 
+///
 ///   try {
 ///     if (!_iteratorNormalCompletion && _iterator.return != null) {
 ///       _iterator.return();

@@ -1,5 +1,5 @@
 use crate::util::{calc_literal_cost, ExprFactory};
-use ast::*;
+use swc_ecma_ast::*;
 use serde_json::Value;
 use std::usize;
 use swc_common::{Fold, FoldWith, Spanned, DUMMY_SP};
@@ -179,14 +179,14 @@ mod tests {
         "const a = {
         method(arg) {
           return arg;
-        }, 
-        b: 1 
+        },
+        b: 1
       };",
         "const a = {
         method(arg) {
           return arg;
-        }, 
-        b: 1 
+        },
+        b: 1
       };"
     );
 

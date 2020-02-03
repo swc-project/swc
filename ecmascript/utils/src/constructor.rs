@@ -1,5 +1,5 @@
 use crate::{prepend_stmts, ExprFactory};
-use ast::*;
+use swc_ecma_ast::*;
 use std::iter;
 use swc_common::{Fold, FoldWith, DUMMY_SP};
 

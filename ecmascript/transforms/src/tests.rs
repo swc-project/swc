@@ -2,7 +2,7 @@ use crate::{
     helpers::{InjectHelpers, HELPERS},
     pass::Pass,
 };
-use ast::*;
+use swc_ecma_ast::*;
 use sourcemap::SourceMapBuilder;
 use std::{
     fmt,

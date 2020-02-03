@@ -1,7 +1,7 @@
 #![allow(unused_macros)]
 #![allow(dead_code)]
 
-use ast::*;
+use swc_ecma_ast::*;
 use sourcemap::SourceMapBuilder;
 use std::{
     fmt,

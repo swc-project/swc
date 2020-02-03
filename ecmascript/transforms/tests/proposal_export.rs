@@ -3,8 +3,8 @@
 #![feature(box_patterns)]
 #![feature(specialization)]
 
-use ast::*;
 use swc_common::Fold;
+use swc_ecma_ast::*;
 use swc_ecma_parser::{EsConfig, Syntax};
 use swc_ecma_transforms::proposals::export;
 

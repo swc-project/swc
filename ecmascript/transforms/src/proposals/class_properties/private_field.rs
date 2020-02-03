@@ -1,5 +1,5 @@
 use crate::util::{alias_ident_for, alias_if_required, prepend, ExprFactory};
-use ast::*;
+use swc_ecma_ast::*;
 use hashbrown::HashSet;
 use std::{iter, mem};
 use swc_atoms::JsWord;

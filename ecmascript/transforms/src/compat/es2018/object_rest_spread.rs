@@ -4,7 +4,7 @@ use crate::{
         alias_ident_for, alias_if_required, is_literal, var::VarCollector, ExprFactory, StmtLike,
     },
 };
-use ast::*;
+use swc_ecma_ast::*;
 use std::{iter, mem};
 use swc_common::{
     chain, util::move_map::MoveMap, Fold, FoldWith, Mark, Spanned, Visit, VisitWith, DUMMY_SP,

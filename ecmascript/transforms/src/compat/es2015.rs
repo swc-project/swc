@@ -7,7 +7,7 @@ pub use self::{
     template_literal::TemplateLiteral, typeof_symbol::TypeOfSymbol,
 };
 use crate::pass::Pass;
-use ast::Expr;
+use swc_ecma_ast::Expr;
 use serde::Deserialize;
 use swc_common::chain;
 

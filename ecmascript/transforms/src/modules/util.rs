@@ -1,5 +1,5 @@
 use crate::util::{undefined, DestructuringFinder, ExprFactory};
-use ast::*;
+use swc_ecma_ast::*;
 use fxhash::FxHashSet;
 use hashbrown::{hash_map::Entry, HashMap, HashSet};
 use indexmap::IndexMap;
@@ -678,7 +678,7 @@ pub(super) fn define_property(args: Vec<ExprOrSpread>) -> Expr {
 /// Creates
 ///
 ///```js
-/// 
+///
 ///  Object.defineProperty(exports, '__esModule', {
 ///       value: true
 ///  });

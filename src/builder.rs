@@ -1,10 +1,10 @@
 use crate::config::{GlobalPassOption, JscTarget, ModuleConfig};
-use atoms::JsWord;
-use common::{chain, errors::Handler, fold::and_then::AndThen, SourceMap};
-use ecmascript::{
-    parser::Syntax,
-    preset_env,
-    transforms::{
+use swc_atoms::JsWord;
+use swc_common::{chain, errors::Handler, fold::and_then::AndThen, SourceMap};
+use swc_ecmascript::{
+    swc_ecma_parser::Syntax,
+    swc_ecma_preset_env,
+    swc_ecma_transforms::{
         compat, const_modules, fixer, helpers, hygiene, modules,
         pass::{Optional, Pass},
         typescript,
@@ -18,7 +18,7 @@ use std::sync::Arc;
 pub struct PassBuilder<'a, 'b, P: Pass> {
     cm: &'a Arc<SourceMap>,
     handler: &'b Handler,
-    env: Option<preset_env::Config>,
+    env: Option<swc_ecma_preset_env::Config>,
     pass: P,
     target: JscTarget,
     loose: bool,
@@ -69,7 +69,7 @@ impl<'a, 'b, P: Pass> PassBuilder<'a, 'b, P> {
         self
     }
 
-    pub fn preset_env(mut self, env: Option<preset_env::Config>) -> Self {
+    pub fn preset_env(mut self, env: Option<swc_ecma_preset_env::Config>) -> Self {
         self.env = env;
         self
     }
@@ -96,7 +96,7 @@ impl<'a, 'b, P: Pass> PassBuilder<'a, 'b, P> {
 
         // compat
         let compat_pass = if let Some(env) = self.env {
-            Either::Left(preset_env::preset_env(env))
+            Either::Left(swc_ecma_preset_env::preset_env(env))
         } else {
             Either::Right(chain!(
                 Optional::new(compat::es2018(), self.target <= JscTarget::Es2018),

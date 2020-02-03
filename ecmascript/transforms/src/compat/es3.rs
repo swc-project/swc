@@ -2,7 +2,7 @@ pub use self::{
     member_expr_lits::MemberExprLit, prop_lits::PropertyLiteral, reserved_word::ReservedWord,
 };
 use crate::pass::Pass;
-use ast::Expr;
+use swc_ecma_ast::Expr;
 
 mod member_expr_lits;
 mod prop_lits;

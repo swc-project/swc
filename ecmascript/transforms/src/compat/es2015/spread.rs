@@ -2,7 +2,7 @@ use crate::{
     pass::Pass,
     util::{alias_ident_for, is_literal, prepend, undefined, ExprFactory, StmtLike},
 };
-use ast::*;
+use swc_ecma_ast::*;
 use serde::Deserialize;
 use std::mem;
 use swc_atoms::js_word;

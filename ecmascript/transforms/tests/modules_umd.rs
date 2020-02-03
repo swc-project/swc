@@ -3,8 +3,7 @@
 #![feature(box_patterns)]
 #![feature(specialization)]
 
-use common::Tester;
-use swc_common::chain;
+use swc_common::{chain, Tester};
 use swc_ecma_transforms::{
     modules::{
         umd::{umd, Config},

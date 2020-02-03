@@ -1,5 +1,5 @@
 use crate::pass::Pass;
-use ast::*;
+use swc_ecma_ast::*;
 use std::sync::Arc;
 use swc_common::{FileName, Fold, SourceMap, DUMMY_SP};
 

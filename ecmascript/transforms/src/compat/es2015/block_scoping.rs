@@ -1,9 +1,9 @@
 use crate::{pass::Pass, util::undefined};
-use ast::*;
+use swc_ecma_ast::*;
 use smallvec::SmallVec;
 use std::mem::replace;
 use swc_common::{util::map::Map, Fold, FoldWith, Spanned, Visit, VisitWith, DUMMY_SP};
-use utils::{find_ids, ident::IdentLike, prepend, var::VarCollector, ExprFactory, Id, StmtLike};
+use swc_ecma_utils::{find_ids, ident::IdentLike, prepend, var::VarCollector, ExprFactory, Id, StmtLike};
 
 ///
 ///

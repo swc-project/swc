@@ -1,5 +1,5 @@
 use crate::util::*;
-use ast::{Ident, Lit, *};
+use swc_ecma_ast::{Ident, Lit, *};
 use std::{iter, iter::once};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{Fold, FoldWith, Span, Spanned};

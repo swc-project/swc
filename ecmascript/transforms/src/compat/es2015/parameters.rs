@@ -1,6 +1,6 @@
 use crate::util::{prepend_stmts, ExprFactory};
 use arrayvec::ArrayVec;
-use ast::*;
+use swc_ecma_ast::*;
 use swc_common::{Fold, FoldWith, Mark, Spanned, DUMMY_SP};
 
 pub fn parameters() -> Params {
