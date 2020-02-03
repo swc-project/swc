@@ -2,11 +2,11 @@ use swc;
 
 use std::{path::Path, sync::Arc};
 use swc::{
-    common::{
+    config::Options,
+    swc_common::{
         errors::{ColorConfig, Handler},
         SourceMap,
     },
-    config::Options,
 };
 
 fn main() {

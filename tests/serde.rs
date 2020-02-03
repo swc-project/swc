@@ -1,6 +1,6 @@
 use std::path::Path;
 use swc::{
-    ecmascript::{
+    swc_ecmascript::{
         ast::Module,
         parser::{lexer::Lexer, PResult, Parser, Session, Syntax},
     },

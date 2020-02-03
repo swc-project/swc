@@ -2,12 +2,12 @@ use crate::{
     pass::Pass,
     util::{ExprFactory, COMMENTS},
 };
-use swc_ecma_ast::*;
 use fxhash::FxHashMap;
 use swc_common::{
     util::{map::Map, move_map::MoveMap},
     Fold, FoldWith, Span, Spanned,
 };
+use swc_ecma_ast::*;
 
 pub fn fixer() -> impl Pass {
     Fixer {

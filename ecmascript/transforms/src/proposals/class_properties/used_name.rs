@@ -1,6 +1,6 @@
-use swc_ecma_ast::*;
 use swc_atoms::JsWord;
 use swc_common::{Fold, Mark, Visit, VisitWith};
+use swc_ecma_ast::*;
 
 pub(super) struct UsedNameRenamer<'a> {
     pub mark: Mark,

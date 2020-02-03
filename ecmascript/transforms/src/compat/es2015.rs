@@ -7,9 +7,9 @@ pub use self::{
     template_literal::TemplateLiteral, typeof_symbol::TypeOfSymbol,
 };
 use crate::pass::Pass;
-use swc_ecma_ast::Expr;
 use serde::Deserialize;
 use swc_common::chain;
+use swc_ecma_ast::Expr;
 
 mod arrow;
 mod block_scoped_fn;

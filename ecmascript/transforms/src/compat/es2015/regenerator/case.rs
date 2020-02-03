@@ -3,7 +3,6 @@ use crate::{
     compat::es2015::regenerator::leap::{CatchEntry, FinallyEntry, TryEntry},
     util::{ident::IdentLike, undefined, ExprFactory},
 };
-use swc_ecma_ast::*;
 use smallvec::SmallVec;
 use std::mem::replace;
 use swc_atoms::JsWord;
@@ -11,6 +10,7 @@ use swc_common::{
     util::{map::Map, move_map::MoveMap},
     BytePos, Fold, FoldWith, Span, Spanned, SyntaxContext, Visit, VisitWith, DUMMY_SP,
 };
+use swc_ecma_ast::*;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub(super) struct Loc {

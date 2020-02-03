@@ -1,6 +1,6 @@
-use swc_ecma_ast::*;
 use swc_atoms::JsWord;
 use swc_common::{SyntaxContext, Visit, VisitWith};
+use swc_ecma_ast::*;
 
 pub struct VarCollector<'a> {
     pub to: &'a mut Vec<(JsWord, SyntaxContext)>,

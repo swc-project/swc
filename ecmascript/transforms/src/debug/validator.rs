@@ -1,5 +1,5 @@
-use swc_ecma_ast::*;
 use swc_common::{Fold, FoldWith, Spanned};
+use swc_ecma_ast::*;
 
 /// This transform validates span on debug mode and does nothing on release
 /// mode.

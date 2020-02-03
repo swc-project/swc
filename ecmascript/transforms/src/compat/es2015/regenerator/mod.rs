@@ -3,10 +3,10 @@ use crate::{
     pass::Pass,
     util::{contains_this_expr, prepend, ExprFactory, StmtLike},
 };
-use swc_ecma_ast::*;
 use std::mem::replace;
 use swc_atoms::js_word;
 use swc_common::{Fold, FoldWith, Spanned, Visit, VisitWith, DUMMY_SP};
+use swc_ecma_ast::*;
 
 mod case;
 mod hoist;

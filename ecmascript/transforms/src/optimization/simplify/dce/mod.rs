@@ -2,12 +2,12 @@ use crate::{
     pass::Pass,
     util::{StmtLike, *},
 };
-use swc_ecma_ast::*;
 use std::{cmp::min, iter::once};
 use swc_atoms::js_word;
 use swc_common::{
     fold::VisitWith, util::move_map::MoveMap, Fold, FoldWith, Spanned, Visit, DUMMY_SP,
 };
+use swc_ecma_ast::*;
 
 #[cfg(test)]
 mod tests;

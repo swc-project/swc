@@ -1,6 +1,6 @@
-use swc_ecma_ast::*;
 use std::marker::PhantomData;
 use swc_common::{Fold, FoldWith};
+use swc_ecma_ast::*;
 
 pub fn noop() -> impl Pass {
     struct Noop;

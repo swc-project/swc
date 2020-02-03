@@ -6,7 +6,6 @@ use crate::{
         ExprFactory, HANDLER,
     },
 };
-use swc_ecma_ast::*;
 use dashmap::DashMap;
 use once_cell::sync::Lazy;
 use regex::Regex;
@@ -14,6 +13,7 @@ use serde::{Deserialize, Serialize};
 use std::{iter, mem, sync::Arc};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{iter::IdentifyLast, FileName, Fold, FoldWith, Spanned, DUMMY_SP};
+use swc_ecma_ast::*;
 use swc_ecma_parser::{Parser, SourceFileInput, Syntax};
 
 #[cfg(test)]

@@ -1,8 +1,8 @@
-use swc_ecma_ast::*;
 use once_cell::sync::Lazy;
 use scoped_tls::scoped_thread_local;
 use std::sync::atomic::{AtomicBool, Ordering};
 use swc_common::{FileName, Fold, FoldWith, Mark, Span, DUMMY_SP};
+use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, Parser, SourceFileInput};
 use swc_ecma_utils::{
     options::{CM, SESSION},

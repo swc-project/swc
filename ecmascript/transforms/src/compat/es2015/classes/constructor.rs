@@ -1,9 +1,9 @@
 use super::get_prototype_of;
 use crate::util::ExprFactory;
-use swc_ecma_ast::*;
 use std::iter;
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Mark, Visit, VisitWith, DUMMY_SP};
+use swc_ecma_ast::*;
 use swc_ecma_utils::quote_ident;
 
 pub(super) struct SuperCallFinder {
@@ -469,7 +469,7 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: Constructor) -> (Constr
 /// # In
 ///
 /// ```js
-///
+/// 
 /// class Example {
 ///   constructor() {
 ///     var Example;

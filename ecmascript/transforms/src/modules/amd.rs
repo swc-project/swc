@@ -6,12 +6,12 @@ use crate::{
     pass::Pass,
     util::{prepend_stmts, var::VarCollector, DestructuringFinder, ExprFactory},
 };
-use swc_ecma_ast::*;
 use fxhash::FxHashSet;
 use serde::{Deserialize, Serialize};
 use std::iter;
 use swc_atoms::js_word;
 use swc_common::{Fold, FoldWith, Mark, VisitWith, DUMMY_SP};
+use swc_ecma_ast::*;
 
 pub fn amd(config: Config) -> impl Pass {
     Amd {
