@@ -2309,7 +2309,7 @@ enum SignatureParsingMode {
 /// Mark as declare
 fn make_decl_declare(mut decl: Decl) -> Decl {
     match decl {
-        Decl::Class(ref mut c) => c.decalre = true,
+        Decl::Class(ref mut c) => c.declare = true,
         Decl::Fn(ref mut f) => f.declare = true,
         Decl::Var(ref mut v) => v.declare = true,
         Decl::TsInterface(ref mut i) => i.declare = true,
