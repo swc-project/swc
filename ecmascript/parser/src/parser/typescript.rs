@@ -736,10 +736,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         };
 
         let body = if is!('{') {
-            Some(
-                self.parse_ts_module_block()
-                    .map(|body| TsNamespaceBody::from)?,
-            )
+            Some(self.parse_ts_module_block().map(TsNamespaceBody::from)?)
         } else {
             expect!(';');
             None
