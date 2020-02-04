@@ -1,5 +1,5 @@
 use crate::util::UsageFinder;
-use ast::*;
+use swc_ecma_ast::*;
 use swc_common::{Fold, FoldWith, Spanned, DUMMY_SP};
 
 #[derive(Clone, Copy)]

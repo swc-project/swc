@@ -1,10 +1,10 @@
 use crate::{builder::PassBuilder, error::Error};
-use atoms::JsWord;
-pub use common::chain;
-use common::{errors::Handler, FileName, SourceMap};
+use swc_atoms::JsWord;
+pub use swc_common::chain;
+use swc_common::{errors::Handler, FileName, SourceMap};
 use dashmap::DashMap;
-pub use ecmascript::parser::JscTarget;
-use ecmascript::{
+pub use swc_ecmascript::parser::JscTarget;
+use swc_ecmascript::{
     ast::{Expr, ExprStmt, ModuleItem, Stmt},
     parser::{lexer::Lexer, Parser, Session as ParseSess, SourceFileInput, Syntax},
     preset_env,

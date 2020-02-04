@@ -8,7 +8,7 @@ macro_rules! private_ident {
         use swc_common::Mark;
         let mark = Mark::fresh(Mark::root());
         let span = $span.apply_mark(mark);
-        ::ast::Ident::new($s.into(), span)
+        ::swc_ecma_ast::Ident::new($s.into(), span)
     }};
 }
 
@@ -18,7 +18,7 @@ macro_rules! quote_ident {
         quote_ident!(::swc_common::DUMMY_SP, $s)
     };
     ($span:expr, $s:expr) => {{
-        ::ast::Ident::new($s.into(), $span)
+        ::swc_ecma_ast::Ident::new($s.into(), $span)
     }};
 }
 
@@ -28,7 +28,7 @@ macro_rules! quote_str {
         quote_str!(::swc_common::DUMMY_SP, $s)
     };
     ($span:expr, $s:expr) => {{
-        ::ast::Str {
+        ::swc_ecma_ast::Str {
             span: $span,
             value: $s.into(),
             has_escape: false,
@@ -39,7 +39,7 @@ macro_rules! quote_str {
 #[macro_export]
 macro_rules! quote_expr {
     ($span:expr, null) => {{
-        use ast::*;
+        use swc_ecma_ast::*;
         Expr::Lit(Lit::Null(Null { span: $span }))
     }};
 
@@ -59,7 +59,7 @@ macro_rules! quote_expr {
 #[macro_export]
 macro_rules! member_expr {
     ($span:expr, $first:ident) => {{
-        use ast::Expr;
+        use swc_ecma_ast::Expr;
         box Expr::Ident(quote_ident!($span, stringify!($first)))
     }};
 
@@ -81,7 +81,7 @@ macro_rules! member_expr {
     }};
 
     (@EXT, $span:expr, $obj:expr,  $first:ident) => {{
-        use ast::*;
+        use swc_ecma_ast::*;
         let prop = member_expr!($span, $first);
 
         box Expr::Member(MemberExpr{
@@ -95,7 +95,7 @@ macro_rules! member_expr {
 
 #[cfg(test)]
 mod tests {
-    use ast::*;
+    use swc_ecma_ast::*;
     use swc_common::DUMMY_SP as span;
     #[test]
     fn quote_member_expr() {

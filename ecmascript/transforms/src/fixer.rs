@@ -2,7 +2,7 @@ use crate::{
     pass::Pass,
     util::{ExprFactory, COMMENTS},
 };
-use ast::*;
+use swc_ecma_ast::*;
 use fxhash::FxHashMap;
 use swc_common::{
     util::{map::Map, move_map::MoveMap},

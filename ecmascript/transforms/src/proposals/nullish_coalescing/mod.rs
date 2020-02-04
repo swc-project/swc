@@ -2,7 +2,7 @@ use crate::{
     pass::Pass,
     util::{alias_if_required, undefined, StmtLike},
 };
-use ast::*;
+use swc_ecma_ast::*;
 use std::mem::replace;
 use swc_common::{Fold, FoldWith, DUMMY_SP};
 

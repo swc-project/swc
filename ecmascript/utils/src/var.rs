@@ -1,4 +1,4 @@
-use ast::*;
+use swc_ecma_ast::*;
 use swc_atoms::JsWord;
 use swc_common::{SyntaxContext, Visit, VisitWith};
 

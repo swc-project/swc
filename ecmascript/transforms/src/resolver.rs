@@ -2,7 +2,7 @@ use crate::{
     pass::Pass,
     scope::{IdentType, ScopeKind},
 };
-use ast::*;
+use swc_ecma_ast::*;
 use hashbrown::HashSet;
 use std::cell::RefCell;
 use swc_atoms::JsWord;

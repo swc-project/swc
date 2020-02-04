@@ -2,7 +2,7 @@ use crate::{
     pass::Pass,
     util::{prepend_stmts, var::VarCollector, ExprFactory},
 };
-use ast::*;
+use swc_ecma_ast::*;
 use hashbrown::HashMap;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{

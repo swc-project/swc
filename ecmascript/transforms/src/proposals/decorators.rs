@@ -6,7 +6,7 @@ use crate::{
         ExprFactory, IdentExt,
     },
 };
-use ast::*;
+use swc_ecma_ast::*;
 use either::Either;
 use serde::Deserialize;
 use std::iter;
@@ -18,7 +18,7 @@ mod usage;
 /// ## Simple class decorator
 ///
 /// ```js
-/// 
+///
 /// @annotation
 /// class MyClass { }
 ///

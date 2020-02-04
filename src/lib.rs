@@ -1,8 +1,8 @@
 #![feature(box_syntax, box_patterns)]
 
-pub use atoms;
-pub use common;
-pub use ecmascript;
+pub use swc_atoms as atoms;
+pub use swc_common as common;
+pub use swc_ecmascript as ecmascript;
 pub use sourcemap;
 
 mod builder;
@@ -14,11 +14,11 @@ use crate::{
     config::{BuiltConfig, ConfigFile, JscTarget, Merge, Options, Rc, RootMode},
     error::Error,
 };
-use common::{
+use swc_common::{
     comments::Comments, errors::Handler, FileName, FoldWith, Globals, SourceFile, SourceMap,
     GLOBALS,
 };
-use ecmascript::{
+use swc_ecmascript::{
     ast::Program,
     codegen::{self, Emitter},
     parser::{lexer::Lexer, Parser, Session as ParseSess, Syntax},
@@ -28,7 +28,7 @@ use ecmascript::{
         util::COMMENTS,
     },
 };
-pub use ecmascript::{
+pub use swc_ecmascript::{
     parser::SourceFileInput,
     transforms::{chain_at, pass::Pass},
 };

@@ -2,7 +2,7 @@ use crate::{
     pass::Pass,
     util::{StmtLike, *},
 };
-use ast::*;
+use swc_ecma_ast::*;
 use std::{cmp::min, iter::once};
 use swc_atoms::js_word;
 use swc_common::{

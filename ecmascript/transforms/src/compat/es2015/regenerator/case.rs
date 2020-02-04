@@ -3,7 +3,7 @@ use crate::{
     compat::es2015::regenerator::leap::{CatchEntry, FinallyEntry, TryEntry},
     util::{ident::IdentLike, undefined, ExprFactory},
 };
-use ast::*;
+use swc_ecma_ast::*;
 use smallvec::SmallVec;
 use std::mem::replace;
 use swc_atoms::JsWord;

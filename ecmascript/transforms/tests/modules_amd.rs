@@ -3,7 +3,7 @@
 #![feature(box_patterns)]
 #![feature(specialization)]
 
-use ast::Module;
+use swc_ecma_ast::Module;
 use swc_common::{chain, Fold};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{
@@ -155,7 +155,7 @@ test!(
     custom_named_define,
     r#"
 import {foo} from 'src';
-export {foo};  
+export {foo};
   "#,
     r#"define('moduleId', ['exports', 'src'], function(_exports, _src) {
     'use strict';
@@ -751,7 +751,7 @@ bar2;
 
 "#,
     r#"
-define(["exports", "foo", "foo-bar", "./directory/foo-bar"], 
+define(["exports", "foo", "foo-bar", "./directory/foo-bar"],
 function (_exports, foo2, _fooBar, _fooBar1) {
   "use strict";
 

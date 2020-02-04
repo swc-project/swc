@@ -2,7 +2,7 @@ use crate::{
     pass::Pass,
     util::{ExprFactory, StmtLike},
 };
-use ast::*;
+use swc_ecma_ast::*;
 use swc_common::{Fold, FoldWith, Mark, Spanned, Visit, VisitWith, DUMMY_SP};
 
 /// `@babel/plugin-transform-computed-properties`

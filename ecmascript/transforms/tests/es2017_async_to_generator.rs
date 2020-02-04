@@ -3,7 +3,7 @@
 #![feature(box_patterns)]
 #![feature(specialization)]
 
-use ast::*;
+use swc_ecma_ast::*;
 use swc_common::{chain, fold::FoldWith, Fold, Spanned};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{
@@ -103,7 +103,7 @@ let TestClass = {
             return _ref.apply(this, arguments);
           };
         })().bind(this));
-      } 
+      }
 };
 "#
 );
@@ -325,7 +325,7 @@ var foo = function() {
   function bar() {
     return _bar.apply(this, arguments);
   }
-  
+
   return bar;
 }();
 "#
@@ -1694,7 +1694,7 @@ test!(
   function poll() {
     return _poll.apply(this, arguments);
   }
-  
+
   return poll;
 })()();
 
@@ -1832,7 +1832,7 @@ function _foo() {
       });
       return _bar.apply(this, arguments);
     }
-    
+
     function bar() {
       return _bar.apply(this, arguments);
     }

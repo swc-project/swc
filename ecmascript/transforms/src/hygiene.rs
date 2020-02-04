@@ -4,7 +4,7 @@ use crate::{
     pass::Pass,
     scope::{IdentType, ScopeKind},
 };
-use ast::*;
+use swc_ecma_ast::*;
 use hashbrown::HashMap;
 use smallvec::{smallvec, SmallVec};
 use std::cell::RefCell;

@@ -1,7 +1,7 @@
 use crate::config::{GlobalPassOption, JscTarget, ModuleConfig};
-use atoms::JsWord;
-use common::{chain, errors::Handler, fold::and_then::AndThen, SourceMap};
-use ecmascript::{
+use swc_atoms::JsWord;
+use swc_common::{chain, errors::Handler, fold::and_then::AndThen, SourceMap};
+use swc_ecmascript::{
     parser::Syntax,
     preset_env,
     transforms::{

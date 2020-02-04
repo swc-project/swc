@@ -4,7 +4,7 @@
 
 extern crate test;
 
-use ast::*;
+use swc_ecma_ast::*;
 use swc_common::{FileName, Fold, FoldWith, Visit, VisitWith, DUMMY_SP};
 use swc_ecma_parser::{lexer::Lexer, Parser, Session, SourceFileInput, Syntax};
 use swc_ecma_transforms::util::ExprFactory;

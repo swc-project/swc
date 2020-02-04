@@ -3,7 +3,7 @@
 #![feature(box_patterns)]
 #![feature(specialization)]
 
-use ast::Module;
+use swc_ecma_ast::Module;
 use swc_common::{chain, Fold};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{
@@ -982,7 +982,7 @@ _ref2;
 
 if (_ref3 = {}, _Symbol$for3 = Symbol.for("foo"), ({
   [_Symbol$for3]: foo
-} = _ref3), rest = _objectWithoutProperties(_ref3, 
+} = _ref3), rest = _objectWithoutProperties(_ref3,
     [_Symbol$for3].map(_toPropertyKey)), _ref3) {}
 "#
 );
@@ -1126,7 +1126,7 @@ let {
 "#,
     r#"
 let _ref = {
-     a: [1, 2, 3, 4], d: 'oyez' 
+     a: [1, 2, 3, 4], d: 'oyez'
 }, { a: [b, ...arrayRest] , c =function(...functionRest) {
 }  } = _ref, objectRest = _objectWithoutProperties(_ref, ['a', 'c']);
 "#
@@ -1212,7 +1212,7 @@ const objSpread = { ...obj };
 
 const obj2 = { NOSET: 123, NOWRITE: 456 };
 // this line would throw `TypeError: Cannot assign to read only property 'NOWRITE'`
-// if transformed as Object.assign (or equivalent) because 
+// if transformed as Object.assign (or equivalent) because
 // those use *assignment* for creating properties
 // (spread defines them)
 const obj2Spread = { ...obj2 };

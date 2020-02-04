@@ -8,7 +8,7 @@ use crate::{
     pass::Pass,
     util::{prepend_stmts, var::VarCollector, DestructuringFinder, ExprFactory},
 };
-use ast::*;
+use swc_ecma_ast::*;
 use fxhash::FxHashSet;
 use std::sync::Arc;
 use swc_atoms::js_word;

@@ -1,4 +1,4 @@
-use ast::*;
+use swc_ecma_ast::*;
 use hashbrown::HashMap;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{Fold, FoldWith};

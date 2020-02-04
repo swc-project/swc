@@ -1,5 +1,5 @@
 use crate::{pass::Pass, util::IdentExt};
-use ast::*;
+use swc_ecma_ast::*;
 use swc_common::{Fold, DUMMY_SP};
 
 /// `@babel/plugin-proposal-export-default-from` and

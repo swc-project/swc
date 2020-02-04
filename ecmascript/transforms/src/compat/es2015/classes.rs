@@ -11,7 +11,7 @@ use crate::util::{
     alias_if_required, default_constructor, prepend, prop_name_to_expr, ExprFactory, IsDirective,
     ModuleItemLike, StmtLike,
 };
-use ast::*;
+use swc_ecma_ast::*;
 use fxhash::FxBuildHasher;
 use std::iter;
 use swc_common::{Fold, FoldWith, Mark, Spanned, Visit, VisitWith, DUMMY_SP};

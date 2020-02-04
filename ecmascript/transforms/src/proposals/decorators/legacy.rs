@@ -3,7 +3,7 @@ use crate::util::{
     alias_if_required, default_constructor, prepend, prop_name_to_expr_value, undefined,
     ExprFactory, ModuleItemLike, StmtLike,
 };
-use ast::*;
+use swc_ecma_ast::*;
 use smallvec::SmallVec;
 use std::mem::replace;
 use swc_common::{util::move_map::MoveMap, Fold, FoldWith, VisitWith, DUMMY_SP};

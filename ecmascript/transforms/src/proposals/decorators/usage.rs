@@ -1,4 +1,4 @@
-use ast::Decorator;
+use swc_ecma_ast::Decorator;
 use swc_common::{Visit, VisitWith};
 
 pub(super) fn has_decorator<T: VisitWith<DecoratorFinder>>(node: &T) -> bool {

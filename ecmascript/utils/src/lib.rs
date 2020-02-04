@@ -16,7 +16,7 @@ pub use self::{
     Purity::{MayBeImpure, Pure},
 };
 use crate::ident::IdentLike;
-use ast::*;
+use swc_ecma_ast::*;
 use scoped_tls::scoped_thread_local;
 use std::{
     borrow::Cow,

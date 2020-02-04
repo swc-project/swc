@@ -1,5 +1,5 @@
 use crate::util::is_valid_ident;
-use ast::*;
+use swc_ecma_ast::*;
 use swc_common::{Fold, FoldWith};
 
 /// babel: `transform-property-literals`
