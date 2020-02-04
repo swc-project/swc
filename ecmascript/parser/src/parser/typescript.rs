@@ -653,8 +653,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
         Ok(TsEnumDecl {
             span: span!(start),
-            // TODO(kdy1): Is this correct?
-            declare: self.ctx().in_declare,
+            declare: false,
             is_const,
             id,
             members,
@@ -706,7 +705,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
         Ok(TsModuleDecl {
             span: span!(start),
-            declare: self.ctx().in_declare,
+            declare: false,
             id: TsModuleName::Ident(id),
             body: Some(body),
             global: false,
@@ -745,7 +744,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
         Ok(TsModuleDecl {
             span: span!(start),
-            declare: self.ctx().in_declare,
+            declare: false,
             id,
             global,
             body,
@@ -928,7 +927,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         };
         Ok(TsInterfaceDecl {
             span: span!(start),
-            declare: self.ctx().in_declare,
+            declare: false,
             id,
             type_params,
             extends,
@@ -945,7 +944,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         let type_ann = self.expect_then_parse_ts_type(&tok!('='))?;
         expect!(';');
         Ok(TsTypeAliasDecl {
-            declare: self.ctx().in_declare,
+            declare: false,
             span: span!(start),
             id,
             type_params,
@@ -968,7 +967,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         expect!(';');
         Ok(TsImportEqualsDecl {
             span: span!(start),
-            declare: self.ctx().in_declare,
+            declare: false,
             id,
             is_export,
             module_ref,
@@ -1906,7 +1905,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                         TsModuleDecl {
                             span: span!(start),
                             global,
-                            declare: self.ctx().in_declare,
+                            declare: false,
                             id,
                             body,
                         }
@@ -1990,14 +1989,17 @@ impl<'a, I: Tokens> Parser<'a, I> {
             if is!("global") {
                 return p
                     .parse_ts_ambient_external_module_decl(start)
-                    .map(From::from)
+                    .map(Decl::from)
+                    .map(make_decl_declare)
                     .map(Some);
             } else if is!(IdentName) {
                 let value = match *cur!(true)? {
                     Token::Word(ref w) => w.clone().into(),
                     _ => unreachable!(),
                 };
-                return p.parse_ts_decl(start, decorators, value, /* next */ true);
+                return p
+                    .parse_ts_decl(start, decorators, value, /* next */ true)
+                    .map(|v| v.map(make_decl_declare));
             }
 
             Ok(None)
@@ -2302,4 +2304,19 @@ enum ParsingContext {
 enum SignatureParsingMode {
     TSCallSignatureDeclaration,
     TSConstructSignatureDeclaration,
+}
+
+/// Mark as declare
+fn make_decl_declare(mut decl: Decl) -> Decl {
+    match decl {
+        Decl::Class(ref mut c) => c.declare = true,
+        Decl::Fn(ref mut f) => f.declare = true,
+        Decl::Var(ref mut v) => v.declare = true,
+        Decl::TsInterface(ref mut i) => i.declare = true,
+        Decl::TsTypeAlias(ref mut a) => a.declare = true,
+        Decl::TsEnum(ref mut e) => e.declare = true,
+        Decl::TsModule(ref mut m) => m.declare = true,
+    }
+
+    decl
 }

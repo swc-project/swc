@@ -653,7 +653,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
         Ok(VarDecl {
             span: span!(start),
-            declare: self.ctx().in_declare,
+            declare: false,
             kind,
             decls,
         })

@@ -1,0 +1,71 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 72,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 0,
+        "end": 72,
+        "ctxt": 0
+      },
+      "declare": true,
+      "global": false,
+      "id": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 15,
+          "end": 34,
+          "ctxt": 0
+        },
+        "value": "@dsherret/package",
+        "hasEscape": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 35,
+          "end": 72,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "TsModuleDeclaration",
+            "span": {
+              "start": 41,
+              "end": 70,
+              "ctxt": 0
+            },
+            "declare": false,
+            "global": false,
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 51,
+                "end": 62,
+                "ctxt": 0
+              },
+              "value": "packageName",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "body": {
+              "type": "TsModuleBlock",
+              "span": {
+                "start": 63,
+                "end": 70,
+                "ctxt": 0
+              },
+              "body": []
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

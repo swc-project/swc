@@ -41,7 +41,7 @@
               "end": 70,
               "ctxt": 0
             },
-            "declare": true,
+            "declare": false,
             "global": false,
             "id": {
               "type": "Identifier",
@@ -70,7 +70,7 @@
                     "ctxt": 0
                   },
                   "kind": "const",
-                  "declare": true,
+                  "declare": false,
                   "declarations": [
                     {
                       "type": "VariableDeclarator",

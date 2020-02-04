@@ -33,7 +33,7 @@
           "end": 24,
           "ctxt": 0
         },
-        "declare": true,
+        "declare": false,
         "global": false,
         "id": {
           "type": "Identifier",
