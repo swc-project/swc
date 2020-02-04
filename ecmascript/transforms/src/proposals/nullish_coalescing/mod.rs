@@ -2,9 +2,9 @@ use crate::{
     pass::Pass,
     util::{alias_if_required, undefined, StmtLike},
 };
-use swc_ecma_ast::*;
 use std::mem::replace;
 use swc_common::{Fold, FoldWith, DUMMY_SP};
+use swc_ecma_ast::*;
 
 #[cfg(test)]
 mod tests;

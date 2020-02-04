@@ -8,11 +8,11 @@ use crate::{
     pass::Pass,
     util::{prepend_stmts, var::VarCollector, DestructuringFinder, ExprFactory},
 };
-use swc_ecma_ast::*;
 use fxhash::FxHashSet;
 use std::sync::Arc;
 use swc_atoms::js_word;
 use swc_common::{Fold, FoldWith, Mark, SourceMap, VisitWith, DUMMY_SP};
+use swc_ecma_ast::*;
 
 mod config;
 

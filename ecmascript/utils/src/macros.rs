@@ -95,8 +95,8 @@ macro_rules! member_expr {
 
 #[cfg(test)]
 mod tests {
-    use swc_ecma_ast::*;
     use swc_common::DUMMY_SP as span;
+    use swc_ecma_ast::*;
     #[test]
     fn quote_member_expr() {
         let expr: Box<Expr> = member_expr!(span, Function.prototype.bind);

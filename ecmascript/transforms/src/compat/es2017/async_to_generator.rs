@@ -3,9 +3,9 @@ use crate::{
     pass::Pass,
     util::{contains_ident_ref, contains_this_expr, ExprFactory, StmtLike},
 };
-use swc_ecma_ast::*;
 use std::iter;
 use swc_common::{Fold, FoldWith, Mark, Spanned, Visit, VisitWith, DUMMY_SP};
+use swc_ecma_ast::*;
 
 /// `@babel/plugin-transform-async-to-generator`
 ///

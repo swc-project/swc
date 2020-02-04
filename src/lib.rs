@@ -1,9 +1,9 @@
 #![feature(box_syntax, box_patterns)]
 
+pub use sourcemap;
 pub use swc_atoms as atoms;
 pub use swc_common as common;
 pub use swc_ecmascript as ecmascript;
-pub use sourcemap;
 
 mod builder;
 pub mod config;
@@ -14,6 +14,9 @@ use crate::{
     config::{BuiltConfig, ConfigFile, JscTarget, Merge, Options, Rc, RootMode},
     error::Error,
 };
+use serde::Serialize;
+use sourcemap::SourceMapBuilder;
+use std::{fs::File, path::Path, sync::Arc};
 use swc_common::{
     comments::Comments, errors::Handler, FileName, FoldWith, Globals, SourceFile, SourceMap,
     GLOBALS,
@@ -32,9 +35,6 @@ pub use swc_ecmascript::{
     parser::SourceFileInput,
     transforms::{chain_at, pass::Pass},
 };
-use serde::Serialize;
-use sourcemap::SourceMapBuilder;
-use std::{fs::File, path::Path, sync::Arc};
 
 pub struct Compiler {
     /// swc uses rustc's span interning.

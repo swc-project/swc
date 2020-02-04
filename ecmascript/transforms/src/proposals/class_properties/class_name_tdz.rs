@@ -1,6 +1,6 @@
 use crate::util::ExprFactory;
-use swc_ecma_ast::*;
 use swc_common::{Fold, FoldWith, DUMMY_SP};
+use swc_ecma_ast::*;
 
 pub(super) struct ClassNameTdzFolder<'a> {
     pub class_name: &'a Ident,

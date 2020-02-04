@@ -2,8 +2,8 @@ use crate::{
     pass::Pass,
     util::{contains_this_expr, ExprFactory},
 };
-use swc_ecma_ast::*;
 use swc_common::{Fold, FoldWith, Spanned, Visit, VisitWith, DUMMY_SP};
+use swc_ecma_ast::*;
 use swc_ecma_utils::quote_ident;
 
 /// Compile ES2015 arrow functions to ES5

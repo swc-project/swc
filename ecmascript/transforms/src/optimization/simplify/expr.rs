@@ -1,8 +1,8 @@
 use crate::util::*;
-use swc_ecma_ast::{Ident, Lit, *};
 use std::{iter, iter::once};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{Fold, FoldWith, Span, Spanned};
+use swc_ecma_ast::{Ident, Lit, *};
 
 #[cfg(test)]
 mod tests;

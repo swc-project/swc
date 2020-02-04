@@ -3,8 +3,8 @@
 #![feature(box_patterns)]
 #![feature(specialization)]
 
-use swc_ecma_ast::*;
 use swc_common::{chain, fold::FoldWith, Fold, Spanned};
+use swc_ecma_ast::*;
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{
     compat::{

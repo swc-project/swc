@@ -2,8 +2,8 @@ use crate::{
     pass::Pass,
     util::{ExprFactory, StmtLike},
 };
-use swc_ecma_ast::*;
 use swc_common::{Fold, FoldWith, Span, Spanned, Visit, VisitWith, DUMMY_SP};
+use swc_ecma_ast::*;
 
 /// `@babel/plugin-transform-exponentiation-operator`
 ///

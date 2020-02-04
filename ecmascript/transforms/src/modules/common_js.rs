@@ -7,10 +7,10 @@ use crate::{
     pass::Pass,
     util::{var::VarCollector, DestructuringFinder, ExprFactory},
 };
-use swc_ecma_ast::*;
 use fxhash::FxHashSet;
 use swc_atoms::js_word;
 use swc_common::{Fold, FoldWith, VisitWith, DUMMY_SP};
+use swc_ecma_ast::*;
 
 pub fn common_js(config: Config) -> impl Pass {
     CommonJs {
