@@ -1992,7 +1992,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
             if is!("global") {
                 return p
                     .parse_ts_ambient_external_module_decl(start)
-                    .map(From::from)
+                    .map(Decl::from)
+                    .map(make_decl_declare)
                     .map(Some);
             } else if is!(IdentName) {
                 let value = match *cur!(true)? {
@@ -2001,9 +2002,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 };
                 return p
                     .parse_ts_decl(start, decorators, value, /* next */ true)
-                    .map(|v| {
-                        // Mark as declare
-                    });
+                    .map(|v| v.map(make_decl_declare));
             }
 
             Ok(None)
@@ -2308,4 +2307,19 @@ enum ParsingContext {
 enum SignatureParsingMode {
     TSCallSignatureDeclaration,
     TSConstructSignatureDeclaration,
+}
+
+/// Mark as declare
+fn make_decl_declare(mut decl: Decl) -> Decl {
+    match decl {
+        Decl::Class(ref mut c) => c.decalre = true,
+        Decl::Fn(ref mut f) => f.declare = true,
+        Decl::Var(ref mut v) => v.declare = true,
+        Decl::TsInterface(ref mut i) => i.declare = true,
+        Decl::TsTypeAlias(ref mut a) => a.declare = true,
+        Decl::TsEnum(ref mut e) => e.declare = true,
+        Decl::TsModule(ref mut m) => m.declare = true,
+    }
+
+    decl
 }
