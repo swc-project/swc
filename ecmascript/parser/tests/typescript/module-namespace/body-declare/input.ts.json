@@ -42,7 +42,7 @@
               "ctxt": 0
             },
             "kind": "const",
-            "declare": true,
+            "declare": false,
             "declarations": [
               {
                 "type": "VariableDeclarator",
