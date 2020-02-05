@@ -2,9 +2,9 @@ use crate::{
     pass::Pass,
     util::{prepend, undefined, ExprFactory, StmtLike},
 };
-use ast::*;
 use std::{fmt::Debug, iter::once, mem};
 use swc_common::{Fold, FoldWith, Spanned, DUMMY_SP};
+use swc_ecma_ast::*;
 
 pub fn optional_chaining() -> impl Pass {
     OptChaining::default()

@@ -1,8 +1,8 @@
 use crate::pass::Pass;
-use ast::*;
 use hashbrown::HashSet;
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Spanned};
+use swc_ecma_ast::*;
 
 pub fn duplicate_keys() -> impl Pass {
     DuplicateKeys

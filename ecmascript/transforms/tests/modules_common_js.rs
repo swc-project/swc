@@ -3,8 +3,8 @@
 #![feature(box_patterns)]
 #![feature(specialization)]
 
-use ast::*;
 use swc_common::{chain, Fold};
+use swc_ecma_ast::*;
 use swc_ecma_transforms::{
     compat, fixer,
     helpers::InjectHelpers,
@@ -244,7 +244,7 @@ foo = 3;
     r#"
 "use strict";
 Object.defineProperty(exports, '__esModule', {
-     value: true 
+     value: true
 });
 
 exports.foo = void 0;
@@ -2486,7 +2486,7 @@ test!(
     interop_module_shadow,
     r#"
 export function module() {
-  
+
 }
 
 "#,

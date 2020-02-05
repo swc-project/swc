@@ -16,7 +16,6 @@ pub use self::{
     Purity::{MayBeImpure, Pure},
 };
 use crate::ident::IdentLike;
-use ast::*;
 use scoped_tls::scoped_thread_local;
 use std::{
     borrow::Cow,
@@ -29,6 +28,7 @@ use swc_common::{
     comments::Comments, errors::Handler, Fold, FoldWith, Mark, Span, Spanned, Visit, VisitWith,
     DUMMY_SP,
 };
+use swc_ecma_ast::*;
 use unicode_xid::UnicodeXID;
 
 #[macro_use]

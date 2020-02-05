@@ -1,6 +1,6 @@
 use crate::pass::Pass;
-use ast::*;
 use swc_common::{Fold, DUMMY_SP};
+use swc_ecma_ast::*;
 
 #[cfg(test)]
 mod tests;

@@ -1,5 +1,5 @@
-use ast::Decorator;
 use swc_common::{Visit, VisitWith};
+use swc_ecma_ast::Decorator;
 
 pub(super) fn has_decorator<T: VisitWith<DecoratorFinder>>(node: &T) -> bool {
     let mut v = DecoratorFinder { found: false };

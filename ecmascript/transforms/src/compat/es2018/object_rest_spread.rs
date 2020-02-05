@@ -4,11 +4,11 @@ use crate::{
         alias_ident_for, alias_if_required, is_literal, var::VarCollector, ExprFactory, StmtLike,
     },
 };
-use ast::*;
 use std::{iter, mem};
 use swc_common::{
     chain, util::move_map::MoveMap, Fold, FoldWith, Mark, Spanned, Visit, VisitWith, DUMMY_SP,
 };
+use swc_ecma_ast::*;
 
 /// `@babel/plugin-proposal-object-rest-spread`
 pub fn object_rest_spread() -> impl Pass {

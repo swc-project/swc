@@ -2,8 +2,8 @@
 pub use self::dce::dce;
 use self::expr::SimplifyExpr;
 use crate::pass::Pass;
-use ast::*;
 use swc_common::{Fold, FoldWith};
+use swc_ecma_ast::*;
 
 pub mod dce;
 mod expr;

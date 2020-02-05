@@ -5,13 +5,13 @@ use crate::{
         options::{CM, SESSION},
     },
 };
-use ast::*;
 use dashmap::DashMap;
 use hashbrown::HashMap;
 use once_cell::sync::Lazy;
 use std::sync::Arc;
 use swc_atoms::JsWord;
 use swc_common::{util::move_map::MoveMap, FileName, Fold, FoldWith};
+use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, Parser, SourceFileInput};
 
 pub fn const_modules(globals: HashMap<JsWord, HashMap<JsWord, String>>) -> impl Pass {

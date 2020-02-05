@@ -1,10 +1,10 @@
 use super::get_prototype_of;
 use crate::util::ExprFactory;
-use ast::*;
 use std::iter;
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Mark, Visit, VisitWith, DUMMY_SP};
-use utils::quote_ident;
+use swc_ecma_ast::*;
+use swc_ecma_utils::quote_ident;
 
 pub(super) struct SuperCallFinder {
     mode: Option<SuperFoldingMode>,

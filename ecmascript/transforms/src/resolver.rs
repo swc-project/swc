@@ -2,11 +2,11 @@ use crate::{
     pass::Pass,
     scope::{IdentType, ScopeKind},
 };
-use ast::*;
 use hashbrown::HashSet;
 use std::cell::RefCell;
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Mark, SyntaxContext};
+use swc_ecma_ast::*;
 
 #[cfg(test)]
 mod tests;

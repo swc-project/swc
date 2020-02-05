@@ -1,10 +1,20 @@
 use crate::{builder::PassBuilder, error::Error};
-use atoms::JsWord;
-pub use common::chain;
-use common::{errors::Handler, FileName, SourceMap};
 use dashmap::DashMap;
-pub use ecmascript::parser::JscTarget;
-use ecmascript::{
+use hashbrown::{HashMap, HashSet};
+use once_cell::sync::Lazy;
+use regex::Regex;
+use serde::{Deserialize, Serialize};
+use std::{
+    env,
+    path::{Path, PathBuf},
+    sync::Arc,
+    usize,
+};
+use swc_atoms::JsWord;
+pub use swc_common::chain;
+use swc_common::{errors::Handler, FileName, SourceMap};
+pub use swc_ecmascript::parser::JscTarget;
+use swc_ecmascript::{
     ast::{Expr, ExprStmt, ModuleItem, Stmt},
     parser::{lexer::Lexer, Parser, Session as ParseSess, SourceFileInput, Syntax},
     preset_env,
@@ -15,16 +25,6 @@ use ecmascript::{
         proposals::{class_properties, decorators, export, nullish_coalescing, optional_chaining},
         react, resolver, typescript,
     },
-};
-use hashbrown::{HashMap, HashSet};
-use once_cell::sync::Lazy;
-use regex::Regex;
-use serde::{Deserialize, Serialize};
-use std::{
-    env,
-    path::{Path, PathBuf},
-    sync::Arc,
-    usize,
 };
 
 #[cfg(test)]

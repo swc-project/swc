@@ -5,10 +5,10 @@ use crate::{
         ExprFactory, StmtLike,
     },
 };
-use ast::*;
 use serde::Deserialize;
 use std::iter;
 use swc_common::{Fold, FoldWith, Spanned, SyntaxContext, Visit, VisitWith, DUMMY_SP};
+use swc_ecma_ast::*;
 
 /// `@babel/plugin-transform-destructuring`
 ///

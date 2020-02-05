@@ -1,5 +1,4 @@
 use super::super::util;
-use ast::Expr;
 use hashbrown::HashMap;
 use inflector::Inflector;
 use serde::{Deserialize, Serialize};
@@ -9,6 +8,7 @@ use swc_common::{
     errors::{ColorConfig, Handler},
     FileName, SourceMap,
 };
+use swc_ecma_ast::Expr;
 use swc_ecma_parser::{lexer::Lexer, Parser, Session, SourceFileInput, Syntax};
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]

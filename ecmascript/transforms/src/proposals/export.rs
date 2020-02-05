@@ -1,6 +1,6 @@
 use crate::{pass::Pass, util::IdentExt};
-use ast::*;
 use swc_common::{Fold, DUMMY_SP};
+use swc_ecma_ast::*;
 
 /// `@babel/plugin-proposal-export-default-from` and
 /// `@babel/plugin-proposal-export-namespace-from`

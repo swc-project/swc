@@ -1,6 +1,6 @@
-use ast::Ident;
 use swc_atoms::JsWord;
 use swc_common::{Span, SyntaxContext};
+use swc_ecma_ast::Ident;
 
 pub trait IdentLike: Sized {
     fn from_ident(i: &Ident) -> Self;

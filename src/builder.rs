@@ -1,7 +1,10 @@
 use crate::config::{GlobalPassOption, JscTarget, ModuleConfig};
-use atoms::JsWord;
-use common::{chain, errors::Handler, fold::and_then::AndThen, SourceMap};
-use ecmascript::{
+use either::Either;
+use hashbrown::hash_map::HashMap;
+use std::sync::Arc;
+use swc_atoms::JsWord;
+use swc_common::{chain, errors::Handler, fold::and_then::AndThen, SourceMap};
+use swc_ecmascript::{
     parser::Syntax,
     preset_env,
     transforms::{
@@ -10,9 +13,6 @@ use ecmascript::{
         typescript,
     },
 };
-use either::Either;
-use hashbrown::hash_map::HashMap;
-use std::sync::Arc;
 
 /// Builder is used to create a high performance `Compiler`.
 pub struct PassBuilder<'a, 'b, P: Pass> {

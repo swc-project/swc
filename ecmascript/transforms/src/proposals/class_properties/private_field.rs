@@ -1,9 +1,9 @@
 use crate::util::{alias_ident_for, alias_if_required, prepend, ExprFactory};
-use ast::*;
 use hashbrown::HashSet;
 use std::{iter, mem};
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Mark, Spanned, DUMMY_SP};
+use swc_ecma_ast::*;
 
 pub(super) struct FieldAccessFolder<'a> {
     pub mark: Mark,

@@ -1,6 +1,6 @@
 use crate::util::ExprFactory;
-use ast::*;
 use swc_common::{Fold, FoldWith, Visit, VisitWith};
+use swc_ecma_ast::*;
 
 /// `@babel/plugin-transform-instanceof`
 ///

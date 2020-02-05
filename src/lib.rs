@@ -1,9 +1,9 @@
 #![feature(box_syntax, box_patterns)]
 
-pub use atoms;
-pub use common;
-pub use ecmascript;
 pub use sourcemap;
+pub use swc_atoms as atoms;
+pub use swc_common as common;
+pub use swc_ecmascript as ecmascript;
 
 mod builder;
 pub mod config;

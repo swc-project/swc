@@ -1,6 +1,6 @@
-use ast::*;
 use swc_atoms::JsWord;
 use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Spanned, SyntaxContext, DUMMY_SP};
+use swc_ecma_ast::*;
 
 #[derive(Debug)]
 pub(super) enum ScopeOp {

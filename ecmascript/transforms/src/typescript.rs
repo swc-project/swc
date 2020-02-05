@@ -2,12 +2,12 @@ use crate::{
     pass::Pass,
     util::{prepend_stmts, var::VarCollector, ExprFactory},
 };
-use ast::*;
 use hashbrown::HashMap;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     util::move_map::MoveMap, Fold, FoldWith, Spanned, SyntaxContext, Visit, VisitWith, DUMMY_SP,
 };
+use swc_ecma_ast::*;
 
 /// Strips type annotations out.
 pub fn strip() -> impl Pass {

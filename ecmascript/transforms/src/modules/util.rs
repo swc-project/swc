@@ -1,5 +1,4 @@
 use crate::util::{undefined, DestructuringFinder, ExprFactory};
-use ast::*;
 use fxhash::FxHashSet;
 use hashbrown::{hash_map::Entry, HashMap, HashSet};
 use indexmap::IndexMap;
@@ -8,6 +7,7 @@ use serde::{Deserialize, Serialize};
 use std::iter;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{FoldWith, Mark, Span, SyntaxContext, VisitWith, DUMMY_SP};
+use swc_ecma_ast::*;
 
 pub(super) trait ModulePass {
     fn config(&self) -> &Config;

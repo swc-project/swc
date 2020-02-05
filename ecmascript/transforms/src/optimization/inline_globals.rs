@@ -1,7 +1,7 @@
-use ast::*;
 use hashbrown::HashMap;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{Fold, FoldWith};
+use swc_ecma_ast::*;
 
 #[derive(Clone)]
 pub struct InlineGlobals {
