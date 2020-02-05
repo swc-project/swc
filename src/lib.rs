@@ -14,14 +14,11 @@ use crate::{
     config::{BuiltConfig, ConfigFile, JscTarget, Merge, Options, Rc, RootMode},
     error::Error,
 };
-use serde::Serialize;
-use sourcemap::SourceMapBuilder;
-use std::{fs::File, path::Path, sync::Arc};
-use swc_common::{
+use common::{
     comments::Comments, errors::Handler, FileName, FoldWith, Globals, SourceFile, SourceMap,
     GLOBALS,
 };
-use swc_ecmascript::{
+use ecmascript::{
     ast::Program,
     codegen::{self, Emitter},
     parser::{lexer::Lexer, Parser, Session as ParseSess, Syntax},
@@ -31,10 +28,13 @@ use swc_ecmascript::{
         util::COMMENTS,
     },
 };
-pub use swc_ecmascript::{
+pub use ecmascript::{
     parser::SourceFileInput,
     transforms::{chain_at, pass::Pass},
 };
+use serde::Serialize;
+use sourcemap::SourceMapBuilder;
+use std::{fs::File, path::Path, sync::Arc};
 
 pub struct Compiler {
     /// swc uses rustc's span interning.
