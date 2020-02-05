@@ -46,6 +46,8 @@ pub struct Error {
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum SyntaxError {
+    TopLevelAwait,
+
     LegacyDecimal,
     LegacyOctal,
     InvalidIdentChar,
@@ -226,6 +228,9 @@ impl<'a> From<ErrorToDiag<'a>> for DiagnosticBuilder<'a> {
     #[cold]
     fn from(e: ErrorToDiag<'a>) -> Self {
         let msg: Cow<'static, _> = match e.error {
+            TopLevelAwait => "top level await requires target to es2017 or higher and \
+                              topLevelAwait:true for ecmascript"
+                .into(),
             LegacyDecimal => "Legacy decimal escape is not permitted in strict mode".into(),
             LegacyOctal => "Legacy octal escape is not permitted in strict mode".into(),
             InvalidIdentChar => "Invalid character in identifier".into(),

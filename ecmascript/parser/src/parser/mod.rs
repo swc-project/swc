@@ -175,7 +175,7 @@ where
     F: for<'a> FnOnce(&'a mut Parser<'a, Lexer<'a, crate::SourceFileInput<'_>>>) -> Result<Ret, ()>,
 {
     crate::with_test_sess(s, |sess, input| {
-        let lexer = Lexer::new(sess, syntax, Default::default(), input, None);
+        let lexer = Lexer::new(sess, syntax, JscTarget::Es2019, input, None);
         f(&mut Parser::new_from(sess, lexer))
     })
     .unwrap_or_else(|output| panic!("test_parser(): failed to parse \n{}\n{}", s, output))

@@ -92,6 +92,20 @@ impl<'a, I: Tokens> Parser<'a, I> {
         top_level: bool,
         decorators: Vec<Decorator>,
     ) -> PResult<'a, Stmt> {
+        let start = cur_pos!();
+        if top_level && is!("await") {
+            let valid = self.target() >= JscTarget::Es2017 && self.syntax().top_level_await();
+
+            if !valid {
+                self.emit_err(self.input.cur_span(), SyntaxError::TopLevelAwait);
+            }
+
+            let expr = self.parse_await_expr()?;
+
+            let span = span!(start);
+            return Ok(Stmt::Expr(ExprStmt { span, expr }));
+        }
+
         if self.input.syntax().typescript() && is!("const") && peeked_is!("enum") {
             assert_and_bump!("const");
             assert_and_bump!("enum");
@@ -1625,6 +1639,22 @@ export default function waitUntil(callback, options = {}) {
             "try {
 } catch {}",
             Syntax::Es(EsConfig {
+                ..Default::default()
+            }),
+            |p| {
+                p.parse_module().map_err(|mut e| {
+                    e.emit();
+                })
+            },
+        );
+    }
+
+    #[test]
+    fn top_level_await() {
+        test_parser(
+            "await foo",
+            Syntax::Es(EsConfig {
+                top_level_await: true,
                 ..Default::default()
             }),
             |p| {
