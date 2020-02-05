@@ -94,14 +94,16 @@ impl<'a, I: Tokens> Parser<'a, I> {
     ) -> PResult<'a, Stmt> {
         let start = cur_pos!();
         if top_level && is!("await") {
-            if self.target() >= JscTarget::Es2017 && self.syntax().top_level_await() {
-                let expr = self.parse_await_expr()?;
+            let valid = self.target() >= JscTarget::Es2017 && self.syntax().top_level_await();
 
-                let span = span!(start);
-                return Ok(Stmt::Expr(ExprStmt { span, expr }));
+            if !valid {
+                self.emit_err(self.input.cur_span(), SyntaxError::TopLevelAwait);
             }
 
-            self.emit_err(span!(start), SyntaxError::TopLevelAwait);
+            let expr = self.parse_await_expr()?;
+
+            let span = span!(start);
+            return Ok(Stmt::Expr(ExprStmt { span, expr }));
         }
 
         if self.input.syntax().typescript() && is!("const") && peeked_is!("enum") {

@@ -342,7 +342,6 @@ impl<'a, I: Tokens> Parser<'a, I> {
         let start = cur_pos!();
 
         assert_and_bump!("await");
-        debug_assert!(self.ctx().in_async);
 
         if is!('*') {
             syntax_error!(SyntaxError::AwaitStar);

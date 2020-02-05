@@ -1,0 +1,6 @@
+error: top level await requires target to es2017 or higher and topLevelAwait:true for ecmascript
+ --> $DIR/tests/typescript-errors/custom/top-level-await-jsc-target/input.ts:1:1
+  |
+1 | await foo
+  | ^^^^^
+
