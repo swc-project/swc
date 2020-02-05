@@ -92,6 +92,18 @@ impl<'a, I: Tokens> Parser<'a, I> {
         top_level: bool,
         decorators: Vec<Decorator>,
     ) -> PResult<'a, Stmt> {
+        let start = cur_pos!();
+        if top_level && is!("await") {
+            if self.target() >= JscTarget::Es2017 {
+                let expr = self.parse_await_expr()?;
+
+                let span = span!(start);
+                return Ok(Stmt::Expr(ExprStmt { span, expr });)
+            }
+
+            self.emit_err(span!(start),SyntaxError::TopLevelAwait);
+        }
+
         if self.input.syntax().typescript() && is!("const") && peeked_is!("enum") {
             assert_and_bump!("const");
             assert_and_bump!("enum");
