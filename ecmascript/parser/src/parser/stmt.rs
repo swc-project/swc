@@ -94,7 +94,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     ) -> PResult<'a, Stmt> {
         let start = cur_pos!();
         if top_level && is!("await") {
-            if self.target() >= JscTarget::Es2017 && self.syntax().top_level_awiat() {
+            if self.target() >= JscTarget::Es2017 && self.syntax().top_level_await() {
                 let expr = self.parse_await_expr()?;
 
                 let span = span!(start);
