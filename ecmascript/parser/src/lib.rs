@@ -281,6 +281,18 @@ impl Syntax {
             _ => false,
         }
     }
+
+    pub fn top_level_await(self) -> bool {
+        match self {
+            Syntax::Es(EsConfig {
+                top_level_await: true,
+                ..
+            })
+            | Syntax::Typescript(..) => true,
+
+            _ => false,
+        }
+    }
 }
 
 #[derive(Debug, Clone, Copy, Default, Serialize, Deserialize)]
@@ -378,6 +390,10 @@ pub struct EsConfig {
     /// Stage 3.
     #[serde(default)]
     pub import_meta: bool,
+
+    /// Stage 3.
+    #[serde(default)]
+    pub top_level_await: bool,
 }
 
 /// Syntactic context.

@@ -94,14 +94,14 @@ impl<'a, I: Tokens> Parser<'a, I> {
     ) -> PResult<'a, Stmt> {
         let start = cur_pos!();
         if top_level && is!("await") {
-            if self.target() >= JscTarget::Es2017 {
+            if self.target() >= JscTarget::Es2017 && self.syntax().top_level_awiat() {
                 let expr = self.parse_await_expr()?;
 
                 let span = span!(start);
-                return Ok(Stmt::Expr(ExprStmt { span, expr });)
+                return Ok(Stmt::Expr(ExprStmt { span, expr }));
             }
 
-            self.emit_err(span!(start),SyntaxError::TopLevelAwait);
+            self.emit_err(span!(start), SyntaxError::TopLevelAwait);
         }
 
         if self.input.syntax().typescript() && is!("const") && peeked_is!("enum") {
@@ -1637,6 +1637,22 @@ export default function waitUntil(callback, options = {}) {
             "try {
 } catch {}",
             Syntax::Es(EsConfig {
+                ..Default::default()
+            }),
+            |p| {
+                p.parse_module().map_err(|mut e| {
+                    e.emit();
+                })
+            },
+        );
+    }
+
+    #[test]
+    fn top_level_await() {
+        test_parser(
+            "await foo",
+            Syntax::Es(EsConfig {
+                top_level_await: true,
                 ..Default::default()
             }),
             |p| {
