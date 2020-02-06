@@ -45,10 +45,10 @@ before_deploy:
 after_success:
 # Temporarily disabled because cargo tarpaulin does not set CARGO_MANIFEST_DIR.
 #
-# - bash <(curl https://raw.githubusercontent.com/xd009642/tarpaulin/master/travis-install.sh)
-# - |
-#   cargo tarpaulin --all --ignore-tests --out Xml &&
-#   bash <(curl -s https://codecov.io/bash)
+ - bash <(curl https://raw.githubusercontent.com/xd009642/tarpaulin/master/travis-install.sh)
+ - |
+   cargo tarpaulin --all --ignore-tests --out Xml &&
+   bash <(curl -s https://codecov.io/bash)
 # - '[ $TRAVIS_PULL_REQUEST = false ] &&
 #      [ "$TRAVIS_BRANCH" == "master" ] &&
 #     ./.travis/docs.sh'
