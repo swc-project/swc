@@ -92,7 +92,6 @@ impl<'a, I: Tokens> Parser<'a, I> {
         top_level: bool,
         decorators: Vec<Decorator>,
     ) -> PResult<'a, Stmt> {
-        let start = cur_pos!();
         if top_level && is!("await") {
             let valid = self.target() >= JscTarget::Es2017 && self.syntax().top_level_await();
 
