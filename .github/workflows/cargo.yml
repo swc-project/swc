@@ -42,7 +42,7 @@ jobs:
       - name: Install node dependencies
         run: |
           npm config set prefix ~/npm
-          npm i browserslist @babel/runtime
+          npm i browserslist regenerator-runtime
           npm i -g jest
 
       # Ensure that all components all compilable.

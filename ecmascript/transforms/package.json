@@ -1,6 +1,6 @@
 {
   "devDependencies": {
-    "@babel/runtime": "^7.7.7",
+    "regenerator-runtime": "^7.7.7",
     "jest": "^23.6.0"
   }
 }
