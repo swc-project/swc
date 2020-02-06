@@ -5,6 +5,9 @@ addons:
   apt:
     packages:
       - libssl-dev
+      - pkg-config
+      - cmake
+      - zlib1g-dev
 
 language: rust
 rust:
