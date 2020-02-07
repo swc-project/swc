@@ -206,7 +206,7 @@ impl Options {
                 export(),
                 syntax.export_default_from() || syntax.export_namespace_from()
             ),
-            Optional::new(simplifier(), enable_optimizer),
+            Optional::new(simplifier(Default::default()), enable_optimizer),
             json_parse_pass
         );
 
