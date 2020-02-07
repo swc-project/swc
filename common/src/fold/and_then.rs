@@ -1,5 +1,8 @@
 use super::{Fold, FoldWith, Visit, VisitWith};
-use crate::util::move_map::MoveMap;
+use crate::{
+    pass::{CompilerPass, RepeatedPass},
+    util::move_map::MoveMap,
+};
 
 #[macro_export]
 macro_rules! chain {
@@ -88,5 +91,27 @@ where
     fn visit(&mut self, node: &T) {
         self.first.visit(node);
         self.second.visit(node);
+    }
+}
+
+impl<A, B> CompilerPass for AndThen<A, B>
+where
+    A: CompilerPass,
+    B: CompilerPass,
+{
+}
+
+impl<A, B, At> RepeatedPass<At> for AndThen<A, B>
+where
+    A: RepeatedPass<At>,
+    B: RepeatedPass<At>,
+{
+    fn changed(&self) -> bool {
+        self.first.changed() || self.second.changed()
+    }
+
+    fn reset(&mut self) {
+        self.first.reset();
+        self.second.reset();
     }
 }
