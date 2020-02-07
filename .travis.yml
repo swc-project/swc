@@ -47,7 +47,7 @@ before_deploy:
 
 after_success:
   - bash <(curl https://raw.githubusercontent.com/xd009642/tarpaulin/master/travis-install.sh)
-  - cargo tarpaulin --out Xml
+  - cargo tarpaulin --all --ignore-tests --out Xml &&
   - bash <(curl -s https://codecov.io/bash)
 
 deploy:
