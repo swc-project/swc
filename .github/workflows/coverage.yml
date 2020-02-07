@@ -19,6 +19,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: npm install
+        run: npm i -g jest browserslist regenerator-runtime
+
       - name: Install cargo-tarpaulin
         run: cargo install cargo-tarpaulin
 
