@@ -1,12 +1,12 @@
 use crate::{pass::RepeatedJsPass, scope::ScopeKind};
 use fxhash::FxHashMap;
-use std::borrow::Cow;
+use std::{borrow::Cow, cell::Cell};
 use swc_common::{
     pass::{CompilerPass, Repeated},
     Fold, FoldWith,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ident::IdentLike, Id};
+use swc_ecma_utils::{ident::IdentLike, Id, StmtLike};
 
 #[cfg(test)]
 mod tests;
@@ -52,15 +52,36 @@ struct Scope<'a> {
     parent: Option<&'a Scope<'a>>,
     kind: ScopeKind,
 
+    bindings: FxHashMap<Id, VarInfo>,
+
     /// Simple optimization. We don't need complex scope analysis.
     constants: FxHashMap<Id, Expr>,
 }
 
+impl Scope<'_> {
+    pub fn find_constants(&self, id: &Id) -> Option<&Expr> {
+        if let Some(e) = self.constants.get(id) {
+            return Some(e);
+        }
+
+        self.parent.and_then(|parent| parent.find_constants(id))
+    }
+}
+
+#[derive(Debug)]
+struct VarInfo {
+    kind: VarDeclKind,
+    read_from_nested_scope: Cell<bool>,
+    write_from_nested_scope: Cell<bool>,
+}
+
 impl Inlining<'_> {
-    fn child<T>(&mut self, kind: ScopeKind, node: T) -> T
+    fn fold_with_child<T>(&mut self, kind: ScopeKind, node: T) -> T
     where
         T: 'static + for<'any> FoldWith<Inlining<'any>>,
     {
+        //TODO: Track accessed variables.
+
         let mut child = Inlining {
             is_first_run: self.is_first_run,
             changed: false,
@@ -110,13 +131,13 @@ impl Fold<VarDeclarator> for Inlining<'_> {
 
 impl Fold<BlockStmt> for Inlining<'_> {
     fn fold(&mut self, node: BlockStmt) -> BlockStmt {
-        self.child(ScopeKind::Block, node)
+        self.fold_with_child(ScopeKind::Block, node)
     }
 }
 
 impl Fold<Function> for Inlining<'_> {
     fn fold(&mut self, node: Function) -> Function {
-        self.child(ScopeKind::Fn, node)
+        self.fold_with_child(ScopeKind::Fn, node)
     }
 }
 
@@ -137,7 +158,7 @@ impl Fold<Expr> for Inlining<'_> {
 
         match node {
             Expr::Ident(ref i) if self.is_first_run => {
-                if let Some(expr) = self.scope.constants.get(&i.to_id()) {
+                if let Some(expr) = self.scope.find_constants(&i.to_id()) {
                     self.changed = true;
                     return expr.clone();
                 }
