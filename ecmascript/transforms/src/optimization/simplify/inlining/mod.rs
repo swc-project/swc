@@ -29,9 +29,9 @@ struct Scope<'a> {
 }
 
 impl Inlining<'_> {
-    fn child(&mut self, kind: ScopeKind, node: T) -> T
+    fn child<T>(&mut self, kind: ScopeKind, node: T) -> T
     where
-        T: FoldWith<Self>,
+        T: 'static + for<'any> FoldWith<Inlining<'any>>,
     {
         let mut child = Inlining {
             scope: Scope {
@@ -42,7 +42,11 @@ impl Inlining<'_> {
             var_decl_kind: VarDeclKind::Var,
         };
 
-        node.fold_with(&mut child)
+        let node = node.fold_with(&mut child);
+
+        child.scope.parent = None;
+
+        node
     }
 }
 
@@ -60,7 +64,7 @@ impl Fold<VarDeclarator> for Inlining<'_> {
             match node.name {
                 Pat::Ident(ref name) => match &node.init {
                     Some(box e @ Expr::Lit(..)) | Some(box e @ Expr::Ident(..)) => {
-                        self.scope.constants.insert(name.into_id(), e.clone())
+                        self.scope.constants.insert(name.to_id(), e.clone());
                     }
                     _ => {}
                 },
@@ -101,7 +105,7 @@ impl Fold<Expr> for Inlining<'_> {
 
         match node {
             Expr::Ident(ref i) => {
-                if let Some(expr) = self.scope.constants.get(&i.into_id()) {
+                if let Some(expr) = self.scope.constants.get(&i.to_id()) {
                     return expr.clone();
                 }
             }
