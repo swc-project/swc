@@ -215,13 +215,7 @@ where
 }
 
 pub trait RepeatedJsPass:
-    Repeated
-    + RepeatedPass<Program>
-    + RepeatedPass<Module>
-    + RepeatedPass<Script>
-    + RepeatedPass<Vec<ModuleItem>>
-    + RepeatedPass<Vec<Stmt>>
-    + Pass
+    Repeated + RepeatedPass<Program> + RepeatedPass<Module> + RepeatedPass<Script> + Pass
 {
 }
 
