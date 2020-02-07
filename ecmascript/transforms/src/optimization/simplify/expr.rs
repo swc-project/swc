@@ -2,7 +2,7 @@ use crate::util::*;
 use std::{borrow::Cow, iter, iter::once};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
-    pass::{CompilerPass, RepeatedPass},
+    pass::{CompilerPass, Repeated, RepeatedPass},
     Fold, FoldWith, Span, Spanned,
 };
 use swc_ecma_ast::{Ident, Lit, *};
@@ -22,7 +22,7 @@ impl CompilerPass for SimplifyExpr {
     }
 }
 
-impl RepeatedPass<Program> for SimplifyExpr {
+impl Repeated for SimplifyExpr {
     fn changed(&self) -> bool {
         self.changed
     }

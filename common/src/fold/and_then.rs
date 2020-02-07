@@ -1,6 +1,6 @@
 use super::{Fold, FoldWith, Visit, VisitWith};
 use crate::{
-    pass::{CompilerPass, RepeatedPass},
+    pass::{CompilerPass, Repeated, RepeatedPass},
     util::move_map::MoveMap,
 };
 use std::borrow::Cow;
@@ -109,6 +109,13 @@ impl<A, B, At> RepeatedPass<At> for AndThen<A, B>
 where
     A: RepeatedPass<At>,
     B: RepeatedPass<At>,
+{
+}
+
+impl<A, B> Repeated for AndThen<A, B>
+where
+    A: Repeated,
+    B: Repeated,
 {
     fn changed(&self) -> bool {
         self.first.changed() || self.second.changed()

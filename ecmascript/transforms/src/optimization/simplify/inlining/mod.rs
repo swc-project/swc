@@ -5,7 +5,7 @@ use crate::{
 use fxhash::FxHashMap;
 use std::borrow::Cow;
 use swc_common::{
-    pass::{CompilerPass, RepeatedPass},
+    pass::{CompilerPass, Repeated, RepeatedPass},
     Fold, FoldWith,
 };
 use swc_ecma_ast::*;
@@ -31,7 +31,7 @@ impl CompilerPass for Inlining<'_> {
     }
 }
 
-impl RepeatedPass<Program> for Inlining<'_> {
+impl Repeated for Inlining<'_> {
     fn changed(&self) -> bool {
         self.changed
     }

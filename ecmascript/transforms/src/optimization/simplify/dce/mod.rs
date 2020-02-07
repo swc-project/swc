@@ -6,7 +6,7 @@ use std::{borrow::Cow, cmp::min, iter::once};
 use swc_atoms::js_word;
 use swc_common::{
     fold::VisitWith,
-    pass::{CompilerPass, RepeatedPass},
+    pass::{CompilerPass, Repeated, RepeatedPass},
     util::move_map::MoveMap,
     Fold, FoldWith, Spanned, Visit, DUMMY_SP,
 };
@@ -26,7 +26,7 @@ impl CompilerPass for Remover {
     }
 }
 
-impl RepeatedPass<Program> for Remover {
+impl Repeated for Remover {
     fn changed(&self) -> bool {
         self.changed
     }

@@ -1,8 +1,8 @@
 //! Ported from closure compiler.
 pub use self::dce::dce;
 use self::expr::SimplifyExpr;
-use crate::pass::{Pass, RepeatedJsPass};
-use swc_common::{chain, Fold, FoldWith};
+use crate::pass::RepeatedJsPass;
+use swc_common::{chain, pass::Repeat};
 use swc_ecma_ast::*;
 
 pub mod dce;
@@ -20,5 +20,5 @@ pub fn expr_simplifier() -> impl RepeatedJsPass + 'static {
 /// Ported from `PeepholeRemoveDeadCode` and `PeepholeFoldConstants` of google
 /// closure compiler.
 pub fn simplifier() -> impl RepeatedJsPass + 'static {
-    chain!(expr_simplifier(), inlining::inlining(), dce())
+    Repeat::new(chain!(expr_simplifier(), inlining::inlining(), dce()))
 }
