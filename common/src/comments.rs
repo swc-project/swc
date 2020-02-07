@@ -28,7 +28,7 @@ impl Default for Comments {
 
 impl Comments {
     pub fn add_leading(&self, pos: BytePos, cmt: Vec<Comment>) {
-        self.leading.insert(pos, cmt);
+        self.leading.entry(pos).or_default().extend(cmt);
     }
 
     pub fn add_trailing(&self, pos: BytePos, cmt: Comment) {
