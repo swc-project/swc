@@ -16,6 +16,7 @@ mod tests;
 /// As swc focuses on reducing gzipped file size, all strings are inlined.
 pub fn inlining() -> impl RepeatedJsPass + 'static {
     Inlining {
+        is_first_run: true,
         changed: false,
         scope: Default::default(),
         var_decl_kind: VarDeclKind::Var,
@@ -35,10 +36,12 @@ impl Repeated for Inlining<'_> {
 
     fn reset(&mut self) {
         self.changed = false;
+        self.is_first_run = false;
     }
 }
 
 struct Inlining<'a> {
+    is_first_run: bool,
     changed: bool,
     scope: Scope<'a>,
     var_decl_kind: VarDeclKind,
@@ -59,6 +62,7 @@ impl Inlining<'_> {
         T: 'static + for<'any> FoldWith<Inlining<'any>>,
     {
         let mut child = Inlining {
+            is_first_run: self.is_first_run,
             changed: false,
             scope: Scope {
                 parent: Some(&self.scope),
@@ -88,7 +92,7 @@ impl Fold<VarDecl> for Inlining<'_> {
 
 impl Fold<VarDeclarator> for Inlining<'_> {
     fn fold(&mut self, node: VarDeclarator) -> VarDeclarator {
-        if self.var_decl_kind == VarDeclKind::Const {
+        if self.var_decl_kind == VarDeclKind::Const && self.is_first_run {
             match node.name {
                 Pat::Ident(ref name) => match &node.init {
                     Some(box e @ Expr::Lit(..)) | Some(box e @ Expr::Ident(..)) => {
@@ -132,8 +136,9 @@ impl Fold<Expr> for Inlining<'_> {
         let node: Expr = node.fold_children(self);
 
         match node {
-            Expr::Ident(ref i) => {
+            Expr::Ident(ref i) if self.is_first_run => {
                 if let Some(expr) = self.scope.constants.get(&i.to_id()) {
+                    self.changed = true;
                     return expr.clone();
                 }
             }
