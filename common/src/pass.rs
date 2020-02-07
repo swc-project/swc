@@ -3,7 +3,9 @@ use serde::export::PhantomData;
 use std::borrow::Cow;
 
 pub trait CompilerPass {
-    // TODO: timing with
+    /// Name should follow hyphen-case
+    ///
+    /// TODO: timing
     fn name() -> Cow<'static, str>;
 }
 
