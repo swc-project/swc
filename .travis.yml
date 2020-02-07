@@ -46,8 +46,8 @@ before_deploy:
   - CARGO_TARGET_DIR=$HOME/cargo-target cargo doc --color always
 
 after_success:
-  - bash <(curl https://raw.githubusercontent.com/xd009642/tarpaulin/master/travis-install.sh)
-  - cargo tarpaulin --all --ignore-tests --out Xml &&
+  - cargo install cargo-tarpaulin
+  - cargo tarpaulin --all --ignore-tests --out Xml
   - bash <(curl -s https://codecov.io/bash)
 
 deploy:
