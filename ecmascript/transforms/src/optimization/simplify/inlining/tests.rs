@@ -1,122 +1,13 @@
 //! Copied from https://github.com/google/closure-compiler/blob/6ca3b62990064488074a1a8931b9e8dc39b148b3/test/com/google/javascript/jscomp/InlineVariablesTest.java
-
-use super::{inline_vars, Config, Inline, Phase, Scope, VarInfo};
-use crate::{resolver, scope::ScopeKind, util::Id};
-use swc_atoms::JsWord;
-use swc_common::{chain, SyntaxContext, DUMMY_SP};
-use swc_ecma_ast::*;
-
-#[test]
-fn child_basic() {
-    fn mk(v: usize, need_expr: bool) -> (Id, VarInfo) {
-        let id = (JsWord::from(format!("v{}", v)), SyntaxContext::empty());
-        let mut var = VarInfo::new(v);
-        if need_expr {
-            var.set_value(Expr::Lit(Lit::Num(Number {
-                span: DUMMY_SP,
-                value: v as _,
-            })));
-        }
-        (id, var)
-    };
-
-    let mut v = Inline::root();
-
-    assert_eq!(v.phase, Phase::Analysis);
-    v.child(ScopeKind::Fn, |v| {
-        v.scope.vars.borrow_mut().extend(vec![mk(1_1, false)]);
-
-        v.child(ScopeKind::Fn, |v| {
-            v.child(ScopeKind::Fn, |v| {
-                //
-                v.scope.vars.borrow_mut().extend(vec![mk(1_2_1_1, false)]);
-            });
-
-            v.scope.vars.borrow_mut().extend(vec![mk(1_2_2, false)]);
-        });
-
-        v.scope.vars.borrow_mut().extend(vec![mk(1_3, false)]);
-    });
-    v.child(ScopeKind::Fn, |v| {
-        v.child(ScopeKind::Fn, |v| {
-            //
-            v.scope.vars.borrow_mut().extend(vec![mk(2_1_1, false)]);
-        });
-
-        v.scope.vars.borrow_mut().extend(vec![mk(2_2, false)]);
-    });
-
-    println!("{:#?}", v.scope);
-
-    v.phase = Phase::Storage;
-
-    v.child(ScopeKind::Fn, |v| {
-        v.scope.vars.borrow_mut().extend(vec![mk(1_1, true)]);
-
-        v.child(ScopeKind::Fn, |v| {
-            v.child(ScopeKind::Fn, |v| {
-                //
-                v.scope.vars.borrow_mut().extend(vec![mk(1_2_1_1, true)]);
-            });
-
-            v.scope.vars.borrow_mut().extend(vec![mk(1_2_2, true)]);
-        });
-
-        v.scope.vars.borrow_mut().extend(vec![mk(1_3, true)]);
-    });
-    v.child(ScopeKind::Fn, |v| {
-        v.child(ScopeKind::Fn, |v| {
-            //
-            v.scope.vars.borrow_mut().extend(vec![mk(2_1_1, true)]);
-        });
-
-        v.scope.vars.borrow_mut().extend(vec![mk(2_2, true)]);
-    });
-
-    println!("{:#?}", v.scope);
-    v.phase = Phase::Inlining;
-
-    fn validate(s: &Scope, v: usize) {
-        let (id, var) = mk(v, true);
-        assert!(s.vars.borrow().get(&id).is_some());
-        assert!(s.vars.borrow().get(&id).unwrap().value().is_some());
-        assert_eq!(
-            *s.vars.borrow().get(&id).unwrap().value().unwrap(),
-            *var.value().unwrap()
-        );
-    }
-
-    v.child(ScopeKind::Fn, |v| {
-        validate(&v.scope, 1_1);
-
-        v.child(ScopeKind::Fn, |v| {
-            v.child(ScopeKind::Fn, |v| {
-                //
-                validate(&v.scope, 1_2_1_1);
-            });
-
-            validate(&v.scope, 1_2_2);
-        });
-
-        validate(&v.scope, 1_3);
-    });
-    v.child(ScopeKind::Fn, |v| {
-        v.child(ScopeKind::Fn, |v| {
-            //
-            validate(&v.scope, 2_1_1);
-        });
-
-        validate(&v.scope, 2_2);
-    });
-
-    println!("{:#?}", v.scope);
-}
+use super::inlining;
+use crate::resolver::resolver;
+use swc_common::chain;
 
 macro_rules! to {
     ($name:ident, $src:expr, $expected:expr) => {
         test!(
             Default::default(),
-            |_| chain!(resolver(), inline_vars(Default::default())),
+            |_| chain!(resolver(), inlining()),
             $name,
             $src,
             $expected
@@ -170,18 +61,14 @@ macro_rules! identical_all {
     };
 }
 
-fn test_cfg(c: Config, src: &str, expected: &str) {
+fn test(src: &str, expected: &str) {
     test_transform!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| chain!(resolver(), inline_vars(c)),
+        |_| chain!(resolver(), inlining()),
         src,
         expected,
         true
     )
-}
-
-fn test(src: &str, expected: &str) {
-    test_cfg(Default::default(), src, expected)
 }
 
 /// Should not modify expression.
@@ -1225,8 +1112,7 @@ fn var_in_block2() {
 
 #[test]
 fn test_locals_only1() {
-    test_cfg(
-        Config { locals_only: true },
+    test(
         "var x=1; x; function f() {var x = 1; x;}",
         "var x=1; x; function f() {1;}",
     );

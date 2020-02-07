@@ -1,11 +1,14 @@
 use crate::{
-    pass::Pass,
+    pass::{Pass, RepeatedJsPass},
     util::{StmtLike, *},
 };
-use std::{cmp::min, iter::once};
+use std::{borrow::Cow, cmp::min, iter::once};
 use swc_atoms::js_word;
 use swc_common::{
-    fold::VisitWith, util::move_map::MoveMap, Fold, FoldWith, Spanned, Visit, DUMMY_SP,
+    fold::VisitWith,
+    pass::{CompilerPass, RepeatedPass},
+    util::move_map::MoveMap,
+    Fold, FoldWith, Spanned, Visit, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 
@@ -13,12 +16,29 @@ use swc_ecma_ast::*;
 mod tests;
 
 /// Ported from `PeepholeRemoveDeadCode` of google closure compiler.
-pub fn dce() -> impl Pass + 'static {
+pub fn dce() -> impl RepeatedJsPass + 'static {
     Remover::default()
+}
+
+impl CompilerPass for Remover {
+    fn name() -> Cow<'static, str> {
+        Cow::Borrowed("dce")
+    }
+}
+
+impl RepeatedPass<Program> for Remover {
+    fn changed(&self) -> bool {
+        self.changed
+    }
+
+    fn reset(&mut self) {
+        self.changed = false;
+    }
 }
 
 #[derive(Debug, Default)]
 struct Remover {
+    changed: bool,
     normal_block: bool,
 }
 

@@ -3,7 +3,11 @@ use crate::{
     scope::ScopeKind,
 };
 use fxhash::FxHashMap;
-use swc_common::{Fold, FoldWith};
+use std::borrow::Cow;
+use swc_common::{
+    pass::{CompilerPass, RepeatedPass},
+    Fold, FoldWith,
+};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
 
@@ -15,12 +19,30 @@ mod tests;
 /// As swc focuses on reducing gzipped file size, all strings are inlined.
 pub fn inlining() -> impl RepeatedJsPass + 'static {
     Inlining {
+        changed: false,
         scope: Default::default(),
         var_decl_kind: VarDeclKind::Var,
     }
 }
 
+impl CompilerPass for Inlining<'_> {
+    fn name() -> Cow<'static, str> {
+        Cow::Borrowed("inlining")
+    }
+}
+
+impl RepeatedPass<Program> for Inlining<'_> {
+    fn changed(&self) -> bool {
+        self.changed
+    }
+
+    fn reset(&mut self) {
+        self.changed = false;
+    }
+}
+
 struct Inlining<'a> {
+    changed: bool,
     scope: Scope<'a>,
     var_decl_kind: VarDeclKind,
 }
@@ -40,6 +62,7 @@ impl Inlining<'_> {
         T: 'static + for<'any> FoldWith<Inlining<'any>>,
     {
         let mut child = Inlining {
+            changed: false,
             scope: Scope {
                 parent: Some(&self.scope),
                 kind,
@@ -48,7 +71,9 @@ impl Inlining<'_> {
             var_decl_kind: VarDeclKind::Var,
         };
 
-        let node = node.fold_with(&mut child);
+        let node = node.fold_children(&mut child);
+
+        self.changed |= child.changed;
 
         child.scope.parent = None;
 

@@ -212,3 +212,5 @@ where
 }
 
 pub trait RepeatedJsPass: RepeatedPass<Program> + Pass {}
+
+impl<P> RepeatedJsPass for P where P: RepeatedPass<Program> + Pass {}

@@ -1,7 +1,7 @@
 //! Ported from closure compiler.
 pub use self::dce::dce;
 use self::expr::SimplifyExpr;
-use crate::pass::Pass;
+use crate::pass::{Pass, RepeatedJsPass};
 use swc_common::{chain, Fold, FoldWith};
 use swc_ecma_ast::*;
 
@@ -13,16 +13,12 @@ pub mod inlining_old;
 /// Not intended for general use. Use [simplifier] instead.
 ///
 /// Ported from `PeepholeFoldConstants` of google closure compler.
-pub fn expr_simplifier() -> impl Pass + 'static {
-    SimplifyExpr
+pub fn expr_simplifier() -> impl RepeatedJsPass + 'static {
+    SimplifyExpr::default()
 }
 
 /// Ported from `PeepholeRemoveDeadCode` and `PeepholeFoldConstants` of google
 /// closure compiler.
-pub fn simplifier() -> impl Pass + 'static {
-    chain!(
-        expr_simplifier(),
-        inlining_old::inline_vars(Default::default()),
-        dce()
-    )
+pub fn simplifier() -> impl RepeatedJsPass + 'static {
+    chain!(expr_simplifier(), inlining::inlining(), dce())
 }

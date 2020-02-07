@@ -3,7 +3,7 @@ use super::SimplifyExpr;
 fn fold(src: &str, expected: &str) {
     test_transform!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| SimplifyExpr,
+        |_| SimplifyExpr { changed: false },
         src,
         expected,
         true
