@@ -2,6 +2,7 @@ use crate::pass::RepeatedJsPass;
 use std::borrow::Cow;
 use swc_atoms::JsWord;
 use swc_common::{
+    chain,
     pass::{CompilerPass, Repeated},
     util::move_map::MoveMap,
     Fold, FoldWith, Mark, Span, Spanned, Visit, VisitWith,
@@ -9,7 +10,7 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, ident::IdentLike, ExprExt, Id, StmtLike};
 
-#[derive(Debug, Default)]
+#[derive(Debug)]
 pub struct Config<'a> {
     /// If this is [None], all exports are treated as used.
     pub used: Option<Cow<'a, [Id]>>,
@@ -20,6 +21,15 @@ pub struct Config<'a> {
     pub used_mark: Mark,
 }
 
+impl Default for Config<'_> {
+    fn default() -> Self {
+        Self {
+            used: None,
+            used_mark: Mark::fresh(Mark::root()),
+        }
+    }
+}
+
 pub fn dce<'a>(config: Config<'a>) -> impl RepeatedJsPass + 'a {
     assert_ne!(
         config.used_mark,
@@ -27,12 +37,58 @@ pub fn dce<'a>(config: Config<'a>) -> impl RepeatedJsPass + 'a {
         "dce cannot use Mark::root() as used_mark"
     );
 
-    Dce {
-        config,
-        included: vec![],
-        changed: false,
-        marking_phase: false,
+    let used_mark = config.used_mark;
+
+    chain!(
+        Dce {
+            config,
+            included: vec![],
+            changed: false,
+            marking_phase: false,
+        },
+        UsedMarkRemover { used_mark }
+    )
+}
+
+struct UsedMarkRemover {
+    used_mark: Mark,
+}
+
+impl CompilerPass for UsedMarkRemover {
+    fn name() -> Cow<'static, str> {
+        Cow::Borrowed("dce-cleanup")
     }
+}
+
+impl Repeated for UsedMarkRemover {
+    fn changed(&self) -> bool {
+        false
+    }
+
+    fn reset(&mut self) {}
+}
+
+impl Fold<Span> for UsedMarkRemover {
+    fn fold(&mut self, s: Span) -> Span {
+        let mut ctxt = s.ctxt().clone();
+        if ctxt.remove_mark() == self.used_mark {
+            return s.with_ctxt(ctxt);
+        }
+
+        s
+    }
+}
+
+#[derive(Debug)]
+struct Dce<'a> {
+    changed: bool,
+    config: Config<'a>,
+
+    /// Identifiers which should be emitted.
+    included: Vec<Id>,
+
+    /// If true, idents are added to [included].
+    marking_phase: bool,
 }
 
 impl CompilerPass for Dce<'_> {
@@ -49,18 +105,6 @@ impl Repeated for Dce<'_> {
     fn reset(&mut self) {
         self.changed = false;
     }
-}
-
-#[derive(Debug)]
-struct Dce<'a> {
-    changed: bool,
-    config: Config<'a>,
-
-    /// Identifiers which should be emitted.
-    included: Vec<Id>,
-
-    /// If true, idents are added to [included].
-    marking_phase: bool,
 }
 
 impl<T> Fold<Vec<T>> for Dce<'_>
@@ -260,7 +304,7 @@ impl Fold<NamedExport> for Dce<'_> {
         // Export only when it's required.
         node.specifiers.retain(|s| match s {
             ExportSpecifier::Namespace(s) => self.is_exported(&s.name.sym),
-            ExportSpecifier::Default(s) => self.is_exported(&js_word!("default")),
+            ExportSpecifier::Default(..) => self.is_exported(&js_word!("default")),
             ExportSpecifier::Named(s) => {
                 self.is_exported(&s.exported.as_ref().unwrap_or_else(|| &s.orig).sym)
             }
