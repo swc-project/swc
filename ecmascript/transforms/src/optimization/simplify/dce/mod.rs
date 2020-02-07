@@ -42,6 +42,7 @@ pub fn dce<'a>(config: Config<'a>) -> impl RepeatedJsPass + 'a {
     chain!(
         Dce {
             config,
+            dropped: false,
             included: vec![],
             changed: false,
             marking_phase: false,
@@ -89,6 +90,8 @@ struct Dce<'a> {
 
     /// If true, idents are added to [included].
     marking_phase: bool,
+
+    dropped: bool,
 }
 
 impl CompilerPass for Dce<'_> {
@@ -99,11 +102,11 @@ impl CompilerPass for Dce<'_> {
 
 impl Repeated for Dce<'_> {
     fn changed(&self) -> bool {
-        self.changed
+        self.dropped
     }
 
     fn reset(&mut self) {
-        self.changed = false;
+        self.dropped = false;
     }
 }
 
@@ -112,6 +115,8 @@ where
     T: StmtLike + FoldWith<Self> + Spanned,
 {
     fn fold(&mut self, mut items: Vec<T>) -> Vec<T> {
+        println!("Fold");
+
         loop {
             self.changed = false;
             items = items.fold_children(self);
@@ -123,19 +128,17 @@ where
         items = items.move_flat_map(|item| {
             let item = match item.try_into_stmt() {
                 Ok(stmt) => match stmt {
-                    Stmt::Empty(..) => return None,
+                    Stmt::Empty(..) => {
+                        self.dropped = true;
+                        return None;
+                    }
                     _ => T::from_stmt(stmt),
                 },
                 Err(item) => item,
             };
 
             if !self.is_marked(item.span()) {
-                if cfg!(debug_assertions) {
-                    //println!(
-                    //    "Used: {:?}\nIncluded: {:?}\nDropping {:?}",
-                    //    self.config.used, self.included, item
-                    //);
-                }
+                self.dropped = true;
 
                 return None;
             }
@@ -182,6 +185,43 @@ impl Dce<'_> {
         self.marking_phase = true;
         let node = node.fold_with(self);
         self.marking_phase = old;
+
+        node
+    }
+}
+
+impl Fold<BlockStmt> for Dce<'_> {
+    fn fold(&mut self, node: BlockStmt) -> BlockStmt {
+        if self.is_marked(node.span) {
+            return node;
+        }
+
+        let stmts = node.stmts.fold_with(self);
+
+        let mut span = node.span;
+        if stmts.iter().any(|stmt| self.is_marked(stmt.span())) {
+            span = span.apply_mark(self.config.used_mark);
+        }
+
+        BlockStmt { span, stmts }
+    }
+}
+
+impl Fold<IfStmt> for Dce<'_> {
+    fn fold(&mut self, node: IfStmt) -> IfStmt {
+        if self.is_marked(node.span) {
+            return node;
+        }
+
+        let mut node: IfStmt = node.fold_children(self);
+
+        if self.is_marked(node.cons.span()) || self.is_marked(node.alt.span()) {
+            node.span = node.span.apply_mark(self.config.used_mark);
+
+            node.test = self.fold_in_marking_phase(node.test);
+            node.cons = self.fold_in_marking_phase(node.cons);
+            node.alt = self.fold_in_marking_phase(node.alt);
+        }
 
         node
     }
