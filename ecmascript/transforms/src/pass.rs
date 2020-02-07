@@ -1,5 +1,8 @@
 use std::marker::PhantomData;
-use swc_common::{pass::RepeatedPass, Fold, FoldWith};
+use swc_common::{
+    pass::{Repeated, RepeatedPass},
+    Fold, FoldWith,
+};
 use swc_ecma_ast::*;
 
 pub fn noop() -> impl Pass {
@@ -212,8 +215,14 @@ where
 }
 
 pub trait RepeatedJsPass:
-    RepeatedPass<Program> + RepeatedPass<Module> + RepeatedPass<Script> + Pass
+    Repeated
+    + RepeatedPass<Program>
+    + RepeatedPass<Module>
+    + RepeatedPass<Script>
+    + RepeatedPass<Vec<ModuleItem>>
+    + RepeatedPass<Vec<Stmt>>
+    + Pass
 {
 }
 
-impl<P> RepeatedJsPass for P where P: RepeatedPass<Program> + Pass {}
+impl<P> RepeatedJsPass for P where P: Repeated + Pass {}
