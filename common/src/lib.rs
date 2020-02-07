@@ -24,6 +24,7 @@ pub mod fold;
 pub mod input;
 pub mod iter;
 pub mod macros;
+pub mod pass;
 mod pos;
 mod rustc_data_structures;
 pub mod serializer;
