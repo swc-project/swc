@@ -1,12 +1,13 @@
 //! Ported from closure compiler.
 pub use self::dce::dce;
 use self::expr::SimplifyExpr;
-use crate::{optimization::inline_vars, pass::Pass};
+use crate::pass::Pass;
 use swc_common::{chain, Fold, FoldWith};
 use swc_ecma_ast::*;
 
 pub mod dce;
 mod expr;
+pub mod inlining;
 
 /// Not intended for general use. Use [simplifier] instead.
 ///
@@ -20,7 +21,7 @@ pub fn expr_simplifier() -> impl Pass + 'static {
 pub fn simplifier() -> impl Pass + 'static {
     chain!(
         expr_simplifier(),
-        self::inline_vars::inline_vars(Default::default()),
+        inlining::inline_vars(Default::default()),
         dce()
     )
 }
