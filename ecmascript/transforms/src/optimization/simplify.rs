@@ -1,22 +1,19 @@
 //! Ported from closure compiler.
-pub use self::dce::dce;
-use self::expr::SimplifyExpr;
+pub use self::branch::dead_branch_remover;
+use self::expr::expr_simplifier;
 use crate::pass::RepeatedJsPass;
 use swc_common::{chain, pass::Repeat};
 
-pub mod dce;
+mod branch;
 mod expr;
 pub mod inlining;
 
-/// Not intended for general use. Use [simplifier] instead.
-///
-/// Ported from `PeepholeFoldConstants` of google closure compler.
-pub fn expr_simplifier() -> impl RepeatedJsPass + 'static {
-    SimplifyExpr::default()
-}
-
-/// Ported from `PeepholeRemoveDeadCode` and `PeepholeFoldConstants` of google
-/// closure compiler.
+/// Performs simplify-expr, inlining, remove-dead-branch and dce until nothing
+/// changes.
 pub fn simplifier() -> impl RepeatedJsPass + 'static {
-    Repeat::new(chain!(expr_simplifier(), inlining::inlining(), dce()))
+    Repeat::new(chain!(
+        expr_simplifier(),
+        inlining::inlining(),
+        dead_branch_remover()
+    ))
 }

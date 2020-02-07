@@ -29,8 +29,8 @@ if [[ $cr == swc* ]]; then
     # We use this instead of --document-private-items to
     # make output simillar to usage from outside.
     #
-    # e.g. this inlines self::stmt::*, and when we're using ecmascript::ast, 
-    #   we can't use ecmascript::ast::stmt because it's private.  
+    # e.g. this inlines self::branch::*, and when we're using ecmascript::ast,
+    #   we can't use ecmascript::ast::branch because it's private.
 #     rustdoc --passes strip-hidden,unindent-comments,\
 # collapse-docs,strip-priv-imports,propagate-doc-cfg $@  
     rustdoc --document-private-items $@

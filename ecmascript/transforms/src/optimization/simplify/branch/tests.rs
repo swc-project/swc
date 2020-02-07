@@ -1,12 +1,11 @@
-use super::dce;
-use crate::optimization::expr_simplifier;
+use super::{super::expr_simplifier, dead_branch_remover};
 use swc_common::chain;
 
 macro_rules! test_stmt {
     ($l:expr, $r:expr) => {
         test_transform!(
             ::swc_ecma_parser::Syntax::default(),
-            |_| chain!(expr_simplifier(), dce()),
+            |_| chain!(expr_simplifier(), dead_branch_remover()),
             $l,
             $r
         )

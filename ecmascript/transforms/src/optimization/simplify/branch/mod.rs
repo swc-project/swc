@@ -15,14 +15,16 @@ use swc_ecma_ast::*;
 #[cfg(test)]
 mod tests;
 
+/// Not intended for general use. Use [simplifier] instead.
+///
 /// Ported from `PeepholeRemoveDeadCode` of google closure compiler.
-pub fn dce() -> impl RepeatedJsPass + 'static {
+pub fn dead_branch_remover() -> impl RepeatedJsPass + 'static {
     Remover::default()
 }
 
 impl CompilerPass for Remover {
     fn name() -> Cow<'static, str> {
-        Cow::Borrowed("dce")
+        Cow::Borrowed("branch")
     }
 }
 

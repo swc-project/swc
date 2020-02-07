@@ -1353,7 +1353,7 @@ pub fn undefined(span: Span) -> Box<Expr> {
     })
 }
 
-/// inject `stmt` after directives
+/// inject `branch` after directives
 #[inline(never)]
 pub fn prepend<T: StmtLike>(stmts: &mut Vec<T>, stmt: T) {
     let idx = stmts

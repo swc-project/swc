@@ -1,4 +1,4 @@
-use crate::util::*;
+use crate::{pass::RepeatedJsPass, util::*};
 use std::{borrow::Cow, iter, iter::once};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
@@ -10,9 +10,15 @@ use swc_ecma_ast::{Ident, Lit, *};
 #[cfg(test)]
 mod tests;
 
-/// Ported from [PeepholeFoldConstants](https://github.com/google/closure-compiler/blob/9203e01b/src/com/google/javascript/jscomp/PeepholeFoldConstants.java)
+/// Not intended for general use. Use [simplifier] instead.
+///
+/// Ported from `PeepholeFoldConstants` of google closure compiler.
+pub fn expr_simplifier() -> impl RepeatedJsPass + 'static {
+    SimplifyExpr::default()
+}
+
 #[derive(Debug, Default)]
-pub(super) struct SimplifyExpr {
+struct SimplifyExpr {
     changed: bool,
 }
 
