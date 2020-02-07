@@ -100,6 +100,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
             }
 
             let expr = self.parse_await_expr()?;
+            eat!(';');
 
             let span = span!(start);
             return Ok(Stmt::Expr(ExprStmt { span, expr }));

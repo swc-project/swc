@@ -352,3 +352,12 @@ fn issue_605() {
 
     assert!(f.contains("Object.keys(_c)"));
 }
+
+#[test]
+fn await_expr() {
+    let f = file("tests/projects/await-expression/input.js").unwrap();
+    println!("{}", f);
+
+    assert!(f.contains("await"));
+    assert!(f.contains("test"));
+}
