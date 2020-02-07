@@ -47,7 +47,7 @@ before_deploy:
 
 after_success:
   - cargo install cargo-tarpaulin
-  - cargo tarpaulin --all --ignore-tests --out Xml
+  - travis_wait 90 cargo tarpaulin --all --ignore-tests --out Xml
   - bash <(curl -s https://codecov.io/bash)
 
 deploy:
