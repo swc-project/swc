@@ -21,13 +21,13 @@ macro_rules! to {
     };
 }
 
-macro_rules! removed {
+macro_rules! optimized_out {
     ($name:ident, $src:expr) => {
         to!($name, $src, "");
     };
 }
 
-removed!(
+optimized_out!(
     single_pass,
     "
 const a = 1;
