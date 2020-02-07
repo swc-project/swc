@@ -1,9 +1,10 @@
 use crate::{Fold, FoldWith};
 use serde::export::PhantomData;
+use std::borrow::Cow;
 
 pub trait CompilerPass {
     // TODO: timing with
-    //      fn name() -> Cow<'static, str>;
+    fn name() -> Cow<'static, str>;
 }
 
 pub trait RepeatedPass<At>: CompilerPass {
@@ -23,7 +24,14 @@ where
     at: PhantomData<At>,
 }
 
-impl<P, At> CompilerPass for Repeat<P, At> where P: RepeatedPass<At> {}
+impl<P, At> CompilerPass for Repeat<P, At>
+where
+    P: RepeatedPass<At>,
+{
+    fn name() -> Cow<'static, str> {
+        format!("Repeat({})", P::name()).into()
+    }
+}
 
 impl<P, At> RepeatedPass<At> for Repeat<P, At>
 where

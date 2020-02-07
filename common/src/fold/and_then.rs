@@ -3,6 +3,7 @@ use crate::{
     pass::{CompilerPass, RepeatedPass},
     util::move_map::MoveMap,
 };
+use std::borrow::Cow;
 
 #[macro_export]
 macro_rules! chain {
@@ -99,6 +100,9 @@ where
     A: CompilerPass,
     B: CompilerPass,
 {
+    fn name() -> Cow<'static, str> {
+        format!("{} -> {}", A::name(), B::name()).into()
+    }
 }
 
 impl<A, B, At> RepeatedPass<At> for AndThen<A, B>
