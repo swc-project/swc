@@ -696,7 +696,7 @@ impl Inline<'_> {
         assert_ne!(
             self.phase,
             Phase::Inlining,
-            "store() should not be called while inlining"
+            "store() should not be called while inlining_old"
         );
 
         let scope_id = self.scope.id;

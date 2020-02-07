@@ -7,7 +7,7 @@ use swc_ecma_ast::*;
 
 pub mod dce;
 mod expr;
-pub mod inlining;
+pub mod inlining_old;
 
 /// Not intended for general use. Use [simplifier] instead.
 ///
@@ -21,7 +21,7 @@ pub fn expr_simplifier() -> impl Pass + 'static {
 pub fn simplifier() -> impl Pass + 'static {
     chain!(
         expr_simplifier(),
-        inlining::inline_vars(Default::default()),
+        inlining_old::inline_vars(Default::default()),
         dce()
     )
 }
