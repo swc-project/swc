@@ -37,7 +37,7 @@ fn rt(rt: Ident) -> Stmt {
             init: Some(box Expr::Call(CallExpr {
                 span: DUMMY_SP,
                 callee: quote_ident!("require").as_callee(),
-                args: vec![quote_str!("@babel/runtime/regenerator").as_arg()],
+                args: vec![quote_str!("regenerator-runtime").as_arg()],
                 type_args: Default::default(),
             })),
             definite: false,
@@ -45,7 +45,7 @@ fn rt(rt: Ident) -> Stmt {
     }))
 }
 
-/// Injects `var _regeneratorRuntime = require('@babel/runtime/regenerator');`
+/// Injects `var _regeneratorRuntime = require('regenerator-runtime');`
 impl Fold<Module> for Regenerator {
     fn fold(&mut self, m: Module) -> Module {
         let mut m: Module = m.fold_children(self);
@@ -56,7 +56,7 @@ impl Fold<Module> for Regenerator {
     }
 }
 
-/// Injects `var _regeneratorRuntime = require('@babel/runtime/regenerator');`
+/// Injects `var _regeneratorRuntime = require('regenerator-runtime');`
 impl Fold<Script> for Regenerator {
     fn fold(&mut self, s: Script) -> Script {
         let mut s: Script = s.fold_children(self);

@@ -37,7 +37,7 @@ var o = {
 
 "#,
     r#"
-var regeneratorRuntime = require('@babel/runtime/regenerator');
+var regeneratorRuntime = require('regenerator-runtime');
 
 var o = {
   foo() {
@@ -85,7 +85,7 @@ expect(test.iter().next().value).toBe(test);
 //    |_| tr(Default::default()),
 //    regression_t7041,
 //    r#"
-//var _regeneratorRuntime = require("@babel/runtime/regenerator");
+//var _regeneratorRuntime = require("regenerator-runtime");
 //
 //Object.keys({});
 //
@@ -93,7 +93,7 @@ expect(test.iter().next().value).toBe(test);
 //
 //"#,
 //    r#"
-//var _regeneratorRuntime = require("@babel/runtime/regenerator");
+//var _regeneratorRuntime = require("regenerator-runtime");
 //
 //var _marked = _regeneratorRuntime.mark(fn);
 //
@@ -132,7 +132,7 @@ Object.defineProperty(exports, '__esModule', {
     value: true
 });
 exports.default = void 0;
-var regeneratorRuntime = require('@babel/runtime/regenerator');
+var regeneratorRuntime = require('regenerator-runtime');
 var _default = function _callee() {
     var x;
     return regeneratorRuntime.wrap(function _callee$(_ctx) {
@@ -160,7 +160,7 @@ test!(
     "function* foo(a,b,c){}
 ",
     r#"
-var regeneratorRuntime = require('@babel/runtime/regenerator');
+var regeneratorRuntime = require('regenerator-runtime');
 var _marked = regeneratorRuntime.mark(foo);
 
 function foo(a, b, c) {
