@@ -1,11 +1,8 @@
-use crate::{
-    pass::{Pass, RepeatedJsPass},
-    scope::ScopeKind,
-};
+use crate::{pass::RepeatedJsPass, scope::ScopeKind};
 use fxhash::FxHashMap;
 use std::borrow::Cow;
 use swc_common::{
-    pass::{CompilerPass, Repeated, RepeatedPass},
+    pass::{CompilerPass, Repeated},
     Fold, FoldWith,
 };
 use swc_ecma_ast::*;

@@ -3,7 +3,6 @@ pub use self::dce::dce;
 use self::expr::SimplifyExpr;
 use crate::pass::RepeatedJsPass;
 use swc_common::{chain, pass::Repeat};
-use swc_ecma_ast::*;
 
 pub mod dce;
 mod expr;

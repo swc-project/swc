@@ -1,12 +1,12 @@
 use crate::{
-    pass::{Pass, RepeatedJsPass},
+    pass::RepeatedJsPass,
     util::{StmtLike, *},
 };
 use std::{borrow::Cow, cmp::min, iter::once};
 use swc_atoms::js_word;
 use swc_common::{
     fold::VisitWith,
-    pass::{CompilerPass, Repeated, RepeatedPass},
+    pass::{CompilerPass, Repeated},
     util::move_map::MoveMap,
     Fold, FoldWith, Spanned, Visit, DUMMY_SP,
 };
