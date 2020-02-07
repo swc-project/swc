@@ -12,13 +12,7 @@ mod inlining;
 
 #[derive(Debug, Default)]
 pub struct Config<'a> {
-    /// If this is [None], all exports are treated as used.
-    pub used: Option<Cow<'a, [Id]>>,
-
-    /// Mark used while performing dce.
-    ///
-    /// Should not be `Mark::root()`. Used to reduce allocation of [Mark].
-    pub used_mark: Mark,
+    pub dce: dce::Config<'a>,
 }
 
 /// Performs simplify-expr, inlining, remove-dead-branch and dce until nothing
@@ -28,9 +22,6 @@ pub fn simplifier<'a>(c: Config<'a>) -> impl RepeatedJsPass + 'a {
         expr_simplifier(),
         inlining(),
         dead_branch_remover(),
-        dce::dce(dce::Config {
-            used: c.used,
-            used_mark: c.used_mark
-        })
+        dce::dce(c.dce)
     ))
 }
