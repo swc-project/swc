@@ -44,10 +44,10 @@ script:
 
 before_deploy:
   - CARGO_TARGET_DIR=$HOME/cargo-target cargo doc --color always
-  - cargo install cargo-tarpaulin
 
 after_success:
   - bash <(curl https://raw.githubusercontent.com/xd009642/tarpaulin/master/travis-install.sh)
+  - cargo tarpaulin --out Xml
   - bash <(curl -s https://codecov.io/bash)
 
 deploy:
