@@ -7,6 +7,7 @@ use swc_ecma_ast::*;
 
 pub mod dce;
 mod expr;
+pub mod inlining;
 pub mod inlining_old;
 
 /// Not intended for general use. Use [simplifier] instead.
