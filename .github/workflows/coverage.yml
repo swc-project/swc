@@ -1,4 +1,4 @@
-name: Cargo
+name: Coverage
 
 on:
   push:
@@ -14,7 +14,7 @@ on:
 
 jobs:
   coverage:
-    name: fmt
+    name: coverage
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
