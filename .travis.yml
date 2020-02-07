@@ -45,11 +45,6 @@ script:
 before_deploy:
   - CARGO_TARGET_DIR=$HOME/cargo-target cargo doc --color always
 
-after_success:
-  - cargo install cargo-tarpaulin
-  - travis_wait 90 cargo tarpaulin --all --ignore-tests --out Xml
-  - bash <(curl -s https://codecov.io/bash)
-
 deploy:
   local_dir: $HOME/cargo-target/doc
   repo: swc-project/rustdoc

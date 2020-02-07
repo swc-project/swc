@@ -1,0 +1,32 @@
+name: Cargo
+
+on:
+  push:
+    # Ignore commits created by bors
+    branches-ignore:
+      - 'staging'
+      - 'trying'
+  pull_request:
+    branches-ignore:
+      - 'staging'
+      - 'trying'
+
+
+jobs:
+  fmt:
+    name: fmt
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install cargo-tarpaulin
+        run: cargo install cargo-tarpaulin
+
+      - name: Run cargo-tarpaulin
+        run: cargo tarpaulin --all --ignore-tests --out Xml
+
+      - name: Upload coverage
+        run: bash <(curl -s https://codecov.io/bash)
+        with:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
