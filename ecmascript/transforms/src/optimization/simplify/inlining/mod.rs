@@ -1,13 +1,19 @@
-use crate::{pass::Pass, scope::ScopeKind};
+use crate::{
+    pass::{Pass, RepeatedJsPass},
+    scope::ScopeKind,
+};
 use fxhash::FxHashMap;
 use swc_common::{Fold, FoldWith};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
 
+#[cfg(test)]
+mod tests;
+
 /// Note: this pass assumes that resolver is invoked before the pass.
 ///
 /// As swc focuses on reducing gzipped file size, all strings are inlined.
-pub fn inlining() -> impl Pass + 'static {
+pub fn inlining() -> impl RepeatedJsPass + 'static {
     Inlining {
         scope: Default::default(),
         var_decl_kind: VarDeclKind::Var,

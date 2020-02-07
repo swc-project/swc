@@ -1,5 +1,5 @@
 use std::marker::PhantomData;
-use swc_common::{Fold, FoldWith};
+use swc_common::{pass::RepeatedPass, Fold, FoldWith};
 use swc_ecma_ast::*;
 
 pub fn noop() -> impl Pass {
@@ -210,3 +210,5 @@ where
         node.fold_children(self)
     }
 }
+
+pub trait RepeatedJsPass: RepeatedPass<Program> + Pass {}

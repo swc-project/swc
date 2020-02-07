@@ -18,8 +18,6 @@ use swc_ecma_ast::*;
 
 mod hoister;
 mod preventer;
-#[cfg(test)]
-mod tests;
 mod var;
 
 macro_rules! check {
