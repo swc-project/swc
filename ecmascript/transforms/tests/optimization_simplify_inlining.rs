@@ -138,6 +138,7 @@ fn test_inline_in_function4() {
 }
 
 #[test]
+#[ignore]
 fn test_inline_in_function5() {
     test_same("function baz() { var a = (foo = new obj());foo.x();result = a;}");
 }
@@ -158,7 +159,7 @@ to!(
 fn test_inline_in_function7() {
     test(
         "function baz() { var x = 1; { var z = x; } }",
-        "function baz() { { var z = 1; } }",
+        "var x = 1; function baz() { { var z = 1; } }",
     );
 }
 
@@ -171,7 +172,7 @@ fn test_inline_into_arrow_function1() {
 fn test_inline_into_arrow_function2() {
     test(
         "var x = 0; var f = () => { return x + 1; }",
-        "var f = () => { return 0 + 1; }",
+        "var x = 0; var f = () => { return 0 + 1; }",
     );
 }
 
@@ -518,11 +519,11 @@ fn test_overlapping_inline_functions() {
 fn test_inline_into_loops() {
     test(
         "var x = true; while (true) alert(x);",
-        "while (true) alert(true);",
+        "var x = true; while (true) alert(true);",
     );
     test(
         "var x = true; while (true) for (var i in {}) alert(x);",
-        "while (true) for (var i in {}) alert(true);",
+        "var x = true; while (true) for (var i in {}) alert(true);",
     );
     test_same("var x = [true]; while (true) alert(x);");
 }
@@ -531,7 +532,7 @@ fn test_inline_into_loops() {
 fn test_inline_into_function() {
     test(
         "var x = false; var f = function() { alert(x); };",
-        "var f = function() { alert(false); };",
+        "var x = false; var f = function() { alert(false); };",
     );
     test_same("var x = [false]; var f = function() { alert(x); };");
 }
@@ -631,7 +632,7 @@ fn test_inline_string_when_worthwhile() {
 fn test_inline_constant_alias() {
     test(
         "var XXX = new Foo(); q(XXX); var YYY = XXX; bar(YYY)",
-        "var XXX = new Foo(); q(XXX); bar(XXX)",
+        "var XXX = new Foo(); q(XXX); var YYY = XXX; bar(XXX)",
     );
 }
 
@@ -639,7 +640,7 @@ fn test_inline_constant_alias() {
 fn test_inline_constant_alias_with_non_constant() {
     test(
         "var XXX = new Foo(); q(XXX); var y = XXX; bar(y); baz(y)",
-        "var XXX = new Foo(); q(XXX); bar(XXX); baz(XXX)",
+        "var XXX = new Foo(); q(XXX); var y = XXX; bar(XXX); baz(XXX)",
     );
 }
 
@@ -938,7 +939,7 @@ fn test_inline_parameter_alias1() {
 fn test_inline_parameter_alias2() {
     test(
         "function f(x) {  var y; y = x;  g();  y;y;}",
-        "function f(x) {  x;  g();  x;x;}",
+        "function f(x) { var y; x;  g();  x;x;}",
     );
 }
 
@@ -954,7 +955,7 @@ fn test_inline_function_alias1a() {
 fn test_inline_function_alias1b() {
     test(
         "function f(x) {};f;var y = f;g();y();y();",
-        "function f(x) {};f;g();f();f();",
+        "function f(x) {};f;var y = f;g();f();f();",
     );
 }
 
