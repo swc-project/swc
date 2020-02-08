@@ -361,3 +361,12 @@ fn await_expr() {
     assert!(f.contains("await"));
     assert!(f.contains("test"));
 }
+
+#[test]
+fn await_expr_2() {
+    let f = file("tests/projects/await-expression-2/input.js").unwrap();
+    println!("{}", f);
+
+    assert!(f.contains("await"));
+    assert!(f.contains("test"));
+}
