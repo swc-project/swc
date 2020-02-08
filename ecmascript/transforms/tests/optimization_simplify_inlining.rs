@@ -129,12 +129,16 @@ fn test_inline_in_function5() {
     test_same("function baz() { var a = (foo = new obj());foo.x();result = a;}");
 }
 
-to!(block_in_fn_compiled_out, "{ var x = 1; var z = x; }", "{}");
+to!(
+    block_in_fn_compiled_out,
+    "{ var x = 1; var z = x; }",
+    "{ var x = 1; var z = 1; }"
+);
 
 to!(
     block_in_fn,
     "{ var x = 1; var z = x; use(z); }",
-    "{ use(1) }"
+    "{ var x = 1; var z = 1; use(1) }"
 );
 
 #[test]
