@@ -211,6 +211,34 @@ impl Fold<Function> for Inlining<'_> {
     }
 }
 
+impl Fold<AssignExpr> for Inlining<'_> {
+    fn fold(&mut self, mut e: AssignExpr) -> AssignExpr {
+        let e: AssignExpr = e.fold_children(self);
+
+        match *e.right {
+            Expr::Lit(..) | Expr::Ident(..) => {
+                //
+                match e.left {
+                    PatOrExpr::Pat(box Pat::Ident(ref i))
+                    | PatOrExpr::Expr(box Expr::Ident(ref i)) => {
+                        let id = i.to_id();
+
+                        if let Some(var) = self.scope.find_binding(&id) {
+                            if !var.write_from_nested_scope.get() {
+                                *var.value.borrow_mut() = Some(*e.right.clone());
+                            }
+                        }
+                    }
+
+                    _ => {}
+                }
+            }
+        }
+
+        e
+    }
+}
+
 impl Fold<MemberExpr> for Inlining<'_> {
     fn fold(&mut self, mut e: MemberExpr) -> MemberExpr {
         e.obj = e.obj.fold_with(self);
