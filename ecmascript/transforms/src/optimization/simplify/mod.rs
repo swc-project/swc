@@ -1,9 +1,7 @@
 //! Ported from closure compiler.
 pub use self::{branch::dead_branch_remover, expr::expr_simplifier, inlining::inlining};
 use crate::pass::RepeatedJsPass;
-use std::borrow::Cow;
-use swc_common::{chain, pass::Repeat, Mark};
-use swc_ecma_utils::Id;
+use swc_common::{chain, pass::Repeat};
 
 mod branch;
 pub mod dce;

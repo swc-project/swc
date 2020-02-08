@@ -6,10 +6,10 @@ use std::{
 };
 use swc_common::{
     pass::{CompilerPass, Repeated},
-    Fold, FoldWith, Visit, VisitWith,
+    Fold, FoldWith,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ident::IdentLike, Id, StmtLike};
+use swc_ecma_utils::{ident::IdentLike, Id};
 
 /// Note: this pass assumes that resolver is invoked before the pass.
 ///
