@@ -1,4 +1,7 @@
-use crate::{pass::RepeatedJsPass, scope::ScopeKind};
+use crate::{
+    pass::RepeatedJsPass,
+    scope::{IdentType, ScopeKind},
+};
 use fxhash::FxHashMap;
 use std::{
     borrow::Cow,
@@ -20,6 +23,7 @@ pub fn inlining() -> impl RepeatedJsPass + 'static {
         changed: false,
         scope: Default::default(),
         var_decl_kind: VarDeclKind::Var,
+        ident_type: IdentType::Ref,
     }
 }
 
@@ -45,6 +49,7 @@ struct Inlining<'a> {
     changed: bool,
     scope: Scope<'a>,
     var_decl_kind: VarDeclKind,
+    ident_type: IdentType,
 }
 
 #[derive(Default)]
@@ -159,6 +164,7 @@ impl Inlining<'_> {
                 constants: Default::default(),
             },
             var_decl_kind: VarDeclKind::Var,
+            ident_type: self.ident_type,
         };
 
         let node = node.fold_children(&mut child);
@@ -240,7 +246,14 @@ impl Fold<CatchClause> for Inlining<'_> {
 
 impl Fold<AssignExpr> for Inlining<'_> {
     fn fold(&mut self, e: AssignExpr) -> AssignExpr {
-        let e: AssignExpr = e.fold_children(self);
+        let e: AssignExpr = AssignExpr {
+            left: match e.left {
+                PatOrExpr::Pat(p) => PatOrExpr::Pat(p.fold_with(self)),
+                PatOrExpr::Expr(e) => PatOrExpr::Expr(e),
+            },
+            right: e.right.fold_with(self),
+            ..e
+        };
 
         match *e.right {
             Expr::Lit(..) | Expr::Ident(..) => {
@@ -326,12 +339,19 @@ impl Fold<Expr> for Inlining<'_> {
     }
 }
 
+impl Fold<UpdateExpr> for Inlining<'_> {
+    fn fold(&mut self, node: UpdateExpr) -> UpdateExpr {
+        node
+    }
+}
+
 impl Fold<Pat> for Inlining<'_> {
     fn fold(&mut self, node: Pat) -> Pat {
         let node: Pat = node.fold_children(self);
 
         match node {
             Pat::Ident(ref i) => {
+                self.ident_type = IdentType::Binding;
                 self.scope.add_write(&i.to_id());
             }
 
