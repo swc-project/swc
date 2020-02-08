@@ -115,8 +115,6 @@ where
     T: StmtLike + FoldWith<Self> + Spanned,
 {
     fn fold(&mut self, mut items: Vec<T>) -> Vec<T> {
-        println!("Fold");
-
         loop {
             self.changed = false;
             items = items.fold_children(self);
