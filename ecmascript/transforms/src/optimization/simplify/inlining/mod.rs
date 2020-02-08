@@ -6,12 +6,27 @@ use crate::{
 use std::borrow::Cow;
 use swc_common::{
     pass::{CompilerPass, Repeated},
-    Fold, FoldWith, Visit, VisitWith,
+    Fold, FoldWith, Mark, Visit, VisitWith,
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
 
+mod operator;
 mod scope;
+
+#[derive(Debug)]
+pub struct Config {
+    /// Should not be `Mark::root()`.
+    pub inline_barrier: Mark,
+}
+
+impl Default for Config {
+    fn default() -> Self {
+        Self {
+            inline_barrier: Mark::fresh(Mark::root()),
+        }
+    }
+}
 
 /// Note: this pass assumes that resolver is invoked before the pass.
 ///
@@ -21,8 +36,15 @@ mod scope;
 /// # TODOs
 ///
 ///  - Handling of `void 0`
-pub fn inlining() -> impl RepeatedJsPass + 'static {
+pub fn inlining(config: Config) -> impl RepeatedJsPass + 'static {
+    assert_ne!(
+        config.inline_barrier,
+        Mark::root(),
+        "inlining pass cannot work with Mark::root()"
+    );
+
     Inlining {
+        inline_barrier: config.inline_barrier,
         is_first_run: true,
         changed: false,
         scope: Default::default(),
@@ -54,6 +76,7 @@ struct Inlining<'a> {
     scope: Scope<'a>,
     var_decl_kind: VarDeclKind,
     ident_type: IdentType,
+    inline_barrier: Mark,
 }
 
 impl Inlining<'_> {
@@ -72,6 +95,7 @@ impl Inlining<'_> {
             },
             var_decl_kind: VarDeclKind::Var,
             ident_type: self.ident_type,
+            inline_barrier: self.inline_barrier,
         };
 
         let node = op(&mut child);
@@ -279,7 +303,6 @@ impl Fold<Expr> for Inlining<'_> {
             //      var y;
             //      x;
             //      use(x)
-            //
             Expr::Assign(e) => {
                 match e.left {
                     PatOrExpr::Pat(box Pat::Ident(ref i))

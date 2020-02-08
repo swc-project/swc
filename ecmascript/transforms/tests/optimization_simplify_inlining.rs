@@ -6,7 +6,7 @@
 #![feature(specialization)]
 
 use swc_common::chain;
-use swc_ecma_transforms::{optimization::simplify::inlining, resolver};
+use swc_ecma_transforms::{optimization::simplify::inlining::inlining, resolver};
 
 #[macro_use]
 mod common;
@@ -15,7 +15,7 @@ macro_rules! to {
     ($name:ident, $src:expr, $expected:expr) => {
         test!(
             Default::default(),
-            |_| chain!(resolver(), inlining()),
+            |_| chain!(resolver(), inlining(Default::default())),
             $name,
             $src,
             $expected
@@ -26,7 +26,7 @@ macro_rules! to {
         test!(
             ignore,
             Default::default(),
-            |_| chain!(resolver(), inlining()),
+            |_| chain!(resolver(), inlining(Default::default())),
             $name,
             $src,
             $expected
@@ -43,7 +43,7 @@ macro_rules! identical {
 fn test(src: &str, expected: &str) {
     test_transform!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| chain!(resolver(), inlining()),
+        |_| chain!(resolver(), inlining(Default::default())),
         src,
         expected,
         true
