@@ -305,7 +305,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
             })));
         }
 
-        if self.ctx().in_async && is!("await") {
+        if (self.ctx().in_async || self.syntax().top_level_await()) && is!("await") {
             return self.parse_await_expr();
         }
 
