@@ -9,7 +9,7 @@ use std::{
 };
 use swc_common::{
     pass::{CompilerPass, Repeated},
-    Fold, FoldWith,
+    Fold, FoldWith, Visit, VisitWith,
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
@@ -57,7 +57,7 @@ struct Inlining<'a> {
     ident_type: IdentType,
 }
 
-#[derive(Default)]
+#[derive(Debug, Default)]
 struct Scope<'a> {
     parent: Option<&'a Scope<'a>>,
     kind: ScopeKind,
@@ -431,5 +431,44 @@ impl Fold<Pat> for Inlining<'_> {
         }
 
         node
+    }
+}
+
+impl Fold<ForStmt> for Inlining<'_> {
+    fn fold(&mut self, mut node: ForStmt) -> ForStmt {
+        node.init = node.init.fold_with(self);
+
+        {
+            node.init.visit_with(&mut IdentListVisitor {
+                scope: &mut self.scope,
+            });
+        }
+        {
+            node.test.visit_with(&mut IdentListVisitor {
+                scope: &mut self.scope,
+            });
+        }
+        {
+            node.update.visit_with(&mut IdentListVisitor {
+                scope: &mut self.scope,
+            });
+        }
+
+        node.test = node.test.fold_with(self);
+        node.update = node.update.fold_with(self);
+        node.body = node.body.fold_with(self);
+
+        node
+    }
+}
+
+#[derive(Debug)]
+struct IdentListVisitor<'a, 'b> {
+    scope: &'a mut Scope<'b>,
+}
+
+impl Visit<Ident> for IdentListVisitor<'_, '_> {
+    fn visit(&mut self, node: &Ident) {
+        self.scope.add_write(&node.to_id(), true);
     }
 }

@@ -729,13 +729,6 @@ fn test_inline_aliases_in_loop() {
 }
 
 #[test]
-fn test_no_inline_aliases_in_loop() {
-    test_same(
-        "function f() {   for (var i = 0; i < 5; i++) {    var x = extern();    (function() {       var y = x; window.setTimeout(function() { extern(y); }, 0);     })();  }}",
-    );
-}
-
-#[test]
 fn test_no_inline_aliases1() {
     test_same("var x = this.foo(); this.bar(); var y = x; x = 3; this.baz(y);");
 }
