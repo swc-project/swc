@@ -45,7 +45,7 @@ fn test_same(s: &str) {
 }
 
 identical!(
-    t_does_not_produce_invalid_code_1,
+    does_not_produce_invalid_code_1,
     "function f(x = void 0) {
   var z;
     {
@@ -58,7 +58,7 @@ identical!(
 );
 
 identical!(
-    t_does_not_produce_invalid_code_2,
+    does_not_produce_invalid_code_2,
     "function f(x = void 0) {{var z;const y = {};x && (y['x'] = x);z = y;}return z;}"
 );
 
@@ -91,13 +91,13 @@ identical!(top_level_decrement, "var x = 1; x--;");
 identical!(top_level_assign_op, "var x = 1; x += 3;");
 
 to!(
-    t_simple_inline_in_fn,
+    simple_inline_in_fn,
     "var x = 1; var z = x; use(z)",
     "use(1)"
 );
 
 to!(
-    t_unresolved_inline_in_fn,
+    unresolved_inline_in_fn,
     "var a = new obj();
     result = a;",
     "result = new obj()"
@@ -148,12 +148,12 @@ fn test_inline_into_arrow_function2() {
 }
 
 identical!(
-    t_cond_true_1,
+    cond_true_1,
     "if (true) { var x = 1; } var z = x; use(x); use(x);"
 );
 
 to!(
-    t_cond_true_1_fn,
+    cond_true_1_fn,
     "if (true) { var x = 1; } var z = x; use(x); use(x);",
     "if (true) { var x = 1; } use(x); use(x);"
 );
@@ -162,7 +162,7 @@ identical!(t_cond_true_2, "if (true) var x = 1; var z = x;");
 
 // TODO: Remove x
 to!(
-    t_cond_true_2_fn,
+    cond_true_2_fn,
     "if (true) var x = 1; var z = x;",
     "if (true) ;"
 );
@@ -170,7 +170,7 @@ to!(
 identical!(t_cond_true_3, "var x; if (true) x=1; var z = x;");
 
 to!(
-    t_cond_true_3_fn,
+    cond_true_3_fn,
     "var x; if (true) x=1; var z = x; use(z)",
     "var x; if (true) x=1; use(x)"
 );
@@ -1248,23 +1248,23 @@ fn test_issue354() {
 }
 
 identical!(
-    t_closure_compiler_1177_1,
+    closure_compiler_1177_1,
     "function x_64(){var x_7;for(;;); var x_68=x_7=x_7;}"
 );
 
 identical!(
-    t_closure_compiler_1177_2,
+    closure_compiler_1177_2,
     "function x_64(){var x_7;for(;;);var x_68=x_7=x_7++;}"
 );
 
 identical!(
-    t_closure_compiler_1177_3,
+    closure_compiler_1177_3,
     "function x_64(){var x_7;for(;;);var x_68=x_7=x_7*2;}"
 );
 
 // GitHub issue #1234: https://github.com/google/closure-compiler/issues/1234
 identical!(
-    t_closure_compiler_1234,
+    closure_compiler_1234,
     "var x;
     switch ('a') {
       case 'a':
@@ -1277,7 +1277,7 @@ identical!(
 );
 
 to!(
-    t_let_1,
+    let_1,
     "function f(x) {
         if (true) {
             let y = x;
@@ -1294,7 +1294,7 @@ to!(
 );
 
 to!(
-    t_const_1,
+    const_1,
     "function f(x) {
         if (true) {
             const y = x;
@@ -1311,7 +1311,7 @@ to!(
 );
 
 to!(
-    t_let_2,
+    let_2,
     "let y;
     {
         let y = x;
