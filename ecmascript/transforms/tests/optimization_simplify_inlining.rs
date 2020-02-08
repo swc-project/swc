@@ -525,8 +525,11 @@ fn test_inline_into_function() {
 }
 
 #[test]
-fn test_no_inline_into_named_function() {
-    test_same("f(); var x = false; function f() { alert(x); }");
+fn inline_into_named_function() {
+    test(
+        "f(); var x = false; function f() { alert(x); }",
+        "f(); var x = false; function f() { alert(false); }",
+    );
 }
 
 #[test]
@@ -538,8 +541,11 @@ fn test_inline_into_nested_non_hoisted_named_functions() {
 }
 
 #[test]
-fn test_no_inline_into_nested_named_functions() {
-    test_same("f(); var x = false; function f() { if (false) { alert(x); } };");
+fn inline_into_nested_named_functions() {
+    test(
+        "f(); var x = false; function f() { if (false) { alert(x); } }",
+        "f(); var x = false; function f() { if (false) { alert(false); } }",
+    );
 }
 
 #[test]
@@ -756,8 +762,11 @@ fn test_no_inline_aliases1b() {
 }
 
 #[test]
-fn test_no_inline_aliases2() {
-    test_same("var x = this.foo(); this.bar(); var y = x; y = 3; this.baz(y); ");
+fn inline_aliased_1() {
+    test(
+        "var x = this.foo(); this.bar(); var y = x; y = 3; this.baz(y); ",
+        "var x = this.foo(); this.bar(); var y = x; y = 3; this.baz(3); ",
+    );
 }
 
 #[test]
@@ -969,15 +978,25 @@ fn test_inline_into_for_loop2() {
 // This used to be inlined, but regressed when we switched to the ES6 scope
 // creator.
 #[test]
-fn test_no_inline_catch_alias_var1() {
-    test_same(concat!(
-        "try {",
-        "} catch (e) {",
-        "  var y = e;",
-        "  g();",
-        "  y;y;",
-        "}",
-    ));
+fn inline_catch_alias_var1() {
+    test(
+        concat!(
+            "try {",
+            "} catch (e) {",
+            "  var y = e;",
+            "  g();",
+            "  y;y;",
+            "}",
+        ),
+        concat!(
+            "try {",
+            "} catch (e) {",
+            "  var y = e;",
+            "  g();",
+            "  e;e;",
+            "}",
+        ),
+    );
 }
 
 // This used to be inlined, but regressed when we switched to the ES6 scope
