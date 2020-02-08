@@ -6,10 +6,7 @@
 #![feature(specialization)]
 
 use swc_common::chain;
-use swc_ecma_transforms::{
-    optimization::{simplifier, simplify::inlining},
-    resolver,
-};
+use swc_ecma_transforms::{optimization::simplify::inlining, resolver};
 
 #[macro_use]
 mod common;
@@ -26,49 +23,9 @@ macro_rules! to {
     };
 }
 
-macro_rules! to_fn {
-    ($name:ident, $src:expr, $expected:expr) => {
-        to!(
-            $name,
-            &format!(
-                "function wtf(){{
-                    {}
-             }}",
-                $src
-            ),
-            &format!(
-                "function wtf(){{
-                    {}
-             }}",
-                $expected
-            )
-        );
-    };
-}
-
-macro_rules! to_all {
-    ($ti:ident, $fi:ident, $src:expr, $expected:expr) => {
-        to!($ti, $src, $expected);
-        to_fn!($fi, $src, $expected);
-    };
-}
-
 macro_rules! identical {
     ($name:ident, $src:expr) => {
         to!($name, $src, $src);
-    };
-}
-
-macro_rules! identical_fn {
-    ($name:ident, $src:expr) => {
-        to_fn!($name, $src, $src);
-    };
-}
-
-macro_rules! identical_all {
-    ($ti:ident, $fi:ident, $src:expr) => {
-        identical!($ti, $src);
-        identical_fn!($fi, $src);
     };
 }
 
@@ -119,9 +76,7 @@ to!(
     "var a = 1; var b = 1;"
 );
 
-to_fn!(top_level_simple_var_fn, "var a = 1; var b = a;", "");
-
-to_fn!(
+to!(
     function_scope_simple_var,
     "var a = 1;
     var b = a;
@@ -129,31 +84,19 @@ to_fn!(
     "use(1);"
 );
 
-identical_all!(
-    top_level_increment,
-    function_scope_increment,
-    "var x = 1; x++;"
-);
+identical!(top_level_increment, "var x = 1; x++;");
 
-identical_all!(
-    top_level_decrement,
-    function_scope_decrement,
-    "var x = 1; x--;"
-);
+identical!(top_level_decrement, "var x = 1; x--;");
 
-identical_all!(
-    top_level_assign_op,
-    function_scope_assign_op,
-    "var x = 1; x += 3;"
-);
+identical!(top_level_assign_op, "var x = 1; x += 3;");
 
-to_fn!(
+to!(
     t_simple_inline_in_fn,
     "var x = 1; var z = x; use(z)",
     "use(1)"
 );
 
-to_fn!(
+to!(
     t_unresolved_inline_in_fn,
     "var a = new obj();
     result = a;",
@@ -175,9 +118,9 @@ fn test_inline_in_function5() {
     test_same("function baz() { var a = (foo = new obj());foo.x();result = a;}");
 }
 
-to_fn!(block_in_fn_compiled_out, "{ var x = 1; var z = x; }", "{}");
+to!(block_in_fn_compiled_out, "{ var x = 1; var z = x; }", "{}");
 
-to_fn!(
+to!(
     block_in_fn,
     "{ var x = 1; var z = x; use(z); }",
     "{ use(1) }"
@@ -209,7 +152,7 @@ identical!(
     "if (true) { var x = 1; } var z = x; use(x); use(x);"
 );
 
-to_fn!(
+to!(
     t_cond_true_1_fn,
     "if (true) { var x = 1; } var z = x; use(x); use(x);",
     "if (true) { var x = 1; } use(x); use(x);"
@@ -218,7 +161,7 @@ to_fn!(
 identical!(t_cond_true_2, "if (true) var x = 1; var z = x;");
 
 // TODO: Remove x
-to_fn!(
+to!(
     t_cond_true_2_fn,
     "if (true) var x = 1; var z = x;",
     "if (true) ;"
@@ -226,7 +169,7 @@ to_fn!(
 
 identical!(t_cond_true_3, "var x; if (true) x=1; var z = x;");
 
-to_fn!(
+to!(
     t_cond_true_3_fn,
     "var x; if (true) x=1; var z = x; use(z)",
     "var x; if (true) x=1; use(x)"
@@ -278,7 +221,7 @@ fn test_inside_if_conditional() {
     );
 }
 
-to_fn!(only_read_at_initialization_1, "var a; a = foo();", "foo();");
+to!(only_read_at_initialization_1, "var a; a = foo();", "foo();");
 
 #[test]
 fn test_only_read_at_initialization() {
@@ -348,7 +291,7 @@ fn test_immutable_with_single_reference_after_initialzation() {
     );
 }
 
-to_fn!(
+to!(
     single_reference_after_initialzation_1,
     "var a; a = foo();a;",
     "foo();"
@@ -656,21 +599,7 @@ fn test_inline_constant_alias_with_non_constant() {
     );
 }
 
-to_fn!(
-    test_cascading_in_lines,
-    "var XXX = 4; function f() { var YYY = XXX; bar(YYY); baz(YYY); }",
-    "function f() { bar(4); baz(4); }"
-);
-
-to_fn!(no_inline_getprop_into_call_1, "var a = b; a();", "b();");
-
-to_fn!(
-    no_inline_getprop_into_call_2,
-    "var a = b.c; f(a);",
-    "f(b.c);"
-);
-
-identical_fn!(no_inline_getprop_into_call_3, "var a = b.c; a();");
+identical!(no_inline_getprop_into_call_3, "var a = b.c; a();");
 
 #[test]
 fn test_inline_function_declaration() {
@@ -1334,31 +1263,24 @@ fn test_issue354() {
     );
 }
 
-// TODO: Remove var x_7, var_x68;
-identical_all!(
+identical!(
     t_closure_compiler_1177_1,
-    t_closure_compiler_1177_1_fn,
     "function x_64(){var x_7;for(;;); var x_68=x_7=x_7;}"
 );
 
-// TODO: Remove var x_7, var_x68;
-identical_all!(
+identical!(
     t_closure_compiler_1177_2,
-    t_closure_compiler_1177_2_fn,
     "function x_64(){var x_7;for(;;);var x_68=x_7=x_7++;}"
 );
 
-// TODO: Remove var x_7, var_x68;
-identical_all!(
+identical!(
     t_closure_compiler_1177_3,
-    t_closure_compiler_1177_3_fn,
     "function x_64(){var x_7;for(;;);var x_68=x_7=x_7*2;}"
 );
 
 // GitHub issue #1234: https://github.com/google/closure-compiler/issues/1234
-identical_all!(
+identical!(
     t_closure_compiler_1234,
-    t_closure_compiler_1234_fn,
     "var x;
     switch ('a') {
       case 'a':
@@ -1442,45 +1364,43 @@ to!(
     "
 );
 
-to_all!(
+to!(
     generator_let_yield,
-    function_scope_generator_let_yield,
     "function* f() {  let x = 1; yield x; }",
     "function* f() {  yield 1; }"
 );
 
-to_all!(
+to!(
     generator_let_increment,
-    function_scope_generator_let_increment,
     "function* f(x) {  let y = x++;  yield y; }",
     "function* f(x) { yield x++; }"
 );
 
-identical_all!(for_of_1, for_of_1_fn, "var i = 0; for(i of n) {}");
+identical!(for_of_1, "var i = 0; for(i of n) {}");
 
 identical!(for_of_2, "for( var i of n) { var x = i; }");
 
-to_fn!(
+to!(
     for_of_2_fn,
     "for( var i of n) { var x = i; }",
     "for( var i of n) { }"
 );
 
-to_fn!(
+to!(
     tpl_lit_1,
     "var name = 'Foo'; `Hello ${name}`",
     "`Hello ${'Foo'}`"
 );
 
-to_fn!(
+to!(
     tpl_lit_2,
     "var name = 'Foo'; var foo = name; `Hello ${foo}`",
     "`Hello ${'Foo'}`"
 );
 
-to_fn!(tpl_lit_3, "var age = 3; `Age: ${age}`", "`Age: ${3}`");
+to!(tpl_lit_3, "var age = 3; `Age: ${age}`", "`Age: ${3}`");
 
-to_fn!(
+to!(
     tagged_tpl_lit_1,
     concat!(
         "var name = 'Foo';",
@@ -1506,7 +1426,7 @@ to_fn!(
     )
 );
 
-to_fn!(
+to!(
     tagged_tpl_lit_2,
     concat!(
         "var name = 'Foo';",
@@ -1535,7 +1455,7 @@ to_fn!(
     )
 );
 
-to_fn!(
+to!(
     destructuring_fn,
     "var [a, b, c] = [1, 2, 3]
             var x = a;
@@ -1568,13 +1488,6 @@ identical!(
     top_level_does_not_inline_fn_decl,
     "function foo(){}
     use(foo);"
-);
-
-to_fn!(
-    inline_fn_decl,
-    "function foo() {}
-    use(foo);",
-    "use(function foo() {})"
 );
 
 to!(
