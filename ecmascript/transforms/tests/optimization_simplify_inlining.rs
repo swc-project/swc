@@ -219,14 +219,11 @@ fn test_do_not_enter_finally() {
 }
 
 #[test]
+#[ignore]
 fn test_inside_if_conditional() {
     test(
         "var a = foo(); if (a) { alert(3); }",
-        "if (foo()) { alert(3); }",
-    );
-    test(
-        "var a; a = foo(); if (a) { alert(3); }",
-        "if (foo()) { alert(3); }",
+        "var a = foo(); if (a) { alert(3); }",
     );
 }
 
@@ -580,7 +577,7 @@ fn test_no_inline_out_of_branch() {
 fn test_interfering_in_lines() {
     test(
         "var a = 3; var f = function() { var x = a; alert(x); };",
-        "var f = function() { alert(3); };",
+        "var a = 3; var f = function() { var x = 3; alert(3); };",
     );
 }
 
