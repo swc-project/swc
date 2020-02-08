@@ -382,7 +382,7 @@ impl Fold<ExportAll> for Dce<'_> {
             return node;
         }
 
-        unimplemented!("drop_unused: `export * from 'foo'`")
+        unimplemented!("dce: `export * from 'foo'`")
     }
 }
 
