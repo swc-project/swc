@@ -93,9 +93,11 @@ impl Scope<'_> {
 
         if let Some(var_info) = scope.bindings.get(id) {
             if !is_self || force_no_inline {
+                println!("Prevent inlining: {:?}", id);
                 var_info.write_from_nested_scope.set(true);
             }
         } else {
+            println!("Prevent inlining as it's global: {:?}", id);
             self.bindings.insert(
                 id.clone(),
                 VarInfo {
@@ -205,6 +207,7 @@ impl Fold<VarDeclarator> for Inlining<'_> {
                             },
                         );
                     }
+                    return node;
                 }
                 _ => {}
             },
@@ -328,7 +331,7 @@ impl Fold<Expr> for Inlining<'_> {
                 if self.is_first_run {
                     if let Some(expr) = self.scope.find_constants(&id) {
                         self.changed = true;
-                        return expr.clone();
+                        return expr.clone().fold_with(self);
                     }
                 }
 
