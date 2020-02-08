@@ -269,8 +269,6 @@ impl Fold<Expr> for Inlining<'_> {
     fn fold(&mut self, node: Expr) -> Expr {
         match node {
             Expr::Assign(e) => {
-                println!("Assign expression");
-                //
                 match e.left {
                     PatOrExpr::Pat(box Pat::Ident(ref i))
                     | PatOrExpr::Expr(box Expr::Ident(ref i)) => {
@@ -280,7 +278,7 @@ impl Fold<Expr> for Inlining<'_> {
                                 if let Some(var) = self.scope.find_binding(&i.to_id()) {
                                     if var.is_undefined.get() {
                                         *var.value.borrow_mut() = Some(*e.right.clone());
-                                        return *e.right.fold_with(self);
+                                        return *e.right;
                                     }
                                 }
                             }
