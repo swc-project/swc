@@ -17,6 +17,11 @@ use swc_ecma_utils::{ident::IdentLike, Id};
 /// Note: this pass assumes that resolver is invoked before the pass.
 ///
 /// As swc focuses on reducing gzipped file size, all strings are inlined.
+///
+///
+/// # TODOs
+///
+///  - Handling of `void 0`
 pub fn inlining() -> impl RepeatedJsPass + 'static {
     Inlining {
         is_first_run: true,

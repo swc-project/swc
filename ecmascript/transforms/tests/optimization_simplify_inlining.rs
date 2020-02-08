@@ -91,7 +91,9 @@ to!(
     "var a = 1;
     var b = a;
     use(b);",
-    "use(1);"
+    "var a = 1;
+    var b = 1;
+    use(1);"
 );
 
 identical!(top_level_increment, "var x = 1; x++;");
@@ -167,28 +169,9 @@ identical!(
     "if (true) { var x = 1; } var z = x; use(x); use(x);"
 );
 
-to!(
-    cond_true_1_fn,
-    "if (true) { var x = 1; } var z = x; use(x); use(x);",
-    "if (true) { var x = 1; } use(x); use(x);"
-);
+identical!(cond_true_2, "if (true) var x = 1; var z = x;");
 
-identical!(t_cond_true_2, "if (true) var x = 1; var z = x;");
-
-// TODO: Remove x
-to!(
-    cond_true_2_fn,
-    "if (true) var x = 1; var z = x;",
-    "if (true) ;"
-);
-
-identical!(t_cond_true_3, "var x; if (true) x=1; var z = x;");
-
-to!(
-    cond_true_3_fn,
-    "var x; if (true) x=1; var z = x; use(z)",
-    "var x; if (true) x=1; use(x)"
-);
+identical!(cond_true_3, "var x; if (true) x=1; var z = x;");
 
 identical!(while_loop, "while (z) { var x = 3; } var y = x;");
 
@@ -236,7 +219,8 @@ fn test_inside_if_conditional() {
     );
 }
 
-to!(only_read_at_initialization_1, "var a; a = foo();", "foo();");
+// TODO
+identical!(only_read_at_initialization_1, "var a; a = foo();");
 
 #[test]
 #[ignore]
@@ -1328,6 +1312,7 @@ to!(
     }",
     "function f(x) {
       if (true) {
+        let y = x;
         x;
         x;
       }
@@ -1345,6 +1330,7 @@ to!(
     }",
     "function f(x) {
       if (true) {
+        const y = x;
         x;
         x;
       }
@@ -1362,9 +1348,10 @@ to!(
 ",
     "let y;
     {
+        let y1 = x;  
         x;
     }
-    void 0;"
+    y;"
 );
 
 to!(
@@ -1421,12 +1408,6 @@ identical!(
 identical!(for_of_1, "var i = 0; for(i of n) {}");
 
 identical!(for_of_2, "for( var i of n) { var x = i; }");
-
-to!(
-    for_of_2_fn,
-    "for( var i of n) { var x = i; }",
-    "for( var i of n) { }"
-);
 
 to!(
     tpl_lit_1,
@@ -1502,14 +1483,6 @@ to!(
     )
 );
 
-to!(
-    destructuring_fn,
-    "var [a, b, c] = [1, 2, 3]
-            var x = a;
-            x; x;",
-    "var [a, b, c] = [1, 2, 3]; a; a;"
-);
-
 identical!(
     function_scope_var_1,
     "var x = 1;
@@ -1528,7 +1501,7 @@ identical!(
             x = 2;
         }
         use(x);
-    }());"
+    })();"
 );
 
 identical!(
