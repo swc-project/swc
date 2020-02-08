@@ -747,7 +747,7 @@ fn test_inline_aliases2c() {
 fn test_inline_aliases2d() {
     test(
         "var x; x = this.foo(); this.bar(); function f() { var y; y = x; this.baz(y); }",
-        "var x; x = this.foo(); this.bar(); function f() { this.baz(x); }",
+        "var x; x = this.foo(); this.bar(); function f() { var y; x; this.baz(x); }",
     );
 }
 
