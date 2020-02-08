@@ -64,9 +64,19 @@ struct Scope<'a> {
 }
 
 impl Scope<'_> {
+    fn depth(&self) -> usize {
+        match self.parent {
+            None => 0,
+            Some(p) => p.depth() + 1,
+        }
+    }
+
     /// True if the returned scope is self
     fn scope_for(&self, id: &Id) -> (&Scope, bool) {
         if let Some(..) = self.constants.get(id) {
+            return (self, true);
+        }
+        if let Some(..) = self.bindings.get(id) {
             return (self, true);
         }
 
@@ -93,11 +103,16 @@ impl Scope<'_> {
 
         if let Some(var_info) = scope.bindings.get(id) {
             if !is_self || force_no_inline {
-                println!("Prevent inlining: {:?}", id);
+                println!("({}) Prevent inlining: {:?}", self.depth(), id);
                 var_info.write_from_nested_scope.set(true);
             }
         } else {
-            println!("Prevent inlining as it's global: {:?}", id);
+            println!(
+                "({}): Prevent inlining as it's global (scope = ({})): {:?}",
+                self.depth(),
+                scope.depth(),
+                id
+            );
             self.bindings.insert(
                 id.clone(),
                 VarInfo {
@@ -214,6 +229,8 @@ impl Fold<VarDeclarator> for Inlining<'_> {
                             self.scope.constants.insert(name.to_id(), e.clone());
                         }
                     } else {
+                        println!("({}): Inserting {:?}", self.scope.depth(), name.to_id());
+
                         let e = e.clone().fold_with(self);
                         self.scope.bindings.insert(
                             name.to_id(),
@@ -225,6 +242,7 @@ impl Fold<VarDeclarator> for Inlining<'_> {
                             },
                         );
                         node.init = Some(box e);
+                        self.changed = true;
                     }
                     return node;
                 }
