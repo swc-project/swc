@@ -119,7 +119,7 @@ impl Scope<'_> {
     }
 
     pub fn find_binding_by_value(&self, id: &Id) -> Option<&VarInfo> {
-        for (b, v) in self.bindings.iter() {
+        for (_, v) in self.bindings.iter() {
             match v.value.borrow().as_ref() {
                 Some(&Expr::Ident(ref i)) => {
                     if i.sym == id.0 && i.span.ctxt() == id.1 {
