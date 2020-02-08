@@ -13,8 +13,8 @@ impl Inlining<'_> {
                 kind: self.var_decl_kind,
                 read_from_nested_scope: Cell::new(false),
                 write_from_nested_scope: Cell::new(false),
+                is_undefined: Cell::new(init.is_none()),
                 value: RefCell::new(init),
-                initialized: Cell::new(false),
             },
         );
     }
@@ -88,7 +88,7 @@ impl Scope<'_> {
                     read_from_nested_scope: Cell::new(false),
                     write_from_nested_scope: Cell::new(true),
                     value: RefCell::new(None),
-                    initialized: Cell::new(false),
+                    is_undefined: Cell::new(false),
                 },
             );
         }
@@ -134,6 +134,5 @@ pub(super) struct VarInfo {
     pub read_from_nested_scope: Cell<bool>,
     pub write_from_nested_scope: Cell<bool>,
     pub value: RefCell<Option<Expr>>,
-    /// True iff it's unconditionally initialized.
-    pub initialized: Cell<bool>,
+    pub is_undefined: Cell<bool>,
 }

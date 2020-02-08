@@ -1,18 +1,15 @@
-use self::scope::{Scope, VarInfo};
+use self::scope::Scope;
 use crate::{
     pass::RepeatedJsPass,
     scope::{IdentType, ScopeKind},
 };
-use std::{
-    borrow::Cow,
-    cell::{Cell, RefCell},
-};
+use std::borrow::Cow;
 use swc_common::{
     pass::{CompilerPass, Repeated},
     Fold, FoldWith, Visit, VisitWith,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ident::IdentLike, Id};
+use swc_ecma_utils::ident::IdentLike;
 
 mod scope;
 
