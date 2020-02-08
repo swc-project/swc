@@ -70,7 +70,7 @@ identical!(
 
 identical!(
     does_not_produce_invalid_code_2,
-    "function f(x = void 0) {{var z;const y = {};x && (y['x'] = x);z = y;}return z;}"
+    "function f(x = void 0) {{var z;const y = {};x && (y['x'] = x); y;}return z;}"
 );
 
 #[test]
@@ -871,7 +871,7 @@ fn cistom_inline_aliases8() {
 fn custom_inline_aliases8b() {
     test(
         "var x = this.foo(); this.bar(); function f() { var y; y = x; this.baz(y); y = 3; }",
-        "var x = this.foo(); this.bar(); function f() { var y; y = x; this.baz(x); y = 3; }",
+        "var x = this.foo(); this.bar(); function f() { var y; x; this.baz(x); y = 3; }",
     );
 }
 
@@ -1319,9 +1319,10 @@ fn test_issue354() {
     );
 }
 
-identical!(
+to!(
     closure_compiler_1177_1,
-    "function x_64(){var x_7;for(;;); var x_68=x_7=x_7;}"
+    "function x_64(){var x_7;for(;;); var x_68=x_7=x_7;}",
+    "function x_64(){var x_7;for(;;); var x_68=x_7;}"
 );
 
 identical!(
