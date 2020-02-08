@@ -1,4 +1,5 @@
 use crate::pass::RepeatedJsPass;
+use fxhash::FxHashSet;
 use std::borrow::Cow;
 use swc_atoms::JsWord;
 use swc_common::{
@@ -43,7 +44,7 @@ pub fn dce<'a>(config: Config<'a>) -> impl RepeatedJsPass + 'a {
         Dce {
             config,
             dropped: false,
-            included: vec![],
+            included: Default::default(),
             changed: false,
             marking_phase: false,
         },
@@ -86,7 +87,7 @@ struct Dce<'a> {
     config: Config<'a>,
 
     /// Identifiers which should be emitted.
-    included: Vec<Id>,
+    included: FxHashSet<Id>,
 
     /// If true, idents are added to [included].
     marking_phase: bool,
@@ -213,7 +214,10 @@ impl Fold<IfStmt> for Dce<'_> {
 
         let mut node: IfStmt = node.fold_children(self);
 
-        if self.is_marked(node.cons.span()) || self.is_marked(node.alt.span()) {
+        if self.is_marked(node.test.span())
+            || self.is_marked(node.cons.span())
+            || self.is_marked(node.alt.span())
+        {
             node.span = node.span.apply_mark(self.config.used_mark);
 
             node.test = self.fold_in_marking_phase(node.test);
@@ -407,7 +411,7 @@ impl Fold<Ident> for Dce<'_> {
         }
 
         if self.marking_phase {
-            self.included.push(i.to_id());
+            self.included.insert(i.to_id());
             self.changed = true;
         }
 
@@ -493,7 +497,7 @@ simple!(ModuleDecl);
 
 #[derive(Debug)]
 struct IdentListVisitor<'a> {
-    included_ids: &'a [Id],
+    included_ids: &'a FxHashSet<Id>,
     exported_ids: &'a [Id],
     found: bool,
 }
@@ -504,10 +508,7 @@ impl Visit<Ident> for IdentListVisitor<'_> {
             return;
         }
 
-        if self
-            .included_ids
-            .iter()
-            .any(|i| i.0 == node.sym && i.1 == node.span.ctxt())
+        if self.included_ids.contains(&node.to_id())
             || self
                 .exported_ids
                 .iter()
