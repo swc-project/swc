@@ -472,7 +472,9 @@ fn test_do_cross_var() {
     test("var a = b; var b = 3; alert(a)", "alert(3);");
 }
 
+/// TODO: Inline single use
 #[test]
+#[ignore]
 fn test_overlapping_in_lines() {
     let source = "a = function(el, x, opt_y) {   var cur = bar(el);   opt_y = x.y;   x = x.x;   \
                   var dx = x - cur.x;   var dy = opt_y - cur.y;  foo(el, el.offsetLeft + dx, \
@@ -483,7 +485,9 @@ fn test_overlapping_in_lines() {
     test(source, expected);
 }
 
+/// TODO: Inline single use
 #[test]
+#[ignore]
 fn test_overlapping_inline_functions() {
     let source = "a = function() {   var b = function(args) {var n;};   var c = function(args) \
                   {};   d(b,c); };";
@@ -1339,7 +1343,20 @@ to!(
 );
 
 to!(
-    let_const,
+    let_const_1,
+    "
+    const g = 3;
+    let y = g;
+    y;
+",
+    "const g = 3;
+    let y = 3;
+    3;
+"
+);
+
+to!(
+    let_const_2,
     "let y = x;
     y;
     const g = 2;
@@ -1351,8 +1368,12 @@ to!(
     y;
     g;
 ",
-    "x;
+    "let y = x;
+    x;
+    const g = 2;
     {
+        const g1 = 3;
+        let y1 = 3;
         3;
     }
     x;
@@ -1363,13 +1384,13 @@ to!(
 to!(
     generator_let_yield,
     "function* f() {  let x = 1; yield x; }",
-    "function* f() {  yield 1; }"
+    "function* f() {  let x = 1; yield 1; }"
 );
 
-to!(
+// TODO: Inline single use
+identical!(
     generator_let_increment,
-    "function* f(x) {  let y = x++;  yield y; }",
-    "function* f(x) { yield x++; }"
+    "function* f(x) {  let y = x++;  yield y; }"
 );
 
 identical!(for_of_1, "var i = 0; for(i of n) {}");
