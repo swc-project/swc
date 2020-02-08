@@ -188,7 +188,7 @@ impl Fold<VarDecl> for Inlining<'_> {
 }
 
 impl Fold<VarDeclarator> for Inlining<'_> {
-    fn fold(&mut self, node: VarDeclarator) -> VarDeclarator {
+    fn fold(&mut self, mut node: VarDeclarator) -> VarDeclarator {
         match node.name {
             Pat::Ident(ref name) => match &node.init {
                 Some(box e @ Expr::Lit(..)) | Some(box e @ Expr::Ident(..)) => {
@@ -197,6 +197,7 @@ impl Fold<VarDeclarator> for Inlining<'_> {
                             self.scope.constants.insert(name.to_id(), e.clone());
                         }
                     } else {
+                        let e = e.clone().fold_with(self);
                         self.scope.bindings.insert(
                             name.to_id(),
                             VarInfo {
@@ -206,6 +207,7 @@ impl Fold<VarDeclarator> for Inlining<'_> {
                                 value: RefCell::new(Some(e.clone().into())),
                             },
                         );
+                        node.init = Some(box e);
                     }
                     return node;
                 }
@@ -378,7 +380,6 @@ impl Fold<Pat> for Inlining<'_> {
 
         match node {
             Pat::Ident(ref i) => {
-                self.ident_type = IdentType::Binding;
                 self.scope.add_write(&i.to_id(), false);
             }
 
