@@ -295,15 +295,25 @@ impl Fold<Expr> for Inlining<'_> {
                     }
                 }
 
-                if let Some(var) = self.scope.find_binding(&id) {
+                let expr = if let Some(var) = self.scope.find_binding(&id) {
                     if !var.write_from_nested_scope.get() {
                         let expr = var.value.borrow();
 
                         if let Some(expr) = &*expr {
                             self.changed = true;
-                            return expr.clone();
+                            Some(expr.clone())
+                        } else {
+                            None
                         }
+                    } else {
+                        None
                     }
+                } else {
+                    None
+                };
+
+                if let Some(expr) = expr {
+                    return expr.fold_with(self);
                 }
 
                 self.scope.add_read(&i.to_id())
