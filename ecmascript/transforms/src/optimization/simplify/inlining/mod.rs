@@ -118,6 +118,23 @@ impl Scope<'_> {
         self.parent.and_then(|parent| parent.find_binding(id))
     }
 
+    pub fn find_binding_by_value(&self, id: &Id) -> Option<&VarInfo> {
+        for (b, v) in self.bindings.iter() {
+            match v.value.borrow().as_ref() {
+                Some(&Expr::Ident(ref i)) => {
+                    if i.sym == id.0 && i.span.ctxt() == id.1 {
+                        return Some(v);
+                    }
+                }
+
+                _ => {}
+            }
+        }
+
+        self.parent
+            .and_then(|parent| parent.find_binding_by_value(id))
+    }
+
     pub fn find_constants(&self, id: &Id) -> Option<&Expr> {
         if let Some(e) = self.constants.get(id) {
             return Some(e);
@@ -380,7 +397,11 @@ impl Fold<Pat> for Inlining<'_> {
 
         match node {
             Pat::Ident(ref i) => {
-                self.scope.add_write(&i.to_id(), false);
+                if let Some(var) = self.scope.find_binding_by_value(&i.to_id()) {
+                    var.write_from_nested_scope.set(true);
+                } else {
+                    self.scope.add_write(&i.to_id(), false);
+                }
             }
 
             _ => {}
