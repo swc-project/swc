@@ -275,10 +275,10 @@ impl Fold<Expr> for Inlining<'_> {
                         //
                         match *e.right {
                             Expr::Ident(..) | Expr::Lit(..) => {
-                                if let Some(var) = self.scope.find_binding(&i.to_id()) {
+                                if let Some(var) = self.scope.bindings.get(&i.to_id()) {
                                     if var.is_undefined.get() {
                                         *var.value.borrow_mut() = Some(*e.right.clone());
-                                        return *e.right;
+                                        return *e.right.fold_with(self);
                                     }
                                 }
                             }
@@ -326,7 +326,14 @@ impl Fold<Expr> for Inlining<'_> {
                 };
 
                 if let Some(expr) = expr {
-                    return expr.fold_with(self);
+                    return match expr {
+                        Expr::Ident(ref new_i)
+                            if i.sym == new_i.sym && i.span.ctxt() == new_i.span.ctxt() =>
+                        {
+                            expr
+                        }
+                        _ => expr.fold_with(self),
+                    };
                 }
 
                 self.scope.add_read(&i.to_id())
