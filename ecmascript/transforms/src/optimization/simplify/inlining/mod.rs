@@ -233,6 +233,8 @@ impl Fold<AssignExpr> for Inlining<'_> {
                     _ => {}
                 }
             }
+
+            _ => {}
         }
 
         e
