@@ -1571,3 +1571,31 @@ to_fn!(
     use(foo);",
     "use(function foo() {})"
 );
+
+to!(
+    custom_1,
+    "
+let b = 2;
+
+let a = 1;
+if (b) {
+    a = 2;
+}
+
+let c;
+if (a) {
+    c = 3;
+}
+",
+    "let b = 2;
+
+let a = 1;
+if (2) {
+    a = 2;
+}
+
+let c;
+if (a) {
+    c = 3;
+}"
+);
