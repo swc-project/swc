@@ -63,33 +63,46 @@ struct Scope<'a> {
 
 impl Scope<'_> {
     /// True if the returned scope is self
-    fn scope_for(&self, id: &Id) -> Option<(&Scope, bool)> {
+    fn scope_for(&self, id: &Id) -> (&Scope, bool) {
         if let Some(..) = self.constants.get(id) {
-            return Some((self, true));
+            return (self, true);
         }
 
-        self.parent
-            .and_then(|parent| parent.scope_for(id))
-            .map(|(scope, _)| (scope, false))
+        match self.parent {
+            None => (self, true),
+            Some(ref p) => {
+                let (s, _) = p.scope_for(id);
+                (s, false)
+            }
+        }
     }
 
     pub fn add_read(&self, id: &Id) {
-        if let Some((scope, is_self)) = self.scope_for(id) {
-            if !is_self {
-                if let Some(var_info) = scope.bindings.get(id) {
-                    var_info.read_from_nested_scope.set(true);
-                }
+        let (scope, is_self) = self.scope_for(id);
+        if !is_self {
+            if let Some(var_info) = scope.bindings.get(id) {
+                var_info.read_from_nested_scope.set(true);
             }
         }
     }
 
-    pub fn add_write(&self, id: &Id) {
-        if let Some((scope, is_self)) = self.scope_for(id) {
+    pub fn add_write(&mut self, id: &Id) {
+        let (scope, is_self) = self.scope_for(id);
+
+        if let Some(var_info) = scope.bindings.get(id) {
             if !is_self {
-                if let Some(var_info) = scope.bindings.get(id) {
-                    var_info.write_from_nested_scope.set(true)
-                }
+                var_info.write_from_nested_scope.set(true);
             }
+        } else {
+            self.bindings.insert(
+                id.clone(),
+                VarInfo {
+                    kind: VarDeclKind::Var,
+                    read_from_nested_scope: Cell::new(false),
+                    write_from_nested_scope: Cell::new(true),
+                    value: RefCell::new(None),
+                },
+            );
         }
     }
 
@@ -211,8 +224,25 @@ impl Fold<Function> for Inlining<'_> {
     }
 }
 
+impl Fold<IfStmt> for Inlining<'_> {
+    fn fold(&mut self, mut node: IfStmt) -> IfStmt {
+        node.test = node.test.fold_with(self);
+
+        node.cons = self.fold_with_child(ScopeKind::Block, node.cons);
+        node.alt = self.fold_with_child(ScopeKind::Block, node.alt);
+
+        node
+    }
+}
+
+impl Fold<CatchClause> for Inlining<'_> {
+    fn fold(&mut self, node: CatchClause) -> CatchClause {
+        self.fold_with_child(ScopeKind::Block, node)
+    }
+}
+
 impl Fold<AssignExpr> for Inlining<'_> {
-    fn fold(&mut self, mut e: AssignExpr) -> AssignExpr {
+    fn fold(&mut self, e: AssignExpr) -> AssignExpr {
         let e: AssignExpr = e.fold_children(self);
 
         match *e.right {
@@ -222,6 +252,7 @@ impl Fold<AssignExpr> for Inlining<'_> {
                     PatOrExpr::Pat(box Pat::Ident(ref i))
                     | PatOrExpr::Expr(box Expr::Ident(ref i)) => {
                         let id = i.to_id();
+                        self.scope.add_write(&id);
 
                         if let Some(var) = self.scope.find_binding(&id) {
                             if !var.write_from_nested_scope.get() {
