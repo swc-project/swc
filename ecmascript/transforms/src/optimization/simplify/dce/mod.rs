@@ -491,6 +491,7 @@ macro_rules! simple {
     };
 }
 
+simple!(Decl);
 simple!(Stmt);
 simple!(ModuleItem);
 simple!(ModuleDecl);
