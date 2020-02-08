@@ -1,7 +1,18 @@
 //! Copied from https://github.com/google/closure-compiler/blob/6ca3b62990064488074a1a8931b9e8dc39b148b3/test/com/google/javascript/jscomp/InlineVariablesTest.java
-use super::inlining;
-use crate::resolver::resolver;
+
+#![feature(box_syntax)]
+#![feature(test)]
+#![feature(box_patterns)]
+#![feature(specialization)]
+
 use swc_common::chain;
+use swc_ecma_transforms::{
+    optimization::{simplifier, simplify::inlining},
+    resolver,
+};
+
+#[macro_use]
+mod common;
 
 macro_rules! to {
     ($name:ident, $src:expr, $expected:expr) => {
@@ -222,12 +233,6 @@ to_fn!(
 );
 
 identical!(while_loop, "while (z) { var x = 3; } var y = x;");
-
-to_fn!(
-    while_loop_fn,
-    "while (z) { var x = 3; } var y = x;",
-    "while (z) {}"
-);
 
 #[test]
 fn test_do_not_exit_for_loop() {

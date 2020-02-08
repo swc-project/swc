@@ -11,9 +11,6 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id, StmtLike};
 
-#[cfg(test)]
-mod tests;
-
 /// Note: this pass assumes that resolver is invoked before the pass.
 ///
 /// As swc focuses on reducing gzipped file size, all strings are inlined.
