@@ -410,8 +410,14 @@ fn test_do_not_cross_referencing_function() {
 
 #[test]
 fn test_chained_assignment() {
-    test("var a = 2, b = 2; var c = b;", "var a = 2; var c = 2;");
-    test("var a = 2, b = 2; var c = a;", "var b = 2; var c = 2;");
+    test(
+        "var a = 2, b = 2; var c = b;",
+        "var a = 2, b = 2; var c = 2;",
+    );
+    test(
+        "var a = 2, b = 2; var c = a;",
+        "var a = 2, b = 2; var c = 2;",
+    );
     test(
         "var a = b = 2; var f = 3; var c = a;",
         "var f = 3; var c = b = 2;",
@@ -470,8 +476,10 @@ fn test_do_not_cross_constructor() {
 
 #[test]
 fn test_do_cross_var() {
-    // Assumes we do not rely on undefined variables (not technically correct!)
-    test("var a = b; var b = 3; alert(a)", "alert(3);");
+    test(
+        "var a = b; var b = 3; alert(a)",
+        "var a = b; var b = 3; alert(3);",
+    );
 }
 
 /// TODO: Inline single use
