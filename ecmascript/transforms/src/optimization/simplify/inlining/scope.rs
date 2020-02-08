@@ -1,8 +1,24 @@
+use super::Inlining;
 use crate::scope::ScopeKind;
 use fxhash::FxHashMap;
 use std::cell::{Cell, RefCell};
 use swc_ecma_ast::*;
 use swc_ecma_utils::Id;
+
+impl Inlining<'_> {
+    pub(super) fn declare(&mut self, id: Id, init: Option<Expr>) {
+        self.scope.bindings.insert(
+            id,
+            VarInfo {
+                kind: self.var_decl_kind,
+                read_from_nested_scope: Cell::new(false),
+                write_from_nested_scope: Cell::new(false),
+                value: RefCell::new(init),
+                initialized: Cell::new(false),
+            },
+        );
+    }
+}
 
 #[derive(Debug, Default)]
 pub(super) struct Scope<'a> {
@@ -72,6 +88,7 @@ impl Scope<'_> {
                     read_from_nested_scope: Cell::new(false),
                     write_from_nested_scope: Cell::new(true),
                     value: RefCell::new(None),
+                    initialized: Cell::new(false),
                 },
             );
         }
@@ -117,4 +134,6 @@ pub(super) struct VarInfo {
     pub read_from_nested_scope: Cell<bool>,
     pub write_from_nested_scope: Cell<bool>,
     pub value: RefCell<Option<Expr>>,
+    /// True iff it's unconditionally initialized.
+    pub initialized: Cell<bool>,
 }

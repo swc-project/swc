@@ -60,20 +60,6 @@ struct Inlining<'a> {
 }
 
 impl Inlining<'_> {
-    fn declare(&mut self, id: Id, init: Option<Expr>) {
-        self.scope.bindings.insert(
-            id,
-            VarInfo {
-                kind: self.var_decl_kind,
-                read_from_nested_scope: Cell::new(false),
-                write_from_nested_scope: Cell::new(false),
-                value: RefCell::new(init),
-            },
-        );
-    }
-}
-
-impl Inlining<'_> {
     fn with_child<F, T>(&mut self, kind: ScopeKind, op: F) -> T
     where
         F: for<'any> FnOnce(&mut Inlining<'any>) -> T,
