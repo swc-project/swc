@@ -57,6 +57,20 @@ struct Inlining<'a> {
     ident_type: IdentType,
 }
 
+impl Inlining<'_> {
+    fn declare(&mut self, id: Id, init: Option<Expr>) {
+        self.scope.bindings.insert(
+            id,
+            VarInfo {
+                kind: self.var_decl_kind,
+                read_from_nested_scope: Cell::new(false),
+                write_from_nested_scope: Cell::new(false),
+                value: RefCell::new(None),
+            },
+        );
+    }
+}
+
 #[derive(Debug, Default)]
 struct Scope<'a> {
     parent: Option<&'a Scope<'a>>,
@@ -228,6 +242,13 @@ impl Fold<VarDeclarator> for Inlining<'_> {
     fn fold(&mut self, mut node: VarDeclarator) -> VarDeclarator {
         match node.name {
             Pat::Ident(ref name) => match &node.init {
+                None => {
+                    self.declare(name.to_id(), None);
+
+                    self.changed = true;
+
+                    return node;
+                }
                 Some(box e @ Expr::Lit(..)) | Some(box e @ Expr::Ident(..)) => {
                     if self.var_decl_kind == VarDeclKind::Const {
                         if self.is_first_run {
@@ -237,15 +258,7 @@ impl Fold<VarDeclarator> for Inlining<'_> {
                         println!("({}): Inserting {:?}", self.scope.depth(), name.to_id());
 
                         let e = e.clone().fold_with(self);
-                        self.scope.bindings.insert(
-                            name.to_id(),
-                            VarInfo {
-                                kind: self.var_decl_kind,
-                                read_from_nested_scope: Cell::new(false),
-                                write_from_nested_scope: Cell::new(false),
-                                value: RefCell::new(Some(e.clone().into())),
-                            },
-                        );
+                        self.declare(name.to_id(), Some(e.clone()));
                         node.init = Some(box e);
                         self.changed = true;
                     }
