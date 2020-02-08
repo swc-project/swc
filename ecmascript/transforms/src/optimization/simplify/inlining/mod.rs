@@ -471,7 +471,7 @@ impl Fold<ForStmt> for Inlining<'_> {
 
         node.test = node.test.fold_with(self);
         node.update = node.update.fold_with(self);
-        node.body = node.body.fold_with(self);
+        node.body = self.fold_with_child(ScopeKind::Block, node.body);
 
         node
     }
