@@ -220,7 +220,7 @@ impl Fold<AssignExpr> for Inlining<'_> {
                     PatOrExpr::Pat(box Pat::Ident(ref i))
                     | PatOrExpr::Expr(box Expr::Ident(ref i)) => {
                         if let Some(var) = self.scope.find_binding_by_value(&i.to_id()) {
-                            var.write_from_nested_scope.set(true)
+                            var.prevent_inline.set(true)
                         }
                     }
                     _ => {}
@@ -238,7 +238,7 @@ impl Fold<AssignExpr> for Inlining<'_> {
                         self.scope.add_write(&id, false);
 
                         if let Some(var) = self.scope.find_binding(&id) {
-                            if !var.write_from_nested_scope.get() {
+                            if !var.prevent_inline.get() {
                                 *var.value.borrow_mut() = Some(*e.right.clone());
                             }
                         }
@@ -281,7 +281,7 @@ impl Fold<Expr> for Inlining<'_> {
                 }
 
                 let expr = if let Some(var) = self.scope.find_binding(&id) {
-                    if !var.write_from_nested_scope.get() {
+                    if !var.prevent_inline.get() {
                         let expr = var.value.borrow();
 
                         if let Some(expr) = &*expr {
@@ -304,6 +304,23 @@ impl Fold<Expr> for Inlining<'_> {
                 self.scope.add_read(&i.to_id())
             }
 
+            Expr::Assign(e) => {
+                //
+                match e.left {
+                    PatOrExpr::Pat(box Pat::Ident(ref i))
+                    | PatOrExpr::Expr(box Expr::Ident(ref i)) => {
+                        if let Some(var) = self.scope.find_binding_by_value(&i.to_id()) {
+                            if var.is_undefined.get() {
+                                return *e.right;
+                            }
+                        }
+                    }
+                    _ => {}
+                }
+
+                return Expr::Assign(e);
+            }
+
             _ => {}
         }
 
@@ -324,7 +341,7 @@ impl Fold<Pat> for Inlining<'_> {
         match node {
             Pat::Ident(ref i) => {
                 if let Some(var) = self.scope.find_binding_by_value(&i.to_id()) {
-                    var.write_from_nested_scope.set(true);
+                    var.prevent_inline.set(true);
                 } else {
                     self.scope.add_write(&i.to_id(), false);
                 }

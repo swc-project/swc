@@ -12,7 +12,7 @@ impl Inlining<'_> {
             VarInfo {
                 kind: self.var_decl_kind,
                 read_from_nested_scope: Cell::new(false),
-                write_from_nested_scope: Cell::new(false),
+                prevent_inline: Cell::new(false),
                 is_undefined: Cell::new(init.is_none()),
                 value: RefCell::new(init),
             },
@@ -72,7 +72,7 @@ impl Scope<'_> {
         if let Some(var_info) = scope.bindings.get(id) {
             if !is_self || force_no_inline {
                 println!("({}) Prevent inlining: {:?}", self.depth(), id);
-                var_info.write_from_nested_scope.set(true);
+                var_info.prevent_inline.set(true);
             }
         } else {
             println!(
@@ -86,7 +86,7 @@ impl Scope<'_> {
                 VarInfo {
                     kind: VarDeclKind::Var,
                     read_from_nested_scope: Cell::new(false),
-                    write_from_nested_scope: Cell::new(true),
+                    prevent_inline: Cell::new(true),
                     value: RefCell::new(None),
                     is_undefined: Cell::new(false),
                 },
@@ -132,7 +132,7 @@ impl Scope<'_> {
 pub(super) struct VarInfo {
     pub kind: VarDeclKind,
     pub read_from_nested_scope: Cell<bool>,
-    pub write_from_nested_scope: Cell<bool>,
+    pub prevent_inline: Cell<bool>,
     pub value: RefCell<Option<Expr>>,
     pub is_undefined: Cell<bool>,
 }
