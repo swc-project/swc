@@ -84,7 +84,7 @@ fn test_pass_doesnt_produce_invalid_code3() {
     x && (y['x'] = x);
     z = y;
     {
-        return z;
+        return y;
     }
 }
 ",
@@ -887,8 +887,8 @@ fn test_no_inline_aliases8b() {
 #[test]
 fn test_inline_parameter_alias1() {
     test(
-        "function f(x) {  var y = x;  g();  y;y;}",
-        "function f(x) {  g();  x;x;}",
+        "function f(x) {  var y = x; g();  y;y;}",
+        "function f(x) { var y = x; g();  x;x;}",
     );
 }
 

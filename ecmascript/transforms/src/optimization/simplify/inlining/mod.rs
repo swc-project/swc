@@ -65,7 +65,7 @@ impl Inlining<'_> {
                 kind: self.var_decl_kind,
                 read_from_nested_scope: Cell::new(false),
                 write_from_nested_scope: Cell::new(false),
-                value: RefCell::new(None),
+                value: RefCell::new(init),
             },
         );
     }
@@ -201,12 +201,10 @@ struct VarInfo {
 //}
 
 impl Inlining<'_> {
-    fn fold_with_child<T>(&mut self, kind: ScopeKind, node: T) -> T
+    fn with_child<F, T>(&mut self, kind: ScopeKind, op: F) -> T
     where
-        T: 'static + for<'any> FoldWith<Inlining<'any>>,
+        F: for<'any> FnOnce(&mut Inlining<'any>) -> T,
     {
-        //TODO: Track accessed variables.
-
         let mut child = Inlining {
             is_first_run: self.is_first_run,
             changed: false,
@@ -220,13 +218,20 @@ impl Inlining<'_> {
             ident_type: self.ident_type,
         };
 
-        let node = node.fold_children(&mut child);
+        let node = op(&mut child);
 
         self.changed |= child.changed;
 
         child.scope.parent = None;
 
         node
+    }
+
+    fn fold_with_child<T>(&mut self, kind: ScopeKind, node: T) -> T
+    where
+        T: 'static + for<'any> FoldWith<Inlining<'any>>,
+    {
+        self.with_child(kind, |child| node.fold_children(child))
     }
 }
 
@@ -281,13 +286,23 @@ impl Fold<BlockStmt> for Inlining<'_> {
 
 impl Fold<Function> for Inlining<'_> {
     fn fold(&mut self, node: Function) -> Function {
-        self.fold_with_child(ScopeKind::Fn, node)
+        self.with_child(ScopeKind::Fn, move |child| {
+            let mut node = node;
+
+            node.params = node.params.fold_with(child);
+            node.body = match node.body {
+                None => None,
+                Some(v) => Some(v.fold_children(child)),
+            };
+
+            node
+        })
     }
 }
 
 impl Fold<FnDecl> for Inlining<'_> {
     fn fold(&mut self, node: FnDecl) -> FnDecl {
-        self.scope.add_write(&node.ident.to_id(), true);
+        self.declare(node.ident.to_id(), None);
 
         FnDecl {
             function: node.function.fold_with(self),
