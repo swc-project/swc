@@ -335,6 +335,12 @@ impl Fold<IfStmt> for Inlining<'_> {
     }
 }
 
+impl Fold<SwitchCase> for Inlining<'_> {
+    fn fold(&mut self, node: SwitchCase) -> SwitchCase {
+        self.fold_with_child(ScopeKind::Block, node)
+    }
+}
+
 impl Fold<CatchClause> for Inlining<'_> {
     fn fold(&mut self, node: CatchClause) -> CatchClause {
         self.fold_with_child(ScopeKind::Block, node)
