@@ -437,6 +437,7 @@ fn test_for_in() {
 // Test movement of values that have (may) side effects
 
 #[test]
+#[ignore]
 fn test_do_cross_new_variables() {
     test("var x = foo(); var z = x;", "var z = foo();");
 }
