@@ -66,7 +66,17 @@ identical!(
 fn test_pass_doesnt_produce_invalid_code3() {
     test(
         concat!("function f(x = void 0) {var z;const y = {};x && (y['x'] = x);z = y;{return z;}}"),
-        concat!("function f(x = void 0) {const y = {};x && (y['x'] = x);{return y;}}"),
+        "function f(x = void 0) {
+    var z;
+    const y = {
+    };
+    x && (y['x'] = x);
+    z = y;
+    {
+        return z;
+    }
+}
+",
     );
 }
 

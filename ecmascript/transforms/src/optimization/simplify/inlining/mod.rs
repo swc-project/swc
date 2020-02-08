@@ -88,11 +88,11 @@ impl Scope<'_> {
         }
     }
 
-    pub fn add_write(&mut self, id: &Id) {
+    pub fn add_write(&mut self, id: &Id, force_no_inline: bool) {
         let (scope, is_self) = self.scope_for(id);
 
         if let Some(var_info) = scope.bindings.get(id) {
-            if !is_self {
+            if !is_self || force_no_inline {
                 var_info.write_from_nested_scope.set(true);
             }
         } else {
@@ -227,6 +227,30 @@ impl Fold<Function> for Inlining<'_> {
     }
 }
 
+impl Fold<FnDecl> for Inlining<'_> {
+    fn fold(&mut self, node: FnDecl) -> FnDecl {
+        self.scope.add_write(&node.ident.to_id(), true);
+
+        FnDecl {
+            function: node.function.fold_with(self),
+            ..node
+        }
+    }
+}
+
+impl Fold<FnExpr> for Inlining<'_> {
+    fn fold(&mut self, node: FnExpr) -> FnExpr {
+        if let Some(ref ident) = node.ident {
+            self.scope.add_write(&ident.to_id(), true);
+        }
+
+        FnExpr {
+            function: node.function.fold_with(self),
+            ..node
+        }
+    }
+}
+
 impl Fold<IfStmt> for Inlining<'_> {
     fn fold(&mut self, mut node: IfStmt) -> IfStmt {
         node.test = node.test.fold_with(self);
@@ -262,7 +286,7 @@ impl Fold<AssignExpr> for Inlining<'_> {
                     PatOrExpr::Pat(box Pat::Ident(ref i))
                     | PatOrExpr::Expr(box Expr::Ident(ref i)) => {
                         let id = i.to_id();
-                        self.scope.add_write(&id);
+                        self.scope.add_write(&id, false);
 
                         if let Some(var) = self.scope.find_binding(&id) {
                             if !var.write_from_nested_scope.get() {
@@ -352,7 +376,7 @@ impl Fold<Pat> for Inlining<'_> {
         match node {
             Pat::Ident(ref i) => {
                 self.ident_type = IdentType::Binding;
-                self.scope.add_write(&i.to_id());
+                self.scope.add_write(&i.to_id(), false);
             }
 
             _ => {}
