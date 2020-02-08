@@ -1,8 +1,8 @@
+use self::scope::{Scope, VarInfo};
 use crate::{
     pass::RepeatedJsPass,
     scope::{IdentType, ScopeKind},
 };
-use fxhash::FxHashMap;
 use std::{
     borrow::Cow,
     cell::{Cell, RefCell},
@@ -13,6 +13,8 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
+
+mod scope;
 
 /// Note: this pass assumes that resolver is invoked before the pass.
 ///
@@ -71,135 +73,6 @@ impl Inlining<'_> {
     }
 }
 
-#[derive(Debug, Default)]
-struct Scope<'a> {
-    parent: Option<&'a Scope<'a>>,
-    kind: ScopeKind,
-
-    bindings: FxHashMap<Id, VarInfo>,
-
-    /// Simple optimization. We don't need complex scope analysis.
-    constants: FxHashMap<Id, Expr>,
-}
-
-impl Scope<'_> {
-    fn depth(&self) -> usize {
-        match self.parent {
-            None => 0,
-            Some(p) => p.depth() + 1,
-        }
-    }
-
-    /// True if the returned scope is self
-    fn scope_for(&self, id: &Id) -> (&Scope, bool) {
-        if let Some(..) = self.constants.get(id) {
-            return (self, true);
-        }
-        if let Some(..) = self.bindings.get(id) {
-            return (self, true);
-        }
-
-        match self.parent {
-            None => (self, true),
-            Some(ref p) => {
-                let (s, _) = p.scope_for(id);
-                (s, false)
-            }
-        }
-    }
-
-    pub fn add_read(&self, id: &Id) {
-        let (scope, is_self) = self.scope_for(id);
-        if !is_self {
-            if let Some(var_info) = scope.bindings.get(id) {
-                var_info.read_from_nested_scope.set(true);
-            }
-        }
-    }
-
-    pub fn add_write(&mut self, id: &Id, force_no_inline: bool) {
-        let (scope, is_self) = self.scope_for(id);
-
-        if let Some(var_info) = scope.bindings.get(id) {
-            if !is_self || force_no_inline {
-                println!("({}) Prevent inlining: {:?}", self.depth(), id);
-                var_info.write_from_nested_scope.set(true);
-            }
-        } else {
-            println!(
-                "({}): Prevent inlining as it's global (scope = ({})): {:?}",
-                self.depth(),
-                scope.depth(),
-                id
-            );
-            self.bindings.insert(
-                id.clone(),
-                VarInfo {
-                    kind: VarDeclKind::Var,
-                    read_from_nested_scope: Cell::new(false),
-                    write_from_nested_scope: Cell::new(true),
-                    value: RefCell::new(None),
-                },
-            );
-        }
-    }
-
-    pub fn find_binding(&self, id: &Id) -> Option<&VarInfo> {
-        if let Some(e) = self.bindings.get(id) {
-            return Some(e);
-        }
-
-        self.parent.and_then(|parent| parent.find_binding(id))
-    }
-
-    pub fn find_binding_by_value(&self, id: &Id) -> Option<&VarInfo> {
-        for (_, v) in self.bindings.iter() {
-            match v.value.borrow().as_ref() {
-                Some(&Expr::Ident(ref i)) => {
-                    if i.sym == id.0 && i.span.ctxt() == id.1 {
-                        return Some(v);
-                    }
-                }
-
-                _ => {}
-            }
-        }
-
-        self.parent
-            .and_then(|parent| parent.find_binding_by_value(id))
-    }
-
-    pub fn find_constants(&self, id: &Id) -> Option<&Expr> {
-        if let Some(e) = self.constants.get(id) {
-            return Some(e);
-        }
-
-        self.parent.and_then(|parent| parent.find_constants(id))
-    }
-}
-
-#[derive(Debug)]
-struct VarInfo {
-    kind: VarDeclKind,
-    read_from_nested_scope: Cell<bool>,
-    write_from_nested_scope: Cell<bool>,
-    value: RefCell<Option<Expr>>,
-}
-
-//struct IdentFinder<'a> {
-//    targets: &'a FxHashMap<Id, VarInfo>,
-//    found: &'a mut Vec<Id>,
-//}
-//
-//impl Visit<Ident> for IdentFinder<'_> {
-//    fn visit(&mut self, node: &Ident) {
-//        let id = node.to_id();
-//        if self.targets.contains_key(&id) {
-//            self.found.push(id)
-//        }
-//    }
-//}
-
 impl Inlining<'_> {
     fn with_child<F, T>(&mut self, kind: ScopeKind, op: F) -> T
     where
@@ -221,8 +94,6 @@ impl Inlining<'_> {
         let node = op(&mut child);
 
         self.changed |= child.changed;
-
-        child.scope.parent = None;
 
         node
     }
