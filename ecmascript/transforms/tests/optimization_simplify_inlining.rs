@@ -798,9 +798,11 @@ fn test_no_inline_aliases6b() {
 }
 
 #[test]
-fn test_no_inline_aliases7() {
-    test_same(
+fn custom_inline_aliases7() {
+    test(
         "var x = this.foo(); this.bar(); function f() { var y = x; this.bing(); this.baz(y); x = \
+         3; }",
+        "var x = this.foo(); this.bar(); function f() { var y = x; this.bing(); this.baz(x); x = \
          3; }",
     );
 }
@@ -814,8 +816,11 @@ fn test_no_inline_aliases7b() {
 }
 
 #[test]
-fn test_no_inline_aliases8() {
-    test_same("var x = this.foo(); this.bar(); function f() { var y = x; this.baz(y); y = 3; }");
+fn cistom_inline_aliases8() {
+    test(
+        "var x = this.foo(); this.bar(); function f() { var y = x; this.baz(y); y = 3; }",
+        "var x = this.foo(); this.bar(); function f() { var y = x; this.baz(x); y = 3; }",
+    );
 }
 
 #[test]
