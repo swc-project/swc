@@ -1430,6 +1430,7 @@ to!(
         "output = myTag`My name is ${name} ${2}`;",
     ),
     concat!(
+        "var name = 'Foo';",
         "function myTag(strings, nameExp, numExp) {",
         "  var modStr;",
         "  if (numExp > 2) {",
