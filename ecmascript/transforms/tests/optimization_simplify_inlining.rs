@@ -82,7 +82,7 @@ fn test_pass_doesnt_produce_invalid_code3() {
     const y = {
     };
     x && (y['x'] = x);
-    z = y;
+    y;
     {
         return y;
     }
@@ -699,7 +699,7 @@ fn test_inline_aliases1() {
 fn test_inline_aliases1b() {
     test(
         "var x = this.foo(); this.bar(); var y; y = x; this.baz(y);",
-        "var x = this.foo(); this.bar(); x; this.baz(x);",
+        "var x = this.foo(); this.bar(); var y; x; this.baz(x);",
     );
 }
 
@@ -715,7 +715,7 @@ fn test_inline_aliases1c() {
 fn test_inline_aliases1d() {
     test(
         "var x; x = this.foo(); this.bar(); var y; y = x; this.baz(y);",
-        "var x; x = this.foo(); this.bar(); x; this.baz(x);",
+        "var x; x = this.foo(); this.bar(); var y; x; this.baz(x);",
     );
 }
 
@@ -731,7 +731,7 @@ fn test_inline_aliases2() {
 fn test_inline_aliases2b() {
     test(
         "var x = this.foo(); this.bar(); function f() { var y; y = x; this.baz(y); }",
-        "var x = this.foo(); this.bar(); function f() { this.baz(x); }",
+        "var x = this.foo(); this.bar(); function f() { var y; x; this.baz(x); }",
     );
 }
 
@@ -739,7 +739,7 @@ fn test_inline_aliases2b() {
 fn test_inline_aliases2c() {
     test(
         "var x; x = this.foo(); this.bar(); function f() { var y = x; this.baz(y); }",
-        "var x; x = this.foo(); this.bar(); function f() { this.baz(x); }",
+        "var x; x = this.foo(); this.bar(); function f() { var y = x; this.baz(x); }",
     );
 }
 
@@ -811,8 +811,18 @@ fn test_no_inline_aliases4() {
 }
 
 #[test]
-fn test_no_inline_aliases4b() {
-    test_same("var x = this.foo(); this.bar(); function f() { var y; y = x; y = 3; this.baz(y); }");
+fn custom_inline_aliases4b() {
+    test(
+        "var x = this.foo(); this.bar(); function f() { var y; y = x; y = 3; this.baz(y); }",
+        "var x = this.foo();
+this.bar();
+function f() {
+    var y;
+    x;
+    y = 3;
+    this.baz(3);
+}",
+    );
 }
 
 #[test]
@@ -825,7 +835,16 @@ fn test_no_inline_aliases5() {
 
 #[test]
 fn test_no_inline_aliases5b() {
-    test_same("var x = this.foo(); this.bar(); var y; y = x; this.bing();this.baz(y); x = 3;");
+    test(
+        "var x = this.foo(); this.bar(); var y; y = x; this.bing();this.baz(y); x = 3;",
+        "var x = this.foo();
+this.bar();
+var y;
+x;
+this.bing();
+this.baz(x);
+x = 3;",
+    );
 }
 
 #[test]
@@ -837,8 +856,17 @@ fn custom_inline_aliases6() {
 }
 
 #[test]
-fn test_no_inline_aliases6b() {
-    test_same("var x = this.foo(); this.bar(); var y; y = x; this.bing();this.baz(y); y = 3;");
+fn custom_inline_aliases6b() {
+    test(
+        "var x = this.foo(); this.bar(); var y; y = x; this.bing();this.baz(y); y = 3;",
+        "var x = this.foo();
+this.bar();
+var y;
+x;
+this.bing();
+this.baz(x);
+y = 3;",
+    );
 }
 
 #[test]
@@ -853,9 +881,19 @@ fn custom_inline_aliases7() {
 
 #[test]
 fn test_no_inline_aliases7b() {
-    test_same(
+    test(
         "var x = this.foo(); this.bar(); function f() { var y; y = x; this.bing(); this.baz(y); x \
          = 3; }",
+        "var x = this.foo();
+this.bar();
+function f() {
+    var y;
+    x;
+    this.bing();
+    this.baz(x);
+    x = 3;
+}
+",
     );
 }
 
@@ -1031,15 +1069,25 @@ fn inline_catch_alias_var1() {
 // This used to be inlined, but regressed when we switched to the ES6 scope
 // creator.
 #[test]
-fn test_no_inline_catch_alias_var2() {
-    test_same(concat!(
-        "try {",
-        "} catch (e) {",
-        "  var y; y = e;",
-        "  g();",
-        "  y;y;",
-        "}",
-    ));
+fn custom_inline_catch_alias_var2() {
+    test(
+        concat!(
+            "try {",
+            "} catch (e) {",
+            "  var y; y = e;",
+            "  g();",
+            "  y;y;",
+            "}",
+        ),
+        "try {
+} catch (e) {
+    var y;
+    e;
+    g();
+    e;
+    e;
+}",
+    );
 }
 
 #[test]
