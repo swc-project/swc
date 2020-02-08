@@ -1029,22 +1029,6 @@ fn test_inline_this() {
 }
 
 #[test]
-fn var_in_block1() {
-    test(
-        "function f(x) { if (true) {var y = x; y; y;} }",
-        "function f(x) { if (true) {x; x;} }",
-    );
-}
-
-#[test]
-fn var_in_block2() {
-    test(
-        "function f(x) { switch (0) { case 0: { var y = x; y; y; } } }",
-        "function f(x) { switch (0) { case 0: { x; x; } } }",
-    );
-}
-
-#[test]
 fn test_locals_only1() {
     test(
         "var x=1; x; function f() {var x = 1; x;}",
@@ -1389,16 +1373,20 @@ to!(
 to!(
     tpl_lit_1,
     "var name = 'Foo'; `Hello ${name}`",
-    "`Hello ${'Foo'}`"
+    "var name = 'Foo'; `Hello ${'Foo'}`"
 );
 
 to!(
     tpl_lit_2,
     "var name = 'Foo'; var foo = name; `Hello ${foo}`",
-    "`Hello ${'Foo'}`"
+    "var name = 'Foo'; var foo = 'Foo'; `Hello ${'Foo'}`"
 );
 
-to!(tpl_lit_3, "var age = 3; `Age: ${age}`", "`Age: ${3}`");
+to!(
+    tpl_lit_3,
+    "var age = 3; `Age: ${age}`",
+    "var age = 3; `Age: ${3}`"
+);
 
 to!(
     tagged_tpl_lit_1,

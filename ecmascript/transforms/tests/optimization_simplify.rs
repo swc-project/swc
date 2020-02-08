@@ -9,6 +9,16 @@ use swc_ecma_transforms::{optimization::simplifier, resolver};
 #[macro_use]
 mod common;
 
+fn test(src: &str, expected: &str) {
+    test_transform!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| chain!(resolver(), simplifier(Default::default())),
+        src,
+        expected,
+        true
+    )
+}
+
 macro_rules! to {
     ($name:ident, $src:expr, $expected:expr) => {
         test!(
@@ -58,3 +68,19 @@ console.log(c); // Prevent optimizing out.
 ",
     "console.log(3)"
 );
+
+#[test]
+fn var_in_block1() {
+    test(
+        "function f(x) { if (true) {var y = x; y; y;} }",
+        "function f(x) { if (true) {x; x;} }",
+    );
+}
+
+#[test]
+fn var_in_block2() {
+    test(
+        "function f(x) { switch (0) { case 0: { var y = x; y; y; } } }",
+        "function f(x) { switch (0) { case 0: { x; x; } } }",
+    );
+}
