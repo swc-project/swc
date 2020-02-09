@@ -128,7 +128,7 @@ impl Default for Syntax {
 }
 
 impl Syntax {
-    /// Should we pare jsx?
+    /// Should we parse jsx?
     pub fn jsx(self) -> bool {
         match self {
             Syntax::Es(EsConfig { jsx: true, .. })
@@ -203,7 +203,8 @@ impl Syntax {
             Syntax::Es(EsConfig {
                 class_private_props: true,
                 ..
-            }) => true,
+            })
+            | Syntax::Typescript(..) => true,
             _ => false,
         }
     }
