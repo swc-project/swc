@@ -111,7 +111,7 @@ struct MyHandlers;
 
 impl swc_ecma_codegen::Handlers for MyHandlers {}
 
-fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
+fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
     let dir = Path::new(env!("CARGO_MANIFEST_DIR"))
         .parent()
         .unwrap()
@@ -269,7 +269,7 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
 fn identity() {
     let args: Vec<_> = env::args().collect();
     let mut tests = Vec::new();
-    error_tests(&mut tests).expect("failed to load testss");
+    identity_tests(&mut tests).expect("failed to load testss");
     test_main(&args, tests, Some(Options::new()));
 }
 
