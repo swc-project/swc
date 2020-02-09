@@ -60,3 +60,60 @@ impl Fold<IfStmt> for Dce<'_> {
         node
     }
 }
+
+impl Fold<ReturnStmt> for Dce<'_> {
+    fn fold(&mut self, mut node: ReturnStmt) -> ReturnStmt {
+        if self.is_marked(node.span) {
+            return node;
+        }
+        node.span = node.span.apply_mark(self.config.used_mark);
+
+        let mut node = node.fold_children(self);
+
+        if self.is_marked(node.arg.span()) {
+            node.arg = self.fold_in_marking_phase(node.arg)
+        }
+
+        node
+    }
+}
+
+impl Fold<ThrowStmt> for Dce<'_> {
+    fn fold(&mut self, mut node: ThrowStmt) -> ThrowStmt {
+        if self.is_marked(node.span) {
+            return node;
+        }
+        node.span = node.span.apply_mark(self.config.used_mark);
+
+        let mut node = node.fold_children(self);
+
+        if self.is_marked(node.arg.span()) {
+            node.arg = self.fold_in_marking_phase(node.arg)
+        }
+
+        node
+    }
+}
+
+impl Fold<LabeledStmt> for Dce<'_> {}
+
+impl Fold<SwitchStmt> for Dce<'_> {}
+
+impl Fold<SwitchCase> for Dce<'_> {}
+
+impl Fold<TryStmt> for Dce<'_> {}
+
+impl Fold<WhileStmt> for Dce<'_> {}
+
+impl Fold<DoWhileStmt> for Dce<'_> {}
+
+impl Fold<ForStmt> for Dce<'_> {}
+
+impl Fold<ForInStmt> for Dce<'_> {}
+
+impl Fold<ForOfStmt> for Dce<'_> {}
+
+preserve!(DebuggerStmt);
+preserve!(WithStmt);
+preserve!(BreakStmt);
+preserve!(ContinueStmt);
