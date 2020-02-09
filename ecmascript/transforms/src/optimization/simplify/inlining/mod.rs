@@ -316,10 +316,12 @@ impl Fold<CallExpr> for Inlining<'_> {
 }
 
 impl Fold<NewExpr> for Inlining<'_> {
-    fn fold(&mut self, node: NewExpr) -> NewExpr {
+    fn fold(&mut self, mut node: NewExpr) -> NewExpr {
+        node.callee = node.callee.fold_with(self);
+
         self.scope.store_inline_barrier(self.phase);
 
-        let node = node.fold_children(self);
+        node.args = node.args.fold_with(self);
         node
     }
 }
