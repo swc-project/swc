@@ -10,7 +10,7 @@ use swc_common::{
     Fold, FoldWith, Mark, Visit, VisitWith,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ident::IdentLike, StmtLike};
+use swc_ecma_utils::{ident::IdentLike, undefined, StmtLike};
 
 mod operator;
 mod scope;
@@ -200,10 +200,7 @@ impl Fold<VarDeclarator> for Inlining<'_> {
 
                             let e = match node.init.take().fold_with(self) {
                                 None => return node,
-                                Some(box e @ Expr::Lit(..)) | Some(box e @ Expr::Ident(..)) => {
-                                    node.init = Some(box e.clone());
-                                    e
-                                }
+                                Some(box e @ Expr::Lit(..)) | Some(box e @ Expr::Ident(..)) => e,
                                 Some(box e) => {
                                     if let Some(cnt) = self.scope.read_cnt(&name.to_id()) {
                                         if cnt == 1 {
@@ -466,8 +463,7 @@ impl Fold<Expr> for Inlining<'_> {
                                     self.changed = true;
                                     Some(expr.clone())
                                 } else {
-                                    println!("Not a cheap expression");
-                                    None
+                                    Some(*undefined(i.span))
                                 }
                             } else {
                                 println!("Inlining is prevented");
