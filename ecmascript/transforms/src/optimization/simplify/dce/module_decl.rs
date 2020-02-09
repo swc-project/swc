@@ -5,6 +5,10 @@ use swc_ecma_utils::find_ids;
 
 impl Fold<ImportDecl> for Dce<'_> {
     fn fold(&mut self, import: ImportDecl) -> ImportDecl {
+        if self.is_marked(import.span) {
+            return import;
+        }
+
         let mut import: ImportDecl = import.fold_children(self);
 
         // Side effect import
@@ -39,6 +43,10 @@ impl Fold<ImportDecl> for Dce<'_> {
 
 impl Fold<ExportDecl> for Dce<'_> {
     fn fold(&mut self, mut node: ExportDecl) -> ExportDecl {
+        if self.is_marked(node.span) {
+            return node;
+        }
+
         let i = match node.decl {
             Decl::Class(ClassDecl { ref ident, .. }) | Decl::Fn(FnDecl { ref ident, .. }) => ident,
 
@@ -90,6 +98,10 @@ impl Fold<ExportDecl> for Dce<'_> {
 
 impl Fold<ExportDefaultExpr> for Dce<'_> {
     fn fold(&mut self, mut node: ExportDefaultExpr) -> ExportDefaultExpr {
+        if self.is_marked(node.span) {
+            return node;
+        }
+
         if self.is_exported(&js_word!("default")) {
             node.span = node.span.apply_mark(self.config.used_mark);
             node.expr = self.fold_in_marking_phase(node.expr);
@@ -101,6 +113,10 @@ impl Fold<ExportDefaultExpr> for Dce<'_> {
 
 impl Fold<NamedExport> for Dce<'_> {
     fn fold(&mut self, mut node: NamedExport) -> NamedExport {
+        if self.is_marked(node.span) {
+            return node;
+        }
+
         // Export only when it's required.
         node.specifiers.retain(|s| match s {
             ExportSpecifier::Namespace(s) => self.is_exported(&s.name.sym),
@@ -121,6 +137,10 @@ impl Fold<NamedExport> for Dce<'_> {
 
 impl Fold<ExportDefaultDecl> for Dce<'_> {
     fn fold(&mut self, mut node: ExportDefaultDecl) -> ExportDefaultDecl {
+        if self.is_marked(node.span) {
+            return node;
+        }
+
         // TODO: Export only when it's required. (i.e. check self.used_exports)
 
         node.span = node.span.apply_mark(self.config.used_mark);
@@ -132,6 +152,10 @@ impl Fold<ExportDefaultDecl> for Dce<'_> {
 
 impl Fold<ExportAll> for Dce<'_> {
     fn fold(&mut self, node: ExportAll) -> ExportAll {
+        if self.is_marked(node.span) {
+            return node;
+        }
+
         unimplemented!("dce: `export * from 'foo'`")
     }
 }
