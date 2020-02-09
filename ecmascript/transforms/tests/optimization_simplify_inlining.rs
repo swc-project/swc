@@ -1609,7 +1609,7 @@ identical!(
 );
 
 to!(
-    custom_1,
+    custom_loop_1,
     "
 let b = 2;
 
@@ -1637,7 +1637,7 @@ if (a) {
 );
 
 to!(
-    custom_2,
+    custom_loop_2,
     "let b = 2;
 
 let a = 1;
