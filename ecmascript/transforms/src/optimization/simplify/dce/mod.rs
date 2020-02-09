@@ -123,7 +123,11 @@ where
             self.changed = false;
             let mut idx = 0u32;
             items = items.move_map(|item| {
-                let item = item.fold_with(self);
+                let item = if preserved.contains(&idx) {
+                    item
+                } else {
+                    item.fold_with(self)
+                };
 
                 if self.is_marked(item.span()) {
                     preserved.insert(idx);
@@ -144,7 +148,7 @@ where
                     Ok(stmt) => match stmt {
                         Stmt::Empty(..) => {
                             self.dropped = true;
-                            idx + 1;
+                            idx += 1;
                             return None;
                         }
                         _ => T::from_stmt(stmt),
@@ -154,11 +158,11 @@ where
 
                 if !preserved.contains(&idx) {
                     self.dropped = true;
-                    idx + 1;
+                    idx += 1;
                     return None;
                 }
 
-                idx + 1;
+                idx += 1;
                 Some(item)
             });
         }
