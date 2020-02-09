@@ -116,33 +116,52 @@ where
     T: StmtLike + FoldWith<Self> + Spanned,
 {
     fn fold(&mut self, mut items: Vec<T>) -> Vec<T> {
+        let mut preserved = FxHashSet::default();
+        preserved.reserve(items.len());
+
         loop {
             self.changed = false;
-            items = items.fold_children(self);
+            let mut idx = 0u32;
+            items = items.move_map(|item| {
+                let item = item.fold_with(self);
+
+                if self.is_marked(item.span()) {
+                    preserved.insert(idx);
+                }
+
+                idx += 1;
+                item
+            });
             if !self.changed {
                 break;
             }
         }
 
-        items = items.move_flat_map(|item| {
-            let item = match item.try_into_stmt() {
-                Ok(stmt) => match stmt {
-                    Stmt::Empty(..) => {
-                        self.dropped = true;
-                        return None;
-                    }
-                    _ => T::from_stmt(stmt),
-                },
-                Err(item) => item,
-            };
+        {
+            let mut idx = 0;
+            items = items.move_flat_map(|item| {
+                let item = match item.try_into_stmt() {
+                    Ok(stmt) => match stmt {
+                        Stmt::Empty(..) => {
+                            self.dropped = true;
+                            idx + 1;
+                            return None;
+                        }
+                        _ => T::from_stmt(stmt),
+                    },
+                    Err(item) => item,
+                };
 
-            if !self.is_marked(item.span()) {
-                self.dropped = true;
+                if !preserved.contains(&idx) {
+                    self.dropped = true;
+                    idx + 1;
+                    return None;
+                }
 
-                return None;
-            }
-            Some(item)
-        });
+                idx + 1;
+                Some(item)
+            });
+        }
 
         items
     }
