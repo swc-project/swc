@@ -214,29 +214,29 @@ impl Dce<'_> {
                 .any(|exported| exported.0 == *i)
     }
 
-    pub fn with_child<T, F>(&mut self, op: F) -> T
-    where
-        F: for<'any> FnOnce(&mut Dce<'any>) -> T,
-    {
-        let mut child = Dce {
-            changed: false,
-            config: Config {
-                used: self.config.used.as_ref().map(|v| Cow::Borrowed(&**v)),
-                ..self.config
-            },
-            included: Default::default(),
-            marking_phase: false,
-            dropped: false,
-        };
-
-        let ret = op(&mut child);
-
-        self.changed |= child.changed;
-        self.dropped |= child.dropped;
-        self.included.extend(child.included);
-
-        ret
-    }
+    //    pub fn with_child<T, F>(&mut self, op: F) -> T
+    //    where
+    //        F: for<'any> FnOnce(&mut Dce<'any>) -> T,
+    //    {
+    //        let mut child = Dce {
+    //            changed: false,
+    //            config: Config {
+    //                used: self.config.used.as_ref().map(|v| Cow::Borrowed(&**v)),
+    //                ..self.config
+    //            },
+    //            included: Default::default(),
+    //            marking_phase: false,
+    //            dropped: false,
+    //        };
+    //
+    //        let ret = op(&mut child);
+    //
+    //        self.changed |= child.changed;
+    //        self.dropped |= child.dropped;
+    //        self.included.extend(child.included);
+    //
+    //        ret
+    //    }
 
     pub fn fold_in_marking_phase<T>(&mut self, node: T) -> T
     where

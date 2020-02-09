@@ -161,15 +161,114 @@ impl Fold<TryStmt> for Dce<'_> {
     }
 }
 
-impl Fold<WhileStmt> for Dce<'_> {}
+impl Fold<WhileStmt> for Dce<'_> {
+    fn fold(&mut self, mut node: WhileStmt) -> WhileStmt {
+        if self.is_marked(node.span) {
+            return node;
+        }
 
-impl Fold<DoWhileStmt> for Dce<'_> {}
+        node = node.fold_children(self);
 
-impl Fold<ForStmt> for Dce<'_> {}
+        if self.is_marked(node.test.span()) || self.is_marked(node.body.span()) {
+            node.span = node.span.apply_mark(self.config.used_mark);
 
-impl Fold<ForInStmt> for Dce<'_> {}
+            node.test = self.fold_in_marking_phase(node.test);
+            node.body = self.fold_in_marking_phase(node.body);
+        }
 
-impl Fold<ForOfStmt> for Dce<'_> {}
+        node
+    }
+}
+
+impl Fold<DoWhileStmt> for Dce<'_> {
+    fn fold(&mut self, mut node: DoWhileStmt) -> DoWhileStmt {
+        if self.is_marked(node.span) {
+            return node;
+        }
+
+        node = node.fold_children(self);
+
+        if self.is_marked(node.test.span()) || self.is_marked(node.body.span()) {
+            node.span = node.span.apply_mark(self.config.used_mark);
+
+            node.test = self.fold_in_marking_phase(node.test);
+            node.body = self.fold_in_marking_phase(node.body);
+        }
+
+        node
+    }
+}
+
+impl Fold<ForStmt> for Dce<'_> {
+    fn fold(&mut self, mut node: ForStmt) -> ForStmt {
+        if self.is_marked(node.span) {
+            return node;
+        }
+
+        node = node.fold_children(self);
+
+        if self.is_marked(node.init.span())
+            || self.is_marked(node.test.span())
+            || self.is_marked(node.update.span())
+            || self.is_marked(node.body.span())
+        {
+            node.span = node.span.apply_mark(self.config.used_mark);
+
+            node.test = self.fold_in_marking_phase(node.test);
+            node.init = self.fold_in_marking_phase(node.init);
+            node.update = self.fold_in_marking_phase(node.update);
+            node.body = self.fold_in_marking_phase(node.body);
+        }
+
+        node
+    }
+}
+
+impl Fold<ForInStmt> for Dce<'_> {
+    fn fold(&mut self, mut node: ForInStmt) -> ForInStmt {
+        if self.is_marked(n ode.span) {
+            return node;
+        }
+
+        node = node.fold_children(self);
+
+        if self.is_marked(node.left.span())
+            || self.is_marked(node.right.span())
+            || self.is_marked(node.body.span())
+        {
+            node.span = node.span.apply_mark(self.config.used_mark);
+
+            node.left = self.fold_in_marking_phase(node.left);
+            node.right = self.fold_in_marking_phase(node.right);
+            node.body = self.fold_in_marking_phase(node.body);
+        }
+
+        node
+    }
+}
+
+impl Fold<ForOfStmt> for Dce<'_> {
+    fn fold(&mut self, mut node: ForOfStmt) -> ForOfStmt {
+        if self.is_marked(node.span) {
+            return node;
+        }
+
+        node = node.fold_children(self);
+
+        if self.is_marked(node.left.span())
+            || self.is_marked(node.right.span())
+            || self.is_marked(node.body.span())
+        {
+            node.span = node.span.apply_mark(self.config.used_mark);
+
+            node.left = self.fold_in_marking_phase(node.left);
+            node.right = self.fold_in_marking_phase(node.right);
+            node.body = self.fold_in_marking_phase(node.body);
+        }
+
+        node
+    }
+}
 
 preserve!(DebuggerStmt);
 preserve!(WithStmt);
