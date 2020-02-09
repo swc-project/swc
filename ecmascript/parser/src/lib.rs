@@ -255,7 +255,8 @@ impl Syntax {
             Syntax::Es(EsConfig {
                 export_namespace_from: true,
                 ..
-            }) => true,
+            })
+            | Syntax::Typescript(..) => true,
             _ => false,
         }
     }
