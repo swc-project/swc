@@ -187,17 +187,17 @@ impl Fold<VarDeclarator> for Inlining<'_> {
                 //
                 match node.name {
                     Pat::Ident(ref name) => {
-                        let id = name.to_id();
-
-                        if let Some(var) = self.scope.find_binding(&id) {
-                            if var.prevent_inline.get() {
-                                return node;
-                            }
-                        } else {
-                            panic!("undefined var: {:?}", name)
-                        }
-
                         if self.var_decl_kind != VarDeclKind::Const {
+                            let id = name.to_id();
+
+                            if let Some(var) = self.scope.find_binding(&id) {
+                                if var.prevent_inline.get() {
+                                    return node;
+                                }
+                            } else {
+                                panic!("undefined var: {:?}", name)
+                            }
+
                             let e = match node.init.take().fold_with(self) {
                                 None => return node,
                                 Some(box e @ Expr::Lit(..)) | Some(box e @ Expr::Ident(..)) => e,
