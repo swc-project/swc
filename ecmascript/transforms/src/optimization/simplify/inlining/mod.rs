@@ -184,12 +184,17 @@ impl Fold<VarDeclarator> for Inlining<'_> {
                         if self.var_decl_kind != VarDeclKind::Const {
                             let id = name.to_id();
 
-                            if let Some(var) = self.scope.find_binding(&id) {
-                                if var.prevent_inline.get() {
-                                    return node;
+                            if self.scope.is_inline_prevented(&id) {
+                                return node;
+                            }
+
+                            match node.init {
+                                Some(box Expr::Ident(ref ri)) => {
+                                    if self.scope.is_inline_prevented(&ri.to_id()) {
+                                        return node;
+                                    }
                                 }
-                            } else {
-                                panic!("undefined var found in `Inlining` phase: {:?}", name)
+                                _ => {}
                             }
 
                             let e = match node.init.take().fold_with(self) {

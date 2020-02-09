@@ -215,6 +215,17 @@ impl<'a> Scope<'a> {
             Some(p) => p.prevent_inline(id),
         }
     }
+
+    pub fn is_inline_prevented(&self, id: &Id) -> bool {
+        if let Some(v) = self.bindings.get(id) {
+            return v.prevent_inline.get();
+        }
+
+        match self.parent {
+            None => false,
+            Some(p) => p.is_inline_prevented(id),
+        }
+    }
 }
 
 #[derive(Debug)]
