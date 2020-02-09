@@ -59,3 +59,19 @@ impl Fold<VarDecl> for Dce<'_> {
         var
     }
 }
+
+macro_rules! preserve {
+    ($T:ty) => {
+        impl Fold<$T> for Dce<'_> {
+            fn fold(&mut self, mut node: $T) -> $T {
+                node.span = node.span.apply_mark(self.config.used_mark);
+                node
+            }
+        }
+    };
+}
+
+preserve!(TsInterfaceDecl);
+preserve!(TsTypeAliasDecl);
+preserve!(TsEnumDecl);
+preserve!(TsModuleDecl);
