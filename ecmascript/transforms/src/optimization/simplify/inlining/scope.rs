@@ -164,7 +164,7 @@ impl Scope<'_> {
         self.parent.and_then(|parent| parent.find_constants(id))
     }
 
-    pub fn store_inline_barrier(&self) {
+    pub fn store_inline_barrier(&self, phase: Phase) {
         println!("store_inline_barrier()");
         //        self.bindings
         //            .iter()
@@ -172,7 +172,7 @@ impl Scope<'_> {
 
         match self.parent {
             None => {}
-            Some(p) => p.store_inline_barrier(),
+            Some(p) => p.store_inline_barrier(phase),
         }
     }
 }

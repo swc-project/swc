@@ -306,9 +306,7 @@ impl Fold<CatchClause> for Inlining<'_> {
 impl Fold<CallExpr> for Inlining<'_> {
     fn fold(&mut self, node: CallExpr) -> CallExpr {
         let node = node.fold_children(self);
-        if self.phase == Phase::Analysis {
-            self.scope.store_inline_barrier();
-        }
+        self.scope.store_inline_barrier(self.phase);
         node
     }
 }
@@ -316,9 +314,7 @@ impl Fold<CallExpr> for Inlining<'_> {
 impl Fold<NewExpr> for Inlining<'_> {
     fn fold(&mut self, node: NewExpr) -> NewExpr {
         let node = node.fold_children(self);
-        if self.phase == Phase::Analysis {
-            self.scope.store_inline_barrier();
-        }
+        self.scope.store_inline_barrier(self.phase);
         node
     }
 }
