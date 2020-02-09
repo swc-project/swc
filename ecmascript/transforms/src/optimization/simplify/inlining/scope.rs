@@ -1,9 +1,10 @@
 use super::{Inlining, Phase};
 use crate::scope::ScopeKind;
-use fxhash::FxHashMap;
+use fxhash::{FxBuildHasher, FxHashMap};
+use indexmap::map::{Entry, IndexMap};
 use std::{
     cell::{Cell, RefCell},
-    collections::hash_map::Entry,
+    collections::VecDeque,
 };
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
@@ -49,13 +50,24 @@ pub(super) struct Scope<'a> {
     pub parent: Option<&'a Scope<'a>>,
     pub kind: ScopeKind,
 
-    pub bindings: FxHashMap<Id, VarInfo>,
+    inline_barriers: RefCell<VecDeque<usize>>,
+    pub bindings: IndexMap<Id, VarInfo, FxBuildHasher>,
 
     /// Simple optimization. We don't need complex scope analysis.
     pub constants: FxHashMap<Id, Expr>,
 }
 
-impl Scope<'_> {
+impl<'a> Scope<'a> {
+    pub fn new(parent: Option<&'a Scope<'a>>, kind: ScopeKind) -> Self {
+        Self {
+            parent,
+            kind,
+            inline_barriers: Default::default(),
+            bindings: Default::default(),
+            constants: Default::default(),
+        }
+    }
+
     pub fn depth(&self) -> usize {
         match self.parent {
             None => 0,
@@ -166,13 +178,41 @@ impl Scope<'_> {
 
     pub fn store_inline_barrier(&self, phase: Phase) {
         println!("store_inline_barrier()");
-        //        self.bindings
-        //            .iter()
-        //            .for_each(|v| v.1.prevent_inline.set(true));
+
+        match phase {
+            Phase::Analysis => {
+                let idx = self.bindings.len();
+                self.inline_barriers.borrow_mut().push_back(idx);
+            }
+            Phase::Inlining => {
+                let idx = self
+                    .inline_barriers
+                    .borrow_mut()
+                    .pop_front()
+                    .expect("analysis phase should fill the barriers");
+
+                for i in 0..idx {
+                    if let Some((id, _)) = self.bindings.get_index(i) {
+                        self.prevent_inline(id);
+                    }
+                }
+            }
+        }
 
         match self.parent {
             None => {}
             Some(p) => p.store_inline_barrier(phase),
+        }
+    }
+
+    pub fn prevent_inline(&self, id: &Id) {
+        if let Some(v) = self.bindings.get(id) {
+            v.prevent_inline.set(true);
+        }
+
+        match self.parent {
+            None => {}
+            Some(p) => p.prevent_inline(id),
         }
     }
 }

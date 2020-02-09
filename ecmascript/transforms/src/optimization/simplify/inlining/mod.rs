@@ -96,12 +96,7 @@ impl Inlining<'_> {
             phase: self.phase,
             is_first_run: self.is_first_run,
             changed: false,
-            scope: Scope {
-                parent: Some(&self.scope),
-                kind,
-                bindings: Default::default(),
-                constants: Default::default(),
-            },
+            scope: Scope::new(Some(&self.scope), kind),
             var_decl_kind: VarDeclKind::Var,
             ident_type: self.ident_type,
             inline_barrier: self.inline_barrier,
@@ -305,16 +300,18 @@ impl Fold<CatchClause> for Inlining<'_> {
 
 impl Fold<CallExpr> for Inlining<'_> {
     fn fold(&mut self, node: CallExpr) -> CallExpr {
-        let node = node.fold_children(self);
         self.scope.store_inline_barrier(self.phase);
+
+        let node = node.fold_children(self);
         node
     }
 }
 
 impl Fold<NewExpr> for Inlining<'_> {
     fn fold(&mut self, node: NewExpr) -> NewExpr {
-        let node = node.fold_children(self);
         self.scope.store_inline_barrier(self.phase);
+
+        let node = node.fold_children(self);
         node
     }
 }
@@ -409,23 +406,22 @@ impl Fold<Expr> for Inlining<'_> {
                     match e.left {
                         PatOrExpr::Pat(box Pat::Ident(ref i))
                         | PatOrExpr::Expr(box Expr::Ident(ref i)) => {
-                            //
-                            if match *e.right {
-                                Expr::Ident(..) | Expr::Lit(..) => true,
-                                _ => false,
-                            } {
-                                if let Some(var) = self.scope.bindings.get(&i.to_id()) {
-                                    if var.is_undefined.get() {
+                            if let Some(var) = self.scope.bindings.get(&i.to_id()) {
+                                if var.is_undefined.get() && var.prevent_inline.get() {
+                                    if match *e.right {
+                                        Expr::Ident(..) | Expr::Lit(..) => true,
+                                        _ => false,
+                                    } {
                                         *var.value.borrow_mut() = Some(*e.right.clone());
                                         var.is_undefined.set(false);
                                         return *e.right.fold_with(self);
                                     }
-                                } else {
-                                    unreachable!(
-                                        "Variable resolution for {:?} failed `Inlining` phase",
-                                        i
-                                    )
                                 }
+                            } else {
+                                unreachable!(
+                                    "Variable resolution for {:?} failed `Inlining` phase",
+                                    i
+                                )
                             }
                         }
                         _ => {}
