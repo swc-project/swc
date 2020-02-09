@@ -97,9 +97,46 @@ impl Fold<ThrowStmt> for Dce<'_> {
 
 impl Fold<LabeledStmt> for Dce<'_> {}
 
-impl Fold<SwitchStmt> for Dce<'_> {}
+impl Fold<SwitchStmt> for Dce<'_> {
+    fn fold(&mut self, mut node: SwitchStmt) -> SwitchStmt {
+        if self.is_marked(node.span) {
+            return node;
+        }
 
-impl Fold<SwitchCase> for Dce<'_> {}
+        node = node.fold_children(self);
+
+        // Drop useless switch case.
+        node.cases.retain(|case| self.is_marked(case.span));
+
+        if self.is_marked(node.discriminant.span())
+            || node.cases.iter().any(|case| self.is_marked(case.span))
+        {
+            node.span = node.span.apply_mark(self.config.used_mark);
+            node.cases = self.fold_in_marking_phase(node.cases);
+        }
+
+        node
+    }
+}
+
+impl Fold<SwitchCase> for Dce<'_> {
+    fn fold(&mut self, mut node: SwitchCase) -> SwitchCase {
+        if self.is_marked(node.span) {
+            return node;
+        }
+
+        node = node.fold_children(self);
+
+        if self.is_marked(node.test.span()) || node.cons.iter().any(|v| self.is_marked(v.span())) {
+            node.span = node.span.apply_mark(self.config.used_mark);
+
+            node.test = self.fold_in_marking_phase(node.test);
+            node.cons = self.fold_in_marking_phase(node.cons);
+        }
+
+        node
+    }
+}
 
 impl Fold<TryStmt> for Dce<'_> {}
 
