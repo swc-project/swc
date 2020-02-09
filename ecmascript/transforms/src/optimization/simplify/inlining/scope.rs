@@ -14,7 +14,7 @@ impl Inlining<'_> {
                 read_from_nested_scope: Cell::new(false),
                 read_cnt: Cell::new(0),
                 prevent_inline: Cell::new(false),
-                is_undefined: Cell::new(init.is_none()),
+                is_undefined: Cell::new(!init.is_none()),
                 value: RefCell::new(init),
             },
         ) {
