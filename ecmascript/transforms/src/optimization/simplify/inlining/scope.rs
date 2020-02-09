@@ -78,7 +78,7 @@ impl Scope<'_> {
             }
         } else {
             println!(
-                "({}): Prevent inlining as it's global (scope = ({})): {:?}",
+                "({}): Prevent inlining as it is not resolved. (scope = ({})): {:?}",
                 self.depth(),
                 scope.depth(),
                 id
@@ -127,6 +127,18 @@ impl Scope<'_> {
         }
 
         self.parent.and_then(|parent| parent.find_constants(id))
+    }
+
+    pub fn store_inline_barrier(&self) {
+        println!("store_inline_barrier()");
+        self.bindings
+            .iter()
+            .for_each(|v| v.1.prevent_inline.set(true));
+
+        match self.parent {
+            None => {}
+            Some(p) => p.store_inline_barrier(),
+        }
     }
 }
 

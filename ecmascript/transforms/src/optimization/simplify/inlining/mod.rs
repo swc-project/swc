@@ -223,6 +223,22 @@ impl Fold<CatchClause> for Inlining<'_> {
     }
 }
 
+impl Fold<CallExpr> for Inlining<'_> {
+    fn fold(&mut self, node: CallExpr) -> CallExpr {
+        let node = node.fold_children(self);
+        self.scope.store_inline_barrier();
+        node
+    }
+}
+
+impl Fold<NewExpr> for Inlining<'_> {
+    fn fold(&mut self, node: NewExpr) -> NewExpr {
+        let node = node.fold_children(self);
+        self.scope.store_inline_barrier();
+        node
+    }
+}
+
 impl Fold<AssignExpr> for Inlining<'_> {
     fn fold(&mut self, e: AssignExpr) -> AssignExpr {
         let e: AssignExpr = AssignExpr {
@@ -242,6 +258,7 @@ impl Fold<AssignExpr> for Inlining<'_> {
                     PatOrExpr::Pat(box Pat::Ident(ref i))
                     | PatOrExpr::Expr(box Expr::Ident(ref i)) => {
                         if let Some(var) = self.scope.find_binding_by_value(&i.to_id()) {
+                            dbg!();
                             var.prevent_inline.set(true)
                         }
                     }
@@ -289,18 +306,24 @@ impl Fold<MemberExpr> for Inlining<'_> {
 
 impl Fold<Expr> for Inlining<'_> {
     fn fold(&mut self, node: Expr) -> Expr {
+        // TODO:
+        // Codes like
+        //
+        //      var y;
+        //      y = x;
+        //      use(y)
+        //
+        //  should be transformed to
+        //
+        //      var y;
+        //      x;
+        //      use(x)
+        //
+        // We cannot know if this is possible while first loop
+
+        //
+        //
         //        match node {
-        //            // Codes like
-        //            //
-        //            //      var y;
-        //            //      y = x;
-        //            //      use(y)
-        //            //
-        //            // should be transformed to
-        //            //
-        //            //      var y;
-        //            //      x;
-        //            //      use(x)
         //            Expr::Assign(e) => {
         //                match e.left {
         //                    PatOrExpr::Pat(box Pat::Ident(ref i))
@@ -308,7 +331,6 @@ impl Fold<Expr> for Inlining<'_> {
         //                        //
         //                        if match *e.right {
         //                            Expr::Ident(..) => true,
-        //
         //                            _ => {}
         //                        } {
         //                            if let Some(var) =
@@ -400,6 +422,7 @@ impl Fold<Pat> for Inlining<'_> {
         match node {
             Pat::Ident(ref i) => {
                 if let Some(var) = self.scope.find_binding_by_value(&i.to_id()) {
+                    dbg!();
                     var.prevent_inline.set(true);
                 } else {
                     self.scope.add_write(&i.to_id(), false);
