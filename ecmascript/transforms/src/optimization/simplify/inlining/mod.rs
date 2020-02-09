@@ -128,8 +128,6 @@ impl Fold<VarDeclarator> for Inlining<'_> {
                 None => {
                     self.declare(name.to_id(), None);
 
-                    self.changed = true;
-
                     return node;
                 }
                 Some(box e @ Expr::Lit(..)) | Some(box e @ Expr::Ident(..)) => {
@@ -138,12 +136,12 @@ impl Fold<VarDeclarator> for Inlining<'_> {
                             self.scope.constants.insert(name.to_id(), e.clone());
                         }
                     } else {
+                        let e = e.clone().fold_with(self);
+
                         println!("({}): Inserting {:?}", self.scope.depth(), name.to_id());
 
-                        let e = e.clone().fold_with(self);
                         self.declare(name.to_id(), Some(e.clone()));
                         node.init = Some(box e);
-                        self.changed = true;
                     }
                     return node;
                 }
@@ -336,28 +334,35 @@ impl Fold<Expr> for Inlining<'_> {
         match node {
             Expr::Ident(ref i) => {
                 let id = i.to_id();
+                println!("Trying to inline: {:?}", id);
 
                 if self.is_first_run {
                     if let Some(expr) = self.scope.find_constants(&id) {
+                        println!("Inlining constant");
                         self.changed = true;
                         return expr.clone().fold_with(self);
                     }
                 }
 
                 let expr = if let Some(var) = self.scope.find_binding(&id) {
+                    println!("VarInfo: {:?}", var);
                     if !var.prevent_inline.get() {
                         let expr = var.value.borrow();
 
                         if let Some(expr) = &*expr {
+                            dbg!();
                             self.changed = true;
                             Some(expr.clone())
                         } else {
+                            println!("Not a cheap expression");
                             None
                         }
                     } else {
+                        println!("Inlining is prevented");
                         None
                     }
                 } else {
+                    println!("No binding found");
                     None
                 };
 
