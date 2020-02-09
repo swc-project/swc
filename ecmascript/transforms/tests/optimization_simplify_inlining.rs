@@ -907,7 +907,7 @@ fn test_no_inline_backwards() {
 
 #[test]
 fn test_no_inline_out_of_branch() {
-    test_same("if (true) var x = null; var y = x;");
+    test_same("if (true) var x = foo(); var y = x;");
 }
 
 #[test]
@@ -977,7 +977,7 @@ fn test_cascading_in_lines() {
 #[test]
 fn test_no_inline_getprop_into_call() {
     test("var a = b; a();", "var a; b();");
-    test("var a = b.c; f(a);", "f(b.c);");
+    test_same("var a = b.c; f(a);");
     test_same("var a = b.c; a();");
 }
 

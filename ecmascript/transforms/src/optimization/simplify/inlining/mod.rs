@@ -127,17 +127,12 @@ where
 
         let depth = self.scope.depth();
 
-        println!("({}) >>>>> >>>>> >>>>> >>>>>", depth);
         self.phase = Phase::Analysis;
         items = items.fold_children(self);
-
-        println!("({}) ===== ===== ===== =====", depth);
 
         // Inline
         self.phase = Phase::Inlining;
         items = items.fold_children(self);
-
-        println!("({}) <<<<< <<<<< <<<<< <<<<<", depth);
 
         self.phase = old_phase;
 
@@ -160,6 +155,7 @@ impl Fold<VarDeclarator> for Inlining<'_> {
                 Pat::Ident(ref name) => match &node.init {
                     None => {
                         self.declare(name.to_id(), None, true);
+                        node = node.fold_children(self);
 
                         return node;
                     }
@@ -170,6 +166,7 @@ impl Fold<VarDeclarator> for Inlining<'_> {
                             }
                         } else {
                             self.declare(name.to_id(), None, false);
+                            node = node.fold_children(self);
                         }
                         return node;
                     }
@@ -523,12 +520,10 @@ impl Fold<Pat> for Inlining<'_> {
 
         match node {
             Pat::Ident(ref i) => {
-                //                if let Some(var) =
-                // self.scope.find_binding_by_value(&i.to_id()) {
-                // dbg!();                    var.prevent_inline.set(true);
-                //                } else {
-                self.scope.add_write(&i.to_id(), false);
-                //                }
+                if let Some(..) = self.scope.find_binding_from_current(&i.to_id()) {
+                } else {
+                    self.scope.add_write(&i.to_id(), false);
+                }
             }
 
             _ => {}
