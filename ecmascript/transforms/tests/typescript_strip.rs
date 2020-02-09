@@ -80,8 +80,7 @@ to!(
     issue_179_01,
     "import {Types} from 'other';
 const a: Types.foo = {};",
-    "import 'other';
-const a = {};"
+    "const a = {};"
 );
 
 to!(
@@ -166,7 +165,6 @@ import { PlainObject } from 'simplytyped';
 const dict: PlainObject = {};
 ",
     "
-import 'simplytyped';
 const dict = {};"
 );
 
@@ -179,7 +177,6 @@ import { PlainObject } from 'simplytyped';
 const dict: PlainObject = {};
 ",
     "
-import 'simplytyped';
 const dict = {};"
 );
 
@@ -312,5 +309,15 @@ test!(
     State[State['unmounted'] = 3] = 'unmounted';
 })(State || (State = {
 }));",
+    ok_if_code_eq
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::Typescript(Default::default()),
+    |_| strip(),
+    issue_640,
+    "import { Handler } from 'aws-lambda';
+export const handler: Handler = async (event, context) => {};",
+    "export const handler = async (event, context) => {};",
     ok_if_code_eq
 );

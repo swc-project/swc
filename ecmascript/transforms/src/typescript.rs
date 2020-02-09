@@ -2,12 +2,11 @@ use crate::{
     pass::Pass,
     util::{prepend_stmts, var::VarCollector, ExprFactory},
 };
-use hashbrown::HashMap;
-use swc_atoms::{js_word, JsWord};
-use swc_common::{
-    util::move_map::MoveMap, Fold, FoldWith, Spanned, SyntaxContext, Visit, VisitWith, DUMMY_SP,
-};
+use fxhash::FxHashMap;
+use swc_atoms::js_word;
+use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Spanned, Visit, VisitWith, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_utils::Id;
 
 /// Strips type annotations out.
 pub fn strip() -> impl Pass {
@@ -19,6 +18,8 @@ struct Strip {
     non_top_level: bool,
     scope: Scope,
     phase: Phase,
+
+    was_side_effect_import: bool,
 }
 
 #[derive(Debug, Clone, Copy)]
@@ -39,8 +40,8 @@ impl Default for Phase {
 
 #[derive(Default)]
 struct Scope {
-    decls: HashMap<(JsWord, SyntaxContext), DeclInfo>,
-    imported_idents: HashMap<(JsWord, SyntaxContext), DeclInfo>,
+    decls: FxHashMap<Id, DeclInfo>,
+    imported_idents: FxHashMap<Id, DeclInfo>,
 }
 
 #[derive(Debug, Default)]
@@ -207,8 +208,17 @@ impl Fold<Vec<ModuleItem>> for Strip {
         // Second pass
         let mut stmts = Vec::with_capacity(items.len());
         for item in items {
+            self.was_side_effect_import = false;
             match item {
                 ModuleItem::Stmt(Stmt::Empty(..)) => continue,
+
+                ModuleItem::ModuleDecl(ModuleDecl::Import(i)) => {
+                    let i = i.fold_with(self);
+
+                    if self.was_side_effect_import || !i.specifiers.is_empty() {
+                        stmts.push(ModuleItem::ModuleDecl(ModuleDecl::Import(i)));
+                    }
+                }
 
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
                     decl: Decl::TsEnum(e),
@@ -476,6 +486,8 @@ impl Fold<ImportDecl> for Strip {
                 import
             }
             Phase::DropImports => {
+                self.was_side_effect_import = import.specifiers.is_empty();
+
                 import.specifiers.retain(|s| match *s {
                     ImportSpecifier::Default(ImportDefault { ref local, .. })
                     | ImportSpecifier::Specific(ImportSpecific { ref local, .. }) => {
