@@ -6,7 +6,6 @@ use crate::{
 use std::borrow::Cow;
 use swc_common::{
     pass::{CompilerPass, Repeated},
-    util::move_map::MoveMap,
     Fold, FoldWith, Mark, Visit, VisitWith,
 };
 use swc_ecma_ast::*;
@@ -463,7 +462,12 @@ impl Fold<Expr> for Inlining<'_> {
                                     self.changed = true;
                                     Some(expr.clone())
                                 } else {
-                                    Some(*undefined(i.span))
+                                    if var.is_undefined.get() {
+                                        return *undefined(i.span);
+                                    } else {
+                                        println!("Not a cheap expression");
+                                        None
+                                    }
                                 }
                             } else {
                                 println!("Inlining is prevented");

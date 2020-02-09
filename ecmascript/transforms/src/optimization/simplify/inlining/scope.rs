@@ -1,25 +1,37 @@
 use super::Inlining;
 use crate::scope::ScopeKind;
 use fxhash::FxHashMap;
-use std::cell::{Cell, RefCell};
+use std::{
+    cell::{Cell, RefCell},
+    collections::hash_map::Entry,
+};
+use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
 use swc_ecma_utils::Id;
 
 impl Inlining<'_> {
     pub(super) fn declare(&mut self, id: Id, init: Option<Expr>, is_change: bool) {
-        if let Some(..) = self.scope.bindings.insert(
-            id,
-            VarInfo {
-                kind: self.var_decl_kind,
-                read_from_nested_scope: Cell::new(false),
-                read_cnt: Cell::new(0),
-                prevent_inline: Cell::new(false),
-                is_undefined: Cell::new(!is_change && init.is_none()),
-                value: RefCell::new(init),
-            },
-        ) {
-            if is_change {
-                self.changed = true;
+        match self.scope.bindings.entry(id) {
+            Entry::Occupied(mut e) => {
+                if is_change {
+                    self.changed = true;
+                }
+                e.get().is_undefined.set(false);
+                e.get().read_cnt.set(0);
+                e.get().read_from_nested_scope.set(false);
+                e.get_mut().value = RefCell::new(init);
+            }
+            Entry::Vacant(e) => {
+                e.insert(VarInfo {
+                    kind: self.var_decl_kind,
+                    read_from_nested_scope: Cell::new(false),
+                    read_cnt: Cell::new(0),
+                    prevent_inline: Cell::new(false),
+                    is_undefined: Cell::new(
+                        self.var_decl_kind == VarDeclKind::Var && !is_change && init.is_none(),
+                    ),
+                    value: RefCell::new(init),
+                });
             }
         }
     }
