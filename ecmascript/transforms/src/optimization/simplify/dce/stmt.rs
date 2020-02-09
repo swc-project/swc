@@ -5,10 +5,6 @@ use swc_ecma_utils::ExprExt;
 
 impl Fold<ExprStmt> for Dce<'_> {
     fn fold(&mut self, node: ExprStmt) -> ExprStmt {
-        if self.is_marked(node.span) {
-            return node;
-        }
-
         if node.expr.may_have_side_effects() {
             let stmt = ExprStmt {
                 span: node.span.apply_mark(self.config.used_mark),
@@ -40,10 +36,6 @@ impl Fold<BlockStmt> for Dce<'_> {
 
 impl Fold<IfStmt> for Dce<'_> {
     fn fold(&mut self, node: IfStmt) -> IfStmt {
-        if self.is_marked(node.span) {
-            return node;
-        }
-
         let mut node: IfStmt = node.fold_children(self);
 
         if self.is_marked(node.test.span())
@@ -60,3 +52,8 @@ impl Fold<IfStmt> for Dce<'_> {
         node
     }
 }
+
+impl Fold<ReturnStmt> for Dce<'_> {}
+
+preserve!(DebuggerStmt);
+preserve!(WithStmt);
