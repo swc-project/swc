@@ -22,7 +22,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-
+      - name: Install nightly Rust
+        run: rustup toolchain install nightly
       - name: Run cargo fmt
         run: cargo fmt --all -- --check
 
