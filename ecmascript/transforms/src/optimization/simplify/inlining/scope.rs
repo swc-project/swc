@@ -36,7 +36,7 @@ impl Inlining<'_> {
                     kind: self.var_decl_kind,
                     read_from_nested_scope: Cell::new(false),
                     read_cnt: Cell::new(0),
-                    prevent_inline: Cell::new(false),
+                    inline_prevented: Cell::new(false),
                     is_undefined: Cell::new(is_undefined),
                     value: RefCell::new(init),
                 });
@@ -120,7 +120,7 @@ impl<'a> Scope<'a> {
         if let Some(var_info) = scope.bindings.get(id) {
             if !is_self || force_no_inline {
                 println!("({}) Prevent inlining: {:?}", self.depth(), id);
-                var_info.prevent_inline.set(true);
+                var_info.inline_prevented.set(true);
             }
         } else {
             println!(
@@ -135,7 +135,7 @@ impl<'a> Scope<'a> {
                     kind: VarDeclKind::Var,
                     read_from_nested_scope: Cell::new(false),
                     read_cnt: Cell::new(0),
-                    prevent_inline: Cell::new(true),
+                    inline_prevented: Cell::new(true),
                     value: RefCell::new(None),
                     is_undefined: Cell::new(false),
                 },
@@ -149,23 +149,6 @@ impl<'a> Scope<'a> {
         }
 
         self.parent.and_then(|parent| parent.find_binding(id))
-    }
-
-    pub fn find_binding_by_value(&self, id: &Id) -> Option<&VarInfo> {
-        for (_, v) in self.bindings.iter() {
-            match v.value.borrow().as_ref() {
-                Some(&Expr::Ident(ref i)) => {
-                    if i.sym == id.0 && i.span.ctxt() == id.1 {
-                        return Some(v);
-                    }
-                }
-
-                _ => {}
-            }
-        }
-
-        self.parent
-            .and_then(|parent| parent.find_binding_by_value(id))
     }
 
     pub fn find_constants(&self, id: &Id) -> Option<&Expr> {
@@ -207,7 +190,19 @@ impl<'a> Scope<'a> {
 
     pub fn prevent_inline(&self, id: &Id) {
         if let Some(v) = self.bindings.get(id) {
-            v.prevent_inline.set(true);
+            v.inline_prevented.set(true);
+        }
+
+        for (_, v) in self.bindings.iter() {
+            match v.value.borrow().as_ref() {
+                Some(&Expr::Ident(ref i)) => {
+                    if i.sym == id.0 && i.span.ctxt() == id.1 {
+                        v.inline_prevented.set(true);
+                    }
+                }
+
+                _ => {}
+            }
         }
 
         match self.parent {
@@ -218,7 +213,7 @@ impl<'a> Scope<'a> {
 
     pub fn is_inline_prevented(&self, id: &Id) -> bool {
         if let Some(v) = self.bindings.get(id) {
-            return v.prevent_inline.get();
+            return v.inline_prevented.get();
         }
 
         match self.parent {
@@ -235,7 +230,13 @@ pub(super) struct VarInfo {
     read_from_nested_scope: Cell<bool>,
     read_cnt: Cell<usize>,
 
-    pub prevent_inline: Cell<bool>,
+    inline_prevented: Cell<bool>,
     pub value: RefCell<Option<Expr>>,
     pub is_undefined: Cell<bool>,
+}
+
+impl VarInfo {
+    pub fn is_inline_prevented(&self) -> bool {
+        self.inline_prevented.get()
+    }
 }

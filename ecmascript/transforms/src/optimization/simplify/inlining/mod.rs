@@ -339,12 +339,7 @@ impl Fold<AssignExpr> for Inlining<'_> {
                 match e.left {
                     PatOrExpr::Pat(box Pat::Ident(ref i))
                     | PatOrExpr::Expr(box Expr::Ident(ref i)) => {
-                        if let Some(var) = self.scope.find_binding(&i.to_id()) {
-                            var.prevent_inline.set(true);
-                        }
-                        if let Some(var) = self.scope.find_binding_by_value(&i.to_id()) {
-                            var.prevent_inline.set(true)
-                        }
+                        self.scope.prevent_inline(&i.to_id());
                     }
                     _ => {}
                 }
@@ -361,7 +356,7 @@ impl Fold<AssignExpr> for Inlining<'_> {
                         self.scope.add_write(&id, false);
 
                         if let Some(var) = self.scope.find_binding(&id) {
-                            if !var.prevent_inline.get() {
+                            if !var.is_inline_prevented() {
                                 *var.value.borrow_mut() = Some(*e.right.clone());
                             }
                         }
@@ -412,7 +407,7 @@ impl Fold<Expr> for Inlining<'_> {
                         PatOrExpr::Pat(box Pat::Ident(ref i))
                         | PatOrExpr::Expr(box Expr::Ident(ref i)) => {
                             if let Some(var) = self.scope.bindings.get(&i.to_id()) {
-                                if var.is_undefined.get() && var.prevent_inline.get() {
+                                if var.is_undefined.get() && !var.is_inline_prevented() {
                                     if match *e.right {
                                         Expr::Ident(..) | Expr::Lit(..) => true,
                                         _ => false,
@@ -422,11 +417,6 @@ impl Fold<Expr> for Inlining<'_> {
                                         return *e.right.fold_with(self);
                                     }
                                 }
-                            } else {
-                                unreachable!(
-                                    "Variable resolution for {:?} failed `Inlining` phase",
-                                    i
-                                )
                             }
                         }
                         _ => {}
@@ -457,7 +447,7 @@ impl Fold<Expr> for Inlining<'_> {
                         println!("Trying to inline: {:?}", id);
                         let expr = if let Some(var) = self.scope.find_binding(&id) {
                             println!("VarInfo: {:?}", var);
-                            if !var.prevent_inline.get() {
+                            if !var.is_inline_prevented() {
                                 let expr = var.value.borrow();
 
                                 if let Some(expr) = &*expr {
@@ -500,9 +490,7 @@ impl Fold<UpdateExpr> for Inlining<'_> {
             Expr::Ident(ref i) => {
                 let id = i.to_id();
 
-                if let Some(var) = self.scope.find_binding(&id) {
-                    var.prevent_inline.set(true);
-                }
+                self.scope.prevent_inline(&id);
             }
             _ => {}
         }
@@ -517,12 +505,12 @@ impl Fold<Pat> for Inlining<'_> {
 
         match node {
             Pat::Ident(ref i) => {
-                if let Some(var) = self.scope.find_binding_by_value(&i.to_id()) {
-                    dbg!();
-                    var.prevent_inline.set(true);
-                } else {
-                    self.scope.add_write(&i.to_id(), false);
-                }
+                //                if let Some(var) =
+                // self.scope.find_binding_by_value(&i.to_id()) {
+                // dbg!();                    var.prevent_inline.set(true);
+                //                } else {
+                self.scope.add_write(&i.to_id(), false);
+                //                }
             }
 
             _ => {}

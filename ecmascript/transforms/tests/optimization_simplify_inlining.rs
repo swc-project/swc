@@ -1128,8 +1128,11 @@ fn test_no_inline_aliases_in_loop() {
 }
 
 #[test]
-fn test_no_inline_aliases1() {
-    test_same("var x = this.foo(); this.bar(); var y = x; x = 3; this.baz(y);");
+fn modifier_test_no_inline_aliases1() {
+    test(
+        "var x = this.foo(); this.bar(); var y = x; x = 3; this.baz(y);",
+        "var x = this.foo(); this.bar(); var y = x; x = 3; this.baz(y);",
+    );
 }
 
 #[test]
@@ -1138,13 +1141,19 @@ fn test_no_inline_aliases1b() {
 }
 
 #[test]
-fn test_no_inline_aliases2() {
-    test_same("var x = this.foo(); this.bar(); var y = x; y = 3; this.baz(y); ");
+fn modified_test_no_inline_aliases2() {
+    test(
+        "var x = this.foo(); this.bar(); var y = x; y = 3; this.baz(y); ",
+        "var x = this.foo(); this.bar(); var y = x; y = 3; this.baz(3); ",
+    );
 }
 
 #[test]
-fn test_no_inline_aliases2b() {
-    test_same("var x = this.foo(); this.bar(); var y; y = x; y = 3; this.baz(y); ");
+fn modified_test_no_inline_aliases2b() {
+    test(
+        "var x = this.foo(); this.bar(); var y; y = x; y = 3; this.baz(y); ",
+        "var x = this.foo(); this.bar(); var y; y = x; y = 3; this.baz(3); ",
+    );
 }
 
 #[test]
