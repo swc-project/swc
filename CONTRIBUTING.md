@@ -79,16 +79,33 @@ You can use `rustup component add --toolchain nightly rustfmt-preview` to instal
 
 After cloning the project there are a few steps required to get the project running.
 
-1. `git submodule update --init --recursive` This will pull in the ecmascript test suited
-2. Go to the folder `ecmascript/transforms` and run `yarn install`
-3. You need to setup some environment variables in order for the tests to run
+1.  Fetch submodules to pull ECMAScript test suites.
 
-```
-RUST_MIN_STACK=16777216
-RUSTFLAGS="--cfg procmacro2_semver_exempt"
-```
+    ```bash
+    git submodule update --init --recursive
+    ```
 
-4. You can now run the tests with `RUST_BACKTRACE=full cargo test --color always --all --all-features`
+2.  Install js dependencies.
+
+    ```bash
+    yarn add browserslist
+    ( cd ecmascript/transforms; yarn install )
+    ```
+
+3.  Setup some environment variables which is required for tests.
+
+    ```bash
+    export RUST_MIN_STACK=16777216
+    export RUSTFLAGS='--cfg procmacro2_semver_exempt'
+    export RUST_BACKTRACE=full
+    export PATH="$PATH:$PWD/ecmascript/transforms/node_modules/.bin"
+    ```
+
+4.  Run tests
+
+    ```bash
+    cargo test --all --all-features
+    ```
 
 ## Pull requests
 
