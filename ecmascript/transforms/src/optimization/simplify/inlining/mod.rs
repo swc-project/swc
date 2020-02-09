@@ -186,12 +186,12 @@ impl Fold<VarDeclarator> for Inlining<'_> {
                 match node.name {
                     Pat::Ident(ref name) => {
                         if self.var_decl_kind != VarDeclKind::Const {
-                            let e = match node.init.take() {
+                            let e = match node.init.take().fold_with(self) {
                                 None => return node,
                                 Some(box e @ Expr::Lit(..)) | Some(box e @ Expr::Ident(..)) => e,
                                 Some(box e) => {
                                     if let Some(cnt) = self.scope.read_cnt(&name.to_id()) {
-                                        if cnt <= 1 {
+                                        if cnt == 1 {
                                             e
                                         } else {
                                             node.init = Some(box e);
@@ -204,9 +204,7 @@ impl Fold<VarDeclarator> for Inlining<'_> {
                                 }
                             };
 
-                            let e = e.fold_with(self);
-
-                            println!("({}): Inserting {:?}", self.scope.depth(), name.to_id());
+                            // println!("({}): Inserting {:?}", self.scope.depth(), name.to_id());
 
                             self.declare(name.to_id(), Some(e));
 
@@ -436,7 +434,7 @@ impl Fold<Expr> for Inlining<'_> {
                 }
 
                 match self.phase {
-                    Phase::Analysis => self.scope.add_read(&i.to_id()),
+                    Phase::Analysis => self.scope.add_read(&id),
                     Phase::Inlining => {
                         println!("Trying to inline: {:?}", id);
                         let expr = if let Some(var) = self.scope.find_binding(&id) {
@@ -445,7 +443,6 @@ impl Fold<Expr> for Inlining<'_> {
                                 let expr = var.value.borrow();
 
                                 if let Some(expr) = &*expr {
-                                    dbg!();
                                     self.changed = true;
                                     Some(expr.clone())
                                 } else {
@@ -462,14 +459,7 @@ impl Fold<Expr> for Inlining<'_> {
                         };
 
                         if let Some(expr) = expr {
-                            return match expr {
-                                Expr::Ident(ref new_i)
-                                    if i.sym == new_i.sym && i.span.ctxt() == new_i.span.ctxt() =>
-                                {
-                                    expr
-                                }
-                                _ => expr.fold_with(self),
-                            };
+                            return expr;
                         }
                     }
                 }

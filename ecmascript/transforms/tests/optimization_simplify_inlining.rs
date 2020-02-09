@@ -232,19 +232,19 @@ identical!(for_of_2, "for( var i of n) { var x = i; }");
 to!(
     tpl_lit_1,
     "var name = 'Foo'; `Hello ${name}`",
-    "var name = 'Foo'; `Hello ${'Foo'}`"
+    "var name; `Hello ${'Foo'}`"
 );
 
 to!(
     tpl_lit_2,
     "var name = 'Foo'; var foo = name; `Hello ${foo}`",
-    "var name = 'Foo'; var foo = 'Foo'; `Hello ${'Foo'}`"
+    "var name; var foo; `Hello ${'Foo'}`"
 );
 
 to!(
     tpl_lit_3,
     "var age = 3; `Age: ${age}`",
-    "var age = 3; `Age: ${3}`"
+    "var age; `Age: ${3}`"
 );
 
 to!(
@@ -290,7 +290,7 @@ to!(
         "output = myTag`My name is ${name} ${2}`;",
     ),
     concat!(
-        "var name = 'Foo';",
+        "var name;",
         "function myTag(strings, nameExp, numExp) {",
         "  var modStr;",
         "  if (numExp > 2) {",
