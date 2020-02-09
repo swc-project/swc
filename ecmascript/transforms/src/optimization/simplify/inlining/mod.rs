@@ -165,7 +165,7 @@ impl Fold<VarDeclarator> for Inlining<'_> {
             Phase::Analysis => match node.name {
                 Pat::Ident(ref name) => match &node.init {
                     None => {
-                        self.declare(name.to_id(), None);
+                        self.declare(name.to_id(), None, true);
 
                         return node;
                     }
@@ -174,6 +174,8 @@ impl Fold<VarDeclarator> for Inlining<'_> {
                             if self.is_first_run {
                                 self.scope.constants.insert(name.to_id(), e.clone());
                             }
+                        } else {
+                            self.declare(name.to_id(), None, false);
                         }
                         return node;
                     }
@@ -185,6 +187,16 @@ impl Fold<VarDeclarator> for Inlining<'_> {
                 //
                 match node.name {
                     Pat::Ident(ref name) => {
+                        let id = name.to_id();
+
+                        if let Some(var) = self.scope.find_binding(&id) {
+                            if var.prevent_inline.get() {
+                                return node;
+                            }
+                        } else {
+                            panic!("undefined var: {:?}", name)
+                        }
+
                         if self.var_decl_kind != VarDeclKind::Const {
                             let e = match node.init.take().fold_with(self) {
                                 None => return node,
@@ -206,7 +218,7 @@ impl Fold<VarDeclarator> for Inlining<'_> {
 
                             // println!("({}): Inserting {:?}", self.scope.depth(), name.to_id());
 
-                            self.declare(name.to_id(), Some(e));
+                            self.declare(name.to_id(), Some(e), false);
 
                             return node;
                         }
@@ -244,7 +256,9 @@ impl Fold<Function> for Inlining<'_> {
 
 impl Fold<FnDecl> for Inlining<'_> {
     fn fold(&mut self, node: FnDecl) -> FnDecl {
-        self.declare(node.ident.to_id(), None);
+        if self.phase == Phase::Analysis {
+            self.declare(node.ident.to_id(), None, true);
+        }
 
         FnDecl {
             function: node.function.fold_with(self),
@@ -311,7 +325,7 @@ impl Fold<NewExpr> for Inlining<'_> {
 
 impl Fold<AssignExpr> for Inlining<'_> {
     fn fold(&mut self, e: AssignExpr) -> AssignExpr {
-        let e: AssignExpr = AssignExpr {
+        let e = AssignExpr {
             left: match e.left {
                 PatOrExpr::Pat(p) => PatOrExpr::Pat(p.fold_with(self)),
                 PatOrExpr::Expr(e) => PatOrExpr::Expr(e),
@@ -327,8 +341,10 @@ impl Fold<AssignExpr> for Inlining<'_> {
                 match e.left {
                     PatOrExpr::Pat(box Pat::Ident(ref i))
                     | PatOrExpr::Expr(box Expr::Ident(ref i)) => {
+                        if let Some(var) = self.scope.find_binding(&i.to_id()) {
+                            var.prevent_inline.set(true);
+                        }
                         if let Some(var) = self.scope.find_binding_by_value(&i.to_id()) {
-                            dbg!();
                             var.prevent_inline.set(true)
                         }
                     }
@@ -474,6 +490,17 @@ impl Fold<Expr> for Inlining<'_> {
 
 impl Fold<UpdateExpr> for Inlining<'_> {
     fn fold(&mut self, node: UpdateExpr) -> UpdateExpr {
+        match *node.arg {
+            Expr::Ident(ref i) => {
+                let id = i.to_id();
+
+                if let Some(var) = self.scope.find_binding(&id) {
+                    var.prevent_inline.set(true);
+                }
+            }
+            _ => {}
+        }
+
         node
     }
 }

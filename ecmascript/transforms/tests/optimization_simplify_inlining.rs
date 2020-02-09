@@ -58,7 +58,7 @@ fn test_same(s: &str) {
 to!(
     top_level_simple_var,
     "var a = 1; var b = a;",
-    "var a = 1; var b = 1;"
+    "var a; var b;"
 );
 
 to!(
@@ -1450,7 +1450,7 @@ fn test_inline_this() {
 fn test_var_in_block1() {
     test(
         "function f(x) { if (true) {var y = x; y; y;} }",
-        "function f(x) { if (true) {var y = x; x; x;} }",
+        "function f(x) { if (true) {var y; x; x;} }",
     );
 }
 
@@ -1458,7 +1458,7 @@ fn test_var_in_block1() {
 fn test_var_in_block2() {
     test(
         "function f(x) { switch (0) { case 0: { var y = x; y; y; } } }",
-        "function f(x) { switch (0) { case 0: { var y = x; x; x; } } }",
+        "function f(x) { switch (0) { case 0: { var y; x; x; } } }",
     );
 }
 

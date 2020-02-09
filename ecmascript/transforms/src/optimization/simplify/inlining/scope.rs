@@ -6,8 +6,8 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::Id;
 
 impl Inlining<'_> {
-    pub(super) fn declare(&mut self, id: Id, init: Option<Expr>) {
-        if let None = self.scope.bindings.insert(
+    pub(super) fn declare(&mut self, id: Id, init: Option<Expr>, is_change: bool) {
+        if let Some(..) = self.scope.bindings.insert(
             id,
             VarInfo {
                 kind: self.var_decl_kind,
@@ -18,7 +18,9 @@ impl Inlining<'_> {
                 value: RefCell::new(init),
             },
         ) {
-            self.changed = true;
+            if is_change {
+                self.changed = true;
+            }
         }
     }
 }
