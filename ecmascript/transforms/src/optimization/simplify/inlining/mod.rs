@@ -392,7 +392,8 @@ impl Fold<MemberExpr> for Inlining<'_> {
 
 impl Fold<Expr> for Inlining<'_> {
     fn fold(&mut self, node: Expr) -> Expr {
-        // TODO:
+        let node: Expr = node.fold_children(self);
+
         // Codes like
         //
         //      var y;
@@ -405,39 +406,36 @@ impl Fold<Expr> for Inlining<'_> {
         //      x;
         //      use(x)
         //
-        // We cannot know if this is possible while first loop
+        // We cannot know if this is possible while analysis phase
+        if self.phase == Phase::Inlining {
+            match node {
+                Expr::Assign(e) => {
+                    match e.left {
+                        PatOrExpr::Pat(box Pat::Ident(ref i))
+                        | PatOrExpr::Expr(box Expr::Ident(ref i)) => {
+                            //
+                            if match *e.right {
+                                Expr::Ident(..) | Expr::Lit(..) => true,
+                                _ => false,
+                            } {
+                                if let Some(var) = self.scope.bindings.get(&i.to_id()) {
+                                    if var.is_undefined.get() {
+                                        *var.value.borrow_mut() = Some(*e.right.clone());
+                                        var.is_undefined.set(false);
+                                        return *e.right.fold_with(self);
+                                    }
+                                }
+                            }
+                        }
+                        _ => {}
+                    }
 
-        //
-        //
-        //        match node {
-        //            Expr::Assign(e) => {
-        //                match e.left {
-        //                    PatOrExpr::Pat(box Pat::Ident(ref i))
-        //                    | PatOrExpr::Expr(box Expr::Ident(ref i)) => {
-        //                        //
-        //                        if match *e.right {
-        //                            Expr::Ident(..) => true,
-        //                            _ => {}
-        //                        } {
-        //                            if let Some(var) =
-        // self.scope.bindings.get(&i.to_id()) {
-        // if var.is_undefined.get() {
-        // *var.value.borrow_mut() = Some(*e.right.clone());
-        // var.is_undefined.set(false);
-        // return *e.right.fold_with(self);                                }
-        //                            }
-        //                        }
-        //                    }
-        //                    _ => {}
-        //                }
-        //
-        //                return Expr::Assign(e.fold_with(self));
-        //            }
-        //
-        //            _ => {}
-        //        }
+                    return Expr::Assign(e.fold_with(self));
+                }
 
-        let node: Expr = node.fold_children(self);
+                _ => {}
+            }
+        }
 
         match node {
             Expr::Ident(ref i) => {
