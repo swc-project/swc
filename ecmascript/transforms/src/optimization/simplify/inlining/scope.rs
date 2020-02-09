@@ -16,6 +16,10 @@ impl Inlining<'_> {
             && init.is_none()
             && self.phase == Phase::Inlining;
 
+        if is_undefined {
+            println!("{:?} is undefined", id);
+        }
+
         match self.scope.bindings.entry(id) {
             Entry::Occupied(mut e) => {
                 if is_change {
