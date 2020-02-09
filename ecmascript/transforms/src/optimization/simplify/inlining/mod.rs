@@ -409,7 +409,7 @@ impl Fold<Expr> for Inlining<'_> {
         // We cannot know if this is possible while analysis phase
         if self.phase == Phase::Inlining {
             match node {
-                Expr::Assign(e) => {
+                Expr::Assign(e @ AssignExpr { op: op!("="), .. }) => {
                     match e.left {
                         PatOrExpr::Pat(box Pat::Ident(ref i))
                         | PatOrExpr::Expr(box Expr::Ident(ref i)) => {
@@ -424,6 +424,11 @@ impl Fold<Expr> for Inlining<'_> {
                                         var.is_undefined.set(false);
                                         return *e.right.fold_with(self);
                                     }
+                                } else {
+                                    unreachable!(
+                                        "Variable resolution for {:?} failed `Inlining` phase",
+                                        i
+                                    )
                                 }
                             }
                         }
