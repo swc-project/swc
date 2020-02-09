@@ -154,7 +154,7 @@ fn test_fold_block_with_declaration() {
 }
 
 /** Try to remove spurious blocks with multiple children * * * * * * * * * *
- ** * **/
+ ** * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
 #[test]
 fn test_fold_blocks_with_many_children() {
     fold("function f() { if (false) {} }", "function f(){}");
@@ -463,14 +463,16 @@ fn test_optimize_switch() {
     // Can't remove unused code with a "var" in it.
     fold("switch(1){case 2: var x=0;}", "var x;");
     fold(
-        "switch ('repeated') {\n"
-            + "case 'repeated':\n"
-            + "  foo();\n"
-            + "  break;\n"
-            + "case 'repeated':\n"
-            + "  var x=0;\n"
-            + "  break;\n"
-            + "}",
+        concat!(
+            "switch ('repeated') {\n",
+            "case 'repeated':\n",
+            "  foo();\n",
+            "  break;\n",
+            "case 'repeated':\n",
+            "  var x=0;\n",
+            "  break;\n",
+            "}"
+        ),
         "var x; foo();",
     );
 
@@ -480,25 +482,29 @@ fn test_optimize_switch() {
     fold_same("x:switch(a){case 1: break x;}");
 
     fold(
-        "switch ('foo') {\n"
-            + "case 'foo':\n"
-            + "  foo();\n"
-            + "  break;\n"
-            + "case 'bar':\n"
-            + "  bar();\n"
-            + "  break;\n"
-            + "}",
+        concat!(
+            "switch ('foo') {\n",
+            "case 'foo':\n",
+            "  foo();\n",
+            "  break;\n",
+            "case 'bar':\n",
+            "  bar();\n",
+            "  break;\n",
+            "}"
+        ),
         "foo();",
     );
     fold(
-        "switch ('noMatch') {\n"
-            + "case 'foo':\n"
-            + "  foo();\n"
-            + "  break;\n"
-            + "case 'bar':\n"
-            + "  bar();\n"
-            + "  break;\n"
-            + "}",
+        concat!(
+            "switch ('noMatch') {\n",
+            "case 'foo':\n",
+            "  foo();\n",
+            "  break;\n",
+            "case 'bar':\n",
+            "  bar();\n",
+            "  break;\n",
+            "}"
+        ),
         "",
     );
     fold(
@@ -551,74 +557,91 @@ fn test_optimize_switch() {
         "bar();",
     );
     fold(
-        "switch ('repeated') {\n"
-            + "case 'repeated':\n"
-            + "  foo();\n"
-            + "  break;\n"
-            + "case 'repeated':\n"
-            + "  bar();\n"
-            + "  break;\n"
-            + "}",
+        concat!(
+            "switch ('repeated') {\n",
+            "case 'repeated':\n",
+            "  foo();\n",
+            "  break;\n",
+            "case 'repeated':\n",
+            "  bar();\n",
+            "  break;\n",
+            "}"
+        ),
         "foo();",
     );
     fold(
-        "switch ('foo') {\n"
-            + "case 'bar':\n"
-            + "  bar();\n"
-            + "  break;\n"
-            + "case notConstant:\n"
-            + "  foobar();\n"
-            + "  break;\n"
-            + "case 'foo':\n"
-            + "  foo();\n"
-            + "  break;\n"
-            + "}",
-        "switch ('foo') {\n"
-            + "case notConstant:\n"
-            + "  foobar();\n"
-            + "  break;\n"
-            + "case 'foo':\n"
-            + "  foo();\n"
-            + "  break;\n"
-            + "}",
+        concat!(
+            "switch ('foo') {\n",
+            "case 'bar':\n",
+            "  bar();\n",
+            "  break;\n",
+            "case notConstant:\n",
+            "  foobar();\n",
+            "  break;\n",
+            "case 'foo':\n",
+            "  foo();\n",
+            "  break;\n",
+            "}"
+        ),
+        concat!(
+            "switch ('foo') {\n",
+            "case notConstant:\n",
+            "  foobar();\n",
+            "  break;\n",
+            "case 'foo':\n",
+            "  foo();\n",
+            "  break;\n",
+            "}"
+        ),
     );
     fold(
-        "switch (1) {\n"
-            + "case 1:\n"
-            + "  foo();\n"
-            + "  break;\n"
-            + "case 2:\n"
-            + "  bar();\n"
-            + "  break;\n"
-            + "}",
+        concat!(
+            "switch (1) {\n",
+            "case 1:\n",
+            "  foo();\n",
+            "  break;\n",
+            "case 2:\n",
+            "  bar();\n",
+            "  break;\n",
+            "}"
+        ),
         "foo();",
     );
     fold(
-        "switch (1) {\n"
-            + "case 1.1:\n"
-            + "  foo();\n"
-            + "  break;\n"
-            + "case 2:\n"
-            + "  bar();\n"
-            + "  break;\n"
-            + "}",
+        concat!(
+            "switch (1) {\n",
+            "case 1.1:\n",
+            "  foo();\n",
+            "  break;\n",
+            "case 2:\n",
+            "  bar();\n",
+            "  break;\n",
+            "}"
+        ),
         "",
     );
     fold(
-        "switch (0) {\n"
-            + "case NaN:\n"
-            + "  foobar();\n"
-            + "  break;\n"
-            + "case -0.0:\n"
-            + "  foo();\n"
-            + "  break;\n"
-            + "case 2:\n"
-            + "  bar();\n"
-            + "  break;\n"
-            + "}",
+        concat!(
+            "switch (0) {\n",
+            "case NaN:\n",
+            "  foobar();\n",
+            "  break;\n",
+            "case -0.0:\n",
+            "  foo();\n",
+            "  break;\n",
+            "case 2:\n",
+            "  bar();\n",
+            "  break;\n",
+            "}"
+        ),
         "foo();",
     );
-    fold_same("switch ('\\v') {\n" + "case '\\u000B':\n" + "  foo();\n" + "}");
+    fold_same(concat!(
+        "switch ('\\v') {\n",
+        "case '\\u000B':\n",
+        "  foo();\n",
+        "}"
+    ));
     fold(
         concat!(
             "switch ('empty') {",
@@ -661,13 +684,15 @@ fn test_optimize_switch() {
 #[test]
 fn test_optimize_switch_bug11536863() {
     fold(
-        "outer: {"
-            + "  switch (2) {\n"
-            + "    case 2:\n"
-            + "      f();\n"
-            + "      break outer;\n"
-            + "  }"
-            + "}",
+        concat!(
+            "outer: {",
+            "  switch (2) {\n",
+            "    case 2:\n",
+            "      f();\n",
+            "      break outer;\n",
+            "  }",
+            "}"
+        ),
         "outer: {f(); break outer;}",
     );
 }
@@ -675,7 +700,13 @@ fn test_optimize_switch_bug11536863() {
 #[test]
 fn test_optimize_switch2() {
     fold(
-        "outer: switch (2) {\n" + "  case 2:\n" + "    f();\n" + "    break outer;\n" + "}",
+        concat!(
+            "outer: switch (2) {\n",
+            "  case 2:\n",
+            "    f();\n",
+            "    break outer;\n",
+            "}"
+        ),
         "outer: {f(); break outer;}",
     );
 }
