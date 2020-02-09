@@ -75,3 +75,13 @@ switch (1){
 console.log(a);
 "
 );
+
+noop!(
+    noop_3,
+    "
+try {
+    console.log(foo())
+} catch (e) {
+    console.error(e);
+}"
+);
