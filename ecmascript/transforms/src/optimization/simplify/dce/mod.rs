@@ -11,6 +11,17 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id, StmtLike};
 
+macro_rules! preserve {
+    ($T:ty) => {
+        impl Fold<$T> for Dce<'_> {
+            fn fold(&mut self, mut node: $T) -> $T {
+                node.span = node.span.apply_mark(self.config.used_mark);
+                node
+            }
+        }
+    };
+}
+
 mod decl;
 mod module_decl;
 mod stmt;

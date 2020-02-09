@@ -159,3 +159,7 @@ impl Fold<ExportAll> for Dce<'_> {
         unimplemented!("dce: `export * from 'foo'`")
     }
 }
+
+preserve!(TsImportEqualsDecl);
+preserve!(TsExportAssignment);
+preserve!(TsNamespaceExportDecl);
