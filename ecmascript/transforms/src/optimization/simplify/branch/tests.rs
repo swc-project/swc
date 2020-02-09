@@ -1661,3 +1661,63 @@ fn test_function_call_references_setter_is_not_removed() {
         "foo();",
     ));
 }
+
+#[test]
+fn custom_loop_1() {
+    test(
+        "let b = 2;
+
+let a = 1;
+if (2) {
+a = 2;
+}
+
+let c;
+if (a) {
+c = 3;
+}",
+        "let b = 2;
+
+let a = 1;
+a = 2;
+
+let c;
+if (a) c = 3;",
+    );
+}
+
+#[test]
+fn custom_loop_2() {
+    test(
+        "let b = 2;
+
+let a = 1;
+if (2) {
+a = 2;
+}
+
+let c;
+if (a) {
+c = 3;
+}",
+        "let b = 2;
+
+let a = 1;
+a = 2;
+
+let c;
+if (a) c = 3;",
+    );
+}
+
+#[test]
+fn custom_loop_3() {
+    test(
+        "let c;
+if (2) c = 3;
+console.log(c);",
+        "let c;
+c = 3;
+console.log(c);",
+    );
+}

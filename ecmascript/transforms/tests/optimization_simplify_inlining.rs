@@ -1635,3 +1635,29 @@ if (a) {
     c = 3;
 }"
 );
+
+to!(
+    custom_2,
+    "let b = 2;
+
+let a = 1;
+a = 2;
+
+let c;
+if (a) c = 3",
+    "let b = 2;
+
+let a = 1;
+a = 2;
+
+let c;
+if (2) c = 3"
+);
+
+to!(
+    custom_loop_3,
+    "let c;
+c = 3;
+console.log(c);",
+    "console.log(3);"
+);
