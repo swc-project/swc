@@ -138,7 +138,28 @@ impl Fold<SwitchCase> for Dce<'_> {
     }
 }
 
-impl Fold<TryStmt> for Dce<'_> {}
+impl Fold<TryStmt> for Dce<'_> {
+    fn fold(&mut self, mut node: TryStmt) -> TryStmt {
+        if self.is_marked(node.span) {
+            return node;
+        }
+
+        node = node.fold_children(self);
+
+        if self.is_marked(node.block.span())
+            || self.is_marked(node.handler.span())
+            || self.is_marked(node.finalizer.span())
+        {
+            node.span = node.span.apply_mark(self.config.used_mark);
+
+            node.block = self.fold_in_marking_phase(node.block);
+            node.handler = self.fold_in_marking_phase(node.handler);
+            node.finalizer = self.fold_in_marking_phase(node.finalizer);
+        }
+
+        node
+    }
+}
 
 impl Fold<WhileStmt> for Dce<'_> {}
 
