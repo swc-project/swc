@@ -1,4 +1,4 @@
-use super::Inlining;
+use super::{Inlining, Phase};
 use crate::scope::ScopeKind;
 use fxhash::FxHashMap;
 use std::{
@@ -11,12 +11,17 @@ use swc_ecma_utils::Id;
 
 impl Inlining<'_> {
     pub(super) fn declare(&mut self, id: Id, init: Option<Expr>, is_change: bool) {
+        let is_undefined = self.var_decl_kind == VarDeclKind::Var
+            && !is_change
+            && init.is_none()
+            && self.phase == Phase::Inlining;
+
         match self.scope.bindings.entry(id) {
             Entry::Occupied(mut e) => {
                 if is_change {
                     self.changed = true;
                 }
-                e.get().is_undefined.set(false);
+                e.get().is_undefined.set(is_undefined);
                 e.get().read_cnt.set(0);
                 e.get().read_from_nested_scope.set(false);
                 e.get_mut().value = RefCell::new(init);
@@ -27,9 +32,7 @@ impl Inlining<'_> {
                     read_from_nested_scope: Cell::new(false),
                     read_cnt: Cell::new(0),
                     prevent_inline: Cell::new(false),
-                    is_undefined: Cell::new(
-                        self.var_decl_kind == VarDeclKind::Var && !is_change && init.is_none(),
-                    ),
+                    is_undefined: Cell::new(is_undefined),
                     value: RefCell::new(init),
                 });
             }

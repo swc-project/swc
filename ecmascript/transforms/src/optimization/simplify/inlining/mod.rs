@@ -194,16 +194,18 @@ impl Fold<VarDeclarator> for Inlining<'_> {
                                     return node;
                                 }
                             } else {
-                                panic!("undefined var: {:?}", name)
+                                panic!("undefined var found in `Inlining` phase: {:?}", name)
                             }
 
                             let e = match node.init.take().fold_with(self) {
-                                None => return node,
-                                Some(box e @ Expr::Lit(..)) | Some(box e @ Expr::Ident(..)) => e,
+                                None => None,
+                                Some(box e @ Expr::Lit(..)) | Some(box e @ Expr::Ident(..)) => {
+                                    Some(e)
+                                }
                                 Some(box e) => {
                                     if let Some(cnt) = self.scope.read_cnt(&name.to_id()) {
                                         if cnt == 1 {
-                                            e
+                                            Some(e)
                                         } else {
                                             return node;
                                         }
@@ -216,7 +218,7 @@ impl Fold<VarDeclarator> for Inlining<'_> {
 
                             // println!("({}): Inserting {:?}", self.scope.depth(), name.to_id());
 
-                            self.declare(name.to_id(), Some(e), false);
+                            self.declare(name.to_id(), e, false);
 
                             return node;
                         }

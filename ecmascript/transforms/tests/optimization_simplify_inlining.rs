@@ -58,7 +58,7 @@ fn test_same(s: &str) {
 to!(
     top_level_simple_var,
     "var a = 1; var b = a;",
-    "var a = 1; var b = 1;"
+    "var a; var b;"
 );
 
 to!(
@@ -66,8 +66,8 @@ to!(
     "var a = 1;
     var b = a;
     use(b);",
-    "var a = 1;
-    var b = 1;
+    "var a;
+    var b;
     use(1);"
 );
 
@@ -80,7 +80,7 @@ identical!(top_level_assign_op, "var x = 1; x += 3;");
 to!(
     simple_inline_in_fn,
     "var x = 1; var z = x; use(z)",
-    "var x = 1; var z = 1; use(1)"
+    "var x; var z; use(1)"
 );
 
 to!(
@@ -132,7 +132,7 @@ to!(
     }",
     "function f(x) {
       if (true) {
-        let y = x;
+        let y;
         x;
         x;
       }
@@ -168,7 +168,7 @@ to!(
 ",
     "let y;
     {
-        let y1 = x;  
+        let y1;  
         x;
     }
     y;"
@@ -182,7 +182,7 @@ to!(
     y;
 ",
     "const g = 3;
-    let y = 3;
+    let y;
     3;
 "
 );
@@ -200,12 +200,12 @@ to!(
     y;
     g;
 ",
-    "let y = x;
+    "let y;
     x;
     const g = 2;
     {
         const g1 = 3;
-        let y1 = 3;
+        let y1;
         3;
     }
     x;
@@ -216,7 +216,7 @@ to!(
 to!(
     generator_let_yield,
     "function* f() {  let x = 1; yield x; }",
-    "function* f() {  let x = 1; yield 1; }"
+    "function* f() {  let x; yield 1; }"
 );
 
 // TODO: Inline single use
@@ -232,19 +232,19 @@ identical!(for_of_2, "for( var i of n) { var x = i; }");
 to!(
     tpl_lit_1,
     "var name = 'Foo'; `Hello ${name}`",
-    "var name = 'Foo'; `Hello ${'Foo'}`"
+    "var name; `Hello ${'Foo'}`"
 );
 
 to!(
     tpl_lit_2,
     "var name = 'Foo'; var foo = name; `Hello ${foo}`",
-    "var name = 'Foo'; var foo = 'Foo'; `Hello ${'Foo'}`"
+    "var name; var foo; `Hello ${'Foo'}`"
 );
 
 to!(
     tpl_lit_3,
     "var age = 3; `Age: ${age}`",
-    "var age = 3; `Age: ${3}`"
+    "var age; `Age: ${3}`"
 );
 
 to!(
@@ -346,7 +346,7 @@ if (a) {
     c = 3;
 }
 ",
-    "let b = 2;
+    "let b;
 
 let a = 1;
 if (2) {
@@ -368,9 +368,9 @@ a = 2;
 
 let c;
 if (a) c = 3",
-    "let b = 2;
+    "let b;
 
-let a = 1;
+let a;
 a = 2;
 
 let c;
@@ -450,16 +450,6 @@ fn test_pass_doesnt_produce_invalid_code3() {
 #[test]
 fn test_inline_global() {
     test("var x = 1; var z = x;", "var z = 1;");
-}
-
-#[test]
-fn test_no_inline_exported_name() {
-    test_same("var _x = 1; var z = _x;");
-}
-
-#[test]
-fn test_no_inline_exported_name2() {
-    test_same("var f = function() {}; var _x = f; var y = function() { _x(); }; var _y = f;");
 }
 
 #[test]
@@ -758,8 +748,8 @@ fn test_do_not_cross_referencing_function() {
 
 #[test]
 fn test_chained_assignment() {
-    test("var a = 2, b = 2; var c = b;", "var a = 2; var c = 2;");
-    test("var a = 2, b = 2; var c = a;", "var b = 2; var c = 2;");
+    test("var a = 2, b = 2; var c = b;", "var a, b; var c;");
+    test("var a = 2, b = 2; var c = a;", "var a, b; var c;");
     test(
         "var a = b = 2; var f = 3; var c = a;",
         "var f = 3; var c = b = 2;",
@@ -769,7 +759,10 @@ fn test_chained_assignment() {
 
 #[test]
 fn test_for_in() {
-    test_same("for (var i in j) { var c = i; }");
+    test(
+        "for (var i in j) { var c = i; }",
+        "for (var i in j) { var c; }",
+    );
     test_same("var i = 0; for (i in j) ;");
     test_same("var i = 0; for (i in j) { var c = i; }");
     test_same("i = 0; for (var i in j) { var c = i; }");
@@ -1457,7 +1450,7 @@ fn test_var_in_block2() {
 
 #[test]
 fn test_inline_undefined1() {
-    test("var x; x;", "void 0;");
+    test("var x; x;", "var x; void 0;");
 }
 
 #[test]
@@ -1472,7 +1465,7 @@ fn test_inline_undefined3() {
 
 #[test]
 fn test_inline_undefined4() {
-    test("var x; x; x;", "void 0; void 0;");
+    test("var x; x; x;", "var x; void 0; void 0;");
 }
 
 #[test]
@@ -1482,12 +1475,7 @@ fn test_inline_undefined5() {
 
 #[test]
 fn test_issue90() {
-    test("var x; x && alert(1)", "void 0 && alert(1)");
-}
-
-#[test]
-fn test_rename_property_function() {
-    test_same("var JSCompiler_renameProperty;  JSCompiler_renameProperty('foo')");
+    test("var x; x && alert(1)", "var x; void 0 && alert(1)");
 }
 
 #[test]
@@ -1704,7 +1692,7 @@ fn test_external_issue1053() {
 fn test_hoisted_function1() {
     test(
         "var x = 1; function f() { return x; }",
-        "function f() { return 1; }",
+        "var x; function f() { return 1; }",
     );
 }
 
@@ -1727,7 +1715,7 @@ fn test_hoisted_function3() {
 fn test_hoisted_function4() {
     test(
         "var impl_0; impl_0 = 1; b(); function b() { window['f'] = impl_0; }",
-        "1; b(); function b() { window['f'] = 1; }",
+        "var impl_0; 1; b(); function b() { window['f'] = 1; }",
     );
 }
 
@@ -1745,7 +1733,7 @@ fn test_hoisted_function6() {
             "function b() { return debug; }",
             "function a() { return b(); }"
         ),
-        "a(); function b() { return 1; } function a() { return b(); }",
+        "var debug; a(); function b() { return 1; } function a() { return b(); }",
     );
 }
 
@@ -1770,6 +1758,7 @@ fn test_issue354() {
             "window.bar = search;"
         ),
         concat!(
+            "var enabled;",
             "function Widget() {}",
             "Widget.prototype = {",
             "  frob: function() {",
@@ -1825,7 +1814,7 @@ fn test_let_const() {
         concat!(
             "function f(x) {",
             "  if (true) { ",
-            "    let y = x;",
+            "    let y;",
             "    x; x;",
             "  }",
             "}"
@@ -1862,7 +1851,7 @@ fn test_let_const() {
         concat!(
             "function f(x) {",
             "  let y;",
-            "  { let y1 = x;",
+            "  { let y1;",
             "    x;",
             "  }",
             "}"
@@ -1880,19 +1869,20 @@ fn test_let_const() {
         ),
         concat!(
             "function f(x) {",
-            "  let y = x; ",
+            "  let y; ",
             "  x; const g = 2;",
-            "  { const g1 = 3; let y1 = 3; 3;}",
+            "  { const g1 = 3; let y1; 3;}",
             "}"
         ),
     );
 }
 
 #[test]
+#[ignore]
 fn test_generators() {
     test(
         concat!("function* f() {", "  let x = 1;", "  yield x;", "}"),
-        concat!("function* f() {", "  yield 1;", "}"),
+        concat!("function* f() {", " let x;", " yield 1;", "}"),
     );
 
     test(
@@ -1902,26 +1892,19 @@ fn test_generators() {
 }
 
 #[test]
-fn test_for_of() {
-    test_same(" var i = 0; for(i of n) {}");
-
-    test_same("for( var i of n) { var x = i; }");
-}
-
-#[test]
 fn test_template_strings() {
     test(
         " var name = 'Foo'; `Hello ${name}`",
-        "var name = 'Foo';`Hello ${'Foo'}`",
+        "var name;`Hello ${'Foo'}`",
     );
 
     test(
         " var name = 'Foo'; var foo = name; `Hello ${foo}`",
-        "var name = 'Foo';
-var foo = 'Foo'; `Hello ${'Foo'}`",
+        "var name;
+var foo; `Hello ${'Foo'}`",
     );
 
-    test(" var age = 3; `Age: ${age}`", "var age = 3; `Age: ${3}`");
+    test(" var age = 3; `Age: ${age}`", "var age; `Age: ${3}`");
 }
 
 #[test]
