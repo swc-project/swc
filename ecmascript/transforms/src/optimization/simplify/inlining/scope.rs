@@ -157,12 +157,35 @@ impl<'a> Scope<'a> {
         self.parent.and_then(|parent| parent.find_binding(id))
     }
 
+    fn idx_val(&self, id: &Id) -> Option<(usize, &VarInfo)> {
+        self.bindings.iter().enumerate().find_map(
+            |(idx, (k, v))| {
+                if k == id {
+                    Some((idx, v))
+                } else {
+                    None
+                }
+            },
+        )
+    }
+
     pub fn find_binding_from_current(&self, id: &Id) -> Option<&VarInfo> {
-        if let Some(e) = self.bindings.get(id) {
-            return Some(e);
+        let (idx, v) = self.idx_val(id)?;
+
+        match &*v.value.borrow() {
+            Some(Expr::Ident(vi)) => {
+                if let Some((vi, v2)) = self.idx_val(&vi.to_id()) {
+                    if idx > vi {
+                        v.inline_prevented.set(true);
+                        v2.inline_prevented.set(true);
+                    }
+                }
+            }
+
+            _ => {}
         }
 
-        None
+        Some(v)
     }
 
     pub fn find_constants(&self, id: &Id) -> Option<&Expr> {

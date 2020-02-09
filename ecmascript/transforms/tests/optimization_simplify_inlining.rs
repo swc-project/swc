@@ -902,7 +902,7 @@ fn test_inline_string_multiple_times_when_aliasing_all_strings() {
 
 #[test]
 fn test_no_inline_backwards() {
-    test_same("var y = x; var x = null;");
+    test_same("var y = x; var x = foo();");
 }
 
 #[test]
