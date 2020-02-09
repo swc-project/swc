@@ -1882,7 +1882,7 @@ fn test_let_const() {
             "function f(x) {",
             "  let y = x; ",
             "  x; const g = 2;",
-            "  { const g = 3; let y = 3; 3;}",
+            "  { const g1 = 3; let y1 = 3; 3;}",
             "}"
         ),
     );
