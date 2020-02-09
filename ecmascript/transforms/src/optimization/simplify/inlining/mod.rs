@@ -201,13 +201,7 @@ impl Fold<VarDeclarator> for Inlining<'_> {
                             let e = match node.init.take().fold_with(self) {
                                 None => return node,
                                 Some(box e @ Expr::Lit(..)) | Some(box e @ Expr::Ident(..)) => {
-                                    if let Some(cnt) = self.scope.read_cnt(&name.to_id()) {
-                                        if cnt <= 1 {
-                                            node.init = Some(box e.clone());
-                                            self.declare(name.to_id(), Some(e), false);
-                                            return node;
-                                        }
-                                    }
+                                    node.init = Some(box e.clone());
                                     e
                                 }
                                 Some(box e) => {

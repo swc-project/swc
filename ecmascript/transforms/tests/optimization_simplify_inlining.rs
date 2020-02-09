@@ -182,7 +182,7 @@ to!(
     y;
 ",
     "const g = 3;
-    let y;
+    let y = 3;
     3;
 "
 );
@@ -1822,7 +1822,14 @@ fn test_let_const() {
             "  }",
             "}",
         ),
-        concat!("function f(x) {", "  if (true) {", "    x; x;", "  }", "}"),
+        concat!(
+            "function f(x) {",
+            "  if (true) { ",
+            "    let y = x;",
+            "    x; x;",
+            "  }",
+            "}"
+        ),
     );
 
     test(
@@ -1833,7 +1840,14 @@ fn test_let_const() {
             "    }",
             "  }",
         ),
-        concat!("function f(x) {", "  if (true) {", "    x; x;", "  }", "}"),
+        concat!(
+            "function f(x) {",
+            "  if (true) {",
+            "    const y = x;",
+            "    x; x;",
+            "  }",
+            "}"
+        ),
     );
 
     test(
@@ -1845,7 +1859,14 @@ fn test_let_const() {
             "  }",
             "}",
         ),
-        concat!("function f(x) {", "  let y;", "  {", "    x;", "  }", "}"),
+        concat!(
+            "function f(x) {",
+            "  let y;",
+            "  { let y1 = x;",
+            "    x;",
+            "  }",
+            "}"
+        ),
     );
 
     test(
@@ -1857,7 +1878,13 @@ fn test_let_const() {
             "  }",
             "}",
         ),
-        concat!("function f(x) {", "  x; const g = 2;", "  {3;}", "}"),
+        concat!(
+            "function f(x) {",
+            "  let y = x; ",
+            "  x; const g = 2;",
+            "  { const g = 3; let y = 3; 3;}",
+            "}"
+        ),
     );
 }
 
