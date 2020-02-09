@@ -12,6 +12,7 @@ impl Inlining<'_> {
             VarInfo {
                 kind: self.var_decl_kind,
                 read_from_nested_scope: Cell::new(false),
+                read_cnt: Cell::new(0),
                 prevent_inline: Cell::new(false),
                 is_undefined: Cell::new(init.is_none()),
                 value: RefCell::new(init),
@@ -59,7 +60,19 @@ impl Scope<'_> {
         }
     }
 
+    pub fn read_cnt(&self, id: &Id) -> Option<usize> {
+        if let Some(var) = self.find_binding(id) {
+            return Some(var.read_cnt.get());
+        }
+
+        None
+    }
+
     pub fn add_read(&self, id: &Id) {
+        if let Some(var_info) = self.find_binding(id) {
+            var_info.read_cnt.set(var_info.read_cnt.get() + 1);
+        }
+
         let (scope, is_self) = self.scope_for(id);
         if !is_self {
             if let Some(var_info) = scope.bindings.get(id) {
@@ -88,6 +101,7 @@ impl Scope<'_> {
                 VarInfo {
                     kind: VarDeclKind::Var,
                     read_from_nested_scope: Cell::new(false),
+                    read_cnt: Cell::new(0),
                     prevent_inline: Cell::new(true),
                     value: RefCell::new(None),
                     is_undefined: Cell::new(false),
@@ -131,9 +145,9 @@ impl Scope<'_> {
 
     pub fn store_inline_barrier(&self) {
         println!("store_inline_barrier()");
-        self.bindings
-            .iter()
-            .for_each(|v| v.1.prevent_inline.set(true));
+        //        self.bindings
+        //            .iter()
+        //            .for_each(|v| v.1.prevent_inline.set(true));
 
         match self.parent {
             None => {}
@@ -145,7 +159,10 @@ impl Scope<'_> {
 #[derive(Debug)]
 pub(super) struct VarInfo {
     pub kind: VarDeclKind,
-    pub read_from_nested_scope: Cell<bool>,
+
+    read_from_nested_scope: Cell<bool>,
+    read_cnt: Cell<usize>,
+
     pub prevent_inline: Cell<bool>,
     pub value: RefCell<Option<Expr>>,
     pub is_undefined: Cell<bool>,

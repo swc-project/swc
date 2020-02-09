@@ -6,10 +6,11 @@ use crate::{
 use std::borrow::Cow;
 use swc_common::{
     pass::{CompilerPass, Repeated},
+    util::move_map::MoveMap,
     Fold, FoldWith, Mark, Visit, VisitWith,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::ident::IdentLike;
+use swc_ecma_utils::{ident::IdentLike, StmtLike};
 
 mod operator;
 mod scope;
@@ -44,6 +45,7 @@ pub fn inlining(config: Config) -> impl RepeatedJsPass + 'static {
     );
 
     Inlining {
+        phase: Phase::Analysis,
         inline_barrier: config.inline_barrier,
         is_first_run: true,
         changed: false,
@@ -51,6 +53,12 @@ pub fn inlining(config: Config) -> impl RepeatedJsPass + 'static {
         var_decl_kind: VarDeclKind::Var,
         ident_type: IdentType::Ref,
     }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum Phase {
+    Analysis,
+    Inlining,
 }
 
 impl CompilerPass for Inlining<'_> {
@@ -71,6 +79,7 @@ impl Repeated for Inlining<'_> {
 }
 
 struct Inlining<'a> {
+    phase: Phase,
     is_first_run: bool,
     changed: bool,
     scope: Scope<'a>,
@@ -85,6 +94,7 @@ impl Inlining<'_> {
         F: for<'any> FnOnce(&mut Inlining<'any>) -> T,
     {
         let mut child = Inlining {
+            phase: self.phase,
             is_first_run: self.is_first_run,
             changed: false,
             scope: Scope {
@@ -113,6 +123,34 @@ impl Inlining<'_> {
     }
 }
 
+impl<T> Fold<Vec<T>> for Inlining<'_>
+where
+    T: FoldWith<Self> + StmtLike,
+    Vec<T>: FoldWith<Self>,
+{
+    fn fold(&mut self, mut items: Vec<T>) -> Vec<T> {
+        let old_phase = self.phase;
+
+        let depth = self.scope.depth();
+
+        println!("({}) >>>>> >>>>> >>>>> >>>>>", depth);
+        self.phase = Phase::Analysis;
+        items = items.fold_children(self);
+
+        println!("({}) ===== ===== ===== =====", depth);
+
+        // Inline
+        self.phase = Phase::Inlining;
+        items = items.fold_children(self);
+
+        println!("({}) <<<<< <<<<< <<<<< <<<<<", depth);
+
+        self.phase = old_phase;
+
+        items
+    }
+}
+
 impl Fold<VarDecl> for Inlining<'_> {
     fn fold(&mut self, decl: VarDecl) -> VarDecl {
         self.var_decl_kind = decl.kind;
@@ -123,31 +161,61 @@ impl Fold<VarDecl> for Inlining<'_> {
 
 impl Fold<VarDeclarator> for Inlining<'_> {
     fn fold(&mut self, mut node: VarDeclarator) -> VarDeclarator {
-        match node.name {
-            Pat::Ident(ref name) => match &node.init {
-                None => {
-                    self.declare(name.to_id(), None);
+        match self.phase {
+            Phase::Analysis => match node.name {
+                Pat::Ident(ref name) => match &node.init {
+                    None => {
+                        self.declare(name.to_id(), None);
 
-                    return node;
-                }
-                Some(box e @ Expr::Lit(..)) | Some(box e @ Expr::Ident(..)) => {
-                    if self.var_decl_kind == VarDeclKind::Const {
-                        if self.is_first_run {
-                            self.scope.constants.insert(name.to_id(), e.clone());
-                        }
-                    } else {
-                        let e = e.clone().fold_with(self);
-
-                        println!("({}): Inserting {:?}", self.scope.depth(), name.to_id());
-
-                        self.declare(name.to_id(), Some(e.clone()));
-                        node.init = Some(box e);
+                        return node;
                     }
-                    return node;
-                }
+                    Some(box e @ Expr::Lit(..)) | Some(box e @ Expr::Ident(..)) => {
+                        if self.var_decl_kind == VarDeclKind::Const {
+                            if self.is_first_run {
+                                self.scope.constants.insert(name.to_id(), e.clone());
+                            }
+                        }
+                        return node;
+                    }
+                    _ => {}
+                },
                 _ => {}
             },
-            _ => {}
+            Phase::Inlining => {
+                //
+                match node.name {
+                    Pat::Ident(ref name) => {
+                        if self.var_decl_kind != VarDeclKind::Const {
+                            let e = match node.init.take() {
+                                None => return node,
+                                Some(box e @ Expr::Lit(..)) | Some(box e @ Expr::Ident(..)) => e,
+                                Some(box e) => {
+                                    if let Some(cnt) = self.scope.read_cnt(&name.to_id()) {
+                                        if cnt <= 1 {
+                                            e
+                                        } else {
+                                            node.init = Some(box e);
+                                            return node;
+                                        }
+                                    } else {
+                                        node.init = Some(box e);
+                                        return node;
+                                    }
+                                }
+                            };
+
+                            let e = e.fold_with(self);
+
+                            println!("({}): Inserting {:?}", self.scope.depth(), name.to_id());
+
+                            self.declare(name.to_id(), Some(e));
+
+                            return node;
+                        }
+                    }
+                    _ => {}
+                }
+            }
         }
 
         node.fold_children(self)
@@ -226,7 +294,9 @@ impl Fold<CatchClause> for Inlining<'_> {
 impl Fold<CallExpr> for Inlining<'_> {
     fn fold(&mut self, node: CallExpr) -> CallExpr {
         let node = node.fold_children(self);
-        self.scope.store_inline_barrier();
+        if self.phase == Phase::Analysis {
+            self.scope.store_inline_barrier();
+        }
         node
     }
 }
@@ -234,7 +304,9 @@ impl Fold<CallExpr> for Inlining<'_> {
 impl Fold<NewExpr> for Inlining<'_> {
     fn fold(&mut self, node: NewExpr) -> NewExpr {
         let node = node.fold_children(self);
-        self.scope.store_inline_barrier();
+        if self.phase == Phase::Analysis {
+            self.scope.store_inline_barrier();
+        }
         node
     }
 }
@@ -356,50 +428,51 @@ impl Fold<Expr> for Inlining<'_> {
         match node {
             Expr::Ident(ref i) => {
                 let id = i.to_id();
-                println!("Trying to inline: {:?}", id);
-
                 if self.is_first_run {
                     if let Some(expr) = self.scope.find_constants(&id) {
-                        println!("Inlining constant");
                         self.changed = true;
                         return expr.clone().fold_with(self);
                     }
                 }
 
-                let expr = if let Some(var) = self.scope.find_binding(&id) {
-                    println!("VarInfo: {:?}", var);
-                    if !var.prevent_inline.get() {
-                        let expr = var.value.borrow();
+                match self.phase {
+                    Phase::Analysis => self.scope.add_read(&i.to_id()),
+                    Phase::Inlining => {
+                        println!("Trying to inline: {:?}", id);
+                        let expr = if let Some(var) = self.scope.find_binding(&id) {
+                            println!("VarInfo: {:?}", var);
+                            if !var.prevent_inline.get() {
+                                let expr = var.value.borrow();
 
-                        if let Some(expr) = &*expr {
-                            dbg!();
-                            self.changed = true;
-                            Some(expr.clone())
+                                if let Some(expr) = &*expr {
+                                    dbg!();
+                                    self.changed = true;
+                                    Some(expr.clone())
+                                } else {
+                                    println!("Not a cheap expression");
+                                    None
+                                }
+                            } else {
+                                println!("Inlining is prevented");
+                                None
+                            }
                         } else {
-                            println!("Not a cheap expression");
+                            println!("No binding found");
                             None
+                        };
+
+                        if let Some(expr) = expr {
+                            return match expr {
+                                Expr::Ident(ref new_i)
+                                    if i.sym == new_i.sym && i.span.ctxt() == new_i.span.ctxt() =>
+                                {
+                                    expr
+                                }
+                                _ => expr.fold_with(self),
+                            };
                         }
-                    } else {
-                        println!("Inlining is prevented");
-                        None
                     }
-                } else {
-                    println!("No binding found");
-                    None
-                };
-
-                if let Some(expr) = expr {
-                    return match expr {
-                        Expr::Ident(ref new_i)
-                            if i.sym == new_i.sym && i.span.ctxt() == new_i.span.ctxt() =>
-                        {
-                            expr
-                        }
-                        _ => expr.fold_with(self),
-                    };
                 }
-
-                self.scope.add_read(&i.to_id())
             }
 
             _ => {}
