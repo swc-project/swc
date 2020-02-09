@@ -45,6 +45,7 @@ pub fn dce<'a>(config: Config<'a>) -> impl RepeatedJsPass + 'a {
             config,
             dropped: false,
             included: Default::default(),
+            changed: false,
             marking_phase: false,
         },
         UsedMarkRemover { used_mark }
@@ -82,6 +83,7 @@ impl Fold<Span> for UsedMarkRemover {
 
 #[derive(Debug)]
 struct Dce<'a> {
+    changed: bool,
     config: Config<'a>,
 
     /// Identifiers which should be emitted.
@@ -118,8 +120,7 @@ where
         preserved.reserve(items.len());
 
         loop {
-            let prev_len = self.included.len();
-
+            self.changed = false;
             let mut idx = 0u32;
             items = items.move_map(|item| {
                 let item = if preserved.contains(&idx) {
@@ -135,7 +136,7 @@ where
                 idx += 1;
                 item
             });
-            if prev_len != self.included.len() {
+            if !self.changed {
                 break;
             }
         }
@@ -434,6 +435,7 @@ impl Fold<Ident> for Dce<'_> {
 
         if self.marking_phase {
             self.included.insert(i.to_id());
+            self.changed = true;
         }
 
         i
