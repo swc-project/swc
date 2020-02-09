@@ -63,3 +63,13 @@ if (a) {
 console.log(c);
 "
 );
+
+noop!(
+    noop_2,
+    "
+switch (1){
+    case 1: 
+        a = '1';
+}
+"
+);
