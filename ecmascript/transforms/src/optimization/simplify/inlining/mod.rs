@@ -304,10 +304,13 @@ impl Fold<CatchClause> for Inlining<'_> {
 }
 
 impl Fold<CallExpr> for Inlining<'_> {
-    fn fold(&mut self, node: CallExpr) -> CallExpr {
+    fn fold(&mut self, mut node: CallExpr) -> CallExpr {
+        node.callee = node.callee.fold_with(self);
+
         self.scope.store_inline_barrier(self.phase);
 
-        let node = node.fold_children(self);
+        node.args = node.args.fold_with(self);
+
         node
     }
 }
