@@ -200,13 +200,21 @@ impl Fold<VarDeclarator> for Inlining<'_> {
 
                             let e = match node.init.take().fold_with(self) {
                                 None => return node,
-                                Some(box e @ Expr::Lit(..)) | Some(box e @ Expr::Ident(..)) => e,
+                                Some(box e @ Expr::Lit(..)) | Some(box e @ Expr::Ident(..)) => {
+                                    if let Some(cnt) = self.scope.read_cnt(&name.to_id()) {
+                                        if cnt <= 1 {
+                                            node.init = Some(box e.clone());
+                                            self.declare(name.to_id(), Some(e), false);
+                                            return node;
+                                        }
+                                    }
+                                    e
+                                }
                                 Some(box e) => {
                                     if let Some(cnt) = self.scope.read_cnt(&name.to_id()) {
                                         if cnt == 1 {
                                             e
                                         } else {
-                                            node.init = Some(box e);
                                             return node;
                                         }
                                     } else {
@@ -450,7 +458,9 @@ impl Fold<Expr> for Inlining<'_> {
                 }
 
                 match self.phase {
-                    Phase::Analysis => self.scope.add_read(&id),
+                    Phase::Analysis => {
+                        self.scope.add_read(&id);
+                    }
                     Phase::Inlining => {
                         println!("Trying to inline: {:?}", id);
                         let expr = if let Some(var) = self.scope.find_binding(&id) {
