@@ -226,7 +226,7 @@ impl Fold<ForStmt> for Dce<'_> {
 
 impl Fold<ForInStmt> for Dce<'_> {
     fn fold(&mut self, mut node: ForInStmt) -> ForInStmt {
-        if self.is_marked(n ode.span) {
+        if self.is_marked(node.span) {
             return node;
         }
 
