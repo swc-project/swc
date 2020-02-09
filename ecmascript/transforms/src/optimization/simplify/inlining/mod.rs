@@ -422,7 +422,7 @@ impl Fold<Expr> for Inlining<'_> {
                     match e.left {
                         PatOrExpr::Pat(box Pat::Ident(ref i))
                         | PatOrExpr::Expr(box Expr::Ident(ref i)) => {
-                            if let Some(var) = self.scope.bindings.get(&i.to_id()) {
+                            if let Some(var) = self.scope.find_binding_from_current(&i.to_id()) {
                                 if var.is_undefined.get() && !var.is_inline_prevented() {
                                     if match *e.right {
                                         Expr::Ident(..) | Expr::Lit(..) => true,

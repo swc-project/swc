@@ -57,7 +57,7 @@ pub(super) struct Scope<'a> {
     pub kind: ScopeKind,
 
     inline_barriers: RefCell<VecDeque<usize>>,
-    pub bindings: IndexMap<Id, VarInfo, FxBuildHasher>,
+    bindings: IndexMap<Id, VarInfo, FxBuildHasher>,
 
     /// Simple optimization. We don't need complex scope analysis.
     pub constants: FxHashMap<Id, Expr>,
@@ -86,7 +86,7 @@ impl<'a> Scope<'a> {
         if let Some(..) = self.constants.get(id) {
             return (self, true);
         }
-        if let Some(..) = self.bindings.get(id) {
+        if let Some(..) = self.find_binding_from_current(id) {
             return (self, true);
         }
 
@@ -114,7 +114,7 @@ impl<'a> Scope<'a> {
 
         let (scope, is_self) = self.scope_for(id);
         if !is_self {
-            if let Some(var_info) = scope.bindings.get(id) {
+            if let Some(var_info) = scope.find_binding_from_current(id) {
                 var_info.read_from_nested_scope.set(true);
             }
         }
@@ -123,7 +123,7 @@ impl<'a> Scope<'a> {
     pub fn add_write(&mut self, id: &Id, force_no_inline: bool) {
         let (scope, is_self) = self.scope_for(id);
 
-        if let Some(var_info) = scope.bindings.get(id) {
+        if let Some(var_info) = scope.find_binding_from_current(id) {
             if !is_self || force_no_inline {
                 println!("({}) Prevent inlining: {:?}", self.depth(), id);
                 var_info.inline_prevented.set(true);
@@ -150,11 +150,19 @@ impl<'a> Scope<'a> {
     }
 
     pub fn find_binding(&self, id: &Id) -> Option<&VarInfo> {
-        if let Some(e) = self.bindings.get(id) {
+        if let Some(e) = self.find_binding_from_current(id) {
             return Some(e);
         }
 
         self.parent.and_then(|parent| parent.find_binding(id))
+    }
+
+    pub fn find_binding_from_current(&self, id: &Id) -> Option<&VarInfo> {
+        if let Some(e) = self.bindings.get(id) {
+            return Some(e);
+        }
+
+        None
     }
 
     pub fn find_constants(&self, id: &Id) -> Option<&Expr> {
@@ -195,7 +203,7 @@ impl<'a> Scope<'a> {
     }
 
     pub fn prevent_inline(&self, id: &Id) {
-        if let Some(v) = self.bindings.get(id) {
+        if let Some(v) = self.find_binding_from_current(id) {
             v.inline_prevented.set(true);
         }
 
@@ -218,7 +226,7 @@ impl<'a> Scope<'a> {
     }
 
     pub fn is_inline_prevented(&self, id: &Id) -> bool {
-        if let Some(v) = self.bindings.get(id) {
+        if let Some(v) = self.find_binding_from_current(id) {
             return v.inline_prevented.get();
         }
 
