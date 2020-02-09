@@ -1149,11 +1149,8 @@ fn modified_test_no_inline_aliases2() {
 }
 
 #[test]
-fn modified_test_no_inline_aliases2b() {
-    test(
-        "var x = this.foo(); this.bar(); var y; y = x; y = 3; this.baz(y); ",
-        "var x = this.foo(); this.bar(); var y; y = x; y = 3; this.baz(3); ",
-    );
+fn test_no_inline_aliases2b() {
+    test_same("var x = this.foo(); this.bar(); var y; y = x; y = 3; this.baz(y); ");
 }
 
 #[test]

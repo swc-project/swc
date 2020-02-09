@@ -8,7 +8,7 @@ use std::{
 };
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
-use swc_ecma_utils::Id;
+use swc_ecma_utils::{ident::IdentLike, Id};
 
 impl Inlining<'_> {
     pub(super) fn declare(&mut self, id: Id, init: Option<Expr>, is_change: bool) {
@@ -17,6 +17,11 @@ impl Inlining<'_> {
             && init.is_none()
             && self.phase == Phase::Inlining;
 
+        let is_inline_prevented = self.scope.is_inline_prevented(&id)
+            || match init {
+                Some(Expr::Ident(ref i)) => self.scope.is_inline_prevented(&i.to_id()),
+                _ => false,
+            };
         if is_undefined {
             println!("{:?} is undefined", id);
         }
@@ -30,13 +35,14 @@ impl Inlining<'_> {
                 e.get().read_cnt.set(0);
                 e.get().read_from_nested_scope.set(false);
                 e.get_mut().value = RefCell::new(init);
+                e.get().inline_prevented.set(is_inline_prevented);
             }
             Entry::Vacant(e) => {
                 e.insert(VarInfo {
                     kind: self.var_decl_kind,
                     read_from_nested_scope: Cell::new(false),
                     read_cnt: Cell::new(0),
-                    inline_prevented: Cell::new(false),
+                    inline_prevented: Cell::new(is_inline_prevented),
                     is_undefined: Cell::new(is_undefined),
                     value: RefCell::new(init),
                 });

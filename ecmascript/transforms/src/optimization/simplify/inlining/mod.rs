@@ -9,7 +9,7 @@ use swc_common::{
     Fold, FoldWith, Mark, Visit, VisitWith,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ident::IdentLike, undefined, StmtLike};
+use swc_ecma_utils::{find_ids, ident::IdentLike, undefined, Id, StmtLike};
 
 mod operator;
 mod scope;
@@ -344,6 +344,19 @@ impl Fold<AssignExpr> for Inlining<'_> {
                     _ => {}
                 }
             }
+        }
+        match *e.right {
+            Expr::Ident(ref ri) => {
+                if self.scope.is_inline_prevented(&ri.to_id()) {
+                    // Prevent inline for lhd
+                    let ids: Vec<Id> = find_ids(&e.left);
+                    for id in ids {
+                        self.scope.prevent_inline(&id);
+                    }
+                    return e;
+                }
+            }
+            _ => {}
         }
 
         match *e.right {
