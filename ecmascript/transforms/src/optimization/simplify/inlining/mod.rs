@@ -51,6 +51,7 @@ pub fn inlining(config: Config) -> impl RepeatedJsPass + 'static {
         scope: Default::default(),
         var_decl_kind: VarDeclKind::Var,
         ident_type: IdentType::Ref,
+        pat_mode: PatFoldingMode::VarDecl,
     }
 }
 
@@ -85,6 +86,14 @@ struct Inlining<'a> {
     var_decl_kind: VarDeclKind,
     ident_type: IdentType,
     inline_barrier: Mark,
+    pat_mode: PatFoldingMode,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum PatFoldingMode {
+    Assign,
+    Param,
+    VarDecl,
 }
 
 impl Inlining<'_> {
@@ -100,6 +109,7 @@ impl Inlining<'_> {
             var_decl_kind: VarDeclKind::Var,
             ident_type: self.ident_type,
             inline_barrier: self.inline_barrier,
+            pat_mode: self.pat_mode,
         };
 
         let node = op(&mut child);
@@ -159,6 +169,8 @@ impl Fold<VarDecl> for Inlining<'_> {
 
 impl Fold<VarDeclarator> for Inlining<'_> {
     fn fold(&mut self, mut node: VarDeclarator) -> VarDeclarator {
+        self.pat_mode = PatFoldingMode::VarDecl;
+
         match self.phase {
             Phase::Analysis => match node.name {
                 Pat::Ident(ref name) => match &node.init {
@@ -285,6 +297,7 @@ impl Fold<Function> for Inlining<'_> {
         self.with_child(ScopeKind::Fn, move |child| {
             let mut node = node;
 
+            child.pat_mode = PatFoldingMode::Param;
             node.params = node.params.fold_with(child);
             node.body = match node.body {
                 None => None,
@@ -384,6 +397,7 @@ impl Fold<NewExpr> for Inlining<'_> {
 
 impl Fold<AssignExpr> for Inlining<'_> {
     fn fold(&mut self, e: AssignExpr) -> AssignExpr {
+        self.pat_mode = PatFoldingMode::Assign;
         let e = AssignExpr {
             left: match e.left {
                 PatOrExpr::Pat(p) => PatOrExpr::Pat(p.fold_with(self)),
@@ -582,12 +596,18 @@ impl Fold<Pat> for Inlining<'_> {
         let node: Pat = node.fold_children(self);
 
         match node {
-            Pat::Ident(ref i) => {
-                if let Some(..) = self.scope.find_binding_from_current(&i.to_id()) {
-                } else {
-                    self.scope.add_write(&i.to_id(), false);
+            Pat::Ident(ref i) => match self.pat_mode {
+                PatFoldingMode::Param => {
+                    self.declare(i.to_id(), None, false);
                 }
-            }
+                PatFoldingMode::VarDecl => {}
+                PatFoldingMode::Assign => {
+                    if let Some(..) = self.scope.find_binding_from_current(&i.to_id()) {
+                    } else {
+                        self.scope.add_write(&i.to_id(), false);
+                    }
+                }
+            },
 
             _ => {}
         }
