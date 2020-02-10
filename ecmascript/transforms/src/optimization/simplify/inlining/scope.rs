@@ -17,11 +17,17 @@ impl Inlining<'_> {
             && init.is_none()
             && self.phase == Phase::Inlining;
 
-        let is_inline_prevented = self.scope.is_inline_prevented(&id)
+        let hoisted = self.var_decl_kind == VarDeclKind::Var && self.scope.kind != ScopeKind::Fn;
+
+        let is_inline_prevented = hoisted
+            || self.scope.is_inline_prevented(&id)
             || match init {
                 Some(Expr::Ident(ref i)) => self.scope.is_inline_prevented(&i.to_id()),
                 _ => false,
             };
+        if is_inline_prevented {
+            println!("Inline prevented: {:?}", id)
+        }
         if is_undefined {
             println!("{:?} is undefined", id);
         }
