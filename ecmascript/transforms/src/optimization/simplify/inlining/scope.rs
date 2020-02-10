@@ -205,15 +205,11 @@ impl<'a> Scope<'a> {
                 self.inline_barriers.borrow_mut().push_back(idx);
             }
             Phase::Inlining => {
-                let idx = self
-                    .inline_barriers
-                    .borrow_mut()
-                    .pop_front()
-                    .expect("analysis phase should fill the barriers");
-
-                for i in 0..idx {
-                    if let Some((id, _)) = self.bindings.get_index(i) {
-                        self.prevent_inline(id);
+                if let Some(idx) = self.inline_barriers.borrow_mut().pop_front() {
+                    for i in 0..idx {
+                        if let Some((id, _)) = self.bindings.get_index(i) {
+                            self.prevent_inline(id);
+                        }
                     }
                 }
             }

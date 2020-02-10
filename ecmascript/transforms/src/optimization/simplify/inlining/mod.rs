@@ -154,10 +154,9 @@ impl Fold<VarDeclarator> for Inlining<'_> {
             Phase::Analysis => match node.name {
                 Pat::Ident(ref name) => match &node.init {
                     None => {
-                        self.declare(name.to_id(), None, true);
-                        node = node.fold_children(self);
-
-                        return node;
+                        if self.var_decl_kind != VarDeclKind::Const {
+                            self.declare(name.to_id(), None, true);
+                        }
                     }
                     Some(box e @ Expr::Lit(..)) | Some(box e @ Expr::Ident(..)) => {
                         if self.var_decl_kind == VarDeclKind::Const {
@@ -166,11 +165,13 @@ impl Fold<VarDeclarator> for Inlining<'_> {
                             }
                         } else {
                             self.declare(name.to_id(), None, false);
-                            node = node.fold_children(self);
                         }
-                        return node;
                     }
-                    _ => {}
+                    _ => {
+                        if self.var_decl_kind != VarDeclKind::Const {
+                            self.declare(name.to_id(), None, false);
+                        }
+                    }
                 },
                 _ => {}
             },
@@ -429,7 +430,7 @@ impl Fold<Expr> for Inlining<'_> {
                                     } {
                                         *var.value.borrow_mut() = Some(*e.right.clone());
                                         var.is_undefined.set(false);
-                                        return *e.right.fold_with(self);
+                                        return *e.right;
                                     }
                                 }
                             }
@@ -437,7 +438,7 @@ impl Fold<Expr> for Inlining<'_> {
                         _ => {}
                     }
 
-                    return Expr::Assign(e.fold_with(self));
+                    return Expr::Assign(e);
                 }
 
                 _ => {}
