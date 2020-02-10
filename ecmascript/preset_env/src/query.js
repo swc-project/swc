@@ -1,6 +1,13 @@
 "use strict";
 
-var browserslist = require('browserslist');
+var browserslist;
+try{
+    browserslist = require('browserslist');
+} catch (e){
+    console.error('swc: You have to install `browserslist` to use `env`');
+    process.exit(1);
+}
+
 
 var target = JSON.parse(process.argv[1]);
 target = target.browsers ? target.browsers : target;
