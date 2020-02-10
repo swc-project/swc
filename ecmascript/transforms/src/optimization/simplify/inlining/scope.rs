@@ -5,6 +5,7 @@ use indexmap::map::{Entry, IndexMap};
 use std::{
     cell::{Cell, RefCell},
     collections::VecDeque,
+    mem::replace,
 };
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
@@ -25,6 +26,7 @@ impl Inlining<'_> {
                 Some(Expr::Ident(ref i)) => self.scope.is_inline_prevented(&i.to_id()),
                 _ => false,
             };
+
         if is_inline_prevented {
             println!("Inline prevented: {:?}", id)
         }
@@ -274,6 +276,19 @@ impl<'a> Scope<'a> {
             None => false,
             Some(p) => p.is_inline_prevented(id),
         }
+    }
+
+    pub fn take_var_bindings(&mut self) -> impl Iterator<Item = (Id, VarInfo)> {
+        let v = replace(&mut self.bindings, Default::default());
+
+        v.into_iter().filter_map(|(id, v)| {
+            println!("take_var_binding: {:?}", id);
+            if v.kind == VarDeclKind::Var {
+                Some((id, v))
+            } else {
+                None
+            }
+        })
     }
 }
 

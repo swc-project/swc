@@ -106,6 +106,15 @@ impl Inlining<'_> {
 
         self.changed |= child.changed;
 
+        if kind != ScopeKind::Fn {
+            for (id, v) in child.scope.take_var_bindings() {
+                self.declare(id.clone(), None, false);
+                if v.is_inline_prevented() {
+                    self.scope.prevent_inline(&id);
+                }
+            }
+        }
+
         node
     }
 
