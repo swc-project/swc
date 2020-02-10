@@ -42,10 +42,13 @@ impl Inlining<'_> {
                     None
                 }
             }) {
-                self.declare(id.clone(), None, false);
-                if v.is_inline_prevented() {
-                    self.scope.prevent_inline(&id);
-                }
+                let v: VarInfo = v;
+                // TODO: Do this only if it's used in outer scope
+                v.inline_prevented.set(true);
+
+                *v.value.borrow_mut() = None;
+                v.is_undefined.set(false);
+                self.scope.bindings.insert(id, v);
             }
         }
 
@@ -195,6 +198,8 @@ impl<'a> Scope<'a> {
         let (scope, is_self) = self.scope_for(id);
 
         if let Some(var_info) = scope.find_binding_from_current(id) {
+            var_info.is_undefined.set(false);
+
             if !is_self || force_no_inline {
                 self.prevent_inline(id)
             }
