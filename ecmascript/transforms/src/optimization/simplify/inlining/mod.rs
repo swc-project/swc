@@ -613,6 +613,9 @@ impl Fold<Pat> for Inlining<'_> {
 
 impl Fold<ForInStmt> for Inlining<'_> {
     fn fold(&mut self, mut node: ForInStmt) -> ForInStmt {
+        self.pat_mode = PatFoldingMode::Param;
+        node.left = node.left.fold_with(self);
+
         {
             node.left.visit_with(&mut IdentListVisitor {
                 scope: &mut self.scope,
@@ -628,6 +631,9 @@ impl Fold<ForInStmt> for Inlining<'_> {
 
 impl Fold<ForOfStmt> for Inlining<'_> {
     fn fold(&mut self, mut node: ForOfStmt) -> ForOfStmt {
+        self.pat_mode = PatFoldingMode::Param;
+        node.left = node.left.fold_with(self);
+
         {
             node.left.visit_with(&mut IdentListVisitor {
                 scope: &mut self.scope,
