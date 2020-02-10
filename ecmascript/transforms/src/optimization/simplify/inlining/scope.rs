@@ -125,8 +125,7 @@ impl<'a> Scope<'a> {
 
         if let Some(var_info) = scope.find_binding_from_current(id) {
             if !is_self || force_no_inline {
-                println!("({}) Prevent inlining: {:?}", self.depth(), id);
-                var_info.inline_prevented.set(true);
+                self.prevent_inline(id)
             }
         } else {
             println!(
@@ -222,6 +221,8 @@ impl<'a> Scope<'a> {
     }
 
     pub fn prevent_inline(&self, id: &Id) {
+        println!("({}) Prevent inlining: {:?}", self.depth(), id);
+
         if let Some(v) = self.find_binding_from_current(id) {
             v.inline_prevented.set(true);
         }

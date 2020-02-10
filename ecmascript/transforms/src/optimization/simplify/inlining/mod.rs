@@ -158,18 +158,33 @@ impl Fold<VarDeclarator> for Inlining<'_> {
                             self.declare(name.to_id(), None, true);
                         }
                     }
+                    Some(box e @ Expr::Lit(..)) | Some(box e @ Expr::Ident(..))
+                        if self.var_decl_kind == VarDeclKind::Const =>
+                    {
+                        if self.is_first_run {
+                            self.scope.constants.insert(name.to_id(), e.clone());
+                        }
+                    }
                     Some(box e @ Expr::Lit(..)) | Some(box e @ Expr::Ident(..)) => {
-                        if self.var_decl_kind == VarDeclKind::Const {
-                            if self.is_first_run {
-                                self.scope.constants.insert(name.to_id(), e.clone());
+                        self.declare(name.to_id(), None, false);
+
+                        match e {
+                            Expr::Ident(ref ri) => {
+                                if self.scope.is_inline_prevented(&ri.to_id()) {
+                                    self.scope.prevent_inline(&name.to_id());
+                                }
                             }
-                        } else {
-                            self.declare(name.to_id(), None, false);
+                            _ => {}
                         }
                     }
                     _ => {
                         if self.var_decl_kind != VarDeclKind::Const {
                             self.declare(name.to_id(), None, false);
+
+                            if contains_this_expr(&node.init) {
+                                self.scope.prevent_inline(&name.to_id());
+                                return node;
+                            }
                         }
                     }
                 },
@@ -184,10 +199,6 @@ impl Fold<VarDeclarator> for Inlining<'_> {
                             println!("Trying to optimize variable declaration: {:?}", id);
 
                             if self.scope.is_inline_prevented(&id) {
-                                return node;
-                            }
-
-                            if contains_this_expr(&node.init) {
                                 return node;
                             }
 
