@@ -31,8 +31,7 @@ impl Inlining<'_> {
 
         let hoisted = self.var_decl_kind == VarDeclKind::Var && self.scope.kind != ScopeKind::Fn;
 
-        let is_inline_prevented = hoisted
-            || self.scope.is_inline_prevented(&id)
+        let is_inline_prevented = self.scope.is_inline_prevented(&id)
             || match init {
                 Some(Expr::Ident(ref i)) => self.scope.is_inline_prevented(&i.to_id()),
                 _ => false,

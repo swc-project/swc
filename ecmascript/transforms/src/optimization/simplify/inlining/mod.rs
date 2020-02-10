@@ -224,10 +224,12 @@ impl Fold<VarDeclarator> for Inlining<'_> {
                                     .scope
                                     .has_same_this(&id, node.init.as_ref().map(|v| &**v))
                             {
+                                println!("Inline is prevented for {:?}", id);
                                 return node;
                             }
 
                             let init = node.init.take().fold_with(self);
+                            println!("\tInit: {:?}", init);
 
                             match init {
                                 Some(box Expr::Ident(ref ri)) => {
@@ -237,7 +239,13 @@ impl Fold<VarDeclarator> for Inlining<'_> {
                                         false,
                                     );
 
+                                    println!("\tInit-id: {:?}", ri.to_id());
+
                                     if self.scope.is_inline_prevented(&ri.to_id()) {
+                                        println!(
+                                            "Inlining is not possible as inline of the \
+                                             initialization was prevented"
+                                        );
                                         node.init = init;
                                         return node;
                                     }
@@ -354,7 +362,25 @@ impl Fold<SwitchCase> for Inlining<'_> {
 
 impl Fold<CatchClause> for Inlining<'_> {
     fn fold(&mut self, node: CatchClause) -> CatchClause {
-        self.fold_with_child(ScopeKind::Block, node)
+        self.with_child(ScopeKind::Block, move |child| {
+            let mut node = node;
+
+            child.pat_mode = PatFoldingMode::Param;
+            node.param = node.param.fold_with(child);
+            match child.phase {
+                Phase::Analysis => {
+                    let ids: Vec<Id> = find_ids(&node.param);
+                    for id in ids {
+                        child.scope.prevent_inline(&id);
+                    }
+                }
+                Phase::Inlining => {}
+            }
+
+            node.body = node.body.fold_with(child);
+
+            node
+        })
     }
 }
 
@@ -598,7 +624,7 @@ impl Fold<Pat> for Inlining<'_> {
         match node {
             Pat::Ident(ref i) => match self.pat_mode {
                 PatFoldingMode::Param => {
-                    self.declare(i.to_id(), None, false);
+                    self.declare(i.to_id(), Some(Expr::Ident(i.clone())), false);
                 }
                 PatFoldingMode::VarDecl => {}
                 PatFoldingMode::Assign => {
