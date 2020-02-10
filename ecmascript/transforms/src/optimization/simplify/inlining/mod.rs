@@ -97,37 +97,6 @@ enum PatFoldingMode {
 }
 
 impl Inlining<'_> {
-    fn with_child<F, T>(&mut self, kind: ScopeKind, op: F) -> T
-    where
-        F: for<'any> FnOnce(&mut Inlining<'any>) -> T,
-    {
-        let mut child = Inlining {
-            phase: self.phase,
-            is_first_run: self.is_first_run,
-            changed: false,
-            scope: Scope::new(Some(&self.scope), kind),
-            var_decl_kind: VarDeclKind::Var,
-            ident_type: self.ident_type,
-            inline_barrier: self.inline_barrier,
-            pat_mode: self.pat_mode,
-        };
-
-        let node = op(&mut child);
-
-        self.changed |= child.changed;
-
-        if kind != ScopeKind::Fn {
-            for (id, v) in child.scope.take_var_bindings() {
-                self.declare(id.clone(), None, false);
-                if v.is_inline_prevented() {
-                    self.scope.prevent_inline(&id);
-                }
-            }
-        }
-
-        node
-    }
-
     fn fold_with_child<T>(&mut self, kind: ScopeKind, node: T) -> T
     where
         T: 'static + for<'any> FoldWith<Inlining<'any>>,

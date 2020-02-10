@@ -12,6 +12,46 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
 
 impl Inlining<'_> {
+    pub(super) fn with_child<F, T>(&mut self, kind: ScopeKind, op: F) -> T
+    where
+        F: for<'any> FnOnce(&mut Inlining<'any>) -> T,
+    {
+        let mut child = Inlining {
+            phase: self.phase,
+            is_first_run: self.is_first_run,
+            changed: false,
+            scope: Scope::new(Some(&self.scope), kind),
+            var_decl_kind: VarDeclKind::Var,
+            ident_type: self.ident_type,
+            inline_barrier: self.inline_barrier,
+            pat_mode: self.pat_mode,
+        };
+
+        let node = op(&mut child);
+
+        self.changed |= child.changed;
+
+        if kind != ScopeKind::Fn {
+            let v = replace(&mut child.scope.bindings, Default::default());
+
+            for (id, v) in v.into_iter().filter_map(|(id, v)| {
+                println!("take_var_binding: {:?}", id);
+                if v.kind == VarDeclKind::Var {
+                    Some((id, v))
+                } else {
+                    None
+                }
+            }) {
+                self.declare(id.clone(), None, false);
+                if v.is_inline_prevented() {
+                    self.scope.prevent_inline(&id);
+                }
+            }
+        }
+
+        node
+    }
+
     pub(super) fn declare(&mut self, id: Id, init: Option<Expr>, is_change: bool) {
         let is_undefined = self.var_decl_kind == VarDeclKind::Var
             && !is_change
@@ -300,19 +340,6 @@ impl<'a> Scope<'a> {
         }
 
         true
-    }
-
-    pub fn take_var_bindings(&mut self) -> impl Iterator<Item = (Id, VarInfo)> {
-        let v = replace(&mut self.bindings, Default::default());
-
-        v.into_iter().filter_map(|(id, v)| {
-            println!("take_var_binding: {:?}", id);
-            if v.kind == VarDeclKind::Var {
-                Some((id, v))
-            } else {
-                None
-            }
-        })
     }
 }
 
