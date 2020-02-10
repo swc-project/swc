@@ -39,10 +39,10 @@ impl Inlining<'_> {
             };
 
         if is_inline_prevented {
-            println!("Inline prevented: {:?}", id)
+            println!("declare: Inline prevented: {:?}", id)
         }
         if is_undefined {
-            println!("{:?} is undefined", id);
+            println!("declare: {:?} is undefined", id);
         }
 
         let idx = match self.scope.bindings.entry(id.clone()) {
@@ -163,7 +163,7 @@ impl<'a> Scope<'a> {
             // noop
         } else {
             println!(
-                "({}): Prevent inlining as it is not resolved. (scope = ({})): {:?}",
+                "({}): Unresolved. (scope = ({})): {:?}",
                 self.depth(),
                 scope.depth(),
                 id
@@ -174,7 +174,7 @@ impl<'a> Scope<'a> {
                     kind: VarDeclKind::Var,
                     read_from_nested_scope: Cell::new(false),
                     read_cnt: Cell::new(0),
-                    inline_prevented: Cell::new(true),
+                    inline_prevented: Cell::new(false),
                     value: RefCell::new(None),
                     is_undefined: Cell::new(false),
                     this_sensitive: Cell::new(false),
