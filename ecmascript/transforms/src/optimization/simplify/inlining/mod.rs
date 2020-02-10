@@ -192,7 +192,7 @@ impl Fold<VarDeclarator> for Inlining<'_> {
 
                             if contains_this_expr(&node.init) {
                                 self.scope.prevent_inline(&name.to_id());
-                                return node;
+                                return node.fold_children(self);
                             }
                         }
                     }
@@ -207,7 +207,11 @@ impl Fold<VarDeclarator> for Inlining<'_> {
 
                             println!("Trying to optimize variable declaration: {:?}", id);
 
-                            if self.scope.is_inline_prevented(&id) {
+                            if self.scope.is_inline_prevented(&id)
+                                || !self
+                                    .scope
+                                    .has_same_this(&id, node.init.as_ref().map(|v| &**v))
+                            {
                                 return node;
                             }
 
@@ -345,7 +349,6 @@ impl Fold<CallExpr> for Inlining<'_> {
     fn fold(&mut self, mut node: CallExpr) -> CallExpr {
         node.callee = node.callee.fold_with(self);
 
-        self.scope.store_inline_barrier(self.phase);
         if self.phase == Phase::Analysis {
             match node.callee {
                 ExprOrSuper::Expr(ref callee) => {
@@ -358,6 +361,8 @@ impl Fold<CallExpr> for Inlining<'_> {
 
         node.args = node.args.fold_with(self);
 
+        self.scope.store_inline_barrier(self.phase);
+
         node
     }
 }
@@ -365,13 +370,14 @@ impl Fold<CallExpr> for Inlining<'_> {
 impl Fold<NewExpr> for Inlining<'_> {
     fn fold(&mut self, mut node: NewExpr) -> NewExpr {
         node.callee = node.callee.fold_with(self);
-
-        self.scope.store_inline_barrier(self.phase);
         if self.phase == Phase::Analysis {
             self.scope.mark_this_sensitive(&node.callee);
         }
 
         node.args = node.args.fold_with(self);
+
+        self.scope.store_inline_barrier(self.phase);
+
         node
     }
 }

@@ -288,6 +288,19 @@ impl<'a> Scope<'a> {
         }
     }
 
+    pub fn has_same_this(&self, id: &Id, init: Option<&Expr>) -> bool {
+        if let Some(v) = self.find_binding(id) {
+            if v.this_sensitive.get() {
+                match init {
+                    Some(&Expr::Member(..)) => return false,
+                    _ => {}
+                }
+            }
+        }
+
+        true
+    }
+
     pub fn take_var_bindings(&mut self) -> impl Iterator<Item = (Id, VarInfo)> {
         let v = replace(&mut self.bindings, Default::default());
 
