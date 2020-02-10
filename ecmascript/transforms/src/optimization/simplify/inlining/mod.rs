@@ -9,7 +9,7 @@ use swc_common::{
     Fold, FoldWith, Mark, Visit, VisitWith,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_ids, ident::IdentLike, undefined, Id, StmtLike};
+use swc_ecma_utils::{contains_this_expr, find_ids, ident::IdentLike, undefined, Id, StmtLike};
 
 mod operator;
 mod scope;
@@ -176,26 +176,34 @@ impl Fold<VarDeclarator> for Inlining<'_> {
                 _ => {}
             },
             Phase::Inlining => {
-                //
                 match node.name {
                     Pat::Ident(ref name) => {
                         if self.var_decl_kind != VarDeclKind::Const {
                             let id = name.to_id();
 
+                            println!("Trying to optimize variable declaration: {:?}", id);
+
                             if self.scope.is_inline_prevented(&id) {
                                 return node;
                             }
 
-                            match node.init {
+                            if contains_this_expr(&node.init) {
+                                return node;
+                            }
+
+                            let init = node.init.take().fold_with(self);
+
+                            match init {
                                 Some(box Expr::Ident(ref ri)) => {
                                     if self.scope.is_inline_prevented(&ri.to_id()) {
+                                        node.init = init;
                                         return node;
                                     }
                                 }
                                 _ => {}
                             }
 
-                            let e = match node.init.take().fold_with(self) {
+                            let e = match init {
                                 None => None,
                                 Some(box e @ Expr::Lit(..)) | Some(box e @ Expr::Ident(..)) => {
                                     Some(e)
@@ -205,6 +213,7 @@ impl Fold<VarDeclarator> for Inlining<'_> {
                                         if cnt == 1 {
                                             Some(e)
                                         } else {
+                                            node.init = Some(box e);
                                             return node;
                                         }
                                     } else {
