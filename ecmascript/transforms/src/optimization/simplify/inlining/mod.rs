@@ -611,6 +611,36 @@ impl Fold<Pat> for Inlining<'_> {
     }
 }
 
+impl Fold<ForInStmt> for Inlining<'_> {
+    fn fold(&mut self, mut node: ForInStmt) -> ForInStmt {
+        {
+            node.left.visit_with(&mut IdentListVisitor {
+                scope: &mut self.scope,
+            });
+        }
+
+        node.right = node.right.fold_with(self);
+        node.body = node.body.fold_with(self);
+
+        node
+    }
+}
+
+impl Fold<ForOfStmt> for Inlining<'_> {
+    fn fold(&mut self, mut node: ForOfStmt) -> ForOfStmt {
+        {
+            node.left.visit_with(&mut IdentListVisitor {
+                scope: &mut self.scope,
+            });
+        }
+
+        node.right = node.right.fold_with(self);
+        node.body = node.body.fold_with(self);
+
+        node
+    }
+}
+
 impl Fold<ForStmt> for Inlining<'_> {
     fn fold(&mut self, mut node: ForStmt) -> ForStmt {
         node.init = node.init.fold_with(self);
