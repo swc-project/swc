@@ -981,7 +981,7 @@ fn test_no_inline_getprop_into_call_1() {
 
 #[test]
 fn test_no_inline_getprop_into_call_2() {
-    test_same("var a = b.c; f(a);");
+    test("var a = b.c; f(a);", "var a; f(b.c);");
 }
 
 #[test]
