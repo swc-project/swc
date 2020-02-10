@@ -425,7 +425,11 @@ impl Fold<Expr> for Inlining<'_> {
                             if let Some(var) = self.scope.find_binding_from_current(&i.to_id()) {
                                 if var.is_undefined.get() && !var.is_inline_prevented() {
                                     if match *e.right {
-                                        Expr::Ident(..) | Expr::Lit(..) => true,
+                                        Expr::Lit(..) => true,
+                                        Expr::Ident(ref ri) => {
+                                            self.scope.is_inline_prevented(&ri.to_id())
+                                        }
+
                                         _ => false,
                                     } {
                                         *var.value.borrow_mut() = Some(*e.right.clone());
