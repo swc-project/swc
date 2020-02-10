@@ -468,105 +468,10 @@ impl Fold<MemberExpr> for Inlining<'_> {
 
 impl Fold<Expr> for Inlining<'_> {
     fn fold(&mut self, node: Expr) -> Expr {
-        let node: Expr = node.fold_children(self);
-
-        // Codes like
-        //
-        //      var y;
-        //      y = x;
-        //      use(y)
-        //
-        //  should be transformed to
-        //
-        //      var y;
-        //      x;
-        //      use(x)
-        //
-        // We cannot know if this is possible while analysis phase
-        if self.phase == Phase::Inlining {
-            match node {
-                Expr::Assign(e @ AssignExpr { op: op!("="), .. }) => {
-                    match e.left {
-                        PatOrExpr::Pat(box Pat::Ident(ref i))
-                        | PatOrExpr::Expr(box Expr::Ident(ref i)) => {
-                            if let Some(var) = self.scope.find_binding_from_current(&i.to_id()) {
-                                if var.is_undefined.get() && !var.is_inline_prevented() {
-                                    if match *e.right {
-                                        Expr::Lit(..) => true,
-                                        Expr::Ident(ref ri) => {
-                                            self.scope.is_inline_prevented(&ri.to_id())
-                                        }
-
-                                        _ => false,
-                                    } {
-                                        *var.value.borrow_mut() = Some(*e.right.clone());
-                                        var.is_undefined.set(false);
-                                        return *e.right;
-                                    }
-                                }
-                            }
-                        }
-                        _ => {}
-                    }
-
-                    return Expr::Assign(e);
-                }
-
-                _ => {}
-            }
+        match self.inline(node) {
+            Ok(e) => e,
+            Err(e) => e,
         }
-
-        match node {
-            Expr::Ident(ref i) => {
-                let id = i.to_id();
-                if self.is_first_run {
-                    if let Some(expr) = self.scope.find_constants(&id) {
-                        self.changed = true;
-                        return expr.clone().fold_with(self);
-                    }
-                }
-
-                match self.phase {
-                    Phase::Analysis => {
-                        self.scope.add_read(&id);
-                    }
-                    Phase::Inlining => {
-                        println!("Trying to inline: {:?}", id);
-                        let expr = if let Some(var) = self.scope.find_binding(&id) {
-                            println!("VarInfo: {:?}", var);
-                            if !var.is_inline_prevented() {
-                                let expr = var.value.borrow();
-
-                                if let Some(expr) = &*expr {
-                                    self.changed = true;
-                                    Some(expr.clone())
-                                } else {
-                                    if var.is_undefined.get() {
-                                        return *undefined(i.span);
-                                    } else {
-                                        println!("Not a cheap expression");
-                                        None
-                                    }
-                                }
-                            } else {
-                                println!("Inlining is prevented");
-                                None
-                            }
-                        } else {
-                            None
-                        };
-
-                        if let Some(expr) = expr {
-                            return expr;
-                        }
-                    }
-                }
-            }
-
-            _ => {}
-        }
-
-        node
     }
 }
 
@@ -671,6 +576,111 @@ impl Fold<ForStmt> for Inlining<'_> {
         node.body = self.fold_with_child(ScopeKind::Block, node.body);
 
         node
+    }
+}
+
+impl Inlining<'_> {
+    /// Returns [Ok] if it's inlined.
+    fn inline(&mut self, node: Expr) -> Result<Expr, Expr> {
+        let node: Expr = node.fold_children(self);
+
+        // Codes like
+        //
+        //      var y;
+        //      y = x;
+        //      use(y)
+        //
+        //  should be transformed to
+        //
+        //      var y;
+        //      x;
+        //      use(x)
+        //
+        // We cannot know if this is possible while analysis phase
+        if self.phase == Phase::Inlining {
+            match node {
+                Expr::Assign(e @ AssignExpr { op: op!("="), .. }) => {
+                    match e.left {
+                        PatOrExpr::Pat(box Pat::Ident(ref i))
+                        | PatOrExpr::Expr(box Expr::Ident(ref i)) => {
+                            if let Some(var) = self.scope.find_binding_from_current(&i.to_id()) {
+                                if var.is_undefined.get() && !var.is_inline_prevented() {
+                                    if match *e.right {
+                                        Expr::Lit(..) => true,
+                                        Expr::Ident(ref ri) => {
+                                            self.scope.is_inline_prevented(&ri.to_id())
+                                        }
+
+                                        _ => false,
+                                    } {
+                                        *var.value.borrow_mut() = Some(*e.right.clone());
+                                        var.is_undefined.set(false);
+                                        return Ok(*e.right);
+                                    }
+                                }
+                            }
+                        }
+                        _ => {}
+                    }
+
+                    return Err(Expr::Assign(e));
+                }
+
+                _ => {}
+            }
+        }
+
+        match node {
+            Expr::Ident(ref i) => {
+                let id = i.to_id();
+                if self.is_first_run {
+                    if let Some(expr) = self.scope.find_constants(&id) {
+                        self.changed = true;
+                        return Ok(expr.clone().fold_with(self));
+                    }
+                }
+
+                match self.phase {
+                    Phase::Analysis => {
+                        self.scope.add_read(&id);
+                    }
+                    Phase::Inlining => {
+                        println!("Trying to inline: {:?}", id);
+                        let expr = if let Some(var) = self.scope.find_binding(&id) {
+                            println!("VarInfo: {:?}", var);
+                            if !var.is_inline_prevented() {
+                                let expr = var.value.borrow();
+
+                                if let Some(expr) = &*expr {
+                                    self.changed = true;
+                                    Some(expr.clone())
+                                } else {
+                                    if var.is_undefined.get() {
+                                        return Ok(*undefined(i.span));
+                                    } else {
+                                        println!("Not a cheap expression");
+                                        None
+                                    }
+                                }
+                            } else {
+                                println!("Inlining is prevented");
+                                None
+                            }
+                        } else {
+                            None
+                        };
+
+                        if let Some(expr) = expr {
+                            return Ok(expr);
+                        }
+                    }
+                }
+            }
+
+            _ => {}
+        }
+
+        Err(node)
     }
 }
 
