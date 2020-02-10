@@ -4,7 +4,7 @@ var browserslist;
 try{
     browserslist = require('browserslist');
 } catch (e){
-    console.error('You have to install `browserslist` to use `env`');
+    console.error('swc: You have to install `browserslist` to use `env`');
     process.exit(1);
 }
 
