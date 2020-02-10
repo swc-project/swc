@@ -975,9 +975,17 @@ fn test_cascading_in_lines() {
 }
 
 #[test]
-fn test_no_inline_getprop_into_call() {
+fn test_no_inline_getprop_into_call_1() {
     test("var a = b; a();", "var a; b();");
+}
+
+#[test]
+fn test_no_inline_getprop_into_call_2() {
     test_same("var a = b.c; f(a);");
+}
+
+#[test]
+fn test_no_inline_getprop_into_call_3() {
     test_same("var a = b.c; a();");
 }
 
