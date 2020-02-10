@@ -220,6 +220,11 @@ impl Fold<VarDeclarator> for Inlining<'_> {
                                     Some(e)
                                 }
                                 Some(box e) => {
+                                    if self.scope.is_inline_prevented(&name.to_id()) {
+                                        node.init = Some(box e);
+                                        return node;
+                                    }
+
                                     if let Some(cnt) = self.scope.read_cnt(&name.to_id()) {
                                         if cnt == 1 {
                                             Some(e)
