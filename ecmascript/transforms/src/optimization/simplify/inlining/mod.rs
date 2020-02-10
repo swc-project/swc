@@ -553,7 +553,6 @@ impl Fold<Expr> for Inlining<'_> {
                                 None
                             }
                         } else {
-                            println!("No binding found");
                             None
                         };
 

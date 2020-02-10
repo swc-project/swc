@@ -1,6 +1,6 @@
 use super::{Inlining, Phase};
 use crate::scope::ScopeKind;
-use fxhash::{FxBuildHasher, FxHashMap};
+use fxhash::{FxBuildHasher, FxHashMap, FxHashSet};
 use indexmap::map::{Entry, IndexMap};
 use std::{
     cell::{Cell, RefCell},
@@ -43,8 +43,12 @@ impl Inlining<'_> {
                 }
             }) {
                 let v: VarInfo = v;
-                // TODO: Do this only if it's used in outer scope
-                v.inline_prevented.set(true);
+
+                if self.scope.unresolved_usages.contains(&id) {
+                    v.inline_prevented.set(true)
+                }
+
+                v.hoisted.set(true);
 
                 *v.value.borrow_mut() = None;
                 v.is_undefined.set(false);
@@ -109,6 +113,7 @@ impl Inlining<'_> {
                     is_undefined: Cell::new(is_undefined),
                     value: RefCell::new(init),
                     this_sensitive: Cell::new(false),
+                    hoisted: Cell::new(false),
                 });
                 idx
             }
@@ -132,6 +137,7 @@ pub(super) struct Scope<'a> {
 
     inline_barriers: RefCell<VecDeque<usize>>,
     bindings: IndexMap<Id, VarInfo, FxBuildHasher>,
+    unresolved_usages: FxHashSet<Id>,
 
     /// Simple optimization. We don't need complex scope analysis.
     pub constants: FxHashMap<Id, Expr>,
@@ -142,9 +148,7 @@ impl<'a> Scope<'a> {
         Self {
             parent,
             kind,
-            inline_barriers: Default::default(),
-            bindings: Default::default(),
-            constants: Default::default(),
+            ..Default::default()
         }
     }
 
@@ -181,9 +185,14 @@ impl<'a> Scope<'a> {
         None
     }
 
-    pub fn add_read(&self, id: &Id) {
+    pub fn add_read(&mut self, id: &Id) {
         if let Some(var_info) = self.find_binding(id) {
             var_info.read_cnt.set(var_info.read_cnt.get() + 1);
+            if var_info.hoisted.get() {
+                var_info.inline_prevented.set(true);
+            }
+        } else {
+            self.unresolved_usages.insert(id.clone());
         }
 
         let (scope, is_self) = self.scope_for(id);
@@ -222,6 +231,7 @@ impl<'a> Scope<'a> {
                     value: RefCell::new(None),
                     is_undefined: Cell::new(false),
                     this_sensitive: Cell::new(false),
+                    hoisted: Cell::new(false),
                 },
             );
         }
@@ -360,6 +370,8 @@ pub(super) struct VarInfo {
 
     pub value: RefCell<Option<Expr>>,
     pub is_undefined: Cell<bool>,
+
+    hoisted: Cell<bool>,
 }
 
 impl VarInfo {
