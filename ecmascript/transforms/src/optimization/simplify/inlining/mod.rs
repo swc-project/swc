@@ -215,6 +215,12 @@ impl Fold<VarDeclarator> for Inlining<'_> {
 
                             match init {
                                 Some(box Expr::Ident(ref ri)) => {
+                                    self.declare(
+                                        name.to_id(),
+                                        Some(Expr::Ident(ri.clone())),
+                                        false,
+                                    );
+
                                     if self.scope.is_inline_prevented(&ri.to_id()) {
                                         node.init = init;
                                         return node;

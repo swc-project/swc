@@ -18,6 +18,17 @@ impl Inlining<'_> {
             && init.is_none()
             && self.phase == Phase::Inlining;
 
+        let value_idx = match init {
+            Some(Expr::Ident(ref vi)) => {
+                if let Some((value_idx, value_var)) = self.scope.idx_val(&vi.to_id()) {
+                    Some((value_idx, vi.to_id()))
+                } else {
+                    None
+                }
+            }
+            _ => None,
+        };
+
         let hoisted = self.var_decl_kind == VarDeclKind::Var && self.scope.kind != ScopeKind::Fn;
 
         let is_inline_prevented = hoisted
@@ -34,7 +45,7 @@ impl Inlining<'_> {
             println!("{:?} is undefined", id);
         }
 
-        match self.scope.bindings.entry(id) {
+        let idx = match self.scope.bindings.entry(id.clone()) {
             Entry::Occupied(mut e) => {
                 if is_change {
                     self.changed = true;
@@ -44,8 +55,10 @@ impl Inlining<'_> {
                 e.get().read_from_nested_scope.set(false);
                 e.get_mut().value = RefCell::new(init);
                 e.get().inline_prevented.set(is_inline_prevented);
+                e.index()
             }
             Entry::Vacant(e) => {
+                let idx = e.index();
                 e.insert(VarInfo {
                     kind: self.var_decl_kind,
                     read_from_nested_scope: Cell::new(false),
@@ -55,6 +68,16 @@ impl Inlining<'_> {
                     value: RefCell::new(init),
                     this_sensitive: Cell::new(false),
                 });
+                idx
+            }
+        };
+
+        //
+        if let Some((value_idx, vi)) = value_idx {
+            if value_idx > idx {
+                println!("Variable use before declaration: {:?}", id);
+                self.scope.prevent_inline(&id);
+                self.scope.prevent_inline(&vi)
             }
         }
     }
@@ -179,20 +202,7 @@ impl<'a> Scope<'a> {
     }
 
     pub fn find_binding_from_current(&self, id: &Id) -> Option<&VarInfo> {
-        let (idx, v) = self.idx_val(id)?;
-
-        match &*v.value.borrow() {
-            Some(Expr::Ident(vi)) => {
-                if let Some((vi, v2)) = self.idx_val(&vi.to_id()) {
-                    if idx > vi {
-                        v.inline_prevented.set(true);
-                        v2.inline_prevented.set(true);
-                    }
-                }
-            }
-
-            _ => {}
-        }
+        let (_, v) = self.idx_val(id)?;
 
         Some(v)
     }
