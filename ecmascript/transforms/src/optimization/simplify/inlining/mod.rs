@@ -331,6 +331,15 @@ impl Fold<CallExpr> for Inlining<'_> {
         node.callee = node.callee.fold_with(self);
 
         self.scope.store_inline_barrier(self.phase);
+        if self.phase == Phase::Analysis {
+            match node.callee {
+                ExprOrSuper::Expr(ref callee) => {
+                    self.scope.mark_this_sensitive(&callee);
+                }
+
+                _ => {}
+            }
+        }
 
         node.args = node.args.fold_with(self);
 
@@ -343,6 +352,9 @@ impl Fold<NewExpr> for Inlining<'_> {
         node.callee = node.callee.fold_with(self);
 
         self.scope.store_inline_barrier(self.phase);
+        if self.phase == Phase::Analysis {
+            self.scope.mark_this_sensitive(&node.callee);
+        }
 
         node.args = node.args.fold_with(self);
         node

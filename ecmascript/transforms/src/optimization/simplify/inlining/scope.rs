@@ -45,6 +45,7 @@ impl Inlining<'_> {
                     inline_prevented: Cell::new(is_inline_prevented),
                     is_undefined: Cell::new(is_undefined),
                     value: RefCell::new(init),
+                    this_sensitive: Cell::new(false),
                 });
             }
         }
@@ -143,6 +144,7 @@ impl<'a> Scope<'a> {
                     inline_prevented: Cell::new(true),
                     value: RefCell::new(None),
                     is_undefined: Cell::new(false),
+                    this_sensitive: Cell::new(false),
                 },
             );
         }
@@ -193,6 +195,18 @@ impl<'a> Scope<'a> {
         }
 
         self.parent.and_then(|parent| parent.find_constants(id))
+    }
+
+    pub fn mark_this_sensitive(&self, callee: &Expr) {
+        match callee {
+            Expr::Ident(ref i) => {
+                if let Some(v) = self.find_binding(&i.to_id()) {
+                    v.this_sensitive.set(true);
+                }
+            }
+
+            _ => {}
+        }
     }
 
     pub fn store_inline_barrier(&self, phase: Phase) {
@@ -265,12 +279,25 @@ pub(super) struct VarInfo {
     read_cnt: Cell<usize>,
 
     inline_prevented: Cell<bool>,
+    this_sensitive: Cell<bool>,
+
     pub value: RefCell<Option<Expr>>,
     pub is_undefined: Cell<bool>,
 }
 
 impl VarInfo {
     pub fn is_inline_prevented(&self) -> bool {
-        self.inline_prevented.get()
+        if self.inline_prevented.get() {
+            return true;
+        }
+
+        if self.this_sensitive.get() {
+            match *self.value.borrow() {
+                Some(Expr::Member(..)) => return true,
+                _ => {}
+            }
+        }
+
+        false
     }
 }
