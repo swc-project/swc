@@ -395,22 +395,23 @@ impl Fold<AssignExpr> for Inlining<'_> {
         self.pat_mode = PatFoldingMode::Assign;
         let e = AssignExpr {
             left: match e.left {
-                PatOrExpr::Expr(e) | PatOrExpr::Pat(box Pat::Expr(e)) => {
+                PatOrExpr::Expr(left) | PatOrExpr::Pat(box Pat::Expr(left)) => {
                     //
-                    match *e {
-                        Expr::Member(ref e) => {
+                    match *left {
+                        Expr::Member(ref left) => {
                             println!("Assign to member expression!");
                             let mut v = IdentListVisitor {
                                 scope: &mut self.scope,
                             };
 
-                            e.visit_with(&mut v);
+                            left.visit_with(&mut v);
+                            e.right.visit_with(&mut v);
                         }
 
                         _ => {}
                     }
 
-                    PatOrExpr::Expr(e)
+                    PatOrExpr::Expr(left)
                 }
                 PatOrExpr::Pat(p) => PatOrExpr::Pat(p.fold_with(self)),
             },
@@ -681,6 +682,16 @@ impl Fold<ForStmt> for Inlining<'_> {
 #[derive(Debug)]
 struct IdentListVisitor<'a, 'b> {
     scope: &'a mut Scope<'b>,
+}
+
+impl Visit<MemberExpr> for IdentListVisitor<'_, '_> {
+    fn visit(&mut self, node: &MemberExpr) {
+        node.obj.visit_with(self);
+
+        if node.computed {
+            node.prop.visit_with(self);
+        }
+    }
 }
 
 impl Visit<Ident> for IdentListVisitor<'_, '_> {
