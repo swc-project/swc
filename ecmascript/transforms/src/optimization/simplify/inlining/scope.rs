@@ -216,7 +216,7 @@ impl<'a> Scope<'a> {
         }
     }
 
-    /// True if the returned scope is self
+    /// True if the returned scope is self and self contains `id`.
     fn scope_for(&self, id: &Id) -> (&Scope, bool) {
         if let Some(..) = self.constants.get(id) {
             return (self, true);
@@ -226,7 +226,7 @@ impl<'a> Scope<'a> {
         }
 
         match self.parent {
-            None => (self, true),
+            None => (self, false),
             Some(ref p) => {
                 let (s, _) = p.scope_for(id);
                 (s, false)
@@ -250,8 +250,8 @@ impl<'a> Scope<'a> {
         }
 
         if let (_, is_self) = self.scope_for(id) {
-            if is_self {
-                return false;
+            if !is_self {
+                return true;
             }
         }
 
