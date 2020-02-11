@@ -215,6 +215,7 @@ impl Fold<VarDeclarator> for Inlining<'_> {
                                              initialization was prevented"
                                         );
                                         node.init = init;
+                                        self.scope.prevent_inline(&name.to_id());
                                         return node;
                                     }
                                 }
