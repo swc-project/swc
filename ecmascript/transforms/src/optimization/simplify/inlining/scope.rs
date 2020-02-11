@@ -505,7 +505,10 @@ impl<'a> Scope<'a> {
                     return v.inline_prevented.get();
                 }
             }
-            Expr::Update(..) | Expr::Call(..) | Expr::New(..) => return true,
+            Expr::Update(..) => return true,
+
+            // TODO: Remove this
+            Expr::Call(..) | Expr::New(..) => return true,
 
             _ => {}
         }
