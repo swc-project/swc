@@ -224,6 +224,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
         let mut has_star = false;
         let mut export_ns = None;
+        let ns_export_specifier_start = cur_pos!();
 
         if eat!('*') {
             has_star = true;
@@ -242,7 +243,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
                 let name = self.parse_ident_name()?;
                 export_ns = Some(ExportSpecifier::Namespace(NamespaceExportSpecifier {
-                    span: span!(start),
+                    span: span!(ns_export_specifier_start),
                     name,
                 }));
             }
