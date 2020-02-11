@@ -263,28 +263,30 @@ impl<'a> Scope<'a> {
             }
         }
 
-        if let (scope, false) = self.scope_for(id) {
-            let cur = self.depth();
-            let declared_scope = scope.depth();
+        {
+            let mut cur = Some(self);
 
-            log::debug!(
-                "{}: read access from child scope ({}) -> ({})",
-                id.0,
-                cur,
-                declared_scope
-            );
-            return true;
+            while let Some(scope) = cur {
+                let found = scope.find_binding_from_current(id).is_some();
+
+                if found {
+                    log::trace!("found");
+                    break;
+                }
+                log::debug!("({}): {}: kind = {:?}", scope.depth(), id.0, scope.kind);
+
+                match scope.kind {
+                    ScopeKind::Fn { .. } => {
+                        log::debug!("{}: variable access from a nested function detected", id.0);
+                        return true;
+                    }
+                    _ => {}
+                }
+                cur = scope.parent;
+            }
         }
 
-        match self.kind {
-            ScopeKind::Fn { named: true } | ScopeKind::Loop => return true,
-            _ => {}
-        }
-
-        match self.parent {
-            None => false,
-            Some(v) => v.read_prevents_inlining(id),
-        }
+        false
     }
 
     pub fn add_read(&mut self, id: &Id) {
