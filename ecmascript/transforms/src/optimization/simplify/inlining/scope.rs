@@ -3,6 +3,7 @@ use crate::scope::ScopeKind;
 use fxhash::{FxBuildHasher, FxHashMap, FxHashSet};
 use indexmap::map::{Entry, IndexMap};
 use std::{
+    borrow::Cow,
     cell::{Cell, RefCell},
     collections::VecDeque,
     mem::replace,
@@ -60,16 +61,22 @@ impl Inlining<'_> {
         node
     }
 
-    pub(super) fn declare(&mut self, id: Id, init: Option<Expr>, is_change: bool) {
-        println!("({:?}) declare({})", self.phase, id.0);
+    /// Note: this method stores the value only if init is [Cow::Owned].
+    pub(super) fn declare(&mut self, id: Id, init: Option<Cow<Expr>>, is_change: bool) {
+        println!(
+            "({}, {:?}) declare({})",
+            self.scope.depth(),
+            self.phase,
+            id.0
+        );
 
         let is_undefined = self.var_decl_kind == VarDeclKind::Var
             && !is_change
             && init.is_none()
             && self.phase == Phase::Inlining;
 
-        let value_idx = match init {
-            Some(Expr::Ident(ref vi)) => {
+        let value_idx = match init.as_ref().map(|v| &**v) {
+            Some(&Expr::Ident(ref vi)) => {
                 if let Some((value_idx, value_var)) = self.scope.idx_val(&vi.to_id()) {
                     Some((value_idx, vi.to_id()))
                 } else {
@@ -101,7 +108,10 @@ impl Inlining<'_> {
                 e.get().is_undefined.set(is_undefined);
                 e.get().read_cnt.set(0);
                 e.get().read_from_nested_scope.set(false);
-                e.get_mut().value = RefCell::new(init);
+                e.get_mut().value = RefCell::new(match init {
+                    Some(Cow::Owned(v)) => Some(v),
+                    _ => None,
+                });
                 e.get().inline_prevented.set(is_inline_prevented);
                 e.index()
             }
@@ -113,7 +123,10 @@ impl Inlining<'_> {
                     read_cnt: Cell::new(0),
                     inline_prevented: Cell::new(is_inline_prevented),
                     is_undefined: Cell::new(is_undefined),
-                    value: RefCell::new(init),
+                    value: RefCell::new(match init {
+                        Some(Cow::Owned(v)) => Some(v),
+                        _ => None,
+                    }),
                     this_sensitive: Cell::new(false),
                     hoisted: Cell::new(false),
                     is_param: Cell::new(false),

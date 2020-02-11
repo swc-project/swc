@@ -156,15 +156,15 @@ impl Fold<VarDeclarator> for Inlining<'_> {
                         }
                     }
                     Some(box e @ Expr::Lit(..)) | Some(box e @ Expr::Ident(..)) => {
-                        self.declare(name.to_id(), None, false);
+                        self.declare(name.to_id(), Some(Cow::Borrowed(&e)), false);
 
                         if self.scope.is_inline_prevented(&e) {
                             self.scope.prevent_inline(&name.to_id());
                         }
                     }
-                    _ => {
+                    Some(ref e) => {
                         if self.var_decl_kind != VarDeclKind::Const {
-                            self.declare(name.to_id(), None, false);
+                            self.declare(name.to_id(), Some(Cow::Borrowed(&e)), false);
 
                             if contains_this_expr(&node.init) {
                                 self.scope.prevent_inline(&name.to_id());
@@ -199,7 +199,7 @@ impl Fold<VarDeclarator> for Inlining<'_> {
                                 Some(box Expr::Ident(ref ri)) => {
                                     self.declare(
                                         name.to_id(),
-                                        Some(Expr::Ident(ri.clone())),
+                                        Some(Cow::Owned(Expr::Ident(ri.clone()))),
                                         false,
                                     );
                                 }
@@ -249,7 +249,7 @@ impl Fold<VarDeclarator> for Inlining<'_> {
 
                             // println!("({}): Inserting {:?}", self.scope.depth(), name.to_id());
 
-                            self.declare(name.to_id(), e, false);
+                            self.declare(name.to_id(), e.map(Cow::Owned), false);
 
                             return node;
                         }
@@ -597,7 +597,7 @@ impl Fold<Pat> for Inlining<'_> {
         match node {
             Pat::Ident(ref i) => match self.pat_mode {
                 PatFoldingMode::Param => {
-                    self.declare(i.to_id(), Some(Expr::Ident(i.clone())), false);
+                    self.declare(i.to_id(), Some(Cow::Owned(Expr::Ident(i.clone()))), false);
                     self.scope.mark_as_param(&i.to_id());
                 }
                 PatFoldingMode::VarDecl => {}
