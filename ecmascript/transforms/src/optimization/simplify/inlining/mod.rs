@@ -391,11 +391,28 @@ impl Fold<NewExpr> for Inlining<'_> {
 
 impl Fold<AssignExpr> for Inlining<'_> {
     fn fold(&mut self, e: AssignExpr) -> AssignExpr {
+        println!("{:?}; Fold<AssignExpr>", self.phase);
         self.pat_mode = PatFoldingMode::Assign;
         let e = AssignExpr {
             left: match e.left {
+                PatOrExpr::Expr(e) | PatOrExpr::Pat(box Pat::Expr(e)) => {
+                    //
+                    match *e {
+                        Expr::Member(ref e) => {
+                            println!("Assign to member expression!");
+                            let mut v = IdentListVisitor {
+                                scope: &mut self.scope,
+                            };
+
+                            e.visit_with(&mut v);
+                        }
+
+                        _ => {}
+                    }
+
+                    PatOrExpr::Expr(e)
+                }
                 PatOrExpr::Pat(p) => PatOrExpr::Pat(p.fold_with(self)),
-                PatOrExpr::Expr(e) => PatOrExpr::Expr(e),
             },
             right: e.right.fold_with(self),
             ..e
@@ -404,14 +421,12 @@ impl Fold<AssignExpr> for Inlining<'_> {
         match e.op {
             op!("=") => {}
             _ => {
-                //
-                match e.left {
-                    PatOrExpr::Pat(box Pat::Ident(ref i))
-                    | PatOrExpr::Expr(box Expr::Ident(ref i)) => {
-                        self.scope.prevent_inline(&i.to_id());
-                    }
-                    _ => {}
-                }
+                let mut v = IdentListVisitor {
+                    scope: &mut self.scope,
+                };
+
+                e.left.visit_with(&mut v);
+                e.right.visit_with(&mut v)
             }
         }
 
