@@ -2050,7 +2050,7 @@ fn unescape(s: &str) -> String {
         radix: u32,
         len: Option<usize>,
         buf: &mut String,
-        mut chars: impl Iterator<Item = char>,
+        chars: impl Iterator<Item = char>,
     ) {
         let mut v = 0;
         let mut pending = None;
