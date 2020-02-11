@@ -76,13 +76,7 @@ pub fn init() {
 
             let level = colored_level(record.level());
 
-            let mut style = f.style();
-            let target = style.set_bold(true).value(Padded {
-                value: target,
-                width: max_width,
-            });
-
-            writeln!(f, " {} {} > {}", level, target, record.args(),)
+            writeln!(f, " {} > {}", level, record.args(),)
         })
         .try_init();
 }
