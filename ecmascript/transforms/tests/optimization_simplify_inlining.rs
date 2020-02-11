@@ -1622,6 +1622,7 @@ fn test_issue378_arguments_read2() {
 }
 
 #[test]
+#[ignore] // We just give up optimization when arguments is used
 fn test_arguments_modified_in_outer_function() {
     test(
         concat!(
@@ -1649,6 +1650,7 @@ fn test_arguments_modified_in_outer_function() {
 }
 
 #[test]
+#[ignore] // We just give up optimization when arguments is used
 fn test_arguments_modified_in_inner_function() {
     test(
         concat!(
@@ -1665,8 +1667,8 @@ fn test_arguments_modified_in_inner_function() {
         concat!(
             "function g(callback) {\n",
             "  callback.apply(this, arguments);\n",
-            "  function inner(callback) {",
-            "    var x = callback;\n",
+            "  function inner(callback1) {",
+            "    var x = callback1;\n",
             "    arguments[0] = this;\n",
             "    x.apply(this);\n",
             "  }",
