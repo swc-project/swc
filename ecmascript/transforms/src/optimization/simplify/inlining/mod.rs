@@ -706,6 +706,10 @@ impl Fold<ForStmt> for Inlining<'_> {
         node.update = node.update.fold_with(self);
         node.body = self.fold_with_child(ScopeKind::Block, node.body);
 
+        if node.init.is_none() && node.test.is_none() && node.update.is_none() {
+            self.scope.store_inline_barrier(self.phase);
+        }
+
         node
     }
 }
