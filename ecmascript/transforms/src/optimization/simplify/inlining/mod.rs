@@ -158,13 +158,8 @@ impl Fold<VarDeclarator> for Inlining<'_> {
                     Some(box e @ Expr::Lit(..)) | Some(box e @ Expr::Ident(..)) => {
                         self.declare(name.to_id(), None, false);
 
-                        match e {
-                            Expr::Ident(ref ri) => {
-                                if self.scope.is_inline_prevented(&ri.to_id()) {
-                                    self.scope.prevent_inline(&name.to_id());
-                                }
-                            }
-                            _ => {}
+                        if self.scope.is_inline_prevented(&e) {
+                            self.scope.prevent_inline(&name.to_id());
                         }
                     }
                     _ => {
@@ -188,7 +183,7 @@ impl Fold<VarDeclarator> for Inlining<'_> {
 
                             println!("Trying to optimize variable declaration: {:?}", id);
 
-                            if self.scope.is_inline_prevented(&id)
+                            if self.scope.is_inline_prevented(&Expr::Ident(name.clone()))
                                 || !self
                                     .scope
                                     .has_same_this(&id, node.init.as_ref().map(|v| &**v))
@@ -207,10 +202,14 @@ impl Fold<VarDeclarator> for Inlining<'_> {
                                         Some(Expr::Ident(ri.clone())),
                                         false,
                                     );
+                                }
 
-                                    println!("\tInit-id: {:?}", ri.to_id());
+                                _ => {}
+                            }
 
-                                    if self.scope.is_inline_prevented(&ri.to_id()) {
+                            match init {
+                                Some(ref e) => {
+                                    if self.scope.is_inline_prevented(&e) {
                                         println!(
                                             "Inlining is not possible as inline of the \
                                              initialization was prevented"
@@ -228,7 +227,7 @@ impl Fold<VarDeclarator> for Inlining<'_> {
                                     Some(e)
                                 }
                                 Some(box e) => {
-                                    if self.scope.is_inline_prevented(&name.to_id()) {
+                                    if self.scope.is_inline_prevented(&Expr::Ident(name.clone())) {
                                         node.init = Some(box e);
                                         return node;
                                     }
@@ -415,18 +414,14 @@ impl Fold<AssignExpr> for Inlining<'_> {
                 }
             }
         }
-        match *e.right {
-            Expr::Ident(ref ri) => {
-                if self.scope.is_inline_prevented(&ri.to_id()) {
-                    // Prevent inline for lhd
-                    let ids: Vec<Id> = find_ids(&e.left);
-                    for id in ids {
-                        self.scope.prevent_inline(&id);
-                    }
-                    return e;
-                }
+
+        if self.scope.is_inline_prevented(&e.right) {
+            // Prevent inline for lhd
+            let ids: Vec<Id> = find_ids(&e.left);
+            for id in ids {
+                self.scope.prevent_inline(&id);
             }
-            _ => {}
+            return e;
         }
 
         match *e.right {
@@ -491,14 +486,7 @@ impl Fold<Expr> for Inlining<'_> {
                         | PatOrExpr::Expr(box Expr::Ident(ref i)) => {
                             if let Some(var) = self.scope.find_binding_from_current(&i.to_id()) {
                                 if var.is_undefined.get() && !var.is_inline_prevented() {
-                                    if match *e.right {
-                                        Expr::Lit(..) => true,
-                                        Expr::Ident(ref ri) => {
-                                            self.scope.is_inline_prevented(&ri.to_id())
-                                        }
-
-                                        _ => false,
-                                    } {
+                                    if !self.scope.is_inline_prevented(&e.right) {
                                         *var.value.borrow_mut() = Some(*e.right.clone());
                                         var.is_undefined.set(false);
                                         return *e.right;

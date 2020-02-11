@@ -79,11 +79,10 @@ impl Inlining<'_> {
 
         let hoisted = self.var_decl_kind == VarDeclKind::Var && self.scope.kind != ScopeKind::Fn;
 
-        let is_inline_prevented = self.scope.is_inline_prevented(&id)
-            || match init {
-                Some(Expr::Ident(ref i)) => self.scope.is_inline_prevented(&i.to_id()),
-                _ => false,
-            };
+        let is_inline_prevented = match init {
+            Some(ref e) => self.scope.is_inline_prevented(&e),
+            _ => false,
+        };
 
         if is_inline_prevented {
             println!("declare: Inline prevented: {:?}", id)
@@ -371,14 +370,27 @@ impl<'a> Scope<'a> {
         }
     }
 
-    pub fn is_inline_prevented(&self, id: &Id) -> bool {
-        if let Some(v) = self.find_binding_from_current(id) {
-            return v.inline_prevented.get();
+    pub fn is_inline_prevented(&self, e: &Expr) -> bool {
+        match *e {
+            Expr::Ident(ref ri) => {
+                if let Some(v) = self.find_binding_from_current(&ri.to_id()) {
+                    return v.inline_prevented.get();
+                }
+            }
+            Expr::Member(MemberExpr {
+                obj: ExprOrSuper::Expr(box Expr::Ident(ref ri)),
+                ..
+            }) => {
+                if let Some(v) = self.find_binding_from_current(&ri.to_id()) {
+                    return v.inline_prevented.get();
+                }
+            }
+            _ => {}
         }
 
         match self.parent {
             None => false,
-            Some(p) => p.is_inline_prevented(id),
+            Some(p) => p.is_inline_prevented(e),
         }
     }
 
