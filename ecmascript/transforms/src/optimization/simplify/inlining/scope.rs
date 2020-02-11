@@ -236,7 +236,7 @@ impl<'a> Scope<'a> {
                     kind: VarDeclKind::Var,
                     read_from_nested_scope: Cell::new(false),
                     read_cnt: Cell::new(0),
-                    inline_prevented: Cell::new(false),
+                    inline_prevented: Cell::new(force_no_inline),
                     value: RefCell::new(None),
                     is_undefined: Cell::new(false),
                     this_sensitive: Cell::new(false),
