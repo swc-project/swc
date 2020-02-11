@@ -243,6 +243,8 @@ impl<'a> Scope<'a> {
     }
 
     fn read_prevents_inlining(&self, id: &Id) -> bool {
+        log::trace!("read_prevents_inlining({})", id.0);
+
         if let Some(v) = self.find_binding(id) {
             if v.kind != VarDeclKind::Var {
                 return false;
@@ -268,6 +270,8 @@ impl<'a> Scope<'a> {
 
     pub fn add_read(&mut self, id: &Id) {
         if self.read_prevents_inlining(id) {
+            log::debug!("prevent inlining because of read: {}", id.0);
+
             self.prevent_inline(id)
         }
 
@@ -442,7 +446,7 @@ impl<'a> Scope<'a> {
     }
 
     pub fn prevent_inline(&self, id: &Id) {
-        println!("({}) Prevent inlining: {:?}", self.depth(), id);
+        log::info!("({}) Prevent inlining: {:?}", self.depth(), id);
 
         if let Some(v) = self.find_binding_from_current(id) {
             v.inline_prevented.set(true);

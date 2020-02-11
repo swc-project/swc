@@ -4,6 +4,7 @@ use crate::{
 };
 use sourcemap::SourceMapBuilder;
 use std::{
+    env::var,
     fmt,
     fs::{create_dir_all, remove_dir_all, OpenOptions},
     io::{self, Write},
@@ -32,6 +33,11 @@ impl<'a> Tester<'a> {
     where
         F: FnOnce(&mut Tester<'_>) -> Result<(), ()>,
     {
+        let _ = pretty_env_logger::formatted_builder()
+            .is_test(true)
+            .parse_filters(&var("RUST_LOG").unwrap_or(String::new()))
+            .try_init();
+
         let out = ::testing::run_test(false, |cm, handler| {
             crate::util::HANDLER.set(handler, || {
                 HELPERS.set(&Default::default(), || {

@@ -30,6 +30,7 @@ arrayvec = "0.5.1"
 serde_json = "1"
 smallvec = "1"
 is-macro = "0.1"
+log = "0.4.8"
 
 [dev-dependencies]
 testing = { version = "0.5", path ="../../testing" }
@@ -37,3 +38,4 @@ swc_ecma_codegen = { version = "0.15.0", path ="../codegen" }
 tempfile = "3"
 pretty_assertions = "0.6"
 sourcemap = "4.1.1"
+pretty_env_logger = "0.4"
