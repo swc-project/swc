@@ -9,11 +9,15 @@ use once_cell::sync::Lazy;
 use regex::Regex;
 use std::{
     env::var,
+    fmt,
     fmt::Debug,
     fs::{create_dir_all, File},
     io::Write,
     path::Path,
-    sync::Arc,
+    sync::{
+        atomic::{AtomicUsize, Ordering},
+        Arc,
+    },
     thread,
 };
 use swc_common::{
@@ -30,9 +34,59 @@ mod string_errors;
 
 /// Configures logger
 pub fn init() {
-    let _ = pretty_env_logger::formatted_builder()
+    use ansi_term::Color;
+
+    struct Padded<T> {
+        value: T,
+        width: usize,
+    }
+
+    impl<T: fmt::Display> fmt::Display for Padded<T> {
+        fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+            write!(f, "{: <width$}", self.value, width = self.width)
+        }
+    }
+
+    static MAX_MODULE_WIDTH: AtomicUsize = AtomicUsize::new(0);
+
+    fn max_target_width(target: &str) -> usize {
+        let max_width = MAX_MODULE_WIDTH.load(Ordering::Relaxed);
+        if max_width < target.len() {
+            MAX_MODULE_WIDTH.store(target.len(), Ordering::Relaxed);
+            target.len()
+        } else {
+            max_width
+        }
+    }
+
+    fn colored_level<'a>(level: log::Level) -> String {
+        match level {
+            log::Level::Trace => Color::Cyan.paint("TRACE").to_string(),
+            log::Level::Debug => Color::Blue.paint("TRACE").to_string(),
+            log::Level::Info => Color::Green.paint("INFO ").to_string(),
+            log::Level::Warn => Color::Yellow.paint("WARN ").to_string(),
+            log::Level::Error => Color::Red.paint("ERROR").to_string(),
+        }
+    }
+
+    let _ = env_logger::Builder::from_default_env()
         .is_test(true)
-        .parse_filters(&var("RUST_LOG").unwrap_or(String::new()))
+        .format(|f, record| {
+            use std::io::Write;
+
+            let target = record.target();
+            let max_width = max_target_width(target);
+
+            let level = colored_level(record.level());
+
+            let mut style = f.style();
+            let target = style.set_bold(true).value(Padded {
+                value: target,
+                width: max_width,
+            });
+
+            writeln!(f, " {} {} > {}", level, target, record.args(),)
+        })
         .try_init();
 }
 
