@@ -32,6 +32,10 @@ impl Default for Config {
 /// # TODOs
 ///
 ///  - Handling of `void 0`
+///  - Track variables access by a function
+///
+/// Currently all functions are treated as a black box, and all the pass gives
+/// up inlining variables across a function call or a constructor call.
 pub fn inlining(config: Config) -> impl RepeatedJsPass + 'static {
     assert_ne!(
         config.inline_barrier,
