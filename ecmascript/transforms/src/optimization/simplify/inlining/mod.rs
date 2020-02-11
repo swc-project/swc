@@ -148,13 +148,22 @@ impl Fold<VarDeclarator> for Inlining<'_> {
                             self.declare(name.to_id(), None, true);
                         }
                     }
+
+                    // Constants
                     Some(box e @ Expr::Lit(..)) | Some(box e @ Expr::Ident(..))
                         if self.var_decl_kind == VarDeclKind::Const =>
                     {
                         if self.is_first_run {
-                            self.scope.constants.insert(name.to_id(), e.clone());
+                            self.scope.constants.insert(name.to_id(), Some(e.clone()));
                         }
                     }
+                    Some(box e) if self.var_decl_kind == VarDeclKind::Const => {
+                        if self.is_first_run {
+                            self.scope.constants.insert(name.to_id(), None);
+                        }
+                    }
+
+                    // Bindings
                     Some(box e @ Expr::Lit(..)) | Some(box e @ Expr::Ident(..)) => {
                         self.declare(name.to_id(), Some(Cow::Borrowed(&e)), false);
 
@@ -525,7 +534,7 @@ impl Fold<Expr> for Inlining<'_> {
             Expr::Ident(ref i) => {
                 let id = i.to_id();
                 if self.is_first_run {
-                    if let Some(expr) = self.scope.find_constants(&id) {
+                    if let Some(expr) = self.scope.find_constant(&id) {
                         self.changed = true;
                         return expr.clone().fold_with(self);
                     }

@@ -172,7 +172,7 @@ pub(super) struct Scope<'a> {
     unresolved_usages: FxHashSet<Id>,
 
     /// Simple optimization. We don't need complex scope analysis.
-    pub constants: FxHashMap<Id, Expr>,
+    pub constants: FxHashMap<Id, Option<Expr>>,
 }
 
 impl<'a> Scope<'a> {
@@ -252,7 +252,7 @@ impl<'a> Scope<'a> {
             if !is_self || force_no_inline {
                 self.prevent_inline(id)
             }
-        } else if self.find_constants(id).is_some() {
+        } else if self.has_constant(id) {
             // noop
         } else {
             println!(
@@ -305,12 +305,22 @@ impl<'a> Scope<'a> {
         Some(v)
     }
 
-    pub fn find_constants(&self, id: &Id) -> Option<&Expr> {
-        if let Some(e) = self.constants.get(id) {
+    fn has_constant(&self, id: &Id) -> bool {
+        if let Some(..) = self.constants.get(id) {
+            return true;
+        }
+
+        self.parent
+            .map(|parent| parent.has_constant(id))
+            .unwrap_or(false)
+    }
+
+    pub fn find_constant(&self, id: &Id) -> Option<&Expr> {
+        if let Some(Some(e)) = self.constants.get(id) {
             return Some(e);
         }
 
-        self.parent.and_then(|parent| parent.find_constants(id))
+        self.parent.and_then(|parent| parent.find_constant(id))
     }
 
     pub fn mark_this_sensitive(&self, callee: &Expr) {
