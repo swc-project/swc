@@ -421,13 +421,14 @@ impl<'a> Scope<'a> {
                 self.inline_barriers.borrow_mut().push_back(idx);
             }
             Phase::Inlining => {
-                if let Some(idx) = self.inline_barriers.borrow_mut().pop_front() {
-                    for i in 0..idx {
-                        if let Some((id, _)) = self.bindings.get_index(i) {
-                            self.prevent_inline(id);
-                        }
-                    }
-                }
+                //if let Some(idx) =
+                // self.inline_barriers.borrow_mut().pop_front() {
+                //    for i in 0..idx {
+                //        if let Some((id, _)) = self.bindings.get_index(i) {
+                //            self.prevent_inline(id);
+                //        }
+                //    }
+                //}
             }
         }
 
@@ -504,7 +505,7 @@ impl<'a> Scope<'a> {
                     return v.inline_prevented.get();
                 }
             }
-            Expr::Update(..) => return true,
+            Expr::Update(..) | Expr::Call(..) | Expr::New(..) => return true,
 
             _ => {}
         }
