@@ -427,6 +427,8 @@ impl<'a> Scope<'a> {
                     return v.inline_prevented.get();
                 }
             }
+            Expr::Update(..) => return true,
+
             _ => {}
         }
 
