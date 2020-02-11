@@ -249,6 +249,12 @@ impl<'a> Scope<'a> {
             }
         }
 
+        if let (_, is_self) = self.scope_for(id) {
+            if is_self {
+                return false;
+            }
+        }
+
         match self.kind {
             ScopeKind::Fn { named: true } | ScopeKind::Loop => return true,
             _ => {}
