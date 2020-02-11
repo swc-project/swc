@@ -137,50 +137,55 @@ impl Fold<VarDecl> for Inlining<'_> {
 
 impl Fold<VarDeclarator> for Inlining<'_> {
     fn fold(&mut self, mut node: VarDeclarator) -> VarDeclarator {
+        node.init = node.init.fold_with(self);
+
         self.pat_mode = PatFoldingMode::VarDecl;
 
         match self.phase {
             Phase::Analysis => match node.name {
-                Pat::Ident(ref name) => match &node.init {
-                    None => {
-                        if self.var_decl_kind != VarDeclKind::Const {
-                            self.declare(name.to_id(), None, true);
+                Pat::Ident(ref name) => {
+                    //
+                    match &node.init {
+                        None => {
+                            if self.var_decl_kind != VarDeclKind::Const {
+                                self.declare(name.to_id(), None, true);
+                            }
                         }
-                    }
 
-                    // Constants
-                    Some(box e @ Expr::Lit(..)) | Some(box e @ Expr::Ident(..))
-                        if self.var_decl_kind == VarDeclKind::Const =>
-                    {
-                        if self.is_first_run {
-                            self.scope.constants.insert(name.to_id(), Some(e.clone()));
+                        // Constants
+                        Some(box e @ Expr::Lit(..)) | Some(box e @ Expr::Ident(..))
+                            if self.var_decl_kind == VarDeclKind::Const =>
+                        {
+                            if self.is_first_run {
+                                self.scope.constants.insert(name.to_id(), Some(e.clone()));
+                            }
                         }
-                    }
-                    Some(box e) if self.var_decl_kind == VarDeclKind::Const => {
-                        if self.is_first_run {
-                            self.scope.constants.insert(name.to_id(), None);
+                        Some(box e) if self.var_decl_kind == VarDeclKind::Const => {
+                            if self.is_first_run {
+                                self.scope.constants.insert(name.to_id(), None);
+                            }
                         }
-                    }
 
-                    // Bindings
-                    Some(box e @ Expr::Lit(..)) | Some(box e @ Expr::Ident(..)) => {
-                        self.declare(name.to_id(), Some(Cow::Borrowed(&e)), false);
-
-                        if self.scope.is_inline_prevented(&e) {
-                            self.scope.prevent_inline(&name.to_id());
-                        }
-                    }
-                    Some(ref e) => {
-                        if self.var_decl_kind != VarDeclKind::Const {
+                        // Bindings
+                        Some(box e @ Expr::Lit(..)) | Some(box e @ Expr::Ident(..)) => {
                             self.declare(name.to_id(), Some(Cow::Borrowed(&e)), false);
 
-                            if contains_this_expr(&node.init) {
+                            if self.scope.is_inline_prevented(&e) {
                                 self.scope.prevent_inline(&name.to_id());
-                                return node.fold_children(self);
+                            }
+                        }
+                        Some(ref e) => {
+                            if self.var_decl_kind != VarDeclKind::Const {
+                                self.declare(name.to_id(), Some(Cow::Borrowed(&e)), false);
+
+                                if contains_this_expr(&node.init) {
+                                    self.scope.prevent_inline(&name.to_id());
+                                    return node;
+                                }
                             }
                         }
                     }
-                },
+                }
                 _ => {}
             },
             Phase::Inlining => {
@@ -267,7 +272,9 @@ impl Fold<VarDeclarator> for Inlining<'_> {
             }
         }
 
-        node.fold_children(self)
+        node.name = node.name.fold_with(self);
+
+        node
     }
 }
 
