@@ -141,9 +141,9 @@ impl Inlining<'_> {
 
             let barrier_exists = (|| {
                 for &blocker in self.scope.inline_barriers.borrow().iter() {
-                    if value_idx < blocker && blocker < idx {
+                    if value_idx <= blocker && blocker <= idx {
                         return true;
-                    } else if idx < blocker && blocker < value_idx {
+                    } else if idx <= blocker && blocker <= value_idx {
                         return true;
                     }
                 }
