@@ -294,7 +294,7 @@ impl<'a> Scope<'a> {
     }
 
     pub fn store_inline_barrier(&self, phase: Phase) {
-        println!("store_inline_barrier()");
+        println!("store_inline_barrier({:?})", phase);
 
         match phase {
             Phase::Analysis => {
