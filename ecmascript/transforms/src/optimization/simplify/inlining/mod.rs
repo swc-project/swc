@@ -32,6 +32,7 @@ impl Default for Config {
 /// # TODOs
 ///
 ///  - Handling of `void 0`
+///  - Properly handle binary expressions.
 ///  - Track variables access by a function
 ///
 /// Currently all functions are treated as a black box, and all the pass gives
@@ -723,6 +724,15 @@ impl Fold<ForStmt> for Inlining<'_> {
         }
 
         node
+    }
+}
+
+impl Fold<BinExpr> for Inlining<'_> {
+    fn fold(&mut self, node: BinExpr) -> BinExpr {
+        match node.op {
+            op!("&&") | op!("||") => node,
+            _ => node.fold_children(self),
+        }
     }
 }
 

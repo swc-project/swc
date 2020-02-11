@@ -754,7 +754,7 @@ fn test_chained_assignment() {
         "var a = b = 2; var f = 3; var c = a;",
         "var a; var f; var c = b = 2;",
     );
-    test_same("var a = b = 2; var c = b;");
+    test_same("var a = b = 2; var c;");
 }
 
 #[test]
@@ -923,7 +923,7 @@ fn orig_test_interfering_in_lines() {
 fn test_interfering_in_lines() {
     test(
         "var a = 3; var f = function() { var x = a; alert(x); };",
-        "var a = 3; var f = function() { var x; alert(3); };",
+        "var a = 3; var f = function() { var x = a; alert(x); };",
     );
 }
 

@@ -51,7 +51,6 @@ impl Inlining<'_> {
             let v = replace(&mut child.scope.bindings, Default::default());
 
             for (id, v) in v.into_iter().filter_map(|(id, v)| {
-                println!("take_var_binding: {:?}", id);
                 if v.kind == VarDeclKind::Var {
                     Some((id, v))
                 } else {
