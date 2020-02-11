@@ -7,6 +7,7 @@ use std::{
     collections::VecDeque,
     mem::replace,
 };
+use swc_atoms::js_word;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
@@ -114,6 +115,7 @@ impl Inlining<'_> {
                     value: RefCell::new(init),
                     this_sensitive: Cell::new(false),
                     hoisted: Cell::new(false),
+                    is_param: Cell::new(false),
                 });
                 idx
             }
@@ -186,6 +188,10 @@ impl<'a> Scope<'a> {
     }
 
     pub fn add_read(&mut self, id: &Id) {
+        if id.0 == js_word!("arguments") {
+            self.prevent_inline_of_params();
+        }
+
         if let Some(var_info) = self.find_binding(id) {
             var_info.read_cnt.set(var_info.read_cnt.get() + 1);
             if var_info.hoisted.get() {
@@ -204,6 +210,10 @@ impl<'a> Scope<'a> {
     }
 
     pub fn add_write(&mut self, id: &Id, force_no_inline: bool) {
+        if id.0 == js_word!("arguments") {
+            self.prevent_inline_of_params();
+        }
+
         let (scope, is_self) = self.scope_for(id);
 
         if let Some(var_info) = scope.find_binding_from_current(id) {
@@ -232,6 +242,7 @@ impl<'a> Scope<'a> {
                     is_undefined: Cell::new(false),
                     this_sensitive: Cell::new(false),
                     hoisted: Cell::new(false),
+                    is_param: Cell::new(false),
                 },
             );
         }
@@ -316,6 +327,25 @@ impl<'a> Scope<'a> {
         }
     }
 
+    fn prevent_inline_of_params(&self) {
+        for (k, v) in self.bindings.iter() {
+            let v: &VarInfo = v;
+
+            if v.is_param() {
+                v.inline_prevented.set(true);
+            }
+        }
+
+        if self.kind == ScopeKind::Fn {
+            return;
+        }
+
+        match self.parent {
+            Some(p) => p.prevent_inline_of_params(),
+            None => {}
+        }
+    }
+
     pub fn prevent_inline(&self, id: &Id) {
         println!("({}) Prevent inlining: {:?}", self.depth(), id);
 
@@ -385,7 +415,7 @@ pub(super) struct VarInfo {
 
 impl VarInfo {
     pub fn is_param(&self) -> bool {
-        self.is_param().get()
+        self.is_param.get()
     }
 
     pub fn is_inline_prevented(&self) -> bool {
