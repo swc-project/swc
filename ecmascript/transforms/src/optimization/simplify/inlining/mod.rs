@@ -1,8 +1,5 @@
-use self::scope::Scope;
-use crate::{
-    pass::RepeatedJsPass,
-    scope::{IdentType, ScopeKind},
-};
+use self::scope::{Scope, ScopeKind};
+use crate::{pass::RepeatedJsPass, scope::IdentType};
 use std::borrow::Cow;
 use swc_common::{
     pass::{CompilerPass, Repeated},
@@ -286,7 +283,7 @@ impl Fold<BlockStmt> for Inlining<'_> {
 
 impl Fold<Function> for Inlining<'_> {
     fn fold(&mut self, node: Function) -> Function {
-        self.with_child(ScopeKind::Fn, move |child| {
+        self.with_child(ScopeKind::Fn { named: false }, move |child| {
             let mut node = node;
 
             child.pat_mode = PatFoldingMode::Param;
@@ -307,10 +304,21 @@ impl Fold<FnDecl> for Inlining<'_> {
             self.declare(node.ident.to_id(), None, true);
         }
 
-        FnDecl {
-            function: node.function.fold_with(self),
-            ..node
-        }
+        let function = node.function;
+
+        let function = self.with_child(ScopeKind::Fn { named: true }, |child| {
+            let mut node = function;
+
+            child.pat_mode = PatFoldingMode::Param;
+            node.params = node.params.fold_with(child);
+            node.body = match node.body {
+                None => None,
+                Some(v) => Some(v.fold_children(child)),
+            };
+
+            node
+        });
+        FnDecl { function, ..node }
     }
 }
 
@@ -658,7 +666,7 @@ impl Fold<ForInStmt> for Inlining<'_> {
         }
 
         node.right = node.right.fold_with(self);
-        node.body = node.body.fold_with(self);
+        node.body = self.fold_with_child(ScopeKind::Loop, node.body);
 
         node
     }
@@ -676,7 +684,7 @@ impl Fold<ForOfStmt> for Inlining<'_> {
         }
 
         node.right = node.right.fold_with(self);
-        node.body = node.body.fold_with(self);
+        node.body = self.fold_with_child(ScopeKind::Loop, node.body);
 
         node
     }
@@ -704,7 +712,7 @@ impl Fold<ForStmt> for Inlining<'_> {
 
         node.test = node.test.fold_with(self);
         node.update = node.update.fold_with(self);
-        node.body = self.fold_with_child(ScopeKind::Block, node.body);
+        node.body = self.fold_with_child(ScopeKind::Loop, node.body);
 
         if node.init.is_none() && node.test.is_none() && node.update.is_none() {
             self.scope.store_inline_barrier(self.phase);

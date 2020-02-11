@@ -1,5 +1,4 @@
 use super::{Inlining, Phase};
-use crate::scope::ScopeKind;
 use fxhash::{FxBuildHasher, FxHashMap, FxHashSet};
 use indexmap::map::{Entry, IndexMap};
 use std::{
@@ -12,6 +11,19 @@ use swc_atoms::js_word;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum ScopeKind {
+    Loop,
+    Block,
+    Fn { named: bool },
+}
+
+impl Default for ScopeKind {
+    fn default() -> Self {
+        Self::Fn { named: false }
+    }
+}
 
 impl Inlining<'_> {
     pub(super) fn with_child<F, T>(&mut self, kind: ScopeKind, op: F) -> T
@@ -33,7 +45,10 @@ impl Inlining<'_> {
 
         self.changed |= child.changed;
 
-        if kind != ScopeKind::Fn {
+        if match kind {
+            ScopeKind::Fn { .. } => false,
+            _ => true,
+        } {
             let v = replace(&mut child.scope.bindings, Default::default());
 
             for (id, v) in v.into_iter().filter_map(|(id, v)| {
@@ -61,7 +76,8 @@ impl Inlining<'_> {
         node
     }
 
-    /// Note: this method stores the value only if init is [Cow::Owned].
+    /// Note: this method stores the value only if init is [Cow::Owned] or it's
+    /// [Expr::Ident] or [Expr::Lit].
     pub(super) fn declare(&mut self, id: Id, init: Option<Cow<Expr>>, is_change: bool) {
         println!(
             "({}, {:?}) declare({})",
@@ -69,6 +85,14 @@ impl Inlining<'_> {
             self.phase,
             id.0
         );
+
+        let init = init.map(|cow| match cow {
+            Cow::Owned(v) => Cow::Owned(v),
+            Cow::Borrowed(b) => match b {
+                Expr::Ident(..) | Expr::Lit(..) => Cow::Owned(b.clone()),
+                _ => Cow::Borrowed(b),
+            },
+        });
 
         let is_undefined = self.var_decl_kind == VarDeclKind::Var
             && !is_change
@@ -85,8 +109,6 @@ impl Inlining<'_> {
             }
             _ => None,
         };
-
-        let hoisted = self.var_decl_kind == VarDeclKind::Var && self.scope.kind != ScopeKind::Fn;
 
         let is_inline_prevented = match init {
             Some(ref e) => self.scope.is_inline_prevented(&e),
@@ -220,7 +242,23 @@ impl<'a> Scope<'a> {
         None
     }
 
+    fn read_prevents_inlining(&self) -> bool {
+        match self.kind {
+            ScopeKind::Fn { named: true } | ScopeKind::Loop => return true,
+            _ => {}
+        }
+
+        match self.parent {
+            None => false,
+            Some(v) => v.read_prevents_inlining(),
+        }
+    }
+
     pub fn add_read(&mut self, id: &Id) {
+        if self.read_prevents_inlining() {
+            self.prevent_inline(id)
+        }
+
         if id.0 == js_word!("arguments") {
             self.prevent_inline_of_params();
         }
@@ -347,13 +385,14 @@ impl<'a> Scope<'a> {
                 self.inline_barriers.borrow_mut().push_back(idx);
             }
             Phase::Inlining => {
-                if let Some(idx) = self.inline_barriers.borrow_mut().pop_front() {
-                    for i in 0..idx {
-                        if let Some((id, _)) = self.bindings.get_index(i) {
-                            self.prevent_inline(id);
-                        }
-                    }
-                }
+                //                if let Some(idx) =
+                // self.inline_barriers.borrow_mut().pop_front() {
+                //                    for i in 0..idx {
+                //                        if let Some((id, _)) =
+                // self.bindings.get_index(i) {
+                // self.prevent_inline(id);
+                // }                    }
+                //                }
             }
         }
 
@@ -380,7 +419,7 @@ impl<'a> Scope<'a> {
             }
         }
 
-        if self.kind == ScopeKind::Fn {
+        if let ScopeKind::Fn { .. } = self.kind {
             return;
         }
 
