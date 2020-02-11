@@ -215,7 +215,7 @@ impl<'a> Scope<'a> {
         }
     }
 
-    /// True if the returned scope is self and self contains `id`.
+    /// True if the returned scope is self
     fn scope_for(&self, id: &Id) -> (&Scope, bool) {
         if let Some(..) = self.constants.get(id) {
             return (self, true);
@@ -225,7 +225,7 @@ impl<'a> Scope<'a> {
         }
 
         match self.parent {
-            None => (self, false),
+            None => (self, true),
             Some(ref p) => {
                 let (s, _) = p.scope_for(id);
                 (s, false)
@@ -245,12 +245,34 @@ impl<'a> Scope<'a> {
         log::trace!("read_prevents_inlining({})", id.0);
 
         if let Some(v) = self.find_binding(id) {
-            if v.kind != VarDeclKind::Var {
+            if !v.is_param.get() {
+                if v.kind != VarDeclKind::Var {
+                    return false;
+                }
+            }
+
+            // Reading parameter is ok.
+            if v.is_param() {
+                return false;
+            }
+
+            // If it's already hoisted, it means that it is already processed by child
+            // scope.
+            if v.hoisted.get() {
                 return false;
             }
         }
 
-        if let (_, false) = self.scope_for(id) {
+        if let (scope, false) = self.scope_for(id) {
+            let cur = self.depth();
+            let declared_scope = scope.depth();
+
+            log::debug!(
+                "{}: read access from child scope ({}) -> ({})",
+                id.0,
+                cur,
+                declared_scope
+            );
             return true;
         }
 
