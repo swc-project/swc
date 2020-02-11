@@ -1006,12 +1006,6 @@ fn test_inline_function_declaration() {
 }
 
 #[test]
-fn test2388531() {
-    test_same("var f = function () {}; var g = function () {}; goog.inherits(f, g);");
-    test_same("var f = function () {}; var g = function () {}; goog$inherits(f, g);");
-}
-
-#[test]
 fn test_recursive_function1() {
     test_same("var x = 0; (function x() { return x ? x() : 3; })();");
 }
