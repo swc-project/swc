@@ -593,6 +593,7 @@ impl Fold<Pat> for Inlining<'_> {
             Pat::Ident(ref i) => match self.pat_mode {
                 PatFoldingMode::Param => {
                     self.declare(i.to_id(), Some(Expr::Ident(i.clone())), false);
+                    self.scope.mark_as_param(&i.to_id());
                 }
                 PatFoldingMode::VarDecl => {}
                 PatFoldingMode::Assign => {

@@ -308,6 +308,14 @@ impl<'a> Scope<'a> {
         }
     }
 
+    pub fn mark_as_param(&self, id: &Id) {
+        if let Some(v) = self.find_binding_from_current(id) {
+            v.is_param.set(true);
+        } else {
+            unreachable!("mark_as_param({:?}): binding not found", id,)
+        }
+    }
+
     pub fn prevent_inline(&self, id: &Id) {
         println!("({}) Prevent inlining: {:?}", self.depth(), id);
 
@@ -370,11 +378,16 @@ pub(super) struct VarInfo {
 
     pub value: RefCell<Option<Expr>>,
     pub is_undefined: Cell<bool>,
+    is_param: Cell<bool>,
 
     hoisted: Cell<bool>,
 }
 
 impl VarInfo {
+    pub fn is_param(&self) -> bool {
+        self.is_param().get()
+    }
+
     pub fn is_inline_prevented(&self) -> bool {
         if self.inline_prevented.get() {
             return true;
