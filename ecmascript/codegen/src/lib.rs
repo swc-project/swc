@@ -7,7 +7,7 @@ use self::{
     text_writer::WriteJs,
     util::{SourceMapperExt, SpanExt, StartsWithAlphaNum},
 };
-use std::{io, sync::Arc};
+use std::{fmt::Write, io, sync::Arc};
 use swc_atoms::JsWord;
 use swc_common::{comments::Comments, BytePos, SourceMap, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -347,26 +347,7 @@ impl<'a> Emitter<'a> {
         //     self.wr.write_str_lit(node.span, &s)?;
         //     return Ok(());
         // }
-        let value = node
-            .value
-            .replace("\\", "\\\\")
-            .replace('\u{0008}', "\\b")
-            .replace('\u{000C}', "\\f")
-            .replace("\n", "\\n")
-            .replace("\r", "\\r")
-            .replace("\t", "\\t")
-            .replace('\u{000B}', "\\v")
-            .replace("\00", "\\x000")
-            .replace("\01", "\\x001")
-            .replace("\02", "\\x002")
-            .replace("\03", "\\x003")
-            .replace("\04", "\\x004")
-            .replace("\05", "\\x005")
-            .replace("\06", "\\x006")
-            .replace("\07", "\\x007")
-            .replace("\08", "\\x008")
-            .replace("\09", "\\x009")
-            .replace("\0", "\\0");
+        let value = escape(&node.value);
         // let value = node.value.replace("\n", "\\n");
 
         if !node.value.contains('\'') {
@@ -986,7 +967,8 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     pub fn emit_quasi(&mut self, node: &TplElement) -> Result {
-        self.wr.write_str_lit(node.span, &node.raw.value)?;
+        self.wr
+            .write_str_lit(node.span, &unescape(&node.raw.value))?;
         return Ok(());
     }
 
@@ -2061,4 +2043,115 @@ where
             None => Ok(()),
         }
     }
+}
+
+fn unescape(s: &str) -> String {
+    fn read_escaped(
+        radix: u32,
+        len: Option<usize>,
+        buf: &mut String,
+        chars: impl Iterator<Item = char>,
+    ) {
+        let mut v = 0;
+        let mut pending = None;
+
+        for (i, c) in chars.enumerate() {
+            if let Some(len) = len {
+                if i == len {
+                    pending = Some(c);
+                    break;
+                }
+            }
+
+            match c.to_digit(radix) {
+                None => {
+                    pending = Some(c);
+                    break;
+                }
+                Some(d) => {
+                    v = v * radix + d;
+                }
+            }
+        }
+
+        match radix {
+            2 => write!(buf, "\\b{:b}", v).unwrap(),
+
+            8 => write!(buf, "\\o{:o}", v).unwrap(),
+
+            16 => write!(buf, "\\x{:x}", v).unwrap(),
+
+            _ => unreachable!(),
+        }
+
+        if let Some(pending) = pending {
+            buf.push(pending);
+        }
+    }
+
+    let s = s.replace("\\\\", "\\");
+
+    let mut result = String::with_capacity(s.len() * 6 / 5);
+    let mut chars = s.chars();
+
+    while let Some(c) = chars.next() {
+        if c != '\\' {
+            result.push(c);
+            continue;
+        }
+
+        match chars.next() {
+            None => {
+                // This is wrong, but it seems like a mistake made by user.
+                result.push('\\');
+            }
+            Some(c) => match c {
+                '\\' => result.push('\\'),
+                'n' => result.push_str("\\\n"),
+                'r' => result.push_str("\\\r"),
+                't' => result.push_str("\\\t"),
+                'b' => result.push_str("\\\u{0008}"),
+                'f' => result.push_str("\\\u{000C}"),
+                'v' => result.push_str("\\\u{000B}"),
+                '0' => match chars.next() {
+                    Some('b') => read_escaped(2, None, &mut result, &mut chars),
+                    Some('o') => read_escaped(8, None, &mut result, &mut chars),
+                    Some('x') => read_escaped(16, Some(2), &mut result, &mut chars),
+                    nc => {
+                        // This is wrong, but it seems like a mistake made by user.
+                        result.push('0');
+                        result.extend(nc);
+                    }
+                },
+
+                _ => {
+                    result.push('\\');
+                    result.push(c);
+                }
+            },
+        }
+    }
+
+    result
+}
+
+fn escape(s: &str) -> String {
+    s.replace("\\", "\\\\")
+        .replace('\u{0008}', "\\b")
+        .replace('\u{000C}', "\\f")
+        .replace("\n", "\\n")
+        .replace("\r", "\\r")
+        .replace("\t", "\\t")
+        .replace('\u{000B}', "\\v")
+        .replace("\00", "\\x000")
+        .replace("\01", "\\x001")
+        .replace("\02", "\\x002")
+        .replace("\03", "\\x003")
+        .replace("\04", "\\x004")
+        .replace("\05", "\\x005")
+        .replace("\06", "\\x006")
+        .replace("\07", "\\x007")
+        .replace("\08", "\\x008")
+        .replace("\09", "\\x009")
+        .replace("\0", "\\0")
 }
