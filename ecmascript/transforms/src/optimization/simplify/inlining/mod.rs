@@ -590,6 +590,25 @@ impl Fold<UpdateExpr> for Inlining<'_> {
     }
 }
 
+impl Fold<UnaryExpr> for Inlining<'_> {
+    fn fold(&mut self, node: UnaryExpr) -> UnaryExpr {
+        match node.op {
+            op!("delete") => {
+                let mut v = IdentListVisitor {
+                    scope: &mut self.scope,
+                };
+
+                node.arg.visit_with(&mut v);
+                return node;
+            }
+
+            _ => {}
+        }
+
+        node.fold_children(self)
+    }
+}
+
 impl Fold<Pat> for Inlining<'_> {
     fn fold(&mut self, node: Pat) -> Pat {
         let node: Pat = node.fold_children(self);
