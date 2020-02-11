@@ -730,7 +730,10 @@ impl Fold<ForStmt> for Inlining<'_> {
 impl Fold<BinExpr> for Inlining<'_> {
     fn fold(&mut self, node: BinExpr) -> BinExpr {
         match node.op {
-            op!("&&") | op!("||") => node,
+            op!("&&") | op!("||") => BinExpr {
+                left: node.left.fold_with(self),
+                ..node
+            },
             _ => node.fold_children(self),
         }
     }
