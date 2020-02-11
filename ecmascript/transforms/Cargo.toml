@@ -38,4 +38,3 @@ swc_ecma_codegen = { version = "0.15.0", path ="../codegen" }
 tempfile = "3"
 pretty_assertions = "0.6"
 sourcemap = "4.1.1"
-pretty_env_logger = "0.4"

@@ -8,7 +8,6 @@ use std::{
     mem::replace,
 };
 use swc_atoms::js_word;
-use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
 
@@ -251,10 +250,8 @@ impl<'a> Scope<'a> {
             }
         }
 
-        if let (_, is_self) = self.scope_for(id) {
-            if !is_self {
-                return true;
-            }
+        if let (_, false) = self.scope_for(id) {
+            return true;
         }
 
         match self.kind {

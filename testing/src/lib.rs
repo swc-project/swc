@@ -8,6 +8,7 @@ use difference::Changeset;
 use once_cell::sync::Lazy;
 use regex::Regex;
 use std::{
+    env::var,
     fmt::Debug,
     fs::{create_dir_all, File},
     io::Write,
@@ -27,11 +28,21 @@ mod output;
 mod paths;
 mod string_errors;
 
+/// Configures logger
+pub fn init() {
+    let _ = pretty_env_logger::formatted_builder()
+        .is_test(true)
+        .parse_filters(&var("RUST_LOG").unwrap_or(String::new()))
+        .try_init();
+}
+
 /// Run test and print errors.
 pub fn run_test<F, Ret>(treat_err_as_bug: bool, op: F) -> Result<Ret, StdErr>
 where
     F: FnOnce(Arc<SourceMap>, &Handler) -> Result<Ret, ()>,
 {
+    init();
+
     let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
     let (handler, errors) = self::string_errors::new_handler(cm.clone(), treat_err_as_bug);
     let result = swc_common::GLOBALS.set(&swc_common::Globals::new(), || op(cm, &handler));
@@ -47,6 +58,8 @@ pub fn run_test2<F, Ret>(treat_err_as_bug: bool, op: F) -> Result<Ret, StdErr>
 where
     F: FnOnce(Arc<SourceMap>, Handler) -> Result<Ret, ()>,
 {
+    init();
+
     let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
     let (handler, errors) = self::string_errors::new_handler(cm.clone(), treat_err_as_bug);
     let result = swc_common::GLOBALS.set(&swc_common::Globals::new(), || op(cm, handler));
@@ -64,6 +77,8 @@ pub struct Tester {
 
 impl Tester {
     pub fn new() -> Self {
+        init();
+
         Tester {
             cm: Arc::new(SourceMap::new(FilePathMapping::empty())),
             globals: swc_common::Globals::new(),
