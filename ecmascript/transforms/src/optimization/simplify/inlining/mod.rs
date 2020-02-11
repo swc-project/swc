@@ -577,15 +577,11 @@ impl Fold<Expr> for Inlining<'_> {
 
 impl Fold<UpdateExpr> for Inlining<'_> {
     fn fold(&mut self, node: UpdateExpr) -> UpdateExpr {
-        match *node.arg {
-            Expr::Ident(ref i) => {
-                let id = i.to_id();
+        let mut v = IdentListVisitor {
+            scope: &mut self.scope,
+        };
 
-                self.scope.prevent_inline(&id);
-            }
-            _ => {}
-        }
-
+        node.arg.visit_with(&mut v);
         node
     }
 }
