@@ -8,7 +8,6 @@ use difference::Changeset;
 use once_cell::sync::Lazy;
 use regex::Regex;
 use std::{
-    env::var,
     fmt,
     fmt::Debug,
     fs::{create_dir_all, File},
@@ -72,8 +71,6 @@ pub fn init() {
     let _ = env_logger::Builder::from_default_env()
         .is_test(true)
         .format(|f, record| {
-            use std::io::Write;
-
             let target = record.target();
             let max_width = max_target_width(target);
 
