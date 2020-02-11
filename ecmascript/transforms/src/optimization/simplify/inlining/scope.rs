@@ -252,7 +252,7 @@ impl<'a> Scope<'a> {
             if !is_self || force_no_inline {
                 self.prevent_inline(id)
             }
-        } else if self.constants.get(id).is_some() {
+        } else if self.find_constants(id).is_some() {
             // noop
         } else {
             println!(
