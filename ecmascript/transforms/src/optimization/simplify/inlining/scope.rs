@@ -61,6 +61,8 @@ impl Inlining<'_> {
     }
 
     pub(super) fn declare(&mut self, id: Id, init: Option<Expr>, is_change: bool) {
+        println!("({:?}) declare({})", self.phase, id.0);
+
         let is_undefined = self.var_decl_kind == VarDeclKind::Var
             && !is_change
             && init.is_none()
@@ -85,10 +87,10 @@ impl Inlining<'_> {
         };
 
         if is_inline_prevented {
-            println!("declare: Inline prevented: {:?}", id)
+            println!("\tdeclare: Inline prevented: {:?}", id)
         }
         if is_undefined {
-            println!("declare: {:?} is undefined", id);
+            println!("\tdeclare: {:?} is undefined", id);
         }
 
         let idx = match self.scope.bindings.entry(id.clone()) {
@@ -122,11 +124,27 @@ impl Inlining<'_> {
 
         //
         if let Some((value_idx, vi)) = value_idx {
-            if value_idx > idx {
+            println!("\tdeclare: {} -> {}", idx, value_idx);
+
+            let barrier_exists = (|| {
+                for &blocker in self.scope.inline_barriers.borrow().iter() {
+                    if value_idx < blocker && blocker < idx {
+                        return true;
+                    } else if idx < blocker && blocker < value_idx {
+                        return true;
+                    }
+                }
+
+                false
+            })();
+
+            if value_idx > idx || barrier_exists {
                 println!("Variable use before declaration: {:?}", id);
                 self.scope.prevent_inline(&id);
                 self.scope.prevent_inline(&vi)
             }
+        } else {
+            println!("\tdeclare: value idx is none");
         }
     }
 }
@@ -255,6 +273,7 @@ impl<'a> Scope<'a> {
         self.parent.and_then(|parent| parent.find_binding(id))
     }
 
+    /// Searches only for current scope.
     fn idx_val(&self, id: &Id) -> Option<(usize, &VarInfo)> {
         self.bindings.iter().enumerate().find_map(
             |(idx, (k, v))| {
