@@ -1,7 +1,6 @@
 #![allow(unused_macros)]
 #![allow(dead_code)]
 
-use env_logger::{Target, WriteStyle};
 use sourcemap::SourceMapBuilder;
 use std::{
     env::var,
