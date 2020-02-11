@@ -927,7 +927,7 @@ fn test_inline_immutable_multiple_times() {
 fn test_inline_string_multiple_times_when_aliasing_all_strings() {
     test(
         "var x = 'abcdefghijklmnopqrstuvwxyz'; var y = x, z = x;",
-        "var y = 'abcdefghijklmnopqrstuvwxyz',      z = 'abcdefghijklmnopqrstuvwxyz';",
+        "var y, z;",
     );
 }
 
