@@ -242,7 +242,13 @@ impl<'a> Scope<'a> {
         None
     }
 
-    fn read_prevents_inlining(&self) -> bool {
+    fn read_prevents_inlining(&self, id: &Id) -> bool {
+        if let Some(v) = self.find_binding(id) {
+            if v.kind != VarDeclKind::Var {
+                return false;
+            }
+        }
+
         match self.kind {
             ScopeKind::Fn { named: true } | ScopeKind::Loop => return true,
             _ => {}
@@ -250,12 +256,12 @@ impl<'a> Scope<'a> {
 
         match self.parent {
             None => false,
-            Some(v) => v.read_prevents_inlining(),
+            Some(v) => v.read_prevents_inlining(id),
         }
     }
 
     pub fn add_read(&mut self, id: &Id) {
-        if self.read_prevents_inlining() {
+        if self.read_prevents_inlining(id) {
             self.prevent_inline(id)
         }
 
