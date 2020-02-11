@@ -189,6 +189,20 @@ fn issue_546() {
     );
 }
 
+#[test]
+fn issue_637() {
+    test_from_to(
+        r"`\
+`;", r"`\
+`;",
+    );
+}
+
+#[test]
+fn issue_639() {
+    test_from_to(r"`\x1b[33m Yellow \x1b[0m`;", r"`\x1b[33m Yellow \x1b[0m`;");
+}
+
 #[derive(Debug, Clone)]
 struct Buf(Arc<RwLock<Vec<u8>>>);
 impl Write for Buf {
