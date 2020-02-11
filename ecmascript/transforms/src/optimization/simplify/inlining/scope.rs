@@ -276,7 +276,7 @@ impl<'a> Scope<'a> {
                 log::debug!("({}): {}: kind = {:?}", scope.depth(), id.0, scope.kind);
 
                 match scope.kind {
-                    ScopeKind::Fn { .. } => {
+                    ScopeKind::Fn { named: true } => {
                         log::debug!("{}: variable access from a nested function detected", id.0);
                         return true;
                     }

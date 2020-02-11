@@ -911,10 +911,19 @@ fn test_no_inline_out_of_branch() {
 }
 
 #[test]
-fn test_interfering_in_lines() {
+#[ignore]
+fn orig_test_interfering_in_lines() {
     test(
         "var a = 3; var f = function() { var x = a; alert(x); };",
         "var a; var f = function() { var x; alert(3); };",
+    );
+}
+
+#[test]
+fn test_interfering_in_lines() {
+    test(
+        "var a = 3; var f = function() { var x = a; alert(x); };",
+        "var a = 3; var f = function() { var x; alert(3); };",
     );
 }
 
@@ -1750,7 +1759,8 @@ fn test_hoisted_function6() {
 }
 
 #[test]
-fn test_issue354() {
+#[ignore]
+fn orig_test_issue354() {
     test(
         concat!(
             "var enabled = true;",
@@ -1789,21 +1799,51 @@ fn test_issue354() {
     );
 }
 
+#[test]
+fn test_issue354() {
+    test(
+        concat!(
+            "var enabled = true;",
+            "function Widget() {}",
+            "Widget.prototype = {",
+            "  frob: function() {",
+            "    search();",
+            "  }",
+            "};",
+            "function search() {",
+            "  if (enabled)",
+            "    alert(1);",
+            "  else",
+            "    alert(2);",
+            "}",
+            "window.foo = new Widget();",
+            "window.bar = search;"
+        ),
+        concat!(
+            "var enabled = true;",
+            "function Widget() {}",
+            "Widget.prototype = {",
+            "  frob: function() {",
+            "    search();",
+            "  }",
+            "};",
+            "function search() {",
+            "  if (enabled)",
+            "    alert(1);",
+            "  else",
+            "    alert(2);",
+            "}",
+            "window.foo = new Widget();",
+            "window.bar = search;"
+        ),
+    );
+}
+
 // Test respect for scopes and blocks
 #[test]
 #[ignore]
-fn test_issue1177_orig() {
+fn orig_test_issue1177() {
     test_same("function x_64(){var x_7;for(;;);var x_68=x_7=x_7;}");
-    test_same("function x_64(){var x_7;for(;;);var x_68=x_7=x_7++;}");
-    test_same("function x_64(){var x_7;for(;;);var x_68=x_7=x_7*2;}");
-}
-
-#[test]
-fn test_issue1177() {
-    test(
-        "function x_64(){var x_7;for(;;);var x_68=x_7=x_7;}",
-        "function x_64(){var x_7;for(;;);var x_68=void 0;}",
-    );
     test_same("function x_64(){var x_7;for(;;);var x_68=x_7=x_7++;}");
     test_same("function x_64(){var x_7;for(;;);var x_68=x_7=x_7*2;}");
 }
