@@ -80,15 +80,17 @@ impl Visit<AssignExpr> for SideEffectVisitor<'_> {
 }
 
 impl Visit<MemberExpr> for SideEffectVisitor<'_> {
-    fn visit(&mut self, node: &MemberExpr) {
-        if self.found {
-            return;
-        }
+    fn visit(&mut self, _: &MemberExpr) {
+        self.found = true;
 
-        node.obj.visit_with(self);
-        if node.computed {
-            node.prop.visit_with(self);
-        }
+        //        if self.found {
+        //            return;
+        //        }
+
+        //        node.obj.visit_with(self);
+        //        if node.computed {
+        //            node.prop.visit_with(self);
+        //        }
     }
 }
 
