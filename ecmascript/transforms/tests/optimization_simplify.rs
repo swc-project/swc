@@ -84,7 +84,7 @@ fn test_true_false() {
 }
 
 /** Check that removing blocks with 1 child works * * * * * * * * * * * * *
- ** * * * * * * **/
+ ** * * * * * * * * * * * * * **/
 #[test]
 fn test_fold_one_child_blocks_integration() {
     test(
@@ -150,7 +150,7 @@ fn test_fold_one_child_blocks_string_compare() {
 }
 
 /** Test a particularly hairy edge case. * * * * * * * * * * * * * * * * * *
- ** * **/
+ ** * * * * * * * * **/
 #[test]
 fn test_necessary_dangling_else() {
     test(
@@ -159,7 +159,8 @@ fn test_necessary_dangling_else() {
     );
 }
 
-/** Try to minimize returns * * * * * * * * * * * * * * * * * * * **/
+/** Try to minimize returns * * * * * * * * * * * * * * * * * * * * * * * *
+ ** * * **/
 #[test]
 fn test_fold_returns_integration() {
     // if-then-else duplicate statement removal handles this case:
@@ -263,7 +264,11 @@ fn test_fold_useless_for_integration() {
     test("for(;!void 0;) foo()", "for(;;) foo()");
 
     // Make sure proper empty nodes are inserted.
-    test("if(foo())for(;false;){foo()}else bar()", "foo()||bar()");
+    //    test("if(foo())for(;false;){foo()}else bar()", "foo()||bar()");
+    test(
+        "if(foo())for(;false;){foo()}else bar()",
+        "if (foo()); else bar();",
+    );
 }
 
 #[test]
@@ -271,12 +276,17 @@ fn test_fold_useless_do_integration() {
     test("do { foo() } while(!true);", "foo()");
     test("do { foo() } while(void 0);", "foo()");
     test("do { foo() } while(undefined);", "foo()");
-    test("do { foo() } while(!void 0);", "do { foo() } while(1);");
+    test("do { foo() } while(!void 0);", "for(;;)foo();");
 
     // Make sure proper empty nodes are inserted.
+    //    test(
+    //        "if(foo())do {foo()} while(false) else bar()",
+    //        "foo()?foo():bar()",
+    //    );
+
     test(
         "if(foo())do {foo()} while(false) else bar()",
-        "foo()?foo():bar()",
+        "if (foo()) foo(); else bar();",
     );
 }
 
