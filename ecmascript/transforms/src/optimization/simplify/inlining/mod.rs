@@ -1,4 +1,4 @@
-use self::scope::{Scope, ScopeKind};
+use self::scope::{Scope, ScopeKind, VarType};
 use crate::{pass::RepeatedJsPass, scope::IdentType};
 use std::borrow::Cow;
 use swc_common::{
@@ -139,6 +139,7 @@ impl Fold<VarDecl> for Inlining<'_> {
 
 impl Fold<VarDeclarator> for Inlining<'_> {
     fn fold(&mut self, mut node: VarDeclarator) -> VarDeclarator {
+        let kind = VarType::Var(self.var_decl_kind);
         node.init = node.init.fold_with(self);
 
         self.pat_mode = PatFoldingMode::VarDecl;
@@ -150,7 +151,7 @@ impl Fold<VarDeclarator> for Inlining<'_> {
                     match &node.init {
                         None => {
                             if self.var_decl_kind != VarDeclKind::Const {
-                                self.declare(name.to_id(), None, true);
+                                self.declare(name.to_id(), None, true, kind);
                             }
                         }
 
@@ -170,7 +171,7 @@ impl Fold<VarDeclarator> for Inlining<'_> {
 
                         // Bindings
                         Some(box e @ Expr::Lit(..)) | Some(box e @ Expr::Ident(..)) => {
-                            self.declare(name.to_id(), Some(Cow::Borrowed(&e)), false);
+                            self.declare(name.to_id(), Some(Cow::Borrowed(&e)), false, kind);
 
                             if self.scope.is_inline_prevented(&e) {
                                 self.scope.prevent_inline(&name.to_id());
@@ -178,7 +179,7 @@ impl Fold<VarDeclarator> for Inlining<'_> {
                         }
                         Some(ref e) => {
                             if self.var_decl_kind != VarDeclKind::Const {
-                                self.declare(name.to_id(), Some(Cow::Borrowed(&e)), false);
+                                self.declare(name.to_id(), Some(Cow::Borrowed(&e)), false, kind);
 
                                 if contains_this_expr(&node.init) {
                                     self.scope.prevent_inline(&name.to_id());
@@ -216,6 +217,7 @@ impl Fold<VarDeclarator> for Inlining<'_> {
                                         name.to_id(),
                                         Some(Cow::Owned(Expr::Ident(ri.clone()))),
                                         false,
+                                        kind,
                                     );
                                 }
 
@@ -264,7 +266,7 @@ impl Fold<VarDeclarator> for Inlining<'_> {
 
                             // println!("({}): Inserting {:?}", self.scope.depth(), name.to_id());
 
-                            self.declare(name.to_id(), e.map(Cow::Owned), false);
+                            self.declare(name.to_id(), e.map(Cow::Owned), false, kind);
 
                             return node;
                         }
@@ -306,7 +308,12 @@ impl Fold<Function> for Inlining<'_> {
 impl Fold<FnDecl> for Inlining<'_> {
     fn fold(&mut self, node: FnDecl) -> FnDecl {
         if self.phase == Phase::Analysis {
-            self.declare(node.ident.to_id(), None, true);
+            self.declare(
+                node.ident.to_id(),
+                None,
+                true,
+                VarType::Var(VarDeclKind::Var),
+            );
         }
 
         let function = node.function;
@@ -640,8 +647,12 @@ impl Fold<Pat> for Inlining<'_> {
         match node {
             Pat::Ident(ref i) => match self.pat_mode {
                 PatFoldingMode::Param => {
-                    self.declare(i.to_id(), Some(Cow::Owned(Expr::Ident(i.clone()))), false);
-                    self.scope.mark_as_param(&i.to_id());
+                    self.declare(
+                        i.to_id(),
+                        Some(Cow::Owned(Expr::Ident(i.clone()))),
+                        false,
+                        VarType::Param,
+                    );
                 }
                 PatFoldingMode::VarDecl => {}
                 PatFoldingMode::Assign => {

@@ -18,6 +18,12 @@ pub enum ScopeKind {
     Fn { named: bool },
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub(super) enum VarType {
+    Param,
+    Var(VarDeclKind),
+}
+
 impl Default for ScopeKind {
     fn default() -> Self {
         Self::Fn { named: false }
@@ -51,7 +57,7 @@ impl Inlining<'_> {
             let v = replace(&mut child.scope.bindings, Default::default());
 
             for (id, v) in v.into_iter().filter_map(|(id, v)| {
-                if v.kind == VarDeclKind::Var {
+                if v.kind == VarType::Var(VarDeclKind::Var) {
                     Some((id, v))
                 } else {
                     None
@@ -76,7 +82,13 @@ impl Inlining<'_> {
 
     /// Note: this method stores the value only if init is [Cow::Owned] or it's
     /// [Expr::Ident] or [Expr::Lit].
-    pub(super) fn declare(&mut self, id: Id, init: Option<Cow<Expr>>, is_change: bool) {
+    pub(super) fn declare(
+        &mut self,
+        id: Id,
+        init: Option<Cow<Expr>>,
+        is_change: bool,
+        kind: VarType,
+    ) {
         println!(
             "({}, {:?}) declare({})",
             self.scope.depth(),
@@ -141,7 +153,7 @@ impl Inlining<'_> {
             Entry::Vacant(e) => {
                 let idx = e.index();
                 e.insert(VarInfo {
-                    kind: self.var_decl_kind,
+                    kind,
                     read_from_nested_scope: Cell::new(false),
                     read_cnt: Cell::new(0),
                     inline_prevented: Cell::new(is_inline_prevented),
@@ -152,35 +164,40 @@ impl Inlining<'_> {
                     }),
                     this_sensitive: Cell::new(false),
                     hoisted: Cell::new(false),
-                    is_param: Cell::new(false),
                 });
                 idx
             }
         };
 
         //
-        if let Some((value_idx, vi)) = value_idx {
-            println!("\tdeclare: {} -> {}", idx, value_idx);
+        match kind {
+            VarType::Var(..) => {
+                if let Some((value_idx, vi)) = value_idx {
+                    println!("\tdeclare: {} -> {}", idx, value_idx);
 
-            let barrier_exists = (|| {
-                for &blocker in self.scope.inline_barriers.borrow().iter() {
-                    if value_idx <= blocker && blocker <= idx {
-                        return true;
-                    } else if idx <= blocker && blocker <= value_idx {
-                        return true;
+                    let barrier_exists = (|| {
+                        for &blocker in self.scope.inline_barriers.borrow().iter() {
+                            if value_idx <= blocker && blocker <= idx {
+                                return true;
+                            } else if idx <= blocker && blocker <= value_idx {
+                                return true;
+                            }
+                        }
+
+                        false
+                    })();
+
+                    if value_idx > idx || barrier_exists {
+                        println!("Variable use before declaration: {:?}", id);
+                        self.scope.prevent_inline(&id);
+                        self.scope.prevent_inline(&vi)
                     }
+                } else {
+                    println!("\tdeclare: value idx is none");
                 }
-
-                false
-            })();
-
-            if value_idx > idx || barrier_exists {
-                println!("Variable use before declaration: {:?}", id);
-                self.scope.prevent_inline(&id);
-                self.scope.prevent_inline(&vi)
             }
-        } else {
-            println!("\tdeclare: value idx is none");
+
+            _ => {}
         }
     }
 }
@@ -244,15 +261,11 @@ impl<'a> Scope<'a> {
         log::trace!("read_prevents_inlining({})", id.0);
 
         if let Some(v) = self.find_binding(id) {
-            if !v.is_param.get() {
-                if v.kind != VarDeclKind::Var {
-                    return false;
-                }
-            }
-
-            // Reading parameter is ok.
-            if v.is_param() {
-                return false;
+            match v.kind {
+                // Reading parameter is ok.
+                VarType::Param => return false,
+                VarType::Var(VarDeclKind::Let) | VarType::Var(VarDeclKind::Const) => return false,
+                _ => {}
             }
 
             // If it's already hoisted, it means that it is already processed by child
@@ -341,7 +354,7 @@ impl<'a> Scope<'a> {
             self.bindings.insert(
                 id.clone(),
                 VarInfo {
-                    kind: VarDeclKind::Var,
+                    kind: VarType::Var(VarDeclKind::Var),
                     read_from_nested_scope: Cell::new(false),
                     read_cnt: Cell::new(0),
                     inline_prevented: Cell::new(force_no_inline),
@@ -349,7 +362,6 @@ impl<'a> Scope<'a> {
                     is_undefined: Cell::new(false),
                     this_sensitive: Cell::new(false),
                     hoisted: Cell::new(false),
-                    is_param: Cell::new(false),
                 },
             );
         }
@@ -435,14 +447,6 @@ impl<'a> Scope<'a> {
         match self.parent {
             None => {}
             Some(p) => p.store_inline_barrier(phase),
-        }
-    }
-
-    pub fn mark_as_param(&self, id: &Id) {
-        if let Some(v) = self.find_binding_from_current(id) {
-            v.is_param.set(true);
-        } else {
-            unreachable!("mark_as_param({:?}): binding not found", id,)
         }
     }
 
@@ -535,7 +539,7 @@ impl<'a> Scope<'a> {
 
 #[derive(Debug)]
 pub(super) struct VarInfo {
-    pub kind: VarDeclKind,
+    pub kind: VarType,
 
     read_from_nested_scope: Cell<bool>,
     read_cnt: Cell<usize>,
@@ -545,14 +549,13 @@ pub(super) struct VarInfo {
 
     pub value: RefCell<Option<Expr>>,
     pub is_undefined: Cell<bool>,
-    is_param: Cell<bool>,
 
     hoisted: Cell<bool>,
 }
 
 impl VarInfo {
     pub fn is_param(&self) -> bool {
-        self.is_param.get()
+        self.kind == VarType::Param
     }
 
     pub fn is_inline_prevented(&self) -> bool {
