@@ -609,7 +609,7 @@ fn test_do_not_enter_subscope() {
 fn test_do_not_exit_try() {
     test(
         "try { var x = y; } catch (e) {} var z = y; ",
-        "try { var x = y; } catch (e) {} var z; ",
+        "try { var x = y; } catch (e) {} var z = y; ",
     );
     test_same("try { throw e; var x = 1; } catch (e) {} var z = x; ");
 }

@@ -810,6 +810,10 @@ impl Fold<BinExpr> for Inlining<'_> {
 
 impl Fold<TryStmt> for Inlining<'_> {
     fn fold(&mut self, node: TryStmt) -> TryStmt {
+        node.block.visit_with(&mut IdentListVisitor {
+            scope: &mut self.scope,
+        });
+
         TryStmt {
             // TODO:
             //            block: node.block.fold_with(self),
