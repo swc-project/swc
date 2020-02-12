@@ -838,7 +838,7 @@ fn test_chained_assignment() {
 fn test_for_in() {
     test(
         "for (var i in j) { var c = i; }",
-        "for (var i in j) { var c; }",
+        "for (var i in j) { var c = i; }",
     );
     test_same("var i = 0; for (i in j) ;");
     test_same("var i = 0; for (i in j) { var c = i; }");

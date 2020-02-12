@@ -698,6 +698,12 @@ impl Fold<ForInStmt> for Inlining<'_> {
             });
         }
 
+        {
+            node.right.visit_with(&mut IdentListVisitor {
+                scope: &mut self.scope,
+            });
+        }
+
         node.right = node.right.fold_with(self);
         node.body = self.fold_with_child(ScopeKind::Loop, node.body);
 
@@ -712,6 +718,11 @@ impl Fold<ForOfStmt> for Inlining<'_> {
 
         {
             node.left.visit_with(&mut IdentListVisitor {
+                scope: &mut self.scope,
+            });
+        }
+        {
+            node.right.visit_with(&mut IdentListVisitor {
                 scope: &mut self.scope,
             });
         }
