@@ -360,6 +360,28 @@ impl<'a> Fold<Ident> for Resolver<'a> {
                     if cfg!(debug_assertions) && LOG {
                         eprintln!("\t -> Unresolved");
                     }
+
+                    let mark = {
+                        let mut mark = self.mark;
+                        let mut cur = Some(&self.current);
+                        while let Some(scope) = cur {
+                            cur = scope.parent;
+
+                            if cur.is_none() {
+                                break;
+                            }
+                            mark = mark.parent();
+                        }
+
+                        mark
+                    };
+
+                    let span = span.apply_mark(mark);
+
+                    if cfg!(debug_assertions) && LOG {
+                        eprintln!("\t -> {:?}", span.ctxt());
+                    }
+
                     // Support hoisting
                     self.fold_binding_ident(Ident { sym, span, ..i })
                 }

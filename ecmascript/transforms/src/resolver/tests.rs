@@ -1044,3 +1044,12 @@ test!(
     Object1.defineProperty();
 }"
 );
+
+identical!(
+    hoisting,
+    "function foo() {
+        return XXX
+    }
+    var XXX = 1;
+    "
+);
