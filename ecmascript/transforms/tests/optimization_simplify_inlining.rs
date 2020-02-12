@@ -1814,6 +1814,7 @@ fn test_external_issue1053() {
 }
 
 #[test]
+#[ignore]
 fn test_hoisted_function1() {
     test(
         "var x = 1; function f() { return x; }",
@@ -1837,6 +1838,7 @@ fn test_hoisted_function3() {
 }
 
 #[test]
+#[ignore]
 fn test_hoisted_function4() {
     test(
         "var impl_0; impl_0 = 1; b(); function b() { window['f'] = impl_0; }",
@@ -1850,6 +1852,7 @@ fn test_hoisted_function5() {
 }
 
 #[test]
+#[ignore]
 fn test_hoisted_function6() {
     test(
         concat!(
