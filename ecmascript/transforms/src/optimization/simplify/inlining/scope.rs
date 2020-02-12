@@ -137,7 +137,7 @@ impl Inlining<'_> {
             _ => None,
         };
 
-        let is_inline_prevented = self.scope.unresolved_usages.contains(&id)
+        let is_inline_prevented = self.scope.should_prevent_inline_because_of_scope(&id)
             || match init {
                 Some(ref e) => self.scope.is_inline_prevented(&e),
                 _ => false,
@@ -266,6 +266,29 @@ impl<'a> Scope<'a> {
         match self.parent {
             None => 0,
             Some(p) => p.depth() + 1,
+        }
+    }
+
+    fn should_prevent_inline_because_of_scope(&self, id: &Id) -> bool {
+        if self.unresolved_usages.contains(id) {
+            return true;
+        }
+
+        match self.parent {
+            None => false,
+            Some(p) => {
+                if p.should_prevent_inline_because_of_scope(id) {
+                    return true;
+                }
+
+                if let Some(v) = p.find_binding(id) {
+                    if v.hoisted.get() && v.is_inline_prevented() {
+                        return true;
+                    }
+                }
+
+                false
+            }
         }
     }
 

@@ -114,6 +114,8 @@ impl Fold<Vec<ModuleItem>> for Inlining<'_> {
         self.phase = Phase::Analysis;
         items = items.fold_children(self);
 
+        log::info!("Switching to Inlining phase");
+
         // Inline
         self.phase = Phase::Inlining;
         items = items.fold_children(self);
