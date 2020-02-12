@@ -179,6 +179,25 @@ impl Inlining<'_> {
             }
         };
 
+        {
+            let mut cur = Some(&self.scope);
+            while let Some(scope) = cur {
+                log::error!("CUR SCOPE: {:?}", self.scope.kind);
+
+                if let ScopeKind::Fn { .. } = scope.kind {
+                    break;
+                }
+
+                if scope.kind == ScopeKind::Loop {
+                    log::debug!("preventing inline as it's declared in a loop");
+                    self.scope.prevent_inline(&id);
+                    break;
+                }
+
+                cur = scope.parent;
+            }
+        }
+
         //
         let barrier_works = match kind {
             VarType::Param => false,
