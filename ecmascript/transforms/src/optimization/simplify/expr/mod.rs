@@ -51,6 +51,7 @@ impl Fold<Pat> for SimplifyExpr {
                                 ref arg,
                                 ..
                             }) => !arg.may_have_side_effects(),
+                            _ => false,
                         }
                     {
                         return *a.left;
