@@ -94,6 +94,7 @@ struct Inlining<'a> {
 enum PatFoldingMode {
     Assign,
     Param,
+    CatchParam,
     VarDecl,
 }
 
@@ -369,7 +370,7 @@ impl Fold<CatchClause> for Inlining<'_> {
         self.with_child(ScopeKind::Block, move |child| {
             let mut node = node;
 
-            child.pat_mode = PatFoldingMode::Param;
+            child.pat_mode = PatFoldingMode::CatchParam;
             node.param = node.param.fold_with(child);
             match child.phase {
                 Phase::Analysis => {
@@ -652,6 +653,14 @@ impl Fold<Pat> for Inlining<'_> {
                         Some(Cow::Owned(Expr::Ident(i.clone()))),
                         false,
                         VarType::Param,
+                    );
+                }
+                PatFoldingMode::CatchParam => {
+                    self.declare(
+                        i.to_id(),
+                        Some(Cow::Owned(Expr::Ident(i.clone()))),
+                        false,
+                        VarType::Var(VarDeclKind::Var),
                     );
                 }
                 PatFoldingMode::VarDecl => {}
