@@ -510,6 +510,8 @@ impl Fold<Expr> for Fixer {
                     }
 
                     e @ Expr::Seq(..)
+                    | e @ Expr::Update(..)
+                    | e @ Expr::Unary(..)
                     | e @ Expr::Yield(..)
                     | e @ Expr::Cond(..)
                     | e @ Expr::Assign(..)
@@ -1039,4 +1041,6 @@ var store = global[SHARED] || (global[SHARED] = {});
     foo: 1
 });"
     );
+
+    test_fixer!(void_and_bin, "(void 0) * 2", "(void 0) * 2");
 }
