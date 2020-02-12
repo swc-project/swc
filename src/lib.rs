@@ -258,15 +258,14 @@ impl Compiler {
                     }
                 }
 
-                if let Some(config_file) = config_file {
-                    let built = opts.build(
-                        &self.cm,
-                        &self.handler,
-                        *is_module,
-                        Some(config_file.into_config(Some(path))?),
-                    );
-                    return Ok(built);
-                }
+                let config_file = config_file.unwrap_or_else(|| Rc::default());
+                let built = opts.build(
+                    &self.cm,
+                    &self.handler,
+                    *is_module,
+                    Some(config_file.into_config(Some(path))?),
+                );
+                return Ok(built);
             }
             _ => {}
         }
