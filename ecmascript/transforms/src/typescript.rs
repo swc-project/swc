@@ -623,6 +623,7 @@ impl Fold<Expr> for Strip {
             Expr::TsAs(TsAsExpr { expr, .. }) => validate!(*expr),
             Expr::TsNonNull(TsNonNullExpr { expr, .. }) => validate!(*expr),
             Expr::TsTypeAssertion(TsTypeAssertion { expr, .. }) => validate!(*expr),
+            Expr::TsConstAssertion(TsConstAssertion { expr, .. }) => validate!(*expr),
             Expr::TsTypeCast(TsTypeCastExpr { expr, .. }) => validate!(*expr),
             _ => validate!(expr),
         }

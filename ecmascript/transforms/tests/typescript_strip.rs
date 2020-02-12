@@ -321,3 +321,12 @@ export const handler: Handler = async (event, context) => {};",
     "export const handler = async (event, context) => {};",
     ok_if_code_eq
 );
+
+test!(
+    ::swc_ecma_parser::Syntax::Typescript(Default::default()),
+    |_| strip(),
+    issue_656,
+    "export const x = { text: 'hello' } as const;",
+    "export const x = { text: 'hello' };",
+    ok_if_code_eq
+);

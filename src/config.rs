@@ -16,7 +16,7 @@ use swc_common::{errors::Handler, FileName, SourceMap};
 pub use swc_ecmascript::parser::JscTarget;
 use swc_ecmascript::{
     ast::{Expr, ExprStmt, ModuleItem, Stmt},
-    parser::{lexer::Lexer, Parser, Session as ParseSess, SourceFileInput, Syntax},
+    parser::{lexer::Lexer, Parser, Session as ParseSess, SourceFileInput, Syntax, TsConfig},
     preset_env,
     transforms::{
         const_modules, modules,
@@ -278,16 +278,71 @@ fn default_cwd() -> PathBuf {
 }
 
 /// `.swcrc` file
-#[derive(Clone, Deserialize)]
-#[serde(untagged)]
+#[derive(Debug, Clone, Deserialize)]
+#[serde(untagged, rename = "swcrc")]
 pub enum Rc {
     Single(Config),
     Multi(Vec<Config>),
 }
 
+impl Default for Rc {
+    fn default() -> Self {
+        Rc::Multi(vec![
+            Config {
+                env: None,
+                test: None,
+                exclude: Some(FileMatcher::Regex("\\.tsx?$".into())),
+                jsc: JscConfig {
+                    syntax: Some(Default::default()),
+                    transform: None,
+                    external_helpers: false,
+                    target: Default::default(),
+                    loose: false,
+                },
+                module: None,
+                minify: None,
+            },
+            Config {
+                env: None,
+                test: Some(FileMatcher::Regex("\\.tsx$".into())),
+                exclude: None,
+                jsc: JscConfig {
+                    syntax: Some(Syntax::Typescript(TsConfig {
+                        tsx: true,
+                        ..Default::default()
+                    })),
+                    transform: None,
+                    external_helpers: false,
+                    target: Default::default(),
+                    loose: false,
+                },
+                module: None,
+                minify: None,
+            },
+            Config {
+                env: None,
+                test: Some(FileMatcher::Regex("\\.ts$".into())),
+                exclude: None,
+                jsc: JscConfig {
+                    syntax: Some(Syntax::Typescript(TsConfig {
+                        tsx: false,
+                        ..Default::default()
+                    })),
+                    transform: None,
+                    external_helpers: false,
+                    target: Default::default(),
+                    loose: false,
+                },
+                module: None,
+                minify: None,
+            },
+        ])
+    }
+}
+
 impl Rc {
     pub fn into_config(self, filename: Option<&Path>) -> Result<Config, Error> {
-        let cs = match self {
+        let mut cs = match self {
             Rc::Single(c) => match filename {
                 Some(filename) => {
                     if c.matches(filename)? {
@@ -311,20 +366,7 @@ impl Rc {
                 }
             }
             // TODO
-            None => {
-                let mut first = None;
-                for c in cs {
-                    if c.test.is_none() {
-                        return Ok(c);
-                    }
-
-                    if first.is_none() {
-                        first = Some(c);
-                    }
-                }
-
-                return Ok(first.unwrap_or_default());
-            }
+            None => return Ok(cs.remove(0)),
         }
 
         Err(Error::Unmatched)

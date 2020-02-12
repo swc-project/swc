@@ -330,7 +330,7 @@ pub enum JscTarget {
 
 impl Default for JscTarget {
     fn default() -> Self {
-        JscTarget::Es3
+        JscTarget::Es5
     }
 }
 
