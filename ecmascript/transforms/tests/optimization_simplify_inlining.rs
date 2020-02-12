@@ -604,7 +604,10 @@ fn test_do_not_enter_subscope() {
 
 #[test]
 fn test_do_not_exit_try() {
-    test_same("try { var x = y; } catch (e) {} var z = y; ");
+    test(
+        "try { var x = y; } catch (e) {} var z = y; ",
+        "try { var x = y; } catch (e) {} var z; ",
+    );
     test_same("try { throw e; var x = 1; } catch (e) {} var z = x; ");
 }
 
@@ -964,8 +967,8 @@ fn test_no_inline_mutated_variable() {
 
 #[test]
 fn test_inline_immutable_multiple_times() {
-    test("var x = null; var y = x, z = x;", "var y = null, z = null;");
-    test("var x = 3; var y = x, z = x;", "var y = 3, z = 3;");
+    test("var x = null; var y = x, z = x;", "var x; var y, z;");
+    test("var x = 3; var y = x, z = x;", "var x; var y, z;");
 }
 
 #[test]

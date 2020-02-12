@@ -755,6 +755,36 @@ impl Fold<ForStmt> for Inlining<'_> {
     }
 }
 
+impl Fold<WhileStmt> for Inlining<'_> {
+    fn fold(&mut self, mut node: WhileStmt) -> WhileStmt {
+        {
+            node.test.visit_with(&mut IdentListVisitor {
+                scope: &mut self.scope,
+            });
+        }
+
+        node.test = node.test.fold_with(self);
+        node.body = self.fold_with_child(ScopeKind::Loop, node.body);
+
+        node
+    }
+}
+
+impl Fold<DoWhileStmt> for Inlining<'_> {
+    fn fold(&mut self, mut node: DoWhileStmt) -> DoWhileStmt {
+        {
+            node.test.visit_with(&mut IdentListVisitor {
+                scope: &mut self.scope,
+            });
+        }
+
+        node.test = node.test.fold_with(self);
+        node.body = self.fold_with_child(ScopeKind::Loop, node.body);
+
+        node
+    }
+}
+
 impl Fold<BinExpr> for Inlining<'_> {
     fn fold(&mut self, node: BinExpr) -> BinExpr {
         match node.op {

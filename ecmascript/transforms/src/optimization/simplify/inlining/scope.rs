@@ -344,7 +344,44 @@ impl<'a> Scope<'a> {
         }
     }
 
+    fn write_prevents_inline(&self, id: &Id) -> bool {
+        log::trace!("write_prevents_inline({})", id.0);
+
+        {
+            let mut cur = Some(self);
+
+            while let Some(scope) = cur {
+                let found = scope.find_binding_from_current(id).is_some();
+
+                if found {
+                    break;
+                }
+                log::debug!("({}): {}: kind = {:?}", scope.depth(), id.0, scope.kind);
+
+                match scope.kind {
+                    ScopeKind::Fn { .. } => {
+                        log::debug!("{}: variable access from a nested function detected", id.0);
+                        return true;
+                    }
+                    ScopeKind::Loop | ScopeKind::Cond => {
+                        return true;
+                    }
+                    _ => {}
+                }
+                cur = scope.parent;
+            }
+        }
+
+        false
+    }
+
     pub fn add_write(&mut self, id: &Id, force_no_inline: bool) {
+        if self.write_prevents_inline(id) {
+            log::debug!("prevent inlining because of write: {}", id.0);
+
+            self.prevent_inline(id)
+        }
+
         if id.0 == js_word!("arguments") {
             self.prevent_inline_of_params();
         }
