@@ -5,12 +5,12 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, ident::IdentLike, ExprExt, Id};
 
 impl Dce<'_> {
-    pub fn should_include<T>(&self, node: &T) -> bool
+    pub fn should_include<T>(&mut self, node: &T) -> bool
     where
-        T: for<'any> VisitWith<Visitor<'any>>,
+        T: for<'any> VisitWith<SideEffectVisitor<'any>>,
     {
-        let mut v = Visitor {
-            included: &self.included,
+        let mut v = SideEffectVisitor {
+            included: &mut self.included,
             exports: self.config.used.as_ref().map(|v| &**v),
             found: false,
         };
@@ -21,13 +21,13 @@ impl Dce<'_> {
     }
 }
 
-pub(super) struct Visitor<'a> {
-    included: &'a FxHashSet<Id>,
+pub(super) struct SideEffectVisitor<'a> {
+    included: &'a mut FxHashSet<Id>,
     exports: Option<&'a [Id]>,
     found: bool,
 }
 
-impl Visitor<'_> {
+impl SideEffectVisitor<'_> {
     fn include(&self, i: &Id) -> bool {
         let id = i.to_id();
         if self.included.contains(&id) {
@@ -44,7 +44,7 @@ impl Visitor<'_> {
     }
 }
 
-impl Visit<Expr> for Visitor<'_> {
+impl Visit<Expr> for SideEffectVisitor<'_> {
     fn visit(&mut self, node: &Expr) {
         log::debug!("Visit<Expr>");
 
@@ -62,7 +62,7 @@ impl Visit<Expr> for Visitor<'_> {
     }
 }
 
-impl Visit<AssignExpr> for Visitor<'_> {
+impl Visit<AssignExpr> for SideEffectVisitor<'_> {
     fn visit(&mut self, node: &AssignExpr) {
         if self.found {
             return;
@@ -89,7 +89,7 @@ impl Visit<AssignExpr> for Visitor<'_> {
     }
 }
 
-impl Visit<MemberExpr> for Visitor<'_> {
+impl Visit<MemberExpr> for SideEffectVisitor<'_> {
     fn visit(&mut self, node: &MemberExpr) {
         if self.found {
             return;
@@ -102,7 +102,7 @@ impl Visit<MemberExpr> for Visitor<'_> {
     }
 }
 
-impl Visit<Ident> for Visitor<'_> {
+impl Visit<Ident> for SideEffectVisitor<'_> {
     fn visit(&mut self, node: &Ident) {
         if self.found {
             return;
@@ -112,7 +112,7 @@ impl Visit<Ident> for Visitor<'_> {
     }
 }
 
-impl Visit<CallExpr> for Visitor<'_> {
+impl Visit<CallExpr> for SideEffectVisitor<'_> {
     fn visit(&mut self, node: &CallExpr) {
         if self.found {
             return;
@@ -127,7 +127,7 @@ impl Visit<CallExpr> for Visitor<'_> {
     }
 }
 
-impl Visit<NewExpr> for Visitor<'_> {
+impl Visit<NewExpr> for SideEffectVisitor<'_> {
     fn visit(&mut self, node: &NewExpr) {
         if self.found {
             return;

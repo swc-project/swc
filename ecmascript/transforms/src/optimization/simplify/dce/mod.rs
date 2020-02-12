@@ -1,3 +1,4 @@
+use self::side_effect::SideEffectVisitor;
 use crate::pass::RepeatedJsPass;
 use fxhash::FxHashSet;
 use std::borrow::Cow;
@@ -6,7 +7,7 @@ use swc_common::{
     chain,
     pass::{CompilerPass, Repeated},
     util::move_map::MoveMap,
-    Fold, FoldWith, Mark, Span, Spanned, Visit,
+    Fold, FoldWith, Mark, Span, Spanned, Visit, VisitWith,
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id, StmtLike};
@@ -130,6 +131,7 @@ impl Repeated for Dce<'_> {
 impl<T> Fold<Vec<T>> for Dce<'_>
 where
     T: StmtLike + FoldWith<Self> + Spanned,
+    T: for<'any> VisitWith<SideEffectVisitor<'any>>,
 {
     fn fold(&mut self, mut items: Vec<T>) -> Vec<T> {
         let mut preserved = FxHashSet::default();
@@ -138,15 +140,17 @@ where
         loop {
             self.changed = false;
             let mut idx = 0u32;
-            items = items.move_map(|item| {
+            items = items.move_map(|mut item| {
                 let item = if preserved.contains(&idx) {
                     item
                 } else {
-                    log::info!("Dce.Fold({})", idx);
-                    let item = item.fold_with(self);
-                    if self.is_marked(item.span()) {
+                    log::info!("Dce.should_include({})", idx);
+
+                    if self.should_include(&item) {
                         log::info!("Preserving {}", idx);
                         preserved.insert(idx);
+                        self.changed = true;
+                        item = self.fold_in_marking_phase(item)
                     }
                     item
                 };
