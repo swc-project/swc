@@ -16,6 +16,11 @@ fn fold_same(s: &str) {
 }
 
 #[test]
+fn regex() {
+    fold("/ab/?x=1:x=2", "x=1");
+}
+
+#[test]
 fn object() {
     fold("!({a:foo()});", "foo(), false;");
 }
