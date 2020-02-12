@@ -1,5 +1,5 @@
 use super::Dce;
-use swc_common::{Fold, FoldWith, VisitWith};
+use swc_common::{Fold, FoldWith};
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_ids;
 
@@ -58,7 +58,8 @@ impl Fold<ExportDecl> for Dce<'_> {
 
             // Preserve only exported variables
             Decl::Var(ref mut v) => {
-                if let Some(ref exported_ids) = self.config.used {
+                // If config.used is None, all exports are preserved
+                if let Some(..) = self.config.used {
                     v.decls.retain(|d| self.should_include(d));
                 }
 

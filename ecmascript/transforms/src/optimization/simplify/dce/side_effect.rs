@@ -128,7 +128,7 @@ impl Visit<CallExpr> for SideEffectVisitor<'_> {
 }
 
 impl Visit<NewExpr> for SideEffectVisitor<'_> {
-    fn visit(&mut self, node: &NewExpr) {
+    fn visit(&mut self, _: &NewExpr) {
         if self.found {
             return;
         }

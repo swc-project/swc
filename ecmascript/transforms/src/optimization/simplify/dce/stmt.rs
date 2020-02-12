@@ -1,10 +1,6 @@
 use super::Dce;
-use swc_common::{
-    fold::{FoldWith, VisitWith},
-    Fold, Spanned,
-};
+use swc_common::{fold::FoldWith, Fold, Spanned};
 use swc_ecma_ast::*;
-use swc_ecma_utils::ExprExt;
 
 impl Fold<ExprStmt> for Dce<'_> {
     fn fold(&mut self, node: ExprStmt) -> ExprStmt {
