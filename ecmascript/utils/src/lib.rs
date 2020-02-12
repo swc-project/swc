@@ -477,6 +477,25 @@ pub trait ExprExt {
                 v
             }
 
+            Expr::Bin(BinExpr {
+                ref left,
+                op: op!("||"),
+                ref right,
+                ..
+            }) => {
+                let (lp, lv) = left.as_bool();
+                if let Known(true) = lv {
+                    return (lp, lv);
+                }
+
+                let (rp, rv) = right.as_bool();
+                if let Known(true) = rv {
+                    return (lp + rp, rv);
+                }
+
+                Unknown
+            }
+
             Expr::Fn(..) | Expr::Class(..) | Expr::New(..) | Expr::Array(..) | Expr::Object(..) => {
                 Known(true)
             }

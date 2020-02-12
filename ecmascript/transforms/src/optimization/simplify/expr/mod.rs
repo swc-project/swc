@@ -536,7 +536,32 @@ impl SimplifyExpr {
                         Expr::Seq(seq)
                     };
                 }
-                _ => (left, right),
+                _ => match right.as_bool() {
+                    // TODO: Handle impure
+                    (Pure, Known(val)) if op == op!("||") => {
+                        return if val {
+                            // x || true
+                            let seq = SeqExpr {
+                                span,
+                                exprs: vec![
+                                    left,
+                                    box Expr::Lit(Lit::Bool(Bool {
+                                        span: right.span(),
+                                        value: true,
+                                    })),
+                                ],
+                            }
+                            .fold_with(self);
+
+                            Expr::Seq(seq)
+                        } else {
+                            // x || false
+
+                            *left
+                        };
+                    }
+                    _ => (left, right),
+                },
             },
             op!("instanceof") => {
                 fn is_non_obj(e: &Expr) -> bool {
