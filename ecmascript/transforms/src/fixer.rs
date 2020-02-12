@@ -511,7 +511,16 @@ impl Fold<Expr> for Fixer {
 
                     e @ Expr::Seq(..)
                     | e @ Expr::Update(..)
-                    | e @ Expr::Unary(..)
+                    | e
+                    @
+                    Expr::Unary(UnaryExpr {
+                        op: op!("delete"), ..
+                    })
+                    | e
+                    @
+                    Expr::Unary(UnaryExpr {
+                        op: op!("void"), ..
+                    })
                     | e @ Expr::Yield(..)
                     | e @ Expr::Cond(..)
                     | e @ Expr::Assign(..)
