@@ -565,7 +565,7 @@ impl<'a> Scope<'a> {
             Expr::Update(..) => return true,
 
             // TODO: Remove this
-            Expr::Call(..) | Expr::New(..) => return true,
+            Expr::Paren(..) | Expr::Call(..) | Expr::New(..) => return true,
 
             _ => {}
         }

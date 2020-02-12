@@ -507,7 +507,10 @@ fn test_inline_in_function4() {
 
 #[test]
 fn test_inline_in_function5() {
-    test_same("function baz() {  var a = (foo = new obj()); foo.x(); result = a; }");
+    test(
+        "function baz() {  var a = (foo = new obj()); foo.x(); result = a; }",
+        "function baz() {  var a = foo = new obj(); foo.x(); result = a; }",
+    );
 }
 
 #[test]
