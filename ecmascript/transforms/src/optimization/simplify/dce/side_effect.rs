@@ -136,3 +136,29 @@ impl Visit<NewExpr> for SideEffectVisitor<'_> {
         self.found = true;
     }
 }
+
+impl Visit<UpdateExpr> for SideEffectVisitor<'_> {
+    fn visit(&mut self, _: &UpdateExpr) {
+        if self.found {
+            return;
+        }
+
+        self.found = true;
+    }
+}
+
+impl Visit<UnaryExpr> for SideEffectVisitor<'_> {
+    fn visit(&mut self, node: &UnaryExpr) {
+        if self.found {
+            return;
+        }
+
+        match node.op {
+            op!("delete") => {
+                self.found = true;
+            }
+
+            _ => node.visit_children(self),
+        }
+    }
+}
