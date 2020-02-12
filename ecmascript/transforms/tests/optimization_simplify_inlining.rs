@@ -1591,7 +1591,7 @@ fn test_inline_undefined5() {
 
 #[test]
 fn test_issue90() {
-    test("var x; x && alert(1)", "var x; void 0 && alert(1)");
+    test("var x; x && alert(1)", "var x; (void 0) && alert(1)");
 }
 
 #[test]
