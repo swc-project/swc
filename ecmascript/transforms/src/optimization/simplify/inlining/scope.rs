@@ -150,9 +150,6 @@ impl Inlining<'_> {
 
         let idx = match self.scope.bindings.entry(id.clone()) {
             Entry::Occupied(mut e) => {
-                if is_change {
-                    self.changed = true;
-                }
                 e.get().is_undefined.set(is_undefined);
                 e.get().read_cnt.set(0);
                 e.get().read_from_nested_scope.set(false);

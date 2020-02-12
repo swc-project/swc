@@ -589,7 +589,10 @@ impl Fold<Expr> for Inlining<'_> {
                                 let expr = var.value.borrow();
 
                                 if let Some(expr) = &*expr {
-                                    self.changed = true;
+                                    if node != *expr {
+                                        self.changed = true;
+                                    }
+
                                     Some(expr.clone())
                                 } else {
                                     if var.is_undefined.get() {
