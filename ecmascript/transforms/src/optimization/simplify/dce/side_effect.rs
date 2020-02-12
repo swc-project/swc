@@ -2,7 +2,7 @@ use super::Dce;
 use fxhash::FxHashSet;
 use swc_common::{Visit, VisitWith};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ident::IdentLike, ExprExt, Id};
+use swc_ecma_utils::{find_ids, ident::IdentLike, ExprExt, Id};
 
 impl Dce<'_> {
     pub fn should_include<T>(&self, node: &T) -> bool
@@ -28,7 +28,7 @@ pub(super) struct Visitor<'a> {
 }
 
 impl Visitor<'_> {
-    fn include(&self, i: &Ident) -> bool {
+    fn include(&self, i: &Id) -> bool {
         let id = i.to_id();
         if self.included.contains(&id) {
             return true;
@@ -68,7 +68,17 @@ impl Visit<AssignExpr> for Visitor<'_> {
             return;
         }
 
-        node.left.visit_with(self);
+        let ids: Vec<Id> = find_ids(&node.left);
+
+        for modified in ids {
+            //
+            self.found |= self.include(&modified);
+            if self.found {
+                return;
+            }
+        }
+
+        //        node.left.visit_with(self);
 
         match &*node.right {
             Expr::Ident(..) => {
@@ -98,7 +108,7 @@ impl Visit<Ident> for Visitor<'_> {
             return;
         }
 
-        self.found |= self.include(node);
+        self.found |= self.include(&node.to_id());
     }
 }
 

@@ -8,6 +8,8 @@ use swc_ecma_utils::ExprExt;
 
 impl Fold<ExprStmt> for Dce<'_> {
     fn fold(&mut self, node: ExprStmt) -> ExprStmt {
+        log::debug!("Dce.Fold<ExprStmt>: {:?}", self.included);
+
         if self.is_marked(node.span) {
             return node;
         }
@@ -26,14 +28,19 @@ impl Fold<ExprStmt> for Dce<'_> {
 
 impl Fold<BlockStmt> for Dce<'_> {
     fn fold(&mut self, node: BlockStmt) -> BlockStmt {
+        log::debug!("Dce.Fold<BlockStmt>: {:?}", self.included);
+
         if self.is_marked(node.span) {
             return node;
         }
 
         let stmts = node.stmts.fold_with(self);
 
+        log::debug!("Dce.Fold<BlockStmt>: fold_children");
+
         let mut span = node.span;
         if stmts.iter().any(|stmt| self.is_marked(stmt.span())) {
+            log::debug!("Dce.Fold<BlockStmt>: marked!");
             span = span.apply_mark(self.config.used_mark);
         }
 
@@ -43,16 +50,22 @@ impl Fold<BlockStmt> for Dce<'_> {
 
 impl Fold<IfStmt> for Dce<'_> {
     fn fold(&mut self, node: IfStmt) -> IfStmt {
+        log::debug!("Dce.Fold<IfStmt>");
+
         if self.is_marked(node.span) {
             return node;
         }
 
         let mut node: IfStmt = node.fold_children(self);
 
+        log::debug!("Dce.Fold<IfStmt>: fold_children");
+
         if self.is_marked(node.test.span())
             || self.is_marked(node.cons.span())
             || self.is_marked(node.alt.span())
         {
+            log::debug!("Dce.Fold<IfStmt>: marked!");
+
             node.span = node.span.apply_mark(self.config.used_mark);
 
             node.test = self.fold_in_marking_phase(node.test);

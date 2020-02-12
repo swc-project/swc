@@ -142,6 +142,7 @@ where
                 let item = if preserved.contains(&idx) {
                     item
                 } else {
+                    log::info!("Dce.Fold({})", idx);
                     let item = item.fold_with(self);
                     if self.is_marked(item.span()) {
                         log::info!("Preserving {}", idx);
