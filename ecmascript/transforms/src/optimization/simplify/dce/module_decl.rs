@@ -1,4 +1,4 @@
-use super::{Dce, IdentListVisitor};
+use super::Dce;
 use swc_common::{Fold, FoldWith, VisitWith};
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_ids;
@@ -59,24 +59,7 @@ impl Fold<ExportDecl> for Dce<'_> {
             // Preserve only exported variables
             Decl::Var(ref mut v) => {
                 if let Some(ref exported_ids) = self.config.used {
-                    v.decls.retain(|d| {
-                        let mut visitor = IdentListVisitor {
-                            included_ids: &self.included,
-                            exported_ids: Some(&exported_ids),
-                            found: false,
-                        };
-
-                        d.visit_with(&mut visitor);
-
-                        if !visitor.found {
-                            //println!(
-                            //    "Dropping variable declarator\n{:?}\n{:?}",
-                            //    self.used_exports, d.name
-                            //);
-                        }
-
-                        visitor.found
-                    });
+                    v.decls.retain(|d| self.should_include(d));
                 }
 
                 if !v.decls.is_empty() {

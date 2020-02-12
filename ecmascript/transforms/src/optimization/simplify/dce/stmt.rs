@@ -1,5 +1,4 @@
 use super::Dce;
-use crate::optimization::simplify::dce::IdentListVisitor;
 use swc_common::{
     fold::{FoldWith, VisitWith},
     Fold, Spanned,
@@ -13,9 +12,7 @@ impl Fold<ExprStmt> for Dce<'_> {
             return node;
         }
 
-        let node: ExprStmt = node.fold_children(self);
-
-        if node.expr.may_have_side_effects() {
+        if self.should_include(&node.expr) {
             let stmt = ExprStmt {
                 span: node.span.apply_mark(self.config.used_mark),
                 expr: self.fold_in_marking_phase(node.expr),
@@ -23,7 +20,7 @@ impl Fold<ExprStmt> for Dce<'_> {
             return stmt;
         }
 
-        node
+        node.fold_children(self)
     }
 }
 

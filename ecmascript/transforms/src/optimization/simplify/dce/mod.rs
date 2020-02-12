@@ -140,6 +140,7 @@ where
             let mut idx = 0u32;
             items = items.move_map(|item| {
                 let item = if preserved.contains(&idx) {
+                    log::info!("Preserving {}", idx);
                     item
                 } else {
                     item.fold_with(self)
