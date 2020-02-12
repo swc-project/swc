@@ -370,3 +370,8 @@ fn await_expr_2() {
     assert!(f.contains("await"));
     assert!(f.contains("test"));
 }
+
+#[test]
+fn default_config() {
+    project("tests/projects/issue-655")
+}

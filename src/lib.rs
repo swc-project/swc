@@ -277,7 +277,7 @@ impl Compiler {
             *is_module,
             match config_file {
                 Some(config_file) => Some(config_file.into_config(None)?),
-                None => None,
+                None => Some(Rc::default().into_config(None)?),
             },
         );
         Ok(built)
