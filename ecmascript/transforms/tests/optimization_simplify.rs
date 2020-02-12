@@ -83,7 +83,8 @@ fn test_true_false() {
     test("x = !0", "x = true");
 }
 
-/** Check that removing blocks with 1 child works * * * * * * * * * **/
+/** Check that removing blocks with 1 child works * * * * * * * * * * * * *
+ ** * * * * **/
 #[test]
 fn test_fold_one_child_blocks_integration() {
     test(
@@ -148,7 +149,7 @@ fn test_fold_one_child_blocks_string_compare() {
     );
 }
 
-/** Test a particularly hairy edge case. * * * * * * * * * **/
+/** Test a particularly hairy edge case. * * * * * * * * * * * * * * * * * **/
 #[test]
 fn test_necessary_dangling_else() {
     test(
@@ -157,7 +158,7 @@ fn test_necessary_dangling_else() {
     );
 }
 
-/** Try to minimize returns * * * * * * * * * **/
+/** Try to minimize returns * * * * * * * * * * * * * * * * * **/
 #[test]
 fn test_fold_returns_integration() {
     // if-then-else duplicate statement removal handles this case:
@@ -167,19 +168,22 @@ fn test_fold_returns_integration() {
 #[test]
 fn test_bug1059649() {
     // ensure that folding blocks with a single var node doesn't explode
-    test("if(x){var y=3;}var z=5", "if(x)var y=3;var z=5");
+    test(
+        "if(x){var y=3;}var z=5; use(y, z)",
+        "if(x)var y=3; use(y, 5)",
+    );
 
     test(
-        "for(var i=0;i<10;i++){var y=3;}var z=5",
-        "for(var i=0;i<10;i++)var y=3;var z=5",
+        "for(var i=0;i<10;i++){var y=3;}var z=5; use(y, z)",
+        "for(var i=0;i<10;i++)var y=3; use(y, 5)",
     );
     test(
-        "for(var i in x){var y=3;}var z=5",
-        "for(var i in x)var y=3;var z=5",
+        "for(var i in x){var y=3;}var z=5; use(y, z)",
+        "for(var i in x)var y=3; use(y, 5)",
     );
     test(
-        "do{var y=3;}while(x);var z=5",
-        "do var y=3;while(x);var z=5",
+        "do{var y=3;}while(x);var z=5; use(y, z)",
+        "do var y=3;while(x); use(y, 5)",
     );
 }
 
