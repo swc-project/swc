@@ -362,8 +362,8 @@ impl Fold<IfStmt> for Inlining<'_> {
     fn fold(&mut self, mut node: IfStmt) -> IfStmt {
         node.test = node.test.fold_with(self);
 
-        node.cons = self.fold_with_child(ScopeKind::Block, node.cons);
-        node.alt = self.fold_with_child(ScopeKind::Block, node.alt);
+        node.cons = self.fold_with_child(ScopeKind::Cond, node.cons);
+        node.alt = self.fold_with_child(ScopeKind::Cond, node.alt);
 
         node
     }

@@ -13,9 +13,13 @@ use swc_ecma_utils::{ident::IdentLike, Id};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum ScopeKind {
+    /// If / Switch
+    Cond,
     Loop,
     Block,
-    Fn { named: bool },
+    Fn {
+        named: bool,
+    },
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -64,6 +68,8 @@ impl Inlining<'_> {
                 }
             }) {
                 let v: VarInfo = v;
+
+                log::debug!("Hoisting a variable {}", id.0);
 
                 if self.scope.unresolved_usages.contains(&id) {
                     v.inline_prevented.set(true)
@@ -298,8 +304,7 @@ impl<'a> Scope<'a> {
                         log::debug!("{}: variable access from a nested function detected", id.0);
                         return true;
                     }
-                    ScopeKind::Loop => {
-                        log::debug!("{}: variable access from a loop detected", id.0);
+                    ScopeKind::Loop | ScopeKind::Cond => {
                         return true;
                     }
                     _ => {}
