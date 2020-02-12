@@ -1091,10 +1091,11 @@ fn test_no_inline_getprop_into_call_3() {
 }
 
 #[test]
+#[ignore]
 fn test_inline_function_declaration() {
     test(
         "var f = function () {}; var a = f;",
-        "var a = function () {};",
+        "var f; var a = function () {};",
     );
     test(
         "var f = function () {}; foo(); var a = f;",
