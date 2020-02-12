@@ -91,22 +91,6 @@ to!(
     "result = new obj()"
 );
 
-to!(
-    closure_compiler_1177_1,
-    "function x_64(){var x_7;for(;;); var x_68=x_7=x_7;}",
-    "function x_64(){var x_7;for(;;); var x_68 = x_7 = x_7;}"
-);
-
-identical!(
-    closure_compiler_1177_2,
-    "function x_64(){var x_7;for(;;);var x_68=x_7=x_7++;}"
-);
-
-identical!(
-    closure_compiler_1177_3,
-    "function x_64(){var x_7;for(;;);var x_68=x_7=x_7*2;}"
-);
-
 // GitHub issue #1234: https://github.com/google/closure-compiler/issues/1234
 identical!(
     closure_compiler_1234,
