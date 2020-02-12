@@ -182,8 +182,6 @@ impl Inlining<'_> {
         {
             let mut cur = Some(&self.scope);
             while let Some(scope) = cur {
-                log::error!("CUR SCOPE: {:?}", self.scope.kind);
-
                 if let ScopeKind::Fn { .. } = scope.kind {
                     break;
                 }
