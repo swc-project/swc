@@ -114,7 +114,7 @@ impl Fold<Vec<ModuleItem>> for Inlining<'_> {
         self.phase = Phase::Analysis;
         items = items.fold_children(self);
 
-        log::info!("Switching to Inlining phase");
+        log::debug!("Switching to Inlining phase");
 
         // Inline
         self.phase = Phase::Inlining;
@@ -218,19 +218,19 @@ impl Fold<VarDeclarator> for Inlining<'_> {
                         if self.var_decl_kind != VarDeclKind::Const {
                             let id = name.to_id();
 
-                            println!("Trying to optimize variable declaration: {:?}", id);
+                            log::trace!("Trying to optimize variable declaration: {:?}", id);
 
                             if self.scope.is_inline_prevented(&Expr::Ident(name.clone()))
                                 || !self
                                     .scope
                                     .has_same_this(&id, node.init.as_ref().map(|v| &**v))
                             {
-                                println!("Inline is prevented for {:?}", id);
+                                log::trace!("Inline is prevented for {:?}", id);
                                 return node;
                             }
 
                             let init = node.init.take().fold_with(self);
-                            println!("\tInit: {:?}", init);
+                            log::trace!("\tInit: {:?}", init);
 
                             match init {
                                 Some(box Expr::Ident(ref ri)) => {
@@ -248,7 +248,7 @@ impl Fold<VarDeclarator> for Inlining<'_> {
                             match init {
                                 Some(ref e) => {
                                     if self.scope.is_inline_prevented(&e) {
-                                        println!(
+                                        log::trace!(
                                             "Inlining is not possible as inline of the \
                                              initialization was prevented"
                                         );
@@ -285,7 +285,8 @@ impl Fold<VarDeclarator> for Inlining<'_> {
                                 }
                             };
 
-                            // println!("({}): Inserting {:?}", self.scope.depth(), name.to_id());
+                            // log::trace!("({}): Inserting {:?}", self.scope.depth(),
+                            // name.to_id());
 
                             self.declare(name.to_id(), e.map(Cow::Owned), false, kind);
 
@@ -456,7 +457,7 @@ impl Fold<NewExpr> for Inlining<'_> {
 
 impl Fold<AssignExpr> for Inlining<'_> {
     fn fold(&mut self, e: AssignExpr) -> AssignExpr {
-        println!("{:?}; Fold<AssignExpr>", self.phase);
+        log::trace!("{:?}; Fold<AssignExpr>", self.phase);
         self.pat_mode = PatFoldingMode::Assign;
         let e = AssignExpr {
             left: match e.left {
@@ -464,7 +465,7 @@ impl Fold<AssignExpr> for Inlining<'_> {
                     //
                     match *left {
                         Expr::Member(ref left) => {
-                            println!("Assign to member expression!");
+                            log::trace!("Assign to member expression!");
                             let mut v = IdentListVisitor {
                                 scope: &mut self.scope,
                             };
@@ -600,9 +601,9 @@ impl Fold<Expr> for Inlining<'_> {
                         self.scope.add_read(&id);
                     }
                     Phase::Inlining => {
-                        println!("Trying to inline: {:?}", id);
+                        log::trace!("Trying to inline: {:?}", id);
                         let expr = if let Some(var) = self.scope.find_binding(&id) {
-                            println!("VarInfo: {:?}", var);
+                            log::trace!("VarInfo: {:?}", var);
                             if !var.is_inline_prevented() {
                                 let expr = var.value.borrow();
 
@@ -613,12 +614,12 @@ impl Fold<Expr> for Inlining<'_> {
                                     if var.is_undefined.get() {
                                         return *undefined(i.span);
                                     } else {
-                                        println!("Not a cheap expression");
+                                        log::trace!("Not a cheap expression");
                                         None
                                     }
                                 }
                             } else {
-                                println!("Inlining is prevented");
+                                log::trace!("Inlining is prevented");
                                 None
                             }
                         } else {

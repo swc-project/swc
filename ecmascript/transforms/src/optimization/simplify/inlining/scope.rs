@@ -58,7 +58,7 @@ impl Inlining<'_> {
             (node, child.scope.unresolved_usages, child.scope.bindings)
         };
 
-        log::info!("propagating variables");
+        log::trace!("propagating variables");
 
         self.scope.unresolved_usages.extend(unresolved_usages);
 
@@ -103,7 +103,7 @@ impl Inlining<'_> {
         is_change: bool,
         kind: VarType,
     ) {
-        println!(
+        log::trace!(
             "({}, {:?}) declare({})",
             self.scope.depth(),
             self.phase,
@@ -144,10 +144,10 @@ impl Inlining<'_> {
             };
 
         if is_inline_prevented {
-            println!("\tdeclare: Inline prevented: {:?}", id)
+            log::trace!("\tdeclare: Inline prevented: {:?}", id)
         }
         if is_undefined {
-            println!("\tdeclare: {:?} is undefined", id);
+            log::trace!("\tdeclare: {:?} is undefined", id);
         }
 
         let idx = match self.scope.bindings.entry(id.clone()) {
@@ -214,7 +214,7 @@ impl Inlining<'_> {
 
         if barrier_works {
             if let Some((value_idx, vi)) = value_idx {
-                println!("\tdeclare: {} -> {}", idx, value_idx);
+                log::trace!("\tdeclare: {} -> {}", idx, value_idx);
 
                 let barrier_exists = (|| {
                     for &blocker in self.scope.inline_barriers.borrow().iter() {
@@ -229,12 +229,12 @@ impl Inlining<'_> {
                 })();
 
                 if value_idx > idx || barrier_exists {
-                    println!("Variable use before declaration: {:?}", id);
+                    log::trace!("Variable use before declaration: {:?}", id);
                     self.scope.prevent_inline(&id);
                     self.scope.prevent_inline(&vi)
                 }
             } else {
-                println!("\tdeclare: value idx is none");
+                log::trace!("\tdeclare: value idx is none");
             }
         }
     }
@@ -382,7 +382,7 @@ impl<'a> Scope<'a> {
                 var_info.inline_prevented.set(true);
             }
         } else {
-            println!("({}): Unresolved usage.: {:?}", self.depth(), id);
+            log::trace!("({}): Unresolved usage.: {:?}", self.depth(), id);
             self.unresolved_usages.insert(id.clone());
         }
 
@@ -447,7 +447,7 @@ impl<'a> Scope<'a> {
         } else if self.has_constant(id) {
             // noop
         } else {
-            println!(
+            log::trace!(
                 "({}): Unresolved. (scope = ({})): {:?}",
                 self.depth(),
                 scope.depth(),
@@ -528,7 +528,7 @@ impl<'a> Scope<'a> {
     }
 
     pub fn store_inline_barrier(&self, phase: Phase) {
-        println!("store_inline_barrier({:?})", phase);
+        log::trace!("store_inline_barrier({:?})", phase);
 
         match phase {
             Phase::Analysis => {
@@ -573,7 +573,7 @@ impl<'a> Scope<'a> {
     }
 
     pub fn prevent_inline(&self, id: &Id) {
-        log::info!("({}) Prevent inlining: {:?}", self.depth(), id);
+        log::debug!("({}) Prevent inlining: {:?}", self.depth(), id);
 
         if let Some(v) = self.find_binding_from_current(id) {
             v.inline_prevented.set(true);
