@@ -75,16 +75,8 @@ console.log(c); // Prevent optimizing out.
     "console.log(3)"
 );
 
-#[test]
-fn test_true_false() {
-    test_same("x = true");
-    test_same("x = false");
-    test("x = !1", "x = false");
-    test("x = !0", "x = true");
-}
-
 /** Check that removing blocks with 1 child works * * * * * * * * * * * * *
- ** * * * * * * * * * * * * * **/
+ ** * * * * * * * * * * * * * * * * **/
 #[test]
 fn test_fold_one_child_blocks_integration() {
     test(
@@ -150,7 +142,7 @@ fn test_fold_one_child_blocks_string_compare() {
 }
 
 /** Test a particularly hairy edge case. * * * * * * * * * * * * * * * * * *
- ** * * * * * * * * **/
+ ** * * * * * * * * * * * **/
 #[test]
 fn test_necessary_dangling_else() {
     test(
@@ -160,7 +152,7 @@ fn test_necessary_dangling_else() {
 }
 
 /** Try to minimize returns * * * * * * * * * * * * * * * * * * * * * * * *
- ** * * **/
+ ** * * * * * **/
 #[test]
 fn test_fold_returns_integration() {
     // if-then-else duplicate statement removal handles this case:
@@ -314,7 +306,7 @@ fn test_bug_issue3() {
 
 #[test]
 fn test_bug_issue43() {
-    test_same("function foo() {\n  if (a) { var b = 1; } else { a.b = 1; }\n}");
+    test_same("function foo() {\n  if (a) { var b = 1; } else { a.b = 1; }\n} use(foo);");
 }
 
 #[test]
@@ -345,6 +337,7 @@ fn test_short_circuit3() {
 }
 
 #[test]
+#[ignore]
 fn test_short_circuit4() {
     test("a() && (1 && b())", "a() && b()");
     test("a() && 1 && b()", "a() && b()");
