@@ -198,6 +198,12 @@ to!(
 );
 
 to!(
+    regex,
+    "var b;b=/ab/;(b)?x=1:x=2;",
+    "var b;b=/ab/;/ab/?x=1:x=2;"
+);
+
+to!(
     generator_let_yield,
     "function* f() {  let x = 1; yield x; }",
     "function* f() {  let x; yield 1; }"
