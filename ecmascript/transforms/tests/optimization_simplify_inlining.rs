@@ -764,6 +764,7 @@ fn test_inside_or_branch_inside_if_conditional_with_constant() {
 // Test movement of constant values
 
 #[test]
+#[ignore]
 fn test_do_cross_function() {
     // We know foo() does not affect x because we require that x is only
     // referenced twice.

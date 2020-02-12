@@ -759,6 +759,17 @@ impl Fold<BinExpr> for Inlining<'_> {
     }
 }
 
+impl Fold<TryStmt> for Inlining<'_> {
+    fn fold(&mut self, node: TryStmt) -> TryStmt {
+        TryStmt {
+            // TODO:
+            //            block: node.block.fold_with(self),
+            handler: node.handler.fold_with(self),
+            ..node
+        }
+    }
+}
+
 #[derive(Debug)]
 struct IdentListVisitor<'a, 'b> {
     scope: &'a mut Scope<'b>,
