@@ -42,7 +42,22 @@ impl Fold<Pat> for SimplifyExpr {
     fn fold(&mut self, p: Pat) -> Pat {
         match p {
             Pat::Assign(a) => AssignPat {
-                right: a.right.fold_with(self),
+                right: {
+                    let default = a.right.fold_with(self);
+                    if default.is_undefined()
+                        || match *default {
+                            Expr::Unary(UnaryExpr {
+                                op: op!("void"),
+                                ref arg,
+                                ..
+                            }) => !arg.may_have_side_effects(),
+                        }
+                    {
+                        return *a.left;
+                    }
+
+                    default
+                },
                 ..a
             }
             .into(),
