@@ -107,12 +107,25 @@ impl Inlining<'_> {
     }
 }
 
-impl<T> Fold<Vec<T>> for Inlining<'_>
-where
-    T: FoldWith<Self> + StmtLike,
-    Vec<T>: FoldWith<Self>,
-{
-    fn fold(&mut self, mut items: Vec<T>) -> Vec<T> {
+impl Fold<Vec<ModuleItem>> for Inlining<'_> {
+    fn fold(&mut self, mut items: Vec<ModuleItem>) -> Vec<ModuleItem> {
+        let old_phase = self.phase;
+
+        self.phase = Phase::Analysis;
+        items = items.fold_children(self);
+
+        // Inline
+        self.phase = Phase::Inlining;
+        items = items.fold_children(self);
+
+        self.phase = old_phase;
+
+        items
+    }
+}
+
+impl Fold<Vec<Stmt>> for Inlining<'_> {
+    fn fold(&mut self, mut items: Vec<Stmt>) -> Vec<Stmt> {
         let old_phase = self.phase;
 
         match old_phase {
@@ -127,7 +140,7 @@ where
                 self.phase = Phase::Inlining;
                 items = items.fold_children(self);
 
-                self.phase = old_phase;
+                self.phase = old_phase
             }
         }
 
