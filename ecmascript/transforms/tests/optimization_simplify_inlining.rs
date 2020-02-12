@@ -928,6 +928,7 @@ fn test_no_inline_into_named_function() {
 }
 
 #[test]
+#[ignore]
 fn test_inline_into_nested_non_hoisted_named_functions() {
     test(
         "f(); var x = false; if (false) function f() { alert(x); };",
@@ -1176,6 +1177,7 @@ fn test_inline_aliases2d() {
 }
 
 #[test]
+#[ignore]
 fn test_inline_aliases_in_loop() {
     test(
         concat!(
@@ -1492,6 +1494,7 @@ fn test_no_inline_catch_alias_var2() {
 }
 
 #[test]
+#[ignore]
 fn test_inline_catch_alias_let1() {
     test(
         concat!(
@@ -1507,6 +1510,7 @@ fn test_inline_catch_alias_let1() {
 }
 
 #[test]
+#[ignore]
 fn test_inline_catch_alias_let2() {
     test(
         concat!(
