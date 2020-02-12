@@ -149,6 +149,24 @@ impl Fold<Stmt> for Fixer {
     }
 }
 
+impl Fold<IfStmt> for Fixer {
+    fn fold(&mut self, node: IfStmt) -> IfStmt {
+        let node: IfStmt = node.fold_children(self);
+
+        match *node.cons {
+            Stmt::If(..) => IfStmt {
+                cons: box Stmt::Block(BlockStmt {
+                    span: node.cons.span(),
+                    stmts: vec![*node.cons],
+                }),
+                ..node
+            },
+
+            _ => node,
+        }
+    }
+}
+
 macro_rules! context_fn_args {
     ($T:tt, $is_new:expr) => {
         impl Fold<$T> for Fixer {
