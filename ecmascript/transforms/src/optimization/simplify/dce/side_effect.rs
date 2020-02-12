@@ -126,3 +126,13 @@ impl Visit<NewExpr> for SideEffectVisitor<'_> {
         self.found = true;
     }
 }
+
+impl Visit<ExprOrSpread> for SideEffectVisitor<'_> {
+    fn visit(&mut self, _: &ExprOrSpread) {
+        if self.found {
+            return;
+        }
+
+        self.found = true;
+    }
+}
