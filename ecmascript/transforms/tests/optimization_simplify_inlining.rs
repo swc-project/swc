@@ -1051,10 +1051,19 @@ fn test_inline_constant_alias() {
 }
 
 #[test]
-fn test_inline_constant_alias_with_non_constant() {
+#[ignore]
+fn orig_test_inline_constant_alias_with_non_constant() {
     test(
         "var XXX = new Foo(); q(XXX); var y = XXX; bar(y); baz(y)",
         "var XXX = new Foo(); q(XXX); var y; bar(XXX); baz(XXX)",
+    );
+}
+
+#[test]
+fn test_inline_constant_alias_with_non_constant() {
+    test(
+        "var XXX = new Foo(); q(XXX); var y = XXX; bar(y); baz(y)",
+        "var XXX = new Foo(); q(XXX); var y = XXX; bar(y); baz(y)",
     );
 }
 
