@@ -136,6 +136,7 @@ where
                             // check if
                             match test.as_bool() {
                                 (purity, Known(val)) => {
+                                    self.changed = true;
                                     if !purity.is_pure() {
                                         let expr = ignore_result(*test);
 
@@ -247,6 +248,8 @@ impl Fold<Stmt> for Remover {
                         return Stmt::Empty(EmptyStmt { span });
                     }
 
+                    self.changed = true;
+
                     return Stmt::Block(BlockStmt { span, stmts }).fold_with(self);
                 }
 
@@ -257,6 +260,8 @@ impl Fold<Stmt> for Remover {
                 if alt.is_none() {
                     match *cons {
                         Stmt::Empty(..) => {
+                            self.changed = true;
+
                             if let Some(expr) = ignore_result(*test) {
                                 return Stmt::Expr(ExprStmt {
                                     span,
