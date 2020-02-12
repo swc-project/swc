@@ -3,26 +3,15 @@ use crate::{pass::RepeatedJsPass, scope::IdentType};
 use std::borrow::Cow;
 use swc_common::{
     pass::{CompilerPass, Repeated},
-    Fold, FoldWith, Mark, Visit, VisitWith,
+    Fold, FoldWith, Visit, VisitWith,
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{contains_this_expr, find_ids, ident::IdentLike, undefined, Id};
 
 mod scope;
 
-#[derive(Debug)]
-pub struct Config {
-    /// Should not be `Mark::root()`.
-    pub inline_barrier: Mark,
-}
-
-impl Default for Config {
-    fn default() -> Self {
-        Self {
-            inline_barrier: Mark::fresh(Mark::root()),
-        }
-    }
-}
+#[derive(Debug, Default)]
+pub struct Config {}
 
 /// Note: this pass assumes that resolver is invoked before the pass.
 ///
@@ -37,16 +26,9 @@ impl Default for Config {
 ///
 /// Currently all functions are treated as a black box, and all the pass gives
 /// up inlining variables across a function call or a constructor call.
-pub fn inlining(config: Config) -> impl RepeatedJsPass + 'static {
-    assert_ne!(
-        config.inline_barrier,
-        Mark::root(),
-        "inlining pass cannot work with Mark::root()"
-    );
-
+pub fn inlining(_: Config) -> impl RepeatedJsPass + 'static {
     Inlining {
         phase: Phase::Analysis,
-        inline_barrier: config.inline_barrier,
         is_first_run: true,
         changed: false,
         scope: Default::default(),
@@ -86,7 +68,6 @@ struct Inlining<'a> {
     scope: Scope<'a>,
     var_decl_kind: VarDeclKind,
     ident_type: IdentType,
-    inline_barrier: Mark,
     pat_mode: PatFoldingMode,
 }
 

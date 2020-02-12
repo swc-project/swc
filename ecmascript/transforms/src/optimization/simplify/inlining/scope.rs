@@ -46,7 +46,6 @@ impl Inlining<'_> {
                 scope: Scope::new(Some(&self.scope), kind),
                 var_decl_kind: VarDeclKind::Var,
                 ident_type: self.ident_type,
-                inline_barrier: self.inline_barrier,
                 pat_mode: self.pat_mode,
             };
 
