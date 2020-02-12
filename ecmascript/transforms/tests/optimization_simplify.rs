@@ -154,7 +154,8 @@ fn test_fold_block_with_declaration() {
  ** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  **   * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  **     * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- **       * * * * * * * * * * * * * * * * * * * * * * * * **/
+ **       * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ **         * * * * * **/
 #[test]
 fn test_fold_blocks_with_many_children() {
     fold("function f() { if (false) {} }", "function f(){}");
@@ -1426,11 +1427,11 @@ fn test_tagged_template_lit_substituting_template() {
 #[test]
 fn test_fold_assign() {
     test("x=x", "");
-    test_same("x=xy");
-    test_same("x=x + 1");
+    test("x=xy; use(x)", "use(xy)");
+    test_same("x=x + 1; use(x);");
     test_same("x.a=x.a");
-    test("var y=(x=x)", "var y=x");
-    test("y=1 + (x=x)", "y=1 + x");
+    test("var y=(x=x); use(y)", "use(x)");
+    test("y=1 + (x=x); use(x)", "y=1 + x; use(x)");
 }
 
 #[test]
@@ -1603,25 +1604,25 @@ fn test_effectful_default_parameter_not_removed() {
 #[test]
 fn test_destructuring_undefined_default_parameter() {
     test(
-        "function f({a=undefined,b=1,c}) {  }", //
-        "function f({a          ,b=1,c}) {  }",
+        "function f({a=undefined,b=1,c}) {  } use(f);", //
+        "function f({a          ,b=1,c}) {  } use(f);",
     );
     test(
-        "function f({a={},b=0}=undefined) {  }", //
-        "function f({a={},b=0}) {  }",
+        "function f({a={},b=0}=undefined) {  } use(f);", //
+        "function f({a={},b=0}) {  } use(f);",
     );
     test(
-        "function f({a=undefined,b=0}) {  }", //
-        "function f({a,b=0}) {  }",
+        "function f({a=undefined,b=0}) {  } use(f);", //
+        "function f({a,b=0}) {  } use(f);",
     );
     test(
-        " function f({a: {b = undefined}}) {  }", //
-        " function f({a: {b}}) {  }",
+        " function f({a: {b = undefined}}) {  } use(f);", //
+        " function f({a: {b}}) {  } use(f);",
     );
-    test_same("function f({a,b}) {  }");
-    test_same("function f({a=0, b=1}) {  }");
-    test_same("function f({a=0,b=0}={}) {  }");
-    test_same("function f({a={},b=0}={}) {  }");
+    test_same("function f({a,b}) {  } use(f);");
+    test_same("function f({a=0, b=1}) {  } use(f);");
+    test_same("function f({a=0,b=0}={}) {  } use(f);");
+    test_same("function f({a={},b=0}={}) {  } use(f);");
 }
 
 #[test]
