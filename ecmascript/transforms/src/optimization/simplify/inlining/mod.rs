@@ -289,6 +289,12 @@ impl Fold<BlockStmt> for Inlining<'_> {
     }
 }
 
+impl Fold<ArrowExpr> for Inlining<'_> {
+    fn fold(&mut self, node: ArrowExpr) -> ArrowExpr {
+        self.fold_with_child(ScopeKind::Fn { named: false }, node)
+    }
+}
+
 impl Fold<Function> for Inlining<'_> {
     fn fold(&mut self, node: Function) -> Function {
         self.with_child(ScopeKind::Fn { named: false }, move |child| {
