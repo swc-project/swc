@@ -2,7 +2,7 @@ use super::Dce;
 use fxhash::FxHashSet;
 use swc_common::{Visit, VisitWith};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_ids, ident::IdentLike, ExprExt, Id};
+use swc_ecma_utils::{ident::IdentLike, ExprExt, Id};
 
 impl Dce<'_> {
     pub fn should_include<T>(&mut self, node: &T) -> bool
