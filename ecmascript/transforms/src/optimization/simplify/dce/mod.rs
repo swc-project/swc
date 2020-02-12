@@ -24,6 +24,7 @@ macro_rules! preserve {
 
 mod decl;
 mod module_decl;
+mod side_effect;
 mod stmt;
 
 #[derive(Debug)]
@@ -278,32 +279,5 @@ impl Fold<MemberExpr> for Dce<'_> {
         }
 
         e
-    }
-}
-
-#[derive(Debug)]
-struct IdentListVisitor<'a> {
-    included_ids: &'a FxHashSet<Id>,
-    exported_ids: Option<&'a [Id]>,
-    found: bool,
-}
-
-impl Visit<Ident> for IdentListVisitor<'_> {
-    fn visit(&mut self, node: &Ident) {
-        if self.found {
-            return;
-        }
-
-        if self.included_ids.contains(&node.to_id()) {
-            self.found = true;
-            return;
-        }
-
-        if let Some(exported_ids) = self.exported_ids.as_ref() {
-            if exported_ids.iter().any(|exported| exported.0 == node.sym) {
-                self.found = true;
-                return;
-            }
-        }
     }
 }
