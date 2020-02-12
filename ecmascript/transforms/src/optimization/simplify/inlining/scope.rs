@@ -298,6 +298,10 @@ impl<'a> Scope<'a> {
                         log::debug!("{}: variable access from a nested function detected", id.0);
                         return true;
                     }
+                    ScopeKind::Loop => {
+                        log::debug!("{}: variable access from a loop detected", id.0);
+                        return true;
+                    }
                     _ => {}
                 }
                 cur = scope.parent;
