@@ -68,17 +68,7 @@ impl Visit<AssignExpr> for SideEffectVisitor<'_> {
             return;
         }
 
-        let ids: Vec<Id> = find_ids(&node.left);
-
-        for modified in ids {
-            //
-            self.found |= self.include(&modified);
-            if self.found {
-                return;
-            }
-        }
-
-        //        node.left.visit_with(self);
+        node.left.visit_with(self);
 
         match &*node.right {
             Expr::Ident(..) => {

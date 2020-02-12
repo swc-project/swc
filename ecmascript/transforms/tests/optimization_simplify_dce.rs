@@ -102,3 +102,5 @@ console.log(c);"
 );
 
 optimized_out!(simple_const, "{const x = 1}");
+
+noop!(assign_op, "x *= 2; use(x)");
