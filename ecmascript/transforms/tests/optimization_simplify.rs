@@ -153,7 +153,8 @@ fn test_fold_block_with_declaration() {
 /** Try to remove spurious blocks with multiple children * * * * * * * * * *
  ** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  **   * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- **     * * * * * * * * * * * * * * * * * * * * * * * * * **/
+ **     * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ **       * * * * * * * * * * * * * * * * * * * * * * * * **/
 #[test]
 fn test_fold_blocks_with_many_children() {
     fold("function f() { if (false) {} }", "function f(){}");
@@ -173,17 +174,29 @@ fn test_fold_blocks_with_many_children() {
 
 #[test]
 fn test_if() {
-    fold("if (1){ x=1; } else { x = 2;}", "x=1");
-    fold("if (false){ x = 1; } else { x = 2; }", "x=2");
-    fold("if (undefined){ x = 1; } else { x = 2; }", "x=2");
-    fold("if (null){ x = 1; } else { x = 2; }", "x=2");
-    fold("if (void 0){ x = 1; } else { x = 2; }", "x=2");
-    fold("if (void foo()){ x = 1; } else { x = 2; }", "foo();x=2");
+    fold("if (1){ x=1; } else { x = 2;} use(x)", "x=1; use(x)");
+    fold("if (false){ x = 1; } else { x = 2; } use(x)", "x=2; use(x)");
     fold(
-        "if (false){ x = 1; } else if (true) { x = 3; } else { x = 2; }",
-        "x=3",
+        "if (undefined){ x = 1; } else { x = 2; } use(x)",
+        "x=2; use(x)",
     );
-    fold("if (x){ x = 1; } else if (false) { x = 3; }", "if(x)x=1");
+    fold("if (null){ x = 1; } else { x = 2; } use(x)", "x=2; use(x)");
+    fold(
+        "if (void 0){ x = 1; } else { x = 2; } use(x)",
+        "x=2; use(x)",
+    );
+    fold(
+        "if (void foo()){ x = 1; } else { x = 2; } use(x)",
+        "foo();x=2; use(x)",
+    );
+    fold(
+        "if (false){ x = 1; } else if (true) { x = 3; } else { x = 2; } use(x)",
+        "x=3; use(x)",
+    );
+    fold(
+        "if (x){ x = 1; } else if (false) { x = 3; }; use(x)",
+        "if(x)x=1; use(x)",
+    );
 }
 
 #[test]
@@ -265,12 +278,12 @@ fn test_constant_condition_with_side_effect1() {
 
 #[test]
 fn test_constant_condition_with_side_effect2() {
-    fold("(b=true)?x=1:x=2;", "b=true,x=1");
-    fold("(b=false)?x=1:x=2;", "b=false,x=2");
-    fold("if (b=/ab/) x=1;", "b=/ab/;x=1");
-    fold("var b;b=/ab/;(b)?x=1:x=2;", "var b;b=/ab/;x=1");
+    fold("(b=true)?x=1:x=2; use(b, x);", "use(true ,1);");
+    fold("(b=false)?x=1:x=2; use(b, x);", "use(false, 2);");
+    fold("if (b=/ab/) x=1; use(b, x);", "x=1;use(/ab/, x);");
+    fold("var b;b=/ab/;(b)?x=1:x=2; use(b, x);", "use(/ab/, 1);");
     fold_same("var b;b=f();(b)?x=1:x=2;");
-    fold("var b=/ab/;(b)?x=1:x=2;", "var b=/ab/;x=1");
+    fold("var b=/ab/;(b)?x=1:x=2;use(b, x);", "use(/ab/, 1);");
     fold_same("var b=f();(b)?x=1:x=2;");
 }
 
@@ -1365,11 +1378,11 @@ fn test_call() {
 fn test_call_containing_spread() {
     // We use a function with no side-effects, otherwise the entire invocation would
     // be preserved.
-    test("Math.sin(...c)", "([...c])");
-    test("Math.sin(4, ...c, a)", "([...c])");
-    test("Math.sin(foo(), ...c, bar())", "(foo(), [...c], bar())");
-    test("Math.sin(...a, b, ...c)", "([...a], [...c])");
-    test("Math.sin(...b, ...c)", "([...b], [...c])");
+    test("Math.sin(...c)", "[...c]");
+    test("Math.sin(4, ...c, a)", "[...c]");
+    test("Math.sin(foo(), ...c, bar())", "[foo(), ...c, bar()]");
+    test("Math.sin(...a, b, ...c)", "[...a, ...c]");
+    test("Math.sin(...b, ...c)", "[...b, ...c]");
 }
 
 #[test]
@@ -1614,12 +1627,12 @@ fn test_destructuring_undefined_default_parameter() {
 #[test]
 fn test_undefined_default_object_patterns() {
     test(
-        "const {a = undefined} = obj;", //
-        "const {a} = obj;",
+        "const {a = undefined} = obj; use(a);",
+        "const {a} = obj; use(a);",
     );
     test(
-        "const {a = void 0} = obj;", //
-        "const {a} = obj;",
+        "const {a = void 0} = obj; use(a);",
+        "const {a} = obj; use(a);",
     );
 }
 
