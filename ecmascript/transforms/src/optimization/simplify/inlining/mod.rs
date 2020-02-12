@@ -115,16 +115,21 @@ where
     fn fold(&mut self, mut items: Vec<T>) -> Vec<T> {
         let old_phase = self.phase;
 
-        let depth = self.scope.depth();
+        match old_phase {
+            Phase::Analysis => {
+                items = items.fold_children(self);
+            }
+            Phase::Inlining => {
+                self.phase = Phase::Analysis;
+                items = items.fold_children(self);
 
-        self.phase = Phase::Analysis;
-        items = items.fold_children(self);
+                // Inline
+                self.phase = Phase::Inlining;
+                items = items.fold_children(self);
 
-        // Inline
-        self.phase = Phase::Inlining;
-        items = items.fold_children(self);
-
-        self.phase = old_phase;
+                self.phase = old_phase;
+            }
+        }
 
         items
     }
