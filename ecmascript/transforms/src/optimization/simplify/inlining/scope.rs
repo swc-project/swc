@@ -31,9 +31,9 @@ impl Default for ScopeKind {
 }
 
 impl Inlining<'_> {
-    pub(super) fn with_child<F, T>(&mut self, kind: ScopeKind, op: F) -> T
+    pub(super) fn with_child<F, T>(&mut self, kind: ScopeKind, node: T, op: F) -> T
     where
-        F: for<'any> FnOnce(&mut Inlining<'any>) -> T,
+        F: for<'any> FnOnce(&mut Inlining<'any>, T) -> T,
     {
         let mut child = Inlining {
             phase: self.phase,
@@ -46,7 +46,7 @@ impl Inlining<'_> {
             pat_mode: self.pat_mode,
         };
 
-        let node = op(&mut child);
+        let node = op(&mut child, node);
 
         self.changed |= child.changed;
 

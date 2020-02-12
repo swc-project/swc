@@ -103,7 +103,7 @@ impl Inlining<'_> {
     where
         T: 'static + for<'any> FoldWith<Inlining<'any>>,
     {
-        self.with_child(kind, |child| node.fold_children(child))
+        self.with_child(kind, node, |child, node| node.fold_children(child))
     }
 }
 
@@ -297,18 +297,20 @@ impl Fold<ArrowExpr> for Inlining<'_> {
 
 impl Fold<Function> for Inlining<'_> {
     fn fold(&mut self, node: Function) -> Function {
-        self.with_child(ScopeKind::Fn { named: false }, move |child| {
-            let mut node = node;
+        self.with_child(
+            ScopeKind::Fn { named: false },
+            node,
+            move |child, mut node| {
+                child.pat_mode = PatFoldingMode::Param;
+                node.params = node.params.fold_with(child);
+                node.body = match node.body {
+                    None => None,
+                    Some(v) => Some(v.fold_children(child)),
+                };
 
-            child.pat_mode = PatFoldingMode::Param;
-            node.params = node.params.fold_with(child);
-            node.body = match node.body {
-                None => None,
-                Some(v) => Some(v.fold_children(child)),
-            };
-
-            node
-        })
+                node
+            },
+        )
     }
 }
 
@@ -325,18 +327,20 @@ impl Fold<FnDecl> for Inlining<'_> {
 
         let function = node.function;
 
-        let function = self.with_child(ScopeKind::Fn { named: true }, |child| {
-            let mut node = function;
+        let function = self.with_child(
+            ScopeKind::Fn { named: true },
+            function,
+            |child, mut node| {
+                child.pat_mode = PatFoldingMode::Param;
+                node.params = node.params.fold_with(child);
+                node.body = match node.body {
+                    None => None,
+                    Some(v) => Some(v.fold_children(child)),
+                };
 
-            child.pat_mode = PatFoldingMode::Param;
-            node.params = node.params.fold_with(child);
-            node.body = match node.body {
-                None => None,
-                Some(v) => Some(v.fold_children(child)),
-            };
-
-            node
-        });
+                node
+            },
+        );
         FnDecl { function, ..node }
     }
 }
@@ -373,9 +377,7 @@ impl Fold<SwitchCase> for Inlining<'_> {
 
 impl Fold<CatchClause> for Inlining<'_> {
     fn fold(&mut self, node: CatchClause) -> CatchClause {
-        self.with_child(ScopeKind::Block, move |child| {
-            let mut node = node;
-
+        self.with_child(ScopeKind::Block, node, move |child, mut node| {
             child.pat_mode = PatFoldingMode::CatchParam;
             node.param = node.param.fold_with(child);
             match child.phase {
