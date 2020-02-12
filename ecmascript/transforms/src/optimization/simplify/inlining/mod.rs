@@ -6,7 +6,7 @@ use swc_common::{
     Fold, FoldWith, Mark, Visit, VisitWith,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::{contains_this_expr, find_ids, ident::IdentLike, undefined, Id, StmtLike};
+use swc_ecma_utils::{contains_this_expr, find_ids, ident::IdentLike, undefined, Id};
 
 mod scope;
 
@@ -184,7 +184,7 @@ impl Fold<VarDeclarator> for Inlining<'_> {
                                 self.scope.constants.insert(name.to_id(), Some(e.clone()));
                             }
                         }
-                        Some(box e) if self.var_decl_kind == VarDeclKind::Const => {
+                        Some(..) if self.var_decl_kind == VarDeclKind::Const => {
                             if self.is_first_run {
                                 self.scope.constants.insert(name.to_id(), None);
                             }

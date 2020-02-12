@@ -5,7 +5,6 @@ use std::{
     borrow::Cow,
     cell::{Cell, RefCell},
     collections::VecDeque,
-    mem::replace,
 };
 use swc_atoms::js_word;
 use swc_ecma_ast::*;
@@ -554,7 +553,7 @@ impl<'a> Scope<'a> {
     }
 
     fn prevent_inline_of_params(&self) {
-        for (k, v) in self.bindings.iter() {
+        for (_, v) in self.bindings.iter() {
             let v: &VarInfo = v;
 
             if v.is_param() {
