@@ -39,26 +39,34 @@ impl Inlining<'_> {
     where
         F: for<'any> FnOnce(&mut Inlining<'any>, T) -> T,
     {
-        let mut child = Inlining {
-            phase: self.phase,
-            is_first_run: self.is_first_run,
-            changed: false,
-            scope: Scope::new(Some(&self.scope), kind),
-            var_decl_kind: VarDeclKind::Var,
-            ident_type: self.ident_type,
-            inline_barrier: self.inline_barrier,
-            pat_mode: self.pat_mode,
+        let (node, unresolved_usages, bindings) = {
+            let mut child = Inlining {
+                phase: self.phase,
+                is_first_run: self.is_first_run,
+                changed: false,
+                scope: Scope::new(Some(&self.scope), kind),
+                var_decl_kind: VarDeclKind::Var,
+                ident_type: self.ident_type,
+                inline_barrier: self.inline_barrier,
+                pat_mode: self.pat_mode,
+            };
+
+            let node = op(&mut child, node);
+
+            self.changed |= child.changed;
+
+            (node, child.scope.unresolved_usages, child.scope.bindings)
         };
 
-        let node = op(&mut child, node);
+        log::info!("propagating variables");
 
-        self.changed |= child.changed;
+        self.scope.unresolved_usages.extend(unresolved_usages);
 
         if match kind {
             ScopeKind::Fn { .. } => false,
             _ => true,
         } {
-            let v = replace(&mut child.scope.bindings, Default::default());
+            let v = bindings;
 
             for (id, v) in v.into_iter().filter_map(|(id, v)| {
                 if v.kind == VarType::Var(VarDeclKind::Var) {
@@ -69,7 +77,7 @@ impl Inlining<'_> {
             }) {
                 let v: VarInfo = v;
 
-                log::debug!("Hoisting a variable {}", id.0);
+                log::debug!("Hoisting a variable {:?}", id);
 
                 if self.scope.unresolved_usages.contains(&id) {
                     v.inline_prevented.set(true)
@@ -129,10 +137,11 @@ impl Inlining<'_> {
             _ => None,
         };
 
-        let is_inline_prevented = match init {
-            Some(ref e) => self.scope.is_inline_prevented(&e),
-            _ => false,
-        };
+        let is_inline_prevented = self.scope.unresolved_usages.contains(&id)
+            || match init {
+                Some(ref e) => self.scope.is_inline_prevented(&e),
+                _ => false,
+            };
 
         if is_inline_prevented {
             println!("\tdeclare: Inline prevented: {:?}", id)
@@ -287,7 +296,7 @@ impl<'a> Scope<'a> {
     }
 
     fn read_prevents_inlining(&self, id: &Id) -> bool {
-        log::trace!("read_prevents_inlining({})", id.0);
+        log::trace!("read_prevents_inlining({:?})", id);
 
         if let Some(v) = self.find_binding(id) {
             match v.kind {
@@ -350,6 +359,7 @@ impl<'a> Scope<'a> {
                 var_info.inline_prevented.set(true);
             }
         } else {
+            println!("({}): Unresolved usage.: {:?}", self.depth(), id);
             self.unresolved_usages.insert(id.clone());
         }
 

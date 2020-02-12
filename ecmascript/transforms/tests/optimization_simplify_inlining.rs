@@ -1046,7 +1046,7 @@ fn test_inline_string_when_worthwhile() {
 fn test_inline_constant_alias() {
     test(
         "var XXX = new Foo(); q(XXX); var YYY = XXX; bar(YYY)",
-        "var XXX = new Foo(); q(XXX); var YYY; bar(XXX)",
+        "var XXX = new Foo(); q(XXX); var YYY = XXX; bar(YYY)",
     );
 }
 
