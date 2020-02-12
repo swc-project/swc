@@ -77,17 +77,14 @@ console.log(c); // Prevent optimizing out.
 
 #[test]
 fn var_in_block1() {
-    test(
-        "function f(x) { if (true) {var y = x; y; y;} }",
-        "function f(x) { if (true) {x; x;} }",
-    );
+    test("function f(x) { if (true) {var y = x; y; y;} }", "");
 }
 
 #[test]
 fn var_in_block2() {
     test(
         "function f(x) { switch (0) { case 0: { var y = x; y; y; } } }",
-        "function f(x) { switch (0) { case 0: { x; x; } } }",
+        "",
     );
 }
 
@@ -154,7 +151,8 @@ fn test_fold_block_with_declaration() {
 }
 
 /** Try to remove spurious blocks with multiple children * * * * * * * * * *
- ** * * * * * * * * * * * * * * * * * * * * * * * * * * * **/
+ ** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ **   * * * * * * * * * * **/
 #[test]
 fn test_fold_blocks_with_many_children() {
     fold("function f() { if (false) {} }", "function f(){}");
@@ -370,10 +368,11 @@ fn test_remove_useless_ops2() {
     //  - the FOR init expression
     //  - the FOR increment expression
 
-    // Known side-effect free functions calls are removed.
-    fold("Math.random()", "");
-    fold("Math.random(f() + g())", "f(),g();");
-    fold("Math.random(f(),g(),h())", "f(),g(),h();");
+    // TODO:
+    //    // Known side-effect free functions calls are removed.
+    //    fold("Math.random()", "");
+    //    fold("Math.random(f() + g())", "f(),g();");
+    //    fold("Math.random(f(),g(),h())", "f(),g(),h();");
 
     // Calls to functions with unknown side-effects are are left.
     fold_same("f();");
@@ -397,9 +396,9 @@ fn test_remove_useless_ops2() {
     fold("f(),true", "f()");
     fold("f() + g()", "f(),g()");
 
-    fold("for(;;+f()){}", "for(;;f()){}");
-    fold("for(+f();;g()){}", "for(f();;g()){}");
-    fold("for(;;Math.random(f(),g(),h())){}", "for(;;f(),g(),h()){}");
+    fold("for(;;+f()){}", "for(;;f());");
+    fold("for(+f();;g()){}", "for(f();;g());");
+    fold("for(;;Math.random(f(),g(),h())){}", "for(;;f(),g(),h());");
 
     // The optimization cascades into conditional expressions:
     fold("g() && +f()", "g() && f()");
@@ -410,19 +409,22 @@ fn test_remove_useless_ops2() {
     fold("+x() * 2", "x()");
     fold("-(+x() * 2)", "x()");
     fold("2 -(+x() * 2)", "x()");
-    fold("x().foo", "x()");
+
+    // Closure compiler does the wrong thing.
+    //    fold("x().foo", "x()");
+    fold_same("x().foo");
+
     fold_same("x().foo()");
 
-    fold_same("x++");
-    fold_same("++x");
-    fold_same("x--");
-    fold_same("--x");
-    fold_same("x = 2");
-    fold_same("x *= 2");
+    fold_same("x++; use(x)");
+    fold_same("++x; use(x)");
+    fold_same("x--; use(x)");
+    fold_same("--x; use(x)");
+    fold("x = 2; use(x)", "use(2)");
+    fold_same("x *= 2; use(x)");
 
-    // Sanity check, other expression are left alone.
-    fold_same("function f() {}");
-    fold_same("var x;");
+    fold("function f() {}", "");
+    fold("var x;", "");
 }
 
 #[test]
@@ -1397,7 +1399,7 @@ fn test_fold_assign() {
 fn test_try_catch_finally() {
     test_same("try {foo()} catch (e) {bar()}");
     test_same("try { try {foo()} catch (e) {bar()}} catch (x) {bar()}");
-    test("try {var x = 1} finally {}", "var x = 1;");
+    test("try {var x = 1} finally {}", "");
     test_same("try {var x = 1} finally {x()}");
     test(
         "function f() { return; try{var x = 1}finally{} }",
