@@ -84,7 +84,7 @@ fn test_true_false() {
 }
 
 /** Check that removing blocks with 1 child works * * * * * * * * * * * * *
- ** * * * * **/
+ ** * * * * * * **/
 #[test]
 fn test_fold_one_child_blocks_integration() {
     test(
@@ -149,7 +149,8 @@ fn test_fold_one_child_blocks_string_compare() {
     );
 }
 
-/** Test a particularly hairy edge case. * * * * * * * * * * * * * * * * * **/
+/** Test a particularly hairy edge case. * * * * * * * * * * * * * * * * * *
+ ** * **/
 #[test]
 fn test_necessary_dangling_else() {
     test(
@@ -158,7 +159,7 @@ fn test_necessary_dangling_else() {
     );
 }
 
-/** Try to minimize returns * * * * * * * * * * * * * * * * * **/
+/** Try to minimize returns * * * * * * * * * * * * * * * * * * * **/
 #[test]
 fn test_fold_returns_integration() {
     // if-then-else duplicate statement removal handles this case:
@@ -245,12 +246,12 @@ fn test_var_lifting_integration() {
     test("if(false)var a,b;", "");
     test("if(false){var a;var a;}", "");
     test("if(false)var a=function(){var b};", "");
-    test("if(a)if(false)var a;else var b;", "var a;if(a)var b");
+    test("if(a)if(false)var a;else var b;", "");
 }
 
 #[test]
 fn test_bug1438784() {
-    test("for(var i=0;i<10;i++)if(x)x.y;", "for(var i=0;i<10;i++);");
+    test_same("for(var i=0;i<10;i++)if(x)x.y;");
 }
 
 #[test]
