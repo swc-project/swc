@@ -375,3 +375,8 @@ fn await_expr_2() {
 fn default_config() {
     project("tests/projects/issue-655")
 }
+
+#[test]
+fn issue_658() {
+    project("tests/projects/issue-658")
+}
