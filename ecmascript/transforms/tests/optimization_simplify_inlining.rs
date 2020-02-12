@@ -469,7 +469,7 @@ fn test_do_not_inline_into_lhs_of_assign() {
 
 #[test]
 fn test_inline_into_rhs_of_assign() {
-    test("var x = 1; var y = x;", "var y = 1;");
+    test("var x = foo(); var y = x;", "var x; var y = foo();");
 }
 
 #[test]
@@ -887,6 +887,7 @@ fn test_inline_into_loops() {
 }
 
 #[test]
+#[ignore]
 fn test_inline_into_function() {
     test(
         "var x = false; var f = function() { alert(x); };",
@@ -960,6 +961,7 @@ fn test_interfering_in_lines() {
 }
 
 #[test]
+#[ignore]
 fn test_inline_into_try_catch() {
     test(
         concat!(
@@ -1572,6 +1574,7 @@ fn test_this_escaped_alias() {
 }
 
 #[test]
+#[ignore]
 fn test_inline_named_function() {
     test("function f() {} f();", "(function f(){})()");
 }
