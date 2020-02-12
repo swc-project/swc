@@ -1402,7 +1402,7 @@ fn test_inline_switch_let() {
 // Successfully inlines 'values' and 'e'
 #[test]
 #[ignore]
-fn orig_test_inline_into_for_loop1() {
+fn test_inline_into_for_loop1() {
     test(
         concat!(
             "function calculate_hashCode() {",
@@ -1422,34 +1422,6 @@ fn orig_test_inline_into_for_loop1() {
             "  var i = 0;",
             "  for (; i < $array.length; i++) {",
             "    hashCode = 31 * hashCode + calculate_hashCode($array[i]);",
-            "  }",
-            "  return hashCode;",
-            "}",
-        ),
-    );
-}
-
-#[test]
-fn test_inline_into_for_loop1() {
-    test(
-        concat!(
-            "function calculate_hashCode() {",
-            "  var values = [1, 2, 3, 4, 5];",
-            "  var hashCode = 1;",
-            "  for (var $array = values, i = 0; i < $array.length; i++) {",
-            "    var e = $array[i];",
-            "    hashCode = 31 * hashCode + calculate_hashCode(e);",
-            "  }",
-            "  return hashCode;",
-            "}",
-        ),
-        concat!(
-            "function calculate_hashCode() {",
-            "  var values = [1, 2, 3, 4, 5];",
-            "  var hashCode = 1;",
-            "  for(var $array = values, i = 0; i < $array.length; i++){ {",
-            "    var e = $array[i];",
-            "    hashCode = 31 * hashCode + calculate_hashCode(e);",
             "  }",
             "  return hashCode;",
             "}",
