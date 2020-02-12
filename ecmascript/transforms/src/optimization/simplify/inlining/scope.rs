@@ -109,9 +109,12 @@ impl Inlining<'_> {
             && init.is_none()
             && self.phase == Phase::Inlining;
 
+        let mut alias_of = None;
+
         let value_idx = match init.as_ref().map(|v| &**v) {
             Some(&Expr::Ident(ref vi)) => {
                 if let Some((value_idx, value_var)) = self.scope.idx_val(&vi.to_id()) {
+                    alias_of = Some(value_var.kind);
                     Some((value_idx, vi.to_id()))
                 } else {
                     None
@@ -154,6 +157,7 @@ impl Inlining<'_> {
                 let idx = e.index();
                 e.insert(VarInfo {
                     kind,
+                    alias_of,
                     read_from_nested_scope: Cell::new(false),
                     read_cnt: Cell::new(0),
                     inline_prevented: Cell::new(is_inline_prevented),
@@ -170,34 +174,36 @@ impl Inlining<'_> {
         };
 
         //
-        match kind {
-            VarType::Var(..) => {
-                if let Some((value_idx, vi)) = value_idx {
-                    println!("\tdeclare: {} -> {}", idx, value_idx);
+        let barrier_works = match kind {
+            VarType::Param => false,
+            _ if alias_of == Some(VarType::Param) => false,
+            _ => true,
+        };
 
-                    let barrier_exists = (|| {
-                        for &blocker in self.scope.inline_barriers.borrow().iter() {
-                            if value_idx <= blocker && blocker <= idx {
-                                return true;
-                            } else if idx <= blocker && blocker <= value_idx {
-                                return true;
-                            }
+        if barrier_works {
+            if let Some((value_idx, vi)) = value_idx {
+                println!("\tdeclare: {} -> {}", idx, value_idx);
+
+                let barrier_exists = (|| {
+                    for &blocker in self.scope.inline_barriers.borrow().iter() {
+                        if value_idx <= blocker && blocker <= idx {
+                            return true;
+                        } else if idx <= blocker && blocker <= value_idx {
+                            return true;
                         }
-
-                        false
-                    })();
-
-                    if value_idx > idx || barrier_exists {
-                        println!("Variable use before declaration: {:?}", id);
-                        self.scope.prevent_inline(&id);
-                        self.scope.prevent_inline(&vi)
                     }
-                } else {
-                    println!("\tdeclare: value idx is none");
-                }
-            }
 
-            _ => {}
+                    false
+                })();
+
+                if value_idx > idx || barrier_exists {
+                    println!("Variable use before declaration: {:?}", id);
+                    self.scope.prevent_inline(&id);
+                    self.scope.prevent_inline(&vi)
+                }
+            } else {
+                println!("\tdeclare: value idx is none");
+            }
         }
     }
 }
@@ -355,6 +361,7 @@ impl<'a> Scope<'a> {
                 id.clone(),
                 VarInfo {
                     kind: VarType::Var(VarDeclKind::Var),
+                    alias_of: None,
                     read_from_nested_scope: Cell::new(false),
                     read_cnt: Cell::new(0),
                     inline_prevented: Cell::new(force_no_inline),
@@ -540,6 +547,8 @@ impl<'a> Scope<'a> {
 #[derive(Debug)]
 pub(super) struct VarInfo {
     pub kind: VarType,
+
+    alias_of: Option<VarType>,
 
     read_from_nested_scope: Cell<bool>,
     read_cnt: Cell<usize>,
