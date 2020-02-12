@@ -1033,7 +1033,7 @@ fn test_inline_into_try_catch() {
 fn test_inline_constants() {
     test(
         "function foo() { return XXX; } var XXX = true;",
-        "function foo() { return true; }",
+        "function foo() { return XXX; } var XXX = true;",
     );
 }
 
