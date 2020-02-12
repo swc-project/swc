@@ -152,7 +152,8 @@ fn test_fold_block_with_declaration() {
 
 /** Try to remove spurious blocks with multiple children * * * * * * * * * *
  ** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- **   * * * * * * * * * * **/
+ **   * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ **     * * * * * * * * * * * * * * * * * * * * * * * * * **/
 #[test]
 fn test_fold_blocks_with_many_children() {
     fold("function f() { if (false) {} }", "function f(){}");
@@ -225,17 +226,41 @@ fn test_hook() {
 
 #[test]
 fn test_constant_condition_with_side_effect1() {
-    fold("if (b=true) x=1;", "b=true;x=1");
-    fold("if (b=/ab/) x=1;", "b=/ab/;x=1");
-    fold("if (b=/ab/){ x=1; } else { x=2; }", "b=/ab/;x=1");
-    fold("var b;b=/ab/;if(b)x=1;", "var b;b=/ab/;x=1");
-    fold_same("var b;b=f();if(b)x=1;");
-    fold("var b=/ab/;if(b)x=1;", "var b=/ab/;x=1");
+    fold(
+        "if (b=true) x=1; use(b); use(x);",
+        "x=1; use(true); use(x);",
+    );
+    fold(
+        "if (b=/ab/) x=1; use(b); use(x);",
+        "x=1; use(/ab/); use(x);",
+    );
+    fold(
+        "if (b=/ab/){ x=1; } else { x=2; } use(b); use(x);",
+        "x=1; use(/ab/); use(x);",
+    );
+    fold(
+        "var b;b=/ab/;if(b)x=1; use(b); use(x);",
+        "x=1; use(/ab/); use(x);",
+    );
+    fold(
+        "var b;b=f();if(b)x=1; use(b); use(x);",
+        "var b;b=f();if(b)x=1; use(b); use(x);",
+    );
+    fold(
+        "var b=/ab/;if(b)x=1; use(b); use(x);;",
+        "x=1;use(/ab/);use(x);",
+    );
     fold_same("var b=f();if(b)x=1;");
-    fold_same("b=b++;if(b)x=b;");
-    fold("(b=0,b=1);if(b)x=b;", "b=0,b=1;if(b)x=b;");
-    fold("b=1;if(foo,b)x=b;", "b=1;x=b;");
-    fold_same("b=1;if(foo=1,b)x=b;");
+    fold_same("b=b++;if(b)x=b; use(b); use(x);");
+    fold(
+        "(b=0,b=1);if(b)x=b; use(b); use(x);",
+        "b=0,b=1;if(b)x=b;use(b);use(x)",
+    );
+    fold(
+        "b=1;if(foo,b)x=b; use(b); use(x);",
+        "b=1; if (b) x = b; use(b); use(x);",
+    );
+    fold_same("b=1;if(foo=1,b)x=b; use(b); use(x);");
 }
 
 #[test]
@@ -251,17 +276,17 @@ fn test_constant_condition_with_side_effect2() {
 
 #[test]
 fn test_var_lifting() {
-    fold("if(true)var a", "var a");
-    fold("if(false)var a", "var a");
+    fold("if(true)var a", "");
+    fold("if(false)var a", "");
 
     // More var lifting tests in PeepholeIntegrationTests
 }
 
 #[test]
 fn test_let_const_lifting() {
-    fold("if(true) {const x = 1}", "{const x = 1}");
+    fold("if(true) {const x = 1}", "");
     fold("if(false) {const x = 1}", "");
-    fold("if(true) {let x}", "{let x}");
+    fold("if(true) {let x}", "");
     fold("if(false) {let x}", "");
 }
 
@@ -1242,22 +1267,22 @@ fn test_short_circuit4() {
 
 #[test]
 fn test_complex1() {
-    test("1 && a() + b() + c()", "1 && (a(), b(), c())");
+    test("1 && a() + b() + c()", "a(), b(), c()");
 }
 
 #[test]
 fn test_complex2() {
-    test("1 && (a() ? b() : 1)", "1 && (a() && b())");
+    test("1 && (a() ? b() : 1)", "a() && b()");
 }
 
 #[test]
 fn test_complex3() {
-    test("1 && (a() ? b() : 1 + c())", "1 && (a() ? b() : c())");
+    test("1 && (a() ? b() : 1 + c())", "a() ? b() : c()");
 }
 
 #[test]
 fn test_complex4() {
-    test("1 && (a() ? 1 : 1 + c())", "1 && (a() || c())");
+    test("1 && (a() ? 1 : 1 + c())", "a() || c()");
 }
 
 #[test]
@@ -1438,12 +1463,11 @@ fn test_array_literal() {
 
 #[test]
 fn test_array_literal_containing_spread() {
-    test_same("([...c])");
-    test("([4, ...c, a])", "([...c])");
-    test("([foo(), ...c, bar()])", "(foo(), [...c], bar())");
-    test("([...a, b, ...c])", "([...a], [...c])");
-    test_same("([...b, ...c])"); // It would also be fine if the spreads were
-                                 // split apart.
+    test("([...c])", "[...c]");
+    test("([4, ...c, a])", "[...c]");
+    test("([foo(), ...c, bar()])", "[foo(), ...c, bar()]");
+    test("([...a, b, ...c])", "[...a, ...c]");
+    test("([...b, ...c])", "[...b, ...c]");
 }
 
 #[test]
@@ -1521,16 +1545,16 @@ fn test_empty_key_in_object_pattern_with_default_value_maybe_removed() {
 #[test]
 fn test_undefined_default_parameter_removed() {
     test(
-        "function f(x=undefined,y) {  }", //
-        "function f(x,y)             {  }",
+        "function f(x=undefined,y) {  } use(f)", //
+        "function f(x,y)             {  } use(f)",
     );
     test(
-        "function f(x,y=undefined,z) {  }", //
-        "function f(x,y          ,z) {  }",
+        "function f(x,y=undefined,z) {  } use(f)", //
+        "function f(x,y          ,z) {  } use(f)",
     );
     test(
-        "function f(x=undefined,y=undefined,z=undefined) {  }", //
-        "function f(x,          y,          z)           {  }",
+        "function f(x=undefined,y=undefined,z=undefined) {  } use(f)", //
+        "function f(x,          y,          z)           {  } use(f)",
     );
 }
 
