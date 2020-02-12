@@ -125,6 +125,7 @@ impl Repeated for Dce<'_> {
 
     fn reset(&mut self) {
         self.dropped = false;
+        self.included = Default::default();
     }
 }
 
