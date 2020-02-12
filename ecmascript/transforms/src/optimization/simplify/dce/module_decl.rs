@@ -62,7 +62,7 @@ impl Fold<ExportDecl> for Dce<'_> {
                     v.decls.retain(|d| {
                         let mut visitor = IdentListVisitor {
                             included_ids: &self.included,
-                            exported_ids: &exported_ids,
+                            exported_ids: Some(&exported_ids),
                             found: false,
                         };
 

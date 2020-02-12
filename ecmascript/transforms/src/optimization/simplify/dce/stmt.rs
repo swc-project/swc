@@ -1,5 +1,9 @@
 use super::Dce;
-use swc_common::{fold::FoldWith, Fold, Spanned};
+use crate::optimization::simplify::dce::IdentListVisitor;
+use swc_common::{
+    fold::{FoldWith, VisitWith},
+    Fold, Spanned,
+};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ExprExt;
 
@@ -9,6 +13,8 @@ impl Fold<ExprStmt> for Dce<'_> {
             return node;
         }
 
+        let node: ExprStmt = node.fold_children(self);
+
         if node.expr.may_have_side_effects() {
             let stmt = ExprStmt {
                 span: node.span.apply_mark(self.config.used_mark),
@@ -17,7 +23,7 @@ impl Fold<ExprStmt> for Dce<'_> {
             return stmt;
         }
 
-        node.fold_children(self)
+        node
     }
 }
 
@@ -95,7 +101,22 @@ impl Fold<ThrowStmt> for Dce<'_> {
     }
 }
 
-impl Fold<LabeledStmt> for Dce<'_> {}
+impl Fold<LabeledStmt> for Dce<'_> {
+    fn fold(&mut self, mut node: LabeledStmt) -> LabeledStmt {
+        if self.is_marked(node.span) {
+            return node;
+        }
+
+        node.body = node.body.fold_with(self);
+
+        if self.is_marked(node.body.span()) {
+            node.span = node.span.apply_mark(self.config.used_mark);
+            node.body = self.fold_in_marking_phase(node.body);
+        }
+
+        node
+    }
+}
 
 impl Fold<SwitchStmt> for Dce<'_> {
     fn fold(&mut self, mut node: SwitchStmt) -> SwitchStmt {
