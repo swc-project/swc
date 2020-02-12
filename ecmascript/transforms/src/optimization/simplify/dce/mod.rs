@@ -140,15 +140,15 @@ where
             let mut idx = 0u32;
             items = items.move_map(|item| {
                 let item = if preserved.contains(&idx) {
-                    log::info!("Preserving {}", idx);
                     item
                 } else {
-                    item.fold_with(self)
+                    let item = item.fold_with(self);
+                    if self.is_marked(item.span()) {
+                        log::info!("Preserving {}", idx);
+                        preserved.insert(idx);
+                    }
+                    item
                 };
-
-                if self.is_marked(item.span()) {
-                    preserved.insert(idx);
-                }
 
                 idx += 1;
                 item
