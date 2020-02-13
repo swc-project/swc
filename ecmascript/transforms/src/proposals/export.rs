@@ -57,6 +57,7 @@ impl Fold<Vec<ModuleItem>> for ExportDefaultFrom {
                                         },
                                     )],
                                     src: None,
+                                    type_only: false,
                                 },
                             )));
                         }
@@ -86,6 +87,7 @@ impl Fold<Vec<ModuleItem>> for ExportDefaultFrom {
                                         },
                                     )],
                                     src: None,
+                                    type_only: false,
                                 },
                             )));
                         }

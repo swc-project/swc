@@ -361,6 +361,7 @@ impl Fold<ModuleDecl> for RestFolder {
                     span,
                     specifiers,
                     src: None,
+                    type_only: false,
                 };
 
                 let mut var_decl = var_decl.fold_with(self);

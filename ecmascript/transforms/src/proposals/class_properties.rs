@@ -82,6 +82,7 @@ where
                                             }
                                             .into()],
                                             src: None,
+                                            type_only: false,
                                         },
                                     )) {
                                         Ok(t) => t,
