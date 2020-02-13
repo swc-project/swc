@@ -73,6 +73,8 @@ struct UsedMarkRemover {
     used_mark: Mark,
 }
 
+noop_fold_type!(UsedMarkRemover);
+
 impl CompilerPass for UsedMarkRemover {
     fn name() -> Cow<'static, str> {
         Cow::Borrowed("dce-cleanup")
@@ -111,6 +113,8 @@ struct Dce<'a> {
 
     dropped: bool,
 }
+
+noop_fold_type!(Dce<'_>);
 
 impl CompilerPass for Dce<'_> {
     fn name() -> Cow<'static, str> {

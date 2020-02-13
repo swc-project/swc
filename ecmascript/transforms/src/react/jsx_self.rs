@@ -15,6 +15,8 @@ struct JsxSelf {
     dev: bool,
 }
 
+noop_fold_type!(JsxSelf);
+
 impl Fold<JSXOpeningElement> for JsxSelf {
     fn fold(&mut self, mut n: JSXOpeningElement) -> JSXOpeningElement {
         if !self.dev {

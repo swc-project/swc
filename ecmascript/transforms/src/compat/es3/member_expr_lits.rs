@@ -22,6 +22,8 @@ use swc_ecma_ast::*;
 #[derive(Default, Clone, Copy)]
 pub struct MemberExprLit;
 
+noop_fold_type!(MemberExprLit);
+
 impl Fold<Module> for MemberExprLit {
     fn fold(&mut self, node: Module) -> Module {
         validate!(node.fold_children(self))

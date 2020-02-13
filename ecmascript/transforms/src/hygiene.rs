@@ -22,6 +22,8 @@ struct Hygiene<'a> {
     ident_type: IdentType,
 }
 
+noop_fold_type!(Hygiene<'_>);
+
 type Contexts = SmallVec<[SyntaxContext; 32]>;
 
 impl<'a> Hygiene<'a> {

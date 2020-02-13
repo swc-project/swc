@@ -29,6 +29,8 @@ struct Amd {
     exports: Exports,
 }
 
+noop_fold_type!(Amd);
+
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct Config {

@@ -75,6 +75,8 @@ struct Decorators {
     is_in_strict: bool,
 }
 
+noop_fold_type!(Decorators);
+
 impl Fold<Vec<ModuleItem>> for Decorators {
     fn fold(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
         if !self::usage::has_decorator(&items) {

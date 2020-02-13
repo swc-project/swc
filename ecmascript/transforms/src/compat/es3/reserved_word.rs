@@ -23,6 +23,8 @@ pub struct ReservedWord {
     pub preserve_import: bool,
 }
 
+noop_fold_type!(ReservedWord);
+
 impl Fold<Ident> for ReservedWord {
     fn fold(&mut self, i: Ident) -> Ident {
         fold_ident(self.preserve_import, i)

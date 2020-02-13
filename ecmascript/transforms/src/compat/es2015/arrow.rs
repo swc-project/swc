@@ -60,6 +60,8 @@ pub fn arrow() -> impl Pass {
 
 struct Arrow;
 
+noop_fold_type!(Arrow);
+
 impl Fold<Expr> for Arrow {
     fn fold(&mut self, e: Expr) -> Expr {
         // fast path

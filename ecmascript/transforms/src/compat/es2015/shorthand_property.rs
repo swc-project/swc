@@ -38,6 +38,8 @@ use swc_ecma_ast::*;
 #[derive(Default, Clone, Copy)]
 pub struct Shorthand;
 
+noop_fold_type!(Shorthand);
+
 impl Fold<Prop> for Shorthand {
     fn fold(&mut self, prop: Prop) -> Prop {
         let prop = prop.fold_children(self);

@@ -30,6 +30,8 @@ use swc_ecma_ast::*;
 #[derive(Clone)]
 pub struct InstanceOf;
 
+noop_fold_type!(InstanceOf);
+
 impl Fold<Expr> for InstanceOf {
     fn fold(&mut self, expr: Expr) -> Expr {
         fn should_work(node: &Expr) -> bool {

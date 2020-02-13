@@ -15,6 +15,9 @@ struct ImportAnalyzer {
     scope: Scope,
 }
 
+noop_fold_type!(ImportAnalyzer);
+noop_visit_type!(ImportAnalyzer);
+
 impl Fold<Module> for ImportAnalyzer {
     fn fold(&mut self, module: Module) -> Module {
         module.visit_with(self);

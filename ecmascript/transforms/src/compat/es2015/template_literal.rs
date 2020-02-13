@@ -9,6 +9,8 @@ pub struct TemplateLiteral {
     added: Vec<Stmt>,
 }
 
+noop_fold_type!(TemplateLiteral);
+
 impl Fold<Module> for TemplateLiteral {
     fn fold(&mut self, m: Module) -> Module {
         let mut body = m.body.fold_children(self);

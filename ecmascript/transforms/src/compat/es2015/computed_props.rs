@@ -42,6 +42,8 @@ pub fn computed_properties() -> impl Pass {
 
 struct ComputedProps;
 
+noop_fold_type!(ComputedProps);
+
 #[derive(Default)]
 struct ObjectLitFolder {
     vars: Vec<VarDeclarator>,

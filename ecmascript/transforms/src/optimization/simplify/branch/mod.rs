@@ -44,6 +44,8 @@ struct Remover {
     normal_block: bool,
 }
 
+noop_fold_type!(Remover);
+
 impl<T: StmtLike> Fold<Vec<T>> for Remover
 where
     Self: Fold<T>,

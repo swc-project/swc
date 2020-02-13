@@ -11,6 +11,8 @@ pub fn export() -> impl Pass {
 #[derive(Clone)]
 struct ExportDefaultFrom;
 
+noop_fold_type!(ExportDefaultFrom);
+
 impl Fold<Vec<ModuleItem>> for ExportDefaultFrom {
     fn fold(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
         // Imports

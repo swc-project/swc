@@ -22,6 +22,8 @@ struct SimplifyExpr {
     changed: bool,
 }
 
+noop_fold_type!(SimplifyExpr);
+
 impl CompilerPass for SimplifyExpr {
     fn name() -> Cow<'static, str> {
         Cow::Borrowed("simplify-expr")

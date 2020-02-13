@@ -17,6 +17,8 @@ pub fn object_rest_spread() -> impl Pass {
 
 struct ObjectRest;
 
+noop_fold_type!(ObjectRest);
+
 #[allow(clippy::vec_box)]
 struct RestFolder {
     /// Injected before the original statement.
@@ -26,6 +28,8 @@ struct RestFolder {
     /// Assignment expressions.
     exprs: Vec<Box<Expr>>,
 }
+
+noop_fold_type!(RestFolder);
 
 macro_rules! impl_for_for_stmt {
     ($T:tt) => {
@@ -1011,6 +1015,8 @@ fn simplify_pat(pat: Pat) -> Pat {
 }
 
 struct ObjectSpread;
+
+noop_fold_type!(ObjectSpread);
 
 impl Fold<Expr> for ObjectSpread {
     fn fold(&mut self, expr: Expr) -> Expr {

@@ -45,6 +45,8 @@ struct BlockScoping {
     vars: Vec<VarDeclarator>,
 }
 
+noop_fold_type!(BlockScoping);
+
 impl BlockScoping {
     /// This methods remove [ScopeKind::Loop] and [ScopeKind::Fn], but not
     /// [ScopeKind::ForLetLoop]

@@ -12,6 +12,8 @@ pub(super) struct SuperCallFinder {
     in_complex: bool,
 }
 
+noop_visit_type!(SuperCallFinder);
+
 impl SuperCallFinder {
     ///
     /// - `None`: if no `super()` is found or super() is last call

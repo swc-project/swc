@@ -35,6 +35,8 @@ struct Umd {
     exports: Exports,
 }
 
+noop_fold_type!(Umd);
+
 impl Fold<Module> for Umd {
     fn fold(&mut self, module: Module) -> Module {
         self.in_top_level = true;

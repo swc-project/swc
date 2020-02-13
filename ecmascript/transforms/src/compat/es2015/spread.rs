@@ -24,11 +24,15 @@ struct Spread {
     c: Config,
 }
 
+noop_fold_type!(Spread);
+
 #[derive(Default)]
 struct ActualFolder {
     c: Config,
     vars: Vec<VarDeclarator>,
 }
+
+noop_fold_type!(ActualFolder);
 
 impl<T> Fold<Vec<T>> for Spread
 where

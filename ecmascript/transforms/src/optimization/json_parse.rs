@@ -31,6 +31,8 @@ pub struct JsonParse {
     pub min_cost: usize,
 }
 
+noop_fold_type!(JsonParse);
+
 impl Default for JsonParse {
     fn default() -> Self {
         JsonParse { min_cost: 1024 }

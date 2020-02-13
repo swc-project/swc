@@ -20,6 +20,8 @@ use swc_ecma_ast::*;
 #[derive(Clone, Copy)]
 pub struct StickyRegex;
 
+noop_fold_type!(StickyRegex);
+
 impl Fold<Expr> for StickyRegex {
     fn fold(&mut self, e: Expr) -> Expr {
         let e = e.fold_children(self);

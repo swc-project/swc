@@ -55,6 +55,8 @@ struct ForOf {
     c: Config,
 }
 
+noop_fold_type!(ForOf);
+
 /// Real folder.
 struct Actual {
     c: Config,

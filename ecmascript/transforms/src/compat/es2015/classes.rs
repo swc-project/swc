@@ -61,6 +61,8 @@ pub struct Classes {
     in_strict: bool,
 }
 
+noop_fold_type!(Classes);
+
 struct Data {
     key_prop: Box<Prop>,
     method: Option<Box<Expr>>,

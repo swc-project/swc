@@ -26,6 +26,8 @@ struct Regenerator {
     top_level_vars: Vec<VarDeclarator>,
 }
 
+noop_fold_type!(Regenerator);
+
 fn rt(rt: Ident) -> Stmt {
     Stmt::Decl(Decl::Var(VarDecl {
         span: DUMMY_SP,
