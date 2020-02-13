@@ -11,6 +11,7 @@ impl Fold<FnDecl> for Dce<'_> {
 
         if self.marking_phase || self.included.contains(&f.ident.to_id()) {
             f.function.span = f.function.span.apply_mark(self.config.used_mark);
+            f.function.body = self.fold_in_marking_phase(f.function.body);
         }
 
         f.fold_children(self)
