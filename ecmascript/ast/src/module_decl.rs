@@ -3,7 +3,10 @@ use crate::{
     expr::{ClassExpr, Expr, FnExpr},
     ident::Ident,
     lit::Str,
-    typescript::{TsExportAssignment, TsImportEqualsDecl, TsInterfaceDecl, TsNamespaceExportDecl},
+    typescript::{
+        TsExportAssignment, TsImportEqualsDecl, TsInterfaceDecl, TsNamespaceExportDecl,
+        TsTypeExport,
+    },
 };
 use swc_common::{ast_node, Span};
 
@@ -11,6 +14,9 @@ use swc_common::{ast_node, Span};
 pub enum ModuleDecl {
     #[tag("ImportDeclaration")]
     Import(ImportDecl),
+
+    #[tag("TsTypeExport")]
+    TsTypeExport(TsTypeExport),
 
     #[tag("ExportDeclaration")]
     ExportDecl(ExportDecl),

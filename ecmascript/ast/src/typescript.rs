@@ -7,6 +7,7 @@ use crate::{
     lit::{Bool, Number, Str},
     module::ModuleItem,
     pat::{ArrayPat, AssignPat, ObjectPat, RestPat},
+    ExportSpecifier,
 };
 use serde::{
     de::{self, Unexpected, Visitor},
@@ -837,4 +838,11 @@ pub enum Accessibility {
 pub struct TsConstAssertion {
     pub span: Span,
     pub expr: Box<Expr>,
+}
+
+#[ast_node("TsConstAssertion")]
+pub struct TsTypeExport {
+    pub span: Span,
+    pub specifiers: Vec<ExportSpecifier>,
+    pub src: Option<Str>,
 }
