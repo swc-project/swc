@@ -28,13 +28,10 @@ impl Fold<ImportDecl> for Dce<'_> {
 
         let ids: Vec<Ident> = find_ids(&import.specifiers);
 
-        for id in ids {
-            for c in &self.included {
-                if c.0 == id.sym && c.1 == id.span.ctxt() {
-                    import.span = import.span.apply_mark(self.config.used_mark);
-                    return import;
-                }
-            }
+        import.specifiers.retain(|s| self.should_include(&s));
+
+        if !import.specifiers.is_empty() {
+            import.span = import.span.apply_mark(self.config.used_mark);
         }
 
         import

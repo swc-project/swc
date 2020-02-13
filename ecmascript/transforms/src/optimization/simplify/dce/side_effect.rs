@@ -1,5 +1,6 @@
 use super::Dce;
 use fxhash::FxHashSet;
+use swc_atoms::JsWord;
 use swc_common::{Visit, VisitWith};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, ExprExt, Id};
@@ -21,17 +22,17 @@ impl Dce<'_> {
     }
 }
 
-//impl SideEffectVisitor<'_> {
-//    fn is_exported(&self, i: &JsWord) -> bool {
-//        self.exports.is_none()
-//            || self
-//                .exports
-//                .as_ref()
-//                .unwrap()
-//                .iter()
-//                .any(|exported| exported.0 == *i)
-//    }
-//}
+impl SideEffectVisitor<'_> {
+    fn is_exported(&self, i: &JsWord) -> bool {
+        self.exports.is_none()
+            || self
+                .exports
+                .as_ref()
+                .unwrap()
+                .iter()
+                .any(|exported| exported.0 == *i)
+    }
+}
 
 pub(super) struct SideEffectVisitor<'a> {
     included: &'a mut FxHashSet<Id>,
@@ -234,7 +235,9 @@ impl Visit<ExportDecl> for SideEffectVisitor<'_> {
 
 impl Visit<ExportDefaultExpr> for SideEffectVisitor<'_> {
     fn visit(&mut self, _: &ExportDefaultExpr) {
-        self.found = true
+        if self.is_exported(&js_word!("default")) {
+            self.found = true
+        }
     }
 }
 
