@@ -130,11 +130,41 @@ impl Visit<NewExpr> for SideEffectVisitor<'_> {
 }
 
 impl Visit<ExprOrSpread> for SideEffectVisitor<'_> {
-    fn visit(&mut self, _: &ExprOrSpread) {
+    fn visit(&mut self, node: &ExprOrSpread) {
         if self.found {
             return;
         }
 
+        if node.spread.is_some() {
+            self.found = true;
+        }
+
+        if !self.found {
+            node.expr.visit_with(self);
+        }
+    }
+}
+
+impl Visit<ReturnStmt> for SideEffectVisitor<'_> {
+    fn visit(&mut self, node: &ReturnStmt) {
+        self.found = true;
+    }
+}
+
+impl Visit<ThrowStmt> for SideEffectVisitor<'_> {
+    fn visit(&mut self, node: &ThrowStmt) {
+        self.found = true;
+    }
+}
+
+impl Visit<BreakStmt> for SideEffectVisitor<'_> {
+    fn visit(&mut self, node: &BreakStmt) {
+        self.found = true;
+    }
+}
+
+impl Visit<ContinueStmt> for SideEffectVisitor<'_> {
+    fn visit(&mut self, node: &ContinueStmt) {
         self.found = true;
     }
 }
