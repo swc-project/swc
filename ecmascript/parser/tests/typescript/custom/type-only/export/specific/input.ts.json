@@ -2,7 +2,7 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 30,
+    "end": 20,
     "ctxt": 0
   },
   "body": [
@@ -10,41 +10,33 @@
       "type": "ExportNamedDeclaration",
       "span": {
         "start": 0,
-        "end": 29,
+        "end": 20,
         "ctxt": 0
       },
       "specifiers": [
         {
-          "type": "ExportNamespaceSpecifer",
+          "type": "ExportSpecifier",
           "span": {
-            "start": 7,
-            "end": 14,
+            "start": 14,
+            "end": 17,
             "ctxt": 0
           },
-          "name": {
+          "orig": {
             "type": "Identifier",
             "span": {
-              "start": 12,
-              "end": 14,
+              "start": 14,
+              "end": 17,
               "ctxt": 0
             },
-            "value": "ns",
+            "value": "Foo",
             "typeAnnotation": null,
             "optional": false
-          }
+          },
+          "exported": null
         }
       ],
-      "source": {
-        "type": "StringLiteral",
-        "span": {
-          "start": 20,
-          "end": 29,
-          "ctxt": 0
-        },
-        "value": "package",
-        "hasEscape": false
-      },
-      "typeOnly": false
+      "source": null,
+      "typeOnly": true
     }
   ],
   "interpreter": null
