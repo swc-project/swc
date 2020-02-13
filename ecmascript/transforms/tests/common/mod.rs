@@ -200,6 +200,7 @@ where
         let expected =
             tester.apply_transform(::testing::DropSpan, "output.js", syntax, expected)?;
 
+        println!(">>>>> Orig <<<<<\n{}", input);
         println!("----- Actual -----");
 
         let tr = make_tr("actual", tr, tester);
@@ -236,7 +237,6 @@ where
             return Err(());
         }
 
-        println!(">>>>> Orig <<<<<\n{}", input);
         println!(">>>>> Code <<<<<\n{}", actual_src);
         if actual_src != expected_src {
             panic!(

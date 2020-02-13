@@ -22,7 +22,7 @@ swc_ecma_ast = { version = "0.17.0", path ="../ast" }
 swc_ecma_parser_macros = { version = "0.4", path ="./macros" }
 enum_kind = { version = "0.2", path ="../../macros/enum_kind" }
 unicode-xid = "0.2"
-log = { version = "0.4", features = ["release_max_level_debug"] }
+log = "0.4"
 either = { version = "1.4" }
 serde = { version = "1", features = ["derive"] }
 smallvec = "1"

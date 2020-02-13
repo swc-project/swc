@@ -1,12 +1,11 @@
-use super::dce;
-use crate::optimization::expr_simplifier;
+use super::{super::expr_simplifier, dead_branch_remover};
 use swc_common::chain;
 
 macro_rules! test_stmt {
     ($l:expr, $r:expr) => {
         test_transform!(
             ::swc_ecma_parser::Syntax::default(),
-            |_| chain!(expr_simplifier(), dce()),
+            |_| chain!(expr_simplifier(), dead_branch_remover()),
             $l,
             $r
         )
@@ -1661,4 +1660,64 @@ fn test_function_call_references_setter_is_not_removed() {
         "function foo() { a.property = 0; }",
         "foo();",
     ));
+}
+
+#[test]
+fn custom_loop_1() {
+    test(
+        "let b = 2;
+
+let a = 1;
+if (2) {
+a = 2;
+}
+
+let c;
+if (a) {
+c = 3;
+}",
+        "let b = 2;
+
+let a = 1;
+a = 2;
+
+let c;
+if (a) c = 3;",
+    );
+}
+
+#[test]
+fn custom_loop_2() {
+    test(
+        "let b = 2;
+
+let a = 1;
+if (2) {
+a = 2;
+}
+
+let c;
+if (a) {
+c = 3;
+}",
+        "let b = 2;
+
+let a = 1;
+a = 2;
+
+let c;
+if (a) c = 3;",
+    );
+}
+
+#[test]
+fn custom_loop_3() {
+    test(
+        "let c;
+if (2) c = 3;
+console.log(c);",
+        "let c;
+c = 3;
+console.log(c);",
+    );
 }

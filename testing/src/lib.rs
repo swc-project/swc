@@ -8,6 +8,7 @@ use difference::Changeset;
 use once_cell::sync::Lazy;
 use regex::Regex;
 use std::{
+    fmt,
     fmt::Debug,
     fs::{create_dir_all, File},
     io::Write,
@@ -27,11 +28,48 @@ mod output;
 mod paths;
 mod string_errors;
 
+/// Configures logger
+pub fn init() {
+    use ansi_term::Color;
+
+    struct Padded<T> {
+        value: T,
+        width: usize,
+    }
+
+    impl<T: fmt::Display> fmt::Display for Padded<T> {
+        fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+            write!(f, "{: <width$}", self.value, width = self.width)
+        }
+    }
+
+    fn colored_level<'a>(level: log::Level) -> String {
+        match level {
+            log::Level::Trace => Color::Cyan.paint("TRACE").to_string(),
+            log::Level::Debug => Color::Blue.paint("TRACE").to_string(),
+            log::Level::Info => Color::Green.paint("INFO ").to_string(),
+            log::Level::Warn => Color::Yellow.paint("WARN ").to_string(),
+            log::Level::Error => Color::Red.paint("ERROR").to_string(),
+        }
+    }
+
+    let _ = env_logger::Builder::from_default_env()
+        .is_test(true)
+        .format(|f, record| {
+            let level = colored_level(record.level());
+
+            writeln!(f, " {} > {}", level, record.args(),)
+        })
+        .try_init();
+}
+
 /// Run test and print errors.
 pub fn run_test<F, Ret>(treat_err_as_bug: bool, op: F) -> Result<Ret, StdErr>
 where
     F: FnOnce(Arc<SourceMap>, &Handler) -> Result<Ret, ()>,
 {
+    init();
+
     let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
     let (handler, errors) = self::string_errors::new_handler(cm.clone(), treat_err_as_bug);
     let result = swc_common::GLOBALS.set(&swc_common::Globals::new(), || op(cm, &handler));
@@ -47,6 +85,8 @@ pub fn run_test2<F, Ret>(treat_err_as_bug: bool, op: F) -> Result<Ret, StdErr>
 where
     F: FnOnce(Arc<SourceMap>, Handler) -> Result<Ret, ()>,
 {
+    init();
+
     let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
     let (handler, errors) = self::string_errors::new_handler(cm.clone(), treat_err_as_bug);
     let result = swc_common::GLOBALS.set(&swc_common::Globals::new(), || op(cm, handler));
@@ -64,6 +104,8 @@ pub struct Tester {
 
 impl Tester {
     pub fn new() -> Self {
+        init();
+
         Tester {
             cm: Arc::new(SourceMap::new(FilePathMapping::empty())),
             globals: swc_common::Globals::new(),

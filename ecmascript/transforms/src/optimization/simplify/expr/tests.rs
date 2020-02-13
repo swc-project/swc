@@ -3,7 +3,7 @@ use super::SimplifyExpr;
 fn fold(src: &str, expected: &str) {
     test_transform!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| SimplifyExpr,
+        |_| SimplifyExpr { changed: false },
         src,
         expected,
         true
@@ -13,6 +13,11 @@ fn fold(src: &str, expected: &str) {
 /// Should not modify expression.
 fn fold_same(s: &str) {
     fold(s, s)
+}
+
+#[test]
+fn regex() {
+    fold("/ab/?x=1:x=2", "x=1");
 }
 
 #[test]

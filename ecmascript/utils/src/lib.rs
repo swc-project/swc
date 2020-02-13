@@ -477,6 +477,25 @@ pub trait ExprExt {
                 v
             }
 
+            Expr::Bin(BinExpr {
+                ref left,
+                op: op!("||"),
+                ref right,
+                ..
+            }) => {
+                let (lp, lv) = left.as_bool();
+                if let Known(true) = lv {
+                    return (lp, lv);
+                }
+
+                let (rp, rv) = right.as_bool();
+                if let Known(true) = rv {
+                    return (lp + rp, rv);
+                }
+
+                Unknown
+            }
+
             Expr::Fn(..) | Expr::Class(..) | Expr::New(..) | Expr::Array(..) | Expr::Object(..) => {
                 Known(true)
             }
@@ -1353,7 +1372,7 @@ pub fn undefined(span: Span) -> Box<Expr> {
     })
 }
 
-/// inject `stmt` after directives
+/// inject `branch` after directives
 #[inline(never)]
 pub fn prepend<T: StmtLike>(stmts: &mut Vec<T>, stmt: T) {
     let idx = stmts

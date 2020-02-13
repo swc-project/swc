@@ -49,7 +49,7 @@ pub(super) struct CaseHandler<'a> {
     listing_len: usize,
 
     /// A sparse array whose keys correspond to locations in this.listing
-    /// that have been marked as branch/jump targets.
+    /// that have been marked as stmt/jump targets.
     marked: Vec<Loc>,
 
     leaps: LeapManager,

@@ -30,6 +30,7 @@ arrayvec = "0.5.1"
 serde_json = "1"
 smallvec = "1"
 is-macro = "0.1"
+log = "0.4.8"
 
 [dev-dependencies]
 testing = { version = "0.5", path ="../../testing" }

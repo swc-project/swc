@@ -149,6 +149,24 @@ impl Fold<Stmt> for Fixer {
     }
 }
 
+impl Fold<IfStmt> for Fixer {
+    fn fold(&mut self, node: IfStmt) -> IfStmt {
+        let node: IfStmt = node.fold_children(self);
+
+        match *node.cons {
+            Stmt::If(..) => IfStmt {
+                cons: box Stmt::Block(BlockStmt {
+                    span: node.cons.span(),
+                    stmts: vec![*node.cons],
+                }),
+                ..node
+            },
+
+            _ => node,
+        }
+    }
+}
+
 macro_rules! context_fn_args {
     ($T:tt, $is_new:expr) => {
         impl Fold<$T> for Fixer {
@@ -510,6 +528,17 @@ impl Fold<Expr> for Fixer {
                     }
 
                     e @ Expr::Seq(..)
+                    | e @ Expr::Update(..)
+                    | e
+                    @
+                    Expr::Unary(UnaryExpr {
+                        op: op!("delete"), ..
+                    })
+                    | e
+                    @
+                    Expr::Unary(UnaryExpr {
+                        op: op!("void"), ..
+                    })
                     | e @ Expr::Yield(..)
                     | e @ Expr::Cond(..)
                     | e @ Expr::Assign(..)
@@ -1039,4 +1068,6 @@ var store = global[SHARED] || (global[SHARED] = {});
     foo: 1
 });"
     );
+
+    test_fixer!(void_and_bin, "(void 0) * 2", "(void 0) * 2");
 }

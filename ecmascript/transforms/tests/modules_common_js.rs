@@ -113,7 +113,7 @@ test!(
         decorators(Default::default()),
         class_properties(),
         export(),
-        simplifier(),
+        simplifier(Default::default()),
         compat::es2018(),
         compat::es2017(),
         compat::es2016(),

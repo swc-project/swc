@@ -1,9 +1,5 @@
-pub use self::{
-    inline_globals::InlineGlobals,
-    json_parse::JsonParse,
-    simplify::{expr_simplifier, simplifier},
-};
+pub use self::{inline_globals::InlineGlobals, json_parse::JsonParse, simplify::simplifier};
 
 mod inline_globals;
 mod json_parse;
-mod simplify;
+pub mod simplify;
