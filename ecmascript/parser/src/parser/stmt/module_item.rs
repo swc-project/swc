@@ -179,6 +179,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
             }
         }
 
+        let type_only = self.input.syntax().typescript() && eat!("type");
+
         if self.input.syntax().typescript() && is!(IdentName) {
             let sym = match *cur!(true)? {
                 Token::Word(ref w) => w.clone().into(),
@@ -361,6 +363,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                         span: Span::new(start, src.span.hi(), Default::default()),
                         specifiers: vec![s],
                         src: Some(src),
+                        type_only,
                     }));
                 }
             }
@@ -385,6 +388,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                             exported: default,
                         })],
                         src: Some(src),
+                        type_only,
                     }));
                 }
             }
@@ -442,6 +446,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 span: span!(start),
                 specifiers,
                 src,
+                type_only,
             }));
         };
 
