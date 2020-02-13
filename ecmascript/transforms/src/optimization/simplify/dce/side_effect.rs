@@ -21,6 +21,18 @@ impl Dce<'_> {
     }
 }
 
+//impl SideEffectVisitor<'_> {
+//    fn is_exported(&self, i: &JsWord) -> bool {
+//        self.exports.is_none()
+//            || self
+//                .exports
+//                .as_ref()
+//                .unwrap()
+//                .iter()
+//                .any(|exported| exported.0 == *i)
+//    }
+//}
+
 pub(super) struct SideEffectVisitor<'a> {
     included: &'a mut FxHashSet<Id>,
     exports: Option<&'a [Id]>,
@@ -195,6 +207,45 @@ impl Visit<WhileStmt> for SideEffectVisitor<'_> {
 
 impl Visit<DoWhileStmt> for SideEffectVisitor<'_> {
     fn visit(&mut self, _: &DoWhileStmt) {
+        self.found = true;
+    }
+}
+
+impl Visit<ImportDecl> for SideEffectVisitor<'_> {
+    fn visit(&mut self, import: &ImportDecl) {
+        if self.found {
+            return;
+        }
+
+        if import.specifiers.is_empty() {
+            self.found = true;
+            return;
+        }
+
+        import.visit_children(self)
+    }
+}
+
+impl Visit<ExportDecl> for SideEffectVisitor<'_> {
+    fn visit(&mut self, _: &ExportDecl) {
+        self.found = true
+    }
+}
+
+impl Visit<ExportDefaultExpr> for SideEffectVisitor<'_> {
+    fn visit(&mut self, _: &ExportDefaultExpr) {
+        self.found = true
+    }
+}
+
+impl Visit<NamedExport> for SideEffectVisitor<'_> {
+    fn visit(&mut self, _: &NamedExport) {
+        self.found = true
+    }
+}
+
+impl Visit<ExportDefaultDecl> for SideEffectVisitor<'_> {
+    fn visit(&mut self, _: &ExportDefaultDecl) {
         self.found = true;
     }
 }

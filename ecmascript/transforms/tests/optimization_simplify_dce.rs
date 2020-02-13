@@ -104,3 +104,18 @@ console.log(c);"
 optimized_out!(simple_const, "{const x = 1}");
 
 noop!(assign_op, "x *= 2; use(x)");
+
+optimized_out!(import_default_unused, "import foo from 'foo'");
+
+optimized_out!(import_specific_unused, "import {foo} from 'foo'");
+
+optimized_out!(import_mixed_unused, "import foo, { bar } from 'foo'");
+
+noop!(export_named, "export { x };");
+
+noop!(export_named_from, "export {foo} from 'src';");
+
+noop!(
+    import_default_export_named,
+    "import foo from 'src'; export { foo }; "
+);
