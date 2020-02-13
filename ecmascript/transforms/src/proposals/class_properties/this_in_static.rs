@@ -5,6 +5,8 @@ pub(super) struct ThisInStaticFolder {
     pub ident: Ident,
 }
 
+noop_fold_type!(ThisInStaticFolder);
+
 impl Fold<Expr> for ThisInStaticFolder {
     fn fold(&mut self, e: Expr) -> Expr {
         let e = e.fold_children(self);

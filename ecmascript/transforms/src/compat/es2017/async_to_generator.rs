@@ -33,9 +33,14 @@ pub fn async_to_generator() -> impl Pass {
 
 #[derive(Default, Clone)]
 struct AsyncToGenerator;
+
+noop_fold_type!(AsyncToGenerator);
+
 struct Actual {
     extra_stmts: Vec<Stmt>,
 }
+
+noop_fold_type!(Actual);
 
 impl<T> Fold<Vec<T>> for AsyncToGenerator
 where

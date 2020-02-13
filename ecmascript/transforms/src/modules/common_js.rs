@@ -26,6 +26,8 @@ struct CommonJs {
     in_top_level: bool,
 }
 
+noop_fold_type!(CommonJs);
+
 impl Fold<Vec<ModuleItem>> for CommonJs {
     fn fold(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
         let mut emitted_esmodule = false;

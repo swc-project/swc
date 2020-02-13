@@ -15,6 +15,8 @@ pub fn display_name() -> impl Pass {
 
 struct DisplayName;
 
+noop_fold_type!(DisplayName);
+
 impl Fold<VarDeclarator> for DisplayName {
     fn fold(&mut self, decl: VarDeclarator) -> VarDeclarator {
         match decl.name {

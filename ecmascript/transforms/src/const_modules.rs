@@ -75,6 +75,8 @@ struct ConstModules {
     scope: Scope,
 }
 
+noop_fold_type!(ConstModules);
+
 #[derive(Default)]
 struct Scope {
     imported: HashMap<JsWord, Arc<Expr>>,

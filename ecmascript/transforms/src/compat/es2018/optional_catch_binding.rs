@@ -4,6 +4,8 @@ use swc_ecma_ast::*;
 
 struct OptionalCatchBinding;
 
+noop_fold_type!(OptionalCatchBinding);
+
 pub fn optional_catch_binding() -> impl Pass {
     OptionalCatchBinding
 }

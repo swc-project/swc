@@ -39,6 +39,8 @@ struct Destructuring {
     c: Config,
 }
 
+noop_fold_type!(Destructuring);
+
 #[derive(Debug, Default, Clone, Copy, Deserialize)]
 pub struct Config {
     #[serde(default)]

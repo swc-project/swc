@@ -71,6 +71,8 @@ struct Inlining<'a> {
     pat_mode: PatFoldingMode,
 }
 
+noop_fold_type!(Inlining<'_>);
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum PatFoldingMode {
     Assign,

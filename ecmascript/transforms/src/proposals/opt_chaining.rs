@@ -15,6 +15,8 @@ struct OptChaining {
     vars: Vec<VarDeclarator>,
 }
 
+noop_fold_type!(OptChaining);
+
 impl<T> Fold<Vec<T>> for OptChaining
 where
     T: Debug + StmtLike + FoldWith<Self>,

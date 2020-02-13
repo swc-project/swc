@@ -30,10 +30,14 @@ pub fn exponentation() -> impl Pass {
 #[derive(Clone, Copy)]
 struct Exponentation;
 
+noop_fold_type!(Exponentation);
+
 #[derive(Default)]
 struct AssignFolder {
     vars: Vec<VarDeclarator>,
 }
+
+noop_fold_type!(AssignFolder);
 
 impl Fold<Expr> for AssignFolder {
     fn fold(&mut self, e: Expr) -> Expr {

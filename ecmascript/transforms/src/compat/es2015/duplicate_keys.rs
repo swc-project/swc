@@ -10,6 +10,8 @@ pub fn duplicate_keys() -> impl Pass {
 
 struct DuplicateKeys;
 
+noop_fold_type!(DuplicateKeys);
+
 impl Fold<Expr> for DuplicateKeys {
     fn fold(&mut self, expr: Expr) -> Expr {
         let expr = expr.fold_children(self);
@@ -34,6 +36,8 @@ struct PropFolder {
     getter_props: HashSet<JsWord>,
     setter_props: HashSet<JsWord>,
 }
+
+noop_fold_type!(PropFolder);
 
 impl Fold<Expr> for PropFolder {
     fn fold(&mut self, node: Expr) -> Expr {

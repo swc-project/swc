@@ -12,6 +12,8 @@ pub(super) struct DecoratorFinder {
     found: bool,
 }
 
+noop_visit_type!(DecoratorFinder);
+
 impl Visit<Decorator> for DecoratorFinder {
     fn visit(&mut self, _: &Decorator) {
         self.found = true;

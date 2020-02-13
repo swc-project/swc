@@ -34,6 +34,8 @@ impl SideEffectVisitor<'_> {
     }
 }
 
+noop_visit_type!(SideEffectVisitor<'_>);
+
 pub(super) struct SideEffectVisitor<'a> {
     included: &'a mut FxHashSet<Id>,
     exports: Option<&'a [Id]>,

@@ -12,6 +12,8 @@ pub(super) enum ScopeOp {
 
 pub(super) struct Operator<'a>(pub &'a [ScopeOp]);
 
+noop_fold_type!(Operator<'_>);
+
 impl<'a> Fold<Vec<ModuleItem>> for Operator<'a> {
     fn fold(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
         let mut stmts = Vec::with_capacity(items.len());

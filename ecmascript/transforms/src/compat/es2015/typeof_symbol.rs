@@ -23,6 +23,8 @@ use swc_ecma_ast::*;
 #[derive(Clone)]
 pub struct TypeOfSymbol;
 
+noop_fold_type!(TypeOfSymbol);
+
 impl Fold<Expr> for TypeOfSymbol {
     fn fold(&mut self, expr: Expr) -> Expr {
         // fast path

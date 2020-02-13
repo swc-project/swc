@@ -15,6 +15,8 @@ pub(super) struct Legacy {
     exports: Vec<ExportSpecifier>,
 }
 
+noop_fold_type!(Legacy);
+
 impl Fold<Module> for Legacy {
     fn fold(&mut self, m: Module) -> Module {
         let mut m = m.fold_children(self);

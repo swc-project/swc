@@ -13,6 +13,8 @@ pub(super) struct FieldAccessFolder<'a> {
     pub in_assign_pat: bool,
 }
 
+noop_fold_type!(FieldAccessFolder<'_>);
+
 impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
     fn fold(&mut self, e: Expr) -> Expr {
         match e {

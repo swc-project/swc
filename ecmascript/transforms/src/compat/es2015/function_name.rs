@@ -26,9 +26,13 @@ pub fn function_name() -> impl Pass {
 #[derive(Clone, Copy)]
 struct FnName;
 
+noop_fold_type!(FnName);
+
 struct Renamer {
     name: Option<Ident>,
 }
+
+noop_fold_type!(Renamer);
 
 /// This function makes a new private identifier if required.
 fn prepare(i: Ident, force: bool) -> Ident {

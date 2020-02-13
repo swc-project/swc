@@ -64,6 +64,8 @@ struct Resolver<'a> {
     ident_type: IdentType,
 }
 
+noop_fold_type!(Resolver<'_>);
+
 impl<'a> Resolver<'a> {
     fn new(mark: Mark, current: Scope<'a>, cur_defining: Option<(JsWord, Mark)>) -> Self {
         Resolver {

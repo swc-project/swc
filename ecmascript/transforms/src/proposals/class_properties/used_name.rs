@@ -7,6 +7,8 @@ pub(super) struct UsedNameRenamer<'a> {
     pub used_names: &'a [JsWord],
 }
 
+noop_fold_type!(UsedNameRenamer<'_>);
+
 impl<'a> Fold<Ident> for UsedNameRenamer<'a> {
     fn fold(&mut self, ident: Ident) -> Ident {
         if self.used_names.contains(&ident.sym) {
@@ -22,6 +24,8 @@ impl<'a> Fold<Ident> for UsedNameRenamer<'a> {
 pub(super) struct UsedNameCollector<'a> {
     pub used_names: &'a mut Vec<JsWord>,
 }
+
+noop_visit_type!(UsedNameCollector<'_>);
 
 impl<'a> Visit<Expr> for UsedNameCollector<'a> {
     fn visit(&mut self, expr: &Expr) {
