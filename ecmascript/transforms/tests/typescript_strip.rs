@@ -333,4 +333,4 @@ test!(
 
 to!(import_type, "import type foo from 'foo'", "");
 
-to!(export_type, "export type foo", "");
+to!(export_type, "export type { foo }", "");
