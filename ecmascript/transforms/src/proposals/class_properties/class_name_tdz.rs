@@ -6,7 +6,7 @@ pub(super) struct ClassNameTdzFolder<'a> {
     pub class_name: &'a Ident,
 }
 
-noop_fold_type!(ClassNameTdzFilter<'_>);
+noop_fold_type!(ClassNameTdzFolder<'_>);
 
 impl<'a> Fold<Expr> for ClassNameTdzFolder<'a> {
     fn fold(&mut self, expr: Expr) -> Expr {

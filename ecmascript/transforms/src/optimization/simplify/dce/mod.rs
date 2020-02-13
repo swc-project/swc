@@ -114,8 +114,6 @@ struct Dce<'a> {
     dropped: bool,
 }
 
-noop_fold_type!(Dce<'_>);
-
 impl CompilerPass for Dce<'_> {
     fn name() -> Cow<'static, str> {
         Cow::Borrowed("dce")
