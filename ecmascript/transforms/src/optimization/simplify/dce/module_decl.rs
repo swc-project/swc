@@ -22,12 +22,7 @@ impl Fold<ImportDecl> for Dce<'_> {
             return import;
         }
 
-        // TODO: Drop unused imports.
-        //      e.g) import { foo, bar } from './foo';
-        //           foo()
-
-        let ids: Vec<Ident> = find_ids(&import.specifiers);
-
+        // Drop unused imports.
         import.specifiers.retain(|s| self.should_include(&s));
 
         if !import.specifiers.is_empty() {
