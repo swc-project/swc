@@ -1,15 +1,12 @@
 use super::Dce;
-use swc_common::{Fold, FoldWith};
+use swc_common::Fold;
 use swc_ecma_ast::*;
-use swc_ecma_utils::find_ids;
 
 impl Fold<ImportDecl> for Dce<'_> {
-    fn fold(&mut self, import: ImportDecl) -> ImportDecl {
+    fn fold(&mut self, mut import: ImportDecl) -> ImportDecl {
         if self.is_marked(import.span) {
             return import;
         }
-
-        let mut import: ImportDecl = import.fold_children(self);
 
         // Side effect import
         if import.specifiers.is_empty() {
@@ -22,19 +19,11 @@ impl Fold<ImportDecl> for Dce<'_> {
             return import;
         }
 
-        // TODO: Drop unused imports.
-        //      e.g) import { foo, bar } from './foo';
-        //           foo()
+        // Drop unused imports.
+        import.specifiers.retain(|s| self.should_include(&s));
 
-        let ids: Vec<Ident> = find_ids(&import.specifiers);
-
-        for id in ids {
-            for c in &self.included {
-                if c.0 == id.sym && c.1 == id.span.ctxt() {
-                    import.span = import.span.apply_mark(self.config.used_mark);
-                    return import;
-                }
-            }
+        if !import.specifiers.is_empty() {
+            import.span = import.span.apply_mark(self.config.used_mark);
         }
 
         import

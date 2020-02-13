@@ -145,10 +145,7 @@ where
                 let item = if preserved.contains(&idx) {
                     item
                 } else {
-                    log::info!("Dce.should_include({})", idx);
-
                     if self.should_include(&item) {
-                        log::info!("Preserving {}", idx);
                         preserved.insert(idx);
                         self.changed = true;
                         item = self.fold_in_marking_phase(item)

@@ -1,5 +1,6 @@
 use super::Dce;
 use fxhash::FxHashSet;
+use swc_atoms::JsWord;
 use swc_common::{Visit, VisitWith};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, ExprExt, Id};
@@ -18,6 +19,18 @@ impl Dce<'_> {
         node.visit_with(&mut v);
 
         v.found
+    }
+}
+
+impl SideEffectVisitor<'_> {
+    fn is_exported(&self, i: &JsWord) -> bool {
+        self.exports.is_none()
+            || self
+                .exports
+                .as_ref()
+                .unwrap()
+                .iter()
+                .any(|exported| exported.0 == *i)
     }
 }
 
@@ -195,6 +208,47 @@ impl Visit<WhileStmt> for SideEffectVisitor<'_> {
 
 impl Visit<DoWhileStmt> for SideEffectVisitor<'_> {
     fn visit(&mut self, _: &DoWhileStmt) {
+        self.found = true;
+    }
+}
+
+impl Visit<ImportDecl> for SideEffectVisitor<'_> {
+    fn visit(&mut self, import: &ImportDecl) {
+        if self.found {
+            return;
+        }
+
+        if import.specifiers.is_empty() {
+            self.found = true;
+            return;
+        }
+
+        import.visit_children(self)
+    }
+}
+
+impl Visit<ExportDecl> for SideEffectVisitor<'_> {
+    fn visit(&mut self, _: &ExportDecl) {
+        self.found = true
+    }
+}
+
+impl Visit<ExportDefaultExpr> for SideEffectVisitor<'_> {
+    fn visit(&mut self, _: &ExportDefaultExpr) {
+        if self.is_exported(&js_word!("default")) {
+            self.found = true
+        }
+    }
+}
+
+impl Visit<NamedExport> for SideEffectVisitor<'_> {
+    fn visit(&mut self, _: &NamedExport) {
+        self.found = true
+    }
+}
+
+impl Visit<ExportDefaultDecl> for SideEffectVisitor<'_> {
+    fn visit(&mut self, _: &ExportDefaultDecl) {
         self.found = true;
     }
 }
