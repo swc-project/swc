@@ -49,7 +49,7 @@ pub(super) struct CaseHandler<'a> {
     listing_len: usize,
 
     /// A sparse array whose keys correspond to locations in this.listing
-    /// that have been marked as branch/jump targets.
+    /// that have been marked as stmt/jump targets.
     marked: Vec<Loc>,
 
     leaps: LeapManager,
@@ -900,7 +900,7 @@ impl CaseHandler<'_> {
     pub fn explode_stmt(&mut self, s: Stmt, label: Option<JsWord>) {
         if !contains_leap(&s) {
             // Technically we should be able to avoid emitting the statement
-            // altogether if !meta.hasSideEffects(branch), but that leads to
+            // altogether if !meta.hasSideEffects(stmt), but that leads to
             // confusing generated code (for instance, `while (true) {}` just
             // disappears) and is probably a more appropriate job for a dedicated
             // dead code elimination pass.
@@ -940,11 +940,11 @@ impl CaseHandler<'_> {
                 // enclose a leap.LoopEntry on the leap manager's stack, and both
                 // entries will have the same label. Though this works just fine, it
                 // may seem a bit redundant. In theory, we could check here to
-                // determine if branch knows how to handle its own label; for example,
-                // branch happens to be a WhileStatement and so we know it's going to
+                // determine if stmt knows how to handle its own label; for example,
+                // stmt happens to be a WhileStatement and so we know it's going to
                 // establish its own LoopEntry when we explode it (below). Then this
                 // LabeledEntry would be unnecessary. Alternatively, we might be
-                // tempted not to pass branch.label down into self.explodeStatement,
+                // tempted not to pass stmt.label down into self.explodeStatement,
                 // because we've handled the label here, but that's a mistake because
                 // labeled loops may contain labeled continue statements, which is not
                 // something we can handle in this generic case. All in all, I think a
@@ -1230,7 +1230,7 @@ impl CaseHandler<'_> {
                 let after = self.loc();
 
                 if let Some(init) = s.init {
-                    // We pass true here to indicate that if branch.init is an
+                    // We pass true here to indicate that if stmt.init is an
                     // expression then we do not care about
                     // its result.
                     match init {
@@ -1262,7 +1262,7 @@ impl CaseHandler<'_> {
                 self.mark(update);
 
                 if let Some(update) = s.update {
-                    // We pass true here to indicate that if branch.update is an
+                    // We pass true here to indicate that if stmt.update is an
                     // expression then we do not care about its result.
                     self.explode_expr(*update, true);
                 }
@@ -1408,7 +1408,7 @@ impl Fold<Expr> for UnmarkedInvalidHandler {
 
 /// Convert <invalid> to case number
 struct InvalidToLit<'a> {
-    // Map from loc-id to branch index
+    // Map from loc-id to stmt index
     map: &'a [Loc],
 }
 impl Fold<Expr> for InvalidToLit<'_> {
