@@ -2014,10 +2014,15 @@ impl<'a, I: Tokens> Parser<'a, I> {
         &mut self,
         decorators: Vec<Decorator>,
         value: JsWord,
-    ) -> PResult<'a, Option<Decl>> {
-        let start = cur_pos!();
-
-        self.parse_ts_decl(start, decorators, value, true)
+    ) -> Option<Decl> {
+        self.try_parse_ts(|p| {
+            let start = cur_pos!();
+            let opt = p.parse_ts_decl(start, decorators, value, true)?;
+            Ok(match opt {
+                Some(v) => Some(v),
+                None => None,
+            })
+        })
     }
 
     /// Common to tsTryParseDeclare, tsTryParseExportDeclaration, and
