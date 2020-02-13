@@ -55,9 +55,12 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 span: span!(start),
                 src,
                 specifiers: vec![],
+                type_only: false,
             }))
             .map(ModuleItem::from);
         }
+
+        let type_only = self.syntax().typescript() && eat!("type");
 
         let mut specifiers = vec![];
 
@@ -103,6 +106,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
             span: span!(start),
             specifiers,
             src,
+            type_only,
         }))
         .map(ModuleItem::from)
     }
