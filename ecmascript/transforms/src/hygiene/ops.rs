@@ -32,6 +32,7 @@ impl<'a> Fold<Vec<ModuleItem>> for Operator<'a> {
                                 exported: Some($orig),
                             })],
                             src: None,
+                            type_only: false,
                         },
                     )));
                 };
@@ -133,6 +134,7 @@ impl<'a> Fold<Vec<ModuleItem>> for Operator<'a> {
                             span,
                             specifiers: renamed,
                             src: None,
+                            type_only: false,
                         },
                     )));
                 }

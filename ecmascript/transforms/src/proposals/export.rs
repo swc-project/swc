@@ -46,6 +46,7 @@ impl Fold<Vec<ModuleItem>> for ExportDefaultFrom {
                                     .src
                                     .clone()
                                     .expect("`export default from` requires source"),
+                                type_only: false,
                             })));
                             extra_stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                                 NamedExport {
@@ -58,6 +59,7 @@ impl Fold<Vec<ModuleItem>> for ExportDefaultFrom {
                                         },
                                     )],
                                     src: None,
+                                    type_only: false,
                                 },
                             )));
                         }
@@ -74,6 +76,7 @@ impl Fold<Vec<ModuleItem>> for ExportDefaultFrom {
                                     .src
                                     .clone()
                                     .expect("`export default from` requires source"),
+                                type_only: false,
                             })));
                             extra_stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                                 NamedExport {
@@ -86,6 +89,7 @@ impl Fold<Vec<ModuleItem>> for ExportDefaultFrom {
                                         },
                                     )],
                                     src: None,
+                                    type_only: false,
                                 },
                             )));
                         }

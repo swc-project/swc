@@ -210,7 +210,14 @@ impl Fold<Vec<ModuleItem>> for Strip {
         for item in items {
             self.was_side_effect_import = false;
             match item {
-                ModuleItem::Stmt(Stmt::Empty(..)) => continue,
+                ModuleItem::Stmt(Stmt::Empty(..))
+                | ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
+                    type_only: true, ..
+                }))
+                | ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
+                    type_only: true,
+                    ..
+                })) => continue,
 
                 ModuleItem::ModuleDecl(ModuleDecl::Import(i)) => {
                     let i = i.fold_with(self);

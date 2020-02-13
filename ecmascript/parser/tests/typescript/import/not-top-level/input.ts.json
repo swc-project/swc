@@ -70,7 +70,8 @@
               },
               "value": "a",
               "hasEscape": false
-            }
+            },
+            "typeOnly": false
           }
         ]
       }

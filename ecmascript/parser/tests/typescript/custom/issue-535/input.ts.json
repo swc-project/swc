@@ -41,7 +41,8 @@
         },
         "value": "test",
         "hasEscape": false
-      }
+      },
+      "typeOnly": false
     },
     {
       "type": "ImportDeclaration",
@@ -80,7 +81,8 @@
         },
         "value": "test",
         "hasEscape": false
-      }
+      },
+      "typeOnly": false
     }
   ],
   "interpreter": null

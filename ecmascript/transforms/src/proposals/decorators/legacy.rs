@@ -39,6 +39,7 @@ impl Fold<Module> for Legacy {
                 span: DUMMY_SP,
                 specifiers: replace(&mut self.exports, Default::default()),
                 src: None,
+                type_only: false,
             });
 
             m.body.push(decl.into());

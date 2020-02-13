@@ -55,9 +55,12 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 span: span!(start),
                 src,
                 specifiers: vec![],
+                type_only: false,
             }))
             .map(ModuleItem::from);
         }
+
+        let type_only = self.syntax().typescript() && eat!("type");
 
         let mut specifiers = vec![];
 
@@ -103,6 +106,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
             span: span!(start),
             specifiers,
             src,
+            type_only,
         }))
         .map(ModuleItem::from)
     }
@@ -181,7 +185,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 _ => unreachable!(),
             };
             // TODO: remove clone
-            if let Some(decl) = self.try_parse_ts_export_decl(decorators.clone(), sym)? {
+            if let Some(decl) = self.try_parse_ts_export_decl(decorators.clone(), sym) {
                 return Ok(ModuleDecl::ExportDecl(ExportDecl {
                     span: span!(start),
                     decl,
@@ -249,10 +253,12 @@ impl<'a, I: Tokens> Parser<'a, I> {
             }
         }
 
+        let type_only = self.input.syntax().typescript() && eat!("type");
+
         // Some("default") if default is exported from 'src'
         let mut export_default = None;
 
-        if export_ns.is_none() && eat!("default") {
+        if !type_only && export_ns.is_none() && eat!("default") {
             if self.input.syntax().typescript() {
                 if is!("abstract") && peeked_is!("class") {
                     let class_start = cur_pos!();
@@ -311,17 +317,22 @@ impl<'a, I: Tokens> Parser<'a, I> {
             }
         }
 
-        let decl = if is!("class") {
+        let decl = if !type_only && is!("class") {
             let class_start = cur_pos!();
             self.parse_class_decl(start, class_start, decorators)?
-        } else if is!("async")
+        } else if !type_only
+            && is!("async")
             && peeked_is!("function")
             && !self.input.has_linebreak_between_cur_and_peeked()
         {
             self.parse_async_fn_decl(decorators)?
-        } else if is!("function") {
+        } else if !type_only && is!("function") {
             self.parse_fn_decl(decorators)?
-        } else if self.input.syntax().typescript() && is!("const") && peeked_is!("enum") {
+        } else if !type_only
+            && self.input.syntax().typescript()
+            && is!("const")
+            && peeked_is!("enum")
+        {
             let start = cur_pos!();
             assert_and_bump!("const");
             let _ = cur!(true);
@@ -335,15 +346,16 @@ impl<'a, I: Tokens> Parser<'a, I> {
                         decl,
                     })
                 });
-        } else if is!("var")
-            || is!("const")
-            || (is!("let")
-                && peek!()
-                    .map(|t| {
-                        // module code is always in strict mode.
-                        t.follows_keyword_let(true)
-                    })
-                    .unwrap_or(false))
+        } else if !type_only
+            && (is!("var")
+                || is!("const")
+                || (is!("let"))
+                    && peek!()
+                        .map(|t| {
+                            // module code is always in strict mode.
+                            t.follows_keyword_let(true)
+                        })
+                        .unwrap_or(false))
         {
             self.parse_var_stmt(false).map(Decl::Var)?
         } else {
@@ -357,6 +369,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                         span: Span::new(start, src.span.hi(), Default::default()),
                         specifiers: vec![s],
                         src: Some(src),
+                        type_only,
                     }));
                 }
             }
@@ -381,6 +394,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                             exported: default,
                         })],
                         src: Some(src),
+                        type_only,
                     }));
                 }
             }
@@ -438,6 +452,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 span: span!(start),
                 specifiers,
                 src,
+                type_only,
             }));
         };
 

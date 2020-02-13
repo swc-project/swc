@@ -62,6 +62,9 @@ pub struct ImportDecl {
 
     #[serde(rename = "source")]
     pub src: Str,
+
+    #[serde(rename = "typeOnly")]
+    pub type_only: bool,
 }
 
 /// `export * from 'mod'`
@@ -83,6 +86,9 @@ pub struct NamedExport {
 
     #[serde(rename = "source")]
     pub src: Option<Str>,
+
+    #[serde(rename = "typeOnly")]
+    pub type_only: bool,
 }
 
 #[ast_node("ExportDefaultDeclaration")]

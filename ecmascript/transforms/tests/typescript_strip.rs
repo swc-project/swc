@@ -330,3 +330,7 @@ test!(
     "export const x = { text: 'hello' };",
     ok_if_code_eq
 );
+
+to!(import_type, "import type foo from 'foo'", "");
+
+to!(export_type, "export type { foo }", "");

@@ -150,7 +150,8 @@
           "exported": null
         }
       ],
-      "source": null
+      "source": null,
+      "typeOnly": false
     }
   ],
   "interpreter": null

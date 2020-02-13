@@ -43,7 +43,8 @@
         },
         "value": "react",
         "hasEscape": false
-      }
+      },
+      "typeOnly": false
     },
     {
       "type": "FunctionDeclaration",
