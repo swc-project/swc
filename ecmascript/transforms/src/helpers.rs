@@ -236,6 +236,7 @@ impl InjectHelpers {
                         local: quote_ident!(DUMMY_SP.apply_mark(mark), "swcHelpers"),
                     })],
                     src: quote_str!("@swc/helpers"),
+                    type_only: false,
                 }))]
             } else {
                 vec![]

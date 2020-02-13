@@ -289,6 +289,7 @@ impl Fold<Module> for Polyfills {
                             value: src,
                             has_escape: false,
                         },
+                        type_only: false,
                     }))
                 }),
             );
@@ -304,6 +305,7 @@ impl Fold<Module> for Polyfills {
                             value: src,
                             has_escape: false,
                         },
+                        type_only: false,
                     }))
                 }),
             );
