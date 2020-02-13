@@ -146,25 +146,55 @@ impl Visit<ExprOrSpread> for SideEffectVisitor<'_> {
 }
 
 impl Visit<ReturnStmt> for SideEffectVisitor<'_> {
-    fn visit(&mut self, node: &ReturnStmt) {
+    fn visit(&mut self, _: &ReturnStmt) {
         self.found = true;
     }
 }
 
 impl Visit<ThrowStmt> for SideEffectVisitor<'_> {
-    fn visit(&mut self, node: &ThrowStmt) {
+    fn visit(&mut self, _: &ThrowStmt) {
         self.found = true;
     }
 }
 
 impl Visit<BreakStmt> for SideEffectVisitor<'_> {
-    fn visit(&mut self, node: &BreakStmt) {
+    fn visit(&mut self, _: &BreakStmt) {
         self.found = true;
     }
 }
 
 impl Visit<ContinueStmt> for SideEffectVisitor<'_> {
-    fn visit(&mut self, node: &ContinueStmt) {
+    fn visit(&mut self, _: &ContinueStmt) {
+        self.found = true;
+    }
+}
+
+impl Visit<ForStmt> for SideEffectVisitor<'_> {
+    fn visit(&mut self, _: &ForStmt) {
+        self.found = true;
+    }
+}
+
+impl Visit<ForInStmt> for SideEffectVisitor<'_> {
+    fn visit(&mut self, _: &ForInStmt) {
+        self.found = true;
+    }
+}
+
+impl Visit<ForOfStmt> for SideEffectVisitor<'_> {
+    fn visit(&mut self, _: &ForOfStmt) {
+        self.found = true;
+    }
+}
+
+impl Visit<WhileStmt> for SideEffectVisitor<'_> {
+    fn visit(&mut self, _: &WhileStmt) {
+        self.found = true;
+    }
+}
+
+impl Visit<DoWhileStmt> for SideEffectVisitor<'_> {
+    fn visit(&mut self, _: &DoWhileStmt) {
         self.found = true;
     }
 }
