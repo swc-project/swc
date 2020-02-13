@@ -1,15 +1,12 @@
 use super::Dce;
-use swc_common::{Fold, FoldWith};
+use swc_common::Fold;
 use swc_ecma_ast::*;
-use swc_ecma_utils::find_ids;
 
 impl Fold<ImportDecl> for Dce<'_> {
-    fn fold(&mut self, import: ImportDecl) -> ImportDecl {
+    fn fold(&mut self, mut import: ImportDecl) -> ImportDecl {
         if self.is_marked(import.span) {
             return import;
         }
-
-        let mut import: ImportDecl = import.fold_children(self);
 
         // Side effect import
         if import.specifiers.is_empty() {
