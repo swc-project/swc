@@ -421,7 +421,9 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 cur!(false)?;
             }
 
-            let has_type_pred_is = is!(IdentRef) && peeked_is!("is") && !p.input.has_linebreak_between_cur_and_peeked();
+            let has_type_pred_is = is!(IdentRef)
+                && peeked_is!("is")
+                && !p.input.has_linebreak_between_cur_and_peeked();
             let is_type_predicate = has_type_pred_asserts || has_type_pred_is;
             if !is_type_predicate {
                 return p.parse_ts_type_ann(
