@@ -264,14 +264,16 @@ impl<'a, I: Tokens> Parser<'a, I> {
     ) -> PResult<'a, TsTypePredicate> {
         debug_assert!(self.input.syntax().typescript());
 
-        assert_and_bump!("is");
-
         let param_name = TsThisTypeOrIdent::TsThisType(lhs);
-        let cur_pos = cur_pos!();
-        let type_ann = self.parse_ts_type_ann(
-            // eat_colon
-            false, cur_pos,
-        )?;
+        let type_ann = if eat!("is") {
+            let cur_pos = cur_pos!();
+            Some(self.parse_ts_type_ann(
+                // eat_colon
+                false, cur_pos,
+            )?)
+        } else {
+            None
+        };
 
         Ok(TsTypePredicate {
             span: span!(start),
@@ -413,39 +415,40 @@ impl<'a, I: Tokens> Parser<'a, I> {
             }
 
             let type_pred_start = cur_pos!();
-            let type_pred_asserts = is!("asserts") && peeked_is!(IdentRef);
-            if type_pred_asserts {
+            let has_type_pred_asserts = is!("asserts") && peeked_is!(IdentRef);
+            if has_type_pred_asserts {
                 assert_and_bump!("asserts");
                 cur!(false)?;
             }
 
-            let type_pred_var = if is!(IdentRef) && peeked_is!("is") {
-                p.try_parse_ts(|p| p.parse_ts_type_predicate_prefix())
+            let has_type_pred_is = is!(IdentRef)
+                && peeked_is!("is")
+                && !p.input.has_linebreak_between_cur_and_peeked();
+            let is_type_predicate = has_type_pred_asserts || has_type_pred_is;
+            if !is_type_predicate {
+                return p.parse_ts_type_ann(
+                    // eat_colon
+                    false,
+                    return_token_start,
+                );
+            }
+
+            let type_pred_var = p.parse_ident_name()?;
+            let type_ann = if has_type_pred_is {
+                assert_and_bump!("is");
+                let pos = cur_pos!();
+                Some(p.parse_ts_type_ann(
+                    // eat_colon
+                    false, pos,
+                )?)
             } else {
                 None
             };
 
-            let type_pred_var = match type_pred_var {
-                Some(v) => v.into(),
-                None => {
-                    return p.parse_ts_type_ann(
-                        // eat_colon
-                        false,
-                        return_token_start,
-                    );
-                }
-            };
-
-            let pos = cur_pos!();
-            let type_ann = p.parse_ts_type_ann(
-                // eat_colon
-                false, pos,
-            )?;
-
             let node = Box::new(TsType::TsTypePredicate(TsTypePredicate {
                 span: span!(type_pred_start),
-                asserts: type_pred_asserts,
-                param_name: type_pred_var,
+                asserts: has_type_pred_asserts,
+                param_name: TsThisTypeOrIdent::Ident(type_pred_var),
                 type_ann,
             }));
 
@@ -454,19 +457,6 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 type_ann: node,
             })
         })
-    }
-
-    fn parse_ts_type_predicate_prefix(&mut self) -> PResult<'a, Option<Ident>> {
-        debug_assert!(self.input.syntax().typescript());
-
-        let id = self.parse_ident_name()?;
-
-        if is!("is") && !self.input.had_line_break_before_cur() {
-            assert_and_bump!("is");
-            return Ok(Some(id));
-        }
-
-        Ok(None)
     }
 
     /// `tsTryParse`

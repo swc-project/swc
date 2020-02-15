@@ -2,7 +2,7 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 115,
+    "end": 148,
     "ctxt": 0
   },
   "body": [
@@ -329,6 +329,97 @@
               "kind": "boolean"
             }
           }
+        }
+      }
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 125,
+          "end": 126,
+          "ctxt": 0
+        },
+        "value": "h",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "params": [
+        {
+          "type": "Identifier",
+          "span": {
+            "start": 127,
+            "end": 133,
+            "ctxt": 0
+          },
+          "value": "x",
+          "typeAnnotation": {
+            "type": "TsTypeAnnotation",
+            "span": {
+              "start": 128,
+              "end": 133,
+              "ctxt": 0
+            },
+            "typeAnnotation": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 130,
+                "end": 133,
+                "ctxt": 0
+              },
+              "kind": "any"
+            }
+          },
+          "optional": false
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 116,
+        "end": 148,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 146,
+          "end": 148,
+          "ctxt": 0
+        },
+        "stmts": []
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": {
+        "type": "TsTypeAnnotation",
+        "span": {
+          "start": 134,
+          "end": 145,
+          "ctxt": 0
+        },
+        "typeAnnotation": {
+          "type": "TsTypePredicate",
+          "span": {
+            "start": 136,
+            "end": 145,
+            "ctxt": 0
+          },
+          "asserts": true,
+          "paramName": {
+            "type": "Identifier",
+            "span": {
+              "start": 144,
+              "end": 145,
+              "ctxt": 0
+            },
+            "value": "x",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "typeAnnotation": null
         }
       }
     }

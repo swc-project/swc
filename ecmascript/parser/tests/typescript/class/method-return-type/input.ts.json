@@ -2,7 +2,7 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 107,
+    "end": 143,
     "ctxt": 0
   },
   "body": [
@@ -22,7 +22,7 @@
       "declare": false,
       "span": {
         "start": 0,
-        "end": 107,
+        "end": 143,
         "ctxt": 0
       },
       "decorators": [],
@@ -291,6 +291,96 @@
                     "members": []
                   }
                 }
+              }
+            }
+          },
+          "kind": "method",
+          "isStatic": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false
+        },
+        {
+          "type": "ClassMethod",
+          "span": {
+            "start": 110,
+            "end": 141,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 110,
+              "end": 111,
+              "ctxt": 0
+            },
+            "value": "i",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "function": {
+            "params": [],
+            "decorators": [],
+            "span": {
+              "start": 110,
+              "end": 141,
+              "ctxt": 0
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 128,
+                "end": 141,
+                "ctxt": 0
+              },
+              "stmts": [
+                {
+                  "type": "ThrowStatement",
+                  "span": {
+                    "start": 130,
+                    "end": 139,
+                    "ctxt": 0
+                  },
+                  "argument": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 136,
+                      "end": 138,
+                      "ctxt": 0
+                    },
+                    "value": "",
+                    "hasEscape": false
+                  }
+                }
+              ]
+            },
+            "generator": false,
+            "async": false,
+            "typeParameters": null,
+            "returnType": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 113,
+                "end": 127,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsTypePredicate",
+                "span": {
+                  "start": 115,
+                  "end": 127,
+                  "ctxt": 0
+                },
+                "asserts": true,
+                "paramName": {
+                  "type": "TsThisType",
+                  "span": {
+                    "start": 123,
+                    "end": 127,
+                    "ctxt": 0
+                  }
+                },
+                "typeAnnotation": null
               }
             }
           },

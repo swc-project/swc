@@ -400,7 +400,7 @@ pub struct TsTypePredicate {
     pub asserts: bool,
     pub param_name: TsThisTypeOrIdent,
     #[serde(rename = "typeAnnotation")]
-    pub type_ann: TsTypeAnn,
+    pub type_ann: Option<TsTypeAnn>,
 }
 
 #[ast_node]
