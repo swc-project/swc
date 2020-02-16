@@ -27,6 +27,8 @@ git:
 before_install:
   - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
   - git submodule update --init --recursive
+  - curl -L https://github.com/mozilla/grcov/releases/latest/download/grcov-linux-x86_64.tar.bz2 | tar jxf -
+
 
 install:
   - rm -rf ~/.nvm
@@ -42,6 +44,10 @@ install:
 script:
   - RUST_BACKTRACE=0 cargo check --color always --all --all-targets
   - RUST_BACKTRACE=full cargo test --color always --all --all-features
+  - |
+    zip -0 ccov.zip `find . \( -name "swc*.gc*" \) -print`;
+    ./grcov ccov.zip -s . -t lcov --llvm --branch --ignore-not-existing --ignore "/*" -o lcov.info;
+    bash <(curl -s https://codecov.io/bash) -f lcov.info;
 
 before_deploy:
   - CARGO_TARGET_DIR=$HOME/cargo-target cargo doc --color always
@@ -77,7 +83,7 @@ env:
     - CASHER_TIME_OUT=600
     - RUST_MIN_STACK=16777216
     - CARGO_INCREMENTAL=0
-    - RUSTFLAGS="--cfg procmacro2_semver_exempt"
+    - RUSTFLAGS="--cfg procmacro2_semver_exempt -Zprofile -Ccodegen-units=1 -Cinline-threshold=0 -Clink-dead-code -Coverflow-checks=off -Zno-landing-pads"
     - secure: Z4RSNlpg/12Qx2fIjS+7TToYxPJQgK70X7u9A5lJiCIa0JfzWCxr1ZEKXfAVLG9o4nQok+nWOZa+vxR1IgyUVnf6oSanjjWl1pSRbvccxMS799NvHmGzIAiqSKAlxiSJuxf7MQbs1XBuI3XahsWLfXGPo7vPT6sKe4AAf9gT6igJr61D5hpHkVIXK7P6rnrWQALQYplyaox0NlU9UlqSXXBjdJfp3138rl7FIeYRsMMow44unBNPvs+mhVP8PWpeFWeop0jxbNbTHwnJUbCm4ZWrvqnJ/m70IMlBMN1AskLmz4KeXOhPx+XR9VtdWBX4q8lJ7s9J0hMBxrEnxgiYVBPMlLoEX+wW3zwZ5F+DQs7uLpRHYRUpxpi/7ZuQjp+uT3mN9PMMSvbHwHLH2r/CC9olKYWySXIsGsGVyyMnZeUwvgzwxiYLoeCWe4zZY99zc7jvGKbSmk0RtPu6hApPwL5A6novXbXL2QsXzqqeWpgMLmZyb7KYhM5IGIAB1oPQIqI++Re9Z+/ea/DRSUJOsA96yRQ+vVbiuClrVgDhaAaJOGYCtR1XZ5N2zRb9+Spu/ECtfisLOb9Xs1584DyRbqG69nRdjuscjYOTFZUlOoOeFvuADY65Jt0kF6u7g8NIDkJ1ROb3heKQtY/bAQUrBNUJydOQnn5tBwn8Z618+Ac=
 
 branches:
