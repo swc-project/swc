@@ -1,9 +1,9 @@
-use std::fs::canonicalize;
+use std::{fs::canonicalize, process::Command};
 use swc::{
     config::{Options, SourceMapsConfig},
     Compiler,
 };
-use testing::{NormalizedOutput, StdErr, Tester};
+use testing::{StdErr, Tester};
 
 fn file(f: &str) -> Result<(), StdErr> {
     Tester::new().print_errors(|cm, handler| {
@@ -24,15 +24,29 @@ fn file(f: &str) -> Result<(), StdErr> {
             )
             .expect("failed to process js file");
 
-        NormalizedOutput::from(s.code)
-            .compare_to_file(path.parent().unwrap().join("index.g.js"))
+        let js_path = path.parent().unwrap().join("index.g.js");
+        std::fs::write(&js_path, s.code.as_bytes()).unwrap();
+
+        let map_path = path.parent().unwrap().join("index.js.map");
+        std::fs::write(&map_path, s.map.unwrap().as_bytes()).unwrap();
+
+        let output = Command::new("node")
+            .arg("-e")
+            .arg(include_str!("source_map.js"))
+            .arg(js_path)
+            .arg(map_path)
+            .output()
             .unwrap();
 
-        NormalizedOutput::from(s.map.unwrap())
-            .compare_to_file(path.parent().unwrap().join("index.js.map"))
-            .unwrap();
+        if output.status.success() {
+            return Ok(());
+        }
 
-        Ok(())
+        panic!(
+            "Validation failed: \n{}\n{}",
+            String::from_utf8_lossy(&output.stdout),
+            String::from_utf8_lossy(&output.stderr)
+        );
     })
 }
 
