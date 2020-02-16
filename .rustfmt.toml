@@ -1,4 +1,4 @@
-required_version = "1.4.11"
+required_version = "1.4.12"
 use_field_init_shorthand = true
 merge_imports = true
 wrap_comments = true

@@ -3,6 +3,7 @@ use sourcemap::SourceMapBuilder;
 use std::{
     io::{self, Write},
     sync::Arc,
+    u16,
 };
 use swc_common::{FileName, SourceMap, Span};
 
@@ -74,14 +75,16 @@ impl<'a, W: Write> JsWriter<'a, W> {
                         FileName::Real(ref p) => Some(p.display().to_string()),
                         _ => None,
                     };
-                    srcmap.add(
-                        self.line_count as _,
-                        self.line_pos as _,
-                        (loc.line - 1) as _,
-                        loc.col.0 as _,
-                        src.as_ref().map(|s| &**s),
-                        None,
-                    );
+                    if loc.col.0 < u16::MAX as usize {
+                        srcmap.add(
+                            self.line_count as _,
+                            self.line_pos as _,
+                            (loc.line - 1) as _,
+                            loc.col.0 as _,
+                            src.as_ref().map(|s| &**s),
+                            None,
+                        );
+                    }
                 }
             }};
         }
