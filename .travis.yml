@@ -28,6 +28,7 @@ before_install:
   - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
   - git submodule update --init --recursive
 
+
 install:
   - rm -rf ~/.nvm
   - git clone https://github.com/creationix/nvm.git ~/.nvm
@@ -46,16 +47,6 @@ script:
 before_deploy:
   - CARGO_TARGET_DIR=$HOME/cargo-target cargo doc --color always
 
-after_success:
-# Temporarily disabled because cargo tarpaulin does not set CARGO_MANIFEST_DIR.
-#
- - bash <(curl https://raw.githubusercontent.com/xd009642/tarpaulin/master/travis-install.sh)
- - |
-   cargo tarpaulin --all --ignore-tests --out Xml &&
-   bash <(curl -s https://codecov.io/bash)
-# - '[ $TRAVIS_PULL_REQUEST = false ] &&
-#      [ "$TRAVIS_BRANCH" == "master" ] &&
-#     ./.travis/docs.sh'
 deploy:
   local_dir: $HOME/cargo-target/doc
   repo: swc-project/rustdoc
