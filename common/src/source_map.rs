@@ -25,11 +25,16 @@ use crate::{
 use hashbrown::HashMap;
 use log::debug;
 use std::{
-    cmp, env, fs,
+    cmp,
+    cmp::{max, min},
+    env, fs,
     hash::Hash,
     io::{self, Read},
     path::{Path, PathBuf},
-    sync::Arc,
+    sync::{
+        atomic::{AtomicUsize, Ordering::SeqCst},
+        Arc,
+    },
 };
 
 // _____________________________________________________________________________
@@ -101,6 +106,7 @@ pub(super) struct SourceMapFiles {
 
 pub struct SourceMap {
     pub(super) files: Lock<SourceMapFiles>,
+    start_pos: AtomicUsize,
     file_loader: Box<dyn FileLoader + Sync + Send>,
     // This is used to apply the file path remapping as specified via
     // --remap-path-prefix to all SourceFiles allocated within this SourceMap.
@@ -120,16 +126,10 @@ impl SourceMap {
     pub fn new(path_mapping: FilePathMapping) -> SourceMap {
         SourceMap {
             files: Default::default(),
+            start_pos: Default::default(),
             file_loader: Box::new(RealFileLoader),
             path_mapping,
             doctest_offset: None,
-        }
-    }
-
-    pub fn new_doctest(path_mapping: FilePathMapping, file: FileName, line: isize) -> SourceMap {
-        SourceMap {
-            doctest_offset: Some((file, line)),
-            ..SourceMap::new(path_mapping)
         }
     }
 
@@ -139,6 +139,7 @@ impl SourceMap {
     ) -> SourceMap {
         SourceMap {
             files: Default::default(),
+            start_pos: Default::default(),
             file_loader,
             path_mapping,
             doctest_offset: None,
@@ -155,11 +156,7 @@ impl SourceMap {
 
     pub fn load_file(&self, path: &Path) -> io::Result<Arc<SourceFile>> {
         let src = self.file_loader.read_file(path)?;
-        let filename = if let Some((ref name, _)) = self.doctest_offset {
-            name.clone()
-        } else {
-            path.to_owned().into()
-        };
+        let filename = path.to_owned().into();
         Ok(self.new_source_file(filename, src))
     }
 
@@ -178,19 +175,19 @@ impl SourceMap {
             .cloned()
     }
 
-    fn next_start_pos(&self) -> usize {
+    fn next_start_pos(&self, len: usize) -> usize {
         match self.files.borrow().source_files.last() {
-            None => 0,
+            None => self.start_pos.fetch_add(len + 1, SeqCst),
             // Add one so there is some space between files. This lets us distinguish
             // positions in the source_map, even in the presence of zero-length files.
-            Some(last) => last.end_pos.to_usize() + 1,
+            Some(last) => self.start_pos.fetch_add(len + 1, SeqCst),
         }
     }
 
     /// Creates a new source_file.
     /// This does not ensure that only one SourceFile exists per file name.
     pub fn new_source_file(&self, filename: FileName, src: String) -> Arc<SourceFile> {
-        let start_pos = self.next_start_pos();
+        let start_pos = self.next_start_pos(src.len());
 
         // The path is used to determine the directory for loading submodules and
         // include files, so it must be before remapping.
@@ -214,12 +211,14 @@ impl SourceMap {
             Pos::from_usize(start_pos),
         ));
 
-        let mut files = self.files.borrow_mut();
+        {
+            let mut files = self.files.borrow_mut();
 
-        files.source_files.push(source_file.clone());
-        files
-            .stable_id_to_source_file
-            .insert(StableSourceFileId::new(&source_file), source_file.clone());
+            files.source_files.push(source_file.clone());
+            files
+                .stable_id_to_source_file
+                .insert(StableSourceFileId::new(&source_file), source_file.clone());
+        }
 
         source_file
     }
@@ -253,8 +252,17 @@ impl SourceMap {
             Ok(SourceFileAndLine { sf: f, line: a }) => {
                 let line = a + 1; // Line numbers start at 1
                 let linebpos = f.lines[a];
+                assert!(
+                    pos >= linebpos,
+                    "{}: bpos = {:?}; linebpos = {:?};",
+                    f.name,
+                    pos,
+                    linebpos,
+                );
+
                 let linechpos = self.bytepos_to_file_charpos(linebpos);
-                let col = chpos - linechpos;
+
+                let col = max(chpos, linechpos) - min(chpos, linechpos);
 
                 let col_display = {
                     let start_width_idx = f
@@ -281,7 +289,7 @@ impl SourceMap {
                     chpos, linechpos
                 );
                 debug!("byte is on line: {}", line);
-                assert!(chpos >= linechpos);
+                //                assert!(chpos >= linechpos);
                 Loc {
                     file: f,
                     line,
@@ -313,9 +321,7 @@ impl SourceMap {
 
     // If the relevant source_file is empty, we don't return a line number.
     pub fn lookup_line(&self, pos: BytePos) -> Result<SourceFileAndLine, Arc<SourceFile>> {
-        let idx = self.lookup_source_file_idx(pos);
-
-        let f = (*self.files.borrow().source_files)[idx].clone();
+        let f = self.lookup_source_file(pos);
 
         match f.lookup_line(pos) {
             Some(line) => Ok(SourceFileAndLine { sf: f, line }),
@@ -774,16 +780,14 @@ impl SourceMap {
     /// For a global BytePos compute the local offset within the containing
     /// SourceFile
     pub fn lookup_byte_offset(&self, bpos: BytePos) -> SourceFileAndBytePos {
-        let idx = self.lookup_source_file_idx(bpos);
-        let sf = (*self.files.borrow().source_files)[idx].clone();
+        let sf = self.lookup_source_file(bpos);
         let offset = bpos - sf.start_pos;
         SourceFileAndBytePos { sf, pos: offset }
     }
 
     /// Converts an absolute BytePos to a CharPos relative to the source_file.
     pub fn bytepos_to_file_charpos(&self, bpos: BytePos) -> CharPos {
-        let idx = self.lookup_source_file_idx(bpos);
-        let map = &(*self.files.borrow().source_files)[idx];
+        let map = self.lookup_source_file(bpos);
 
         // The number of extra bytes due to multibyte chars in the SourceFile
         let mut total_extra_bytes = 0;
@@ -802,12 +806,18 @@ impl SourceMap {
             }
         }
 
-        assert!(map.start_pos.to_u32() + total_extra_bytes <= bpos.to_u32());
+        assert!(
+            map.start_pos.to_u32() + total_extra_bytes <= bpos.to_u32(),
+            "map.start_pos = {:?}; total_extra_bytes = {}; bpos = {:?}",
+            map.start_pos,
+            total_extra_bytes,
+            bpos,
+        );
         CharPos(bpos.to_usize() - map.start_pos.to_usize() - total_extra_bytes as usize)
     }
 
     // Return the index of the source_file (in self.files) which contains pos.
-    pub fn lookup_source_file_idx(&self, pos: BytePos) -> usize {
+    fn lookup_source_file(&self, pos: BytePos) -> Arc<SourceFile> {
         let files = self.files.borrow();
         let files = &files.source_files;
         let count = files.len();
@@ -830,7 +840,7 @@ impl SourceMap {
             pos.to_usize()
         );
 
-        a
+        files[a].clone()
     }
 
     pub fn count_lines(&self) -> usize {

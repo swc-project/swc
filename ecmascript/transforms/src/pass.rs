@@ -182,10 +182,6 @@ pub struct JoinedPass<A, B, N> {
     pub ty: PhantomData<N>,
 }
 
-// fn type_name<T>() -> String {
-//     format!("{}", unsafe { std::intrinsics::type_name::<T>() })
-// }
-
 impl<A, B, T> Fold<T> for JoinedPass<A, B, T>
 where
     T: FoldWith<Self>,

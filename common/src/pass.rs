@@ -1,3 +1,4 @@
+#[cfg(feature = "fold")]
 use crate::{Fold, FoldWith};
 use serde::export::PhantomData;
 use std::borrow::Cow;

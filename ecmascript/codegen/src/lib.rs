@@ -1387,7 +1387,8 @@ impl<'a> Emitter<'a> {
                     _ => false,
                 }
             };
-            if format.contains(ListFormat::CommaDelimited) && has_trailing_comma {
+
+            if has_trailing_comma && format.contains(ListFormat::CommaDelimited) {
                 self.wr.write_punct(",")?;
                 formatting_space!(self);
             }
