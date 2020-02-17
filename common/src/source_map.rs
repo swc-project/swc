@@ -175,23 +175,27 @@ impl SourceMap {
             .cloned()
     }
 
-    fn next_start_pos(&self, len: usize, read_only: bool) -> usize {
-        if read_only {
-            return self.start_pos.load(SeqCst) + 1;
-        }
-
+    fn next_start_pos(&self, len: usize) -> usize {
         match self.files.borrow().source_files.last() {
-            None => self.start_pos.fetch_add(len, SeqCst),
+            None => self.start_pos.fetch_add(len + 1, SeqCst),
             // Add one so there is some space between files. This lets us distinguish
             // positions in the source_map, even in the presence of zero-length files.
-            Some(last) => self.start_pos.fetch_add(len + 1, SeqCst) + 1,
+            Some(last) => {
+                let v = self.start_pos.fetch_add(len + 1, SeqCst);
+                debug_assert_eq!(
+                    last.end_pos.0 as usize + 1,
+                    v,
+                    "Semantics should be preserved"
+                );
+                v
+            }
         }
     }
 
     /// Creates a new source_file.
     /// This does not ensure that only one SourceFile exists per file name.
     pub fn new_source_file(&self, filename: FileName, src: String) -> Arc<SourceFile> {
-        let start_pos = self.next_start_pos(src.len(), false);
+        let start_pos = self.next_start_pos(src.len());
 
         // The path is used to determine the directory for loading submodules and
         // include files, so it must be before remapping.
@@ -223,10 +227,6 @@ impl SourceMap {
                 .stable_id_to_source_file
                 .insert(StableSourceFileId::new(&source_file), source_file.clone());
         }
-        debug_assert_eq!(
-            source_file.end_pos.0 as usize + 1,
-            self.next_start_pos(0, true)
-        );
 
         source_file
     }
