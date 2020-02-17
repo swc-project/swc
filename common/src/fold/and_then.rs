@@ -36,10 +36,6 @@ pub struct AndThen<A, B> {
     pub second: B,
 }
 
-// fn type_name<T>() -> String {
-//     format!("{}", unsafe { std::intrinsics::type_name::<T>() })
-// }
-
 impl<T, A, B> Fold<T> for AndThen<A, B>
 where
     T: FoldWith<Self>,
