@@ -180,7 +180,7 @@ impl SourceMap {
             None => self.start_pos.fetch_add(len + 1, SeqCst),
             // Add one so there is some space between files. This lets us distinguish
             // positions in the source_map, even in the presence of zero-length files.
-            Some(last) => self.start_pos.fetch_add(len + 1, SeqCst),
+            Some(..) => self.start_pos.fetch_add(len + 1, SeqCst),
         }
     }
 
