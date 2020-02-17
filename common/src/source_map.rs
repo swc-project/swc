@@ -176,7 +176,12 @@ impl SourceMap {
     }
 
     fn next_start_pos(&self, len: usize) -> usize {
-        self.start_pos.fetch_add(len, SeqCst) + 1
+        match self.files.borrow().source_files.last() {
+            None => self.start_pos.fetch_add(len, SeqCst),
+            // Add one so there is some space between files. This lets us distinguish
+            // positions in the source_map, even in the presence of zero-length files.
+            Some(last) => self.start_pos.fetch_add(len, SeqCst) + 1,
+        }
     }
 
     /// Creates a new source_file.
@@ -780,10 +785,6 @@ impl SourceMap {
 
     /// Converts an absolute BytePos to a CharPos relative to the source_file.
     pub fn bytepos_to_file_charpos(&self, bpos: BytePos) -> CharPos {
-        if bpos.0 == 0 {
-            return CharPos(0);
-        }
-
         let map = self.lookup_source_file(bpos);
 
         // The number of extra bytes due to multibyte chars in the SourceFile
