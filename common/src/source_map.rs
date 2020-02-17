@@ -180,15 +180,7 @@ impl SourceMap {
             None => self.start_pos.fetch_add(len + 1, SeqCst),
             // Add one so there is some space between files. This lets us distinguish
             // positions in the source_map, even in the presence of zero-length files.
-            Some(last) => {
-                let v = self.start_pos.fetch_add(len + 1, SeqCst);
-                debug_assert_eq!(
-                    last.end_pos.0 as usize + 1,
-                    v,
-                    "Semantics should be preserved"
-                );
-                v
-            }
+            Some(last) => self.start_pos.fetch_add(len + 1, SeqCst),
         }
     }
 
