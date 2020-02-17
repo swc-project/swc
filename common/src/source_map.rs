@@ -29,7 +29,10 @@ use std::{
     hash::Hash,
     io::{self, Read},
     path::{Path, PathBuf},
-    sync::Arc,
+    sync::{
+        atomic::{AtomicUsize, Ordering::SeqCst},
+        Arc,
+    },
 };
 
 // _____________________________________________________________________________
@@ -101,6 +104,7 @@ pub(super) struct SourceMapFiles {
 
 pub struct SourceMap {
     pub(super) files: Lock<SourceMapFiles>,
+    start_pos: AtomicUsize,
     file_loader: Box<dyn FileLoader + Sync + Send>,
     // This is used to apply the file path remapping as specified via
     // --remap-path-prefix to all SourceFiles allocated within this SourceMap.
@@ -120,16 +124,10 @@ impl SourceMap {
     pub fn new(path_mapping: FilePathMapping) -> SourceMap {
         SourceMap {
             files: Default::default(),
+            start_pos: Default::default(),
             file_loader: Box::new(RealFileLoader),
             path_mapping,
             doctest_offset: None,
-        }
-    }
-
-    pub fn new_doctest(path_mapping: FilePathMapping, file: FileName, line: isize) -> SourceMap {
-        SourceMap {
-            doctest_offset: Some((file, line)),
-            ..SourceMap::new(path_mapping)
         }
     }
 
@@ -139,6 +137,7 @@ impl SourceMap {
     ) -> SourceMap {
         SourceMap {
             files: Default::default(),
+            start_pos: Default::default(),
             file_loader,
             path_mapping,
             doctest_offset: None,
@@ -155,11 +154,7 @@ impl SourceMap {
 
     pub fn load_file(&self, path: &Path) -> io::Result<Arc<SourceFile>> {
         let src = self.file_loader.read_file(path)?;
-        let filename = if let Some((ref name, _)) = self.doctest_offset {
-            name.clone()
-        } else {
-            path.to_owned().into()
-        };
+        let filename = path.to_owned().into();
         Ok(self.new_source_file(filename, src))
     }
 
@@ -178,19 +173,14 @@ impl SourceMap {
             .cloned()
     }
 
-    fn next_start_pos(&self) -> usize {
-        match self.files.borrow().source_files.last() {
-            None => 0,
-            // Add one so there is some space between files. This lets us distinguish
-            // positions in the source_map, even in the presence of zero-length files.
-            Some(last) => last.end_pos.to_usize() + 1,
-        }
+    fn next_start_pos(&self, len: usize) -> usize {
+        self.start_pos.fetch_add(len, SeqCst) + 1
     }
 
     /// Creates a new source_file.
     /// This does not ensure that only one SourceFile exists per file name.
     pub fn new_source_file(&self, filename: FileName, src: String) -> Arc<SourceFile> {
-        let start_pos = self.next_start_pos();
+        let start_pos = self.next_start_pos(src.len());
 
         // The path is used to determine the directory for loading submodules and
         // include files, so it must be before remapping.
@@ -253,7 +243,24 @@ impl SourceMap {
             Ok(SourceFileAndLine { sf: f, line: a }) => {
                 let line = a + 1; // Line numbers start at 1
                 let linebpos = f.lines[a];
+                assert!(
+                    pos >= linebpos,
+                    "{}: bpos = {:?}; linebpos = {:?};",
+                    f.name,
+                    pos,
+                    linebpos,
+                );
+
                 let linechpos = self.bytepos_to_file_charpos(linebpos);
+                assert!(
+                    chpos >= linechpos,
+                    "{}: bpos = {:?}; linebpos = {:?}; chpos = {:?}; linechpos = {:?}",
+                    f.name,
+                    pos,
+                    linebpos,
+                    chpos,
+                    linechpos
+                );
                 let col = chpos - linechpos;
 
                 let col_display = {
@@ -782,6 +789,10 @@ impl SourceMap {
 
     /// Converts an absolute BytePos to a CharPos relative to the source_file.
     pub fn bytepos_to_file_charpos(&self, bpos: BytePos) -> CharPos {
+        if bpos.0 == 0 {
+            return CharPos(0);
+        }
+
         let idx = self.lookup_source_file_idx(bpos);
         let map = &(*self.files.borrow().source_files)[idx];
 
@@ -802,7 +813,13 @@ impl SourceMap {
             }
         }
 
-        assert!(map.start_pos.to_u32() + total_extra_bytes <= bpos.to_u32());
+        assert!(
+            map.start_pos.to_u32() + total_extra_bytes <= bpos.to_u32(),
+            "map.start_pos = {:?}; total_extra_bytes = {}; bpos = {:?}",
+            map.start_pos,
+            total_extra_bytes,
+            bpos,
+        );
         CharPos(bpos.to_usize() - map.start_pos.to_usize() - total_extra_bytes as usize)
     }
 
