@@ -177,10 +177,10 @@ impl SourceMap {
 
     fn next_start_pos(&self, len: usize) -> usize {
         match self.files.borrow().source_files.last() {
-            None => self.start_pos.fetch_add(len, SeqCst),
+            None => 0,
             // Add one so there is some space between files. This lets us distinguish
             // positions in the source_map, even in the presence of zero-length files.
-            Some(last) => self.start_pos.fetch_add(len, SeqCst) + 1,
+            Some(last) => last.end_pos.to_usize() + 1,
         }
     }
 
@@ -211,12 +211,15 @@ impl SourceMap {
             Pos::from_usize(start_pos),
         ));
 
-        let mut files = self.files.borrow_mut();
+        {
+            let mut files = self.files.borrow_mut();
 
-        files.source_files.push(source_file.clone());
-        files
-            .stable_id_to_source_file
-            .insert(StableSourceFileId::new(&source_file), source_file.clone());
+            files.source_files.push(source_file.clone());
+            files
+                .stable_id_to_source_file
+                .insert(StableSourceFileId::new(&source_file), source_file.clone());
+        }
+        debug_assert_eq!(source_file.end_pos.0 as usize + 1, self.next_start_pos(0));
 
         source_file
     }
