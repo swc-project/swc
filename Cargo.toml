@@ -26,7 +26,7 @@ hashbrown = "0.6"
 regex = "1"
 either = "1"
 dashmap = "=3.4.0"
-sourcemap = "4.1.1  "
+sourcemap = "5"
 
 [dev-dependencies]
 testing = { path = "./testing" }

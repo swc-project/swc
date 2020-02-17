@@ -37,4 +37,4 @@ testing = { version = "0.5", path ="../../testing" }
 swc_ecma_codegen = { version = "0.16.0", path ="../codegen" }
 tempfile = "3"
 pretty_assertions = "0.6"
-sourcemap = "4.1.1"
+sourcemap = "5"
