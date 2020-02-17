@@ -25,7 +25,9 @@ use crate::{
 use hashbrown::HashMap;
 use log::debug;
 use std::{
-    cmp, env, fs,
+    cmp,
+    cmp::{max, min},
+    env, fs,
     hash::Hash,
     io::{self, Read},
     path::{Path, PathBuf},
@@ -252,16 +254,8 @@ impl SourceMap {
                 );
 
                 let linechpos = self.bytepos_to_file_charpos(linebpos);
-                assert!(
-                    chpos >= linechpos,
-                    "{}: bpos = {:?}; linebpos = {:?}; chpos = {:?}; linechpos = {:?}",
-                    f.name,
-                    pos,
-                    linebpos,
-                    chpos,
-                    linechpos
-                );
-                let col = chpos - linechpos;
+
+                let col = max(chpos, linechpos) - min(chpos, linechpos);
 
                 let col_display = {
                     let start_width_idx = f
@@ -288,7 +282,7 @@ impl SourceMap {
                     chpos, linechpos
                 );
                 debug!("byte is on line: {}", line);
-                assert!(chpos >= linechpos);
+                //                assert!(chpos >= linechpos);
                 Loc {
                     file: f,
                     line,
@@ -320,9 +314,7 @@ impl SourceMap {
 
     // If the relevant source_file is empty, we don't return a line number.
     pub fn lookup_line(&self, pos: BytePos) -> Result<SourceFileAndLine, Arc<SourceFile>> {
-        let idx = self.lookup_source_file_idx(pos);
-
-        let f = (*self.files.borrow().source_files)[idx].clone();
+        let f = self.lookup_source_file(pos);
 
         match f.lookup_line(pos) {
             Some(line) => Ok(SourceFileAndLine { sf: f, line }),
@@ -781,8 +773,7 @@ impl SourceMap {
     /// For a global BytePos compute the local offset within the containing
     /// SourceFile
     pub fn lookup_byte_offset(&self, bpos: BytePos) -> SourceFileAndBytePos {
-        let idx = self.lookup_source_file_idx(bpos);
-        let sf = (*self.files.borrow().source_files)[idx].clone();
+        let sf = self.lookup_source_file(bpos);
         let offset = bpos - sf.start_pos;
         SourceFileAndBytePos { sf, pos: offset }
     }
@@ -793,8 +784,7 @@ impl SourceMap {
             return CharPos(0);
         }
 
-        let idx = self.lookup_source_file_idx(bpos);
-        let map = &(*self.files.borrow().source_files)[idx];
+        let map = self.lookup_source_file(bpos);
 
         // The number of extra bytes due to multibyte chars in the SourceFile
         let mut total_extra_bytes = 0;
@@ -824,7 +814,7 @@ impl SourceMap {
     }
 
     // Return the index of the source_file (in self.files) which contains pos.
-    pub fn lookup_source_file_idx(&self, pos: BytePos) -> usize {
+    fn lookup_source_file(&self, pos: BytePos) -> Arc<SourceFile> {
         let files = self.files.borrow();
         let files = &files.source_files;
         let count = files.len();
@@ -847,7 +837,7 @@ impl SourceMap {
             pos.to_usize()
         );
 
-        a
+        files[a].clone()
     }
 
     pub fn count_lines(&self) -> usize {
