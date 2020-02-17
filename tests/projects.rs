@@ -127,6 +127,7 @@ fn par_project(dir: &str) {
 }
 
 #[test]
+#[ignore]
 fn angular_core() {
     par_project("integration-tests/angular/packages/core/src");
 }
