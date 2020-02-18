@@ -1,6 +1,6 @@
 name: Cargo
 
-on: push
+on: [push, pull_request]
 #on:
 #  push:
 #    # Ignore commits created by bors
