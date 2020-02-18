@@ -74,14 +74,12 @@ impl Actual {
         label: Option<Ident>,
         ForOfStmt {
             span,
-            await_token,
             left,
             right,
             body,
+            ..
         }: ForOfStmt,
     ) -> Stmt {
-        assert!(await_token.is_none());
-
         if self.c.assume_array {
             // Convert to normal for loop if rhs is array
             //
@@ -401,13 +399,7 @@ impl Fold<Stmt> for Actual {
             Stmt::Labeled(LabeledStmt { span, label, body }) => {
                 // Handle label
                 match *body {
-                    Stmt::ForOf(
-                        stmt
-                        @
-                        ForOfStmt {
-                            await_token: None, ..
-                        },
-                    ) => self.fold_for_stmt(Some(label), stmt),
+                    Stmt::ForOf(stmt) => self.fold_for_stmt(Some(label), stmt),
                     _ => Stmt::Labeled(LabeledStmt {
                         span,
                         label,
@@ -415,11 +407,7 @@ impl Fold<Stmt> for Actual {
                     }),
                 }
             }
-            Stmt::ForOf(
-                stmt @ ForOfStmt {
-                    await_token: None, ..
-                },
-            ) => self.fold_for_stmt(None, stmt),
+            Stmt::ForOf(stmt) => self.fold_for_stmt(None, stmt),
             _ => stmt.fold_children(self),
         }
     }
