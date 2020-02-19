@@ -20,7 +20,7 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
             Quote::new(def_site::<Span>())
                 .quote_with(smart_quote!(
                     Vars { Type: &ty },
-                    (Type: swc_common::VisitWith<__V>)
+                    (Type: swc_common::VisitMutWith<__V>)
                 ))
                 .parse()
         });
