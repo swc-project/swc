@@ -231,6 +231,27 @@ impl Fold<ClassMethod> for Resolver<'_> {
     }
 }
 
+impl Fold<MethodProp> for Resolver<'_> {
+    fn fold(&mut self, m: MethodProp) -> MethodProp {
+        let key = m.key.fold_with(self);
+
+        let function = {
+            let child_mark = Mark::fresh(self.mark);
+
+            // Child folder
+            let mut child = Resolver::new(
+                child_mark,
+                Scope::new(ScopeKind::Fn, Some(&self.current)),
+                None,
+            );
+
+            m.function.fold_with(&mut child)
+        };
+
+        MethodProp { key, function, ..m }
+    }
+}
+
 impl<'a> Fold<FnDecl> for Resolver<'a> {
     fn fold(&mut self, node: FnDecl) -> FnDecl {
         // We don't fold this as Hoister handles this.
