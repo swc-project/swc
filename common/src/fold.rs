@@ -48,6 +48,27 @@ pub trait Visit<T: ?Sized> {
     }
 }
 
+/// Visitor based on a type system.
+///
+/// This trait requires `#![feature(specialization)]`.
+pub trait VisitMut<T: ?Sized> {
+    fn visit_mut(&mut self, node: &mut T);
+
+    /// Creates a folder which applies `folder` after `self`.
+    fn then<F>(self, visitor: F) -> AndThen<Self, F>
+    where
+        Self: Sized,
+        F: VisitMut<T>,
+    {
+        AndThen {
+            first: self,
+            second: visitor,
+        }
+    }
+}
+
+// ----- ----- impl for Box<F> ----- -----
+
 impl<T, F: ?Sized> Fold<T> for Box<F>
 where
     T: FoldWith<Self>,
@@ -55,6 +76,16 @@ where
 {
     fn fold(&mut self, node: T) -> T {
         (**self).fold(node)
+    }
+}
+
+impl<T: ?Sized, F: ?Sized> VisitMut<T> for Box<F>
+where
+    T: VisitMutWith<Self>,
+    F: VisitMut<T>,
+{
+    fn visit_mut(&mut self, node: &mut T) {
+        (**self).visit_mut(node)
     }
 }
 
@@ -68,6 +99,8 @@ where
     }
 }
 
+// ----- ----- impl for &'a mut F ----- -----
+
 impl<'a, T, F: ?Sized> Fold<T> for &'a mut F
 where
     T: FoldWith<Self>,
@@ -75,6 +108,16 @@ where
 {
     fn fold(&mut self, node: T) -> T {
         (**self).fold(node)
+    }
+}
+
+impl<'a, T, F: ?Sized> VisitMut<T> for &'a mut F
+where
+    T: VisitMutWith<Self>,
+    F: VisitMut<T>,
+{
+    fn visit_mut(&mut self, node: &mut T) {
+        (**self).visit_mut(node)
     }
 }
 
@@ -88,12 +131,23 @@ where
     }
 }
 
+// ----- ----- default impl for F ----- -----
+
 impl<T, F> Fold<T> for F
 where
     T: FoldWith<F>,
 {
     default fn fold(&mut self, t: T) -> T {
         t.fold_children(self)
+    }
+}
+
+impl<T: ?Sized, F> VisitMut<T> for F
+where
+    T: VisitMutWith<F>,
+{
+    default fn visit_mut(&mut self, t: &mut T) {
+        t.visit_mut_children(self)
     }
 }
 
@@ -109,7 +163,7 @@ where
 /// Trait implemented for types which know how to fold itself.
 ///
 ///
-///#Derive
+/// # Derive
 ///
 /// This trait can be derived with `#[derive(Fold)]`.
 ///
@@ -136,7 +190,34 @@ pub trait FoldWith<F>: Sized {
 /// Trait implemented for types which know how to visit itself.
 ///
 ///
-///#Derive
+/// # Derive
+///
+/// This trait can be derived with `#[derive(Fold)]`.
+///
+/// Note that derive ignores all fields with primitive type
+/// because it would encourage mistakes. Use new type instead.
+///
+/// `#[fold(ignore)]` can be used to ignore a field.
+pub trait VisitMutWith<F> {
+    /// This is used by default implementation of `Fold<Self>::fold`.
+    fn visit_mut_children(&mut self, f: &mut F);
+
+    /// Call `f.fold(self)`.
+    ///
+    /// This bypasses a type inference bug which is caused by specialization.
+
+    fn visit_mut_with(&mut self, f: &mut F)
+    where
+        F: VisitMut<Self>,
+    {
+        f.visit_mut(self)
+    }
+}
+
+/// Trait implemented for types which know how to visit itself.
+///
+///
+/// # Derive
 ///
 /// This trait can be derived with `#[derive(Fold)]`.
 ///
@@ -157,6 +238,8 @@ pub trait VisitWith<F> {
     }
 }
 
+// ----- ----- impl for &T ----- -----
+
 impl<'a, T: ?Sized, F> VisitWith<F> for &'a T
 where
     F: Visit<T>,
@@ -166,12 +249,34 @@ where
     }
 }
 
+// ----- ----- impl for &mut T ----- -----
+
+impl<'a, T: ?Sized, F> VisitMutWith<F> for &'a mut T
+where
+    F: VisitMut<T>,
+{
+    fn visit_mut_children(&mut self, f: &mut F) {
+        f.visit_mut(&mut **self)
+    }
+}
+
+// ----- ----- impl for Box<T> ----- -----
+
 impl<T, F> FoldWith<F> for Box<T>
 where
     F: Fold<T>,
 {
     fn fold_children(self, f: &mut F) -> Self {
         self.map(|node| f.fold(node))
+    }
+}
+
+impl<T, F> VisitMutWith<F> for Box<T>
+where
+    F: VisitMut<T>,
+{
+    fn visit_mut_children(&mut self, f: &mut F) {
+        f.visit_mut(self)
     }
 }
 
@@ -184,6 +289,8 @@ where
     }
 }
 
+// ----- ----- impl for Vec<T> ----- -----
+
 impl<T, F> FoldWith<F> for Vec<T>
 where
     F: Fold<T>,
@@ -191,6 +298,15 @@ where
     fn fold_children(self, f: &mut F) -> Self {
         self.move_map(|it| f.fold(it))
         // self.into_iter().map(|it| f.fold(it)).collect()
+    }
+}
+
+impl<T, F> VisitMutWith<F> for Vec<T>
+where
+    F: VisitMut<T>,
+{
+    fn visit_mut_children(&mut self, f: &mut F) {
+        self.iter_mut().for_each(|node| f.visit_mut(node))
     }
 }
 
@@ -203,6 +319,17 @@ where
     }
 }
 
+// ----- ----- impl for [T] ----- -----
+
+impl<T, F> VisitMutWith<F> for [T]
+where
+    F: VisitMut<T>,
+{
+    fn visit_mut_children(&mut self, f: &mut F) {
+        self.iter_mut().for_each(|node| f.visit_mut(node))
+    }
+}
+
 impl<T, F> VisitWith<F> for [T]
 where
     F: Visit<T>,
@@ -212,12 +339,25 @@ where
     }
 }
 
+// ----- ----- impl for Option<T> ----- -----
+
 impl<T, F> FoldWith<F> for Option<T>
 where
     F: Fold<T>,
 {
     fn fold_children(self, f: &mut F) -> Self {
         self.map(|t| f.fold(t))
+    }
+}
+
+impl<T, F> VisitMutWith<F> for Option<T>
+where
+    F: VisitMut<T>,
+{
+    fn visit_mut_children(&mut self, f: &mut F) {
+        if let Some(ref mut node) = *self {
+            f.visit_mut(node)
+        }
     }
 }
 
@@ -232,33 +372,45 @@ where
     }
 }
 
+// ----- ----- impl for String ----- -----
+
+/// No op.
 impl<F> FoldWith<F> for String {
-    /// No op.
-
     fn fold_children(self, _: &mut F) -> Self {
         self
     }
 }
 
+/// No op.
+impl<F> VisitMutWith<F> for String {
+    fn visit_mut_children(&mut self, _: &mut F) {}
+}
+
+/// No op.
 impl<F> VisitWith<F> for String {
-    /// No op.
-
     fn visit_children(&self, _: &mut F) {}
 }
 
-impl<F, S: StaticAtomSet> FoldWith<F> for Atom<S> {
-    /// No op.
+// ----- ----- impl for string_cache::Atom ----- -----
 
+/// No op.
+impl<F, S: StaticAtomSet> FoldWith<F> for Atom<S> {
     fn fold_children(self, _: &mut F) -> Self {
         self
     }
 }
 
-impl<F, S: StaticAtomSet> VisitWith<F> for Atom<S> {
-    /// No op.
+/// No op.
+impl<F, S: StaticAtomSet> VisitMutWith<F> for Atom<S> {
+    fn visit_mut_children(&mut self, _: &mut F) {}
+}
 
+/// No op.
+impl<F, S: StaticAtomSet> VisitWith<F> for Atom<S> {
     fn visit_children(&self, _: &mut F) {}
 }
+
+// ----- ----- impl FoldWith for Either<A, B> ----- -----
 
 impl<A, B, F> FoldWith<F> for Either<A, B>
 where
@@ -268,6 +420,18 @@ where
         match self {
             Either::Left(a) => Either::Left(Fold::<A>::fold(f, a)),
             Either::Right(b) => Either::Right(Fold::<B>::fold(f, b)),
+        }
+    }
+}
+
+impl<A, B, F> VisitMutWith<F> for Either<A, B>
+where
+    F: VisitMut<A> + VisitMut<B>,
+{
+    fn visit_mut_children(&mut self, f: &mut F) {
+        match self {
+            Either::Left(l) => f.visit_mut(l),
+            Either::Right(r) => f.visit_mut(r),
         }
     }
 }
@@ -284,6 +448,8 @@ where
     }
 }
 
+// ----- ----- impl Fold for Either<A, B> ----- -----
+
 impl<A, B, T> Fold<T> for Either<A, B>
 where
     T: FoldWith<A> + FoldWith<B> + FoldWith<Self>,
@@ -292,6 +458,18 @@ where
         match *self {
             Either::Left(ref mut l) => node.fold_with(l),
             Either::Right(ref mut r) => node.fold_with(r),
+        }
+    }
+}
+
+impl<A, B, T> VisitMut<T> for Either<A, B>
+where
+    T: VisitMutWith<A> + VisitMutWith<B> + VisitMutWith<Self>,
+{
+    fn visit_mut(&mut self, node: &mut T) {
+        match self {
+            Either::Left(l) => node.visit_mut_with(l),
+            Either::Right(r) => node.visit_mut_with(r),
         }
     }
 }
@@ -308,6 +486,8 @@ where
     }
 }
 
+// ----- ----- impl FoldWith for Arc<T> ----- -----
+
 impl<T, F> VisitWith<F> for Arc<T>
 where
     T: ?Sized,
@@ -318,6 +498,8 @@ where
     }
 }
 
+// ----- ----- impl FoldWith for Cow<T> ----- -----
+
 impl<'a, A, F> FoldWith<F> for Cow<'a, A>
 where
     A: Clone + FoldWith<F>,
@@ -326,6 +508,15 @@ where
     #[inline(always)]
     fn fold_children(self, f: &mut F) -> Self {
         Cow::Owned(self.into_owned().fold_with(f))
+    }
+}
+
+impl<'a, A, F> VisitMutWith<F> for Cow<'a, A>
+where
+    A: Clone + VisitMutWith<F>,
+{
+    fn visit_mut_children(&mut self, f: &mut F) {
+        self.to_mut().visit_mut_with(f)
     }
 }
 

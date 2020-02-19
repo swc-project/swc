@@ -3,14 +3,15 @@ use std::{env, path::PathBuf, sync::Arc};
 use swc_common::{FilePathMapping, SourceFile, SourceMap};
 
 fn init() {
-    rayon::ThreadPoolBuilder::new()
+    let _ = rayon::ThreadPoolBuilder::new()
         .num_threads(100)
-        .build_global()
-        .unwrap();
+        .build_global();
 }
 
 #[test]
 fn no_overlap() {
+    init();
+
     let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
 
     let files: Vec<Arc<SourceFile>> = (0..100000)

@@ -12,6 +12,7 @@ mod enum_deserialize;
 mod fold;
 mod spanned;
 mod visit;
+mod visit_mut;
 
 /// Implements `FoldWith<F>` and `VisitWith<F>`.
 ///
@@ -28,17 +29,20 @@ pub fn derive_fold(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let name = input.ident.clone();
 
     let fold_item = self::fold::derive(input.clone());
-    let visit_item = self::visit::derive(input);
+    let visit_item = self::visit::derive(input.clone());
+    let visit_mut_item = self::visit_mut::derive(input);
     let item = Quote::new(def_site::<Span>()).quote_with(smart_quote!(
         Vars {
-            fold_item: fold_item,
-            visit_item: visit_item,
+            fold_item,
+            visit_item,
+            visit_mut_item,
             NAME: Ident::new(&format!("IMPL_FOLD_FOR_{}",name), Span::call_site()),
         },
         {
             const NAME: () = {
                 fold_item
                 visit_item
+                visit_mut_item
             };
         }
     ));
