@@ -5,6 +5,7 @@ pub use crate::syntax_pos::{
     SourceFileAndBytePos, SourceFileAndLine, Span, SpanData, SpanLinesError, SyntaxContext,
     DUMMY_SP, GLOBALS, NO_EXPANSION,
 };
+use crate::VisitMutWith;
 use std::{borrow::Cow, sync::Arc};
 
 ///
@@ -92,16 +93,22 @@ where
     }
 }
 
+/// No op as span does not have any child.
 #[cfg(feature = "fold")]
 impl<F> FoldWith<F> for Span {
-    /// No op as span does not have any child.
     fn fold_children(self, _: &mut F) -> Span {
         self
     }
 }
 
+/// No op as span does not have any child.
+#[cfg(feature = "fold")]
+impl<F> VisitMutWith<F> for Span {
+    fn visit_mut_children(&mut self, _: &mut F) {}
+}
+
+/// No op as span does not have any child.
 #[cfg(feature = "fold")]
 impl<F> VisitWith<F> for Span {
-    /// No op as span does not have any child.
     fn visit_children(&self, _: &mut F) {}
 }

@@ -30,7 +30,7 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
         .variants()
         .into_iter()
         .map(|v| {
-            let (pat, bindings) = v.bind("_", Some(def_site()), None);
+            let (pat, bindings) = v.bind("_", Some(def_site()), Some(def_site()));
 
             let fields: Punctuated<Stmt, token::Semi> = bindings
                 .into_iter()
@@ -48,7 +48,10 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
                                         binded_field: binding.name(),
                                     },
                                     {
-                                        swc_common::Visit::<FieldType>::visit(_v, binded_field);
+                                        swc_common::VisitMut::<FieldType>::visit_mut(
+                                            _v,
+                                            binded_field,
+                                        );
                                     }
                                 ))
                                 .parse::<Stmt>(),
@@ -126,9 +129,9 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
                 body,
             },
             {
-                impl<__V> swc_common::VisitWith<__V> for Type {
+                impl<__V> swc_common::VisitMutWith<__V> for Type {
                     #[inline]
-                    fn visit_children(&self, _v: &mut __V) {
+                    fn visit_mut_children(&mut self, _v: &mut __V) {
                         body
                     }
                 }

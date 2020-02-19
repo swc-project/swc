@@ -1,11 +1,15 @@
 #![cfg_attr(feature = "fold", feature(specialization))]
 
 #[cfg(feature = "fold")]
-pub use self::fold::{Fold, FoldWith, Visit, VisitWith};
+pub use self::fold::{Fold, FoldWith, Visit, VisitMut, VisitMutWith, VisitWith};
 pub use self::{
     errors::{SourceMapper, SourceMapperDyn},
-    pos::*,
-    source_map::{FileLines, FileLoader, FileName, FilePathMapping, SourceMap, SpanSnippetError},
+    pos::{
+        hygiene, BytePos, CharPos, FileName, Globals, Loc, LocWithOpt, Mark, MultiSpan, SourceFile,
+        SourceFileAndBytePos, SourceFileAndLine, Span, SpanData, SpanLinesError, Spanned,
+        SyntaxContext, DUMMY_SP, GLOBALS, NO_EXPANSION,
+    },
+    source_map::{FileLines, FileLoader, FilePathMapping, SourceMap, SpanSnippetError},
 };
 pub use ast_node::{ast_node, DeserializeEnum, Fold, Spanned};
 pub use from_variant::FromVariant;

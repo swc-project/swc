@@ -19,6 +19,7 @@ mod analyze_source_file;
 pub mod hygiene;
 mod span_encoding;
 
+#[derive(Default)]
 pub struct Globals {
     span_interner: Lock<span_encoding::SpanInterner>,
     hygiene_data: Lock<hygiene::HygieneData>,

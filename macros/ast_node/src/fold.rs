@@ -5,7 +5,7 @@ use syn::*;
 
 #[derive(Debug, FromField)]
 #[darling(attributes(fold))]
-struct FieldAttrs {
+pub struct FieldAttrs {
     ///
     #[darling(default)]
     pub ignore: bool,
@@ -182,7 +182,7 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
     derive_generics.append_to(item)
 }
 
-fn should_skip_field(field: &Field) -> bool {
+pub fn should_skip_field(field: &Field) -> bool {
     let attrs = FieldAttrs::from_field(field).expect("#[derive(Fold)]: failed to parse attribute");
     if attrs.ignore {
         return true;
@@ -198,7 +198,7 @@ fn should_skip_field(field: &Field) -> bool {
     false
 }
 
-fn normalize_type_for_bound(ty: Type) -> Type {
+pub fn normalize_type_for_bound(ty: Type) -> Type {
     use syn::fold::Fold;
 
     struct Norm;
