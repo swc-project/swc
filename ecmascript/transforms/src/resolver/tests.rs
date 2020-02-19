@@ -1053,3 +1053,14 @@ identical!(
     var XXX = 1;
     "
 );
+
+identical!(
+    issue_678,
+    "({
+  foo() {
+    function bar() {
+      bar;
+    }
+  },
+});"
+);
