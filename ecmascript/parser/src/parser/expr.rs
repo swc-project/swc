@@ -716,7 +716,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         tag: Box<Expr>,
         type_params: Option<TsTypeParamInstantiation>,
     ) -> PResult<'a, TaggedTpl> {
-        let start = cur_pos!();
+        let start = tag.span().lo();
 
         assert_and_bump!('`');
 
