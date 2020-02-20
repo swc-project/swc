@@ -206,80 +206,82 @@ impl Compiler {
         opts: &Options,
         fm: &SourceFile,
     ) -> Result<BuiltConfig<impl Pass>, Error> {
-        let Options {
-            ref root,
-            root_mode,
-            swcrc,
-            config_file,
-            is_module,
-            ..
-        } = opts;
-        let root = root
-            .clone()
-            .unwrap_or_else(|| ::std::env::current_dir().unwrap());
+        self.run(||{
+            let Options {
+                ref root,
+                root_mode,
+                swcrc,
+                config_file,
+                is_module,
+                ..
+            } = opts;
+            let root = root
+                .clone()
+                .unwrap_or_else(|| ::std::env::current_dir().unwrap());
 
-        let config_file = match config_file {
-            Some(ConfigFile::Str(ref s)) => {
-                let path = Path::new(s);
-                let r = File::open(&path).map_err(|err| Error::FailedToReadConfigFile { err })?;
-                let config: Rc = serde_json::from_reader(r)
-                    .map_err(|err| Error::FailedToParseConfigFile { err })?;
-                Some(config)
-            }
-            _ => None,
-        };
-
-        match fm.name {
-            FileName::Real(ref path) => {
-                if *swcrc {
-                    let mut parent = path.parent();
-                    while let Some(dir) = parent {
-                        let swcrc = dir.join(".swcrc");
-
-                        if swcrc.exists() {
-                            let r = File::open(&swcrc)
-                                .map_err(|err| Error::FailedToReadConfigFile { err })?;
-                            let mut config = serde_json::from_reader(r)
-                                .map_err(|err| Error::FailedToParseConfigFile { err })
-                                .and_then(|rc: Rc| rc.into_config(Some(path)))?;
-
-                            if let Some(config_file) = config_file {
-                                config.merge(&config_file.into_config(Some(path))?)
-                            }
-                            let built =
-                                opts.build(&self.cm, &self.handler, *is_module, Some(config));
-                            return Ok(built);
-                        }
-
-                        if dir == root && *root_mode == RootMode::Root {
-                            break;
-                        }
-                        parent = dir.parent();
-                    }
+            let config_file = match config_file {
+                Some(ConfigFile::Str(ref s)) => {
+                    let path = Path::new(s);
+                    let r = File::open(&path).map_err(|err| Error::FailedToReadConfigFile { err })?;
+                    let config: Rc = serde_json::from_reader(r)
+                        .map_err(|err| Error::FailedToParseConfigFile { err })?;
+                    Some(config)
                 }
+                _ => None,
+            };
 
-                let config_file = config_file.unwrap_or_else(|| Rc::default());
-                let built = opts.build(
-                    &self.cm,
-                    &self.handler,
-                    *is_module,
-                    Some(config_file.into_config(Some(path))?),
-                );
-                return Ok(built);
+            match fm.name {
+                FileName::Real(ref path) => {
+                    if *swcrc {
+                        let mut parent = path.parent();
+                        while let Some(dir) = parent {
+                            let swcrc = dir.join(".swcrc");
+
+                            if swcrc.exists() {
+                                let r = File::open(&swcrc)
+                                    .map_err(|err| Error::FailedToReadConfigFile { err })?;
+                                let mut config = serde_json::from_reader(r)
+                                    .map_err(|err| Error::FailedToParseConfigFile { err })
+                                    .and_then(|rc: Rc| rc.into_config(Some(path)))?;
+
+                                if let Some(config_file) = config_file {
+                                    config.merge(&config_file.into_config(Some(path))?)
+                                }
+                                let built =
+                                    opts.build(&self.cm, &self.handler, *is_module, Some(config));
+                                return Ok(built);
+                            }
+
+                            if dir == root && *root_mode == RootMode::Root {
+                                break;
+                            }
+                            parent = dir.parent();
+                        }
+                    }
+
+                    let config_file = config_file.unwrap_or_else(|| Rc::default());
+                    let built = opts.build(
+                        &self.cm,
+                        &self.handler,
+                        *is_module,
+                        Some(config_file.into_config(Some(path))?),
+                    );
+                    return Ok(built);
+                }
+                _ => {}
             }
-            _ => {}
-        }
 
-        let built = opts.build(
-            &self.cm,
-            &self.handler,
-            *is_module,
-            match config_file {
-                Some(config_file) => Some(config_file.into_config(None)?),
-                None => Some(Rc::default().into_config(None)?),
-            },
-        );
-        Ok(built)
+            let built = opts.build(
+                &self.cm,
+                &self.handler,
+                *is_module,
+                match config_file {
+                    Some(config_file) => Some(config_file.into_config(None)?),
+                    None => Some(Rc::default().into_config(None)?),
+                },
+            );
+            Ok(built)
+        })
     }
 
     pub fn process_js_file(
