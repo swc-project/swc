@@ -206,7 +206,7 @@ impl Compiler {
         opts: &Options,
         fm: &SourceFile,
     ) -> Result<BuiltConfig<impl Pass>, Error> {
-        self.run(||{
+        self.run(|| {
             let Options {
                 ref root,
                 root_mode,
@@ -222,7 +222,8 @@ impl Compiler {
             let config_file = match config_file {
                 Some(ConfigFile::Str(ref s)) => {
                     let path = Path::new(s);
-                    let r = File::open(&path).map_err(|err| Error::FailedToReadConfigFile { err })?;
+                    let r =
+                        File::open(&path).map_err(|err| Error::FailedToReadConfigFile { err })?;
                     let config: Rc = serde_json::from_reader(r)
                         .map_err(|err| Error::FailedToParseConfigFile { err })?;
                     Some(config)
