@@ -413,10 +413,12 @@ impl<'a, I: Tokens> Parser<'a, I> {
             if eat!('.') {
                 let start_of_target = cur_pos!();
                 if eat!("target") {
-                    return Ok(Box::new(Expr::MetaProp(MetaPropExpr {
+                    let expr = Box::new(Expr::MetaProp(MetaPropExpr {
                         meta: Ident::new(js_word!("new"), span_of_new),
                         prop: Ident::new(js_word!("target"), span!(start_of_target)),
-                    })));
+                    }));
+
+                    return self.parse_subscripts(ExprOrSuper::Expr(expr), true);
                 }
 
                 unexpected!()
