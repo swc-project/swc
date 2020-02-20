@@ -99,6 +99,14 @@ impl BlockScoping {
 
     fn handle_vars(&mut self, body: Box<Stmt>) -> Box<Stmt> {
         body.map(|body| {
+            {
+                let mut v = FunctionFinder { found: false };
+                body.visit_with(&mut v);
+                if !v.found {
+                    return body;
+                }
+            }
+
             //
             if let Some(ScopeKind::ForLetLoop { args, used, .. }) = self.scope.pop() {
                 if used.is_empty() {
@@ -419,6 +427,8 @@ struct InfectionFinder<'a> {
     found: bool,
 }
 
+noop_visit_type!(InfectionFinder<'_>);
+
 impl Visit<VarDeclarator> for InfectionFinder<'_> {
     fn visit(&mut self, node: &VarDeclarator) {
         let old = self.found;
@@ -477,6 +487,19 @@ impl Visit<Ident> for InfectionFinder<'_> {
                 break;
             }
         }
+    }
+}
+
+#[derive(Debug)]
+struct FunctionFinder {
+    found: bool,
+}
+
+noop_visit_type!(FunctionFinder);
+
+impl Visit<Function> for FunctionFinder {
+    fn visit(&mut self, node: &Function) {
+        self.found = true
     }
 }
 
