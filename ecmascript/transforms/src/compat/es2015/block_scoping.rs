@@ -21,7 +21,11 @@ use swc_ecma_utils::{
 /// }
 /// ```
 pub fn block_scoping() -> impl Pass {
-    BlockScoping::default()
+    BlockScoping {
+        scope: Default::default(),
+        vars: vec![],
+        var_decl_kind: VarDeclKind::Var,
+    }
 }
 
 type ScopeStack = SmallVec<[ScopeKind; 8]>;
@@ -39,10 +43,10 @@ enum ScopeKind {
     Block,
 }
 
-#[derive(Default)]
 struct BlockScoping {
     scope: ScopeStack,
     vars: Vec<VarDeclarator>,
+    var_decl_kind: VarDeclKind,
 }
 
 noop_fold_type!(BlockScoping);
@@ -338,7 +342,11 @@ impl Fold<SetterProp> for BlockScoping {
 
 impl Fold<VarDecl> for BlockScoping {
     fn fold(&mut self, var: VarDecl) -> VarDecl {
+        let old = self.var_decl_kind;
+        self.var_decl_kind = var.kind;
         let var = var.fold_children(self);
+
+        self.var_decl_kind = old;
 
         VarDecl {
             kind: VarDeclKind::Var,
@@ -352,7 +360,11 @@ impl Fold<VarDeclarator> for BlockScoping {
         let var = var.fold_children(self);
 
         let init = if self.in_loop_body() && var.init.is_none() {
-            Some(undefined(var.span()))
+            if self.var_decl_kind == VarDeclKind::Var {
+                None
+            } else {
+                Some(undefined(var.span()))
+            }
         } else {
             var.init
         };
