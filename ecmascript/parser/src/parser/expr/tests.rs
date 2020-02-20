@@ -418,6 +418,11 @@ fn issue_380() {
     );
 }
 
+#[test]
+fn issue_675() {
+    expr("Object.setPrototypeOf(this, new.target.prototype)");
+}
+
 #[bench]
 fn bench_new_expr_ts(b: &mut Bencher) {
     bench_parser(
