@@ -418,7 +418,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                         prop: Ident::new(js_word!("target"), span!(start_of_target)),
                     }));
 
-                    return self.parse_subscripts(ExprOrSuper::Expr(expr), true);
+                    return self.parse_subscriptsK(ExprOrSuper::Expr(expr), true);
                 }
 
                 unexpected!()
