@@ -15,6 +15,7 @@ use swc_common::Fold;
 use swc_common::{ast_node, Span};
 
 #[ast_node]
+#[derive(Eq, Hash)]
 pub struct Class {
     pub span: Span,
 
@@ -42,6 +43,7 @@ pub struct Class {
 }
 
 #[ast_node]
+#[derive(Eq, Hash)]
 pub enum ClassMember {
     #[tag("Constructor")]
     Constructor(Constructor),
@@ -62,6 +64,7 @@ pub enum ClassMember {
 macro_rules! property {
     ($name:ident, $ty:literal, $KEY:ty) => {
         #[ast_node($ty)]
+        #[derive(Eq, Hash)]
         pub struct $name {
             #[serde(default)]
             pub span: Span,
@@ -109,6 +112,7 @@ property!(PrivateProp, "PrivateProperty", PrivateName);
 macro_rules! method {
     ($name:ident, $ty:literal, $KEY:ty) => {
         #[ast_node($ty)]
+        #[derive(Eq, Hash)]
         pub struct $name {
             #[serde(default)]
             pub span: Span,
@@ -141,6 +145,7 @@ method!(ClassMethod, "ClassMethod", PropName);
 method!(PrivateMethod, "PrivateMethod", PrivateName);
 
 #[ast_node("Constructor")]
+#[derive(Eq, Hash)]
 pub struct Constructor {
     pub span: Span,
 
@@ -159,6 +164,7 @@ pub struct Constructor {
 }
 
 #[ast_node("Decorator")]
+#[derive(Eq, Hash)]
 pub struct Decorator {
     pub span: Span,
 

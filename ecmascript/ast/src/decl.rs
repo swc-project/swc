@@ -12,6 +12,7 @@ use swc_common::Fold;
 use swc_common::{ast_node, Span};
 
 #[ast_node]
+#[derive(Eq, Hash)]
 pub enum Decl {
     #[tag("ClassDeclaration")]
     Class(ClassDecl),
@@ -30,6 +31,7 @@ pub enum Decl {
 }
 
 #[ast_node("FunctionDeclaration")]
+#[derive(Eq, Hash)]
 pub struct FnDecl {
     #[serde(rename = "identifier")]
     pub ident: Ident,
@@ -43,6 +45,7 @@ pub struct FnDecl {
 }
 
 #[ast_node("ClassDeclaration")]
+#[derive(Eq, Hash)]
 pub struct ClassDecl {
     #[serde(rename = "identifier")]
     pub ident: Ident,
@@ -56,6 +59,7 @@ pub struct ClassDecl {
 }
 
 #[ast_node("VariableDeclaration")]
+#[derive(Eq, Hash)]
 pub struct VarDecl {
     pub span: Span,
 
@@ -80,6 +84,7 @@ pub enum VarDeclKind {
 }
 
 #[ast_node("VariableDeclarator")]
+#[derive(Eq, Hash)]
 pub struct VarDeclarator {
     pub span: Span,
     #[serde(rename = "id")]

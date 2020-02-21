@@ -1,10 +1,15 @@
 use crate::jsx::JSXText;
 use num_bigint::BigInt as BigIntValue;
-use std::fmt::{self, Display, Formatter};
+use std::{
+    fmt::{self, Display, Formatter},
+    hash::{Hash, Hasher},
+    mem,
+};
 use swc_atoms::JsWord;
 use swc_common::{ast_node, Span};
 
 #[ast_node]
+#[derive(Eq, Hash)]
 pub enum Lit {
     #[tag("StringLiteral")]
     Str(Str),
@@ -29,6 +34,7 @@ pub enum Lit {
 }
 
 #[ast_node("BigIntLiteral")]
+#[derive(Eq, Hash)]
 pub struct BigInt {
     pub span: Span,
     #[cfg_attr(feature = "fold", fold(ignore))]
@@ -36,6 +42,7 @@ pub struct BigInt {
 }
 
 #[ast_node("StringLiteral")]
+#[derive(Eq, Hash)]
 pub struct Str {
     pub span: Span,
 
@@ -53,19 +60,20 @@ impl Str {
 }
 
 #[ast_node("BooleanLiteral")]
-#[derive(Copy)]
+#[derive(Copy, Eq, Hash)]
 pub struct Bool {
     pub span: Span,
     pub value: bool,
 }
 
 #[ast_node("NullLiteral")]
-#[derive(Copy)]
+#[derive(Copy, Eq, Hash)]
 pub struct Null {
     pub span: Span,
 }
 
 #[ast_node("RegExpLiteral")]
+#[derive(Eq, Hash)]
 pub struct Regex {
     pub span: Span,
 
@@ -80,7 +88,33 @@ pub struct Regex {
 #[derive(Copy)]
 pub struct Number {
     pub span: Span,
+    /// **Note**: This should not be `NaN`. Use [crate::Ident] to represent NaN.
+    ///
+    /// If you store `NaN` in this field, a hash map will behave strangely.
     pub value: f64,
+}
+
+impl Eq for Number {}
+
+impl Hash for Number {
+    fn hash<H: Hasher>(&self, state: &mut H) {
+        fn integer_decode(val: f64) -> (u64, i16, i8) {
+            let bits: u64 = unsafe { mem::transmute(val) };
+            let sign: i8 = if bits >> 63 == 0 { 1 } else { -1 };
+            let mut exponent: i16 = ((bits >> 52) & 0x7ff) as i16;
+            let mantissa = if exponent == 0 {
+                (bits & 0xfffffffffffff) << 1
+            } else {
+                (bits & 0xfffffffffffff) | 0x10000000000000
+            };
+
+            exponent -= 1023 + 52;
+            (mantissa, exponent, sign)
+        }
+
+        self.span.hash(state);
+        integer_decode(self.value).hash(state);
+    }
 }
 
 impl Display for Number {

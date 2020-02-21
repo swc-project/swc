@@ -9,6 +9,7 @@ use swc_common::{ast_node, Span};
 
 /// Used for `obj` property of `JSXMemberExpr`.
 #[ast_node]
+#[derive(Eq, Hash)]
 #[allow(variant_size_differences)]
 pub enum JSXObject {
     #[tag("JSXMemberExpression")]
@@ -18,6 +19,7 @@ pub enum JSXObject {
 }
 
 #[ast_node("JSXMemberExpression")]
+#[derive(Eq, Hash)]
 pub struct JSXMemberExpr {
     #[serde(rename = "object")]
     #[span(lo)]
@@ -30,6 +32,7 @@ pub struct JSXMemberExpr {
 
 /// XML-based namespace syntax:
 #[ast_node("JSXNamespacedName")]
+#[derive(Eq, Hash)]
 pub struct JSXNamespacedName {
     #[serde(rename = "namespace")]
     #[span(lo)]
@@ -39,12 +42,13 @@ pub struct JSXNamespacedName {
 }
 
 #[ast_node("JSXEmptyExpression")]
-#[derive(Copy)]
+#[derive(Eq, Hash, Copy)]
 pub struct JSXEmptyExpr {
     pub span: Span,
 }
 
 #[ast_node("JSXExpressionContainer")]
+#[derive(Eq, Hash)]
 pub struct JSXExprContainer {
     pub span: Span,
     #[serde(rename = "expression")]
@@ -52,6 +56,7 @@ pub struct JSXExprContainer {
 }
 
 #[ast_node]
+#[derive(Eq, Hash)]
 #[allow(variant_size_differences)]
 pub enum JSXExpr {
     #[tag("JSXEmptyExpression")]
@@ -61,6 +66,7 @@ pub enum JSXExpr {
 }
 
 #[ast_node("JSXSpreadChild")]
+#[derive(Eq, Hash)]
 pub struct JSXSpreadChild {
     pub span: Span,
     #[serde(rename = "expression")]
@@ -68,6 +74,7 @@ pub struct JSXSpreadChild {
 }
 
 #[ast_node]
+#[derive(Eq, Hash)]
 pub enum JSXElementName {
     #[tag("Identifier")]
     Ident(Ident),
@@ -78,6 +85,7 @@ pub enum JSXElementName {
 }
 
 #[ast_node("JSXOpeningElement")]
+#[derive(Eq, Hash)]
 pub struct JSXOpeningElement {
     pub name: JSXElementName,
 
@@ -96,6 +104,7 @@ pub struct JSXOpeningElement {
 }
 
 #[ast_node]
+#[derive(Eq, Hash)]
 #[allow(variant_size_differences)]
 pub enum JSXAttrOrSpread {
     #[tag("JSXAttribute")]
@@ -105,12 +114,14 @@ pub enum JSXAttrOrSpread {
 }
 
 #[ast_node("JSXClosingElement")]
+#[derive(Eq, Hash)]
 pub struct JSXClosingElement {
     pub span: Span,
     pub name: JSXElementName,
 }
 
 #[ast_node("JSXAttribute")]
+#[derive(Eq, Hash)]
 pub struct JSXAttr {
     pub span: Span,
     pub name: JSXAttrName,
@@ -119,6 +130,7 @@ pub struct JSXAttr {
 }
 
 #[ast_node]
+#[derive(Eq, Hash)]
 pub enum JSXAttrName {
     #[tag("Identifier")]
     Ident(Ident),
@@ -127,6 +139,7 @@ pub enum JSXAttrName {
 }
 
 #[ast_node]
+#[derive(Eq, Hash)]
 pub enum JSXAttrValue {
     #[tag("StringLiteral")]
     #[tag("BooleanLiteral")]
@@ -147,6 +160,7 @@ pub enum JSXAttrValue {
 }
 
 #[ast_node("JSXText")]
+#[derive(Eq, Hash)]
 pub struct JSXText {
     pub span: Span,
     pub value: JsWord,
@@ -154,6 +168,7 @@ pub struct JSXText {
 }
 
 #[ast_node("JSXElement")]
+#[derive(Eq, Hash)]
 pub struct JSXElement {
     pub span: Span,
     pub opening: JSXOpeningElement,
@@ -162,6 +177,7 @@ pub struct JSXElement {
 }
 
 #[ast_node]
+#[derive(Eq, Hash)]
 pub enum JSXElementChild {
     #[tag("JSXText")]
     JSXText(JSXText),
@@ -180,6 +196,7 @@ pub enum JSXElementChild {
 }
 
 #[ast_node("JSXFragment")]
+#[derive(Eq, Hash)]
 pub struct JSXFragment {
     pub span: Span,
 
@@ -192,13 +209,13 @@ pub struct JSXFragment {
 }
 
 #[ast_node("JSXOpeningFragment")]
-#[derive(Copy)]
+#[derive(Eq, Hash, Copy)]
 pub struct JSXOpeningFragment {
     pub span: Span,
 }
 
 #[ast_node("JSXClosingFragment")]
-#[derive(Copy)]
+#[derive(Eq, Hash, Copy)]
 pub struct JSXClosingFragment {
     pub span: Span,
 }

@@ -21,6 +21,7 @@ use swc_common::Fold;
 use swc_common::{ast_node, Span, Spanned, DUMMY_SP};
 
 #[ast_node]
+#[derive(Eq, Hash)]
 pub enum Expr {
     #[tag("ThisExpression")]
     This(ThisExpr),
@@ -152,13 +153,14 @@ pub enum Expr {
 }
 
 #[ast_node("ThisExpression")]
-#[derive(Copy)]
+#[derive(Eq, Hash, Copy)]
 pub struct ThisExpr {
     pub span: Span,
 }
 
 /// Array literal.
 #[ast_node("ArrayExpression")]
+#[derive(Eq, Hash)]
 pub struct ArrayLit {
     pub span: Span,
 
@@ -168,6 +170,7 @@ pub struct ArrayLit {
 
 /// Object literal.
 #[ast_node("ObjectExpression")]
+#[derive(Eq, Hash)]
 pub struct ObjectLit {
     pub span: Span,
 
@@ -176,6 +179,7 @@ pub struct ObjectLit {
 }
 
 #[ast_node]
+#[derive(Eq, Hash)]
 pub enum PropOrSpread {
     /// Spread properties, e.g., `{a: 1, ...obj, b: 2}`.
     #[tag("SpreadElement")]
@@ -186,6 +190,7 @@ pub enum PropOrSpread {
 }
 
 #[ast_node("SpreadElement")]
+#[derive(Eq, Hash)]
 pub struct SpreadElement {
     #[serde(rename = "spread")]
     #[span(lo)]
@@ -197,6 +202,7 @@ pub struct SpreadElement {
 }
 
 #[ast_node("UnaryExpression")]
+#[derive(Eq, Hash)]
 pub struct UnaryExpr {
     pub span: Span,
 
@@ -208,6 +214,7 @@ pub struct UnaryExpr {
 }
 
 #[ast_node("UpdateExpression")]
+#[derive(Eq, Hash)]
 pub struct UpdateExpr {
     pub span: Span,
 
@@ -221,6 +228,7 @@ pub struct UpdateExpr {
 }
 
 #[ast_node("BinaryExpression")]
+#[derive(Eq, Hash)]
 pub struct BinExpr {
     pub span: Span,
 
@@ -234,6 +242,7 @@ pub struct BinExpr {
 
 /// Function expression.
 #[ast_node("FunctionExpression")]
+#[derive(Eq, Hash)]
 pub struct FnExpr {
     #[serde(default, rename = "identifier")]
     pub ident: Option<Ident>,
@@ -245,6 +254,7 @@ pub struct FnExpr {
 
 /// Class expression.
 #[ast_node("ClassExpression")]
+#[derive(Eq, Hash)]
 pub struct ClassExpr {
     #[serde(default, rename = "identifier")]
     pub ident: Option<Ident>,
@@ -255,6 +265,7 @@ pub struct ClassExpr {
 }
 
 #[ast_node("AssignmentExpression")]
+#[derive(Eq, Hash)]
 pub struct AssignExpr {
     pub span: Span,
 
@@ -267,6 +278,7 @@ pub struct AssignExpr {
 }
 
 #[ast_node("MemberExpression")]
+#[derive(Eq, Hash)]
 pub struct MemberExpr {
     pub span: Span,
 
@@ -280,6 +292,7 @@ pub struct MemberExpr {
 }
 
 #[ast_node("ConditionalExpression")]
+#[derive(Eq, Hash)]
 pub struct CondExpr {
     pub span: Span,
 
@@ -293,6 +306,7 @@ pub struct CondExpr {
 }
 
 #[ast_node("CallExpression")]
+#[derive(Eq, Hash)]
 pub struct CallExpr {
     pub span: Span,
 
@@ -307,6 +321,7 @@ pub struct CallExpr {
 }
 
 #[ast_node("NewExpression")]
+#[derive(Eq, Hash)]
 pub struct NewExpr {
     pub span: Span,
 
@@ -321,6 +336,7 @@ pub struct NewExpr {
 }
 
 #[ast_node("SequenceExpression")]
+#[derive(Eq, Hash)]
 pub struct SeqExpr {
     pub span: Span,
 
@@ -329,6 +345,7 @@ pub struct SeqExpr {
 }
 
 #[ast_node("ArrowFunctionExpression")]
+#[derive(Eq, Hash)]
 pub struct ArrowExpr {
     pub span: Span,
 
@@ -350,6 +367,7 @@ pub struct ArrowExpr {
 }
 
 #[ast_node("YieldExpression")]
+#[derive(Eq, Hash)]
 pub struct YieldExpr {
     pub span: Span,
 
@@ -361,6 +379,7 @@ pub struct YieldExpr {
 }
 
 #[ast_node("MetaProperty")]
+#[derive(Eq, Hash)]
 pub struct MetaPropExpr {
     #[span(lo)]
     pub meta: Ident,
@@ -371,6 +390,7 @@ pub struct MetaPropExpr {
 }
 
 #[ast_node("AwaitExpression")]
+#[derive(Eq, Hash)]
 pub struct AwaitExpr {
     pub span: Span,
 
@@ -379,6 +399,7 @@ pub struct AwaitExpr {
 }
 
 #[ast_node("TemplateLiteral")]
+#[derive(Eq, Hash)]
 pub struct Tpl {
     pub span: Span,
 
@@ -389,6 +410,7 @@ pub struct Tpl {
 }
 
 #[ast_node("TaggedTemplateExpression")]
+#[derive(Eq, Hash)]
 pub struct TaggedTpl {
     pub span: Span,
 
@@ -403,6 +425,7 @@ pub struct TaggedTpl {
 }
 
 #[ast_node("TemplateElement")]
+#[derive(Eq, Hash)]
 pub struct TplElement {
     pub span: Span,
     pub tail: bool,
@@ -411,6 +434,7 @@ pub struct TplElement {
 }
 
 #[ast_node("ParenthesisExpression")]
+#[derive(Eq, Hash)]
 pub struct ParenExpr {
     pub span: Span,
 
@@ -420,6 +444,7 @@ pub struct ParenExpr {
 
 #[ast_node]
 #[allow(variant_size_differences)]
+#[derive(Eq, Hash)]
 pub enum ExprOrSuper {
     #[tag("Super")]
     Super(Super),
@@ -429,12 +454,12 @@ pub enum ExprOrSuper {
 }
 
 #[ast_node("Super")]
-#[derive(Copy)]
+#[derive(Eq, Hash, Copy)]
 pub struct Super {
     pub span: Span,
 }
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, Eq, Hash)]
 #[cfg_attr(feature = "fold", derive(Fold))]
 pub struct ExprOrSpread {
     #[serde(default)]
@@ -455,6 +480,7 @@ impl Spanned for ExprOrSpread {
 }
 
 #[ast_node]
+#[derive(Eq, Hash)]
 #[allow(variant_size_differences)]
 pub enum BlockStmtOrExpr {
     #[tag("BlockStatement")]
@@ -464,6 +490,7 @@ pub enum BlockStmtOrExpr {
 }
 
 #[ast_node]
+#[derive(Eq, Hash)]
 pub enum PatOrExpr {
     #[tag("ThisExpression")]
     #[tag("ArrayExpression")]
@@ -545,6 +572,7 @@ impl From<Str> for Expr {
 }
 
 #[ast_node("OptionalChainingExpression")]
+#[derive(Eq, Hash)]
 pub struct OptChainExpr {
     pub span: Span,
     pub expr: Box<Expr>,

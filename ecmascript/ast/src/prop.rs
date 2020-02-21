@@ -10,6 +10,7 @@ use crate::{
 use swc_common::{ast_node, Span};
 
 #[ast_node]
+#[derive(Eq, Hash)]
 pub enum Prop {
     /// `a` in `{ a, }`
     #[tag("Identifier")]
@@ -34,6 +35,7 @@ pub enum Prop {
 }
 
 #[ast_node("KeyValueProperty")]
+#[derive(Eq, Hash)]
 pub struct KeyValueProp {
     #[span(lo)]
     pub key: PropName,
@@ -43,13 +45,16 @@ pub struct KeyValueProp {
 }
 
 #[ast_node("AssignmentProperty")]
+#[derive(Eq, Hash)]
 pub struct AssignProp {
     #[span(lo)]
     pub key: Ident,
     #[span(hi)]
     pub value: Box<Expr>,
 }
+
 #[ast_node("GetterProperty")]
+#[derive(Eq, Hash)]
 pub struct GetterProp {
     pub span: Span,
     pub key: PropName,
@@ -59,6 +64,7 @@ pub struct GetterProp {
     pub body: Option<BlockStmt>,
 }
 #[ast_node("SetterProperty")]
+#[derive(Eq, Hash)]
 pub struct SetterProp {
     pub span: Span,
     pub key: PropName,
@@ -67,6 +73,7 @@ pub struct SetterProp {
     pub body: Option<BlockStmt>,
 }
 #[ast_node("MethodProperty")]
+#[derive(Eq, Hash)]
 pub struct MethodProp {
     #[span(lo)]
     pub key: PropName,
@@ -77,6 +84,7 @@ pub struct MethodProp {
 }
 
 #[ast_node]
+#[derive(Eq, Hash)]
 pub enum PropName {
     #[tag("Identifier")]
     Ident(Ident),
@@ -91,6 +99,7 @@ pub enum PropName {
 }
 
 #[ast_node("Computed")]
+#[derive(Eq, Hash)]
 pub struct ComputedPropName {
     /// Span including `[` and `]`.
     pub span: Span,

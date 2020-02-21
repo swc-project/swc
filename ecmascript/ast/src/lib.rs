@@ -85,7 +85,7 @@ mod typescript;
 
 /// Represents a invalid node.
 #[ast_node("Invalid")]
-#[derive(Copy)]
+#[derive(Eq, Hash, Copy)]
 pub struct Invalid {
     pub span: Span,
 }

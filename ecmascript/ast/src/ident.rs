@@ -4,6 +4,7 @@ use swc_common::{ast_node, Span};
 
 /// Ident with span.
 #[ast_node("Identifier")]
+#[derive(Eq, Hash)]
 pub struct Ident {
     pub span: Span,
     #[serde(rename = "value")]
@@ -17,6 +18,7 @@ pub struct Ident {
 }
 
 #[ast_node("PrivateName")]
+#[derive(Eq, Hash)]
 pub struct PrivateName {
     pub span: Span,
     pub id: Ident,
