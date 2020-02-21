@@ -162,7 +162,7 @@ pub struct ImportSpecific {
 #[ast_node]
 #[derive(Eq, Hash)]
 pub enum ExportSpecifier {
-    #[tag("ExportNamespaceSpecifer")]
+    #[tag("ExportNamespaceSpecifier")]
     Namespace(NamespaceExportSpecifier),
 
     #[tag("ExportDefaultSpecifier")]
