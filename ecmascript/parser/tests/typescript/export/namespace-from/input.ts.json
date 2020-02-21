@@ -15,7 +15,7 @@
       },
       "specifiers": [
         {
-          "type": "ExportNamespaceSpecifer",
+          "type": "ExportNamespaceSpecifier",
           "span": {
             "start": 7,
             "end": 14,

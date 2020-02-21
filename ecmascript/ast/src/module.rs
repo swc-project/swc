@@ -3,6 +3,7 @@ use swc_atoms::JsWord;
 use swc_common::{ast_node, Span};
 
 #[ast_node]
+#[derive(Eq, Hash)]
 pub enum Program {
     #[tag("Module")]
     Module(Module),
@@ -11,6 +12,7 @@ pub enum Program {
 }
 
 #[ast_node("Module")]
+#[derive(Eq, Hash)]
 pub struct Module {
     pub span: Span,
 
@@ -21,6 +23,7 @@ pub struct Module {
 }
 
 #[ast_node("Script")]
+#[derive(Eq, Hash)]
 pub struct Script {
     pub span: Span,
 
@@ -31,6 +34,7 @@ pub struct Script {
 }
 
 #[ast_node]
+#[derive(Eq, Hash)]
 pub enum ModuleItem {
     #[tag("ImportDeclaration")]
     #[tag("ExportDeclaration")]

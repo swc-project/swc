@@ -19,6 +19,7 @@ use swc_common::Fold;
 use swc_common::{ast_node, Span};
 
 #[ast_node("TsTypeAnnotation")]
+#[derive(Eq, Hash)]
 pub struct TsTypeAnn {
     pub span: Span,
     #[serde(rename = "typeAnnotation")]
@@ -26,6 +27,7 @@ pub struct TsTypeAnn {
 }
 
 #[ast_node("TsTypeParameterDeclaration")]
+#[derive(Eq, Hash)]
 pub struct TsTypeParamDecl {
     pub span: Span,
     #[serde(rename = "parameters")]
@@ -33,6 +35,7 @@ pub struct TsTypeParamDecl {
 }
 
 #[ast_node("TsTypeParameter")]
+#[derive(Eq, Hash)]
 pub struct TsTypeParam {
     pub span: Span,
     pub name: Ident,
@@ -45,12 +48,14 @@ pub struct TsTypeParam {
 }
 
 #[ast_node("TsTypeParameterInstantiation")]
+#[derive(Eq, Hash)]
 pub struct TsTypeParamInstantiation {
     pub span: Span,
     pub params: Vec<Box<TsType>>,
 }
 
 #[ast_node("TsTypeCastExpression")]
+#[derive(Eq, Hash)]
 pub struct TsTypeCastExpr {
     pub span: Span,
     #[serde(rename = "expression")]
@@ -60,6 +65,7 @@ pub struct TsTypeCastExpr {
 }
 
 #[ast_node("TsParameterProperty")]
+#[derive(Eq, Hash)]
 pub struct TsParamProp {
     pub span: Span,
     #[serde(default)]
@@ -72,6 +78,7 @@ pub struct TsParamProp {
 }
 
 #[ast_node]
+#[derive(Eq, Hash)]
 pub enum TsParamPropParam {
     #[tag("Identifier")]
     Ident(Ident),
@@ -81,6 +88,7 @@ pub enum TsParamPropParam {
 }
 
 #[ast_node("TsQualifiedName")]
+#[derive(Eq, Hash)]
 pub struct TsQualifiedName {
     #[span(lo)]
     pub left: TsEntityName,
@@ -89,6 +97,7 @@ pub struct TsQualifiedName {
 }
 
 #[ast_node]
+#[derive(Eq, Hash)]
 #[allow(variant_size_differences)]
 pub enum TsEntityName {
     #[tag("TsQualifiedName")]
@@ -99,6 +108,7 @@ pub enum TsEntityName {
 }
 
 #[ast_node]
+#[derive(Eq, Hash)]
 pub enum TsSignatureDecl {
     #[tag("TsCallSignatureDeclaration")]
     TsCallSignatureDecl(TsCallSignatureDecl),
@@ -121,6 +131,7 @@ pub enum TsSignatureDecl {
 // ================
 
 #[ast_node]
+#[derive(Eq, Hash)]
 pub enum TsTypeElement {
     #[tag("TsCallSignatureDeclaration")]
     TsCallSignatureDecl(TsCallSignatureDecl),
@@ -139,6 +150,7 @@ pub enum TsTypeElement {
 }
 
 #[ast_node("TsCallSignatureDeclaration")]
+#[derive(Eq, Hash)]
 pub struct TsCallSignatureDecl {
     pub span: Span,
     pub params: Vec<TsFnParam>,
@@ -149,6 +161,7 @@ pub struct TsCallSignatureDecl {
 }
 
 #[ast_node("TsConstructSignatureDeclaration")]
+#[derive(Eq, Hash)]
 pub struct TsConstructSignatureDecl {
     pub span: Span,
     pub params: Vec<TsFnParam>,
@@ -159,6 +172,7 @@ pub struct TsConstructSignatureDecl {
 }
 
 #[ast_node("TsPropertySignature")]
+#[derive(Eq, Hash)]
 pub struct TsPropertySignature {
     pub span: Span,
     pub readonly: bool,
@@ -175,6 +189,7 @@ pub struct TsPropertySignature {
 }
 
 #[ast_node("TsMethodSignature")]
+#[derive(Eq, Hash)]
 pub struct TsMethodSignature {
     pub span: Span,
     pub readonly: bool,
@@ -189,6 +204,7 @@ pub struct TsMethodSignature {
 }
 
 #[ast_node("TsIndexSignature")]
+#[derive(Eq, Hash)]
 pub struct TsIndexSignature {
     pub params: Vec<TsFnParam>,
     #[serde(default, rename = "typeAnnotation")]
@@ -203,6 +219,7 @@ pub struct TsIndexSignature {
 // ================
 
 #[ast_node]
+#[derive(Eq, Hash)]
 pub enum TsType {
     #[tag("TsKeywordType")]
     TsKeywordType(TsKeywordType),
@@ -268,6 +285,7 @@ pub enum TsType {
 }
 
 #[ast_node]
+#[derive(Eq, Hash)]
 pub enum TsFnOrConstructorType {
     #[tag("TsFunctionType")]
     TsFnType(TsFnType),
@@ -300,12 +318,13 @@ impl From<TsIntersectionType> for TsType {
 }
 
 #[ast_node("TsKeywordType")]
+#[derive(Eq, Hash)]
 pub struct TsKeywordType {
     pub span: Span,
     pub kind: TsKeywordTypeKind,
 }
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash, Serialize, Deserialize)]
 #[cfg_attr(feature = "fold", derive(Fold))]
 pub enum TsKeywordTypeKind {
     #[serde(rename = "any")]
@@ -346,11 +365,13 @@ pub enum TsKeywordTypeKind {
 }
 
 #[ast_node("TsThisType")]
+#[derive(Copy, Eq, Hash)]
 pub struct TsThisType {
     pub span: Span,
 }
 
 #[ast_node]
+#[derive(Eq, Hash)]
 pub enum TsFnParam {
     #[tag("Identifier")]
     Ident(Ident),
@@ -366,6 +387,7 @@ pub enum TsFnParam {
 }
 
 #[ast_node("TsFunctionType")]
+#[derive(Eq, Hash)]
 pub struct TsFnType {
     pub span: Span,
     pub params: Vec<TsFnParam>,
@@ -377,6 +399,7 @@ pub struct TsFnType {
 }
 
 #[ast_node("TsConstructorType")]
+#[derive(Eq, Hash)]
 pub struct TsConstructorType {
     pub span: Span,
     pub params: Vec<TsFnParam>,
@@ -387,6 +410,7 @@ pub struct TsConstructorType {
 }
 
 #[ast_node("TsTypeReference")]
+#[derive(Eq, Hash)]
 pub struct TsTypeRef {
     pub span: Span,
     pub type_name: TsEntityName,
@@ -395,6 +419,7 @@ pub struct TsTypeRef {
 }
 
 #[ast_node("TsTypePredicate")]
+#[derive(Eq, Hash)]
 pub struct TsTypePredicate {
     pub span: Span,
     pub asserts: bool,
@@ -404,6 +429,7 @@ pub struct TsTypePredicate {
 }
 
 #[ast_node]
+#[derive(Eq, Hash)]
 #[allow(variant_size_differences)]
 pub enum TsThisTypeOrIdent {
     #[tag("TsThisType")]
@@ -415,12 +441,14 @@ pub enum TsThisTypeOrIdent {
 
 /// `typeof` operator
 #[ast_node("TsTypeQuery")]
+#[derive(Eq, Hash)]
 pub struct TsTypeQuery {
     pub span: Span,
     pub expr_name: TsTypeQueryExpr,
 }
 
 #[ast_node]
+#[derive(Eq, Hash)]
 pub enum TsTypeQueryExpr {
     #[tag("TsQualifiedName")]
     #[tag("Identifier")]
@@ -430,6 +458,7 @@ pub enum TsTypeQueryExpr {
 }
 
 #[ast_node("TsImportType")]
+#[derive(Eq, Hash)]
 pub struct TsImportType {
     pub span: Span,
     #[serde(rename = "argument")]
@@ -440,24 +469,28 @@ pub struct TsImportType {
 }
 
 #[ast_node("TsTypeLiteral")]
+#[derive(Eq, Hash)]
 pub struct TsTypeLit {
     pub span: Span,
     pub members: Vec<TsTypeElement>,
 }
 
 #[ast_node("TsArrayType")]
+#[derive(Eq, Hash)]
 pub struct TsArrayType {
     pub span: Span,
     pub elem_type: Box<TsType>,
 }
 
 #[ast_node("TsTupleType")]
+#[derive(Eq, Hash)]
 pub struct TsTupleType {
     pub span: Span,
     pub elem_types: Vec<Box<TsType>>,
 }
 
 #[ast_node("TsOptionalType")]
+#[derive(Eq, Hash)]
 pub struct TsOptionalType {
     pub span: Span,
     #[serde(rename = "typeAnnotation")]
@@ -465,6 +498,7 @@ pub struct TsOptionalType {
 }
 
 #[ast_node("TsRestType")]
+#[derive(Eq, Hash)]
 pub struct TsRestType {
     pub span: Span,
     #[serde(rename = "typeAnnotation")]
@@ -472,6 +506,7 @@ pub struct TsRestType {
 }
 
 #[ast_node]
+#[derive(Eq, Hash)]
 pub enum TsUnionOrIntersectionType {
     #[tag("TsUnionType")]
     TsUnionType(TsUnionType),
@@ -481,18 +516,21 @@ pub enum TsUnionOrIntersectionType {
 }
 
 #[ast_node("TsUnionType")]
+#[derive(Eq, Hash)]
 pub struct TsUnionType {
     pub span: Span,
     pub types: Vec<Box<TsType>>,
 }
 
 #[ast_node("TsIntersectionType")]
+#[derive(Eq, Hash)]
 pub struct TsIntersectionType {
     pub span: Span,
     pub types: Vec<Box<TsType>>,
 }
 
 #[ast_node("TsConditionalType")]
+#[derive(Eq, Hash)]
 pub struct TsConditionalType {
     pub span: Span,
     pub check_type: Box<TsType>,
@@ -502,12 +540,14 @@ pub struct TsConditionalType {
 }
 
 #[ast_node("TsInferType")]
+#[derive(Eq, Hash)]
 pub struct TsInferType {
     pub span: Span,
     pub type_param: TsTypeParam,
 }
 
 #[ast_node("TsParenthesizedType")]
+#[derive(Eq, Hash)]
 pub struct TsParenthesizedType {
     pub span: Span,
     #[serde(rename = "typeAnnotation")]
@@ -515,6 +555,7 @@ pub struct TsParenthesizedType {
 }
 
 #[ast_node("TsTypeOperator")]
+#[derive(Eq, Hash)]
 pub struct TsTypeOperator {
     pub span: Span,
     pub op: TsTypeOperatorOp,
@@ -522,7 +563,7 @@ pub struct TsTypeOperator {
     pub type_ann: Box<TsType>,
 }
 
-#[derive(StringEnum, Clone, Copy, PartialEq, Eq)]
+#[derive(StringEnum, Clone, Copy, PartialEq, Eq, Hash)]
 #[cfg_attr(feature = "fold", derive(Fold))]
 pub enum TsTypeOperatorOp {
     /// `keyof`
@@ -534,6 +575,7 @@ pub enum TsTypeOperatorOp {
 }
 
 #[ast_node("TsIndexedAccessType")]
+#[derive(Eq, Hash)]
 pub struct TsIndexedAccessType {
     pub span: Span,
     pub readonly: bool,
@@ -542,7 +584,7 @@ pub struct TsIndexedAccessType {
     pub index_type: Box<TsType>,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 #[cfg_attr(feature = "fold", derive(Fold))]
 pub enum TruePlusMinus {
     True,
@@ -605,6 +647,7 @@ impl<'de> Deserialize<'de> for TruePlusMinus {
 }
 
 #[ast_node("TsMappedType")]
+#[derive(Eq, Hash)]
 pub struct TsMappedType {
     pub span: Span,
     #[serde(default)]
@@ -617,6 +660,7 @@ pub struct TsMappedType {
 }
 
 #[ast_node("TsLiteralType")]
+#[derive(Eq, Hash)]
 pub struct TsLitType {
     pub span: Span,
     #[serde(rename = "literal")]
@@ -624,6 +668,7 @@ pub struct TsLitType {
 }
 
 #[ast_node]
+#[derive(Eq, Hash)]
 pub enum TsLit {
     #[tag("NumericLiteral")]
     Number(Number),
@@ -640,6 +685,7 @@ pub enum TsLit {
 // // ================
 
 #[ast_node("TsInterfaceDeclaration")]
+#[derive(Eq, Hash)]
 pub struct TsInterfaceDecl {
     pub span: Span,
     pub id: Ident,
@@ -651,12 +697,14 @@ pub struct TsInterfaceDecl {
 }
 
 #[ast_node("TsInterfaceBody")]
+#[derive(Eq, Hash)]
 pub struct TsInterfaceBody {
     pub span: Span,
     pub body: Vec<TsTypeElement>,
 }
 
 #[ast_node("TsExpressionWithTypeArguments")]
+#[derive(Eq, Hash)]
 pub struct TsExprWithTypeArgs {
     pub span: Span,
     #[serde(rename = "expression")]
@@ -666,6 +714,7 @@ pub struct TsExprWithTypeArgs {
 }
 
 #[ast_node("TsTypeAliasDeclaration")]
+#[derive(Eq, Hash)]
 pub struct TsTypeAliasDecl {
     pub span: Span,
     pub declare: bool,
@@ -677,6 +726,7 @@ pub struct TsTypeAliasDecl {
 }
 
 #[ast_node("TsEnumDeclaration")]
+#[derive(Eq, Hash)]
 pub struct TsEnumDecl {
     pub span: Span,
     pub declare: bool,
@@ -686,6 +736,7 @@ pub struct TsEnumDecl {
 }
 
 #[ast_node("TsEnumMember")]
+#[derive(Eq, Hash)]
 pub struct TsEnumMember {
     pub span: Span,
     pub id: TsEnumMemberId,
@@ -696,6 +747,7 @@ pub struct TsEnumMember {
 ///
 /// - Invalid: [Ident] with empty symbol.
 #[ast_node]
+#[derive(Eq, Hash)]
 pub enum TsEnumMemberId {
     #[tag("Identifier")]
     Ident(Ident),
@@ -705,6 +757,7 @@ pub enum TsEnumMemberId {
 }
 
 #[ast_node("TsModuleDeclaration")]
+#[derive(Eq, Hash)]
 pub struct TsModuleDecl {
     pub span: Span,
     pub declare: bool,
@@ -718,6 +771,7 @@ pub struct TsModuleDecl {
 /// `namespace A.B { }` is a namespace named `A` with another TsNamespaceDecl as
 /// its body.
 #[ast_node]
+#[derive(Eq, Hash)]
 pub enum TsNamespaceBody {
     #[tag("TsModuleBlock")]
     TsModuleBlock(TsModuleBlock),
@@ -727,12 +781,14 @@ pub enum TsNamespaceBody {
 }
 
 #[ast_node("TsModuleBlock")]
+#[derive(Eq, Hash)]
 pub struct TsModuleBlock {
     pub span: Span,
     pub body: Vec<ModuleItem>,
 }
 
 #[ast_node("TsNamespaceDeclaration")]
+#[derive(Eq, Hash)]
 pub struct TsNamespaceDecl {
     pub span: Span,
     pub declare: bool,
@@ -743,6 +799,7 @@ pub struct TsNamespaceDecl {
 }
 
 #[ast_node]
+#[derive(Eq, Hash)]
 pub enum TsModuleName {
     #[tag("Identifier")]
     Ident(Ident),
@@ -752,6 +809,7 @@ pub enum TsModuleName {
 }
 
 #[ast_node("TsImportEqualsDeclaration")]
+#[derive(Eq, Hash)]
 pub struct TsImportEqualsDecl {
     pub span: Span,
     pub declare: bool,
@@ -761,6 +819,7 @@ pub struct TsImportEqualsDecl {
 }
 
 #[ast_node]
+#[derive(Eq, Hash)]
 pub enum TsModuleRef {
     #[tag("TsQualifiedName")]
     #[tag("Identifier")]
@@ -771,6 +830,7 @@ pub enum TsModuleRef {
 }
 
 #[ast_node("TsExternalModuleReference")]
+#[derive(Eq, Hash)]
 pub struct TsExternalModuleRef {
     pub span: Span,
     #[serde(rename = "expression")]
@@ -781,6 +841,7 @@ pub struct TsExternalModuleRef {
 /// `export =`. But for @babel/parser, `export default` is an ExportDefaultDecl,
 /// so a TsExportAssignment is always `export =`.
 #[ast_node("TsExportAssignment")]
+#[derive(Eq, Hash)]
 pub struct TsExportAssignment {
     pub span: Span,
     #[serde(rename = "expression")]
@@ -788,6 +849,7 @@ pub struct TsExportAssignment {
 }
 
 #[ast_node("TsNamespaceExportDeclaration")]
+#[derive(Eq, Hash)]
 pub struct TsNamespaceExportDecl {
     pub span: Span,
     pub id: Ident,
@@ -798,6 +860,7 @@ pub struct TsNamespaceExportDecl {
 // // ================
 
 #[ast_node("TsAsExpression")]
+#[derive(Eq, Hash)]
 pub struct TsAsExpr {
     pub span: Span,
     #[serde(rename = "expression")]
@@ -807,6 +870,7 @@ pub struct TsAsExpr {
 }
 
 #[ast_node("TsTypeAssertion")]
+#[derive(Eq, Hash)]
 pub struct TsTypeAssertion {
     pub span: Span,
     #[serde(rename = "expression")]
@@ -816,13 +880,14 @@ pub struct TsTypeAssertion {
 }
 
 #[ast_node("TsNonNullExpression")]
+#[derive(Eq, Hash)]
 pub struct TsNonNullExpr {
     pub span: Span,
     #[serde(rename = "expression")]
     pub expr: Box<Expr>,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize, Eq, Hash)]
 #[cfg_attr(feature = "fold", derive(Fold))]
 pub enum Accessibility {
     #[serde(rename = "public")]
@@ -834,6 +899,7 @@ pub enum Accessibility {
 }
 
 #[ast_node("TsConstAssertion")]
+#[derive(Eq, Hash)]
 pub struct TsConstAssertion {
     pub span: Span,
     pub expr: Box<Expr>,

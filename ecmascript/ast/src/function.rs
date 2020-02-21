@@ -8,6 +8,7 @@ use swc_common::{ast_node, Span};
 
 /// Common parts of function and method.
 #[ast_node]
+#[derive(Eq, Hash)]
 pub struct Function {
     pub params: Vec<Pat>,
 
@@ -35,6 +36,7 @@ pub struct Function {
 }
 
 #[ast_node]
+#[derive(Eq, Hash)]
 pub enum PatOrTsParamProp {
     #[tag("TsParameterProperty")]
     TsParamProp(TsParamProp),

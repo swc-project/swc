@@ -8,6 +8,7 @@ use crate::{
 use swc_common::{ast_node, Span};
 
 #[ast_node]
+#[derive(Eq, Hash)]
 pub enum ModuleDecl {
     #[tag("ImportDeclaration")]
     Import(ImportDecl),
@@ -38,6 +39,7 @@ pub enum ModuleDecl {
 }
 
 #[ast_node("ExportDefaultExpression")]
+#[derive(Eq, Hash)]
 pub struct ExportDefaultExpr {
     pub span: Span,
 
@@ -46,6 +48,7 @@ pub struct ExportDefaultExpr {
 }
 
 #[ast_node("ExportDeclaration")]
+#[derive(Eq, Hash)]
 pub struct ExportDecl {
     pub span: Span,
 
@@ -54,6 +57,7 @@ pub struct ExportDecl {
 }
 
 #[ast_node("ImportDeclaration")]
+#[derive(Eq, Hash)]
 pub struct ImportDecl {
     pub span: Span,
 
@@ -69,6 +73,7 @@ pub struct ImportDecl {
 
 /// `export * from 'mod'`
 #[ast_node("ExportAllDeclaration")]
+#[derive(Eq, Hash)]
 pub struct ExportAll {
     pub span: Span,
 
@@ -79,6 +84,7 @@ pub struct ExportAll {
 /// `export { foo } from 'mod'`
 /// `export { foo as bar } from 'mod'`
 #[ast_node("ExportNamedDeclaration")]
+#[derive(Eq, Hash)]
 pub struct NamedExport {
     pub span: Span,
 
@@ -92,6 +98,7 @@ pub struct NamedExport {
 }
 
 #[ast_node("ExportDefaultDeclaration")]
+#[derive(Eq, Hash)]
 pub struct ExportDefaultDecl {
     pub span: Span,
 
@@ -99,6 +106,7 @@ pub struct ExportDefaultDecl {
 }
 
 #[ast_node]
+#[derive(Eq, Hash)]
 pub enum DefaultDecl {
     #[tag("ClassExpression")]
     Class(ClassExpr),
@@ -111,6 +119,7 @@ pub enum DefaultDecl {
 }
 
 #[ast_node]
+#[derive(Eq, Hash)]
 pub enum ImportSpecifier {
     #[tag("ImportSpecifier")]
     Specific(ImportSpecific),
@@ -122,6 +131,7 @@ pub enum ImportSpecifier {
 
 /// e.g. `import foo from 'mod.js'`
 #[ast_node("ImportDefaultSpecifier")]
+#[derive(Eq, Hash)]
 pub struct ImportDefault {
     pub span: Span,
 
@@ -129,6 +139,7 @@ pub struct ImportDefault {
 }
 /// e.g. `import * as foo from 'mod.js'`.
 #[ast_node("ImportNamespaceSpecifier")]
+#[derive(Eq, Hash)]
 pub struct ImportStarAs {
     pub span: Span,
 
@@ -138,6 +149,7 @@ pub struct ImportStarAs {
 /// e.g. local = bar, imported = Some(foo) for `import { foo as bar } from
 /// 'mod.js'`
 #[ast_node("ImportSpecifier")]
+#[derive(Eq, Hash)]
 pub struct ImportSpecific {
     pub span: Span,
 
@@ -148,8 +160,9 @@ pub struct ImportSpecific {
 }
 
 #[ast_node]
+#[derive(Eq, Hash)]
 pub enum ExportSpecifier {
-    #[tag("ExportNamespaceSpecifer")]
+    #[tag("ExportNamespaceSpecifier")]
     Namespace(NamespaceExportSpecifier),
 
     #[tag("ExportDefaultSpecifier")]
@@ -160,7 +173,8 @@ pub enum ExportSpecifier {
 }
 
 /// `export * as foo from 'src';`
-#[ast_node("ExportNamespaceSpecifer")]
+#[ast_node("ExportNamespaceSpecifier")]
+#[derive(Eq, Hash)]
 pub struct NamespaceExportSpecifier {
     pub span: Span,
 
@@ -168,12 +182,14 @@ pub struct NamespaceExportSpecifier {
 }
 
 #[ast_node("ExportDefaultSpecifier")]
+#[derive(Eq, Hash)]
 pub struct DefaultExportSpecifier {
     #[span]
     pub exported: Ident,
 }
 
 #[ast_node("ExportSpecifier")]
+#[derive(Eq, Hash)]
 pub struct NamedExportSpecifier {
     pub span: Span,
     /// `foo` in `export { foo as bar }`

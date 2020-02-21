@@ -510,7 +510,7 @@ struct FunctionFinder {
 noop_visit_type!(FunctionFinder);
 
 impl Visit<Function> for FunctionFinder {
-    fn visit(&mut self, node: &Function) {
+    fn visit(&mut self, _: &Function) {
         self.found = true
     }
 }
