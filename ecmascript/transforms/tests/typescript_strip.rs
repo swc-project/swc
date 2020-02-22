@@ -334,3 +334,11 @@ test!(
 to!(import_type, "import type foo from 'foo'", "");
 
 to!(export_type, "export type { foo }", "");
+
+to!(
+    issue_685,
+    "
+    type MyType = string;
+    export default MyType;",
+    ""
+);
