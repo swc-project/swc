@@ -6,7 +6,7 @@ use fxhash::FxHashMap;
 use swc_atoms::js_word;
 use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Spanned, Visit, VisitWith, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::Id;
+use swc_ecma_utils::{ident::IdentLike, Id};
 
 /// Strips type annotations out.
 pub fn strip() -> impl Pass {
@@ -199,10 +199,12 @@ impl Fold<Vec<Pat>> for Strip {
 
 impl Fold<Vec<ModuleItem>> for Strip {
     fn fold(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
+        let old = self.phase;
+
         // First pass
+        self.phase = Phase::Analysis;
         let items = items.fold_children(self);
 
-        let old = self.phase;
         self.phase = Phase::DropImports;
 
         // Second pass
@@ -270,6 +272,25 @@ impl Fold<Vec<ModuleItem>> for Strip {
                     self.handle_enum(e, &mut stmts)
                 }
 
+                ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
+                    expr: box Expr::Ident(ref i),
+                    ..
+                })) => {
+                    // type MyType = string;
+                    // export default MyType;
+
+                    let preserve = if let Some(decl_info) = self.scope.decls.get(&i.to_id()) {
+                        decl_info.has_concrete
+                    } else {
+                        true
+                    };
+
+                    if preserve {
+                        stmts.push(item)
+                    }
+                }
+
+                // Strip out ts-only extensions
                 ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
                     function: Function { body: None, .. },
                     ..
