@@ -334,3 +334,33 @@ test!(
 to!(import_type, "import type foo from 'foo'", "");
 
 to!(export_type, "export type { foo }", "");
+
+to!(
+    issue_685,
+    "
+    type MyType = string;
+    export default MyType;",
+    ""
+);
+
+to!(
+    issue_685_2,
+    "
+    class MyType {}
+    type MyType = string;
+    export default MyType;",
+    "
+    class MyType {}
+    export default MyType;"
+);
+
+to!(
+    issue_685_3,
+    "
+    var MyType = function(){};
+    type MyType = string;
+    export default MyType;",
+    "
+    var MyType = function(){};
+    export default MyType;"
+);
