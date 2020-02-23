@@ -110,6 +110,45 @@ impl<'a> Resolver<'a> {
             return ident;
         }
 
+        if self.hoist {
+            // If there's no binding with same name, it means the code depends on hoisting
+            //
+            //   e.g.
+            //
+            //      function test() {
+            //          if (typeof Missing == typeof EXTENDS) {
+            //              console.log("missing")
+            //          }
+            //          var EXTENDS = "test";
+            //      }
+            let val = (|| {
+                let mut cursor = Some(&self.current);
+                let mut mark = self.mark;
+
+                while let Some(c) = cursor {
+                    if c.declared_symbols.contains(&ident.sym)
+                        || c.hoisted_symbols.borrow().contains(&ident.sym)
+                    {
+                        return None;
+                    }
+                    cursor = c.parent;
+                    let m = mark.parent();
+                    if m == Mark::root() {
+                        return Some(mark);
+                    }
+                    mark = m;
+                }
+
+                None
+            })();
+            if let Some(mark) = val {
+                return Ident {
+                    span: ident.span.apply_mark(mark),
+                    ..ident
+                };
+            }
+        }
+
         let (should_insert, mark) = if let Some((ref cur, override_mark)) = self.cur_defining {
             if *cur != ident.sym {
                 (true, self.mark)
