@@ -1074,3 +1074,15 @@ identical!(
     var EXTENDS = 'test';
 }"
 );
+
+identical!(
+    issue_688_2,
+    "function test() {
+    if (typeof Missing == typeof EXTENDS) {
+        console.log('missing');
+    }
+    {
+        var EXTENDS = 'test';
+    }
+}"
+);
