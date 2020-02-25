@@ -11,7 +11,7 @@ use swc_ecma_ast::*;
 #[cfg(test)]
 mod tests;
 
-const LOG: bool = true;
+const LOG: bool = false;
 
 pub fn resolver() -> impl Pass + 'static {
     Resolver::new(
