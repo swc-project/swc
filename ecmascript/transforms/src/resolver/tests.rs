@@ -57,7 +57,7 @@ fn test_mark_for() {
             None,
         );
         folder3.current.declared_symbols.insert("bar".into());
-        assert_eq!(folder3.mark_for(&"bar".into()), Some(mark3));
+        assert_eq!(folder3.mark_for_ref(&"bar".into()), Some(mark3));
 
         let mut folder4 = Resolver::new(
             mark4,
@@ -66,8 +66,8 @@ fn test_mark_for() {
         );
         folder4.current.declared_symbols.insert("foo".into());
 
-        assert_eq!(folder4.mark_for(&"foo".into()), Some(mark4));
-        assert_eq!(folder4.mark_for(&"bar".into()), Some(mark3));
+        assert_eq!(folder4.mark_for_ref(&"foo".into()), Some(mark4));
+        assert_eq!(folder4.mark_for_ref(&"bar".into()), Some(mark3));
         Ok(())
     })
     .unwrap();
@@ -1063,4 +1063,26 @@ identical!(
     }
   },
 });"
+);
+
+identical!(
+    issue_688,
+    "function test() {
+    if (typeof Missing == typeof EXTENDS) {
+        console.log('missing');
+    }
+    var EXTENDS = 'test';
+}"
+);
+
+identical!(
+    issue_688_2,
+    "function test() {
+    if (typeof Missing == typeof EXTENDS) {
+        console.log('missing');
+    }
+    {
+        var EXTENDS = 'test';
+    }
+}"
 );

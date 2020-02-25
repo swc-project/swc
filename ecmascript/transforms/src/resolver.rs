@@ -77,7 +77,8 @@ impl<'a> Resolver<'a> {
         }
     }
 
-    fn mark_for(&self, sym: &JsWord) -> Option<Mark> {
+    /// Returns a [Mark] for an identifier reference.
+    fn mark_for_ref(&self, sym: &JsWord) -> Option<Mark> {
         let mut mark = self.mark;
         let mut scope = Some(&self.current);
 
@@ -108,6 +109,46 @@ impl<'a> Resolver<'a> {
 
         if ident.span.ctxt() != SyntaxContext::empty() {
             return ident;
+        }
+
+        if self.hoist {
+            // If there's no binding with same name, it means the code depends on hoisting
+            //
+            //   e.g.
+            //
+            //      function test() {
+            //          if (typeof Missing == typeof EXTENDS) {
+            //              console.log("missing")
+            //          }
+            //          var EXTENDS = "test";
+            //      }
+            let val = (|| {
+                let mut cursor = Some(&self.current);
+                let mut mark = self.mark;
+
+                while let Some(c) = cursor {
+                    if c.declared_symbols.contains(&ident.sym)
+                        || c.hoisted_symbols.borrow().contains(&ident.sym)
+                    {
+                        c.hoisted_symbols.borrow_mut().insert(ident.sym.clone());
+                        return None;
+                    }
+                    cursor = c.parent;
+                    let m = mark.parent();
+                    if m == Mark::root() {
+                        return Some(mark);
+                    }
+                    mark = m;
+                }
+
+                None
+            })();
+            if let Some(mark) = val {
+                return Ident {
+                    span: ident.span.apply_mark(mark),
+                    ..ident
+                };
+            }
         }
 
         let (should_insert, mark) = if let Some((ref cur, override_mark)) = self.cur_defining {
@@ -372,7 +413,7 @@ impl<'a> Fold<Ident> for Resolver<'a> {
                     return Ident { sym, ..i };
                 }
 
-                if let Some(mark) = self.mark_for(&sym) {
+                if let Some(mark) = self.mark_for_ref(&sym) {
                     let span = span.apply_mark(mark);
 
                     if cfg!(debug_assertions) && LOG {
@@ -445,10 +486,14 @@ impl<'a> Fold<ArrowExpr> for Resolver<'a> {
             Scope::new(ScopeKind::Fn, Some(&self.current)),
             self.cur_defining.take(),
         );
+
+        let old_hoist = self.hoist;
         let old = folder.ident_type;
         folder.ident_type = IdentType::Binding;
+        self.hoist = false;
         let params = e.params.fold_with(&mut folder);
         folder.ident_type = old;
+        self.hoist = old_hoist;
 
         let body = e.body.fold_with(&mut folder);
 
@@ -517,7 +562,7 @@ impl Fold<CatchClause> for Resolver<'_> {
     }
 }
 
-/// The folder which handles function hoisting.
+/// The folder which handles var / function hoisting.
 struct Hoister<'a, 'b> {
     resolver: &'a mut Resolver<'b>,
 }
@@ -533,6 +578,48 @@ impl Fold<FnDecl> for Hoister<'_, '_> {
 
 impl Fold<Function> for Hoister<'_, '_> {
     fn fold(&mut self, node: Function) -> Function {
+        node
+    }
+}
+
+impl Fold<ArrowExpr> for Hoister<'_, '_> {
+    fn fold(&mut self, node: ArrowExpr) -> ArrowExpr {
+        node
+    }
+}
+
+impl Fold<VarDecl> for Hoister<'_, '_> {
+    fn fold(&mut self, node: VarDecl) -> VarDecl {
+        if node.kind != VarDeclKind::Var {
+            return node;
+        }
+        self.resolver.hoist = false;
+
+        node.fold_children(self)
+    }
+}
+
+impl Fold<VarDeclarator> for Hoister<'_, '_> {
+    fn fold(&mut self, node: VarDeclarator) -> VarDeclarator {
+        VarDeclarator {
+            name: node.name.fold_with(self),
+            ..node
+        }
+    }
+}
+
+impl Fold<Pat> for Hoister<'_, '_> {
+    fn fold(&mut self, node: Pat) -> Pat {
+        match node {
+            Pat::Ident(i) => Pat::Ident(self.resolver.fold_binding_ident(i)),
+            _ => node.fold_children(self),
+        }
+    }
+}
+
+impl Fold<PatOrExpr> for Hoister<'_, '_> {
+    #[inline(always)]
+    fn fold(&mut self, node: PatOrExpr) -> PatOrExpr {
         node
     }
 }
