@@ -11,7 +11,7 @@ use swc_ecma_ast::*;
 #[cfg(test)]
 mod tests;
 
-const LOG: bool = false;
+const LOG: bool = true;
 
 pub fn resolver() -> impl Pass + 'static {
     Resolver::new(
@@ -130,6 +130,7 @@ impl<'a> Resolver<'a> {
                     if c.declared_symbols.contains(&ident.sym)
                         || c.hoisted_symbols.borrow().contains(&ident.sym)
                     {
+                        c.hoisted_symbols.borrow_mut().insert(ident.sym.clone());
                         return None;
                     }
                     cursor = c.parent;
@@ -485,10 +486,14 @@ impl<'a> Fold<ArrowExpr> for Resolver<'a> {
             Scope::new(ScopeKind::Fn, Some(&self.current)),
             self.cur_defining.take(),
         );
+
+        let old_hoist = self.hoist;
         let old = folder.ident_type;
         folder.ident_type = IdentType::Binding;
+        self.hoist = false;
         let params = e.params.fold_with(&mut folder);
         folder.ident_type = old;
+        self.hoist = old_hoist;
 
         let body = e.body.fold_with(&mut folder);
 
@@ -557,7 +562,7 @@ impl Fold<CatchClause> for Resolver<'_> {
     }
 }
 
-/// The folder which handles function hoisting.
+/// The folder which handles var / function hoisting.
 struct Hoister<'a, 'b> {
     resolver: &'a mut Resolver<'b>,
 }
@@ -576,6 +581,13 @@ impl Fold<Function> for Hoister<'_, '_> {
         node
     }
 }
+
+impl Fold<ArrowExpr> for Hoister<'_, '_> {
+    fn fold(&mut self, node: ArrowExpr) -> ArrowExpr {
+        node
+    }
+}
+
 impl Fold<VarDecl> for Hoister<'_, '_> {
     fn fold(&mut self, node: VarDecl) -> VarDecl {
         if node.kind != VarDeclKind::Var {
