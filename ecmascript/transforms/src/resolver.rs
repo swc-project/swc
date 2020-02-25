@@ -77,7 +77,8 @@ impl<'a> Resolver<'a> {
         }
     }
 
-    fn mark_for(&self, sym: &JsWord) -> Option<Mark> {
+    /// Returns a [Mark] for an identifier reference.
+    fn mark_for_ref(&self, sym: &JsWord) -> Option<Mark> {
         let mut mark = self.mark;
         let mut scope = Some(&self.current);
 
@@ -411,7 +412,7 @@ impl<'a> Fold<Ident> for Resolver<'a> {
                     return Ident { sym, ..i };
                 }
 
-                if let Some(mark) = self.mark_for(&sym) {
+                if let Some(mark) = self.mark_for_ref(&sym) {
                     let span = span.apply_mark(mark);
 
                     if cfg!(debug_assertions) && LOG {
