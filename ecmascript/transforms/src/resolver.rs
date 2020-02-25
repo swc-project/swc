@@ -576,6 +576,41 @@ impl Fold<Function> for Hoister<'_, '_> {
         node
     }
 }
+impl Fold<VarDecl> for Hoister<'_, '_> {
+    fn fold(&mut self, node: VarDecl) -> VarDecl {
+        if node.kind != VarDeclKind::Var {
+            return node;
+        }
+        self.resolver.hoist = false;
+
+        node.fold_children(self)
+    }
+}
+
+impl Fold<VarDeclarator> for Hoister<'_, '_> {
+    fn fold(&mut self, node: VarDeclarator) -> VarDeclarator {
+        VarDeclarator {
+            name: node.name.fold_with(self),
+            ..node
+        }
+    }
+}
+
+impl Fold<Pat> for Hoister<'_, '_> {
+    fn fold(&mut self, node: Pat) -> Pat {
+        match node {
+            Pat::Ident(i) => Pat::Ident(self.resolver.fold_binding_ident(i)),
+            _ => node.fold_children(self),
+        }
+    }
+}
+
+impl Fold<PatOrExpr> for Hoister<'_, '_> {
+    #[inline(always)]
+    fn fold(&mut self, node: PatOrExpr) -> PatOrExpr {
+        node
+    }
+}
 
 impl Fold<Constructor> for Resolver<'_> {
     fn fold(&mut self, c: Constructor) -> Constructor {
