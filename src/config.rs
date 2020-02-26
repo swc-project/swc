@@ -52,6 +52,7 @@ pub struct Options {
     #[serde(flatten, default)]
     pub config: Option<Config>,
 
+    #[cfg(not(target_arch = "wasm32"))]
     #[serde(default = "default_cwd")]
     pub cwd: PathBuf,
 
@@ -61,9 +62,11 @@ pub struct Options {
     #[serde(default)]
     pub filename: String,
 
+    #[cfg(not(target_arch = "wasm32"))]
     #[serde(default)]
     pub config_file: Option<ConfigFile>,
 
+    #[cfg(not(target_arch = "wasm32"))]
     #[serde(default)]
     pub root: Option<PathBuf>,
 
@@ -73,6 +76,7 @@ pub struct Options {
     #[serde(default = "default_swcrc")]
     pub swcrc: bool,
 
+    #[cfg(not(target_arch = "wasm32"))]
     #[serde(default)]
     pub swcrc_roots: Option<PathBuf>,
 
@@ -284,6 +288,7 @@ pub struct CallerOptions {
     pub name: String,
 }
 
+#[cfg(not(target_arch = "wasm32"))]
 fn default_cwd() -> PathBuf {
     ::std::env::current_dir().unwrap()
 }
@@ -585,6 +590,7 @@ pub struct GlobalPassOption {
     pub envs: HashSet<String>,
 }
 
+#[cfg(not(target_arch = "wasm32"))]
 fn default_envs() -> HashSet<String> {
     let mut v = HashSet::default();
     v.insert(String::from("NODE_ENV"));
@@ -645,12 +651,17 @@ impl GlobalPassOption {
         let envs = self.envs;
         InlineGlobals {
             globals: mk_map(cm, handler, self.vars.into_iter(), false),
-            envs: mk_map(
-                cm,
-                handler,
-                env::vars().filter(|(k, _)| envs.contains(&*k)),
-                true,
-            ),
+
+            envs: if cfg!(target_arch = "wasm32") {
+                mk_map(cm, handler, vec![], true)
+            } else {
+                mk_map(
+                    cm,
+                    handler,
+                    env::vars().filter(|(k, _)| envs.contains(&*k)),
+                    true,
+                )
+            },
         }
     }
 }

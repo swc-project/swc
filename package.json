@@ -1,6 +1,7 @@
 {
   "devDependencies": {
     "browserslist": "^4.8.7",
+    "jest": "^25.1.0",
     "sourcemap-validator": "^2.1.0"
   }
 }
