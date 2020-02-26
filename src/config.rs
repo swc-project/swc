@@ -590,7 +590,6 @@ pub struct GlobalPassOption {
     pub envs: HashSet<String>,
 }
 
-#[cfg(not(target_arch = "wasm32"))]
 fn default_envs() -> HashSet<String> {
     let mut v = HashSet::default();
     v.insert(String::from("NODE_ENV"));
@@ -653,7 +652,7 @@ impl GlobalPassOption {
             globals: mk_map(cm, handler, self.vars.into_iter(), false),
 
             envs: if cfg!(target_arch = "wasm32") {
-                mk_map(cm, handler, vec![], true)
+                mk_map(cm, handler, vec![].into_iter(), true)
             } else {
                 mk_map(
                     cm,
