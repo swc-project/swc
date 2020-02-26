@@ -64,7 +64,7 @@ pub fn transform_sync(s: &str, opts: JsValue) -> JsValue {
 
     let c = compiler();
 
-    let opts: Options = Default::default();
+    let opts: Options = opts.into_serde().expect("failed to parse options");
 
     let fm = c.cm.new_source_file(FileName::Anon, s.into());
     let out = c.process_js_file(fm, &opts).expect("failed to process");
