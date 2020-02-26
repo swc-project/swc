@@ -2,7 +2,7 @@
 
 use once_cell::sync::Lazy;
 use std::{
-    path::PathBuf,
+    path::{Path, PathBuf},
     sync::{Arc, RwLock},
 };
 use swc::{
@@ -15,14 +15,46 @@ use swc::{
 };
 use wasm_bindgen::prelude::*;
 
-fn compiler() -> Compiler {
-    let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
+#[wasm_bindgen(js_name = "transformSync")]
+pub fn transform_sync(s: &str, opts: JsValue) -> JsValue {
+    console_error_panic_hook::set_once();
 
-    let (handler, _) = new_handler(cm.clone());
+    let c = compiler();
 
-    let c = Compiler::new(cm.clone(), handler);
+    let opts: Options = opts.into_serde().expect("failed to parse options");
 
-    c
+    let fm = c.cm.new_source_file(FileName::Anon, s.into());
+    let out = c.process_js_file(fm, &opts).expect("failed to process");
+
+    JsValue::from_serde(&out).unwrap()
+}
+
+#[wasm_bindgen(js_name = "transformFileSync")]
+pub fn transform_file_sync(path: &str, opts: JsValue) -> JsValue {
+    console_error_panic_hook::set_once();
+
+    let c = compiler();
+
+    let opts: Options = opts.into_serde().expect("failed to parse options");
+
+    let fm = c.cm.load_file(Path::new(path)).expect("failed load file");
+    let out = c.process_js_file(fm, &opts).expect("failed to process");
+
+    JsValue::from_serde(&out).unwrap()
+}
+
+fn compiler() -> Arc<Compiler> {
+    static COMPILER: Lazy<Compiler> = Lazy::new(|| {
+        let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
+
+        let (handler, _) = new_handler(cm.clone());
+
+        let c = Compiler::new(cm.clone(), handler);
+
+        Arc::new(c)
+    });
+
+    COMPILER.clone()
 }
 
 /// Creates a new handler for testing.
@@ -56,18 +88,4 @@ impl From<BufferedError> for Vec<Diagnostic> {
 
         s.clone()
     }
-}
-
-#[wasm_bindgen(js_name = "transformSync")]
-pub fn transform_sync(s: &str, opts: JsValue) -> JsValue {
-    console_error_panic_hook::set_once();
-
-    let c = compiler();
-
-    let opts: Options = opts.into_serde().expect("failed to parse options");
-
-    let fm = c.cm.new_source_file(FileName::Anon, s.into());
-    let out = c.process_js_file(fm, &opts).expect("failed to process");
-
-    JsValue::from_serde(&out).unwrap()
 }
