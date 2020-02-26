@@ -62,11 +62,9 @@ pub struct Options {
     #[serde(default)]
     pub filename: String,
 
-    #[cfg(not(target_arch = "wasm32"))]
     #[serde(default)]
     pub config_file: Option<ConfigFile>,
 
-    #[cfg(not(target_arch = "wasm32"))]
     #[serde(default)]
     pub root: Option<PathBuf>,
 

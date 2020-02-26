@@ -36,6 +36,12 @@ pub use ecmascript::{
 };
 use serde::Serialize;
 use std::{fs::File, path::Path, sync::Arc};
+use sourcemap::SourceMapBuilder;
+use std::{
+    fs::File,
+    path::{Path, PathBuf},
+    sync::Arc,
+};
 
 pub struct Compiler {
     /// swc uses rustc's span interning.
@@ -271,7 +277,6 @@ impl Compiler {
     }
 
     /// This method handles merging of config.
-    #[cfg(not(target_arch = "wasm32"))]
     pub fn config_for_file(
         &self,
         opts: &Options,
@@ -286,9 +291,13 @@ impl Compiler {
                 is_module,
                 ..
             } = opts;
-            let root = root
-                .clone()
-                .unwrap_or_else(|| ::std::env::current_dir().unwrap());
+            let root = root.clone().unwrap_or_else(|| {
+                if cfg!(target_arch = "wasm32") {
+                    PathBuf::new()
+                } else {
+                    ::std::env::current_dir().unwrap()
+                }
+            });
 
             let config_file = match config_file {
                 Some(ConfigFile::Str(ref s)) => {
@@ -352,26 +361,6 @@ impl Compiler {
                     Some(config_file) => Some(config_file.into_config(None)?),
                     None => Some(Rc::default().into_config(None)?),
                 },
-            );
-            Ok(built)
-        })
-    }
-
-    /// This method handles merging of config.
-    #[cfg(target_arch = "wasm32")]
-    pub fn config_for_file(
-        &self,
-        opts: &Options,
-        fm: &SourceFile,
-    ) -> Result<BuiltConfig<impl Pass>, Error> {
-        self.run(|| {
-            let Options { is_module, .. } = opts;
-
-            let built = opts.build(
-                &self.cm,
-                &self.handler,
-                *is_module,
-                Some(Rc::default().into_config(None)?),
             );
             Ok(built)
         })
