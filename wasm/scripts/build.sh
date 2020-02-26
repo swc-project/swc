@@ -1,1 +1,1 @@
-wasm-pack build --scope @swc/wasm -t nodejs
+wasm-pack build --scope @swc -t nodejs
