@@ -45,7 +45,7 @@
               {
                 "type": "AssignmentPattern",
                 "span": {
-                  "start": 17,
+                  "start": 9,
                   "end": 35,
                   "ctxt": 0
                 },
