@@ -1279,7 +1279,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 if eat!('=') {
                     let right = self.parse_assignment_expr()?;
                     pat = Pat::Assign(AssignPat {
-                        span: span!(start),
+                        span: span!(pat_start),
                         left: Box::new(pat),
                         right,
                         type_ann: None,
