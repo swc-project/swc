@@ -28,7 +28,7 @@ parking_lot = "0.7.1"
 hashbrown = "0.6"
 termcolor = "1.0"
 serde = { version = "1", features = ["derive"] }
-dashmap = "=3.4.0"
+dashmap = "=3.5.1"
 fxhash = "0.2.1"
 
 [dev-dependencies]
