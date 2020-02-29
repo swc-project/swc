@@ -16,7 +16,8 @@ macro_rules! to {
             |_| strip(),
             $name,
             $from,
-            $to
+            $to,
+            ok_if_code_eq
         );
     };
 }
@@ -279,15 +280,15 @@ test!(
   mounted = 'mounted',
   unmounted = 'unmounted',
 }",
-    "var State;
-(function(State) {
-    State[State['closed'] = 0] = 'closed';
-    State[State['opened'] = 1] = 'opened';
-    State[State['mounted'] = 2] = 'mounted';
-    State[State['unmounted'] = 3] = 'unmounted';
-})(State || (State = {
-}));
-",
+    r#"
+var State;
+(function (State) {
+    State["closed"] = "closed";
+    State["opened"] = "opened";
+    State["mounted"] = "mounted";
+    State["unmounted"] = "unmounted";
+})(State || (State = {}));
+"#,
     ok_if_code_eq
 );
 
@@ -301,14 +302,14 @@ test!(
   mounted = 'mounted',
   unmounted = 'unmounted',
 }",
-    "export var State;
-(function(State) {
-    State[State['closed'] = 0] = 'closed';
-    State[State['opened'] = 1] = 'opened';
-    State[State['mounted'] = 2] = 'mounted';
-    State[State['unmounted'] = 3] = 'unmounted';
-})(State || (State = {
-}));",
+    r#"export var State;
+(function (State) {
+    State["closed"] = "closed";
+    State["opened"] = "opened";
+    State["mounted"] = "mounted";
+    State["unmounted"] = "unmounted";
+})(State || (State = {}));
+"#,
     ok_if_code_eq
 );
 
@@ -363,4 +364,32 @@ to!(
     "
     var MyType = function(){};
     export default MyType;"
+);
+
+to!(
+    ts_enum_str_init,
+    "enum FlexSize {
+  md = 'md',
+  lg = 'lg',
+}",
+    "var FlexSize;
+(function (FlexSize) {
+    FlexSize['md'] = 'md';
+    FlexSize['lg'] = 'lg';
+})(FlexSize || (FlexSize = {}));
+"
+);
+
+to!(
+    ts_enum_no_init,
+    "enum FlexSize {
+  md,
+  lg,
+}",
+    "var FlexSize;
+(function (FlexSize) {
+    FlexSize[FlexSize['md'] = 0] = 'md';
+    FlexSize[FlexSize['lg'] = 1] = 'lg';
+})(FlexSize || (FlexSize = {}));
+"
 );

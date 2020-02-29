@@ -425,6 +425,26 @@ impl Strip {
                                             has_escape: false,
                                         },
                                     };
+                                    let prop = if let Some(init) = &m.init {
+                                        init.clone()
+                                    } else {
+                                        box Expr::Assign(AssignExpr {
+                                            span: DUMMY_SP,
+                                            left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
+                                                span: DUMMY_SP,
+                                                obj: id.clone().as_obj(),
+                                                prop: m.init.unwrap_or_else(|| {
+                                                    box Expr::Lit(Lit::Str(value.clone()))
+                                                }),
+                                                computed: true,
+                                            })),
+                                            op: op!("="),
+                                            right: box Expr::Lit(Lit::Num(Number {
+                                                span: DUMMY_SP,
+                                                value: i as _,
+                                            })),
+                                        })
+                                    };
 
                                     // Foo[Foo["a"] = 0] = "a";
                                     AssignExpr {
@@ -435,24 +455,7 @@ impl Strip {
                                             computed: true,
 
                                             // Foo["a"] = 0
-                                            prop: box Expr::Assign(AssignExpr {
-                                                span: DUMMY_SP,
-                                                left: PatOrExpr::Expr(box Expr::Member(
-                                                    MemberExpr {
-                                                        span: DUMMY_SP,
-                                                        obj: id.clone().as_obj(),
-                                                        prop: m.init.unwrap_or_else(|| {
-                                                            box Expr::Lit(Lit::Str(value.clone()))
-                                                        }),
-                                                        computed: true,
-                                                    },
-                                                )),
-                                                op: op!("="),
-                                                right: box Expr::Lit(Lit::Num(Number {
-                                                    span: DUMMY_SP,
-                                                    value: i as _,
-                                                })),
-                                            }),
+                                            prop,
                                         })),
                                         op: op!("="),
                                         right: box Expr::Lit(Lit::Str(Str {
