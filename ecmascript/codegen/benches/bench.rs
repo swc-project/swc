@@ -9,7 +9,7 @@ use swc_ecma_codegen::{self, Emitter};
 use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
 use test::Bencher;
 
-const SOURCE: &str = r#"
+const COLORS_JS: &str = r#"
 'use strict';
 /**
  * Extract red color out of a color integer:
@@ -81,13 +81,14 @@ module.exports = {
 };
 "#;
 
-#[bench]
-fn emit_colors(b: &mut Bencher) {
-    b.bytes = SOURCE.len() as _;
+const LARGE_PARTIAL_JS: &str = include_str!("large-partial.js");
+
+fn bench_emitter(b: &mut Bencher, s: &str) {
+    b.bytes = s.len() as _;
 
     let _ = ::testing::run_test(true, |cm, handler| {
         let session = Session { handler: &handler };
-        let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
+        let fm = cm.new_source_file(FileName::Anon, s.into());
         let mut parser = Parser::new(
             session,
             Syntax::default(),
@@ -126,6 +127,16 @@ fn emit_colors(b: &mut Bencher) {
         });
         Ok(())
     });
+}
+
+#[bench]
+fn emit_colors(b: &mut Bencher) {
+    bench_emitter(b, COLORS_JS)
+}
+
+#[bench]
+fn emit_large(b: &mut Bencher) {
+    bench_emitter(b, LARGE_PARTIAL_JS)
 }
 
 struct MyHandlers;
