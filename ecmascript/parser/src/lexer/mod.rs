@@ -850,31 +850,33 @@ impl<'a, I: Input> Lexer<'a, I> {
         self.bump();
 
         let (mut escaped, mut in_class) = (false, false);
-        let mut content = String::new();
         let content_start = self.cur_pos();
-
-        while let Some(c) = self.cur() {
-            // This is ported from babel.
-            // Seems like regexp literal cannot contain linebreak.
-            if c.is_line_break() {
-                self.error(start, SyntaxError::UnterminatedRegxp)?;
-            }
-
-            if escaped {
-                escaped = false;
-            } else {
-                match c {
-                    '[' => in_class = true,
-                    ']' if in_class => in_class = false,
-                    // Termniates content part of regex literal
-                    '/' if !in_class => break,
-                    _ => {}
+        let content = self.with_buf(|l, buf| {
+            while let Some(c) = l.cur() {
+                // This is ported from babel.
+                // Seems like regexp literal cannot contain linebreak.
+                if c.is_line_break() {
+                    l.error(start, SyntaxError::UnterminatedRegxp)?;
                 }
-                escaped = c == '\\';
+
+                if escaped {
+                    escaped = false;
+                } else {
+                    match c {
+                        '[' => in_class = true,
+                        ']' if in_class => in_class = false,
+                        // Termniates content part of regex literal
+                        '/' if !in_class => break,
+                        _ => {}
+                    }
+                    escaped = c == '\\';
+                }
+                l.bump();
+                buf.push(c);
             }
-            self.bump();
-            content.push(c);
-        }
+
+            Ok((&**buf).into())
+        })?;
         let content_span = Span::new(content_start, self.cur_pos(), Default::default());
 
         // input is terminated without following `/`
@@ -895,7 +897,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             .map(|(value, _)| value)
             .unwrap_or(js_word!(""));
 
-        Ok(Regex(content.into(), flags))
+        Ok(Regex(content, flags))
     }
 
     fn read_shebang(&mut self) -> LexResult<Option<JsWord>> {
