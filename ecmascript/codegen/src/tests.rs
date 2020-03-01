@@ -1,6 +1,6 @@
 use self::swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
 use super::*;
-use crate::{config::Config, text_writer::JsWriter};
+use crate::config::Config;
 use std::{
     fmt::{self, Debug, Display, Formatter},
     io::Write,
@@ -21,12 +21,12 @@ struct Builder {
 impl Builder {
     pub fn with<F, Ret>(self, src: &str, s: &mut Vec<u8>, op: F) -> Ret
     where
-        F: FnOnce(&mut Emitter<'_, JsWriter<&mut Vec<u8>>>) -> Ret,
+        F: FnOnce(&mut Emitter<'_>) -> Ret,
     {
         let mut e = Emitter {
             cfg: self.cfg,
             cm: self.cm.clone(),
-            wr: text_writer::JsWriter::new(self.cm.clone(), "\n", s, None),
+            wr: Box::new(text_writer::JsWriter::new(self.cm.clone(), "\n", s, None)),
             comments: Some(&self.comments),
             handlers: Box::new(Noop),
         };
@@ -38,7 +38,7 @@ impl Builder {
 
     pub fn text<F>(self, src: &str, op: F) -> String
     where
-        F: FnOnce(&mut Emitter<'_, JsWriter<&mut Vec<u8>>>),
+        F: FnOnce(&mut Emitter<'_>),
     {
         let mut buf = vec![];
 

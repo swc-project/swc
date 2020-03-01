@@ -1,10 +1,10 @@
 use super::{Emitter, Result};
-use crate::{list::ListFormat, text_writer::WriteJs};
+use crate::list::ListFormat;
 use swc_common::Spanned;
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::emitter;
 
-impl<'a, W: WriteJs> Emitter<'a, W> {
+impl<'a> Emitter<'a> {
     #[emitter]
     pub fn emit_jsx_element(&mut self, node: &JSXElement) -> Result {
         emit!(node.opening);
