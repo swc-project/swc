@@ -7,7 +7,6 @@ use self::{
     text_writer::WriteJs,
     util::{SourceMapperExt, SpanExt, StartsWithAlphaNum},
 };
-use aho_corasick::AhoCorasick;
 use std::{borrow::Cow, fmt::Write, io, sync::Arc};
 use swc_atoms::JsWord;
 use swc_common::{comments::Comments, BytePos, SourceMap, Span, Spanned, SyntaxContext, DUMMY_SP};
@@ -2140,29 +2139,49 @@ fn unescape(s: &str) -> String {
 }
 
 fn escape(s: &str) -> Cow<str> {
-    let patterns = &[
-        "\\", "\u{0008}", "\u{000C}", "\n", "\r", "\t", "\u{000B}", "\00", "\01", "\02", "\03",
-        "\04", "\05", "\06", "\07", "\08", "\09", "\0",
-    ];
-    let replace_with = &[
-        "\\\\", "\\b", "\\f", "\\n", "\\r", "\\t", "\\v", "\\x000", "\\x001", "\\x002", "\\x003",
-        "\\x004", "\\x005", "\\x006", "\\x007", "\\x008", "\\x009", "\\0",
-    ];
-
-    {
-        let mut found = false;
-        for pat in patterns {
-            if s.contains(pat) {
-                found = true;
-                break;
-            }
-        }
-        if !found {
-            return Cow::Borrowed(s);
-        }
-    }
-
-    let ac = AhoCorasick::new(patterns);
-
-    Cow::Owned(ac.replace_all(s, replace_with))
+    // let patterns = &[
+    //     "\\", "\u{0008}", "\u{000C}", "\n", "\r", "\t", "\u{000B}", "\00", "\01",
+    // "\02", "\03",     "\04", "\05", "\06", "\07", "\08", "\09", "\0",
+    // ];
+    // let replace_with = &[
+    //     "\\\\", "\\b", "\\f", "\\n", "\\r", "\\t", "\\v", "\\x000", "\\x001",
+    // "\\x002", "\\x003",     "\\x004", "\\x005", "\\x006", "\\x007", "\\x008",
+    // "\\x009", "\\0", ];
+    //
+    // {
+    //     let mut found = false;
+    //     for pat in patterns {
+    //         if s.contains(pat) {
+    //             found = true;
+    //             break;
+    //         }
+    //     }
+    //     if !found {
+    //         return Cow::Borrowed(s);
+    //     }
+    // }
+    //
+    // let ac = AhoCorasick::new(patterns);
+    //
+    // Cow::Owned(ac.replace_all(s, replace_with))
+    Cow::Owned(
+        s.replace("\\", "\\\\")
+            .replace('\u{0008}', "\\b")
+            .replace('\u{000C}', "\\f")
+            .replace("\n", "\\n")
+            .replace("\r", "\\r")
+            .replace("\t", "\\t")
+            .replace('\u{000B}', "\\v")
+            .replace("\00", "\\x000")
+            .replace("\01", "\\x001")
+            .replace("\02", "\\x002")
+            .replace("\03", "\\x003")
+            .replace("\04", "\\x004")
+            .replace("\05", "\\x005")
+            .replace("\06", "\\x006")
+            .replace("\07", "\\x007")
+            .replace("\08", "\\x008")
+            .replace("\09", "\\x009")
+            .replace("\0", "\\0"),
+    )
 }
