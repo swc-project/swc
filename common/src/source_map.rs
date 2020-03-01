@@ -1014,79 +1014,58 @@ impl SourceMap {
             let src = &**f.src;
 
             let loc = {
-                let line_info = self.lookup_line_with(fm, pos);
-                match line_info {
-                    Ok(SourceFileAndLine { sf: f, line: a }) => {
-                        let chpos = self.bytepos_to_file_charpos_with(&f, pos);
+                let a = match f.lookup_line(pos) {
+                    Some(line) => line,
+                    None => continue,
+                };
+                {
+                    let chpos = self.bytepos_to_file_charpos_with(&f, pos);
 
-                        let line = a + 1; // Line numbers start at 1
-                        let linebpos = f.lines[a];
-                        assert!(
-                            pos >= linebpos,
-                            "{}: bpos = {:?}; linebpos = {:?};",
-                            f.name,
-                            pos,
-                            linebpos,
-                        );
+                    let line = a + 1; // Line numbers start at 1
+                    let linebpos = f.lines[a];
+                    assert!(
+                        pos >= linebpos,
+                        "{}: bpos = {:?}; linebpos = {:?};",
+                        f.name,
+                        pos,
+                        linebpos,
+                    );
 
-                        let linechpos = self.bytepos_to_file_charpos_with(&f, linebpos);
+                    let linechpos = self.bytepos_to_file_charpos_with(&f, linebpos);
 
-                        let col = max(chpos, linechpos) - min(chpos, linechpos);
+                    let col = max(chpos, linechpos) - min(chpos, linechpos);
 
-                        let col_display = {
-                            let start_width_idx = f
-                                .non_narrow_chars
-                                .binary_search_by_key(&linebpos, |x| x.pos())
-                                .unwrap_or_else(|x| x);
-                            let end_width_idx = f
-                                .non_narrow_chars
-                                .binary_search_by_key(&pos, |x| x.pos())
-                                .unwrap_or_else(|x| x);
-                            let special_chars = end_width_idx - start_width_idx;
-                            let non_narrow: usize = f.non_narrow_chars
-                                [start_width_idx..end_width_idx]
-                                .iter()
-                                .map(|x| x.width())
-                                .sum();
-                            col.0 - special_chars + non_narrow
-                        };
-                        debug!(
-                            "byte pos {:?} is on the line at byte pos {:?}",
-                            pos, linebpos
-                        );
-                        debug!(
-                            "char pos {:?} is on the line at char pos {:?}",
-                            chpos, linechpos
-                        );
-                        debug!("byte is on line: {}", line);
-                        //                assert!(chpos >= linechpos);
-                        Loc {
-                            file: f,
-                            line,
-                            col,
-                            col_display,
-                        }
-                    }
-                    Err(f) => {
-                        let chpos = self.bytepos_to_file_charpos(pos);
-
-                        let col_display = {
-                            let end_width_idx = f
-                                .non_narrow_chars
-                                .binary_search_by_key(&pos, |x| x.pos())
-                                .unwrap_or_else(|x| x);
-                            let non_narrow: usize = f.non_narrow_chars[0..end_width_idx]
-                                .iter()
-                                .map(|x| x.width())
-                                .sum();
-                            chpos.0 - end_width_idx + non_narrow
-                        };
-                        Loc {
-                            file: f,
-                            line: 0,
-                            col: chpos,
-                            col_display,
-                        }
+                    let col_display = {
+                        let start_width_idx = f
+                            .non_narrow_chars
+                            .binary_search_by_key(&linebpos, |x| x.pos())
+                            .unwrap_or_else(|x| x);
+                        let end_width_idx = f
+                            .non_narrow_chars
+                            .binary_search_by_key(&pos, |x| x.pos())
+                            .unwrap_or_else(|x| x);
+                        let special_chars = end_width_idx - start_width_idx;
+                        let non_narrow: usize = f.non_narrow_chars[start_width_idx..end_width_idx]
+                            .iter()
+                            .map(|x| x.width())
+                            .sum();
+                        col.0 - special_chars + non_narrow
+                    };
+                    debug!(
+                        "byte pos {:?} is on the line at byte pos {:?}",
+                        pos, linebpos
+                    );
+                    debug!(
+                        "char pos {:?} is on the line at char pos {:?}",
+                        chpos, linechpos
+                    );
+                    debug!("byte is on line: {}", line);
+                    //                assert!(chpos >= linechpos);
+                    Loc {
+                        file: f,
+                        line,
+                        col,
+                        col_display,
                     }
                 }
             };
