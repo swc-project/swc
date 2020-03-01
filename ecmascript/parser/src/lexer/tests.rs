@@ -288,6 +288,17 @@ fn str_escape_2() {
 }
 
 #[test]
+fn str_escape_3() {
+    assert_eq!(
+        lex_tokens(Syntax::default(), r#"'\x00'"#),
+        vec![Token::Str {
+            value: "\x00".into(),
+            has_escape: true
+        }]
+    );
+}
+
+#[test]
 fn str_escape_hex() {
     assert_eq!(
         lex(Syntax::default(), r#"'\x61'"#),
