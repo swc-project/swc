@@ -24,7 +24,7 @@ use crate::{
 };
 use hashbrown::HashMap;
 use log::debug;
-use sourcemap::SourceMapBuilder;
+use sourcemap::{SourceMapBuilder, Token};
 use std::{
     cmp,
     cmp::{max, min},
@@ -1005,24 +1005,23 @@ impl SourceMap {
                 Some(ref f) if f.start_pos <= pos && pos < f.end_pos => f,
                 _ => {
                     f = self.lookup_source_file(pos);
+                    builder.add_source(&f.src);
                     cur_file = Some(f.clone());
+
                     &f
                 }
             };
+            let src = &**f.src;
 
-            let loc = self.cm.lookup_char_pos_with(fm, byte_pos);
+            let loc = self.lookup_char_pos_with(fm, byte_pos);
 
-            let src = match loc.file.name {
-                FileName::Real(ref p) => Some(p.display().to_string()),
-                _ => None,
-            };
             if loc.col.0 < u16::MAX as usize {
-                srcmap.add(
+                builder.add(
                     lc.line,
                     lc.col,
                     (loc.line - 1) as _,
                     loc.col.0 as _,
-                    src.as_ref().map(|s| &**s),
+                    Soem(src),
                     None,
                 );
             }
