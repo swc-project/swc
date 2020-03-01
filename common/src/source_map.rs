@@ -247,7 +247,21 @@ impl SourceMap {
 
     /// Lookup source information about a BytePos
     pub fn lookup_char_pos(&self, pos: BytePos) -> Loc {
-        match self.lookup_line(pos) {
+        let line_info = self.lookup_line(pos);
+        self.lookup_char_pos_with(line_info, pos)
+    }
+
+    /// Lookup source information about a BytePos
+    ///
+    ///
+    /// This method exists to optimize performance of codegen.
+    #[doc(hidden)]
+    pub fn lookup_char_pos_with(
+        &self,
+        line_info: Result<SourceFileAndLine, Arc<SourceFile>>,
+        pos: BytePos,
+    ) -> Loc {
+        match line_info {
             Ok(SourceFileAndLine { sf: f, line: a }) => {
                 let chpos = self.bytepos_to_file_charpos_inner(&f, pos);
 
@@ -322,10 +336,22 @@ impl SourceMap {
         }
     }
 
-    // If the relevant source_file is empty, we don't return a line number.
+    /// If the relevant source_file is empty, we don't return a line number.
     pub fn lookup_line(&self, pos: BytePos) -> Result<SourceFileAndLine, Arc<SourceFile>> {
         let f = self.lookup_source_file(pos);
 
+        self.lookup_line_with(f, pos)
+    }
+
+    /// If the relevant source_file is empty, we don't return a line number.
+    ///
+    /// This method exists only for optimization.
+    #[doc(hidden)]
+    pub fn lookup_line_with(
+        &self,
+        f: Arc<SourceFile>,
+        pos: BytePos,
+    ) -> Result<SourceFileAndLine, Arc<SourceFile>> {
         match f.lookup_line(pos) {
             Some(line) => Ok(SourceFileAndLine { sf: f, line }),
             None => Err(f),
