@@ -1,8 +1,9 @@
 use super::{Emitter, Result};
+use crate::text_writer::WriteJs;
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::emitter;
 
-impl<'a> Emitter<'a> {
+impl<'a, W: WriteJs> Emitter<'a, W> {
     #[emitter]
     pub fn emit_pat_or_ts_param_prop(&mut self, n: &PatOrTsParamProp) -> Result {
         match *n {

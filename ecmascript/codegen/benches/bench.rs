@@ -113,7 +113,7 @@ fn bench_emitter(b: &mut Bencher, s: &str) {
                     },
                     comments: None,
                     cm: cm.clone(),
-                    wr: box swc_ecma_codegen::text_writer::JsWriter::new(
+                    wr: swc_ecma_codegen::text_writer::JsWriter::new(
                         cm.clone(),
                         "\n",
                         buf,

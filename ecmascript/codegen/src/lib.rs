@@ -36,29 +36,32 @@ pub trait Handlers {
     // fn on_after_emit_token(&mut self, _node: &Any) {}
 }
 
-pub trait Node: Spanned {
-    fn emit_with(&self, e: &mut Emitter<'_>) -> Result;
+pub trait Node<W: WriteJs>: Spanned {
+    fn emit_with(&self, e: &mut Emitter<'_, W>) -> Result;
 }
-impl<N: Node> Node for Box<N> {
-    fn emit_with(&self, e: &mut Emitter<'_>) -> Result {
+impl<N: Node<W>, W: WriteJs> Node<W> for Box<N> {
+    fn emit_with(&self, e: &mut Emitter<'_, W>) -> Result {
         (**self).emit_with(e)
     }
 }
-impl<'a, N: Node> Node for &'a N {
-    fn emit_with(&self, e: &mut Emitter<'_>) -> Result {
+impl<'a, N: Node<W>, W: WriteJs> Node<W> for &'a N {
+    fn emit_with(&self, e: &mut Emitter<'_, W>) -> Result {
         (**self).emit_with(e)
     }
 }
 
-pub struct Emitter<'a> {
+pub struct Emitter<'a, W>
+where
+    W: WriteJs,
+{
     pub cfg: config::Config,
     pub cm: Arc<SourceMap>,
     pub comments: Option<&'a Comments>,
-    pub wr: Box<(dyn 'a + WriteJs)>,
+    pub wr: W,
     pub handlers: Box<(dyn 'a + Handlers)>,
 }
 
-impl<'a> Emitter<'a> {
+impl<'a, W: WriteJs> Emitter<'a, W> {
     pub fn emit_stmts(&mut self, stmts: &[Stmt]) -> Result {
         let span = if stmts.is_empty() {
             DUMMY_SP
@@ -1217,7 +1220,7 @@ impl<'a> Emitter<'a> {
         // emitList(node, node.typeArguments, ListFormat::TypeParameters);
     }
 
-    pub fn emit_list<N: Node>(
+    pub fn emit_list<N: Node<W>>(
         &mut self,
         parent_node: Span,
         children: Option<&[N]>,
@@ -1233,7 +1236,7 @@ impl<'a> Emitter<'a> {
     }
 
     #[allow(clippy::cognitive_complexity)]
-    pub fn emit_list5<N: Node>(
+    pub fn emit_list5<N: Node<W>>(
         &mut self,
         parent_node: Span,
         children: Option<&[N]>,
@@ -1456,7 +1459,7 @@ impl<'a> Emitter<'a> {
 }
 
 /// Patterns
-impl<'a> Emitter<'a> {
+impl<'a, W: WriteJs> Emitter<'a, W> {
     #[emitter]
     pub fn emit_pat(&mut self, node: &Pat) -> Result {
         match *node {
@@ -1582,7 +1585,7 @@ impl<'a> Emitter<'a> {
 }
 
 /// Statements
-impl<'a> Emitter<'a> {
+impl<'a, W: WriteJs> Emitter<'a, W> {
     #[emitter]
     pub fn emit_stmt(&mut self, node: &Stmt) -> Result {
         match *node {
@@ -1933,7 +1936,7 @@ impl<'a> Emitter<'a> {
     }
 }
 
-impl<'a> Emitter<'a> {
+impl<'a, W: WriteJs> Emitter<'a, W> {
     fn write_delim(&mut self, f: ListFormat) -> Result {
         match f & ListFormat::DelimitersMask {
             ListFormat::None => {}
@@ -2035,11 +2038,12 @@ fn should_emit_whitespace_before_operand(node: &UnaryExpr) -> bool {
     }
 }
 
-impl<N> Node for Option<N>
+impl<N, W> Node<W> for Option<N>
 where
-    N: Node,
+    W: WriteJs,
+    N: Node<W>,
 {
-    fn emit_with(&self, e: &mut Emitter<'_>) -> Result {
+    fn emit_with(&self, e: &mut Emitter<'_, W>) -> Result {
         match *self {
             Some(ref n) => n.emit_with(e),
             None => Ok(()),
