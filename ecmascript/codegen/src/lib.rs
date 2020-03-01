@@ -40,11 +40,13 @@ pub trait Node<W: WriteJs>: Spanned {
     fn emit_with(&self, e: &mut Emitter<'_, W>) -> Result;
 }
 impl<N: Node<W>, W: WriteJs> Node<W> for Box<N> {
+    #[inline(always)]
     fn emit_with(&self, e: &mut Emitter<'_, W>) -> Result {
         (**self).emit_with(e)
     }
 }
 impl<'a, N: Node<W>, W: WriteJs> Node<W> for &'a N {
+    #[inline(always)]
     fn emit_with(&self, e: &mut Emitter<'_, W>) -> Result {
         (**self).emit_with(e)
     }
