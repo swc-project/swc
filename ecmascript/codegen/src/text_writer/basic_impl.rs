@@ -5,7 +5,7 @@ use std::{
     sync::Arc,
     u16,
 };
-use swc_common::{FileName, SourceMap, Span};
+use swc_common::{BytePos, FileName, SourceMap, Span};
 
 ///
 /// -----
@@ -66,33 +66,10 @@ impl<'a, W: Write> JsWriter<'a, W> {
     fn write(&mut self, span: Option<Span>, data: &str) -> io::Result<usize> {
         let mut cnt = 0;
 
-        macro_rules! srcmap {
-            ($byte_pos:expr) => {{
-                if let Some(ref mut srcmap) = self.srcmap {
-                    let loc = self.cm.lookup_char_pos($byte_pos);
-
-                    let src = match loc.file.name {
-                        FileName::Real(ref p) => Some(p.display().to_string()),
-                        _ => None,
-                    };
-                    if loc.col.0 < u16::MAX as usize {
-                        srcmap.add(
-                            self.line_count as _,
-                            self.line_pos as _,
-                            (loc.line - 1) as _,
-                            loc.col.0 as _,
-                            src.as_ref().map(|s| &**s),
-                            None,
-                        );
-                    }
-                }
-            }};
-        }
-
         if !data.is_empty() {
             if let Some(span) = span {
                 if !span.is_dummy() {
-                    srcmap!(span.lo())
+                    self.srcmap(span.lo())
                 }
             }
 
@@ -104,12 +81,33 @@ impl<'a, W: Write> JsWriter<'a, W> {
 
             if let Some(span) = span {
                 if !span.is_dummy() {
-                    srcmap!(span.hi())
+                    self.srcmap(span.hi())
                 }
             }
         }
 
         Ok(cnt)
+    }
+
+    fn srcmap(&mut self, byte_pos: BytePos) {
+        if let Some(ref mut srcmap) = self.srcmap {
+            let loc = self.cm.lookup_char_pos(byte_pos);
+
+            let src = match loc.file.name {
+                FileName::Real(ref p) => Some(p.display().to_string()),
+                _ => None,
+            };
+            if loc.col.0 < u16::MAX as usize {
+                srcmap.add(
+                    self.line_count as _,
+                    self.line_pos as _,
+                    (loc.line - 1) as _,
+                    loc.col.0 as _,
+                    src.as_ref().map(|s| &**s),
+                    None,
+                );
+            }
+        }
     }
 }
 
