@@ -991,20 +991,22 @@ impl SourceMap {
     /// Creates a `.map` file.
     pub fn build_source_map(&self, mappings: &mut Vec<(BytePos, LineCol)>) -> sourcemap::SourceMap {
         let mut builder = SourceMapBuilder::new(None);
-        let mut files = Vec::with_capacity(1);
 
         mappings.sort_by_key(|v| v.0);
+
+        let mut cur_file: Option<Arc<SourceFile>> = None;
 
         for (pos, lc) in mappings {
             let pos = *pos;
             let lc = *lc;
 
-            let fm = match SourceMap::lookup_source_file_in(&files, byte_pos) {
-                Some(fm) => fm,
-                None => {
-                    let fm = self.cm.lookup_source_file(byte_pos);
-                    files.push(fm.clone());
-                    fm
+            let f;
+            let f = match cur_file {
+                Some(ref f) if f.start_pos <= pos && pos < f.end_pos => f,
+                _ => {
+                    f = self.lookup_source_file(pos);
+                    cur_file = Some(f.clone());
+                    &f
                 }
             };
 
