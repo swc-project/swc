@@ -5,7 +5,7 @@ use std::{
     sync::Arc,
     u16,
 };
-use swc_common::{BytePos, FileName, SourceMap, Span};
+use swc_common::{BytePos, FileName, SourceFile, SourceMap, Span};
 
 ///
 /// -----
@@ -23,6 +23,8 @@ pub struct JsWriter<'a, W: Write> {
     srcmap: Option<&'a mut SourceMapBuilder>,
     wr: W,
     written_bytes: usize,
+
+    files: Vec<Arc<SourceFile>>,
 }
 
 impl<'a, W: Write> JsWriter<'a, W> {
@@ -42,6 +44,7 @@ impl<'a, W: Write> JsWriter<'a, W> {
             srcmap,
             wr,
             written_bytes: 0,
+            files: Vec::with_capacity(2),
         }
     }
 
@@ -91,7 +94,16 @@ impl<'a, W: Write> JsWriter<'a, W> {
 
     fn srcmap(&mut self, byte_pos: BytePos) {
         if let Some(ref mut srcmap) = self.srcmap {
-            let loc = self.cm.lookup_char_pos(byte_pos);
+            let fm = match SourceMap::lookup_source_file_in(&self.files, byte_pos) {
+                Some(fm) => fm,
+                None => {
+                    let fm = self.cm.lookup_source_file(byte_pos);
+                    self.files.push(fm.clone());
+                    fm
+                }
+            };
+
+            let loc = self.cm.lookup_char_pos_with(fm, byte_pos);
 
             let src = match loc.file.name {
                 FileName::Real(ref p) => Some(p.display().to_string()),
@@ -176,6 +188,11 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
         Ok(())
     }
 
+    fn write_comment(&mut self, span: Span, s: &str) -> Result {
+        self.write(Some(span), s)?;
+        Ok(())
+    }
+
     fn write_str_lit(&mut self, span: Span, s: &str) -> Result {
         self.write(Some(span), s)?;
         Ok(())
@@ -183,11 +200,6 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
 
     fn write_str(&mut self, s: &str) -> Result {
         self.write(None, s)?;
-        Ok(())
-    }
-
-    fn write_comment(&mut self, span: Span, s: &str) -> Result {
-        self.write(Some(span), s)?;
         Ok(())
     }
 

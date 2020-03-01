@@ -247,23 +247,21 @@ impl SourceMap {
 
     /// Lookup source information about a BytePos
     pub fn lookup_char_pos(&self, pos: BytePos) -> Loc {
-        let line_info = self.lookup_line(pos);
-        self.lookup_char_pos_with(line_info, pos)
+        let fm = self.lookup_source_file(pos);
+        self.lookup_char_pos_with(fm, pos)
     }
 
     /// Lookup source information about a BytePos
     ///
     ///
-    /// This method exists to optimize performance of codegen.
+    /// This method exists only for optimization and it's not part of public
+    /// api.
     #[doc(hidden)]
-    pub fn lookup_char_pos_with(
-        &self,
-        line_info: Result<SourceFileAndLine, Arc<SourceFile>>,
-        pos: BytePos,
-    ) -> Loc {
+    pub fn lookup_char_pos_with(&self, fm: Arc<SourceFile>, pos: BytePos) -> Loc {
+        let line_info = self.lookup_line_with(fm, pos);
         match line_info {
             Ok(SourceFileAndLine { sf: f, line: a }) => {
-                let chpos = self.bytepos_to_file_charpos_inner(&f, pos);
+                let chpos = self.bytepos_to_file_charpos_with(&f, pos);
 
                 let line = a + 1; // Line numbers start at 1
                 let linebpos = f.lines[a];
@@ -275,7 +273,7 @@ impl SourceMap {
                     linebpos,
                 );
 
-                let linechpos = self.bytepos_to_file_charpos(linebpos);
+                let linechpos = self.bytepos_to_file_charpos_with(&f, linebpos);
 
                 let col = max(chpos, linechpos) - min(chpos, linechpos);
 
@@ -345,7 +343,8 @@ impl SourceMap {
 
     /// If the relevant source_file is empty, we don't return a line number.
     ///
-    /// This method exists only for optimization.
+    /// This method exists only for optimization and it's not part of public
+    /// api.
     #[doc(hidden)]
     pub fn lookup_line_with(
         &self,
@@ -818,11 +817,11 @@ impl SourceMap {
     fn bytepos_to_file_charpos(&self, bpos: BytePos) -> CharPos {
         let map = self.lookup_source_file(bpos);
 
-        self.bytepos_to_file_charpos_inner(&map, bpos)
+        self.bytepos_to_file_charpos_with(&map, bpos)
     }
 
     /// Converts an absolute BytePos to a CharPos relative to the source_file.
-    fn bytepos_to_file_charpos_inner(&self, map: &SourceFile, bpos: BytePos) -> CharPos {
+    fn bytepos_to_file_charpos_with(&self, map: &SourceFile, bpos: BytePos) -> CharPos {
         // The number of extra bytes due to multibyte chars in the SourceFile
         let mut total_extra_bytes = 0;
 
@@ -850,10 +849,15 @@ impl SourceMap {
         CharPos(bpos.to_usize() - map.start_pos.to_usize() - total_extra_bytes as usize)
     }
 
-    // Return the index of the source_file (in self.files) which contains pos.
-    fn lookup_source_file(&self, pos: BytePos) -> Arc<SourceFile> {
-        let files = self.files.borrow();
-        let files = &files.source_files;
+    /// Return the index of the source_file (in self.files) which contains pos.
+    ///
+    /// This method exists only for optimization and it's not part of public
+    /// api.
+    #[doc(hidden)]
+    pub fn lookup_source_file_in(
+        files: &[Arc<SourceFile>],
+        pos: BytePos,
+    ) -> Option<Arc<SourceFile>> {
         let count = files.len();
 
         // Binary search for the source_file.
@@ -868,13 +872,30 @@ impl SourceMap {
             }
         }
 
-        assert!(
-            a < count,
-            "position {} does not resolve to a source location",
-            pos.to_usize()
-        );
+        if a >= count {
+            return None;
+        }
 
-        files[a].clone()
+        Some(files[a].clone())
+    }
+
+    /// Return the index of the source_file (in self.files) which contains pos.
+    ///
+    /// This is not a public api.
+    #[doc(hidden)]
+    pub fn lookup_source_file(&self, pos: BytePos) -> Arc<SourceFile> {
+        let files = self.files.borrow();
+        let files = &files.source_files;
+        let fm = Self::lookup_source_file_in(&files, pos);
+        match fm {
+            Some(fm) => fm,
+            None => {
+                panic!(
+                    "position {} does not resolve to a source location",
+                    pos.to_usize()
+                );
+            }
+        }
     }
 
     pub fn count_lines(&self) -> usize {
