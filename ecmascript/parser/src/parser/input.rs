@@ -6,7 +6,7 @@ use crate::{
 };
 use lexer::TokenContexts;
 use std::{cell::RefCell, mem, rc::Rc};
-use swc_common::{BytePos, Span, DUMMY_SP};
+use swc_common::{BytePos, Span, SpanData, DUMMY_SP};
 
 pub trait Tokens: Clone + Iterator<Item = TokenAndSpan> {
     fn set_ctx(&mut self, ctx: Context);
@@ -149,7 +149,7 @@ impl<I: Tokens> Tokens for Capturing<I> {
 pub(super) struct Buffer<I: Tokens> {
     iter: I,
     /// Span of the previous token.
-    prev_span: Span,
+    prev_span: SpanData,
     cur: Option<TokenAndSpan>,
     /// Peeked token
     next: Option<TokenAndSpan>,
@@ -166,7 +166,7 @@ impl<I: Tokens> Buffer<I> {
         Buffer {
             iter: lexer,
             cur: None,
-            prev_span: DUMMY_SP,
+            prev_span: DUMMY_SP.data(),
             next: None,
         }
     }
@@ -300,7 +300,7 @@ impl<I: Tokens> Buffer<I> {
         let _ = self.cur();
         self.cur
             .as_ref()
-            .map(|item| item.span.lo())
+            .map(|item| item.span.lo)
             .unwrap_or_else(|| {
                 // eof
                 self.last_pos()
@@ -309,21 +309,24 @@ impl<I: Tokens> Buffer<I> {
 
     #[inline(always)]
     pub fn cur_span(&self) -> Span {
-        self.cur
+        let data = self
+            .cur
             .as_ref()
             .map(|item| item.span)
-            .unwrap_or(self.prev_span)
+            .unwrap_or(self.prev_span);
+
+        Span::new(data.lo, data.hi, data.ctxt)
     }
 
     /// Returns last byte position of previous token.
     #[inline(always)]
     pub fn last_pos(&self) -> BytePos {
-        self.prev_span.hi()
+        self.prev_span.hi
     }
 
     /// Returns span of the previous token.
     #[inline(always)]
-    pub fn prev_span(&self) -> Span {
+    pub fn prev_span(&self) -> SpanData {
         self.prev_span
     }
 

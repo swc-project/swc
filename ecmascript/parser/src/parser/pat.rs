@@ -1,6 +1,6 @@
 //! 13.3.3 Destructuring Binding Patterns
 use super::{util::ExprExt, *};
-use crate::{parser::expr::PatOrExprOrSpread, token::AssignOpToken};
+use crate::{parser::expr::PatOrExprOrSpread, sp, token::AssignOpToken};
 use std::iter;
 use swc_atoms::js_word;
 use swc_common::Spanned;
@@ -158,7 +158,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                         // opt = true;
                     }
                     _ => syntax_error!(
-                        self.input.prev_span(),
+                        sp(self.input.prev_span()),
                         SyntaxError::TsBindingPatCannotBeOptional
                     ),
                 }
@@ -192,8 +192,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 }) => {
                     let new_type_ann = self.try_parse_ts_type_ann()?;
                     if new_type_ann.is_some() {
-                        *span =
-                            Span::new(pat_start, self.input.prev_span().hi(), Default::default());
+                        *span = Span::new(pat_start, self.input.prev_span().hi, Default::default());
                     }
                     *type_ann = new_type_ann;
                 }
@@ -368,7 +367,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 params.push(pat);
 
                 if self.syntax().typescript() && eat!('?') {
-                    self.emit_err(self.input.prev_span(), SyntaxError::TS1047);
+                    self.emit_err(sp(self.input.prev_span()), SyntaxError::TS1047);
                     //
                 }
 

@@ -1,5 +1,5 @@
 use super::{ident::MaybeOptionalIdentParser, *};
-use crate::{error::SyntaxError, Tokens};
+use crate::{error::SyntaxError, sp, Tokens};
 use either::Either;
 use swc_atoms::js_word;
 use swc_common::Spanned;
@@ -118,7 +118,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
             // Handle TS1172
             if eat!("extends") {
-                p.emit_err(p.input.prev_span(), SyntaxError::TS1172);
+                p.emit_err(sp(p.input.prev_span()), SyntaxError::TS1172);
 
                 p.parse_lhs_expr()?;
                 if p.input.syntax().typescript() && is!('<') {
@@ -135,7 +135,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
             {
                 // Handle TS1175
                 if p.input.syntax().typescript() && eat!("implements") {
-                    p.emit_err(p.input.prev_span(), SyntaxError::TS1175);
+                    p.emit_err(sp(p.input.prev_span()), SyntaxError::TS1175);
 
                     p.parse_ts_heritage_clause()?;
                 }
@@ -143,7 +143,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
             // Handle TS1175
             if p.input.syntax().typescript() && eat!("extends") {
-                p.emit_err(p.input.prev_span(), SyntaxError::TS1175);
+                p.emit_err(sp(p.input.prev_span()), SyntaxError::TS1175);
 
                 let sc = p.parse_lhs_expr()?;
                 let type_params = if p.input.syntax().typescript() && is!('<') {
@@ -299,7 +299,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         let decorators = self.parse_decorators(false)?;
 
         if eat!("declare") {
-            self.emit_err(self.input.prev_span(), SyntaxError::TS1031);
+            self.emit_err(sp(self.input.prev_span()), SyntaxError::TS1031);
         }
 
         let accessibility = if self.input.syntax().typescript() {

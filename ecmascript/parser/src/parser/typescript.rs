@@ -1,5 +1,5 @@
 use super::*;
-use crate::lexer::TokenContexts;
+use crate::{lexer::TokenContexts, sp};
 use either::Either;
 use smallvec::smallvec;
 use swc_atoms::js_word;
@@ -290,7 +290,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         expect!("this");
 
         Ok(TsThisType {
-            span: self.input.prev_span(),
+            span: sp(self.input.prev_span()),
         })
     }
 

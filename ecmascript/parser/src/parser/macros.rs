@@ -266,7 +266,7 @@ macro_rules! cur_pos {
 
 macro_rules! last_pos {
     ($p:expr) => {
-        $p.input.prev_span().hi()
+        $p.input.prev_span().hi
     };
 }
 

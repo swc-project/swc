@@ -306,7 +306,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
             } else if self.input.syntax().export_default_from()
                 && (is!("from") || (is!(',') && peeked_is!('{')))
             {
-                export_default = Some(Ident::new("default".into(), self.input.prev_span()))
+                export_default = Some(Ident::new("default".into(), sp(self.input.prev_span())))
             } else {
                 let expr = self.include_in_expr(true).parse_assignment_expr()?;
                 expect!(';');

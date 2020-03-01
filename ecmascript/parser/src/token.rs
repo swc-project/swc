@@ -12,7 +12,7 @@ use std::{
 use swc_atoms::{js_word, JsWord};
 #[cfg(feature = "fold")]
 use swc_common::Fold;
-use swc_common::{Span, Spanned};
+use swc_common::{Span, SpanData, Spanned};
 pub(crate) use swc_ecma_ast::AssignOp as AssignOpToken;
 use swc_ecma_ast::BinaryOp;
 
@@ -214,12 +214,12 @@ impl BinOpToken {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Spanned)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct TokenAndSpan {
     pub token: Token,
     /// Had a line break before this token?
     pub had_line_break: bool,
-    pub span: Span,
+    pub span: SpanData,
 }
 
 #[derive(Kind, Clone, PartialEq, Eq, Hash)]
