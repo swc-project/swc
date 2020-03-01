@@ -21,6 +21,8 @@ node_modules/
 *.html
 *.svg
 package-lock.json
+*.data
+*.old
 
 # Coverage datas
 *.zip
