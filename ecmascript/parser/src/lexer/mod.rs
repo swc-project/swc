@@ -16,7 +16,7 @@ use crate::{
 };
 use either::Either::{Left, Right};
 use smallvec::{smallvec, SmallVec};
-use std::{char, iter::FusedIterator};
+use std::{char, iter::FusedIterator, mem::take};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     comments::{Comment, Comments},
@@ -103,6 +103,8 @@ pub struct Lexer<'a, I: Input> {
     state: State,
     pub(crate) syntax: Syntax,
     pub(crate) target: JscTarget,
+
+    buf: String,
 }
 
 impl<I: Input> FusedIterator for Lexer<'_, I> {}
@@ -128,7 +130,23 @@ impl<'a, I: Input> Lexer<'a, I> {
             ctx: Default::default(),
             syntax,
             target,
+            buf: String::with_capacity(16),
         }
+    }
+
+    /// Utility method to reuse buffer.
+    fn with_buf<F, Ret>(&mut self, op: F) -> LexResult<Ret>
+    where
+        F: for<'any> FnOnce(&mut Lexer<'any, I>, &mut String) -> LexResult<Ret>,
+    {
+        let mut buf = take(&mut self.buf);
+        buf.clear();
+
+        let res = op(self, &mut buf);
+
+        self.buf = buf;
+
+        res
     }
 
     /// babel: `getTokenFromCode`
@@ -659,73 +677,75 @@ impl<'a, I: Input> Lexer<'a, I> {
         debug_assert!(self.cur().is_some());
         let mut first = true;
 
-        let mut has_escape = false;
-        let mut word = {
-            // Optimize for idents without escpae
-            let s = self.input.uncons_while(|c| {
-                if c.is_ident_part() {
-                    return true;
-                }
-                if c == '\\' {
-                    has_escape = true;
-                }
-                false
-            });
-
-            if !has_escape {
-                return Ok((s.into(), false));
-            }
-            if !s.is_empty() {
-                first = false;
-            }
-            String::from(s)
-        };
-
-        while let Some(c) = {
-            // Optimization
+        self.with_buf(|l, buf| {
+            let mut has_escape = false;
             {
-                let s = self.input.uncons_while(|c| c.is_ident_part());
+                // Optimize for idents without escpae
+                let s = l.input.uncons_while(|c| {
+                    if c.is_ident_part() {
+                        return true;
+                    }
+                    if c == '\\' {
+                        has_escape = true;
+                    }
+                    false
+                });
+
+                if !has_escape {
+                    return Ok((s.into(), false));
+                }
                 if !s.is_empty() {
                     first = false;
                 }
-                word.push_str(s)
-            }
+                buf.push_str(s);
+            };
 
-            self.cur()
-        } {
-            let start = self.cur_pos();
-
-            match c {
-                c if c.is_ident_part() => {
-                    self.bump();
-                    word.push(c);
-                }
-                // unicode escape
-                '\\' => {
-                    self.bump();
-                    if !self.is('u') {
-                        self.error_span(pos_span(start), SyntaxError::ExpectedUnicodeEscape)?
+            while let Some(c) = {
+                // Optimization
+                {
+                    let s = l.input.uncons_while(|c| c.is_ident_part());
+                    if !s.is_empty() {
+                        first = false;
                     }
-                    let c = self.read_unicode_escape(start, &mut Raw(None))?;
-                    let valid = if first {
-                        c.is_ident_start()
-                    } else {
-                        c.is_ident_part()
-                    };
+                    buf.push_str(s)
+                }
 
-                    if !valid {
-                        self.error(start, SyntaxError::InvalidIdentChar)?
+                l.cur()
+            } {
+                let start = l.cur_pos();
+
+                match c {
+                    c if c.is_ident_part() => {
+                        l.bump();
+                        buf.push(c);
                     }
-                    word.extend(c);
-                }
+                    // unicode escape
+                    '\\' => {
+                        l.bump();
+                        if !l.is('u') {
+                            l.error_span(pos_span(start), SyntaxError::ExpectedUnicodeEscape)?
+                        }
+                        let c = l.read_unicode_escape(start, &mut Raw(None))?;
+                        let valid = if first {
+                            c.is_ident_start()
+                        } else {
+                            c.is_ident_part()
+                        };
 
-                _ => {
-                    break;
+                        if !valid {
+                            l.error(start, SyntaxError::InvalidIdentChar)?
+                        }
+                        buf.extend(c);
+                    }
+
+                    _ => {
+                        break;
+                    }
                 }
+                first = false;
             }
-            first = false;
-        }
-        Ok((word.into(), has_escape))
+            Ok(((&**buf).into(), has_escape))
+        })
     }
 
     fn read_unicode_escape(&mut self, start: BytePos, raw: &mut Raw) -> LexResult<Char> {
@@ -784,42 +804,43 @@ impl<'a, I: Input> Lexer<'a, I> {
         let quote = self.cur().unwrap();
         self.bump(); // '"'
 
-        let mut out = String::new();
-        let mut has_escape = false;
+        self.with_buf(|l, out| {
+            let mut has_escape = false;
 
-        while let Some(c) = {
-            // Optimization
-            {
-                let s = self
-                    .input
-                    .uncons_while(|c| c != quote && c != '\\' && !c.is_line_break());
-                out.push_str(s);
-            }
-            self.cur()
-        } {
-            match c {
-                c if c == quote => {
-                    self.bump();
-                    return Ok(Token::Str {
-                        value: out.into(),
-                        has_escape,
-                    });
+            while let Some(c) = {
+                // Optimization
+                {
+                    let s = l
+                        .input
+                        .uncons_while(|c| c != quote && c != '\\' && !c.is_line_break());
+                    out.push_str(s);
                 }
-                '\\' => {
-                    if let Some(s) = self.read_escaped_char(&mut Raw(None))? {
-                        out.extend(s);
+                l.cur()
+            } {
+                match c {
+                    c if c == quote => {
+                        l.bump();
+                        return Ok(Token::Str {
+                            value: (&**out).into(),
+                            has_escape,
+                        });
                     }
-                    has_escape = true
-                }
-                c if c.is_line_break() => self.error(start, SyntaxError::UnterminatedStrLit)?,
-                _ => {
-                    out.push(c);
-                    self.bump();
+                    '\\' => {
+                        if let Some(s) = l.read_escaped_char(&mut Raw(None))? {
+                            out.extend(s);
+                        }
+                        has_escape = true
+                    }
+                    c if c.is_line_break() => l.error(start, SyntaxError::UnterminatedStrLit)?,
+                    _ => {
+                        out.push(c);
+                        l.bump();
+                    }
                 }
             }
-        }
 
-        self.error(start, SyntaxError::UnterminatedStrLit)?
+            l.error(start, SyntaxError::UnterminatedStrLit)?
+        })
     }
 
     /// Expects current char to be '/'
