@@ -1,5 +1,5 @@
 use super::{pat::PatType, *};
-use crate::{error::SyntaxError, sp};
+use crate::{error::SyntaxError, make_span};
 use swc_atoms::js_word;
 use swc_common::Spanned;
 #[cfg(test)]
@@ -641,7 +641,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 let span = if prev_span == var_span.data() {
                     Span::new(prev_span.hi, prev_span.hi, Default::default())
                 } else {
-                    sp(prev_span)
+                    make_span(prev_span)
                 };
                 self.emit_err(span, SyntaxError::TS1009);
                 break;

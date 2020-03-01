@@ -1,5 +1,5 @@
 use super::*;
-use crate::sp;
+use crate::make_span;
 use either::Either;
 use swc_common::{Span, Spanned, SyntaxContext};
 
@@ -17,7 +17,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
             Token::JSXName { .. } => match bump!() {
                 Token::JSXName { name } => {
                     let span = self.input.prev_span();
-                    Ok(Ident::new(name, sp(span)))
+                    Ok(Ident::new(name, make_span(span)))
                 }
                 _ => unreachable!(),
             },
@@ -400,7 +400,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         let span = self.input.prev_span();
         match token {
             Token::JSXText { raw } => Ok(JSXText {
-                span: sp(span),
+                span: make_span(span),
                 // TODO
                 value: raw.clone(),
                 raw,

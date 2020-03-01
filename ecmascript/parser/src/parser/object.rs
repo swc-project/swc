@@ -1,7 +1,7 @@
 //! Parser for object literal.
 
 use super::*;
-use crate::sp;
+use crate::make_span;
 use swc_atoms::js_word;
 use swc_common::Spanned;
 
@@ -202,7 +202,7 @@ impl<'a, I: Tokens> ParseObject<'a, Box<Expr>> for Parser<'a, I> {
         };
 
         if eat!('?') {
-            self.emit_err(sp(self.input.prev_span()), SyntaxError::TS1162);
+            self.emit_err(make_span(self.input.prev_span()), SyntaxError::TS1162);
         }
 
         // `ident` from parse_prop_name is parsed as 'IdentifierName'
@@ -231,7 +231,7 @@ impl<'a, I: Tokens> ParseObject<'a, Box<Expr>> for Parser<'a, I> {
         match ident.sym {
             js_word!("get") | js_word!("set") | js_word!("async") => {
                 if has_modifiers {
-                    self.emit_err(sp(modifiers_span), SyntaxError::TS1042);
+                    self.emit_err(make_span(modifiers_span), SyntaxError::TS1042);
                 }
 
                 let key = self.parse_prop_name()?;

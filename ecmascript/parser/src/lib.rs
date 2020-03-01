@@ -454,6 +454,6 @@ where
     })
 }
 
-fn sp(data: SpanData) -> Span {
+fn make_span(data: SpanData) -> Span {
     Span::new(data.lo, data.hi, data.ctxt)
 }

@@ -1,5 +1,5 @@
 use super::{pat::PatType, util::ExprExt, *};
-use crate::{lexer::TokenContext, sp, token::AssignOpToken};
+use crate::{lexer::TokenContext, make_span, token::AssignOpToken};
 use either::Either;
 use swc_atoms::js_word;
 use swc_common::{ast_node, Spanned};
@@ -235,7 +235,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
             if can_be_arrow && peeked_is!('(') {
                 expect!("async");
-                let async_span = sp(self.input.prev_span());
+                let async_span = make_span(self.input.prev_span());
                 return self.parse_paren_expr_or_arrow_fn(can_be_arrow, Some(async_span));
             }
         }
@@ -313,7 +313,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                     | js_word!("protected")
                     | js_word!("public") => {
                         self.emit_err(
-                            sp(self.input.prev_span()),
+                            make_span(self.input.prev_span()),
                             SyntaxError::InvalidIdentInStrict,
                         );
                     }
@@ -1132,7 +1132,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                     && (is!(IdentRef) || (is!("...") && peeked_is!(IdentRef)))
                 {
                     let spread = if eat!("...") {
-                        Some(sp(self.input.prev_span()))
+                        Some(make_span(self.input.prev_span()))
                     } else {
                         None
                     };
@@ -1367,7 +1367,10 @@ impl<'a, I: Tokens> Parser<'a, I> {
         // function because any expressions that are part of FormalParameters are
         // evaluated before the resulting generator object is in a resumable state.
         if self.ctx().in_parameters {
-            syntax_error!(sp(self.input.prev_span()), SyntaxError::YieldParamInGen)
+            syntax_error!(
+                make_span(self.input.prev_span()),
+                SyntaxError::YieldParamInGen
+            )
         }
 
         if is!(';') || (!is!('*') && !cur!(false).map(Token::starts_expr).unwrap_or(true)) {
