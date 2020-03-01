@@ -144,6 +144,15 @@ fn yui_ts(b: &mut Bencher) {
     )
 }
 
+#[bench]
+fn large(b: &mut Bencher) {
+    bench_module(
+        b,
+        Syntax::Typescript(Default::default()),
+        include_str!("../../codegen/benches/large-partial.js"),
+    )
+}
+
 fn bench_module(b: &mut Bencher, syntax: Syntax, src: &'static str) {
     b.bytes = src.len() as _;
 
