@@ -10,6 +10,7 @@ pub use self::{
         SyntaxContext, DUMMY_SP, GLOBALS, NO_EXPANSION,
     },
     source_map::{FileLines, FileLoader, FilePathMapping, SourceMap, SpanSnippetError},
+    syntax_pos::LineCol,
 };
 pub use ast_node::{ast_node, DeserializeEnum, Fold, Spanned};
 pub use from_variant::FromVariant;

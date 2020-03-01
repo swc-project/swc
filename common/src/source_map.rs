@@ -24,6 +24,7 @@ use crate::{
 };
 use hashbrown::HashMap;
 use log::debug;
+use sourcemap::SourceMapBuilder;
 use std::{
     cmp,
     cmp::{max, min},
@@ -985,6 +986,47 @@ impl SourceMap {
         }
 
         None
+    }
+
+    /// Creates a `.map` file.
+    pub fn build_source_map(&self, mappings: &mut Vec<(BytePos, LineCol)>) -> sourcemap::SourceMap {
+        let mut builder = SourceMapBuilder::new(None);
+        let mut files = Vec::with_capacity(1);
+
+        mappings.sort_by_key(|v| v.0);
+
+        for (pos, lc) in mappings {
+            let pos = *pos;
+            let lc = *lc;
+
+            let fm = match SourceMap::lookup_source_file_in(&files, byte_pos) {
+                Some(fm) => fm,
+                None => {
+                    let fm = self.cm.lookup_source_file(byte_pos);
+                    files.push(fm.clone());
+                    fm
+                }
+            };
+
+            let loc = self.cm.lookup_char_pos_with(fm, byte_pos);
+
+            let src = match loc.file.name {
+                FileName::Real(ref p) => Some(p.display().to_string()),
+                _ => None,
+            };
+            if loc.col.0 < u16::MAX as usize {
+                srcmap.add(
+                    lc.line,
+                    lc.col,
+                    (loc.line - 1) as _,
+                    loc.col.0 as _,
+                    src.as_ref().map(|s| &**s),
+                    None,
+                );
+            }
+        }
+
+        builder.into_sourcemap()
     }
 }
 

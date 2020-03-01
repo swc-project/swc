@@ -23,6 +23,10 @@ fn main() {
         let session = Session { handler: &handler };
 
         let fm = cm.new_source_file(FileName::Anon, include_str!("large.js").into());
+
+        println!("MultiByte chars: {}", fm.multibyte_chars.len());
+        println!("NonNarrow chars: {}", fm.non_narrow_chars.len());
+
         let mut parser = Parser::new(
             session,
             Syntax::default(),

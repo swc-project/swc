@@ -30,6 +30,7 @@ termcolor = "1.0"
 serde = { version = "1", features = ["derive"] }
 dashmap = "=3.5.1"
 fxhash = "0.2.1"
+sourcemap = "5"
 
 [dev-dependencies]
 rayon = "1"

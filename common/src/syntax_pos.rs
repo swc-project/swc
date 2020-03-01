@@ -923,6 +923,13 @@ pub struct LineInfo {
     pub end_col: CharPos,
 }
 
+/// Used to create a `.map` file.
+#[derive(Copy, Clone, Debug, PartialEq, Eq)]
+pub struct LineCol {
+    pub line: u32,
+    pub col: u32,
+}
+
 pub struct FileLines {
     pub file: Arc<SourceFile>,
     pub lines: Vec<LineInfo>,
