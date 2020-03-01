@@ -247,9 +247,10 @@ impl SourceMap {
 
     /// Lookup source information about a BytePos
     pub fn lookup_char_pos(&self, pos: BytePos) -> Loc {
-        let chpos = self.bytepos_to_file_charpos(pos);
         match self.lookup_line(pos) {
             Ok(SourceFileAndLine { sf: f, line: a }) => {
+                let chpos = self.bytepos_to_file_charpos_inner(&f, pos);
+
                 let line = a + 1; // Line numbers start at 1
                 let linebpos = f.lines[a];
                 assert!(
@@ -298,6 +299,8 @@ impl SourceMap {
                 }
             }
             Err(f) => {
+                let chpos = self.bytepos_to_file_charpos(pos);
+
                 let col_display = {
                     let end_width_idx = f
                         .non_narrow_chars
@@ -789,6 +792,11 @@ impl SourceMap {
     fn bytepos_to_file_charpos(&self, bpos: BytePos) -> CharPos {
         let map = self.lookup_source_file(bpos);
 
+        self.bytepos_to_file_charpos_inner(&map, bpos)
+    }
+
+    /// Converts an absolute BytePos to a CharPos relative to the source_file.
+    fn bytepos_to_file_charpos_inner(&self, map: &SourceFile, bpos: BytePos) -> CharPos {
         // The number of extra bytes due to multibyte chars in the SourceFile
         let mut total_extra_bytes = 0;
 
