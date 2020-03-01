@@ -40,3 +40,4 @@ name = "usage"
 [profile.bench]
 codegen-units = 1
 #lto = true
+debug = true

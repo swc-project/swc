@@ -786,7 +786,7 @@ impl SourceMap {
     }
 
     /// Converts an absolute BytePos to a CharPos relative to the source_file.
-    pub fn bytepos_to_file_charpos(&self, bpos: BytePos) -> CharPos {
+    fn bytepos_to_file_charpos(&self, bpos: BytePos) -> CharPos {
         let map = self.lookup_source_file(bpos);
 
         // The number of extra bytes due to multibyte chars in the SourceFile
