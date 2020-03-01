@@ -88,21 +88,22 @@ fn bench_emitter(b: &mut Bencher, s: &str) {
 
     let _ = ::testing::run_test(true, |cm, handler| {
         let session = Session { handler: &handler };
-        let fm = cm.new_source_file(FileName::Anon, s.into());
-        let mut parser = Parser::new(
-            session,
-            Syntax::default(),
-            SourceFileInput::from(&*fm),
-            None,
-        );
-        let module = parser
-            .parse_module()
-            .map_err(|mut e| {
-                e.emit();
-            })
-            .unwrap();
 
         b.iter(|| {
+            let fm = cm.new_source_file(FileName::Anon, s.into());
+            let mut parser = Parser::new(
+                session,
+                Syntax::default(),
+                SourceFileInput::from(&*fm),
+                None,
+            );
+            let module = parser
+                .parse_module()
+                .map_err(|mut e| {
+                    e.emit();
+                })
+                .unwrap();
+
             let buf = vec![];
             let mut src_map_builder = SourceMapBuilder::new(None);
             {
@@ -130,12 +131,12 @@ fn bench_emitter(b: &mut Bencher, s: &str) {
 }
 
 #[bench]
-fn emit_colors(b: &mut Bencher) {
+fn colors(b: &mut Bencher) {
     bench_emitter(b, COLORS_JS)
 }
 
 #[bench]
-fn emit_large(b: &mut Bencher) {
+fn large_partial(b: &mut Bencher) {
     bench_emitter(b, LARGE_PARTIAL_JS)
 }
 

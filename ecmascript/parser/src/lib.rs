@@ -102,7 +102,7 @@ pub use self::{
     parser::*,
 };
 use serde::{Deserialize, Serialize};
-use swc_common::{errors::Handler, Span};
+use swc_common::{errors::Handler, Span, SpanData};
 
 #[macro_use]
 mod macros;
@@ -452,4 +452,8 @@ where
 
         f(Session { handler: &handler }, (&*fm).into())
     })
+}
+
+fn make_span(data: SpanData) -> Span {
+    Span::new(data.lo, data.hi, data.ctxt)
 }

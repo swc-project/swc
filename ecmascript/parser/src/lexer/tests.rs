@@ -4,16 +4,20 @@ use super::{
     state::{lex, lex_module, lex_tokens, with_lexer},
     *,
 };
-use crate::error::{Error, SyntaxError};
+use crate::{
+    error::{Error, SyntaxError},
+    make_span,
+};
 use std::{ops::Range, str};
+use swc_common::SpanData;
 use test::{black_box, Bencher};
 
-fn sp(r: Range<usize>) -> Span {
-    Span::new(
-        BytePos(r.start as u32),
-        BytePos(r.end as u32),
-        Default::default(),
-    )
+fn sp(r: Range<usize>) -> SpanData {
+    SpanData {
+        lo: BytePos(r.start as u32),
+        hi: BytePos(r.end as u32),
+        ctxt: Default::default(),
+    }
 }
 
 trait LineBreak: Into<TokenAndSpan> {
@@ -38,6 +42,11 @@ impl SpanRange for usize {
         )
     }
 }
+impl SpanRange for SpanData {
+    fn into_span(self) -> Span {
+        Span::new(self.lo, self.hi, self.ctxt)
+    }
+}
 impl SpanRange for Range<usize> {
     fn into_span(self) -> Span {
         Span::new(
@@ -56,7 +65,7 @@ trait WithSpan: Sized {
         TokenAndSpan {
             token: self.into_token(),
             had_line_break: false,
-            span: span.into_span(),
+            span: span.into_span().data(),
         }
     }
     fn into_token(self) -> Token;
@@ -120,7 +129,7 @@ fn module_legacy_decimal() {
     assert_eq!(
         lex_module(Syntax::default(), "08"),
         vec![Token::Error(Error {
-            span: sp(0..2),
+            span: make_span(sp(0..2)),
             error: SyntaxError::LegacyDecimal,
         })
         .span(0..2)
@@ -133,7 +142,7 @@ fn module_legacy_comment_1() {
     assert_eq!(
         lex_module(Syntax::default(), "<!-- foo oo"),
         vec![Token::Error(Error {
-            span: sp(0..11),
+            span: make_span(sp(0..11)),
             error: SyntaxError::LegacyCommentInModule,
         })
         .span(0..11)
@@ -146,7 +155,7 @@ fn module_legacy_comment_2() {
     assert_eq!(
         lex_module(Syntax::default(), "-->"),
         vec![Token::Error(Error {
-            span: sp(0..3),
+            span: make_span(sp(0..3)),
             error: SyntaxError::LegacyCommentInModule,
         })
         .span(0..3)
@@ -273,6 +282,17 @@ fn str_escape_2() {
         lex_tokens(Syntax::default(), r#"'\\n'"#),
         vec![Token::Str {
             value: "\\n".into(),
+            has_escape: true
+        }]
+    );
+}
+
+#[test]
+fn str_escape_3() {
+    assert_eq!(
+        lex_tokens(Syntax::default(), r#"'\x00'"#),
+        vec![Token::Str {
+            value: "\x00".into(),
             has_escape: true
         }]
     );

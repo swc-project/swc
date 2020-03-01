@@ -25,26 +25,6 @@ impl<'a> From<&'a SourceFile> for SourceFileInput<'a> {
 }
 
 impl<'a> Input for SourceFileInput<'a> {
-    fn cur_pos(&mut self) -> BytePos {
-        self.iter
-            .clone()
-            .next()
-            .map(|(p, _)| self.start_pos + BytePos(p as u32))
-            .unwrap_or(self.last_pos)
-    }
-
-    fn last_pos(&self) -> BytePos {
-        self.last_pos
-    }
-
-    fn bump(&mut self) {
-        if let Some((i, c)) = self.iter.next() {
-            self.last_pos = self.start_pos + BytePos((i + c.len_utf8()) as u32);
-        } else {
-            unreachable!("bump should not be called when cur() == None");
-        }
-    }
-
     fn cur(&mut self) -> Option<char> {
         self.iter.clone().nth(0).map(|i| i.1)
     }
@@ -55,6 +35,30 @@ impl<'a> Input for SourceFileInput<'a> {
 
     fn peek_ahead(&mut self) -> Option<char> {
         self.iter.clone().nth(2).map(|i| i.1)
+    }
+
+    fn bump(&mut self) {
+        if let Some((i, c)) = self.iter.next() {
+            self.last_pos = self.start_pos + BytePos((i + c.len_utf8()) as u32);
+        } else {
+            unreachable!("bump should not be called when cur() == None");
+        }
+    }
+
+    fn is_at_start(&self) -> bool {
+        self.fm.start_pos == self.last_pos
+    }
+
+    fn cur_pos(&mut self) -> BytePos {
+        self.iter
+            .clone()
+            .next()
+            .map(|(p, _)| self.start_pos + BytePos(p as u32))
+            .unwrap_or(self.last_pos)
+    }
+
+    fn last_pos(&self) -> BytePos {
+        self.last_pos
     }
 
     fn slice(&mut self, start: BytePos, end: BytePos) -> &str {
@@ -69,6 +73,29 @@ impl<'a> Input for SourceFileInput<'a> {
         self.iter = s[end_idx..].char_indices();
         self.last_pos = end;
         self.start_pos = end;
+
+        ret
+    }
+
+    fn uncons_while<F>(&mut self, mut pred: F) -> &str
+    where
+        F: FnMut(char) -> bool,
+    {
+        let s = self.iter.as_str();
+        let mut last = 0;
+
+        for (i, c) in s.char_indices() {
+            if pred(c) {
+                last = i + c.len_utf8();
+            } else {
+                break;
+            }
+        }
+        let ret = &s[..last];
+
+        self.last_pos = self.last_pos + BytePos(last as _);
+        self.start_pos = self.last_pos;
+        self.iter = s[last..].char_indices();
 
         ret
     }
@@ -97,29 +124,6 @@ impl<'a> Input for SourceFileInput<'a> {
         Some(self.last_pos)
     }
 
-    fn uncons_while<F>(&mut self, mut pred: F) -> &str
-    where
-        F: FnMut(char) -> bool,
-    {
-        let s = self.iter.as_str();
-        let mut last = 0;
-
-        for (i, c) in s.char_indices() {
-            if pred(c) {
-                last = i + c.len_utf8();
-            } else {
-                break;
-            }
-        }
-        let ret = &s[..last];
-
-        self.last_pos = self.last_pos + BytePos(last as _);
-        self.start_pos = self.last_pos;
-        self.iter = s[last..].char_indices();
-
-        ret
-    }
-
     fn reset_to(&mut self, to: BytePos) {
         let orig = self.orig;
         let idx = (to - self.fm.start_pos).0 as usize;
@@ -128,10 +132,6 @@ impl<'a> Input for SourceFileInput<'a> {
         self.iter = s.char_indices();
         self.start_pos = to;
         self.last_pos = to;
-    }
-
-    fn is_at_start(&self) -> bool {
-        self.fm.start_pos == self.last_pos
     }
 }
 

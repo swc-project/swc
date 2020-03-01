@@ -11,7 +11,7 @@ use std::char;
 use swc_common::{
     comments::{Comment, CommentKind},
     errors::DiagnosticBuilder,
-    BytePos, Span, SyntaxContext,
+    BytePos, Span, SpanData, SyntaxContext,
 };
 use unicode_xid::UnicodeXID;
 
@@ -40,7 +40,7 @@ impl Raw {
 // pub const PARAGRAPH_SEPARATOR: char = '\u{2029}';
 
 impl<'a, I: Input> Lexer<'a, I> {
-    pub(super) fn span(&self, start: BytePos) -> Span {
+    pub(super) fn span(&self, start: BytePos) -> SpanData {
         let end = self.last_pos();
         if cfg!(debug_assertions) && start > end {
             unreachable!(
@@ -49,7 +49,11 @@ impl<'a, I: Input> Lexer<'a, I> {
                 start.0, end.0
             )
         }
-        Span::new(start, end, Default::default())
+        SpanData {
+            lo: start,
+            hi: end,
+            ctxt: SyntaxContext::empty(),
+        }
     }
 
     pub(super) fn bump(&mut self) {
@@ -90,7 +94,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     #[cold]
     pub(super) fn error<T>(&mut self, start: BytePos, kind: SyntaxError) -> LexResult<T> {
         let span = self.span(start);
-        self.error_span(span, kind)
+        self.error_span(Span::new(span.lo, span.hi, span.ctxt), kind)
     }
 
     #[cold]
@@ -106,7 +110,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     #[cold]
     pub(super) fn emit_error(&mut self, start: BytePos, kind: SyntaxError) {
         let span = self.span(start);
-        self.emit_error_span(span, kind)
+        self.emit_error_span(Span::new(span.lo, span.hi, span.ctxt), kind)
     }
 
     #[cold]

@@ -37,6 +37,12 @@ rayon = "1"
 [[example]]
 name = "usage"
 
+[profile.release]
+codegen-units = 1
+#lto = true
+debug = true
+
 [profile.bench]
 codegen-units = 1
 #lto = true
+debug = true

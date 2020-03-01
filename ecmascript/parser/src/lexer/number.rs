@@ -99,14 +99,15 @@ impl<'a, I: Input> Lexer<'a, I> {
             let mut raw = Raw(Some(String::new()));
             // Read numbers after dot
             let dec_val = self.read_int(10, 0, &mut raw)?;
-            let mut s = String::new();
-            write!(s, "{}.", val).unwrap();
+            val = self.with_buf(|l, s| {
+                write!(s, "{}.", val).unwrap();
 
-            if let Some(..) = dec_val {
-                s.push_str(&raw.0.as_ref().unwrap());
-            }
+                if let Some(..) = dec_val {
+                    s.push_str(&raw.0.as_ref().unwrap());
+                }
 
-            val = s.parse().expect("failed to parse float using rust's impl");
+                Ok(s.parse().expect("failed to parse float using rust's impl"))
+            })?;
         }
 
         // Handle 'e' and 'E'
