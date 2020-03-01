@@ -21,4 +21,4 @@ aho-corasick = "0.7"
 
 [dev-dependencies]
 testing = { version = "0.5", path ="../../testing" }
-swc_ecma_parser = { version = "0.19", path ="../parser" }
+swc_ecma_parser = { version = "0.20", path ="../parser" }
