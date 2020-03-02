@@ -1055,49 +1055,16 @@ impl SourceMap {
 
                     let col = max(chpos, linechpos) - min(chpos, linechpos);
 
-                    let col_display = {
-                        let start_width_idx = f
-                            .non_narrow_chars
-                            .binary_search_by_key(&linebpos, |x| x.pos())
-                            .unwrap_or_else(|x| x);
-                        let end_width_idx = f
-                            .non_narrow_chars
-                            .binary_search_by_key(&pos, |x| x.pos())
-                            .unwrap_or_else(|x| x);
-                        let special_chars = end_width_idx - start_width_idx;
-                        let non_narrow: usize = f.non_narrow_chars[start_width_idx..end_width_idx]
-                            .iter()
-                            .map(|x| x.width())
-                            .sum();
-                        col.0 - special_chars + non_narrow
-                    };
-                    debug!(
-                        "byte pos {:?} is on the line at byte pos {:?}",
-                        pos, linebpos
+                    builder.add(
+                        lc.line,
+                        lc.col,
+                        (line - 1) as _,
+                        col.0 as _,
+                        Some(src),
+                        None,
                     );
-                    debug!(
-                        "char pos {:?} is on the line at char pos {:?}",
-                        chpos, linechpos
-                    );
-                    debug!("byte is on line: {}", line);
-                    //                assert!(chpos >= linechpos);
-                    Loc {
-                        file: f.clone(),
-                        line,
-                        col,
-                        col_display,
-                    }
                 }
             };
-
-            builder.add(
-                lc.line,
-                lc.col,
-                (loc.line - 1) as _,
-                loc.col.0 as _,
-                Some(src),
-                None,
-            );
         }
 
         builder.into_sourcemap()
