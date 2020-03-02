@@ -835,10 +835,6 @@ impl SourceMap {
 
     /// Converts an absolute BytePos to a CharPos relative to the source_file.
     fn calc_extra_bytes(&self, map: &SourceFile, start: &mut usize, bpos: BytePos) -> u32 {
-        if map.multibyte_chars.is_empty() {
-            return 0;
-        }
-
         // The number of extra bytes due to multibyte chars in the SourceFile
         let mut total_extra_bytes = 0;
 
@@ -851,6 +847,7 @@ impl SourceMap {
                 // We should never see a byte position in the middle of a
                 // character
                 debug_assert!(bpos.to_u32() >= mbc.pos.to_u32() + mbc.bytes as u32);
+                println!("{}", total_extra_bytes);
             } else {
                 *start += i;
                 break;
@@ -1006,12 +1003,16 @@ impl SourceMap {
         mappings.sort_by_key(|v| v.0);
 
         let mut cur_file: Option<Arc<SourceFile>> = None;
+        // let mut src_id = None;
 
         // Index of the latest multi byte char
         let mut ch_start = 0;
         let mut line_ch_start = 0;
 
-        for (pos, lc) in mappings {
+        for (pos, lc) in mappings.iter() {
+            println!();
+            println!("bpos = {:?}", pos);
+
             let pos = *pos;
             let lc = *lc;
 
@@ -1024,7 +1025,7 @@ impl SourceMap {
                     cur_file = Some(f.clone());
                     ch_start = 0;
                     line_ch_start = 0;
-                    builder.add_source(&f.src);
+                    // src_id = Some(builder.add_source(&f.src));
                     &f
                 }
             };
@@ -1033,8 +1034,10 @@ impl SourceMap {
                 Some(line) => line,
                 None => continue,
             };
+
             let line = a + 1; // Line numbers start at 1
             let linebpos = f.lines[a];
+            println!("bpos = {:?}; linebpos = {:?}", pos, linebpos);
             debug_assert!(
                 pos >= linebpos,
                 "{}: bpos = {:?}; linebpos = {:?};",
@@ -1043,10 +1046,14 @@ impl SourceMap {
                 linebpos,
             );
             {
-                let chpos = { self.calc_extra_bytes(&f, &mut ch_start, pos) };
-                let linechpos = { self.calc_extra_bytes(&f, &mut line_ch_start, linebpos) };
+                let chpos = { self.bytepos_to_file_charpos_with(&f, pos).0 };
+                let linechpos = { self.bytepos_to_file_charpos_with(&f, linebpos).0 };
+                println!("chpos = {:?}", chpos);
+                println!("linechpos = {:?}", linechpos);
 
                 let col = max(chpos, linechpos) - min(chpos, linechpos);
+
+                println!("{:?}:{:?} -> {:?}", line, col, lc);
 
                 builder.add(lc.line, lc.col, (line - 1) as _, col as _, None, None);
             }
