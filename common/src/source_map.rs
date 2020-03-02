@@ -1005,14 +1005,18 @@ impl SourceMap {
             let pos = *pos;
             let loc = self.lookup_char_pos(pos);
 
-            builder.add(
-                lc.line,
-                lc.col,
-                (loc.line - 1) as _,
-                loc.col.0 as _,
-                None,
-                None,
-            );
+            if loc.col.0 < std::u16::MAX as usize {
+                builder.add(
+                    lc.line,
+                    lc.col,
+                    (loc.line - 1) as _,
+                    loc.col.0 as _,
+                    None,
+                    None,
+                );
+
+                println!("{}:{} <- {}:{}", lc.line, lc.col, loc.line - 1, loc.col.0);
+            }
         }
 
         // let mut cur_file: Option<Arc<SourceFile>> = None;
