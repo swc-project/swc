@@ -54,8 +54,3 @@ fn file(f: &str) -> Result<(), StdErr> {
 fn issue_622() {
     file("tests/srcmap/issue-622/index.js").unwrap();
 }
-
-#[test]
-fn large() {
-    file("tests/srcmap/large/index.js").unwrap();
-}
