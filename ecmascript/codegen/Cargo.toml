@@ -21,7 +21,3 @@ swc_ecma_parser = { version = "0.20", path ="../parser" }
 
 [dev-dependencies]
 testing = { version = "0.5", path ="../../testing" }
-
-[[bin]]
-name = "large"
-path = "bin/large.rs"
