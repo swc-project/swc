@@ -24,7 +24,7 @@ use crate::{
 };
 use hashbrown::HashMap;
 use log::debug;
-use sourcemap::{SourceMapBuilder, Token};
+use sourcemap::SourceMapBuilder;
 use std::{
     cmp,
     cmp::{max, min},
@@ -262,7 +262,7 @@ impl SourceMap {
         let line_info = self.lookup_line_with(fm, pos);
         match line_info {
             Ok(SourceFileAndLine { sf: f, line: a }) => {
-                let chpos = self.bytepos_to_file_charpos_with(&f, pos);
+                let chpos = self.bytepos_to_file_charpos_with(&f, &mut 0, pos);
 
                 let line = a + 1; // Line numbers start at 1
                 let linebpos = f.lines[a];
@@ -274,7 +274,7 @@ impl SourceMap {
                     linebpos,
                 );
 
-                let linechpos = self.bytepos_to_file_charpos_with(&f, linebpos);
+                let linechpos = self.bytepos_to_file_charpos_with(&f, &mut 0, linebpos);
 
                 let col = max(chpos, linechpos) - min(chpos, linechpos);
 
@@ -818,15 +818,20 @@ impl SourceMap {
     fn bytepos_to_file_charpos(&self, bpos: BytePos) -> CharPos {
         let map = self.lookup_source_file(bpos);
 
-        self.bytepos_to_file_charpos_with(&map, bpos)
+        self.bytepos_to_file_charpos_with(&map, &mut 0, bpos)
     }
 
     /// Converts an absolute BytePos to a CharPos relative to the source_file.
-    fn bytepos_to_file_charpos_with(&self, map: &SourceFile, bpos: BytePos) -> CharPos {
+    fn bytepos_to_file_charpos_with(
+        &self,
+        map: &SourceFile,
+        start_idx: &mut usize,
+        bpos: BytePos,
+    ) -> CharPos {
         // The number of extra bytes due to multibyte chars in the SourceFile
         let mut total_extra_bytes = 0;
 
-        for mbc in map.multibyte_chars.iter() {
+        for (i, mbc) in map.multibyte_chars[*start_idx..].iter().enumerate() {
             debug!("{}-byte char at {:?}", mbc.bytes, mbc.pos);
             if mbc.pos < bpos {
                 // every character is at least one byte, so we only
@@ -836,6 +841,7 @@ impl SourceMap {
                 // character
                 assert!(bpos.to_u32() >= mbc.pos.to_u32() + mbc.bytes as u32);
             } else {
+                *start_idx += i;
                 break;
             }
         }
@@ -996,6 +1002,9 @@ impl SourceMap {
 
         let mut cur_file: Option<Arc<SourceFile>> = None;
 
+        let mut ch_start = 0;
+        let mut line_ch_start = 0;
+
         for (pos, lc) in mappings {
             let pos = *pos;
             let lc = *lc;
@@ -1007,6 +1016,8 @@ impl SourceMap {
                     f = self.lookup_source_file(pos);
                     builder.add_source(&f.src);
                     cur_file = Some(f.clone());
+                    ch_start = 0;
+                    line_ch_start = 0;
 
                     &f
                 }
@@ -1019,7 +1030,7 @@ impl SourceMap {
                     None => continue,
                 };
                 {
-                    let chpos = self.bytepos_to_file_charpos_with(&f, pos);
+                    let chpos = self.bytepos_to_file_charpos_with(&f, &mut ch_start, pos);
 
                     let line = a + 1; // Line numbers start at 1
                     let linebpos = f.lines[a];
@@ -1031,7 +1042,8 @@ impl SourceMap {
                         linebpos,
                     );
 
-                    let linechpos = self.bytepos_to_file_charpos_with(&f, linebpos);
+                    let linechpos =
+                        self.bytepos_to_file_charpos_with(&f, &mut line_ch_start, linebpos);
 
                     let col = max(chpos, linechpos) - min(chpos, linechpos);
 
@@ -1062,7 +1074,7 @@ impl SourceMap {
                     debug!("byte is on line: {}", line);
                     //                assert!(chpos >= linechpos);
                     Loc {
-                        file: f,
+                        file: f.clone(),
                         line,
                         col,
                         col_display,
@@ -1070,16 +1082,14 @@ impl SourceMap {
                 }
             };
 
-            if loc.col.0 < u16::MAX as usize {
-                builder.add(
-                    lc.line,
-                    lc.col,
-                    (loc.line - 1) as _,
-                    loc.col.0 as _,
-                    Some(src),
-                    None,
-                );
-            }
+            builder.add(
+                lc.line,
+                lc.col,
+                (loc.line - 1) as _,
+                loc.col.0 as _,
+                Some(src),
+                None,
+            );
         }
 
         builder.into_sourcemap()
