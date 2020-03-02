@@ -1050,7 +1050,7 @@ impl SourceMap {
                 linebpos,
             );
             {
-                // let loc = self.lookup_char_pos_with(f.clone(), pos).col;
+                let loc = self.lookup_char_pos_with(f.clone(), pos);
                 let chpos = { self.bytepos_to_file_charpos_with(&f, pos).0 };
                 let linechpos = { self.bytepos_to_file_charpos_with(&f, linebpos).0 };
                 println!("chpos = {:?}", chpos);
@@ -1060,7 +1060,14 @@ impl SourceMap {
 
                 println!("{:?}:{:?} -> {:?}", line, col, lc);
 
-                builder.add(lc.line, lc.col, (line - 1) as _, col as _, None, None);
+                builder.add(
+                    lc.line,
+                    lc.col,
+                    (loc.line - 1) as _,
+                    loc.col.0 as _,
+                    None,
+                    None,
+                );
             }
         }
 
