@@ -1004,6 +1004,9 @@ impl SourceMap {
         let mut cur_file: Option<Arc<SourceFile>> = None;
         // let mut src_id = None;
 
+        let mut ch_start = 0;
+        let mut line_ch_start = 0;
+
         for (pos, lc) in mappings.iter() {
             let pos = *pos;
             let lc = *lc;
@@ -1020,8 +1023,8 @@ impl SourceMap {
                     f = self.lookup_source_file(pos);
                     builder.add_source(&f.src);
                     cur_file = Some(f.clone());
-                    // ch_start = 0;
-                    // line_ch_start = 0;
+                    ch_start = 0;
+                    line_ch_start = 0;
                     // src_id = Some(builder.add_source(&f.src));
                     &f
                 }
@@ -1042,8 +1045,8 @@ impl SourceMap {
                 linebpos,
             );
             {
-                let chpos = { self.bytepos_to_file_charpos_with(&f, pos).0 };
-                let linechpos = { self.bytepos_to_file_charpos_with(&f, linebpos).0 };
+                let chpos = { self.calc_extra_bytes(&f, &mut ch_start, pos) };
+                let linechpos = { self.calc_extra_bytes(&f, &mut line_ch_start, linebpos) };
 
                 let col = max(chpos, linechpos) - min(chpos, linechpos);
 
