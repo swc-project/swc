@@ -1044,21 +1044,12 @@ impl SourceMap {
                 pos,
                 linebpos,
             );
-            {
-                let chpos = { self.calc_extra_bytes(&f, &mut ch_start, pos) };
-                let linechpos = { self.calc_extra_bytes(&f, &mut line_ch_start, linebpos) };
+            let chpos = { self.calc_extra_bytes(&f, &mut ch_start, pos) };
+            let linechpos = { self.calc_extra_bytes(&f, &mut line_ch_start, linebpos) };
 
-                let col = max(chpos, linechpos) - min(chpos, linechpos);
+            let col = max(chpos, linechpos) - min(chpos, linechpos);
 
-                builder.add(
-                    lc.line,
-                    lc.col,
-                    (line - 1) as _,
-                    col as _,
-                    Some(&**f.src),
-                    None,
-                );
-            }
+            builder.add(lc.line, lc.col, (line - 1) as _, col as _, None, None);
         }
 
         builder.into_sourcemap()
