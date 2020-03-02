@@ -998,96 +998,65 @@ impl SourceMap {
     pub fn build_source_map(&self, mappings: &mut Vec<(BytePos, LineCol)>) -> sourcemap::SourceMap {
         let mut builder = SourceMapBuilder::new(None);
 
-        // This method is optimized based on the fact that mapping is sorted.
-        mappings.sort_by_key(|v| v.0);
+        // // This method is optimized based on the fact that mapping is sorted.
+        // mappings.sort_by_key(|v| v.0);
+
+        let mut cur_file: Option<Arc<SourceFile>> = None;
+        // let mut src_id = None;
 
         for (pos, lc) in mappings.iter() {
             let pos = *pos;
-            let loc = self.lookup_char_pos(pos);
+            let lc = *lc;
 
-            if loc.col.0 < std::u16::MAX as usize {
+            // TODO: Use correct algorithm
+            if pos >= BytePos(4294967295) {
+                continue;
+            }
+
+            let f;
+            let f = match cur_file {
+                Some(ref f) if f.start_pos <= pos && pos < f.end_pos => f,
+                _ => {
+                    f = self.lookup_source_file(pos);
+                    builder.add_source(&f.src);
+                    cur_file = Some(f.clone());
+                    // ch_start = 0;
+                    // line_ch_start = 0;
+                    // src_id = Some(builder.add_source(&f.src));
+                    &f
+                }
+            };
+
+            let a = match f.lookup_line(pos) {
+                Some(line) => line,
+                None => continue,
+            };
+
+            let line = a + 1; // Line numbers start at 1
+            let linebpos = f.lines[a];
+            debug_assert!(
+                pos >= linebpos,
+                "{}: bpos = {:?}; linebpos = {:?};",
+                f.name,
+                pos,
+                linebpos,
+            );
+            {
+                let chpos = { self.bytepos_to_file_charpos_with(&f, pos).0 };
+                let linechpos = { self.bytepos_to_file_charpos_with(&f, linebpos).0 };
+
+                let col = max(chpos, linechpos) - min(chpos, linechpos);
+
                 builder.add(
                     lc.line,
                     lc.col,
-                    (loc.line - 1) as _,
-                    loc.col.0 as _,
-                    None,
+                    (line - 1) as _,
+                    col as _,
+                    Some(&**f.src),
                     None,
                 );
-
-                println!("{}:{} <- {}:{}", lc.line, lc.col, loc.line - 1, loc.col.0);
             }
         }
-
-        // let mut cur_file: Option<Arc<SourceFile>> = None;
-        // // let mut src_id = None;
-        //
-        // // Index of the latest multi byte char
-        // let mut ch_start = 0;
-        // let mut line_ch_start = 0;
-        //
-        // for (pos, lc) in mappings.iter() {
-        //     let pos = *pos;
-        //     let lc = *lc;
-        //
-        //     // TODO: Use correct algoreithm
-        //     if pos >= BytePos(4294967295) {
-        //         continue;
-        //     }
-        //
-        //     println!();
-        //     println!("bpos = {:?}", pos);
-        //
-        //     let f;
-        //     let f = match cur_file {
-        //         Some(ref f) if f.start_pos <= pos && pos < f.end_pos => f,
-        //         _ => {
-        //             f = self.lookup_source_file(pos);
-        //             builder.add_source(&f.src);
-        //             cur_file = Some(f.clone());
-        //             ch_start = 0;
-        //             line_ch_start = 0;
-        //             // src_id = Some(builder.add_source(&f.src));
-        //             &f
-        //         }
-        //     };
-        //
-        //     let a = match f.lookup_line(pos) {
-        //         Some(line) => line,
-        //         None => continue,
-        //     };
-        //
-        //     let line = a + 1; // Line numbers start at 1
-        //     let linebpos = f.lines[a];
-        //     println!("bpos = {:?}; linebpos = {:?}", pos, linebpos);
-        //     debug_assert!(
-        //         pos >= linebpos,
-        //         "{}: bpos = {:?}; linebpos = {:?};",
-        //         f.name,
-        //         pos,
-        //         linebpos,
-        //     );
-        //     {
-        //         let loc = self.lookup_char_pos_with(f.clone(), pos);
-        //         let chpos = { self.bytepos_to_file_charpos_with(&f, pos).0 };
-        //         let linechpos = { self.bytepos_to_file_charpos_with(&f, linebpos).0
-        // };         println!("chpos = {:?}", chpos);
-        //         println!("linechpos = {:?}", linechpos);
-        //
-        //         let col = max(chpos, linechpos) - min(chpos, linechpos);
-        //
-        //         println!("{:?}:{:?} -> {:?}", line, col, lc);
-        //
-        //         builder.add(
-        //             lc.line,
-        //             lc.col,
-        //             (loc.line - 1) as _,
-        //             loc.col.0 as _,
-        //             Some(&**f.src),
-        //             None,
-        //         );
-        //     }
-        // }
 
         builder.into_sourcemap()
     }
