@@ -847,7 +847,6 @@ impl SourceMap {
                 // We should never see a byte position in the middle of a
                 // character
                 debug_assert!(bpos.to_u32() >= mbc.pos.to_u32() + mbc.bytes as u32);
-                println!("{}", total_extra_bytes);
             } else {
                 *start += i;
                 break;
