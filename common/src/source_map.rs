@@ -991,6 +991,8 @@ impl SourceMap {
     /// Creates a `.map` file.
     pub fn build_source_map(&self, mappings: &mut Vec<(BytePos, LineCol)>) -> sourcemap::SourceMap {
         let mut builder = SourceMapBuilder::new(None);
+
+        // This method is optimized based on the fact that mapping is sorted.
         mappings.sort_by_key(|v| v.0);
 
         let mut cur_file: Option<Arc<SourceFile>> = None;
@@ -999,6 +1001,9 @@ impl SourceMap {
         let mut line_ch_start = 0;
 
         println!("Mapping: {}", mappings.len());
+
+        // Index of the latest multi byte char
+        let mut mbc_idx = 0;
 
         for (pos, lc) in mappings {
             let pos = *pos;
@@ -1034,9 +1039,8 @@ impl SourceMap {
                     linebpos,
                 );
                 {
-                    println!("Pos: {:?}", pos);
-                    let chpos = self.bytepos_to_file_charpos_with(&f, pos);
-                    let linechpos = self.bytepos_to_file_charpos_with(&f, linebpos);
+                    let chpos = { self.bytepos_to_file_charpos_with(&f, pos) };
+                    let linechpos = { self.bytepos_to_file_charpos_with(&f, linebpos) };
 
                     let col = max(chpos, linechpos) - min(chpos, linechpos);
 
