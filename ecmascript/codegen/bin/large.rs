@@ -33,6 +33,7 @@ fn main() {
             SourceFileInput::from(&*fm),
             None,
         );
+        let mut src_map_buf = vec![];
         let module = parser
             .parse_module()
             .map_err(|mut e| {
@@ -54,13 +55,18 @@ fn main() {
                     cm.clone(),
                     "\n",
                     buf,
-                    Some(&mut src_map_builder),
+                    Some(&mut src_map_buf),
                 ),
                 handlers,
             };
+            println!("Before emit");
 
             let _ = emitter.emit_module(&module);
+
+            println!("Emit is done");
         }
+        let srcmap = cm.build_source_map(&mut src_map_buf);
+        println!("Built source map");
     });
 }
 

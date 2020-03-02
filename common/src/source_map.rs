@@ -831,6 +831,11 @@ impl SourceMap {
         // The number of extra bytes due to multibyte chars in the SourceFile
         let mut total_extra_bytes = 0;
 
+        println!(
+            "mbc.len() = {}; start_idx = {};",
+            map.multibyte_chars.len(),
+            start_idx
+        );
         for (i, mbc) in map.multibyte_chars[*start_idx..].iter().enumerate() {
             debug!("{}-byte char at {:?}", mbc.bytes, mbc.pos);
             if mbc.pos < bpos {
@@ -841,6 +846,7 @@ impl SourceMap {
                 // character
                 assert!(bpos.to_u32() >= mbc.pos.to_u32() + mbc.bytes as u32);
             } else {
+                println!("I: {}", i);
                 *start_idx += i;
                 break;
             }
@@ -997,13 +1003,14 @@ impl SourceMap {
     /// Creates a `.map` file.
     pub fn build_source_map(&self, mappings: &mut Vec<(BytePos, LineCol)>) -> sourcemap::SourceMap {
         let mut builder = SourceMapBuilder::new(None);
-
         mappings.sort_by_key(|v| v.0);
 
         let mut cur_file: Option<Arc<SourceFile>> = None;
 
         let mut ch_start = 0;
         let mut line_ch_start = 0;
+
+        println!("Mapping: {}", mappings.len());
 
         for (pos, lc) in mappings {
             let pos = *pos;
@@ -1018,7 +1025,7 @@ impl SourceMap {
                     cur_file = Some(f.clone());
                     ch_start = 0;
                     line_ch_start = 0;
-
+                    println!("Reset");
                     &f
                 }
             };
@@ -1030,6 +1037,7 @@ impl SourceMap {
                     None => continue,
                 };
                 {
+                    println!("Pos: {:?}", pos);
                     let chpos = self.bytepos_to_file_charpos_with(&f, &mut ch_start, pos);
 
                     let line = a + 1; // Line numbers start at 1

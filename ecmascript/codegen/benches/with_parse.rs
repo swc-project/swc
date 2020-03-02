@@ -97,6 +97,7 @@ fn bench_emitter(b: &mut Bencher, s: &str) {
                 SourceFileInput::from(&*fm),
                 None,
             );
+            let mut src_map_buf = vec![];
             let module = parser
                 .parse_module()
                 .map_err(|mut e| {
@@ -105,7 +106,6 @@ fn bench_emitter(b: &mut Bencher, s: &str) {
                 .unwrap();
 
             let buf = vec![];
-            let mut src_map_builder = SourceMapBuilder::new(None);
             {
                 let handlers = box MyHandlers;
                 let mut emitter = Emitter {
@@ -118,13 +118,14 @@ fn bench_emitter(b: &mut Bencher, s: &str) {
                         cm.clone(),
                         "\n",
                         buf,
-                        Some(&mut src_map_builder),
+                        Some(&mut src_map_buf),
                     ),
                     handlers,
                 };
 
-                emitter.emit_module(&module)
+                let _ = emitter.emit_module(&module);
             }
+            let srcmap = cm.build_source_map(&mut src_map_buf);
         });
         Ok(())
     });
