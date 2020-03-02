@@ -822,16 +822,19 @@ impl SourceMap {
     }
 
     fn bytepos_to_file_charpos_with(&self, map: &SourceFile, bpos: BytePos) -> CharPos {
-        self.bytepos_to_file_charpos_with_idx(map, &mut 0, bpos)
+        let total_extra_bytes = self.calc_extra_bytes(map, &mut 0, bpos);
+        assert!(
+            map.start_pos.to_u32() + total_extra_bytes <= bpos.to_u32(),
+            "map.start_pos = {:?}; total_extra_bytes = {}; bpos = {:?}",
+            map.start_pos,
+            total_extra_bytes,
+            bpos,
+        );
+        CharPos(bpos.to_usize() - map.start_pos.to_usize() - total_extra_bytes as usize)
     }
 
     /// Converts an absolute BytePos to a CharPos relative to the source_file.
-    fn bytepos_to_file_charpos_with_idx(
-        &self,
-        map: &SourceFile,
-        start: &mut usize,
-        bpos: BytePos,
-    ) -> CharPos {
+    fn calc_extra_bytes(&self, map: &SourceFile, start: &mut usize, bpos: BytePos) -> u32 {
         // The number of extra bytes due to multibyte chars in the SourceFile
         let mut total_extra_bytes = 0;
 
@@ -850,14 +853,9 @@ impl SourceMap {
             }
         }
 
-        assert!(
-            map.start_pos.to_u32() + total_extra_bytes <= bpos.to_u32(),
-            "map.start_pos = {:?}; total_extra_bytes = {}; bpos = {:?}",
-            map.start_pos,
-            total_extra_bytes,
-            bpos,
-        );
-        CharPos(bpos.to_usize() - map.start_pos.to_usize() - total_extra_bytes as usize)
+        println!("One calc: {}", total_extra_bytes);
+
+        total_extra_bytes
     }
 
     /// Return the index of the source_file (in self.files) which contains pos.
@@ -1049,20 +1047,12 @@ impl SourceMap {
                     linebpos,
                 );
                 {
-                    let chpos = { self.bytepos_to_file_charpos_with_idx(&f, &mut ch_start, pos) };
-                    let linechpos =
-                        { self.bytepos_to_file_charpos_with_idx(&f, &mut line_ch_start, linebpos) };
+                    let chpos = { self.calc_extra_bytes(&f, &mut ch_start, pos) };
+                    let linechpos = { self.calc_extra_bytes(&f, &mut line_ch_start, linebpos) };
 
                     let col = max(chpos, linechpos) - min(chpos, linechpos);
 
-                    builder.add(
-                        lc.line,
-                        lc.col,
-                        (line - 1) as _,
-                        col.0 as _,
-                        Some(src),
-                        None,
-                    );
+                    builder.add(lc.line, lc.col, (line - 1) as _, col as _, Some(src), None);
                 }
             };
         }
