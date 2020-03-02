@@ -1009,11 +1009,16 @@ impl SourceMap {
         let mut line_ch_start = 0;
 
         for (pos, lc) in mappings.iter() {
-            println!();
-            println!("bpos = {:?}", pos);
-
             let pos = *pos;
             let lc = *lc;
+
+            // TODO: Use correct algoreithm
+            if pos >= BytePos(4294967295) {
+                continue;
+            }
+
+            println!();
+            println!("bpos = {:?}", pos);
 
             let f;
             let f = match cur_file {
@@ -1045,6 +1050,7 @@ impl SourceMap {
                 linebpos,
             );
             {
+                // let loc = self.lookup_char_pos_with(f.clone(), pos).col;
                 let chpos = { self.bytepos_to_file_charpos_with(&f, pos).0 };
                 let linechpos = { self.bytepos_to_file_charpos_with(&f, linebpos).0 };
                 println!("chpos = {:?}", chpos);
