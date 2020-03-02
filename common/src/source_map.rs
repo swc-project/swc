@@ -1029,32 +1029,28 @@ impl SourceMap {
                 }
             };
 
-            let loc = {
-                let a = match f.lookup_line(pos) {
-                    Some(line) => line,
-                    None => continue,
-                };
-                let line = a + 1; // Line numbers start at 1
-                let linebpos = f.lines[a];
-                debug_assert!(
-                    pos >= linebpos,
-                    "{}: bpos = {:?}; linebpos = {:?};",
-                    f.name,
-                    pos,
-                    linebpos,
-                );
-                {
-                    let chpos = { self.calc_extra_bytes(&f, &mut ch_start, pos) };
-                    let linechpos = { self.calc_extra_bytes(&f, &mut line_ch_start, linebpos) };
-
-                    let col = max(chpos, linechpos) - min(chpos, linechpos);
-
-                    builder.add(lc.line, lc.col, (line - 1) as _, col as _, None, None);
-                }
+            let a = match f.lookup_line(pos) {
+                Some(line) => line,
+                None => continue,
             };
-        }
+            let line = a + 1; // Line numbers start at 1
+            let linebpos = f.lines[a];
+            debug_assert!(
+                pos >= linebpos,
+                "{}: bpos = {:?}; linebpos = {:?};",
+                f.name,
+                pos,
+                linebpos,
+            );
+            {
+                let chpos = { self.calc_extra_bytes(&f, &mut ch_start, pos) };
+                let linechpos = { self.calc_extra_bytes(&f, &mut line_ch_start, linebpos) };
 
-        println!("Done");
+                let col = max(chpos, linechpos) - min(chpos, linechpos);
+
+                builder.add(lc.line, lc.col, (line - 1) as _, col as _, None, None);
+            }
+        }
 
         builder.into_sourcemap()
     }
