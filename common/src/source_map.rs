@@ -850,7 +850,7 @@ impl SourceMap {
                 total_extra_bytes += mbc.bytes as u32 - 1;
                 // We should never see a byte position in the middle of a
                 // character
-                assert!(bpos.to_u32() >= mbc.pos.to_u32() + mbc.bytes as u32);
+                debug_assert!(bpos.to_u32() >= mbc.pos.to_u32() + mbc.bytes as u32);
             } else {
                 *start += i;
                 break;
@@ -1036,7 +1036,7 @@ impl SourceMap {
                 };
                 let line = a + 1; // Line numbers start at 1
                 let linebpos = f.lines[a];
-                assert!(
+                debug_assert!(
                     pos >= linebpos,
                     "{}: bpos = {:?}; linebpos = {:?};",
                     f.name,
