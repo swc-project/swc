@@ -1,11 +1,9 @@
 use super::{Result, WriteJs};
-use sourcemap::SourceMapBuilder;
 use std::{
     io::{self, Write},
     sync::Arc,
-    u16,
 };
-use swc_common::{BytePos, FileName, SourceFile, SourceMap, Span};
+use swc_common::{BytePos, LineCol, SourceMap, Span};
 
 ///
 /// -----
@@ -14,17 +12,16 @@ use swc_common::{BytePos, FileName, SourceFile, SourceMap, Span};
 ///
 /// https://github.com/Microsoft/TypeScript/blob/45eaf42006/src/compiler/utilities.ts#L2548
 pub struct JsWriter<'a, W: Write> {
-    cm: Arc<SourceMap>,
+    /// We may use this in future...
+    _cm: Arc<SourceMap>,
     indent: usize,
     line_start: bool,
     line_count: usize,
     line_pos: usize,
     new_line: &'a str,
-    srcmap: Option<&'a mut SourceMapBuilder>,
+    srcmap: Option<&'a mut Vec<(BytePos, LineCol)>>,
     wr: W,
     written_bytes: usize,
-
-    files: Vec<Arc<SourceFile>>,
 }
 
 impl<'a, W: Write> JsWriter<'a, W> {
@@ -32,10 +29,10 @@ impl<'a, W: Write> JsWriter<'a, W> {
         cm: Arc<SourceMap>,
         new_line: &'a str,
         wr: W,
-        srcmap: Option<&'a mut SourceMapBuilder>,
+        srcmap: Option<&'a mut Vec<(BytePos, LineCol)>>,
     ) -> Self {
         JsWriter {
-            cm,
+            _cm: cm,
             indent: Default::default(),
             line_start: true,
             line_count: 0,
@@ -44,7 +41,6 @@ impl<'a, W: Write> JsWriter<'a, W> {
             srcmap,
             wr,
             written_bytes: 0,
-            files: Vec::with_capacity(2),
         }
     }
 
@@ -94,31 +90,13 @@ impl<'a, W: Write> JsWriter<'a, W> {
 
     fn srcmap(&mut self, byte_pos: BytePos) {
         if let Some(ref mut srcmap) = self.srcmap {
-            let fm = match SourceMap::lookup_source_file_in(&self.files, byte_pos) {
-                Some(fm) => fm,
-                None => {
-                    let fm = self.cm.lookup_source_file(byte_pos);
-                    self.files.push(fm.clone());
-                    fm
-                }
-            };
-
-            let loc = self.cm.lookup_char_pos_with(fm, byte_pos);
-
-            let src = match loc.file.name {
-                FileName::Real(ref p) => Some(p.display().to_string()),
-                _ => None,
-            };
-            if loc.col.0 < u16::MAX as usize {
-                srcmap.add(
-                    self.line_count as _,
-                    self.line_pos as _,
-                    (loc.line - 1) as _,
-                    loc.col.0 as _,
-                    src.as_ref().map(|s| &**s),
-                    None,
-                );
-            }
+            srcmap.push((
+                byte_pos,
+                LineCol {
+                    line: self.line_count as _,
+                    col: self.line_pos as _,
+                },
+            ))
         }
     }
 }

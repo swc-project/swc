@@ -1,3 +1,5 @@
 function a() {
-    new ['b'];
+    new [
+        'b'
+    ];
 }

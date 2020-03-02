@@ -34,7 +34,7 @@ log = "0.4.8"
 
 [dev-dependencies]
 testing = { version = "0.5", path ="../../testing" }
-swc_ecma_codegen = { version = "0.17.0", path ="../codegen" }
+swc_ecma_codegen = { version = "0.18.0", path ="../codegen" }
 tempfile = "3"
 pretty_assertions = "0.6"
 sourcemap = "5"

@@ -24,6 +24,7 @@ use crate::{
 };
 use hashbrown::HashMap;
 use log::debug;
+use sourcemap::SourceMapBuilder;
 use std::{
     cmp,
     cmp::{max, min},
@@ -820,25 +821,8 @@ impl SourceMap {
         self.bytepos_to_file_charpos_with(&map, bpos)
     }
 
-    /// Converts an absolute BytePos to a CharPos relative to the source_file.
     fn bytepos_to_file_charpos_with(&self, map: &SourceFile, bpos: BytePos) -> CharPos {
-        // The number of extra bytes due to multibyte chars in the SourceFile
-        let mut total_extra_bytes = 0;
-
-        for mbc in map.multibyte_chars.iter() {
-            debug!("{}-byte char at {:?}", mbc.bytes, mbc.pos);
-            if mbc.pos < bpos {
-                // every character is at least one byte, so we only
-                // count the actual extra bytes.
-                total_extra_bytes += mbc.bytes as u32 - 1;
-                // We should never see a byte position in the middle of a
-                // character
-                assert!(bpos.to_u32() >= mbc.pos.to_u32() + mbc.bytes as u32);
-            } else {
-                break;
-            }
-        }
-
+        let total_extra_bytes = self.calc_extra_bytes(map, &mut 0, bpos);
         assert!(
             map.start_pos.to_u32() + total_extra_bytes <= bpos.to_u32(),
             "map.start_pos = {:?}; total_extra_bytes = {}; bpos = {:?}",
@@ -847,6 +831,29 @@ impl SourceMap {
             bpos,
         );
         CharPos(bpos.to_usize() - map.start_pos.to_usize() - total_extra_bytes as usize)
+    }
+
+    /// Converts an absolute BytePos to a CharPos relative to the source_file.
+    fn calc_extra_bytes(&self, map: &SourceFile, start: &mut usize, bpos: BytePos) -> u32 {
+        // The number of extra bytes due to multibyte chars in the SourceFile
+        let mut total_extra_bytes = 0;
+
+        for (i, &mbc) in map.multibyte_chars[*start..].iter().enumerate() {
+            debug!("{}-byte char at {:?}", mbc.bytes, mbc.pos);
+            if mbc.pos < bpos {
+                // every character is at least one byte, so we only
+                // count the actual extra bytes.
+                total_extra_bytes += mbc.bytes as u32 - 1;
+                // We should never see a byte position in the middle of a
+                // character
+                debug_assert!(bpos.to_u32() >= mbc.pos.to_u32() + mbc.bytes as u32);
+            } else {
+                *start += i;
+                break;
+            }
+        }
+
+        total_extra_bytes
     }
 
     /// Return the index of the source_file (in self.files) which contains pos.
@@ -985,6 +992,67 @@ impl SourceMap {
         }
 
         None
+    }
+
+    /// Creates a `.map` file.
+    pub fn build_source_map(&self, mappings: &mut Vec<(BytePos, LineCol)>) -> sourcemap::SourceMap {
+        let mut builder = SourceMapBuilder::new(None);
+
+        // // This method is optimized based on the fact that mapping is sorted.
+        // mappings.sort_by_key(|v| v.0);
+
+        let mut cur_file: Option<Arc<SourceFile>> = None;
+        // let mut src_id = None;
+
+        let mut ch_start = 0;
+        let mut line_ch_start = 0;
+
+        for (pos, lc) in mappings.iter() {
+            let pos = *pos;
+            let lc = *lc;
+
+            // TODO: Use correct algorithm
+            if pos >= BytePos(4294967295) {
+                continue;
+            }
+
+            let f;
+            let f = match cur_file {
+                Some(ref f) if f.start_pos <= pos && pos < f.end_pos => f,
+                _ => {
+                    f = self.lookup_source_file(pos);
+                    builder.add_source(&f.src);
+                    cur_file = Some(f.clone());
+                    ch_start = 0;
+                    line_ch_start = 0;
+                    // src_id = Some(builder.add_source(&f.src));
+                    &f
+                }
+            };
+
+            let a = match f.lookup_line(pos) {
+                Some(line) => line,
+                None => continue,
+            };
+
+            let line = a + 1; // Line numbers start at 1
+            let linebpos = f.lines[a];
+            debug_assert!(
+                pos >= linebpos,
+                "{}: bpos = {:?}; linebpos = {:?};",
+                f.name,
+                pos,
+                linebpos,
+            );
+            let chpos = { self.calc_extra_bytes(&f, &mut ch_start, pos) };
+            let linechpos = { self.calc_extra_bytes(&f, &mut line_ch_start, linebpos) };
+
+            let col = max(chpos, linechpos) - min(chpos, linechpos);
+
+            builder.add(lc.line, lc.col, (line - 1) as _, col as _, None, None);
+        }
+
+        builder.into_sourcemap()
     }
 }
 

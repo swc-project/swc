@@ -214,7 +214,8 @@ fn issue_414() {
 
     let s2 = file("tests/projects/issue-414/b.ts").unwrap();
     println!("{}", s2);
-    assert!(s2.contains("define(['bar'], function(_bar) {"));
+    assert!(s2.contains("define("));
+    assert!(s2.contains("function(_bar) {"));
 }
 
 /// should handle comments in return statement

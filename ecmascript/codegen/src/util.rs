@@ -26,12 +26,13 @@ pub trait SourceMapperExt {
     fn get_code_map(&self) -> &dyn SourceMapper;
 
     fn is_on_same_line(&self, lo: BytePos, hi: BytePos) -> bool {
-        let cm = self.get_code_map();
+        // let cm = self.get_code_map();
 
-        let lo = cm.lookup_char_pos(lo);
-        let hi = cm.lookup_char_pos(hi);
+        // let lo = cm.lookup_char_pos(lo);
+        // let hi = cm.lookup_char_pos(hi);
 
-        lo.line == hi.line && lo.file.name_hash == hi.file.name_hash
+        // lo.line == hi.line && lo.file.name_hash == hi.file.name_hash
+        false
     }
 
     fn should_write_separating_line_terminator<P: Spanned, N: Spanned>(
