@@ -262,7 +262,7 @@ impl SourceMap {
         let line_info = self.lookup_line_with(fm, pos);
         match line_info {
             Ok(SourceFileAndLine { sf: f, line: a }) => {
-                let chpos = self.bytepos_to_file_charpos_with(&f, &mut 0, pos);
+                let chpos = self.bytepos_to_file_charpos_with(&f, pos);
 
                 let line = a + 1; // Line numbers start at 1
                 let linebpos = f.lines[a];
@@ -274,7 +274,7 @@ impl SourceMap {
                     linebpos,
                 );
 
-                let linechpos = self.bytepos_to_file_charpos_with(&f, &mut 0, linebpos);
+                let linechpos = self.bytepos_to_file_charpos_with(&f, linebpos);
 
                 let col = max(chpos, linechpos) - min(chpos, linechpos);
 
@@ -818,25 +818,15 @@ impl SourceMap {
     fn bytepos_to_file_charpos(&self, bpos: BytePos) -> CharPos {
         let map = self.lookup_source_file(bpos);
 
-        self.bytepos_to_file_charpos_with(&map, &mut 0, bpos)
+        self.bytepos_to_file_charpos_with(&map, bpos)
     }
 
     /// Converts an absolute BytePos to a CharPos relative to the source_file.
-    fn bytepos_to_file_charpos_with(
-        &self,
-        map: &SourceFile,
-        start_idx: &mut usize,
-        bpos: BytePos,
-    ) -> CharPos {
+    fn bytepos_to_file_charpos_with(&self, map: &SourceFile, bpos: BytePos) -> CharPos {
         // The number of extra bytes due to multibyte chars in the SourceFile
         let mut total_extra_bytes = 0;
 
-        println!(
-            "mbc.len() = {}; start_idx = {};",
-            map.multibyte_chars.len(),
-            start_idx
-        );
-        for (i, mbc) in map.multibyte_chars[*start_idx..].iter().enumerate() {
+        for mbc in map.multibyte_chars.iter() {
             debug!("{}-byte char at {:?}", mbc.bytes, mbc.pos);
             if mbc.pos < bpos {
                 // every character is at least one byte, so we only
@@ -846,8 +836,6 @@ impl SourceMap {
                 // character
                 assert!(bpos.to_u32() >= mbc.pos.to_u32() + mbc.bytes as u32);
             } else {
-                println!("I: {}", i);
-                *start_idx += i;
                 break;
             }
         }
@@ -1038,7 +1026,7 @@ impl SourceMap {
                 };
                 {
                     println!("Pos: {:?}", pos);
-                    let chpos = self.bytepos_to_file_charpos_with(&f, &mut ch_start, pos);
+                    let chpos = self.bytepos_to_file_charpos_with(&f, pos);
 
                     let line = a + 1; // Line numbers start at 1
                     let linebpos = f.lines[a];
@@ -1050,8 +1038,7 @@ impl SourceMap {
                         linebpos,
                     );
 
-                    let linechpos =
-                        self.bytepos_to_file_charpos_with(&f, &mut line_ch_start, linebpos);
+                    let linechpos = self.bytepos_to_file_charpos_with(&f, linebpos);
 
                     let col = max(chpos, linechpos) - min(chpos, linechpos);
 
