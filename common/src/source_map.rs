@@ -1065,7 +1065,7 @@ impl SourceMap {
                     lc.col,
                     (loc.line - 1) as _,
                     loc.col.0 as _,
-                    None,
+                    Some(&**f.src),
                     None,
                 );
             }
