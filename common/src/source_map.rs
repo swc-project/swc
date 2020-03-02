@@ -835,6 +835,10 @@ impl SourceMap {
 
     /// Converts an absolute BytePos to a CharPos relative to the source_file.
     fn calc_extra_bytes(&self, map: &SourceFile, start: &mut usize, bpos: BytePos) -> u32 {
+        if map.multibyte_chars.is_empty() {
+            return 0;
+        }
+
         // The number of extra bytes due to multibyte chars in the SourceFile
         let mut total_extra_bytes = 0;
 
