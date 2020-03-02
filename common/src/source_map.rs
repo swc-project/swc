@@ -857,8 +857,6 @@ impl SourceMap {
             }
         }
 
-        println!("One calc: {}", total_extra_bytes);
-
         total_extra_bytes
     }
 
@@ -1009,13 +1007,9 @@ impl SourceMap {
 
         let mut cur_file: Option<Arc<SourceFile>> = None;
 
+        // Index of the latest multi byte char
         let mut ch_start = 0;
         let mut line_ch_start = 0;
-
-        println!("Mapping: {}", mappings.len());
-
-        // Index of the latest multi byte char
-        let mut mbc_idx = 0;
 
         for (pos, lc) in mappings {
             let pos = *pos;
@@ -1030,11 +1024,10 @@ impl SourceMap {
                     cur_file = Some(f.clone());
                     ch_start = 0;
                     line_ch_start = 0;
-                    println!("Reset");
+                    builder.add_source(&f.src);
                     &f
                 }
             };
-            let src = &**f.src;
 
             let loc = {
                 let a = match f.lookup_line(pos) {
@@ -1056,10 +1049,12 @@ impl SourceMap {
 
                     let col = max(chpos, linechpos) - min(chpos, linechpos);
 
-                    builder.add(lc.line, lc.col, (line - 1) as _, col as _, Some(src), None);
+                    builder.add(lc.line, lc.col, (line - 1) as _, col as _, None, None);
                 }
             };
         }
+
+        println!("Done");
 
         builder.into_sourcemap()
     }
