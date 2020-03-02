@@ -2,7 +2,6 @@ use crate::{
     helpers::{InjectHelpers, HELPERS},
     pass::Pass,
 };
-use sourcemap::SourceMapBuilder;
 use std::{
     fmt,
     fs::{create_dir_all, remove_dir_all, OpenOptions},
@@ -139,7 +138,6 @@ impl<'a> Tester<'a> {
 
         let mut wr = Buf(Arc::new(RwLock::new(vec![])));
         {
-            let mut src_map_builder = SourceMapBuilder::new(None);
             let mut emitter = Emitter {
                 cfg: Default::default(),
                 cm: self.cm.clone(),
