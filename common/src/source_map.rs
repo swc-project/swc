@@ -1024,20 +1024,18 @@ impl SourceMap {
                     Some(line) => line,
                     None => continue,
                 };
+                let line = a + 1; // Line numbers start at 1
+                let linebpos = f.lines[a];
+                assert!(
+                    pos >= linebpos,
+                    "{}: bpos = {:?}; linebpos = {:?};",
+                    f.name,
+                    pos,
+                    linebpos,
+                );
                 {
                     println!("Pos: {:?}", pos);
                     let chpos = self.bytepos_to_file_charpos_with(&f, pos);
-
-                    let line = a + 1; // Line numbers start at 1
-                    let linebpos = f.lines[a];
-                    assert!(
-                        pos >= linebpos,
-                        "{}: bpos = {:?}; linebpos = {:?};",
-                        f.name,
-                        pos,
-                        linebpos,
-                    );
-
                     let linechpos = self.bytepos_to_file_charpos_with(&f, linebpos);
 
                     let col = max(chpos, linechpos) - min(chpos, linechpos);
