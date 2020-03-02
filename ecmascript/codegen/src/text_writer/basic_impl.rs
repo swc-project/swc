@@ -1,11 +1,9 @@
 use super::{Result, WriteJs};
-use sourcemap::SourceMapBuilder;
 use std::{
     io::{self, Write},
     sync::Arc,
-    u16,
 };
-use swc_common::{BytePos, FileName, LineCol, SourceFile, SourceMap, Span};
+use swc_common::{BytePos, LineCol, SourceMap, Span};
 
 ///
 /// -----
@@ -14,7 +12,8 @@ use swc_common::{BytePos, FileName, LineCol, SourceFile, SourceMap, Span};
 ///
 /// https://github.com/Microsoft/TypeScript/blob/45eaf42006/src/compiler/utilities.ts#L2548
 pub struct JsWriter<'a, W: Write> {
-    cm: Arc<SourceMap>,
+    /// We may use this in future...
+    _cm: Arc<SourceMap>,
     indent: usize,
     line_start: bool,
     line_count: usize,
@@ -23,8 +22,6 @@ pub struct JsWriter<'a, W: Write> {
     srcmap: Option<&'a mut Vec<(BytePos, LineCol)>>,
     wr: W,
     written_bytes: usize,
-
-    files: Vec<Arc<SourceFile>>,
 }
 
 impl<'a, W: Write> JsWriter<'a, W> {
@@ -35,7 +32,7 @@ impl<'a, W: Write> JsWriter<'a, W> {
         srcmap: Option<&'a mut Vec<(BytePos, LineCol)>>,
     ) -> Self {
         JsWriter {
-            cm,
+            _cm: cm,
             indent: Default::default(),
             line_start: true,
             line_count: 0,
@@ -44,7 +41,6 @@ impl<'a, W: Write> JsWriter<'a, W> {
             srcmap,
             wr,
             written_bytes: 0,
-            files: Vec::with_capacity(2),
         }
     }
 

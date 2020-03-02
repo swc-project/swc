@@ -33,7 +33,6 @@ pub use ecmascript::{
     transforms::{chain_at, pass::Pass},
 };
 use serde::Serialize;
-use sourcemap::SourceMapBuilder;
 use std::{fs::File, path::Path, sync::Arc};
 
 pub struct Compiler {
@@ -126,21 +125,12 @@ impl Compiler {
     pub fn print(
         &self,
         program: &Program,
-        fm: Arc<SourceFile>,
         comments: &Comments,
         source_map: bool,
         minify: bool,
     ) -> Result<TransformOutput, Error> {
         self.run(|| {
-            let mut src_map_builder = SourceMapBuilder::new(None);
-
-            match fm.name {
-                FileName::Real(ref p) => {
-                    let id = src_map_builder.add_source(&p.display().to_string());
-                    src_map_builder.set_source_contents(id, Some(&fm.src));
-                }
-                _ => {}
-            }
+            let mut src_map_buf = vec![];
 
             let src = {
                 let mut buf = vec![];
@@ -155,7 +145,7 @@ impl Compiler {
                             "\n",
                             &mut buf,
                             if source_map {
-                                Some(&mut src_map_builder)
+                                Some(&mut src_map_buf)
                             } else {
                                 None
                             },
@@ -174,8 +164,9 @@ impl Compiler {
                 code: src,
                 map: if source_map {
                     let mut buf = vec![];
-                    src_map_builder
-                        .into_sourcemap()
+
+                    self.cm
+                        .build_source_map(&mut src_map_buf)
                         .to_writer(&mut buf)
                         .map_err(|err| Error::FailedToWriteSourceMap { err })?;
                     let map =
@@ -323,13 +314,7 @@ impl Compiler {
                 })
             });
 
-            self.print(
-                &module,
-                fm,
-                &self.comments,
-                config.source_maps,
-                config.minify,
-            )
+            self.print(&module, &self.comments, config.source_maps, config.minify)
         })
     }
 }
