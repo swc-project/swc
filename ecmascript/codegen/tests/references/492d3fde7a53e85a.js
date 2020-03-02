@@ -1,3 +1,4 @@
 switch(a){
-    case 1: let b;
+    case 1:
+        let b;
 }

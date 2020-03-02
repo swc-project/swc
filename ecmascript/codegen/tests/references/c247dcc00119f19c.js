@@ -1,1 +1,4 @@
-for(var a in [1, 2])3;
+for(var a in [
+    1,
+    2
+])3;

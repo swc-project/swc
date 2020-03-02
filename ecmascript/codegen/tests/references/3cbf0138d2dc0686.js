@@ -4,5 +4,10 @@
     var b = 2;
     var c = 3;
     var d = [].e.f(arguments);
-    return [a, b, c, g];
+    return [
+        a,
+        b,
+        c,
+        g
+    ];
 }());
