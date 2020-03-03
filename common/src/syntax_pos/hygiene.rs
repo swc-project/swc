@@ -130,11 +130,17 @@ impl Mark {
     }
 }
 
-#[derive(Debug, Default)]
+#[derive(Debug)]
 pub(crate) struct HygieneData {
     marks: Vec<MarkData>,
     syntax_contexts: Vec<SyntaxContextData>,
     markings: HashMap<(SyntaxContext, Mark), SyntaxContext>,
+}
+
+impl Default for HygieneData {
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 impl HygieneData {
