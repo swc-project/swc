@@ -1,10 +1,11 @@
 use crate::{pass::Pass, util::undefined};
 use smallvec::SmallVec;
-use std::mem::replace;
+use std::{iter::once, mem::replace};
 use swc_common::{util::map::Map, Fold, FoldWith, Spanned, Visit, VisitWith, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    find_ids, ident::IdentLike, prepend, var::VarCollector, ExprFactory, Id, StmtLike,
+    contains_this_expr, find_ids, ident::IdentLike, prepend, var::VarCollector, ExprFactory, Id,
+    StmtLike,
 };
 
 ///
@@ -118,6 +119,7 @@ impl BlockScoping {
                 }
 
                 let var_name = private_ident!("_loop");
+                let uses_this = contains_this_expr(&body);
 
                 self.vars.push(VarDeclarator {
                     span: DUMMY_SP,
@@ -152,19 +154,37 @@ impl BlockScoping {
                     definite: false,
                 });
 
-                return CallExpr {
-                    span: DUMMY_SP,
-                    callee: var_name.as_callee(),
-                    args: args
-                        .into_iter()
-                        .map(|i| ExprOrSpread {
+                return if uses_this {
+                    CallExpr {
+                        span: DUMMY_SP,
+                        callee: var_name.member(quote_ident!("call")).as_callee(),
+                        args: once(ExprOrSpread {
+                            spread: None,
+                            expr: box Expr::This(ThisExpr { span: DUMMY_SP }),
+                        })
+                        .chain(args.into_iter().map(|i| ExprOrSpread {
                             spread: None,
                             expr: box Expr::Ident(Ident::new(i.0, DUMMY_SP.with_ctxt(i.1))),
-                        })
+                        }))
                         .collect(),
-                    type_args: None,
-                }
-                .into_stmt();
+                        type_args: None,
+                    }
+                    .into_stmt()
+                } else {
+                    CallExpr {
+                        span: DUMMY_SP,
+                        callee: var_name.as_callee(),
+                        args: args
+                            .into_iter()
+                            .map(|i| ExprOrSpread {
+                                spread: None,
+                                expr: box Expr::Ident(Ident::new(i.0, DUMMY_SP.with_ctxt(i.1))),
+                            })
+                            .collect(),
+                        type_args: None,
+                    }
+                    .into_stmt()
+                };
             }
 
             body
@@ -766,7 +786,90 @@ foo();"
     };
     var vars = [];
     var elem = null, name, val;
-    for(var i = 0; i < this.elements.length; i++)_loop(i);
+    for(var i = 0; i < this.elements.length; i++)_loop.call(this, i);
+    return vars;
+};"
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| block_scoping(),
+        issue_698,
+        "module.exports = function(values) {
+    var vars = [];
+    var elem = null, name, val;
+    for (var i = 0; i < this.elements.length; i++) {
+      elem = this.elements[i];
+      name = elem.name;
+      if (!name) continue;
+      val = values[name];
+      if (val == null) val = '';
+      switch (elem.type) {
+      case 'submit':
+        break;
+      case 'radio':
+      case 'checkbox':
+        elem.checked = val.some(function(str) {
+          return str.toString() == elem.value;
+        });
+        break;
+      case 'select-multiple':
+        elem.fill(val);
+        break;
+      case 'textarea':
+        elem.innerText = val;
+        break;
+      case 'hidden':
+        break;
+      default:
+        if (elem.fill) {
+          elem.fill(val);
+        } else {
+          elem.value = val;
+        }
+        break;
+      }
+    }
+    return vars;
+  };
+
+",
+        "module.exports = function(values) {
+    var _loop = function(i) {
+        elem = this.elements[i];
+        name = elem.name;
+        if (!name) return;
+        val = values[name];
+        if (val == null) val = '';
+        switch(elem.type){
+            case 'submit':
+                break;
+            case 'radio':
+            case 'checkbox':
+                elem.checked = val.some(function(str) {
+                    return str.toString() == elem.value;
+                });
+                break;
+            case 'select-multiple':
+                elem.fill(val);
+                break;
+            case 'textarea':
+                elem.innerText = val;
+                break;
+            case 'hidden':
+                break;
+            default:
+                if (elem.fill) {
+                    elem.fill(val);
+                } else {
+                    elem.value = val;
+                }
+                break;
+        }
+    };
+    var vars = [];
+    var elem = null, name, val;
+    for(var i = 0; i < this.elements.length; i++)_loop.call(this, i);
     return vars;
 };"
     );
