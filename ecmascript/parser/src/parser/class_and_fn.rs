@@ -335,7 +335,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                         is_optional,
                         is_async: false,
                         is_generator: false,
-                        is_static: false,
+                        static_token: None,
                         key,
                         kind: MethodKind::Method,
                     },
@@ -376,6 +376,12 @@ impl<'a, I: Tokens> Parser<'a, I> {
     ) -> PResult<'a, ClassMember> {
         let is_static = static_token.is_some();
         let modifier = self.parse_ts_modifier(&["abstract", "readonly"])?;
+        let modifier_span = if let Some(..) = modifier {
+            Some(self.input.prev_span())
+        } else {
+            None
+        };
+
         let (is_abstract, readonly) = match modifier {
             Some("abstract") => (true, self.parse_ts_modifier(&["readonly"])?.is_some()),
             Some("readonly") => (self.parse_ts_modifier(&["abstract"])?.is_some(), true),
@@ -409,7 +415,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                     accessibility,
                     is_abstract,
                     is_optional: false,
-                    is_static,
+                    static_token,
                     key,
                     kind: MethodKind::Method,
                 },
@@ -494,7 +500,14 @@ impl<'a, I: Tokens> Parser<'a, I> {
                     }
                 }
 
-                // TODO: check for duplicate constructors
+                if let Some(static_token) = static_token {
+                    self.emit_err(static_token, SyntaxError::TS1089)
+                }
+
+                if let Some(span) = modifier_span {
+                    self.emit_err(make_span(span), SyntaxError::TS1242);
+                }
+
                 return Ok(ClassMember::Constructor(Constructor {
                     span: span!(start),
                     accessibility,
@@ -515,7 +528,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                         accessibility,
                         decorators,
                         is_abstract,
-                        is_static,
+                        static_token,
                         kind: MethodKind::Method,
                         key,
                         is_async: false,
@@ -559,7 +572,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 |p| p.parse_unique_formal_params(),
                 MakeMethodArgs {
                     start,
-                    is_static,
+                    static_token,
                     key,
                     is_abstract,
                     accessibility,
@@ -607,7 +620,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                             is_generator: false,
                             is_optional,
                             accessibility,
-                            is_static,
+                            static_token,
                             key,
                             kind: MethodKind::Getter,
                         },
@@ -636,7 +649,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                             is_async: false,
                             is_generator: false,
                             accessibility,
-                            is_static,
+                            static_token,
                             key,
                             kind: MethodKind::Setter,
                         },
@@ -929,7 +942,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
             start,
             accessibility,
             is_abstract,
-            is_static,
+            static_token,
             decorators,
             is_optional,
             key,
@@ -941,6 +954,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     where
         F: FnOnce(&mut Self) -> PResult<'a, Vec<Pat>>,
     {
+        let is_static = static_token.is_some();
         let ctx = Context {
             span_of_fn_name: Some(key.span()),
             ..self.ctx()
@@ -1147,7 +1161,7 @@ struct MakeMethodArgs {
     start: BytePos,
     accessibility: Option<Accessibility>,
     is_abstract: bool,
-    is_static: bool,
+    static_token: Option<Span>,
     decorators: Vec<Decorator>,
     is_optional: bool,
     key: Either<PrivateName, PropName>,

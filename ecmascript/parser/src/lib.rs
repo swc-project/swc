@@ -295,6 +295,13 @@ impl Syntax {
             _ => false,
         }
     }
+
+    pub fn dts(self) -> bool {
+        match self {
+            Syntax::Typescript(t) => t.dts,
+            _ => false,
+        }
+    }
 }
 
 #[derive(Debug, Clone, Copy, Default, Serialize, Deserialize)]
@@ -308,6 +315,10 @@ pub struct TsConfig {
 
     #[serde(default)]
     pub dynamic_import: bool,
+
+    /// `.d.ts`
+    #[serde(skip, default)]
+    pub dts: bool,
 }
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialOrd, Ord, PartialEq, Eq)]

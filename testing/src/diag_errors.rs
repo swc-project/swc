@@ -4,13 +4,16 @@ use swc_common::errors::{
 };
 
 /// Creates a new handler for testing.
-pub(crate) fn new_handler(_: Arc<SourceMapperDyn>) -> (Handler, BufferedError) {
+pub(crate) fn new_handler(
+    _: Arc<SourceMapperDyn>,
+    treat_err_as_bug: bool,
+) -> (Handler, BufferedError) {
     let e = BufferedError::default();
 
     let handler = Handler::with_emitter_and_flags(
         box e.clone(),
         HandlerFlags {
-            treat_err_as_bug: false,
+            treat_err_as_bug,
             can_emit_warnings: true,
             ..Default::default()
         },

@@ -509,13 +509,12 @@ impl Query {
                     .output()
                     .expect("failed to collect output");
 
+                println!(
+                    "{}\n{}",
+                    String::from_utf8_lossy(&output.stdout),
+                    String::from_utf8_lossy(&output.stderr),
+                );
                 if !output.status.success() {
-                    println!(
-                        "{}\n{}",
-                        String::from_utf8_lossy(&output.stdout),
-                        String::from_utf8_lossy(&output.stderr),
-                    );
-
                     println!("query.js: Status {:?}", output.status,);
                     return Err(());
                 }

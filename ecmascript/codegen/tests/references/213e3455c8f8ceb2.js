@@ -1,2 +1,2 @@
-(class a{
+(class a {
 });

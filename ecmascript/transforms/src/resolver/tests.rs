@@ -1089,14 +1089,12 @@ identical!(
 
 identical!(
     issue_699_1,
-    "function foo() {
-  return () => {
-    function Bar() {}
-
-    Bar.qux = '';
-
-    return Bar;
-  };
-}
+    "function foo() {	
+  return () => {	
+    function Bar() {}	
+    Bar.qux = '';	
+    return Bar;	
+  };	
+}	
 "
 );

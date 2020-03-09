@@ -1002,7 +1002,7 @@ impl SourceMap {
         // mappings.sort_by_key(|v| v.0);
 
         let mut cur_file: Option<Arc<SourceFile>> = None;
-        // let mut src_id = None;
+        let mut src_id;
 
         let mut ch_start = 0;
         let mut line_ch_start = 0;
@@ -1021,11 +1021,11 @@ impl SourceMap {
                 Some(ref f) if f.start_pos <= pos && pos < f.end_pos => f,
                 _ => {
                     f = self.lookup_source_file(pos);
-                    builder.add_source(&f.src);
+                    src_id = builder.add_source(&f.name.to_string());
+                    builder.set_source_contents(src_id, Some(&f.src));
                     cur_file = Some(f.clone());
                     ch_start = 0;
                     line_ch_start = 0;
-                    // src_id = Some(builder.add_source(&f.src));
                     &f
                 }
             };

@@ -1,4 +1,4 @@
-class a{
+class a {
     set b(c) {
     }
 }

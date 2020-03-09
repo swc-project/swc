@@ -1,4 +1,4 @@
-class a extends b{
+class a extends b {
     static get c() {
     }
 }

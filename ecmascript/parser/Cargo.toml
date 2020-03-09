@@ -1,6 +1,6 @@
 [package]
 name = "swc_ecma_parser"
-version = "0.20.0"
+version = "0.21.0"
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 license = "Apache-2.0/MIT"
 repository = "https://github.com/swc-project/swc.git"
@@ -18,7 +18,7 @@ verify = ["fold"]
 [dependencies]
 swc_atoms = { version = "0.2", path ="../../atoms" }
 swc_common = { version = "0.5.0", path ="../../common" }
-swc_ecma_ast = { version = "0.17.0", path ="../ast" }
+swc_ecma_ast = { version = "0.18.0", path ="../ast" }
 swc_ecma_parser_macros = { version = "0.4", path ="./macros" }
 enum_kind = { version = "0.2", path ="../../macros/enum_kind" }
 unicode-xid = "0.2"

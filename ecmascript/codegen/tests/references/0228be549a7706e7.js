@@ -1,4 +1,4 @@
-(class{
-     prototype() {
+(class {
+    prototype() {
     }
 });

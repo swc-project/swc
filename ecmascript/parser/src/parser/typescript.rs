@@ -2315,3 +2315,80 @@ fn make_decl_declare(mut decl: Decl) -> Decl {
 
     decl
 }
+
+#[cfg(test)]
+mod tests {
+    use crate::{test_parser, Syntax};
+    use swc_common::DUMMY_SP;
+    use swc_ecma_ast::*;
+    use testing::assert_eq_ignore_span;
+
+    #[test]
+    fn issue_708_1() {
+        let actual = test_parser(
+            "type test = -1;",
+            Syntax::Typescript(Default::default()),
+            |p| p.parse_module().map_err(|mut e| e.emit()),
+        );
+
+        let expected = Module {
+            span: DUMMY_SP,
+            shebang: None,
+            body: {
+                let first = ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(TsTypeAliasDecl {
+                    span: DUMMY_SP,
+                    declare: false,
+                    id: Ident::new("test".into(), DUMMY_SP),
+                    type_params: None,
+                    type_ann: box TsType::TsLitType(TsLitType {
+                        span: DUMMY_SP,
+                        lit: TsLit::Number(Number {
+                            span: DUMMY_SP,
+                            value: -1.0,
+                        }),
+                    }),
+                })));
+                vec![first]
+            },
+        };
+
+        assert_eq_ignore_span!(actual, expected);
+    }
+
+    #[test]
+    fn issue_708_2() {
+        let actual = test_parser(
+            "const t = -1;",
+            Syntax::Typescript(Default::default()),
+            |p| p.parse_module().map_err(|mut e| e.emit()),
+        );
+
+        let expected = Module {
+            span: DUMMY_SP,
+            shebang: None,
+            body: {
+                let second = ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Const,
+                    declare: false,
+                    decls: vec![VarDeclarator {
+                        span: DUMMY_SP,
+                        name: Pat::Ident(Ident::new("t".into(), DUMMY_SP)),
+                        init: Some(box Expr::Unary(UnaryExpr {
+                            span: DUMMY_SP,
+                            op: op!(unary, "-"),
+                            arg: box Expr::Lit(Lit::Num(Number {
+                                span: DUMMY_SP,
+                                value: 1.0,
+                            })),
+                        })),
+                        definite: false,
+                    }],
+                })));
+                vec![second]
+            },
+        };
+
+        assert_eq_ignore_span!(actual, expected);
+    }
+}

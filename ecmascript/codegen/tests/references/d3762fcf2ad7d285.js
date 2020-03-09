@@ -1,2 +1,2 @@
-(class extends 1{
+(class extends 1 {
 });

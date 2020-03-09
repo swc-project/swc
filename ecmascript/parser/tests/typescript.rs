@@ -154,6 +154,7 @@ where
         let lexer = Lexer::new(
             Session { handler: &handler },
             Syntax::Typescript(TsConfig {
+                dts: fname.ends_with(".d.ts"),
                 tsx: fname.contains("tsx"),
                 dynamic_import: true,
                 decorators: true,

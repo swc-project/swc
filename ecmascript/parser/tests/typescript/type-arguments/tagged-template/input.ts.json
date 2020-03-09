@@ -16,7 +16,7 @@
       "expression": {
         "type": "TaggedTemplateExpression",
         "span": {
-          "start": 0,
+          "start": 4,
           "end": 6,
           "ctxt": 0
         },

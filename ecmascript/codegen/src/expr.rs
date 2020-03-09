@@ -93,6 +93,7 @@ mod tests {
     }
 
     #[test]
+    #[ignore]
     fn class_expression() {
         assert_min("(class {})", "(class{});");
         assert_min("(class Foo {})", "(class Foo{});");

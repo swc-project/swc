@@ -1,0 +1,374 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 359,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 0,
+        "end": 359,
+        "ctxt": 0
+      },
+      "declare": true,
+      "global": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 18,
+          "end": 25,
+          "ctxt": 0
+        },
+        "value": "__event",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 26,
+          "end": 359,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "ExportDeclaration",
+            "span": {
+              "start": 32,
+              "end": 357,
+              "ctxt": 0
+            },
+            "declaration": {
+              "type": "ClassDeclaration",
+              "identifier": {
+                "type": "Identifier",
+                "span": {
+                  "start": 45,
+                  "end": 54,
+                  "ctxt": 0
+                },
+                "value": "EventInit",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "declare": false,
+              "span": {
+                "start": 39,
+                "end": 357,
+                "ctxt": 0
+              },
+              "decorators": [],
+              "body": [
+                {
+                  "type": "Constructor",
+                  "span": {
+                    "start": 65,
+                    "end": 351,
+                    "ctxt": 0
+                  },
+                  "key": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 65,
+                      "end": 76,
+                      "ctxt": 0
+                    },
+                    "value": "constructor",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "params": [
+                    {
+                      "type": "ObjectPattern",
+                      "span": {
+                        "start": 77,
+                        "end": 349,
+                        "ctxt": 0
+                      },
+                      "properties": [
+                        {
+                          "type": "AssignmentPatternProperty",
+                          "span": {
+                            "start": 103,
+                            "end": 110,
+                            "ctxt": 0
+                          },
+                          "key": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 103,
+                              "end": 110,
+                              "ctxt": 0
+                            },
+                            "value": "bubbles",
+                            "typeAnnotation": null,
+                            "optional": false
+                          },
+                          "value": null
+                        },
+                        {
+                          "type": "AssignmentPatternProperty",
+                          "span": {
+                            "start": 136,
+                            "end": 146,
+                            "ctxt": 0
+                          },
+                          "key": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 136,
+                              "end": 146,
+                              "ctxt": 0
+                            },
+                            "value": "cancelable",
+                            "typeAnnotation": null,
+                            "optional": false
+                          },
+                          "value": null
+                        },
+                        {
+                          "type": "AssignmentPatternProperty",
+                          "span": {
+                            "start": 172,
+                            "end": 180,
+                            "ctxt": 0
+                          },
+                          "key": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 172,
+                              "end": 180,
+                              "ctxt": 0
+                            },
+                            "value": "composed",
+                            "typeAnnotation": null,
+                            "optional": false
+                          },
+                          "value": null
+                        }
+                      ],
+                      "elements": true,
+                      "typeAnnotation": {
+                        "type": "TsTypeAnnotation",
+                        "span": {
+                          "start": 203,
+                          "end": 349,
+                          "ctxt": 0
+                        },
+                        "typeAnnotation": {
+                          "type": "TsTypeLiteral",
+                          "span": {
+                            "start": 205,
+                            "end": 349,
+                            "ctxt": 0
+                          },
+                          "members": [
+                            {
+                              "type": "TsPropertySignature",
+                              "span": {
+                                "start": 219,
+                                "end": 249,
+                                "ctxt": 0
+                              },
+                              "readonly": false,
+                              "key": {
+                                "type": "Identifier",
+                                "span": {
+                                  "start": 219,
+                                  "end": 226,
+                                  "ctxt": 0
+                                },
+                                "value": "bubbles",
+                                "typeAnnotation": null,
+                                "optional": false
+                              },
+                              "computed": false,
+                              "optional": true,
+                              "init": null,
+                              "params": [],
+                              "typeAnnotation": {
+                                "type": "TsTypeAnnotation",
+                                "span": {
+                                  "start": 227,
+                                  "end": 248,
+                                  "ctxt": 0
+                                },
+                                "typeAnnotation": {
+                                  "type": "TsUnionType",
+                                  "span": {
+                                    "start": 229,
+                                    "end": 248,
+                                    "ctxt": 0
+                                  },
+                                  "types": [
+                                    {
+                                      "type": "TsKeywordType",
+                                      "span": {
+                                        "start": 229,
+                                        "end": 236,
+                                        "ctxt": 0
+                                      },
+                                      "kind": "boolean"
+                                    },
+                                    {
+                                      "type": "TsKeywordType",
+                                      "span": {
+                                        "start": 239,
+                                        "end": 248,
+                                        "ctxt": 0
+                                      },
+                                      "kind": "undefined"
+                                    }
+                                  ]
+                                }
+                              },
+                              "typeParams": null
+                            },
+                            {
+                              "type": "TsPropertySignature",
+                              "span": {
+                                "start": 262,
+                                "end": 295,
+                                "ctxt": 0
+                              },
+                              "readonly": false,
+                              "key": {
+                                "type": "Identifier",
+                                "span": {
+                                  "start": 262,
+                                  "end": 272,
+                                  "ctxt": 0
+                                },
+                                "value": "cancelable",
+                                "typeAnnotation": null,
+                                "optional": false
+                              },
+                              "computed": false,
+                              "optional": true,
+                              "init": null,
+                              "params": [],
+                              "typeAnnotation": {
+                                "type": "TsTypeAnnotation",
+                                "span": {
+                                  "start": 273,
+                                  "end": 294,
+                                  "ctxt": 0
+                                },
+                                "typeAnnotation": {
+                                  "type": "TsUnionType",
+                                  "span": {
+                                    "start": 275,
+                                    "end": 294,
+                                    "ctxt": 0
+                                  },
+                                  "types": [
+                                    {
+                                      "type": "TsKeywordType",
+                                      "span": {
+                                        "start": 275,
+                                        "end": 282,
+                                        "ctxt": 0
+                                      },
+                                      "kind": "boolean"
+                                    },
+                                    {
+                                      "type": "TsKeywordType",
+                                      "span": {
+                                        "start": 285,
+                                        "end": 294,
+                                        "ctxt": 0
+                                      },
+                                      "kind": "undefined"
+                                    }
+                                  ]
+                                }
+                              },
+                              "typeParams": null
+                            },
+                            {
+                              "type": "TsPropertySignature",
+                              "span": {
+                                "start": 308,
+                                "end": 339,
+                                "ctxt": 0
+                              },
+                              "readonly": false,
+                              "key": {
+                                "type": "Identifier",
+                                "span": {
+                                  "start": 308,
+                                  "end": 316,
+                                  "ctxt": 0
+                                },
+                                "value": "composed",
+                                "typeAnnotation": null,
+                                "optional": false
+                              },
+                              "computed": false,
+                              "optional": true,
+                              "init": null,
+                              "params": [],
+                              "typeAnnotation": {
+                                "type": "TsTypeAnnotation",
+                                "span": {
+                                  "start": 317,
+                                  "end": 338,
+                                  "ctxt": 0
+                                },
+                                "typeAnnotation": {
+                                  "type": "TsUnionType",
+                                  "span": {
+                                    "start": 319,
+                                    "end": 338,
+                                    "ctxt": 0
+                                  },
+                                  "types": [
+                                    {
+                                      "type": "TsKeywordType",
+                                      "span": {
+                                        "start": 319,
+                                        "end": 326,
+                                        "ctxt": 0
+                                      },
+                                      "kind": "boolean"
+                                    },
+                                    {
+                                      "type": "TsKeywordType",
+                                      "span": {
+                                        "start": 329,
+                                        "end": 338,
+                                        "ctxt": 0
+                                      },
+                                      "kind": "undefined"
+                                    }
+                                  ]
+                                }
+                              },
+                              "typeParams": null
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "body": null,
+                  "accessibility": null,
+                  "isOptional": false
+                }
+              ],
+              "superClass": null,
+              "isAbstract": false,
+              "typeParams": null,
+              "superTypeParams": null,
+              "implements": []
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

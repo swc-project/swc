@@ -707,6 +707,7 @@ impl RestFolder {
             span,
             props,
             type_ann,
+            ..
         } = match pat {
             Pat::Object(pat) => pat,
             Pat::Assign(n) => {
@@ -852,6 +853,7 @@ impl RestFolder {
                 return Pat::Object(ObjectPat {
                     span,
                     props,
+                    optional: false,
                     type_ann,
                 });
             }
@@ -885,6 +887,7 @@ impl RestFolder {
             props,
             span,
             type_ann,
+            optional: false,
         })
     }
 }
