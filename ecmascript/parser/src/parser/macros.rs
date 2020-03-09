@@ -288,6 +288,12 @@ macro_rules! return_if_arrow {
     }};
 }
 
+macro_rules! trace_cur {
+    ($p:expr, $name:ident) => {{
+        //        println!("{}: {:?}", stringify!($name), cur!($p, false));
+    }};
+}
+
 /// This macro requires macro named 'last_pos' to be in scope.
 macro_rules! span {
     ($p:expr, $start:expr) => {{

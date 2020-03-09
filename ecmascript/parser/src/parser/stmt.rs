@@ -105,6 +105,9 @@ impl<'a, I: Tokens> Parser<'a, I> {
             let span = span!(start);
             return Ok(Stmt::Expr(ExprStmt { span, expr }));
         }
+        trace_cur!(parse_stmt_internal);
+
+        let start = cur_pos!();
 
         if self.input.syntax().typescript() && is!("const") && peeked_is!("enum") {
             assert_and_bump!("const");
@@ -324,7 +327,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         if self.syntax().typescript() {
             match *expr {
                 Expr::Ident(ref i) => match i.sym {
-                    js_word!("public") | js_word!("static") => {
+                    js_word!("public") | js_word!("static") | js_word!("abstract") => {
                         if eat!("interface") {
                             self.emit_err(i.span, SyntaxError::TS2427);
                             return self
@@ -370,7 +373,20 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
         expect!('(');
         let test = self.include_in_expr(true).parse_expr()?;
-        expect!(')');
+        if !eat!(')') {
+            self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
+
+            let span = span!(start);
+            return Ok(Stmt::If(IfStmt {
+                span,
+                test,
+                cons: Box::new(Stmt::Expr(ExprStmt {
+                    span,
+                    expr: Box::new(Expr::Invalid(Invalid { span })),
+                })),
+                alt: Default::default(),
+            }));
+        }
 
         let cons = {
             // Annex B

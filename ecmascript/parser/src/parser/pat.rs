@@ -111,10 +111,12 @@ impl<'a, I: Tokens> Parser<'a, I> {
         }
 
         expect!(']');
+        let optional = self.input.syntax().dts() && eat!('?');
 
         Ok(Pat::Array(ArrayPat {
             span: span!(start),
             elems,
+            optional,
             type_ann: None,
         }))
     }
@@ -146,7 +148,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
         let pat_start = cur_pos!();
         let mut pat = self.parse_binding_element()?;
-        // let mut opt = false;
+        let mut opt = false;
 
         if self.input.syntax().typescript() {
             if eat!('?') {
@@ -155,7 +157,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                         ref mut optional, ..
                     }) => {
                         *optional = true;
-                        // opt = true;
+                        opt = true;
                     }
                     _ => syntax_error!(
                         make_span(self.input.prev_span()),
@@ -202,10 +204,10 @@ impl<'a, I: Tokens> Parser<'a, I> {
         }
 
         let pat = if eat!('=') {
-            // // `=` cannot follow optional parameter.
-            // if opt {
-            //     self.emit_err(pat.span(), SyntaxError::TS1015);
-            // }
+            // `=` cannot follow optional parameter.
+            if opt {
+                self.emit_err(pat.span(), SyntaxError::TS1015);
+            }
 
             let right = self.parse_assignment_expr()?;
             if self.ctx().in_declare {
@@ -442,6 +444,9 @@ impl<'a, I: Tokens> Parser<'a, I> {
         pat_ty: PatType,
         expr: Box<Expr>,
     ) -> PResult<'a, Pat> {
+        // In dts, we do not reparse.
+        debug_assert!(!self.input.syntax().dts());
+
         let span = expr.span();
 
         if pat_ty == PatType::AssignPat {
@@ -578,6 +583,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                             }
                         })
                         .collect::<PResult<'a, _>>()?,
+                    optional: false,
                     type_ann: None,
                 }))
             }
@@ -589,6 +595,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                     return Ok(Pat::Array(ArrayPat {
                         span,
                         elems: vec![],
+                        optional: false,
                         type_ann: None,
                     }));
                 }
@@ -657,6 +664,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 Ok(Pat::Array(ArrayPat {
                     span,
                     elems: params,
+                    optional: false,
                     type_ann: None,
                 }))
             }

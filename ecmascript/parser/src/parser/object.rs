@@ -373,9 +373,12 @@ impl<'a, I: Tokens> ParseObject<'a, Pat> for Parser<'a, I> {
             }
         }
 
+        let optional = self.input.syntax().dts() && eat!('?');
+
         Ok(Pat::Object(ObjectPat {
             span,
             props,
+            optional,
             type_ann: None,
         }))
     }

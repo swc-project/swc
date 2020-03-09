@@ -275,6 +275,10 @@ impl<'a, I: Tokens> Parser<'a, I> {
                     }
                     return Ok(class.into());
                 }
+                if is!("abstract") && peeked_is!("interface") {
+                    self.emit_err(self.input.cur_span(), SyntaxError::TS1242);
+                    assert_and_bump!("abstract");
+                }
 
                 if is!("interface") {
                     let interface_start = cur_pos!();

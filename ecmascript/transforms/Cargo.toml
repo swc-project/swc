@@ -11,9 +11,9 @@ edition = "2018"
 [dependencies]
 swc_atoms = { version = "0.2.0", path ="../../atoms" }
 swc_common = { version = "0.5.0", path ="../../common" }
-swc_ecma_ast = { version = "0.17.0", path ="../ast" }
+swc_ecma_ast = { version = "0.18.0", path ="../ast" }
 swc_ecma_utils = { version = "0.4.0", path ="../utils" }
-swc_ecma_parser = { version = "0.20", path ="../parser", features = ["verify"] }
+swc_ecma_parser = { version = "0.21", path ="../parser", features = ["verify"] }
 dashmap = "=3.5.1"
 either = "1.5"
 fxhash = "0.2"

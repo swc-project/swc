@@ -505,6 +505,10 @@ impl<'a> Fold<ArrowExpr> for Resolver<'a> {
 
 impl Fold<Vec<Stmt>> for Resolver<'_> {
     fn fold(&mut self, stmts: Vec<Stmt>) -> Vec<Stmt> {
+        if self.current.kind != ScopeKind::Fn {
+            return stmts.fold_children(self);
+        }
+
         // Phase 1: Handle hoisting
         let stmts = {
             let mut hoister = Hoister { resolver: self };
@@ -565,6 +569,7 @@ struct Hoister<'a, 'b> {
 
 impl Fold<FnDecl> for Hoister<'_, '_> {
     fn fold(&mut self, node: FnDecl) -> FnDecl {
+        self.resolver.hoist = false;
         let ident = self.resolver.fold_binding_ident(node.ident);
 
         FnDecl { ident, ..node }

@@ -12,6 +12,8 @@ mod verifier;
 #[parser]
 impl<'a, I: Tokens> Parser<'a, I> {
     pub fn parse_expr(&mut self) -> PResult<'a, Box<Expr>> {
+        trace_cur!(parse_expr);
+
         let expr = self.parse_assignment_expr()?;
         let start = expr.span().lo();
 
@@ -32,6 +34,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
     ///`parseMaybeAssign` (overrided)
     pub(super) fn parse_assignment_expr(&mut self) -> PResult<'a, Box<Expr>> {
+        trace_cur!(parse_assignment_expr);
+
         if self.input.syntax().typescript() {
             // Note: When the JSX plugin is on, type assertions (`<T> x`) aren't valid
             // syntax.
@@ -94,6 +98,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
     ///
     /// `parseMaybeAssign`
     fn parse_assignment_expr_base(&mut self) -> PResult<'a, Box<Expr>> {
+        trace_cur!(parse_assignment_expr_base);
+
         if self.ctx().in_generator && is!("yield") {
             return self.parse_yield_expr();
         }
@@ -125,6 +131,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
         start: BytePos,
         cond: Box<Expr>,
     ) -> PResult<'a, Box<Expr>> {
+        trace_cur!(finish_assignment_expr);
+
         match cur!(false) {
             Ok(&Token::AssignOp(op)) => {
                 let left = if op == AssignOpToken::Assign {
@@ -136,6 +144,16 @@ impl<'a, I: Tokens> Parser<'a, I> {
                     // LeftHandSideExpression is false.
                     if !cond.is_valid_simple_assignment_target(self.ctx().strict) {
                         self.emit_err(cond.span(), SyntaxError::NotSimpleAssign)
+                    }
+                    let is_eval_or_arguments = match *cond {
+                        Expr::Ident(ref i) => {
+                            i.sym == js_word!("eval") || i.sym == js_word!("arguments")
+                        }
+                        _ => false,
+                    };
+                    if self.input.syntax().typescript() && self.ctx().strict && is_eval_or_arguments
+                    {
+                        self.emit_err(cond.span(), SyntaxError::TS1100);
                     }
 
                     // TODO
@@ -158,6 +176,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
     /// Spec: 'ConditionalExpression'
     fn parse_cond_expr(&mut self) -> PResult<'a, Box<Expr>> {
+        trace_cur!(parse_cond_expr);
+
         let start = cur_pos!();
 
         let test = self.parse_bin_expr()?;
@@ -191,6 +211,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
     /// Parse a primary expression or arrow function
     #[allow(clippy::cognitive_complexity)]
     pub(super) fn parse_primary_expr(&mut self) -> PResult<'a, Box<Expr>> {
+        trace_cur!(parse_primary_expr);
+
         let _ = cur!(false);
         let start = cur_pos!();
 
@@ -327,6 +349,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 let params = vec![arg];
                 expect!("=>");
                 let body = self.parse_fn_body(true, false)?;
+
                 return Ok(Box::new(Expr::Arrow(ArrowExpr {
                     span: span!(start),
                     body,
@@ -360,6 +383,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
     }
 
     fn parse_array_lit(&mut self) -> PResult<'a, Box<Expr>> {
+        trace_cur!(parse_array_lit);
+
         let start = cur_pos!();
 
         assert_and_bump!('[');
@@ -410,6 +435,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
     /// `is_new_expr`: true iff we are parsing production 'NewExpression'.
     fn parse_member_expr_or_new_expr(&mut self, is_new_expr: bool) -> PResult<'a, Box<Expr>> {
+        trace_cur!(parse_member_expr_or_new_expr);
+
         let start = cur_pos!();
         if eat!("new") {
             let span_of_new = span!(start);
@@ -482,11 +509,15 @@ impl<'a, I: Tokens> Parser<'a, I> {
     /// Parse `NewExpresion`.
     /// This includes `MemberExpression`.
     pub(super) fn parse_new_expr(&mut self) -> PResult<'a, Box<Expr>> {
+        trace_cur!(parse_new_expr);
+
         self.parse_member_expr_or_new_expr(true)
     }
 
     /// Parse `Arguments[Yield, Await]`
     pub(super) fn parse_args(&mut self, is_dynamic_import: bool) -> PResult<'a, Vec<ExprOrSpread>> {
+        trace_cur!(parse_args);
+
         let start = cur_pos!();
         expect!('(');
 
@@ -518,6 +549,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
     /// AssignmentExpression[+In, ?Yield, ?Await]
     /// ...AssignmentExpression[+In, ?Yield, ?Await]
     pub(super) fn parse_expr_or_spread(&mut self) -> PResult<'a, ExprOrSpread> {
+        trace_cur!(parse_expr_or_spread);
+
         let start = cur_pos!();
 
         if eat!("...") {
@@ -537,6 +570,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
         can_be_arrow: bool,
         async_span: Option<Span>,
     ) -> PResult<'a, Box<Expr>> {
+        trace_cur!(parse_paren_expr_or_arrow_fn);
+
         let start = cur_pos!();
 
         // At this point, we can't know if it's parenthesized
@@ -605,7 +640,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 .collect();
 
             let body: BlockStmtOrExpr = self.parse_fn_body(async_span.is_some(), false)?;
-            return Ok(Box::new(Expr::Arrow(ArrowExpr {
+            let arrow_expr = ArrowExpr {
                 span: span!(start),
                 is_async: async_span.is_some(),
                 is_generator: false,
@@ -613,7 +648,27 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 body,
                 return_type,
                 type_params: None,
-            })));
+            };
+            match arrow_expr.body {
+                BlockStmtOrExpr::BlockStmt(..) => match cur!(false) {
+                    Ok(&Token::BinOp(..)) => {
+                        // ) is required
+                        self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
+                        let errored_expr =
+                            self.parse_bin_op_recursively(Box::new(arrow_expr.into()), 0)?;
+
+                        if !is!(';') {
+                            // ; is required
+                            self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
+                        }
+
+                        return Ok(errored_expr);
+                    }
+                    _ => {}
+                },
+                _ => {}
+            }
+            return Ok(Box::new(Expr::Arrow(arrow_expr)));
         }
 
         let expr_or_spreads = paren_items
@@ -698,6 +753,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
         &mut self,
         is_tagged: bool,
     ) -> PResult<'a, (Vec<Box<Expr>>, Vec<TplElement>)> {
+        trace_cur!(parse_tpl_elements);
+
         let mut exprs = vec![];
 
         let cur_elem = self.parse_tpl_element(is_tagged)?;
@@ -722,6 +779,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
         type_params: Option<TsTypeParamInstantiation>,
     ) -> PResult<'a, TaggedTpl> {
         let start = tag.span().lo();
+        trace_cur!(parse_tagged_tpl);
+        let start = cur_pos!();
 
         assert_and_bump!('`');
 
@@ -740,6 +799,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     }
 
     fn parse_tpl(&mut self) -> PResult<'a, Tpl> {
+        trace_cur!(parse_tpl);
         let start = cur_pos!();
 
         assert_and_bump!('`');
@@ -1093,6 +1153,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
     #[allow(clippy::cognitive_complexity)]
     pub(super) fn parse_args_or_pats(&mut self) -> PResult<'a, Vec<PatOrExprOrSpread>> {
+        trace_cur!(parse_args_or_pats);
+
         expect!('(');
 
         let mut first = true;
@@ -1162,6 +1224,9 @@ impl<'a, I: Tokens> Parser<'a, I> {
                     if peeked_is!(',') || peeked_is!(':') || peeked_is!(')') || peeked_is!('=') {
                         assert_and_bump!('?');
                         let _ = cur!(false);
+                        if arg.spread.is_some() {
+                            self.emit_err(make_span(self.input.prev_span()), SyntaxError::TS1047);
+                        }
                         match *arg.expr {
                             Expr::Ident(..) => {}
                             _ => {
@@ -1320,6 +1385,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 let body: BlockStmtOrExpr = self.parse_fn_body(false, false)?;
                 expect!(')');
                 let span = span!(start);
+
                 return Ok(vec![PatOrExprOrSpread::ExprOrSpread(ExprOrSpread {
                     expr: Box::new(
                         ArrowExpr {
@@ -1475,6 +1541,10 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 Expr::Ident(ref i) => i.sym == js_word!("eval") || i.sym == js_word!("arguments"),
                 _ => false,
             };
+
+            if self.ctx().strict && is_eval_or_arguments {
+                self.emit_err(expr.span(), SyntaxError::TS1100);
+            }
 
             fn should_deny(e: &Expr, deny_call: bool) -> bool {
                 match e {

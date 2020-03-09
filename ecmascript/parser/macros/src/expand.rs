@@ -54,6 +54,9 @@ where
     T: Parse,
     P: Parse + Token,
 {
+    if t.is_empty() {
+        return Punctuated::new();
+    }
     let parser = Punctuated::parse_separated_nonempty;
     parser.parse2(t).expect("failed parse args")
 }
@@ -132,7 +135,11 @@ impl Fold for InjectSelf {
             "smallvec" | "vec" | "unreachable" | "tok" | "op" | "js_word" => i,
             "println" | "print" | "format" | "assert" | "assert_eq" | "assert_ne"
             | "debug_assert" | "debug_assert_eq" | "debug_assert_ne" | "dbg" => {
-                let mut args: Punctuated<Expr, token::Comma> = parse_args(i.tokens);
+                let mut args: Punctuated<Expr, token::Comma> = parse_args(i.tokens.clone());
+                if &*name == "dbg" && i.tokens.is_empty() {
+                    return Macro { ..i };
+                }
+
                 args = args
                     .into_pairs()
                     .map(|el| el.map_item(|expr| self.fold_expr(expr)))
@@ -169,10 +176,11 @@ impl Fold for InjectSelf {
             }
 
             //TODO: Collect expect and give that list to unexpected
-            "assert_and_bump" | "bump" | "cur" | "cur_pos" | "eat" | "eof" | "eat_exact"
-            | "expect" | "expect_exact" | "into_spanned" | "is" | "is_exact" | "is_one_of"
-            | "peeked_is" | "peek" | "peek_ahead" | "last_pos" | "return_if_arrow" | "span"
-            | "syntax_error" | "make_error" | "emit_error" | "unexpected" | "store" => {
+            "trace_cur" | "assert_and_bump" | "bump" | "cur" | "cur_pos" | "eat" | "eof"
+            | "eat_exact" | "expect" | "expect_exact" | "into_spanned" | "is" | "is_exact"
+            | "is_one_of" | "peeked_is" | "peek" | "peek_ahead" | "last_pos"
+            | "return_if_arrow" | "span" | "syntax_error" | "make_error" | "emit_error"
+            | "unexpected" | "store" => {
                 let parser = match self.parser {
                     Some(ref s) => s.clone(),
                     _ => {
