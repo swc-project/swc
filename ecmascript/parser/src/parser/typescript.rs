@@ -2374,10 +2374,14 @@ mod tests {
                     decls: vec![VarDeclarator {
                         span: DUMMY_SP,
                         name: Pat::Ident(Ident::new("t".into(), DUMMY_SP)),
-                        init: Some(box Expr::Lit(Lit::Num(Number {
+                        init: Some(box Expr::Unary(UnaryExpr {
                             span: DUMMY_SP,
-                            value: -1.0,
-                        }))),
+                            op: op!(unary, "-"),
+                            arg: box Expr::Lit(Lit::Num(Number {
+                                span: DUMMY_SP,
+                                value: 1.0,
+                            })),
+                        })),
                         definite: false,
                     }],
                 })));
