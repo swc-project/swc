@@ -58,6 +58,7 @@
                 }
               }
             ],
+            "elements": false,
             "typeAnnotation": null
           }
         ],
