@@ -1,5 +1,5 @@
 (class{
-     a(b) {
+    a(b) {
         'use strict';
     }
 });

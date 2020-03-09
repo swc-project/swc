@@ -1,4 +1,4 @@
 function* a() {
-    (class extends (yield){
+    (classextends (yield) {
     });
 }

@@ -1,14 +1,14 @@
 a = class{
-    static  b() {
+    static b() {
     }
     static get c() {
     }
     static set d(a) {
     }
-     static() {
+    static() {
     }
-     get() {
+    get() {
     }
-     set() {
+    set() {
     }
 };

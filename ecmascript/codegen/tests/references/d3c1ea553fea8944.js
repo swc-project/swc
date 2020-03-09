@@ -1,4 +1,4 @@
-class a{
-    static  set(b) {
+class a {
+    static set(b) {
     }
 }

@@ -1,5 +1,5 @@
-class a{
-     b() {
+class a {
+    b() {
         ()=>super.c
         ;
     }

@@ -1,5 +1,5 @@
-class a{
-     *b(c) {
+class a {
+    *b(c) {
         yield c;
     }
 }

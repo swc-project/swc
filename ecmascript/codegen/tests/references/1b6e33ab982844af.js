@@ -1,6 +1,6 @@
-class a{
-     b() {
+class a {
+    b() {
     }
-     c() {
+    c() {
     }
 }

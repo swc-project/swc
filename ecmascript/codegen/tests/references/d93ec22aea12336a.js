@@ -1,7 +1,7 @@
 function a() {
-    class b{
+    class b {
     }
     var c = b;
-    var d = class e{
+    var d = class e {
     };
 }

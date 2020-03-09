@@ -1,2 +1,2 @@
-(class extends (a, b){
+(classextends (a, b) {
 });

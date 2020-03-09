@@ -1,21 +1,21 @@
-class a{
+class a {
     constructor(){
     }
-     b() {
+    b() {
     }
 }
 ;
-class c{
+class c {
     constructor(...d){
     }
-     b() {
+    b() {
     }
 }
 ;
-class e extends a{
+class e extends a {
 }
 ;
-var f = class g{
+var f = class g {
 };
 var h = class{
 };

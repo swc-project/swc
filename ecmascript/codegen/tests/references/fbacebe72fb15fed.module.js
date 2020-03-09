@@ -1,4 +1,4 @@
-export class a{
+export class a {
 }
 ;
 1;
