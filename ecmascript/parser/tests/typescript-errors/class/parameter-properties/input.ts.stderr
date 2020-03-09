@@ -1,0 +1,6 @@
+error: TS1015
+  --> $DIR/tests/typescript-errors/class/parameter-properties/input.ts:10:16
+   |
+10 |         public y?: number = 0) {}
+   |                ^^^^^^^^^^
+
