@@ -103,6 +103,7 @@ fn object_rest_pat() {
             is_generator: false,
             params: vec![Pat::Object(ObjectPat {
                 span,
+                optional: false,
                 props: vec![ObjectPatProp::Rest(RestPat {
                     span,
                     dot3_token: span,

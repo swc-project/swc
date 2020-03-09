@@ -1189,6 +1189,7 @@ mod tests {
                     span,
                     param: Pat::Object(ObjectPat {
                         span,
+                        optional: false,
                         props: vec![ObjectPatProp::Rest(RestPat {
                             span,
                             dot3_token: span,

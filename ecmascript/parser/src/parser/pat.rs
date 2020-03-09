@@ -771,15 +771,18 @@ mod tests {
             array_pat("[a, [b], [c]]"),
             Pat::Array(ArrayPat {
                 span,
+                optional: false,
                 elems: vec![
                     Some(Pat::Ident(ident("a"))),
                     Some(Pat::Array(ArrayPat {
                         span,
+                        optional: false,
                         elems: vec![Some(Pat::Ident(ident("b")))],
                         type_ann: None
                     })),
                     Some(Pat::Array(ArrayPat {
                         span,
+                        optional: false,
                         elems: vec![Some(Pat::Ident(ident("c")))],
                         type_ann: None
                     }))
@@ -795,16 +798,19 @@ mod tests {
             array_pat("[, a, [b], [c]]"),
             Pat::Array(ArrayPat {
                 span,
+                optional: false,
                 elems: vec![
                     None,
                     Some(Pat::Ident(ident("a"))),
                     Some(Pat::Array(ArrayPat {
                         span,
+                        optional: false,
                         elems: vec![Some(Pat::Ident(ident("b")))],
                         type_ann: None
                     })),
                     Some(Pat::Array(ArrayPat {
                         span,
+                        optional: false,
                         elems: vec![Some(Pat::Ident(ident("c")))],
                         type_ann: None
                     }))
@@ -820,16 +826,19 @@ mod tests {
             array_pat("[a, , [b], [c]]"),
             Pat::Array(ArrayPat {
                 span,
+                optional: false,
                 elems: vec![
                     Some(Pat::Ident(ident("a"))),
                     None,
                     Some(Pat::Array(ArrayPat {
                         span,
+                        optional: false,
                         elems: vec![Some(Pat::Ident(ident("b")))],
                         type_ann: None
                     })),
                     Some(Pat::Array(ArrayPat {
                         span,
+                        optional: false,
                         elems: vec![Some(Pat::Ident(ident("c")))],
                         type_ann: None
                     }))
