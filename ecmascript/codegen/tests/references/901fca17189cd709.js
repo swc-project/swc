@@ -1,5 +1,5 @@
 function* a() {
-    (class{
+    (class {
         [yield]() {
         }
     });

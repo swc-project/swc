@@ -1,4 +1,4 @@
-(class{
+(class {
     set a(b) {
     }
 });

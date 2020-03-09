@@ -1,4 +1,4 @@
 function* a() {
-    yield class{
+    yield class {
     };
 }

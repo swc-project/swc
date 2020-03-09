@@ -1,4 +1,4 @@
-a = class{
+a = class {
     static b() {
     }
     static get c() {

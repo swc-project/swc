@@ -17,5 +17,5 @@ class e extends a {
 ;
 var f = class g {
 };
-var h = class{
+var h = class {
 };

@@ -1,4 +1,4 @@
-(classextends a {
+(class extends a {
     constructor(){
         super();
     }

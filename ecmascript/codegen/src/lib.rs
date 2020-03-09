@@ -692,6 +692,8 @@ impl<'a> Emitter<'a> {
             emit!(node.class.type_params);
 
             formatting_space!();
+        } else {
+            space!();
         }
 
         self.emit_class_trailing(&node.class)?;
