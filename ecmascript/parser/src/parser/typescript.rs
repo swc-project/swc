@@ -2321,12 +2321,12 @@ mod tests {
     use crate::{test_parser, Syntax};
     use swc_common::DUMMY_SP;
     use swc_ecma_ast::*;
+    use testing::assert_eq_ignore_span;
 
     #[test]
-    fn issue_708() {
+    fn issue_708_1() {
         let actual = test_parser(
-            "type test = -1;
-const t = -1;",
+            "type test = -1;",
             Syntax::Typescript(Default::default()),
             |p| p.parse_module().map_err(|mut e| e.emit()),
         );
@@ -2348,6 +2348,25 @@ const t = -1;",
                         }),
                     }),
                 })));
+                vec![first]
+            },
+        };
+
+        assert_eq_ignore_span!(actual, expected);
+    }
+
+    #[test]
+    fn issue_708_2() {
+        let actual = test_parser(
+            "const t = -1;",
+            Syntax::Typescript(Default::default()),
+            |p| p.parse_module().map_err(|mut e| e.emit()),
+        );
+
+        let expected = Module {
+            span: DUMMY_SP,
+            shebang: None,
+            body: {
                 let second = ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Const,
@@ -2362,7 +2381,7 @@ const t = -1;",
                         definite: false,
                     }],
                 })));
-                vec![first, second]
+                vec![second]
             },
         };
 
