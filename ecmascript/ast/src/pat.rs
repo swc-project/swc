@@ -35,8 +35,8 @@ pub struct ArrayPat {
     #[serde(rename = "elements")]
     pub elems: Vec<Option<Pat>>,
 
-    /// Only in .d.ts file
-    #[serde(rename = "elements")]
+    /// Only in an ambient context
+    #[serde(rename = "optional")]
     pub optional: bool,
 
     #[serde(default, rename = "typeAnnotation")]
@@ -51,8 +51,8 @@ pub struct ObjectPat {
     #[serde(rename = "properties")]
     pub props: Vec<ObjectPatProp>,
 
-    /// Only in .d.ts file
-    #[serde(rename = "elements")]
+    /// Only in an ambient context
+    #[serde(rename = "optional")]
     pub optional: bool,
 
     #[serde(default, rename = "typeAnnotation")]
