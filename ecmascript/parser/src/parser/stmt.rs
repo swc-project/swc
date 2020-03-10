@@ -107,8 +107,6 @@ impl<'a, I: Tokens> Parser<'a, I> {
         }
         trace_cur!(parse_stmt_internal);
 
-        let start = cur_pos!();
-
         if self.input.syntax().typescript() && is!("const") && peeked_is!("enum") {
             assert_and_bump!("const");
             assert_and_bump!("enum");
