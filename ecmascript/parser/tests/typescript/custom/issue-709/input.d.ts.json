@@ -150,7 +150,7 @@
                           "value": null
                         }
                       ],
-                      "elements": true,
+                      "optional": true,
                       "typeAnnotation": {
                         "type": "TsTypeAnnotation",
                         "span": {

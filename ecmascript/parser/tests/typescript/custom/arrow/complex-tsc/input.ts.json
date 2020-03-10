@@ -107,7 +107,7 @@
               "consequent": {
                 "type": "ArrowFunctionExpression",
                 "span": {
-                  "start": 144,
+                  "start": 80,
                   "end": 380,
                   "ctxt": 0
                 },

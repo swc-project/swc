@@ -58,7 +58,7 @@
                 }
               }
             ],
-            "elements": false,
+            "optional": false,
             "typeAnnotation": null
           }
         ],

@@ -72,7 +72,7 @@
                 "value": null
               }
             ],
-            "elements": false,
+            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {

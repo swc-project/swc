@@ -396,7 +396,7 @@
                               "expression": {
                                 "type": "ArrowFunctionExpression",
                                 "span": {
-                                  "start": 370,
+                                  "start": 361,
                                   "end": 457,
                                   "ctxt": 0
                                 },
