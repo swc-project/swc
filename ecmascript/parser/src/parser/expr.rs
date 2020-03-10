@@ -776,9 +776,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
         tag: Box<Expr>,
         type_params: Option<TsTypeParamInstantiation>,
     ) -> PResult<'a, TaggedTpl> {
-        let start = tag.span().lo();
+        let tagged_tpl_start = tag.span().lo();
         trace_cur!(parse_tagged_tpl);
-        let start = cur_pos!();
 
         assert_and_bump!('`');
 
@@ -786,7 +785,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
         expect!('`');
 
-        let span = span!(start);
+        let span = span!(tagged_tpl_start);
         Ok(TaggedTpl {
             span,
             tag,
