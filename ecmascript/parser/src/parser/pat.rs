@@ -111,7 +111,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         }
 
         expect!(']');
-        let optional = self.input.syntax().dts() && eat!('?');
+        let optional = (self.input.syntax().dts() || self.ctx().in_declare) && eat!('?');
 
         Ok(Pat::Array(ArrayPat {
             span: span!(start),
