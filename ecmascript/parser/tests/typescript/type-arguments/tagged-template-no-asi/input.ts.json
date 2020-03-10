@@ -23,7 +23,7 @@
         "callee": {
           "type": "TaggedTemplateExpression",
           "span": {
-            "start": 9,
+            "start": 4,
             "end": 11,
             "ctxt": 0
           },
