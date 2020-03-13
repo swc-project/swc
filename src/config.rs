@@ -105,6 +105,18 @@ pub enum SourceMapsConfig {
     Str(String),
 }
 
+impl SourceMapsConfig {
+    pub fn enabled(&self) -> bool {
+        match *self {
+            SourceMapsConfig::Bool(b) => b,
+            SourceMapsConfig::Str(ref s) => {
+                assert_eq!(s, "inline", "Source map must be true, false or inline");
+                true
+            }
+        }
+    }
+}
+
 impl Default for SourceMapsConfig {
     fn default() -> Self {
         SourceMapsConfig::Bool(true)
@@ -224,13 +236,8 @@ impl Options {
             is_module,
             source_maps: self
                 .source_maps
-                .as_ref()
-                .map(|s| match s {
-                    SourceMapsConfig::Bool(v) => *v,
-                    // TODO: Handle source map
-                    SourceMapsConfig::Str(_) => true,
-                })
-                .unwrap_or(false),
+                .clone()
+                .unwrap_or(SourceMapsConfig::Bool(false)),
         }
     }
 }
@@ -471,7 +478,7 @@ pub struct BuiltConfig<P: Pass> {
     pub target: JscTarget,
     pub minify: bool,
     pub external_helpers: bool,
-    pub source_maps: bool,
+    pub source_maps: SourceMapsConfig,
     pub is_module: bool,
 }
 

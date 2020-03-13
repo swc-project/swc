@@ -11,7 +11,7 @@ pub mod error;
 
 pub use crate::builder::PassBuilder;
 use crate::{
-    config::{BuiltConfig, ConfigFile, JscTarget, Merge, Options, Rc, RootMode},
+    config::{BuiltConfig, ConfigFile, JscTarget, Merge, Options, Rc, RootMode, SourceMapsConfig},
     error::Error,
 };
 use common::{
@@ -126,7 +126,7 @@ impl Compiler {
         &self,
         program: &Program,
         comments: &Comments,
-        source_map: bool,
+        source_map: SourceMapsConfig,
         minify: bool,
     ) -> Result<TransformOutput, Error> {
         self.run(|| {
@@ -144,7 +144,7 @@ impl Compiler {
                             self.cm.clone(),
                             "\n",
                             &mut buf,
-                            if source_map {
+                            if source_map.enabled() {
                                 Some(&mut src_map_buf)
                             } else {
                                 None
@@ -160,9 +160,25 @@ impl Compiler {
                 // Invalid utf8 is valid in javascript world.
                 unsafe { String::from_utf8_unchecked(buf) }
             };
-            Ok(TransformOutput {
-                code: src,
-                map: if source_map {
+            let (code, map) = match source_map {
+                SourceMapsConfig::Bool(v) => {
+                    if v {
+                        let mut buf = vec![];
+
+                        self.cm
+                            .build_source_map(&mut src_map_buf)
+                            .to_writer(&mut buf)
+                            .map_err(|err| Error::FailedToWriteSourceMap { err })?;
+                        let map = String::from_utf8(buf)
+                            .map_err(|err| Error::SourceMapNotUtf8 { err })?;
+                        (src, Some(map))
+                    } else {
+                        (src, None)
+                    }
+                }
+                SourceMapsConfig::Str(_) => {
+                    let mut src = src;
+
                     let mut buf = vec![];
 
                     self.cm
@@ -171,11 +187,18 @@ impl Compiler {
                         .map_err(|err| Error::FailedToWriteSourceMap { err })?;
                     let map =
                         String::from_utf8(buf).map_err(|err| Error::SourceMapNotUtf8 { err })?;
-                    Some(map)
-                } else {
-                    None
-                },
-            })
+
+                    src.push_str("\n//#sourceMappingURL=data:application/json;base64,");
+                    base64::encode_config_buf(
+                        map.as_bytes(),
+                        base64::Config::new(base64::CharacterSet::UrlSafe, true),
+                        &mut src,
+                    );
+                    (src, None)
+                }
+            };
+
+            Ok(TransformOutput { code, map })
         })
     }
 }
