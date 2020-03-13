@@ -188,7 +188,7 @@ impl Compiler {
                     let map =
                         String::from_utf8(buf).map_err(|err| Error::SourceMapNotUtf8 { err })?;
 
-                    src.push_str("\n//#sourceMappingURL=data:application/json;base64,");
+                    src.push_str("\n//# sourceMappingURL=data:application/json;base64,");
                     base64::encode_config_buf(
                         map.as_bytes(),
                         base64::Config::new(base64::CharacterSet::UrlSafe, true),
