@@ -42,14 +42,14 @@
                 "type": "Identifier",
                 "span": {
                   "start": 19,
-                  "end": 20,
+                  "end": 28,
                   "ctxt": 0
                 },
                 "value": "s",
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
-                    "start": 22,
+                    "start": 20,
                     "end": 28,
                     "ctxt": 0
                   },

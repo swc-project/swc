@@ -1143,7 +1143,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     /// `tsTryParseIndexSignature`
     pub(super) fn try_parse_ts_index_signature(
         &mut self,
-        start: BytePos,
+        index_signature_start: BytePos,
         readonly: bool,
     ) -> PResult<'a, Option<TsIndexSignature>> {
         if !(is!('[') && self.ts_look_ahead(|p| p.is_ts_unambiguously_index_signature())?) {
@@ -1152,7 +1152,9 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
         expect!('[');
 
+        let ident_start = cur_pos!();
         let mut id = self.parse_ident_name()?;
+        let type_ann_start = cur_pos!();
 
         if eat!(',') {
             self.emit_err(id.span, SyntaxError::TS1096);
@@ -1160,10 +1162,10 @@ impl<'a, I: Tokens> Parser<'a, I> {
             expect!(':');
         }
 
-        let cur_pos = cur_pos!();
-        id.type_ann = self
-            .parse_ts_type_ann(/* eat_colon */ false, cur_pos)
-            .map(Some)?;
+        let type_ann = self.parse_ts_type_ann(/* eat_colon */ false, type_ann_start)?;
+        id.span = span!(ident_start);
+        id.type_ann = Some(type_ann);
+
         expect!(']');
         let params = vec![TsFnParam::Ident(id)];
 
@@ -1172,7 +1174,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
         self.parse_ts_type_member_semicolon()?;
         Ok(Some(TsIndexSignature {
-            span: span!(start),
+            span: span!(index_signature_start),
             readonly,
             params,
             type_ann,
