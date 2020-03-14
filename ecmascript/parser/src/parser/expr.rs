@@ -572,7 +572,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     ) -> PResult<'a, Box<Expr>> {
         trace_cur!(parse_paren_expr_or_arrow_fn);
 
-        let start = cur_pos!();
+        let expr_start = async_span.map(|x| x.lo()).unwrap_or(cur_pos!());
 
         // At this point, we can't know if it's parenthesized
         // expression or head of arrow function.
@@ -602,7 +602,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 let body: BlockStmtOrExpr = p.parse_fn_body(async_span.is_some(), false)?;
 
                 Ok(Some(Box::new(Expr::Arrow(ArrowExpr {
-                    span: span!(start),
+                    span: span!(expr_start),
                     is_async: async_span.is_some(),
                     is_generator: false,
                     params,
@@ -625,7 +625,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         // we parse arrow function at here, to handle it efficiently.
         if has_pattern || return_type.is_some() || is!("=>") {
             if self.input.had_line_break_before_cur() {
-                syntax_error!(span!(start), SyntaxError::LineBreakBeforeArrow);
+                syntax_error!(span!(expr_start), SyntaxError::LineBreakBeforeArrow);
             }
             if !can_be_arrow {
                 unexpected!()
@@ -639,7 +639,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
             let body: BlockStmtOrExpr = self.parse_fn_body(async_span.is_some(), false)?;
             let arrow_expr = ArrowExpr {
-                span: span!(start),
+                span: span!(expr_start),
                 is_async: async_span.is_some(),
                 is_generator: false,
                 params,
@@ -695,7 +695,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
         if expr_or_spreads.is_empty() {
             syntax_error!(
-                Span::new(start, last_pos!(), Default::default()),
+                Span::new(expr_start, last_pos!(), Default::default()),
                 SyntaxError::EmptyParenExpr
             );
         }
@@ -712,7 +712,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 ExprOrSpread { expr, .. } => expr,
             };
             Ok(Box::new(Expr::Paren(ParenExpr {
-                span: span!(start),
+                span: span!(expr_start),
                 expr,
             })))
         } else {
@@ -740,7 +740,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 exprs,
             }));
             Ok(Box::new(Expr::Paren(ParenExpr {
-                span: span!(start),
+                span: span!(expr_start),
                 expr: seq_expr,
             })))
         }
