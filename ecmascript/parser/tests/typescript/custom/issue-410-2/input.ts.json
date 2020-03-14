@@ -16,7 +16,7 @@
       "expression": {
         "type": "ArrowFunctionExpression",
         "span": {
-          "start": 6,
+          "start": 0,
           "end": 14,
           "ctxt": 0
         },
