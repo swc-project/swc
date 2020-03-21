@@ -2233,9 +2233,9 @@ impl<'a, I: Tokens> Parser<'a, I> {
     {
         debug_assert!(self.input.syntax().typescript());
 
+        let start = cur_pos!(); // include the leading operator in the start
         self.input.eat(operator);
 
-        let start = cur_pos!();
         let ty = parse_constituent_type(self)?;
         if self.input.is(&operator) {
             let mut types = vec![ty];

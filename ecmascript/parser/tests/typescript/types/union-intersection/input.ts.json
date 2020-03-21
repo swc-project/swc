@@ -2,7 +2,7 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 160,
+    "end": 261,
     "ctxt": 0
   },
   "body": [
@@ -324,6 +324,104 @@
           "definite": false
         }
       ]
+    },
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 161,
+        "end": 207,
+        "ctxt": 0
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 166,
+          "end": 178,
+          "ctxt": 0
+        },
+        "value": "LeadingUnion",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsUnionType",
+        "span": {
+          "start": 185,
+          "end": 206,
+          "ctxt": 0
+        },
+        "types": [
+          {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 187,
+              "end": 193,
+              "ctxt": 0
+            },
+            "kind": "string"
+          },
+          {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 200,
+              "end": 206,
+              "ctxt": 0
+            },
+            "kind": "number"
+          }
+        ]
+      }
+    },
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 208,
+        "end": 261,
+        "ctxt": 0
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 213,
+          "end": 232,
+          "ctxt": 0
+        },
+        "value": "LeadingIntersection",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsIntersectionType",
+        "span": {
+          "start": 239,
+          "end": 260,
+          "ctxt": 0
+        },
+        "types": [
+          {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 241,
+              "end": 247,
+              "ctxt": 0
+            },
+            "kind": "number"
+          },
+          {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 254,
+              "end": 260,
+              "ctxt": 0
+            },
+            "kind": "string"
+          }
+        ]
+      }
     }
   ],
   "interpreter": null
