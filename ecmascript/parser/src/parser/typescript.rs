@@ -2328,7 +2328,7 @@ fn make_decl_declare(mut decl: Decl) -> Decl {
 
 #[cfg(test)]
 mod tests {
-    use crate::{test_parser, Syntax};
+    use crate::{lexer::Lexer, test_parser, Capturing, JscTarget, Parser, Syntax, TsConfig};
     use swc_common::DUMMY_SP;
     use swc_ecma_ast::*;
     use testing::assert_eq_ignore_span;
@@ -2400,5 +2400,33 @@ mod tests {
         };
 
         assert_eq_ignore_span!(actual, expected);
+    }
+
+    #[test]
+    fn issue_726() {
+        crate::with_test_sess(
+            "type Test = (
+    string | number);",
+            |sess, input| {
+                let lexer = Lexer::new(
+                    sess,
+                    Syntax::Typescript(TsConfig {
+                        ..Default::default()
+                    }),
+                    JscTarget::Es2019,
+                    input,
+                    None,
+                );
+                let lexer = Capturing::new(lexer);
+
+                let mut parser = Parser::new_from(sess, lexer);
+                parser.parse_typescript_module().map_err(|mut e| {
+                    e.emit();
+                });
+                let tokens = parser.input().take();
+                assert_eq!(tokens.len(), 9, "Tokens: {:#?}", tokens);
+                Ok(())
+            },
+        );
     }
 }
