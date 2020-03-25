@@ -477,10 +477,14 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 Ok(res)
             }
             Err(mut err) => {
+                self.input.revert();
                 err.cancel();
                 Ok(false)
             }
-            _ => Ok(false),
+            _ => {
+                self.input.revert();
+                Ok(false)
+            }
         }
     }
 
@@ -501,8 +505,12 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 self.emit_err = true;
                 Some(res)
             }
-            Ok(None) => None,
+            Ok(None) => {
+                self.input.revert();
+                None
+            }
             Err(mut err) => {
+                self.input.revert();
                 err.cancel();
                 None
             }
