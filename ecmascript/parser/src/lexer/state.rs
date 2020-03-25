@@ -116,6 +116,9 @@ impl<I: Input> Tokens for Lexer<'_, I> {
         self.target
     }
 
+    /// no-op, as `Lexer` does not use `Rc<RefCelll<T>>`.
+    fn revert(&mut self) {}
+
     fn set_expr_allowed(&mut self, allow: bool) {
         self.set_expr_allowed(allow)
     }

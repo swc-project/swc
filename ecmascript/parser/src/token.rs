@@ -375,7 +375,7 @@ impl Debug for Word {
 #[kind(function(before_expr = "bool", starts_expr = "bool"))]
 pub enum Keyword {
     /// Spec says this might be identifier.
-    #[kind(before_expr)]
+    #[kind(before_expr, starts_expr)]
     Await,
 
     Break,
