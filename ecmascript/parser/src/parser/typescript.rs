@@ -2427,6 +2427,7 @@ mod tests {
                 assert_eq!(tokens.len(), 9, "Tokens: {:#?}", tokens);
                 Ok(())
             },
-        );
+        )
+        .unwrap();
     }
 }
