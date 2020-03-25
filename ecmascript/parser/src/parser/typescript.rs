@@ -473,18 +473,15 @@ impl<'a, I: Tokens> Parser<'a, I> {
         match res {
             Ok(Some(res)) if res => {
                 *self = cloned;
+                self.input.revert();
                 self.emit_err = true;
                 Ok(res)
             }
             Err(mut err) => {
-                self.input.revert();
                 err.cancel();
                 Ok(false)
             }
-            _ => {
-                self.input.revert();
-                Ok(false)
-            }
+            _ => Ok(false),
         }
     }
 
@@ -502,15 +499,12 @@ impl<'a, I: Tokens> Parser<'a, I> {
         match res {
             Ok(Some(res)) => {
                 *self = cloned;
+                self.input.revert();
                 self.emit_err = true;
                 Some(res)
             }
-            Ok(None) => {
-                self.input.revert();
-                None
-            }
+            Ok(None) => None,
             Err(mut err) => {
-                self.input.revert();
                 err.cancel();
                 None
             }
@@ -1022,7 +1016,9 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
         let mut cloned = self.clone();
         cloned.emit_err = false;
-        op(&mut cloned)
+        let res = op(&mut cloned);
+        cloned.input.revert();
+        res
     }
 
     /// `tsIsUnambiguouslyStartOfFunctionType`
@@ -2328,7 +2324,10 @@ fn make_decl_declare(mut decl: Decl) -> Decl {
 
 #[cfg(test)]
 mod tests {
-    use crate::{lexer::Lexer, test_parser, Capturing, JscTarget, Parser, Syntax, TsConfig};
+    use crate::{
+        lexer::Lexer, test_parser, token::TokenAndSpan, Capturing, JscTarget, Parser, Syntax,
+        TsConfig,
+    };
     use swc_common::DUMMY_SP;
     use swc_ecma_ast::*;
     use testing::assert_eq_ignore_span;
@@ -2422,8 +2421,9 @@ mod tests {
                 let mut parser = Parser::new_from(sess, lexer);
                 parser.parse_typescript_module().map_err(|mut e| {
                     e.emit();
-                });
-                let tokens = parser.input().take();
+                })?;
+                let tokens: Vec<TokenAndSpan> = parser.input().take();
+                let tokens = tokens.into_iter().map(|t| t.token).collect::<Vec<_>>();
                 assert_eq!(tokens.len(), 9, "Tokens: {:#?}", tokens);
                 Ok(())
             },

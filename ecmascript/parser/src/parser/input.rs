@@ -149,7 +149,7 @@ impl<I: Tokens> Tokens for Capturing<I> {
     fn revert(&mut self) {
         self.inner.revert();
         let len = self.last_clone_idx;
-        self.captured.borrow_mut().drain(len..);
+        self.captured.borrow_mut().truncate(len);
     }
 
     fn set_expr_allowed(&mut self, allow: bool) {
