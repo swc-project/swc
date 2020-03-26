@@ -84,14 +84,12 @@ impl Tokens for TokensInput {
 #[derive(Debug)]
 pub struct Capturing<I: Tokens> {
     inner: I,
-    last_clone_idx: usize,
     captured: Rc<RefCell<Vec<TokenAndSpan>>>,
 }
 
 impl<I: Tokens> Clone for Capturing<I> {
     fn clone(&self) -> Self {
         Capturing {
-            last_clone_idx: self.captured.borrow().len(),
             inner: self.inner.clone(),
             captured: self.captured.clone(),
         }
@@ -102,7 +100,6 @@ impl<I: Tokens> Capturing<I> {
     pub fn new(input: I) -> Self {
         Capturing {
             inner: input,
-            last_clone_idx: 0,
             captured: Default::default(),
         }
     }
@@ -118,8 +115,21 @@ impl<I: Tokens> Iterator for Capturing<I> {
     fn next(&mut self) -> Option<Self::Item> {
         let next = self.inner.next();
 
-        self.captured.borrow_mut().extend(next.clone());
-        next
+        match next {
+            Some(ts) => {
+                let mut v = self.captured.borrow_mut();
+                if let Some(last) = v.last() {
+                    if last.span.lo >= ts.span.lo {
+                        return Some(ts);
+                    }
+                }
+
+                v.push(ts.clone());
+
+                Some(ts)
+            }
+            None => None,
+        }
     }
 }
 
