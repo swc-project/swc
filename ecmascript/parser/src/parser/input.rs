@@ -14,10 +14,6 @@ pub trait Tokens: Clone + Iterator<Item = TokenAndSpan> {
     fn syntax(&self) -> Syntax;
     fn target(&self) -> JscTarget;
 
-    /// Revert to lastest clone. THis method exists to removed captured token
-    /// while backtracking.
-    fn revert(&mut self);
-
     fn set_expr_allowed(&mut self, allow: bool);
     fn token_context(&self) -> &lexer::TokenContexts;
     fn token_context_mut(&mut self) -> &mut lexer::TokenContexts;
@@ -69,9 +65,6 @@ impl Tokens for TokensInput {
         self.target
     }
 
-    /// no-op, as `TokensInput` does not use `Rc<RefCelll<T>>`.
-    fn revert(&mut self) {}
-
     fn set_expr_allowed(&mut self, _: bool) {}
 
     fn token_context(&self) -> &TokenContexts {
@@ -91,14 +84,12 @@ impl Tokens for TokensInput {
 #[derive(Debug)]
 pub struct Capturing<I: Tokens> {
     inner: I,
-    last_clone_idx: usize,
     captured: Rc<RefCell<Vec<TokenAndSpan>>>,
 }
 
 impl<I: Tokens> Clone for Capturing<I> {
     fn clone(&self) -> Self {
         Capturing {
-            last_clone_idx: self.captured.borrow().len(),
             inner: self.inner.clone(),
             captured: self.captured.clone(),
         }
@@ -109,7 +100,6 @@ impl<I: Tokens> Capturing<I> {
     pub fn new(input: I) -> Self {
         Capturing {
             inner: input,
-            last_clone_idx: 0,
             captured: Default::default(),
         }
     }
@@ -125,8 +115,21 @@ impl<I: Tokens> Iterator for Capturing<I> {
     fn next(&mut self) -> Option<Self::Item> {
         let next = self.inner.next();
 
-        self.captured.borrow_mut().extend(next.clone());
-        next
+        match next {
+            Some(ts) => {
+                let mut v = self.captured.borrow_mut();
+                if let Some(last) = v.last() {
+                    if last.span.lo >= ts.span.lo {
+                        return Some(ts);
+                    }
+                }
+
+                v.push(ts.clone());
+
+                Some(ts)
+            }
+            None => None,
+        }
     }
 }
 
@@ -144,12 +147,6 @@ impl<I: Tokens> Tokens for Capturing<I> {
     }
     fn target(&self) -> JscTarget {
         self.inner.target()
-    }
-
-    fn revert(&mut self) {
-        self.inner.revert();
-        let len = self.last_clone_idx;
-        self.captured.borrow_mut().truncate(len);
     }
 
     fn set_expr_allowed(&mut self, allow: bool) {
@@ -194,10 +191,6 @@ impl<I: Tokens> Buffer<I> {
             prev_span: DUMMY_SP.data(),
             next: None,
         }
-    }
-
-    pub fn revert(&mut self) {
-        self.iter.revert()
     }
 
     pub fn store(&mut self, token: Token) {
