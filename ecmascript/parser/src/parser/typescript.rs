@@ -473,7 +473,6 @@ impl<'a, I: Tokens> Parser<'a, I> {
         match res {
             Ok(Some(res)) if res => {
                 *self = cloned;
-                self.input.revert();
                 self.emit_err = true;
                 Ok(res)
             }
@@ -499,7 +498,6 @@ impl<'a, I: Tokens> Parser<'a, I> {
         match res {
             Ok(Some(res)) => {
                 *self = cloned;
-                self.input.revert();
                 self.emit_err = true;
                 Some(res)
             }
@@ -1017,7 +1015,6 @@ impl<'a, I: Tokens> Parser<'a, I> {
         let mut cloned = self.clone();
         cloned.emit_err = false;
         let res = op(&mut cloned);
-        cloned.input.revert();
         res
     }
 
