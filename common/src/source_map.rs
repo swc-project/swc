@@ -1002,7 +1002,7 @@ impl SourceMap {
     pub fn build_source_map_from(
         &self,
         mappings: &mut Vec<(BytePos, LineCol)>,
-        orig: Option<sourcemap::SourceMap>,
+        orig: Option<&sourcemap::SourceMap>,
     ) -> sourcemap::SourceMap {
         let mut builder = SourceMapBuilder::new(None);
 
