@@ -1,4 +1,5 @@
-use crate::{builder::PassBuilder, error::Error};
+use crate::builder::PassBuilder;
+use anyhow::{bail, Context, Error};
 use dashmap::DashMap;
 use hashbrown::{HashMap, HashSet};
 use once_cell::sync::Lazy;
@@ -79,7 +80,7 @@ pub struct Options {
     pub env_name: String,
 
     #[serde(default)]
-    pub input_source_map: Option<InputSourceMap>,
+    pub input_source_map: InputSourceMap,
 
     #[serde(default)]
     pub source_maps: Option<SourceMapsConfig>,
@@ -238,6 +239,7 @@ impl Options {
                 .source_maps
                 .clone()
                 .unwrap_or(SourceMapsConfig::Bool(false)),
+            input_source_map: self.input_source_map.clone(),
         }
     }
 }
@@ -355,7 +357,7 @@ impl Rc {
                     if c.matches(filename)? {
                         return Ok(c);
                     } else {
-                        return Err(Error::Unmatched);
+                        bail!("not matched")
                     }
                 }
                 // TODO
@@ -376,7 +378,7 @@ impl Rc {
             None => return Ok(cs.remove(0)),
         }
 
-        Err(Error::Unmatched)
+        bail!("not matched")
     }
 }
 
@@ -427,10 +429,7 @@ impl FileMatcher {
                 }
 
                 if !CACHE.contains_key(&*s) {
-                    let re = Regex::new(&s).map_err(|err| Error::InvalidRegex {
-                        regex: s.into(),
-                        err,
-                    })?;
+                    let re = Regex::new(&s).with_context(|| format!("invalid regex: {}", s))?;
                     CACHE.insert(s.clone(), re);
                 }
 
@@ -479,6 +478,7 @@ pub struct BuiltConfig<P: Pass> {
     pub minify: bool,
     pub external_helpers: bool,
     pub source_maps: SourceMapsConfig,
+    pub input_source_map: InputSourceMap,
     pub is_module: bool,
 }
 

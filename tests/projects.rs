@@ -2,7 +2,6 @@ use rayon::prelude::*;
 use std::path::Path;
 use swc::{
     config::{Options, SourceMapsConfig},
-    error::Error,
     Compiler,
 };
 use testing::{NormalizedOutput, StdErr, Tester};
@@ -65,8 +64,8 @@ fn project(dir: &str) {
                     },
                 ) {
                     Ok(..) => {}
-                    Err(Error::Unmatched) => {}
-                    Err(..) => return Err(()),
+                    Err(ref err) if format!("{:?}", err).contains("not matched") => {}
+                    Err(err) => panic!("Error: {:?}", err),
                 }
             }
 
