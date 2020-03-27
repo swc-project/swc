@@ -79,7 +79,7 @@ pub struct Options {
     pub env_name: String,
 
     #[serde(default)]
-    pub input_source_map: Option<InputSourceMap>,
+    pub input_source_map: InputSourceMap,
 
     #[serde(default)]
     pub source_maps: Option<SourceMapsConfig>,
@@ -238,6 +238,7 @@ impl Options {
                 .source_maps
                 .clone()
                 .unwrap_or(SourceMapsConfig::Bool(false)),
+            input_source_map: self.input_source_map.clone(),
         }
     }
 }
@@ -479,6 +480,7 @@ pub struct BuiltConfig<P: Pass> {
     pub minify: bool,
     pub external_helpers: bool,
     pub source_maps: SourceMapsConfig,
+    pub input_source_map: InputSourceMap,
     pub is_module: bool,
 }
 

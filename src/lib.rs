@@ -11,7 +11,10 @@ pub mod error;
 
 pub use crate::builder::PassBuilder;
 use crate::{
-    config::{BuiltConfig, ConfigFile, JscTarget, Merge, Options, Rc, RootMode, SourceMapsConfig},
+    config::{
+        BuiltConfig, ConfigFile, InputSourceMap, JscTarget, Merge, Options, Rc, RootMode,
+        SourceMapsConfig,
+    },
     error::Error,
 };
 use common::{
@@ -83,8 +86,47 @@ impl Compiler {
         syntax: Syntax,
         is_module: bool,
         parse_comments: bool,
-    ) -> Result<Program, Error> {
+        input_source_map: &InputSourceMap,
+    ) -> Result<(Program, Option<sourcemap::SourceMap>), Error> {
         self.run(|| {
+            let orig = (|| {
+                // Load original source map
+                match input_source_map {
+                    InputSourceMap::Bool(false) => None,
+                    InputSourceMap::Bool(true) => {
+                        // Load original source map if possible
+                        match &fm.name {
+                            FileName::Real(filename) => {
+                                let file =
+                                    File::open(&format!("{}.map", filename.display())).ok()?;
+                                Some(sourcemap::SourceMap::from_reader(file))
+                            }
+                            _ => {
+                                log::error!("Failed to load source map for non-file input");
+                                return None;
+                            }
+                        }
+                    }
+                    InputSourceMap::Str(ref s) => {
+                        if s == "inline" {
+                            // Load inline source map by simple string
+                            // operations
+                            let s = "sourceMappingURL=data:application/json;base64,";
+                            let idx = s.rfind(s)?;
+                            let encoded = &s[idx + s.len()..];
+
+                            let res = base64::decode(encoded.as_bytes())
+                                .map_err(|err| Error::FailedToParseSourceMap)?;
+
+                            Some(sourcemap::SourceMap::from_slice(&res))
+                        } else {
+                            // Load source map passed by user
+                            Some(sourcemap::SourceMap::from_slice(s.as_bytes()))
+                        }
+                    }
+                }
+            })();
+
             let session = ParseSess {
                 handler: &self.handler,
             };
@@ -118,7 +160,7 @@ impl Compiler {
                     .map(Program::Script)?
             };
 
-            Ok(program)
+            Ok((program, orig))
         })
     }
 
@@ -127,6 +169,7 @@ impl Compiler {
         program: &Program,
         comments: &Comments,
         source_map: SourceMapsConfig,
+        orig: Option<&sourcemap::SourceMap>,
         minify: bool,
     ) -> Result<TransformOutput, Error> {
         self.run(|| {
@@ -166,7 +209,7 @@ impl Compiler {
                         let mut buf = vec![];
 
                         self.cm
-                            .build_source_map(&mut src_map_buf)
+                            .build_source_map_from(&mut src_map_buf, orig)
                             .to_writer(&mut buf)
                             .map_err(|err| Error::FailedToWriteSourceMap { err })?;
                         let map = String::from_utf8(buf)
@@ -322,12 +365,13 @@ impl Compiler {
                 eprintln!("processing js file: {:?}", fm)
             }
 
-            let module = self.parse_js(
+            let (module, orig) = self.parse_js(
                 fm.clone(),
                 config.target,
                 config.syntax,
                 config.is_module,
                 !config.minify,
+                &config.input_source_map,
             )?;
             let mut pass = config.pass;
             let module = helpers::HELPERS.set(&Helpers::new(config.external_helpers), || {
@@ -337,7 +381,13 @@ impl Compiler {
                 })
             });
 
-            self.print(&module, &self.comments, config.source_maps, config.minify)
+            self.print(
+                &module,
+                &self.comments,
+                config.source_maps,
+                orig.as_ref(),
+                config.minify,
+            )
         })
     }
 }
