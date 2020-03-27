@@ -93,8 +93,6 @@ fn inline(f: &str) -> Result<(), StdErr> {
             String::from_utf8_lossy(&output.stdout),
             String::from_utf8_lossy(&output.stderr)
         );
-
-        Ok(())
     })
 }
 #[test]

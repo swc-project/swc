@@ -10,13 +10,11 @@ pub mod config;
 pub mod error;
 
 pub use crate::builder::PassBuilder;
-use crate::{
-    config::{
-        BuiltConfig, ConfigFile, InputSourceMap, JscTarget, Merge, Options, Rc, RootMode,
-        SourceMapsConfig,
-    },
-    error::Error,
+use crate::config::{
+    BuiltConfig, ConfigFile, InputSourceMap, JscTarget, Merge, Options, Rc, RootMode,
+    SourceMapsConfig,
 };
+use anyhow::{Context, Error};
 use common::{
     comments::Comments, errors::Handler, FileName, FoldWith, Globals, SourceFile, SourceMap,
     GLOBALS,
@@ -97,9 +95,11 @@ impl Compiler {
                         // Load original source map if possible
                         match &fm.name {
                             FileName::Real(filename) => {
-                                let file =
-                                    File::open(&format!("{}.map", filename.display())).ok()?;
-                                Some(sourcemap::SourceMap::from_reader(file))
+                                let path = format!("{}.map", filename.display());
+                                let file = File::open(&path).ok()?;
+                                Some(sourcemap::SourceMap::from_reader(file).with_context(|| {
+                                    format!("failed to read input source map from file at {}", path)
+                                }))
                             }
                             _ => {
                                 log::error!("Failed to load source map for non-file input");
@@ -116,16 +116,30 @@ impl Compiler {
                             let encoded = &s[idx + s.len()..];
 
                             let res = base64::decode(encoded.as_bytes())
-                                .map_err(|err| Error::FailedToParseSourceMap)?;
+                                .context("failed to decode base64-encoded source map");
+                            let res = match res {
+                                Ok(v) => v,
+                                Err(err) => return Some(Err(err)),
+                            };
 
-                            Some(sourcemap::SourceMap::from_slice(&res))
+                            Some(sourcemap::SourceMap::from_slice(&res).context(
+                                "failed to read input source map from inlined base64 encoded \
+                                 string",
+                            ))
                         } else {
                             // Load source map passed by user
-                            Some(sourcemap::SourceMap::from_slice(s.as_bytes()))
+                            Some(sourcemap::SourceMap::from_slice(s.as_bytes()).context(
+                                "failed to read input source map from user-provided sourcemap",
+                            ))
                         }
                     }
                 }
             })();
+
+            let orig = match orig {
+                None => None,
+                Some(v) => Some(v?),
+            };
 
             let session = ParseSess {
                 handler: &self.handler,
@@ -147,7 +161,7 @@ impl Compiler {
                     .parse_module()
                     .map_err(|mut e| {
                         e.emit();
-                        Error::FailedToParseModule {}
+                        Error::msg("failed to parse module")
                     })
                     .map(Program::Module)?
             } else {
@@ -155,7 +169,7 @@ impl Compiler {
                     .parse_script()
                     .map_err(|mut e| {
                         e.emit();
-                        Error::FailedToParseModule {}
+                        Error::msg("failed to parse module")
                     })
                     .map(Program::Script)?
             };
@@ -198,7 +212,7 @@ impl Compiler {
 
                     emitter
                         .emit_program(&program)
-                        .map_err(|err| Error::FailedToEmitModule { err })?;
+                        .context("failed to emit module")?;
                 }
                 // Invalid utf8 is valid in javascript world.
                 unsafe { String::from_utf8_unchecked(buf) }
@@ -211,9 +225,8 @@ impl Compiler {
                         self.cm
                             .build_source_map_from(&mut src_map_buf, orig)
                             .to_writer(&mut buf)
-                            .map_err(|err| Error::FailedToWriteSourceMap { err })?;
-                        let map = String::from_utf8(buf)
-                            .map_err(|err| Error::SourceMapNotUtf8 { err })?;
+                            .context("failed to write source map")?;
+                        let map = String::from_utf8(buf).context("source map is not utf-8")?;
                         (src, Some(map))
                     } else {
                         (src, None)
@@ -227,9 +240,8 @@ impl Compiler {
                     self.cm
                         .build_source_map(&mut src_map_buf)
                         .to_writer(&mut buf)
-                        .map_err(|err| Error::FailedToWriteSourceMap { err })?;
-                    let map =
-                        String::from_utf8(buf).map_err(|err| Error::SourceMapNotUtf8 { err })?;
+                        .context("failed to write source map file")?;
+                    let map = String::from_utf8(buf).context("source map is not utf-8")?;
 
                     src.push_str("\n//# sourceMappingURL=data:application/json;base64,");
                     base64::encode_config_buf(
@@ -279,10 +291,9 @@ impl Compiler {
             let config_file = match config_file {
                 Some(ConfigFile::Str(ref s)) => {
                     let path = Path::new(s);
-                    let r =
-                        File::open(&path).map_err(|err| Error::FailedToReadConfigFile { err })?;
-                    let config: Rc = serde_json::from_reader(r)
-                        .map_err(|err| Error::FailedToParseConfigFile { err })?;
+                    let r = File::open(&path).context("failed to read config file")?;
+                    let config: Rc =
+                        serde_json::from_reader(r).context("failed to parse config file")?;
                     Some(config)
                 }
                 _ => None,
@@ -296,11 +307,13 @@ impl Compiler {
                             let swcrc = dir.join(".swcrc");
 
                             if swcrc.exists() {
-                                let r = File::open(&swcrc)
-                                    .map_err(|err| Error::FailedToReadConfigFile { err })?;
-                                let mut config = serde_json::from_reader(r)
-                                    .map_err(|err| Error::FailedToParseConfigFile { err })
-                                    .and_then(|rc: Rc| rc.into_config(Some(path)))?;
+                                let r = File::open(&swcrc).context("failed to read config file")?;
+                                let config: Rc = serde_json::from_reader(r)
+                                    .context("failed to parse config file")?;
+
+                                let mut config = config
+                                    .into_config(Some(path))
+                                    .context("failed to process config file")?;
 
                                 if let Some(config_file) = config_file {
                                     config.merge(&config_file.into_config(Some(path))?)
