@@ -994,8 +994,16 @@ impl SourceMap {
         None
     }
 
-    /// Creates a `.map` file.
     pub fn build_source_map(&self, mappings: &mut Vec<(BytePos, LineCol)>) -> sourcemap::SourceMap {
+        self.build_source_map_from(mappings, None)
+    }
+
+    /// Creates a `.map` file.
+    pub fn build_source_map_from(
+        &self,
+        mappings: &mut Vec<(BytePos, LineCol)>,
+        orig: Option<sourcemap::SourceMap>,
+    ) -> sourcemap::SourceMap {
         let mut builder = SourceMapBuilder::new(None);
 
         // // This method is optimized based on the fact that mapping is sorted.
@@ -1031,12 +1039,12 @@ impl SourceMap {
             };
 
             let a = match f.lookup_line(pos) {
-                Some(line) => line,
+                Some(line) => line as u32,
                 None => continue,
             };
 
-            let line = a + 1; // Line numbers start at 1
-            let linebpos = f.lines[a];
+            let mut line = a + 1; // Line numbers start at 1
+            let linebpos = f.lines[a as usize];
             debug_assert!(
                 pos >= linebpos,
                 "{}: bpos = {:?}; linebpos = {:?};",
@@ -1047,9 +1055,16 @@ impl SourceMap {
             let chpos = { self.calc_extra_bytes(&f, &mut ch_start, pos) };
             let linechpos = { self.calc_extra_bytes(&f, &mut line_ch_start, linebpos) };
 
-            let col = max(chpos, linechpos) - min(chpos, linechpos);
+            let mut col = max(chpos, linechpos) - min(chpos, linechpos);
 
-            builder.add(lc.line, lc.col, (line - 1) as _, col as _, None, None);
+            if let Some(orig) = &orig {
+                if let Some(token) = orig.lookup_token(line, col) {
+                    line = token.get_src_line();
+                    col = token.get_src_col();
+                }
+            }
+
+            builder.add(lc.line, lc.col, line - 1, col, None, None);
         }
 
         builder.into_sourcemap()
