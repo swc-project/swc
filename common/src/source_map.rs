@@ -1059,7 +1059,7 @@ impl SourceMap {
 
             if let Some(orig) = &orig {
                 if let Some(token) = orig.lookup_token(line, col) {
-                    line = token.get_src_line();
+                    line = token.get_src_line() + 1;
                     col = token.get_src_col();
                 }
             }
