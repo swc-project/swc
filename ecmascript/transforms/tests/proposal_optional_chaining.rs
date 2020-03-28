@@ -551,8 +551,7 @@ test!(
     issue_732_1,
     "test.a?.b.c.d",
     "var ref;
-const test = {};
-console.log((ref = test.a) === null || ref === void 0 ? void 0 : ref.b.c.d);"
+(ref = test.a) === null || ref === void 0 ? void 0 : ref.b.c.d"
 );
 
 test!(
@@ -562,4 +561,13 @@ test!(
     "test.a?.b.c",
     "var ref;
 (ref = test.a) === null || ref === void 0 ? void 0 : ref.b.c;"
+);
+
+test!(
+    syntax(),
+    |_| tr(()),
+    issue_732_3,
+    "test.a?.b.c.d.e.f.g.h.i",
+    "var ref;
+(ref = test.a) === null || ref === void 0 ? void 0 : ref.b.c.d.e.f.g.h.i"
 );
