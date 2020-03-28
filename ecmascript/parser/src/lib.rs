@@ -112,7 +112,7 @@ mod parser;
 pub mod token;
 
 #[derive(Debug, Clone, Copy, Deserialize, Serialize)]
-#[serde(tag = "syntax")]
+#[serde(deny_unknown_fields, tag = "syntax")]
 pub enum Syntax {
     /// Standard
     #[serde(rename = "ecmascript")]

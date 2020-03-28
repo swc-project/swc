@@ -132,7 +132,29 @@ impl OptChaining {
 
     /// Only called from `[Fold<Expr>].
     fn handle_member(&mut self, e: MemberExpr) -> Expr {
-        if let ExprOrSuper::Expr(box Expr::OptChain(o)) = e.obj {
+        let obj = if let ExprOrSuper::Expr(box Expr::Member(obj)) = e.obj {
+            let obj = self.handle_member(obj);
+
+            match obj {
+                Expr::Cond(obj) => {
+                    //
+                    return CondExpr {
+                        span: DUMMY_SP,
+                        alt: box Expr::Member(MemberExpr {
+                            obj: ExprOrSuper::Expr(obj.alt),
+                            ..e
+                        }),
+                        ..obj
+                    }
+                    .into();
+                }
+                _ => ExprOrSuper::Expr(box obj),
+            }
+        } else {
+            e.obj
+        };
+
+        if let ExprOrSuper::Expr(box Expr::OptChain(o)) = obj {
             let expr = self.unwrap(o);
 
             return CondExpr {
@@ -146,7 +168,7 @@ impl OptChaining {
             .into();
         }
 
-        Expr::Member(e)
+        Expr::Member(MemberExpr { obj, ..e })
     }
 
     fn unwrap(&mut self, e: OptChainExpr) -> CondExpr {
