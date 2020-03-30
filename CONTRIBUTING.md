@@ -176,6 +176,6 @@ adding labels to triage issues:
 [E-mentor]: https://github.com/swc-project/swc/labels/E-mentor
 [Code of Conduct]: https://www.rust-lang.org/conduct.html
 [gitter]: https://gitter.im/swcproject/Lobby
-[`tesitng/lib.rs`]: https://github.com/swc-project/swc/blob/master/testing/src/lib.rs
+[`testing/lib.rs`]: https://github.com/swc-project/swc/blob/master/testing/src/lib.rs
 [irlo]: https://internals.rust-lang.org/
 [subcommands]: https://doc.rust-lang.org/cargo/reference/external-tools.html#custom-subcommands
