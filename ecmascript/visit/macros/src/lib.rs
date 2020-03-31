@@ -102,7 +102,8 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
         .map(TraitItem::Method)
         .collect::<Vec<_>>();
 
-    ItemTrait {
+    let mut tokens = q!({});
+    tokens.push_tokens(&ItemTrait {
         attrs: vec![],
         vis: Visibility::Public(VisPublic {
             pub_token: def_site(),
@@ -116,9 +117,9 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
         supertraits: Default::default(),
         brace_token: def_site(),
         items: methods,
-    }
-    .dump()
-    .into()
+    });
+
+    tokens.into()
 }
 
 fn handle_struct_expr(e: &ExprStruct) -> Block {
