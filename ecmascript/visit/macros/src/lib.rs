@@ -1,5 +1,5 @@
 use inflector::Inflector;
-use pmutil::{q, IdentExt, ToTokensExt};
+use pmutil::{q, smart_quote, IdentExt, ToTokensExt};
 use proc_macro2::Ident;
 use swc_macros_common::def_site;
 use syn::{
@@ -102,7 +102,43 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
         .map(TraitItem::Method)
         .collect::<Vec<_>>();
 
-    let mut tokens = q!({});
+    let mut tokens = q!({
+        use spez::spez;
+    });
+
+    // Create __visit
+    {
+        let mut tts = q!({ for x = &$f; });
+
+        for name in &type_names {
+            tts = tts.quote_with(smart_quote!(Vars { Type: name }, {
+                match Type {
+                    $v.visit(&x),
+                }
+            }));
+        }
+
+        tokens = tokens.quote_with(smart_quote!(Vars { tts }, {
+            //
+            // macro_rules! __visit {
+            //     ($v:expr, $f:expr) => {{
+            //         let x = &$f;
+            //         spez! {tts}
+            //     }};
+            // }
+            macro_rules! __visit {
+                ($v:expr, $f:expr) => {{
+                    spez! {
+                        for x = &$f;
+                        match String {
+                            $v.visit_string(x);
+                        }
+                    }
+                }};
+            }
+        }));
+    };
+
     tokens.push_tokens(&ItemTrait {
         attrs: vec![],
         vis: Visibility::Public(VisPublic {
@@ -314,7 +350,24 @@ fn make_method(e: &Expr, type_names: &mut Vec<Ident>) -> TraitItemMethod {
                 "proper error reporting for CallExpression with callee other than ident"
             ),
         },
-        _ => unimplemented!("proper error reporting expressions other than struct / call"),
+
+        Expr::Path(e) => {
+            //
+            let type_name = e.path.get_ident().as_ref().unwrap().clone();
+            type_names.push(type_name.clone());
+
+            TraitItemMethod {
+                attrs: vec![],
+                sig: method_sig(type_name),
+                default: Some(Block {
+                    brace_token: def_site(),
+                    stmts: vec![],
+                }),
+                semi_token: None,
+            }
+        }
+
+        _ => unimplemented!("proper error reporting expressions other than struct / call / path"),
     }
 }
 
