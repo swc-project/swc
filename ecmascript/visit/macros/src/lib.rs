@@ -185,7 +185,7 @@ fn make_arm(e: &Expr) -> Arm {
     fn make_arm_from_call(e: &ExprCall) -> Arm {
         let mut stmts = vec![];
 
-        for field in e.args {}
+        for field in &e.args {}
 
         let block = Block {
             brace_token: def_site(),
@@ -194,7 +194,7 @@ fn make_arm(e: &Expr) -> Arm {
 
         Arm {
             attrs: vec![],
-            pat: q!((n)).parse(),
+            pat: q!(Vars { Enum: &e.func }, { Enum::Variant }).parse(),
             guard: None,
             fat_arrow_token: def_site(),
             body: Box::new(Expr::Block(ExprBlock {
@@ -209,6 +209,7 @@ fn make_arm(e: &Expr) -> Arm {
     match e {
         Expr::Struct(s) => make_arm_from_struct(s),
         Expr::Call(c) => make_arm_from_call(c),
+        _ => unimplemented!("make_arg for {:?}", e),
     }
 }
 
@@ -237,13 +238,7 @@ fn make_method(e: &Expr, type_names: &mut Vec<Ident>) -> TraitItemMethod {
                     let mut arms = vec![];
 
                     for variant in &e.args {
-                        match variant {
-                            Expr::Struct(ref s) => {
-                                arms.push(make_arm_from_struct(&s));
-                            }
-                            Expr::Call(ref c) => {}
-                            _ => {}
-                        }
+                        arms.push(make_arm(variant));
                     }
 
                     Block {
