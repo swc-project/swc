@@ -132,7 +132,7 @@ fn handle_struct_expr(e: &ExprStruct) -> Block {
             Member::Named(ref f) => {
                 body.push(
                     q!(Vars { field: f }, {
-                        __visit(self, n.field);
+                        __visit!(self, n.field);
                     })
                     .parse(),
                 );
@@ -157,7 +157,7 @@ fn make_arm(e: Option<&Expr>, variant: &Expr) -> Arm {
             match &field.member {
                 Member::Named(ref f) => {
                     let stmt = q!(Vars { field: f }, {
-                        __visit(self, field);
+                        __visit!(self, field);
                     })
                     .parse();
                     stmts.push(stmt);
@@ -211,7 +211,7 @@ fn make_arm(e: Option<&Expr>, variant: &Expr) -> Arm {
 
         for field in &variant.args {
             let stmt = q!(Vars { field }, {
-                __visit(self, field);
+                __visit!(self, field);
             })
             .parse();
             stmts.push(stmt);
