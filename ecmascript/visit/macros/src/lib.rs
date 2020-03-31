@@ -11,6 +11,8 @@ use syn::{
     Signature, Stmt, Token, TraitItem, TraitItemMacro, TraitItemMethod, VisPublic, Visibility,
 };
 
+mod spez;
+
 /// This creates `Visit`. This is extensible visitor generator, and it
 ///
 ///  - works with stable rustc
@@ -102,9 +104,7 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
         .map(TraitItem::Method)
         .collect::<Vec<_>>();
 
-    let mut tokens = q!({
-        use spez::spez;
-    });
+    let mut tokens = q!({});
 
     // Create __visit
     {
@@ -118,25 +118,29 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
             }));
         }
 
-        tokens = tokens.quote_with(smart_quote!(Vars { tts }, {
-            //
-            // macro_rules! __visit {
-            //     ($v:expr, $f:expr) => {{
-            //         let x = &$f;
-            //         spez! {tts}
-            //     }};
-            // }
-            macro_rules! __visit {
-                ($v:expr, $f:expr) => {{
-                    spez! {
-                        for x = &$f;
-                        match String {
-                            $v.visit_string(x);
-                        }
-                    }
-                }};
-            }
-        }));
+        {
+            let tts = tts.into();
+            self::spez::spez_impl(syn::parse_macro_input!(tts));
+        }
+        // tokens.quote_with(smart_quote!(Vars { tts }, {
+        //     //
+        //     // macro_rules! __visit {
+        //     //     ($v:expr, $f:expr) => {{
+        //     //         let x = &$f;
+        //     //         spez! {tts}
+        //     //     }};
+        //     // }
+        //     macro_rules! __visit {
+        //         ($v:expr, $f:expr) => {{
+        //             spez! {
+        //                 for x = &$f;
+        //                 match String {
+        //                     $v.visit_string(x);
+        //                 }
+        //             }
+        //         }};
+        //     }
+        // }));
     };
 
     tokens.push_tokens(&ItemTrait {

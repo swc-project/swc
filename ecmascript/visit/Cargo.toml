@@ -13,4 +13,3 @@ edition = "2018"
 swc_common = { version = "0.5.9", path = "../../common" }
 swc_ecma_ast = { version = "0.18.0", path ="../ast" }
 swc_ecma_visit_macros = { version = "0.1.0", path ="./macros" }
-spez = "0.1.1"
