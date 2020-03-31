@@ -146,10 +146,10 @@ fn handle_struct_expr(e: &ExprStruct) -> Block {
     }
 }
 
-fn make_arm(e: &Expr) -> Arm {
-    fn make_arm_from_struct(e: &ExprStruct) -> Arm {
+fn make_arm(e: Option<&Expr>, variant: &Expr) -> Arm {
+    fn make_arm_from_struct(e: Option<&Expr>, variant: &ExprStruct) -> Arm {
         let mut stmts = vec![];
-        for field in &e.fields {
+        for field in &variant.fields {
             match &field.member {
                 Member::Named(ref f) => {
                     let stmt = q!(Vars { field: f }, {
@@ -170,7 +170,23 @@ fn make_arm(e: &Expr) -> Arm {
 
         Arm {
             attrs: vec![],
-            pat: q!((n)).parse(),
+            pat: match e {
+                Some(e) => q!(
+                    Vars {
+                        Enum: e,
+                        Variant: &variant.path
+                    },
+                    { Enum::Variant { fields } }
+                )
+                .parse(),
+                None => q!(
+                    Vars {
+                        Variant: &variant.path
+                    },
+                    { Variant { fields } }
+                )
+                .parse(),
+            },
             guard: None,
             fat_arrow_token: def_site(),
             body: Box::new(Expr::Block(ExprBlock {
@@ -182,10 +198,16 @@ fn make_arm(e: &Expr) -> Arm {
         }
     }
 
-    fn make_arm_from_call(e: &ExprCall) -> Arm {
+    fn make_arm_from_call(e: Option<&Expr>, variant: &ExprCall) -> Arm {
         let mut stmts = vec![];
 
-        for field in &e.args {}
+        for field in &variant.args {
+            let stmt = q!(Vars { field }, {
+                __visit(self, field);
+            })
+            .parse();
+            stmts.push(stmt);
+        }
 
         let block = Block {
             brace_token: def_site(),
@@ -194,7 +216,23 @@ fn make_arm(e: &Expr) -> Arm {
 
         Arm {
             attrs: vec![],
-            pat: q!(Vars { Enum: &e.func }, { Enum::Variant }).parse(),
+            pat: match e {
+                Some(e) => q!(
+                    Vars {
+                        Enum: e,
+                        Variant: &variant.func
+                    },
+                    { Enum::Variant(fields) }
+                )
+                .parse(),
+                None => q!(
+                    Vars {
+                        Variant: &variant.func
+                    },
+                    { Variant(fields) }
+                )
+                .parse(),
+            },
             guard: None,
             fat_arrow_token: def_site(),
             body: Box::new(Expr::Block(ExprBlock {
@@ -206,10 +244,10 @@ fn make_arm(e: &Expr) -> Arm {
         }
     }
 
-    match e {
-        Expr::Struct(s) => make_arm_from_struct(s),
-        Expr::Call(c) => make_arm_from_call(c),
-        _ => unimplemented!("make_arg for {:?}", e),
+    match variant {
+        Expr::Struct(s) => make_arm_from_struct(e, s),
+        Expr::Call(c) => make_arm_from_call(e, c),
+        _ => unimplemented!("make_arg for {:?}", variant),
     }
 }
 
@@ -238,7 +276,7 @@ fn make_method(e: &Expr, type_names: &mut Vec<Ident>) -> TraitItemMethod {
                     let mut arms = vec![];
 
                     for variant in &e.args {
-                        arms.push(make_arm(variant));
+                        arms.push(make_arm(Some(&e.func), variant));
                     }
 
                     Block {
