@@ -1,3 +1,4 @@
+use inflector::Inflector;
 use pmutil::{q, IdentExt, ToTokensExt};
 use proc_macro2::Ident;
 use swc_macros_common::def_site;
@@ -343,7 +344,7 @@ fn method_sig(type_name: &Ident) -> Signature {
         unsafety: None,
         abi: None,
         fn_token: def_site(),
-        ident: type_name.new_ident_with(|v| format!("visit_{}", v)),
+        ident: type_name.new_ident_with(|v| format!("visit_{}", v.to_snake_case())),
         generics: Default::default(),
         paren_token: def_site(),
         inputs: {

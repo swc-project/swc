@@ -13,3 +13,4 @@ proc-macro2 = "1"
 pmutil = "0.5.1"
 quote = "1"
 syn = { version = "1", features = ["parsing", "full"] }
+Inflector = "0.11.4"
