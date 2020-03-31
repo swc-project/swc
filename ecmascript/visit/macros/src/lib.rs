@@ -5,9 +5,9 @@ use syn::{
     parse::{Parse, ParseBuffer, ParseStream},
     parse_quote::parse,
     punctuated::Punctuated,
-    Arm, Block, Error, Expr, ExprBlock, ExprCall, ExprMatch, ExprStruct, ImplItem, ImplItemMethod,
-    ItemImpl, ItemTrait, Member, Pat, PatStruct, Path, ReturnType, Signature, Stmt, Token,
-    TraitItem, TraitItemMacro, TraitItemMethod, VisPublic, Visibility,
+    Arm, Block, Error, Expr, ExprBlock, ExprCall, ExprMatch, ExprStruct, FieldPat, FieldValue,
+    ImplItem, ImplItemMethod, ItemImpl, ItemTrait, Member, Pat, PatStruct, Path, ReturnType,
+    Signature, Stmt, Token, TraitItem, TraitItemMacro, TraitItemMethod, VisPublic, Visibility,
 };
 
 /// This creates `Visit`. This is extensible visitor generator, and it
@@ -149,6 +149,8 @@ fn handle_struct_expr(e: &ExprStruct) -> Block {
 fn make_arm(e: Option<&Expr>, variant: &Expr) -> Arm {
     fn make_arm_from_struct(e: Option<&Expr>, variant: &ExprStruct) -> Arm {
         let mut stmts = vec![];
+        let mut fields: Punctuated<FieldValue, Token![,]> = Default::default();
+
         for field in &variant.fields {
             match &field.member {
                 Member::Named(ref f) => {
@@ -161,6 +163,7 @@ fn make_arm(e: Option<&Expr>, variant: &Expr) -> Arm {
 
                 Member::Unnamed(_) => unimplemented!("unnamed member?"),
             }
+            fields.push(field.clone());
         }
 
         let block = Block {
@@ -174,14 +177,16 @@ fn make_arm(e: Option<&Expr>, variant: &Expr) -> Arm {
                 Some(e) => q!(
                     Vars {
                         Enum: e,
-                        Variant: &variant.path
+                        Variant: &variant.path,
+                        fields
                     },
                     { Enum::Variant { fields } }
                 )
                 .parse(),
                 None => q!(
                     Vars {
-                        Variant: &variant.path
+                        Variant: &variant.path,
+                        fields
                     },
                     { Variant { fields } }
                 )
@@ -200,6 +205,7 @@ fn make_arm(e: Option<&Expr>, variant: &Expr) -> Arm {
 
     fn make_arm_from_call(e: Option<&Expr>, variant: &ExprCall) -> Arm {
         let mut stmts = vec![];
+        let mut fields: Punctuated<Expr, Token![,]> = Default::default();
 
         for field in &variant.args {
             let stmt = q!(Vars { field }, {
@@ -207,6 +213,8 @@ fn make_arm(e: Option<&Expr>, variant: &Expr) -> Arm {
             })
             .parse();
             stmts.push(stmt);
+
+            fields.push(field.clone());
         }
 
         let block = Block {
@@ -220,14 +228,16 @@ fn make_arm(e: Option<&Expr>, variant: &Expr) -> Arm {
                 Some(e) => q!(
                     Vars {
                         Enum: e,
-                        Variant: &variant.func
+                        Variant: &variant.func,
+                        fields,
                     },
                     { Enum::Variant(fields) }
                 )
                 .parse(),
                 None => q!(
                     Vars {
-                        Variant: &variant.func
+                        Variant: &variant.func,
+                        fields,
                     },
                     { Variant(fields) }
                 )
