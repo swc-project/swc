@@ -106,6 +106,14 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
 
     let mut tokens = q!({});
 
+    {
+        let mut new = vec![];
+        for ty in &types {
+            add_required(&mut new, ty);
+        }
+        types.extend(new);
+    }
+
     for ty in types {
         let name = method_name(&ty);
         let s = name.to_string();
@@ -549,6 +557,32 @@ fn create_method_body(ty: &Type) -> Block {
         Type::Tuple(_) => unimplemented!("type: trait tuple"),
         Type::Verbatim(_) => unimplemented!("type: verbatim"),
         _ => unimplemented!("Unknown type: {:?}", ty),
+    }
+}
+
+fn add_required(types: &mut Vec<Type>, ty: &Type) {
+    match ty {
+        Type::Path(p) => {
+            let last = p.path.segments.last().unwrap();
+
+            if !last.arguments.is_empty() {
+                if last.ident == "Option" || last.ident == "Vec" {
+                    match &last.arguments {
+                        PathArguments::AngleBracketed(tps) => {
+                            let arg = tps.args.first().unwrap();
+                            match arg {
+                                GenericArgument::Type(arg) => {
+                                    types.push(arg.clone());
+                                }
+                                _ => unimplemented!("generic parameter other than type"),
+                            }
+                        }
+                        _ => unimplemented!("Box() -> T or Box without a type parameter"),
+                    }
+                }
+            }
+        }
+        _ => {}
     }
 }
 
