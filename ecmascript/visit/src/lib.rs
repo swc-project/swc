@@ -27,7 +27,6 @@ define!({
     }
 });
 
-#[visit]
 mod types {
     use crate::{
         expr::Expr,
@@ -213,24 +212,6 @@ mod types {
 
         pub definite: bool,
     }
-    use crate::{
-        class::Class,
-        function::Function,
-        ident::{Ident, PrivateName},
-        jsx::{JSXElement, JSXEmptyExpr, JSXFragment, JSXMemberExpr, JSXNamespacedName},
-        lit::{Bool, Lit, Number, Str},
-        operators::{AssignOp, BinaryOp, UnaryOp, UpdateOp},
-        pat::Pat,
-        prop::Prop,
-        stmt::BlockStmt,
-        typescript::{
-            TsAsExpr, TsConstAssertion, TsNonNullExpr, TsTypeAnn, TsTypeAssertion, TsTypeCastExpr,
-            TsTypeParamDecl, TsTypeParamInstantiation,
-        },
-        Invalid,
-    };
-    use serde::{self, Deserialize, Serialize};
-    use swc_common::{ast_node, Fold, Span, Spanned, DUMMY_SP};
 
     pub enum Expr {
         This(ThisExpr),
@@ -514,16 +495,6 @@ mod types {
         pub expr: Box<Expr>,
     }
 
-    impl Spanned for ExprOrSpread {
-        fn span(&self) -> Span {
-            let expr = self.expr.span();
-            match self.spread {
-                Some(spread) => expr.with_lo(spread.lo()),
-                None => expr,
-            }
-        }
-    }
-
     pub enum BlockStmtOrExpr {
         BlockStmt(BlockStmt),
         Expr(Box<Expr>),
@@ -534,87 +505,10 @@ mod types {
         Pat(Box<Pat>),
     }
 
-    impl From<bool> for Expr {
-        fn from(value: bool) -> Self {
-            Expr::Lit(Lit::Bool(Bool {
-                span: DUMMY_SP,
-                value,
-            }))
-        }
-    }
-
-    impl From<f64> for Expr {
-        fn from(value: f64) -> Self {
-            Expr::Lit(Lit::Num(Number {
-                span: DUMMY_SP,
-                value,
-            }))
-        }
-    }
-
-    impl From<Bool> for Expr {
-        fn from(v: Bool) -> Self {
-            Expr::Lit(Lit::Bool(v))
-        }
-    }
-
-    impl From<Number> for Expr {
-        fn from(v: Number) -> Self {
-            Expr::Lit(Lit::Num(v))
-        }
-    }
-
-    impl From<Str> for Expr {
-        fn from(v: Str) -> Self {
-            Expr::Lit(Lit::Str(v))
-        }
-    }
-
     pub struct OptChainExpr {
         pub span: Span,
         pub expr: Box<Expr>,
     }
-
-    test_de!(
-        jsx_element,
-        JSXElement,
-        r#"{
-"type": "JSXElement",
-"span": {
-"start": 0,
-"end": 5,
-"ctxt": 0
-},
-"opening": {
-"type": "JSXOpeningElement",
-"name": {
-"type": "Identifier",
-"span": {
-"start": 1,
-"end": 2,
-"ctxt": 0
-},
-"value": "a",
-"optional": false
-},
-"span": {
-"start": 1,
-"end": 5,
-"ctxt": 0
-},
-"selfClosing": true
-},
-"children": [],
-"closing": null
-}"#
-    );
-    use crate::{
-        class::Decorator,
-        pat::Pat,
-        stmt::BlockStmt,
-        typescript::{TsParamProp, TsTypeAnn, TsTypeParamDecl},
-    };
-    use swc_common::{ast_node, Span};
 
     pub struct Function {
         pub params: Vec<Pat>,
@@ -638,9 +532,6 @@ mod types {
         TsParamProp(TsParamProp),
         Pat(Pat),
     }
-    use crate::typescript::TsTypeAnn;
-    use swc_atoms::JsWord;
-    use swc_common::{ast_node, Span};
 
     pub struct Ident {
         pub span: Span,
@@ -653,131 +544,6 @@ mod types {
         pub span: Span,
         pub id: Ident,
     }
-
-    impl AsRef<str> for Ident {
-        fn as_ref(&self) -> &str {
-            &self.sym
-        }
-    }
-
-    impl Ident {
-        pub const fn new(sym: JsWord, span: Span) -> Self {
-            Ident {
-                span,
-                sym,
-                type_ann: None,
-                optional: false,
-            }
-        }
-    }
-
-    pub trait IdentExt: AsRef<str> {
-        fn is_reserved_for_es3(&self) -> bool {
-            [
-                "abstract",
-                "boolean",
-                "break",
-                "byte",
-                "case",
-                "catch",
-                "char",
-                "class",
-                "const",
-                "continue",
-                "debugger",
-                "default",
-                "delete",
-                "do",
-                "double",
-                "else",
-                "enum",
-                "export",
-                "extends",
-                "false",
-                "final",
-                "finally",
-                "float",
-                "for",
-                "function",
-                "goto",
-                "if",
-                "implements",
-                "import",
-                "in",
-                "instanceof",
-                "int",
-                "interface",
-                "long",
-                "native",
-                "new",
-                "null",
-                "package",
-                "private",
-                "protected",
-                "public",
-                "return",
-                "short",
-                "static",
-                "super",
-                "switch",
-                "synchronized",
-                "this",
-                "throw",
-                "throws",
-                "transient",
-                "true",
-                "try",
-                "typeof",
-                "var",
-                "void",
-                "volatile",
-                "while",
-                "with",
-            ]
-            .contains(&self.as_ref())
-        }
-
-        fn is_reserved_only_for_es3(&self) -> bool {
-            [
-                "abstract",
-                "boolean",
-                "byte",
-                "char",
-                "double",
-                "enum",
-                "final",
-                "float",
-                "goto",
-                "implements",
-                "int",
-                "interface",
-                "long",
-                "native",
-                "package",
-                "private",
-                "protected",
-                "public",
-                "short",
-                "static",
-                "synchronized",
-                "throws",
-                "transient",
-                "volatile",
-            ]
-            .contains(&self.as_ref())
-        }
-    }
-
-    impl IdentExt for JsWord {}
-    impl IdentExt for Ident {}
-    use crate::{
-        expr::{Expr, SpreadElement},
-        ident::Ident,
-        lit::Lit,
-        typescript::TsTypeParamInstantiation,
-    };
-    use swc_atoms::JsWord;
-    use swc_common::{ast_node, Span};
 
     pub enum JSXObject {
         JSXMemberExpr(Box<JSXMemberExpr>),
@@ -906,97 +672,9 @@ mod types {
         pub span: Span,
     }
 
-    pub use self::{
-        class::{
-            Class, ClassMember, ClassMethod, ClassProp, Constructor, Decorator, MethodKind,
-            PrivateMethod, PrivateProp,
-        },
-        decl::{ClassDecl, Decl, FnDecl, VarDecl, VarDeclKind, VarDeclarator},
-        expr::{
-            ArrayLit, ArrowExpr, AssignExpr, AwaitExpr, BinExpr, BlockStmtOrExpr, CallExpr,
-            ClassExpr, CondExpr, Expr, ExprOrSpread, ExprOrSuper, FnExpr, MemberExpr, MetaPropExpr,
-            NewExpr, ObjectLit, OptChainExpr, ParenExpr, PatOrExpr, PropOrSpread, SeqExpr,
-            SpreadElement, Super, TaggedTpl, ThisExpr, Tpl, TplElement, UnaryExpr, UpdateExpr,
-            YieldExpr,
-        },
-        function::{Function, PatOrTsParamProp},
-        ident::{Ident, IdentExt, PrivateName},
-        jsx::{
-            JSXAttr, JSXAttrName, JSXAttrOrSpread, JSXAttrValue, JSXClosingElement,
-            JSXClosingFragment, JSXElement, JSXElementChild, JSXElementName, JSXEmptyExpr, JSXExpr,
-            JSXExprContainer, JSXFragment, JSXMemberExpr, JSXNamespacedName, JSXObject,
-            JSXOpeningElement, JSXOpeningFragment, JSXSpreadChild, JSXText,
-        },
-        lit::{BigInt, Bool, Lit, Null, Number, Regex, Str},
-        module::{Module, ModuleItem, Program, Script},
-        module_decl::{
-            DefaultDecl, DefaultExportSpecifier, ExportAll, ExportDecl, ExportDefaultDecl,
-            ExportDefaultExpr, ExportSpecifier, ImportDecl, ImportDefault, ImportSpecific,
-            ImportSpecifier, ImportStarAs, ModuleDecl, NamedExport, NamedExportSpecifier,
-            NamespaceExportSpecifier,
-        },
-        operators::{AssignOp, BinaryOp, UnaryOp, UpdateOp},
-        pat::{
-            ArrayPat, AssignPat, AssignPatProp, KeyValuePatProp, ObjectPat, ObjectPatProp, Pat,
-            RestPat,
-        },
-        prop::{
-            AssignProp, ComputedPropName, GetterProp, KeyValueProp, MethodProp, Prop, PropName,
-            SetterProp,
-        },
-        stmt::{
-            BlockStmt, BreakStmt, CatchClause, ContinueStmt, DebuggerStmt, DoWhileStmt, EmptyStmt,
-            ExprStmt, ForInStmt, ForOfStmt, ForStmt, IfStmt, LabeledStmt, ReturnStmt, Stmt,
-            SwitchCase, SwitchStmt, ThrowStmt, TryStmt, VarDeclOrExpr, VarDeclOrPat, WhileStmt,
-            WithStmt,
-        },
-        typescript::{
-            Accessibility, TruePlusMinus, TsArrayType, TsAsExpr, TsCallSignatureDecl,
-            TsConditionalType, TsConstAssertion, TsConstructSignatureDecl, TsConstructorType,
-            TsEntityName, TsEnumDecl, TsEnumMember, TsEnumMemberId, TsExportAssignment,
-            TsExprWithTypeArgs, TsExternalModuleRef, TsFnOrConstructorType, TsFnParam, TsFnType,
-            TsImportEqualsDecl, TsImportType, TsIndexSignature, TsIndexedAccessType, TsInferType,
-            TsInterfaceBody, TsInterfaceDecl, TsIntersectionType, TsKeywordType, TsKeywordTypeKind,
-            TsLit, TsLitType, TsMappedType, TsMethodSignature, TsModuleBlock, TsModuleDecl,
-            TsModuleName, TsModuleRef, TsNamespaceBody, TsNamespaceDecl, TsNamespaceExportDecl,
-            TsNonNullExpr, TsOptionalType, TsParamProp, TsParamPropParam, TsParenthesizedType,
-            TsPropertySignature, TsQualifiedName, TsRestType, TsSignatureDecl, TsThisType,
-            TsThisTypeOrIdent, TsTupleType, TsType, TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion,
-            TsTypeCastExpr, TsTypeElement, TsTypeLit, TsTypeOperator, TsTypeOperatorOp,
-            TsTypeParam, TsTypeParamDecl, TsTypeParamInstantiation, TsTypePredicate, TsTypeQuery,
-            TsTypeQueryExpr, TsTypeRef, TsUnionOrIntersectionType, TsUnionType,
-        },
-    };
-    use swc_common::{ast_node, Span};
-
-    mod class;
-    mod decl;
-    mod expr;
-    mod function;
-    mod ident;
-    mod jsx;
-    mod lit;
-    mod macros;
-    mod module;
-    mod module_decl;
-    mod operators;
-    mod pat;
-    mod prop;
-    mod stmt;
-    mod typescript;
-
     pub struct Invalid {
         pub span: Span,
     }
-    use crate::jsx::JSXText;
-    use num_bigint::BigInt as BigIntValue;
-    use std::{
-        fmt::{self, Display, Formatter},
-        hash::{Hash, Hasher},
-        mem,
-    };
-    use swc_atoms::JsWord;
-    use swc_common::{ast_node, Span};
 
     pub enum Lit {
         Str(Str),
@@ -1026,11 +704,6 @@ mod types {
 
         pub has_escape: bool,
     }
-    impl Str {
-        pub fn is_empty(&self) -> bool {
-            self.value.is_empty()
-        }
-    }
 
     pub struct Bool {
         pub span: Span,
@@ -1053,200 +726,6 @@ mod types {
         pub span: Span,
         pub value: f64,
     }
-
-    impl Eq for Number {}
-
-    impl Hash for Number {
-        fn hash<H: Hasher>(&self, state: &mut H) {
-            fn integer_decode(val: f64) -> (u64, i16, i8) {
-                let bits: u64 = unsafe { mem::transmute(val) };
-                let sign: i8 = if bits >> 63 == 0 { 1 } else { -1 };
-                let mut exponent: i16 = ((bits >> 52) & 0x7ff) as i16;
-                let mantissa = if exponent == 0 {
-                    (bits & 0xfffffffffffff) << 1
-                } else {
-                    (bits & 0xfffffffffffff) | 0x10000000000000
-                };
-
-                exponent -= 1023 + 52;
-                (mantissa, exponent, sign)
-            }
-
-            self.span.hash(state);
-            integer_decode(self.value).hash(state);
-        }
-    }
-
-    impl Display for Number {
-        fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
-            if self.value.is_infinite() {
-                if self.value.is_sign_positive() {
-                    Display::fmt("Infinity", f)
-                } else {
-                    Display::fmt("-Infinity", f)
-                }
-            } else {
-                Display::fmt(&self.value, f)
-            }
-        }
-    }
-    macro_rules! op {
-        (unary,"-") => {
-            $crate::UnaryOp::Minus
-        };
-        (unary,"+") => {
-            $crate::UnaryOp::Plus
-        };
-        ("!") => {
-            $crate::UnaryOp::Bang
-        };
-        ("~") => {
-            $crate::UnaryOp::Tilde
-        };
-        ("typeof") => {
-            $crate::UnaryOp::TypeOf
-        };
-        ("void") => {
-            $crate::UnaryOp::Void
-        };
-        ("delete") => {
-            $crate::UnaryOp::Delete
-        };
-
-        ("++") => {
-            $crate::UpdateOp::PlusPlus
-        };
-        ("--") => {
-            $crate::UpdateOp::MinusMinus
-        };
-
-        ("==") => {
-            $crate::BinaryOp::EqEq
-        };
-        ("!=") => {
-            $crate::BinaryOp::NotEq
-        };
-        ("===") => {
-            $crate::BinaryOp::EqEqEq
-        };
-        ("!==") => {
-            $crate::BinaryOp::NotEqEq
-        };
-        ("<") => {
-            $crate::BinaryOp::Lt
-        };
-        ("<=") => {
-            $crate::BinaryOp::LtEq
-        };
-        (">") => {
-            $crate::BinaryOp::Gt
-        };
-        (">=") => {
-            $crate::BinaryOp::GtEq
-        };
-        ("<<") => {
-            $crate::BinaryOp::LShift
-        };
-        (">>") => {
-            $crate::BinaryOp::RShift
-        };
-        (">>>") => {
-            $crate::BinaryOp::ZeroFillRShift
-        };
-        (bin,"+") => {
-            $crate::BinaryOp::Add
-        };
-        (bin,"-") => {
-            $crate::BinaryOp::Sub
-        };
-        ("*") => {
-            $crate::BinaryOp::Mul
-        };
-        ("/") => {
-            $crate::BinaryOp::Div
-        };
-        ("%") => {
-            $crate::BinaryOp::Mod
-        };
-        ("|") => {
-            $crate::BinaryOp::BitOr
-        };
-        ("^") => {
-            $crate::BinaryOp::BitXor
-        };
-        ("&") => {
-            $crate::BinaryOp::BitAnd
-        };
-        ("||") => {
-            $crate::BinaryOp::LogicalOr
-        };
-        ("&&") => {
-            $crate::BinaryOp::LogicalAnd
-        };
-        ("in") => {
-            $crate::BinaryOp::In
-        };
-        ("instanceof") => {
-            $crate::BinaryOp::InstanceOf
-        };
-        ("**") => {
-            $crate::BinaryOp::Exp
-        };
-        ("??") => {
-            $crate::BinaryOp::NullishCoalescing
-        };
-
-        ("=") => {
-            $crate::AssignOp::Assign
-        };
-        ("+=") => {
-            $crate::AssignOp::AddAssign
-        };
-        ("-=") => {
-            $crate::AssignOp::SubAssign
-        };
-        ("*=") => {
-            $crate::AssignOp::MulAssign
-        };
-        ("/=") => {
-            $crate::AssignOp::DivAssign
-        };
-        ("%=") => {
-            $crate::AssignOp::ModAssign
-        };
-        ("<<=") => {
-            $crate::AssignOp::LShiftAssign
-        };
-        (">>=") => {
-            $crate::AssignOp::RShiftAssign
-        };
-        (">>>=") => {
-            $crate::AssignOp::ZeroFillRShiftAssign
-        };
-        ("|=") => {
-            $crate::AssignOp::BitOrAssign
-        };
-        ("^=") => {
-            $crate::AssignOp::BitXorAssign
-        };
-        ("&=") => {
-            $crate::AssignOp::BitAndAssign
-        };
-        ("**=") => {
-            $crate::AssignOp::ExpAssign
-        };
-    }
-
-    macro_rules! test_de {
-        ($name:ident, $T:path, $s:literal) => {
-            fn $name() {
-                let _var: $T = ::serde_json::from_str(&$s).expect("failed to parse json");
-            }
-        };
-    }
-    use crate::{module_decl::ModuleDecl, stmt::Stmt};
-    use swc_atoms::JsWord;
-    use swc_common::{ast_node, Span};
 
     pub enum Program {
         Module(Module),
@@ -1273,16 +752,6 @@ mod types {
         ModuleDecl(ModuleDecl),
         Stmt(Stmt),
     }
-    use crate::{
-        decl::Decl,
-        expr::{ClassExpr, Expr, FnExpr},
-        ident::Ident,
-        lit::Str,
-        typescript::{
-            TsExportAssignment, TsImportEqualsDecl, TsInterfaceDecl, TsNamespaceExportDecl,
-        },
-    };
-    use swc_common::{ast_node, Span};
 
     pub enum ModuleDecl {
         Import(ImportDecl),
@@ -1403,9 +872,6 @@ mod types {
         pub orig: Ident,
         pub exported: Option<Ident>,
     }
-    use enum_kind::Kind;
-    use string_enum::StringEnum;
-    use swc_common::Fold;
 
     pub enum BinaryOp {
         EqEq,
@@ -1473,8 +939,6 @@ mod types {
         Void,
         Delete,
     }
-    use crate::{expr::Expr, ident::Ident, prop::PropName, typescript::TsTypeAnn, Invalid};
-    use swc_common::{ast_node, Span};
 
     pub enum Pat {
         Ident(Ident),
@@ -1551,16 +1015,6 @@ mod types {
 
         pub value: Option<Box<Expr>>,
     }
-    use crate::{
-        expr::Expr,
-        function::Function,
-        ident::Ident,
-        lit::{Number, Str},
-        pat::Pat,
-        stmt::BlockStmt,
-        typescript::TsTypeAnn,
-    };
-    use swc_common::{ast_node, Span};
 
     pub enum Prop {
         Shorthand(Ident),
@@ -1622,7 +1076,6 @@ mod types {
         ident::Ident,
         pat::Pat,
     };
-    use swc_common::{ast_node, Span};
 
     pub struct BlockStmt {
         pub span: Span,
@@ -1805,21 +1258,6 @@ mod types {
 
         Expr(Box<Expr>),
     }
-    use crate::{
-        class::Decorator,
-        expr::Expr,
-        ident::Ident,
-        lit::{Bool, Number, Str},
-        module::ModuleItem,
-        pat::{ArrayPat, AssignPat, ObjectPat, RestPat},
-    };
-    use serde::{
-        de::{self, Unexpected, Visitor},
-        Deserialize, Deserializer, Serialize,
-    };
-    use std::fmt;
-    use string_enum::StringEnum;
-    use swc_common::{ast_node, Fold, Span};
 
     pub struct TsTypeAnn {
         pub span: Span,

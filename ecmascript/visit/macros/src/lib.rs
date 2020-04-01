@@ -266,8 +266,8 @@ fn make_method(e: Item, type_names: &mut Vec<Ident>) -> TraitItemMethod {
                     let arm = make_arm_from_struct(
                         &q!(
                             Vars {
-                                Enum: e.ident,
-                                Variant: variant.ident
+                                Enum: &e.ident,
+                                Variant: &variant.ident
                             },
                             { Enum::Variant }
                         )
@@ -301,26 +301,6 @@ fn make_method(e: Item, type_names: &mut Vec<Ident>) -> TraitItemMethod {
     }
 }
 
-struct Input {
-    ///
-    /// ```
-    /// Struct{ fields }
-    /// ```
-    ///
-    /// ```
-    /// Enum([Variant1, StructLike { fields }])
-    /// ```
-    args: Punctuated<Expr, Token![,]>,
-}
-
-impl Parse for Input {
-    fn parse(input: ParseStream) -> Result<Self, syn::Error> {
-        Ok(Self {
-            args: Punctuated::parse_separated_nonempty(input)?,
-        })
-    }
-}
-
 fn method_sig(type_name: &Ident) -> Signature {
     Signature {
         constness: None,
@@ -346,6 +326,29 @@ fn method_sig(type_name: &Ident) -> Signature {
     }
 }
 
-fn method_name(v: &Type) -> String {
-    format!("visit_{}", v.to_snake_case())
+fn method_name(v: &Type) -> Ident {
+    fn handle(v: &str) -> String {
+        format!("visit_{}", v.to_snake_case())
+    }
+
+    match v {
+        Type::Array(_) => unimplemented!("type: array type"),
+        Type::BareFn(_) => unimplemented!("type: fn type"),
+        Type::Group(_) => unimplemented!("type: group type"),
+        Type::ImplTrait(_) => unimplemented!("type: impl trait"),
+        Type::Infer(_) => unreachable!("infer type"),
+        Type::Macro(_) => unimplemented!("type: macro"),
+        Type::Never(_) => unreachable!("never type"),
+        Type::Paren(ty) => return method_name(&ty.elem),
+        Type::Path(p) => p.path.segments.last().unwrap().ident.new_ident_with(handle),
+        Type::Ptr(_) => unimplemented!("type: pointer"),
+        Type::Reference(ty) => {
+            return method_name(&ty.elem);
+        }
+        Type::Slice(_) => unimplemented!("type: slice"),
+        Type::TraitObject(_) => unimplemented!("type: trait object"),
+        Type::Tuple(_) => unimplemented!("type: trait tuple"),
+        Type::Verbatim(_) => unimplemented!("type: verbatim"),
+        _ => unimplemented!("Unknown type: {:?}", v),
+    }
 }
