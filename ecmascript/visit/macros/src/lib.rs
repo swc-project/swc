@@ -123,144 +123,146 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
     tokens.into()
 }
 
-fn handle_struct_expr(e: &ExprStruct) -> Block {
-    // We use auto(de)ref specialization
+fn make_arm(e: Option<&Expr>, variant: &Expr) -> Arm {
+    match variant {
+        Expr::Struct(s) => make_arm_from_struct(e, s),
+        Expr::Call(c) => make_arm_from_call(e, c),
+        _ => unimplemented!("make_arg for {:?}", variant),
+    }
+}
 
-    let mut body = vec![];
+fn make_arm_from_struct(e: Option<&Expr>, variant: &ExprStruct) -> Arm {
+    let mut stmts = vec![];
+    let mut fields: Punctuated<FieldValue, Token![,]> = Default::default();
 
-    for field in &e.fields {
+    for field in &variant.fields {
+        let ty = match &field.expr {
+            Expr::Path(ty) => ty.path.segments.last().unwrap().ident.clone(),
+            _ => unimplemented!("proper error reporting for non-path expressions is tuple structs"),
+        };
+        let visit_name = ty.new_ident_with(method_name);
+
         match &field.member {
             Member::Named(ref f) => {
-                body.push(
-                    q!(Vars { field: f }, {
-                        __visit!(self, n.field);
-                    })
-                    .parse(),
-                );
+                let stmt = q!(
+                    Vars {
+                        field: f,
+                        visit_name
+                    },
+                    {
+                        self.visit_name(field, n as _);
+                    }
+                )
+                .parse();
+                stmts.push(stmt);
+
+                fields.push(FieldValue {
+                    expr: q!(Vars { f }, { f }).parse(),
+                    ..field.clone()
+                });
             }
 
             Member::Unnamed(_) => unimplemented!("unnamed member?"),
         }
     }
 
-    Block {
+    let block = Block {
         brace_token: def_site(),
-        stmts: body,
+        stmts,
+    };
+
+    Arm {
+        attrs: vec![],
+        pat: match e {
+            Some(e) => q!(
+                Vars {
+                    Enum: e,
+                    Variant: &variant.path,
+                    fields
+                },
+                { Enum::Variant { fields } }
+            )
+            .parse(),
+            None => q!(
+                Vars {
+                    Variant: &variant.path,
+                    fields
+                },
+                { Variant { fields } }
+            )
+            .parse(),
+        },
+        guard: None,
+        fat_arrow_token: def_site(),
+        body: Box::new(Expr::Block(ExprBlock {
+            attrs: vec![],
+            label: None,
+            block,
+        })),
+        comma: None,
     }
 }
 
-fn make_arm(e: Option<&Expr>, variant: &Expr) -> Arm {
-    fn make_arm_from_struct(e: Option<&Expr>, variant: &ExprStruct) -> Arm {
-        let mut stmts = vec![];
-        let mut fields: Punctuated<FieldValue, Token![,]> = Default::default();
+fn make_arm_from_call(e: Option<&Expr>, variant: &ExprCall) -> Arm {
+    let mut stmts = vec![];
+    let mut bindings: Punctuated<_, Token![,]> = Default::default();
 
-        for field in &variant.fields {
-            match &field.member {
-                Member::Named(ref f) => {
-                    let stmt = q!(Vars { field: f }, {
-                        __visit!(self, field);
-                    })
-                    .parse();
-                    stmts.push(stmt);
-                }
-
-                Member::Unnamed(_) => unimplemented!("unnamed member?"),
+    for (i, ty) in variant.args.iter().enumerate() {
+        let ty = match ty {
+            Expr::Path(ty) => ty.path.segments.last().unwrap().ident.clone(),
+            _ => unimplemented!("proper error reporting for non-path expressions is tuple structs"),
+        };
+        let field_name = Ident::new(&format!("_{}", i), ty.span());
+        let visit_name = ty.new_ident_with(method_name);
+        let stmt = q!(
+            Vars {
+                field_name: &field_name,
+                visit_name,
+            },
+            {
+                self.visit_name(field_name, n as _);
             }
-            fields.push(field.clone());
-        }
+        )
+        .parse();
+        stmts.push(stmt);
 
-        let block = Block {
-            brace_token: def_site(),
-            stmts,
-        };
-
-        Arm {
-            attrs: vec![],
-            pat: match e {
-                Some(e) => q!(
-                    Vars {
-                        Enum: e,
-                        Variant: &variant.path,
-                        fields
-                    },
-                    { Enum::Variant { fields } }
-                )
-                .parse(),
-                None => q!(
-                    Vars {
-                        Variant: &variant.path,
-                        fields
-                    },
-                    { Variant { fields } }
-                )
-                .parse(),
-            },
-            guard: None,
-            fat_arrow_token: def_site(),
-            body: Box::new(Expr::Block(ExprBlock {
-                attrs: vec![],
-                label: None,
-                block,
-            })),
-            comma: None,
-        }
+        bindings.push(field_name.clone());
     }
 
-    fn make_arm_from_call(e: Option<&Expr>, variant: &ExprCall) -> Arm {
-        let mut stmts = vec![];
-        let mut fields: Punctuated<Expr, Token![,]> = Default::default();
+    let block = Block {
+        brace_token: def_site(),
+        stmts,
+    };
 
-        for field in &variant.args {
-            let stmt = q!(Vars { field }, {
-                __visit!(self, field);
-            })
-            .parse();
-            stmts.push(stmt);
-
-            fields.push(field.clone());
-        }
-
-        let block = Block {
-            brace_token: def_site(),
-            stmts,
-        };
-
-        Arm {
+    Arm {
+        attrs: vec![],
+        pat: match e {
+            Some(e) => q!(
+                Vars {
+                    Enum: e,
+                    Variant: &variant.func,
+                    bindings,
+                },
+                { Enum::Variant(bindings) }
+            )
+            .parse(),
+            None => q!(
+                Vars {
+                    Variant: &variant.func,
+                    bindings,
+                },
+                { Variant(bindings) }
+            )
+            .parse(),
+        },
+        guard: None,
+        fat_arrow_token: def_site(),
+        body: Box::new(Expr::Block(ExprBlock {
             attrs: vec![],
-            pat: match e {
-                Some(e) => q!(
-                    Vars {
-                        Enum: e,
-                        Variant: &variant.func,
-                        fields,
-                    },
-                    { Enum::Variant(fields) }
-                )
-                .parse(),
-                None => q!(
-                    Vars {
-                        Variant: &variant.func,
-                        fields,
-                    },
-                    { Variant(fields) }
-                )
-                .parse(),
-            },
-            guard: None,
-            fat_arrow_token: def_site(),
-            body: Box::new(Expr::Block(ExprBlock {
-                attrs: vec![],
-                label: None,
-                block,
-            })),
-            comma: None,
-        }
-    }
-
-    match variant {
-        Expr::Struct(s) => make_arm_from_struct(e, s),
-        Expr::Call(c) => make_arm_from_call(e, c),
-        _ => unimplemented!("make_arg for {:?}", variant),
+            label: None,
+            block,
+        })),
+        comma: None,
     }
 }
 
@@ -270,7 +272,17 @@ fn make_method(e: &Expr, type_names: &mut Vec<Ident>) -> TraitItemMethod {
             let type_name = s.path.get_ident().as_ref().unwrap().clone();
             type_names.push(type_name.clone());
 
-            let block = handle_struct_expr(s);
+            let block = {
+                let arm = make_arm_from_struct(None, &s);
+
+                let mut match_expr: ExprMatch = q!((match n {})).parse();
+                match_expr.arms.push(arm);
+
+                Block {
+                    brace_token: def_site(),
+                    stmts: vec![q!(Vars { match_expr }, { match_expr }).parse()],
+                }
+            };
 
             TraitItemMethod {
                 attrs: vec![],
@@ -363,7 +375,7 @@ fn method_sig(type_name: &Ident) -> Signature {
         unsafety: None,
         abi: None,
         fn_token: def_site(),
-        ident: type_name.new_ident_with(|v| format!("visit_{}", v.to_snake_case())),
+        ident: type_name.new_ident_with(method_name),
         generics: Default::default(),
         paren_token: def_site(),
         inputs: {
@@ -371,10 +383,16 @@ fn method_sig(type_name: &Ident) -> Signature {
             p.push_value(q!(Vars {}, { &self }).parse());
             p.push_punct(def_site());
             p.push_value(q!(Vars { Type: type_name }, { n: &Type }).parse());
+            p.push_punct(def_site());
+            p.push_value(q!(Vars {}, { _parent: &dyn Node }).parse());
 
             p
         },
         variadic: None,
         output: ReturnType::Default,
     }
+}
+
+fn method_name(v: &str) -> String {
+    format!("visit_{}", v.to_snake_case())
 }

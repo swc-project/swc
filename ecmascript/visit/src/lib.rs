@@ -5,11 +5,7 @@ use swc_ecma_visit_macros::define;
 /// Visitable nodes.
 pub trait Node: Any {}
 
-impl<T> Node for T where T: Any {}
-
-pub trait Visit<T> {
-    fn visit(&mut self, node: &dyn Node, parent: &dyn Node);
-}
+impl<T: ?Sized> Node for T where T: Any {}
 
 struct S {
     field: String,
