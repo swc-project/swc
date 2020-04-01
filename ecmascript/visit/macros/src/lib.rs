@@ -152,26 +152,26 @@ fn make_arm_from_struct(path: &Path, variant: &Fields) -> Arm {
 
     for (i, field) in variant.iter().enumerate() {
         let ty = &field.ty;
-        if skip(ty) {
-            continue;
-        }
+
         let visit_name = method_name(&ty);
         let binding_ident = field
             .ident
             .clone()
             .unwrap_or_else(|| Ident::new(&format!("_{}", i), call_site()));
 
-        let stmt = q!(
-            Vars {
-                binding_ident: &binding_ident,
-                visit_name
-            },
-            {
-                self.visit_name(binding_ident, n as _);
-            }
-        )
-        .parse();
-        stmts.push(stmt);
+        if !skip(ty) {
+            let stmt = q!(
+                Vars {
+                    binding_ident: &binding_ident,
+                    visit_name
+                },
+                {
+                    self.visit_name(binding_ident, n as _);
+                }
+            )
+            .parse();
+            stmts.push(stmt);
+        }
 
         if field.ident.is_some() {
             fields.push(
