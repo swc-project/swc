@@ -6,7 +6,7 @@ use syn::{
     parse_quote::parse, punctuated::Punctuated, spanned::Spanned, Arm, Block, Expr, ExprBlock,
     ExprMatch, FieldValue, Fields, GenericArgument, Index, Item, ItemTrait, Member, Path,
     PathArguments, ReturnType, Signature, Stmt, Token, TraitItem, TraitItemMethod, Type, TypePath,
-    VisPublic, Visibility,
+    TypeReference, VisPublic, Visibility,
 };
 
 /// This creates `Visit`. This is extensible visitor generator, and it
@@ -167,15 +167,36 @@ fn make_arm_from_struct(path: &Path, variant: &Fields) -> Arm {
             .unwrap_or_else(|| Ident::new(&format!("_{}", i), call_site()));
 
         if !skip(ty) {
-            let stmt = q!(
+            let mut expr: Expr = q!(
                 Vars {
-                    binding_ident: &binding_ident,
-                    visit_name
+                    binding_ident: &binding_ident
                 },
-                {
-                    self.visit_name(&*binding_ident, n as _);
-                }
+                { &*binding_ident }
             )
+            .parse();
+            if is_option(&ty) {
+                expr = if is_opt_vec(ty) {
+                    q!(
+                        Vars {
+                            binding_ident: &binding_ident
+                        },
+                        { &binding_ident.as_ref().map(|v| &**v) }
+                    )
+                    .parse()
+                } else {
+                    q!(
+                        Vars {
+                            binding_ident: &binding_ident
+                        },
+                        { binding_ident.as_ref() }
+                    )
+                    .parse()
+                };
+            }
+
+            let stmt = q!(Vars { expr, visit_name }, {
+                self.visit_name(expr, n as _);
+            })
             .parse();
             stmts.push(stmt);
         }
@@ -356,7 +377,7 @@ fn method_name(v: &Type) -> Ident {
 }
 
 fn create_method_sig(ty: &Type) -> Signature {
-    fn mk(ident: Ident, ty: &Type) -> Signature {
+    fn mk_exact(ident: Ident, ty: &Type) -> Signature {
         Signature {
             constness: None,
             asyncness: None,
@@ -370,7 +391,7 @@ fn create_method_sig(ty: &Type) -> Signature {
                 let mut p = Punctuated::default();
                 p.push_value(q!(Vars {}, { &self }).parse());
                 p.push_punct(def_site());
-                p.push_value(q!(Vars { Type: ty }, { n: &Type }).parse());
+                p.push_value(q!(Vars { Type: ty }, { n: Type }).parse());
                 p.push_punct(def_site());
                 p.push_value(q!(Vars {}, { _parent: &dyn Node }).parse());
 
@@ -379,6 +400,18 @@ fn create_method_sig(ty: &Type) -> Signature {
             variadic: None,
             output: ReturnType::Default,
         }
+    }
+
+    fn mk(ident: Ident, ty: &Type) -> Signature {
+        mk_exact(
+            ident,
+            &Type::Reference(TypeReference {
+                and_token: def_site(),
+                lifetime: None,
+                mutability: None,
+                elem: Box::new(ty.clone()),
+            }),
+        )
     }
 
     match ty {
@@ -422,7 +455,17 @@ fn create_method_sig(ty: &Type) -> Signature {
                                     let ident = method_name(arg)
                                         .new_ident_with(|v| v.replace("visit_", "visit_opt_"));
 
-                                    return mk(ident, ty);
+                                    if let Some(item) = extract_vec(arg) {
+                                        return mk_exact(
+                                            ident,
+                                            &q!(Vars { item}, { Option<&[item]> }).parse(),
+                                        );
+                                    }
+
+                                    return mk_exact(
+                                        ident,
+                                        &q!(Vars { arg }, { Option<&arg> }).parse(),
+                                    );
                                 }
                                 _ => unimplemented!("generic parameter other than type"),
                             }
@@ -441,6 +484,7 @@ fn create_method_sig(ty: &Type) -> Signature {
                                     let orig_name = method_name(arg);
                                     let mut ident = orig_name.new_ident_with(|v| v.to_plural());
 
+                                    // Rename if name conflicts
                                     if orig_name == ident.to_string() {
                                         ident = ident.new_ident_with(|v| format!("{}_vec", v));
                                     }
@@ -535,11 +579,22 @@ fn create_method_body(ty: &Type) -> Block {
                                 GenericArgument::Type(arg) => {
                                     let ident = method_name(arg);
 
-                                    return q!(
-                                        Vars { ident },
-                                        ({ n.iter().for_each(|v| { self.ident(v, _parent) }) })
-                                    )
-                                    .parse();
+                                    return if is_option(arg) {
+                                        q!(
+                                            Vars { ident },
+                                            ({
+                                                n.iter()
+                                                    .for_each(|v| self.ident(v.as_ref(), _parent))
+                                            })
+                                        )
+                                        .parse()
+                                    } else {
+                                        q!(
+                                            Vars { ident },
+                                            ({ n.iter().for_each(|v| { self.ident(v, _parent) }) })
+                                        )
+                                        .parse()
+                                    };
                                 }
                                 _ => unimplemented!("generic parameter other than type"),
                             }
@@ -587,6 +642,76 @@ fn add_required(types: &mut Vec<Type>, ty: &Type) {
         }
         _ => {}
     }
+}
+
+fn is_option(ty: &Type) -> bool {
+    match ty {
+        Type::Path(p) => {
+            let last = p.path.segments.last().unwrap();
+
+            if !last.arguments.is_empty() {
+                if last.ident == "Option" {
+                    return true;
+                }
+            }
+        }
+        _ => {}
+    }
+
+    false
+}
+
+fn extract_vec(ty: &Type) -> Option<&Type> {
+    match ty {
+        Type::Path(p) => {
+            let last = p.path.segments.last().unwrap();
+
+            if last.ident == "Vec" {
+                match &last.arguments {
+                    PathArguments::AngleBracketed(tps) => {
+                        let arg = tps.args.first().unwrap();
+
+                        match arg {
+                            GenericArgument::Type(arg) => return Some(arg),
+                            _ => {}
+                        }
+                    }
+                    _ => {}
+                }
+            }
+        }
+        _ => {}
+    }
+
+    None
+}
+
+fn is_opt_vec(ty: &Type) -> bool {
+    match ty {
+        Type::Path(p) => {
+            let last = p.path.segments.last().unwrap();
+
+            if !last.arguments.is_empty() {
+                if last.ident == "Option" {
+                    match &last.arguments {
+                        PathArguments::AngleBracketed(tps) => {
+                            let arg = tps.args.first().unwrap();
+
+                            match arg {
+                                GenericArgument::Type(arg) => return extract_vec(arg).is_some(),
+                                _ => {}
+                            }
+                        }
+                        _ => {}
+                    }
+                }
+            }
+        }
+
+        _ => {}
+    }
+
+    false
 }
 
 fn skip(ty: &Type) -> bool {
