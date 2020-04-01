@@ -260,6 +260,31 @@ fn make_arm_from_struct(path: &Path, variant: &Fields) -> Arm {
 // }
 
 fn make_method(e: Item, type_names: &mut Vec<Ident>) -> TraitItemMethod {
+    fn method_sig(type_name: &Ident) -> Signature {
+        Signature {
+            constness: None,
+            asyncness: None,
+            unsafety: None,
+            abi: None,
+            fn_token: def_site(),
+            ident: type_name.clone().new_ident_with(prefix_method_name),
+            generics: Default::default(),
+            paren_token: def_site(),
+            inputs: {
+                let mut p = Punctuated::default();
+                p.push_value(q!(Vars {}, { &self }).parse());
+                p.push_punct(def_site());
+                p.push_value(q!(Vars { Type: type_name }, { n: &Type }).parse());
+                p.push_punct(def_site());
+                p.push_value(q!(Vars {}, { _parent: &dyn Node }).parse());
+
+                p
+            },
+            variadic: None,
+            output: ReturnType::Default,
+        }
+    }
+
     match e {
         Item::Struct(s) => {
             let type_name = &s.ident;
@@ -329,31 +354,6 @@ fn make_method(e: Item, type_names: &mut Vec<Ident>) -> TraitItemMethod {
         }
 
         _ => unimplemented!("proper error reporting for item other than struct / enum"),
-    }
-}
-
-fn method_sig(type_name: &Ident) -> Signature {
-    Signature {
-        constness: None,
-        asyncness: None,
-        unsafety: None,
-        abi: None,
-        fn_token: def_site(),
-        ident: type_name.clone().new_ident_with(prefix_method_name),
-        generics: Default::default(),
-        paren_token: def_site(),
-        inputs: {
-            let mut p = Punctuated::default();
-            p.push_value(q!(Vars {}, { &self }).parse());
-            p.push_punct(def_site());
-            p.push_value(q!(Vars { Type: type_name }, { n: &Type }).parse());
-            p.push_punct(def_site());
-            p.push_value(q!(Vars {}, { _parent: &dyn Node }).parse());
-
-            p
-        },
-        variadic: None,
-        output: ReturnType::Default,
     }
 }
 
