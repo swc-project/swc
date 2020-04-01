@@ -35,12 +35,75 @@ define!({
         PrivateProp(PrivateProp),
         TsIndexSignature(TsIndexSignature),
     }
+
+    pub struct ClassProp {
+        pub span: Span,
+        pub key: Box<Expr>,
+        pub value: Option<Box<Expr>>,
+        pub type_ann: Option<TsTypeAnn>,
+        pub is_static: bool,
+        pub decorators: Vec<Decorator>,
+        pub computed: bool,
+        pub accessibility: Option<Accessibility>,
+        pub is_abstract: bool,
+        pub is_optional: bool,
+        pub readonly: bool,
+        pub definite: bool,
+    }
+    pub struct PrivateProp {
+        pub span: Span,
+        pub key: PrivateName,
+        pub value: Option<Box<Expr>>,
+        pub type_ann: Option<TsTypeAnn>,
+        pub is_static: bool,
+        pub decorators: Vec<Decorator>,
+        pub computed: bool,
+        pub accessibility: Option<Accessibility>,
+        pub is_abstract: bool,
+        pub is_optional: bool,
+        pub readonly: bool,
+        pub definite: bool,
+    }
+    pub struct ClassMethod {
+        pub span: Span,
+        pub key: PropName,
+        pub function: Function,
+        pub kind: MethodKind,
+        pub is_static: bool,
+        pub accessibility: Option<Accessibility>,
+        pub is_abstract: bool,
+        pub is_optional: bool,
+    }
+    pub struct PrivateMethod {
+        pub span: Span,
+        pub key: PrivateName,
+        pub function: Function,
+        pub kind: MethodKind,
+        pub is_static: bool,
+        pub accessibility: Option<Accessibility>,
+        pub is_abstract: bool,
+        pub is_optional: bool,
+    }
+    pub struct Constructor {
+        pub span: Span,
+        pub key: PropName,
+        pub params: Vec<PatOrTsParamProp>,
+        pub body: Option<BlockStmt>,
+        pub accessibility: Option<Accessibility>,
+        pub is_optional: bool,
+    }
+    pub struct Decorator {
+        pub span: Span,
+        pub expr: Box<Expr>,
+    }
+    pub enum MethodKind {
+        Method,
+        Getter,
+        Setter,
+    }
 });
 
 // mod types {
-//
-//
-
 //
 //     macro_rules! property {
 //         ($name:ident, $ty:literal, $KEY:ty) => {
@@ -1394,30 +1457,6 @@ define!({
 //         TsConstructorType(TsConstructorType),
 //     }
 //
-//     impl From<TsFnType> for TsType {
-//         fn from(t: TsFnType) -> Self {
-//             TsFnOrConstructorType::TsFnType(t).into()
-//         }
-//     }
-//
-//     impl From<TsConstructorType> for TsType {
-//         fn from(t: TsConstructorType) -> Self {
-//             TsFnOrConstructorType::TsConstructorType(t).into()
-//         }
-//     }
-//
-//     impl From<TsUnionType> for TsType {
-//         fn from(t: TsUnionType) -> Self {
-//             TsUnionOrIntersectionType::TsUnionType(t).into()
-//         }
-//     }
-//
-//     impl From<TsIntersectionType> for TsType {
-//         fn from(t: TsIntersectionType) -> Self {
-//             TsUnionOrIntersectionType::TsIntersectionType(t).into()
-//         }
-//     }
-//
 //     pub struct TsKeywordType {
 //         pub span: Span,
 //         pub kind: TsKeywordTypeKind,
@@ -1596,60 +1635,6 @@ define!({
 //         True,
 //         Plus,
 //         Minus,
-//     }
-//
-//     impl Serialize for TruePlusMinus {
-//         fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-//         where
-//             S: ::serde::Serializer,
-//         {
-//             match *self {
-//                 TruePlusMinus::True => serializer.serialize_bool(true),
-//                 TruePlusMinus::Plus => serializer.serialize_str("+"),
-//                 TruePlusMinus::Minus => serializer.serialize_str("-"),
-//             }
-//         }
-//     }
-//
-//     impl<'de> Deserialize<'de> for TruePlusMinus {
-//         fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-//         where
-//             D: Deserializer<'de>,
-//         {
-//             struct TruePlusMinusVisitor;
-//
-//             impl<'de> Visitor<'de> for TruePlusMinusVisitor {
-//                 type Value = TruePlusMinus;
-//                 fn expecting(&self, formatter: &mut fmt::Formatter<'_>) ->
-// fmt::Result {                     formatter.write_str("one of '+', '-',
-// true")                 }
-//
-//                 fn visit_str<E>(self, value: &str) -> Result<Self::Value, E>
-//                 where
-//                     E: de::Error,
-//                 {
-//                     match value {
-//                         "+" => Ok(TruePlusMinus::Plus),
-//                         "-" => Ok(TruePlusMinus::Minus),
-//                         "true" => Ok(TruePlusMinus::True),
-//                         _ =>
-// Err(de::Error::invalid_value(Unexpected::Str(value), &self)),
-// }                 }
-//
-//                 fn visit_bool<E>(self, value: bool) -> Result<Self::Value, E>
-//                 where
-//                     E: de::Error,
-//                 {
-//                     if value {
-//                         Ok(TruePlusMinus::True)
-//                     } else {
-//                         Err(de::Error::invalid_value(Unexpected::Bool(value),
-// &self))                     }
-//                 }
-//             }
-//
-//             deserializer.deserialize_any(TruePlusMinusVisitor)
-//         }
 //     }
 //
 //     pub struct TsMappedType {

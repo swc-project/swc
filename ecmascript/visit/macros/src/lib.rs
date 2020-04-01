@@ -339,7 +339,7 @@ fn method_sig(type_name: &Ident) -> Signature {
         unsafety: None,
         abi: None,
         fn_token: def_site(),
-        ident: type_name.clone(),
+        ident: type_name.clone().new_ident_with(prefix_method_name),
         generics: Default::default(),
         paren_token: def_site(),
         inputs: {
@@ -357,11 +357,11 @@ fn method_sig(type_name: &Ident) -> Signature {
     }
 }
 
-fn method_name(v: &Type) -> Ident {
-    fn handle(v: &str) -> String {
-        format!("visit_{}", v.to_snake_case())
-    }
+fn prefix_method_name(v: &str) -> String {
+    format!("visit_{}", v.to_snake_case())
+}
 
+fn method_name(v: &Type) -> Ident {
     match v {
         Type::Array(_) => unimplemented!("type: array type"),
         Type::BareFn(_) => unimplemented!("type: fn type"),
@@ -373,7 +373,7 @@ fn method_name(v: &Type) -> Ident {
         Type::Paren(ty) => return method_name(&ty.elem),
         Type::Path(p) => {
             let last = p.path.segments.last().unwrap();
-            let ident = last.ident.new_ident_with(handle);
+            let ident = last.ident.new_ident_with(prefix_method_name);
 
             if last.arguments.is_empty() {
                 return ident;
