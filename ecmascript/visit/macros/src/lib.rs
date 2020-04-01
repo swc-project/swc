@@ -127,6 +127,8 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
         });
     }
 
+    methods.sort_by_cached_key(|v| v.sig.ident.to_string());
+
     tokens.push_tokens(&ItemTrait {
         attrs: vec![],
         vis: Visibility::Public(VisPublic {
@@ -394,7 +396,10 @@ fn create_method_sig(ty: &Type) -> Signature {
                             let arg = tps.args.first().unwrap();
 
                             match arg {
-                                GenericArgument::Type(ty) => return create_method_sig(ty),
+                                GenericArgument::Type(arg) => {
+                                    let ident = method_name(&arg);
+                                    return mk(ident, &q!(Vars { arg }, { arg }).parse());
+                                }
                                 _ => unimplemented!("generic parameter other than type"),
                             }
                         }
