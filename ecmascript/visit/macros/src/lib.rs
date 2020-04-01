@@ -431,7 +431,7 @@ fn create_method_sig(ty: &Type) -> Signature {
                                     let ident =
                                         method_name(arg).new_ident_with(|v| format!("{}s", v));
 
-                                    return mk(ident, ty);
+                                    return mk(ident, &q!(Vars { arg }, { arg }).parse());
                                 }
                                 _ => unimplemented!("generic parameter other than type"),
                             }
@@ -478,6 +478,8 @@ fn skip(ty: &Type) -> bool {
                 || i == "i16"
                 || i == "i8"
                 || i == "isize"
+                || i == "f64"
+                || i == "f32"
             {
                 return true;
             }
