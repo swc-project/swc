@@ -3,10 +3,10 @@ use pmutil::{q, IdentExt};
 use proc_macro2::Ident;
 use swc_macros_common::{call_site, def_site};
 use syn::{
-    parse_quote::parse, punctuated::Punctuated, spanned::Spanned, Arm, Block, Expr, ExprBlock,
-    ExprMatch, FieldValue, Fields, GenericArgument, Index, Item, ItemTrait, Member, Path,
-    PathArguments, ReturnType, Signature, Stmt, Token, TraitItem, TraitItemMethod, Type, TypePath,
-    TypeReference, VisPublic, Visibility,
+    parse_quote::parse, punctuated::Punctuated, spanned::Spanned, Arm, AttrStyle, Attribute, Block,
+    Expr, ExprBlock, ExprMatch, FieldValue, Fields, GenericArgument, Index, Item, ItemTrait,
+    Member, Path, PathArguments, ReturnType, Signature, Stmt, Token, TraitItem, TraitItemMethod,
+    Type, TypePath, TypeReference, VisPublic, Visibility,
 };
 
 /// This creates `Visit`. This is extensible visitor generator, and it
@@ -132,7 +132,15 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
         });
     }
 
-    methods.sort_by_cached_key(|v| v.sig.ident.to_string());
+    methods.iter_mut().for_each(|v| {
+        v.attrs.push(Attribute {
+            pound_token: def_site(),
+            style: AttrStyle::Outer,
+            bracket_token: def_site(),
+            path: q!({ allow }).parse(),
+            tokens: q!({ (unused_variables) }).parse(),
+        });
+    });
 
     tokens.push_tokens(&ItemTrait {
         attrs: vec![],
@@ -180,7 +188,7 @@ fn make_arm_from_struct(path: &Path, variant: &Fields) -> Arm {
                         Vars {
                             binding_ident: &binding_ident
                         },
-                        { &binding_ident.as_ref().map(|v| &**v) }
+                        { binding_ident.as_ref().map(|v| &**v) }
                     )
                     .parse()
                 } else {
@@ -482,7 +490,13 @@ fn create_method_sig(ty: &Type) -> Signature {
                             match arg {
                                 GenericArgument::Type(arg) => {
                                     let orig_name = method_name(arg);
-                                    let mut ident = orig_name.new_ident_with(|v| v.to_plural());
+                                    let mut ident = orig_name.new_ident_with(|v| {
+                                        let v = v.to_plural();
+                                        if is_option(arg) {
+                                            return v.replace("visit_opt_", "visit_opt_vec_");
+                                        }
+                                        return v.to_plural();
+                                    });
 
                                     // Rename if name conflicts
                                     if orig_name == ident.to_string() {
