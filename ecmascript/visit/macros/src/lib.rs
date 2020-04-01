@@ -427,9 +427,14 @@ fn create_method_sig(ty: &Type) -> Signature {
 
                             match arg {
                                 GenericArgument::Type(arg) => {
-                                    let ident = method_name(arg).new_ident_with(|v| v.to_plural());
+                                    let orig_name = method_name(arg);
+                                    let mut ident = orig_name.new_ident_with(|v| v.to_plural());
 
-                                    return mk(ident, &q!(Vars { arg }, { arg }).parse());
+                                    if orig_name == ident.to_string() {
+                                        ident = ident.new_ident_with(|v| format!("{}_vec", v));
+                                    }
+
+                                    return mk(ident, &q!(Vars { arg }, { [arg] }).parse());
                                 }
                                 _ => unimplemented!("generic parameter other than type"),
                             }
