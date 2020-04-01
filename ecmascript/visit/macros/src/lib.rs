@@ -353,7 +353,10 @@ fn make_method(e: Item, type_names: &mut Vec<Ident>) -> TraitItemMethod {
             }
         }
 
-        _ => unimplemented!("proper error reporting for item other than struct / enum"),
+        _ => unimplemented!(
+            "proper error reporting for item other than struct / enum: {:?}",
+            e
+        ),
     }
 }
 
