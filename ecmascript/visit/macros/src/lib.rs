@@ -11,8 +11,6 @@ use syn::{
     Signature, Stmt, Token, TraitItem, TraitItemMacro, TraitItemMethod, VisPublic, Visibility,
 };
 
-mod spez;
-
 /// This creates `Visit`. This is extensible visitor generator, and it
 ///
 ///  - works with stable rustc
@@ -105,43 +103,6 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
         .collect::<Vec<_>>();
 
     let mut tokens = q!({});
-
-    // Create __visit
-    {
-        let mut tts = q!({ for x = &$f; });
-
-        for name in &type_names {
-            tts = tts.quote_with(smart_quote!(Vars { Type: name }, {
-                match Type {
-                    $v.visit(&x),
-                }
-            }));
-        }
-
-        {
-            let tts = tts.into();
-            self::spez::spez_impl(syn::parse_macro_input!(tts));
-        }
-        // tokens.quote_with(smart_quote!(Vars { tts }, {
-        //     //
-        //     // macro_rules! __visit {
-        //     //     ($v:expr, $f:expr) => {{
-        //     //         let x = &$f;
-        //     //         spez! {tts}
-        //     //     }};
-        //     // }
-        //     macro_rules! __visit {
-        //         ($v:expr, $f:expr) => {{
-        //             spez! {
-        //                 for x = &$f;
-        //                 match String {
-        //                     $v.visit_string(x);
-        //                 }
-        //             }
-        //         }};
-        //     }
-        // }));
-    };
 
     tokens.push_tokens(&ItemTrait {
         attrs: vec![],
