@@ -114,6 +114,9 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
         types.extend(new);
     }
 
+    methods.dedup_by_key(|v| v.sig.ident.to_string());
+    methods.sort_by_cached_key(|v| v.sig.ident.to_string());
+
     for ty in types {
         let name = method_name(&ty);
         let s = name.to_string();
