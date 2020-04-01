@@ -17,75 +17,10 @@ use syn::{
 ///
 /// If there's a need, I'll publish the macro with generic name.
 ///
-///  - will be extended create `VisitMut` and `Fold` in future
+///  - will be extended to create `VisitMut` and `Fold` in future
 ///
 /// (If there's a request)
 ///
-///
-/// # Basic
-///
-///  - Method name is determined based on type's name.
-///  - All arguments follow the syntax of argument. (This makes rustfmt happy)
-///
-///
-/// # Struct
-///
-/// ```ignore
-/// pub struct Struct {
-///     pub field: String,
-/// }
-///
-/// define!(Struct { field }, String);
-/// ```
-///
-/// generates (code which behaves like)
-///
-/// ```
-/// pub trait Visit {
-///     fn visit_struct(&mut self, n: &Struct) {
-///         self.visit_string(&n.field)
-///     }
-///
-///     fn visit_string(&mut self, n: &String) {}
-/// }
-/// ```
-///
-///
-///
-/// # Enum
-///
-/// ```ignore
-/// pub enum Enum {
-///     StructLike { field: String },
-///     TupleLike(String, u64),
-///     UnitLike,
-/// }
-///
-/// define!(
-///     Value(StructLike { field }, TupleLike(a, b), UnitLike),
-///     String,
-///     u64
-/// );
-/// ```
-///
-/// generates (code which behaves like)
-///
-/// ```
-/// pub trait Visit {
-///     fn visit_enum(&mut self, n: &Enum) {
-///         match n {
-///             Enum::StructLike { field } => self.visit_string(field),
-///             Enum::TupleLike(_0, _1) => {
-///                 self.visit_string(_0);
-///                 self.visit_u64(_1);
-///             }
-///             Enum::UnitLike => {}
-///         }
-///     }
-///     fn visit_string(&mut self, n: &String) {}
-///     fn visit_u64(&mut self, n: &u64) {}
-/// }
-/// ```
 #[proc_macro]
 pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let block: Block = parse(tts.into());
