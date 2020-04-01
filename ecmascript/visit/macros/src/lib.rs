@@ -20,7 +20,6 @@ use syn::{
 ///  - will be extended to create `VisitMut` and `Fold` in future
 ///
 /// (If there's a request)
-///
 #[proc_macro]
 pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let block: Block = parse(tts.into());
