@@ -1,5 +1,7 @@
+use num_bigint::BigInt as BigIntValue;
 use std::any::Any;
-use swc_common::AstNode;
+use swc_atoms::JsWord;
+use swc_common::Span;
 use swc_ecma_ast::*;
 use swc_ecma_visit_macros::define;
 

@@ -1,9 +1,9 @@
 use inflector::Inflector;
-use pmutil::{q, smart_quote, IdentExt, ToTokensExt};
+use pmutil::{q, IdentExt};
 use proc_macro2::Ident;
 use swc_macros_common::{call_site, def_site};
 use syn::{
-    parse::{Parse, ParseBuffer, ParseStream},
+    parse::{ParseBuffer, ParseStream},
     parse_quote::parse,
     punctuated::Punctuated,
     spanned::Spanned,
@@ -11,7 +11,8 @@ use syn::{
     Arm, Block, Error, Expr, ExprBlock, ExprCall, ExprMatch, ExprStruct, FieldPat, FieldValue,
     Fields, GenericArgument, ImplItem, ImplItemMethod, Index, Item, ItemEnum, ItemImpl, ItemMod,
     ItemStruct, ItemTrait, Member, Pat, PatStruct, Path, PathArguments, ReturnType, Signature,
-    Stmt, Token, TraitItem, TraitItemMacro, TraitItemMethod, Type, Variant, VisPublic, Visibility,
+    Stmt, Token, TraitItem, TraitItemMacro, TraitItemMethod, Type, TypePath, Variant, VisPublic,
+    Visibility,
 };
 
 /// This creates `Visit`. This is extensible visitor generator, and it
@@ -96,7 +97,7 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let block: Block = parse(tts.into());
 
     // Required to generate specialization code.
-    let mut type_names = vec![];
+    let mut types = vec![];
     let mut methods = vec![];
 
     for stmts in block.stmts {
@@ -105,11 +106,26 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
             _ => unimplemented!("error reporting for something other than Item"),
         };
 
-        let mtd = make_method(item, &mut type_names);
-        methods.push(TraitItem::Method(mtd));
+        let mtd = make_method(item, &mut types);
+        methods.push(mtd);
     }
 
     let mut tokens = q!({});
+
+    for ty in types {
+        let name = method_name(&ty);
+        let s = name.to_string();
+        if methods.iter().any(|m| m.sig.ident == &*s) {
+            continue;
+        }
+
+        methods.push(TraitItemMethod {
+            attrs: vec![],
+            sig: create_method_sig(&ty),
+            default: None,
+            semi_token: None,
+        });
+    }
 
     tokens.push_tokens(&ItemTrait {
         attrs: vec![],
@@ -124,7 +140,7 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
         colon_token: None,
         supertraits: Default::default(),
         brace_token: def_site(),
-        items: methods,
+        items: methods.into_iter().map(TraitItem::Method).collect(),
     });
 
     tokens.into()
@@ -136,6 +152,9 @@ fn make_arm_from_struct(path: &Path, variant: &Fields) -> Arm {
 
     for (i, field) in variant.iter().enumerate() {
         let ty = &field.ty;
+        if skip(ty) {
+            continue;
+        }
         let visit_name = method_name(&ty);
         let binding_ident = field
             .ident
@@ -196,99 +215,49 @@ fn make_arm_from_struct(path: &Path, variant: &Fields) -> Arm {
     }
 }
 
-// fn make_arm_from_call(e: Option<&ItemEnum>, variant: &ExprCall) -> Arm {
-//     let mut stmts = vec![];
-//     let mut bindings: Punctuated<_, Token![,]> = Default::default();
-//
-//     for (i, ty) in variant.args.iter().enumerate() {
-//         let ty = match ty {
-//             Expr::Path(ty) => ty.path.segments.last().unwrap().ident.clone(),
-//             _ => unimplemented!("proper error reporting for non-path
-// expressions is tuple structs"),         };
-//         let field_name = Ident::new(&format!("_{}", i), ty.span());
-//         let visit_name = ty.new_ident_with(method_name);
-//         let stmt = q!(
-//             Vars {
-//                 field_name: &field_name,
-//                 visit_name,
-//             },
-//             {
-//                 self.visit_name(field_name, n as _);
-//             }
-//         )
-//         .parse();
-//         stmts.push(stmt);
-//
-//         bindings.push(field_name.clone());
-//     }
-//
-//     let block = Block {
-//         brace_token: def_site(),
-//         stmts,
-//     };
-//
-//     Arm {
-//         attrs: vec![],
-//         pat: match e {
-//             Some(e) => q!(
-//                 Vars {
-//                     Enum: e,
-//                     Variant: &variant.func,
-//                     bindings,
-//                 },
-//                 { Enum::Variant(bindings) }
-//             )
-//             .parse(),
-//             None => q!(
-//                 Vars {
-//                     Variant: &variant.func,
-//                     bindings,
-//                 },
-//                 { Variant(bindings) }
-//             )
-//             .parse(),
-//         },
-//         guard: None,
-//         fat_arrow_token: def_site(),
-//         body: Box::new(Expr::Block(ExprBlock {
-//             attrs: vec![],
-//             label: None,
-//             block,
-//         })),
-//         comma: None,
-//     }
-// }
+fn method_sig(ty: &Type) -> Signature {
+    Signature {
+        constness: None,
+        asyncness: None,
+        unsafety: None,
+        abi: None,
+        fn_token: def_site(),
+        ident: method_name(ty),
+        generics: Default::default(),
+        paren_token: def_site(),
+        inputs: {
+            let mut p = Punctuated::default();
+            p.push_value(q!(Vars {}, { &self }).parse());
+            p.push_punct(def_site());
+            p.push_value(q!(Vars { Type: ty }, { n: &Type }).parse());
+            p.push_punct(def_site());
+            p.push_value(q!(Vars {}, { _parent: &dyn Node }).parse());
 
-fn make_method(e: Item, type_names: &mut Vec<Ident>) -> TraitItemMethod {
-    fn method_sig(type_name: &Ident) -> Signature {
-        Signature {
-            constness: None,
-            asyncness: None,
-            unsafety: None,
-            abi: None,
-            fn_token: def_site(),
-            ident: type_name.clone().new_ident_with(prefix_method_name),
-            generics: Default::default(),
-            paren_token: def_site(),
-            inputs: {
-                let mut p = Punctuated::default();
-                p.push_value(q!(Vars {}, { &self }).parse());
-                p.push_punct(def_site());
-                p.push_value(q!(Vars { Type: type_name }, { n: &Type }).parse());
-                p.push_punct(def_site());
-                p.push_value(q!(Vars {}, { _parent: &dyn Node }).parse());
-
-                p
-            },
-            variadic: None,
-            output: ReturnType::Default,
-        }
+            p
+        },
+        variadic: None,
+        output: ReturnType::Default,
     }
+}
 
+fn method_sig_from_ident(v: &Ident) -> Signature {
+    method_sig(&Type::Path(TypePath {
+        qself: None,
+        path: v.clone().into(),
+    }))
+}
+
+fn make_method(e: Item, types: &mut Vec<Type>) -> TraitItemMethod {
     match e {
         Item::Struct(s) => {
             let type_name = &s.ident;
-            type_names.push(type_name.clone());
+            types.push(Type::Path(TypePath {
+                qself: None,
+                path: type_name.clone().into(),
+            }));
+            for f in &s.fields {
+                types.push(f.ty.clone());
+            }
 
             let block = {
                 let arm = make_arm_from_struct(&s.ident.clone().into(), &s.fields);
@@ -304,7 +273,7 @@ fn make_method(e: Item, type_names: &mut Vec<Ident>) -> TraitItemMethod {
 
             TraitItemMethod {
                 attrs: vec![],
-                sig: method_sig(type_name),
+                sig: method_sig_from_ident(type_name),
                 default: Some(block),
                 semi_token: None,
             }
@@ -312,13 +281,24 @@ fn make_method(e: Item, type_names: &mut Vec<Ident>) -> TraitItemMethod {
         Item::Enum(e) => {
             //
             let type_name = &e.ident;
-            type_names.push(e.ident.clone());
+            types.push(
+                TypePath {
+                    qself: None,
+                    path: e.ident.clone().into(),
+                }
+                .into(),
+            );
+
             //
 
             let block = {
                 let mut arms = vec![];
 
                 for variant in &e.variants {
+                    for f in &variant.fields {
+                        types.push(f.ty.clone());
+                    }
+
                     let arm = make_arm_from_struct(
                         &q!(
                             Vars {
@@ -347,7 +327,7 @@ fn make_method(e: Item, type_names: &mut Vec<Ident>) -> TraitItemMethod {
 
             TraitItemMethod {
                 attrs: vec![],
-                sig: method_sig(type_name),
+                sig: method_sig_from_ident(type_name),
                 default: Some(block),
                 semi_token: None,
             }
@@ -365,7 +345,36 @@ fn prefix_method_name(v: &str) -> String {
 }
 
 fn method_name(v: &Type) -> Ident {
-    match v {
+    create_method_sig(v).ident
+}
+
+fn create_method_sig(ty: &Type) -> Signature {
+    fn mk(ident: Ident, ty: &Type) -> Signature {
+        Signature {
+            constness: None,
+            asyncness: None,
+            unsafety: None,
+            abi: None,
+            fn_token: def_site(),
+            ident,
+            generics: Default::default(),
+            paren_token: def_site(),
+            inputs: {
+                let mut p = Punctuated::default();
+                p.push_value(q!(Vars {}, { &self }).parse());
+                p.push_punct(def_site());
+                p.push_value(q!(Vars { Type: ty }, { n: &Type }).parse());
+                p.push_punct(def_site());
+                p.push_value(q!(Vars {}, { _parent: &dyn Node }).parse());
+
+                p
+            },
+            variadic: None,
+            output: ReturnType::Default,
+        }
+    }
+
+    match ty {
         Type::Array(_) => unimplemented!("type: array type"),
         Type::BareFn(_) => unimplemented!("type: fn type"),
         Type::Group(_) => unimplemented!("type: group type"),
@@ -373,73 +382,108 @@ fn method_name(v: &Type) -> Ident {
         Type::Infer(_) => unreachable!("infer type"),
         Type::Macro(_) => unimplemented!("type: macro"),
         Type::Never(_) => unreachable!("never type"),
-        Type::Paren(ty) => return method_name(&ty.elem),
+        Type::Paren(ty) => return create_method_sig(&ty.elem),
         Type::Path(p) => {
             let last = p.path.segments.last().unwrap();
             let ident = last.ident.new_ident_with(prefix_method_name);
 
-            if last.arguments.is_empty() {
-                return ident;
-            }
+            if !last.arguments.is_empty() {
+                if last.ident == "Box" {
+                    match &last.arguments {
+                        PathArguments::AngleBracketed(tps) => {
+                            let arg = tps.args.first().unwrap();
 
-            if last.ident == "Box" {
-                match &last.arguments {
-                    PathArguments::AngleBracketed(tps) => {
-                        let arg = tps.args.first().unwrap();
-
-                        match arg {
-                            GenericArgument::Type(ty) => return method_name(ty),
-                            _ => unimplemented!("generic parameter other than type"),
-                        }
-                    }
-                    _ => unimplemented!("Box() -> T or Box without a type parameter"),
-                }
-            }
-
-            if last.ident == "Option" {
-                match &last.arguments {
-                    PathArguments::AngleBracketed(tps) => {
-                        let arg = tps.args.first().unwrap();
-
-                        match arg {
-                            GenericArgument::Type(ty) => {
-                                let i = method_name(ty);
-                                return i.new_ident_with(|v| v.replace("visit_", "visit_opt_"));
+                            match arg {
+                                GenericArgument::Type(ty) => return create_method_sig(ty),
+                                _ => unimplemented!("generic parameter other than type"),
                             }
-                            _ => unimplemented!("generic parameter other than type"),
                         }
+                        _ => unimplemented!("Box() -> T or Box without a type parameter"),
                     }
-                    _ => unimplemented!("Box() -> T or Box without a type parameter"),
                 }
-            }
 
-            if last.ident == "Vec" {
-                match &last.arguments {
-                    PathArguments::AngleBracketed(tps) => {
-                        let arg = tps.args.first().unwrap();
+                if last.ident == "Option" {
+                    match &last.arguments {
+                        PathArguments::AngleBracketed(tps) => {
+                            let arg = tps.args.first().unwrap();
 
-                        match arg {
-                            GenericArgument::Type(ty) => {
-                                let i = method_name(ty);
-                                return i.new_ident_with(|v| format!("{}s", v));
+                            match arg {
+                                GenericArgument::Type(arg) => {
+                                    let ident = method_name(arg)
+                                        .new_ident_with(|v| v.replace("visit_", "visit_opt_"));
+
+                                    return mk(ident, ty);
+                                }
+                                _ => unimplemented!("generic parameter other than type"),
                             }
-                            _ => unimplemented!("generic parameter other than type"),
                         }
+                        _ => unimplemented!("Box() -> T or Box without a type parameter"),
                     }
-                    _ => unimplemented!("Vec() -> Ret or Vec without a type parameter"),
+                }
+
+                if last.ident == "Vec" {
+                    match &last.arguments {
+                        PathArguments::AngleBracketed(tps) => {
+                            let arg = tps.args.first().unwrap();
+
+                            match arg {
+                                GenericArgument::Type(arg) => {
+                                    let ident =
+                                        method_name(arg).new_ident_with(|v| format!("{}s", v));
+
+                                    return mk(ident, ty);
+                                }
+                                _ => unimplemented!("generic parameter other than type"),
+                            }
+                        }
+                        _ => unimplemented!("Vec() -> Ret or Vec without a type parameter"),
+                    }
                 }
             }
 
-            return ident;
+            return mk(ident, ty);
         }
         Type::Ptr(_) => unimplemented!("type: pointer"),
         Type::Reference(ty) => {
-            return method_name(&ty.elem);
+            return create_method_sig(&ty.elem);
         }
         Type::Slice(_) => unimplemented!("type: slice"),
         Type::TraitObject(_) => unimplemented!("type: trait object"),
         Type::Tuple(_) => unimplemented!("type: trait tuple"),
         Type::Verbatim(_) => unimplemented!("type: verbatim"),
-        _ => unimplemented!("Unknown type: {:?}", v),
+        _ => unimplemented!("Unknown type: {:?}", ty),
+    }
+}
+
+fn skip(ty: &Type) -> bool {
+    match ty {
+        Type::Path(p) => {
+            if !p.path.segments.last().unwrap().arguments.is_empty() {
+                return true;
+            }
+            let i = &p.path.segments.last().as_ref().unwrap().ident;
+
+            if i == "bool"
+                || i == "u128"
+                || i == "u128"
+                || i == "u64"
+                || i == "u32"
+                || i == "u16"
+                || i == "u8"
+                || i == "isize"
+                || i == "i128"
+                || i == "i128"
+                || i == "i64"
+                || i == "i32"
+                || i == "i16"
+                || i == "i8"
+                || i == "isize"
+            {
+                return true;
+            }
+
+            false
+        }
+        _ => false,
     }
 }
