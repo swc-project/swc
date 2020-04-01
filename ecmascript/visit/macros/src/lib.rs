@@ -3,16 +3,10 @@ use pmutil::{q, IdentExt};
 use proc_macro2::Ident;
 use swc_macros_common::{call_site, def_site};
 use syn::{
-    parse::{ParseBuffer, ParseStream},
-    parse_quote::parse,
-    punctuated::Punctuated,
-    spanned::Spanned,
-    token::Token,
-    Arm, Block, Error, Expr, ExprBlock, ExprCall, ExprMatch, ExprStruct, FieldPat, FieldValue,
-    Fields, GenericArgument, ImplItem, ImplItemMethod, Index, Item, ItemEnum, ItemImpl, ItemMod,
-    ItemStruct, ItemTrait, Member, Pat, PatStruct, Path, PathArguments, ReturnType, Signature,
-    Stmt, Token, TraitItem, TraitItemMacro, TraitItemMethod, Type, TypePath, Variant, VisPublic,
-    Visibility,
+    parse_quote::parse, punctuated::Punctuated, spanned::Spanned, Arm, Block, Expr, ExprBlock,
+    ExprMatch, FieldValue, Fields, GenericArgument, Index, Item, ItemTrait, Member, Path,
+    PathArguments, ReturnType, Signature, Stmt, Token, TraitItem, TraitItemMethod, Type, TypePath,
+    VisPublic, Visibility,
 };
 
 /// This creates `Visit`. This is extensible visitor generator, and it
@@ -122,7 +116,7 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
         methods.push(TraitItemMethod {
             attrs: vec![],
             sig: create_method_sig(&ty),
-            default: None,
+            default: Some(create_method_body(&ty)),
             semi_token: None,
         });
     }
@@ -168,7 +162,7 @@ fn make_arm_from_struct(path: &Path, variant: &Fields) -> Arm {
                     visit_name
                 },
                 {
-                    self.visit_name(binding_ident, n as _);
+                    self.visit_name(&*binding_ident, n as _);
                 }
             )
             .parse();
@@ -433,8 +427,7 @@ fn create_method_sig(ty: &Type) -> Signature {
 
                             match arg {
                                 GenericArgument::Type(arg) => {
-                                    let ident =
-                                        method_name(arg).new_ident_with(|v| format!("{}s", v));
+                                    let ident = method_name(arg).new_ident_with(|v| v.to_plural());
 
                                     return mk(ident, &q!(Vars { arg }, { arg }).parse());
                                 }
@@ -460,11 +453,105 @@ fn create_method_sig(ty: &Type) -> Signature {
     }
 }
 
+fn create_method_body(ty: &Type) -> Block {
+    match ty {
+        Type::Array(_) => unimplemented!("type: array type"),
+        Type::BareFn(_) => unimplemented!("type: fn type"),
+        Type::Group(_) => unimplemented!("type: group type"),
+        Type::ImplTrait(_) => unimplemented!("type: impl trait"),
+        Type::Infer(_) => unreachable!("infer type"),
+        Type::Macro(_) => unimplemented!("type: macro"),
+        Type::Never(_) => unreachable!("never type"),
+        Type::Paren(ty) => return create_method_body(&ty.elem),
+        Type::Path(p) => {
+            let last = p.path.segments.last().unwrap();
+
+            if !last.arguments.is_empty() {
+                if last.ident == "Box" {
+                    match &last.arguments {
+                        PathArguments::AngleBracketed(tps) => {
+                            let arg = tps.args.first().unwrap();
+
+                            match arg {
+                                GenericArgument::Type(arg) => {
+                                    return create_method_body(arg);
+                                }
+                                _ => unimplemented!("generic parameter other than type"),
+                            }
+                        }
+                        _ => unimplemented!("Box() -> T or Box without a type parameter"),
+                    }
+                }
+
+                if last.ident == "Option" {
+                    match &last.arguments {
+                        PathArguments::AngleBracketed(tps) => {
+                            let arg = tps.args.first().unwrap();
+
+                            match arg {
+                                GenericArgument::Type(arg) => {
+                                    let ident = method_name(arg);
+
+                                    return q!(
+                                        Vars { ident },
+                                        ({
+                                            match n {
+                                                Some(n) => self.ident(n, _parent),
+                                                None => {}
+                                            }
+                                        })
+                                    )
+                                    .parse();
+                                }
+                                _ => unimplemented!("generic parameter other than type"),
+                            }
+                        }
+                        _ => unimplemented!("Box() -> T or Box without a type parameter"),
+                    }
+                }
+
+                if last.ident == "Vec" {
+                    match &last.arguments {
+                        PathArguments::AngleBracketed(tps) => {
+                            let arg = tps.args.first().unwrap();
+
+                            match arg {
+                                GenericArgument::Type(arg) => {
+                                    let ident = method_name(arg);
+
+                                    return q!(
+                                        Vars { ident },
+                                        ({ n.iter().for_each(|v| { self.ident(v, _parent) }) })
+                                    )
+                                    .parse();
+                                }
+                                _ => unimplemented!("generic parameter other than type"),
+                            }
+                        }
+                        _ => unimplemented!("Vec() -> Ret or Vec without a type parameter"),
+                    }
+                }
+            }
+
+            q!(({})).parse()
+        }
+        Type::Ptr(_) => unimplemented!("type: pointer"),
+        Type::Reference(ty) => {
+            return create_method_body(&ty.elem);
+        }
+        Type::Slice(_) => unimplemented!("type: slice"),
+        Type::TraitObject(_) => unimplemented!("type: trait object"),
+        Type::Tuple(_) => unimplemented!("type: trait tuple"),
+        Type::Verbatim(_) => unimplemented!("type: verbatim"),
+        _ => unimplemented!("Unknown type: {:?}", ty),
+    }
+}
+
 fn skip(ty: &Type) -> bool {
     match ty {
         Type::Path(p) => {
             if !p.path.segments.last().unwrap().arguments.is_empty() {
-                return true;
+                return false;
             }
             let i = &p.path.segments.last().as_ref().unwrap().ident;
 
