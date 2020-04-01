@@ -1,16 +1,17 @@
 use inflector::Inflector;
 use pmutil::{q, smart_quote, IdentExt, ToTokensExt};
 use proc_macro2::Ident;
-use swc_macros_common::def_site;
+use swc_macros_common::{call_site, def_site};
 use syn::{
     parse::{Parse, ParseBuffer, ParseStream},
     parse_quote::parse,
     punctuated::Punctuated,
     spanned::Spanned,
+    token::Token,
     Arm, Block, Error, Expr, ExprBlock, ExprCall, ExprMatch, ExprStruct, FieldPat, FieldValue,
-    Fields, ImplItem, ImplItemMethod, Item, ItemEnum, ItemImpl, ItemMod, ItemStruct, ItemTrait,
-    Member, Pat, PatStruct, Path, ReturnType, Signature, Stmt, Token, TraitItem, TraitItemMacro,
-    TraitItemMethod, Type, Variant, VisPublic, Visibility,
+    Fields, GenericArgument, ImplItem, ImplItemMethod, Index, Item, ItemEnum, ItemImpl, ItemMod,
+    ItemStruct, ItemTrait, Member, Pat, PatStruct, Path, PathArguments, ReturnType, Signature,
+    Stmt, Token, TraitItem, TraitItemMacro, TraitItemMethod, Type, Variant, VisPublic, Visibility,
 };
 
 /// This creates `Visit`. This is extensible visitor generator, and it
@@ -133,17 +134,47 @@ fn make_arm_from_struct(path: &Path, variant: &Fields) -> Arm {
     let mut stmts = vec![];
     let mut fields: Punctuated<FieldValue, Token![,]> = Default::default();
 
-    for field in variant {
+    for (i, field) in variant.iter().enumerate() {
         let ty = &field.ty;
         let visit_name = method_name(&ty);
+        let binding_ident = field
+            .ident
+            .clone()
+            .unwrap_or_else(|| Ident::new(&format!("_{}", i), call_site()));
 
-        let stmt = q!(Vars { field, visit_name }, {
-            self.visit_name(field, n as _);
-        })
+        let stmt = q!(
+            Vars {
+                binding_ident: &binding_ident,
+                visit_name
+            },
+            {
+                self.visit_name(binding_ident, n as _);
+            }
+        )
         .parse();
         stmts.push(stmt);
 
-        fields.push(q!(Vars { field }, { field }).parse());
+        if field.ident.is_some() {
+            fields.push(
+                q!(
+                    Vars {
+                        field: &binding_ident
+                    },
+                    { field }
+                )
+                .parse(),
+            );
+        } else {
+            fields.push(FieldValue {
+                attrs: vec![],
+                member: Member::Unnamed(Index {
+                    index: i as _,
+                    span: path.span(),
+                }),
+                colon_token: Some(def_site()),
+                expr: q!(Vars { binding_ident }, { binding_ident }).parse(),
+            });
+        }
     }
 
     let block = Block {
@@ -153,7 +184,7 @@ fn make_arm_from_struct(path: &Path, variant: &Fields) -> Arm {
 
     Arm {
         attrs: vec![],
-        pat: q!(Vars { Path: path, fields }, { Path::Variant { fields } }).parse(),
+        pat: q!(Vars { Path: path, fields }, { Path { fields } }).parse(),
         guard: None,
         fat_arrow_token: def_site(),
         body: Box::new(Expr::Block(ExprBlock {
@@ -340,7 +371,64 @@ fn method_name(v: &Type) -> Ident {
         Type::Macro(_) => unimplemented!("type: macro"),
         Type::Never(_) => unreachable!("never type"),
         Type::Paren(ty) => return method_name(&ty.elem),
-        Type::Path(p) => p.path.segments.last().unwrap().ident.new_ident_with(handle),
+        Type::Path(p) => {
+            let last = p.path.segments.last().unwrap();
+            let ident = last.ident.new_ident_with(handle);
+
+            if last.arguments.is_empty() {
+                return ident;
+            }
+
+            if last.ident == "Box" {
+                match &last.arguments {
+                    PathArguments::AngleBracketed(tps) => {
+                        let arg = tps.args.first().unwrap();
+
+                        match arg {
+                            GenericArgument::Type(ty) => return method_name(ty),
+                            _ => unimplemented!("generic parameter other than type"),
+                        }
+                    }
+                    _ => unimplemented!("Box() -> T or Box without a type parameter"),
+                }
+            }
+
+            if last.ident == "Option" {
+                match &last.arguments {
+                    PathArguments::AngleBracketed(tps) => {
+                        let arg = tps.args.first().unwrap();
+
+                        match arg {
+                            GenericArgument::Type(ty) => {
+                                let i = method_name(ty);
+                                return i.new_ident_with(|v| v.replace("visit_", "visit_opt_"));
+                            }
+                            _ => unimplemented!("generic parameter other than type"),
+                        }
+                    }
+                    _ => unimplemented!("Box() -> T or Box without a type parameter"),
+                }
+            }
+
+            if last.ident == "Vec" {
+                match &last.arguments {
+                    PathArguments::AngleBracketed(tps) => {
+                        let arg = tps.args.first().unwrap();
+
+                        match arg {
+                            GenericArgument::Type(ty) => {
+                                let i = method_name(ty);
+                                return i.new_ident_with(|v| format!("{}s", v));
+                            }
+                            _ => unimplemented!("generic parameter other than type"),
+                        }
+                    }
+                    _ => unimplemented!("Vec() -> Ret or Vec without a type parameter"),
+                }
+            }
+
+            return ident;
+        }
         Type::Ptr(_) => unimplemented!("type: pointer"),
         Type::Reference(ty) => {
             return method_name(&ty.elem);
