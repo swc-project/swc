@@ -1,10 +1,11 @@
 use inflector::Inflector;
 use pmutil::{q, IdentExt};
 use proc_macro2::Ident;
+use std::mem::replace;
 use swc_macros_common::{call_site, def_site};
 use syn::{
     parse_quote::parse, punctuated::Punctuated, spanned::Spanned, Arm, AttrStyle, Attribute, Block,
-    Expr, ExprBlock, ExprMatch, FieldValue, Fields, GenericArgument, Index, Item, ItemTrait,
+    Expr, ExprBlock, ExprMatch, FieldValue, Fields, FnArg, GenericArgument, Index, Item, ItemTrait,
     Member, Path, PathArguments, ReturnType, Signature, Stmt, Token, TraitItem, TraitItemMethod,
     Type, TypePath, TypeReference, VisPublic, Visibility,
 };
@@ -74,6 +75,46 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
             path: q!({ allow }).parse(),
             tokens: q!({ (unused_variables) }).parse(),
         });
+
+        let fn_name = v.sig.ident.clone();
+        let default_body = replace(
+            &mut v.default,
+            Some(
+                q!(Vars { fn_name: &fn_name }, {
+                    {
+                        fn_name(self, n, _parent)
+                    }
+                })
+                .parse(),
+            ),
+        )
+        .clone();
+
+        let arg_ty = v
+            .sig
+            .inputs
+            .iter()
+            .skip(1)
+            .next()
+            .map(|v| match *v {
+                FnArg::Typed(ref pat) => &pat.ty,
+                _ => unreachable!(),
+            })
+            .unwrap();
+
+        tokens.push_tokens(&q!(
+            Vars {
+                fn_name,
+                default_body,
+                Type: arg_ty,
+            },
+            {
+                #[allow(unused_variables)]
+                fn fn_name<V: ?Sized + Visit>(_visitor: &mut V, n: Type, _parent: &dyn Node) {
+                    default_body
+                }
+            }
+        ))
     });
 
     tokens.push_tokens(&ItemTrait {
@@ -84,7 +125,7 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
         unsafety: None,
         auto_token: None,
         trait_token: def_site(),
-        ident: Ident::new("Visit", def_site()),
+        ident: Ident::new("Visit", call_site()),
         generics: Default::default(),
         colon_token: None,
         supertraits: Default::default(),
@@ -137,7 +178,7 @@ fn make_arm_from_struct(path: &Path, variant: &Fields) -> Arm {
             }
 
             let stmt = q!(Vars { expr, visit_name }, {
-                self.visit_name(expr, n as _);
+                _visitor.visit_name(expr, n as _);
             })
             .parse();
             stmts.push(stmt);
@@ -197,7 +238,7 @@ fn method_sig(ty: &Type) -> Signature {
         paren_token: def_site(),
         inputs: {
             let mut p = Punctuated::default();
-            p.push_value(q!(Vars {}, { &self }).parse());
+            p.push_value(q!(Vars {}, { &mut self }).parse());
             p.push_punct(def_site());
             p.push_value(q!(Vars { Type: ty }, { n: &Type }).parse());
             p.push_punct(def_site());
@@ -331,7 +372,7 @@ fn create_method_sig(ty: &Type) -> Signature {
             paren_token: def_site(),
             inputs: {
                 let mut p = Punctuated::default();
-                p.push_value(q!(Vars {}, { &self }).parse());
+                p.push_value(q!(Vars {}, { &mut self }).parse());
                 p.push_punct(def_site());
                 p.push_value(q!(Vars { Type: ty }, { n: Type }).parse());
                 p.push_punct(def_site());
@@ -504,7 +545,7 @@ fn create_method_body(ty: &Type) -> Block {
                                         Vars { ident },
                                         ({
                                             match n {
-                                                Some(n) => self.ident(n, _parent),
+                                                Some(n) => _visitor.ident(n, _parent),
                                                 None => {}
                                             }
                                         })
@@ -531,15 +572,16 @@ fn create_method_body(ty: &Type) -> Block {
                                         q!(
                                             Vars { ident },
                                             ({
-                                                n.iter()
-                                                    .for_each(|v| self.ident(v.as_ref(), _parent))
+                                                n.iter().for_each(|v| {
+                                                    _visitor.ident(v.as_ref(), _parent)
+                                                })
                                             })
                                         )
                                         .parse()
                                     } else {
                                         q!(
                                             Vars { ident },
-                                            ({ n.iter().for_each(|v| { self.ident(v, _parent) }) })
+                                            ({ n.iter().for_each(|v| _visitor.ident(v, _parent)) })
                                         )
                                         .parse()
                                     };
