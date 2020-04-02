@@ -1,4 +1,5 @@
 [workspace]
+members = ["ecmascript/visit"]
 
 [package]
 name = "swc"
