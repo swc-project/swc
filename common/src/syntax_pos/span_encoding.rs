@@ -5,12 +5,12 @@
 // in rustc/libstd. See https://internals.rust-lang.org/t/rfc-compiler-refactoring-spans/1357/28
 
 use crate::{hygiene::SyntaxContext, BytePos, SpanData, GLOBALS};
-use hashbrown::HashMap;
 use serde::{
     de::Deserializer,
     ser::{SerializeStruct, Serializer},
     Deserialize, Serialize,
 };
+use std::collections::HashMap;
 /// A compressed span.
 ///
 /// `SpanData` is 12 bytes, which is a bit too big to stick everywhere. `Span`

@@ -1,8 +1,7 @@
 use super::super::util;
-use hashbrown::HashMap;
 use inflector::Inflector;
 use serde::{Deserialize, Serialize};
-use std::sync::Arc;
+use std::{collections::HashMap, sync::Arc};
 use swc_atoms::JsWord;
 use swc_common::{
     errors::{ColorConfig, Handler},

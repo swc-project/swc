@@ -1,7 +1,6 @@
-use swc;
-
 use std::{path::Path, sync::Arc};
 use swc::{
+    self,
     common::{
         errors::{ColorConfig, Handler},
         SourceMap,

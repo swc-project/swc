@@ -1,11 +1,11 @@
 use crate::builder::PassBuilder;
 use anyhow::{bail, Context, Error};
 use dashmap::DashMap;
-use hashbrown::{HashMap, HashSet};
 use once_cell::sync::Lazy;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
 use std::{
+    collections::{HashMap, HashSet},
     env,
     path::{Path, PathBuf},
     sync::Arc,

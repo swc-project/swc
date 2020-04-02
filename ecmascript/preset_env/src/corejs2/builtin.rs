@@ -1,6 +1,6 @@
 use crate::{BrowserData, Versions};
-use hashbrown::HashMap;
 use once_cell::sync::Lazy;
+use std::collections::HashMap;
 
 pub(crate) static BUILTINS: Lazy<HashMap<String, Versions>> = Lazy::new(|| {
     let map: HashMap<_, BrowserData<Option<String>>> =

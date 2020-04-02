@@ -19,10 +19,10 @@ use crate::{
     sync::{Lock, LockCell},
     syntax_pos::{BytePos, FileLinesResult, FileName, Loc, MultiSpan, Span, NO_EXPANSION},
 };
-use hashbrown::HashSet;
 use std::{
     borrow::Cow,
     cell::RefCell,
+    collections::HashSet,
     error, fmt, panic,
     sync::{
         atomic::{AtomicUsize, Ordering::SeqCst},

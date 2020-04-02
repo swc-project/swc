@@ -12,7 +12,7 @@ use crate::{
         undefined, ExprFactory, ModuleItemLike, StmtLike,
     },
 };
-use hashbrown::HashSet;
+use std::collections::HashSet;
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Mark, Spanned, VisitWith, DUMMY_SP};
 use swc_ecma_ast::*;
