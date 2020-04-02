@@ -110,7 +110,7 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
             },
             {
                 #[allow(unused_variables)]
-                fn fn_name<V: ?Sized + Visit>(_visitor: &mut V, n: Type, _parent: &dyn Node) {
+                pub fn fn_name<V: ?Sized + Visit>(_visitor: &mut V, n: Type, _parent: &dyn Node) {
                     default_body
                 }
             }
