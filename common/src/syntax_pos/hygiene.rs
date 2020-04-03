@@ -16,9 +16,11 @@
 //! DOI=10.1017/S0956796812000093 <https://doi.org/10.1017/S0956796812000093>
 
 use super::GLOBALS;
-use hashbrown::{HashMap, HashSet};
 use serde::{Deserialize, Serialize};
-use std::fmt;
+use std::{
+    collections::{HashMap, HashSet},
+    fmt,
+};
 
 /// A SyntaxContext represents a chain of macro expansions (represented by
 /// marks).

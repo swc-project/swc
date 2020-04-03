@@ -1,5 +1,5 @@
 use crate::pass::Pass;
-use hashbrown::HashSet;
+use std::collections::HashSet;
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Spanned};
 use swc_ecma_ast::*;

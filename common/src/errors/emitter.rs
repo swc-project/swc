@@ -16,10 +16,10 @@ use super::{
 };
 use crate::syntax_pos::{MultiSpan, SourceFile, Span};
 use atty;
-use hashbrown::HashMap;
 use std::{
     borrow::Cow,
     cmp::{min, Reverse},
+    collections::HashMap,
     io::{self, prelude::*},
     ops::Range,
     sync::Arc,

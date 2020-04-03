@@ -1,6 +1,6 @@
 use crate::{version::should_enable, BrowserData, Version, Versions};
-use hashbrown::HashMap;
 use once_cell::sync::Lazy;
+use std::collections::HashMap;
 use string_enum::StringEnum;
 
 impl Feature {

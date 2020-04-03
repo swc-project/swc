@@ -4,7 +4,7 @@
 #![feature(specialization)]
 
 use common::Tester;
-use hashbrown::HashMap;
+use std::collections::HashMap;
 use swc_ecma_transforms::{const_modules, pass::Pass};
 
 #[macro_use]

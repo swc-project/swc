@@ -1,7 +1,6 @@
 use crate::config::{GlobalPassOption, JscTarget, ModuleConfig};
 use either::Either;
-use hashbrown::hash_map::HashMap;
-use std::sync::Arc;
+use std::{collections::HashMap, sync::Arc};
 use swc_atoms::JsWord;
 use swc_common::{chain, errors::Handler, fold::and_then::AndThen, SourceMap};
 use swc_ecmascript::{

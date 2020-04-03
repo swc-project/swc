@@ -1,10 +1,12 @@
 use crate::util::{undefined, DestructuringFinder, ExprFactory};
 use fxhash::FxHashSet;
-use hashbrown::{hash_map::Entry, HashMap, HashSet};
 use indexmap::IndexMap;
 use inflector::Inflector;
 use serde::{Deserialize, Serialize};
-use std::iter;
+use std::{
+    collections::{hash_map::Entry, HashMap, HashSet},
+    iter,
+};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{FoldWith, Mark, Span, SyntaxContext, VisitWith, DUMMY_SP};
 use swc_ecma_ast::*;

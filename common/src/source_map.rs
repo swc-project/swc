@@ -22,12 +22,12 @@ use crate::{
     rustc_data_structures::stable_hasher::StableHasher,
     sync::{Lock, LockGuard, MappedLockGuard},
 };
-use hashbrown::HashMap;
 use log::debug;
 use sourcemap::SourceMapBuilder;
 use std::{
     cmp,
     cmp::{max, min},
+    collections::HashMap,
     env, fs,
     hash::Hash,
     io::{self, Read},
