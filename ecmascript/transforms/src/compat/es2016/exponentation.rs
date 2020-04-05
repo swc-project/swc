@@ -261,4 +261,23 @@ expect(counters).toBe(1);"#
         "self.a = Math.pow(10, 2)",
         ok_if_code_eq
     );
+
+    // https://github.com/swc-project/swc/pull/741/files
+    // bu JakeChampion
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| Exponentation,
+        babel_binary_member_assignment_expression,
+        "var x = {}; x.a = 2 ** 2",
+        "var x = {}; x.a = Math.pow(2, 2)"
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| Exponentation,
+        assign_to_object_property,
+        r#"var self = {}; self.x **= 3"#,
+        r#"var self = {}; var ref = self.x; self.x = Math.pow(ref, 3);"#,
+        ok_if_code_eq
+    );
 }
