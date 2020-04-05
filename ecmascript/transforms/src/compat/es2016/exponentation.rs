@@ -167,6 +167,11 @@ impl Visit<AssignExpr> for ShouldFold {
         if e.op == op!("**=") {
             self.found = true;
         }
+
+        if !self.found {
+            e.left.visit_with(self);
+            e.right.visit_with(self);
+        }
     }
 }
 
@@ -247,4 +252,13 @@ expect(counters).toBe(1);"#
     // var a, b;
     // _ref = `${b++}`, a[_ref] = Math.pow(a[_ref], 1);"
     //     );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| Exponentation,
+        issue_740,
+        "self.a = 10 ** 2",
+        "self.a = Math.pow(10, 2)",
+        ok_if_code_eq
+    );
 }
