@@ -595,10 +595,16 @@ impl Fold<Stmt> for Strip {
 
         match stmt {
             Stmt::Decl(decl) => match decl {
-                Decl::TsInterface(..) | Decl::TsModule(..) | Decl::TsTypeAlias(..) => {
+                Decl::TsInterface(..)
+                | Decl::TsModule(..)
+                | Decl::TsTypeAlias(..)
+                | Decl::Var(VarDecl { declare: true, .. })
+                | Decl::Class(ClassDecl { declare: true, .. })
+                | Decl::Fn(FnDecl { declare: true, .. }) => {
                     let span = decl.span();
                     Stmt::Empty(EmptyStmt { span })
                 }
+
                 _ => Stmt::Decl(decl),
             },
             _ => stmt,
