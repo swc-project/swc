@@ -154,7 +154,7 @@ impl<'a, I: Tokens> ParseObject<'a, Box<Expr>> for Parser<'a, I> {
         let key = self.parse_prop_name()?;
 
         if self.input.syntax().typescript()
-            && !is_one_of!('(', '[', ':', ',', '?', '=', IdentName)
+            && !is_one_of!('(', '[', ':', ',', '?', '=', '*', IdentName)
             && !(self.input.syntax().typescript() && is!('<'))
             && !(is!('}')
                 && match key {
@@ -234,6 +234,7 @@ impl<'a, I: Tokens> ParseObject<'a, Box<Expr>> for Parser<'a, I> {
                     self.emit_err(make_span(modifiers_span), SyntaxError::TS1042);
                 }
 
+                let is_generator = ident.sym == js_word!("async") && eat!('*');
                 let key = self.parse_prop_name()?;
                 let key_span = key.span();
 
@@ -338,7 +339,7 @@ impl<'a, I: Tokens> ParseObject<'a, Box<Expr>> for Parser<'a, I> {
                             start,
                             |p| p.parse_unique_formal_params(),
                             true,
-                            false,
+                            is_generator,
                         )
                         .map(|function| {
                             PropOrSpread::Prop(Box::new(Prop::Method(MethodProp { key, function })))
