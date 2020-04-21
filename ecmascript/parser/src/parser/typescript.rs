@@ -2450,8 +2450,11 @@ mod tests {
                     e.emit();
                 })?;
                 let tokens: Vec<TokenAndSpan> = parser.input().take();
-                let tokens = tokens.into_iter().map(|t| t.token).collect::<Vec<_>>();
-                assert_eq!(tokens[10], Token::BinOp(BinOpToken::ZeroFillRShift), "Tokens: {:#?}", tokens);
+                assert_eq!(
+                    tokens[10].token,
+                    Token::BinOp(BinOpToken::ZeroFillRShift),
+                    "Tokens: {:#?}", tokens
+                );
                 Ok(())
             },
         )
