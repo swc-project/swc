@@ -181,6 +181,7 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
             self.state.start = start;
 
             if self.syntax.typescript() && self.ctx.in_type {
+                // TODO: REMOVE ME - So after it incorrectly says it's in a type then it ends up here and returns '>'
                 if c == '<' {
                     self.input.bump();
                     return Ok(Some(tok!('<')));
