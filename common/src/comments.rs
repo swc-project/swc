@@ -73,6 +73,14 @@ impl Comments {
         }
     }
 
+    pub fn retain_leading(&self, f: impl FnMut(&BytePos, &mut Vec<Comment>) -> bool) {
+        self.leading.retain(f);
+    }
+
+    pub fn retain_trailing(&self, f: impl FnMut(&BytePos, &mut Vec<Comment>) -> bool) {
+        self.trailing.retain(f);
+    }
+
     /// Takes all the comments as (leading, trailing).
     pub fn take_all(self) -> (CommentMap, CommentMap) {
         (self.leading, self.trailing)

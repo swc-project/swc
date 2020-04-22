@@ -16,7 +16,7 @@ use crate::config::{
 };
 use anyhow::{Context, Error};
 use common::{
-    comments::Comments, errors::Handler, FileName, FoldWith, Globals, SourceFile, SourceMap,
+    comments::{Comment, Comments}, errors::Handler, BytePos, FileName, FoldWith, Globals, SourceFile, SourceMap,
     GLOBALS,
 };
 use ecmascript::{
@@ -195,7 +195,7 @@ impl Compiler {
                     let handlers = box MyHandlers;
                     let mut emitter = Emitter {
                         cfg: codegen::Config { minify },
-                        comments: if minify { None } else { Some(&comments) },
+                        comments: Some(&comments),
                         cm: self.cm.clone(),
                         wr: box codegen::text_writer::JsWriter::new(
                             self.cm.clone(),
@@ -383,9 +383,17 @@ impl Compiler {
                 config.target,
                 config.syntax,
                 config.is_module,
-                !config.minify,
+                true,
                 &config.input_source_map,
             )?;
+            if config.minify {
+                let preserve_excl = |_: &BytePos, vc: &mut Vec<Comment>| -> bool {
+                    vc.retain(|c: &Comment| c.text.starts_with("!"));
+                    !vc.is_empty()
+                };
+                self.comments.retain_leading (preserve_excl);
+                self.comments.retain_trailing (preserve_excl);
+            }
             let mut pass = config.pass;
             let module = helpers::HELPERS.set(&Helpers::new(config.external_helpers), || {
                 util::HANDLER.set(&self.handler, || {
