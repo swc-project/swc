@@ -181,11 +181,10 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
             self.state.start = start;
 
             if self.syntax.typescript() && self.ctx.in_type {
-                // ensure not << or <<<
-                if c == '<' && self.input.peek() != Some('<') {
+                if c == '<' {
                     self.input.bump();
                     return Ok(Some(tok!('<')));
-                } else if c == '>' && self.input.peek() != Some('>') {
+                } else if c == '>' {
                     self.input.bump();
                     return Ok(Some(tok!('>')));
                 }

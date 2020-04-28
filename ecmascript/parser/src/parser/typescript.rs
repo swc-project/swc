@@ -2430,7 +2430,6 @@ mod tests {
 
     #[test]
     fn issue_751() {
-        // todo: should probably move this somewhere else
         crate::with_test_sess(
             "t ? -(v >>> 1) : v >>> 1",
             |sess, input| {
@@ -2450,10 +2449,11 @@ mod tests {
                     e.emit();
                 })?;
                 let tokens: Vec<TokenAndSpan> = parser.input().take();
+                let token = &tokens[10];
                 assert_eq!(
-                    tokens[10].token,
+                    token.token,
                     Token::BinOp(BinOpToken::ZeroFillRShift),
-                    "Tokens: {:#?}", tokens
+                    "Token: {:#?}", token.token
                 );
                 Ok(())
             },
