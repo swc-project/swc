@@ -2322,7 +2322,7 @@ fn make_decl_declare(mut decl: Decl) -> Decl {
 #[cfg(test)]
 mod tests {
     use crate::{
-        lexer::Lexer, test_parser, token::TokenAndSpan, Capturing, JscTarget, Parser, Syntax,
+        lexer::Lexer, test_parser, token::*, Capturing, JscTarget, Parser, Syntax,
         TsConfig,
     };
     use swc_common::DUMMY_SP;
@@ -2422,6 +2422,39 @@ mod tests {
                 let tokens: Vec<TokenAndSpan> = parser.input().take();
                 let tokens = tokens.into_iter().map(|t| t.token).collect::<Vec<_>>();
                 assert_eq!(tokens.len(), 9, "Tokens: {:#?}", tokens);
+                Ok(())
+            },
+        )
+        .unwrap();
+    }
+
+    #[test]
+    fn issue_751() {
+        crate::with_test_sess(
+            "t ? -(v >>> 1) : v >>> 1",
+            |sess, input| {
+                let lexer = Lexer::new(
+                    sess,
+                    Syntax::Typescript(TsConfig {
+                        ..Default::default()
+                    }),
+                    JscTarget::Es2019,
+                    input,
+                    None,
+                );
+                let lexer = Capturing::new(lexer);
+
+                let mut parser = Parser::new_from(sess, lexer);
+                parser.parse_typescript_module().map_err(|mut e| {
+                    e.emit();
+                })?;
+                let tokens: Vec<TokenAndSpan> = parser.input().take();
+                let token = &tokens[10];
+                assert_eq!(
+                    token.token,
+                    Token::BinOp(BinOpToken::ZeroFillRShift),
+                    "Token: {:#?}", token.token
+                );
                 Ok(())
             },
         )

@@ -118,9 +118,13 @@ impl<I: Tokens> Iterator for Capturing<I> {
         match next {
             Some(ts) => {
                 let mut v = self.captured.borrow_mut();
-                if let Some(last) = v.last() {
+
+                // remove tokens that could change due to backtracing
+                while let Some(last) = v.last() {
                     if last.span.lo >= ts.span.lo {
-                        return Some(ts);
+                        v.pop();
+                    } else {
+                        break;
                     }
                 }
 
