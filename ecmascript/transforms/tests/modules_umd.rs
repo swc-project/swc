@@ -4,40 +4,44 @@
 #![feature(specialization)]
 
 use common::Tester;
-use swc_common::chain;
+use swc_common::{chain, Fold, Mark};
 use swc_ecma_transforms::{
-    modules::{
-        umd::{umd, Config},
-        util,
-    },
-    pass::Pass,
-    resolver,
+  modules::{
+    umd::{umd, Config},
+    util,
+  },
+  pass::Pass,
+  resolver,
 };
 
 #[macro_use]
 mod common;
 
 fn syntax() -> ::swc_ecma_parser::Syntax {
-    Default::default()
+  Default::default()
 }
 
 fn tr(tester: &mut Tester<'_>, config: Config) -> impl Pass {
-    chain!(resolver(), umd(tester.cm.clone(), config))
+  let mark = Mark::fresh(Mark::root());
+  chain!(
+    resolver_with_mark(mark),
+    umd(mark, tester.cm.clone(), config)
+  )
 }
 
 test!(
-    syntax(),
-    |tester| tr(
-        tester,
-        Config {
-            ..Default::default()
-        }
-    ),
-    issue_335,
-    "import bar from 'bar';
+  syntax(),
+  |tester| tr(
+    tester,
+    Config {
+      ..Default::default()
+    }
+  ),
+  issue_335,
+  "import bar from 'bar';
 
 obj[bar('bas')] = '123'",
-    "(function(global, factory) {
+  "(function(global, factory) {
     if (typeof define === 'function' && define.amd) {
         define(['bar'], factory);
     } else if (typeof exports !== 'undefined') {
@@ -58,18 +62,18 @@ obj[bar('bas')] = '123'",
 );
 
 test!(
-    syntax(),
-    |tester| tr(
-        tester,
-        Config {
-            ..Default::default()
-        }
-    ),
-    issue_332,
-    "import foo from 'foo';
+  syntax(),
+  |tester| tr(
+    tester,
+    Config {
+      ..Default::default()
+    }
+  ),
+  issue_332,
+  "import foo from 'foo';
 
 export const bar = { foo }",
-    "
+  "
   (function(global, factory) {
     if (typeof define === 'function' && define.amd) {
         define(['exports', 'foo'], factory);
@@ -99,20 +103,20 @@ export const bar = { foo }",
 );
 
 test!(
-    syntax(),
-    |tester| tr(
-        tester,
-        Config {
-            config: util::Config {
-                strict: true,
-                ..Default::default()
-            },
-            ..Default::default()
-        }
-    ),
-    custom_strict,
-    r#"export function foo(){}"#,
-    r#"
+  syntax(),
+  |tester| tr(
+    tester,
+    Config {
+      config: util::Config {
+        strict: true,
+        ..Default::default()
+      },
+      ..Default::default()
+    }
+  ),
+  custom_strict,
+  r#"export function foo(){}"#,
+  r#"
 (function(global, factory) {
     if (typeof define === 'function' && define.amd) {
         define(['exports'], factory);
@@ -137,20 +141,20 @@ test!(
 );
 
 test!(
-    syntax(),
-    |tester| tr(
-        tester,
-        Config {
-            config: util::Config {
-                strict_mode: false,
-                ..Default::default()
-            },
-            ..Default::default()
-        }
-    ),
-    custom_non_strict_mode,
-    r#"export function foo(){}"#,
-    r#"
+  syntax(),
+  |tester| tr(
+    tester,
+    Config {
+      config: util::Config {
+        strict_mode: false,
+        ..Default::default()
+      },
+      ..Default::default()
+    }
+  ),
+  custom_non_strict_mode,
+  r#"export function foo(){}"#,
+  r#"
 (function(global, factory) {
     if (typeof define === 'function' && define.amd) {
         define(['exports'], factory);
@@ -177,21 +181,21 @@ test!(
 );
 
 test!(
-    syntax(),
-    |tester| tr(
-        tester,
-        Config {
-            config: util::Config {
-                no_interop: true,
-                ..Default::default()
-            },
-            ..Default::default()
-        }
-    ),
-    custom_no_interop,
-    r#"import * as foo from 'foo';
+  syntax(),
+  |tester| tr(
+    tester,
+    Config {
+      config: util::Config {
+        no_interop: true,
+        ..Default::default()
+      },
+      ..Default::default()
+    }
+  ),
+  custom_no_interop,
+  r#"import * as foo from 'foo';
     import bar from 'bar';"#,
-    r#"
+  r#"
 (function(global, factory) {
     if (typeof define === 'function' && define.amd) {
         define(['foo', 'bar'], factory);
@@ -212,19 +216,19 @@ test!(
 );
 
 test!(
-    syntax(),
-    |tester| tr(
-        tester,
-        Config {
-            ..Default::default()
-        }
-    ),
-    custom_usage,
-    r#"
+  syntax(),
+  |tester| tr(
+    tester,
+    Config {
+      ..Default::default()
+    }
+  ),
+  custom_usage,
+  r#"
 import React from 'react'
 window.React = React;
   "#,
-    r#"
+  r#"
 (function(global, factory) {
     if (typeof define === 'function' && define.amd) {
         define(['react'], factory);
@@ -248,15 +252,15 @@ window.React = React;
 
 // exports_variable
 test!(
-    syntax(),
-    |tester| tr(
-        tester,
-        Config {
-            ..Default::default()
-        }
-    ),
-    exports_variable,
-    r#"
+  syntax(),
+  |tester| tr(
+    tester,
+    Config {
+      ..Default::default()
+    }
+  ),
+  exports_variable,
+  r#"
 export var foo = 1;
 export var foo2 = 1, bar = 2;
 export var foo3 = function () {};
@@ -268,7 +272,7 @@ export function foo8 () {}
 export class foo9 {}
 
 "#,
-    r#"
+  r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["exports"], factory);
@@ -321,20 +325,20 @@ export class foo9 {}
 
 // export_named
 test!(
-    syntax(),
-    |tester| tr(
-        tester,
-        Config {
-            ..Default::default()
-        }
-    ),
-    export_named,
-    r#"
+  syntax(),
+  |tester| tr(
+    tester,
+    Config {
+      ..Default::default()
+    }
+  ),
+  export_named,
+  r#"
 var foo;
 export {foo};
 
 "#,
-    r#"
+  r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["exports"], factory);
@@ -363,21 +367,21 @@ export {foo};
 
 // export_default_11
 test!(
-    syntax(),
-    |tester| tr(
-        tester,
-        Config {
-            ..Default::default()
-        }
-    ),
-    export_default_11,
-    r#"
+  syntax(),
+  |tester| tr(
+    tester,
+    Config {
+      ..Default::default()
+    }
+  ),
+  export_default_11,
+  r#"
 export default new Cachier()
 
 export function Cachier(databaseName) {}
 
 "#,
-    r#"
+  r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["exports"], factory);
@@ -413,19 +417,19 @@ export function Cachier(databaseName) {}
 
 // export_from_4
 test!(
-    syntax(),
-    |tester| tr(
-        tester,
-        Config {
-            ..Default::default()
-        }
-    ),
-    export_from_4,
-    r#"
+  syntax(),
+  |tester| tr(
+    tester,
+    Config {
+      ..Default::default()
+    }
+  ),
+  export_from_4,
+  r#"
 export {foo as bar} from "foo";
 
 "#,
-    r#"
+  r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["exports", "foo"], factory);
@@ -459,19 +463,19 @@ export {foo as bar} from "foo";
 
 // export_default_3
 test!(
-    syntax(),
-    |tester| tr(
-        tester,
-        Config {
-            ..Default::default()
-        }
-    ),
-    export_default_3,
-    r#"
+  syntax(),
+  |tester| tr(
+    tester,
+    Config {
+      ..Default::default()
+    }
+  ),
+  export_default_3,
+  r#"
 export default [];
 
 "#,
-    r#"
+  r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["exports"], factory);
@@ -504,15 +508,15 @@ export default [];
 
 // imports_default
 test!(
-    syntax(),
-    |tester| tr(
-        tester,
-        Config {
-            ..Default::default()
-        }
-    ),
-    imports_default,
-    r#"
+  syntax(),
+  |tester| tr(
+    tester,
+    Config {
+      ..Default::default()
+    }
+  ),
+  imports_default,
+  r#"
 import foo from "foo";
 import {default as foo2} from "foo";
 
@@ -520,7 +524,7 @@ foo;
 foo2;
 
 "#,
-    r#"
+  r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["foo"], factory);
@@ -546,20 +550,20 @@ foo2;
 
 // export_named_3
 test!(
-    syntax(),
-    |tester| tr(
-        tester,
-        Config {
-            ..Default::default()
-        }
-    ),
-    export_named_3,
-    r#"
+  syntax(),
+  |tester| tr(
+    tester,
+    Config {
+      ..Default::default()
+    }
+  ),
+  export_named_3,
+  r#"
 var foo, bar;
 export {foo as default, bar};
 
 "#,
-    r#"
+  r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["exports"], factory);
@@ -589,21 +593,21 @@ export {foo as default, bar};
 
 // imports_glob
 test!(
-    syntax(),
-    |tester| tr(
-        tester,
-        Config {
-            ..Default::default()
-        }
-    ),
-    imports_glob,
-    r#"
+  syntax(),
+  |tester| tr(
+    tester,
+    Config {
+      ..Default::default()
+    }
+  ),
+  imports_glob,
+  r#"
 import * as foo from "foo";
 
 foo;
 
 "#,
-    r#"
+  r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["foo"], factory);
@@ -628,19 +632,19 @@ foo;
 
 // export_default_6
 test!(
-    syntax(),
-    |tester| tr(
-        tester,
-        Config {
-            ..Default::default()
-        }
-    ),
-    export_default_6,
-    r#"
+  syntax(),
+  |tester| tr(
+    tester,
+    Config {
+      ..Default::default()
+    }
+  ),
+  export_default_6,
+  r#"
 export default class {}
 
 "#,
-    r#"
+  r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["exports"], factory);
@@ -671,19 +675,19 @@ export default class {}
 
 // export_default_5
 test!(
-    syntax(),
-    |tester| tr(
-        tester,
-        Config {
-            ..Default::default()
-        }
-    ),
-    export_default_5,
-    r#"
+  syntax(),
+  |tester| tr(
+    tester,
+    Config {
+      ..Default::default()
+    }
+  ),
+  export_default_5,
+  r#"
 export default function () {}
 
 "#,
-    r#"
+  r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["exports"], factory);
@@ -711,15 +715,15 @@ export default function () {}
 
 // hoist_function_exports
 test!(
-    syntax(),
-    |tester| tr(
-        tester,
-        Config {
-            ..Default::default()
-        }
-    ),
-    hoist_function_exports,
-    r#"
+  syntax(),
+  |tester| tr(
+    tester,
+    Config {
+      ..Default::default()
+    }
+  ),
+  hoist_function_exports,
+  r#"
 import { isEven } from "./evens";
 
 export function nextOdd(n) {
@@ -733,7 +737,7 @@ export var isOdd = (function (isEven) {
 })(isEven);
 
 "#,
-    r#"
+  r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["exports", "./evens"], factory);
@@ -773,19 +777,19 @@ export var isOdd = (function (isEven) {
 
 // export_from_2
 test!(
-    syntax(),
-    |tester| tr(
-        tester,
-        Config {
-            ..Default::default()
-        }
-    ),
-    export_from_2,
-    r#"
+  syntax(),
+  |tester| tr(
+    tester,
+    Config {
+      ..Default::default()
+    }
+  ),
+  export_from_2,
+  r#"
 export {foo as default} from "foo";
 
 "#,
-    r#"
+  r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["exports", "foo"], factory);
@@ -819,19 +823,19 @@ export {foo as default} from "foo";
 
 // export_default_8
 test!(
-    syntax(),
-    |tester| tr(
-        tester,
-        Config {
-            ..Default::default()
-        }
-    ),
-    export_default_8,
-    r#"
+  syntax(),
+  |tester| tr(
+    tester,
+    Config {
+      ..Default::default()
+    }
+  ),
+  export_default_8,
+  r#"
 export default class Foo {}
 
 "#,
-    r#"
+  r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["exports"], factory);
@@ -866,20 +870,20 @@ export default class Foo {}
 
 // export_named_5
 test!(
-    syntax(),
-    |tester| tr(
-        tester,
-        Config {
-            ..Default::default()
-        }
-    ),
-    export_named_5,
-    r#"
+  syntax(),
+  |tester| tr(
+    tester,
+    Config {
+      ..Default::default()
+    }
+  ),
+  export_named_5,
+  r#"
 var foo, bar;
 export {foo, bar};
 
 "#,
-    r#"
+  r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["exports"], factory);
@@ -909,21 +913,21 @@ export {foo, bar};
 
 // imports_exact_globals_false
 test!(
-    syntax(),
-    |tester| tr(
-        tester,
-        Config {
-            ..Default::default()
-        }
-    ),
-    imports_exact_globals_false,
-    r#"
+  syntax(),
+  |tester| tr(
+    tester,
+    Config {
+      ..Default::default()
+    }
+  ),
+  imports_exact_globals_false,
+  r#"
 import fooBar1 from "foo-bar";
 import fooBar2 from "./mylib/foo-bar";
 import fizzBuzz from "fizzbuzz";
 
 "#,
-    r#"
+  r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["foo-bar", "./mylib/foo-bar", "fizzbuzz"], factory);
@@ -953,19 +957,19 @@ import fizzBuzz from "fizzbuzz";
 
 // export_default_10
 test!(
-    syntax(),
-    |tester| tr(
-        tester,
-        Config {
-            ..Default::default()
-        }
-    ),
-    export_default_10,
-    r#"
+  syntax(),
+  |tester| tr(
+    tester,
+    Config {
+      ..Default::default()
+    }
+  ),
+  export_default_10,
+  r#"
 export default (function(){return "foo"})();
 
 "#,
-    r#"
+  r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["exports"], factory);
@@ -998,19 +1002,19 @@ export default (function(){return "foo"})();
 
 // export_from
 test!(
-    syntax(),
-    |tester| tr(
-        tester,
-        Config {
-            ..Default::default()
-        }
-    ),
-    export_from,
-    r#"
+  syntax(),
+  |tester| tr(
+    tester,
+    Config {
+      ..Default::default()
+    }
+  ),
+  export_from,
+  r#"
 export {foo} from "foo";
 
 "#,
-    r#"
+  r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["exports", "foo"], factory);
@@ -1042,19 +1046,19 @@ export {foo} from "foo";
 
 // export_from_5
 test!(
-    syntax(),
-    |tester| tr(
-        tester,
-        Config {
-            ..Default::default()
-        }
-    ),
-    export_from_5,
-    r#"
+  syntax(),
+  |tester| tr(
+    tester,
+    Config {
+      ..Default::default()
+    }
+  ),
+  export_from_5,
+  r#"
 export {foo, bar} from "foo";
 
 "#,
-    r#"
+  r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["exports", "foo"], factory);
@@ -1094,19 +1098,19 @@ export {foo, bar} from "foo";
 
 // export_default_2
 test!(
-    syntax(),
-    |tester| tr(
-        tester,
-        Config {
-            ..Default::default()
-        }
-    ),
-    export_default_2,
-    r#"
+  syntax(),
+  |tester| tr(
+    tester,
+    Config {
+      ..Default::default()
+    }
+  ),
+  export_default_2,
+  r#"
 export default {};
 
 "#,
-    r#"
+  r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["exports"], factory);
@@ -1135,15 +1139,15 @@ export default {};
 
 // imports_named
 test!(
-    syntax(),
-    |tester| tr(
-        tester,
-        Config {
-            ..Default::default()
-        }
-    ),
-    imports_named,
-    r#"
+  syntax(),
+  |tester| tr(
+    tester,
+    Config {
+      ..Default::default()
+    }
+  ),
+  imports_named,
+  r#"
 import {bar} from "foo";
 import {bar2, baz} from "foo";
 import {bar as baz2} from "foo";
@@ -1157,7 +1161,7 @@ baz3;
 xyz;
 
 "#,
-    r#"
+  r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["foo"], factory);
@@ -1186,20 +1190,20 @@ xyz;
 
 // imports_mixing
 test!(
-    syntax(),
-    |tester| tr(
-        tester,
-        Config {
-            ..Default::default()
-        }
-    ),
-    imports_mixing,
-    r#"
+  syntax(),
+  |tester| tr(
+    tester,
+    Config {
+      ..Default::default()
+    }
+  ),
+  imports_mixing,
+  r#"
 import foo, {baz as xyz} from "foo";
 xyz;
 
 "#,
-    r#"
+  r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["foo"], factory);
@@ -1224,15 +1228,15 @@ xyz;
 
 // remap
 test!(
-    syntax(),
-    |tester| tr(
-        tester,
-        Config {
-            ..Default::default()
-        }
-    ),
-    remap,
-    r#"
+  syntax(),
+  |tester| tr(
+    tester,
+    Config {
+      ..Default::default()
+    }
+  ),
+  remap,
+  r#"
 export var test = 2;
 test = 5;
 test++;
@@ -1256,7 +1260,7 @@ export { d as e, d as f };
 d = 4;
 
 "#,
-    r#"
+  r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["exports"], factory);
@@ -1306,20 +1310,20 @@ d = 4;
 
 // export_named_2
 test!(
-    syntax(),
-    |tester| tr(
-        tester,
-        Config {
-            ..Default::default()
-        }
-    ),
-    export_named_2,
-    r#"
+  syntax(),
+  |tester| tr(
+    tester,
+    Config {
+      ..Default::default()
+    }
+  ),
+  export_named_2,
+  r#"
 var foo;
 export {foo as default};
 
 "#,
-    r#"
+  r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["exports"], factory);
@@ -1348,19 +1352,19 @@ export {foo as default};
 
 // export_default_7
 test!(
-    syntax(),
-    |tester| tr(
-        tester,
-        Config {
-            ..Default::default()
-        }
-    ),
-    export_default_7,
-    r#"
+  syntax(),
+  |tester| tr(
+    tester,
+    Config {
+      ..Default::default()
+    }
+  ),
+  export_default_7,
+  r#"
 export default function foo () {}
 
 "#,
-    r#"
+  r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["exports"], factory);
@@ -1391,19 +1395,19 @@ export default function foo () {}
 
 // non_default_imports
 test!(
-    syntax(),
-    |tester| tr(
-        tester,
-        Config {
-            ..Default::default()
-        }
-    ),
-    non_default_imports,
-    r#"
+  syntax(),
+  |tester| tr(
+    tester,
+    Config {
+      ..Default::default()
+    }
+  ),
+  non_default_imports,
+  r#"
 import { render } from "./lib/render";
 
 "#,
-    r#"
+  r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["./lib/render"], factory);
@@ -1425,21 +1429,21 @@ import { render } from "./lib/render";
 
 // imports
 test!(
-    syntax(),
-    |tester| tr(
-        tester,
-        Config {
-            ..Default::default()
-        }
-    ),
-    imports,
-    r#"
+  syntax(),
+  |tester| tr(
+    tester,
+    Config {
+      ..Default::default()
+    }
+  ),
+  imports,
+  r#"
 import "foo";
 import "foo-bar";
 import "./directory/foo-bar";
 
 "#,
-    r#"
+  r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["foo", "foo-bar", "./directory/foo-bar"], factory);
@@ -1461,19 +1465,19 @@ import "./directory/foo-bar";
 
 // export_default
 test!(
-    syntax(),
-    |tester| tr(
-        tester,
-        Config {
-            ..Default::default()
-        }
-    ),
-    export_default,
-    r#"
+  syntax(),
+  |tester| tr(
+    tester,
+    Config {
+      ..Default::default()
+    }
+  ),
+  export_default,
+  r#"
 export default 42;
 
 "#,
-    r#"
+  r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["exports"], factory);
@@ -1502,19 +1506,19 @@ export default 42;
 
 // export_default_4
 test!(
-    syntax(),
-    |tester| tr(
-        tester,
-        Config {
-            ..Default::default()
-        }
-    ),
-    export_default_4,
-    r#"
+  syntax(),
+  |tester| tr(
+    tester,
+    Config {
+      ..Default::default()
+    }
+  ),
+  export_default_4,
+  r#"
 export default foo;
 
 "#,
-    r#"
+  r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["exports"], factory);
@@ -1543,19 +1547,19 @@ export default foo;
 
 // export_from_3
 test!(
-    syntax(),
-    |tester| tr(
-        tester,
-        Config {
-            ..Default::default()
-        }
-    ),
-    export_from_3,
-    r#"
+  syntax(),
+  |tester| tr(
+    tester,
+    Config {
+      ..Default::default()
+    }
+  ),
+  export_from_3,
+  r#"
 export {foo as default, bar} from "foo";
 
 "#,
-    r#"
+  r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["exports", "foo"], factory);
@@ -1593,21 +1597,21 @@ export {foo as default, bar} from "foo";
 
 // export_default_9
 test!(
-    syntax(),
-    |tester| tr(
-        tester,
-        Config {
-            ..Default::default()
-        }
-    ),
-    export_default_9,
-    r#"
+  syntax(),
+  |tester| tr(
+    tester,
+    Config {
+      ..Default::default()
+    }
+  ),
+  export_default_9,
+  r#"
 var foo;
 export { foo as default };
 
 
 "#,
-    r#"
+  r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["exports"], factory);
@@ -1636,15 +1640,15 @@ export { foo as default };
 
 // overview
 test!(
-    syntax(),
-    |tester| tr(
-        tester,
-        Config {
-            ..Default::default()
-        }
-    ),
-    overview,
-    r#"
+  syntax(),
+  |tester| tr(
+    tester,
+    Config {
+      ..Default::default()
+    }
+  ),
+  overview,
+  r#"
 import "foo";
 import "foo-bar";
 import "./directory/foo-bar";
@@ -1663,7 +1667,7 @@ bar;
 bar2;
 
 "#,
-    r#"
+  r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["exports", "foo", "foo-bar", "./directory/foo-bar"], factory);
@@ -1700,20 +1704,20 @@ bar2;
 
 // export_named_4
 test!(
-    syntax(),
-    |tester| tr(
-        tester,
-        Config {
-            ..Default::default()
-        }
-    ),
-    export_named_4,
-    r#"
+  syntax(),
+  |tester| tr(
+    tester,
+    Config {
+      ..Default::default()
+    }
+  ),
+  export_named_4,
+  r#"
 var foo;
 export {foo as bar};
 
 "#,
-    r#"
+  r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["exports"], factory);
@@ -1742,19 +1746,19 @@ export {foo as bar};
 
 // export_from_6
 test!(
-    syntax(),
-    |tester| tr(
-        tester,
-        Config {
-            ..Default::default()
-        }
-    ),
-    export_from_6,
-    r#"
+  syntax(),
+  |tester| tr(
+    tester,
+    Config {
+      ..Default::default()
+    }
+  ),
+  export_from_6,
+  r#"
 export * from "foo";
 
 "#,
-    r#"
+  r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["exports", "foo"], factory);
@@ -1790,20 +1794,20 @@ export * from "foo";
 // umd
 
 test!(
-    syntax(),
-    |tester| tr(
-        tester,
-        Config {
-            ..Default::default()
-        }
-    ),
-    issue_456_1,
-    "import { join as e } from 'path';
+  syntax(),
+  |tester| tr(
+    tester,
+    Config {
+      ..Default::default()
+    }
+  ),
+  issue_456_1,
+  "import { join as e } from 'path';
 export const foo = function () {
   function e(t) {}
   return A(e, {}), e
 }();",
-    "\
+  "\
 (function(global, factory) {
     if (typeof define === 'function' && define.amd) {
         define(['exports', 'path'], factory);
@@ -1834,20 +1838,20 @@ export const foo = function () {
 );
 
 test!(
-    syntax(),
-    |tester| tr(
-        tester,
-        Config {
-            ..Default::default()
-        }
-    ),
-    issue_456_2,
-    "import { join as e } from 'path';
+  syntax(),
+  |tester| tr(
+    tester,
+    Config {
+      ..Default::default()
+    }
+  ),
+  issue_456_2,
+  "import { join as e } from 'path';
 export const foo = function () {
   var e = 1;
   return A(e, {}), e
 }();",
-    "(function(global, factory) {
+  "(function(global, factory) {
     if (typeof define === 'function' && define.amd) {
         define(['exports', 'path'], factory);
     } else if (typeof exports !== 'undefined') {
