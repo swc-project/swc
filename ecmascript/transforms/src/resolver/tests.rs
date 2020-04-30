@@ -977,7 +977,7 @@ test!(
         tr(),
         Classes::default(),
         destructuring(Default::default()),
-        common_js(Default::default())
+        common_js(Mark::fresh(Mark::root()), Default::default())
     ),
     issue_578_2,
     "

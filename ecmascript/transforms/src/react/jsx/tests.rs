@@ -7,7 +7,7 @@ use crate::{
     modules::common_js::common_js,
     react::display_name,
 };
-use swc_common::chain;
+use swc_common::{chain, Mark};
 
 fn tr(options: Options) -> impl Fold<Module> {
     chain!(jsx(options), display_name(), Classes::default(), arrow(),)
@@ -1075,7 +1075,7 @@ test!(
             use_builtins: true,
             ..Default::default()
         }),
-        common_js(Default::default())
+        common_js(Mark::fresh(Mark::root()), Default::default())
     ),
     issue_351,
     "import React from 'react';
@@ -1111,7 +1111,7 @@ test!(
             use_builtins: true,
             ..Default::default()
         }),
-        common_js(Default::default())
+        common_js(Mark::fresh(Mark::root()), Default::default())
     ),
     issue_517,
     "import React from 'react';

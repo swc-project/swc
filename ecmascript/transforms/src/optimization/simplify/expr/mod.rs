@@ -488,7 +488,7 @@ impl SimplifyExpr {
                                     return preserve_effects(
                                         span,
                                         Expr::Lit(Lit::Num(Number { value: v, span })),
-                                        { iter::once(left).chain(iter::once(right)) },
+                                        iter::once(left).chain(iter::once(right)),
                                     );
                                 }
                                 _ => Expr::Bin(BinExpr {

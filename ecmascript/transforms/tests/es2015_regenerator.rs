@@ -3,7 +3,7 @@
 #![feature(box_patterns)]
 #![feature(specialization)]
 
-use swc_common::chain;
+use swc_common::{chain, Mark};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{
     compat::{es2015, es2015::regenerator, es2016, es2017, es2017::async_to_generator},
@@ -117,7 +117,10 @@ expect(test.iter().next().value).toBe(test);
 // regression_6733
 test!(
     syntax(),
-    |_| chain!(tr(Default::default()), common_js(Default::default())),
+    |_| chain!(
+        tr(Default::default()),
+        common_js(Mark::fresh(Mark::root()), Default::default())
+    ),
     regression_6733,
     r#"
 export default function * () {
