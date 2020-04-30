@@ -3,7 +3,7 @@
 #![feature(box_patterns)]
 #![feature(specialization)]
 
-use swc_common::{chain, Fold};
+use swc_common::{chain, Fold, Mark};
 use swc_ecma_ast::*;
 use swc_ecma_transforms::{
     compat, fixer,
@@ -16,7 +16,7 @@ use swc_ecma_transforms::{
     },
     optimization::simplifier,
     proposals::{class_properties, decorators, export},
-    resolver, typescript,
+    resolver_with_mark, typescript,
 };
 
 #[macro_use]
@@ -27,7 +27,9 @@ fn syntax() -> ::swc_ecma_parser::Syntax {
 }
 
 fn tr(config: Config) -> impl Fold<Module> {
-    chain!(resolver(), common_js(config))
+    let mark = Mark::fresh(Mark::root());
+
+    chain!(resolver_with_mark(mark), common_js(mark, config))
 }
 
 test!(
@@ -65,7 +67,7 @@ exports.default = _default;"
 
 test!(
     syntax(),
-    |_| common_js(Default::default()),
+    |_| common_js(Mark::fresh(Mark::root()), Default::default()),
     issue_389_1,
     "
 import Foo from 'foo';
@@ -80,15 +82,19 @@ _foo.default.bar = true;
 
 test!(
     syntax(),
-    |_| chain!(
-        resolver(),
-        // Optional::new(typescript::strip(), syntax.typescript()),
-        import_analyzer(),
-        InjectHelpers,
-        common_js(Default::default()),
-        hygiene(),
-        fixer()
-    ),
+    |_| {
+        let mark = Mark::fresh(Mark::root());
+
+        chain!(
+            resolver_with_mark(mark),
+            // Optional::new(typescript::strip(), syntax.typescript()),
+            import_analyzer(),
+            InjectHelpers,
+            common_js(mark, Default::default()),
+            hygiene(),
+            fixer()
+        )
+    },
     issue_389_2,
     "
 import Foo from 'foo';
@@ -121,7 +127,7 @@ test!(
         compat::es3(true),
         import_analyzer(),
         InjectHelpers,
-        common_js(Default::default()),
+        common_js(Mark::fresh(Mark::root()), Default::default()),
     ),
     issue_389_3,
     "
@@ -3885,12 +3891,16 @@ function foo() {
 
 test!(
     syntax(),
-    |_| chain!(
-        resolver(),
-        compat::es2015::BlockScopedFns,
-        compat::es2015::block_scoping(),
-        common_js(Default::default()),
-    ),
+    |_| {
+        let mark = Mark::fresh(Mark::root());
+
+        chain!(
+            resolver_with_mark(mark),
+            compat::es2015::BlockScopedFns,
+            compat::es2015::block_scoping(),
+            common_js(mark, Default::default()),
+        )
+    },
     issue_396_2,
     "
 function foo() {
@@ -3919,12 +3929,15 @@ test!(
     issue_395_syntax(),
     |_| chain!(
         decorators(Default::default()),
-        common_js(Config {
-            strict: false,
-            strict_mode: true,
-            no_interop: true,
-            ..Default::default()
-        }),
+        common_js(
+            Mark::fresh(Mark::root()),
+            Config {
+                strict: false,
+                strict_mode: true,
+                no_interop: true,
+                ..Default::default()
+            }
+        ),
     ),
     issue_395_1,
     "
@@ -3960,12 +3973,15 @@ test!(
     issue_395_syntax(),
     |_| chain!(
         decorators(Default::default()),
-        common_js(Config {
-            strict: false,
-            strict_mode: true,
-            no_interop: true,
-            ..Default::default()
-        }),
+        common_js(
+            Mark::fresh(Mark::root()),
+            Config {
+                strict: false,
+                strict_mode: true,
+                no_interop: true,
+                ..Default::default()
+            }
+        ),
     ),
     issue_395_2,
     "
@@ -4075,4 +4091,20 @@ Object.keys(_c).forEach(function(key) {
     });
 });
 "
+);
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        strict: false,
+        strict_mode: true,
+        no_interop: true,
+        ..Default::default()
+    }),
+    issue_724,
+    "import { MongoClient, Db } from 'mongodb'
+    require('foo');",
+    "'use strict';
+  var _mongodb = require('mongodb');
+  require('foo');"
 );

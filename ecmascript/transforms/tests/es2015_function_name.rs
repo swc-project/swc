@@ -3,7 +3,7 @@
 #![feature(box_patterns)]
 #![feature(specialization)]
 
-use swc_common::chain;
+use swc_common::{chain, Mark};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{
     compat::es2015::{arrow, block_scoping, classes::Classes, function_name, Shorthand},
@@ -226,7 +226,11 @@ test!(
         function_name(),
         Shorthand,
         arrow(),
-        umd(tester.cm.clone(), Default::default())
+        umd(
+            tester.cm.clone(),
+            Mark::fresh(Mark::root()),
+            Default::default()
+        )
     ),
     function_name_export_default_arrow_renaming_module_umd,
     r#"
@@ -336,7 +340,7 @@ test!(
         decorators(decorators::Config { legacy: true }),
         Classes::default(),
         function_name(),
-        common_js(Default::default())
+        common_js(Mark::fresh(Mark::root()), Default::default())
     ),
     function_name_modules_2,
     r#"
@@ -826,7 +830,7 @@ test!(
         decorators(decorators::Config { legacy: true }),
         Classes::default(),
         function_name(),
-        common_js(Default::default()),
+        common_js(Mark::fresh(Mark::root()), Default::default()),
     ),
     function_name_modules,
     r#"
@@ -904,7 +908,7 @@ test!(
         function_name(),
         Classes::default(),
         decorators(decorators::Config { legacy: true }),
-        common_js(Default::default())
+        common_js(Mark::fresh(Mark::root()), Default::default())
     ),
     function_name_modules_3,
     r#"
@@ -984,7 +988,7 @@ test!(
         arrow(),
         Shorthand,
         function_name(),
-        common_js(Default::default())
+        common_js(Mark::fresh(Mark::root()), Default::default())
     ),
     function_name_export_default_arrow_renaming,
     r#"

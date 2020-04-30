@@ -84,8 +84,13 @@ impl Strip {
                 }
             }
 
-            Decl::TsEnum(TsEnumDecl { ref id, .. })
-            | Decl::TsInterface(TsInterfaceDecl { ref id, .. })
+            Decl::TsEnum(TsEnumDecl { ref id, .. }) => {
+                // Currently swc cannot remove constant enums
+                store!(id.sym, id.span.ctxt(), true);
+                store!(id.sym, id.span.ctxt(), false);
+            }
+
+            Decl::TsInterface(TsInterfaceDecl { ref id, .. })
             | Decl::TsModule(TsModuleDecl {
                 id: TsModuleName::Ident(ref id),
                 ..

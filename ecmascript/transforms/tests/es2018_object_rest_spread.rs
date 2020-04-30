@@ -3,7 +3,7 @@
 #![feature(box_patterns)]
 #![feature(specialization)]
 
-use swc_common::{chain, Fold};
+use swc_common::{chain, Fold, Mark};
 use swc_ecma_ast::Module;
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{
@@ -2127,7 +2127,7 @@ test!(
         resolver(),
         tr(),
         destructuring(destructuring::Config { loose: false }),
-        common_js(Default::default()),
+        common_js(Mark::fresh(Mark::root()), Default::default()),
     ),
     regression_t7178,
     r#"

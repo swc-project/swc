@@ -1,7 +1,4 @@
-use crate::{
-    pass::Pass,
-    scope::{IdentType, ScopeKind},
-};
+use crate::scope::{IdentType, ScopeKind};
 use std::{cell::RefCell, collections::HashSet};
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Mark, SyntaxContext};
@@ -12,12 +9,18 @@ mod tests;
 
 const LOG: bool = false;
 
-pub fn resolver() -> impl Pass + 'static {
-    Resolver::new(
-        Mark::fresh(Mark::root()),
-        Scope::new(ScopeKind::Fn, None),
-        None,
-    )
+pub fn resolver() -> Resolver<'static> {
+    resolver_with_mark(Mark::fresh(Mark::root()))
+}
+
+/// `mark` should not be root.
+pub fn resolver_with_mark(mark: Mark) -> Resolver<'static> {
+    assert_ne!(
+        mark,
+        Mark::root(),
+        "Marker provided to resolver should not be root mark"
+    );
+    Resolver::new(mark, Scope::new(ScopeKind::Fn, None), None)
 }
 
 #[derive(Debug, Clone)]
@@ -55,7 +58,7 @@ impl<'a> Scope<'a> {
 /// ## Hoisting phase
 ///
 /// ## Resolving phase
-struct Resolver<'a> {
+pub struct Resolver<'a> {
     hoist: bool,
     mark: Mark,
     current: Scope<'a>,

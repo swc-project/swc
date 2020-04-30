@@ -3,7 +3,7 @@
 #![feature(box_patterns)]
 #![feature(specialization)]
 
-use swc_common::chain;
+use swc_common::{chain, Mark};
 use swc_ecma_transforms::{
     compat::es2015::{block_scoping, spread, spread::Config},
     modules::common_js::common_js,
@@ -578,7 +578,7 @@ test!(
         spread(Config {
             ..Default::default()
         }),
-        common_js(Default::default())
+        common_js(Mark::fresh(Mark::root()), Default::default())
     ),
     regression_6647,
     r#"

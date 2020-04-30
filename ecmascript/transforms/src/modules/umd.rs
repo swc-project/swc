@@ -16,9 +16,10 @@ use swc_ecma_ast::*;
 
 mod config;
 
-pub fn umd(cm: Arc<SourceMap>, config: Config) -> impl Pass {
+pub fn umd(cm: Arc<SourceMap>, root_mark: Mark, config: Config) -> impl Pass {
     Umd {
         config: config.build(cm.clone()),
+        root_mark,
         cm,
 
         in_top_level: Default::default(),
@@ -29,6 +30,7 @@ pub fn umd(cm: Arc<SourceMap>, config: Config) -> impl Pass {
 
 struct Umd {
     cm: Arc<SourceMap>,
+    root_mark: Mark,
     in_top_level: bool,
     config: BuiltConfig,
     scope: Scope,
@@ -479,7 +481,7 @@ impl Fold<Module> for Umd {
                 .elems
                 .push(Some(Lit::Str(quote_str!(src.clone())).as_arg()));
             factory_params.push(Pat::Ident(ident.clone()));
-            factory_args.push(make_require_call(src.clone()).as_arg());
+            factory_args.push(make_require_call(self.root_mark, src.clone()).as_arg());
             global_factory_args.push(quote_ident!("global").member(global_ident).as_arg());
 
             {

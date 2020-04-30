@@ -419,3 +419,22 @@ to!(module_01, "module 'foo'{ }", "");
 to!(declare_01, "declare var env: FOO", "");
 
 to!(import_equals, "import A = B.C", "");
+
+to!(
+    issue_757,
+    "// test.ts
+enum Foo {
+    A,
+    B,
+}
+
+export default Foo;
+",
+    "var Foo;
+    (function(Foo) {
+        Foo[Foo['A'] = 0] = 'A';
+        Foo[Foo['B'] = 1] = 'B';
+    })(Foo || (Foo = {
+    }));
+    export default Foo;"
+);

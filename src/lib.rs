@@ -16,8 +16,9 @@ use crate::config::{
 };
 use anyhow::{Context, Error};
 use common::{
-    comments::{Comment, Comments}, errors::Handler, BytePos, FileName, FoldWith, Globals, SourceFile, SourceMap,
-    GLOBALS,
+    comments::{Comment, Comments},
+    errors::Handler,
+    BytePos, FileName, FoldWith, Globals, SourceFile, SourceMap, GLOBALS,
 };
 use ecmascript::{
     ast::Program,
@@ -391,8 +392,8 @@ impl Compiler {
                     vc.retain(|c: &Comment| c.text.starts_with("!"));
                     !vc.is_empty()
                 };
-                self.comments.retain_leading (preserve_excl);
-                self.comments.retain_trailing (preserve_excl);
+                self.comments.retain_leading(preserve_excl);
+                self.comments.retain_trailing(preserve_excl);
             }
             let mut pass = config.pass;
             let module = helpers::HELPERS.set(&Helpers::new(config.external_helpers), || {

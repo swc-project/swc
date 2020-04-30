@@ -11,7 +11,12 @@
 #[macro_use]
 extern crate swc_ecma_utils;
 
-pub use self::{const_modules::const_modules, fixer::fixer, hygiene::hygiene, resolver::resolver};
+pub use self::{
+    const_modules::const_modules,
+    fixer::fixer,
+    hygiene::hygiene,
+    resolver::{resolver, resolver_with_mark},
+};
 
 #[macro_use]
 mod macros;

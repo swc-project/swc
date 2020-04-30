@@ -3,7 +3,7 @@
 #![feature(box_patterns)]
 #![feature(specialization)]
 
-use swc_common::chain;
+use swc_common::{chain, Mark};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{
     compat::es2015::for_of::{for_of, Config},
@@ -298,7 +298,7 @@ test!(
     syntax(),
     |_| chain!(
         for_of(Config { assume_array: true }),
-        common_js(Default::default())
+        common_js(Mark::fresh(Mark::root()), Default::default())
     ),
     for_of_as_array_for_of_import_commonjs,
     r#"

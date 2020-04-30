@@ -4,14 +4,14 @@
 #![feature(specialization)]
 
 use common::Tester;
-use swc_common::chain;
+use swc_common::{chain, Mark};
 use swc_ecma_transforms::{
     modules::{
         umd::{umd, Config},
         util,
     },
     pass::Pass,
-    resolver,
+    resolver_with_mark,
 };
 
 #[macro_use]
@@ -22,7 +22,11 @@ fn syntax() -> ::swc_ecma_parser::Syntax {
 }
 
 fn tr(tester: &mut Tester<'_>, config: Config) -> impl Pass {
-    chain!(resolver(), umd(tester.cm.clone(), config))
+    let mark = Mark::fresh(Mark::root());
+    chain!(
+        resolver_with_mark(mark),
+        umd(tester.cm.clone(), mark, config)
+    )
 }
 
 test!(

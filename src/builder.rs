@@ -2,7 +2,7 @@ use crate::config::{GlobalPassOption, JscTarget, ModuleConfig};
 use either::Either;
 use std::{collections::HashMap, sync::Arc};
 use swc_atoms::JsWord;
-use swc_common::{chain, errors::Handler, fold::and_then::AndThen, SourceMap};
+use swc_common::{chain, errors::Handler, fold::and_then::AndThen, Mark, SourceMap};
 use swc_ecmascript::{
     parser::Syntax,
     preset_env,
@@ -85,7 +85,12 @@ impl<'a, 'b, P: Pass> PassBuilder<'a, 'b, P> {
     ///  - helper injector
     ///  - identifier hygiene handler
     ///  - fixer
-    pub fn finalize(self, syntax: Syntax, module: Option<ModuleConfig>) -> impl Pass {
+    pub fn finalize(
+        self,
+        root_mark: Mark,
+        syntax: Syntax,
+        module: Option<ModuleConfig>,
+    ) -> impl Pass {
         let need_interop_analysis = match module {
             Some(ModuleConfig::CommonJs(ref c)) => !c.no_interop,
             Some(ModuleConfig::Amd(ref c)) => !c.config.no_interop,
@@ -127,7 +132,7 @@ impl<'a, 'b, P: Pass> PassBuilder<'a, 'b, P> {
                 need_interop_analysis
             ),
             helpers::InjectHelpers,
-            ModuleConfig::build(self.cm.clone(), module),
+            ModuleConfig::build(self.cm.clone(), root_mark, module),
             // hygiene
             hygiene(),
             // fixer
