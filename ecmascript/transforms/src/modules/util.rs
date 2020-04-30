@@ -644,10 +644,10 @@ impl Scope {
     }
 }
 
-pub(super) fn make_require_call(src: JsWord) -> Expr {
+pub(super) fn make_require_call(mark: Mark, src: JsWord) -> Expr {
     Expr::Call(CallExpr {
         span: DUMMY_SP,
-        callee: quote_ident!("require").as_callee(),
+        callee: quote_ident!(DUMMY_SP.apply_mark(mark), "require").as_callee(),
         args: vec![Lit::Str(Str {
             span: DUMMY_SP,
             value: src,

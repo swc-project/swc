@@ -9,11 +9,12 @@ use crate::{
 };
 use fxhash::FxHashSet;
 use swc_atoms::js_word;
-use swc_common::{Fold, FoldWith, VisitWith, DUMMY_SP};
+use swc_common::{Fold, FoldWith, Mark, VisitWith, DUMMY_SP};
 use swc_ecma_ast::*;
 
-pub fn common_js(config: Config) -> impl Pass {
+pub fn common_js(root_mark: Mark, config: Config) -> impl Pass {
     CommonJs {
+        root_mark,
         config,
         scope: Default::default(),
         in_top_level: Default::default(),
@@ -21,6 +22,7 @@ pub fn common_js(config: Config) -> impl Pass {
 }
 
 struct CommonJs {
+    root_mark: Mark,
     config: Config,
     scope: Scope,
     in_top_level: bool,
@@ -492,7 +494,7 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                 self.config.lazy.is_lazy(&src)
             };
 
-            let require = make_require_call(src.clone());
+            let require = make_require_call(self.root_mark, src.clone());
 
             match import {
                 Some(import) => {
