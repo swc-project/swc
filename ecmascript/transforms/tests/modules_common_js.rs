@@ -6,37 +6,37 @@
 use swc_common::{chain, Fold};
 use swc_ecma_ast::*;
 use swc_ecma_transforms::{
-    compat, fixer,
-    helpers::InjectHelpers,
-    hygiene,
-    modules::{
-        common_js::{common_js, Config},
-        import_analysis::import_analyzer,
-        util::Lazy,
-    },
-    optimization::simplifier,
-    proposals::{class_properties, decorators, export},
-    resolver, typescript,
+  compat, fixer,
+  helpers::InjectHelpers,
+  hygiene,
+  modules::{
+    common_js::{common_js, Config},
+    import_analysis::import_analyzer,
+    util::Lazy,
+  },
+  optimization::simplifier,
+  proposals::{class_properties, decorators, export},
+  resolver, typescript,
 };
 
 #[macro_use]
 mod common;
 
 fn syntax() -> ::swc_ecma_parser::Syntax {
-    Default::default()
+  Default::default()
 }
 
 fn tr(config: Config) -> impl Fold<Module> {
-    chain!(resolver(), common_js(config))
+  chain!(resolver(), common_js(config))
 }
 
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    issue_369,
-    "export function input(name) {
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  issue_369,
+  "export function input(name) {
     return `${name}.md?render`;
 }
 
@@ -46,7 +46,7 @@ export default function({
     inp = inp || input(name);
     return {input: inp};
 }",
-    "'use strict';
+  "'use strict';
 Object.defineProperty(exports, '__esModule', {
     value: true
 });
@@ -64,14 +64,14 @@ exports.default = _default;"
 );
 
 test!(
-    syntax(),
-    |_| common_js(Default::default()),
-    issue_389_1,
-    "
+  syntax(),
+  |_| common_js(Default::default()),
+  issue_389_1,
+  "
 import Foo from 'foo';
 Foo.bar = true;
 ",
-    "
+  "
 'use strict';
 var _foo = _interopRequireDefault(require('foo'));
 _foo.default.bar = true;
@@ -79,56 +79,22 @@ _foo.default.bar = true;
 );
 
 test!(
-    syntax(),
-    |_| chain!(
-        resolver(),
-        // Optional::new(typescript::strip(), syntax.typescript()),
-        import_analyzer(),
-        InjectHelpers,
-        common_js(Default::default()),
-        hygiene(),
-        fixer()
-    ),
-    issue_389_2,
-    "
+  syntax(),
+  |_| chain!(
+    resolver(),
+    // Optional::new(typescript::strip(), syntax.typescript()),
+    import_analyzer(),
+    InjectHelpers,
+    common_js(Default::default()),
+    hygiene(),
+    fixer()
+  ),
+  issue_389_2,
+  "
 import Foo from 'foo';
 Foo.bar = true;
 ",
-    "
-'use strict';
-var _foo = _interopRequireDefault(require('foo'));
-function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : {
-        default: obj
-    };
-}
-_foo.default.bar = true;
-"
-);
-
-test!(
-    syntax(),
-    |_| chain!(
-        typescript::strip(),
-        decorators(Default::default()),
-        class_properties(),
-        export(),
-        simplifier(Default::default()),
-        compat::es2018(),
-        compat::es2017(),
-        compat::es2016(),
-        compat::es2015(Default::default()),
-        compat::es3(true),
-        import_analyzer(),
-        InjectHelpers,
-        common_js(Default::default()),
-    ),
-    issue_389_3,
-    "
-import Foo from 'foo';
-Foo.bar = true;
-",
-    "
+  "
 'use strict';
 var _foo = _interopRequireDefault(require('foo'));
 function _interopRequireDefault(obj) {
@@ -141,29 +107,63 @@ _foo.default.bar = true;
 );
 
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    issue_335,
-    "import bar from 'bar';
+  syntax(),
+  |_| chain!(
+    typescript::strip(),
+    decorators(Default::default()),
+    class_properties(),
+    export(),
+    simplifier(Default::default()),
+    compat::es2018(),
+    compat::es2017(),
+    compat::es2016(),
+    compat::es2015(Default::default()),
+    compat::es3(true),
+    import_analyzer(),
+    InjectHelpers,
+    common_js(Default::default()),
+  ),
+  issue_389_3,
+  "
+import Foo from 'foo';
+Foo.bar = true;
+",
+  "
+'use strict';
+var _foo = _interopRequireDefault(require('foo'));
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+        default: obj
+    };
+}
+_foo.default.bar = true;
+"
+);
+
+test!(
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  issue_335,
+  "import bar from 'bar';
 
 obj[bar('bas')] = '123'",
-    "'use strict';
+  "'use strict';
 var _bar = _interopRequireDefault(require('bar'));
 obj[_bar.default('bas')] = '123';"
 );
 
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    issue_332,
-    "import foo from 'foo';
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  issue_332,
+  "import foo from 'foo';
 
 export const bar = { foo }",
-    "
+  "
 'use strict';
 Object.defineProperty(exports, '__esModule', {
     value: true
@@ -177,15 +177,15 @@ exports.bar = bar;"
 );
 
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    issue_326,
-    "import foo from 'foo';
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  issue_326,
+  "import foo from 'foo';
 import bar from '../foo';
 foo, bar",
-    "'use strict';
+  "'use strict';
 var _foo = _interopRequireDefault(require('foo'));
 var _foo1 = _interopRequireDefault(require('../foo'));
 
@@ -193,14 +193,14 @@ _foo.default, _foo1.default"
 );
 
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    issue_235,
-    "import {Foo as Bar} from 'something';
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  issue_235,
+  "import {Foo as Bar} from 'something';
 export const fn = ({a = new Bar()}) => a;",
-    "
+  "
 'use strict';
 Object.defineProperty(exports, '__esModule', {
     value: true
@@ -214,16 +214,16 @@ exports.fn = fn;
 );
 
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    custom_usage,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  custom_usage,
+  r#"
 import React from 'react'
 window.React = React;
   "#,
-    r#"
+  r#"
 'use strict';
 var _react = _interopRequireDefault(require('react'));
 window.React = _react.default;
@@ -231,17 +231,17 @@ window.React = _react.default;
 );
 
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    custom_01,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  custom_01,
+  r#"
 var foo = 1;
 export var foo = 2;
 foo = 3;
 "#,
-    r#"
+  r#"
 "use strict";
 Object.defineProperty(exports, '__esModule', {
      value: true
@@ -256,18 +256,18 @@ exports.foo = foo = 3;
 "#
 );
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    custom_02,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  custom_02,
+  r#"
 export const good = {
   a(bad1) {
     (...bad2) => { };
   }
 };"#,
-    r#"
+  r#"
 'use strict';
 Object.defineProperty(exports, '__esModule', {
     value: true
@@ -284,16 +284,16 @@ exports.good = good;
 );
 
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    issue_176,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  issue_176,
+  r#"
 "use strict";
 
 let x = 4;"#,
-    r#"
+  r#"
 "use strict";
 
 let x = 4;
@@ -302,18 +302,18 @@ let x = 4;
 
 // strict_export_2
 test!(
-    syntax(),
-    |_| tr(Config {
-        strict: true,
-        ..Default::default()
-    }),
-    strict_export_2,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    strict: true,
+    ..Default::default()
+  }),
+  strict_export_2,
+  r#"
 var foo;
 export { foo as default };
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 exports.default = void 0;
@@ -325,12 +325,12 @@ exports.default = foo;
 
 // interop_hoist_function_exports
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    interop_hoist_function_exports,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  interop_hoist_function_exports,
+  r#"
 import { isEven } from "./evens";
 
 export function nextOdd(n) {
@@ -344,7 +344,7 @@ export var isOdd = (function (isEven) {
 })(isEven);
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -374,16 +374,16 @@ exports.isOdd = isOdd;
 
 // misc_undefined_this_root_declaration
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    misc_undefined_this_root_declaration,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  misc_undefined_this_root_declaration,
+  r#"
 var self = this;
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 var self = void 0;
@@ -393,16 +393,16 @@ var self = void 0;
 
 // interop_export_default_3
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    interop_export_default_3,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  interop_export_default_3,
+  r#"
 export default [];
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -417,18 +417,18 @@ exports.default = _default;
 
 // misc_copy_getters_setters
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    misc_copy_getters_setters,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  misc_copy_getters_setters,
+  r#"
 import Foo, { baz } from "./moduleWithGetter";
 
 export { Foo, baz };
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -462,12 +462,12 @@ var _moduleWithGetter = _interopRequireWildcard(require("./moduleWithGetter"));
 
 // update_expression_positive_suffix
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    update_expression_positive_suffix,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  update_expression_positive_suffix,
+  r#"
 export let diffLevel = 0;
 
 export function diff() {
@@ -477,7 +477,7 @@ export function diff() {
 }
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -499,18 +499,18 @@ function diff() {
 
 // interop_export_default_11
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    interop_export_default_11,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  interop_export_default_11,
+  r#"
 export default new Cachier()
 
 export function Cachier(databaseName) {}
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -530,17 +530,17 @@ function Cachier(databaseName) {}
 
 // interop_export_named_5
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    interop_export_named_5,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  interop_export_named_5,
+  r#"
 var foo, bar;
 export {foo as default, bar};
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -556,12 +556,12 @@ exports.bar = bar;
 
 // interop_exports_variable
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    interop_exports_variable,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  interop_exports_variable,
+  r#"
 export var foo = 1;
 export var foo2 = 1, bar = 2;
 export var foo3 = function () {};
@@ -573,7 +573,7 @@ export function foo8 () {}
 export class foo9 {}
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -611,16 +611,16 @@ exports.foo9 = foo9;
 
 // interop_export_from_2
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    interop_export_from_2,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  interop_export_from_2,
+  r#"
 export {foo} from "foo";
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -640,18 +640,18 @@ var _foo = require("foo");
 
 // lazy_local_reexport_default
 test!(
-    syntax(),
-    |_| tr(Config {
-        lazy: Lazy::Bool(true),
-        ..Default::default()
-    }),
-    lazy_local_reexport_default,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    lazy: Lazy::Bool(true),
+    ..Default::default()
+  }),
+  lazy_local_reexport_default,
+  r#"
 import foo from "./foo";
 export { foo as default };
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -671,18 +671,18 @@ var _foo = _interopRequireDefault(require("./foo"));
 
 // lazy_local_reexport_namespace
 test!(
-    syntax(),
-    |_| tr(Config {
-        lazy: Lazy::Bool(true),
-        ..Default::default()
-    }),
-    lazy_local_reexport_namespace,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    lazy: Lazy::Bool(true),
+    ..Default::default()
+  }),
+  lazy_local_reexport_namespace,
+  r#"
 import * as namespace from "./foo";
 export { namespace };
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -701,16 +701,16 @@ exports.namespace = namespace;
 
 // interop_export_default_6
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    interop_export_default_6,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  interop_export_default_6,
+  r#"
 export default class {}
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -727,19 +727,19 @@ exports.default = _default;
 
 // no_interop_import_default_only
 test!(
-    syntax(),
-    |_| tr(Config {
-        no_interop: true,
-        ..Default::default()
-    }),
-    no_interop_import_default_only,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    no_interop: true,
+    ..Default::default()
+  }),
+  no_interop_import_default_only,
+  r#"
 import foo from "foo";
 
 foo();
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 var _foo = require("foo");
@@ -753,16 +753,16 @@ _foo.default();
 
 // interop_export_from_7
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    interop_export_from_7,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  interop_export_from_7,
+  r#"
 export {default as foo} from "foo";
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -782,12 +782,12 @@ var _foo = _interopRequireDefault(require("foo"));
 
 // interop_remap
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    interop_remap,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  interop_remap,
+  r#"
 export var test = 2;
 test = 5;
 test++;
@@ -811,7 +811,7 @@ export { d as e, d as f };
 d = 4;
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -847,17 +847,17 @@ exports.f = exports.e = d = 4;
 
 // lazy_dep_reexport_all
 test!(
-    syntax(),
-    |_| tr(Config {
-        lazy: Lazy::Bool(true),
-        ..Default::default()
-    }),
-    lazy_dep_reexport_all,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    lazy: Lazy::Bool(true),
+    ..Default::default()
+  }),
+  lazy_dep_reexport_all,
+  r#"
 export * from "foo";
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -885,17 +885,17 @@ Object.keys(_foo).forEach(function (key) {
 
 // lazy_local_sideeffect
 test!(
-    syntax(),
-    |_| tr(Config {
-        lazy: Lazy::Bool(true),
-        ..Default::default()
-    }),
-    lazy_local_sideeffect,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    lazy: Lazy::Bool(true),
+    ..Default::default()
+  }),
+  lazy_local_sideeffect,
+  r#"
 import "./a";
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 require("./a");
@@ -905,17 +905,17 @@ require("./a");
 
 // strict_export_const_destructuring_deep
 test!(
-    syntax(),
-    |_| tr(Config {
-        strict: true,
-        ..Default::default()
-    }),
-    strict_export_const_destructuring_deep,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    strict: true,
+    ..Default::default()
+  }),
+  strict_export_const_destructuring_deep,
+  r#"
 export const { foo: { bar: [baz, qux] } } = {};
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 exports.qux = exports.baz = void 0;
@@ -932,17 +932,17 @@ exports.qux = qux;
 
 // lazy_local_reexport_all
 test!(
-    syntax(),
-    |_| tr(Config {
-        lazy: Lazy::Bool(true),
-        ..Default::default()
-    }),
-    lazy_local_reexport_all,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    lazy: Lazy::Bool(true),
+    ..Default::default()
+  }),
+  lazy_local_reexport_all,
+  r#"
 export * from "./foo";
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -968,16 +968,16 @@ Object.keys(_foo).forEach(function (key) {
 
 // interop_export_from_4
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    interop_export_from_4,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  interop_export_from_4,
+  r#"
 export {foo as bar} from "foo";
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -997,12 +997,12 @@ var _foo = require("foo");
 
 // interop_export_destructured
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    interop_export_destructured,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  interop_export_destructured,
+  r#"
 export let x = 0;
 export let y = 0;
 
@@ -1023,7 +1023,7 @@ export function f4 () {
 }
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1070,17 +1070,17 @@ function f4() {
 
 // strict_export_const_destructuring_array
 test!(
-    syntax(),
-    |_| tr(Config {
-        strict: true,
-        ..Default::default()
-    }),
-    strict_export_const_destructuring_array,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    strict: true,
+    ..Default::default()
+  }),
+  strict_export_const_destructuring_array,
+  r#"
 export const [foo, bar] = [];
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 exports.bar = exports.foo = void 0;
@@ -1093,17 +1093,17 @@ exports.bar = bar;
 
 // interop_export_named_3
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    interop_export_named_3,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  interop_export_named_3,
+  r#"
 var foo;
 export {foo as bar};
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1120,16 +1120,16 @@ exports.bar = foo;
 
 // interop_imports_glob
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    interop_imports_glob,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  interop_imports_glob,
+  r#"
 import * as foo from "foo";
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 var foo = _interopRequireWildcard(require("foo"));
@@ -1143,17 +1143,17 @@ var foo = _interopRequireWildcard(require("foo"));
 
 // strict_export
 test!(
-    syntax(),
-    |_| tr(Config {
-        strict: true,
-        ..Default::default()
-    }),
-    strict_export,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    strict: true,
+    ..Default::default()
+  }),
+  strict_export,
+  r#"
 export function foo() {}
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 exports.foo = foo;
@@ -1165,20 +1165,20 @@ function foo() {}
 
 // no_interop_import_wildcard
 test!(
-    syntax(),
-    |_| tr(Config {
-        no_interop: true,
-        ..Default::default()
-    }),
-    no_interop_import_wildcard,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    no_interop: true,
+    ..Default::default()
+  }),
+  no_interop_import_wildcard,
+  r#"
 import * as foo from 'foo';
 
 foo.bar();
 foo.baz();
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 var foo = require("foo");
@@ -1191,16 +1191,16 @@ foo.baz();
 
 // interop_export_default_5
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    interop_export_default_5,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  interop_export_default_5,
+  r#"
 export default function () {}
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1215,17 +1215,17 @@ exports.default = _default;
 
 // strict_export_const_destructuring_object_default_params
 test!(
-    syntax(),
-    |_| tr(Config {
-        strict: true,
-        ..Default::default()
-    }),
-    strict_export_const_destructuring_object_default_params,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    strict: true,
+    ..Default::default()
+  }),
+  strict_export_const_destructuring_object_default_params,
+  r#"
 export const { foo, bar = 1 } = {};
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 exports.bar = exports.foo = void 0;
@@ -1241,19 +1241,19 @@ exports.bar = bar;
 
 // lazy_whitelist_reexport_all
 test!(
-    syntax(),
-    |_| tr(Config {
-        lazy: Lazy::List(vec!["white".into()]),
-        ..Default::default()
-    }),
-    lazy_whitelist_reexport_all,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    lazy: Lazy::List(vec!["white".into()]),
+    ..Default::default()
+  }),
+  lazy_whitelist_reexport_all,
+  r#"
 export * from "white";
 
 export * from "black";
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1290,20 +1290,20 @@ Object.keys(_black).forEach(function (key) {
 
 // lazy_dep_import_namespace
 test!(
-    syntax(),
-    |_| tr(Config {
-        lazy: Lazy::Bool(true),
-        ..Default::default()
-    }),
-    lazy_dep_import_namespace,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    lazy: Lazy::Bool(true),
+    ..Default::default()
+  }),
+  lazy_dep_import_namespace,
+  r#"
 import * as foo from "foo";
 
 function use() {
   console.log(foo);
 }
 "#,
-    r#"
+  r#"
 "use strict";
 
 function foo() {
@@ -1325,18 +1325,18 @@ function use() {
 
 // lazy_whitelist_reexport_default
 test!(
-    syntax(),
-    |_| tr(Config {
-        lazy: Lazy::List(vec!["white".into()]),
-        ..Default::default()
-    }),
-    lazy_whitelist_reexport_default,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    lazy: Lazy::List(vec!["white".into()]),
+    ..Default::default()
+  }),
+  lazy_whitelist_reexport_default,
+  r#"
 import foo from "white";
 export { foo as default };
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1365,16 +1365,16 @@ function _white() {
 
 // interop_export_default_8
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    interop_export_default_8,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  interop_export_default_8,
+  r#"
 export default class Foo {}
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1391,17 +1391,17 @@ exports.default = Foo;
 
 // strict_export_1
 test!(
-    syntax(),
-    |_| tr(Config {
-        strict: true,
-        ..Default::default()
-    }),
-    strict_export_1,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    strict: true,
+    ..Default::default()
+  }),
+  strict_export_1,
+  r#"
 export default foo;
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 exports.default = void 0;
@@ -1413,19 +1413,19 @@ exports.default = _default;
 
 // lazy_local_import_named
 test!(
-    syntax(),
-    |_| tr(Config {
-        lazy: Lazy::Bool(true),
-        ..Default::default()
-    }),
-    lazy_local_import_named,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    lazy: Lazy::Bool(true),
+    ..Default::default()
+  }),
+  lazy_local_import_named,
+  r#"
 import { foo } from "./foo";
 
 console.log(foo);
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 var _foo = require("./foo");
@@ -1437,16 +1437,16 @@ console.log(_foo.foo);
 
 // interop_export_default_2
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    interop_export_default_2,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  interop_export_default_2,
+  r#"
 export default {};
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1461,17 +1461,17 @@ exports.default = _default;
 
 // interop_export_named
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    interop_export_named_1,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  interop_export_named_1,
+  r#"
 var foo;
 export {foo};
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1486,19 +1486,19 @@ exports.foo = foo;
 
 // interop_imports_ordering
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    interop_imports_ordering,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  interop_imports_ordering,
+  r#"
 import './foo';
 import bar from './bar';
 import './derp';
 import { qux } from './qux';
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 require("./foo");
@@ -1514,19 +1514,19 @@ var _qux = require("./qux");
 
 // strict_export_3
 test!(
-    syntax(),
-    |_| tr(Config {
-        strict: true,
-        ..Default::default()
-    }),
-    strict_export_3,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    strict: true,
+    ..Default::default()
+  }),
+  strict_export_3,
+  r#"
 export {};
 
 export {} from 'foo';
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 require("foo");
@@ -1536,17 +1536,17 @@ require("foo");
 
 // interop_export_named_4
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    interop_export_named_4,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  interop_export_named_4,
+  r#"
 var foo;
 export {foo as default};
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1561,12 +1561,12 @@ exports.default = foo;
 
 // misc_import_const_throw
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    misc_import_const_throw,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  misc_import_const_throw,
+  r#"
 import Foo from "foo";
 
 import * as Bar from "bar";
@@ -1586,7 +1586,7 @@ Baz = 44;
 ({prop: Baz} = {});
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 var _foo = _interopRequireDefault(require("foo"));
@@ -1635,19 +1635,19 @@ Baz = (function() {
 
 // lazy_local_import_default
 test!(
-    syntax(),
-    |_| tr(Config {
-        lazy: Lazy::Bool(true),
-        ..Default::default()
-    }),
-    lazy_local_import_default,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    lazy: Lazy::Bool(true),
+    ..Default::default()
+  }),
+  lazy_local_import_default,
+  r#"
 import foo from "./foo";
 
 console.log(foo);
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 var _foo = _interopRequireDefault(require("./foo"));
@@ -1659,13 +1659,13 @@ console.log(_foo.default);
 
 // lazy_whitelist_reexport_namespace
 test!(
-    syntax(),
-    |_| tr(Config {
-        lazy: Lazy::List(vec!["white".into()]),
-        ..Default::default()
-    }),
-    lazy_whitelist_reexport_namespace,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    lazy: Lazy::List(vec!["white".into()]),
+    ..Default::default()
+  }),
+  lazy_whitelist_reexport_namespace,
+  r#"
 import * as namespace1 from "white";
 export { namespace1 };
 
@@ -1673,7 +1673,7 @@ import * as namespace2 from "black";
 export { namespace2 };
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1706,16 +1706,16 @@ exports.namespace2 = namespace2;
 
 // interop_export_from_3
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    interop_export_from_3,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  interop_export_from_3,
+  r#"
 export {foo, bar} from "foo";
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1741,18 +1741,18 @@ var _foo = require("foo");
 
 // lazy_dep_reexport_named
 test!(
-    syntax(),
-    |_| tr(Config {
-        lazy: Lazy::Bool(true),
-        ..Default::default()
-    }),
-    lazy_dep_reexport_named,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    lazy: Lazy::Bool(true),
+    ..Default::default()
+  }),
+  lazy_dep_reexport_named,
+  r#"
 import { named } from "foo";
 export { named };
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1780,14 +1780,14 @@ function _foo() {
 
 // auxiliary_comment_overview
 test!(
-    // Comment is not supported yet
-    ignore,
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    auxiliary_comment_overview,
-    r#"
+  // Comment is not supported yet
+  ignore,
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  auxiliary_comment_overview,
+  r#"
 import "foo";
 import "foo-bar";
 import "./directory/foo-bar";
@@ -1807,7 +1807,7 @@ bar2;
 foo;
 
 "#,
-    r#"
+  r#"
 /*before*/
 "use strict";
 
@@ -1925,12 +1925,12 @@ default
 
 // interop_imports_default
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    interop_imports_default,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  interop_imports_default,
+  r#"
 import foo from "foo";
 import {default as foo2} from "foo";
 
@@ -1938,7 +1938,7 @@ foo;
 foo2;
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 var _foo = _interopRequireDefault(require("foo"));
@@ -1951,16 +1951,16 @@ _foo.default;
 
 // misc_undefined_this_root_reference
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    misc_undefined_this_root_reference,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  misc_undefined_this_root_reference,
+  r#"
 this;
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 void 0;
@@ -1972,16 +1972,16 @@ void 0;
 
 // interop_export_default_10
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    interop_export_default_10,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  interop_export_default_10,
+  r#"
 export default (function(){return "foo"})();
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2000,13 +2000,13 @@ exports.default = _default;
 
 // lazy_whitelist_import_named
 test!(
-    syntax(),
-    |_| tr(Config {
-        lazy: Lazy::List(vec!["white".into()]),
-        ..Default::default()
-    }),
-    lazy_whitelist_import_named,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    lazy: Lazy::List(vec!["white".into()]),
+    ..Default::default()
+  }),
+  lazy_whitelist_import_named,
+  r#"
 import { foo1 } from "white";
 
 function use1() {
@@ -2020,7 +2020,7 @@ function use2() {
 }
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 function _white() {
@@ -2047,16 +2047,16 @@ function use2() {
 
 // interop_export_default
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    interop_export_default,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  interop_export_default,
+  r#"
 export default 42;
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2073,19 +2073,19 @@ exports.default = _default;
 
 // lazy_local_import_namespace
 test!(
-    syntax(),
-    |_| tr(Config {
-        lazy: Lazy::Bool(true),
-        ..Default::default()
-    }),
-    lazy_local_import_namespace,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    lazy: Lazy::Bool(true),
+    ..Default::default()
+  }),
+  lazy_local_import_namespace,
+  r#"
 import * as foo from "./foo";
 
 console.log(foo);
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 var foo = _interopRequireWildcard(require("./foo"));
@@ -2098,16 +2098,16 @@ console.log(foo);
 
 // interop_export_default_7
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    interop_export_default_7,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  interop_export_default_7,
+  r#"
 export default function foo () {}
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2123,13 +2123,13 @@ exports.default = foo;
 
 // lazy_whitelist_reexport_named
 test!(
-    syntax(),
-    |_| tr(Config {
-        lazy: Lazy::List(vec!["white".into()]),
-        ..Default::default()
-    }),
-    lazy_whitelist_reexport_named,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    lazy: Lazy::List(vec!["white".into()]),
+    ..Default::default()
+  }),
+  lazy_whitelist_reexport_named,
+  r#"
 import { named1 } from "white";
 export { named1 };
 
@@ -2137,7 +2137,7 @@ import { named2 } from "black";
 export { named2 };
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2176,16 +2176,16 @@ var _black = require("black");
 
 // interop_export_from
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    interop_export_from_1,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  interop_export_from_1,
+  r#"
 export * from "foo";
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2209,19 +2209,19 @@ Object.keys(_foo).forEach(function (key) {
 
 // disable_strict_mode_strict_mode_false
 test!(
-    syntax(),
-    |_| tr(Config {
-        strict_mode: false,
-        ..Default::default()
-    }),
-    disable_strict_mode_strict_mode_false,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    strict_mode: false,
+    ..Default::default()
+  }),
+  disable_strict_mode_strict_mode_false,
+  r#"
 import "foo";
 import "foo-bar";
 import "./directory/foo-bar";
 
 "#,
-    r#"
+  r#"
 require("foo");
 
 require("foo-bar");
@@ -2233,16 +2233,16 @@ require("./directory/foo-bar");
 
 // interop_export_from_6
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    interop_export_from_6,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  interop_export_from_6,
+  r#"
 export {foo as default, bar} from "foo";
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2268,16 +2268,16 @@ var _foo = require("foo");
 
 // interop_export_from_5
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    interop_export_from_5,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  interop_export_from_5,
+  r#"
 export {foo as default} from "foo";
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2297,13 +2297,13 @@ var _foo = require("foo");
 
 // strict_import
 test!(
-    syntax(),
-    |_| tr(Config {
-        strict: true,
-        ..Default::default()
-    }),
-    strict_import,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    strict: true,
+    ..Default::default()
+  }),
+  strict_import,
+  r#"
 import foo from "foo";
 import { default as foo2 } from "foo";
 import { foo3 } from "foo";
@@ -2315,7 +2315,7 @@ foo3;
 foo3();
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 var foo4 = _interopRequireWildcard(require("foo"));
@@ -2329,17 +2329,17 @@ foo4.foo3();
 
 // interop_export_named_2
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    interop_export_named_2,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  interop_export_named_2,
+  r#"
 var foo, bar;
 export {foo, bar};
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2355,13 +2355,13 @@ exports.bar = bar;
 
 // lazy_whitelist_import_default
 test!(
-    syntax(),
-    |_| tr(Config {
-        lazy: Lazy::List(vec!["white".into()]),
-        ..Default::default()
-    }),
-    lazy_whitelist_import_default,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    lazy: Lazy::List(vec!["white".into()]),
+    ..Default::default()
+  }),
+  lazy_whitelist_import_default,
+  r#"
 import foo1 from "white";
 
 console.log(foo1);
@@ -2371,7 +2371,7 @@ import foo2 from "black";
 console.log(foo2);
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 var _white = _interopRequireDefault(require("white"));
@@ -2385,18 +2385,18 @@ console.log(_black.default);
 
 // interop_imports
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    interop_imports,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  interop_imports,
+  r#"
 import "foo";
 import "foo-bar";
 import "./directory/foo-bar";
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 require("foo");
@@ -2412,17 +2412,17 @@ require("./directory/foo-bar");
 
 // strict_export_const_destructuring_object
 test!(
-    syntax(),
-    |_| tr(Config {
-        strict: true,
-        ..Default::default()
-    }),
-    strict_export_const_destructuring_object,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    strict: true,
+    ..Default::default()
+  }),
+  strict_export_const_destructuring_object,
+  r#"
 export const { foo: bar, baz } = {};
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 exports.baz = exports.bar = void 0;
@@ -2440,12 +2440,12 @@ exports.baz = baz;
 
 // update_expression_negative_suffix
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    update_expression_negative_suffix,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  update_expression_negative_suffix,
+  r#"
 export let diffLevel = 0;
 
 export function diff() {
@@ -2455,7 +2455,7 @@ export function diff() {
 }
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2477,20 +2477,20 @@ function diff() {
 
 // interop_module_shadow
 test!(
-    // TODO(kdy1): Uningnore this
-    ignore,
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    interop_module_shadow,
-    r#"
+  // TODO(kdy1): Uningnore this
+  ignore,
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  interop_module_shadow,
+  r#"
 export function module() {
 
 }
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2505,17 +2505,17 @@ function _module() {}
 
 // strict_export_const_destructuring_object_rest
 test!(
-    syntax(),
-    |_| tr(Config {
-        strict: true,
-        ..Default::default()
-    }),
-    strict_export_const_destructuring_object_rest,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    strict: true,
+    ..Default::default()
+  }),
+  strict_export_const_destructuring_object_rest,
+  r#"
 export const { foo, ...bar } = {};
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 exports.bar = exports.foo = void 0;
@@ -2531,18 +2531,18 @@ exports.bar = bar;
 
 // lazy_whitelist_sideeffect
 test!(
-    syntax(),
-    |_| tr(Config {
-        lazy: Lazy::List(vec!["white".into()]),
-        ..Default::default()
-    }),
-    lazy_whitelist_sideeffect,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    lazy: Lazy::List(vec!["white".into()]),
+    ..Default::default()
+  }),
+  lazy_whitelist_sideeffect,
+  r#"
 import "white";
 import "black";
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 require("white");
@@ -2554,18 +2554,18 @@ require("black");
 
 // lazy_dep_reexport_namespace
 test!(
-    syntax(),
-    |_| tr(Config {
-        lazy: Lazy::Bool(true),
-        ..Default::default()
-    }),
-    lazy_dep_reexport_namespace,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    lazy: Lazy::Bool(true),
+    ..Default::default()
+  }),
+  lazy_dep_reexport_namespace,
+  r#"
 import * as namespace from "foo";
 export { namespace };
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2595,16 +2595,16 @@ function namespace() {
 
 // interop_export_default_4
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    interop_export_default_4,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  interop_export_default_4,
+  r#"
 export default foo;
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2619,17 +2619,17 @@ exports.default = _default;
 
 // no_interop_export_from
 test!(
-    syntax(),
-    |_| tr(Config {
-        no_interop: true,
-        ..Default::default()
-    }),
-    no_interop_export_from,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    no_interop: true,
+    ..Default::default()
+  }),
+  no_interop_export_from,
+  r#"
 export { default } from 'foo';
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2651,17 +2651,17 @@ var _foo = require("foo");
 
 // lazy_dep_sideeffect
 test!(
-    syntax(),
-    |_| tr(Config {
-        lazy: Lazy::Bool(true),
-        ..Default::default()
-    }),
-    lazy_dep_sideeffect,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    lazy: Lazy::Bool(true),
+    ..Default::default()
+  }),
+  lazy_dep_sideeffect,
+  r#"
 import "foo";
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 require("foo");
@@ -2671,12 +2671,12 @@ require("foo");
 
 // interop_export_from_8
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    interop_export_from_8,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  interop_export_from_8,
+  r#"
 import { foo, foo1, foo2, foo3, foo4, foo5, foo6, foo7, foo8, foo9, foo10, foo11, foo12,
     foo13, foo14, foo15, foo16, foo17, foo18, foo19, foo20, foo21, foo22, foo23, foo24, foo25,
     foo26, foo27, foo28, foo29, foo30, foo31, foo32, foo33, foo34, foo35, foo36, foo37, foo38,
@@ -2694,7 +2694,7 @@ export { foo, foo1, foo2, foo3, foo4, foo5, foo6, foo7, foo8, foo9, foo10, foo11
     foo78, foo79, foo80, foo81, foo82, foo83, foo84, foo85, foo86, foo87, foo88, foo89, foo90,
     foo91, foo92, foo93, foo94, foo95, foo96, foo97, foo98, foo99, foo100 }
 "#,
-    r#"
+  r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3314,17 +3314,17 @@ var _foo = require("foo");
 
 // strict_export_const_destructuring_array_default_params
 test!(
-    syntax(),
-    |_| tr(Config {
-        strict: true,
-        ..Default::default()
-    }),
-    strict_export_const_destructuring_array_default_params,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    strict: true,
+    ..Default::default()
+  }),
+  strict_export_const_destructuring_array_default_params,
+  r#"
 export const [foo, bar = 2] = [];
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 exports.bar = exports.foo = void 0;
@@ -3337,12 +3337,12 @@ exports.bar = bar;
 
 // interop_imports_named
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    interop_imports_named,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  interop_imports_named,
+  r#"
 import {bar} from "foo";
 import {bar2, baz} from "foo";
 import {bar as baz2} from "foo";
@@ -3356,7 +3356,7 @@ baz3;
 xyz;
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 var _foo = require("foo");
@@ -3377,13 +3377,13 @@ _foo.xyz;
 
 // lazy_whitelist_import_namespace
 test!(
-    syntax(),
-    |_| tr(Config {
-        lazy: Lazy::List(vec!["white".into()]),
-        ..Default::default()
-    }),
-    lazy_whitelist_import_namespace,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    lazy: Lazy::List(vec!["white".into()]),
+    ..Default::default()
+  }),
+  lazy_whitelist_import_namespace,
+  r#"
 import * as foo1 from "white";
 
 function use1(){
@@ -3397,7 +3397,7 @@ function use2(){
 }
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 function foo1() {
@@ -3423,13 +3423,13 @@ function use2() {
 
 // lazy_dep_import_named
 test!(
-    syntax(),
-    |_| tr(Config {
-        lazy: Lazy::Bool(true),
-        ..Default::default()
-    }),
-    lazy_dep_import_named,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    lazy: Lazy::Bool(true),
+    ..Default::default()
+  }),
+  lazy_dep_import_named,
+  r#"
 import { foo } from "foo";
 
 function use() {
@@ -3437,7 +3437,7 @@ function use() {
 }
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 function _foo() {
@@ -3459,18 +3459,18 @@ function use() {
 
 // lazy_dep_reexport_default
 test!(
-    syntax(),
-    |_| tr(Config {
-        lazy: Lazy::Bool(true),
-        ..Default::default()
-    }),
-    lazy_dep_reexport_default,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    lazy: Lazy::Bool(true),
+    ..Default::default()
+  }),
+  lazy_dep_reexport_default,
+  r#"
 import foo from "foo";
 export { foo as default };
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3498,18 +3498,18 @@ function _foo() {
 
 // interop_export_default_9
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    interop_export_default_9,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  interop_export_default_9,
+  r#"
 var foo;
 export { foo as default };
 
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3524,16 +3524,16 @@ exports.default = foo;
 
 // misc_undefined_this_arrow_function
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    misc_undefined_this_arrow_function,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  misc_undefined_this_arrow_function,
+  r#"
 var foo = () => this;
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 var foo = () => void 0;
@@ -3543,16 +3543,16 @@ var foo = () => void 0;
 
 // misc_undefined_this_root_call
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    misc_undefined_this_root_call,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  misc_undefined_this_root_call,
+  r#"
 this.foo();
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 (void 0).foo();
@@ -3562,20 +3562,20 @@ this.foo();
 
 // strict_import_wildcard
 test!(
-    syntax(),
-    |_| tr(Config {
-        strict: true,
-        ..Default::default()
-    }),
-    strict_import_wildcard,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    strict: true,
+    ..Default::default()
+  }),
+  strict_import_wildcard,
+  r#"
 import * as foo from 'foo';
 
 foo.bar();
 foo.baz();
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 var foo = _interopRequireWildcard(require("foo"));
@@ -3587,20 +3587,20 @@ foo.baz();
 
 // lazy_dep_import_default
 test!(
-    syntax(),
-    |_| tr(Config {
-        lazy: Lazy::Bool(true),
-        ..Default::default()
-    }),
-    lazy_dep_import_default,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    lazy: Lazy::Bool(true),
+    ..Default::default()
+  }),
+  lazy_dep_import_default,
+  r#"
 import foo from "foo";
 
 function use() {
   console.log(foo);
 }
 "#,
-    r#"
+  r#"
 "use strict";
 
 function _foo() {
@@ -3621,18 +3621,18 @@ function use() {
 
 // lazy_local_reexport_named
 test!(
-    syntax(),
-    |_| tr(Config {
-        lazy: Lazy::Bool(true),
-        ..Default::default()
-    }),
-    lazy_local_reexport_named,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    lazy: Lazy::Bool(true),
+    ..Default::default()
+  }),
+  lazy_local_reexport_named,
+  r#"
 import { named } from "./foo";
 export { named };
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3652,17 +3652,17 @@ var _foo = require("./foo");
 
 // strict_export_const_destructuring_array_rest
 test!(
-    syntax(),
-    |_| tr(Config {
-        strict: true,
-        ..Default::default()
-    }),
-    strict_export_const_destructuring_array_rest,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    strict: true,
+    ..Default::default()
+  }),
+  strict_export_const_destructuring_array_rest,
+  r#"
 export const [foo, bar, ...baz] = [];
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 exports.baz = exports.bar = exports.foo = void 0;
@@ -3682,19 +3682,19 @@ exports.baz = baz;
 
 // interop_imports_mixing
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    interop_imports_mixing,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  interop_imports_mixing,
+  r#"
 import foo, {baz as xyz} from "foo";
 
 foo;
 xyz;
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 var _foo = _interopRequireWildcard(require("foo"));
@@ -3707,12 +3707,12 @@ _foo.baz;
 
 // interop_overview
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    interop_overview,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  interop_overview,
+  r#"
 import "foo";
 import "foo-bar";
 import "./directory/foo-bar";
@@ -3730,7 +3730,7 @@ bar2;
 foo;
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3767,12 +3767,12 @@ _foo2.default;
 
 // interop_export_all
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    interop_export_all,
-    r#"
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  interop_export_all,
+  r#"
 // The fact that this exports both a normal default, and all of the names via
 // re-export is an edge case that is important not to miss. See
 // https://github.com/babel/babel/issues/8306 as an example.
@@ -3781,7 +3781,7 @@ export default _default;
 export * from 'react';
 
 "#,
-    r#"
+  r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3819,12 +3819,12 @@ Object.keys(_react).forEach(function (key) {
 
 // source_map_exec
 test_exec!(
-    // We cannot inject transform at this time.
-    ignore,
-    syntax(),
-    |_| tr(Default::default()),
-    source_map_exec,
-    r#"
+  // We cannot inject transform at this time.
+  ignore,
+  syntax(),
+  |_| tr(Default::default()),
+  source_map_exec,
+  r#"
 var tests = [
   'import "foo";',
   'import foo from "foo";',
@@ -3862,18 +3862,18 @@ tests.forEach(function (code) {
 );
 
 test!(
-    syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    issue_396_1,
-    "
+  syntax(),
+  |_| tr(Config {
+    ..Default::default()
+  }),
+  issue_396_1,
+  "
 function foo() {
   bar;
   function bar() {}
 }
 ",
-    "
+  "
 'use strict';
 function foo() {
     bar;
@@ -3884,21 +3884,21 @@ function foo() {
 );
 
 test!(
-    syntax(),
-    |_| chain!(
-        resolver(),
-        compat::es2015::BlockScopedFns,
-        compat::es2015::block_scoping(),
-        common_js(Default::default()),
-    ),
-    issue_396_2,
-    "
+  syntax(),
+  |_| chain!(
+    resolver(),
+    compat::es2015::BlockScopedFns,
+    compat::es2015::block_scoping(),
+    common_js(Default::default()),
+  ),
+  issue_396_2,
+  "
 function foo() {
   bar;
   function bar() {}
 }
 ",
-    "
+  "
 'use strict';
 function foo() {
   var bar = function bar() {
@@ -3909,25 +3909,25 @@ function foo() {
 );
 
 fn issue_395_syntax() -> ::swc_ecma_parser::Syntax {
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        decorators: true,
-        ..Default::default()
-    })
+  ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    decorators: true,
+    ..Default::default()
+  })
 }
 
 test!(
-    issue_395_syntax(),
-    |_| chain!(
-        decorators(Default::default()),
-        common_js(Config {
-            strict: false,
-            strict_mode: true,
-            no_interop: true,
-            ..Default::default()
-        }),
-    ),
-    issue_395_1,
-    "
+  issue_395_syntax(),
+  |_| chain!(
+    decorators(Default::default()),
+    common_js(Config {
+      strict: false,
+      strict_mode: true,
+      no_interop: true,
+      ..Default::default()
+    }),
+  ),
+  issue_395_1,
+  "
 import Test from './moduleA.js'
 
  @Test('0.0.1')
@@ -3937,7 +3937,7 @@ import Test from './moduleA.js'
    }
  }
 ",
-    "
+  "
 'use strict';
 var _moduleAJs = require('./moduleA.js');
 let Demo = _decorate([_moduleAJs.default('0.0.1')], function(_initialize) {
@@ -3957,18 +3957,18 @@ let Demo = _decorate([_moduleAJs.default('0.0.1')], function(_initialize) {
 );
 
 test!(
-    issue_395_syntax(),
-    |_| chain!(
-        decorators(Default::default()),
-        common_js(Config {
-            strict: false,
-            strict_mode: true,
-            no_interop: true,
-            ..Default::default()
-        }),
-    ),
-    issue_395_2,
-    "
+  issue_395_syntax(),
+  |_| chain!(
+    decorators(Default::default()),
+    common_js(Config {
+      strict: false,
+      strict_mode: true,
+      no_interop: true,
+      ..Default::default()
+    }),
+  ),
+  issue_395_2,
+  "
 const Test = (version) => {
   return (target) => {
     target.version = version
@@ -3977,7 +3977,7 @@ const Test = (version) => {
 
 export default Test
 ",
-    "
+  "
 'use strict';
 Object.defineProperty(exports, '__esModule', {
     value: true
@@ -3994,20 +3994,20 @@ exports.default = _default;
 );
 
 test!(
-    syntax(),
-    |_| tr(Config {
-        strict: false,
-        strict_mode: true,
-        no_interop: true,
-        ..Default::default()
-    }),
-    issue_456_1,
-    "import { join as e } from 'path';
+  syntax(),
+  |_| tr(Config {
+    strict: false,
+    strict_mode: true,
+    no_interop: true,
+    ..Default::default()
+  }),
+  issue_456_1,
+  "import { join as e } from 'path';
 export const foo = function () {
   function e(t) {}
   return A(e, {}), e
 }();",
-    "'use strict';
+  "'use strict';
 Object.defineProperty(exports, '__esModule', {
     value: true
 });
@@ -4023,20 +4023,20 @@ exports.foo = foo;
 );
 
 test!(
-    syntax(),
-    |_| tr(Config {
-        strict: false,
-        strict_mode: true,
-        no_interop: true,
-        ..Default::default()
-    }),
-    issue_456_2,
-    "import { join as e } from 'path';
+  syntax(),
+  |_| tr(Config {
+    strict: false,
+    strict_mode: true,
+    no_interop: true,
+    ..Default::default()
+  }),
+  issue_456_2,
+  "import { join as e } from 'path';
 export const foo = function () {
   var e = 1;
   return A(e, {}), e
 }();",
-    "'use strict';
+  "'use strict';
 Object.defineProperty(exports, '__esModule', {
     value: true
 });
@@ -4051,16 +4051,16 @@ exports.foo = foo;"
 );
 
 test!(
-    syntax(),
-    |_| tr(Config {
-        strict: false,
-        strict_mode: true,
-        no_interop: true,
-        ..Default::default()
-    }),
-    issue_605,
-    "export * from 'c';",
-    "'use strict';
+  syntax(),
+  |_| tr(Config {
+    strict: false,
+    strict_mode: true,
+    no_interop: true,
+    ..Default::default()
+  }),
+  issue_605,
+  "export * from 'c';",
+  "'use strict';
 Object.defineProperty(exports, '__esModule', {
     value: true
 });
@@ -4075,4 +4075,18 @@ Object.keys(_c).forEach(function(key) {
     });
 });
 "
+);
+
+test!(
+  syntax(),
+  |_| tr(Config {
+    strict: false,
+    strict_mode: true,
+    no_interop: true,
+    ..Default::default()
+  }),
+  issue_724,
+  "import { MongoClient, Db } from 'mongodb'
+    require('foo');",
+  ""
 );
