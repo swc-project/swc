@@ -1,7 +1,4 @@
-use crate::{
-    pass::Pass,
-    scope::{IdentType, ScopeKind},
-};
+use crate::scope::{IdentType, ScopeKind};
 use std::{cell::RefCell, collections::HashSet};
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Mark, SyntaxContext};
