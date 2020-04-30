@@ -4104,5 +4104,7 @@ test!(
   issue_724,
   "import { MongoClient, Db } from 'mongodb'
     require('foo');",
-  ""
+  "'use strict';
+  var _mongodb = require('mongodb');
+  require('foo');"
 );
