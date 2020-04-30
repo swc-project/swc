@@ -5,7 +5,9 @@
     "**/.hg": true,
     "**/CVS": true,
     "**/.DS_Store": true,
-    "**/*.bk": true
+    "**/*.bk": true,
+    "**/node_modules": true,
+    "**/target": true
   },
   "[rust]": {
     "editor.formatOnSave": true
