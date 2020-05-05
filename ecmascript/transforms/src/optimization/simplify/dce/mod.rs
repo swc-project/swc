@@ -137,6 +137,8 @@ where
     T: for<'any> VisitWith<SideEffectVisitor<'any>>,
 {
     fn fold(&mut self, mut items: Vec<T>) -> Vec<T> {
+        let old = self.changed;
+
         let mut preserved = FxHashSet::default();
         preserved.reserve(items.len());
 
@@ -188,6 +190,8 @@ where
                 Some(item)
             });
         }
+
+        self.changed = old;
 
         items
     }

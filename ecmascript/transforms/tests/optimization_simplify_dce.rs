@@ -163,3 +163,32 @@ fn export_default_expr_unused() {
 fn export_default_expr_used() {
     used(&["default"], "export default 5;", "export default 5;");
 }
+
+noop!(
+    issue_760_1,
+    "var ref;
+    const Auth = window === null || window === void 0 ? void 0 : (ref = window.aws) === null || \
+     ref === void 0 ? void 0 : ref.Auth;
+    "
+);
+
+noop!(
+    issue_760_2_export_default,
+    "const initialState = 'foo';
+export default function reducer(state = initialState, action = {}) {
+}"
+);
+
+noop!(
+    issue_760_2_export_named,
+    "const initialState = 'foo';
+export function reducer(state = initialState, action = {}) {
+}"
+);
+
+optimized_out!(
+    issue_760_2_no_export,
+    "const initialState = 'foo';
+function reducer(state = initialState, action = {}) {
+}"
+);

@@ -254,3 +254,27 @@ impl Visit<ExportDefaultDecl> for SideEffectVisitor<'_> {
         self.found = true;
     }
 }
+
+impl Visit<Pat> for SideEffectVisitor<'_> {
+    fn visit(&mut self, p: &Pat) {
+        if self.found {
+            return;
+        }
+
+        match p {
+            Pat::Ident(ref i) => {
+                if self.included.contains(&i.to_id()) {
+                    self.found = true;
+                }
+            }
+
+            Pat::Rest(..) => {
+                self.found = true;
+            }
+            Pat::Assign(..) | Pat::Expr(..) | Pat::Object(..) | Pat::Array(..) => {
+                p.visit_children(self)
+            }
+            Pat::Invalid(..) => {}
+        }
+    }
+}
