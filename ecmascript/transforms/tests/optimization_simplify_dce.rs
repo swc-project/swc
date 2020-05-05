@@ -173,8 +173,22 @@ noop!(
 );
 
 noop!(
-    issue_760_2,
+    issue_760_2_export_default,
     "const initialState = 'foo';
 export default function reducer(state = initialState, action = {}) {
+}"
+);
+
+noop!(
+    issue_760_2_export_named,
+    "const initialState = 'foo';
+export function reducer(state = initialState, action = {}) {
+}"
+);
+
+optimized_out!(
+    issue_760_2_no_export,
+    "const initialState = 'foo';
+function reducer(state = initialState, action = {}) {
 }"
 );
