@@ -38,26 +38,6 @@ pub fn transform_sync(s: &str, opts: JsValue) -> Result<JsValue, JsValue> {
     Ok(JsValue::from_serde(&out).unwrap())
 }
 
-#[wasm_bindgen(js_name = "transformFileSync")]
-pub fn transform_file_sync(path: &str, opts: JsValue) -> Result<JsValue, JsValue> {
-    console_error_panic_hook::set_once();
-
-    let opts: Options = opts
-        .into_serde()
-        .map_err(|err| format!("failed to parse options: {}", err))?;
-
-    let (c, errors) = compiler();
-
-    let fm =
-        c.cm.load_file(Path::new(path))
-            .map_err(|err| format!("failed to load file: {}\n{}", err, errors))?;
-    let out = c
-        .process_js_file(fm, &opts)
-        .map_err(|err| format!("failed to process file]: {}\n{}", err, errors))?;
-
-    Ok(JsValue::from_serde(&out).unwrap())
-}
-
 fn compiler() -> (Compiler, BufferedError) {
     let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
 
