@@ -37,11 +37,11 @@ Contains ast nodes for javascript and script.
 
 ### `/ecmascript/codegen`
 
-Converts javascript ast into javsacript code.
+Converts javascript ast into javascript code.
 
 ### `/ecmascript/parser`
 
-Parses jasvascrtip and typescript
+Parses javascript and typescript
 
 ### `/ecmascript/transforms`
 
