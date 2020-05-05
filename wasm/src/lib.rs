@@ -11,7 +11,7 @@ use swc::{
         errors::{EmitterWriter, Handler, HandlerFlags, SourceMapperDyn},
         FileName, FilePathMapping, SourceMap,
     },
-    config::Options,
+    config::{InputSourceMap, Options, ParseOptions},
     Compiler,
 };
 use wasm_bindgen::prelude::*;
@@ -27,13 +27,27 @@ pub fn parse_sync(s: &str, opts: JsValue) -> Result<JsValue, JsValue> {
     let (c, errors) = compiler();
 
     let fm = c.cm.new_source_file(FileName::Anon, s.into());
-    c.parse_js(
-        fm,
-        opts.config,
-        opts.synta,
-        is_module: bool,
-        parse_comments: bool,
-        input_source_map: &InputSourceMap,
+    let (prog, src_map) = c
+        .parse_js(
+            fm,
+            opts.target,
+            opts.syntax,
+            opts.is_module,
+            opts.comments,
+            &InputSourceMap::Bool(false),
+        )
+        .map_err(|err| format!("failed to parse: {}\n{}", err, errors))?;
+
+    let mut source_map = vec![];
+    if let Some(src_map) = src_map {
+        src_map
+            .to_writer(&mut source_map)
+            .map_err(|err| format!("failed to print source map file: {}", err));
+    }
+
+    Ok(
+        JsValue::from_serde(&(prog, &*String::from_utf8_lossy(&source_map)))
+            .map_err(|err| format!("failed to return value: {}", err))?,
     )
 }
 
