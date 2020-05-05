@@ -1,5 +1,6 @@
 #![feature(box_syntax)]
 
+use once_cell::sync::Lazy;
 use std::{
     fmt::{self, Display, Formatter},
     io::{self, Write},
@@ -34,7 +35,7 @@ pub fn transform_sync(s: &str, opts: JsValue) -> Result<JsValue, JsValue> {
 }
 
 fn compiler() -> (Compiler, BufferedError) {
-    let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
+    let cm = codemap();
 
     let (handler, errors) = new_handler(cm.clone());
 
@@ -43,8 +44,16 @@ fn compiler() -> (Compiler, BufferedError) {
     (c, errors)
 }
 
-/// Creates a new handler for testing.
-pub(crate) fn new_handler(cm: Arc<SourceMapperDyn>) -> (Handler, BufferedError) {
+/// Get global sourcemap
+fn codemap() -> Arc<SourceMap> {
+    static CM: Lazy<Arc<SourceMap>> =
+        Lazy::new(|| Arc::new(SourceMap::new(FilePathMapping::empty())));
+
+    CM.clone()
+}
+
+/// Creates a new handler which emits to returned buffer.
+fn new_handler(cm: Arc<SourceMapperDyn>) -> (Handler, BufferedError) {
     let e = BufferedError::default();
 
     let handler = Handler::with_emitter_and_flags(
