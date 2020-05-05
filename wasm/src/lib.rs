@@ -16,6 +16,32 @@ use swc::{
 };
 use wasm_bindgen::prelude::*;
 
+#[wasm_bindgen(js_name = "parseSync")]
+pub fn parse_sync(s: &str, opts: JsValue) -> Result<JsValue, JsValue> {
+    console_error_panic_hook::set_once();
+
+    let opts: ParseOptions = opts
+        .into_serde()
+        .map_err(|err| format!("failed to parse options: {}", err))?;
+
+    let (c, errors) = compiler();
+
+    let fm = c.cm.new_source_file(FileName::Anon, s.into());
+    c.parse_js(
+        fm,
+        opts.config,
+        opts.synta,
+        is_module: bool,
+        parse_comments: bool,
+        input_source_map: &InputSourceMap,
+    )
+}
+
+#[wasm_bindgen(js_name = "printSync")]
+pub fn print_sync(s: &str, opts: JsValue) -> Result<JsValue, JsValue> {
+    console_error_panic_hook::set_once();
+}
+
 #[wasm_bindgen(js_name = "transformSync")]
 pub fn transform_sync(s: &str, opts: JsValue) -> Result<JsValue, JsValue> {
     console_error_panic_hook::set_once();
