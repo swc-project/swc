@@ -53,18 +53,14 @@ pub fn transform_file_sync(path: &str, opts: JsValue) -> Result<JsValue, JsValue
     Ok(JsValue::from_serde(&out).unwrap())
 }
 
-fn compiler() -> Arc<Compiler> {
-    static COMPILER: Lazy<Arc<Compiler>> = Lazy::new(|| {
-        let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
+fn compiler() -> (Compiler, BufferedError) {
+    let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
 
-        let (handler, _) = new_handler(cm.clone());
+    let (handler, errors) = new_handler(cm.clone());
 
-        let c = Compiler::new(cm.clone(), handler);
+    let c = Compiler::new(cm.clone(), handler);
 
-        Arc::new(c)
-    });
-
-    COMPILER.clone()
+    (c, errors)
 }
 
 /// Creates a new handler for testing.
