@@ -1,0 +1,17 @@
+[
+    {
+        "line": 1,
+        "column": 15,
+        "msg": "A function whose declared type is neither 'void' nor 'any' must return a value."
+    },
+    {
+        "line": 1,
+        "column": 16,
+        "msg": "A parameter property is only allowed in a constructor implementation."
+    },
+    {
+        "line": 1,
+        "column": 29,
+        "msg": "Cannot find name 'C'."
+    }
+]

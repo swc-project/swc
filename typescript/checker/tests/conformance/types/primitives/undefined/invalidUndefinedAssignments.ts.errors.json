@@ -1,0 +1,32 @@
+[
+    {
+        "line": 4,
+        "column": 1,
+        "msg": "Cannot assign to 'E' because it is not a variable."
+    },
+    {
+        "line": 5,
+        "column": 3,
+        "msg": "Cannot assign to 'A' because it is a read-only property."
+    },
+    {
+        "line": 9,
+        "column": 1,
+        "msg": "Cannot assign to 'C' because it is not a variable."
+    },
+    {
+        "line": 14,
+        "column": 1,
+        "msg": "'I' only refers to a type, but is being used as a value here."
+    },
+    {
+        "line": 17,
+        "column": 1,
+        "msg": "Cannot assign to 'M' because it is not a variable."
+    },
+    {
+        "line": 21,
+        "column": 1,
+        "msg": "Cannot assign to 'i' because it is not a variable."
+    }
+]

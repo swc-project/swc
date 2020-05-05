@@ -1,0 +1,52 @@
+[
+    {
+        "line": 2,
+        "column": 15,
+        "msg": "Cannot find name 'o'."
+    },
+    {
+        "line": 2,
+        "column": 18,
+        "msg": "Expression expected."
+    },
+    {
+        "line": 3,
+        "column": 12,
+        "msg": "Spread types may only be created from object types."
+    },
+    {
+        "line": 3,
+        "column": 15,
+        "msg": "Expression expected."
+    },
+    {
+        "line": 3,
+        "column": 16,
+        "msg": "Cannot find name 'o'."
+    },
+    {
+        "line": 4,
+        "column": 15,
+        "msg": "Cannot find name 'matchMedia'."
+    },
+    {
+        "line": 4,
+        "column": 28,
+        "msg": "',' expected."
+    },
+    {
+        "line": 4,
+        "column": 31,
+        "msg": "Declaration or statement expected."
+    },
+    {
+        "line": 5,
+        "column": 16,
+        "msg": "Cannot find name 'get'."
+    },
+    {
+        "line": 5,
+        "column": 20,
+        "msg": "',' expected."
+    }
+]

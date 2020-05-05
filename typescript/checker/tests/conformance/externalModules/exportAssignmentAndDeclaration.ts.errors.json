@@ -1,0 +1,7 @@
+[
+    {
+        "line": 12,
+        "column": 1,
+        "msg": "An export assignment cannot be used in a module with other exported elements."
+    }
+]

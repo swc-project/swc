@@ -1,0 +1,12 @@
+[
+    {
+        "line": 3,
+        "column": 20,
+        "msg": "Block-scoped variable 'v' used before its declaration."
+    },
+    {
+        "line": 4,
+        "column": 15,
+        "msg": "'const' declarations must be initialized."
+    }
+]

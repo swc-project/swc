@@ -1,0 +1,7 @@
+[
+    {
+        "line": 3,
+        "column": 30,
+        "msg": "A 'yield' expression is only allowed in a generator body."
+    }
+]

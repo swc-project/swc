@@ -1,0 +1,17 @@
+[
+    {
+        "line": 2,
+        "column": 12,
+        "msg": "Spread types may only be created from object types."
+    },
+    {
+        "line": 10,
+        "column": 12,
+        "msg": "Spread types may only be created from object types."
+    },
+    {
+        "line": 14,
+        "column": 12,
+        "msg": "Spread types may only be created from object types."
+    }
+]

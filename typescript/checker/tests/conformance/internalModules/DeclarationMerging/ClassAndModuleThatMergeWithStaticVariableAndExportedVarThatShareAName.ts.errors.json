@@ -1,0 +1,22 @@
+[
+    {
+        "line": 4,
+        "column": 12,
+        "msg": "Duplicate identifier 'Origin'."
+    },
+    {
+        "line": 8,
+        "column": 16,
+        "msg": "Duplicate identifier 'Origin'."
+    },
+    {
+        "line": 16,
+        "column": 16,
+        "msg": "Duplicate identifier 'Origin'."
+    },
+    {
+        "line": 20,
+        "column": 20,
+        "msg": "Duplicate identifier 'Origin'."
+    }
+]

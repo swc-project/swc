@@ -1,0 +1,180 @@
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithAnyOtherType.ts:25:31
+   |
+25 | var ResultIsBoolean1 = delete ANY1;
+   |                               ^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithAnyOtherType.ts:26:31
+   |
+26 | var ResultIsBoolean2 = delete ANY2;
+   |                               ^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithAnyOtherType.ts:27:31
+   |
+27 | var ResultIsBoolean3 = delete A;
+   |                               ^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithAnyOtherType.ts:28:31
+   |
+28 | var ResultIsBoolean4 = delete M;
+   |                               ^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithAnyOtherType.ts:29:31
+   |
+29 | var ResultIsBoolean5 = delete obj;
+   |                               ^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithAnyOtherType.ts:30:31
+   |
+30 | var ResultIsBoolean6 = delete obj1;
+   |                               ^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithAnyOtherType.ts:33:31
+   |
+33 | var ResultIsBoolean7 = delete undefined;
+   |                               ^^^^^^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithAnyOtherType.ts:34:31
+   |
+34 | var ResultIsBoolean8 = delete null;
+   |                               ^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithAnyOtherType.ts:42:32
+   |
+42 | var ResultIsBoolean14 = delete foo();
+   |                                ^^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithAnyOtherType.ts:43:32
+   |
+43 | var ResultIsBoolean15 = delete A.foo();
+   |                                ^^^^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithAnyOtherType.ts:44:33
+   |
+44 | var ResultIsBoolean16 = delete (ANY + ANY1);
+   |                                 ^^^^^^^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithAnyOtherType.ts:45:33
+   |
+45 | var ResultIsBoolean17 = delete (null + undefined);
+   |                                 ^^^^^^^^^^^^^^^^
+
+error: TS2365 {
+    span: Span {
+        lo: BytePos(
+            1029,
+        ),
+        hi: BytePos(
+            1045,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithAnyOtherType.ts:45:33
+   |
+45 | var ResultIsBoolean17 = delete (null + undefined);
+   |                                 ^^^^^^^^^^^^^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithAnyOtherType.ts:46:33
+   |
+46 | var ResultIsBoolean18 = delete (null + null);
+   |                                 ^^^^^^^^^^^
+
+error: TS2365 {
+    span: Span {
+        lo: BytePos(
+            1080,
+        ),
+        hi: BytePos(
+            1091,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithAnyOtherType.ts:46:33
+   |
+46 | var ResultIsBoolean18 = delete (null + null);
+   |                                 ^^^^^^^^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithAnyOtherType.ts:47:33
+   |
+47 | var ResultIsBoolean19 = delete (undefined + undefined);
+   |                                 ^^^^^^^^^^^^^^^^^^^^^
+
+error: TS2365 {
+    span: Span {
+        lo: BytePos(
+            1126,
+        ),
+        hi: BytePos(
+            1147,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithAnyOtherType.ts:47:33
+   |
+47 | var ResultIsBoolean19 = delete (undefined + undefined);
+   |                                 ^^^^^^^^^^^^^^^^^^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithAnyOtherType.ts:50:32
+   |
+50 | var ResultIsBoolean20 = delete delete ANY;
+   |                                ^^^^^^^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithAnyOtherType.ts:50:39
+   |
+50 | var ResultIsBoolean20 = delete delete ANY;
+   |                                       ^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithAnyOtherType.ts:51:32
+   |
+51 | var ResultIsBoolean21 = delete delete delete (ANY + ANY1);
+   |                                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithAnyOtherType.ts:51:39
+   |
+51 | var ResultIsBoolean21 = delete delete delete (ANY + ANY1);
+   |                                       ^^^^^^^^^^^^^^^^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithAnyOtherType.ts:51:47
+   |
+51 | var ResultIsBoolean21 = delete delete delete (ANY + ANY1);
+   |                                               ^^^^^^^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithAnyOtherType.ts:54:8
+   |
+54 | delete ANY;
+   |        ^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithAnyOtherType.ts:55:8
+   |
+55 | delete ANY1;
+   |        ^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithAnyOtherType.ts:57:8
+   |
+57 | delete ANY, ANY1;
+   |        ^^^
+

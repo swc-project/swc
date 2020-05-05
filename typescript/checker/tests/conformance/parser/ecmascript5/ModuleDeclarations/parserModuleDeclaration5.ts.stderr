@@ -1,0 +1,6 @@
+error: TS1038
+ --> $DIR/tests/conformance/parser/ecmascript5/ModuleDeclarations/parserModuleDeclaration5.ts:3:5
+  |
+3 |     declare module M3 {
+  |     ^^^^^^^
+

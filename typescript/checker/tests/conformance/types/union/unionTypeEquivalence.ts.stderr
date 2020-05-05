@@ -1,0 +1,16 @@
+error: RedeclaredVarWithDifferentType {
+    span: Span {
+        lo: BytePos(
+            109,
+        ),
+        hi: BytePos(
+            110,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/types/union/unionTypeEquivalence.ts:5:5
+  |
+5 | var x : C | D;
+  |     ^
+

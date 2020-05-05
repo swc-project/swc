@@ -1,0 +1,7 @@
+[
+    {
+        "line": 23,
+        "column": 10,
+        "msg": "Type 'boolean' is not comparable to type 'string | number'."
+    }
+]

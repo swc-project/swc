@@ -1,0 +1,37 @@
+[
+    {
+        "line": 7,
+        "column": 18,
+        "msg": "Type 'undefined' is not a constructor function type."
+    },
+    {
+        "line": 8,
+        "column": 18,
+        "msg": "Type 'true' is not a constructor function type."
+    },
+    {
+        "line": 9,
+        "column": 18,
+        "msg": "Type 'false' is not a constructor function type."
+    },
+    {
+        "line": 10,
+        "column": 18,
+        "msg": "Type '42' is not a constructor function type."
+    },
+    {
+        "line": 11,
+        "column": 18,
+        "msg": "Type '\"hello\"' is not a constructor function type."
+    },
+    {
+        "line": 12,
+        "column": 18,
+        "msg": "Type '{}' is not a constructor function type."
+    },
+    {
+        "line": 13,
+        "column": 18,
+        "msg": "Type '() => void' is not a constructor function type."
+    }
+]

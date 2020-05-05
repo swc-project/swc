@@ -1,0 +1,17 @@
+[
+    {
+        "line": 4,
+        "column": 5,
+        "msg": "'public' modifier cannot appear on an index signature."
+    },
+    {
+        "line": 8,
+        "column": 5,
+        "msg": "'public' modifier cannot appear on an index signature."
+    },
+    {
+        "line": 12,
+        "column": 5,
+        "msg": "'public' modifier cannot appear on an index signature."
+    }
+]

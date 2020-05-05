@@ -1,0 +1,7 @@
+[
+    {
+        "line": 3,
+        "column": 7,
+        "msg": "A rest element cannot have an initializer."
+    }
+]

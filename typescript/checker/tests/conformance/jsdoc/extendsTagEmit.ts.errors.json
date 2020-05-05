@@ -1,0 +1,12 @@
+[
+    {
+        "line": 9,
+        "column": 15,
+        "msg": "Cannot find name 'Mismatch'."
+    },
+    {
+        "line": 9,
+        "column": 15,
+        "msg": "JSDoc '@extends Mismatch' does not match the 'extends B' clause."
+    }
+]

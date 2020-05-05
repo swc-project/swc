@@ -1,0 +1,32 @@
+[
+    {
+        "line": 14,
+        "column": 9,
+        "msg": "Argument of type '1' is not assignable to parameter of type 'boolean'."
+    },
+    {
+        "line": 18,
+        "column": 9,
+        "msg": "Argument of type '1' is not assignable to parameter of type 'boolean'."
+    },
+    {
+        "line": 22,
+        "column": 9,
+        "msg": "Argument of type '1' is not assignable to parameter of type 'boolean'."
+    },
+    {
+        "line": 24,
+        "column": 25,
+        "msg": "Argument of type '1' is not assignable to parameter of type 'boolean'."
+    },
+    {
+        "line": 26,
+        "column": 9,
+        "msg": "Argument of type '1' is not assignable to parameter of type 'boolean'."
+    },
+    {
+        "line": 28,
+        "column": 57,
+        "msg": "Argument of type '1' is not assignable to parameter of type 'boolean'."
+    }
+]

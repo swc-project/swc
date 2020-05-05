@@ -1,0 +1,7 @@
+[
+    {
+        "line": 4,
+        "column": 5,
+        "msg": "Property 'hi' does not exist on type 'Window & typeof globalThis'."
+    }
+]

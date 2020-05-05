@@ -1,0 +1,132 @@
+[
+    {
+        "line": 37,
+        "column": 13,
+        "msg": "Spread operator in 'new' expressions is only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 38,
+        "column": 13,
+        "msg": "Spread operator in 'new' expressions is only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 41,
+        "column": 8,
+        "msg": "Spread operator in 'new' expressions is only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 42,
+        "column": 13,
+        "msg": "Spread operator in 'new' expressions is only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 46,
+        "column": 13,
+        "msg": "Spread operator in 'new' expressions is only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 47,
+        "column": 13,
+        "msg": "Spread operator in 'new' expressions is only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 51,
+        "column": 15,
+        "msg": "Spread operator in 'new' expressions is only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 52,
+        "column": 15,
+        "msg": "Spread operator in 'new' expressions is only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 56,
+        "column": 17,
+        "msg": "Spread operator in 'new' expressions is only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 57,
+        "column": 17,
+        "msg": "Spread operator in 'new' expressions is only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 61,
+        "column": 18,
+        "msg": "Spread operator in 'new' expressions is only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 62,
+        "column": 18,
+        "msg": "Spread operator in 'new' expressions is only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 66,
+        "column": 22,
+        "msg": "Spread operator in 'new' expressions is only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 67,
+        "column": 22,
+        "msg": "Spread operator in 'new' expressions is only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 71,
+        "column": 13,
+        "msg": "Spread operator in 'new' expressions is only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 72,
+        "column": 13,
+        "msg": "Spread operator in 'new' expressions is only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 76,
+        "column": 20,
+        "msg": "Spread operator in 'new' expressions is only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 77,
+        "column": 20,
+        "msg": "Spread operator in 'new' expressions is only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 81,
+        "column": 22,
+        "msg": "Spread operator in 'new' expressions is only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 82,
+        "column": 22,
+        "msg": "Spread operator in 'new' expressions is only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 86,
+        "column": 23,
+        "msg": "Spread operator in 'new' expressions is only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 87,
+        "column": 23,
+        "msg": "Spread operator in 'new' expressions is only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 91,
+        "column": 27,
+        "msg": "Spread operator in 'new' expressions is only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 92,
+        "column": 27,
+        "msg": "Spread operator in 'new' expressions is only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 96,
+        "column": 23,
+        "msg": "Spread operator in 'new' expressions is only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 97,
+        "column": 23,
+        "msg": "Spread operator in 'new' expressions is only available when targeting ECMAScript 5 and higher."
+    }
+]

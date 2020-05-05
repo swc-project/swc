@@ -1,0 +1,7 @@
+[
+    {
+        "line": 3,
+        "column": 10,
+        "msg": "Type 'number' is not an array type or does not have a '[Symbol.iterator]()' method that returns an iterator."
+    }
+]

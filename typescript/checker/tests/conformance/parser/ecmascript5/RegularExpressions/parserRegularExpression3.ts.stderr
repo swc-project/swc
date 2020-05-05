@@ -1,0 +1,17 @@
+error: UndefinedSymbol {
+    sym: Atom('Foo' type=inline),
+    span: Span {
+        lo: BytePos(
+            0,
+        ),
+        hi: BytePos(
+            3,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/RegularExpressions/parserRegularExpression3.ts:1:1
+  |
+1 | Foo(!/(\\?|&)adurl=/);
+  | ^^^
+

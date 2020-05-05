@@ -1,0 +1,7 @@
+[
+    {
+        "line": 1,
+        "column": 1,
+        "msg": "Keywords cannot contain escape characters."
+    }
+]

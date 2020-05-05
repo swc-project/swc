@@ -1,0 +1,92 @@
+[
+    {
+        "line": 3,
+        "column": 20,
+        "msg": "'"
+    },
+    {
+        "line": 4,
+        "column": 7,
+        "msg": "'"
+    },
+    {
+        "line": 5,
+        "column": 10,
+        "msg": "'(' expected."
+    },
+    {
+        "line": 6,
+        "column": 10,
+        "msg": "'(' expected."
+    },
+    {
+        "line": 7,
+        "column": 9,
+        "msg": "'"
+    },
+    {
+        "line": 8,
+        "column": 10,
+        "msg": "'"
+    },
+    {
+        "line": 9,
+        "column": 8,
+        "msg": "'"
+    },
+    {
+        "line": 10,
+        "column": 10,
+        "msg": "'"
+    },
+    {
+        "line": 12,
+        "column": 1,
+        "msg": "'"
+    },
+    {
+        "line": 15,
+        "column": 5,
+        "msg": "No value exists in scope for the shorthand property 'a'. Either declare one or provide an initializer."
+    },
+    {
+        "line": 15,
+        "column": 6,
+        "msg": "',' expected."
+    },
+    {
+        "line": 16,
+        "column": 5,
+        "msg": "No value exists in scope for the shorthand property 'a'. Either declare one or provide an initializer."
+    },
+    {
+        "line": 16,
+        "column": 6,
+        "msg": "',' expected."
+    },
+    {
+        "line": 16,
+        "column": 12,
+        "msg": "'"
+    },
+    {
+        "line": 17,
+        "column": 5,
+        "msg": "No value exists in scope for the shorthand property 'a'. Either declare one or provide an initializer."
+    },
+    {
+        "line": 17,
+        "column": 6,
+        "msg": "',' expected."
+    },
+    {
+        "line": 17,
+        "column": 9,
+        "msg": "'"
+    },
+    {
+        "line": 20,
+        "column": 17,
+        "msg": "'"
+    }
+]

@@ -1,0 +1,32 @@
+error: NameNotFound {
+    span: Span {
+        lo: BytePos(
+            372,
+        ),
+        hi: BytePos(
+            378,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/parser/ecmascript5/parserS7.2_A1.5_T2.ts:14:3
+   |
+14 |   $ERROR('#1: eval("\\u00A0var x\\u00A0= 1\\u00A0"); x === 1. Actual: ' + (x));
+   |   ^^^^^^
+
+error: NameNotFound {
+    span: Span {
+        lo: BytePos(
+            496,
+        ),
+        hi: BytePos(
+            502,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/parser/ecmascript5/parserS7.2_A1.5_T2.ts:20:3
+   |
+20 |   $ERROR('#2:  var x = 1 ; x === 1. Actual: ' + (x));
+   |   ^^^^^^
+

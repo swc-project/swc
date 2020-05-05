@@ -1,0 +1,32 @@
+error: ImplicitAny {
+    span: Span {
+        lo: BytePos(
+            28,
+        ),
+        hi: BytePos(
+            29,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/types/tuple/wideningTuples5.ts:2:6
+  |
+2 | var [a, b] = [undefined, null];
+  |      ^
+
+error: ImplicitAny {
+    span: Span {
+        lo: BytePos(
+            31,
+        ),
+        hi: BytePos(
+            32,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/types/tuple/wideningTuples5.ts:2:9
+  |
+2 | var [a, b] = [undefined, null];
+  |         ^
+

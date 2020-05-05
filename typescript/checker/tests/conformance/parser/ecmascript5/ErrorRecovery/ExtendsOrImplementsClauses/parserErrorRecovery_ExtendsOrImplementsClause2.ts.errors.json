@@ -1,0 +1,12 @@
+[
+    {
+        "line": 1,
+        "column": 17,
+        "msg": "Cannot find name 'A'."
+    },
+    {
+        "line": 1,
+        "column": 18,
+        "msg": "Trailing comma not allowed."
+    }
+]

@@ -1,0 +1,17 @@
+[
+    {
+        "line": 6,
+        "column": 16,
+        "msg": "A 'yield' expression is only allowed in a generator body."
+    },
+    {
+        "line": 7,
+        "column": 11,
+        "msg": "Experimental support for decorators is a feature that is subject to change in a future release. Set the 'experimentalDecorators' option in your 'tsconfig' or 'jsconfig' to remove this warning."
+    },
+    {
+        "line": 8,
+        "column": 13,
+        "msg": "A 'yield' expression is only allowed in a generator body."
+    }
+]

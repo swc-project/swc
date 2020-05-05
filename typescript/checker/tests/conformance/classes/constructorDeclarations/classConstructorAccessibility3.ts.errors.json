@@ -1,0 +1,17 @@
+[
+    {
+        "line": 22,
+        "column": 1,
+        "msg": "Type 'typeof Baz' is not assignable to type 'typeof Foo'."
+    },
+    {
+        "line": 23,
+        "column": 1,
+        "msg": "Type 'typeof Qux' is not assignable to type 'typeof Foo'."
+    },
+    {
+        "line": 29,
+        "column": 1,
+        "msg": "Type 'typeof Qux' is not assignable to type 'typeof Baz'."
+    }
+]

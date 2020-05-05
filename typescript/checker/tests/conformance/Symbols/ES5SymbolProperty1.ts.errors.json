@@ -1,0 +1,7 @@
+[
+    {
+        "line": 8,
+        "column": 6,
+        "msg": "A computed property name of the form 'Symbol.foo' must be of type 'symbol'."
+    }
+]

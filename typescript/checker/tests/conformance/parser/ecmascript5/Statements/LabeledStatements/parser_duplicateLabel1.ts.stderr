@@ -1,0 +1,6 @@
+error: Label target is already declared
+ --> $DIR/tests/conformance/parser/ecmascript5/Statements/LabeledStatements/parser_duplicateLabel1.ts:2:1
+  |
+2 | target:
+  | ^^^^^^
+

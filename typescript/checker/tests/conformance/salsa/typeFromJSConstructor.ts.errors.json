@@ -1,0 +1,32 @@
+[
+    {
+        "line": 16,
+        "column": 5,
+        "msg": "Member 'twices' implicitly has an 'any[]' type."
+    },
+    {
+        "line": 20,
+        "column": 5,
+        "msg": "Type '\"hi\"' is not assignable to type 'number'."
+    },
+    {
+        "line": 27,
+        "column": 5,
+        "msg": "Type 'false' is not assignable to type 'number'."
+    },
+    {
+        "line": 30,
+        "column": 5,
+        "msg": "Type 'null' is not assignable to type 'string | undefined'."
+    },
+    {
+        "line": 31,
+        "column": 5,
+        "msg": "Type 'false' is not assignable to type 'string | undefined'."
+    },
+    {
+        "line": 32,
+        "column": 5,
+        "msg": "Object is possibly 'null'."
+    }
+]

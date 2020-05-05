@@ -1,0 +1,37 @@
+[
+    {
+        "line": 10,
+        "column": 14,
+        "msg": "Type 'number' is not assignable to type 'string | undefined'."
+    },
+    {
+        "line": 11,
+        "column": 1,
+        "msg": "Type '{ b"
+    },
+    {
+        "line": 12,
+        "column": 1,
+        "msg": "Type '{ c"
+    },
+    {
+        "line": 20,
+        "column": 1,
+        "msg": "Type '{ a"
+    },
+    {
+        "line": 21,
+        "column": 1,
+        "msg": "Type '{ a"
+    },
+    {
+        "line": 51,
+        "column": 20,
+        "msg": "Type '2' is not assignable to type '1'."
+    },
+    {
+        "line": 52,
+        "column": 14,
+        "msg": "Type '2' is not assignable to type '1'."
+    }
+]

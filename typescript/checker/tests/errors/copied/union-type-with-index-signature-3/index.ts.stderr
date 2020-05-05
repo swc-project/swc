@@ -1,0 +1,48 @@
+error: UnionError {
+    span: Span {
+        lo: BytePos(
+            123,
+        ),
+        hi: BytePos(
+            128,
+        ),
+        ctxt: #0,
+    },
+    errors: [
+        NoSuchProperty {
+            span: Span {
+                lo: BytePos(
+                    123,
+                ),
+                hi: BytePos(
+                    128,
+                ),
+                ctxt: #0,
+            },
+            prop: Some(
+                Ident(
+                    Ident {
+                        span: Span {
+                            lo: BytePos(
+                                125,
+                            ),
+                            hi: BytePos(
+                                128,
+                            ),
+                            ctxt: #0,
+                        },
+                        sym: Atom('bar' type=inline),
+                        type_ann: None,
+                        optional: false,
+                    },
+                ),
+            ),
+            prop_ty: None,
+        },
+    ],
+}
+ --> $DIR/tests/errors/copied/union-type-with-index-signature-3/index.ts:4:1
+  |
+4 | m.bar
+  | ^^^^^
+

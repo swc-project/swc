@@ -1,0 +1,6 @@
+error: TS2371
+ --> $DIR/tests/conformance/parser/ecmascript5/ParameterLists/parserParameterList14.ts:2:7
+  |
+2 |   foo(a = 1): void;
+  |       ^^^^^
+

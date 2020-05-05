@@ -1,0 +1,12 @@
+[
+    {
+        "line": 8,
+        "column": 15,
+        "msg": "Expected 1 type arguments, but got 2."
+    },
+    {
+        "line": 16,
+        "column": 15,
+        "msg": "Expected 2 type arguments, but got 1."
+    }
+]

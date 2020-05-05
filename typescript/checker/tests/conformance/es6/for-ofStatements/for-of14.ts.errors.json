@@ -1,0 +1,7 @@
+[
+    {
+        "line": 9,
+        "column": 11,
+        "msg": "Type 'StringIterator' must have a '[Symbol.iterator]()' method that returns an iterator."
+    }
+]

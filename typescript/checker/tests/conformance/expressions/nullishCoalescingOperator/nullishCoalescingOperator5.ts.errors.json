@@ -1,0 +1,22 @@
+[
+    {
+        "line": 8,
+        "column": 6,
+        "msg": "'||' and '??' operations cannot be mixed without parentheses."
+    },
+    {
+        "line": 11,
+        "column": 1,
+        "msg": "'||' and '??' operations cannot be mixed without parentheses."
+    },
+    {
+        "line": 14,
+        "column": 6,
+        "msg": "'&&' and '??' operations cannot be mixed without parentheses."
+    },
+    {
+        "line": 17,
+        "column": 1,
+        "msg": "'&&' and '??' operations cannot be mixed without parentheses."
+    }
+]

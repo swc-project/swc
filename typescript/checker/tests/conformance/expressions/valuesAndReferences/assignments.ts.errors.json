@@ -1,0 +1,32 @@
+[
+    {
+        "line": 11,
+        "column": 1,
+        "msg": "Cannot use namespace 'M' as a value."
+    },
+    {
+        "line": 14,
+        "column": 1,
+        "msg": "Cannot assign to 'C' because it is not a variable."
+    },
+    {
+        "line": 17,
+        "column": 1,
+        "msg": "Cannot assign to 'E' because it is not a variable."
+    },
+    {
+        "line": 18,
+        "column": 3,
+        "msg": "Cannot assign to 'A' because it is a read-only property."
+    },
+    {
+        "line": 21,
+        "column": 1,
+        "msg": "Cannot assign to 'fn' because it is not a variable."
+    },
+    {
+        "line": 31,
+        "column": 1,
+        "msg": "'I' only refers to a type, but is being used as a value here."
+    }
+]

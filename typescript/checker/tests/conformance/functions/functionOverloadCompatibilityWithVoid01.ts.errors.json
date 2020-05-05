@@ -1,0 +1,7 @@
+[
+    {
+        "line": 1,
+        "column": 10,
+        "msg": "This overload signature is not compatible with its implementation signature."
+    }
+]

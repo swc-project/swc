@@ -1,0 +1,117 @@
+[
+    {
+        "line": 9,
+        "column": 11,
+        "msg": "Interface 'I1' incorrectly extends interface 'T1'."
+    },
+    {
+        "line": 10,
+        "column": 11,
+        "msg": "Interface 'I2' incorrectly extends interface 'T2'."
+    },
+    {
+        "line": 11,
+        "column": 11,
+        "msg": "Interface 'I3' incorrectly extends interface 'number[]'."
+    },
+    {
+        "line": 12,
+        "column": 11,
+        "msg": "Interface 'I4' incorrectly extends interface '[string, number]'."
+    },
+    {
+        "line": 13,
+        "column": 11,
+        "msg": "Interface 'I5' incorrectly extends interface 'T5'."
+    },
+    {
+        "line": 18,
+        "column": 38,
+        "msg": "Property 'a' in type 'C1' is not assignable to the same property in base type 'T1'."
+    },
+    {
+        "line": 19,
+        "column": 38,
+        "msg": "Property 'b' in type 'C2' is not assignable to the same property in base type 'T2'."
+    },
+    {
+        "line": 20,
+        "column": 38,
+        "msg": "Property 'length' in type 'C3' is not assignable to the same property in base type 'number[]'."
+    },
+    {
+        "line": 21,
+        "column": 38,
+        "msg": "Property '0' in type 'C4' is not assignable to the same property in base type '[string, number]'."
+    },
+    {
+        "line": 22,
+        "column": 38,
+        "msg": "Property 'c' in type 'C5' is not assignable to the same property in base type 'T5'."
+    },
+    {
+        "line": 32,
+        "column": 11,
+        "msg": "Interface 'I10' incorrectly extends interface 'typeof CX'."
+    },
+    {
+        "line": 33,
+        "column": 11,
+        "msg": "Interface 'I11' incorrectly extends interface 'typeof EX'."
+    },
+    {
+        "line": 34,
+        "column": 11,
+        "msg": "Interface 'I12' incorrectly extends interface 'typeof NX'."
+    },
+    {
+        "line": 35,
+        "column": 29,
+        "msg": "Property 'a' of type 'string' is not assignable to string index type 'number'."
+    },
+    {
+        "line": 35,
+        "column": 29,
+        "msg": "Property 'prototype' of type 'CX' is not assignable to string index type 'number'."
+    },
+    {
+        "line": 36,
+        "column": 29,
+        "msg": "Numeric index type 'string' is not assignable to string index type 'number'."
+    },
+    {
+        "line": 37,
+        "column": 29,
+        "msg": "Property 'a' of type '\"hello\"' is not assignable to string index type 'number'."
+    },
+    {
+        "line": 41,
+        "column": 11,
+        "msg": "Interface 'I20' incorrectly extends interface 'Partial<T1>'."
+    },
+    {
+        "line": 42,
+        "column": 11,
+        "msg": "Interface 'I21' incorrectly extends interface 'Readonly<T1>'."
+    },
+    {
+        "line": 43,
+        "column": 11,
+        "msg": "Interface 'I22' incorrectly extends interface 'Identifiable<T1>'."
+    },
+    {
+        "line": 44,
+        "column": 11,
+        "msg": "Interface 'I23' incorrectly extends interface 'Identifiable<T1 & { b"
+    },
+    {
+        "line": 48,
+        "column": 23,
+        "msg": "An interface can only extend an object type or intersection of object types with statically known members."
+    },
+    {
+        "line": 49,
+        "column": 26,
+        "msg": "An interface can only extend an object type or intersection of object types with statically known members."
+    }
+]

@@ -1,0 +1,99 @@
+error: AssignFailed {
+    span: Span {
+        lo: BytePos(
+            191,
+        ),
+        hi: BytePos(
+            200,
+        ),
+        ctxt: #0,
+    },
+    left: Keyword(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    192,
+                ),
+                hi: BytePos(
+                    198,
+                ),
+                ctxt: #0,
+            },
+            kind: TsNumberKeyword,
+        },
+    ),
+    right: Interface(
+        Interface {
+            span: Span {
+                lo: BytePos(
+                    199,
+                ),
+                hi: BytePos(
+                    200,
+                ),
+                ctxt: #0,
+            },
+            name: Atom('I1' type=inline),
+            type_params: None,
+            extends: [],
+            body: [
+                Property(
+                    PropertySignature {
+                        span: Span {
+                            lo: BytePos(
+                                20,
+                            ),
+                            hi: BytePos(
+                                30,
+                            ),
+                            ctxt: #0,
+                        },
+                        readonly: false,
+                        key: Ident(
+                            Ident {
+                                span: Span {
+                                    lo: BytePos(
+                                        20,
+                                    ),
+                                    hi: BytePos(
+                                        22,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                sym: Atom('p1' type=inline),
+                                type_ann: None,
+                                optional: false,
+                            },
+                        ),
+                        computed: false,
+                        optional: false,
+                        params: [],
+                        type_ann: Some(
+                            Keyword(
+                                TsKeywordType {
+                                    span: Span {
+                                        lo: BytePos(
+                                            24,
+                                        ),
+                                        hi: BytePos(
+                                            30,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    kind: TsNumberKeyword,
+                                },
+                            ),
+                        ),
+                        type_params: None,
+                    },
+                ),
+            ],
+        },
+    ),
+    cause: [],
+}
+  --> $DIR/tests/conformance/types/typeRelationships/comparable/typeAssertionsWithUnionTypes01.ts:14:9
+   |
+14 | var b = <number>z;
+   |         ^^^^^^^^^
+

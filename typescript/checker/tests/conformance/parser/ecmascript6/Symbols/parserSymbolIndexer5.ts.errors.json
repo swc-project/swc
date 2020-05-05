@@ -1,0 +1,32 @@
+[
+    {
+        "line": 3,
+        "column": 6,
+        "msg": "Cannot find name 's'."
+    },
+    {
+        "line": 3,
+        "column": 7,
+        "msg": "']' expected."
+    },
+    {
+        "line": 3,
+        "column": 9,
+        "msg": "Cannot find name 'symbol'. Did you mean 'Symbol'?"
+    },
+    {
+        "line": 3,
+        "column": 15,
+        "msg": "',' expected."
+    },
+    {
+        "line": 3,
+        "column": 16,
+        "msg": "Property assignment expected."
+    },
+    {
+        "line": 4,
+        "column": 1,
+        "msg": "'"
+    }
+]

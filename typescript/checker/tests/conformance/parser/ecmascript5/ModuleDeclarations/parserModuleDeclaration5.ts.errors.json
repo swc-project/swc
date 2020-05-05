@@ -1,0 +1,7 @@
+[
+    {
+        "line": 3,
+        "column": 5,
+        "msg": "A 'declare' modifier cannot be used in an already ambient context."
+    }
+]

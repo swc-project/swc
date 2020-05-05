@@ -1,0 +1,7 @@
+[
+    {
+        "line": 19,
+        "column": 1,
+        "msg": "Type 'LinkedList<Entity>' is not assignable to type 'LinkedList<Product>'."
+    }
+]

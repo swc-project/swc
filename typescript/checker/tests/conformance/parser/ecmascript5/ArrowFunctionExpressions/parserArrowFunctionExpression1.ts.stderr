@@ -1,0 +1,6 @@
+error: TS2369
+ --> $DIR/tests/conformance/parser/ecmascript5/ArrowFunctionExpressions/parserArrowFunctionExpression1.ts:1:10
+  |
+1 | var v = (public x: string) => { };
+  |          ^^^^^^^^^^^^^^^^
+

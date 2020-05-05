@@ -1,0 +1,6 @@
+error: TS1047
+ --> $DIR/tests/conformance/parser/ecmascript5/ParameterLists/parserParameterList9.ts:2:14
+  |
+2 |    foo(...bar?) { }
+  |              ^
+

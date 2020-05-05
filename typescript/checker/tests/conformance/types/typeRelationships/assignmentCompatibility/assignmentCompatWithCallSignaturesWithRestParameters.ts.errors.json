@@ -1,0 +1,47 @@
+[
+    {
+        "line": 13,
+        "column": 5,
+        "msg": "Type '(...args"
+    },
+    {
+        "line": 17,
+        "column": 5,
+        "msg": "Type '(x?"
+    },
+    {
+        "line": 26,
+        "column": 5,
+        "msg": "Type '(x"
+    },
+    {
+        "line": 35,
+        "column": 5,
+        "msg": "Type '(x"
+    },
+    {
+        "line": 36,
+        "column": 5,
+        "msg": "Type '(x"
+    },
+    {
+        "line": 37,
+        "column": 5,
+        "msg": "Type '(x"
+    },
+    {
+        "line": 41,
+        "column": 5,
+        "msg": "Type '(x?"
+    },
+    {
+        "line": 43,
+        "column": 5,
+        "msg": "Type '(x"
+    },
+    {
+        "line": 45,
+        "column": 5,
+        "msg": "Type '(x"
+    }
+]

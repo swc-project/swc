@@ -1,0 +1,27 @@
+[
+    {
+        "line": 6,
+        "column": 20,
+        "msg": "A 'this' type is available only in a non-static member of a class or interface."
+    },
+    {
+        "line": 32,
+        "column": 5,
+        "msg": "The inferred type of 'x1' references an inaccessible 'this' type. A type annotation is necessary."
+    },
+    {
+        "line": 34,
+        "column": 5,
+        "msg": "The inferred type of 'x3' references an inaccessible 'this' type. A type annotation is necessary."
+    },
+    {
+        "line": 36,
+        "column": 5,
+        "msg": "The inferred type of 'f1' references an inaccessible 'this' type. A type annotation is necessary."
+    },
+    {
+        "line": 42,
+        "column": 5,
+        "msg": "The inferred type of 'f3' references an inaccessible 'this' type. A type annotation is necessary."
+    }
+]

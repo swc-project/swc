@@ -1,0 +1,7 @@
+[
+    {
+        "line": 2,
+        "column": 3,
+        "msg": "'declare' modifier cannot appear on a class element."
+    }
+]

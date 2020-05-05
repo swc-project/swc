@@ -1,0 +1,6 @@
+error: TS1038
+ --> $DIR/tests/conformance/parser/ecmascript5/EnumDeclarations/parserEnumDeclaration2.ts:2:3
+  |
+2 |   declare enum E {
+  |   ^^^^^^^
+

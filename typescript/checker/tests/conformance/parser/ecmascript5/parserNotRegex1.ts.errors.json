@@ -1,0 +1,12 @@
+[
+    {
+        "line": 1,
+        "column": 7,
+        "msg": "Cannot find name 'a'."
+    },
+    {
+        "line": 3,
+        "column": 5,
+        "msg": "A 'return' statement can only be used within a function body."
+    }
+]

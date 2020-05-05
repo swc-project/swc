@@ -1,0 +1,12 @@
+[
+    {
+        "line": 2,
+        "column": 4,
+        "msg": "Modifiers cannot appear here."
+    },
+    {
+        "line": 2,
+        "column": 20,
+        "msg": "Initializers are not allowed in ambient contexts."
+    }
+]

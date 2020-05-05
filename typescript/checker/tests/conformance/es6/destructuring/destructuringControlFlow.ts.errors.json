@@ -1,0 +1,22 @@
+[
+    {
+        "line": 33,
+        "column": 8,
+        "msg": "Property 'x' does not exist on type 'Number'."
+    },
+    {
+        "line": 34,
+        "column": 9,
+        "msg": "Property 'x' does not exist on type 'Number'."
+    },
+    {
+        "line": 35,
+        "column": 9,
+        "msg": "Type 'Number' has no matching index signature for type 'string'."
+    },
+    {
+        "line": 42,
+        "column": 1,
+        "msg": "Object is possibly 'undefined'."
+    }
+]

@@ -1,0 +1,12 @@
+[
+    {
+        "line": 2,
+        "column": 8,
+        "msg": "A rest parameter must be of an array type."
+    },
+    {
+        "line": 2,
+        "column": 11,
+        "msg": "A rest parameter cannot have an initializer."
+    }
+]

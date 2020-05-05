@@ -1,0 +1,52 @@
+[
+    {
+        "line": 15,
+        "column": 13,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 't' must be of type 'this', but here has type 'MyTestClass'."
+    },
+    {
+        "line": 19,
+        "column": 13,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 'p' must be of type 'this', but here has type 'MyTestClass'."
+    },
+    {
+        "line": 25,
+        "column": 13,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 'p' must be of type 'this', but here has type 'MyTestClass'."
+    },
+    {
+        "line": 30,
+        "column": 13,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 'p' must be of type 'this', but here has type 'MyTestClass'."
+    },
+    {
+        "line": 38,
+        "column": 13,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 't' must be of type 'this', but here has type 'MyTestClass'."
+    },
+    {
+        "line": 84,
+        "column": 13,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 't' must be of type 'this', but here has type 'MyGenericTestClass<T, U>'."
+    },
+    {
+        "line": 88,
+        "column": 13,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 'p' must be of type 'this', but here has type 'MyGenericTestClass<T, U>'."
+    },
+    {
+        "line": 94,
+        "column": 13,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 'p' must be of type 'this', but here has type 'MyGenericTestClass<T, U>'."
+    },
+    {
+        "line": 99,
+        "column": 13,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 'p' must be of type 'this', but here has type 'MyGenericTestClass<T, U>'."
+    },
+    {
+        "line": 107,
+        "column": 13,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 't' must be of type 'this', but here has type 'MyGenericTestClass<T, U>'."
+    }
+]

@@ -1,0 +1,17 @@
+[
+    {
+        "line": 27,
+        "column": 16,
+        "msg": "A function whose declared type is neither 'void' nor 'any' must return a value."
+    },
+    {
+        "line": 32,
+        "column": 17,
+        "msg": "Initializer of parameter 'n' cannot reference identifier 'm' declared after it."
+    },
+    {
+        "line": 37,
+        "column": 17,
+        "msg": "Initializer of parameter 'n' cannot reference identifier 'm' declared after it."
+    }
+]

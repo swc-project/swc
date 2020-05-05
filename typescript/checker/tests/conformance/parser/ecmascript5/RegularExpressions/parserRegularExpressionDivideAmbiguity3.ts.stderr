@@ -1,0 +1,16 @@
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            17,
+        ),
+        hi: BytePos(
+            20,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/RegularExpressions/parserRegularExpressionDivideAmbiguity3.ts:1:18
+  |
+1 | if (1) /regexp/a.foo();
+  |                  ^^^
+

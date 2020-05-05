@@ -1,0 +1,7 @@
+[
+    {
+        "line": 17,
+        "column": 15,
+        "msg": "The 'return' property of an iterator must be a method."
+    }
+]

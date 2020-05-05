@@ -1,0 +1,27 @@
+[
+    {
+        "line": 9,
+        "column": 9,
+        "msg": "Type 'T & U' is not assignable to type 'string | number'."
+    },
+    {
+        "line": 10,
+        "column": 9,
+        "msg": "Type 'T & U' is not assignable to type 'string | null'."
+    },
+    {
+        "line": 12,
+        "column": 9,
+        "msg": "Type 'T & U' is not assignable to type 'number | null'."
+    },
+    {
+        "line": 13,
+        "column": 9,
+        "msg": "Type 'T & U' is not assignable to type 'number | undefined'."
+    },
+    {
+        "line": 14,
+        "column": 9,
+        "msg": "Type 'T & U' is not assignable to type 'null | undefined'."
+    }
+]

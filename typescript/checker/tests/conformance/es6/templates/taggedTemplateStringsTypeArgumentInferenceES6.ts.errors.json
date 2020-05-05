@@ -1,0 +1,12 @@
+[
+    {
+        "line": 64,
+        "column": 36,
+        "msg": "Argument of type '0' is not assignable to parameter of type '\"\"'."
+    },
+    {
+        "line": 78,
+        "column": 5,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 'a9e' must be of type '{ x"
+    }
+]

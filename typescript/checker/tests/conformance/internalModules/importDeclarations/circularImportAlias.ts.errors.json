@@ -1,0 +1,7 @@
+[
+    {
+        "line": 5,
+        "column": 30,
+        "msg": "Class 'C' used before its declaration."
+    }
+]

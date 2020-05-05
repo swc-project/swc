@@ -1,0 +1,62 @@
+[
+    {
+        "line": 34,
+        "column": 10,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 'a' must be of type 'any', but here has type 'number'."
+    },
+    {
+        "line": 35,
+        "column": 10,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 'a' must be of type 'any', but here has type 'string'."
+    },
+    {
+        "line": 36,
+        "column": 10,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 'a' must be of type 'any', but here has type 'C'."
+    },
+    {
+        "line": 37,
+        "column": 10,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 'a' must be of type 'any', but here has type 'D<string>'."
+    },
+    {
+        "line": 38,
+        "column": 10,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 'a' must be of type 'any', but here has type 'typeof M'."
+    },
+    {
+        "line": 41,
+        "column": 10,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 'b' must be of type 'I', but here has type 'C'."
+    },
+    {
+        "line": 42,
+        "column": 10,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 'b' must be of type 'I', but here has type 'C2'."
+    },
+    {
+        "line": 45,
+        "column": 10,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 'f' must be of type '(x"
+    },
+    {
+        "line": 48,
+        "column": 10,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 'arr' must be of type 'string[]', but here has type 'number[]'."
+    },
+    {
+        "line": 49,
+        "column": 10,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 'arr' must be of type 'string[]', but here has type '(C | D<string>)[]'."
+    },
+    {
+        "line": 52,
+        "column": 10,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 'arr2' must be of type 'D<string>[]', but here has type 'D<number>[]'."
+    },
+    {
+        "line": 55,
+        "column": 10,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 'm' must be of type 'typeof M', but here has type 'typeof A'."
+    }
+]

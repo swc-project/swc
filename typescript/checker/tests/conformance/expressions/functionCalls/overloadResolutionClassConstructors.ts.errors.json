@@ -1,0 +1,82 @@
+[
+    {
+        "line": 27,
+        "column": 9,
+        "msg": "No overload matches this call."
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "fn1', gave the following error."
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "fn1', gave the following error."
+    },
+    {
+        "line": 60,
+        "column": 9,
+        "msg": "Expected 3 type arguments, but got 1."
+    },
+    {
+        "line": 61,
+        "column": 9,
+        "msg": "Expected 3 type arguments, but got 2."
+    },
+    {
+        "line": 65,
+        "column": 9,
+        "msg": "Expected 3 type arguments, but got 4."
+    },
+    {
+        "line": 73,
+        "column": 25,
+        "msg": "Argument of type '3' is not assignable to parameter of type 'string'."
+    },
+    {
+        "line": 74,
+        "column": 9,
+        "msg": "Type 'number' does not satisfy the constraint 'string'."
+    },
+    {
+        "line": 75,
+        "column": 9,
+        "msg": "Type 'number' does not satisfy the constraint 'string'."
+    },
+    {
+        "line": 79,
+        "column": 9,
+        "msg": "Argument of type '3' is not assignable to parameter of type 'string'."
+    },
+    {
+        "line": 80,
+        "column": 9,
+        "msg": "Argument of type '3' is not assignable to parameter of type 'string'."
+    },
+    {
+        "line": 84,
+        "column": 9,
+        "msg": "Type 'boolean' does not satisfy the constraint 'string'."
+    },
+    {
+        "line": 87,
+        "column": 9,
+        "msg": "Argument of type 'true' is not assignable to parameter of type 'string'."
+    },
+    {
+        "line": 88,
+        "column": 15,
+        "msg": "Argument of type 'true' is not assignable to parameter of type 'number'."
+    },
+    {
+        "line": 96,
+        "column": 18,
+        "msg": "Property 'toFixed' does not exist on type 'string'."
+    },
+    {
+        "line": 98,
+        "column": 18,
+        "msg": "Property 'blah' does not exist on type 'string'."
+    }
+]

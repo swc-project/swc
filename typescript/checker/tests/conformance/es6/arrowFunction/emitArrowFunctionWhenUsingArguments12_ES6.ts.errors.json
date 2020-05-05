@@ -1,0 +1,7 @@
+[
+    {
+        "line": 4,
+        "column": 7,
+        "msg": "Invalid use of 'arguments'. Class definitions are automatically in strict mode."
+    }
+]

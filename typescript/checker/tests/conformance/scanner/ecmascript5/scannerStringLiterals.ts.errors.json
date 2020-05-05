@@ -1,0 +1,12 @@
+[
+    {
+        "line": 10,
+        "column": 34,
+        "msg": "Unterminated string literal."
+    },
+    {
+        "line": 11,
+        "column": 38,
+        "msg": "Unterminated string literal."
+    }
+]

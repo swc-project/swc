@@ -1,0 +1,57 @@
+[
+    {
+        "line": 5,
+        "column": 14,
+        "msg": "Duplicate identifier 'fn1'."
+    },
+    {
+        "line": 6,
+        "column": 9,
+        "msg": "Duplicate identifier 'fn1'."
+    },
+    {
+        "line": 8,
+        "column": 9,
+        "msg": "Duplicate identifier 'fn2'."
+    },
+    {
+        "line": 9,
+        "column": 14,
+        "msg": "Duplicate identifier 'fn2'."
+    },
+    {
+        "line": 12,
+        "column": 10,
+        "msg": "Duplicate identifier 'fn3'."
+    },
+    {
+        "line": 13,
+        "column": 5,
+        "msg": "Duplicate identifier 'fn3'."
+    },
+    {
+        "line": 16,
+        "column": 9,
+        "msg": "Duplicate identifier 'fn4'."
+    },
+    {
+        "line": 17,
+        "column": 14,
+        "msg": "Duplicate identifier 'fn4'."
+    },
+    {
+        "line": 19,
+        "column": 14,
+        "msg": "Duplicate identifier 'fn5'."
+    },
+    {
+        "line": 20,
+        "column": 9,
+        "msg": "Duplicate identifier 'fn5'."
+    },
+    {
+        "line": 24,
+        "column": 10,
+        "msg": "Function implementation name must be 'over'."
+    }
+]

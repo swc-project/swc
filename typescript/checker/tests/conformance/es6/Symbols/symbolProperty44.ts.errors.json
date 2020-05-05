@@ -1,0 +1,12 @@
+[
+    {
+        "line": 3,
+        "column": 9,
+        "msg": "Duplicate identifier '[Symbol.hasInstance]'."
+    },
+    {
+        "line": 6,
+        "column": 9,
+        "msg": "Duplicate identifier '[Symbol.hasInstance]'."
+    }
+]

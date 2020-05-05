@@ -1,0 +1,6 @@
+error: Unexpected token Some(RBrace)
+ --> $DIR/tests/conformance/parser/ecmascript5/RegressionTests/parser509630.ts:3:1
+  |
+3 | }
+  | ^
+

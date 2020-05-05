@@ -1,0 +1,7 @@
+[
+    {
+        "line": 4,
+        "column": 5,
+        "msg": "Function implementation is missing or not immediately following the declaration."
+    }
+]

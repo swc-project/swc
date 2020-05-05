@@ -1,0 +1,12 @@
+[
+    {
+        "line": 4,
+        "column": 7,
+        "msg": "Invalid use of 'arguments'. Class definitions are automatically in strict mode."
+    },
+    {
+        "line": 5,
+        "column": 23,
+        "msg": "The 'arguments' object cannot be referenced in an arrow function in ES3 and ES5. Consider using a standard function expression."
+    }
+]

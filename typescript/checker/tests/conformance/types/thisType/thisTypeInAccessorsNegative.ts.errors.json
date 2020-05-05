@@ -1,0 +1,12 @@
+[
+    {
+        "line": 13,
+        "column": 9,
+        "msg": "'get' and 'set' accessor must have the same 'this' type."
+    },
+    {
+        "line": 14,
+        "column": 9,
+        "msg": "'get' and 'set' accessor must have the same 'this' type."
+    }
+]

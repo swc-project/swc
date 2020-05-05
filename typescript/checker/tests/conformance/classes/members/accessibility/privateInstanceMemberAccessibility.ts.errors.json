@@ -1,0 +1,27 @@
+[
+    {
+        "line": 5,
+        "column": 7,
+        "msg": "Class 'Derived' incorrectly extends base class 'Base'."
+    },
+    {
+        "line": 6,
+        "column": 15,
+        "msg": "Only public and protected methods of the base class are accessible via the 'super' keyword."
+    },
+    {
+        "line": 8,
+        "column": 22,
+        "msg": "Only public and protected methods of the base class are accessible via the 'super' keyword."
+    },
+    {
+        "line": 10,
+        "column": 15,
+        "msg": "Cannot find name 'super'."
+    },
+    {
+        "line": 12,
+        "column": 12,
+        "msg": "';' expected."
+    }
+]

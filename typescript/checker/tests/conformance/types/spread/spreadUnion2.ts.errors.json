@@ -1,0 +1,32 @@
+[
+    {
+        "line": 7,
+        "column": 5,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 'o1' must be of type '{} | { a"
+    },
+    {
+        "line": 10,
+        "column": 5,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 'o2' must be of type '{} | { b"
+    },
+    {
+        "line": 13,
+        "column": 5,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 'o3' must be of type '{} | { a"
+    },
+    {
+        "line": 14,
+        "column": 5,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 'o3' must be of type '{} | { a"
+    },
+    {
+        "line": 17,
+        "column": 5,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 'o4' must be of type '{} | { a"
+    },
+    {
+        "line": 20,
+        "column": 5,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 'o5' must be of type '{} | { b"
+    }
+]

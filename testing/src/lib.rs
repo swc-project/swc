@@ -4,6 +4,7 @@
 #![feature(unboxed_closures)]
 
 pub use self::output::{NormalizedOutput, StdErr, StdOut, TestOutput};
+use crate::paths::manifest_dir;
 use difference::Changeset;
 use once_cell::sync::Lazy;
 use regex::Regex;
@@ -13,6 +14,7 @@ use std::{
     fs::{create_dir_all, File},
     io::Write,
     path::Path,
+    process::Command,
     sync::Arc,
     thread,
 };
@@ -262,4 +264,26 @@ pub fn diff(l: &str, r: &str) -> String {
     let cs = Changeset::new(l, r, "\n");
 
     format!("{}", cs)
+}
+
+/// This methods do multiple things.
+///
+///  - Run `npm install` if `$CARGO_MANIFEST_DIR/package.json` is found.
+pub fn prepare() {
+    fn npm_install() {
+        let f = manifest_dir().join("package.json");
+
+        if manifest_dir().join("node_modules").exists() {
+            return;
+        }
+
+        if f.exists() {
+            Command::new("npm")
+                .arg("i")
+                .output()
+                .expect("failed to install node dependencies");
+        }
+    }
+
+    npm_install();
 }

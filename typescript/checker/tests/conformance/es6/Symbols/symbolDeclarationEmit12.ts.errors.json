@@ -1,0 +1,17 @@
+[
+    {
+        "line": 7,
+        "column": 9,
+        "msg": "Duplicate identifier '[Symbol.toPrimitive]'."
+    },
+    {
+        "line": 11,
+        "column": 13,
+        "msg": "Duplicate identifier '[Symbol.toPrimitive]'."
+    },
+    {
+        "line": 12,
+        "column": 13,
+        "msg": "Duplicate identifier '[Symbol.toPrimitive]'."
+    }
+]

@@ -1,0 +1,22 @@
+[
+    {
+        "line": 2,
+        "column": 4,
+        "msg": "Cannot find name 'bar'."
+    },
+    {
+        "line": 2,
+        "column": 8,
+        "msg": "Cannot find name 'a'."
+    },
+    {
+        "line": 2,
+        "column": 10,
+        "msg": "Cannot find name 'b'."
+    },
+    {
+        "line": 3,
+        "column": 4,
+        "msg": "',' expected."
+    }
+]

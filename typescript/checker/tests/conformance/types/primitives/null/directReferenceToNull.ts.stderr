@@ -1,0 +1,18 @@
+error: NameNotFound {
+    name: Null,
+    type_args: None,
+    span: Span {
+        lo: BytePos(
+            7,
+        ),
+        hi: BytePos(
+            11,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/types/primitives/null/directReferenceToNull.ts:1:8
+  |
+1 | var x: Null;
+  |        ^^^^
+

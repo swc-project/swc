@@ -1,0 +1,12 @@
+error: TS2703
+ --> $DIR/tests/conformance/async/es6/await_unaryExpression_es6_1.ts:8:12
+  |
+8 |     delete await 42; // OK
+  |            ^^^^^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/async/es6/await_unaryExpression_es6_1.ts:12:12
+   |
+12 |     delete await 42; // OK
+   |            ^^^^^^^^
+

@@ -1,0 +1,117 @@
+[
+    {
+        "line": 2,
+        "column": 6,
+        "msg": "Enum name cannot be 'any'."
+    },
+    {
+        "line": 3,
+        "column": 6,
+        "msg": "Enum name cannot be 'number'."
+    },
+    {
+        "line": 4,
+        "column": 6,
+        "msg": "Enum name cannot be 'string'."
+    },
+    {
+        "line": 5,
+        "column": 6,
+        "msg": "Enum name cannot be 'boolean'."
+    },
+    {
+        "line": 9,
+        "column": 9,
+        "msg": "Type 'Number' is not assignable to type 'E5'."
+    },
+    {
+        "line": 26,
+        "column": 9,
+        "msg": "Type 'true' is not assignable to type 'E11'."
+    },
+    {
+        "line": 27,
+        "column": 9,
+        "msg": "Type 'Date' is not assignable to type 'E11'."
+    },
+    {
+        "line": 28,
+        "column": 9,
+        "msg": "Type 'Window & typeof globalThis' is not assignable to type 'E11'."
+    },
+    {
+        "line": 29,
+        "column": 9,
+        "msg": "Type '{}' is not assignable to type 'E11'."
+    },
+    {
+        "line": 35,
+        "column": 9,
+        "msg": "Computed values are not permitted in an enum with string valued members."
+    },
+    {
+        "line": 36,
+        "column": 9,
+        "msg": "Computed values are not permitted in an enum with string valued members."
+    },
+    {
+        "line": 37,
+        "column": 9,
+        "msg": "Computed values are not permitted in an enum with string valued members."
+    },
+    {
+        "line": 38,
+        "column": 9,
+        "msg": "Computed values are not permitted in an enum with string valued members."
+    },
+    {
+        "line": 46,
+        "column": 18,
+        "msg": "An enum member name must be followed by a ',', '=', or '}'."
+    },
+    {
+        "line": 47,
+        "column": 24,
+        "msg": "An enum member name must be followed by a ',', '=', or '}'."
+    },
+    {
+        "line": 47,
+        "column": 26,
+        "msg": "An enum member cannot have a numeric name."
+    },
+    {
+        "line": 48,
+        "column": 28,
+        "msg": "An enum member name must be followed by a ',', '=', or '}'."
+    },
+    {
+        "line": 48,
+        "column": 30,
+        "msg": "An enum member cannot have a numeric name."
+    },
+    {
+        "line": 48,
+        "column": 31,
+        "msg": "An enum member name must be followed by a ',', '=', or '}'."
+    },
+    {
+        "line": 51,
+        "column": 16,
+        "msg": "An enum member name must be followed by a ',', '=', or '}'."
+    },
+    {
+        "line": 51,
+        "column": 22,
+        "msg": "An enum member name must be followed by a ',', '=', or '}'."
+    },
+    {
+        "line": 51,
+        "column": 30,
+        "msg": "An enum member name must be followed by a ',', '=', or '}'."
+    },
+    {
+        "line": 51,
+        "column": 33,
+        "msg": "An enum member cannot have a numeric name."
+    }
+]

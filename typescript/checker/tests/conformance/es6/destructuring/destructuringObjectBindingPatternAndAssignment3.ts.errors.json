@@ -1,0 +1,47 @@
+[
+    {
+        "line": 2,
+        "column": 7,
+        "msg": "',' expected."
+    },
+    {
+        "line": 3,
+        "column": 5,
+        "msg": "Type '{ i"
+    },
+    {
+        "line": 3,
+        "column": 6,
+        "msg": "Property 'i' does not exist on type 'string | number'."
+    },
+    {
+        "line": 4,
+        "column": 6,
+        "msg": "Property 'i1' does not exist on type 'string | number | {}'."
+    },
+    {
+        "line": 5,
+        "column": 12,
+        "msg": "Initializer provides no value for this binding element and the binding element has no default value."
+    },
+    {
+        "line": 5,
+        "column": 21,
+        "msg": "Object literal may only specify known properties, and 'f212' does not exist in type '{ f21"
+    },
+    {
+        "line": 6,
+        "column": 7,
+        "msg": "'"
+    },
+    {
+        "line": 6,
+        "column": 15,
+        "msg": "'"
+    },
+    {
+        "line": 7,
+        "column": 12,
+        "msg": "'"
+    }
+]

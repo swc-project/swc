@@ -1,0 +1,102 @@
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithNumberType.ts:18:31
+   |
+18 | var ResultIsBoolean1 = delete NUMBER;
+   |                               ^^^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithNumberType.ts:19:31
+   |
+19 | var ResultIsBoolean2 = delete NUMBER1;
+   |                               ^^^^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithNumberType.ts:22:31
+   |
+22 | var ResultIsBoolean3 = delete 1;
+   |                               ^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithNumberType.ts:23:31
+   |
+23 | var ResultIsBoolean4 = delete { x: 1, y: 2};
+   |                               ^^^^^^^^^^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithNumberType.ts:24:31
+   |
+24 | var ResultIsBoolean5 = delete { x: 1, y: (n: number) => { return n; } };
+   |                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithNumberType.ts:30:31
+   |
+30 | var ResultIsBoolean9 = delete foo();
+   |                               ^^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithNumberType.ts:31:32
+   |
+31 | var ResultIsBoolean10 = delete A.foo();
+   |                                ^^^^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithNumberType.ts:32:33
+   |
+32 | var ResultIsBoolean11 = delete (NUMBER + NUMBER);
+   |                                 ^^^^^^^^^^^^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithNumberType.ts:35:32
+   |
+35 | var ResultIsBoolean12 = delete delete NUMBER;
+   |                                ^^^^^^^^^^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithNumberType.ts:35:39
+   |
+35 | var ResultIsBoolean12 = delete delete NUMBER;
+   |                                       ^^^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithNumberType.ts:36:32
+   |
+36 | var ResultIsBoolean13 = delete delete delete (NUMBER + NUMBER);
+   |                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithNumberType.ts:36:39
+   |
+36 | var ResultIsBoolean13 = delete delete delete (NUMBER + NUMBER);
+   |                                       ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithNumberType.ts:36:47
+   |
+36 | var ResultIsBoolean13 = delete delete delete (NUMBER + NUMBER);
+   |                                               ^^^^^^^^^^^^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithNumberType.ts:39:8
+   |
+39 | delete 1;
+   |        ^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithNumberType.ts:40:8
+   |
+40 | delete NUMBER;
+   |        ^^^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithNumberType.ts:41:8
+   |
+41 | delete NUMBER1;
+   |        ^^^^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithNumberType.ts:42:8
+   |
+42 | delete foo();
+   |        ^^^^^
+

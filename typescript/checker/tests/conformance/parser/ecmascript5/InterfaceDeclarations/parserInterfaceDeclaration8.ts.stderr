@@ -1,0 +1,6 @@
+error: TS2427
+ --> $DIR/tests/conformance/parser/ecmascript5/InterfaceDeclarations/parserInterfaceDeclaration8.ts:1:11
+  |
+1 | interface string {
+  |           ^^^^^^
+

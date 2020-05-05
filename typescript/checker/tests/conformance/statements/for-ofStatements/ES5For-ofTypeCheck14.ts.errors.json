@@ -1,0 +1,7 @@
+[
+    {
+        "line": 4,
+        "column": 17,
+        "msg": "Type 'Set<number>' is not an array type or a string type. Use compiler option '--downlevelIteration' to allow iterating of iterators."
+    }
+]

@@ -1,0 +1,6 @@
+error: Unexpected token Some(Word(await))
+ --> $DIR/tests/conformance/async/es6/asyncArrowFunction/asyncArrowFunction10_es6.ts:6:11
+  |
+6 |    var v: await;
+  |           ^^^^^
+

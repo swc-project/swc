@@ -1,0 +1,72 @@
+[
+    {
+        "line": 2,
+        "column": 17,
+        "msg": "Initializers are not allowed in ambient contexts."
+    },
+    {
+        "line": 17,
+        "column": 22,
+        "msg": "A parameter initializer is only allowed in a function or constructor implementation."
+    },
+    {
+        "line": 20,
+        "column": 24,
+        "msg": "An implementation cannot be declared in ambient contexts."
+    },
+    {
+        "line": 29,
+        "column": 9,
+        "msg": "In ambient enum declarations member initializer must be constant expression."
+    },
+    {
+        "line": 34,
+        "column": 13,
+        "msg": "Initializers are not allowed in ambient contexts."
+    },
+    {
+        "line": 35,
+        "column": 19,
+        "msg": "An implementation cannot be declared in ambient contexts."
+    },
+    {
+        "line": 37,
+        "column": 20,
+        "msg": "Initializers are not allowed in ambient contexts."
+    },
+    {
+        "line": 38,
+        "column": 13,
+        "msg": "Initializers are not allowed in ambient contexts."
+    },
+    {
+        "line": 39,
+        "column": 23,
+        "msg": "An implementation cannot be declared in ambient contexts."
+    },
+    {
+        "line": 40,
+        "column": 14,
+        "msg": "An implementation cannot be declared in ambient contexts."
+    },
+    {
+        "line": 41,
+        "column": 22,
+        "msg": "An implementation cannot be declared in ambient contexts."
+    },
+    {
+        "line": 47,
+        "column": 20,
+        "msg": "Ambient modules cannot be nested in other modules or namespaces."
+    },
+    {
+        "line": 51,
+        "column": 16,
+        "msg": "Ambient module declaration cannot specify relative module name."
+    },
+    {
+        "line": 57,
+        "column": 5,
+        "msg": "An export assignment cannot be used in a module with other exported elements."
+    }
+]

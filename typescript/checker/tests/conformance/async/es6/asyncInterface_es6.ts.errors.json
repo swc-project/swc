@@ -1,0 +1,7 @@
+[
+    {
+        "line": 3,
+        "column": 1,
+        "msg": "'async' modifier cannot be used here."
+    }
+]

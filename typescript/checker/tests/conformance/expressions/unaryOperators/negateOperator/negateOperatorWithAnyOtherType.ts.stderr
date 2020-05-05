@@ -1,0 +1,48 @@
+error: TS2532 {
+    span: Span {
+        lo: BytePos(
+            565,
+        ),
+        hi: BytePos(
+            574,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/negateOperator/negateOperatorWithAnyOtherType.ts:34:24
+   |
+34 | var ResultIsNumber7 = -undefined;
+   |                        ^^^^^^^^^
+
+error: TS2531 {
+    span: Span {
+        lo: BytePos(
+            598,
+        ),
+        hi: BytePos(
+            602,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/negateOperator/negateOperatorWithAnyOtherType.ts:35:23
+   |
+35 | var ResultIsNumber = -null;
+   |                       ^^^^
+
+error: UselessSeqExpr {
+    span: Span {
+        lo: BytePos(
+            940,
+        ),
+        hi: BytePos(
+            950,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/negateOperator/negateOperatorWithAnyOtherType.ts:51:1
+   |
+51 | -ANY, ANY1;
+   | ^^^^^^^^^^
+

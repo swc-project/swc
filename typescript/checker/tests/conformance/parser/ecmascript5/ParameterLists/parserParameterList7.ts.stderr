@@ -1,0 +1,32 @@
+error: TS2369 {
+    span: Span {
+        lo: BytePos(
+            24,
+        ),
+        hi: BytePos(
+            40,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/ParameterLists/parserParameterList7.ts:2:14
+  |
+2 |  constructor(public p1:string); // ERROR
+  |              ^^^^^^^^^^^^^^^^
+
+error: TS2369 {
+    span: Span {
+        lo: BytePos(
+            65,
+        ),
+        hi: BytePos(
+            82,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/ParameterLists/parserParameterList7.ts:3:14
+  |
+3 |  constructor(private p2:number); // ERROR
+  |              ^^^^^^^^^^^^^^^^^
+

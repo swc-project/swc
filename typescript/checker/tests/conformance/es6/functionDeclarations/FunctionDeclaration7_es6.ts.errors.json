@@ -1,0 +1,7 @@
+[
+    {
+        "line": 4,
+        "column": 20,
+        "msg": "'yield' expressions cannot be used in a parameter initializer."
+    }
+]

@@ -1,0 +1,12 @@
+[
+    {
+        "line": 2,
+        "column": 10,
+        "msg": "The variable declaration of a 'for...of' statement cannot have an initializer."
+    },
+    {
+        "line": 2,
+        "column": 19,
+        "msg": "Cannot find name 'X'."
+    }
+]

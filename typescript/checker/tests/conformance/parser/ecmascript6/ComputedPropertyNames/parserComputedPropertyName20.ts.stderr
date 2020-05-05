@@ -1,0 +1,33 @@
+error: TS1166 {
+    span: Span {
+        lo: BytePos(
+            33,
+        ),
+        hi: BytePos(
+            46,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript6/ComputedPropertyNames/parserComputedPropertyName20.ts:3:5
+  |
+3 |     [e](): number 
+  |     ^^^^^^^^^^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('e' type=inline),
+    span: Span {
+        lo: BytePos(
+            34,
+        ),
+        hi: BytePos(
+            35,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript6/ComputedPropertyNames/parserComputedPropertyName20.ts:3:6
+  |
+3 |     [e](): number 
+  |      ^
+

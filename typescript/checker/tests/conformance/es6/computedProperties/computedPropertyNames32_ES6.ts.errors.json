@@ -1,0 +1,7 @@
+[
+    {
+        "line": 7,
+        "column": 10,
+        "msg": "A computed property name cannot reference a type parameter from its containing type."
+    }
+]

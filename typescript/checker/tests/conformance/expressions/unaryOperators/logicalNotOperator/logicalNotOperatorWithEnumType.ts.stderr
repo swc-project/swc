@@ -1,0 +1,16 @@
+error: UselessSeqExpr {
+    span: Span {
+        lo: BytePos(
+            380,
+        ),
+        hi: BytePos(
+            385,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/logicalNotOperator/logicalNotOperatorWithEnumType.ts:21:1
+   |
+21 | !ENUM, ENUM1;
+   | ^^^^^
+

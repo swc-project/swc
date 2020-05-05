@@ -1,0 +1,7 @@
+[
+    {
+        "line": 1,
+        "column": 1,
+        "msg": "Cannot assign to 'eval' because it is not a variable."
+    }
+]

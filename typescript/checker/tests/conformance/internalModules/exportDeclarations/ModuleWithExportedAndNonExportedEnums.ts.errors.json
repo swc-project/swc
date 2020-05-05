@@ -1,0 +1,7 @@
+[
+    {
+        "line": 10,
+        "column": 11,
+        "msg": "Property 'Day' does not exist on type 'typeof A'."
+    }
+]

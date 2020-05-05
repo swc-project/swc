@@ -1,0 +1,12 @@
+[
+    {
+        "line": 3,
+        "column": 9,
+        "msg": "'super' can only be referenced in a derived class."
+    },
+    {
+        "line": 10,
+        "column": 13,
+        "msg": "'super' can only be referenced in a derived class."
+    }
+]

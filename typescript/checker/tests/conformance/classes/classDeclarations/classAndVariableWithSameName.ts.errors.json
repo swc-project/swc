@@ -1,0 +1,22 @@
+[
+    {
+        "line": 1,
+        "column": 7,
+        "msg": "Duplicate identifier 'C'."
+    },
+    {
+        "line": 2,
+        "column": 5,
+        "msg": "Duplicate identifier 'C'."
+    },
+    {
+        "line": 5,
+        "column": 11,
+        "msg": "Duplicate identifier 'D'."
+    },
+    {
+        "line": 9,
+        "column": 9,
+        "msg": "Duplicate identifier 'D'."
+    }
+]

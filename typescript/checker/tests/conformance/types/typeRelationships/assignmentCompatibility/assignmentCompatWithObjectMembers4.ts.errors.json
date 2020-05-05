@@ -1,0 +1,87 @@
+[
+    {
+        "line": 24,
+        "column": 5,
+        "msg": "Type 'T' is not assignable to type 'S'."
+    },
+    {
+        "line": 25,
+        "column": 5,
+        "msg": "Type 'S' is not assignable to type 'T'."
+    },
+    {
+        "line": 29,
+        "column": 5,
+        "msg": "Type 'T2' is not assignable to type 'S2'."
+    },
+    {
+        "line": 30,
+        "column": 5,
+        "msg": "Type 'S2' is not assignable to type 'T2'."
+    },
+    {
+        "line": 31,
+        "column": 5,
+        "msg": "Type 'T' is not assignable to type 'S2'."
+    },
+    {
+        "line": 32,
+        "column": 5,
+        "msg": "Type '{ foo"
+    },
+    {
+        "line": 35,
+        "column": 5,
+        "msg": "Type '{ foo"
+    },
+    {
+        "line": 36,
+        "column": 5,
+        "msg": "Type '{ foo"
+    },
+    {
+        "line": 41,
+        "column": 5,
+        "msg": "Type '{ foo"
+    },
+    {
+        "line": 42,
+        "column": 5,
+        "msg": "Type '{ foo"
+    },
+    {
+        "line": 43,
+        "column": 5,
+        "msg": "Type '{ foo"
+    },
+    {
+        "line": 44,
+        "column": 5,
+        "msg": "Type 'T2' is not assignable to type '{ foo"
+    },
+    {
+        "line": 45,
+        "column": 5,
+        "msg": "Type 'T' is not assignable to type '{ foo"
+    },
+    {
+        "line": 70,
+        "column": 5,
+        "msg": "Type 'S' is not assignable to type 'T'."
+    },
+    {
+        "line": 75,
+        "column": 5,
+        "msg": "Type 'S2' is not assignable to type 'T2'."
+    },
+    {
+        "line": 81,
+        "column": 5,
+        "msg": "Type '{ foo"
+    },
+    {
+        "line": 87,
+        "column": 5,
+        "msg": "Type '{ foo"
+    }
+]

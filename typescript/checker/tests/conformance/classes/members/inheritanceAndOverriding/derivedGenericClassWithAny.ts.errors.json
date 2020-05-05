@@ -1,0 +1,37 @@
+[
+    {
+        "line": 3,
+        "column": 9,
+        "msg": "Accessors are only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 11,
+        "column": 9,
+        "msg": "Accessors are only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 19,
+        "column": 16,
+        "msg": "Accessors are only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 30,
+        "column": 9,
+        "msg": "Accessors are only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 30,
+        "column": 18,
+        "msg": "Type '\"\"' is not assignable to type 'T'."
+    },
+    {
+        "line": 32,
+        "column": 9,
+        "msg": "Type '\"\"' is not assignable to type 'T'."
+    },
+    {
+        "line": 41,
+        "column": 1,
+        "msg": "Type 'E<string>' is not assignable to type 'C<number>'."
+    }
+]

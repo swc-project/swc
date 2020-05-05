@@ -1,0 +1,16 @@
+error: NameNotFound {
+    span: Span {
+        lo: BytePos(
+            7,
+        ),
+        hi: BytePos(
+            11,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/types/primitives/boolean/boolInsteadOfBoolean.ts:1:8
+  |
+1 | var x: bool;
+  |        ^^^^
+

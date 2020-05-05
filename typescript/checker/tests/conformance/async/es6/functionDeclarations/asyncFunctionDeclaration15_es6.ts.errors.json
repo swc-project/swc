@@ -1,0 +1,47 @@
+[
+    {
+        "line": 8,
+        "column": 23,
+        "msg": "The return type of an async function or method must be the global Promise<T> type."
+    },
+    {
+        "line": 8,
+        "column": 23,
+        "msg": "A function whose declared type is neither 'void' nor 'any' must return a value."
+    },
+    {
+        "line": 9,
+        "column": 23,
+        "msg": "The return type of an async function or method must be the global Promise<T> type."
+    },
+    {
+        "line": 10,
+        "column": 23,
+        "msg": "The return type of an async function or method must be the global Promise<T> type."
+    },
+    {
+        "line": 10,
+        "column": 23,
+        "msg": "A function whose declared type is neither 'void' nor 'any' must return a value."
+    },
+    {
+        "line": 11,
+        "column": 23,
+        "msg": "The return type of an async function or method must be the global Promise<T> type."
+    },
+    {
+        "line": 12,
+        "column": 23,
+        "msg": "The return type of an async function or method must be the global Promise<T> type."
+    },
+    {
+        "line": 19,
+        "column": 16,
+        "msg": "The return type of an async function must either be a valid promise or must not contain a callable 'then' member."
+    },
+    {
+        "line": 25,
+        "column": 25,
+        "msg": "Type of 'await' operand must either be a valid promise or must not contain a callable 'then' member."
+    }
+]

@@ -1,0 +1,82 @@
+[
+    {
+        "line": 23,
+        "column": 12,
+        "msg": "'private' modifier must precede 'static' modifier."
+    },
+    {
+        "line": 24,
+        "column": 12,
+        "msg": "'private' modifier must precede 'static' modifier."
+    },
+    {
+        "line": 25,
+        "column": 12,
+        "msg": "'private' modifier must precede 'static' modifier."
+    },
+    {
+        "line": 26,
+        "column": 12,
+        "msg": "'private' modifier must precede 'static' modifier."
+    },
+    {
+        "line": 28,
+        "column": 12,
+        "msg": "'protected' modifier must precede 'static' modifier."
+    },
+    {
+        "line": 29,
+        "column": 12,
+        "msg": "'protected' modifier must precede 'static' modifier."
+    },
+    {
+        "line": 30,
+        "column": 12,
+        "msg": "'protected' modifier must precede 'static' modifier."
+    },
+    {
+        "line": 31,
+        "column": 12,
+        "msg": "'protected' modifier must precede 'static' modifier."
+    },
+    {
+        "line": 33,
+        "column": 12,
+        "msg": "'public' modifier must precede 'static' modifier."
+    },
+    {
+        "line": 34,
+        "column": 12,
+        "msg": "'public' modifier must precede 'static' modifier."
+    },
+    {
+        "line": 35,
+        "column": 12,
+        "msg": "'public' modifier must precede 'static' modifier."
+    },
+    {
+        "line": 36,
+        "column": 12,
+        "msg": "'public' modifier must precede 'static' modifier."
+    },
+    {
+        "line": 41,
+        "column": 13,
+        "msg": "Accessibility modifier already seen."
+    },
+    {
+        "line": 42,
+        "column": 12,
+        "msg": "Accessibility modifier already seen."
+    },
+    {
+        "line": 43,
+        "column": 13,
+        "msg": "Accessibility modifier already seen."
+    },
+    {
+        "line": 44,
+        "column": 12,
+        "msg": "Accessibility modifier already seen."
+    }
+]

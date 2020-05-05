@@ -1,0 +1,77 @@
+[
+    {
+        "line": 14,
+        "column": 11,
+        "msg": "Argument of type '[10]' is not assignable to parameter of type '[string] | [number, boolean]'."
+    },
+    {
+        "line": 15,
+        "column": 1,
+        "msg": "Argument of type '[]' is not assignable to parameter of type '[string] | [number, boolean]'."
+    },
+    {
+        "line": 19,
+        "column": 1,
+        "msg": "Type '(x"
+    },
+    {
+        "line": 20,
+        "column": 1,
+        "msg": "Type '(x"
+    },
+    {
+        "line": 21,
+        "column": 1,
+        "msg": "Type '(x"
+    },
+    {
+        "line": 22,
+        "column": 1,
+        "msg": "Type '(...args"
+    },
+    {
+        "line": 32,
+        "column": 1,
+        "msg": "Expected 1 arguments, but got 0."
+    },
+    {
+        "line": 33,
+        "column": 21,
+        "msg": "Argument of type '100' is not assignable to parameter of type '(...args"
+    },
+    {
+        "line": 34,
+        "column": 21,
+        "msg": "Argument of type '<T extends any[]>(cb"
+    },
+    {
+        "line": 41,
+        "column": 32,
+        "msg": "Argument of type '[10, 20]' is not assignable to parameter of type 'CoolArray<number>'."
+    },
+    {
+        "line": 46,
+        "column": 1,
+        "msg": "Argument of type '[]' is not assignable to parameter of type 'CoolArray<unknown>'."
+    },
+    {
+        "line": 47,
+        "column": 5,
+        "msg": "Argument of type '[number]' is not assignable to parameter of type 'CoolArray<unknown>'."
+    },
+    {
+        "line": 48,
+        "column": 5,
+        "msg": "Argument of type '[number, number]' is not assignable to parameter of type 'CoolArray<unknown>'."
+    },
+    {
+        "line": 49,
+        "column": 5,
+        "msg": "Argument of type 'number[]' is not assignable to parameter of type 'CoolArray<number>'."
+    },
+    {
+        "line": 56,
+        "column": 5,
+        "msg": "Argument of type '[\"what\"]' is not assignable to parameter of type '[] | [number, string]'."
+    }
+]

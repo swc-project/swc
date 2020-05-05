@@ -1,0 +1,6 @@
+error: TS1094
+ --> $DIR/tests/conformance/parser/ecmascript5/Accessors/parserAccessors8.ts:2:15
+  |
+2 | var v = { set foo() { } }
+  |               ^^^
+

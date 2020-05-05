@@ -1,0 +1,1280 @@
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            24,
+        ),
+        hi: BytePos(
+            28,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:2:11
+  |
+2 | var ra1 = null * null;
+  |           ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            31,
+        ),
+        hi: BytePos(
+            35,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:2:18
+  |
+2 | var ra1 = null * null;
+  |                  ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            47,
+        ),
+        hi: BytePos(
+            51,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:3:11
+  |
+3 | var ra2 = null * undefined;
+  |           ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            54,
+        ),
+        hi: BytePos(
+            63,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:3:18
+  |
+3 | var ra2 = null * undefined;
+  |                  ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            75,
+        ),
+        hi: BytePos(
+            84,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:4:11
+  |
+4 | var ra3 = undefined * null;
+  |           ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            87,
+        ),
+        hi: BytePos(
+            91,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:4:23
+  |
+4 | var ra3 = undefined * null;
+  |                       ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            103,
+        ),
+        hi: BytePos(
+            112,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:5:11
+  |
+5 | var ra4 = undefined * undefined;
+  |           ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            115,
+        ),
+        hi: BytePos(
+            124,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:5:23
+  |
+5 | var ra4 = undefined * undefined;
+  |                       ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            151,
+        ),
+        hi: BytePos(
+            155,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:8:11
+  |
+8 | var rb1 = null / null;
+  |           ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            158,
+        ),
+        hi: BytePos(
+            162,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:8:18
+  |
+8 | var rb1 = null / null;
+  |                  ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            174,
+        ),
+        hi: BytePos(
+            178,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:9:11
+  |
+9 | var rb2 = null / undefined;
+  |           ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            181,
+        ),
+        hi: BytePos(
+            190,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:9:18
+  |
+9 | var rb2 = null / undefined;
+  |                  ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            202,
+        ),
+        hi: BytePos(
+            211,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:10:11
+   |
+10 | var rb3 = undefined / null;
+   |           ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            214,
+        ),
+        hi: BytePos(
+            218,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:10:23
+   |
+10 | var rb3 = undefined / null;
+   |                       ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            230,
+        ),
+        hi: BytePos(
+            239,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:11:11
+   |
+11 | var rb4 = undefined / undefined;
+   |           ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            242,
+        ),
+        hi: BytePos(
+            251,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:11:23
+   |
+11 | var rb4 = undefined / undefined;
+   |                       ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            278,
+        ),
+        hi: BytePos(
+            282,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:14:11
+   |
+14 | var rc1 = null % null;
+   |           ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            285,
+        ),
+        hi: BytePos(
+            289,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:14:18
+   |
+14 | var rc1 = null % null;
+   |                  ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            301,
+        ),
+        hi: BytePos(
+            305,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:15:11
+   |
+15 | var rc2 = null % undefined;
+   |           ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            308,
+        ),
+        hi: BytePos(
+            317,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:15:18
+   |
+15 | var rc2 = null % undefined;
+   |                  ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            329,
+        ),
+        hi: BytePos(
+            338,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:16:11
+   |
+16 | var rc3 = undefined % null;
+   |           ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            341,
+        ),
+        hi: BytePos(
+            345,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:16:23
+   |
+16 | var rc3 = undefined % null;
+   |                       ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            357,
+        ),
+        hi: BytePos(
+            366,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:17:11
+   |
+17 | var rc4 = undefined % undefined;
+   |           ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            369,
+        ),
+        hi: BytePos(
+            378,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:17:23
+   |
+17 | var rc4 = undefined % undefined;
+   |                       ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            405,
+        ),
+        hi: BytePos(
+            409,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:20:11
+   |
+20 | var rd1 = null - null;
+   |           ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            412,
+        ),
+        hi: BytePos(
+            416,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:20:18
+   |
+20 | var rd1 = null - null;
+   |                  ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            428,
+        ),
+        hi: BytePos(
+            432,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:21:11
+   |
+21 | var rd2 = null - undefined;
+   |           ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            435,
+        ),
+        hi: BytePos(
+            444,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:21:18
+   |
+21 | var rd2 = null - undefined;
+   |                  ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            456,
+        ),
+        hi: BytePos(
+            465,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:22:11
+   |
+22 | var rd3 = undefined - null;
+   |           ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            468,
+        ),
+        hi: BytePos(
+            472,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:22:23
+   |
+22 | var rd3 = undefined - null;
+   |                       ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            484,
+        ),
+        hi: BytePos(
+            493,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:23:11
+   |
+23 | var rd4 = undefined - undefined;
+   |           ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            496,
+        ),
+        hi: BytePos(
+            505,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:23:23
+   |
+23 | var rd4 = undefined - undefined;
+   |                       ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            533,
+        ),
+        hi: BytePos(
+            537,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:26:11
+   |
+26 | var re1 = null << null;
+   |           ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            541,
+        ),
+        hi: BytePos(
+            545,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:26:19
+   |
+26 | var re1 = null << null;
+   |                   ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            557,
+        ),
+        hi: BytePos(
+            561,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:27:11
+   |
+27 | var re2 = null << undefined;
+   |           ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            565,
+        ),
+        hi: BytePos(
+            574,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:27:19
+   |
+27 | var re2 = null << undefined;
+   |                   ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            586,
+        ),
+        hi: BytePos(
+            595,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:28:11
+   |
+28 | var re3 = undefined << null;
+   |           ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            599,
+        ),
+        hi: BytePos(
+            603,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:28:24
+   |
+28 | var re3 = undefined << null;
+   |                        ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            615,
+        ),
+        hi: BytePos(
+            624,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:29:11
+   |
+29 | var re4 = undefined << undefined;
+   |           ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            628,
+        ),
+        hi: BytePos(
+            637,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:29:24
+   |
+29 | var re4 = undefined << undefined;
+   |                        ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            665,
+        ),
+        hi: BytePos(
+            669,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:32:11
+   |
+32 | var rf1 = null >> null;
+   |           ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            673,
+        ),
+        hi: BytePos(
+            677,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:32:19
+   |
+32 | var rf1 = null >> null;
+   |                   ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            689,
+        ),
+        hi: BytePos(
+            693,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:33:11
+   |
+33 | var rf2 = null >> undefined;
+   |           ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            697,
+        ),
+        hi: BytePos(
+            706,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:33:19
+   |
+33 | var rf2 = null >> undefined;
+   |                   ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            718,
+        ),
+        hi: BytePos(
+            727,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:34:11
+   |
+34 | var rf3 = undefined >> null;
+   |           ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            731,
+        ),
+        hi: BytePos(
+            735,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:34:24
+   |
+34 | var rf3 = undefined >> null;
+   |                        ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            747,
+        ),
+        hi: BytePos(
+            756,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:35:11
+   |
+35 | var rf4 = undefined >> undefined;
+   |           ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            760,
+        ),
+        hi: BytePos(
+            769,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:35:24
+   |
+35 | var rf4 = undefined >> undefined;
+   |                        ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            798,
+        ),
+        hi: BytePos(
+            802,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:38:11
+   |
+38 | var rg1 = null >>> null;
+   |           ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            807,
+        ),
+        hi: BytePos(
+            811,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:38:20
+   |
+38 | var rg1 = null >>> null;
+   |                    ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            823,
+        ),
+        hi: BytePos(
+            827,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:39:11
+   |
+39 | var rg2 = null >>> undefined;
+   |           ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            832,
+        ),
+        hi: BytePos(
+            841,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:39:20
+   |
+39 | var rg2 = null >>> undefined;
+   |                    ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            853,
+        ),
+        hi: BytePos(
+            862,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:40:11
+   |
+40 | var rg3 = undefined >>> null;
+   |           ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            867,
+        ),
+        hi: BytePos(
+            871,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:40:25
+   |
+40 | var rg3 = undefined >>> null;
+   |                         ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            883,
+        ),
+        hi: BytePos(
+            892,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:41:11
+   |
+41 | var rg4 = undefined >>> undefined;
+   |           ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            897,
+        ),
+        hi: BytePos(
+            906,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:41:25
+   |
+41 | var rg4 = undefined >>> undefined;
+   |                         ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            933,
+        ),
+        hi: BytePos(
+            937,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:44:11
+   |
+44 | var rh1 = null & null;
+   |           ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            940,
+        ),
+        hi: BytePos(
+            944,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:44:18
+   |
+44 | var rh1 = null & null;
+   |                  ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            956,
+        ),
+        hi: BytePos(
+            960,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:45:11
+   |
+45 | var rh2 = null & undefined;
+   |           ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            963,
+        ),
+        hi: BytePos(
+            972,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:45:18
+   |
+45 | var rh2 = null & undefined;
+   |                  ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            984,
+        ),
+        hi: BytePos(
+            993,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:46:11
+   |
+46 | var rh3 = undefined & null;
+   |           ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            996,
+        ),
+        hi: BytePos(
+            1000,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:46:23
+   |
+46 | var rh3 = undefined & null;
+   |                       ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1012,
+        ),
+        hi: BytePos(
+            1021,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:47:11
+   |
+47 | var rh4 = undefined & undefined;
+   |           ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1024,
+        ),
+        hi: BytePos(
+            1033,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:47:23
+   |
+47 | var rh4 = undefined & undefined;
+   |                       ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1060,
+        ),
+        hi: BytePos(
+            1064,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:50:11
+   |
+50 | var ri1 = null ^ null;
+   |           ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1067,
+        ),
+        hi: BytePos(
+            1071,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:50:18
+   |
+50 | var ri1 = null ^ null;
+   |                  ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1083,
+        ),
+        hi: BytePos(
+            1087,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:51:11
+   |
+51 | var ri2 = null ^ undefined;
+   |           ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1090,
+        ),
+        hi: BytePos(
+            1099,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:51:18
+   |
+51 | var ri2 = null ^ undefined;
+   |                  ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1111,
+        ),
+        hi: BytePos(
+            1120,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:52:11
+   |
+52 | var ri3 = undefined ^ null;
+   |           ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1123,
+        ),
+        hi: BytePos(
+            1127,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:52:23
+   |
+52 | var ri3 = undefined ^ null;
+   |                       ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1139,
+        ),
+        hi: BytePos(
+            1148,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:53:11
+   |
+53 | var ri4 = undefined ^ undefined;
+   |           ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1151,
+        ),
+        hi: BytePos(
+            1160,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:53:23
+   |
+53 | var ri4 = undefined ^ undefined;
+   |                       ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1187,
+        ),
+        hi: BytePos(
+            1191,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:56:11
+   |
+56 | var rj1 = null | null;
+   |           ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1194,
+        ),
+        hi: BytePos(
+            1198,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:56:18
+   |
+56 | var rj1 = null | null;
+   |                  ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1210,
+        ),
+        hi: BytePos(
+            1214,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:57:11
+   |
+57 | var rj2 = null | undefined;
+   |           ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1217,
+        ),
+        hi: BytePos(
+            1226,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:57:18
+   |
+57 | var rj2 = null | undefined;
+   |                  ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1238,
+        ),
+        hi: BytePos(
+            1247,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:58:11
+   |
+58 | var rj3 = undefined | null;
+   |           ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1250,
+        ),
+        hi: BytePos(
+            1254,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:58:23
+   |
+58 | var rj3 = undefined | null;
+   |                       ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1266,
+        ),
+        hi: BytePos(
+            1275,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:59:11
+   |
+59 | var rj4 = undefined | undefined;
+   |           ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1278,
+        ),
+        hi: BytePos(
+            1287,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithOnlyNullValueOrUndefinedValue.ts:59:23
+   |
+59 | var rj4 = undefined | undefined;
+   |                       ^^^^^^^^^
+

@@ -1,0 +1,90 @@
+error: TupleIndexError {
+    span: Span {
+        lo: BytePos(
+            341,
+        ),
+        hi: BytePos(
+            342,
+        ),
+        ctxt: #0,
+    },
+    len: 2,
+    index: 4,
+}
+  --> $DIR/tests/conformance/types/typeRelationships/bestCommonType/bestCommonTypeOfTuple2.ts:17:14
+   |
+17 | var e11 = t1[4]; // base
+   |              ^
+
+error: TupleIndexError {
+    span: Span {
+        lo: BytePos(
+            366,
+        ),
+        hi: BytePos(
+            367,
+        ),
+        ctxt: #0,
+    },
+    len: 2,
+    index: 4,
+}
+  --> $DIR/tests/conformance/types/typeRelationships/bestCommonType/bestCommonTypeOfTuple2.ts:18:14
+   |
+18 | var e21 = t2[4]; // {}
+   |              ^
+
+error: TupleIndexError {
+    span: Span {
+        lo: BytePos(
+            389,
+        ),
+        hi: BytePos(
+            390,
+        ),
+        ctxt: #0,
+    },
+    len: 2,
+    index: 4,
+}
+  --> $DIR/tests/conformance/types/typeRelationships/bestCommonType/bestCommonTypeOfTuple2.ts:19:14
+   |
+19 | var e31 = t3[4]; // C1
+   |              ^
+
+error: TupleIndexError {
+    span: Span {
+        lo: BytePos(
+            412,
+        ),
+        hi: BytePos(
+            413,
+        ),
+        ctxt: #0,
+    },
+    len: 2,
+    index: 2,
+}
+  --> $DIR/tests/conformance/types/typeRelationships/bestCommonType/bestCommonTypeOfTuple2.ts:20:14
+   |
+20 | var e41 = t4[2]; // base1
+   |              ^
+
+error: TupleIndexError {
+    span: Span {
+        lo: BytePos(
+            438,
+        ),
+        hi: BytePos(
+            439,
+        ),
+        ctxt: #0,
+    },
+    len: 2,
+    index: 2,
+}
+  --> $DIR/tests/conformance/types/typeRelationships/bestCommonType/bestCommonTypeOfTuple2.ts:21:14
+   |
+21 | var e51 = t5[2]; // {}
+   |              ^
+

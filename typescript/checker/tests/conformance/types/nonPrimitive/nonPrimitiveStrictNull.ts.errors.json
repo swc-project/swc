@@ -1,0 +1,92 @@
+[
+    {
+        "line": 8,
+        "column": 1,
+        "msg": "Variable 'a' is used before being assigned."
+    },
+    {
+        "line": 9,
+        "column": 1,
+        "msg": "Type 'undefined' is not assignable to type 'object'."
+    },
+    {
+        "line": 10,
+        "column": 1,
+        "msg": "Type 'null' is not assignable to type 'object'."
+    },
+    {
+        "line": 11,
+        "column": 1,
+        "msg": "Type 'object | null' is not assignable to type 'object'."
+    },
+    {
+        "line": 12,
+        "column": 1,
+        "msg": "Type 'object | undefined' is not assignable to type 'object'."
+    },
+    {
+        "line": 13,
+        "column": 1,
+        "msg": "Type 'object | null | undefined' is not assignable to type 'object'."
+    },
+    {
+        "line": 19,
+        "column": 7,
+        "msg": "Property 'toString' does not exist on type 'never'."
+    },
+    {
+        "line": 23,
+        "column": 5,
+        "msg": "Type 'object | null' is not assignable to type 'object'."
+    },
+    {
+        "line": 28,
+        "column": 5,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 30,
+        "column": 5,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 34,
+        "column": 5,
+        "msg": "Object is possibly 'null' or 'undefined'."
+    },
+    {
+        "line": 40,
+        "column": 5,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 42,
+        "column": 5,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 46,
+        "column": 5,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 48,
+        "column": 5,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 53,
+        "column": 14,
+        "msg": "Type 'number' does not satisfy the constraint 'object'."
+    },
+    {
+        "line": 54,
+        "column": 14,
+        "msg": "Type 'null' does not satisfy the constraint 'object'."
+    },
+    {
+        "line": 55,
+        "column": 14,
+        "msg": "Type 'undefined' does not satisfy the constraint 'object'."
+    }
+]

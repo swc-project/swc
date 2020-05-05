@@ -1,0 +1,72 @@
+[
+    {
+        "line": 8,
+        "column": 16,
+        "msg": "Generic type 'C<T>' requires 1 type argument(s)."
+    },
+    {
+        "line": 10,
+        "column": 21,
+        "msg": "Generic type 'C<T>' requires 1 type argument(s)."
+    },
+    {
+        "line": 11,
+        "column": 22,
+        "msg": "Generic type 'C<T>' requires 1 type argument(s)."
+    },
+    {
+        "line": 11,
+        "column": 26,
+        "msg": "Generic type 'C<T>' requires 1 type argument(s)."
+    },
+    {
+        "line": 12,
+        "column": 19,
+        "msg": "An index signature parameter type must be either 'string' or 'number'."
+    },
+    {
+        "line": 12,
+        "column": 22,
+        "msg": "Generic type 'C<T>' requires 1 type argument(s)."
+    },
+    {
+        "line": 12,
+        "column": 26,
+        "msg": "Generic type 'C<T>' requires 1 type argument(s)."
+    },
+    {
+        "line": 14,
+        "column": 23,
+        "msg": "Generic type 'C<T>' requires 1 type argument(s)."
+    },
+    {
+        "line": 14,
+        "column": 27,
+        "msg": "Generic type 'C<T>' requires 1 type argument(s)."
+    },
+    {
+        "line": 16,
+        "column": 25,
+        "msg": "Generic type 'C<T>' requires 1 type argument(s)."
+    },
+    {
+        "line": 22,
+        "column": 28,
+        "msg": "Property 'C' does not exist on type 'typeof M'."
+    },
+    {
+        "line": 23,
+        "column": 28,
+        "msg": "Generic type 'E<T>' requires 1 type argument(s)."
+    },
+    {
+        "line": 25,
+        "column": 30,
+        "msg": "Generic type 'C<T>' requires 1 type argument(s)."
+    },
+    {
+        "line": 26,
+        "column": 30,
+        "msg": "Generic type 'E<T>' requires 1 type argument(s)."
+    }
+]

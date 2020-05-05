@@ -1,0 +1,12 @@
+[
+    {
+        "line": 4,
+        "column": 19,
+        "msg": "Object is possibly 'null' or 'undefined'."
+    },
+    {
+        "line": 5,
+        "column": 19,
+        "msg": "Object is possibly 'null' or 'undefined'."
+    }
+]

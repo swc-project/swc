@@ -1,0 +1,27 @@
+[
+    {
+        "line": 8,
+        "column": 12,
+        "msg": "Property 'x' is private and only accessible within class 'C'."
+    },
+    {
+        "line": 9,
+        "column": 12,
+        "msg": "Property 'z' is protected and only accessible within class 'C' and its subclasses."
+    },
+    {
+        "line": 18,
+        "column": 12,
+        "msg": "Property 'x' is private and only accessible within class 'D<T>'."
+    },
+    {
+        "line": 19,
+        "column": 12,
+        "msg": "Property 'a' does not exist on type 'D<string>'."
+    },
+    {
+        "line": 20,
+        "column": 12,
+        "msg": "Property 'z' is protected and only accessible within class 'D<T>' and its subclasses."
+    }
+]

@@ -1,0 +1,22 @@
+[
+    {
+        "line": 7,
+        "column": 7,
+        "msg": "Expected 1 arguments, but got 4."
+    },
+    {
+        "line": 8,
+        "column": 15,
+        "msg": "Expected 2 arguments, but got 4."
+    },
+    {
+        "line": 10,
+        "column": 1,
+        "msg": "Expected at least 1 arguments, but got 0."
+    },
+    {
+        "line": 11,
+        "column": 10,
+        "msg": "Expected at least 1 arguments, but got 0 or more."
+    }
+]

@@ -1,0 +1,25 @@
+[package]
+name = "swc_ts_builtin_macro"
+version = "0.1.0"
+authors = ["강동윤 <kdy1997l.dev@gmail.com>"]
+edition = "2015"
+publish = false
+
+[lib]
+proc-macro = true
+
+[dependencies]
+swc_common = { path = "../../../../common" }
+swc_ecma_parser = { path = "../../../../ecmascript/parser" }
+swc_macros_common = { path ="../../../../macros/common" }
+proc-macro2 = "1"
+pmutil = "0.5.1"
+Inflector = "0.11"
+
+[dependencies.syn]
+version = "1"
+features = ["fold", "parsing"]
+
+
+[dependencies.quote]
+version = "1"

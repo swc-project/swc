@@ -1,0 +1,32 @@
+[
+    {
+        "line": 5,
+        "column": 5,
+        "msg": "Property 'hi' does not exist on type 'Window & typeof globalThis'."
+    },
+    {
+        "line": 6,
+        "column": 6,
+        "msg": "Element implicitly has an 'any' type because type 'typeof globalThis' has no index signature."
+    },
+    {
+        "line": 7,
+        "column": 12,
+        "msg": "Element implicitly has an 'any' type because type 'typeof globalThis' has no index signature."
+    },
+    {
+        "line": 9,
+        "column": 5,
+        "msg": "Element implicitly has an 'any' type because index expression is not of type 'number'."
+    },
+    {
+        "line": 10,
+        "column": 1,
+        "msg": "Element implicitly has an 'any' type because expression of type '\"hi\"' can't be used to index type 'typeof globalThis'."
+    },
+    {
+        "line": 11,
+        "column": 1,
+        "msg": "Element implicitly has an 'any' type because expression of type '\"hi\"' can't be used to index type 'typeof globalThis'."
+    }
+]

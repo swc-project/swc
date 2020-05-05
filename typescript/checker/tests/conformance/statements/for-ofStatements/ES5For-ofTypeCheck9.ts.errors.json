@@ -1,0 +1,7 @@
+[
+    {
+        "line": 3,
+        "column": 15,
+        "msg": "Type 'number | symbol | string[]' is not an array type."
+    }
+]

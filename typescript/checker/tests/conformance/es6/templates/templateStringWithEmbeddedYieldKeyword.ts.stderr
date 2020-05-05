@@ -1,0 +1,6 @@
+error: Expected LParen, got Some(LBrace)
+ --> $DIR/tests/conformance/es6/templates/templateStringWithEmbeddedYieldKeyword.ts:1:15
+  |
+1 | function* gen {
+  |               ^
+

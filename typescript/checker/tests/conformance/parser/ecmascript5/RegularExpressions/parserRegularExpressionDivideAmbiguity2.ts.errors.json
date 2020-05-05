@@ -1,0 +1,12 @@
+[
+    {
+        "line": 1,
+        "column": 6,
+        "msg": "Cannot find name 'notregexp'."
+    },
+    {
+        "line": 1,
+        "column": 16,
+        "msg": "Cannot find name 'a'."
+    }
+]

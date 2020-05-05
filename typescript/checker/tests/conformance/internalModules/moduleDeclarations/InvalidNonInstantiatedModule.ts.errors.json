@@ -1,0 +1,12 @@
+[
+    {
+        "line": 5,
+        "column": 9,
+        "msg": "Cannot use namespace 'M' as a value."
+    },
+    {
+        "line": 7,
+        "column": 15,
+        "msg": "Cannot use namespace 'M' as a value."
+    }
+]

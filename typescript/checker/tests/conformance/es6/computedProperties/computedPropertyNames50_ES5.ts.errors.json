@@ -1,0 +1,42 @@
+[
+    {
+        "line": 4,
+        "column": 9,
+        "msg": "Accessors are only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 4,
+        "column": 9,
+        "msg": "Duplicate identifier 'foo'."
+    },
+    {
+        "line": 9,
+        "column": 9,
+        "msg": "Accessors are only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 12,
+        "column": 9,
+        "msg": "Accessors are only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 16,
+        "column": 9,
+        "msg": "Accessors are only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 19,
+        "column": 9,
+        "msg": "Accessors are only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 19,
+        "column": 9,
+        "msg": "An object literal cannot have multiple get/set accessors with the same name."
+    },
+    {
+        "line": 19,
+        "column": 9,
+        "msg": "Duplicate identifier 'foo'."
+    }
+]

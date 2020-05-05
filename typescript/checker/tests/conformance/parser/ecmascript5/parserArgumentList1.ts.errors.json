@@ -1,0 +1,7 @@
+[
+    {
+        "line": 2,
+        "column": 42,
+        "msg": "Cannot find name '_classNameRegexp'."
+    }
+]

@@ -1,0 +1,7 @@
+[
+    {
+        "line": 2,
+        "column": 4,
+        "msg": "'export' modifier cannot appear on an index signature."
+    }
+]

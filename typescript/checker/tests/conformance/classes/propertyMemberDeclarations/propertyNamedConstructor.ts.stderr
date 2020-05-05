@@ -1,0 +1,6 @@
+error: Classes may not have a non-static field named 'constructor'
+ --> $DIR/tests/conformance/classes/propertyMemberDeclarations/propertyNamedConstructor.ts:2:3
+  |
+2 |   "constructor" = 3; // Error
+  |   ^^^^^^^^^^^^^
+

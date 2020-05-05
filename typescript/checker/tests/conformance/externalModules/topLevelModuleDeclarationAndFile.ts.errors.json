@@ -1,0 +1,7 @@
+[
+    {
+        "line": 7,
+        "column": 14,
+        "msg": "Property 'x' does not exist on type 'typeof import(\"vs/foo_0\")'."
+    }
+]

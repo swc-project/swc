@@ -1,0 +1,17 @@
+error: UndefinedSymbol {
+    sym: Atom('d' type=inline),
+    span: Span {
+        lo: BytePos(
+            55,
+        ),
+        hi: BytePos(
+            56,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/Statements/parserForStatement2.ts:4:30
+  |
+4 | for (a in b[c] = b[c] || [], d) {
+  |                              ^
+

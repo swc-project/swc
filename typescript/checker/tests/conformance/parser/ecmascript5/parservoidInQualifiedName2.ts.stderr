@@ -1,0 +1,18 @@
+error: NameNotFound {
+    name: x.void,
+    type_args: None,
+    span: Span {
+        lo: BytePos(
+            8,
+        ),
+        hi: BytePos(
+            14,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/parservoidInQualifiedName2.ts:1:9
+  |
+1 | var v : x.void;
+  |         ^^^^^^
+

@@ -1,0 +1,6 @@
+error: TS1014
+ --> $DIR/tests/conformance/parser/ecmascript5/ParameterLists/parserParameterList1.ts:2:6
+  |
+2 |    F(...A, B) { }
+  |      ^^^
+

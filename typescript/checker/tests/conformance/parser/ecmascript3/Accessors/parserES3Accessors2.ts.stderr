@@ -1,0 +1,6 @@
+error: jsc.taraget should be es5 or upper to use getter / setter
+ --> $DIR/tests/conformance/parser/ecmascript3/Accessors/parserES3Accessors2.ts:2:9
+  |
+2 |     set Foo(a) { }
+  |         ^^^
+

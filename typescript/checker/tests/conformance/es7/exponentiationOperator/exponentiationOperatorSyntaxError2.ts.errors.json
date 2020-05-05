@@ -1,0 +1,497 @@
+[
+    {
+        "line": 6,
+        "column": 1,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 6,
+        "column": 1,
+        "msg": "An unary expression with the 'delete' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses."
+    },
+    {
+        "line": 6,
+        "column": 8,
+        "msg": "The operand of a delete operator must be a property reference."
+    },
+    {
+        "line": 7,
+        "column": 1,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 7,
+        "column": 1,
+        "msg": "An unary expression with the 'delete' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses."
+    },
+    {
+        "line": 7,
+        "column": 8,
+        "msg": "The operand of a delete operator must be a property reference."
+    },
+    {
+        "line": 8,
+        "column": 1,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 8,
+        "column": 1,
+        "msg": "An unary expression with the 'delete' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses."
+    },
+    {
+        "line": 8,
+        "column": 8,
+        "msg": "The operand of a delete operator must be a property reference."
+    },
+    {
+        "line": 9,
+        "column": 1,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 9,
+        "column": 1,
+        "msg": "An unary expression with the 'delete' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses."
+    },
+    {
+        "line": 9,
+        "column": 8,
+        "msg": "The operand of a delete operator must be a property reference."
+    },
+    {
+        "line": 12,
+        "column": 6,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 12,
+        "column": 6,
+        "msg": "An unary expression with the 'delete' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses."
+    },
+    {
+        "line": 12,
+        "column": 13,
+        "msg": "The operand of a delete operator must be a property reference."
+    },
+    {
+        "line": 13,
+        "column": 6,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 13,
+        "column": 6,
+        "msg": "An unary expression with the 'delete' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses."
+    },
+    {
+        "line": 13,
+        "column": 13,
+        "msg": "The operand of a delete operator must be a property reference."
+    },
+    {
+        "line": 14,
+        "column": 6,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 14,
+        "column": 6,
+        "msg": "An unary expression with the 'delete' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses."
+    },
+    {
+        "line": 14,
+        "column": 13,
+        "msg": "The operand of a delete operator must be a property reference."
+    },
+    {
+        "line": 15,
+        "column": 6,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 15,
+        "column": 6,
+        "msg": "An unary expression with the 'delete' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses."
+    },
+    {
+        "line": 15,
+        "column": 13,
+        "msg": "The operand of a delete operator must be a property reference."
+    },
+    {
+        "line": 17,
+        "column": 1,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 17,
+        "column": 1,
+        "msg": "An unary expression with the 'typeof' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses."
+    },
+    {
+        "line": 18,
+        "column": 1,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 18,
+        "column": 1,
+        "msg": "An unary expression with the 'typeof' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses."
+    },
+    {
+        "line": 19,
+        "column": 1,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 19,
+        "column": 1,
+        "msg": "An unary expression with the 'typeof' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses."
+    },
+    {
+        "line": 20,
+        "column": 1,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 20,
+        "column": 1,
+        "msg": "An unary expression with the 'typeof' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses."
+    },
+    {
+        "line": 21,
+        "column": 1,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 21,
+        "column": 1,
+        "msg": "An unary expression with the 'typeof' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses."
+    },
+    {
+        "line": 23,
+        "column": 6,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 23,
+        "column": 6,
+        "msg": "An unary expression with the 'typeof' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses."
+    },
+    {
+        "line": 24,
+        "column": 6,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 24,
+        "column": 6,
+        "msg": "An unary expression with the 'typeof' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses."
+    },
+    {
+        "line": 25,
+        "column": 6,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 25,
+        "column": 6,
+        "msg": "An unary expression with the 'typeof' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses."
+    },
+    {
+        "line": 26,
+        "column": 6,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 26,
+        "column": 6,
+        "msg": "An unary expression with the 'typeof' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses."
+    },
+    {
+        "line": 27,
+        "column": 6,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 27,
+        "column": 6,
+        "msg": "An unary expression with the 'typeof' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses."
+    },
+    {
+        "line": 29,
+        "column": 1,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 29,
+        "column": 1,
+        "msg": "An unary expression with the 'void' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses."
+    },
+    {
+        "line": 30,
+        "column": 1,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 30,
+        "column": 1,
+        "msg": "An unary expression with the 'void' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses."
+    },
+    {
+        "line": 31,
+        "column": 1,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 31,
+        "column": 1,
+        "msg": "An unary expression with the 'void' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses."
+    },
+    {
+        "line": 32,
+        "column": 1,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 32,
+        "column": 1,
+        "msg": "An unary expression with the 'void' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses."
+    },
+    {
+        "line": 33,
+        "column": 1,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 33,
+        "column": 1,
+        "msg": "An unary expression with the 'void' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses."
+    },
+    {
+        "line": 35,
+        "column": 6,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 35,
+        "column": 6,
+        "msg": "An unary expression with the 'void' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses."
+    },
+    {
+        "line": 36,
+        "column": 6,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 36,
+        "column": 6,
+        "msg": "An unary expression with the 'void' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses."
+    },
+    {
+        "line": 37,
+        "column": 6,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 37,
+        "column": 6,
+        "msg": "An unary expression with the 'void' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses."
+    },
+    {
+        "line": 38,
+        "column": 6,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 38,
+        "column": 6,
+        "msg": "An unary expression with the 'void' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses."
+    },
+    {
+        "line": 39,
+        "column": 6,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 39,
+        "column": 6,
+        "msg": "An unary expression with the 'void' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses."
+    },
+    {
+        "line": 41,
+        "column": 1,
+        "msg": "An unary expression with the '~' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses."
+    },
+    {
+        "line": 42,
+        "column": 1,
+        "msg": "An unary expression with the '~' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses."
+    },
+    {
+        "line": 43,
+        "column": 1,
+        "msg": "An unary expression with the '~' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses."
+    },
+    {
+        "line": 44,
+        "column": 1,
+        "msg": "An unary expression with the '~' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses."
+    },
+    {
+        "line": 45,
+        "column": 1,
+        "msg": "An unary expression with the '~' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses."
+    },
+    {
+        "line": 47,
+        "column": 6,
+        "msg": "An unary expression with the '~' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses."
+    },
+    {
+        "line": 48,
+        "column": 6,
+        "msg": "An unary expression with the '~' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses."
+    },
+    {
+        "line": 49,
+        "column": 6,
+        "msg": "An unary expression with the '~' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses."
+    },
+    {
+        "line": 50,
+        "column": 6,
+        "msg": "An unary expression with the '~' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses."
+    },
+    {
+        "line": 51,
+        "column": 6,
+        "msg": "An unary expression with the '~' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses."
+    },
+    {
+        "line": 53,
+        "column": 1,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 53,
+        "column": 1,
+        "msg": "An unary expression with the '!' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses."
+    },
+    {
+        "line": 54,
+        "column": 1,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 54,
+        "column": 1,
+        "msg": "An unary expression with the '!' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses."
+    },
+    {
+        "line": 55,
+        "column": 1,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 55,
+        "column": 1,
+        "msg": "An unary expression with the '!' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses."
+    },
+    {
+        "line": 56,
+        "column": 1,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 56,
+        "column": 1,
+        "msg": "An unary expression with the '!' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses."
+    },
+    {
+        "line": 57,
+        "column": 1,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 57,
+        "column": 1,
+        "msg": "An unary expression with the '!' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses."
+    },
+    {
+        "line": 59,
+        "column": 6,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 59,
+        "column": 6,
+        "msg": "An unary expression with the '!' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses."
+    },
+    {
+        "line": 60,
+        "column": 6,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 60,
+        "column": 6,
+        "msg": "An unary expression with the '!' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses."
+    },
+    {
+        "line": 61,
+        "column": 6,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 61,
+        "column": 6,
+        "msg": "An unary expression with the '!' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses."
+    },
+    {
+        "line": 62,
+        "column": 6,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 62,
+        "column": 6,
+        "msg": "An unary expression with the '!' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses."
+    },
+    {
+        "line": 63,
+        "column": 6,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 63,
+        "column": 6,
+        "msg": "An unary expression with the '!' operator is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses."
+    },
+    {
+        "line": 65,
+        "column": 1,
+        "msg": "A type assertion expression is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses."
+    },
+    {
+        "line": 66,
+        "column": 1,
+        "msg": "A type assertion expression is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses."
+    },
+    {
+        "line": 67,
+        "column": 1,
+        "msg": "A type assertion expression is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses."
+    },
+    {
+        "line": 68,
+        "column": 1,
+        "msg": "A type assertion expression is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses."
+    },
+    {
+        "line": 69,
+        "column": 1,
+        "msg": "A type assertion expression is not allowed in the left-hand side of an exponentiation expression. Consider enclosing the expression in parentheses."
+    }
+]

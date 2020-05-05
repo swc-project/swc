@@ -1,0 +1,12 @@
+[
+    {
+        "line": 1,
+        "column": 11,
+        "msg": "Type 'Base' recursively references itself as a base type."
+    },
+    {
+        "line": 14,
+        "column": 15,
+        "msg": "Type 'Base<T>' recursively references itself as a base type."
+    }
+]

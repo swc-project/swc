@@ -1,0 +1,12 @@
+[
+    {
+        "line": 1,
+        "column": 12,
+        "msg": "Cannot assign to 'globalThis' because it is a read-only property."
+    },
+    {
+        "line": 5,
+        "column": 12,
+        "msg": "Property 'y' does not exist on type 'typeof globalThis'."
+    }
+]

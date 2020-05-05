@@ -1,0 +1,40 @@
+error: TS2406
+ --> $DIR/tests/conformance/parser/ecmascript5/Expressions/parserAssignmentExpression1.ts:1:1
+  |
+1 | (foo()) = bar;
+  | ^^^^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('foo' type=inline),
+    span: Span {
+        lo: BytePos(
+            1,
+        ),
+        hi: BytePos(
+            4,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/Expressions/parserAssignmentExpression1.ts:1:2
+  |
+1 | (foo()) = bar;
+  |  ^^^
+
+error: UndefinedSymbol {
+    sym: Atom('bar' type=inline),
+    span: Span {
+        lo: BytePos(
+            10,
+        ),
+        hi: BytePos(
+            13,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/Expressions/parserAssignmentExpression1.ts:1:11
+  |
+1 | (foo()) = bar;
+  |           ^^^
+

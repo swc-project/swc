@@ -1,0 +1,22 @@
+[
+    {
+        "line": 19,
+        "column": 5,
+        "msg": "Property 'a' does not exist on type 'Window'."
+    },
+    {
+        "line": 20,
+        "column": 5,
+        "msg": "Property 'b' does not exist on type 'Window'."
+    },
+    {
+        "line": 19,
+        "column": 5,
+        "msg": "Property 'a' does not exist on type 'Window'."
+    },
+    {
+        "line": 20,
+        "column": 5,
+        "msg": "Property 'b' does not exist on type 'Window'."
+    }
+]

@@ -1,0 +1,6 @@
+error: TS1183
+ --> $DIR/tests/conformance/parser/ecmascript5/FunctionDeclarations/parserFunctionDeclaration2.ts:1:24
+  |
+1 | declare function Foo() {
+  |                        ^
+

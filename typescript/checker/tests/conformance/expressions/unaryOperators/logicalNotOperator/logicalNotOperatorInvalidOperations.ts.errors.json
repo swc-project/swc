@@ -1,0 +1,12 @@
+[
+    {
+        "line": 8,
+        "column": 16,
+        "msg": "Operator '+' cannot be applied to types 'boolean' and 'number'."
+    },
+    {
+        "line": 11,
+        "column": 16,
+        "msg": "Expression expected."
+    }
+]

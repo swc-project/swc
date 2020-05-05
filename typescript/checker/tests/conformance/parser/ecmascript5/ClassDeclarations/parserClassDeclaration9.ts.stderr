@@ -1,0 +1,16 @@
+error: TS2391 {
+    span: Span {
+        lo: BytePos(
+            13,
+        ),
+        hi: BytePos(
+            16,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/ClassDeclarations/parserClassDeclaration9.ts:2:4
+  |
+2 |    foo();
+  |    ^^^
+

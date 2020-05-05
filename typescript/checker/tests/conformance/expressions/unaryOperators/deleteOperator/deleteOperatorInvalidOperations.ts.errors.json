@@ -1,0 +1,37 @@
+[
+    {
+        "line": 5,
+        "column": 20,
+        "msg": "',' expected."
+    },
+    {
+        "line": 5,
+        "column": 26,
+        "msg": "The operand of a delete operator must be a property reference."
+    },
+    {
+        "line": 5,
+        "column": 27,
+        "msg": "Expression expected."
+    },
+    {
+        "line": 8,
+        "column": 22,
+        "msg": "The operand of a delete operator must be a property reference."
+    },
+    {
+        "line": 8,
+        "column": 23,
+        "msg": "Expression expected."
+    },
+    {
+        "line": 13,
+        "column": 16,
+        "msg": "'delete' cannot be called on an identifier in strict mode."
+    },
+    {
+        "line": 13,
+        "column": 16,
+        "msg": "The operand of a delete operator must be a property reference."
+    }
+]

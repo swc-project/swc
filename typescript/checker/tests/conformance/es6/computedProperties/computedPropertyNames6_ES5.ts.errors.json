@@ -1,0 +1,12 @@
+[
+    {
+        "line": 7,
+        "column": 5,
+        "msg": "A computed property name must be of type 'string', 'number', 'symbol', or 'any'."
+    },
+    {
+        "line": 8,
+        "column": 5,
+        "msg": "A computed property name must be of type 'string', 'number', 'symbol', or 'any'."
+    }
+]

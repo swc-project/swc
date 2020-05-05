@@ -1,0 +1,22 @@
+error: TS1171
+ --> $DIR/tests/conformance/parser/ecmascript6/ComputedPropertyNames/parserComputedPropertyName35.ts:3:6
+  |
+3 |     [0, 1]: { }
+  |      ^^^^
+
+error: UselessSeqExpr {
+    span: Span {
+        lo: BytePos(
+            30,
+        ),
+        hi: BytePos(
+            34,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript6/ComputedPropertyNames/parserComputedPropertyName35.ts:3:6
+  |
+3 |     [0, 1]: { }
+  |      ^^^^
+

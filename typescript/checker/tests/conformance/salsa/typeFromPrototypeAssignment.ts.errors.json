@@ -1,0 +1,7 @@
+[
+    {
+        "line": 33,
+        "column": 20,
+        "msg": "Property 'addon' does not exist on type '{ set"
+    }
+]

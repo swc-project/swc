@@ -1,0 +1,102 @@
+[
+    {
+        "line": 18,
+        "column": 25,
+        "msg": "An arithmetic operand must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 19,
+        "column": 23,
+        "msg": "An arithmetic operand must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 22,
+        "column": 25,
+        "msg": "The operand of an increment or decrement operator must be a variable or a property access."
+    },
+    {
+        "line": 23,
+        "column": 25,
+        "msg": "An arithmetic operand must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 24,
+        "column": 25,
+        "msg": "An arithmetic operand must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 26,
+        "column": 23,
+        "msg": "The operand of an increment or decrement operator must be a variable or a property access."
+    },
+    {
+        "line": 27,
+        "column": 23,
+        "msg": "An arithmetic operand must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 28,
+        "column": 23,
+        "msg": "An arithmetic operand must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 31,
+        "column": 25,
+        "msg": "The operand of an increment or decrement operator must be a variable or a property access."
+    },
+    {
+        "line": 32,
+        "column": 26,
+        "msg": "The operand of an increment or decrement operator must be a variable or a property access."
+    },
+    {
+        "line": 33,
+        "column": 26,
+        "msg": "The operand of an increment or decrement operator must be a variable or a property access."
+    },
+    {
+        "line": 35,
+        "column": 24,
+        "msg": "The operand of an increment or decrement operator must be a variable or a property access."
+    },
+    {
+        "line": 36,
+        "column": 24,
+        "msg": "The operand of an increment or decrement operator must be a variable or a property access."
+    },
+    {
+        "line": 37,
+        "column": 24,
+        "msg": "The operand of an increment or decrement operator must be a variable or a property access."
+    },
+    {
+        "line": 40,
+        "column": 3,
+        "msg": "The operand of an increment or decrement operator must be a variable or a property access."
+    },
+    {
+        "line": 41,
+        "column": 3,
+        "msg": "An arithmetic operand must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 42,
+        "column": 3,
+        "msg": "The operand of an increment or decrement operator must be a variable or a property access."
+    },
+    {
+        "line": 44,
+        "column": 1,
+        "msg": "The operand of an increment or decrement operator must be a variable or a property access."
+    },
+    {
+        "line": 45,
+        "column": 1,
+        "msg": "An arithmetic operand must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 46,
+        "column": 1,
+        "msg": "The operand of an increment or decrement operator must be a variable or a property access."
+    }
+]

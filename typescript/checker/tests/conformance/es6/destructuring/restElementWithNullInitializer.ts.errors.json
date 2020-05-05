@@ -1,0 +1,17 @@
+[
+    {
+        "line": 1,
+        "column": 15,
+        "msg": "Type 'null' is not an array type."
+    },
+    {
+        "line": 4,
+        "column": 15,
+        "msg": "Type 'undefined' is not an array type."
+    },
+    {
+        "line": 7,
+        "column": 15,
+        "msg": "Type '{}' is not an array type."
+    }
+]

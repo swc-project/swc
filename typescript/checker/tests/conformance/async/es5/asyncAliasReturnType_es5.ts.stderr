@@ -1,0 +1,16 @@
+error: ReturnRequired {
+    span: Span {
+        lo: BytePos(
+            124,
+        ),
+        hi: BytePos(
+            142,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/async/es5/asyncAliasReturnType_es5.ts:6:21
+  |
+6 | async function f(): PromiseAlias<void> {
+  |                     ^^^^^^^^^^^^^^^^^^
+

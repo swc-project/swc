@@ -1,0 +1,32 @@
+[
+    {
+        "line": 16,
+        "column": 5,
+        "msg": "This condition will always return 'false' since the types '\"foo\"' and '\"bar\"' have no overlap."
+    },
+    {
+        "line": 19,
+        "column": 5,
+        "msg": "This condition will always return 'false' since the types 'Refrigerator | \"foo\"' and '\"bar\"' have no overlap."
+    },
+    {
+        "line": 20,
+        "column": 5,
+        "msg": "This condition will always return 'false' since the types '\"bar\"' and 'Refrigerator | \"foo\"' have no overlap."
+    },
+    {
+        "line": 25,
+        "column": 5,
+        "msg": "This condition will always return 'true' since the types '\"foo\"' and '\"bar\"' have no overlap."
+    },
+    {
+        "line": 28,
+        "column": 5,
+        "msg": "This condition will always return 'true' since the types 'Refrigerator | \"foo\"' and '\"bar\"' have no overlap."
+    },
+    {
+        "line": 29,
+        "column": 5,
+        "msg": "This condition will always return 'true' since the types '\"bar\"' and 'Refrigerator | \"foo\"' have no overlap."
+    }
+]

@@ -1,0 +1,32 @@
+error: TS1319 {
+    span: Span {
+        lo: BytePos(
+            19,
+        ),
+        hi: BytePos(
+            38,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/ExportAssignments/parserExportAssignment9.ts:2:3
+  |
+2 |   export default foo;
+  |   ^^^^^^^^^^^^^^^^^^^
+
+error: TS1319 {
+    span: Span {
+        lo: BytePos(
+            61,
+        ),
+        hi: BytePos(
+            80,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/ExportAssignments/parserExportAssignment9.ts:6:3
+  |
+6 |   export default bar;
+  |   ^^^^^^^^^^^^^^^^^^^
+

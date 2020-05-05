@@ -1,0 +1,17 @@
+error: UndefinedSymbol {
+    sym: Atom('ILogger' type=inline),
+    span: Span {
+        lo: BytePos(
+            39,
+        ),
+        hi: BytePos(
+            46,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/ClassDeclarations/parserClass1.ts:1:40
+  |
+1 |     export class NullLogger implements ILogger {
+  |                                        ^^^^^^^
+

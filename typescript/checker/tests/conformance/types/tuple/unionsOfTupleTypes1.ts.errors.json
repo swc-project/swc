@@ -1,0 +1,42 @@
+[
+    {
+        "line": 10,
+        "column": 15,
+        "msg": "Tuple type 'T1' of length '2' has no element at index '2'."
+    },
+    {
+        "line": 15,
+        "column": 15,
+        "msg": "Property '2' does not exist on type 'T2'."
+    },
+    {
+        "line": 29,
+        "column": 20,
+        "msg": "Tuple type 'T1' of length '2' has no element at index '2'."
+    },
+    {
+        "line": 30,
+        "column": 20,
+        "msg": "Property '2' does not exist on type 'T2'."
+    },
+    {
+        "line": 33,
+        "column": 16,
+        "msg": "Tuple type 'T1' of length '2' has no element at index '2'."
+    },
+    {
+        "line": 34,
+        "column": 16,
+        "msg": "Property '2' does not exist on type 'T2'."
+    },
+    {
+        "line": 39,
+        "column": 18,
+        "msg": "Tuple type 'T1' of length '2' has no element at index '2'."
+    },
+    {
+        "line": 43,
+        "column": 18,
+        "msg": "Property '2' does not exist on type 'T2'."
+    }
+]

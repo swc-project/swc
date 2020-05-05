@@ -1,0 +1,6 @@
+error: TS1183
+ --> $DIR/tests/conformance/parser/ecmascript5/Accessors/parserAccessors5.ts:3:13
+  |
+3 |   get foo() { return 0; }
+  |             ^
+

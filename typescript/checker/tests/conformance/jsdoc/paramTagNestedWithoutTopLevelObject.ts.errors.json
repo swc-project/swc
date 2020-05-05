@@ -1,0 +1,7 @@
+[
+    {
+        "line": 7,
+        "column": 20,
+        "msg": "Qualified name 'xyz.p' is not allowed without a leading '@param {object} xyz'."
+    }
+]

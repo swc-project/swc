@@ -1,0 +1,6 @@
+error: TS2369
+ --> $DIR/tests/conformance/parser/ecmascript5/ParameterLists/parserParameterList4.ts:1:12
+  |
+1 | function F(public A) {
+  |            ^^^^^^^^
+

@@ -1,0 +1,58 @@
+error: AssignFailed {
+    span: Span {
+        lo: BytePos(
+            4,
+        ),
+        hi: BytePos(
+            17,
+        ),
+        ctxt: #0,
+    },
+    left: Keyword(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    7,
+                ),
+                hi: BytePos(
+                    13,
+                ),
+                ctxt: #0,
+            },
+            kind: TsStringKeyword,
+        },
+    ),
+    right: Lit(
+        TsLitType {
+            span: Span {
+                lo: BytePos(
+                    16,
+                ),
+                hi: BytePos(
+                    17,
+                ),
+                ctxt: #0,
+            },
+            lit: Number(
+                Number {
+                    span: Span {
+                        lo: BytePos(
+                            16,
+                        ),
+                        hi: BytePos(
+                            17,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: 1.0,
+                },
+            ),
+        },
+    ),
+    cause: [],
+}
+ --> $DIR/tests/errors/var-assignment/index.ts:1:5
+  |
+1 | let a: string = 1;
+  |     ^^^^^^^^^^^^^
+

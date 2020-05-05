@@ -1,0 +1,47 @@
+[
+    {
+        "line": 5,
+        "column": 11,
+        "msg": "Expected 0 type arguments, but got 1."
+    },
+    {
+        "line": 8,
+        "column": 13,
+        "msg": "Expected 0 type arguments, but got 1."
+    },
+    {
+        "line": 11,
+        "column": 13,
+        "msg": "Expected 0 type arguments, but got 1."
+    },
+    {
+        "line": 18,
+        "column": 22,
+        "msg": "Expected 0 type arguments, but got 1."
+    },
+    {
+        "line": 24,
+        "column": 14,
+        "msg": "Expected 0 type arguments, but got 1."
+    },
+    {
+        "line": 31,
+        "column": 23,
+        "msg": "Expected 0 type arguments, but got 1."
+    },
+    {
+        "line": 37,
+        "column": 15,
+        "msg": "Expected 0 type arguments, but got 1."
+    },
+    {
+        "line": 40,
+        "column": 10,
+        "msg": "Untyped function calls may not accept type arguments."
+    },
+    {
+        "line": 43,
+        "column": 10,
+        "msg": "Untyped function calls may not accept type arguments."
+    }
+]

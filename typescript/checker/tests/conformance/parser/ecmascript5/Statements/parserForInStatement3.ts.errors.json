@@ -1,0 +1,12 @@
+[
+    {
+        "line": 1,
+        "column": 13,
+        "msg": "Only a single variable declaration is allowed in a 'for...in' statement."
+    },
+    {
+        "line": 1,
+        "column": 18,
+        "msg": "Cannot find name 'X'."
+    }
+]

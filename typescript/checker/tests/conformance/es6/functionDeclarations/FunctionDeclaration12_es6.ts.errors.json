@@ -1,0 +1,17 @@
+[
+    {
+        "line": 2,
+        "column": 20,
+        "msg": "'(' expected."
+    },
+    {
+        "line": 2,
+        "column": 25,
+        "msg": "',' expected."
+    },
+    {
+        "line": 2,
+        "column": 28,
+        "msg": "'=>' expected."
+    }
+]

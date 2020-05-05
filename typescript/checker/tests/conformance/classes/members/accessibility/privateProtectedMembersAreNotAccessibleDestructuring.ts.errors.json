@@ -1,0 +1,52 @@
+[
+    {
+        "line": 12,
+        "column": 13,
+        "msg": "Property 'priv' is private and only accessible within class 'K'."
+    },
+    {
+        "line": 17,
+        "column": 5,
+        "msg": "Property 'priv' is private and only accessible within class 'K'."
+    },
+    {
+        "line": 18,
+        "column": 5,
+        "msg": "Property 'prot' is protected and only accessible within class 'K' and its subclasses."
+    },
+    {
+        "line": 19,
+        "column": 5,
+        "msg": "Property 'privateMethod' is private and only accessible within class 'K'."
+    },
+    {
+        "line": 20,
+        "column": 5,
+        "msg": "Property 'priv' is private and only accessible within class 'K'."
+    },
+    {
+        "line": 20,
+        "column": 5,
+        "msg": "Property 'privateMethod' is private and only accessible within class 'K'."
+    },
+    {
+        "line": 20,
+        "column": 5,
+        "msg": "Property 'prot' is protected and only accessible within class 'K' and its subclasses."
+    },
+    {
+        "line": 21,
+        "column": 12,
+        "msg": "Property 'priv' is private and only accessible within class 'K'."
+    },
+    {
+        "line": 21,
+        "column": 12,
+        "msg": "Property 'privateMethod' is private and only accessible within class 'K'."
+    },
+    {
+        "line": 21,
+        "column": 12,
+        "msg": "Property 'prot' is protected and only accessible within class 'K' and its subclasses."
+    }
+]

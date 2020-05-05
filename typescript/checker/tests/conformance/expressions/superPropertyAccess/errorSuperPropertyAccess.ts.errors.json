@@ -1,0 +1,192 @@
+[
+    {
+        "line": 6,
+        "column": 17,
+        "msg": "'super' can only be referenced in a derived class."
+    },
+    {
+        "line": 7,
+        "column": 17,
+        "msg": "'super' can only be referenced in a derived class."
+    },
+    {
+        "line": 11,
+        "column": 17,
+        "msg": "'super' can only be referenced in a derived class."
+    },
+    {
+        "line": 12,
+        "column": 17,
+        "msg": "'super' can only be referenced in a derived class."
+    },
+    {
+        "line": 15,
+        "column": 9,
+        "msg": "'super' can only be referenced in a derived class."
+    },
+    {
+        "line": 16,
+        "column": 9,
+        "msg": "'super' can only be referenced in a derived class."
+    },
+    {
+        "line": 21,
+        "column": 9,
+        "msg": "'super' can only be referenced in a derived class."
+    },
+    {
+        "line": 24,
+        "column": 23,
+        "msg": "Accessors are only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 25,
+        "column": 9,
+        "msg": "'super' can only be referenced in a derived class."
+    },
+    {
+        "line": 29,
+        "column": 23,
+        "msg": "Accessors are only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 30,
+        "column": 9,
+        "msg": "'super' can only be referenced in a derived class."
+    },
+    {
+        "line": 57,
+        "column": 15,
+        "msg": "Only public and protected methods of the base class are accessible via the 'super' keyword."
+    },
+    {
+        "line": 61,
+        "column": 23,
+        "msg": "Only public and protected methods of the base class are accessible via the 'super' keyword."
+    },
+    {
+        "line": 64,
+        "column": 9,
+        "msg": "Accessors are only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 65,
+        "column": 23,
+        "msg": "Only public and protected methods of the base class are accessible via the 'super' keyword."
+    },
+    {
+        "line": 68,
+        "column": 9,
+        "msg": "Accessors are only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 69,
+        "column": 19,
+        "msg": "Only public and protected methods of the base class are accessible via the 'super' keyword."
+    },
+    {
+        "line": 73,
+        "column": 13,
+        "msg": "'super' can only be referenced in members of derived classes or object literal expressions."
+    },
+    {
+        "line": 76,
+        "column": 40,
+        "msg": "'super' can only be referenced in members of derived classes or object literal expressions."
+    },
+    {
+        "line": 87,
+        "column": 15,
+        "msg": "Only public and protected methods of the base class are accessible via the 'super' keyword."
+    },
+    {
+        "line": 91,
+        "column": 23,
+        "msg": "Only public and protected methods of the base class are accessible via the 'super' keyword."
+    },
+    {
+        "line": 94,
+        "column": 9,
+        "msg": "Accessors are only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 95,
+        "column": 23,
+        "msg": "Only public and protected methods of the base class are accessible via the 'super' keyword."
+    },
+    {
+        "line": 98,
+        "column": 9,
+        "msg": "Accessors are only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 99,
+        "column": 19,
+        "msg": "Only public and protected methods of the base class are accessible via the 'super' keyword."
+    },
+    {
+        "line": 109,
+        "column": 15,
+        "msg": "Only public and protected methods of the base class are accessible via the 'super' keyword."
+    },
+    {
+        "line": 110,
+        "column": 15,
+        "msg": "Only public and protected methods of the base class are accessible via the 'super' keyword."
+    },
+    {
+        "line": 111,
+        "column": 15,
+        "msg": "Property 'privateStaticFunc' is private and only accessible within class 'SomeBase'."
+    },
+    {
+        "line": 113,
+        "column": 16,
+        "msg": "Accessors are only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 114,
+        "column": 15,
+        "msg": "Only public and protected methods of the base class are accessible via the 'super' keyword."
+    },
+    {
+        "line": 115,
+        "column": 15,
+        "msg": "Only public and protected methods of the base class are accessible via the 'super' keyword."
+    },
+    {
+        "line": 116,
+        "column": 15,
+        "msg": "Property 'privateStaticFunc' is private and only accessible within class 'SomeBase'."
+    },
+    {
+        "line": 119,
+        "column": 16,
+        "msg": "Accessors are only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 120,
+        "column": 15,
+        "msg": "Only public and protected methods of the base class are accessible via the 'super' keyword."
+    },
+    {
+        "line": 121,
+        "column": 15,
+        "msg": "Only public and protected methods of the base class are accessible via the 'super' keyword."
+    },
+    {
+        "line": 122,
+        "column": 15,
+        "msg": "Property 'privateStaticFunc' is private and only accessible within class 'SomeBase'."
+    },
+    {
+        "line": 127,
+        "column": 16,
+        "msg": "'super' can only be referenced in members of derived classes or object literal expressions."
+    },
+    {
+        "line": 127,
+        "column": 30,
+        "msg": "'super' can only be referenced in members of derived classes or object literal expressions."
+    }
+]

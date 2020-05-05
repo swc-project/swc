@@ -1,0 +1,7 @@
+[
+    {
+        "line": 12,
+        "column": 11,
+        "msg": "The type returned by the 'next()' method of an iterator must have a 'value' property."
+    }
+]

@@ -1,0 +1,77 @@
+[
+    {
+        "line": 13,
+        "column": 7,
+        "msg": "Class 'Bar2' incorrectly extends base class 'Foo'."
+    },
+    {
+        "line": 13,
+        "column": 7,
+        "msg": "Class 'Bar2' incorrectly implements interface 'I'."
+    },
+    {
+        "line": 18,
+        "column": 7,
+        "msg": "Class 'Bar3' incorrectly extends base class 'Foo'."
+    },
+    {
+        "line": 18,
+        "column": 7,
+        "msg": "Class 'Bar3' incorrectly implements interface 'I'."
+    },
+    {
+        "line": 42,
+        "column": 11,
+        "msg": "Class 'Bar2' incorrectly extends base class 'Foo'."
+    },
+    {
+        "line": 42,
+        "column": 11,
+        "msg": "Class 'Bar2' incorrectly implements interface 'I'."
+    },
+    {
+        "line": 47,
+        "column": 11,
+        "msg": "Class 'Bar3' incorrectly extends base class 'Foo'."
+    },
+    {
+        "line": 47,
+        "column": 11,
+        "msg": "Class 'Bar3' incorrectly implements interface 'I'."
+    },
+    {
+        "line": 67,
+        "column": 11,
+        "msg": "Class 'Bar' incorrectly implements interface 'I'."
+    },
+    {
+        "line": 73,
+        "column": 16,
+        "msg": "Property 'x' is private and only accessible within class 'Foo'."
+    },
+    {
+        "line": 74,
+        "column": 16,
+        "msg": "Property 'y' does not exist on type 'Bar'."
+    },
+    {
+        "line": 76,
+        "column": 11,
+        "msg": "Class 'Bar2' incorrectly extends base class 'Foo'."
+    },
+    {
+        "line": 76,
+        "column": 11,
+        "msg": "Class 'Bar2' incorrectly implements interface 'I'."
+    },
+    {
+        "line": 81,
+        "column": 11,
+        "msg": "Class 'Bar3' incorrectly extends base class 'Foo'."
+    },
+    {
+        "line": 81,
+        "column": 11,
+        "msg": "Class 'Bar3' incorrectly implements interface 'I'."
+    }
+]

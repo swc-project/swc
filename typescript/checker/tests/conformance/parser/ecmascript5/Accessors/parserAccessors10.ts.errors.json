@@ -1,0 +1,12 @@
+[
+    {
+        "line": 3,
+        "column": 3,
+        "msg": "'public' modifier cannot be used here."
+    },
+    {
+        "line": 3,
+        "column": 14,
+        "msg": "A 'get' accessor must return a value."
+    }
+]

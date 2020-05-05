@@ -1,0 +1,17 @@
+error: NoSuchVar {
+    span: Span {
+        lo: BytePos(
+            29,
+        ),
+        hi: BytePos(
+            35,
+        ),
+        ctxt: #0,
+    },
+    name: Atom('Symbol' type=static),
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/Symbols/parserES5SymbolProperty9.ts:3:6
+  |
+3 |     [Symbol.toPrimitive]: string
+  |      ^^^^^^
+

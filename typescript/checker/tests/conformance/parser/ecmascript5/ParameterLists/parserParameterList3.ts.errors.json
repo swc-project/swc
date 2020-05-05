@@ -1,0 +1,7 @@
+[
+    {
+        "line": 2,
+        "column": 9,
+        "msg": "A required parameter cannot follow an optional parameter."
+    }
+]

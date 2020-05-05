@@ -1,0 +1,77 @@
+[
+    {
+        "line": 34,
+        "column": 5,
+        "msg": "Type '\"this is a string\"' is not assignable to type 'number'."
+    },
+    {
+        "line": 35,
+        "column": 5,
+        "msg": "Type '9.9' is not assignable to type 'string'."
+    },
+    {
+        "line": 36,
+        "column": 5,
+        "msg": "Type '9.9' is not assignable to type 'Date'."
+    },
+    {
+        "line": 38,
+        "column": 5,
+        "msg": "Type '9.9' is not assignable to type 'void'."
+    },
+    {
+        "line": 40,
+        "column": 5,
+        "msg": "Property 'id' is missing in type 'D<unknown>' but required in type 'I'."
+    },
+    {
+        "line": 41,
+        "column": 5,
+        "msg": "Property 'id' is missing in type 'D<unknown>' but required in type 'C'."
+    },
+    {
+        "line": 42,
+        "column": 5,
+        "msg": "Type 'C' is missing the following properties from type 'D<string>'"
+    },
+    {
+        "line": 43,
+        "column": 28,
+        "msg": "Type 'string' is not assignable to type 'number'."
+    },
+    {
+        "line": 44,
+        "column": 5,
+        "msg": "Type 'C' is not assignable to type '{ id"
+    },
+    {
+        "line": 46,
+        "column": 5,
+        "msg": "Type '(x"
+    },
+    {
+        "line": 47,
+        "column": 5,
+        "msg": "Type '(x"
+    },
+    {
+        "line": 48,
+        "column": 32,
+        "msg": "Type 'string' is not assignable to type 'number'."
+    },
+    {
+        "line": 50,
+        "column": 5,
+        "msg": "Type 'typeof N' is not assignable to type 'typeof M'."
+    },
+    {
+        "line": 51,
+        "column": 5,
+        "msg": "Type 'N.A' is not assignable to type 'M.A'."
+    },
+    {
+        "line": 52,
+        "column": 5,
+        "msg": "Type '(x"
+    }
+]

@@ -1,0 +1,12 @@
+[
+    {
+        "line": 2,
+        "column": 14,
+        "msg": "Type parameter list cannot be empty."
+    },
+    {
+        "line": 2,
+        "column": 15,
+        "msg": "Type parameters cannot appear on a constructor declaration."
+    }
+]

@@ -1,0 +1,12 @@
+[
+    {
+        "line": 2,
+        "column": 18,
+        "msg": "'this' cannot be referenced in a static property initializer."
+    },
+    {
+        "line": 6,
+        "column": 18,
+        "msg": "'this' cannot be referenced in a static property initializer."
+    }
+]

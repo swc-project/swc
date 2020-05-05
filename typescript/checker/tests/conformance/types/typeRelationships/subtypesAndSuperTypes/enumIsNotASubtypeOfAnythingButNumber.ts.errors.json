@@ -1,0 +1,82 @@
+[
+    {
+        "line": 18,
+        "column": 5,
+        "msg": "Property 'foo' of type 'E' is not assignable to string index type 'string'."
+    },
+    {
+        "line": 24,
+        "column": 5,
+        "msg": "Property 'foo' of type 'E' is not assignable to string index type 'boolean'."
+    },
+    {
+        "line": 30,
+        "column": 5,
+        "msg": "Property 'foo' of type 'E' is not assignable to string index type 'Date'."
+    },
+    {
+        "line": 36,
+        "column": 5,
+        "msg": "Property 'foo' of type 'E' is not assignable to string index type 'RegExp'."
+    },
+    {
+        "line": 42,
+        "column": 5,
+        "msg": "Property 'foo' of type 'E' is not assignable to string index type '{ bar"
+    },
+    {
+        "line": 48,
+        "column": 5,
+        "msg": "Property 'foo' of type 'E' is not assignable to string index type 'number[]'."
+    },
+    {
+        "line": 54,
+        "column": 5,
+        "msg": "Property 'foo' of type 'E' is not assignable to string index type 'I8'."
+    },
+    {
+        "line": 60,
+        "column": 5,
+        "msg": "Property 'foo' of type 'E' is not assignable to string index type 'A'."
+    },
+    {
+        "line": 66,
+        "column": 5,
+        "msg": "Property 'foo' of type 'E' is not assignable to string index type 'A2<number>'."
+    },
+    {
+        "line": 72,
+        "column": 5,
+        "msg": "Property 'foo' of type 'E' is not assignable to string index type '(x"
+    },
+    {
+        "line": 78,
+        "column": 5,
+        "msg": "Property 'foo' of type 'E' is not assignable to string index type '<T>(x"
+    },
+    {
+        "line": 85,
+        "column": 5,
+        "msg": "Property 'foo' of type 'E' is not assignable to string index type 'E2'."
+    },
+    {
+        "line": 95,
+        "column": 5,
+        "msg": "Property 'foo' of type 'E' is not assignable to string index type 'typeof f'."
+    },
+    {
+        "line": 105,
+        "column": 5,
+        "msg": "Property 'foo' of type 'E' is not assignable to string index type 'typeof c'."
+    },
+    {
+        "line": 111,
+        "column": 5,
+        "msg": "Property 'foo' of type 'E' is not assignable to string index type 'T'."
+    },
+    {
+        "line": 117,
+        "column": 5,
+        "msg": "Property 'foo' of type 'E' is not assignable to string index type 'U'."
+    }
+]

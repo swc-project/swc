@@ -1,0 +1,409 @@
+error: InvalidTupleCast {
+    span: Span {
+        lo: BytePos(
+            300,
+        ),
+        hi: BytePos(
+            338,
+        ),
+        ctxt: #0,
+    },
+    left: Span {
+        lo: BytePos(
+            301,
+        ),
+        hi: BytePos(
+            326,
+        ),
+        ctxt: #0,
+    },
+    right: Span {
+        lo: BytePos(
+            327,
+        ),
+        hi: BytePos(
+            338,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/tuple/castingTuple.ts:13:23
+   |
+13 | var numStrBoolTuple = <[number, string, boolean]>numStrTuple;
+   |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: InvalidTupleCast {
+    span: Span {
+        lo: BytePos(
+            354,
+        ),
+        hi: BytePos(
+            369,
+        ),
+        ctxt: #0,
+    },
+    left: Span {
+        lo: BytePos(
+            373,
+        ),
+        hi: BytePos(
+            389,
+        ),
+        ctxt: #0,
+    },
+    right: Span {
+        lo: BytePos(
+            354,
+        ),
+        hi: BytePos(
+            369,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/tuple/castingTuple.ts:14:15
+   |
+14 | var shorter = numStrBoolTuple as [number, string]
+   |               ^^^^^^^^^^^^^^^
+
+error: InvalidTupleCast {
+    span: Span {
+        lo: BytePos(
+            403,
+        ),
+        hi: BytePos(
+            414,
+        ),
+        ctxt: #0,
+    },
+    left: Span {
+        lo: BytePos(
+            418,
+        ),
+        hi: BytePos(
+            443,
+        ),
+        ctxt: #0,
+    },
+    right: Span {
+        lo: BytePos(
+            403,
+        ),
+        hi: BytePos(
+            414,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/tuple/castingTuple.ts:15:14
+   |
+15 | var longer = numStrTuple as [number, string, boolean]
+   |              ^^^^^^^^^^^
+
+error: InvalidTupleCast {
+    span: Span {
+        lo: BytePos(
+            556,
+        ),
+        hi: BytePos(
+            579,
+        ),
+        ctxt: #0,
+    },
+    left: Span {
+        lo: BytePos(
+            557,
+        ),
+        hi: BytePos(
+            566,
+        ),
+        ctxt: #0,
+    },
+    right: Span {
+        lo: BytePos(
+            567,
+        ),
+        hi: BytePos(
+            579,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/tuple/castingTuple.ts:18:21
+   |
+18 | var classCDATuple = <[C, D, A]>classCDTuple;
+   |                     ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: TupleIndexError {
+    span: Span {
+        lo: BytePos(
+            654,
+        ),
+        hi: BytePos(
+            655,
+        ),
+        ctxt: #0,
+    },
+    len: 3,
+    index: 5,
+}
+  --> $DIR/tests/conformance/types/tuple/castingTuple.ts:20:33
+   |
+20 | var eleFromCDA2 = classCDATuple[5]; // C | D | A
+   |                                 ^
+
+error: AssignFailed {
+    span: Span {
+        lo: BytePos(
+            1030,
+        ),
+        hi: BytePos(
+            1059,
+        ),
+        ctxt: #0,
+    },
+    left: Keyword(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    1040,
+                ),
+                hi: BytePos(
+                    1046,
+                ),
+                ctxt: #0,
+            },
+            kind: TsNumberKeyword,
+        },
+    ),
+    right: Keyword(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    213,
+                ),
+                hi: BytePos(
+                    219,
+                ),
+                ctxt: #0,
+            },
+            kind: TsStringKeyword,
+        },
+    ),
+    cause: [],
+}
+  --> $DIR/tests/conformance/types/tuple/castingTuple.ts:30:10
+   |
+30 | var t3 = <[number, number]>numStrTuple;
+   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AssignFailed {
+    span: Span {
+        lo: BytePos(
+            1070,
+        ),
+        hi: BytePos(
+            1090,
+        ),
+        ctxt: #0,
+    },
+    left: ClassInstance(
+        ClassInstance {
+            span: Span {
+                lo: BytePos(
+                    16,
+                ),
+                hi: BytePos(
+                    35,
+                ),
+                ctxt: #0,
+            },
+            cls: Class {
+                span: Span {
+                    lo: BytePos(
+                        16,
+                    ),
+                    hi: BytePos(
+                        35,
+                    ),
+                    ctxt: #0,
+                },
+                is_abstract: false,
+                name: Some(
+                    Atom('A' type=inline),
+                ),
+                super_class: None,
+                body: [
+                    ClassProp(
+                        ClassProp {
+                            span: Span {
+                                lo: BytePos(
+                                    26,
+                                ),
+                                hi: BytePos(
+                                    33,
+                                ),
+                                ctxt: #0,
+                            },
+                            key: Ident(
+                                Ident {
+                                    span: Span {
+                                        lo: BytePos(
+                                            26,
+                                        ),
+                                        hi: BytePos(
+                                            27,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    sym: Atom('a' type=inline),
+                                    type_ann: None,
+                                    optional: false,
+                                },
+                            ),
+                            value: Some(
+                                Lit(
+                                    Num(
+                                        Number {
+                                            span: Span {
+                                                lo: BytePos(
+                                                    30,
+                                                ),
+                                                hi: BytePos(
+                                                    32,
+                                                ),
+                                                ctxt: #0,
+                                            },
+                                            value: 10.0,
+                                        },
+                                    ),
+                                ),
+                            ),
+                            type_ann: None,
+                            is_static: false,
+                            decorators: [],
+                            computed: false,
+                            accessibility: None,
+                            is_abstract: false,
+                            is_optional: false,
+                            readonly: false,
+                            definite: false,
+                        },
+                    ),
+                ],
+                type_params: None,
+            },
+            type_args: None,
+        },
+    ),
+    right: ClassInstance(
+        ClassInstance {
+            span: Span {
+                lo: BytePos(
+                    36,
+                ),
+                hi: BytePos(
+                    62,
+                ),
+                ctxt: #0,
+            },
+            cls: Class {
+                span: Span {
+                    lo: BytePos(
+                        36,
+                    ),
+                    hi: BytePos(
+                        62,
+                    ),
+                    ctxt: #0,
+                },
+                is_abstract: false,
+                name: Some(
+                    Atom('C' type=inline),
+                ),
+                super_class: None,
+                body: [
+                    ClassProp(
+                        ClassProp {
+                            span: Span {
+                                lo: BytePos(
+                                    59,
+                                ),
+                                hi: BytePos(
+                                    60,
+                                ),
+                                ctxt: #0,
+                            },
+                            key: Ident(
+                                Ident {
+                                    span: Span {
+                                        lo: BytePos(
+                                            59,
+                                        ),
+                                        hi: BytePos(
+                                            60,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    sym: Atom('c' type=inline),
+                                    type_ann: None,
+                                    optional: false,
+                                },
+                            ),
+                            value: None,
+                            type_ann: None,
+                            is_static: false,
+                            decorators: [],
+                            computed: false,
+                            accessibility: None,
+                            is_abstract: false,
+                            is_optional: false,
+                            readonly: false,
+                            definite: false,
+                        },
+                    ),
+                ],
+                type_params: None,
+            },
+            type_args: None,
+        },
+    ),
+    cause: [],
+}
+  --> $DIR/tests/conformance/types/tuple/castingTuple.ts:31:10
+   |
+31 | var t9 = <[A, I]>classCDTuple;
+   |          ^^^^^^^^^^^^^^^^^^^^
+
+error: RedclaredVarWithDifferentType {
+    span: Span {
+        lo: BytePos(
+            1096,
+        ),
+        hi: BytePos(
+            1102,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/tuple/castingTuple.ts:32:5
+   |
+32 | var array1 = <number[]>numStrTuple;
+   |     ^^^^^^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            1128,
+        ),
+        hi: BytePos(
+            1130,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/tuple/castingTuple.ts:33:1
+   |
+33 | t4[2] = 10;
+   | ^^
+

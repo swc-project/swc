@@ -1,0 +1,7 @@
+[
+    {
+        "line": 2,
+        "column": 22,
+        "msg": "Class name cannot be 'Object' when targeting ES5 with module CommonJS."
+    }
+]

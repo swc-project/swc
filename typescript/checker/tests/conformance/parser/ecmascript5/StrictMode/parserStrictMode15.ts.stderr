@@ -1,0 +1,29 @@
+error: TS1102
+ --> $DIR/tests/conformance/parser/ecmascript5/StrictMode/parserStrictMode15.ts:2:8
+  |
+2 | delete a;
+  |        ^
+
+error: TS2703
+ --> $DIR/tests/conformance/parser/ecmascript5/StrictMode/parserStrictMode15.ts:2:8
+  |
+2 | delete a;
+  |        ^
+
+error: UndefinedSymbol {
+    sym: Atom('a' type=inline),
+    span: Span {
+        lo: BytePos(
+            21,
+        ),
+        hi: BytePos(
+            22,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/StrictMode/parserStrictMode15.ts:2:8
+  |
+2 | delete a;
+  |        ^
+

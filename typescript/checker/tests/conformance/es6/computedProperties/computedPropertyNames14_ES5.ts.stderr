@@ -1,0 +1,96 @@
+error: TS2464 {
+    span: Span {
+        lo: BytePos(
+            49,
+        ),
+        hi: BytePos(
+            52,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es6/computedProperties/computedPropertyNames14_ES5.ts:4:5
+  |
+4 |     [b]() {}
+  |     ^^^
+
+error: TS2464 {
+    span: Span {
+        lo: BytePos(
+            70,
+        ),
+        hi: BytePos(
+            76,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es6/computedProperties/computedPropertyNames14_ES5.ts:5:12
+  |
+5 |     static [true]() { }
+  |            ^^^^^^
+
+error: TS2464 {
+    span: Span {
+        lo: BytePos(
+            88,
+        ),
+        hi: BytePos(
+            92,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es6/computedProperties/computedPropertyNames14_ES5.ts:6:5
+  |
+6 |     [[]]() { }
+  |     ^^^^
+
+error: TS2464 {
+    span: Span {
+        lo: BytePos(
+            111,
+        ),
+        hi: BytePos(
+            115,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es6/computedProperties/computedPropertyNames14_ES5.ts:7:12
+  |
+7 |     static [{}]() { }
+  |            ^^^^
+
+error: TS2464 {
+    span: Span {
+        lo: BytePos(
+            127,
+        ),
+        hi: BytePos(
+            138,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es6/computedProperties/computedPropertyNames14_ES5.ts:8:5
+  |
+8 |     [undefined]() { }
+  |     ^^^^^^^^^^^
+
+error: TS2464 {
+    span: Span {
+        lo: BytePos(
+            157,
+        ),
+        hi: BytePos(
+            163,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es6/computedProperties/computedPropertyNames14_ES5.ts:9:12
+  |
+9 |     static [null]() { }
+  |            ^^^^^^
+

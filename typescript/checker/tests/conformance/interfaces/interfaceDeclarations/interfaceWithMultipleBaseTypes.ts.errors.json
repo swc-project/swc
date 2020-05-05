@@ -1,0 +1,32 @@
+[
+    {
+        "line": 21,
+        "column": 11,
+        "msg": "Interface 'Derived2' incorrectly extends interface 'Base2'."
+    },
+    {
+        "line": 52,
+        "column": 15,
+        "msg": "Interface 'Derived3<T>' cannot simultaneously extend types 'Base1<number>' and 'Base2<number>'."
+    },
+    {
+        "line": 54,
+        "column": 15,
+        "msg": "Interface 'Derived4<T>' incorrectly extends interface 'Base1<number>'."
+    },
+    {
+        "line": 54,
+        "column": 15,
+        "msg": "Interface 'Derived4<T>' incorrectly extends interface 'Base2<number>'."
+    },
+    {
+        "line": 60,
+        "column": 15,
+        "msg": "Interface 'Derived5<T>' incorrectly extends interface 'Base1<T>'."
+    },
+    {
+        "line": 60,
+        "column": 15,
+        "msg": "Interface 'Derived5<T>' incorrectly extends interface 'Base2<T>'."
+    }
+]

@@ -1,0 +1,72 @@
+[
+    {
+        "line": 19,
+        "column": 1,
+        "msg": "Type 'A' is not assignable to type 'A & B'."
+    },
+    {
+        "line": 20,
+        "column": 1,
+        "msg": "Type 'B' is not assignable to type 'A & B'."
+    },
+    {
+        "line": 23,
+        "column": 1,
+        "msg": "Type 'A | B' is not assignable to type '(A & B) | (C & D)'."
+    },
+    {
+        "line": 25,
+        "column": 1,
+        "msg": "Type 'C | D' is not assignable to type '(A & B) | (C & D)'."
+    },
+    {
+        "line": 26,
+        "column": 1,
+        "msg": "Type '(A & B) | (C & D)' is not assignable to type 'A & B'."
+    },
+    {
+        "line": 27,
+        "column": 1,
+        "msg": "Type '(A & B) | (C & D)' is not assignable to type 'A | B'."
+    },
+    {
+        "line": 28,
+        "column": 1,
+        "msg": "Type '(A & B) | (C & D)' is not assignable to type 'C & D'."
+    },
+    {
+        "line": 29,
+        "column": 1,
+        "msg": "Type '(A & B) | (C & D)' is not assignable to type 'C | D'."
+    },
+    {
+        "line": 31,
+        "column": 1,
+        "msg": "Type 'A & B' is not assignable to type '(A & C) | (A & D) | (B & C) | (B & D)'."
+    },
+    {
+        "line": 32,
+        "column": 1,
+        "msg": "Type 'A | B' is not assignable to type '(A & C) | (A & D) | (B & C) | (B & D)'."
+    },
+    {
+        "line": 33,
+        "column": 1,
+        "msg": "Type 'C & D' is not assignable to type '(A & C) | (A & D) | (B & C) | (B & D)'."
+    },
+    {
+        "line": 34,
+        "column": 1,
+        "msg": "Type 'C | D' is not assignable to type '(A & C) | (A & D) | (B & C) | (B & D)'."
+    },
+    {
+        "line": 35,
+        "column": 1,
+        "msg": "Type '(A & C) | (A & D) | (B & C) | (B & D)' is not assignable to type 'A & B'."
+    },
+    {
+        "line": 37,
+        "column": 1,
+        "msg": "Type '(A & C) | (A & D) | (B & C) | (B & D)' is not assignable to type 'C & D'."
+    }
+]

@@ -1,0 +1,27 @@
+[
+    {
+        "line": 2,
+        "column": 1,
+        "msg": "Cannot find name 'foo1'."
+    },
+    {
+        "line": 3,
+        "column": 1,
+        "msg": "Cannot find name 'foo1'."
+    },
+    {
+        "line": 4,
+        "column": 1,
+        "msg": "Cannot find name 'foo1'."
+    },
+    {
+        "line": 5,
+        "column": 1,
+        "msg": "Identifier expected. 'static' is a reserved word in strict mode."
+    },
+    {
+        "line": 5,
+        "column": 1,
+        "msg": "Cannot find name 'static'."
+    }
+]

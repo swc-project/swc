@@ -1,0 +1,6 @@
+error: Unexpected eof
+ --> $DIR/tests/conformance/parser/ecmascript5/ExportAssignments/parserExportAssignment3.ts:1:9
+  |
+1 | export =
+  |         ^
+

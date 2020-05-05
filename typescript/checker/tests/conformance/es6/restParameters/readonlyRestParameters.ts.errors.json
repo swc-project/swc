@@ -1,0 +1,17 @@
+[
+    {
+        "line": 11,
+        "column": 8,
+        "msg": "Expected 2 arguments, but got 0 or more."
+    },
+    {
+        "line": 23,
+        "column": 15,
+        "msg": "Expected 2 arguments, but got 3."
+    },
+    {
+        "line": 28,
+        "column": 5,
+        "msg": "Index signature in type 'readonly string[]' only permits reading."
+    }
+]

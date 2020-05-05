@@ -1,0 +1,17 @@
+[
+    {
+        "line": 1,
+        "column": 13,
+        "msg": "',' expected."
+    },
+    {
+        "line": 1,
+        "column": 14,
+        "msg": "Variable declaration expected."
+    },
+    {
+        "line": 1,
+        "column": 15,
+        "msg": "Unterminated regular expression literal."
+    }
+]

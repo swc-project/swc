@@ -1,0 +1,6 @@
+error: Unexpected token Some(AssignOp("="))
+ --> $DIR/tests/conformance/parser/ecmascript5/Generics/parserGreaterThanTokenAmbiguity13.ts:1:9
+  |
+1 | 1 >>/**/= 2;
+  |         ^
+

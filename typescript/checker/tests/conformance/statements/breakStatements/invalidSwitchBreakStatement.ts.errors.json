@@ -1,0 +1,7 @@
+[
+    {
+        "line": 4,
+        "column": 10,
+        "msg": "Type '5' is not comparable to type '12'."
+    }
+]

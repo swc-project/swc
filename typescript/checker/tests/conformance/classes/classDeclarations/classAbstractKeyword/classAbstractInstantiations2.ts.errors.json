@@ -1,0 +1,47 @@
+[
+    {
+        "line": 10,
+        "column": 1,
+        "msg": "Cannot create an instance of an abstract class."
+    },
+    {
+        "line": 13,
+        "column": 5,
+        "msg": "Type 'typeof B' is not assignable to type 'typeof A'."
+    },
+    {
+        "line": 17,
+        "column": 5,
+        "msg": "Cannot create an instance of an abstract class."
+    },
+    {
+        "line": 21,
+        "column": 1,
+        "msg": "Cannot create an instance of an abstract class."
+    },
+    {
+        "line": 23,
+        "column": 15,
+        "msg": "Class 'C' used before its declaration."
+    },
+    {
+        "line": 26,
+        "column": 7,
+        "msg": "Non-abstract class 'C' does not implement inherited abstract member 'bar' from class 'B'."
+    },
+    {
+        "line": 46,
+        "column": 5,
+        "msg": "Function implementation is missing or not immediately following the declaration."
+    },
+    {
+        "line": 46,
+        "column": 5,
+        "msg": "Overload signatures must all be abstract or non-abstract."
+    },
+    {
+        "line": 50,
+        "column": 5,
+        "msg": "Abstract methods can only appear within an abstract class."
+    }
+]

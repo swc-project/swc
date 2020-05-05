@@ -1,0 +1,22 @@
+[
+    {
+        "line": 5,
+        "column": 22,
+        "msg": "Property 'notHere' does not exist on type 'T'."
+    },
+    {
+        "line": 15,
+        "column": 16,
+        "msg": "Property 'notHere' does not exist on type 'Date'."
+    },
+    {
+        "line": 21,
+        "column": 22,
+        "msg": "Property 'notHere' does not exist on type 'Date'."
+    },
+    {
+        "line": 27,
+        "column": 22,
+        "msg": "Property 'notHere' does not exist on type 'T'."
+    }
+]

@@ -1,0 +1,32 @@
+[
+    {
+        "line": 2,
+        "column": 12,
+        "msg": "An enum member name must be followed by a ',', '=', or '}'."
+    },
+    {
+        "line": 2,
+        "column": 14,
+        "msg": "An enum member cannot have a numeric name."
+    },
+    {
+        "line": 3,
+        "column": 15,
+        "msg": "An enum member name must be followed by a ',', '=', or '}'."
+    },
+    {
+        "line": 3,
+        "column": 17,
+        "msg": "An enum member cannot have a numeric name."
+    },
+    {
+        "line": 3,
+        "column": 24,
+        "msg": "An enum member name must be followed by a ',', '=', or '}'."
+    },
+    {
+        "line": 3,
+        "column": 26,
+        "msg": "An enum member cannot have a numeric name."
+    }
+]

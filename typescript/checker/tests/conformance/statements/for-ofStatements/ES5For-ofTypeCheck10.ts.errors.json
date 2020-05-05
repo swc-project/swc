@@ -1,0 +1,12 @@
+[
+    {
+        "line": 11,
+        "column": 6,
+        "msg": "'Symbol' only refers to a type, but is being used as a value here. Do you need to change your target library? Try changing the `lib` compiler option to es2015 or later."
+    },
+    {
+        "line": 16,
+        "column": 15,
+        "msg": "Type 'StringIterator' is not an array type or a string type. Use compiler option '--downlevelIteration' to allow iterating of iterators."
+    }
+]

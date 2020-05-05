@@ -1,0 +1,16 @@
+error: TS1016 {
+    span: Span {
+        lo: BytePos(
+            18,
+        ),
+        hi: BytePos(
+            19,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/ParameterLists/parserParameterList3.ts:2:9
+  |
+2 |   F(A?, B) { }
+  |         ^
+

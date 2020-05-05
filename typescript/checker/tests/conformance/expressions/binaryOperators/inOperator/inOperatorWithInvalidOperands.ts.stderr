@@ -1,0 +1,304 @@
+error: TS2360 {
+    span: Span {
+        lo: BytePos(
+            223,
+        ),
+        hi: BytePos(
+            225,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/inOperator/inOperatorWithInvalidOperands.ts:12:11
+   |
+12 | var ra1 = a1 in x;
+   |           ^^
+
+error: TS2360 {
+    span: Span {
+        lo: BytePos(
+            242,
+        ),
+        hi: BytePos(
+            244,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/inOperator/inOperatorWithInvalidOperands.ts:13:11
+   |
+13 | var ra2 = a2 in x;
+   |           ^^
+
+error: TS2360 {
+    span: Span {
+        lo: BytePos(
+            261,
+        ),
+        hi: BytePos(
+            263,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/inOperator/inOperatorWithInvalidOperands.ts:14:11
+   |
+14 | var ra3 = a3 in x;
+   |           ^^
+
+error: TS2360 {
+    span: Span {
+        lo: BytePos(
+            299,
+        ),
+        hi: BytePos(
+            303,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/inOperator/inOperatorWithInvalidOperands.ts:16:11
+   |
+16 | var ra5 = null in x;
+   |           ^^^^
+
+error: TS2360 {
+    span: Span {
+        lo: BytePos(
+            320,
+        ),
+        hi: BytePos(
+            329,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/inOperator/inOperatorWithInvalidOperands.ts:17:11
+   |
+17 | var ra6 = undefined in x;
+   |           ^^^^^^^^^
+
+error: TS2360 {
+    span: Span {
+        lo: BytePos(
+            366,
+        ),
+        hi: BytePos(
+            371,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/inOperator/inOperatorWithInvalidOperands.ts:19:11
+   |
+19 | var ra8 = false in x;
+   |           ^^^^^
+
+error: TS2360 {
+    span: Span {
+        lo: BytePos(
+            388,
+        ),
+        hi: BytePos(
+            390,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/inOperator/inOperatorWithInvalidOperands.ts:20:11
+   |
+20 | var ra9 = {} in x;
+   |           ^^
+
+error: TS2361 {
+    span: Span {
+        lo: BytePos(
+            621,
+        ),
+        hi: BytePos(
+            623,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/inOperator/inOperatorWithInvalidOperands.ts:30:16
+   |
+30 | var rb1 = x in b1;
+   |                ^^
+
+error: TS2361 {
+    span: Span {
+        lo: BytePos(
+            640,
+        ),
+        hi: BytePos(
+            642,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/inOperator/inOperatorWithInvalidOperands.ts:31:16
+   |
+31 | var rb2 = x in b2;
+   |                ^^
+
+error: TS2361 {
+    span: Span {
+        lo: BytePos(
+            659,
+        ),
+        hi: BytePos(
+            661,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/inOperator/inOperatorWithInvalidOperands.ts:32:16
+   |
+32 | var rb3 = x in b3;
+   |                ^^
+
+error: TS2361 {
+    span: Span {
+        lo: BytePos(
+            678,
+        ),
+        hi: BytePos(
+            680,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/inOperator/inOperatorWithInvalidOperands.ts:33:16
+   |
+33 | var rb4 = x in b4;
+   |                ^^
+
+error: TS2361 {
+    span: Span {
+        lo: BytePos(
+            697,
+        ),
+        hi: BytePos(
+            699,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/inOperator/inOperatorWithInvalidOperands.ts:34:16
+   |
+34 | var rb5 = x in b5;
+   |                ^^
+
+error: TS2361 {
+    span: Span {
+        lo: BytePos(
+            716,
+        ),
+        hi: BytePos(
+            717,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/inOperator/inOperatorWithInvalidOperands.ts:35:16
+   |
+35 | var rb6 = x in 0;
+   |                ^
+
+error: TS2361 {
+    span: Span {
+        lo: BytePos(
+            734,
+        ),
+        hi: BytePos(
+            739,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/inOperator/inOperatorWithInvalidOperands.ts:36:16
+   |
+36 | var rb7 = x in false;
+   |                ^^^^^
+
+error: TS2361 {
+    span: Span {
+        lo: BytePos(
+            756,
+        ),
+        hi: BytePos(
+            758,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/inOperator/inOperatorWithInvalidOperands.ts:37:16
+   |
+37 | var rb8 = x in '';
+   |                ^^
+
+error: TS2361 {
+    span: Span {
+        lo: BytePos(
+            775,
+        ),
+        hi: BytePos(
+            779,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/inOperator/inOperatorWithInvalidOperands.ts:38:16
+   |
+38 | var rb9 = x in null;
+   |                ^^^^
+
+error: TS2361 {
+    span: Span {
+        lo: BytePos(
+            797,
+        ),
+        hi: BytePos(
+            806,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/inOperator/inOperatorWithInvalidOperands.ts:39:17
+   |
+39 | var rb10 = x in undefined;
+   |                 ^^^^^^^^^
+
+error: TS2360 {
+    span: Span {
+        lo: BytePos(
+            849,
+        ),
+        hi: BytePos(
+            851,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/inOperator/inOperatorWithInvalidOperands.ts:43:11
+   |
+43 | var rc1 = {} in '';
+   |           ^^
+
+error: TS2361 {
+    span: Span {
+        lo: BytePos(
+            855,
+        ),
+        hi: BytePos(
+            857,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/inOperator/inOperatorWithInvalidOperands.ts:43:17
+   |
+43 | var rc1 = {} in '';
+   |                 ^^
+

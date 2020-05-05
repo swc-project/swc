@@ -1,0 +1,6 @@
+error: Expected Arrow, got Some(Word(M))
+ --> $DIR/tests/conformance/async/es6/asyncModule_es6.ts:3:14
+  |
+3 | async module M {   
+  |              ^
+

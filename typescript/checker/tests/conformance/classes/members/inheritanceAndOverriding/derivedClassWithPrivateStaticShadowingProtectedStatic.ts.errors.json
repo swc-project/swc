@@ -1,0 +1,7 @@
+[
+    {
+        "line": 14,
+        "column": 7,
+        "msg": "Class static side 'typeof Derived' incorrectly extends base class static side 'typeof Base'."
+    }
+]

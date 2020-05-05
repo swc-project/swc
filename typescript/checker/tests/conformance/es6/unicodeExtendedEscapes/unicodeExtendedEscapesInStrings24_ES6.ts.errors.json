@@ -1,0 +1,7 @@
+[
+    {
+        "line": 3,
+        "column": 27,
+        "msg": "Unterminated Unicode escape sequence."
+    }
+]

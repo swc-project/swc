@@ -1,0 +1,27 @@
+[
+    {
+        "line": 2,
+        "column": 5,
+        "msg": "'abstract' modifier can only appear on a class, method, or property declaration."
+    },
+    {
+        "line": 2,
+        "column": 28,
+        "msg": "An implementation cannot be declared in ambient contexts."
+    },
+    {
+        "line": 11,
+        "column": 15,
+        "msg": "Non-abstract class 'CC' does not implement inherited abstract member 'foo' from class 'AA'."
+    },
+    {
+        "line": 13,
+        "column": 15,
+        "msg": "Non-abstract class 'DD' does not implement inherited abstract member 'foo' from class 'BB'."
+    },
+    {
+        "line": 17,
+        "column": 15,
+        "msg": "Non-abstract class 'FF' does not implement inherited abstract member 'foo' from class 'CC'."
+    }
+]

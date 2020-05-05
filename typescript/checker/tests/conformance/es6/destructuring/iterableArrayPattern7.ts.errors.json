@@ -1,0 +1,7 @@
+[
+    {
+        "line": 18,
+        "column": 5,
+        "msg": "Type 'Foo' is missing the following properties from type 'string[]'"
+    }
+]

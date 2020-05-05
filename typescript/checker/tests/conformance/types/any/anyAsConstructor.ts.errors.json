@@ -1,0 +1,7 @@
+[
+    {
+        "line": 10,
+        "column": 9,
+        "msg": "Untyped function calls may not accept type arguments."
+    }
+]

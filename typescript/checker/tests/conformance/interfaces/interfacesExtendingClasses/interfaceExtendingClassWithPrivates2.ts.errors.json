@@ -1,0 +1,27 @@
+[
+    {
+        "line": 9,
+        "column": 11,
+        "msg": "Interface 'I3' cannot simultaneously extend types 'Foo' and 'Bar'."
+    },
+    {
+        "line": 12,
+        "column": 11,
+        "msg": "Interface 'I4' incorrectly extends interface 'Bar'."
+    },
+    {
+        "line": 12,
+        "column": 11,
+        "msg": "Interface 'I4' incorrectly extends interface 'Foo'."
+    },
+    {
+        "line": 26,
+        "column": 12,
+        "msg": "Property 'x' is private and only accessible within class 'Foo'."
+    },
+    {
+        "line": 27,
+        "column": 12,
+        "msg": "Property 'y' is private and only accessible within class 'Baz'."
+    }
+]

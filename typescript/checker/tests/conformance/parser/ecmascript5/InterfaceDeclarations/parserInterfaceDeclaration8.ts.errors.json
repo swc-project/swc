@@ -1,0 +1,7 @@
+[
+    {
+        "line": 1,
+        "column": 11,
+        "msg": "Interface name cannot be 'string'."
+    }
+]

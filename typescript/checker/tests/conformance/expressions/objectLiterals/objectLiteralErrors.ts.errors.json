@@ -1,0 +1,392 @@
+[
+    {
+        "line": 4,
+        "column": 18,
+        "msg": "Duplicate identifier 'a'."
+    },
+    {
+        "line": 5,
+        "column": 19,
+        "msg": "Duplicate identifier 'a'."
+    },
+    {
+        "line": 6,
+        "column": 18,
+        "msg": "Duplicate identifier 'a'."
+    },
+    {
+        "line": 7,
+        "column": 21,
+        "msg": "Duplicate identifier 'a'."
+    },
+    {
+        "line": 8,
+        "column": 19,
+        "msg": "Duplicate identifier 'a'."
+    },
+    {
+        "line": 9,
+        "column": 18,
+        "msg": "Duplicate identifier ''a''."
+    },
+    {
+        "line": 10,
+        "column": 20,
+        "msg": "Duplicate identifier 'a'."
+    },
+    {
+        "line": 11,
+        "column": 20,
+        "msg": "Duplicate identifier '\"a\"'."
+    },
+    {
+        "line": 12,
+        "column": 20,
+        "msg": "Duplicate identifier ''a''."
+    },
+    {
+        "line": 13,
+        "column": 21,
+        "msg": "Duplicate identifier ''a''."
+    },
+    {
+        "line": 14,
+        "column": 21,
+        "msg": "Duplicate identifier ''1''."
+    },
+    {
+        "line": 15,
+        "column": 19,
+        "msg": "Duplicate identifier '0'."
+    },
+    {
+        "line": 16,
+        "column": 19,
+        "msg": "Duplicate identifier '0'."
+    },
+    {
+        "line": 17,
+        "column": 19,
+        "msg": "Duplicate identifier '0x0'."
+    },
+    {
+        "line": 18,
+        "column": 19,
+        "msg": "Octal literals are not available when targeting ECMAScript 5 and higher. Use the syntax '0o0'."
+    },
+    {
+        "line": 18,
+        "column": 19,
+        "msg": "Duplicate identifier '000'."
+    },
+    {
+        "line": 19,
+        "column": 23,
+        "msg": "Duplicate identifier '1e2'."
+    },
+    {
+        "line": 20,
+        "column": 22,
+        "msg": "Duplicate identifier '3.2e1'."
+    },
+    {
+        "line": 21,
+        "column": 25,
+        "msg": "Duplicate identifier 'a'."
+    },
+    {
+        "line": 24,
+        "column": 12,
+        "msg": "Duplicate identifier 'a'."
+    },
+    {
+        "line": 24,
+        "column": 22,
+        "msg": "An object literal cannot have property and accessor with the same name."
+    },
+    {
+        "line": 24,
+        "column": 22,
+        "msg": "Duplicate identifier 'a'."
+    },
+    {
+        "line": 25,
+        "column": 12,
+        "msg": "Duplicate identifier 'a'."
+    },
+    {
+        "line": 25,
+        "column": 23,
+        "msg": "An object literal cannot have property and accessor with the same name."
+    },
+    {
+        "line": 25,
+        "column": 23,
+        "msg": "Duplicate identifier 'a'."
+    },
+    {
+        "line": 26,
+        "column": 12,
+        "msg": "Duplicate identifier 'a'."
+    },
+    {
+        "line": 26,
+        "column": 22,
+        "msg": "An object literal cannot have property and accessor with the same name."
+    },
+    {
+        "line": 26,
+        "column": 22,
+        "msg": "Duplicate identifier 'a'."
+    },
+    {
+        "line": 27,
+        "column": 12,
+        "msg": "Duplicate identifier 'a'."
+    },
+    {
+        "line": 27,
+        "column": 25,
+        "msg": "An object literal cannot have property and accessor with the same name."
+    },
+    {
+        "line": 27,
+        "column": 25,
+        "msg": "Duplicate identifier 'a'."
+    },
+    {
+        "line": 28,
+        "column": 12,
+        "msg": "Duplicate identifier 'a'."
+    },
+    {
+        "line": 28,
+        "column": 23,
+        "msg": "An object literal cannot have property and accessor with the same name."
+    },
+    {
+        "line": 28,
+        "column": 23,
+        "msg": "Duplicate identifier 'a'."
+    },
+    {
+        "line": 29,
+        "column": 12,
+        "msg": "Duplicate identifier 'a'."
+    },
+    {
+        "line": 29,
+        "column": 22,
+        "msg": "An object literal cannot have property and accessor with the same name."
+    },
+    {
+        "line": 29,
+        "column": 22,
+        "msg": "Duplicate identifier ''a''."
+    },
+    {
+        "line": 30,
+        "column": 12,
+        "msg": "Duplicate identifier ''a''."
+    },
+    {
+        "line": 30,
+        "column": 24,
+        "msg": "An object literal cannot have property and accessor with the same name."
+    },
+    {
+        "line": 30,
+        "column": 24,
+        "msg": "Duplicate identifier 'a'."
+    },
+    {
+        "line": 31,
+        "column": 12,
+        "msg": "Duplicate identifier ''a''."
+    },
+    {
+        "line": 31,
+        "column": 24,
+        "msg": "An object literal cannot have property and accessor with the same name."
+    },
+    {
+        "line": 31,
+        "column": 24,
+        "msg": "Duplicate identifier '\"a\"'."
+    },
+    {
+        "line": 32,
+        "column": 12,
+        "msg": "Duplicate identifier ''a''."
+    },
+    {
+        "line": 32,
+        "column": 24,
+        "msg": "An object literal cannot have property and accessor with the same name."
+    },
+    {
+        "line": 32,
+        "column": 24,
+        "msg": "Duplicate identifier ''a''."
+    },
+    {
+        "line": 33,
+        "column": 13,
+        "msg": "Duplicate identifier '\"a\"'."
+    },
+    {
+        "line": 33,
+        "column": 25,
+        "msg": "An object literal cannot have property and accessor with the same name."
+    },
+    {
+        "line": 33,
+        "column": 25,
+        "msg": "Duplicate identifier ''a''."
+    },
+    {
+        "line": 34,
+        "column": 13,
+        "msg": "Duplicate identifier '1.0'."
+    },
+    {
+        "line": 34,
+        "column": 25,
+        "msg": "An object literal cannot have property and accessor with the same name."
+    },
+    {
+        "line": 34,
+        "column": 25,
+        "msg": "Duplicate identifier ''1''."
+    },
+    {
+        "line": 35,
+        "column": 13,
+        "msg": "Duplicate identifier '0'."
+    },
+    {
+        "line": 35,
+        "column": 23,
+        "msg": "An object literal cannot have property and accessor with the same name."
+    },
+    {
+        "line": 35,
+        "column": 23,
+        "msg": "Duplicate identifier '0'."
+    },
+    {
+        "line": 36,
+        "column": 13,
+        "msg": "Duplicate identifier '0'."
+    },
+    {
+        "line": 36,
+        "column": 23,
+        "msg": "An object literal cannot have property and accessor with the same name."
+    },
+    {
+        "line": 36,
+        "column": 23,
+        "msg": "Duplicate identifier '0'."
+    },
+    {
+        "line": 37,
+        "column": 13,
+        "msg": "Duplicate identifier '0'."
+    },
+    {
+        "line": 37,
+        "column": 23,
+        "msg": "An object literal cannot have property and accessor with the same name."
+    },
+    {
+        "line": 37,
+        "column": 23,
+        "msg": "Duplicate identifier '0x0'."
+    },
+    {
+        "line": 38,
+        "column": 13,
+        "msg": "Duplicate identifier '0'."
+    },
+    {
+        "line": 38,
+        "column": 23,
+        "msg": "An object literal cannot have property and accessor with the same name."
+    },
+    {
+        "line": 38,
+        "column": 23,
+        "msg": "Duplicate identifier '000'."
+    },
+    {
+        "line": 39,
+        "column": 13,
+        "msg": "Duplicate identifier '\"100\"'."
+    },
+    {
+        "line": 39,
+        "column": 27,
+        "msg": "An object literal cannot have property and accessor with the same name."
+    },
+    {
+        "line": 39,
+        "column": 27,
+        "msg": "Duplicate identifier '1e2'."
+    },
+    {
+        "line": 40,
+        "column": 13,
+        "msg": "Duplicate identifier '0x20'."
+    },
+    {
+        "line": 40,
+        "column": 26,
+        "msg": "An object literal cannot have property and accessor with the same name."
+    },
+    {
+        "line": 40,
+        "column": 26,
+        "msg": "Duplicate identifier '3.2e1'."
+    },
+    {
+        "line": 41,
+        "column": 13,
+        "msg": "Duplicate identifier 'a'."
+    },
+    {
+        "line": 41,
+        "column": 46,
+        "msg": "An object literal cannot have property and accessor with the same name."
+    },
+    {
+        "line": 41,
+        "column": 46,
+        "msg": "Duplicate identifier 'a'."
+    },
+    {
+        "line": 44,
+        "column": 16,
+        "msg": "'get' and 'set' accessor must have the same type."
+    },
+    {
+        "line": 44,
+        "column": 47,
+        "msg": "'get' and 'set' accessor must have the same type."
+    },
+    {
+        "line": 45,
+        "column": 22,
+        "msg": "Type '4' is not assignable to type 'string'."
+    },
+    {
+        "line": 46,
+        "column": 16,
+        "msg": "'get' and 'set' accessor must have the same type."
+    },
+    {
+        "line": 46,
+        "column": 55,
+        "msg": "'get' and 'set' accessor must have the same type."
+    }
+]

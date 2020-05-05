@@ -1,0 +1,97 @@
+[
+    {
+        "line": 34,
+        "column": 23,
+        "msg": "Type 'string' does not satisfy the constraint '(...args"
+    },
+    {
+        "line": 35,
+        "column": 23,
+        "msg": "Type 'Function' does not satisfy the constraint '(...args"
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "any'."
+    },
+    {
+        "line": 41,
+        "column": 25,
+        "msg": "Type 'string' does not satisfy the constraint 'new (...args"
+    },
+    {
+        "line": 42,
+        "column": 25,
+        "msg": "Type 'Function' does not satisfy the constraint 'new (...args"
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "any'."
+    },
+    {
+        "line": 50,
+        "column": 25,
+        "msg": "Type '(x"
+    },
+    {
+        "line": 51,
+        "column": 25,
+        "msg": "Type 'Function' does not satisfy the constraint '(x"
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "any'."
+    },
+    {
+        "line": 77,
+        "column": 12,
+        "msg": "'infer' declarations are only permitted in the 'extends' clause of a conditional type."
+    },
+    {
+        "line": 78,
+        "column": 15,
+        "msg": "'infer' declarations are only permitted in the 'extends' clause of a conditional type."
+    },
+    {
+        "line": 78,
+        "column": 41,
+        "msg": "'infer' declarations are only permitted in the 'extends' clause of a conditional type."
+    },
+    {
+        "line": 78,
+        "column": 51,
+        "msg": "'infer' declarations are only permitted in the 'extends' clause of a conditional type."
+    },
+    {
+        "line": 79,
+        "column": 15,
+        "msg": "Cannot find name 'U'."
+    },
+    {
+        "line": 79,
+        "column": 15,
+        "msg": "Exported type alias 'T62' has or is using private name 'U'."
+    },
+    {
+        "line": 79,
+        "column": 43,
+        "msg": "Cannot find name 'U'."
+    },
+    {
+        "line": 79,
+        "column": 43,
+        "msg": "Exported type alias 'T62' has or is using private name 'U'."
+    },
+    {
+        "line": 86,
+        "column": 44,
+        "msg": "Type 'U' does not satisfy the constraint 'string'."
+    },
+    {
+        "line": 148,
+        "column": 40,
+        "msg": "Type 'T' is not assignable to type 'string | number | symbol'."
+    }
+]

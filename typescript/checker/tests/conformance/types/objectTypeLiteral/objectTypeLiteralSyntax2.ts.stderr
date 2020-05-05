@@ -1,0 +1,6 @@
+error: Expected Semi, got Some(Word(bar))
+  --> $DIR/tests/conformance/types/objectTypeLiteral/objectTypeLiteralSyntax2.ts:12:22
+   |
+12 | var z: { foo: string bar: string }
+   |                      ^^^
+

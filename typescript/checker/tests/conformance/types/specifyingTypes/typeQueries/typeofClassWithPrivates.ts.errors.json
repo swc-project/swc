@@ -1,0 +1,7 @@
+[
+    {
+        "line": 5,
+        "column": 15,
+        "msg": "Static members cannot reference class type parameters."
+    }
+]

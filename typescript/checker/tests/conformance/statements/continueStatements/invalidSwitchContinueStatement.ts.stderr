@@ -1,0 +1,77 @@
+error: AssignFailed {
+    span: Span {
+        lo: BytePos(
+            73,
+        ),
+        hi: BytePos(
+            74,
+        ),
+        ctxt: #0,
+    },
+    left: Lit(
+        TsLitType {
+            span: Span {
+                lo: BytePos(
+                    73,
+                ),
+                hi: BytePos(
+                    74,
+                ),
+                ctxt: #0,
+            },
+            lit: Number(
+                Number {
+                    span: Span {
+                        lo: BytePos(
+                            73,
+                        ),
+                        hi: BytePos(
+                            74,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: 5.0,
+                },
+            ),
+        },
+    ),
+    right: Lit(
+        TsLitType {
+            span: Span {
+                lo: BytePos(
+                    58,
+                ),
+                hi: BytePos(
+                    60,
+                ),
+                ctxt: #0,
+            },
+            lit: Number(
+                Number {
+                    span: Span {
+                        lo: BytePos(
+                            58,
+                        ),
+                        hi: BytePos(
+                            60,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: 12.0,
+                },
+            ),
+        },
+    ),
+    cause: [],
+}
+ --> $DIR/tests/conformance/statements/continueStatements/invalidSwitchContinueStatement.ts:4:10
+  |
+4 |     case 5:
+  |          ^
+
+error: TS1115
+ --> $DIR/tests/conformance/statements/continueStatements/invalidSwitchContinueStatement.ts:5:9
+  |
+5 |         continue;
+  |         ^^^^^^^^^
+

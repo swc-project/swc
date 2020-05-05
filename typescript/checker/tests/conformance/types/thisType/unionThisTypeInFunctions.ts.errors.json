@@ -1,0 +1,17 @@
+[
+    {
+        "line": 10,
+        "column": 5,
+        "msg": "The 'this' context of type 'Real | Fake' is not assignable to method's 'this' of type 'Real & Fake'."
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "number) => void' is not assignable to type '(this"
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "number) => void' is not assignable to type '(this"
+    }
+]

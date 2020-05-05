@@ -1,0 +1,12 @@
+[
+    {
+        "line": 42,
+        "column": 1,
+        "msg": "Type 'any' is not assignable to type 'never'."
+    },
+    {
+        "line": 43,
+        "column": 1,
+        "msg": "Type 'any' is not assignable to type 'never'."
+    }
+]

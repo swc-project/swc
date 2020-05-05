@@ -1,0 +1,17 @@
+[
+    {
+        "line": 1,
+        "column": 1,
+        "msg": "The left-hand side of an assignment expression must be a variable or a property access."
+    },
+    {
+        "line": 1,
+        "column": 2,
+        "msg": "Cannot find name 'foo'."
+    },
+    {
+        "line": 1,
+        "column": 11,
+        "msg": "Cannot find name 'bar'."
+    }
+]

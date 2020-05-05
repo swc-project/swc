@@ -1,0 +1,12 @@
+[
+    {
+        "line": 1,
+        "column": 8,
+        "msg": "Cannot find namespace 'TypeModule1'."
+    },
+    {
+        "line": 1,
+        "column": 20,
+        "msg": "Identifier expected."
+    }
+]

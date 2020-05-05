@@ -1,0 +1,112 @@
+error: InvalidInitInConstEnum {
+    span: Span {
+        lo: BytePos(
+            477,
+        ),
+        hi: BytePos(
+            482,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/enums/enumConstantMembers.ts:32:9
+   |
+32 |     a = 1 / 0,
+   |         ^^^^^
+
+error: InvalidInitInConstEnum {
+    span: Span {
+        lo: BytePos(
+            493,
+        ),
+        hi: BytePos(
+            500,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/enums/enumConstantMembers.ts:33:9
+   |
+33 |     b = 2 / 0.0,
+   |         ^^^^^^^
+
+error: InvalidInitInConstEnum {
+    span: Span {
+        lo: BytePos(
+            511,
+        ),
+        hi: BytePos(
+            520,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/enums/enumConstantMembers.ts:34:9
+   |
+34 |     c = 1.0 / 0.0,
+   |         ^^^^^^^^^
+
+error: InvalidInitInConstEnum {
+    span: Span {
+        lo: BytePos(
+            531,
+        ),
+        hi: BytePos(
+            540,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/enums/enumConstantMembers.ts:35:9
+   |
+35 |     d = 0.0 / 0.0,
+   |         ^^^^^^^^^
+
+error: InvalidInitInConstEnum {
+    span: Span {
+        lo: BytePos(
+            551,
+        ),
+        hi: BytePos(
+            554,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/enums/enumConstantMembers.ts:36:9
+   |
+36 |     e = NaN,
+   |         ^^^
+
+error: InvalidInitInConstEnum {
+    span: Span {
+        lo: BytePos(
+            565,
+        ),
+        hi: BytePos(
+            573,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/enums/enumConstantMembers.ts:37:9
+   |
+37 |     f = Infinity,
+   |         ^^^^^^^^
+
+error: InvalidInitInConstEnum {
+    span: Span {
+        lo: BytePos(
+            584,
+        ),
+        hi: BytePos(
+            593,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/enums/enumConstantMembers.ts:38:9
+   |
+38 |     g = -Infinity
+   |         ^^^^^^^^^
+

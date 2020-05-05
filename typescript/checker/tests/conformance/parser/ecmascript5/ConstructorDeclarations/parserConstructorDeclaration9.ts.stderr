@@ -1,0 +1,6 @@
+error: TS1092
+ --> $DIR/tests/conformance/parser/ecmascript5/ConstructorDeclarations/parserConstructorDeclaration9.ts:2:15
+  |
+2 |   constructor<T>() { }
+  |               ^
+

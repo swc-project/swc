@@ -1,0 +1,30 @@
+error: NoNewSignature {
+    span: Span {
+        lo: BytePos(
+            28,
+        ),
+        hi: BytePos(
+            42,
+        ),
+        ctxt: #0,
+    },
+    callee: Keyword(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    28,
+                ),
+                hi: BytePos(
+                    42,
+                ),
+                ctxt: #0,
+            },
+            kind: TsStringKeyword,
+        },
+    ),
+}
+ --> $DIR/tests/conformance/es6/templates/templateStringInNewOperatorES6.ts:2:13
+  |
+2 | var x = new `abc${ 1 }def`;
+  |             ^^^^^^^^^^^^^^
+

@@ -1,0 +1,6 @@
+error: Expected Semi, got Some(Word(public))
+ --> $DIR/tests/conformance/parser/ecmascript5/IndexMemberDeclarations/parserIndexMemberDeclaration5.ts:2:24
+  |
+2 |    [a: string]: number public v: number
+  |                        ^^^^^^
+

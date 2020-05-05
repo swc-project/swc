@@ -1,0 +1,17 @@
+error: UndefinedSymbol {
+    sym: Atom('undefined' type=static),
+    span: Span {
+        lo: BytePos(
+            8,
+        ),
+        hi: BytePos(
+            17,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/types/typeRelationships/assignmentCompatibility/nullAssignedToUndefined.ts:1:9
+  |
+1 | var x = undefined = null; // error
+  |         ^^^^^^^^^
+

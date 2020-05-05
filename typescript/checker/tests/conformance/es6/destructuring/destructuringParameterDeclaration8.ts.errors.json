@@ -1,0 +1,22 @@
+[
+    {
+        "line": 4,
+        "column": 5,
+        "msg": "Type '\"z\"' is not assignable to type '\"x\" | \"y\"'."
+    },
+    {
+        "line": 5,
+        "column": 15,
+        "msg": "Type '\"c\"' is not assignable to type '\"a\" | \"b\"'."
+    },
+    {
+        "line": 17,
+        "column": 8,
+        "msg": "Type '\"z\"' is not assignable to type '\"x\" | \"y\"'."
+    },
+    {
+        "line": 18,
+        "column": 8,
+        "msg": "Type '\"one\"' is not assignable to type '\"x\" | \"y\"'."
+    }
+]

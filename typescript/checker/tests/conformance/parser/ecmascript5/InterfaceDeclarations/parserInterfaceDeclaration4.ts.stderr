@@ -1,0 +1,6 @@
+error: TS2427
+ --> $DIR/tests/conformance/parser/ecmascript5/InterfaceDeclarations/parserInterfaceDeclaration4.ts:1:1
+  |
+1 | static interface I {
+  | ^^^^^^
+

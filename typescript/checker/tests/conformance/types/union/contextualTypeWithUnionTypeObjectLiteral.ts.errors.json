@@ -1,0 +1,37 @@
+[
+    {
+        "line": 14,
+        "column": 5,
+        "msg": "Type '{ prop"
+    },
+    {
+        "line": 20,
+        "column": 5,
+        "msg": "Type '{ prop"
+    },
+    {
+        "line": 21,
+        "column": 5,
+        "msg": "Type '{ prop"
+    },
+    {
+        "line": 25,
+        "column": 5,
+        "msg": "Type '{ prop"
+    },
+    {
+        "line": 29,
+        "column": 5,
+        "msg": "Type '{ prop"
+    },
+    {
+        "line": 58,
+        "column": 5,
+        "msg": "Type '(a"
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "number) => string | number' is not assignable to type '(a"
+    }
+]

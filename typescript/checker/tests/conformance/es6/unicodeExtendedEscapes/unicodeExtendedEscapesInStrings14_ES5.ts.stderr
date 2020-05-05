@@ -1,0 +1,6 @@
+error: Invalid unciode code point
+ --> $DIR/tests/conformance/es6/unicodeExtendedEscapes/unicodeExtendedEscapesInStrings14_ES5.ts:4:13
+  |
+4 | var x = "\u{-DDDD}";
+  |             ^
+

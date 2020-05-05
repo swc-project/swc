@@ -1,0 +1,267 @@
+[
+    {
+        "line": 13,
+        "column": 1,
+        "msg": "Variable 'a' is used before being assigned."
+    },
+    {
+        "line": 17,
+        "column": 1,
+        "msg": "Variable 'b' is used before being assigned."
+    },
+    {
+        "line": 21,
+        "column": 1,
+        "msg": "Variable 'c' is used before being assigned."
+    },
+    {
+        "line": 25,
+        "column": 1,
+        "msg": "Variable 'd' is used before being assigned."
+    },
+    {
+        "line": 38,
+        "column": 5,
+        "msg": "Cannot invoke an object which is possibly 'undefined'."
+    },
+    {
+        "line": 42,
+        "column": 1,
+        "msg": "Cannot invoke an object which is possibly 'undefined'."
+    },
+    {
+        "line": 55,
+        "column": 5,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 60,
+        "column": 1,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 71,
+        "column": 5,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 75,
+        "column": 1,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 86,
+        "column": 5,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 90,
+        "column": 1,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 107,
+        "column": 5,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 108,
+        "column": 5,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 108,
+        "column": 5,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 114,
+        "column": 1,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 115,
+        "column": 1,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 115,
+        "column": 1,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 133,
+        "column": 5,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 137,
+        "column": 1,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 156,
+        "column": 9,
+        "msg": "Assertions require every name in the call target to be declared with an explicit type annotation."
+    },
+    {
+        "line": 211,
+        "column": 9,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 214,
+        "column": 9,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 217,
+        "column": 9,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 220,
+        "column": 9,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 223,
+        "column": 9,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 226,
+        "column": 9,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 241,
+        "column": 9,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 244,
+        "column": 9,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 247,
+        "column": 9,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 274,
+        "column": 9,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 277,
+        "column": 9,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 280,
+        "column": 9,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 310,
+        "column": 9,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 313,
+        "column": 9,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 322,
+        "column": 9,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 325,
+        "column": 9,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 334,
+        "column": 9,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 343,
+        "column": 9,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 346,
+        "column": 9,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 355,
+        "column": 9,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 394,
+        "column": 9,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 397,
+        "column": 9,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 406,
+        "column": 9,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 409,
+        "column": 9,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 418,
+        "column": 9,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 427,
+        "column": 9,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 430,
+        "column": 9,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 439,
+        "column": 9,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 474,
+        "column": 13,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 477,
+        "column": 13,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 491,
+        "column": 13,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 494,
+        "column": 13,
+        "msg": "Object is possibly 'undefined'."
+    }
+]

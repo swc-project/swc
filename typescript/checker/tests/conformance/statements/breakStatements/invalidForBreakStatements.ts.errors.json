@@ -1,0 +1,32 @@
+[
+    {
+        "line": 7,
+        "column": 1,
+        "msg": "A 'break' statement can only be used within an enclosing iteration or switch statement."
+    },
+    {
+        "line": 11,
+        "column": 9,
+        "msg": "A 'break' statement can only jump to a label of an enclosing statement."
+    },
+    {
+        "line": 17,
+        "column": 9,
+        "msg": "Jump target cannot cross function boundary."
+    },
+    {
+        "line": 24,
+        "column": 9,
+        "msg": "Jump target cannot cross function boundary."
+    },
+    {
+        "line": 30,
+        "column": 5,
+        "msg": "A 'break' statement can only jump to a label of an enclosing statement."
+    },
+    {
+        "line": 39,
+        "column": 5,
+        "msg": "A 'break' statement can only jump to a label of an enclosing statement."
+    }
+]

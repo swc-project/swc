@@ -1,0 +1,17 @@
+[
+    {
+        "line": 3,
+        "column": 9,
+        "msg": "This condition will always return 'false' since the types '\"foo\"' and '\"baz\"' have no overlap."
+    },
+    {
+        "line": 5,
+        "column": 9,
+        "msg": "This condition will always return 'false' since the types 'string' and 'number' have no overlap."
+    },
+    {
+        "line": 5,
+        "column": 19,
+        "msg": "Conversion of type 'string' to type 'number' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first."
+    }
+]

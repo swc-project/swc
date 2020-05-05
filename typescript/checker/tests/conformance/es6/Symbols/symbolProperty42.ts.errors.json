@@ -1,0 +1,12 @@
+[
+    {
+        "line": 4,
+        "column": 12,
+        "msg": "Function overload must not be static."
+    },
+    {
+        "line": 5,
+        "column": 5,
+        "msg": "Function overload must be static."
+    }
+]

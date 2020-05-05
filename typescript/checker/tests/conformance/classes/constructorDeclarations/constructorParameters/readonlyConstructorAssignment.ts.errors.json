@@ -1,0 +1,12 @@
+[
+    {
+        "line": 13,
+        "column": 14,
+        "msg": "Cannot assign to 'x' because it is a read-only property."
+    },
+    {
+        "line": 33,
+        "column": 7,
+        "msg": "Class 'E' incorrectly extends base class 'D'."
+    }
+]

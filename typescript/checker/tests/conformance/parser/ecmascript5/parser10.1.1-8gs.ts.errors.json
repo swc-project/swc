@@ -1,0 +1,12 @@
+[
+    {
+        "line": 18,
+        "column": 7,
+        "msg": "Cannot find name 'NotEarlyError'."
+    },
+    {
+        "line": 19,
+        "column": 5,
+        "msg": "Identifier expected. 'public' is a reserved word in strict mode."
+    }
+]

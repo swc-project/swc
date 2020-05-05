@@ -1,0 +1,17 @@
+error: UndefinedSymbol {
+    sym: Atom('public' type=static),
+    span: Span {
+        lo: BytePos(
+            30,
+        ),
+        hi: BytePos(
+            36,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript6/ComputedPropertyNames/parserComputedPropertyName37.ts:3:6
+  |
+3 |     [public]: 0
+  |      ^^^^^^
+

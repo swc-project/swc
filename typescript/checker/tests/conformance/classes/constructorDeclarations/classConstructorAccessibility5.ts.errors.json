@@ -1,0 +1,7 @@
+[
+    {
+        "line": 9,
+        "column": 21,
+        "msg": "Constructor of class 'Base' is protected and only accessible within the class declaration."
+    }
+]

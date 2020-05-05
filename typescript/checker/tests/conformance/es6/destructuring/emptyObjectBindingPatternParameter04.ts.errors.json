@@ -1,0 +1,17 @@
+[
+    {
+        "line": 3,
+        "column": 18,
+        "msg": "Object literal may only specify known properties, and 'a' does not exist in type '{}'."
+    },
+    {
+        "line": 3,
+        "column": 24,
+        "msg": "Object literal may only specify known properties, and 'b' does not exist in type '{}'."
+    },
+    {
+        "line": 3,
+        "column": 32,
+        "msg": "Object literal may only specify known properties, and 'c' does not exist in type '{}'."
+    }
+]

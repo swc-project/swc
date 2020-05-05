@@ -1,0 +1,6 @@
+error: Legacy octal escape is not permitted in strict mode
+ --> $DIR/tests/conformance/parser/ecmascript5/StrictMode/octalLiteralInStrictModeES3.ts:2:1
+  |
+2 | 03;
+  | ^^
+

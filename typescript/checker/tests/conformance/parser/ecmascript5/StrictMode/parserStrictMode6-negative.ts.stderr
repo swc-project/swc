@@ -1,0 +1,16 @@
+error: CannotAssignToNonVariable {
+    span: Span {
+        lo: BytePos(
+            0,
+        ),
+        hi: BytePos(
+            4,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/StrictMode/parserStrictMode6-negative.ts:1:1
+  |
+1 | eval++;
+  | ^^^^
+

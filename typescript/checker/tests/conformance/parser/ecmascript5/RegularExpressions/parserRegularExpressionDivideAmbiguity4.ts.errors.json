@@ -1,0 +1,17 @@
+[
+    {
+        "line": 1,
+        "column": 1,
+        "msg": "Cannot find name 'foo'."
+    },
+    {
+        "line": 1,
+        "column": 6,
+        "msg": "Unterminated regular expression literal."
+    },
+    {
+        "line": 1,
+        "column": 17,
+        "msg": "')' expected."
+    }
+]

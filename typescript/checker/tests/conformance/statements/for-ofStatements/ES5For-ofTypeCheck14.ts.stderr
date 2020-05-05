@@ -1,0 +1,16 @@
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            78,
+        ),
+        hi: BytePos(
+            83,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/statements/for-ofStatements/ES5For-ofTypeCheck14.ts:4:17
+  |
+4 | for (const e of union) { }
+  |                 ^^^^^
+

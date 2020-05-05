@@ -1,0 +1,1237 @@
+error: AssignFailed {
+    span: Span {
+        lo: BytePos(
+            65,
+        ),
+        hi: BytePos(
+            66,
+        ),
+        ctxt: #0,
+    },
+    left: Interface(
+        Interface {
+            span: Span {
+                lo: BytePos(
+                    0,
+                ),
+                hi: BytePos(
+                    31,
+                ),
+                ctxt: #0,
+            },
+            name: Atom('I' type=inline),
+            type_params: None,
+            extends: [],
+            body: [
+                Constructor(
+                    ConstructorSignature {
+                        span: Span {
+                            lo: BytePos(
+                                18,
+                            ),
+                            hi: BytePos(
+                                29,
+                            ),
+                            ctxt: #0,
+                        },
+                        params: [],
+                        ret_ty: Some(
+                            Keyword(
+                                TsKeywordType {
+                                    span: Span {
+                                        lo: BytePos(
+                                            25,
+                                        ),
+                                        hi: BytePos(
+                                            28,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    kind: TsAnyKeyword,
+                                },
+                            ),
+                        ),
+                        type_params: None,
+                    },
+                ),
+            ],
+        },
+    ),
+    right: Static(
+        Static {
+            span: Span {
+                lo: BytePos(
+                    69,
+                ),
+                hi: BytePos(
+                    70,
+                ),
+                ctxt: #0,
+            },
+            ty: Interface(
+                Interface {
+                    span: Span {
+                        lo: BytePos(
+                            0,
+                        ),
+                        hi: BytePos(
+                            0,
+                        ),
+                        ctxt: #0,
+                    },
+                    name: Atom('Object' type=static),
+                    type_params: None,
+                    extends: [],
+                    body: [
+                        Property(
+                            PropertySignature {
+                                span: Span {
+                                    lo: BytePos(
+                                        0,
+                                    ),
+                                    hi: BytePos(
+                                        0,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                readonly: false,
+                                key: Ident(
+                                    Ident {
+                                        span: Span {
+                                            lo: BytePos(
+                                                0,
+                                            ),
+                                            hi: BytePos(
+                                                0,
+                                            ),
+                                            ctxt: #0,
+                                        },
+                                        sym: Atom('constructor' type=static),
+                                        type_ann: None,
+                                        optional: false,
+                                    },
+                                ),
+                                computed: false,
+                                optional: false,
+                                params: [],
+                                type_ann: Some(
+                                    Ref(
+                                        Ref {
+                                            span: Span {
+                                                lo: BytePos(
+                                                    0,
+                                                ),
+                                                hi: BytePos(
+                                                    0,
+                                                ),
+                                                ctxt: #0,
+                                            },
+                                            type_name: Ident(
+                                                Ident {
+                                                    span: Span {
+                                                        lo: BytePos(
+                                                            0,
+                                                        ),
+                                                        hi: BytePos(
+                                                            0,
+                                                        ),
+                                                        ctxt: #0,
+                                                    },
+                                                    sym: Atom('Function' type=static),
+                                                    type_ann: None,
+                                                    optional: false,
+                                                },
+                                            ),
+                                            type_args: None,
+                                        },
+                                    ),
+                                ),
+                                type_params: None,
+                            },
+                        ),
+                        Method(
+                            MethodSignature {
+                                span: Span {
+                                    lo: BytePos(
+                                        0,
+                                    ),
+                                    hi: BytePos(
+                                        0,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                readonly: false,
+                                key: Ident(
+                                    Ident {
+                                        span: Span {
+                                            lo: BytePos(
+                                                0,
+                                            ),
+                                            hi: BytePos(
+                                                0,
+                                            ),
+                                            ctxt: #0,
+                                        },
+                                        sym: Atom('toString' type=static),
+                                        type_ann: None,
+                                        optional: false,
+                                    },
+                                ),
+                                computed: false,
+                                optional: false,
+                                params: [],
+                                ret_ty: Some(
+                                    Keyword(
+                                        TsKeywordType {
+                                            span: Span {
+                                                lo: BytePos(
+                                                    0,
+                                                ),
+                                                hi: BytePos(
+                                                    0,
+                                                ),
+                                                ctxt: #0,
+                                            },
+                                            kind: TsStringKeyword,
+                                        },
+                                    ),
+                                ),
+                                type_params: None,
+                            },
+                        ),
+                        Method(
+                            MethodSignature {
+                                span: Span {
+                                    lo: BytePos(
+                                        0,
+                                    ),
+                                    hi: BytePos(
+                                        0,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                readonly: false,
+                                key: Ident(
+                                    Ident {
+                                        span: Span {
+                                            lo: BytePos(
+                                                0,
+                                            ),
+                                            hi: BytePos(
+                                                0,
+                                            ),
+                                            ctxt: #0,
+                                        },
+                                        sym: Atom('toLocaleString' type=dynamic),
+                                        type_ann: None,
+                                        optional: false,
+                                    },
+                                ),
+                                computed: false,
+                                optional: false,
+                                params: [],
+                                ret_ty: Some(
+                                    Keyword(
+                                        TsKeywordType {
+                                            span: Span {
+                                                lo: BytePos(
+                                                    0,
+                                                ),
+                                                hi: BytePos(
+                                                    0,
+                                                ),
+                                                ctxt: #0,
+                                            },
+                                            kind: TsStringKeyword,
+                                        },
+                                    ),
+                                ),
+                                type_params: None,
+                            },
+                        ),
+                        Method(
+                            MethodSignature {
+                                span: Span {
+                                    lo: BytePos(
+                                        0,
+                                    ),
+                                    hi: BytePos(
+                                        0,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                readonly: false,
+                                key: Ident(
+                                    Ident {
+                                        span: Span {
+                                            lo: BytePos(
+                                                0,
+                                            ),
+                                            hi: BytePos(
+                                                0,
+                                            ),
+                                            ctxt: #0,
+                                        },
+                                        sym: Atom('valueOf' type=inline),
+                                        type_ann: None,
+                                        optional: false,
+                                    },
+                                ),
+                                computed: false,
+                                optional: false,
+                                params: [],
+                                ret_ty: Some(
+                                    Ref(
+                                        Ref {
+                                            span: Span {
+                                                lo: BytePos(
+                                                    0,
+                                                ),
+                                                hi: BytePos(
+                                                    0,
+                                                ),
+                                                ctxt: #0,
+                                            },
+                                            type_name: Ident(
+                                                Ident {
+                                                    span: Span {
+                                                        lo: BytePos(
+                                                            0,
+                                                        ),
+                                                        hi: BytePos(
+                                                            0,
+                                                        ),
+                                                        ctxt: #0,
+                                                    },
+                                                    sym: Atom('Object' type=static),
+                                                    type_ann: None,
+                                                    optional: false,
+                                                },
+                                            ),
+                                            type_args: None,
+                                        },
+                                    ),
+                                ),
+                                type_params: None,
+                            },
+                        ),
+                        Method(
+                            MethodSignature {
+                                span: Span {
+                                    lo: BytePos(
+                                        0,
+                                    ),
+                                    hi: BytePos(
+                                        0,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                readonly: false,
+                                key: Ident(
+                                    Ident {
+                                        span: Span {
+                                            lo: BytePos(
+                                                0,
+                                            ),
+                                            hi: BytePos(
+                                                0,
+                                            ),
+                                            ctxt: #0,
+                                        },
+                                        sym: Atom('hasOwnProperty' type=dynamic),
+                                        type_ann: None,
+                                        optional: false,
+                                    },
+                                ),
+                                computed: false,
+                                optional: false,
+                                params: [
+                                    FnParam {
+                                        span: Span {
+                                            lo: BytePos(
+                                                0,
+                                            ),
+                                            hi: BytePos(
+                                                0,
+                                            ),
+                                            ctxt: #0,
+                                        },
+                                        required: true,
+                                        ty: Ref(
+                                            Ref {
+                                                span: Span {
+                                                    lo: BytePos(
+                                                        0,
+                                                    ),
+                                                    hi: BytePos(
+                                                        0,
+                                                    ),
+                                                    ctxt: #0,
+                                                },
+                                                type_name: Ident(
+                                                    Ident {
+                                                        span: Span {
+                                                            lo: BytePos(
+                                                                0,
+                                                            ),
+                                                            hi: BytePos(
+                                                                0,
+                                                            ),
+                                                            ctxt: #0,
+                                                        },
+                                                        sym: Atom('PropertyKey' type=dynamic),
+                                                        type_ann: None,
+                                                        optional: false,
+                                                    },
+                                                ),
+                                                type_args: None,
+                                            },
+                                        ),
+                                    },
+                                ],
+                                ret_ty: Some(
+                                    Keyword(
+                                        TsKeywordType {
+                                            span: Span {
+                                                lo: BytePos(
+                                                    0,
+                                                ),
+                                                hi: BytePos(
+                                                    0,
+                                                ),
+                                                ctxt: #0,
+                                            },
+                                            kind: TsBooleanKeyword,
+                                        },
+                                    ),
+                                ),
+                                type_params: None,
+                            },
+                        ),
+                        Method(
+                            MethodSignature {
+                                span: Span {
+                                    lo: BytePos(
+                                        0,
+                                    ),
+                                    hi: BytePos(
+                                        0,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                readonly: false,
+                                key: Ident(
+                                    Ident {
+                                        span: Span {
+                                            lo: BytePos(
+                                                0,
+                                            ),
+                                            hi: BytePos(
+                                                0,
+                                            ),
+                                            ctxt: #0,
+                                        },
+                                        sym: Atom('isPrototypeOf' type=dynamic),
+                                        type_ann: None,
+                                        optional: false,
+                                    },
+                                ),
+                                computed: false,
+                                optional: false,
+                                params: [
+                                    FnParam {
+                                        span: Span {
+                                            lo: BytePos(
+                                                0,
+                                            ),
+                                            hi: BytePos(
+                                                0,
+                                            ),
+                                            ctxt: #0,
+                                        },
+                                        required: true,
+                                        ty: Ref(
+                                            Ref {
+                                                span: Span {
+                                                    lo: BytePos(
+                                                        0,
+                                                    ),
+                                                    hi: BytePos(
+                                                        0,
+                                                    ),
+                                                    ctxt: #0,
+                                                },
+                                                type_name: Ident(
+                                                    Ident {
+                                                        span: Span {
+                                                            lo: BytePos(
+                                                                0,
+                                                            ),
+                                                            hi: BytePos(
+                                                                0,
+                                                            ),
+                                                            ctxt: #0,
+                                                        },
+                                                        sym: Atom('Object' type=static),
+                                                        type_ann: None,
+                                                        optional: false,
+                                                    },
+                                                ),
+                                                type_args: None,
+                                            },
+                                        ),
+                                    },
+                                ],
+                                ret_ty: Some(
+                                    Keyword(
+                                        TsKeywordType {
+                                            span: Span {
+                                                lo: BytePos(
+                                                    0,
+                                                ),
+                                                hi: BytePos(
+                                                    0,
+                                                ),
+                                                ctxt: #0,
+                                            },
+                                            kind: TsBooleanKeyword,
+                                        },
+                                    ),
+                                ),
+                                type_params: None,
+                            },
+                        ),
+                        Method(
+                            MethodSignature {
+                                span: Span {
+                                    lo: BytePos(
+                                        0,
+                                    ),
+                                    hi: BytePos(
+                                        0,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                readonly: false,
+                                key: Ident(
+                                    Ident {
+                                        span: Span {
+                                            lo: BytePos(
+                                                0,
+                                            ),
+                                            hi: BytePos(
+                                                0,
+                                            ),
+                                            ctxt: #0,
+                                        },
+                                        sym: Atom('propertyIsEnumerable' type=dynamic),
+                                        type_ann: None,
+                                        optional: false,
+                                    },
+                                ),
+                                computed: false,
+                                optional: false,
+                                params: [
+                                    FnParam {
+                                        span: Span {
+                                            lo: BytePos(
+                                                0,
+                                            ),
+                                            hi: BytePos(
+                                                0,
+                                            ),
+                                            ctxt: #0,
+                                        },
+                                        required: true,
+                                        ty: Ref(
+                                            Ref {
+                                                span: Span {
+                                                    lo: BytePos(
+                                                        0,
+                                                    ),
+                                                    hi: BytePos(
+                                                        0,
+                                                    ),
+                                                    ctxt: #0,
+                                                },
+                                                type_name: Ident(
+                                                    Ident {
+                                                        span: Span {
+                                                            lo: BytePos(
+                                                                0,
+                                                            ),
+                                                            hi: BytePos(
+                                                                0,
+                                                            ),
+                                                            ctxt: #0,
+                                                        },
+                                                        sym: Atom('PropertyKey' type=dynamic),
+                                                        type_ann: None,
+                                                        optional: false,
+                                                    },
+                                                ),
+                                                type_args: None,
+                                            },
+                                        ),
+                                    },
+                                ],
+                                ret_ty: Some(
+                                    Keyword(
+                                        TsKeywordType {
+                                            span: Span {
+                                                lo: BytePos(
+                                                    0,
+                                                ),
+                                                hi: BytePos(
+                                                    0,
+                                                ),
+                                                ctxt: #0,
+                                            },
+                                            kind: TsBooleanKeyword,
+                                        },
+                                    ),
+                                ),
+                                type_params: None,
+                            },
+                        ),
+                    ],
+                },
+            ),
+        },
+    ),
+    cause: [
+        UnknownPropertyInObjectLiteralAssignment {
+            span: Span {
+                lo: BytePos(
+                    65,
+                ),
+                hi: BytePos(
+                    66,
+                ),
+                ctxt: #0,
+            },
+        },
+    ],
+}
+ --> $DIR/tests/conformance/types/members/objectTypeWithConstructSignatureHidingMembersOfFunctionAssignmentCompat.ts:8:1
+  |
+8 | i = f;
+  | ^
+
+error: AssignFailed {
+    span: Span {
+        lo: BytePos(
+            106,
+        ),
+        hi: BytePos(
+            107,
+        ),
+        ctxt: #0,
+    },
+    left: TypeLit(
+        TypeLit {
+            span: Span {
+                lo: BytePos(
+                    80,
+                ),
+                hi: BytePos(
+                    98,
+                ),
+                ctxt: #0,
+            },
+            members: [
+                Constructor(
+                    ConstructorSignature {
+                        span: Span {
+                            lo: BytePos(
+                                86,
+                            ),
+                            hi: BytePos(
+                                96,
+                            ),
+                            ctxt: #0,
+                        },
+                        params: [],
+                        ret_ty: Some(
+                            Keyword(
+                                TsKeywordType {
+                                    span: Span {
+                                        lo: BytePos(
+                                            93,
+                                        ),
+                                        hi: BytePos(
+                                            96,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    kind: TsAnyKeyword,
+                                },
+                            ),
+                        ),
+                        type_params: None,
+                    },
+                ),
+            ],
+        },
+    ),
+    right: Static(
+        Static {
+            span: Span {
+                lo: BytePos(
+                    110,
+                ),
+                hi: BytePos(
+                    111,
+                ),
+                ctxt: #0,
+            },
+            ty: Interface(
+                Interface {
+                    span: Span {
+                        lo: BytePos(
+                            0,
+                        ),
+                        hi: BytePos(
+                            0,
+                        ),
+                        ctxt: #0,
+                    },
+                    name: Atom('Object' type=static),
+                    type_params: None,
+                    extends: [],
+                    body: [
+                        Property(
+                            PropertySignature {
+                                span: Span {
+                                    lo: BytePos(
+                                        0,
+                                    ),
+                                    hi: BytePos(
+                                        0,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                readonly: false,
+                                key: Ident(
+                                    Ident {
+                                        span: Span {
+                                            lo: BytePos(
+                                                0,
+                                            ),
+                                            hi: BytePos(
+                                                0,
+                                            ),
+                                            ctxt: #0,
+                                        },
+                                        sym: Atom('constructor' type=static),
+                                        type_ann: None,
+                                        optional: false,
+                                    },
+                                ),
+                                computed: false,
+                                optional: false,
+                                params: [],
+                                type_ann: Some(
+                                    Ref(
+                                        Ref {
+                                            span: Span {
+                                                lo: BytePos(
+                                                    0,
+                                                ),
+                                                hi: BytePos(
+                                                    0,
+                                                ),
+                                                ctxt: #0,
+                                            },
+                                            type_name: Ident(
+                                                Ident {
+                                                    span: Span {
+                                                        lo: BytePos(
+                                                            0,
+                                                        ),
+                                                        hi: BytePos(
+                                                            0,
+                                                        ),
+                                                        ctxt: #0,
+                                                    },
+                                                    sym: Atom('Function' type=static),
+                                                    type_ann: None,
+                                                    optional: false,
+                                                },
+                                            ),
+                                            type_args: None,
+                                        },
+                                    ),
+                                ),
+                                type_params: None,
+                            },
+                        ),
+                        Method(
+                            MethodSignature {
+                                span: Span {
+                                    lo: BytePos(
+                                        0,
+                                    ),
+                                    hi: BytePos(
+                                        0,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                readonly: false,
+                                key: Ident(
+                                    Ident {
+                                        span: Span {
+                                            lo: BytePos(
+                                                0,
+                                            ),
+                                            hi: BytePos(
+                                                0,
+                                            ),
+                                            ctxt: #0,
+                                        },
+                                        sym: Atom('toString' type=static),
+                                        type_ann: None,
+                                        optional: false,
+                                    },
+                                ),
+                                computed: false,
+                                optional: false,
+                                params: [],
+                                ret_ty: Some(
+                                    Keyword(
+                                        TsKeywordType {
+                                            span: Span {
+                                                lo: BytePos(
+                                                    0,
+                                                ),
+                                                hi: BytePos(
+                                                    0,
+                                                ),
+                                                ctxt: #0,
+                                            },
+                                            kind: TsStringKeyword,
+                                        },
+                                    ),
+                                ),
+                                type_params: None,
+                            },
+                        ),
+                        Method(
+                            MethodSignature {
+                                span: Span {
+                                    lo: BytePos(
+                                        0,
+                                    ),
+                                    hi: BytePos(
+                                        0,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                readonly: false,
+                                key: Ident(
+                                    Ident {
+                                        span: Span {
+                                            lo: BytePos(
+                                                0,
+                                            ),
+                                            hi: BytePos(
+                                                0,
+                                            ),
+                                            ctxt: #0,
+                                        },
+                                        sym: Atom('toLocaleString' type=dynamic),
+                                        type_ann: None,
+                                        optional: false,
+                                    },
+                                ),
+                                computed: false,
+                                optional: false,
+                                params: [],
+                                ret_ty: Some(
+                                    Keyword(
+                                        TsKeywordType {
+                                            span: Span {
+                                                lo: BytePos(
+                                                    0,
+                                                ),
+                                                hi: BytePos(
+                                                    0,
+                                                ),
+                                                ctxt: #0,
+                                            },
+                                            kind: TsStringKeyword,
+                                        },
+                                    ),
+                                ),
+                                type_params: None,
+                            },
+                        ),
+                        Method(
+                            MethodSignature {
+                                span: Span {
+                                    lo: BytePos(
+                                        0,
+                                    ),
+                                    hi: BytePos(
+                                        0,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                readonly: false,
+                                key: Ident(
+                                    Ident {
+                                        span: Span {
+                                            lo: BytePos(
+                                                0,
+                                            ),
+                                            hi: BytePos(
+                                                0,
+                                            ),
+                                            ctxt: #0,
+                                        },
+                                        sym: Atom('valueOf' type=inline),
+                                        type_ann: None,
+                                        optional: false,
+                                    },
+                                ),
+                                computed: false,
+                                optional: false,
+                                params: [],
+                                ret_ty: Some(
+                                    Ref(
+                                        Ref {
+                                            span: Span {
+                                                lo: BytePos(
+                                                    0,
+                                                ),
+                                                hi: BytePos(
+                                                    0,
+                                                ),
+                                                ctxt: #0,
+                                            },
+                                            type_name: Ident(
+                                                Ident {
+                                                    span: Span {
+                                                        lo: BytePos(
+                                                            0,
+                                                        ),
+                                                        hi: BytePos(
+                                                            0,
+                                                        ),
+                                                        ctxt: #0,
+                                                    },
+                                                    sym: Atom('Object' type=static),
+                                                    type_ann: None,
+                                                    optional: false,
+                                                },
+                                            ),
+                                            type_args: None,
+                                        },
+                                    ),
+                                ),
+                                type_params: None,
+                            },
+                        ),
+                        Method(
+                            MethodSignature {
+                                span: Span {
+                                    lo: BytePos(
+                                        0,
+                                    ),
+                                    hi: BytePos(
+                                        0,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                readonly: false,
+                                key: Ident(
+                                    Ident {
+                                        span: Span {
+                                            lo: BytePos(
+                                                0,
+                                            ),
+                                            hi: BytePos(
+                                                0,
+                                            ),
+                                            ctxt: #0,
+                                        },
+                                        sym: Atom('hasOwnProperty' type=dynamic),
+                                        type_ann: None,
+                                        optional: false,
+                                    },
+                                ),
+                                computed: false,
+                                optional: false,
+                                params: [
+                                    FnParam {
+                                        span: Span {
+                                            lo: BytePos(
+                                                0,
+                                            ),
+                                            hi: BytePos(
+                                                0,
+                                            ),
+                                            ctxt: #0,
+                                        },
+                                        required: true,
+                                        ty: Ref(
+                                            Ref {
+                                                span: Span {
+                                                    lo: BytePos(
+                                                        0,
+                                                    ),
+                                                    hi: BytePos(
+                                                        0,
+                                                    ),
+                                                    ctxt: #0,
+                                                },
+                                                type_name: Ident(
+                                                    Ident {
+                                                        span: Span {
+                                                            lo: BytePos(
+                                                                0,
+                                                            ),
+                                                            hi: BytePos(
+                                                                0,
+                                                            ),
+                                                            ctxt: #0,
+                                                        },
+                                                        sym: Atom('PropertyKey' type=dynamic),
+                                                        type_ann: None,
+                                                        optional: false,
+                                                    },
+                                                ),
+                                                type_args: None,
+                                            },
+                                        ),
+                                    },
+                                ],
+                                ret_ty: Some(
+                                    Keyword(
+                                        TsKeywordType {
+                                            span: Span {
+                                                lo: BytePos(
+                                                    0,
+                                                ),
+                                                hi: BytePos(
+                                                    0,
+                                                ),
+                                                ctxt: #0,
+                                            },
+                                            kind: TsBooleanKeyword,
+                                        },
+                                    ),
+                                ),
+                                type_params: None,
+                            },
+                        ),
+                        Method(
+                            MethodSignature {
+                                span: Span {
+                                    lo: BytePos(
+                                        0,
+                                    ),
+                                    hi: BytePos(
+                                        0,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                readonly: false,
+                                key: Ident(
+                                    Ident {
+                                        span: Span {
+                                            lo: BytePos(
+                                                0,
+                                            ),
+                                            hi: BytePos(
+                                                0,
+                                            ),
+                                            ctxt: #0,
+                                        },
+                                        sym: Atom('isPrototypeOf' type=dynamic),
+                                        type_ann: None,
+                                        optional: false,
+                                    },
+                                ),
+                                computed: false,
+                                optional: false,
+                                params: [
+                                    FnParam {
+                                        span: Span {
+                                            lo: BytePos(
+                                                0,
+                                            ),
+                                            hi: BytePos(
+                                                0,
+                                            ),
+                                            ctxt: #0,
+                                        },
+                                        required: true,
+                                        ty: Ref(
+                                            Ref {
+                                                span: Span {
+                                                    lo: BytePos(
+                                                        0,
+                                                    ),
+                                                    hi: BytePos(
+                                                        0,
+                                                    ),
+                                                    ctxt: #0,
+                                                },
+                                                type_name: Ident(
+                                                    Ident {
+                                                        span: Span {
+                                                            lo: BytePos(
+                                                                0,
+                                                            ),
+                                                            hi: BytePos(
+                                                                0,
+                                                            ),
+                                                            ctxt: #0,
+                                                        },
+                                                        sym: Atom('Object' type=static),
+                                                        type_ann: None,
+                                                        optional: false,
+                                                    },
+                                                ),
+                                                type_args: None,
+                                            },
+                                        ),
+                                    },
+                                ],
+                                ret_ty: Some(
+                                    Keyword(
+                                        TsKeywordType {
+                                            span: Span {
+                                                lo: BytePos(
+                                                    0,
+                                                ),
+                                                hi: BytePos(
+                                                    0,
+                                                ),
+                                                ctxt: #0,
+                                            },
+                                            kind: TsBooleanKeyword,
+                                        },
+                                    ),
+                                ),
+                                type_params: None,
+                            },
+                        ),
+                        Method(
+                            MethodSignature {
+                                span: Span {
+                                    lo: BytePos(
+                                        0,
+                                    ),
+                                    hi: BytePos(
+                                        0,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                readonly: false,
+                                key: Ident(
+                                    Ident {
+                                        span: Span {
+                                            lo: BytePos(
+                                                0,
+                                            ),
+                                            hi: BytePos(
+                                                0,
+                                            ),
+                                            ctxt: #0,
+                                        },
+                                        sym: Atom('propertyIsEnumerable' type=dynamic),
+                                        type_ann: None,
+                                        optional: false,
+                                    },
+                                ),
+                                computed: false,
+                                optional: false,
+                                params: [
+                                    FnParam {
+                                        span: Span {
+                                            lo: BytePos(
+                                                0,
+                                            ),
+                                            hi: BytePos(
+                                                0,
+                                            ),
+                                            ctxt: #0,
+                                        },
+                                        required: true,
+                                        ty: Ref(
+                                            Ref {
+                                                span: Span {
+                                                    lo: BytePos(
+                                                        0,
+                                                    ),
+                                                    hi: BytePos(
+                                                        0,
+                                                    ),
+                                                    ctxt: #0,
+                                                },
+                                                type_name: Ident(
+                                                    Ident {
+                                                        span: Span {
+                                                            lo: BytePos(
+                                                                0,
+                                                            ),
+                                                            hi: BytePos(
+                                                                0,
+                                                            ),
+                                                            ctxt: #0,
+                                                        },
+                                                        sym: Atom('PropertyKey' type=dynamic),
+                                                        type_ann: None,
+                                                        optional: false,
+                                                    },
+                                                ),
+                                                type_args: None,
+                                            },
+                                        ),
+                                    },
+                                ],
+                                ret_ty: Some(
+                                    Keyword(
+                                        TsKeywordType {
+                                            span: Span {
+                                                lo: BytePos(
+                                                    0,
+                                                ),
+                                                hi: BytePos(
+                                                    0,
+                                                ),
+                                                ctxt: #0,
+                                            },
+                                            kind: TsBooleanKeyword,
+                                        },
+                                    ),
+                                ),
+                                type_params: None,
+                            },
+                        ),
+                    ],
+                },
+            ),
+        },
+    ),
+    cause: [
+        UnknownPropertyInObjectLiteralAssignment {
+            span: Span {
+                lo: BytePos(
+                    106,
+                ),
+                hi: BytePos(
+                    107,
+                ),
+                ctxt: #0,
+            },
+        },
+    ],
+}
+  --> $DIR/tests/conformance/types/members/objectTypeWithConstructSignatureHidingMembersOfFunctionAssignmentCompat.ts:14:1
+   |
+14 | a = f;
+   | ^
+

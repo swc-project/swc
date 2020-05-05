@@ -1,0 +1,7 @@
+[
+    {
+        "line": 3,
+        "column": 20,
+        "msg": "Parameter 'await' cannot be referenced in its initializer."
+    }
+]

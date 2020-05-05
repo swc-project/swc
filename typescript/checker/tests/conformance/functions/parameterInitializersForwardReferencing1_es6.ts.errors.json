@@ -1,0 +1,22 @@
+[
+    {
+        "line": 15,
+        "column": 20,
+        "msg": "Initializer of parameter 'bar' cannot reference identifier 'foo' declared after it."
+    },
+    {
+        "line": 23,
+        "column": 18,
+        "msg": "Parameter 'a' cannot be referenced in its initializer."
+    },
+    {
+        "line": 27,
+        "column": 22,
+        "msg": "Parameter 'async' cannot be referenced in its initializer."
+    },
+    {
+        "line": 31,
+        "column": 15,
+        "msg": "Type 'any[]' has no matching index signature for type 'string'."
+    }
+]

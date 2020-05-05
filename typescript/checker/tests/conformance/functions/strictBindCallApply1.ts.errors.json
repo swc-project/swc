@@ -1,0 +1,177 @@
+[
+    {
+        "line": 13,
+        "column": 11,
+        "msg": "No overload matches this call."
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "undefined, arg0"
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "undefined, ...args"
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "string) => string' is not assignable to method's 'this' of type '(this"
+    },
+    {
+        "line": 19,
+        "column": 15,
+        "msg": "Expected 3 arguments, but got 2."
+    },
+    {
+        "line": 20,
+        "column": 35,
+        "msg": "Argument of type '20' is not assignable to parameter of type 'string'."
+    },
+    {
+        "line": 21,
+        "column": 44,
+        "msg": "Expected 3 arguments, but got 4."
+    },
+    {
+        "line": 24,
+        "column": 32,
+        "msg": "Argument of type '[number]' is not assignable to parameter of type '[number, string]'."
+    },
+    {
+        "line": 25,
+        "column": 37,
+        "msg": "Type 'number' is not assignable to type 'string'."
+    },
+    {
+        "line": 26,
+        "column": 32,
+        "msg": "Argument of type '[number, string, number]' is not assignable to parameter of type '[number, string]'."
+    },
+    {
+        "line": 43,
+        "column": 11,
+        "msg": "No overload matches this call."
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "C, arg0"
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "C, ...args"
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "number, b"
+    },
+    {
+        "line": 44,
+        "column": 11,
+        "msg": "No overload matches this call."
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "C, a"
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "C, ...args"
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "number, b"
+    },
+    {
+        "line": 50,
+        "column": 17,
+        "msg": "Expected 3 arguments, but got 2."
+    },
+    {
+        "line": 51,
+        "column": 29,
+        "msg": "Argument of type '20' is not assignable to parameter of type 'string'."
+    },
+    {
+        "line": 52,
+        "column": 38,
+        "msg": "Expected 3 arguments, but got 4."
+    },
+    {
+        "line": 53,
+        "column": 22,
+        "msg": "Argument of type 'undefined' is not assignable to parameter of type 'C'."
+    },
+    {
+        "line": 56,
+        "column": 26,
+        "msg": "Argument of type '[number]' is not assignable to parameter of type '[number, string]'."
+    },
+    {
+        "line": 57,
+        "column": 31,
+        "msg": "Type 'number' is not assignable to type 'string'."
+    },
+    {
+        "line": 58,
+        "column": 26,
+        "msg": "Argument of type '[number, string, number]' is not assignable to parameter of type '[number, string]'."
+    },
+    {
+        "line": 59,
+        "column": 23,
+        "msg": "Argument of type 'undefined' is not assignable to parameter of type 'C'."
+    },
+    {
+        "line": 64,
+        "column": 11,
+        "msg": "No overload matches this call."
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "10, arg1"
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "(10 | 20)[]) => C, thisArg"
+    },
+    {
+        "line": 67,
+        "column": 3,
+        "msg": "Expected 3 arguments, but got 2."
+    },
+    {
+        "line": 68,
+        "column": 15,
+        "msg": "Argument of type '20' is not assignable to parameter of type 'string'."
+    },
+    {
+        "line": 69,
+        "column": 24,
+        "msg": "Expected 3 arguments, but got 4."
+    },
+    {
+        "line": 72,
+        "column": 12,
+        "msg": "Argument of type '[number]' is not assignable to parameter of type '[number, string]'."
+    },
+    {
+        "line": 73,
+        "column": 17,
+        "msg": "Type 'number' is not assignable to type 'string'."
+    },
+    {
+        "line": 74,
+        "column": 12,
+        "msg": "Argument of type '[number, string, number]' is not assignable to parameter of type '[number, string]'."
+    }
+]

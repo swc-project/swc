@@ -1,0 +1,6 @@
+error: Unexpected token Some(Colon)
+  --> $DIR/tests/conformance/parser/ecmascript5/parserS12.11_A3_T4.ts:16:9
+   |
+16 |     case:
+   |         ^
+

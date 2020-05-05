@@ -1,0 +1,37 @@
+[
+    {
+        "line": 6,
+        "column": 9,
+        "msg": "Initializers are not allowed in ambient contexts."
+    },
+    {
+        "line": 7,
+        "column": 16,
+        "msg": "Initializers are not allowed in ambient contexts."
+    },
+    {
+        "line": 8,
+        "column": 16,
+        "msg": "An implementation cannot be declared in ambient contexts."
+    },
+    {
+        "line": 13,
+        "column": 17,
+        "msg": "Initializers are not allowed in ambient contexts."
+    },
+    {
+        "line": 14,
+        "column": 17,
+        "msg": "Initializers are not allowed in ambient contexts."
+    },
+    {
+        "line": 17,
+        "column": 2,
+        "msg": "Statements are not allowed in ambient contexts."
+    },
+    {
+        "line": 19,
+        "column": 18,
+        "msg": "Initializers are not allowed in ambient contexts."
+    }
+]

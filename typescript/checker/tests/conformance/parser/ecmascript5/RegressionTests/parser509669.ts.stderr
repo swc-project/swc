@@ -1,0 +1,6 @@
+error: Expected Arrow, got Some(LBrace)
+ --> $DIR/tests/conformance/parser/ecmascript5/RegressionTests/parser509669.ts:2:17
+  |
+2 |  return ():void {};
+  |                 ^
+

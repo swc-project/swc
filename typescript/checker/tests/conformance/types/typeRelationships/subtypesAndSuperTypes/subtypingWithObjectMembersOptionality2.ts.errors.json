@@ -1,0 +1,17 @@
+[
+    {
+        "line": 10,
+        "column": 11,
+        "msg": "Interface 'S' incorrectly extends interface 'T'."
+    },
+    {
+        "line": 18,
+        "column": 11,
+        "msg": "Interface 'S2' incorrectly extends interface 'T2'."
+    },
+    {
+        "line": 26,
+        "column": 11,
+        "msg": "Interface 'S3' incorrectly extends interface 'T3'."
+    }
+]

@@ -1,0 +1,23 @@
+error: UndefinedSymbol {
+    sym: Atom('NotEarlyError' type=dynamic),
+    span: Span {
+        lo: BytePos(
+            620,
+        ),
+        hi: BytePos(
+            633,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/scanner/ecmascript5/scanner10.1.1-8gs.ts:16:7
+   |
+16 | throw NotEarlyError;
+   |       ^^^^^^^^^^^^^
+
+error: 'implements', 'interface', 'let', 'package', 'private', 'protected',  'public', 'static', or 'yield' cannot be used as an identifier in strict mode
+  --> $DIR/tests/conformance/scanner/ecmascript5/scanner10.1.1-8gs.ts:17:5
+   |
+17 | var public = 1;
+   |     ^^^^^^
+

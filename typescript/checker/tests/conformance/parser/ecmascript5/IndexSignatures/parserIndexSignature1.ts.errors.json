@@ -1,0 +1,7 @@
+[
+    {
+        "line": 2,
+        "column": 4,
+        "msg": "An index signature cannot have a rest parameter."
+    }
+]

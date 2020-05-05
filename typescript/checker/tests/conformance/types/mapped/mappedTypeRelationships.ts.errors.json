@@ -1,0 +1,142 @@
+[
+    {
+        "line": 14,
+        "column": 5,
+        "msg": "Type 'T[keyof T]' is not assignable to type 'U[keyof T]'."
+    },
+    {
+        "line": 19,
+        "column": 5,
+        "msg": "Type 'T[K]' is not assignable to type 'U[K]'."
+    },
+    {
+        "line": 23,
+        "column": 5,
+        "msg": "Type 'keyof U' cannot be used to index type 'T'."
+    },
+    {
+        "line": 24,
+        "column": 12,
+        "msg": "Type 'keyof U' cannot be used to index type 'T'."
+    },
+    {
+        "line": 28,
+        "column": 5,
+        "msg": "Type 'K' cannot be used to index type 'T'."
+    },
+    {
+        "line": 29,
+        "column": 12,
+        "msg": "Type 'K' cannot be used to index type 'T'."
+    },
+    {
+        "line": 33,
+        "column": 5,
+        "msg": "Type 'T[keyof T] | undefined' is not assignable to type 'T[keyof T]'."
+    },
+    {
+        "line": 38,
+        "column": 5,
+        "msg": "Type 'T[K] | undefined' is not assignable to type 'T[K]'."
+    },
+    {
+        "line": 43,
+        "column": 5,
+        "msg": "Type 'U[keyof T] | undefined' is not assignable to type 'T[keyof T]'."
+    },
+    {
+        "line": 44,
+        "column": 5,
+        "msg": "Type 'T[keyof T]' is not assignable to type 'U[keyof T] | undefined'."
+    },
+    {
+        "line": 48,
+        "column": 5,
+        "msg": "Type 'U[K] | undefined' is not assignable to type 'T[K]'."
+    },
+    {
+        "line": 49,
+        "column": 5,
+        "msg": "Type 'T[K]' is not assignable to type 'U[K] | undefined'."
+    },
+    {
+        "line": 54,
+        "column": 5,
+        "msg": "Index signature in type 'Readonly<T>' only permits reading."
+    },
+    {
+        "line": 59,
+        "column": 5,
+        "msg": "Index signature in type 'Readonly<T>' only permits reading."
+    },
+    {
+        "line": 64,
+        "column": 5,
+        "msg": "Type 'T[keyof T]' is not assignable to type 'U[keyof T]'."
+    },
+    {
+        "line": 64,
+        "column": 5,
+        "msg": "Index signature in type 'Readonly<U>' only permits reading."
+    },
+    {
+        "line": 69,
+        "column": 5,
+        "msg": "Type 'T[K]' is not assignable to type 'U[K]'."
+    },
+    {
+        "line": 69,
+        "column": 5,
+        "msg": "Index signature in type 'Readonly<U>' only permits reading."
+    },
+    {
+        "line": 75,
+        "column": 5,
+        "msg": "Type 'Partial<T>' is not assignable to type 'T'."
+    },
+    {
+        "line": 81,
+        "column": 5,
+        "msg": "Type 'Partial<Thing>' is not assignable to type 'Partial<T>'."
+    },
+    {
+        "line": 91,
+        "column": 5,
+        "msg": "Type 'Readonly<Thing>' is not assignable to type 'Readonly<T>'."
+    },
+    {
+        "line": 130,
+        "column": 5,
+        "msg": "Type 'Partial<U>' is not assignable to type 'Identity<U>'."
+    },
+    {
+        "line": 146,
+        "column": 5,
+        "msg": "Type '{ [P in keyof T]"
+    },
+    {
+        "line": 151,
+        "column": 5,
+        "msg": "Type '{ [P in keyof T]"
+    },
+    {
+        "line": 156,
+        "column": 5,
+        "msg": "Type '{ [P in K]"
+    },
+    {
+        "line": 161,
+        "column": 5,
+        "msg": "Type '{ [P in K]"
+    },
+    {
+        "line": 166,
+        "column": 5,
+        "msg": "Type '{ [P in K]"
+    },
+    {
+        "line": 171,
+        "column": 5,
+        "msg": "Type '{ [P in K]"
+    }
+]

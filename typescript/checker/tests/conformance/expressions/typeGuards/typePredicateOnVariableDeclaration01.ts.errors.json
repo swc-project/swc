@@ -1,0 +1,7 @@
+[
+    {
+        "line": 3,
+        "column": 8,
+        "msg": "A type predicate is only allowed in return type position for functions and methods."
+    }
+]

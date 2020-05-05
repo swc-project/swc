@@ -1,0 +1,24 @@
+error: TS2703
+ --> $DIR/tests/conformance/parser/ecmascript5/StrictMode/parserStrictMode16.ts:2:8
+  |
+2 | delete this;
+  |        ^^^^
+
+error: TS2703
+ --> $DIR/tests/conformance/parser/ecmascript5/StrictMode/parserStrictMode16.ts:3:8
+  |
+3 | delete 1;
+  |        ^
+
+error: TS2703
+ --> $DIR/tests/conformance/parser/ecmascript5/StrictMode/parserStrictMode16.ts:4:8
+  |
+4 | delete null;
+  |        ^^^^
+
+error: TS2703
+ --> $DIR/tests/conformance/parser/ecmascript5/StrictMode/parserStrictMode16.ts:5:8
+  |
+5 | delete "a";
+  |        ^^^
+

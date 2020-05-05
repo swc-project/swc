@@ -1,0 +1,32 @@
+[
+    {
+        "line": 1,
+        "column": 11,
+        "msg": "Interface name cannot be 'any'."
+    },
+    {
+        "line": 2,
+        "column": 11,
+        "msg": "Interface name cannot be 'number'."
+    },
+    {
+        "line": 3,
+        "column": 11,
+        "msg": "Interface name cannot be 'string'."
+    },
+    {
+        "line": 4,
+        "column": 11,
+        "msg": "Interface name cannot be 'boolean'."
+    },
+    {
+        "line": 5,
+        "column": 1,
+        "msg": "Cannot find name 'interface'."
+    },
+    {
+        "line": 5,
+        "column": 11,
+        "msg": "';' expected."
+    }
+]

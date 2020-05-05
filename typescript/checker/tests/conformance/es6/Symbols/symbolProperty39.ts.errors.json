@@ -1,0 +1,22 @@
+[
+    {
+        "line": 3,
+        "column": 5,
+        "msg": "Duplicate function implementation."
+    },
+    {
+        "line": 4,
+        "column": 5,
+        "msg": "Duplicate function implementation."
+    },
+    {
+        "line": 5,
+        "column": 5,
+        "msg": "Duplicate function implementation."
+    },
+    {
+        "line": 8,
+        "column": 5,
+        "msg": "Duplicate function implementation."
+    }
+]

@@ -1,0 +1,119 @@
+error: UndefinedSymbol {
+    sym: Atom('PluginUtilities' type=dynamic),
+    span: Span {
+        lo: BytePos(
+            141,
+        ),
+        hi: BytePos(
+            156,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/parserUsingConstructorAsIdentifier.ts:3:13
+  |
+3 |             PluginUtilities.Utilities.markSupportedForProcessing(constructor);
+  |             ^^^^^^^^^^^^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('initializeProperties' type=dynamic),
+    span: Span {
+        lo: BytePos(
+            259,
+        ),
+        hi: BytePos(
+            279,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/parserUsingConstructorAsIdentifier.ts:5:17
+  |
+5 |                 initializeProperties(constructor.prototype, instanceMembers);
+  |                 ^^^^^^^^^^^^^^^^^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('initializeProperties' type=dynamic),
+    span: Span {
+        lo: BytePos(
+            384,
+        ),
+        hi: BytePos(
+            404,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/parserUsingConstructorAsIdentifier.ts:8:17
+  |
+8 |                 initializeProperties(constructor, staticMembers);
+  |                 ^^^^^^^^^^^^^^^^^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('PluginUtilities' type=dynamic),
+    span: Span {
+        lo: BytePos(
+            807,
+        ),
+        hi: BytePos(
+            822,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/parser/ecmascript5/parserUsingConstructorAsIdentifier.ts:18:17
+   |
+18 |                 PluginUtilities.Utilities.markSupportedForProcessing(constructor);
+   |                 ^^^^^^^^^^^^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('initializeProperties' type=dynamic),
+    span: Span {
+        lo: BytePos(
+            1088,
+        ),
+        hi: BytePos(
+            1108,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/parser/ecmascript5/parserUsingConstructorAsIdentifier.ts:21:21
+   |
+21 |                     initializeProperties(constructor.prototype, instanceMembers);
+   |                     ^^^^^^^^^^^^^^^^^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('initializeProperties' type=dynamic),
+    span: Span {
+        lo: BytePos(
+            1225,
+        ),
+        hi: BytePos(
+            1245,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/parser/ecmascript5/parserUsingConstructorAsIdentifier.ts:24:21
+   |
+24 |                     initializeProperties(constructor, staticMembers);
+   |                     ^^^^^^^^^^^^^^^^^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('initializeProperties' type=dynamic),
+    span: Span {
+        lo: BytePos(
+            1649,
+        ),
+        hi: BytePos(
+            1669,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/parser/ecmascript5/parserUsingConstructorAsIdentifier.ts:36:17
+   |
+36 |                 initializeProperties(constructor.prototype, arguments[i]);
+   |                 ^^^^^^^^^^^^^^^^^^^^
+

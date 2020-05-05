@@ -1,0 +1,12 @@
+error: Expected ';', '}' or <eof>
+ --> $DIR/tests/conformance/parser/ecmascript5/RegressionTests/parser521128.ts:1:15
+  |
+1 | module.module { }
+  |               ^
+  |
+note: This is the expression part of an expression statement
+ --> $DIR/tests/conformance/parser/ecmascript5/RegressionTests/parser521128.ts:1:1
+  |
+1 | module.module { }
+  | ^^^^^^^^^^^^^
+

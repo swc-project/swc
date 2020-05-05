@@ -1,0 +1,17 @@
+[
+    {
+        "line": 19,
+        "column": 11,
+        "msg": "Interface 'I3' incorrectly extends interface 'Base'."
+    },
+    {
+        "line": 49,
+        "column": 11,
+        "msg": "Interface 'I10' incorrectly extends interface 'Base'."
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "number) => number' is not assignable to type 'new (x"
+    }
+]

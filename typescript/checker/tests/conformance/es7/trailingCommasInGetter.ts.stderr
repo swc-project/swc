@@ -1,0 +1,6 @@
+error: Unexpected token Some(Comma)
+ --> $DIR/tests/conformance/es7/trailingCommasInGetter.ts:2:11
+  |
+2 |     get x(,) { return 0; }
+  |           ^
+

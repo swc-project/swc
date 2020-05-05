@@ -1,0 +1,12 @@
+[
+    {
+        "line": 2,
+        "column": 5,
+        "msg": "'declare' modifier cannot appear on a class element."
+    },
+    {
+        "line": 2,
+        "column": 19,
+        "msg": "An implementation cannot be declared in ambient contexts."
+    }
+]

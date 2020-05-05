@@ -1,0 +1,12 @@
+error: TS2406
+ --> $DIR/tests/conformance/async/es6/await_unaryExpression_es6_3.ts:4:7
+  |
+4 |     ++await 42; // Error
+  |       ^^^^^^^^
+
+error: TS2406
+ --> $DIR/tests/conformance/async/es6/await_unaryExpression_es6_3.ts:8:7
+  |
+8 |     --await 42; // Error
+  |       ^^^^^^^^
+

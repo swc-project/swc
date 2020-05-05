@@ -1,0 +1,6 @@
+error: Unexpected token Some(Word(await))
+ --> $DIR/tests/conformance/async/es5/functionDeclarations/asyncFunctionDeclaration13_es5.ts:6:11
+  |
+6 |    var v: await;
+  |           ^^^^^
+

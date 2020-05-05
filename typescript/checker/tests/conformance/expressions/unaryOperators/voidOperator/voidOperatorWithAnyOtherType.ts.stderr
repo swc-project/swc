@@ -1,0 +1,48 @@
+error: TS2365 {
+    span: Span {
+        lo: BytePos(
+            912,
+        ),
+        hi: BytePos(
+            928,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/voidOperator/voidOperatorWithAnyOtherType.ts:46:27
+   |
+46 | var ResultIsAny17 = void (null + undefined);
+   |                           ^^^^^^^^^^^^^^^^
+
+error: TS2365 {
+    span: Span {
+        lo: BytePos(
+            957,
+        ),
+        hi: BytePos(
+            968,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/voidOperator/voidOperatorWithAnyOtherType.ts:47:27
+   |
+47 | var ResultIsAny18 = void (null + null);
+   |                           ^^^^^^^^^^^
+
+error: TS2365 {
+    span: Span {
+        lo: BytePos(
+            997,
+        ),
+        hi: BytePos(
+            1018,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/voidOperator/voidOperatorWithAnyOtherType.ts:48:27
+   |
+48 | var ResultIsAny19 = void (undefined + undefined);
+   |                           ^^^^^^^^^^^^^^^^^^^^^
+

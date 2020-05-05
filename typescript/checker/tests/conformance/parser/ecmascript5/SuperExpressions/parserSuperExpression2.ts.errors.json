@@ -1,0 +1,12 @@
+[
+    {
+        "line": 3,
+        "column": 5,
+        "msg": "Super calls are not permitted outside constructors or in nested functions inside constructors."
+    },
+    {
+        "line": 3,
+        "column": 10,
+        "msg": "'super' may not use type arguments."
+    }
+]

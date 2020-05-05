@@ -1,0 +1,73 @@
+error: AssignFailed {
+    span: Span {
+        lo: BytePos(
+            91,
+        ),
+        hi: BytePos(
+            96,
+        ),
+        ctxt: #0,
+    },
+    left: Lit(
+        TsLitType {
+            span: Span {
+                lo: BytePos(
+                    91,
+                ),
+                hi: BytePos(
+                    96,
+                ),
+                ctxt: #0,
+            },
+            lit: Str(
+                Str {
+                    span: Span {
+                        lo: BytePos(
+                            91,
+                        ),
+                        hi: BytePos(
+                            96,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('bar' type=inline),
+                    has_escape: false,
+                },
+            ),
+        },
+    ),
+    right: Lit(
+        TsLitType {
+            span: Span {
+                lo: BytePos(
+                    46,
+                ),
+                hi: BytePos(
+                    47,
+                ),
+                ctxt: #0,
+            },
+            lit: Str(
+                Str {
+                    span: Span {
+                        lo: BytePos(
+                            7,
+                        ),
+                        hi: BytePos(
+                            12,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('foo' type=inline),
+                    has_escape: false,
+                },
+            ),
+        },
+    ),
+    cause: [],
+}
+ --> $DIR/tests/conformance/types/literal/stringLiteralsWithSwitchStatements01.ts:7:10
+  |
+7 |     case "bar":
+  |          ^^^^^
+

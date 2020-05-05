@@ -1,0 +1,6 @@
+error: Expected RBracket, got Some(AssignOp("="))
+ --> $DIR/tests/conformance/es6/destructuring/restElementWithInitializer1.ts:2:11
+  |
+2 | var [...x = a] = a;  // Error, rest element cannot have initializer
+  |           ^
+

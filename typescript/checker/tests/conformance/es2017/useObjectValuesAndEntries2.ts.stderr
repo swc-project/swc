@@ -1,0 +1,32 @@
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            76,
+        ),
+        hi: BytePos(
+            82,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es2017/useObjectValuesAndEntries2.ts:6:22
+  |
+6 | for (var x of Object.values(o)) {
+  |                      ^^^^^^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            128,
+        ),
+        hi: BytePos(
+            135,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es2017/useObjectValuesAndEntries2.ts:10:22
+   |
+10 | var entries = Object.entries(o);
+   |                      ^^^^^^^
+

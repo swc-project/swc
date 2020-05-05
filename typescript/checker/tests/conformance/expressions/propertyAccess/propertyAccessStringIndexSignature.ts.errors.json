@@ -1,0 +1,7 @@
+[
+    {
+        "line": 10,
+        "column": 7,
+        "msg": "Property 'nope' does not exist on type 'Empty'."
+    }
+]

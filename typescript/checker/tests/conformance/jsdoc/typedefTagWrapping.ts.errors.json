@@ -1,0 +1,12 @@
+[
+    {
+        "line": 16,
+        "column": 7,
+        "msg": "Type expected."
+    },
+    {
+        "line": 19,
+        "column": 4,
+        "msg": "Type expected."
+    }
+]

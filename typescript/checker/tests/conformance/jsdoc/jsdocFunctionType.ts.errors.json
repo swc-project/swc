@@ -1,0 +1,7 @@
+[
+    {
+        "line": 70,
+        "column": 14,
+        "msg": "Argument of type 'typeof E' is not assignable to parameter of type 'new (arg1"
+    }
+]

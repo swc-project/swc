@@ -1,0 +1,6 @@
+error: TS2369
+ --> $DIR/tests/conformance/parser/ecmascript5/MemberAccessorDeclarations/parserMemberAccessorDeclaration15.ts:3:12
+  |
+3 |    set Foo(public a: number) { }
+  |            ^^^^^^^^^^^^^^^^
+

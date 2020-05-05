@@ -1,0 +1,16 @@
+error: TS2464 {
+    span: Span {
+        lo: BytePos(
+            29,
+        ),
+        hi: BytePos(
+            38,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript6/ComputedPropertyNames/parserComputedPropertyName41.ts:3:5
+  |
+3 |     [0 in []]: true
+  |     ^^^^^^^^^
+

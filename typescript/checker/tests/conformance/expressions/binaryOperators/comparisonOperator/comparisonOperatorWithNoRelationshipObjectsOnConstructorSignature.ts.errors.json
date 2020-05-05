@@ -1,0 +1,482 @@
+[
+    {
+        "line": 35,
+        "column": 12,
+        "msg": "Operator '<' cannot be applied to types '{ fn()"
+    },
+    {
+        "line": 36,
+        "column": 12,
+        "msg": "Operator '<' cannot be applied to types 'new (a"
+    },
+    {
+        "line": 37,
+        "column": 12,
+        "msg": "Operator '<' cannot be applied to types 'new (a"
+    },
+    {
+        "line": 38,
+        "column": 12,
+        "msg": "Operator '<' cannot be applied to types 'new () => Base' and 'new () => C'."
+    },
+    {
+        "line": 39,
+        "column": 12,
+        "msg": "Operator '<' cannot be applied to types 'new (a?"
+    },
+    {
+        "line": 40,
+        "column": 12,
+        "msg": "Operator '<' cannot be applied to types 'new (...a"
+    },
+    {
+        "line": 43,
+        "column": 12,
+        "msg": "Operator '<' cannot be applied to types 'new () => Base' and '{ fn()"
+    },
+    {
+        "line": 44,
+        "column": 12,
+        "msg": "Operator '<' cannot be applied to types 'new (a"
+    },
+    {
+        "line": 45,
+        "column": 12,
+        "msg": "Operator '<' cannot be applied to types 'new (a"
+    },
+    {
+        "line": 46,
+        "column": 12,
+        "msg": "Operator '<' cannot be applied to types 'new () => C' and 'new () => Base'."
+    },
+    {
+        "line": 47,
+        "column": 12,
+        "msg": "Operator '<' cannot be applied to types 'new (a?"
+    },
+    {
+        "line": 48,
+        "column": 12,
+        "msg": "Operator '<' cannot be applied to types 'new (...a"
+    },
+    {
+        "line": 52,
+        "column": 12,
+        "msg": "Operator '>' cannot be applied to types '{ fn()"
+    },
+    {
+        "line": 53,
+        "column": 12,
+        "msg": "Operator '>' cannot be applied to types 'new (a"
+    },
+    {
+        "line": 54,
+        "column": 12,
+        "msg": "Operator '>' cannot be applied to types 'new (a"
+    },
+    {
+        "line": 55,
+        "column": 12,
+        "msg": "Operator '>' cannot be applied to types 'new () => Base' and 'new () => C'."
+    },
+    {
+        "line": 56,
+        "column": 12,
+        "msg": "Operator '>' cannot be applied to types 'new (a?"
+    },
+    {
+        "line": 57,
+        "column": 12,
+        "msg": "Operator '>' cannot be applied to types 'new (...a"
+    },
+    {
+        "line": 60,
+        "column": 12,
+        "msg": "Operator '>' cannot be applied to types 'new () => Base' and '{ fn()"
+    },
+    {
+        "line": 61,
+        "column": 12,
+        "msg": "Operator '>' cannot be applied to types 'new (a"
+    },
+    {
+        "line": 62,
+        "column": 12,
+        "msg": "Operator '>' cannot be applied to types 'new (a"
+    },
+    {
+        "line": 63,
+        "column": 12,
+        "msg": "Operator '>' cannot be applied to types 'new () => C' and 'new () => Base'."
+    },
+    {
+        "line": 64,
+        "column": 12,
+        "msg": "Operator '>' cannot be applied to types 'new (a?"
+    },
+    {
+        "line": 65,
+        "column": 12,
+        "msg": "Operator '>' cannot be applied to types 'new (...a"
+    },
+    {
+        "line": 69,
+        "column": 12,
+        "msg": "Operator '<=' cannot be applied to types '{ fn()"
+    },
+    {
+        "line": 70,
+        "column": 12,
+        "msg": "Operator '<=' cannot be applied to types 'new (a"
+    },
+    {
+        "line": 71,
+        "column": 12,
+        "msg": "Operator '<=' cannot be applied to types 'new (a"
+    },
+    {
+        "line": 72,
+        "column": 12,
+        "msg": "Operator '<=' cannot be applied to types 'new () => Base' and 'new () => C'."
+    },
+    {
+        "line": 73,
+        "column": 12,
+        "msg": "Operator '<=' cannot be applied to types 'new (a?"
+    },
+    {
+        "line": 74,
+        "column": 12,
+        "msg": "Operator '<=' cannot be applied to types 'new (...a"
+    },
+    {
+        "line": 77,
+        "column": 12,
+        "msg": "Operator '<=' cannot be applied to types 'new () => Base' and '{ fn()"
+    },
+    {
+        "line": 78,
+        "column": 12,
+        "msg": "Operator '<=' cannot be applied to types 'new (a"
+    },
+    {
+        "line": 79,
+        "column": 12,
+        "msg": "Operator '<=' cannot be applied to types 'new (a"
+    },
+    {
+        "line": 80,
+        "column": 12,
+        "msg": "Operator '<=' cannot be applied to types 'new () => C' and 'new () => Base'."
+    },
+    {
+        "line": 81,
+        "column": 12,
+        "msg": "Operator '<=' cannot be applied to types 'new (a?"
+    },
+    {
+        "line": 82,
+        "column": 12,
+        "msg": "Operator '<=' cannot be applied to types 'new (...a"
+    },
+    {
+        "line": 86,
+        "column": 12,
+        "msg": "Operator '>=' cannot be applied to types '{ fn()"
+    },
+    {
+        "line": 87,
+        "column": 12,
+        "msg": "Operator '>=' cannot be applied to types 'new (a"
+    },
+    {
+        "line": 88,
+        "column": 12,
+        "msg": "Operator '>=' cannot be applied to types 'new (a"
+    },
+    {
+        "line": 89,
+        "column": 12,
+        "msg": "Operator '>=' cannot be applied to types 'new () => Base' and 'new () => C'."
+    },
+    {
+        "line": 90,
+        "column": 12,
+        "msg": "Operator '>=' cannot be applied to types 'new (a?"
+    },
+    {
+        "line": 91,
+        "column": 12,
+        "msg": "Operator '>=' cannot be applied to types 'new (...a"
+    },
+    {
+        "line": 94,
+        "column": 12,
+        "msg": "Operator '>=' cannot be applied to types 'new () => Base' and '{ fn()"
+    },
+    {
+        "line": 95,
+        "column": 12,
+        "msg": "Operator '>=' cannot be applied to types 'new (a"
+    },
+    {
+        "line": 96,
+        "column": 12,
+        "msg": "Operator '>=' cannot be applied to types 'new (a"
+    },
+    {
+        "line": 97,
+        "column": 12,
+        "msg": "Operator '>=' cannot be applied to types 'new () => C' and 'new () => Base'."
+    },
+    {
+        "line": 98,
+        "column": 12,
+        "msg": "Operator '>=' cannot be applied to types 'new (a?"
+    },
+    {
+        "line": 99,
+        "column": 12,
+        "msg": "Operator '>=' cannot be applied to types 'new (...a"
+    },
+    {
+        "line": 103,
+        "column": 12,
+        "msg": "This condition will always return 'false' since the types '{ fn()"
+    },
+    {
+        "line": 104,
+        "column": 12,
+        "msg": "This condition will always return 'false' since the types 'new (a"
+    },
+    {
+        "line": 105,
+        "column": 12,
+        "msg": "This condition will always return 'false' since the types 'new (a"
+    },
+    {
+        "line": 106,
+        "column": 12,
+        "msg": "This condition will always return 'false' since the types 'new () => Base' and 'new () => C' have no overlap."
+    },
+    {
+        "line": 107,
+        "column": 12,
+        "msg": "This condition will always return 'false' since the types 'new (a?"
+    },
+    {
+        "line": 108,
+        "column": 12,
+        "msg": "This condition will always return 'false' since the types 'new (...a"
+    },
+    {
+        "line": 111,
+        "column": 12,
+        "msg": "This condition will always return 'false' since the types 'new () => Base' and '{ fn()"
+    },
+    {
+        "line": 112,
+        "column": 12,
+        "msg": "This condition will always return 'false' since the types 'new (a"
+    },
+    {
+        "line": 113,
+        "column": 12,
+        "msg": "This condition will always return 'false' since the types 'new (a"
+    },
+    {
+        "line": 114,
+        "column": 12,
+        "msg": "This condition will always return 'false' since the types 'new () => C' and 'new () => Base' have no overlap."
+    },
+    {
+        "line": 115,
+        "column": 12,
+        "msg": "This condition will always return 'false' since the types 'new (a?"
+    },
+    {
+        "line": 116,
+        "column": 12,
+        "msg": "This condition will always return 'false' since the types 'new (...a"
+    },
+    {
+        "line": 120,
+        "column": 12,
+        "msg": "This condition will always return 'true' since the types '{ fn()"
+    },
+    {
+        "line": 121,
+        "column": 12,
+        "msg": "This condition will always return 'true' since the types 'new (a"
+    },
+    {
+        "line": 122,
+        "column": 12,
+        "msg": "This condition will always return 'true' since the types 'new (a"
+    },
+    {
+        "line": 123,
+        "column": 12,
+        "msg": "This condition will always return 'true' since the types 'new () => Base' and 'new () => C' have no overlap."
+    },
+    {
+        "line": 124,
+        "column": 12,
+        "msg": "This condition will always return 'true' since the types 'new (a?"
+    },
+    {
+        "line": 125,
+        "column": 12,
+        "msg": "This condition will always return 'true' since the types 'new (...a"
+    },
+    {
+        "line": 128,
+        "column": 12,
+        "msg": "This condition will always return 'true' since the types 'new () => Base' and '{ fn()"
+    },
+    {
+        "line": 129,
+        "column": 12,
+        "msg": "This condition will always return 'true' since the types 'new (a"
+    },
+    {
+        "line": 130,
+        "column": 12,
+        "msg": "This condition will always return 'true' since the types 'new (a"
+    },
+    {
+        "line": 131,
+        "column": 12,
+        "msg": "This condition will always return 'true' since the types 'new () => C' and 'new () => Base' have no overlap."
+    },
+    {
+        "line": 132,
+        "column": 12,
+        "msg": "This condition will always return 'true' since the types 'new (a?"
+    },
+    {
+        "line": 133,
+        "column": 12,
+        "msg": "This condition will always return 'true' since the types 'new (...a"
+    },
+    {
+        "line": 137,
+        "column": 12,
+        "msg": "This condition will always return 'false' since the types '{ fn()"
+    },
+    {
+        "line": 138,
+        "column": 12,
+        "msg": "This condition will always return 'false' since the types 'new (a"
+    },
+    {
+        "line": 139,
+        "column": 12,
+        "msg": "This condition will always return 'false' since the types 'new (a"
+    },
+    {
+        "line": 140,
+        "column": 12,
+        "msg": "This condition will always return 'false' since the types 'new () => Base' and 'new () => C' have no overlap."
+    },
+    {
+        "line": 141,
+        "column": 12,
+        "msg": "This condition will always return 'false' since the types 'new (a?"
+    },
+    {
+        "line": 142,
+        "column": 12,
+        "msg": "This condition will always return 'false' since the types 'new (...a"
+    },
+    {
+        "line": 145,
+        "column": 12,
+        "msg": "This condition will always return 'false' since the types 'new () => Base' and '{ fn()"
+    },
+    {
+        "line": 146,
+        "column": 12,
+        "msg": "This condition will always return 'false' since the types 'new (a"
+    },
+    {
+        "line": 147,
+        "column": 12,
+        "msg": "This condition will always return 'false' since the types 'new (a"
+    },
+    {
+        "line": 148,
+        "column": 12,
+        "msg": "This condition will always return 'false' since the types 'new () => C' and 'new () => Base' have no overlap."
+    },
+    {
+        "line": 149,
+        "column": 12,
+        "msg": "This condition will always return 'false' since the types 'new (a?"
+    },
+    {
+        "line": 150,
+        "column": 12,
+        "msg": "This condition will always return 'false' since the types 'new (...a"
+    },
+    {
+        "line": 154,
+        "column": 12,
+        "msg": "This condition will always return 'true' since the types '{ fn()"
+    },
+    {
+        "line": 155,
+        "column": 12,
+        "msg": "This condition will always return 'true' since the types 'new (a"
+    },
+    {
+        "line": 156,
+        "column": 12,
+        "msg": "This condition will always return 'true' since the types 'new (a"
+    },
+    {
+        "line": 157,
+        "column": 12,
+        "msg": "This condition will always return 'true' since the types 'new () => Base' and 'new () => C' have no overlap."
+    },
+    {
+        "line": 158,
+        "column": 12,
+        "msg": "This condition will always return 'true' since the types 'new (a?"
+    },
+    {
+        "line": 159,
+        "column": 12,
+        "msg": "This condition will always return 'true' since the types 'new (...a"
+    },
+    {
+        "line": 162,
+        "column": 12,
+        "msg": "This condition will always return 'true' since the types 'new () => Base' and '{ fn()"
+    },
+    {
+        "line": 163,
+        "column": 12,
+        "msg": "This condition will always return 'true' since the types 'new (a"
+    },
+    {
+        "line": 164,
+        "column": 12,
+        "msg": "This condition will always return 'true' since the types 'new (a"
+    },
+    {
+        "line": 165,
+        "column": 12,
+        "msg": "This condition will always return 'true' since the types 'new () => C' and 'new () => Base' have no overlap."
+    },
+    {
+        "line": 166,
+        "column": 12,
+        "msg": "This condition will always return 'true' since the types 'new (a?"
+    },
+    {
+        "line": 167,
+        "column": 12,
+        "msg": "This condition will always return 'true' since the types 'new (...a"
+    }
+]

@@ -1,0 +1,37 @@
+[
+    {
+        "line": 3,
+        "column": 5,
+        "msg": "Duplicate identifier '1.0'."
+    },
+    {
+        "line": 5,
+        "column": 12,
+        "msg": "Duplicate identifier '2'."
+    },
+    {
+        "line": 9,
+        "column": 5,
+        "msg": "Duplicate identifier '2'."
+    },
+    {
+        "line": 10,
+        "column": 5,
+        "msg": "Duplicate identifier '2'."
+    },
+    {
+        "line": 14,
+        "column": 5,
+        "msg": "Duplicate identifier '1'."
+    },
+    {
+        "line": 15,
+        "column": 5,
+        "msg": "Duplicate identifier '1'."
+    },
+    {
+        "line": 20,
+        "column": 5,
+        "msg": "',' expected."
+    }
+]

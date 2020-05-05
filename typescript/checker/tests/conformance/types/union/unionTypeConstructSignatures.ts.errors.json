@@ -1,0 +1,152 @@
+[
+    {
+        "line": 9,
+        "column": 47,
+        "msg": "Argument of type '\"hello\"' is not assignable to parameter of type 'number'."
+    },
+    {
+        "line": 10,
+        "column": 33,
+        "msg": "No overload matches this call."
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "number | Date', gave the following error."
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "string | boolean', gave the following error."
+    },
+    {
+        "line": 15,
+        "column": 33,
+        "msg": "No overload matches this call."
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "number | Date', gave the following error."
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "string | boolean', gave the following error."
+    },
+    {
+        "line": 16,
+        "column": 1,
+        "msg": "Expected 1 arguments, but got 0."
+    },
+    {
+        "line": 19,
+        "column": 36,
+        "msg": "Argument of type '10' is not assignable to parameter of type 'never'."
+    },
+    {
+        "line": 20,
+        "column": 36,
+        "msg": "Argument of type '\"hello\"' is not assignable to parameter of type 'never'."
+    },
+    {
+        "line": 21,
+        "column": 1,
+        "msg": "Expected 1 arguments, but got 0."
+    },
+    {
+        "line": 24,
+        "column": 1,
+        "msg": "Expected 1 arguments, but got 0."
+    },
+    {
+        "line": 26,
+        "column": 40,
+        "msg": "Argument of type '\"hello\"' is not assignable to parameter of type 'number'."
+    },
+    {
+        "line": 29,
+        "column": 1,
+        "msg": "Expected 2 arguments, but got 0."
+    },
+    {
+        "line": 30,
+        "column": 1,
+        "msg": "Expected 2 arguments, but got 1."
+    },
+    {
+        "line": 36,
+        "column": 53,
+        "msg": "Argument of type '\"hello\"' is not assignable to parameter of type 'number'."
+    },
+    {
+        "line": 37,
+        "column": 12,
+        "msg": "Expected 1-2 arguments, but got 0."
+    },
+    {
+        "line": 40,
+        "column": 12,
+        "msg": "Expected 2 arguments, but got 1."
+    },
+    {
+        "line": 42,
+        "column": 53,
+        "msg": "Argument of type '\"hello\"' is not assignable to parameter of type 'number'."
+    },
+    {
+        "line": 43,
+        "column": 12,
+        "msg": "Expected 2 arguments, but got 0."
+    },
+    {
+        "line": 48,
+        "column": 53,
+        "msg": "Argument of type '\"hello\"' is not assignable to parameter of type 'number'."
+    },
+    {
+        "line": 49,
+        "column": 12,
+        "msg": "Expected 1-2 arguments, but got 0."
+    },
+    {
+        "line": 55,
+        "column": 49,
+        "msg": "Argument of type '\"hello\"' is not assignable to parameter of type 'number'."
+    },
+    {
+        "line": 56,
+        "column": 12,
+        "msg": "Expected at least 1 arguments, but got 0."
+    },
+    {
+        "line": 59,
+        "column": 12,
+        "msg": "Expected 2 arguments, but got 1."
+    },
+    {
+        "line": 61,
+        "column": 53,
+        "msg": "Expected 2 arguments, but got 3."
+    },
+    {
+        "line": 62,
+        "column": 49,
+        "msg": "Argument of type '\"hello\"' is not assignable to parameter of type 'number'."
+    },
+    {
+        "line": 63,
+        "column": 12,
+        "msg": "Expected 2 arguments, but got 0."
+    },
+    {
+        "line": 69,
+        "column": 49,
+        "msg": "Argument of type '\"hello\"' is not assignable to parameter of type 'number'."
+    },
+    {
+        "line": 70,
+        "column": 12,
+        "msg": "Expected at least 1 arguments, but got 0."
+    }
+]

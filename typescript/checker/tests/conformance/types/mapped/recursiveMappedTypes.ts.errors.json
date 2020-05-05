@@ -1,0 +1,42 @@
+[
+    {
+        "line": 5,
+        "column": 6,
+        "msg": "Type alias 'Recurse' circularly references itself."
+    },
+    {
+        "line": 6,
+        "column": 11,
+        "msg": "Type parameter 'K' has a circular constraint."
+    },
+    {
+        "line": 9,
+        "column": 6,
+        "msg": "Type alias 'Recurse1' circularly references itself."
+    },
+    {
+        "line": 10,
+        "column": 11,
+        "msg": "Type parameter 'K' has a circular constraint."
+    },
+    {
+        "line": 13,
+        "column": 6,
+        "msg": "Type alias 'Recurse2' circularly references itself."
+    },
+    {
+        "line": 14,
+        "column": 11,
+        "msg": "Type parameter 'K' has a circular constraint."
+    },
+    {
+        "line": 22,
+        "column": 19,
+        "msg": "Type instantiation is excessively deep and possibly infinite."
+    },
+    {
+        "line": 68,
+        "column": 25,
+        "msg": "Type parameter 'P' has a circular constraint."
+    }
+]

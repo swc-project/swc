@@ -1,0 +1,23 @@
+error: TS2406
+ --> $DIR/tests/conformance/parser/ecmascript5/Expressions/parserUnaryExpression5.ts:1:4
+  |
+1 | ++ delete foo.bar
+  |    ^^^^^^^^^^^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('foo' type=inline),
+    span: Span {
+        lo: BytePos(
+            10,
+        ),
+        hi: BytePos(
+            13,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/Expressions/parserUnaryExpression5.ts:1:11
+  |
+1 | ++ delete foo.bar
+  |           ^^^
+

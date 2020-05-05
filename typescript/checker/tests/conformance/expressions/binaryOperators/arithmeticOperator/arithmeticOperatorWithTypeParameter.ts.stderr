@@ -1,0 +1,2880 @@
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            192,
+        ),
+        hi: BytePos(
+            193,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:9:20
+  |
+9 |     var r1a1 = a * t;
+  |                    ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            214,
+        ),
+        hi: BytePos(
+            215,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:10:20
+   |
+10 |     var r1a2 = a / t;
+   |                    ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            236,
+        ),
+        hi: BytePos(
+            237,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:11:20
+   |
+11 |     var r1a3 = a % t;
+   |                    ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            258,
+        ),
+        hi: BytePos(
+            259,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:12:20
+   |
+12 |     var r1a4 = a - t;
+   |                    ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            281,
+        ),
+        hi: BytePos(
+            282,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:13:21
+   |
+13 |     var r1a5 = a << t;
+   |                     ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            304,
+        ),
+        hi: BytePos(
+            305,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:14:21
+   |
+14 |     var r1a6 = a >> t;
+   |                     ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            328,
+        ),
+        hi: BytePos(
+            329,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:15:22
+   |
+15 |     var r1a7 = a >>> t;
+   |                      ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            350,
+        ),
+        hi: BytePos(
+            351,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:16:20
+   |
+16 |     var r1a8 = a & t;
+   |                    ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            372,
+        ),
+        hi: BytePos(
+            373,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:17:20
+   |
+17 |     var r1a9 = a ^ t;
+   |                    ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            395,
+        ),
+        hi: BytePos(
+            396,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:18:21
+   |
+18 |     var r1a10 = a | t;
+   |                     ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            414,
+        ),
+        hi: BytePos(
+            415,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:20:16
+   |
+20 |     var r2a1 = t * a;
+   |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            436,
+        ),
+        hi: BytePos(
+            437,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:21:16
+   |
+21 |     var r2a2 = t / a;
+   |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            458,
+        ),
+        hi: BytePos(
+            459,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:22:16
+   |
+22 |     var r2a3 = t % a;
+   |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            480,
+        ),
+        hi: BytePos(
+            481,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:23:16
+   |
+23 |     var r2a4 = t - a;
+   |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            502,
+        ),
+        hi: BytePos(
+            503,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:24:16
+   |
+24 |     var r2a5 = t << a;
+   |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            525,
+        ),
+        hi: BytePos(
+            526,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:25:16
+   |
+25 |     var r2a6 = t >> a;
+   |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            548,
+        ),
+        hi: BytePos(
+            549,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:26:16
+   |
+26 |     var r2a7 = t >>> a;
+   |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            572,
+        ),
+        hi: BytePos(
+            573,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:27:16
+   |
+27 |     var r2a8 = t & a;
+   |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            594,
+        ),
+        hi: BytePos(
+            595,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:28:16
+   |
+28 |     var r2a9 = t ^ a;
+   |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            617,
+        ),
+        hi: BytePos(
+            618,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:29:17
+   |
+29 |     var r2a10 = t | a;
+   |                 ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            640,
+        ),
+        hi: BytePos(
+            641,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:31:16
+   |
+31 |     var r1b1 = b * t;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            644,
+        ),
+        hi: BytePos(
+            645,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:31:20
+   |
+31 |     var r1b1 = b * t;
+   |                    ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            662,
+        ),
+        hi: BytePos(
+            663,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:32:16
+   |
+32 |     var r1b2 = b / t;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            666,
+        ),
+        hi: BytePos(
+            667,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:32:20
+   |
+32 |     var r1b2 = b / t;
+   |                    ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            684,
+        ),
+        hi: BytePos(
+            685,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:33:16
+   |
+33 |     var r1b3 = b % t;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            688,
+        ),
+        hi: BytePos(
+            689,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:33:20
+   |
+33 |     var r1b3 = b % t;
+   |                    ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            706,
+        ),
+        hi: BytePos(
+            707,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:34:16
+   |
+34 |     var r1b4 = b - t;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            710,
+        ),
+        hi: BytePos(
+            711,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:34:20
+   |
+34 |     var r1b4 = b - t;
+   |                    ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            728,
+        ),
+        hi: BytePos(
+            729,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:35:16
+   |
+35 |     var r1b5 = b << t;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            733,
+        ),
+        hi: BytePos(
+            734,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:35:21
+   |
+35 |     var r1b5 = b << t;
+   |                     ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            751,
+        ),
+        hi: BytePos(
+            752,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:36:16
+   |
+36 |     var r1b6 = b >> t;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            756,
+        ),
+        hi: BytePos(
+            757,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:36:21
+   |
+36 |     var r1b6 = b >> t;
+   |                     ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            774,
+        ),
+        hi: BytePos(
+            775,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:37:16
+   |
+37 |     var r1b7 = b >>> t;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            780,
+        ),
+        hi: BytePos(
+            781,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:37:22
+   |
+37 |     var r1b7 = b >>> t;
+   |                      ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            798,
+        ),
+        hi: BytePos(
+            799,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:38:16
+   |
+38 |     var r1b8 = b & t;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            802,
+        ),
+        hi: BytePos(
+            803,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:38:20
+   |
+38 |     var r1b8 = b & t;
+   |                    ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            820,
+        ),
+        hi: BytePos(
+            821,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:39:16
+   |
+39 |     var r1b9 = b ^ t;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            824,
+        ),
+        hi: BytePos(
+            825,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:39:20
+   |
+39 |     var r1b9 = b ^ t;
+   |                    ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            843,
+        ),
+        hi: BytePos(
+            844,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:40:17
+   |
+40 |     var r1b10 = b | t;
+   |                 ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            847,
+        ),
+        hi: BytePos(
+            848,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:40:21
+   |
+40 |     var r1b10 = b | t;
+   |                     ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            866,
+        ),
+        hi: BytePos(
+            867,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:42:16
+   |
+42 |     var r2b1 = t * b;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            870,
+        ),
+        hi: BytePos(
+            871,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:42:20
+   |
+42 |     var r2b1 = t * b;
+   |                    ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            888,
+        ),
+        hi: BytePos(
+            889,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:43:16
+   |
+43 |     var r2b2 = t / b;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            892,
+        ),
+        hi: BytePos(
+            893,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:43:20
+   |
+43 |     var r2b2 = t / b;
+   |                    ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            910,
+        ),
+        hi: BytePos(
+            911,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:44:16
+   |
+44 |     var r2b3 = t % b;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            914,
+        ),
+        hi: BytePos(
+            915,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:44:20
+   |
+44 |     var r2b3 = t % b;
+   |                    ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            932,
+        ),
+        hi: BytePos(
+            933,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:45:16
+   |
+45 |     var r2b4 = t - b;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            936,
+        ),
+        hi: BytePos(
+            937,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:45:20
+   |
+45 |     var r2b4 = t - b;
+   |                    ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            954,
+        ),
+        hi: BytePos(
+            955,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:46:16
+   |
+46 |     var r2b5 = t << b;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            959,
+        ),
+        hi: BytePos(
+            960,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:46:21
+   |
+46 |     var r2b5 = t << b;
+   |                     ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            977,
+        ),
+        hi: BytePos(
+            978,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:47:16
+   |
+47 |     var r2b6 = t >> b;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            982,
+        ),
+        hi: BytePos(
+            983,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:47:21
+   |
+47 |     var r2b6 = t >> b;
+   |                     ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1000,
+        ),
+        hi: BytePos(
+            1001,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:48:16
+   |
+48 |     var r2b7 = t >>> b;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1006,
+        ),
+        hi: BytePos(
+            1007,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:48:22
+   |
+48 |     var r2b7 = t >>> b;
+   |                      ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1024,
+        ),
+        hi: BytePos(
+            1025,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:49:16
+   |
+49 |     var r2b8 = t & b;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1028,
+        ),
+        hi: BytePos(
+            1029,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:49:20
+   |
+49 |     var r2b8 = t & b;
+   |                    ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1046,
+        ),
+        hi: BytePos(
+            1047,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:50:16
+   |
+50 |     var r2b9 = t ^ b;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1050,
+        ),
+        hi: BytePos(
+            1051,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:50:20
+   |
+50 |     var r2b9 = t ^ b;
+   |                    ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1069,
+        ),
+        hi: BytePos(
+            1070,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:51:17
+   |
+51 |     var r2b10 = t | b;
+   |                 ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1073,
+        ),
+        hi: BytePos(
+            1074,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:51:21
+   |
+51 |     var r2b10 = t | b;
+   |                     ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1096,
+        ),
+        hi: BytePos(
+            1097,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:53:20
+   |
+53 |     var r1c1 = c * t;
+   |                    ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1118,
+        ),
+        hi: BytePos(
+            1119,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:54:20
+   |
+54 |     var r1c2 = c / t;
+   |                    ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1140,
+        ),
+        hi: BytePos(
+            1141,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:55:20
+   |
+55 |     var r1c3 = c % t;
+   |                    ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1162,
+        ),
+        hi: BytePos(
+            1163,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:56:20
+   |
+56 |     var r1c4 = c - t;
+   |                    ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1185,
+        ),
+        hi: BytePos(
+            1186,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:57:21
+   |
+57 |     var r1c5 = c << t;
+   |                     ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1208,
+        ),
+        hi: BytePos(
+            1209,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:58:21
+   |
+58 |     var r1c6 = c >> t;
+   |                     ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1232,
+        ),
+        hi: BytePos(
+            1233,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:59:22
+   |
+59 |     var r1c7 = c >>> t;
+   |                      ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1254,
+        ),
+        hi: BytePos(
+            1255,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:60:20
+   |
+60 |     var r1c8 = c & t;
+   |                    ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1276,
+        ),
+        hi: BytePos(
+            1277,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:61:20
+   |
+61 |     var r1c9 = c ^ t;
+   |                    ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1299,
+        ),
+        hi: BytePos(
+            1300,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:62:21
+   |
+62 |     var r1c10 = c | t;
+   |                     ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1318,
+        ),
+        hi: BytePos(
+            1319,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:64:16
+   |
+64 |     var r2c1 = t * c;
+   |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1340,
+        ),
+        hi: BytePos(
+            1341,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:65:16
+   |
+65 |     var r2c2 = t / c;
+   |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1362,
+        ),
+        hi: BytePos(
+            1363,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:66:16
+   |
+66 |     var r2c3 = t % c;
+   |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1384,
+        ),
+        hi: BytePos(
+            1385,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:67:16
+   |
+67 |     var r2c4 = t - c;
+   |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1406,
+        ),
+        hi: BytePos(
+            1407,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:68:16
+   |
+68 |     var r2c5 = t << c;
+   |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1429,
+        ),
+        hi: BytePos(
+            1430,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:69:16
+   |
+69 |     var r2c6 = t >> c;
+   |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1452,
+        ),
+        hi: BytePos(
+            1453,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:70:16
+   |
+70 |     var r2c7 = t >>> c;
+   |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1476,
+        ),
+        hi: BytePos(
+            1477,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:71:16
+   |
+71 |     var r2c8 = t & c;
+   |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1498,
+        ),
+        hi: BytePos(
+            1499,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:72:16
+   |
+72 |     var r2c9 = t ^ c;
+   |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1521,
+        ),
+        hi: BytePos(
+            1522,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:73:17
+   |
+73 |     var r2c10 = t | c;
+   |                 ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1544,
+        ),
+        hi: BytePos(
+            1545,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:75:16
+   |
+75 |     var r1d1 = d * t;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1548,
+        ),
+        hi: BytePos(
+            1549,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:75:20
+   |
+75 |     var r1d1 = d * t;
+   |                    ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1566,
+        ),
+        hi: BytePos(
+            1567,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:76:16
+   |
+76 |     var r1d2 = d / t;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1570,
+        ),
+        hi: BytePos(
+            1571,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:76:20
+   |
+76 |     var r1d2 = d / t;
+   |                    ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1588,
+        ),
+        hi: BytePos(
+            1589,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:77:16
+   |
+77 |     var r1d3 = d % t;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1592,
+        ),
+        hi: BytePos(
+            1593,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:77:20
+   |
+77 |     var r1d3 = d % t;
+   |                    ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1610,
+        ),
+        hi: BytePos(
+            1611,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:78:16
+   |
+78 |     var r1d4 = d - t;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1614,
+        ),
+        hi: BytePos(
+            1615,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:78:20
+   |
+78 |     var r1d4 = d - t;
+   |                    ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1632,
+        ),
+        hi: BytePos(
+            1633,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:79:16
+   |
+79 |     var r1d5 = d << t;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1637,
+        ),
+        hi: BytePos(
+            1638,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:79:21
+   |
+79 |     var r1d5 = d << t;
+   |                     ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1655,
+        ),
+        hi: BytePos(
+            1656,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:80:16
+   |
+80 |     var r1d6 = d >> t;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1660,
+        ),
+        hi: BytePos(
+            1661,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:80:21
+   |
+80 |     var r1d6 = d >> t;
+   |                     ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1678,
+        ),
+        hi: BytePos(
+            1679,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:81:16
+   |
+81 |     var r1d7 = d >>> t;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1684,
+        ),
+        hi: BytePos(
+            1685,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:81:22
+   |
+81 |     var r1d7 = d >>> t;
+   |                      ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1702,
+        ),
+        hi: BytePos(
+            1703,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:82:16
+   |
+82 |     var r1d8 = d & t;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1706,
+        ),
+        hi: BytePos(
+            1707,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:82:20
+   |
+82 |     var r1d8 = d & t;
+   |                    ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1724,
+        ),
+        hi: BytePos(
+            1725,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:83:16
+   |
+83 |     var r1d9 = d ^ t;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1728,
+        ),
+        hi: BytePos(
+            1729,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:83:20
+   |
+83 |     var r1d9 = d ^ t;
+   |                    ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1747,
+        ),
+        hi: BytePos(
+            1748,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:84:17
+   |
+84 |     var r1d10 = d | t;
+   |                 ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1751,
+        ),
+        hi: BytePos(
+            1752,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:84:21
+   |
+84 |     var r1d10 = d | t;
+   |                     ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1770,
+        ),
+        hi: BytePos(
+            1771,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:86:16
+   |
+86 |     var r2d1 = t * d;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1774,
+        ),
+        hi: BytePos(
+            1775,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:86:20
+   |
+86 |     var r2d1 = t * d;
+   |                    ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1792,
+        ),
+        hi: BytePos(
+            1793,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:87:16
+   |
+87 |     var r2d2 = t / d;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1796,
+        ),
+        hi: BytePos(
+            1797,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:87:20
+   |
+87 |     var r2d2 = t / d;
+   |                    ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1814,
+        ),
+        hi: BytePos(
+            1815,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:88:16
+   |
+88 |     var r2d3 = t % d;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1818,
+        ),
+        hi: BytePos(
+            1819,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:88:20
+   |
+88 |     var r2d3 = t % d;
+   |                    ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1836,
+        ),
+        hi: BytePos(
+            1837,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:89:16
+   |
+89 |     var r2d4 = t - d;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1840,
+        ),
+        hi: BytePos(
+            1841,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:89:20
+   |
+89 |     var r2d4 = t - d;
+   |                    ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1858,
+        ),
+        hi: BytePos(
+            1859,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:90:16
+   |
+90 |     var r2d5 = t << d;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1863,
+        ),
+        hi: BytePos(
+            1864,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:90:21
+   |
+90 |     var r2d5 = t << d;
+   |                     ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1881,
+        ),
+        hi: BytePos(
+            1882,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:91:16
+   |
+91 |     var r2d6 = t >> d;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1886,
+        ),
+        hi: BytePos(
+            1887,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:91:21
+   |
+91 |     var r2d6 = t >> d;
+   |                     ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1904,
+        ),
+        hi: BytePos(
+            1905,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:92:16
+   |
+92 |     var r2d7 = t >>> d;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1910,
+        ),
+        hi: BytePos(
+            1911,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:92:22
+   |
+92 |     var r2d7 = t >>> d;
+   |                      ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1928,
+        ),
+        hi: BytePos(
+            1929,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:93:16
+   |
+93 |     var r2d8 = t & d;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1932,
+        ),
+        hi: BytePos(
+            1933,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:93:20
+   |
+93 |     var r2d8 = t & d;
+   |                    ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1950,
+        ),
+        hi: BytePos(
+            1951,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:94:16
+   |
+94 |     var r2d9 = t ^ d;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1954,
+        ),
+        hi: BytePos(
+            1955,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:94:20
+   |
+94 |     var r2d9 = t ^ d;
+   |                    ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1973,
+        ),
+        hi: BytePos(
+            1974,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:95:17
+   |
+95 |     var r2d10 = t | d;
+   |                 ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1977,
+        ),
+        hi: BytePos(
+            1978,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:95:21
+   |
+95 |     var r2d10 = t | d;
+   |                     ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1996,
+        ),
+        hi: BytePos(
+            1997,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:97:16
+   |
+97 |     var r1e1 = e * t;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2000,
+        ),
+        hi: BytePos(
+            2001,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:97:20
+   |
+97 |     var r1e1 = e * t;
+   |                    ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2018,
+        ),
+        hi: BytePos(
+            2019,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:98:16
+   |
+98 |     var r1e2 = e / t;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2022,
+        ),
+        hi: BytePos(
+            2023,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:98:20
+   |
+98 |     var r1e2 = e / t;
+   |                    ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2040,
+        ),
+        hi: BytePos(
+            2041,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:99:16
+   |
+99 |     var r1e3 = e % t;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2044,
+        ),
+        hi: BytePos(
+            2045,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:99:20
+   |
+99 |     var r1e3 = e % t;
+   |                    ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2062,
+        ),
+        hi: BytePos(
+            2063,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:100:16
+    |
+100 |     var r1e4 = e - t;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2066,
+        ),
+        hi: BytePos(
+            2067,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:100:20
+    |
+100 |     var r1e4 = e - t;
+    |                    ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2084,
+        ),
+        hi: BytePos(
+            2085,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:101:16
+    |
+101 |     var r1e5 = e << t;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2089,
+        ),
+        hi: BytePos(
+            2090,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:101:21
+    |
+101 |     var r1e5 = e << t;
+    |                     ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2107,
+        ),
+        hi: BytePos(
+            2108,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:102:16
+    |
+102 |     var r1e6 = e >> t;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2112,
+        ),
+        hi: BytePos(
+            2113,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:102:21
+    |
+102 |     var r1e6 = e >> t;
+    |                     ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2130,
+        ),
+        hi: BytePos(
+            2131,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:103:16
+    |
+103 |     var r1e7 = e >>> t;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2136,
+        ),
+        hi: BytePos(
+            2137,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:103:22
+    |
+103 |     var r1e7 = e >>> t;
+    |                      ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2154,
+        ),
+        hi: BytePos(
+            2155,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:104:16
+    |
+104 |     var r1e8 = e & t;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2158,
+        ),
+        hi: BytePos(
+            2159,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:104:20
+    |
+104 |     var r1e8 = e & t;
+    |                    ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2176,
+        ),
+        hi: BytePos(
+            2177,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:105:16
+    |
+105 |     var r1e9 = e ^ t;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2180,
+        ),
+        hi: BytePos(
+            2181,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:105:20
+    |
+105 |     var r1e9 = e ^ t;
+    |                    ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2199,
+        ),
+        hi: BytePos(
+            2200,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:106:17
+    |
+106 |     var r1e10 = e | t;
+    |                 ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2203,
+        ),
+        hi: BytePos(
+            2204,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:106:21
+    |
+106 |     var r1e10 = e | t;
+    |                     ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2222,
+        ),
+        hi: BytePos(
+            2223,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:108:16
+    |
+108 |     var r2e1 = t * e;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2226,
+        ),
+        hi: BytePos(
+            2227,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:108:20
+    |
+108 |     var r2e1 = t * e;
+    |                    ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2244,
+        ),
+        hi: BytePos(
+            2245,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:109:16
+    |
+109 |     var r2e2 = t / e;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2248,
+        ),
+        hi: BytePos(
+            2249,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:109:20
+    |
+109 |     var r2e2 = t / e;
+    |                    ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2266,
+        ),
+        hi: BytePos(
+            2267,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:110:16
+    |
+110 |     var r2e3 = t % e;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2270,
+        ),
+        hi: BytePos(
+            2271,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:110:20
+    |
+110 |     var r2e3 = t % e;
+    |                    ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2288,
+        ),
+        hi: BytePos(
+            2289,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:111:16
+    |
+111 |     var r2e4 = t - e;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2292,
+        ),
+        hi: BytePos(
+            2293,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:111:20
+    |
+111 |     var r2e4 = t - e;
+    |                    ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2310,
+        ),
+        hi: BytePos(
+            2311,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:112:16
+    |
+112 |     var r2e5 = t << e;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2315,
+        ),
+        hi: BytePos(
+            2316,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:112:21
+    |
+112 |     var r2e5 = t << e;
+    |                     ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2333,
+        ),
+        hi: BytePos(
+            2334,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:113:16
+    |
+113 |     var r2e6 = t >> e;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2338,
+        ),
+        hi: BytePos(
+            2339,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:113:21
+    |
+113 |     var r2e6 = t >> e;
+    |                     ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2356,
+        ),
+        hi: BytePos(
+            2357,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:114:16
+    |
+114 |     var r2e7 = t >>> e;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2362,
+        ),
+        hi: BytePos(
+            2363,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:114:22
+    |
+114 |     var r2e7 = t >>> e;
+    |                      ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2380,
+        ),
+        hi: BytePos(
+            2381,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:115:16
+    |
+115 |     var r2e8 = t & e;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2384,
+        ),
+        hi: BytePos(
+            2385,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:115:20
+    |
+115 |     var r2e8 = t & e;
+    |                    ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2402,
+        ),
+        hi: BytePos(
+            2403,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:116:16
+    |
+116 |     var r2e9 = t ^ e;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2406,
+        ),
+        hi: BytePos(
+            2407,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:116:20
+    |
+116 |     var r2e9 = t ^ e;
+    |                    ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2425,
+        ),
+        hi: BytePos(
+            2426,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:117:17
+    |
+117 |     var r2e10 = t | e;
+    |                 ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2429,
+        ),
+        hi: BytePos(
+            2430,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:117:21
+    |
+117 |     var r2e10 = t | e;
+    |                     ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2448,
+        ),
+        hi: BytePos(
+            2449,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:119:16
+    |
+119 |     var r1f1 = t * t;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2452,
+        ),
+        hi: BytePos(
+            2453,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:119:20
+    |
+119 |     var r1f1 = t * t;
+    |                    ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2470,
+        ),
+        hi: BytePos(
+            2471,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:120:16
+    |
+120 |     var r1f2 = t / t;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2474,
+        ),
+        hi: BytePos(
+            2475,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:120:20
+    |
+120 |     var r1f2 = t / t;
+    |                    ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2492,
+        ),
+        hi: BytePos(
+            2493,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:121:16
+    |
+121 |     var r1f3 = t % t;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2496,
+        ),
+        hi: BytePos(
+            2497,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:121:20
+    |
+121 |     var r1f3 = t % t;
+    |                    ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2514,
+        ),
+        hi: BytePos(
+            2515,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:122:16
+    |
+122 |     var r1f4 = t - t;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2518,
+        ),
+        hi: BytePos(
+            2519,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:122:20
+    |
+122 |     var r1f4 = t - t;
+    |                    ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2536,
+        ),
+        hi: BytePos(
+            2537,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:123:16
+    |
+123 |     var r1f5 = t << t;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2541,
+        ),
+        hi: BytePos(
+            2542,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:123:21
+    |
+123 |     var r1f5 = t << t;
+    |                     ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2559,
+        ),
+        hi: BytePos(
+            2560,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:124:16
+    |
+124 |     var r1f6 = t >> t;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2564,
+        ),
+        hi: BytePos(
+            2565,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:124:21
+    |
+124 |     var r1f6 = t >> t;
+    |                     ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2582,
+        ),
+        hi: BytePos(
+            2583,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:125:16
+    |
+125 |     var r1f7 = t >>> t;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2588,
+        ),
+        hi: BytePos(
+            2589,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:125:22
+    |
+125 |     var r1f7 = t >>> t;
+    |                      ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2606,
+        ),
+        hi: BytePos(
+            2607,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:126:16
+    |
+126 |     var r1f8 = t & t;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2610,
+        ),
+        hi: BytePos(
+            2611,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:126:20
+    |
+126 |     var r1f8 = t & t;
+    |                    ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2628,
+        ),
+        hi: BytePos(
+            2629,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:127:16
+    |
+127 |     var r1f9 = t ^ t;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2632,
+        ),
+        hi: BytePos(
+            2633,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:127:20
+    |
+127 |     var r1f9 = t ^ t;
+    |                    ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2651,
+        ),
+        hi: BytePos(
+            2652,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:128:17
+    |
+128 |     var r1f10 = t | t;
+    |                 ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2655,
+        ),
+        hi: BytePos(
+            2656,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithTypeParameter.ts:128:21
+    |
+128 |     var r1f10 = t | t;
+    |                     ^
+

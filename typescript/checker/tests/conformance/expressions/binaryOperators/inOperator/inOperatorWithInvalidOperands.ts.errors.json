@@ -1,0 +1,97 @@
+[
+    {
+        "line": 12,
+        "column": 11,
+        "msg": "The left-hand side of an 'in' expression must be of type 'any', 'string', 'number', or 'symbol'."
+    },
+    {
+        "line": 13,
+        "column": 11,
+        "msg": "The left-hand side of an 'in' expression must be of type 'any', 'string', 'number', or 'symbol'."
+    },
+    {
+        "line": 14,
+        "column": 11,
+        "msg": "The left-hand side of an 'in' expression must be of type 'any', 'string', 'number', or 'symbol'."
+    },
+    {
+        "line": 16,
+        "column": 11,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 17,
+        "column": 11,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 19,
+        "column": 11,
+        "msg": "The left-hand side of an 'in' expression must be of type 'any', 'string', 'number', or 'symbol'."
+    },
+    {
+        "line": 20,
+        "column": 11,
+        "msg": "The left-hand side of an 'in' expression must be of type 'any', 'string', 'number', or 'symbol'."
+    },
+    {
+        "line": 30,
+        "column": 16,
+        "msg": "The right-hand side of an 'in' expression must be of type 'any', an object type or a type parameter."
+    },
+    {
+        "line": 31,
+        "column": 16,
+        "msg": "The right-hand side of an 'in' expression must be of type 'any', an object type or a type parameter."
+    },
+    {
+        "line": 32,
+        "column": 16,
+        "msg": "The right-hand side of an 'in' expression must be of type 'any', an object type or a type parameter."
+    },
+    {
+        "line": 33,
+        "column": 16,
+        "msg": "The right-hand side of an 'in' expression must be of type 'any', an object type or a type parameter."
+    },
+    {
+        "line": 34,
+        "column": 16,
+        "msg": "The right-hand side of an 'in' expression must be of type 'any', an object type or a type parameter."
+    },
+    {
+        "line": 35,
+        "column": 16,
+        "msg": "The right-hand side of an 'in' expression must be of type 'any', an object type or a type parameter."
+    },
+    {
+        "line": 36,
+        "column": 16,
+        "msg": "The right-hand side of an 'in' expression must be of type 'any', an object type or a type parameter."
+    },
+    {
+        "line": 37,
+        "column": 16,
+        "msg": "The right-hand side of an 'in' expression must be of type 'any', an object type or a type parameter."
+    },
+    {
+        "line": 38,
+        "column": 16,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 39,
+        "column": 17,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 43,
+        "column": 11,
+        "msg": "The left-hand side of an 'in' expression must be of type 'any', 'string', 'number', or 'symbol'."
+    },
+    {
+        "line": 43,
+        "column": 17,
+        "msg": "The right-hand side of an 'in' expression must be of type 'any', an object type or a type parameter."
+    }
+]

@@ -1,0 +1,42 @@
+[
+    {
+        "line": 1,
+        "column": 1,
+        "msg": "Cannot find name 'foo'. Did you mean 'Foo'?"
+    },
+    {
+        "line": 1,
+        "column": 6,
+        "msg": "';' expected."
+    },
+    {
+        "line": 1,
+        "column": 8,
+        "msg": "Cannot find name 'Bar'."
+    },
+    {
+        "line": 1,
+        "column": 12,
+        "msg": "';' expected."
+    },
+    {
+        "line": 2,
+        "column": 22,
+        "msg": "Invalid character."
+    },
+    {
+        "line": 3,
+        "column": 3,
+        "msg": "Expression expected."
+    },
+    {
+        "line": 6,
+        "column": 5,
+        "msg": "Parameter declaration expected."
+    },
+    {
+        "line": 8,
+        "column": 14,
+        "msg": "Expression expected."
+    }
+]

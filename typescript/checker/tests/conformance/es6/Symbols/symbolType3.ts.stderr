@@ -1,0 +1,118 @@
+error: ReadOnly {
+    span: Span {
+        lo: BytePos(
+            40,
+        ),
+        hi: BytePos(
+            55,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es6/Symbols/symbolType3.ts:3:8
+  |
+3 | delete Symbol.iterator;
+  |        ^^^^^^^^^^^^^^^
+
+error: UpdateOpToSymbol {
+    span: Span {
+        lo: BytePos(
+            111,
+        ),
+        hi: BytePos(
+            112,
+        ),
+        ctxt: #0,
+    },
+    op: "++",
+}
+ --> $DIR/tests/conformance/es6/Symbols/symbolType3.ts:6:3
+  |
+6 | ++s;
+  |   ^
+
+error: UpdateOpToSymbol {
+    span: Span {
+        lo: BytePos(
+            116,
+        ),
+        hi: BytePos(
+            117,
+        ),
+        ctxt: #0,
+    },
+    op: "--",
+}
+ --> $DIR/tests/conformance/es6/Symbols/symbolType3.ts:7:3
+  |
+7 | --s;
+  |   ^
+
+error: NumericUnaryOpToSymbol {
+    span: Span {
+        lo: BytePos(
+            121,
+        ),
+        hi: BytePos(
+            129,
+        ),
+        ctxt: #0,
+    },
+    op: "+",
+}
+ --> $DIR/tests/conformance/es6/Symbols/symbolType3.ts:8:3
+  |
+8 | + Symbol();
+  |   ^^^^^^^^
+
+error: NumericUnaryOpToSymbol {
+    span: Span {
+        lo: BytePos(
+            133,
+        ),
+        hi: BytePos(
+            141,
+        ),
+        ctxt: #0,
+    },
+    op: "-",
+}
+ --> $DIR/tests/conformance/es6/Symbols/symbolType3.ts:9:3
+  |
+9 | - Symbol();
+  |   ^^^^^^^^
+
+error: NumericUnaryOpToSymbol {
+    span: Span {
+        lo: BytePos(
+            145,
+        ),
+        hi: BytePos(
+            153,
+        ),
+        ctxt: #0,
+    },
+    op: "~",
+}
+  --> $DIR/tests/conformance/es6/Symbols/symbolType3.ts:10:3
+   |
+10 | ~ Symbol();
+   |   ^^^^^^^^
+
+error: NumericUnaryOpToSymbol {
+    span: Span {
+        lo: BytePos(
+            169,
+        ),
+        hi: BytePos(
+            184,
+        ),
+        ctxt: #0,
+    },
+    op: "+",
+}
+  --> $DIR/tests/conformance/es6/Symbols/symbolType3.ts:13:2
+   |
+13 | +(Symbol() || 0);
+   |  ^^^^^^^^^^^^^^^
+

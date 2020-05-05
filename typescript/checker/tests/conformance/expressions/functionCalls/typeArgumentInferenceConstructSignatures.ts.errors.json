@@ -1,0 +1,37 @@
+[
+    {
+        "line": 25,
+        "column": 35,
+        "msg": "Argument of type '3' is not assignable to parameter of type 'string'."
+    },
+    {
+        "line": 61,
+        "column": 39,
+        "msg": "Argument of type '(x"
+    },
+    {
+        "line": 71,
+        "column": 39,
+        "msg": "Argument of type '(x"
+    },
+    {
+        "line": 81,
+        "column": 45,
+        "msg": "Argument of type '(n"
+    },
+    {
+        "line": 106,
+        "column": 33,
+        "msg": "Argument of type '0' is not assignable to parameter of type '\"\"'."
+    },
+    {
+        "line": 121,
+        "column": 5,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 'a9e' must be of type '{ x"
+    },
+    {
+        "line": 122,
+        "column": 74,
+        "msg": "Argument of type '{ x"
+    }
+]

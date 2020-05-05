@@ -1,0 +1,66 @@
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithBooleanType.ts:17:31
+   |
+17 | var ResultIsBoolean1 = delete BOOLEAN;
+   |                               ^^^^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithBooleanType.ts:20:31
+   |
+20 | var ResultIsBoolean2 = delete true;
+   |                               ^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithBooleanType.ts:21:31
+   |
+21 | var ResultIsBoolean3 = delete { x: true, y: false };
+   |                               ^^^^^^^^^^^^^^^^^^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithBooleanType.ts:26:31
+   |
+26 | var ResultIsBoolean6 = delete foo();
+   |                               ^^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithBooleanType.ts:27:31
+   |
+27 | var ResultIsBoolean7 = delete A.foo();
+   |                               ^^^^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithBooleanType.ts:30:31
+   |
+30 | var ResultIsBoolean8 = delete delete BOOLEAN;
+   |                               ^^^^^^^^^^^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithBooleanType.ts:30:38
+   |
+30 | var ResultIsBoolean8 = delete delete BOOLEAN;
+   |                                      ^^^^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithBooleanType.ts:33:8
+   |
+33 | delete true;
+   |        ^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithBooleanType.ts:34:8
+   |
+34 | delete BOOLEAN;
+   |        ^^^^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithBooleanType.ts:35:8
+   |
+35 | delete foo();
+   |        ^^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithBooleanType.ts:36:8
+   |
+36 | delete true, false;
+   |        ^^^^
+

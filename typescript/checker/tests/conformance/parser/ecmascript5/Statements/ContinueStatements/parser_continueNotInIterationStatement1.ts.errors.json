@@ -1,0 +1,7 @@
+[
+    {
+        "line": 1,
+        "column": 1,
+        "msg": "A 'continue' statement can only be used within an enclosing iteration statement."
+    }
+]

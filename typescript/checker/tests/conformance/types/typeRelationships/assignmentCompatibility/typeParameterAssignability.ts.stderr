@@ -1,0 +1,98 @@
+error: AssignFailed {
+    span: Span {
+        lo: BytePos(
+            148,
+        ),
+        hi: BytePos(
+            149,
+        ),
+        ctxt: #0,
+    },
+    left: Param(
+        TypeParam {
+            span: Span {
+                lo: BytePos(
+                    124,
+                ),
+                hi: BytePos(
+                    125,
+                ),
+                ctxt: #0,
+            },
+            name: Atom('T' type=inline),
+            constraint: None,
+            default: None,
+        },
+    ),
+    right: Param(
+        TypeParam {
+            span: Span {
+                lo: BytePos(
+                    152,
+                ),
+                hi: BytePos(
+                    153,
+                ),
+                ctxt: #0,
+            },
+            name: Atom('U' type=inline),
+            constraint: None,
+            default: None,
+        },
+    ),
+    cause: [],
+}
+ --> $DIR/tests/conformance/types/typeRelationships/assignmentCompatibility/typeParameterAssignability.ts:4:5
+  |
+4 |     t = u; // error
+  |     ^
+
+error: AssignFailed {
+    span: Span {
+        lo: BytePos(
+            168,
+        ),
+        hi: BytePos(
+            169,
+        ),
+        ctxt: #0,
+    },
+    left: Param(
+        TypeParam {
+            span: Span {
+                lo: BytePos(
+                    127,
+                ),
+                hi: BytePos(
+                    128,
+                ),
+                ctxt: #0,
+            },
+            name: Atom('U' type=inline),
+            constraint: None,
+            default: None,
+        },
+    ),
+    right: Param(
+        TypeParam {
+            span: Span {
+                lo: BytePos(
+                    172,
+                ),
+                hi: BytePos(
+                    173,
+                ),
+                ctxt: #0,
+            },
+            name: Atom('T' type=inline),
+            constraint: None,
+            default: None,
+        },
+    ),
+    cause: [],
+}
+ --> $DIR/tests/conformance/types/typeRelationships/assignmentCompatibility/typeParameterAssignability.ts:5:5
+  |
+5 |     u = t; // error
+  |     ^
+

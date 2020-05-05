@@ -1,0 +1,7 @@
+[
+    {
+        "line": 5,
+        "column": 18,
+        "msg": "Object is possibly 'null' or 'undefined'."
+    }
+]

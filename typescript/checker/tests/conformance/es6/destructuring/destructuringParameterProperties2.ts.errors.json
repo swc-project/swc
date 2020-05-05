@@ -1,0 +1,42 @@
+[
+    {
+        "line": 2,
+        "column": 36,
+        "msg": "A parameter property may not be declared using a binding pattern."
+    },
+    {
+        "line": 3,
+        "column": 59,
+        "msg": "Property 'b' does not exist on type 'C1'."
+    },
+    {
+        "line": 3,
+        "column": 83,
+        "msg": "Property 'c' does not exist on type 'C1'."
+    },
+    {
+        "line": 4,
+        "column": 18,
+        "msg": "Property 'a' does not exist on type 'C1'."
+    },
+    {
+        "line": 9,
+        "column": 21,
+        "msg": "Property 'a' does not exist on type 'C1'."
+    },
+    {
+        "line": 13,
+        "column": 21,
+        "msg": "Property 'b' does not exist on type 'C1'."
+    },
+    {
+        "line": 17,
+        "column": 21,
+        "msg": "Property 'c' does not exist on type 'C1'."
+    },
+    {
+        "line": 21,
+        "column": 42,
+        "msg": "Type 'string' is not assignable to type 'boolean'."
+    }
+]

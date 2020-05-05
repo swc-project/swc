@@ -1,0 +1,17 @@
+[
+    {
+        "line": 2,
+        "column": 27,
+        "msg": "A required parameter cannot follow an optional parameter."
+    },
+    {
+        "line": 5,
+        "column": 38,
+        "msg": "A required parameter cannot follow an optional parameter."
+    },
+    {
+        "line": 9,
+        "column": 25,
+        "msg": "A rest parameter must be last in a parameter list."
+    }
+]

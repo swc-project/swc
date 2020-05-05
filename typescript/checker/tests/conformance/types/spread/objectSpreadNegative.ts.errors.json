@@ -1,0 +1,77 @@
+[
+    {
+        "line": 14,
+        "column": 21,
+        "msg": "Property 'x' does not exist on type '{}'."
+    },
+    {
+        "line": 17,
+        "column": 5,
+        "msg": "Type '{ sn?"
+    },
+    {
+        "line": 24,
+        "column": 1,
+        "msg": "Property 'b' is missing in type '{ s"
+    },
+    {
+        "line": 26,
+        "column": 1,
+        "msg": "Property 's' is missing in type '{ b"
+    },
+    {
+        "line": 29,
+        "column": 36,
+        "msg": "Duplicate identifier 'b'."
+    },
+    {
+        "line": 29,
+        "column": 53,
+        "msg": "Duplicate identifier 'b'."
+    },
+    {
+        "line": 33,
+        "column": 19,
+        "msg": "Spread types may only be created from object types."
+    },
+    {
+        "line": 34,
+        "column": 19,
+        "msg": "Spread types may only be created from object types."
+    },
+    {
+        "line": 35,
+        "column": 20,
+        "msg": "Spread types may only be created from object types."
+    },
+    {
+        "line": 37,
+        "column": 20,
+        "msg": "Spread types may only be created from object types."
+    },
+    {
+        "line": 39,
+        "column": 19,
+        "msg": "Spread types may only be created from object types."
+    },
+    {
+        "line": 44,
+        "column": 1,
+        "msg": "This expression is not callable."
+    },
+    {
+        "line": 48,
+        "column": 1,
+        "msg": "Type '12' is not assignable to type 'undefined'."
+    },
+    {
+        "line": 54,
+        "column": 9,
+        "msg": "Property 'm' does not exist on type '{ p"
+    },
+    {
+        "line": 59,
+        "column": 11,
+        "msg": "Property 'a' does not exist on type '{}'."
+    }
+]

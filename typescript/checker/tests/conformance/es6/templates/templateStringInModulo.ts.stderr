@@ -1,0 +1,16 @@
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            12,
+        ),
+        hi: BytePos(
+            26,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es6/templates/templateStringInModulo.ts:1:13
+  |
+1 | var x = 1 % `abc${ 1 }def`;
+  |             ^^^^^^^^^^^^^^
+

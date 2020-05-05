@@ -1,0 +1,27 @@
+[
+    {
+        "line": 17,
+        "column": 6,
+        "msg": "Cannot assign to 'value' because it is a read-only property."
+    },
+    {
+        "line": 19,
+        "column": 11,
+        "msg": "Cannot assign to 'value' because it is a read-only property."
+    },
+    {
+        "line": 21,
+        "column": 9,
+        "msg": "Cannot assign to 'value' because it is a read-only property."
+    },
+    {
+        "line": 23,
+        "column": 15,
+        "msg": "Cannot assign to 'value' because it is a read-only property."
+    },
+    {
+        "line": 25,
+        "column": 15,
+        "msg": "Cannot assign to 'value' because it is a read-only property."
+    }
+]

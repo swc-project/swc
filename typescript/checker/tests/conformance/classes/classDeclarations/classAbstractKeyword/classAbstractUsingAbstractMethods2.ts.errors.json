@@ -1,0 +1,17 @@
+[
+    {
+        "line": 2,
+        "column": 5,
+        "msg": "Abstract methods can only appear within an abstract class."
+    },
+    {
+        "line": 5,
+        "column": 7,
+        "msg": "Non-abstract class 'B' does not implement inherited abstract member 'foo' from class 'A'."
+    },
+    {
+        "line": 21,
+        "column": 7,
+        "msg": "Non-abstract class 'BB' does not implement inherited abstract member 'foo' from class 'AA'."
+    }
+]

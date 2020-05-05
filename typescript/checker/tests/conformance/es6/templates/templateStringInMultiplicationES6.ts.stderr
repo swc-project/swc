@@ -1,0 +1,16 @@
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            28,
+        ),
+        hi: BytePos(
+            42,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es6/templates/templateStringInMultiplicationES6.ts:2:13
+  |
+2 | var x = 1 * `abc${ 1 }def`;
+  |             ^^^^^^^^^^^^^^
+

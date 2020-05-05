@@ -1,0 +1,6 @@
+error: TS1038
+ --> $DIR/tests/conformance/parser/ecmascript5/VariableDeclarations/parserVariableDeclaration4.ts:2:4
+  |
+2 |    declare var v;
+  |    ^^^^^^^
+

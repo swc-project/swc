@@ -1,0 +1,7 @@
+[
+    {
+        "line": 3,
+        "column": 16,
+        "msg": "A parameter property cannot be declared using a rest parameter."
+    }
+]

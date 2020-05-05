@@ -1,0 +1,34 @@
+error: UndefinedSymbol {
+    sym: Atom('b' type=inline),
+    span: Span {
+        lo: BytePos(
+            348,
+        ),
+        hi: BytePos(
+            349,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/typeRelationships/typeAndMemberIdentity/objectTypesIdentityWithCallSignatures3.ts:21:25
+   |
+21 | function foo4(x: typeof b);
+   |                         ^
+
+error: UndefinedSymbol {
+    sym: Atom('b' type=inline),
+    span: Span {
+        lo: BytePos(
+            376,
+        ),
+        hi: BytePos(
+            377,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/typeRelationships/typeAndMemberIdentity/objectTypesIdentityWithCallSignatures3.ts:22:25
+   |
+22 | function foo4(x: typeof b); // error
+   |                         ^
+

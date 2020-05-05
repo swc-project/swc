@@ -1,0 +1,7 @@
+[
+    {
+        "line": 2,
+        "column": 5,
+        "msg": "An index signature parameter cannot have a question mark."
+    }
+]

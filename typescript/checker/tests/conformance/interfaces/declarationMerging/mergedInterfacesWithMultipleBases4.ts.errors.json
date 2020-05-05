@@ -1,0 +1,7 @@
+[
+    {
+        "line": 19,
+        "column": 11,
+        "msg": "Interface 'A<T>' cannot simultaneously extend types 'C<string>' and 'C<number>'."
+    }
+]

@@ -1,0 +1,17 @@
+[
+    {
+        "line": 12,
+        "column": 7,
+        "msg": "Property 'q' is used before being assigned."
+    },
+    {
+        "line": 43,
+        "column": 3,
+        "msg": "Property 'q' is used before being assigned."
+    },
+    {
+        "line": 65,
+        "column": 3,
+        "msg": "Property 'expando' is used before being assigned."
+    }
+]

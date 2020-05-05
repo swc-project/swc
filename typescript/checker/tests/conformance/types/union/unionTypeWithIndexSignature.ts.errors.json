@@ -1,0 +1,27 @@
+[
+    {
+        "line": 13,
+        "column": 3,
+        "msg": "Property 'bar' does not exist on type 'Missing'."
+    },
+    {
+        "line": 16,
+        "column": 4,
+        "msg": "Cannot assign to 'foo' because it is a read-only property."
+    },
+    {
+        "line": 26,
+        "column": 1,
+        "msg": "Element implicitly has an 'any' type because expression of type '1' can't be used to index type 'Both'."
+    },
+    {
+        "line": 27,
+        "column": 1,
+        "msg": "Type '\"not ok\"' is not assignable to type 'number'."
+    },
+    {
+        "line": 28,
+        "column": 1,
+        "msg": "Element implicitly has an 'any' type because expression of type 'unique symbol' can't be used to index type 'Both'."
+    }
+]

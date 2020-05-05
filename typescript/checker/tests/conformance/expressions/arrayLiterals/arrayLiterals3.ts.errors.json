@@ -1,0 +1,42 @@
+[
+    {
+        "line": 10,
+        "column": 5,
+        "msg": "Type '[]' is missing the following properties from type '[any, any, any]'"
+    },
+    {
+        "line": 11,
+        "column": 38,
+        "msg": "Type 'string' is not assignable to type 'boolean'."
+    },
+    {
+        "line": 11,
+        "column": 48,
+        "msg": "Type 'number' is not assignable to type 'string'."
+    },
+    {
+        "line": 11,
+        "column": 51,
+        "msg": "Type 'true' is not assignable to type 'number'."
+    },
+    {
+        "line": 17,
+        "column": 5,
+        "msg": "Type '[number, number, string, boolean]' is not assignable to type '[number, number]'."
+    },
+    {
+        "line": 32,
+        "column": 5,
+        "msg": "Type '(number[] | string[])[]' is missing the following properties from type 'tup'"
+    },
+    {
+        "line": 33,
+        "column": 5,
+        "msg": "Type 'number[]' is missing the following properties from type '[number, number, number]'"
+    },
+    {
+        "line": 34,
+        "column": 5,
+        "msg": "Type '(string | number)[]' is not assignable to type 'myArray'."
+    }
+]

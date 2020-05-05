@@ -1,0 +1,6 @@
+error: TS1123
+ --> $DIR/tests/conformance/parser/ecmascript6/Iterators/parserForOfStatement21.ts:2:9
+  |
+2 | for (var of of) { }
+  |         ^
+

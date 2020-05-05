@@ -1,0 +1,12 @@
+[
+    {
+        "line": 2,
+        "column": 5,
+        "msg": "Type '{ __typename?"
+    },
+    {
+        "line": 4,
+        "column": 5,
+        "msg": "Type '{ __typename?"
+    }
+]

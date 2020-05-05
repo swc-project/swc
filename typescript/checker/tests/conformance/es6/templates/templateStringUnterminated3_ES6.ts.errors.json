@@ -1,0 +1,7 @@
+[
+    {
+        "line": 2,
+        "column": 4,
+        "msg": "Unterminated template literal."
+    }
+]

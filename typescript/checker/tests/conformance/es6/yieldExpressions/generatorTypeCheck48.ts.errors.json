@@ -1,0 +1,12 @@
+[
+    {
+        "line": 4,
+        "column": 11,
+        "msg": "'g', which lacks return-type annotation, implicitly has an 'any' yield type."
+    },
+    {
+        "line": 8,
+        "column": 11,
+        "msg": "'h', which lacks return-type annotation, implicitly has an 'any' yield type."
+    }
+]

@@ -1,0 +1,12 @@
+[
+    {
+        "line": 3,
+        "column": 10,
+        "msg": "Invalid use of 'eval' in strict mode."
+    },
+    {
+        "line": 3,
+        "column": 10,
+        "msg": "Overload signatures must all be ambient or non-ambient."
+    }
+]

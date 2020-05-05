@@ -1,0 +1,27 @@
+[
+    {
+        "line": 25,
+        "column": 11,
+        "msg": "Expected 3 arguments, but got 1 or more."
+    },
+    {
+        "line": 34,
+        "column": 11,
+        "msg": "Expected 3 arguments, but got 1 or more."
+    },
+    {
+        "line": 138,
+        "column": 23,
+        "msg": "Type 'Function' does not satisfy the constraint '(...args"
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "any'."
+    },
+    {
+        "line": 167,
+        "column": 1,
+        "msg": "Type '(a"
+    }
+]

@@ -1,0 +1,22 @@
+[
+    {
+        "line": 5,
+        "column": 43,
+        "msg": "Type '{ name"
+    },
+    {
+        "line": 7,
+        "column": 81,
+        "msg": "Type 'string' is not assignable to type 'number'."
+    },
+    {
+        "line": 7,
+        "column": 87,
+        "msg": "Type 'number' is not assignable to type 'string'."
+    },
+    {
+        "line": 9,
+        "column": 13,
+        "msg": "Type 'number' is not assignable to type 'boolean'."
+    }
+]

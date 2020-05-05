@@ -1,0 +1,22 @@
+error: TS1100
+ --> $DIR/tests/conformance/parser/ecmascript5/StrictMode/parserStrictMode7.ts:2:3
+  |
+2 | ++eval;
+  |   ^^^^
+
+error: CannotAssignToNonVariable {
+    span: Span {
+        lo: BytePos(
+            16,
+        ),
+        hi: BytePos(
+            20,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/StrictMode/parserStrictMode7.ts:2:3
+  |
+2 | ++eval;
+  |   ^^^^
+

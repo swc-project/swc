@@ -1,0 +1,7 @@
+[
+    {
+        "line": 3,
+        "column": 8,
+        "msg": "A 'set' accessor parameter cannot have an initializer."
+    }
+]

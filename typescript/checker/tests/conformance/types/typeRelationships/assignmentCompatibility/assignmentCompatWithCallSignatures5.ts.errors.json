@@ -1,0 +1,22 @@
+[
+    {
+        "line": 40,
+        "column": 1,
+        "msg": "Type '<T>(x"
+    },
+    {
+        "line": 52,
+        "column": 1,
+        "msg": "Type '<T>(x"
+    },
+    {
+        "line": 55,
+        "column": 1,
+        "msg": "Type '<T>(x"
+    },
+    {
+        "line": 58,
+        "column": 1,
+        "msg": "Type '<T extends Base>(x"
+    }
+]

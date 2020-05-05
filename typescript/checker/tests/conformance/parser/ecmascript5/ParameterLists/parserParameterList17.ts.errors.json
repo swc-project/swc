@@ -1,0 +1,12 @@
+[
+    {
+        "line": 2,
+        "column": 4,
+        "msg": "This overload signature is not compatible with its implementation signature."
+    },
+    {
+        "line": 2,
+        "column": 16,
+        "msg": "A parameter initializer is only allowed in a function or constructor implementation."
+    }
+]

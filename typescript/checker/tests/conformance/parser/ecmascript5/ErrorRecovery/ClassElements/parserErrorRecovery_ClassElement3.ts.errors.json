@@ -1,0 +1,22 @@
+[
+    {
+        "line": 2,
+        "column": 4,
+        "msg": "Invalid character."
+    },
+    {
+        "line": 6,
+        "column": 4,
+        "msg": "Expression expected."
+    },
+    {
+        "line": 7,
+        "column": 4,
+        "msg": "Invalid character."
+    },
+    {
+        "line": 7,
+        "column": 5,
+        "msg": "'}' expected."
+    }
+]

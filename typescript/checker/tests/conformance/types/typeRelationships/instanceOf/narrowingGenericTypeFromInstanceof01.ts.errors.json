@@ -1,0 +1,7 @@
+[
+    {
+        "line": 13,
+        "column": 17,
+        "msg": "Argument of type 'B<T>' is not assignable to parameter of type 'A<unknown>'."
+    }
+]

@@ -1,0 +1,72 @@
+error: TupleIndexError {
+    span: Span {
+        lo: BytePos(
+            377,
+        ),
+        hi: BytePos(
+            378,
+        ),
+        ctxt: #0,
+    },
+    len: 2,
+    index: 2,
+}
+  --> $DIR/tests/conformance/types/tuple/indexerWithTuple.ts:11:25
+   |
+11 | var ele12 = strNumTuple[2]; // string | number
+   |                         ^
+
+error: TupleIndexError {
+    span: Span {
+        lo: BytePos(
+            664,
+        ),
+        hi: BytePos(
+            665,
+        ),
+        ctxt: #0,
+    },
+    len: 2,
+    index: 2,
+}
+  --> $DIR/tests/conformance/types/tuple/indexerWithTuple.ts:17:27
+   |
+17 | var ele17 = numTupleTuple[2]; // number | [string, number]
+   |                           ^
+
+error: TupleIndexError {
+    span: Span {
+        lo: BytePos(
+            821,
+        ),
+        hi: BytePos(
+            822,
+        ),
+        ctxt: #0,
+    },
+    len: 2,
+    index: 2,
+}
+  --> $DIR/tests/conformance/types/tuple/indexerWithTuple.ts:20:30
+   |
+20 | var eleUnion12 = unionTuple1[2]; // string | number
+   |                              ^
+
+error: TupleIndexError {
+    span: Span {
+        lo: BytePos(
+            1179,
+        ),
+        hi: BytePos(
+            1180,
+        ),
+        ctxt: #0,
+    },
+    len: 2,
+    index: 2,
+}
+  --> $DIR/tests/conformance/types/tuple/indexerWithTuple.ts:28:30
+   |
+28 | var eleUnion22 = unionTuple2[2]; // string | number | boolean
+   |                              ^
+

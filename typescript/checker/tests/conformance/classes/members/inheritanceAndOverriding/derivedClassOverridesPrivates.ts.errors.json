@@ -1,0 +1,12 @@
+[
+    {
+        "line": 5,
+        "column": 7,
+        "msg": "Class 'Derived' incorrectly extends base class 'Base'."
+    },
+    {
+        "line": 13,
+        "column": 7,
+        "msg": "Class static side 'typeof Derived2' incorrectly extends base class static side 'typeof Base2'."
+    }
+]

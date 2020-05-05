@@ -1,0 +1,17 @@
+[
+    {
+        "line": 4,
+        "column": 1,
+        "msg": "Import assignment cannot be used when targeting ECMAScript modules. Consider using 'import * as ns from \"mod\"', 'import {a} from \"mod\"', 'import d from \"mod\"', or another module format instead."
+    },
+    {
+        "line": 4,
+        "column": 20,
+        "msg": "Cannot find module 'mod'."
+    },
+    {
+        "line": 9,
+        "column": 1,
+        "msg": "Export assignment cannot be used when targeting ECMAScript modules. Consider using 'export default' or another module format instead."
+    }
+]

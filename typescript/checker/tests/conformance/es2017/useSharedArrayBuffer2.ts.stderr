@@ -1,0 +1,17 @@
+error: UndefinedSymbol {
+    sym: Atom('SharedArrayBuffer' type=static),
+    span: Span {
+        lo: BytePos(
+            45,
+        ),
+        hi: BytePos(
+            62,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es2017/useSharedArrayBuffer2.ts:4:16
+  |
+4 | var foge = new SharedArrayBuffer(1024);
+  |                ^^^^^^^^^^^^^^^^^
+

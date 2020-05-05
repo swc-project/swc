@@ -1,0 +1,17 @@
+[
+    {
+        "line": 4,
+        "column": 10,
+        "msg": "Cannot assign to 'x' because it is a read-only property."
+    },
+    {
+        "line": 7,
+        "column": 26,
+        "msg": "'public' modifier must precede 'readonly' modifier."
+    },
+    {
+        "line": 13,
+        "column": 10,
+        "msg": "Property 'x' is private and only accessible within class 'F'."
+    }
+]

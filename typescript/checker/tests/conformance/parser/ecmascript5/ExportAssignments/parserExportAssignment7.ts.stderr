@@ -1,0 +1,32 @@
+error: TS2309 {
+    span: Span {
+        lo: BytePos(
+            23,
+        ),
+        hi: BytePos(
+            34,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/ExportAssignments/parserExportAssignment7.ts:4:1
+  |
+4 | export = B;
+  | ^^^^^^^^^^^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            32,
+        ),
+        hi: BytePos(
+            33,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/ExportAssignments/parserExportAssignment7.ts:4:10
+  |
+4 | export = B;
+  |          ^
+

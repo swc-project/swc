@@ -1,0 +1,42 @@
+error: TS1005
+ --> $DIR/tests/conformance/statements/tryStatements/invalidTryStatements2.ts:2:5
+  |
+2 |     catch(x) { } // error missing try
+  |     ^^^^^
+
+error: TS1005
+ --> $DIR/tests/conformance/statements/tryStatements/invalidTryStatements2.ts:6:12
+  |
+6 |     try { }; // error missing finally
+  |            ^
+
+error: TS1005
+  --> $DIR/tests/conformance/statements/tryStatements/invalidTryStatements2.ts:10:5
+   |
+10 |     finally { } // error missing try
+   |     ^^^^^^^
+
+error: TS1005
+  --> $DIR/tests/conformance/statements/tryStatements/invalidTryStatements2.ts:11:5
+   |
+11 |     catch (x) { } // error missing try
+   |     ^^^^^
+
+error: TS1005
+  --> $DIR/tests/conformance/statements/tryStatements/invalidTryStatements2.ts:15:5
+   |
+15 |     finally { } // error missing try
+   |     ^^^^^^^
+
+error: TS1005
+  --> $DIR/tests/conformance/statements/tryStatements/invalidTryStatements2.ts:17:5
+   |
+17 |     catch (x) { } // error missing try
+   |     ^^^^^
+
+error: Unexpected token Some(RParen)
+  --> $DIR/tests/conformance/statements/tryStatements/invalidTryStatements2.ts:19:20
+   |
+19 |     try { } catch () { } // error missing catch binding
+   |                    ^
+

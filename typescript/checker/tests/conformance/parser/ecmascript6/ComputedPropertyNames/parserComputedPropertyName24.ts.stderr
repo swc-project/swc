@@ -1,0 +1,16 @@
+error: NameNotFound {
+    span: Span {
+        lo: BytePos(
+            34,
+        ),
+        hi: BytePos(
+            35,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript6/ComputedPropertyNames/parserComputedPropertyName24.ts:3:10
+  |
+3 |     set [e](v) { }
+  |          ^
+

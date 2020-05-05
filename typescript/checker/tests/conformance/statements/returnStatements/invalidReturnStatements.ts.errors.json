@@ -1,0 +1,32 @@
+[
+    {
+        "line": 2,
+        "column": 17,
+        "msg": "A function whose declared type is neither 'void' nor 'any' must return a value."
+    },
+    {
+        "line": 3,
+        "column": 17,
+        "msg": "A function whose declared type is neither 'void' nor 'any' must return a value."
+    },
+    {
+        "line": 4,
+        "column": 17,
+        "msg": "A function whose declared type is neither 'void' nor 'any' must return a value."
+    },
+    {
+        "line": 5,
+        "column": 17,
+        "msg": "A function whose declared type is neither 'void' nor 'any' must return a value."
+    },
+    {
+        "line": 16,
+        "column": 22,
+        "msg": "Type '{ id"
+    },
+    {
+        "line": 18,
+        "column": 22,
+        "msg": "Property 'name' is missing in type 'C' but required in type 'D'."
+    }
+]

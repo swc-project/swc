@@ -1,0 +1,16 @@
+error: NameNotFound {
+    span: Span {
+        lo: BytePos(
+            31,
+        ),
+        hi: BytePos(
+            34,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es6/memberFunctionDeclarations/MemberFunctionDeclaration3_es6.ts:3:6
+  |
+3 |    *[foo]() { }
+  |      ^^^
+

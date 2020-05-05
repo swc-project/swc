@@ -1,0 +1,16 @@
+error: TS2464 {
+    span: Span {
+        lo: BytePos(
+            86,
+        ),
+        hi: BytePos(
+            90,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es6/computedProperties/computedPropertyNamesDeclarationEmit6_ES5.ts:7:3
+  |
+7 |   [!1]: {}
+  |   ^^^^
+

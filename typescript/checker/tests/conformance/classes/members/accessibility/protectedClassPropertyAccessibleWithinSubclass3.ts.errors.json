@@ -1,0 +1,7 @@
+[
+    {
+        "line": 11,
+        "column": 15,
+        "msg": "Only public and protected methods of the base class are accessible via the 'super' keyword."
+    }
+]

@@ -1,0 +1,7 @@
+[
+    {
+        "line": 218,
+        "column": 13,
+        "msg": "Type '\"yes\" | \"no\" | \"maybe\"' is not assignable to type 'SomeResponse'."
+    }
+]

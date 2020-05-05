@@ -1,0 +1,16 @@
+error: TS1166 {
+    span: Span {
+        lo: BytePos(
+            51,
+        ),
+        hi: BytePos(
+            69,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es6/computedProperties/computedPropertyNamesDeclarationEmit4_ES6.ts:4:5
+  |
+4 |     ["" + ""](): void;
+  |     ^^^^^^^^^^^^^^^^^^
+

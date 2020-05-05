@@ -1,0 +1,107 @@
+[
+    {
+        "line": 13,
+        "column": 12,
+        "msg": "Property 'x' is protected and only accessible within class 'Derived3' and its subclasses."
+    },
+    {
+        "line": 26,
+        "column": 11,
+        "msg": "Property 'x' is protected and only accessible through an instance of class 'Derived1'."
+    },
+    {
+        "line": 28,
+        "column": 12,
+        "msg": "Property 'x' is protected and only accessible through an instance of class 'Derived1'."
+    },
+    {
+        "line": 29,
+        "column": 12,
+        "msg": "Property 'x' is protected and only accessible within class 'Derived3' and its subclasses."
+    },
+    {
+        "line": 30,
+        "column": 12,
+        "msg": "Property 'x' is protected and only accessible through an instance of class 'Derived1'."
+    },
+    {
+        "line": 42,
+        "column": 11,
+        "msg": "Property 'x' is protected and only accessible through an instance of class 'Derived2'."
+    },
+    {
+        "line": 43,
+        "column": 12,
+        "msg": "Property 'x' is protected and only accessible through an instance of class 'Derived2'."
+    },
+    {
+        "line": 45,
+        "column": 12,
+        "msg": "Property 'x' is protected and only accessible within class 'Derived3' and its subclasses."
+    },
+    {
+        "line": 59,
+        "column": 11,
+        "msg": "Property 'x' is protected and only accessible through an instance of class 'Derived3'."
+    },
+    {
+        "line": 60,
+        "column": 12,
+        "msg": "Property 'x' is protected and only accessible through an instance of class 'Derived3'."
+    },
+    {
+        "line": 61,
+        "column": 12,
+        "msg": "Property 'x' is protected and only accessible through an instance of class 'Derived3'."
+    },
+    {
+        "line": 63,
+        "column": 12,
+        "msg": "Property 'x' is protected and only accessible through an instance of class 'Derived3'."
+    },
+    {
+        "line": 75,
+        "column": 11,
+        "msg": "Property 'x' is protected and only accessible through an instance of class 'Derived4'."
+    },
+    {
+        "line": 76,
+        "column": 12,
+        "msg": "Property 'x' is protected and only accessible through an instance of class 'Derived4'."
+    },
+    {
+        "line": 77,
+        "column": 12,
+        "msg": "Property 'x' is protected and only accessible through an instance of class 'Derived4'."
+    },
+    {
+        "line": 78,
+        "column": 12,
+        "msg": "Property 'x' is protected and only accessible within class 'Derived3' and its subclasses."
+    },
+    {
+        "line": 90,
+        "column": 3,
+        "msg": "Property 'x' is protected and only accessible within class 'Base' and its subclasses."
+    },
+    {
+        "line": 91,
+        "column": 4,
+        "msg": "Property 'x' is protected and only accessible within class 'Base' and its subclasses."
+    },
+    {
+        "line": 92,
+        "column": 4,
+        "msg": "Property 'x' is protected and only accessible within class 'Base' and its subclasses."
+    },
+    {
+        "line": 93,
+        "column": 4,
+        "msg": "Property 'x' is protected and only accessible within class 'Derived3' and its subclasses."
+    },
+    {
+        "line": 94,
+        "column": 4,
+        "msg": "Property 'x' is protected and only accessible within class 'Base' and its subclasses."
+    }
+]

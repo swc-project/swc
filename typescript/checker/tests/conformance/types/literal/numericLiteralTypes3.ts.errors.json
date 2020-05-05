@@ -1,0 +1,142 @@
+[
+    {
+        "line": 8,
+        "column": 5,
+        "msg": "Type 'B' is not assignable to type '1'."
+    },
+    {
+        "line": 9,
+        "column": 5,
+        "msg": "Type 'C' is not assignable to type '1'."
+    },
+    {
+        "line": 10,
+        "column": 5,
+        "msg": "Type 'D' is not assignable to type '1'."
+    },
+    {
+        "line": 14,
+        "column": 5,
+        "msg": "Type '1' is not assignable to type 'B'."
+    },
+    {
+        "line": 16,
+        "column": 5,
+        "msg": "Type 'C' is not assignable to type 'B'."
+    },
+    {
+        "line": 17,
+        "column": 5,
+        "msg": "Type 'D' is not assignable to type 'B'."
+    },
+    {
+        "line": 24,
+        "column": 5,
+        "msg": "Type 'D' is not assignable to type 'C'."
+    },
+    {
+        "line": 29,
+        "column": 5,
+        "msg": "Type 'B' is not assignable to type 'D'."
+    },
+    {
+        "line": 30,
+        "column": 5,
+        "msg": "Type 'C' is not assignable to type 'D'."
+    },
+    {
+        "line": 35,
+        "column": 5,
+        "msg": "Type '0' is not assignable to type '1'."
+    },
+    {
+        "line": 37,
+        "column": 5,
+        "msg": "Type '2' is not assignable to type '1'."
+    },
+    {
+        "line": 38,
+        "column": 5,
+        "msg": "Type '3' is not assignable to type '1'."
+    },
+    {
+        "line": 39,
+        "column": 5,
+        "msg": "Type '0' is not assignable to type 'B'."
+    },
+    {
+        "line": 40,
+        "column": 5,
+        "msg": "Type '1' is not assignable to type 'B'."
+    },
+    {
+        "line": 43,
+        "column": 5,
+        "msg": "Type '0' is not assignable to type 'C'."
+    },
+    {
+        "line": 50,
+        "column": 5,
+        "msg": "Type '3' is not assignable to type 'D'."
+    },
+    {
+        "line": 54,
+        "column": 5,
+        "msg": "This condition will always return 'false' since the types '1' and '0' have no overlap."
+    },
+    {
+        "line": 56,
+        "column": 5,
+        "msg": "This condition will always return 'false' since the types '1' and '2' have no overlap."
+    },
+    {
+        "line": 57,
+        "column": 5,
+        "msg": "This condition will always return 'false' since the types '1' and '3' have no overlap."
+    },
+    {
+        "line": 58,
+        "column": 5,
+        "msg": "This condition will always return 'false' since the types 'B' and '0' have no overlap."
+    },
+    {
+        "line": 59,
+        "column": 5,
+        "msg": "This condition will always return 'false' since the types 'B' and '1' have no overlap."
+    },
+    {
+        "line": 62,
+        "column": 5,
+        "msg": "This condition will always return 'false' since the types 'C' and '0' have no overlap."
+    },
+    {
+        "line": 69,
+        "column": 5,
+        "msg": "This condition will always return 'false' since the types 'D' and '3' have no overlap."
+    },
+    {
+        "line": 74,
+        "column": 5,
+        "msg": "This condition will always return 'false' since the types '1' and 'B' have no overlap."
+    },
+    {
+        "line": 77,
+        "column": 5,
+        "msg": "This condition will always return 'false' since the types 'B' and '1' have no overlap."
+    },
+    {
+        "line": 94,
+        "column": 14,
+        "msg": "Type '1' is not comparable to type '0 | 2 | 4'."
+    },
+    {
+        "line": 96,
+        "column": 14,
+        "msg": "Type '3' is not comparable to type '0 | 2 | 4'."
+    },
+    {
+        "line": 98,
+        "column": 14,
+        "msg": "Type '5' is not comparable to type '0 | 2 | 4'."
+    }
+]

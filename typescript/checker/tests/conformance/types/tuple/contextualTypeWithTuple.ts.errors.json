@@ -1,0 +1,42 @@
+[
+    {
+        "line": 3,
+        "column": 5,
+        "msg": "Type '[number, string, boolean]' is not assignable to type '[number, string]'."
+    },
+    {
+        "line": 15,
+        "column": 1,
+        "msg": "Type '[number, string, boolean]' is not assignable to type '[number, string]'."
+    },
+    {
+        "line": 18,
+        "column": 17,
+        "msg": "Property 'a' is missing in type '{}' but required in type '{ a"
+    },
+    {
+        "line": 19,
+        "column": 1,
+        "msg": "Property '2' is missing in type '[number, string]' but required in type '[number, string, boolean]'."
+    },
+    {
+        "line": 20,
+        "column": 5,
+        "msg": "Type '[string, string, number]' is not assignable to type '[string, string]'."
+    },
+    {
+        "line": 23,
+        "column": 1,
+        "msg": "Type '[C, string | number, D]' is not assignable to type '[C, string | number]'."
+    },
+    {
+        "line": 24,
+        "column": 1,
+        "msg": "Property '2' is missing in type '[C, string | number]' but required in type '[C, string | number, D]'."
+    },
+    {
+        "line": 25,
+        "column": 1,
+        "msg": "Type '[number, string | number]' is not assignable to type '[number, string]'."
+    }
+]

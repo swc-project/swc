@@ -1,0 +1,12 @@
+error: Expected ';', '}' or <eof>
+ --> $DIR/tests/conformance/async/es5/asyncDeclare_es5.ts:4:9
+  |
+4 | declare async function foo(): Promise<void>;
+  |         ^^^^^
+  |
+note: This is the expression part of an expression statement
+ --> $DIR/tests/conformance/async/es5/asyncDeclare_es5.ts:4:1
+  |
+4 | declare async function foo(): Promise<void>;
+  | ^^^^^^^
+

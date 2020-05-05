@@ -1,0 +1,30 @@
+error: NoNewSignature {
+    span: Span {
+        lo: BytePos(
+            78,
+        ),
+        hi: BytePos(
+            91,
+        ),
+        ctxt: #0,
+    },
+    callee: Keyword(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    79,
+                ),
+                hi: BytePos(
+                    90,
+                ),
+                ctxt: #0,
+            },
+            kind: TsNumberKeyword,
+        },
+    ),
+}
+ --> $DIR/tests/conformance/es7/exponentiationOperator/exponentiationOperatorWithNew.ts:6:5
+  |
+6 | new (a ** b ** c);
+  |     ^^^^^^^^^^^^^
+

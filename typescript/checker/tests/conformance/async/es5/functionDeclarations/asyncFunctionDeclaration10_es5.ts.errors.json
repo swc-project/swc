@@ -1,0 +1,47 @@
+[
+    {
+        "line": 4,
+        "column": 20,
+        "msg": "A parameter initializer is only allowed in a function or constructor implementation."
+    },
+    {
+        "line": 4,
+        "column": 30,
+        "msg": "Expression expected."
+    },
+    {
+        "line": 4,
+        "column": 33,
+        "msg": "Parameter declaration expected."
+    },
+    {
+        "line": 4,
+        "column": 33,
+        "msg": "Cannot find name 'await'."
+    },
+    {
+        "line": 4,
+        "column": 38,
+        "msg": "';' expected."
+    },
+    {
+        "line": 4,
+        "column": 39,
+        "msg": "Declaration or statement expected."
+    },
+    {
+        "line": 4,
+        "column": 41,
+        "msg": "Operator '>' cannot be applied to types 'boolean' and '{}'."
+    },
+    {
+        "line": 4,
+        "column": 49,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 4,
+        "column": 53,
+        "msg": "Expression expected."
+    }
+]

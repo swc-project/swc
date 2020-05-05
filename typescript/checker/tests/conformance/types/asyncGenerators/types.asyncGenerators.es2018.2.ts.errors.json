@@ -1,0 +1,122 @@
+[
+    {
+        "line": 5,
+        "column": 12,
+        "msg": "Type '{}' must have a '[Symbol.asyncIterator]()' method that returns an async iterator."
+    },
+    {
+        "line": 11,
+        "column": 12,
+        "msg": "Type 'Promise<number[]>' must have a '[Symbol.asyncIterator]()' method that returns an async iterator."
+    },
+    {
+        "line": 13,
+        "column": 7,
+        "msg": "Type '() => AsyncGenerator<string, void, undefined>' is not assignable to type '() => AsyncIterableIterator<number>'."
+    },
+    {
+        "line": 16,
+        "column": 7,
+        "msg": "Type '() => AsyncGenerator<string, void, undefined>' is not assignable to type '() => AsyncIterableIterator<number>'."
+    },
+    {
+        "line": 19,
+        "column": 7,
+        "msg": "Type '() => AsyncGenerator<string, void, unknown>' is not assignable to type '() => AsyncIterableIterator<number>'."
+    },
+    {
+        "line": 22,
+        "column": 7,
+        "msg": "Type '() => AsyncGenerator<string, void, undefined>' is not assignable to type '() => AsyncIterable<number>'."
+    },
+    {
+        "line": 25,
+        "column": 7,
+        "msg": "Type '() => AsyncGenerator<string, void, undefined>' is not assignable to type '() => AsyncIterable<number>'."
+    },
+    {
+        "line": 28,
+        "column": 7,
+        "msg": "Type '() => AsyncGenerator<string, void, unknown>' is not assignable to type '() => AsyncIterable<number>'."
+    },
+    {
+        "line": 31,
+        "column": 7,
+        "msg": "Type '() => AsyncGenerator<string, void, undefined>' is not assignable to type '() => AsyncIterator<number, any, undefined>'."
+    },
+    {
+        "line": 34,
+        "column": 7,
+        "msg": "Type '() => AsyncGenerator<string, void, undefined>' is not assignable to type '() => AsyncIterator<number, any, undefined>'."
+    },
+    {
+        "line": 37,
+        "column": 7,
+        "msg": "Type '() => AsyncGenerator<string, void, unknown>' is not assignable to type '() => AsyncIterator<number, any, undefined>'."
+    },
+    {
+        "line": 41,
+        "column": 11,
+        "msg": "Type '\"a\"' is not assignable to type 'number'."
+    },
+    {
+        "line": 44,
+        "column": 12,
+        "msg": "Type 'string' is not assignable to type 'number'."
+    },
+    {
+        "line": 47,
+        "column": 12,
+        "msg": "Type 'string' is not assignable to type 'number'."
+    },
+    {
+        "line": 50,
+        "column": 11,
+        "msg": "Type '\"a\"' is not assignable to type 'number'."
+    },
+    {
+        "line": 53,
+        "column": 12,
+        "msg": "Type 'string' is not assignable to type 'number'."
+    },
+    {
+        "line": 56,
+        "column": 12,
+        "msg": "Type 'string' is not assignable to type 'number'."
+    },
+    {
+        "line": 59,
+        "column": 11,
+        "msg": "Type '\"a\"' is not assignable to type 'number'."
+    },
+    {
+        "line": 62,
+        "column": 12,
+        "msg": "Type 'string' is not assignable to type 'number'."
+    },
+    {
+        "line": 65,
+        "column": 12,
+        "msg": "Type 'string' is not assignable to type 'number'."
+    },
+    {
+        "line": 67,
+        "column": 42,
+        "msg": "Property '[Symbol.iterator]' is missing in type 'AsyncGenerator<number, any, undefined>' but required in type 'IterableIterator<number>'."
+    },
+    {
+        "line": 70,
+        "column": 42,
+        "msg": "Property '[Symbol.iterator]' is missing in type 'AsyncGenerator<any, any, any>' but required in type 'Iterable<number>'."
+    },
+    {
+        "line": 73,
+        "column": 42,
+        "msg": "Type 'AsyncGenerator<number, any, undefined>' is not assignable to type 'Iterator<number, any, undefined>'."
+    },
+    {
+        "line": 77,
+        "column": 12,
+        "msg": "Type '{}' must have a '[Symbol.asyncIterator]()' method that returns an async iterator."
+    }
+]

@@ -1,0 +1,8912 @@
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            337,
+        ),
+        hi: BytePos(
+            338,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:15:16
+   |
+15 | var r1a2 = a * b;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            378,
+        ),
+        hi: BytePos(
+            379,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:17:16
+   |
+17 | var r1a4 = a * d;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            396,
+        ),
+        hi: BytePos(
+            397,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:18:16
+   |
+18 | var r1a5 = a * e;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            414,
+        ),
+        hi: BytePos(
+            415,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:19:16
+   |
+19 | var r1a6 = a * f;
+   |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            429,
+        ),
+        hi: BytePos(
+            430,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:21:12
+   |
+21 | var r1b1 = b * a;
+   |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            447,
+        ),
+        hi: BytePos(
+            448,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:22:12
+   |
+22 | var r1b2 = b * b;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            451,
+        ),
+        hi: BytePos(
+            452,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:22:16
+   |
+22 | var r1b2 = b * b;
+   |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            465,
+        ),
+        hi: BytePos(
+            466,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:23:12
+   |
+23 | var r1b3 = b * c;
+   |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            483,
+        ),
+        hi: BytePos(
+            484,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:24:12
+   |
+24 | var r1b4 = b * d;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            487,
+        ),
+        hi: BytePos(
+            488,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:24:16
+   |
+24 | var r1b4 = b * d;
+   |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            501,
+        ),
+        hi: BytePos(
+            502,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:25:12
+   |
+25 | var r1b5 = b * e;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            505,
+        ),
+        hi: BytePos(
+            506,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:25:16
+   |
+25 | var r1b5 = b * e;
+   |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            519,
+        ),
+        hi: BytePos(
+            520,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:26:12
+   |
+26 | var r1b6 = b * f;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            523,
+        ),
+        hi: BytePos(
+            524,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:26:16
+   |
+26 | var r1b6 = b * f;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            565,
+        ),
+        hi: BytePos(
+            566,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:29:16
+   |
+29 | var r1c2 = c * b;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            606,
+        ),
+        hi: BytePos(
+            607,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:31:16
+   |
+31 | var r1c4 = c * d;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            624,
+        ),
+        hi: BytePos(
+            625,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:32:16
+   |
+32 | var r1c5 = c * e;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            642,
+        ),
+        hi: BytePos(
+            643,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:33:16
+   |
+33 | var r1c6 = c * f;
+   |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            657,
+        ),
+        hi: BytePos(
+            658,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:35:12
+   |
+35 | var r1d1 = d * a;
+   |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            675,
+        ),
+        hi: BytePos(
+            676,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:36:12
+   |
+36 | var r1d2 = d * b;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            679,
+        ),
+        hi: BytePos(
+            680,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:36:16
+   |
+36 | var r1d2 = d * b;
+   |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            693,
+        ),
+        hi: BytePos(
+            694,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:37:12
+   |
+37 | var r1d3 = d * c;
+   |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            711,
+        ),
+        hi: BytePos(
+            712,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:38:12
+   |
+38 | var r1d4 = d * d;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            715,
+        ),
+        hi: BytePos(
+            716,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:38:16
+   |
+38 | var r1d4 = d * d;
+   |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            729,
+        ),
+        hi: BytePos(
+            730,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:39:12
+   |
+39 | var r1d5 = d * e;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            733,
+        ),
+        hi: BytePos(
+            734,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:39:16
+   |
+39 | var r1d5 = d * e;
+   |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            747,
+        ),
+        hi: BytePos(
+            748,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:40:12
+   |
+40 | var r1d6 = d * f;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            751,
+        ),
+        hi: BytePos(
+            752,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:40:16
+   |
+40 | var r1d6 = d * f;
+   |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            766,
+        ),
+        hi: BytePos(
+            767,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:42:12
+   |
+42 | var r1e1 = e * a;
+   |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            784,
+        ),
+        hi: BytePos(
+            785,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:43:12
+   |
+43 | var r1e2 = e * b;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            788,
+        ),
+        hi: BytePos(
+            789,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:43:16
+   |
+43 | var r1e2 = e * b;
+   |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            802,
+        ),
+        hi: BytePos(
+            803,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:44:12
+   |
+44 | var r1e3 = e * c;
+   |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            820,
+        ),
+        hi: BytePos(
+            821,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:45:12
+   |
+45 | var r1e4 = e * d;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            824,
+        ),
+        hi: BytePos(
+            825,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:45:16
+   |
+45 | var r1e4 = e * d;
+   |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            838,
+        ),
+        hi: BytePos(
+            839,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:46:12
+   |
+46 | var r1e5 = e * e;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            842,
+        ),
+        hi: BytePos(
+            843,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:46:16
+   |
+46 | var r1e5 = e * e;
+   |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            856,
+        ),
+        hi: BytePos(
+            857,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:47:12
+   |
+47 | var r1e6 = e * f;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            860,
+        ),
+        hi: BytePos(
+            861,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:47:16
+   |
+47 | var r1e6 = e * f;
+   |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            875,
+        ),
+        hi: BytePos(
+            876,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:49:12
+   |
+49 | var r1f1 = f * a;
+   |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            893,
+        ),
+        hi: BytePos(
+            894,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:50:12
+   |
+50 | var r1f2 = f * b;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            897,
+        ),
+        hi: BytePos(
+            898,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:50:16
+   |
+50 | var r1f2 = f * b;
+   |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            911,
+        ),
+        hi: BytePos(
+            912,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:51:12
+   |
+51 | var r1f3 = f * c;
+   |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            929,
+        ),
+        hi: BytePos(
+            930,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:52:12
+   |
+52 | var r1f4 = f * d;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            933,
+        ),
+        hi: BytePos(
+            934,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:52:16
+   |
+52 | var r1f4 = f * d;
+   |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            947,
+        ),
+        hi: BytePos(
+            948,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:53:12
+   |
+53 | var r1f5 = f * e;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            951,
+        ),
+        hi: BytePos(
+            952,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:53:16
+   |
+53 | var r1f5 = f * e;
+   |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            965,
+        ),
+        hi: BytePos(
+            966,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:54:12
+   |
+54 | var r1f6 = f * f;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            969,
+        ),
+        hi: BytePos(
+            970,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:54:16
+   |
+54 | var r1f6 = f * f;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1015,
+        ),
+        hi: BytePos(
+            1016,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:57:18
+   |
+57 | var r1g2 = E.a * b;
+   |                  ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1060,
+        ),
+        hi: BytePos(
+            1061,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:59:18
+   |
+59 | var r1g4 = E.a * d;
+   |                  ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1080,
+        ),
+        hi: BytePos(
+            1081,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:60:18
+   |
+60 | var r1g5 = E.a * e;
+   |                  ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1100,
+        ),
+        hi: BytePos(
+            1101,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:61:18
+   |
+61 | var r1g6 = E.a * f;
+   |                  ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1140,
+        ),
+        hi: BytePos(
+            1141,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:64:12
+   |
+64 | var r1h2 = b * E.b;
+   |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1185,
+        ),
+        hi: BytePos(
+            1186,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:66:12
+   |
+66 | var r1h4 = d * E.b;
+   |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1205,
+        ),
+        hi: BytePos(
+            1206,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:67:12
+   |
+67 | var r1h5 = e * E.b;
+   |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1225,
+        ),
+        hi: BytePos(
+            1226,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:68:12
+   |
+68 | var r1h6 = f * E.b;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1287,
+        ),
+        hi: BytePos(
+            1288,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:72:16
+   |
+72 | var r2a2 = a / b;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1328,
+        ),
+        hi: BytePos(
+            1329,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:74:16
+   |
+74 | var r2a4 = a / d;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1346,
+        ),
+        hi: BytePos(
+            1347,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:75:16
+   |
+75 | var r2a5 = a / e;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1364,
+        ),
+        hi: BytePos(
+            1365,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:76:16
+   |
+76 | var r2a6 = a / f;
+   |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1379,
+        ),
+        hi: BytePos(
+            1380,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:78:12
+   |
+78 | var r2b1 = b / a;
+   |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1397,
+        ),
+        hi: BytePos(
+            1398,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:79:12
+   |
+79 | var r2b2 = b / b;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1401,
+        ),
+        hi: BytePos(
+            1402,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:79:16
+   |
+79 | var r2b2 = b / b;
+   |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1415,
+        ),
+        hi: BytePos(
+            1416,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:80:12
+   |
+80 | var r2b3 = b / c;
+   |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1433,
+        ),
+        hi: BytePos(
+            1434,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:81:12
+   |
+81 | var r2b4 = b / d;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1437,
+        ),
+        hi: BytePos(
+            1438,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:81:16
+   |
+81 | var r2b4 = b / d;
+   |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1451,
+        ),
+        hi: BytePos(
+            1452,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:82:12
+   |
+82 | var r2b5 = b / e;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1455,
+        ),
+        hi: BytePos(
+            1456,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:82:16
+   |
+82 | var r2b5 = b / e;
+   |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1469,
+        ),
+        hi: BytePos(
+            1470,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:83:12
+   |
+83 | var r2b6 = b / f;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1473,
+        ),
+        hi: BytePos(
+            1474,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:83:16
+   |
+83 | var r2b6 = b / f;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1515,
+        ),
+        hi: BytePos(
+            1516,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:86:16
+   |
+86 | var r2c2 = c / b;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1556,
+        ),
+        hi: BytePos(
+            1557,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:88:16
+   |
+88 | var r2c4 = c / d;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1574,
+        ),
+        hi: BytePos(
+            1575,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:89:16
+   |
+89 | var r2c5 = c / e;
+   |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1592,
+        ),
+        hi: BytePos(
+            1593,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:90:16
+   |
+90 | var r2c6 = c / f;
+   |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1607,
+        ),
+        hi: BytePos(
+            1608,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:92:12
+   |
+92 | var r2d1 = d / a;
+   |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1625,
+        ),
+        hi: BytePos(
+            1626,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:93:12
+   |
+93 | var r2d2 = d / b;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1629,
+        ),
+        hi: BytePos(
+            1630,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:93:16
+   |
+93 | var r2d2 = d / b;
+   |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1643,
+        ),
+        hi: BytePos(
+            1644,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:94:12
+   |
+94 | var r2d3 = d / c;
+   |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1661,
+        ),
+        hi: BytePos(
+            1662,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:95:12
+   |
+95 | var r2d4 = d / d;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1665,
+        ),
+        hi: BytePos(
+            1666,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:95:16
+   |
+95 | var r2d4 = d / d;
+   |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1679,
+        ),
+        hi: BytePos(
+            1680,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:96:12
+   |
+96 | var r2d5 = d / e;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1683,
+        ),
+        hi: BytePos(
+            1684,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:96:16
+   |
+96 | var r2d5 = d / e;
+   |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1697,
+        ),
+        hi: BytePos(
+            1698,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:97:12
+   |
+97 | var r2d6 = d / f;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1701,
+        ),
+        hi: BytePos(
+            1702,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:97:16
+   |
+97 | var r2d6 = d / f;
+   |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1716,
+        ),
+        hi: BytePos(
+            1717,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:99:12
+   |
+99 | var r2e1 = e / a;
+   |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1734,
+        ),
+        hi: BytePos(
+            1735,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:100:12
+    |
+100 | var r2e2 = e / b;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1738,
+        ),
+        hi: BytePos(
+            1739,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:100:16
+    |
+100 | var r2e2 = e / b;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1752,
+        ),
+        hi: BytePos(
+            1753,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:101:12
+    |
+101 | var r2e3 = e / c;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1770,
+        ),
+        hi: BytePos(
+            1771,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:102:12
+    |
+102 | var r2e4 = e / d;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1774,
+        ),
+        hi: BytePos(
+            1775,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:102:16
+    |
+102 | var r2e4 = e / d;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1788,
+        ),
+        hi: BytePos(
+            1789,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:103:12
+    |
+103 | var r2e5 = e / e;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1792,
+        ),
+        hi: BytePos(
+            1793,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:103:16
+    |
+103 | var r2e5 = e / e;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1806,
+        ),
+        hi: BytePos(
+            1807,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:104:12
+    |
+104 | var r2e6 = e / f;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1810,
+        ),
+        hi: BytePos(
+            1811,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:104:16
+    |
+104 | var r2e6 = e / f;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1825,
+        ),
+        hi: BytePos(
+            1826,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:106:12
+    |
+106 | var r2f1 = f / a;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1843,
+        ),
+        hi: BytePos(
+            1844,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:107:12
+    |
+107 | var r2f2 = f / b;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1847,
+        ),
+        hi: BytePos(
+            1848,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:107:16
+    |
+107 | var r2f2 = f / b;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1861,
+        ),
+        hi: BytePos(
+            1862,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:108:12
+    |
+108 | var r2f3 = f / c;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1879,
+        ),
+        hi: BytePos(
+            1880,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:109:12
+    |
+109 | var r2f4 = f / d;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1883,
+        ),
+        hi: BytePos(
+            1884,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:109:16
+    |
+109 | var r2f4 = f / d;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1897,
+        ),
+        hi: BytePos(
+            1898,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:110:12
+    |
+110 | var r2f5 = f / e;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1901,
+        ),
+        hi: BytePos(
+            1902,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:110:16
+    |
+110 | var r2f5 = f / e;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1915,
+        ),
+        hi: BytePos(
+            1916,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:111:12
+    |
+111 | var r2f6 = f / f;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1919,
+        ),
+        hi: BytePos(
+            1920,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:111:16
+    |
+111 | var r2f6 = f / f;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1965,
+        ),
+        hi: BytePos(
+            1966,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:114:18
+    |
+114 | var r2g2 = E.a / b;
+    |                  ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2010,
+        ),
+        hi: BytePos(
+            2011,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:116:18
+    |
+116 | var r2g4 = E.a / d;
+    |                  ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2030,
+        ),
+        hi: BytePos(
+            2031,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:117:18
+    |
+117 | var r2g5 = E.a / e;
+    |                  ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2050,
+        ),
+        hi: BytePos(
+            2051,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:118:18
+    |
+118 | var r2g6 = E.a / f;
+    |                  ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2090,
+        ),
+        hi: BytePos(
+            2091,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:121:12
+    |
+121 | var r2h2 = b / E.b;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2135,
+        ),
+        hi: BytePos(
+            2136,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:123:12
+    |
+123 | var r2h4 = d / E.b;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2155,
+        ),
+        hi: BytePos(
+            2156,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:124:12
+    |
+124 | var r2h5 = e / E.b;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2175,
+        ),
+        hi: BytePos(
+            2176,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:125:12
+    |
+125 | var r2h6 = f / E.b;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2237,
+        ),
+        hi: BytePos(
+            2238,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:129:16
+    |
+129 | var r3a2 = a % b;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2278,
+        ),
+        hi: BytePos(
+            2279,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:131:16
+    |
+131 | var r3a4 = a % d;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2296,
+        ),
+        hi: BytePos(
+            2297,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:132:16
+    |
+132 | var r3a5 = a % e;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2314,
+        ),
+        hi: BytePos(
+            2315,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:133:16
+    |
+133 | var r3a6 = a % f;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2329,
+        ),
+        hi: BytePos(
+            2330,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:135:12
+    |
+135 | var r3b1 = b % a;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2347,
+        ),
+        hi: BytePos(
+            2348,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:136:12
+    |
+136 | var r3b2 = b % b;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2351,
+        ),
+        hi: BytePos(
+            2352,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:136:16
+    |
+136 | var r3b2 = b % b;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2365,
+        ),
+        hi: BytePos(
+            2366,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:137:12
+    |
+137 | var r3b3 = b % c;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2383,
+        ),
+        hi: BytePos(
+            2384,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:138:12
+    |
+138 | var r3b4 = b % d;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2387,
+        ),
+        hi: BytePos(
+            2388,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:138:16
+    |
+138 | var r3b4 = b % d;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2401,
+        ),
+        hi: BytePos(
+            2402,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:139:12
+    |
+139 | var r3b5 = b % e;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2405,
+        ),
+        hi: BytePos(
+            2406,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:139:16
+    |
+139 | var r3b5 = b % e;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2419,
+        ),
+        hi: BytePos(
+            2420,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:140:12
+    |
+140 | var r3b6 = b % f;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2423,
+        ),
+        hi: BytePos(
+            2424,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:140:16
+    |
+140 | var r3b6 = b % f;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2465,
+        ),
+        hi: BytePos(
+            2466,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:143:16
+    |
+143 | var r3c2 = c % b;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2506,
+        ),
+        hi: BytePos(
+            2507,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:145:16
+    |
+145 | var r3c4 = c % d;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2524,
+        ),
+        hi: BytePos(
+            2525,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:146:16
+    |
+146 | var r3c5 = c % e;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2542,
+        ),
+        hi: BytePos(
+            2543,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:147:16
+    |
+147 | var r3c6 = c % f;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2557,
+        ),
+        hi: BytePos(
+            2558,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:149:12
+    |
+149 | var r3d1 = d % a;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2575,
+        ),
+        hi: BytePos(
+            2576,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:150:12
+    |
+150 | var r3d2 = d % b;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2579,
+        ),
+        hi: BytePos(
+            2580,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:150:16
+    |
+150 | var r3d2 = d % b;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2593,
+        ),
+        hi: BytePos(
+            2594,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:151:12
+    |
+151 | var r3d3 = d % c;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2611,
+        ),
+        hi: BytePos(
+            2612,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:152:12
+    |
+152 | var r3d4 = d % d;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2615,
+        ),
+        hi: BytePos(
+            2616,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:152:16
+    |
+152 | var r3d4 = d % d;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2629,
+        ),
+        hi: BytePos(
+            2630,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:153:12
+    |
+153 | var r3d5 = d % e;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2633,
+        ),
+        hi: BytePos(
+            2634,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:153:16
+    |
+153 | var r3d5 = d % e;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2647,
+        ),
+        hi: BytePos(
+            2648,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:154:12
+    |
+154 | var r3d6 = d % f;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2651,
+        ),
+        hi: BytePos(
+            2652,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:154:16
+    |
+154 | var r3d6 = d % f;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2666,
+        ),
+        hi: BytePos(
+            2667,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:156:12
+    |
+156 | var r3e1 = e % a;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2684,
+        ),
+        hi: BytePos(
+            2685,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:157:12
+    |
+157 | var r3e2 = e % b;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2688,
+        ),
+        hi: BytePos(
+            2689,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:157:16
+    |
+157 | var r3e2 = e % b;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2702,
+        ),
+        hi: BytePos(
+            2703,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:158:12
+    |
+158 | var r3e3 = e % c;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2720,
+        ),
+        hi: BytePos(
+            2721,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:159:12
+    |
+159 | var r3e4 = e % d;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2724,
+        ),
+        hi: BytePos(
+            2725,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:159:16
+    |
+159 | var r3e4 = e % d;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2738,
+        ),
+        hi: BytePos(
+            2739,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:160:12
+    |
+160 | var r3e5 = e % e;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2742,
+        ),
+        hi: BytePos(
+            2743,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:160:16
+    |
+160 | var r3e5 = e % e;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2756,
+        ),
+        hi: BytePos(
+            2757,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:161:12
+    |
+161 | var r3e6 = e % f;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2760,
+        ),
+        hi: BytePos(
+            2761,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:161:16
+    |
+161 | var r3e6 = e % f;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2775,
+        ),
+        hi: BytePos(
+            2776,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:163:12
+    |
+163 | var r3f1 = f % a;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2793,
+        ),
+        hi: BytePos(
+            2794,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:164:12
+    |
+164 | var r3f2 = f % b;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2797,
+        ),
+        hi: BytePos(
+            2798,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:164:16
+    |
+164 | var r3f2 = f % b;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2811,
+        ),
+        hi: BytePos(
+            2812,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:165:12
+    |
+165 | var r3f3 = f % c;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2829,
+        ),
+        hi: BytePos(
+            2830,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:166:12
+    |
+166 | var r3f4 = f % d;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2833,
+        ),
+        hi: BytePos(
+            2834,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:166:16
+    |
+166 | var r3f4 = f % d;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2847,
+        ),
+        hi: BytePos(
+            2848,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:167:12
+    |
+167 | var r3f5 = f % e;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2851,
+        ),
+        hi: BytePos(
+            2852,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:167:16
+    |
+167 | var r3f5 = f % e;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2865,
+        ),
+        hi: BytePos(
+            2866,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:168:12
+    |
+168 | var r3f6 = f % f;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2869,
+        ),
+        hi: BytePos(
+            2870,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:168:16
+    |
+168 | var r3f6 = f % f;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2915,
+        ),
+        hi: BytePos(
+            2916,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:171:18
+    |
+171 | var r3g2 = E.a % b;
+    |                  ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2960,
+        ),
+        hi: BytePos(
+            2961,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:173:18
+    |
+173 | var r3g4 = E.a % d;
+    |                  ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2980,
+        ),
+        hi: BytePos(
+            2981,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:174:18
+    |
+174 | var r3g5 = E.a % e;
+    |                  ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            3000,
+        ),
+        hi: BytePos(
+            3001,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:175:18
+    |
+175 | var r3g6 = E.a % f;
+    |                  ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            3040,
+        ),
+        hi: BytePos(
+            3041,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:178:12
+    |
+178 | var r3h2 = b % E.b;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            3085,
+        ),
+        hi: BytePos(
+            3086,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:180:12
+    |
+180 | var r3h4 = d % E.b;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            3105,
+        ),
+        hi: BytePos(
+            3106,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:181:12
+    |
+181 | var r3h5 = e % E.b;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            3125,
+        ),
+        hi: BytePos(
+            3126,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:182:12
+    |
+182 | var r3h6 = f % E.b;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            3187,
+        ),
+        hi: BytePos(
+            3188,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:186:16
+    |
+186 | var r4a2 = a - b;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            3228,
+        ),
+        hi: BytePos(
+            3229,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:188:16
+    |
+188 | var r4a4 = a - d;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            3246,
+        ),
+        hi: BytePos(
+            3247,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:189:16
+    |
+189 | var r4a5 = a - e;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            3264,
+        ),
+        hi: BytePos(
+            3265,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:190:16
+    |
+190 | var r4a6 = a - f;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            3279,
+        ),
+        hi: BytePos(
+            3280,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:192:12
+    |
+192 | var r4b1 = b - a;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            3297,
+        ),
+        hi: BytePos(
+            3298,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:193:12
+    |
+193 | var r4b2 = b - b;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            3301,
+        ),
+        hi: BytePos(
+            3302,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:193:16
+    |
+193 | var r4b2 = b - b;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            3315,
+        ),
+        hi: BytePos(
+            3316,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:194:12
+    |
+194 | var r4b3 = b - c;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            3333,
+        ),
+        hi: BytePos(
+            3334,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:195:12
+    |
+195 | var r4b4 = b - d;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            3337,
+        ),
+        hi: BytePos(
+            3338,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:195:16
+    |
+195 | var r4b4 = b - d;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            3351,
+        ),
+        hi: BytePos(
+            3352,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:196:12
+    |
+196 | var r4b5 = b - e;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            3355,
+        ),
+        hi: BytePos(
+            3356,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:196:16
+    |
+196 | var r4b5 = b - e;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            3369,
+        ),
+        hi: BytePos(
+            3370,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:197:12
+    |
+197 | var r4b6 = b - f;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            3373,
+        ),
+        hi: BytePos(
+            3374,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:197:16
+    |
+197 | var r4b6 = b - f;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            3415,
+        ),
+        hi: BytePos(
+            3416,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:200:16
+    |
+200 | var r4c2 = c - b;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            3456,
+        ),
+        hi: BytePos(
+            3457,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:202:16
+    |
+202 | var r4c4 = c - d;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            3474,
+        ),
+        hi: BytePos(
+            3475,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:203:16
+    |
+203 | var r4c5 = c - e;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            3492,
+        ),
+        hi: BytePos(
+            3493,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:204:16
+    |
+204 | var r4c6 = c - f;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            3507,
+        ),
+        hi: BytePos(
+            3508,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:206:12
+    |
+206 | var r4d1 = d - a;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            3525,
+        ),
+        hi: BytePos(
+            3526,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:207:12
+    |
+207 | var r4d2 = d - b;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            3529,
+        ),
+        hi: BytePos(
+            3530,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:207:16
+    |
+207 | var r4d2 = d - b;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            3543,
+        ),
+        hi: BytePos(
+            3544,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:208:12
+    |
+208 | var r4d3 = d - c;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            3561,
+        ),
+        hi: BytePos(
+            3562,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:209:12
+    |
+209 | var r4d4 = d - d;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            3565,
+        ),
+        hi: BytePos(
+            3566,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:209:16
+    |
+209 | var r4d4 = d - d;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            3579,
+        ),
+        hi: BytePos(
+            3580,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:210:12
+    |
+210 | var r4d5 = d - e;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            3583,
+        ),
+        hi: BytePos(
+            3584,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:210:16
+    |
+210 | var r4d5 = d - e;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            3597,
+        ),
+        hi: BytePos(
+            3598,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:211:12
+    |
+211 | var r4d6 = d - f;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            3601,
+        ),
+        hi: BytePos(
+            3602,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:211:16
+    |
+211 | var r4d6 = d - f;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            3616,
+        ),
+        hi: BytePos(
+            3617,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:213:12
+    |
+213 | var r4e1 = e - a;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            3634,
+        ),
+        hi: BytePos(
+            3635,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:214:12
+    |
+214 | var r4e2 = e - b;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            3638,
+        ),
+        hi: BytePos(
+            3639,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:214:16
+    |
+214 | var r4e2 = e - b;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            3652,
+        ),
+        hi: BytePos(
+            3653,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:215:12
+    |
+215 | var r4e3 = e - c;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            3670,
+        ),
+        hi: BytePos(
+            3671,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:216:12
+    |
+216 | var r4e4 = e - d;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            3674,
+        ),
+        hi: BytePos(
+            3675,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:216:16
+    |
+216 | var r4e4 = e - d;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            3688,
+        ),
+        hi: BytePos(
+            3689,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:217:12
+    |
+217 | var r4e5 = e - e;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            3692,
+        ),
+        hi: BytePos(
+            3693,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:217:16
+    |
+217 | var r4e5 = e - e;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            3706,
+        ),
+        hi: BytePos(
+            3707,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:218:12
+    |
+218 | var r4e6 = e - f;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            3710,
+        ),
+        hi: BytePos(
+            3711,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:218:16
+    |
+218 | var r4e6 = e - f;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            3725,
+        ),
+        hi: BytePos(
+            3726,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:220:12
+    |
+220 | var r4f1 = f - a;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            3743,
+        ),
+        hi: BytePos(
+            3744,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:221:12
+    |
+221 | var r4f2 = f - b;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            3747,
+        ),
+        hi: BytePos(
+            3748,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:221:16
+    |
+221 | var r4f2 = f - b;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            3761,
+        ),
+        hi: BytePos(
+            3762,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:222:12
+    |
+222 | var r4f3 = f - c;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            3779,
+        ),
+        hi: BytePos(
+            3780,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:223:12
+    |
+223 | var r4f4 = f - d;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            3783,
+        ),
+        hi: BytePos(
+            3784,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:223:16
+    |
+223 | var r4f4 = f - d;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            3797,
+        ),
+        hi: BytePos(
+            3798,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:224:12
+    |
+224 | var r4f5 = f - e;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            3801,
+        ),
+        hi: BytePos(
+            3802,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:224:16
+    |
+224 | var r4f5 = f - e;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            3815,
+        ),
+        hi: BytePos(
+            3816,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:225:12
+    |
+225 | var r4f6 = f - f;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            3819,
+        ),
+        hi: BytePos(
+            3820,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:225:16
+    |
+225 | var r4f6 = f - f;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            3865,
+        ),
+        hi: BytePos(
+            3866,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:228:18
+    |
+228 | var r4g2 = E.a - b;
+    |                  ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            3910,
+        ),
+        hi: BytePos(
+            3911,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:230:18
+    |
+230 | var r4g4 = E.a - d;
+    |                  ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            3930,
+        ),
+        hi: BytePos(
+            3931,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:231:18
+    |
+231 | var r4g5 = E.a - e;
+    |                  ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            3950,
+        ),
+        hi: BytePos(
+            3951,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:232:18
+    |
+232 | var r4g6 = E.a - f;
+    |                  ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            3990,
+        ),
+        hi: BytePos(
+            3991,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:235:12
+    |
+235 | var r4h2 = b - E.b;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            4035,
+        ),
+        hi: BytePos(
+            4036,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:237:12
+    |
+237 | var r4h4 = d - E.b;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            4055,
+        ),
+        hi: BytePos(
+            4056,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:238:12
+    |
+238 | var r4h5 = e - E.b;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            4075,
+        ),
+        hi: BytePos(
+            4076,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:239:12
+    |
+239 | var r4h6 = f - E.b;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            4140,
+        ),
+        hi: BytePos(
+            4141,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:243:17
+    |
+243 | var r5a2 = a << b;
+    |                 ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            4183,
+        ),
+        hi: BytePos(
+            4184,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:245:17
+    |
+245 | var r5a4 = a << d;
+    |                 ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            4202,
+        ),
+        hi: BytePos(
+            4203,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:246:17
+    |
+246 | var r5a5 = a << e;
+    |                 ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            4221,
+        ),
+        hi: BytePos(
+            4222,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:247:17
+    |
+247 | var r5a6 = a << f;
+    |                 ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            4236,
+        ),
+        hi: BytePos(
+            4237,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:249:12
+    |
+249 | var r5b1 = b << a;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            4255,
+        ),
+        hi: BytePos(
+            4256,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:250:12
+    |
+250 | var r5b2 = b << b;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            4260,
+        ),
+        hi: BytePos(
+            4261,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:250:17
+    |
+250 | var r5b2 = b << b;
+    |                 ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            4274,
+        ),
+        hi: BytePos(
+            4275,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:251:12
+    |
+251 | var r5b3 = b << c;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            4293,
+        ),
+        hi: BytePos(
+            4294,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:252:12
+    |
+252 | var r5b4 = b << d;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            4298,
+        ),
+        hi: BytePos(
+            4299,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:252:17
+    |
+252 | var r5b4 = b << d;
+    |                 ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            4312,
+        ),
+        hi: BytePos(
+            4313,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:253:12
+    |
+253 | var r5b5 = b << e;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            4317,
+        ),
+        hi: BytePos(
+            4318,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:253:17
+    |
+253 | var r5b5 = b << e;
+    |                 ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            4331,
+        ),
+        hi: BytePos(
+            4332,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:254:12
+    |
+254 | var r5b6 = b << f;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            4336,
+        ),
+        hi: BytePos(
+            4337,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:254:17
+    |
+254 | var r5b6 = b << f;
+    |                 ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            4380,
+        ),
+        hi: BytePos(
+            4381,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:257:17
+    |
+257 | var r5c2 = c << b;
+    |                 ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            4423,
+        ),
+        hi: BytePos(
+            4424,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:259:17
+    |
+259 | var r5c4 = c << d;
+    |                 ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            4442,
+        ),
+        hi: BytePos(
+            4443,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:260:17
+    |
+260 | var r5c5 = c << e;
+    |                 ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            4461,
+        ),
+        hi: BytePos(
+            4462,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:261:17
+    |
+261 | var r5c6 = c << f;
+    |                 ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            4476,
+        ),
+        hi: BytePos(
+            4477,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:263:12
+    |
+263 | var r5d1 = d << a;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            4495,
+        ),
+        hi: BytePos(
+            4496,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:264:12
+    |
+264 | var r5d2 = d << b;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            4500,
+        ),
+        hi: BytePos(
+            4501,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:264:17
+    |
+264 | var r5d2 = d << b;
+    |                 ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            4514,
+        ),
+        hi: BytePos(
+            4515,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:265:12
+    |
+265 | var r5d3 = d << c;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            4533,
+        ),
+        hi: BytePos(
+            4534,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:266:12
+    |
+266 | var r5d4 = d << d;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            4538,
+        ),
+        hi: BytePos(
+            4539,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:266:17
+    |
+266 | var r5d4 = d << d;
+    |                 ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            4552,
+        ),
+        hi: BytePos(
+            4553,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:267:12
+    |
+267 | var r5d5 = d << e;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            4557,
+        ),
+        hi: BytePos(
+            4558,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:267:17
+    |
+267 | var r5d5 = d << e;
+    |                 ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            4571,
+        ),
+        hi: BytePos(
+            4572,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:268:12
+    |
+268 | var r5d6 = d << f;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            4576,
+        ),
+        hi: BytePos(
+            4577,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:268:17
+    |
+268 | var r5d6 = d << f;
+    |                 ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            4591,
+        ),
+        hi: BytePos(
+            4592,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:270:12
+    |
+270 | var r5e1 = e << a;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            4610,
+        ),
+        hi: BytePos(
+            4611,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:271:12
+    |
+271 | var r5e2 = e << b;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            4615,
+        ),
+        hi: BytePos(
+            4616,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:271:17
+    |
+271 | var r5e2 = e << b;
+    |                 ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            4629,
+        ),
+        hi: BytePos(
+            4630,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:272:12
+    |
+272 | var r5e3 = e << c;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            4648,
+        ),
+        hi: BytePos(
+            4649,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:273:12
+    |
+273 | var r5e4 = e << d;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            4653,
+        ),
+        hi: BytePos(
+            4654,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:273:17
+    |
+273 | var r5e4 = e << d;
+    |                 ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            4667,
+        ),
+        hi: BytePos(
+            4668,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:274:12
+    |
+274 | var r5e5 = e << e;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            4672,
+        ),
+        hi: BytePos(
+            4673,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:274:17
+    |
+274 | var r5e5 = e << e;
+    |                 ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            4686,
+        ),
+        hi: BytePos(
+            4687,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:275:12
+    |
+275 | var r5e6 = e << f;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            4691,
+        ),
+        hi: BytePos(
+            4692,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:275:17
+    |
+275 | var r5e6 = e << f;
+    |                 ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            4706,
+        ),
+        hi: BytePos(
+            4707,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:277:12
+    |
+277 | var r5f1 = f << a;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            4725,
+        ),
+        hi: BytePos(
+            4726,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:278:12
+    |
+278 | var r5f2 = f << b;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            4730,
+        ),
+        hi: BytePos(
+            4731,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:278:17
+    |
+278 | var r5f2 = f << b;
+    |                 ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            4744,
+        ),
+        hi: BytePos(
+            4745,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:279:12
+    |
+279 | var r5f3 = f << c;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            4763,
+        ),
+        hi: BytePos(
+            4764,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:280:12
+    |
+280 | var r5f4 = f << d;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            4768,
+        ),
+        hi: BytePos(
+            4769,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:280:17
+    |
+280 | var r5f4 = f << d;
+    |                 ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            4782,
+        ),
+        hi: BytePos(
+            4783,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:281:12
+    |
+281 | var r5f5 = f << e;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            4787,
+        ),
+        hi: BytePos(
+            4788,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:281:17
+    |
+281 | var r5f5 = f << e;
+    |                 ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            4801,
+        ),
+        hi: BytePos(
+            4802,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:282:12
+    |
+282 | var r5f6 = f << f;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            4806,
+        ),
+        hi: BytePos(
+            4807,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:282:17
+    |
+282 | var r5f6 = f << f;
+    |                 ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            4854,
+        ),
+        hi: BytePos(
+            4855,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:285:19
+    |
+285 | var r5g2 = E.a << b;
+    |                   ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            4901,
+        ),
+        hi: BytePos(
+            4902,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:287:19
+    |
+287 | var r5g4 = E.a << d;
+    |                   ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            4922,
+        ),
+        hi: BytePos(
+            4923,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:288:19
+    |
+288 | var r5g5 = E.a << e;
+    |                   ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            4943,
+        ),
+        hi: BytePos(
+            4944,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:289:19
+    |
+289 | var r5g6 = E.a << f;
+    |                   ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            4984,
+        ),
+        hi: BytePos(
+            4985,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:292:12
+    |
+292 | var r5h2 = b << E.b;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            5031,
+        ),
+        hi: BytePos(
+            5032,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:294:12
+    |
+294 | var r5h4 = d << E.b;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            5052,
+        ),
+        hi: BytePos(
+            5053,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:295:12
+    |
+295 | var r5h5 = e << E.b;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            5073,
+        ),
+        hi: BytePos(
+            5074,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:296:12
+    |
+296 | var r5h6 = f << E.b;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            5139,
+        ),
+        hi: BytePos(
+            5140,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:300:17
+    |
+300 | var r6a2 = a >> b;
+    |                 ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            5182,
+        ),
+        hi: BytePos(
+            5183,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:302:17
+    |
+302 | var r6a4 = a >> d;
+    |                 ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            5201,
+        ),
+        hi: BytePos(
+            5202,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:303:17
+    |
+303 | var r6a5 = a >> e;
+    |                 ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            5220,
+        ),
+        hi: BytePos(
+            5221,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:304:17
+    |
+304 | var r6a6 = a >> f;
+    |                 ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            5235,
+        ),
+        hi: BytePos(
+            5236,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:306:12
+    |
+306 | var r6b1 = b >> a;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            5254,
+        ),
+        hi: BytePos(
+            5255,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:307:12
+    |
+307 | var r6b2 = b >> b;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            5259,
+        ),
+        hi: BytePos(
+            5260,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:307:17
+    |
+307 | var r6b2 = b >> b;
+    |                 ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            5273,
+        ),
+        hi: BytePos(
+            5274,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:308:12
+    |
+308 | var r6b3 = b >> c;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            5292,
+        ),
+        hi: BytePos(
+            5293,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:309:12
+    |
+309 | var r6b4 = b >> d;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            5297,
+        ),
+        hi: BytePos(
+            5298,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:309:17
+    |
+309 | var r6b4 = b >> d;
+    |                 ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            5311,
+        ),
+        hi: BytePos(
+            5312,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:310:12
+    |
+310 | var r6b5 = b >> e;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            5316,
+        ),
+        hi: BytePos(
+            5317,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:310:17
+    |
+310 | var r6b5 = b >> e;
+    |                 ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            5330,
+        ),
+        hi: BytePos(
+            5331,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:311:12
+    |
+311 | var r6b6 = b >> f;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            5335,
+        ),
+        hi: BytePos(
+            5336,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:311:17
+    |
+311 | var r6b6 = b >> f;
+    |                 ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            5379,
+        ),
+        hi: BytePos(
+            5380,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:314:17
+    |
+314 | var r6c2 = c >> b;
+    |                 ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            5422,
+        ),
+        hi: BytePos(
+            5423,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:316:17
+    |
+316 | var r6c4 = c >> d;
+    |                 ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            5441,
+        ),
+        hi: BytePos(
+            5442,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:317:17
+    |
+317 | var r6c5 = c >> e;
+    |                 ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            5460,
+        ),
+        hi: BytePos(
+            5461,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:318:17
+    |
+318 | var r6c6 = c >> f;
+    |                 ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            5475,
+        ),
+        hi: BytePos(
+            5476,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:320:12
+    |
+320 | var r6d1 = d >> a;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            5494,
+        ),
+        hi: BytePos(
+            5495,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:321:12
+    |
+321 | var r6d2 = d >> b;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            5499,
+        ),
+        hi: BytePos(
+            5500,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:321:17
+    |
+321 | var r6d2 = d >> b;
+    |                 ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            5513,
+        ),
+        hi: BytePos(
+            5514,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:322:12
+    |
+322 | var r6d3 = d >> c;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            5532,
+        ),
+        hi: BytePos(
+            5533,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:323:12
+    |
+323 | var r6d4 = d >> d;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            5537,
+        ),
+        hi: BytePos(
+            5538,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:323:17
+    |
+323 | var r6d4 = d >> d;
+    |                 ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            5551,
+        ),
+        hi: BytePos(
+            5552,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:324:12
+    |
+324 | var r6d5 = d >> e;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            5556,
+        ),
+        hi: BytePos(
+            5557,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:324:17
+    |
+324 | var r6d5 = d >> e;
+    |                 ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            5570,
+        ),
+        hi: BytePos(
+            5571,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:325:12
+    |
+325 | var r6d6 = d >> f;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            5575,
+        ),
+        hi: BytePos(
+            5576,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:325:17
+    |
+325 | var r6d6 = d >> f;
+    |                 ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            5590,
+        ),
+        hi: BytePos(
+            5591,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:327:12
+    |
+327 | var r6e1 = e >> a;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            5609,
+        ),
+        hi: BytePos(
+            5610,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:328:12
+    |
+328 | var r6e2 = e >> b;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            5614,
+        ),
+        hi: BytePos(
+            5615,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:328:17
+    |
+328 | var r6e2 = e >> b;
+    |                 ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            5628,
+        ),
+        hi: BytePos(
+            5629,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:329:12
+    |
+329 | var r6e3 = e >> c;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            5647,
+        ),
+        hi: BytePos(
+            5648,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:330:12
+    |
+330 | var r6e4 = e >> d;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            5652,
+        ),
+        hi: BytePos(
+            5653,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:330:17
+    |
+330 | var r6e4 = e >> d;
+    |                 ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            5666,
+        ),
+        hi: BytePos(
+            5667,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:331:12
+    |
+331 | var r6e5 = e >> e;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            5671,
+        ),
+        hi: BytePos(
+            5672,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:331:17
+    |
+331 | var r6e5 = e >> e;
+    |                 ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            5685,
+        ),
+        hi: BytePos(
+            5686,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:332:12
+    |
+332 | var r6e6 = e >> f;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            5690,
+        ),
+        hi: BytePos(
+            5691,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:332:17
+    |
+332 | var r6e6 = e >> f;
+    |                 ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            5705,
+        ),
+        hi: BytePos(
+            5706,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:334:12
+    |
+334 | var r6f1 = f >> a;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            5724,
+        ),
+        hi: BytePos(
+            5725,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:335:12
+    |
+335 | var r6f2 = f >> b;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            5729,
+        ),
+        hi: BytePos(
+            5730,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:335:17
+    |
+335 | var r6f2 = f >> b;
+    |                 ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            5743,
+        ),
+        hi: BytePos(
+            5744,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:336:12
+    |
+336 | var r6f3 = f >> c;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            5762,
+        ),
+        hi: BytePos(
+            5763,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:337:12
+    |
+337 | var r6f4 = f >> d;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            5767,
+        ),
+        hi: BytePos(
+            5768,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:337:17
+    |
+337 | var r6f4 = f >> d;
+    |                 ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            5781,
+        ),
+        hi: BytePos(
+            5782,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:338:12
+    |
+338 | var r6f5 = f >> e;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            5786,
+        ),
+        hi: BytePos(
+            5787,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:338:17
+    |
+338 | var r6f5 = f >> e;
+    |                 ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            5800,
+        ),
+        hi: BytePos(
+            5801,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:339:12
+    |
+339 | var r6f6 = f >> f;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            5805,
+        ),
+        hi: BytePos(
+            5806,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:339:17
+    |
+339 | var r6f6 = f >> f;
+    |                 ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            5853,
+        ),
+        hi: BytePos(
+            5854,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:342:19
+    |
+342 | var r6g2 = E.a >> b;
+    |                   ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            5900,
+        ),
+        hi: BytePos(
+            5901,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:344:19
+    |
+344 | var r6g4 = E.a >> d;
+    |                   ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            5921,
+        ),
+        hi: BytePos(
+            5922,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:345:19
+    |
+345 | var r6g5 = E.a >> e;
+    |                   ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            5942,
+        ),
+        hi: BytePos(
+            5943,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:346:19
+    |
+346 | var r6g6 = E.a >> f;
+    |                   ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            5983,
+        ),
+        hi: BytePos(
+            5984,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:349:12
+    |
+349 | var r6h2 = b >> E.b;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            6030,
+        ),
+        hi: BytePos(
+            6031,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:351:12
+    |
+351 | var r6h4 = d >> E.b;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            6051,
+        ),
+        hi: BytePos(
+            6052,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:352:12
+    |
+352 | var r6h5 = e >> E.b;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            6072,
+        ),
+        hi: BytePos(
+            6073,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:353:12
+    |
+353 | var r6h6 = f >> E.b;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            6141,
+        ),
+        hi: BytePos(
+            6142,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:357:18
+    |
+357 | var r7a2 = a >>> b;
+    |                  ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            6186,
+        ),
+        hi: BytePos(
+            6187,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:359:18
+    |
+359 | var r7a4 = a >>> d;
+    |                  ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            6206,
+        ),
+        hi: BytePos(
+            6207,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:360:18
+    |
+360 | var r7a5 = a >>> e;
+    |                  ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            6226,
+        ),
+        hi: BytePos(
+            6227,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:361:18
+    |
+361 | var r7a6 = a >>> f;
+    |                  ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            6241,
+        ),
+        hi: BytePos(
+            6242,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:363:12
+    |
+363 | var r7b1 = b >>> a;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            6261,
+        ),
+        hi: BytePos(
+            6262,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:364:12
+    |
+364 | var r7b2 = b >>> b;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            6267,
+        ),
+        hi: BytePos(
+            6268,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:364:18
+    |
+364 | var r7b2 = b >>> b;
+    |                  ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            6281,
+        ),
+        hi: BytePos(
+            6282,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:365:12
+    |
+365 | var r7b3 = b >>> c;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            6301,
+        ),
+        hi: BytePos(
+            6302,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:366:12
+    |
+366 | var r7b4 = b >>> d;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            6307,
+        ),
+        hi: BytePos(
+            6308,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:366:18
+    |
+366 | var r7b4 = b >>> d;
+    |                  ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            6321,
+        ),
+        hi: BytePos(
+            6322,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:367:12
+    |
+367 | var r7b5 = b >>> e;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            6327,
+        ),
+        hi: BytePos(
+            6328,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:367:18
+    |
+367 | var r7b5 = b >>> e;
+    |                  ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            6341,
+        ),
+        hi: BytePos(
+            6342,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:368:12
+    |
+368 | var r7b6 = b >>> f;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            6347,
+        ),
+        hi: BytePos(
+            6348,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:368:18
+    |
+368 | var r7b6 = b >>> f;
+    |                  ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            6393,
+        ),
+        hi: BytePos(
+            6394,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:371:18
+    |
+371 | var r7c2 = c >>> b;
+    |                  ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            6438,
+        ),
+        hi: BytePos(
+            6439,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:373:18
+    |
+373 | var r7c4 = c >>> d;
+    |                  ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            6458,
+        ),
+        hi: BytePos(
+            6459,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:374:18
+    |
+374 | var r7c5 = c >>> e;
+    |                  ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            6478,
+        ),
+        hi: BytePos(
+            6479,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:375:18
+    |
+375 | var r7c6 = c >>> f;
+    |                  ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            6493,
+        ),
+        hi: BytePos(
+            6494,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:377:12
+    |
+377 | var r7d1 = d >>> a;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            6513,
+        ),
+        hi: BytePos(
+            6514,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:378:12
+    |
+378 | var r7d2 = d >>> b;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            6519,
+        ),
+        hi: BytePos(
+            6520,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:378:18
+    |
+378 | var r7d2 = d >>> b;
+    |                  ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            6533,
+        ),
+        hi: BytePos(
+            6534,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:379:12
+    |
+379 | var r7d3 = d >>> c;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            6553,
+        ),
+        hi: BytePos(
+            6554,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:380:12
+    |
+380 | var r7d4 = d >>> d;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            6559,
+        ),
+        hi: BytePos(
+            6560,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:380:18
+    |
+380 | var r7d4 = d >>> d;
+    |                  ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            6573,
+        ),
+        hi: BytePos(
+            6574,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:381:12
+    |
+381 | var r7d5 = d >>> e;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            6579,
+        ),
+        hi: BytePos(
+            6580,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:381:18
+    |
+381 | var r7d5 = d >>> e;
+    |                  ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            6593,
+        ),
+        hi: BytePos(
+            6594,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:382:12
+    |
+382 | var r7d6 = d >>> f;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            6599,
+        ),
+        hi: BytePos(
+            6600,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:382:18
+    |
+382 | var r7d6 = d >>> f;
+    |                  ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            6614,
+        ),
+        hi: BytePos(
+            6615,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:384:12
+    |
+384 | var r7e1 = e >>> a;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            6634,
+        ),
+        hi: BytePos(
+            6635,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:385:12
+    |
+385 | var r7e2 = e >>> b;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            6640,
+        ),
+        hi: BytePos(
+            6641,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:385:18
+    |
+385 | var r7e2 = e >>> b;
+    |                  ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            6654,
+        ),
+        hi: BytePos(
+            6655,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:386:12
+    |
+386 | var r7e3 = e >>> c;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            6674,
+        ),
+        hi: BytePos(
+            6675,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:387:12
+    |
+387 | var r7e4 = e >>> d;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            6680,
+        ),
+        hi: BytePos(
+            6681,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:387:18
+    |
+387 | var r7e4 = e >>> d;
+    |                  ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            6694,
+        ),
+        hi: BytePos(
+            6695,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:388:12
+    |
+388 | var r7e5 = e >>> e;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            6700,
+        ),
+        hi: BytePos(
+            6701,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:388:18
+    |
+388 | var r7e5 = e >>> e;
+    |                  ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            6714,
+        ),
+        hi: BytePos(
+            6715,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:389:12
+    |
+389 | var r7e6 = e >>> f;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            6720,
+        ),
+        hi: BytePos(
+            6721,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:389:18
+    |
+389 | var r7e6 = e >>> f;
+    |                  ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            6735,
+        ),
+        hi: BytePos(
+            6736,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:391:12
+    |
+391 | var r7f1 = f >>> a;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            6755,
+        ),
+        hi: BytePos(
+            6756,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:392:12
+    |
+392 | var r7f2 = f >>> b;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            6761,
+        ),
+        hi: BytePos(
+            6762,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:392:18
+    |
+392 | var r7f2 = f >>> b;
+    |                  ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            6775,
+        ),
+        hi: BytePos(
+            6776,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:393:12
+    |
+393 | var r7f3 = f >>> c;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            6795,
+        ),
+        hi: BytePos(
+            6796,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:394:12
+    |
+394 | var r7f4 = f >>> d;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            6801,
+        ),
+        hi: BytePos(
+            6802,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:394:18
+    |
+394 | var r7f4 = f >>> d;
+    |                  ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            6815,
+        ),
+        hi: BytePos(
+            6816,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:395:12
+    |
+395 | var r7f5 = f >>> e;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            6821,
+        ),
+        hi: BytePos(
+            6822,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:395:18
+    |
+395 | var r7f5 = f >>> e;
+    |                  ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            6835,
+        ),
+        hi: BytePos(
+            6836,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:396:12
+    |
+396 | var r7f6 = f >>> f;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            6841,
+        ),
+        hi: BytePos(
+            6842,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:396:18
+    |
+396 | var r7f6 = f >>> f;
+    |                  ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            6891,
+        ),
+        hi: BytePos(
+            6892,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:399:20
+    |
+399 | var r7g2 = E.a >>> b;
+    |                    ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            6940,
+        ),
+        hi: BytePos(
+            6941,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:401:20
+    |
+401 | var r7g4 = E.a >>> d;
+    |                    ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            6962,
+        ),
+        hi: BytePos(
+            6963,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:402:20
+    |
+402 | var r7g5 = E.a >>> e;
+    |                    ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            6984,
+        ),
+        hi: BytePos(
+            6985,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:403:20
+    |
+403 | var r7g6 = E.a >>> f;
+    |                    ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            7026,
+        ),
+        hi: BytePos(
+            7027,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:406:12
+    |
+406 | var r7h2 = b >>> E.b;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            7075,
+        ),
+        hi: BytePos(
+            7076,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:408:12
+    |
+408 | var r7h4 = d >>> E.b;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            7097,
+        ),
+        hi: BytePos(
+            7098,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:409:12
+    |
+409 | var r7h5 = e >>> E.b;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            7119,
+        ),
+        hi: BytePos(
+            7120,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:410:12
+    |
+410 | var r7h6 = f >>> E.b;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            7183,
+        ),
+        hi: BytePos(
+            7184,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:414:16
+    |
+414 | var r8a2 = a & b;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            7224,
+        ),
+        hi: BytePos(
+            7225,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:416:16
+    |
+416 | var r8a4 = a & d;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            7242,
+        ),
+        hi: BytePos(
+            7243,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:417:16
+    |
+417 | var r8a5 = a & e;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            7260,
+        ),
+        hi: BytePos(
+            7261,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:418:16
+    |
+418 | var r8a6 = a & f;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            7275,
+        ),
+        hi: BytePos(
+            7276,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:420:12
+    |
+420 | var r8b1 = b & a;
+    |            ^
+
+error: TS2447 {
+    span: Span {
+        lo: BytePos(
+            7293,
+        ),
+        hi: BytePos(
+            7298,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:421:12
+    |
+421 | var r8b2 = b & b;
+    |            ^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            7311,
+        ),
+        hi: BytePos(
+            7312,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:422:12
+    |
+422 | var r8b3 = b & c;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            7329,
+        ),
+        hi: BytePos(
+            7330,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:423:12
+    |
+423 | var r8b4 = b & d;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            7333,
+        ),
+        hi: BytePos(
+            7334,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:423:16
+    |
+423 | var r8b4 = b & d;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            7347,
+        ),
+        hi: BytePos(
+            7348,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:424:12
+    |
+424 | var r8b5 = b & e;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            7351,
+        ),
+        hi: BytePos(
+            7352,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:424:16
+    |
+424 | var r8b5 = b & e;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            7365,
+        ),
+        hi: BytePos(
+            7366,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:425:12
+    |
+425 | var r8b6 = b & f;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            7369,
+        ),
+        hi: BytePos(
+            7370,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:425:16
+    |
+425 | var r8b6 = b & f;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            7411,
+        ),
+        hi: BytePos(
+            7412,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:428:16
+    |
+428 | var r8c2 = c & b;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            7452,
+        ),
+        hi: BytePos(
+            7453,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:430:16
+    |
+430 | var r8c4 = c & d;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            7470,
+        ),
+        hi: BytePos(
+            7471,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:431:16
+    |
+431 | var r8c5 = c & e;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            7488,
+        ),
+        hi: BytePos(
+            7489,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:432:16
+    |
+432 | var r8c6 = c & f;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            7503,
+        ),
+        hi: BytePos(
+            7504,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:434:12
+    |
+434 | var r8d1 = d & a;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            7521,
+        ),
+        hi: BytePos(
+            7522,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:435:12
+    |
+435 | var r8d2 = d & b;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            7525,
+        ),
+        hi: BytePos(
+            7526,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:435:16
+    |
+435 | var r8d2 = d & b;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            7539,
+        ),
+        hi: BytePos(
+            7540,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:436:12
+    |
+436 | var r8d3 = d & c;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            7557,
+        ),
+        hi: BytePos(
+            7558,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:437:12
+    |
+437 | var r8d4 = d & d;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            7561,
+        ),
+        hi: BytePos(
+            7562,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:437:16
+    |
+437 | var r8d4 = d & d;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            7575,
+        ),
+        hi: BytePos(
+            7576,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:438:12
+    |
+438 | var r8d5 = d & e;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            7579,
+        ),
+        hi: BytePos(
+            7580,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:438:16
+    |
+438 | var r8d5 = d & e;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            7593,
+        ),
+        hi: BytePos(
+            7594,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:439:12
+    |
+439 | var r8d6 = d & f;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            7597,
+        ),
+        hi: BytePos(
+            7598,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:439:16
+    |
+439 | var r8d6 = d & f;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            7612,
+        ),
+        hi: BytePos(
+            7613,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:441:12
+    |
+441 | var r8e1 = e & a;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            7630,
+        ),
+        hi: BytePos(
+            7631,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:442:12
+    |
+442 | var r8e2 = e & b;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            7634,
+        ),
+        hi: BytePos(
+            7635,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:442:16
+    |
+442 | var r8e2 = e & b;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            7648,
+        ),
+        hi: BytePos(
+            7649,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:443:12
+    |
+443 | var r8e3 = e & c;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            7666,
+        ),
+        hi: BytePos(
+            7667,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:444:12
+    |
+444 | var r8e4 = e & d;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            7670,
+        ),
+        hi: BytePos(
+            7671,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:444:16
+    |
+444 | var r8e4 = e & d;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            7684,
+        ),
+        hi: BytePos(
+            7685,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:445:12
+    |
+445 | var r8e5 = e & e;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            7688,
+        ),
+        hi: BytePos(
+            7689,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:445:16
+    |
+445 | var r8e5 = e & e;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            7702,
+        ),
+        hi: BytePos(
+            7703,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:446:12
+    |
+446 | var r8e6 = e & f;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            7706,
+        ),
+        hi: BytePos(
+            7707,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:446:16
+    |
+446 | var r8e6 = e & f;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            7721,
+        ),
+        hi: BytePos(
+            7722,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:448:12
+    |
+448 | var r8f1 = f & a;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            7739,
+        ),
+        hi: BytePos(
+            7740,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:449:12
+    |
+449 | var r8f2 = f & b;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            7743,
+        ),
+        hi: BytePos(
+            7744,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:449:16
+    |
+449 | var r8f2 = f & b;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            7757,
+        ),
+        hi: BytePos(
+            7758,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:450:12
+    |
+450 | var r8f3 = f & c;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            7775,
+        ),
+        hi: BytePos(
+            7776,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:451:12
+    |
+451 | var r8f4 = f & d;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            7779,
+        ),
+        hi: BytePos(
+            7780,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:451:16
+    |
+451 | var r8f4 = f & d;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            7793,
+        ),
+        hi: BytePos(
+            7794,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:452:12
+    |
+452 | var r8f5 = f & e;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            7797,
+        ),
+        hi: BytePos(
+            7798,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:452:16
+    |
+452 | var r8f5 = f & e;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            7811,
+        ),
+        hi: BytePos(
+            7812,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:453:12
+    |
+453 | var r8f6 = f & f;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            7815,
+        ),
+        hi: BytePos(
+            7816,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:453:16
+    |
+453 | var r8f6 = f & f;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            7861,
+        ),
+        hi: BytePos(
+            7862,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:456:18
+    |
+456 | var r8g2 = E.a & b;
+    |                  ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            7906,
+        ),
+        hi: BytePos(
+            7907,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:458:18
+    |
+458 | var r8g4 = E.a & d;
+    |                  ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            7926,
+        ),
+        hi: BytePos(
+            7927,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:459:18
+    |
+459 | var r8g5 = E.a & e;
+    |                  ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            7946,
+        ),
+        hi: BytePos(
+            7947,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:460:18
+    |
+460 | var r8g6 = E.a & f;
+    |                  ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            7986,
+        ),
+        hi: BytePos(
+            7987,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:463:12
+    |
+463 | var r8h2 = b & E.b;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            8031,
+        ),
+        hi: BytePos(
+            8032,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:465:12
+    |
+465 | var r8h4 = d & E.b;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            8051,
+        ),
+        hi: BytePos(
+            8052,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:466:12
+    |
+466 | var r8h5 = e & E.b;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            8071,
+        ),
+        hi: BytePos(
+            8072,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:467:12
+    |
+467 | var r8h6 = f & E.b;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            8133,
+        ),
+        hi: BytePos(
+            8134,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:471:16
+    |
+471 | var r9a2 = a ^ b;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            8174,
+        ),
+        hi: BytePos(
+            8175,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:473:16
+    |
+473 | var r9a4 = a ^ d;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            8192,
+        ),
+        hi: BytePos(
+            8193,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:474:16
+    |
+474 | var r9a5 = a ^ e;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            8210,
+        ),
+        hi: BytePos(
+            8211,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:475:16
+    |
+475 | var r9a6 = a ^ f;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            8225,
+        ),
+        hi: BytePos(
+            8226,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:477:12
+    |
+477 | var r9b1 = b ^ a;
+    |            ^
+
+error: TS2447 {
+    span: Span {
+        lo: BytePos(
+            8243,
+        ),
+        hi: BytePos(
+            8248,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:478:12
+    |
+478 | var r9b2 = b ^ b;
+    |            ^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            8261,
+        ),
+        hi: BytePos(
+            8262,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:479:12
+    |
+479 | var r9b3 = b ^ c;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            8279,
+        ),
+        hi: BytePos(
+            8280,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:480:12
+    |
+480 | var r9b4 = b ^ d;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            8283,
+        ),
+        hi: BytePos(
+            8284,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:480:16
+    |
+480 | var r9b4 = b ^ d;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            8297,
+        ),
+        hi: BytePos(
+            8298,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:481:12
+    |
+481 | var r9b5 = b ^ e;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            8301,
+        ),
+        hi: BytePos(
+            8302,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:481:16
+    |
+481 | var r9b5 = b ^ e;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            8315,
+        ),
+        hi: BytePos(
+            8316,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:482:12
+    |
+482 | var r9b6 = b ^ f;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            8319,
+        ),
+        hi: BytePos(
+            8320,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:482:16
+    |
+482 | var r9b6 = b ^ f;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            8361,
+        ),
+        hi: BytePos(
+            8362,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:485:16
+    |
+485 | var r9c2 = c ^ b;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            8402,
+        ),
+        hi: BytePos(
+            8403,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:487:16
+    |
+487 | var r9c4 = c ^ d;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            8420,
+        ),
+        hi: BytePos(
+            8421,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:488:16
+    |
+488 | var r9c5 = c ^ e;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            8438,
+        ),
+        hi: BytePos(
+            8439,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:489:16
+    |
+489 | var r9c6 = c ^ f;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            8453,
+        ),
+        hi: BytePos(
+            8454,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:491:12
+    |
+491 | var r9d1 = d ^ a;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            8471,
+        ),
+        hi: BytePos(
+            8472,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:492:12
+    |
+492 | var r9d2 = d ^ b;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            8475,
+        ),
+        hi: BytePos(
+            8476,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:492:16
+    |
+492 | var r9d2 = d ^ b;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            8489,
+        ),
+        hi: BytePos(
+            8490,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:493:12
+    |
+493 | var r9d3 = d ^ c;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            8507,
+        ),
+        hi: BytePos(
+            8508,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:494:12
+    |
+494 | var r9d4 = d ^ d;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            8511,
+        ),
+        hi: BytePos(
+            8512,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:494:16
+    |
+494 | var r9d4 = d ^ d;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            8525,
+        ),
+        hi: BytePos(
+            8526,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:495:12
+    |
+495 | var r9d5 = d ^ e;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            8529,
+        ),
+        hi: BytePos(
+            8530,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:495:16
+    |
+495 | var r9d5 = d ^ e;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            8543,
+        ),
+        hi: BytePos(
+            8544,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:496:12
+    |
+496 | var r9d6 = d ^ f;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            8547,
+        ),
+        hi: BytePos(
+            8548,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:496:16
+    |
+496 | var r9d6 = d ^ f;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            8562,
+        ),
+        hi: BytePos(
+            8563,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:498:12
+    |
+498 | var r9e1 = e ^ a;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            8580,
+        ),
+        hi: BytePos(
+            8581,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:499:12
+    |
+499 | var r9e2 = e ^ b;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            8584,
+        ),
+        hi: BytePos(
+            8585,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:499:16
+    |
+499 | var r9e2 = e ^ b;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            8598,
+        ),
+        hi: BytePos(
+            8599,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:500:12
+    |
+500 | var r9e3 = e ^ c;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            8616,
+        ),
+        hi: BytePos(
+            8617,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:501:12
+    |
+501 | var r9e4 = e ^ d;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            8620,
+        ),
+        hi: BytePos(
+            8621,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:501:16
+    |
+501 | var r9e4 = e ^ d;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            8634,
+        ),
+        hi: BytePos(
+            8635,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:502:12
+    |
+502 | var r9e5 = e ^ e;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            8638,
+        ),
+        hi: BytePos(
+            8639,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:502:16
+    |
+502 | var r9e5 = e ^ e;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            8652,
+        ),
+        hi: BytePos(
+            8653,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:503:12
+    |
+503 | var r9e6 = e ^ f;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            8656,
+        ),
+        hi: BytePos(
+            8657,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:503:16
+    |
+503 | var r9e6 = e ^ f;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            8671,
+        ),
+        hi: BytePos(
+            8672,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:505:12
+    |
+505 | var r9f1 = f ^ a;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            8689,
+        ),
+        hi: BytePos(
+            8690,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:506:12
+    |
+506 | var r9f2 = f ^ b;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            8693,
+        ),
+        hi: BytePos(
+            8694,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:506:16
+    |
+506 | var r9f2 = f ^ b;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            8707,
+        ),
+        hi: BytePos(
+            8708,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:507:12
+    |
+507 | var r9f3 = f ^ c;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            8725,
+        ),
+        hi: BytePos(
+            8726,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:508:12
+    |
+508 | var r9f4 = f ^ d;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            8729,
+        ),
+        hi: BytePos(
+            8730,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:508:16
+    |
+508 | var r9f4 = f ^ d;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            8743,
+        ),
+        hi: BytePos(
+            8744,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:509:12
+    |
+509 | var r9f5 = f ^ e;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            8747,
+        ),
+        hi: BytePos(
+            8748,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:509:16
+    |
+509 | var r9f5 = f ^ e;
+    |                ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            8761,
+        ),
+        hi: BytePos(
+            8762,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:510:12
+    |
+510 | var r9f6 = f ^ f;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            8765,
+        ),
+        hi: BytePos(
+            8766,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:510:16
+    |
+510 | var r9f6 = f ^ f;
+    |                ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            8811,
+        ),
+        hi: BytePos(
+            8812,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:513:18
+    |
+513 | var r9g2 = E.a ^ b;
+    |                  ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            8856,
+        ),
+        hi: BytePos(
+            8857,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:515:18
+    |
+515 | var r9g4 = E.a ^ d;
+    |                  ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            8876,
+        ),
+        hi: BytePos(
+            8877,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:516:18
+    |
+516 | var r9g5 = E.a ^ e;
+    |                  ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            8896,
+        ),
+        hi: BytePos(
+            8897,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:517:18
+    |
+517 | var r9g6 = E.a ^ f;
+    |                  ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            8936,
+        ),
+        hi: BytePos(
+            8937,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:520:12
+    |
+520 | var r9h2 = b ^ E.b;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            8981,
+        ),
+        hi: BytePos(
+            8982,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:522:12
+    |
+522 | var r9h4 = d ^ E.b;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            9001,
+        ),
+        hi: BytePos(
+            9002,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:523:12
+    |
+523 | var r9h5 = e ^ E.b;
+    |            ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            9021,
+        ),
+        hi: BytePos(
+            9022,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:524:12
+    |
+524 | var r9h6 = f ^ E.b;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            9085,
+        ),
+        hi: BytePos(
+            9086,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:528:17
+    |
+528 | var r10a2 = a | b;
+    |                 ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            9128,
+        ),
+        hi: BytePos(
+            9129,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:530:17
+    |
+530 | var r10a4 = a | d;
+    |                 ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            9147,
+        ),
+        hi: BytePos(
+            9148,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:531:17
+    |
+531 | var r10a5 = a | e;
+    |                 ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            9166,
+        ),
+        hi: BytePos(
+            9167,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:532:17
+    |
+532 | var r10a6 = a | f;
+    |                 ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            9182,
+        ),
+        hi: BytePos(
+            9183,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:534:13
+    |
+534 | var r10b1 = b | a;
+    |             ^
+
+error: TS2447 {
+    span: Span {
+        lo: BytePos(
+            9201,
+        ),
+        hi: BytePos(
+            9206,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:535:13
+    |
+535 | var r10b2 = b | b;
+    |             ^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            9220,
+        ),
+        hi: BytePos(
+            9221,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:536:13
+    |
+536 | var r10b3 = b | c;
+    |             ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            9239,
+        ),
+        hi: BytePos(
+            9240,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:537:13
+    |
+537 | var r10b4 = b | d;
+    |             ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            9243,
+        ),
+        hi: BytePos(
+            9244,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:537:17
+    |
+537 | var r10b4 = b | d;
+    |                 ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            9258,
+        ),
+        hi: BytePos(
+            9259,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:538:13
+    |
+538 | var r10b5 = b | e;
+    |             ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            9262,
+        ),
+        hi: BytePos(
+            9263,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:538:17
+    |
+538 | var r10b5 = b | e;
+    |                 ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            9277,
+        ),
+        hi: BytePos(
+            9278,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:539:13
+    |
+539 | var r10b6 = b | f;
+    |             ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            9281,
+        ),
+        hi: BytePos(
+            9282,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:539:17
+    |
+539 | var r10b6 = b | f;
+    |                 ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            9325,
+        ),
+        hi: BytePos(
+            9326,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:542:17
+    |
+542 | var r10c2 = c | b;
+    |                 ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            9368,
+        ),
+        hi: BytePos(
+            9369,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:544:17
+    |
+544 | var r10c4 = c | d;
+    |                 ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            9387,
+        ),
+        hi: BytePos(
+            9388,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:545:17
+    |
+545 | var r10c5 = c | e;
+    |                 ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            9406,
+        ),
+        hi: BytePos(
+            9407,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:546:17
+    |
+546 | var r10c6 = c | f;
+    |                 ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            9422,
+        ),
+        hi: BytePos(
+            9423,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:548:13
+    |
+548 | var r10d1 = d | a;
+    |             ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            9441,
+        ),
+        hi: BytePos(
+            9442,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:549:13
+    |
+549 | var r10d2 = d | b;
+    |             ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            9445,
+        ),
+        hi: BytePos(
+            9446,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:549:17
+    |
+549 | var r10d2 = d | b;
+    |                 ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            9460,
+        ),
+        hi: BytePos(
+            9461,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:550:13
+    |
+550 | var r10d3 = d | c;
+    |             ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            9479,
+        ),
+        hi: BytePos(
+            9480,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:551:13
+    |
+551 | var r10d4 = d | d;
+    |             ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            9483,
+        ),
+        hi: BytePos(
+            9484,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:551:17
+    |
+551 | var r10d4 = d | d;
+    |                 ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            9498,
+        ),
+        hi: BytePos(
+            9499,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:552:13
+    |
+552 | var r10d5 = d | e;
+    |             ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            9502,
+        ),
+        hi: BytePos(
+            9503,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:552:17
+    |
+552 | var r10d5 = d | e;
+    |                 ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            9517,
+        ),
+        hi: BytePos(
+            9518,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:553:13
+    |
+553 | var r10d6 = d | f;
+    |             ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            9521,
+        ),
+        hi: BytePos(
+            9522,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:553:17
+    |
+553 | var r10d6 = d | f;
+    |                 ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            9537,
+        ),
+        hi: BytePos(
+            9538,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:555:13
+    |
+555 | var r10e1 = e | a;
+    |             ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            9556,
+        ),
+        hi: BytePos(
+            9557,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:556:13
+    |
+556 | var r10e2 = e | b;
+    |             ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            9560,
+        ),
+        hi: BytePos(
+            9561,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:556:17
+    |
+556 | var r10e2 = e | b;
+    |                 ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            9575,
+        ),
+        hi: BytePos(
+            9576,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:557:13
+    |
+557 | var r10e3 = e | c;
+    |             ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            9594,
+        ),
+        hi: BytePos(
+            9595,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:558:13
+    |
+558 | var r10e4 = e | d;
+    |             ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            9598,
+        ),
+        hi: BytePos(
+            9599,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:558:17
+    |
+558 | var r10e4 = e | d;
+    |                 ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            9613,
+        ),
+        hi: BytePos(
+            9614,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:559:13
+    |
+559 | var r10e5 = e | e;
+    |             ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            9617,
+        ),
+        hi: BytePos(
+            9618,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:559:17
+    |
+559 | var r10e5 = e | e;
+    |                 ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            9632,
+        ),
+        hi: BytePos(
+            9633,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:560:13
+    |
+560 | var r10e6 = e | f;
+    |             ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            9636,
+        ),
+        hi: BytePos(
+            9637,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:560:17
+    |
+560 | var r10e6 = e | f;
+    |                 ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            9652,
+        ),
+        hi: BytePos(
+            9653,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:562:13
+    |
+562 | var r10f1 = f | a;
+    |             ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            9671,
+        ),
+        hi: BytePos(
+            9672,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:563:13
+    |
+563 | var r10f2 = f | b;
+    |             ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            9675,
+        ),
+        hi: BytePos(
+            9676,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:563:17
+    |
+563 | var r10f2 = f | b;
+    |                 ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            9690,
+        ),
+        hi: BytePos(
+            9691,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:564:13
+    |
+564 | var r10f3 = f | c;
+    |             ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            9709,
+        ),
+        hi: BytePos(
+            9710,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:565:13
+    |
+565 | var r10f4 = f | d;
+    |             ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            9713,
+        ),
+        hi: BytePos(
+            9714,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:565:17
+    |
+565 | var r10f4 = f | d;
+    |                 ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            9728,
+        ),
+        hi: BytePos(
+            9729,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:566:13
+    |
+566 | var r10f5 = f | e;
+    |             ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            9732,
+        ),
+        hi: BytePos(
+            9733,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:566:17
+    |
+566 | var r10f5 = f | e;
+    |                 ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            9747,
+        ),
+        hi: BytePos(
+            9748,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:567:13
+    |
+567 | var r10f6 = f | f;
+    |             ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            9751,
+        ),
+        hi: BytePos(
+            9752,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:567:17
+    |
+567 | var r10f6 = f | f;
+    |                 ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            9799,
+        ),
+        hi: BytePos(
+            9800,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:570:19
+    |
+570 | var r10g2 = E.a | b;
+    |                   ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            9846,
+        ),
+        hi: BytePos(
+            9847,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:572:19
+    |
+572 | var r10g4 = E.a | d;
+    |                   ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            9867,
+        ),
+        hi: BytePos(
+            9868,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:573:19
+    |
+573 | var r10g5 = E.a | e;
+    |                   ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            9888,
+        ),
+        hi: BytePos(
+            9889,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:574:19
+    |
+574 | var r10g6 = E.a | f;
+    |                   ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            9930,
+        ),
+        hi: BytePos(
+            9931,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:577:13
+    |
+577 | var r10h2 = b | E.b;
+    |             ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            9977,
+        ),
+        hi: BytePos(
+            9978,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:579:13
+    |
+579 | var r10h4 = d | E.b;
+    |             ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            9998,
+        ),
+        hi: BytePos(
+            9999,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:580:13
+    |
+580 | var r10h5 = e | E.b;
+    |             ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            10019,
+        ),
+        hi: BytePos(
+            10020,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithInvalidOperands.ts:581:13
+    |
+581 | var r10h6 = f | E.b;
+    |             ^
+

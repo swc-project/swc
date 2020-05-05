@@ -1,0 +1,17 @@
+[
+    {
+        "line": 29,
+        "column": 4,
+        "msg": "Argument of type '[number, number, [[string]], boolean, boolean]' is not assignable to parameter of type '[any, any, [[any]]]'."
+    },
+    {
+        "line": 32,
+        "column": 12,
+        "msg": "Type 'number' is not assignable to type '[[any]]'."
+    },
+    {
+        "line": 33,
+        "column": 5,
+        "msg": "Argument of type '[number, number]' is not assignable to parameter of type '[any, any, [[any]], ...any[]]'."
+    }
+]

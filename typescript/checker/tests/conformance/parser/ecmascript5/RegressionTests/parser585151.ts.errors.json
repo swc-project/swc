@@ -1,0 +1,12 @@
+[
+    {
+        "line": 2,
+        "column": 3,
+        "msg": "Unexpected token. A constructor, method, accessor, or property was expected."
+    },
+    {
+        "line": 3,
+        "column": 1,
+        "msg": "Declaration or statement expected."
+    }
+]

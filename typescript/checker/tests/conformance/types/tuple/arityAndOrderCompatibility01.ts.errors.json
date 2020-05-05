@@ -1,0 +1,87 @@
+[
+    {
+        "line": 15,
+        "column": 12,
+        "msg": "Tuple type '[string, number]' of length '2' has no element at index '2'."
+    },
+    {
+        "line": 17,
+        "column": 5,
+        "msg": "Type '{ 0"
+    },
+    {
+        "line": 18,
+        "column": 5,
+        "msg": "Property '2' is missing in type '[string, number]' but required in type '[number, number, number]'."
+    },
+    {
+        "line": 19,
+        "column": 5,
+        "msg": "Property '2' is missing in type 'StrNum' but required in type '[number, number, number]'."
+    },
+    {
+        "line": 20,
+        "column": 5,
+        "msg": "Type '{ 0"
+    },
+    {
+        "line": 21,
+        "column": 5,
+        "msg": "Property '2' is missing in type '[string, number]' but required in type '[string, number, number]'."
+    },
+    {
+        "line": 22,
+        "column": 5,
+        "msg": "Property '2' is missing in type 'StrNum' but required in type '[string, number, number]'."
+    },
+    {
+        "line": 23,
+        "column": 5,
+        "msg": "Type '{ 0"
+    },
+    {
+        "line": 24,
+        "column": 5,
+        "msg": "Type '[string, number]' is not assignable to type '[number]'."
+    },
+    {
+        "line": 25,
+        "column": 5,
+        "msg": "Type 'StrNum' is not assignable to type '[number]'."
+    },
+    {
+        "line": 26,
+        "column": 5,
+        "msg": "Type '{ 0"
+    },
+    {
+        "line": 27,
+        "column": 5,
+        "msg": "Type '[string, number]' is not assignable to type '[string]'."
+    },
+    {
+        "line": 28,
+        "column": 5,
+        "msg": "Type 'StrNum' is not assignable to type '[string]'."
+    },
+    {
+        "line": 29,
+        "column": 5,
+        "msg": "Type '{ 0"
+    },
+    {
+        "line": 30,
+        "column": 5,
+        "msg": "Type '[string, number]' is not assignable to type '[number, string]'."
+    },
+    {
+        "line": 31,
+        "column": 5,
+        "msg": "Type 'StrNum' is not assignable to type '[number, string]'."
+    },
+    {
+        "line": 32,
+        "column": 5,
+        "msg": "Type '{ 0"
+    }
+]

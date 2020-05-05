@@ -1,0 +1,6 @@
+error: Unexpected token Some(Comma)
+ --> $DIR/tests/conformance/parser/ecmascript5/TupleTypes/TupleType6.ts:1:16
+  |
+1 | var v: [number,,]
+  |                ^
+

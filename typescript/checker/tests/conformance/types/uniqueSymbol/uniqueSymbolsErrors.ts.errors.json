@@ -1,0 +1,307 @@
+[
+    {
+        "line": 4,
+        "column": 41,
+        "msg": "'symbol' expected."
+    },
+    {
+        "line": 5,
+        "column": 19,
+        "msg": "'unique symbol' types may not be used on a variable declaration with a binding name."
+    },
+    {
+        "line": 6,
+        "column": 13,
+        "msg": "A variable whose type is a 'unique symbol' type must be 'const'."
+    },
+    {
+        "line": 7,
+        "column": 13,
+        "msg": "A variable whose type is a 'unique symbol' type must be 'const'."
+    },
+    {
+        "line": 10,
+        "column": 38,
+        "msg": "'unique symbol' types are not allowed here."
+    },
+    {
+        "line": 11,
+        "column": 46,
+        "msg": "'unique symbol' types are not allowed here."
+    },
+    {
+        "line": 12,
+        "column": 39,
+        "msg": "'unique symbol' types are not allowed here."
+    },
+    {
+        "line": 13,
+        "column": 40,
+        "msg": "'unique symbol' types are not allowed here."
+    },
+    {
+        "line": 14,
+        "column": 53,
+        "msg": "'unique symbol' types are not allowed here."
+    },
+    {
+        "line": 15,
+        "column": 59,
+        "msg": "'unique symbol' types are not allowed here."
+    },
+    {
+        "line": 16,
+        "column": 50,
+        "msg": "'unique symbol' types are not allowed here."
+    },
+    {
+        "line": 20,
+        "column": 44,
+        "msg": "'unique symbol' types are not allowed here."
+    },
+    {
+        "line": 22,
+        "column": 14,
+        "msg": "A property of a class whose type is a 'unique symbol' type must be both 'static' and 'readonly'."
+    },
+    {
+        "line": 23,
+        "column": 5,
+        "msg": "A property of a class whose type is a 'unique symbol' type must be both 'static' and 'readonly'."
+    },
+    {
+        "line": 24,
+        "column": 25,
+        "msg": "'unique symbol' types are not allowed here."
+    },
+    {
+        "line": 25,
+        "column": 34,
+        "msg": "'unique symbol' types are not allowed here."
+    },
+    {
+        "line": 26,
+        "column": 26,
+        "msg": "'unique symbol' types are not allowed here."
+    },
+    {
+        "line": 27,
+        "column": 27,
+        "msg": "'unique symbol' types are not allowed here."
+    },
+    {
+        "line": 28,
+        "column": 40,
+        "msg": "'unique symbol' types are not allowed here."
+    },
+    {
+        "line": 29,
+        "column": 46,
+        "msg": "'unique symbol' types are not allowed here."
+    },
+    {
+        "line": 30,
+        "column": 37,
+        "msg": "'unique symbol' types are not allowed here."
+    },
+    {
+        "line": 31,
+        "column": 26,
+        "msg": "'unique symbol' types are not allowed here."
+    },
+    {
+        "line": 32,
+        "column": 28,
+        "msg": "'unique symbol' types are not allowed here."
+    },
+    {
+        "line": 34,
+        "column": 12,
+        "msg": "A property of a class whose type is a 'unique symbol' type must be both 'static' and 'readonly'."
+    },
+    {
+        "line": 35,
+        "column": 38,
+        "msg": "'unique symbol' types are not allowed here."
+    },
+    {
+        "line": 36,
+        "column": 47,
+        "msg": "'unique symbol' types are not allowed here."
+    },
+    {
+        "line": 37,
+        "column": 39,
+        "msg": "'unique symbol' types are not allowed here."
+    },
+    {
+        "line": 38,
+        "column": 40,
+        "msg": "'unique symbol' types are not allowed here."
+    },
+    {
+        "line": 39,
+        "column": 53,
+        "msg": "'unique symbol' types are not allowed here."
+    },
+    {
+        "line": 40,
+        "column": 59,
+        "msg": "'unique symbol' types are not allowed here."
+    },
+    {
+        "line": 41,
+        "column": 50,
+        "msg": "'unique symbol' types are not allowed here."
+    },
+    {
+        "line": 42,
+        "column": 39,
+        "msg": "'unique symbol' types are not allowed here."
+    },
+    {
+        "line": 43,
+        "column": 41,
+        "msg": "'unique symbol' types are not allowed here."
+    },
+    {
+        "line": 48,
+        "column": 5,
+        "msg": "A property of an interface or type literal whose type is a 'unique symbol' type must be 'readonly'."
+    },
+    {
+        "line": 49,
+        "column": 25,
+        "msg": "'unique symbol' types are not allowed here."
+    },
+    {
+        "line": 50,
+        "column": 34,
+        "msg": "'unique symbol' types are not allowed here."
+    },
+    {
+        "line": 51,
+        "column": 26,
+        "msg": "'unique symbol' types are not allowed here."
+    },
+    {
+        "line": 52,
+        "column": 27,
+        "msg": "'unique symbol' types are not allowed here."
+    },
+    {
+        "line": 53,
+        "column": 40,
+        "msg": "'unique symbol' types are not allowed here."
+    },
+    {
+        "line": 54,
+        "column": 46,
+        "msg": "'unique symbol' types are not allowed here."
+    },
+    {
+        "line": 55,
+        "column": 37,
+        "msg": "'unique symbol' types are not allowed here."
+    },
+    {
+        "line": 60,
+        "column": 5,
+        "msg": "A property of an interface or type literal whose type is a 'unique symbol' type must be 'readonly'."
+    },
+    {
+        "line": 61,
+        "column": 25,
+        "msg": "'unique symbol' types are not allowed here."
+    },
+    {
+        "line": 62,
+        "column": 34,
+        "msg": "'unique symbol' types are not allowed here."
+    },
+    {
+        "line": 63,
+        "column": 26,
+        "msg": "'unique symbol' types are not allowed here."
+    },
+    {
+        "line": 64,
+        "column": 27,
+        "msg": "'unique symbol' types are not allowed here."
+    },
+    {
+        "line": 65,
+        "column": 40,
+        "msg": "'unique symbol' types are not allowed here."
+    },
+    {
+        "line": 66,
+        "column": 46,
+        "msg": "'unique symbol' types are not allowed here."
+    },
+    {
+        "line": 67,
+        "column": 37,
+        "msg": "'unique symbol' types are not allowed here."
+    },
+    {
+        "line": 71,
+        "column": 21,
+        "msg": "'unique symbol' types are not allowed here."
+    },
+    {
+        "line": 72,
+        "column": 52,
+        "msg": "'unique symbol' types are not allowed here."
+    },
+    {
+        "line": 73,
+        "column": 49,
+        "msg": "'unique symbol' types are not allowed here."
+    },
+    {
+        "line": 76,
+        "column": 44,
+        "msg": "'unique symbol' types are not allowed here."
+    },
+    {
+        "line": 77,
+        "column": 34,
+        "msg": "'unique symbol' types are not allowed here."
+    },
+    {
+        "line": 78,
+        "column": 34,
+        "msg": "'unique symbol' types are not allowed here."
+    },
+    {
+        "line": 81,
+        "column": 51,
+        "msg": "'unique symbol' types are not allowed here."
+    },
+    {
+        "line": 84,
+        "column": 29,
+        "msg": "'unique symbol' types are not allowed here."
+    },
+    {
+        "line": 84,
+        "column": 45,
+        "msg": "'unique symbol' types are not allowed here."
+    },
+    {
+        "line": 85,
+        "column": 36,
+        "msg": "'unique symbol' types are not allowed here."
+    },
+    {
+        "line": 85,
+        "column": 52,
+        "msg": "'unique symbol' types are not allowed here."
+    },
+    {
+        "line": 89,
+        "column": 7,
+        "msg": "Type 'unique symbol' is not assignable to type 'string'."
+    }
+]

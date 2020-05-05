@@ -1,0 +1,6 @@
+error: TS1162
+ --> $DIR/tests/conformance/parser/ecmascript6/ShorthandPropertyAssignment/parserShorthandPropertyAssignment5.ts:2:18
+  |
+2 | var obj = { greet? }; 
+  |                  ^
+

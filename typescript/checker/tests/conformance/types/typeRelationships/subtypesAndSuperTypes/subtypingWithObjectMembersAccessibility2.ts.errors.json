@@ -1,0 +1,32 @@
+[
+    {
+        "line": 16,
+        "column": 11,
+        "msg": "Class 'B' incorrectly extends base class 'A'."
+    },
+    {
+        "line": 24,
+        "column": 11,
+        "msg": "Class 'B2' incorrectly extends base class 'A2'."
+    },
+    {
+        "line": 32,
+        "column": 11,
+        "msg": "Class 'B3' incorrectly extends base class 'A3'."
+    },
+    {
+        "line": 42,
+        "column": 11,
+        "msg": "Class 'B' incorrectly extends base class 'A'."
+    },
+    {
+        "line": 50,
+        "column": 11,
+        "msg": "Class 'B2' incorrectly extends base class 'A2'."
+    },
+    {
+        "line": 58,
+        "column": 11,
+        "msg": "Class 'B3' incorrectly extends base class 'A3'."
+    }
+]

@@ -1,0 +1,6 @@
+error: Unexpected token Some(Word(break))
+ --> $DIR/tests/conformance/parser/ecmascript5/ErrorRecovery/ParameterLists/parserErrorRecovery_ParameterList6.ts:2:23
+  |
+2 |     public banana (x: break) { }
+  |                       ^^^^^
+

@@ -1,0 +1,7 @@
+[
+    {
+        "line": 10,
+        "column": 21,
+        "msg": "Property 'x' does not exist on type 'B'."
+    }
+]

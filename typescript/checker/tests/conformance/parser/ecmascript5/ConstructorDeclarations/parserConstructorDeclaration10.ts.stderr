@@ -1,0 +1,6 @@
+error: TS1093
+ --> $DIR/tests/conformance/parser/ecmascript5/ConstructorDeclarations/parserConstructorDeclaration10.ts:2:18
+  |
+2 |   constructor(): number { }
+  |                  ^^^^^^
+

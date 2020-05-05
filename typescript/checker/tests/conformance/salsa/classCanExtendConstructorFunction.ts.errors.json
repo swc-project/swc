@@ -1,0 +1,52 @@
+[
+    {
+        "line": 29,
+        "column": 9,
+        "msg": "Expected 1 arguments, but got 0."
+    },
+    {
+        "line": 37,
+        "column": 5,
+        "msg": "Property 'load' in type 'Sql' is not assignable to the same property in base type 'Wagon'."
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "\"csv\" | \"json\" | \"xmlolololol\") => void' is not assignable to type '(supplies?"
+    },
+    {
+        "line": 53,
+        "column": 24,
+        "msg": "Type '(numberEaten"
+    },
+    {
+        "line": 25,
+        "column": 19,
+        "msg": "Expected 1 arguments, but got 0."
+    },
+    {
+        "line": 26,
+        "column": 32,
+        "msg": "Argument of type '0' is not assignable to parameter of type '{ claim"
+    },
+    {
+        "line": 14,
+        "column": 25,
+        "msg": "Type '(numberEaten"
+    },
+    {
+        "line": 20,
+        "column": 7,
+        "msg": "Class static side 'typeof Conestoga' incorrectly extends base class static side 'typeof Wagon'."
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "Wagon[]) => number'."
+    },
+    {
+        "line": 23,
+        "column": 15,
+        "msg": "Argument of type '\"nope\"' is not assignable to parameter of type 'number'."
+    }
+]

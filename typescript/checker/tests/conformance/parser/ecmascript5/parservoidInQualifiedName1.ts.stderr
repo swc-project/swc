@@ -1,0 +1,6 @@
+error: TS1005
+ --> $DIR/tests/conformance/parser/ecmascript5/parservoidInQualifiedName1.ts:1:13
+  |
+1 | var v : void.x;
+  |             ^
+

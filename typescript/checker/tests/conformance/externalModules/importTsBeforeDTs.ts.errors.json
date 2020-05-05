@@ -1,0 +1,7 @@
+[
+    {
+        "line": 6,
+        "column": 14,
+        "msg": "Property 'x' does not exist on type 'typeof import(\"tests/cases/conformance/externalModules/foo_0\")'."
+    }
+]

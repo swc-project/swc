@@ -1,0 +1,16 @@
+error: ImplicitAny {
+    span: Span {
+        lo: BytePos(
+            43,
+        ),
+        hi: BytePos(
+            46,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/types/tuple/wideningTuples7.ts:2:20
+  |
+2 | var foo = function bar() {
+  |                    ^^^
+

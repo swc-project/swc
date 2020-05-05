@@ -1,0 +1,72 @@
+[
+    {
+        "line": 43,
+        "column": 9,
+        "msg": "Unreachable code detected."
+    },
+    {
+        "line": 47,
+        "column": 9,
+        "msg": "Unreachable code detected."
+    },
+    {
+        "line": 91,
+        "column": 9,
+        "msg": "Unreachable code detected."
+    },
+    {
+        "line": 126,
+        "column": 9,
+        "msg": "Unreachable code detected."
+    },
+    {
+        "line": 136,
+        "column": 37,
+        "msg": "A type predicate is only allowed in return type position for functions and methods."
+    },
+    {
+        "line": 137,
+        "column": 37,
+        "msg": "A type predicate is only allowed in return type position for functions and methods."
+    },
+    {
+        "line": 138,
+        "column": 37,
+        "msg": "A type predicate is only allowed in return type position for functions and methods."
+    },
+    {
+        "line": 141,
+        "column": 15,
+        "msg": "A type predicate is only allowed in return type position for functions and methods."
+    },
+    {
+        "line": 142,
+        "column": 15,
+        "msg": "A type predicate is only allowed in return type position for functions and methods."
+    },
+    {
+        "line": 143,
+        "column": 15,
+        "msg": "A type predicate is only allowed in return type position for functions and methods."
+    },
+    {
+        "line": 144,
+        "column": 15,
+        "msg": "A type predicate is only allowed in return type position for functions and methods."
+    },
+    {
+        "line": 149,
+        "column": 5,
+        "msg": "Assertions require every name in the call target to be declared with an explicit type annotation."
+    },
+    {
+        "line": 151,
+        "column": 5,
+        "msg": "Assertions require the call target to be an identifier or qualified name."
+    },
+    {
+        "line": 153,
+        "column": 5,
+        "msg": "Assertions require every name in the call target to be declared with an explicit type annotation."
+    }
+]

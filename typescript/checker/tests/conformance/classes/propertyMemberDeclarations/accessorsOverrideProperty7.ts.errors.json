@@ -1,0 +1,7 @@
+[
+    {
+        "line": 7,
+        "column": 9,
+        "msg": "'p' is defined as a property in class 'A', but is overridden here in 'B' as an accessor."
+    }
+]

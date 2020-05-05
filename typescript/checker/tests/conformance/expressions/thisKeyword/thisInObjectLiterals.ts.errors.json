@@ -1,0 +1,12 @@
+[
+    {
+        "line": 17,
+        "column": 5,
+        "msg": "'f' implicitly has return type 'any' because it does not have a return type annotation and is referenced directly or indirectly in one of its return expressions."
+    },
+    {
+        "line": 18,
+        "column": 21,
+        "msg": "Property 'spaaace' does not exist on type '{ f()"
+    }
+]

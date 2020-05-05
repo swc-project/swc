@@ -1,0 +1,17 @@
+[
+    {
+        "line": 2,
+        "column": 1,
+        "msg": "'with' statements are not allowed in strict mode."
+    },
+    {
+        "line": 2,
+        "column": 1,
+        "msg": "The 'with' statement is not supported. All symbols in a 'with' block will have type 'any'."
+    },
+    {
+        "line": 2,
+        "column": 7,
+        "msg": "Cannot find name 'a'."
+    }
+]

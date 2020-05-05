@@ -1,0 +1,6 @@
+error: TS1031
+ --> $DIR/tests/conformance/parser/ecmascript5/ConstructorDeclarations/parserConstructorDeclaration4.ts:2:3
+  |
+2 |   declare constructor() { }
+  |   ^^^^^^^
+

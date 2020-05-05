@@ -1,0 +1,22 @@
+[
+    {
+        "line": 61,
+        "column": 20,
+        "msg": "JSDoc '@param' tag has name 'obj', but there is no parameter with that name."
+    },
+    {
+        "line": 66,
+        "column": 19,
+        "msg": "Property 'a' does not exist on type 'String'."
+    },
+    {
+        "line": 66,
+        "column": 22,
+        "msg": "Property 'b' does not exist on type 'String'."
+    },
+    {
+        "line": 68,
+        "column": 20,
+        "msg": "JSDoc '@param' tag has name 'y', but there is no parameter with that name."
+    }
+]

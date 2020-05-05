@@ -1,0 +1,12 @@
+[
+    {
+        "line": 1,
+        "column": 15,
+        "msg": "Accessors are only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 1,
+        "column": 15,
+        "msg": "A 'get' accessor must return a value."
+    }
+]

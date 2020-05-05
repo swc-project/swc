@@ -1,0 +1,7 @@
+[
+    {
+        "line": 3,
+        "column": 9,
+        "msg": "Cannot find name 'foo'."
+    }
+]

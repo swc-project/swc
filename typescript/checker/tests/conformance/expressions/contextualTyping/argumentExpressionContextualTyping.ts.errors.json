@@ -1,0 +1,17 @@
+[
+    {
+        "line": 16,
+        "column": 5,
+        "msg": "Argument of type '(string | number | boolean)[]' is not assignable to parameter of type '[string, number, boolean]'."
+    },
+    {
+        "line": 17,
+        "column": 5,
+        "msg": "Argument of type '[string, number, true, ...(string | number | boolean)[]]' is not assignable to parameter of type '[string, number, boolean]'."
+    },
+    {
+        "line": 18,
+        "column": 5,
+        "msg": "Argument of type '{ x"
+    }
+]

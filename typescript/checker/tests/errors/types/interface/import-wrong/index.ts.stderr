@@ -1,0 +1,18 @@
+error: NameNotFound {
+    name: Foo,
+    type_args: None,
+    span: Span {
+        lo: BytePos(
+            37,
+        ),
+        hi: BytePos(
+            40,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/errors/types/interface/import-wrong/index.ts:3:8
+  |
+3 | let a: Foo = {};
+  |        ^^^
+

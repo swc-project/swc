@@ -1,0 +1,12 @@
+[
+    {
+        "line": 4,
+        "column": 21,
+        "msg": "File 'tests/cases/conformance/parser/ecmascript5/typescript.ts' not found."
+    },
+    {
+        "line": 195,
+        "column": 38,
+        "msg": "An element access expression should take an argument."
+    }
+]

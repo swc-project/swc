@@ -1,0 +1,47 @@
+[
+    {
+        "line": 5,
+        "column": 5,
+        "msg": "Duplicate number index signature."
+    },
+    {
+        "line": 8,
+        "column": 11,
+        "msg": "All declarations of 'I' must have identical type parameters."
+    },
+    {
+        "line": 10,
+        "column": 5,
+        "msg": "Duplicate number index signature."
+    },
+    {
+        "line": 15,
+        "column": 5,
+        "msg": "Duplicate number index signature."
+    },
+    {
+        "line": 20,
+        "column": 5,
+        "msg": "Duplicate number index signature."
+    },
+    {
+        "line": 25,
+        "column": 5,
+        "msg": "Duplicate number index signature."
+    },
+    {
+        "line": 28,
+        "column": 11,
+        "msg": "All declarations of 'I' must have identical type parameters."
+    },
+    {
+        "line": 29,
+        "column": 5,
+        "msg": "Duplicate number index signature."
+    },
+    {
+        "line": 30,
+        "column": 5,
+        "msg": "Duplicate number index signature."
+    }
+]

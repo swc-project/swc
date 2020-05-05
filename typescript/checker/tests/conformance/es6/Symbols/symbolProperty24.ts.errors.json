@@ -1,0 +1,7 @@
+[
+    {
+        "line": 7,
+        "column": 5,
+        "msg": "Property '[Symbol.toPrimitive]' in type 'C' is not assignable to the same property in base type 'I'."
+    }
+]

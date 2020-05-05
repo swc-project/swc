@@ -1,0 +1,18 @@
+error: NameNotFound {
+    name: Undefined,
+    type_args: None,
+    span: Span {
+        lo: BytePos(
+            7,
+        ),
+        hi: BytePos(
+            16,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/types/primitives/undefined/directReferenceToUndefined.ts:1:8
+  |
+1 | var x: Undefined;
+  |        ^^^^^^^^^
+

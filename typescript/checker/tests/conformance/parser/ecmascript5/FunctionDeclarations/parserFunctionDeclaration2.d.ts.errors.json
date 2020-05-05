@@ -1,0 +1,12 @@
+[
+    {
+        "line": 1,
+        "column": 1,
+        "msg": "Top-level declarations in .d.ts files must start with either a 'declare' or 'export' modifier."
+    },
+    {
+        "line": 1,
+        "column": 14,
+        "msg": "An implementation cannot be declared in ambient contexts."
+    }
+]

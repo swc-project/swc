@@ -1,0 +1,6 @@
+error: Expected ident
+ --> $DIR/tests/conformance/parser/ecmascript5/RegressionTests/parser509667.ts:4:4
+  |
+4 |    }
+  |    ^
+

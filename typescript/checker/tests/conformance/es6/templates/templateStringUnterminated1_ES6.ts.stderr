@@ -1,0 +1,6 @@
+error: Unexpected eof
+ --> $DIR/tests/conformance/es6/templates/templateStringUnterminated1_ES6.ts:2:2
+  |
+2 | `
+  |  ^
+

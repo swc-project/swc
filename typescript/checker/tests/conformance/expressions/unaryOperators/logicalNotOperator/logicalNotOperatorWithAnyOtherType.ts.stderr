@@ -1,0 +1,64 @@
+error: TS2365 {
+    span: Span {
+        lo: BytePos(
+            920,
+        ),
+        hi: BytePos(
+            936,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/logicalNotOperator/logicalNotOperatorWithAnyOtherType.ts:45:27
+   |
+45 | var ResultIsBoolean17 = !(null + undefined);
+   |                           ^^^^^^^^^^^^^^^^
+
+error: TS2365 {
+    span: Span {
+        lo: BytePos(
+            965,
+        ),
+        hi: BytePos(
+            976,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/logicalNotOperator/logicalNotOperatorWithAnyOtherType.ts:46:27
+   |
+46 | var ResultIsBoolean18 = !(null + null);
+   |                           ^^^^^^^^^^^
+
+error: TS2365 {
+    span: Span {
+        lo: BytePos(
+            1005,
+        ),
+        hi: BytePos(
+            1026,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/logicalNotOperator/logicalNotOperatorWithAnyOtherType.ts:47:27
+   |
+47 | var ResultIsBoolean19 = !(undefined + undefined);
+   |                           ^^^^^^^^^^^^^^^^^^^^^
+
+error: UselessSeqExpr {
+    span: Span {
+        lo: BytePos(
+            1179,
+        ),
+        hi: BytePos(
+            1189,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/logicalNotOperator/logicalNotOperatorWithAnyOtherType.ts:57:1
+   |
+57 | !ANY, ANY1;
+   | ^^^^^^^^^^
+

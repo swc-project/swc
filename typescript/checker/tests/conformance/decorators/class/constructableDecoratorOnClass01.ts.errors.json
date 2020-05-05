@@ -1,0 +1,7 @@
+[
+    {
+        "line": 5,
+        "column": 2,
+        "msg": "Unable to resolve signature of class decorator when called as an expression."
+    }
+]

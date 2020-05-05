@@ -1,0 +1,15 @@
+[package]
+name = "swc_ts_builtin_types"
+version = "0.1.0"
+authors = ["강동윤 <kdy1997l.dev@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+swc_atoms = { path = "../../../atoms" }
+swc_common = { path = "../../../common", features = ["fold"] }
+swc_ecma_ast = { path = "../../../ecmascript/ast", features = ["fold"] }
+swc_ecma_parser = { path = "../../../ecmascript/parser", features = ["verify"] }
+swc_ts_builtin_macro = { path = "./macros" }
+once_cell = "1"
+fxhash = "0.2.1"
+indexmap = "1.3.2"

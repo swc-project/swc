@@ -1,0 +1,32 @@
+error: TS2378 {
+    span: Span {
+        lo: BytePos(
+            145,
+        ),
+        hi: BytePos(
+            159,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es6/computedProperties/computedPropertyNames2_ES5.ts:7:9
+  |
+7 |     get [accessorName]() { }
+  |         ^^^^^^^^^^^^^^
+
+error: TS2378 {
+    span: Span {
+        lo: BytePos(
+            211,
+        ),
+        hi: BytePos(
+            225,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es6/computedProperties/computedPropertyNames2_ES5.ts:9:16
+  |
+9 |     static get [accessorName]() { }
+  |                ^^^^^^^^^^^^^^
+

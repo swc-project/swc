@@ -1,0 +1,6 @@
+error: TS1164
+ --> $DIR/tests/conformance/parser/ecmascript6/ComputedPropertyNames/parserComputedPropertyName16.ts:3:3
+  |
+3 |   [e] = 1
+  |   ^^
+

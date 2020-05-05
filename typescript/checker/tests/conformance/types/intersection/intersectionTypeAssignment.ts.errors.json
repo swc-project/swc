@@ -1,0 +1,22 @@
+[
+    {
+        "line": 8,
+        "column": 1,
+        "msg": "Property 'b' is missing in type '{ a"
+    },
+    {
+        "line": 9,
+        "column": 1,
+        "msg": "Type '{ a"
+    },
+    {
+        "line": 13,
+        "column": 1,
+        "msg": "Property 'a' is missing in type '{ b"
+    },
+    {
+        "line": 14,
+        "column": 1,
+        "msg": "Type '{ b"
+    }
+]

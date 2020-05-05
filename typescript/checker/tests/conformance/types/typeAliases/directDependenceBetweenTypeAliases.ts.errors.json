@@ -1,0 +1,37 @@
+[
+    {
+        "line": 4,
+        "column": 6,
+        "msg": "Type alias 'T0' circularly references itself."
+    },
+    {
+        "line": 5,
+        "column": 6,
+        "msg": "Type alias 'T0_1' circularly references itself."
+    },
+    {
+        "line": 6,
+        "column": 6,
+        "msg": "Type alias 'T0_2' circularly references itself."
+    },
+    {
+        "line": 7,
+        "column": 6,
+        "msg": "Type alias 'T0_3' circularly references itself."
+    },
+    {
+        "line": 14,
+        "column": 6,
+        "msg": "Type alias 'T2' circularly references itself."
+    },
+    {
+        "line": 25,
+        "column": 5,
+        "msg": "'x' is referenced directly or indirectly in its own type annotation."
+    },
+    {
+        "line": 26,
+        "column": 6,
+        "msg": "Type alias 'T5' circularly references itself."
+    }
+]

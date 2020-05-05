@@ -1,0 +1,7 @@
+[
+    {
+        "line": 8,
+        "column": 5,
+        "msg": "'sound' is defined as an accessor in class 'Animal', but is overridden here in 'Lion' as an instance property."
+    }
+]

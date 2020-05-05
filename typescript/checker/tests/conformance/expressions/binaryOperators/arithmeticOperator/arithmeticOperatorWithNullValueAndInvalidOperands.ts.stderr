@@ -1,0 +1,3840 @@
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            181,
+        ),
+        hi: BytePos(
+            185,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:9:12
+  |
+9 | var r1a1 = null * a;
+  |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            188,
+        ),
+        hi: BytePos(
+            189,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:9:19
+  |
+9 | var r1a1 = null * a;
+  |                   ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            202,
+        ),
+        hi: BytePos(
+            206,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:10:12
+   |
+10 | var r1a2 = null * b;
+   |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            209,
+        ),
+        hi: BytePos(
+            210,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:10:19
+   |
+10 | var r1a2 = null * b;
+   |                   ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            223,
+        ),
+        hi: BytePos(
+            227,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:11:12
+   |
+11 | var r1a3 = null * c;
+   |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            230,
+        ),
+        hi: BytePos(
+            231,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:11:19
+   |
+11 | var r1a3 = null * c;
+   |                   ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            245,
+        ),
+        hi: BytePos(
+            246,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:13:12
+   |
+13 | var r1b1 = a * null;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            249,
+        ),
+        hi: BytePos(
+            253,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:13:16
+   |
+13 | var r1b1 = a * null;
+   |                ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            266,
+        ),
+        hi: BytePos(
+            267,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:14:12
+   |
+14 | var r1b2 = b * null;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            270,
+        ),
+        hi: BytePos(
+            274,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:14:16
+   |
+14 | var r1b2 = b * null;
+   |                ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            287,
+        ),
+        hi: BytePos(
+            288,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:15:12
+   |
+15 | var r1b3 = c * null;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            291,
+        ),
+        hi: BytePos(
+            295,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:15:16
+   |
+15 | var r1b3 = c * null;
+   |                ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            309,
+        ),
+        hi: BytePos(
+            313,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:17:12
+   |
+17 | var r1c1 = null * true;
+   |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            316,
+        ),
+        hi: BytePos(
+            320,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:17:19
+   |
+17 | var r1c1 = null * true;
+   |                   ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            333,
+        ),
+        hi: BytePos(
+            337,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:18:12
+   |
+18 | var r1c2 = null * '';
+   |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            340,
+        ),
+        hi: BytePos(
+            342,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:18:19
+   |
+18 | var r1c2 = null * '';
+   |                   ^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            355,
+        ),
+        hi: BytePos(
+            359,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:19:12
+   |
+19 | var r1c3 = null * {};
+   |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            362,
+        ),
+        hi: BytePos(
+            364,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:19:19
+   |
+19 | var r1c3 = null * {};
+   |                   ^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            378,
+        ),
+        hi: BytePos(
+            382,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:21:12
+   |
+21 | var r1d1 = true * null;
+   |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            385,
+        ),
+        hi: BytePos(
+            389,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:21:19
+   |
+21 | var r1d1 = true * null;
+   |                   ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            402,
+        ),
+        hi: BytePos(
+            404,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:22:12
+   |
+22 | var r1d2 = '' * null;
+   |            ^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            407,
+        ),
+        hi: BytePos(
+            411,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:22:17
+   |
+22 | var r1d2 = '' * null;
+   |                 ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            424,
+        ),
+        hi: BytePos(
+            426,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:23:12
+   |
+23 | var r1d3 = {} * null;
+   |            ^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            429,
+        ),
+        hi: BytePos(
+            433,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:23:17
+   |
+23 | var r1d3 = {} * null;
+   |                 ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            461,
+        ),
+        hi: BytePos(
+            465,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:26:12
+   |
+26 | var r2a1 = null / a;
+   |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            468,
+        ),
+        hi: BytePos(
+            469,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:26:19
+   |
+26 | var r2a1 = null / a;
+   |                   ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            482,
+        ),
+        hi: BytePos(
+            486,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:27:12
+   |
+27 | var r2a2 = null / b;
+   |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            489,
+        ),
+        hi: BytePos(
+            490,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:27:19
+   |
+27 | var r2a2 = null / b;
+   |                   ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            503,
+        ),
+        hi: BytePos(
+            507,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:28:12
+   |
+28 | var r2a3 = null / c;
+   |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            510,
+        ),
+        hi: BytePos(
+            511,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:28:19
+   |
+28 | var r2a3 = null / c;
+   |                   ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            525,
+        ),
+        hi: BytePos(
+            526,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:30:12
+   |
+30 | var r2b1 = a / null;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            529,
+        ),
+        hi: BytePos(
+            533,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:30:16
+   |
+30 | var r2b1 = a / null;
+   |                ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            546,
+        ),
+        hi: BytePos(
+            547,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:31:12
+   |
+31 | var r2b2 = b / null;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            550,
+        ),
+        hi: BytePos(
+            554,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:31:16
+   |
+31 | var r2b2 = b / null;
+   |                ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            567,
+        ),
+        hi: BytePos(
+            568,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:32:12
+   |
+32 | var r2b3 = c / null;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            571,
+        ),
+        hi: BytePos(
+            575,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:32:16
+   |
+32 | var r2b3 = c / null;
+   |                ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            589,
+        ),
+        hi: BytePos(
+            593,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:34:12
+   |
+34 | var r2c1 = null / true;
+   |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            596,
+        ),
+        hi: BytePos(
+            600,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:34:19
+   |
+34 | var r2c1 = null / true;
+   |                   ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            613,
+        ),
+        hi: BytePos(
+            617,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:35:12
+   |
+35 | var r2c2 = null / '';
+   |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            620,
+        ),
+        hi: BytePos(
+            622,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:35:19
+   |
+35 | var r2c2 = null / '';
+   |                   ^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            635,
+        ),
+        hi: BytePos(
+            639,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:36:12
+   |
+36 | var r2c3 = null / {};
+   |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            642,
+        ),
+        hi: BytePos(
+            644,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:36:19
+   |
+36 | var r2c3 = null / {};
+   |                   ^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            658,
+        ),
+        hi: BytePos(
+            662,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:38:12
+   |
+38 | var r2d1 = true / null;
+   |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            665,
+        ),
+        hi: BytePos(
+            669,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:38:19
+   |
+38 | var r2d1 = true / null;
+   |                   ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            682,
+        ),
+        hi: BytePos(
+            684,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:39:12
+   |
+39 | var r2d2 = '' / null;
+   |            ^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            687,
+        ),
+        hi: BytePos(
+            691,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:39:17
+   |
+39 | var r2d2 = '' / null;
+   |                 ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            704,
+        ),
+        hi: BytePos(
+            706,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:40:12
+   |
+40 | var r2d3 = {} / null;
+   |            ^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            709,
+        ),
+        hi: BytePos(
+            713,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:40:17
+   |
+40 | var r2d3 = {} / null;
+   |                 ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            741,
+        ),
+        hi: BytePos(
+            745,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:43:12
+   |
+43 | var r3a1 = null % a;
+   |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            748,
+        ),
+        hi: BytePos(
+            749,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:43:19
+   |
+43 | var r3a1 = null % a;
+   |                   ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            762,
+        ),
+        hi: BytePos(
+            766,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:44:12
+   |
+44 | var r3a2 = null % b;
+   |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            769,
+        ),
+        hi: BytePos(
+            770,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:44:19
+   |
+44 | var r3a2 = null % b;
+   |                   ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            783,
+        ),
+        hi: BytePos(
+            787,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:45:12
+   |
+45 | var r3a3 = null % c;
+   |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            790,
+        ),
+        hi: BytePos(
+            791,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:45:19
+   |
+45 | var r3a3 = null % c;
+   |                   ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            805,
+        ),
+        hi: BytePos(
+            806,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:47:12
+   |
+47 | var r3b1 = a % null;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            809,
+        ),
+        hi: BytePos(
+            813,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:47:16
+   |
+47 | var r3b1 = a % null;
+   |                ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            826,
+        ),
+        hi: BytePos(
+            827,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:48:12
+   |
+48 | var r3b2 = b % null;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            830,
+        ),
+        hi: BytePos(
+            834,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:48:16
+   |
+48 | var r3b2 = b % null;
+   |                ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            847,
+        ),
+        hi: BytePos(
+            848,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:49:12
+   |
+49 | var r3b3 = c % null;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            851,
+        ),
+        hi: BytePos(
+            855,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:49:16
+   |
+49 | var r3b3 = c % null;
+   |                ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            869,
+        ),
+        hi: BytePos(
+            873,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:51:12
+   |
+51 | var r3c1 = null % true;
+   |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            876,
+        ),
+        hi: BytePos(
+            880,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:51:19
+   |
+51 | var r3c1 = null % true;
+   |                   ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            893,
+        ),
+        hi: BytePos(
+            897,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:52:12
+   |
+52 | var r3c2 = null % '';
+   |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            900,
+        ),
+        hi: BytePos(
+            902,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:52:19
+   |
+52 | var r3c2 = null % '';
+   |                   ^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            915,
+        ),
+        hi: BytePos(
+            919,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:53:12
+   |
+53 | var r3c3 = null % {};
+   |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            922,
+        ),
+        hi: BytePos(
+            924,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:53:19
+   |
+53 | var r3c3 = null % {};
+   |                   ^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            938,
+        ),
+        hi: BytePos(
+            942,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:55:12
+   |
+55 | var r3d1 = true % null;
+   |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            945,
+        ),
+        hi: BytePos(
+            949,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:55:19
+   |
+55 | var r3d1 = true % null;
+   |                   ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            962,
+        ),
+        hi: BytePos(
+            964,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:56:12
+   |
+56 | var r3d2 = '' % null;
+   |            ^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            967,
+        ),
+        hi: BytePos(
+            971,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:56:17
+   |
+56 | var r3d2 = '' % null;
+   |                 ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            984,
+        ),
+        hi: BytePos(
+            986,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:57:12
+   |
+57 | var r3d3 = {} % null;
+   |            ^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            989,
+        ),
+        hi: BytePos(
+            993,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:57:17
+   |
+57 | var r3d3 = {} % null;
+   |                 ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1021,
+        ),
+        hi: BytePos(
+            1025,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:60:12
+   |
+60 | var r4a1 = null - a;
+   |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1028,
+        ),
+        hi: BytePos(
+            1029,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:60:19
+   |
+60 | var r4a1 = null - a;
+   |                   ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1042,
+        ),
+        hi: BytePos(
+            1046,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:61:12
+   |
+61 | var r4a2 = null - b;
+   |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1049,
+        ),
+        hi: BytePos(
+            1050,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:61:19
+   |
+61 | var r4a2 = null - b;
+   |                   ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1063,
+        ),
+        hi: BytePos(
+            1067,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:62:12
+   |
+62 | var r4a3 = null - c;
+   |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1070,
+        ),
+        hi: BytePos(
+            1071,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:62:19
+   |
+62 | var r4a3 = null - c;
+   |                   ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1085,
+        ),
+        hi: BytePos(
+            1086,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:64:12
+   |
+64 | var r4b1 = a - null;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1089,
+        ),
+        hi: BytePos(
+            1093,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:64:16
+   |
+64 | var r4b1 = a - null;
+   |                ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1106,
+        ),
+        hi: BytePos(
+            1107,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:65:12
+   |
+65 | var r4b2 = b - null;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1110,
+        ),
+        hi: BytePos(
+            1114,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:65:16
+   |
+65 | var r4b2 = b - null;
+   |                ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1127,
+        ),
+        hi: BytePos(
+            1128,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:66:12
+   |
+66 | var r4b3 = c - null;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1131,
+        ),
+        hi: BytePos(
+            1135,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:66:16
+   |
+66 | var r4b3 = c - null;
+   |                ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1149,
+        ),
+        hi: BytePos(
+            1153,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:68:12
+   |
+68 | var r4c1 = null - true;
+   |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1156,
+        ),
+        hi: BytePos(
+            1160,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:68:19
+   |
+68 | var r4c1 = null - true;
+   |                   ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1173,
+        ),
+        hi: BytePos(
+            1177,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:69:12
+   |
+69 | var r4c2 = null - '';
+   |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1180,
+        ),
+        hi: BytePos(
+            1182,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:69:19
+   |
+69 | var r4c2 = null - '';
+   |                   ^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1195,
+        ),
+        hi: BytePos(
+            1199,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:70:12
+   |
+70 | var r4c3 = null - {};
+   |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1202,
+        ),
+        hi: BytePos(
+            1204,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:70:19
+   |
+70 | var r4c3 = null - {};
+   |                   ^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1218,
+        ),
+        hi: BytePos(
+            1222,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:72:12
+   |
+72 | var r4d1 = true - null;
+   |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1225,
+        ),
+        hi: BytePos(
+            1229,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:72:19
+   |
+72 | var r4d1 = true - null;
+   |                   ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1242,
+        ),
+        hi: BytePos(
+            1244,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:73:12
+   |
+73 | var r4d2 = '' - null;
+   |            ^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1247,
+        ),
+        hi: BytePos(
+            1251,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:73:17
+   |
+73 | var r4d2 = '' - null;
+   |                 ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1264,
+        ),
+        hi: BytePos(
+            1266,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:74:12
+   |
+74 | var r4d3 = {} - null;
+   |            ^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1269,
+        ),
+        hi: BytePos(
+            1273,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:74:17
+   |
+74 | var r4d3 = {} - null;
+   |                 ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1302,
+        ),
+        hi: BytePos(
+            1306,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:77:12
+   |
+77 | var r5a1 = null << a;
+   |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1310,
+        ),
+        hi: BytePos(
+            1311,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:77:20
+   |
+77 | var r5a1 = null << a;
+   |                    ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1324,
+        ),
+        hi: BytePos(
+            1328,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:78:12
+   |
+78 | var r5a2 = null << b;
+   |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1332,
+        ),
+        hi: BytePos(
+            1333,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:78:20
+   |
+78 | var r5a2 = null << b;
+   |                    ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1346,
+        ),
+        hi: BytePos(
+            1350,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:79:12
+   |
+79 | var r5a3 = null << c;
+   |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1354,
+        ),
+        hi: BytePos(
+            1355,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:79:20
+   |
+79 | var r5a3 = null << c;
+   |                    ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1369,
+        ),
+        hi: BytePos(
+            1370,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:81:12
+   |
+81 | var r5b1 = a << null;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1374,
+        ),
+        hi: BytePos(
+            1378,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:81:17
+   |
+81 | var r5b1 = a << null;
+   |                 ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1391,
+        ),
+        hi: BytePos(
+            1392,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:82:12
+   |
+82 | var r5b2 = b << null;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1396,
+        ),
+        hi: BytePos(
+            1400,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:82:17
+   |
+82 | var r5b2 = b << null;
+   |                 ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1413,
+        ),
+        hi: BytePos(
+            1414,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:83:12
+   |
+83 | var r5b3 = c << null;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1418,
+        ),
+        hi: BytePos(
+            1422,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:83:17
+   |
+83 | var r5b3 = c << null;
+   |                 ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1436,
+        ),
+        hi: BytePos(
+            1440,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:85:12
+   |
+85 | var r5c1 = null << true;
+   |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1444,
+        ),
+        hi: BytePos(
+            1448,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:85:20
+   |
+85 | var r5c1 = null << true;
+   |                    ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1461,
+        ),
+        hi: BytePos(
+            1465,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:86:12
+   |
+86 | var r5c2 = null << '';
+   |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1469,
+        ),
+        hi: BytePos(
+            1471,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:86:20
+   |
+86 | var r5c2 = null << '';
+   |                    ^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1484,
+        ),
+        hi: BytePos(
+            1488,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:87:12
+   |
+87 | var r5c3 = null << {};
+   |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1492,
+        ),
+        hi: BytePos(
+            1494,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:87:20
+   |
+87 | var r5c3 = null << {};
+   |                    ^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1508,
+        ),
+        hi: BytePos(
+            1512,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:89:12
+   |
+89 | var r5d1 = true << null;
+   |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1516,
+        ),
+        hi: BytePos(
+            1520,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:89:20
+   |
+89 | var r5d1 = true << null;
+   |                    ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1533,
+        ),
+        hi: BytePos(
+            1535,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:90:12
+   |
+90 | var r5d2 = '' << null;
+   |            ^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1539,
+        ),
+        hi: BytePos(
+            1543,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:90:18
+   |
+90 | var r5d2 = '' << null;
+   |                  ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1556,
+        ),
+        hi: BytePos(
+            1558,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:91:12
+   |
+91 | var r5d3 = {} << null;
+   |            ^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1562,
+        ),
+        hi: BytePos(
+            1566,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:91:18
+   |
+91 | var r5d3 = {} << null;
+   |                  ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1595,
+        ),
+        hi: BytePos(
+            1599,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:94:12
+   |
+94 | var r6a1 = null >> a;
+   |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1603,
+        ),
+        hi: BytePos(
+            1604,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:94:20
+   |
+94 | var r6a1 = null >> a;
+   |                    ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1617,
+        ),
+        hi: BytePos(
+            1621,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:95:12
+   |
+95 | var r6a2 = null >> b;
+   |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1625,
+        ),
+        hi: BytePos(
+            1626,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:95:20
+   |
+95 | var r6a2 = null >> b;
+   |                    ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1639,
+        ),
+        hi: BytePos(
+            1643,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:96:12
+   |
+96 | var r6a3 = null >> c;
+   |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1647,
+        ),
+        hi: BytePos(
+            1648,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:96:20
+   |
+96 | var r6a3 = null >> c;
+   |                    ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1662,
+        ),
+        hi: BytePos(
+            1663,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:98:12
+   |
+98 | var r6b1 = a >> null;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1667,
+        ),
+        hi: BytePos(
+            1671,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:98:17
+   |
+98 | var r6b1 = a >> null;
+   |                 ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1684,
+        ),
+        hi: BytePos(
+            1685,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:99:12
+   |
+99 | var r6b2 = b >> null;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1689,
+        ),
+        hi: BytePos(
+            1693,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:99:17
+   |
+99 | var r6b2 = b >> null;
+   |                 ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1706,
+        ),
+        hi: BytePos(
+            1707,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:100:12
+    |
+100 | var r6b3 = c >> null;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1711,
+        ),
+        hi: BytePos(
+            1715,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:100:17
+    |
+100 | var r6b3 = c >> null;
+    |                 ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1729,
+        ),
+        hi: BytePos(
+            1733,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:102:12
+    |
+102 | var r6c1 = null >> true;
+    |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1737,
+        ),
+        hi: BytePos(
+            1741,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:102:20
+    |
+102 | var r6c1 = null >> true;
+    |                    ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1754,
+        ),
+        hi: BytePos(
+            1758,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:103:12
+    |
+103 | var r6c2 = null >> '';
+    |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1762,
+        ),
+        hi: BytePos(
+            1764,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:103:20
+    |
+103 | var r6c2 = null >> '';
+    |                    ^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1777,
+        ),
+        hi: BytePos(
+            1781,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:104:12
+    |
+104 | var r6c3 = null >> {};
+    |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1785,
+        ),
+        hi: BytePos(
+            1787,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:104:20
+    |
+104 | var r6c3 = null >> {};
+    |                    ^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1801,
+        ),
+        hi: BytePos(
+            1805,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:106:12
+    |
+106 | var r6d1 = true >> null;
+    |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1809,
+        ),
+        hi: BytePos(
+            1813,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:106:20
+    |
+106 | var r6d1 = true >> null;
+    |                    ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1826,
+        ),
+        hi: BytePos(
+            1828,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:107:12
+    |
+107 | var r6d2 = '' >> null;
+    |            ^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1832,
+        ),
+        hi: BytePos(
+            1836,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:107:18
+    |
+107 | var r6d2 = '' >> null;
+    |                  ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1849,
+        ),
+        hi: BytePos(
+            1851,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:108:12
+    |
+108 | var r6d3 = {} >> null;
+    |            ^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1855,
+        ),
+        hi: BytePos(
+            1859,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:108:18
+    |
+108 | var r6d3 = {} >> null;
+    |                  ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1889,
+        ),
+        hi: BytePos(
+            1893,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:111:12
+    |
+111 | var r7a1 = null >>> a;
+    |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1898,
+        ),
+        hi: BytePos(
+            1899,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:111:21
+    |
+111 | var r7a1 = null >>> a;
+    |                     ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1912,
+        ),
+        hi: BytePos(
+            1916,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:112:12
+    |
+112 | var r7a2 = null >>> b;
+    |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1921,
+        ),
+        hi: BytePos(
+            1922,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:112:21
+    |
+112 | var r7a2 = null >>> b;
+    |                     ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1935,
+        ),
+        hi: BytePos(
+            1939,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:113:12
+    |
+113 | var r7a3 = null >>> c;
+    |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1944,
+        ),
+        hi: BytePos(
+            1945,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:113:21
+    |
+113 | var r7a3 = null >>> c;
+    |                     ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1959,
+        ),
+        hi: BytePos(
+            1960,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:115:12
+    |
+115 | var r7b1 = a >>> null;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1965,
+        ),
+        hi: BytePos(
+            1969,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:115:18
+    |
+115 | var r7b1 = a >>> null;
+    |                  ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1982,
+        ),
+        hi: BytePos(
+            1983,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:116:12
+    |
+116 | var r7b2 = b >>> null;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1988,
+        ),
+        hi: BytePos(
+            1992,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:116:18
+    |
+116 | var r7b2 = b >>> null;
+    |                  ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2005,
+        ),
+        hi: BytePos(
+            2006,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:117:12
+    |
+117 | var r7b3 = c >>> null;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2011,
+        ),
+        hi: BytePos(
+            2015,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:117:18
+    |
+117 | var r7b3 = c >>> null;
+    |                  ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2029,
+        ),
+        hi: BytePos(
+            2033,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:119:12
+    |
+119 | var r7c1 = null >>> true;
+    |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2038,
+        ),
+        hi: BytePos(
+            2042,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:119:21
+    |
+119 | var r7c1 = null >>> true;
+    |                     ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2055,
+        ),
+        hi: BytePos(
+            2059,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:120:12
+    |
+120 | var r7c2 = null >>> '';
+    |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2064,
+        ),
+        hi: BytePos(
+            2066,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:120:21
+    |
+120 | var r7c2 = null >>> '';
+    |                     ^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2079,
+        ),
+        hi: BytePos(
+            2083,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:121:12
+    |
+121 | var r7c3 = null >>> {};
+    |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2088,
+        ),
+        hi: BytePos(
+            2090,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:121:21
+    |
+121 | var r7c3 = null >>> {};
+    |                     ^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2104,
+        ),
+        hi: BytePos(
+            2108,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:123:12
+    |
+123 | var r7d1 = true >>> null;
+    |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2113,
+        ),
+        hi: BytePos(
+            2117,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:123:21
+    |
+123 | var r7d1 = true >>> null;
+    |                     ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2130,
+        ),
+        hi: BytePos(
+            2132,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:124:12
+    |
+124 | var r7d2 = '' >>> null;
+    |            ^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2137,
+        ),
+        hi: BytePos(
+            2141,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:124:19
+    |
+124 | var r7d2 = '' >>> null;
+    |                   ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2154,
+        ),
+        hi: BytePos(
+            2156,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:125:12
+    |
+125 | var r7d3 = {} >>> null;
+    |            ^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2161,
+        ),
+        hi: BytePos(
+            2165,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:125:19
+    |
+125 | var r7d3 = {} >>> null;
+    |                   ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2193,
+        ),
+        hi: BytePos(
+            2197,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:128:12
+    |
+128 | var r8a1 = null & a;
+    |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2200,
+        ),
+        hi: BytePos(
+            2201,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:128:19
+    |
+128 | var r8a1 = null & a;
+    |                   ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2214,
+        ),
+        hi: BytePos(
+            2218,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:129:12
+    |
+129 | var r8a2 = null & b;
+    |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2221,
+        ),
+        hi: BytePos(
+            2222,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:129:19
+    |
+129 | var r8a2 = null & b;
+    |                   ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2235,
+        ),
+        hi: BytePos(
+            2239,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:130:12
+    |
+130 | var r8a3 = null & c;
+    |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2242,
+        ),
+        hi: BytePos(
+            2243,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:130:19
+    |
+130 | var r8a3 = null & c;
+    |                   ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2257,
+        ),
+        hi: BytePos(
+            2258,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:132:12
+    |
+132 | var r8b1 = a & null;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2261,
+        ),
+        hi: BytePos(
+            2265,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:132:16
+    |
+132 | var r8b1 = a & null;
+    |                ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2278,
+        ),
+        hi: BytePos(
+            2279,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:133:12
+    |
+133 | var r8b2 = b & null;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2282,
+        ),
+        hi: BytePos(
+            2286,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:133:16
+    |
+133 | var r8b2 = b & null;
+    |                ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2299,
+        ),
+        hi: BytePos(
+            2300,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:134:12
+    |
+134 | var r8b3 = c & null;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2303,
+        ),
+        hi: BytePos(
+            2307,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:134:16
+    |
+134 | var r8b3 = c & null;
+    |                ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2321,
+        ),
+        hi: BytePos(
+            2325,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:136:12
+    |
+136 | var r8c1 = null & true;
+    |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2328,
+        ),
+        hi: BytePos(
+            2332,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:136:19
+    |
+136 | var r8c1 = null & true;
+    |                   ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2345,
+        ),
+        hi: BytePos(
+            2349,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:137:12
+    |
+137 | var r8c2 = null & '';
+    |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2352,
+        ),
+        hi: BytePos(
+            2354,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:137:19
+    |
+137 | var r8c2 = null & '';
+    |                   ^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2367,
+        ),
+        hi: BytePos(
+            2371,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:138:12
+    |
+138 | var r8c3 = null & {};
+    |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2374,
+        ),
+        hi: BytePos(
+            2376,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:138:19
+    |
+138 | var r8c3 = null & {};
+    |                   ^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2390,
+        ),
+        hi: BytePos(
+            2394,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:140:12
+    |
+140 | var r8d1 = true & null;
+    |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2397,
+        ),
+        hi: BytePos(
+            2401,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:140:19
+    |
+140 | var r8d1 = true & null;
+    |                   ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2414,
+        ),
+        hi: BytePos(
+            2416,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:141:12
+    |
+141 | var r8d2 = '' & null;
+    |            ^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2419,
+        ),
+        hi: BytePos(
+            2423,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:141:17
+    |
+141 | var r8d2 = '' & null;
+    |                 ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2436,
+        ),
+        hi: BytePos(
+            2438,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:142:12
+    |
+142 | var r8d3 = {} & null;
+    |            ^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2441,
+        ),
+        hi: BytePos(
+            2445,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:142:17
+    |
+142 | var r8d3 = {} & null;
+    |                 ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2473,
+        ),
+        hi: BytePos(
+            2477,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:145:12
+    |
+145 | var r9a1 = null ^ a;
+    |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2480,
+        ),
+        hi: BytePos(
+            2481,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:145:19
+    |
+145 | var r9a1 = null ^ a;
+    |                   ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2494,
+        ),
+        hi: BytePos(
+            2498,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:146:12
+    |
+146 | var r9a2 = null ^ b;
+    |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2501,
+        ),
+        hi: BytePos(
+            2502,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:146:19
+    |
+146 | var r9a2 = null ^ b;
+    |                   ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2515,
+        ),
+        hi: BytePos(
+            2519,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:147:12
+    |
+147 | var r9a3 = null ^ c;
+    |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2522,
+        ),
+        hi: BytePos(
+            2523,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:147:19
+    |
+147 | var r9a3 = null ^ c;
+    |                   ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2537,
+        ),
+        hi: BytePos(
+            2538,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:149:12
+    |
+149 | var r9b1 = a ^ null;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2541,
+        ),
+        hi: BytePos(
+            2545,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:149:16
+    |
+149 | var r9b1 = a ^ null;
+    |                ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2558,
+        ),
+        hi: BytePos(
+            2559,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:150:12
+    |
+150 | var r9b2 = b ^ null;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2562,
+        ),
+        hi: BytePos(
+            2566,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:150:16
+    |
+150 | var r9b2 = b ^ null;
+    |                ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2579,
+        ),
+        hi: BytePos(
+            2580,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:151:12
+    |
+151 | var r9b3 = c ^ null;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2583,
+        ),
+        hi: BytePos(
+            2587,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:151:16
+    |
+151 | var r9b3 = c ^ null;
+    |                ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2601,
+        ),
+        hi: BytePos(
+            2605,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:153:12
+    |
+153 | var r9c1 = null ^ true;
+    |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2608,
+        ),
+        hi: BytePos(
+            2612,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:153:19
+    |
+153 | var r9c1 = null ^ true;
+    |                   ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2625,
+        ),
+        hi: BytePos(
+            2629,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:154:12
+    |
+154 | var r9c2 = null ^ '';
+    |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2632,
+        ),
+        hi: BytePos(
+            2634,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:154:19
+    |
+154 | var r9c2 = null ^ '';
+    |                   ^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2647,
+        ),
+        hi: BytePos(
+            2651,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:155:12
+    |
+155 | var r9c3 = null ^ {};
+    |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2654,
+        ),
+        hi: BytePos(
+            2656,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:155:19
+    |
+155 | var r9c3 = null ^ {};
+    |                   ^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2670,
+        ),
+        hi: BytePos(
+            2674,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:157:12
+    |
+157 | var r9d1 = true ^ null;
+    |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2677,
+        ),
+        hi: BytePos(
+            2681,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:157:19
+    |
+157 | var r9d1 = true ^ null;
+    |                   ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2694,
+        ),
+        hi: BytePos(
+            2696,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:158:12
+    |
+158 | var r9d2 = '' ^ null;
+    |            ^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2699,
+        ),
+        hi: BytePos(
+            2703,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:158:17
+    |
+158 | var r9d2 = '' ^ null;
+    |                 ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2716,
+        ),
+        hi: BytePos(
+            2718,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:159:12
+    |
+159 | var r9d3 = {} ^ null;
+    |            ^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2721,
+        ),
+        hi: BytePos(
+            2725,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:159:17
+    |
+159 | var r9d3 = {} ^ null;
+    |                 ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2754,
+        ),
+        hi: BytePos(
+            2758,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:162:13
+    |
+162 | var r10a1 = null | a;
+    |             ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2761,
+        ),
+        hi: BytePos(
+            2762,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:162:20
+    |
+162 | var r10a1 = null | a;
+    |                    ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2776,
+        ),
+        hi: BytePos(
+            2780,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:163:13
+    |
+163 | var r10a2 = null | b;
+    |             ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2783,
+        ),
+        hi: BytePos(
+            2784,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:163:20
+    |
+163 | var r10a2 = null | b;
+    |                    ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2798,
+        ),
+        hi: BytePos(
+            2802,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:164:13
+    |
+164 | var r10a3 = null | c;
+    |             ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2805,
+        ),
+        hi: BytePos(
+            2806,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:164:20
+    |
+164 | var r10a3 = null | c;
+    |                    ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2821,
+        ),
+        hi: BytePos(
+            2822,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:166:13
+    |
+166 | var r10b1 = a | null;
+    |             ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2825,
+        ),
+        hi: BytePos(
+            2829,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:166:17
+    |
+166 | var r10b1 = a | null;
+    |                 ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2843,
+        ),
+        hi: BytePos(
+            2844,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:167:13
+    |
+167 | var r10b2 = b | null;
+    |             ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2847,
+        ),
+        hi: BytePos(
+            2851,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:167:17
+    |
+167 | var r10b2 = b | null;
+    |                 ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2865,
+        ),
+        hi: BytePos(
+            2866,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:168:13
+    |
+168 | var r10b3 = c | null;
+    |             ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2869,
+        ),
+        hi: BytePos(
+            2873,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:168:17
+    |
+168 | var r10b3 = c | null;
+    |                 ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2888,
+        ),
+        hi: BytePos(
+            2892,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:170:13
+    |
+170 | var r10c1 = null | true;
+    |             ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2895,
+        ),
+        hi: BytePos(
+            2899,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:170:20
+    |
+170 | var r10c1 = null | true;
+    |                    ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2913,
+        ),
+        hi: BytePos(
+            2917,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:171:13
+    |
+171 | var r10c2 = null | '';
+    |             ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2920,
+        ),
+        hi: BytePos(
+            2922,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:171:20
+    |
+171 | var r10c2 = null | '';
+    |                    ^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2936,
+        ),
+        hi: BytePos(
+            2940,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:172:13
+    |
+172 | var r10c3 = null | {};
+    |             ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2943,
+        ),
+        hi: BytePos(
+            2945,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:172:20
+    |
+172 | var r10c3 = null | {};
+    |                    ^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2960,
+        ),
+        hi: BytePos(
+            2964,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:174:13
+    |
+174 | var r10d1 = true | null;
+    |             ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2967,
+        ),
+        hi: BytePos(
+            2971,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:174:20
+    |
+174 | var r10d1 = true | null;
+    |                    ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2985,
+        ),
+        hi: BytePos(
+            2987,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:175:13
+    |
+175 | var r10d2 = '' | null;
+    |             ^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2990,
+        ),
+        hi: BytePos(
+            2994,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:175:18
+    |
+175 | var r10d2 = '' | null;
+    |                  ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            3008,
+        ),
+        hi: BytePos(
+            3010,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:176:13
+    |
+176 | var r10d3 = {} | null;
+    |             ^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            3013,
+        ),
+        hi: BytePos(
+            3017,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithNullValueAndInvalidOperands.ts:176:18
+    |
+176 | var r10d3 = {} | null;
+    |                  ^^^^
+

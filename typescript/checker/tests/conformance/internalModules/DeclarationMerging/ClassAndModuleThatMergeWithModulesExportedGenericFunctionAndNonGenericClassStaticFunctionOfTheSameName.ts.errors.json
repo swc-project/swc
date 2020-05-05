@@ -1,0 +1,12 @@
+[
+    {
+        "line": 5,
+        "column": 12,
+        "msg": "Duplicate identifier 'fn'."
+    },
+    {
+        "line": 10,
+        "column": 21,
+        "msg": "Duplicate identifier 'fn'."
+    }
+]

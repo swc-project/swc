@@ -1,0 +1,6 @@
+error: Expected LBrace, got Some(Word(export))
+ --> $DIR/tests/conformance/parser/ecmascript5/InterfaceDeclarations/parserInterfaceDeclaration6.ts:1:8
+  |
+1 | export export interface I {
+  |        ^^^^^^
+

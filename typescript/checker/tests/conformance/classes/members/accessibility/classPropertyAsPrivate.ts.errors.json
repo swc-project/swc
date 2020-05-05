@@ -1,0 +1,62 @@
+[
+    {
+        "line": 3,
+        "column": 17,
+        "msg": "Accessors are only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 4,
+        "column": 17,
+        "msg": "Accessors are only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 8,
+        "column": 24,
+        "msg": "Accessors are only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 9,
+        "column": 24,
+        "msg": "Accessors are only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 15,
+        "column": 3,
+        "msg": "Property 'x' is private and only accessible within class 'C'."
+    },
+    {
+        "line": 16,
+        "column": 3,
+        "msg": "Property 'y' is private and only accessible within class 'C'."
+    },
+    {
+        "line": 17,
+        "column": 3,
+        "msg": "Property 'y' is private and only accessible within class 'C'."
+    },
+    {
+        "line": 18,
+        "column": 3,
+        "msg": "Property 'foo' is private and only accessible within class 'C'."
+    },
+    {
+        "line": 20,
+        "column": 3,
+        "msg": "Property 'a' is private and only accessible within class 'C'."
+    },
+    {
+        "line": 21,
+        "column": 3,
+        "msg": "Property 'b' is private and only accessible within class 'C'."
+    },
+    {
+        "line": 22,
+        "column": 3,
+        "msg": "Property 'b' is private and only accessible within class 'C'."
+    },
+    {
+        "line": 23,
+        "column": 3,
+        "msg": "Property 'foo' is private and only accessible within class 'C'."
+    }
+]

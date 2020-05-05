@@ -1,0 +1,7 @@
+[
+    {
+        "line": 7,
+        "column": 9,
+        "msg": "Type '() => void' is not assignable to type '(x"
+    }
+]

@@ -1,0 +1,7 @@
+[
+    {
+        "line": 2,
+        "column": 15,
+        "msg": "Using a string in a 'for...of' statement is only supported in ECMAScript 5 and higher."
+    }
+]

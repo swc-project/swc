@@ -1,0 +1,27 @@
+[
+    {
+        "line": 10,
+        "column": 19,
+        "msg": "Cannot find name 'T'."
+    },
+    {
+        "line": 20,
+        "column": 12,
+        "msg": "Cannot find name 'T'."
+    },
+    {
+        "line": 22,
+        "column": 23,
+        "msg": "Cannot find name 'T'."
+    },
+    {
+        "line": 35,
+        "column": 26,
+        "msg": "Cannot find name 'T'."
+    },
+    {
+        "line": 46,
+        "column": 15,
+        "msg": "Cannot find name 'T'."
+    }
+]

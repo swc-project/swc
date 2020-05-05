@@ -1,0 +1,18 @@
+error: TupleIndexError {
+    span: Span {
+        lo: BytePos(
+            49,
+        ),
+        hi: BytePos(
+            50,
+        ),
+        ctxt: #0,
+    },
+    len: 0,
+    index: 0,
+}
+ --> $DIR/tests/conformance/types/tuple/emptyTuples/emptyTuplesTypeAssertion01.ts:4:11
+  |
+4 | let y = x[0];
+  |           ^
+

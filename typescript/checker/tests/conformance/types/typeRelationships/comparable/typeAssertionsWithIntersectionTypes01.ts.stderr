@@ -1,0 +1,690 @@
+error: AssignFailed {
+    span: Span {
+        lo: BytePos(
+            192,
+        ),
+        hi: BytePos(
+            202,
+        ),
+        ctxt: #0,
+    },
+    left: Intersection(
+        Intersection {
+            span: Span {
+                lo: BytePos(
+                    193,
+                ),
+                hi: BytePos(
+                    200,
+                ),
+                ctxt: #0,
+            },
+            types: [
+                Interface(
+                    Interface {
+                        span: Span {
+                            lo: BytePos(
+                                0,
+                            ),
+                            hi: BytePos(
+                                31,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: Atom('I1' type=inline),
+                        type_params: None,
+                        extends: [],
+                        body: [
+                            Property(
+                                PropertySignature {
+                                    span: Span {
+                                        lo: BytePos(
+                                            19,
+                                        ),
+                                        hi: BytePos(
+                                            29,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    readonly: false,
+                                    key: Ident(
+                                        Ident {
+                                            span: Span {
+                                                lo: BytePos(
+                                                    19,
+                                                ),
+                                                hi: BytePos(
+                                                    21,
+                                                ),
+                                                ctxt: #0,
+                                            },
+                                            sym: Atom('p1' type=inline),
+                                            type_ann: None,
+                                            optional: false,
+                                        },
+                                    ),
+                                    computed: false,
+                                    optional: false,
+                                    params: [],
+                                    type_ann: Some(
+                                        Keyword(
+                                            TsKeywordType {
+                                                span: Span {
+                                                    lo: BytePos(
+                                                        23,
+                                                    ),
+                                                    hi: BytePos(
+                                                        29,
+                                                    ),
+                                                    ctxt: #0,
+                                                },
+                                                kind: TsNumberKeyword,
+                                            },
+                                        ),
+                                    ),
+                                    type_params: None,
+                                },
+                            ),
+                        ],
+                    },
+                ),
+                Interface(
+                    Interface {
+                        span: Span {
+                            lo: BytePos(
+                                78,
+                            ),
+                            hi: BytePos(
+                                110,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: Atom('I3' type=inline),
+                        type_params: None,
+                        extends: [],
+                        body: [
+                            Property(
+                                PropertySignature {
+                                    span: Span {
+                                        lo: BytePos(
+                                            97,
+                                        ),
+                                        hi: BytePos(
+                                            108,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    readonly: false,
+                                    key: Ident(
+                                        Ident {
+                                            span: Span {
+                                                lo: BytePos(
+                                                    97,
+                                                ),
+                                                hi: BytePos(
+                                                    99,
+                                                ),
+                                                ctxt: #0,
+                                            },
+                                            sym: Atom('p3' type=inline),
+                                            type_ann: None,
+                                            optional: false,
+                                        },
+                                    ),
+                                    computed: false,
+                                    optional: false,
+                                    params: [],
+                                    type_ann: Some(
+                                        Keyword(
+                                            TsKeywordType {
+                                                span: Span {
+                                                    lo: BytePos(
+                                                        101,
+                                                    ),
+                                                    hi: BytePos(
+                                                        107,
+                                                    ),
+                                                    ctxt: #0,
+                                                },
+                                                kind: TsNumberKeyword,
+                                            },
+                                        ),
+                                    ),
+                                    type_params: None,
+                                },
+                            ),
+                        ],
+                    },
+                ),
+            ],
+        },
+    ),
+    right: Interface(
+        Interface {
+            span: Span {
+                lo: BytePos(
+                    201,
+                ),
+                hi: BytePos(
+                    202,
+                ),
+                ctxt: #0,
+            },
+            name: Atom('I2' type=inline),
+            type_params: None,
+            extends: [
+                TsExpr {
+                    span: Span {
+                        lo: BytePos(
+                            54,
+                        ),
+                        hi: BytePos(
+                            56,
+                        ),
+                        ctxt: #0,
+                    },
+                    expr: Ident(
+                        Ident {
+                            span: Span {
+                                lo: BytePos(
+                                    54,
+                                ),
+                                hi: BytePos(
+                                    56,
+                                ),
+                                ctxt: #0,
+                            },
+                            sym: Atom('I1' type=inline),
+                            type_ann: None,
+                            optional: false,
+                        },
+                    ),
+                    type_args: None,
+                },
+            ],
+            body: [
+                Property(
+                    PropertySignature {
+                        span: Span {
+                            lo: BytePos(
+                                63,
+                            ),
+                            hi: BytePos(
+                                74,
+                            ),
+                            ctxt: #0,
+                        },
+                        readonly: false,
+                        key: Ident(
+                            Ident {
+                                span: Span {
+                                    lo: BytePos(
+                                        63,
+                                    ),
+                                    hi: BytePos(
+                                        65,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                sym: Atom('p2' type=inline),
+                                type_ann: None,
+                                optional: false,
+                            },
+                        ),
+                        computed: false,
+                        optional: false,
+                        params: [],
+                        type_ann: Some(
+                            Keyword(
+                                TsKeywordType {
+                                    span: Span {
+                                        lo: BytePos(
+                                            67,
+                                        ),
+                                        hi: BytePos(
+                                            73,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    kind: TsNumberKeyword,
+                                },
+                            ),
+                        ),
+                        type_params: None,
+                    },
+                ),
+            ],
+        },
+    ),
+    cause: [
+        Errors {
+            span: Span {
+                lo: BytePos(
+                    192,
+                ),
+                hi: BytePos(
+                    202,
+                ),
+                ctxt: #0,
+            },
+            errors: [
+                Errors {
+                    span: Span {
+                        lo: BytePos(
+                            192,
+                        ),
+                        hi: BytePos(
+                            202,
+                        ),
+                        ctxt: #0,
+                    },
+                    errors: [
+                        MissingFields {
+                            span: Span {
+                                lo: BytePos(
+                                    192,
+                                ),
+                                hi: BytePos(
+                                    202,
+                                ),
+                                ctxt: #0,
+                            },
+                            fields: [
+                                Property(
+                                    PropertySignature {
+                                        span: Span {
+                                            lo: BytePos(
+                                                19,
+                                            ),
+                                            hi: BytePos(
+                                                29,
+                                            ),
+                                            ctxt: #0,
+                                        },
+                                        readonly: false,
+                                        key: Ident(
+                                            Ident {
+                                                span: Span {
+                                                    lo: BytePos(
+                                                        19,
+                                                    ),
+                                                    hi: BytePos(
+                                                        21,
+                                                    ),
+                                                    ctxt: #0,
+                                                },
+                                                sym: Atom('p1' type=inline),
+                                                type_ann: None,
+                                                optional: false,
+                                            },
+                                        ),
+                                        computed: false,
+                                        optional: false,
+                                        params: [],
+                                        type_ann: Some(
+                                            Keyword(
+                                                TsKeywordType {
+                                                    span: Span {
+                                                        lo: BytePos(
+                                                            23,
+                                                        ),
+                                                        hi: BytePos(
+                                                            29,
+                                                        ),
+                                                        ctxt: #0,
+                                                    },
+                                                    kind: TsNumberKeyword,
+                                                },
+                                            ),
+                                        ),
+                                        type_params: None,
+                                    },
+                                ),
+                            ],
+                        },
+                    ],
+                },
+                Errors {
+                    span: Span {
+                        lo: BytePos(
+                            192,
+                        ),
+                        hi: BytePos(
+                            202,
+                        ),
+                        ctxt: #0,
+                    },
+                    errors: [
+                        MissingFields {
+                            span: Span {
+                                lo: BytePos(
+                                    192,
+                                ),
+                                hi: BytePos(
+                                    202,
+                                ),
+                                ctxt: #0,
+                            },
+                            fields: [
+                                Property(
+                                    PropertySignature {
+                                        span: Span {
+                                            lo: BytePos(
+                                                97,
+                                            ),
+                                            hi: BytePos(
+                                                108,
+                                            ),
+                                            ctxt: #0,
+                                        },
+                                        readonly: false,
+                                        key: Ident(
+                                            Ident {
+                                                span: Span {
+                                                    lo: BytePos(
+                                                        97,
+                                                    ),
+                                                    hi: BytePos(
+                                                        99,
+                                                    ),
+                                                    ctxt: #0,
+                                                },
+                                                sym: Atom('p3' type=inline),
+                                                type_ann: None,
+                                                optional: false,
+                                            },
+                                        ),
+                                        computed: false,
+                                        optional: false,
+                                        params: [],
+                                        type_ann: Some(
+                                            Keyword(
+                                                TsKeywordType {
+                                                    span: Span {
+                                                        lo: BytePos(
+                                                            101,
+                                                        ),
+                                                        hi: BytePos(
+                                                            107,
+                                                        ),
+                                                        ctxt: #0,
+                                                    },
+                                                    kind: TsNumberKeyword,
+                                                },
+                                            ),
+                                        ),
+                                        type_params: None,
+                                    },
+                                ),
+                            ],
+                        },
+                    ],
+                },
+            ],
+        },
+    ],
+}
+  --> $DIR/tests/conformance/types/typeRelationships/comparable/typeAssertionsWithIntersectionTypes01.ts:17:9
+   |
+17 | var a = <I1 & I3>z;
+   |         ^^^^^^^^^^
+
+error: AssignFailed {
+    span: Span {
+        lo: BytePos(
+            212,
+        ),
+        hi: BytePos(
+            217,
+        ),
+        ctxt: #0,
+    },
+    left: Interface(
+        Interface {
+            span: Span {
+                lo: BytePos(
+                    78,
+                ),
+                hi: BytePos(
+                    110,
+                ),
+                ctxt: #0,
+            },
+            name: Atom('I3' type=inline),
+            type_params: None,
+            extends: [],
+            body: [
+                Property(
+                    PropertySignature {
+                        span: Span {
+                            lo: BytePos(
+                                97,
+                            ),
+                            hi: BytePos(
+                                108,
+                            ),
+                            ctxt: #0,
+                        },
+                        readonly: false,
+                        key: Ident(
+                            Ident {
+                                span: Span {
+                                    lo: BytePos(
+                                        97,
+                                    ),
+                                    hi: BytePos(
+                                        99,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                sym: Atom('p3' type=inline),
+                                type_ann: None,
+                                optional: false,
+                            },
+                        ),
+                        computed: false,
+                        optional: false,
+                        params: [],
+                        type_ann: Some(
+                            Keyword(
+                                TsKeywordType {
+                                    span: Span {
+                                        lo: BytePos(
+                                            101,
+                                        ),
+                                        hi: BytePos(
+                                            107,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    kind: TsNumberKeyword,
+                                },
+                            ),
+                        ),
+                        type_params: None,
+                    },
+                ),
+            ],
+        },
+    ),
+    right: Interface(
+        Interface {
+            span: Span {
+                lo: BytePos(
+                    216,
+                ),
+                hi: BytePos(
+                    217,
+                ),
+                ctxt: #0,
+            },
+            name: Atom('I2' type=inline),
+            type_params: None,
+            extends: [
+                TsExpr {
+                    span: Span {
+                        lo: BytePos(
+                            54,
+                        ),
+                        hi: BytePos(
+                            56,
+                        ),
+                        ctxt: #0,
+                    },
+                    expr: Ident(
+                        Ident {
+                            span: Span {
+                                lo: BytePos(
+                                    54,
+                                ),
+                                hi: BytePos(
+                                    56,
+                                ),
+                                ctxt: #0,
+                            },
+                            sym: Atom('I1' type=inline),
+                            type_ann: None,
+                            optional: false,
+                        },
+                    ),
+                    type_args: None,
+                },
+            ],
+            body: [
+                Property(
+                    PropertySignature {
+                        span: Span {
+                            lo: BytePos(
+                                63,
+                            ),
+                            hi: BytePos(
+                                74,
+                            ),
+                            ctxt: #0,
+                        },
+                        readonly: false,
+                        key: Ident(
+                            Ident {
+                                span: Span {
+                                    lo: BytePos(
+                                        63,
+                                    ),
+                                    hi: BytePos(
+                                        65,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                sym: Atom('p2' type=inline),
+                                type_ann: None,
+                                optional: false,
+                            },
+                        ),
+                        computed: false,
+                        optional: false,
+                        params: [],
+                        type_ann: Some(
+                            Keyword(
+                                TsKeywordType {
+                                    span: Span {
+                                        lo: BytePos(
+                                            67,
+                                        ),
+                                        hi: BytePos(
+                                            73,
+                                        ),
+                                        ctxt: #0,
+                                    },
+                                    kind: TsNumberKeyword,
+                                },
+                            ),
+                        ),
+                        type_params: None,
+                    },
+                ),
+            ],
+        },
+    ),
+    cause: [
+        Errors {
+            span: Span {
+                lo: BytePos(
+                    212,
+                ),
+                hi: BytePos(
+                    217,
+                ),
+                ctxt: #0,
+            },
+            errors: [
+                MissingFields {
+                    span: Span {
+                        lo: BytePos(
+                            212,
+                        ),
+                        hi: BytePos(
+                            217,
+                        ),
+                        ctxt: #0,
+                    },
+                    fields: [
+                        Property(
+                            PropertySignature {
+                                span: Span {
+                                    lo: BytePos(
+                                        97,
+                                    ),
+                                    hi: BytePos(
+                                        108,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                readonly: false,
+                                key: Ident(
+                                    Ident {
+                                        span: Span {
+                                            lo: BytePos(
+                                                97,
+                                            ),
+                                            hi: BytePos(
+                                                99,
+                                            ),
+                                            ctxt: #0,
+                                        },
+                                        sym: Atom('p3' type=inline),
+                                        type_ann: None,
+                                        optional: false,
+                                    },
+                                ),
+                                computed: false,
+                                optional: false,
+                                params: [],
+                                type_ann: Some(
+                                    Keyword(
+                                        TsKeywordType {
+                                            span: Span {
+                                                lo: BytePos(
+                                                    101,
+                                                ),
+                                                hi: BytePos(
+                                                    107,
+                                                ),
+                                                ctxt: #0,
+                                            },
+                                            kind: TsNumberKeyword,
+                                        },
+                                    ),
+                                ),
+                                type_params: None,
+                            },
+                        ),
+                    ],
+                },
+            ],
+        },
+    ],
+}
+  --> $DIR/tests/conformance/types/typeRelationships/comparable/typeAssertionsWithIntersectionTypes01.ts:18:9
+   |
+18 | var b = <I3>z;
+   |         ^^^^^
+

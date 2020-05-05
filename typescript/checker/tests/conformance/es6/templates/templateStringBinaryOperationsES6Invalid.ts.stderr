@@ -1,0 +1,1536 @@
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            28,
+        ),
+        hi: BytePos(
+            36,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:2:13
+  |
+2 | var a = 1 - `${ 3 }`;
+  |             ^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            50,
+        ),
+        hi: BytePos(
+            59,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:3:13
+  |
+3 | var b = 1 - `2${ 3 }`;
+  |             ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            73,
+        ),
+        hi: BytePos(
+            82,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:4:13
+  |
+4 | var c = 1 - `${ 3 }4`;
+  |             ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            96,
+        ),
+        hi: BytePos(
+            106,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:5:13
+  |
+5 | var d = 1 - `2${ 3 }4`;
+  |             ^^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            116,
+        ),
+        hi: BytePos(
+            124,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:6:9
+  |
+6 | var e = `${ 3 }` - 5;
+  |         ^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            138,
+        ),
+        hi: BytePos(
+            147,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:7:9
+  |
+7 | var f = `2${ 3 }` - 5;
+  |         ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            161,
+        ),
+        hi: BytePos(
+            170,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:8:9
+  |
+8 | var g = `${ 3 }4` - 5;
+  |         ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            184,
+        ),
+        hi: BytePos(
+            194,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:9:9
+  |
+9 | var h = `2${ 3 }4` - 5;
+  |         ^^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            214,
+        ),
+        hi: BytePos(
+            222,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:11:14
+   |
+11 | var a2 = 1 * `${ 3 }`;
+   |              ^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            237,
+        ),
+        hi: BytePos(
+            246,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:12:14
+   |
+12 | var b2 = 1 * `2${ 3 }`;
+   |              ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            261,
+        ),
+        hi: BytePos(
+            270,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:13:14
+   |
+13 | var c2 = 1 * `${ 3 }4`;
+   |              ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            285,
+        ),
+        hi: BytePos(
+            295,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:14:14
+   |
+14 | var d2 = 1 * `2${ 3 }4`;
+   |              ^^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            306,
+        ),
+        hi: BytePos(
+            314,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:15:10
+   |
+15 | var e2 = `${ 3 }` * 5;
+   |          ^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            329,
+        ),
+        hi: BytePos(
+            338,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:16:10
+   |
+16 | var f2 = `2${ 3 }` * 5;
+   |          ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            353,
+        ),
+        hi: BytePos(
+            362,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:17:10
+   |
+17 | var g2 = `${ 3 }4` * 5;
+   |          ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            377,
+        ),
+        hi: BytePos(
+            387,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:18:10
+   |
+18 | var h2 = `2${ 3 }4` * 5;
+   |          ^^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            407,
+        ),
+        hi: BytePos(
+            415,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:20:14
+   |
+20 | var a3 = 1 & `${ 3 }`;
+   |              ^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            430,
+        ),
+        hi: BytePos(
+            439,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:21:14
+   |
+21 | var b3 = 1 & `2${ 3 }`;
+   |              ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            454,
+        ),
+        hi: BytePos(
+            463,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:22:14
+   |
+22 | var c3 = 1 & `${ 3 }4`;
+   |              ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            478,
+        ),
+        hi: BytePos(
+            488,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:23:14
+   |
+23 | var d3 = 1 & `2${ 3 }4`;
+   |              ^^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            499,
+        ),
+        hi: BytePos(
+            507,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:24:10
+   |
+24 | var e3 = `${ 3 }` & 5;
+   |          ^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            522,
+        ),
+        hi: BytePos(
+            531,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:25:10
+   |
+25 | var f3 = `2${ 3 }` & 5;
+   |          ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            546,
+        ),
+        hi: BytePos(
+            555,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:26:10
+   |
+26 | var g3 = `${ 3 }4` & 5;
+   |          ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            570,
+        ),
+        hi: BytePos(
+            580,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:27:10
+   |
+27 | var h3 = `2${ 3 }4` & 5;
+   |          ^^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            600,
+        ),
+        hi: BytePos(
+            612,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:29:14
+   |
+29 | var a4 = 1 - `${ 3 - 4 }`;
+   |              ^^^^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            627,
+        ),
+        hi: BytePos(
+            640,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:30:14
+   |
+30 | var b4 = 1 - `2${ 3 - 4 }`;
+   |              ^^^^^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            655,
+        ),
+        hi: BytePos(
+            668,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:31:14
+   |
+31 | var c4 = 1 - `${ 3 - 4 }5`;
+   |              ^^^^^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            683,
+        ),
+        hi: BytePos(
+            697,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:32:14
+   |
+32 | var d4 = 1 - `2${ 3 - 4 }5`;
+   |              ^^^^^^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            708,
+        ),
+        hi: BytePos(
+            720,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:33:10
+   |
+33 | var e4 = `${ 3 - 4 }` - 6;
+   |          ^^^^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            735,
+        ),
+        hi: BytePos(
+            748,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:34:10
+   |
+34 | var f4 = `2${ 3 - 4 }` - 6;
+   |          ^^^^^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            763,
+        ),
+        hi: BytePos(
+            776,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:35:10
+   |
+35 | var g4 = `${ 3 - 4 }5` - 6;
+   |          ^^^^^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            791,
+        ),
+        hi: BytePos(
+            805,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:36:10
+   |
+36 | var h4 = `2${ 3 - 4 }5` - 6;
+   |          ^^^^^^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            825,
+        ),
+        hi: BytePos(
+            837,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:38:14
+   |
+38 | var a5 = 1 - `${ 3 * 4 }`;
+   |              ^^^^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            852,
+        ),
+        hi: BytePos(
+            865,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:39:14
+   |
+39 | var b5 = 1 - `2${ 3 * 4 }`;
+   |              ^^^^^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            880,
+        ),
+        hi: BytePos(
+            893,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:40:14
+   |
+40 | var c5 = 1 - `${ 3 * 4 }5`;
+   |              ^^^^^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            908,
+        ),
+        hi: BytePos(
+            922,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:41:14
+   |
+41 | var d5 = 1 - `2${ 3 * 4 }5`;
+   |              ^^^^^^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            933,
+        ),
+        hi: BytePos(
+            945,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:42:10
+   |
+42 | var e5 = `${ 3 * 4 }` - 6;
+   |          ^^^^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            960,
+        ),
+        hi: BytePos(
+            973,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:43:10
+   |
+43 | var f5 = `2${ 3 * 4 }` - 6;
+   |          ^^^^^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            988,
+        ),
+        hi: BytePos(
+            1001,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:44:10
+   |
+44 | var g5 = `${ 3 * 4 }5` - 6;
+   |          ^^^^^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1016,
+        ),
+        hi: BytePos(
+            1030,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:45:10
+   |
+45 | var h5 = `2${ 3 * 4 }5` - 6;
+   |          ^^^^^^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1050,
+        ),
+        hi: BytePos(
+            1062,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:47:14
+   |
+47 | var a6 = 1 - `${ 3 & 4 }`;
+   |              ^^^^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1077,
+        ),
+        hi: BytePos(
+            1090,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:48:14
+   |
+48 | var b6 = 1 - `2${ 3 & 4 }`;
+   |              ^^^^^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1105,
+        ),
+        hi: BytePos(
+            1118,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:49:14
+   |
+49 | var c6 = 1 - `${ 3 & 4 }5`;
+   |              ^^^^^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1133,
+        ),
+        hi: BytePos(
+            1147,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:50:14
+   |
+50 | var d6 = 1 - `2${ 3 & 4 }5`;
+   |              ^^^^^^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1158,
+        ),
+        hi: BytePos(
+            1170,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:51:10
+   |
+51 | var e6 = `${ 3 & 4 }` - 6;
+   |          ^^^^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1185,
+        ),
+        hi: BytePos(
+            1198,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:52:10
+   |
+52 | var f6 = `2${ 3 & 4 }` - 6;
+   |          ^^^^^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1213,
+        ),
+        hi: BytePos(
+            1226,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:53:10
+   |
+53 | var g6 = `${ 3 & 4 }5` - 6;
+   |          ^^^^^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1241,
+        ),
+        hi: BytePos(
+            1255,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:54:10
+   |
+54 | var h6 = `2${ 3 & 4 }5` - 6;
+   |          ^^^^^^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1275,
+        ),
+        hi: BytePos(
+            1287,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:56:14
+   |
+56 | var a7 = 1 * `${ 3 - 4 }`;
+   |              ^^^^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1302,
+        ),
+        hi: BytePos(
+            1315,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:57:14
+   |
+57 | var b7 = 1 * `2${ 3 - 4 }`;
+   |              ^^^^^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1330,
+        ),
+        hi: BytePos(
+            1343,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:58:14
+   |
+58 | var c7 = 1 * `${ 3 - 4 }5`;
+   |              ^^^^^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1358,
+        ),
+        hi: BytePos(
+            1372,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:59:14
+   |
+59 | var d7 = 1 * `2${ 3 - 4 }5`;
+   |              ^^^^^^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1383,
+        ),
+        hi: BytePos(
+            1395,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:60:10
+   |
+60 | var e7 = `${ 3 - 4 }` * 6;
+   |          ^^^^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1410,
+        ),
+        hi: BytePos(
+            1423,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:61:10
+   |
+61 | var f7 = `2${ 3 - 4 }` * 6;
+   |          ^^^^^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1438,
+        ),
+        hi: BytePos(
+            1451,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:62:10
+   |
+62 | var g7 = `${ 3 - 4 }5` * 6;
+   |          ^^^^^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1466,
+        ),
+        hi: BytePos(
+            1480,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:63:10
+   |
+63 | var h7 = `2${ 3 - 4 }5` * 6;
+   |          ^^^^^^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1500,
+        ),
+        hi: BytePos(
+            1512,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:65:14
+   |
+65 | var a8 = 1 * `${ 3 * 4 }`;
+   |              ^^^^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1527,
+        ),
+        hi: BytePos(
+            1540,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:66:14
+   |
+66 | var b8 = 1 * `2${ 3 * 4 }`;
+   |              ^^^^^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1555,
+        ),
+        hi: BytePos(
+            1568,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:67:14
+   |
+67 | var c8 = 1 * `${ 3 * 4 }5`;
+   |              ^^^^^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1583,
+        ),
+        hi: BytePos(
+            1597,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:68:14
+   |
+68 | var d8 = 1 * `2${ 3 * 4 }5`;
+   |              ^^^^^^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1608,
+        ),
+        hi: BytePos(
+            1620,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:69:10
+   |
+69 | var e8 = `${ 3 * 4 }` * 6;
+   |          ^^^^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1635,
+        ),
+        hi: BytePos(
+            1648,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:70:10
+   |
+70 | var f8 = `2${ 3 * 4 }` * 6;
+   |          ^^^^^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1663,
+        ),
+        hi: BytePos(
+            1676,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:71:10
+   |
+71 | var g8 = `${ 3 * 4 }5` * 6;
+   |          ^^^^^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1691,
+        ),
+        hi: BytePos(
+            1705,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:72:10
+   |
+72 | var h8 = `2${ 3 * 4 }5` * 6;
+   |          ^^^^^^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1725,
+        ),
+        hi: BytePos(
+            1737,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:74:14
+   |
+74 | var a9 = 1 * `${ 3 & 4 }`;
+   |              ^^^^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1752,
+        ),
+        hi: BytePos(
+            1765,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:75:14
+   |
+75 | var b9 = 1 * `2${ 3 & 4 }`;
+   |              ^^^^^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1780,
+        ),
+        hi: BytePos(
+            1793,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:76:14
+   |
+76 | var c9 = 1 * `${ 3 & 4 }5`;
+   |              ^^^^^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1808,
+        ),
+        hi: BytePos(
+            1822,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:77:14
+   |
+77 | var d9 = 1 * `2${ 3 & 4 }5`;
+   |              ^^^^^^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1833,
+        ),
+        hi: BytePos(
+            1845,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:78:10
+   |
+78 | var e9 = `${ 3 & 4 }` * 6;
+   |          ^^^^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1860,
+        ),
+        hi: BytePos(
+            1873,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:79:10
+   |
+79 | var f9 = `2${ 3 & 4 }` * 6;
+   |          ^^^^^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1888,
+        ),
+        hi: BytePos(
+            1901,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:80:10
+   |
+80 | var g9 = `${ 3 & 4 }5` * 6;
+   |          ^^^^^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1916,
+        ),
+        hi: BytePos(
+            1930,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:81:10
+   |
+81 | var h9 = `2${ 3 & 4 }5` * 6;
+   |          ^^^^^^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1950,
+        ),
+        hi: BytePos(
+            1962,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:83:14
+   |
+83 | var aa = 1 & `${ 3 - 4 }`;
+   |              ^^^^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1977,
+        ),
+        hi: BytePos(
+            1990,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:84:14
+   |
+84 | var ba = 1 & `2${ 3 - 4 }`;
+   |              ^^^^^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2005,
+        ),
+        hi: BytePos(
+            2018,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:85:14
+   |
+85 | var ca = 1 & `${ 3 - 4 }5`;
+   |              ^^^^^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2033,
+        ),
+        hi: BytePos(
+            2047,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:86:14
+   |
+86 | var da = 1 & `2${ 3 - 4 }5`;
+   |              ^^^^^^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2058,
+        ),
+        hi: BytePos(
+            2070,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:87:10
+   |
+87 | var ea = `${ 3 - 4 }` & 6;
+   |          ^^^^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2085,
+        ),
+        hi: BytePos(
+            2098,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:88:10
+   |
+88 | var fa = `2${ 3 - 4 }` & 6;
+   |          ^^^^^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2113,
+        ),
+        hi: BytePos(
+            2126,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:89:10
+   |
+89 | var ga = `${ 3 - 4 }5` & 6;
+   |          ^^^^^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2141,
+        ),
+        hi: BytePos(
+            2155,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:90:10
+   |
+90 | var ha = `2${ 3 - 4 }5` & 6;
+   |          ^^^^^^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2175,
+        ),
+        hi: BytePos(
+            2187,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:92:14
+   |
+92 | var ab = 1 & `${ 3 * 4 }`;
+   |              ^^^^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2202,
+        ),
+        hi: BytePos(
+            2215,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:93:14
+   |
+93 | var bb = 1 & `2${ 3 * 4 }`;
+   |              ^^^^^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2230,
+        ),
+        hi: BytePos(
+            2243,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:94:14
+   |
+94 | var cb = 1 & `${ 3 * 4 }5`;
+   |              ^^^^^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2258,
+        ),
+        hi: BytePos(
+            2272,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:95:14
+   |
+95 | var db = 1 & `2${ 3 * 4 }5`;
+   |              ^^^^^^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2283,
+        ),
+        hi: BytePos(
+            2295,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:96:10
+   |
+96 | var eb = `${ 3 * 4 }` & 6;
+   |          ^^^^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2310,
+        ),
+        hi: BytePos(
+            2323,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:97:10
+   |
+97 | var fb = `2${ 3 * 4 }` & 6;
+   |          ^^^^^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2338,
+        ),
+        hi: BytePos(
+            2351,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:98:10
+   |
+98 | var gb = `${ 3 * 4 }5` & 6;
+   |          ^^^^^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2366,
+        ),
+        hi: BytePos(
+            2380,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:99:10
+   |
+99 | var hb = `2${ 3 * 4 }5` & 6;
+   |          ^^^^^^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2400,
+        ),
+        hi: BytePos(
+            2412,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:101:14
+    |
+101 | var ac = 1 & `${ 3 & 4 }`;
+    |              ^^^^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2427,
+        ),
+        hi: BytePos(
+            2440,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:102:14
+    |
+102 | var bc = 1 & `2${ 3 & 4 }`;
+    |              ^^^^^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2455,
+        ),
+        hi: BytePos(
+            2468,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:103:14
+    |
+103 | var cc = 1 & `${ 3 & 4 }5`;
+    |              ^^^^^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2483,
+        ),
+        hi: BytePos(
+            2497,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:104:14
+    |
+104 | var dc = 1 & `2${ 3 & 4 }5`;
+    |              ^^^^^^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2508,
+        ),
+        hi: BytePos(
+            2520,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:105:10
+    |
+105 | var ec = `${ 3 & 4 }` & 6;
+    |          ^^^^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2535,
+        ),
+        hi: BytePos(
+            2548,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:106:10
+    |
+106 | var fc = `2${ 3 & 4 }` & 6;
+    |          ^^^^^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2563,
+        ),
+        hi: BytePos(
+            2576,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:107:10
+    |
+107 | var gc = `${ 3 & 4 }5` & 6;
+    |          ^^^^^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2591,
+        ),
+        hi: BytePos(
+            2605,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/es6/templates/templateStringBinaryOperationsES6Invalid.ts:108:10
+    |
+108 | var hc = `2${ 3 & 4 }5` & 6;
+    |          ^^^^^^^^^^^^^^
+

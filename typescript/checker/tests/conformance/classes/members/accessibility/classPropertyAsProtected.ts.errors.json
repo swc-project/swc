@@ -1,0 +1,62 @@
+[
+    {
+        "line": 3,
+        "column": 19,
+        "msg": "Accessors are only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 4,
+        "column": 19,
+        "msg": "Accessors are only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 8,
+        "column": 26,
+        "msg": "Accessors are only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 9,
+        "column": 26,
+        "msg": "Accessors are only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 15,
+        "column": 3,
+        "msg": "Property 'x' is protected and only accessible within class 'C' and its subclasses."
+    },
+    {
+        "line": 16,
+        "column": 3,
+        "msg": "Property 'y' is protected and only accessible within class 'C' and its subclasses."
+    },
+    {
+        "line": 17,
+        "column": 3,
+        "msg": "Property 'y' is protected and only accessible within class 'C' and its subclasses."
+    },
+    {
+        "line": 18,
+        "column": 3,
+        "msg": "Property 'foo' is protected and only accessible within class 'C' and its subclasses."
+    },
+    {
+        "line": 20,
+        "column": 3,
+        "msg": "Property 'a' is protected and only accessible within class 'C' and its subclasses."
+    },
+    {
+        "line": 21,
+        "column": 3,
+        "msg": "Property 'b' is protected and only accessible within class 'C' and its subclasses."
+    },
+    {
+        "line": 22,
+        "column": 3,
+        "msg": "Property 'b' is protected and only accessible within class 'C' and its subclasses."
+    },
+    {
+        "line": 23,
+        "column": 3,
+        "msg": "Property 'foo' is protected and only accessible within class 'C' and its subclasses."
+    }
+]

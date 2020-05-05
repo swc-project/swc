@@ -1,0 +1,6 @@
+error: Expected Comma, got Some(Word(b))
+ --> $DIR/tests/conformance/parser/ecmascript5/ErrorRecovery/ObjectLiterals/parserErrorRecovery_ObjectLiteral1.ts:1:16
+  |
+1 | var v = { a: 1 b: 2 }
+  |                ^
+

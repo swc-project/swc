@@ -1,0 +1,17 @@
+error: UndefinedSymbol {
+    sym: Atom('v' type=inline),
+    span: Span {
+        lo: BytePos(
+            20,
+        ),
+        hi: BytePos(
+            21,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es6/for-ofStatements/for-of6.ts:2:6
+  |
+2 | for (v of [0]) {
+  |      ^
+

@@ -1,0 +1,112 @@
+[
+    {
+        "line": 5,
+        "column": 1,
+        "msg": "The operand of an increment or decrement operator may not be an optional property access."
+    },
+    {
+        "line": 6,
+        "column": 1,
+        "msg": "The operand of an increment or decrement operator may not be an optional property access."
+    },
+    {
+        "line": 7,
+        "column": 1,
+        "msg": "The operand of an increment or decrement operator may not be an optional property access."
+    },
+    {
+        "line": 8,
+        "column": 1,
+        "msg": "The operand of an increment or decrement operator may not be an optional property access."
+    },
+    {
+        "line": 10,
+        "column": 3,
+        "msg": "The operand of an increment or decrement operator may not be an optional property access."
+    },
+    {
+        "line": 11,
+        "column": 3,
+        "msg": "The operand of an increment or decrement operator may not be an optional property access."
+    },
+    {
+        "line": 12,
+        "column": 3,
+        "msg": "The operand of an increment or decrement operator may not be an optional property access."
+    },
+    {
+        "line": 13,
+        "column": 3,
+        "msg": "The operand of an increment or decrement operator may not be an optional property access."
+    },
+    {
+        "line": 15,
+        "column": 1,
+        "msg": "The left-hand side of an assignment expression may not be an optional property access."
+    },
+    {
+        "line": 16,
+        "column": 1,
+        "msg": "The left-hand side of an assignment expression may not be an optional property access."
+    },
+    {
+        "line": 17,
+        "column": 1,
+        "msg": "The left-hand side of an assignment expression may not be an optional property access."
+    },
+    {
+        "line": 18,
+        "column": 1,
+        "msg": "The left-hand side of an assignment expression may not be an optional property access."
+    },
+    {
+        "line": 20,
+        "column": 6,
+        "msg": "The left-hand side of a 'for...in' statement may not be an optional property access."
+    },
+    {
+        "line": 21,
+        "column": 6,
+        "msg": "The left-hand side of a 'for...in' statement may not be an optional property access."
+    },
+    {
+        "line": 22,
+        "column": 6,
+        "msg": "The left-hand side of a 'for...of' statement may not be an optional property access."
+    },
+    {
+        "line": 23,
+        "column": 6,
+        "msg": "The left-hand side of a 'for...of' statement may not be an optional property access."
+    },
+    {
+        "line": 25,
+        "column": 7,
+        "msg": "The left-hand side of an assignment expression may not be an optional property access."
+    },
+    {
+        "line": 26,
+        "column": 7,
+        "msg": "The left-hand side of an assignment expression may not be an optional property access."
+    },
+    {
+        "line": 27,
+        "column": 7,
+        "msg": "The target of an object rest assignment may not be an optional property access."
+    },
+    {
+        "line": 28,
+        "column": 7,
+        "msg": "The target of an object rest assignment may not be an optional property access."
+    },
+    {
+        "line": 29,
+        "column": 5,
+        "msg": "The left-hand side of an assignment expression may not be an optional property access."
+    },
+    {
+        "line": 30,
+        "column": 5,
+        "msg": "The left-hand side of an assignment expression may not be an optional property access."
+    }
+]

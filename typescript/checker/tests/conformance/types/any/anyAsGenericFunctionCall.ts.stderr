@@ -1,0 +1,64 @@
+error: TS2347 {
+    span: Span {
+        lo: BytePos(
+            129,
+        ),
+        hi: BytePos(
+            130,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/types/any/anyAsGenericFunctionCall.ts:5:9
+  |
+5 | var a = x<number>();
+  |         ^
+
+error: TS2347 {
+    span: Span {
+        lo: BytePos(
+            150,
+        ),
+        hi: BytePos(
+            151,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/types/any/anyAsGenericFunctionCall.ts:6:9
+  |
+6 | var b = x<string>('hello');
+  |         ^
+
+error: TS2347 {
+    span: Span {
+        lo: BytePos(
+            204,
+        ),
+        hi: BytePos(
+            205,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/types/any/anyAsGenericFunctionCall.ts:9:9
+  |
+9 | var c = x<C>(x);
+  |         ^
+
+error: TS2347 {
+    span: Span {
+        lo: BytePos(
+            221,
+        ),
+        hi: BytePos(
+            222,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/any/anyAsGenericFunctionCall.ts:10:9
+   |
+10 | var d = x<any>(x);
+   |         ^
+

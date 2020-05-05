@@ -1,0 +1,7 @@
+[
+    {
+        "line": 2,
+        "column": 7,
+        "msg": "A parameter initializer is only allowed in a function or constructor implementation."
+    }
+]

@@ -1,0 +1,18 @@
+error: TS1005
+ --> $DIR/tests/conformance/expressions/unaryOperators/voidOperator/voidOperatorInvalidOperations.ts:4:15
+  |
+4 | var ANY = ANY void ;    //expect error
+  |               ^^^^
+
+error: Unexpected token Some(Semi)
+ --> $DIR/tests/conformance/expressions/unaryOperators/voidOperator/voidOperatorInvalidOperations.ts:4:20
+  |
+4 | var ANY = ANY void ;    //expect error
+  |                    ^
+
+error: Unexpected token Some(Semi)
+ --> $DIR/tests/conformance/expressions/unaryOperators/voidOperator/voidOperatorInvalidOperations.ts:7:17
+  |
+7 | var ANY1 = void ;
+  |                 ^
+

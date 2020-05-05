@@ -1,0 +1,12 @@
+[
+    {
+        "line": 8,
+        "column": 5,
+        "msg": "Type 'string' is not assignable to type 'number'."
+    },
+    {
+        "line": 14,
+        "column": 9,
+        "msg": "Type 'T2' is not assignable to type 'T1'."
+    }
+]

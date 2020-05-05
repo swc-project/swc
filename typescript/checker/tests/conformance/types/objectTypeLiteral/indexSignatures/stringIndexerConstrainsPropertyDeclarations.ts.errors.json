@@ -1,0 +1,167 @@
+[
+    {
+        "line": 13,
+        "column": 5,
+        "msg": "Property 'b' of type 'number' is not assignable to string index type 'string'."
+    },
+    {
+        "line": 14,
+        "column": 5,
+        "msg": "Property 'c' of type '() => {}' is not assignable to string index type 'string'."
+    },
+    {
+        "line": 16,
+        "column": 5,
+        "msg": "Property '\"e\"' of type 'number' is not assignable to string index type 'string'."
+    },
+    {
+        "line": 18,
+        "column": 5,
+        "msg": "Property '2.0' of type 'number' is not assignable to string index type 'string'."
+    },
+    {
+        "line": 20,
+        "column": 5,
+        "msg": "Property '\"4.0\"' of type 'number' is not assignable to string index type 'string'."
+    },
+    {
+        "line": 21,
+        "column": 5,
+        "msg": "Property 'f' of type 'MyString' is not assignable to string index type 'string'."
+    },
+    {
+        "line": 23,
+        "column": 9,
+        "msg": "Accessors are only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 26,
+        "column": 9,
+        "msg": "Accessors are only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 28,
+        "column": 5,
+        "msg": "Property 'foo' of type '() => string' is not assignable to string index type 'string'."
+    },
+    {
+        "line": 36,
+        "column": 16,
+        "msg": "Accessors are only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 45,
+        "column": 5,
+        "msg": "Property 'b' of type 'number' is not assignable to string index type 'string'."
+    },
+    {
+        "line": 46,
+        "column": 5,
+        "msg": "Property 'c' of type '() => {}' is not assignable to string index type 'string'."
+    },
+    {
+        "line": 48,
+        "column": 5,
+        "msg": "Property '\"e\"' of type 'number' is not assignable to string index type 'string'."
+    },
+    {
+        "line": 50,
+        "column": 5,
+        "msg": "Property '2.0' of type 'number' is not assignable to string index type 'string'."
+    },
+    {
+        "line": 53,
+        "column": 5,
+        "msg": "Property 'foo' of type '() => string' is not assignable to string index type 'string'."
+    },
+    {
+        "line": 55,
+        "column": 5,
+        "msg": "Property '\"4.0\"' of type 'number' is not assignable to string index type 'string'."
+    },
+    {
+        "line": 56,
+        "column": 5,
+        "msg": "Property 'f' of type 'MyString' is not assignable to string index type 'string'."
+    },
+    {
+        "line": 63,
+        "column": 5,
+        "msg": "Property 'b' of type 'number' is not assignable to string index type 'string'."
+    },
+    {
+        "line": 64,
+        "column": 5,
+        "msg": "Property 'c' of type '() => {}' is not assignable to string index type 'string'."
+    },
+    {
+        "line": 66,
+        "column": 5,
+        "msg": "Property '\"e\"' of type 'number' is not assignable to string index type 'string'."
+    },
+    {
+        "line": 68,
+        "column": 5,
+        "msg": "Property '2.0' of type 'number' is not assignable to string index type 'string'."
+    },
+    {
+        "line": 71,
+        "column": 5,
+        "msg": "Property 'foo' of type '() => string' is not assignable to string index type 'string'."
+    },
+    {
+        "line": 73,
+        "column": 5,
+        "msg": "Property '\"4.0\"' of type 'number' is not assignable to string index type 'string'."
+    },
+    {
+        "line": 74,
+        "column": 5,
+        "msg": "Property 'f' of type 'MyString' is not assignable to string index type 'string'."
+    },
+    {
+        "line": 80,
+        "column": 5,
+        "msg": "Type 'number' is not assignable to type 'string'."
+    },
+    {
+        "line": 81,
+        "column": 5,
+        "msg": "Type '() => void' is not assignable to type 'string'."
+    },
+    {
+        "line": 83,
+        "column": 5,
+        "msg": "Type 'number' is not assignable to type 'string'."
+    },
+    {
+        "line": 85,
+        "column": 5,
+        "msg": "Type 'number' is not assignable to type 'string'."
+    },
+    {
+        "line": 87,
+        "column": 5,
+        "msg": "Type 'number' is not assignable to type 'string'."
+    },
+    {
+        "line": 88,
+        "column": 5,
+        "msg": "Type 'MyString' is not assignable to type 'string'."
+    },
+    {
+        "line": 90,
+        "column": 9,
+        "msg": "Accessors are only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 93,
+        "column": 9,
+        "msg": "Accessors are only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 94,
+        "column": 5,
+        "msg": "Type '() => string' is not assignable to type 'string'."
+    }
+]

@@ -1,0 +1,17 @@
+[
+    {
+        "line": 33,
+        "column": 18,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 'x' must be of type 'string', but here has type 'Extract<keyof this, string>'."
+    },
+    {
+        "line": 50,
+        "column": 18,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 'x' must be of type 'string', but here has type 'Extract<keyof this, string>'."
+    },
+    {
+        "line": 79,
+        "column": 15,
+        "msg": "The right-hand side of a 'for...in' statement must be of type 'any', an object type or a type parameter, but here has type 'Color.Blue'."
+    }
+]

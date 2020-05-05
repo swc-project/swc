@@ -1,0 +1,12 @@
+[
+    {
+        "line": 1,
+        "column": 5,
+        "msg": "Cannot find name 'Foo'."
+    },
+    {
+        "line": 1,
+        "column": 9,
+        "msg": "An element access expression should take an argument."
+    }
+]

@@ -1,0 +1,52 @@
+[
+    {
+        "line": 41,
+        "column": 19,
+        "msg": "Interface 'I2<T, U>' incorrectly extends interface 'A'."
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "number) => string[]'."
+    },
+    {
+        "line": 50,
+        "column": 19,
+        "msg": "Interface 'I4' incorrectly extends interface 'A'."
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "T) => U, y"
+    },
+    {
+        "line": 66,
+        "column": 19,
+        "msg": "Interface 'I6' incorrectly extends interface 'A'."
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "T; b"
+    },
+    {
+        "line": 70,
+        "column": 19,
+        "msg": "Interface 'I7' incorrectly extends interface 'A'."
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "T; b"
+    },
+    {
+        "line": 86,
+        "column": 19,
+        "msg": "Interface 'I6' incorrectly extends interface 'B'."
+    },
+    {
+        "line": 95,
+        "column": 19,
+        "msg": "Interface 'I7' incorrectly extends interface 'C'."
+    }
+]

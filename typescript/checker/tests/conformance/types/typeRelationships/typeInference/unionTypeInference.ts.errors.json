@@ -1,0 +1,12 @@
+[
+    {
+        "line": 16,
+        "column": 24,
+        "msg": "Argument of type '1' is not assignable to parameter of type 'string'."
+    },
+    {
+        "line": 34,
+        "column": 15,
+        "msg": "Argument of type '42' is not assignable to parameter of type 'never'."
+    }
+]

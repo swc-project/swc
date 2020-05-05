@@ -1,0 +1,32 @@
+error: TS1318 {
+    span: Span {
+        lo: BytePos(
+            73,
+        ),
+        hi: BytePos(
+            75,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/classes/classDeclarations/classAbstractKeyword/classAbstractAccessor.ts:5:17
+  |
+5 |    abstract get aa() { return 1; } // error
+  |                 ^^
+
+error: TS1318 {
+    span: Span {
+        lo: BytePos(
+            147,
+        ),
+        hi: BytePos(
+            149,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/classes/classDeclarations/classAbstractKeyword/classAbstractAccessor.ts:7:17
+  |
+7 |    abstract set bb(x: string) {} // error
+  |                 ^^
+

@@ -1,0 +1,27 @@
+[
+    {
+        "line": 18,
+        "column": 29,
+        "msg": "Property 'a' does not exist on type 'U'."
+    },
+    {
+        "line": 18,
+        "column": 35,
+        "msg": "Property 'b' does not exist on type 'U'."
+    },
+    {
+        "line": 25,
+        "column": 3,
+        "msg": "Argument of type '{ a"
+    },
+    {
+        "line": 28,
+        "column": 15,
+        "msg": "Cannot find name 'NoLongerAllowed'."
+    },
+    {
+        "line": 29,
+        "column": 2,
+        "msg": "Unexpected token. A type parameter name was expected without curly braces."
+    }
+]

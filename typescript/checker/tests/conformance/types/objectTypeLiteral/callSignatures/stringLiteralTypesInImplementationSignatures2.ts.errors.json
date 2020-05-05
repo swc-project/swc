@@ -1,0 +1,7 @@
+[
+    {
+        "line": 27,
+        "column": 5,
+        "msg": "Duplicate identifier 'foo'."
+    }
+]

@@ -1,0 +1,402 @@
+[
+    {
+        "line": 2,
+        "column": 11,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 2,
+        "column": 18,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 3,
+        "column": 11,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 3,
+        "column": 18,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 4,
+        "column": 11,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 4,
+        "column": 23,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 5,
+        "column": 11,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 5,
+        "column": 23,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 8,
+        "column": 11,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 8,
+        "column": 18,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 9,
+        "column": 11,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 9,
+        "column": 18,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 10,
+        "column": 11,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 10,
+        "column": 23,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 11,
+        "column": 11,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 11,
+        "column": 23,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 14,
+        "column": 11,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 14,
+        "column": 18,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 15,
+        "column": 11,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 15,
+        "column": 18,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 16,
+        "column": 11,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 16,
+        "column": 23,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 17,
+        "column": 11,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 17,
+        "column": 23,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 20,
+        "column": 11,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 20,
+        "column": 18,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 21,
+        "column": 11,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 21,
+        "column": 18,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 22,
+        "column": 11,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 22,
+        "column": 23,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 23,
+        "column": 11,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 23,
+        "column": 23,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 26,
+        "column": 11,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 26,
+        "column": 19,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 27,
+        "column": 11,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 27,
+        "column": 19,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 28,
+        "column": 11,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 28,
+        "column": 24,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 29,
+        "column": 11,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 29,
+        "column": 24,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 32,
+        "column": 11,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 32,
+        "column": 19,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 33,
+        "column": 11,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 33,
+        "column": 19,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 34,
+        "column": 11,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 34,
+        "column": 24,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 35,
+        "column": 11,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 35,
+        "column": 24,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 38,
+        "column": 11,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 38,
+        "column": 20,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 39,
+        "column": 11,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 39,
+        "column": 20,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 40,
+        "column": 11,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 40,
+        "column": 25,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 41,
+        "column": 11,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 41,
+        "column": 25,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 44,
+        "column": 11,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 44,
+        "column": 18,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 45,
+        "column": 11,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 45,
+        "column": 18,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 46,
+        "column": 11,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 46,
+        "column": 23,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 47,
+        "column": 11,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 47,
+        "column": 23,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 50,
+        "column": 11,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 50,
+        "column": 18,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 51,
+        "column": 11,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 51,
+        "column": 18,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 52,
+        "column": 11,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 52,
+        "column": 23,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 53,
+        "column": 11,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 53,
+        "column": 23,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 56,
+        "column": 11,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 56,
+        "column": 18,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 57,
+        "column": 11,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 57,
+        "column": 18,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 58,
+        "column": 11,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 58,
+        "column": 23,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 59,
+        "column": 11,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 59,
+        "column": 23,
+        "msg": "Object is possibly 'undefined'."
+    }
+]

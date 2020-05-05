@@ -1,0 +1,7 @@
+[
+    {
+        "line": 2,
+        "column": 7,
+        "msg": "'const' declarations must be initialized."
+    }
+]

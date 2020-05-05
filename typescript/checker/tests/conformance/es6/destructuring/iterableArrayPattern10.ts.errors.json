@@ -1,0 +1,7 @@
+[
+    {
+        "line": 18,
+        "column": 5,
+        "msg": "Argument of type 'FooIterator' is not assignable to parameter of type '[any, any]'."
+    }
+]

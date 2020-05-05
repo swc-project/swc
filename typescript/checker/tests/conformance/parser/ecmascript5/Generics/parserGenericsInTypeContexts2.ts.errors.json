@@ -1,0 +1,272 @@
+[
+    {
+        "line": 1,
+        "column": 17,
+        "msg": "Cannot find name 'A'."
+    },
+    {
+        "line": 1,
+        "column": 19,
+        "msg": "Cannot find name 'X'."
+    },
+    {
+        "line": 1,
+        "column": 21,
+        "msg": "Cannot find name 'T'."
+    },
+    {
+        "line": 1,
+        "column": 25,
+        "msg": "Cannot find name 'Y'."
+    },
+    {
+        "line": 1,
+        "column": 27,
+        "msg": "Cannot find name 'Z'."
+    },
+    {
+        "line": 1,
+        "column": 29,
+        "msg": "Cannot find name 'T'."
+    },
+    {
+        "line": 1,
+        "column": 45,
+        "msg": "Cannot find name 'B'."
+    },
+    {
+        "line": 1,
+        "column": 47,
+        "msg": "Cannot find name 'X'."
+    },
+    {
+        "line": 1,
+        "column": 49,
+        "msg": "Cannot find name 'T'."
+    },
+    {
+        "line": 1,
+        "column": 53,
+        "msg": "Cannot find name 'Y'."
+    },
+    {
+        "line": 1,
+        "column": 55,
+        "msg": "Cannot find name 'Z'."
+    },
+    {
+        "line": 1,
+        "column": 57,
+        "msg": "Cannot find name 'T'."
+    },
+    {
+        "line": 4,
+        "column": 9,
+        "msg": "Type 'C' is not generic."
+    },
+    {
+        "line": 4,
+        "column": 11,
+        "msg": "Cannot find name 'X'."
+    },
+    {
+        "line": 4,
+        "column": 13,
+        "msg": "Cannot find name 'T'."
+    },
+    {
+        "line": 4,
+        "column": 17,
+        "msg": "Cannot find name 'Y'."
+    },
+    {
+        "line": 4,
+        "column": 19,
+        "msg": "Cannot find name 'Z'."
+    },
+    {
+        "line": 4,
+        "column": 21,
+        "msg": "Cannot find name 'T'."
+    },
+    {
+        "line": 5,
+        "column": 9,
+        "msg": "Cannot find name 'D'."
+    },
+    {
+        "line": 5,
+        "column": 11,
+        "msg": "Cannot find name 'X'."
+    },
+    {
+        "line": 5,
+        "column": 13,
+        "msg": "Cannot find name 'T'."
+    },
+    {
+        "line": 5,
+        "column": 17,
+        "msg": "Cannot find name 'Y'."
+    },
+    {
+        "line": 5,
+        "column": 19,
+        "msg": "Cannot find name 'Z'."
+    },
+    {
+        "line": 5,
+        "column": 21,
+        "msg": "Cannot find name 'T'."
+    },
+    {
+        "line": 6,
+        "column": 9,
+        "msg": "Cannot find namespace 'E'."
+    },
+    {
+        "line": 6,
+        "column": 13,
+        "msg": "Cannot find name 'X'."
+    },
+    {
+        "line": 6,
+        "column": 15,
+        "msg": "Cannot find name 'T'."
+    },
+    {
+        "line": 6,
+        "column": 19,
+        "msg": "Cannot find name 'Y'."
+    },
+    {
+        "line": 6,
+        "column": 21,
+        "msg": "Cannot find name 'Z'."
+    },
+    {
+        "line": 6,
+        "column": 23,
+        "msg": "Cannot find name 'T'."
+    },
+    {
+        "line": 7,
+        "column": 9,
+        "msg": "Cannot find namespace 'G'."
+    },
+    {
+        "line": 7,
+        "column": 15,
+        "msg": "Cannot find name 'X'."
+    },
+    {
+        "line": 7,
+        "column": 17,
+        "msg": "Cannot find name 'T'."
+    },
+    {
+        "line": 7,
+        "column": 21,
+        "msg": "Cannot find name 'Y'."
+    },
+    {
+        "line": 7,
+        "column": 23,
+        "msg": "Cannot find name 'Z'."
+    },
+    {
+        "line": 7,
+        "column": 25,
+        "msg": "Cannot find name 'T'."
+    },
+    {
+        "line": 8,
+        "column": 9,
+        "msg": "Cannot find name 'K'."
+    },
+    {
+        "line": 8,
+        "column": 11,
+        "msg": "Cannot find name 'X'."
+    },
+    {
+        "line": 8,
+        "column": 13,
+        "msg": "Cannot find name 'T'."
+    },
+    {
+        "line": 8,
+        "column": 17,
+        "msg": "Cannot find name 'Y'."
+    },
+    {
+        "line": 8,
+        "column": 19,
+        "msg": "Cannot find name 'Z'."
+    },
+    {
+        "line": 8,
+        "column": 21,
+        "msg": "Cannot find name 'T'."
+    },
+    {
+        "line": 11,
+        "column": 16,
+        "msg": "Cannot find name 'E'."
+    },
+    {
+        "line": 11,
+        "column": 18,
+        "msg": "Cannot find name 'X'."
+    },
+    {
+        "line": 11,
+        "column": 20,
+        "msg": "Cannot find name 'T'."
+    },
+    {
+        "line": 11,
+        "column": 24,
+        "msg": "Cannot find name 'Y'."
+    },
+    {
+        "line": 11,
+        "column": 26,
+        "msg": "Cannot find name 'Z'."
+    },
+    {
+        "line": 11,
+        "column": 28,
+        "msg": "Cannot find name 'T'."
+    },
+    {
+        "line": 14,
+        "column": 16,
+        "msg": "Cannot find name 'F'."
+    },
+    {
+        "line": 14,
+        "column": 18,
+        "msg": "Cannot find name 'X'."
+    },
+    {
+        "line": 14,
+        "column": 20,
+        "msg": "Cannot find name 'T'."
+    },
+    {
+        "line": 14,
+        "column": 24,
+        "msg": "Cannot find name 'Y'."
+    },
+    {
+        "line": 14,
+        "column": 26,
+        "msg": "Cannot find name 'Z'."
+    },
+    {
+        "line": 14,
+        "column": 28,
+        "msg": "Cannot find name 'T'."
+    }
+]

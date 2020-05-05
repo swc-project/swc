@@ -1,0 +1,22 @@
+[
+    {
+        "line": 1,
+        "column": 18,
+        "msg": "Type '{ foo"
+    },
+    {
+        "line": 1,
+        "column": 25,
+        "msg": "'string' only refers to a type, but is being used as a value here."
+    },
+    {
+        "line": 1,
+        "column": 31,
+        "msg": "',' expected."
+    },
+    {
+        "line": 3,
+        "column": 18,
+        "msg": "Type 'undefined[]' is not a constructor function type."
+    }
+]

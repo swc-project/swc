@@ -1,0 +1,7 @@
+[
+    {
+        "line": 2,
+        "column": 5,
+        "msg": "Parameter cannot have question mark and initializer."
+    }
+]

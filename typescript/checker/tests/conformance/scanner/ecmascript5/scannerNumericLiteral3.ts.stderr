@@ -1,0 +1,12 @@
+error: Expected ';', '}' or <eof>
+ --> $DIR/tests/conformance/scanner/ecmascript5/scannerNumericLiteral3.ts:2:3
+  |
+2 | 01.0
+  |   ^^
+  |
+note: This is the expression part of an expression statement
+ --> $DIR/tests/conformance/scanner/ecmascript5/scannerNumericLiteral3.ts:2:1
+  |
+2 | 01.0
+  | ^^
+

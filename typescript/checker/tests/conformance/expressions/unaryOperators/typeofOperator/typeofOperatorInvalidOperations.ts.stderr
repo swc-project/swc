@@ -1,0 +1,18 @@
+error: TS1005
+ --> $DIR/tests/conformance/expressions/unaryOperators/typeofOperator/typeofOperatorInvalidOperations.ts:4:15
+  |
+4 | var ANY = ANY typeof ;    //expect error
+  |               ^^^^^^
+
+error: Unexpected token Some(Semi)
+ --> $DIR/tests/conformance/expressions/unaryOperators/typeofOperator/typeofOperatorInvalidOperations.ts:4:22
+  |
+4 | var ANY = ANY typeof ;    //expect error
+  |                      ^
+
+error: Unexpected token Some(Semi)
+ --> $DIR/tests/conformance/expressions/unaryOperators/typeofOperator/typeofOperatorInvalidOperations.ts:7:19
+  |
+7 | var ANY1 = typeof ;
+  |                   ^
+

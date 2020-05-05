@@ -1,0 +1,17 @@
+[
+    {
+        "line": 8,
+        "column": 23,
+        "msg": "Catch clause variable cannot have a type annotation."
+    },
+    {
+        "line": 9,
+        "column": 23,
+        "msg": "Catch clause variable cannot have a type annotation."
+    },
+    {
+        "line": 10,
+        "column": 23,
+        "msg": "Catch clause variable cannot have a type annotation."
+    }
+]

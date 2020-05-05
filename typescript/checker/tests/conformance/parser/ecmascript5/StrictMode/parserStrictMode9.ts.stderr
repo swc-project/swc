@@ -1,0 +1,6 @@
+error: 'eval' and 'arguments' cannot be used as a binding identifier in strict mode
+ --> $DIR/tests/conformance/parser/ecmascript5/StrictMode/parserStrictMode9.ts:2:18
+  |
+2 | var v = function eval() {
+  |                  ^^^^
+

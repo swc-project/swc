@@ -1,0 +1,96 @@
+error: TS2532 {
+    span: Span {
+        lo: BytePos(
+            579,
+        ),
+        hi: BytePos(
+            588,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/plusOperator/plusOperatorWithAnyOtherType.ts:34:24
+   |
+34 | var ResultIsNumber7 = +undefined;
+   |                        ^^^^^^^^^
+
+error: TS2531 {
+    span: Span {
+        lo: BytePos(
+            613,
+        ),
+        hi: BytePos(
+            617,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/plusOperator/plusOperatorWithAnyOtherType.ts:35:24
+   |
+35 | var ResultIsNumber8 = +null;
+   |                        ^^^^
+
+error: TS2365 {
+    span: Span {
+        lo: BytePos(
+            928,
+        ),
+        hi: BytePos(
+            944,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/plusOperator/plusOperatorWithAnyOtherType.ts:46:26
+   |
+46 | var ResultIsNumber17 = +(null + undefined);
+   |                          ^^^^^^^^^^^^^^^^
+
+error: TS2365 {
+    span: Span {
+        lo: BytePos(
+            972,
+        ),
+        hi: BytePos(
+            983,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/plusOperator/plusOperatorWithAnyOtherType.ts:47:26
+   |
+47 | var ResultIsNumber18 = +(null + null);
+   |                          ^^^^^^^^^^^
+
+error: TS2365 {
+    span: Span {
+        lo: BytePos(
+            1011,
+        ),
+        hi: BytePos(
+            1032,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/plusOperator/plusOperatorWithAnyOtherType.ts:48:26
+   |
+48 | var ResultIsNumber19 = +(undefined + undefined);
+   |                          ^^^^^^^^^^^^^^^^^^^^^
+
+error: UselessSeqExpr {
+    span: Span {
+        lo: BytePos(
+            1088,
+        ),
+        hi: BytePos(
+            1098,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/plusOperator/plusOperatorWithAnyOtherType.ts:54:1
+   |
+54 | +ANY, ANY1;
+   | ^^^^^^^^^^
+

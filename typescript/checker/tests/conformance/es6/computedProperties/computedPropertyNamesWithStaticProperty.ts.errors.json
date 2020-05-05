@@ -1,0 +1,17 @@
+[
+    {
+        "line": 4,
+        "column": 10,
+        "msg": "Class 'C' used before its declaration."
+    },
+    {
+        "line": 7,
+        "column": 10,
+        "msg": "Class 'C' used before its declaration."
+    },
+    {
+        "line": 10,
+        "column": 6,
+        "msg": "Class 'C' used before its declaration."
+    }
+]

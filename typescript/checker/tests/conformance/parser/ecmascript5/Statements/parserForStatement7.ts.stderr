@@ -1,0 +1,40 @@
+error: TS2406
+ --> $DIR/tests/conformance/parser/ecmascript5/Statements/parserForStatement7.ts:1:6
+  |
+1 | for (new foo() in b) {
+  |      ^^^^^^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('foo' type=inline),
+    span: Span {
+        lo: BytePos(
+            9,
+        ),
+        hi: BytePos(
+            12,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/Statements/parserForStatement7.ts:1:10
+  |
+1 | for (new foo() in b) {
+  |          ^^^
+
+error: UndefinedSymbol {
+    sym: Atom('b' type=inline),
+    span: Span {
+        lo: BytePos(
+            18,
+        ),
+        hi: BytePos(
+            19,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/Statements/parserForStatement7.ts:1:19
+  |
+1 | for (new foo() in b) {
+  |                   ^
+

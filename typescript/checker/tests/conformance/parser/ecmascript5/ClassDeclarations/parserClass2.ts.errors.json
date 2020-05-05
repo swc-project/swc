@@ -1,0 +1,17 @@
+[
+    {
+        "line": 3,
+        "column": 43,
+        "msg": "Cannot find name 'ILogger'."
+    },
+    {
+        "line": 4,
+        "column": 37,
+        "msg": "Cannot find name 'ILogger'."
+    },
+    {
+        "line": 5,
+        "column": 18,
+        "msg": "Property '_information' does not exist on type 'LoggerAdapter'."
+    }
+]

@@ -1,0 +1,22 @@
+[
+    {
+        "line": 12,
+        "column": 19,
+        "msg": "Cannot find name 'T'."
+    },
+    {
+        "line": 12,
+        "column": 23,
+        "msg": "Cannot find name 'T'."
+    },
+    {
+        "line": 20,
+        "column": 16,
+        "msg": "Duplicate identifier 'T'."
+    },
+    {
+        "line": 21,
+        "column": 19,
+        "msg": "Duplicate identifier 'T'."
+    }
+]

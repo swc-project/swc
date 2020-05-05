@@ -1,0 +1,12 @@
+[
+    {
+        "line": 3,
+        "column": 6,
+        "msg": "Expression expected."
+    },
+    {
+        "line": 5,
+        "column": 1,
+        "msg": "Declaration or statement expected."
+    }
+]

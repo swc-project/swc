@@ -1,0 +1,87 @@
+[
+    {
+        "line": 3,
+        "column": 14,
+        "msg": "A rest parameter must be of an array type."
+    },
+    {
+        "line": 4,
+        "column": 22,
+        "msg": "A rest parameter must be of an array type."
+    },
+    {
+        "line": 5,
+        "column": 11,
+        "msg": "A rest parameter must be last in a parameter list."
+    },
+    {
+        "line": 5,
+        "column": 11,
+        "msg": "A rest parameter must be of an array type."
+    },
+    {
+        "line": 5,
+        "column": 23,
+        "msg": "A rest parameter must be of an array type."
+    },
+    {
+        "line": 8,
+        "column": 9,
+        "msg": "A rest parameter must be of an array type."
+    },
+    {
+        "line": 12,
+        "column": 6,
+        "msg": "A rest parameter must be of an array type."
+    },
+    {
+        "line": 13,
+        "column": 9,
+        "msg": "A rest parameter must be last in a parameter list."
+    },
+    {
+        "line": 13,
+        "column": 9,
+        "msg": "A rest parameter must be of an array type."
+    },
+    {
+        "line": 13,
+        "column": 23,
+        "msg": "A rest parameter must be of an array type."
+    },
+    {
+        "line": 17,
+        "column": 6,
+        "msg": "A rest parameter must be of an array type."
+    },
+    {
+        "line": 18,
+        "column": 9,
+        "msg": "A rest parameter must be of an array type."
+    },
+    {
+        "line": 22,
+        "column": 9,
+        "msg": "A rest parameter must be of an array type."
+    },
+    {
+        "line": 23,
+        "column": 21,
+        "msg": "A rest parameter must be last in a parameter list."
+    },
+    {
+        "line": 23,
+        "column": 21,
+        "msg": "A rest parameter must be of an array type."
+    },
+    {
+        "line": 23,
+        "column": 35,
+        "msg": "A rest parameter must be of an array type."
+    },
+    {
+        "line": 24,
+        "column": 9,
+        "msg": "A rest parameter must be of an array type."
+    }
+]

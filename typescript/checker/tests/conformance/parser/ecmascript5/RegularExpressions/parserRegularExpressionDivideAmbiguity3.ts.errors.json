@@ -1,0 +1,7 @@
+[
+    {
+        "line": 1,
+        "column": 18,
+        "msg": "Property 'foo' does not exist on type 'RegExp'."
+    }
+]

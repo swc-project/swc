@@ -1,0 +1,7 @@
+[
+    {
+        "line": 5,
+        "column": 22,
+        "msg": "Cannot find module 'vs/foo'."
+    }
+]

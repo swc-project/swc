@@ -1,0 +1,6 @@
+error: TS2427
+ --> $DIR/tests/conformance/classes/classDeclarations/classAbstractKeyword/classAbstractWithInterface.ts:1:1
+  |
+1 | abstract interface I {}
+  | ^^^^^^^^
+

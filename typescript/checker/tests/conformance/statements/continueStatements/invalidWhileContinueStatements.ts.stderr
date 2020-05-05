@@ -1,0 +1,36 @@
+error: TS1115
+ --> $DIR/tests/conformance/statements/continueStatements/invalidWhileContinueStatements.ts:7:1
+  |
+7 | continue;
+  | ^^^^^^^^^
+
+error: TS1107
+  --> $DIR/tests/conformance/statements/continueStatements/invalidWhileContinueStatements.ts:11:14
+   |
+11 | while (true) continue TWO;
+   |              ^^^^^^^^^^^^^
+
+error: TS1115
+  --> $DIR/tests/conformance/statements/continueStatements/invalidWhileContinueStatements.ts:17:9
+   |
+17 |         continue TWO;
+   |         ^^^^^^^^^^^^^
+
+error: TS1115
+  --> $DIR/tests/conformance/statements/continueStatements/invalidWhileContinueStatements.ts:24:9
+   |
+24 |         continue THREE;
+   |         ^^^^^^^^^^^^^^^
+
+error: TS1107
+  --> $DIR/tests/conformance/statements/continueStatements/invalidWhileContinueStatements.ts:30:5
+   |
+30 |     continue FIVE;
+   |     ^^^^^^^^^^^^^^
+
+error: TS1107
+  --> $DIR/tests/conformance/statements/continueStatements/invalidWhileContinueStatements.ts:40:5
+   |
+40 |     continue NINE;
+   |     ^^^^^^^^^^^^^^
+

@@ -1,0 +1,92 @@
+[
+    {
+        "line": 24,
+        "column": 38,
+        "msg": "Argument of type '{ (n"
+    },
+    {
+        "line": 53,
+        "column": 38,
+        "msg": "No overload matches this call."
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "number) => Promise<string>)"
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "Promise<number>; (s"
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "number) => Promise<string>, error?"
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "Promise<number>; (s"
+    },
+    {
+        "line": 69,
+        "column": 38,
+        "msg": "No overload matches this call."
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "number) => Promise<string>)"
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "Promise<number>; (s"
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "number) => Promise<string>, error?"
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "Promise<number>; (s"
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "number) => Promise<string>, error?"
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "Promise<number>; (s"
+    },
+    {
+        "line": 85,
+        "column": 38,
+        "msg": "No overload matches this call."
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "number) => Promise<boolean>)"
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "Promise<number>; (s"
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "number) => Promise<boolean>, error?"
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "Promise<number>; (s"
+    }
+]

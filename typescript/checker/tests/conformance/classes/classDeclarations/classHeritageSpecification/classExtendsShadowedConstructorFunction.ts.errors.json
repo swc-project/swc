@@ -1,0 +1,7 @@
+[
+    {
+        "line": 5,
+        "column": 21,
+        "msg": "Type 'number' is not a constructor function type."
+    }
+]

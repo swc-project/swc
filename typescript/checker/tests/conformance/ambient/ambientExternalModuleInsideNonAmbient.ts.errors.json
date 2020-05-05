@@ -1,0 +1,12 @@
+[
+    {
+        "line": 2,
+        "column": 5,
+        "msg": "'export' modifier cannot be applied to ambient modules and module augmentations since they are always visible."
+    },
+    {
+        "line": 2,
+        "column": 27,
+        "msg": "Ambient modules cannot be nested in other modules or namespaces."
+    }
+]

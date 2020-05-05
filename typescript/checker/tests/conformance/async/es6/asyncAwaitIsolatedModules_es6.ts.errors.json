@@ -1,0 +1,7 @@
+[
+    {
+        "line": 3,
+        "column": 27,
+        "msg": "Cannot find module 'missing'."
+    }
+]

@@ -1,0 +1,22 @@
+[
+    {
+        "line": 47,
+        "column": 6,
+        "msg": "Property 'foo' is missing in type 'Class' but required in type 'D'."
+    },
+    {
+        "line": 48,
+        "column": 4,
+        "msg": "Argument of type '{}' is not assignable to parameter of type '{ y"
+    },
+    {
+        "line": 49,
+        "column": 6,
+        "msg": "Type 'number' is not assignable to type 'D'."
+    },
+    {
+        "line": 50,
+        "column": 6,
+        "msg": "Type 'string' is not assignable to type 'D'."
+    }
+]

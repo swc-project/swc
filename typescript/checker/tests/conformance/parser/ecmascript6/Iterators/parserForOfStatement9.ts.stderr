@@ -1,0 +1,17 @@
+error: UndefinedSymbol {
+    sym: Atom('X' type=inline),
+    span: Span {
+        lo: BytePos(
+            29,
+        ),
+        hi: BytePos(
+            30,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript6/Iterators/parserForOfStatement9.ts:2:15
+  |
+2 | for (let v of X) {
+  |               ^
+

@@ -1,0 +1,42 @@
+[
+    {
+        "line": 1,
+        "column": 7,
+        "msg": "'C' is referenced directly or indirectly in its own base expression."
+    },
+    {
+        "line": 1,
+        "column": 19,
+        "msg": "Class 'E' used before its declaration."
+    },
+    {
+        "line": 4,
+        "column": 18,
+        "msg": "'D' is referenced directly or indirectly in its own base expression."
+    },
+    {
+        "line": 9,
+        "column": 18,
+        "msg": "'E' is referenced directly or indirectly in its own base expression."
+    },
+    {
+        "line": 13,
+        "column": 11,
+        "msg": "'C2' is referenced directly or indirectly in its own base expression."
+    },
+    {
+        "line": 13,
+        "column": 27,
+        "msg": "Class 'E2' used before its declaration."
+    },
+    {
+        "line": 16,
+        "column": 22,
+        "msg": "'D2' is referenced directly or indirectly in its own base expression."
+    },
+    {
+        "line": 20,
+        "column": 22,
+        "msg": "'E2' is referenced directly or indirectly in its own base expression."
+    }
+]

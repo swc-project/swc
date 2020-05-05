@@ -1,0 +1,57 @@
+[
+    {
+        "line": 2,
+        "column": 14,
+        "msg": "A parameter initializer is only allowed in a function or constructor implementation."
+    },
+    {
+        "line": 65,
+        "column": 13,
+        "msg": "Overload signatures must all be public, private or protected."
+    },
+    {
+        "line": 68,
+        "column": 13,
+        "msg": "Overload signatures must all be public, private or protected."
+    },
+    {
+        "line": 75,
+        "column": 21,
+        "msg": "Overload signatures must all be exported or non-exported."
+    },
+    {
+        "line": 79,
+        "column": 14,
+        "msg": "Overload signatures must all be exported or non-exported."
+    },
+    {
+        "line": 85,
+        "column": 18,
+        "msg": "Overload signatures must all be ambient or non-ambient."
+    },
+    {
+        "line": 90,
+        "column": 18,
+        "msg": "Overload signatures must all be ambient or non-ambient."
+    },
+    {
+        "line": 94,
+        "column": 10,
+        "msg": "This overload signature is not compatible with its implementation signature."
+    },
+    {
+        "line": 99,
+        "column": 10,
+        "msg": "This overload signature is not compatible with its implementation signature."
+    },
+    {
+        "line": 103,
+        "column": 10,
+        "msg": "This overload signature is not compatible with its implementation signature."
+    },
+    {
+        "line": 116,
+        "column": 19,
+        "msg": "A parameter initializer is only allowed in a function or constructor implementation."
+    }
+]

@@ -1,0 +1,6 @@
+error: Expected ident
+ --> $DIR/tests/conformance/parser/ecmascript5/EnumDeclarations/parserEnum4.ts:4:9
+  |
+4 |         ,
+  |         ^
+

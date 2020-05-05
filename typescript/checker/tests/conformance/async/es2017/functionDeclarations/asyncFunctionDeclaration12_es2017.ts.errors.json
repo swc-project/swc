@@ -1,0 +1,22 @@
+[
+    {
+        "line": 3,
+        "column": 24,
+        "msg": "'(' expected."
+    },
+    {
+        "line": 3,
+        "column": 29,
+        "msg": "',' expected."
+    },
+    {
+        "line": 3,
+        "column": 33,
+        "msg": "A function whose declared type is neither 'void' nor 'any' must return a value."
+    },
+    {
+        "line": 3,
+        "column": 47,
+        "msg": "'=>' expected."
+    }
+]

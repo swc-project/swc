@@ -1,0 +1,57 @@
+[
+    {
+        "line": 4,
+        "column": 20,
+        "msg": "Accessors are only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 5,
+        "column": 20,
+        "msg": "Accessors are only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 16,
+        "column": 16,
+        "msg": "Property 'foo' is a static member of type 'C'"
+    },
+    {
+        "line": 17,
+        "column": 16,
+        "msg": "Property 'bar' does not exist on type 'C'."
+    },
+    {
+        "line": 18,
+        "column": 16,
+        "msg": "Property 'x' is a static member of type 'C'"
+    },
+    {
+        "line": 24,
+        "column": 20,
+        "msg": "Accessors are only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 25,
+        "column": 20,
+        "msg": "Accessors are only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 27,
+        "column": 21,
+        "msg": "Static members cannot reference class type parameters."
+    },
+    {
+        "line": 36,
+        "column": 16,
+        "msg": "Property 'foo' is a static member of type 'C<number, string>'"
+    },
+    {
+        "line": 37,
+        "column": 16,
+        "msg": "Property 'bar' does not exist on type 'C<number, string>'."
+    },
+    {
+        "line": 38,
+        "column": 16,
+        "msg": "Property 'x' is a static member of type 'C<number, string>'"
+    }
+]

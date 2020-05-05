@@ -1,0 +1,17 @@
+[
+    {
+        "line": 3,
+        "column": 6,
+        "msg": "Type 'string | number' is not an array type."
+    },
+    {
+        "line": 3,
+        "column": 7,
+        "msg": "Type '1' is not assignable to type 'string'."
+    },
+    {
+        "line": 3,
+        "column": 14,
+        "msg": "Type '\"\"' is not assignable to type 'number'."
+    }
+]

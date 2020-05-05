@@ -1,0 +1,32 @@
+error: UnknownPropertyInObjectLiteralAssignment {
+    span: Span {
+        lo: BytePos(
+            681,
+        ),
+        hi: BytePos(
+            686,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/arrayLiterals/arrayLiterals.ts:24:77
+   |
+24 | var context1: { [n: number]: { a: string; b: number; }; } = [{ a: '', b: 0, c: '' }, { a: "", b: 3, c: 0 }];
+   |                                                                             ^^^^^
+
+error: UnknownPropertyInObjectLiteralAssignment {
+    span: Span {
+        lo: BytePos(
+            705,
+        ),
+        hi: BytePos(
+            709,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/arrayLiterals/arrayLiterals.ts:24:101
+   |
+24 | var context1: { [n: number]: { a: string; b: number; }; } = [{ a: '', b: 0, c: '' }, { a: "", b: 3, c: 0 }];
+   |                                                                                                     ^^^^
+

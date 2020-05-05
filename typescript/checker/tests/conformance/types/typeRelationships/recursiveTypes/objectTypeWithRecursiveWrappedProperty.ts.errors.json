@@ -1,0 +1,7 @@
+[
+    {
+        "line": 13,
+        "column": 1,
+        "msg": "Type 'List<string>' is not assignable to type 'List<number>'."
+    }
+]

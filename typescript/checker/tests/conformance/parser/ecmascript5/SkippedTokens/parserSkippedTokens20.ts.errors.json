@@ -1,0 +1,17 @@
+[
+    {
+        "line": 1,
+        "column": 8,
+        "msg": "Cannot find name 'X'."
+    },
+    {
+        "line": 1,
+        "column": 10,
+        "msg": "Cannot find name 'T'."
+    },
+    {
+        "line": 1,
+        "column": 12,
+        "msg": "Invalid character."
+    }
+]

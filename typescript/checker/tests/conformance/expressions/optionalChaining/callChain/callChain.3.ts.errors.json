@@ -1,0 +1,12 @@
+[
+    {
+        "line": 5,
+        "column": 7,
+        "msg": "Type 'number | undefined' is not assignable to type 'number'."
+    },
+    {
+        "line": 6,
+        "column": 7,
+        "msg": "Type 'number | undefined' is not assignable to type 'number'."
+    }
+]

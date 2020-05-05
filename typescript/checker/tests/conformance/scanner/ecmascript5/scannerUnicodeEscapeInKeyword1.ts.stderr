@@ -1,0 +1,6 @@
+error: Unexpected escape sequence in reserved word: var
+ --> $DIR/tests/conformance/scanner/ecmascript5/scannerUnicodeEscapeInKeyword1.ts:1:1
+  |
+1 | \u0076ar x = "hello";
+  | ^^^^^^^^
+

@@ -1,0 +1,7 @@
+[
+    {
+        "line": 12,
+        "column": 22,
+        "msg": "Type 'typeof Bar' cannot be used as an index type."
+    }
+]

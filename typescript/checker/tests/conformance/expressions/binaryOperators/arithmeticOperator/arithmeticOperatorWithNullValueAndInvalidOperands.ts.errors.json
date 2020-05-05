@@ -1,0 +1,1202 @@
+[
+    {
+        "line": 9,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 9,
+        "column": 19,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 10,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 10,
+        "column": 19,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 11,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 11,
+        "column": 19,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 13,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 13,
+        "column": 16,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 14,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 14,
+        "column": 16,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 15,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 15,
+        "column": 16,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 17,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 17,
+        "column": 19,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 18,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 18,
+        "column": 19,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 19,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 19,
+        "column": 19,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 21,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 21,
+        "column": 19,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 22,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 22,
+        "column": 17,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 23,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 23,
+        "column": 17,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 26,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 26,
+        "column": 19,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 27,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 27,
+        "column": 19,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 28,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 28,
+        "column": 19,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 30,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 30,
+        "column": 16,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 31,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 31,
+        "column": 16,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 32,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 32,
+        "column": 16,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 34,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 34,
+        "column": 19,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 35,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 35,
+        "column": 19,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 36,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 36,
+        "column": 19,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 38,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 38,
+        "column": 19,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 39,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 39,
+        "column": 17,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 40,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 40,
+        "column": 17,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 43,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 43,
+        "column": 19,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 44,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 44,
+        "column": 19,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 45,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 45,
+        "column": 19,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 47,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 47,
+        "column": 16,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 48,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 48,
+        "column": 16,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 49,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 49,
+        "column": 16,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 51,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 51,
+        "column": 19,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 52,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 52,
+        "column": 19,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 53,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 53,
+        "column": 19,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 55,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 55,
+        "column": 19,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 56,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 56,
+        "column": 17,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 57,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 57,
+        "column": 17,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 60,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 60,
+        "column": 19,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 61,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 61,
+        "column": 19,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 62,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 62,
+        "column": 19,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 64,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 64,
+        "column": 16,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 65,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 65,
+        "column": 16,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 66,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 66,
+        "column": 16,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 68,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 68,
+        "column": 19,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 69,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 69,
+        "column": 19,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 70,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 70,
+        "column": 19,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 72,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 72,
+        "column": 19,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 73,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 73,
+        "column": 17,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 74,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 74,
+        "column": 17,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 77,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 77,
+        "column": 20,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 78,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 78,
+        "column": 20,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 79,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 79,
+        "column": 20,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 81,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 81,
+        "column": 17,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 82,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 82,
+        "column": 17,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 83,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 83,
+        "column": 17,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 85,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 85,
+        "column": 20,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 86,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 86,
+        "column": 20,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 87,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 87,
+        "column": 20,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 89,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 89,
+        "column": 20,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 90,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 90,
+        "column": 18,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 91,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 91,
+        "column": 18,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 94,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 94,
+        "column": 20,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 95,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 95,
+        "column": 20,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 96,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 96,
+        "column": 20,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 98,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 98,
+        "column": 17,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 99,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 99,
+        "column": 17,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 100,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 100,
+        "column": 17,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 102,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 102,
+        "column": 20,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 103,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 103,
+        "column": 20,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 104,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 104,
+        "column": 20,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 106,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 106,
+        "column": 20,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 107,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 107,
+        "column": 18,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 108,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 108,
+        "column": 18,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 111,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 111,
+        "column": 21,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 112,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 112,
+        "column": 21,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 113,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 113,
+        "column": 21,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 115,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 115,
+        "column": 18,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 116,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 116,
+        "column": 18,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 117,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 117,
+        "column": 18,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 119,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 119,
+        "column": 21,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 120,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 120,
+        "column": 21,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 121,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 121,
+        "column": 21,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 123,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 123,
+        "column": 21,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 124,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 124,
+        "column": 19,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 125,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 125,
+        "column": 19,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 128,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 128,
+        "column": 19,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 129,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 129,
+        "column": 19,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 130,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 130,
+        "column": 19,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 132,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 132,
+        "column": 16,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 133,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 133,
+        "column": 16,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 134,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 134,
+        "column": 16,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 136,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 136,
+        "column": 19,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 137,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 137,
+        "column": 19,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 138,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 138,
+        "column": 19,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 140,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 140,
+        "column": 19,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 141,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 141,
+        "column": 17,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 142,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 142,
+        "column": 17,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 145,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 145,
+        "column": 19,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 146,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 146,
+        "column": 19,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 147,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 147,
+        "column": 19,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 149,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 149,
+        "column": 16,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 150,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 150,
+        "column": 16,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 151,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 151,
+        "column": 16,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 153,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 153,
+        "column": 19,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 154,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 154,
+        "column": 19,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 155,
+        "column": 12,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 155,
+        "column": 19,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 157,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 157,
+        "column": 19,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 158,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 158,
+        "column": 17,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 159,
+        "column": 12,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 159,
+        "column": 17,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 162,
+        "column": 13,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 162,
+        "column": 20,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 163,
+        "column": 13,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 163,
+        "column": 20,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 164,
+        "column": 13,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 164,
+        "column": 20,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 166,
+        "column": 13,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 166,
+        "column": 17,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 167,
+        "column": 13,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 167,
+        "column": 17,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 168,
+        "column": 13,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 168,
+        "column": 17,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 170,
+        "column": 13,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 170,
+        "column": 20,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 171,
+        "column": 13,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 171,
+        "column": 20,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 172,
+        "column": 13,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 172,
+        "column": 20,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 174,
+        "column": 13,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 174,
+        "column": 20,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 175,
+        "column": 13,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 175,
+        "column": 18,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 176,
+        "column": 13,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 176,
+        "column": 18,
+        "msg": "Object is possibly 'null'."
+    }
+]

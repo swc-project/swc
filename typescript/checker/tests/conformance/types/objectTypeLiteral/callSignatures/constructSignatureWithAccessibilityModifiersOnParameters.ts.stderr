@@ -1,0 +1,24 @@
+error: TS2369
+  --> $DIR/tests/conformance/types/objectTypeLiteral/callSignatures/constructSignatureWithAccessibilityModifiersOnParameters.ts:16:10
+   |
+16 |     new (public x);
+   |          ^^^^^^^^
+
+error: TS2369
+  --> $DIR/tests/conformance/types/objectTypeLiteral/callSignatures/constructSignatureWithAccessibilityModifiersOnParameters.ts:20:10
+   |
+20 |     new (private x);
+   |          ^^^^^^^^^
+
+error: TS2369
+  --> $DIR/tests/conformance/types/objectTypeLiteral/callSignatures/constructSignatureWithAccessibilityModifiersOnParameters.ts:24:10
+   |
+24 |     new (public x);
+   |          ^^^^^^^^
+
+error: TS2369
+  --> $DIR/tests/conformance/types/objectTypeLiteral/callSignatures/constructSignatureWithAccessibilityModifiersOnParameters.ts:28:10
+   |
+28 |     new (private x);
+   |          ^^^^^^^^^
+

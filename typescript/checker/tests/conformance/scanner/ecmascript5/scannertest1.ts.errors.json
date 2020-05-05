@@ -1,0 +1,82 @@
+[
+    {
+        "line": 1,
+        "column": 21,
+        "msg": "File 'tests/cases/conformance/scanner/ecmascript5/References.ts' not found."
+    },
+    {
+        "line": 5,
+        "column": 21,
+        "msg": "Cannot find name 'CharacterCodes'."
+    },
+    {
+        "line": 5,
+        "column": 47,
+        "msg": "Cannot find name 'CharacterCodes'."
+    },
+    {
+        "line": 9,
+        "column": 16,
+        "msg": "Cannot find name 'isDecimalDigit'. Did you mean the static member 'CharacterInfo.isDecimalDigit'?"
+    },
+    {
+        "line": 10,
+        "column": 22,
+        "msg": "Cannot find name 'CharacterCodes'."
+    },
+    {
+        "line": 10,
+        "column": 47,
+        "msg": "Cannot find name 'CharacterCodes'."
+    },
+    {
+        "line": 11,
+        "column": 22,
+        "msg": "Cannot find name 'CharacterCodes'."
+    },
+    {
+        "line": 11,
+        "column": 47,
+        "msg": "Cannot find name 'CharacterCodes'."
+    },
+    {
+        "line": 15,
+        "column": 9,
+        "msg": "Cannot find name 'Debug'."
+    },
+    {
+        "line": 15,
+        "column": 22,
+        "msg": "Cannot find name 'isHexDigit'. Did you mean the static member 'CharacterInfo.isHexDigit'?"
+    },
+    {
+        "line": 16,
+        "column": 16,
+        "msg": "Cannot find name 'isDecimalDigit'. Did you mean the static member 'CharacterInfo.isDecimalDigit'?"
+    },
+    {
+        "line": 17,
+        "column": 20,
+        "msg": "Cannot find name 'CharacterCodes'."
+    },
+    {
+        "line": 18,
+        "column": 21,
+        "msg": "Cannot find name 'CharacterCodes'."
+    },
+    {
+        "line": 18,
+        "column": 46,
+        "msg": "Cannot find name 'CharacterCodes'."
+    },
+    {
+        "line": 19,
+        "column": 23,
+        "msg": "Cannot find name 'CharacterCodes'."
+    },
+    {
+        "line": 20,
+        "column": 23,
+        "msg": "Cannot find name 'CharacterCodes'."
+    }
+]

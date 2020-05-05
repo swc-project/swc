@@ -1,0 +1,226 @@
+error: NotVariable {
+    span: Span {
+        lo: BytePos(
+            211,
+        ),
+        hi: BytePos(
+            212,
+        ),
+        ctxt: #0,
+    },
+    left: Span {
+        lo: BytePos(
+            211,
+        ),
+        hi: BytePos(
+            212,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/valuesAndReferences/assignments.ts:11:1
+   |
+11 | M = null; // Error
+   | ^
+
+error: AssignFailed {
+    span: Span {
+        lo: BytePos(
+            246,
+        ),
+        hi: BytePos(
+            247,
+        ),
+        ctxt: #0,
+    },
+    left: Class(
+        Class {
+            span: Span {
+                lo: BytePos(
+                    233,
+                ),
+                hi: BytePos(
+                    244,
+                ),
+                ctxt: #0,
+            },
+            is_abstract: false,
+            name: Some(
+                Atom('C' type=inline),
+            ),
+            super_class: None,
+            body: [],
+            type_params: None,
+        },
+    ),
+    right: Keyword(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    250,
+                ),
+                hi: BytePos(
+                    254,
+                ),
+                ctxt: #0,
+            },
+            kind: TsNullKeyword,
+        },
+    ),
+    cause: [],
+}
+  --> $DIR/tests/conformance/expressions/valuesAndReferences/assignments.ts:14:1
+   |
+14 | C = null; // Error
+   | ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            282,
+        ),
+        hi: BytePos(
+            283,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/valuesAndReferences/assignments.ts:17:1
+   |
+17 | E = null; // Error
+   | ^
+
+error: AssignFailed {
+    span: Span {
+        lo: BytePos(
+            304,
+        ),
+        hi: BytePos(
+            305,
+        ),
+        ctxt: #0,
+    },
+    left: EnumVariant(
+        EnumVariant {
+            span: Span {
+                lo: BytePos(
+                    304,
+                ),
+                hi: BytePos(
+                    305,
+                ),
+                ctxt: #0,
+            },
+            enum_name: Atom('E' type=inline),
+            name: Atom('A' type=inline),
+        },
+    ),
+    right: Keyword(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    308,
+                ),
+                hi: BytePos(
+                    312,
+                ),
+                ctxt: #0,
+            },
+            kind: TsNullKeyword,
+        },
+    ),
+    cause: [
+        InvalidLValue {
+            span: Span {
+                lo: BytePos(
+                    304,
+                ),
+                hi: BytePos(
+                    305,
+                ),
+                ctxt: #0,
+            },
+        },
+    ],
+}
+  --> $DIR/tests/conformance/expressions/valuesAndReferences/assignments.ts:18:3
+   |
+18 | E.A = null; // OK per spec, Error per implementation (509581)
+   |   ^
+
+error: AssignFailed {
+    span: Span {
+        lo: BytePos(
+            386,
+        ),
+        hi: BytePos(
+            388,
+        ),
+        ctxt: #0,
+    },
+    left: Function(
+        Function {
+            span: Span {
+                lo: BytePos(
+                    367,
+                ),
+                hi: BytePos(
+                    384,
+                ),
+                ctxt: #0,
+            },
+            type_params: None,
+            params: [],
+            ret_ty: Keyword(
+                TsKeywordType {
+                    span: Span {
+                        lo: BytePos(
+                            367,
+                        ),
+                        hi: BytePos(
+                            384,
+                        ),
+                        ctxt: #0,
+                    },
+                    kind: TsAnyKeyword,
+                },
+            ),
+        },
+    ),
+    right: Keyword(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    391,
+                ),
+                hi: BytePos(
+                    395,
+                ),
+                ctxt: #0,
+            },
+            kind: TsNullKeyword,
+        },
+    ),
+    cause: [],
+}
+  --> $DIR/tests/conformance/expressions/valuesAndReferences/assignments.ts:21:1
+   |
+21 | fn = null; // Should be error
+   | ^^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            508,
+        ),
+        hi: BytePos(
+            509,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/valuesAndReferences/assignments.ts:31:1
+   |
+31 | I = null; // Error
+   | ^
+

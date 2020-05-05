@@ -1,0 +1,12 @@
+[
+    {
+        "line": 8,
+        "column": 7,
+        "msg": "Type 'false' is not assignable to type 'string'."
+    },
+    {
+        "line": 8,
+        "column": 23,
+        "msg": "Type 'string' is not assignable to type 'boolean'."
+    }
+]

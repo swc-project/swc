@@ -1,0 +1,7 @@
+[
+    {
+        "line": 17,
+        "column": 11,
+        "msg": "Interface 'Derived2' incorrectly extends interface 'Base'."
+    }
+]

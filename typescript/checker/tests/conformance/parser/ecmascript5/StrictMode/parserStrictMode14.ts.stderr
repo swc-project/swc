@@ -1,0 +1,29 @@
+error: TS2410
+ --> $DIR/tests/conformance/parser/ecmascript5/StrictMode/parserStrictMode14.ts:2:1
+  |
+2 | with (a) {
+  | ^^^^
+
+error: With statement are not allowed in strict mode
+ --> $DIR/tests/conformance/parser/ecmascript5/StrictMode/parserStrictMode14.ts:2:1
+  |
+2 | with (a) {
+  | ^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('a' type=inline),
+    span: Span {
+        lo: BytePos(
+            20,
+        ),
+        hi: BytePos(
+            21,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/StrictMode/parserStrictMode14.ts:2:7
+  |
+2 | with (a) {
+  |       ^
+

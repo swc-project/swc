@@ -1,0 +1,12 @@
+[
+    {
+        "line": 2,
+        "column": 3,
+        "msg": "A default export can only be used in an ECMAScript-style module."
+    },
+    {
+        "line": 6,
+        "column": 3,
+        "msg": "A default export can only be used in an ECMAScript-style module."
+    }
+]

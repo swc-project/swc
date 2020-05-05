@@ -1,0 +1,6 @@
+error: TS1096
+ --> $DIR/tests/conformance/parser/ecmascript5/IndexSignatures/parserIndexSignature10.ts:2:5
+  |
+2 |    [a, b]: number
+  |     ^
+

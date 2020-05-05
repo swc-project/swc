@@ -1,0 +1,16 @@
+error: TS1318 {
+    span: Span {
+        lo: BytePos(
+            32,
+        ),
+        hi: BytePos(
+            35,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/classes/classDeclarations/classAbstractKeyword/classAbstractMethodWithImplementation.ts:2:14
+  |
+2 |     abstract foo() {}
+  |              ^^^
+

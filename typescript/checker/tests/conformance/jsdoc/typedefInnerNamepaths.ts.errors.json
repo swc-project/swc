@@ -1,0 +1,27 @@
+[
+    {
+        "line": 5,
+        "column": 7,
+        "msg": "Duplicate identifier 'C'."
+    },
+    {
+        "line": 7,
+        "column": 19,
+        "msg": "'}' expected."
+    },
+    {
+        "line": 8,
+        "column": 26,
+        "msg": "Duplicate identifier 'C'."
+    },
+    {
+        "line": 10,
+        "column": 18,
+        "msg": "JSDoc '@param' tag has name '', but there is no parameter with that name."
+    },
+    {
+        "line": 10,
+        "column": 18,
+        "msg": "'}' expected."
+    }
+]
