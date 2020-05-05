@@ -43,7 +43,7 @@ pub fn parse_sync(s: &str, opts: JsValue) -> Result<JsValue, JsValue> {
     if let Some(src_map) = src_map {
         src_map
             .to_writer(&mut source_map)
-            .map_err(|err| format!("failed to print source map file: {}", err));
+            .map_err(|err| format!("failed to print source map file: {}", err))?;
     }
 
     Ok(
