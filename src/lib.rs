@@ -35,11 +35,7 @@ pub use ecmascript::{
     transforms::{chain_at, pass::Pass},
 };
 use serde::Serialize;
-use std::{
-    fs::File,
-    path::{Path, PathBuf},
-    sync::Arc,
-};
+use std::{fs::File, path::Path, sync::Arc};
 
 pub struct Compiler {
     /// swc uses rustc's span interning.
