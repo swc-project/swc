@@ -1,0 +1,12 @@
+[
+    {
+        "line": 20,
+        "column": 21,
+        "msg": "Property 'a' does not exist on type '{ a"
+    },
+    {
+        "line": 21,
+        "column": 5,
+        "msg": "Element implicitly has an 'any' type because expression of type '\"a\"' can't be used to index type '{}'."
+    }
+]

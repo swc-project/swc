@@ -1,0 +1,32 @@
+error: TS1166 {
+    span: Span {
+        lo: BytePos(
+            17,
+        ),
+        hi: BytePos(
+            20,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/IndexSignatures/parserIndexSignature5.ts:2:3
+  |
+2 |   [a] // Used to be indexer, now it is a computed property
+  |   ^^^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            18,
+        ),
+        hi: BytePos(
+            19,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/IndexSignatures/parserIndexSignature5.ts:2:4
+  |
+2 |   [a] // Used to be indexer, now it is a computed property
+  |    ^
+

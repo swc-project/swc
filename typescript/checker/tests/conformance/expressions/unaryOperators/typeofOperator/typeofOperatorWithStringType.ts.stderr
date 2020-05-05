@@ -1,0 +1,16 @@
+error: UselessSeqExpr {
+    span: Span {
+        lo: BytePos(
+            1070,
+        ),
+        hi: BytePos(
+            1088,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/typeofOperator/typeofOperatorWithStringType.ts:44:1
+   |
+44 | typeof objA.a, M.n;
+   | ^^^^^^^^^^^^^^^^^^
+

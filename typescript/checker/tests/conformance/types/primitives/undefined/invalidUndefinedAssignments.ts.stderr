@@ -1,0 +1,379 @@
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            42,
+        ),
+        hi: BytePos(
+            43,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/types/primitives/undefined/invalidUndefinedAssignments.ts:4:1
+  |
+4 | E = x;
+  | ^
+
+error: AssignFailed {
+    span: Span {
+        lo: BytePos(
+            52,
+        ),
+        hi: BytePos(
+            53,
+        ),
+        ctxt: #0,
+    },
+    left: EnumVariant(
+        EnumVariant {
+            span: Span {
+                lo: BytePos(
+                    52,
+                ),
+                hi: BytePos(
+                    53,
+                ),
+                ctxt: #0,
+            },
+            enum_name: Atom('E' type=inline),
+            name: Atom('A' type=inline),
+        },
+    ),
+    right: Keyword(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    56,
+                ),
+                hi: BytePos(
+                    57,
+                ),
+                ctxt: #0,
+            },
+            kind: TsUndefinedKeyword,
+        },
+    ),
+    cause: [
+        InvalidLValue {
+            span: Span {
+                lo: BytePos(
+                    52,
+                ),
+                hi: BytePos(
+                    53,
+                ),
+                ctxt: #0,
+            },
+        },
+    ],
+}
+ --> $DIR/tests/conformance/types/primitives/undefined/invalidUndefinedAssignments.ts:5:3
+  |
+5 | E.A = x;
+  |   ^
+
+error: AssignFailed {
+    span: Span {
+        lo: BytePos(
+            98,
+        ),
+        hi: BytePos(
+            99,
+        ),
+        ctxt: #0,
+    },
+    left: Class(
+        Class {
+            span: Span {
+                lo: BytePos(
+                    62,
+                ),
+                hi: BytePos(
+                    85,
+                ),
+                ctxt: #0,
+            },
+            is_abstract: false,
+            name: Some(
+                Atom('C' type=inline),
+            ),
+            super_class: None,
+            body: [
+                ClassProp(
+                    ClassProp {
+                        span: Span {
+                            lo: BytePos(
+                                72,
+                            ),
+                            hi: BytePos(
+                                83,
+                            ),
+                            ctxt: #0,
+                        },
+                        key: Ident(
+                            Ident {
+                                span: Span {
+                                    lo: BytePos(
+                                        72,
+                                    ),
+                                    hi: BytePos(
+                                        75,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                sym: Atom('foo' type=inline),
+                                type_ann: None,
+                                optional: false,
+                            },
+                        ),
+                        value: None,
+                        type_ann: Some(
+                            TsTypeAnn {
+                                span: Span {
+                                    lo: BytePos(
+                                        75,
+                                    ),
+                                    hi: BytePos(
+                                        83,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                type_ann: TsKeywordType(
+                                    TsKeywordType {
+                                        span: Span {
+                                            lo: BytePos(
+                                                77,
+                                            ),
+                                            hi: BytePos(
+                                                83,
+                                            ),
+                                            ctxt: #0,
+                                        },
+                                        kind: TsStringKeyword,
+                                    },
+                                ),
+                            },
+                        ),
+                        is_static: false,
+                        decorators: [],
+                        computed: false,
+                        accessibility: None,
+                        is_abstract: false,
+                        is_optional: false,
+                        readonly: false,
+                        definite: false,
+                    },
+                ),
+            ],
+            type_params: None,
+        },
+    ),
+    right: Keyword(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    102,
+                ),
+                hi: BytePos(
+                    103,
+                ),
+                ctxt: #0,
+            },
+            kind: TsUndefinedKeyword,
+        },
+    ),
+    cause: [],
+}
+ --> $DIR/tests/conformance/types/primitives/undefined/invalidUndefinedAssignments.ts:9:1
+  |
+9 | C = x;
+  | ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            156,
+        ),
+        hi: BytePos(
+            157,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/primitives/undefined/invalidUndefinedAssignments.ts:14:1
+   |
+14 | I = x;
+   | ^
+
+error: NotVariable {
+    span: Span {
+        lo: BytePos(
+            198,
+        ),
+        hi: BytePos(
+            199,
+        ),
+        ctxt: #0,
+    },
+    left: Span {
+        lo: BytePos(
+            198,
+        ),
+        hi: BytePos(
+            199,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/primitives/undefined/invalidUndefinedAssignments.ts:17:1
+   |
+17 | M = x;
+   | ^
+
+error: AssignFailed {
+    span: Span {
+        lo: BytePos(
+            248,
+        ),
+        hi: BytePos(
+            249,
+        ),
+        ctxt: #0,
+    },
+    left: Function(
+        Function {
+            span: Span {
+                lo: BytePos(
+                    208,
+                ),
+                hi: BytePos(
+                    231,
+                ),
+                ctxt: #0,
+            },
+            type_params: Some(
+                TypeParamDecl {
+                    span: Span {
+                        lo: BytePos(
+                            218,
+                        ),
+                        hi: BytePos(
+                            221,
+                        ),
+                        ctxt: #0,
+                    },
+                    params: [
+                        TypeParam {
+                            span: Span {
+                                lo: BytePos(
+                                    219,
+                                ),
+                                hi: BytePos(
+                                    220,
+                                ),
+                                ctxt: #0,
+                            },
+                            name: Atom('T' type=inline),
+                            constraint: None,
+                            default: None,
+                        },
+                    ],
+                },
+            ),
+            params: [
+                Ident(
+                    Ident {
+                        span: Span {
+                            lo: BytePos(
+                                222,
+                            ),
+                            hi: BytePos(
+                                223,
+                            ),
+                            ctxt: #0,
+                        },
+                        sym: Atom('a' type=inline),
+                        type_ann: Some(
+                            TsTypeAnn {
+                                span: Span {
+                                    lo: BytePos(
+                                        223,
+                                    ),
+                                    hi: BytePos(
+                                        226,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                type_ann: TsTypeRef(
+                                    TsTypeRef {
+                                        span: Span {
+                                            lo: BytePos(
+                                                225,
+                                            ),
+                                            hi: BytePos(
+                                                226,
+                                            ),
+                                            ctxt: #0,
+                                        },
+                                        type_name: Ident(
+                                            Ident {
+                                                span: Span {
+                                                    lo: BytePos(
+                                                        225,
+                                                    ),
+                                                    hi: BytePos(
+                                                        226,
+                                                    ),
+                                                    ctxt: #0,
+                                                },
+                                                sym: Atom('T' type=inline),
+                                                type_ann: None,
+                                                optional: false,
+                                            },
+                                        ),
+                                        type_params: None,
+                                    },
+                                ),
+                            },
+                        ),
+                        optional: false,
+                    },
+                ),
+            ],
+            ret_ty: Keyword(
+                TsKeywordType {
+                    span: Span {
+                        lo: BytePos(
+                            208,
+                        ),
+                        hi: BytePos(
+                            231,
+                        ),
+                        ctxt: #0,
+                    },
+                    kind: TsAnyKeyword,
+                },
+            ),
+        },
+    ),
+    right: Keyword(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    252,
+                ),
+                hi: BytePos(
+                    253,
+                ),
+                ctxt: #0,
+            },
+            kind: TsUndefinedKeyword,
+        },
+    ),
+    cause: [],
+}
+  --> $DIR/tests/conformance/types/primitives/undefined/invalidUndefinedAssignments.ts:21:1
+   |
+21 | i = x; 
+   | ^
+

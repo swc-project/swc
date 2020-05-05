@@ -1,0 +1,17 @@
+[
+    {
+        "line": 19,
+        "column": 13,
+        "msg": "Argument of type '<T>(x"
+    },
+    {
+        "line": 20,
+        "column": 23,
+        "msg": "Argument of type '<T>(x"
+    },
+    {
+        "line": 21,
+        "column": 23,
+        "msg": "Argument of type '<T>(x"
+    }
+]

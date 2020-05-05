@@ -1,0 +1,6 @@
+error: TS1242
+ --> $DIR/tests/conformance/classes/classDeclarations/classAbstractKeyword/classAbstractConstructor.ts:2:5
+  |
+2 |     abstract constructor() {}
+  |     ^^^^^^^^
+

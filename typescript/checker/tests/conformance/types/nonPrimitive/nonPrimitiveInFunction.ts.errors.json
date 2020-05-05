@@ -1,0 +1,17 @@
+[
+    {
+        "line": 13,
+        "column": 12,
+        "msg": "Argument of type 'boolean' is not assignable to parameter of type 'object'."
+    },
+    {
+        "line": 14,
+        "column": 1,
+        "msg": "Type 'object' is not assignable to type 'boolean'."
+    },
+    {
+        "line": 18,
+        "column": 5,
+        "msg": "Type 'number' is not assignable to type 'object'."
+    }
+]

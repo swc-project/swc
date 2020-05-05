@@ -1,0 +1,29 @@
+[package]
+name = "swc_ts_checker_macros"
+version = "0.1.0"
+authors = ["강동윤 <kdy1997.dev@gmail.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+proc-macro = true
+
+[dependencies]
+swc_common = { path = "../../../common" }
+swc_ecma_ast = { path = "../../../ecmascript/ast" }
+swc_ecma_parser = { path = "../../../ecmascript/parser" }
+swc_macros_common = { path ="../../../macros/common" }
+proc-macro2 = "1"
+pmutil = "0.5.1"
+
+[dependencies.syn]
+version = "1"
+features = ["full"]
+
+
+[dependencies.quote]
+version = "1"
+
+[dev-dependencies]
+swc_common = { path = "../../../common", features = ["fold"] }

@@ -1,0 +1,7 @@
+[
+    {
+        "line": 5,
+        "column": 17,
+        "msg": "Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'."
+    }
+]

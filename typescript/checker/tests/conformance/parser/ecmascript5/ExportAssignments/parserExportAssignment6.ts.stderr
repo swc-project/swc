@@ -1,0 +1,16 @@
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            35,
+        ),
+        hi: BytePos(
+            36,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/ExportAssignments/parserExportAssignment6.ts:2:14
+  |
+2 |     export = A;
+  |              ^
+

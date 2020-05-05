@@ -1,0 +1,22 @@
+error: TS2369 {
+    span: Span {
+        lo: BytePos(
+            30,
+        ),
+        hi: BytePos(
+            48,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/classes/constructorDeclarations/constructorParameters/readonlyInAmbientClass.ts:2:14
+  |
+2 |     constructor(readonly x: number);
+  |                 ^^^^^^^^^^^^^^^^^^
+
+error: TS2369
+ --> $DIR/tests/conformance/classes/constructorDeclarations/constructorParameters/readonlyInAmbientClass.ts:3:9
+  |
+3 |     method(readonly x: number);
+  |            ^^^^^^^^^^^^^^^^^^
+

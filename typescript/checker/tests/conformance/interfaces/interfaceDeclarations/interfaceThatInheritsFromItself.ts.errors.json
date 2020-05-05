@@ -1,0 +1,22 @@
+[
+    {
+        "line": 1,
+        "column": 11,
+        "msg": "Type 'Foo' recursively references itself as a base type."
+    },
+    {
+        "line": 4,
+        "column": 11,
+        "msg": "Type 'Foo2<T>' recursively references itself as a base type."
+    },
+    {
+        "line": 7,
+        "column": 11,
+        "msg": "Type 'Foo3<T>' recursively references itself as a base type."
+    },
+    {
+        "line": 10,
+        "column": 15,
+        "msg": "Interface declaration cannot have 'implements' clause."
+    }
+]

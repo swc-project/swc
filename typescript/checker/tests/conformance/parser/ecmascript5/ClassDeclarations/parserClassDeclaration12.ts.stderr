@@ -1,0 +1,16 @@
+error: TS2394 {
+    span: Span {
+        lo: BytePos(
+            13,
+        ),
+        hi: BytePos(
+            27,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/ClassDeclarations/parserClassDeclaration12.ts:2:4
+  |
+2 |    constructor();
+  |    ^^^^^^^^^^^^^^
+

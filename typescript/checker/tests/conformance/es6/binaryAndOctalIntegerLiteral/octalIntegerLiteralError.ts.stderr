@@ -1,0 +1,12 @@
+error: TS1005
+ --> $DIR/tests/conformance/es6/binaryAndOctalIntegerLiteral/octalIntegerLiteralError.ts:2:19
+  |
+2 | var oct1 = 0O13334823;
+  |                   ^^^
+
+error: TS1005
+ --> $DIR/tests/conformance/es6/binaryAndOctalIntegerLiteral/octalIntegerLiteralError.ts:3:18
+  |
+3 | var oct2 = 0o34318592;
+  |                  ^^^^
+

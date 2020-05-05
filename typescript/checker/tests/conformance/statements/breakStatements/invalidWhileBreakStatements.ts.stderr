@@ -1,0 +1,36 @@
+error: TS1105
+ --> $DIR/tests/conformance/statements/breakStatements/invalidWhileBreakStatements.ts:4:1
+  |
+4 | break;
+  | ^^^^^^
+
+error: TS1116
+ --> $DIR/tests/conformance/statements/breakStatements/invalidWhileBreakStatements.ts:8:14
+  |
+8 | while (true) break TWO;
+  |              ^^^^^^^^^^
+
+error: TS1116
+  --> $DIR/tests/conformance/statements/breakStatements/invalidWhileBreakStatements.ts:14:9
+   |
+14 |         break TWO;
+   |         ^^^^^^^^^^
+
+error: TS1116
+  --> $DIR/tests/conformance/statements/breakStatements/invalidWhileBreakStatements.ts:21:9
+   |
+21 |         break THREE;
+   |         ^^^^^^^^^^^^
+
+error: TS1116
+  --> $DIR/tests/conformance/statements/breakStatements/invalidWhileBreakStatements.ts:27:5
+   |
+27 |     break FIVE;
+   |     ^^^^^^^^^^^
+
+error: TS1116
+  --> $DIR/tests/conformance/statements/breakStatements/invalidWhileBreakStatements.ts:37:5
+   |
+37 |     break NINE;
+   |     ^^^^^^^^^^^
+

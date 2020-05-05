@@ -1,0 +1,32 @@
+[
+    {
+        "line": 4,
+        "column": 5,
+        "msg": "A computed property name must be of type 'string', 'number', 'symbol', or 'any'."
+    },
+    {
+        "line": 5,
+        "column": 12,
+        "msg": "A computed property name must be of type 'string', 'number', 'symbol', or 'any'."
+    },
+    {
+        "line": 6,
+        "column": 5,
+        "msg": "A computed property name must be of type 'string', 'number', 'symbol', or 'any'."
+    },
+    {
+        "line": 7,
+        "column": 12,
+        "msg": "A computed property name must be of type 'string', 'number', 'symbol', or 'any'."
+    },
+    {
+        "line": 8,
+        "column": 5,
+        "msg": "A computed property name must be of type 'string', 'number', 'symbol', or 'any'."
+    },
+    {
+        "line": 9,
+        "column": 12,
+        "msg": "A computed property name must be of type 'string', 'number', 'symbol', or 'any'."
+    }
+]

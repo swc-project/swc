@@ -1,0 +1,12 @@
+[
+    {
+        "line": 7,
+        "column": 24,
+        "msg": "'await' expressions cannot be used in a parameter initializer."
+    },
+    {
+        "line": 7,
+        "column": 29,
+        "msg": "Expression expected."
+    }
+]

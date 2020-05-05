@@ -1,0 +1,68 @@
+error: UndefinedSymbol {
+    sym: Atom('foo1' type=inline),
+    span: Span {
+        lo: BytePos(
+            0,
+        ),
+        hi: BytePos(
+            4,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/StrictMode/parserStrictMode1.ts:1:1
+  |
+1 | foo1();
+  | ^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('foo1' type=inline),
+    span: Span {
+        lo: BytePos(
+            8,
+        ),
+        hi: BytePos(
+            12,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/StrictMode/parserStrictMode1.ts:2:1
+  |
+2 | foo1();
+  | ^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('foo1' type=inline),
+    span: Span {
+        lo: BytePos(
+            16,
+        ),
+        hi: BytePos(
+            20,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/StrictMode/parserStrictMode1.ts:3:1
+  |
+3 | foo1();
+  | ^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('static' type=static),
+    span: Span {
+        lo: BytePos(
+            24,
+        ),
+        hi: BytePos(
+            30,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/StrictMode/parserStrictMode1.ts:4:1
+  |
+4 | static();
+  | ^^^^^^
+

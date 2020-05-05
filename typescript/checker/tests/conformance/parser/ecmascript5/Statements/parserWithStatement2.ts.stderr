@@ -1,0 +1,6 @@
+error: TS2410
+ --> $DIR/tests/conformance/parser/ecmascript5/Statements/parserWithStatement2.ts:1:1
+  |
+1 | with (1)
+  | ^^^^
+

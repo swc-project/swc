@@ -1,0 +1,17 @@
+[
+    {
+        "line": 17,
+        "column": 23,
+        "msg": "Type '{ a"
+    },
+    {
+        "line": 20,
+        "column": 12,
+        "msg": "Generic type 'Everything' requires 5 type argument(s)."
+    },
+    {
+        "line": 6,
+        "column": 34,
+        "msg": "Type '{ a"
+    }
+]

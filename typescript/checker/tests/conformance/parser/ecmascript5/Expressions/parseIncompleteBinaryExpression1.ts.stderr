@@ -1,0 +1,23 @@
+error: TS1109
+ --> $DIR/tests/conformance/parser/ecmascript5/Expressions/parseIncompleteBinaryExpression1.ts:1:9
+  |
+1 | var v = || b;
+  |         ^^
+
+error: UndefinedSymbol {
+    sym: Atom('b' type=inline),
+    span: Span {
+        lo: BytePos(
+            11,
+        ),
+        hi: BytePos(
+            12,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/Expressions/parseIncompleteBinaryExpression1.ts:1:12
+  |
+1 | var v = || b;
+  |            ^
+

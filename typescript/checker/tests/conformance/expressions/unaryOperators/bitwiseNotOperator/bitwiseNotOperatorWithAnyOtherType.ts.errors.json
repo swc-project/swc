@@ -1,0 +1,27 @@
+[
+    {
+        "line": 36,
+        "column": 24,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 37,
+        "column": 24,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 48,
+        "column": 26,
+        "msg": "Operator '+' cannot be applied to types 'null' and 'undefined'."
+    },
+    {
+        "line": 49,
+        "column": 26,
+        "msg": "Operator '+' cannot be applied to types 'null' and 'null'."
+    },
+    {
+        "line": 50,
+        "column": 26,
+        "msg": "Operator '+' cannot be applied to types 'undefined' and 'undefined'."
+    }
+]

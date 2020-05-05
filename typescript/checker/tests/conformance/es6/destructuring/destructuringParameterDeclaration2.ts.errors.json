@@ -1,0 +1,117 @@
+[
+    {
+        "line": 7,
+        "column": 8,
+        "msg": "Type 'string' is not assignable to type 'number'."
+    },
+    {
+        "line": 7,
+        "column": 29,
+        "msg": "',' expected."
+    },
+    {
+        "line": 8,
+        "column": 4,
+        "msg": "Argument of type '[number, number, string[][], string]' is not assignable to parameter of type '[number, number, string[][]]'."
+    },
+    {
+        "line": 16,
+        "column": 8,
+        "msg": "A parameter initializer is only allowed in a function or constructor implementation."
+    },
+    {
+        "line": 16,
+        "column": 16,
+        "msg": "A parameter initializer is only allowed in a function or constructor implementation."
+    },
+    {
+        "line": 23,
+        "column": 16,
+        "msg": "Type 'string' is not assignable to type 'number'."
+    },
+    {
+        "line": 30,
+        "column": 14,
+        "msg": "Duplicate identifier 'z'."
+    },
+    {
+        "line": 30,
+        "column": 18,
+        "msg": "Duplicate identifier 'z'."
+    },
+    {
+        "line": 34,
+        "column": 6,
+        "msg": "Type 'number' is not assignable to type '{ x"
+    },
+    {
+        "line": 35,
+        "column": 4,
+        "msg": "Argument of type '{}' is not assignable to parameter of type '{ z"
+    },
+    {
+        "line": 36,
+        "column": 6,
+        "msg": "Type 'true' is not assignable to type 'number'."
+    },
+    {
+        "line": 37,
+        "column": 6,
+        "msg": "Type 'false' is not assignable to type 'number'."
+    },
+    {
+        "line": 38,
+        "column": 6,
+        "msg": "Type 'true' is not assignable to type 'string | number'."
+    },
+    {
+        "line": 39,
+        "column": 11,
+        "msg": "Type 'false' is not assignable to type '[[any]]'."
+    },
+    {
+        "line": 40,
+        "column": 13,
+        "msg": "Type 'string' is not assignable to type 'number'."
+    },
+    {
+        "line": 46,
+        "column": 13,
+        "msg": "A binding pattern parameter cannot be optional in an implementation signature."
+    },
+    {
+        "line": 47,
+        "column": 13,
+        "msg": "A binding pattern parameter cannot be optional in an implementation signature."
+    },
+    {
+        "line": 56,
+        "column": 8,
+        "msg": "A binding pattern parameter cannot be optional in an implementation signature."
+    },
+    {
+        "line": 57,
+        "column": 5,
+        "msg": "Property 'd4' in type 'C4' is not assignable to the same property in base type 'F2'."
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "any; y"
+    },
+    {
+        "line": 65,
+        "column": 18,
+        "msg": "Duplicate identifier 'number'."
+    },
+    {
+        "line": 65,
+        "column": 26,
+        "msg": "Duplicate identifier 'number'."
+    },
+    {
+        "line": 65,
+        "column": 34,
+        "msg": "Duplicate identifier 'number'."
+    }
+]

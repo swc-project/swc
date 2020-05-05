@@ -1,0 +1,32 @@
+[
+    {
+        "line": 6,
+        "column": 12,
+        "msg": "Property 'y' does not exist on type 'typeof globalThis'."
+    },
+    {
+        "line": 7,
+        "column": 12,
+        "msg": "Property 'z' does not exist on type 'typeof globalThis'."
+    },
+    {
+        "line": 9,
+        "column": 1,
+        "msg": "Property 'y' does not exist on type 'typeof globalThis'."
+    },
+    {
+        "line": 10,
+        "column": 1,
+        "msg": "Property 'z' does not exist on type 'typeof globalThis'."
+    },
+    {
+        "line": 15,
+        "column": 40,
+        "msg": "Property 'y' does not exist on type 'typeof globalThis'."
+    },
+    {
+        "line": 16,
+        "column": 40,
+        "msg": "Property 'z' does not exist on type 'typeof globalThis'."
+    }
+]

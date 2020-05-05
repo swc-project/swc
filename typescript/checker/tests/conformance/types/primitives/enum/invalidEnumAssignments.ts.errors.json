@@ -1,0 +1,32 @@
+[
+    {
+        "line": 14,
+        "column": 1,
+        "msg": "Type 'E2.A' is not assignable to type 'E'."
+    },
+    {
+        "line": 15,
+        "column": 1,
+        "msg": "Type 'E.A' is not assignable to type 'E2'."
+    },
+    {
+        "line": 16,
+        "column": 1,
+        "msg": "Type 'void' is not assignable to type 'E'."
+    },
+    {
+        "line": 17,
+        "column": 1,
+        "msg": "Type '{}' is not assignable to type 'E'."
+    },
+    {
+        "line": 18,
+        "column": 1,
+        "msg": "Type '\"\"' is not assignable to type 'E'."
+    },
+    {
+        "line": 21,
+        "column": 5,
+        "msg": "Type 'T' is not assignable to type 'E'."
+    }
+]

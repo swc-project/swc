@@ -1,0 +1,32 @@
+[
+    {
+        "line": 11,
+        "column": 55,
+        "msg": "Type '{ 3"
+    },
+    {
+        "line": 45,
+        "column": 14,
+        "msg": "Property 'qqq' does not exist on type '{ 10"
+    },
+    {
+        "line": 80,
+        "column": 19,
+        "msg": "Type '{ name"
+    },
+    {
+        "line": 117,
+        "column": 18,
+        "msg": "Type '{ name"
+    },
+    {
+        "line": 140,
+        "column": 22,
+        "msg": "Type '{ name"
+    },
+    {
+        "line": 149,
+        "column": 5,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 'x3' must be of type 'A | B', but here has type 'A'."
+    }
+]

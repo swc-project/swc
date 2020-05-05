@@ -1,0 +1,87 @@
+[
+    {
+        "line": 40,
+        "column": 4,
+        "msg": "Property 'p' has conflicting declarations and is inaccessible in type 'Private & Private2'."
+    },
+    {
+        "line": 44,
+        "column": 4,
+        "msg": "Property 'p' has conflicting declarations and is inaccessible in type 'Private & Protected'."
+    },
+    {
+        "line": 48,
+        "column": 4,
+        "msg": "Property 'p' has conflicting declarations and is inaccessible in type 'Private & Public'."
+    },
+    {
+        "line": 52,
+        "column": 4,
+        "msg": "Property 'p' is protected and only accessible within class 'Protected & Protected2' and its subclasses."
+    },
+    {
+        "line": 67,
+        "column": 7,
+        "msg": "Class 'C1' incorrectly extends base class 'Private & Private2'."
+    },
+    {
+        "line": 68,
+        "column": 7,
+        "msg": "Class 'C2' incorrectly extends base class 'Private & Protected'."
+    },
+    {
+        "line": 69,
+        "column": 7,
+        "msg": "Class 'C3' incorrectly extends base class 'Private & Public'."
+    },
+    {
+        "line": 86,
+        "column": 6,
+        "msg": "Property 'p' is protected and only accessible within class 'C4' and its subclasses."
+    },
+    {
+        "line": 91,
+        "column": 6,
+        "msg": "Property 's' is protected and only accessible within class 'typeof C4' and its subclasses."
+    },
+    {
+        "line": 99,
+        "column": 6,
+        "msg": "Property 'p' is protected and only accessible within class 'C4' and its subclasses."
+    },
+    {
+        "line": 104,
+        "column": 6,
+        "msg": "Property 's' is protected and only accessible within class 'typeof C4' and its subclasses."
+    },
+    {
+        "line": 121,
+        "column": 4,
+        "msg": "Property 'privateMethod' is private and only accessible within class 'ProtectedGeneric<T>'."
+    },
+    {
+        "line": 122,
+        "column": 4,
+        "msg": "Property 'protectedMethod' is protected and only accessible within class 'ProtectedGeneric<T>' and its subclasses."
+    },
+    {
+        "line": 126,
+        "column": 4,
+        "msg": "Property 'privateMethod' has conflicting declarations and is inaccessible in type 'ProtectedGeneric<{ a"
+    },
+    {
+        "line": 127,
+        "column": 4,
+        "msg": "Property 'protectedMethod' is protected and only accessible within class 'ProtectedGeneric<{ a"
+    },
+    {
+        "line": 131,
+        "column": 4,
+        "msg": "Property 'privateMethod' has conflicting declarations and is inaccessible in type 'ProtectedGeneric<{ a"
+    },
+    {
+        "line": 132,
+        "column": 4,
+        "msg": "Property 'protectedMethod' is protected and only accessible within class 'ProtectedGeneric<T>' and its subclasses."
+    }
+]

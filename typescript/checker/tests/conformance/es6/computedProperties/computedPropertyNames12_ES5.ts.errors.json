@@ -1,0 +1,42 @@
+[
+    {
+        "line": 6,
+        "column": 5,
+        "msg": "A computed property name in a class property declaration must refer to an expression whose type is a literal type or a 'unique symbol' type."
+    },
+    {
+        "line": 7,
+        "column": 5,
+        "msg": "A computed property name in a class property declaration must refer to an expression whose type is a literal type or a 'unique symbol' type."
+    },
+    {
+        "line": 8,
+        "column": 12,
+        "msg": "A computed property name in a class property declaration must refer to an expression whose type is a literal type or a 'unique symbol' type."
+    },
+    {
+        "line": 9,
+        "column": 5,
+        "msg": "A computed property name in a class property declaration must refer to an expression whose type is a literal type or a 'unique symbol' type."
+    },
+    {
+        "line": 10,
+        "column": 5,
+        "msg": "A computed property name in a class property declaration must refer to an expression whose type is a literal type or a 'unique symbol' type."
+    },
+    {
+        "line": 13,
+        "column": 5,
+        "msg": "A computed property name in a class property declaration must refer to an expression whose type is a literal type or a 'unique symbol' type."
+    },
+    {
+        "line": 14,
+        "column": 12,
+        "msg": "A computed property name in a class property declaration must refer to an expression whose type is a literal type or a 'unique symbol' type."
+    },
+    {
+        "line": 16,
+        "column": 12,
+        "msg": "A computed property name in a class property declaration must refer to an expression whose type is a literal type or a 'unique symbol' type."
+    }
+]

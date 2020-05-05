@@ -1,0 +1,6 @@
+error: TS1009
+ --> $DIR/tests/conformance/es6/variableDeclarations/VariableDeclaration1_es6.ts:2:6
+  |
+2 | const
+  |      ^
+

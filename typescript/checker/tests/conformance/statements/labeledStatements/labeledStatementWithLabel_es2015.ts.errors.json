@@ -1,0 +1,12 @@
+[
+    {
+        "line": 13,
+        "column": 8,
+        "msg": "A namespace declaration is only allowed in a namespace or module."
+    },
+    {
+        "line": 14,
+        "column": 8,
+        "msg": "A namespace declaration is only allowed in a namespace or module."
+    }
+]

@@ -1,0 +1,22 @@
+[
+    {
+        "line": 2,
+        "column": 9,
+        "msg": "A computed property name in an interface must refer to an expression whose type is a literal type or a 'unique symbol' type."
+    },
+    {
+        "line": 2,
+        "column": 10,
+        "msg": "Cannot find name 'p'."
+    },
+    {
+        "line": 3,
+        "column": 9,
+        "msg": "An index signature must have a type annotation."
+    },
+    {
+        "line": 4,
+        "column": 10,
+        "msg": "An index signature must have exactly one parameter."
+    }
+]

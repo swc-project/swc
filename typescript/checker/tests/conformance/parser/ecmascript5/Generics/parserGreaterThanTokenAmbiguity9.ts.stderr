@@ -1,0 +1,6 @@
+error: Unexpected token Some(BinOp(Gt))
+ --> $DIR/tests/conformance/parser/ecmascript5/Generics/parserGreaterThanTokenAmbiguity9.ts:2:1
+  |
+2 | > 2;
+  | ^
+

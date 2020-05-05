@@ -1,0 +1,12 @@
+[
+    {
+        "line": 7,
+        "column": 5,
+        "msg": "'p' is defined as an accessor in class 'A', but is overridden here in 'B' as an instance property."
+    },
+    {
+        "line": 15,
+        "column": 5,
+        "msg": "'p' is defined as an accessor in class 'C', but is overridden here in 'D' as an instance property."
+    }
+]

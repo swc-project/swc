@@ -1,0 +1,7 @@
+[
+    {
+        "line": 1,
+        "column": 21,
+        "msg": "Cannot find namespace 'TypeScriptServices'."
+    }
+]

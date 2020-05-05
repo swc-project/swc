@@ -1,0 +1,27 @@
+[
+    {
+        "line": 13,
+        "column": 9,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 'r1' must be of type 'number', but here has type 'string'."
+    },
+    {
+        "line": 20,
+        "column": 9,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 'r2' must be of type 'string', but here has type 'boolean'."
+    },
+    {
+        "line": 27,
+        "column": 9,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 'r3' must be of type 'boolean', but here has type 'number'."
+    },
+    {
+        "line": 30,
+        "column": 5,
+        "msg": "This condition will always return 'true' since the types '\"string\" | \"number\" | \"bigint\" | \"boolean\" | \"symbol\" | \"undefined\" | \"object\" | \"function\"' and '\"Object\"' have no overlap."
+    },
+    {
+        "line": 34,
+        "column": 9,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 'r4' must be of type 'string', but here has type 'C'."
+    }
+]

@@ -1,0 +1,6 @@
+error: Expected RParen, got Some(Comma)
+ --> $DIR/tests/conformance/es7/trailingCommasInFunctionParametersAndArguments.ts:7:20
+  |
+7 | function f2(...args,) {}
+  |                    ^
+

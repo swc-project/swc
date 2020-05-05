@@ -1,0 +1,16 @@
+error: ReferencedInInit {
+    span: Span {
+        lo: BytePos(
+            35,
+        ),
+        hi: BytePos(
+            40,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es6/functionDeclarations/FunctionDeclaration3_es6.ts:2:20
+  |
+2 | function f(yield = yield) {
+  |                    ^^^^^
+

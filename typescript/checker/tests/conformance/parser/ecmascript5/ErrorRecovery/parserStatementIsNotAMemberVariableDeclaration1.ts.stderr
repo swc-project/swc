@@ -1,0 +1,12 @@
+error: Return statement is not allowed here
+  --> $DIR/tests/conformance/parser/ecmascript5/ErrorRecovery/parserStatementIsNotAMemberVariableDeclaration1.ts:1:1
+   |
+1  | / return {
+2  | |
+3  | |   "set": function (key, value) {
+4  | |
+...  |
+9  | |
+10 | | };
+   | |__^
+

@@ -1,0 +1,12 @@
+[
+    {
+        "line": 13,
+        "column": 1,
+        "msg": "Property 'foo' is missing in type 'I' but required in type 'C'."
+    },
+    {
+        "line": 14,
+        "column": 1,
+        "msg": "Property 'fooo' is missing in type 'C' but required in type 'I'."
+    }
+]

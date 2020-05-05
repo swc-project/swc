@@ -1,0 +1,67 @@
+[
+    {
+        "line": 7,
+        "column": 18,
+        "msg": "'"
+    },
+    {
+        "line": 9,
+        "column": 14,
+        "msg": "Array element destructuring pattern expected."
+    },
+    {
+        "line": 9,
+        "column": 19,
+        "msg": "Left side of comma operator is unused and has no side effects."
+    },
+    {
+        "line": 9,
+        "column": 19,
+        "msg": "'(' expected."
+    },
+    {
+        "line": 9,
+        "column": 21,
+        "msg": "Expression expected."
+    },
+    {
+        "line": 9,
+        "column": 24,
+        "msg": "Left side of comma operator is unused and has no side effects."
+    },
+    {
+        "line": 9,
+        "column": 24,
+        "msg": "'(' expected."
+    },
+    {
+        "line": 9,
+        "column": 26,
+        "msg": "Cannot find name 'public'."
+    },
+    {
+        "line": 9,
+        "column": 32,
+        "msg": "';' expected."
+    },
+    {
+        "line": 9,
+        "column": 33,
+        "msg": "Declaration or statement expected."
+    },
+    {
+        "line": 10,
+        "column": 16,
+        "msg": "Identifier expected. 'while' is a reserved word that cannot be used here."
+    },
+    {
+        "line": 10,
+        "column": 21,
+        "msg": "'(' expected."
+    },
+    {
+        "line": 12,
+        "column": 13,
+        "msg": "A rest parameter must be of an array type."
+    }
+]

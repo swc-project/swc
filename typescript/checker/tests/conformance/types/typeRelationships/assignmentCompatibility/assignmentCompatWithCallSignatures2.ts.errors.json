@@ -1,0 +1,82 @@
+[
+    {
+        "line": 31,
+        "column": 1,
+        "msg": "Property 'f' is missing in type '() => number' but required in type 'T'."
+    },
+    {
+        "line": 32,
+        "column": 1,
+        "msg": "Property 'f' is missing in type '(x"
+    },
+    {
+        "line": 33,
+        "column": 1,
+        "msg": "Property 'f' is missing in type '() => number' but required in type '{ f(x"
+    },
+    {
+        "line": 34,
+        "column": 1,
+        "msg": "Property 'f' is missing in type '(x"
+    },
+    {
+        "line": 42,
+        "column": 1,
+        "msg": "Type 'S2' is not assignable to type 'T'."
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "number) => void'."
+    },
+    {
+        "line": 43,
+        "column": 1,
+        "msg": "Type '{ f(x"
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "number) => void'."
+    },
+    {
+        "line": 44,
+        "column": 1,
+        "msg": "Property 'f' is missing in type '(x"
+    },
+    {
+        "line": 45,
+        "column": 1,
+        "msg": "Property 'f' is missing in type '(x"
+    },
+    {
+        "line": 46,
+        "column": 1,
+        "msg": "Type 'S2' is not assignable to type '{ f(x"
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "number) => void'."
+    },
+    {
+        "line": 47,
+        "column": 1,
+        "msg": "Type '{ f(x"
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "number) => void'."
+    },
+    {
+        "line": 48,
+        "column": 1,
+        "msg": "Property 'f' is missing in type '(x"
+    },
+    {
+        "line": 49,
+        "column": 1,
+        "msg": "Property 'f' is missing in type '(x"
+    }
+]

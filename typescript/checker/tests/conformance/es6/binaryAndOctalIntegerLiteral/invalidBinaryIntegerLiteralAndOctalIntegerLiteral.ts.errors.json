@@ -1,0 +1,22 @@
+[
+    {
+        "line": 2,
+        "column": 16,
+        "msg": "Binary digit expected."
+    },
+    {
+        "line": 3,
+        "column": 17,
+        "msg": "Binary digit expected."
+    },
+    {
+        "line": 4,
+        "column": 15,
+        "msg": "Octal digit expected."
+    },
+    {
+        "line": 5,
+        "column": 15,
+        "msg": "Octal digit expected."
+    }
+]

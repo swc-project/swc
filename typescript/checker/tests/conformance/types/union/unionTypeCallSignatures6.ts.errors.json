@@ -1,0 +1,42 @@
+[
+    {
+        "line": 11,
+        "column": 1,
+        "msg": "The 'this' context of type 'void' is not assignable to method's 'this' of type 'A & B'."
+    },
+    {
+        "line": 13,
+        "column": 1,
+        "msg": "The 'this' context of type 'void' is not assignable to method's 'this' of type 'A'."
+    },
+    {
+        "line": 38,
+        "column": 4,
+        "msg": "This expression is not callable."
+    },
+    {
+        "line": 39,
+        "column": 1,
+        "msg": "The 'this' context of type 'A & C & { f0"
+    },
+    {
+        "line": 48,
+        "column": 1,
+        "msg": "The 'this' context of type 'void' is not assignable to method's 'this' of type 'A & B'."
+    },
+    {
+        "line": 55,
+        "column": 1,
+        "msg": "No overload matches this call."
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "void', gave the following error."
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "void', gave the following error."
+    }
+]

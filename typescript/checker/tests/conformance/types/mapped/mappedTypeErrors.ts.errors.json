@@ -1,0 +1,137 @@
+[
+    {
+        "line": 22,
+        "column": 20,
+        "msg": "Type parameter 'P' has a circular constraint."
+    },
+    {
+        "line": 24,
+        "column": 20,
+        "msg": "Type 'Date' is not assignable to type 'string | number | symbol'."
+    },
+    {
+        "line": 25,
+        "column": 19,
+        "msg": "Type 'Date' does not satisfy the constraint 'string | number | symbol'."
+    },
+    {
+        "line": 28,
+        "column": 24,
+        "msg": "Type '\"foo\"' does not satisfy the constraint '\"name\" | \"width\" | \"height\" | \"visible\"'."
+    },
+    {
+        "line": 29,
+        "column": 24,
+        "msg": "Type '\"name\" | \"foo\"' does not satisfy the constraint '\"name\" | \"width\" | \"height\" | \"visible\"'."
+    },
+    {
+        "line": 31,
+        "column": 24,
+        "msg": "Type '\"x\" | \"y\"' does not satisfy the constraint '\"name\" | \"width\" | \"height\" | \"visible\"'."
+    },
+    {
+        "line": 33,
+        "column": 24,
+        "msg": "Type 'undefined' does not satisfy the constraint '\"name\" | \"width\" | \"height\" | \"visible\"'."
+    },
+    {
+        "line": 36,
+        "column": 24,
+        "msg": "Type 'T' does not satisfy the constraint '\"name\" | \"width\" | \"height\" | \"visible\"'."
+    },
+    {
+        "line": 40,
+        "column": 24,
+        "msg": "Type 'T' does not satisfy the constraint '\"name\" | \"width\" | \"height\" | \"visible\"'."
+    },
+    {
+        "line": 62,
+        "column": 9,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 'x' must be of type '{ [P in keyof T]"
+    },
+    {
+        "line": 63,
+        "column": 9,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 'x' must be of type '{ [P in keyof T]"
+    },
+    {
+        "line": 64,
+        "column": 9,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 'x' must be of type '{ [P in keyof T]"
+    },
+    {
+        "line": 69,
+        "column": 9,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 'x' must be of type '{ [P in keyof T]"
+    },
+    {
+        "line": 78,
+        "column": 45,
+        "msg": "Argument of type '{ x"
+    },
+    {
+        "line": 80,
+        "column": 59,
+        "msg": "Argument of type '{ x"
+    },
+    {
+        "line": 86,
+        "column": 58,
+        "msg": "Argument of type '{ x"
+    },
+    {
+        "line": 108,
+        "column": 17,
+        "msg": "Type 'undefined' is not assignable to type 'string'."
+    },
+    {
+        "line": 109,
+        "column": 17,
+        "msg": "Argument of type '{ c"
+    },
+    {
+        "line": 126,
+        "column": 14,
+        "msg": "Type 'undefined' is not assignable to type 'string'."
+    },
+    {
+        "line": 127,
+        "column": 14,
+        "msg": "Argument of type '{ c"
+    },
+    {
+        "line": 131,
+        "column": 16,
+        "msg": "Type 'string' is not assignable to type 'number | undefined'."
+    },
+    {
+        "line": 132,
+        "column": 25,
+        "msg": "Type 'string' is not assignable to type 'number | undefined'."
+    },
+    {
+        "line": 133,
+        "column": 39,
+        "msg": "Type 'string' is not assignable to type 'number | undefined'."
+    },
+    {
+        "line": 139,
+        "column": 16,
+        "msg": "Type 'T' is not assignable to type 'string | number | symbol'."
+    },
+    {
+        "line": 139,
+        "column": 21,
+        "msg": "Type 'P' cannot be used to index type 'T'."
+    },
+    {
+        "line": 151,
+        "column": 17,
+        "msg": "Property 'foo' does not exist on type 'Pick<T, K>'."
+    },
+    {
+        "line": 155,
+        "column": 17,
+        "msg": "Property 'foo' does not exist on type 'Record<K, number>'."
+    }
+]

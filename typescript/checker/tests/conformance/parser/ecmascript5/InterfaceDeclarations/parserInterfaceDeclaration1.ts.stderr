@@ -1,0 +1,23 @@
+error: UndefinedSymbol {
+    sym: Atom('A' type=inline),
+    span: Span {
+        lo: BytePos(
+            20,
+        ),
+        hi: BytePos(
+            21,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/InterfaceDeclarations/parserInterfaceDeclaration1.ts:1:21
+  |
+1 | interface I extends A extends B {
+  |                     ^
+
+error: TS1172
+ --> $DIR/tests/conformance/parser/ecmascript5/InterfaceDeclarations/parserInterfaceDeclaration1.ts:1:23
+  |
+1 | interface I extends A extends B {
+  |                       ^^^^^^^
+

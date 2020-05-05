@@ -1,0 +1,7 @@
+[
+    {
+        "line": 1,
+        "column": 8,
+        "msg": "A rest parameter cannot be optional."
+    }
+]

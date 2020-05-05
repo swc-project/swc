@@ -1,0 +1,7 @@
+[
+    {
+        "line": 10,
+        "column": 5,
+        "msg": "Property 'x' in type 'Derived<U>' is not assignable to the same property in base type 'Base<string>'."
+    }
+]

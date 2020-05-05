@@ -1,0 +1,7 @@
+[
+    {
+        "line": 18,
+        "column": 1,
+        "msg": "Left side of comma operator is unused and has no side effects."
+    }
+]

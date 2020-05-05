@@ -1,0 +1,12 @@
+[
+    {
+        "line": 24,
+        "column": 77,
+        "msg": "Type '{ a"
+    },
+    {
+        "line": 24,
+        "column": 101,
+        "msg": "Type '{ a"
+    }
+]

@@ -1,0 +1,30 @@
+error: jsc.taraget should be es5 or upper to use getter / setter
+ --> $DIR/tests/conformance/classes/propertyMemberDeclarations/memberAccessorDeclarations/typeOfThisInAccessor.ts:2:9
+  |
+2 |     get x() {
+  |         ^
+
+error: jsc.taraget should be es5 or upper to use getter / setter
+ --> $DIR/tests/conformance/classes/propertyMemberDeclarations/memberAccessorDeclarations/typeOfThisInAccessor.ts:7:16
+  |
+7 |     static get y() {
+  |                ^
+
+error: jsc.taraget should be es5 or upper to use getter / setter
+  --> $DIR/tests/conformance/classes/propertyMemberDeclarations/memberAccessorDeclarations/typeOfThisInAccessor.ts:15:9
+   |
+15 |     get x() {
+   |         ^
+
+error: jsc.taraget should be es5 or upper to use getter / setter
+  --> $DIR/tests/conformance/classes/propertyMemberDeclarations/memberAccessorDeclarations/typeOfThisInAccessor.ts:20:16
+   |
+20 |     static get y() {
+   |                ^
+
+error: jsc.taraget should be es5 or upper to use getter / setter
+  --> $DIR/tests/conformance/classes/propertyMemberDeclarations/memberAccessorDeclarations/typeOfThisInAccessor.ts:27:9
+   |
+27 |     get a() {
+   |         ^
+

@@ -1,0 +1,59 @@
+error: AssignFailed {
+    span: Span {
+        lo: BytePos(
+            32,
+        ),
+        hi: BytePos(
+            41,
+        ),
+        ctxt: #0,
+    },
+    left: Keyword(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    0,
+                ),
+                hi: BytePos(
+                    0,
+                ),
+                ctxt: #0,
+            },
+            kind: TsNumberKeyword,
+        },
+    ),
+    right: Lit(
+        TsLitType {
+            span: Span {
+                lo: BytePos(
+                    32,
+                ),
+                hi: BytePos(
+                    41,
+                ),
+                ctxt: #0,
+            },
+            lit: Str(
+                Str {
+                    span: Span {
+                        lo: BytePos(
+                            32,
+                        ),
+                        hi: BytePos(
+                            41,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('invalid' type=inline),
+                    has_escape: false,
+                },
+            ),
+        },
+    ),
+    cause: [],
+}
+ --> $DIR/tests/conformance/types/primitives/string/stringPropertyAccessWithError.ts:2:21
+  |
+2 | var d = x['charAt']('invalid'); // error
+  |                     ^^^^^^^^^
+

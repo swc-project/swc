@@ -1,0 +1,12 @@
+[
+    {
+        "line": 2,
+        "column": 14,
+        "msg": "A parameter property is only allowed in a constructor implementation."
+    },
+    {
+        "line": 3,
+        "column": 14,
+        "msg": "A parameter property is only allowed in a constructor implementation."
+    }
+]

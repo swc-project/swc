@@ -1,0 +1,7 @@
+[
+    {
+        "line": 2,
+        "column": 17,
+        "msg": "A generator cannot have a 'void' type annotation."
+    }
+]

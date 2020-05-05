@@ -1,0 +1,32 @@
+[
+    {
+        "line": 9,
+        "column": 27,
+        "msg": "Type '{}' must have a '[Symbol.asyncIterator]()' method that returns an async iterator."
+    },
+    {
+        "line": 11,
+        "column": 21,
+        "msg": "Type '{}' must have a '[Symbol.asyncIterator]()' method that returns an async iterator."
+    },
+    {
+        "line": 13,
+        "column": 16,
+        "msg": "Type 'number' is not assignable to type 'string'."
+    },
+    {
+        "line": 15,
+        "column": 16,
+        "msg": "Type 'number' is not assignable to type 'string'."
+    },
+    {
+        "line": 17,
+        "column": 21,
+        "msg": "Type 'AsyncIterable<number>' must have a '[Symbol.iterator]()' method that returns an iterator."
+    },
+    {
+        "line": 19,
+        "column": 15,
+        "msg": "Type 'AsyncIterable<number>' must have a '[Symbol.iterator]()' method that returns an iterator."
+    }
+]

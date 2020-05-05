@@ -1,0 +1,17 @@
+[
+    {
+        "line": 2,
+        "column": 12,
+        "msg": "Cannot find name 'e'."
+    },
+    {
+        "line": 2,
+        "column": 20,
+        "msg": "Cannot find name 'e'."
+    },
+    {
+        "line": 2,
+        "column": 24,
+        "msg": "Cannot find name 'e'."
+    }
+]

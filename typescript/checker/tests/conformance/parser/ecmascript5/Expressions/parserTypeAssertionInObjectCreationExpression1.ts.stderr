@@ -1,0 +1,40 @@
+error: TS1109
+ --> $DIR/tests/conformance/parser/ecmascript5/Expressions/parserTypeAssertionInObjectCreationExpression1.ts:1:5
+  |
+1 | new <T>Foo()
+  |     ^
+
+error: UndefinedSymbol {
+    sym: Atom('T' type=inline),
+    span: Span {
+        lo: BytePos(
+            5,
+        ),
+        hi: BytePos(
+            6,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/Expressions/parserTypeAssertionInObjectCreationExpression1.ts:1:6
+  |
+1 | new <T>Foo()
+  |      ^
+
+error: UndefinedSymbol {
+    sym: Atom('Foo' type=inline),
+    span: Span {
+        lo: BytePos(
+            7,
+        ),
+        hi: BytePos(
+            10,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/Expressions/parserTypeAssertionInObjectCreationExpression1.ts:1:8
+  |
+1 | new <T>Foo()
+  |        ^^^
+

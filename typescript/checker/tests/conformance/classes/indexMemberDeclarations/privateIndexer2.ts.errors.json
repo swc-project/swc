@@ -1,0 +1,32 @@
+[
+    {
+        "line": 4,
+        "column": 15,
+        "msg": "']' expected."
+    },
+    {
+        "line": 4,
+        "column": 17,
+        "msg": "'string' only refers to a type, but is being used as a value here."
+    },
+    {
+        "line": 4,
+        "column": 23,
+        "msg": "',' expected."
+    },
+    {
+        "line": 4,
+        "column": 24,
+        "msg": "Property assignment expected."
+    },
+    {
+        "line": 4,
+        "column": 26,
+        "msg": "'string' only refers to a type, but is being used as a value here."
+    },
+    {
+        "line": 4,
+        "column": 32,
+        "msg": "',' expected."
+    }
+]

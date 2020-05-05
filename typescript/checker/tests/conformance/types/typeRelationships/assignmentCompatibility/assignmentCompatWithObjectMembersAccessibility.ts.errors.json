@@ -1,0 +1,122 @@
+[
+    {
+        "line": 31,
+        "column": 5,
+        "msg": "Type 'E' is not assignable to type '{ foo"
+    },
+    {
+        "line": 36,
+        "column": 5,
+        "msg": "Type 'E' is not assignable to type 'Base'."
+    },
+    {
+        "line": 41,
+        "column": 5,
+        "msg": "Type 'E' is not assignable to type 'I'."
+    },
+    {
+        "line": 46,
+        "column": 5,
+        "msg": "Type 'E' is not assignable to type 'D'."
+    },
+    {
+        "line": 48,
+        "column": 5,
+        "msg": "Type '{ foo"
+    },
+    {
+        "line": 49,
+        "column": 5,
+        "msg": "Type 'Base' is not assignable to type 'E'."
+    },
+    {
+        "line": 50,
+        "column": 5,
+        "msg": "Type 'I' is not assignable to type 'E'."
+    },
+    {
+        "line": 51,
+        "column": 5,
+        "msg": "Type 'D' is not assignable to type 'E'."
+    },
+    {
+        "line": 81,
+        "column": 5,
+        "msg": "Type 'Base' is not assignable to type '{ foo"
+    },
+    {
+        "line": 82,
+        "column": 5,
+        "msg": "Type 'I' is not assignable to type '{ foo"
+    },
+    {
+        "line": 84,
+        "column": 5,
+        "msg": "Type 'E' is not assignable to type '{ foo"
+    },
+    {
+        "line": 86,
+        "column": 5,
+        "msg": "Type '{ foo"
+    },
+    {
+        "line": 88,
+        "column": 5,
+        "msg": "Type 'D' is not assignable to type 'Base'."
+    },
+    {
+        "line": 89,
+        "column": 5,
+        "msg": "Type 'E' is not assignable to type 'Base'."
+    },
+    {
+        "line": 92,
+        "column": 5,
+        "msg": "Type '{ foo"
+    },
+    {
+        "line": 94,
+        "column": 5,
+        "msg": "Type 'D' is not assignable to type 'I'."
+    },
+    {
+        "line": 95,
+        "column": 5,
+        "msg": "Type 'E' is not assignable to type 'I'."
+    },
+    {
+        "line": 99,
+        "column": 5,
+        "msg": "Type 'Base' is not assignable to type 'D'."
+    },
+    {
+        "line": 100,
+        "column": 5,
+        "msg": "Type 'I' is not assignable to type 'D'."
+    },
+    {
+        "line": 101,
+        "column": 5,
+        "msg": "Type 'E' is not assignable to type 'D'."
+    },
+    {
+        "line": 103,
+        "column": 5,
+        "msg": "Type '{ foo"
+    },
+    {
+        "line": 104,
+        "column": 5,
+        "msg": "Type 'Base' is not assignable to type 'E'."
+    },
+    {
+        "line": 105,
+        "column": 5,
+        "msg": "Type 'I' is not assignable to type 'E'."
+    },
+    {
+        "line": 106,
+        "column": 5,
+        "msg": "Type 'D' is not assignable to type 'E'."
+    }
+]

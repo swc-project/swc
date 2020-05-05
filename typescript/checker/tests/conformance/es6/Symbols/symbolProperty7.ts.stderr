@@ -1,0 +1,32 @@
+error: TS1166 {
+    span: Span {
+        lo: BytePos(
+            29,
+        ),
+        hi: BytePos(
+            44,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es6/Symbols/symbolProperty7.ts:3:5
+  |
+3 |     [Symbol()] = 0;
+  |     ^^^^^^^^^^^^^^^
+
+error: TS1166 {
+    span: Span {
+        lo: BytePos(
+            49,
+        ),
+        hi: BytePos(
+            68,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es6/Symbols/symbolProperty7.ts:4:5
+  |
+4 |     [Symbol()]: number;
+  |     ^^^^^^^^^^^^^^^^^^^
+

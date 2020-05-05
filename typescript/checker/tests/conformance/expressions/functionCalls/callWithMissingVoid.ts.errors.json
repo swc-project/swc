@@ -1,0 +1,57 @@
+[
+    {
+        "line": 18,
+        "column": 6,
+        "msg": "Expected 1 arguments, but got 0."
+    },
+    {
+        "line": 21,
+        "column": 10,
+        "msg": "Expected 1 arguments, but got 0."
+    },
+    {
+        "line": 24,
+        "column": 8,
+        "msg": "Expected 1 arguments, but got 0."
+    },
+    {
+        "line": 37,
+        "column": 31,
+        "msg": "Expected 1 arguments, but got 0."
+    },
+    {
+        "line": 38,
+        "column": 35,
+        "msg": "Expected 1 arguments, but got 0."
+    },
+    {
+        "line": 39,
+        "column": 33,
+        "msg": "Expected 1 arguments, but got 0."
+    },
+    {
+        "line": 50,
+        "column": 1,
+        "msg": "Expected 3 arguments, but got 1."
+    },
+    {
+        "line": 57,
+        "column": 1,
+        "msg": "Expected 4 arguments, but got 2."
+    },
+    {
+        "line": 58,
+        "column": 1,
+        "msg": "Expected 4 arguments, but got 3."
+    },
+    {
+        "line": 59,
+        "column": 1,
+        "msg": "Expected 4 arguments, but got 1."
+    },
+    {
+        "line": 77,
+        "column": 1,
+        "msg": "Expected 3 arguments, but got 1."
+    }
+]

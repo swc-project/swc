@@ -1,0 +1,102 @@
+[
+    {
+        "line": 12,
+        "column": 10,
+        "msg": "Property 'bar' does not exist on type 'A'."
+    },
+    {
+        "line": 18,
+        "column": 10,
+        "msg": "Property 'bar' does not exist on type 'A'."
+    },
+    {
+        "line": 33,
+        "column": 5,
+        "msg": "Type '\"str\"' is not assignable to type 'number'."
+    },
+    {
+        "line": 34,
+        "column": 10,
+        "msg": "Property 'bar' does not exist on type 'B<number>'."
+    },
+    {
+        "line": 41,
+        "column": 10,
+        "msg": "Property 'bar' does not exist on type 'B<any>'."
+    },
+    {
+        "line": 66,
+        "column": 10,
+        "msg": "Property 'bar2' does not exist on type 'C1'."
+    },
+    {
+        "line": 72,
+        "column": 10,
+        "msg": "Property 'bar1' does not exist on type 'C1 | C2'."
+    },
+    {
+        "line": 73,
+        "column": 10,
+        "msg": "Property 'bar2' does not exist on type 'C1 | C2'."
+    },
+    {
+        "line": 85,
+        "column": 10,
+        "msg": "Property 'bar' does not exist on type 'D'."
+    },
+    {
+        "line": 91,
+        "column": 10,
+        "msg": "Property 'bar' does not exist on type 'D'."
+    },
+    {
+        "line": 112,
+        "column": 10,
+        "msg": "Property 'bar2' does not exist on type 'E1'."
+    },
+    {
+        "line": 118,
+        "column": 11,
+        "msg": "Property 'bar1' does not exist on type 'E1 | E2'."
+    },
+    {
+        "line": 119,
+        "column": 11,
+        "msg": "Property 'bar2' does not exist on type 'E1 | E2'."
+    },
+    {
+        "line": 134,
+        "column": 11,
+        "msg": "Property 'foo' does not exist on type 'string | F'."
+    },
+    {
+        "line": 135,
+        "column": 11,
+        "msg": "Property 'bar' does not exist on type 'string | F'."
+    },
+    {
+        "line": 160,
+        "column": 11,
+        "msg": "Property 'foo2' does not exist on type 'G1'."
+    },
+    {
+        "line": 166,
+        "column": 11,
+        "msg": "Property 'foo2' does not exist on type 'G1'."
+    },
+    {
+        "line": 182,
+        "column": 11,
+        "msg": "Property 'bar' does not exist on type 'H'."
+    },
+    {
+        "line": 187,
+        "column": 11,
+        "msg": "Property 'foo1' does not exist on type 'H'. Did you mean 'foo'?"
+    },
+    {
+        "line": 188,
+        "column": 11,
+        "msg": "Property 'foo2' does not exist on type 'H'. Did you mean 'foo'?"
+    }
+]

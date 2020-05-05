@@ -1,0 +1,7 @@
+[
+    {
+        "line": 5,
+        "column": 17,
+        "msg": "Type '() => void' is not a constructor function type."
+    }
+]

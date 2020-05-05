@@ -1,0 +1,12 @@
+[
+    {
+        "line": 12,
+        "column": 4,
+        "msg": "Property 'p' is private and only accessible within class 'C2'."
+    },
+    {
+        "line": 19,
+        "column": 4,
+        "msg": "Property 'p' is protected and only accessible within class 'C3' and its subclasses."
+    }
+]

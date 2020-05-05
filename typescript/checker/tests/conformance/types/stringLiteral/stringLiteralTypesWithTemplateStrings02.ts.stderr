@@ -1,0 +1,137 @@
+error: AssignFailed {
+    span: Span {
+        lo: BytePos(
+            27,
+        ),
+        hi: BytePos(
+            50,
+        ),
+        ctxt: #0,
+    },
+    left: Lit(
+        TsLitType {
+            span: Span {
+                lo: BytePos(
+                    32,
+                ),
+                hi: BytePos(
+                    41,
+                ),
+                ctxt: #0,
+            },
+            lit: Str(
+                Str {
+                    span: Span {
+                        lo: BytePos(
+                            32,
+                        ),
+                        hi: BytePos(
+                            41,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('AB
+                    C' type=inline),
+                    has_escape: true,
+                },
+            ),
+        },
+    ),
+    right: Lit(
+        TsLitType {
+            span: Span {
+                lo: BytePos(
+                    44,
+                ),
+                hi: BytePos(
+                    50,
+                ),
+                ctxt: #0,
+            },
+            lit: Str(
+                Str {
+                    span: Span {
+                        lo: BytePos(
+                            45,
+                        ),
+                        hi: BytePos(
+                            49,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('AB
+                    C' type=inline),
+                    has_escape: false,
+                },
+            ),
+        },
+    ),
+    cause: [],
+}
+ --> $DIR/tests/conformance/types/stringLiteral/stringLiteralTypesWithTemplateStrings02.ts:3:5
+  |
+3 |   let abc: "AB\r\nC" = `AB
+  |  _____^
+4 | | C`;
+  | |__^
+
+error: AssignFailed {
+    span: Span {
+        lo: BytePos(
+            56,
+        ),
+        hi: BytePos(
+            92,
+        ),
+        ctxt: #0,
+    },
+    left: Lit(
+        TsLitType {
+            span: Span {
+                lo: BytePos(
+                    70,
+                ),
+                hi: BytePos(
+                    77,
+                ),
+                ctxt: #0,
+            },
+            lit: Str(
+                Str {
+                    span: Span {
+                        lo: BytePos(
+                            70,
+                        ),
+                        hi: BytePos(
+                            77,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('DE
+                    F' type=inline),
+                    has_escape: true,
+                },
+            ),
+        },
+    ),
+    right: Keyword(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    80,
+                ),
+                hi: BytePos(
+                    92,
+                ),
+                ctxt: #0,
+            },
+            kind: TsStringKeyword,
+        },
+    ),
+    cause: [],
+}
+ --> $DIR/tests/conformance/types/stringLiteral/stringLiteralTypesWithTemplateStrings02.ts:5:5
+  |
+5 | let de_NEWLINE_f: "DE\nF" = `DE${"\n"}F`;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+

@@ -1,0 +1,32 @@
+[
+    {
+        "line": 7,
+        "column": 5,
+        "msg": "Property 'a' has no initializer and is not definitely assigned in the constructor."
+    },
+    {
+        "line": 9,
+        "column": 5,
+        "msg": "Property 'c' has no initializer and is not definitely assigned in the constructor."
+    },
+    {
+        "line": 51,
+        "column": 5,
+        "msg": "Property 'a' has no initializer and is not definitely assigned in the constructor."
+    },
+    {
+        "line": 74,
+        "column": 5,
+        "msg": "Property 'a' has no initializer and is not definitely assigned in the constructor."
+    },
+    {
+        "line": 96,
+        "column": 22,
+        "msg": "Property 'a' is used before being assigned."
+    },
+    {
+        "line": 97,
+        "column": 23,
+        "msg": "Property 'b' is used before being assigned."
+    }
+]

@@ -1,0 +1,27 @@
+[
+    {
+        "line": 15,
+        "column": 4,
+        "msg": "Argument of type '[number, number, string[][], number]' is not assignable to parameter of type '[number, number, string[][]]'."
+    },
+    {
+        "line": 59,
+        "column": 4,
+        "msg": "Argument of type '[number, number, [[string]], boolean, boolean]' is not assignable to parameter of type '[any, any, [[any]]]'."
+    },
+    {
+        "line": 97,
+        "column": 18,
+        "msg": "Duplicate identifier 'number'."
+    },
+    {
+        "line": 97,
+        "column": 26,
+        "msg": "Duplicate identifier 'number'."
+    },
+    {
+        "line": 97,
+        "column": 34,
+        "msg": "Duplicate identifier 'number'."
+    }
+]

@@ -1,0 +1,16 @@
+error: TS2378 {
+    span: Span {
+        lo: BytePos(
+            32,
+        ),
+        hi: BytePos(
+            33,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/MemberAccessorDeclarations/parserMemberAccessorDeclaration3.ts:3:7
+  |
+3 |   get 0() { }
+  |       ^
+

@@ -1,0 +1,6 @@
+error: Cannot assign to this
+ --> $DIR/tests/conformance/statements/for-ofStatements/ES5For-of12.ts:1:7
+  |
+1 | for ([""] of [[""]]) { }
+  |       ^^
+

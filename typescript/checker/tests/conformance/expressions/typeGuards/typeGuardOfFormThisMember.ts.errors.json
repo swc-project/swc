@@ -1,0 +1,77 @@
+[
+    {
+        "line": 6,
+        "column": 10,
+        "msg": "A type predicate is only allowed in return type position for functions and methods."
+    },
+    {
+        "line": 7,
+        "column": 17,
+        "msg": "A type predicate is only allowed in return type position for functions and methods."
+    },
+    {
+        "line": 13,
+        "column": 22,
+        "msg": "A type predicate is only allowed in return type position for functions and methods."
+    },
+    {
+        "line": 16,
+        "column": 16,
+        "msg": "A type predicate is only allowed in return type position for functions and methods."
+    },
+    {
+        "line": 36,
+        "column": 8,
+        "msg": "Property 'content' does not exist on type 'FileSystemObject'."
+    },
+    {
+        "line": 38,
+        "column": 9,
+        "msg": "Property 'host' does not exist on type 'FileSystemObject'."
+    },
+    {
+        "line": 39,
+        "column": 9,
+        "msg": "Property 'content' does not exist on type 'FileSystemObject'."
+    },
+    {
+        "line": 43,
+        "column": 8,
+        "msg": "Property 'children' does not exist on type 'FileSystemObject'."
+    },
+    {
+        "line": 46,
+        "column": 8,
+        "msg": "Property 'host' does not exist on type 'FileSystemObject'."
+    },
+    {
+        "line": 59,
+        "column": 13,
+        "msg": "A type predicate is only allowed in return type position for functions and methods."
+    },
+    {
+        "line": 60,
+        "column": 15,
+        "msg": "A type predicate is only allowed in return type position for functions and methods."
+    },
+    {
+        "line": 65,
+        "column": 9,
+        "msg": "Property 'lead' does not exist on type 'GenericGuard<File>'."
+    },
+    {
+        "line": 68,
+        "column": 9,
+        "msg": "Property 'follow' does not exist on type 'GenericGuard<File>'."
+    },
+    {
+        "line": 72,
+        "column": 19,
+        "msg": "A type predicate is only allowed in return type position for functions and methods."
+    },
+    {
+        "line": 81,
+        "column": 11,
+        "msg": "Property 'do' does not exist on type 'SpecificGuard'."
+    }
+]

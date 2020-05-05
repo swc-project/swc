@@ -1,0 +1,17 @@
+[
+    {
+        "line": 3,
+        "column": 1,
+        "msg": "Identifier expected. 'yield' is a reserved word in strict mode."
+    },
+    {
+        "line": 3,
+        "column": 1,
+        "msg": "Cannot find name 'yield'."
+    },
+    {
+        "line": 3,
+        "column": 7,
+        "msg": "Cannot find name 'foo'."
+    }
+]

@@ -1,0 +1,32 @@
+[
+    {
+        "line": 9,
+        "column": 7,
+        "msg": "Class 'Bar' incorrectly implements interface 'I'."
+    },
+    {
+        "line": 12,
+        "column": 7,
+        "msg": "Class 'Bar2' incorrectly implements interface 'I'."
+    },
+    {
+        "line": 16,
+        "column": 7,
+        "msg": "Class 'Bar3' incorrectly implements interface 'I'."
+    },
+    {
+        "line": 21,
+        "column": 7,
+        "msg": "Class 'Bar4' incorrectly implements interface 'I'."
+    },
+    {
+        "line": 26,
+        "column": 7,
+        "msg": "Class 'Bar5' incorrectly implements interface 'I'."
+    },
+    {
+        "line": 29,
+        "column": 7,
+        "msg": "Class 'Bar6' incorrectly implements interface 'I'."
+    }
+]

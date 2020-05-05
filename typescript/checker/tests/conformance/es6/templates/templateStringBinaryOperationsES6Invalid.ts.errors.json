@@ -1,0 +1,482 @@
+[
+    {
+        "line": 2,
+        "column": 13,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 3,
+        "column": 13,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 4,
+        "column": 13,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 5,
+        "column": 13,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 6,
+        "column": 9,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 7,
+        "column": 9,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 8,
+        "column": 9,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 9,
+        "column": 9,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 11,
+        "column": 14,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 12,
+        "column": 14,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 13,
+        "column": 14,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 14,
+        "column": 14,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 15,
+        "column": 10,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 16,
+        "column": 10,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 17,
+        "column": 10,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 18,
+        "column": 10,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 20,
+        "column": 14,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 21,
+        "column": 14,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 22,
+        "column": 14,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 23,
+        "column": 14,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 24,
+        "column": 10,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 25,
+        "column": 10,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 26,
+        "column": 10,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 27,
+        "column": 10,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 29,
+        "column": 14,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 30,
+        "column": 14,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 31,
+        "column": 14,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 32,
+        "column": 14,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 33,
+        "column": 10,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 34,
+        "column": 10,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 35,
+        "column": 10,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 36,
+        "column": 10,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 38,
+        "column": 14,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 39,
+        "column": 14,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 40,
+        "column": 14,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 41,
+        "column": 14,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 42,
+        "column": 10,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 43,
+        "column": 10,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 44,
+        "column": 10,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 45,
+        "column": 10,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 47,
+        "column": 14,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 48,
+        "column": 14,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 49,
+        "column": 14,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 50,
+        "column": 14,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 51,
+        "column": 10,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 52,
+        "column": 10,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 53,
+        "column": 10,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 54,
+        "column": 10,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 56,
+        "column": 14,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 57,
+        "column": 14,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 58,
+        "column": 14,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 59,
+        "column": 14,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 60,
+        "column": 10,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 61,
+        "column": 10,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 62,
+        "column": 10,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 63,
+        "column": 10,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 65,
+        "column": 14,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 66,
+        "column": 14,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 67,
+        "column": 14,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 68,
+        "column": 14,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 69,
+        "column": 10,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 70,
+        "column": 10,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 71,
+        "column": 10,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 72,
+        "column": 10,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 74,
+        "column": 14,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 75,
+        "column": 14,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 76,
+        "column": 14,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 77,
+        "column": 14,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 78,
+        "column": 10,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 79,
+        "column": 10,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 80,
+        "column": 10,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 81,
+        "column": 10,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 83,
+        "column": 14,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 84,
+        "column": 14,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 85,
+        "column": 14,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 86,
+        "column": 14,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 87,
+        "column": 10,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 88,
+        "column": 10,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 89,
+        "column": 10,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 90,
+        "column": 10,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 92,
+        "column": 14,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 93,
+        "column": 14,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 94,
+        "column": 14,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 95,
+        "column": 14,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 96,
+        "column": 10,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 97,
+        "column": 10,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 98,
+        "column": 10,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 99,
+        "column": 10,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 101,
+        "column": 14,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 102,
+        "column": 14,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 103,
+        "column": 14,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 104,
+        "column": 14,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 105,
+        "column": 10,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 106,
+        "column": 10,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 107,
+        "column": 10,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 108,
+        "column": 10,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    }
+]

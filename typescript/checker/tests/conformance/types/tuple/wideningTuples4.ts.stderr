@@ -1,0 +1,89 @@
+error: AssignFailed {
+    span: Span {
+        lo: BytePos(
+            23,
+        ),
+        hi: BytePos(
+            24,
+        ),
+        ctxt: #0,
+    },
+    left: Tuple(
+        Tuple {
+            span: Span {
+                lo: BytePos(
+                    7,
+                ),
+                hi: BytePos(
+                    12,
+                ),
+                ctxt: #0,
+            },
+            types: [
+                Keyword(
+                    TsKeywordType {
+                        span: Span {
+                            lo: BytePos(
+                                8,
+                            ),
+                            hi: BytePos(
+                                11,
+                            ),
+                            ctxt: #0,
+                        },
+                        kind: TsAnyKeyword,
+                    },
+                ),
+            ],
+        },
+    ),
+    right: Tuple(
+        Tuple {
+            span: Span {
+                lo: BytePos(
+                    27,
+                ),
+                hi: BytePos(
+                    44,
+                ),
+                ctxt: #0,
+            },
+            types: [
+                Keyword(
+                    TsKeywordType {
+                        span: Span {
+                            lo: BytePos(
+                                28,
+                            ),
+                            hi: BytePos(
+                                37,
+                            ),
+                            ctxt: #0,
+                        },
+                        kind: TsUndefinedKeyword,
+                    },
+                ),
+                Keyword(
+                    TsKeywordType {
+                        span: Span {
+                            lo: BytePos(
+                                39,
+                            ),
+                            hi: BytePos(
+                                43,
+                            ),
+                            ctxt: #0,
+                        },
+                        kind: TsNullKeyword,
+                    },
+                ),
+            ],
+        },
+    ),
+    cause: [],
+}
+ --> $DIR/tests/conformance/types/tuple/wideningTuples4.ts:3:9
+  |
+3 | var b = a = [undefined, null];
+  |         ^
+

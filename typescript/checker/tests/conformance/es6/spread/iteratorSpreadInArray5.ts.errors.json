@@ -1,0 +1,7 @@
+[
+    {
+        "line": 15,
+        "column": 30,
+        "msg": "Type 'symbol' is not assignable to type 'number'."
+    }
+]

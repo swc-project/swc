@@ -1,0 +1,62 @@
+[
+    {
+        "line": 61,
+        "column": 14,
+        "msg": "Property 'prop' does not exist on type '(n"
+    },
+    {
+        "line": 62,
+        "column": 14,
+        "msg": "Property 'm' does not exist on type '(n"
+    },
+    {
+        "line": 65,
+        "column": 22,
+        "msg": "Property 'prop' does not exist on type '(n"
+    },
+    {
+        "line": 65,
+        "column": 42,
+        "msg": "Property 'm' does not exist on type '(n"
+    },
+    {
+        "line": 71,
+        "column": 14,
+        "msg": "Property 'prop' does not exist on type 'typeof ExpandoClass'."
+    },
+    {
+        "line": 72,
+        "column": 14,
+        "msg": "Property 'm' does not exist on type 'typeof ExpandoClass'."
+    },
+    {
+        "line": 75,
+        "column": 22,
+        "msg": "Property 'prop' does not exist on type 'typeof ExpandoClass'."
+    },
+    {
+        "line": 75,
+        "column": 42,
+        "msg": "Property 'm' does not exist on type 'typeof ExpandoClass'."
+    },
+    {
+        "line": 81,
+        "column": 14,
+        "msg": "Property 'prop' does not exist on type 'typeof ExpandoExpr3'."
+    },
+    {
+        "line": 82,
+        "column": 14,
+        "msg": "Property 'm' does not exist on type 'typeof ExpandoExpr3'."
+    },
+    {
+        "line": 85,
+        "column": 22,
+        "msg": "Property 'prop' does not exist on type 'typeof ExpandoExpr3'."
+    },
+    {
+        "line": 85,
+        "column": 42,
+        "msg": "Property 'm' does not exist on type 'typeof ExpandoExpr3'."
+    }
+]

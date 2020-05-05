@@ -1,0 +1,6 @@
+error: Expected LBrace, got Some(Word(implements))
+ --> $DIR/tests/conformance/parser/ecmascript5/InterfaceDeclarations/parserInterfaceDeclaration2.ts:1:13
+  |
+1 | interface I implements A {
+  |             ^^^^^^^^^^
+

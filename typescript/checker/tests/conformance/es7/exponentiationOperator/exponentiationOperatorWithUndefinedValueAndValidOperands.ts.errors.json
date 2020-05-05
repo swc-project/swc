@@ -1,0 +1,42 @@
+[
+    {
+        "line": 13,
+        "column": 11,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 14,
+        "column": 11,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 15,
+        "column": 11,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 16,
+        "column": 11,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 17,
+        "column": 16,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 18,
+        "column": 16,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 19,
+        "column": 16,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 20,
+        "column": 18,
+        "msg": "Object is possibly 'undefined'."
+    }
+]

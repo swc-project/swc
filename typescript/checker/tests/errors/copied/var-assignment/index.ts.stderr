@@ -1,0 +1,17 @@
+error: UndefinedSymbol {
+    sym: Atom('as1' type=inline),
+    span: Span {
+        lo: BytePos(
+            11,
+        ),
+        hi: BytePos(
+            14,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/errors/copied/var-assignment/index.ts:1:12
+  |
+1 | var as1 = (as1 = 2);
+  |            ^^^
+

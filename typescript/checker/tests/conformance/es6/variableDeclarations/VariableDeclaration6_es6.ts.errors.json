@@ -1,0 +1,7 @@
+[
+    {
+        "line": 2,
+        "column": 1,
+        "msg": "Cannot find name 'let'."
+    }
+]

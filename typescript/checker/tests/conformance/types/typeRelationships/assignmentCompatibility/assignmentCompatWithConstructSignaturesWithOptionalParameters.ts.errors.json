@@ -1,0 +1,27 @@
+[
+    {
+        "line": 16,
+        "column": 5,
+        "msg": "Type 'new (x"
+    },
+    {
+        "line": 17,
+        "column": 5,
+        "msg": "Type 'new (x"
+    },
+    {
+        "line": 19,
+        "column": 5,
+        "msg": "Type 'new (x"
+    },
+    {
+        "line": 27,
+        "column": 5,
+        "msg": "Type 'new (x"
+    },
+    {
+        "line": 35,
+        "column": 5,
+        "msg": "Type 'new (x"
+    }
+]

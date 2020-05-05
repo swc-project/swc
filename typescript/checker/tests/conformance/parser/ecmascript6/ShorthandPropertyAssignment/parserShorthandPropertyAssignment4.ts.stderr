@@ -1,0 +1,6 @@
+error: TS1005
+ --> $DIR/tests/conformance/parser/ecmascript6/ShorthandPropertyAssignment/parserShorthandPropertyAssignment4.ts:1:13
+  |
+1 | var v = { 0 };
+  |             ^
+

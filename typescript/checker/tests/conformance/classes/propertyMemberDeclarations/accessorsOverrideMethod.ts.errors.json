@@ -1,0 +1,7 @@
+[
+    {
+        "line": 7,
+        "column": 9,
+        "msg": "Class 'A' defines instance member function 'm', but extended class 'B' defines it as instance member accessor."
+    }
+]

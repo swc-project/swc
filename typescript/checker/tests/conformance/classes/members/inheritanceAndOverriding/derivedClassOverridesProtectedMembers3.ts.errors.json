@@ -1,0 +1,52 @@
+[
+    {
+        "line": 24,
+        "column": 7,
+        "msg": "Class 'Derived1' incorrectly extends base class 'Base'."
+    },
+    {
+        "line": 29,
+        "column": 7,
+        "msg": "Class 'Derived2' incorrectly extends base class 'Base'."
+    },
+    {
+        "line": 34,
+        "column": 7,
+        "msg": "Class 'Derived3' incorrectly extends base class 'Base'."
+    },
+    {
+        "line": 39,
+        "column": 7,
+        "msg": "Class 'Derived4' incorrectly extends base class 'Base'."
+    },
+    {
+        "line": 44,
+        "column": 7,
+        "msg": "Class 'Derived5' incorrectly extends base class 'Base'."
+    },
+    {
+        "line": 49,
+        "column": 7,
+        "msg": "Class static side 'typeof Derived6' incorrectly extends base class static side 'typeof Base'."
+    },
+    {
+        "line": 54,
+        "column": 7,
+        "msg": "Class static side 'typeof Derived7' incorrectly extends base class static side 'typeof Base'."
+    },
+    {
+        "line": 59,
+        "column": 7,
+        "msg": "Class static side 'typeof Derived8' incorrectly extends base class static side 'typeof Base'."
+    },
+    {
+        "line": 64,
+        "column": 7,
+        "msg": "Class static side 'typeof Derived9' incorrectly extends base class static side 'typeof Base'."
+    },
+    {
+        "line": 69,
+        "column": 7,
+        "msg": "Class static side 'typeof Derived10' incorrectly extends base class static side 'typeof Base'."
+    }
+]

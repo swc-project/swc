@@ -1,0 +1,7 @@
+[
+    {
+        "line": 37,
+        "column": 21,
+        "msg": "Property 'Lines' does not exist on type 'typeof Geometry'."
+    }
+]

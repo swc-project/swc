@@ -1,0 +1,23 @@
+error: TS2483
+ --> $DIR/tests/conformance/parser/ecmascript5/Statements/parserForInStatement5.ts:1:10
+  |
+1 | for (var a: number in X) {
+  |          ^
+
+error: UndefinedSymbol {
+    sym: Atom('X' type=inline),
+    span: Span {
+        lo: BytePos(
+            22,
+        ),
+        hi: BytePos(
+            23,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/Statements/parserForInStatement5.ts:1:23
+  |
+1 | for (var a: number in X) {
+  |                       ^
+

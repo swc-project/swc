@@ -1,0 +1,24 @@
+error: jsc.taraget should be es5 or upper to use getter / setter
+ --> $DIR/tests/conformance/expressions/objectLiterals/objectLiteralErrorsES3.ts:3:16
+  |
+3 | var e1 = { get a() { return 4; } };
+  |                ^
+
+error: jsc.taraget should be es5 or upper to use getter / setter
+ --> $DIR/tests/conformance/expressions/objectLiterals/objectLiteralErrorsES3.ts:4:16
+  |
+4 | var e2 = { set a(n) { } };
+  |                ^
+
+error: jsc.taraget should be es5 or upper to use getter / setter
+ --> $DIR/tests/conformance/expressions/objectLiterals/objectLiteralErrorsES3.ts:5:16
+  |
+5 | var e3 = { get a() { return ''; }, set a(n) { } };
+  |                ^
+
+error: jsc.taraget should be es5 or upper to use getter / setter
+ --> $DIR/tests/conformance/expressions/objectLiterals/objectLiteralErrorsES3.ts:5:40
+  |
+5 | var e3 = { get a() { return ''; }, set a(n) { } };
+  |                                        ^
+

@@ -1,0 +1,7 @@
+[
+    {
+        "line": 25,
+        "column": 1,
+        "msg": "Conversion of type 'C3<T2>' to type 'C4' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first."
+    }
+]

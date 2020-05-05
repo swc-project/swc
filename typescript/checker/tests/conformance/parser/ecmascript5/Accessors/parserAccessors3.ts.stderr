@@ -1,0 +1,16 @@
+error: TS2378 {
+    span: Span {
+        lo: BytePos(
+            30,
+        ),
+        hi: BytePos(
+            33,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/Accessors/parserAccessors3.ts:2:15
+  |
+2 | var v = { get Foo() { } };
+  |               ^^^
+

@@ -1,0 +1,34 @@
+error: UndefinedSymbol {
+    sym: Atom('await' type=static),
+    span: Span {
+        lo: BytePos(
+            79,
+        ),
+        hi: BytePos(
+            84,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/async/es5/functionDeclarations/asyncFunctionDeclaration8_es5.ts:4:12
+  |
+4 | var v = { [await]: foo }
+  |            ^^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('foo' type=inline),
+    span: Span {
+        lo: BytePos(
+            87,
+        ),
+        hi: BytePos(
+            90,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/async/es5/functionDeclarations/asyncFunctionDeclaration8_es5.ts:4:20
+  |
+4 | var v = { [await]: foo }
+  |                    ^^^
+

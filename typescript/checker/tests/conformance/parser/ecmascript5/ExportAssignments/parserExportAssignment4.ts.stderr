@@ -1,0 +1,6 @@
+error: Unexpected token Some(Semi)
+ --> $DIR/tests/conformance/parser/ecmascript5/ExportAssignments/parserExportAssignment4.ts:1:10
+  |
+1 | export = ;
+  |          ^
+

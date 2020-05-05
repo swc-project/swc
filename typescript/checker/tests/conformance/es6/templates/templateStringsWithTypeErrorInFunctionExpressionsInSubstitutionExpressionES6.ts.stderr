@@ -1,0 +1,59 @@
+error: AssignFailed {
+    span: Span {
+        lo: BytePos(
+            44,
+        ),
+        hi: BytePos(
+            45,
+        ),
+        ctxt: #0,
+    },
+    left: Keyword(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    34,
+                ),
+                hi: BytePos(
+                    40,
+                ),
+                ctxt: #0,
+            },
+            kind: TsNumberKeyword,
+        },
+    ),
+    right: Lit(
+        TsLitType {
+            span: Span {
+                lo: BytePos(
+                    48,
+                ),
+                hi: BytePos(
+                    53,
+                ),
+                ctxt: #0,
+            },
+            lit: Str(
+                Str {
+                    span: Span {
+                        lo: BytePos(
+                            48,
+                        ),
+                        hi: BytePos(
+                            53,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('bad' type=inline),
+                    has_escape: false,
+                },
+            ),
+        },
+    ),
+    cause: [],
+}
+ --> $DIR/tests/conformance/es6/templates/templateStringsWithTypeErrorInFunctionExpressionsInSubstitutionExpressionES6.ts:3:27
+  |
+3 | `${function (x: number) { x = "bad"; } }`;
+  |                           ^
+

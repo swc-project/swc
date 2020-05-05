@@ -1,0 +1,32 @@
+[
+    {
+        "line": 4,
+        "column": 5,
+        "msg": "'x' is referenced directly or indirectly in its own type annotation."
+    },
+    {
+        "line": 8,
+        "column": 5,
+        "msg": "'x' is referenced directly or indirectly in its own type annotation."
+    },
+    {
+        "line": 20,
+        "column": 5,
+        "msg": "'x' is referenced directly or indirectly in its own type annotation."
+    },
+    {
+        "line": 24,
+        "column": 5,
+        "msg": "'x' is referenced directly or indirectly in its own type annotation."
+    },
+    {
+        "line": 39,
+        "column": 24,
+        "msg": "Type parameter 'T' has a circular constraint."
+    },
+    {
+        "line": 39,
+        "column": 30,
+        "msg": "Type '\"hello\"' cannot be used to index type 'T'."
+    }
+]

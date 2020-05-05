@@ -1,0 +1,42 @@
+[
+    {
+        "line": 15,
+        "column": 5,
+        "msg": "Type 'A | B' is not assignable to type 'A'."
+    },
+    {
+        "line": 16,
+        "column": 5,
+        "msg": "Type 'A | B' is not assignable to type 'B'."
+    },
+    {
+        "line": 19,
+        "column": 5,
+        "msg": "Type '((m"
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "X) => number'."
+    },
+    {
+        "line": 20,
+        "column": 5,
+        "msg": "Type '((m"
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "X) => string'."
+    },
+    {
+        "line": 21,
+        "column": 5,
+        "msg": "Type '((m"
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "X) => boolean'."
+    }
+]

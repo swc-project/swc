@@ -1,0 +1,7 @@
+[
+    {
+        "line": 2,
+        "column": 5,
+        "msg": "An index signature must have exactly one parameter."
+    }
+]

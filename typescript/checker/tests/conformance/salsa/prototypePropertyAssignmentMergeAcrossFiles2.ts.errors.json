@@ -1,0 +1,12 @@
+[
+    {
+        "line": 10,
+        "column": 5,
+        "msg": "Property 'wat' does not exist on type 'One'."
+    },
+    {
+        "line": 15,
+        "column": 5,
+        "msg": "Property 'wat' does not exist on type 'Two'."
+    }
+]

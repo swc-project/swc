@@ -1,0 +1,12 @@
+[
+    {
+        "line": 1,
+        "column": 1,
+        "msg": "Invalid character."
+    },
+    {
+        "line": 1,
+        "column": 5,
+        "msg": "Invalid character."
+    }
+]

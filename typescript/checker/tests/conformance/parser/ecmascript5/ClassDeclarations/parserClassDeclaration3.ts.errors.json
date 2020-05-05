@@ -1,0 +1,17 @@
+[
+    {
+        "line": 1,
+        "column": 20,
+        "msg": "Cannot find name 'A'."
+    },
+    {
+        "line": 1,
+        "column": 22,
+        "msg": "'extends' clause must precede 'implements' clause."
+    },
+    {
+        "line": 1,
+        "column": 30,
+        "msg": "Cannot find name 'B'."
+    }
+]

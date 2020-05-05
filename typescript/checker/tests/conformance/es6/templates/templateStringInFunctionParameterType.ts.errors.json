@@ -1,0 +1,22 @@
+[
+    {
+        "line": 1,
+        "column": 10,
+        "msg": "Function implementation is missing or not immediately following the declaration."
+    },
+    {
+        "line": 1,
+        "column": 10,
+        "msg": "This overload signature is not compatible with its implementation signature."
+    },
+    {
+        "line": 1,
+        "column": 12,
+        "msg": "Parameter declaration expected."
+    },
+    {
+        "line": 1,
+        "column": 19,
+        "msg": "';' expected."
+    }
+]

@@ -1,0 +1,17 @@
+[
+    {
+        "line": 11,
+        "column": 5,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 't1' must be of type '[number]', but here has type '[number, number]'."
+    },
+    {
+        "line": 12,
+        "column": 5,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 't2' must be of type '[number, number]', but here has type '[number]'."
+    },
+    {
+        "line": 18,
+        "column": 1,
+        "msg": "Property '0' is missing in type 'number[]' but required in type '[number]'."
+    }
+]

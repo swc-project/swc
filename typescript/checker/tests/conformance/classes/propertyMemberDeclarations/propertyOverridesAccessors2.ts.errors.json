@@ -1,0 +1,7 @@
+[
+    {
+        "line": 9,
+        "column": 3,
+        "msg": "'x' is defined as an accessor in class 'Base', but is overridden here in 'Derived' as an instance property."
+    }
+]

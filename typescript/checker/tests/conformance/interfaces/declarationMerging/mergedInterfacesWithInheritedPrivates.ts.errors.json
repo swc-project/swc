@@ -1,0 +1,17 @@
+[
+    {
+        "line": 13,
+        "column": 7,
+        "msg": "Class 'D' incorrectly implements interface 'A'."
+    },
+    {
+        "line": 19,
+        "column": 7,
+        "msg": "Class 'E' incorrectly implements interface 'A'."
+    },
+    {
+        "line": 26,
+        "column": 11,
+        "msg": "Property 'x' is private and only accessible within class 'C'."
+    }
+]

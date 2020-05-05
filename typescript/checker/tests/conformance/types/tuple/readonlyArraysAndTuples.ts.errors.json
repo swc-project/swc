@@ -1,0 +1,92 @@
+[
+    {
+        "line": 12,
+        "column": 12,
+        "msg": "'readonly' type modifier is only permitted on array and tuple literal types."
+    },
+    {
+        "line": 13,
+        "column": 15,
+        "msg": "'readonly' type modifier is only permitted on array and tuple literal types."
+    },
+    {
+        "line": 14,
+        "column": 12,
+        "msg": "'readonly' type modifier is only permitted on array and tuple literal types."
+    },
+    {
+        "line": 15,
+        "column": 12,
+        "msg": "'readonly' type modifier is only permitted on array and tuple literal types."
+    },
+    {
+        "line": 18,
+        "column": 5,
+        "msg": "The type 'readonly string[]' is 'readonly' and cannot be assigned to the mutable type 'string[]'."
+    },
+    {
+        "line": 20,
+        "column": 5,
+        "msg": "The type 'readonly [string, string]' is 'readonly' and cannot be assigned to the mutable type 'string[]'."
+    },
+    {
+        "line": 24,
+        "column": 5,
+        "msg": "Type 'string[]' is missing the following properties from type '[string, string]'"
+    },
+    {
+        "line": 25,
+        "column": 5,
+        "msg": "Type 'readonly string[]' is missing the following properties from type '[string, string]'"
+    },
+    {
+        "line": 26,
+        "column": 5,
+        "msg": "The type 'readonly [string, string]' is 'readonly' and cannot be assigned to the mutable type '[string, string]'."
+    },
+    {
+        "line": 27,
+        "column": 5,
+        "msg": "Type 'string[]' is missing the following properties from type 'readonly [string, string]'"
+    },
+    {
+        "line": 28,
+        "column": 5,
+        "msg": "Type 'readonly string[]' is missing the following properties from type 'readonly [string, string]'"
+    },
+    {
+        "line": 33,
+        "column": 3,
+        "msg": "Cannot assign to '0' because it is a read-only property."
+    },
+    {
+        "line": 34,
+        "column": 3,
+        "msg": "Cannot assign to '1' because it is a read-only property."
+    },
+    {
+        "line": 35,
+        "column": 1,
+        "msg": "Index signature in type 'readonly [number, number, ...number[]]' only permits reading."
+    },
+    {
+        "line": 36,
+        "column": 8,
+        "msg": "Index signature in type 'readonly [number, number, ...number[]]' only permits reading."
+    },
+    {
+        "line": 37,
+        "column": 1,
+        "msg": "Index signature in type 'readonly [number, number, ...number[]]' only permits reading."
+    },
+    {
+        "line": 38,
+        "column": 1,
+        "msg": "Index signature in type 'readonly [number, number, ...number[]]' only permits reading."
+    },
+    {
+        "line": 39,
+        "column": 8,
+        "msg": "Index signature in type 'readonly [number, number, ...number[]]' only permits reading."
+    }
+]

@@ -1,0 +1,16 @@
+error: NonSymbolTypedFieldFromSymbol {
+    span: Span {
+        lo: BytePos(
+            73,
+        ),
+        hi: BytePos(
+            88,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es6/Symbols/symbolProperty49.ts:6:10
+  |
+6 |         [Symbol.iterator]() { }
+  |          ^^^^^^^^^^^^^^^
+

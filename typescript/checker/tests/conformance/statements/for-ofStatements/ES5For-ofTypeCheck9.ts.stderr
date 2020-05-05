@@ -1,0 +1,16 @@
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            79,
+        ),
+        hi: BytePos(
+            84,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/statements/for-ofStatements/ES5For-ofTypeCheck9.ts:3:15
+  |
+3 | for (let v of union) { }
+  |               ^^^^^
+

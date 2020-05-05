@@ -1,0 +1,12 @@
+[
+    {
+        "line": 8,
+        "column": 20,
+        "msg": "JSDoc '@param' tag has name 'first', but there is no parameter with that name. It would match 'arguments' if it had an array type."
+    },
+    {
+        "line": 25,
+        "column": 9,
+        "msg": "Argument of type '1' is not assignable to parameter of type 'string'."
+    }
+]

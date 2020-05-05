@@ -1,0 +1,37 @@
+[
+    {
+        "line": 1,
+        "column": 2,
+        "msg": "Cannot find name 'a'."
+    },
+    {
+        "line": 1,
+        "column": 11,
+        "msg": "Cannot find name 'c'."
+    },
+    {
+        "line": 1,
+        "column": 15,
+        "msg": "Cannot find name 'a'."
+    },
+    {
+        "line": 1,
+        "column": 22,
+        "msg": "Cannot find name 'a'."
+    },
+    {
+        "line": 1,
+        "column": 32,
+        "msg": "Cannot find name 'c'."
+    },
+    {
+        "line": 1,
+        "column": 35,
+        "msg": "Cannot find name 'a'."
+    },
+    {
+        "line": 1,
+        "column": 40,
+        "msg": "Cannot find name '_'."
+    }
+]

@@ -1,0 +1,32 @@
+error: TS2389 {
+    span: Span {
+        lo: BytePos(
+            9,
+        ),
+        hi: BytePos(
+            13,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/ModuleDeclarations/parserModuleDeclaration10.ts:1:10
+  |
+1 | function data(): string;
+  |          ^^^^
+
+error: TS2391 {
+    span: Span {
+        lo: BytePos(
+            35,
+        ),
+        hi: BytePos(
+            39,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/ModuleDeclarations/parserModuleDeclaration10.ts:2:10
+  |
+2 | function next(): string;
+  |          ^^^^
+

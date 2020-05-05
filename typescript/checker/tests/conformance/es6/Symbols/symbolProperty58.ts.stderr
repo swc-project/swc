@@ -1,0 +1,35 @@
+error: NoSuchProperty {
+    span: Span {
+        lo: BytePos(
+            82,
+        ),
+        hi: BytePos(
+            92,
+        ),
+        ctxt: #0,
+    },
+    prop: Some(
+        Ident(
+            Ident {
+                span: Span {
+                    lo: BytePos(
+                        89,
+                    ),
+                    hi: BytePos(
+                        92,
+                    ),
+                    ctxt: #0,
+                },
+                sym: Atom('foo' type=inline),
+                type_ann: None,
+                optional: false,
+            },
+        ),
+    ),
+    prop_ty: None,
+}
+ --> $DIR/tests/conformance/es6/Symbols/symbolProperty58.ts:7:6
+  |
+7 |     [Symbol.foo]: 0
+  |      ^^^^^^^^^^
+

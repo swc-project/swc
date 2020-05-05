@@ -1,0 +1,52 @@
+[
+    {
+        "line": 19,
+        "column": 11,
+        "msg": "An expression of type 'void' cannot be tested for truthiness"
+    },
+    {
+        "line": 30,
+        "column": 11,
+        "msg": "An expression of type 'void' cannot be tested for truthiness"
+    },
+    {
+        "line": 41,
+        "column": 11,
+        "msg": "An expression of type 'void' cannot be tested for truthiness"
+    },
+    {
+        "line": 52,
+        "column": 11,
+        "msg": "An expression of type 'void' cannot be tested for truthiness"
+    },
+    {
+        "line": 63,
+        "column": 11,
+        "msg": "An expression of type 'void' cannot be tested for truthiness"
+    },
+    {
+        "line": 74,
+        "column": 11,
+        "msg": "An expression of type 'void' cannot be tested for truthiness"
+    },
+    {
+        "line": 85,
+        "column": 11,
+        "msg": "An expression of type 'void' cannot be tested for truthiness"
+    },
+    {
+        "line": 96,
+        "column": 11,
+        "msg": "An expression of type 'void' cannot be tested for truthiness"
+    },
+    {
+        "line": 107,
+        "column": 11,
+        "msg": "An expression of type 'void' cannot be tested for truthiness"
+    },
+    {
+        "line": 118,
+        "column": 11,
+        "msg": "An expression of type 'void' cannot be tested for truthiness"
+    }
+]

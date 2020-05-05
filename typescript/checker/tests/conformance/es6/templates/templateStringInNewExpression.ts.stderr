@@ -1,0 +1,30 @@
+error: NoNewSignature {
+    span: Span {
+        lo: BytePos(
+            4,
+        ),
+        hi: BytePos(
+            16,
+        ),
+        ctxt: #0,
+    },
+    callee: Keyword(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    4,
+                ),
+                hi: BytePos(
+                    16,
+                ),
+                ctxt: #0,
+            },
+            kind: TsStringKeyword,
+        },
+    ),
+}
+ --> $DIR/tests/conformance/es6/templates/templateStringInNewExpression.ts:1:5
+  |
+1 | new `abc${0}abc`(`hello ${0} world`, `   `, `1${2}3`);
+  |     ^^^^^^^^^^^^
+

@@ -1,0 +1,17 @@
+[
+    {
+        "line": 2,
+        "column": 14,
+        "msg": "Parameter declaration expected."
+    },
+    {
+        "line": 2,
+        "column": 14,
+        "msg": "Cannot find name 'yield'."
+    },
+    {
+        "line": 2,
+        "column": 19,
+        "msg": "';' expected."
+    }
+]

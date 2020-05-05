@@ -1,0 +1,7 @@
+[
+    {
+        "line": 10,
+        "column": 7,
+        "msg": "Non-abstract class 'C' does not implement inherited abstract member 'bar' from class 'B'."
+    }
+]

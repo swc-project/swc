@@ -1,0 +1,17 @@
+[
+    {
+        "line": 1,
+        "column": 10,
+        "msg": "Cannot find name 'A'."
+    },
+    {
+        "line": 1,
+        "column": 10,
+        "msg": "Expected 0 type arguments, but got 1."
+    },
+    {
+        "line": 1,
+        "column": 12,
+        "msg": "'(' expected."
+    }
+]

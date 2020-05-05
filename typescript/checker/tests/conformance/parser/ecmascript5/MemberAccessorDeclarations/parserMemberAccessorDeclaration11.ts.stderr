@@ -1,0 +1,22 @@
+error: TS1031
+ --> $DIR/tests/conformance/parser/ecmascript5/MemberAccessorDeclarations/parserMemberAccessorDeclaration11.ts:3:5
+  |
+3 |     declare get Foo() { }
+  |     ^^^^^^^
+
+error: TS2378 {
+    span: Span {
+        lo: BytePos(
+            42,
+        ),
+        hi: BytePos(
+            45,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/MemberAccessorDeclarations/parserMemberAccessorDeclaration11.ts:3:17
+  |
+3 |     declare get Foo() { }
+  |                 ^^^
+

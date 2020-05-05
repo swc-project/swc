@@ -1,0 +1,7 @@
+[
+    {
+        "line": 4,
+        "column": 7,
+        "msg": "Invalid use of 'eval' in strict mode."
+    }
+]

@@ -1,0 +1,7 @@
+[
+    {
+        "line": 16,
+        "column": 5,
+        "msg": "Cannot create an instance of an abstract class."
+    }
+]

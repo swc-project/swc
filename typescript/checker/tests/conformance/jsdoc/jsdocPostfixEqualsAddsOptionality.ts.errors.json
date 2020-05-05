@@ -1,0 +1,12 @@
+[
+    {
+        "line": 9,
+        "column": 5,
+        "msg": "Type 'null' is not assignable to type 'number | undefined'."
+    },
+    {
+        "line": 13,
+        "column": 3,
+        "msg": "Argument of type 'null' is not assignable to parameter of type 'number | undefined'."
+    }
+]

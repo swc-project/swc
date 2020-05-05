@@ -1,0 +1,12 @@
+error: Cannot assign to this
+ --> $DIR/tests/conformance/parser/ecmascript5/StrictMode/parserStrictMode5.ts:2:1
+  |
+2 | eval += 1;
+  | ^^^^
+
+error: TS1100
+ --> $DIR/tests/conformance/parser/ecmascript5/StrictMode/parserStrictMode5.ts:2:1
+  |
+2 | eval += 1;
+  | ^^^^
+

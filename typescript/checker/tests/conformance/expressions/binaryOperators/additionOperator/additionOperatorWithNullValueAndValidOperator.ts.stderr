@@ -1,0 +1,160 @@
+error: TS2365 {
+    span: Span {
+        lo: BytePos(
+            273,
+        ),
+        hi: BytePos(
+            281,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/additionOperator/additionOperatorWithNullValueAndValidOperator.ts:15:10
+   |
+15 | var r3 = null + b;
+   |          ^^^^^^^^
+
+error: TS2365 {
+    span: Span {
+        lo: BytePos(
+            292,
+        ),
+        hi: BytePos(
+            300,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/additionOperator/additionOperatorWithNullValueAndValidOperator.ts:16:10
+   |
+16 | var r4 = null + 1;
+   |          ^^^^^^^^
+
+error: TS2365 {
+    span: Span {
+        lo: BytePos(
+            311,
+        ),
+        hi: BytePos(
+            319,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/additionOperator/additionOperatorWithNullValueAndValidOperator.ts:17:10
+   |
+17 | var r5 = null + c;
+   |          ^^^^^^^^
+
+error: TS2365 {
+    span: Span {
+        lo: BytePos(
+            330,
+        ),
+        hi: BytePos(
+            340,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/additionOperator/additionOperatorWithNullValueAndValidOperator.ts:18:10
+   |
+18 | var r6 = null + E.a;
+   |          ^^^^^^^^^^
+
+error: TS2365 {
+    span: Span {
+        lo: BytePos(
+            351,
+        ),
+        hi: BytePos(
+            364,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/additionOperator/additionOperatorWithNullValueAndValidOperator.ts:19:10
+   |
+19 | var r7 = null + E['a'];
+   |          ^^^^^^^^^^^^^
+
+error: TS2365 {
+    span: Span {
+        lo: BytePos(
+            375,
+        ),
+        hi: BytePos(
+            383,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/additionOperator/additionOperatorWithNullValueAndValidOperator.ts:20:10
+   |
+20 | var r8 = b + null;
+   |          ^^^^^^^^
+
+error: TS2365 {
+    span: Span {
+        lo: BytePos(
+            394,
+        ),
+        hi: BytePos(
+            402,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/additionOperator/additionOperatorWithNullValueAndValidOperator.ts:21:10
+   |
+21 | var r9 = 1 + null;
+   |          ^^^^^^^^
+
+error: TS2365 {
+    span: Span {
+        lo: BytePos(
+            414,
+        ),
+        hi: BytePos(
+            422,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/additionOperator/additionOperatorWithNullValueAndValidOperator.ts:22:11
+   |
+22 | var r10 = c + null
+   |           ^^^^^^^^
+
+error: TS2365 {
+    span: Span {
+        lo: BytePos(
+            433,
+        ),
+        hi: BytePos(
+            443,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/additionOperator/additionOperatorWithNullValueAndValidOperator.ts:23:11
+   |
+23 | var r11 = E.a + null;
+   |           ^^^^^^^^^^
+
+error: TS2365 {
+    span: Span {
+        lo: BytePos(
+            455,
+        ),
+        hi: BytePos(
+            468,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/additionOperator/additionOperatorWithNullValueAndValidOperator.ts:24:11
+   |
+24 | var r12 = E['a'] + null;
+   |           ^^^^^^^^^^^^^
+

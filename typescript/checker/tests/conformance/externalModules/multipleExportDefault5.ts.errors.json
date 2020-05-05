@@ -1,0 +1,22 @@
+[
+    {
+        "line": 1,
+        "column": 25,
+        "msg": "Duplicate identifier 'default'."
+    },
+    {
+        "line": 1,
+        "column": 25,
+        "msg": "Cannot redeclare exported variable 'default'."
+    },
+    {
+        "line": 2,
+        "column": 22,
+        "msg": "Duplicate identifier 'default'."
+    },
+    {
+        "line": 2,
+        "column": 22,
+        "msg": "Cannot redeclare exported variable 'default'."
+    }
+]

@@ -1,0 +1,22 @@
+error: TS1042
+ --> $DIR/tests/conformance/parser/ecmascript5/Accessors/parserAccessors10.ts:3:3
+  |
+3 |   public get foo() { }
+  |   ^^^^^^
+
+error: TS2378 {
+    span: Span {
+        lo: BytePos(
+            39,
+        ),
+        hi: BytePos(
+            42,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/Accessors/parserAccessors10.ts:3:14
+  |
+3 |   public get foo() { }
+  |              ^^^
+

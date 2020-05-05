@@ -1,0 +1,54 @@
+error: InvalidInitInConstEnum {
+    span: Span {
+        lo: BytePos(
+            411,
+        ),
+        hi: BytePos(
+            449,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/constEnums/constEnum2.ts:12:9
+   |
+12 |     e = 199 * Math.floor(Math.random() * 1000),
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: InvalidInitInConstEnum {
+    span: Span {
+        lo: BytePos(
+            459,
+        ),
+        hi: BytePos(
+            500,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/constEnums/constEnum2.ts:13:9
+   |
+13 |     f = d - (100 * Math.floor(Math.random() % 8))
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Expected Comma, got Some(Word(g))
+  --> $DIR/tests/conformance/constEnums/constEnum2.ts:14:5
+   |
+14 |     g = CONST,
+   |     ^
+
+error: InvalidInitInConstEnum {
+    span: Span {
+        lo: BytePos(
+            509,
+        ),
+        hi: BytePos(
+            514,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/constEnums/constEnum2.ts:14:9
+   |
+14 |     g = CONST,
+   |         ^^^^^
+

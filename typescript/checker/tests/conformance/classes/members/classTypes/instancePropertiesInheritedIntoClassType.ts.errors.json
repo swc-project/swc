@@ -1,0 +1,32 @@
+[
+    {
+        "line": 4,
+        "column": 13,
+        "msg": "Accessors are only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 7,
+        "column": 13,
+        "msg": "Accessors are only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 19,
+        "column": 16,
+        "msg": "This expression is not callable."
+    },
+    {
+        "line": 26,
+        "column": 13,
+        "msg": "Accessors are only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 29,
+        "column": 13,
+        "msg": "Accessors are only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 41,
+        "column": 16,
+        "msg": "This expression is not callable."
+    }
+]

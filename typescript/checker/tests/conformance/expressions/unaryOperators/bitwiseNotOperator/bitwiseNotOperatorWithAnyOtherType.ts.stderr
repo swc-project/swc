@@ -1,0 +1,80 @@
+error: TS2532 {
+    span: Span {
+        lo: BytePos(
+            591,
+        ),
+        hi: BytePos(
+            600,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/bitwiseNotOperator/bitwiseNotOperatorWithAnyOtherType.ts:36:24
+   |
+36 | var ResultIsNumber6 = ~undefined;
+   |                        ^^^^^^^^^
+
+error: TS2531 {
+    span: Span {
+        lo: BytePos(
+            625,
+        ),
+        hi: BytePos(
+            629,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/bitwiseNotOperator/bitwiseNotOperatorWithAnyOtherType.ts:37:24
+   |
+37 | var ResultIsNumber7 = ~null;
+   |                        ^^^^
+
+error: TS2365 {
+    span: Span {
+        lo: BytePos(
+            938,
+        ),
+        hi: BytePos(
+            954,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/bitwiseNotOperator/bitwiseNotOperatorWithAnyOtherType.ts:48:26
+   |
+48 | var ResultIsNumber16 = ~(null + undefined);
+   |                          ^^^^^^^^^^^^^^^^
+
+error: TS2365 {
+    span: Span {
+        lo: BytePos(
+            982,
+        ),
+        hi: BytePos(
+            993,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/bitwiseNotOperator/bitwiseNotOperatorWithAnyOtherType.ts:49:26
+   |
+49 | var ResultIsNumber17 = ~(null + null);
+   |                          ^^^^^^^^^^^
+
+error: TS2365 {
+    span: Span {
+        lo: BytePos(
+            1021,
+        ),
+        hi: BytePos(
+            1042,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/bitwiseNotOperator/bitwiseNotOperatorWithAnyOtherType.ts:50:26
+   |
+50 | var ResultIsNumber18 = ~(undefined + undefined);
+   |                          ^^^^^^^^^^^^^^^^^^^^^
+

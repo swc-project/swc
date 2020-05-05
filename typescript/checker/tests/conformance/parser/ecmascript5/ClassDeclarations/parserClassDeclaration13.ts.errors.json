@@ -1,0 +1,7 @@
+[
+    {
+        "line": 3,
+        "column": 4,
+        "msg": "Function implementation name must be 'foo'."
+    }
+]

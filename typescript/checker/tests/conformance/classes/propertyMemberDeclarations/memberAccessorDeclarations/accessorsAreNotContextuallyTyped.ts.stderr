@@ -1,0 +1,12 @@
+error: jsc.taraget should be es5 or upper to use getter / setter
+ --> $DIR/tests/conformance/classes/propertyMemberDeclarations/memberAccessorDeclarations/accessorsAreNotContextuallyTyped.ts:4:9
+  |
+4 |     set x(v: (a: string) => string) {
+  |         ^
+
+error: jsc.taraget should be es5 or upper to use getter / setter
+ --> $DIR/tests/conformance/classes/propertyMemberDeclarations/memberAccessorDeclarations/accessorsAreNotContextuallyTyped.ts:7:9
+  |
+7 |     get x() {
+  |         ^
+

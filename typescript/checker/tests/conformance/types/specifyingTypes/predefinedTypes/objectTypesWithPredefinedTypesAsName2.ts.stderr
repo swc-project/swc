@@ -1,0 +1,6 @@
+error: Expected ident
+ --> $DIR/tests/conformance/types/specifyingTypes/predefinedTypes/objectTypesWithPredefinedTypesAsName2.ts:3:7
+  |
+3 | class void {} // parse error unlike the others
+  |       ^^^^
+

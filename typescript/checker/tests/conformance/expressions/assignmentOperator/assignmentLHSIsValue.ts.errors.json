@@ -1,0 +1,192 @@
+[
+    {
+        "line": 6,
+        "column": 21,
+        "msg": "The left-hand side of an assignment expression must be a variable or a property access."
+    },
+    {
+        "line": 7,
+        "column": 13,
+        "msg": "The left-hand side of an assignment expression must be a variable or a property access."
+    },
+    {
+        "line": 8,
+        "column": 21,
+        "msg": "The left-hand side of an assignment expression must be a variable or a property access."
+    },
+    {
+        "line": 11,
+        "column": 18,
+        "msg": "The left-hand side of an assignment expression must be a variable or a property access."
+    },
+    {
+        "line": 13,
+        "column": 1,
+        "msg": "The left-hand side of an assignment expression must be a variable or a property access."
+    },
+    {
+        "line": 17,
+        "column": 1,
+        "msg": "Cannot assign to 'M' because it is not a variable."
+    },
+    {
+        "line": 19,
+        "column": 1,
+        "msg": "Cannot assign to 'C' because it is not a variable."
+    },
+    {
+        "line": 22,
+        "column": 1,
+        "msg": "Cannot assign to 'E' because it is not a variable."
+    },
+    {
+        "line": 24,
+        "column": 1,
+        "msg": "Cannot assign to 'foo' because it is not a variable."
+    },
+    {
+        "line": 27,
+        "column": 1,
+        "msg": "The left-hand side of an assignment expression must be a variable or a property access."
+    },
+    {
+        "line": 28,
+        "column": 1,
+        "msg": "The left-hand side of an assignment expression must be a variable or a property access."
+    },
+    {
+        "line": 29,
+        "column": 1,
+        "msg": "The left-hand side of an assignment expression must be a variable or a property access."
+    },
+    {
+        "line": 30,
+        "column": 1,
+        "msg": "The left-hand side of an assignment expression must be a variable or a property access."
+    },
+    {
+        "line": 31,
+        "column": 1,
+        "msg": "The left-hand side of an assignment expression must be a variable or a property access."
+    },
+    {
+        "line": 32,
+        "column": 1,
+        "msg": "The left-hand side of an assignment expression must be a variable or a property access."
+    },
+    {
+        "line": 35,
+        "column": 9,
+        "msg": "Declaration or statement expected."
+    },
+    {
+        "line": 38,
+        "column": 2,
+        "msg": "The left-hand side of an assignment expression must be a variable or a property access."
+    },
+    {
+        "line": 38,
+        "column": 6,
+        "msg": "The left-hand side of an assignment expression must be a variable or a property access."
+    },
+    {
+        "line": 42,
+        "column": 36,
+        "msg": "'super' must be followed by an argument list or member access."
+    },
+    {
+        "line": 44,
+        "column": 19,
+        "msg": "'super' must be followed by an argument list or member access."
+    },
+    {
+        "line": 46,
+        "column": 27,
+        "msg": "'super' must be followed by an argument list or member access."
+    },
+    {
+        "line": 50,
+        "column": 20,
+        "msg": "Declaration or statement expected."
+    },
+    {
+        "line": 51,
+        "column": 11,
+        "msg": "';' expected."
+    },
+    {
+        "line": 54,
+        "column": 1,
+        "msg": "The left-hand side of an assignment expression must be a variable or a property access."
+    },
+    {
+        "line": 57,
+        "column": 1,
+        "msg": "The left-hand side of an assignment expression must be a variable or a property access."
+    },
+    {
+        "line": 58,
+        "column": 2,
+        "msg": "Cannot assign to 'M' because it is not a variable."
+    },
+    {
+        "line": 59,
+        "column": 2,
+        "msg": "Cannot assign to 'C' because it is not a variable."
+    },
+    {
+        "line": 60,
+        "column": 2,
+        "msg": "Cannot assign to 'E' because it is not a variable."
+    },
+    {
+        "line": 61,
+        "column": 2,
+        "msg": "Cannot assign to 'foo' because it is not a variable."
+    },
+    {
+        "line": 62,
+        "column": 1,
+        "msg": "The left-hand side of an assignment expression must be a variable or a property access."
+    },
+    {
+        "line": 63,
+        "column": 1,
+        "msg": "The left-hand side of an assignment expression must be a variable or a property access."
+    },
+    {
+        "line": 64,
+        "column": 1,
+        "msg": "The left-hand side of an assignment expression must be a variable or a property access."
+    },
+    {
+        "line": 65,
+        "column": 1,
+        "msg": "The left-hand side of an assignment expression must be a variable or a property access."
+    },
+    {
+        "line": 66,
+        "column": 1,
+        "msg": "The left-hand side of an assignment expression must be a variable or a property access."
+    },
+    {
+        "line": 67,
+        "column": 1,
+        "msg": "The left-hand side of an assignment expression must be a variable or a property access."
+    },
+    {
+        "line": 68,
+        "column": 1,
+        "msg": "The left-hand side of an assignment expression must be a variable or a property access."
+    },
+    {
+        "line": 69,
+        "column": 1,
+        "msg": "The left-hand side of an assignment expression must be a variable or a property access."
+    },
+    {
+        "line": 70,
+        "column": 1,
+        "msg": "The left-hand side of an assignment expression must be a variable or a property access."
+    }
+]

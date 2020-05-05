@@ -1,0 +1,17 @@
+[
+    {
+        "line": 1,
+        "column": 6,
+        "msg": "Cannot find name 'foo'."
+    },
+    {
+        "line": 1,
+        "column": 6,
+        "msg": "The left-hand side of a 'for...in' statement must be a variable or a property access."
+    },
+    {
+        "line": 1,
+        "column": 15,
+        "msg": "Cannot find name 'b'."
+    }
+]

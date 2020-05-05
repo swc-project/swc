@@ -1,0 +1,12 @@
+error: NameNotFound {
+    span: Span {
+        lo: BytePos(
+            0,
+        ),
+        hi: BytePos(
+            0,
+        ),
+        ctxt: #0,
+    },
+}
+

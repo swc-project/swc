@@ -1,0 +1,24 @@
+error: TS1005
+ --> $DIR/tests/conformance/types/specifyingTypes/typeLiterals/arrayTypeOfTypeOf.ts:6:22
+  |
+6 | var xs3: typeof Array<number>;
+  |                      ^
+
+error: Unexpected token Some(Semi)
+ --> $DIR/tests/conformance/types/specifyingTypes/typeLiterals/arrayTypeOfTypeOf.ts:6:30
+  |
+6 | var xs3: typeof Array<number>;
+  |                              ^
+
+error: TS1005
+ --> $DIR/tests/conformance/types/specifyingTypes/typeLiterals/arrayTypeOfTypeOf.ts:7:22
+  |
+7 | var xs4: typeof Array<typeof x>;
+  |                      ^
+
+error: Unexpected token Some(Semi)
+ --> $DIR/tests/conformance/types/specifyingTypes/typeLiterals/arrayTypeOfTypeOf.ts:7:32
+  |
+7 | var xs4: typeof Array<typeof x>;
+  |                                ^
+

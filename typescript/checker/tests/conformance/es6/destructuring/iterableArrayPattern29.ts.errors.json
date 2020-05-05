@@ -1,0 +1,7 @@
+[
+    {
+        "line": 3,
+        "column": 21,
+        "msg": "Argument of type '[string, boolean]' is not assignable to parameter of type '[string, number]'."
+    }
+]

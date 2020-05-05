@@ -1,0 +1,12 @@
+[
+    {
+        "line": 2,
+        "column": 10,
+        "msg": "The left-hand side of a 'for...of' statement cannot use a type annotation."
+    },
+    {
+        "line": 2,
+        "column": 23,
+        "msg": "Cannot find name 'X'."
+    }
+]

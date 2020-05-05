@@ -1,0 +1,12 @@
+[
+    {
+        "line": 3,
+        "column": 10,
+        "msg": "Type 'string | number' is not assignable to type 'string'."
+    },
+    {
+        "line": 3,
+        "column": 18,
+        "msg": "Property 'b' does not exist on type '(string | number)[]'."
+    }
+]

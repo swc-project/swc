@@ -1,0 +1,17 @@
+error: UndefinedSymbol {
+    sym: Atom('something' type=dynamic),
+    span: Span {
+        lo: BytePos(
+            14,
+        ),
+        hi: BytePos(
+            23,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/Statements/ContinueStatements/parser_continueInIterationStatement4.ts:1:15
+  |
+1 | for (var i in something) {
+  |               ^^^^^^^^^
+

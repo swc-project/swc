@@ -1,0 +1,17 @@
+[
+    {
+        "line": 3,
+        "column": 11,
+        "msg": "No overload matches this call."
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "Map<string, boolean>', gave the following error."
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "Map<string, boolean>', gave the following error."
+    }
+]

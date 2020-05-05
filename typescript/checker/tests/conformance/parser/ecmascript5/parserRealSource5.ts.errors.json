@@ -1,0 +1,47 @@
+[
+    {
+        "line": 4,
+        "column": 21,
+        "msg": "File 'tests/cases/conformance/parser/ecmascript5/typescript.ts' not found."
+    },
+    {
+        "line": 14,
+        "column": 66,
+        "msg": "Cannot find name 'Parser'."
+    },
+    {
+        "line": 27,
+        "column": 17,
+        "msg": "Cannot find name 'CompilerDiagnostics'."
+    },
+    {
+        "line": 52,
+        "column": 38,
+        "msg": "Cannot find name 'AST'."
+    },
+    {
+        "line": 52,
+        "column": 51,
+        "msg": "Cannot find name 'AST'."
+    },
+    {
+        "line": 52,
+        "column": 64,
+        "msg": "Cannot find name 'IAstWalker'."
+    },
+    {
+        "line": 61,
+        "column": 39,
+        "msg": "Cannot find name 'AST'."
+    },
+    {
+        "line": 61,
+        "column": 52,
+        "msg": "Cannot find name 'AST'."
+    },
+    {
+        "line": 61,
+        "column": 65,
+        "msg": "Cannot find name 'IAstWalker'."
+    }
+]

@@ -1,0 +1,12 @@
+[
+    {
+        "line": 3,
+        "column": 4,
+        "msg": "A computed property name in a method overload must refer to an expression whose type is a literal type or a 'unique symbol' type."
+    },
+    {
+        "line": 3,
+        "column": 5,
+        "msg": "Cannot find name 'e'."
+    }
+]

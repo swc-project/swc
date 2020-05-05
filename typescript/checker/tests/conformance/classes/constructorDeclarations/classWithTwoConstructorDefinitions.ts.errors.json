@@ -1,0 +1,22 @@
+[
+    {
+        "line": 2,
+        "column": 5,
+        "msg": "Multiple constructor implementations are not allowed."
+    },
+    {
+        "line": 3,
+        "column": 5,
+        "msg": "Multiple constructor implementations are not allowed."
+    },
+    {
+        "line": 7,
+        "column": 5,
+        "msg": "Multiple constructor implementations are not allowed."
+    },
+    {
+        "line": 8,
+        "column": 5,
+        "msg": "Multiple constructor implementations are not allowed."
+    }
+]

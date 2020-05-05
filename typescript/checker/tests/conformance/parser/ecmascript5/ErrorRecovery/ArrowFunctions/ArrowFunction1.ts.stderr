@@ -1,0 +1,6 @@
+error: Unexpected token Some(RParen)
+ --> $DIR/tests/conformance/parser/ecmascript5/ErrorRecovery/ArrowFunctions/ArrowFunction1.ts:1:13
+  |
+1 | var v = (a: ) => {
+  |             ^
+

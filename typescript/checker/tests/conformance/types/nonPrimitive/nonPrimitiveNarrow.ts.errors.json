@@ -1,0 +1,17 @@
+[
+    {
+        "line": 9,
+        "column": 5,
+        "msg": "Type '123' is not assignable to type 'object'."
+    },
+    {
+        "line": 13,
+        "column": 7,
+        "msg": "Property 'toFixed' does not exist on type 'never'."
+    },
+    {
+        "line": 21,
+        "column": 6,
+        "msg": "Property 'toString' does not exist on type 'never'."
+    }
+]

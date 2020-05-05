@@ -1,0 +1,64 @@
+error: TS2365 {
+    span: Span {
+        lo: BytePos(
+            1009,
+        ),
+        hi: BytePos(
+            1025,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/typeofOperator/typeofOperatorWithAnyOtherType.ts:46:32
+   |
+46 | var ResultIsString17 = typeof (null + undefined);
+   |                                ^^^^^^^^^^^^^^^^
+
+error: TS2365 {
+    span: Span {
+        lo: BytePos(
+            1059,
+        ),
+        hi: BytePos(
+            1070,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/typeofOperator/typeofOperatorWithAnyOtherType.ts:47:32
+   |
+47 | var ResultIsString18 = typeof (null + null);
+   |                                ^^^^^^^^^^^
+
+error: TS2365 {
+    span: Span {
+        lo: BytePos(
+            1104,
+        ),
+        hi: BytePos(
+            1125,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/typeofOperator/typeofOperatorWithAnyOtherType.ts:48:32
+   |
+48 | var ResultIsString19 = typeof (undefined + undefined);
+   |                                ^^^^^^^^^^^^^^^^^^^^^
+
+error: UselessSeqExpr {
+    span: Span {
+        lo: BytePos(
+            1330,
+        ),
+        hi: BytePos(
+            1346,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/typeofOperator/typeofOperatorWithAnyOtherType.ts:58:1
+   |
+58 | typeof ANY, ANY1;
+   | ^^^^^^^^^^^^^^^^
+

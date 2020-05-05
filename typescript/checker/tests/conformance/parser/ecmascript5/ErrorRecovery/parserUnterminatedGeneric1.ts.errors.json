@@ -1,0 +1,17 @@
+[
+    {
+        "line": 2,
+        "column": 23,
+        "msg": "Cannot find name 'IPromise'."
+    },
+    {
+        "line": 2,
+        "column": 45,
+        "msg": "Cannot find name 'IPromise'."
+    },
+    {
+        "line": 2,
+        "column": 54,
+        "msg": "'>' expected."
+    }
+]

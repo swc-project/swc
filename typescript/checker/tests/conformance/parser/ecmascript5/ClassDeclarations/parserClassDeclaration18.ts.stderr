@@ -1,0 +1,6 @@
+error: TS1183
+ --> $DIR/tests/conformance/parser/ecmascript5/ClassDeclarations/parserClassDeclaration18.ts:4:25
+  |
+4 |     constructor(x: any) {
+  |                         ^
+

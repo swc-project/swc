@@ -1,0 +1,16 @@
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            85,
+        ),
+        hi: BytePos(
+            94,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es6/arrowFunction/emitArrowFunctionWhenUsingArguments10.ts:5:25
+  |
+5 |     var a = () => () => arguments;
+  |                         ^^^^^^^^^
+

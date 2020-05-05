@@ -1,0 +1,22 @@
+error: 'implements', 'interface', 'let', 'package', 'private', 'protected',  'public', 'static', or 'yield' cannot be used as an identifier in strict mode
+ --> $DIR/tests/conformance/parser/ecmascript6/ComputedPropertyNames/parserComputedPropertyName39.ts:4:6
+  |
+4 |     [public]() { }
+  |      ^^^^^^
+
+error: NameNotFound {
+    span: Span {
+        lo: BytePos(
+            44,
+        ),
+        hi: BytePos(
+            50,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript6/ComputedPropertyNames/parserComputedPropertyName39.ts:4:6
+  |
+4 |     [public]() { }
+  |      ^^^^^^
+

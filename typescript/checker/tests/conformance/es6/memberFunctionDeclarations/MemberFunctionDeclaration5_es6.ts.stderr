@@ -1,0 +1,6 @@
+error: Unexpected token Some(RBrace)
+ --> $DIR/tests/conformance/es6/memberFunctionDeclarations/MemberFunctionDeclaration5_es6.ts:4:1
+  |
+4 | }
+  | ^
+

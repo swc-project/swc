@@ -1,0 +1,12 @@
+[
+    {
+        "line": 2,
+        "column": 1,
+        "msg": "Invalid use of 'arguments' in strict mode."
+    },
+    {
+        "line": 2,
+        "column": 1,
+        "msg": "Cannot find name 'arguments'."
+    }
+]

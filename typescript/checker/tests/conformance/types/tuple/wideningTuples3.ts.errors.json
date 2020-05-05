@@ -1,0 +1,12 @@
+[
+    {
+        "line": 4,
+        "column": 5,
+        "msg": "Variable 'b' implicitly has an '[any, any]' type."
+    },
+    {
+        "line": 4,
+        "column": 9,
+        "msg": "Type '[undefined, null]' is not assignable to type '[any]'."
+    }
+]

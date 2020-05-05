@@ -1,0 +1,17 @@
+[
+    {
+        "line": 4,
+        "column": 1,
+        "msg": "'new' expression, whose target lacks a construct signature, implicitly has an 'any' type."
+    },
+    {
+        "line": 7,
+        "column": 1,
+        "msg": "'new' expression, whose target lacks a construct signature, implicitly has an 'any' type."
+    },
+    {
+        "line": 10,
+        "column": 1,
+        "msg": "'new' expression, whose target lacks a construct signature, implicitly has an 'any' type."
+    }
+]

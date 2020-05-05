@@ -1,0 +1,12 @@
+[
+    {
+        "line": 8,
+        "column": 18,
+        "msg": "Value of type 'I' is not callable. Did you mean to include 'new'?"
+    },
+    {
+        "line": 16,
+        "column": 18,
+        "msg": "Value of type 'new () => number' is not callable. Did you mean to include 'new'?"
+    }
+]

@@ -1,0 +1,22 @@
+[
+    {
+        "line": 2,
+        "column": 23,
+        "msg": "Cannot find name 'Harness'."
+    },
+    {
+        "line": 3,
+        "column": 22,
+        "msg": "Cannot find name 'Harness'."
+    },
+    {
+        "line": 4,
+        "column": 21,
+        "msg": "Cannot find namespace 'TypeScript'."
+    },
+    {
+        "line": 4,
+        "column": 55,
+        "msg": "Cannot find name 'TypeScript'."
+    }
+]

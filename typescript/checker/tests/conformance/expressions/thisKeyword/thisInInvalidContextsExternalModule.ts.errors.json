@@ -1,0 +1,42 @@
+[
+    {
+        "line": 3,
+        "column": 16,
+        "msg": "'this' cannot be referenced in a static property initializer."
+    },
+    {
+        "line": 14,
+        "column": 15,
+        "msg": "'super' must be called before accessing 'this' in the constructor of a derived class."
+    },
+    {
+        "line": 22,
+        "column": 15,
+        "msg": "'super' must be called before accessing 'this' in the constructor of a derived class."
+    },
+    {
+        "line": 28,
+        "column": 13,
+        "msg": "'this' cannot be referenced in a module or namespace body."
+    },
+    {
+        "line": 36,
+        "column": 13,
+        "msg": "A 'this' type is available only in a non-static member of a class or interface."
+    },
+    {
+        "line": 38,
+        "column": 25,
+        "msg": "Type 'typeof globalThis' is not a constructor function type."
+    },
+    {
+        "line": 44,
+        "column": 9,
+        "msg": "'this' cannot be referenced in current location."
+    },
+    {
+        "line": 45,
+        "column": 9,
+        "msg": "'this' cannot be referenced in current location."
+    }
+]

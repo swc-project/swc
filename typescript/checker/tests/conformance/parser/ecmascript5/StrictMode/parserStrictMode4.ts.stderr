@@ -1,0 +1,23 @@
+error: TS1100
+ --> $DIR/tests/conformance/parser/ecmascript5/StrictMode/parserStrictMode4.ts:2:1
+  |
+2 | arguments = 1;
+  | ^^^^^^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('arguments' type=static),
+    span: Span {
+        lo: BytePos(
+            14,
+        ),
+        hi: BytePos(
+            23,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/StrictMode/parserStrictMode4.ts:2:1
+  |
+2 | arguments = 1;
+  | ^^^^^^^^^
+

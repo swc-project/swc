@@ -1,0 +1,37 @@
+[
+    {
+        "line": 14,
+        "column": 29,
+        "msg": "A required element cannot follow an optional element."
+    },
+    {
+        "line": 18,
+        "column": 5,
+        "msg": "Type 'T2' is not assignable to type 'T1'."
+    },
+    {
+        "line": 19,
+        "column": 5,
+        "msg": "Type 'T3' is not assignable to type 'T1'."
+    },
+    {
+        "line": 20,
+        "column": 5,
+        "msg": "Type 'T4' is not assignable to type 'T1'."
+    },
+    {
+        "line": 23,
+        "column": 5,
+        "msg": "Type 'T3' is not assignable to type 'T2'."
+    },
+    {
+        "line": 24,
+        "column": 5,
+        "msg": "Type 'T4' is not assignable to type 'T2'."
+    },
+    {
+        "line": 28,
+        "column": 5,
+        "msg": "Type 'T4' is not assignable to type 'T3'."
+    }
+]

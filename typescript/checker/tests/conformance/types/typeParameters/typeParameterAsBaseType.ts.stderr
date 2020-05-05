@@ -1,0 +1,64 @@
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            95,
+        ),
+        hi: BytePos(
+            96,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/types/typeParameters/typeParameterAsBaseType.ts:4:20
+  |
+4 | class C<T> extends T { }
+  |                    ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            125,
+        ),
+        hi: BytePos(
+            126,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/types/typeParameters/typeParameterAsBaseType.ts:5:24
+  |
+5 | class C2<T, U> extends U { }
+  |                        ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            157,
+        ),
+        hi: BytePos(
+            158,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/types/typeParameters/typeParameterAsBaseType.ts:7:24
+  |
+7 | interface I<T> extends T { }
+  |                        ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            191,
+        ),
+        hi: BytePos(
+            192,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/types/typeParameters/typeParameterAsBaseType.ts:8:28
+  |
+8 | interface I2<T, U> extends U { }
+  |                            ^
+

@@ -1,0 +1,6 @@
+error: TS1015
+ --> $DIR/tests/conformance/parser/ecmascript5/ParameterLists/parserParameterList2.ts:2:5
+  |
+2 |   F(A?= 0) { }
+  |     ^
+

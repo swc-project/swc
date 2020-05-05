@@ -1,0 +1,913 @@
+error: Unknown {
+    span: Span {
+        lo: BytePos(
+            6401,
+        ),
+        hi: BytePos(
+            6407,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/unknown/unknownType1.ts:52:5
+   |
+52 |     x >= 0;  // Error
+   |     ^^^^^^
+
+error: Unknown {
+    span: Span {
+        lo: BytePos(
+            6424,
+        ),
+        hi: BytePos(
+            6425,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/unknown/unknownType1.ts:53:5
+   |
+53 |     x.foo;  // Error
+   |     ^
+
+error: Unknown {
+    span: Span {
+        lo: BytePos(
+            6446,
+        ),
+        hi: BytePos(
+            6447,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/unknown/unknownType1.ts:54:5
+   |
+54 |     x[10];  // Error
+   |     ^
+
+error: Unknown {
+    span: Span {
+        lo: BytePos(
+            6468,
+        ),
+        hi: BytePos(
+            6469,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/unknown/unknownType1.ts:55:5
+   |
+55 |     x();  // Error
+   |     ^
+
+error: Unknown {
+    span: Span {
+        lo: BytePos(
+            6488,
+        ),
+        hi: BytePos(
+            6493,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/unknown/unknownType1.ts:56:5
+   |
+56 |     x + 1;  // Error
+   |     ^^^^^
+
+error: Unknown {
+    span: Span {
+        lo: BytePos(
+            6510,
+        ),
+        hi: BytePos(
+            6515,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/unknown/unknownType1.ts:57:5
+   |
+57 |     x * 2;  // Error
+   |     ^^^^^
+
+error: Unknown {
+    span: Span {
+        lo: BytePos(
+            6533,
+        ),
+        hi: BytePos(
+            6534,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/unknown/unknownType1.ts:58:6
+   |
+58 |     -x;  // Error
+   |      ^
+
+error: Unknown {
+    span: Span {
+        lo: BytePos(
+            6552,
+        ),
+        hi: BytePos(
+            6553,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/unknown/unknownType1.ts:59:6
+   |
+59 |     +x;  // Error
+   |      ^
+
+error: Unknown {
+    span: Span {
+        lo: BytePos(
+            6667,
+        ),
+        hi: BytePos(
+            6668,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/unknown/unknownType1.ts:65:5
+   |
+65 |     x.foo;  // Error
+   |     ^
+
+error: Unknown {
+    span: Span {
+        lo: BytePos(
+            6689,
+        ),
+        hi: BytePos(
+            6690,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/unknown/unknownType1.ts:66:5
+   |
+66 |     x[5];  // Error
+   |     ^
+
+error: Unknown {
+    span: Span {
+        lo: BytePos(
+            6710,
+        ),
+        hi: BytePos(
+            6711,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/unknown/unknownType1.ts:67:5
+   |
+67 |     x();  // Error
+   |     ^
+
+error: Unknown {
+    span: Span {
+        lo: BytePos(
+            6734,
+        ),
+        hi: BytePos(
+            6735,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/unknown/unknownType1.ts:68:9
+   |
+68 |     new x();  // Error
+   |         ^
+
+error: AssignFailed {
+    span: Span {
+        lo: BytePos(
+            7674,
+        ),
+        hi: BytePos(
+            7688,
+        ),
+        ctxt: #0,
+    },
+    left: Keyword(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    7678,
+                ),
+                hi: BytePos(
+                    7684,
+                ),
+                ctxt: #0,
+            },
+            kind: TsObjectKeyword,
+        },
+    ),
+    right: Keyword(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    7687,
+                ),
+                hi: BytePos(
+                    7688,
+                ),
+                ctxt: #0,
+            },
+            kind: TsUnknownKeyword,
+        },
+    ),
+    cause: [],
+}
+   --> $DIR/tests/conformance/types/unknown/unknownType1.ts:112:9
+    |
+112 |     let v3: object = x;  // Error
+    |         ^^^^^^^^^^^^^^
+
+error: AssignFailed {
+    span: Span {
+        lo: BytePos(
+            7709,
+        ),
+        hi: BytePos(
+            7723,
+        ),
+        ctxt: #0,
+    },
+    left: Keyword(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    7713,
+                ),
+                hi: BytePos(
+                    7719,
+                ),
+                ctxt: #0,
+            },
+            kind: TsStringKeyword,
+        },
+    ),
+    right: Keyword(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    7722,
+                ),
+                hi: BytePos(
+                    7723,
+                ),
+                ctxt: #0,
+            },
+            kind: TsUnknownKeyword,
+        },
+    ),
+    cause: [],
+}
+   --> $DIR/tests/conformance/types/unknown/unknownType1.ts:113:9
+    |
+113 |     let v4: string = x;  // Error
+    |         ^^^^^^^^^^^^^^
+
+error: AssignFailed {
+    span: Span {
+        lo: BytePos(
+            7744,
+        ),
+        hi: BytePos(
+            7760,
+        ),
+        ctxt: #0,
+    },
+    left: Array(
+        Array {
+            span: Span {
+                lo: BytePos(
+                    7748,
+                ),
+                hi: BytePos(
+                    7756,
+                ),
+                ctxt: #0,
+            },
+            elem_type: Keyword(
+                TsKeywordType {
+                    span: Span {
+                        lo: BytePos(
+                            7748,
+                        ),
+                        hi: BytePos(
+                            7754,
+                        ),
+                        ctxt: #0,
+                    },
+                    kind: TsStringKeyword,
+                },
+            ),
+        },
+    ),
+    right: Keyword(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    7759,
+                ),
+                hi: BytePos(
+                    7760,
+                ),
+                ctxt: #0,
+            },
+            kind: TsUnknownKeyword,
+        },
+    ),
+    cause: [],
+}
+   --> $DIR/tests/conformance/types/unknown/unknownType1.ts:114:9
+    |
+114 |     let v5: string[] = x;  // Error
+    |         ^^^^^^^^^^^^^^^^
+
+error: AssignFailed {
+    span: Span {
+        lo: BytePos(
+            7781,
+        ),
+        hi: BytePos(
+            7791,
+        ),
+        ctxt: #0,
+    },
+    left: TypeLit(
+        TypeLit {
+            span: Span {
+                lo: BytePos(
+                    7785,
+                ),
+                hi: BytePos(
+                    7787,
+                ),
+                ctxt: #0,
+            },
+            members: [],
+        },
+    ),
+    right: Keyword(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    7790,
+                ),
+                hi: BytePos(
+                    7791,
+                ),
+                ctxt: #0,
+            },
+            kind: TsUnknownKeyword,
+        },
+    ),
+    cause: [],
+}
+   --> $DIR/tests/conformance/types/unknown/unknownType1.ts:115:9
+    |
+115 |     let v6: {} = x;  // Error
+    |         ^^^^^^^^^^
+
+error: AssignFailed {
+    span: Span {
+        lo: BytePos(
+            7812,
+        ),
+        hi: BytePos(
+            7841,
+        ),
+        ctxt: #0,
+    },
+    left: Union(
+        Union {
+            span: Span {
+                lo: BytePos(
+                    7816,
+                ),
+                hi: BytePos(
+                    7818,
+                ),
+                ctxt: #0,
+            },
+            types: [
+                TypeLit(
+                    TypeLit {
+                        span: Span {
+                            lo: BytePos(
+                                7816,
+                            ),
+                            hi: BytePos(
+                                7818,
+                            ),
+                            ctxt: #0,
+                        },
+                        members: [],
+                    },
+                ),
+                Keyword(
+                    TsKeywordType {
+                        span: Span {
+                            lo: BytePos(
+                                7821,
+                            ),
+                            hi: BytePos(
+                                7825,
+                            ),
+                            ctxt: #0,
+                        },
+                        kind: TsNullKeyword,
+                    },
+                ),
+                Keyword(
+                    TsKeywordType {
+                        span: Span {
+                            lo: BytePos(
+                                7828,
+                            ),
+                            hi: BytePos(
+                                7837,
+                            ),
+                            ctxt: #0,
+                        },
+                        kind: TsUndefinedKeyword,
+                    },
+                ),
+            ],
+        },
+    ),
+    right: Keyword(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    7840,
+                ),
+                hi: BytePos(
+                    7841,
+                ),
+                ctxt: #0,
+            },
+            kind: TsUnknownKeyword,
+        },
+    ),
+    cause: [],
+}
+   --> $DIR/tests/conformance/types/unknown/unknownType1.ts:116:9
+    |
+116 |     let v7: {} | null | undefined = x;  // Error
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AssignFailed {
+    span: Span {
+        lo: BytePos(
+            7971,
+        ),
+        hi: BytePos(
+            7984,
+        ),
+        ctxt: #0,
+    },
+    left: Keyword(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    7974,
+                ),
+                hi: BytePos(
+                    7980,
+                ),
+                ctxt: #0,
+            },
+            kind: TsObjectKeyword,
+        },
+    ),
+    right: Keyword(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    7945,
+                ),
+                hi: BytePos(
+                    7952,
+                ),
+                ctxt: #0,
+            },
+            kind: TsUnknownKeyword,
+        },
+    ),
+    cause: [],
+}
+   --> $DIR/tests/conformance/types/unknown/unknownType1.ts:122:9
+    |
+122 |     let y: object = x;  // Error
+    |         ^^^^^^^^^^^^^
+
+error: AssignFailed {
+    span: Span {
+        lo: BytePos(
+            8157,
+        ),
+        hi: BytePos(
+            8158,
+        ),
+        ctxt: #0,
+    },
+    left: TypeLit(
+        TypeLit {
+            span: Span {
+                lo: BytePos(
+                    8142,
+                ),
+                hi: BytePos(
+                    8150,
+                ),
+                ctxt: #0,
+            },
+            members: [
+                Property(
+                    PropertySignature {
+                        span: Span {
+                            lo: BytePos(
+                                8144,
+                            ),
+                            hi: BytePos(
+                                8148,
+                            ),
+                            ctxt: #0,
+                        },
+                        readonly: false,
+                        key: Ident(
+                            Ident {
+                                span: Span {
+                                    lo: BytePos(
+                                        8144,
+                                    ),
+                                    hi: BytePos(
+                                        8145,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                sym: Atom('a' type=inline),
+                                type_ann: None,
+                                optional: false,
+                            },
+                        ),
+                        computed: false,
+                        optional: false,
+                        params: [],
+                        type_ann: None,
+                        type_params: None,
+                    },
+                ),
+            ],
+        },
+    ),
+    right: Tuple(
+        Tuple {
+            span: Span {
+                lo: BytePos(
+                    8161,
+                ),
+                hi: BytePos(
+                    8170,
+                ),
+                ctxt: #0,
+            },
+            types: [
+                Lit(
+                    TsLitType {
+                        span: Span {
+                            lo: BytePos(
+                                8162,
+                            ),
+                            hi: BytePos(
+                                8163,
+                            ),
+                            ctxt: #0,
+                        },
+                        lit: Number(
+                            Number {
+                                span: Span {
+                                    lo: BytePos(
+                                        8162,
+                                    ),
+                                    hi: BytePos(
+                                        8163,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: 1.0,
+                            },
+                        ),
+                    },
+                ),
+                Lit(
+                    TsLitType {
+                        span: Span {
+                            lo: BytePos(
+                                8165,
+                            ),
+                            hi: BytePos(
+                                8166,
+                            ),
+                            ctxt: #0,
+                        },
+                        lit: Number(
+                            Number {
+                                span: Span {
+                                    lo: BytePos(
+                                        8165,
+                                    ),
+                                    hi: BytePos(
+                                        8166,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: 2.0,
+                            },
+                        ),
+                    },
+                ),
+                Lit(
+                    TsLitType {
+                        span: Span {
+                            lo: BytePos(
+                                8168,
+                            ),
+                            hi: BytePos(
+                                8169,
+                            ),
+                            ctxt: #0,
+                        },
+                        lit: Number(
+                            Number {
+                                span: Span {
+                                    lo: BytePos(
+                                        8168,
+                                    ),
+                                    hi: BytePos(
+                                        8169,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: 3.0,
+                            },
+                        ),
+                    },
+                ),
+            ],
+        },
+    ),
+    cause: [],
+}
+   --> $DIR/tests/conformance/types/unknown/unknownType1.ts:130:5
+    |
+130 |     x = [1, 2, 3]; // Error
+    |     ^
+
+error: AssignFailed {
+    span: Span {
+        lo: BytePos(
+            8186,
+        ),
+        hi: BytePos(
+            8187,
+        ),
+        ctxt: #0,
+    },
+    left: TypeLit(
+        TypeLit {
+            span: Span {
+                lo: BytePos(
+                    8142,
+                ),
+                hi: BytePos(
+                    8150,
+                ),
+                ctxt: #0,
+            },
+            members: [
+                Property(
+                    PropertySignature {
+                        span: Span {
+                            lo: BytePos(
+                                8144,
+                            ),
+                            hi: BytePos(
+                                8148,
+                            ),
+                            ctxt: #0,
+                        },
+                        readonly: false,
+                        key: Ident(
+                            Ident {
+                                span: Span {
+                                    lo: BytePos(
+                                        8144,
+                                    ),
+                                    hi: BytePos(
+                                        8145,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                sym: Atom('a' type=inline),
+                                type_ann: None,
+                                optional: false,
+                            },
+                        ),
+                        computed: false,
+                        optional: false,
+                        params: [],
+                        type_ann: None,
+                        type_params: None,
+                    },
+                ),
+            ],
+        },
+    ),
+    right: Lit(
+        TsLitType {
+            span: Span {
+                lo: BytePos(
+                    8190,
+                ),
+                hi: BytePos(
+                    8193,
+                ),
+                ctxt: #0,
+            },
+            lit: Number(
+                Number {
+                    span: Span {
+                        lo: BytePos(
+                            8190,
+                        ),
+                        hi: BytePos(
+                            8193,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: 123.0,
+                },
+            ),
+        },
+    ),
+    cause: [],
+}
+   --> $DIR/tests/conformance/types/unknown/unknownType1.ts:131:5
+    |
+131 |     x = 123;  // Error
+    |     ^
+
+error: ReturnRequired {
+    span: Span {
+        lo: BytePos(
+            8666,
+        ),
+        hi: BytePos(
+            8673,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/types/unknown/unknownType1.ts:151:17
+    |
+151 | function f27(): unknown {
+    |                 ^^^^^^^
+
+error: Unknown {
+    span: Span {
+        lo: BytePos(
+            8770,
+        ),
+        hi: BytePos(
+            8771,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/types/unknown/unknownType1.ts:157:14
+    |
+157 |     let { ...a } = x;  // Error
+    |              ^
+
+error: ClassPropertyInitRequired {
+    span: Span {
+        lo: BytePos(
+            8881,
+        ),
+        hi: BytePos(
+            8891,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/types/unknown/unknownType1.ts:163:5
+    |
+163 |     a: string;  // Error
+    |     ^^^^^^^^^^
+
+error: AssignFailed {
+    span: Span {
+        lo: BytePos(
+            9095,
+        ),
+        hi: BytePos(
+            9104,
+        ),
+        ctxt: #0,
+    },
+    left: TypeLit(
+        TypeLit {
+            span: Span {
+                lo: BytePos(
+                    9098,
+                ),
+                hi: BytePos(
+                    9100,
+                ),
+                ctxt: #0,
+            },
+            members: [],
+        },
+    ),
+    right: Keyword(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    9043,
+                ),
+                hi: BytePos(
+                    9050,
+                ),
+                ctxt: #0,
+            },
+            kind: TsUnknownKeyword,
+        },
+    ),
+    cause: [],
+}
+   --> $DIR/tests/conformance/types/unknown/unknownType1.ts:172:9
+    |
+172 |     let y: {} = u;
+    |         ^^^^^^^^^
+
+error: AssignFailed {
+    span: Span {
+        lo: BytePos(
+            9387,
+        ),
+        hi: BytePos(
+            9398,
+        ),
+        ctxt: #0,
+    },
+    left: TypeLit(
+        TypeLit {
+            span: Span {
+                lo: BytePos(
+                    9377,
+                ),
+                hi: BytePos(
+                    9379,
+                ),
+                ctxt: #0,
+            },
+            members: [],
+        },
+    ),
+    right: Keyword(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    9359,
+                ),
+                hi: BytePos(
+                    9366,
+                ),
+                ctxt: #0,
+            },
+            kind: TsUnknownKeyword,
+        },
+    ),
+    cause: [],
+}
+   --> $DIR/tests/conformance/types/unknown/unknownType1.ts:182:5
+    |
+182 |     return arg;  // Error
+    |     ^^^^^^^^^^^
+

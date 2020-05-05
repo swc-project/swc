@@ -1,0 +1,34 @@
+error: UndefinedSymbol {
+    sym: Atom('require' type=static),
+    span: Span {
+        lo: BytePos(
+            27,
+        ),
+        hi: BytePos(
+            34,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/RegressionTests/parser509534.ts:2:14
+  |
+2 | var config = require("../config");
+  |              ^^^^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('module' type=static),
+    span: Span {
+        lo: BytePos(
+            49,
+        ),
+        hi: BytePos(
+            55,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/RegressionTests/parser509534.ts:3:1
+  |
+3 | module.exports.route = function (server) {
+  | ^^^^^^
+

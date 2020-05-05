@@ -1,0 +1,6 @@
+error: Unexpected token Some(At)
+ --> $DIR/tests/conformance/decorators/invalid/decoratorOnImportEquals1.ts:8:5
+  |
+8 |     @dec
+  |     ^
+

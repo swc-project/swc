@@ -1,0 +1,47 @@
+[
+    {
+        "line": 9,
+        "column": 23,
+        "msg": "Type '{}' is not a valid async function return type in ES5/ES3 because it does not refer to a Promise-compatible constructor value."
+    },
+    {
+        "line": 9,
+        "column": 23,
+        "msg": "A function whose declared type is neither 'void' nor 'any' must return a value."
+    },
+    {
+        "line": 10,
+        "column": 23,
+        "msg": "Type 'any' is not a valid async function return type in ES5/ES3 because it does not refer to a Promise-compatible constructor value."
+    },
+    {
+        "line": 11,
+        "column": 23,
+        "msg": "Type 'number' is not a valid async function return type in ES5/ES3 because it does not refer to a Promise-compatible constructor value."
+    },
+    {
+        "line": 11,
+        "column": 23,
+        "msg": "A function whose declared type is neither 'void' nor 'any' must return a value."
+    },
+    {
+        "line": 12,
+        "column": 23,
+        "msg": "Type 'PromiseLike' is not a valid async function return type in ES5/ES3 because it does not refer to a Promise-compatible constructor value."
+    },
+    {
+        "line": 13,
+        "column": 23,
+        "msg": "Type 'typeof Thenable' is not a valid async function return type in ES5/ES3 because it does not refer to a Promise-compatible constructor value."
+    },
+    {
+        "line": 20,
+        "column": 16,
+        "msg": "The return type of an async function must either be a valid promise or must not contain a callable 'then' member."
+    },
+    {
+        "line": 26,
+        "column": 25,
+        "msg": "Type of 'await' operand must either be a valid promise or must not contain a callable 'then' member."
+    }
+]

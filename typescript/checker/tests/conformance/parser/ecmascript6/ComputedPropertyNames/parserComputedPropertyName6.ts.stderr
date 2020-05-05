@@ -1,0 +1,51 @@
+error: UndefinedSymbol {
+    sym: Atom('e' type=inline),
+    span: Span {
+        lo: BytePos(
+            26,
+        ),
+        hi: BytePos(
+            27,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript6/ComputedPropertyNames/parserComputedPropertyName6.ts:2:12
+  |
+2 | var v = { [e]: 1, [e + e]: 2 };
+  |            ^
+
+error: UndefinedSymbol {
+    sym: Atom('e' type=inline),
+    span: Span {
+        lo: BytePos(
+            34,
+        ),
+        hi: BytePos(
+            35,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript6/ComputedPropertyNames/parserComputedPropertyName6.ts:2:20
+  |
+2 | var v = { [e]: 1, [e + e]: 2 };
+  |                    ^
+
+error: UndefinedSymbol {
+    sym: Atom('e' type=inline),
+    span: Span {
+        lo: BytePos(
+            38,
+        ),
+        hi: BytePos(
+            39,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript6/ComputedPropertyNames/parserComputedPropertyName6.ts:2:24
+  |
+2 | var v = { [e]: 1, [e + e]: 2 };
+  |                        ^
+

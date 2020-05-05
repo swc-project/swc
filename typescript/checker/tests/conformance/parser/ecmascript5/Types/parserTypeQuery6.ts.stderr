@@ -1,0 +1,17 @@
+error: UndefinedSymbol {
+    sym: Atom('A' type=inline),
+    span: Span {
+        lo: BytePos(
+            14,
+        ),
+        hi: BytePos(
+            15,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/Types/parserTypeQuery6.ts:1:15
+  |
+1 | var v: typeof A.B;
+  |               ^
+

@@ -1,0 +1,30 @@
+error: InvalidLhsInInstanceOf {
+    span: Span {
+        lo: BytePos(
+            8,
+        ),
+        hi: BytePos(
+            22,
+        ),
+        ctxt: #0,
+    },
+    ty: Keyword(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    8,
+                ),
+                hi: BytePos(
+                    22,
+                ),
+                ctxt: #0,
+            },
+            kind: TsStringKeyword,
+        },
+    ),
+}
+ --> $DIR/tests/conformance/es6/templates/templateStringInInstanceOf.ts:1:9
+  |
+1 | var x = `abc${ 0 }def` instanceof String;
+  |         ^^^^^^^^^^^^^^
+

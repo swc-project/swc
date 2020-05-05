@@ -1,0 +1,17 @@
+[
+    {
+        "line": 118,
+        "column": 29,
+        "msg": "Property 'n' does not exist on type 'typeof globalThis'."
+    },
+    {
+        "line": 119,
+        "column": 32,
+        "msg": "Property 'n' does not exist on type 'typeof globalThis'."
+    },
+    {
+        "line": 120,
+        "column": 36,
+        "msg": "Property 'n' does not exist on type 'typeof globalThis'."
+    }
+]

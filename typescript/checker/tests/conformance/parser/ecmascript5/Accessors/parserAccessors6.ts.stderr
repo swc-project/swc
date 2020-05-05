@@ -1,0 +1,6 @@
+error: TS1183
+ --> $DIR/tests/conformance/parser/ecmascript5/Accessors/parserAccessors6.ts:3:14
+  |
+3 |   set foo(v) { }
+  |              ^
+

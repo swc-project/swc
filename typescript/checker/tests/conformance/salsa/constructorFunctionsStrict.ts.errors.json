@@ -1,0 +1,7 @@
+[
+    {
+        "line": 17,
+        "column": 1,
+        "msg": "Type 'undefined' is not assignable to type 'number'."
+    }
+]

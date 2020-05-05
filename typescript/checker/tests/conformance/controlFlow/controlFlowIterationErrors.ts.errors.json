@@ -1,0 +1,42 @@
+[
+    {
+        "line": 13,
+        "column": 17,
+        "msg": "Argument of type 'string | number' is not assignable to parameter of type 'string'."
+    },
+    {
+        "line": 24,
+        "column": 17,
+        "msg": "Argument of type 'string | number' is not assignable to parameter of type 'string'."
+    },
+    {
+        "line": 36,
+        "column": 17,
+        "msg": "No overload matches this call."
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "number', gave the following error."
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "string', gave the following error."
+    },
+    {
+        "line": 47,
+        "column": 17,
+        "msg": "No overload matches this call."
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "number', gave the following error."
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "string', gave the following error."
+    }
+]

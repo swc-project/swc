@@ -1,0 +1,22 @@
+[
+    {
+        "line": 43,
+        "column": 11,
+        "msg": "Property 'foo' is private and only accessible within class 'C'."
+    },
+    {
+        "line": 46,
+        "column": 12,
+        "msg": "Property 'foo' is private and only accessible within class 'D<T>'."
+    },
+    {
+        "line": 48,
+        "column": 12,
+        "msg": "Property 'foo' is private and only accessible within class 'C'."
+    },
+    {
+        "line": 49,
+        "column": 12,
+        "msg": "Property 'bar' is private and only accessible within class 'D<T>'."
+    }
+]

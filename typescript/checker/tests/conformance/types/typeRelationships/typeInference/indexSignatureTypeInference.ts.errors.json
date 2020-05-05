@@ -1,0 +1,7 @@
+[
+    {
+        "line": 18,
+        "column": 27,
+        "msg": "Argument of type 'NumberMap<Function>' is not assignable to parameter of type 'StringMap<unknown>'."
+    }
+]

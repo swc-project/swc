@@ -1,0 +1,16 @@
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            29,
+        ),
+        hi: BytePos(
+            46,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es6/shorthandPropertyAssignment/objectLiteralShorthandPropertiesErrorFromNoneExistingIdentifier.ts:3:5
+  |
+3 |     undefinedVariable // Error
+  |     ^^^^^^^^^^^^^^^^^
+

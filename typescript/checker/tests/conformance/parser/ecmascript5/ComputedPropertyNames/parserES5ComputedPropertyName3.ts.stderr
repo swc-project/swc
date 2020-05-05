@@ -1,0 +1,17 @@
+error: UndefinedSymbol {
+    sym: Atom('e' type=inline),
+    span: Span {
+        lo: BytePos(
+            26,
+        ),
+        hi: BytePos(
+            27,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/ComputedPropertyNames/parserES5ComputedPropertyName3.ts:2:12
+  |
+2 | var v = { [e]() { } };
+  |            ^
+

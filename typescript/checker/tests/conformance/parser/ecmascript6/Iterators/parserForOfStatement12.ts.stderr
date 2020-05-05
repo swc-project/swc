@@ -1,0 +1,17 @@
+error: UndefinedSymbol {
+    sym: Atom('X' type=inline),
+    span: Span {
+        lo: BytePos(
+            36,
+        ),
+        hi: BytePos(
+            37,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript6/Iterators/parserForOfStatement12.ts:2:22
+  |
+2 | for (const {a, b} of X) {
+  |                      ^
+

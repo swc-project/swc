@@ -1,0 +1,6 @@
+error: TS1009
+ --> $DIR/tests/conformance/parser/ecmascript5/VariableDeclarations/parserVariableDeclaration8.ts:1:4
+  |
+1 | var ;
+  |    ^
+

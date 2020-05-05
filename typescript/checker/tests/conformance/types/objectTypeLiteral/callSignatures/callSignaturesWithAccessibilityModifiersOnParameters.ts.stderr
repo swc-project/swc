@@ -1,0 +1,240 @@
+error: TS2369
+ --> $DIR/tests/conformance/types/objectTypeLiteral/callSignatures/callSignaturesWithAccessibilityModifiersOnParameters.ts:3:14
+  |
+3 | function foo(public x, private y) { }
+  |              ^^^^^^^^
+
+error: TS2369
+ --> $DIR/tests/conformance/types/objectTypeLiteral/callSignatures/callSignaturesWithAccessibilityModifiersOnParameters.ts:3:24
+  |
+3 | function foo(public x, private y) { }
+  |                        ^^^^^^^^^
+
+error: TS2369
+ --> $DIR/tests/conformance/types/objectTypeLiteral/callSignatures/callSignaturesWithAccessibilityModifiersOnParameters.ts:4:22
+  |
+4 | var f = function foo(public x, private y) { }
+  |                      ^^^^^^^^
+
+error: TS2369
+ --> $DIR/tests/conformance/types/objectTypeLiteral/callSignatures/callSignaturesWithAccessibilityModifiersOnParameters.ts:4:32
+  |
+4 | var f = function foo(public x, private y) { }
+  |                                ^^^^^^^^^
+
+error: TS2369
+ --> $DIR/tests/conformance/types/objectTypeLiteral/callSignatures/callSignaturesWithAccessibilityModifiersOnParameters.ts:5:20
+  |
+5 | var f2 = function (public x, private y) { }
+  |                    ^^^^^^^^
+
+error: TS2369
+ --> $DIR/tests/conformance/types/objectTypeLiteral/callSignatures/callSignaturesWithAccessibilityModifiersOnParameters.ts:5:30
+  |
+5 | var f2 = function (public x, private y) { }
+  |                              ^^^^^^^^^
+
+error: TS2369
+ --> $DIR/tests/conformance/types/objectTypeLiteral/callSignatures/callSignaturesWithAccessibilityModifiersOnParameters.ts:6:14
+  |
+6 | var f3 = (x, private y) => { }
+  |              ^^^^^^^^^
+
+error: TS2369
+ --> $DIR/tests/conformance/types/objectTypeLiteral/callSignatures/callSignaturesWithAccessibilityModifiersOnParameters.ts:7:14
+  |
+7 | var f4 = <T>(public x: T, y: T) => { }
+  |              ^^^^^^^^^^^
+
+error: TS2369
+ --> $DIR/tests/conformance/types/objectTypeLiteral/callSignatures/callSignaturesWithAccessibilityModifiersOnParameters.ts:9:15
+  |
+9 | function foo2(private x: string, public y: number) { }
+  |               ^^^^^^^^^^^^^^^^^
+
+error: TS2369
+ --> $DIR/tests/conformance/types/objectTypeLiteral/callSignatures/callSignaturesWithAccessibilityModifiersOnParameters.ts:9:34
+  |
+9 | function foo2(private x: string, public y: number) { }
+  |                                  ^^^^^^^^^^^^^^^^
+
+error: TS2369
+  --> $DIR/tests/conformance/types/objectTypeLiteral/callSignatures/callSignaturesWithAccessibilityModifiersOnParameters.ts:10:23
+   |
+10 | var f5 = function foo(private x: string, public y: number) { }
+   |                       ^^^^^^^^^^^^^^^^^
+
+error: TS2369
+  --> $DIR/tests/conformance/types/objectTypeLiteral/callSignatures/callSignaturesWithAccessibilityModifiersOnParameters.ts:10:42
+   |
+10 | var f5 = function foo(private x: string, public y: number) { }
+   |                                          ^^^^^^^^^^^^^^^^
+
+error: TS2369
+  --> $DIR/tests/conformance/types/objectTypeLiteral/callSignatures/callSignaturesWithAccessibilityModifiersOnParameters.ts:11:20
+   |
+11 | var f6 = function (private x: string, public y: number) { }
+   |                    ^^^^^^^^^^^^^^^^^
+
+error: TS2369
+  --> $DIR/tests/conformance/types/objectTypeLiteral/callSignatures/callSignaturesWithAccessibilityModifiersOnParameters.ts:11:39
+   |
+11 | var f6 = function (private x: string, public y: number) { }
+   |                                       ^^^^^^^^^^^^^^^^
+
+error: TS2369
+  --> $DIR/tests/conformance/types/objectTypeLiteral/callSignatures/callSignaturesWithAccessibilityModifiersOnParameters.ts:12:11
+   |
+12 | var f7 = (private x: string, public y: number) => { }
+   |           ^^^^^^^^^^^^^^^^^
+
+error: TS2369
+  --> $DIR/tests/conformance/types/objectTypeLiteral/callSignatures/callSignaturesWithAccessibilityModifiersOnParameters.ts:12:30
+   |
+12 | var f7 = (private x: string, public y: number) => { }
+   |                              ^^^^^^^^^^^^^^^^
+
+error: TS2369
+  --> $DIR/tests/conformance/types/objectTypeLiteral/callSignatures/callSignaturesWithAccessibilityModifiersOnParameters.ts:13:14
+   |
+13 | var f8 = <T>(private x: T, public y: T) => { }
+   |              ^^^^^^^^^^^^
+
+error: TS2369
+  --> $DIR/tests/conformance/types/objectTypeLiteral/callSignatures/callSignaturesWithAccessibilityModifiersOnParameters.ts:13:28
+   |
+13 | var f8 = <T>(private x: T, public y: T) => { }
+   |                            ^^^^^^^^^^^
+
+error: TS2369
+  --> $DIR/tests/conformance/types/objectTypeLiteral/callSignatures/callSignaturesWithAccessibilityModifiersOnParameters.ts:16:9
+   |
+16 |     foo(public x, private y) { }
+   |         ^^^^^^^^
+
+error: TS2369
+  --> $DIR/tests/conformance/types/objectTypeLiteral/callSignatures/callSignaturesWithAccessibilityModifiersOnParameters.ts:16:19
+   |
+16 |     foo(public x, private y) { }
+   |                   ^^^^^^^^^
+
+error: TS2369
+  --> $DIR/tests/conformance/types/objectTypeLiteral/callSignatures/callSignaturesWithAccessibilityModifiersOnParameters.ts:17:10
+   |
+17 |     foo2(public x: number, private y: string) { }
+   |          ^^^^^^^^^^^^^^^^
+
+error: TS2369
+  --> $DIR/tests/conformance/types/objectTypeLiteral/callSignatures/callSignaturesWithAccessibilityModifiersOnParameters.ts:17:28
+   |
+17 |     foo2(public x: number, private y: string) { }
+   |                            ^^^^^^^^^^^^^^^^^
+
+error: TS2369
+  --> $DIR/tests/conformance/types/objectTypeLiteral/callSignatures/callSignaturesWithAccessibilityModifiersOnParameters.ts:18:13
+   |
+18 |     foo3<T>(public x: T, private y: T) { }
+   |             ^^^^^^^^^^^
+
+error: TS2369
+  --> $DIR/tests/conformance/types/objectTypeLiteral/callSignatures/callSignaturesWithAccessibilityModifiersOnParameters.ts:18:26
+   |
+18 |     foo3<T>(public x: T, private y: T) { }
+   |                          ^^^^^^^^^^^^
+
+error: TS2369
+  --> $DIR/tests/conformance/types/objectTypeLiteral/callSignatures/callSignaturesWithAccessibilityModifiersOnParameters.ts:22:6
+   |
+22 |     (private x, public y);
+   |      ^^^^^^^^^
+
+error: TS2369
+  --> $DIR/tests/conformance/types/objectTypeLiteral/callSignatures/callSignaturesWithAccessibilityModifiersOnParameters.ts:22:17
+   |
+22 |     (private x, public y);
+   |                 ^^^^^^^^
+
+error: TS2369
+  --> $DIR/tests/conformance/types/objectTypeLiteral/callSignatures/callSignaturesWithAccessibilityModifiersOnParameters.ts:23:6
+   |
+23 |     (private x: string, public y: number);
+   |      ^^^^^^^^^^^^^^^^^
+
+error: TS2369
+  --> $DIR/tests/conformance/types/objectTypeLiteral/callSignatures/callSignaturesWithAccessibilityModifiersOnParameters.ts:23:25
+   |
+23 |     (private x: string, public y: number);
+   |                         ^^^^^^^^^^^^^^^^
+
+error: TS2369
+  --> $DIR/tests/conformance/types/objectTypeLiteral/callSignatures/callSignaturesWithAccessibilityModifiersOnParameters.ts:24:9
+   |
+24 |     foo(private x, public y);
+   |         ^^^^^^^^^
+
+error: TS2369
+  --> $DIR/tests/conformance/types/objectTypeLiteral/callSignatures/callSignaturesWithAccessibilityModifiersOnParameters.ts:24:20
+   |
+24 |     foo(private x, public y);
+   |                    ^^^^^^^^
+
+error: TS2369
+  --> $DIR/tests/conformance/types/objectTypeLiteral/callSignatures/callSignaturesWithAccessibilityModifiersOnParameters.ts:25:9
+   |
+25 |     foo(public x: number, y: string);
+   |         ^^^^^^^^^^^^^^^^
+
+error: TS2369
+  --> $DIR/tests/conformance/types/objectTypeLiteral/callSignatures/callSignaturesWithAccessibilityModifiersOnParameters.ts:26:19
+   |
+26 |     foo3<T>(x: T, private y: T);
+   |                   ^^^^^^^^^^^^
+
+error: TS2369
+  --> $DIR/tests/conformance/types/objectTypeLiteral/callSignatures/callSignaturesWithAccessibilityModifiersOnParameters.ts:30:9
+   |
+30 |     foo(public x, private y);
+   |         ^^^^^^^^
+
+error: TS2369
+  --> $DIR/tests/conformance/types/objectTypeLiteral/callSignatures/callSignaturesWithAccessibilityModifiersOnParameters.ts:30:19
+   |
+30 |     foo(public x, private y);
+   |                   ^^^^^^^^^
+
+error: TS2369
+  --> $DIR/tests/conformance/types/objectTypeLiteral/callSignatures/callSignaturesWithAccessibilityModifiersOnParameters.ts:31:10
+   |
+31 |     foo2(private x: number, public y: string);
+   |          ^^^^^^^^^^^^^^^^^
+
+error: TS2369
+  --> $DIR/tests/conformance/types/objectTypeLiteral/callSignatures/callSignaturesWithAccessibilityModifiersOnParameters.ts:31:29
+   |
+31 |     foo2(private x: number, public y: string);
+   |                             ^^^^^^^^^^^^^^^^
+
+error: TS2369
+  --> $DIR/tests/conformance/types/objectTypeLiteral/callSignatures/callSignaturesWithAccessibilityModifiersOnParameters.ts:35:9
+   |
+35 |     foo(public x, y) { },
+   |         ^^^^^^^^
+
+error: TS2369
+  --> $DIR/tests/conformance/types/objectTypeLiteral/callSignatures/callSignaturesWithAccessibilityModifiersOnParameters.ts:36:32
+   |
+36 |     a: function foo(x: number, private y: string) { },
+   |                                ^^^^^^^^^^^^^^^^^
+
+error: TS2369
+  --> $DIR/tests/conformance/types/objectTypeLiteral/callSignatures/callSignaturesWithAccessibilityModifiersOnParameters.ts:37:12
+   |
+37 |     b: <T>(public x: T, private y: T) => { }
+   |            ^^^^^^^^^^^
+
+error: TS2369
+  --> $DIR/tests/conformance/types/objectTypeLiteral/callSignatures/callSignaturesWithAccessibilityModifiersOnParameters.ts:37:25
+   |
+37 |     b: <T>(public x: T, private y: T) => { }
+   |                         ^^^^^^^^^^^^
+

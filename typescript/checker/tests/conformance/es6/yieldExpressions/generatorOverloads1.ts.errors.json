@@ -1,0 +1,12 @@
+[
+    {
+        "line": 3,
+        "column": 13,
+        "msg": "An overload signature cannot be declared as a generator."
+    },
+    {
+        "line": 4,
+        "column": 13,
+        "msg": "An overload signature cannot be declared as a generator."
+    }
+]

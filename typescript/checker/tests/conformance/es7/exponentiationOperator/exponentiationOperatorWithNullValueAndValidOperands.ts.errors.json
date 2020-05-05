@@ -1,0 +1,42 @@
+[
+    {
+        "line": 13,
+        "column": 10,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 14,
+        "column": 10,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 15,
+        "column": 10,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 16,
+        "column": 10,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 17,
+        "column": 15,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 18,
+        "column": 15,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 19,
+        "column": 15,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 20,
+        "column": 17,
+        "msg": "Object is possibly 'null'."
+    }
+]

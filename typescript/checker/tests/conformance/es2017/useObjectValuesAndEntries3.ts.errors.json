@@ -1,0 +1,12 @@
+[
+    {
+        "line": 5,
+        "column": 22,
+        "msg": "Property 'values' does not exist on type 'ObjectConstructor'."
+    },
+    {
+        "line": 9,
+        "column": 22,
+        "msg": "Property 'entries' does not exist on type 'ObjectConstructor'."
+    }
+]

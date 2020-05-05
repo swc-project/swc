@@ -1,0 +1,27 @@
+[
+    {
+        "line": 2,
+        "column": 9,
+        "msg": "This expression is not callable."
+    },
+    {
+        "line": 4,
+        "column": 5,
+        "msg": "Property assignment expected."
+    },
+    {
+        "line": 4,
+        "column": 8,
+        "msg": "',' expected."
+    },
+    {
+        "line": 4,
+        "column": 10,
+        "msg": "Variable declaration expected."
+    },
+    {
+        "line": 5,
+        "column": 1,
+        "msg": "Declaration or statement expected."
+    }
+]

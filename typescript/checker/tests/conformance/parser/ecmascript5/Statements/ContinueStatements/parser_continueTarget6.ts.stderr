@@ -1,0 +1,6 @@
+error: TS1107
+ --> $DIR/tests/conformance/parser/ecmascript5/Statements/ContinueStatements/parser_continueTarget6.ts:2:3
+  |
+2 |   continue target;
+  |   ^^^^^^^^^^^^^^^^
+

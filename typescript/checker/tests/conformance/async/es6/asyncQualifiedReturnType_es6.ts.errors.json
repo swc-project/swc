@@ -1,0 +1,7 @@
+[
+    {
+        "line": 8,
+        "column": 21,
+        "msg": "The return type of an async function or method must be the global Promise<T> type."
+    }
+]

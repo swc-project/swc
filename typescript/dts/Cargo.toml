@@ -1,0 +1,24 @@
+[package]
+name = "swc_ts_dts"
+version = "0.1.0"
+authors = ["강동윤 <kdy1997l.dev@gmail.com>"]
+edition = "2018"
+publish = false
+
+[dependencies]
+swc_atoms = { path = "../../atoms" }
+swc_common = { path = "../../common" }
+swc_ecma_ast = { path = "../../ecmascript/ast" }
+swc_ecma_utils = { path = "../../ecmascript/utils" }
+swc_ts_checker = { path = "../checker" }
+
+fxhash = "0.2.1"
+
+[dev-dependencies]
+swc_ecma_codegen = { path = "../../ecmascript/codegen" }
+swc_ecma_parser = { path = "../../ecmascript/parser" }
+testing = { path = "../../testing" }
+
+pretty_assertions = "0.6.1"
+ignore = "0.4.11"
+anyhow = "1.0.26"

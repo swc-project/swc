@@ -1,0 +1,6 @@
+error: Unexpected token Some(At)
+ --> $DIR/tests/conformance/decorators/class/property/decoratorOnClassProperty3.ts:6:12
+  |
+6 |     public @dec prop;
+  |            ^
+

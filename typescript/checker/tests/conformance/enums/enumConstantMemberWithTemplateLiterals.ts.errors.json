@@ -1,0 +1,22 @@
+[
+    {
+        "line": 28,
+        "column": 9,
+        "msg": "Computed values are not permitted in an enum with string valued members."
+    },
+    {
+        "line": 29,
+        "column": 9,
+        "msg": "Computed values are not permitted in an enum with string valued members."
+    },
+    {
+        "line": 30,
+        "column": 9,
+        "msg": "Computed values are not permitted in an enum with string valued members."
+    },
+    {
+        "line": 31,
+        "column": 9,
+        "msg": "Computed values are not permitted in an enum with string valued members."
+    }
+]

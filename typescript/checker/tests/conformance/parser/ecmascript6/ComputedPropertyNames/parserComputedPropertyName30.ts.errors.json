@@ -1,0 +1,22 @@
+[
+    {
+        "line": 4,
+        "column": 5,
+        "msg": "Computed property names are not allowed in enums."
+    },
+    {
+        "line": 4,
+        "column": 11,
+        "msg": "Cannot find name 'id'."
+    },
+    {
+        "line": 5,
+        "column": 5,
+        "msg": "An enum member name must be followed by a ',', '=', or '}'."
+    },
+    {
+        "line": 5,
+        "column": 5,
+        "msg": "Computed property names are not allowed in enums."
+    }
+]

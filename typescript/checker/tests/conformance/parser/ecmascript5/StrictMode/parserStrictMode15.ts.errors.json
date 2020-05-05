@@ -1,0 +1,17 @@
+[
+    {
+        "line": 2,
+        "column": 8,
+        "msg": "'delete' cannot be called on an identifier in strict mode."
+    },
+    {
+        "line": 2,
+        "column": 8,
+        "msg": "Cannot find name 'a'."
+    },
+    {
+        "line": 2,
+        "column": 8,
+        "msg": "The operand of a delete operator must be a property reference."
+    }
+]

@@ -1,0 +1,47 @@
+[
+    {
+        "line": 1,
+        "column": 11,
+        "msg": "Cannot find name 'a'."
+    },
+    {
+        "line": 1,
+        "column": 11,
+        "msg": "Left side of comma operator is unused and has no side effects."
+    },
+    {
+        "line": 1,
+        "column": 15,
+        "msg": "Cannot find name 'b'."
+    },
+    {
+        "line": 1,
+        "column": 15,
+        "msg": "Left side of comma operator is unused and has no side effects."
+    },
+    {
+        "line": 1,
+        "column": 18,
+        "msg": "Cannot find name 'c'."
+    },
+    {
+        "line": 1,
+        "column": 22,
+        "msg": "';' expected."
+    },
+    {
+        "line": 1,
+        "column": 25,
+        "msg": "Cannot find name 'a'."
+    },
+    {
+        "line": 1,
+        "column": 27,
+        "msg": "Cannot find name 'b'."
+    },
+    {
+        "line": 1,
+        "column": 29,
+        "msg": "Cannot find name 'c'."
+    }
+]

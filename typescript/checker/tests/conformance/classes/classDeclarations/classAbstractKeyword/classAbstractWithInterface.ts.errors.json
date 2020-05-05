@@ -1,0 +1,7 @@
+[
+    {
+        "line": 1,
+        "column": 1,
+        "msg": "'abstract' modifier can only appear on a class, method, or property declaration."
+    }
+]

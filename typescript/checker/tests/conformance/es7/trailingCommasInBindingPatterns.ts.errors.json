@@ -1,0 +1,22 @@
+[
+    {
+        "line": 1,
+        "column": 12,
+        "msg": "A rest parameter or binding pattern may not have a trailing comma."
+    },
+    {
+        "line": 2,
+        "column": 12,
+        "msg": "A rest parameter or binding pattern may not have a trailing comma."
+    },
+    {
+        "line": 4,
+        "column": 7,
+        "msg": "A rest parameter or binding pattern may not have a trailing comma."
+    },
+    {
+        "line": 5,
+        "column": 7,
+        "msg": "A rest parameter or binding pattern may not have a trailing comma."
+    }
+]

@@ -1,0 +1,6 @@
+error: Return statement is not allowed here
+ --> $DIR/tests/conformance/parser/ecmascript5/Statements/ReturnStatements/parserReturnStatement2.ts:2:4
+  |
+2 |    return;
+  |    ^^^^^^^
+

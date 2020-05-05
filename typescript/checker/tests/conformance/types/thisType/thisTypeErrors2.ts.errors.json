@@ -1,0 +1,12 @@
+[
+    {
+        "line": 2,
+        "column": 20,
+        "msg": "A 'this' type is available only in a non-static member of a class or interface."
+    },
+    {
+        "line": 9,
+        "column": 38,
+        "msg": "A 'this' type is available only in a non-static member of a class or interface."
+    }
+]

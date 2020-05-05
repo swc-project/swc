@@ -1,0 +1,35 @@
+error: 'eval' and 'arguments' cannot be used as a binding identifier in strict mode
+ --> $DIR/tests/conformance/es6/classDeclaration/parseClassDeclarationInStrictModeByDefaultInES6.ts:5:16
+  |
+5 |     public foo(arguments: any) { }
+  |                ^^^^^^^^^
+
+error: 'eval' and 'arguments' cannot be used as a binding identifier in strict mode
+ --> $DIR/tests/conformance/es6/classDeclaration/parseClassDeclarationInStrictModeByDefaultInES6.ts:6:17
+  |
+6 |     private bar(eval:any) {
+  |                 ^^^^
+
+error: TS1100
+ --> $DIR/tests/conformance/es6/classDeclaration/parseClassDeclarationInStrictModeByDefaultInES6.ts:7:9
+  |
+7 |         arguments = "hello";
+  |         ^^^^^^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('arguments' type=static),
+    span: Span {
+        lo: BytePos(
+            145,
+        ),
+        hi: BytePos(
+            154,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es6/classDeclaration/parseClassDeclarationInStrictModeByDefaultInES6.ts:7:9
+  |
+7 |         arguments = "hello";
+  |         ^^^^^^^^^
+

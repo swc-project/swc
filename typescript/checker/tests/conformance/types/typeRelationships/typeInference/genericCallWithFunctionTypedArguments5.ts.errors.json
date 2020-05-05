@@ -1,0 +1,12 @@
+[
+    {
+        "line": 10,
+        "column": 16,
+        "msg": "Type '<T>(x"
+    },
+    {
+        "line": 11,
+        "column": 16,
+        "msg": "Type '(x"
+    }
+]

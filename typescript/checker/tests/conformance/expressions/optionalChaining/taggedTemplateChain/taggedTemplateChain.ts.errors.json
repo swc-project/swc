@@ -1,0 +1,12 @@
+[
+    {
+        "line": 2,
+        "column": 4,
+        "msg": "Tagged template expressions are not permitted in an optional chain."
+    },
+    {
+        "line": 4,
+        "column": 4,
+        "msg": "Tagged template expressions are not permitted in an optional chain."
+    }
+]

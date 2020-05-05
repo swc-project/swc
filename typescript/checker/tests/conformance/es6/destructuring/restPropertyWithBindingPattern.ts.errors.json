@@ -1,0 +1,37 @@
+[
+    {
+        "line": 1,
+        "column": 6,
+        "msg": "A rest element cannot contain a binding pattern."
+    },
+    {
+        "line": 2,
+        "column": 6,
+        "msg": "A rest element cannot contain a binding pattern."
+    },
+    {
+        "line": 2,
+        "column": 6,
+        "msg": "The target of an object rest assignment must be a variable or a property access."
+    },
+    {
+        "line": 3,
+        "column": 6,
+        "msg": "Type '{}' is not an array type."
+    },
+    {
+        "line": 3,
+        "column": 6,
+        "msg": "A rest element cannot contain a binding pattern."
+    },
+    {
+        "line": 4,
+        "column": 6,
+        "msg": "A rest element cannot contain a binding pattern."
+    },
+    {
+        "line": 4,
+        "column": 6,
+        "msg": "The target of an object rest assignment must be a variable or a property access."
+    }
+]

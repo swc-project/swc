@@ -1,0 +1,30 @@
+error: NoCallSignature {
+    span: Span {
+        lo: BytePos(
+            0,
+        ),
+        hi: BytePos(
+            12,
+        ),
+        ctxt: #0,
+    },
+    callee: Keyword(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    0,
+                ),
+                hi: BytePos(
+                    12,
+                ),
+                ctxt: #0,
+            },
+            kind: TsStringKeyword,
+        },
+    ),
+}
+ --> $DIR/tests/conformance/es6/templates/templateStringInCallExpression.ts:1:1
+  |
+1 | `abc${0}abc`(`hello ${0} world`, `   `, `1${2}3`);
+  | ^^^^^^^^^^^^
+

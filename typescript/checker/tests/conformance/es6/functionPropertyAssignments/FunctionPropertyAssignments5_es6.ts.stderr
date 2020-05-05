@@ -1,0 +1,17 @@
+error: UndefinedSymbol {
+    sym: Atom('foo' type=inline),
+    span: Span {
+        lo: BytePos(
+            28,
+        ),
+        hi: BytePos(
+            31,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es6/functionPropertyAssignments/FunctionPropertyAssignments5_es6.ts:2:13
+  |
+2 | var v = { *[foo()]() { } }
+  |             ^^^
+

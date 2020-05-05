@@ -1,0 +1,7 @@
+[
+    {
+        "line": 11,
+        "column": 1,
+        "msg": "Value of type 'typeof Dependency' is not callable. Did you mean to include 'new'?"
+    }
+]

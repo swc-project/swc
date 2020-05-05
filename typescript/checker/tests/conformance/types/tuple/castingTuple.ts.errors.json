@@ -1,0 +1,47 @@
+[
+    {
+        "line": 13,
+        "column": 23,
+        "msg": "Conversion of type '[number, string]' to type '[number, string, boolean]' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first."
+    },
+    {
+        "line": 14,
+        "column": 15,
+        "msg": "Conversion of type '[number, string, boolean]' to type '[number, string]' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first."
+    },
+    {
+        "line": 15,
+        "column": 14,
+        "msg": "Conversion of type '[number, string]' to type '[number, string, boolean]' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first."
+    },
+    {
+        "line": 18,
+        "column": 21,
+        "msg": "Conversion of type '[C, D]' to type '[C, D, A]' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first."
+    },
+    {
+        "line": 20,
+        "column": 33,
+        "msg": "Tuple type '[C, D, A]' of length '3' has no element at index '5'."
+    },
+    {
+        "line": 30,
+        "column": 10,
+        "msg": "Conversion of type '[number, string]' to type '[number, number]' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first."
+    },
+    {
+        "line": 31,
+        "column": 10,
+        "msg": "Conversion of type '[C, D]' to type '[A, I]' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first."
+    },
+    {
+        "line": 32,
+        "column": 5,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 'array1' must be of type '{}[]', but here has type 'number[]'."
+    },
+    {
+        "line": 33,
+        "column": 1,
+        "msg": "Cannot find name 't4'."
+    }
+]

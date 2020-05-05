@@ -1,0 +1,602 @@
+[
+    {
+        "line": 12,
+        "column": 14,
+        "msg": "Operator '<' cannot be applied to types 'T' and 'U'."
+    },
+    {
+        "line": 13,
+        "column": 14,
+        "msg": "Operator '>' cannot be applied to types 'T' and 'U'."
+    },
+    {
+        "line": 14,
+        "column": 14,
+        "msg": "Operator '<=' cannot be applied to types 'T' and 'U'."
+    },
+    {
+        "line": 15,
+        "column": 14,
+        "msg": "Operator '>=' cannot be applied to types 'T' and 'U'."
+    },
+    {
+        "line": 16,
+        "column": 14,
+        "msg": "This condition will always return 'false' since the types 'T' and 'U' have no overlap."
+    },
+    {
+        "line": 17,
+        "column": 14,
+        "msg": "This condition will always return 'true' since the types 'T' and 'U' have no overlap."
+    },
+    {
+        "line": 18,
+        "column": 14,
+        "msg": "This condition will always return 'false' since the types 'T' and 'U' have no overlap."
+    },
+    {
+        "line": 19,
+        "column": 14,
+        "msg": "This condition will always return 'true' since the types 'T' and 'U' have no overlap."
+    },
+    {
+        "line": 22,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and 'boolean'."
+    },
+    {
+        "line": 23,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and 'number'."
+    },
+    {
+        "line": 24,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and 'string'."
+    },
+    {
+        "line": 25,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and 'void'."
+    },
+    {
+        "line": 26,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and 'E'."
+    },
+    {
+        "line": 27,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and '{ a"
+    },
+    {
+        "line": 28,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and 'any[]'."
+    },
+    {
+        "line": 30,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'boolean' and 'T'."
+    },
+    {
+        "line": 31,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'number' and 'T'."
+    },
+    {
+        "line": 32,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'string' and 'T'."
+    },
+    {
+        "line": 33,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'void' and 'T'."
+    },
+    {
+        "line": 34,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'E' and 'T'."
+    },
+    {
+        "line": 35,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types '{ a"
+    },
+    {
+        "line": 36,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'any[]' and 'T'."
+    },
+    {
+        "line": 39,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and 'boolean'."
+    },
+    {
+        "line": 40,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and 'number'."
+    },
+    {
+        "line": 41,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and 'string'."
+    },
+    {
+        "line": 42,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and 'void'."
+    },
+    {
+        "line": 43,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and 'E'."
+    },
+    {
+        "line": 44,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and '{ a"
+    },
+    {
+        "line": 45,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and 'any[]'."
+    },
+    {
+        "line": 47,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'boolean' and 'T'."
+    },
+    {
+        "line": 48,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'number' and 'T'."
+    },
+    {
+        "line": 49,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'string' and 'T'."
+    },
+    {
+        "line": 50,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'void' and 'T'."
+    },
+    {
+        "line": 51,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'E' and 'T'."
+    },
+    {
+        "line": 52,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types '{ a"
+    },
+    {
+        "line": 53,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'any[]' and 'T'."
+    },
+    {
+        "line": 56,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and 'boolean'."
+    },
+    {
+        "line": 57,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and 'number'."
+    },
+    {
+        "line": 58,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and 'string'."
+    },
+    {
+        "line": 59,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and 'void'."
+    },
+    {
+        "line": 60,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and 'E'."
+    },
+    {
+        "line": 61,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and '{ a"
+    },
+    {
+        "line": 62,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and 'any[]'."
+    },
+    {
+        "line": 64,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'boolean' and 'T'."
+    },
+    {
+        "line": 65,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'number' and 'T'."
+    },
+    {
+        "line": 66,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'string' and 'T'."
+    },
+    {
+        "line": 67,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'void' and 'T'."
+    },
+    {
+        "line": 68,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'E' and 'T'."
+    },
+    {
+        "line": 69,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types '{ a"
+    },
+    {
+        "line": 70,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'any[]' and 'T'."
+    },
+    {
+        "line": 73,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and 'boolean'."
+    },
+    {
+        "line": 74,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and 'number'."
+    },
+    {
+        "line": 75,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and 'string'."
+    },
+    {
+        "line": 76,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and 'void'."
+    },
+    {
+        "line": 77,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and 'E'."
+    },
+    {
+        "line": 78,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and '{ a"
+    },
+    {
+        "line": 79,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and 'any[]'."
+    },
+    {
+        "line": 81,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'boolean' and 'T'."
+    },
+    {
+        "line": 82,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'number' and 'T'."
+    },
+    {
+        "line": 83,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'string' and 'T'."
+    },
+    {
+        "line": 84,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'void' and 'T'."
+    },
+    {
+        "line": 85,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'E' and 'T'."
+    },
+    {
+        "line": 86,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types '{ a"
+    },
+    {
+        "line": 87,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'any[]' and 'T'."
+    },
+    {
+        "line": 90,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and 'boolean'."
+    },
+    {
+        "line": 91,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and 'number'."
+    },
+    {
+        "line": 92,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and 'string'."
+    },
+    {
+        "line": 93,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and 'void'."
+    },
+    {
+        "line": 94,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and 'E'."
+    },
+    {
+        "line": 95,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and '{ a"
+    },
+    {
+        "line": 96,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and 'any[]'."
+    },
+    {
+        "line": 98,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'boolean' and 'T'."
+    },
+    {
+        "line": 99,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'number' and 'T'."
+    },
+    {
+        "line": 100,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'string' and 'T'."
+    },
+    {
+        "line": 101,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'void' and 'T'."
+    },
+    {
+        "line": 102,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'E' and 'T'."
+    },
+    {
+        "line": 103,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types '{ a"
+    },
+    {
+        "line": 104,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'any[]' and 'T'."
+    },
+    {
+        "line": 107,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and 'boolean'."
+    },
+    {
+        "line": 108,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and 'number'."
+    },
+    {
+        "line": 109,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and 'string'."
+    },
+    {
+        "line": 110,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and 'void'."
+    },
+    {
+        "line": 111,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and 'E'."
+    },
+    {
+        "line": 112,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and '{ a"
+    },
+    {
+        "line": 113,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and 'any[]'."
+    },
+    {
+        "line": 115,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'boolean' and 'T'."
+    },
+    {
+        "line": 116,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'number' and 'T'."
+    },
+    {
+        "line": 117,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'string' and 'T'."
+    },
+    {
+        "line": 118,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'void' and 'T'."
+    },
+    {
+        "line": 119,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'E' and 'T'."
+    },
+    {
+        "line": 120,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types '{ a"
+    },
+    {
+        "line": 121,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'any[]' and 'T'."
+    },
+    {
+        "line": 124,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and 'boolean'."
+    },
+    {
+        "line": 125,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and 'number'."
+    },
+    {
+        "line": 126,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and 'string'."
+    },
+    {
+        "line": 127,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and 'void'."
+    },
+    {
+        "line": 128,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and 'E'."
+    },
+    {
+        "line": 129,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and '{ a"
+    },
+    {
+        "line": 130,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and 'any[]'."
+    },
+    {
+        "line": 132,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'boolean' and 'T'."
+    },
+    {
+        "line": 133,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'number' and 'T'."
+    },
+    {
+        "line": 134,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'string' and 'T'."
+    },
+    {
+        "line": 135,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'void' and 'T'."
+    },
+    {
+        "line": 136,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'E' and 'T'."
+    },
+    {
+        "line": 137,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types '{ a"
+    },
+    {
+        "line": 138,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'any[]' and 'T'."
+    },
+    {
+        "line": 141,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and 'boolean'."
+    },
+    {
+        "line": 142,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and 'number'."
+    },
+    {
+        "line": 143,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and 'string'."
+    },
+    {
+        "line": 144,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and 'void'."
+    },
+    {
+        "line": 145,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and 'E'."
+    },
+    {
+        "line": 146,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and '{ a"
+    },
+    {
+        "line": 147,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'T' and 'any[]'."
+    },
+    {
+        "line": 149,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'boolean' and 'T'."
+    },
+    {
+        "line": 150,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'number' and 'T'."
+    },
+    {
+        "line": 151,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'string' and 'T'."
+    },
+    {
+        "line": 152,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'void' and 'T'."
+    },
+    {
+        "line": 153,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'E' and 'T'."
+    },
+    {
+        "line": 154,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types '{ a"
+    },
+    {
+        "line": 155,
+        "column": 16,
+        "msg": "Operator '<' cannot be applied to types 'any[]' and 'T'."
+    }
+]

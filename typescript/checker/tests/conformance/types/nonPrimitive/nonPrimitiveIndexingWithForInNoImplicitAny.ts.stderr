@@ -1,0 +1,50 @@
+error: NoSuchProperty {
+    span: Span {
+        lo: BytePos(
+            77,
+        ),
+        hi: BytePos(
+            83,
+        ),
+        ctxt: #0,
+    },
+    prop: Some(
+        Ident(
+            Ident {
+                span: Span {
+                    lo: BytePos(
+                        79,
+                    ),
+                    hi: BytePos(
+                        82,
+                    ),
+                    ctxt: #0,
+                },
+                sym: Atom('key' type=static),
+                type_ann: None,
+                optional: false,
+            },
+        ),
+    ),
+    prop_ty: Some(
+        Keyword(
+            TsKeywordType {
+                span: Span {
+                    lo: BytePos(
+                        79,
+                    ),
+                    hi: BytePos(
+                        82,
+                    ),
+                    ctxt: #0,
+                },
+                kind: TsAnyKeyword,
+            },
+        ),
+    ),
+}
+ --> $DIR/tests/conformance/types/nonPrimitive/nonPrimitiveIndexingWithForInNoImplicitAny.ts:5:17
+  |
+5 |     var value = a[key]; // error
+  |                 ^^^^^^
+

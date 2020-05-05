@@ -1,0 +1,94 @@
+error: AssignFailed {
+    span: Span {
+        lo: BytePos(
+            174,
+        ),
+        hi: BytePos(
+            212,
+        ),
+        ctxt: #0,
+    },
+    left: Keyword(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    190,
+                ),
+                hi: BytePos(
+                    196,
+                ),
+                ctxt: #0,
+            },
+            kind: TsNumberKeyword,
+        },
+    ),
+    right: Keyword(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    165,
+                ),
+                hi: BytePos(
+                    166,
+                ),
+                ctxt: #0,
+            },
+            kind: TsStringKeyword,
+        },
+    ),
+    cause: [],
+}
+ --> $DIR/tests/conformance/expressions/commaOperator/commaOperatorOtherInvalidOperation.ts:8:5
+  |
+8 | var resultIsString: number = foo(1, "123"); //error here
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AssignFailed {
+    span: Span {
+        lo: BytePos(
+            309,
+        ),
+        hi: BytePos(
+            328,
+        ),
+        ctxt: #0,
+    },
+    left: Param(
+        TypeParam {
+            span: Span {
+                lo: BytePos(
+                    259,
+                ),
+                hi: BytePos(
+                    261,
+                ),
+                ctxt: #0,
+            },
+            name: Atom('T1' type=inline),
+            constraint: None,
+            default: None,
+        },
+    ),
+    right: Param(
+        TypeParam {
+            span: Span {
+                lo: BytePos(
+                    326,
+                ),
+                hi: BytePos(
+                    327,
+                ),
+                ctxt: #0,
+            },
+            name: Atom('T2' type=inline),
+            constraint: None,
+            default: None,
+        },
+    ),
+    cause: [],
+}
+  --> $DIR/tests/conformance/expressions/commaOperator/commaOperatorOtherInvalidOperation.ts:14:9
+   |
+14 |     var result: T1 = (x, y); //error here
+   |         ^^^^^^^^^^^^^^^^^^^
+

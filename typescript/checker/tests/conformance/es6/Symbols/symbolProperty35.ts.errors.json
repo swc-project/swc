@@ -1,0 +1,7 @@
+[
+    {
+        "line": 9,
+        "column": 11,
+        "msg": "Interface 'I3' cannot simultaneously extend types 'I1' and 'I2'."
+    }
+]

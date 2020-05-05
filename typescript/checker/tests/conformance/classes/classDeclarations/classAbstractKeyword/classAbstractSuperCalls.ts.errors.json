@@ -1,0 +1,12 @@
+[
+    {
+        "line": 14,
+        "column": 26,
+        "msg": "Abstract method 'foo' in class 'B' cannot be accessed via super expression."
+    },
+    {
+        "line": 14,
+        "column": 41,
+        "msg": "Abstract method 'foo' in class 'B' cannot be accessed via super expression."
+    }
+]

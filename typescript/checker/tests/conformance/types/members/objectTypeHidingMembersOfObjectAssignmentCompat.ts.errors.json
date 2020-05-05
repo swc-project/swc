@@ -1,0 +1,17 @@
+[
+    {
+        "line": 7,
+        "column": 1,
+        "msg": "Type 'I' is not assignable to type 'Object'."
+    },
+    {
+        "line": 14,
+        "column": 1,
+        "msg": "Type 'C' is not assignable to type 'Object'."
+    },
+    {
+        "line": 20,
+        "column": 1,
+        "msg": "Type '{ toString"
+    }
+]

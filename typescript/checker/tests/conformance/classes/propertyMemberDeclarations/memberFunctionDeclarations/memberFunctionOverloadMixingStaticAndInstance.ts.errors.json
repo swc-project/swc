@@ -1,0 +1,42 @@
+[
+    {
+        "line": 3,
+        "column": 12,
+        "msg": "Function overload must not be static."
+    },
+    {
+        "line": 3,
+        "column": 12,
+        "msg": "Function implementation is missing or not immediately following the declaration."
+    },
+    {
+        "line": 8,
+        "column": 5,
+        "msg": "Function overload must be static."
+    },
+    {
+        "line": 8,
+        "column": 5,
+        "msg": "Function implementation is missing or not immediately following the declaration."
+    },
+    {
+        "line": 13,
+        "column": 12,
+        "msg": "Function overload must not be static."
+    },
+    {
+        "line": 13,
+        "column": 12,
+        "msg": "Function implementation is missing or not immediately following the declaration."
+    },
+    {
+        "line": 18,
+        "column": 5,
+        "msg": "Function overload must be static."
+    },
+    {
+        "line": 18,
+        "column": 5,
+        "msg": "Function implementation is missing or not immediately following the declaration."
+    }
+]

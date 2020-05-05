@@ -1,0 +1,12 @@
+[
+    {
+        "line": 4,
+        "column": 3,
+        "msg": "'async' modifier cannot be used here."
+    },
+    {
+        "line": 4,
+        "column": 13,
+        "msg": "A 'get' accessor must return a value."
+    }
+]

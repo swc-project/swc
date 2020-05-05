@@ -1,0 +1,7 @@
+[
+    {
+        "line": 1,
+        "column": 1,
+        "msg": "'public' modifier cannot appear on a module or namespace element."
+    }
+]

@@ -1,0 +1,7 @@
+[
+    {
+        "line": 2,
+        "column": 3,
+        "msg": "A 'continue' statement can only jump to a label of an enclosing iteration statement."
+    }
+]

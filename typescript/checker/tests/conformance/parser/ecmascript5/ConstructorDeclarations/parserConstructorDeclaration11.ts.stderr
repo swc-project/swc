@@ -1,0 +1,12 @@
+error: TS1098
+ --> $DIR/tests/conformance/parser/ecmascript5/ConstructorDeclarations/parserConstructorDeclaration11.ts:2:14
+  |
+2 |   constructor<>() { }
+  |              ^^
+
+error: TS1092
+ --> $DIR/tests/conformance/parser/ecmascript5/ConstructorDeclarations/parserConstructorDeclaration11.ts:2:15
+  |
+2 |   constructor<>() { }
+  |               ^
+

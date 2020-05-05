@@ -1,0 +1,7 @@
+[
+    {
+        "line": 2,
+        "column": 1,
+        "msg": "Only a void function can be called with the 'new' keyword."
+    }
+]

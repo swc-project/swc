@@ -1,0 +1,12 @@
+[
+    {
+        "line": 2,
+        "column": 4,
+        "msg": "Function implementation is missing or not immediately following the declaration."
+    },
+    {
+        "line": 3,
+        "column": 4,
+        "msg": "Constructor implementation is missing."
+    }
+]

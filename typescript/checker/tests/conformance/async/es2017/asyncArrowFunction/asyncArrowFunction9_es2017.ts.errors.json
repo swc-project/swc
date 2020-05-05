@@ -1,0 +1,32 @@
+[
+    {
+        "line": 3,
+        "column": 11,
+        "msg": "Cannot find name 'async'."
+    },
+    {
+        "line": 3,
+        "column": 18,
+        "msg": "Cannot find name 'a'."
+    },
+    {
+        "line": 3,
+        "column": 37,
+        "msg": "',' expected."
+    },
+    {
+        "line": 3,
+        "column": 39,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 'Promise' must be of type 'PromiseConstructor', but here has type 'any'."
+    },
+    {
+        "line": 3,
+        "column": 46,
+        "msg": "',' expected."
+    },
+    {
+        "line": 3,
+        "column": 53,
+        "msg": "Expression expected."
+    }
+]

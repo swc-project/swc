@@ -1,0 +1,34 @@
+error: UndefinedSymbol {
+    sym: Atom('yield' type=static),
+    span: Span {
+        lo: BytePos(
+            11,
+        ),
+        hi: BytePos(
+            16,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es6/functionDeclarations/FunctionDeclaration8_es6.ts:1:12
+  |
+1 | var v = { [yield]: foo }
+  |            ^^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('foo' type=inline),
+    span: Span {
+        lo: BytePos(
+            19,
+        ),
+        hi: BytePos(
+            22,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es6/functionDeclarations/FunctionDeclaration8_es6.ts:1:20
+  |
+1 | var v = { [yield]: foo }
+  |                    ^^^
+

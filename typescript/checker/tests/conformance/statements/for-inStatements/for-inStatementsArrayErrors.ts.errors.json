@@ -1,0 +1,32 @@
+[
+    {
+        "line": 6,
+        "column": 16,
+        "msg": "Element implicitly has an 'any' type because index expression is not of type 'number'."
+    },
+    {
+        "line": 7,
+        "column": 16,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 8,
+        "column": 9,
+        "msg": "This condition will always return 'false' since the types 'string' and 'number' have no overlap."
+    },
+    {
+        "line": 10,
+        "column": 16,
+        "msg": "Property 'unknownProperty' does not exist on type 'string'."
+    },
+    {
+        "line": 14,
+        "column": 10,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 'i' must be of type 'number', but here has type 'string'."
+    },
+    {
+        "line": 18,
+        "column": 10,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 'j' must be of type 'any', but here has type 'string'."
+    }
+]

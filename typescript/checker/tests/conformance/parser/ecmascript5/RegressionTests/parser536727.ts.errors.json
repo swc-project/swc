@@ -1,0 +1,12 @@
+[
+    {
+        "line": 7,
+        "column": 5,
+        "msg": "Argument of type '() => (x"
+    },
+    {
+        "line": 8,
+        "column": 5,
+        "msg": "Argument of type '() => (x"
+    }
+]

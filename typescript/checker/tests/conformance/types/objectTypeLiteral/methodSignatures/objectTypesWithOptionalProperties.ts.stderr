@@ -1,0 +1,6 @@
+error: Unexpected token Some(QuestionMark)
+  --> $DIR/tests/conformance/types/objectTypeLiteral/methodSignatures/objectTypesWithOptionalProperties.ts:24:6
+   |
+24 |     x?: 1 // error
+   |      ^
+

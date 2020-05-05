@@ -1,0 +1,52 @@
+[
+    {
+        "line": 3,
+        "column": 1,
+        "msg": "The '<' operator cannot be applied to type 'symbol'."
+    },
+    {
+        "line": 4,
+        "column": 1,
+        "msg": "The '<' operator cannot be applied to type 'symbol'."
+    },
+    {
+        "line": 5,
+        "column": 1,
+        "msg": "The '>' operator cannot be applied to type 'symbol'."
+    },
+    {
+        "line": 6,
+        "column": 1,
+        "msg": "The '>' operator cannot be applied to type 'symbol'."
+    },
+    {
+        "line": 7,
+        "column": 1,
+        "msg": "The '<=' operator cannot be applied to type 'symbol'."
+    },
+    {
+        "line": 8,
+        "column": 1,
+        "msg": "The '<=' operator cannot be applied to type 'symbol'."
+    },
+    {
+        "line": 9,
+        "column": 1,
+        "msg": "The '>=' operator cannot be applied to type 'symbol'."
+    },
+    {
+        "line": 10,
+        "column": 1,
+        "msg": "The '>=' operator cannot be applied to type 'symbol'."
+    },
+    {
+        "line": 12,
+        "column": 6,
+        "msg": "The '>=' operator cannot be applied to type 'symbol'."
+    },
+    {
+        "line": 13,
+        "column": 1,
+        "msg": "The '>=' operator cannot be applied to type 'symbol'."
+    }
+]

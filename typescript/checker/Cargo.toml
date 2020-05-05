@@ -1,0 +1,45 @@
+[package]
+name = "swc_ts_checker"
+version = "0.1.0"
+authors = ["강동윤 <kdy1997l.dev@gmail.com>"]
+edition = "2018"
+publish = false
+
+[dependencies]
+swc_atoms = { path = "../../atoms" }
+swc_common = { path = "../../common", features = ["fold"] }
+swc_ecma_ast = { path = "../../ecmascript/ast", features = ["fold"] }
+swc_ecma_parser = { path = "../../ecmascript/parser", features = ["verify"] }
+swc_ecma_transforms = { path = "../../ecmascript/transforms" }
+swc_ecma_utils = { path = "../../ecmascript/utils" }
+swc_ts_builtin_types = { path = "./builtin" }
+macros = { package = "swc_ts_checker_macros", path ="./macros" }
+ordered-float = "1.0.2"
+
+anyhow = "1"
+bitflags = "1"
+rayon = "1"
+either = "1"
+dashmap = "3.5.1"
+crossbeam = "0.7.1"
+fxhash = "0.2"
+node-resolve = "2.2"
+backtrace = { version = "0.3", features = ["serde"] }
+smallvec = "0.6"
+log = "0.4"
+is-macro = "0.1.7"
+serde_json = "1"
+once_cell = "1.3.1"
+derive_more = { version = "0.99.2", default-features = false, features = ["display"] }
+itertools = "0.8"
+petgraph = "0.5"
+
+[dev-dependencies]
+testing = { path ="../../testing" }
+swc_ecma_codegen = { path ="../../ecmascript/codegen" }
+tempfile = "3"
+pretty_assertions = "0.5"
+sourcemap = "2.2"
+walkdir = "2"
+serde = { version= "1", features = ["derive"] }
+env_logger = "0.7.1"

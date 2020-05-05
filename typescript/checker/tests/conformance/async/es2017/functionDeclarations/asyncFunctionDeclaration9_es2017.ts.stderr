@@ -1,0 +1,6 @@
+error: Unexpected token Some(RBracket)
+ --> $DIR/tests/conformance/async/es2017/functionDeclarations/asyncFunctionDeclaration9_es2017.ts:4:19
+  |
+4 |   var v = { [await]: foo }
+  |                   ^
+

@@ -1,0 +1,22 @@
+[
+    {
+        "line": 14,
+        "column": 1,
+        "msg": "Type 'false' is not assignable to type 'number'."
+    },
+    {
+        "line": 15,
+        "column": 1,
+        "msg": "Type 'false' is not assignable to type 'number'."
+    },
+    {
+        "line": 3,
+        "column": 11,
+        "msg": "A namespace declaration cannot be in a different file from a class or function with which it is merged."
+    },
+    {
+        "line": 12,
+        "column": 11,
+        "msg": "A namespace declaration cannot be in a different file from a class or function with which it is merged."
+    }
+]

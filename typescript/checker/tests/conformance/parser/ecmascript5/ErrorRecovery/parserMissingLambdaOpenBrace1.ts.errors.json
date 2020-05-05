@@ -1,0 +1,37 @@
+[
+    {
+        "line": 2,
+        "column": 19,
+        "msg": "Cannot find name 'Iterator'. Do you need to change your target library? Try changing the `lib` compiler option to es2015 or later."
+    },
+    {
+        "line": 2,
+        "column": 28,
+        "msg": "Cannot find name 'T'."
+    },
+    {
+        "line": 2,
+        "column": 42,
+        "msg": "Cannot find name 'Query'."
+    },
+    {
+        "line": 2,
+        "column": 48,
+        "msg": "Cannot find name 'T'."
+    },
+    {
+        "line": 3,
+        "column": 16,
+        "msg": "Cannot find name 'fromDoWhile'."
+    },
+    {
+        "line": 4,
+        "column": 13,
+        "msg": "'{' expected."
+    },
+    {
+        "line": 5,
+        "column": 25,
+        "msg": "Property 'doWhile' does not exist on type 'C'."
+    }
+]

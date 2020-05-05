@@ -1,0 +1,12 @@
+[
+    {
+        "line": 2,
+        "column": 9,
+        "msg": "Augmentations for the global scope can only be directly nested in external modules or ambient module declarations."
+    },
+    {
+        "line": 3,
+        "column": 14,
+        "msg": "Cannot export 'globalThis'. Only local declarations can be exported from a module."
+    }
+]

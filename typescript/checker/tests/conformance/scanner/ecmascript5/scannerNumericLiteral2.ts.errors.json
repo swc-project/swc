@@ -1,0 +1,7 @@
+[
+    {
+        "line": 2,
+        "column": 1,
+        "msg": "Octal literals are not available when targeting ECMAScript 5 and higher. Use the syntax '0o1'."
+    }
+]

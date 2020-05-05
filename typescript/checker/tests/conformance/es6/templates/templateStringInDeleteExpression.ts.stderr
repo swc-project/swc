@@ -1,0 +1,6 @@
+error: TS2703
+ --> $DIR/tests/conformance/es6/templates/templateStringInDeleteExpression.ts:1:8
+  |
+1 | delete `abc${0}abc`;
+  |        ^^^^^^^^^^^^
+

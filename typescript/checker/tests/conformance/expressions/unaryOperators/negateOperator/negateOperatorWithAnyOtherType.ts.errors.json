@@ -1,0 +1,17 @@
+[
+    {
+        "line": 34,
+        "column": 24,
+        "msg": "Object is possibly 'undefined'."
+    },
+    {
+        "line": 35,
+        "column": 23,
+        "msg": "Object is possibly 'null'."
+    },
+    {
+        "line": 51,
+        "column": 1,
+        "msg": "Left side of comma operator is unused and has no side effects."
+    }
+]

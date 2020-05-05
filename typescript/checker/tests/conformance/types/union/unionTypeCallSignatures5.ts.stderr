@@ -1,0 +1,331 @@
+error: UnionError {
+    span: Span {
+        lo: BytePos(
+            178,
+        ),
+        hi: BytePos(
+            180,
+        ),
+        ctxt: #0,
+    },
+    errors: [
+        NoCallSignature {
+            span: Span {
+                lo: BytePos(
+                    178,
+                ),
+                hi: BytePos(
+                    180,
+                ),
+                ctxt: #0,
+            },
+            callee: Interface(
+                Interface {
+                    span: Span {
+                        lo: BytePos(
+                            20,
+                        ),
+                        hi: BytePos(
+                            59,
+                        ),
+                        ctxt: #0,
+                    },
+                    name: Atom('A' type=inline),
+                    type_params: None,
+                    extends: [],
+                    body: [
+                        Call(
+                            CallSignature {
+                                span: Span {
+                                    lo: BytePos(
+                                        26,
+                                    ),
+                                    hi: BytePos(
+                                        57,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                params: [
+                                    FnParam {
+                                        span: Span {
+                                            lo: BytePos(
+                                                27,
+                                            ),
+                                            hi: BytePos(
+                                                31,
+                                            ),
+                                            ctxt: #0,
+                                        },
+                                        required: true,
+                                        ty: Keyword(
+                                            TsKeywordType {
+                                                span: Span {
+                                                    lo: BytePos(
+                                                        33,
+                                                    ),
+                                                    hi: BytePos(
+                                                        37,
+                                                    ),
+                                                    ctxt: #0,
+                                                },
+                                                kind: TsVoidKeyword,
+                                            },
+                                        ),
+                                    },
+                                    FnParam {
+                                        span: Span {
+                                            lo: BytePos(
+                                                39,
+                                            ),
+                                            hi: BytePos(
+                                                40,
+                                            ),
+                                            ctxt: #0,
+                                        },
+                                        required: false,
+                                        ty: Keyword(
+                                            TsKeywordType {
+                                                span: Span {
+                                                    lo: BytePos(
+                                                        43,
+                                                    ),
+                                                    hi: BytePos(
+                                                        49,
+                                                    ),
+                                                    ctxt: #0,
+                                                },
+                                                kind: TsNumberKeyword,
+                                            },
+                                        ),
+                                    },
+                                ],
+                                type_params: None,
+                                ret_ty: Some(
+                                    Keyword(
+                                        TsKeywordType {
+                                            span: Span {
+                                                lo: BytePos(
+                                                    52,
+                                                ),
+                                                hi: BytePos(
+                                                    56,
+                                                ),
+                                                ctxt: #0,
+                                            },
+                                            kind: TsVoidKeyword,
+                                        },
+                                    ),
+                                ),
+                            },
+                        ),
+                    ],
+                },
+            ),
+        },
+        NoCallSignature {
+            span: Span {
+                lo: BytePos(
+                    178,
+                ),
+                hi: BytePos(
+                    180,
+                ),
+                ctxt: #0,
+            },
+            callee: Interface(
+                Interface {
+                    span: Span {
+                        lo: BytePos(
+                            70,
+                        ),
+                        hi: BytePos(
+                            111,
+                        ),
+                        ctxt: #0,
+                    },
+                    name: Atom('B' type=inline),
+                    type_params: None,
+                    extends: [],
+                    body: [
+                        Call(
+                            CallSignature {
+                                span: Span {
+                                    lo: BytePos(
+                                        76,
+                                    ),
+                                    hi: BytePos(
+                                        109,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                params: [
+                                    FnParam {
+                                        span: Span {
+                                            lo: BytePos(
+                                                77,
+                                            ),
+                                            hi: BytePos(
+                                                81,
+                                            ),
+                                            ctxt: #0,
+                                        },
+                                        required: true,
+                                        ty: Keyword(
+                                            TsKeywordType {
+                                                span: Span {
+                                                    lo: BytePos(
+                                                        83,
+                                                    ),
+                                                    hi: BytePos(
+                                                        89,
+                                                    ),
+                                                    ctxt: #0,
+                                                },
+                                                kind: TsNumberKeyword,
+                                            },
+                                        ),
+                                    },
+                                    FnParam {
+                                        span: Span {
+                                            lo: BytePos(
+                                                91,
+                                            ),
+                                            hi: BytePos(
+                                                92,
+                                            ),
+                                            ctxt: #0,
+                                        },
+                                        required: false,
+                                        ty: Keyword(
+                                            TsKeywordType {
+                                                span: Span {
+                                                    lo: BytePos(
+                                                        95,
+                                                    ),
+                                                    hi: BytePos(
+                                                        101,
+                                                    ),
+                                                    ctxt: #0,
+                                                },
+                                                kind: TsNumberKeyword,
+                                            },
+                                        ),
+                                    },
+                                ],
+                                type_params: None,
+                                ret_ty: Some(
+                                    Keyword(
+                                        TsKeywordType {
+                                            span: Span {
+                                                lo: BytePos(
+                                                    104,
+                                                ),
+                                                hi: BytePos(
+                                                    108,
+                                                ),
+                                                ctxt: #0,
+                                            },
+                                            kind: TsVoidKeyword,
+                                        },
+                                    ),
+                                ),
+                            },
+                        ),
+                    ],
+                },
+            ),
+        },
+        NoCallSignature {
+            span: Span {
+                lo: BytePos(
+                    178,
+                ),
+                hi: BytePos(
+                    180,
+                ),
+                ctxt: #0,
+            },
+            callee: Interface(
+                Interface {
+                    span: Span {
+                        lo: BytePos(
+                            122,
+                        ),
+                        hi: BytePos(
+                            148,
+                        ),
+                        ctxt: #0,
+                    },
+                    name: Atom('C' type=inline),
+                    type_params: None,
+                    extends: [],
+                    body: [
+                        Call(
+                            CallSignature {
+                                span: Span {
+                                    lo: BytePos(
+                                        128,
+                                    ),
+                                    hi: BytePos(
+                                        146,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                params: [
+                                    FnParam {
+                                        span: Span {
+                                            lo: BytePos(
+                                                129,
+                                            ),
+                                            hi: BytePos(
+                                                130,
+                                            ),
+                                            ctxt: #0,
+                                        },
+                                        required: true,
+                                        ty: Keyword(
+                                            TsKeywordType {
+                                                span: Span {
+                                                    lo: BytePos(
+                                                        132,
+                                                    ),
+                                                    hi: BytePos(
+                                                        138,
+                                                    ),
+                                                    ctxt: #0,
+                                                },
+                                                kind: TsNumberKeyword,
+                                            },
+                                        ),
+                                    },
+                                ],
+                                type_params: None,
+                                ret_ty: Some(
+                                    Keyword(
+                                        TsKeywordType {
+                                            span: Span {
+                                                lo: BytePos(
+                                                    141,
+                                                ),
+                                                hi: BytePos(
+                                                    145,
+                                                ),
+                                                ctxt: #0,
+                                            },
+                                            kind: TsVoidKeyword,
+                                        },
+                                    ),
+                                ),
+                            },
+                        ),
+                    ],
+                },
+            ),
+        },
+    ],
+}
+  --> $DIR/tests/conformance/types/union/unionTypeCallSignatures5.ts:12:1
+   |
+12 | fn(0);
+   | ^^
+

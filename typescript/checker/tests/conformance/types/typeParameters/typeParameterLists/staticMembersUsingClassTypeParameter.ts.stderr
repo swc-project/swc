@@ -1,0 +1,96 @@
+error: NameNotFound {
+    span: Span {
+        lo: BytePos(
+            43,
+        ),
+        hi: BytePos(
+            44,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/types/typeParameters/typeParameterLists/staticMembersUsingClassTypeParameter.ts:3:15
+  |
+3 |     static x: T;
+  |               ^
+
+error: NameNotFound {
+    span: Span {
+        lo: BytePos(
+            63,
+        ),
+        hi: BytePos(
+            64,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/types/typeParameters/typeParameterLists/staticMembersUsingClassTypeParameter.ts:4:17
+  |
+4 |     static f(x: T) {}
+  |                 ^
+
+error: NameNotFound {
+    span: Span {
+        lo: BytePos(
+            107,
+        ),
+        hi: BytePos(
+            108,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/types/typeParameters/typeParameterLists/staticMembersUsingClassTypeParameter.ts:8:15
+  |
+8 |     static x: U;
+  |               ^
+
+error: NameNotFound {
+    span: Span {
+        lo: BytePos(
+            127,
+        ),
+        hi: BytePos(
+            128,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/types/typeParameters/typeParameterLists/staticMembersUsingClassTypeParameter.ts:9:17
+  |
+9 |     static f(x: U) { }
+  |                 ^
+
+error: NameNotFound {
+    span: Span {
+        lo: BytePos(
+            182,
+        ),
+        hi: BytePos(
+            183,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/typeParameters/typeParameterLists/staticMembersUsingClassTypeParameter.ts:13:15
+   |
+13 |     static x: T;
+   |               ^
+
+error: NameNotFound {
+    span: Span {
+        lo: BytePos(
+            202,
+        ),
+        hi: BytePos(
+            203,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/typeParameters/typeParameterLists/staticMembersUsingClassTypeParameter.ts:14:17
+   |
+14 |     static f(x: T) { }
+   |                 ^
+

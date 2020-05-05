@@ -1,0 +1,77 @@
+[
+    {
+        "line": 1,
+        "column": 1,
+        "msg": "Cannot find name 'Foo'."
+    },
+    {
+        "line": 1,
+        "column": 5,
+        "msg": "Cannot find name 'T'."
+    },
+    {
+        "line": 2,
+        "column": 1,
+        "msg": "Cannot find name 'Foo'."
+    },
+    {
+        "line": 2,
+        "column": 9,
+        "msg": "Cannot find name 'T'."
+    },
+    {
+        "line": 3,
+        "column": 1,
+        "msg": "Cannot find name 'Foo'."
+    },
+    {
+        "line": 3,
+        "column": 5,
+        "msg": "Cannot find name 'T'."
+    },
+    {
+        "line": 3,
+        "column": 7,
+        "msg": "'(' expected."
+    },
+    {
+        "line": 3,
+        "column": 8,
+        "msg": "Cannot find name 'Bar'."
+    },
+    {
+        "line": 3,
+        "column": 13,
+        "msg": "')' expected."
+    },
+    {
+        "line": 4,
+        "column": 1,
+        "msg": "Cannot find name 'Foo'."
+    },
+    {
+        "line": 4,
+        "column": 5,
+        "msg": "Cannot find name 'T'."
+    },
+    {
+        "line": 4,
+        "column": 7,
+        "msg": "'(' expected."
+    },
+    {
+        "line": 4,
+        "column": 8,
+        "msg": "Cannot find name 'Bar'."
+    },
+    {
+        "line": 4,
+        "column": 12,
+        "msg": "Cannot find name 'T'."
+    },
+    {
+        "line": 4,
+        "column": 16,
+        "msg": "')' expected."
+    }
+]

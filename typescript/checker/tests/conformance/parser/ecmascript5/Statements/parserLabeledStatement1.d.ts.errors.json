@@ -1,0 +1,12 @@
+[
+    {
+        "line": 1,
+        "column": 1,
+        "msg": "Statements are not allowed in ambient contexts."
+    },
+    {
+        "line": 2,
+        "column": 3,
+        "msg": "Cannot find name 'bar'."
+    }
+]

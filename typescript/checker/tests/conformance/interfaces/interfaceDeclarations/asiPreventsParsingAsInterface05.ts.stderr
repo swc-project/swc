@@ -1,0 +1,29 @@
+error: 'implements', 'interface', 'let', 'package', 'private', 'protected',  'public', 'static', or 'yield' cannot be used as an identifier in strict mode
+ --> $DIR/tests/conformance/interfaces/interfaceDeclarations/asiPreventsParsingAsInterface05.ts:3:5
+  |
+3 | var interface: number;
+  |     ^^^^^^^^^
+
+error: 'implements', 'interface', 'let', 'package', 'private', 'protected',  'public', 'static', or 'yield' cannot be used as an identifier in strict mode
+  --> $DIR/tests/conformance/interfaces/interfaceDeclarations/asiPreventsParsingAsInterface05.ts:10:1
+   |
+10 | interface   // This should be the identifier 'interface'
+   | ^^^^^^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('I' type=inline),
+    span: Span {
+        lo: BytePos(
+            422,
+        ),
+        hi: BytePos(
+            423,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/interfaces/interfaceDeclarations/asiPreventsParsingAsInterface05.ts:11:1
+   |
+11 | I           // This should be the identifier 'I'
+   | ^
+

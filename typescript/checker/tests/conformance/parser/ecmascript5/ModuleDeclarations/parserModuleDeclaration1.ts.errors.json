@@ -1,0 +1,7 @@
+[
+    {
+        "line": 1,
+        "column": 8,
+        "msg": "Only ambient modules can use quoted names."
+    }
+]

@@ -1,0 +1,7 @@
+[
+    {
+        "line": 7,
+        "column": 10,
+        "msg": "'this' cannot be referenced in a module or namespace body."
+    }
+]

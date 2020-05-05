@@ -1,0 +1,17 @@
+error: UndefinedSymbol {
+    sym: Atom('TypeScriptServices' type=dynamic),
+    span: Span {
+        lo: BytePos(
+            20,
+        ),
+        hi: BytePos(
+            38,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/parserImportDeclaration1.ts:1:21
+  |
+1 | import TypeScript = TypeScriptServices.TypeScript;
+  |                     ^^^^^^^^^^^^^^^^^^
+

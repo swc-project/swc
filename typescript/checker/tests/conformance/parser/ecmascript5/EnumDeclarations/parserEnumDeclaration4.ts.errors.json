@@ -1,0 +1,7 @@
+[
+    {
+        "line": 1,
+        "column": 6,
+        "msg": "Identifier expected. 'void' is a reserved word that cannot be used here."
+    }
+]

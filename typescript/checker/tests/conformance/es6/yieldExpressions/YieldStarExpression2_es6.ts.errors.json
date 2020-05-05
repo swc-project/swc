@@ -1,0 +1,12 @@
+[
+    {
+        "line": 2,
+        "column": 1,
+        "msg": "Cannot find name 'yield'."
+    },
+    {
+        "line": 2,
+        "column": 8,
+        "msg": "Expression expected."
+    }
+]

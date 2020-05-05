@@ -1,0 +1,187 @@
+[
+    {
+        "line": 6,
+        "column": 9,
+        "msg": "Cannot find name 'window'."
+    },
+    {
+        "line": 9,
+        "column": 5,
+        "msg": "';' expected."
+    },
+    {
+        "line": 12,
+        "column": 5,
+        "msg": "';' expected."
+    },
+    {
+        "line": 15,
+        "column": 5,
+        "msg": "';' expected."
+    },
+    {
+        "line": 18,
+        "column": 5,
+        "msg": "';' expected."
+    },
+    {
+        "line": 25,
+        "column": 4,
+        "msg": "';' expected."
+    },
+    {
+        "line": 25,
+        "column": 6,
+        "msg": "Expression expected."
+    },
+    {
+        "line": 26,
+        "column": 4,
+        "msg": "';' expected."
+    },
+    {
+        "line": 26,
+        "column": 6,
+        "msg": "Expression expected."
+    },
+    {
+        "line": 27,
+        "column": 4,
+        "msg": "';' expected."
+    },
+    {
+        "line": 27,
+        "column": 6,
+        "msg": "Expression expected."
+    },
+    {
+        "line": 28,
+        "column": 4,
+        "msg": "';' expected."
+    },
+    {
+        "line": 28,
+        "column": 6,
+        "msg": "Expression expected."
+    },
+    {
+        "line": 35,
+        "column": 4,
+        "msg": "';' expected."
+    },
+    {
+        "line": 35,
+        "column": 6,
+        "msg": "Expression expected."
+    },
+    {
+        "line": 36,
+        "column": 4,
+        "msg": "';' expected."
+    },
+    {
+        "line": 36,
+        "column": 6,
+        "msg": "Expression expected."
+    },
+    {
+        "line": 37,
+        "column": 4,
+        "msg": "';' expected."
+    },
+    {
+        "line": 37,
+        "column": 6,
+        "msg": "Expression expected."
+    },
+    {
+        "line": 38,
+        "column": 4,
+        "msg": "';' expected."
+    },
+    {
+        "line": 38,
+        "column": 6,
+        "msg": "Expression expected."
+    },
+    {
+        "line": 45,
+        "column": 4,
+        "msg": "';' expected."
+    },
+    {
+        "line": 45,
+        "column": 6,
+        "msg": "Expression expected."
+    },
+    {
+        "line": 46,
+        "column": 4,
+        "msg": "';' expected."
+    },
+    {
+        "line": 46,
+        "column": 6,
+        "msg": "Expression expected."
+    },
+    {
+        "line": 47,
+        "column": 4,
+        "msg": "';' expected."
+    },
+    {
+        "line": 47,
+        "column": 6,
+        "msg": "Expression expected."
+    },
+    {
+        "line": 48,
+        "column": 4,
+        "msg": "';' expected."
+    },
+    {
+        "line": 48,
+        "column": 6,
+        "msg": "Expression expected."
+    },
+    {
+        "line": 56,
+        "column": 4,
+        "msg": "';' expected."
+    },
+    {
+        "line": 56,
+        "column": 6,
+        "msg": "Expression expected."
+    },
+    {
+        "line": 57,
+        "column": 4,
+        "msg": "';' expected."
+    },
+    {
+        "line": 57,
+        "column": 6,
+        "msg": "Expression expected."
+    },
+    {
+        "line": 58,
+        "column": 4,
+        "msg": "';' expected."
+    },
+    {
+        "line": 58,
+        "column": 6,
+        "msg": "Expression expected."
+    },
+    {
+        "line": 59,
+        "column": 4,
+        "msg": "';' expected."
+    },
+    {
+        "line": 59,
+        "column": 6,
+        "msg": "Expression expected."
+    }
+]

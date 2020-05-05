@@ -1,0 +1,18 @@
+error: TS1196
+ --> $DIR/tests/conformance/statements/tryStatements/invalidTryStatements.ts:8:23
+  |
+8 |     try { } catch (z: any) { }
+  |                       ^^^
+
+error: TS1196
+ --> $DIR/tests/conformance/statements/tryStatements/invalidTryStatements.ts:9:23
+  |
+9 |     try { } catch (a: number) { }
+  |                       ^^^^^^
+
+error: TS1196
+  --> $DIR/tests/conformance/statements/tryStatements/invalidTryStatements.ts:10:23
+   |
+10 |     try { } catch (y: string) { }
+   |                       ^^^^^^
+

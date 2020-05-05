@@ -1,0 +1,82 @@
+[
+    {
+        "line": 3,
+        "column": 14,
+        "msg": "Parameter cannot have question mark and initializer."
+    },
+    {
+        "line": 4,
+        "column": 22,
+        "msg": "Parameter cannot have question mark and initializer."
+    },
+    {
+        "line": 5,
+        "column": 22,
+        "msg": "Parameter cannot have question mark and initializer."
+    },
+    {
+        "line": 15,
+        "column": 9,
+        "msg": "Parameter cannot have question mark and initializer."
+    },
+    {
+        "line": 23,
+        "column": 6,
+        "msg": "Parameter cannot have question mark and initializer."
+    },
+    {
+        "line": 23,
+        "column": 6,
+        "msg": "A parameter initializer is only allowed in a function or constructor implementation."
+    },
+    {
+        "line": 24,
+        "column": 20,
+        "msg": "Parameter cannot have question mark and initializer."
+    },
+    {
+        "line": 24,
+        "column": 20,
+        "msg": "A parameter initializer is only allowed in a function or constructor implementation."
+    },
+    {
+        "line": 34,
+        "column": 6,
+        "msg": "Parameter cannot have question mark and initializer."
+    },
+    {
+        "line": 34,
+        "column": 6,
+        "msg": "A parameter initializer is only allowed in a function or constructor implementation."
+    },
+    {
+        "line": 35,
+        "column": 9,
+        "msg": "Parameter cannot have question mark and initializer."
+    },
+    {
+        "line": 35,
+        "column": 9,
+        "msg": "A parameter initializer is only allowed in a function or constructor implementation."
+    },
+    {
+        "line": 44,
+        "column": 9,
+        "msg": "Parameter cannot have question mark and initializer."
+    },
+    {
+        "line": 45,
+        "column": 32,
+        "msg": "Parameter cannot have question mark and initializer."
+    },
+    {
+        "line": 45,
+        "column": 32,
+        "msg": "Type '\"\"' is not assignable to type 'number'."
+    },
+    {
+        "line": 46,
+        "column": 9,
+        "msg": "Parameter cannot have question mark and initializer."
+    }
+]

@@ -1,0 +1,6 @@
+error: TS2369
+ --> $DIR/tests/conformance/parser/ecmascript5/ParameterLists/parserParameterList6.ts:2:19
+  |
+2 |   constructor(C: (public A) => any) {
+  |                   ^^^^^^^^
+

@@ -1,0 +1,7 @@
+[
+    {
+        "line": 3,
+        "column": 7,
+        "msg": "The right-hand side of an 'in' expression must be of type 'any', an object type or a type parameter."
+    }
+]

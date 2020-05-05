@@ -1,0 +1,62 @@
+[
+    {
+        "line": 10,
+        "column": 9,
+        "msg": "No overload matches this call."
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "string)"
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "number)"
+    },
+    {
+        "line": 19,
+        "column": 4,
+        "msg": "Property 'foo' does not exist on type 'Date'."
+    },
+    {
+        "line": 45,
+        "column": 1,
+        "msg": "Expected 2-4 arguments, but got 1."
+    },
+    {
+        "line": 63,
+        "column": 9,
+        "msg": "No overload matches this call."
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "string, m"
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "number, m"
+    },
+    {
+        "line": 64,
+        "column": 18,
+        "msg": "No overload matches this call."
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "any, m"
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "any, m"
+    },
+    {
+        "line": 70,
+        "column": 18,
+        "msg": "Property 'toFixed' does not exist on type 'string'. Did you mean 'fixed'?"
+    }
+]

@@ -1,0 +1,6 @@
+error: Unexpected token Some(RBrace)
+ --> $DIR/tests/conformance/parser/ecmascript5/ErrorRecovery/IfStatements/parserErrorRecoveryIfStatement1.ts:4:3
+  |
+4 |   }
+  |   ^
+

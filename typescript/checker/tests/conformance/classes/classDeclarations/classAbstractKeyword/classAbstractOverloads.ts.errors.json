@@ -1,0 +1,27 @@
+[
+    {
+        "line": 7,
+        "column": 5,
+        "msg": "Overload signatures must all be abstract or non-abstract."
+    },
+    {
+        "line": 10,
+        "column": 14,
+        "msg": "Overload signatures must all be abstract or non-abstract."
+    },
+    {
+        "line": 12,
+        "column": 14,
+        "msg": "Overload signatures must all be abstract or non-abstract."
+    },
+    {
+        "line": 15,
+        "column": 5,
+        "msg": "Function implementation is missing or not immediately following the declaration."
+    },
+    {
+        "line": 20,
+        "column": 14,
+        "msg": "All declarations of an abstract method must be consecutive."
+    }
+]

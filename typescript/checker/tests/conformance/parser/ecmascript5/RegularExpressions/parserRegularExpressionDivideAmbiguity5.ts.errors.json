@@ -1,0 +1,17 @@
+[
+    {
+        "line": 1,
+        "column": 1,
+        "msg": "Cannot find name 'model'."
+    },
+    {
+        "line": 1,
+        "column": 17,
+        "msg": "Cannot find name 'rotateY'."
+    },
+    {
+        "line": 1,
+        "column": 42,
+        "msg": "Cannot find name 'rotateZ'."
+    }
+]

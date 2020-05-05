@@ -1,0 +1,72 @@
+error: TupleIndexError {
+    span: Span {
+        lo: BytePos(
+            416,
+        ),
+        hi: BytePos(
+            417,
+        ),
+        ctxt: #0,
+    },
+    len: 2,
+    index: 2,
+}
+  --> $DIR/tests/conformance/types/typeRelationships/bestCommonType/bestCommonTypeOfTuple.ts:22:13
+   |
+22 | var e1 = t1[2];  // {}
+   |             ^
+
+error: TupleIndexError {
+    span: Span {
+        lo: BytePos(
+            439,
+        ),
+        hi: BytePos(
+            440,
+        ),
+        ctxt: #0,
+    },
+    len: 2,
+    index: 2,
+}
+  --> $DIR/tests/conformance/types/typeRelationships/bestCommonType/bestCommonTypeOfTuple.ts:23:13
+   |
+23 | var e2 = t2[2];  // {}
+   |             ^
+
+error: TupleIndexError {
+    span: Span {
+        lo: BytePos(
+            462,
+        ),
+        hi: BytePos(
+            463,
+        ),
+        ctxt: #0,
+    },
+    len: 2,
+    index: 2,
+}
+  --> $DIR/tests/conformance/types/typeRelationships/bestCommonType/bestCommonTypeOfTuple.ts:24:13
+   |
+24 | var e3 = t3[2];  // any
+   |             ^
+
+error: TupleIndexError {
+    span: Span {
+        lo: BytePos(
+            486,
+        ),
+        hi: BytePos(
+            487,
+        ),
+        ctxt: #0,
+    },
+    len: 3,
+    index: 3,
+}
+  --> $DIR/tests/conformance/types/typeRelationships/bestCommonType/bestCommonTypeOfTuple.ts:25:13
+   |
+25 | var e4 = t4[3];  // number
+   |             ^
+

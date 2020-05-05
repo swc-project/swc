@@ -1,0 +1,7 @@
+[
+    {
+        "line": 5,
+        "column": 17,
+        "msg": "Argument of type 'true' is not assignable to parameter of type '{ a"
+    }
+]

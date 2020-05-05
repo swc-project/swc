@@ -1,0 +1,22 @@
+[
+    {
+        "line": 35,
+        "column": 32,
+        "msg": "Left side of comma operator is unused and has no side effects."
+    },
+    {
+        "line": 35,
+        "column": 56,
+        "msg": "Left side of comma operator is unused and has no side effects."
+    },
+    {
+        "line": 36,
+        "column": 33,
+        "msg": "Left side of comma operator is unused and has no side effects."
+    },
+    {
+        "line": 36,
+        "column": 57,
+        "msg": "Left side of comma operator is unused and has no side effects."
+    }
+]

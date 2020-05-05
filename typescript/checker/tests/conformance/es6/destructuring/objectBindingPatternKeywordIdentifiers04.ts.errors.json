@@ -1,0 +1,12 @@
+[
+    {
+        "line": 1,
+        "column": 16,
+        "msg": "Identifier expected. 'while' is a reserved word that cannot be used here."
+    },
+    {
+        "line": 1,
+        "column": 22,
+        "msg": "'"
+    }
+]

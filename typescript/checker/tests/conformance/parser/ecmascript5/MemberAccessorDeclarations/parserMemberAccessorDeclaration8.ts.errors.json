@@ -1,0 +1,12 @@
+[
+    {
+        "line": 3,
+        "column": 12,
+        "msg": "'static' modifier already seen."
+    },
+    {
+        "line": 3,
+        "column": 23,
+        "msg": "A 'get' accessor must return a value."
+    }
+]

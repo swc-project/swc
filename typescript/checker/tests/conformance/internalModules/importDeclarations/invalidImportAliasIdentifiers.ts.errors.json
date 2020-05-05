@@ -1,0 +1,17 @@
+[
+    {
+        "line": 5,
+        "column": 12,
+        "msg": "Cannot find namespace 'V'."
+    },
+    {
+        "line": 11,
+        "column": 12,
+        "msg": "'C' only refers to a type, but is being used as a namespace here."
+    },
+    {
+        "line": 23,
+        "column": 12,
+        "msg": "'I' only refers to a type, but is being used as a namespace here."
+    }
+]

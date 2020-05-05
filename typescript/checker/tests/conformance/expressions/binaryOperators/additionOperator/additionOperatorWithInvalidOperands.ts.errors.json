@@ -1,0 +1,97 @@
+[
+    {
+        "line": 15,
+        "column": 10,
+        "msg": "Operator '+' cannot be applied to types 'boolean' and 'boolean'."
+    },
+    {
+        "line": 16,
+        "column": 10,
+        "msg": "Operator '+' cannot be applied to types 'boolean' and 'number'."
+    },
+    {
+        "line": 17,
+        "column": 10,
+        "msg": "Operator '+' cannot be applied to types 'boolean' and 'Object'."
+    },
+    {
+        "line": 20,
+        "column": 10,
+        "msg": "Operator '+' cannot be applied to types 'number' and 'boolean'."
+    },
+    {
+        "line": 22,
+        "column": 10,
+        "msg": "Operator '+' cannot be applied to types 'number' and 'Object'."
+    },
+    {
+        "line": 25,
+        "column": 10,
+        "msg": "Operator '+' cannot be applied to types 'Object' and 'boolean'."
+    },
+    {
+        "line": 26,
+        "column": 10,
+        "msg": "Operator '+' cannot be applied to types 'Object' and 'number'."
+    },
+    {
+        "line": 27,
+        "column": 10,
+        "msg": "Operator '+' cannot be applied to types 'Object' and 'Object'."
+    },
+    {
+        "line": 30,
+        "column": 11,
+        "msg": "Operator '+' cannot be applied to types 'boolean' and 'boolean'."
+    },
+    {
+        "line": 31,
+        "column": 11,
+        "msg": "Operator '+' cannot be applied to types 'boolean' and 'boolean'."
+    },
+    {
+        "line": 32,
+        "column": 11,
+        "msg": "Operator '+' cannot be applied to types 'boolean' and 'number'."
+    },
+    {
+        "line": 33,
+        "column": 11,
+        "msg": "Operator '+' cannot be applied to types '{}' and '{}'."
+    },
+    {
+        "line": 34,
+        "column": 11,
+        "msg": "Operator '+' cannot be applied to types 'number' and 'Number'."
+    },
+    {
+        "line": 35,
+        "column": 11,
+        "msg": "Operator '+' cannot be applied to types 'number' and '() => void'."
+    },
+    {
+        "line": 36,
+        "column": 11,
+        "msg": "Operator '+' cannot be applied to types 'number' and 'void'."
+    },
+    {
+        "line": 37,
+        "column": 11,
+        "msg": "Operator '+' cannot be applied to types 'number' and 'typeof C'."
+    },
+    {
+        "line": 38,
+        "column": 11,
+        "msg": "Operator '+' cannot be applied to types 'E' and 'C'."
+    },
+    {
+        "line": 39,
+        "column": 11,
+        "msg": "Operator '+' cannot be applied to types 'E' and 'void'."
+    },
+    {
+        "line": 40,
+        "column": 11,
+        "msg": "Operator '+' cannot be applied to types 'E' and 'typeof M'."
+    }
+]

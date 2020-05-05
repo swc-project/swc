@@ -1,0 +1,17 @@
+[
+    {
+        "line": 18,
+        "column": 1,
+        "msg": "Type 'E' is not assignable to type 'C'."
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "number) => void'."
+    },
+    {
+        "line": 19,
+        "column": 11,
+        "msg": "Property 'foo' is protected and only accessible within class 'C' and its subclasses."
+    }
+]

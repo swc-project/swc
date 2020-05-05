@@ -1,0 +1,117 @@
+[
+    {
+        "line": 10,
+        "column": 2,
+        "msg": "Left side of comma operator is unused and has no side effects."
+    },
+    {
+        "line": 10,
+        "column": 7,
+        "msg": "Expression expected."
+    },
+    {
+        "line": 11,
+        "column": 2,
+        "msg": "Left side of comma operator is unused and has no side effects."
+    },
+    {
+        "line": 11,
+        "column": 11,
+        "msg": "Expression expected."
+    },
+    {
+        "line": 12,
+        "column": 2,
+        "msg": "Left side of comma operator is unused and has no side effects."
+    },
+    {
+        "line": 12,
+        "column": 10,
+        "msg": "Expression expected."
+    },
+    {
+        "line": 13,
+        "column": 2,
+        "msg": "Left side of comma operator is unused and has no side effects."
+    },
+    {
+        "line": 13,
+        "column": 10,
+        "msg": "Expression expected."
+    },
+    {
+        "line": 14,
+        "column": 2,
+        "msg": "Left side of comma operator is unused and has no side effects."
+    },
+    {
+        "line": 14,
+        "column": 10,
+        "msg": "Expression expected."
+    },
+    {
+        "line": 17,
+        "column": 2,
+        "msg": "Left side of comma operator is unused and has no side effects."
+    },
+    {
+        "line": 17,
+        "column": 2,
+        "msg": "Expression expected."
+    },
+    {
+        "line": 18,
+        "column": 2,
+        "msg": "Left side of comma operator is unused and has no side effects."
+    },
+    {
+        "line": 18,
+        "column": 2,
+        "msg": "Expression expected."
+    },
+    {
+        "line": 19,
+        "column": 2,
+        "msg": "Left side of comma operator is unused and has no side effects."
+    },
+    {
+        "line": 19,
+        "column": 2,
+        "msg": "Expression expected."
+    },
+    {
+        "line": 20,
+        "column": 2,
+        "msg": "Left side of comma operator is unused and has no side effects."
+    },
+    {
+        "line": 20,
+        "column": 2,
+        "msg": "Expression expected."
+    },
+    {
+        "line": 21,
+        "column": 2,
+        "msg": "Left side of comma operator is unused and has no side effects."
+    },
+    {
+        "line": 21,
+        "column": 2,
+        "msg": "Expression expected."
+    },
+    {
+        "line": 24,
+        "column": 2,
+        "msg": "Left side of comma operator is unused and has no side effects."
+    },
+    {
+        "line": 24,
+        "column": 3,
+        "msg": "Expression expected."
+    },
+    {
+        "line": 24,
+        "column": 5,
+        "msg": "Expression expected."
+    }
+]

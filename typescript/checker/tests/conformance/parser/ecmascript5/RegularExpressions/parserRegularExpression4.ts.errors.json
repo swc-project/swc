@@ -1,0 +1,87 @@
+[
+    {
+        "line": 1,
+        "column": 5,
+        "msg": "Cannot find name 'Ca'."
+    },
+    {
+        "line": 1,
+        "column": 13,
+        "msg": "Cannot find name 'c'."
+    },
+    {
+        "line": 1,
+        "column": 24,
+        "msg": "Cannot find name 'Ba'."
+    },
+    {
+        "line": 1,
+        "column": 32,
+        "msg": "Cannot find name 'c'."
+    },
+    {
+        "line": 1,
+        "column": 64,
+        "msg": "Cannot find name 'c'."
+    },
+    {
+        "line": 1,
+        "column": 93,
+        "msg": "Cannot find name 'c'."
+    },
+    {
+        "line": 1,
+        "column": 132,
+        "msg": "Cannot find name 'c'."
+    },
+    {
+        "line": 1,
+        "column": 144,
+        "msg": "Cannot find name 'd'."
+    },
+    {
+        "line": 1,
+        "column": 177,
+        "msg": "Cannot find name 'c'."
+    },
+    {
+        "line": 1,
+        "column": 189,
+        "msg": "Cannot find name 'd'."
+    },
+    {
+        "line": 1,
+        "column": 221,
+        "msg": "Cannot find name 'W'."
+    },
+    {
+        "line": 1,
+        "column": 231,
+        "msg": "Cannot find name 'W'."
+    },
+    {
+        "line": 1,
+        "column": 244,
+        "msg": "Cannot find name 'A'."
+    },
+    {
+        "line": 1,
+        "column": 248,
+        "msg": "Cannot find name 'd'."
+    },
+    {
+        "line": 1,
+        "column": 252,
+        "msg": "Cannot find name 'd'."
+    },
+    {
+        "line": 1,
+        "column": 274,
+        "msg": "Cannot find name 'c'."
+    },
+    {
+        "line": 1,
+        "column": 291,
+        "msg": "Cannot find name 'b'."
+    }
+]

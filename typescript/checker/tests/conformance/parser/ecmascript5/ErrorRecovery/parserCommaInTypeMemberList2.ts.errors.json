@@ -1,0 +1,7 @@
+[
+    {
+        "line": 1,
+        "column": 9,
+        "msg": "Cannot find name '$'. Do you need to install type definitions for jQuery? Try `npm i @types/jquery`."
+    }
+]

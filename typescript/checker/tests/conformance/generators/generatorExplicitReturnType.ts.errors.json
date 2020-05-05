@@ -1,0 +1,27 @@
+[
+    {
+        "line": 7,
+        "column": 5,
+        "msg": "Type 'undefined' is not assignable to type 'number'."
+    },
+    {
+        "line": 8,
+        "column": 11,
+        "msg": "Type '\"a\"' is not assignable to type 'number'."
+    },
+    {
+        "line": 9,
+        "column": 11,
+        "msg": "Type 'string' is not assignable to type 'number'."
+    },
+    {
+        "line": 10,
+        "column": 5,
+        "msg": "Type '10' is not assignable to type 'boolean'."
+    },
+    {
+        "line": 21,
+        "column": 11,
+        "msg": "Type 'symbol' is not assignable to type 'number'."
+    }
+]

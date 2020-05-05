@@ -1,0 +1,72 @@
+error: AssignFailed {
+    span: Span {
+        lo: BytePos(
+            92,
+        ),
+        hi: BytePos(
+            99,
+        ),
+        ctxt: #0,
+    },
+    left: Lit(
+        TsLitType {
+            span: Span {
+                lo: BytePos(
+                    80,
+                ),
+                hi: BytePos(
+                    81,
+                ),
+                ctxt: #0,
+            },
+            lit: Number(
+                Number {
+                    span: Span {
+                        lo: BytePos(
+                            80,
+                        ),
+                        hi: BytePos(
+                            81,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: 0.0,
+                },
+            ),
+        },
+    ),
+    right: Lit(
+        TsLitType {
+            span: Span {
+                lo: BytePos(
+                    104,
+                ),
+                hi: BytePos(
+                    107,
+                ),
+                ctxt: #0,
+            },
+            lit: Str(
+                Str {
+                    span: Span {
+                        lo: BytePos(
+                            104,
+                        ),
+                        hi: BytePos(
+                            107,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('a' type=inline),
+                    has_escape: false,
+                },
+            ),
+        },
+    ),
+    cause: [],
+}
+ --> $DIR/tests/conformance/statements/for-ofStatements/ES5For-of34.ts:6:6
+  |
+6 | for (foo().x of ['a', 'b', 'c']) {
+  |      ^^^^^^^
+

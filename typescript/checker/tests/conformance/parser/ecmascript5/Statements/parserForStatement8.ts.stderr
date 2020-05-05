@@ -1,0 +1,23 @@
+error: TS2406
+ --> $DIR/tests/conformance/parser/ecmascript5/Statements/parserForStatement8.ts:1:6
+  |
+1 | for (this in b) {
+  |      ^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('b' type=inline),
+    span: Span {
+        lo: BytePos(
+            13,
+        ),
+        hi: BytePos(
+            14,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/Statements/parserForStatement8.ts:1:14
+  |
+1 | for (this in b) {
+  |              ^
+

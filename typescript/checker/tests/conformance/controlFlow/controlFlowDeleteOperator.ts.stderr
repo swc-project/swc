@@ -1,0 +1,6 @@
+error: TS2703
+  --> $DIR/tests/conformance/controlFlow/controlFlowDeleteOperator.ts:16:12
+   |
+16 |     delete x;  // No effect
+   |            ^
+

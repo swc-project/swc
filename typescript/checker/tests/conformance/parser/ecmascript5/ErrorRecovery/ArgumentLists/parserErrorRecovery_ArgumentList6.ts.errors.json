@@ -1,0 +1,17 @@
+[
+    {
+        "line": 1,
+        "column": 1,
+        "msg": "Cannot find name 'Foo'."
+    },
+    {
+        "line": 1,
+        "column": 5,
+        "msg": "Argument expression expected."
+    },
+    {
+        "line": 1,
+        "column": 6,
+        "msg": "')' expected."
+    }
+]

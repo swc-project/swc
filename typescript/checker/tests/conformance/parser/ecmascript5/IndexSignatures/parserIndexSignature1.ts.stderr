@@ -1,0 +1,6 @@
+error: Unexpected token Some(DotDotDot)
+ --> $DIR/tests/conformance/parser/ecmascript5/IndexSignatures/parserIndexSignature1.ts:2:4
+  |
+2 |   [...a]
+  |    ^^^
+

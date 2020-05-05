@@ -1,0 +1,97 @@
+[
+    {
+        "line": 18,
+        "column": 1,
+        "msg": "Property 'foo1' is missing in type 'E' but required in type 'D'."
+    },
+    {
+        "line": 19,
+        "column": 1,
+        "msg": "Type 'D | E' is not assignable to type 'D'."
+    },
+    {
+        "line": 20,
+        "column": 1,
+        "msg": "Property 'foo2' is missing in type 'D' but required in type 'E'."
+    },
+    {
+        "line": 22,
+        "column": 1,
+        "msg": "Type 'D | E' is not assignable to type 'E'."
+    },
+    {
+        "line": 24,
+        "column": 1,
+        "msg": "Type 'string' is not assignable to type 'number'."
+    },
+    {
+        "line": 25,
+        "column": 1,
+        "msg": "Type 'string | number' is not assignable to type 'number'."
+    },
+    {
+        "line": 26,
+        "column": 1,
+        "msg": "Type 'number' is not assignable to type 'string'."
+    },
+    {
+        "line": 28,
+        "column": 1,
+        "msg": "Type 'string | number' is not assignable to type 'string'."
+    },
+    {
+        "line": 31,
+        "column": 1,
+        "msg": "Property 'foo1' is missing in type 'C' but required in type 'D'."
+    },
+    {
+        "line": 32,
+        "column": 1,
+        "msg": "Property 'foo2' is missing in type 'C' but required in type 'E'."
+    },
+    {
+        "line": 33,
+        "column": 1,
+        "msg": "Type 'C' is not assignable to type 'D | E'."
+    },
+    {
+        "line": 35,
+        "column": 1,
+        "msg": "Type 'D' is not assignable to type 'E'."
+    },
+    {
+        "line": 37,
+        "column": 1,
+        "msg": "Type 'E' is not assignable to type 'D'."
+    },
+    {
+        "line": 41,
+        "column": 1,
+        "msg": "Type 'number' is not assignable to type 'string'."
+    },
+    {
+        "line": 43,
+        "column": 1,
+        "msg": "Type 'string' is not assignable to type 'number'."
+    },
+    {
+        "line": 64,
+        "column": 5,
+        "msg": "Type 'U' is not assignable to type 'T'."
+    },
+    {
+        "line": 65,
+        "column": 5,
+        "msg": "Type 'T' is not assignable to type 'U'."
+    },
+    {
+        "line": 70,
+        "column": 5,
+        "msg": "Type 'T | U' is not assignable to type 'T'."
+    },
+    {
+        "line": 71,
+        "column": 5,
+        "msg": "Type 'T | U' is not assignable to type 'U'."
+    }
+]

@@ -1,0 +1,81 @@
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            206,
+        ),
+        hi: BytePos(
+            210,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/propertyAccess/propertyAccessStringIndexSignatureNoImplicitAny.ts:11:7
+   |
+11 | empty.nope;
+   |       ^^^^
+
+error: NoSuchProperty {
+    span: Span {
+        lo: BytePos(
+            212,
+        ),
+        hi: BytePos(
+            239,
+        ),
+        ctxt: #0,
+    },
+    prop: Some(
+        Lit(
+            Str(
+                Str {
+                    span: Span {
+                        lo: BytePos(
+                            218,
+                        ),
+                        hi: BytePos(
+                            238,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('not allowed either' type=dynamic),
+                    has_escape: false,
+                },
+            ),
+        ),
+    ),
+    prop_ty: Some(
+        Lit(
+            TsLitType {
+                span: Span {
+                    lo: BytePos(
+                        218,
+                    ),
+                    hi: BytePos(
+                        238,
+                    ),
+                    ctxt: #0,
+                },
+                lit: Str(
+                    Str {
+                        span: Span {
+                            lo: BytePos(
+                                218,
+                            ),
+                            hi: BytePos(
+                                238,
+                            ),
+                            ctxt: #0,
+                        },
+                        value: Atom('not allowed either' type=dynamic),
+                        has_escape: false,
+                    },
+                ),
+            },
+        ),
+    ),
+}
+  --> $DIR/tests/conformance/expressions/propertyAccess/propertyAccessStringIndexSignatureNoImplicitAny.ts:12:1
+   |
+12 | empty["not allowed either"];
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+

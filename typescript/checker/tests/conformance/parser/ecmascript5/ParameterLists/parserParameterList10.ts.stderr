@@ -1,0 +1,22 @@
+error: TS2370 {
+    span: Span {
+        lo: BytePos(
+            18,
+        ),
+        hi: BytePos(
+            21,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/ParameterLists/parserParameterList10.ts:2:8
+  |
+2 |    foo(...bar = 0) { }
+  |        ^^^
+
+error: TS1048
+ --> $DIR/tests/conformance/parser/ecmascript5/ParameterLists/parserParameterList10.ts:2:11
+  |
+2 |    foo(...bar = 0) { }
+  |           ^^^
+

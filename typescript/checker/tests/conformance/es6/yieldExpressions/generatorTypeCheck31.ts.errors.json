@@ -1,0 +1,12 @@
+[
+    {
+        "line": 3,
+        "column": 11,
+        "msg": "Type 'Generator<(x"
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "Iterable<(x"
+    }
+]

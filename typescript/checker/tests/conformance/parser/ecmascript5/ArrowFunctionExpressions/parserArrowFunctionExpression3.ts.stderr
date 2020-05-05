@@ -1,0 +1,46 @@
+error: UndefinedSymbol {
+    sym: Atom('a' type=inline),
+    span: Span {
+        lo: BytePos(
+            0,
+        ),
+        hi: BytePos(
+            1,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/ArrowFunctionExpressions/parserArrowFunctionExpression3.ts:1:1
+  |
+1 | a = (() => { } || a)
+  | ^
+
+error: TS1005
+ --> $DIR/tests/conformance/parser/ecmascript5/ArrowFunctionExpressions/parserArrowFunctionExpression3.ts:1:16
+  |
+1 | a = (() => { } || a)
+  |                ^^
+
+error: UndefinedSymbol {
+    sym: Atom('a' type=inline),
+    span: Span {
+        lo: BytePos(
+            18,
+        ),
+        hi: BytePos(
+            19,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/ArrowFunctionExpressions/parserArrowFunctionExpression3.ts:1:19
+  |
+1 | a = (() => { } || a)
+  |                   ^
+
+error: TS1005
+ --> $DIR/tests/conformance/parser/ecmascript5/ArrowFunctionExpressions/parserArrowFunctionExpression3.ts:1:20
+  |
+1 | a = (() => { } || a)
+  |                    ^
+

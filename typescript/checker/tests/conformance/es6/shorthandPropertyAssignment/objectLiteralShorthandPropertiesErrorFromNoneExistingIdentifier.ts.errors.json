@@ -1,0 +1,7 @@
+[
+    {
+        "line": 3,
+        "column": 5,
+        "msg": "No value exists in scope for the shorthand property 'undefinedVariable'. Either declare one or provide an initializer."
+    }
+]

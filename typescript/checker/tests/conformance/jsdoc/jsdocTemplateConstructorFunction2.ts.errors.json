@@ -1,0 +1,12 @@
+[
+    {
+        "line": 26,
+        "column": 1,
+        "msg": "Type 'false' is not assignable to type 'number'."
+    },
+    {
+        "line": 33,
+        "column": 15,
+        "msg": "Cannot find name 'T'."
+    }
+]

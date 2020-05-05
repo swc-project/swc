@@ -1,0 +1,22 @@
+[
+    {
+        "line": 1,
+        "column": 1,
+        "msg": "Cannot find name 'foo'."
+    },
+    {
+        "line": 1,
+        "column": 4,
+        "msg": "Invalid character."
+    },
+    {
+        "line": 1,
+        "column": 6,
+        "msg": "Invalid character."
+    },
+    {
+        "line": 1,
+        "column": 7,
+        "msg": "Cannot find name 'bar'."
+    }
+]

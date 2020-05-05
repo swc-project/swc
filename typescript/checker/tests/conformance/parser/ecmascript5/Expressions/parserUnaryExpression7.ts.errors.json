@@ -1,0 +1,12 @@
+[
+    {
+        "line": 1,
+        "column": 4,
+        "msg": "The operand of an increment or decrement operator must be a variable or a property access."
+    },
+    {
+        "line": 1,
+        "column": 8,
+        "msg": "Cannot find name 'Foo'."
+    }
+]

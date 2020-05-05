@@ -1,0 +1,12 @@
+[
+    {
+        "line": 10,
+        "column": 6,
+        "msg": "Property 'f' does not exist on type 'number'."
+    },
+    {
+        "line": 9,
+        "column": 16,
+        "msg": "Property 'f' does not exist on type 'number'."
+    }
+]

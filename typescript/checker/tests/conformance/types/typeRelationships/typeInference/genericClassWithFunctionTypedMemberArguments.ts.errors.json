@@ -1,0 +1,22 @@
+[
+    {
+        "line": 57,
+        "column": 29,
+        "msg": "Argument of type '(x"
+    },
+    {
+        "line": 60,
+        "column": 30,
+        "msg": "Argument of type '(x"
+    },
+    {
+        "line": 61,
+        "column": 31,
+        "msg": "Argument of type '(x"
+    },
+    {
+        "line": 62,
+        "column": 30,
+        "msg": "Argument of type '(a"
+    }
+]

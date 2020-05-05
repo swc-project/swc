@@ -1,0 +1,7 @@
+[
+    {
+        "line": 3,
+        "column": 6,
+        "msg": "Type 'string | number' is not assignable to type 'string'."
+    }
+]

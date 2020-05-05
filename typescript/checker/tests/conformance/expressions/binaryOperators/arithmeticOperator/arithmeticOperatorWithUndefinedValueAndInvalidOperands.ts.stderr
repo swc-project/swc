@@ -1,0 +1,3840 @@
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            186,
+        ),
+        hi: BytePos(
+            195,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:9:12
+  |
+9 | var r1a1 = undefined * a;
+  |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            198,
+        ),
+        hi: BytePos(
+            199,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:9:24
+  |
+9 | var r1a1 = undefined * a;
+  |                        ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            212,
+        ),
+        hi: BytePos(
+            221,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:10:12
+   |
+10 | var r1a2 = undefined * b;
+   |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            224,
+        ),
+        hi: BytePos(
+            225,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:10:24
+   |
+10 | var r1a2 = undefined * b;
+   |                        ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            238,
+        ),
+        hi: BytePos(
+            247,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:11:12
+   |
+11 | var r1a3 = undefined * c;
+   |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            250,
+        ),
+        hi: BytePos(
+            251,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:11:24
+   |
+11 | var r1a3 = undefined * c;
+   |                        ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            265,
+        ),
+        hi: BytePos(
+            266,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:13:12
+   |
+13 | var r1b1 = a * undefined;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            269,
+        ),
+        hi: BytePos(
+            278,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:13:16
+   |
+13 | var r1b1 = a * undefined;
+   |                ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            291,
+        ),
+        hi: BytePos(
+            292,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:14:12
+   |
+14 | var r1b2 = b * undefined;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            295,
+        ),
+        hi: BytePos(
+            304,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:14:16
+   |
+14 | var r1b2 = b * undefined;
+   |                ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            317,
+        ),
+        hi: BytePos(
+            318,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:15:12
+   |
+15 | var r1b3 = c * undefined;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            321,
+        ),
+        hi: BytePos(
+            330,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:15:16
+   |
+15 | var r1b3 = c * undefined;
+   |                ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            344,
+        ),
+        hi: BytePos(
+            353,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:17:12
+   |
+17 | var r1c1 = undefined * true;
+   |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            356,
+        ),
+        hi: BytePos(
+            360,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:17:24
+   |
+17 | var r1c1 = undefined * true;
+   |                        ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            373,
+        ),
+        hi: BytePos(
+            382,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:18:12
+   |
+18 | var r1c2 = undefined * '';
+   |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            385,
+        ),
+        hi: BytePos(
+            387,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:18:24
+   |
+18 | var r1c2 = undefined * '';
+   |                        ^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            400,
+        ),
+        hi: BytePos(
+            409,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:19:12
+   |
+19 | var r1c3 = undefined * {};
+   |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            412,
+        ),
+        hi: BytePos(
+            414,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:19:24
+   |
+19 | var r1c3 = undefined * {};
+   |                        ^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            428,
+        ),
+        hi: BytePos(
+            432,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:21:12
+   |
+21 | var r1d1 = true * undefined;
+   |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            435,
+        ),
+        hi: BytePos(
+            444,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:21:19
+   |
+21 | var r1d1 = true * undefined;
+   |                   ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            457,
+        ),
+        hi: BytePos(
+            459,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:22:12
+   |
+22 | var r1d2 = '' * undefined;
+   |            ^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            462,
+        ),
+        hi: BytePos(
+            471,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:22:17
+   |
+22 | var r1d2 = '' * undefined;
+   |                 ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            484,
+        ),
+        hi: BytePos(
+            486,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:23:12
+   |
+23 | var r1d3 = {} * undefined;
+   |            ^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            489,
+        ),
+        hi: BytePos(
+            498,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:23:17
+   |
+23 | var r1d3 = {} * undefined;
+   |                 ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            526,
+        ),
+        hi: BytePos(
+            535,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:26:12
+   |
+26 | var r2a1 = undefined / a;
+   |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            538,
+        ),
+        hi: BytePos(
+            539,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:26:24
+   |
+26 | var r2a1 = undefined / a;
+   |                        ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            552,
+        ),
+        hi: BytePos(
+            561,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:27:12
+   |
+27 | var r2a2 = undefined / b;
+   |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            564,
+        ),
+        hi: BytePos(
+            565,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:27:24
+   |
+27 | var r2a2 = undefined / b;
+   |                        ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            578,
+        ),
+        hi: BytePos(
+            587,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:28:12
+   |
+28 | var r2a3 = undefined / c;
+   |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            590,
+        ),
+        hi: BytePos(
+            591,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:28:24
+   |
+28 | var r2a3 = undefined / c;
+   |                        ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            605,
+        ),
+        hi: BytePos(
+            606,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:30:12
+   |
+30 | var r2b1 = a / undefined;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            609,
+        ),
+        hi: BytePos(
+            618,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:30:16
+   |
+30 | var r2b1 = a / undefined;
+   |                ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            631,
+        ),
+        hi: BytePos(
+            632,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:31:12
+   |
+31 | var r2b2 = b / undefined;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            635,
+        ),
+        hi: BytePos(
+            644,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:31:16
+   |
+31 | var r2b2 = b / undefined;
+   |                ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            657,
+        ),
+        hi: BytePos(
+            658,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:32:12
+   |
+32 | var r2b3 = c / undefined;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            661,
+        ),
+        hi: BytePos(
+            670,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:32:16
+   |
+32 | var r2b3 = c / undefined;
+   |                ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            684,
+        ),
+        hi: BytePos(
+            693,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:34:12
+   |
+34 | var r2c1 = undefined / true;
+   |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            696,
+        ),
+        hi: BytePos(
+            700,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:34:24
+   |
+34 | var r2c1 = undefined / true;
+   |                        ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            713,
+        ),
+        hi: BytePos(
+            722,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:35:12
+   |
+35 | var r2c2 = undefined / '';
+   |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            725,
+        ),
+        hi: BytePos(
+            727,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:35:24
+   |
+35 | var r2c2 = undefined / '';
+   |                        ^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            740,
+        ),
+        hi: BytePos(
+            749,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:36:12
+   |
+36 | var r2c3 = undefined / {};
+   |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            752,
+        ),
+        hi: BytePos(
+            754,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:36:24
+   |
+36 | var r2c3 = undefined / {};
+   |                        ^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            768,
+        ),
+        hi: BytePos(
+            772,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:38:12
+   |
+38 | var r2d1 = true / undefined;
+   |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            775,
+        ),
+        hi: BytePos(
+            784,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:38:19
+   |
+38 | var r2d1 = true / undefined;
+   |                   ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            797,
+        ),
+        hi: BytePos(
+            799,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:39:12
+   |
+39 | var r2d2 = '' / undefined;
+   |            ^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            802,
+        ),
+        hi: BytePos(
+            811,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:39:17
+   |
+39 | var r2d2 = '' / undefined;
+   |                 ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            824,
+        ),
+        hi: BytePos(
+            826,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:40:12
+   |
+40 | var r2d3 = {} / undefined;
+   |            ^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            829,
+        ),
+        hi: BytePos(
+            838,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:40:17
+   |
+40 | var r2d3 = {} / undefined;
+   |                 ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            866,
+        ),
+        hi: BytePos(
+            875,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:43:12
+   |
+43 | var r3a1 = undefined % a;
+   |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            878,
+        ),
+        hi: BytePos(
+            879,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:43:24
+   |
+43 | var r3a1 = undefined % a;
+   |                        ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            892,
+        ),
+        hi: BytePos(
+            901,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:44:12
+   |
+44 | var r3a2 = undefined % b;
+   |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            904,
+        ),
+        hi: BytePos(
+            905,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:44:24
+   |
+44 | var r3a2 = undefined % b;
+   |                        ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            918,
+        ),
+        hi: BytePos(
+            927,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:45:12
+   |
+45 | var r3a3 = undefined % c;
+   |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            930,
+        ),
+        hi: BytePos(
+            931,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:45:24
+   |
+45 | var r3a3 = undefined % c;
+   |                        ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            945,
+        ),
+        hi: BytePos(
+            946,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:47:12
+   |
+47 | var r3b1 = a % undefined;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            949,
+        ),
+        hi: BytePos(
+            958,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:47:16
+   |
+47 | var r3b1 = a % undefined;
+   |                ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            971,
+        ),
+        hi: BytePos(
+            972,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:48:12
+   |
+48 | var r3b2 = b % undefined;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            975,
+        ),
+        hi: BytePos(
+            984,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:48:16
+   |
+48 | var r3b2 = b % undefined;
+   |                ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            997,
+        ),
+        hi: BytePos(
+            998,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:49:12
+   |
+49 | var r3b3 = c % undefined;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1001,
+        ),
+        hi: BytePos(
+            1010,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:49:16
+   |
+49 | var r3b3 = c % undefined;
+   |                ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1024,
+        ),
+        hi: BytePos(
+            1033,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:51:12
+   |
+51 | var r3c1 = undefined % true;
+   |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1036,
+        ),
+        hi: BytePos(
+            1040,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:51:24
+   |
+51 | var r3c1 = undefined % true;
+   |                        ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1053,
+        ),
+        hi: BytePos(
+            1062,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:52:12
+   |
+52 | var r3c2 = undefined % '';
+   |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1065,
+        ),
+        hi: BytePos(
+            1067,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:52:24
+   |
+52 | var r3c2 = undefined % '';
+   |                        ^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1080,
+        ),
+        hi: BytePos(
+            1089,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:53:12
+   |
+53 | var r3c3 = undefined % {};
+   |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1092,
+        ),
+        hi: BytePos(
+            1094,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:53:24
+   |
+53 | var r3c3 = undefined % {};
+   |                        ^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1108,
+        ),
+        hi: BytePos(
+            1112,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:55:12
+   |
+55 | var r3d1 = true % undefined;
+   |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1115,
+        ),
+        hi: BytePos(
+            1124,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:55:19
+   |
+55 | var r3d1 = true % undefined;
+   |                   ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1137,
+        ),
+        hi: BytePos(
+            1139,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:56:12
+   |
+56 | var r3d2 = '' % undefined;
+   |            ^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1142,
+        ),
+        hi: BytePos(
+            1151,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:56:17
+   |
+56 | var r3d2 = '' % undefined;
+   |                 ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1164,
+        ),
+        hi: BytePos(
+            1166,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:57:12
+   |
+57 | var r3d3 = {} % undefined;
+   |            ^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1169,
+        ),
+        hi: BytePos(
+            1178,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:57:17
+   |
+57 | var r3d3 = {} % undefined;
+   |                 ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1206,
+        ),
+        hi: BytePos(
+            1215,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:60:12
+   |
+60 | var r4a1 = undefined - a;
+   |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1218,
+        ),
+        hi: BytePos(
+            1219,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:60:24
+   |
+60 | var r4a1 = undefined - a;
+   |                        ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1232,
+        ),
+        hi: BytePos(
+            1241,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:61:12
+   |
+61 | var r4a2 = undefined - b;
+   |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1244,
+        ),
+        hi: BytePos(
+            1245,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:61:24
+   |
+61 | var r4a2 = undefined - b;
+   |                        ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1258,
+        ),
+        hi: BytePos(
+            1267,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:62:12
+   |
+62 | var r4a3 = undefined - c;
+   |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1270,
+        ),
+        hi: BytePos(
+            1271,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:62:24
+   |
+62 | var r4a3 = undefined - c;
+   |                        ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1285,
+        ),
+        hi: BytePos(
+            1286,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:64:12
+   |
+64 | var r4b1 = a - undefined;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1289,
+        ),
+        hi: BytePos(
+            1298,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:64:16
+   |
+64 | var r4b1 = a - undefined;
+   |                ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1311,
+        ),
+        hi: BytePos(
+            1312,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:65:12
+   |
+65 | var r4b2 = b - undefined;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1315,
+        ),
+        hi: BytePos(
+            1324,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:65:16
+   |
+65 | var r4b2 = b - undefined;
+   |                ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1337,
+        ),
+        hi: BytePos(
+            1338,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:66:12
+   |
+66 | var r4b3 = c - undefined;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1341,
+        ),
+        hi: BytePos(
+            1350,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:66:16
+   |
+66 | var r4b3 = c - undefined;
+   |                ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1364,
+        ),
+        hi: BytePos(
+            1373,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:68:12
+   |
+68 | var r4c1 = undefined - true;
+   |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1376,
+        ),
+        hi: BytePos(
+            1380,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:68:24
+   |
+68 | var r4c1 = undefined - true;
+   |                        ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1393,
+        ),
+        hi: BytePos(
+            1402,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:69:12
+   |
+69 | var r4c2 = undefined - '';
+   |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1405,
+        ),
+        hi: BytePos(
+            1407,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:69:24
+   |
+69 | var r4c2 = undefined - '';
+   |                        ^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1420,
+        ),
+        hi: BytePos(
+            1429,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:70:12
+   |
+70 | var r4c3 = undefined - {};
+   |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1432,
+        ),
+        hi: BytePos(
+            1434,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:70:24
+   |
+70 | var r4c3 = undefined - {};
+   |                        ^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1448,
+        ),
+        hi: BytePos(
+            1452,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:72:12
+   |
+72 | var r4d1 = true - undefined;
+   |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1455,
+        ),
+        hi: BytePos(
+            1464,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:72:19
+   |
+72 | var r4d1 = true - undefined;
+   |                   ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1477,
+        ),
+        hi: BytePos(
+            1479,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:73:12
+   |
+73 | var r4d2 = '' - undefined;
+   |            ^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1482,
+        ),
+        hi: BytePos(
+            1491,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:73:17
+   |
+73 | var r4d2 = '' - undefined;
+   |                 ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1504,
+        ),
+        hi: BytePos(
+            1506,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:74:12
+   |
+74 | var r4d3 = {} - undefined;
+   |            ^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1509,
+        ),
+        hi: BytePos(
+            1518,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:74:17
+   |
+74 | var r4d3 = {} - undefined;
+   |                 ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1547,
+        ),
+        hi: BytePos(
+            1556,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:77:12
+   |
+77 | var r5a1 = undefined << a;
+   |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1560,
+        ),
+        hi: BytePos(
+            1561,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:77:25
+   |
+77 | var r5a1 = undefined << a;
+   |                         ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1574,
+        ),
+        hi: BytePos(
+            1583,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:78:12
+   |
+78 | var r5a2 = undefined << b;
+   |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1587,
+        ),
+        hi: BytePos(
+            1588,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:78:25
+   |
+78 | var r5a2 = undefined << b;
+   |                         ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1601,
+        ),
+        hi: BytePos(
+            1610,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:79:12
+   |
+79 | var r5a3 = undefined << c;
+   |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1614,
+        ),
+        hi: BytePos(
+            1615,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:79:25
+   |
+79 | var r5a3 = undefined << c;
+   |                         ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1629,
+        ),
+        hi: BytePos(
+            1630,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:81:12
+   |
+81 | var r5b1 = a << undefined;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1634,
+        ),
+        hi: BytePos(
+            1643,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:81:17
+   |
+81 | var r5b1 = a << undefined;
+   |                 ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1656,
+        ),
+        hi: BytePos(
+            1657,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:82:12
+   |
+82 | var r5b2 = b << undefined;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1661,
+        ),
+        hi: BytePos(
+            1670,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:82:17
+   |
+82 | var r5b2 = b << undefined;
+   |                 ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1683,
+        ),
+        hi: BytePos(
+            1684,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:83:12
+   |
+83 | var r5b3 = c << undefined;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1688,
+        ),
+        hi: BytePos(
+            1697,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:83:17
+   |
+83 | var r5b3 = c << undefined;
+   |                 ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1711,
+        ),
+        hi: BytePos(
+            1720,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:85:12
+   |
+85 | var r5c1 = undefined << true;
+   |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1724,
+        ),
+        hi: BytePos(
+            1728,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:85:25
+   |
+85 | var r5c1 = undefined << true;
+   |                         ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1741,
+        ),
+        hi: BytePos(
+            1750,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:86:12
+   |
+86 | var r5c2 = undefined << '';
+   |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1754,
+        ),
+        hi: BytePos(
+            1756,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:86:25
+   |
+86 | var r5c2 = undefined << '';
+   |                         ^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1769,
+        ),
+        hi: BytePos(
+            1778,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:87:12
+   |
+87 | var r5c3 = undefined << {};
+   |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1782,
+        ),
+        hi: BytePos(
+            1784,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:87:25
+   |
+87 | var r5c3 = undefined << {};
+   |                         ^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1798,
+        ),
+        hi: BytePos(
+            1802,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:89:12
+   |
+89 | var r5d1 = true << undefined;
+   |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1806,
+        ),
+        hi: BytePos(
+            1815,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:89:20
+   |
+89 | var r5d1 = true << undefined;
+   |                    ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1828,
+        ),
+        hi: BytePos(
+            1830,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:90:12
+   |
+90 | var r5d2 = '' << undefined;
+   |            ^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1834,
+        ),
+        hi: BytePos(
+            1843,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:90:18
+   |
+90 | var r5d2 = '' << undefined;
+   |                  ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1856,
+        ),
+        hi: BytePos(
+            1858,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:91:12
+   |
+91 | var r5d3 = {} << undefined;
+   |            ^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1862,
+        ),
+        hi: BytePos(
+            1871,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:91:18
+   |
+91 | var r5d3 = {} << undefined;
+   |                  ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1900,
+        ),
+        hi: BytePos(
+            1909,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:94:12
+   |
+94 | var r6a1 = undefined >> a;
+   |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1913,
+        ),
+        hi: BytePos(
+            1914,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:94:25
+   |
+94 | var r6a1 = undefined >> a;
+   |                         ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1927,
+        ),
+        hi: BytePos(
+            1936,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:95:12
+   |
+95 | var r6a2 = undefined >> b;
+   |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1940,
+        ),
+        hi: BytePos(
+            1941,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:95:25
+   |
+95 | var r6a2 = undefined >> b;
+   |                         ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1954,
+        ),
+        hi: BytePos(
+            1963,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:96:12
+   |
+96 | var r6a3 = undefined >> c;
+   |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1967,
+        ),
+        hi: BytePos(
+            1968,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:96:25
+   |
+96 | var r6a3 = undefined >> c;
+   |                         ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            1982,
+        ),
+        hi: BytePos(
+            1983,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:98:12
+   |
+98 | var r6b1 = a >> undefined;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            1987,
+        ),
+        hi: BytePos(
+            1996,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:98:17
+   |
+98 | var r6b1 = a >> undefined;
+   |                 ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2009,
+        ),
+        hi: BytePos(
+            2010,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:99:12
+   |
+99 | var r6b2 = b >> undefined;
+   |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2014,
+        ),
+        hi: BytePos(
+            2023,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:99:17
+   |
+99 | var r6b2 = b >> undefined;
+   |                 ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2036,
+        ),
+        hi: BytePos(
+            2037,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:100:12
+    |
+100 | var r6b3 = c >> undefined;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2041,
+        ),
+        hi: BytePos(
+            2050,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:100:17
+    |
+100 | var r6b3 = c >> undefined;
+    |                 ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2064,
+        ),
+        hi: BytePos(
+            2073,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:102:12
+    |
+102 | var r6c1 = undefined >> true;
+    |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2077,
+        ),
+        hi: BytePos(
+            2081,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:102:25
+    |
+102 | var r6c1 = undefined >> true;
+    |                         ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2094,
+        ),
+        hi: BytePos(
+            2103,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:103:12
+    |
+103 | var r6c2 = undefined >> '';
+    |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2107,
+        ),
+        hi: BytePos(
+            2109,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:103:25
+    |
+103 | var r6c2 = undefined >> '';
+    |                         ^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2122,
+        ),
+        hi: BytePos(
+            2131,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:104:12
+    |
+104 | var r6c3 = undefined >> {};
+    |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2135,
+        ),
+        hi: BytePos(
+            2137,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:104:25
+    |
+104 | var r6c3 = undefined >> {};
+    |                         ^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2151,
+        ),
+        hi: BytePos(
+            2155,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:106:12
+    |
+106 | var r6d1 = true >> undefined;
+    |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2159,
+        ),
+        hi: BytePos(
+            2168,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:106:20
+    |
+106 | var r6d1 = true >> undefined;
+    |                    ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2181,
+        ),
+        hi: BytePos(
+            2183,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:107:12
+    |
+107 | var r6d2 = '' >> undefined;
+    |            ^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2187,
+        ),
+        hi: BytePos(
+            2196,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:107:18
+    |
+107 | var r6d2 = '' >> undefined;
+    |                  ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2209,
+        ),
+        hi: BytePos(
+            2211,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:108:12
+    |
+108 | var r6d3 = {} >> undefined;
+    |            ^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2215,
+        ),
+        hi: BytePos(
+            2224,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:108:18
+    |
+108 | var r6d3 = {} >> undefined;
+    |                  ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2254,
+        ),
+        hi: BytePos(
+            2263,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:111:12
+    |
+111 | var r7a1 = undefined >>> a;
+    |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2268,
+        ),
+        hi: BytePos(
+            2269,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:111:26
+    |
+111 | var r7a1 = undefined >>> a;
+    |                          ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2282,
+        ),
+        hi: BytePos(
+            2291,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:112:12
+    |
+112 | var r7a2 = undefined >>> b;
+    |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2296,
+        ),
+        hi: BytePos(
+            2297,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:112:26
+    |
+112 | var r7a2 = undefined >>> b;
+    |                          ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2310,
+        ),
+        hi: BytePos(
+            2319,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:113:12
+    |
+113 | var r7a3 = undefined >>> c;
+    |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2324,
+        ),
+        hi: BytePos(
+            2325,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:113:26
+    |
+113 | var r7a3 = undefined >>> c;
+    |                          ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2339,
+        ),
+        hi: BytePos(
+            2340,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:115:12
+    |
+115 | var r7b1 = a >>> undefined;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2345,
+        ),
+        hi: BytePos(
+            2354,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:115:18
+    |
+115 | var r7b1 = a >>> undefined;
+    |                  ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2367,
+        ),
+        hi: BytePos(
+            2368,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:116:12
+    |
+116 | var r7b2 = b >>> undefined;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2373,
+        ),
+        hi: BytePos(
+            2382,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:116:18
+    |
+116 | var r7b2 = b >>> undefined;
+    |                  ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2395,
+        ),
+        hi: BytePos(
+            2396,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:117:12
+    |
+117 | var r7b3 = c >>> undefined;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2401,
+        ),
+        hi: BytePos(
+            2410,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:117:18
+    |
+117 | var r7b3 = c >>> undefined;
+    |                  ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2424,
+        ),
+        hi: BytePos(
+            2433,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:119:12
+    |
+119 | var r7c1 = undefined >>> true;
+    |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2438,
+        ),
+        hi: BytePos(
+            2442,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:119:26
+    |
+119 | var r7c1 = undefined >>> true;
+    |                          ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2455,
+        ),
+        hi: BytePos(
+            2464,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:120:12
+    |
+120 | var r7c2 = undefined >>> '';
+    |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2469,
+        ),
+        hi: BytePos(
+            2471,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:120:26
+    |
+120 | var r7c2 = undefined >>> '';
+    |                          ^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2484,
+        ),
+        hi: BytePos(
+            2493,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:121:12
+    |
+121 | var r7c3 = undefined >>> {};
+    |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2498,
+        ),
+        hi: BytePos(
+            2500,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:121:26
+    |
+121 | var r7c3 = undefined >>> {};
+    |                          ^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2514,
+        ),
+        hi: BytePos(
+            2518,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:123:12
+    |
+123 | var r7d1 = true >>> undefined;
+    |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2523,
+        ),
+        hi: BytePos(
+            2532,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:123:21
+    |
+123 | var r7d1 = true >>> undefined;
+    |                     ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2545,
+        ),
+        hi: BytePos(
+            2547,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:124:12
+    |
+124 | var r7d2 = '' >>> undefined;
+    |            ^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2552,
+        ),
+        hi: BytePos(
+            2561,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:124:19
+    |
+124 | var r7d2 = '' >>> undefined;
+    |                   ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2574,
+        ),
+        hi: BytePos(
+            2576,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:125:12
+    |
+125 | var r7d3 = {} >>> undefined;
+    |            ^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2581,
+        ),
+        hi: BytePos(
+            2590,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:125:19
+    |
+125 | var r7d3 = {} >>> undefined;
+    |                   ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2618,
+        ),
+        hi: BytePos(
+            2627,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:128:12
+    |
+128 | var r8a1 = undefined & a;
+    |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2630,
+        ),
+        hi: BytePos(
+            2631,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:128:24
+    |
+128 | var r8a1 = undefined & a;
+    |                        ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2644,
+        ),
+        hi: BytePos(
+            2653,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:129:12
+    |
+129 | var r8a2 = undefined & b;
+    |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2656,
+        ),
+        hi: BytePos(
+            2657,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:129:24
+    |
+129 | var r8a2 = undefined & b;
+    |                        ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2670,
+        ),
+        hi: BytePos(
+            2679,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:130:12
+    |
+130 | var r8a3 = undefined & c;
+    |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2682,
+        ),
+        hi: BytePos(
+            2683,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:130:24
+    |
+130 | var r8a3 = undefined & c;
+    |                        ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2697,
+        ),
+        hi: BytePos(
+            2698,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:132:12
+    |
+132 | var r8b1 = a & undefined;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2701,
+        ),
+        hi: BytePos(
+            2710,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:132:16
+    |
+132 | var r8b1 = a & undefined;
+    |                ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2723,
+        ),
+        hi: BytePos(
+            2724,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:133:12
+    |
+133 | var r8b2 = b & undefined;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2727,
+        ),
+        hi: BytePos(
+            2736,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:133:16
+    |
+133 | var r8b2 = b & undefined;
+    |                ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2749,
+        ),
+        hi: BytePos(
+            2750,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:134:12
+    |
+134 | var r8b3 = c & undefined;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2753,
+        ),
+        hi: BytePos(
+            2762,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:134:16
+    |
+134 | var r8b3 = c & undefined;
+    |                ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2776,
+        ),
+        hi: BytePos(
+            2785,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:136:12
+    |
+136 | var r8c1 = undefined & true;
+    |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2788,
+        ),
+        hi: BytePos(
+            2792,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:136:24
+    |
+136 | var r8c1 = undefined & true;
+    |                        ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2805,
+        ),
+        hi: BytePos(
+            2814,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:137:12
+    |
+137 | var r8c2 = undefined & '';
+    |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2817,
+        ),
+        hi: BytePos(
+            2819,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:137:24
+    |
+137 | var r8c2 = undefined & '';
+    |                        ^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2832,
+        ),
+        hi: BytePos(
+            2841,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:138:12
+    |
+138 | var r8c3 = undefined & {};
+    |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2844,
+        ),
+        hi: BytePos(
+            2846,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:138:24
+    |
+138 | var r8c3 = undefined & {};
+    |                        ^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2860,
+        ),
+        hi: BytePos(
+            2864,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:140:12
+    |
+140 | var r8d1 = true & undefined;
+    |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2867,
+        ),
+        hi: BytePos(
+            2876,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:140:19
+    |
+140 | var r8d1 = true & undefined;
+    |                   ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2889,
+        ),
+        hi: BytePos(
+            2891,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:141:12
+    |
+141 | var r8d2 = '' & undefined;
+    |            ^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2894,
+        ),
+        hi: BytePos(
+            2903,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:141:17
+    |
+141 | var r8d2 = '' & undefined;
+    |                 ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2916,
+        ),
+        hi: BytePos(
+            2918,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:142:12
+    |
+142 | var r8d3 = {} & undefined;
+    |            ^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2921,
+        ),
+        hi: BytePos(
+            2930,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:142:17
+    |
+142 | var r8d3 = {} & undefined;
+    |                 ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2958,
+        ),
+        hi: BytePos(
+            2967,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:145:12
+    |
+145 | var r9a1 = undefined ^ a;
+    |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2970,
+        ),
+        hi: BytePos(
+            2971,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:145:24
+    |
+145 | var r9a1 = undefined ^ a;
+    |                        ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            2984,
+        ),
+        hi: BytePos(
+            2993,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:146:12
+    |
+146 | var r9a2 = undefined ^ b;
+    |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            2996,
+        ),
+        hi: BytePos(
+            2997,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:146:24
+    |
+146 | var r9a2 = undefined ^ b;
+    |                        ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            3010,
+        ),
+        hi: BytePos(
+            3019,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:147:12
+    |
+147 | var r9a3 = undefined ^ c;
+    |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            3022,
+        ),
+        hi: BytePos(
+            3023,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:147:24
+    |
+147 | var r9a3 = undefined ^ c;
+    |                        ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            3037,
+        ),
+        hi: BytePos(
+            3038,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:149:12
+    |
+149 | var r9b1 = a ^ undefined;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            3041,
+        ),
+        hi: BytePos(
+            3050,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:149:16
+    |
+149 | var r9b1 = a ^ undefined;
+    |                ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            3063,
+        ),
+        hi: BytePos(
+            3064,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:150:12
+    |
+150 | var r9b2 = b ^ undefined;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            3067,
+        ),
+        hi: BytePos(
+            3076,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:150:16
+    |
+150 | var r9b2 = b ^ undefined;
+    |                ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            3089,
+        ),
+        hi: BytePos(
+            3090,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:151:12
+    |
+151 | var r9b3 = c ^ undefined;
+    |            ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            3093,
+        ),
+        hi: BytePos(
+            3102,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:151:16
+    |
+151 | var r9b3 = c ^ undefined;
+    |                ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            3116,
+        ),
+        hi: BytePos(
+            3125,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:153:12
+    |
+153 | var r9c1 = undefined ^ true;
+    |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            3128,
+        ),
+        hi: BytePos(
+            3132,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:153:24
+    |
+153 | var r9c1 = undefined ^ true;
+    |                        ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            3145,
+        ),
+        hi: BytePos(
+            3154,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:154:12
+    |
+154 | var r9c2 = undefined ^ '';
+    |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            3157,
+        ),
+        hi: BytePos(
+            3159,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:154:24
+    |
+154 | var r9c2 = undefined ^ '';
+    |                        ^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            3172,
+        ),
+        hi: BytePos(
+            3181,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:155:12
+    |
+155 | var r9c3 = undefined ^ {};
+    |            ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            3184,
+        ),
+        hi: BytePos(
+            3186,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:155:24
+    |
+155 | var r9c3 = undefined ^ {};
+    |                        ^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            3200,
+        ),
+        hi: BytePos(
+            3204,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:157:12
+    |
+157 | var r9d1 = true ^ undefined;
+    |            ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            3207,
+        ),
+        hi: BytePos(
+            3216,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:157:19
+    |
+157 | var r9d1 = true ^ undefined;
+    |                   ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            3229,
+        ),
+        hi: BytePos(
+            3231,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:158:12
+    |
+158 | var r9d2 = '' ^ undefined;
+    |            ^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            3234,
+        ),
+        hi: BytePos(
+            3243,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:158:17
+    |
+158 | var r9d2 = '' ^ undefined;
+    |                 ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            3256,
+        ),
+        hi: BytePos(
+            3258,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:159:12
+    |
+159 | var r9d3 = {} ^ undefined;
+    |            ^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            3261,
+        ),
+        hi: BytePos(
+            3270,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:159:17
+    |
+159 | var r9d3 = {} ^ undefined;
+    |                 ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            3299,
+        ),
+        hi: BytePos(
+            3308,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:162:13
+    |
+162 | var r10a1 = undefined | a;
+    |             ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            3311,
+        ),
+        hi: BytePos(
+            3312,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:162:25
+    |
+162 | var r10a1 = undefined | a;
+    |                         ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            3326,
+        ),
+        hi: BytePos(
+            3335,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:163:13
+    |
+163 | var r10a2 = undefined | b;
+    |             ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            3338,
+        ),
+        hi: BytePos(
+            3339,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:163:25
+    |
+163 | var r10a2 = undefined | b;
+    |                         ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            3353,
+        ),
+        hi: BytePos(
+            3362,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:164:13
+    |
+164 | var r10a3 = undefined | c;
+    |             ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            3365,
+        ),
+        hi: BytePos(
+            3366,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:164:25
+    |
+164 | var r10a3 = undefined | c;
+    |                         ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            3381,
+        ),
+        hi: BytePos(
+            3382,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:166:13
+    |
+166 | var r10b1 = a | undefined;
+    |             ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            3385,
+        ),
+        hi: BytePos(
+            3394,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:166:17
+    |
+166 | var r10b1 = a | undefined;
+    |                 ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            3408,
+        ),
+        hi: BytePos(
+            3409,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:167:13
+    |
+167 | var r10b2 = b | undefined;
+    |             ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            3412,
+        ),
+        hi: BytePos(
+            3421,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:167:17
+    |
+167 | var r10b2 = b | undefined;
+    |                 ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            3435,
+        ),
+        hi: BytePos(
+            3436,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:168:13
+    |
+168 | var r10b3 = c | undefined;
+    |             ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            3439,
+        ),
+        hi: BytePos(
+            3448,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:168:17
+    |
+168 | var r10b3 = c | undefined;
+    |                 ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            3463,
+        ),
+        hi: BytePos(
+            3472,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:170:13
+    |
+170 | var r10c1 = undefined | true;
+    |             ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            3475,
+        ),
+        hi: BytePos(
+            3479,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:170:25
+    |
+170 | var r10c1 = undefined | true;
+    |                         ^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            3493,
+        ),
+        hi: BytePos(
+            3502,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:171:13
+    |
+171 | var r10c2 = undefined | '';
+    |             ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            3505,
+        ),
+        hi: BytePos(
+            3507,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:171:25
+    |
+171 | var r10c2 = undefined | '';
+    |                         ^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            3521,
+        ),
+        hi: BytePos(
+            3530,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:172:13
+    |
+172 | var r10c3 = undefined | {};
+    |             ^^^^^^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            3533,
+        ),
+        hi: BytePos(
+            3535,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:172:25
+    |
+172 | var r10c3 = undefined | {};
+    |                         ^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            3550,
+        ),
+        hi: BytePos(
+            3554,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:174:13
+    |
+174 | var r10d1 = true | undefined;
+    |             ^^^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            3557,
+        ),
+        hi: BytePos(
+            3566,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:174:20
+    |
+174 | var r10d1 = true | undefined;
+    |                    ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            3580,
+        ),
+        hi: BytePos(
+            3582,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:175:13
+    |
+175 | var r10d2 = '' | undefined;
+    |             ^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            3585,
+        ),
+        hi: BytePos(
+            3594,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:175:18
+    |
+175 | var r10d2 = '' | undefined;
+    |                  ^^^^^^^^^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            3608,
+        ),
+        hi: BytePos(
+            3610,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:176:13
+    |
+176 | var r10d3 = {} | undefined;
+    |             ^^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            3613,
+        ),
+        hi: BytePos(
+            3622,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/arithmeticOperator/arithmeticOperatorWithUndefinedValueAndInvalidOperands.ts:176:18
+    |
+176 | var r10d3 = {} | undefined;
+    |                  ^^^^^^^^^
+

@@ -1,0 +1,12 @@
+[
+    {
+        "line": 1,
+        "column": 9,
+        "msg": "A rest element must be last in a destructuring pattern."
+    },
+    {
+        "line": 2,
+        "column": 2,
+        "msg": "A rest element must be last in a destructuring pattern."
+    }
+]

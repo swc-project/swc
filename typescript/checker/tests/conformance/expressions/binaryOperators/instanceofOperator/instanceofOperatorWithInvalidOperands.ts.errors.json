@@ -1,0 +1,107 @@
+[
+    {
+        "line": 14,
+        "column": 11,
+        "msg": "The left-hand side of an 'instanceof' expression must be of type 'any', an object type or a type parameter."
+    },
+    {
+        "line": 15,
+        "column": 11,
+        "msg": "The left-hand side of an 'instanceof' expression must be of type 'any', an object type or a type parameter."
+    },
+    {
+        "line": 16,
+        "column": 11,
+        "msg": "The left-hand side of an 'instanceof' expression must be of type 'any', an object type or a type parameter."
+    },
+    {
+        "line": 17,
+        "column": 11,
+        "msg": "The left-hand side of an 'instanceof' expression must be of type 'any', an object type or a type parameter."
+    },
+    {
+        "line": 18,
+        "column": 11,
+        "msg": "The left-hand side of an 'instanceof' expression must be of type 'any', an object type or a type parameter."
+    },
+    {
+        "line": 19,
+        "column": 11,
+        "msg": "The left-hand side of an 'instanceof' expression must be of type 'any', an object type or a type parameter."
+    },
+    {
+        "line": 20,
+        "column": 11,
+        "msg": "The left-hand side of an 'instanceof' expression must be of type 'any', an object type or a type parameter."
+    },
+    {
+        "line": 21,
+        "column": 11,
+        "msg": "The left-hand side of an 'instanceof' expression must be of type 'any', an object type or a type parameter."
+    },
+    {
+        "line": 22,
+        "column": 11,
+        "msg": "The left-hand side of an 'instanceof' expression must be of type 'any', an object type or a type parameter."
+    },
+    {
+        "line": 34,
+        "column": 24,
+        "msg": "The right-hand side of an 'instanceof' expression must be of type 'any' or of a type assignable to the 'Function' interface type."
+    },
+    {
+        "line": 35,
+        "column": 24,
+        "msg": "The right-hand side of an 'instanceof' expression must be of type 'any' or of a type assignable to the 'Function' interface type."
+    },
+    {
+        "line": 36,
+        "column": 24,
+        "msg": "The right-hand side of an 'instanceof' expression must be of type 'any' or of a type assignable to the 'Function' interface type."
+    },
+    {
+        "line": 37,
+        "column": 24,
+        "msg": "The right-hand side of an 'instanceof' expression must be of type 'any' or of a type assignable to the 'Function' interface type."
+    },
+    {
+        "line": 38,
+        "column": 24,
+        "msg": "The right-hand side of an 'instanceof' expression must be of type 'any' or of a type assignable to the 'Function' interface type."
+    },
+    {
+        "line": 39,
+        "column": 24,
+        "msg": "The right-hand side of an 'instanceof' expression must be of type 'any' or of a type assignable to the 'Function' interface type."
+    },
+    {
+        "line": 40,
+        "column": 24,
+        "msg": "The right-hand side of an 'instanceof' expression must be of type 'any' or of a type assignable to the 'Function' interface type."
+    },
+    {
+        "line": 41,
+        "column": 24,
+        "msg": "The right-hand side of an 'instanceof' expression must be of type 'any' or of a type assignable to the 'Function' interface type."
+    },
+    {
+        "line": 42,
+        "column": 24,
+        "msg": "The right-hand side of an 'instanceof' expression must be of type 'any' or of a type assignable to the 'Function' interface type."
+    },
+    {
+        "line": 43,
+        "column": 25,
+        "msg": "The right-hand side of an 'instanceof' expression must be of type 'any' or of a type assignable to the 'Function' interface type."
+    },
+    {
+        "line": 46,
+        "column": 11,
+        "msg": "The left-hand side of an 'instanceof' expression must be of type 'any', an object type or a type parameter."
+    },
+    {
+        "line": 46,
+        "column": 25,
+        "msg": "The right-hand side of an 'instanceof' expression must be of type 'any' or of a type assignable to the 'Function' interface type."
+    }
+]

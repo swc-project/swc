@@ -1,0 +1,74 @@
+error: UndefinedSymbol {
+    sym: Atom('foo1' type=inline),
+    span: Span {
+        lo: BytePos(
+            14,
+        ),
+        hi: BytePos(
+            18,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/StrictMode/parserStrictMode2.ts:2:1
+  |
+2 | foo1();
+  | ^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('foo1' type=inline),
+    span: Span {
+        lo: BytePos(
+            22,
+        ),
+        hi: BytePos(
+            26,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/StrictMode/parserStrictMode2.ts:3:1
+  |
+3 | foo1();
+  | ^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('foo1' type=inline),
+    span: Span {
+        lo: BytePos(
+            30,
+        ),
+        hi: BytePos(
+            34,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/StrictMode/parserStrictMode2.ts:4:1
+  |
+4 | foo1();
+  | ^^^^
+
+error: 'implements', 'interface', 'let', 'package', 'private', 'protected',  'public', 'static', or 'yield' cannot be used as an identifier in strict mode
+ --> $DIR/tests/conformance/parser/ecmascript5/StrictMode/parserStrictMode2.ts:5:1
+  |
+5 | static();
+  | ^^^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('static' type=static),
+    span: Span {
+        lo: BytePos(
+            38,
+        ),
+        hi: BytePos(
+            44,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/StrictMode/parserStrictMode2.ts:5:1
+  |
+5 | static();
+  | ^^^^^^
+

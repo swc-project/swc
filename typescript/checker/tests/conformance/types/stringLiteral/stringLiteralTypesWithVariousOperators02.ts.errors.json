@@ -1,0 +1,57 @@
+[
+    {
+        "line": 8,
+        "column": 9,
+        "msg": "Operator '+' cannot be applied to types 'string | number' and 'number'."
+    },
+    {
+        "line": 9,
+        "column": 9,
+        "msg": "Operator '+' cannot be applied to types 'number' and 'string | number'."
+    },
+    {
+        "line": 10,
+        "column": 9,
+        "msg": "Operator '+' cannot be applied to types 'string | number' and 'string | number'."
+    },
+    {
+        "line": 11,
+        "column": 9,
+        "msg": "Operator '+' cannot be applied to types 'string | number' and 'boolean'."
+    },
+    {
+        "line": 12,
+        "column": 9,
+        "msg": "Operator '+' cannot be applied to types 'boolean' and 'string | number'."
+    },
+    {
+        "line": 13,
+        "column": 9,
+        "msg": "An arithmetic operand must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 14,
+        "column": 11,
+        "msg": "An arithmetic operand must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 15,
+        "column": 9,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 16,
+        "column": 9,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 18,
+        "column": 9,
+        "msg": "This condition will always return 'false' since the types '\"ABC\"' and '\"XYZ\"' have no overlap."
+    },
+    {
+        "line": 19,
+        "column": 9,
+        "msg": "This condition will always return 'true' since the types '\"ABC\"' and '\"XYZ\"' have no overlap."
+    }
+]

@@ -1,0 +1,7 @@
+[
+    {
+        "line": 3,
+        "column": 3,
+        "msg": "Computed property names are not allowed in enums."
+    }
+]

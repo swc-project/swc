@@ -1,0 +1,6 @@
+error: TS1196
+ --> $DIR/tests/conformance/parser/ecmascript5/CatchClauses/parserCatchClauseWithTypeAnnotation1.ts:2:13
+  |
+2 | } catch (e: Error) {
+  |             ^^^^^
+

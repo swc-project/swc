@@ -1,0 +1,17 @@
+error: UndefinedSymbol {
+    sym: Atom('a' type=inline),
+    span: Span {
+        lo: BytePos(
+            4,
+        ),
+        hi: BytePos(
+            5,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/Statements/parserIfStatement2.ts:1:5
+  |
+1 | if (a) {
+  |     ^
+

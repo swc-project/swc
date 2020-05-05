@@ -1,0 +1,7 @@
+[
+    {
+        "line": 3,
+        "column": 12,
+        "msg": "A 'set' accessor cannot have rest parameter."
+    }
+]

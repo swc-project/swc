@@ -1,0 +1,197 @@
+[
+    {
+        "line": 4,
+        "column": 21,
+        "msg": "File 'tests/cases/conformance/parser/ecmascript5/typescript.ts' not found."
+    },
+    {
+        "line": 8,
+        "column": 38,
+        "msg": "Cannot find name 'TypeChecker'."
+    },
+    {
+        "line": 9,
+        "column": 48,
+        "msg": "Cannot find name 'TypeLink'."
+    },
+    {
+        "line": 9,
+        "column": 67,
+        "msg": "Cannot find name 'SymbolScope'."
+    },
+    {
+        "line": 10,
+        "column": 30,
+        "msg": "Cannot find name 'Type'."
+    },
+    {
+        "line": 12,
+        "column": 35,
+        "msg": "Cannot find name 'Type'."
+    },
+    {
+        "line": 12,
+        "column": 40,
+        "msg": "An element access expression should take an argument."
+    },
+    {
+        "line": 29,
+        "column": 36,
+        "msg": "Cannot find name 'SymbolScope'."
+    },
+    {
+        "line": 29,
+        "column": 55,
+        "msg": "Cannot find name 'Type'."
+    },
+    {
+        "line": 67,
+        "column": 54,
+        "msg": "Cannot find name 'SignatureGroup'."
+    },
+    {
+        "line": 67,
+        "column": 77,
+        "msg": "Cannot find name 'SymbolScope'."
+    },
+    {
+        "line": 67,
+        "column": 104,
+        "msg": "Cannot find name 'Type'."
+    },
+    {
+        "line": 83,
+        "column": 38,
+        "msg": "Cannot find name 'ParameterSymbol'."
+    },
+    {
+        "line": 94,
+        "column": 32,
+        "msg": "Cannot find name 'SymbolScope'."
+    },
+    {
+        "line": 94,
+        "column": 51,
+        "msg": "Cannot find name 'Type'."
+    },
+    {
+        "line": 94,
+        "column": 71,
+        "msg": "Cannot find name 'Type'."
+    },
+    {
+        "line": 103,
+        "column": 39,
+        "msg": "Cannot find name 'SymbolTableScope'."
+    },
+    {
+        "line": 104,
+        "column": 31,
+        "msg": "Cannot find name 'SymbolAggregateScope'."
+    },
+    {
+        "line": 110,
+        "column": 52,
+        "msg": "Cannot find name 'ModuleDeclaration'."
+    },
+    {
+        "line": 145,
+        "column": 34,
+        "msg": "Cannot find name 'SymbolScope'."
+    },
+    {
+        "line": 146,
+        "column": 25,
+        "msg": "Property 'bound' does not exist on type 'Symbol'."
+    },
+    {
+        "line": 148,
+        "column": 53,
+        "msg": "Property 'unitIndex' does not exist on type 'Symbol'."
+    },
+    {
+        "line": 148,
+        "column": 80,
+        "msg": "Property 'unitIndex' does not exist on type 'Symbol'."
+    },
+    {
+        "line": 149,
+        "column": 75,
+        "msg": "Property 'unitIndex' does not exist on type 'Symbol'."
+    },
+    {
+        "line": 151,
+        "column": 32,
+        "msg": "Property 'kind' does not exist on type 'Symbol'."
+    },
+    {
+        "line": 152,
+        "column": 26,
+        "msg": "Cannot find name 'SymbolKind'."
+    },
+    {
+        "line": 154,
+        "column": 36,
+        "msg": "Property 'flags' does not exist on type 'Symbol'."
+    },
+    {
+        "line": 154,
+        "column": 44,
+        "msg": "Cannot find name 'SymbolFlags'."
+    },
+    {
+        "line": 158,
+        "column": 43,
+        "msg": "Cannot find name 'TypeSymbol'."
+    },
+    {
+        "line": 159,
+        "column": 45,
+        "msg": "Cannot find name 'SymbolFlags'."
+    },
+    {
+        "line": 166,
+        "column": 112,
+        "msg": "Cannot find name 'NodeType'."
+    },
+    {
+        "line": 167,
+        "column": 45,
+        "msg": "Cannot find name 'Identifier'."
+    },
+    {
+        "line": 185,
+        "column": 26,
+        "msg": "Cannot find name 'SymbolKind'."
+    },
+    {
+        "line": 186,
+        "column": 63,
+        "msg": "Cannot find name 'FieldSymbol'."
+    },
+    {
+        "line": 189,
+        "column": 26,
+        "msg": "Cannot find name 'SymbolKind'."
+    },
+    {
+        "line": 191,
+        "column": 51,
+        "msg": "Cannot find name 'ParameterSymbol'."
+    },
+    {
+        "line": 197,
+        "column": 20,
+        "msg": "Property 'bound' does not exist on type 'Symbol'."
+    },
+    {
+        "line": 200,
+        "column": 28,
+        "msg": "Cannot find name 'SymbolScope'."
+    },
+    {
+        "line": 200,
+        "column": 48,
+        "msg": "Cannot find name 'IHashTable'."
+    }
+]

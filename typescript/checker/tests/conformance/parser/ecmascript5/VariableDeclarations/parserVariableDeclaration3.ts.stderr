@@ -1,0 +1,64 @@
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            45,
+        ),
+        hi: BytePos(
+            52,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/VariableDeclarations/parserVariableDeclaration3.ts:2:23
+  |
+2 |     var outfile = new Harness.Compiler.WriterAggregator()
+  |                       ^^^^^^^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            103,
+        ),
+        hi: BytePos(
+            110,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/VariableDeclarations/parserVariableDeclaration3.ts:3:22
+  |
+3 |       , outerr = new Harness.Compiler.WriterAggregator()
+  |                      ^^^^^^^
+
+error: NameNotFound {
+    span: Span {
+        lo: BytePos(
+            160,
+        ),
+        hi: BytePos(
+            189,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/VariableDeclarations/parserVariableDeclaration3.ts:4:21
+  |
+4 |       , compiler = <TypeScript.TypeScriptCompiler>new TypeScript.TypeScriptCompiler(outerr)
+  |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            194,
+        ),
+        hi: BytePos(
+            204,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/VariableDeclarations/parserVariableDeclaration3.ts:4:55
+  |
+4 |       , compiler = <TypeScript.TypeScriptCompiler>new TypeScript.TypeScriptCompiler(outerr)
+  |                                                       ^^^^^^^^^^
+

@@ -1,0 +1,32 @@
+[
+    {
+        "line": 5,
+        "column": 5,
+        "msg": "Duplicate string index signature."
+    },
+    {
+        "line": 10,
+        "column": 5,
+        "msg": "Duplicate string index signature."
+    },
+    {
+        "line": 15,
+        "column": 5,
+        "msg": "Duplicate string index signature."
+    },
+    {
+        "line": 20,
+        "column": 5,
+        "msg": "Duplicate string index signature."
+    },
+    {
+        "line": 25,
+        "column": 5,
+        "msg": "Duplicate string index signature."
+    },
+    {
+        "line": 30,
+        "column": 5,
+        "msg": "Duplicate string index signature."
+    }
+]

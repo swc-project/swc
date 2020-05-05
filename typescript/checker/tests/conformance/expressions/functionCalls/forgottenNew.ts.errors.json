@@ -1,0 +1,7 @@
+[
+    {
+        "line": 5,
+        "column": 14,
+        "msg": "Value of type 'typeof NullLogger' is not callable. Did you mean to include 'new'?"
+    }
+]

@@ -1,0 +1,12 @@
+[
+    {
+        "line": 8,
+        "column": 1,
+        "msg": "Type 'Object' is not assignable to type 'I'."
+    },
+    {
+        "line": 14,
+        "column": 1,
+        "msg": "Type 'Object' is not assignable to type '() => void'."
+    }
+]

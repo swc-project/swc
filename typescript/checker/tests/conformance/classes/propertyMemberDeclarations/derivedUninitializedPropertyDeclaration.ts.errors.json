@@ -1,0 +1,32 @@
+[
+    {
+        "line": 13,
+        "column": 21,
+        "msg": "A definite assignment assertion '!' is not permitted in this context."
+    },
+    {
+        "line": 16,
+        "column": 5,
+        "msg": "'declare' modifier cannot appear on a class element."
+    },
+    {
+        "line": 16,
+        "column": 17,
+        "msg": "An implementation cannot be declared in ambient contexts."
+    },
+    {
+        "line": 18,
+        "column": 24,
+        "msg": "Initializers are not allowed in ambient contexts."
+    },
+    {
+        "line": 25,
+        "column": 5,
+        "msg": "Property 'p' has no initializer and is not definitely assigned in the constructor."
+    },
+    {
+        "line": 28,
+        "column": 5,
+        "msg": "Property 'p' has no initializer and is not definitely assigned in the constructor."
+    }
+]

@@ -1,0 +1,12 @@
+[
+    {
+        "line": 61,
+        "column": 15,
+        "msg": "Interface 'I2' incorrectly extends interface 'Base2'."
+    },
+    {
+        "line": 67,
+        "column": 15,
+        "msg": "Interface 'I3' incorrectly extends interface 'Base2'."
+    }
+]

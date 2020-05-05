@@ -1,0 +1,72 @@
+[
+    {
+        "line": 2,
+        "column": 10,
+        "msg": "Cannot find name 'T'."
+    },
+    {
+        "line": 2,
+        "column": 12,
+        "msg": "Cannot find name 'a'."
+    },
+    {
+        "line": 4,
+        "column": 5,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 'v' must be of type '<T>() => number', but here has type '<T>(a"
+    },
+    {
+        "line": 5,
+        "column": 5,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 'v' must be of type '<T>() => number', but here has type '<T>(a"
+    },
+    {
+        "line": 6,
+        "column": 5,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 'v' must be of type '<T>() => number', but here has type '<T>(a?"
+    },
+    {
+        "line": 8,
+        "column": 10,
+        "msg": "Cannot find name 'T'."
+    },
+    {
+        "line": 8,
+        "column": 13,
+        "msg": "Cannot find name 'a'."
+    },
+    {
+        "line": 9,
+        "column": 10,
+        "msg": "Cannot find name 'T'."
+    },
+    {
+        "line": 9,
+        "column": 13,
+        "msg": "Cannot find name 'a'."
+    },
+    {
+        "line": 9,
+        "column": 13,
+        "msg": "Left side of comma operator is unused and has no side effects."
+    },
+    {
+        "line": 9,
+        "column": 16,
+        "msg": "Cannot find name 'b'."
+    },
+    {
+        "line": 10,
+        "column": 10,
+        "msg": "Cannot find name 'T'."
+    },
+    {
+        "line": 10,
+        "column": 13,
+        "msg": "Cannot find name 'a'."
+    },
+    {
+        "line": 10,
+        "column": 20,
+        "msg": "Cannot find name 'b'."
+    }
+]

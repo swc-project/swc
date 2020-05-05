@@ -1,0 +1,57 @@
+[
+    {
+        "line": 9,
+        "column": 10,
+        "msg": "Duplicate identifier 'export='."
+    },
+    {
+        "line": 10,
+        "column": 10,
+        "msg": "Duplicate identifier 'export='."
+    },
+    {
+        "line": 9,
+        "column": 10,
+        "msg": "Duplicate identifier 'export='."
+    },
+    {
+        "line": 10,
+        "column": 10,
+        "msg": "Duplicate identifier 'export='."
+    },
+    {
+        "line": 13,
+        "column": 10,
+        "msg": "Duplicate identifier 'export='."
+    },
+    {
+        "line": 14,
+        "column": 10,
+        "msg": "Duplicate identifier 'export='."
+    },
+    {
+        "line": 7,
+        "column": 10,
+        "msg": "Duplicate identifier 'export='."
+    },
+    {
+        "line": 14,
+        "column": 10,
+        "msg": "Duplicate identifier 'export='."
+    },
+    {
+        "line": 10,
+        "column": 10,
+        "msg": "Duplicate identifier 'export='."
+    },
+    {
+        "line": 11,
+        "column": 10,
+        "msg": "Duplicate identifier 'export='."
+    },
+    {
+        "line": 12,
+        "column": 10,
+        "msg": "Duplicate identifier 'export='."
+    }
+]

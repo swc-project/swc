@@ -1,0 +1,23 @@
+error: UndefinedSymbol {
+    sym: Atom('a' type=inline),
+    span: Span {
+        lo: BytePos(
+            6,
+        ),
+        hi: BytePos(
+            7,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/parserNotRegex1.ts:1:7
+  |
+1 |   if (a.indexOf(-(4/3)))      // We should not get a regex here becuase of the / in the comment.
+  |       ^
+
+error: Return statement is not allowed here
+ --> $DIR/tests/conformance/parser/ecmascript5/parserNotRegex1.ts:3:5
+  |
+3 |     return true;
+  |     ^^^^^^^^^^^^
+

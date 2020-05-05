@@ -1,0 +1,32 @@
+error: TS1094 {
+    span: Span {
+        lo: BytePos(
+            32,
+        ),
+        hi: BytePos(
+            35,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/Accessors/parserGetAccessorWithTypeParameters1.ts:3:7
+  |
+3 |   get foo<T>() { }
+  |       ^^^
+
+error: TS2378 {
+    span: Span {
+        lo: BytePos(
+            32,
+        ),
+        hi: BytePos(
+            35,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/Accessors/parserGetAccessorWithTypeParameters1.ts:3:7
+  |
+3 |   get foo<T>() { }
+  |       ^^^
+

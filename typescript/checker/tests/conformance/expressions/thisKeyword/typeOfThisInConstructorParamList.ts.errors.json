@@ -1,0 +1,7 @@
+[
+    {
+        "line": 4,
+        "column": 21,
+        "msg": "'this' cannot be referenced in constructor arguments."
+    }
+]

@@ -1,0 +1,9 @@
+type K00 = keyof any;  // string
+type K01 = keyof string;  // "toString" | "charAt" | ...
+type K02 = keyof number;  // "toString" | "toFixed" | "toExponential" | ...
+type K03 = keyof boolean;  // "valueOf"
+type K04 = keyof void;  // never
+type K05 = keyof undefined;  // never
+type K06 = keyof null;  // never
+type K07 = keyof never;  // string | number | symbol
+type K08 = keyof unknown; // never

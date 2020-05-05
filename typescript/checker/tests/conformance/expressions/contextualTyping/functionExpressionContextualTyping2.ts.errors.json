@@ -1,0 +1,12 @@
+[
+    {
+        "line": 11,
+        "column": 1,
+        "msg": "Type '(foo"
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "string) => boolean' is not assignable to type '(n"
+    }
+]

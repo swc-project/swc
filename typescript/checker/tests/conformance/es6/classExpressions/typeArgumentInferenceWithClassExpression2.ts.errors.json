@@ -1,0 +1,7 @@
+[
+    {
+        "line": 6,
+        "column": 5,
+        "msg": "Argument of type 'typeof (Anonymous class)' is not assignable to parameter of type 'typeof (Anonymous class)'."
+    }
+]

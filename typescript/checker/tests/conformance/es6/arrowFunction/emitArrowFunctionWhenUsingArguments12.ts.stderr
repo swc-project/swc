@@ -1,0 +1,12 @@
+error: 'eval' and 'arguments' cannot be used as a binding identifier in strict mode
+ --> $DIR/tests/conformance/es6/arrowFunction/emitArrowFunctionWhenUsingArguments12.ts:4:7
+  |
+4 |     f(arguments) {
+  |       ^^^^^^^^^
+
+error: 'eval' and 'arguments' cannot be used as a binding identifier in strict mode
+ --> $DIR/tests/conformance/es6/arrowFunction/emitArrowFunctionWhenUsingArguments12.ts:5:23
+  |
+5 |         var a = () => arguments;
+  |                       ^^^^^^^^^
+

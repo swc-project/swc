@@ -1,0 +1,16 @@
+error: TS2515 {
+    span: Span {
+        lo: BytePos(
+            85,
+        ),
+        hi: BytePos(
+            86,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/classes/classDeclarations/classAbstractKeyword/classAbstractExtends.ts:10:7
+   |
+10 | class C extends B { }
+   |       ^
+

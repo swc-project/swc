@@ -1,0 +1,7 @@
+[
+    {
+        "line": 8,
+        "column": 5,
+        "msg": "Property 'foo' in type 'D1<T, U>' is not assignable to the same property in base type 'C3<T>'."
+    }
+]

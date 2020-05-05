@@ -1,0 +1,12 @@
+[
+    {
+        "line": 8,
+        "column": 16,
+        "msg": "Property 'bar' does not exist on type '{ Foo()"
+    },
+    {
+        "line": 10,
+        "column": 2,
+        "msg": "'new' expression, whose target lacks a construct signature, implicitly has an 'any' type."
+    }
+]

@@ -1,0 +1,6 @@
+error: Unexpected initializer in for in/of loop
+ --> $DIR/tests/conformance/parser/ecmascript5/Statements/parserES5ForOfStatement20.ts:2:10
+  |
+2 | for (var of = 0 in of) { }
+  |          ^^
+

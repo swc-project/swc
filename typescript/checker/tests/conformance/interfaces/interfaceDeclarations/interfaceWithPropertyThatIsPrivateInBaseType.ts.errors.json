@@ -1,0 +1,12 @@
+[
+    {
+        "line": 5,
+        "column": 11,
+        "msg": "Interface 'Foo' incorrectly extends interface 'Base'."
+    },
+    {
+        "line": 13,
+        "column": 11,
+        "msg": "Interface 'Foo2<T>' incorrectly extends interface 'Base2<T>'."
+    }
+]

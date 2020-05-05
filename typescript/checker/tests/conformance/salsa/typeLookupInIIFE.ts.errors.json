@@ -1,0 +1,7 @@
+[
+    {
+        "line": 8,
+        "column": 15,
+        "msg": "Namespace 'ns' has no exported member 'NotFound'."
+    }
+]

@@ -1,0 +1,71 @@
+error: AssignFailed {
+    span: Span {
+        lo: BytePos(
+            70,
+        ),
+        hi: BytePos(
+            71,
+        ),
+        ctxt: #0,
+    },
+    left: Lit(
+        TsLitType {
+            span: Span {
+                lo: BytePos(
+                    70,
+                ),
+                hi: BytePos(
+                    71,
+                ),
+                ctxt: #0,
+            },
+            lit: Number(
+                Number {
+                    span: Span {
+                        lo: BytePos(
+                            70,
+                        ),
+                        hi: BytePos(
+                            71,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: 5.0,
+                },
+            ),
+        },
+    ),
+    right: Lit(
+        TsLitType {
+            span: Span {
+                lo: BytePos(
+                    55,
+                ),
+                hi: BytePos(
+                    57,
+                ),
+                ctxt: #0,
+            },
+            lit: Number(
+                Number {
+                    span: Span {
+                        lo: BytePos(
+                            55,
+                        ),
+                        hi: BytePos(
+                            57,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: 12.0,
+                },
+            ),
+        },
+    ),
+    cause: [],
+}
+ --> $DIR/tests/conformance/statements/breakStatements/invalidSwitchBreakStatement.ts:4:10
+  |
+4 |     case 5:
+  |          ^
+

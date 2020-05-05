@@ -1,0 +1,22 @@
+[
+    {
+        "line": 22,
+        "column": 7,
+        "msg": "Property 'method' does not exist on type '{}'."
+    },
+    {
+        "line": 23,
+        "column": 5,
+        "msg": "This expression is not callable."
+    },
+    {
+        "line": 28,
+        "column": 7,
+        "msg": "Property 'mesage' does not exist on type 'Error'. Did you mean 'message'?"
+    },
+    {
+        "line": 33,
+        "column": 7,
+        "msg": "Property 'getHuors' does not exist on type 'Date'. Did you mean 'getHours'?"
+    }
+]

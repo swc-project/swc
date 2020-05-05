@@ -1,0 +1,272 @@
+error: ReferencedInInit {
+    span: Span {
+        lo: BytePos(
+            2594,
+        ),
+        hi: BytePos(
+            2599,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/types/witness/witness.ts:8:21
+  |
+8 | function fn(pInit = pInit) {
+  |                     ^^^^^
+
+error: ReferencedInInit {
+    span: Span {
+        lo: BytePos(
+            2660,
+        ),
+        hi: BytePos(
+            2661,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/witness/witness.ts:12:14
+   |
+12 |     x = this.x;
+   |              ^
+
+error: UselessSeqExpr {
+    span: Span {
+        lo: BytePos(
+            2948,
+        ),
+        hi: BytePos(
+            2951,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/witness/witness.ts:32:12
+   |
+32 | var co1 = (co1, 3);
+   |            ^^^
+
+error: RedclaredVarWithDifferentType {
+    span: Span {
+        lo: BytePos(
+            2962,
+        ),
+        hi: BytePos(
+            2965,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/witness/witness.ts:33:5
+   |
+33 | var co1: number;
+   |     ^^^
+
+error: UselessSeqExpr {
+    span: Span {
+        lo: BytePos(
+            2987,
+        ),
+        hi: BytePos(
+            2988,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/witness/witness.ts:34:12
+   |
+34 | var co2 = (3, 4, co2);
+   |            ^
+
+error: UselessSeqExpr {
+    span: Span {
+        lo: BytePos(
+            2987,
+        ),
+        hi: BytePos(
+            2991,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/witness/witness.ts:34:12
+   |
+34 | var co2 = (3, 4, co2);
+   |            ^^^^
+
+error: UselessSeqExpr {
+    span: Span {
+        lo: BytePos(
+            3026,
+        ),
+        hi: BytePos(
+            3029,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/witness/witness.ts:36:12
+   |
+36 | var co3 = (co1, co2, co3, co1);
+   |            ^^^
+
+error: UselessSeqExpr {
+    span: Span {
+        lo: BytePos(
+            3026,
+        ),
+        hi: BytePos(
+            3034,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/witness/witness.ts:36:12
+   |
+36 | var co3 = (co1, co2, co3, co1);
+   |            ^^^^^^^^
+
+error: UselessSeqExpr {
+    span: Span {
+        lo: BytePos(
+            3026,
+        ),
+        hi: BytePos(
+            3039,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/witness/witness.ts:36:12
+   |
+36 | var co3 = (co1, co2, co3, co1);
+   |            ^^^^^^^^^^^^^
+
+error: RedclaredVarWithDifferentType {
+    span: Span {
+        lo: BytePos(
+            3052,
+        ),
+        hi: BytePos(
+            3055,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/witness/witness.ts:37:5
+   |
+37 | var co3: number;
+   |     ^^^
+
+error: RedclaredVarWithDifferentType {
+    span: Span {
+        lo: BytePos(
+            3109,
+        ),
+        hi: BytePos(
+            3112,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/witness/witness.ts:41:5
+   |
+41 | var as1: number;
+   |     ^^^
+
+error: RedclaredVarWithDifferentType {
+    span: Span {
+        lo: BytePos(
+            3155,
+        ),
+        hi: BytePos(
+            3158,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/witness/witness.ts:43:5
+   |
+43 | var as2: number;
+   |     ^^^
+
+error: RedclaredVarWithDifferentType {
+    span: Span {
+        lo: BytePos(
+            3217,
+        ),
+        hi: BytePos(
+            3221,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/witness/witness.ts:47:5
+   |
+47 | var cnd1: number;
+   |     ^^^^
+
+error: RedclaredVarWithDifferentType {
+    span: Span {
+        lo: BytePos(
+            3449,
+        ),
+        hi: BytePos(
+            3453,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/witness/witness.ts:61:5
+   |
+61 | var and1: string;
+   |     ^^^^
+
+error: RedclaredVarWithDifferentType {
+    span: Span {
+        lo: BytePos(
+            4578,
+        ),
+        hi: BytePos(
+            4586,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/types/witness/witness.ts:114:5
+    |
+114 | var propAcc1: { m: any; }
+    |     ^^^^^^^^
+
+error: ReferencedInInit {
+    span: Span {
+        lo: BytePos(
+            4785,
+        ),
+        hi: BytePos(
+            4786,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/types/witness/witness.ts:125:14
+    |
+125 |     n = this.n; // n: any
+    |              ^
+
+error: ReferencedInInit {
+    span: Span {
+        lo: BytePos(
+            4919,
+        ),
+        hi: BytePos(
+            4920,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/types/witness/witness.ts:132:19
+    |
+132 |     static q = C3.q;
+    |                   ^
+

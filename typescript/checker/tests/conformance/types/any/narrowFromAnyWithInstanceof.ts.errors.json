@@ -1,0 +1,12 @@
+[
+    {
+        "line": 17,
+        "column": 7,
+        "msg": "Property 'mesage' does not exist on type 'Error'. Did you mean 'message'?"
+    },
+    {
+        "line": 22,
+        "column": 7,
+        "msg": "Property 'getHuors' does not exist on type 'Date'. Did you mean 'getHours'?"
+    }
+]

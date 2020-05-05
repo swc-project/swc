@@ -1,0 +1,7 @@
+[
+    {
+        "line": 9,
+        "column": 9,
+        "msg": "Property '[1 << 6]' of type 'Foo' is not assignable to string index type 'Foo2'."
+    }
+]

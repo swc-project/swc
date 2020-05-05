@@ -1,0 +1,67 @@
+[
+    {
+        "line": 48,
+        "column": 7,
+        "msg": "Type '42' is not assignable to type 'Box2'."
+    },
+    {
+        "line": 63,
+        "column": 7,
+        "msg": "Type 'number' is not assignable to type 'string | RecArray<string>'."
+    },
+    {
+        "line": 69,
+        "column": 8,
+        "msg": "Type 'number' is not assignable to type 'string | string[]'."
+    },
+    {
+        "line": 75,
+        "column": 8,
+        "msg": "Type 'number' is not assignable to type 'string | (string | string[])[]'."
+    },
+    {
+        "line": 105,
+        "column": 10,
+        "msg": "Cannot find name 'html'."
+    },
+    {
+        "line": 107,
+        "column": 12,
+        "msg": "Cannot find name 'html'."
+    },
+    {
+        "line": 108,
+        "column": 7,
+        "msg": "Cannot find name 'html'."
+    },
+    {
+        "line": 109,
+        "column": 52,
+        "msg": "Cannot find name 'frag'."
+    },
+    {
+        "line": 119,
+        "column": 11,
+        "msg": "Cannot find name 'concat'."
+    },
+    {
+        "line": 119,
+        "column": 24,
+        "msg": "Cannot find name 'concat'."
+    },
+    {
+        "line": 120,
+        "column": 11,
+        "msg": "Cannot find name 'concat'."
+    },
+    {
+        "line": 125,
+        "column": 11,
+        "msg": "Cannot find name 'concat'."
+    },
+    {
+        "line": 130,
+        "column": 3,
+        "msg": "Cannot find name 'assert'."
+    }
+]

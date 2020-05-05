@@ -1,0 +1,17 @@
+error: UndefinedSymbol {
+    sym: Atom('$ERROR' type=inline),
+    span: Span {
+        lo: BytePos(
+            336,
+        ),
+        hi: BytePos(
+            342,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/scanner/ecmascript5/scannerS7.3_A1.1_T2.ts:17:3
+   |
+17 |   $ERROR('#1: var\\nx\\n=\\n1\\n; x === 1. Actual: ' + (x));
+   |   ^^^^^^
+

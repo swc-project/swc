@@ -1,0 +1,6 @@
+error: 'yield' cannot be used as a parameter within generator
+ --> $DIR/tests/conformance/es6/functionDeclarations/FunctionDeclaration6_es6.ts:2:18
+  |
+2 | function*foo(a = yield) {
+  |                  ^^^^^
+

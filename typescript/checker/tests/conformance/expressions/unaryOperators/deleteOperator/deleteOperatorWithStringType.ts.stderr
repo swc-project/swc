@@ -1,0 +1,108 @@
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithStringType.ts:18:31
+   |
+18 | var ResultIsBoolean1 = delete STRING;
+   |                               ^^^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithStringType.ts:19:31
+   |
+19 | var ResultIsBoolean2 = delete STRING1;
+   |                               ^^^^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithStringType.ts:22:31
+   |
+22 | var ResultIsBoolean3 = delete "";
+   |                               ^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithStringType.ts:23:31
+   |
+23 | var ResultIsBoolean4 = delete { x: "", y: "" };
+   |                               ^^^^^^^^^^^^^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithStringType.ts:24:31
+   |
+24 | var ResultIsBoolean5 = delete { x: "", y: (s: string) => { return s; } };
+   |                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithStringType.ts:30:31
+   |
+30 | var ResultIsBoolean9 = delete foo();
+   |                               ^^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithStringType.ts:31:32
+   |
+31 | var ResultIsBoolean10 = delete A.foo();
+   |                                ^^^^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithStringType.ts:32:33
+   |
+32 | var ResultIsBoolean11 = delete (STRING + STRING);
+   |                                 ^^^^^^^^^^^^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithStringType.ts:33:32
+   |
+33 | var ResultIsBoolean12 = delete STRING.charAt(0);
+   |                                ^^^^^^^^^^^^^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithStringType.ts:36:32
+   |
+36 | var ResultIsBoolean13 = delete delete STRING;
+   |                                ^^^^^^^^^^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithStringType.ts:36:39
+   |
+36 | var ResultIsBoolean13 = delete delete STRING;
+   |                                       ^^^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithStringType.ts:37:32
+   |
+37 | var ResultIsBoolean14 = delete delete delete (STRING + STRING);
+   |                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithStringType.ts:37:39
+   |
+37 | var ResultIsBoolean14 = delete delete delete (STRING + STRING);
+   |                                       ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithStringType.ts:37:47
+   |
+37 | var ResultIsBoolean14 = delete delete delete (STRING + STRING);
+   |                                               ^^^^^^^^^^^^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithStringType.ts:40:8
+   |
+40 | delete "";
+   |        ^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithStringType.ts:41:8
+   |
+41 | delete STRING;
+   |        ^^^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithStringType.ts:42:8
+   |
+42 | delete STRING1;
+   |        ^^^^^^^
+
+error: TS2703
+  --> $DIR/tests/conformance/expressions/unaryOperators/deleteOperator/deleteOperatorWithStringType.ts:43:8
+   |
+43 | delete foo();
+   |        ^^^^^
+

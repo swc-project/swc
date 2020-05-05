@@ -1,0 +1,22 @@
+[
+    {
+        "line": 4,
+        "column": 22,
+        "msg": "A module cannot have multiple default exports."
+    },
+    {
+        "line": 4,
+        "column": 22,
+        "msg": "A module cannot have multiple default exports."
+    },
+    {
+        "line": 6,
+        "column": 22,
+        "msg": "A module cannot have multiple default exports."
+    },
+    {
+        "line": 8,
+        "column": 22,
+        "msg": "A module cannot have multiple default exports."
+    }
+]

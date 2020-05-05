@@ -1,0 +1,22 @@
+[
+    {
+        "line": 2,
+        "column": 9,
+        "msg": "Accessors are only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 5,
+        "column": 9,
+        "msg": "Accessors are only available when targeting ECMAScript 5 and higher."
+    },
+    {
+        "line": 11,
+        "column": 5,
+        "msg": "Property 'x' in type 'Derived' is not assignable to the same property in base type 'Base'."
+    },
+    {
+        "line": 11,
+        "column": 5,
+        "msg": "Class 'Base' defines instance member accessor 'x', but extended class 'Derived' defines it as instance member function."
+    }
+]

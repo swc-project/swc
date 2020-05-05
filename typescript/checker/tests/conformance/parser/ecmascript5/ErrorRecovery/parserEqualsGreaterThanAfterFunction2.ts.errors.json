@@ -1,0 +1,22 @@
+[
+    {
+        "line": 1,
+        "column": 10,
+        "msg": "Identifier expected."
+    },
+    {
+        "line": 1,
+        "column": 13,
+        "msg": "',' expected."
+    },
+    {
+        "line": 1,
+        "column": 17,
+        "msg": "',' expected."
+    },
+    {
+        "line": 1,
+        "column": 18,
+        "msg": "')' expected."
+    }
+]

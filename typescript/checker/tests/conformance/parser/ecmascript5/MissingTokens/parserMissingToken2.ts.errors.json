@@ -1,0 +1,7 @@
+[
+    {
+        "line": 1,
+        "column": 2,
+        "msg": "Unterminated regular expression literal."
+    }
+]

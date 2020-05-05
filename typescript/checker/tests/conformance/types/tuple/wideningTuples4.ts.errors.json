@@ -1,0 +1,7 @@
+[
+    {
+        "line": 3,
+        "column": 9,
+        "msg": "Type '[undefined, null]' is not assignable to type '[any]'."
+    }
+]

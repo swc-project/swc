@@ -1,0 +1,22 @@
+[
+    {
+        "line": 10,
+        "column": 15,
+        "msg": "All declarations of 'x' must have identical modifiers."
+    },
+    {
+        "line": 14,
+        "column": 5,
+        "msg": "All declarations of 'x' must have identical modifiers."
+    },
+    {
+        "line": 18,
+        "column": 13,
+        "msg": "All declarations of 'x' must have identical modifiers."
+    },
+    {
+        "line": 22,
+        "column": 5,
+        "msg": "All declarations of 'x' must have identical modifiers."
+    }
+]

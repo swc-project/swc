@@ -1,0 +1,52 @@
+[
+    {
+        "line": 15,
+        "column": 10,
+        "msg": "Operator '+' cannot be applied to types 'null' and 'number'."
+    },
+    {
+        "line": 16,
+        "column": 10,
+        "msg": "Operator '+' cannot be applied to types 'null' and '1'."
+    },
+    {
+        "line": 17,
+        "column": 10,
+        "msg": "Operator '+' cannot be applied to types 'null' and 'E'."
+    },
+    {
+        "line": 18,
+        "column": 10,
+        "msg": "Operator '+' cannot be applied to types 'null' and 'E.a'."
+    },
+    {
+        "line": 19,
+        "column": 10,
+        "msg": "Operator '+' cannot be applied to types 'null' and 'E.a'."
+    },
+    {
+        "line": 20,
+        "column": 10,
+        "msg": "Operator '+' cannot be applied to types 'number' and 'null'."
+    },
+    {
+        "line": 21,
+        "column": 10,
+        "msg": "Operator '+' cannot be applied to types '1' and 'null'."
+    },
+    {
+        "line": 22,
+        "column": 11,
+        "msg": "Operator '+' cannot be applied to types 'E' and 'null'."
+    },
+    {
+        "line": 23,
+        "column": 11,
+        "msg": "Operator '+' cannot be applied to types 'E.a' and 'null'."
+    },
+    {
+        "line": 24,
+        "column": 11,
+        "msg": "Operator '+' cannot be applied to types 'E.a' and 'null'."
+    }
+]

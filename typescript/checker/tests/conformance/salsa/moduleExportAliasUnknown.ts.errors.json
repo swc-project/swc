@@ -1,0 +1,12 @@
+[
+    {
+        "line": 5,
+        "column": 25,
+        "msg": "Property 'nonprop' does not exist on type 'Window & typeof globalThis'."
+    },
+    {
+        "line": 6,
+        "column": 15,
+        "msg": "Cannot find name 'bar'."
+    }
+]

@@ -1,0 +1,12 @@
+[
+    {
+        "line": 5,
+        "column": 9,
+        "msg": "A constructor cannot contain a 'super' call when its class extends 'null'."
+    },
+    {
+        "line": 12,
+        "column": 9,
+        "msg": "A constructor cannot contain a 'super' call when its class extends 'null'."
+    }
+]

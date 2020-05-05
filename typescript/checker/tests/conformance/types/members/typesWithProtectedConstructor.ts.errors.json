@@ -1,0 +1,12 @@
+[
+    {
+        "line": 7,
+        "column": 9,
+        "msg": "Constructor of class 'C' is protected and only accessible within the class declaration."
+    },
+    {
+        "line": 15,
+        "column": 10,
+        "msg": "Constructor of class 'C2' is protected and only accessible within the class declaration."
+    }
+]

@@ -1,0 +1,12 @@
+[
+    {
+        "line": 12,
+        "column": 20,
+        "msg": "Cannot find name 'C'."
+    },
+    {
+        "line": 12,
+        "column": 22,
+        "msg": "';' expected."
+    }
+]

@@ -1,0 +1,12 @@
+[
+    {
+        "line": 3,
+        "column": 7,
+        "msg": "An accessor cannot have type parameters."
+    },
+    {
+        "line": 3,
+        "column": 7,
+        "msg": "A 'get' accessor must return a value."
+    }
+]

@@ -1,0 +1,12 @@
+[
+    {
+        "line": 19,
+        "column": 17,
+        "msg": "Argument of type 'C' is not assignable to parameter of type 'D'."
+    },
+    {
+        "line": 30,
+        "column": 24,
+        "msg": "Argument of type 'C' is not assignable to parameter of type 'T'."
+    }
+]

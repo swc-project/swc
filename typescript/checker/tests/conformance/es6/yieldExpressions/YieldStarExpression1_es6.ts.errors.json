@@ -1,0 +1,12 @@
+[
+    {
+        "line": 2,
+        "column": 1,
+        "msg": "Cannot find name 'yield'."
+    },
+    {
+        "line": 2,
+        "column": 9,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    }
+]

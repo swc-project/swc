@@ -1,0 +1,22 @@
+error: TS2365 {
+    span: Span {
+        lo: BytePos(
+            127,
+        ),
+        hi: BytePos(
+            133,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/unaryOperators/logicalNotOperator/logicalNotOperatorInvalidOperations.ts:8:16
+  |
+8 | var BOOLEAN2 = !b + b;
+  |                ^^^^^^
+
+error: Unexpected token Some(Semi)
+  --> $DIR/tests/conformance/expressions/unaryOperators/logicalNotOperator/logicalNotOperatorInvalidOperations.ts:11:16
+   |
+11 | var BOOLEAN3 =!;
+   |                ^
+

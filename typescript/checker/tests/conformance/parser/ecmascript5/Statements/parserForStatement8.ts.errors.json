@@ -1,0 +1,12 @@
+[
+    {
+        "line": 1,
+        "column": 6,
+        "msg": "The left-hand side of a 'for...in' statement must be of type 'string' or 'any'."
+    },
+    {
+        "line": 1,
+        "column": 14,
+        "msg": "Cannot find name 'b'."
+    }
+]

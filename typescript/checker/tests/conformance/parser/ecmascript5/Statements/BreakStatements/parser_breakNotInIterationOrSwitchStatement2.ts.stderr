@@ -1,0 +1,6 @@
+error: TS1105
+ --> $DIR/tests/conformance/parser/ecmascript5/Statements/BreakStatements/parser_breakNotInIterationOrSwitchStatement2.ts:3:5
+  |
+3 |     break;
+  |     ^^^^^^
+

@@ -1,0 +1,52 @@
+[
+    {
+        "line": 14,
+        "column": 17,
+        "msg": "A rest parameter cannot be optional."
+    },
+    {
+        "line": 15,
+        "column": 16,
+        "msg": "A rest parameter cannot have an initializer."
+    },
+    {
+        "line": 20,
+        "column": 19,
+        "msg": "Argument of type 'true' is not assignable to parameter of type 'string | number'."
+    },
+    {
+        "line": 21,
+        "column": 7,
+        "msg": "Cannot find name 'array2'. Did you mean 'Array'?"
+    },
+    {
+        "line": 22,
+        "column": 11,
+        "msg": "Type 'string' is not assignable to type '[[any]]'."
+    },
+    {
+        "line": 23,
+        "column": 4,
+        "msg": "Argument of type '[number, number]' is not assignable to parameter of type '[any, any, [[any]]]'."
+    },
+    {
+        "line": 24,
+        "column": 11,
+        "msg": "Type 'string' is not assignable to type 'number'."
+    },
+    {
+        "line": 29,
+        "column": 17,
+        "msg": "A parameter property cannot be declared using a rest parameter."
+    },
+    {
+        "line": 34,
+        "column": 22,
+        "msg": "Cannot find name 'E1'."
+    },
+    {
+        "line": 34,
+        "column": 28,
+        "msg": "Cannot find name 'E'."
+    }
+]

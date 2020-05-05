@@ -1,0 +1,62 @@
+[
+    {
+        "line": 35,
+        "column": 4,
+        "msg": "Property 'member' is protected and only accessible within class 'Protected' and its subclasses."
+    },
+    {
+        "line": 36,
+        "column": 4,
+        "msg": "Property 'member' is private and only accessible within class 'Private'."
+    },
+    {
+        "line": 38,
+        "column": 4,
+        "msg": "Property 'member' does not exist on type 'Default | Protected'."
+    },
+    {
+        "line": 39,
+        "column": 4,
+        "msg": "Property 'member' does not exist on type 'Default | Private'."
+    },
+    {
+        "line": 40,
+        "column": 4,
+        "msg": "Property 'member' does not exist on type 'Public | Protected'."
+    },
+    {
+        "line": 41,
+        "column": 4,
+        "msg": "Property 'member' does not exist on type 'Public | Private'."
+    },
+    {
+        "line": 42,
+        "column": 5,
+        "msg": "Property 'member' does not exist on type 'Protected | Private'."
+    },
+    {
+        "line": 43,
+        "column": 5,
+        "msg": "Property 'member' does not exist on type 'Default | Public | Protected'."
+    },
+    {
+        "line": 44,
+        "column": 5,
+        "msg": "Property 'member' does not exist on type 'Default | Public | Private'."
+    },
+    {
+        "line": 45,
+        "column": 5,
+        "msg": "Property 'member' does not exist on type 'Default | Protected | Private'."
+    },
+    {
+        "line": 46,
+        "column": 5,
+        "msg": "Property 'member' does not exist on type 'Public | Protected | Private'."
+    },
+    {
+        "line": 47,
+        "column": 5,
+        "msg": "Property 'member' does not exist on type 'Default | Public | Protected | Private'."
+    }
+]

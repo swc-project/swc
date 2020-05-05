@@ -1,0 +1,37 @@
+[
+    {
+        "line": 3,
+        "column": 8,
+        "msg": "The operand of a delete operator cannot be a read-only property."
+    },
+    {
+        "line": 6,
+        "column": 3,
+        "msg": "An arithmetic operand must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 7,
+        "column": 3,
+        "msg": "An arithmetic operand must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 8,
+        "column": 3,
+        "msg": "The '+' operator cannot be applied to type 'symbol'."
+    },
+    {
+        "line": 9,
+        "column": 3,
+        "msg": "The '-' operator cannot be applied to type 'symbol'."
+    },
+    {
+        "line": 10,
+        "column": 3,
+        "msg": "The '~' operator cannot be applied to type 'symbol'."
+    },
+    {
+        "line": 13,
+        "column": 2,
+        "msg": "The '+' operator cannot be applied to type 'symbol'."
+    }
+]

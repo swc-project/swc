@@ -1,0 +1,22 @@
+[
+    {
+        "line": 3,
+        "column": 4,
+        "msg": "Variable declaration list cannot be empty."
+    },
+    {
+        "line": 4,
+        "column": 1,
+        "msg": "Identifier expected. 'let' is a reserved word in strict mode. Modules are automatically in strict mode."
+    },
+    {
+        "line": 4,
+        "column": 1,
+        "msg": "Cannot find name 'let'."
+    },
+    {
+        "line": 5,
+        "column": 6,
+        "msg": "Variable declaration list cannot be empty."
+    }
+]

@@ -1,0 +1,39 @@
+error: TS1166 {
+    span: Span {
+        lo: BytePos(
+            29,
+        ),
+        hi: BytePos(
+            47,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript6/ComputedPropertyNames/parserComputedPropertyName36.ts:3:5
+  |
+3 |     [public ]: string;
+  |     ^^^^^^^^^^^^^^^^^^
+
+error: 'implements', 'interface', 'let', 'package', 'private', 'protected',  'public', 'static', or 'yield' cannot be used as an identifier in strict mode
+ --> $DIR/tests/conformance/parser/ecmascript6/ComputedPropertyNames/parserComputedPropertyName36.ts:3:6
+  |
+3 |     [public ]: string;
+  |      ^^^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('public' type=static),
+    span: Span {
+        lo: BytePos(
+            30,
+        ),
+        hi: BytePos(
+            36,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript6/ComputedPropertyNames/parserComputedPropertyName36.ts:3:6
+  |
+3 |     [public ]: string;
+  |      ^^^^^^
+

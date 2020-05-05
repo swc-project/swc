@@ -1,0 +1,12 @@
+[
+    {
+        "line": 1,
+        "column": 6,
+        "msg": "The left-hand side of a 'for...in' statement cannot be a destructuring pattern."
+    },
+    {
+        "line": 1,
+        "column": 12,
+        "msg": "Cannot find name 'b'."
+    }
+]

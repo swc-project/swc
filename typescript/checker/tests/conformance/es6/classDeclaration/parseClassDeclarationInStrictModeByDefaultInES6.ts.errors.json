@@ -1,0 +1,22 @@
+[
+    {
+        "line": 5,
+        "column": 16,
+        "msg": "Invalid use of 'arguments'. Class definitions are automatically in strict mode."
+    },
+    {
+        "line": 6,
+        "column": 17,
+        "msg": "Invalid use of 'eval'. Class definitions are automatically in strict mode."
+    },
+    {
+        "line": 7,
+        "column": 9,
+        "msg": "Invalid use of 'arguments'. Class definitions are automatically in strict mode."
+    },
+    {
+        "line": 7,
+        "column": 9,
+        "msg": "Type '\"hello\"' is not assignable to type 'IArguments'."
+    }
+]

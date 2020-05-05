@@ -1,0 +1,7 @@
+[
+    {
+        "line": 11,
+        "column": 12,
+        "msg": "'super' cannot be referenced in a computed property name."
+    }
+]

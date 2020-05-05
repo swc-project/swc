@@ -1,0 +1,6 @@
+error: Cannot assign to this
+ --> $DIR/tests/conformance/parser/ecmascript5/Generics/parserGreaterThanTokenAmbiguity16.ts:1:1
+  |
+1 | 1 >>>= 2;
+  | ^
+

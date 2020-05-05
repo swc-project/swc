@@ -1,0 +1,7 @@
+[
+    {
+        "line": 2,
+        "column": 3,
+        "msg": "An index signature must have a type annotation."
+    }
+]

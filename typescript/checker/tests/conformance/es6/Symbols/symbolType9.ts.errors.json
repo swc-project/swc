@@ -1,0 +1,22 @@
+[
+    {
+        "line": 4,
+        "column": 1,
+        "msg": "This condition will always return 'false' since the types 'symbol' and 'boolean' have no overlap."
+    },
+    {
+        "line": 6,
+        "column": 1,
+        "msg": "This condition will always return 'true' since the types 'number' and 'symbol' have no overlap."
+    },
+    {
+        "line": 8,
+        "column": 1,
+        "msg": "This condition will always return 'false' since the types 'symbol' and 'number' have no overlap."
+    },
+    {
+        "line": 10,
+        "column": 1,
+        "msg": "This condition will always return 'true' since the types 'boolean' and 'symbol' have no overlap."
+    }
+]

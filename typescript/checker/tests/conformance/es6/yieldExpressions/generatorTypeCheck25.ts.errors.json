@@ -1,0 +1,7 @@
+[
+    {
+        "line": 5,
+        "column": 5,
+        "msg": "Type '() => Generator<Bar | Baz, void, undefined>' is not assignable to type '() => Iterable<Foo>'."
+    }
+]

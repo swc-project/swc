@@ -1,0 +1,7 @@
+[
+    {
+        "line": 2,
+        "column": 15,
+        "msg": "Type parameters cannot appear on a constructor declaration."
+    }
+]

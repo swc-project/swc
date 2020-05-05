@@ -1,0 +1,7 @@
+[
+    {
+        "line": 1,
+        "column": 9,
+        "msg": "Cannot assign to 'undefined' because it is not a variable."
+    }
+]

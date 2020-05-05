@@ -1,0 +1,6 @@
+error: Unexpected token Some(RBracket)
+ --> $DIR/tests/conformance/async/es5/asyncArrowFunction/asyncArrowFunction8_es5.ts:6:19
+  |
+6 |   var v = { [await]: foo }
+  |                   ^
+

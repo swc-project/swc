@@ -1,0 +1,297 @@
+[
+    {
+        "line": 12,
+        "column": 10,
+        "msg": "Property 'mobileDetectRules' does not exist on type '{}'."
+    },
+    {
+        "line": 287,
+        "column": 10,
+        "msg": "Property 'detectMobileBrowsers' does not exist on type '{}'."
+    },
+    {
+        "line": 296,
+        "column": 10,
+        "msg": "Property 'FALLBACK_PHONE' does not exist on type '{}'."
+    },
+    {
+        "line": 297,
+        "column": 10,
+        "msg": "Property 'FALLBACK_TABLET' does not exist on type '{}'."
+    },
+    {
+        "line": 298,
+        "column": 10,
+        "msg": "Property 'FALLBACK_MOBILE' does not exist on type '{}'."
+    },
+    {
+        "line": 304,
+        "column": 17,
+        "msg": "Property 'isArray' does not exist on type 'never'."
+    },
+    {
+        "line": 333,
+        "column": 74,
+        "msg": "Property 'mobileDetectRules' does not exist on type '{}'."
+    },
+    {
+        "line": 372,
+        "column": 10,
+        "msg": "Property 'findMatch' does not exist on type '{}'."
+    },
+    {
+        "line": 390,
+        "column": 10,
+        "msg": "Property 'findMatches' does not exist on type '{}'."
+    },
+    {
+        "line": 410,
+        "column": 10,
+        "msg": "Property 'getVersionStr' does not exist on type '{}'."
+    },
+    {
+        "line": 411,
+        "column": 26,
+        "msg": "Property 'mobileDetectRules' does not exist on type '{}'."
+    },
+    {
+        "line": 434,
+        "column": 10,
+        "msg": "Property 'getVersion' does not exist on type '{}'."
+    },
+    {
+        "line": 435,
+        "column": 28,
+        "msg": "Property 'getVersionStr' does not exist on type '{}'."
+    },
+    {
+        "line": 436,
+        "column": 31,
+        "msg": "Property 'prepareVersionNo' does not exist on type '{}'."
+    },
+    {
+        "line": 446,
+        "column": 10,
+        "msg": "Property 'prepareVersionNo' does not exist on type '{}'."
+    },
+    {
+        "line": 461,
+        "column": 10,
+        "msg": "Property 'isMobileFallback' does not exist on type '{}'."
+    },
+    {
+        "line": 462,
+        "column": 21,
+        "msg": "Property 'detectMobileBrowsers' does not exist on type '{}'."
+    },
+    {
+        "line": 463,
+        "column": 18,
+        "msg": "Property 'detectMobileBrowsers' does not exist on type '{}'."
+    },
+    {
+        "line": 466,
+        "column": 10,
+        "msg": "Property 'isTabletFallback' does not exist on type '{}'."
+    },
+    {
+        "line": 467,
+        "column": 21,
+        "msg": "Property 'detectMobileBrowsers' does not exist on type '{}'."
+    },
+    {
+        "line": 470,
+        "column": 10,
+        "msg": "Property 'prepareDetectionCache' does not exist on type '{}'."
+    },
+    {
+        "line": 477,
+        "column": 23,
+        "msg": "Property 'findMatch' does not exist on type '{}'."
+    },
+    {
+        "line": 477,
+        "column": 38,
+        "msg": "Property 'mobileDetectRules' does not exist on type '{}'."
+    },
+    {
+        "line": 484,
+        "column": 22,
+        "msg": "Property 'findMatch' does not exist on type '{}'."
+    },
+    {
+        "line": 484,
+        "column": 37,
+        "msg": "Property 'mobileDetectRules' does not exist on type '{}'."
+    },
+    {
+        "line": 492,
+        "column": 18,
+        "msg": "Property 'isMobileFallback' does not exist on type '{}'."
+    },
+    {
+        "line": 495,
+        "column": 37,
+        "msg": "Property 'FALLBACK_MOBILE' does not exist on type '{}'."
+    },
+    {
+        "line": 498,
+        "column": 51,
+        "msg": "Property 'FALLBACK_PHONE' does not exist on type '{}'."
+    },
+    {
+        "line": 501,
+        "column": 52,
+        "msg": "Property 'FALLBACK_TABLET' does not exist on type '{}'."
+    },
+    {
+        "line": 504,
+        "column": 25,
+        "msg": "Property 'isTabletFallback' does not exist on type '{}'."
+    },
+    {
+        "line": 505,
+        "column": 48,
+        "msg": "Property 'FALLBACK_TABLET' does not exist on type '{}'."
+    },
+    {
+        "line": 514,
+        "column": 10,
+        "msg": "Property 'mobileGrade' does not exist on type '{}'."
+    },
+    {
+        "line": 639,
+        "column": 10,
+        "msg": "Property 'detectOS' does not exist on type '{}'."
+    },
+    {
+        "line": 640,
+        "column": 21,
+        "msg": "Property 'findMatch' does not exist on type '{}'."
+    },
+    {
+        "line": 640,
+        "column": 36,
+        "msg": "Property 'mobileDetectRules' does not exist on type '{}'."
+    },
+    {
+        "line": 641,
+        "column": 18,
+        "msg": "Property 'findMatch' does not exist on type '{}'."
+    },
+    {
+        "line": 641,
+        "column": 33,
+        "msg": "Property 'mobileDetectRules' does not exist on type '{}'."
+    },
+    {
+        "line": 644,
+        "column": 10,
+        "msg": "Property 'getDeviceSmallerSide' does not exist on type '{}'."
+    },
+    {
+        "line": 710,
+        "column": 18,
+        "msg": "Property 'prepareDetectionCache' does not exist on type '{}'."
+    },
+    {
+        "line": 740,
+        "column": 18,
+        "msg": "Property 'prepareDetectionCache' does not exist on type '{}'."
+    },
+    {
+        "line": 789,
+        "column": 18,
+        "msg": "Property 'prepareDetectionCache' does not exist on type '{}'."
+    },
+    {
+        "line": 811,
+        "column": 46,
+        "msg": "Property 'findMatch' does not exist on type '{}'."
+    },
+    {
+        "line": 811,
+        "column": 61,
+        "msg": "Property 'mobileDetectRules' does not exist on type '{}'."
+    },
+    {
+        "line": 834,
+        "column": 47,
+        "msg": "Property 'findMatches' does not exist on type '{}'."
+    },
+    {
+        "line": 834,
+        "column": 64,
+        "msg": "Property 'mobileDetectRules' does not exist on type '{}'."
+    },
+    {
+        "line": 851,
+        "column": 39,
+        "msg": "Property 'detectOS' does not exist on type '{}'."
+    },
+    {
+        "line": 875,
+        "column": 25,
+        "msg": "Property 'getVersion' does not exist on type '{}'."
+    },
+    {
+        "line": 896,
+        "column": 25,
+        "msg": "Property 'getVersionStr' does not exist on type '{}'."
+    },
+    {
+        "line": 918,
+        "column": 36,
+        "msg": "Property 'findMatches' does not exist on type '{}'."
+    },
+    {
+        "line": 918,
+        "column": 53,
+        "msg": "Property 'mobileDetectRules' does not exist on type '{}'."
+    },
+    {
+        "line": 958,
+        "column": 42,
+        "msg": "Property 'mobileGrade' does not exist on type '{}'."
+    },
+    {
+        "line": 967,
+        "column": 57,
+        "msg": "Property 'getDeviceSmallerSide' does not exist on type '{}'."
+    },
+    {
+        "line": 981,
+        "column": 16,
+        "msg": "Cannot find name 'module'. Do you need to install type definitions for node? Try `npm i @types/node`."
+    },
+    {
+        "line": 981,
+        "column": 42,
+        "msg": "Cannot find name 'module'. Do you need to install type definitions for node? Try `npm i @types/node`."
+    },
+    {
+        "line": 982,
+        "column": 37,
+        "msg": "Cannot find name 'module'. Do you need to install type definitions for node? Try `npm i @types/node`."
+    },
+    {
+        "line": 983,
+        "column": 23,
+        "msg": "Cannot find name 'define'."
+    },
+    {
+        "line": 983,
+        "column": 48,
+        "msg": "Cannot find name 'define'."
+    },
+    {
+        "line": 984,
+        "column": 16,
+        "msg": "Cannot find name 'define'."
+    },
+    {
+        "line": 986,
+        "column": 44,
+        "msg": "Property 'MobileDetect' does not exist on type 'Window & typeof globalThis'."
+    }
+]

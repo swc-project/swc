@@ -1,0 +1,7 @@
+[
+    {
+        "line": 4,
+        "column": 3,
+        "msg": "Unexpected token. A constructor, method, accessor, or property was expected."
+    }
+]

@@ -1,0 +1,52 @@
+[
+    {
+        "line": 12,
+        "column": 1,
+        "msg": "Type '[string, number, boolean, boolean]' is not assignable to type '[string, number]'."
+    },
+    {
+        "line": 13,
+        "column": 20,
+        "msg": "Tuple type '[string, number]' of length '2' has no element at index '2'."
+    },
+    {
+        "line": 14,
+        "column": 1,
+        "msg": "Type '{ a"
+    },
+    {
+        "line": 14,
+        "column": 11,
+        "msg": "Tuple type '[string, number]' of length '2' has no element at index '3'."
+    },
+    {
+        "line": 15,
+        "column": 20,
+        "msg": "Tuple type '[string, number]' of length '2' has no element at index '3'."
+    },
+    {
+        "line": 22,
+        "column": 14,
+        "msg": "Type 'number' is not assignable to type 'string'."
+    },
+    {
+        "line": 22,
+        "column": 17,
+        "msg": "Type 'string' is not assignable to type 'number'."
+    },
+    {
+        "line": 23,
+        "column": 14,
+        "msg": "Type '{}' is not assignable to type 'string'."
+    },
+    {
+        "line": 23,
+        "column": 18,
+        "msg": "Type '{}' is not assignable to type 'number'."
+    },
+    {
+        "line": 24,
+        "column": 1,
+        "msg": "Property '1' is missing in type '[{}]' but required in type '[{}, {}]'."
+    }
+]

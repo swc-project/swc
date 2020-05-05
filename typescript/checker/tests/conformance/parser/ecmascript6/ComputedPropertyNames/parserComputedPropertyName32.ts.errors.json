@@ -1,0 +1,12 @@
+[
+    {
+        "line": 3,
+        "column": 5,
+        "msg": "A computed property name in an ambient context must refer to an expression whose type is a literal type or a 'unique symbol' type."
+    },
+    {
+        "line": 3,
+        "column": 6,
+        "msg": "Cannot find name 'e'."
+    }
+]

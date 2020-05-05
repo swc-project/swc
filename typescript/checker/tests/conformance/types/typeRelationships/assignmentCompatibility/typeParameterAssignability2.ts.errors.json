@@ -1,0 +1,112 @@
+[
+    {
+        "line": 5,
+        "column": 5,
+        "msg": "Type 'T' is not assignable to type 'U'."
+    },
+    {
+        "line": 9,
+        "column": 5,
+        "msg": "Type 'U' is not assignable to type 'T'."
+    },
+    {
+        "line": 14,
+        "column": 5,
+        "msg": "Type 'U' is not assignable to type 'T'."
+    },
+    {
+        "line": 17,
+        "column": 5,
+        "msg": "Type 'V' is not assignable to type 'T'."
+    },
+    {
+        "line": 20,
+        "column": 5,
+        "msg": "Type 'V' is not assignable to type 'U'."
+    },
+    {
+        "line": 25,
+        "column": 5,
+        "msg": "Type 'U' is not assignable to type 'T'."
+    },
+    {
+        "line": 26,
+        "column": 5,
+        "msg": "Type 'V' is not assignable to type 'T'."
+    },
+    {
+        "line": 27,
+        "column": 5,
+        "msg": "Type 'Date' is not assignable to type 'T'."
+    },
+    {
+        "line": 30,
+        "column": 5,
+        "msg": "Type 'V' is not assignable to type 'U'."
+    },
+    {
+        "line": 31,
+        "column": 5,
+        "msg": "Type 'Date' is not assignable to type 'U'."
+    },
+    {
+        "line": 35,
+        "column": 5,
+        "msg": "Type 'Date' is not assignable to type 'V'."
+    },
+    {
+        "line": 45,
+        "column": 5,
+        "msg": "Type 'U' is not assignable to type 'T'."
+    },
+    {
+        "line": 46,
+        "column": 5,
+        "msg": "Type 'V' is not assignable to type 'T'."
+    },
+    {
+        "line": 47,
+        "column": 5,
+        "msg": "Type 'Date' is not assignable to type 'T'."
+    },
+    {
+        "line": 50,
+        "column": 5,
+        "msg": "Type 'V' is not assignable to type 'U'."
+    },
+    {
+        "line": 51,
+        "column": 5,
+        "msg": "Type 'Date' is not assignable to type 'U'."
+    },
+    {
+        "line": 55,
+        "column": 5,
+        "msg": "Type 'Date' is not assignable to type 'V'."
+    },
+    {
+        "line": 64,
+        "column": 5,
+        "msg": "Type 'U' is not assignable to type 'T'."
+    },
+    {
+        "line": 65,
+        "column": 5,
+        "msg": "Type 'V' is not assignable to type 'T'."
+    },
+    {
+        "line": 68,
+        "column": 5,
+        "msg": "Type 'V' is not assignable to type 'U'."
+    },
+    {
+        "line": 70,
+        "column": 5,
+        "msg": "Type 'T' is not assignable to type 'V'."
+    },
+    {
+        "line": 71,
+        "column": 5,
+        "msg": "Type 'U' is not assignable to type 'V'."
+    }
+]

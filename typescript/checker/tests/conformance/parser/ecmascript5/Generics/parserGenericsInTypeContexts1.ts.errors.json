@@ -1,0 +1,92 @@
+[
+    {
+        "line": 1,
+        "column": 17,
+        "msg": "Cannot find name 'A'."
+    },
+    {
+        "line": 1,
+        "column": 19,
+        "msg": "Cannot find name 'T'."
+    },
+    {
+        "line": 1,
+        "column": 33,
+        "msg": "Cannot find name 'B'."
+    },
+    {
+        "line": 1,
+        "column": 35,
+        "msg": "Cannot find name 'T'."
+    },
+    {
+        "line": 4,
+        "column": 9,
+        "msg": "Type 'C' is not generic."
+    },
+    {
+        "line": 4,
+        "column": 11,
+        "msg": "Cannot find name 'T'."
+    },
+    {
+        "line": 5,
+        "column": 9,
+        "msg": "Cannot find name 'D'."
+    },
+    {
+        "line": 5,
+        "column": 11,
+        "msg": "Cannot find name 'T'."
+    },
+    {
+        "line": 6,
+        "column": 9,
+        "msg": "Cannot find namespace 'E'."
+    },
+    {
+        "line": 6,
+        "column": 13,
+        "msg": "Cannot find name 'T'."
+    },
+    {
+        "line": 7,
+        "column": 9,
+        "msg": "Cannot find namespace 'G'."
+    },
+    {
+        "line": 7,
+        "column": 15,
+        "msg": "Cannot find name 'T'."
+    },
+    {
+        "line": 8,
+        "column": 9,
+        "msg": "Cannot find name 'K'."
+    },
+    {
+        "line": 8,
+        "column": 11,
+        "msg": "Cannot find name 'T'."
+    },
+    {
+        "line": 11,
+        "column": 16,
+        "msg": "Cannot find name 'E'."
+    },
+    {
+        "line": 11,
+        "column": 18,
+        "msg": "Cannot find name 'T'."
+    },
+    {
+        "line": 14,
+        "column": 16,
+        "msg": "Cannot find name 'F'."
+    },
+    {
+        "line": 14,
+        "column": 18,
+        "msg": "Cannot find name 'T'."
+    }
+]

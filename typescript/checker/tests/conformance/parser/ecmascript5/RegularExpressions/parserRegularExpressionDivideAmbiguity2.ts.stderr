@@ -1,0 +1,34 @@
+error: UndefinedSymbol {
+    sym: Atom('notregexp' type=dynamic),
+    span: Span {
+        lo: BytePos(
+            5,
+        ),
+        hi: BytePos(
+            14,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/RegularExpressions/parserRegularExpressionDivideAmbiguity2.ts:1:6
+  |
+1 | (1) /notregexp/a.foo();
+  |      ^^^^^^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('a' type=inline),
+    span: Span {
+        lo: BytePos(
+            15,
+        ),
+        hi: BytePos(
+            16,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/RegularExpressions/parserRegularExpressionDivideAmbiguity2.ts:1:16
+  |
+1 | (1) /notregexp/a.foo();
+  |                ^
+

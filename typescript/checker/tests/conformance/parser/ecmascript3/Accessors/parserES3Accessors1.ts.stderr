@@ -1,0 +1,22 @@
+error: jsc.taraget should be es5 or upper to use getter / setter
+ --> $DIR/tests/conformance/parser/ecmascript3/Accessors/parserES3Accessors1.ts:2:9
+  |
+2 |     get Foo() { }
+  |         ^^^
+
+error: TS2378 {
+    span: Span {
+        lo: BytePos(
+            18,
+        ),
+        hi: BytePos(
+            21,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript3/Accessors/parserES3Accessors1.ts:2:9
+  |
+2 |     get Foo() { }
+  |         ^^^
+

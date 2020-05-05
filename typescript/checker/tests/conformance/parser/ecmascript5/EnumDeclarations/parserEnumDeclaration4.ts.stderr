@@ -1,0 +1,12 @@
+error: Expected ';', '}' or <eof>
+ --> $DIR/tests/conformance/parser/ecmascript5/EnumDeclarations/parserEnumDeclaration4.ts:1:6
+  |
+1 | enum void {
+  |      ^^^^
+  |
+note: This is the expression part of an expression statement
+ --> $DIR/tests/conformance/parser/ecmascript5/EnumDeclarations/parserEnumDeclaration4.ts:1:1
+  |
+1 | enum void {
+  | ^^^^
+

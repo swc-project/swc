@@ -1,0 +1,6 @@
+error: Unexpected token Some(At)
+ --> $DIR/tests/conformance/decorators/class/constructor/parameter/decoratorOnClassConstructorParameter4.ts:6:24
+  |
+6 |     constructor(public @dec p: number) {}
+  |                        ^
+

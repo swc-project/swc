@@ -1,0 +1,47 @@
+[
+    {
+        "line": 9,
+        "column": 1,
+        "msg": "Untyped function calls may not accept type arguments."
+    },
+    {
+        "line": 10,
+        "column": 1,
+        "msg": "Untyped function calls may not accept type arguments."
+    },
+    {
+        "line": 11,
+        "column": 1,
+        "msg": "Untyped function calls may not accept type arguments."
+    },
+    {
+        "line": 26,
+        "column": 1,
+        "msg": "Untyped function calls may not accept type arguments."
+    },
+    {
+        "line": 27,
+        "column": 1,
+        "msg": "Untyped function calls may not accept type arguments."
+    },
+    {
+        "line": 28,
+        "column": 1,
+        "msg": "Untyped function calls may not accept type arguments."
+    },
+    {
+        "line": 33,
+        "column": 1,
+        "msg": "Untyped function calls may not accept type arguments."
+    },
+    {
+        "line": 34,
+        "column": 1,
+        "msg": "Untyped function calls may not accept type arguments."
+    },
+    {
+        "line": 35,
+        "column": 1,
+        "msg": "Untyped function calls may not accept type arguments."
+    }
+]

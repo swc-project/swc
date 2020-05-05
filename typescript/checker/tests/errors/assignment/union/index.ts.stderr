@@ -1,0 +1,75 @@
+error: AssignFailed {
+    span: Span {
+        lo: BytePos(
+            79,
+        ),
+        hi: BytePos(
+            82,
+        ),
+        ctxt: #0,
+    },
+    left: Lit(
+        TsLitType {
+            span: Span {
+                lo: BytePos(
+                    79,
+                ),
+                hi: BytePos(
+                    82,
+                ),
+                ctxt: #0,
+            },
+            lit: Str(
+                Str {
+                    span: Span {
+                        lo: BytePos(
+                            79,
+                        ),
+                        hi: BytePos(
+                            82,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('a' type=inline),
+                    has_escape: false,
+                },
+            ),
+        },
+    ),
+    right: Keyword(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    65,
+                ),
+                hi: BytePos(
+                    66,
+                ),
+                ctxt: #0,
+            },
+            kind: TsUnknownKeyword,
+        },
+    ),
+    cause: [],
+}
+ --> $DIR/tests/errors/assignment/union/index.ts:5:10
+  |
+5 |     case "a":
+  |          ^^^
+
+error: ReturnRequired {
+    span: Span {
+        lo: BytePos(
+            11,
+        ),
+        hi: BytePos(
+            14,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/errors/assignment/union/index.ts:1:12
+  |
+1 | type Foo = "a" | "b";
+  |            ^^^
+

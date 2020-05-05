@@ -1,0 +1,6 @@
+error: Unexpected token Some(LBrace)
+ --> $DIR/tests/conformance/es6/functionPropertyAssignments/FunctionPropertyAssignments3_es6.ts:2:12
+  |
+2 | var v = { *{ } }
+  |            ^
+

@@ -1,0 +1,68 @@
+error: UndefinedSymbol {
+    sym: Atom('a' type=inline),
+    span: Span {
+        lo: BytePos(
+            19,
+        ),
+        hi: BytePos(
+            20,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/VariableDeclarations/parserVariableDeclaration1.ts:2:19
+  |
+2 |         var selection = a, 
+  |                         ^
+
+error: UndefinedSymbol {
+    sym: Atom('b' type=inline),
+    span: Span {
+        lo: BytePos(
+            37,
+        ),
+        hi: BytePos(
+            38,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/VariableDeclarations/parserVariableDeclaration1.ts:3:15
+  |
+3 |             position = b,
+  |                        ^
+
+error: UndefinedSymbol {
+    sym: Atom('c' type=inline),
+    span: Span {
+        lo: BytePos(
+            51,
+        ),
+        hi: BytePos(
+            52,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/VariableDeclarations/parserVariableDeclaration1.ts:4:12
+  |
+4 |             model = c,
+  |                     ^
+
+error: UndefinedSymbol {
+    sym: Atom('d' type=inline),
+    span: Span {
+        lo: BytePos(
+            67,
+        ),
+        hi: BytePos(
+            68,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/VariableDeclarations/parserVariableDeclaration1.ts:5:14
+  |
+5 |             support = d;
+  |                       ^
+

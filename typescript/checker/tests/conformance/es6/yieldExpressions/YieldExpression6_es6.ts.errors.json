@@ -1,0 +1,7 @@
+[
+    {
+        "line": 3,
+        "column": 9,
+        "msg": "Type '() => any' must have a '[Symbol.iterator]()' method that returns an iterator."
+    }
+]

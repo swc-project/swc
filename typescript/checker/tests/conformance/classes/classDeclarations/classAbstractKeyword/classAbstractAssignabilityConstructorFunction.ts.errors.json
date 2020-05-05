@@ -1,0 +1,12 @@
+[
+    {
+        "line": 7,
+        "column": 1,
+        "msg": "Type 'typeof A' is not assignable to type 'new () => A'."
+    },
+    {
+        "line": 8,
+        "column": 1,
+        "msg": "Type '\"asdf\"' is not assignable to type 'new () => A'."
+    }
+]

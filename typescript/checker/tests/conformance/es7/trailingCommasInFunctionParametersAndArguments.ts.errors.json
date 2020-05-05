@@ -1,0 +1,7 @@
+[
+    {
+        "line": 7,
+        "column": 20,
+        "msg": "A rest parameter or binding pattern may not have a trailing comma."
+    }
+]

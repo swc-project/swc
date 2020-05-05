@@ -1,0 +1,7 @@
+[
+    {
+        "line": 9,
+        "column": 5,
+        "msg": "Property '[\"\"]' of type 'Foo' is not assignable to string index type 'Foo2'."
+    }
+]

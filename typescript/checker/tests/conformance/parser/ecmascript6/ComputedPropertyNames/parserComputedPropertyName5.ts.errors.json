@@ -1,0 +1,17 @@
+[
+    {
+        "line": 2,
+        "column": 11,
+        "msg": "'public' modifier cannot be used here."
+    },
+    {
+        "line": 2,
+        "column": 22,
+        "msg": "A 'get' accessor must return a value."
+    },
+    {
+        "line": 2,
+        "column": 23,
+        "msg": "Cannot find name 'e'."
+    }
+]

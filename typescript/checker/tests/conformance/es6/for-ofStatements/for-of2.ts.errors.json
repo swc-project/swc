@@ -1,0 +1,12 @@
+[
+    {
+        "line": 2,
+        "column": 7,
+        "msg": "'const' declarations must be initialized."
+    },
+    {
+        "line": 3,
+        "column": 6,
+        "msg": "Cannot assign to 'v' because it is a constant."
+    }
+]

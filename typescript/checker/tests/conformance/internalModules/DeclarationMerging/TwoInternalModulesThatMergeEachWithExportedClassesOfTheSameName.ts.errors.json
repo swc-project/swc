@@ -1,0 +1,22 @@
+[
+    {
+        "line": 2,
+        "column": 18,
+        "msg": "Duplicate identifier 'Point'."
+    },
+    {
+        "line": 10,
+        "column": 18,
+        "msg": "Duplicate identifier 'Point'."
+    },
+    {
+        "line": 17,
+        "column": 18,
+        "msg": "Duplicate identifier 'Line'."
+    },
+    {
+        "line": 26,
+        "column": 26,
+        "msg": "Duplicate identifier 'Line'."
+    }
+]

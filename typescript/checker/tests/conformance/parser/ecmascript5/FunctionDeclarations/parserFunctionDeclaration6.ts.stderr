@@ -1,0 +1,16 @@
+error: TS2389 {
+    span: Span {
+        lo: BytePos(
+            37,
+        ),
+        hi: BytePos(
+            40,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/FunctionDeclarations/parserFunctionDeclaration6.ts:3:14
+  |
+3 |     function bar() { }
+  |              ^^^
+

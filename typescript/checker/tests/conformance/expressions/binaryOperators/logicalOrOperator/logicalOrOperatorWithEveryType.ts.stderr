@@ -1,0 +1,160 @@
+error: TS1345 {
+    span: Span {
+        lo: BytePos(
+            633,
+        ),
+        hi: BytePos(
+            641,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/logicalOrOperator/logicalOrOperatorWithEveryType.ts:21:11
+   |
+21 | var ra5 = a5 || a1;         // void      || any is any
+   |           ^^^^^^^^
+
+error: TS1345 {
+    span: Span {
+        lo: BytePos(
+            1230,
+        ),
+        hi: BytePos(
+            1238,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/logicalOrOperator/logicalOrOperatorWithEveryType.ts:32:11
+   |
+32 | var rb5 = a5 || a2;         // void      || boolean is void | boolean
+   |           ^^^^^^^^
+
+error: TS1345 {
+    span: Span {
+        lo: BytePos(
+            1897,
+        ),
+        hi: BytePos(
+            1905,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/logicalOrOperator/logicalOrOperatorWithEveryType.ts:43:11
+   |
+43 | var rc5 = a5 || a3;         // void      || number is void | number
+   |           ^^^^^^^^
+
+error: TS1345 {
+    span: Span {
+        lo: BytePos(
+            2548,
+        ),
+        hi: BytePos(
+            2556,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/logicalOrOperator/logicalOrOperatorWithEveryType.ts:54:11
+   |
+54 | var rd5 = a5 || a4;         // void      || string is void | string
+   |           ^^^^^^^^
+
+error: TS1345 {
+    span: Span {
+        lo: BytePos(
+            3201,
+        ),
+        hi: BytePos(
+            3209,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/logicalOrOperator/logicalOrOperatorWithEveryType.ts:65:11
+   |
+65 | var re5 = a5 || a5;         // void      || void is void
+   |           ^^^^^^^^
+
+error: TS1345 {
+    span: Span {
+        lo: BytePos(
+            3816,
+        ),
+        hi: BytePos(
+            3824,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/logicalOrOperator/logicalOrOperatorWithEveryType.ts:76:11
+   |
+76 | var rg5 = a5 || a6;         // void      || enum is void | enum
+   |           ^^^^^^^^
+
+error: TS1345 {
+    span: Span {
+        lo: BytePos(
+            4443,
+        ),
+        hi: BytePos(
+            4451,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/logicalOrOperator/logicalOrOperatorWithEveryType.ts:87:11
+   |
+87 | var rh5 = a5 || a7;         // void      || object is void | object
+   |           ^^^^^^^^
+
+error: TS1345 {
+    span: Span {
+        lo: BytePos(
+            5094,
+        ),
+        hi: BytePos(
+            5102,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/logicalOrOperator/logicalOrOperatorWithEveryType.ts:98:11
+   |
+98 | var ri5 = a5 || a8;         // void      || array is void | array
+   |           ^^^^^^^^
+
+error: TS1345 {
+    span: Span {
+        lo: BytePos(
+            5714,
+        ),
+        hi: BytePos(
+            5724,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/logicalOrOperator/logicalOrOperatorWithEveryType.ts:109:11
+    |
+109 | var rj5 = a5 || null;         // void      || null is void
+    |           ^^^^^^^^^^
+
+error: TS1345 {
+    span: Span {
+        lo: BytePos(
+            6349,
+        ),
+        hi: BytePos(
+            6364,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/binaryOperators/logicalOrOperator/logicalOrOperatorWithEveryType.ts:120:11
+    |
+120 | var rf5 = a5 || undefined;         // void      || undefined is void
+    |           ^^^^^^^^^^^^^^^
+

@@ -1,0 +1,17 @@
+[
+    {
+        "line": 44,
+        "column": 6,
+        "msg": "Tuple type '[]' of length '0' has no element at index '0'."
+    },
+    {
+        "line": 45,
+        "column": 8,
+        "msg": "Tuple type '[]' of length '0' has no element at index '0'."
+    },
+    {
+        "line": 45,
+        "column": 18,
+        "msg": "Tuple type '[]' of length '0' has no element at index '0'."
+    }
+]

@@ -1,0 +1,12 @@
+[
+    {
+        "line": 8,
+        "column": 5,
+        "msg": "Type 'Function' is not assignable to type '() => void'."
+    },
+    {
+        "line": 15,
+        "column": 10,
+        "msg": "Expected 1 arguments, but got 0."
+    }
+]

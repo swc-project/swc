@@ -1,0 +1,57 @@
+[
+    {
+        "line": 3,
+        "column": 5,
+        "msg": "Type 'string' is not assignable to type 'boolean'."
+    },
+    {
+        "line": 4,
+        "column": 5,
+        "msg": "Type 'string' is not assignable to type 'number'."
+    },
+    {
+        "line": 5,
+        "column": 5,
+        "msg": "Type 'string' is not assignable to type 'void'."
+    },
+    {
+        "line": 9,
+        "column": 5,
+        "msg": "Type 'string' is not assignable to type 'C'."
+    },
+    {
+        "line": 12,
+        "column": 5,
+        "msg": "Type 'string' is not assignable to type 'I'."
+    },
+    {
+        "line": 14,
+        "column": 5,
+        "msg": "Type '1' is not assignable to type '{ baz"
+    },
+    {
+        "line": 15,
+        "column": 5,
+        "msg": "Type '1' is not assignable to type '{ 0"
+    },
+    {
+        "line": 18,
+        "column": 1,
+        "msg": "Cannot assign to 'M' because it is not a variable."
+    },
+    {
+        "line": 21,
+        "column": 5,
+        "msg": "Type 'string' is not assignable to type 'T'."
+    },
+    {
+        "line": 23,
+        "column": 1,
+        "msg": "Cannot assign to 'i' because it is not a variable."
+    },
+    {
+        "line": 26,
+        "column": 5,
+        "msg": "Type 'string' is not assignable to type 'E'."
+    }
+]

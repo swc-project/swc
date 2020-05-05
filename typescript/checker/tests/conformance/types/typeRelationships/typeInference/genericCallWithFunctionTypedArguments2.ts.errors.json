@@ -1,0 +1,12 @@
+[
+    {
+        "line": 29,
+        "column": 18,
+        "msg": "Argument of type 'I2<string>' is not assignable to parameter of type 'new (a"
+    },
+    {
+        "line": 40,
+        "column": 18,
+        "msg": "Argument of type 'I2<string>' is not assignable to parameter of type 'new (a"
+    }
+]

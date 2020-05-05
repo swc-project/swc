@@ -1,0 +1,82 @@
+[
+    {
+        "line": 27,
+        "column": 9,
+        "msg": "No overload matches this call."
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "string', gave the following error."
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "number', gave the following error."
+    },
+    {
+        "line": 43,
+        "column": 15,
+        "msg": "Argument of type '\"\"' is not assignable to parameter of type 'number'."
+    },
+    {
+        "line": 67,
+        "column": 9,
+        "msg": "Expected 3 type arguments, but got 4."
+    },
+    {
+        "line": 77,
+        "column": 25,
+        "msg": "Argument of type '3' is not assignable to parameter of type 'string'."
+    },
+    {
+        "line": 78,
+        "column": 25,
+        "msg": "Argument of type '\"\"' is not assignable to parameter of type 'number'."
+    },
+    {
+        "line": 88,
+        "column": 9,
+        "msg": "Type 'boolean' does not satisfy the constraint 'number'."
+    },
+    {
+        "line": 91,
+        "column": 9,
+        "msg": "No overload matches this call."
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "any)"
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "any)"
+    },
+    {
+        "line": 92,
+        "column": 15,
+        "msg": "No overload matches this call."
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "number)"
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "string)"
+    },
+    {
+        "line": 100,
+        "column": 5,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 'n' must be of type 'number', but here has type 'string'."
+    },
+    {
+        "line": 100,
+        "column": 26,
+        "msg": "Property 'toFixed' does not exist on type 'string'."
+    }
+]

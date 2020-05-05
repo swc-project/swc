@@ -1,0 +1,6 @@
+error: 'implements', 'interface', 'let', 'package', 'private', 'protected',  'public', 'static', or 'yield' cannot be used as an identifier in strict mode
+ --> $DIR/tests/conformance/parser/ecmascript5/RegressionTests/parser642331_1.ts:4:18
+  |
+4 |     constructor (static) { }
+  |                  ^^^^^^
+

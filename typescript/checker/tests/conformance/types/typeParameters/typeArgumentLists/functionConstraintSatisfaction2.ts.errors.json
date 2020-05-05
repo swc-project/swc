@@ -1,0 +1,97 @@
+[
+    {
+        "line": 5,
+        "column": 5,
+        "msg": "Argument of type '1' is not assignable to parameter of type 'Function'."
+    },
+    {
+        "line": 6,
+        "column": 16,
+        "msg": "Expected 1 arguments, but got 2."
+    },
+    {
+        "line": 7,
+        "column": 8,
+        "msg": "Expected 1 arguments, but got 2."
+    },
+    {
+        "line": 23,
+        "column": 14,
+        "msg": "Argument of type 'Function' is not assignable to parameter of type '(x"
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "string'."
+    },
+    {
+        "line": 24,
+        "column": 15,
+        "msg": "Argument of type '(x"
+    },
+    {
+        "line": 25,
+        "column": 15,
+        "msg": "Argument of type 'typeof C' is not assignable to parameter of type '(x"
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "string'."
+    },
+    {
+        "line": 26,
+        "column": 15,
+        "msg": "Argument of type 'new (x"
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "string)"
+    },
+    {
+        "line": 28,
+        "column": 16,
+        "msg": "Argument of type '<U, V>(x"
+    },
+    {
+        "line": 29,
+        "column": 16,
+        "msg": "Argument of type 'typeof C2' is not assignable to parameter of type '(x"
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "string'."
+    },
+    {
+        "line": 30,
+        "column": 16,
+        "msg": "Argument of type 'new <T>(x"
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "string)"
+    },
+    {
+        "line": 34,
+        "column": 16,
+        "msg": "Argument of type 'F2' is not assignable to parameter of type '(x"
+    },
+    {
+        "line": null,
+        "column": null,
+        "msg": "string'."
+    },
+    {
+        "line": 37,
+        "column": 10,
+        "msg": "Argument of type 'T' is not assignable to parameter of type '(x"
+    },
+    {
+        "line": 38,
+        "column": 10,
+        "msg": "Argument of type 'U' is not assignable to parameter of type '(x"
+    }
+]

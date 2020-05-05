@@ -1,0 +1,7 @@
+[
+    {
+        "line": 8,
+        "column": 5,
+        "msg": "Property 'M2' is missing in type 'typeof import(\"tests/cases/conformance/externalModules/foo_0\")' but required in type '{ M2"
+    }
+]

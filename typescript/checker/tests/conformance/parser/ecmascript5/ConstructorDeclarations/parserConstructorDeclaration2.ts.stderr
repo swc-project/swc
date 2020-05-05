@@ -1,0 +1,6 @@
+error: TS1089
+ --> $DIR/tests/conformance/parser/ecmascript5/ConstructorDeclarations/parserConstructorDeclaration2.ts:2:3
+  |
+2 |   static constructor() { }
+  |   ^^^^^^
+

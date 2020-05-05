@@ -1,0 +1,17 @@
+[
+    {
+        "line": 1,
+        "column": 14,
+        "msg": "A binding pattern parameter cannot be optional in an implementation signature."
+    },
+    {
+        "line": 7,
+        "column": 6,
+        "msg": "Type 'false' is not assignable to type 'string'."
+    },
+    {
+        "line": 7,
+        "column": 16,
+        "msg": "Type 'string' is not assignable to type 'boolean'."
+    }
+]

@@ -1,0 +1,17 @@
+[
+    {
+        "line": 6,
+        "column": 5,
+        "msg": "'private' modifier cannot appear on a type member."
+    },
+    {
+        "line": 10,
+        "column": 5,
+        "msg": "'private' modifier cannot appear on a type member."
+    },
+    {
+        "line": 14,
+        "column": 5,
+        "msg": "'private' modifier cannot appear on a type member."
+    }
+]

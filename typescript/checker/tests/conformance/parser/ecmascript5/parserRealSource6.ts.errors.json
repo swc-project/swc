@@ -1,0 +1,302 @@
+[
+    {
+        "line": 4,
+        "column": 21,
+        "msg": "File 'tests/cases/conformance/parser/ecmascript5/typescript.ts' not found."
+    },
+    {
+        "line": 8,
+        "column": 24,
+        "msg": "Cannot find name 'Script'."
+    },
+    {
+        "line": 10,
+        "column": 41,
+        "msg": "Cannot find name 'ScopeChain'."
+    },
+    {
+        "line": 10,
+        "column": 69,
+        "msg": "Cannot find name 'TypeChecker'."
+    },
+    {
+        "line": 15,
+        "column": 22,
+        "msg": "Cannot find name 'Type'."
+    },
+    {
+        "line": 16,
+        "column": 21,
+        "msg": "Cannot find name 'AST'."
+    },
+    {
+        "line": 17,
+        "column": 23,
+        "msg": "Cannot find name 'SymbolScope'."
+    },
+    {
+        "line": 18,
+        "column": 30,
+        "msg": "Cannot find name 'AstWalkOptions'."
+    },
+    {
+        "line": 20,
+        "column": 35,
+        "msg": "Cannot find name 'TypeFlow'."
+    },
+    {
+        "line": 20,
+        "column": 83,
+        "msg": "Cannot find name 'ASTFlags'."
+    },
+    {
+        "line": 26,
+        "column": 35,
+        "msg": "Cannot find name 'SymbolScope'."
+    },
+    {
+        "line": 27,
+        "column": 48,
+        "msg": "Cannot find name 'SymbolScope'."
+    },
+    {
+        "line": 28,
+        "column": 31,
+        "msg": "Cannot find name 'AST'."
+    },
+    {
+        "line": 30,
+        "column": 35,
+        "msg": "Cannot find name 'ModuleDeclaration'."
+    },
+    {
+        "line": 31,
+        "column": 36,
+        "msg": "Cannot find name 'TypeDeclaration'."
+    },
+    {
+        "line": 32,
+        "column": 36,
+        "msg": "Cannot find name 'UnaryExpression'."
+    },
+    {
+        "line": 35,
+        "column": 33,
+        "msg": "Cannot find name 'Script'."
+    },
+    {
+        "line": 37,
+        "column": 37,
+        "msg": "Cannot find name 'ILogger'."
+    },
+    {
+        "line": 38,
+        "column": 36,
+        "msg": "Cannot find name 'Script'."
+    },
+    {
+        "line": 39,
+        "column": 34,
+        "msg": "Cannot find name 'ISourceText'."
+    },
+    {
+        "line": 44,
+        "column": 28,
+        "msg": "Cannot find name 'SymbolScope'."
+    },
+    {
+        "line": 48,
+        "column": 41,
+        "msg": "Cannot find name 'SymbolScope'."
+    },
+    {
+        "line": 60,
+        "column": 45,
+        "msg": "Cannot find name 'AST'."
+    },
+    {
+        "line": 68,
+        "column": 37,
+        "msg": "Cannot find name 'Script'."
+    },
+    {
+        "line": 73,
+        "column": 50,
+        "msg": "Property 'quickParse' does not exist on type 'typeof TypeScript'."
+    },
+    {
+        "line": 79,
+        "column": 45,
+        "msg": "Cannot find name 'AST'."
+    },
+    {
+        "line": 79,
+        "column": 58,
+        "msg": "Cannot find name 'AST'."
+    },
+    {
+        "line": 79,
+        "column": 71,
+        "msg": "Cannot find name 'IAstWalker'."
+    },
+    {
+        "line": 81,
+        "column": 13,
+        "msg": "Cannot find name 'hasFlag'."
+    },
+    {
+        "line": 93,
+        "column": 23,
+        "msg": "Cannot find name 'ScopedMembers'."
+    },
+    {
+        "line": 94,
+        "column": 30,
+        "msg": "Cannot find name 'ScopedMembers'."
+    },
+    {
+        "line": 95,
+        "column": 24,
+        "msg": "Cannot find name 'ScopedMembers'."
+    },
+    {
+        "line": 96,
+        "column": 31,
+        "msg": "Cannot find name 'ScopedMembers'."
+    },
+    {
+        "line": 98,
+        "column": 19,
+        "msg": "Cannot find name 'Type'."
+    },
+    {
+        "line": 99,
+        "column": 20,
+        "msg": "Cannot find name 'Type'."
+    },
+    {
+        "line": 100,
+        "column": 21,
+        "msg": "Cannot find name 'ModuleDeclaration'."
+    },
+    {
+        "line": 101,
+        "column": 27,
+        "msg": "Cannot find name 'SymbolScopeBuilder'."
+    },
+    {
+        "line": 102,
+        "column": 20,
+        "msg": "Cannot find name 'ScopeChain'."
+    },
+    {
+        "line": 102,
+        "column": 37,
+        "msg": "Cannot find name 'ScopeChain'."
+    },
+    {
+        "line": 113,
+        "column": 48,
+        "msg": "Cannot find name 'AST'."
+    },
+    {
+        "line": 113,
+        "column": 61,
+        "msg": "Cannot find name 'AST'."
+    },
+    {
+        "line": 113,
+        "column": 74,
+        "msg": "Cannot find name 'IAstWalker'."
+    },
+    {
+        "line": 120,
+        "column": 29,
+        "msg": "Cannot find name 'NodeType'."
+    },
+    {
+        "line": 126,
+        "column": 22,
+        "msg": "Cannot find name 'NodeType'."
+    },
+    {
+        "line": 127,
+        "column": 35,
+        "msg": "Cannot find name 'Script'."
+    },
+    {
+        "line": 134,
+        "column": 22,
+        "msg": "Cannot find name 'NodeType'."
+    },
+    {
+        "line": 139,
+        "column": 51,
+        "msg": "Cannot find name 'TypeDeclaration'."
+    },
+    {
+        "line": 142,
+        "column": 22,
+        "msg": "Cannot find name 'NodeType'."
+    },
+    {
+        "line": 143,
+        "column": 38,
+        "msg": "Cannot find name 'UnaryExpression'."
+    },
+    {
+        "line": 156,
+        "column": 22,
+        "msg": "Cannot find name 'NodeType'."
+    },
+    {
+        "line": 157,
+        "column": 50,
+        "msg": "Cannot find name 'ModuleDeclaration'."
+    },
+    {
+        "line": 164,
+        "column": 22,
+        "msg": "Cannot find name 'NodeType'."
+    },
+    {
+        "line": 171,
+        "column": 22,
+        "msg": "Cannot find name 'NodeType'."
+    },
+    {
+        "line": 172,
+        "column": 37,
+        "msg": "Cannot find name 'FuncDecl'."
+    },
+    {
+        "line": 179,
+        "column": 59,
+        "msg": "Cannot find name 'hasFlag'."
+    },
+    {
+        "line": 179,
+        "column": 86,
+        "msg": "Cannot find name 'FncFlags'."
+    },
+    {
+        "line": 212,
+        "column": 50,
+        "msg": "Cannot find name 'ILogger'."
+    },
+    {
+        "line": 212,
+        "column": 67,
+        "msg": "Cannot find name 'Script'."
+    },
+    {
+        "line": 212,
+        "column": 81,
+        "msg": "Cannot find name 'ISourceText'."
+    },
+    {
+        "line": 215,
+        "column": 20,
+        "msg": "Property 'getAstWalkerFactory' does not exist on type 'typeof TypeScript'."
+    }
+]

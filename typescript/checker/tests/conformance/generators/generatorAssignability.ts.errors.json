@@ -1,0 +1,57 @@
+[
+    {
+        "line": 14,
+        "column": 5,
+        "msg": "Cannot iterate value because the 'next' method of its iterator expects type 'string', but array spread will always send 'undefined'."
+    },
+    {
+        "line": 18,
+        "column": 5,
+        "msg": "Cannot iterate value because the 'next' method of its iterator expects type 'string', but array destructuring will always send 'undefined'."
+    },
+    {
+        "line": 22,
+        "column": 5,
+        "msg": "Cannot iterate value because the 'next' method of its iterator expects type 'string', but array destructuring will always send 'undefined'."
+    },
+    {
+        "line": 26,
+        "column": 1,
+        "msg": "Cannot iterate value because the 'next' method of its iterator expects type 'string', but array destructuring will always send 'undefined'."
+    },
+    {
+        "line": 30,
+        "column": 1,
+        "msg": "Cannot iterate value because the 'next' method of its iterator expects type 'string', but array destructuring will always send 'undefined'."
+    },
+    {
+        "line": 34,
+        "column": 11,
+        "msg": "Cannot iterate value because the 'next' method of its iterator expects type 'string', but for-of will always send 'undefined'."
+    },
+    {
+        "line": 39,
+        "column": 21,
+        "msg": "Cannot iterate value because the 'next' method of its iterator expects type 'string', but for-of will always send 'undefined'."
+    },
+    {
+        "line": 43,
+        "column": 21,
+        "msg": "Cannot iterate value because the 'next' method of its iterator expects type 'string', but for-of will always send 'undefined'."
+    },
+    {
+        "line": 49,
+        "column": 12,
+        "msg": "Cannot delegate iteration to value because the 'next' method of its iterator expects type 'string', but the containing generator will always send 'boolean'."
+    },
+    {
+        "line": 55,
+        "column": 12,
+        "msg": "Cannot delegate iteration to value because the 'next' method of its iterator expects type 'string', but the containing generator will always send 'boolean'."
+    },
+    {
+        "line": 59,
+        "column": 12,
+        "msg": "Cannot delegate iteration to value because the 'next' method of its iterator expects type 'string', but the containing generator will always send 'boolean'."
+    }
+]

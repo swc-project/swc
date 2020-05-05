@@ -1,0 +1,7 @@
+[
+    {
+        "line": 19,
+        "column": 5,
+        "msg": "Type '() => void' is not assignable to type '{ [n"
+    }
+]

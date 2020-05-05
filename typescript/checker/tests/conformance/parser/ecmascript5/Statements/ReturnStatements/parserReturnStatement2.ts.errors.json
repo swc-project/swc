@@ -1,0 +1,7 @@
+[
+    {
+        "line": 2,
+        "column": 4,
+        "msg": "A 'return' statement can only be used within a function body."
+    }
+]

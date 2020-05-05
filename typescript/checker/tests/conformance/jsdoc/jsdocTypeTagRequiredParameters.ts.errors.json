@@ -1,0 +1,17 @@
+[
+    {
+        "line": 18,
+        "column": 1,
+        "msg": "Expected 1 arguments, but got 0."
+    },
+    {
+        "line": 19,
+        "column": 1,
+        "msg": "Expected 1 arguments, but got 0."
+    },
+    {
+        "line": 20,
+        "column": 1,
+        "msg": "Expected 1 arguments, but got 0."
+    }
+]

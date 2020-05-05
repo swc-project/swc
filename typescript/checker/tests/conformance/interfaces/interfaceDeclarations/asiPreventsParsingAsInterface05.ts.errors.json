@@ -1,0 +1,17 @@
+[
+    {
+        "line": 3,
+        "column": 5,
+        "msg": "Identifier expected. 'interface' is a reserved word in strict mode."
+    },
+    {
+        "line": 10,
+        "column": 1,
+        "msg": "Identifier expected. 'interface' is a reserved word in strict mode."
+    },
+    {
+        "line": 11,
+        "column": 1,
+        "msg": "Cannot find name 'I'."
+    }
+]

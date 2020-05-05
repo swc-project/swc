@@ -1,0 +1,16 @@
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            101,
+        ),
+        hi: BytePos(
+            104,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/classes/classDeclarations/classHeritageSpecification/classExtendsValidConstructorFunction.ts:5:17
+  |
+5 | class C extends foo { } // error, cannot extend it though
+  |                 ^^^
+

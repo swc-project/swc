@@ -1,0 +1,22 @@
+[
+    {
+        "line": 16,
+        "column": 8,
+        "msg": "Property 'y' does not exist on type '{}'."
+    },
+    {
+        "line": 18,
+        "column": 1,
+        "msg": "Element implicitly has an 'any' type because expression of type '\"z\"' can't be used to index type '{}'."
+    },
+    {
+        "line": 23,
+        "column": 10,
+        "msg": "Property 'b' does not exist on type '{}'."
+    },
+    {
+        "line": 25,
+        "column": 3,
+        "msg": "Element implicitly has an 'any' type because expression of type '\"c\"' can't be used to index type '{}'."
+    }
+]

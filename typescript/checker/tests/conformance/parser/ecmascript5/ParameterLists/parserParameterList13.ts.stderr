@@ -1,0 +1,6 @@
+error: TS2369
+ --> $DIR/tests/conformance/parser/ecmascript5/ParameterLists/parserParameterList13.ts:2:10
+  |
+2 |     new (public x);
+  |          ^^^^^^^^
+

@@ -1,0 +1,270 @@
+error: AssignFailed {
+    span: Span {
+        lo: BytePos(
+            254,
+        ),
+        hi: BytePos(
+            269,
+        ),
+        ctxt: #0,
+    },
+    left: Keyword(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    116,
+                ),
+                hi: BytePos(
+                    123,
+                ),
+                ctxt: #0,
+            },
+            kind: TsBooleanKeyword,
+        },
+    ),
+    right: Keyword(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    282,
+                ),
+                hi: BytePos(
+                    288,
+                ),
+                ctxt: #0,
+            },
+            kind: TsStringKeyword,
+        },
+    ),
+    cause: [],
+}
+  --> $DIR/tests/conformance/expressions/commaOperator/commaOperatorInvalidAssignmentType.ts:12:1
+   |
+12 | resultIsBoolean = (BOOLEAN, STRING);
+   | ^^^^^^^^^^^^^^^
+
+error: AssignFailed {
+    span: Span {
+        lo: BytePos(
+            291,
+        ),
+        hi: BytePos(
+            306,
+        ),
+        ctxt: #0,
+    },
+    left: Keyword(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    116,
+                ),
+                hi: BytePos(
+                    123,
+                ),
+                ctxt: #0,
+            },
+            kind: TsBooleanKeyword,
+        },
+    ),
+    right: Keyword(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    319,
+                ),
+                hi: BytePos(
+                    325,
+                ),
+                ctxt: #0,
+            },
+            kind: TsNumberKeyword,
+        },
+    ),
+    cause: [],
+}
+  --> $DIR/tests/conformance/expressions/commaOperator/commaOperatorInvalidAssignmentType.ts:13:1
+   |
+13 | resultIsBoolean = (BOOLEAN, NUMBER);
+   | ^^^^^^^^^^^^^^^
+
+error: AssignFailed {
+    span: Span {
+        lo: BytePos(
+            329,
+        ),
+        hi: BytePos(
+            343,
+        ),
+        ctxt: #0,
+    },
+    left: Keyword(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    144,
+                ),
+                hi: BytePos(
+                    150,
+                ),
+                ctxt: #0,
+            },
+            kind: TsNumberKeyword,
+        },
+    ),
+    right: Keyword(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    355,
+                ),
+                hi: BytePos(
+                    362,
+                ),
+                ctxt: #0,
+            },
+            kind: TsBooleanKeyword,
+        },
+    ),
+    cause: [],
+}
+  --> $DIR/tests/conformance/expressions/commaOperator/commaOperatorInvalidAssignmentType.ts:15:1
+   |
+15 | resultIsNumber = (NUMBER, BOOLEAN);
+   | ^^^^^^^^^^^^^^
+
+error: AssignFailed {
+    span: Span {
+        lo: BytePos(
+            365,
+        ),
+        hi: BytePos(
+            379,
+        ),
+        ctxt: #0,
+    },
+    left: Keyword(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    144,
+                ),
+                hi: BytePos(
+                    150,
+                ),
+                ctxt: #0,
+            },
+            kind: TsNumberKeyword,
+        },
+    ),
+    right: Keyword(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    391,
+                ),
+                hi: BytePos(
+                    397,
+                ),
+                ctxt: #0,
+            },
+            kind: TsStringKeyword,
+        },
+    ),
+    cause: [],
+}
+  --> $DIR/tests/conformance/expressions/commaOperator/commaOperatorInvalidAssignmentType.ts:16:1
+   |
+16 | resultIsNumber = (NUMBER, STRING);
+   | ^^^^^^^^^^^^^^
+
+error: AssignFailed {
+    span: Span {
+        lo: BytePos(
+            401,
+        ),
+        hi: BytePos(
+            415,
+        ),
+        ctxt: #0,
+    },
+    left: Keyword(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    171,
+                ),
+                hi: BytePos(
+                    177,
+                ),
+                ctxt: #0,
+            },
+            kind: TsStringKeyword,
+        },
+    ),
+    right: Keyword(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    427,
+                ),
+                hi: BytePos(
+                    434,
+                ),
+                ctxt: #0,
+            },
+            kind: TsBooleanKeyword,
+        },
+    ),
+    cause: [],
+}
+  --> $DIR/tests/conformance/expressions/commaOperator/commaOperatorInvalidAssignmentType.ts:18:1
+   |
+18 | resultIsString = (STRING, BOOLEAN);
+   | ^^^^^^^^^^^^^^
+
+error: AssignFailed {
+    span: Span {
+        lo: BytePos(
+            437,
+        ),
+        hi: BytePos(
+            451,
+        ),
+        ctxt: #0,
+    },
+    left: Keyword(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    171,
+                ),
+                hi: BytePos(
+                    177,
+                ),
+                ctxt: #0,
+            },
+            kind: TsStringKeyword,
+        },
+    ),
+    right: Keyword(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    463,
+                ),
+                hi: BytePos(
+                    469,
+                ),
+                ctxt: #0,
+            },
+            kind: TsNumberKeyword,
+        },
+    ),
+    cause: [],
+}
+  --> $DIR/tests/conformance/expressions/commaOperator/commaOperatorInvalidAssignmentType.ts:19:1
+   |
+19 | resultIsString = (STRING, NUMBER);
+   | ^^^^^^^^^^^^^^
+

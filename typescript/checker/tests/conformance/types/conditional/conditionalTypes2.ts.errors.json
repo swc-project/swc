@@ -1,0 +1,37 @@
+[
+    {
+        "line": 18,
+        "column": 5,
+        "msg": "Type 'Covariant<A>' is not assignable to type 'Covariant<B>'."
+    },
+    {
+        "line": 22,
+        "column": 5,
+        "msg": "Type 'Contravariant<B>' is not assignable to type 'Contravariant<A>'."
+    },
+    {
+        "line": 27,
+        "column": 5,
+        "msg": "Type 'Invariant<B>' is not assignable to type 'Invariant<A>'."
+    },
+    {
+        "line": 28,
+        "column": 5,
+        "msg": "Type 'Invariant<A>' is not assignable to type 'Invariant<B>'."
+    },
+    {
+        "line": 76,
+        "column": 12,
+        "msg": "Argument of type 'Extract<Extract<T, Foo>, Bar>' is not assignable to parameter of type '{ foo"
+    },
+    {
+        "line": 77,
+        "column": 12,
+        "msg": "Argument of type 'Extract<T, Foo & Bar>' is not assignable to parameter of type '{ foo"
+    },
+    {
+        "line": 78,
+        "column": 12,
+        "msg": "Argument of type 'Extract2<T, Foo, Bar>' is not assignable to parameter of type '{ foo"
+    }
+]

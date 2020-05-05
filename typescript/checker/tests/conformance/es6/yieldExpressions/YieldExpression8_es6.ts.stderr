@@ -1,0 +1,16 @@
+error: NameNotFound {
+    span: Span {
+        lo: BytePos(
+            16,
+        ),
+        hi: BytePos(
+            21,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es6/yieldExpressions/YieldExpression8_es6.ts:2:1
+  |
+2 | yield(foo);
+  | ^^^^^
+

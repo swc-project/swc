@@ -1,0 +1,62 @@
+[
+    {
+        "line": 5,
+        "column": 17,
+        "msg": "A parameter property may not be declared using a binding pattern."
+    },
+    {
+        "line": 5,
+        "column": 27,
+        "msg": "Property 'x1' does not exist on type 'ObjType1'."
+    },
+    {
+        "line": 5,
+        "column": 31,
+        "msg": "Property 'x2' does not exist on type 'ObjType1'."
+    },
+    {
+        "line": 5,
+        "column": 35,
+        "msg": "Property 'x3' does not exist on type 'ObjType1'."
+    },
+    {
+        "line": 7,
+        "column": 29,
+        "msg": "Property 'x1' does not exist on type 'C1'."
+    },
+    {
+        "line": 7,
+        "column": 40,
+        "msg": "Property 'x2' does not exist on type 'C1'."
+    },
+    {
+        "line": 7,
+        "column": 51,
+        "msg": "Property 'x3' does not exist on type 'C1'."
+    },
+    {
+        "line": 7,
+        "column": 62,
+        "msg": "Property 'y' does not exist on type 'C1'."
+    },
+    {
+        "line": 7,
+        "column": 72,
+        "msg": "Property 'z' does not exist on type 'C1'."
+    },
+    {
+        "line": 11,
+        "column": 19,
+        "msg": "Type '{ x1"
+    },
+    {
+        "line": 11,
+        "column": 47,
+        "msg": "Type 'string' is not assignable to type 'number'."
+    },
+    {
+        "line": 11,
+        "column": 51,
+        "msg": "Type 'false' is not assignable to type 'string'."
+    }
+]

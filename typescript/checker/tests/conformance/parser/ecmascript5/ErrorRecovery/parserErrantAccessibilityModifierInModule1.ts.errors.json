@@ -1,0 +1,17 @@
+[
+    {
+        "line": 3,
+        "column": 5,
+        "msg": "Declaration or statement expected."
+    },
+    {
+        "line": 3,
+        "column": 13,
+        "msg": "Cannot find name 'y'."
+    },
+    {
+        "line": 4,
+        "column": 18,
+        "msg": "Cannot find name 'y'."
+    }
+]

@@ -1,0 +1,17 @@
+[
+    {
+        "line": 4,
+        "column": 15,
+        "msg": "',' expected."
+    },
+    {
+        "line": 4,
+        "column": 22,
+        "msg": "Expression expected."
+    },
+    {
+        "line": 7,
+        "column": 19,
+        "msg": "Expression expected."
+    }
+]

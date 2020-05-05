@@ -1,0 +1,36 @@
+error: TS1105
+ --> $DIR/tests/conformance/statements/breakStatements/invalidForBreakStatements.ts:7:1
+  |
+7 | break;
+  | ^^^^^^
+
+error: TS1116
+  --> $DIR/tests/conformance/statements/breakStatements/invalidForBreakStatements.ts:11:9
+   |
+11 | for(;;) break TWO;
+   |         ^^^^^^^^^^
+
+error: TS1116
+  --> $DIR/tests/conformance/statements/breakStatements/invalidForBreakStatements.ts:17:9
+   |
+17 |         break TWO;
+   |         ^^^^^^^^^^
+
+error: TS1116
+  --> $DIR/tests/conformance/statements/breakStatements/invalidForBreakStatements.ts:24:9
+   |
+24 |         break THREE;
+   |         ^^^^^^^^^^^^
+
+error: TS1116
+  --> $DIR/tests/conformance/statements/breakStatements/invalidForBreakStatements.ts:30:5
+   |
+30 |     break FIVE;
+   |     ^^^^^^^^^^^
+
+error: TS1116
+  --> $DIR/tests/conformance/statements/breakStatements/invalidForBreakStatements.ts:39:5
+   |
+39 |     break NINE;
+   |     ^^^^^^^^^^^
+

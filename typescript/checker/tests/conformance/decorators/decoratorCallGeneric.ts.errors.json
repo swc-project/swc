@@ -1,0 +1,7 @@
+[
+    {
+        "line": 8,
+        "column": 2,
+        "msg": "Argument of type 'typeof C' is not assignable to parameter of type 'I<C>'."
+    }
+]

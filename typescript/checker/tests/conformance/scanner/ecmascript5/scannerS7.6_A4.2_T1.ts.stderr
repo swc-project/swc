@@ -1,0 +1,561 @@
+error: UndefinedSymbol {
+    sym: Atom('$ERROR' type=inline),
+    span: Span {
+        lo: BytePos(
+            320,
+        ),
+        hi: BytePos(
+            326,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/scanner/ecmascript5/scannerS7.6_A4.2_T1.ts:14:3
+   |
+14 |   $ERROR('#А');
+   |   ^^^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('$ERROR' type=inline),
+    span: Span {
+        lo: BytePos(
+            371,
+        ),
+        hi: BytePos(
+            377,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/scanner/ecmascript5/scannerS7.6_A4.2_T1.ts:18:3
+   |
+18 |   $ERROR('#Б');
+   |   ^^^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('$ERROR' type=inline),
+    span: Span {
+        lo: BytePos(
+            422,
+        ),
+        hi: BytePos(
+            428,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/scanner/ecmascript5/scannerS7.6_A4.2_T1.ts:22:3
+   |
+22 |   $ERROR('#В');
+   |   ^^^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('$ERROR' type=inline),
+    span: Span {
+        lo: BytePos(
+            473,
+        ),
+        hi: BytePos(
+            479,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/scanner/ecmascript5/scannerS7.6_A4.2_T1.ts:26:3
+   |
+26 |   $ERROR('#Г');
+   |   ^^^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('$ERROR' type=inline),
+    span: Span {
+        lo: BytePos(
+            524,
+        ),
+        hi: BytePos(
+            530,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/scanner/ecmascript5/scannerS7.6_A4.2_T1.ts:30:3
+   |
+30 |   $ERROR('#Д');
+   |   ^^^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('$ERROR' type=inline),
+    span: Span {
+        lo: BytePos(
+            575,
+        ),
+        hi: BytePos(
+            581,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/scanner/ecmascript5/scannerS7.6_A4.2_T1.ts:34:3
+   |
+34 |   $ERROR('#Е');
+   |   ^^^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('$ERROR' type=inline),
+    span: Span {
+        lo: BytePos(
+            626,
+        ),
+        hi: BytePos(
+            632,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/scanner/ecmascript5/scannerS7.6_A4.2_T1.ts:38:3
+   |
+38 |   $ERROR('#Ж');
+   |   ^^^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('$ERROR' type=inline),
+    span: Span {
+        lo: BytePos(
+            677,
+        ),
+        hi: BytePos(
+            683,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/scanner/ecmascript5/scannerS7.6_A4.2_T1.ts:42:3
+   |
+42 |   $ERROR('#З');
+   |   ^^^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('$ERROR' type=inline),
+    span: Span {
+        lo: BytePos(
+            728,
+        ),
+        hi: BytePos(
+            734,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/scanner/ecmascript5/scannerS7.6_A4.2_T1.ts:46:3
+   |
+46 |   $ERROR('#И');
+   |   ^^^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('$ERROR' type=inline),
+    span: Span {
+        lo: BytePos(
+            779,
+        ),
+        hi: BytePos(
+            785,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/scanner/ecmascript5/scannerS7.6_A4.2_T1.ts:50:3
+   |
+50 |   $ERROR('#Й');
+   |   ^^^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('$ERROR' type=inline),
+    span: Span {
+        lo: BytePos(
+            830,
+        ),
+        hi: BytePos(
+            836,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/scanner/ecmascript5/scannerS7.6_A4.2_T1.ts:54:3
+   |
+54 |   $ERROR('#К');
+   |   ^^^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('$ERROR' type=inline),
+    span: Span {
+        lo: BytePos(
+            881,
+        ),
+        hi: BytePos(
+            887,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/scanner/ecmascript5/scannerS7.6_A4.2_T1.ts:58:3
+   |
+58 |   $ERROR('#Л');
+   |   ^^^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('$ERROR' type=inline),
+    span: Span {
+        lo: BytePos(
+            932,
+        ),
+        hi: BytePos(
+            938,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/scanner/ecmascript5/scannerS7.6_A4.2_T1.ts:62:3
+   |
+62 |   $ERROR('#М');
+   |   ^^^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('$ERROR' type=inline),
+    span: Span {
+        lo: BytePos(
+            983,
+        ),
+        hi: BytePos(
+            989,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/scanner/ecmascript5/scannerS7.6_A4.2_T1.ts:66:3
+   |
+66 |   $ERROR('#Н');
+   |   ^^^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('$ERROR' type=inline),
+    span: Span {
+        lo: BytePos(
+            1034,
+        ),
+        hi: BytePos(
+            1040,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/scanner/ecmascript5/scannerS7.6_A4.2_T1.ts:70:3
+   |
+70 |   $ERROR('#О');
+   |   ^^^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('$ERROR' type=inline),
+    span: Span {
+        lo: BytePos(
+            1085,
+        ),
+        hi: BytePos(
+            1091,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/scanner/ecmascript5/scannerS7.6_A4.2_T1.ts:74:3
+   |
+74 |   $ERROR('#П');
+   |   ^^^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('$ERROR' type=inline),
+    span: Span {
+        lo: BytePos(
+            1136,
+        ),
+        hi: BytePos(
+            1142,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/scanner/ecmascript5/scannerS7.6_A4.2_T1.ts:78:3
+   |
+78 |   $ERROR('#Р');
+   |   ^^^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('$ERROR' type=inline),
+    span: Span {
+        lo: BytePos(
+            1187,
+        ),
+        hi: BytePos(
+            1193,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/scanner/ecmascript5/scannerS7.6_A4.2_T1.ts:82:3
+   |
+82 |   $ERROR('#С');
+   |   ^^^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('$ERROR' type=inline),
+    span: Span {
+        lo: BytePos(
+            1238,
+        ),
+        hi: BytePos(
+            1244,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/scanner/ecmascript5/scannerS7.6_A4.2_T1.ts:86:3
+   |
+86 |   $ERROR('#Т');
+   |   ^^^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('$ERROR' type=inline),
+    span: Span {
+        lo: BytePos(
+            1289,
+        ),
+        hi: BytePos(
+            1295,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/scanner/ecmascript5/scannerS7.6_A4.2_T1.ts:90:3
+   |
+90 |   $ERROR('#У');
+   |   ^^^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('$ERROR' type=inline),
+    span: Span {
+        lo: BytePos(
+            1340,
+        ),
+        hi: BytePos(
+            1346,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/scanner/ecmascript5/scannerS7.6_A4.2_T1.ts:94:3
+   |
+94 |   $ERROR('#Ф');
+   |   ^^^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('$ERROR' type=inline),
+    span: Span {
+        lo: BytePos(
+            1391,
+        ),
+        hi: BytePos(
+            1397,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/scanner/ecmascript5/scannerS7.6_A4.2_T1.ts:98:3
+   |
+98 |   $ERROR('#Х');
+   |   ^^^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('$ERROR' type=inline),
+    span: Span {
+        lo: BytePos(
+            1442,
+        ),
+        hi: BytePos(
+            1448,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/scanner/ecmascript5/scannerS7.6_A4.2_T1.ts:102:3
+    |
+102 |   $ERROR('#Ц');
+    |   ^^^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('$ERROR' type=inline),
+    span: Span {
+        lo: BytePos(
+            1493,
+        ),
+        hi: BytePos(
+            1499,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/scanner/ecmascript5/scannerS7.6_A4.2_T1.ts:106:3
+    |
+106 |   $ERROR('#Ч');
+    |   ^^^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('$ERROR' type=inline),
+    span: Span {
+        lo: BytePos(
+            1544,
+        ),
+        hi: BytePos(
+            1550,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/scanner/ecmascript5/scannerS7.6_A4.2_T1.ts:110:3
+    |
+110 |   $ERROR('#Ш');
+    |   ^^^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('$ERROR' type=inline),
+    span: Span {
+        lo: BytePos(
+            1595,
+        ),
+        hi: BytePos(
+            1601,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/scanner/ecmascript5/scannerS7.6_A4.2_T1.ts:114:3
+    |
+114 |   $ERROR('#Щ');
+    |   ^^^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('$ERROR' type=inline),
+    span: Span {
+        lo: BytePos(
+            1646,
+        ),
+        hi: BytePos(
+            1652,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/scanner/ecmascript5/scannerS7.6_A4.2_T1.ts:118:3
+    |
+118 |   $ERROR('#Ъ');
+    |   ^^^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('$ERROR' type=inline),
+    span: Span {
+        lo: BytePos(
+            1697,
+        ),
+        hi: BytePos(
+            1703,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/scanner/ecmascript5/scannerS7.6_A4.2_T1.ts:122:3
+    |
+122 |   $ERROR('#Ы');
+    |   ^^^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('$ERROR' type=inline),
+    span: Span {
+        lo: BytePos(
+            1748,
+        ),
+        hi: BytePos(
+            1754,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/scanner/ecmascript5/scannerS7.6_A4.2_T1.ts:126:3
+    |
+126 |   $ERROR('#Ь');
+    |   ^^^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('$ERROR' type=inline),
+    span: Span {
+        lo: BytePos(
+            1799,
+        ),
+        hi: BytePos(
+            1805,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/scanner/ecmascript5/scannerS7.6_A4.2_T1.ts:130:3
+    |
+130 |   $ERROR('#Э');
+    |   ^^^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('$ERROR' type=inline),
+    span: Span {
+        lo: BytePos(
+            1850,
+        ),
+        hi: BytePos(
+            1856,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/scanner/ecmascript5/scannerS7.6_A4.2_T1.ts:134:3
+    |
+134 |   $ERROR('#Ю');
+    |   ^^^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('$ERROR' type=inline),
+    span: Span {
+        lo: BytePos(
+            1901,
+        ),
+        hi: BytePos(
+            1907,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/scanner/ecmascript5/scannerS7.6_A4.2_T1.ts:138:3
+    |
+138 |   $ERROR('#Я');
+    |   ^^^^^^
+
+error: UndefinedSymbol {
+    sym: Atom('$ERROR' type=inline),
+    span: Span {
+        lo: BytePos(
+            1952,
+        ),
+        hi: BytePos(
+            1958,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/scanner/ecmascript5/scannerS7.6_A4.2_T1.ts:142:3
+    |
+142 |   $ERROR('#Ё');
+    |   ^^^^^^
+

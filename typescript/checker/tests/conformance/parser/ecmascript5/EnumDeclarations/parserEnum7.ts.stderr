@@ -1,0 +1,18 @@
+error: TS2452
+ --> $DIR/tests/conformance/parser/ecmascript5/EnumDeclarations/parserEnum7.ts:2:3
+  |
+2 |   1, 2, 3
+  |   ^
+
+error: TS2452
+ --> $DIR/tests/conformance/parser/ecmascript5/EnumDeclarations/parserEnum7.ts:2:6
+  |
+2 |   1, 2, 3
+  |      ^
+
+error: TS2452
+ --> $DIR/tests/conformance/parser/ecmascript5/EnumDeclarations/parserEnum7.ts:2:9
+  |
+2 |   1, 2, 3
+  |         ^
+

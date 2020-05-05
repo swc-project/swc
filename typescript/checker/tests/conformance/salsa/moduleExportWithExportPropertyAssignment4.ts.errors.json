@@ -1,0 +1,32 @@
+[
+    {
+        "line": 10,
+        "column": 17,
+        "msg": "Property 'toFixed' does not exist on type 'string | number'."
+    },
+    {
+        "line": 11,
+        "column": 16,
+        "msg": "Property 'toFixed' does not exist on type 'string | number'."
+    },
+    {
+        "line": 8,
+        "column": 1,
+        "msg": "Cannot redeclare exported variable 'bothBefore'."
+    },
+    {
+        "line": 10,
+        "column": 1,
+        "msg": "Cannot redeclare exported variable 'bothBefore'."
+    },
+    {
+        "line": 11,
+        "column": 1,
+        "msg": "Cannot redeclare exported variable 'bothAfter'."
+    },
+    {
+        "line": 16,
+        "column": 1,
+        "msg": "Cannot redeclare exported variable 'bothAfter'."
+    }
+]

@@ -1,0 +1,7 @@
+[
+    {
+        "line": 3,
+        "column": 9,
+        "msg": "A 'get' accessor must return a value."
+    }
+]

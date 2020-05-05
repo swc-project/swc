@@ -1,0 +1,12 @@
+[
+    {
+        "line": 9,
+        "column": 9,
+        "msg": "Property 'formatters' does not exist on type 'typeof import(\"tests/cases/conformance/salsa/first\")'."
+    },
+    {
+        "line": 9,
+        "column": 9,
+        "msg": "Property 'formatters' does not exist on type 'typeof import(\"tests/cases/conformance/salsa/second\")'."
+    }
+]

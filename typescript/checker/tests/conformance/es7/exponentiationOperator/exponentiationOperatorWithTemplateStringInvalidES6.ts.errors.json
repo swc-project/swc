@@ -1,0 +1,67 @@
+[
+    {
+        "line": 3,
+        "column": 14,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 4,
+        "column": 14,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 5,
+        "column": 14,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 6,
+        "column": 14,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 7,
+        "column": 9,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 8,
+        "column": 9,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 9,
+        "column": 9,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 10,
+        "column": 9,
+        "msg": "The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 13,
+        "column": 7,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 14,
+        "column": 7,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 15,
+        "column": 7,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    },
+    {
+        "line": 16,
+        "column": 1,
+        "msg": "Cannot find name 'kj'."
+    },
+    {
+        "line": 16,
+        "column": 8,
+        "msg": "The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+    }
+]

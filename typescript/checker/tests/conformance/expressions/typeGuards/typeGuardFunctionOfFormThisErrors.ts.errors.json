@@ -1,0 +1,37 @@
+[
+    {
+        "line": 24,
+        "column": 1,
+        "msg": "Type '() => this is LeadGuard' is not assignable to type '() => this is FollowerGuard'."
+    },
+    {
+        "line": 25,
+        "column": 1,
+        "msg": "Type '() => this is FollowerGuard' is not assignable to type '() => this is LeadGuard'."
+    },
+    {
+        "line": 27,
+        "column": 1,
+        "msg": "Type '() => this is LeadGuard' is not assignable to type '() => this is FollowerGuard'."
+    },
+    {
+        "line": 28,
+        "column": 1,
+        "msg": "Type '() => this is FollowerGuard' is not assignable to type '() => this is LeadGuard'."
+    },
+    {
+        "line": 30,
+        "column": 32,
+        "msg": "A 'this' type is available only in a non-static member of a class or interface."
+    },
+    {
+        "line": 56,
+        "column": 7,
+        "msg": "Property 'follow' does not exist on type 'RoyalGuard'."
+    },
+    {
+        "line": 59,
+        "column": 7,
+        "msg": "Property 'lead' does not exist on type 'RoyalGuard'."
+    }
+]

@@ -1,0 +1,16 @@
+error: UselessSeqExpr {
+    span: Span {
+        lo: BytePos(
+            829,
+        ),
+        hi: BytePos(
+            840,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/negateOperator/negateOperatorWithStringType.ts:40:1
+   |
+40 | -objA.a,M.n;
+   | ^^^^^^^^^^^
+

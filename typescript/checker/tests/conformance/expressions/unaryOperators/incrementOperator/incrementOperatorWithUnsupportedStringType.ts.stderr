@@ -1,0 +1,584 @@
+error: TS2356 {
+    span: Span {
+        lo: BytePos(
+            294,
+        ),
+        hi: BytePos(
+            300,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/incrementOperator/incrementOperatorWithUnsupportedStringType.ts:18:25
+   |
+18 | var ResultIsNumber1 = ++STRING;
+   |                         ^^^^^^
+
+error: TS2356 {
+    span: Span {
+        lo: BytePos(
+            326,
+        ),
+        hi: BytePos(
+            333,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/incrementOperator/incrementOperatorWithUnsupportedStringType.ts:19:25
+   |
+19 | var ResultIsNumber2 = ++STRING1;
+   |                         ^^^^^^^
+
+error: TS2356 {
+    span: Span {
+        lo: BytePos(
+            358,
+        ),
+        hi: BytePos(
+            364,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/incrementOperator/incrementOperatorWithUnsupportedStringType.ts:21:23
+   |
+21 | var ResultIsNumber3 = STRING++;
+   |                       ^^^^^^
+
+error: TS2356 {
+    span: Span {
+        lo: BytePos(
+            390,
+        ),
+        hi: BytePos(
+            397,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/incrementOperator/incrementOperatorWithUnsupportedStringType.ts:22:23
+   |
+22 | var ResultIsNumber4 = STRING1++;
+   |                       ^^^^^^^
+
+error: TS2356 {
+    span: Span {
+        lo: BytePos(
+            449,
+        ),
+        hi: BytePos(
+            451,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/incrementOperator/incrementOperatorWithUnsupportedStringType.ts:25:25
+   |
+25 | var ResultIsNumber5 = ++"";
+   |                         ^^
+
+error: TS2406
+  --> $DIR/tests/conformance/expressions/unaryOperators/incrementOperator/incrementOperatorWithUnsupportedStringType.ts:26:25
+   |
+26 | var ResultIsNumber6 = ++{ x: "", y: "" };
+   |                         ^^^^^^^^^^^^^^^^
+
+error: TS2406
+  --> $DIR/tests/conformance/expressions/unaryOperators/incrementOperator/incrementOperatorWithUnsupportedStringType.ts:27:25
+   |
+27 | var ResultIsNumber7 = ++{ x: "", y: (s: string) => { return s; } };
+   |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: TS2356 {
+    span: Span {
+        lo: BytePos(
+            586,
+        ),
+        hi: BytePos(
+            588,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/incrementOperator/incrementOperatorWithUnsupportedStringType.ts:29:23
+   |
+29 | var ResultIsNumber8 = ""++;
+   |                       ^^
+
+error: TS2406
+  --> $DIR/tests/conformance/expressions/unaryOperators/incrementOperator/incrementOperatorWithUnsupportedStringType.ts:30:23
+   |
+30 | var ResultIsNumber9 = { x: "", y: "" }++;
+   |                       ^^^^^^^^^^^^^^^^
+
+error: TS2406
+  --> $DIR/tests/conformance/expressions/unaryOperators/incrementOperator/incrementOperatorWithUnsupportedStringType.ts:31:24
+   |
+31 | var ResultIsNumber10 = { x: "", y: (s: string) => { return s; } }++;
+   |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: TS2356 {
+    span: Span {
+        lo: BytePos(
+            756,
+        ),
+        hi: BytePos(
+            762,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/incrementOperator/incrementOperatorWithUnsupportedStringType.ts:34:26
+   |
+34 | var ResultIsNumber11 = ++objA.a;
+   |                          ^^^^^^
+
+error: TS2356 {
+    span: Span {
+        lo: BytePos(
+            789,
+        ),
+        hi: BytePos(
+            792,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/incrementOperator/incrementOperatorWithUnsupportedStringType.ts:35:26
+   |
+35 | var ResultIsNumber12 = ++M.n;
+   |                          ^^^
+
+error: TS2356 {
+    span: Span {
+        lo: BytePos(
+            819,
+        ),
+        hi: BytePos(
+            829,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/incrementOperator/incrementOperatorWithUnsupportedStringType.ts:36:26
+   |
+36 | var ResultIsNumber13 = ++STRING1[0];
+   |                          ^^^^^^^^^^
+
+error: TS2356 {
+    span: Span {
+        lo: BytePos(
+            856,
+        ),
+        hi: BytePos(
+            861,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/incrementOperator/incrementOperatorWithUnsupportedStringType.ts:37:26
+   |
+37 | var ResultIsNumber14 = ++foo();
+   |                          ^^^^^
+
+error: TS2356 {
+    span: Span {
+        lo: BytePos(
+            888,
+        ),
+        hi: BytePos(
+            895,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/incrementOperator/incrementOperatorWithUnsupportedStringType.ts:38:26
+   |
+38 | var ResultIsNumber15 = ++A.foo();
+   |                          ^^^^^^^
+
+error: TS2356 {
+    span: Span {
+        lo: BytePos(
+            922,
+        ),
+        hi: BytePos(
+            939,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/incrementOperator/incrementOperatorWithUnsupportedStringType.ts:39:26
+   |
+39 | var ResultIsNumber16 = ++(STRING + STRING);
+   |                          ^^^^^^^^^^^^^^^^^
+
+error: TS2356 {
+    span: Span {
+        lo: BytePos(
+            965,
+        ),
+        hi: BytePos(
+            971,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/incrementOperator/incrementOperatorWithUnsupportedStringType.ts:41:24
+   |
+41 | var ResultIsNumber17 = objA.a++;
+   |                        ^^^^^^
+
+error: TS2356 {
+    span: Span {
+        lo: BytePos(
+            998,
+        ),
+        hi: BytePos(
+            1001,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/incrementOperator/incrementOperatorWithUnsupportedStringType.ts:42:24
+   |
+42 | var ResultIsNumber18 = M.n++;
+   |                        ^^^
+
+error: TS2356 {
+    span: Span {
+        lo: BytePos(
+            1028,
+        ),
+        hi: BytePos(
+            1038,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/incrementOperator/incrementOperatorWithUnsupportedStringType.ts:43:24
+   |
+43 | var ResultIsNumber19 = STRING1[0]++;
+   |                        ^^^^^^^^^^
+
+error: TS2356 {
+    span: Span {
+        lo: BytePos(
+            1065,
+        ),
+        hi: BytePos(
+            1070,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/incrementOperator/incrementOperatorWithUnsupportedStringType.ts:44:24
+   |
+44 | var ResultIsNumber20 = foo()++;
+   |                        ^^^^^
+
+error: TS2356 {
+    span: Span {
+        lo: BytePos(
+            1097,
+        ),
+        hi: BytePos(
+            1104,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/incrementOperator/incrementOperatorWithUnsupportedStringType.ts:45:24
+   |
+45 | var ResultIsNumber21 = A.foo()++;
+   |                        ^^^^^^^
+
+error: TS2356 {
+    span: Span {
+        lo: BytePos(
+            1131,
+        ),
+        hi: BytePos(
+            1148,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/incrementOperator/incrementOperatorWithUnsupportedStringType.ts:46:24
+   |
+46 | var ResultIsNumber22 = (STRING + STRING)++;
+   |                        ^^^^^^^^^^^^^^^^^
+
+error: TS2356 {
+    span: Span {
+        lo: BytePos(
+            1184,
+        ),
+        hi: BytePos(
+            1186,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/incrementOperator/incrementOperatorWithUnsupportedStringType.ts:49:3
+   |
+49 | ++"";
+   |   ^^
+
+error: TS2356 {
+    span: Span {
+        lo: BytePos(
+            1190,
+        ),
+        hi: BytePos(
+            1196,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/incrementOperator/incrementOperatorWithUnsupportedStringType.ts:50:3
+   |
+50 | ++STRING;
+   |   ^^^^^^
+
+error: TS2356 {
+    span: Span {
+        lo: BytePos(
+            1200,
+        ),
+        hi: BytePos(
+            1207,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/incrementOperator/incrementOperatorWithUnsupportedStringType.ts:51:3
+   |
+51 | ++STRING1;
+   |   ^^^^^^^
+
+error: TS2356 {
+    span: Span {
+        lo: BytePos(
+            1211,
+        ),
+        hi: BytePos(
+            1221,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/incrementOperator/incrementOperatorWithUnsupportedStringType.ts:52:3
+   |
+52 | ++STRING1[0];
+   |   ^^^^^^^^^^
+
+error: TS2356 {
+    span: Span {
+        lo: BytePos(
+            1225,
+        ),
+        hi: BytePos(
+            1230,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/incrementOperator/incrementOperatorWithUnsupportedStringType.ts:53:3
+   |
+53 | ++foo();
+   |   ^^^^^
+
+error: TS2356 {
+    span: Span {
+        lo: BytePos(
+            1234,
+        ),
+        hi: BytePos(
+            1240,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/incrementOperator/incrementOperatorWithUnsupportedStringType.ts:54:3
+   |
+54 | ++objA.a;
+   |   ^^^^^^
+
+error: TS2356 {
+    span: Span {
+        lo: BytePos(
+            1244,
+        ),
+        hi: BytePos(
+            1247,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/incrementOperator/incrementOperatorWithUnsupportedStringType.ts:55:3
+   |
+55 | ++M.n;
+   |   ^^^
+
+error: TS2356 {
+    span: Span {
+        lo: BytePos(
+            1251,
+        ),
+        hi: BytePos(
+            1257,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/incrementOperator/incrementOperatorWithUnsupportedStringType.ts:56:3
+   |
+56 | ++objA.a, M.n;
+   |   ^^^^^^
+
+error: TS2356 {
+    span: Span {
+        lo: BytePos(
+            1265,
+        ),
+        hi: BytePos(
+            1267,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/incrementOperator/incrementOperatorWithUnsupportedStringType.ts:58:1
+   |
+58 | ""++;
+   | ^^
+
+error: TS2356 {
+    span: Span {
+        lo: BytePos(
+            1271,
+        ),
+        hi: BytePos(
+            1277,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/incrementOperator/incrementOperatorWithUnsupportedStringType.ts:59:1
+   |
+59 | STRING++;
+   | ^^^^^^
+
+error: TS2356 {
+    span: Span {
+        lo: BytePos(
+            1281,
+        ),
+        hi: BytePos(
+            1288,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/incrementOperator/incrementOperatorWithUnsupportedStringType.ts:60:1
+   |
+60 | STRING1++;
+   | ^^^^^^^
+
+error: TS2356 {
+    span: Span {
+        lo: BytePos(
+            1292,
+        ),
+        hi: BytePos(
+            1302,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/incrementOperator/incrementOperatorWithUnsupportedStringType.ts:61:1
+   |
+61 | STRING1[0]++;
+   | ^^^^^^^^^^
+
+error: TS2356 {
+    span: Span {
+        lo: BytePos(
+            1306,
+        ),
+        hi: BytePos(
+            1311,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/incrementOperator/incrementOperatorWithUnsupportedStringType.ts:62:1
+   |
+62 | foo()++;
+   | ^^^^^
+
+error: TS2356 {
+    span: Span {
+        lo: BytePos(
+            1315,
+        ),
+        hi: BytePos(
+            1321,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/incrementOperator/incrementOperatorWithUnsupportedStringType.ts:63:1
+   |
+63 | objA.a++;
+   | ^^^^^^
+
+error: TS2356 {
+    span: Span {
+        lo: BytePos(
+            1325,
+        ),
+        hi: BytePos(
+            1328,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/incrementOperator/incrementOperatorWithUnsupportedStringType.ts:64:1
+   |
+64 | M.n++;
+   | ^^^
+
+error: TS2356 {
+    span: Span {
+        lo: BytePos(
+            1332,
+        ),
+        hi: BytePos(
+            1338,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/incrementOperator/incrementOperatorWithUnsupportedStringType.ts:65:1
+   |
+65 | objA.a++, M.n++;
+   | ^^^^^^
+
+error: TS2356 {
+    span: Span {
+        lo: BytePos(
+            1342,
+        ),
+        hi: BytePos(
+            1345,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/incrementOperator/incrementOperatorWithUnsupportedStringType.ts:65:11
+   |
+65 | objA.a++, M.n++;
+   |           ^^^
+

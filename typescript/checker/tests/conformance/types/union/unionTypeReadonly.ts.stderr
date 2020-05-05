@@ -1,0 +1,183 @@
+error: ReadOnly {
+    span: Span {
+        lo: BytePos(
+            273,
+        ),
+        hi: BytePos(
+            278,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/union/unionTypeReadonly.ts:17:6
+   |
+17 | base.value = 12 // error, lhs can't be a readonly property
+   |      ^^^^^
+
+error: UnionError {
+    span: Span {
+        lo: BytePos(
+            370,
+        ),
+        hi: BytePos(
+            375,
+        ),
+        ctxt: #0,
+    },
+    errors: [
+        ReadOnly {
+            span: Span {
+                lo: BytePos(
+                    370,
+                ),
+                hi: BytePos(
+                    375,
+                ),
+                ctxt: #0,
+            },
+        },
+        ReadOnly {
+            span: Span {
+                lo: BytePos(
+                    370,
+                ),
+                hi: BytePos(
+                    375,
+                ),
+                ctxt: #0,
+            },
+        },
+    ],
+}
+  --> $DIR/tests/conformance/types/union/unionTypeReadonly.ts:19:11
+   |
+19 | identical.value = 12; // error, lhs can't be a readonly property
+   |           ^^^^^
+
+error: UnionError {
+    span: Span {
+        lo: BytePos(
+            462,
+        ),
+        hi: BytePos(
+            467,
+        ),
+        ctxt: #0,
+    },
+    errors: [
+        ReadOnly {
+            span: Span {
+                lo: BytePos(
+                    462,
+                ),
+                hi: BytePos(
+                    467,
+                ),
+                ctxt: #0,
+            },
+        },
+    ],
+}
+  --> $DIR/tests/conformance/types/union/unionTypeReadonly.ts:21:9
+   |
+21 | mutable.value = 12; // error, lhs can't be a readonly property
+   |         ^^^^^
+
+error: UnionError {
+    span: Span {
+        lo: BytePos(
+            572,
+        ),
+        hi: BytePos(
+            577,
+        ),
+        ctxt: #0,
+    },
+    errors: [
+        ReadOnly {
+            span: Span {
+                lo: BytePos(
+                    572,
+                ),
+                hi: BytePos(
+                    577,
+                ),
+                ctxt: #0,
+            },
+        },
+        ReadOnly {
+            span: Span {
+                lo: BytePos(
+                    572,
+                ),
+                hi: BytePos(
+                    577,
+                ),
+                ctxt: #0,
+            },
+        },
+    ],
+}
+  --> $DIR/tests/conformance/types/union/unionTypeReadonly.ts:23:15
+   |
+23 | differentType.value = 12; // error, lhs can't be a readonly property
+   |               ^^^^^
+
+error: UnionError {
+    span: Span {
+        lo: BytePos(
+            682,
+        ),
+        hi: BytePos(
+            687,
+        ),
+        ctxt: #0,
+    },
+    errors: [
+        ReadOnly {
+            span: Span {
+                lo: BytePos(
+                    682,
+                ),
+                hi: BytePos(
+                    687,
+                ),
+                ctxt: #0,
+            },
+        },
+        NoSuchProperty {
+            span: Span {
+                lo: BytePos(
+                    682,
+                ),
+                hi: BytePos(
+                    687,
+                ),
+                ctxt: #0,
+            },
+            prop: Some(
+                Ident(
+                    Ident {
+                        span: Span {
+                            lo: BytePos(
+                                682,
+                            ),
+                            hi: BytePos(
+                                687,
+                            ),
+                            ctxt: #0,
+                        },
+                        sym: Atom('value' type=inline),
+                        type_ann: None,
+                        optional: false,
+                    },
+                ),
+            ),
+        },
+    ],
+}
+  --> $DIR/tests/conformance/types/union/unionTypeReadonly.ts:25:15
+   |
+25 | differentName.value = 12; // error, property 'value' doesn't exist
+   |               ^^^^^
+

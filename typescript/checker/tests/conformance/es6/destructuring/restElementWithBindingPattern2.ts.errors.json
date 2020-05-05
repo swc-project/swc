@@ -1,0 +1,7 @@
+[
+    {
+        "line": 1,
+        "column": 16,
+        "msg": "Property 'b' does not exist on type 'number[]'."
+    }
+]

@@ -1,0 +1,32 @@
+[
+    {
+        "line": 3,
+        "column": 10,
+        "msg": "A rest element must be last in a destructuring pattern."
+    },
+    {
+        "line": 7,
+        "column": 10,
+        "msg": "Type '{ a"
+    },
+    {
+        "line": 10,
+        "column": 31,
+        "msg": "A rest element must be last in a destructuring pattern."
+    },
+    {
+        "line": 12,
+        "column": 30,
+        "msg": "Member 'x' implicitly has an 'any' type."
+    },
+    {
+        "line": 12,
+        "column": 33,
+        "msg": "Member 'y' implicitly has an 'any' type."
+    },
+    {
+        "line": 18,
+        "column": 9,
+        "msg": "The target of an object rest assignment must be a variable or a property access."
+    }
+]

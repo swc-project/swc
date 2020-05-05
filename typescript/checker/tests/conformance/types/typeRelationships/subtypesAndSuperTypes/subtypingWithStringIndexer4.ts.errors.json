@@ -1,0 +1,22 @@
+[
+    {
+        "line": 11,
+        "column": 7,
+        "msg": "Class 'B' incorrectly extends base class 'A'."
+    },
+    {
+        "line": 20,
+        "column": 11,
+        "msg": "Class 'B' incorrectly extends base class 'A<Base>'."
+    },
+    {
+        "line": 20,
+        "column": 23,
+        "msg": "Type 'Base' does not satisfy the constraint 'Derived'."
+    },
+    {
+        "line": 24,
+        "column": 11,
+        "msg": "Class 'B3<T>' incorrectly extends base class 'A<T>'."
+    }
+]

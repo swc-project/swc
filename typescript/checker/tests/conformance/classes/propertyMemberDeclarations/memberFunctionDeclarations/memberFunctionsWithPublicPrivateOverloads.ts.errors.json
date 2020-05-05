@@ -1,0 +1,77 @@
+[
+    {
+        "line": 3,
+        "column": 12,
+        "msg": "Overload signatures must all be public, private or protected."
+    },
+    {
+        "line": 7,
+        "column": 12,
+        "msg": "Overload signatures must all be public, private or protected."
+    },
+    {
+        "line": 12,
+        "column": 19,
+        "msg": "Overload signatures must all be public, private or protected."
+    },
+    {
+        "line": 15,
+        "column": 15,
+        "msg": "Overload signatures must all be public, private or protected."
+    },
+    {
+        "line": 16,
+        "column": 15,
+        "msg": "Overload signatures must all be public, private or protected."
+    },
+    {
+        "line": 20,
+        "column": 19,
+        "msg": "Overload signatures must all be public, private or protected."
+    },
+    {
+        "line": 25,
+        "column": 19,
+        "msg": "Overload signatures must all be public, private or protected."
+    },
+    {
+        "line": 32,
+        "column": 12,
+        "msg": "Overload signatures must all be public, private or protected."
+    },
+    {
+        "line": 36,
+        "column": 12,
+        "msg": "Overload signatures must all be public, private or protected."
+    },
+    {
+        "line": 41,
+        "column": 15,
+        "msg": "Overload signatures must all be public, private or protected."
+    },
+    {
+        "line": 45,
+        "column": 19,
+        "msg": "Overload signatures must all be public, private or protected."
+    },
+    {
+        "line": 49,
+        "column": 19,
+        "msg": "Overload signatures must all be public, private or protected."
+    },
+    {
+        "line": 53,
+        "column": 19,
+        "msg": "Overload signatures must all be public, private or protected."
+    },
+    {
+        "line": 59,
+        "column": 11,
+        "msg": "Property 'foo' is private and only accessible within class 'C'."
+    },
+    {
+        "line": 62,
+        "column": 12,
+        "msg": "Property 'foo' is private and only accessible within class 'D<T>'."
+    }
+]

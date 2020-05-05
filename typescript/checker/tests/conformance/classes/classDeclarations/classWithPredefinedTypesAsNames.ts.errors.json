@@ -1,0 +1,22 @@
+[
+    {
+        "line": 3,
+        "column": 7,
+        "msg": "Class name cannot be 'any'."
+    },
+    {
+        "line": 4,
+        "column": 7,
+        "msg": "Class name cannot be 'number'."
+    },
+    {
+        "line": 5,
+        "column": 7,
+        "msg": "Class name cannot be 'boolean'."
+    },
+    {
+        "line": 6,
+        "column": 7,
+        "msg": "Class name cannot be 'string'."
+    }
+]

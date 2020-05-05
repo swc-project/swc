@@ -1,0 +1,22 @@
+error: TS1094
+ --> $DIR/tests/conformance/parser/ecmascript5/Accessors/parserAccessors7.ts:2:15
+  |
+2 | var v = { get foo(v: number) { } };
+  |               ^^^
+
+error: TS2378 {
+    span: Span {
+        lo: BytePos(
+            30,
+        ),
+        hi: BytePos(
+            33,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/Accessors/parserAccessors7.ts:2:15
+  |
+2 | var v = { get foo(v: number) { } };
+  |               ^^^
+

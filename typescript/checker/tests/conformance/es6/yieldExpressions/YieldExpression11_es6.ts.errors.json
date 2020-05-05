@@ -1,0 +1,7 @@
+[
+    {
+        "line": 4,
+        "column": 11,
+        "msg": "Cannot find name 'foo'. Did you mean the instance member 'this.foo'?"
+    }
+]

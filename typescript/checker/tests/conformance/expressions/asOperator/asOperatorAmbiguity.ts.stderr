@@ -1,0 +1,16 @@
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            192,
+        ),
+        hi: BytePos(
+            193,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/asOperator/asOperatorAmbiguity.ts:7:14
+  |
+7 | var z = y[0].m; // z should be string
+  |              ^
+

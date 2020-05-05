@@ -1,0 +1,22 @@
+[
+    {
+        "line": 5,
+        "column": 10,
+        "msg": "',' expected."
+    },
+    {
+        "line": 5,
+        "column": 11,
+        "msg": "Expression expected."
+    },
+    {
+        "line": 8,
+        "column": 27,
+        "msg": "Variable declaration expected."
+    },
+    {
+        "line": 11,
+        "column": 9,
+        "msg": "Expression expected."
+    }
+]

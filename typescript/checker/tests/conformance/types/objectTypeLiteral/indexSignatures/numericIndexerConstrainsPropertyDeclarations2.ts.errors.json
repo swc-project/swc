@@ -1,0 +1,22 @@
+[
+    {
+        "line": 16,
+        "column": 5,
+        "msg": "Property '3.0' of type 'number' is not assignable to numeric index type 'A'."
+    },
+    {
+        "line": 25,
+        "column": 5,
+        "msg": "Property '3.0' of type 'number' is not assignable to numeric index type 'A'."
+    },
+    {
+        "line": 34,
+        "column": 5,
+        "msg": "Property '3.0' of type 'number' is not assignable to numeric index type 'A'."
+    },
+    {
+        "line": 43,
+        "column": 5,
+        "msg": "Type 'number' is not assignable to type 'A'."
+    }
+]

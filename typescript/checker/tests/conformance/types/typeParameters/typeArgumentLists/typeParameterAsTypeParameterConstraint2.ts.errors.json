@@ -1,0 +1,32 @@
+[
+    {
+        "line": 6,
+        "column": 8,
+        "msg": "Argument of type '\"\"' is not assignable to parameter of type 'number'."
+    },
+    {
+        "line": 7,
+        "column": 8,
+        "msg": "Argument of type '{}' is not assignable to parameter of type 'number'."
+    },
+    {
+        "line": 13,
+        "column": 17,
+        "msg": "Argument of type 'NumberVariant' is not assignable to parameter of type 'number'."
+    },
+    {
+        "line": 16,
+        "column": 11,
+        "msg": "Type 'string' is not assignable to type 'number'."
+    },
+    {
+        "line": 17,
+        "column": 11,
+        "msg": "Type '{}' is not assignable to type 'number'."
+    },
+    {
+        "line": 18,
+        "column": 10,
+        "msg": "Argument of type 'string[]' is not assignable to parameter of type '{ length"
+    }
+]

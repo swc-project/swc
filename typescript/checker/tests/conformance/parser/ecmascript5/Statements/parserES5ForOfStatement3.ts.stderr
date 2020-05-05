@@ -1,0 +1,23 @@
+error: Expected one variable binding
+ --> $DIR/tests/conformance/parser/ecmascript5/Statements/parserES5ForOfStatement3.ts:2:13
+  |
+2 | for (var a, b of X) {
+  |             ^
+
+error: UndefinedSymbol {
+    sym: Atom('X' type=inline),
+    span: Span {
+        lo: BytePos(
+            32,
+        ),
+        hi: BytePos(
+            33,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript5/Statements/parserES5ForOfStatement3.ts:2:18
+  |
+2 | for (var a, b of X) {
+  |                  ^
+

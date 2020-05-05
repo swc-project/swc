@@ -1,0 +1,72 @@
+[
+    {
+        "line": 10,
+        "column": 5,
+        "msg": "Type 'YesNo' is not assignable to type 'Choice.Yes'."
+    },
+    {
+        "line": 11,
+        "column": 5,
+        "msg": "Type 'Choice' is not assignable to type 'Choice.Yes'."
+    },
+    {
+        "line": 12,
+        "column": 5,
+        "msg": "Type 'Choice' is not assignable to type 'Choice.Yes'."
+    },
+    {
+        "line": 18,
+        "column": 5,
+        "msg": "Type 'Choice' is not assignable to type 'YesNo'."
+    },
+    {
+        "line": 19,
+        "column": 5,
+        "msg": "Type 'Choice' is not assignable to type 'YesNo'."
+    },
+    {
+        "line": 37,
+        "column": 5,
+        "msg": "Type 'Choice.Unknown' is not assignable to type 'Choice.Yes'."
+    },
+    {
+        "line": 39,
+        "column": 5,
+        "msg": "Type 'Choice.No' is not assignable to type 'Choice.Yes'."
+    },
+    {
+        "line": 40,
+        "column": 5,
+        "msg": "Type 'Choice.Unknown' is not assignable to type 'YesNo'."
+    },
+    {
+        "line": 52,
+        "column": 5,
+        "msg": "This condition will always return 'false' since the types 'Choice.Yes' and 'Choice.Unknown' have no overlap."
+    },
+    {
+        "line": 54,
+        "column": 5,
+        "msg": "This condition will always return 'false' since the types 'Choice.Yes' and 'Choice.No' have no overlap."
+    },
+    {
+        "line": 55,
+        "column": 5,
+        "msg": "This condition will always return 'false' since the types 'YesNo' and 'Choice.Unknown' have no overlap."
+    },
+    {
+        "line": 87,
+        "column": 14,
+        "msg": "Type 'Choice.Unknown' is not comparable to type 'Choice.Yes'."
+    },
+    {
+        "line": 89,
+        "column": 14,
+        "msg": "Type 'Choice.No' is not comparable to type 'Choice.Yes'."
+    },
+    {
+        "line": 96,
+        "column": 14,
+        "msg": "Type 'Choice.Unknown' is not comparable to type 'YesNo'."
+    }
+]

@@ -1,0 +1,128 @@
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            47,
+        ),
+        hi: BytePos(
+            48,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es6/Symbols/symbolType5.ts:3:1
+  |
+3 | s * s;
+  | ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            51,
+        ),
+        hi: BytePos(
+            52,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es6/Symbols/symbolType5.ts:3:5
+  |
+3 | s * s;
+  |     ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            54,
+        ),
+        hi: BytePos(
+            55,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es6/Symbols/symbolType5.ts:4:1
+  |
+4 | s / s;
+  | ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            58,
+        ),
+        hi: BytePos(
+            59,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es6/Symbols/symbolType5.ts:4:5
+  |
+4 | s / s;
+  |     ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            61,
+        ),
+        hi: BytePos(
+            62,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es6/Symbols/symbolType5.ts:5:1
+  |
+5 | s % s;
+  | ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            65,
+        ),
+        hi: BytePos(
+            66,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es6/Symbols/symbolType5.ts:5:5
+  |
+5 | s % s;
+  |     ^
+
+error: TS2362 {
+    span: Span {
+        lo: BytePos(
+            69,
+        ),
+        hi: BytePos(
+            70,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es6/Symbols/symbolType5.ts:7:1
+  |
+7 | s * 0;
+  | ^
+
+error: TS2363 {
+    span: Span {
+        lo: BytePos(
+            80,
+        ),
+        hi: BytePos(
+            81,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es6/Symbols/symbolType5.ts:8:5
+  |
+8 | 0 / s;
+  |     ^
+

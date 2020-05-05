@@ -1,0 +1,36 @@
+error: TS1115
+ --> $DIR/tests/conformance/statements/continueStatements/invalidForInContinueStatements.ts:7:1
+  |
+7 | continue;
+  | ^^^^^^^^^
+
+error: TS1107
+  --> $DIR/tests/conformance/statements/continueStatements/invalidForInContinueStatements.ts:11:19
+   |
+11 | for (var x in {}) continue TWO;
+   |                   ^^^^^^^^^^^^^
+
+error: TS1115
+  --> $DIR/tests/conformance/statements/continueStatements/invalidForInContinueStatements.ts:17:9
+   |
+17 |         continue TWO;
+   |         ^^^^^^^^^^^^^
+
+error: TS1115
+  --> $DIR/tests/conformance/statements/continueStatements/invalidForInContinueStatements.ts:24:9
+   |
+24 |         continue THREE;
+   |         ^^^^^^^^^^^^^^^
+
+error: TS1107
+  --> $DIR/tests/conformance/statements/continueStatements/invalidForInContinueStatements.ts:30:5
+   |
+30 |     continue FIVE;
+   |     ^^^^^^^^^^^^^^
+
+error: TS1107
+  --> $DIR/tests/conformance/statements/continueStatements/invalidForInContinueStatements.ts:40:5
+   |
+40 |     continue NINE;
+   |     ^^^^^^^^^^^^^^
+

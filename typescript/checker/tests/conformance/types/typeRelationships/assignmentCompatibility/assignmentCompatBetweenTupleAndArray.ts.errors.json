@@ -1,0 +1,12 @@
+[
+    {
+        "line": 17,
+        "column": 1,
+        "msg": "Type '[number, string]' is not assignable to type 'number[]'."
+    },
+    {
+        "line": 18,
+        "column": 1,
+        "msg": "Property '0' is missing in type '{}[]' but required in type '[{}]'."
+    }
+]

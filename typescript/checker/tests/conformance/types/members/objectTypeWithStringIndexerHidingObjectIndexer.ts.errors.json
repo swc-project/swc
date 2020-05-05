@@ -1,0 +1,37 @@
+[
+    {
+        "line": 6,
+        "column": 5,
+        "msg": "Property 'constructor' of type 'Function' is not assignable to string index type 'Object'."
+    },
+    {
+        "line": 6,
+        "column": 5,
+        "msg": "Property 'hasOwnProperty' of type '(v"
+    },
+    {
+        "line": 6,
+        "column": 5,
+        "msg": "Property 'isPrototypeOf' of type '(v"
+    },
+    {
+        "line": 6,
+        "column": 5,
+        "msg": "Property 'propertyIsEnumerable' of type '(v"
+    },
+    {
+        "line": 6,
+        "column": 5,
+        "msg": "Property 'toLocaleString' of type '() => string' is not assignable to string index type 'Object'."
+    },
+    {
+        "line": 6,
+        "column": 5,
+        "msg": "Property 'toString' of type '() => string' is not assignable to string index type 'Object'."
+    },
+    {
+        "line": 6,
+        "column": 5,
+        "msg": "Property 'valueOf' of type '() => Object' is not assignable to string index type 'Object'."
+    }
+]

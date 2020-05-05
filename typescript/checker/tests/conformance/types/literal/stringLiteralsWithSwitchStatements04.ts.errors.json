@@ -1,0 +1,27 @@
+[
+    {
+        "line": 7,
+        "column": 10,
+        "msg": "Left side of comma operator is unused and has no side effects."
+    },
+    {
+        "line": 9,
+        "column": 10,
+        "msg": "Left side of comma operator is unused and has no side effects."
+    },
+    {
+        "line": 11,
+        "column": 10,
+        "msg": "Left side of comma operator is unused and has no side effects."
+    },
+    {
+        "line": 11,
+        "column": 10,
+        "msg": "Type '\"baz\"' is not comparable to type '\"foo\" | \"bar\"'."
+    },
+    {
+        "line": 13,
+        "column": 10,
+        "msg": "Left side of comma operator is unused and has no side effects."
+    }
+]

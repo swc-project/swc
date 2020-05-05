@@ -1,0 +1,57 @@
+[
+    {
+        "line": 5,
+        "column": 10,
+        "msg": "Type '\"a\"' is not comparable to type '\"\"'."
+    },
+    {
+        "line": 11,
+        "column": 10,
+        "msg": "Type '\"a\"' is not comparable to type '\"\"'."
+    },
+    {
+        "line": 18,
+        "column": 10,
+        "msg": "Type '\"a\"' is not comparable to type '\"\"'."
+    },
+    {
+        "line": 24,
+        "column": 10,
+        "msg": "Type '\"a\"' is not comparable to type '\"\"'."
+    },
+    {
+        "line": 27,
+        "column": 18,
+        "msg": "Type '\"a\"' is not comparable to type '\"\"'."
+    },
+    {
+        "line": 33,
+        "column": 10,
+        "msg": "Type '\"a\"' is not comparable to type '\"\"'."
+    },
+    {
+        "line": 36,
+        "column": 18,
+        "msg": "Type '\"a\"' is not comparable to type '\"\"'."
+    },
+    {
+        "line": 43,
+        "column": 10,
+        "msg": "Type '\"a\"' is not comparable to type '\"\"'."
+    },
+    {
+        "line": 45,
+        "column": 18,
+        "msg": "Type '\"a\"' is not comparable to type '\"\"'."
+    },
+    {
+        "line": 47,
+        "column": 26,
+        "msg": "Type '\"a\"' is not comparable to type '\"\"'."
+    },
+    {
+        "line": 51,
+        "column": 34,
+        "msg": "Type '\"a\"' is not comparable to type '\"\"'."
+    }
+]

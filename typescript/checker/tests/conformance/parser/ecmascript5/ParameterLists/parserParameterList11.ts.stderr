@@ -1,0 +1,6 @@
+error: TS1047
+ --> $DIR/tests/conformance/parser/ecmascript5/ParameterLists/parserParameterList11.ts:1:8
+  |
+1 | (...arg?) => 102;
+  |        ^
+

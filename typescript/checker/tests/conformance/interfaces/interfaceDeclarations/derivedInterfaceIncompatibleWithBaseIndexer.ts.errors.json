@@ -1,0 +1,37 @@
+[
+    {
+        "line": 7,
+        "column": 5,
+        "msg": "Property '1' of type '{ y"
+    },
+    {
+        "line": 7,
+        "column": 5,
+        "msg": "Property '1' of type '{ y"
+    },
+    {
+        "line": 11,
+        "column": 5,
+        "msg": "Property ''1'' of type '{ y"
+    },
+    {
+        "line": 11,
+        "column": 5,
+        "msg": "Property ''1'' of type '{ y"
+    },
+    {
+        "line": 15,
+        "column": 5,
+        "msg": "Property 'foo' of type '{ y"
+    },
+    {
+        "line": 19,
+        "column": 5,
+        "msg": "Property 'foo' of type '() => { x"
+    },
+    {
+        "line": 24,
+        "column": 5,
+        "msg": "Property '1' of type '{ x"
+    }
+]

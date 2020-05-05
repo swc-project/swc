@@ -1,0 +1,6 @@
+error: Expected unicode escape
+ --> $DIR/tests/conformance/parser/ecmascript5/SkippedTokens/parserSkippedTokens7.ts:1:9
+  |
+1 | /*foo*/ \ /*bar*/
+  |         ^
+

@@ -1,0 +1,35 @@
+error: TS1164
+ --> $DIR/tests/conformance/parser/ecmascript6/ComputedPropertyNames/parserComputedPropertyName30.ts:4:5
+  |
+4 |     [e] = id++
+  |     ^^
+
+error: UndefinedSymbol {
+    sym: Atom('id' type=inline),
+    span: Span {
+        lo: BytePos(
+            64,
+        ),
+        hi: BytePos(
+            66,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/parser/ecmascript6/ComputedPropertyNames/parserComputedPropertyName30.ts:4:11
+  |
+4 |     [e] = id++
+  |           ^^
+
+error: Expected Comma, got Some(LBracket)
+ --> $DIR/tests/conformance/parser/ecmascript6/ComputedPropertyNames/parserComputedPropertyName30.ts:5:5
+  |
+5 |     [e2] = 1
+  |     ^
+
+error: TS1164
+ --> $DIR/tests/conformance/parser/ecmascript6/ComputedPropertyNames/parserComputedPropertyName30.ts:5:5
+  |
+5 |     [e2] = 1
+  |     ^^^
+

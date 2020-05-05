@@ -1,0 +1,102 @@
+[
+    {
+        "line": 3,
+        "column": 11,
+        "msg": "Initializer provides no value for this binding element and the binding element has no default value."
+    },
+    {
+        "line": 3,
+        "column": 14,
+        "msg": "Initializer provides no value for this binding element and the binding element has no default value."
+    },
+    {
+        "line": 4,
+        "column": 11,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 'x' must be of type 'any', but here has type 'number'."
+    },
+    {
+        "line": 4,
+        "column": 18,
+        "msg": "Initializer provides no value for this binding element and the binding element has no default value."
+    },
+    {
+        "line": 5,
+        "column": 11,
+        "msg": "Initializer provides no value for this binding element and the binding element has no default value."
+    },
+    {
+        "line": 5,
+        "column": 14,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 'y' must be of type 'any', but here has type 'number'."
+    },
+    {
+        "line": 6,
+        "column": 11,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 'x' must be of type 'any', but here has type 'number'."
+    },
+    {
+        "line": 6,
+        "column": 18,
+        "msg": "Subsequent variable declarations must have the same type.  Variable 'y' must be of type 'any', but here has type 'number'."
+    },
+    {
+        "line": 12,
+        "column": 8,
+        "msg": "Initializer provides no value for this binding element and the binding element has no default value."
+    },
+    {
+        "line": 12,
+        "column": 11,
+        "msg": "Initializer provides no value for this binding element and the binding element has no default value."
+    },
+    {
+        "line": 13,
+        "column": 18,
+        "msg": "Initializer provides no value for this binding element and the binding element has no default value."
+    },
+    {
+        "line": 14,
+        "column": 8,
+        "msg": "Initializer provides no value for this binding element and the binding element has no default value."
+    },
+    {
+        "line": 20,
+        "column": 17,
+        "msg": "Object literal may only specify known properties, and 'x' does not exist in type '{}'."
+    },
+    {
+        "line": 20,
+        "column": 23,
+        "msg": "Object literal may only specify known properties, and 'y' does not exist in type '{}'."
+    },
+    {
+        "line": 21,
+        "column": 25,
+        "msg": "Object literal may only specify known properties, and 'y' does not exist in type '{ x"
+    },
+    {
+        "line": 22,
+        "column": 19,
+        "msg": "Object literal may only specify known properties, and 'x' does not exist in type '{ y"
+    },
+    {
+        "line": 29,
+        "column": 14,
+        "msg": "Object literal may only specify known properties, and 'x' does not exist in type '{}'."
+    },
+    {
+        "line": 29,
+        "column": 20,
+        "msg": "Object literal may only specify known properties, and 'y' does not exist in type '{}'."
+    },
+    {
+        "line": 30,
+        "column": 22,
+        "msg": "Object literal may only specify known properties, and 'y' does not exist in type '{ x"
+    },
+    {
+        "line": 31,
+        "column": 16,
+        "msg": "Object literal may only specify known properties, and 'x' does not exist in type '{ y"
+    }
+]

@@ -1,0 +1,42 @@
+[
+    {
+        "line": 3,
+        "column": 15,
+        "msg": "Binding element 'x' implicitly has an 'any' type."
+    },
+    {
+        "line": 3,
+        "column": 18,
+        "msg": "Binding element 'y' implicitly has an 'any' type."
+    },
+    {
+        "line": 4,
+        "column": 15,
+        "msg": "Binding element 'x' implicitly has an 'any' type."
+    },
+    {
+        "line": 4,
+        "column": 18,
+        "msg": "Binding element 'y' implicitly has an 'any' type."
+    },
+    {
+        "line": 5,
+        "column": 18,
+        "msg": "Binding element 'y' implicitly has an 'any' type."
+    },
+    {
+        "line": 8,
+        "column": 22,
+        "msg": "Binding element 'y' implicitly has an 'any' type."
+    },
+    {
+        "line": 9,
+        "column": 22,
+        "msg": "Binding element 'y' implicitly has an 'any' type."
+    },
+    {
+        "line": 10,
+        "column": 22,
+        "msg": "Binding element 'y' implicitly has an 'any' type."
+    }
+]

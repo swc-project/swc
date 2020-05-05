@@ -1,0 +1,82 @@
+[
+    {
+        "line": 4,
+        "column": 5,
+        "msg": "Duplicate identifier 'foo'."
+    },
+    {
+        "line": 5,
+        "column": 5,
+        "msg": "Duplicate identifier 'foo'."
+    },
+    {
+        "line": 14,
+        "column": 5,
+        "msg": "Duplicate identifier 'foo'."
+    },
+    {
+        "line": 15,
+        "column": 5,
+        "msg": "Duplicate identifier 'foo'."
+    },
+    {
+        "line": 20,
+        "column": 5,
+        "msg": "Duplicate identifier 'foo'."
+    },
+    {
+        "line": 22,
+        "column": 5,
+        "msg": "Duplicate function implementation."
+    },
+    {
+        "line": 23,
+        "column": 5,
+        "msg": "Duplicate function implementation."
+    },
+    {
+        "line": 26,
+        "column": 5,
+        "msg": "Duplicate identifier 'baz'."
+    },
+    {
+        "line": 30,
+        "column": 5,
+        "msg": "Duplicate identifier 'foo'."
+    },
+    {
+        "line": 31,
+        "column": 5,
+        "msg": "Duplicate identifier 'foo'."
+    },
+    {
+        "line": 35,
+        "column": 5,
+        "msg": "Duplicate identifier 'foo'."
+    },
+    {
+        "line": 36,
+        "column": 5,
+        "msg": "Duplicate identifier 'foo'."
+    },
+    {
+        "line": 38,
+        "column": 5,
+        "msg": "Duplicate identifier 'bar'."
+    },
+    {
+        "line": 39,
+        "column": 5,
+        "msg": "Duplicate identifier 'bar'."
+    },
+    {
+        "line": 44,
+        "column": 5,
+        "msg": "Duplicate identifier 'foo'."
+    },
+    {
+        "line": 46,
+        "column": 5,
+        "msg": "Duplicate identifier 'bar'."
+    }
+]

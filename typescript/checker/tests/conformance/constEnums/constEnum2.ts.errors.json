@@ -1,0 +1,22 @@
+[
+    {
+        "line": 12,
+        "column": 9,
+        "msg": "const enum member initializers can only contain literal values and other computed enum values."
+    },
+    {
+        "line": 13,
+        "column": 9,
+        "msg": "const enum member initializers can only contain literal values and other computed enum values."
+    },
+    {
+        "line": 14,
+        "column": 5,
+        "msg": "An enum member name must be followed by a ',', '=', or '}'."
+    },
+    {
+        "line": 14,
+        "column": 9,
+        "msg": "const enum member initializers can only contain literal values and other computed enum values."
+    }
+]

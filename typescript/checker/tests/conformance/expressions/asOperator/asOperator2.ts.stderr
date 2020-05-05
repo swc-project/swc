@@ -1,0 +1,58 @@
+error: AssignFailed {
+    span: Span {
+        lo: BytePos(
+            8,
+        ),
+        hi: BytePos(
+            20,
+        ),
+        ctxt: #0,
+    },
+    left: Keyword(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    14,
+                ),
+                hi: BytePos(
+                    20,
+                ),
+                ctxt: #0,
+            },
+            kind: TsStringKeyword,
+        },
+    ),
+    right: Lit(
+        TsLitType {
+            span: Span {
+                lo: BytePos(
+                    8,
+                ),
+                hi: BytePos(
+                    10,
+                ),
+                ctxt: #0,
+            },
+            lit: Number(
+                Number {
+                    span: Span {
+                        lo: BytePos(
+                            8,
+                        ),
+                        hi: BytePos(
+                            10,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: 23.0,
+                },
+            ),
+        },
+    ),
+    cause: [],
+}
+ --> $DIR/tests/conformance/expressions/asOperator/asOperator2.ts:1:9
+  |
+1 | var x = 23 as string;
+  |         ^^^^^^^^^^^^
+

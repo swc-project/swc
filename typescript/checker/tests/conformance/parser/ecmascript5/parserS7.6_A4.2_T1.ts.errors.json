@@ -1,0 +1,167 @@
+[
+    {
+        "line": 14,
+        "column": 3,
+        "msg": "Cannot find name '$ERROR'. Did you mean 'Error'?"
+    },
+    {
+        "line": 18,
+        "column": 3,
+        "msg": "Cannot find name '$ERROR'. Did you mean 'Error'?"
+    },
+    {
+        "line": 22,
+        "column": 3,
+        "msg": "Cannot find name '$ERROR'. Did you mean 'Error'?"
+    },
+    {
+        "line": 26,
+        "column": 3,
+        "msg": "Cannot find name '$ERROR'. Did you mean 'Error'?"
+    },
+    {
+        "line": 30,
+        "column": 3,
+        "msg": "Cannot find name '$ERROR'. Did you mean 'Error'?"
+    },
+    {
+        "line": 34,
+        "column": 3,
+        "msg": "Cannot find name '$ERROR'. Did you mean 'Error'?"
+    },
+    {
+        "line": 38,
+        "column": 3,
+        "msg": "Cannot find name '$ERROR'. Did you mean 'Error'?"
+    },
+    {
+        "line": 42,
+        "column": 3,
+        "msg": "Cannot find name '$ERROR'. Did you mean 'Error'?"
+    },
+    {
+        "line": 46,
+        "column": 3,
+        "msg": "Cannot find name '$ERROR'. Did you mean 'Error'?"
+    },
+    {
+        "line": 50,
+        "column": 3,
+        "msg": "Cannot find name '$ERROR'. Did you mean 'Error'?"
+    },
+    {
+        "line": 54,
+        "column": 3,
+        "msg": "Cannot find name '$ERROR'."
+    },
+    {
+        "line": 58,
+        "column": 3,
+        "msg": "Cannot find name '$ERROR'."
+    },
+    {
+        "line": 62,
+        "column": 3,
+        "msg": "Cannot find name '$ERROR'."
+    },
+    {
+        "line": 66,
+        "column": 3,
+        "msg": "Cannot find name '$ERROR'."
+    },
+    {
+        "line": 70,
+        "column": 3,
+        "msg": "Cannot find name '$ERROR'."
+    },
+    {
+        "line": 74,
+        "column": 3,
+        "msg": "Cannot find name '$ERROR'."
+    },
+    {
+        "line": 78,
+        "column": 3,
+        "msg": "Cannot find name '$ERROR'."
+    },
+    {
+        "line": 82,
+        "column": 3,
+        "msg": "Cannot find name '$ERROR'."
+    },
+    {
+        "line": 86,
+        "column": 3,
+        "msg": "Cannot find name '$ERROR'."
+    },
+    {
+        "line": 90,
+        "column": 3,
+        "msg": "Cannot find name '$ERROR'."
+    },
+    {
+        "line": 94,
+        "column": 3,
+        "msg": "Cannot find name '$ERROR'."
+    },
+    {
+        "line": 98,
+        "column": 3,
+        "msg": "Cannot find name '$ERROR'."
+    },
+    {
+        "line": 102,
+        "column": 3,
+        "msg": "Cannot find name '$ERROR'."
+    },
+    {
+        "line": 106,
+        "column": 3,
+        "msg": "Cannot find name '$ERROR'."
+    },
+    {
+        "line": 110,
+        "column": 3,
+        "msg": "Cannot find name '$ERROR'."
+    },
+    {
+        "line": 114,
+        "column": 3,
+        "msg": "Cannot find name '$ERROR'."
+    },
+    {
+        "line": 118,
+        "column": 3,
+        "msg": "Cannot find name '$ERROR'."
+    },
+    {
+        "line": 122,
+        "column": 3,
+        "msg": "Cannot find name '$ERROR'."
+    },
+    {
+        "line": 126,
+        "column": 3,
+        "msg": "Cannot find name '$ERROR'."
+    },
+    {
+        "line": 130,
+        "column": 3,
+        "msg": "Cannot find name '$ERROR'."
+    },
+    {
+        "line": 134,
+        "column": 3,
+        "msg": "Cannot find name '$ERROR'."
+    },
+    {
+        "line": 138,
+        "column": 3,
+        "msg": "Cannot find name '$ERROR'."
+    },
+    {
+        "line": 142,
+        "column": 3,
+        "msg": "Cannot find name '$ERROR'."
+    }
+]

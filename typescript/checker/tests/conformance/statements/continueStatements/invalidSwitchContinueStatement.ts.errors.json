@@ -1,0 +1,12 @@
+[
+    {
+        "line": 4,
+        "column": 10,
+        "msg": "Type '5' is not comparable to type '12'."
+    },
+    {
+        "line": 5,
+        "column": 9,
+        "msg": "A 'continue' statement can only be used within an enclosing iteration statement."
+    }
+]

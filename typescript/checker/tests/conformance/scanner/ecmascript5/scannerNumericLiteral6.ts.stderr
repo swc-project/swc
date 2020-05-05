@@ -1,0 +1,6 @@
+error: Expected a decimal digit
+ --> $DIR/tests/conformance/scanner/ecmascript5/scannerNumericLiteral6.ts:2:4
+  |
+2 | 1e+
+  |    ^
+

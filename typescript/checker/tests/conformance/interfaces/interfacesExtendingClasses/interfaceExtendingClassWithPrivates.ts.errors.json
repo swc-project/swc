@@ -1,0 +1,12 @@
+[
+    {
+        "line": 5,
+        "column": 11,
+        "msg": "Interface 'I' incorrectly extends interface 'Foo'."
+    },
+    {
+        "line": 15,
+        "column": 12,
+        "msg": "Property 'x' is private and only accessible within class 'Foo'."
+    }
+]

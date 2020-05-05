@@ -1,0 +1,38 @@
+error: NoCallSignature {
+    span: Span {
+        lo: BytePos(
+            63,
+        ),
+        hi: BytePos(
+            79,
+        ),
+        ctxt: #0,
+    },
+    callee: Arc(
+        Class(
+            Class {
+                span: Span {
+                    lo: BytePos(
+                        26,
+                    ),
+                    hi: BytePos(
+                        46,
+                    ),
+                    ctxt: #0,
+                },
+                is_abstract: false,
+                name: Some(
+                    Atom('NullLogger' type=dynamic),
+                ),
+                super_class: None,
+                body: [],
+                type_params: None,
+            },
+        ),
+    ),
+}
+ --> $DIR/tests/conformance/expressions/functionCalls/forgottenNew.ts:5:14
+  |
+5 | var logger = Tools.NullLogger();
+  |              ^^^^^^^^^^^^^^^^
+

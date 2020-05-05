@@ -1,0 +1,32 @@
+[
+    {
+        "line": 1,
+        "column": 12,
+        "msg": "Duplicate identifier 'T'."
+    },
+    {
+        "line": 2,
+        "column": 16,
+        "msg": "Duplicate identifier 'T'."
+    },
+    {
+        "line": 4,
+        "column": 16,
+        "msg": "Duplicate identifier 'T'."
+    },
+    {
+        "line": 5,
+        "column": 20,
+        "msg": "Duplicate identifier 'T'."
+    },
+    {
+        "line": 7,
+        "column": 15,
+        "msg": "Duplicate identifier 'T'."
+    },
+    {
+        "line": 8,
+        "column": 19,
+        "msg": "Duplicate identifier 'T'."
+    }
+]

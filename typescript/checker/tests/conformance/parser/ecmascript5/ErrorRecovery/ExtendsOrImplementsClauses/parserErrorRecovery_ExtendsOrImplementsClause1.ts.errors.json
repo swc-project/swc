@@ -1,0 +1,7 @@
+[
+    {
+        "line": 1,
+        "column": 16,
+        "msg": "'extends' list cannot be empty."
+    }
+]

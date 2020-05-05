@@ -1,0 +1,7 @@
+[
+    {
+        "line": 8,
+        "column": 8,
+        "msg": "Property 'z' does not exist on type 'Window & typeof globalThis'."
+    }
+]

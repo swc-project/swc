@@ -1,0 +1,17 @@
+[
+    {
+        "line": 8,
+        "column": 5,
+        "msg": "Type 'typeof B' is not assignable to type 'typeof A'."
+    },
+    {
+        "line": 10,
+        "column": 5,
+        "msg": "Type 'typeof B' is not assignable to type 'typeof C'."
+    },
+    {
+        "line": 13,
+        "column": 1,
+        "msg": "Cannot create an instance of an abstract class."
+    }
+]

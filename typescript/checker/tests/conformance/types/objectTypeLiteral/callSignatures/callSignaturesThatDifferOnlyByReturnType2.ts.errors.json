@@ -1,0 +1,12 @@
+[
+    {
+        "line": 8,
+        "column": 11,
+        "msg": "Interface 'A' cannot simultaneously extend types 'I<number>' and 'I<string>'."
+    },
+    {
+        "line": 13,
+        "column": 16,
+        "msg": "Argument of type '\"\"' is not assignable to parameter of type 'number'."
+    }
+]

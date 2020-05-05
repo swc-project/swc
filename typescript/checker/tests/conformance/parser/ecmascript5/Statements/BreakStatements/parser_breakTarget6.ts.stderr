@@ -1,0 +1,6 @@
+error: TS1116
+ --> $DIR/tests/conformance/parser/ecmascript5/Statements/BreakStatements/parser_breakTarget6.ts:2:3
+  |
+2 |   break target;
+  |   ^^^^^^^^^^^^^
+

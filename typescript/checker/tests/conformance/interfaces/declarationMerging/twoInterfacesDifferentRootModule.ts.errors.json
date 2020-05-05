@@ -1,0 +1,12 @@
+[
+    {
+        "line": 19,
+        "column": 16,
+        "msg": "Property 'foo' does not exist on type 'A'."
+    },
+    {
+        "line": 27,
+        "column": 16,
+        "msg": "Property 'foo' does not exist on type 'B<string>'."
+    }
+]

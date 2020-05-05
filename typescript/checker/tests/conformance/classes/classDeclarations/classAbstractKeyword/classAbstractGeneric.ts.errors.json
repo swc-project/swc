@@ -1,0 +1,32 @@
+[
+    {
+        "line": 10,
+        "column": 7,
+        "msg": "Non-abstract class 'C<T>' does not implement inherited abstract member 'bar' from class 'A<T>'."
+    },
+    {
+        "line": 10,
+        "column": 7,
+        "msg": "Non-abstract class 'C<T>' does not implement inherited abstract member 'foo' from class 'A<T>'."
+    },
+    {
+        "line": 12,
+        "column": 7,
+        "msg": "Non-abstract class 'D' does not implement inherited abstract member 'bar' from class 'A<number>'."
+    },
+    {
+        "line": 12,
+        "column": 7,
+        "msg": "Non-abstract class 'D' does not implement inherited abstract member 'foo' from class 'A<number>'."
+    },
+    {
+        "line": 14,
+        "column": 7,
+        "msg": "Non-abstract class 'E<T>' does not implement inherited abstract member 'bar' from class 'A<T>'."
+    },
+    {
+        "line": 18,
+        "column": 7,
+        "msg": "Non-abstract class 'F<T>' does not implement inherited abstract member 'foo' from class 'A<T>'."
+    }
+]

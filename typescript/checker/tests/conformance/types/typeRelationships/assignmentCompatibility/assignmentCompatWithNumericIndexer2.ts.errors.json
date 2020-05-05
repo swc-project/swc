@@ -1,0 +1,32 @@
+[
+    {
+        "line": 14,
+        "column": 1,
+        "msg": "Type 'A' is not assignable to type '{ [x"
+    },
+    {
+        "line": 18,
+        "column": 1,
+        "msg": "Type 'A' is not assignable to type '{ [x"
+    },
+    {
+        "line": 32,
+        "column": 9,
+        "msg": "Type '{ [x"
+    },
+    {
+        "line": 33,
+        "column": 9,
+        "msg": "Type 'A<T>' is not assignable to type '{ [x"
+    },
+    {
+        "line": 36,
+        "column": 9,
+        "msg": "Type '{ [x"
+    },
+    {
+        "line": 37,
+        "column": 9,
+        "msg": "Type 'A<T>' is not assignable to type '{ [x"
+    }
+]

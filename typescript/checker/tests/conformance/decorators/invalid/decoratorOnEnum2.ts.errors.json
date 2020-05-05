@@ -1,0 +1,22 @@
+[
+    {
+        "line": 4,
+        "column": 5,
+        "msg": "Enum member expected."
+    },
+    {
+        "line": 4,
+        "column": 9,
+        "msg": "Declaration expected."
+    },
+    {
+        "line": 4,
+        "column": 10,
+        "msg": "Cannot find name 'A'."
+    },
+    {
+        "line": 5,
+        "column": 1,
+        "msg": "Declaration or statement expected."
+    }
+]

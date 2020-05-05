@@ -1,0 +1,22 @@
+[
+    {
+        "line": 4,
+        "column": 20,
+        "msg": "Cannot find name 'T'."
+    },
+    {
+        "line": 5,
+        "column": 24,
+        "msg": "Cannot find name 'U'."
+    },
+    {
+        "line": 7,
+        "column": 24,
+        "msg": "An interface can only extend an object type or intersection of object types with statically known members."
+    },
+    {
+        "line": 8,
+        "column": 28,
+        "msg": "An interface can only extend an object type or intersection of object types with statically known members."
+    }
+]

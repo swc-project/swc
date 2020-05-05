@@ -1,0 +1,17 @@
+[
+    {
+        "line": 3,
+        "column": 13,
+        "msg": "Generators are not allowed in an ambient context."
+    },
+    {
+        "line": 4,
+        "column": 13,
+        "msg": "Generators are not allowed in an ambient context."
+    },
+    {
+        "line": 5,
+        "column": 13,
+        "msg": "Generators are not allowed in an ambient context."
+    }
+]
