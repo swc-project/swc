@@ -1,18 +1,13 @@
 #![feature(box_syntax)]
 
-use once_cell::sync::Lazy;
 use std::{
     fmt::{self, Display, Formatter},
     io::{self, Write},
-    path::Path,
     sync::{Arc, RwLock},
 };
 use swc::{
     common::{
-        errors::{
-            Diagnostic, DiagnosticBuilder, Emitter, EmitterWriter, Handler, HandlerFlags,
-            SourceMapperDyn,
-        },
+        errors::{EmitterWriter, Handler, HandlerFlags, SourceMapperDyn},
         FileName, FilePathMapping, SourceMap,
     },
     config::Options,
