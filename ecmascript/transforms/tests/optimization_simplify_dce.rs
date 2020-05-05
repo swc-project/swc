@@ -163,3 +163,10 @@ fn export_default_expr_unused() {
 fn export_default_expr_used() {
     used(&["default"], "export default 5;", "export default 5;");
 }
+
+noop!(
+    issue_760,
+    "const initialState = 'foo';
+export default function reducer(state = initialState, action = {}) {
+}"
+);
