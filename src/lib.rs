@@ -35,8 +35,6 @@ pub use ecmascript::{
     transforms::{chain_at, pass::Pass},
 };
 use serde::Serialize;
-use std::{fs::File, path::Path, sync::Arc};
-use sourcemap::SourceMapBuilder;
 use std::{
     fs::File,
     path::{Path, PathBuf},
