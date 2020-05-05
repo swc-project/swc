@@ -1101,7 +1101,7 @@ identical!(
 
 identical!(
     issue_760,
-    "const initialState = 'foo';
+    "var initialState = 'foo';
     export default function reducer(state = initialState, action = {}) {
     }"
 );
