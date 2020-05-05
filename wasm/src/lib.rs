@@ -11,7 +11,8 @@ use swc::{
         errors::{EmitterWriter, Handler, HandlerFlags, SourceMapperDyn},
         FileName, FilePathMapping, SourceMap,
     },
-    config::{InputSourceMap, Options, ParseOptions},
+    config::{InputSourceMap, Options, ParseOptions, SourceMapsConfig},
+    ecmascript::ast::Program,
     Compiler,
 };
 use wasm_bindgen::prelude::*;
@@ -52,8 +53,32 @@ pub fn parse_sync(s: &str, opts: JsValue) -> Result<JsValue, JsValue> {
 }
 
 #[wasm_bindgen(js_name = "printSync")]
-pub fn print_sync(s: &str, opts: JsValue) -> Result<JsValue, JsValue> {
+pub fn print_sync(s: JsValue, opts: JsValue) -> Result<JsValue, JsValue> {
     console_error_panic_hook::set_once();
+
+    let program: Program = s
+        .into_serde()
+        .map_err(|err| format!("not a program: {}", err))?;
+
+    let opts: Options = opts
+        .into_serde()
+        .map_err(|err| format!("failed to parse options: {}", err))?;
+
+    let (c, errors) = compiler();
+
+    let s = c
+        .print(
+            &program,
+            c.comments(),
+            opts.source_maps
+                .clone()
+                .unwrap_or(SourceMapsConfig::Bool(false)),
+            None,
+            opts.config.unwrap_or_default().minify.unwrap_or_default(),
+        )
+        .map_err(|err| format!("failed to print: {}\n{}", err, errors))?;
+
+    Ok(JsValue::from_serde(&s).map_err(|err| format!("failed to print: {}\n{}", err, errors))?)
 }
 
 #[wasm_bindgen(js_name = "transformSync")]
