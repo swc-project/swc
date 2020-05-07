@@ -192,3 +192,48 @@ optimized_out!(
 function reducer(state = initialState, action = {}) {
 }"
 );
+
+to!(
+    issue_763,
+    "import {
+      INSTAGRAM_CHECK_PATTERN,
+      RESOURCE_FACEBOOK,
+      RESOURCE_INSTAGRAM,
+      RESOURCE_WEBSITE,
+  } from '../../../../consts'
+  
+    export const resources = [
+      {
+          value: RESOURCE_WEBSITE,
+          label: 'Webové stránky',
+      },
+      {
+          value: RESOURCE_FACEBOOK,
+          label: 'Facebook',
+      },
+      {
+          value: RESOURCE_INSTAGRAM,
+          label: 'Instagram',
+      },
+  ]",
+    "import {
+    RESOURCE_FACEBOOK,
+    RESOURCE_INSTAGRAM,
+    RESOURCE_WEBSITE,
+} from '../../../../consts'
+
+  export const resources = [
+    {
+        value: RESOURCE_WEBSITE,
+        label: 'Webové stránky',
+    },
+    {
+        value: RESOURCE_FACEBOOK,
+        label: 'Facebook',
+    },
+    {
+        value: RESOURCE_INSTAGRAM,
+        label: 'Instagram',
+    },
+]"
+);
