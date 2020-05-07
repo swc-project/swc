@@ -194,7 +194,7 @@ function reducer(state = initialState, action = {}) {
 );
 
 to!(
-    issue_763,
+    issue_763_1,
     "import {
       INSTAGRAM_CHECK_PATTERN,
       RESOURCE_FACEBOOK,
@@ -236,4 +236,53 @@ to!(
         label: 'Instagram',
     },
 ]"
+);
+
+to!(
+    issue_763_2,
+    "import {
+      INSTAGRAM_CHECK_PATTERN,
+      RESOURCE_FACEBOOK,
+      RESOURCE_INSTAGRAM,
+      RESOURCE_WEBSITE,
+  } from '../../../../consts'
+  
+    const resources = [
+      {
+          value: RESOURCE_WEBSITE,
+          label: 'Webové stránky',
+      },
+      {
+          value: RESOURCE_FACEBOOK,
+          label: 'Facebook',
+      },
+      {
+          value: RESOURCE_INSTAGRAM,
+          label: 'Instagram',
+      },
+  ]
+
+resources.map(console.log.bind(console));",
+    "import {
+    RESOURCE_FACEBOOK,
+    RESOURCE_INSTAGRAM,
+    RESOURCE_WEBSITE,
+} from '../../../../consts'
+
+ const resources = [
+    {
+        value: RESOURCE_WEBSITE,
+        label: 'Webové stránky',
+    },
+    {
+        value: RESOURCE_FACEBOOK,
+        label: 'Facebook',
+    },
+    {
+        value: RESOURCE_INSTAGRAM,
+        label: 'Instagram',
+    },
+];
+
+resources.map(console.log.bind(console));"
 );
