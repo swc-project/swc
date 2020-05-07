@@ -4,8 +4,10 @@
 #![feature(specialization)]
 
 use swc_common::{chain, SyntaxContext};
+use swc_ecma_parser::{EsConfig, Syntax};
 use swc_ecma_transforms::{
     optimization::simplify::dce::{self, dce},
+    react::react,
     resolver,
 };
 
@@ -285,4 +287,30 @@ resources.map(console.log.bind(console));",
 ];
 
 resources.map(console.log.bind(console));"
+);
+
+noop!(
+    issue_763_3,
+    "import {
+    RESOURCE_FACEBOOK,
+    RESOURCE_INSTAGRAM,
+    RESOURCE_WEBSITE,
+} from '../../../../consts'
+
+ const resources = [
+    {
+        value: RESOURCE_WEBSITE,
+        label: 'Webové stránky',
+    },
+    {
+        value: RESOURCE_FACEBOOK,
+        label: 'Facebook',
+    },
+    {
+        value: RESOURCE_INSTAGRAM,
+        label: 'Instagram',
+    },
+];
+
+resources.map(v => v)"
 );
