@@ -52,6 +52,7 @@ pub struct Options {
     #[serde(flatten, default)]
     pub config: Option<Config>,
 
+    #[cfg(not(target_arch = "wasm32"))]
     #[serde(default = "default_cwd")]
     pub cwd: PathBuf,
 
@@ -73,6 +74,7 @@ pub struct Options {
     #[serde(default = "default_swcrc")]
     pub swcrc: bool,
 
+    #[cfg(not(target_arch = "wasm32"))]
     #[serde(default)]
     pub swcrc_roots: Option<PathBuf>,
 
@@ -284,6 +286,7 @@ pub struct CallerOptions {
     pub name: String,
 }
 
+#[cfg(not(target_arch = "wasm32"))]
 fn default_cwd() -> PathBuf {
     ::std::env::current_dir().unwrap()
 }
@@ -645,12 +648,17 @@ impl GlobalPassOption {
         let envs = self.envs;
         InlineGlobals {
             globals: mk_map(cm, handler, self.vars.into_iter(), false),
-            envs: mk_map(
-                cm,
-                handler,
-                env::vars().filter(|(k, _)| envs.contains(&*k)),
-                true,
-            ),
+
+            envs: if cfg!(target_arch = "wasm32") {
+                mk_map(cm, handler, vec![].into_iter(), true)
+            } else {
+                mk_map(
+                    cm,
+                    handler,
+                    env::vars().filter(|(k, _)| envs.contains(&*k)),
+                    true,
+                )
+            },
         }
     }
 }

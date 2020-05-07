@@ -7,3 +7,9 @@ rustflags = [
 rustdocflags = [
     "--cfg", "procmacro2_semver_exempt",
 ]
+
+[target.wasm32-unknown-unknown]
+rustflags = [
+    "--cfg", "procmacro2_semver_exempt",
+    "-C", "link-args=-z stack-size=16777216",
+]

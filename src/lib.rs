@@ -35,7 +35,11 @@ pub use ecmascript::{
     transforms::{chain_at, pass::Pass},
 };
 use serde::Serialize;
-use std::{fs::File, path::Path, sync::Arc};
+use std::{
+    fs::File,
+    path::{Path, PathBuf},
+    sync::Arc,
+};
 
 pub struct Compiler {
     /// swc uses rustc's span interning.
@@ -285,9 +289,13 @@ impl Compiler {
                 is_module,
                 ..
             } = opts;
-            let root = root
-                .clone()
-                .unwrap_or_else(|| ::std::env::current_dir().unwrap());
+            let root = root.clone().unwrap_or_else(|| {
+                if cfg!(target_arch = "wasm32") {
+                    PathBuf::new()
+                } else {
+                    ::std::env::current_dir().unwrap()
+                }
+            });
 
             let config_file = match config_file {
                 Some(ConfigFile::Str(ref s)) => {
