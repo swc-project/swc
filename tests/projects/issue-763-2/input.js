@@ -1,10 +1,9 @@
-import React, { Fragment, Component } from "react";
-
 import {
   RESOURCE_FACEBOOK,
   RESOURCE_INSTAGRAM,
   RESOURCE_WEBSITE,
 } from "./consts";
+import React, { Component, Fragment } from "react";
 
 const resources = [
   {

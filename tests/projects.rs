@@ -399,3 +399,13 @@ fn issue_763() {
     assert!(f.contains("_consts.RESOURCE_FACEBOOK"));
     assert!(f.contains("_consts.RESOURCE_INSTAGRAM"));
 }
+
+#[test]
+fn issue_763_2() {
+    let f = file("tests/projects/issue-763-2/input.js").unwrap();
+    println!("{}", f);
+
+    assert!(f.contains("_consts.RESOURCE_WEBSITE"));
+    assert!(f.contains("_consts.RESOURCE_FACEBOOK"));
+    assert!(f.contains("_consts.RESOURCE_INSTAGRAM"));
+}
