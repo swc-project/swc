@@ -1,0 +1,61 @@
+import React, { Fragment, Component } from "react";
+
+import {
+  RESOURCE_FACEBOOK,
+  RESOURCE_INSTAGRAM,
+  RESOURCE_WEBSITE,
+} from "./consts";
+
+// export const RESOURCE_WEBSITE = 1;
+// export const RESOURCE_FACEBOOK = 2;
+// export const RESOURCE_INSTAGRAM = 3;
+
+const resources = [
+  {
+    value: RESOURCE_WEBSITE,
+    label: "Webové stránky",
+  },
+  {
+    value: RESOURCE_FACEBOOK,
+    label: "Facebook",
+  },
+  {
+    value: RESOURCE_INSTAGRAM,
+    label: "Instagram",
+  },
+];
+
+const i18n = () => (Child) => {
+  return class extends Component {
+    render() {
+      return <Child {...this.props} {...this.context} />;
+    }
+  };
+};
+
+@i18n()
+export default class Contacts extends Component {
+  renderWebsites = (websites) => {
+    return websites.map((website, idx) => (
+      <div key={idx}>
+        <div>
+          {resources.map((resource) => (
+            <option key={resource.value} value={resource.value}>
+              {resource.label}
+            </option>
+          ))}
+        </div>
+        <input
+          type={website.type_id === RESOURCE_INSTAGRAM ? "text" : "url"}
+          value={website.value || ""}
+        />
+      </div>
+    ));
+  };
+
+  render = () => {
+    const { websites } = this.props;
+
+    return <Fragment>{websites && this.renderWebsites(websites)}</Fragment>;
+  };
+}
