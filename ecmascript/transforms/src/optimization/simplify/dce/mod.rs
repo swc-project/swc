@@ -112,6 +112,9 @@ struct Dce<'a> {
     /// If true, idents are added to [included].
     marking_phase: bool,
 
+    /// If false, the pass **ignores** imports.
+    ///
+    /// It means, imports are not marked (as used) nor removed.
     import_dropping_phase: bool,
 
     dropped: bool,

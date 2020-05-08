@@ -4,6 +4,11 @@ use swc_ecma_ast::*;
 
 impl Fold<ImportDecl> for Dce<'_> {
     fn fold(&mut self, mut import: ImportDecl) -> ImportDecl {
+        // Do not mark import as used while ignoring imports
+        if !self.import_dropping_phase {
+            return import;
+        }
+
         if self.is_marked(import.span) {
             return import;
         }
