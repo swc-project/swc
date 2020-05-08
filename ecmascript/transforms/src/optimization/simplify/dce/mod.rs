@@ -194,7 +194,12 @@ where
                 }
 
                 idx += 1;
-                Some(item)
+                // Drop unused imports
+                if self.is_marked(item.span()) {
+                    Some(item)
+                } else {
+                    None
+                }
             });
         }
 
