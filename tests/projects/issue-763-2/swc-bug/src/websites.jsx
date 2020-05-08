@@ -25,15 +25,6 @@ const resources = [
   },
 ];
 
-const i18n = () => (Child) => {
-  return class extends Component {
-    render() {
-      return <Child {...this.props} {...this.context} />;
-    }
-  };
-};
-
-@i18n()
 export default class Contacts extends Component {
   renderWebsites = (websites) => {
     return websites.map((website, idx) => (
