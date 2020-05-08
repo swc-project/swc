@@ -6,10 +6,6 @@ import {
   RESOURCE_WEBSITE,
 } from "./consts";
 
-// export const RESOURCE_WEBSITE = 1;
-// export const RESOURCE_FACEBOOK = 2;
-// export const RESOURCE_INSTAGRAM = 3;
-
 const resources = [
   {
     value: RESOURCE_WEBSITE,
