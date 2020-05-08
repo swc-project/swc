@@ -4,10 +4,8 @@
 #![feature(specialization)]
 
 use swc_common::{chain, SyntaxContext};
-use swc_ecma_parser::{EsConfig, Syntax};
 use swc_ecma_transforms::{
     optimization::simplify::dce::{self, dce},
-    react::react,
     resolver,
 };
 
@@ -313,4 +311,34 @@ noop!(
 ];
 
 resources.map(v => v)"
+);
+
+noop!(
+    issue_763_4,
+    "import { RESOURCE_FACEBOOK, RESOURCE_INSTAGRAM, RESOURCE_WEBSITE } from './consts';
+    
+    const resources = [
+      {
+        value: RESOURCE_WEBSITE,
+        label: 'Webové stránky',
+      },
+      {
+        value: RESOURCE_FACEBOOK,
+        label: 'Facebook',
+      },
+      {
+        value: RESOURCE_INSTAGRAM,
+        label: 'Instagram',
+      },
+    ];
+    
+    export function foo(websites) {
+        const a = resources.map((resource) => (
+            {
+                value: resource.value,
+            }
+        ));
+        const b = website.type_id === RESOURCE_INSTAGRAM ? 'text' : 'url';
+        return a + b;
+      }"
 );
