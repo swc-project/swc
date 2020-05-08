@@ -142,6 +142,8 @@ where
         let mut preserved = FxHashSet::default();
         preserved.reserve(items.len());
 
+        items = items.into_iter().rev().collect();
+
         loop {
             self.changed = false;
             let mut idx = 0u32;
@@ -164,6 +166,8 @@ where
                 break;
             }
         }
+
+        items = items.into_iter().rev().collect();
 
         {
             let mut idx = 0;
