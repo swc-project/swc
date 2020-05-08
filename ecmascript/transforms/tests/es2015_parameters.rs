@@ -6,37 +6,37 @@
 use swc_common::{chain, Mark};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{
-  compat::{
-    es2015::{arrow, block_scoping, destructuring, parameters, Classes},
-    es2017::async_to_generator,
-  },
-  modules::common_js::common_js,
-  pass::Pass,
-  resolver,
+    compat::{
+        es2015::{arrow, block_scoping, destructuring, parameters, Classes},
+        es2017::async_to_generator,
+    },
+    modules::common_js::common_js,
+    pass::Pass,
+    resolver,
 };
 
 #[macro_use]
 mod common;
 
 fn syntax() -> Syntax {
-  Default::default()
+    Default::default()
 }
 
 fn tr() -> impl Pass {
-  chain!(
-    resolver(),
-    parameters(),
-    swc_ecma_transforms::compat::es2015::destructuring(destructuring::Config { loose: false }),
-    swc_ecma_transforms::compat::es2015::block_scoping(),
-  )
+    chain!(
+        resolver(),
+        parameters(),
+        swc_ecma_transforms::compat::es2015::destructuring(destructuring::Config { loose: false }),
+        swc_ecma_transforms::compat::es2015::block_scoping(),
+    )
 }
 
 test!(
-  syntax(),
-  |_| tr(),
-  issue_254,
-  "export const someFunction = (update = false, action = {}) => {}",
-  "
+    syntax(),
+    |_| tr(),
+    issue_254,
+    "export const someFunction = (update = false, action = {}) => {}",
+    "
 export var someFunction = (param, param1)=>{
     var update = param === void 0 ? false : param, action = param1 === void 0 ? {} : param1;
 };
@@ -44,13 +44,13 @@ export var someFunction = (param, param1)=>{
 );
 
 test!(
-  syntax(),
-  |_| tr(),
-  issue_227,
-  "export default function fn1(...args) {
+    syntax(),
+    |_| tr(),
+    issue_227,
+    "export default function fn1(...args) {
   fn2(...args);
 }",
-  "
+    "
 export default function fn1() {
     for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++){
         args[_key] = arguments[_key];
@@ -61,17 +61,17 @@ export default function fn1() {
 );
 
 test!(
-  syntax(),
-  |_| tr(),
-  issue_169,
-  r#"
+    syntax(),
+    |_| tr(),
+    issue_169,
+    r#"
 class Foo {
 	func(a, b = Date.now()) {
 		return {a};
 	}
 }
 "#,
-  r#"
+    r#"
 class Foo{
      func(a, param) {
         var b = param === void 0 ? Date.now() : param
@@ -83,14 +83,14 @@ class Foo{
 );
 
 test!(
-  syntax(),
-  |_| tr(),
-  babel_6057_simple,
-  r#"const a = 'bar';
+    syntax(),
+    |_| tr(),
+    babel_6057_simple,
+    r#"const a = 'bar';
 function foo(...a) {
   return a;
 }"#,
-  r#"var a = 'bar';
+    r#"var a = 'bar';
 function foo() {
     for(var _len = arguments.length, a1 = new Array(_len), _key = 0; _key < _len; _key++){
         a1[_key] = arguments[_key];
@@ -100,20 +100,20 @@ function foo() {
 );
 
 test!(
-  syntax(),
-  |_| tr(),
-  default_before_last,
-  r#"function foo(a = "foo", b) {}"#,
-  r#"function foo(param, b) {
+    syntax(),
+    |_| tr(),
+    default_before_last,
+    r#"function foo(a = "foo", b) {}"#,
+    r#"function foo(param, b) {
     var a = param === void 0 ? 'foo' : param;
 }"#
 );
 
 test_exec!(
-  syntax(),
-  |_| tr(),
-  default_destructuring,
-  r#"function required(msg) {
+    syntax(),
+    |_| tr(),
+    default_destructuring,
+    r#"function required(msg) {
   throw new Error(msg);
 }
 
@@ -135,26 +135,26 @@ expect(sum({arr:[1,2]})).toBe(3);"#
 );
 
 test_exec!(
-  syntax(),
-  |_| tr(),
-  default_earlier_params,
-  r#"function f(a, b = a, c = b) { return c; }
+    syntax(),
+    |_| tr(),
+    default_earlier_params,
+    r#"function f(a, b = a, c = b) { return c; }
 
 expect(3).toBe(f(3));"#
 );
 
 test!(
-  ignore,
-  syntax(),
-  |_| tr(),
-  default_eval,
-  r#"let x = "outside";
+    ignore,
+    syntax(),
+    |_| tr(),
+    default_eval,
+    r#"let x = "outside";
 function outer(a = () => eval("x")) {
   let x = "inside";
   return a();
 }
 outer();"#,
-  r#"var x = "outside";
+    r#"var x = "outside";
 
 function outer() {
   var a = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : function () {
@@ -170,10 +170,10 @@ outer();"#
 );
 
 test_exec!(
-  syntax(),
-  |_| tr(),
-  default_iife_1128,
-  r#"const bar = true;
+    syntax(),
+    |_| tr(),
+    default_iife_1128,
+    r#"const bar = true;
 
 function foo(a = bar, ...b) {
   const bar = false;
@@ -185,16 +185,16 @@ foo(1, 2, 3);"#
 );
 
 test!(
-  syntax(),
-  |_| chain!(Classes::default(), tr()),
-  default_iife_4253,
-  r#"class Ref {
+    syntax(),
+    |_| chain!(Classes::default(), tr()),
+    default_iife_4253,
+    r#"class Ref {
   constructor(id = ++Ref.nextID) {
     this.id = id
   }
 }
 Ref.nextID = 0"#,
-  r#"var Ref = function Ref(param) {
+    r#"var Ref = function Ref(param) {
         'use strict';
         var id = param === void 0 ? ++Ref.nextID : param;
         _classCallCheck(this, Ref);
@@ -204,12 +204,12 @@ Ref.nextID = 0;"#
 );
 
 test_exec!(
-  ignore,
-  syntax(),
-  // Stage0
-  |_| tr(),
-  default_iife_4253_exec,
-  r#"class Ref {
+    ignore,
+    syntax(),
+    // Stage0
+    |_| tr(),
+    default_iife_4253_exec,
+    r#"class Ref {
   static nextId = 0
   constructor(id = ++Ref.nextId, n = id) {
     this.id = n
@@ -221,10 +221,10 @@ expect(new Ref().id).toBe(2);"#
 );
 
 test!(
-  syntax(),
-  |_| chain!(Classes::default(), tr()),
-  default_iife_self,
-  r#"class Ref {
+    syntax(),
+    |_| chain!(Classes::default(), tr()),
+    default_iife_self,
+    r#"class Ref {
   constructor(ref = Ref) {
     this.ref = ref
   }
@@ -235,7 +235,7 @@ class X {
     this.x = x
   }
 }"#,
-  r#"var Ref = function Ref(param) {
+    r#"var Ref = function Ref(param) {
         'use strict';
         var ref = param === void 0 ? Ref : param;
         _classCallCheck(this, Ref);
@@ -251,10 +251,10 @@ var X = function X(param) {
 );
 
 test_exec!(
-  syntax(),
-  |_| tr(),
-  default_iife_self_exec,
-  r#"class Ref {
+    syntax(),
+    |_| tr(),
+    default_iife_self_exec,
+    r#"class Ref {
   constructor(ref = Ref) {
     this.ref = ref
   }
@@ -264,17 +264,17 @@ expect(new Ref().ref).toBe(Ref);"#
 );
 
 test!(
-  syntax(),
-  |_| tr(),
-  default_multiple,
-  r#"var t = function (e = "foo", f = 5) {
+    syntax(),
+    |_| tr(),
+    default_multiple,
+    r#"var t = function (e = "foo", f = 5) {
   return e + " bar " + f;
 };
 
 var a = function (e, f = 5) {
   return e + " bar " + f;
 };"#,
-  "var t = function(param, param1) {
+    "var t = function(param, param1) {
     var e = param === void 0 ? 'foo' : param, f = param1 === void 0 ? 5 : param1;
     return e + ' bar ' + f;
 };
@@ -286,33 +286,33 @@ var a = function(e, param) {
 );
 
 test!(
-  syntax(),
-  |_| tr(),
-  default_rest_mix,
-  r#"function fn(
+    syntax(),
+    |_| tr(),
+    default_rest_mix,
+    r#"function fn(
   a1,
   a2 = 4,
   {a3, a4},
   a5,
   {a6, a7} = {}) {}"#,
-  "function fn(a1, param, param1, a5, param2) {
+    "function fn(a1, param, param1, a5, param2) {
     var a2 = param === void 0 ? 4 : param, a3 = param1.a3, a4 = param1.a4, ref = param2 === void 0 \
-   ? {
+     ? {
     } : param2, a6 = ref.a6, a7 = ref.a7;
 }
 "
 );
 
 test!(
-  syntax(),
-  |_| tr(),
-  default_rest_1,
-  r#"const a = 1;
+    syntax(),
+    |_| tr(),
+    default_rest_1,
+    r#"const a = 1;
 function rest(b = a, ...a) {
   expect(b).toBe(1);
 }
 rest(undefined, 2)"#,
-  r#"var a = 1;
+    r#"var a = 1;
 function rest(param) {
     var b = param === void 0 ? a : param;
     for(var _len = arguments.length, a1 = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
@@ -324,15 +324,15 @@ rest(undefined, 2);"#
 );
 
 test!(
-  syntax(),
-  |_| tr(),
-  default_rest_2,
-  r#"const a = 1;
+    syntax(),
+    |_| tr(),
+    default_rest_2,
+    r#"const a = 1;
   function rest2(b = a, ...a) {
   expect(a[0]).toBe(2);
 }
 rest2(undefined, 2);"#,
-  r#"var a = 1;
+    r#"var a = 1;
 function rest2(param) {
     var b = param === void 0 ? a : param;
     for(var _len = arguments.length, a1 = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
@@ -344,15 +344,15 @@ rest2(undefined, 2);"#
 );
 
 test!(
-  syntax(),
-  |_| tr(),
-  default_rest_3,
-  r#"const a = 1;
+    syntax(),
+    |_| tr(),
+    default_rest_3,
+    r#"const a = 1;
     function rest3(b = a, ...a) {
   expect(a).toHaveLength(1);
 }
 rest3(undefined, 2)"#,
-  r#"var a = 1;
+    r#"var a = 1;
 function rest3(param) {
     var b = param === void 0 ? a : param;
     for(var _len = arguments.length, a1 = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
@@ -364,10 +364,10 @@ rest3(undefined, 2);"#
 );
 
 test_exec!(
-  syntax(),
-  |_| tr(),
-  default_rest_exec,
-  r#"const a = 1;
+    syntax(),
+    |_| tr(),
+    default_rest_exec,
+    r#"const a = 1;
 function rest(b = a, ...a) {
   expect(b).toBe(1);
 }
@@ -385,15 +385,15 @@ rest3(undefined, 2)"#
 );
 
 test!(
-  syntax(),
-  |_| tr(),
-  default_setter_noexec,
-  r#"const obj = {
+    syntax(),
+    |_| tr(),
+    default_setter_noexec,
+    r#"const obj = {
   set field(num = 1) {
     this.num = num;
   }
 };"#,
-  "var obj = {
+    "var obj = {
     set field (param){
         var num = param === void 0 ? 1 : param;
         this.num = num;
@@ -403,10 +403,10 @@ test!(
 );
 
 test_exec!(
-  syntax(),
-  |_| tr(),
-  default_setter_exec,
-  r#"const defaultValue = 1;
+    syntax(),
+    |_| tr(),
+    default_setter_exec,
+    r#"const defaultValue = 1;
 const obj = {
   set field(num = defaultValue) {
     this.num = num;
@@ -418,31 +418,31 @@ expect(obj.num).toBe(defaultValue);"#
 );
 
 test!(
-  syntax(),
-  |_| tr(),
-  default_single,
-  r#"var t = function (f = "foo") {
+    syntax(),
+    |_| tr(),
+    default_single,
+    r#"var t = function (f = "foo") {
   return f + " bar";
 };"#,
-  r#"var t = function(param) {
+    r#"var t = function(param) {
     var f = param === void 0 ? 'foo' : param;
     return f + ' bar';
 };"#
 );
 
 test!(
-  syntax(),
-  |_| tr(),
-  destructuring_rest,
-  r#"// #3861
+    syntax(),
+    |_| tr(),
+    destructuring_rest,
+    r#"// #3861
 function t(x = "default", { a, b }, ...args) {
   console.log(x, a, b, args);
 }"#,
-  "// #3861
+    "// #3861
 function t(param, param1) {
     var x = param === void 0 ? 'default' : param, a = param1.a, b = param1.b;
     for(var _len = arguments.length, args = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < \
-   _len; _key++){
+     _len; _key++){
         args[_key - 2] = arguments[_key];
     }
     console.log(x, a, b, args);
@@ -451,14 +451,14 @@ function t(param, param1) {
 );
 
 test!(
-  syntax(),
-  |_| tr(),
-  regression_4333,
-  r#"const args = 'bar';
+    syntax(),
+    |_| tr(),
+    regression_4333,
+    r#"const args = 'bar';
 function foo(...args) {
   return args;
 }"#,
-  r#"var args = 'bar';
+    r#"var args = 'bar';
 function foo() {
     for(var _len = arguments.length, args1 = new Array(_len), _key = 0; _key < _len; _key++){
         args1[_key] = arguments[_key];
@@ -469,14 +469,14 @@ function foo() {
 );
 
 test!(
-  syntax(),
-  |_| tr(),
-  regression_4348,
-  r#"function first(...values) {
+    syntax(),
+    |_| tr(),
+    regression_4348,
+    r#"function first(...values) {
   var index = 0;
   return values[index++];
 }"#,
-  r#"function first() {
+    r#"function first() {
     for(var _len = arguments.length, values = new Array(_len), _key = 0; _key < _len; _key++){
         values[_key] = arguments[_key];
     }
@@ -486,18 +486,18 @@ test!(
 );
 
 test!(
-  ignore,
-  syntax(),
-  // type
-  |_| tr(),
-  regression_4634,
-  r#"let oneOf = (...nodes) => {
+    ignore,
+    syntax(),
+    // type
+    |_| tr(),
+    regression_4634,
+    r#"let oneOf = (...nodes) => {
   if (nodes.length === 1) {
     return nodes[0];
   }
   return ((new OneOfNode(nodes)): any)
 }"#,
-  r#"
+    r#"
 let oneOf = function () {
   for (var _len = arguments.length, nodes = new Array(_len), _key = 0; _key < _len; _key++) {
     nodes[_key] = arguments[_key];
@@ -512,10 +512,10 @@ let oneOf = function () {
 );
 
 test!(
-  syntax(),
-  |_| tr(),
-  regression_5787,
-  r#"function f(a, ...rest) {
+    syntax(),
+    |_| tr(),
+    regression_5787,
+    r#"function f(a, ...rest) {
   let b = rest[rest.length - 3];
   let c = rest[rest.length - 2];
   let d = rest[rest.length - 1];
@@ -525,7 +525,7 @@ test!(
 function f(a, ...rest) {
   return rest[-1];
 }"#,
-  r#"function f(a) {
+    r#"function f(a) {
     for(var _len = arguments.length, rest = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
         rest[_key - 1] = arguments[_key];
     }
@@ -543,10 +543,10 @@ function f(a) {
 );
 
 test_exec!(
-  syntax(),
-  |_| tr(),
-  regression_5787_exec,
-  r#"function f1(a, ...rest) {
+    syntax(),
+    |_| tr(),
+    regression_5787_exec,
+    r#"function f1(a, ...rest) {
   let b = rest[rest.length - 3];
   let c = rest[rest.length - 2];
   let d = rest[rest.length - 1];
@@ -561,13 +561,13 @@ expect(f2(1, 2)).toBeUndefined();"#
 );
 
 test!(
-  syntax(),
-  |_| tr(),
-  rest_args_deoptimiazation,
-  r#"function x (...rest) {
+    syntax(),
+    |_| tr(),
+    rest_args_deoptimiazation,
+    r#"function x (...rest) {
   arguments;
 }"#,
-  r#"
+    r#"
 function x() {
   for (var _len = arguments.length, rest = new Array(_len), _key = 0; _key < _len; _key++) {
     rest[_key] = arguments[_key];
@@ -578,12 +578,12 @@ function x() {
 );
 
 test!(
-  // Stage 0
-  ignore,
-  syntax(),
-  |_| tr(),
-  rest_arrow_fn,
-  r#"var concat = (...arrs) => {
+    // Stage 0
+    ignore,
+    syntax(),
+    |_| tr(),
+    rest_arrow_fn,
+    r#"var concat = (...arrs) => {
   var x = arrs[0];
   var y = arrs[1];
 };
@@ -619,7 +619,7 @@ var innerclassproperties = (...args) => (
     args = args;
   }
 );"#,
-  r#"var concat = function () {
+    r#"var concat = function () {
   var x = arguments.length <= 0 ? undefined : arguments[0];
   var y = arguments.length <= 1 ? undefined : arguments[1];
 };
@@ -681,11 +681,11 @@ var innerclassproperties = function () {
 );
 
 test!(
-  ignore,
-  syntax(),
-  |_| tr(),
-  rest_async_arrow_fn,
-  r#"var concat = async (...arrs) => {
+    ignore,
+    syntax(),
+    |_| tr(),
+    rest_async_arrow_fn,
+    r#"var concat = async (...arrs) => {
   var x = arrs[0];
   var y = arrs[1];
 };
@@ -694,7 +694,7 @@ var x = async (...rest) => {
   if (noNeedToWork) return 0;
   return rest;
 };"#,
-  r#"var concat =
+    r#"var concat =
 /*#__PURE__*/
 function () {
   var _ref = _asyncToGenerator(function* () {
@@ -727,12 +727,12 @@ function () {
 );
 
 test!(
-  syntax(),
-  |_| chain!(swc_ecma_transforms::compat::es2015::arrow(), tr()),
-  rest_binding_deoptimisation,
-  r#"const deepAssign = (...args) => args = [];
+    syntax(),
+    |_| chain!(swc_ecma_transforms::compat::es2015::arrow(), tr()),
+    rest_binding_deoptimisation,
+    r#"const deepAssign = (...args) => args = [];
 "#,
-  r#"var deepAssign = function () {
+    r#"var deepAssign = function () {
   for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
     args[_key] = arguments[_key];
   }
@@ -742,12 +742,12 @@ test!(
 );
 
 test!(
-  // optimiation is not implemented
-  ignore,
-  syntax(),
-  |_| tr(),
-  rest_deepest_common_ancestor_earliest_child,
-  r#"// single reference
+    // optimiation is not implemented
+    ignore,
+    syntax(),
+    |_| tr(),
+    rest_deepest_common_ancestor_earliest_child,
+    r#"// single reference
 function r(...rest){
   if (noNeedToWork) return 0;
   return rest;
@@ -821,7 +821,7 @@ function r(...rest){
   [rest[0]] = x;
   return rest;
 }"#,
-  r#"// single reference
+    r#"// single reference
 function r() {
   if (noNeedToWork) return 0;
 
@@ -940,10 +940,10 @@ function r() {
 );
 
 test!(
-  syntax(),
-  |_| tr(),
-  rest_length,
-  r#"var t = function (f, ...items) {
+    syntax(),
+    |_| tr(),
+    rest_length,
+    r#"var t = function (f, ...items) {
   items[0];
   items[items.length - 1];
 };
@@ -953,7 +953,7 @@ function t(f, ...items) {
   items[0];
   items[items.length - 1];
 }"#,
-  r#"var t = function(f) {
+    r#"var t = function(f) {
     for(var _len = arguments.length, items = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
         items[_key - 1] = arguments[_key];
     }
@@ -971,10 +971,10 @@ function t(f) {
 );
 
 test_exec!(
-  syntax(),
-  |_| tr(),
-  rest_length_exec,
-  r#"var length = function (a, b, ...items) {
+    syntax(),
+    |_| tr(),
+    rest_length_exec,
+    r#"var length = function (a, b, ...items) {
   return items.length;
 };
 
@@ -985,12 +985,12 @@ expect(length(1, 2, 3)).toBe(1);"#
 );
 
 test!(
-  // optimisation is not implemented
-  ignore,
-  syntax(),
-  |_| tr(),
-  rest_member_expression_deoptimisation,
-  r#"var t = function (...items) {
+    // optimisation is not implemented
+    ignore,
+    syntax(),
+    |_| tr(),
+    rest_member_expression_deoptimisation,
+    r#"var t = function (...items) {
   var x = items[0];
   var y = items[1];
 }
@@ -1014,7 +1014,7 @@ function t(...items) {
     return items[i];
   }
 }"#,
-  r#"var t = function () {
+    r#"var t = function () {
   var x = arguments.length <= 0 ? undefined : arguments[0];
   var y = arguments.length <= 1 ? undefined : arguments[1];
 };
@@ -1043,12 +1043,12 @@ function t() {
 );
 
 test!(
-  // optimisation is not implemented
-  ignore,
-  syntax(),
-  |_| tr(),
-  rest_member_expression_optimisation,
-  r#"var t = function (...items) {
+    // optimisation is not implemented
+    ignore,
+    syntax(),
+    |_| tr(),
+    rest_member_expression_optimisation,
+    r#"var t = function (...items) {
   var x = items[0];
   var y = items[1];
 }
@@ -1072,7 +1072,7 @@ function t(...items) {
     return items[i];
   }
 }"#,
-  r#"var t = function () {
+    r#"var t = function () {
   var x = arguments.length <= 0 ? undefined : arguments[0];
   var y = arguments.length <= 1 ? undefined : arguments[1];
 };
@@ -1101,10 +1101,10 @@ function t() {
 );
 
 test!(
-  syntax(),
-  |_| tr(),
-  rest_multiple,
-  r#"var t = function (f, ...items) {
+    syntax(),
+    |_| tr(),
+    rest_multiple,
+    r#"var t = function (f, ...items) {
     var x = f;
     x = items[0];
     x = items[1];
@@ -1123,7 +1123,7 @@ function u(f, g, ...items) {
     y.prop = items[1];
     var z = items[2] | 0 || 12;
 }"#,
-  r#"var t = function(f) {
+    r#"var t = function(f) {
     for(var _len = arguments.length, items = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
         items[_key - 1] = arguments[_key];
     }
@@ -1152,12 +1152,12 @@ function u(f, g) {
 );
 
 test!(
-  // optimisation is not implemented
-  ignore,
-  syntax(),
-  |_| tr(),
-  rest_nested_5656,
-  r#"function a(...args) {
+    // optimisation is not implemented
+    ignore,
+    syntax(),
+    |_| tr(),
+    rest_nested_5656,
+    r#"function a(...args) {
   const foo = (...list) => bar(...list);
   foo(...args);
 }
@@ -1179,7 +1179,7 @@ function d(thing, ...args) {
     foo(thing);
   }
 }"#,
-  r#"function a() {
+    r#"function a() {
   var foo = function () {
     return bar.apply(void 0, arguments);
   };
@@ -1216,20 +1216,20 @@ function d(thing) {
 );
 
 test!(
-  syntax(),
-  |_| chain!(
-    tr(),
-    Classes::default(),
-    swc_ecma_transforms::compat::es2015::spread(Default::default())
-  ),
-  rest_nested_iife,
-  r#"function broken(x, ...foo) {
+    syntax(),
+    |_| chain!(
+        tr(),
+        Classes::default(),
+        swc_ecma_transforms::compat::es2015::spread(Default::default())
+    ),
+    rest_nested_iife,
+    r#"function broken(x, ...foo) {
   if (true) {
     class Foo extends Bar { }
     return hello(...foo)
   }
 }"#,
-  r#"function broken(x) {
+    r#"function broken(x) {
     for(var _len = arguments.length, foo = new Array(_len > 1 ? _len - 1 : 0),
         _key = 1; _key < _len; _key++){
         foo[_key - 1] = arguments[_key];
@@ -1251,11 +1251,11 @@ test!(
 );
 
 test!(
-  syntax(),
-  |_| tr(),
-  rest_patterns,
-  r#"function foo(...[a]) {}"#,
-  r#"function foo() {
+    syntax(),
+    |_| tr(),
+    rest_patterns,
+    r#"function foo(...[a]) {}"#,
+    r#"function foo() {
     for(var _len = arguments.length, _tmp = new Array(_len), _key = 0; _key < _len; _key++){
         _tmp[_key] = arguments[_key];
     }
@@ -1264,10 +1264,10 @@ test!(
 );
 
 test_exec!(
-  syntax(),
-  |_| tr(),
-  rest_patterns_exec,
-  r#"
+    syntax(),
+    |_| tr(),
+    rest_patterns_exec,
+    r#"
 function foo(...{ length }) {
   return length;
 }
@@ -1276,12 +1276,12 @@ expect(foo(1, 2, 3)).toEqual(3);"#
 );
 
 test!(
-  // optimisation is not implemented
-  ignore,
-  syntax(),
-  |_| tr(),
-  rest_spread_optimisation,
-  r#"// optimisation
+    // optimisation is not implemented
+    ignore,
+    syntax(),
+    |_| tr(),
+    rest_spread_optimisation,
+    r#"// optimisation
 
 function foo(...bar) {
   foo(...bar);
@@ -1301,7 +1301,7 @@ function foo(...args){
   args.pop()
   foo(...args);
 }"#,
-  r#"// optimisation
+    r#"// optimisation
 function foo() {
   foo.apply(void 0, arguments);
 } // deoptimisation
@@ -1518,16 +1518,16 @@ function foo() {
 
 // regression_4209
 test!(
-  syntax(),
-  |_| chain!(
-    Classes::default(),
-    parameters(),
-    destructuring(Default::default()),
-    block_scoping(),
-    common_js(Mark::fresh(Mark::root()), Default::default()),
-  ),
-  regression_4209,
-  r#"
+    syntax(),
+    |_| chain!(
+        Classes::default(),
+        parameters(),
+        destructuring(Default::default()),
+        block_scoping(),
+        common_js(Mark::fresh(Mark::root()), Default::default()),
+    ),
+    regression_4209,
+    r#"
 import { copy } from './copyPaste';
 
 class Thing {
@@ -1540,7 +1540,7 @@ class Thing {
 }
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 var _copyPaste = require("./copyPaste");
@@ -1573,18 +1573,18 @@ function () {
 
 // parameters_rest_async_arrow_functions
 test!(
-  // See https://github.com/swc-project/swc/issues/490
-  ignore,
-  syntax(),
-  |_| chain!(async_to_generator(), arrow(), parameters(),),
-  parameters_rest_async_arrow_functions_1,
-  r#"
+    // See https://github.com/swc-project/swc/issues/490
+    ignore,
+    syntax(),
+    |_| chain!(async_to_generator(), arrow(), parameters(),),
+    parameters_rest_async_arrow_functions_1,
+    r#"
 var concat = async (...arrs) => {
   var x = arrs[0];
   var y = arrs[1];
 };
 "#,
-  r#"
+    r#"
 var concat = function () {
   var _ref = _asyncToGenerator(function* () {
     var x = arguments.length <= 0 ? undefined : arguments[0];
@@ -1600,19 +1600,19 @@ var concat = function () {
 
 // parameters_rest_async_arrow_functions
 test!(
-  // See https://github.com/swc-project/swc/issues/490
-  ignore,
-  syntax(),
-  |_| chain!(async_to_generator(), arrow(), parameters(),),
-  parameters_rest_async_arrow_functions_2,
-  r#"
+    // See https://github.com/swc-project/swc/issues/490
+    ignore,
+    syntax(),
+    |_| chain!(async_to_generator(), arrow(), parameters(),),
+    parameters_rest_async_arrow_functions_2,
+    r#"
 var x = async (...rest) => {
   if (noNeedToWork) return 0;
   return rest;
 };
 
 "#,
-  r#"
+    r#"
 var x = function () {
   var _ref = _asyncToGenerator(function* () {
     if (noNeedToWork) return 0;
@@ -1634,10 +1634,10 @@ var x = function () {
 
 // regression_6057_simple
 test!(
-  syntax(),
-  |_| parameters(),
-  regression_6057_simple,
-  r#"
+    syntax(),
+    |_| parameters(),
+    regression_6057_simple,
+    r#"
 const a = 'bar';
 function foo(...a) {
   return a;
@@ -1645,7 +1645,7 @@ function foo(...a) {
 
 
 "#,
-  r#"
+    r#"
 const a = 'bar';
 
 function foo() {
@@ -1661,17 +1661,17 @@ function foo() {
 
 // parameters_regression_4333
 test!(
-  syntax(),
-  |_| chain!(parameters(), block_scoping(),),
-  parameters_regression_4333,
-  r#"
+    syntax(),
+    |_| chain!(parameters(), block_scoping(),),
+    parameters_regression_4333,
+    r#"
 const args = 'bar';
 function foo(...args) {
   return args;
 }
 
 "#,
-  r#"
+    r#"
 var args = 'bar';
 
 function foo() {
@@ -1686,13 +1686,13 @@ function foo() {
 );
 
 test!(
-  syntax(),
-  |_| chain!(parameters(), destructuring(Default::default())),
-  issue_760,
-  "const initialState = 'foo'
+    syntax(),
+    |_| chain!(parameters(), destructuring(Default::default())),
+    issue_760,
+    "const initialState = 'foo'
 export default function reducer(state = initialState, action = {}) {
 }",
-  "const initialState = 'foo';
+    "const initialState = 'foo';
   export default function reducer(param, param1) {
       let state = param === void 0 ? initialState : param, action = param1 === void 0 ? {
       } : param1;
