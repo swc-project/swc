@@ -342,3 +342,21 @@ noop!(
         return a + b;
       }"
 );
+
+noop!(
+    issue_763_5_1,
+    "import { A, B } from './consts';
+    const resources = [A, B];
+    use(B)
+    resources.map(v => v)
+"
+);
+
+noop!(
+    issue_763_5_2,
+    "import { A, B } from './consts';
+    const resources = {A, B};
+    use(B)
+    resources.map(v => v)
+"
+);
