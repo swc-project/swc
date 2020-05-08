@@ -19,11 +19,6 @@ impl Fold<ImportDecl> for Dce<'_> {
             return import;
         }
 
-        // First run.
-        if self.included.is_empty() {
-            return import;
-        }
-
         // Drop unused imports.
         import.specifiers.retain(|s| self.should_include(&s));
 
