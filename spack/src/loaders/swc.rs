@@ -40,7 +40,9 @@ impl Load for JsLoader {
 
             log::trace!("JsLoader.load: loaded");
 
-            let config = self.compiler.config_for_file(&self.options, &fm)?;
+            let mut config = self.compiler.config_for_file(&self.options, &fm)?;
+            println!("Syntax: {:?}", config.syntax);
+            println!("Target: {:?}", config.target);
 
             log::trace!("JsLoader.load: loaded config");
 
