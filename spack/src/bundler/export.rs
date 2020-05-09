@@ -7,7 +7,7 @@ use fxhash::FxHashMap;
 use swc_atoms::js_word;
 use swc_common::{SyntaxContext, Visit, VisitWith};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_ids, private_ident};
+use swc_ecma_utils::find_ids;
 
 impl Bundler {
     /// This method removes exported pure constants from the module.

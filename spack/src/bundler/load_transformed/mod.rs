@@ -30,7 +30,6 @@ pub(super) struct TransformedModule {
     pub module: Arc<Module>,
     pub imports: Arc<Imports>,
     pub exports: Arc<Exports>,
-    pub is_dynamic: bool,
 
     mark: Mark,
 }
@@ -66,7 +65,7 @@ impl Specifier {
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub(super) struct Source {
-    pub is_dynamic: bool,
+    pub is_loaded_synchronously: bool,
     pub is_unconditional: bool,
 
     pub module_id: ModuleId,
@@ -243,7 +242,6 @@ impl Bundler {
                 module,
                 imports: Arc::new(imports),
                 exports: Arc::new(exports),
-                is_dynamic: false,
                 mark,
             })
         })
@@ -282,7 +280,7 @@ impl Bundler {
                     Some(info) => exports
                         .reexports
                         .entry(Source {
-                            is_dynamic: false,
+                            is_loaded_synchronously: true,
                             is_unconditional: false,
                             module_id: (info.0).1.id,
                             src: info.1,
@@ -338,15 +336,11 @@ impl Bundler {
 
                 if let Some(src) = self.scope.get_module_by_path(&path) {
                     let src = Source {
-                        is_dynamic,
+                        is_loaded_synchronously: !is_dynamic,
                         is_unconditional,
                         module_id: src.id,
                         src: decl.src,
                     };
-
-                    if is_dynamic {
-                        self.scope.mark_as_dynamic(src.module_id);
-                    }
 
                     // TODO: Handle rename
                     let mut specifiers = vec![];

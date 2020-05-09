@@ -1,10 +1,10 @@
 use super::Bundler;
 use crate::{
-    bundler::{load_transformed::TransformedModule, Entry},
+    bundler::{load_transformed::TransformedModule, Entry, EntryKind},
     ModuleId,
 };
 use anyhow::{Context, Error};
-use fxhash::FxHashMap;
+use fxhash::{FxHashMap, FxHashSet};
 use petgraph::{dot::Dot, graphmap::DiGraphMap, visit::Bfs};
 use rayon::prelude::*;
 use swc_common::fold::FoldWith;
@@ -48,19 +48,16 @@ impl Bundler {
         &self,
         entries: FxHashMap<String, TransformedModule>,
     ) -> Result<Vec<Entry>, Error> {
-        let mut imported = FxHashSet::new();
-        let mut included = FxHashSet::new();
+        let mut synchronously_included = FxHashSet::default();
+        let mut dynamic_entries = FxHashSet::default();
 
         // First step
-        for (_, m) in &entries {}
+        for (_, m) in &entries {
+            self.add_chunk_imports(&mut synchronously_included, &mut dynamic_entries, m);
+        }
 
         let mut graph = ModuleGraph::new();
         let mut dynamics = vec![];
-
-        // Create a graph.
-        for (_, m) in &entries {
-            self.add(&mut graph, &mut dynamics, m);
-        }
 
         // Entries including dynamic imports
         let mut actual: FxHashMap<_, _> = entries
@@ -138,7 +135,8 @@ impl Bundler {
                     .fold_with(&mut fixer());
 
                 Entry {
-                    name: e.basename,
+                    // TODO
+                    kind: EntryKind::Lib,
                     module,
                     fm: e.main.fm,
                 }
@@ -146,35 +144,25 @@ impl Bundler {
             .collect())
     }
 
-    fn add(
+    fn add_chunk_imports(
         &self,
-        graph: &mut ModuleGraph,
-        dynamics: &mut Vec<ModuleId>,
-        info: &TransformedModule,
-    ) -> ModuleId {
-        if graph.contains_node(info.id) {
-            return info.id;
+        synchronously_included: &mut FxHashSet<ModuleId>,
+        dynamic_entries: &mut FxHashSet<ModuleId>,
+        m: &TransformedModule,
+    ) {
+        // Named entries are synchronously imported
+        synchronously_included.insert(m.id);
+
+        for (src, _) in &m.imports.specifiers {
+            //
+            if src.is_loaded_synchronously {
+                synchronously_included.insert(src.module_id);
+            } else {
+                dynamic_entries.insert(src.module_id);
+            }
+            let v = self.scope.get_module(src.module_id).unwrap();
+
+            self.add_chunk_imports(synchronously_included, dynamic_entries, &v);
         }
-
-        let node = graph.add_node(info.id);
-
-        let v = &info.imports;
-        for src in v.specifiers.iter().map(|v| &v.0) {
-            let to = self.add_module(graph, dynamics, src.module_id);
-
-            graph.add_edge(node, to, 1);
-        }
-
-        node
-    }
-
-    fn add_module(
-        &self,
-        graph: &mut ModuleGraph,
-        dynamics: &mut Vec<ModuleId>,
-        id: ModuleId,
-    ) -> ModuleId {
-        let v = self.scope.get_module(id).unwrap();
-        self.add(graph, dynamics, &v)
     }
 }

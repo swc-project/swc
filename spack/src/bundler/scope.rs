@@ -27,10 +27,4 @@ impl Scope {
     pub fn get_module(&self, id: ModuleId) -> Option<TransformedModule> {
         Some(self.modules.get(&id)?.value().clone())
     }
-
-    pub fn mark_as_dynamic(&self, id: ModuleId) {
-        if let Some(mut m) = self.modules.get_mut(&id) {
-            m.is_dynamic = true;
-        }
-    }
 }
