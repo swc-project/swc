@@ -35,8 +35,19 @@ pub struct Bundler {
     scope: Scope,
 }
 
+#[derive(Debug)]
+pub enum EntryKind {
+    /// User-provided entry
+    Named { name: String },
+    /// Auto-generated entry (created by import expression)
+    Dynamic,
+    /// A lazy-loaded shared library
+    Lib,
+}
+
+#[derive(Debug)]
 pub struct Entry {
-    pub name: String,
+    pub kind: EntryKind,
     pub module: Module,
     pub fm: Arc<SourceFile>,
 }

@@ -31,6 +31,19 @@ struct Metadata {
 
 impl Bundler {
     /// `entries` - Entry modules (provided by user) by it's basename.
+    ///
+    /// # How it works
+    ///
+    /// For first, we iterate over all **named** entries (entries provided by
+    /// user's config). We mark modules as **imported** if it's imported by
+    /// any named entry synchronously and modules as **included** if it can be
+    /// imported dynamically by any of named entries.
+    ///
+    /// Then, we iterate over **included** entries to get information aboit all
+    /// files we need to process.
+    ///
+    /// As we know all candidate files and entries, we can now calculate the
+    /// required dependency graph.
     pub(super) fn chunk(
         &self,
         entries: FxHashMap<String, TransformedModule>,
