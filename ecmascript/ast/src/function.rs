@@ -35,7 +35,7 @@ pub struct Function {
     pub return_type: Option<TsTypeAnn>,
 }
 
-#[ast_node]
+#[ast_node("Parameter")]
 #[derive(Eq, Hash)]
 pub struct Param {
     pub span: Span,
@@ -45,9 +45,9 @@ pub struct Param {
 
 #[ast_node]
 #[derive(Eq, Hash)]
-pub enum PatOrTsParamProp {
+pub enum ParamOrTsParamProp {
     #[tag("TsParameterProperty")]
     TsParamProp(TsParamProp),
-    #[tag("*")]
-    Pat(Pat),
+    #[tag("Parameter")]
+    Param(Param),
 }

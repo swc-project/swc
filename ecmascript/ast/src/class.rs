@@ -1,6 +1,6 @@
 use crate::{
     expr::Expr,
-    function::{Function, PatOrTsParamProp},
+    function::{Function, ParamOrTsParamProp},
     ident::PrivateName,
     prop::PropName,
     stmt::BlockStmt,
@@ -151,7 +151,7 @@ pub struct Constructor {
 
     pub key: PropName,
 
-    pub params: Vec<PatOrTsParamProp>,
+    pub params: Vec<ParamOrTsParamProp>,
 
     #[serde(default)]
     pub body: Option<BlockStmt>,
