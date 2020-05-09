@@ -18,31 +18,39 @@
         "identifier": null,
         "params": [
           {
-            "type": "Identifier",
             "span": {
               "start": 24,
               "end": 34,
               "ctxt": 0
             },
-            "value": "x",
-            "typeAnnotation": {
-              "type": "TsTypeAnnotation",
+            "decorators": [],
+            "pat": {
+              "type": "Identifier",
               "span": {
-                "start": 26,
+                "start": 24,
                 "end": 34,
                 "ctxt": 0
               },
+              "value": "x",
               "typeAnnotation": {
-                "type": "TsKeywordType",
+                "type": "TsTypeAnnotation",
                 "span": {
-                  "start": 28,
+                  "start": 26,
                   "end": 34,
                   "ctxt": 0
                 },
-                "kind": "number"
-              }
-            },
-            "optional": true
+                "typeAnnotation": {
+                  "type": "TsKeywordType",
+                  "span": {
+                    "start": 28,
+                    "end": 34,
+                    "ctxt": 0
+                  },
+                  "kind": "number"
+                }
+              },
+              "optional": true
+            }
           }
         ],
         "decorators": [],

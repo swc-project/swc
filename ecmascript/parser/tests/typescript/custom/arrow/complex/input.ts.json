@@ -29,115 +29,139 @@
         "declare": false,
         "params": [
           {
-            "type": "Identifier",
             "span": {
               "start": 49,
               "end": 99,
               "ctxt": 0
             },
-            "value": "tsConfigSourceFile",
-            "typeAnnotation": {
-              "type": "TsTypeAnnotation",
+            "decorators": [],
+            "pat": {
+              "type": "Identifier",
               "span": {
-                "start": 67,
+                "start": 49,
                 "end": 99,
                 "ctxt": 0
               },
+              "value": "tsConfigSourceFile",
               "typeAnnotation": {
-                "type": "TsUnionType",
+                "type": "TsTypeAnnotation",
                 "span": {
-                  "start": 69,
+                  "start": 67,
                   "end": 99,
                   "ctxt": 0
                 },
-                "types": [
-                  {
-                    "type": "TsTypeReference",
-                    "span": {
-                      "start": 69,
-                      "end": 87,
-                      "ctxt": 0
-                    },
-                    "typeName": {
-                      "type": "Identifier",
+                "typeAnnotation": {
+                  "type": "TsUnionType",
+                  "span": {
+                    "start": 69,
+                    "end": 99,
+                    "ctxt": 0
+                  },
+                  "types": [
+                    {
+                      "type": "TsTypeReference",
                       "span": {
                         "start": 69,
                         "end": 87,
                         "ctxt": 0
                       },
-                      "value": "TsConfigSourceFile",
-                      "typeAnnotation": null,
-                      "optional": false
+                      "typeName": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 69,
+                          "end": 87,
+                          "ctxt": 0
+                        },
+                        "value": "TsConfigSourceFile",
+                        "typeAnnotation": null,
+                        "optional": false
+                      },
+                      "typeParams": null
                     },
-                    "typeParams": null
-                  },
-                  {
-                    "type": "TsKeywordType",
-                    "span": {
-                      "start": 90,
-                      "end": 99,
-                      "ctxt": 0
-                    },
-                    "kind": "undefined"
-                  }
-                ]
-              }
-            },
-            "optional": false
+                    {
+                      "type": "TsKeywordType",
+                      "span": {
+                        "start": 90,
+                        "end": 99,
+                        "ctxt": 0
+                      },
+                      "kind": "undefined"
+                    }
+                  ]
+                }
+              },
+              "optional": false
+            }
           },
           {
-            "type": "Identifier",
             "span": {
               "start": 101,
               "end": 116,
               "ctxt": 0
             },
-            "value": "propKey",
-            "typeAnnotation": {
-              "type": "TsTypeAnnotation",
+            "decorators": [],
+            "pat": {
+              "type": "Identifier",
               "span": {
-                "start": 108,
+                "start": 101,
                 "end": 116,
                 "ctxt": 0
               },
+              "value": "propKey",
               "typeAnnotation": {
-                "type": "TsKeywordType",
+                "type": "TsTypeAnnotation",
                 "span": {
-                  "start": 110,
+                  "start": 108,
                   "end": 116,
                   "ctxt": 0
                 },
-                "kind": "string"
-              }
-            },
-            "optional": false
+                "typeAnnotation": {
+                  "type": "TsKeywordType",
+                  "span": {
+                    "start": 110,
+                    "end": 116,
+                    "ctxt": 0
+                  },
+                  "kind": "string"
+                }
+              },
+              "optional": false
+            }
           },
           {
-            "type": "Identifier",
             "span": {
               "start": 118,
               "end": 138,
               "ctxt": 0
             },
-            "value": "elementValue",
-            "typeAnnotation": {
-              "type": "TsTypeAnnotation",
+            "decorators": [],
+            "pat": {
+              "type": "Identifier",
               "span": {
-                "start": 130,
+                "start": 118,
                 "end": 138,
                 "ctxt": 0
               },
+              "value": "elementValue",
               "typeAnnotation": {
-                "type": "TsKeywordType",
+                "type": "TsTypeAnnotation",
                 "span": {
-                  "start": 132,
+                  "start": 130,
                   "end": 138,
                   "ctxt": 0
                 },
-                "kind": "string"
-              }
-            },
-            "optional": false
+                "typeAnnotation": {
+                  "type": "TsKeywordType",
+                  "span": {
+                    "start": 132,
+                    "end": 138,
+                    "ctxt": 0
+                  },
+                  "kind": "string"
+                }
+              },
+              "optional": false
+            }
           }
         ],
         "decorators": [],
