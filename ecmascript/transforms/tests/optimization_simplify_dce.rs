@@ -192,3 +192,171 @@ optimized_out!(
 function reducer(state = initialState, action = {}) {
 }"
 );
+
+to!(
+    issue_763_1,
+    "import {
+      INSTAGRAM_CHECK_PATTERN,
+      RESOURCE_FACEBOOK,
+      RESOURCE_INSTAGRAM,
+      RESOURCE_WEBSITE,
+  } from '../../../../consts'
+  
+    export const resources = [
+      {
+          value: RESOURCE_WEBSITE,
+          label: 'Webové stránky',
+      },
+      {
+          value: RESOURCE_FACEBOOK,
+          label: 'Facebook',
+      },
+      {
+          value: RESOURCE_INSTAGRAM,
+          label: 'Instagram',
+      },
+  ]",
+    "import {
+    RESOURCE_FACEBOOK,
+    RESOURCE_INSTAGRAM,
+    RESOURCE_WEBSITE,
+} from '../../../../consts'
+
+  export const resources = [
+    {
+        value: RESOURCE_WEBSITE,
+        label: 'Webové stránky',
+    },
+    {
+        value: RESOURCE_FACEBOOK,
+        label: 'Facebook',
+    },
+    {
+        value: RESOURCE_INSTAGRAM,
+        label: 'Instagram',
+    },
+]"
+);
+
+to!(
+    issue_763_2,
+    "import {
+      INSTAGRAM_CHECK_PATTERN,
+      RESOURCE_FACEBOOK,
+      RESOURCE_INSTAGRAM,
+      RESOURCE_WEBSITE,
+  } from '../../../../consts'
+  
+    const resources = [
+      {
+          value: RESOURCE_WEBSITE,
+          label: 'Webové stránky',
+      },
+      {
+          value: RESOURCE_FACEBOOK,
+          label: 'Facebook',
+      },
+      {
+          value: RESOURCE_INSTAGRAM,
+          label: 'Instagram',
+      },
+  ]
+
+resources.map(console.log.bind(console));",
+    "import {
+    RESOURCE_FACEBOOK,
+    RESOURCE_INSTAGRAM,
+    RESOURCE_WEBSITE,
+} from '../../../../consts'
+
+ const resources = [
+    {
+        value: RESOURCE_WEBSITE,
+        label: 'Webové stránky',
+    },
+    {
+        value: RESOURCE_FACEBOOK,
+        label: 'Facebook',
+    },
+    {
+        value: RESOURCE_INSTAGRAM,
+        label: 'Instagram',
+    },
+];
+
+resources.map(console.log.bind(console));"
+);
+
+noop!(
+    issue_763_3,
+    "import {
+    RESOURCE_FACEBOOK,
+    RESOURCE_INSTAGRAM,
+    RESOURCE_WEBSITE,
+} from '../../../../consts'
+
+ const resources = [
+    {
+        value: RESOURCE_WEBSITE,
+        label: 'Webové stránky',
+    },
+    {
+        value: RESOURCE_FACEBOOK,
+        label: 'Facebook',
+    },
+    {
+        value: RESOURCE_INSTAGRAM,
+        label: 'Instagram',
+    },
+];
+
+resources.map(v => v)"
+);
+
+noop!(
+    issue_763_4,
+    "import { RESOURCE_FACEBOOK, RESOURCE_INSTAGRAM, RESOURCE_WEBSITE } from './consts';
+    
+    const resources = [
+      {
+        value: RESOURCE_WEBSITE,
+        label: 'Webové stránky',
+      },
+      {
+        value: RESOURCE_FACEBOOK,
+        label: 'Facebook',
+      },
+      {
+        value: RESOURCE_INSTAGRAM,
+        label: 'Instagram',
+      },
+    ];
+    
+    export function foo(websites) {
+        const a = resources.map((resource) => (
+            {
+                value: resource.value,
+            }
+        ));
+        const b = website.type_id === RESOURCE_INSTAGRAM ? 'text' : 'url';
+        return a + b;
+      }"
+);
+
+noop!(
+    issue_763_5_1,
+    "import { A, B } from './consts';
+    const resources = [A, B];
+    use(B)
+    resources.map(v => v)
+"
+);
+
+noop!(
+    issue_763_5_2,
+    "import { A, B } from './consts';
+    const resources = {A, B};
+    use(B)
+    resources.map(v => v)
+"
+);

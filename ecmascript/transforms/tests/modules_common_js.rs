@@ -4108,3 +4108,50 @@ test!(
   var _mongodb = require('mongodb');
   require('foo');"
 );
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        strict: false,
+        strict_mode: true,
+        ..Default::default()
+    }),
+    issue_763,
+    "import {
+    INSTAGRAM_CHECK_PATTERN,
+    RESOURCE_FACEBOOK,
+    RESOURCE_INSTAGRAM,
+    RESOURCE_WEBSITE,
+} from '../../../../consts'
+
+const resources = [
+    {
+        value: RESOURCE_WEBSITE,
+        label: 'Webové stránky',
+    },
+    {
+        value: RESOURCE_FACEBOOK,
+        label: 'Facebook',
+    },
+    {
+        value: RESOURCE_INSTAGRAM,
+        label: 'Instagram',
+    },
+]",
+    "'use strict';
+  var _consts = require('../../../../consts');
+  const resources = [
+      {
+          value: _consts.RESOURCE_WEBSITE,
+          label: 'Webové stránky'
+      },
+      {
+          value: _consts.RESOURCE_FACEBOOK,
+          label: 'Facebook'
+      },
+      {
+          value: _consts.RESOURCE_INSTAGRAM,
+          label: 'Instagram'
+      }
+  ];"
+);

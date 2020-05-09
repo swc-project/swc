@@ -1,4 +1,4 @@
-use self::side_effect::SideEffectVisitor;
+use self::side_effect::{ImportDetector, SideEffectVisitor};
 use crate::pass::RepeatedJsPass;
 use fxhash::FxHashSet;
 use std::borrow::Cow;
@@ -64,6 +64,7 @@ pub fn dce<'a>(config: Config<'a>) -> impl RepeatedJsPass + 'a {
             included: Default::default(),
             changed: false,
             marking_phase: false,
+            import_dropping_phase: false,
         },
         UsedMarkRemover { used_mark }
     )
@@ -111,6 +112,11 @@ struct Dce<'a> {
     /// If true, idents are added to [included].
     marking_phase: bool,
 
+    /// If false, the pass **ignores** imports.
+    ///
+    /// It means, imports are not marked (as used) nor removed.
+    import_dropping_phase: bool,
+
     dropped: bool,
 }
 
@@ -134,7 +140,7 @@ impl Repeated for Dce<'_> {
 impl<T> Fold<Vec<T>> for Dce<'_>
 where
     T: StmtLike + FoldWith<Self> + Spanned,
-    T: for<'any> VisitWith<SideEffectVisitor<'any>>,
+    T: for<'any> VisitWith<SideEffectVisitor<'any>> + VisitWith<ImportDetector>,
 {
     fn fold(&mut self, mut items: Vec<T>) -> Vec<T> {
         let old = self.changed;
@@ -168,6 +174,7 @@ where
         {
             let mut idx = 0;
             items = items.move_flat_map(|item| {
+                let item = self.drop_imports(item);
                 let item = match item.try_into_stmt() {
                     Ok(stmt) => match stmt {
                         Stmt::Empty(..) => {
@@ -187,7 +194,12 @@ where
                 }
 
                 idx += 1;
-                Some(item)
+                // Drop unused imports
+                if self.is_marked(item.span()) {
+                    Some(item)
+                } else {
+                    None
+                }
             });
         }
 
@@ -257,6 +269,18 @@ impl Dce<'_> {
         self.marking_phase = true;
         let node = node.fold_with(self);
         self.marking_phase = old;
+
+        node
+    }
+
+    pub fn drop_imports<T>(&mut self, node: T) -> T
+    where
+        T: FoldWith<Self>,
+    {
+        let old = self.import_dropping_phase;
+        self.import_dropping_phase = true;
+        let node = node.fold_with(self);
+        self.import_dropping_phase = old;
 
         node
     }

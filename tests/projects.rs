@@ -389,3 +389,23 @@ fn default_config() {
 fn issue_658() {
     project("tests/projects/issue-658")
 }
+
+#[test]
+fn issue_763() {
+    let f = file("tests/projects/issue-763/input.js").unwrap();
+    println!("{}", f);
+
+    assert!(f.contains("_consts.RESOURCE_WEBSITE"));
+    assert!(f.contains("_consts.RESOURCE_FACEBOOK"));
+    assert!(f.contains("_consts.RESOURCE_INSTAGRAM"));
+}
+
+#[test]
+fn issue_763_2() {
+    let f = file("tests/projects/issue-763-2/input.js").unwrap();
+    println!("{}", f);
+
+    assert!(f.contains("_consts.RESOURCE_WEBSITE"));
+    assert!(f.contains("_consts.RESOURCE_FACEBOOK"));
+    assert!(f.contains("_consts.RESOURCE_INSTAGRAM"));
+}

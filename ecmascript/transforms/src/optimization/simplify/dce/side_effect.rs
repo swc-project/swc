@@ -5,11 +5,34 @@ use swc_common::{Visit, VisitWith};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, ExprExt, Id};
 
+pub(super) struct ImportDetector {
+    found: bool,
+}
+
+noop_visit_type!(ImportDetector);
+
+impl Visit<ImportDecl> for ImportDetector {
+    fn visit(&mut self, _: &ImportDecl) {
+        self.found = true;
+    }
+}
+
 impl Dce<'_> {
-    pub fn should_include<T>(&mut self, node: &T) -> bool
+    pub(super) fn should_include<T>(&mut self, node: &T) -> bool
     where
-        T: for<'any> VisitWith<SideEffectVisitor<'any>>,
+        T: for<'any> VisitWith<SideEffectVisitor<'any>> + VisitWith<ImportDetector>,
     {
+        // Preserve imports if we are not in import dropping phase
+        if !self.import_dropping_phase {
+            let mut v = ImportDetector { found: false };
+
+            node.visit_with(&mut v);
+
+            if v.found {
+                return true;
+            }
+        }
+
         let mut v = SideEffectVisitor {
             included: &mut self.included,
             exports: self.config.used.as_ref().map(|v| &**v),

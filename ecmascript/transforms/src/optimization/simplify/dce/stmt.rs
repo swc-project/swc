@@ -224,7 +224,8 @@ impl Fold<ForStmt> for Dce<'_> {
 
         node = node.fold_children(self);
 
-        if self.is_marked(node.init.span())
+        if node.test.is_none()
+            || self.is_marked(node.init.span())
             || self.is_marked(node.test.span())
             || self.is_marked(node.update.span())
             || self.is_marked(node.body.span())
