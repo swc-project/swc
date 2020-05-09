@@ -57,6 +57,7 @@
                 },
                 "params": [
                   {
+                    "type": "Parameter",
                     "span": {
                       "start": 48,
                       "end": 56,

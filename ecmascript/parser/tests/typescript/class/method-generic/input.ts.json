@@ -48,6 +48,7 @@
           "function": {
             "params": [
               {
+                "type": "Parameter",
                 "span": {
                   "start": 19,
                   "end": 23,
@@ -94,6 +95,7 @@
                 }
               },
               {
+                "type": "Parameter",
                 "span": {
                   "start": 25,
                   "end": 30,
@@ -140,6 +142,7 @@
                 }
               },
               {
+                "type": "Parameter",
                 "span": {
                   "start": 32,
                   "end": 41,
