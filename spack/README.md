@@ -21,6 +21,8 @@ function load(name) {
 
 make `./components/a/*` and `./components/b/*` be included, even in the case that it's not used in actually.
 
+Otherwise, rollup does not touch import expressions with dynamic path.
+
  
       
  - [x] Tree shaking
