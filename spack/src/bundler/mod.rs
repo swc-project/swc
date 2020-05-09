@@ -1,0 +1,112 @@
+use self::scope::Scope;
+use crate::{
+    bundler::load_transformed::TransformedModule, load::Load, resolve::Resolve, Config, ModuleId,
+};
+use anyhow::{Context, Error};
+use fxhash::FxHashMap;
+use petgraph::{algo::toposort, dot::Dot, graphmap::DiGraphMap, prelude::DiGraph, visit::Bfs};
+use rayon::prelude::*;
+use std::{path::PathBuf, sync::Arc};
+use swc_common::{fold::FoldWith, Mark, SourceFile, DUMMY_SP};
+use swc_ecma_ast::Module;
+use swc_ecma_transforms::{fixer, optimization::dce};
+
+mod chunk;
+mod export;
+mod import;
+mod load_transformed;
+mod merge;
+mod scope;
+#[cfg(test)]
+mod tests;
+mod usage_analysis;
+
+pub struct Bundler {
+    working_dir: PathBuf,
+    config: Config,
+
+    /// Javascript compiler.
+    swc: Arc<swc::Compiler>,
+    swc_options: swc::config::Options,
+    used_mark: Mark,
+    top_level_mark: Mark,
+
+    resolver: Box<dyn Resolve + Sync>,
+    loader: Box<dyn Load + Sync>,
+
+    scope: Scope,
+}
+
+pub struct Entry {
+    pub name: String,
+    pub module: Module,
+    pub fm: Arc<SourceFile>,
+}
+
+impl Bundler {
+    pub fn new(
+        working_dir: PathBuf,
+        swc: Arc<swc::Compiler>,
+        mut swc_options: swc::config::Options,
+        resolver: Box<dyn Resolve + Sync>,
+        loader: Box<dyn Load + Sync>,
+    ) -> Self {
+        let used_mark = swc.run(|| Mark::fresh(Mark::root()));
+        log::info!("Used mark: {:?}", DUMMY_SP.apply_mark(used_mark).ctxt());
+        let top_level_mark = swc.run(|| Mark::fresh(Mark::root()));
+        log::info!(
+            "top-level mark: {:?}",
+            DUMMY_SP.apply_mark(top_level_mark).ctxt()
+        );
+
+        swc_options.disable_fixer = true;
+        swc_options.disable_hygiene = true;
+
+        Bundler {
+            working_dir,
+            config: Config { tree_shake: true },
+            swc,
+            swc_options,
+            loader,
+            resolver,
+            scope: Default::default(),
+            used_mark,
+            top_level_mark,
+        }
+    }
+
+    pub fn bundle(&self, entries: FxHashMap<String, PathBuf>) -> Result<Vec<Entry>, Error> {
+        let results = entries
+            .into_par_iter()
+            .map(|(name, path)| -> Result<_, Error> {
+                self.swc.run(|| {
+                    let res = self
+                        .load_transformed(&self.working_dir, &path.to_string_lossy())
+                        .context("load_transformed failed")?;
+                    Ok((name, res))
+                })
+            })
+            .collect::<Vec<_>>();
+
+        // We collect at here to handle dynamic imports
+        // TODO: Handle dynamic imports
+
+        let local = self.swc.run(|| -> Result<_, Error> {
+            let mut output = FxHashMap::default();
+
+            for res in results {
+                let (name, m): (String, TransformedModule) = res?;
+
+                output.insert(name, m);
+            }
+
+            Ok(output)
+        })?;
+
+        self.chunk(local)
+    }
+
+    pub fn swc(&self) -> &swc::Compiler {
+        &self.swc
+    }
+}

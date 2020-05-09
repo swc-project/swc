@@ -22,6 +22,8 @@ pub struct PassBuilder<'a, 'b, P: Pass> {
     global_mark: Mark,
     target: JscTarget,
     loose: bool,
+    hygiene: bool,
+    fixer: bool,
 }
 
 impl<'a, 'b, P: Pass> PassBuilder<'a, 'b, P> {
@@ -39,7 +41,9 @@ impl<'a, 'b, P: Pass> PassBuilder<'a, 'b, P> {
             target: JscTarget::Es5,
             global_mark,
             loose,
+            hygiene: true,
             env: None,
+            fixer: true,
         }
     }
 
@@ -51,9 +55,23 @@ impl<'a, 'b, P: Pass> PassBuilder<'a, 'b, P> {
             pass,
             target: self.target,
             loose: self.loose,
+            hygiene: self.hygiene,
             env: self.env,
             global_mark: self.global_mark,
+            fixer: self.fixer,
         }
+    }
+
+    /// Note: fixer is enabled by default.
+    pub fn fixer(mut self, enable: bool) -> Self {
+        self.fixer = enable;
+        self
+    }
+
+    /// Note: hygiene is enabled by default.
+    pub fn hygiene(mut self, enable: bool) -> Self {
+        self.hygiene = enable;
+        self
     }
 
     pub fn const_modules(
@@ -100,6 +118,9 @@ impl<'a, 'b, P: Pass> PassBuilder<'a, 'b, P> {
         syntax: Syntax,
         module: Option<ModuleConfig>,
     ) -> impl Pass {
+    ///  - identifier hygiene handler if enabled
+    ///  - fixer (if enabled
+    pub fn finalize(self, syntax: Syntax, module: Option<ModuleConfig>) -> impl Pass {
         let need_interop_analysis = match module {
             Some(ModuleConfig::CommonJs(ref c)) => !c.no_interop,
             Some(ModuleConfig::Amd(ref c)) => !c.config.no_interop,
@@ -152,6 +173,9 @@ impl<'a, 'b, P: Pass> PassBuilder<'a, 'b, P> {
             hygiene(),
             // fixer
             fixer(),
+            ModuleConfig::build(self.cm.clone(), module),
+            Optional::new(hygiene(), self.hygiene),
+            Optional::new(fixer(), self.fixer),
         )
     }
 }

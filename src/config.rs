@@ -53,6 +53,12 @@ pub struct Options {
     pub config: Option<Config>,
 
     #[cfg(not(target_arch = "wasm32"))]
+    #[serde(skip_deserializing, default)]
+    pub disable_hygiene: bool,
+
+    #[serde(skip_deserializing, default)]
+    pub disable_fixer: bool,
+
     #[serde(default = "default_cwd")]
     pub cwd: PathBuf,
 
@@ -230,6 +236,8 @@ impl Options {
 
         let pass = PassBuilder::new(&cm, &handler, loose, root_mark, pass)
             .target(target)
+            .hygiene(!self.disable_hygiene)
+            .fixer(!self.disable_fixer)
             .preset_env(config.env)
             .finalize(root_mark, syntax, config.module);
 
