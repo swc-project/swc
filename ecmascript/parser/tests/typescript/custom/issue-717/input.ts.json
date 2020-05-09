@@ -22,31 +22,39 @@
       "declare": false,
       "params": [
         {
-          "type": "Identifier",
           "span": {
             "start": 23,
             "end": 37,
             "ctxt": 0
           },
-          "value": "async",
-          "typeAnnotation": {
-            "type": "TsTypeAnnotation",
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
             "span": {
-              "start": 28,
+              "start": 23,
               "end": 37,
               "ctxt": 0
             },
+            "value": "async",
             "typeAnnotation": {
-              "type": "TsKeywordType",
+              "type": "TsTypeAnnotation",
               "span": {
-                "start": 30,
+                "start": 28,
                 "end": 37,
                 "ctxt": 0
               },
-              "kind": "boolean"
-            }
-          },
-          "optional": false
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 30,
+                  "end": 37,
+                  "ctxt": 0
+                },
+                "kind": "boolean"
+              }
+            },
+            "optional": false
+          }
         }
       ],
       "decorators": [],
