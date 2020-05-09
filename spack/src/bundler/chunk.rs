@@ -48,13 +48,11 @@ impl Bundler {
         &self,
         entries: FxHashMap<String, TransformedModule>,
     ) -> Result<Vec<Entry>, Error> {
-        let mut imported = FxHashSet::new();k
+        let mut imported = FxHashSet::new();
         let mut included = FxHashSet::new();
 
         // First step
-        for (_, m) in &entries {
-
-        }
+        for (_, m) in &entries {}
 
         let mut graph = ModuleGraph::new();
         let mut dynamics = vec![];
