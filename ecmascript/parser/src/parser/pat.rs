@@ -284,7 +284,11 @@ impl<'a, I: Tokens> Parser<'a, I> {
         Ok(params)
     }
 
-    fn parse_constructor_param(&mut self, param_start: BytePos, decorators: Vec<Decorator>) -> PResult<'a, ParamOrTsParamProp> {
+    fn parse_constructor_param(
+        &mut self,
+        param_start: BytePos,
+        decorators: Vec<Decorator>,
+    ) -> PResult<'a, ParamOrTsParamProp> {
         let (accessibility, readonly) = if self.input.syntax().typescript() {
             let accessibility = self.parse_access_modifier()?;
             (
