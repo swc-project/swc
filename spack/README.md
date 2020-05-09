@@ -5,6 +5,24 @@
    - [ ] namespaced import
        - [x] de-globing (& tree shaking)
        - [ ] namespaced import with dynamic key
+       
+Webpack uses prefixes to determine if a file should be included.
+
+e.g. Code like below
+```js
+function load(name) {
+    if (Math.random() > 0.5) {
+        return import(`./components/a/${name}`)   
+    } else {
+        return import(`./components/b/${name}`)       
+    }
+}
+```
+
+make `./components/a/*` and `./components/b/*` be included, even in the case that it's not used in actually.
+
+ 
+      
  - [x] Tree shaking
  - [ ] Chunking
  - [ ] Correct execution order
@@ -22,6 +40,8 @@
  We also need a way to provide config while testing.
 
  - [ ] neon integration
+
+
 
 
 
