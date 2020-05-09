@@ -140,7 +140,6 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                 let modules = bundler.bundle(entries).expect("failed to bundle module");
 
                 for bundled in modules {
-                    println!("Print bundled entry: {:?}", bundled);
                     let code = bundler
                         .swc()
                         .print(&bundled.module, SourceMapsConfig::Bool(false), None, false)
