@@ -191,13 +191,10 @@ impl Compiler {
 
     pub fn print<T>(
         &self,
-        program: &Program,
+        node: &T,
         comments: &Comments,
         source_map: SourceMapsConfig,
         orig: Option<&sourcemap::SourceMap>,
-        node: &T,
-        fm: Arc<SourceFile>,
-        source_map: bool,
         minify: bool,
     ) -> Result<TransformOutput, Error>
     where
@@ -212,7 +209,6 @@ impl Compiler {
                     let handlers = box MyHandlers;
                     let mut emitter = Emitter {
                         cfg: codegen::Config { minify },
-                        comments: Some(&comments),
                         comments: if minify { None } else { Some(&self.comments) },
                         cm: self.cm.clone(),
                         wr: box codegen::text_writer::JsWriter::new(
@@ -228,11 +224,8 @@ impl Compiler {
                         handlers,
                     };
 
-                    emitter
-                        .emit_program(&program)
-                        .context("failed to emit module")?;
                     node.emit_with(&mut emitter)
-                        .map_err(|err| Error::FailedToEmitModule { err })?;
+                        .context("failed to emit module")?;
                 }
                 // Invalid utf8 is valid in javascript world.
                 unsafe { String::from_utf8_unchecked(buf) }
@@ -458,9 +451,6 @@ impl Compiler {
                 orig,
                 config.minify,
             )
-            let module = self.transform(module, config.external_helpers, config.pass);
-
-            self.print(&module, fm, config.source_maps, config.minify)
         })
     }
 }

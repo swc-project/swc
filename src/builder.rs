@@ -165,7 +165,7 @@ impl<'a, 'b, P: Pass> PassBuilder<'a, 'b, P> {
                 need_interop_analysis
             ),
             helpers::InjectHelpers,
-            ModuleConfig::build(self.cm.clone(), module),
+            ModuleConfig::build(self.cm.clone(), root_mark, module),
             Optional::new(hygiene(), self.hygiene),
             Optional::new(fixer(), self.fixer),
         )
