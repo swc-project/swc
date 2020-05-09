@@ -1,4 +1,6 @@
 module.exports = {
+    mode: 'development',
+    devtool: 'none',
     entry: __dirname + '/src/index.js',
     output: {
         path: __dirname + '/out',
