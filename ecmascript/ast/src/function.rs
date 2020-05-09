@@ -10,7 +10,7 @@ use swc_common::{ast_node, Span};
 #[ast_node]
 #[derive(Eq, Hash)]
 pub struct Function {
-    pub params: Vec<Pat>,
+    pub params: Vec<Param>,
 
     #[serde(default)]
     pub decorators: Vec<Decorator>,
@@ -33,6 +33,14 @@ pub struct Function {
 
     #[serde(default)]
     pub return_type: Option<TsTypeAnn>,
+}
+
+#[ast_node]
+#[derive(Eq, Hash)]
+pub struct Param {
+    pub span: Span,
+    pub decorators: Vec<Decorator>,
+    pub pat: Pat,
 }
 
 #[ast_node]

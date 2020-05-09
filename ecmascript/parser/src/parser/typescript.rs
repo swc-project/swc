@@ -1561,11 +1561,11 @@ impl<'a, I: Tokens> Parser<'a, I> {
     fn parse_ts_binding_list_for_signature(&mut self) -> PResult<'a, Vec<TsFnParam>> {
         debug_assert!(self.input.syntax().typescript());
 
-        let pats = self.parse_formal_params()?;
+        let params = self.parse_formal_params()?;
         let mut list = vec![];
 
-        for pat in pats {
-            let item = match pat {
+        for param in params {
+            let item = match param.pat {
                 Pat::Ident(pat) => TsFnParam::Ident(pat),
                 Pat::Object(pat) => TsFnParam::Object(pat),
                 Pat::Rest(pat) => TsFnParam::Rest(pat),
@@ -2138,7 +2138,11 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 let type_params = p.parse_ts_type_params()?;
                 // Don't use overloaded parseFunctionParams which would look for "<" again.
                 expect!('(');
-                let params = p.parse_formal_params()?;
+                let params = p
+                    .parse_formal_params()?
+                    .into_iter()
+                    .map(|p| p.pat)
+                    .collect();
                 expect!(')');
                 let return_type = p.try_parse_ts_type_or_type_predicate_ann()?;
                 expect!("=>");
