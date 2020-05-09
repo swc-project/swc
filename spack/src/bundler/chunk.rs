@@ -102,10 +102,11 @@ impl Bundler {
         }
 
         // If a file is only included by a single entry is static, just merge it.
-        for (_, entry) in &mut actual {
+        for (k, entry) in &mut actual {
             if entry.dynamic {
                 continue;
             }
+            println!("Actual: {:?}", k);
 
             let mut bfs = Bfs::new(&graph, entry.main.id);
 
@@ -125,21 +126,23 @@ impl Bundler {
         Ok(actual
             .into_par_iter()
             .map(|(_, e): (_, InternalEntry)| {
-                let module = self
-                    .merge_modules((*e.main.module).clone(), &e.main)
-                    .context("failed to merge module")
-                    .unwrap(); // TODO
+                self.swc().run(|| {
+                    let module = self
+                        .merge_modules((*e.main.module).clone(), &e.main)
+                        .context("failed to merge module")
+                        .unwrap(); // TODO
 
-                let module = module
-                    .fold_with(&mut dce(Default::default()))
-                    .fold_with(&mut fixer());
+                    let module = module
+                        .fold_with(&mut dce(Default::default()))
+                        .fold_with(&mut fixer());
 
-                Entry {
-                    // TODO
-                    kind: EntryKind::Lib,
-                    module,
-                    fm: e.main.fm,
-                }
+                    Entry {
+                        // TODO
+                        kind: EntryKind::Lib,
+                        module,
+                        fm: e.main.fm,
+                    }
+                })
             })
             .collect())
     }

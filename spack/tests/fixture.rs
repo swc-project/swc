@@ -104,7 +104,14 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
             dir_name
         );
 
-        let ignore = ignore || !name.contains(&env::var("TEST").ok().unwrap_or("".into()));
+        let ignore = ignore
+            || !name.contains(
+                &env::var("TEST")
+                    .ok()
+                    .unwrap_or("".into())
+                    .replace("::", "/")
+                    .replace("_", "-"),
+            );
 
         add_test(tests, name, ignore, move || {
             eprintln!("\n\n========== Running reference test {}\n", dir_name);
