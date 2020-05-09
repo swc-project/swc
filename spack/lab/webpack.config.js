@@ -1,24 +1,22 @@
 module.exports = {
-  entry: './index.js',
-  output: {
-    path: './',
-    filename: 'bundle.js',
-    publicPath: ''
-  },
-  module: {
-    loaders: [
-      {
-        test: /\.jsx?/,
-        loaders: [
-          'babel'
-        ],
-        include: './index.js',
-        query: {
-          presets: [
-            'es2015'
-          ]
-        }
-      }
-    ]
-  }
+    entry: __dirname + '/src/index.js',
+    output: {
+        path: __dirname + '/out',
+        filename: 'bundle.js',
+        publicPath: ''
+    },
+    module: {
+        rules: [
+            {
+                test: /\.m?js$/,
+                exclude: /(node_modules|bower_components)/,
+                use: {
+                    loader: 'babel-loader',
+                    // options: {
+                    //     presets: ['@babel/preset-env']
+                    // }
+                }
+            }
+        ]
+    }
 }
