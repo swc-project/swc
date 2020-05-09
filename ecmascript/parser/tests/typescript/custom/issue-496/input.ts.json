@@ -99,31 +99,40 @@
             },
             "params": [
               {
-                "type": "Identifier",
+                "type": "Parameter",
                 "span": {
                   "start": 62,
                   "end": 74,
                   "ctxt": 0
                 },
-                "value": "variant",
-                "typeAnnotation": {
-                  "type": "TsTypeAnnotation",
+                "decorators": [],
+                "pat": {
+                  "type": "Identifier",
                   "span": {
-                    "start": 69,
+                    "start": 62,
                     "end": 74,
                     "ctxt": 0
                   },
+                  "value": "variant",
                   "typeAnnotation": {
-                    "type": "TsKeywordType",
+                    "type": "TsTypeAnnotation",
                     "span": {
-                      "start": 71,
+                      "start": 69,
                       "end": 74,
                       "ctxt": 0
                     },
-                    "kind": "any"
-                  }
-                },
-                "optional": false
+                    "typeAnnotation": {
+                      "type": "TsKeywordType",
+                      "span": {
+                        "start": 71,
+                        "end": 74,
+                        "ctxt": 0
+                      },
+                      "kind": "any"
+                    }
+                  },
+                  "optional": false
+                }
               }
             ],
             "body": {

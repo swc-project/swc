@@ -54,48 +54,57 @@
             },
             "params": [
               {
-                "type": "ArrayPattern",
+                "type": "Parameter",
                 "span": {
                   "start": 49,
                   "end": 65,
                   "ctxt": 0
                 },
-                "elements": [
-                  {
-                    "type": "Identifier",
-                    "span": {
-                      "start": 51,
-                      "end": 52,
-                      "ctxt": 0
-                    },
-                    "value": "t",
-                    "typeAnnotation": null,
-                    "optional": false
-                  }
-                ],
-                "optional": true,
-                "typeAnnotation": {
-                  "type": "TsTypeAnnotation",
+                "decorators": [],
+                "pat": {
+                  "type": "ArrayPattern",
                   "span": {
-                    "start": 55,
+                    "start": 49,
                     "end": 65,
                     "ctxt": 0
                   },
+                  "elements": [
+                    {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 51,
+                        "end": 52,
+                        "ctxt": 0
+                      },
+                      "value": "t",
+                      "typeAnnotation": null,
+                      "optional": false
+                    }
+                  ],
+                  "optional": true,
                   "typeAnnotation": {
-                    "type": "TsArrayType",
+                    "type": "TsTypeAnnotation",
                     "span": {
-                      "start": 57,
+                      "start": 55,
                       "end": 65,
                       "ctxt": 0
                     },
-                    "elemType": {
-                      "type": "TsKeywordType",
+                    "typeAnnotation": {
+                      "type": "TsArrayType",
                       "span": {
                         "start": 57,
-                        "end": 63,
+                        "end": 65,
                         "ctxt": 0
                       },
-                      "kind": "string"
+                      "elemType": {
+                        "type": "TsKeywordType",
+                        "span": {
+                          "start": 57,
+                          "end": 63,
+                          "ctxt": 0
+                        },
+                        "kind": "string"
+                      }
                     }
                   }
                 }

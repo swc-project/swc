@@ -22,6 +22,7 @@
       "declare": false,
       "params": [
         {
+          "type": "Parameter",
           "span": {
             "start": 14,
             "end": 19,

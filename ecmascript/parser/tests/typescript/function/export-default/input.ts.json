@@ -18,6 +18,7 @@
         "identifier": null,
         "params": [
           {
+            "type": "Parameter",
             "span": {
               "start": 24,
               "end": 34,

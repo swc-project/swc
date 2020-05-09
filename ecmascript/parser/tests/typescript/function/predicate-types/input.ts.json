@@ -22,6 +22,7 @@
       "declare": false,
       "params": [
         {
+          "type": "Parameter",
           "span": {
             "start": 11,
             "end": 17,
@@ -140,6 +141,7 @@
           "identifier": null,
           "params": [
             {
+              "type": "Parameter",
               "span": {
                 "start": 46,
                 "end": 52,
@@ -257,6 +259,7 @@
       "declare": false,
       "params": [
         {
+          "type": "Parameter",
           "span": {
             "start": 83,
             "end": 89,
@@ -372,6 +375,7 @@
       "declare": false,
       "params": [
         {
+          "type": "Parameter",
           "span": {
             "start": 127,
             "end": 133,

@@ -29,6 +29,7 @@
         "declare": false,
         "params": [
           {
+            "type": "Parameter",
             "span": {
               "start": 49,
               "end": 99,
@@ -94,6 +95,7 @@
             }
           },
           {
+            "type": "Parameter",
             "span": {
               "start": 101,
               "end": 116,
@@ -129,6 +131,7 @@
             }
           },
           {
+            "type": "Parameter",
             "span": {
               "start": 118,
               "end": 138,
