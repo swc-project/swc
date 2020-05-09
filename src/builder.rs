@@ -110,17 +110,14 @@ impl<'a, 'b, P: Pass> PassBuilder<'a, 'b, P> {
     ///  - compatibility helper
     ///  - module handler
     ///  - helper injector
-    ///  - identifier hygiene handler
-    ///  - fixer
+    ///  - identifier hygiene handler if enabled
+    ///  - fixer if enabled
     pub fn finalize(
         self,
         root_mark: Mark,
         syntax: Syntax,
         module: Option<ModuleConfig>,
     ) -> impl Pass {
-    ///  - identifier hygiene handler if enabled
-    ///  - fixer (if enabled
-    pub fn finalize(self, syntax: Syntax, module: Option<ModuleConfig>) -> impl Pass {
         let need_interop_analysis = match module {
             Some(ModuleConfig::CommonJs(ref c)) => !c.no_interop,
             Some(ModuleConfig::Amd(ref c)) => !c.config.no_interop,
@@ -168,11 +165,6 @@ impl<'a, 'b, P: Pass> PassBuilder<'a, 'b, P> {
                 need_interop_analysis
             ),
             helpers::InjectHelpers,
-            ModuleConfig::build(self.cm.clone(), root_mark, module),
-            // hygiene
-            hygiene(),
-            // fixer
-            fixer(),
             ModuleConfig::build(self.cm.clone(), module),
             Optional::new(hygiene(), self.hygiene),
             Optional::new(fixer(), self.fixer),
