@@ -138,7 +138,10 @@ impl Bundler {
 
             let path = Arc::new(path);
 
-            let (fm, module) = self.loader.load(&path).context("Loader.load failed")?;
+            let (fm, module) = self
+                .loader
+                .load(&path)
+                .with_context(|| format!("Loader.load({}) failed", path.display()))?;
             assert_clean(&module);
 
             Ok((module_id, fm, module))

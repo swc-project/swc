@@ -51,13 +51,13 @@ impl Bundler {
         let mut synchronously_included = FxHashSet::default();
         let mut dynamic_entries = FxHashSet::default();
 
-        // First step
+        let mut graph = ModuleGraph::new();
+
         for (_, m) in &entries {
             self.add_chunk_imports(&mut synchronously_included, &mut dynamic_entries, m);
-        }
 
-        let mut graph = ModuleGraph::new();
-        let mut dynamics = vec![];
+            self.add(&mut graph, m);
+        }
 
         // Entries including dynamic imports
         let mut actual: FxHashMap<_, _> = entries
@@ -73,8 +73,8 @@ impl Bundler {
                     },
                 )
             })
-            .chain(dynamics.into_iter().map(|dynamic| {
-                let m = self.scope.get_module(dynamic).unwrap();
+            .chain(dynamic_entries.into_iter().map(|id| {
+                let m = self.scope.get_module(id).unwrap();
                 (
                     m.id,
                     InternalEntry {
@@ -164,5 +164,25 @@ impl Bundler {
 
             self.add_chunk_imports(synchronously_included, dynamic_entries, &v);
         }
+    }
+
+    fn add(&self, graph: &mut ModuleGraph, info: &TransformedModule) -> ModuleId {
+        if graph.contains_node(info.id) {
+            return info.id;
+        }
+
+        let node = graph.add_node(info.id);
+
+        let v = &info.imports;
+        for src in v.specifiers.iter().map(|v| &v.0) {
+            let to = {
+                let v = self.scope.get_module(src.module_id).unwrap();
+                self.add(graph, &v)
+            };
+
+            graph.add_edge(node, to, 1);
+        }
+
+        node
     }
 }

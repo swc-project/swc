@@ -109,7 +109,7 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
         add_test(tests, name, ignore, move || {
             eprintln!("\n\n========== Running reference test {}\n", dir_name);
 
-            testing::run_test2(true, |cm, handler| {
+            testing::run_test2(false, |cm, handler| {
                 let compiler = Arc::new(swc::Compiler::new(cm.clone(), Arc::new(handler)));
                 let bundler = Bundler::new(
                     env::current_dir().unwrap(),
@@ -127,6 +127,7 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                 let modules = bundler.bundle(entries).expect("failed to bundle module");
 
                 for bundled in modules {
+                    println!("Print bundled entry: {:?}", bundled);
                     let code = bundler
                         .swc()
                         .print(&bundled.module, SourceMapsConfig::Bool(false), None, false)
