@@ -183,6 +183,7 @@ fn pass() {
 }
 
 #[test]
+#[ignore]
 fn errors() {
     let _ = pretty_env_logger::try_init();
 
