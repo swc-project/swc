@@ -25,7 +25,7 @@ pub struct NodeResolver;
 impl Resolve for NodeResolver {
     fn resolve(&self, base: &Path, import: &str) -> Result<PathBuf, Error> {
         Ok(node_resolve::Resolver::new()
-            .with_basedir(base.to_path_buf())
+            .with_basedir(base.parent().unwrap().to_path_buf())
             .resolve(import)
             .with_context(|| {
                 format!(
