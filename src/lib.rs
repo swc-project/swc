@@ -192,7 +192,6 @@ impl Compiler {
     pub fn print<T>(
         &self,
         node: &T,
-        comments: &Comments,
         source_map: SourceMapsConfig,
         orig: Option<&sourcemap::SourceMap>,
         minify: bool,
@@ -451,6 +450,7 @@ impl Compiler {
                 orig,
                 config.minify,
             )
+            self.print(&module, config.source_maps, orig.as_ref(), config.minify)
         })
     }
 }

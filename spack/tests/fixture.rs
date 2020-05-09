@@ -14,6 +14,7 @@ use std::{
     path::Path,
     sync::Arc,
 };
+use swc::config::{InputSourceMap, SourceMapsConfig};
 use swc_common::{fold::FoldWith, FileName};
 use swc_ecma_ast::Program;
 use test::{
@@ -128,7 +129,7 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                 for bundled in modules {
                     let code = bundler
                         .swc()
-                        .print(&bundled.module, bundled.fm.clone(), false, false)
+                        .print(&bundled.module, SourceMapsConfig::Bool(false), None, false)
                         .expect("failed to emit bundle")
                         .code;
 
@@ -147,7 +148,9 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                             Default::default(),
                             true,
                             true,
+                            &InputSourceMap::Bool(false),
                         )
+                        .map(|v| v.0)
                         .expect("failed to parse output file as program")
                         .fold_with(&mut DropSpan);
 

@@ -11,7 +11,7 @@ use swc_common::fold::FoldWith;
 use swc_ecma_ast::Module;
 use swc_ecma_transforms::{
     fixer,
-    optimization::dce::{self, dce},
+    optimization::simplify::dce::{self, dce},
 };
 
 pub(super) type ModuleGraph = DiGraphMap<ModuleId, usize>;

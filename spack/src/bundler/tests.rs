@@ -3,6 +3,7 @@ use super::Bundler;
 use crate::{loaders::swc::JsLoader, resolve::NodeResolver, util::HygieneRemover};
 use pretty_assertions::assert_eq;
 use std::{env, path::PathBuf, sync::Arc};
+use swc::config::InputSourceMap;
 use swc_common::{fold::FoldWith, FileName};
 use swc_ecma_ast::*;
 use testing::drop_span;
@@ -18,10 +19,17 @@ impl Tester {
             .swc
             .cm
             .new_source_file(FileName::Real(PathBuf::from("input.js")), s.into());
-        let p = self
+        let (p, _src_map) = self
             .bundler
             .swc
-            .parse_js(fm, Default::default(), Default::default(), true, true)
+            .parse_js(
+                fm,
+                Default::default(),
+                Default::default(),
+                true,
+                true,
+                &InputSourceMap::Bool(true),
+            )
             .expect("failed to parse");
 
         match p {

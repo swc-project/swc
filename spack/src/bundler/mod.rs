@@ -1,15 +1,13 @@
 use self::scope::Scope;
-use crate::{
-    bundler::load_transformed::TransformedModule, load::Load, resolve::Resolve, Config, ModuleId,
-};
+use crate::{bundler::load_transformed::TransformedModule, load::Load, resolve::Resolve, Config};
 use anyhow::{Context, Error};
 use fxhash::FxHashMap;
-use petgraph::{algo::toposort, dot::Dot, graphmap::DiGraphMap, prelude::DiGraph, visit::Bfs};
+use petgraph::{dot::Dot, graphmap::DiGraphMap, prelude::DiGraph, visit::Bfs};
 use rayon::prelude::*;
 use std::{path::PathBuf, sync::Arc};
 use swc_common::{fold::FoldWith, Mark, SourceFile, DUMMY_SP};
 use swc_ecma_ast::Module;
-use swc_ecma_transforms::{fixer, optimization::dce};
+use swc_ecma_transforms::{fixer, optimization::simplify::dce};
 
 mod chunk;
 mod export;
