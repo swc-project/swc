@@ -6,6 +6,7 @@ use std::{env, path::PathBuf, sync::Arc};
 use swc::config::InputSourceMap;
 use swc_common::{fold::FoldWith, FileName};
 use swc_ecma_ast::*;
+use swc_ecma_parser::{EsConfig, Syntax};
 use testing::drop_span;
 
 pub struct Tester {
@@ -25,7 +26,10 @@ impl Tester {
             .parse_js(
                 fm,
                 Default::default(),
-                Default::default(),
+                Syntax::Es(EsConfig {
+                    dynamic_import: true,
+                    ..Default::default()
+                }),
                 true,
                 true,
                 &InputSourceMap::Bool(true),
