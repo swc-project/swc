@@ -810,7 +810,7 @@ impl SimplifyExpr {
                     if value.fract() == 0.0 {
                         return Expr::Lit(Lit::Num(Number {
                             span,
-                            value: !(value as u32) as i32 as f64,
+                            value: !(value as i32 as u32) as i32 as f64,
                         }));
                     }
                     // TODO: Report error
