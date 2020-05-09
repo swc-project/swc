@@ -18,7 +18,7 @@ pub use self::{
         ObjectLit, OptChainExpr, ParenExpr, PatOrExpr, PropOrSpread, SeqExpr, SpreadElement, Super,
         TaggedTpl, ThisExpr, Tpl, TplElement, UnaryExpr, UpdateExpr, YieldExpr,
     },
-    function::{Function, Param, PatOrTsParamProp},
+    function::{Function, Param, ParamOrTsParamProp},
     ident::{Ident, IdentExt, PrivateName},
     jsx::{
         JSXAttr, JSXAttrName, JSXAttrOrSpread, JSXAttrValue, JSXClosingElement, JSXClosingFragment,

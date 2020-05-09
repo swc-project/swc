@@ -486,8 +486,11 @@ impl<'a, I: Tokens> Parser<'a, I> {
                         // TODO: Search deeply for assignment pattern using a Visitor
 
                         let span = match *p {
-                            PatOrTsParamProp::Pat(Pat::Assign(ref p)) => Some(p.span()),
-                            PatOrTsParamProp::TsParamProp(TsParamProp {
+                            ParamOrTsParamProp::Param(ref param) => match param.pat {
+                                Pat::Assign(ref p) => Some(p.span()),
+                                _ => None,
+                            },
+                            ParamOrTsParamProp::TsParamProp(TsParamProp {
                                 param: TsParamPropParam::Assign(ref p),
                                 ..
                             }) => Some(p.span()),
