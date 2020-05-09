@@ -119,7 +119,13 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                         ..Default::default()
                     },
                     box spack::resolve::NodeResolver,
-                    box JsLoader::new(compiler, Default::default()),
+                    box JsLoader::new(
+                        compiler,
+                        swc::config::Options {
+                            swcrc: true,
+                            ..Default::default()
+                        },
+                    ),
                 );
 
                 assert_ne!(entries.len(), 0);

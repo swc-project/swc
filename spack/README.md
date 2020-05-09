@@ -34,7 +34,7 @@ Otherwise, rollup does not touch import expressions with dynamic path.
    - [x] Loading
  - [x] Export filtering (in usage_analysis)
  - [ ] Optimize helpers (remove duplicate)
- - [ ] .swcrc integration
+ - [x] .swcrc integration
  - [ ] "esnext" in package.json
  - [ ] `spack.config.js`
  - [ ] Merging of SourceFile
