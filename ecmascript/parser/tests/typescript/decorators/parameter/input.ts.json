@@ -1,0 +1,282 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 105,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 6,
+          "end": 10,
+          "ctxt": 0
+        },
+        "value": "Test",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 0,
+        "end": 105,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "Constructor",
+          "span": {
+            "start": 17,
+            "end": 60,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 17,
+              "end": 28,
+              "ctxt": 0
+            },
+            "value": "constructor",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "params": [
+            {
+              "type": "Identifier",
+              "span": {
+                "start": 33,
+                "end": 35,
+                "ctxt": 0
+              },
+              "value": "t1",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            {
+              "type": "TsParameterProperty",
+              "span": {
+                "start": 37,
+                "end": 51,
+                "ctxt": 0
+              },
+              "decorators": [
+                {
+                  "type": "Decorator",
+                  "span": {
+                    "start": 37,
+                    "end": 40,
+                    "ctxt": 0
+                  },
+                  "expression": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 38,
+                      "end": 40,
+                      "ctxt": 0
+                    },
+                    "value": "p2",
+                    "typeAnnotation": null,
+                    "optional": false
+                  }
+                }
+              ],
+              "accessibility": "private",
+              "readonly": false,
+              "param": {
+                "type": "Identifier",
+                "span": {
+                  "start": 49,
+                  "end": 51,
+                  "ctxt": 0
+                },
+                "value": "t2",
+                "typeAnnotation": null,
+                "optional": false
+              }
+            }
+          ],
+          "body": {
+            "type": "BlockStatement",
+            "span": {
+              "start": 53,
+              "end": 60,
+              "ctxt": 0
+            },
+            "stmts": []
+          },
+          "accessibility": null,
+          "isOptional": false
+        },
+        {
+          "type": "ClassMethod",
+          "span": {
+            "start": 66,
+            "end": 103,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 66,
+              "end": 72,
+              "ctxt": 0
+            },
+            "value": "method",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "function": {
+            "params": [
+              {
+                "span": {
+                  "start": 73,
+                  "end": 79,
+                  "ctxt": 0
+                },
+                "decorators": [
+                  {
+                    "type": "Decorator",
+                    "span": {
+                      "start": 73,
+                      "end": 76,
+                      "ctxt": 0
+                    },
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 74,
+                        "end": 76,
+                        "ctxt": 0
+                      },
+                      "value": "p1",
+                      "typeAnnotation": null,
+                      "optional": false
+                    }
+                  }
+                ],
+                "pat": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 77,
+                    "end": 79,
+                    "ctxt": 0
+                  },
+                  "value": "t1",
+                  "typeAnnotation": null,
+                  "optional": false
+                }
+              },
+              {
+                "span": {
+                  "start": 81,
+                  "end": 94,
+                  "ctxt": 0
+                },
+                "decorators": [
+                  {
+                    "type": "Decorator",
+                    "span": {
+                      "start": 81,
+                      "end": 84,
+                      "ctxt": 0
+                    },
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 82,
+                        "end": 84,
+                        "ctxt": 0
+                      },
+                      "value": "p1",
+                      "typeAnnotation": null,
+                      "optional": false
+                    }
+                  },
+                  {
+                    "type": "Decorator",
+                    "span": {
+                      "start": 85,
+                      "end": 88,
+                      "ctxt": 0
+                    },
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 86,
+                        "end": 88,
+                        "ctxt": 0
+                      },
+                      "value": "p2",
+                      "typeAnnotation": null,
+                      "optional": false
+                    }
+                  }
+                ],
+                "pat": {
+                  "type": "RestElement",
+                  "span": {
+                    "start": 89,
+                    "end": 94,
+                    "ctxt": 0
+                  },
+                  "rest": {
+                    "start": 89,
+                    "end": 92,
+                    "ctxt": 0
+                  },
+                  "argument": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 92,
+                      "end": 94,
+                      "ctxt": 0
+                    },
+                    "value": "t2",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "typeAnnotation": null
+                }
+              }
+            ],
+            "decorators": [],
+            "span": {
+              "start": 66,
+              "end": 103,
+              "ctxt": 0
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 96,
+                "end": 103,
+                "ctxt": 0
+              },
+              "stmts": []
+            },
+            "generator": false,
+            "async": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "kind": "method",
+          "isStatic": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    }
+  ],
+  "interpreter": null
+}
