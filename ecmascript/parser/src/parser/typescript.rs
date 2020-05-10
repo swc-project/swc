@@ -1545,7 +1545,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
         let start = cur_pos!();
 
         let lit = if is!('`') {
-            TsLit::NoSubTpl(self.parse_no_sub_tpl()?)
+            let tpl = self.parse_tpl()?;
+            TsLit::Tpl(tpl)
         } else {
             match self.parse_lit()? {
                 Lit::Bool(n) => TsLit::Bool(n),

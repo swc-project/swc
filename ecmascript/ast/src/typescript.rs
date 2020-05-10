@@ -2,7 +2,7 @@
 #![allow(missing_copy_implementations)]
 use crate::{
     class::Decorator,
-    expr::{Expr, NoSubTpl},
+    expr::{Expr, Tpl},
     ident::Ident,
     lit::{Bool, Number, Str},
     module::ModuleItem,
@@ -679,8 +679,8 @@ pub enum TsLit {
     #[tag("BooleanLiteral")]
     Bool(Bool),
 
-    #[tag("NoSubstitutionTemplateLiteral")]
-    NoSubTpl(NoSubTpl),
+    #[tag("TemplateLiteral")]
+    Tpl(Tpl),
 }
 
 // // ================

@@ -1,0 +1,276 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 106,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 0,
+        "end": 28,
+        "ctxt": 0
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 5,
+          "end": 12,
+          "ctxt": 0
+        },
+        "value": "MyAlias",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsLiteralType",
+        "span": {
+          "start": 15,
+          "end": 27,
+          "ctxt": 0
+        },
+        "literal": {
+          "type": "TemplateLiteral",
+          "span": {
+            "start": 15,
+            "end": 27,
+            "ctxt": 0
+          },
+          "expressions": [],
+          "quasis": [
+            {
+              "type": "TemplateElement",
+              "span": {
+                "start": 16,
+                "end": 26,
+                "ctxt": 0
+              },
+              "tail": true,
+              "cooked": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 16,
+                  "end": 26,
+                  "ctxt": 0
+                },
+                "value": "some-value",
+                "hasEscape": false
+              },
+              "raw": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 16,
+                  "end": 26,
+                  "ctxt": 0
+                },
+                "value": "some-value",
+                "hasEscape": false
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 29,
+        "end": 73,
+        "ctxt": 0
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 34,
+          "end": 44,
+          "ctxt": 0
+        },
+        "value": "OtherAlias",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsUnionType",
+        "span": {
+          "start": 51,
+          "end": 72,
+          "ctxt": 0
+        },
+        "types": [
+          {
+            "type": "TsLiteralType",
+            "span": {
+              "start": 53,
+              "end": 59,
+              "ctxt": 0
+            },
+            "literal": {
+              "type": "TemplateLiteral",
+              "span": {
+                "start": 53,
+                "end": 59,
+                "ctxt": 0
+              },
+              "expressions": [],
+              "quasis": [
+                {
+                  "type": "TemplateElement",
+                  "span": {
+                    "start": 54,
+                    "end": 58,
+                    "ctxt": 0
+                  },
+                  "tail": true,
+                  "cooked": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 54,
+                      "end": 58,
+                      "ctxt": 0
+                    },
+                    "value": "some",
+                    "hasEscape": false
+                  },
+                  "raw": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 54,
+                      "end": 58,
+                      "ctxt": 0
+                    },
+                    "value": "some",
+                    "hasEscape": false
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "type": "TsLiteralType",
+            "span": {
+              "start": 66,
+              "end": 72,
+              "ctxt": 0
+            },
+            "literal": {
+              "type": "TemplateLiteral",
+              "span": {
+                "start": 66,
+                "end": 72,
+                "ctxt": 0
+              },
+              "expressions": [],
+              "quasis": [
+                {
+                  "type": "TemplateElement",
+                  "span": {
+                    "start": 67,
+                    "end": 71,
+                    "ctxt": 0
+                  },
+                  "tail": true,
+                  "cooked": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 67,
+                      "end": 71,
+                      "ctxt": 0
+                    },
+                    "value": "text",
+                    "hasEscape": false
+                  },
+                  "raw": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 67,
+                      "end": 71,
+                      "ctxt": 0
+                    },
+                    "value": "text",
+                    "hasEscape": false
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 74,
+        "end": 106,
+        "ctxt": 0
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 79,
+          "end": 88,
+          "ctxt": 0
+        },
+        "value": "MultiLine",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsLiteralType",
+        "span": {
+          "start": 91,
+          "end": 105,
+          "ctxt": 0
+        },
+        "literal": {
+          "type": "TemplateLiteral",
+          "span": {
+            "start": 91,
+            "end": 105,
+            "ctxt": 0
+          },
+          "expressions": [],
+          "quasis": [
+            {
+              "type": "TemplateElement",
+              "span": {
+                "start": 92,
+                "end": 104,
+                "ctxt": 0
+              },
+              "tail": true,
+              "cooked": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 92,
+                  "end": 104,
+                  "ctxt": 0
+                },
+                "value": "\nsome value\n",
+                "hasEscape": false
+              },
+              "raw": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 92,
+                  "end": 104,
+                  "ctxt": 0
+                },
+                "value": "\nsome value\n",
+                "hasEscape": false
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}
