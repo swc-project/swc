@@ -16,7 +16,7 @@ pub use self::{
         ArrayLit, ArrowExpr, AssignExpr, AwaitExpr, BinExpr, BlockStmtOrExpr, CallExpr, ClassExpr,
         CondExpr, Expr, ExprOrSpread, ExprOrSuper, FnExpr, MemberExpr, MetaPropExpr, NewExpr,
         ObjectLit, OptChainExpr, ParenExpr, PatOrExpr, PropOrSpread, SeqExpr, SpreadElement, Super,
-        TaggedTpl, ThisExpr, Tpl, TplElement, UnaryExpr, UpdateExpr, YieldExpr,
+        TaggedTpl, ThisExpr, Tpl, TplElement, NoSubTpl, UnaryExpr, UpdateExpr, YieldExpr,
     },
     function::{Function, PatOrTsParamProp},
     ident::{Ident, IdentExt, PrivateName},

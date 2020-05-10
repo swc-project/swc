@@ -805,11 +805,31 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
         expect!('`');
 
-        let span = span!(start);
         Ok(Tpl {
-            span,
+            span: span!(start),
             exprs,
             quasis,
+        })
+    }
+
+    pub(super) fn parse_no_sub_tpl(&mut self) -> PResult<'a, NoSubTpl> {
+        let start = cur_pos!();
+
+        assert_and_bump!('`');
+
+        let raw = match *cur!(true)? {
+            Token::Template { .. } => match bump!() {
+                Token::Template { raw, .. } => raw,
+                _ => unreachable!(),
+            },
+            _ => unexpected!(),
+        };
+
+        expect!('`');
+
+        Ok(NoSubTpl {
+            span: span!(start),
+            value: raw,
         })
     }
 

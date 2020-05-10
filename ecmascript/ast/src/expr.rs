@@ -19,6 +19,7 @@ use serde::{self, Deserialize, Serialize};
 #[cfg(feature = "fold")]
 use swc_common::Fold;
 use swc_common::{ast_node, Span, Spanned, DUMMY_SP};
+use swc_atoms::JsWord;
 
 #[ast_node]
 #[derive(Eq, Hash)]
@@ -407,6 +408,14 @@ pub struct Tpl {
     pub exprs: Vec<Box<Expr>>,
 
     pub quasis: Vec<TplElement>,
+}
+
+#[ast_node("NoSubstitutionTemplateLiteral")]
+#[derive(Eq, Hash)]
+pub struct NoSubTpl {
+    pub span: Span,
+
+    pub value: JsWord,
 }
 
 #[ast_node("TaggedTemplateExpression")]

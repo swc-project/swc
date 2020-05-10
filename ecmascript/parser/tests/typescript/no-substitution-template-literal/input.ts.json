@@ -1,0 +1,152 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 106,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 0,
+        "end": 28,
+        "ctxt": 0
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 5,
+          "end": 12,
+          "ctxt": 0
+        },
+        "value": "MyAlias",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsLiteralType",
+        "span": {
+          "start": 15,
+          "end": 27,
+          "ctxt": 0
+        },
+        "literal": {
+          "type": "NoSubstitutionTemplateLiteral",
+          "span": {
+            "start": 15,
+            "end": 27,
+            "ctxt": 0
+          },
+          "value": "some-value"
+        }
+      }
+    },
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 29,
+        "end": 73,
+        "ctxt": 0
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 34,
+          "end": 44,
+          "ctxt": 0
+        },
+        "value": "OtherAlias",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsUnionType",
+        "span": {
+          "start": 51,
+          "end": 72,
+          "ctxt": 0
+        },
+        "types": [
+          {
+            "type": "TsLiteralType",
+            "span": {
+              "start": 53,
+              "end": 59,
+              "ctxt": 0
+            },
+            "literal": {
+              "type": "NoSubstitutionTemplateLiteral",
+              "span": {
+                "start": 53,
+                "end": 59,
+                "ctxt": 0
+              },
+              "value": "some"
+            }
+          },
+          {
+            "type": "TsLiteralType",
+            "span": {
+              "start": 66,
+              "end": 72,
+              "ctxt": 0
+            },
+            "literal": {
+              "type": "NoSubstitutionTemplateLiteral",
+              "span": {
+                "start": 66,
+                "end": 72,
+                "ctxt": 0
+              },
+              "value": "text"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 74,
+        "end": 106,
+        "ctxt": 0
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 79,
+          "end": 88,
+          "ctxt": 0
+        },
+        "value": "MultiLine",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsLiteralType",
+        "span": {
+          "start": 91,
+          "end": 105,
+          "ctxt": 0
+        },
+        "literal": {
+          "type": "NoSubstitutionTemplateLiteral",
+          "span": {
+            "start": 91,
+            "end": 105,
+            "ctxt": 0
+          },
+          "value": "\nsome value\n"
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}
