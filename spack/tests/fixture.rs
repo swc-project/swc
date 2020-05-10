@@ -154,6 +154,7 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                         FileName::Real(ref p) => p.clone(),
                         _ => unreachable!(),
                     };
+                    println!("Printing {}", name.display());
 
                     let output_path = entry.path().join("output").join(name.file_name().unwrap());
 
