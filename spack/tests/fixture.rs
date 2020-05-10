@@ -138,6 +138,7 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                 assert_ne!(entries.len(), 0);
 
                 let modules = bundler.bundle(entries).expect("failed to bundle module");
+                println!("Bundled as {} modules", modules.len());
 
                 let mut error = false;
 
