@@ -14,6 +14,8 @@ use swc_ecma_transforms::{
     optimization::simplify::dce::{self, dce},
 };
 
+mod merge;
+
 pub(super) type ModuleGraph = DiGraphMap<ModuleId, usize>;
 
 #[derive(Debug)]

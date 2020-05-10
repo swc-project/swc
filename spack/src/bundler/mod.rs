@@ -13,7 +13,6 @@ mod chunk;
 mod export;
 mod import;
 mod load_transformed;
-mod merge;
 mod scope;
 #[cfg(test)]
 mod tests;
