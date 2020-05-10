@@ -148,6 +148,7 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                         .expect("failed to emit bundle")
                         .code;
 
+                    // TODO: 엔트리의 이름 사용
                     let name = match bundled.fm.name {
                         FileName::Real(ref p) => p.clone(),
                         _ => unreachable!(),

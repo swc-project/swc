@@ -117,12 +117,33 @@ impl Bundler {
                 if let Some(m) = metadatas.get(&dep) {
                     if m.access_cnt == 1 {
                         entry.included.push(dep);
+                    } else {
+                        state.common_libs.insert(dep);
                     }
                 }
             }
         }
 
         log::info!("Metadata: {:?}", metadatas);
+
+        actual.extend(state.common_libs.into_iter().map(|id| {
+            let m = self.scope.get_module(id).unwrap();
+            (
+                m.id,
+                InternalEntry {
+                    basename: m.fm.name.to_string(),
+                    main: m,
+                    included: vec![],
+                    dynamic: true,
+                },
+            )
+        }));
+
+        let mut graph = ModuleGraph::new();
+
+        for (_, m) in &actual {
+            self.add(&mut graph, &m.main);
+        }
 
         println!("{}", Dot::with_config(&graph.into_graph::<usize>(), &[]));
 
@@ -141,7 +162,7 @@ impl Bundler {
 
                     Entry {
                         // TODO
-                        kind: EntryKind::Lib,
+                        kind: EntryKind::Dynamic { number: 0 },
                         module,
                         fm: e.main.fm,
                     }

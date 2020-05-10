@@ -40,9 +40,9 @@ pub enum EntryKind {
     /// User-provided entry
     Named { name: String },
     /// Auto-generated entry (created by import expression)
-    Dynamic,
+    Dynamic { number: u32 },
     /// A lazy-loaded shared library
-    Lib,
+    Lib { name: String },
 }
 
 #[derive(Debug)]
