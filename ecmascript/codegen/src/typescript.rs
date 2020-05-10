@@ -340,6 +340,7 @@ impl<'a> Emitter<'a> {
             TsLit::Number(n) => emit!(n),
             TsLit::Str(n) => emit!(n),
             TsLit::Bool(n) => emit!(n),
+            TsLit::Tpl(n) => emit!(n),
         }
     }
 
