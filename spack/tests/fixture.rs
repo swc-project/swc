@@ -138,7 +138,7 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                 assert_ne!(entries.len(), 0);
 
                 let modules = bundler.bundle(entries).expect("failed to bundle module");
-                println!("Bundled as {} modules", modules.len());
+                log::info!("Bundled as {} modules", modules.len());
 
                 let mut error = false;
 
@@ -154,7 +154,7 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                         FileName::Real(ref p) => p.clone(),
                         _ => unreachable!(),
                     };
-                    println!("Printing {}", name.display());
+                    log::info!("Printing {}", name.display());
 
                     let output_path = entry.path().join("output").join(name.file_name().unwrap());
 
