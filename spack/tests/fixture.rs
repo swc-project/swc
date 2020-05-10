@@ -139,6 +139,8 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
 
                 let modules = bundler.bundle(entries).expect("failed to bundle module");
 
+                let mut error = false;
+
                 for bundled in modules {
                     let code = bundler
                         .swc()
@@ -173,7 +175,17 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
 
                     let s = NormalizedOutput::from(code);
 
-                    s.compare_to_file(&output_path).expect("failed to print");
+                    match s.compare_to_file(&output_path) {
+                        Ok(_) => {}
+                        Err(err) => {
+                            println!("{:?}", err);
+                            error = true;
+                        }
+                    }
+                }
+
+                if error {
+                    return Err(());
                 }
 
                 Ok(())
