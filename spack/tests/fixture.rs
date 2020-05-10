@@ -154,9 +154,10 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                         FileName::Real(ref p) => p.clone(),
                         _ => unreachable!(),
                     };
-                    log::info!("Printing {}", name.display());
 
                     let output_path = entry.path().join("output").join(name.file_name().unwrap());
+
+                    log::info!("Printing {}", output_path.display());
 
                     let program = bundler
                         .swc()
@@ -171,10 +172,6 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                         .map(|v| v.0)
                         .expect("failed to parse output file as program")
                         .fold_with(&mut DropSpan);
-
-                    if program == Program::Module(bundled.module.clone()).fold_with(&mut DropSpan) {
-                        continue;
-                    }
 
                     let s = NormalizedOutput::from(code);
 
