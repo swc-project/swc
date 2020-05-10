@@ -1547,7 +1547,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
         let lit = if is!('`') {
             let tpl = self.parse_tpl()?;
             if !tpl.exprs.is_empty() {
-                // template literals with expressions are not a type
+                // template literals with expressions are not
+                // allowed in a type
                 self.emit_err(span!(start), SyntaxError::TS1110);
             }
             TsLit::Tpl(tpl)
