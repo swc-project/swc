@@ -7,7 +7,7 @@ use crate::{
     chunk::Chunk,
     debug::{assert_clean, HygieneVisualizer},
     util::HygieneRemover,
-    Id,
+    Id, ModuleId,
 };
 use anyhow::Error;
 use std::ops::{Deref, DerefMut};
@@ -27,10 +27,12 @@ pub(crate) enum MergedModule {
 }
 
 impl Bundler {
+    /// Merge `targets` into `entry`.
     pub(super) fn merge_modules(
         &self,
         mut entry: Module,
         info: &TransformedModule,
+        targets: Vec<ModuleId>,
     ) -> Result<Module, Error> {
         self.swc.run(|| {
             let mut buf = vec![];

@@ -118,6 +118,7 @@ impl Bundler {
                     if m.access_cnt == 1 {
                         entry.included.push(dep);
                     } else {
+                        println!("Common lib: {:?}", dep);
                         state.common_libs.insert(dep);
                     }
                 }
@@ -145,12 +146,14 @@ impl Bundler {
             self.add(&mut graph, &m.main);
         }
 
-        println!("{}", Dot::with_config(&graph.into_graph::<usize>(), &[]));
+        println!("{:?}", Dot::with_config(&graph.into_graph::<usize>(), &[]));
 
         Ok(actual
             .into_par_iter()
             .map(|(_, e): (_, InternalEntry)| {
                 self.swc().run(|| {
+                    println!("Merging {:?}", e.main.id);
+
                     let module = self
                         .merge_modules((*e.main.module).clone(), &e.main)
                         .context("failed to merge module")
