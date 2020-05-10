@@ -29,6 +29,13 @@ struct Metadata {
     access_cnt: u32,
 }
 
+#[derive(Debug, Default)]
+struct State {
+    synchronously_included: FxHashSet<ModuleId>,
+    dynamic_entries: FxHashSet<ModuleId>,
+    common_libs: FxHashSet<ModuleId>,
+}
+
 impl Bundler {
     /// `entries` - Entry modules (provided by user) by it's basename.
     ///
@@ -48,13 +55,12 @@ impl Bundler {
         &self,
         entries: FxHashMap<String, TransformedModule>,
     ) -> Result<Vec<Entry>, Error> {
-        let mut synchronously_included = FxHashSet::default();
-        let mut dynamic_entries = FxHashSet::default();
+        let mut state = State::default();
 
         let mut graph = ModuleGraph::new();
 
         for (_, m) in &entries {
-            self.add_chunk_imports(&mut synchronously_included, &mut dynamic_entries, m);
+            self.add_chunk_imports(&mut state, m);
 
             self.add(&mut graph, m);
         }
@@ -73,7 +79,7 @@ impl Bundler {
                     },
                 )
             })
-            .chain(dynamic_entries.into_iter().map(|id| {
+            .chain(state.dynamic_entries.into_iter().map(|id| {
                 let m = self.scope.get_module(id).unwrap();
                 (
                     m.id,
@@ -103,10 +109,7 @@ impl Bundler {
 
         // If a file is only included by a single entry is static, just merge it.
         for (k, entry) in &mut actual {
-            if entry.dynamic {
-                continue;
-            }
-            println!("Actual: {:?}", k);
+            log::info!("Actual ({}): {:?}", entry.basename, k);
 
             let mut bfs = Bfs::new(&graph, entry.main.id);
 
@@ -119,7 +122,7 @@ impl Bundler {
             }
         }
 
-        println!("Metadata: {:?}", metadatas);
+        log::info!("Metadata: {:?}", metadatas);
 
         println!("{}", Dot::with_config(&graph.into_graph::<usize>(), &[]));
 
@@ -147,25 +150,20 @@ impl Bundler {
             .collect())
     }
 
-    fn add_chunk_imports(
-        &self,
-        synchronously_included: &mut FxHashSet<ModuleId>,
-        dynamic_entries: &mut FxHashSet<ModuleId>,
-        m: &TransformedModule,
-    ) {
+    fn add_chunk_imports(&self, state: &mut State, m: &TransformedModule) {
         // Named entries are synchronously imported
-        synchronously_included.insert(m.id);
+        state.synchronously_included.insert(m.id);
 
         for (src, _) in &m.imports.specifiers {
             //
             if src.is_loaded_synchronously {
-                synchronously_included.insert(src.module_id);
+                state.synchronously_included.insert(src.module_id);
             } else {
-                dynamic_entries.insert(src.module_id);
+                state.dynamic_entries.insert(src.module_id);
             }
             let v = self.scope.get_module(src.module_id).unwrap();
 
-            self.add_chunk_imports(synchronously_included, dynamic_entries, &v);
+            self.add_chunk_imports(state, &v);
         }
     }
 
