@@ -189,6 +189,7 @@ pub enum SyntaxError {
     TS1105,
     TS1107,
     TS1109,
+    TS1110,
     TS1114,
     TS1115,
     TS1116,
@@ -378,6 +379,7 @@ impl<'a> From<ErrorToDiag<'a>> for DiagnosticBuilder<'a> {
             }
 
             TS1056 => "jsc.taraget should be es5 or upper to use getter / setter".into(),
+            TS1110 => "type expected".into(),
             TS1141 => "literal in an import type should be string literal".into(),
 
             // TODO:
