@@ -43,16 +43,7 @@ impl Bundler {
     ///
     /// # How it works
     ///
-    /// For first, we iterate over all **named** entries (entries provided by
-    /// user's config). We mark modules as **imported** if it's imported by
-    /// any named entry synchronously and modules as **included** if it can be
-    /// imported dynamically by any of named entries.
-    ///
-    /// Then, we iterate over **included** entries to get information aboit all
-    /// files we need to process.
-    ///
-    /// As we know all candidate files and entries, we can now calculate the
-    /// required dependency graph.
+    /// For first, we load all dependencies and determine all entries.
     pub(super) fn chunk(
         &self,
         entries: FxHashMap<String, TransformedModule>,
@@ -60,6 +51,43 @@ impl Bundler {
         let mut state = State::default();
 
         let mut graph = ModuleGraph::new();
+
+        let mut graph = ModuleGraph::new();
+
+        for (_, m) in &actual {
+            self.add(&mut graph, &m.main);
+        }
+
+        println!("{:?}", Dot::with_config(&graph.into_graph::<usize>(), &[]));
+
+        Ok(actual
+            .into_par_iter()
+            .map(|(_, e): (_, InternalEntry)| {
+                self.swc().run(|| {
+                    println!("Merging {:?}", e.main.id);
+
+                    let module = self
+                        .merge_modules((*e.main.module).clone(), &e.main)
+                        .context("failed to merge module")
+                        .unwrap(); // TODO
+
+                    let module = module
+                        .fold_with(&mut dce(Default::default()))
+                        .fold_with(&mut fixer());
+
+                    Entry {
+                        // TODO
+                        kind: EntryKind::Dynamic { number: 0 },
+                        module,
+                        fm: e.main.fm,
+                    }
+                })
+            })
+            .collect())
+    }
+
+    fn determine_entries(&self, entries: impl Iterator<Item = ModuleId>) -> FxHashSet<ModuleId> {
+        let mut all = FxHashSet::default();
 
         for (_, m) in &entries {
             self.add_chunk_imports(&mut state, m);
@@ -142,38 +170,7 @@ impl Bundler {
             )
         }));
 
-        let mut graph = ModuleGraph::new();
-
-        for (_, m) in &actual {
-            self.add(&mut graph, &m.main);
-        }
-
-        println!("{:?}", Dot::with_config(&graph.into_graph::<usize>(), &[]));
-
-        Ok(actual
-            .into_par_iter()
-            .map(|(_, e): (_, InternalEntry)| {
-                self.swc().run(|| {
-                    println!("Merging {:?}", e.main.id);
-
-                    let module = self
-                        .merge_modules((*e.main.module).clone(), &e.main)
-                        .context("failed to merge module")
-                        .unwrap(); // TODO
-
-                    let module = module
-                        .fold_with(&mut dce(Default::default()))
-                        .fold_with(&mut fixer());
-
-                    Entry {
-                        // TODO
-                        kind: EntryKind::Dynamic { number: 0 },
-                        module,
-                        fm: e.main.fm,
-                    }
-                })
-            })
-            .collect())
+        all
     }
 
     fn add_chunk_imports(&self, state: &mut State, m: &TransformedModule) {
