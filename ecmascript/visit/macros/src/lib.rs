@@ -419,7 +419,7 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
         }
     }
 
-    fn mk(ident: Ident, ty: &Type) -> Signature {
+    fn mk_ref(ident: Ident, ty: &Type) -> Signature {
         mk_exact(
             ident,
             &Type::Reference(TypeReference {
@@ -455,7 +455,21 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
                             match arg {
                                 GenericArgument::Type(arg) => {
                                     let ident = method_name(mode, &arg);
-                                    return mk(ident, &q!(Vars { arg }, { arg }).parse());
+                                    match mode {
+                                        Mode::Folder => {
+                                            return mk_exact(
+                                                ident,
+                                                &q!(Vars { arg }, { arg }).parse(),
+                                            );
+                                        }
+
+                                        Mode::Visitor => {
+                                            return mk_ref(
+                                                ident,
+                                                &q!(Vars { arg }, { arg }).parse(),
+                                            );
+                                        }
+                                    }
                                 }
                                 _ => unimplemented!("generic parameter other than type"),
                             }
@@ -479,16 +493,37 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
                                     });
 
                                     if let Some(item) = extract_vec(arg) {
-                                        return mk_exact(
-                                            ident,
-                                            &q!(Vars { item}, { Option<&[item]> }).parse(),
-                                        );
+                                        match mode {
+                                            Mode::Folder => {
+                                                return mk_exact(
+                                                    ident,
+                                                    &q!(Vars { item}, { Option<Vec<item>> })
+                                                        .parse(),
+                                                );
+                                            }
+                                            Mode::Visitor => {
+                                                return mk_exact(
+                                                    ident,
+                                                    &q!(Vars { item}, { Option<&[item]> }).parse(),
+                                                );
+                                            }
+                                        }
                                     }
 
-                                    return mk_exact(
-                                        ident,
-                                        &q!(Vars { arg }, { Option<&arg> }).parse(),
-                                    );
+                                    match mode {
+                                        Mode::Folder => {
+                                            return mk_exact(
+                                                ident,
+                                                &q!(Vars { arg }, { Option<arg> }).parse(),
+                                            );
+                                        }
+                                        Mode::Visitor => {
+                                            return mk_exact(
+                                                ident,
+                                                &q!(Vars { arg }, { Option<&arg> }).parse(),
+                                            );
+                                        }
+                                    }
                                 }
                                 _ => unimplemented!("generic parameter other than type"),
                             }
@@ -518,7 +553,20 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
                                         ident = ident.new_ident_with(|v| format!("{}_vec", v));
                                     }
 
-                                    return mk(ident, &q!(Vars { arg }, { [arg] }).parse());
+                                    match mode {
+                                        Mode::Folder => {
+                                            return mk_exact(
+                                                ident,
+                                                &q!(Vars { arg }, { Vec<arg> }).parse(),
+                                            );
+                                        }
+                                        Mode::Visitor => {
+                                            return mk_ref(
+                                                ident,
+                                                &q!(Vars { arg }, { [arg] }).parse(),
+                                            );
+                                        }
+                                    }
                                 }
                                 _ => unimplemented!("generic parameter other than type"),
                             }
@@ -528,7 +576,12 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
                 }
             }
 
-            return mk(ident, ty);
+            match mode {
+                Mode::Folder => return mk_exact(ident, ty),
+                Mode::Visitor => {
+                    return mk_ref(ident, ty);
+                }
+            }
         }
         Type::Ptr(_) => unimplemented!("type: pointer"),
         Type::Reference(ty) => {
