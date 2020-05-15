@@ -1,5 +1,5 @@
 use inflector::Inflector;
-use pmutil::{q, IdentExt};
+use pmutil::{q, IdentExt, Quote, ToTokensExt};
 use proc_macro2::Ident;
 use std::mem::replace;
 use swc_macros_common::{call_site, def_site};
@@ -9,6 +9,28 @@ use syn::{
     Member, Path, PathArguments, ReturnType, Signature, Stmt, Token, TraitItem, TraitItemMethod,
     Type, TypePath, TypeReference, VisPublic, Visibility,
 };
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum Mode {
+    Visitor,
+    Folder,
+}
+
+impl Mode {
+    fn trait_name(self) -> &'static str {
+        match self {
+            Mode::Folder => "Fold",
+            Mode::Visitor => "Visit",
+        }
+    }
+
+    fn prefix(self) -> &'static str {
+        match self {
+            Mode::Folder => "fold",
+            Mode::Visitor => "visit",
+        }
+    }
+}
 
 /// This creates `Visit`. This is extensible visitor generator, and it
 ///
@@ -25,17 +47,24 @@ use syn::{
 pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let block: Block = parse(tts.into());
 
+    let mut q = Quote::new_call_site();
+    q.push_tokens(&make(Mode::Visitor, &block.stmts));
+    q.push_tokens(&make(Mode::Folder, &block.stmts));
+    proc_macro2::TokenStream::from(q).into()
+}
+
+fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
     // Required to generate specialization code.
     let mut types = vec![];
     let mut methods = vec![];
 
-    for stmts in block.stmts {
+    for stmts in stmts {
         let item = match stmts {
             Stmt::Item(item) => item,
             _ => unimplemented!("error reporting for something other than Item"),
         };
 
-        let mtd = make_method(item, &mut types);
+        let mtd = make_method(mode, item, &mut types);
         methods.push(mtd);
     }
 
@@ -53,7 +82,7 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
     methods.sort_by_cached_key(|v| v.sig.ident.to_string());
 
     for ty in types {
-        let name = method_name(&ty);
+        let name = method_name(mode, &ty);
         let s = name.to_string();
         if methods.iter().any(|m| m.sig.ident == &*s) {
             continue;
@@ -61,8 +90,8 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
 
         methods.push(TraitItemMethod {
             attrs: vec![],
-            sig: create_method_sig(&ty),
-            default: Some(create_method_body(&ty)),
+            sig: create_method_sig(mode, &ty),
+            default: Some(create_method_body(mode, &ty)),
             semi_token: None,
         });
     }
@@ -107,10 +136,11 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
                 fn_name,
                 default_body,
                 Type: arg_ty,
+                Trait: Ident::new(mode.trait_name(), call_site()),
             },
             {
                 #[allow(unused_variables)]
-                pub fn fn_name<V: ?Sized + Visit>(_visitor: &mut V, n: Type, _parent: &dyn Node) {
+                pub fn fn_name<V: ?Sized + Trait>(_visitor: &mut V, n: Type, _parent: &dyn Node) {
                     default_body
                 }
             }
@@ -125,7 +155,7 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
         unsafety: None,
         auto_token: None,
         trait_token: def_site(),
-        ident: Ident::new("Visit", call_site()),
+        ident: Ident::new(mode.trait_name(), call_site()),
         generics: Default::default(),
         colon_token: None,
         supertraits: Default::default(),
@@ -133,17 +163,17 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
         items: methods.into_iter().map(TraitItem::Method).collect(),
     });
 
-    tokens.into()
+    tokens
 }
 
-fn make_arm_from_struct(path: &Path, variant: &Fields) -> Arm {
+fn make_arm_from_struct(mode: Mode, path: &Path, variant: &Fields) -> Arm {
     let mut stmts = vec![];
     let mut fields: Punctuated<FieldValue, Token![,]> = Default::default();
 
     for (i, field) in variant.iter().enumerate() {
         let ty = &field.ty;
 
-        let visit_name = method_name(&ty);
+        let visit_name = method_name(mode, &ty);
         let binding_ident = field
             .ident
             .clone()
@@ -226,14 +256,14 @@ fn make_arm_from_struct(path: &Path, variant: &Fields) -> Arm {
     }
 }
 
-fn method_sig(ty: &Type) -> Signature {
+fn method_sig(mode: Mode, ty: &Type) -> Signature {
     Signature {
         constness: None,
         asyncness: None,
         unsafety: None,
         abi: None,
         fn_token: def_site(),
-        ident: method_name(ty),
+        ident: method_name(mode, ty),
         generics: Default::default(),
         paren_token: def_site(),
         inputs: {
@@ -251,14 +281,17 @@ fn method_sig(ty: &Type) -> Signature {
     }
 }
 
-fn method_sig_from_ident(v: &Ident) -> Signature {
-    method_sig(&Type::Path(TypePath {
-        qself: None,
-        path: v.clone().into(),
-    }))
+fn method_sig_from_ident(mode: Mode, v: &Ident) -> Signature {
+    method_sig(
+        mode,
+        &Type::Path(TypePath {
+            qself: None,
+            path: v.clone().into(),
+        }),
+    )
 }
 
-fn make_method(e: Item, types: &mut Vec<Type>) -> TraitItemMethod {
+fn make_method(mode: Mode, e: &Item, types: &mut Vec<Type>) -> TraitItemMethod {
     match e {
         Item::Struct(s) => {
             let type_name = &s.ident;
@@ -271,7 +304,7 @@ fn make_method(e: Item, types: &mut Vec<Type>) -> TraitItemMethod {
             }
 
             let block = {
-                let arm = make_arm_from_struct(&s.ident.clone().into(), &s.fields);
+                let arm = make_arm_from_struct(mode, &s.ident.clone().into(), &s.fields);
 
                 let mut match_expr: ExprMatch = q!((match n {})).parse();
                 match_expr.arms.push(arm);
@@ -284,7 +317,7 @@ fn make_method(e: Item, types: &mut Vec<Type>) -> TraitItemMethod {
 
             TraitItemMethod {
                 attrs: vec![],
-                sig: method_sig_from_ident(type_name),
+                sig: method_sig_from_ident(mode, type_name),
                 default: Some(block),
                 semi_token: None,
             }
@@ -311,6 +344,7 @@ fn make_method(e: Item, types: &mut Vec<Type>) -> TraitItemMethod {
                     }
 
                     let arm = make_arm_from_struct(
+                        mode,
                         &q!(
                             Vars {
                                 Enum: &e.ident,
@@ -338,7 +372,7 @@ fn make_method(e: Item, types: &mut Vec<Type>) -> TraitItemMethod {
 
             TraitItemMethod {
                 attrs: vec![],
-                sig: method_sig_from_ident(type_name),
+                sig: method_sig_from_ident(mode, type_name),
                 default: Some(block),
                 semi_token: None,
             }
@@ -351,15 +385,15 @@ fn make_method(e: Item, types: &mut Vec<Type>) -> TraitItemMethod {
     }
 }
 
-fn prefix_method_name(v: &str) -> String {
-    format!("visit_{}", v.to_snake_case())
+fn prefix_method_name(mode: Mode, v: &str) -> String {
+    format!("{}_{}", mode.prefix(), v.to_snake_case())
 }
 
-fn method_name(v: &Type) -> Ident {
-    create_method_sig(v).ident
+fn method_name(mode: Mode, v: &Type) -> Ident {
+    create_method_sig(mode, v).ident
 }
 
-fn create_method_sig(ty: &Type) -> Signature {
+fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
     fn mk_exact(ident: Ident, ty: &Type) -> Signature {
         Signature {
             constness: None,
@@ -405,10 +439,12 @@ fn create_method_sig(ty: &Type) -> Signature {
         Type::Infer(_) => unreachable!("infer type"),
         Type::Macro(_) => unimplemented!("type: macro"),
         Type::Never(_) => unreachable!("never type"),
-        Type::Paren(ty) => return create_method_sig(&ty.elem),
+        Type::Paren(ty) => return create_method_sig(mode, &ty.elem),
         Type::Path(p) => {
             let last = p.path.segments.last().unwrap();
-            let ident = last.ident.new_ident_with(prefix_method_name);
+            let ident = last
+                .ident
+                .new_ident_with(|name| prefix_method_name(mode, name));
 
             if !last.arguments.is_empty() {
                 if last.ident == "Box" {
@@ -418,7 +454,7 @@ fn create_method_sig(ty: &Type) -> Signature {
 
                             match arg {
                                 GenericArgument::Type(arg) => {
-                                    let ident = method_name(&arg);
+                                    let ident = method_name(mode, &arg);
                                     return mk(ident, &q!(Vars { arg }, { arg }).parse());
                                 }
                                 _ => unimplemented!("generic parameter other than type"),
@@ -435,8 +471,12 @@ fn create_method_sig(ty: &Type) -> Signature {
 
                             match arg {
                                 GenericArgument::Type(arg) => {
-                                    let ident = method_name(arg)
-                                        .new_ident_with(|v| v.replace("visit_", "visit_opt_"));
+                                    let ident = method_name(mode, arg).new_ident_with(|v| {
+                                        v.replace(
+                                            &format!("{}_", mode.prefix()),
+                                            &format!("{}_opt_", mode.prefix()),
+                                        )
+                                    });
 
                                     if let Some(item) = extract_vec(arg) {
                                         return mk_exact(
@@ -464,7 +504,7 @@ fn create_method_sig(ty: &Type) -> Signature {
 
                             match arg {
                                 GenericArgument::Type(arg) => {
-                                    let orig_name = method_name(arg);
+                                    let orig_name = method_name(mode, arg);
                                     let mut ident = orig_name.new_ident_with(|v| {
                                         let v = v.to_plural();
                                         if is_option(arg) {
@@ -492,7 +532,7 @@ fn create_method_sig(ty: &Type) -> Signature {
         }
         Type::Ptr(_) => unimplemented!("type: pointer"),
         Type::Reference(ty) => {
-            return create_method_sig(&ty.elem);
+            return create_method_sig(mode, &ty.elem);
         }
         Type::Slice(_) => unimplemented!("type: slice"),
         Type::TraitObject(_) => unimplemented!("type: trait object"),
@@ -502,7 +542,7 @@ fn create_method_sig(ty: &Type) -> Signature {
     }
 }
 
-fn create_method_body(ty: &Type) -> Block {
+fn create_method_body(mode: Mode, ty: &Type) -> Block {
     match ty {
         Type::Array(_) => unimplemented!("type: array type"),
         Type::BareFn(_) => unimplemented!("type: fn type"),
@@ -511,7 +551,7 @@ fn create_method_body(ty: &Type) -> Block {
         Type::Infer(_) => unreachable!("infer type"),
         Type::Macro(_) => unimplemented!("type: macro"),
         Type::Never(_) => unreachable!("never type"),
-        Type::Paren(ty) => return create_method_body(&ty.elem),
+        Type::Paren(ty) => return create_method_body(mode, &ty.elem),
         Type::Path(p) => {
             let last = p.path.segments.last().unwrap();
 
@@ -523,7 +563,7 @@ fn create_method_body(ty: &Type) -> Block {
 
                             match arg {
                                 GenericArgument::Type(arg) => {
-                                    return create_method_body(arg);
+                                    return create_method_body(mode, arg);
                                 }
                                 _ => unimplemented!("generic parameter other than type"),
                             }
@@ -539,7 +579,7 @@ fn create_method_body(ty: &Type) -> Block {
 
                             match arg {
                                 GenericArgument::Type(arg) => {
-                                    let ident = method_name(arg);
+                                    let ident = method_name(mode, arg);
 
                                     return q!(
                                         Vars { ident },
@@ -566,7 +606,7 @@ fn create_method_body(ty: &Type) -> Block {
 
                             match arg {
                                 GenericArgument::Type(arg) => {
-                                    let ident = method_name(arg);
+                                    let ident = method_name(mode, arg);
 
                                     return if is_option(arg) {
                                         q!(
@@ -598,7 +638,7 @@ fn create_method_body(ty: &Type) -> Block {
         }
         Type::Ptr(_) => unimplemented!("type: pointer"),
         Type::Reference(ty) => {
-            return create_method_body(&ty.elem);
+            return create_method_body(mode, &ty.elem);
         }
         Type::Slice(_) => unimplemented!("type: slice"),
         Type::TraitObject(_) => unimplemented!("type: trait object"),
