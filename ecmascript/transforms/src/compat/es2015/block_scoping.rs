@@ -130,7 +130,11 @@ impl BlockScoping {
                                 params: args
                                     .iter()
                                     .map(|i| {
-                                        Pat::Ident(Ident::new(i.0.clone(), DUMMY_SP.with_ctxt(i.1)))
+                                        Param{
+                                            span:DUMMY_SP,
+                                            decorators:Default::default(),
+                                            pat:Pat::Ident(Ident::new(i.0.clone(), DUMMY_SP.with_ctxt(i.1))),
+                                        }
                                     })
                                     .collect(),
                                 decorators: Default::default(),
