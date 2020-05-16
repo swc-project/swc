@@ -1544,11 +1544,21 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
         let start = cur_pos!();
 
-        let lit = match self.parse_lit()? {
-            Lit::Bool(n) => TsLit::Bool(n),
-            Lit::Num(n) => TsLit::Number(n),
-            Lit::Str(n) => TsLit::Str(n),
-            _ => unreachable!(),
+        let lit = if is!('`') {
+            let tpl = self.parse_tpl()?;
+            if !tpl.exprs.is_empty() {
+                // template literals with expressions are not
+                // allowed in a type
+                self.emit_err(span!(start), SyntaxError::TS1110);
+            }
+            TsLit::Tpl(tpl)
+        } else {
+            match self.parse_lit()? {
+                Lit::Bool(n) => TsLit::Bool(n),
+                Lit::Num(n) => TsLit::Number(n),
+                Lit::Str(n) => TsLit::Str(n),
+                _ => unreachable!(),
+            }
         };
 
         Ok(TsLitType {
@@ -1673,7 +1683,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                     }
                 }
             }
-            Token::Str { .. } | Token::Num { .. } | tok!("true") | tok!("false") => {
+            Token::Str { .. } | Token::Num { .. } | tok!("true") | tok!("false") | tok!('`') => {
                 return self
                     .parse_ts_lit_type_node()
                     .map(TsType::from)

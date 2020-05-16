@@ -1087,6 +1087,7 @@ define!({
         Number(Number),
         Str(Str),
         Bool(Bool),
+        Tpl(Tpl),
     }
     pub struct TsInterfaceDecl {
         pub span: Span,

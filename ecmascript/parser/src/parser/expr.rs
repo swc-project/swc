@@ -795,7 +795,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         })
     }
 
-    fn parse_tpl(&mut self) -> PResult<'a, Tpl> {
+    pub(super) fn parse_tpl(&mut self) -> PResult<'a, Tpl> {
         trace_cur!(parse_tpl);
         let start = cur_pos!();
 
