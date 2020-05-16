@@ -497,34 +497,16 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
                 .new_ident_with(|name| prefix_method_name(mode, name));
 
             if !last.arguments.is_empty() {
-                if last.ident == "Box" {
-                    match &last.arguments {
-                        PathArguments::AngleBracketed(tps) => {
-                            let arg = tps.args.first().unwrap();
-
-                            match arg {
-                                GenericArgument::Type(arg) => {
-                                    let ident = method_name(mode, &arg);
-                                    match mode {
-                                        Mode::Folder => {
-                                            return mk_exact(
-                                                ident,
-                                                &q!(Vars { arg }, { arg }).parse(),
-                                            );
-                                        }
-
-                                        Mode::Visitor => {
-                                            return mk_ref(
-                                                ident,
-                                                &q!(Vars { arg }, { arg }).parse(),
-                                            );
-                                        }
-                                    }
-                                }
-                                _ => unimplemented!("generic parameter other than type"),
-                            }
+                if let Some(arg) = as_box(&ty) {
+                    let ident = method_name(mode, &arg);
+                    match mode {
+                        Mode::Folder => {
+                            return mk_exact(ident, &arg);
                         }
-                        _ => unimplemented!("Box() -> T or Box without a type parameter"),
+
+                        Mode::Visitor => {
+                            return mk_ref(ident, &q!(Vars { arg }, { arg }).parse());
+                        }
                     }
                 }
 
@@ -665,9 +647,20 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                             let arg = tps.args.first().unwrap();
 
                             match arg {
-                                GenericArgument::Type(arg) => {
-                                    return create_method_body(mode, arg);
-                                }
+                                GenericArgument::Type(arg) => match mode {
+                                    Mode::Folder => {
+                                        let ident = method_name(mode, arg);
+
+                                        return q!(
+                                            Vars { ident },
+                                            ({ Box::new(_visitor.ident(*n, _parent)) })
+                                        )
+                                        .parse();
+                                    }
+                                    Mode::Visitor => {
+                                        return create_method_body(mode, arg);
+                                    }
+                                },
                                 _ => unimplemented!("generic parameter other than type"),
                             }
                         }
@@ -817,6 +810,33 @@ fn is_option(ty: &Type) -> bool {
     }
 
     false
+}
+
+fn as_box(ty: &Type) -> Option<&Type> {
+    match ty {
+        Type::Path(p) => {
+            let last = p.path.segments.last().unwrap();
+
+            if !last.arguments.is_empty() {
+                if last.ident == "Box" {
+                    match &last.arguments {
+                        PathArguments::AngleBracketed(tps) => {
+                            let arg = tps.args.first().unwrap();
+
+                            match arg {
+                                GenericArgument::Type(arg) => return Some(arg),
+                                _ => unimplemented!("generic parameter other than type"),
+                            }
+                        }
+                        _ => unimplemented!("Box() -> T or Box without a type parameter"),
+                    }
+                }
+            }
+        }
+        _ => {}
+    }
+
+    None
 }
 
 fn extract_vec(ty: &Type) -> Option<&Type> {
