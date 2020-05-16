@@ -62,7 +62,7 @@ define!({
     pub struct Constructor {
         pub span: Span,
         pub key: PropName,
-        pub params: Vec<PatOrTsParamProp>,
+        pub params: Vec<ParamOrTsParamProp>,
         pub body: Option<BlockStmt>,
         pub accessibility: Option<Accessibility>,
         pub is_optional: bool,
@@ -296,7 +296,7 @@ define!({
         pub expr: Box<Expr>,
     }
     pub struct Function {
-        pub params: Vec<Pat>,
+        pub params: Vec<Param>,
         pub decorators: Vec<Decorator>,
         pub span: Span,
         pub body: Option<BlockStmt>,
@@ -305,10 +305,16 @@ define!({
         pub type_params: Option<TsTypeParamDecl>,
         pub return_type: Option<TsTypeAnn>,
     }
-    pub enum PatOrTsParamProp {
-        TsParamProp(TsParamProp),
-        Pat(Pat),
+    pub struct Param {
+        pub span: Span,
+        pub decorators: Vec<Decorator>,
+        pub pat: Pat,
     }
+    pub enum ParamOrTsParamProp {
+        TsParamProp(TsParamProp),
+        Param(Param),
+    }
+
     pub struct Ident {
         pub span: Span,
         pub sym: JsWord,
