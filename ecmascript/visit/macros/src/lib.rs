@@ -291,6 +291,26 @@ fn make_arm_from_struct(mode: Mode, path: &Path, variant: &Fields) -> Arm {
         }
     }
 
+    match mode {
+        Mode::Folder => {
+            // Append return statement
+            stmts.push(
+                q!(
+                    Vars {
+                        Path: &path,
+                        fields: &fields
+                    },
+                    {
+                        //
+                        return Path { fields };
+                    }
+                )
+                .parse(),
+            )
+        }
+        Mode::Visitor => {}
+    }
+
     let block = Block {
         brace_token: def_site(),
         stmts,
