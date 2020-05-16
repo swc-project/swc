@@ -1,3 +1,5 @@
+extern crate proc_macro;
+
 use inflector::Inflector;
 use pmutil::{q, IdentExt, Quote, ToTokensExt};
 use proc_macro2::Ident;
@@ -48,7 +50,7 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let block: Block = parse(tts.into());
 
     let mut q = Quote::new_call_site();
-    q.push_tokens(&make(Mode::Visitor, &block.stmts));
+    // q.push_tokens(&make(Mode::Visitor, &block.stmts));
     q.push_tokens(&make(Mode::Folder, &block.stmts));
     proc_macro2::TokenStream::from(q).into()
 }
@@ -270,7 +272,15 @@ fn method_sig(mode: Mode, ty: &Type) -> Signature {
             let mut p = Punctuated::default();
             p.push_value(q!(Vars {}, { &mut self }).parse());
             p.push_punct(def_site());
-            p.push_value(q!(Vars { Type: ty }, { n: &Type }).parse());
+            match mode {
+                Mode::Folder => {
+                    p.push_value(q!(Vars { Type: ty }, { n: Type }).parse());
+                }
+
+                Mode::Visitor => {
+                    p.push_value(q!(Vars { Type: ty }, { n: &Type }).parse());
+                }
+            }
             p.push_punct(def_site());
             p.push_value(q!(Vars {}, { _parent: &dyn Node }).parse());
 
@@ -315,9 +325,11 @@ fn make_method(mode: Mode, e: &Item, types: &mut Vec<Type>) -> TraitItemMethod {
                 }
             };
 
+            let sig = method_sig_from_ident(mode, type_name);
+
             TraitItemMethod {
                 attrs: vec![],
-                sig: method_sig_from_ident(mode, type_name),
+                sig,
                 default: Some(block),
                 semi_token: None,
             }
