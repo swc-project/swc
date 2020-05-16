@@ -245,7 +245,11 @@ impl Classes {
             .map(|e| alias_if_required(e, "_super").0);
         let has_super = super_ident.is_some();
         let (params, args) = if let Some(ref super_ident) = super_ident {
-            let params = vec![Pat::Ident(super_ident.clone())];
+            let params = vec![Param {
+                span: DUMMY_SP,
+                decorators: Default::default(),
+                pat: Pat::Ident(super_ident.clone()),
+            }];
 
             let super_class = class.super_class.clone().unwrap();
             let is_super_native = match *super_class {

@@ -1554,6 +1554,15 @@ impl<'a> Emitter<'a> {
 /// Patterns
 impl<'a> Emitter<'a> {
     #[emitter]
+    fn emit_param(&mut self, node: &Param) -> Result {
+        self.emit_leading_comments_of_pos(node.span().lo())?;
+
+        self.emit_list(node.span, Some(&node.decorators), ListFormat::Decorators)?;
+
+        emit!(node.pat);
+    }
+
+    #[emitter]
     fn emit_pat(&mut self, node: &Pat) -> Result {
         match *node {
             Pat::Array(ref n) => emit!(n),

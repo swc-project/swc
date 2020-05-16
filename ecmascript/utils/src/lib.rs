@@ -1321,12 +1321,16 @@ pub fn default_constructor(has_super: bool) -> Constructor {
         accessibility: Default::default(),
         is_optional: false,
         params: if has_super {
-            vec![PatOrTsParamProp::Pat(Pat::Rest(RestPat {
-                span: DUMMY_SP,
-                dot3_token: DUMMY_SP,
-                arg: box Pat::Ident(quote_ident!(span, "args")),
-                type_ann: Default::default(),
-            }))]
+            vec![ParamOrTsParamProp::Param(Param {
+                span,
+                decorators: vec![],
+                pat: Pat::Rest(RestPat {
+                    span: DUMMY_SP,
+                    dot3_token: DUMMY_SP,
+                    arg: box Pat::Ident(quote_ident!(span, "args")),
+                    type_ann: Default::default(),
+                }),
+            })]
         } else {
             vec![]
         },

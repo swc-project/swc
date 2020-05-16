@@ -271,12 +271,16 @@ impl Decorators {
                     is_optional: false,
                     accessibility: Default::default(),
                     params: if super_class_ident.is_some() {
-                        vec![PatOrTsParamProp::Pat(Pat::Rest(RestPat {
+                        vec![ParamOrTsParamProp::Param(Param {
                             span: DUMMY_SP,
-                            dot3_token: DUMMY_SP,
-                            arg: box Pat::Ident(quote_ident!("args")),
-                            type_ann: Default::default(),
-                        }))]
+                            decorators: vec![],
+                            pat: Pat::Rest(RestPat {
+                                span: DUMMY_SP,
+                                dot3_token: DUMMY_SP,
+                                arg: box Pat::Ident(quote_ident!("args")),
+                                type_ann: Default::default(),
+                            }),
+                        })]
                     } else {
                         vec![]
                     },
@@ -514,6 +518,11 @@ impl Decorators {
 
                         params: iter::once(Pat::Ident(initialize))
                             .chain(super_class_ident.map(Pat::Ident))
+                            .map(|pat| Param {
+                                span: DUMMY_SP,
+                                decorators: vec![],
+                                pat,
+                            })
                             .collect(),
 
                         decorators: Default::default(),

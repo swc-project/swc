@@ -10,7 +10,7 @@ use swc_common::{ast_node, Span};
 #[ast_node]
 #[derive(Eq, Hash)]
 pub struct Function {
-    pub params: Vec<Pat>,
+    pub params: Vec<Param>,
 
     #[serde(default)]
     pub decorators: Vec<Decorator>,
@@ -35,11 +35,19 @@ pub struct Function {
     pub return_type: Option<TsTypeAnn>,
 }
 
+#[ast_node("Parameter")]
+#[derive(Eq, Hash)]
+pub struct Param {
+    pub span: Span,
+    pub decorators: Vec<Decorator>,
+    pub pat: Pat,
+}
+
 #[ast_node]
 #[derive(Eq, Hash)]
-pub enum PatOrTsParamProp {
+pub enum ParamOrTsParamProp {
     #[tag("TsParameterProperty")]
     TsParamProp(TsParamProp),
-    #[tag("*")]
-    Pat(Pat),
+    #[tag("Parameter")]
+    Param(Param),
 }

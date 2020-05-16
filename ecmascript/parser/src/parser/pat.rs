@@ -141,7 +141,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     /// spec: 'FormalParameter'
     ///
     /// babel: `parseAssignableListItem`
-    pub(super) fn parse_formal_param(&mut self) -> PResult<'a, Pat> {
+    pub(super) fn parse_formal_param_pat(&mut self) -> PResult<'a, Pat> {
         let start = cur_pos!();
 
         let has_modifier = self.eat_any_ts_modifier()?;
@@ -234,7 +234,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         Ok(pat)
     }
 
-    pub(super) fn parse_constructor_params(&mut self) -> PResult<'a, Vec<PatOrTsParamProp>> {
+    pub(super) fn parse_constructor_params(&mut self) -> PResult<'a, Vec<ParamOrTsParamProp>> {
         let mut first = true;
         let mut params = vec![];
 
@@ -249,10 +249,12 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 }
             }
 
-            let start = cur_pos!();
+            let param_start = cur_pos!();
+            let decorators = self.parse_decorators(false)?;
+            let pat_start = cur_pos!();
 
             if eat!("...") {
-                let dot3_token = span!(start);
+                let dot3_token = span!(pat_start);
 
                 let pat = self.parse_binding_pat_or_ident()?;
                 let type_ann = if self.input.syntax().typescript() && is!(':') {
@@ -263,25 +265,30 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 };
 
                 let pat = Pat::Rest(RestPat {
-                    span: span!(start),
+                    span: span!(pat_start),
                     dot3_token,
                     arg: Box::new(pat),
                     type_ann,
                 });
-                params.push(PatOrTsParamProp::Pat(pat));
+                params.push(ParamOrTsParamProp::Param(Param {
+                    span: span!(param_start),
+                    decorators,
+                    pat,
+                }));
                 break;
             } else {
-                params.push(self.parse_constructor_param()?);
+                params.push(self.parse_constructor_param(param_start, decorators)?);
             }
         }
 
         Ok(params)
     }
 
-    fn parse_constructor_param(&mut self) -> PResult<'a, PatOrTsParamProp> {
-        let start = cur_pos!();
-        let decorators = self.parse_decorators(false)?;
-
+    fn parse_constructor_param(
+        &mut self,
+        param_start: BytePos,
+        decorators: Vec<Decorator>,
+    ) -> PResult<'a, ParamOrTsParamProp> {
         let (accessibility, readonly) = if self.input.syntax().typescript() {
             let accessibility = self.parse_access_modifier()?;
             (
@@ -292,15 +299,20 @@ impl<'a, I: Tokens> Parser<'a, I> {
             (None, false)
         };
         if accessibility == None && !readonly {
-            self.parse_formal_param().map(PatOrTsParamProp::from)
+            let pat = self.parse_formal_param_pat()?;
+            Ok(ParamOrTsParamProp::Param(Param {
+                span: span!(param_start),
+                decorators,
+                pat,
+            }))
         } else {
-            let param = match self.parse_formal_param()? {
+            let param = match self.parse_formal_param_pat()? {
                 Pat::Ident(i) => TsParamPropParam::Ident(i),
                 Pat::Assign(a) => TsParamPropParam::Assign(a),
                 node => syntax_error!(node.span(), SyntaxError::TsInvalidParamPropPat),
             };
-            Ok(PatOrTsParamProp::TsParamProp(TsParamProp {
-                span: span!(start),
+            Ok(ParamOrTsParamProp::TsParamProp(TsParamProp {
+                span: span!(param_start),
                 accessibility,
                 readonly,
                 decorators,
@@ -309,7 +321,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         }
     }
 
-    pub(super) fn parse_formal_params(&mut self) -> PResult<'a, Vec<Pat>> {
+    pub(super) fn parse_formal_params(&mut self) -> PResult<'a, Vec<Param>> {
         let mut first = true;
         let mut params = vec![];
         let mut dot3_token = Span::default();
@@ -332,14 +344,17 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 }
             }
 
-            let start = cur_pos!();
+            let param_start = cur_pos!();
 
             if !dot3_token.is_dummy() {
                 self.emit_err(dot3_token, SyntaxError::TS1014);
             }
 
-            if eat!("...") {
-                dot3_token = span!(start);
+            let decorators = self.parse_decorators(false)?;
+            let pat_start = cur_pos!();
+
+            let pat = if eat!("...") {
+                dot3_token = span!(pat_start);
 
                 let mut pat = self.parse_binding_pat_or_ident()?;
 
@@ -347,7 +362,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                     let right = self.parse_assignment_expr()?;
                     self.emit_err(pat.span(), SyntaxError::TS1048);
                     pat = AssignPat {
-                        span: span!(start),
+                        span: span!(pat_start),
                         left: Box::new(pat),
                         right,
                         type_ann: None,
@@ -364,31 +379,33 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 };
 
                 let pat = Pat::Rest(RestPat {
-                    span: span!(start),
+                    span: span!(pat_start),
                     dot3_token,
                     arg: Box::new(pat),
                     type_ann,
                 });
-                params.push(pat);
 
                 if self.syntax().typescript() && eat!('?') {
                     self.emit_err(make_span(self.input.prev_span()), SyntaxError::TS1047);
                     //
                 }
 
-                // continue instead of break to recover from
-                //
-                //      function foo(...A, B) { }
-                continue;
-            }
+                pat
+            } else {
+                self.parse_formal_param_pat()?
+            };
 
-            params.push(self.parse_formal_param()?);
+            params.push(Param {
+                span: span!(param_start),
+                decorators,
+                pat,
+            });
         }
 
         Ok(params)
     }
 
-    pub(super) fn parse_unique_formal_params(&mut self) -> PResult<'a, Vec<Pat>> {
+    pub(super) fn parse_unique_formal_params(&mut self) -> PResult<'a, Vec<Param>> {
         // FIXME: This is wrong
         self.parse_formal_params()
     }

@@ -486,8 +486,11 @@ impl<'a, I: Tokens> Parser<'a, I> {
                         // TODO: Search deeply for assignment pattern using a Visitor
 
                         let span = match *p {
-                            PatOrTsParamProp::Pat(Pat::Assign(ref p)) => Some(p.span()),
-                            PatOrTsParamProp::TsParamProp(TsParamProp {
+                            ParamOrTsParamProp::Param(ref param) => match param.pat {
+                                Pat::Assign(ref p) => Some(p.span()),
+                                _ => None,
+                            },
+                            ParamOrTsParamProp::TsParamProp(TsParamProp {
                                 param: TsParamPropParam::Assign(ref p),
                                 ..
                             }) => Some(p.span()),
@@ -634,8 +637,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
                             }
 
                             if !params.is_empty() {
-                                if let Pat::Rest(..) = params[0] {
-                                    p.emit_err(params[0].span(), SyntaxError::RestPatInSetter);
+                                if let Pat::Rest(..) = params[0].pat {
+                                    p.emit_err(params[0].pat.span(), SyntaxError::RestPatInSetter);
                                 }
                             }
 
@@ -833,7 +836,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         is_generator: bool,
     ) -> PResult<'a, Function>
     where
-        F: FnOnce(&mut Self) -> PResult<'a, Vec<Pat>>,
+        F: FnOnce(&mut Self) -> PResult<'a, Vec<Param>>,
     {
         let ctx = Context {
             in_async: is_async,
@@ -871,10 +874,10 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
             if p.syntax().typescript() && body.is_none() {
                 // Declare functions cannot have assignment pattern in parameters
-                for pat in &params {
+                for param in &params {
                     // TODO: Search deeply for assignment pattern using a Visitor
 
-                    let span = match *pat {
+                    let span = match &param.pat {
                         Pat::Assign(ref p) => Some(p.span()),
                         _ => None,
                     };
@@ -952,7 +955,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         }: MakeMethodArgs,
     ) -> PResult<'a, ClassMember>
     where
-        F: FnOnce(&mut Self) -> PResult<'a, Vec<Pat>>,
+        F: FnOnce(&mut Self) -> PResult<'a, Vec<Param>>,
     {
         let is_static = static_token.is_some();
         let ctx = Context {

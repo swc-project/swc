@@ -6,10 +6,10 @@ use swc_ecma_codegen_macros::emitter;
 
 impl<'a> Emitter<'a> {
     #[emitter]
-    fn emit_pat_or_ts_param_prop(&mut self, n: &PatOrTsParamProp) -> Result {
+    fn emit_pat_or_ts_param_prop(&mut self, n: &ParamOrTsParamProp) -> Result {
         match *n {
-            PatOrTsParamProp::Pat(ref n) => emit!(n),
-            PatOrTsParamProp::TsParamProp(ref n) => emit!(n),
+            ParamOrTsParamProp::Param(ref n) => emit!(n),
+            ParamOrTsParamProp::TsParamProp(ref n) => emit!(n),
         }
     }
 

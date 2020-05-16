@@ -148,7 +148,11 @@ impl Scope {
             is_async: false,
             is_generator: false,
             decorators: Default::default(),
-            params: vec![Pat::Ident(key_ident.clone())],
+            params: vec![Param {
+                span: DUMMY_SP,
+                decorators: Default::default(),
+                pat: Pat::Ident(key_ident.clone()),
+            }],
             body: Some(BlockStmt {
                 span: DUMMY_SP,
                 stmts: iter::once(Stmt::If(IfStmt {
