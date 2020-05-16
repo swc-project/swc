@@ -651,30 +651,17 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
             let last = p.path.segments.last().unwrap();
 
             if !last.arguments.is_empty() {
-                if last.ident == "Box" {
-                    match &last.arguments {
-                        PathArguments::AngleBracketed(tps) => {
-                            let arg = tps.args.first().unwrap();
+                if let Some(arg) = as_box(ty) {
+                    match mode {
+                        Mode::Folder => {
+                            let ident = method_name(mode, arg);
 
-                            match arg {
-                                GenericArgument::Type(arg) => match mode {
-                                    Mode::Folder => {
-                                        let ident = method_name(mode, arg);
-
-                                        return q!(
-                                            Vars { ident },
-                                            ({ Box::new(_visitor.ident(*n, _parent)) })
-                                        )
-                                        .parse();
-                                    }
-                                    Mode::Visitor => {
-                                        return create_method_body(mode, arg);
-                                    }
-                                },
-                                _ => unimplemented!("generic parameter other than type"),
-                            }
+                            return q!(Vars { ident }, ({ Box::new(_visitor.ident(*n, _parent)) }))
+                                .parse();
                         }
-                        _ => unimplemented!("Box() -> T or Box without a type parameter"),
+                        Mode::Visitor => {
+                            return create_method_body(mode, arg);
+                        }
                     }
                 }
 
