@@ -571,7 +571,7 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
                         }
 
                         Mode::Visitor => {
-                            return mk_ref(mode, ident, &q!(Vars { arg }, { arg }).parse());
+                            return mk_ref(mode, ident, &arg);
                         }
                     }
                 }
@@ -743,7 +743,9 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                                     Vars { ident },
                                                     ({
                                                         match n {
-                                                            Some(n) => _visitor.ident(*n, _parent),
+                                                            Some(n) => {
+                                                                Some(_visitor.ident(*n, _parent))
+                                                            }
                                                             None => None,
                                                         }
                                                     })
@@ -758,8 +760,8 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                         Vars { ident },
                                         ({
                                             match n {
-                                                Some(n) => _visitor.ident(n, _parent),
-                                                None => {}
+                                                Some(n) => Some(_visitor.ident(n, _parent)),
+                                                None => None,
                                             }
                                         })
                                     )
