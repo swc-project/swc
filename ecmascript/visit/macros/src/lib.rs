@@ -262,28 +262,34 @@ fn make_arm_from_struct(mode: Mode, path: &Path, variant: &Fields) -> Arm {
                 };
             }
 
-            match mode {
+            let stmt = match mode {
                 Mode::Folder => {
                     if let Some(..) = as_box(ty) {
-                        expr = q!(Vars { expr }, { *expr }).parse()
+                        q!(
+                            Vars {
+                                name: &binding_ident,
+                                expr,
+                                visit_name
+                            },
+                            {
+                                let name = Box::new(_visitor.visit_name(*expr, &n as _));
+                            }
+                        )
+                        .parse()
+                    } else {
+                        q!(
+                            Vars {
+                                name: &binding_ident,
+                                expr,
+                                visit_name
+                            },
+                            {
+                                let name = _visitor.visit_name(expr, &n as _);
+                            }
+                        )
+                        .parse()
                     }
                 }
-
-                _ => {}
-            }
-
-            let stmt = match mode {
-                Mode::Folder => q!(
-                    Vars {
-                        name: &binding_ident,
-                        expr,
-                        visit_name
-                    },
-                    {
-                        let name = _visitor.visit_name(expr, &n as _);
-                    }
-                )
-                .parse(),
 
                 Mode::Visitor => q!(Vars { expr, visit_name }, {
                     _visitor.visit_name(expr, n as _);
