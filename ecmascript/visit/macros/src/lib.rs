@@ -182,13 +182,22 @@ fn make_arm_from_struct(mode: Mode, path: &Path, variant: &Fields) -> Arm {
             .unwrap_or_else(|| Ident::new(&format!("_{}", i), call_site()));
 
         if !skip(ty) {
-            let mut expr: Expr = q!(
-                Vars {
-                    binding_ident: &binding_ident
-                },
-                { &*binding_ident }
-            )
-            .parse();
+            let mut expr: Expr = match mode {
+                Mode::Folder => q!(
+                    Vars {
+                        binding_ident: &binding_ident
+                    },
+                    { binding_ident }
+                )
+                .parse(),
+                Mode::Visitor => q!(
+                    Vars {
+                        binding_ident: &binding_ident
+                    },
+                    { &*binding_ident }
+                )
+                .parse(),
+            };
             if is_option(&ty) {
                 expr = if is_opt_vec(ty) {
                     q!(
@@ -209,10 +218,17 @@ fn make_arm_from_struct(mode: Mode, path: &Path, variant: &Fields) -> Arm {
                 };
             }
 
-            let stmt = q!(Vars { expr, visit_name }, {
-                _visitor.visit_name(expr, n as _);
-            })
-            .parse();
+            let stmt = match mode {
+                Mode::Folder => q!(Vars { expr, visit_name }, {
+                    _visitor.visit_name(expr, &n as _);
+                })
+                .parse(),
+
+                Mode::Visitor => q!(Vars { expr, visit_name }, {
+                    _visitor.visit_name(expr, n as _);
+                })
+                .parse(),
+            };
             stmts.push(stmt);
         }
 
@@ -287,7 +303,10 @@ fn method_sig(mode: Mode, ty: &Type) -> Signature {
             p
         },
         variadic: None,
-        output: ReturnType::Default,
+        output: match mode {
+            Mode::Folder => q!(Vars { ty }, { -> ty }).parse(),
+            _ => ReturnType::Default,
+        },
     }
 }
 
