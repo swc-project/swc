@@ -275,7 +275,7 @@ pub trait CharExt: Copy {
             None => return false,
         };
         // TODO: Use Unicode ID instead of XID.
-        c == '$' || c == '_' || UnicodeXID::is_xid_start(c)
+        c == '$' || c == '_' || c.is_ascii_alphabetic() || UnicodeXID::is_xid_start(c)
     }
 
     /// Test whether a given character is part of an identifier.
@@ -285,7 +285,11 @@ pub trait CharExt: Copy {
             None => return false,
         };
         // TODO: Use Unicode ID instead of XID.
-        c == '$' || c == '\u{200c}' || c == '\u{200d}' || UnicodeXID::is_xid_continue(c)
+        c == '$'
+            || c == '\u{200c}'
+            || c == '\u{200d}'
+            || c.is_ascii_alphanumeric()
+            || UnicodeXID::is_xid_continue(c)
     }
 
     /// See https://tc39.github.io/ecma262/#sec-line-terminators
