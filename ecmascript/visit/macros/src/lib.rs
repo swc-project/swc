@@ -133,20 +133,45 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             })
             .unwrap();
 
-        tokens.push_tokens(&q!(
-            Vars {
-                fn_name,
-                default_body,
-                Type: arg_ty,
-                Trait: Ident::new(mode.trait_name(), call_site()),
-            },
-            {
-                #[allow(unused_variables)]
-                pub fn fn_name<V: ?Sized + Trait>(_visitor: &mut V, n: Type, _parent: &dyn Node) {
-                    default_body
+        match mode {
+            Mode::Folder => tokens.push_tokens(&q!(
+                Vars {
+                    fn_name,
+                    default_body,
+                    Type: arg_ty,
+                    Trait: Ident::new(mode.trait_name(), call_site()),
+                },
+                {
+                    #[allow(unused_variables)]
+                    pub fn fn_name<V: ?Sized + Trait>(
+                        _visitor: &mut V,
+                        n: Type,
+                        _parent: &dyn Node,
+                    ) -> Type {
+                        default_body
+                    }
                 }
-            }
-        ))
+            )),
+
+            Mode::Visitor => tokens.push_tokens(&q!(
+                Vars {
+                    fn_name,
+                    default_body,
+                    Type: arg_ty,
+                    Trait: Ident::new(mode.trait_name(), call_site()),
+                },
+                {
+                    #[allow(unused_variables)]
+                    pub fn fn_name<V: ?Sized + Trait>(
+                        _visitor: &mut V,
+                        n: Type,
+                        _parent: &dyn Node,
+                    ) {
+                        default_body
+                    }
+                }
+            )),
+        }
     });
 
     tokens.push_tokens(&ItemTrait {
@@ -481,7 +506,7 @@ fn method_name(mode: Mode, v: &Type) -> Ident {
 }
 
 fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
-    fn mk_exact(ident: Ident, ty: &Type) -> Signature {
+    fn mk_exact(mode: Mode, ident: Ident, ty: &Type) -> Signature {
         Signature {
             constness: None,
             asyncness: None,
@@ -502,12 +527,16 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
                 p
             },
             variadic: None,
-            output: ReturnType::Default,
+            output: match mode {
+                Mode::Folder => q!(Vars { ty }, { -> ty }).parse(),
+                _ => ReturnType::Default,
+            },
         }
     }
 
-    fn mk_ref(ident: Ident, ty: &Type) -> Signature {
+    fn mk_ref(mode: Mode, ident: Ident, ty: &Type) -> Signature {
         mk_exact(
+            mode,
             ident,
             &Type::Reference(TypeReference {
                 and_token: def_site(),
@@ -538,11 +567,11 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
                     let ident = method_name(mode, &arg);
                     match mode {
                         Mode::Folder => {
-                            return mk_exact(ident, &arg);
+                            return mk_exact(mode, ident, &arg);
                         }
 
                         Mode::Visitor => {
-                            return mk_ref(ident, &q!(Vars { arg }, { arg }).parse());
+                            return mk_ref(mode, ident, &q!(Vars { arg }, { arg }).parse());
                         }
                     }
                 }
@@ -565,6 +594,7 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
                                         match mode {
                                             Mode::Folder => {
                                                 return mk_exact(
+                                                    mode,
                                                     ident,
                                                     &q!(Vars { item}, { Option<Vec<item>> })
                                                         .parse(),
@@ -572,6 +602,7 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
                                             }
                                             Mode::Visitor => {
                                                 return mk_exact(
+                                                    mode,
                                                     ident,
                                                     &q!(Vars { item}, { Option<&[item]> }).parse(),
                                                 );
@@ -582,12 +613,14 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
                                     match mode {
                                         Mode::Folder => {
                                             return mk_exact(
+                                                mode,
                                                 ident,
                                                 &q!(Vars { arg }, { Option<arg> }).parse(),
                                             );
                                         }
                                         Mode::Visitor => {
                                             return mk_exact(
+                                                mode,
                                                 ident,
                                                 &q!(Vars { arg }, { Option<&arg> }).parse(),
                                             );
@@ -625,12 +658,14 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
                                     match mode {
                                         Mode::Folder => {
                                             return mk_exact(
+                                                mode,
                                                 ident,
                                                 &q!(Vars { arg }, { Vec<arg> }).parse(),
                                             );
                                         }
                                         Mode::Visitor => {
                                             return mk_ref(
+                                                mode,
                                                 ident,
                                                 &q!(Vars { arg }, { [arg] }).parse(),
                                             );
@@ -646,9 +681,9 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
             }
 
             match mode {
-                Mode::Folder => return mk_exact(ident, ty),
+                Mode::Folder => return mk_exact(mode, ident, ty),
                 Mode::Visitor => {
-                    return mk_ref(ident, ty);
+                    return mk_ref(mode, ident, ty);
                 }
             }
         }
