@@ -589,7 +589,7 @@ impl RestFolder {
                     false,
                     false,
                 );
-                match param .pat{
+                match param.pat {
                     Pat::Rest(..) | Pat::Ident(..) => param,
                     Pat::Assign(AssignPat {
                         left: box Pat::Ident(..),
@@ -626,10 +626,10 @@ impl RestFolder {
                             })
                             .collect();
 
-                        Param{
-                            span:DUMMY_SP,
-                            decorators:Default::default(),
-                            pat:  Pat::Array(ArrayPat { span, elems, ..n }),
+                        Param {
+                            span: DUMMY_SP,
+                            decorators: Default::default(),
+                            pat: Pat::Array(ArrayPat { span, elems, ..n }),
                         }
                     }
                     Pat::Assign(n) => {
@@ -645,10 +645,10 @@ impl RestFolder {
                                 definite: false,
                             },
                         );
-                        Param{
-                            span:DUMMY_SP,
-                            decorators:Default::default(),
-                            pat:Pat::Assign(AssignPat {
+                        Param {
+                            span: DUMMY_SP,
+                            decorators: Default::default(),
+                            pat: Pat::Assign(AssignPat {
                                 span,
                                 left: box Pat::Ident(var_ident),
                                 right,
@@ -667,10 +667,10 @@ impl RestFolder {
                                 definite: false,
                             },
                         );
-                        Param{
-                            span:DUMMY_SP,
-                            decorators:Default::default(),
-                            pat:Pat::Ident(var_ident)
+                        Param {
+                            span: DUMMY_SP,
+                            decorators: Default::default(),
+                            pat: Pat::Ident(var_ident),
                         }
                     }
                 }

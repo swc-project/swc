@@ -89,7 +89,14 @@ impl Fold<Expr> for Arrow {
                     function: Function {
                         decorators: vec![],
                         span,
-                        params:params.into_iter().map(|pat| Param{span:DUMMY_SP,decorators:Default::default(),pat}).collect(),
+                        params: params
+                            .into_iter()
+                            .map(|pat| Param {
+                                span: DUMMY_SP,
+                                decorators: Default::default(),
+                                pat,
+                            })
+                            .collect(),
                         is_async,
                         is_generator,
                         body: Some(match body {

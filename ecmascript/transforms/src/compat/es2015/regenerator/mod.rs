@@ -409,7 +409,11 @@ impl Regenerator {
                                         let mut args = vec![Expr::Fn(FnExpr {
                                             ident: Some(inner_name),
                                             function: Function {
-                                                params: vec![Param{span:DUMMY_SP,decorators:Default::default(),pat:Pat::Ident(ctx.clone())}],
+                                                params: vec![Param {
+                                                    span: DUMMY_SP,
+                                                    decorators: Default::default(),
+                                                    pat: Pat::Ident(ctx.clone()),
+                                                }],
                                                 decorators: Default::default(),
                                                 span: DUMMY_SP,
                                                 body: Some(BlockStmt {

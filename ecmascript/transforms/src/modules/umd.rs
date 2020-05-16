@@ -410,7 +410,11 @@ impl Fold<Module> for Umd {
             define_deps_arg
                 .elems
                 .push(Some(Lit::Str(quote_str!("exports")).as_arg()));
-            factory_params.push(Param{span:DUMMY_SP,decorators:Default::default(), pat:Pat::Ident(exports_ident.clone())});
+            factory_params.push(Param {
+                span: DUMMY_SP,
+                decorators: Default::default(),
+                pat: Pat::Ident(exports_ident.clone()),
+            });
             factory_args.push(quote_ident!("exports").as_arg());
             global_factory_args.push(member_expr!(DUMMY_SP, mod.exports).as_arg());
         }
@@ -480,7 +484,11 @@ impl Fold<Module> for Umd {
             define_deps_arg
                 .elems
                 .push(Some(Lit::Str(quote_str!(src.clone())).as_arg()));
-            factory_params.push(Param{span:DUMMY_SP,decorators:Default::default(),pat:Pat::Ident(ident.clone())});
+            factory_params.push(Param {
+                span: DUMMY_SP,
+                decorators: Default::default(),
+                pat: Pat::Ident(ident.clone()),
+            });
             factory_args.push(make_require_call(self.root_mark, src.clone()).as_arg());
             global_factory_args.push(quote_ident!("global").member(global_ident).as_arg());
 
@@ -533,16 +541,15 @@ impl Fold<Module> for Umd {
             is_generator: false,
             decorators: Default::default(),
             params: vec![
-                Param{
-                    span:DUMMY_SP,
-                    decorators:Default::default(),
-                    pat:Pat::Ident(quote_ident!("global")),
-
+                Param {
+                    span: DUMMY_SP,
+                    decorators: Default::default(),
+                    pat: Pat::Ident(quote_ident!("global")),
                 },
-                Param{
-                    span:DUMMY_SP,
-                    decorators:Default::default(),
-                    pat:Pat::Ident(quote_ident!("factory"))
+                Param {
+                    span: DUMMY_SP,
+                    decorators: Default::default(),
+                    pat: Pat::Ident(quote_ident!("factory")),
                 },
             ],
             body: Some(BlockStmt {
