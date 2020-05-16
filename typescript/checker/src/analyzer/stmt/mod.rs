@@ -46,7 +46,7 @@ impl Analyzer<'_, '_> {
 
         let types = {
             // let order = self.reorder_stmts(&*stmts);
-            assert_eq!(order.len(), stmts.len());
+            // assert_eq!(order.len(), stmts.len());
 
             let mut v = ReturnTypeCollector {
                 analyzer: &mut *self,
@@ -57,7 +57,7 @@ impl Analyzer<'_, '_> {
             //     stmts[idx].visit_mut_with(&mut v);
             // }
 
-            stmts.visit_mut_children(self);
+            stmts.visit_mut_children(&mut v);
 
             v.types
         };

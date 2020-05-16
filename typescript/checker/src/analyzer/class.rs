@@ -84,7 +84,7 @@ impl Validate<Constructor> for Analyzer<'_, '_> {
                     }
 
                     match *p {
-                        PatOrTsParamProp::Pat(Pat::Ident(Ident { optional, .. })) => {
+                        ParamOrTsParamProp::Param(Param{pat:Pat::Ident(Ident { optional, .. }),..}) => {
                             if optional {
                                 has_optional = true;
                             }
@@ -105,20 +105,20 @@ impl Validate<Constructor> for Analyzer<'_, '_> {
                 child.scope.declaring.extend(names.clone());
 
                 let mut p = match &param {
-                    PatOrTsParamProp::TsParamProp(TsParamProp {
+                    ParamOrTsParamProp::TsParamProp(TsParamProp {
                         param: TsParamPropParam::Ident(i),
                         ..
                     }) => TsFnParam::Ident(i.clone()),
-                    PatOrTsParamProp::TsParamProp(TsParamProp {
+                    ParamOrTsParamProp::TsParamProp(TsParamProp {
                         param: TsParamPropParam::Assign(AssignPat { left: box pat, .. }),
                         ..
                     })
-                    | PatOrTsParamProp::Pat(pat) => from_pat(pat.clone()),
+                    | ParamOrTsParamProp::Param(Param{pat,..}) => from_pat(pat.clone()),
                 };
                 let p: ty::FnParam = child.validate(&mut p)?;
 
                 match param {
-                    PatOrTsParamProp::Pat(ref mut pat) => {
+                    ParamOrTsParamProp::Param(Param{ref mut pat,..}) => {
                         match child.declare_vars_with_ty(VarDeclKind::Let, pat, Some(p.ty.clone()))
                         {
                             Ok(()) => {}
@@ -127,7 +127,7 @@ impl Validate<Constructor> for Analyzer<'_, '_> {
                             }
                         }
                     }
-                    PatOrTsParamProp::TsParamProp(ref param) => match param.param {
+                    ParamOrTsParamProp::TsParamProp(ref param) => match param.param {
                         TsParamPropParam::Ident(ref i)
                         | TsParamPropParam::Assign(AssignPat {
                             left: box Pat::Ident(ref i),
@@ -242,7 +242,7 @@ impl Validate<ClassMethod> for Analyzer<'_, '_> {
                             child.info.errors.push(Error::TS1016 { span: p.span() });
                         }
 
-                        match *p {
+                        match p.pat {
                             Pat::Ident(Ident { optional, .. }) => {
                                 if optional {
                                     has_optional = true;
@@ -646,7 +646,7 @@ impl Validate<Class> for Analyzer<'_, '_> {
                             if cons.body.is_none() {
                                 for p in &cons.params {
                                     match *p {
-                                        PatOrTsParamProp::TsParamProp(..) => {
+                                        ParamOrTsParamProp::TsParamProp(..) => {
                                             child.info.errors.push(Error::TS2369 { span: p.span() })
                                         }
                                         _ => {}
@@ -660,10 +660,12 @@ impl Validate<Class> for Analyzer<'_, '_> {
                                     .params
                                     .iter()
                                     .filter(|p| match p {
-                                        PatOrTsParamProp::Pat(Pat::Ident(Ident {
-                                            optional: true,
-                                            ..
-                                        })) => false,
+                                        ParamOrTsParamProp::Param(Param{
+                                            pat:Pat::Ident(Ident {
+                                                               optional: true,
+                                                               ..
+                                                           }),
+                                                                  ..}) => false,
                                         _ => true,
                                     })
                                     .count();
@@ -777,7 +779,7 @@ impl Validate<Class> for Analyzer<'_, '_> {
                                             param.ty = new_ty.clone();
                                             match orig {
                                                 ClassMember::Method(ref mut method) => {
-                                                    method.function.params[0]
+                                                    method.function.params[0].pat
                                                         .set_ty(Some(new_ty.clone().into()))
                                                 }
                                                 _ => {}

@@ -69,6 +69,7 @@ impl Validate<TsEnumDecl> for Analyzer<'_, '_> {
                             TsLit::Number(v) => Expr::Lit(Lit::Num(v)),
                             TsLit::Str(v) => Expr::Lit(Lit::Str(v)),
                             TsLit::Bool(v) => Expr::Lit(Lit::Bool(v)),
+                            TsLit::Tpl(v) => Expr::Lit(Lit::Str(v.quasis.into_iter().next().unwrap().raw)),
                         }
                     })
                     .or_else(|err| match &m.init {
@@ -256,6 +257,7 @@ fn compute(
                     }
                     TsLit::Str(_) => {}
                     TsLit::Bool(_) => {}
+                    TsLit::Tpl(_) => {}
                 }
             }
 

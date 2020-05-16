@@ -467,6 +467,7 @@ impl Fold<Type> for LitGeneralizer {
                         TsLit::Bool(Bool { .. }) => TsKeywordTypeKind::TsBooleanKeyword,
                         TsLit::Number(Number { .. }) => TsKeywordTypeKind::TsNumberKeyword,
                         TsLit::Str(Str { .. }) => TsKeywordTypeKind::TsStringKeyword,
+                        TsLit::Tpl(..) => TsKeywordTypeKind::TsStringKeyword,
                     },
                 })
             }
@@ -1119,6 +1120,7 @@ impl Type {
             Type::Lit(ty) => Known(match &ty.lit {
                 TsLit::Number(v) => v.value != 0.0,
                 TsLit::Str(v) => v.value != *"",
+                TsLit::Tpl(v) => v.quasis.first().unwrap().raw.value != *"",
                 TsLit::Bool(v) => v.value,
             }),
             Type::Keyword(TsKeywordType { kind, .. }) => Known(match kind {
