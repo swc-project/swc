@@ -1,7 +1,7 @@
 extern crate proc_macro;
 
 use inflector::Inflector;
-use pmutil::{q, IdentExt, Quote, ToTokensExt};
+use pmutil::{q, IdentExt, Quote};
 use proc_macro2::Ident;
 use std::mem::replace;
 use swc_macros_common::{call_site, def_site};
