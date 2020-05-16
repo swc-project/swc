@@ -490,7 +490,7 @@ impl Destructuring {
 
         for param in ps {
             let span = param.span();
-            match param {
+            match param .pat{
                 Pat::Ident(..) => params.push(param),
                 Pat::Array(..) | Pat::Object(..) | Pat::Assign(..) => {
                     let ref_ident = private_ident!(span, "ref");

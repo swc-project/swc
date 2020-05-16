@@ -153,7 +153,7 @@ impl Fold<Expr> for ObjectLitFolder {
                                             body,
                                             is_async: false,
                                             is_generator: false,
-                                            params: vec![param],
+                                            params: vec![Param{span:DUMMY_SP,decorators:Default::default(),pat:param}],
                                             decorators: Default::default(),
                                             type_params: Default::default(),
                                             return_type: Default::default(),

@@ -25,15 +25,18 @@ impl Params {
         for (i, param) in ps.into_iter().enumerate() {
             let span = param.span();
 
-            match param {
+            match param.pat {
                 Pat::Ident(..) => params.push(param),
                 Pat::Array(..) | Pat::Object(..) => {
                     let binding = private_ident!(span, "param");
 
-                    params.push(Pat::Ident(binding.clone()));
+                    params.push(Param{
+                        pat:Pat::Ident(binding.clone()),
+                        ..param
+                    });
                     decls.push(VarDeclarator {
                         span,
-                        name: param,
+                        name: param.pat,
                         init: Some(box Expr::Ident(binding)),
                         definite: false,
                     })
@@ -41,11 +44,11 @@ impl Params {
                 Pat::Assign(..) => {
                     let binding = private_ident!(span, "param");
 
-                    params.push(Pat::Ident(binding.clone()));
+                    params.push(Param{span:DUMMY_SP,decorators:Default::default(),pat:Pat::Ident(binding.clone())});
                     // This expands to invalid code, but is fixed by destructing pass
                     decls.push(VarDeclarator {
                         span,
-                        name: param,
+                        name: param.pat,
                         init: Some(box Expr::Ident(binding)),
                         definite: false,
                     })

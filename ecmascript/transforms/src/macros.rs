@@ -34,7 +34,7 @@ macro_rules! impl_fold_fn {
                 };
                 let body_span = f.body.span();
                 let (params, mut body) = self.fold_fn_like(
-                    f.params,
+                    f.params.into_iter().map(|pat|{Param{span:DUMMY_SP,decorators:Default::default(),pat}}).collect(),
                     match f.body {
                         BlockStmtOrExpr::BlockStmt(block) => block,
                         BlockStmtOrExpr::Expr(expr) => BlockStmt {
@@ -63,7 +63,7 @@ macro_rules! impl_fold_fn {
                     BlockStmtOrExpr::BlockStmt(body)
                 };
 
-                validate!(ArrowExpr { params, body, ..f })
+                validate!(ArrowExpr { params:params.into_iter().map(|param|param.pat).collect(), body, ..f })
             }
         }
 
@@ -75,11 +75,11 @@ macro_rules! impl_fold_fn {
 
                 let f = f.fold_children(self);
 
-                let (mut params, body) = self.fold_fn_like(vec![f.param], f.body.unwrap());
+                let (mut params, body) = self.fold_fn_like(vec![Param{span:DUMMY_SP,decorators:Default::default(),pat:f.param}], f.body.unwrap());
                 debug_assert!(params.len() == 1);
 
                 validate!(SetterProp {
-                    param: params.pop().unwrap(),
+                    param: params.pop().unwrap().pat,
                     body: Some(body),
                     ..f
                 })
@@ -123,7 +123,7 @@ macro_rules! impl_fold_fn {
                     Some(params.pop().unwrap())
                 };
 
-                validate!(CatchClause { param, body, ..f })
+                validate!(CatchClause { param:param.map(|param|param.pat), body, ..f })
             }
         }
 
