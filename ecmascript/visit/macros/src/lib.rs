@@ -810,12 +810,16 @@ fn is_option(ty: &Type) -> bool {
 }
 
 fn as_box(ty: &Type) -> Option<&Type> {
+    extract_generic("Box", ty)
+}
+
+fn extract_generic<'a>(name: &str, ty: &'a Type) -> Option<&'a Type> {
     match ty {
         Type::Path(p) => {
             let last = p.path.segments.last().unwrap();
 
             if !last.arguments.is_empty() {
-                if last.ident == "Box" {
+                if last.ident == name {
                     match &last.arguments {
                         PathArguments::AngleBracketed(tps) => {
                             let arg = tps.args.first().unwrap();
