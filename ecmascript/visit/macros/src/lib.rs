@@ -789,6 +789,18 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                 GenericArgument::Type(arg) => {
                                     let ident = method_name(mode, arg);
 
+                                    if let Some(..) = as_box(arg) {
+                                        return q!(
+                                            Vars { ident },
+                                            ({
+                                                n.into_iter()
+                                                    .map(|v| Box::new(_visitor.ident(*v, _parent)))
+                                                    .collect()
+                                            })
+                                        )
+                                        .parse();
+                                    }
+
                                     return if is_option(arg) {
                                         match mode {
                                             Mode::Folder => q!(
@@ -929,28 +941,7 @@ fn extract_generic<'a>(name: &str, ty: &'a Type) -> Option<&'a Type> {
 }
 
 fn extract_vec(ty: &Type) -> Option<&Type> {
-    match ty {
-        Type::Path(p) => {
-            let last = p.path.segments.last().unwrap();
-
-            if last.ident == "Vec" {
-                match &last.arguments {
-                    PathArguments::AngleBracketed(tps) => {
-                        let arg = tps.args.first().unwrap();
-
-                        match arg {
-                            GenericArgument::Type(arg) => return Some(arg),
-                            _ => {}
-                        }
-                    }
-                    _ => {}
-                }
-            }
-        }
-        _ => {}
-    }
-
-    None
+    extract_generic("Vec", ty)
 }
 
 fn is_opt_vec(ty: &Type) -> bool {
