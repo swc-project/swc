@@ -117,8 +117,8 @@ impl Fold<Constructor> for Strip {
         let mut stmts = vec![];
 
         let params = c.params.move_map(|param| match param {
-            PatOrTsParamProp::Pat(..) => param,
-            PatOrTsParamProp::TsParamProp(param) => {
+            ParamOrTsParamProp::Param(..) => param,
+            ParamOrTsParamProp::TsParamProp(param) => {
                 let (ident, param) = match param.param {
                     TsParamPropParam::Ident(i) => (i.clone(), Pat::Ident(i)),
                     TsParamPropParam::Assign(AssignPat {
@@ -149,7 +149,7 @@ impl Fold<Constructor> for Strip {
                     .into_stmt(),
                 );
 
-                PatOrTsParamProp::Pat(param)
+                ParamOrTsParamProp::Param(param)
             }
         });
 
@@ -414,7 +414,11 @@ impl Strip {
                         is_async: false,
                         is_generator: false,
                         type_params: Default::default(),
-                        params: vec![Pat::Ident(id.clone())],
+                        params: vec![Param{
+                            span:id.span,
+                            decorators:vec![],
+                            pat:Pat::Ident(id.clone()),
+                        }],
                         body: Some(BlockStmt {
                             span: DUMMY_SP,
                             stmts: e

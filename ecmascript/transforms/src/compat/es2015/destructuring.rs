@@ -484,21 +484,25 @@ impl AssignFolder {
 impl_fold_fn!(Destructuring);
 
 impl Destructuring {
-    fn fold_fn_like(&mut self, ps: Vec<Pat>, body: BlockStmt) -> (Vec<Pat>, BlockStmt) {
+    fn fold_fn_like(&mut self, ps: Vec<Param>, body: BlockStmt) -> (Vec<Param>, BlockStmt) {
         let mut params = vec![];
         let mut decls = vec![];
 
-        for pat in ps {
-            let span = pat.span();
-            match pat {
-                Pat::Ident(..) => params.push(pat),
+        for param in ps {
+            let span = param.span();
+            match param {
+                Pat::Ident(..) => params.push(param),
                 Pat::Array(..) | Pat::Object(..) | Pat::Assign(..) => {
                     let ref_ident = private_ident!(span, "ref");
 
-                    params.push(Pat::Ident(ref_ident.clone()));
+                    params.push(Param{
+                        span:DUMMY_SP,
+                        decorators:Default::default(),
+                        pat:Pat::Ident(ref_ident.clone()),
+                    });
                     decls.push(VarDeclarator {
                         span,
-                        name: pat,
+                        name: param.pat,
                         init: Some(box Expr::Ident(ref_ident)),
                         definite: false,
                     })

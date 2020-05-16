@@ -571,7 +571,7 @@ impl RestFolder {
         self.vars.push(decl)
     }
 
-    fn fold_fn_like(&mut self, params: Vec<Pat>, body: BlockStmt) -> (Vec<Pat>, BlockStmt) {
+    fn fold_fn_like(&mut self, params: Vec<Param>, body: BlockStmt) -> (Vec<Param>, BlockStmt) {
         if !contains_rest(&params) {
             // fast-path
             return (params, body);

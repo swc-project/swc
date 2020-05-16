@@ -505,7 +505,7 @@ fn fn_args() {
                         stmts: vec![tester
                             .parse_stmt("actual1.js", "_defineProperty(this, 'force', force);")?],
                     }),
-                    params: vec![Pat::Ident(quote_ident!("force"))
+                    params: vec![Param{span:DUMMY_SP,decorators:vec![],pat:Pat::Ident(quote_ident!("force"))}
                         .fold_with(&mut marker(&[("force", mark1)]))],
                     type_params: Default::default(),
                     return_type: Default::default(),
@@ -627,8 +627,16 @@ fn params_in_fn() {
                         stmts: vec![],
                     }),
                     params: vec![
-                        Pat::Ident(Ident::new("param".into(), DUMMY_SP.apply_mark(mark1))),
-                        Pat::Ident(Ident::new("param".into(), DUMMY_SP.apply_mark(mark2))),
+                        Param{
+                            span:DUMMY_SP,
+                            decorators:Default::default(),
+                            pat:Pat::Ident(Ident::new("param".into(), DUMMY_SP.apply_mark(mark1))),
+                        },
+                        Param{
+                            span:DUMMY_SP,
+                            decorators:Default::default(),
+                            pat:Pat::Ident(Ident::new("param".into(), DUMMY_SP.apply_mark(mark2)))
+                        },
                     ],
                     type_params: Default::default(),
                     return_type: Default::default(),

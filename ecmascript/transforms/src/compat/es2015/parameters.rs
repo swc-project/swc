@@ -14,7 +14,7 @@ pub struct Params;
 noop_fold_type!(Params);
 
 impl Params {
-    fn fold_fn_like(&mut self, ps: Vec<Pat>, body: BlockStmt) -> (Vec<Pat>, BlockStmt) {
+    fn fold_fn_like(&mut self, ps: Vec<Param>, body: BlockStmt) -> (Vec<Param>, BlockStmt) {
         let body = validate!(body);
 
         let mut params = vec![];

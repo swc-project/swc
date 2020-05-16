@@ -109,7 +109,7 @@ macro_rules! impl_fold_fn {
                 let f = f.fold_children(self);
 
                 let (mut params, body) = match f.param {
-                    Some(param) => self.fold_fn_like(vec![param], f.body),
+                    Some(pat) => self.fold_fn_like(vec![Param{span:DUMMY_SP,decorators:vec![],pat,}], f.body),
                     None => self.fold_fn_like(vec![], f.body),
                 };
                 assert!(
@@ -139,7 +139,7 @@ macro_rules! impl_fold_fn {
                     .params
                     .into_iter()
                     .map(|pat| match pat {
-                        PatOrTsParamProp::Pat(p) => p,
+                        ParamOrTsParamProp::Param(p) => p,
                         _ => unreachable!(
                             "TsParameterProperty should be removed by typescript::strip pass"
                         ),
@@ -149,7 +149,7 @@ macro_rules! impl_fold_fn {
                 let (params, body) = self.fold_fn_like(params, f.body.unwrap());
 
                 validate!(Constructor {
-                    params: params.into_iter().map(PatOrTsParamProp::Pat).collect(),
+                    params: params.into_iter().map(ParamOrTsParamProp::Param).collect(),
                     body: Some(body),
                     ..f
                 })

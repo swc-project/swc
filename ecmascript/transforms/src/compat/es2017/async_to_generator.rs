@@ -536,10 +536,13 @@ impl Actual {
                     if done {
                         None
                     } else {
-                        match *p {
+                        match p.pat {
                             Pat::Ident(..) => Some(p.clone()),
                             Pat::Array(..) | Pat::Object(..) => {
-                                Some(Pat::Ident(private_ident!("_")))
+                                Some(Param{
+                                    pat:Pat::Ident(private_ident!("_")),
+                                    ..p.clone()
+                                })
                             }
                             _ => {
                                 done = true;
