@@ -51,7 +51,7 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
 
     let mut q = Quote::new_call_site();
     q.push_tokens(&make(Mode::Visitor, &block.stmts));
-    q.push_tokens(&make(Mode::Folder, &block.stmts));
+    // q.push_tokens(&make(Mode::Folder, &block.stmts));
     proc_macro2::TokenStream::from(q).into()
 }
 
@@ -782,8 +782,8 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                         Vars { ident },
                                         ({
                                             match n {
-                                                Some(n) => Some(_visitor.ident(n)),
-                                                None => None,
+                                                Some(n) => _visitor.ident(n, _parent),
+                                                None => {}
                                             }
                                         })
                                     )
@@ -805,16 +805,18 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                 GenericArgument::Type(arg) => {
                                     let ident = method_name(mode, arg);
 
-                                    if let Some(..) = as_box(arg) {
-                                        return q!(
-                                            Vars { ident },
-                                            ({
-                                                n.into_iter()
-                                                    .map(|v| Box::new(_visitor.ident(*v)))
-                                                    .collect()
-                                            })
-                                        )
-                                        .parse();
+                                    if mode == Mode::Folder {
+                                        if let Some(..) = as_box(arg) {
+                                            return q!(
+                                                Vars { ident },
+                                                ({
+                                                    n.into_iter()
+                                                        .map(|v| Box::new(_visitor.ident(*v)))
+                                                        .collect()
+                                                })
+                                            )
+                                            .parse();
+                                        }
                                     }
 
                                     return if is_option(arg) {
