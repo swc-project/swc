@@ -674,6 +674,24 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                 GenericArgument::Type(arg) => {
                                     let ident = method_name(mode, arg);
 
+                                    match mode {
+                                        Mode::Folder => {
+                                            if let Some(..) = as_box(arg) {
+                                                return q!(
+                                                    Vars { ident },
+                                                    ({
+                                                        match n {
+                                                            Some(n) => _visitor.ident(*n, _parent),
+                                                            None => {}
+                                                        }
+                                                    })
+                                                )
+                                                .parse();
+                                            }
+                                        }
+                                        _ => {}
+                                    }
+
                                     return q!(
                                         Vars { ident },
                                         ({
