@@ -34,7 +34,14 @@ macro_rules! impl_fold_fn {
                 };
                 let body_span = f.body.span();
                 let (params, mut body) = self.fold_fn_like(
-                    f.params.into_iter().map(|pat|{Param{span:DUMMY_SP,decorators:Default::default(),pat}}).collect(),
+                    f.params
+                        .into_iter()
+                        .map(|pat| Param {
+                            span: DUMMY_SP,
+                            decorators: Default::default(),
+                            pat,
+                        })
+                        .collect(),
                     match f.body {
                         BlockStmtOrExpr::BlockStmt(block) => block,
                         BlockStmtOrExpr::Expr(expr) => BlockStmt {
@@ -63,7 +70,11 @@ macro_rules! impl_fold_fn {
                     BlockStmtOrExpr::BlockStmt(body)
                 };
 
-                validate!(ArrowExpr { params:params.into_iter().map(|param|param.pat).collect(), body, ..f })
+                validate!(ArrowExpr {
+                    params: params.into_iter().map(|param| param.pat).collect(),
+                    body,
+                    ..f
+                })
             }
         }
 
@@ -75,7 +86,14 @@ macro_rules! impl_fold_fn {
 
                 let f = f.fold_children(self);
 
-                let (mut params, body) = self.fold_fn_like(vec![Param{span:DUMMY_SP,decorators:Default::default(),pat:f.param}], f.body.unwrap());
+                let (mut params, body) = self.fold_fn_like(
+                    vec![Param {
+                        span: DUMMY_SP,
+                        decorators: Default::default(),
+                        pat: f.param,
+                    }],
+                    f.body.unwrap(),
+                );
                 debug_assert!(params.len() == 1);
 
                 validate!(SetterProp {
@@ -109,7 +127,14 @@ macro_rules! impl_fold_fn {
                 let f = f.fold_children(self);
 
                 let (mut params, body) = match f.param {
-                    Some(pat) => self.fold_fn_like(vec![Param{span:DUMMY_SP,decorators:vec![],pat,}], f.body),
+                    Some(pat) => self.fold_fn_like(
+                        vec![Param {
+                            span: DUMMY_SP,
+                            decorators: vec![],
+                            pat,
+                        }],
+                        f.body,
+                    ),
                     None => self.fold_fn_like(vec![], f.body),
                 };
                 assert!(
@@ -123,7 +148,11 @@ macro_rules! impl_fold_fn {
                     Some(params.pop().unwrap())
                 };
 
-                validate!(CatchClause { param:param.map(|param|param.pat), body, ..f })
+                validate!(CatchClause {
+                    param: param.map(|param| param.pat),
+                    body,
+                    ..f
+                })
             }
         }
 

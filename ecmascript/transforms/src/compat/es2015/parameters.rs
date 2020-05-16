@@ -30,8 +30,8 @@ impl Params {
                 Pat::Array(..) | Pat::Object(..) => {
                     let binding = private_ident!(span, "param");
 
-                    params.push(Param{
-                        pat:Pat::Ident(binding.clone()),
+                    params.push(Param {
+                        pat: Pat::Ident(binding.clone()),
                         ..param
                     });
                     decls.push(VarDeclarator {
@@ -44,7 +44,11 @@ impl Params {
                 Pat::Assign(..) => {
                     let binding = private_ident!(span, "param");
 
-                    params.push(Param{span:DUMMY_SP,decorators:Default::default(),pat:Pat::Ident(binding.clone())});
+                    params.push(Param {
+                        span: DUMMY_SP,
+                        decorators: Default::default(),
+                        pat: Pat::Ident(binding.clone()),
+                    });
                     // This expands to invalid code, but is fixed by destructing pass
                     decls.push(VarDeclarator {
                         span,

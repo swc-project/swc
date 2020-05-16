@@ -413,7 +413,11 @@ impl Fold<Module> for Amd {
             define_deps_arg
                 .elems
                 .push(Some(Lit::Str(quote_str!("exports")).as_arg()));
-            factory_params.push(Param{span:DUMMY_SP,decorators:Default::default(),pat:Pat::Ident(exports_ident.clone())});
+            factory_params.push(Param {
+                span: DUMMY_SP,
+                decorators: Default::default(),
+                pat: Pat::Ident(exports_ident.clone()),
+            });
         }
 
         // Used only if export * exists
@@ -480,7 +484,11 @@ impl Fold<Module> for Amd {
             define_deps_arg
                 .elems
                 .push(Some(Lit::Str(quote_str!(src.clone())).as_arg()));
-            factory_params.push(Param{span:DUMMY_SP,decorators:Default::default(),pat:Pat::Ident(ident.clone()) });
+            factory_params.push(Param {
+                span: DUMMY_SP,
+                decorators: Default::default(),
+                pat: Pat::Ident(ident.clone()),
+            });
 
             {
                 // handle interop

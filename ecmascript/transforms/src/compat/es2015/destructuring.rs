@@ -490,15 +490,15 @@ impl Destructuring {
 
         for param in ps {
             let span = param.span();
-            match param .pat{
+            match param.pat {
                 Pat::Ident(..) => params.push(param),
                 Pat::Array(..) | Pat::Object(..) | Pat::Assign(..) => {
                     let ref_ident = private_ident!(span, "ref");
 
-                    params.push(Param{
-                        span:DUMMY_SP,
-                        decorators:Default::default(),
-                        pat:Pat::Ident(ref_ident.clone()),
+                    params.push(Param {
+                        span: DUMMY_SP,
+                        decorators: Default::default(),
+                        pat: Pat::Ident(ref_ident.clone()),
                     });
                     decls.push(VarDeclarator {
                         span,
