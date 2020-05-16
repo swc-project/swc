@@ -248,9 +248,16 @@ fn make_arm_from_struct(mode: Mode, path: &Path, variant: &Fields) -> Arm {
             }
 
             let stmt = match mode {
-                Mode::Folder => q!(Vars { expr, visit_name }, {
-                    _visitor.visit_name(expr, &n as _);
-                })
+                Mode::Folder => q!(
+                    Vars {
+                        name: &binding_ident,
+                        expr,
+                        visit_name
+                    },
+                    {
+                        let name = _visitor.visit_name(expr, &n as _);
+                    }
+                )
                 .parse(),
 
                 Mode::Visitor => q!(Vars { expr, visit_name }, {
@@ -682,7 +689,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                                     ({
                                                         match n {
                                                             Some(n) => _visitor.ident(*n, _parent),
-                                                            None => {}
+                                                            None => None,
                                                         }
                                                     })
                                                 )
