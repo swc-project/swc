@@ -693,21 +693,46 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                     let ident = method_name(mode, arg);
 
                                     return if is_option(arg) {
-                                        q!(
-                                            Vars { ident },
-                                            ({
-                                                n.iter().for_each(|v| {
-                                                    _visitor.ident(v.as_ref(), _parent)
+                                        match mode {
+                                            Mode::Folder => q!(
+                                                Vars { ident },
+                                                ({
+                                                    n.into_iter()
+                                                        .map(|v| _visitor.ident(v, _parent))
+                                                        .collect()
                                                 })
-                                            })
-                                        )
-                                        .parse()
+                                            )
+                                            .parse(),
+                                            Mode::Visitor => q!(
+                                                Vars { ident },
+                                                ({
+                                                    n.iter().for_each(|v| {
+                                                        _visitor.ident(v.as_ref(), _parent)
+                                                    })
+                                                })
+                                            )
+                                            .parse(),
+                                        }
                                     } else {
-                                        q!(
-                                            Vars { ident },
-                                            ({ n.iter().for_each(|v| _visitor.ident(v, _parent)) })
-                                        )
-                                        .parse()
+                                        match mode {
+                                            Mode::Folder => q!(
+                                                Vars { ident },
+                                                ({
+                                                    n.into_iter()
+                                                        .map(|v| _visitor.ident(v, _parent))
+                                                        .collect()
+                                                })
+                                            )
+                                            .parse(),
+                                            Mode::Visitor => q!(
+                                                Vars { ident },
+                                                ({
+                                                    n.iter()
+                                                        .for_each(|v| _visitor.ident(v, _parent))
+                                                })
+                                            )
+                                            .parse(),
+                                        }
                                     };
                                 }
                                 _ => unimplemented!("generic parameter other than type"),
