@@ -200,21 +200,40 @@ fn make_arm_from_struct(mode: Mode, path: &Path, variant: &Fields) -> Arm {
             };
             if is_option(&ty) {
                 expr = if is_opt_vec(ty) {
-                    q!(
-                        Vars {
-                            binding_ident: &binding_ident
-                        },
-                        { binding_ident.as_ref().map(|v| &**v) }
-                    )
-                    .parse()
+                    match mode {
+                        Mode::Folder => q!(
+                            Vars {
+                                binding_ident: &binding_ident
+                            },
+                            { binding_ident }
+                        )
+                        .parse(),
+
+                        Mode::Visitor => q!(
+                            Vars {
+                                binding_ident: &binding_ident
+                            },
+                            { binding_ident.as_ref().map(|v| &**v) }
+                        )
+                        .parse(),
+                    }
                 } else {
-                    q!(
-                        Vars {
-                            binding_ident: &binding_ident
-                        },
-                        { binding_ident.as_ref() }
-                    )
-                    .parse()
+                    match mode {
+                        Mode::Folder => q!(
+                            Vars {
+                                binding_ident: &binding_ident
+                            },
+                            { binding_ident }
+                        )
+                        .parse(),
+                        Mode::Visitor => q!(
+                            Vars {
+                                binding_ident: &binding_ident
+                            },
+                            { binding_ident.as_ref() }
+                        )
+                        .parse(),
+                    }
                 };
             }
 
