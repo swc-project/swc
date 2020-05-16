@@ -22,6 +22,16 @@ pub(super) enum PatMode {
 }
 
 #[validator]
+impl Validate<Param> for Analyzer<'_,'_>{
+    type Output = ValidationResult<ty::FnParam>;
+
+    fn validate(&mut self, node: &mut Param) -> Self::Output {
+        node.decorators.visit_mut_with(self);
+        node.pat.validate_with(self)
+    }
+}
+
+#[validator]
 impl Validate<Pat> for Analyzer<'_, '_> {
     type Output = ValidationResult<ty::FnParam>;
 

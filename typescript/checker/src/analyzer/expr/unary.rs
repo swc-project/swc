@@ -195,6 +195,15 @@ fn negate(ty: Type) -> Type {
                     span,
                 });
             }
+            TsLit::Tpl(ref v) => {
+                return Type::Lit(TsLitType {
+                    lit: TsLit::Bool(Bool {
+                        value: v.quasis.iter().next().as_ref().unwrap().raw.value != js_word!(""),
+                        span: v.span,
+                    }),
+                    span,
+                });
+            }
         },
 
         _ => {}

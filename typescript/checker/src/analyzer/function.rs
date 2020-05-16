@@ -28,7 +28,7 @@ impl Validate<Function> for Analyzer<'_, '_> {
                 let mut has_optional = false;
                 for p in &f.params {
                     if has_optional {
-                        match p {
+                        match p.pat {
                             Pat::Ident(Ident { optional: true, .. }) | Pat::Rest(..) => {}
                             _ => {
                                 child.info.errors.push(Error::TS1016 { span: p.span() });
@@ -36,7 +36,7 @@ impl Validate<Function> for Analyzer<'_, '_> {
                         }
                     }
 
-                    match *p {
+                    match p.pat {
                         Pat::Ident(Ident { optional, .. }) => {
                             // Allow optional after optional parameter
                             if optional {

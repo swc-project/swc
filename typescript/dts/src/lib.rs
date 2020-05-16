@@ -445,7 +445,7 @@ impl Fold<Vec<ClassMember>> for TypeResolver {
                 ClassMember::Constructor(ref mut c) => {
                     for p in c.params.iter_mut() {
                         match p {
-                            PatOrTsParamProp::TsParamProp(ref mut p) => {
+                            ParamOrTsParamProp::TsParamProp(ref mut p) => {
                                 if p.accessibility.is_some() || p.readonly {
                                     props.push(ClassMember::ClassProp(ClassProp {
                                         span: Default::default(),
