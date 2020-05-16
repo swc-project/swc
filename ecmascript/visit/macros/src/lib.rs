@@ -852,7 +852,10 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                 }
             }
 
-            q!(({})).parse()
+            match mode {
+                Mode::Folder => q!(({ return n })).parse(),
+                Mode::Visitor => q!(({})).parse(),
+            }
         }
         Type::Ptr(_) => unimplemented!("type: pointer"),
         Type::Reference(ty) => {
@@ -975,9 +978,6 @@ fn is_opt_vec(ty: &Type) -> bool {
 fn skip(ty: &Type) -> bool {
     match ty {
         Type::Path(p) => {
-            if !p.path.segments.last().unwrap().arguments.is_empty() {
-                return false;
-            }
             let i = &p.path.segments.last().as_ref().unwrap().ident;
 
             if i == "bool"
