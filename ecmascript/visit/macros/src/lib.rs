@@ -110,14 +110,20 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
         let fn_name = v.sig.ident.clone();
         let default_body = replace(
             &mut v.default,
-            Some(
-                q!(Vars { fn_name: &fn_name }, {
+            Some(match mode {
+                Mode::Folder => q!(Vars { fn_name: &fn_name }, {
+                    {
+                        fn_name(self, n)
+                    }
+                })
+                .parse(),
+                Mode::Visitor => q!(Vars { fn_name: &fn_name }, {
                     {
                         fn_name(self, n, _parent)
                     }
                 })
                 .parse(),
-            ),
+            }),
         )
         .clone();
 
@@ -143,11 +149,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 },
                 {
                     #[allow(unused_variables)]
-                    pub fn fn_name<V: ?Sized + Trait>(
-                        _visitor: &mut V,
-                        n: Type,
-                        _parent: &dyn Node,
-                    ) -> Type {
+                    pub fn fn_name<V: ?Sized + Trait>(_visitor: &mut V, n: Type) -> Type {
                         default_body
                     }
                 }
@@ -272,7 +274,7 @@ fn make_arm_from_struct(mode: Mode, path: &Path, variant: &Fields) -> Arm {
                                 visit_name
                             },
                             {
-                                let name = Box::new(_visitor.visit_name(*expr, &n as _));
+                                let name = Box::new(_visitor.visit_name(*expr));
                             }
                         )
                         .parse()
@@ -284,7 +286,7 @@ fn make_arm_from_struct(mode: Mode, path: &Path, variant: &Fields) -> Arm {
                                 visit_name
                             },
                             {
-                                let name = _visitor.visit_name(expr, &n as _);
+                                let name = _visitor.visit_name(expr);
                             }
                         )
                         .parse()
@@ -384,8 +386,16 @@ fn method_sig(mode: Mode, ty: &Type) -> Signature {
                     p.push_value(q!(Vars { Type: ty }, { n: &Type }).parse());
                 }
             }
-            p.push_punct(def_site());
-            p.push_value(q!(Vars {}, { _parent: &dyn Node }).parse());
+            match mode {
+                Mode::Folder => {
+                    // We can not provide parent node because it's child node is
+                    // part of the parent ndoe.
+                }
+                Mode::Visitor => {
+                    p.push_punct(def_site());
+                    p.push_value(q!(Vars {}, { _parent: &dyn Node }).parse());
+                }
+            }
 
             p
         },
@@ -527,8 +537,13 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
                 p.push_value(q!(Vars {}, { &mut self }).parse());
                 p.push_punct(def_site());
                 p.push_value(q!(Vars { Type: ty }, { n: Type }).parse());
-                p.push_punct(def_site());
-                p.push_value(q!(Vars {}, { _parent: &dyn Node }).parse());
+                match mode {
+                    Mode::Folder => {}
+                    Mode::Visitor => {
+                        p.push_punct(def_site());
+                        p.push_value(q!(Vars {}, { _parent: &dyn Node }).parse());
+                    }
+                }
 
                 p
             },
@@ -726,8 +741,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                         Mode::Folder => {
                             let ident = method_name(mode, arg);
 
-                            return q!(Vars { ident }, ({ Box::new(_visitor.ident(*n, _parent)) }))
-                                .parse();
+                            return q!(Vars { ident }, ({ Box::new(_visitor.ident(*n)) })).parse();
                         }
                         Mode::Visitor => {
                             return create_method_body(mode, arg);
@@ -751,9 +765,9 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                                     Vars { ident },
                                                     ({
                                                         match n {
-                                                            Some(n) => Some(Box::new(
-                                                                _visitor.ident(*n, _parent),
-                                                            )),
+                                                            Some(n) => {
+                                                                Some(Box::new(_visitor.ident(*n)))
+                                                            }
                                                             None => None,
                                                         }
                                                     })
@@ -768,7 +782,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                         Vars { ident },
                                         ({
                                             match n {
-                                                Some(n) => Some(_visitor.ident(n, _parent)),
+                                                Some(n) => Some(_visitor.ident(n)),
                                                 None => None,
                                             }
                                         })
@@ -796,7 +810,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                             Vars { ident },
                                             ({
                                                 n.into_iter()
-                                                    .map(|v| Box::new(_visitor.ident(*v, _parent)))
+                                                    .map(|v| Box::new(_visitor.ident(*v)))
                                                     .collect()
                                             })
                                         )
@@ -809,7 +823,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                                 Vars { ident },
                                                 ({
                                                     n.into_iter()
-                                                        .map(|v| _visitor.ident(v, _parent))
+                                                        .map(|v| _visitor.ident(v))
                                                         .collect()
                                                 })
                                             )
@@ -830,7 +844,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                                 Vars { ident },
                                                 ({
                                                     n.into_iter()
-                                                        .map(|v| _visitor.ident(v, _parent))
+                                                        .map(|v| _visitor.ident(v))
                                                         .collect()
                                                 })
                                             )
