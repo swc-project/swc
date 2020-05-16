@@ -22,42 +22,51 @@
       "declare": false,
       "params": [
         {
-          "type": "Identifier",
+          "type": "Parameter",
           "span": {
             "start": 14,
             "end": 19,
             "ctxt": 0
           },
-          "value": "x",
-          "typeAnnotation": {
-            "type": "TsTypeAnnotation",
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
             "span": {
-              "start": 16,
+              "start": 14,
               "end": 19,
               "ctxt": 0
             },
+            "value": "x",
             "typeAnnotation": {
-              "type": "TsTypeReference",
+              "type": "TsTypeAnnotation",
               "span": {
-                "start": 18,
+                "start": 16,
                 "end": 19,
                 "ctxt": 0
               },
-              "typeName": {
-                "type": "Identifier",
+              "typeAnnotation": {
+                "type": "TsTypeReference",
                 "span": {
                   "start": 18,
                   "end": 19,
                   "ctxt": 0
                 },
-                "value": "T",
-                "typeAnnotation": null,
-                "optional": false
-              },
-              "typeParams": null
-            }
-          },
-          "optional": true
+                "typeName": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 18,
+                    "end": 19,
+                    "ctxt": 0
+                  },
+                  "value": "T",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "typeParams": null
+              }
+            },
+            "optional": true
+          }
         }
       ],
       "decorators": [],

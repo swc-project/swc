@@ -117,10 +117,17 @@ impl Fold<Constructor> for Strip {
         let mut stmts = vec![];
 
         let params = c.params.move_map(|param| match param {
-            PatOrTsParamProp::Pat(..) => param,
-            PatOrTsParamProp::TsParamProp(param) => {
+            ParamOrTsParamProp::Param(..) => param,
+            ParamOrTsParamProp::TsParamProp(param) => {
                 let (ident, param) = match param.param {
-                    TsParamPropParam::Ident(i) => (i.clone(), Pat::Ident(i)),
+                    TsParamPropParam::Ident(i) => (
+                        i.clone(),
+                        Param {
+                            span: DUMMY_SP,
+                            decorators: Default::default(),
+                            pat: Pat::Ident(i),
+                        },
+                    ),
                     TsParamPropParam::Assign(AssignPat {
                         span,
                         left: box Pat::Ident(i),
@@ -128,12 +135,16 @@ impl Fold<Constructor> for Strip {
                         ..
                     }) => (
                         i.clone(),
-                        Pat::Assign(AssignPat {
-                            span,
-                            left: box Pat::Ident(i),
-                            right,
-                            type_ann: None,
-                        }),
+                        Param {
+                            span: DUMMY_SP,
+                            decorators: Default::default(),
+                            pat: Pat::Assign(AssignPat {
+                                span,
+                                left: box Pat::Ident(i),
+                                right,
+                                type_ann: None,
+                            }),
+                        },
                     ),
                     _ => unreachable!("destructuring pattern inside TsParameterProperty"),
                 };
@@ -149,7 +160,7 @@ impl Fold<Constructor> for Strip {
                     .into_stmt(),
                 );
 
-                PatOrTsParamProp::Pat(param)
+                ParamOrTsParamProp::Param(param)
             }
         });
 
@@ -185,12 +196,12 @@ impl Fold<Vec<ClassMember>> for Strip {
     }
 }
 
-impl Fold<Vec<Pat>> for Strip {
-    fn fold(&mut self, pats: Vec<Pat>) -> Vec<Pat> {
-        let mut pats = pats.fold_children(self);
+/// Remove `this` from parameter list
+impl Fold<Vec<Param>> for Strip {
+    fn fold(&mut self, params: Vec<Param>) -> Vec<Param> {
+        let mut params = params.fold_children(self);
 
-        // Remove this from parameter list
-        pats.retain(|pat| match *pat {
+        params.retain(|param| match param.pat {
             Pat::Ident(Ident {
                 sym: js_word!("this"),
                 ..
@@ -198,7 +209,7 @@ impl Fold<Vec<Pat>> for Strip {
             _ => true,
         });
 
-        pats
+        params
     }
 }
 
@@ -414,7 +425,11 @@ impl Strip {
                         is_async: false,
                         is_generator: false,
                         type_params: Default::default(),
-                        params: vec![Pat::Ident(id.clone())],
+                        params: vec![Param {
+                            span: id.span,
+                            decorators: vec![],
+                            pat: Pat::Ident(id.clone()),
+                        }],
                         body: Some(BlockStmt {
                             span: DUMMY_SP,
                             stmts: e

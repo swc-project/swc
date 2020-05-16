@@ -57,42 +57,51 @@
                 },
                 "params": [
                   {
-                    "type": "Identifier",
+                    "type": "Parameter",
                     "span": {
                       "start": 48,
                       "end": 56,
                       "ctxt": 0
                     },
-                    "value": "value",
-                    "typeAnnotation": {
-                      "type": "TsTypeAnnotation",
+                    "decorators": [],
+                    "pat": {
+                      "type": "Identifier",
                       "span": {
-                        "start": 53,
+                        "start": 48,
                         "end": 56,
                         "ctxt": 0
                       },
+                      "value": "value",
                       "typeAnnotation": {
-                        "type": "TsTypeReference",
+                        "type": "TsTypeAnnotation",
                         "span": {
-                          "start": 55,
+                          "start": 53,
                           "end": 56,
                           "ctxt": 0
                         },
-                        "typeName": {
-                          "type": "Identifier",
+                        "typeAnnotation": {
+                          "type": "TsTypeReference",
                           "span": {
                             "start": 55,
                             "end": 56,
                             "ctxt": 0
                           },
-                          "value": "T",
-                          "typeAnnotation": null,
-                          "optional": false
-                        },
-                        "typeParams": null
-                      }
-                    },
-                    "optional": false
+                          "typeName": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 55,
+                              "end": 56,
+                              "ctxt": 0
+                            },
+                            "value": "T",
+                            "typeAnnotation": null,
+                            "optional": false
+                          },
+                          "typeParams": null
+                        }
+                      },
+                      "optional": false
+                    }
                   }
                 ],
                 "decorators": [],

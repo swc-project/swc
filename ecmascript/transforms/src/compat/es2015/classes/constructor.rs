@@ -122,7 +122,7 @@ pub(super) fn constructor_fn(c: Constructor) -> Function {
             .params
             .into_iter()
             .map(|pat| match pat {
-                PatOrTsParamProp::Pat(p) => p,
+                ParamOrTsParamProp::Param(p) => p,
                 _ => unimplemented!("TsParamProp in constructor"),
             })
             .collect(),
