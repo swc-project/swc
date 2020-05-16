@@ -120,7 +120,7 @@ impl Fold<Constructor> for Strip {
             ParamOrTsParamProp::Param(..) => param,
             ParamOrTsParamProp::TsParamProp(param) => {
                 let (ident, param) = match param.param {
-                    TsParamPropParam::Ident(i) => (i.clone(), Pat::Ident(i)),
+                    TsParamPropParam::Ident(i) => (i.clone(), Param{span:DUMMY_SP,decorators:Default::default(),pat:Pat::Ident(i)}),
                     TsParamPropParam::Assign(AssignPat {
                         span,
                         left: box Pat::Ident(i),
@@ -128,12 +128,16 @@ impl Fold<Constructor> for Strip {
                         ..
                     }) => (
                         i.clone(),
-                        Pat::Assign(AssignPat {
-                            span,
-                            left: box Pat::Ident(i),
-                            right,
-                            type_ann: None,
-                        }),
+                       Param{
+                           span:DUMMY_SP,
+                           decorators:Default::default(),
+                           pat: Pat::Assign(AssignPat {
+                               span,
+                               left: box Pat::Ident(i),
+                               right,
+                               type_ann: None,
+                           }),
+                       },
                     ),
                     _ => unreachable!("destructuring pattern inside TsParameterProperty"),
                 };

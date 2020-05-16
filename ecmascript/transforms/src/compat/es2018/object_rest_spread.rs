@@ -579,17 +579,17 @@ impl RestFolder {
 
         let params = params
             .into_iter()
-            .map(|param| {
+            .map(|mut param| {
                 let var_ident = private_ident!(param.span(), "_param");
                 let mut index = self.vars.len();
-                let param = self.fold_rest(
+                param.pat = self.fold_rest(
                     &mut index,
-                    param,
+                    param.pat,
                     box Expr::Ident(var_ident.clone()),
                     false,
                     false,
                 );
-                match param {
+                match param .pat{
                     Pat::Rest(..) | Pat::Ident(..) => param,
                     Pat::Assign(AssignPat {
                         left: box Pat::Ident(..),
@@ -626,7 +626,11 @@ impl RestFolder {
                             })
                             .collect();
 
-                        Pat::Array(ArrayPat { span, elems, ..n })
+                        Param{
+                            span:DUMMY_SP,
+                            decorators:Default::default(),
+                            pat:  Pat::Array(ArrayPat { span, elems, ..n }),
+                        }
                     }
                     Pat::Assign(n) => {
                         let AssignPat {
@@ -641,12 +645,16 @@ impl RestFolder {
                                 definite: false,
                             },
                         );
-                        Pat::Assign(AssignPat {
-                            span,
-                            left: box Pat::Ident(var_ident),
-                            right,
-                            ..n
-                        })
+                        Param{
+                            span:DUMMY_SP,
+                            decorators:Default::default(),
+                            pat:Pat::Assign(AssignPat {
+                                span,
+                                left: box Pat::Ident(var_ident),
+                                right,
+                                ..n
+                            }),
+                        }
                     }
                     _ => {
                         // initialize snd destructure
@@ -654,12 +662,16 @@ impl RestFolder {
                             index,
                             VarDeclarator {
                                 span: DUMMY_SP,
-                                name: param,
+                                name: param.pat,
                                 init: Some(box Expr::Ident(var_ident.clone())),
                                 definite: false,
                             },
                         );
-                        Pat::Ident(var_ident)
+                        Param{
+                            span:DUMMY_SP,
+                            decorators:Default::default(),
+                            pat:Pat::Ident(var_ident)
+                        }
                     }
                 }
             })
