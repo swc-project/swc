@@ -1,5 +1,7 @@
+extern crate proc_macro;
+
 use inflector::Inflector;
-use pmutil::{q, IdentExt};
+use pmutil::{q, IdentExt, Quote};
 use proc_macro2::Ident;
 use std::mem::replace;
 use swc_macros_common::{call_site, def_site};
@@ -9,6 +11,28 @@ use syn::{
     Member, Path, PathArguments, ReturnType, Signature, Stmt, Token, TraitItem, TraitItemMethod,
     Type, TypePath, TypeReference, VisPublic, Visibility,
 };
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum Mode {
+    Visitor,
+    Folder,
+}
+
+impl Mode {
+    fn trait_name(self) -> &'static str {
+        match self {
+            Mode::Folder => "Fold",
+            Mode::Visitor => "Visit",
+        }
+    }
+
+    fn prefix(self) -> &'static str {
+        match self {
+            Mode::Folder => "fold",
+            Mode::Visitor => "visit",
+        }
+    }
+}
 
 /// This creates `Visit`. This is extensible visitor generator, and it
 ///
@@ -25,17 +49,24 @@ use syn::{
 pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let block: Block = parse(tts.into());
 
+    let mut q = Quote::new_call_site();
+    q.push_tokens(&make(Mode::Visitor, &block.stmts));
+    // q.push_tokens(&make(Mode::Folder, &block.stmts));
+    proc_macro2::TokenStream::from(q).into()
+}
+
+fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
     // Required to generate specialization code.
     let mut types = vec![];
     let mut methods = vec![];
 
-    for stmts in block.stmts {
+    for stmts in stmts {
         let item = match stmts {
             Stmt::Item(item) => item,
             _ => unimplemented!("error reporting for something other than Item"),
         };
 
-        let mtd = make_method(item, &mut types);
+        let mtd = make_method(mode, item, &mut types);
         methods.push(mtd);
     }
 
@@ -53,7 +84,7 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
     methods.sort_by_cached_key(|v| v.sig.ident.to_string());
 
     for ty in types {
-        let name = method_name(&ty);
+        let name = method_name(mode, &ty);
         let s = name.to_string();
         if methods.iter().any(|m| m.sig.ident == &*s) {
             continue;
@@ -61,8 +92,8 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
 
         methods.push(TraitItemMethod {
             attrs: vec![],
-            sig: create_method_sig(&ty),
-            default: Some(create_method_body(&ty)),
+            sig: create_method_sig(mode, &ty),
+            default: Some(create_method_body(mode, &ty)),
             semi_token: None,
         });
     }
@@ -79,14 +110,20 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
         let fn_name = v.sig.ident.clone();
         let default_body = replace(
             &mut v.default,
-            Some(
-                q!(Vars { fn_name: &fn_name }, {
+            Some(match mode {
+                Mode::Folder => q!(Vars { fn_name: &fn_name }, {
+                    {
+                        fn_name(self, n)
+                    }
+                })
+                .parse(),
+                Mode::Visitor => q!(Vars { fn_name: &fn_name }, {
                     {
                         fn_name(self, n, _parent)
                     }
                 })
                 .parse(),
-            ),
+            }),
         )
         .clone();
 
@@ -102,19 +139,41 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
             })
             .unwrap();
 
-        tokens.push_tokens(&q!(
-            Vars {
-                fn_name,
-                default_body,
-                Type: arg_ty,
-            },
-            {
-                #[allow(unused_variables)]
-                pub fn fn_name<V: ?Sized + Visit>(_visitor: &mut V, n: Type, _parent: &dyn Node) {
-                    default_body
+        match mode {
+            Mode::Folder => tokens.push_tokens(&q!(
+                Vars {
+                    fn_name,
+                    default_body,
+                    Type: arg_ty,
+                    Trait: Ident::new(mode.trait_name(), call_site()),
+                },
+                {
+                    #[allow(unused_variables)]
+                    pub fn fn_name<V: ?Sized + Trait>(_visitor: &mut V, n: Type) -> Type {
+                        default_body
+                    }
                 }
-            }
-        ))
+            )),
+
+            Mode::Visitor => tokens.push_tokens(&q!(
+                Vars {
+                    fn_name,
+                    default_body,
+                    Type: arg_ty,
+                    Trait: Ident::new(mode.trait_name(), call_site()),
+                },
+                {
+                    #[allow(unused_variables)]
+                    pub fn fn_name<V: ?Sized + Trait>(
+                        _visitor: &mut V,
+                        n: Type,
+                        _parent: &dyn Node,
+                    ) {
+                        default_body
+                    }
+                }
+            )),
+        }
     });
 
     tokens.push_tokens(&ItemTrait {
@@ -125,7 +184,7 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
         unsafety: None,
         auto_token: None,
         trait_token: def_site(),
-        ident: Ident::new("Visit", call_site()),
+        ident: Ident::new(mode.trait_name(), call_site()),
         generics: Default::default(),
         colon_token: None,
         supertraits: Default::default(),
@@ -133,54 +192,112 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
         items: methods.into_iter().map(TraitItem::Method).collect(),
     });
 
-    tokens.into()
+    tokens
 }
 
-fn make_arm_from_struct(path: &Path, variant: &Fields) -> Arm {
+fn make_arm_from_struct(mode: Mode, path: &Path, variant: &Fields) -> Arm {
     let mut stmts = vec![];
     let mut fields: Punctuated<FieldValue, Token![,]> = Default::default();
 
     for (i, field) in variant.iter().enumerate() {
         let ty = &field.ty;
 
-        let visit_name = method_name(&ty);
+        let visit_name = method_name(mode, &ty);
         let binding_ident = field
             .ident
             .clone()
             .unwrap_or_else(|| Ident::new(&format!("_{}", i), call_site()));
 
         if !skip(ty) {
-            let mut expr: Expr = q!(
-                Vars {
-                    binding_ident: &binding_ident
-                },
-                { &*binding_ident }
-            )
-            .parse();
+            let mut expr: Expr = match mode {
+                Mode::Folder => q!(
+                    Vars {
+                        binding_ident: &binding_ident
+                    },
+                    { binding_ident }
+                )
+                .parse(),
+                Mode::Visitor => q!(
+                    Vars {
+                        binding_ident: &binding_ident
+                    },
+                    { &*binding_ident }
+                )
+                .parse(),
+            };
             if is_option(&ty) {
                 expr = if is_opt_vec(ty) {
-                    q!(
-                        Vars {
-                            binding_ident: &binding_ident
-                        },
-                        { binding_ident.as_ref().map(|v| &**v) }
-                    )
-                    .parse()
+                    match mode {
+                        Mode::Folder => q!(
+                            Vars {
+                                binding_ident: &binding_ident
+                            },
+                            { binding_ident }
+                        )
+                        .parse(),
+
+                        Mode::Visitor => q!(
+                            Vars {
+                                binding_ident: &binding_ident
+                            },
+                            { binding_ident.as_ref().map(|v| &**v) }
+                        )
+                        .parse(),
+                    }
                 } else {
-                    q!(
-                        Vars {
-                            binding_ident: &binding_ident
-                        },
-                        { binding_ident.as_ref() }
-                    )
-                    .parse()
+                    match mode {
+                        Mode::Folder => q!(
+                            Vars {
+                                binding_ident: &binding_ident
+                            },
+                            { binding_ident }
+                        )
+                        .parse(),
+                        Mode::Visitor => q!(
+                            Vars {
+                                binding_ident: &binding_ident
+                            },
+                            { binding_ident.as_ref() }
+                        )
+                        .parse(),
+                    }
                 };
             }
 
-            let stmt = q!(Vars { expr, visit_name }, {
-                _visitor.visit_name(expr, n as _);
-            })
-            .parse();
+            let stmt = match mode {
+                Mode::Folder => {
+                    if let Some(..) = as_box(ty) {
+                        q!(
+                            Vars {
+                                name: &binding_ident,
+                                expr,
+                                visit_name
+                            },
+                            {
+                                let name = Box::new(_visitor.visit_name(*expr));
+                            }
+                        )
+                        .parse()
+                    } else {
+                        q!(
+                            Vars {
+                                name: &binding_ident,
+                                expr,
+                                visit_name
+                            },
+                            {
+                                let name = _visitor.visit_name(expr);
+                            }
+                        )
+                        .parse()
+                    }
+                }
+
+                Mode::Visitor => q!(Vars { expr, visit_name }, {
+                    _visitor.visit_name(expr, n as _);
+                })
+                .parse(),
+            };
             stmts.push(stmt);
         }
 
@@ -207,6 +324,26 @@ fn make_arm_from_struct(path: &Path, variant: &Fields) -> Arm {
         }
     }
 
+    match mode {
+        Mode::Folder => {
+            // Append return statement
+            stmts.push(
+                q!(
+                    Vars {
+                        Path: &path,
+                        fields: &fields
+                    },
+                    {
+                        //
+                        return Path { fields };
+                    }
+                )
+                .parse(),
+            )
+        }
+        Mode::Visitor => {}
+    }
+
     let block = Block {
         brace_token: def_site(),
         stmts,
@@ -226,39 +363,61 @@ fn make_arm_from_struct(path: &Path, variant: &Fields) -> Arm {
     }
 }
 
-fn method_sig(ty: &Type) -> Signature {
+fn method_sig(mode: Mode, ty: &Type) -> Signature {
     Signature {
         constness: None,
         asyncness: None,
         unsafety: None,
         abi: None,
         fn_token: def_site(),
-        ident: method_name(ty),
+        ident: method_name(mode, ty),
         generics: Default::default(),
         paren_token: def_site(),
         inputs: {
             let mut p = Punctuated::default();
             p.push_value(q!(Vars {}, { &mut self }).parse());
             p.push_punct(def_site());
-            p.push_value(q!(Vars { Type: ty }, { n: &Type }).parse());
-            p.push_punct(def_site());
-            p.push_value(q!(Vars {}, { _parent: &dyn Node }).parse());
+            match mode {
+                Mode::Folder => {
+                    p.push_value(q!(Vars { Type: ty }, { n: Type }).parse());
+                }
+
+                Mode::Visitor => {
+                    p.push_value(q!(Vars { Type: ty }, { n: &Type }).parse());
+                }
+            }
+            match mode {
+                Mode::Folder => {
+                    // We can not provide parent node because it's child node is
+                    // part of the parent ndoe.
+                }
+                Mode::Visitor => {
+                    p.push_punct(def_site());
+                    p.push_value(q!(Vars {}, { _parent: &dyn Node }).parse());
+                }
+            }
 
             p
         },
         variadic: None,
-        output: ReturnType::Default,
+        output: match mode {
+            Mode::Folder => q!(Vars { ty }, { -> ty }).parse(),
+            _ => ReturnType::Default,
+        },
     }
 }
 
-fn method_sig_from_ident(v: &Ident) -> Signature {
-    method_sig(&Type::Path(TypePath {
-        qself: None,
-        path: v.clone().into(),
-    }))
+fn method_sig_from_ident(mode: Mode, v: &Ident) -> Signature {
+    method_sig(
+        mode,
+        &Type::Path(TypePath {
+            qself: None,
+            path: v.clone().into(),
+        }),
+    )
 }
 
-fn make_method(e: Item, types: &mut Vec<Type>) -> TraitItemMethod {
+fn make_method(mode: Mode, e: &Item, types: &mut Vec<Type>) -> TraitItemMethod {
     match e {
         Item::Struct(s) => {
             let type_name = &s.ident;
@@ -271,7 +430,7 @@ fn make_method(e: Item, types: &mut Vec<Type>) -> TraitItemMethod {
             }
 
             let block = {
-                let arm = make_arm_from_struct(&s.ident.clone().into(), &s.fields);
+                let arm = make_arm_from_struct(mode, &s.ident.clone().into(), &s.fields);
 
                 let mut match_expr: ExprMatch = q!((match n {})).parse();
                 match_expr.arms.push(arm);
@@ -282,9 +441,11 @@ fn make_method(e: Item, types: &mut Vec<Type>) -> TraitItemMethod {
                 }
             };
 
+            let sig = method_sig_from_ident(mode, type_name);
+
             TraitItemMethod {
                 attrs: vec![],
-                sig: method_sig_from_ident(type_name),
+                sig,
                 default: Some(block),
                 semi_token: None,
             }
@@ -311,6 +472,7 @@ fn make_method(e: Item, types: &mut Vec<Type>) -> TraitItemMethod {
                     }
 
                     let arm = make_arm_from_struct(
+                        mode,
                         &q!(
                             Vars {
                                 Enum: &e.ident,
@@ -338,7 +500,7 @@ fn make_method(e: Item, types: &mut Vec<Type>) -> TraitItemMethod {
 
             TraitItemMethod {
                 attrs: vec![],
-                sig: method_sig_from_ident(type_name),
+                sig: method_sig_from_ident(mode, type_name),
                 default: Some(block),
                 semi_token: None,
             }
@@ -351,16 +513,16 @@ fn make_method(e: Item, types: &mut Vec<Type>) -> TraitItemMethod {
     }
 }
 
-fn prefix_method_name(v: &str) -> String {
-    format!("visit_{}", v.to_snake_case())
+fn prefix_method_name(mode: Mode, v: &str) -> String {
+    format!("{}_{}", mode.prefix(), v.to_snake_case())
 }
 
-fn method_name(v: &Type) -> Ident {
-    create_method_sig(v).ident
+fn method_name(mode: Mode, v: &Type) -> Ident {
+    create_method_sig(mode, v).ident
 }
 
-fn create_method_sig(ty: &Type) -> Signature {
-    fn mk_exact(ident: Ident, ty: &Type) -> Signature {
+fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
+    fn mk_exact(mode: Mode, ident: Ident, ty: &Type) -> Signature {
         Signature {
             constness: None,
             asyncness: None,
@@ -375,18 +537,27 @@ fn create_method_sig(ty: &Type) -> Signature {
                 p.push_value(q!(Vars {}, { &mut self }).parse());
                 p.push_punct(def_site());
                 p.push_value(q!(Vars { Type: ty }, { n: Type }).parse());
-                p.push_punct(def_site());
-                p.push_value(q!(Vars {}, { _parent: &dyn Node }).parse());
+                match mode {
+                    Mode::Folder => {}
+                    Mode::Visitor => {
+                        p.push_punct(def_site());
+                        p.push_value(q!(Vars {}, { _parent: &dyn Node }).parse());
+                    }
+                }
 
                 p
             },
             variadic: None,
-            output: ReturnType::Default,
+            output: match mode {
+                Mode::Folder => q!(Vars { ty }, { -> ty }).parse(),
+                _ => ReturnType::Default,
+            },
         }
     }
 
-    fn mk(ident: Ident, ty: &Type) -> Signature {
+    fn mk_ref(mode: Mode, ident: Ident, ty: &Type) -> Signature {
         mk_exact(
+            mode,
             ident,
             &Type::Reference(TypeReference {
                 and_token: def_site(),
@@ -405,26 +576,24 @@ fn create_method_sig(ty: &Type) -> Signature {
         Type::Infer(_) => unreachable!("infer type"),
         Type::Macro(_) => unimplemented!("type: macro"),
         Type::Never(_) => unreachable!("never type"),
-        Type::Paren(ty) => return create_method_sig(&ty.elem),
+        Type::Paren(ty) => return create_method_sig(mode, &ty.elem),
         Type::Path(p) => {
             let last = p.path.segments.last().unwrap();
-            let ident = last.ident.new_ident_with(prefix_method_name);
+            let ident = last
+                .ident
+                .new_ident_with(|name| prefix_method_name(mode, name));
 
             if !last.arguments.is_empty() {
-                if last.ident == "Box" {
-                    match &last.arguments {
-                        PathArguments::AngleBracketed(tps) => {
-                            let arg = tps.args.first().unwrap();
-
-                            match arg {
-                                GenericArgument::Type(arg) => {
-                                    let ident = method_name(&arg);
-                                    return mk(ident, &q!(Vars { arg }, { arg }).parse());
-                                }
-                                _ => unimplemented!("generic parameter other than type"),
-                            }
+                if let Some(arg) = as_box(&ty) {
+                    let ident = method_name(mode, &arg);
+                    match mode {
+                        Mode::Folder => {
+                            return mk_exact(mode, ident, &arg);
                         }
-                        _ => unimplemented!("Box() -> T or Box without a type parameter"),
+
+                        Mode::Visitor => {
+                            return mk_ref(mode, ident, &arg);
+                        }
                     }
                 }
 
@@ -435,20 +604,49 @@ fn create_method_sig(ty: &Type) -> Signature {
 
                             match arg {
                                 GenericArgument::Type(arg) => {
-                                    let ident = method_name(arg)
-                                        .new_ident_with(|v| v.replace("visit_", "visit_opt_"));
+                                    let ident = method_name(mode, arg).new_ident_with(|v| {
+                                        v.replace(
+                                            &format!("{}_", mode.prefix()),
+                                            &format!("{}_opt_", mode.prefix()),
+                                        )
+                                    });
 
                                     if let Some(item) = extract_vec(arg) {
-                                        return mk_exact(
-                                            ident,
-                                            &q!(Vars { item}, { Option<&[item]> }).parse(),
-                                        );
+                                        match mode {
+                                            Mode::Folder => {
+                                                return mk_exact(
+                                                    mode,
+                                                    ident,
+                                                    &q!(Vars { item}, { Option<Vec<item>> })
+                                                        .parse(),
+                                                );
+                                            }
+                                            Mode::Visitor => {
+                                                return mk_exact(
+                                                    mode,
+                                                    ident,
+                                                    &q!(Vars { item}, { Option<&[item]> }).parse(),
+                                                );
+                                            }
+                                        }
                                     }
 
-                                    return mk_exact(
-                                        ident,
-                                        &q!(Vars { arg }, { Option<&arg> }).parse(),
-                                    );
+                                    match mode {
+                                        Mode::Folder => {
+                                            return mk_exact(
+                                                mode,
+                                                ident,
+                                                &q!(Vars { arg }, { Option<arg> }).parse(),
+                                            );
+                                        }
+                                        Mode::Visitor => {
+                                            return mk_exact(
+                                                mode,
+                                                ident,
+                                                &q!(Vars { arg }, { Option<&arg> }).parse(),
+                                            );
+                                        }
+                                    }
                                 }
                                 _ => unimplemented!("generic parameter other than type"),
                             }
@@ -464,13 +662,15 @@ fn create_method_sig(ty: &Type) -> Signature {
 
                             match arg {
                                 GenericArgument::Type(arg) => {
-                                    let orig_name = method_name(arg);
+                                    let orig_name = method_name(mode, arg);
                                     let mut ident = orig_name.new_ident_with(|v| {
                                         let v = v.to_plural();
                                         if is_option(arg) {
-                                            return v.replace("visit_opt_", "visit_opt_vec_");
+                                            return v
+                                                .replace("visit_opt_", "visit_opt_vec_")
+                                                .replace("fold_opt_", "fold_opt_vec_");
                                         }
-                                        return v.to_plural();
+                                        return v;
                                     });
 
                                     // Rename if name conflicts
@@ -478,7 +678,22 @@ fn create_method_sig(ty: &Type) -> Signature {
                                         ident = ident.new_ident_with(|v| format!("{}_vec", v));
                                     }
 
-                                    return mk(ident, &q!(Vars { arg }, { [arg] }).parse());
+                                    match mode {
+                                        Mode::Folder => {
+                                            return mk_exact(
+                                                mode,
+                                                ident,
+                                                &q!(Vars { arg }, { Vec<arg> }).parse(),
+                                            );
+                                        }
+                                        Mode::Visitor => {
+                                            return mk_ref(
+                                                mode,
+                                                ident,
+                                                &q!(Vars { arg }, { [arg] }).parse(),
+                                            );
+                                        }
+                                    }
                                 }
                                 _ => unimplemented!("generic parameter other than type"),
                             }
@@ -488,11 +703,16 @@ fn create_method_sig(ty: &Type) -> Signature {
                 }
             }
 
-            return mk(ident, ty);
+            match mode {
+                Mode::Folder => return mk_exact(mode, ident, ty),
+                Mode::Visitor => {
+                    return mk_ref(mode, ident, ty);
+                }
+            }
         }
         Type::Ptr(_) => unimplemented!("type: pointer"),
         Type::Reference(ty) => {
-            return create_method_sig(&ty.elem);
+            return create_method_sig(mode, &ty.elem);
         }
         Type::Slice(_) => unimplemented!("type: slice"),
         Type::TraitObject(_) => unimplemented!("type: trait object"),
@@ -502,7 +722,7 @@ fn create_method_sig(ty: &Type) -> Signature {
     }
 }
 
-fn create_method_body(ty: &Type) -> Block {
+fn create_method_body(mode: Mode, ty: &Type) -> Block {
     match ty {
         Type::Array(_) => unimplemented!("type: array type"),
         Type::BareFn(_) => unimplemented!("type: fn type"),
@@ -511,24 +731,21 @@ fn create_method_body(ty: &Type) -> Block {
         Type::Infer(_) => unreachable!("infer type"),
         Type::Macro(_) => unimplemented!("type: macro"),
         Type::Never(_) => unreachable!("never type"),
-        Type::Paren(ty) => return create_method_body(&ty.elem),
+        Type::Paren(ty) => return create_method_body(mode, &ty.elem),
         Type::Path(p) => {
             let last = p.path.segments.last().unwrap();
 
             if !last.arguments.is_empty() {
-                if last.ident == "Box" {
-                    match &last.arguments {
-                        PathArguments::AngleBracketed(tps) => {
-                            let arg = tps.args.first().unwrap();
+                if let Some(arg) = as_box(ty) {
+                    match mode {
+                        Mode::Folder => {
+                            let ident = method_name(mode, arg);
 
-                            match arg {
-                                GenericArgument::Type(arg) => {
-                                    return create_method_body(arg);
-                                }
-                                _ => unimplemented!("generic parameter other than type"),
-                            }
+                            return q!(Vars { ident }, ({ Box::new(_visitor.ident(*n)) })).parse();
                         }
-                        _ => unimplemented!("Box() -> T or Box without a type parameter"),
+                        Mode::Visitor => {
+                            return create_method_body(mode, arg);
+                        }
                     }
                 }
 
@@ -539,7 +756,27 @@ fn create_method_body(ty: &Type) -> Block {
 
                             match arg {
                                 GenericArgument::Type(arg) => {
-                                    let ident = method_name(arg);
+                                    let ident = method_name(mode, arg);
+
+                                    match mode {
+                                        Mode::Folder => {
+                                            if let Some(..) = as_box(arg) {
+                                                return q!(
+                                                    Vars { ident },
+                                                    ({
+                                                        match n {
+                                                            Some(n) => {
+                                                                Some(Box::new(_visitor.ident(*n)))
+                                                            }
+                                                            None => None,
+                                                        }
+                                                    })
+                                                )
+                                                .parse();
+                                            }
+                                        }
+                                        _ => {}
+                                    }
 
                                     return q!(
                                         Vars { ident },
@@ -566,24 +803,63 @@ fn create_method_body(ty: &Type) -> Block {
 
                             match arg {
                                 GenericArgument::Type(arg) => {
-                                    let ident = method_name(arg);
+                                    let ident = method_name(mode, arg);
+
+                                    if mode == Mode::Folder {
+                                        if let Some(..) = as_box(arg) {
+                                            return q!(
+                                                Vars { ident },
+                                                ({
+                                                    n.into_iter()
+                                                        .map(|v| Box::new(_visitor.ident(*v)))
+                                                        .collect()
+                                                })
+                                            )
+                                            .parse();
+                                        }
+                                    }
 
                                     return if is_option(arg) {
-                                        q!(
-                                            Vars { ident },
-                                            ({
-                                                n.iter().for_each(|v| {
-                                                    _visitor.ident(v.as_ref(), _parent)
+                                        match mode {
+                                            Mode::Folder => q!(
+                                                Vars { ident },
+                                                ({
+                                                    n.into_iter()
+                                                        .map(|v| _visitor.ident(v))
+                                                        .collect()
                                                 })
-                                            })
-                                        )
-                                        .parse()
+                                            )
+                                            .parse(),
+                                            Mode::Visitor => q!(
+                                                Vars { ident },
+                                                ({
+                                                    n.iter().for_each(|v| {
+                                                        _visitor.ident(v.as_ref(), _parent)
+                                                    })
+                                                })
+                                            )
+                                            .parse(),
+                                        }
                                     } else {
-                                        q!(
-                                            Vars { ident },
-                                            ({ n.iter().for_each(|v| _visitor.ident(v, _parent)) })
-                                        )
-                                        .parse()
+                                        match mode {
+                                            Mode::Folder => q!(
+                                                Vars { ident },
+                                                ({
+                                                    n.into_iter()
+                                                        .map(|v| _visitor.ident(v))
+                                                        .collect()
+                                                })
+                                            )
+                                            .parse(),
+                                            Mode::Visitor => q!(
+                                                Vars { ident },
+                                                ({
+                                                    n.iter()
+                                                        .for_each(|v| _visitor.ident(v, _parent))
+                                                })
+                                            )
+                                            .parse(),
+                                        }
                                     };
                                 }
                                 _ => unimplemented!("generic parameter other than type"),
@@ -594,11 +870,14 @@ fn create_method_body(ty: &Type) -> Block {
                 }
             }
 
-            q!(({})).parse()
+            match mode {
+                Mode::Folder => q!(({ return n })).parse(),
+                Mode::Visitor => q!(({})).parse(),
+            }
         }
         Type::Ptr(_) => unimplemented!("type: pointer"),
         Type::Reference(ty) => {
-            return create_method_body(&ty.elem);
+            return create_method_body(mode, &ty.elem);
         }
         Type::Slice(_) => unimplemented!("type: slice"),
         Type::TraitObject(_) => unimplemented!("type: trait object"),
@@ -651,22 +930,28 @@ fn is_option(ty: &Type) -> bool {
     false
 }
 
-fn extract_vec(ty: &Type) -> Option<&Type> {
+fn as_box(ty: &Type) -> Option<&Type> {
+    extract_generic("Box", ty)
+}
+
+fn extract_generic<'a>(name: &str, ty: &'a Type) -> Option<&'a Type> {
     match ty {
         Type::Path(p) => {
             let last = p.path.segments.last().unwrap();
 
-            if last.ident == "Vec" {
-                match &last.arguments {
-                    PathArguments::AngleBracketed(tps) => {
-                        let arg = tps.args.first().unwrap();
+            if !last.arguments.is_empty() {
+                if last.ident == name {
+                    match &last.arguments {
+                        PathArguments::AngleBracketed(tps) => {
+                            let arg = tps.args.first().unwrap();
 
-                        match arg {
-                            GenericArgument::Type(arg) => return Some(arg),
-                            _ => {}
+                            match arg {
+                                GenericArgument::Type(arg) => return Some(arg),
+                                _ => unimplemented!("generic parameter other than type"),
+                            }
                         }
+                        _ => unimplemented!("Box() -> T or Box without a type parameter"),
                     }
-                    _ => {}
                 }
             }
         }
@@ -674,6 +959,10 @@ fn extract_vec(ty: &Type) -> Option<&Type> {
     }
 
     None
+}
+
+fn extract_vec(ty: &Type) -> Option<&Type> {
+    extract_generic("Vec", ty)
 }
 
 fn is_opt_vec(ty: &Type) -> bool {
@@ -707,9 +996,6 @@ fn is_opt_vec(ty: &Type) -> bool {
 fn skip(ty: &Type) -> bool {
     match ty {
         Type::Path(p) => {
-            if !p.path.segments.last().unwrap().arguments.is_empty() {
-                return false;
-            }
             let i = &p.path.segments.last().as_ref().unwrap().ident;
 
             if i == "bool"
