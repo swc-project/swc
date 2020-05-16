@@ -189,12 +189,12 @@ impl Fold<Vec<ClassMember>> for Strip {
     }
 }
 
-impl Fold<Vec<Pat>> for Strip {
-    fn fold(&mut self, pats: Vec<Pat>) -> Vec<Pat> {
-        let mut pats = pats.fold_children(self);
+/// Remove `this` from parameter list
+impl Fold<Vec<Param>> for Strip {
+    fn fold(&mut self, params: Vec<Param>) -> Vec<Param> {
+        let mut params = params.fold_children(self);
 
-        // Remove this from parameter list
-        pats.retain(|pat| match *pat {
+        params.retain(|param| match param.pat {
             Pat::Ident(Ident {
                 sym: js_word!("this"),
                 ..
@@ -202,7 +202,7 @@ impl Fold<Vec<Pat>> for Strip {
             _ => true,
         });
 
-        pats
+        params
     }
 }
 
