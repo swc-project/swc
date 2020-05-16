@@ -743,9 +743,9 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                                     Vars { ident },
                                                     ({
                                                         match n {
-                                                            Some(n) => {
-                                                                Some(_visitor.ident(*n, _parent))
-                                                            }
+                                                            Some(n) => Some(Box::new(
+                                                                _visitor.ident(*n, _parent),
+                                                            )),
                                                             None => None,
                                                         }
                                                     })
