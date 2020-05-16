@@ -651,9 +651,11 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
                                     let mut ident = orig_name.new_ident_with(|v| {
                                         let v = v.to_plural();
                                         if is_option(arg) {
-                                            return v.replace("visit_opt_", "visit_opt_vec_");
+                                            return v
+                                                .replace("visit_opt_", "visit_opt_vec_")
+                                                .replace("fold_opt_", "fold_opt_vec_");
                                         }
-                                        return v.to_plural();
+                                        return v;
                                     });
 
                                     // Rename if name conflicts
