@@ -26,7 +26,7 @@ impl<'a> Fold<Vec<ModuleItem>> for Operator<'a> {
                     stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                         NamedExport {
                             span,
-                            specifiers: vec![ExportSpecifier::Named(NamedExportSpecifier {
+                            specifiers: vec![ExportSpecifier::Named(ExportNamedSpecifier {
                                 span: DUMMY_SP,
                                 orig: $ident,
                                 exported: Some($orig),
@@ -157,7 +157,7 @@ impl Fold<Ident> for VarFolder<'_, '_> {
         match self.orig.rename_ident(i) {
             Ok(i) => {
                 self.renamed
-                    .push(ExportSpecifier::Named(NamedExportSpecifier {
+                    .push(ExportSpecifier::Named(ExportNamedSpecifier {
                         span: i.span,
                         exported: Some(orig),
                         orig: i.clone(),
@@ -299,10 +299,10 @@ impl<'a> Fold<Ident> for Operator<'a> {
     }
 }
 
-impl<'a> Fold<NamedExportSpecifier> for Operator<'a> {
-    fn fold(&mut self, s: NamedExportSpecifier) -> NamedExportSpecifier {
+impl<'a> Fold<ExportNamedSpecifier> for Operator<'a> {
+    fn fold(&mut self, s: ExportNamedSpecifier) -> ExportNamedSpecifier {
         if s.exported.is_some() {
-            return NamedExportSpecifier {
+            return ExportNamedSpecifier {
                 orig: s.orig.fold_with(self),
                 ..s
             };
@@ -311,20 +311,20 @@ impl<'a> Fold<NamedExportSpecifier> for Operator<'a> {
         let exported = s.orig.clone();
 
         match self.rename_ident(s.orig) {
-            Ok(orig) => NamedExportSpecifier {
+            Ok(orig) => ExportNamedSpecifier {
                 exported: Some(exported),
                 orig,
                 ..s
             },
-            Err(orig) => NamedExportSpecifier { orig, ..s },
+            Err(orig) => ExportNamedSpecifier { orig, ..s },
         }
     }
 }
 
-impl<'a> Fold<ImportSpecific> for Operator<'a> {
-    fn fold(&mut self, s: ImportSpecific) -> ImportSpecific {
+impl<'a> Fold<ImportNamedSpecifier> for Operator<'a> {
+    fn fold(&mut self, s: ImportNamedSpecifier) -> ImportNamedSpecifier {
         if s.imported.is_some() {
-            return ImportSpecific {
+            return ImportNamedSpecifier {
                 local: s.local.fold_with(self),
                 ..s
             };
@@ -334,12 +334,12 @@ impl<'a> Fold<ImportSpecific> for Operator<'a> {
         let local = self.rename_ident(s.local);
 
         match local {
-            Ok(local) => ImportSpecific {
+            Ok(local) => ImportNamedSpecifier {
                 imported: Some(imported),
                 local,
                 ..s
             },
-            Err(local) => ImportSpecific { local, ..s },
+            Err(local) => ImportNamedSpecifier { local, ..s },
         }
     }
 }

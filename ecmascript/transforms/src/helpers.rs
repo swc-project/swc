@@ -234,7 +234,7 @@ impl InjectHelpers {
             if self.is_helper_used() {
                 vec![ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
                     span: DUMMY_SP,
-                    specifiers: vec![ImportSpecifier::Namespace(ImportStarAs {
+                    specifiers: vec![ImportSpecifier::Namespace(ImportStarAsSpecifier {
                         span: DUMMY_SP,
                         local: quote_ident!(DUMMY_SP.apply_mark(mark), "swcHelpers"),
                     })],

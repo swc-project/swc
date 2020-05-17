@@ -293,7 +293,7 @@ impl Fold<Module> for Amd {
 
                             stmts.reserve(export.specifiers.len());
 
-                            for NamedExportSpecifier { orig, exported, .. } in
+                            for ExportNamedSpecifier { orig, exported, .. } in
                                 export.specifiers.into_iter().map(|e| match e {
                                     ExportSpecifier::Named(e) => e,
                                     ExportSpecifier::Default(..) => unreachable!(

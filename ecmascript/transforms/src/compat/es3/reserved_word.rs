@@ -43,15 +43,15 @@ macro_rules! noop {
 noop!(PropName);
 noop!(ExportSpecifier);
 
-impl Fold<ImportSpecific> for ReservedWord {
-    fn fold(&mut self, s: ImportSpecific) -> ImportSpecific {
+impl Fold<ImportNamedSpecifier> for ReservedWord {
+    fn fold(&mut self, s: ImportNamedSpecifier) -> ImportNamedSpecifier {
         if s.imported.is_some() {
-            ImportSpecific {
+            ImportNamedSpecifier {
                 local: s.local.fold_with(self),
                 ..s
             }
         } else {
-            ImportSpecific {
+            ImportNamedSpecifier {
                 imported: s.imported.fold_with(self),
                 ..s
             }

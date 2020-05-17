@@ -129,7 +129,7 @@ impl Fold<Vec<ModuleItem>> for Decorators {
                     buf.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                         NamedExport {
                             span: DUMMY_SP,
-                            specifiers: vec![NamedExportSpecifier {
+                            specifiers: vec![ExportNamedSpecifier {
                                 span: DUMMY_SP,
                                 orig: ident,
                                 exported: Some(quote_ident!("default")),

@@ -163,7 +163,7 @@ impl<'a> Emitter<'a> {
         let mut emitted_ns = false;
         for specifier in &node.specifiers {
             match specifier {
-                ImportSpecifier::Specific(ref s) => {
+                ImportSpecifier::Named(ref s) => {
                     specifiers.push(s);
                 }
                 ImportSpecifier::Default(ref s) => {
@@ -217,7 +217,7 @@ impl<'a> Emitter<'a> {
     }
 
     #[emitter]
-    fn emit_import_specific(&mut self, node: &ImportSpecific) -> Result {
+    fn emit_import_specific(&mut self, node: &ImportNamedSpecifier) -> Result {
         if let Some(ref imported) = node.imported {
             emit!(imported);
             space!();
@@ -242,7 +242,7 @@ impl<'a> Emitter<'a> {
     }
 
     #[emitter]
-    fn emit_named_export_specifier(&mut self, node: &NamedExportSpecifier) -> Result {
+    fn emit_named_export_specifier(&mut self, node: &ExportNamedSpecifier) -> Result {
         self.emit_leading_comments_of_pos(node.span().lo())?;
 
         if let Some(ref exported) = node.exported {

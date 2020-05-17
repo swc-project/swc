@@ -93,7 +93,7 @@ where
                 if let Some(entry) = entry {
                     for s in &import.specifiers {
                         let i = match *s {
-                            ImportSpecifier::Specific(ref s) => &s.local,
+                            ImportSpecifier::Named(ref s) => &s.local,
                             ImportSpecifier::Namespace(..) => unimplemented!(
                                 "const modules does not support namespace import yet"
                             ),

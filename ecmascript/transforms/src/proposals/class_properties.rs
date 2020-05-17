@@ -75,7 +75,7 @@ where
                                     match T::try_from_module_decl(ModuleDecl::ExportNamed(
                                         NamedExport {
                                             span,
-                                            specifiers: vec![NamedExportSpecifier {
+                                            specifiers: vec![ExportNamedSpecifier {
                                                 span: DUMMY_SP,
                                                 orig: ident,
                                                 exported: Some(private_ident!("default")),

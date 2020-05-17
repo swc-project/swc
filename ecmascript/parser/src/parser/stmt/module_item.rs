@@ -70,7 +70,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
             if !is!("from") {
                 expect!(',');
             }
-            specifiers.push(ImportSpecifier::Default(ImportDefault {
+            specifiers.push(ImportSpecifier::Default(ImportDefaultSpecifier {
                 span: local.span,
                 local,
             }));
@@ -81,7 +81,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
             if eat!('*') {
                 expect!("as");
                 let local = self.parse_imported_binding()?;
-                specifiers.push(ImportSpecifier::Namespace(ImportStarAs {
+                specifiers.push(ImportSpecifier::Namespace(ImportStarAsSpecifier {
                     span: span!(import_spec_start),
                     local,
                 }));
@@ -120,7 +120,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
                 if eat!("as") {
                     let local = self.parse_binding_ident()?;
-                    return Ok(ImportSpecifier::Specific(ImportSpecific {
+                    return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
                         span: Span::new(start, local.span.hi(), Default::default()),
                         local,
                         imported: Some(orig_name),
@@ -136,7 +136,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 }
 
                 let local = orig_name;
-                Ok(ImportSpecifier::Specific(ImportSpecific {
+                Ok(ImportSpecifier::Named(ImportNamedSpecifier {
                     span: span!(start),
                     local,
                     imported: None,
@@ -246,7 +246,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 let _ = cur!(false);
 
                 let name = self.parse_ident_name()?;
-                export_ns = Some(ExportSpecifier::Namespace(NamespaceExportSpecifier {
+                export_ns = Some(ExportSpecifier::Namespace(ExportNamespaceSpecifier {
                     span: span!(ns_export_specifier_start),
                     name,
                 }));
@@ -397,7 +397,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                     let src = self.parse_from_clause_and_semi()?;
                     return Ok(ModuleDecl::ExportNamed(NamedExport {
                         span: Span::new(start, src.span.hi(), Default::default()),
-                        specifiers: vec![ExportSpecifier::Default(DefaultExportSpecifier {
+                        specifiers: vec![ExportSpecifier::Default(ExportDefaultSpecifier {
                             exported: default,
                         })],
                         src: Some(src),
@@ -427,7 +427,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 specifiers.push(s)
             }
             if let Some(default) = default {
-                specifiers.push(ExportSpecifier::Default(DefaultExportSpecifier {
+                specifiers.push(ExportSpecifier::Default(ExportDefaultSpecifier {
                     exported: default,
                 }))
             }
@@ -469,7 +469,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         }))
     }
 
-    fn parse_named_export_specifier(&mut self) -> PResult<'a, NamedExportSpecifier> {
+    fn parse_named_export_specifier(&mut self) -> PResult<'a, ExportNamedSpecifier> {
         let start = cur_pos!();
 
         let orig = self.parse_ident_name()?;
@@ -480,7 +480,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
             None
         };
 
-        Ok(NamedExportSpecifier {
+        Ok(ExportNamedSpecifier {
             span: span!(start),
             orig,
             exported,

@@ -122,17 +122,17 @@ pub enum DefaultDecl {
 #[derive(Eq, Hash)]
 pub enum ImportSpecifier {
     #[tag("ImportSpecifier")]
-    Specific(ImportSpecific),
+    Named(ImportNamedSpecifier),
     #[tag("ImportDefaultSpecifier")]
-    Default(ImportDefault),
+    Default(ImportDefaultSpecifier),
     #[tag("ImportNamespaceSpecifier")]
-    Namespace(ImportStarAs),
+    Namespace(ImportStarAsSpecifier),
 }
 
 /// e.g. `import foo from 'mod.js'`
 #[ast_node("ImportDefaultSpecifier")]
 #[derive(Eq, Hash)]
-pub struct ImportDefault {
+pub struct ImportDefaultSpecifier {
     pub span: Span,
 
     pub local: Ident,
@@ -140,7 +140,7 @@ pub struct ImportDefault {
 /// e.g. `import * as foo from 'mod.js'`.
 #[ast_node("ImportNamespaceSpecifier")]
 #[derive(Eq, Hash)]
-pub struct ImportStarAs {
+pub struct ImportStarAsSpecifier {
     pub span: Span,
 
     pub local: Ident,
@@ -150,7 +150,7 @@ pub struct ImportStarAs {
 /// 'mod.js'`
 #[ast_node("ImportSpecifier")]
 #[derive(Eq, Hash)]
-pub struct ImportSpecific {
+pub struct ImportNamedSpecifier {
     pub span: Span,
 
     pub local: Ident,
@@ -163,19 +163,19 @@ pub struct ImportSpecific {
 #[derive(Eq, Hash)]
 pub enum ExportSpecifier {
     #[tag("ExportNamespaceSpecifier")]
-    Namespace(NamespaceExportSpecifier),
+    Namespace(ExportNamespaceSpecifier),
 
     #[tag("ExportDefaultSpecifier")]
-    Default(DefaultExportSpecifier),
+    Default(ExportDefaultSpecifier),
 
     #[tag("ExportSpecifier")]
-    Named(NamedExportSpecifier),
+    Named(ExportNamedSpecifier),
 }
 
 /// `export * as foo from 'src';`
 #[ast_node("ExportNamespaceSpecifier")]
 #[derive(Eq, Hash)]
-pub struct NamespaceExportSpecifier {
+pub struct ExportNamespaceSpecifier {
     pub span: Span,
 
     pub name: Ident,
@@ -183,14 +183,14 @@ pub struct NamespaceExportSpecifier {
 
 #[ast_node("ExportDefaultSpecifier")]
 #[derive(Eq, Hash)]
-pub struct DefaultExportSpecifier {
+pub struct ExportDefaultSpecifier {
     #[span]
     pub exported: Ident,
 }
 
 #[ast_node("ExportSpecifier")]
 #[derive(Eq, Hash)]
-pub struct NamedExportSpecifier {
+pub struct ExportNamedSpecifier {
     pub span: Span,
     /// `foo` in `export { foo as bar }`
     pub orig: Ident,
