@@ -1,3 +1,4 @@
+use crate::util::EqIgnoreSpan;
 use self::remover::TypeParamRemover;
 use super::Analyzer;
 use crate::{
@@ -158,8 +159,11 @@ impl Analyzer<'_, '_> {
                         .type_params
                         .insert(name.clone(), *constraint.clone().unwrap()) {
 
-                        print_backtrace();
-                        panic!("Cannot override")
+                        if !orig.eq_ignore_span(&constraint.as_ref().unwrap()){
+                            print_backtrace();
+                            panic!("Cannot override T in `T extends <literal>`")
+                        }
+
                     }
 
                     return Ok(());
