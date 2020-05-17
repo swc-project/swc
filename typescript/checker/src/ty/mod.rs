@@ -1,4 +1,4 @@
-use crate::{util::TypeEq, ModuleTypeInfo};
+use crate::{util::TypeEq, ModuleTypeInfo, ty};
 use is_macro::Is;
 use std::{borrow::Cow, mem::transmute, sync::Arc};
 use swc_atoms::{js_word, JsWord};
@@ -473,6 +473,12 @@ impl Fold<Type> for LitGeneralizer {
             }
             _ => ty,
         }
+    }
+}
+
+impl Fold<ty::Function> for LitGeneralizer{
+    fn fold(&mut self, node: Function) -> Function {
+        node
     }
 }
 
