@@ -510,10 +510,10 @@ macro_rules! track_ident {
                 self.ident_type = IdentType::Binding;
 
                 let s = match s {
-                    ImportSpecifier::Specific(ImportSpecific { imported: None, .. })
+                    ImportSpecifier::Named(ImportNamedSpecifier { imported: None, .. })
                     | ImportSpecifier::Namespace(..)
                     | ImportSpecifier::Default(..) => s.fold_children(self),
-                    ImportSpecifier::Specific(s) => ImportSpecifier::Specific(ImportSpecific {
+                    ImportSpecifier::Named(s) => ImportSpecifier::Named(ImportNamedSpecifier {
                         local: s.local.fold_with(self),
                         ..s
                     }),

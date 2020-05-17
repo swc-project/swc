@@ -29,10 +29,10 @@ pub use self::{
     lit::{BigInt, Bool, Lit, Null, Number, Regex, Str},
     module::{Module, ModuleItem, Program, Script},
     module_decl::{
-        DefaultDecl, DefaultExportSpecifier, ExportAll, ExportDecl, ExportDefaultDecl,
-        ExportDefaultExpr, ExportSpecifier, ImportDecl, ImportDefault, ImportSpecific,
-        ImportSpecifier, ImportStarAs, ModuleDecl, NamedExport, NamedExportSpecifier,
-        NamespaceExportSpecifier,
+        DefaultDecl, ExportAll, ExportDecl, ExportDefaultDecl, ExportDefaultExpr,
+        ExportDefaultSpecifier, ExportNamedSpecifier, ExportNamespaceSpecifier, ExportSpecifier,
+        ImportDecl, ImportDefaultSpecifier, ImportNamedSpecifier, ImportSpecifier,
+        ImportStarAsSpecifier, ModuleDecl, NamedExport,
     },
     operators::{AssignOp, BinaryOp, UnaryOp, UpdateOp},
     pat::{

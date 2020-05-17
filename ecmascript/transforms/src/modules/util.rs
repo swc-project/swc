@@ -325,8 +325,8 @@ impl Scope {
                             .entry(import.src.value.clone())
                             .or_insert(false);
                     }
-                    ImportSpecifier::Specific(i) => {
-                        let ImportSpecific {
+                    ImportSpecifier::Named(i) => {
+                        let ImportNamedSpecifier {
                             local, imported, ..
                         } = i;
                         let name = imported.map(|i| i.sym).unwrap_or_else(|| local.sym.clone());

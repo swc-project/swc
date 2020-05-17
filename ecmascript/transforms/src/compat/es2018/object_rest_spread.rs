@@ -352,7 +352,7 @@ impl Fold<ModuleDecl> for RestFolder {
                     var_decl.visit_with(&mut finder);
                     found
                         .into_iter()
-                        .map(|(sym, ctxt)| NamedExportSpecifier {
+                        .map(|(sym, ctxt)| ExportNamedSpecifier {
                             span: DUMMY_SP,
                             orig: Ident::new(sym, DUMMY_SP.with_ctxt(ctxt)),
                             exported: None,

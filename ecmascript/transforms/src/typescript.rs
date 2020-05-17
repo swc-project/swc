@@ -382,7 +382,7 @@ impl Fold<Vec<ModuleItem>> for Strip {
                     // if specifier become empty, we remove export statement.
 
                     export.specifiers.retain(|s| match *s {
-                        ExportSpecifier::Named(NamedExportSpecifier { ref orig, .. }) => {
+                        ExportSpecifier::Named(ExportNamedSpecifier { ref orig, .. }) => {
                             if let Some(e) =
                                 self.scope.decls.get(&(orig.sym.clone(), orig.span.ctxt()))
                             {
@@ -529,7 +529,7 @@ impl Fold<ImportDecl> for Strip {
                 for s in &import.specifiers {
                     match *s {
                         ImportSpecifier::Default(ref import) => store!(import.local),
-                        ImportSpecifier::Specific(ref import) => store!(import.local),
+                        ImportSpecifier::Named(ref import) => store!(import.local),
                         ImportSpecifier::Namespace(..) => {}
                     }
                 }
@@ -540,8 +540,8 @@ impl Fold<ImportDecl> for Strip {
                 self.was_side_effect_import = import.specifiers.is_empty();
 
                 import.specifiers.retain(|s| match *s {
-                    ImportSpecifier::Default(ImportDefault { ref local, .. })
-                    | ImportSpecifier::Specific(ImportSpecific { ref local, .. }) => {
+                    ImportSpecifier::Default(ImportDefaultSpecifier { ref local, .. })
+                    | ImportSpecifier::Named(ImportNamedSpecifier { ref local, .. }) => {
                         let entry = self
                             .scope
                             .imported_idents

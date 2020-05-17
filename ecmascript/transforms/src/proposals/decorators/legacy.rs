@@ -118,7 +118,7 @@ impl Fold<ModuleItem> for Legacy {
                 let expr = self.handle(c);
 
                 self.exports
-                    .push(ExportSpecifier::Named(NamedExportSpecifier {
+                    .push(ExportSpecifier::Named(ExportNamedSpecifier {
                         span: DUMMY_SP,
                         orig: export_ident.clone(),
                         exported: Some(quote_ident!("default")),

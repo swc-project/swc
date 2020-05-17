@@ -517,36 +517,36 @@ define!({
         TsInterfaceDecl(TsInterfaceDecl),
     }
     pub enum ImportSpecifier {
-        Specific(ImportSpecific),
-        Default(ImportDefault),
-        Namespace(ImportStarAs),
+        Named(ImportNamedSpecifier),
+        Default(ImportDefaultSpecifier),
+        Namespace(ImportStarAsSpecifier),
     }
-    pub struct ImportDefault {
+    pub struct ImportDefaultSpecifier {
         pub span: Span,
         pub local: Ident,
     }
-    pub struct ImportStarAs {
+    pub struct ImportStarAsSpecifier {
         pub span: Span,
         pub local: Ident,
     }
-    pub struct ImportSpecific {
+    pub struct ImportNamedSpecifier {
         pub span: Span,
         pub local: Ident,
         pub imported: Option<Ident>,
     }
     pub enum ExportSpecifier {
-        Namespace(NamespaceExportSpecifier),
-        Default(DefaultExportSpecifier),
-        Named(NamedExportSpecifier),
+        Namespace(ExportNamespaceSpecifier),
+        Default(ExportDefaultSpecifier),
+        Named(ExportNamedSpecifier),
     }
-    pub struct NamespaceExportSpecifier {
+    pub struct ExportNamespaceSpecifier {
         pub span: Span,
         pub name: Ident,
     }
-    pub struct DefaultExportSpecifier {
+    pub struct ExportDefaultSpecifier {
         pub exported: Ident,
     }
-    pub struct NamedExportSpecifier {
+    pub struct ExportNamedSpecifier {
         pub span: Span,
         pub orig: Ident,
         pub exported: Option<Ident>,

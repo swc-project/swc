@@ -33,15 +33,17 @@ impl Fold<Vec<ModuleItem>> for ExportDefaultFrom {
                     }
 
                     match export.specifiers.remove(0) {
-                        ExportSpecifier::Default(DefaultExportSpecifier { exported: default }) => {
+                        ExportSpecifier::Default(ExportDefaultSpecifier { exported: default }) => {
                             let local = default.prefix("_").private();
 
                             stmts.push(ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
                                 span: DUMMY_SP,
-                                specifiers: vec![ImportSpecifier::Default(ImportDefault {
-                                    span: DUMMY_SP,
-                                    local: local.clone(),
-                                })],
+                                specifiers: vec![ImportSpecifier::Default(
+                                    ImportDefaultSpecifier {
+                                        span: DUMMY_SP,
+                                        local: local.clone(),
+                                    },
+                                )],
                                 src: export
                                     .src
                                     .clone()
@@ -52,7 +54,7 @@ impl Fold<Vec<ModuleItem>> for ExportDefaultFrom {
                                 NamedExport {
                                     span: DUMMY_SP,
                                     specifiers: vec![ExportSpecifier::Named(
-                                        NamedExportSpecifier {
+                                        ExportNamedSpecifier {
                                             span: DUMMY_SP,
                                             orig: local,
                                             exported: Some(default),
@@ -68,10 +70,12 @@ impl Fold<Vec<ModuleItem>> for ExportDefaultFrom {
 
                             stmts.push(ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
                                 span: DUMMY_SP,
-                                specifiers: vec![ImportSpecifier::Namespace(ImportStarAs {
-                                    span: DUMMY_SP,
-                                    local: local.clone(),
-                                })],
+                                specifiers: vec![ImportSpecifier::Namespace(
+                                    ImportStarAsSpecifier {
+                                        span: DUMMY_SP,
+                                        local: local.clone(),
+                                    },
+                                )],
                                 src: export
                                     .src
                                     .clone()
@@ -82,7 +86,7 @@ impl Fold<Vec<ModuleItem>> for ExportDefaultFrom {
                                 NamedExport {
                                     span: DUMMY_SP,
                                     specifiers: vec![ExportSpecifier::Named(
-                                        NamedExportSpecifier {
+                                        ExportNamedSpecifier {
                                             span: DUMMY_SP,
                                             orig: local,
                                             exported: Some(ns.name),
