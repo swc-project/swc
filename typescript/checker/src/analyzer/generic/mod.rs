@@ -154,10 +154,14 @@ impl Analyzer<'_, '_> {
 
                 if constraint.is_some() && is_literals(&constraint.as_ref().unwrap()) {
                     log::info!("infer: {} = {:?}", name, constraint);
-                    inferred
+                    if let Some(orig) = inferred
                         .type_params
-                        .insert(name.clone(), *constraint.clone().unwrap())
-                        .expect_none("Cannot override");
+                        .insert(name.clone(), *constraint.clone().unwrap()) {
+
+                        print_backtrace();
+                        panic!("Cannot override")
+                    }
+
                     return Ok(());
                 }
 
