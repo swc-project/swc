@@ -25,6 +25,11 @@ const IGNORED_PASS_TESTS: &[&str] = &[
     // TODO: uningnore
     "5654d4106d7025c2.js",
     "431ecef8c85d4d24.js",
+    // Stack size (Stupid parens)
+    "6b5e7e125097d439.js",
+    "714be6d28082eaa7.js",
+    "882910de7dd1aef9.js",
+    "dd3c63403db5c06e.js",
     // Generated code is better than it from `pass`
     "0da4b57d03d33129.js",
     "aec65a9745669870.js",
