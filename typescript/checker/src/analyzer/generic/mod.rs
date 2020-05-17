@@ -23,7 +23,6 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_parser::token::Keyword::TypeOf;
 use swc_ecma_utils::Id;
-use crate::analyzer::ScopeKind;
 
 mod remover;
 
@@ -247,16 +246,12 @@ impl Analyzer<'_, '_> {
 
             Type::Function(p) => match arg {
                 Type::Function(a) => {
-                    return self.with_child(ScopeKind::Fn,
-                                           Default::default(),|scope|{
-                        scope.infer_type_of_fn_params(inferred, &p.params, &a.params)?;
-                        scope.infer_type(inferred, &p.ret_ty, &a.ret_ty)?;
-                        if let Some(arg_type_params) = &a.type_params {
-                            scope.rename_inferred(inferred, arg_type_params)?;
-                        }
-
-                        Ok(())
-                    });
+                    self.infer_type_of_fn_params(inferred, &p.params, &a.params)?;
+                    self.infer_type(inferred, &p.ret_ty, &a.ret_ty)?;
+                    if let Some(arg_type_params) = &a.type_params {
+                        self.rename_inferred(inferred, arg_type_params)?;
+                    }
+                    return Ok(());
                 }
                 _ => {
                     dbg!();
