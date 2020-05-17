@@ -13,7 +13,6 @@ on: [push, pull_request]
 #      - 'trying'
 
 env:
-  RUST_MIN_STACK: 16777216
   CARGO_INCREMENTAL: 0
   CI: "1"
 

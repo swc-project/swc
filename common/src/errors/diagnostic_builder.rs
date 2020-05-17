@@ -27,7 +27,7 @@ use std::{
 #[derive(Clone)]
 pub struct DiagnosticBuilder<'a> {
     pub handler: &'a Handler,
-    diagnostic: Diagnostic,
+    diagnostic: Box<Diagnostic>,
     allow_suggestions: bool,
 }
 
@@ -115,7 +115,7 @@ impl<'a> DiagnosticBuilder<'a> {
         // Logging here is useful to help track down where in logs an error was
         // actually emitted.
         debug!("buffer: diagnostic={:?}", diagnostic);
-        buffered_diagnostics.push(diagnostic);
+        buffered_diagnostics.push(*diagnostic);
     }
 
     /// Convenience function for internal use, clients should use one of the
@@ -143,7 +143,7 @@ impl<'a> DiagnosticBuilder<'a> {
     /// locally in whichever way makes the most sense.
     pub fn delay_as_bug(&mut self) {
         self.level = Level::Bug;
-        self.handler.delay_as_bug(self.diagnostic.clone());
+        self.handler.delay_as_bug(*self.diagnostic.clone());
         self.cancel();
     }
 
@@ -304,10 +304,11 @@ impl<'a> DiagnosticBuilder<'a> {
 
     /// Creates a new `DiagnosticBuilder` with an already constructed
     /// diagnostic.
+    #[inline(always)] // box
     pub fn new_diagnostic(handler: &'a Handler, diagnostic: Diagnostic) -> DiagnosticBuilder<'a> {
         DiagnosticBuilder {
             handler,
-            diagnostic,
+            diagnostic: Box::new(diagnostic),
             allow_suggestions: true,
         }
     }
