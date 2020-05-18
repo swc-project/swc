@@ -1,6 +1,7 @@
 use crate::{
     analyzer::{Analyzer, ScopeKind},
     errors::{Error, Errors},
+    id::Id,
     loader::Load,
     ty::{self, Class, Module, Static, Type},
     validator::{Validate, ValidateWith},
@@ -10,7 +11,6 @@ use dashmap::DashMap;
 use fxhash::FxHashMap;
 use once_cell::sync::{Lazy, OnceCell};
 use std::{collections::hash_map::Entry, path::PathBuf, sync::Arc};
-use swc_atoms::JsWord;
 use swc_common::{Span, VisitMutWith, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ts_builtin_types::load;
@@ -18,8 +18,8 @@ pub use swc_ts_builtin_types::Lib;
 
 #[derive(Debug, Default)]
 struct Merged {
-    vars: FxHashMap<JsWord, Type>,
-    types: FxHashMap<JsWord, Type>,
+    vars: FxHashMap<Id, Type>,
+    types: FxHashMap<Id, Type>,
 }
 
 fn merge(ls: &[Lib]) -> &'static Merged {
@@ -58,7 +58,7 @@ fn merge(ls: &[Lib]) -> &'static Merged {
                                         _ => unreachable!(),
                                     };
                                     merged.vars.insert(
-                                        name.sym.clone(),
+                                        name.into(),
                                         name.type_ann
                                             .clone()
                                             .validate_with(&mut analyzer)
@@ -77,7 +77,7 @@ fn merge(ls: &[Lib]) -> &'static Merged {
                                     ..
                                 })) => {
                                     merged.types.insert(
-                                        ident.sym.clone(),
+                                        ident.into(),
                                         function
                                             .clone()
                                             .validate_with(&mut analyzer)
@@ -87,7 +87,10 @@ fn merge(ls: &[Lib]) -> &'static Merged {
                                 }
 
                                 Stmt::Decl(Decl::Class(ref c)) => {
-                                    debug_assert_eq!(merged.types.get(&c.ident.sym), None);
+                                    debug_assert_eq!(
+                                        merged.types.get(&c.ident.clone().into()),
+                                        None
+                                    );
 
                                     // builtin libraries does not contain a class which extends
                                     // other class.
@@ -99,7 +102,7 @@ fn merge(ls: &[Lib]) -> &'static Merged {
                                         |analyzer| {
                                             Type::Class(Class {
                                                 span: c.class.span,
-                                                name: Some(c.ident.sym.clone()),
+                                                name: Some(c.ident.clone().into()),
                                                 is_abstract: c.class.is_abstract,
                                                 body: analyzer
                                                     .validate(&mut c.class.body.clone())
@@ -126,12 +129,12 @@ fn merge(ls: &[Lib]) -> &'static Merged {
                                         },
                                     );
 
-                                    merged.types.insert(c.ident.sym.clone(), ty);
+                                    merged.types.insert(c.ident.clone().into(), ty);
                                 }
 
                                 Stmt::Decl(Decl::TsModule(ref m)) => {
                                     let id = match m.id {
-                                        TsModuleName::Ident(ref i) => i.sym.clone(),
+                                        TsModuleName::Ident(ref i) => i.into(),
                                         _ => unreachable!(),
                                     };
 
@@ -161,7 +164,7 @@ fn merge(ls: &[Lib]) -> &'static Merged {
                                 }
 
                                 Stmt::Decl(Decl::TsTypeAlias(ref a)) => {
-                                    debug_assert_eq!(merged.types.get(&a.id.sym), None);
+                                    debug_assert_eq!(merged.types.get(&a.id.clone().into()), None);
 
                                     let ty = a
                                         .clone()
@@ -169,12 +172,12 @@ fn merge(ls: &[Lib]) -> &'static Merged {
                                         .map(Type::from)
                                         .expect("builtin: failed to process type alias");
 
-                                    merged.types.insert(a.id.sym.clone(), ty);
+                                    merged.types.insert(a.id.clone().into(), ty);
                                 }
 
                                 // Merge interface
                                 Stmt::Decl(Decl::TsInterface(ref i)) => {
-                                    match merged.types.entry(i.id.sym.clone()) {
+                                    match merged.types.entry(i.id.clone().into()) {
                                         Entry::Occupied(mut e) => match *e.get_mut() {
                                             ty::Type::Interface(ref mut v) => {
                                                 v.body.extend(
@@ -218,7 +221,7 @@ fn merge(ls: &[Lib]) -> &'static Merged {
     });
 }
 
-pub fn get_var(libs: &[Lib], span: Span, name: &JsWord) -> Result<Type, Error> {
+pub fn get_var(libs: &[Lib], span: Span, name: &Id) -> Result<Type, Error> {
     let lib = merge(libs);
 
     if let Some(v) = lib.vars.get(&name) {
@@ -231,7 +234,7 @@ pub fn get_var(libs: &[Lib], span: Span, name: &JsWord) -> Result<Type, Error> {
     })
 }
 
-pub fn get_type(libs: &[Lib], span: Span, name: &JsWord) -> Result<Type, Error> {
+pub fn get_type(libs: &[Lib], span: Span, name: &Id) -> Result<Type, Error> {
     let lib = merge(libs);
 
     if let Some(ty) = lib.types.get(name) {

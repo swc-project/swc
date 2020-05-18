@@ -2,12 +2,12 @@ use super::{control_flow::CondFacts, Analyzer};
 use crate::{
     builtin_types,
     errors::Error,
+    id::Id,
     name::Name,
     swc_common::VisitWith,
     ty::{
-        self, Alias, Array, EnumVariant, IndexSignature, Interface, Intersection,
-        PropertySignature, QueryExpr, QueryType, Ref, Tuple, Type, TypeElement, TypeLit, TypeParam,
-        TypeParamInstantiation, Union,
+        self, Alias, EnumVariant, IndexSignature, Interface, PropertySignature, QueryExpr,
+        QueryType, Ref, Tuple, Type, TypeElement, TypeLit, Union,
     },
     util::TypeEq,
     validator::{Validate, ValidateWith},
@@ -21,7 +21,7 @@ use std::{
     collections::hash_map::Entry,
     iter::{once, repeat},
 };
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::js_word;
 use swc_common::{Fold, FoldWith, Span, Spanned, Visit, DUMMY_SP};
 use swc_ecma_ast::*;
 
@@ -38,18 +38,18 @@ macro_rules! no_ref {
 pub(crate) struct Scope<'a> {
     parent: Option<&'a Scope<'a>>,
     kind: ScopeKind,
-    pub declaring: SmallVec<[JsWord; 8]>,
+    pub declaring: SmallVec<[Id; 8]>,
 
-    pub(super) vars: FxHashMap<JsWord, VarInfo>,
-    pub(super) types: FxHashMap<JsWord, Vec<Type>>,
+    pub(super) vars: FxHashMap<Id, VarInfo>,
+    pub(super) types: FxHashMap<Id, Vec<Type>>,
     pub(super) facts: CondFacts,
 
-    pub(super) declaring_fn: Option<JsWord>,
+    pub(super) declaring_fn: Option<Id>,
     /// [Some] while declaring a class property.
-    pub(super) declaring_prop: Option<JsWord>,
+    pub(super) declaring_prop: Option<Id>,
 
-    pub(super) this: Option<JsWord>,
-    pub(super) this_class_name: Option<JsWord>,
+    pub(super) this: Option<Id>,
+    pub(super) this_class_name: Option<Id>,
 }
 
 impl Scope<'_> {
@@ -86,9 +86,9 @@ impl Scope<'_> {
         }
     }
 
-    pub fn remove_declaring<I>(&mut self, names: impl IntoIterator<IntoIter = I, Item = JsWord>)
+    pub fn remove_declaring<I>(&mut self, names: impl IntoIterator<IntoIter = I, Item = Id>)
     where
-        I: Iterator<Item = JsWord> + DoubleEndedIterator,
+        I: Iterator<Item = Id> + DoubleEndedIterator,
     {
         for n in names.into_iter().rev() {
             let idx = self
@@ -100,31 +100,31 @@ impl Scope<'_> {
         }
     }
 
-    pub fn insert_var(&mut self, name: JsWord, v: VarInfo) {
+    pub fn insert_var(&mut self, name: Id, v: VarInfo) {
         no_ref!(v.ty);
 
         self.vars.insert(name, v);
     }
 
     /// This method does **not** search for parent scope.
-    pub fn get_var_mut(&mut self, name: &JsWord) -> Option<&mut VarInfo> {
+    pub fn get_var_mut(&mut self, name: &Id) -> Option<&mut VarInfo> {
         self.vars.get_mut(name)
     }
 
     /// Add a type to the scope.
-    fn register_type(&mut self, name: JsWord, ty: Type) {
+    fn register_type(&mut self, name: Id, ty: Type) {
         self.types.entry(name).or_default().push(ty);
     }
 
     pub fn this(&self) -> Option<Cow<Type>> {
         if let Some(ref this) = self.this {
-            if *this == js_word!("") {
+            if this.as_str() == "" {
                 return Some(Cow::Owned(Type::any(DUMMY_SP)));
             }
 
             return Some(Cow::Owned(Type::Ref(Ref {
                 span: DUMMY_SP,
-                type_name: TsEntityName::Ident(Ident::new(this.clone().into(), DUMMY_SP)),
+                type_name: this.clone().into(),
                 type_args: None,
             })));
         }
@@ -135,7 +135,7 @@ impl Scope<'_> {
         }
     }
 
-    pub fn get_var(&self, sym: &JsWord) -> Option<&VarInfo> {
+    pub fn get_var(&self, sym: &Id) -> Option<&VarInfo> {
         if let Some(ref v) = self.vars.get(sym) {
             return Some(v);
         }
@@ -143,7 +143,7 @@ impl Scope<'_> {
         self.search_parent(sym)
     }
 
-    pub fn search_parent(&self, sym: &JsWord) -> Option<&VarInfo> {
+    pub fn search_parent(&self, sym: &Id) -> Option<&VarInfo> {
         let mut parent = self.parent;
 
         while let Some(p) = parent {
@@ -163,7 +163,7 @@ impl Analyzer<'_, '_> {
     pub(super) fn override_var(
         &mut self,
         kind: VarDeclKind,
-        name: JsWord,
+        name: Id,
         ty: Type,
     ) -> Result<(), Error> {
         self.declare_var(ty.span(), kind, name, Some(ty), true, true)?;
@@ -218,7 +218,7 @@ impl Analyzer<'_, '_> {
         Ok(ty.into_owned().fold_with(&mut v))
     }
 
-    pub(super) fn register_type(&mut self, name: JsWord, ty: Type) -> Result<(), Error> {
+    pub(super) fn register_type(&mut self, name: Id, ty: Type) -> Result<(), Error> {
         if self.is_builtin
             && match ty.normalize() {
                 Type::EnumVariant(_)
@@ -307,7 +307,7 @@ impl Analyzer<'_, '_> {
 
         match *pat {
             Pat::Ident(ref mut i) => {
-                let name = i.sym.clone();
+                let name: Id = Id::from(i.clone());
                 if !self.is_builtin {
                     debug_assert_ne!(span, DUMMY_SP);
                 }
@@ -437,7 +437,7 @@ impl Analyzer<'_, '_> {
     }
 
     #[inline(never)]
-    pub(super) fn find_var(&self, name: &JsWord) -> Option<&VarInfo> {
+    pub(super) fn find_var(&self, name: &Id) -> Option<&VarInfo> {
         static ERR_VAR: VarInfo = VarInfo {
             ty: Some(Type::any(DUMMY_SP)),
             kind: VarDeclKind::Const,
@@ -473,7 +473,7 @@ impl Analyzer<'_, '_> {
         None
     }
 
-    pub(super) fn find_var_type(&self, name: &JsWord) -> Option<Cow<Type>> {
+    pub(super) fn find_var_type(&self, name: &Id) -> Option<Cow<Type>> {
         // println!("({}) find_var_type({})", self.scope.depth(), name);
         let mut scope = Some(&self.scope);
         while let Some(s) = scope {
@@ -526,7 +526,7 @@ impl Analyzer<'_, '_> {
     }
 
     #[inline(never)]
-    pub(super) fn find_type(&self, name: &JsWord) -> Option<ItemRef<Type>> {
+    pub(super) fn find_type(&self, name: &Id) -> Option<ItemRef<Type>> {
         #[allow(dead_code)]
         static ANY: Type = Type::any(DUMMY_SP);
 
@@ -555,7 +555,7 @@ impl Analyzer<'_, '_> {
         &mut self,
         span: Span,
         kind: VarDeclKind,
-        name: JsWord,
+        name: Id,
         ty: Option<Type>,
         initialized: bool,
         allow_multiple: bool,
@@ -657,7 +657,7 @@ impl Analyzer<'_, '_> {
                 self.declare_var(
                     span,
                     kind,
-                    i.sym.clone(),
+                    i.into(),
                     Some(ty),
                     // initialized
                     true,
@@ -906,7 +906,7 @@ impl<'a> Scope<'a> {
     }
 
     /// This method does **not** handle imported types.
-    fn find_type(&self, name: &JsWord) -> Option<ItemRef<Type>> {
+    fn find_type(&self, name: &Id) -> Option<ItemRef<Type>> {
         if let Some(ty) = self.facts.types.get(name) {
             // println!("({}) find_type({}): Found (cond facts)", self.depth(), name);
             return Some(ItemRef::Single(&ty));
@@ -960,7 +960,7 @@ pub(crate) enum ScopeKind {
 struct Expander<'a, 'b, 'c> {
     span: Span,
     analyzer: &'a mut Analyzer<'b, 'c>,
-    dejvau: FxHashSet<JsWord>,
+    dejvau: FxHashSet<Id>,
     full: bool,
     expand_union: bool,
 }
@@ -1021,13 +1021,13 @@ impl Fold<Type> for Expander<'_, '_, '_> {
 
                     match *type_name {
                         TsEntityName::Ident(ref i) => {
-                            if self.dejvau.contains(&i.sym) {
+                            if self.dejvau.contains(&i.into()) {
                                 return ty;
                             }
-                            self.dejvau.insert(i.sym.clone());
+                            self.dejvau.insert(i.into());
                             log::error!("({}): {}", self.analyzer.scope.depth(), i.sym);
 
-                            if let Some(types) = self.analyzer.find_type(&i.sym) {
+                            if let Some(types) = self.analyzer.find_type(&i.into()) {
                                 for t in types {
                                     if !self.expand_union {
                                         let mut finder = UnionFinder { found: false };
@@ -1097,13 +1097,13 @@ impl Fold<Type> for Expander<'_, '_, '_> {
                                 return Type::any(span);
                             }
 
-                            if let Some(types) = self.analyzer.find_type(&left.sym) {
+                            if let Some(types) = self.analyzer.find_type(&left.into()) {
                                 for ty in types {
                                     match *ty {
                                         Type::Enum(..) => {
                                             return EnumVariant {
                                                 span,
-                                                enum_name: left.sym.clone(),
+                                                enum_name: left.into(),
                                                 name: right.sym.clone(),
                                             }
                                             .into();

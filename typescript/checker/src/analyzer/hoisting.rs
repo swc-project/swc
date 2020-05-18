@@ -1,17 +1,9 @@
-use crate::{analyzer::Analyzer, ty::TypeParam, ValidationResult};
-use bitflags::_core::mem::{replace, take};
+use crate::{analyzer::Analyzer, id::Id, ValidationResult};
 use fxhash::{FxHashMap, FxHashSet};
-use petgraph::{
-    algo::toposort,
-    graph::DiGraph,
-    graphmap::{DiGraphMap, GraphMap},
-    stable_graph::StableDiGraph,
-    visit::DfsPostOrder,
-};
-use swc_atoms::{JsWord, JsWordStaticSet};
+use petgraph::{algo::toposort, graph::DiGraph, graphmap::DiGraphMap, visit::DfsPostOrder};
 use swc_common::{Visit, VisitWith};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_ids, ident::IdentLike, DestructuringFinder, Id, StmtLike};
+use swc_ecma_utils::{ident::IdentLike, DestructuringFinder, StmtLike};
 
 /// Structs to reuse vector / hash maps.
 #[derive(Debug, Default)]
@@ -160,7 +152,7 @@ pub(super) struct StmtDependencyFinder<'a> {
 impl Visit<FnDecl> for StmtDependencyFinder<'_> {
     fn visit(&mut self, node: &FnDecl) {
         if !self.no_decl {
-            self.ids.insert(node.ident.to_id());
+            self.ids.insert(node.ident.clone().into());
         }
         node.visit_children(self);
     }
@@ -221,7 +213,7 @@ impl Visit<Expr> for StmtDependencyFinder<'_> {
     fn visit(&mut self, node: &Expr) {
         match node {
             Expr::Ident(ref i) => {
-                self.deps.insert(i.to_id());
+                self.deps.insert(i.into());
             }
             _ => {}
         }
@@ -232,7 +224,7 @@ impl Visit<Expr> for StmtDependencyFinder<'_> {
 
 #[derive(Debug, Default)]
 struct TypeParamWs {
-    deps: FxHashSet<JsWord>,
+    deps: FxHashSet<Id>,
 }
 
 impl Analyzer<'_, '_> {
@@ -251,7 +243,7 @@ impl Analyzer<'_, '_> {
 
             {
                 let mut v = TypeParamDepFinder {
-                    id: &node.name.sym,
+                    id: &node.name.clone().into(),
                     deps,
                 };
 
@@ -261,7 +253,7 @@ impl Analyzer<'_, '_> {
                 }
 
                 for dep in &*deps {
-                    if let Some(pos) = params.iter().position(|v| v.name.sym == *dep) {
+                    if let Some(pos) = params.iter().position(|v| *dep == v.name) {
                         //
                         graph.add_edge(idx, pos, 1);
                         break;
@@ -280,16 +272,16 @@ impl Analyzer<'_, '_> {
 
 #[derive(Debug)]
 struct TypeParamDepFinder<'a> {
-    id: &'a JsWord,
-    deps: &'a mut FxHashSet<JsWord>,
+    id: &'a Id,
+    deps: &'a mut FxHashSet<Id>,
 }
 
 impl Visit<Ident> for TypeParamDepFinder<'_> {
     fn visit(&mut self, node: &Ident) {
-        if *self.id == node.sym {
+        if *self.id == node {
             return;
         }
 
-        self.deps.insert(node.sym.clone());
+        self.deps.insert(node.clone().into());
     }
 }

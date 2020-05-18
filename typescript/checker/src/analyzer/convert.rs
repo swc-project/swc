@@ -13,7 +13,7 @@ use crate::{
 };
 use macros::validator;
 use swc_atoms::js_word;
-use swc_common::{Spanned, VisitMutWith, VisitWith};
+use swc_common::{Spanned, VisitMutWith};
 use swc_ecma_ast::*;
 
 /// We analyze dependencies between type parameters, and fold parameter in
@@ -61,11 +61,11 @@ impl Validate<TsTypeParam> for Analyzer<'_, '_> {
 
         let param = TypeParam {
             span: p.span,
-            name: p.name.sym.clone(),
+            name: p.name.clone().into(),
             constraint: try_opt!(self.validate(&mut p.constraint)).map(Box::new),
             default: try_opt!(self.validate(&mut p.default)).map(Box::new),
         };
-        self.register_type(param.name.clone(), param.clone().into())?;
+        self.register_type(param.name.clone().into(), param.clone().into())?;
 
         Ok(param)
     }
@@ -98,7 +98,7 @@ impl Validate<TsTypeAliasDecl> for Analyzer<'_, '_> {
                 ty: box ty,
                 type_params,
             };
-            self.register_type(d.id.sym.clone(), Type::Alias(alias.clone()))?;
+            self.register_type(d.id.clone().into(), Type::Alias(alias.clone()))?;
             alias
         };
 
@@ -113,13 +113,13 @@ impl Validate<TsInterfaceDecl> for Analyzer<'_, '_> {
     fn validate(&mut self, d: &mut TsInterfaceDecl) -> Self::Output {
         let ty = Interface {
             span: d.span,
-            name: d.id.sym.clone(),
+            name: d.id.clone().into(),
             type_params: try_opt!(self.validate(&mut d.type_params)),
             extends: self.validate(&mut d.extends)?,
             body: self.validate(&mut d.body)?,
         };
 
-        self.register_type(d.id.sym.clone(), ty.clone().into())
+        self.register_type(d.id.clone().into(), ty.clone().into())
             .store(&mut self.info.errors);
 
         self.resolve_parent_interfaces(&mut d.extends);
@@ -434,7 +434,7 @@ impl Validate<TsTypeRef> for Analyzer<'_, '_> {
             }
 
             TsEntityName::Ident(ref i) => {
-                if let Some(types) = self.find_type(&i.sym) {
+                if let Some(types) = self.find_type(&i.into()) {
                     for ty in types {
                         match ty.normalize() {
                             Type::Param(..) => return Ok(ty.clone()),

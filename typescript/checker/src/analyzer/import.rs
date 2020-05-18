@@ -45,19 +45,17 @@ impl Visit<ImportDecl> for ImportFinder<'_> {
         for s in &import.specifiers {
             match *s {
                 ImportSpecifier::Default(ref default) => items.push(Specifier {
-                    export: (js_word!("default"), default.span),
-                    local: (default.local.sym.clone(), default.local.span),
+                    export: Ident::new(js_word!("default"), default.span).into(),
+                    local: default.local.clone().into(),
                 }),
                 ImportSpecifier::Specific(ref s) => {
                     items.push(Specifier {
-                        export: (
-                            s.imported
-                                .clone()
-                                .map(|v| v.sym)
-                                .unwrap_or_else(|| s.local.sym.clone()),
-                            s.span,
-                        ),
-                        local: (s.local.sym.clone(), s.local.span),
+                        export: s
+                            .imported
+                            .as_ref()
+                            .map(|v| v.into())
+                            .unwrap_or_else(|| s.local.clone().into()),
+                        local: s.local.clone().into(),
                     });
                 }
                 ImportSpecifier::Namespace(..) => all = true,

@@ -1,10 +1,10 @@
 use super::Analyzer;
 use crate::{analyzer::generic::is_literals, swc_common::FoldWith, ty, ty::Type};
 use std::iter::once;
-use swc_atoms::JsWord;
+
+use crate::id::Id;
 use swc_common::{Fold, Visit};
 use swc_ecma_ast::*;
-use swc_ecma_utils::is_literal;
 
 #[derive(Debug, Default)]
 pub(super) struct Generalizer {
@@ -139,7 +139,7 @@ pub(super) fn is_prop_name_eq(l: &PropName, r: &PropName) -> bool {
 }
 
 pub(super) struct VarVisitor<'a> {
-    pub names: &'a mut Vec<JsWord>,
+    pub names: &'a mut Vec<Id>,
 }
 
 impl Visit<Expr> for VarVisitor<'_> {
@@ -148,6 +148,6 @@ impl Visit<Expr> for VarVisitor<'_> {
 
 impl Visit<Ident> for VarVisitor<'_> {
     fn visit(&mut self, i: &Ident) {
-        self.names.push(i.sym.clone())
+        self.names.push(i.into())
     }
 }

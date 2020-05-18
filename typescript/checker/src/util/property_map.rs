@@ -1,9 +1,6 @@
-use crate::Id;
 use fxhash::FxHashMap;
-use ordered_float::OrderedFloat;
-use swc_atoms::JsWord;
 use swc_common::{FoldWith, DUMMY_SP};
-use swc_ecma_ast::{ComputedPropName, Expr, Ident, Prop, PropName, Str};
+use swc_ecma_ast::{ComputedPropName, Expr, PropName};
 
 /// **Note**: this struct ignores span of key.
 #[derive(Debug)]

@@ -1,6 +1,7 @@
 use crate::ty::{Function, TypeParam, TypeParamDecl};
 use fxhash::FxHashSet;
-use swc_atoms::JsWord;
+
+use crate::id::Id;
 use swc_common::{util::move_map::MoveMap, Fold, FoldWith};
 
 /// Removes conflicting type parameters from children.
@@ -77,11 +78,11 @@ impl Fold<Function> for TypeParamRemover<'_> {
 #[derive(Debug, Default)]
 struct Scope<'a> {
     parent: Option<&'a Scope<'a>>,
-    params: FxHashSet<JsWord>,
+    params: FxHashSet<Id>,
 }
 
 impl Scope<'_> {
-    fn has(&self, name: &JsWord) -> bool {
+    fn has(&self, name: &Id) -> bool {
         if self.params.contains(name) {
             return true;
         }

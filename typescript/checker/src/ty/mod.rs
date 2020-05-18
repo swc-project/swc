@@ -1,10 +1,13 @@
-use crate::{util::TypeEq, ModuleTypeInfo, ty};
+use crate::{id::Id, ty, util::TypeEq, ModuleTypeInfo};
 use is_macro::Is;
-use std::{borrow::Cow, mem::transmute, sync::Arc};
-use swc_atoms::{js_word };
+use std::{mem::transmute, sync::Arc};
+use swc_atoms::{js_word, JsWord};
 use swc_common::{Fold, FoldWith, FromVariant, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{Value, Value::{Known, Unknown}, Id};
+use swc_ecma_utils::{
+    Value,
+    Value::{Known, Unknown},
+};
 
 mod convert;
 
@@ -288,7 +291,7 @@ pub enum TypeElement {
 
 impl TypeElement {
     pub fn key(&self) -> Option<&Expr> {
-        static CONSTRUCTOR: Expr = { Expr::Ident(Ident::new(js_word!("constructor"), DUMMY_SP)) };
+        static CONSTRUCTOR: Expr = Expr::Ident(Ident::new(js_word!("constructor"), DUMMY_SP));
 
         match self {
             TypeElement::Call(..) => None,
@@ -417,7 +420,7 @@ pub struct TypeParam {
 pub struct EnumVariant {
     pub span: Span,
     pub enum_name: Id,
-    pub name: Id,
+    pub name: JsWord,
 }
 
 #[derive(Debug, Fold, Clone, PartialEq, Spanned)]
@@ -473,7 +476,7 @@ impl Fold<Type> for LitGeneralizer {
     }
 }
 
-impl Fold<ty::Function> for LitGeneralizer{
+impl Fold<ty::Function> for LitGeneralizer {
     fn fold(&mut self, node: Function) -> Function {
         node
     }

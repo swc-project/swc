@@ -256,7 +256,7 @@ impl From<ty::TypeParam> for TsTypeParam {
         TsTypeParam {
             span: t.span,
             // TODO
-            name: Ident::new(t.name, DUMMY_SP),
+            name: t.name.into(),
             constraint: t.constraint.map(From::from),
             default: t.default.map(From::from),
         }
@@ -279,7 +279,7 @@ impl From<ty::TypeParam> for TsType {
         TsType::TsTypeRef(TsTypeRef {
             span: t.span,
             // TODO
-            type_name: Ident::new(t.name, DUMMY_SP).into(),
+            type_name: t.name.into(),
             type_params: None,
         })
     }
@@ -290,8 +290,8 @@ impl From<ty::EnumVariant> for TsType {
         TsType::TsTypeRef(TsTypeRef {
             span: t.span,
             type_name: TsEntityName::TsQualifiedName(box TsQualifiedName {
-                left: Ident::new(t.enum_name, DUMMY_SP).into(),
-                right: Ident::new(t.name, DUMMY_SP).into(),
+                left: t.enum_name.into(),
+                right: Ident::new(t.name, DUMMY_SP),
             }),
             type_params: None,
         })
@@ -314,7 +314,7 @@ impl From<ty::Interface> for TsType {
         TsTypeRef {
             span: t.span,
             // TODO
-            type_name: TsEntityName::Ident(Ident::new(t.name, DUMMY_SP)),
+            type_name: TsEntityName::Ident(t.name.into()),
             type_params: None,
         }
         .into()

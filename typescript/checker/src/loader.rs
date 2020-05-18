@@ -26,14 +26,14 @@ impl Load for Checker {
             } in import.items.iter()
             {
                 let mut done = false;
-                if let Some(ty) = module.1.exports.types.get(&export.0) {
+                if let Some(ty) = module.1.exports.types.get(&export) {
                     done = true;
-                    result.types.insert(export.0.clone(), ty.clone());
+                    result.types.insert(export.clone(), ty.clone());
                 }
 
-                if let Some(var) = module.1.exports.vars.get(&export.0) {
+                if let Some(var) = module.1.exports.vars.get(&export) {
                     done = true;
-                    result.vars.insert(export.0.clone(), var.clone());
+                    result.vars.insert(export.clone(), var.clone());
                 }
 
                 if !done {

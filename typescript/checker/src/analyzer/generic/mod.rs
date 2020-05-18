@@ -1,41 +1,39 @@
-use crate::util::EqIgnoreSpan;
 use self::remover::TypeParamRemover;
 use super::Analyzer;
 use crate::{
     analyzer::scope::Scope,
     builtin_types,
     debug::print_backtrace,
+    id::Id,
     ty::{
         self, Alias, Array, CallSignature, Conditional, FnParam, IndexSignature, IndexedAccessType,
         Interface, Mapped, Operator, PropertySignature, Ref, Tuple, Type, Type::Param, TypeElement,
         TypeLit, TypeOrSpread, TypeParam, TypeParamDecl, TypeParamInstantiation, Union,
     },
-    util::TypeEq,
+    util::{EqIgnoreSpan, TypeEq},
     ValidationResult,
 };
 use bitflags::_core::mem::take;
 use fxhash::{FxHashMap, FxHashSet};
 use itertools::{EitherOrBoth, Itertools};
 use std::collections::hash_map::Entry;
-use swc_atoms::{js_word, JsWord, JsWordStaticSet};
+use swc_atoms::js_word;
 use swc_common::{
     Fold, FoldWith, Span, Spanned, Visit, VisitMut, VisitMutWith, VisitWith, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_parser::token::Keyword::TypeOf;
-use swc_ecma_utils::Id;
 
 mod remover;
 
 #[derive(Debug, Default)]
 struct InferData {
     /// Inferred type parameters
-    type_params: FxHashMap<JsWord, Type>,
+    type_params: FxHashMap<Id, Type>,
 
     /// Type parameters which requires renaming.
-    pending_type_params: FxHashMap<JsWord, Type>,
+    pending_type_params: FxHashMap<Id, Type>,
 
-    type_elements: FxHashMap<JsWord, Type>,
+    type_elements: FxHashMap<Id, Type>,
 }
 
 /// Type inference for arguments.
@@ -157,13 +155,16 @@ impl Analyzer<'_, '_> {
                     log::info!("infer from literal constraint: {} = {:?}", name, constraint);
                     if let Some(orig) = inferred
                         .type_params
-                        .insert(name.clone(), *constraint.clone().unwrap()) {
-
-                        if !orig.eq_ignore_span(&constraint.as_ref().unwrap()){
+                        .insert(name.clone(), *constraint.clone().unwrap())
+                    {
+                        if !orig.eq_ignore_span(&constraint.as_ref().unwrap()) {
                             print_backtrace();
-                            panic!("Cannot override T in `T extends <literal>`\nOrig: {:?}\nConstraints: {:?}",orig,constraint)
+                            panic!(
+                                "Cannot override T in `T extends <literal>`\nOrig: \
+                                 {:?}\nConstraints: {:?}",
+                                orig, constraint
+                            )
                         }
-
                     }
 
                     return Ok(());
@@ -196,17 +197,23 @@ impl Analyzer<'_, '_> {
                         // of parameter
                         self.infer_type(inferred, &arg, &param_ty)?;
 
-                        if let Some(orig)= inferred.type_params.insert(name,Type::union(vec![param_ty, arg.clone()])) {
-                            match orig{
-                                Type::Union(..)=>{
-                                    // TODO: Verify that orig is union of param_ty and arg_ty
+                        if let Some(orig) = inferred
+                            .type_params
+                            .insert(name, Type::union(vec![param_ty, arg.clone()]))
+                        {
+                            match orig {
+                                Type::Union(..) => {
+                                    // TODO: Verify that orig is union of
+                                    // param_ty and arg_ty
                                 }
-                                _=>{
+                                _ => {
                                     print_backtrace();
-                                    panic!("Cannot override T in `T = param_ty | arg_ty`\nOrig: {:?}",orig)
+                                    panic!(
+                                        "Cannot override T in `T = param_ty | arg_ty`\nOrig: {:?}",
+                                        orig
+                                    )
                                 }
                             }
-
                         }
                     }
                     Entry::Vacant(e) => {
@@ -659,7 +666,7 @@ impl Analyzer<'_, '_> {
         arg_type_params: &TypeParamDecl,
     ) -> ValidationResult<()> {
         struct Renamer<'a> {
-            fixed: &'a FxHashMap<JsWord, Type>,
+            fixed: &'a FxHashMap<Id, Type>,
         }
 
         impl VisitMut<Type> for Renamer<'_> {
@@ -686,7 +693,7 @@ impl Analyzer<'_, '_> {
 
         let mut v = Renamer { fixed: &fixed };
         inferred.type_params.iter_mut().for_each(|(_, ty)| {
-            ty.visit_mut_with((&mut v));
+            ty.visit_mut_with(&mut v);
         });
 
         Ok(())
@@ -751,7 +758,7 @@ impl Analyzer<'_, '_> {
 
 #[derive(Debug)]
 struct TypeParamRenamer {
-    inferred: FxHashMap<JsWord, Type>,
+    inferred: FxHashMap<Id, Type>,
 }
 
 impl Fold<Type> for TypeParamRenamer {
@@ -866,7 +873,7 @@ struct GenericExpander<'a> {
     i: &'a TypeParamInstantiation,
     /// Expand fully?
     fully: bool,
-    dejavu: FxHashSet<JsWord>,
+    dejavu: FxHashSet<Id>,
 }
 
 impl Fold<Type> for GenericExpander<'_> {
@@ -881,11 +888,11 @@ impl Fold<Type> for GenericExpander<'_> {
         match ty {
             Type::Ref(Ref {
                 span,
-                type_name: TsEntityName::Ident(Ident { ref sym, .. }),
+                type_name: TsEntityName::Ident(ref i),
                 ref type_args,
                 ..
             }) => {
-                if *sym == js_word!("Array") {
+                if i.sym == js_word!("Array") {
                     return Type::Array(Array {
                         span,
                         elem_type: box type_args
@@ -895,15 +902,15 @@ impl Fold<Type> for GenericExpander<'_> {
                     });
                 }
 
-                if self.dejavu.contains(sym) {
-                    log::debug!("Dejavu: {}", sym);
+                if self.dejavu.contains(&i.into()) {
+                    log::debug!("Dejavu: {}", i.sym);
                     return ty;
                 }
 
-                log::info!("Ref: {}", sym);
+                log::info!("Ref: {}", Id::from(i));
 
                 for (idx, p) in self.params.iter().enumerate() {
-                    if p.name == *sym {
+                    if p.name == i {
                         assert_eq!(*type_args, None);
 
                         return self.i.params[idx].clone();

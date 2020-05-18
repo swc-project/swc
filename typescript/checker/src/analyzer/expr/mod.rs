@@ -4,11 +4,12 @@ use crate::{
     builtin_types,
     debug::print_backtrace,
     errors::Error,
+    id::Id,
     ty,
     ty::{
         Array, ClassInstance, EnumVariant, IndexSignature, IndexedAccessType, Interface,
-        Intersection, Operator, Ref, Tuple, Type, TypeElement, TypeLit, TypeParam,
-        TypeParamInstantiation, Union,
+        Intersection, Ref, Tuple, Type, TypeElement, TypeLit, TypeParam, TypeParamInstantiation,
+        Union,
     },
     util::{EqIgnoreSpan, RemoveTypes, TypeEq},
     validator::{Validate, ValidateWith},
@@ -75,7 +76,7 @@ impl Validate<AssignExpr> for Analyzer<'_, '_> {
             let any_span = match e.left {
                 PatOrExpr::Pat(box Pat::Ident(ref i)) | PatOrExpr::Expr(box Expr::Ident(ref i)) => {
                     // Type is any if self.declaring contains ident
-                    if a.scope.declaring.contains(&i.sym) {
+                    if a.scope.declaring.contains(&i.into()) {
                         Some(span)
                     } else {
                         None
@@ -208,7 +209,7 @@ impl Validate<SeqExpr> for Analyzer<'_, '_> {
             }
             match **e {
                 Expr::Ident(ref i) => {
-                    if self.scope.declaring.contains(&i.sym) {
+                    if self.scope.declaring.contains(&i.into()) {
                         is_any = true;
                     }
                 }
@@ -438,7 +439,7 @@ impl Analyzer<'_, '_> {
                 ref mut class,
                 ..
             }) => {
-                self.scope.this_class_name = ident.as_ref().map(|i| i.sym.clone());
+                self.scope.this_class_name = ident.as_ref().map(|i| i.into());
                 return Ok(class.validate_with(self)?.into());
             }
 
@@ -624,7 +625,7 @@ impl Analyzer<'_, '_> {
                                 TypeOfMode::LValue => prop.span(),
                                 TypeOfMode::RValue => span,
                             },
-                            enum_name: e.id.sym.clone(),
+                            enum_name: e.id.clone().into(),
                             name: $sym.clone(),
                         }));
                     }};
@@ -720,7 +721,7 @@ impl Analyzer<'_, '_> {
                         ty::ClassMember::Property(ref class_prop) => {
                             match *class_prop.key {
                                 Expr::Ident(ref i) => {
-                                    if self.scope.declaring_prop.as_ref() == Some(&i.sym) {
+                                    if self.scope.declaring_prop.as_ref() == Some(&i.into()) {
                                         return Err(Error::ReferencedInInit { span });
                                     }
                                 }
@@ -807,21 +808,22 @@ impl Analyzer<'_, '_> {
             }) => return Err(Error::Unknown { span: obj.span() }),
 
             Type::Keyword(TsKeywordType { kind, .. }) if !self.is_builtin => {
-                let word = match kind {
+                let word = Id::word(match kind {
                     TsKeywordTypeKind::TsStringKeyword => js_word!("String"),
                     TsKeywordTypeKind::TsNumberKeyword => js_word!("Number"),
                     TsKeywordTypeKind::TsBooleanKeyword => js_word!("Boolean"),
                     TsKeywordTypeKind::TsObjectKeyword => js_word!("Object"),
                     TsKeywordTypeKind::TsSymbolKeyword => js_word!("Symbol"),
                     _ => unimplemented!("access_property: obj: TSKeywordType {:?}", kind),
-                };
+                });
                 let interface = builtin_types::get_type(self.libs, span, &word)?;
                 return self.access_property(span, interface, prop, computed, type_mode);
             }
 
             Type::Array(Array { elem_type, .. }) => {
-                let array_ty = builtin_types::get_type(self.libs, span, &js_word!("Array"))
-                    .expect("Array should be loaded");
+                let array_ty =
+                    builtin_types::get_type(self.libs, span, &Id::word(js_word!("Array")))
+                        .expect("Array should be loaded");
 
                 match prop.validate_with(self) {
                     Ok(ty) => match ty.normalize() {
@@ -992,8 +994,8 @@ impl Analyzer<'_, '_> {
 
             Type::Module(ty::Module { ref exports, .. }) => {
                 match prop {
-                    Expr::Ident(Ident { ref sym, .. }) => {
-                        if let Some(item) = exports.vars.get(sym) {
+                    Expr::Ident(ref i) => {
+                        if let Some(item) = exports.vars.get(&i.into()) {
                             return Ok(item.clone());
                         }
                         //                        if let Some(item) =
@@ -1043,7 +1045,7 @@ impl Analyzer<'_, '_> {
         let span = i.span();
 
         if let Some(ref cls_name) = self.scope.this_class_name {
-            if *cls_name == i.sym {
+            if *cls_name == i {
                 log::warn!(
                     "Creating ref because we are currently defining a class: {}",
                     i.sym
@@ -1078,7 +1080,7 @@ impl Analyzer<'_, '_> {
             unreachable!("typeof(require('...'))");
         }
 
-        if let Some(ty) = self.resolved_import_vars.get(&i.sym) {
+        if let Some(ty) = self.resolved_import_vars.get(&i.into()) {
             assert!(ty.is_arc());
             println!(
                 "({}) type_of({}): resolved import",
@@ -1088,7 +1090,7 @@ impl Analyzer<'_, '_> {
             return Ok(ty.clone());
         }
 
-        if let Some(v) = self.scope.vars.get(&i.sym) {
+        if let Some(v) = self.scope.vars.get(&i.into()) {
             log::debug!("type_of_ident({}): found var with name", i.sym);
             if let Some(v) = &v.ty {
                 return Ok(v.clone());
@@ -1096,7 +1098,7 @@ impl Analyzer<'_, '_> {
         }
 
         // Check `declaring` before checking variables.
-        if self.scope.declaring.contains(&i.sym) {
+        if self.scope.declaring.contains(&i.into()) {
             println!(
                 "({}) reference in initialization: {}",
                 self.scope.depth(),
@@ -1110,12 +1112,12 @@ impl Analyzer<'_, '_> {
             }
         }
 
-        if let Some(ty) = self.find_var_type(&i.sym) {
+        if let Some(ty) = self.find_var_type(&i.into()) {
             println!("({}) type_of({}): find_var_type", self.scope.depth(), i.sym);
             return Ok(ty.into_owned().respan(span));
         }
 
-        if let Some(_var) = self.find_var(&i.sym) {
+        if let Some(_var) = self.find_var(&i.into()) {
             // TODO: Infer type or use type hint to handle
             //
             // let id: (x: Foo) => Foo = x => x;
@@ -1124,7 +1126,7 @@ impl Analyzer<'_, '_> {
         }
 
         if !self.is_builtin {
-            if let Ok(ty) = builtin_types::get_var(self.libs, span, &i.sym) {
+            if let Ok(ty) = builtin_types::get_var(self.libs, span, &i.into()) {
                 return Ok(ty);
             }
         }
@@ -1133,7 +1135,7 @@ impl Analyzer<'_, '_> {
             return Ok(builtin_types::get_var(
                 self.libs,
                 i.span,
-                &js_word!("Symbol"),
+                &Id::word(js_word!("Symbol")),
             )?);
         }
 
@@ -1154,7 +1156,7 @@ impl Analyzer<'_, '_> {
     ) -> ValidationResult {
         match *n {
             TsEntityName::Ident(ref i) => {
-                if let Some(types) = self.find_type(&i.sym) {
+                if let Some(types) = self.find_type(&i.into()) {
                     for ty in types {
                         match ty.normalize() {
                             Type::Interface(_)

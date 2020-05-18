@@ -6,8 +6,9 @@ use super::{
     Analyzer,
 };
 use crate::{
-    analyzer::util::{is_prop_name_eq, ResultExt},
+    analyzer::util::ResultExt,
     errors::Error,
+    id::Id,
     name::Name,
     ty::{Tuple, Type, TypeElement, TypeLit},
     util::EndsWithRet,
@@ -24,8 +25,7 @@ use std::{
     mem::replace,
     ops::{AddAssign, BitOr, Not},
 };
-use swc_atoms::JsWord;
-use swc_common::{Span, Spanned, VisitMutWith, VisitWith};
+use swc_common::{Span, Spanned, VisitMutWith};
 use swc_ecma_ast::*;
 
 /// Conditional facts
@@ -34,7 +34,7 @@ pub(crate) struct CondFacts {
     pub facts: FxHashMap<Name, TypeFacts>,
     pub vars: FxHashMap<Name, Type>,
     pub excludes: FxHashMap<Name, Vec<Type>>,
-    pub types: FxHashMap<JsWord, Type>,
+    pub types: FxHashMap<Id, Type>,
 }
 
 impl CondFacts {
@@ -350,7 +350,7 @@ impl Analyzer<'_, '_> {
             Pat::Ident(ref i) => {
                 println!("Symbol: {}", i.sym);
 
-                if let Some(ref var_info) = self.scope.get_var(&i.sym) {
+                if let Some(ref var_info) = self.scope.get_var(&i.into()) {
                     if let Some(ref var_ty) = var_info.ty {
                         let var_ty = var_ty.clone();
                         // let foo: string;
@@ -362,7 +362,7 @@ impl Analyzer<'_, '_> {
                 }
 
                 {
-                    if let Some(var_info) = self.scope.get_var_mut(&i.sym) {
+                    if let Some(var_info) = self.scope.get_var_mut(&i.into()) {
                         let var_ty = ty;
 
                         if var_info.ty.is_none()
@@ -374,7 +374,7 @@ impl Analyzer<'_, '_> {
                         }
                         return Ok(());
                     } else {
-                        let var_info = if let Some(var_info) = self.scope.search_parent(&i.sym) {
+                        let var_info = if let Some(var_info) = self.scope.search_parent(&i.into()) {
                             let ty = if var_info.ty.is_some()
                                 && var_info.ty.as_ref().unwrap().is_any()
                             {
@@ -394,7 +394,7 @@ impl Analyzer<'_, '_> {
                                 ..var_info.clone()
                             }
                         } else {
-                            if let Some(types) = self.find_type(&i.sym) {
+                            if let Some(types) = self.find_type(&i.into()) {
                                 for ty in types {
                                     match ty {
                                         Type::Module(..) => {
@@ -409,13 +409,13 @@ impl Analyzer<'_, '_> {
                             }
 
                             return if self.ctx.allow_ref_declaring
-                                && self.scope.declaring.contains(&i.sym)
+                                && self.scope.declaring.contains(&i.into())
                             {
                                 Ok(())
                             } else {
                                 // undefined symbol
                                 Err(Error::UndefinedSymbol {
-                                    sym: i.sym.clone(),
+                                    sym: i.into(),
                                     span: i.span,
                                 })
                             };
@@ -430,7 +430,7 @@ impl Analyzer<'_, '_> {
                             i.sym,
                             var_info
                         );
-                        self.scope.insert_var(i.sym.clone(), var_info);
+                        self.scope.insert_var(i.into(), var_info);
 
                         return Ok(());
                     }
@@ -546,7 +546,7 @@ impl Analyzer<'_, '_> {
         )
     }
 
-    fn add_true_false(&mut self, facts: &mut Facts, sym: &JsWord, ty: &Type) {
+    fn add_true_false(&mut self, facts: &mut Facts, sym: &Id, ty: &Type) {
         facts.insert_var(sym, ty.clone(), false);
     }
 
@@ -607,7 +607,7 @@ impl Analyzer<'_, '_> {
             Expr::Paren(ParenExpr { ref mut expr, .. }) => self.detect_facts(expr, facts)?,
 
             Expr::Ident(ref i) => {
-                let sym = i.sym.clone();
+                let sym = i.into();
                 let ty = self.validate(test)?;
                 self.add_true_false(facts, &sym, &ty);
             }
@@ -728,7 +728,7 @@ impl Analyzer<'_, '_> {
                             Expr::Ident(ref i) => {
                                 //
 
-                                facts.true_facts.vars.insert(Name::from(&i.sym), r_ty);
+                                facts.true_facts.vars.insert(Name::from(i), r_ty);
 
                                 return Ok(());
                             }
@@ -789,7 +789,7 @@ impl Validate<CondExpr> for Analyzer<'_, '_> {
         match **test {
             Expr::Ident(ref i) => {
                 // Check `declaring` before checking variables.
-                if self.scope.declaring.contains(&i.sym) {
+                if self.scope.declaring.contains(&i.into()) {
                     return if self.ctx.allow_ref_declaring {
                         Ok(Type::any(span))
                     } else {

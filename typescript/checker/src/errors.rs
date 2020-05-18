@@ -1,5 +1,6 @@
 use crate::{
     debug::print_backtrace,
+    id::Id,
     name::Name,
     ty::{Type, TypeElement, TypeParamInstantiation},
 };
@@ -107,16 +108,16 @@ pub enum Error {
 
     NoSuchType {
         span: Span,
-        name: JsWord,
+        name: Id,
     },
 
     NoSuchVar {
         span: Span,
-        name: JsWord,
+        name: Id,
     },
 
     DuplicateName {
-        name: JsWord,
+        name: Id,
         span: Span,
     },
 
@@ -239,7 +240,7 @@ pub enum Error {
     },
 
     UndefinedSymbol {
-        sym: JsWord,
+        sym: Id,
         span: Span,
     },
 
@@ -251,7 +252,7 @@ pub enum Error {
 
     NoSuchExport {
         span: Span,
-        items: Vec<(JsWord, Span)>,
+        items: Vec<Id>,
     },
 
     NoNewSignature {

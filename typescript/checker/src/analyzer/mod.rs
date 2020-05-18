@@ -10,8 +10,9 @@ use self::{
     util::ResultExt,
 };
 use crate::{
-    debug::{duplicate::DuplicateTracker, print_backtrace},
+    debug::duplicate::DuplicateTracker,
     errors::{Error, Errors},
+    id::Id,
     loader::Load,
     ty,
     ty::Type,
@@ -27,8 +28,7 @@ use std::{
     path::PathBuf,
     sync::Arc,
 };
-use swc_atoms::JsWord;
-use swc_common::{Span, Spanned, VisitMut, VisitMutWith, VisitWith, DUMMY_SP};
+use swc_common::{Span, Spanned, VisitMutWith, VisitWith, DUMMY_SP};
 use swc_ecma_ast::{ModuleItem, *};
 use swc_ts_builtin_types::Lib;
 
@@ -77,10 +77,10 @@ pub struct Analyzer<'a, 'b> {
     export_equals_span: Span,
     in_declare: bool,
 
-    resolved_import_types: FxHashMap<JsWord, Vec<Type>>,
-    resolved_import_vars: FxHashMap<JsWord, Type>,
-    errored_imports: FxHashSet<JsWord>,
-    pending_exports: Vec<((JsWord, Span), Expr)>,
+    resolved_import_types: FxHashMap<Id, Vec<Type>>,
+    resolved_import_vars: FxHashMap<Id, Type>,
+    errored_imports: FxHashSet<Id>,
+    pending_exports: Vec<((Id, Span), Expr)>,
 
     rule: Rule,
     libs: &'b [Lib],
@@ -368,7 +368,7 @@ impl Validate<Vec<ModuleItem>> for Analyzer<'_, '_> {
                             import
                                 .items
                                 .iter()
-                                .map(|&Specifier { ref local, .. }| local.0.clone()),
+                                .map(|&Specifier { ref local, .. }| local.clone()),
                         );
 
                         self.info.errors.push(err);
@@ -516,8 +516,8 @@ impl Validate<TsModuleDecl> for Analyzer<'_, '_> {
         });
         self.register_type(
             match decl.id {
-                TsModuleName::Ident(ref i) => i.sym.clone(),
-                TsModuleName::Str(ref s) => s.value.clone(),
+                TsModuleName::Ident(ref i) => i.into(),
+                TsModuleName::Str(ref s) => Ident::new(s.value.clone(), s.span).into(),
             },
             Type::Module(module),
         )
