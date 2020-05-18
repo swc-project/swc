@@ -5,19 +5,25 @@ use crate::{
 };
 use std::mem::replace;
 use swc_atoms::js_word;
-use swc_common::{Fold, FoldWith, Spanned, Visit, VisitWith, DUMMY_SP};
+use swc_common::{Fold, FoldWith, Mark, Spanned, Visit, VisitWith, DUMMY_SP};
 use swc_ecma_ast::*;
 
 mod case;
 mod hoist;
 mod leap;
 
-pub fn regenerator() -> impl Pass {
-    Regenerator::default()
+pub fn regenerator(global_mark: Mark) -> impl Pass {
+    Regenerator {
+        global_mark,
+        regenerator_runtime: Default::default(),
+        outer_fn_vars: Default::default(),
+        top_level_vars: Default::default(),
+    }
 }
 
-#[derive(Debug, Default)]
+#[derive(Debug)]
 struct Regenerator {
+    global_mark: Mark,
     /// [Some] if used.
     regenerator_runtime: Option<Ident>,
     /// Variables delcared in outer function.
@@ -28,7 +34,7 @@ struct Regenerator {
 
 noop_fold_type!(Regenerator);
 
-fn rt(rt: Ident) -> Stmt {
+fn rt(global_mark: Mark, rt: Ident) -> Stmt {
     Stmt::Decl(Decl::Var(VarDecl {
         span: DUMMY_SP,
         kind: VarDeclKind::Var,
@@ -38,7 +44,7 @@ fn rt(rt: Ident) -> Stmt {
             name: Pat::Ident(rt),
             init: Some(box Expr::Call(CallExpr {
                 span: DUMMY_SP,
-                callee: quote_ident!("require").as_callee(),
+                callee: quote_ident!(DUMMY_SP.apply_mark(global_mark), "require").as_callee(),
                 args: vec![quote_str!("regenerator-runtime").as_arg()],
                 type_args: Default::default(),
             })),
@@ -52,7 +58,7 @@ impl Fold<Module> for Regenerator {
     fn fold(&mut self, m: Module) -> Module {
         let mut m: Module = m.fold_children(self);
         if let Some(rt_ident) = self.regenerator_runtime.take() {
-            prepend(&mut m.body, rt(rt_ident).into());
+            prepend(&mut m.body, rt(self.global_mark, rt_ident).into());
         }
         m
     }
@@ -63,7 +69,7 @@ impl Fold<Script> for Regenerator {
     fn fold(&mut self, s: Script) -> Script {
         let mut s: Script = s.fold_children(self);
         if let Some(rt_ident) = self.regenerator_runtime.take() {
-            prepend(&mut s.body, rt(rt_ident).into());
+            prepend(&mut s.body, rt(self.global_mark, rt_ident).into());
         }
         s
     }

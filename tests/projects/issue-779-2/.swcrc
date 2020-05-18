@@ -1,0 +1,26 @@
+{
+  "test": [".*.tsx$",".*.ts$", ".*.js$"],
+  "module": {
+    "type": "commonjs"
+  },
+
+  "jsc": {
+    "parser": {
+      "syntax": "typescript",
+      "tsx": true,
+      "decorators": true,
+      "dynamicImport": true
+    },
+    "target": "es2016",
+    "loose": true,
+    "transform": {
+      "optimizer": {
+        "globals": {
+          "vars": {
+            "__DEBUG__": "true"
+          }
+        }
+      }
+    }
+  }
+}

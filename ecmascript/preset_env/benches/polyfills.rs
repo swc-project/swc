@@ -4,7 +4,7 @@
 
 extern crate test;
 
-use swc_common::{FileName, FoldWith};
+use swc_common::{FileName, FoldWith, Mark};
 use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
 use swc_ecma_preset_env::{preset_env, Config};
 use test::Bencher;
@@ -27,7 +27,7 @@ fn run(b: &mut Bencher, src: &str, config: Config) {
                 e.emit();
             })
             .unwrap();
-        let mut folder = preset_env(config);
+        let mut folder = preset_env(Mark::fresh(Mark::root()), config);
 
         b.iter(|| test::black_box(module.clone().fold_with(&mut folder)));
         Ok(())

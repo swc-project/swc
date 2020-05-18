@@ -227,7 +227,7 @@ impl Options {
             json_parse_pass
         );
 
-        let pass = PassBuilder::new(&cm, &handler, loose, pass)
+        let pass = PassBuilder::new(&cm, &handler, loose, root_mark, pass)
             .target(target)
             .preset_env(config.env)
             .finalize(root_mark, syntax, config.module);

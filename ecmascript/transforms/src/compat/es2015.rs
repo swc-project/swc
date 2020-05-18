@@ -8,7 +8,7 @@ pub use self::{
 };
 use crate::pass::Pass;
 use serde::Deserialize;
-use swc_common::chain;
+use swc_common::{chain, Mark};
 use swc_ecma_ast::Expr;
 
 mod arrow;
@@ -42,7 +42,7 @@ fn exprs() -> impl Pass {
 }
 
 /// Compiles es2015 to es5.
-pub fn es2015(c: Config) -> impl Pass {
+pub fn es2015(global_mark: Mark, c: Config) -> impl Pass {
     chain!(
         BlockScopedFns,
         TemplateLiteral::default(),
@@ -54,7 +54,7 @@ pub fn es2015(c: Config) -> impl Pass {
         for_of(c.for_of),
         computed_properties(),
         destructuring(c.destructuring),
-        regenerator(),
+        regenerator(global_mark),
         block_scoping(),
     )
 }
@@ -78,7 +78,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| es2015(Default::default()),
+        |_| es2015(Mark::fresh(Mark::root()), Default::default()),
         issue_169,
         r#"
 export class Foo {
@@ -110,7 +110,7 @@ export var Foo = function() {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| es2015(Default::default()),
+        |_| es2015(Mark::fresh(Mark::root()), Default::default()),
         issue_189,
         r#"
 class HomePage extends React.Component {}
@@ -130,7 +130,7 @@ var HomePage = function(_Component) {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| es2015(Default::default()),
+        |_| es2015(Mark::fresh(Mark::root()), Default::default()),
         issue_227,
         "export default function fn1(...args) {
   fn2(...args);
@@ -176,10 +176,10 @@ function foo(scope) {
     //             // Optional::new(compat::es2018(), target <= JscTarget::Es2018),
     //             // Optional::new(compat::es2017(), target <= JscTarget::Es2017),
     //             // Optional::new(compat::es2016(), target <= JscTarget::Es2016),
-    //             // Optional::new(compat::es2015(Default::default()), target <=
-    // JscTarget::Es2015),             // Optional::new(compat::es3(), target <=
-    // JscTarget::Es3),             hygiene(),
-    //             fixer(),
+    //             // Optional::new(compat::es2015(Mark::fresh(Mark::root()),
+    // Default::default()), target <= JscTarget::Es2015),             //
+    // Optional::new(compat::es3(), target <= JscTarget::Es3),
+    // hygiene(),             fixer(),
     //         ),
     //         issue_405,
     //         "function Quadtree$1(x, y, x0, y0, x1, y1) {
@@ -197,7 +197,7 @@ function foo(scope) {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| es2015(Default::default()),
+        |_| es2015(Mark::fresh(Mark::root()), Default::default()),
         issue_413,
         r#"
 export const getBadgeBorderRadius = (text, color) => {
@@ -213,7 +213,7 @@ export var getBadgeBorderRadius = function(text, color) {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| es2015(Default::default()),
+        |_| es2015(Mark::fresh(Mark::root()), Default::default()),
         issue_400_1,
         "class A {
     constructor() {
@@ -274,7 +274,7 @@ var B = function(A) {
 
     test_exec!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| es2015(Default::default()),
+        |_| es2015(Mark::fresh(Mark::root()), Default::default()),
         issue_400_2,
         "class A {
     constructor() {
