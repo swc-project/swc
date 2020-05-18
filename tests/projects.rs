@@ -409,3 +409,11 @@ fn issue_763_2() {
     assert!(f.contains("_consts.RESOURCE_FACEBOOK"));
     assert!(f.contains("_consts.RESOURCE_INSTAGRAM"));
 }
+
+#[test]
+fn issue_779() {
+    let f = file("tests/projects/issue-779/input.js").unwrap();
+    println!("{}", f);
+
+    assert!(f.contains("require('core-js/modules/es.array-buffer.constructor');"))
+}
