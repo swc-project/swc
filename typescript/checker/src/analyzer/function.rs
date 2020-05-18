@@ -9,7 +9,7 @@ use crate::{
     ValidationResult,
 };
 use macros::validator;
-use swc_common::{Fold, FoldWith, Spanned, Visit, DUMMY_SP};
+use swc_common::{Fold, FoldWith, Spanned};
 use swc_ecma_ast::*;
 
 #[validator]
@@ -154,7 +154,7 @@ impl Analyzer<'_, '_> {
             //     match self.declare_var(
             //         f.span,
             //         VarDeclKind::Var,
-            //         name.sym.clone(),
+            //         name.into(),
             //         Some(Type::Query(QueryType {
             //             span: f.span,
             //             expr: TsEntityName::Ident(name.clone()).into(),
@@ -173,7 +173,7 @@ impl Analyzer<'_, '_> {
 
             if let Some(name) = name {
                 assert_eq!(self.scope.declaring_fn, None);
-                self.scope.declaring_fn = Some(name.sym.clone());
+                self.scope.declaring_fn = Some(name.into());
             }
 
             let mut fn_ty: ty::Function = f.validate_with(self)?;
@@ -243,9 +243,9 @@ impl Validate<FnDecl> for Analyzer<'_, '_> {
     fn validate(&mut self, f: &mut FnDecl) -> Self::Output {
         let fn_ty = self.visit_fn(Some(&f.ident), &mut f.function).freeze();
 
-        self.register_type(f.ident.sym.clone(), fn_ty.clone())
+        self.register_type(f.ident.clone().into(), fn_ty.clone())
             .store(&mut self.info.errors);
-        match self.override_var(VarDeclKind::Var, f.ident.sym.clone(), fn_ty) {
+        match self.override_var(VarDeclKind::Var, f.ident.clone().into(), fn_ty) {
             Ok(()) => {}
             Err(err) => {
                 self.info.errors.push(err);
@@ -282,7 +282,7 @@ impl Fold<Type> for TypeParamHandler<'_> {
                     TsEntityName::Ident(ref i) => {
                         //
                         for param in params {
-                            if param.name == i.sym {
+                            if param.name == i {
                                 return Type::Param(param.clone());
                             }
                         }

@@ -3,6 +3,7 @@ use crate::{
     analyzer::util::{Generalizer, ResultExt},
     debug::assert_no_ref,
     errors::Error,
+    id::Id,
     swc_common::FoldWith,
     ty::{Tuple, Type, TypeParam, TypeParamDecl},
     util::PatExt,
@@ -10,7 +11,7 @@ use crate::{
     ValidationResult,
 };
 use macros::validator;
-use swc_common::{Spanned, Visit, VisitMutWith, VisitWith, DUMMY_SP};
+use swc_common::{Spanned, VisitMutWith, DUMMY_SP};
 use swc_ecma_ast::*;
 
 #[validator]
@@ -237,22 +238,17 @@ impl Validate<VarDeclarator> for Analyzer<'_, '_> {
                 }
             } else {
                 match v.name {
-                    Pat::Ident(Ident {
-                        span,
-                        ref mut sym,
-                        ref mut type_ann,
-                        ..
-                    }) => {
+                    Pat::Ident(ref mut i) => {
                         //
-                        let sym = sym.clone();
-                        let ty = try_opt!(type_ann.validate_with(self));
+                        let sym: Id = (&*i).into();
+                        let ty = try_opt!(i.type_ann.validate_with(self));
                         let ty = match ty {
-                            Some(ty) => Some(self.expand(span, ty)?),
+                            Some(ty) => Some(self.expand(i.span, ty)?),
                             None => None,
                         };
 
                         match self.declare_var(
-                            span,
+                            i.span,
                             kind,
                             sym,
                             ty,

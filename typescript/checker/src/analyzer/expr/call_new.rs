@@ -4,7 +4,7 @@ use crate::{
     analyzer::{expr::TypeOfMode, props::prop_name_to_expr, util::ResultExt},
     builtin_types,
     errors::Error,
-    swc_common::FoldWith,
+    id::Id,
     ty,
     ty::{
         CallSignature, ClassInstance, ConstructorSignature, FnParam, Method, MethodSignature,
@@ -127,7 +127,9 @@ impl Analyzer<'_, '_> {
                         .cloned()
                         .map(|arg| match arg {
                             ExprOrSpread { spread: None, expr } => match *expr {
-                                Expr::Lit(Lit::Str(Str { value, .. })) => value.clone(),
+                                Expr::Lit(Lit::Str(Str { span, value, .. })) => {
+                                    Ident::new(value.clone(), span).into()
+                                }
                                 _ => unimplemented!("dynamic import: require()"),
                             },
                             _ => unimplemented!("error reporting: spread element in require()"),
@@ -139,7 +141,7 @@ impl Analyzer<'_, '_> {
                     unimplemented!("dep: {:#?}", dep);
                 }
 
-                // if let Some(Type::Enum(ref e)) = self.scope.find_type(&i.sym) {
+                // if let Some(Type::Enum(ref e)) = self.scope.find_type(&i.into()) {
                 //     return Ok(TsType::TsTypeRef(TsTypeRef {
                 //         span,
                 //         type_name: TsEntityName::Ident(i.clone()),
@@ -148,7 +150,7 @@ impl Analyzer<'_, '_> {
                 //     .into());
                 // }
                 Err(Error::UndefinedSymbol {
-                    sym: i.sym.clone(),
+                    sym: i.into(),
                     span: i.span(),
                 })?
             }
@@ -177,9 +179,15 @@ impl Analyzer<'_, '_> {
                 ..
             }) => {
                 let is_key_eq_prop = |e: &Expr| {
+                    let tmp;
                     let v = match *e {
-                        Expr::Ident(ref i) => &i.sym,
-                        Expr::Lit(Lit::Str(ref s)) => &s.value,
+                        Expr::Ident(ref i) => {
+                            tmp = Id::from(i);
+                            &tmp },
+                        Expr::Lit(Lit::Str(ref s)) => {
+                            tmp=Id::word(s.value.clone());
+                            &tmp
+                        },
                         _ => return false,
                     };
 
@@ -189,7 +197,7 @@ impl Analyzer<'_, '_> {
                         _ => return false,
                     };
 
-                    v == p
+                    v.as_str() == &**p
                 };
 
                 macro_rules! search_members_for_prop {
@@ -221,8 +229,12 @@ impl Analyzer<'_, '_> {
 
                         {
                             // Handle methods from `interface Object`
-                            let i = builtin_types::get_type(self.libs, span, &js_word!("Object"))
-                                .expect("`interface Object` is must");
+                            let i = builtin_types::get_type(
+                                self.libs,
+                                span,
+                                &Id::word(js_word!("Object")),
+                            )
+                            .expect("`interface Object` is must");
                             let methods = match i {
                                 Type::Static(Static {
                                     ty: Type::Interface(i),
@@ -297,12 +309,12 @@ impl Analyzer<'_, '_> {
                     Type::Keyword(TsKeywordType {
                         kind: TsKeywordTypeKind::TsNumberKeyword,
                         ..
-                    }) => builtin_types::get_type(self.libs, span, &js_word!("Number"))
+                    }) => builtin_types::get_type(self.libs, span, &Id::word(js_word!("Number")))
                         .expect("Builtin type named 'Number' should exist"),
                     Type::Keyword(TsKeywordType {
                         kind: TsKeywordTypeKind::TsStringKeyword,
                         ..
-                    }) => builtin_types::get_type(self.libs, span, &js_word!("String"))
+                    }) => builtin_types::get_type(self.libs, span, &Id::word(js_word!("String")))
                         .expect("Builtin type named 'String' should exist"),
                     _ => obj_type,
                 };
@@ -350,7 +362,7 @@ impl Analyzer<'_, '_> {
                         ..
                     }) => {
                         if let Ok(ty) =
-                            builtin_types::get_type(self.libs, span, &js_word!("Symbol"))
+                            builtin_types::get_type(self.libs, span, &Id::word(js_word!("Symbol")))
                         {
                             return Ok(ty);
                         }

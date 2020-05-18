@@ -21,6 +21,7 @@ use swc_ts_checker::{
     ty::Type,
     util::{PatExt, TypeEq},
     ModuleTypeInfo,
+    id::Id,
 };
 
 mod ambient;
@@ -43,7 +44,7 @@ pub fn generate_dts(module: Module, info: ModuleTypeInfo) -> Module {
 #[derive(Debug)]
 struct TypeResolver {
     info: ModuleTypeInfo,
-    used: FxHashSet<JsWord>,
+    used: FxHashSet<Id>,
     current_class: Option<ty::Class>,
 
     in_declare: bool,
@@ -53,7 +54,7 @@ struct TypeResolver {
 }
 
 impl TypeResolver {
-    fn take<F>(&mut self, sym: &JsWord, mut pred: F) -> Option<Arc<Type>>
+    fn take<F>(&mut self, sym: &Id, mut pred: F) -> Option<Arc<Type>>
     where
         F: FnMut(&Type) -> bool,
     {
@@ -74,7 +75,7 @@ impl TypeResolver {
         None
     }
 
-    fn get_mapped<F, T>(&self, sym: &JsWord, mut pred: F) -> Option<T>
+    fn get_mapped<F, T>(&self, sym: &Id, mut pred: F) -> Option<T>
     where
         F: FnMut(&Type) -> Option<T>,
     {
@@ -155,7 +156,7 @@ impl Fold<VarDeclarator> for TypeResolver {
 
         match node.name {
             Pat::Ident(ref mut i) => {
-                if !self.used.contains(&i.sym) {
+                if !self.used.contains(&i.clone().into()) {
                     node.name = Pat::Invalid(Invalid { span: DUMMY_SP });
                     return node;
                 }
@@ -183,7 +184,7 @@ impl Fold<VarDeclarator> for TypeResolver {
         match node.name {
             Pat::Ident(ref mut i) => {
                 if i.type_ann.is_none() {
-                    if let Some(ty) = self.info.vars.remove(&i.sym).map(From::from) {
+                    if let Some(ty) = self.info.vars.remove(&i.clone().into()).map(From::from) {
                         i.type_ann = Some(TsTypeAnn {
                             span: DUMMY_SP,
                             type_ann: box ty,
@@ -223,7 +224,7 @@ impl Fold<FnDecl> for TypeResolver {
             return node;
         }
 
-        let return_type = self.get_mapped(&node.ident.sym, |ty| match ty {
+        let return_type = self.get_mapped(&node.ident.clone().into(), |ty| match ty {
             Type::Function(ty::Function { ref ret_ty, .. }) => {
                 Some(TsTypeAnn::from((**ret_ty).clone()))
             }
@@ -272,7 +273,7 @@ impl Fold<TsEnumDecl> for TypeResolver {
             should_init_only_first = false;
         }
 
-        let _: Option<()> = self.get_mapped(&node.id.sym, |ty| {
+        let _: Option<()> = self.get_mapped(&node.id.clone().into(), |ty| {
             match ty {
                 Type::Enum(e) => {
                     //
@@ -290,7 +291,7 @@ impl Fold<TsEnumDecl> for TypeResolver {
             None
         });
 
-        let members = self.get_mapped(&node.id.sym, |ty| match ty {
+        let members = self.get_mapped(&node.id.clone().into(), |ty| match ty {
             Type::Enum(e) => Some(
                 e.members
                     .iter()
@@ -389,7 +390,7 @@ impl Fold<ClassDecl> for TypeResolver {
 
         let old_class = self.current_class.take();
 
-        if let Some(class) = self.get_mapped(&node.ident.sym, |ty| match ty {
+        if let Some(class) = self.get_mapped(&node.ident.clone().into(), |ty| match ty {
             Type::Class(class) => Some(class.clone()),
             _ => None,
         }) {
@@ -508,20 +509,20 @@ impl Fold<Stmt> for TypeResolver {
     fn fold(&mut self, v: Stmt) -> Stmt {
         let v = v.fold_children(self);
         match v {
-            Stmt::Decl(Decl::Class(ref i)) if !self.used.contains((&i.ident.sym)) => {
+            Stmt::Decl(Decl::Class(ref i)) if !self.used.contains((&i.ident.clone().into())) => {
                 Stmt::Empty(EmptyStmt { span: DUMMY_SP })
             }
-            Stmt::Decl(Decl::Fn(ref i)) if !self.used.contains((&i.ident.sym)) => {
+            Stmt::Decl(Decl::Fn(ref i)) if !self.used.contains((&i.ident.clone().into())) => {
                 Stmt::Empty(EmptyStmt { span: DUMMY_SP })
             }
 
-            Stmt::Decl(Decl::TsTypeAlias(ref i)) if !self.used.contains((&i.id.sym)) => {
+            Stmt::Decl(Decl::TsTypeAlias(ref i)) if !self.used.contains((&i.id.clone().into())) => {
                 Stmt::Empty(EmptyStmt { span: DUMMY_SP })
             }
-            Stmt::Decl(Decl::TsInterface(ref i)) if !self.used.contains((&i.id.sym)) => {
+            Stmt::Decl(Decl::TsInterface(ref i)) if !self.used.contains((&i.id.clone().into())) => {
                 Stmt::Empty(EmptyStmt { span: DUMMY_SP })
             }
-            Stmt::Decl(Decl::TsEnum(ref i)) if !self.used.contains((&i.id.sym)) => {
+            Stmt::Decl(Decl::TsEnum(ref i)) if !self.used.contains((&i.id.clone().into())) => {
                 Stmt::Empty(EmptyStmt { span: DUMMY_SP })
             }
 
@@ -577,7 +578,7 @@ impl Fold<ModuleItem> for TypeResolver {
 
         match node {
             ModuleItem::Stmt(Stmt::Decl(Decl::TsInterface(i))) => {
-                if self.used.get(&i.id.sym).is_none() {
+                if self.used.get(&i.id.clone().into()).is_none() {
                     self.forced_module = true;
                     return Stmt::Empty(EmptyStmt { span }).into();
                 }

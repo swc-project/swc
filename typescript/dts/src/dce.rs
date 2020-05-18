@@ -1,12 +1,12 @@
 //! Dead code elimination for types.
 
 use fxhash::FxHashSet;
-use swc_atoms::JsWord;
 use swc_common::{Visit, VisitWith};
 use swc_ecma_ast::Ident;
 use swc_ts_checker::ModuleTypeInfo;
+use swc_ts_checker::id::Id;
 
-pub fn get_used(info: &ModuleTypeInfo) -> FxHashSet<JsWord> {
+pub fn get_used(info: &ModuleTypeInfo) -> FxHashSet<Id> {
     let mut used = FxHashSet::default();
 
     for (sym, v) in info.vars.iter() {
@@ -24,7 +24,7 @@ pub fn get_used(info: &ModuleTypeInfo) -> FxHashSet<JsWord> {
     used
 }
 
-fn track<T>(used: &mut FxHashSet<JsWord>, node: &T)
+fn track<T>(used: &mut FxHashSet<Id>, node: &T)
 where
     T: for<'any> VisitWith<Tracker<'any>>,
 {
@@ -34,17 +34,17 @@ where
 
 #[derive(Debug)]
 struct Tracker<'a> {
-    used: &'a mut FxHashSet<JsWord>,
+    used: &'a mut FxHashSet<Id>,
 }
 
-impl Visit<JsWord> for Tracker<'_> {
-    fn visit(&mut self, node: &JsWord) {
+impl Visit<Id> for Tracker<'_> {
+    fn visit(&mut self, node: &Id) {
         self.used.insert(node.clone());
     }
 }
 
 impl Visit<Ident> for Tracker<'_> {
     fn visit(&mut self, node: &Ident) {
-        self.used.insert(node.sym.clone());
+        self.used.insert(node.into());
     }
 }

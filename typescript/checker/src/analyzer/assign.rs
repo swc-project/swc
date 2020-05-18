@@ -162,16 +162,18 @@ impl Analyzer<'_, '_> {
                 match to.normalize() {
                     Type::Keyword(k) if k.kind == *kwd => match *rhs.normalize() {
                         Type::Interface(ref i) => {
-                            if &*i.name == *interface {
+                            if i.name.as_str() == *interface {
                                 return Err(Error::AssignedWrapperToPrimitive { span });
                             }
                         }
                         _ => {}
                     },
-                    Type::Interface(ref i) if &*i.name == *interface => match *rhs.normalize() {
-                        Type::Keyword(ref k) if k.kind == *kwd => return Ok(()),
-                        _ => {}
-                    },
+                    Type::Interface(ref i) if i.name.as_str() == *interface => {
+                        match *rhs.normalize() {
+                            Type::Keyword(ref k) if k.kind == *kwd => return Ok(()),
+                            _ => {}
+                        }
+                    }
                     _ => {}
                 }
             }
@@ -196,7 +198,7 @@ impl Analyzer<'_, '_> {
             }) => return Ok(()),
 
             // Everything is assignable to Object
-            Type::Interface(ref i) if &*i.name == "Object" => return Ok(()),
+            Type::Interface(ref i) if i.name.as_str() == "Object" => return Ok(()),
 
             Type::Module(..) => {
                 return Err(Error::InvalidLValue { span: to.span() });
@@ -497,7 +499,7 @@ impl Analyzer<'_, '_> {
                         Type::EnumVariant(ref v) => {
                             // Allow assigning enum with numeric values to
                             // number.
-                            if let Some(types) = self.find_type(&v.name) {
+                            if let Some(types) = self.find_type(&v.enum_name) {
                                 for ty in types {
                                     match *ty.normalize() {
                                         Type::Enum(ref e) => {
@@ -568,7 +570,7 @@ impl Analyzer<'_, '_> {
                 //
                 match *rhs {
                     Type::EnumVariant(ref r) => {
-                        if r.enum_name == e.id.sym {
+                        if r.enum_name == e.id {
                             return Ok(());
                         }
                     }

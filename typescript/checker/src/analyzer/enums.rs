@@ -1,22 +1,19 @@
-use fxhash::FxHashMap;
-use macros::validator;
-use swc_atoms::JsWord;
-use swc_common::{Span, Spanned, Visit, VisitMutWith, VisitWith};
-use swc_ecma_ast::*;
-
+use super::Analyzer;
 use crate::{
     analyzer::util::ResultExt,
     errors::Error,
+    id::Id,
     ty::{Enum, EnumMember, Type},
     validator::Validate,
     ValidationResult,
 };
-
-use super::Analyzer;
-use either::Either;
+use fxhash::FxHashMap;
+use macros::validator;
+use swc_common::{Span, Spanned, Visit, VisitWith};
+use swc_ecma_ast::*;
 
 /// Value does not contain TsLit::Bool
-type EnumValues = FxHashMap<JsWord, TsLit>;
+type EnumValues = FxHashMap<Id, TsLit>;
 
 /// We don't visit enum variants to allow
 ///
@@ -59,8 +56,10 @@ impl Validate<TsEnumDecl> for Analyzer<'_, '_> {
                         }
                         values.insert(
                             match &m.id {
-                                TsEnumMemberId::Ident(i) => i.sym.clone(),
-                                TsEnumMemberId::Str(s) => s.value.clone(),
+                                TsEnumMemberId::Ident(i) => i.into(),
+                                TsEnumMemberId::Str(s) => {
+                                    Ident::new(s.value.clone(), s.span).into()
+                                }
                             },
                             val.clone(),
                         );
@@ -69,7 +68,9 @@ impl Validate<TsEnumDecl> for Analyzer<'_, '_> {
                             TsLit::Number(v) => Expr::Lit(Lit::Num(v)),
                             TsLit::Str(v) => Expr::Lit(Lit::Str(v)),
                             TsLit::Bool(v) => Expr::Lit(Lit::Bool(v)),
-                            TsLit::Tpl(v) => Expr::Lit(Lit::Str(v.quasis.into_iter().next().unwrap().raw)),
+                            TsLit::Tpl(v) => {
+                                Expr::Lit(Lit::Str(v.quasis.into_iter().next().unwrap().raw))
+                            }
                         }
                     })
                     .or_else(|err| match &m.init {
@@ -105,7 +106,7 @@ impl Validate<TsEnumDecl> for Analyzer<'_, '_> {
         let span = e.span;
 
         self.register_type(
-            e.id.sym.clone(),
+            e.id.clone().into(),
             match ty {
                 Ok(ref ty) => ty.clone().into(),
                 Err(..) => Type::any(span),
@@ -212,7 +213,7 @@ fn compute(
             Expr::Paren(ref paren) => return compute(e, span, values, default, Some(&paren.expr)),
 
             Expr::Ident(ref id) => {
-                if let Some(v) = values.get(&id.sym) {
+                if let Some(v) = values.get(&id.into()) {
                     return Ok(v.clone());
                 }
                 //

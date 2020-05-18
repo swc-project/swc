@@ -6,9 +6,9 @@ use crate::{
     validator::{Validate, ValidateWith},
     ValidationResult,
 };
-use macros::{validator, validator_method};
+use macros::validator;
 use swc_atoms::js_word;
-use swc_common::{Spanned, Visit, VisitMut, VisitMutWith, VisitWith};
+use swc_common::{Spanned, Visit, VisitMutWith, VisitWith, DUMMY_SP};
 use swc_ecma_ast::*;
 
 #[derive(Debug, Clone, Copy)]
@@ -180,7 +180,7 @@ impl Validate<Prop> for Analyzer<'_, '_> {
 
 impl Analyzer<'_, '_> {
     fn validate_prop(&mut self, prop: &mut Prop) -> ValidationResult<TypeElement> {
-        self.scope.this = Some(js_word!(""));
+        self.scope.this = Some(Ident::new(js_word!(""), DUMMY_SP).into());
 
         let span = prop.span();
         // TODO: Validate prop key

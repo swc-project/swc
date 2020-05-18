@@ -15,7 +15,7 @@ use crate::{
     ValidationResult,
 };
 use bitflags::_core::mem::take;
-use fxhash::{FxHashMap, FxHashSet};
+use fxhash::FxHashSet;
 use macros::{validator, validator_method};
 use std::mem::replace;
 use swc_atoms::js_word;
@@ -84,7 +84,10 @@ impl Validate<Constructor> for Analyzer<'_, '_> {
                     }
 
                     match *p {
-                        ParamOrTsParamProp::Param(Param{pat:Pat::Ident(Ident { optional, .. }),..}) => {
+                        ParamOrTsParamProp::Param(Param {
+                            pat: Pat::Ident(Ident { optional, .. }),
+                            ..
+                        }) => {
                             if optional {
                                 has_optional = true;
                             }
@@ -113,12 +116,12 @@ impl Validate<Constructor> for Analyzer<'_, '_> {
                         param: TsParamPropParam::Assign(AssignPat { left: box pat, .. }),
                         ..
                     })
-                    | ParamOrTsParamProp::Param(Param{pat,..}) => from_pat(pat.clone()),
+                    | ParamOrTsParamProp::Param(Param { pat, .. }) => from_pat(pat.clone()),
                 };
                 let p: ty::FnParam = child.validate(&mut p)?;
 
                 match param {
-                    ParamOrTsParamProp::Param(Param{ref mut pat,..}) => {
+                    ParamOrTsParamProp::Param(Param { ref mut pat, .. }) => {
                         match child.declare_vars_with_ty(VarDeclKind::Let, pat, Some(p.ty.clone()))
                         {
                             Ok(()) => {}
@@ -136,7 +139,7 @@ impl Validate<Constructor> for Analyzer<'_, '_> {
                             match child.declare_var(
                                 i.span,
                                 VarDeclKind::Let,
-                                i.sym.clone(),
+                                i.clone().into(),
                                 Some(p.ty.clone()),
                                 true,
                                 false,
@@ -660,12 +663,10 @@ impl Validate<Class> for Analyzer<'_, '_> {
                                     .params
                                     .iter()
                                     .filter(|p| match p {
-                                        ParamOrTsParamProp::Param(Param{
-                                            pat:Pat::Ident(Ident {
-                                                               optional: true,
-                                                               ..
-                                                           }),
-                                                                  ..}) => false,
+                                        ParamOrTsParamProp::Param(Param {
+                                            pat: Pat::Ident(Ident { optional: true, .. }),
+                                            ..
+                                        }) => false,
                                         _ => true,
                                     })
                                     .count();
@@ -779,7 +780,8 @@ impl Validate<Class> for Analyzer<'_, '_> {
                                             param.ty = new_ty.clone();
                                             match orig {
                                                 ClassMember::Method(ref mut method) => {
-                                                    method.function.params[0].pat
+                                                    method.function.params[0]
+                                                        .pat
                                                         .set_ty(Some(new_ty.clone().into()))
                                                 }
                                                 _ => {}
@@ -818,7 +820,7 @@ impl Validate<ClassExpr> for Analyzer<'_, '_> {
     type Output = ValidationResult<()>;
 
     fn validate(&mut self, c: &mut ClassExpr) -> Self::Output {
-        self.scope.this_class_name = c.ident.as_ref().map(|v| v.sym.clone());
+        self.scope.this_class_name = c.ident.as_ref().map(|v| v.into());
         let ty = match c.class.validate_with(self) {
             Ok(ty) => ty.into(),
             Err(err) => {
@@ -833,12 +835,12 @@ impl Validate<ClassExpr> for Analyzer<'_, '_> {
         let c = self
             .with_child(ScopeKind::Block, Default::default(), |analyzer| {
                 if let Some(ref i) = c.ident {
-                    analyzer.register_type(i.sym.clone(), ty.clone())?;
+                    analyzer.register_type(i.into(), ty.clone())?;
 
                     match analyzer.declare_var(
                         ty.span(),
                         VarDeclKind::Var,
-                        i.sym.clone(),
+                        i.into(),
                         Some(ty),
                         // initialized = true
                         true,
@@ -882,7 +884,7 @@ impl Analyzer<'_, '_> {
     fn visit_class_decl(&mut self, c: &mut ClassDecl) {
         c.ident.visit_mut_with(self);
 
-        self.scope.this_class_name = Some(c.ident.sym.clone());
+        self.scope.this_class_name = Some(c.ident.clone().into());
         let ty = match c.class.validate_with(self) {
             Ok(ty) => ty.into(),
             Err(err) => {
@@ -894,13 +896,13 @@ impl Analyzer<'_, '_> {
         let old_this = self.scope.this.take();
         // self.scope.this = Some(ty.clone());
 
-        self.register_type(c.ident.sym.clone(), ty.clone().into())
+        self.register_type(c.ident.clone().into(), ty.clone().into())
             .store(&mut self.info.errors);
 
         match self.declare_var(
             ty.span(),
             VarDeclKind::Var,
-            c.ident.sym.clone(),
+            c.ident.clone().into(),
             Some(ty),
             // initialized = true
             true,

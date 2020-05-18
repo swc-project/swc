@@ -2,14 +2,15 @@ use super::Analyzer;
 use crate::{
     analyzer::util::ResultExt,
     errors::Error,
+    id::Id,
     ty::Type,
     validator::{Validate, ValidateWith},
     ValidationResult,
 };
 use macros::{validator, validator_method};
 use std::mem::replace;
-use swc_atoms::{js_word, JsWord};
-use swc_common::{Span, Spanned, VisitMut, VisitMutWith, VisitWith, DUMMY_SP};
+use swc_atoms::js_word;
+use swc_common::{Span, Spanned, VisitMutWith, DUMMY_SP};
 use swc_ecma_ast::*;
 
 // ModuleDecl::ExportNamed(export) => {}
@@ -31,11 +32,15 @@ impl Analyzer<'_, '_> {
 
             debug_assert_eq!(self.info.exports.vars.get(&sym), None);
 
-            let exported_sym = if *sym != js_word!("default") {
+            let tmp;
+            let exported_sym = if sym.as_str() != "default" {
                 Some(&sym)
             } else {
                 match expr {
-                    Expr::Ident(ref i) => Some(&i.sym),
+                    Expr::Ident(ref i) =>
+                        {
+                            tmp=i.clone().into();
+                            Some(&tmp) },
                     _ => None,
                 }
             };
@@ -85,7 +90,7 @@ impl Analyzer<'_, '_> {
 
     pub(super) fn export_default_expr(&mut self, expr: &mut Expr) {
         assert_eq!(
-            self.info.exports.vars.get(&js_word!("default")),
+            self.info.exports.vars.get(&Id::word(js_word!("default"))),
             None,
             "A module can export only one item as default"
         );
@@ -100,7 +105,7 @@ impl Analyzer<'_, '_> {
                     // declare namespace React {}
                     Error::UndefinedSymbol { .. } => {
                         self.pending_exports
-                            .push(((js_word!("default"), expr.span()), expr.clone()));
+                            .push(((Id::word(js_word!("default")), expr.span()), expr.clone()));
                         return;
                     }
                     _ => {}
@@ -109,7 +114,10 @@ impl Analyzer<'_, '_> {
                 return;
             }
         };
-        self.info.exports.vars.insert(js_word!("default"), ty);
+        self.info
+            .exports
+            .vars
+            .insert(Id::word(js_word!("default")), ty);
     }
 }
 
@@ -123,17 +131,17 @@ impl Validate<ExportDecl> for Analyzer<'_, '_> {
         match export.decl {
             Decl::Fn(ref mut f) => {
                 f.visit_mut_with(self);
-                self.export(f.span(), f.ident.sym.clone(), None)
+                self.export(f.span(), f.ident.clone().into(), None)
             }
             Decl::TsInterface(ref mut i) => {
                 i.visit_mut_with(self);
 
-                self.export(i.span(), i.id.sym.clone(), None)
+                self.export(i.span(), i.id.clone().into(), None)
             }
 
             Decl::Class(ref mut c) => {
                 c.visit_mut_with(self);
-                self.export(c.span(), c.ident.sym.clone(), None)
+                self.export(c.span(), c.ident.clone().into(), None)
             }
             Decl::Var(ref mut var) => {
                 // unimplemented!("export var Foo = a;")
@@ -156,7 +164,7 @@ impl Validate<ExportDecl> for Analyzer<'_, '_> {
                 self.info
                     .exports
                     .types
-                    .entry(e.id.sym.clone())
+                    .entry(e.id.clone().into())
                     .or_default()
                     .push(ty.unwrap_or_else(|| Type::any(span)));
             }
@@ -168,7 +176,7 @@ impl Validate<ExportDecl> for Analyzer<'_, '_> {
 
                 // TODO: Handle type parameters.
 
-                self.export(span, decl.id.sym.clone(), None)
+                self.export(span, decl.id.clone().into(), None)
             }
         }
 
@@ -188,8 +196,8 @@ impl Validate<ExportDefaultDecl> for Analyzer<'_, '_> {
                 let i = f
                     .ident
                     .as_ref()
-                    .map(|v| v.sym.clone())
-                    .unwrap_or(js_word!("default"));
+                    .map(|v| v.into())
+                    .unwrap_or_else(|| Id::word(js_word!("default")));
                 let fn_ty = match f.function.validate_with(self) {
                     Ok(ty) => ty,
                     Err(err) => {
@@ -199,23 +207,23 @@ impl Validate<ExportDefaultDecl> for Analyzer<'_, '_> {
                 };
                 self.register_type(i.clone(), fn_ty.into())
                     .store(&mut self.info.errors);
-                self.export(f.span(), js_word!("default"), Some(i))
+                self.export(f.span(), Id::word(js_word!("default")), Some(i))
             }
             DefaultDecl::Class(ref c) => {
                 let c = c
                     .ident
                     .as_ref()
-                    .map(|v| v.sym.clone())
-                    .unwrap_or_else(|| js_word!("default"));
+                    .map(|v| v.into())
+                    .unwrap_or_else(|| Id::word(js_word!("default")));
                 export.visit_mut_children(self);
 
-                self.export(span, js_word!("default"), Some(c));
+                self.export(span, Id::word(js_word!("default")), Some(c));
             }
             DefaultDecl::TsInterfaceDecl(ref i) => {
-                let i = i.id.sym.clone();
+                let i = i.id.clone().into();
                 export.visit_mut_children(self);
 
-                self.export(span, js_word!("default"), Some(i))
+                self.export(span, Id::word(js_word!("default")), Some(i))
             }
         };
 
@@ -232,7 +240,7 @@ impl Analyzer<'_, '_> {
     /// Note: We don't freeze types at here because doing so may prevent proper
     /// finalization.
     #[validator_method]
-    fn export(&mut self, span: Span, name: JsWord, orig_name: Option<JsWord>) {
+    fn export(&mut self, span: Span, name: Id, orig_name: Option<Id>) {
         let orig_name = orig_name.unwrap_or_else(|| name.clone());
 
         let ty = match self.find_type(&orig_name) {
@@ -255,7 +263,7 @@ impl Analyzer<'_, '_> {
     }
 
     /// Exports a variable.
-    fn export_expr(&mut self, _: JsWord, e: &Expr) {
+    fn export_expr(&mut self, _: Id, e: &Expr) {
         unimplemented!("export_expr")
     }
 }
@@ -266,7 +274,7 @@ impl Validate<TsExportAssignment> for Analyzer<'_, '_> {
     type Output = ValidationResult<()>;
 
     fn validate(&mut self, s: &mut TsExportAssignment) -> Self::Output {
-        self.export_expr(js_word!("default"), &s.expr);
+        self.export_expr(Id::word(js_word!("default")), &s.expr);
 
         Ok(())
     }
@@ -278,7 +286,7 @@ impl Validate<ExportDefaultExpr> for Analyzer<'_, '_> {
     type Output = ValidationResult<()>;
 
     fn validate(&mut self, s: &mut ExportDefaultExpr) -> Self::Output {
-        self.export_expr(js_word!("default"), &s.expr);
+        self.export_expr(Id::word(js_word!("default")), &s.expr);
 
         Ok(())
     }

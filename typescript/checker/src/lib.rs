@@ -17,15 +17,16 @@ pub use self::builtin_types::Lib;
 use crate::{
     analyzer::{Analyzer, Info},
     errors::Error,
+    id::Id,
     resolver::Resolver,
     ty::Type,
-    validator::{Validate, ValidateWith},
+    validator::ValidateWith,
 };
 use dashmap::DashMap;
 use fxhash::FxHashMap;
 use std::{path::PathBuf, sync::Arc};
 use swc_atoms::JsWord;
-use swc_common::{errors::Handler, FoldWith, Globals, SourceMap, Span, VisitMut, VisitMutWith};
+use swc_common::{errors::Handler, FoldWith, Globals, SourceMap, Span};
 use swc_ecma_ast::Module;
 use swc_ecma_parser::{
     lexer::Lexer, JscTarget, Parser, Session, SourceFileInput, Syntax, TsConfig,
@@ -37,6 +38,7 @@ mod debug;
 pub mod analyzer;
 mod builtin_types;
 pub mod errors;
+pub mod id;
 pub mod loader;
 pub mod name;
 pub mod resolver;
@@ -55,8 +57,6 @@ pub struct ImportInfo {
     pub all: bool,
     pub src: JsWord,
 }
-
-pub type Id = (JsWord, Span);
 
 #[derive(Debug, PartialEq, Eq)]
 pub struct Specifier {
@@ -77,8 +77,8 @@ pub struct Config {
 
 #[derive(Debug, Clone, Default, PartialEq)]
 pub struct ModuleTypeInfo {
-    pub vars: FxHashMap<JsWord, Type>,
-    pub types: FxHashMap<JsWord, Vec<Type>>,
+    pub vars: FxHashMap<Id, Type>,
+    pub types: FxHashMap<Id, Vec<Type>>,
 }
 
 impl ModuleTypeInfo {

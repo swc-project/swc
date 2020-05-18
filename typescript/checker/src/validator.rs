@@ -1,4 +1,3 @@
-use std::any::type_name;
 use swc_common::VisitMutWith;
 
 /// Visit with output
