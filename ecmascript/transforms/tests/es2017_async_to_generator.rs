@@ -3,7 +3,7 @@
 #![feature(box_patterns)]
 #![feature(specialization)]
 
-use swc_common::{chain, fold::FoldWith, Fold, Spanned};
+use swc_common::{chain, fold::FoldWith, Fold, Mark, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{
@@ -669,7 +669,7 @@ test!(
 
 test_exec!(
     syntax(),
-    |_| chain!(tr(), es2015(Default::default())),
+    |_| chain!(tr(), es2015(Mark::fresh(Mark::root()), Default::default())),
     issue_400_1,
     "class A {
     constructor() {
@@ -728,7 +728,10 @@ return (new B(20)).print().then(() => console.log('Done'));"
 
 test_exec!(
     syntax(),
-    |_| chain!(async_to_generator(), es2015(Default::default())),
+    |_| chain!(
+        async_to_generator(),
+        es2015(Mark::fresh(Mark::root()), Default::default())
+    ),
     issue_400_3,
     "class A {
     constructor() {

@@ -3,7 +3,7 @@
 #![feature(box_patterns)]
 #![feature(specialization)]
 
-use swc_common::chain;
+use swc_common::{chain, Mark};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{
     compat::{
@@ -520,7 +520,10 @@ function foo(bar) {
 
 test!(
     syntax(),
-    |_| chain!(resolver(), es2015(Default::default()),),
+    |_| chain!(
+        resolver(),
+        es2015(Mark::fresh(Mark::root()), Default::default()),
+    ),
     issue_404_2,
     "function foo(bar) {
   const { foo } = bar;

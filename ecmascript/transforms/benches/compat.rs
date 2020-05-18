@@ -7,7 +7,7 @@ extern crate test;
 static GLOBAL: System = System;
 
 use std::alloc::System;
-use swc_common::{chain, FileName, FoldWith};
+use swc_common::{chain, FileName, FoldWith, Mark};
 use swc_ecma_parser::{lexer::Lexer, Parser, Session, SourceFileInput};
 use swc_ecma_transforms::{compat, helpers};
 use test::Bencher;
@@ -123,7 +123,7 @@ fn all(b: &mut Bencher) {
     tr!(b, || chain!(
         compat::es2017(),
         compat::es2016(),
-        compat::es2015(Default::default()),
+        compat::es2015(Mark::fresh(Mark::root()), Default::default()),
         compat::es3(Default::default()),
     ));
 }
@@ -160,7 +160,10 @@ fn es2016_exponentation(b: &mut Bencher) {
 
 #[bench]
 fn es2015(b: &mut Bencher) {
-    tr!(b, || compat::es2015(Default::default()));
+    tr!(b, || compat::es2015(
+        Mark::fresh(Mark::root()),
+        Default::default()
+    ));
 }
 
 #[bench]
