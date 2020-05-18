@@ -9,7 +9,7 @@ use swc_ecma_transforms::{
     compat::{es2015, es2015::regenerator, es2016, es2017, es2017::async_to_generator},
     modules::common_js::common_js,
     pass::Pass,
-    resolver,
+    resolver_with_mark,
 };
 
 #[macro_use]
@@ -20,7 +20,8 @@ fn syntax() -> Syntax {
 }
 
 fn tr(_: ()) -> impl Pass {
-    chain!(resolver(), regenerator())
+    let mark = Default::default();
+    chain!(resolver_with_mark(mark), regenerator(mark))
 }
 
 // computed_properties_example
@@ -974,7 +975,11 @@ expect(v.next()).toEqual({ done: true });
 
 test_exec!(
     syntax(),
-    |_| chain!(es2017(), es2016(), es2015(Default::default()),),
+    |_| chain!(
+        es2017(),
+        es2016(),
+        es2015(Default::default(), Default::default()),
+    ),
     issue_600_full,
     "async function foo(b) {
 	    for (let a of b) {
@@ -988,7 +993,7 @@ test_exec!(
     |_| chain!(
         async_to_generator(),
         es2015::for_of(Default::default()),
-        es2015::regenerator(),
+        es2015::regenerator(Default::default()),
     ),
     issue_600_exact_passes,
     "async function foo(b) {
@@ -1000,7 +1005,7 @@ test_exec!(
 
 test_exec!(
     syntax(),
-    |_| es2015::regenerator(),
+    |_| es2015::regenerator(Default::default()),
     issue_600_min,
     "function* foo() {
         try {

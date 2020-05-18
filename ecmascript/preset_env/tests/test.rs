@@ -171,29 +171,32 @@ fn load() -> Result<Vec<TestDescAndFn>, Error> {
 fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
     println!("Config: {:?}", c);
 
-    let mut pass = preset_env(Config {
-        debug: c.debug,
-        mode: match c.use_built_ins {
-            UseBuiltIns::Bool(false) => None,
-            UseBuiltIns::Str(ref s) if s == "usage" => Some(Mode::Usage),
-            UseBuiltIns::Str(ref s) if s == "entry" => Some(Mode::Entry),
-            v => unreachable!("invalid: {:?}", v),
+    let mut pass = preset_env(
+        Default::default(),
+        Config {
+            debug: c.debug,
+            mode: match c.use_built_ins {
+                UseBuiltIns::Bool(false) => None,
+                UseBuiltIns::Str(ref s) if s == "usage" => Some(Mode::Usage),
+                UseBuiltIns::Str(ref s) if s == "entry" => Some(Mode::Entry),
+                v => unreachable!("invalid: {:?}", v),
+            },
+            skip: vec![],
+            // TODO
+            loose: true,
+            // TODO
+            dynamic_import: true,
+            include: c.include,
+            exclude: c.exclude,
+            core_js: match c.corejs {
+                CoreJs::Ver(v) => Some(v),
+                ref s => unimplemented!("Unknown core js version: {:?}", s),
+            },
+            force_all_transforms: c.force_all_transforms,
+            shipped_proposals: c.shipped_proposals,
+            targets: c.targets,
         },
-        skip: vec![],
-        // TODO
-        loose: true,
-        // TODO
-        dynamic_import: true,
-        include: c.include,
-        exclude: c.exclude,
-        core_js: match c.corejs {
-            CoreJs::Ver(v) => Some(v),
-            ref s => unimplemented!("Unknown core js version: {:?}", s),
-        },
-        force_all_transforms: c.force_all_transforms,
-        shipped_proposals: c.shipped_proposals,
-        targets: c.targets,
-    });
+    );
 
     Tester::new()
         .print_errors(|cm, handler| {

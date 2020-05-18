@@ -520,7 +520,7 @@ function foo(bar) {
 
 test!(
     syntax(),
-    |_| chain!(resolver(), es2015(Default::default()),),
+    |_| chain!(resolver(), es2015(Default::default(), Default::default()),),
     issue_404_2,
     "function foo(bar) {
   const { foo } = bar;
