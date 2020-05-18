@@ -27,7 +27,7 @@ fn run(b: &mut Bencher, src: &str, config: Config) {
                 e.emit();
             })
             .unwrap();
-        let mut folder = preset_env(Default::default(), config);
+        let mut folder = preset_env(config);
 
         b.iter(|| test::black_box(module.clone().fold_with(&mut folder)));
         Ok(())

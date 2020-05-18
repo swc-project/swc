@@ -123,7 +123,7 @@ test!(
         compat::es2018(),
         compat::es2017(),
         compat::es2016(),
-        compat::es2015(Default::default(), Default::default()),
+        compat::es2015(Default::default()),
         compat::es3(true),
         import_analyzer(),
         InjectHelpers,
