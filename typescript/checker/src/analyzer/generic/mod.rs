@@ -154,14 +154,14 @@ impl Analyzer<'_, '_> {
                 log::trace!("infer_type: type parameter: {} = {:?}", name, constraint);
 
                 if constraint.is_some() && is_literals(&constraint.as_ref().unwrap()) {
-                    log::info!("infer: {} = {:?}", name, constraint);
+                    log::info!("infer from literal constraint: {} = {:?}", name, constraint);
                     if let Some(orig) = inferred
                         .type_params
                         .insert(name.clone(), *constraint.clone().unwrap()) {
 
                         if !orig.eq_ignore_span(&constraint.as_ref().unwrap()){
                             print_backtrace();
-                            panic!("Cannot override T in `T extends <literal>`")
+                            panic!("Cannot override T in `T extends <literal>`\nOrig: {:?}\nConstraints: {:?}",orig,constraint)
                         }
 
                     }
@@ -178,7 +178,7 @@ impl Analyzer<'_, '_> {
                         _ => false,
                     }
                 {
-                    log::info!("infer: {} = {:?}", name, constraint);
+                    log::info!("infer from constraint: {} = {:?}", name, constraint);
                     inferred
                         .type_params
                         .insert(name.clone(), *constraint.clone().unwrap())
@@ -196,10 +196,18 @@ impl Analyzer<'_, '_> {
                         // of parameter
                         self.infer_type(inferred, &arg, &param_ty)?;
 
-                        inferred
-                            .type_params
-                            .insert(name, Type::union(vec![param_ty, arg.clone()]))
-                            .expect_none("Cannot override");
+                        if let Some(orig)= inferred.type_params.insert(name,Type::union(vec![param_ty, arg.clone()])) {
+                            match orig{
+                                Type::Union(..)=>{
+                                    // TODO: Verify that orig is union of param_ty and arg_ty
+                                }
+                                _=>{
+                                    print_backtrace();
+                                    panic!("Cannot override T in `T = param_ty | arg_ty`\nOrig: {:?}",orig)
+                                }
+                            }
+
+                        }
                     }
                     Entry::Vacant(e) => {
                         e.insert(arg.clone());
