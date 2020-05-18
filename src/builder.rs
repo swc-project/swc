@@ -19,17 +19,25 @@ pub struct PassBuilder<'a, 'b, P: Pass> {
     handler: &'b Handler,
     env: Option<preset_env::Config>,
     pass: P,
+    global_mark: Mark,
     target: JscTarget,
     loose: bool,
 }
 
 impl<'a, 'b, P: Pass> PassBuilder<'a, 'b, P> {
-    pub fn new(cm: &'a Arc<SourceMap>, handler: &'b Handler, loose: bool, pass: P) -> Self {
+    pub fn new(
+        cm: &'a Arc<SourceMap>,
+        handler: &'b Handler,
+        loose: bool,
+        global_mark: Mark,
+        pass: P,
+    ) -> Self {
         PassBuilder {
             cm,
             handler,
             pass,
             target: JscTarget::Es5,
+            global_mark,
             loose,
             env: None,
         }
@@ -44,6 +52,7 @@ impl<'a, 'b, P: Pass> PassBuilder<'a, 'b, P> {
             target: self.target,
             loose: self.loose,
             env: self.env,
+            global_mark: self.global_mark,
         }
     }
 
@@ -100,20 +109,25 @@ impl<'a, 'b, P: Pass> PassBuilder<'a, 'b, P> {
 
         // compat
         let compat_pass = if let Some(env) = self.env {
-            Either::Left(preset_env::preset_env(env))
+            Either::Left(preset_env::preset_env(self.global_mark, env))
         } else {
             Either::Right(chain!(
                 Optional::new(compat::es2018(), self.target <= JscTarget::Es2018),
                 Optional::new(compat::es2017(), self.target <= JscTarget::Es2017),
                 Optional::new(compat::es2016(), self.target <= JscTarget::Es2016),
                 Optional::new(
-                    compat::es2015(compat::es2015::Config {
-                        for_of: compat::es2015::for_of::Config {
-                            assume_array: self.loose
-                        },
-                        spread: compat::es2015::spread::Config { loose: self.loose },
-                        destructuring: compat::es2015::destructuring::Config { loose: self.loose },
-                    }),
+                    compat::es2015(
+                        self.global_mark,
+                        compat::es2015::Config {
+                            for_of: compat::es2015::for_of::Config {
+                                assume_array: self.loose
+                            },
+                            spread: compat::es2015::spread::Config { loose: self.loose },
+                            destructuring: compat::es2015::destructuring::Config {
+                                loose: self.loose
+                            },
+                        }
+                    ),
                     self.target <= JscTarget::Es2015
                 ),
                 Optional::new(

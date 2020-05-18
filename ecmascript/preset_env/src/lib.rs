@@ -15,7 +15,7 @@ use std::{
     process::Command,
 };
 use swc_atoms::{js_word, JsWord};
-use swc_common::{chain, Fold, FoldWith, FromVariant, VisitWith, DUMMY_SP};
+use swc_common::{chain, Fold, FoldWith, FromVariant, Mark, VisitWith, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms::{
     compat::{es2015, es2016, es2017, es2018, es3},
@@ -31,7 +31,7 @@ mod regenerator;
 mod transform_data;
 mod version;
 
-pub fn preset_env(c: Config) -> impl Pass {
+pub fn preset_env(global_mark: Mark, c: Config) -> impl Pass {
     let loose = c.loose;
     let targets: Versions = c.targets.try_into().expect("failed to parse targets");
     let is_any_target = targets.is_any_target();
@@ -120,7 +120,7 @@ pub fn preset_env(c: Config) -> impl Pass {
         es2015::destructuring(es2015::destructuring::Config { loose }),
         true
     );
-    let pass = add!(pass, Regenerator, es2015::regenerator(), true);
+    let pass = add!(pass, Regenerator, es2015::regenerator(global_mark), true);
     let pass = add!(pass, BlockScoping, es2015::block_scoping(), true);
 
     // TODO:

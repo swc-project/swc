@@ -8,7 +8,7 @@ pub use self::{
 };
 use crate::pass::Pass;
 use serde::Deserialize;
-use swc_common::chain;
+use swc_common::{chain, Mark};
 use swc_ecma_ast::Expr;
 
 mod arrow;
@@ -42,7 +42,7 @@ fn exprs() -> impl Pass {
 }
 
 /// Compiles es2015 to es5.
-pub fn es2015(c: Config) -> impl Pass {
+pub fn es2015(global_mark: Mark, c: Config) -> impl Pass {
     chain!(
         BlockScopedFns,
         TemplateLiteral::default(),
@@ -54,7 +54,7 @@ pub fn es2015(c: Config) -> impl Pass {
         for_of(c.for_of),
         computed_properties(),
         destructuring(c.destructuring),
-        regenerator(),
+        regenerator(global_mark),
         block_scoping(),
     )
 }
