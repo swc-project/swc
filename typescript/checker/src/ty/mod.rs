@@ -1,13 +1,10 @@
 use crate::{util::TypeEq, ModuleTypeInfo, ty};
 use is_macro::Is;
 use std::{borrow::Cow, mem::transmute, sync::Arc};
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::{js_word };
 use swc_common::{Fold, FoldWith, FromVariant, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{
-    Value,
-    Value::{Known, Unknown},
-};
+use swc_ecma_utils::{Value, Value::{Known, Unknown}, Id};
 
 mod convert;
 
@@ -150,7 +147,7 @@ pub struct EnumMember {
 pub struct Class {
     pub span: Span,
     pub is_abstract: bool,
-    pub name: Option<JsWord>,
+    pub name: Option<Id>,
     pub super_class: Option<Box<Type>>,
     pub body: Vec<ClassMember>,
     pub type_params: Option<TypeParamDecl>,
@@ -248,7 +245,7 @@ pub struct Alias {
 #[derive(Debug, Fold, Clone, PartialEq, Spanned)]
 pub struct Interface {
     pub span: Span,
-    pub name: JsWord,
+    pub name: Id,
     pub type_params: Option<TypeParamDecl>,
     pub extends: Vec<TsExpr>,
     pub body: Vec<TypeElement>,
@@ -410,7 +407,7 @@ pub struct Intersection {
 #[derive(Debug, Fold, Clone, PartialEq, Spanned)]
 pub struct TypeParam {
     pub span: Span,
-    pub name: JsWord,
+    pub name: Id,
     pub constraint: Option<Box<Type>>,
     pub default: Option<Box<Type>>,
 }
@@ -419,8 +416,8 @@ pub struct TypeParam {
 #[derive(Debug, Fold, Clone, PartialEq, Spanned)]
 pub struct EnumVariant {
     pub span: Span,
-    pub enum_name: JsWord,
-    pub name: JsWord,
+    pub enum_name: Id,
+    pub name: Id,
 }
 
 #[derive(Debug, Fold, Clone, PartialEq, Spanned)]
