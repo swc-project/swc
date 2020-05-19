@@ -280,7 +280,7 @@ impl Compiler {
         opts: &Options,
         fm: &SourceFile,
     ) -> Result<BuiltConfig<impl Pass>, Error> {
-        self.run(|| {
+        self.run(|| -> Result<_, Error> {
             let Options {
                 ref root,
                 root_mode,
@@ -301,8 +301,8 @@ impl Compiler {
                 Some(ConfigFile::Str(ref s)) => {
                     let path = Path::new(s);
                     let r = File::open(&path).context("failed to read config file")?;
-                    let config: Rc =
-                        serde_json::from_reader(r).context("failed to parse config file")?;
+                    let config: Rc = serde_json::from_reader(r)
+                        .context("failed to deserialize .swcrc (json) file")?;
                     Some(config)
                 }
                 _ => None,
@@ -318,7 +318,7 @@ impl Compiler {
                             if swcrc.exists() {
                                 let r = File::open(&swcrc).context("failed to read config file")?;
                                 let config: Rc = serde_json::from_reader(r)
-                                    .context("failed to parse config file")?;
+                                    .context("failed to deserialize .swcrc (json) file")?;
 
                                 let mut config = config
                                     .into_config(Some(path))
@@ -362,6 +362,7 @@ impl Compiler {
             );
             Ok(built)
         })
+        .with_context(|| format!("failed to load config for file '{:?}'", fm))
     }
 
     pub fn process_js_file(
