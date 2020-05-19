@@ -508,14 +508,13 @@ impl Query {
                     .arg(serde_json::to_string(&s).expect("failed to serialize with serde"))
                     .output()
                     .expect("failed to collect output");
-
-                println!(
-                    "{}\n{}",
-                    String::from_utf8_lossy(&output.stdout),
-                    String::from_utf8_lossy(&output.stderr),
-                );
                 if !output.status.success() {
                     println!("query.js: Status {:?}", output.status,);
+                    println!(
+                        "{}\n{}",
+                        String::from_utf8_lossy(&output.stdout),
+                        String::from_utf8_lossy(&output.stderr),
+                    );
                     return Err(());
                 }
 
