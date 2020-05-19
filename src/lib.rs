@@ -11,7 +11,7 @@ pub mod error;
 
 pub use crate::builder::PassBuilder;
 use crate::config::{
-    BuiltConfig, ConfigFile, InputSourceMap, JscTarget, Merge, Options, Rc, RootMode,
+    BuiltConfig, Config, ConfigFile, InputSourceMap, JscTarget, Merge, Options, Rc, RootMode,
     SourceMapsConfig,
 };
 use anyhow::{Context, Error};
@@ -35,8 +35,9 @@ pub use ecmascript::{
     transforms::{chain_at, pass::Pass},
 };
 use serde::Serialize;
+use serde_json::error::Category;
 use std::{
-    fs::File,
+    fs::{read_to_string, File},
     path::{Path, PathBuf},
     sync::Arc,
 };
@@ -298,13 +299,7 @@ impl Compiler {
             });
 
             let config_file = match config_file {
-                Some(ConfigFile::Str(ref s)) => {
-                    let path = Path::new(s);
-                    let r = File::open(&path).context("failed to read config file")?;
-                    let config: Rc = serde_json::from_reader(r)
-                        .context("failed to deserialize .swcrc (json) file")?;
-                    Some(config)
-                }
+                Some(ConfigFile::Str(ref s)) => Some(load_swcrc(Path::new(&s))?),
                 _ => None,
             };
 
@@ -316,9 +311,7 @@ impl Compiler {
                             let swcrc = dir.join(".swcrc");
 
                             if swcrc.exists() {
-                                let r = File::open(&swcrc).context("failed to read config file")?;
-                                let config: Rc = serde_json::from_reader(r)
-                                    .context("failed to deserialize .swcrc (json) file")?;
+                                let config = load_swcrc(&swcrc)?;
 
                                 let mut config = config
                                     .into_config(Some(path))
@@ -426,3 +419,32 @@ impl Compiler {
 struct MyHandlers;
 
 impl ecmascript::codegen::Handlers for MyHandlers {}
+
+fn load_swcrc(path: &Path) -> Result<Rc, Error> {
+    fn convert_json_err(e: serde_json::Error) -> Error {
+        let line = e.line();
+        let column = e.column();
+
+        let msg = match e.classify() {
+            Category::Io => "io error",
+            Category::Syntax => "syntax error",
+            Category::Data => "unmatched data",
+            Category::Eof => "unexpected eof",
+        };
+        Error::new(e).context(format!(
+            "failed to deserialize .swcrc (json) file: {}: {}:{}",
+            msg, line, column
+        ))
+    }
+
+    let content = read_to_string(path).context("failed to read config (.swcrc) file")?;
+
+    match serde_json::from_str(&content) {
+        Ok(v) => return Ok(v),
+        Err(..) => {}
+    }
+
+    serde_json::from_str::<Config>(&content)
+        .map(Rc::Single)
+        .map_err(convert_json_err)
+}
