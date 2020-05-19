@@ -453,6 +453,7 @@ fn issue_783_core_js_2() {
             config: Some(Config {
                 env: Some(preset_env::Config {
                     core_js: Some("2".parse().unwrap()),
+                    mode: Some(preset_env::Mode::Entry),
                     ..Default::default()
                 }),
                 ..Default::default()
@@ -477,6 +478,7 @@ fn issue_783_core_js_3() {
             swcrc: false,
             config: Some(Config {
                 env: Some(preset_env::Config {
+                    mode: Some(preset_env::Mode::Entry),
                     ..Default::default()
                 }),
                 ..Default::default()
