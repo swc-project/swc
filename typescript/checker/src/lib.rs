@@ -13,6 +13,7 @@
 #[macro_use]
 extern crate swc_common;
 
+use swc_common::VisitMutWith;
 pub use self::builtin_types::Lib;
 use crate::{
     analyzer::{Analyzer, Info},
@@ -32,6 +33,7 @@ use swc_ecma_parser::{
     lexer::Lexer, JscTarget, Parser, Session, SourceFileInput, Syntax, TsConfig,
 };
 use swc_ecma_transforms::resolver as ident_resolver;
+use crate::hygiene::colorizer;
 
 #[macro_use]
 mod debug;
@@ -214,6 +216,7 @@ impl Checker {
         });
 
         let mut a = Analyzer::root(path.clone(), &self.libs, self.rule, self);
+        module.visit_mut_with(&mut hygiene::colorizer());
         module.validate_with(&mut a);
         let info = a.info;
 
