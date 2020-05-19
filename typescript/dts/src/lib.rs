@@ -17,11 +17,11 @@ use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{prop_name_to_expr, StmtLike};
 use swc_ts_checker::{
+    id::Id,
     ty,
     ty::Type,
     util::{PatExt, TypeEq},
     ModuleTypeInfo,
-    id::Id,
 };
 
 mod ambient;

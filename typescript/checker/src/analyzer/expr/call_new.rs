@@ -183,11 +183,12 @@ impl Analyzer<'_, '_> {
                     let v = match *e {
                         Expr::Ident(ref i) => {
                             tmp = Id::from(i);
-                            &tmp },
-                        Expr::Lit(Lit::Str(ref s)) => {
-                            tmp=Id::word(s.value.clone());
                             &tmp
-                        },
+                        }
+                        Expr::Lit(Lit::Str(ref s)) => {
+                            tmp = Id::word(s.value.clone());
+                            &tmp
+                        }
                         _ => return false,
                     };
 
