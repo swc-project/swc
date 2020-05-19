@@ -17,15 +17,12 @@ pub struct Name(#[fold(ignore)] Inner);
 impl Debug for Name {
     #[cold]
     fn fmt(&self, f: &mut Formatter<'_>) -> Result<(), fmt::Error> {
-        let mut buf = String::new();
         for (last, s) in self.0.iter().identify_last() {
-            buf.push_str(s.as_str());
+            write!(f, "{}", s)?;
             if !last {
-                buf.push('.');
+                write!(f, ".")?;
             }
         }
-
-        write!(f, "{}", buf)?;
 
         Ok(())
     }

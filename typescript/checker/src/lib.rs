@@ -13,11 +13,11 @@
 #[macro_use]
 extern crate swc_common;
 
-use swc_common::VisitMutWith;
 pub use self::builtin_types::Lib;
 use crate::{
     analyzer::{Analyzer, Info},
     errors::Error,
+    hygiene::colorizer,
     id::Id,
     resolver::Resolver,
     ty::Type,
@@ -27,13 +27,12 @@ use dashmap::DashMap;
 use fxhash::FxHashMap;
 use std::{path::PathBuf, sync::Arc};
 use swc_atoms::JsWord;
-use swc_common::{errors::Handler, FoldWith, Globals, SourceMap, Span};
+use swc_common::{errors::Handler, FoldWith, Globals, SourceMap, Span, VisitMutWith};
 use swc_ecma_ast::Module;
 use swc_ecma_parser::{
     lexer::Lexer, JscTarget, Parser, Session, SourceFileInput, Syntax, TsConfig,
 };
 use swc_ecma_transforms::resolver as ident_resolver;
-use crate::hygiene::colorizer;
 
 #[macro_use]
 mod debug;

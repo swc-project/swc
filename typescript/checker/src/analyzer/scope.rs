@@ -1025,7 +1025,7 @@ impl Fold<Type> for Expander<'_, '_, '_> {
                                 return ty;
                             }
                             self.dejvau.insert(i.into());
-                            log::error!("({}): {}", self.analyzer.scope.depth(), i.sym);
+                            log::error!("({}): {}", self.analyzer.scope.depth(), Id::from(i));
 
                             if let Some(types) = self.analyzer.find_type(&i.into()) {
                                 for t in types {
