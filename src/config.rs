@@ -700,7 +700,14 @@ impl Merge for Config {
     fn merge(&mut self, from: &Self) {
         self.jsc.merge(&from.jsc);
         self.module.merge(&from.module);
-        self.minify.merge(&from.minify)
+        self.minify.merge(&from.minify);
+        self.env.merge(&from.env);
+    }
+}
+
+impl Merge for preset_env::Config {
+    fn merge(&mut self, from: &Self) {
+        *self = from.clone();
     }
 }
 
