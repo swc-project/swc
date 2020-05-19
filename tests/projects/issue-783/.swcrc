@@ -1,0 +1,33 @@
+{
+  "module": {
+    "type": "commonjs"
+  },
+  "env": {
+    "targets": {
+      "chrome": "79",
+      "ie": "11",
+      "safari": "11.1"
+    },
+    "mode": "entry",
+    "coreJs": 3
+  },
+  "jsc": {
+    "parser": {
+      "syntax": "typescript",
+      "tsx": true,
+      "decorators": true,
+      "dynamicImport": true
+    },
+    "target": "es2019",
+    "loose": true,
+    "transform": {
+      "optimizer": {
+        "globals": {
+          "vars": {
+            "__DEBUG__": "true"
+          }
+        }
+      }
+    }
+  }
+}

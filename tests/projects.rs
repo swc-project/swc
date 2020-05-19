@@ -425,3 +425,12 @@ fn issue_779_2() {
 
     assert!(f.contains("require('core-js');"));
 }
+
+#[test]
+fn issue_783() {
+    let f = file("tests/projects/issue-783/input.js").unwrap();
+    println!("{}", f);
+
+    assert!(!f.contains("require('core-js');"));
+    assert!(f.contains("require('core-js/modules/es.array-buffer.constructor');"))
+}
