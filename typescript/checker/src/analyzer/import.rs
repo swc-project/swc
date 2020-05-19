@@ -48,7 +48,7 @@ impl Visit<ImportDecl> for ImportFinder<'_> {
                     export: Ident::new(js_word!("default"), default.span).into(),
                     local: default.local.clone().into(),
                 }),
-                ImportSpecifier::Specific(ref s) => {
+                ImportSpecifier::Named(ref s) => {
                     items.push(Specifier {
                         export: s
                             .imported
