@@ -22,10 +22,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Install nightly Rust
-        run: rustup toolchain install nightly
       - name: Install rustfmt
-        run: rustup component add rustfmt --toolchain nightly-x86_64-unknown-linux-gnu
+        run: rustup component add rustfmt
       - name: Run cargo fmt
         run: cargo fmt --all -- --check
 
