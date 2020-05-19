@@ -1,13 +1,24 @@
 use rayon::prelude::*;
 use std::path::Path;
 use swc::{
-    config::{Options, SourceMapsConfig},
+    config::{Config, Options, SourceMapsConfig},
     Compiler,
 };
+use swc_ecmascript::preset_env;
 use testing::{NormalizedOutput, StdErr, Tester};
 use walkdir::WalkDir;
 
 fn file(f: &str) -> Result<NormalizedOutput, StdErr> {
+    file_with_opt(
+        f,
+        Options {
+            swcrc: true,
+            ..Default::default()
+        },
+    )
+}
+
+fn file_with_opt(f: &str, options: Options) -> Result<NormalizedOutput, StdErr> {
     Tester::new().print_errors(|cm, handler| {
         let c = Compiler::new(cm.clone(), handler);
 
@@ -15,9 +26,8 @@ fn file(f: &str) -> Result<NormalizedOutput, StdErr> {
         let s = c.process_js_file(
             fm,
             &Options {
-                swcrc: true,
                 is_module: true,
-                ..Default::default()
+                ..options
             },
         );
 
@@ -33,7 +43,6 @@ fn file(f: &str) -> Result<NormalizedOutput, StdErr> {
         }
     })
 }
-
 fn project(dir: &str) {
     Tester::new()
         .print_errors(|cm, handler| {
@@ -424,4 +433,64 @@ fn issue_779_2() {
     println!("{}", f);
 
     assert!(f.contains("require('core-js');"));
+}
+
+#[test]
+fn issue_783() {
+    let f = file("tests/projects/issue-783/input.js").unwrap();
+    println!("{}", f);
+
+    assert!(!f.contains("require('core-js');"));
+    assert!(f.contains("require('core-js/modules/es.array-buffer.constructor');"))
+}
+
+#[test]
+fn issue_783_core_js_2() {
+    let f = file_with_opt(
+        "tests/projects/issue-783/input.js",
+        Options {
+            swcrc: false,
+            config: Some(Config {
+                env: Some(preset_env::Config {
+                    core_js: Some("2".parse().unwrap()),
+                    mode: Some(preset_env::Mode::Entry),
+                    ..Default::default()
+                }),
+                ..Default::default()
+            }),
+            ..Default::default()
+        },
+    )
+    .unwrap();
+    println!("{}", f);
+
+    assert!(
+        !f.contains("'core-js'"),
+        "import of `core-js` should be transformed"
+    );
+}
+
+#[test]
+fn issue_783_core_js_3() {
+    let f = file_with_opt(
+        "tests/projects/issue-783/input.js",
+        Options {
+            swcrc: false,
+            config: Some(Config {
+                env: Some(preset_env::Config {
+                    mode: Some(preset_env::Mode::Entry),
+                    ..Default::default()
+                }),
+                ..Default::default()
+            }),
+            ..Default::default()
+        },
+    )
+    .unwrap();
+    println!("{}", f);
+
+    assert!(
+        !f.contains("'core-js'"),
+        "import of `core-js` should be transformed"
+    );
 }
