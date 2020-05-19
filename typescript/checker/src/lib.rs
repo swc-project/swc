@@ -38,6 +38,7 @@ mod debug;
 pub mod analyzer;
 mod builtin_types;
 pub mod errors;
+pub mod hygiene;
 pub mod id;
 pub mod loader;
 pub mod name;
@@ -45,7 +46,6 @@ pub mod resolver;
 pub mod ty;
 pub mod util;
 pub mod validator;
-pub mod hygiene;
 
 pub type Result<T> = std::result::Result<T, Error>;
 

@@ -3,8 +3,7 @@
 use fxhash::FxHashSet;
 use swc_common::{Visit, VisitWith};
 use swc_ecma_ast::Ident;
-use swc_ts_checker::ModuleTypeInfo;
-use swc_ts_checker::id::Id;
+use swc_ts_checker::{id::Id, ModuleTypeInfo};
 
 pub fn get_used(info: &ModuleTypeInfo) -> FxHashSet<Id> {
     let mut used = FxHashSet::default();

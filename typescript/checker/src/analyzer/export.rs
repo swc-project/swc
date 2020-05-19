@@ -37,10 +37,10 @@ impl Analyzer<'_, '_> {
                 Some(&sym)
             } else {
                 match expr {
-                    Expr::Ident(ref i) =>
-                        {
-                            tmp=i.clone().into();
-                            Some(&tmp) },
+                    Expr::Ident(ref i) => {
+                        tmp = i.clone().into();
+                        Some(&tmp)
+                    }
                     _ => None,
                 }
             };
