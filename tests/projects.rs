@@ -445,7 +445,32 @@ fn issue_783() {
 }
 
 #[test]
-fn issue_783_2() {
+fn issue_783_core_js_2() {
+    let f = file_with_opt(
+        "tests/projects/issue-783/input.js",
+        Options {
+            swcrc: false,
+            config: Some(Config {
+                env: Some(preset_env::Config {
+                    core_js: Some("2".parse().unwrap()),
+                    ..Default::default()
+                }),
+                ..Default::default()
+            }),
+            ..Default::default()
+        },
+    )
+    .unwrap();
+    println!("{}", f);
+
+    assert!(
+        !f.contains("'core-js'"),
+        "import of `core-js` should be transformed"
+    );
+}
+
+#[test]
+fn issue_783_core_js_3() {
     let f = file_with_opt(
         "tests/projects/issue-783/input.js",
         Options {
