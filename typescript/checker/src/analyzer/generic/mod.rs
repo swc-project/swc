@@ -711,7 +711,7 @@ impl Analyzer<'_, '_> {
         if self.is_builtin {
             return Ok(ty);
         }
-        log::trace!("rename_type_params");
+        log::debug!("rename_type_params(ty = {:?})", ty);
 
         // ty = self.expand(span, ty)?;
 
