@@ -671,7 +671,7 @@ impl Analyzer<'_, '_> {
     ) -> ValidationResult {
         if let Some(type_params) = type_params {
             log::debug!(
-                "get_return_type: \ntype_params = {:?}\nret_ty = {:?}",
+                "get_return_type: \ntype_params = {:#?}\nret_ty = {:#?}",
                 type_params,
                 ret_ty
             );
