@@ -628,28 +628,46 @@ impl Analyzer<'_, '_> {
         type_args: Option<TypeParamInstantiation>,
         args: &[TypeOrSpread],
     ) -> ValidationResult {
-        for callee in callee.normalize().iter_union() {
-            // TODO: Check if signature match.
-            match callee.normalize() {
-                Type::Method(ref m) => {
+        // TODO: Calculate return type only if selected
+        // This can be done by storing type params, return type, params in the
+        // candidates.
+        let mut candidates = vec![];
+
+        macro_rules! check {
+            ($m:expr) => {{
+                let m = $m;
+
+                let type_params = m.type_params.as_ref().map(|v| &*v.params);
+                if is_exact_match(type_params, &m.params, type_args.as_ref(), args) {
                     return self.get_return_type(
                         span,
-                        m.type_params.as_ref().map(|v| &*v.params),
+                        type_params,
                         &m.params,
                         *m.ret_ty.clone(),
                         type_args.as_ref(),
                         &args,
                     );
                 }
+
+                candidates.push(self.get_return_type(
+                    span,
+                    m.type_params.as_ref().map(|v| &*v.params),
+                    &m.params,
+                    *m.ret_ty.clone(),
+                    type_args.as_ref(),
+                    &args,
+                ));
+            }};
+        }
+
+        for callee in callee.normalize().iter_union() {
+            // TODO: Check if signature match.
+            match callee.normalize() {
+                Type::Method(ref m) => {
+                    check!(m);
+                }
                 Type::Function(ref f) => {
-                    return self.get_return_type(
-                        span,
-                        f.type_params.as_ref().map(|v| &*v.params),
-                        &f.params,
-                        *f.ret_ty.clone(),
-                        type_args.as_ref(),
-                        &args,
-                    );
+                    check!(f);
                 }
                 Type::Class(ref cls) if kind == ExtractKind::New => {
                     // TODO: Handle type parameters.
@@ -661,6 +679,10 @@ impl Analyzer<'_, '_> {
                 }
                 _ => {}
             }
+        }
+
+        if !candidates.is_empty() {
+            return candidates.pop().unwrap();
         }
 
         Err(if kind == ExtractKind::Call {
@@ -705,8 +727,25 @@ impl Analyzer<'_, '_> {
     }
 }
 
-pub(crate) trait Callable {}
+fn is_exact_match(
+    type_params: Option<&[TypeParam]>,
+    params: &[FnParam],
+    type_args: Option<&TypeParamInstantiation>,
+    args: &[TypeOrSpread],
+) -> bool {
+    if let Some(type_params) = type_params {
+        if let Some(type_args) = type_args {
+            // TODO: Handle defaults of the type parameter (Change to range)
+            if type_params.len() != type_args.params.len() {
+                return false;
+            }
+        }
+    }
 
-impl Callable for Method {}
+    // TODO: Handle default parameters (Change to range)
+    if params.len() != args.len() {
+        return false;
+    }
 
-impl Callable for Function {}
+    true
+}
