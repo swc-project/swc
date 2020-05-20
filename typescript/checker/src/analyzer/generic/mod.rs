@@ -299,6 +299,10 @@ impl Analyzer<'_, '_> {
                 dbg!();
             }
 
+            Type::Predicate(..) => {
+                dbg!();
+            }
+
             Type::Ref(param) => match arg {
                 Type::Ref(arg) => {
                     if param.type_args.is_none() && arg.type_args.is_none() {
