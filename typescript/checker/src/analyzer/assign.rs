@@ -41,6 +41,14 @@ impl Analyzer<'_, '_> {
                 cause: vec![err],
             },
         })
+        .map_err(|err| {
+            if cfg!(debug_assertions) && std::env::var("SWC_DTS").map(|v| v == "1").unwrap_or(false)
+            {
+                print_backtrace();
+                panic!("{:?}", err);
+            }
+            err
+        })
     }
 
     /// Verifies that `ty` is
