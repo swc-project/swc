@@ -493,6 +493,7 @@ impl Analyzer<'_, '_> {
                 }
             };
 
+            let mut candidates = vec![];
             for el in members.iter() {
                 match el {
                     TypeElement::Index(IndexSignature {
@@ -507,15 +508,18 @@ impl Analyzer<'_, '_> {
                         let index_ty = &params[0].ty;
                         if index_ty.type_eq(&prop_ty) {
                             if let Some(ref type_ann) = type_ann {
-                                return Ok(Some(type_ann.clone()));
+                                candidates.push(type_ann.clone());
+                                continue;
                             }
-                            return Ok(Some(Type::any(span)));
+                            candidates.push(Type::any(span));
+                            continue;
                         }
 
                         match prop_ty.normalize() {
                             // TODO: Only string or number
                             Type::EnumVariant(..) => {
-                                return Ok(type_ann.clone());
+                                candidates.extend(type_ann.clone());
+                                continue;
                             }
 
                             _ => {}
@@ -551,21 +555,24 @@ impl Analyzer<'_, '_> {
                                 }
 
                                 if let Some(ref type_ann) = p.type_ann {
-                                    return Ok(Some(type_ann.clone()));
+                                    candidates.push(type_ann.clone());
+                                    continue;
                                 }
 
                                 // TODO: no implicit any?
-                                return Ok(Some(Type::any(span)));
+                                candidates.push(Type::any(span));
+                                continue;
                             }
 
                             TypeElement::Method(ref m) => {
                                 //
-                                return Ok(Some(Type::Function(ty::Function {
+                                candidates.push(Type::Function(ty::Function {
                                     span,
                                     type_params: m.type_params.clone(),
                                     params: m.params.clone(),
                                     ret_ty: box m.ret_ty.clone().unwrap_or_else(|| Type::any(span)),
-                                })));
+                                }));
+                                continue;
                             }
 
                             _ => unimplemented!("TypeElement {:?}", el),
@@ -574,7 +581,14 @@ impl Analyzer<'_, '_> {
                 }
             }
 
-            Ok(None)
+            if candidates.is_empty() {
+                return Ok(None);
+            }
+            if candidates.len() == 1 {
+                return Ok(candidates.pop());
+            }
+
+            Ok(Some(Type::union(candidates)))
         }
 
         if !self.is_builtin {
