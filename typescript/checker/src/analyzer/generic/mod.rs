@@ -711,7 +711,11 @@ impl Analyzer<'_, '_> {
         if self.is_builtin {
             return Ok(ty);
         }
-        log::debug!("rename_type_params(ty = {:?})", ty);
+        log::debug!(
+            "rename_type_params(has_ann = {:?}, ty = {:#?})",
+            type_ann.is_some(),
+            ty
+        );
 
         // ty = self.expand(span, ty)?;
 
@@ -734,6 +738,11 @@ impl Analyzer<'_, '_> {
 
         if let Some(type_ann) = type_ann {
             self.infer_type(&mut inferred, &ty, type_ann)?;
+            log::info!(
+                "renaming type parameters based on type annotation provided by user\ntype_ann = \
+                 {:?}",
+                type_ann
+            );
             return Ok(ty.into_owned().fold_with(&mut TypeParamRenamer {
                 inferred: inferred.type_params,
             }));
