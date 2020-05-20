@@ -646,7 +646,9 @@ impl Analyzer<'_, '_> {
             // TODO: Validate optional parameters
             if args.len() > i {
                 let args_ty = &args[i].ty;
-                self.assign(&p.ty, &args_ty, args[i].span())?;
+                if let Err(..) = self.assign(&p.ty, &args_ty, args[i].span()) {
+                    continue;
+                }
             }
         }
 
