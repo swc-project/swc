@@ -94,8 +94,6 @@ impl Analyzer<'_, '_> {
     /// Calculates the return type of a new /call expression.
     ///
     /// This method check arguments
-    ///
-    /// Called only from [type_of_expr]
     fn extract_call_new_expr_member(
         &mut self,
         callee: &mut Expr,
