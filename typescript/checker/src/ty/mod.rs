@@ -1,6 +1,7 @@
 use crate::{id::Id, ty, util::TypeEq, ModuleTypeInfo};
+use bitflags::_core::iter::FusedIterator;
 use is_macro::Is;
-use std::{mem::transmute, sync::Arc};
+use std::{fmt::Debug, mem::transmute, sync::Arc};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{Fold, FoldWith, FromVariant, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -808,7 +809,38 @@ impl Type {
             },
         }
     }
+
+    ///
+    pub fn iter_union(&self) -> impl Debug + Iterator<Item = &Type> {
+        Iter { ty: self, idx: 0 }
+    }
 }
+
+#[derive(Debug)]
+struct Iter<'a> {
+    ty: &'a Type,
+    idx: usize,
+}
+
+impl<'a> Iterator for Iter<'a> {
+    type Item = &'a Type;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        match self.ty {
+            Type::Union(ref u) => {
+                let ty = u.types.get(self.idx);
+                self.idx += 1;
+                return ty;
+            }
+
+            _ if self.idx == 0 => Some(&self.ty),
+
+            _ => None,
+        }
+    }
+}
+
+impl FusedIterator for Iter<'_> {}
 
 impl Type {
     pub fn is_str(&self) -> bool {
