@@ -97,6 +97,11 @@ impl VisitMut<TsFnType> for Colorizer<'_> {
 
 impl VisitMut<TsTypeRef> for Colorizer<'_> {
     fn visit_mut(&mut self, mut r: &mut TsTypeRef) {
+        if r.type_params.is_some() {
+            r.visit_mut_children(self);
+            return;
+        }
+
         fn apply(scope: &Scope, mut q: &mut TsQualifiedName) {
             match q.left {
                 TsEntityName::TsQualifiedName(ref mut q) => apply(scope, q),
