@@ -383,6 +383,7 @@ impl Analyzer<'_, '_> {
                     };
 
                     for callee in callee.normalize().iter_union() {
+                        // TODO: Check if signature match.
                         match callee.normalize() {
                             Type::Method(ref m) => {
                                 return self.get_return_type(
