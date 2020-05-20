@@ -3,12 +3,13 @@ use super::super::Analyzer;
 use crate::{
     analyzer::{expr::TypeOfMode, props::prop_name_to_expr, util::ResultExt},
     builtin_types,
+    debug::print_backtrace,
     errors::Error,
     id::Id,
     ty,
     ty::{
-        CallSignature, ClassInstance, ConstructorSignature, FnParam, Method, MethodSignature,
-        QueryExpr, QueryType, Static, Type, TypeElement, TypeOrSpread, TypeParam,
+        Array, CallSignature, ClassInstance, ConstructorSignature, FnParam, Method,
+        MethodSignature, QueryExpr, QueryType, Static, Type, TypeElement, TypeOrSpread, TypeParam,
         TypeParamInstantiation,
     },
     util::EqIgnoreSpan,
@@ -666,7 +667,8 @@ impl Analyzer<'_, '_> {
         args: &[TypeOrSpread],
     ) -> ValidationResult {
         if let Some(type_params) = type_params {
-            log::trace!(
+            print_backtrace();
+            log::debug!(
                 "get_return_type: \ntype_params = {:#?}\nret_ty = {:#?}",
                 type_params,
                 ret_ty
