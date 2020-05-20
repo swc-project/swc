@@ -669,7 +669,7 @@ impl Analyzer<'_, '_> {
         if let Some(type_params) = type_params {
             print_backtrace();
             log::debug!(
-                "get_return_type: \ntype_params = {:#?}\nret_ty = {:#?}",
+                "get_return_type: \ntype_params = {:?}\nret_ty = {:?}",
                 type_params,
                 ret_ty
             );
