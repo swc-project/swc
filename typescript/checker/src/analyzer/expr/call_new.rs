@@ -382,36 +382,38 @@ impl Analyzer<'_, '_> {
                         Some(v) => Some(v.validate_with(self)?),
                     };
 
-                    match callee.normalize() {
-                        Type::Method(ref m) => {
-                            return self.get_return_type(
-                                span,
-                                m.type_params.as_ref().map(|v| &*v.params),
-                                &m.params,
-                                *m.ret_ty.clone(),
-                                type_args.as_ref(),
-                                &args,
-                            );
+                    for callee in callee.normalize().iter_union() {
+                        match callee.normalize() {
+                            Type::Method(ref m) => {
+                                return self.get_return_type(
+                                    span,
+                                    m.type_params.as_ref().map(|v| &*v.params),
+                                    &m.params,
+                                    *m.ret_ty.clone(),
+                                    type_args.as_ref(),
+                                    &args,
+                                );
+                            }
+                            Type::Function(ref f) => {
+                                return self.get_return_type(
+                                    span,
+                                    f.type_params.as_ref().map(|v| &*v.params),
+                                    &f.params,
+                                    *f.ret_ty.clone(),
+                                    type_args.as_ref(),
+                                    &args,
+                                );
+                            }
+                            Type::Class(ref cls) if kind == ExtractKind::New => {
+                                // TODO: Handle type parameters.
+                                return Ok(Type::ClassInstance(ClassInstance {
+                                    span,
+                                    cls: cls.clone(),
+                                    type_args,
+                                }));
+                            }
+                            _ => {}
                         }
-                        Type::Function(ref f) => {
-                            return self.get_return_type(
-                                span,
-                                f.type_params.as_ref().map(|v| &*v.params),
-                                &f.params,
-                                *f.ret_ty.clone(),
-                                type_args.as_ref(),
-                                &args,
-                            );
-                        }
-                        Type::Class(ref cls) if kind == ExtractKind::New => {
-                            // TODO: Handle type parameters.
-                            return Ok(Type::ClassInstance(ClassInstance {
-                                span,
-                                cls: cls.clone(),
-                                type_args,
-                            }));
-                        }
-                        _ => {}
                     }
 
                     Err(if kind == ExtractKind::Call {
@@ -667,7 +669,6 @@ impl Analyzer<'_, '_> {
         args: &[TypeOrSpread],
     ) -> ValidationResult {
         if let Some(type_params) = type_params {
-            print_backtrace();
             log::debug!(
                 "get_return_type: \ntype_params = {:?}\nret_ty = {:?}",
                 type_params,
