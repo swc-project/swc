@@ -54,6 +54,13 @@ impl<'a> Colorizer<'a> {
     }
 }
 
+impl VisitMut<VarDeclarator> for Colorizer<'_> {
+    fn visit_mut(&mut self, node: &mut VarDeclarator) {
+        node.name.visit_mut_with(self);
+        node.init.visit_mut_with(self);
+    }
+}
+
 impl VisitMut<Function> for Colorizer<'_> {
     fn visit_mut(&mut self, f: &mut Function) {
         let params = extract_type_params(f.type_params.as_ref());
@@ -84,14 +91,20 @@ impl VisitMut<ArrowExpr> for Colorizer<'_> {
 
 impl VisitMut<TsFnType> for Colorizer<'_> {
     fn visit_mut(&mut self, ty: &mut TsFnType) {
-        let params = extract_type_params(ty.type_params.as_ref());
+        let child_params = {
+            let params = extract_type_params(ty.type_params.as_ref());
 
-        let child_mark = Mark::fresh(self.scope.mark);
-        let mut child = Colorizer::new(Scope::new(Some(&self.scope), child_mark, params));
+            let child_mark = Mark::fresh(self.scope.mark);
+            let mut child = Colorizer::new(Scope::new(Some(&self.scope), child_mark, params));
 
-        ty.type_params.visit_mut_with(&mut child);
-        ty.params.visit_mut_with(&mut child);
-        ty.type_ann.visit_mut_with(&mut child);
+            ty.type_params.visit_mut_with(&mut child);
+            ty.params.visit_mut_with(&mut child);
+            ty.type_ann.visit_mut_with(&mut child);
+
+            child.scope.params
+        };
+
+        self.scope.params.extend(child_params);
     }
 }
 
