@@ -548,6 +548,9 @@ impl Analyzer<'_, '_> {
             return Some(ty);
         }
 
+        if !self.is_builtin {
+            log::debug!("Scope.find_type: failed to find type '{}'", name);
+        }
         None
     }
 
@@ -970,6 +973,8 @@ impl Fold<Type> for Expander<'_, '_, '_> {
         if self.analyzer.is_builtin {
             return ty;
         }
+
+        log::debug!("Expanding type");
 
         self.full |= match ty {
             Type::Mapped(..) => true,

@@ -103,6 +103,7 @@ impl Validate<VarDeclarator> for Analyzer<'_, '_> {
 
                 match declared_ty {
                     Some(ty) => {
+                        log::debug!("var: user declared type");
                         let ty = match ty.validate_with(self) {
                             Ok(ty) => ty,
                             Err(err) => {
@@ -156,6 +157,7 @@ impl Validate<VarDeclarator> for Analyzer<'_, '_> {
                             value_ty
                         })();
 
+                        log::debug!("var: user did not declare type");
                         let ty = self.rename_type_params(span, ty, None)?;
 
                         let mut ty = ty.fold_with(&mut Generalizer::default());
