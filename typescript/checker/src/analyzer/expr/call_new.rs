@@ -382,46 +382,7 @@ impl Analyzer<'_, '_> {
                         Some(v) => Some(v.validate_with(self)?),
                     };
 
-                    for callee in callee.normalize().iter_union() {
-                        // TODO: Check if signature match.
-                        match callee.normalize() {
-                            Type::Method(ref m) => {
-                                return self.get_return_type(
-                                    span,
-                                    m.type_params.as_ref().map(|v| &*v.params),
-                                    &m.params,
-                                    *m.ret_ty.clone(),
-                                    type_args.as_ref(),
-                                    &args,
-                                );
-                            }
-                            Type::Function(ref f) => {
-                                return self.get_return_type(
-                                    span,
-                                    f.type_params.as_ref().map(|v| &*v.params),
-                                    &f.params,
-                                    *f.ret_ty.clone(),
-                                    type_args.as_ref(),
-                                    &args,
-                                );
-                            }
-                            Type::Class(ref cls) if kind == ExtractKind::New => {
-                                // TODO: Handle type parameters.
-                                return Ok(Type::ClassInstance(ClassInstance {
-                                    span,
-                                    cls: cls.clone(),
-                                    type_args,
-                                }));
-                            }
-                            _ => {}
-                        }
-                    }
-
-                    Err(if kind == ExtractKind::Call {
-                        Error::NoCallSignature { span, callee }
-                    } else {
-                        Error::NoNewSignature { span, callee }
-                    })
+                    self.get_best_return_type(span, callee, kind, type_args, &args)
                 }
             }
             _ => {
@@ -659,7 +620,57 @@ impl Analyzer<'_, '_> {
         return Ok(c.ret_ty.clone().unwrap_or_else(|| Type::any(span)));
     }
 
-    /// Returns the
+    fn get_best_return_type(
+        &mut self,
+        span: Span,
+        callee: Type,
+        kind: ExtractKind,
+        type_args: Option<TypeParamInstantiation>,
+        args: &[TypeOrSpread],
+    ) -> ValidationResult {
+        for callee in callee.normalize().iter_union() {
+            // TODO: Check if signature match.
+            match callee.normalize() {
+                Type::Method(ref m) => {
+                    return self.get_return_type(
+                        span,
+                        m.type_params.as_ref().map(|v| &*v.params),
+                        &m.params,
+                        *m.ret_ty.clone(),
+                        type_args.as_ref(),
+                        &args,
+                    );
+                }
+                Type::Function(ref f) => {
+                    return self.get_return_type(
+                        span,
+                        f.type_params.as_ref().map(|v| &*v.params),
+                        &f.params,
+                        *f.ret_ty.clone(),
+                        type_args.as_ref(),
+                        &args,
+                    );
+                }
+                Type::Class(ref cls) if kind == ExtractKind::New => {
+                    // TODO: Handle type parameters.
+                    return Ok(Type::ClassInstance(ClassInstance {
+                        span,
+                        cls: cls.clone(),
+                        type_args,
+                    }));
+                }
+                _ => {}
+            }
+        }
+
+        Err(if kind == ExtractKind::Call {
+            Error::NoCallSignature { span, callee }
+        } else {
+            Error::NoNewSignature { span, callee }
+        })
+    }
+
+    /// Returns the return type of function.
     fn get_return_type(
         &mut self,
         span: Span,
@@ -693,3 +704,9 @@ impl Analyzer<'_, '_> {
         Ok(ret_ty.clone())
     }
 }
+
+pub(crate) trait Callable {}
+
+impl Callable for Method {}
+
+impl Callable for Function {}
