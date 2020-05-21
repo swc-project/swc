@@ -27,8 +27,8 @@ jobs:
       - name: Run cargo fmt
         run: cargo fmt --all -- --check
 
-  test-debug:
-    name: test-debug
+  test:
+    name: test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
