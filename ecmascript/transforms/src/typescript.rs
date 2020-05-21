@@ -596,6 +596,38 @@ impl Visit<TsEntityName> for Strip {
     }
 }
 
+impl Fold<TsInterfaceDecl> for Strip {
+    fn fold(&mut self, node: TsInterfaceDecl) -> TsInterfaceDecl {
+        TsInterfaceDecl {
+            span: node.span,
+            id: node.id,
+            type_params: None,
+            extends: vec![],
+            body: TsInterfaceBody {
+                span: node.body.span,
+                body: vec![],
+            },
+            declare: false,
+        }
+    }
+}
+
+impl Fold<Class> for Strip {
+    fn fold(&mut self, node: Class) -> Class {
+        Class {
+            span: node.span,
+            is_abstract: false,
+            type_params: None,
+            super_type_params: None,
+            implements: vec![],
+
+            decorators: node.decorators.fold_with(self),
+            body: node.body.fold_with(self),
+            super_class: node.super_class.fold_with(self),
+        }
+    }
+}
+
 impl Fold<Decl> for Strip {
     fn fold(&mut self, decl: Decl) -> Decl {
         let decl = validate!(decl);
