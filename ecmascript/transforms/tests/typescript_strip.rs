@@ -460,3 +460,18 @@ to!(
         const a = {};
       }"
 );
+
+to!(
+    issue_791,
+    "import { IPerson } from '../types/types'
+
+     export interface IEmployee extends IPerson { 
+     }
+
+     export function createPerson(person: IPerson) {
+       const a = {} as IPerson
+     }",
+    "export function createPerson(person) {
+       const a = {}
+     }"
+);
