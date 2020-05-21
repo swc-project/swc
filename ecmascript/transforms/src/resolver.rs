@@ -505,6 +505,16 @@ impl<'a> Fold<ArrowExpr> for Resolver<'a> {
     }
 }
 
+/// Handle body of the arrow functions
+impl Fold<BlockStmtOrExpr> for Resolver<'_> {
+    fn fold(&mut self, node: BlockStmtOrExpr) -> BlockStmtOrExpr {
+        match node {
+            BlockStmtOrExpr::BlockStmt(block) => block.fold_children(self).into(),
+            BlockStmtOrExpr::Expr(e) => e.fold_with(self).into(),
+        }
+    }
+}
+
 impl Fold<Vec<Stmt>> for Resolver<'_> {
     fn fold(&mut self, stmts: Vec<Stmt>) -> Vec<Stmt> {
         // Phase 1: Handle hoisting
