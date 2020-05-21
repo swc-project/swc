@@ -1,13 +1,14 @@
 [workspace]
 
 [package]
-name = "ffi"
+name = "node-swc"
 version = "0.1.0"
 authors = ["강동윤 <kdy1@outlook.kr>"]
 license = "MIT"
 build = "build.rs"
 exclude = ["artifacts.json", "index.node"]
 edition = "2018"
+publish = false
 
 [lib]
 name = "ffi"

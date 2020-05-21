@@ -7,7 +7,7 @@ env:
   CI: "1"
 
 jobs:
-  test-debug:
+  integration-test:
     name: test
     runs-on: ubuntu-latest
     steps:
@@ -26,4 +26,4 @@ jobs:
       - name: Test
         run: |
           export PATH="$PATH:$HOME/npm/bin"
-          npx jest
+          (cd node-swc && npx jest)
