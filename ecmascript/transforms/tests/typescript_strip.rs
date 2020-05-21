@@ -438,3 +438,25 @@ export default Foo;
     }));
     export default Foo;"
 );
+
+to!(
+    issue_786_1,
+    "import { IPerson } from '../types/types'
+     export function createPerson(person: IPerson) {
+        const a = {} as IPerson
+      }",
+    "export function createPerson(person) {
+        const a = {};
+      }"
+);
+
+to!(
+    issue_786_2,
+    "import { IPerson } from '../types/types'
+     function createPerson(person: IPerson) {
+        const a = {} as IPerson
+      }",
+    "function createPerson(person) {
+        const a = {};
+      }"
+);
