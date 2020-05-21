@@ -462,7 +462,7 @@ to!(
 );
 
 to!(
-    issue_791,
+    issue_791_1,
     "import { IPerson } from '../types/types'
 
      export interface IEmployee extends IPerson { 
@@ -472,6 +472,23 @@ to!(
        const a = {} as IPerson
      }",
     "export function createPerson(person) {
+       const a = {}
+     }"
+);
+
+to!(
+    issue_791_2,
+    "import { IPerson } from '../types/types'
+
+     export class Employee implements IPerson { 
+     }
+
+     export function createPerson(person: IPerson) {
+       const a = {} as IPerson
+     }",
+    "export class Employee { 
+     }
+     export function createPerson(person) {
        const a = {}
      }"
 );
