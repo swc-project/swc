@@ -110,6 +110,12 @@ impl Strip {
     }
 }
 
+impl Fold<TsTypeAliasDecl> for Strip {
+    fn fold(&mut self, node: TsTypeAliasDecl) -> TsTypeAliasDecl {
+        self.add_types(node)
+    }
+}
+
 impl Fold<Constructor> for Strip {
     fn fold(&mut self, c: Constructor) -> Constructor {
         let c = c.fold_children(self);
@@ -412,6 +418,20 @@ impl Fold<Vec<ModuleItem>> for Strip {
 }
 
 impl Strip {
+    fn add_types<T>(&mut self, node: T) -> T
+    where
+        T: VisitWith<Self>,
+    {
+        match self.phase {
+            Phase::Analysis => {
+                node.visit_with(self);
+            }
+            Phase::DropImports => {}
+        }
+
+        node
+    }
+
     fn handle_enum(&mut self, e: TsEnumDecl, stmts: &mut Vec<ModuleItem>) {
         let id = e.id;
         stmts.push(
@@ -602,11 +622,8 @@ impl Fold<TsInterfaceDecl> for Strip {
             span: node.span,
             id: node.id,
             type_params: None,
-            extends: vec![],
-            body: TsInterfaceBody {
-                span: node.body.span,
-                body: vec![],
-            },
+            extends: self.add_types(node.extends),
+            body: self.add_types(node.body),
             declare: false,
         }
     }
@@ -617,9 +634,9 @@ impl Fold<Class> for Strip {
         Class {
             span: node.span,
             is_abstract: false,
-            type_params: None,
-            super_type_params: None,
-            implements: vec![],
+            type_params: self.add_types(node.type_params),
+            super_type_params: self.add_types(node.super_type_params),
+            implements: self.add_types(node.implements),
 
             decorators: node.decorators.fold_with(self),
             body: node.body.fold_with(self),
