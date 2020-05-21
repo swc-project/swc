@@ -1105,3 +1105,14 @@ identical!(
     export default function reducer(state = initialState, action = {}) {
     }"
 );
+
+identical!(
+    issue_788_1,
+    "window.addEventListener('message', (e) => {
+    try {
+        console.log(e.data);
+    } catch(e) {
+        console.log(e);
+    }
+});"
+);
