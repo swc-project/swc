@@ -492,3 +492,30 @@ to!(
        const a = {}
      }"
 );
+
+to!(
+    issue_791_3,
+    "import { IPerson } from '../types/types'
+
+     export type MyPerson = IPerson;
+
+     export function createPerson(person: MyPerson) {
+       const a = {} as MyPerson
+     }",
+    "export function createPerson(person) {
+       const a = {}
+     }"
+);
+
+to!(
+    issue_791_4,
+    "import { A, B } from '../types/types'
+     
+     export class Child extends A implements B { 
+     }",
+    "import { A } from '../types/types'
+    
+    export class Child extends A {
+    }
+    "
+);
