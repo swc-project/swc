@@ -61,7 +61,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
     needs:
-      - test-debug
+      - test
     steps:
       - uses: actions/checkout@v2
       - name: Create rustdoc
