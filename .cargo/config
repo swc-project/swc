@@ -2,6 +2,7 @@
 [build]
 rustflags = [
     "--cfg", "procmacro2_semver_exempt",
+    "-Z", "thinlto=no",
 ]
  
 rustdocflags = [
