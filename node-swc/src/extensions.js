@@ -4,7 +4,7 @@
 
 var eol = require('os').EOL,
     fs = require('fs'),
-    pkg = require('../package.json'),
+    pkg = require('../../package.json'),
     mkdir = require('mkdirp'),
     path = require('path'),
     defaultBinaryDir = path.join(__dirname, '..', 'native'),
