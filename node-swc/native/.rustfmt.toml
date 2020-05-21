@@ -1,0 +1,5 @@
+required_version = "1.4.14"
+use_field_init_shorthand = true
+merge_imports = true
+wrap_comments = true
+format_strings = true

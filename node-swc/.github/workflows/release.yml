@@ -1,0 +1,72 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "*.*.*"
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [macos-latest, windows-latest]
+    runs-on: ${{ matrix.platform }}
+    env:
+      SKIP_SWC_BINARY_DOWNLOAD_FOR_CI: 1
+      CI: 1
+      CARGO_INCREMENTAL: 0
+      DISABLE_OPENCOLLECTIVE: 1
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 8
+      - name: Install npm dependencies
+        run: |
+          npm install
+      - name: Build for nodejs 8
+        run: |
+          bash ./scripts/ci/build-github.sh 8.15.0 57
+
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 10
+      - name: Build for nodejs 10
+        run: |
+          bash ./scripts/ci/build-github.sh 10.15.0 64
+
+      # - uses: actions/setup-node@v1
+      #   with:
+      #     node-version: 11
+      # - name: Build for nodejs 11
+      #   run: |
+      #     bash ./scripts/ci/build-github.sh 11.6.0 67
+
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: Build for nodejs 12
+        run: |
+          bash ./scripts/ci/build-github.sh 12.11.0 72
+
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 13
+      - name: Build for nodejs 13
+        run: |
+          bash ./scripts/ci/build-github.sh 13.3.0 79
+
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 14
+      - name: Build for nodejs 13
+        run: |
+          bash ./scripts/ci/build-github.sh 14.2.0 83
+
+      - name: publish release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: "*.node"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
