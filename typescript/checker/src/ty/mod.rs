@@ -833,7 +833,10 @@ impl<'a> Iterator for Iter<'a> {
                 return ty;
             }
 
-            _ if self.idx == 0 => Some(&self.ty),
+            _ if self.idx == 0 => {
+                self.idx = 1;
+                Some(&self.ty)
+            }
 
             _ => None,
         }
