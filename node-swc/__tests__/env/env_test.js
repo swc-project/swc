@@ -1,7 +1,7 @@
 const swc = require("../../../");
 const path = require("path");
 
-it("should handle browserlistrc", () => {
+it("should handle browserslistrc", () => {
   const filename = path.resolve(
     __dirname + "/../../tests/env/default/input.js"
   );

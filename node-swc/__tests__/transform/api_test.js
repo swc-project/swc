@@ -1,125 +1,134 @@
 const swc = require("../../../");
 
 it("should handle minify", () => {
-  const src = '/* Comment */import foo, {bar} from "foo"';
+    const src = '/* Comment */import foo, {bar} from "foo"';
 
-  expect(
-    swc
-      .transformSync(src, {
-        minify: true
-      })
-      .code.trim()
-  ).toBe("import foo,{bar}from'foo';");
+    expect(
+        swc
+            .transformSync(src, {
+                minify: true
+            })
+            .code.trim()
+    ).toBe("import foo,{bar}from'foo';");
 });
 
 it("should handle sourceMaps = false", () => {
-  const src = '/* Comment */import foo, {bar} from "foo"';
-  const out = swc.transformSync(src, {
-    sourceMaps: false
-  });
+    const src = '/* Comment */import foo, {bar} from "foo"';
+    const out = swc.transformSync(src, {
+        sourceMaps: false
+    });
 
-  expect(out.map).toBeFalsy();
+    expect(out.map).toBeFalsy();
 });
 
 it("should handle exportNamespaceFrom", () => {
-  const src = "export * as Foo from 'bar';";
-  const out = swc.transformSync(src, {
-    jsc: {
-      parser: {
-        syntax: "ecmascript",
-        exportNamespaceFrom: true
-      }
-    }
-  });
+    const src = "export * as Foo from 'bar';";
+    const out = swc.transformSync(src, {
+        jsc: {
+            parser: {
+                syntax: "ecmascript",
+                exportNamespaceFrom: true
+            }
+        }
+    });
 
-  expect(out.code).toContain("import * as _Foo from 'bar';");
-  expect(out.code).toContain("export { _Foo as Foo }");
+    expect(out.code).toContain("import * as _Foo from 'bar';");
+    expect(out.code).toContain("export { _Foo as Foo }");
 });
 
 it("should handle jsc.target = es3", () => {
-  const out = swc.transformSync(`foo.default`, {
-    jsc: {
-      target: "es3"
-    }
-  });
-  expect(out.code.trim()).toBe(`foo['default'];`);
+    const out = swc.transformSync(`foo.default`, {
+        jsc: {
+            target: "es3"
+        }
+    });
+    expect(out.code.trim()).toBe(`foo['default'];`);
 });
 
 it("should handle jsc.target = es5", () => {
-  const out = swc.transformSync(`foo.default`, {
-    jsc: {
-      target: "es5"
-    }
-  });
-  expect(out.code.trim()).toBe(`foo.default;`);
+    const out = swc.transformSync(`foo.default`, {
+        jsc: {
+            target: "es5"
+        }
+    });
+    expect(out.code.trim()).toBe(`foo.default;`);
 });
 
 it("(sync) should handle module input", () => {
-  const m = swc.parseSync("class Foo {}");
-  const out = swc.transformSync(m);
+    const m = swc.parseSync("class Foo {}");
+    const out = swc.transformSync(m, {
+        swcrc: false,
+        jsc: {
+            target: 'es2016',
+        }
+    });
 
-  expect(out.code.replace(/\n/g, "")).toBe("class Foo {}");
+    expect(out.code.replace(/\n/g, "")).toBe("class Foo {}");
 });
 
 it("(async) should handle module input", async () => {
-  const m = await swc.parse("class Foo {}");
-  const out = await swc.transform(m);
+    const m = await swc.parse("class Foo {}");
+    const out = await swc.transform(m, {
+        jsc: {
+            target: "es2016"
+        }
+    });
 
-  expect(out.code.replace(/\n/g, "")).toBe("class Foo {}");
+    expect(out.code.replace(/\n/g, "")).toBe("class Foo {}");
 });
 
 it("(sync) should handle plugin", () => {
-  const out = swc.transformSync("class Foo {}", {
-    plugin: m => ({ ...m, body: [] })
-  });
+    const out = swc.transformSync("class Foo {}", {
+        plugin: m => ({...m, body: []})
+    });
 
-  expect(out.code).toBe("");
+    expect(out.code).toBe("");
 });
 
 it("(async) should handle plugin", async () => {
-  const out = await swc.transform("class Foo {}", {
-    plugin: m => ({ ...m, body: [] })
-  });
+    const out = await swc.transform("class Foo {}", {
+        plugin: m => ({...m, body: []})
+    });
 
-  expect(out.code).toBe("");
+    expect(out.code).toBe("");
 });
 
 it("(async) should handel dynmic import", async () => {
-  const out = await swc.transform("import('foo');", {
-    jsc: {
-      target: "es3",
-      parser: {
-        syntax: "ecmascript",
-        dynamicImport: true
-      }
-    }
-  });
+    const out = await swc.transform("import('foo');", {
+        jsc: {
+            target: "es3",
+            parser: {
+                syntax: "ecmascript",
+                dynamicImport: true
+            }
+        }
+    });
 
-  expect(out.code.replace(/;/g, "").trim()).toBe(`import('foo')`);
+    expect(out.code.replace(/;/g, "").trim()).toBe(`import('foo')`);
 });
 
 it("should handle nullish coalescing", async () => {
-  const out = await swc.transform("a ?? 'foo';", {
-    jsc: {
-      parser: {
-        syntax: "ecmascript",
-        nullishCoalescing: true
-      }
-    }
-  });
+    const out = await swc.transform("a ?? 'foo';", {
+        jsc: {
+            parser: {
+                syntax: "ecmascript",
+                nullishCoalescing: true
+            }
+        }
+    });
 
-  expect(out.code).toBe(`a !== null && a !== void 0 ? a : 'foo';
+    expect(out.code).toBe(`a !== null && a !== void 0 ? a : 'foo';
 `);
 });
 
 it("should handle for of statement in an async function", async () => {
-  const out = swc.transformSync(
-    `async function foo() {
+    const out = swc.transformSync(
+        `async function foo() {
     for (let a of b) {
     }
   }`
-  );
+    );
 
-  expect(out.code).toBe(`a !== null && a !== void 0 ? a : 'foo';
+    expect(out.code).toBe(`a !== null && a !== void 0 ? a : 'foo';
 `);
 });
