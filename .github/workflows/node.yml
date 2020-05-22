@@ -26,6 +26,7 @@ jobs:
       - name: Build node module
         run: |
           export PATH="$PATH:$HOME/npm/bin"
+          npx tsc
           npx neon build
 
       - name: Test
