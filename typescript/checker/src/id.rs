@@ -1,13 +1,13 @@
 use std::{
     cmp::PartialEq,
-    fmt::{self, Display, Formatter},
+    fmt::{self, Debug, Display, Formatter},
 };
 use swc_atoms::JsWord;
 use swc_common::{Fold, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::{Ident, TsEntityName};
 use swc_ecma_utils::ident::IdentLike;
 
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Fold)]
+#[derive(Clone, PartialEq, Eq, Hash, Fold)]
 pub struct Id {
     #[fold(ignore)]
     sym: JsWord,
@@ -93,5 +93,11 @@ impl IdentLike for Id {
 
     fn into_id(self) -> (JsWord, SyntaxContext) {
         (self.sym, self.ctxt)
+    }
+}
+
+impl Debug for Id {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+        Display::fmt(self, f)
     }
 }
