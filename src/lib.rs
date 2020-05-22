@@ -7,7 +7,6 @@ pub use swc_ecmascript as ecmascript;
 
 mod builder;
 pub mod config;
-pub mod error;
 
 pub use crate::builder::PassBuilder;
 use crate::config::{
@@ -18,7 +17,7 @@ use anyhow::{Context, Error};
 use common::{
     comments::{Comment, Comments},
     errors::Handler,
-    BytePos, FileName, FoldWith, Globals, SourceFile, SourceMap, GLOBALS,
+    BytePos, FileName, FoldWith, Globals, SourceFile, SourceMap, Spanned, GLOBALS,
 };
 use ecmascript::{
     ast::Program,
@@ -279,7 +278,7 @@ impl Compiler {
     pub fn config_for_file(
         &self,
         opts: &Options,
-        fm: &SourceFile,
+        name: &FileName,
     ) -> Result<BuiltConfig<impl Pass>, Error> {
         self.run(|| -> Result<_, Error> {
             let Options {
@@ -303,7 +302,7 @@ impl Compiler {
                 _ => None,
             };
 
-            match fm.name {
+            match name {
                 FileName::Real(ref path) => {
                     if *swcrc {
                         let mut parent = path.parent();
@@ -355,33 +354,18 @@ impl Compiler {
             );
             Ok(built)
         })
-        .with_context(|| format!("failed to load config for file '{:?}'", fm))
+        .with_context(|| format!("failed to load config for file '{:?}'", name))
     }
 
+    // TODO: Handle source map
     pub fn process_js_file(
         &self,
         fm: Arc<SourceFile>,
         opts: &Options,
     ) -> Result<TransformOutput, Error> {
-        let config = self.run(|| self.config_for_file(opts, &*fm))?;
-
-        self.process_js(fm, config)
-    }
-
-    /// You can use custom pass with this method.
-    ///
-    /// There exists a [PassBuilder] to help building custom passes.
-    pub fn process_js(
-        &self,
-        fm: Arc<SourceFile>,
-        config: BuiltConfig<impl Pass>,
-    ) -> Result<TransformOutput, Error> {
-        self.run(|| {
-            if error::debug() {
-                eprintln!("processing js file: {:?}", fm)
-            }
-
-            let (module, orig) = self.parse_js(
+        self.run(|| -> Result<_, Error> {
+            let config = self.run(|| self.config_for_file(opts, &fm.name))?;
+            let (program, src_map) = self.parse_js(
                 fm.clone(),
                 config.target,
                 config.syntax,
@@ -389,6 +373,39 @@ impl Compiler {
                 true,
                 &config.input_source_map,
             )?;
+
+            self.process_js_inner(program, src_map, config)
+        })
+        .context("failed to process js file")
+    }
+
+    /// You can use custom pass with this method.
+    ///
+    /// There exists a [PassBuilder] to help building custom passes.
+    pub fn process_js(
+        &self,
+        program: Program,
+        src_map: Option<sourcemap::SourceMap>,
+        opts: &Options,
+    ) -> Result<TransformOutput, Error> {
+        self.run(|| -> Result<_, Error> {
+            let loc = self.cm.lookup_char_pos(program.span().lo());
+            let fm = loc.file;
+
+            let config = self.run(|| self.config_for_file(opts, &fm.name))?;
+
+            self.process_js_inner(program, src_map, config)
+        })
+        .context("failed to process js module")
+    }
+
+    fn process_js_inner(
+        &self,
+        program: Program,
+        src_map: Option<sourcemap::SourceMap>,
+        config: BuiltConfig<impl Pass>,
+    ) -> Result<TransformOutput, Error> {
+        self.run(|| {
             if config.minify {
                 let preserve_excl = |_: &BytePos, vc: &mut Vec<Comment>| -> bool {
                     vc.retain(|c: &Comment| c.text.starts_with("!"));
@@ -398,18 +415,18 @@ impl Compiler {
                 self.comments.retain_trailing(preserve_excl);
             }
             let mut pass = config.pass;
-            let module = helpers::HELPERS.set(&Helpers::new(config.external_helpers), || {
+            let program = helpers::HELPERS.set(&Helpers::new(config.external_helpers), || {
                 util::HANDLER.set(&self.handler, || {
                     // Fold module
-                    module.fold_with(&mut pass)
+                    program.fold_with(&mut pass)
                 })
             });
 
             self.print(
-                &module,
+                &program,
                 &self.comments,
                 config.source_maps,
-                orig.as_ref(),
+                src_map.as_ref(),
                 config.minify,
             )
         })

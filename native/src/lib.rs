@@ -17,7 +17,7 @@ use std::{
     sync::Arc,
 };
 use swc::{
-    common::{self, errors::Handler, FileName, FilePathMapping, SourceFile, SourceMap, Spanned},
+    common::{self, errors::Handler, FileName, FilePathMapping, SourceFile, SourceMap},
     config::{Options, ParseOptions, SourceMapsConfig},
     ecmascript::ast::Program,
     Compiler, TransformOutput,
@@ -65,15 +65,6 @@ fn complete_output<'a>(
     }
 }
 
-fn process_js(
-    c: &Arc<Compiler>,
-    fm: Arc<SourceFile>,
-    opts: &Options,
-) -> Result<TransformOutput, Error> {
-    // let config = c.run(|| c.config_for_file(opts, &*fm))?;
-    c.run(|| c.process_js_file(fm, opts))
-}
-
 impl Task for TransformTask {
     type Output = TransformOutput;
     type Error = Error;
@@ -82,19 +73,18 @@ impl Task for TransformTask {
     fn perform(&self) -> Result<Self::Output, Self::Error> {
         self.c.run(|| match self.input {
             Input::Program(ref s) => {
-                let m: Program = serde_json::from_str(&s).expect("failed to deserialize Program");
-                let loc = self.c.cm.lookup_char_pos(m.span().lo());
-                let fm = loc.file;
-                process_js(&self.c, fm, &self.options)
+                let program: Program =
+                    serde_json::from_str(&s).expect("failed to deserialize Program");
+                // TODO: Source map
+                self.c.process_js(program, None, &self.options)
             }
 
             Input::File(ref path) => {
                 let fm = self.c.cm.load_file(path).context("failed to read module")?;
-
-                process_js(&self.c, fm, &self.options)
+                self.c.process_js_file(fm, &self.options)
             }
 
-            Input::Source(ref s) => process_js(&self.c, s.clone(), &self.options),
+            Input::Source(ref s) => self.c.process_js_file(s.clone(), &self.options),
         })
     }
 
@@ -152,14 +142,13 @@ where
         let c = this.borrow(&guard);
         c.run(|| {
             if is_module.value() {
-                let m: Program =
+                let program: Program =
                     serde_json::from_str(&s.value()).expect("failed to deserialize Program");
-                let loc = c.cm.lookup_char_pos(m.span().lo());
-                let fm = loc.file;
-                process_js(&c, fm, &options)
+                // TODO: Source map
+                c.process_js(program, None, &options)
             } else {
                 let fm = op(&c, s.value(), &options).expect("failed to create fm");
-                process_js(&c, fm, &options)
+                c.process_js_file(fm, &options)
             }
         })
     };
