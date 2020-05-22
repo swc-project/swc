@@ -36,15 +36,6 @@ it("should handle exportNamespaceFrom", () => {
     expect(out.code).toContain("export { _Foo as Foo }");
 });
 
-it("should handle jsc.target = es3", () => {
-    const out = swc.transformSync(`foo.default`, {
-        swcrc: false,
-        jsc: {
-            target: "es3"
-        }
-    });
-    expect(out.code.trim()).toBe(`foo['default'];`);
-});
 
 it("should handle jsc.target = es5", () => {
     const out = swc.transformSync(`foo.default`, {
