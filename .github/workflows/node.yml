@@ -1,4 +1,4 @@
-name: Node
+name: Node binding
 
 on: [push, pull_request]
 
@@ -31,4 +31,4 @@ jobs:
       - name: Test
         run: |
           export PATH="$PATH:$HOME/npm/bin"
-          (cd node-swc && npx jest)
+          npx jest node-swc/__tests__
