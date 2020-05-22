@@ -710,15 +710,9 @@ impl Analyzer<'_, '_> {
             );
             let ret_ty = self.expand(span, ret_ty)?;
 
-            let inferred;
-            let i = match type_args {
-                Some(ty) => ty,
-                None => {
-                    inferred = self.infer_arg_types(span, type_params, params, args)?;
-                    &inferred
-                }
-            };
-            let ty = self.expand_type_params(i, type_params, ret_ty)?;
+            let inferred = self.infer_arg_types(span, type_args, type_params, params, args)?;
+
+            let ty = self.expand_type_params(&inferred, ret_ty)?;
 
             return Ok(ty);
         }
