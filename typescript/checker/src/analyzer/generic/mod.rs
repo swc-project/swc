@@ -47,7 +47,10 @@ impl Analyzer<'_, '_> {
     ) -> ValidationResult<TypeParamInstantiation> {
         log::debug!(
             "infer_arg_types: {:?}",
-            type_params.iter().map(|p| &p.name).collect::<Vec<_>>()
+            type_params
+                .iter()
+                .map(|p| format!("{}, ", p.name))
+                .collect::<String>()
         );
 
         let mut inferred = InferData::default();
@@ -75,6 +78,11 @@ impl Analyzer<'_, '_> {
 
                 match type_param.constraint {
                     Some(box Type::Param(ref p)) => {
+                        log::info!(
+                            "infer: {} => {} because of the extends clause",
+                            type_param.name,
+                            p.name
+                        );
                         params.push(Type::Param(p.clone()));
                         continue;
                     }
