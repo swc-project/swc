@@ -1,0 +1,5 @@
+
+
+it('should work', () => {
+    require('../../')
+})

@@ -2,6 +2,7 @@
 [build]
 rustflags = [
     "--cfg", "procmacro2_semver_exempt",
+    "-Z", "thinlto=no",
 ]
  
 rustdocflags = [
@@ -11,5 +12,4 @@ rustdocflags = [
 [target.wasm32-unknown-unknown]
 rustflags = [
     "--cfg", "procmacro2_semver_exempt",
-    "-C", "link-args=-z stack-size=16777216",
 ]

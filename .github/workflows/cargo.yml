@@ -15,6 +15,7 @@ on: [push, pull_request]
 env:
   CARGO_INCREMENTAL: 0
   CI: "1"
+  SKIP_SWC_BINARY_DOWNLOAD_FOR_CI: 1
 
 jobs:
   fmt:
@@ -27,11 +28,15 @@ jobs:
       - name: Run cargo fmt
         run: cargo fmt --all -- --check
 
-  test-debug:
-    name: test-debug
+  test:
+    name: test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
+#      - uses: actions/setup-node@v2-beta
+#          with:
+#            node-version: '12'
 
       - name: Checkout submodules
         shell: bash
@@ -43,8 +48,7 @@ jobs:
       - name: Install node dependencies
         run: |
           npm config set prefix ~/npm
-          npm i
-          npm i browserslist regenerator-runtime
+          npm i browserslist regenerator-runtime sourcemap-validator
           npm i -g jest
 
       # Ensure that all components all compilable.
@@ -61,7 +65,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
     needs:
-      - test-debug
+      - test
     steps:
       - uses: actions/checkout@v2
       - name: Create rustdoc
