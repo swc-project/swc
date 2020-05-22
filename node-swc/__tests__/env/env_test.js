@@ -1,4 +1,4 @@
-const swc = require("../..");
+const swc = require("../../../");
 const path = require("path");
 
 it("should handle browserlistrc", () => {
