@@ -9,7 +9,7 @@ var fs = require("fs"),
   eol = require("os").EOL,
   mkdir = require("mkdirp"),
   path = require("path"),
-  swc = require("../src/extensions"),
+  swc = require("../node-swc/src/extensions"),
   ProgressBar = require("progress"),
   env = process.env;
 

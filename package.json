@@ -21,7 +21,7 @@
   "types": "./lib/index.d.ts",
   "scripts": {
     "prepublish": "tsc -d",
-    "install": "node node-swc/scripts/install.js || (npm install neon-cli && neon build --release)",
+    "install": "node scripts/install.js || (npm install neon-cli && neon build --release)",
     "build": "tsc -d && neon build --release"
   },
   "devDependencies": {
