@@ -60,7 +60,7 @@ it('should handle input sourcemap correctly', async () => {
         module: {
             type: 'commonjs'
         },
-        sourceMaps: out1.map,
+        sourceMaps: true,
     });
 
     console.log(out2.code);
