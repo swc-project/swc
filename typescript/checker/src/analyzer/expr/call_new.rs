@@ -747,5 +747,5 @@ fn is_exact_match(
         return false;
     }
 
-    true
+    false
 }
