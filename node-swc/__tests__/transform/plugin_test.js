@@ -1,4 +1,4 @@
-const swc = require("../../");
+const swc = require("../../../");
 const Visitor = require("../../Visitor").default;
 
 {

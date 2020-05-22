@@ -1,4 +1,4 @@
-const swc = require("../../");
+const swc = require("../../../");
 
 it("should handle minify", () => {
   const src = '/* Comment */import foo, {bar} from "foo"';
