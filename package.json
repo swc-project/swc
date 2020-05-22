@@ -1,8 +1,8 @@
 {
   "name": "@swc/core",
-  "version": "1.1.45",
+  "version": "1.1.47",
   "description": "Super-fast alternative for babel",
-  "main": "./lib/index.js",
+  "main": "./index.js",
   "author": "강동윤 <kdy1997.dev@gmail.com>",
   "license": "MIT",
   "engines": {
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/swc-project/node-swc.git"
+    "url": "git+https://github.com/swc-project/swc.git"
   },
   "dependencies": {
     "mkdirp": "^0.5.1",
@@ -33,6 +33,7 @@
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.1.0",
     "@types/browserslist": "^4.4.0",
+    "@types/jest": "^25.2.3",
     "@types/node": "^14.0.5",
     "babel-plugin-transform-node-env-inline": "^0.4.3",
     "browserslist": "^4.12.0",
