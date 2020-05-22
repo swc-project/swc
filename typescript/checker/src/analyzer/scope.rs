@@ -1066,15 +1066,18 @@ impl Fold<Type> for Expander<'_, '_, '_> {
                                         | Type::Alias(Alias { type_params, .. })
                                         | Type::Class(ty::Class { type_params, .. }) => {
                                             if let Some(type_params) = type_params.clone() {
-                                                if let Some(type_args) = type_args {
-                                                    let ty = t.clone();
-                                                    log::info!("expand: expanding type parameters");
-                                                    return self.analyzer.expand_type_params(
-                                                        &type_args,
-                                                        &type_params.params,
-                                                        ty,
-                                                    )?;
-                                                }
+                                                log::info!("expand: expanding type parameters");
+                                                let ty = t.clone();
+                                                let inferred = self.analyzer.infer_arg_types(
+                                                    self.span,
+                                                    type_args.as_ref(),
+                                                    &type_params.params,
+                                                    &[],
+                                                    &[],
+                                                )?;
+                                                return self
+                                                    .analyzer
+                                                    .expand_type_params(&inferred, ty)?;
                                             }
 
                                             return t.clone().fold_with(self);

@@ -38,40 +38,16 @@ struct InferData {
 
 /// Type inference for arguments.
 impl Analyzer<'_, '_> {
-    pub(super) fn infer_arg_types(
+    /// Create [TypeParamInstantiation] from inferred type information.
+    pub(super) fn instantiate(
         &mut self,
         span: Span,
         type_params: &[TypeParam],
-        params: &[FnParam],
-        args: &[TypeOrSpread],
+        mut inferred: FxHashMap<Id, Type>,
     ) -> ValidationResult<TypeParamInstantiation> {
-        log::debug!(
-            "infer_arg_types: {:?}",
-            type_params
-                .iter()
-                .map(|p| format!("{}, ", p.name))
-                .collect::<String>()
-        );
-
-        let mut inferred = InferData::default();
-
-        // TODO: Handle optional parameters
-        // TODO: Convert this to error.
-        assert!(args.len() <= params.len());
-
-        for (p, arg) in params.iter().zip(args) {
-            assert_eq!(
-                arg.spread, None,
-                "argument inference for spread argument in a function / method call is not \
-                 implemented yet"
-            );
-
-            self.infer_type(&mut inferred, &p.ty, &arg.ty)?;
-        }
-
         let mut params = Vec::with_capacity(type_params.len());
         for type_param in type_params {
-            if let Some(ty) = inferred.type_params.remove(&type_param.name) {
+            if let Some(ty) = inferred.remove(&type_param.name) {
                 log::info!("infer_arg_type: {}", type_param.name);
                 params.push(ty);
             } else {
@@ -80,7 +56,7 @@ impl Analyzer<'_, '_> {
                         // TODO: Handle complex inheritance like
                         //      function foo<A extends B, B extends C>(){ }
 
-                        if let Some(actual) = inferred.type_params.remove(&p.name) {
+                        if let Some(actual) = inferred.remove(&p.name) {
                             log::info!(
                                 "infer_arg_type: {} => {} => {:?} because of the extends clause",
                                 type_param.name,
@@ -140,6 +116,114 @@ impl Analyzer<'_, '_> {
             span: DUMMY_SP,
             params,
         })
+    }
+
+    /// This method accepts Option<&[TypeParamInstantiation]> because user may
+    /// provide only some of type arguments.
+    pub(super) fn infer_arg_types(
+        &mut self,
+        span: Span,
+        base: Option<&TypeParamInstantiation>,
+        type_params: &[TypeParam],
+        params: &[FnParam],
+        args: &[TypeOrSpread],
+    ) -> ValidationResult<FxHashMap<Id, Type>> {
+        log::debug!(
+            "infer_arg_types: {:?}",
+            type_params
+                .iter()
+                .map(|p| format!("{}, ", p.name))
+                .collect::<String>()
+        );
+
+        let mut inferred = InferData::default();
+
+        // TODO: Handle optional parameters
+        // TODO: Convert this to error.
+        assert!(args.len() <= params.len());
+
+        for (p, arg) in params.iter().zip(args) {
+            assert_eq!(
+                arg.spread, None,
+                "argument inference for spread argument in a function / method call is not \
+                 implemented yet"
+            );
+
+            self.infer_type(&mut inferred, &p.ty, &arg.ty)?;
+        }
+
+        for type_param in type_params {
+            if inferred.type_params.contains_key(&type_param.name) {
+                continue;
+            }
+
+            match type_param.constraint {
+                Some(box Type::Param(ref p)) => {
+                    // TODO: Handle complex inheritance like
+                    //      function foo<A extends B, B extends C>(){ }
+
+                    if let Some(actual) = inferred.type_params.remove(&p.name) {
+                        log::info!(
+                            "infer_arg_type: {} => {} => {:?} because of the extends clause",
+                            type_param.name,
+                            p.name,
+                            actual
+                        );
+                        inferred.type_params.insert(type_param.name.clone(), actual);
+                    } else {
+                        log::info!(
+                            "infer_arg_type: {} => {} because of the extends clause",
+                            type_param.name,
+                            p.name
+                        );
+                        inferred
+                            .type_params
+                            .insert(type_param.name.clone(), Type::Param(p.clone()));
+                    }
+                    continue;
+                }
+                _ => {}
+            }
+
+            if type_param.constraint.is_some()
+                && is_literals(&type_param.constraint.as_ref().unwrap())
+            {
+                inferred.type_params.insert(
+                    type_param.name.clone(),
+                    *type_param.constraint.clone().unwrap(),
+                );
+                continue;
+            }
+
+            if type_param.constraint.is_some()
+                && match **type_param.constraint.as_ref().unwrap() {
+                    Type::Interface(..) | Type::Keyword(..) | Type::Ref(..) | Type::TypeLit(..) => {
+                        true
+                    }
+                    _ => false,
+                }
+            {
+                let ty = self.expand_fully(span, *type_param.constraint.clone().unwrap(), false)?;
+                inferred.type_params.insert(type_param.name.clone(), ty);
+                continue;
+            }
+
+            log::warn!(
+                "infer: A type parameter {} defaults to {{}}",
+                type_param.name
+            );
+
+            // Defaults to {}
+            inferred.type_params.insert(
+                type_param.name.clone(),
+                Type::TypeLit(TypeLit {
+                    span,
+                    members: vec![],
+                }),
+            );
+        }
+
+        Ok(inferred.type_params)
     }
 
     fn infer_type(
@@ -736,7 +820,7 @@ impl Analyzer<'_, '_> {
             return Ok(ty);
         }
         log::debug!(
-            "rename_type_params(has_ann = {:?}, ty = {:#?})",
+            "rename_type_params(has_ann = {:?}, ty = {:?})",
             type_ann.is_some(),
             ty
         );
@@ -839,11 +923,10 @@ impl Visit<TypeParam> for TypeParamUsageFinder {
 impl Analyzer<'_, '_> {
     pub(super) fn expand_type_params(
         &mut self,
-        i: &TypeParamInstantiation,
-        params: &[TypeParam],
+        params: &FxHashMap<Id, Type>,
         ty: Type,
     ) -> ValidationResult {
-        self.expand_type_params_inner(i, params, ty, false)
+        self.expand_type_params_inner(params, ty, false)
     }
 
     ///
@@ -864,14 +947,12 @@ impl Analyzer<'_, '_> {
     ///      } ? P : never
     fn expand_type_params_inner(
         &mut self,
-        type_args: &TypeParamInstantiation,
-        params: &[TypeParam],
+        params: &FxHashMap<Id, Type>,
         ty: Type,
         fully: bool,
     ) -> ValidationResult {
         let mut ty = ty.fold_with(&mut GenericExpander {
             params,
-            i: type_args,
             fully,
             dejavu: Default::default(),
         });
@@ -902,8 +983,7 @@ impl Analyzer<'_, '_> {
 /// This struct does not expands ref to other thpe. See Analyzer.expand to do
 /// such operation.
 struct GenericExpander<'a> {
-    params: &'a [TypeParam],
-    i: &'a TypeParamInstantiation,
+    params: &'a FxHashMap<Id, Type>,
     /// Expand fully?
     fully: bool,
     dejavu: FxHashSet<Id>,
@@ -917,6 +997,8 @@ impl Fold<Type> for GenericExpander<'_> {
             _ => false,
         };
         let span = ty.span();
+
+        log::info!("generic_expand: {:?}", &ty);
 
         match ty {
             Type::Ref(Ref {
@@ -942,12 +1024,8 @@ impl Fold<Type> for GenericExpander<'_> {
 
                 log::info!("Ref: {}", Id::from(i));
 
-                for (idx, p) in self.params.iter().enumerate() {
-                    if p.name == i {
-                        assert_eq!(*type_args, None);
-
-                        return self.i.params[idx].clone();
-                    }
+                if let Some(ty) = self.params.get(&i.into()) {
+                    return ty.clone();
                 }
 
                 return ty.fold_children(self);
@@ -958,22 +1036,8 @@ impl Fold<Type> for GenericExpander<'_> {
             Type::Param(mut param) => {
                 param = param.fold_with(self);
 
-                for (idx, p) in self.params.iter().enumerate() {
-                    if p.name == param.name {
-                        match self.i.params[idx].clone().normalize() {
-                            Type::Param(..) => {}
-                            _ => return self.i.params[idx].clone(),
-                        }
-                    }
-                }
-
-                for (idx, p) in self.params.iter().enumerate() {
-                    if p.name == param.name {
-                        match self.i.params[idx].clone().normalize() {
-                            Type::Param(..) => return self.i.params[idx].clone(),
-                            _ => {}
-                        }
-                    }
+                if let Some(ty) = self.params.get(&param.name) {
+                    return ty.clone();
                 }
 
                 return Type::Param(param);
