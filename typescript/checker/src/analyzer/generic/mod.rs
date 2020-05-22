@@ -77,17 +77,23 @@ impl Analyzer<'_, '_> {
             } else {
                 match type_param.constraint {
                     Some(box Type::Param(ref p)) => {
-                        log::info!(
-                            "infer_arg_type: {} => {} because of the extends clause",
-                            type_param.name,
-                            p.name
-                        );
                         // TODO: Handle complex inheritance like
                         //      function foo<A extends B, B extends C>(){ }
 
                         if let Some(actual) = inferred.type_params.remove(&p.name) {
+                            log::info!(
+                                "infer_arg_type: {} => {} => {:?} because of the extends clause",
+                                type_param.name,
+                                p.name,
+                                actual
+                            );
                             params.push(actual);
                         } else {
+                            log::info!(
+                                "infer_arg_type: {} => {} because of the extends clause",
+                                type_param.name,
+                                p.name
+                            );
                             params.push(Type::Param(p.clone()));
                         }
                         continue;
