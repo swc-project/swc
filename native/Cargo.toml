@@ -23,10 +23,3 @@ neon-serde = "0.4.0"
 path-clean = "0.1"
 swc = { git = "https://github.com/swc-project/swc.git" }
 serde = { version = "1", features = ["derive"] }
-
-[profile.bench]
-lto = true
-
-[profile.release]
-lto = "thin"
-codegen-units = 1
