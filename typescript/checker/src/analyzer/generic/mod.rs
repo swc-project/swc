@@ -72,18 +72,24 @@ impl Analyzer<'_, '_> {
         let mut params = Vec::with_capacity(type_params.len());
         for type_param in type_params {
             if let Some(ty) = inferred.type_params.remove(&type_param.name) {
+                log::info!("infer_arg_type: {}", type_param.name);
                 params.push(ty);
             } else {
-                log::debug!("type param = {:?}", type_param.constraint);
-
                 match type_param.constraint {
                     Some(box Type::Param(ref p)) => {
                         log::info!(
-                            "infer: {} => {} because of the extends clause",
+                            "infer_arg_type: {} => {} because of the extends clause",
                             type_param.name,
                             p.name
                         );
-                        params.push(Type::Param(p.clone()));
+                        // TODO: Handle complex inheritance like
+                        //      function foo<A extends B, B extends C>(){ }
+
+                        if let Some(actual) = inferred.type_params.remove(&p.name) {
+                            params.push(actual);
+                        } else {
+                            params.push(Type::Param(p.clone()));
+                        }
                         continue;
                     }
                     _ => {}
