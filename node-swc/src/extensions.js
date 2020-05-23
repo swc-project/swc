@@ -2,13 +2,13 @@
  * node-swc: lib/extensions.js
  */
 
-var eol = require('os').EOL,
-    fs = require('fs'),
-    pkg = require('../../package.json'),
-    mkdir = require('mkdirp'),
-    path = require('path'),
-    defaultBinaryDir = path.join(__dirname, '..', 'native'),
-    trueCasePathSync = require('true-case-path');
+var eol = require("os").EOL,
+  fs = require("fs"),
+  pkg = require("../../package.json"),
+  mkdir = require("mkdirp"),
+  path = require("path"),
+  defaultBinaryDir = path.join(__dirname, "..", "..", "native"),
+  trueCasePathSync = require("true-case-path");
 
 /**
  * Get the human readable name of the Platform that is running
@@ -20,14 +20,20 @@ var eol = require('os').EOL,
  * @api public
  */
 function getHumanPlatform(platform) {
-    switch (platform || process.platform) {
-        case 'darwin': return 'OS X';
-        case 'freebsd': return 'FreeBSD';
-        case 'linux': return 'Linux';
-        case 'linux_musl': return 'Linux/musl';
-        case 'win32': return 'Windows';
-        default: return false;
-    }
+  switch (platform || process.platform) {
+    case "darwin":
+      return "OS X";
+    case "freebsd":
+      return "FreeBSD";
+    case "linux":
+      return "Linux";
+    case "linux_musl":
+      return "Linux/musl";
+    case "win32":
+      return "Windows";
+    default:
+      return false;
+  }
 }
 
 /**
@@ -40,12 +46,16 @@ function getHumanPlatform(platform) {
  * @api public
  */
 function getHumanArchitecture(arch) {
-    switch (arch || process.arch) {
-        case 'ia32': return '32-bit';
-        case 'x86': return '32-bit';
-        case 'x64': return '64-bit';
-        default: return false;
-    }
+  switch (arch || process.arch) {
+    case "ia32":
+      return "32-bit";
+    case "x86":
+      return "32-bit";
+    case "x64":
+      return "64-bit";
+    default:
+      return false;
+  }
 }
 
 /**
@@ -59,26 +69,44 @@ function getHumanArchitecture(arch) {
  * @api public
  */
 function getHumanNodeVersion(abi) {
-    switch (parseInt(abi || process.versions.modules, 10)) {
-        case 11: return 'Node 0.10.x';
-        case 14: return 'Node 0.12.x';
-        case 42: return 'io.js 1.x';
-        case 43: return 'io.js 1.1.x';
-        case 44: return 'io.js 2.x';
-        case 45: return 'io.js 3.x';
-        case 46: return 'Node.js 4.x';
-        case 47: return 'Node.js 5.x';
-        case 48: return 'Node.js 6.x';
-        case 49: return 'Electron 1.3.x';
-        case 50: return 'Electron 1.4.x';
-        case 51: return 'Node.js 7.x';
-        case 53: return 'Electron 1.6.x';
-        case 57: return 'Node.js 8.x';
-        case 59: return 'Node.js 9.x';
-        case 64: return 'Node.js 10.x';
-        case 67: return 'Node.js 11.x';
-        default: return false;
-    }
+  switch (parseInt(abi || process.versions.modules, 10)) {
+    case 11:
+      return "Node 0.10.x";
+    case 14:
+      return "Node 0.12.x";
+    case 42:
+      return "io.js 1.x";
+    case 43:
+      return "io.js 1.1.x";
+    case 44:
+      return "io.js 2.x";
+    case 45:
+      return "io.js 3.x";
+    case 46:
+      return "Node.js 4.x";
+    case 47:
+      return "Node.js 5.x";
+    case 48:
+      return "Node.js 6.x";
+    case 49:
+      return "Electron 1.3.x";
+    case 50:
+      return "Electron 1.4.x";
+    case 51:
+      return "Node.js 7.x";
+    case 53:
+      return "Electron 1.6.x";
+    case 57:
+      return "Node.js 8.x";
+    case 59:
+      return "Node.js 9.x";
+    case 64:
+      return "Node.js 10.x";
+    case 67:
+      return "Node.js 11.x";
+    default:
+      return false;
+  }
 }
 
 /**
@@ -92,31 +120,29 @@ function getHumanNodeVersion(abi) {
  * @api public
  */
 function getHumanEnvironment(env) {
-    var binding = env.replace(/_binding\.node$/, ''),
-        parts = binding.split('-'),
-        platform = getHumanPlatform(parts[0]),
-        arch = getHumanArchitecture(parts[1]),
-        runtime = getHumanNodeVersion(parts[2]);
+  var binding = env.replace(/_binding\.node$/, ""),
+    parts = binding.split("-"),
+    platform = getHumanPlatform(parts[0]),
+    arch = getHumanArchitecture(parts[1]),
+    runtime = getHumanNodeVersion(parts[2]);
 
-    if (parts.length !== 3) {
-        return 'Unknown environment (' + binding + ')';
-    }
+  if (parts.length !== 3) {
+    return "Unknown environment (" + binding + ")";
+  }
 
-    if (!platform) {
-        platform = 'Unsupported platform (' + parts[0] + ')';
-    }
+  if (!platform) {
+    platform = "Unsupported platform (" + parts[0] + ")";
+  }
 
-    if (!arch) {
-        arch = 'Unsupported architecture (' + parts[1] + ')';
-    }
+  if (!arch) {
+    arch = "Unsupported architecture (" + parts[1] + ")";
+  }
 
-    if (!runtime) {
-        runtime = 'Unsupported runtime (' + parts[2] + ')';
-    }
+  if (!runtime) {
+    runtime = "Unsupported runtime (" + parts[2] + ")";
+  }
 
-    return [
-        platform, arch, 'with', runtime,
-    ].join(' ');
+  return [platform, arch, "with", runtime].join(" ");
 }
 
 /**
@@ -127,7 +153,7 @@ function getHumanEnvironment(env) {
  * @api public
  */
 function getInstalledBinaries() {
-    return fs.readdirSync(getBinaryDir());
+  return fs.readdirSync(getBinaryDir());
 }
 
 /**
@@ -142,11 +168,11 @@ function getInstalledBinaries() {
  * @api public
  */
 function isSupportedEnvironment(platform, arch, abi) {
-    return (
-        false !== getHumanPlatform(platform) &&
-        false !== getHumanArchitecture(arch) &&
-        false !== getHumanNodeVersion(abi)
-    );
+  return (
+    false !== getHumanPlatform(platform) &&
+    false !== getHumanArchitecture(arch) &&
+    false !== getHumanNodeVersion(abi)
+  );
 }
 
 /**
@@ -158,14 +184,14 @@ function isSupportedEnvironment(platform, arch, abi) {
  */
 
 function getArgument(name, args) {
-    var flags = args || process.argv.slice(2),
-        index = flags.lastIndexOf(name);
+  var flags = args || process.argv.slice(2),
+    index = flags.lastIndexOf(name);
 
-    if (index === -1 || index + 1 >= flags.length) {
-        return null;
-    }
+  if (index === -1 || index + 1 >= flags.length) {
+    return null;
+  }
 
-    return flags[index + 1];
+  return flags[index + 1];
 }
 
 /**
@@ -180,32 +206,34 @@ function getArgument(name, args) {
  */
 
 function getBinaryName() {
-    var binaryName,
-        variant,
-        platform = process.platform;
+  var binaryName,
+    variant,
+    platform = process.platform;
 
-    if (getArgument('--swc-binary-name')) {
-        binaryName = getArgument('--swc-binary-name');
-    } else if (process.env.SWC_BINARY_NAME) {
-        binaryName = process.env.SWC_BINARY_NAME;
-    } else if (process.env.npm_config_swc_binary_name) {
-        binaryName = process.env.npm_config_swc_binary_name;
-    } else if (pkg.nodeSwcConfig && pkg.nodeSwcConfig.binaryName) {
-        binaryName = pkg.nodeSwcConfig.binaryName;
-    } else {
-        variant = getPlatformVariant();
-        if (variant) {
-            platform += '_' + variant;
-        }
-
-        binaryName = [
-            platform, '-',
-            process.arch, '-',
-            process.versions.modules
-        ].join('');
+  if (getArgument("--swc-binary-name")) {
+    binaryName = getArgument("--swc-binary-name");
+  } else if (process.env.SWC_BINARY_NAME) {
+    binaryName = process.env.SWC_BINARY_NAME;
+  } else if (process.env.npm_config_swc_binary_name) {
+    binaryName = process.env.npm_config_swc_binary_name;
+  } else if (pkg.nodeSwcConfig && pkg.nodeSwcConfig.binaryName) {
+    binaryName = pkg.nodeSwcConfig.binaryName;
+  } else {
+    variant = getPlatformVariant();
+    if (variant) {
+      platform += "_" + variant;
     }
 
-    return [binaryName, '.node'].join('');
+    binaryName = [
+      platform,
+      "-",
+      process.arch,
+      "-",
+      process.versions.modules,
+    ].join("");
+  }
+
+  return [binaryName, ".node"].join("");
 }
 
 /**
@@ -237,13 +265,14 @@ function getBinaryName() {
  */
 
 function getBinaryUrl() {
-    var site = getArgument('--swc-binary-site') ||
-        process.env.SWC_BINARY_SITE ||
-        process.env.npm_config_swc_binary_site ||
-        (pkg.nodeSwcConfig && pkg.nodeSwcConfig.binarySite) ||
-        'https://github.com/swc-project/node-swc/releases/download';
+  var site =
+    getArgument("--swc-binary-site") ||
+    process.env.SWC_BINARY_SITE ||
+    process.env.npm_config_swc_binary_site ||
+    (pkg.nodeSwcConfig && pkg.nodeSwcConfig.binarySite) ||
+    "https://github.com/swc-project/node-swc/releases/download";
 
-    return [site, 'v' + pkg.version, getBinaryName()].join('/');
+  return [site, "v" + pkg.version, getBinaryName()].join("/");
 }
 
 /**
@@ -261,21 +290,21 @@ function getBinaryUrl() {
  */
 
 function getBinaryDir() {
-    var binaryDir;
+  var binaryDir;
 
-    if (getArgument('--swc-binary-dir')) {
-        binaryDir = getArgument('--swc-binary-dir');
-    } else if (process.env.SWC_BINARY_DIR) {
-        binaryDir = process.env.SWC_BINARY_DIR;
-    } else if (process.env.npm_config_SWC_BINARY_DIR) {
-        binaryDir = process.env.npm_config_SWC_BINARY_DIR;
-    } else if (pkg.nodeSwcConfig && pkg.nodeSwcConfig.binaryDir) {
-        binaryDir = pkg.nodeSwcConfig.binaryDir;
-    } else {
-        binaryDir = defaultBinaryDir;
-    }
+  if (getArgument("--swc-binary-dir")) {
+    binaryDir = getArgument("--swc-binary-dir");
+  } else if (process.env.SWC_BINARY_DIR) {
+    binaryDir = process.env.SWC_BINARY_DIR;
+  } else if (process.env.npm_config_SWC_BINARY_DIR) {
+    binaryDir = process.env.npm_config_SWC_BINARY_DIR;
+  } else if (pkg.nodeSwcConfig && pkg.nodeSwcConfig.binaryDir) {
+    binaryDir = pkg.nodeSwcConfig.binaryDir;
+  } else {
+    binaryDir = defaultBinaryDir;
+  }
 
-    return binaryDir;
+  return binaryDir;
 }
 
 /**
@@ -293,29 +322,29 @@ function getBinaryDir() {
  */
 
 function getBinaryPath() {
-    var binaryPath;
+  var binaryPath;
 
-    if (getArgument('--swc-binary-path')) {
-        binaryPath = getArgument('--swc-binary-path');
-    } else if (process.env.SWC_BINARY_PATH) {
-        binaryPath = process.env.SWC_BINARY_PATH;
-    } else if (process.env.npm_config_SWC_BINARY_PATH) {
-        binaryPath = process.env.npm_config_SWC_BINARY_PATH;
-    } else if (pkg.nodeSwcConfig && pkg.nodeSwcConfig.binaryPath) {
-        binaryPath = pkg.nodeSwcConfig.binaryPath;
-    } else {
-        binaryPath = path.join(getBinaryDir(), 'index.node');
-    }
+  if (getArgument("--swc-binary-path")) {
+    binaryPath = getArgument("--swc-binary-path");
+  } else if (process.env.SWC_BINARY_PATH) {
+    binaryPath = process.env.SWC_BINARY_PATH;
+  } else if (process.env.npm_config_SWC_BINARY_PATH) {
+    binaryPath = process.env.npm_config_SWC_BINARY_PATH;
+  } else if (pkg.nodeSwcConfig && pkg.nodeSwcConfig.binaryPath) {
+    binaryPath = pkg.nodeSwcConfig.binaryPath;
+  } else {
+    binaryPath = path.join(getBinaryDir(), "index.node");
+  }
 
-    if (process.versions.modules < 46) {
-        return binaryPath;
-    }
+  if (process.versions.modules < 46) {
+    return binaryPath;
+  }
 
-    try {
-        return trueCasePathSync(binaryPath) || binaryPath;
-    } catch (e) {
-        return binaryPath;
-    }
+  try {
+    return trueCasePathSync(binaryPath) || binaryPath;
+  } catch (e) {
+    return binaryPath;
+  }
 }
 
 /**
@@ -325,10 +354,12 @@ function getBinaryPath() {
  * @api public
  */
 function getCachePathCandidates() {
-    return [
-        process.env.npm_config_swc_binary_cache,
-        process.env.npm_config_cache,
-    ].filter(function (_) { return _; });
+  return [
+    process.env.npm_config_swc_binary_cache,
+    process.env.npm_config_cache,
+  ].filter(function (_) {
+    return _;
+  });
 }
 
 /**
@@ -343,22 +374,22 @@ function getCachePathCandidates() {
  * @api public
  */
 function getBinaryCachePath() {
-    var i,
-        cachePath,
-        cachePathCandidates = getCachePathCandidates();
+  var i,
+    cachePath,
+    cachePathCandidates = getCachePathCandidates();
 
-    for (i = 0; i < cachePathCandidates.length; i++) {
-        cachePath = path.join(cachePathCandidates[i], pkg.name, pkg.version);
+  for (i = 0; i < cachePathCandidates.length; i++) {
+    cachePath = path.join(cachePathCandidates[i], pkg.name, pkg.version);
 
-        try {
-            mkdir.sync(cachePath);
-            return cachePath;
-        } catch (e) {
-            // Directory is not writable, try another
-        }
+    try {
+      mkdir.sync(cachePath);
+      return cachePath;
+    } catch (e) {
+      // Directory is not writable, try another
     }
+  }
 
-    return '';
+  return "";
 }
 
 /**
@@ -373,22 +404,22 @@ function getBinaryCachePath() {
  * @api public
  */
 function getCachedBinary() {
-    var i,
-        cachePath,
-        cacheBinary,
-        cachePathCandidates = getCachePathCandidates(),
-        binaryName = getBinaryName();
+  var i,
+    cachePath,
+    cacheBinary,
+    cachePathCandidates = getCachePathCandidates(),
+    binaryName = getBinaryName();
 
-    for (i = 0; i < cachePathCandidates.length; i++) {
-        cachePath = path.join(cachePathCandidates[i], pkg.name, pkg.version);
-        cacheBinary = path.join(cachePath, binaryName);
+  for (i = 0; i < cachePathCandidates.length; i++) {
+    cachePath = path.join(cachePathCandidates[i], pkg.name, pkg.version);
+    cacheBinary = path.join(cachePath, binaryName);
 
-        if (fs.existsSync(cacheBinary)) {
-            return cacheBinary;
-        }
+    if (fs.existsSync(cacheBinary)) {
+      return cacheBinary;
     }
+  }
 
-    return '';
+  return "";
 }
 
 /**
@@ -399,7 +430,7 @@ function getCachedBinary() {
  */
 
 function hasBinary(binaryPath) {
-    return fs.existsSync(binaryPath);
+  return fs.existsSync(binaryPath);
 }
 
 /**
@@ -409,10 +440,10 @@ function hasBinary(binaryPath) {
  */
 
 function getVersionInfo(binding) {
-    return [
-        ['node-swc', pkg.version, '(Wrapper)', '[JavaScript]'].join('\t'),
-        // ['libswc  ', binding.libswcVersion(), '(Swc Compiler)', '[C/C++]'].join('\t'),
-    ].join(eol);
+  return [
+    ["node-swc", pkg.version, "(Wrapper)", "[JavaScript]"].join("\t"),
+    // ['libswc  ', binding.libswcVersion(), '(Swc Compiler)', '[C/C++]'].join('\t'),
+  ].join(eol);
 }
 
 /**
@@ -422,27 +453,27 @@ function getVersionInfo(binding) {
  */
 
 function getPlatformVariant() {
-    var contents = '';
+  var contents = "";
 
-    if (process.platform !== 'linux') {
-        return '';
+  if (process.platform !== "linux") {
+    return "";
+  }
+
+  try {
+    contents = fs.readFileSync(process.execPath);
+
+    // Buffer.indexOf was added in v1.5.0 so cast to string for old node
+    // Delay contents.toStrings because it's expensive
+    if (!contents.indexOf) {
+      contents = contents.toString();
     }
 
-    try {
-        contents = fs.readFileSync(process.execPath);
+    if (contents.indexOf("libc.musl-x86_64.so.1") !== -1) {
+      return "musl";
+    }
+  } catch (err) {} // eslint-disable-line no-empty
 
-        // Buffer.indexOf was added in v1.5.0 so cast to string for old node
-        // Delay contents.toStrings because it's expensive
-        if (!contents.indexOf) {
-            contents = contents.toString();
-        }
-
-        if (contents.indexOf('libc.musl-x86_64.so.1') !== -1) {
-            return 'musl';
-        }
-    } catch (err) { } // eslint-disable-line no-empty
-
-    return '';
+  return "";
 }
 
 module.exports.hasBinary = hasBinary;
