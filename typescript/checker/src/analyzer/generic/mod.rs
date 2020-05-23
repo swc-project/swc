@@ -169,6 +169,7 @@ impl Analyzer<'_, '_> {
                             p.name,
                             actual
                         );
+                        inferred.type_params.insert(p.name.clone(), actual.clone());
                         inferred.type_params.insert(type_param.name.clone(), actual);
                     } else {
                         log::info!(
