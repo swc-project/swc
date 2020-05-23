@@ -277,8 +277,8 @@ impl Validate<BinExpr> for Analyzer<'_, '_> {
 
                 match op {
                     op!("||") => {
-                        if rt.is_never() {
-                            return Ok(rt);
+                        if lt.is_never() {
+                            return Ok(lt);
                         }
 
                         if let Known(v) = lt.as_bool() {
@@ -288,6 +288,8 @@ impl Validate<BinExpr> for Analyzer<'_, '_> {
                         if let (_, Known(v)) = left.as_bool() {
                             return Ok(if v { lt } else { rt });
                         }
+
+                        return Ok(Type::union(vec![lt, rt]));
                     }
 
                     op!("&&") => {
