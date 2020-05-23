@@ -1,4 +1,4 @@
-use crate::{id::Id, ty, util::TypeEq, ModuleTypeInfo};
+use crate::{debug::print_backtrace, id::Id, ty, util::TypeEq, ModuleTypeInfo};
 use bitflags::_core::iter::FusedIterator;
 use is_macro::Is;
 use std::{fmt::Debug, mem::transmute, sync::Arc};
@@ -520,10 +520,15 @@ impl Type {
             }
         }
 
+        if tys.is_empty() {
+            print_backtrace();
+            unreachable!("Type::union() should not be called with an empty iterator")
+        }
+
         tys.retain(|ty| !ty.is_never());
 
         match tys.len() {
-            0 => unreachable!("Type::union() should not be called with an empty iterator"),
+            0 => Type::never(span),
             1 => tys.into_iter().next().unwrap(),
             _ => Type::Union(Union { span, types: tys }),
         }
