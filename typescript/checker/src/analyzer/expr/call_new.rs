@@ -408,7 +408,10 @@ impl Analyzer<'_, '_> {
     ) -> ValidationResult {
         if cfg!(debug_assertions) {
             match *ty.normalize() {
-                Type::Ref(ref s) => unreachable!("Type::Ref: {:#?}", s),
+                Type::Ref(ref s) => {
+                    print_backtrace();
+                    unreachable!("Type::Ref: {:#?}", s)
+                }
                 _ => {}
             }
         }
