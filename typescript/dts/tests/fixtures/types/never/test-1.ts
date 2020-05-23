@@ -1,4 +1,4 @@
-function error(message: string): never {
+function error1(message: string): never {
     throw new Error(message);
 }
 
@@ -6,19 +6,19 @@ function errorVoid(message: string) {
     throw new Error(message);
 }
 
-function fail() {
-    return error("Something failed");
+function fail1() {
+    return error1("Something failed");
 }
 
 function failOrThrow(shouldFail: boolean) {
     if (shouldFail) {
-        return fail();
+        return fail1();
     }
     throw new Error();
 }
 
 function check<T>(x: T | undefined) {
-    return x || error("Undefined value");
+    return x || error1("Undefined value");
 }
 
 class C {
@@ -60,10 +60,10 @@ function test(cb: () => string) {
     return s;
 }
 
-let errorCallback = () => error("Error callback");
+let errorCallback = () => error1("Error callback");
 
 test(() => "hello");
-test(() => fail());
+test(() => fail1());
 test(() => {
     throw new Error();
 });
