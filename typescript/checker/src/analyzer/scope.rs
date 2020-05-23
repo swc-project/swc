@@ -551,6 +551,8 @@ impl Analyzer<'_, '_> {
         if !self.is_builtin {
             log::debug!("Scope.find_type: failed to find type '{}'", name);
         }
+        log::debug!("Scope.find_type: failed to find type '{}'", name);
+
         None
     }
 
