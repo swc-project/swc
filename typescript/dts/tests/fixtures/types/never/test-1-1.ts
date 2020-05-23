@@ -6,13 +6,13 @@ function errorVoid(message: string) {
     throw new Error(message);
 }
 
-function fail() {
+function fail1() {
     return error("Something failed");
 }
 
 function failOrThrow(shouldFail: boolean) {
     if (shouldFail) {
-        return fail();
+        return fail1();
     }
     throw new Error();
 }
