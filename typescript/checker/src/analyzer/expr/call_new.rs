@@ -387,7 +387,7 @@ impl Analyzer<'_, '_> {
             }
             _ => {
                 let ty = callee_ty!();
-                let ty = self.expand(span, ty)?;
+                let ty = self.expand_fully(span, ty, false)?;
                 let type_args = match type_args {
                     None => None,
                     Some(ty) => Some(ty.validate_with(self)?),
