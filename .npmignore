@@ -13,3 +13,9 @@ package-lock.json
 .idea/
 
 wasm/
+
+# Reduce package size
+**/tests/
+**/benches/
+**/target/
+*.svg

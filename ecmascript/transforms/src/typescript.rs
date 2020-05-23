@@ -711,11 +711,20 @@ type_to_none!(TsType, TsTypeAnn, TsTypeParamDecl, TsTypeParamInstantiation);
 impl Fold<Expr> for Strip {
     fn fold(&mut self, expr: Expr) -> Expr {
         let expr = match expr {
-            Expr::TsAs(TsAsExpr { expr, .. }) => validate!(*expr),
+            Expr::TsAs(TsAsExpr { expr, type_ann, .. }) => {
+                type_ann.visit_with(self);
+                validate!(*expr)
+            }
             Expr::TsNonNull(TsNonNullExpr { expr, .. }) => validate!(*expr),
-            Expr::TsTypeAssertion(TsTypeAssertion { expr, .. }) => validate!(*expr),
+            Expr::TsTypeAssertion(TsTypeAssertion { expr, type_ann, .. }) => {
+                type_ann.visit_with(self);
+                validate!(*expr)
+            }
             Expr::TsConstAssertion(TsConstAssertion { expr, .. }) => validate!(*expr),
-            Expr::TsTypeCast(TsTypeCastExpr { expr, .. }) => validate!(*expr),
+            Expr::TsTypeCast(TsTypeCastExpr { expr, type_ann, .. }) => {
+                type_ann.visit_with(self);
+                validate!(*expr)
+            }
             _ => validate!(expr),
         };
 
