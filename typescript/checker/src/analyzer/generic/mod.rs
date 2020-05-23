@@ -1037,8 +1037,11 @@ impl Fold<Type> for GenericExpander<'_> {
                 param = param.fold_with(self);
 
                 if let Some(ty) = self.params.get(&param.name) {
+                    log::info!("generic_expand: Type parameter: {} => {:?}", param.name, ty);
                     return ty.clone();
                 }
+
+                dbg!();
 
                 return Type::Param(param);
             }
