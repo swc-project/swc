@@ -519,3 +519,25 @@ to!(
     }
     "
 );
+
+to!(
+    issue_793_1,
+    "import { IPerson } from '../types/types'
+     export function createPerson(person) {
+        const a = {} as IPerson
+      }",
+    "export function createPerson(person) {
+        const a = {};
+      }"
+);
+
+to!(
+    issue_793_2,
+    "import { IPerson } from '../types/types'
+     export function createPerson(person) {
+        const a = <IPerson>{};
+      }",
+    "export function createPerson(person) {
+        const a = {};
+      }"
+);
