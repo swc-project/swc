@@ -714,6 +714,7 @@ impl Analyzer<'_, '_> {
 
             let ty = self.expand_type_params(&inferred, ret_ty)?;
 
+            log::debug!("get_return_type: Expanded return type = {:?}", ty);
             return Ok(ty);
         }
 
