@@ -10,7 +10,6 @@ swc_atoms = { path = "../../atoms" }
 swc_common = { path = "../../common", features = ["fold"] }
 swc_ecma_ast = { path = "../../ecmascript/ast", features = ["fold"] }
 swc_ecma_parser = { path = "../../ecmascript/parser", features = ["verify"] }
-swc_ecma_transforms = { path = "../../ecmascript/transforms" }
 swc_ecma_utils = { path = "../../ecmascript/utils" }
 swc_ts_builtin_types = { path = "./builtin" }
 macros = { package = "swc_ts_checker_macros", path ="./macros" }
