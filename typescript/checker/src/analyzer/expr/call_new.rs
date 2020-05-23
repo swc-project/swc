@@ -682,7 +682,7 @@ impl Analyzer<'_, '_> {
         }
 
         if !candidates.is_empty() {
-            return candidates.pop().unwrap();
+            return candidates.into_iter().next().unwrap();
         }
 
         Err(if kind == ExtractKind::Call {
