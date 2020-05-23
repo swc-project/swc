@@ -95,21 +95,6 @@ where
     }
 }
 
-impl<A> VisitMut<Stmt> for ReturnTypeCollector<'_, A>
-where
-    A: VisitMut<Stmt> + Validate<Expr, Output = ValidationResult>,
-{
-    fn visit_mut(&mut self, s: &mut Stmt) {
-        self.analyzer.visit_mut(s);
-        match s {
-            Stmt::Return(..) => {
-                s.visit_mut_children(self);
-            }
-            _ => {}
-        }
-    }
-}
-
 macro_rules! noop {
     ($T:ty) => {
         impl<A> VisitMut<$T> for ReturnTypeCollector<'_, A>
