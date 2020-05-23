@@ -98,6 +98,34 @@ where
     pub types: Vec<Result<Type, Error>>,
 }
 
+impl<A> VisitMut<Expr> for ReturnTypeCollector<'_, A>
+where
+    A: VisitMut<Stmt> + Validate<Expr, Output = ValidationResult>,
+{
+    fn visit_mut(&mut self, e: &mut Expr) {
+        let ty: Result<_, Error> = try {
+            let ty = e.validate_with(self.analyzer)?;
+            match ty.normalize() {
+                Type::Keyword(TsKeywordType {
+                    kind: TsKeywordTypeKind::TsNeverKeyword,
+                    ..
+                }) => {
+                    log::info!("found never type");
+                    self.types.push(Ok(ty))
+                }
+                _ => {}
+            }
+
+            ()
+        };
+
+        match ty {
+            Ok(()) => {}
+            Err(err) => self.types.push(Err(err)),
+        }
+    }
+}
+
 impl<A> VisitMut<ReturnStmt> for ReturnTypeCollector<'_, A>
 where
     A: VisitMut<Stmt> + Validate<Expr, Output = ValidationResult>,
