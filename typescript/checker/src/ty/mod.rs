@@ -520,6 +520,8 @@ impl Type {
             }
         }
 
+        tys.retain(|ty| !ty.is_never());
+
         match tys.len() {
             0 => unreachable!("Type::union() should not be called with an empty iterator"),
             1 => tys.into_iter().next().unwrap(),
