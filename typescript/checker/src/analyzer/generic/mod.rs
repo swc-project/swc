@@ -1041,7 +1041,10 @@ impl Fold<Type> for GenericExpander<'_> {
                     return ty.clone();
                 }
 
-                dbg!();
+                log::warn!(
+                    "generic_expand: Failed to found type parameter instantiation: {}",
+                    param.name,
+                );
 
                 return Type::Param(param);
             }
