@@ -1,14 +1,14 @@
-function error(message: string): never {
+function error4(message: string): never {
     throw new Error(message);
 }
 
-function fail() {
-    return error("Something failed");
+function fail4() {
+    return error4("Something failed");
 }
 
-function failOrThrow(shouldFail: boolean) {
+function failOrThrow4(shouldFail: boolean) {
     if (shouldFail) {
-        return fail();
+        return fail4();
     }
     throw new Error();
 }
