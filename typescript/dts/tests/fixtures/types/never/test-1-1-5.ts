@@ -1,7 +1,7 @@
-function error(message: string): never {
+function error5(message: string): never {
     throw new Error(message);
 }
 
-function check<T>(x: T | undefined) {
-    return x || error("Undefined value");
+function check5<T>(x: T | undefined) {
+    return x || error5("Undefined value");
 }
