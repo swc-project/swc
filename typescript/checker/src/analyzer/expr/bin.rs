@@ -5,7 +5,7 @@ use super::super::{
 use crate::{
     errors::{Error, Errors},
     ty::{Operator, Type},
-    util::EqIgnoreSpan,
+    util::{EqIgnoreSpan, RemoveTypes},
     validator::Validate,
     ValidationResult,
 };
@@ -288,6 +288,9 @@ impl Validate<BinExpr> for Analyzer<'_, '_> {
                         if let (_, Known(v)) = left.as_bool() {
                             return Ok(if v { lt } else { rt });
                         }
+
+                        // Remove falsy types from lhs
+                        let lt = lt.remove_falsy();
 
                         return Ok(Type::union(vec![lt, rt]));
                     }
