@@ -603,8 +603,8 @@ impl Fold<TsUnionType> for TypeResolver {
     fn fold(&mut self, mut u: TsUnionType) -> TsUnionType {
         fn rank(kind: TsKeywordTypeKind) -> u8 {
             match kind {
-                TsKeywordTypeKind::TsStringKeyword => 0,
-                TsKeywordTypeKind::TsNumberKeyword => 1,
+                TsKeywordTypeKind::TsNumberKeyword => 0,
+                TsKeywordTypeKind::TsStringKeyword => 1,
                 TsKeywordTypeKind::TsBooleanKeyword => 2,
                 // TODO(kdy1): Implement fully
                 _ => 4,
