@@ -90,6 +90,7 @@ where
 {
     fn visit_mut(&mut self, s: &mut ReturnStmt) {
         if let Some(ty) = s.arg.validate_with(self.analyzer) {
+            dbg!(&ty);
             self.types.push(ty)
         }
     }
