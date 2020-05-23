@@ -3,11 +3,10 @@ use fxhash::FxHashSet;
 use swc_atoms::JsWord;
 use swc_common::{Fold, Mark, SyntaxContext, VisitMut, VisitMutWith};
 use swc_ecma_ast::*;
-use swc_ecma_transforms::pass::Pass;
 
 /// This *colors* type parameters. After this pass, two type parameter declared
 /// in different function will be treated as not same.
-pub fn colorizer() -> impl Pass + 'static {
+pub fn colorizer() -> impl 'static + Fold<Module> {
     Colorizer {
         scope: Scope {
             parent: None,

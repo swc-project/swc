@@ -32,7 +32,6 @@ use swc_ecma_ast::Module;
 use swc_ecma_parser::{
     lexer::Lexer, JscTarget, Parser, Session, SourceFileInput, Syntax, TsConfig,
 };
-use swc_ecma_transforms::resolver as ident_resolver;
 
 #[macro_use]
 mod debug;
@@ -211,7 +210,7 @@ impl Checker {
                         shebang: None,
                     }
                 });
-            module.fold_with(&mut ident_resolver())
+            module
         });
 
         let mut a = Analyzer::root(path.clone(), &self.libs, self.rule, self);
