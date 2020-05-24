@@ -210,6 +210,7 @@ fn add_fixture_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), Error> {
         let ignore = ignore
             || file_name.contains("enums/tpl-lit")
             || file_name.contains("types/string/overload/conformance-1")
+            || file_name.contains("types/string/overload/conformance-2")
             || file_name.contains("custom/tsc-bug");
 
         let name = format!("{}", test_name);
