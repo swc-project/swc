@@ -203,6 +203,7 @@ fn add_fixture_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), Error> {
             && !file_name.contains("interface/used")
             && !file_name.contains("types/never")
             && !file_name.contains("types/constraint")
+            && !file_name.contains("types/literal")
             && !file_name.contains("types/generic")
             && !file_name.contains("types/union")
             && !file_name.contains("var-decl");
