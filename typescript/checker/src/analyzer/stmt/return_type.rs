@@ -51,9 +51,12 @@ impl Analyzer<'_, '_> {
     }
 }
 
+trait MyVisitor: VisitMut<Stmt> + Validate<Expr, Output = ValidationResult> {}
+impl MyVisitor for Analyzer<'_, '_> {}
+
 struct ReturnTypeCollector<'a, A>
 where
-    A: VisitMut<Stmt> + Validate<Expr, Output = ValidationResult>,
+    A: MyVisitor,
 {
     pub analyzer: &'a mut A,
     pub types: Vec<Result<Type, Error>>,
@@ -64,7 +67,7 @@ where
 
 impl<A> ReturnTypeCollector<'_, A>
 where
-    A: VisitMut<Stmt> + Validate<Expr, Output = ValidationResult>,
+    A: MyVisitor,
 {
     fn is_always_true(&mut self, e: &mut Expr) -> bool {
         if let (_, Known(v)) = e.as_bool() {
@@ -89,7 +92,7 @@ where
 
 impl<A> VisitMut<Expr> for ReturnTypeCollector<'_, A>
 where
-    A: VisitMut<Stmt> + Validate<Expr, Output = ValidationResult>,
+    A: MyVisitor,
 {
     fn visit_mut(&mut self, e: &mut Expr) {
         let ty: Result<_, Error> = try {
@@ -117,7 +120,7 @@ where
 
 impl<A> VisitMut<ReturnStmt> for ReturnTypeCollector<'_, A>
 where
-    A: VisitMut<Stmt> + Validate<Expr, Output = ValidationResult>,
+    A: MyVisitor,
 {
     fn visit_mut(&mut self, s: &mut ReturnStmt) {
         if let Some(ty) = s.arg.validate_with(self.analyzer) {
@@ -128,7 +131,7 @@ where
 
 impl<A> VisitMut<Stmt> for ReturnTypeCollector<'_, A>
 where
-    A: VisitMut<Stmt> + Validate<Expr, Output = ValidationResult>,
+    A: MyVisitor,
 {
     fn visit_mut(&mut self, s: &mut Stmt) {
         let old_in_conditional = self.in_conditional;
@@ -182,7 +185,7 @@ macro_rules! noop {
     ($T:ty) => {
         impl<A> VisitMut<$T> for ReturnTypeCollector<'_, A>
         where
-            A: VisitMut<Stmt> + Validate<Expr, Output = ValidationResult>,
+            A: MyVisitor,
         {
             #[inline]
             fn visit_mut(&mut self, _: &mut $T) {}
@@ -192,6 +195,12 @@ macro_rules! noop {
 
 noop!(Function);
 noop!(ArrowExpr);
+
+macro_rules! simple {
+    ($T:ty) => {
+        impl<A> VisitMut<Stmt> for ReturnTypeCollector<'_, A> where A: MyVisitor {}
+    };
+}
 
 struct LoopBreakerFinder {
     found: bool,
