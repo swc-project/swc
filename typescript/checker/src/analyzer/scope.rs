@@ -372,7 +372,7 @@ impl Analyzer<'_, '_> {
 
                 if let Some(ty) = ty {
                     // TODO: Generalize tuple
-                    *type_ann = Some(ty.generalize_lit().into());
+                    *type_ann = Some(ty.generalize_lit().generalize_tuple().into());
                     *optional = true;
                 }
 

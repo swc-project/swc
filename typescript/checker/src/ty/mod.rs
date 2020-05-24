@@ -13,6 +13,7 @@ use swc_ecma_utils::{
 };
 
 mod convert;
+mod generalize;
 mod type_facts;
 
 #[derive(Debug, Fold, Clone, PartialEq, Spanned, FromVariant, Is)]
