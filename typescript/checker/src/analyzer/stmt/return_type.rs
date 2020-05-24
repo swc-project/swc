@@ -5,8 +5,9 @@ use crate::{
     validator::{Validate, ValidateWith},
     ValidationResult,
 };
-use swc_common::{VisitMut, VisitMutWith};
+use swc_common::{Visit, VisitMut, VisitMutWith, VisitWith};
 use swc_ecma_ast::*;
+use swc_ecma_utils::{ExprExt, Value::Known};
 
 impl Analyzer<'_, '_> {
     pub(in crate::analyzer) fn visit_stmts_for_return(
@@ -22,6 +23,8 @@ impl Analyzer<'_, '_> {
             let mut v = ReturnTypeCollector {
                 analyzer: &mut *self,
                 types: Default::default(),
+                in_conditional: false,
+                forced_never: false,
             };
 
             // for idx in order {
@@ -54,6 +57,34 @@ where
 {
     pub analyzer: &'a mut A,
     pub types: Vec<Result<Type, Error>>,
+    /// Are we in if or switch statement?
+    pub in_conditional: bool,
+    pub forced_never: bool,
+}
+
+impl<A> ReturnTypeCollector<'_, A>
+where
+    A: VisitMut<Stmt> + Validate<Expr, Output = ValidationResult>,
+{
+    fn is_always_true(&mut self, e: &mut Expr) -> bool {
+        if let (_, Known(v)) = e.as_bool() {
+            return v;
+        }
+
+        match self.analyzer.validate(e) {
+            Ok(ty) => {
+                if let Known(v) = ty.as_bool() {
+                    return v;
+                }
+            }
+            Err(err) => {
+                self.types.push(Err(err));
+                return false;
+            }
+        }
+
+        false
+    }
 }
 
 impl<A> VisitMut<Expr> for ReturnTypeCollector<'_, A>
@@ -100,8 +131,49 @@ where
     A: VisitMut<Stmt> + Validate<Expr, Output = ValidationResult>,
 {
     fn visit_mut(&mut self, s: &mut Stmt) {
+        let old_in_conditional = self.in_conditional;
+        self.in_conditional |= match s {
+            Stmt::If(_) => true,
+            Stmt::Switch(_) => true,
+            _ => false,
+        };
+
         s.visit_mut_children(self);
         s.visit_mut_children(self.analyzer);
+
+        // Of `s` is always executed and we enter infinite loop, return type should be
+        // never
+        if !self.in_conditional {
+            let mut v = LoopBreakerFinder { found: false };
+            s.visit_with(&mut v);
+            let has_break = v.found;
+            if !has_break {
+                match s {
+                    Stmt::While(s) => {
+                        if self.is_always_true(&mut s.test) {
+                            self.forced_never = true;
+                        }
+                    }
+                    Stmt::DoWhile(s) => {
+                        if self.is_always_true(&mut s.test) {
+                            self.forced_never = true;
+                        }
+                    }
+                    Stmt::For(s) => {
+                        if let Some(test) = &mut s.test {
+                            if self.is_always_true(test) {
+                                self.forced_never = true;
+                            }
+                        } else {
+                            self.forced_never = true;
+                        }
+                    }
+                    _ => {}
+                }
+            }
+        }
+
+        self.in_conditional = old_in_conditional;
     }
 }
 
@@ -119,3 +191,25 @@ macro_rules! noop {
 
 noop!(Function);
 noop!(ArrowExpr);
+
+struct LoopBreakerFinder {
+    found: bool,
+}
+
+impl Visit<BreakStmt> for LoopBreakerFinder {
+    fn visit(&mut self, _: &BreakStmt) {
+        self.found = true;
+    }
+}
+
+impl Visit<ThrowStmt> for LoopBreakerFinder {
+    fn visit(&mut self, _: &ThrowStmt) {
+        self.found = true;
+    }
+}
+
+impl Visit<ReturnStmt> for LoopBreakerFinder {
+    fn visit(&mut self, _: &ReturnStmt) {
+        self.found = true;
+    }
+}
