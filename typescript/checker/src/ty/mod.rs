@@ -1,4 +1,6 @@
-use crate::{debug::print_backtrace, id::Id, ty, util::TypeEq, ModuleTypeInfo};
+use crate::{
+    debug::print_backtrace, id::Id, ty, type_facts::TypeFacts, util::TypeEq, ModuleTypeInfo,
+};
 use bitflags::_core::iter::FusedIterator;
 use is_macro::Is;
 use std::{fmt::Debug, mem::transmute, sync::Arc};
@@ -11,6 +13,7 @@ use swc_ecma_utils::{
 };
 
 mod convert;
+mod type_facts;
 
 #[derive(Debug, Fold, Clone, PartialEq, Spanned, FromVariant, Is)]
 pub enum Type {
