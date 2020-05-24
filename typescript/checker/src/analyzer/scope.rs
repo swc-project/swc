@@ -1,5 +1,6 @@
 use super::{control_flow::CondFacts, Analyzer};
 use crate::{
+    analyzer::type_facts::TypeFacts,
     builtin_types,
     errors::Error,
     id::Id,
@@ -53,6 +54,16 @@ pub(crate) struct Scope<'a> {
 }
 
 impl Scope<'_> {
+    pub fn get_type_facts(&self, name: &Name) -> TypeFacts {
+        if let Some(&f) = self.facts.facts.get(name) {
+            return f;
+        }
+
+        self.parent
+            .then(|parent| parent.get_type_facts(name))
+            .unwrap_or(TypeFacts::None)
+    }
+
     pub fn is_root(&self) -> bool {
         self.parent.is_none()
     }
