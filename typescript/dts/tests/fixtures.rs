@@ -207,7 +207,10 @@ fn add_fixture_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), Error> {
             && !file_name.contains("types/union")
             && !file_name.contains("var-decl");
 
-        let ignore = ignore || file_name.contains("enums/tpl-lit");
+        let ignore = ignore
+            || file_name.contains("enums/tpl-lit")
+            || file_name.contains("types/string/overload/conformance-1")
+            || file_name.contains("custom/tsc-bug");
 
         let name = format!("{}", test_name);
 
