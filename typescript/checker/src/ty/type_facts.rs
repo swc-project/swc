@@ -5,6 +5,7 @@ use swc_ecma_ast::{TsKeywordType, TsKeywordTypeKind};
 
 impl Type {
     pub(crate) fn apply_type_facts(self, facts: TypeFacts) -> Type {
+        log::info!("Applying type facts");
         self.fold_with(&mut Handler { facts })
     }
 }
