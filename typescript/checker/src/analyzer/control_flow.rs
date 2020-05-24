@@ -663,23 +663,28 @@ impl Analyzer<'_, '_> {
                                     op: op!("typeof"),
                                     ref arg,
                                     ..
-                                }) => match r {
-                                    Expr::Lit(Lit::Str(Str { ref value, .. })) => Some((
-                                        Name::try_from(&**arg),
-                                        if is_eq {
-                                            (
-                                                TypeFacts::typeof_eq(&*value),
-                                                TypeFacts::typeof_neq(&*value),
-                                            )
-                                        } else {
-                                            (
-                                                TypeFacts::typeof_neq(&*value),
-                                                TypeFacts::typeof_eq(&*value),
-                                            )
-                                        },
-                                    )),
-                                    _ => None,
-                                },
+                                }) => {
+                                    //
+                                    let name = Name::try_from(&**arg);
+                                    log::info!("cond_facts: typeof {:?}", name);
+                                    match r {
+                                        Expr::Lit(Lit::Str(Str { ref value, .. })) => Some((
+                                            name,
+                                            if is_eq {
+                                                (
+                                                    TypeFacts::typeof_eq(&*value),
+                                                    TypeFacts::typeof_neq(&*value),
+                                                )
+                                            } else {
+                                                (
+                                                    TypeFacts::typeof_neq(&*value),
+                                                    TypeFacts::typeof_eq(&*value),
+                                                )
+                                            },
+                                        )),
+                                        _ => None,
+                                    }
+                                }
                                 _ => None,
                             }) {
                                 Some((Ok(name), (Some(t), Some(f)))) => {
