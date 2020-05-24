@@ -197,6 +197,7 @@ fn add_fixture_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), Error> {
         // Prevent regression
         let ignore = ignore
             && !file_name.contains("classes/property/computed")
+            && !file_name.contains("destructuring/empty-array")
             && !file_name.contains("enums")
             && !file_name.contains("interface/used")
             && !file_name.contains("types/never")
