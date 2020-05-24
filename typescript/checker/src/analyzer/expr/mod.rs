@@ -1107,8 +1107,11 @@ impl Analyzer<'_, '_> {
 
         if let Some(v) = self.scope.vars.get(&i.into()) {
             log::debug!("type_of_ident({}): found var with name", i.sym);
-            if let Some(v) = &v.ty {
-                return Ok(v.clone());
+            if let Some(ty) = &v.ty {
+                let type_facts = self.scope.get_type_facts(&i.into());
+
+                let ty = ty.clone().apply_type_facts(type_facts);
+                return Ok(ty);
             }
         }
 

@@ -16,6 +16,8 @@ impl Analyzer<'_, '_> {
     ) -> Result<Option<Type>, Error> {
         log::debug!("visit_stmts_for_return()");
 
+        // let mut old_ret_tys = self.scope.return_types.take();
+
         let types = {
             // let order = self.reorder_stmts(&*stmts);
             // assert_eq!(order.len(), stmts.len());
@@ -142,7 +144,6 @@ where
         };
 
         s.visit_mut_children(self);
-        s.visit_mut_children(self.analyzer);
 
         // Of `s` is always executed and we enter infinite loop, return type should be
         // never
@@ -198,9 +199,34 @@ noop!(ArrowExpr);
 
 macro_rules! simple {
     ($T:ty) => {
-        impl<A> VisitMut<Stmt> for ReturnTypeCollector<'_, A> where A: MyVisitor {}
+        impl<A> VisitMut<$T> for ReturnTypeCollector<'_, A>
+        where
+            A: MyVisitor,
+        {
+            fn visit_mut(&mut self, node: &mut $T) {
+                // TODO: Prevent recursion of analyzer
+                node.visit_mut_with(self.analyzer);
+                node.visit_mut_children(self);
+            }
+        }
     };
 }
+
+simple!(BlockStmt);
+simple!(LabeledStmt);
+simple!(BreakStmt);
+simple!(ContinueStmt);
+simple!(IfStmt);
+simple!(SwitchStmt);
+simple!(ThrowStmt);
+simple!(TryStmt);
+simple!(WhileStmt);
+simple!(DoWhileStmt);
+simple!(ForStmt);
+simple!(ForInStmt);
+simple!(ForOfStmt);
+simple!(Decl);
+simple!(ExprStmt);
 
 struct LoopBreakerFinder {
     found: bool,
