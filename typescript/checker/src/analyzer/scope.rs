@@ -635,7 +635,7 @@ impl Analyzer<'_, '_> {
                                 }
                             }
                         }
-                        Type::union(vec![ty, var_ty])
+                        Type::union(vec![var_ty, ty])
                     } else {
                         ty
                     })
