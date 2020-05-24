@@ -460,6 +460,15 @@ pub struct TypeOrSpread {
 }
 
 struct LitGeneralizer;
+
+impl Fold<Ref> for LitGeneralizer {
+    fn fold(&mut self, mut r: Ref) -> Ref {
+        r.type_name = r.type_name.fold_with(self);
+
+        r
+    }
+}
+
 impl Fold<Type> for LitGeneralizer {
     fn fold(&mut self, mut ty: Type) -> Type {
         ty = ty.fold_children(self);
