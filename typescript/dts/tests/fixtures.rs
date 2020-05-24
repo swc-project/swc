@@ -19,7 +19,7 @@ use std::{
     sync::Arc,
 };
 use swc_common::{FileName, Fold, FoldWith};
-use swc_ecma_ast::{Module, TsKeywordTypeKind, TsType, TsUnionType};
+use swc_ecma_ast::{Module, TsKeywordTypeKind, TsLit, TsLitType, TsType, TsUnionType};
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_parser::{JscTarget, Parser, Session, SourceFileInput, Syntax, TsConfig};
 use swc_ts_checker::{ty::Type, Lib};
@@ -403,7 +403,7 @@ struct Normalizer;
 /// Sorts the type.
 impl Fold<Vec<Box<TsType>>> for Normalizer {
     fn fold(&mut self, mut types: Vec<Box<TsType>>) -> Vec<Box<TsType>> {
-        fn rank(kind: TsKeywordTypeKind) -> u8 {
+        fn kwd_rank(kind: TsKeywordTypeKind) -> u8 {
             match kind {
                 TsKeywordTypeKind::TsNumberKeyword => 0,
                 TsKeywordTypeKind::TsStringKeyword => 1,
@@ -414,8 +414,19 @@ impl Fold<Vec<Box<TsType>>> for Normalizer {
 
         types.sort_by(|a, b| match (&**a, &**b) {
             (&TsType::TsKeywordType(ref a), &TsType::TsKeywordType(ref b)) => {
-                rank(a.kind).cmp(&rank(b.kind))
+                kwd_rank(a.kind).cmp(&kwd_rank(b.kind))
             }
+            (
+                &TsType::TsLitType(TsLitType {
+                    lit: TsLit::Str(ref a),
+                    ..
+                }),
+                &TsType::TsLitType(TsLitType {
+                    lit: TsLit::Str(ref b),
+                    ..
+                }),
+            ) => a.value.cmp(&b.value),
+
             _ => Equal,
         });
 
