@@ -1,6 +1,9 @@
 use super::Analyzer;
 use crate::{
-    analyzer::{pat::PatMode, props::prop_name_to_expr, util::ResultExt, Ctx, ScopeKind},
+    analyzer::{
+        pat::PatMode, props::prop_name_to_expr, type_facts::TypeFacts, util::ResultExt, Ctx,
+        ScopeKind,
+    },
     builtin_types,
     debug::print_backtrace,
     errors::Error,
@@ -1130,6 +1133,29 @@ impl Analyzer<'_, '_> {
             log::debug!("({}) type_of({}): find_var_type", self.scope.depth(), i.sym);
             let ty = ty.into_owned().respan(span);
             let type_facts = self.scope.get_type_facts(&i.into());
+
+            let keyword_types = &[
+                (
+                    TsKeywordTypeKind::TsStringKeyword,
+                    TypeFacts::TypeofEQString,
+                ),
+                (
+                    TsKeywordTypeKind::TsNumberKeyword,
+                    TypeFacts::TypeofEQNumber,
+                ),
+                (
+                    TsKeywordTypeKind::TsBooleanKeyword,
+                    TypeFacts::TypeofEQBoolean,
+                ),
+                (
+                    TsKeywordTypeKind::TsBigIntKeyword,
+                    TypeFacts::TypeofEQBigInt,
+                ),
+                (
+                    TsKeywordTypeKind::TsSymbolKeyword,
+                    TypeFacts::TypeofEQSymbol,
+                ),
+            ];
 
             return Ok(ty);
         }
