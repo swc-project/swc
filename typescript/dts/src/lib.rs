@@ -170,6 +170,15 @@ impl Fold<VarDeclarator> for TypeResolver {
             | Some(box Expr::Lit(Lit::JSXText(..))) => {
                 node.init = None;
             }
+            Some(box Expr::Lit(Lit::Num(..))) => {
+                node.init = None;
+                node.name
+                    .set_ty(Some(box TsType::TsKeywordType(TsKeywordType {
+                        span: DUMMY_SP,
+                        kind: TsKeywordTypeKind::TsNumberKeyword,
+                    })))
+            }
+
             Some(box Expr::Lit(..)) => {}
             _ => {
                 node.init = None;
