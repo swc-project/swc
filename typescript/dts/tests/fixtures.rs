@@ -194,6 +194,16 @@ fn add_fixture_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), Error> {
             .map(|s| !file_name.replace("/", "::").contains(&s))
             .unwrap_or(false);
 
+        // Prevent regression
+        let ignore = ignore
+            && !file_name.contains("classes/property/computed")
+            && !file_name.contains("enums")
+            && !file_name.contains("interface/used")
+            && !file_name.contains("types/never")
+            && !file_name.contains("types/constraint")
+            && !file_name.contains("types/generic")
+            && !file_name.contains("var-decl");
+
         let name = format!("{}", test_name);
 
         add_test(tests, name, ignore, move || {
