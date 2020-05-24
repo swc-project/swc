@@ -204,6 +204,8 @@ fn add_fixture_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), Error> {
             && !file_name.contains("types/generic")
             && !file_name.contains("var-decl");
 
+        let ignore = ignore || file_name.contains("enums/tpl-lit");
+
         let name = format!("{}", test_name);
 
         add_test(tests, name, ignore, move || {
