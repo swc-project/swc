@@ -4,7 +4,7 @@ use super::super::{
 };
 use crate::{
     errors::{Error, Errors},
-    ty::{Operator, Type},
+    ty::{Operator, Type, Union},
     util::{EqIgnoreSpan, RemoveTypes},
     validator::Validate,
     ValidationResult,
@@ -279,6 +279,23 @@ impl Validate<BinExpr> for Analyzer<'_, '_> {
                     op!("||") => {
                         if lt.is_never() {
                             return Ok(lt);
+                        }
+
+                        fn is_str_lit_or_union(t: &Type) -> bool {
+                            match t {
+                                Type::Lit(TsLitType {
+                                    lit: TsLit::Str(..),
+                                    ..
+                                }) => true,
+                                Type::Union(Union { ref types, .. }) => {
+                                    types.iter().all(is_str_lit_or_union)
+                                }
+                                _ => false,
+                            }
+                        }
+
+                        if is_str_lit_or_union(&lt) && is_str_lit_or_union(&rt) {
+                            return Ok(Type::union(vec![lt, rt]));
                         }
 
                         if let Known(v) = lt.as_bool() {
