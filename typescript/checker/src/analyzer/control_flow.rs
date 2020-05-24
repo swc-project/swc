@@ -228,7 +228,7 @@ impl Analyzer<'_, '_> {
         for case in &mut s.cases {
             if let Some(ref mut test) = case.test {
                 let case_ty = self.validate(test)?;
-                self.assign(&case_ty, &discriminant_ty, test.span())?
+                self.assign(&discriminant_ty, &case_ty, test.span())?
             }
         }
 
