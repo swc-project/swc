@@ -1,9 +1,6 @@
 use super::Analyzer;
 use crate::{
-    analyzer::{
-        pat::PatMode, props::prop_name_to_expr, type_facts::TypeFacts, util::ResultExt, Ctx,
-        ScopeKind,
-    },
+    analyzer::{pat::PatMode, props::prop_name_to_expr, util::ResultExt, Ctx, ScopeKind},
     builtin_types,
     debug::print_backtrace,
     errors::Error,
@@ -14,6 +11,7 @@ use crate::{
         Intersection, Ref, Tuple, Type, TypeElement, TypeLit, TypeParam, TypeParamInstantiation,
         Union,
     },
+    type_facts::TypeFacts,
     util::{EqIgnoreSpan, RemoveTypes, TypeEq},
     validator::{Validate, ValidateWith},
     ValidationResult,

@@ -44,6 +44,7 @@ pub mod loader;
 pub mod name;
 pub mod resolver;
 pub mod ty;
+mod type_facts;
 pub mod util;
 pub mod validator;
 

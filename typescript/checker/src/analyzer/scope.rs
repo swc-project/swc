@@ -1,6 +1,5 @@
 use super::{control_flow::CondFacts, Analyzer};
 use crate::{
-    analyzer::type_facts::TypeFacts,
     builtin_types,
     errors::Error,
     id::Id,
@@ -10,6 +9,7 @@ use crate::{
         self, Alias, EnumVariant, IndexSignature, Interface, PropertySignature, QueryExpr,
         QueryType, Ref, Tuple, Type, TypeElement, TypeLit, Union,
     },
+    type_facts::TypeFacts,
     util::TypeEq,
     validator::{Validate, ValidateWith},
     ValidationResult,

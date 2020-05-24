@@ -57,7 +57,6 @@ mod pat;
 mod props;
 mod scope;
 mod stmt;
-mod type_facts;
 mod util;
 
 #[derive(Debug, Clone, Copy)]

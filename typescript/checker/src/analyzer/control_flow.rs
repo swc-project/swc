@@ -1,7 +1,6 @@
 use super::{
     expr::TypeOfMode,
     scope::{ScopeKind, VarInfo},
-    type_facts::TypeFacts,
     util::Comparator,
     Analyzer,
 };
@@ -11,6 +10,7 @@ use crate::{
     id::Id,
     name::Name,
     ty::{Tuple, Type, TypeElement, TypeLit},
+    type_facts::TypeFacts,
     util::EndsWithRet,
     validator::{Validate, ValidateWith},
     ValidationResult,
