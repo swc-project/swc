@@ -398,8 +398,8 @@ impl swc_ecma_codegen::Handlers for MyHandlers {}
 struct Normalizer;
 
 /// Sorts the type.
-impl Fold<Vec<TsType>> for Normalizer {
-    fn fold(&mut self, mut types: Vec<TsType>) -> Vec<TsType> {
+impl Fold<Vec<Box<TsType>>> for Normalizer {
+    fn fold(&mut self, mut types: Vec<Box<TsType>>) -> Vec<Box<TsType>> {
         fn rank(kind: TsKeywordTypeKind) -> u8 {
             match kind {
                 TsKeywordTypeKind::TsNumberKeyword => 0,
@@ -409,7 +409,7 @@ impl Fold<Vec<TsType>> for Normalizer {
             }
         }
 
-        types.sort_by(|a, b| match (&*a, &*b) {
+        types.sort_by(|a, b| match (&**a, &**b) {
             (&TsType::TsKeywordType(ref a), &TsType::TsKeywordType(ref b)) => {
                 rank(a.kind).cmp(&rank(b.kind))
             }
