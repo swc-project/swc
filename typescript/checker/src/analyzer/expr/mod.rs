@@ -1132,29 +1132,7 @@ impl Analyzer<'_, '_> {
             let ty = ty.into_owned().respan(span);
             let type_facts = self.scope.get_type_facts(&i.into());
 
-            let keyword_types = &[
-                (
-                    TsKeywordTypeKind::TsStringKeyword,
-                    TypeFacts::TypeofEQString,
-                ),
-                (
-                    TsKeywordTypeKind::TsNumberKeyword,
-                    TypeFacts::TypeofEQNumber,
-                ),
-                (
-                    TsKeywordTypeKind::TsBooleanKeyword,
-                    TypeFacts::TypeofEQBoolean,
-                ),
-                (
-                    TsKeywordTypeKind::TsBigIntKeyword,
-                    TypeFacts::TypeofEQBigInt,
-                ),
-                (
-                    TsKeywordTypeKind::TsSymbolKeyword,
-                    TypeFacts::TypeofEQSymbol,
-                ),
-            ];
-
+            let ty = ty.apply_type_facts(type_facts);
             return Ok(ty);
         }
 
