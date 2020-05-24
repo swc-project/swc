@@ -144,6 +144,7 @@ where
         // Of `s` is always executed and we enter infinite loop, return type should be
         // never
         if !self.in_conditional {
+            log::trace!("Checking for infinite loop");
             let mut v = LoopBreakerFinder { found: false };
             s.visit_with(&mut v);
             let has_break = v.found;
