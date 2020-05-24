@@ -125,12 +125,26 @@ impl Fold<Function> for TypeResolver {
 
 impl Fold<VarDecl> for TypeResolver {
     fn fold(&mut self, node: VarDecl) -> VarDecl {
-        let mut node = node.fold_children(self);
+        let mut node: VarDecl = node.fold_children(self);
 
         node.decls.retain(|v| match v.name {
             Pat::Invalid(..) => false,
             _ => true,
         });
+
+        if node.kind != VarDeclKind::Const {
+            node.decls.iter_mut().for_each(|node| match node.init {
+                Some(box Expr::Lit(Lit::Num(..))) => {
+                    node.init = None;
+                    node.name
+                        .set_ty(Some(box TsType::TsKeywordType(TsKeywordType {
+                            span: DUMMY_SP,
+                            kind: TsKeywordTypeKind::TsNumberKeyword,
+                        })))
+                }
+                _ => {}
+            });
+        }
 
         VarDecl {
             declare: true,
@@ -169,14 +183,6 @@ impl Fold<VarDeclarator> for TypeResolver {
             | Some(box Expr::Lit(Lit::Str(..)))
             | Some(box Expr::Lit(Lit::JSXText(..))) => {
                 node.init = None;
-            }
-            Some(box Expr::Lit(Lit::Num(..))) => {
-                node.init = None;
-                node.name
-                    .set_ty(Some(box TsType::TsKeywordType(TsKeywordType {
-                        span: DUMMY_SP,
-                        kind: TsKeywordTypeKind::TsNumberKeyword,
-                    })))
             }
 
             Some(box Expr::Lit(..)) => {}
