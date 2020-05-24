@@ -59,9 +59,10 @@ impl Scope<'_> {
             return f;
         }
 
-        self.parent
-            .then(|parent| parent.get_type_facts(name))
-            .unwrap_or(TypeFacts::None)
+        match self.parent {
+            Some(parent) => parent.get_type_facts(name),
+            _ => TypeFacts::None,
+        }
     }
 
     pub fn is_root(&self) -> bool {
