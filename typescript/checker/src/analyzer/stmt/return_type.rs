@@ -95,6 +95,16 @@ where
     }
 }
 
+impl<A> VisitMut<Stmt> for ReturnTypeCollector<'_, A>
+where
+    A: VisitMut<Stmt> + Validate<Expr, Output = ValidationResult>,
+{
+    fn visit_mut(&mut self, s: &mut Stmt) {
+        s.visit_mut_children(self);
+        s.visit_mut_children(self.analyzer);
+    }
+}
+
 macro_rules! noop {
     ($T:ty) => {
         impl<A> VisitMut<$T> for ReturnTypeCollector<'_, A>
