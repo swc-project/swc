@@ -479,18 +479,7 @@ impl Analyzer<'_, '_> {
             //     args,
             //     type_args,
             // ),
-            Type::Union(ref u) => {
-                let mut errors = vec![];
-                for ty in &u.types {
-                    // TODO: Remove clone
-                    match self.extract(span, ty.clone(), kind, args, type_args) {
-                        Ok(ty) => return Ok(ty),
-                        Err(err) => errors.push(err),
-                    }
-                }
-
-                Err(Error::UnionError { span, errors })
-            }
+            Type::Union(..) => self.get_best_return_type(span, ty, kind, type_args.cloned(), args),
 
             Type::Interface(ref i) => {
                 // Search for methods
@@ -648,8 +637,13 @@ impl Analyzer<'_, '_> {
 
                 let type_params = m.type_params.as_ref().map(|v| &*v.params);
                 if cnt == 1
-                    || match self.check_call(span, type_params, &m.params, type_args.as_ref(), args)
-                    {
+                    || match self.is_exact_call(
+                        span,
+                        type_params,
+                        &m.params,
+                        type_args.as_ref(),
+                        args,
+                    ) {
                         Ok(true) => true,
                         _ => false,
                     }
@@ -737,7 +731,7 @@ impl Analyzer<'_, '_> {
     }
 
     /// This method return [Err] if call is invalid
-    fn check_call(
+    fn is_exact_call(
         &self,
         span: Span,
         type_params: Option<&[TypeParam]>,
@@ -773,11 +767,15 @@ impl Analyzer<'_, '_> {
             });
         }
 
+        let mut exact = true;
         for (arg, param) in args.iter().zip(params) {
             assert_eq!(arg.spread, None, "Spread type in call is not supported yet");
             self.assign(&param.ty, &arg.ty, span)?;
+            if self.assign(&arg.ty, &param.ty, span).is_err() {
+                exact = false
+            }
         }
 
-        Ok(true)
+        Ok(exact)
     }
 }
