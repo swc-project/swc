@@ -104,6 +104,8 @@ impl Analyzer<'_, '_> {
     ) -> ValidationResult {
         let span = callee.span();
 
+        log::debug!("extract_call_new_expr_member");
+
         macro_rules! callee_ty {
             () => {{
                 let callee_ty = callee.validate_with(self)?;
@@ -631,6 +633,10 @@ impl Analyzer<'_, '_> {
         type_args: Option<TypeParamInstantiation>,
         args: &[TypeOrSpread],
     ) -> ValidationResult {
+        let cnt = callee.normalize().iter_union().count();
+
+        log::info!("get_best_return_type: {} candidates", cnt);
+
         // TODO: Calculate return type only if selected
         // This can be done by storing type params, return type, params in the
         // candidates.
@@ -641,7 +647,13 @@ impl Analyzer<'_, '_> {
                 let m = $m;
 
                 let type_params = m.type_params.as_ref().map(|v| &*v.params);
-                if is_exact_match(type_params, &m.params, type_args.as_ref(), args) {
+                if cnt == 1
+                    || match self.check_call(span, type_params, &m.params, type_args.as_ref(), args)
+                    {
+                        Ok(true) => true,
+                        _ => false,
+                    }
+                {
                     return self.get_return_type(
                         span,
                         type_params,
@@ -723,27 +735,49 @@ impl Analyzer<'_, '_> {
 
         Ok(ret_ty.clone())
     }
-}
 
-fn is_exact_match(
-    type_params: Option<&[TypeParam]>,
-    params: &[FnParam],
-    type_args: Option<&TypeParamInstantiation>,
-    args: &[TypeOrSpread],
-) -> bool {
-    if let Some(type_params) = type_params {
-        if let Some(type_args) = type_args {
-            // TODO: Handle defaults of the type parameter (Change to range)
-            if type_params.len() != type_args.params.len() {
-                return false;
+    /// This method return [Err] if call is invalid
+    fn check_call(
+        &self,
+        span: Span,
+        type_params: Option<&[TypeParam]>,
+        params: &[FnParam],
+        type_args: Option<&TypeParamInstantiation>,
+        args: &[TypeOrSpread],
+    ) -> ValidationResult<bool> {
+        if let Some(type_params) = type_params {
+            if let Some(type_args) = type_args {
+                // TODO: Handle defaults of the type parameter (Change to range)
+                if type_params.len() != type_args.params.len() {
+                    return Err(Error::TypeParameterCountMismatch {
+                        span,
+                        max: type_params.len(),
+                        min: type_params.len(),
+                        actual: type_args.params.len(),
+                    });
+                }
             }
         }
-    }
 
-    // TODO: Handle default parameters (Change to range)
-    if params.len() != args.len() {
-        return false;
-    }
+        // TODO: Handle spread
 
-    false
+        let params_min = params.iter().filter(|param| param.required).count();
+        let params_max = params.len();
+
+        if args.len() < params_min || params_max < args.len() {
+            return Err(Error::ParameterCountMismatch {
+                span,
+                min: params_min,
+                max: params_max,
+                actual: args.len(),
+            });
+        }
+
+        for (arg, param) in args.iter().zip(params) {
+            assert_eq!(arg.spread, None, "Spread type in call is not supported yet");
+            self.assign(&param.ty, &arg.ty, span)?;
+        }
+
+        Ok(true)
+    }
 }

@@ -39,6 +39,20 @@ impl Errors {
 
 #[derive(Debug, Clone, PartialEq, Spanned)]
 pub enum Error {
+    TypeParameterCountMismatch {
+        span: Span,
+        min: usize,
+        max: usize,
+        actual: usize,
+    },
+
+    ParameterCountMismatch {
+        span: Span,
+        min: usize,
+        max: usize,
+        actual: usize,
+    },
+
     NoSuchPropertyInModule {
         span: Span,
     },
