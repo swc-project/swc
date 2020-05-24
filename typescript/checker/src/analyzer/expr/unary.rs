@@ -75,6 +75,30 @@ impl Validate<UnaryExpr> for Analyzer<'_, '_> {
             op!("void") => return Ok(Type::undefined(span)),
 
             op!(unary, "-") | op!(unary, "+") => {
+                if let Some(arg) = &arg {
+                    match arg {
+                        Type::Lit(TsLitType {
+                            lit: TsLit::Number(Number { span, value }),
+                            ..
+                        }) => {
+                            let span = *span;
+
+                            return Ok(Type::Lit(TsLitType {
+                                span,
+                                lit: TsLit::Number(Number {
+                                    span,
+                                    value: if op == op!(unary, "-") {
+                                        -(*value)
+                                    } else {
+                                        *value
+                                    },
+                                }),
+                            }));
+                        }
+                        _ => {}
+                    }
+                }
+
                 return Ok(Type::Keyword(TsKeywordType {
                     span,
                     kind: TsKeywordTypeKind::TsNumberKeyword,
