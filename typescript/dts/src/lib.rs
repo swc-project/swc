@@ -595,33 +595,6 @@ impl Fold<ModuleItem> for TypeResolver {
     }
 }
 
-/// Sorts the type.
-///
-/// Note: I don't know why tsc does such strange operation, but I want to
-/// replace tsc.
-impl Fold<TsUnionType> for TypeResolver {
-    fn fold(&mut self, mut u: TsUnionType) -> TsUnionType {
-        fn rank(kind: TsKeywordTypeKind) -> u8 {
-            match kind {
-                TsKeywordTypeKind::TsNumberKeyword => 0,
-                TsKeywordTypeKind::TsStringKeyword => 1,
-                TsKeywordTypeKind::TsBooleanKeyword => 2,
-                // TODO(kdy1): Implement fully
-                _ => 4,
-            }
-        }
-
-        u.types.sort_by(|a, b| match (&**a, &**b) {
-            (&TsType::TsKeywordType(ref a), &TsType::TsKeywordType(ref b)) => {
-                rank(a.kind).cmp(&rank(b.kind))
-            }
-            _ => Equal,
-        });
-
-        u
-    }
-}
-
 impl Fold<TsIndexSignature> for TypeResolver {
     fn fold(&mut self, sig: TsIndexSignature) -> TsIndexSignature {
         let sig = sig.fold_children(self);

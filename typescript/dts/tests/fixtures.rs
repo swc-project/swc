@@ -10,6 +10,7 @@ extern crate test;
 use anyhow::{Context, Error};
 use pretty_assertions::assert_eq;
 use std::{
+    cmp::Ordering::Equal,
     env,
     fs::{canonicalize, File},
     io::Read,
@@ -17,11 +18,11 @@ use std::{
     process::Command,
     sync::Arc,
 };
-use swc_common::{FileName, FoldWith};
-use swc_ecma_ast::Module;
+use swc_common::{FileName, Fold, FoldWith};
+use swc_ecma_ast::{Module, TsKeywordTypeKind, TsType, TsUnionType};
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_parser::{JscTarget, Parser, Session, SourceFileInput, Syntax, TsConfig};
-use swc_ts_checker::Lib;
+use swc_ts_checker::{ty::Type, Lib};
 use swc_ts_dts::generate_dts;
 use test::{test_main, DynTestFn, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType};
 use testing::{DropSpan, NormalizedOutput, StdErr};
@@ -208,6 +209,7 @@ fn do_test(file_name: &Path) -> Result<(), StdErr> {
     let file_name = canonicalize(file_name).unwrap();
     let fname = file_name.display().to_string();
     let (expected_code, expected) = get_correct_dts(&file_name);
+    let expected = expected.fold_with(&mut Normalizer);
     println!("---------- Expected ----------\n{}", expected_code);
 
     testing::Tester::new()
@@ -261,7 +263,7 @@ fn do_test(file_name: &Path) -> Result<(), StdErr> {
                 return Err(());
             }
 
-            let dts = generate_dts(info.0, info.1.exports);
+            let dts = generate_dts(info.0, info.1.exports).fold_with(&mut Normalizer);
 
             let generated = {
                 let mut buf = vec![];
@@ -380,3 +382,28 @@ fn add_test<F: FnOnce() + Send + 'static>(
 struct MyHandlers;
 
 impl swc_ecma_codegen::Handlers for MyHandlers {}
+
+struct Normalizer;
+
+/// Sorts the type.
+impl Fold<Vec<TsType>> for Normalizer {
+    fn fold(&mut self, mut types: Vec<TsType>) -> Vec<TsType> {
+        fn rank(kind: TsKeywordTypeKind) -> u8 {
+            match kind {
+                TsKeywordTypeKind::TsNumberKeyword => 0,
+                TsKeywordTypeKind::TsStringKeyword => 1,
+                TsKeywordTypeKind::TsBooleanKeyword => 2,
+                _ => 4,
+            }
+        }
+
+        types.sort_by(|a, b| match (&*a, &*b) {
+            (&TsType::TsKeywordType(ref a), &TsType::TsKeywordType(ref b)) => {
+                rank(a.kind).cmp(&rank(b.kind))
+            }
+            _ => Equal,
+        });
+
+        types
+    }
+}
