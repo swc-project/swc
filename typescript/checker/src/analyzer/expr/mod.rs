@@ -1127,8 +1127,11 @@ impl Analyzer<'_, '_> {
         }
 
         if let Some(ty) = self.find_var_type(&i.into()) {
-            println!("({}) type_of({}): find_var_type", self.scope.depth(), i.sym);
-            return Ok(ty.into_owned().respan(span));
+            log::debug!("({}) type_of({}): find_var_type", self.scope.depth(), i.sym);
+            let ty = ty.into_owned().respan(span);
+            let type_facts = self.scope.get_type_facts(&i.into());
+
+            return Ok(ty);
         }
 
         if let Some(_var) = self.find_var(&i.into()) {
