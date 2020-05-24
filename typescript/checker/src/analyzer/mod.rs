@@ -19,6 +19,7 @@ use crate::{
     validator::Validate,
     ImportInfo, ModuleTypeInfo, Rule, Specifier, ValidationResult,
 };
+use bitflags::_core::mem::take;
 use fxhash::{FxHashMap, FxHashSet};
 use macros::validator;
 use rayon::prelude::*;
@@ -503,25 +504,24 @@ impl Validate<TsModuleDecl> for Analyzer<'_, '_> {
     fn validate(&mut self, decl: &mut TsModuleDecl) -> Self::Output {
         let span = decl.span;
 
-        let mut new = self.new(Scope::root());
-        new.ctx.in_declare = decl.declare;
+        self.with_child(ScopeKind::Block, Default::default(), |child| {
+            child.ctx.in_declare = decl.declare;
 
-        decl.visit_mut_children(&mut new);
-        self.info.errors.append_errors(&mut new.info.errors);
+            decl.visit_mut_children(child);
 
-        let module = self.finalize(ty::Module {
-            span,
-            exports: new.info.exports,
-        });
-        self.register_type(
-            match decl.id {
-                TsModuleName::Ident(ref i) => i.into(),
-                TsModuleName::Str(ref s) => Ident::new(s.value.clone(), s.span).into(),
-            },
-            Type::Module(module),
-        )
-        .store(&mut self.info.errors);
+            let exports = take(&mut child.info.exports);
+            let module = child.finalize(ty::Module { span, exports });
+            child
+                .register_type(
+                    match decl.id {
+                        TsModuleName::Ident(ref i) => i.into(),
+                        TsModuleName::Str(ref s) => Ident::new(s.value.clone(), s.span).into(),
+                    },
+                    Type::Module(module),
+                )
+                .store(&mut child.info.errors);
 
-        Ok(())
+            Ok(())
+        })
     }
 }
