@@ -1161,7 +1161,11 @@ impl Analyzer<'_, '_> {
             )?);
         }
 
-        log::error!("Creating ref because we failed to resolve {}", i.sym);
+        log::error!(
+            "({}) Creating ref because we failed to resolve {}",
+            self.scope.depth(),
+            i.sym
+        );
 
         Ok(Type::Ref(Ref {
             span,
