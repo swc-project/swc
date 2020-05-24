@@ -351,13 +351,13 @@ impl Analyzer<'_, '_> {
             }
             Pat::Assign(ref mut p) => {
                 let ty = self.validate(&mut p.right)?;
-                println!(
-                    "({}) declare_vars({:?}), ty = {:?}",
+                log::debug!(
+                    "({}) declare_vars: Assign({:?}), ty = {:?}",
                     self.scope.depth(),
                     p.left,
                     ty
                 );
-                self.declare_vars_inner(kind, &mut p.left, export)?;
+                self.declare_vars_inner_with_ty(kind, &mut p.left, export, Some(ty))?;
 
                 return Ok(());
             }
@@ -366,9 +366,15 @@ impl Analyzer<'_, '_> {
                 span,
                 ref mut elems,
                 ref mut type_ann,
-                ..
+                ref mut optional,
             }) => {
                 // TODO: Handle type annotation
+
+                if let Some(ty) = ty {
+                    // TODO: Generalize tuple
+                    *type_ann = Some(ty.generalize_lit().into());
+                    *optional = true;
+                }
 
                 if type_ann.is_none() {
                     *type_ann = Some(TsTypeAnn {
