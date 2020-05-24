@@ -1328,7 +1328,14 @@ impl Validate<ArrowExpr> for Analyzer<'_, '_> {
         self.with_child(ScopeKind::ArrowFn, Default::default(), |child| {
             let type_params = try_opt!(f.type_params.validate_with(child));
 
-            let params = f.params.validate_with(child)?;
+            let params = {
+                let ctx = Ctx {
+                    pat_mode: PatMode::Decl,
+                    allow_ref_declaring: false,
+                    ..child.ctx
+                };
+                f.params.validate_with(&mut *child.with_ctx(ctx))?
+            };
 
             let declared_ret_ty = match f.return_type.validate_with(child) {
                 Some(Ok(ty)) => Some(ty),
