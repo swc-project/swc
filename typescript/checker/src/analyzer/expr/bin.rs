@@ -281,19 +281,6 @@ impl Validate<BinExpr> for Analyzer<'_, '_> {
                             return Ok(lt);
                         }
 
-                        fn is_str_lit_or_union(t: &Type) -> bool {
-                            match t {
-                                Type::Lit(TsLitType {
-                                    lit: TsLit::Str(..),
-                                    ..
-                                }) => true,
-                                Type::Union(Union { ref types, .. }) => {
-                                    types.iter().all(is_str_lit_or_union)
-                                }
-                                _ => false,
-                            }
-                        }
-
                         if is_str_lit_or_union(&lt) && is_str_lit_or_union(&rt) {
                             return Ok(Type::union(vec![lt, rt]));
                         }
@@ -569,5 +556,16 @@ impl Analyzer<'_, '_> {
         }
 
         self.info.errors.extend(errors);
+    }
+}
+
+fn is_str_lit_or_union(t: &Type) -> bool {
+    match t {
+        Type::Lit(TsLitType {
+            lit: TsLit::Str(..),
+            ..
+        }) => true,
+        Type::Union(Union { ref types, .. }) => types.iter().all(is_str_lit_or_union),
+        _ => false,
     }
 }
