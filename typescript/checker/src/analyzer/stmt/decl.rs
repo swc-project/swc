@@ -69,8 +69,15 @@ impl Validate<VarDeclarator> for Analyzer<'_, '_> {
                 };
             }
 
+            // If user specified type, value should be removed.
+            let should_remove_value = v.name.get_ty().is_some();
+
             macro_rules! remove_declaring {
                 () => {{
+                    if should_remove_value {
+                        v.init = None;
+                    }
+
                     debug_assert_eq!(Some(self.scope.declaring.clone()), debug_declaring);
                 }};
             }

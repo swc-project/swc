@@ -179,9 +179,7 @@ impl Fold<VarDeclarator> for TypeResolver {
         }
 
         match node.init {
-            Some(box Expr::Lit(Lit::Null(..)))
-            | Some(box Expr::Lit(Lit::Str(..)))
-            | Some(box Expr::Lit(Lit::JSXText(..))) => {
+            Some(box Expr::Lit(Lit::Null(..))) | Some(box Expr::Lit(Lit::JSXText(..))) => {
                 node.init = None;
             }
 
