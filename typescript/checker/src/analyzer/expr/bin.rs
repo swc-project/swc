@@ -187,6 +187,13 @@ impl Validate<BinExpr> for Analyzer<'_, '_> {
                     }));
                 }
 
+                if is_str_lit_or_union(&lt) && is_str_lit_or_union(&rt) {
+                    return Ok(Type::Keyword(TsKeywordType {
+                        span,
+                        kind: TsKeywordTypeKind::TsStringKeyword,
+                    }));
+                }
+
                 unimplemented!("type_of_bin(+)\nLeft: {:#?}\nRight: {:#?}", lt, rt)
             }
             op!("*") | op!("/") => {
