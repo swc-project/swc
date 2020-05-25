@@ -187,7 +187,7 @@ impl Validate<BinExpr> for Analyzer<'_, '_> {
                     }));
                 }
 
-                if is_str_lit_or_union(&lt) && is_str_lit_or_union(&rt) {
+                if is_str_or_union(&lt) || is_str_or_union(&rt) {
                     return Ok(Type::Keyword(TsKeywordType {
                         span,
                         kind: TsKeywordTypeKind::TsStringKeyword,
@@ -573,6 +573,21 @@ fn is_str_lit_or_union(t: &Type) -> bool {
             ..
         }) => true,
         Type::Union(Union { ref types, .. }) => types.iter().all(is_str_lit_or_union),
+        _ => false,
+    }
+}
+
+fn is_str_or_union(t: &Type) -> bool {
+    match t {
+        Type::Lit(TsLitType {
+            lit: TsLit::Str(..),
+            ..
+        }) => true,
+        Type::Keyword(TsKeywordType {
+            kind: TsKeywordTypeKind::TsStringKeyword,
+            ..
+        }) => true,
+        Type::Union(Union { ref types, .. }) => types.iter().all(is_str_or_union),
         _ => false,
     }
 }
