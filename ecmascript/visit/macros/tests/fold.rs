@@ -1,3 +1,4 @@
+use std::any::Any;
 use swc_ecma_visit_macros::define;
 
 /// Visitable nodes.
