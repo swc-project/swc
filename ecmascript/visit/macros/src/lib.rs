@@ -778,16 +778,28 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                         _ => {}
                                     }
 
-                                    return q!(
-                                        Vars { ident },
-                                        ({
-                                            match n {
-                                                Some(n) => _visitor.ident(n, _parent),
-                                                None => {}
-                                            }
-                                        })
-                                    )
-                                    .parse();
+                                    return match mode {
+                                        Mode::Folder => q!(
+                                            Vars { ident },
+                                            ({
+                                                match n {
+                                                    Some(n) => Some(_visitor.ident(n)),
+                                                    None => None,
+                                                }
+                                            })
+                                        )
+                                        .parse(),
+                                        Mode::Visitor => q!(
+                                            Vars { ident },
+                                            ({
+                                                match n {
+                                                    Some(n) => _visitor.ident(n, _parent),
+                                                    None => {}
+                                                }
+                                            })
+                                        )
+                                        .parse(),
+                                    };
                                 }
                                 _ => unimplemented!("generic parameter other than type"),
                             }
