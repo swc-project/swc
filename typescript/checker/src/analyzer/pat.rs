@@ -1,6 +1,9 @@
 use super::Analyzer;
 use crate::{
-    analyzer::util::{ResultExt, VarVisitor},
+    analyzer::{
+        util::{ResultExt, VarVisitor},
+        ScopeKind,
+    },
     errors::Error,
     ty,
     ty::Type,
@@ -69,7 +72,13 @@ impl Validate<Pat> for Analyzer<'_, '_> {
             PatMode::Assign => {}
         }
 
-        let ty = ty.unwrap_or_else(|| Type::any(p.span()));
+        let ty = ty.unwrap_or_else(|| {
+            if self.ctx.in_argument {
+                Type::unknown(p.span())
+            } else {
+                Type::any(p.span())
+            }
+        });
 
         if p.get_ty().is_none() {
             p.set_ty(Some(box ty.clone().into()));
