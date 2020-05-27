@@ -2,7 +2,6 @@ use super::{Context, Input, Lexer};
 use crate::{input::Tokens, lexer::util::CharExt, token::*, JscTarget, Syntax};
 use enum_kind::Kind;
 use log::trace;
-use smallvec::{smallvec, SmallVec};
 use std::mem;
 use swc_common::BytePos;
 
@@ -272,7 +271,7 @@ impl State {
             is_first: true,
             had_line_break: false,
             prev_hi: BytePos(0),
-            context: TokenContexts(smallvec![TokenContext::BraceStmt]),
+            context: TokenContexts(vec![TokenContext::BraceStmt]),
             token_type: None,
             start: BytePos(0),
             line_start: BytePos(0),
@@ -503,7 +502,7 @@ impl State {
 }
 
 #[derive(Clone, Default)]
-pub struct TokenContexts(pub(crate) SmallVec<[TokenContext; 16]>);
+pub struct TokenContexts(pub(crate) Vec<TokenContext>);
 impl TokenContexts {
     /// Returns true if following `LBrace` token is `block statement` according
     /// to  `ctx`, `prev`, `is_expr_allowed`.
@@ -618,7 +617,7 @@ where
         let mut l = Lexer::new(sess, syntax, Default::default(), fm, None);
         let res = f(&mut l);
 
-        let c: SmallVec<[TokenContext; 32]> = smallvec![TokenContext::BraceStmt];
+        let c = vec![TokenContext::BraceStmt];
         debug_assert_eq!(l.state.context.0, c);
 
         res

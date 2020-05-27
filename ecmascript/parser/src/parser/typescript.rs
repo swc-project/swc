@@ -1,7 +1,6 @@
 use super::*;
 use crate::{lexer::TokenContexts, make_span};
 use either::Either;
-use smallvec::smallvec;
 use swc_atoms::js_word;
 use swc_common::{Spanned, SyntaxContext};
 
@@ -2289,7 +2288,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
         let cloned = self.input.token_context().clone();
         self.input
-            .set_token_context(TokenContexts(smallvec![cloned.0[0]]));
+            .set_token_context(TokenContexts(vec![cloned.0[0]]));
         let res = op(self);
         self.input.set_token_context(cloned);
 
