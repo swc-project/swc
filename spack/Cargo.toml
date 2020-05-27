@@ -30,7 +30,7 @@ node-resolve = "2.2.0"
 petgraph = "0.5"
 fxhash = "0.2.1"
 is-macro = "0.1.8"
-neon = "0.3.3"
+neon = "0.4.0"
 
 [dev-dependencies]
 pretty_assertions = "0.6.1"
