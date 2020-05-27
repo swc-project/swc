@@ -72,11 +72,11 @@ impl Validate<VarDeclarator> for Analyzer<'_, '_> {
             {
                 // let a = {} as Foo
                 match v.init {
-                    Some(box Expr::TsAs(TsAsExpr { type_ann, .. }))
+                    Some(box Expr::TsAs(TsAsExpr { ref type_ann, .. }))
                     | Some(box Expr::TsTypeCast(TsTypeCastExpr {
-                        type_ann: TsTypeAnn { type_ann, .. },
+                        type_ann: TsTypeAnn { ref type_ann, .. },
                         ..
-                    })) => v.name.set_ty(Some(type_ann)),
+                    })) => v.name.set_ty(Some(type_ann.clone())),
                     _ => {}
                 }
             }
@@ -178,15 +178,10 @@ impl Validate<VarDeclarator> for Analyzer<'_, '_> {
 
                         log::debug!("var: user did not declare type");
                         let ty = self.rename_type_params(span, ty, None)?;
-                        dbg!(v.name.get_ty());
                         let mut ty = ty.fold_with(&mut Generalizer::default());
-                        dbg!();
                         if self.scope.is_root() {
-                            dbg!();
                             if let Some(box Expr::Ident(ref alias)) = &v.init {
-                                dbg!();
                                 if let Pat::Ident(ref mut i) = v.name {
-                                    dbg!();
                                     i.type_ann = Some(TsTypeAnn {
                                         span: DUMMY_SP,
                                         type_ann: box TsType::TsTypeQuery(TsTypeQuery {
@@ -199,18 +194,13 @@ impl Validate<VarDeclarator> for Analyzer<'_, '_> {
                                 }
                             }
                             if !should_remove_value {
-                                dbg!();
                                 v.name.set_ty(Some(ty.clone().into()));
                             }
                         }
-                        dbg!();
                         if !should_remove_value {
-                            dbg!();
                             ty = self.expand(span, ty)?;
                         }
-                        dbg!();
                         self.check_rvalue(&ty);
-                        dbg!();
 
                         let mut type_errors = vec![];
 
