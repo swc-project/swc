@@ -139,7 +139,7 @@ impl Analyzer<'_, '_> {
             _ => {}
         }
 
-        self.assign(&casted_ty, &orig_ty, span)?;
+        // self.assign(&casted_ty, &orig_ty, span)?;
 
         match casted_ty {
             Type::Tuple(ref rt) => {
