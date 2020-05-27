@@ -52,8 +52,6 @@ impl Bundler {
 
         let mut graph = ModuleGraph::new();
 
-        let mut graph = ModuleGraph::new();
-
         for (_, m) in &actual {
             self.add(&mut graph, &m.main);
         }
