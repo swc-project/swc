@@ -1,7 +1,7 @@
 //! Handles new expressions and call expressions.
 use super::super::Analyzer;
 use crate::{
-    analyzer::{expr::TypeOfMode, props::prop_name_to_expr, util::ResultExt},
+    analyzer::{expr::TypeOfMode, props::prop_name_to_expr, util::ResultExt, Ctx},
     builtin_types,
     debug::print_backtrace,
     errors::Error,
@@ -102,18 +102,23 @@ impl Analyzer<'_, '_> {
         args: &mut [ExprOrSpread],
         type_args: Option<&mut TsTypeParamInstantiation>,
     ) -> ValidationResult {
+        let ctx = Ctx {
+            in_argument: true,
+            ..self.ctx
+        };
+        let mut a = self.with_ctx(ctx);
         let span = callee.span();
 
         log::debug!("extract_call_new_expr_member");
 
         macro_rules! callee_ty {
             () => {{
-                let callee_ty = callee.validate_with(self)?;
+                let callee_ty = callee.validate_with(&mut *a)?;
                 match *callee_ty.normalize() {
                     Type::Keyword(TsKeywordType {
                         kind: TsKeywordTypeKind::TsAnyKeyword,
                         ..
-                    }) if type_args.is_some() => self.info.errors.push(Error::TS2347 { span }),
+                    }) if type_args.is_some() => a.info.errors.push(Error::TS2347 { span }),
                     _ => {}
                 }
                 callee_ty
@@ -122,7 +127,7 @@ impl Analyzer<'_, '_> {
 
         match *callee {
             Expr::Ident(ref i) if i.sym == js_word!("require") => {
-                if let Some(dep) = self.resolved_import_vars.get(
+                if let Some(dep) = a.resolved_import_vars.get(
                     &args
                         .iter()
                         .cloned()
@@ -162,8 +167,8 @@ impl Analyzer<'_, '_> {
         let mut args: Vec<_> = args
             .into_iter()
             .map(|arg| {
-                self.validate(arg)
-                    .store(&mut self.info.errors)
+                arg.validate_with(&mut *a)
+                    .store(&mut a.info.errors)
                     .unwrap_or_else(|| TypeOrSpread {
                         span: arg.span(),
                         spread: arg.spread,
@@ -232,7 +237,7 @@ impl Analyzer<'_, '_> {
                         {
                             // Handle methods from `interface Object`
                             let i = builtin_types::get_type(
-                                self.libs,
+                                a.libs,
                                 span,
                                 &Id::word(js_word!("Object")),
                             )
@@ -258,7 +263,7 @@ impl Analyzer<'_, '_> {
                             }
                             1 => {
                                 // TODO:
-                                return self.check_method_call(
+                                return a.check_method_call(
                                     span,
                                     &candidates.into_iter().next().unwrap(),
                                     &args,
@@ -268,7 +273,7 @@ impl Analyzer<'_, '_> {
                                 //
                                 for c in candidates {
                                     if c.params.len() == args.len() {
-                                        return self.check_method_call(span, &c, &args);
+                                        return a.check_method_call(span, &c, &args);
                                     }
                                 }
 
@@ -305,18 +310,18 @@ impl Analyzer<'_, '_> {
                 }
 
                 // Handle member expression
-                let obj_type = self.validate(obj)?.generalize_lit().into_owned();
+                let obj_type = obj.validate_with(&mut *a)?.generalize_lit().into_owned();
 
                 let obj_type = match *obj_type.normalize() {
                     Type::Keyword(TsKeywordType {
                         kind: TsKeywordTypeKind::TsNumberKeyword,
                         ..
-                    }) => builtin_types::get_type(self.libs, span, &Id::word(js_word!("Number")))
+                    }) => builtin_types::get_type(a.libs, span, &Id::word(js_word!("Number")))
                         .expect("Builtin type named 'Number' should exist"),
                     Type::Keyword(TsKeywordType {
                         kind: TsKeywordTypeKind::TsStringKeyword,
                         ..
-                    }) => builtin_types::get_type(self.libs, span, &Id::word(js_word!("String")))
+                    }) => builtin_types::get_type(a.libs, span, &Id::word(js_word!("String")))
                         .expect("Builtin type named 'String' should exist"),
                     _ => obj_type,
                 };
@@ -364,7 +369,7 @@ impl Analyzer<'_, '_> {
                         ..
                     }) => {
                         if let Ok(ty) =
-                            builtin_types::get_type(self.libs, span, &Id::word(js_word!("Symbol")))
+                            builtin_types::get_type(a.libs, span, &Id::word(js_word!("Symbol")))
                         {
                             return Ok(ty);
                         }
@@ -377,25 +382,25 @@ impl Analyzer<'_, '_> {
                     unimplemented!("typeof(CallExpr): {:?}[{:?}]()", obj, prop)
                 } else {
                     let callee =
-                        self.access_property(span, obj_type, prop, computed, TypeOfMode::RValue)?;
+                        a.access_property(span, obj_type, prop, computed, TypeOfMode::RValue)?;
 
                     let type_args = match type_args {
                         None => None,
-                        Some(v) => Some(v.validate_with(self)?),
+                        Some(v) => Some(v.validate_with(&mut *a)?),
                     };
 
-                    self.get_best_return_type(span, callee, kind, type_args, &args)
+                    a.get_best_return_type(span, callee, kind, type_args, &args)
                 }
             }
             _ => {
                 let ty = callee_ty!();
-                let ty = self.expand_fully(span, ty, false)?;
+                let ty = a.expand_fully(span, ty, false)?;
                 let type_args = match type_args {
                     None => None,
-                    Some(ty) => Some(ty.validate_with(self)?),
+                    Some(ty) => Some(ty.validate_with(&mut *a)?),
                 };
 
-                Ok(self.extract(span, ty, kind, &mut args, type_args.as_ref())?)
+                Ok(a.extract(span, ty, kind, &mut args, type_args.as_ref())?)
             }
         }
     }
