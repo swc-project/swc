@@ -863,7 +863,7 @@ impl Analyzer<'_, '_> {
                                 false
                             }
                         };
-                        if success {
+                        if success && $rhs.len() > i {
                             unhandled_rhs
                                 .remove_item(&$rhs[i].span())
                                 .expect("it should be removable");
