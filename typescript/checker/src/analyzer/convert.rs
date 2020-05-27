@@ -555,44 +555,37 @@ impl Validate<TsType> for Analyzer<'_, '_> {
     fn validate(&mut self, ty: &mut TsType) -> Self::Output {
         self.record(ty);
 
-        let ctx = Ctx {
-            in_argument: false,
-            in_type: true,
-            ..self.ctx
-        };
-        self.with_ctx(ctx).with(|a| {
-            Ok(match ty {
-                TsType::TsThisType(this) => Type::This(this.clone()),
-                TsType::TsLitType(ty) => Type::Lit(ty.clone()),
-                TsType::TsKeywordType(ty) => Type::Keyword(ty.clone()),
-                TsType::TsTupleType(ty) => Type::Tuple(a.validate(ty)?),
-                TsType::TsUnionOrIntersectionType(TsUnionOrIntersectionType::TsUnionType(u)) => {
-                    Type::Union(a.validate(u)?)
-                }
-                TsType::TsUnionOrIntersectionType(
-                    TsUnionOrIntersectionType::TsIntersectionType(i),
-                ) => Type::Intersection(a.validate(i)?),
-                TsType::TsArrayType(arr) => Type::Array(a.validate(arr)?),
-                TsType::TsFnOrConstructorType(TsFnOrConstructorType::TsFnType(f)) => {
-                    Type::Function(a.validate(f)?)
-                }
-                TsType::TsFnOrConstructorType(TsFnOrConstructorType::TsConstructorType(c)) => {
-                    Type::Constructor(a.validate(c)?)
-                }
-                TsType::TsTypeLit(lit) => Type::TypeLit(a.validate(lit)?),
-                TsType::TsConditionalType(cond) => Type::Conditional(a.validate(cond)?),
-                TsType::TsMappedType(ty) => Type::Mapped(a.validate(ty)?),
-                TsType::TsTypeOperator(ty) => Type::Operator(a.validate(ty)?),
-                TsType::TsParenthesizedType(ty) => a.validate(ty)?,
-                TsType::TsTypeRef(ty) => a.validate(ty)?,
-                TsType::TsTypeQuery(ty) => Type::Query(ty.validate_with(a)?),
-                TsType::TsOptionalType(ty) => unimplemented!("{:?}", ty),
-                TsType::TsRestType(ty) => unimplemented!("{:?}", ty),
-                TsType::TsInferType(ty) => Type::Infer(ty.validate_with(a)?),
-                TsType::TsIndexedAccessType(ty) => Type::IndexedAccessType(ty.validate_with(a)?),
-                TsType::TsTypePredicate(ty) => Type::Predicate(ty.validate_with(a)?),
-                TsType::TsImportType(ty) => Type::Import(ty.validate_with(a)?),
-            })
+        Ok(match ty {
+            TsType::TsThisType(this) => Type::This(this.clone()),
+            TsType::TsLitType(ty) => Type::Lit(ty.clone()),
+            TsType::TsKeywordType(ty) => Type::Keyword(ty.clone()),
+            TsType::TsTupleType(ty) => Type::Tuple(self.validate(ty)?),
+            TsType::TsUnionOrIntersectionType(TsUnionOrIntersectionType::TsUnionType(u)) => {
+                Type::Union(self.validate(u)?)
+            }
+            TsType::TsUnionOrIntersectionType(TsUnionOrIntersectionType::TsIntersectionType(i)) => {
+                Type::Intersection(self.validate(i)?)
+            }
+            TsType::TsArrayType(arr) => Type::Array(self.validate(arr)?),
+            TsType::TsFnOrConstructorType(TsFnOrConstructorType::TsFnType(f)) => {
+                Type::Function(self.validate(f)?)
+            }
+            TsType::TsFnOrConstructorType(TsFnOrConstructorType::TsConstructorType(c)) => {
+                Type::Constructor(self.validate(c)?)
+            }
+            TsType::TsTypeLit(lit) => Type::TypeLit(self.validate(lit)?),
+            TsType::TsConditionalType(cond) => Type::Conditional(self.validate(cond)?),
+            TsType::TsMappedType(ty) => Type::Mapped(self.validate(ty)?),
+            TsType::TsTypeOperator(ty) => Type::Operator(self.validate(ty)?),
+            TsType::TsParenthesizedType(ty) => self.validate(ty)?,
+            TsType::TsTypeRef(ty) => self.validate(ty)?,
+            TsType::TsTypeQuery(ty) => Type::Query(ty.validate_with(self)?),
+            TsType::TsOptionalType(ty) => unimplemented!("{:?}", ty),
+            TsType::TsRestType(ty) => unimplemented!("{:?}", ty),
+            TsType::TsInferType(ty) => Type::Infer(ty.validate_with(self)?),
+            TsType::TsIndexedAccessType(ty) => Type::IndexedAccessType(ty.validate_with(self)?),
+            TsType::TsTypePredicate(ty) => Type::Predicate(ty.validate_with(self)?),
+            TsType::TsImportType(ty) => Type::Import(ty.validate_with(self)?),
         })
     }
 }

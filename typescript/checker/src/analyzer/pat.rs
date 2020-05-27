@@ -73,7 +73,7 @@ impl Validate<Pat> for Analyzer<'_, '_> {
         }
 
         let ty = ty.unwrap_or_else(|| {
-            if self.ctx.in_argument && !self.ctx.in_type && !self.ctx.is_typed {
+            if self.ctx.in_argument {
                 Type::unknown(p.span())
             } else {
                 Type::any(p.span())

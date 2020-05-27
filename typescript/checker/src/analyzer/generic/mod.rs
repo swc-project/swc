@@ -235,6 +235,7 @@ impl Analyzer<'_, '_> {
     ) -> ValidationResult<()> {
         let param = param.normalize();
         let arg = arg.normalize();
+
         match arg {
             Type::Union(arg) => {
                 //
@@ -373,16 +374,6 @@ impl Analyzer<'_, '_> {
 
             Type::Function(p) => match arg {
                 Type::Function(a) => {
-                    dbg!(&p, &a);
-                    {
-                        // declare function f1<T>(cb: <S>(x: S) => T): T;
-                        //
-                        // let x1 = f1(x => x);
-                        //
-                        //  =>
-                        //
-                        // let x1: unknown;
-                    }
                     self.infer_type_of_fn_params(inferred, &p.params, &a.params)?;
                     self.infer_type(inferred, &p.ret_ty, &a.ret_ty)?;
                     if let Some(arg_type_params) = &a.type_params {

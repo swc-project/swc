@@ -82,11 +82,11 @@ impl Validate<VarDeclarator> for Analyzer<'_, '_> {
             }
 
             // If user specified type, value should be removed.
-            let is_typed = v.name.get_ty().is_some();
+            let should_remove_value = v.name.get_ty().is_some();
 
             macro_rules! remove_declaring {
                 () => {{
-                    if is_typed {
+                    if should_remove_value {
                         v.init = None;
                     }
 
@@ -106,14 +106,7 @@ impl Validate<VarDeclarator> for Analyzer<'_, '_> {
                 debug_assert_eq!(self.ctx.allow_ref_declaring, true);
 
                 //  Check if v_ty is assignable to ty
-                let mut value_ty = match {
-                    let ctx = Ctx {
-                        is_typed: self.ctx.is_typed || is_typed,
-                        ..self.ctx
-                    };
-                    let mut a = self.with_ctx(ctx);
-                    init.validate_with(&mut *a)
-                } {
+                let mut value_ty = match init.validate_with(self) {
                     Ok(ty) => ty,
                     Err(err) => {
                         if self.is_builtin {
@@ -200,11 +193,11 @@ impl Validate<VarDeclarator> for Analyzer<'_, '_> {
                                     });
                                 }
                             }
-                            if !is_typed {
+                            if !should_remove_value {
                                 v.name.set_ty(Some(ty.clone().into()));
                             }
                         }
-                        if !is_typed {
+                        if !should_remove_value {
                             ty = self.expand(span, ty)?;
                         }
                         self.check_rvalue(&ty);
