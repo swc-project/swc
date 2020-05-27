@@ -445,12 +445,10 @@ impl Compiler {
 
             self.print(
                 &program,
-                &self.comments,
                 config.source_maps,
                 orig,
                 config.minify,
             )
-            self.print(&module, config.source_maps, orig.as_ref(), config.minify)
         })
     }
 }
