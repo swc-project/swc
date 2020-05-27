@@ -494,11 +494,3 @@ fn issue_783_core_js_3() {
         "import of `core-js` should be transformed"
     );
 }
-
-#[test]
-fn issue_798() {
-    let f = file("tests/projects/issue-798/input.js").unwrap();
-    println!("{}", f);
-
-    assert!(f.contains("require('core-js');"));
-}
