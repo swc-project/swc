@@ -763,7 +763,6 @@ impl Validate<Class> for Analyzer<'_, '_> {
                         ty::ClassMember::Property(_) => {}
                     }
                 }
-                let mut prop_types = PropertyMap::<Type>::default();
 
                 for (orig, m) in &mut body {
                     match m {
