@@ -494,3 +494,11 @@ fn issue_783_core_js_3() {
         "import of `core-js` should be transformed"
     );
 }
+
+#[test]
+fn issue_801() {
+    let f = file("tests/projects/issue-801/input.ts").unwrap();
+    println!("{}", f);
+
+    assert!(!f.contains("function delete"));
+}

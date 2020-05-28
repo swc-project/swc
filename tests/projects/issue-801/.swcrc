@@ -1,0 +1,14 @@
+{
+    "test": ".*\\.tsx?$",
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "tsx": true,
+            "decorators": true,
+            "dynamicImport": true
+        }
+    },
+    "module": {
+        "type": "commonjs"
+    }
+}

@@ -541,3 +541,45 @@ to!(
         const a = {};
       }"
 );
+
+to!(
+    issue_900_1,
+    "export class FeatureSet<Name extends string> {
+    log(a: Name) {
+        console.log(a)
+    }
+}",
+    "export class FeatureSet {
+    log(a) {
+        console.log(a)
+    }
+}"
+);
+
+to!(
+    issue_900_2,
+    "class FeatureSet<Name extends string> {
+    log(a: Name) {
+        console.log(a)
+    }
+}",
+    "class FeatureSet {
+    log(a) {
+        console.log(a)
+    }
+}"
+);
+
+to!(
+    issue_900_3,
+    "export default class FeatureSet<Name extends string> {
+    log(a: Name) {
+        console.log(a)
+    }
+}",
+    "export default class FeatureSet {
+    log(a) {
+        console.log(a)
+    }
+}"
+);
