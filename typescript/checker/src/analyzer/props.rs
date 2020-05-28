@@ -241,6 +241,10 @@ impl Analyzer<'_, '_> {
             Prop::Assign(ref mut p) => unimplemented!("type_of_prop(AssignProperty): {:?}", p),
             Prop::Getter(ref mut p) => p.validate_with(self)?,
             Prop::Setter(ref mut p) => {
+                let computed = match p.key {
+                    PropName::Computed(_) => true,
+                    _ => false,
+                };
                 let parma_span = p.param.span();
                 let mut param = &mut p.param;
 
@@ -252,7 +256,7 @@ impl Analyzer<'_, '_> {
                             params: vec![param.validate_with(child)?],
                             optional: false,
                             readonly: false,
-                            computed: false,
+                            computed,
                             type_ann: Some(Type::any(parma_span)),
                             type_params: Default::default(),
                         }
@@ -307,6 +311,11 @@ impl Validate<GetterProp> for Analyzer<'_, '_> {
     fn validate(&mut self, n: &mut GetterProp) -> Self::Output {
         self.record(n);
 
+        let computed = match n.key {
+            PropName::Computed(_) => true,
+            _ => false,
+        };
+
         let type_ann = self
             .with_child(ScopeKind::Fn, Default::default(), |child| {
                 n.key.visit_mut_with(child);
@@ -332,7 +341,7 @@ impl Validate<GetterProp> for Analyzer<'_, '_> {
             params: Default::default(),
             optional: false,
             readonly: true,
-            computed: false,
+            computed,
             type_ann,
             type_params: Default::default(),
         }
