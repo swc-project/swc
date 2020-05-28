@@ -597,7 +597,7 @@ impl Fold<Expr> for Fixer {
                     ..expr
                 }));
                 match self.ctx {
-                    Context::Callee { .. } => self.wrap(expr),
+                    Context::Callee { is_new: true } => self.wrap(expr),
                     _ => expr,
                 }
             }
