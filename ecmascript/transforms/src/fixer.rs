@@ -590,12 +590,16 @@ impl Fold<Expr> for Fixer {
                     e @ Expr::Seq(..) => box self.wrap(e),
                     _ => expr.alt,
                 };
-                validate!(Expr::Cond(CondExpr {
+                let expr = validate!(Expr::Cond(CondExpr {
                     test,
                     cons,
                     alt,
                     ..expr
-                }))
+                }));
+                match self.ctx {
+                    Context::Callee { .. } => self.wrap(expr),
+                    _ => expr,
+                }
             }
 
             Expr::Unary(expr) => {
@@ -1072,4 +1076,6 @@ var store = global[SHARED] || (global[SHARED] = {});
     );
 
     test_fixer!(void_and_bin, "(void 0) * 2", "(void 0) * 2");
+
+    test_fixer!(new_cond, "new (a ? B : C)()", "new (a ? B : C)()");
 }
