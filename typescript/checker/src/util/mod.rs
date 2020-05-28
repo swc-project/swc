@@ -1,9 +1,29 @@
 use crate::ty::{Class, FnParam, Intersection, Type, TypeElement, Union};
 use swc_common::{Fold, FoldWith, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_utils::{ModuleItemLike, StmtLike};
 
 pub(crate) mod named;
 pub(crate) mod property_map;
+
+pub(crate) trait AsModuleDecl: StmtLike + ModuleItemLike {
+    fn as_module_decl(&self) -> Result<&ModuleDecl, &Stmt>;
+}
+
+impl AsModuleDecl for Stmt {
+    fn as_module_decl(&self) -> Result<&ModuleDecl, &Stmt> {
+        Err(self)
+    }
+}
+
+impl AsModuleDecl for ModuleItem {
+    fn as_module_decl(&self) -> Result<&ModuleDecl, &Stmt> {
+        match self {
+            ModuleItem::ModuleDecl(decl) => Ok(decl),
+            ModuleItem::Stmt(stmt) => Err(stmt),
+        }
+    }
+}
 
 pub trait EqIgnoreSpan {
     fn eq_ignore_span(&self, to: &Self) -> bool;

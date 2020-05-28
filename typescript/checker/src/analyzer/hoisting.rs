@@ -1,9 +1,9 @@
-use crate::{analyzer::Analyzer, id::Id, ValidationResult};
+use crate::{analyzer::Analyzer, id::Id, util::AsModuleDecl, ValidationResult};
 use fxhash::{FxHashMap, FxHashSet};
 use petgraph::{algo::toposort, graph::DiGraph, graphmap::DiGraphMap, visit::DfsPostOrder};
 use swc_common::{Visit, VisitWith};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ident::IdentLike, DestructuringFinder, StmtLike};
+use swc_ecma_utils::{ident::IdentLike, DestructuringFinder};
 
 impl Analyzer<'_, '_> {
     /// Returns the order of evaluation. This methods is used to handle hoisting
@@ -24,12 +24,53 @@ impl Analyzer<'_, '_> {
     /// ```
     pub(super) fn reorder_stmts<T>(&mut self, nodes: &[T]) -> Vec<usize>
     where
-        T: StmtLike + for<'any> VisitWith<StmtDependencyFinder<'any>>,
+        T: AsModuleDecl + for<'any> VisitWith<StmtDependencyFinder<'any>>,
     {
         if nodes.len() <= 1 {
             return (0..nodes.len()).collect();
         }
 
+        // Only `var` and `function` are hoisted.
+        // So we don't need to calculate dependency graph of normal statements
+        let non_hoisted_orders = {
+            let mut orders = vec![];
+
+            for (idx, node) in nodes.iter().enumerate() {
+                let is_hoisted = match node.as_module_decl() {
+                    Ok(decl) => match decl {
+                        ModuleDecl::ExportDecl(export) => match export.decl {
+                            Decl::Var(VarDecl {
+                                kind: VarDeclKind::Var,
+                                ..
+                            })
+                            | Decl::Fn(_) => true,
+                            _ => false,
+                        },
+                        _ => false,
+                    },
+                    Err(stmt) => match stmt {
+                        Stmt::Decl(Decl::Var(VarDecl {
+                            kind: VarDeclKind::Var,
+                            ..
+                        }))
+                        | Stmt::Decl(Decl::Fn(..)) => true,
+                        _ => false,
+                    },
+                };
+
+                if !is_hoisted {
+                    orders.push(idx);
+                }
+            }
+
+            orders
+        };
+
+        if non_hoisted_orders.len() == nodes.len() {
+            return non_hoisted_orders;
+        }
+
+        // slow path
         let mut ids_graph = DiGraph::<_, usize>::with_capacity(nodes.len(), nodes.len() * 2);
 
         let mut order_idx_by_id = FxHashMap::<Id, usize>::default();
@@ -37,6 +78,10 @@ impl Analyzer<'_, '_> {
         let mut node_ids_by_order_idx = FxHashMap::<_, Vec<_>>::default();
 
         for (idx, node) in nodes.iter().enumerate() {
+            if non_hoisted_orders.contains(&idx) {
+                continue;
+            }
+
             let mut ids = FxHashSet::<Id>::default();
             let mut ids_buf = vec![];
             let mut deps = FxHashSet::<Id>::default();
