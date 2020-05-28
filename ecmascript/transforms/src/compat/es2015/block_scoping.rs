@@ -162,7 +162,7 @@ impl BlockScoping {
                     definite: false,
                 });
 
-                return CallExpr {
+                let call = CallExpr {
                     span: DUMMY_SP,
                     callee: var_name.as_callee(),
                     args: args
@@ -173,8 +173,161 @@ impl BlockScoping {
                         })
                         .collect(),
                     type_args: None,
+                };
+
+                if flow_helper.has_return || flow_helper.has_continue || flow_helper.has_break {
+                    let ret = private_ident!("_ret");
+
+                    let mut stmts = vec![
+                        // var _ret = _loop(i);
+                        Stmt::Decl(Decl::Var(VarDecl {
+                            span: DUMMY_SP,
+                            kind: VarDeclKind::Var,
+                            declare: false,
+                            decls: vec![VarDeclarator {
+                                span: DUMMY_SP,
+                                name: Pat::Ident(ret.clone()),
+                                init: Some(box call.into()),
+                                definite: false,
+                            }],
+                        })),
+                    ];
+
+                    let use_switch = flow_helper.has_break && flow_helper.has_continue;
+
+                    let check_ret = if flow_helper.has_return {
+                        // if (_typeof(_ret) === "object") return _ret.v;
+                        Some(
+                            IfStmt {
+                                span: DUMMY_SP,
+                                test: box Expr::Bin(BinExpr {
+                                    span: DUMMY_SP,
+                                    op: BinaryOp::EqEqEq,
+                                    left: {
+                                        // _typeof(_ret)
+                                        let callee = helper!(type_of, "typeof");
+
+                                        box Expr::Call(CallExpr {
+                                            span: Default::default(),
+                                            callee,
+                                            args: vec![ExprOrSpread {
+                                                spread: None,
+                                                expr: box ret.clone().into(),
+                                            }],
+                                            type_args: None,
+                                        })
+                                    },
+                                    //"object"
+                                    right: box Expr::Lit(Lit::Str(Str {
+                                        span: DUMMY_SP,
+                                        value: js_word!("object"),
+                                        has_escape: false,
+                                    })),
+                                }),
+                                cons: box Stmt::Return(ReturnStmt {
+                                    span: DUMMY_SP,
+                                    arg: Some(box ret.clone().member(quote_ident!("v"))),
+                                }),
+                                alt: None,
+                            }
+                            .into(),
+                        )
+                    } else {
+                        None
+                    };
+
+                    if use_switch {
+                        let mut cases = vec![];
+
+                        if flow_helper.has_break {
+                            cases.push(
+                                SwitchCase {
+                                    span: DUMMY_SP,
+                                    test: Some(box quote_str!("break").into()),
+                                    // TODO: Handle labelled statements
+                                    cons: vec![Stmt::Break(BreakStmt {
+                                        span: DUMMY_SP,
+                                        label: None,
+                                    })],
+                                }
+                                .into(),
+                            );
+                        }
+
+                        if flow_helper.has_continue {
+                            cases.push(
+                                SwitchCase {
+                                    span: DUMMY_SP,
+                                    test: Some(box quote_str!("continue").into()),
+                                    // TODO: Handle labelled statements
+                                    cons: vec![Stmt::Continue(ContinueStmt {
+                                        span: DUMMY_SP,
+                                        label: None,
+                                    })],
+                                }
+                                .into(),
+                            );
+                        }
+
+                        cases.extend(check_ret.map(|stmt| SwitchCase {
+                            span: DUMMY_SP,
+                            test: None,
+                            cons: vec![stmt],
+                        }));
+
+                        stmts.push(
+                            SwitchStmt {
+                                span: DUMMY_SP,
+                                discriminant: box ret.clone().into(),
+                                cases,
+                            }
+                            .into(),
+                        );
+                    } else {
+                        //
+                        if flow_helper.has_break {
+                            stmts.push(
+                                IfStmt {
+                                    span: DUMMY_SP,
+                                    test: box ret.clone().make_eq(quote_str!("break")),
+                                    // TODO: Handle labelled statements
+                                    cons: box Stmt::Break(BreakStmt {
+                                        span: DUMMY_SP,
+                                        label: None,
+                                    }),
+                                    alt: None,
+                                }
+                                .into(),
+                            );
+                        }
+
+                        if flow_helper.has_continue {
+                            stmts.push(
+                                IfStmt {
+                                    span: DUMMY_SP,
+                                    test: box ret.clone().make_eq(quote_str!("continue")),
+                                    // TODO: Handle labelled statements
+                                    cons: box Stmt::Continue(ContinueStmt {
+                                        span: DUMMY_SP,
+                                        label: None,
+                                    }),
+                                    alt: None,
+                                }
+                                .into(),
+                            );
+                        }
+
+                        stmts.extend(check_ret);
+                    }
+
+                    return BlockStmt {
+                        span: DUMMY_SP,
+                        stmts,
+                    }
+                    .into();
                 }
-                .into_stmt();
+
+                return call.into_stmt();
             }
 
             body
