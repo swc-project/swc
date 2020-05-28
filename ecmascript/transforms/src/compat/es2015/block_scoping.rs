@@ -522,6 +522,19 @@ struct FlowHelper {
 
 noop_fold_type!(FlowHelper);
 
+/// noop
+impl Fold<Function> for FlowHelper {
+    fn fold(&mut self, f: Function) -> Function {
+        f
+    }
+}
+
+impl Fold<ArrowExpr> for FlowHelper {
+    fn fold(&mut self, f: ArrowExpr) -> ArrowExpr {
+        f
+    }
+}
+
 impl Fold<Stmt> for FlowHelper {
     fn fold(&mut self, node: Stmt) -> Stmt {
         let span = node.span();
