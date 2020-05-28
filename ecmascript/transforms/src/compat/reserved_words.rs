@@ -43,9 +43,10 @@ fn rename_ident(sym: JsWord, _strict: bool) -> JsWord {
         "enum" | "implements" | "package" | "protected" | "interface" | "private" | "public"
         | "await" | "break" | "case" | "catch" | "class" | "const" | "continue" | "debugger"
         | "default" | "delete" | "do" | "else" | "export" | "extends" | "finally" | "for"
-        | "function" | "if" | "import" | "in" | "instanceof" | "new" | "return" | "super"
-        | "switch" | "this" | "throw" | "try" | "typeof" | "var" | "void" | "while" | "with"
-        | "yield" => format!("_{}", sym).into(),
+        | "function" | "if" | "in" | "instanceof" | "new" | "return" | "super" | "switch"
+        | "this" | "throw" | "try" | "typeof" | "var" | "void" | "while" | "with" | "yield" => {
+            format!("_{}", sym).into()
+        }
 
         _ => sym,
     }
