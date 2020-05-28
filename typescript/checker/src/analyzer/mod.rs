@@ -19,7 +19,7 @@ use crate::{
     validator::Validate,
     ImportInfo, ModuleTypeInfo, Rule, Specifier, ValidationResult,
 };
-use bitflags::_core::mem::take;
+use bitflags::_core::mem::{replace, take};
 use fxhash::{FxHashMap, FxHashSet};
 use macros::validator;
 use rayon::prelude::*;
@@ -504,7 +504,19 @@ impl Validate<Vec<Stmt>> for Analyzer<'_, '_> {
             })
         }
 
-        items.visit_mut_children(self);
+        let mut new = Vec::with_capacity(items.len());
+
+        for (i, item) in items.iter_mut().enumerate() {
+            item.visit_mut_with(self);
+
+            new.extend(self.prepend_stmts.drain(..));
+
+            new.push(replace(item, Stmt::Empty(EmptyStmt { span: DUMMY_SP })));
+
+            new.extend(self.append_stmts.drain(..));
+        }
+
+        *items = new;
 
         Ok(())
     }
