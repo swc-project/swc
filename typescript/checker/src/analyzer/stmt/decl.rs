@@ -197,9 +197,7 @@ impl Validate<VarDeclarator> for Analyzer<'_, '_> {
                                 v.name.set_ty(Some(ty.clone().into()));
                             }
                         }
-                        if !should_remove_value {
-                            ty = self.expand(span, ty)?;
-                        }
+                        ty = self.expand(span, ty)?;
                         self.check_rvalue(&ty);
 
                         let mut type_errors = vec![];
