@@ -56,8 +56,8 @@ jobs:
 
           # Download
           git clone --depth 1 https://github.com/reduxjs/redux.git integration-tests/redux/repo
-          echo "module.exports=require('./index')" > integration-tests/redux/repo/lib/redux.js
           swc --sync integration-tests/redux/repo/src/ -d integration-tests/redux/repo/lib/
+          echo "module.exports=require('./index')" > integration-tests/redux/repo/lib/redux.js
           swc --sync integration-tests/redux/repo/src/ -d integration-tests/redux/repo/test/
           swc --sync integration-tests/redux/repo/test/ -d integration-tests/redux/repo/test/
 
