@@ -83,6 +83,48 @@ pub struct Analyzer<'a, 'b> {
     errored_imports: FxHashSet<Id>,
     pending_exports: Vec<((Id, Span), Expr)>,
 
+    /// Used to handle
+    ///
+    /// ```ts
+    /// declare function Mix<T, U>(c1: T, c2: U): T & U;
+    /// class C1 extends Mix(Private, Private2) {
+    /// }
+    /// ```
+    ///
+    /// As code above becomes
+    ///
+    /// ```ts
+    /// declare const C1_base: typeof Private & typeof Private2;
+    /// declare class C1 extends C1_base {
+    /// }
+    /// ```
+    ///
+    /// we need to prepend statements.
+    prepend_stmts: Vec<Stmt>,
+
+    /// Used to handle
+    ///
+    /// ```ts
+    /// export default function someFunc() {
+    ///     return 'hello!';
+    /// }
+    ///
+    /// someFunc.someProp = 'yo';
+    /// ```
+    ///
+    /// As the code above becomes
+    ///
+    /// ```ts
+    /// declare function someFunc(): string;
+    /// declare namespace someFunc {
+    ///     var someProp: string;
+    /// }
+    /// export default someFunc;
+    /// ```
+    ///
+    /// we need to append statements.
+    append_stmts: Vec<Stmt>,
+
     rule: Rule,
     libs: &'b [Lib],
     scope: Scope<'a>,
@@ -220,6 +262,8 @@ impl<'a, 'b> Analyzer<'a, 'b> {
             resolved_import_vars: Default::default(),
             errored_imports: Default::default(),
             pending_exports: Default::default(),
+            prepend_stmts: Default::default(),
+            append_stmts: Default::default(),
             rule,
             libs,
             scope,
