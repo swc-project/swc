@@ -5,21 +5,6 @@ use swc_common::{Visit, VisitWith};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, DestructuringFinder, StmtLike};
 
-/// Structs to reuse vector / hash maps.
-#[derive(Debug, Default)]
-pub(super) struct HoistingWs {
-    stmts: StmtWs,
-    type_params: TypeParamWs,
-}
-
-#[derive(Debug, Default)]
-struct StmtWs {
-    idx_by_ids: FxHashMap<Id, usize>,
-    ids: FxHashSet<Id>,
-    ids_buf: Vec<Id>,
-    deps: FxHashSet<Id>,
-}
-
 impl Analyzer<'_, '_> {
     /// Returns the order of evaluation. This methods is used to handle hoisting
     /// properly.
@@ -47,25 +32,20 @@ impl Analyzer<'_, '_> {
 
         let mut ids_graph = DiGraph::<_, usize>::with_capacity(nodes.len(), nodes.len() * 2);
 
-        let order_idx_by_id = &mut self.hoisting_ws.stmts.idx_by_ids;
-        let ids = &mut self.hoisting_ws.stmts.ids;
-        let ids_buf = &mut self.hoisting_ws.stmts.ids_buf;
-        let deps = &mut self.hoisting_ws.stmts.deps;
+        let mut order_idx_by_id = FxHashMap::<Id, usize>::default();
         let mut graph_node_id_by_id = FxHashMap::<_, _>::default();
         let mut node_ids_by_order_idx = FxHashMap::<_, Vec<_>>::default();
 
-        order_idx_by_id.clear();
-
         for (idx, node) in nodes.iter().enumerate() {
-            ids.clear();
-            ids_buf.clear();
-            deps.clear();
+            let mut ids = FxHashSet::<Id>::default();
+            let mut ids_buf = vec![];
+            let mut deps = FxHashSet::<Id>::default();
 
             {
                 let mut v = StmtDependencyFinder {
-                    ids_buf,
-                    ids,
-                    deps,
+                    ids_buf: &mut ids_buf,
+                    ids: &mut ids,
+                    deps: &mut deps,
                     no_decl: false,
                 };
 
@@ -222,29 +202,23 @@ impl Visit<Expr> for StmtDependencyFinder<'_> {
     }
 }
 
-#[derive(Debug, Default)]
-struct TypeParamWs {
-    deps: FxHashSet<Id>,
-}
-
 impl Analyzer<'_, '_> {
     pub(super) fn reorder_type_params(
         &mut self,
         params: &[TsTypeParam],
     ) -> ValidationResult<Vec<usize>> {
         let mut graph = DiGraphMap::<usize, usize>::with_capacity(params.len(), params.len() * 2);
-        let deps = &mut self.hoisting_ws.type_params.deps;
         for i in 0..params.len() {
             graph.add_node(i);
         }
 
         for (idx, node) in params.iter().enumerate() {
-            deps.clear();
+            let mut deps = FxHashSet::<Id>::default();
 
             {
                 let mut v = TypeParamDepFinder {
                     id: &node.name.clone().into(),
-                    deps,
+                    deps: &mut deps,
                 };
 
                 for p in params {
@@ -252,7 +226,7 @@ impl Analyzer<'_, '_> {
                     p.default.visit_with(&mut v);
                 }
 
-                for dep in &*deps {
+                for dep in &deps {
                     if let Some(pos) = params.iter().position(|v| *dep == v.name) {
                         //
                         graph.add_edge(idx, pos, 1);

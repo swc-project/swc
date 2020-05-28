@@ -1,7 +1,6 @@
 pub(crate) use self::scope::ScopeKind;
 use self::{
     control_flow::{CondFacts, Facts},
-    hoisting::HoistingWs,
     import::ImportFinder,
     pat::PatMode,
     props::ComputedPropMode,
@@ -138,8 +137,6 @@ pub struct Analyzer<'a, 'b> {
     duplicated_tracker: DuplicateTracker,
 
     facts_buf: Option<Facts>,
-
-    hoisting_ws: HoistingWs,
 }
 
 /// TODO
@@ -279,7 +276,6 @@ impl<'a, 'b> Analyzer<'a, 'b> {
             is_builtin,
             duplicated_tracker: Default::default(),
             facts_buf: None,
-            hoisting_ws: Default::default(),
         }
     }
 
