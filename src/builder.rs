@@ -139,6 +139,7 @@ impl<'a, 'b, P: Pass> PassBuilder<'a, 'b, P> {
 
         chain!(
             self.pass,
+            compat::reserved_words::reserved_words(),
             compat_pass,
             // module / helper
             Optional::new(

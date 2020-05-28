@@ -7,3 +7,4 @@ pub mod es2016;
 pub mod es2017;
 pub mod es2018;
 pub mod es3;
+pub mod reserved_words;
