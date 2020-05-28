@@ -19,8 +19,8 @@ impl Analyzer<'_, '_> {
         // let mut old_ret_tys = self.scope.return_types.take();
 
         let types = {
-            // let order = self.reorder_stmts(&*stmts);
-            // assert_eq!(order.len(), stmts.len());
+            let order = self.reorder_stmts(&*stmts);
+            assert_eq!(order.len(), stmts.len());
 
             let mut v = ReturnTypeCollector {
                 analyzer: &mut *self,
@@ -29,11 +29,9 @@ impl Analyzer<'_, '_> {
                 forced_never: false,
             };
 
-            // for idx in order {
-            //     stmts[idx].visit_mut_with(&mut v);
-            // }
-
-            stmts.visit_mut_children(&mut v);
+            for idx in order {
+                stmts[idx].visit_mut_with(&mut v);
+            }
 
             v.types
         };
