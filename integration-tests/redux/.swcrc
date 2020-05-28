@@ -1,0 +1,11 @@
+{
+    "test":".*.(js|ts)$",
+    "jsc": {
+      "parser": {
+        "syntax": "typescript"
+      }
+    },
+    "module": {
+        "type": "commonjs"
+    }
+}
