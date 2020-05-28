@@ -1,7 +1,7 @@
 use crate::pass::Pass;
 use swc_atoms::JsWord;
-use swc_common::Fold;
-use swc_ecma_ast::Ident;
+use swc_common::{Fold, FoldWith};
+use swc_ecma_ast::{Ident, MemberExpr};
 
 pub fn reserved_words() -> impl 'static + Pass {
     EsReservedWord {}
@@ -10,6 +10,23 @@ pub fn reserved_words() -> impl 'static + Pass {
 struct EsReservedWord {}
 
 noop_fold_type!(EsReservedWord);
+
+impl Fold<MemberExpr> for EsReservedWord {
+    fn fold(&mut self, e: MemberExpr) -> MemberExpr {
+        if e.computed {
+            MemberExpr {
+                obj: e.obj.fold_with(self),
+                prop: e.prop.fold_with(self),
+                ..e
+            }
+        } else {
+            MemberExpr {
+                obj: e.obj.fold_with(self),
+                ..e
+            }
+        }
+    }
+}
 
 impl Fold<Ident> for EsReservedWord {
     fn fold(&mut self, i: Ident) -> Ident {
