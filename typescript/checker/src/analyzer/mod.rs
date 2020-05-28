@@ -464,17 +464,16 @@ impl Validate<Vec<ModuleItem>> for Analyzer<'_, '_> {
             }
         }
 
-        // if self.is_builtin {
-        //     items.visit_mut_children(self);
-        // } else {
-        //     let order = self.reorder_stmts(&*items);
-        //     assert_eq!(order.len(), items.len());
-        //
-        //     for idx in order {
-        //         items[idx].visit_mut_with(self);
-        //     }
-        // }
-        items.visit_mut_children(self);
+        if self.is_builtin {
+            items.visit_mut_children(self);
+        } else {
+            let order = self.reorder_stmts(&*items);
+            assert_eq!(order.len(), items.len());
+
+            for idx in order {
+                items[idx].visit_mut_with(self);
+            }
+        }
 
         self.handle_pending_exports();
 
