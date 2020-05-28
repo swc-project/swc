@@ -1,7 +1,7 @@
 use crate::pass::Pass;
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith};
-use swc_ecma_ast::{Ident, ImportNamedSpecifier, MemberExpr};
+use swc_ecma_ast::*;
 
 pub fn reserved_words() -> impl 'static + Pass {
     EsReservedWord {}
