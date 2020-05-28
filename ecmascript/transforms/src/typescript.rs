@@ -634,9 +634,18 @@ impl Fold<Class> for Strip {
         Class {
             span: node.span,
             is_abstract: false,
-            type_params: self.add_types(node.type_params),
-            super_type_params: self.add_types(node.super_type_params),
-            implements: self.add_types(node.implements),
+            type_params: {
+                self.add_types(node.type_params);
+                None
+            },
+            super_type_params: {
+                self.add_types(node.super_type_params);
+                None
+            },
+            implements: {
+                self.add_types(node.implements);
+                vec![]
+            },
 
             decorators: node.decorators.fold_with(self),
             body: node.body.fold_with(self),
