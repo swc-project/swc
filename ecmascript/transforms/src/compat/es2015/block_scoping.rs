@@ -540,8 +540,8 @@ impl Visit<Function> for FunctionFinder {
 #[cfg(test)]
 mod tests {
     use super::block_scoping;
-    use crate::compat::es2015::for_of::for_of;
-    use swc_common::chain;
+    use crate::compat::{es2015, es2015::for_of::for_of};
+    use swc_common::{chain, Mark};
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
@@ -780,6 +780,35 @@ foo();"
         ::swc_ecma_parser::Syntax::default(),
         |_| block_scoping(),
         issue_723_1,
+        "function foo() {
+  const lod = { 0: { mig: 'bana' }};
+
+  for (let i = 0; i < 1; i++) {
+    const { mig } = lod[i];
+
+    return false;
+
+    (zap) => zap === mig;
+  }
+
+  return true;
+}
+expect(foo()).toBe(false);
+"
+    );
+
+    test_exec!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| {
+            let mark = Mark::fresh(Mark::root());
+            es2015::es2015(
+                mark,
+                es2015::Config {
+                    ..Default::default()
+                },
+            )
+        },
+        issue_723_2,
         "function foo() {
   const lod = { 0: { mig: 'bana' }};
 
