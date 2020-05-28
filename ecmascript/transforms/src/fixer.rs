@@ -954,7 +954,7 @@ function a() {
         "var SHARED = '__core-js_shared__';
 var store = global[SHARED] || (global[SHARED] = {});
 (module.exports = function (key, value) {
-  return store[key] || (store[key] = value !== undefined ? value : {});
+  return store[key] || (store[key] = (value !== undefined ? value : {}));
 })('versions', []).push({
   version: core.version,
   mode: __webpack_require__(39) ? 'pure' : 'global',
