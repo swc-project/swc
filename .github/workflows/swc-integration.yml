@@ -48,19 +48,19 @@ jobs:
         # Rome.js: I forgot the cause, but it didn't work.
         # jQuery: browser only (window.document is required)
 
-       - name: redux
-          run: |
-            export PATH="$PATH:$HOME/npm/bin"
-            mkdir -p integration-tests/redux
-            npm i -g qunit failonlyreporter
+      - name: redux
+        run: |
+          export PATH="$PATH:$HOME/npm/bin"
+          mkdir -p integration-tests/redux
+          npm i -g qunit failonlyreporter
 
-            # Download
-            git clone --depth 1 https://github.com/reduxjs/redux.git integration-tests/redux/repo
-            echo "module.exports=require('./index')" > integration-tests/redux/repo/lib/redux.js
-            swc --sync integration-tests/redux/repo/src/ -d integration-tests/redux/repo/lib/
-            swc --sync integration-tests/redux/repo/src/ -d integration-tests/redux/repo/test/
-            swc --sync integration-tests/redux/repo/test/ -d integration-tests/redux/repo/test/
+          # Download
+          git clone --depth 1 https://github.com/reduxjs/redux.git integration-tests/redux/repo
+          echo "module.exports=require('./index')" > integration-tests/redux/repo/lib/redux.js
+          swc --sync integration-tests/redux/repo/src/ -d integration-tests/redux/repo/lib/
+          swc --sync integration-tests/redux/repo/src/ -d integration-tests/redux/repo/test/
+          swc --sync integration-tests/redux/repo/test/ -d integration-tests/redux/repo/test/
 
-            (cd integration-tests/redux/repo && npm i)
-            (cd integration-tests/redux/repo && npx jest '.*.js' --modulePathIgnorePatterns 'typescript')
+          (cd integration-tests/redux/repo && npm i)
+          (cd integration-tests/redux/repo && npx jest '.*.js' --modulePathIgnorePatterns 'typescript')
 
