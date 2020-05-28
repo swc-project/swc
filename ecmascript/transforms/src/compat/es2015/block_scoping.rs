@@ -959,36 +959,46 @@ foo();"
     var _loop = function(i) {
         elem = this.elements[i];
         name = elem.name;
-        if (!name) return;
+        if (!name) return 'continue';
         val = values[name];
         if (val == null) val = '';
         switch(elem.type){
-            case 'submit': break;
+            case 'submit':
+                return 'break';
             case 'radio':
             case 'checkbox':
                 elem.checked = val.some(function(str) {
                     return str.toString() == elem.value;
                 });
-                break;
+                return 'break';
             case 'select-multiple':
                 elem.fill(val);
-                break;
+                return 'break';
             case 'textarea':
                 elem.innerText = val;
-                break;
-            case 'hidden': break;
+                return 'break';
+            case 'hidden':
+                return 'break';
             default:
                 if (elem.fill) {
                     elem.fill(val);
                 } else {
                     elem.value = val;
                 }
-                break;
+                return 'break';
         }
     };
     var vars = [];
     var elem = null, name, val;
-    for(var i = 0; i < this.elements.length; i++)_loop(i);
+    for(var i = 0; i < this.elements.length; i++){
+        var _ret = _loop(i);
+        switch(_ret){
+            case 'break':
+                break;
+            case 'continue':
+                continue;
+        }
+    }
     return vars;
 };"
     );
