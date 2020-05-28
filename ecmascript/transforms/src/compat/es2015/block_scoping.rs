@@ -775,4 +775,25 @@ foo();"
     return vars;
 };"
     );
+
+    test_exec!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| block_scoping(),
+        issue_723_1,
+        "function foo() {
+  const lod = { 0: { mig: 'bana' }};
+
+  for (let i = 0; i < 1; i++) {
+    const { mig } = lod[i];
+
+    return false;
+
+    (zap) => zap === mig;
+  }
+
+  return true;
+}
+expect(foo()).toBe(false);
+"
+    );
 }
