@@ -35,6 +35,7 @@ jobs:
           npm i -g qunit failonlyreporter
 
           # Download three.js
+          # Current hash: b993f5c99341b1b483c6bdf94fdc4fbac61aa0f1
           git clone https://github.com/mrdoob/three.js.git integration-tests/three-js/repo --shallow
 
           swc integration-tests/three-js/repo/ -d integration-tests/three-js/build/
