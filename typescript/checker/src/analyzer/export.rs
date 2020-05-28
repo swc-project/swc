@@ -205,8 +205,13 @@ impl Validate<ExportDefaultDecl> for Analyzer<'_, '_> {
                         return Ok(());
                     }
                 };
-                self.register_type(i.clone(), fn_ty.into())
+                self.register_type(i.clone(), fn_ty.clone().into())
                     .store(&mut self.info.errors);
+                if let Some(ref i) = f.ident {
+                    self.override_var(VarDeclKind::Var, i.into(), fn_ty.into())
+                        .store(&mut self.info.errors);
+                }
+
                 self.export(f.span(), Id::word(js_word!("default")), Some(i))
             }
             DefaultDecl::Class(ref c) => {
@@ -217,11 +222,15 @@ impl Validate<ExportDefaultDecl> for Analyzer<'_, '_> {
                     .unwrap_or_else(|| Id::word(js_word!("default")));
                 export.visit_mut_children(self);
 
+                // TODO: Register type
+
                 self.export(span, Id::word(js_word!("default")), Some(c));
             }
             DefaultDecl::TsInterfaceDecl(ref i) => {
                 let i = i.id.clone().into();
                 export.visit_mut_children(self);
+
+                // TODO: Register type
 
                 self.export(span, Id::word(js_word!("default")), Some(i))
             }
