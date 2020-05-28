@@ -30,7 +30,7 @@ impl Fold<MemberExpr> for EsReservedWord {
 
 macro_rules! noop {
     ($T:tt) => {
-        impl Fold<$T> for EsReservedWords {
+        impl Fold<$T> for EsReservedWord {
             fn fold(&mut self, node: $T) -> $T {
                 node
             }
