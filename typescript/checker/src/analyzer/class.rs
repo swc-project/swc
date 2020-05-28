@@ -12,9 +12,10 @@ use crate::{
         Ctx,
     },
     errors::{Error, Errors},
+    id::Id,
     swc_common::VisitMutWith,
     ty,
-    ty::{FnParam, Operator, Type},
+    ty::{FnParam, Operator, Ref, Type},
     util::{property_map::PropertyMap, EqIgnoreSpan, PatExt},
     validator::{Validate, ValidateWith},
     ValidationResult,
@@ -26,6 +27,7 @@ use std::mem::replace;
 use swc_atoms::js_word;
 use swc_common::{util::move_map::MoveMap, Span, Spanned, VisitWith, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_utils::private_ident;
 
 #[validator]
 impl Validate<ClassProp> for Analyzer<'_, '_> {
@@ -645,11 +647,42 @@ impl Validate<Class> for Analyzer<'_, '_> {
 
                 let super_type_params = try_opt!(c.super_type_params.validate_with(child));
                 match &mut c.super_class {
-                    Some(box expr) => Some(box child.validate_expr(
-                        expr,
-                        TypeOfMode::RValue,
-                        super_type_params,
-                    )?),
+                    Some(box expr) => {
+                        let super_ty =
+                            child.validate_expr(expr, TypeOfMode::RValue, super_type_params)?;
+
+                        match super_ty {
+                            // We should handle mixin
+                            Type::Intersection(..) => {
+                                let class_name = child
+                                    .scope
+                                    .this_class_name
+                                    .clone()
+                                    .unwrap_or(Id::word("class_noname".into()));
+                                let new_ty =
+                                    private_ident!(format!("{}_base", class_name.as_str()));
+
+                                child.prepend_stmts.push(Stmt::Decl(Decl::TsTypeAlias(
+                                    TsTypeAliasDecl {
+                                        span: DUMMY_SP,
+                                        declare: false,
+                                        id: new_ty.clone(),
+                                        // TODO: Handle type parameters
+                                        type_params: None,
+                                        type_ann: box super_ty.into(),
+                                    },
+                                )));
+
+                                Some(box Type::Ref(Ref {
+                                    span: DUMMY_SP,
+                                    type_name: TsEntityName::Ident(new_ty),
+                                    // TODO: Handle type parameters
+                                    type_args: None,
+                                }))
+                            }
+                            _ => Some(box super_ty),
+                        }
+                    }
 
                     _ => None,
                 }
