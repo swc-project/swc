@@ -374,6 +374,8 @@ impl Analyzer<'_, '_> {
                 PropName::Computed(l) => match r {
                     PropName::Computed(r) => {
                         if l.eq_ignore_span(&r) {
+                            /// TODO: Return true only if l and r are both
+                            /// symbol type
                             return true;
                         }
                     }
@@ -382,7 +384,7 @@ impl Analyzer<'_, '_> {
                 _ => {}
             }
 
-            util::is_prop_name_eq(l, r)
+            is_prop_name_eq(l, r)
         }
 
         // Report errors for code like
