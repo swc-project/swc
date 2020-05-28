@@ -1,0 +1,45 @@
+name: (swc) Integration tests
+
+on: [push, pull_request]
+
+env:
+  CARGO_INCREMENTAL: 0
+  CI: "1"
+  SKIP_SWC_BINARY_DOWNLOAD_FOR_CI: 1
+
+jobs:
+  integration-test:
+    name: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2-beta
+        with:
+          node-version: '12'
+
+      - name: Prepare
+        run: |
+          npm config set prefix ~/npm
+          npm i
+          export PATH="$PATH:$HOME/npm/bin"
+          npx tsc
+          npx neon build
+          npm i -g @swc/cli
+          npm link
+
+      - name: three.js
+        run: |
+          export PATH="$PATH:$HOME/npm/bin"
+          mkdir -p integration-tests/three.js
+          npm i -g qunit failonlyreporter
+
+          # Download three.js
+          git clone https://github.com/mrdoob/three.js.git integration-tests/three.js/repo --shallow
+
+          swc integration-tests/three-js/repo/ -d integration-tests/three-js/build/
+          # swc integration-tests/three-js/repo/src/ -d integration-tests/three-js/repo/build/
+          # swc integration-tests/three-js/repo/test/unit/**/*.js -d integration-tests/three-js/repo/test/unit/build/
+
+          (cd integration-tests/three-js/build/test && qunit -r failonlyreporter unit/three.source.unit.js)
+

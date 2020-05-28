@@ -1,5 +1,6 @@
 {
-  "module": {
-    "type": "commonjs"
-  }
+    "test":".*.js$",
+    "module": {
+        "type": "commonjs"
+    }
 }
