@@ -1,16 +1,21 @@
 use super::{
     expr::TypeOfMode,
     scope::ScopeKind,
-    util::{is_prop_name_eq, VarVisitor},
+    util::{self, VarVisitor},
     Analyzer,
 };
 use crate::{
-    analyzer::{pat::PatMode, props::ComputedPropMode, util::ResultExt, Ctx},
+    analyzer::{
+        pat::PatMode,
+        props::ComputedPropMode,
+        util::{is_prop_name_eq, ResultExt},
+        Ctx,
+    },
     errors::{Error, Errors},
     swc_common::VisitMutWith,
     ty,
     ty::{FnParam, Operator, Type},
-    util::{property_map::PropertyMap, PatExt},
+    util::{property_map::PropertyMap, EqIgnoreSpan, PatExt},
     validator::{Validate, ValidateWith},
     ValidationResult,
 };
@@ -364,6 +369,22 @@ impl Validate<ClassMember> for Analyzer<'_, '_> {
 
 impl Analyzer<'_, '_> {
     fn check_ambient_methods(&mut self, c: &mut Class, declare: bool) -> ValidationResult<()> {
+        fn is_prop_name_eq_include_computed(l: &PropName, r: &PropName) -> bool {
+            match l {
+                PropName::Computed(l) => match r {
+                    PropName::Computed(r) => {
+                        if l.eq_ignore_span(&r) {
+                            return true;
+                        }
+                    }
+                    _ => {}
+                },
+                _ => {}
+            }
+
+            util::is_prop_name_eq(l, r)
+        }
+
         // Report errors for code like
         //
         //      class C {
@@ -384,13 +405,15 @@ impl Analyzer<'_, '_> {
                 ($m:expr, $body:expr) => {{
                     let m = $m;
 
-                    match m.key {
-                        PropName::Computed(..) => continue,
-                        _ => {}
-                    }
+                    let computed = match m.key {
+                        PropName::Computed(..) => true,
+                        _ => false,
+                    };
 
                     if $body.is_none() {
-                        if name.is_some() && !is_prop_name_eq(&name.unwrap(), &m.key) {
+                        if name.is_some()
+                            && !is_prop_name_eq_include_computed(&name.unwrap(), &m.key)
+                        {
                             for span in replace(&mut spans, vec![]) {
                                 errors.push(Error::TS2391 { span });
                             }
@@ -399,7 +422,9 @@ impl Analyzer<'_, '_> {
                         name = Some(&m.key);
                         spans.push(m.key.span());
                     } else {
-                        if name.is_none() || is_prop_name_eq(&name.unwrap(), &m.key) {
+                        if name.is_none()
+                            || is_prop_name_eq_include_computed(&name.unwrap(), &m.key)
+                        {
                             // TODO: Verify parameters
 
                             if name.is_some() {
@@ -412,11 +437,11 @@ impl Analyzer<'_, '_> {
                             let constructor_name =
                                 PropName::Ident(Ident::new(js_word!("constructor"), DUMMY_SP));
 
-                            if is_prop_name_eq(&name.unwrap(), &constructor_name) {
+                            if is_prop_name_eq_include_computed(&name.unwrap(), &constructor_name) {
                                 for span in replace(&mut spans, vec![]) {
                                     errors.push(Error::TS2391 { span });
                                 }
-                            } else if is_prop_name_eq(&m.key, &constructor_name) {
+                            } else if is_prop_name_eq_include_computed(&m.key, &constructor_name) {
                                 for span in replace(&mut spans, vec![]) {
                                     errors.push(Error::TS2389 { span });
                                 }
