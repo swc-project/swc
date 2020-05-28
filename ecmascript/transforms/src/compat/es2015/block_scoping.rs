@@ -116,6 +116,11 @@ impl BlockScoping {
                 if used.is_empty() {
                     return body;
                 }
+                let mut flow_helper = FlowHelper {
+                    has_continue: false,
+                    has_break: false,
+                    has_return: false,
+                };
 
                 let var_name = private_ident!("_loop");
 
@@ -139,7 +144,7 @@ impl BlockScoping {
                                     })
                                     .collect(),
                                 decorators: Default::default(),
-                                body: Some(match body.fold_with(&mut FlowHelper) {
+                                body: Some(match body.fold_with(&mut flow_helper) {
                                     Stmt::Block(bs) => bs,
                                     body => BlockStmt {
                                         span: DUMMY_SP,
@@ -157,7 +162,7 @@ impl BlockScoping {
                     definite: false,
                 });
 
-                return CallExpr {
+                let call = CallExpr {
                     span: DUMMY_SP,
                     callee: var_name.as_callee(),
                     args: args
@@ -168,8 +173,161 @@ impl BlockScoping {
                         })
                         .collect(),
                     type_args: None,
+                };
+
+                if flow_helper.has_return || flow_helper.has_continue || flow_helper.has_break {
+                    let ret = private_ident!("_ret");
+
+                    let mut stmts = vec![
+                        // var _ret = _loop(i);
+                        Stmt::Decl(Decl::Var(VarDecl {
+                            span: DUMMY_SP,
+                            kind: VarDeclKind::Var,
+                            declare: false,
+                            decls: vec![VarDeclarator {
+                                span: DUMMY_SP,
+                                name: Pat::Ident(ret.clone()),
+                                init: Some(box call.into()),
+                                definite: false,
+                            }],
+                        })),
+                    ];
+
+                    let use_switch = flow_helper.has_break && flow_helper.has_continue;
+
+                    let check_ret = if flow_helper.has_return {
+                        // if (_typeof(_ret) === "object") return _ret.v;
+                        Some(
+                            IfStmt {
+                                span: DUMMY_SP,
+                                test: box Expr::Bin(BinExpr {
+                                    span: DUMMY_SP,
+                                    op: BinaryOp::EqEqEq,
+                                    left: {
+                                        // _typeof(_ret)
+                                        let callee = helper!(type_of, "typeof");
+
+                                        box Expr::Call(CallExpr {
+                                            span: Default::default(),
+                                            callee,
+                                            args: vec![ExprOrSpread {
+                                                spread: None,
+                                                expr: box ret.clone().into(),
+                                            }],
+                                            type_args: None,
+                                        })
+                                    },
+                                    //"object"
+                                    right: box Expr::Lit(Lit::Str(Str {
+                                        span: DUMMY_SP,
+                                        value: js_word!("object"),
+                                        has_escape: false,
+                                    })),
+                                }),
+                                cons: box Stmt::Return(ReturnStmt {
+                                    span: DUMMY_SP,
+                                    arg: Some(box ret.clone().member(quote_ident!("v"))),
+                                }),
+                                alt: None,
+                            }
+                            .into(),
+                        )
+                    } else {
+                        None
+                    };
+
+                    if use_switch {
+                        let mut cases = vec![];
+
+                        if flow_helper.has_break {
+                            cases.push(
+                                SwitchCase {
+                                    span: DUMMY_SP,
+                                    test: Some(box quote_str!("break").into()),
+                                    // TODO: Handle labelled statements
+                                    cons: vec![Stmt::Break(BreakStmt {
+                                        span: DUMMY_SP,
+                                        label: None,
+                                    })],
+                                }
+                                .into(),
+                            );
+                        }
+
+                        if flow_helper.has_continue {
+                            cases.push(
+                                SwitchCase {
+                                    span: DUMMY_SP,
+                                    test: Some(box quote_str!("continue").into()),
+                                    // TODO: Handle labelled statements
+                                    cons: vec![Stmt::Continue(ContinueStmt {
+                                        span: DUMMY_SP,
+                                        label: None,
+                                    })],
+                                }
+                                .into(),
+                            );
+                        }
+
+                        cases.extend(check_ret.map(|stmt| SwitchCase {
+                            span: DUMMY_SP,
+                            test: None,
+                            cons: vec![stmt],
+                        }));
+
+                        stmts.push(
+                            SwitchStmt {
+                                span: DUMMY_SP,
+                                discriminant: box ret.clone().into(),
+                                cases,
+                            }
+                            .into(),
+                        );
+                    } else {
+                        //
+                        if flow_helper.has_break {
+                            stmts.push(
+                                IfStmt {
+                                    span: DUMMY_SP,
+                                    test: box ret.clone().make_eq(quote_str!("break")),
+                                    // TODO: Handle labelled statements
+                                    cons: box Stmt::Break(BreakStmt {
+                                        span: DUMMY_SP,
+                                        label: None,
+                                    }),
+                                    alt: None,
+                                }
+                                .into(),
+                            );
+                        }
+
+                        if flow_helper.has_continue {
+                            stmts.push(
+                                IfStmt {
+                                    span: DUMMY_SP,
+                                    test: box ret.clone().make_eq(quote_str!("continue")),
+                                    // TODO: Handle labelled statements
+                                    cons: box Stmt::Continue(ContinueStmt {
+                                        span: DUMMY_SP,
+                                        label: None,
+                                    }),
+                                    alt: None,
+                                }
+                                .into(),
+                            );
+                        }
+
+                        stmts.extend(check_ret);
+                    }
+
+                    return BlockStmt {
+                        span: DUMMY_SP,
+                        stmts,
+                    }
+                    .into();
                 }
-                .into_stmt();
+
+                return call.into_stmt();
             }
 
             body
@@ -509,16 +667,75 @@ impl Visit<Ident> for InfectionFinder<'_> {
 }
 
 #[derive(Debug)]
-struct FlowHelper;
+struct FlowHelper {
+    has_continue: bool,
+    has_break: bool,
+    has_return: bool,
+}
 
 noop_fold_type!(FlowHelper);
+
+/// noop
+impl Fold<Function> for FlowHelper {
+    fn fold(&mut self, f: Function) -> Function {
+        f
+    }
+}
+
+impl Fold<ArrowExpr> for FlowHelper {
+    fn fold(&mut self, f: ArrowExpr) -> ArrowExpr {
+        f
+    }
+}
 
 impl Fold<Stmt> for FlowHelper {
     fn fold(&mut self, node: Stmt) -> Stmt {
         let span = node.span();
 
         match node {
-            Stmt::Continue(..) => return Stmt::Return(ReturnStmt { span, arg: None }),
+            Stmt::Continue(..) => {
+                self.has_continue = true;
+                return Stmt::Return(ReturnStmt {
+                    span,
+                    arg: Some(box Expr::Lit(Lit::Str(Str {
+                        span,
+                        value: "continue".into(),
+                        has_escape: false,
+                    }))),
+                });
+            }
+            Stmt::Break(..) => {
+                self.has_break = true;
+                return Stmt::Return(ReturnStmt {
+                    span,
+                    arg: Some(box Expr::Lit(Lit::Str(Str {
+                        span,
+                        value: "break".into(),
+                        has_escape: false,
+                    }))),
+                });
+            }
+            Stmt::Return(s) => {
+                self.has_return = true;
+                let s: ReturnStmt = s.fold_with(self);
+
+                return Stmt::Return(ReturnStmt {
+                    span,
+                    arg: Some(box Expr::Object(ObjectLit {
+                        span,
+                        props: vec![PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
+                            key: PropName::Ident(Ident::new("v".into(), DUMMY_SP)),
+                            value: s.arg.unwrap_or_else(|| {
+                                box Expr::Unary(UnaryExpr {
+                                    span: DUMMY_SP,
+                                    op: UnaryOp::Void,
+                                    arg: undefined(DUMMY_SP),
+                                })
+                            }),
+                        }))],
+                    })),
+                });
+            }
             _ => node.fold_children(self),
         }
     }
@@ -540,8 +757,8 @@ impl Visit<Function> for FunctionFinder {
 #[cfg(test)]
 mod tests {
     use super::block_scoping;
-    use crate::compat::es2015::for_of::for_of;
-    use swc_common::chain;
+    use crate::compat::{es2015, es2015::for_of::for_of};
+    use swc_common::{chain, Mark};
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
@@ -742,37 +959,97 @@ foo();"
     var _loop = function(i) {
         elem = this.elements[i];
         name = elem.name;
-        if (!name) return;
+        if (!name) return 'continue';
         val = values[name];
         if (val == null) val = '';
         switch(elem.type){
-            case 'submit': break;
+            case 'submit':
+                return 'break';
             case 'radio':
             case 'checkbox':
                 elem.checked = val.some(function(str) {
                     return str.toString() == elem.value;
                 });
-                break;
+                return 'break';
             case 'select-multiple':
                 elem.fill(val);
-                break;
+                return 'break';
             case 'textarea':
                 elem.innerText = val;
-                break;
-            case 'hidden': break;
+                return 'break';
+            case 'hidden':
+                return 'break';
             default:
                 if (elem.fill) {
                     elem.fill(val);
                 } else {
                     elem.value = val;
                 }
-                break;
+                return 'break';
         }
     };
     var vars = [];
     var elem = null, name, val;
-    for(var i = 0; i < this.elements.length; i++)_loop(i);
+    for(var i = 0; i < this.elements.length; i++){
+        var _ret = _loop(i);
+        switch(_ret){
+            case 'break':
+                break;
+            case 'continue':
+                continue;
+        }
+    }
     return vars;
 };"
+    );
+
+    test_exec!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| block_scoping(),
+        issue_723_1,
+        "function foo() {
+  const lod = { 0: { mig: 'bana' }};
+
+  for (let i = 0; i < 1; i++) {
+    const { mig } = lod[i];
+
+    return false;
+
+    (zap) => zap === mig;
+  }
+
+  return true;
+}
+expect(foo()).toBe(false);
+"
+    );
+
+    test_exec!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| {
+            let mark = Mark::fresh(Mark::root());
+            es2015::es2015(
+                mark,
+                es2015::Config {
+                    ..Default::default()
+                },
+            )
+        },
+        issue_723_2,
+        "function foo() {
+  const lod = { 0: { mig: 'bana' }};
+
+  for (let i = 0; i < 1; i++) {
+    const { mig } = lod[i];
+
+    return false;
+
+    (zap) => zap === mig;
+  }
+
+  return true;
+}
+expect(foo()).toBe(false);
+"
     );
 }
