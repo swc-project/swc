@@ -19,3 +19,4 @@ wasm/
 **/benches/
 **/target/
 *.svg
+integration-tests/

@@ -1,0 +1,66 @@
+name: (swc) Integration tests
+
+on: [push, pull_request]
+
+env:
+  CARGO_INCREMENTAL: 0
+  CI: "1"
+  SKIP_SWC_BINARY_DOWNLOAD_FOR_CI: 1
+
+jobs:
+  integration-test:
+    name: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2-beta
+        with:
+          node-version: '12'
+
+      - name: Prepare
+        run: |
+          npm config set prefix ~/npm
+          npm i
+          export PATH="$PATH:$HOME/npm/bin"
+          npx tsc
+          npx neon build --release
+          npm i -g @swc/cli
+          npm link
+
+      - name: three.js
+        run: |
+          export PATH="$PATH:$HOME/npm/bin"
+          mkdir -p integration-tests/three-js
+          npm i -g qunit failonlyreporter
+
+          # Download three.js
+          # Current hash: b993f5c99341b1b483c6bdf94fdc4fbac61aa0f1
+          git clone --depth 1 https://github.com/mrdoob/three.js.git integration-tests/three-js/repo
+
+          swc --sync integration-tests/three-js/repo/ -d integration-tests/three-js/build/
+          # swc integration-tests/three-js/repo/src/ -d integration-tests/three-js/repo/build/
+          # swc integration-tests/three-js/repo/test/unit/**/*.js -d integration-tests/three-js/repo/test/unit/build/
+
+          (cd integration-tests/three-js/build/test && qunit -r failonlyreporter unit/three.source.unit.js)
+
+        # terser: contains with statement in test
+        # Rome.js: I forgot the cause, but it didn't work.
+        # jQuery: browser only (window.document is required)
+
+      - name: redux
+        run: |
+          export PATH="$PATH:$HOME/npm/bin"
+          mkdir -p integration-tests/redux
+          npm i -g qunit failonlyreporter
+
+          # Download
+          git clone --depth 1 https://github.com/reduxjs/redux.git integration-tests/redux/repo
+          swc --sync integration-tests/redux/repo/src/ -d integration-tests/redux/repo/lib/
+          echo "module.exports=require('./index')" > integration-tests/redux/repo/lib/redux.js
+          swc --sync integration-tests/redux/repo/src/ -d integration-tests/redux/repo/test/
+          swc --sync integration-tests/redux/repo/test/ -d integration-tests/redux/repo/test/
+
+          (cd integration-tests/redux/repo && npm i)
+          (cd integration-tests/redux/repo && npx jest '.*.js' --modulePathIgnorePatterns 'typescript')
+

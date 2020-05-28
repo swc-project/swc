@@ -1,0 +1,6 @@
+{
+    "test":".*.js$",
+    "module": {
+        "type": "commonjs"
+    }
+}
