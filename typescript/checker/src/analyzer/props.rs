@@ -180,6 +180,13 @@ impl Validate<Prop> for Analyzer<'_, '_> {
 
 impl Analyzer<'_, '_> {
     fn validate_prop(&mut self, prop: &mut Prop) -> ValidationResult<TypeElement> {
+        let computed = match prop {
+            Prop::KeyValue(ref kv) => match kv.key {
+                PropName::Computed(_) => true,
+                _ => false,
+            },
+            _ => false,
+        };
         self.scope.this = Some(Ident::new(js_word!(""), DUMMY_SP).into());
 
         let span = prop.span();
@@ -205,7 +212,7 @@ impl Analyzer<'_, '_> {
                 params: Default::default(),
                 optional: false,
                 readonly: false,
-                computed: false,
+                computed,
                 type_ann: Default::default(),
                 type_params: Default::default(),
             }
