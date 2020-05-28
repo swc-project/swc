@@ -206,6 +206,7 @@ fn add_fixture_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), Error> {
             && !file_name.contains("types/literal")
             && !file_name.contains("types/generic")
             && !file_name.contains("types/string/operator")
+            && !file_name.contains("types/symbol/dts")
             && !file_name.contains("types/relationship/comparable")
             && !file_name.contains("types/union")
             && !file_name.contains("var-decl");
