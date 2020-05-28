@@ -563,6 +563,7 @@ impl Fold<Stmt> for FlowHelper {
                 });
             }
             Stmt::Return(s) => {
+                self.has_return = true;
                 let s: ReturnStmt = s.fold_with(self);
 
                 return Stmt::Return(ReturnStmt {
