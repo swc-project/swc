@@ -116,6 +116,11 @@ impl BlockScoping {
                 if used.is_empty() {
                     return body;
                 }
+                let mut flow_helper = FlowHelper {
+                    has_continue: false,
+                    has_break: false,
+                    has_return: false,
+                };
 
                 let var_name = private_ident!("_loop");
 
@@ -139,7 +144,7 @@ impl BlockScoping {
                                     })
                                     .collect(),
                                 decorators: Default::default(),
-                                body: Some(match body.fold_with(&mut FlowHelper) {
+                                body: Some(match body.fold_with(&mut flow_helper) {
                                     Stmt::Block(bs) => bs,
                                     body => BlockStmt {
                                         span: DUMMY_SP,
@@ -509,7 +514,11 @@ impl Visit<Ident> for InfectionFinder<'_> {
 }
 
 #[derive(Debug)]
-struct FlowHelper;
+struct FlowHelper {
+    has_continue: bool,
+    has_break: bool,
+    has_return: bool,
+}
 
 noop_fold_type!(FlowHelper);
 
@@ -518,7 +527,48 @@ impl Fold<Stmt> for FlowHelper {
         let span = node.span();
 
         match node {
-            Stmt::Continue(..) => return Stmt::Return(ReturnStmt { span, arg: None }),
+            Stmt::Continue(..) => {
+                self.has_continue = true;
+                return Stmt::Return(ReturnStmt {
+                    span,
+                    arg: Some(box Expr::Lit(Lit::Str(Str {
+                        span,
+                        value: "continue".into(),
+                        has_escape: false,
+                    }))),
+                });
+            }
+            Stmt::Break(..) => {
+                self.has_break = true;
+                return Stmt::Return(ReturnStmt {
+                    span,
+                    arg: Some(box Expr::Lit(Lit::Str(Str {
+                        span,
+                        value: "break".into(),
+                        has_escape: false,
+                    }))),
+                });
+            }
+            Stmt::Return(s) => {
+                let s: ReturnStmt = s.fold_with(self);
+
+                return Stmt::Return(ReturnStmt {
+                    span,
+                    arg: Some(box Expr::Object(ObjectLit {
+                        span,
+                        props: vec![PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
+                            key: PropName::Ident(Ident::new("v".into(), DUMMY_SP)),
+                            value: s.arg.unwrap_or_else(|| {
+                                box Expr::Unary(UnaryExpr {
+                                    span: DUMMY_SP,
+                                    op: UnaryOp::Void,
+                                    arg: undefined(DUMMY_SP),
+                                })
+                            }),
+                        }))],
+                    })),
+                });
+            }
             _ => node.fold_children(self),
         }
     }
