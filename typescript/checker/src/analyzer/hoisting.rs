@@ -32,7 +32,7 @@ impl Analyzer<'_, '_> {
 
         // Only `var` and `function` are hoisted.
         // So we don't need to calculate dependency graph of normal statements
-        let non_hoisted_orders = {
+        let hoisted_orders = {
             let mut orders = vec![];
 
             for (idx, node) in nodes.iter().enumerate() {
@@ -58,7 +58,7 @@ impl Analyzer<'_, '_> {
                     },
                 };
 
-                if !is_hoisted {
+                if is_hoisted {
                     orders.push(idx);
                 }
             }
@@ -66,21 +66,21 @@ impl Analyzer<'_, '_> {
             orders
         };
 
-        if non_hoisted_orders.len() == nodes.len() {
-            return non_hoisted_orders;
+        if hoisted_orders.is_empty() {
+            return (0..nodes.len()).collect();
         }
 
         // slow path
-        let mut ids_graph = DiGraph::<_, usize>::with_capacity(nodes.len(), nodes.len() * 2);
+        let mut ids_graph =
+            DiGraph::<_, usize>::with_capacity(hoisted_orders.len(), hoisted_orders.len() * 2);
 
         let mut order_idx_by_id = FxHashMap::<Id, usize>::default();
         let mut graph_node_id_by_id = FxHashMap::<_, _>::default();
         let mut node_ids_by_order_idx = FxHashMap::<_, Vec<_>>::default();
 
-        for (idx, node) in nodes.iter().enumerate() {
-            if non_hoisted_orders.contains(&idx) {
-                continue;
-            }
+        // Find identifier usages
+        for &idx in &hoisted_orders {
+            let node = &nodes[idx];
 
             let mut ids = FxHashSet::<Id>::default();
             let mut ids_buf = vec![];
@@ -97,7 +97,7 @@ impl Analyzer<'_, '_> {
                 node.visit_with(&mut v);
             }
 
-            // log::info!("Id graph: ({}) ({:?}) <-- {:?}", idx, ids, deps);
+            log::warn!("Id graph: ({}) ({:?}) <-- {:?}", idx, ids, deps);
             order_idx_by_id.extend(ids.iter().cloned().map(|id| (id, idx)));
 
             for id in ids.drain() {
@@ -125,31 +125,42 @@ impl Analyzer<'_, '_> {
             }
         }
 
-        let mut order: Vec<usize> = (0..nodes.len()).collect();
+        let mut order: Vec<usize> = Vec::with_capacity(nodes.len());
+
+        for &idx in &hoisted_orders {
+            order.push(idx);
+        }
 
         for (idx, _) in nodes.iter().enumerate() {
-            if let Some(node_ids) = node_ids_by_order_idx.get(&idx) {
-                // log::info!("node_ids_by_order_idx: {}", node_ids.len());
-
-                for &node_id in node_ids {
-                    let mut visitor = DfsPostOrder::new(&ids_graph, node_id);
-
-                    while let Some(node_id) = visitor.next(&ids_graph) {
-                        let id = ids_graph.node_weight(node_id).unwrap();
-                        if let Some(&order_of_the_id) = order_idx_by_id.get(&id) {
-                            // log::error!("Order graph: {} <- {}", idx, order_of_the_id);
-
-                            if idx < order_of_the_id {
-                                // log::info!("Swap: {} <-> {}", idx, order_of_the_id);
-                                order.swap(order_of_the_id, idx)
-                            }
-                        }
-                    }
-                }
+            if !hoisted_orders.contains(&idx) {
+                order.push(idx);
             }
         }
 
-        // log::info!("{:?}", order);
+        // for (idx, _) in nodes.iter().enumerate() {
+        //     if let Some(node_ids) = node_ids_by_order_idx.get(&idx) {
+        //         log::info!("node_ids_by_order_idx: {}", node_ids.len());
+        //
+        //         for &node_id in node_ids {
+        //             let mut visitor = DfsPostOrder::new(&ids_graph, node_id);
+        //
+        //             while let Some(node_id) = visitor.next(&ids_graph) {
+        //                 let id = ids_graph.node_weight(node_id).unwrap();
+        //                 if let Some(&order_of_the_id) = order_idx_by_id.get(&id) {
+        //                     log::error!("Order graph: {} <- {}", idx,
+        // order_of_the_id);
+        //
+        //                     if idx < order_of_the_id {
+        //                         log::info!("Swap: {} <-> {}", idx, order_of_the_id);
+        //                         order.swap(order_of_the_id, idx)
+        //                     }
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
+
+        log::warn!("Order: {:?}", order);
 
         order
     }
