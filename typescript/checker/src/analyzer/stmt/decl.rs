@@ -11,6 +11,7 @@ use crate::{
     ValidationResult,
 };
 use macros::validator;
+use std::mem::take;
 use swc_common::{Spanned, VisitMutWith, DUMMY_SP};
 use swc_ecma_ast::*;
 
@@ -31,6 +32,46 @@ impl Validate<VarDecl> for Analyzer<'_, '_> {
         self.with_ctx(ctx).with(|a| {
             var.decls.visit_mut_with(a);
         });
+
+        // Flatten var declarations
+        for mut decl in take(&mut var.decls) {
+            //
+            match decl.name {
+                Pat::Array(ArrayPat {
+                    span,
+                    mut elems,
+                    type_ann:
+                        Some(TsTypeAnn {
+                            type_ann: box TsType::TsTupleType(tuple),
+                            ..
+                        }),
+                    ..
+                }) => {
+                    //
+                    for (i, elem) in elems.into_iter().enumerate() {
+                        match elem {
+                            Some(mut pat) => {
+                                //
+                                if i < tuple.elem_types.len() {
+                                    pat.set_ty(tuple.elem_types[i].clone().into())
+                                }
+
+                                var.decls.push(VarDeclarator {
+                                    span,
+                                    name: pat,
+                                    init: None,
+                                    definite: false,
+                                })
+                            }
+                            None => {}
+                        }
+                    }
+                }
+                // TODO
+                //  Pat::Object(obj) => {}
+                _ => var.decls.push(decl),
+            }
+        }
 
         Ok(())
     }
