@@ -74,12 +74,12 @@ impl Analyzer<'_, '_> {
         let mut ids_graph =
             DiGraph::<_, usize>::with_capacity(hoisted_orders.len(), hoisted_orders.len() * 2);
 
-        let mut order_idx_by_id = FxHashMap::<Id, usize>::default();
+        let mut order_idx_i_by_id = FxHashMap::<Id, usize>::default();
         let mut graph_node_id_by_id = FxHashMap::<_, _>::default();
         let mut node_ids_by_order_idx = FxHashMap::<_, Vec<_>>::default();
 
         // Find identifier usages
-        for &idx in &hoisted_orders {
+        for (i, &idx) in hoisted_orders.iter().enumerate() {
             let node = &nodes[idx];
 
             let mut ids = FxHashSet::<Id>::default();
@@ -98,7 +98,7 @@ impl Analyzer<'_, '_> {
             }
 
             // log::warn!("Id graph: ({}) ({:?}) <-- {:?}", idx, ids, deps);
-            order_idx_by_id.extend(ids.iter().cloned().map(|id| (id, idx)));
+            order_idx_i_by_id.extend(ids.iter().cloned().map(|id| (id, i)));
 
             for id in ids.drain() {
                 let node_id = if let Some(&node_id) = graph_node_id_by_id.get(&id) {
@@ -131,21 +131,21 @@ impl Analyzer<'_, '_> {
             order.push(idx);
         }
 
-        for &idx in &hoisted_orders {
+        for (i, &idx) in hoisted_orders.iter().enumerate() {
             if let Some(node_ids) = node_ids_by_order_idx.get(&idx) {
-                // log::info!("node_ids_by_order_idx: {}", node_ids.len());
+                log::info!("node_ids_by_order_idx: {}", node_ids.len());
 
                 for &node_id in node_ids {
                     let mut visitor = DfsPostOrder::new(&ids_graph, node_id);
 
                     while let Some(node_id) = visitor.next(&ids_graph) {
                         let id = ids_graph.node_weight(node_id).unwrap();
-                        if let Some(&order_of_the_id) = order_idx_by_id.get(&id) {
-                            // log::error!("Order graph: {} <- {}", idx, order_of_the_id);
+                        if let Some(&order_of_the_id) = order_idx_i_by_id.get(&id) {
+                            log::error!("Order graph: {} <- {}", i, order_of_the_id);
 
                             if idx < order_of_the_id {
-                                // log::info!("Swap: {} <-> {}", idx, order_of_the_id);
-                                order.swap(order_of_the_id, idx)
+                                log::info!("Swap: {} <-> {}", i, order_of_the_id);
+                                order.swap(order_of_the_id, i)
                             }
                         }
                     }
