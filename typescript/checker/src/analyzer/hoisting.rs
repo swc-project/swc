@@ -97,7 +97,7 @@ impl Analyzer<'_, '_> {
                 node.visit_with(&mut v);
             }
 
-            log::warn!("Id graph: ({}) ({:?}) <-- {:?}", idx, ids, deps);
+            // log::warn!("Id graph: ({}) ({:?}) <-- {:?}", idx, ids, deps);
             order_idx_by_id.extend(ids.iter().cloned().map(|id| (id, idx)));
 
             for id in ids.drain() {
@@ -131,36 +131,35 @@ impl Analyzer<'_, '_> {
             order.push(idx);
         }
 
+        for &idx in &hoisted_orders {
+            if let Some(node_ids) = node_ids_by_order_idx.get(&idx) {
+                // log::info!("node_ids_by_order_idx: {}", node_ids.len());
+
+                for &node_id in node_ids {
+                    let mut visitor = DfsPostOrder::new(&ids_graph, node_id);
+
+                    while let Some(node_id) = visitor.next(&ids_graph) {
+                        let id = ids_graph.node_weight(node_id).unwrap();
+                        if let Some(&order_of_the_id) = order_idx_by_id.get(&id) {
+                            // log::error!("Order graph: {} <- {}", idx, order_of_the_id);
+
+                            if idx < order_of_the_id {
+                                // log::info!("Swap: {} <-> {}", idx, order_of_the_id);
+                                order.swap(order_of_the_id, idx)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         for (idx, _) in nodes.iter().enumerate() {
             if !hoisted_orders.contains(&idx) {
                 order.push(idx);
             }
         }
 
-        // for (idx, _) in nodes.iter().enumerate() {
-        //     if let Some(node_ids) = node_ids_by_order_idx.get(&idx) {
-        //         log::info!("node_ids_by_order_idx: {}", node_ids.len());
-        //
-        //         for &node_id in node_ids {
-        //             let mut visitor = DfsPostOrder::new(&ids_graph, node_id);
-        //
-        //             while let Some(node_id) = visitor.next(&ids_graph) {
-        //                 let id = ids_graph.node_weight(node_id).unwrap();
-        //                 if let Some(&order_of_the_id) = order_idx_by_id.get(&id) {
-        //                     log::error!("Order graph: {} <- {}", idx,
-        // order_of_the_id);
-        //
-        //                     if idx < order_of_the_id {
-        //                         log::info!("Swap: {} <-> {}", idx, order_of_the_id);
-        //                         order.swap(order_of_the_id, idx)
-        //                     }
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
-
-        log::warn!("Order: {:?}", order);
+        // log::warn!("Order: {:?}", order);
 
         order
     }
@@ -290,7 +289,7 @@ impl Analyzer<'_, '_> {
                     }
                 }
 
-                log::trace!("Reorder: {} <-- {:?}", node.name.sym, deps);
+                // log::trace!("Reorder: {} <-- {:?}", node.name.sym, deps);
             }
         }
 
