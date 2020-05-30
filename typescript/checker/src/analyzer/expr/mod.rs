@@ -1040,6 +1040,17 @@ impl Analyzer<'_, '_> {
                 }
             }
 
+            Type::Mapped(m) => {
+                // TODO: Verify that property is assignable to m.param
+
+                // I'm lazy
+                return Ok(*m
+                    .ty
+                    .as_ref()
+                    .cloned()
+                    .unwrap_or_else(|| box Type::any(span)));
+            }
+
             _ => {}
         }
 
