@@ -11,6 +11,26 @@ pub trait Node: Any {}
 impl<T: ?Sized> Node for T where T: Any {}
 
 define!({
+    pub struct Class {
+        pub span: Span,
+        pub decorators: Vec<Decorator>,
+        pub body: Vec<ClassMember>,
+        pub super_class: Option<Box<Expr>>,
+        pub is_abstract: bool,
+        pub type_params: Option<TsTypeParamDecl>,
+        pub super_type_params: Option<TsTypeParamInstantiation>,
+        pub implements: Vec<TsExprWithTypeArgs>,
+    }
+
+    pub enum ClassMember {
+        Constructor(Constructor),
+        Method(ClassMethod),
+        PrivateMethod(PrivateMethod),
+        ClassProp(ClassProp),
+        PrivateProp(PrivateProp),
+        TsIndexSignature(TsIndexSignature),
+    }
+
     pub struct ClassProp {
         pub span: Span,
         pub key: Box<Expr>,
