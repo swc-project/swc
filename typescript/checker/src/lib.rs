@@ -161,7 +161,6 @@ impl Checker {
 }
 
 impl Checker {
-    /// Returns empty vector if no error is found.
     pub fn check(&self, entry: Arc<PathBuf>) -> (Module, Info) {
         self.run(|| {
             let module = self.load_module(entry.clone());

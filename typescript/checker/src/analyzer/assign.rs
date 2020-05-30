@@ -155,6 +155,21 @@ impl Analyzer<'_, '_> {
             }};
         }
 
+        // Allow v = null and v = undefined if strict null check is false
+        if !self.rule.strict_null_checks {
+            match rhs.normalize() {
+                Type::Keyword(TsKeywordType {
+                    kind: TsKeywordTypeKind::TsNullKeyword,
+                    ..
+                })
+                | Type::Keyword(TsKeywordType {
+                    kind: TsKeywordTypeKind::TsUndefinedKeyword,
+                    ..
+                }) => return Ok(()),
+                _ => {}
+            }
+        }
+
         {
             // Handle special cases.
             // Assigning boolean to Boolean is ok, but assigning Boolean to boolean is an
