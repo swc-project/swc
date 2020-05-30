@@ -293,7 +293,7 @@ impl<'a, 'b> Analyzer<'a, 'b> {
     {
         let ctx = self.ctx;
         let child_scope = Scope::new(&self.scope, kind, facts);
-        let (ret, info, mut child_scope, dup) = {
+        let (ret, info, mut child_scope, dup, prepend_stmts, append_stmts) = {
             let mut child = self.new(child_scope);
             child.ctx = ctx;
 
@@ -304,6 +304,8 @@ impl<'a, 'b> Analyzer<'a, 'b> {
                 child.info,
                 child.scope.remove_parent(),
                 child.duplicated_tracker,
+                child.prepend_stmts,
+                child.append_stmts,
             )
         };
 
@@ -322,6 +324,8 @@ impl<'a, 'b> Analyzer<'a, 'b> {
 
         self.duplicated_tracker.record_all(dup);
         self.scope.copy_hoisted_vars_from(&mut child_scope);
+        self.prepend_stmts.extend(prepend_stmts);
+        self.append_stmts.extend(append_stmts);
 
         ret
     }
