@@ -112,10 +112,6 @@ fn add_test<F: FnOnce() + Send + 'static>(
     });
 }
 
-struct MyHandlers;
-
-impl swc_ecma_codegen::Handlers for MyHandlers {}
-
 fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
     let dir = Path::new(env!("CARGO_MANIFEST_DIR"))
         .parent()
@@ -169,8 +165,6 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                         .expect("failed to load reference file");
 
                     {
-                        let handlers = box MyHandlers;
-                        let handlers2 = box MyHandlers;
                         let mut parser: Parser<'_, Lexer<'_, SourceFileInput<'_>>> = Parser::new(
                             Session { handler: &handler },
                             Syntax::default(),
@@ -188,7 +182,6 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                                 None,
                             ),
                             comments: None,
-                            handlers,
                         };
                         let mut expected_emitter = Emitter {
                             cfg: swc_ecma_codegen::Config { minify: false },
@@ -197,7 +190,6 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                                 cm, "\n", &mut wr2, None,
                             ),
                             comments: None,
-                            handlers: handlers2,
                         };
 
                         // Parse source

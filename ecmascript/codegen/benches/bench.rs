@@ -107,7 +107,6 @@ fn bench_emitter(b: &mut Bencher, s: &str) {
         b.iter(|| {
             let mut buf = vec![];
             {
-                let handlers = box MyHandlers;
                 let mut emitter = Emitter {
                     cfg: swc_ecma_codegen::Config {
                         ..Default::default()
@@ -120,7 +119,6 @@ fn bench_emitter(b: &mut Bencher, s: &str) {
                         &mut buf,
                         Some(&mut src_map_buf),
                     ),
-                    handlers,
                 };
 
                 let _ = emitter.emit_module(&module);
@@ -142,7 +140,3 @@ fn emit_colors(b: &mut Bencher) {
 fn emit_large(b: &mut Bencher) {
     bench_emitter(b, LARGE_PARTIAL_JS)
 }
-
-struct MyHandlers;
-
-impl swc_ecma_codegen::Handlers for MyHandlers {}

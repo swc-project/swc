@@ -30,11 +30,6 @@ pub mod util;
 
 pub type Result = io::Result<()>;
 
-pub trait Handlers {
-    // fn on_before_emit_token(&mut self, _node: &Any) {}
-    // fn on_after_emit_token(&mut self, _node: &Any) {}
-}
-
 pub trait Node: Spanned {
     fn emit_with(&self, e: &mut Emitter<'_>) -> Result;
 }
@@ -56,7 +51,6 @@ pub struct Emitter<'a> {
     pub cm: Arc<SourceMap>,
     pub comments: Option<&'a Comments>,
     pub wr: Box<(dyn 'a + WriteJs)>,
-    pub handlers: Box<(dyn 'a + Handlers)>,
 }
 
 impl<'a> Emitter<'a> {
@@ -1401,10 +1395,6 @@ impl<'a> Emitter<'a> {
 
         let is_empty = children.is_none() || start > children.unwrap().len() || count == 0;
         if is_empty && format.contains(ListFormat::OptionalIfEmpty) {
-            // self.handlers.onBeforeEmitNodeArray(children)
-
-            // self.handlers.onAfterEmitNodeArray(children);
-
             return Ok(());
         }
 
@@ -1422,8 +1412,6 @@ impl<'a> Emitter<'a> {
                 )?;
             }
         }
-
-        // self.handlers.onBeforeEmitNodeArray(children);
 
         if is_empty {
             // Write a line terminator if the parent node was multi-line
@@ -1591,8 +1579,6 @@ impl<'a> Emitter<'a> {
                 self.wr.write_space()?;
             }
         }
-
-        // self.handlers.onAfterEmitNodeArray(children);
 
         if format.contains(ListFormat::BracketsMask) {
             if is_empty {

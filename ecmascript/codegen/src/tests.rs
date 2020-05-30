@@ -9,9 +9,6 @@ use std::{
 use swc_common::{comments::Comments, FileName, SourceMap};
 use swc_ecma_parser;
 
-struct Noop;
-impl Handlers for Noop {}
-
 struct Builder {
     cfg: Config,
     cm: Arc<SourceMap>,
@@ -28,7 +25,6 @@ impl Builder {
             cm: self.cm.clone(),
             wr: Box::new(text_writer::JsWriter::new(self.cm.clone(), "\n", s, None)),
             comments: Some(&self.comments),
-            handlers: Box::new(Noop),
         };
 
         let ret = op(&mut e);

@@ -91,10 +91,6 @@ fn add_test<F: FnOnce() + Send + 'static>(
     });
 }
 
-struct MyHandlers;
-
-impl swc_ecma_codegen::Handlers for MyHandlers {}
-
 fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
     let ref_dir = Path::new(env!("CARGO_MANIFEST_DIR"))
         .join("tests")
@@ -150,7 +146,6 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                 );
 
                 let comments = Comments::default();
-                let handlers = box MyHandlers;
                 let lexer = Lexer::new(
                     Session { handler: &handler },
                     Syntax::default(),
@@ -169,7 +164,6 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                             cm, "\n", &mut wr, None,
                         ),
                         comments: Some(&comments),
-                        handlers,
                     };
 
                     // Parse source

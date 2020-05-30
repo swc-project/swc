@@ -197,7 +197,6 @@ impl Compiler {
             let src = {
                 let mut buf = vec![];
                 {
-                    let handlers = box MyHandlers;
                     let mut emitter = Emitter {
                         cfg: codegen::Config { minify },
                         comments: Some(&comments),
@@ -212,7 +211,6 @@ impl Compiler {
                                 None
                             },
                         ),
-                        handlers,
                     };
 
                     emitter
@@ -432,10 +430,6 @@ impl Compiler {
         })
     }
 }
-
-struct MyHandlers;
-
-impl ecmascript::codegen::Handlers for MyHandlers {}
 
 fn load_swcrc(path: &Path) -> Result<Rc, Error> {
     fn convert_json_err(e: serde_json::Error) -> Error {
