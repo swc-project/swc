@@ -194,7 +194,7 @@ impl Analyzer<'_, '_> {
         let mut v = Expander {
             span,
             analyzer: self,
-            dejvau: Default::default(),
+            dejavu: Default::default(),
             full: false,
             expand_union: false,
         };
@@ -222,7 +222,7 @@ impl Analyzer<'_, '_> {
         let mut v = Expander {
             span,
             analyzer: self,
-            dejvau: Default::default(),
+            dejavu: Default::default(),
             full: true,
             expand_union,
         };
@@ -982,7 +982,7 @@ pub(crate) enum ScopeKind {
 struct Expander<'a, 'b, 'c> {
     span: Span,
     analyzer: &'a mut Analyzer<'b, 'c>,
-    dejvau: FxHashSet<Id>,
+    dejavu: FxHashSet<Id>,
     full: bool,
     expand_union: bool,
 }
@@ -1045,10 +1045,10 @@ impl Fold<Type> for Expander<'_, '_, '_> {
 
                     match *type_name {
                         TsEntityName::Ident(ref i) => {
-                            if self.dejvau.contains(&i.into()) {
+                            if self.dejavu.contains(&i.into()) {
                                 return ty;
                             }
-                            self.dejvau.insert(i.into());
+                            self.dejavu.insert(i.into());
                             log::error!(
                                 "({}): expand_fully: failed to find {}",
                                 self.analyzer.scope.depth(),
