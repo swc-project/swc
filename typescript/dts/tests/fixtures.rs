@@ -280,17 +280,6 @@ fn do_test(file_name: &Path) -> Result<(), StdErr> {
             let info = checker.check(Arc::new(file_name.clone().into()));
             let errors = ::swc_ts_checker::errors::Error::flatten(info.1.errors.into());
 
-            let has_errors = !errors.is_empty();
-            checker.run(|| {
-                for e in errors {
-                    e.emit(&handler);
-                }
-            });
-
-            if has_errors {
-                return Err(());
-            }
-
             let dts = generate_dts(info.0, info.1.exports).fold_with(&mut Normalizer);
 
             let generated = {
@@ -314,6 +303,17 @@ fn do_test(file_name: &Path) -> Result<(), StdErr> {
             };
 
             println!("---------- Generated ----------\n{}", generated);
+
+            let has_errors = !errors.is_empty();
+            checker.run(|| {
+                for e in errors {
+                    e.emit(&handler);
+                }
+            });
+
+            if has_errors {
+                return Err(());
+            }
 
             assert_eq!(
                 NormalizedOutput::from(generated),
