@@ -3,8 +3,9 @@ use crate::{
     ty,
     ty::{FnParam, ImportType, QueryExpr, TypeElement, TypeParamDecl, TypeParamInstantiation},
 };
-use swc_common::{Spanned, DUMMY_SP};
+use swc_common::{util::map::Map, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_utils::prop_name_to_expr;
 
 impl From<Type> for TsType {
     fn from(t: Type) -> Self {
@@ -385,7 +386,59 @@ impl From<ty::ClassInstance> for TsType {
 
 impl From<ty::ClassMember> for TsTypeElement {
     fn from(m: ty::ClassMember) -> Self {
-        unimplemented!("From<ty::ClassMember> for TsTypeElement")
+        match m {
+            ty::ClassMember::Constructor(c) => {
+                TsTypeElement::TsConstructSignatureDecl(TsConstructSignatureDecl {
+                    span: c.span,
+                    params: c.params.into_iter().map(From::from).collect(),
+                    type_ann: c.ret_ty.map(From::from),
+                    type_params: c.type_params.map(From::from),
+                })
+            }
+            ty::ClassMember::Method(m) => TsTypeElement::TsMethodSignature(TsMethodSignature {
+                span: m.span,
+                readonly: false,
+                computed: match m.key {
+                    PropName::Computed(_) => true,
+                    _ => false,
+                },
+                key: box prop_name_to_expr(m.key),
+                optional: m.is_optional,
+                params: m.params.into_iter().map(From::from).collect(),
+                type_ann: Some(TsTypeAnn {
+                    span: DUMMY_SP,
+                    type_ann: box (*m.ret_ty).into(),
+                }),
+                type_params: m.type_params.map(From::from),
+            }),
+            ty::ClassMember::Property(p) => {
+                TsTypeElement::TsPropertySignature(TsPropertySignature {
+                    span: p.span,
+                    readonly: p.readonly,
+                    key: p.key,
+                    computed: p.computed,
+                    optional: p.is_optional,
+                    init: None,
+                    params: vec![],
+                    type_ann: p.value.map(|ty| TsTypeAnn {
+                        span: DUMMY_SP,
+                        type_ann: box ty.into(),
+                    }),
+                    type_params: None,
+                })
+            }
+            ty::ClassMember::IndexSignature(s) => {
+                TsTypeElement::TsIndexSignature(TsIndexSignature {
+                    span: s.span,
+                    params: s.params.into_iter().map(From::from).collect(),
+                    type_ann: s.type_ann.map(|ty| TsTypeAnn {
+                        span: DUMMY_SP,
+                        type_ann: box ty.into(),
+                    }),
+                    readonly: s.readonly,
+                })
+            }
+        }
     }
 }
 
