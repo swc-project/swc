@@ -470,9 +470,24 @@ impl Validate<Vec<ModuleItem>> for Analyzer<'_, '_> {
             let order = self.reorder_stmts(&*items);
             assert_eq!(order.len(), items.len());
 
-            for idx in order {
+            let mut new: Vec<Vec<ModuleItem>> = (0..items.len()).map(|_| vec![]).collect();
+
+            dbg!(&order);
+            for (i, &idx) in order.iter().enumerate() {
                 items[idx].visit_mut_with(self);
+
+                new[i].extend(self.prepend_stmts.drain(..).map(ModuleItem::from));
+
+                new[i].push(replace(
+                    &mut items[idx],
+                    ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP })),
+                ));
+
+                new[i].extend(self.append_stmts.drain(..).map(ModuleItem::from));
             }
+
+            items.clear();
+            items.extend(new.into_iter().flat_map(|v| v));
         }
 
         self.handle_pending_exports();
