@@ -11,6 +11,7 @@ use crate::{
         util::{is_prop_name_eq, ResultExt},
         Ctx,
     },
+    debug::print_backtrace,
     errors::{Error, Errors},
     id::Id,
     swc_common::VisitMutWith,
@@ -651,14 +652,11 @@ impl Validate<Class> for Analyzer<'_, '_> {
                         let super_ty =
                             child.validate_expr(expr, TypeOfMode::RValue, super_type_params)?;
 
-                        match super_ty {
+                        match super_ty.normalize() {
                             // We should handle mixin
                             Type::Intersection(..) => {
-                                let class_name = child
-                                    .scope
-                                    .this_class_name
-                                    .clone()
-                                    .unwrap_or(Id::word("class_noname".into()));
+                                let class_name =
+                                    name.clone().unwrap_or(Id::word("class_noname".into()));
                                 let new_ty =
                                     private_ident!(format!("{}_base", class_name.as_str()));
 
@@ -673,6 +671,7 @@ impl Validate<Class> for Analyzer<'_, '_> {
                                     },
                                 )));
 
+                                c.super_class = Some(box Expr::Ident(new_ty.clone()));
                                 Some(box Type::Ref(Ref {
                                     span: DUMMY_SP,
                                     type_name: TsEntityName::Ident(new_ty),
