@@ -16,7 +16,7 @@ use crate::{
     id::Id,
     swc_common::VisitMutWith,
     ty,
-    ty::{FnParam, Operator, Ref, Type},
+    ty::{FnParam, Intersection, Operator, QueryExpr, QueryType, Ref, Type},
     util::{property_map::PropertyMap, EqIgnoreSpan, PatExt},
     validator::{Validate, ValidateWith},
     ValidationResult,
@@ -638,238 +638,306 @@ impl Validate<Class> for Analyzer<'_, '_> {
         self.resolve_parent_interfaces(&mut c.implements);
         let name = self.scope.this_class_name.take();
 
+        let mut types_to_register: Vec<(Id, _)> = vec![];
+
         // Scope is required because of type parameters.
-        self.with_child(ScopeKind::Class, Default::default(), |child| {
-            // We handle type parameters first.
-            let type_params = try_opt!(c.type_params.validate_with(child));
+        let c = self.with_child(
+            ScopeKind::Class,
+            Default::default(),
+            |child| -> ValidationResult<_> {
+                // We handle type parameters first.
+                let type_params = try_opt!(c.type_params.validate_with(child));
 
-            let super_class = {
-                // Then, we can expand super class
+                let super_class = {
+                    // Then, we can expand super class
 
-                let super_type_params = try_opt!(c.super_type_params.validate_with(child));
-                match &mut c.super_class {
-                    Some(box expr) => {
-                        let super_ty =
-                            child.validate_expr(expr, TypeOfMode::RValue, super_type_params)?;
+                    let super_type_params = try_opt!(c.super_type_params.validate_with(child));
+                    match &mut c.super_class {
+                        Some(box expr) => {
+                            let super_ty =
+                                child.validate_expr(expr, TypeOfMode::RValue, super_type_params)?;
 
-                        match super_ty.normalize() {
-                            // We should handle mixin
-                            Type::Intersection(..) => {
-                                let class_name =
-                                    name.clone().unwrap_or(Id::word("class_noname".into()));
-                                let new_ty =
-                                    private_ident!(format!("{}_base", class_name.as_str()));
+                            match super_ty.normalize() {
+                                // We should handle mixin
+                                Type::Intersection(i) => {
+                                    let mut has_class_in_super = false;
+                                    let class_name =
+                                        name.clone().unwrap_or(Id::word("class_noname".into()));
+                                    let new_ty =
+                                        private_ident!(format!("{}_base", class_name.as_str()));
 
-                                child.prepend_stmts.push(Stmt::Decl(Decl::TsTypeAlias(
-                                    TsTypeAliasDecl {
-                                        span: DUMMY_SP,
-                                        declare: false,
-                                        id: new_ty.clone(),
-                                        // TODO: Handle type parameters
-                                        type_params: None,
-                                        type_ann: box super_ty.into(),
-                                    },
-                                )));
+                                    // We should add it at same level as class
+                                    types_to_register
+                                        .push((new_ty.clone().into(), super_ty.clone()));
 
-                                c.super_class = Some(box Expr::Ident(new_ty.clone()));
-                                Some(box Type::Ref(Ref {
-                                    span: DUMMY_SP,
-                                    type_name: TsEntityName::Ident(new_ty),
-                                    // TODO: Handle type parameters
-                                    type_args: None,
-                                }))
-                            }
-                            _ => Some(box super_ty),
-                        }
-                    }
-
-                    _ => None,
-                }
-            };
-
-            c.implements.visit_mut_with(child);
-
-            // TODO: Check for implements
-
-            // Register the class.
-            child.scope.this_class_name = name.clone();
-
-            child.check_ambient_methods(c, false)?;
-
-            {
-                // Validate constructors
-                let mut constructor_spans = vec![];
-                let mut constructor_required_param_count = None;
-
-                for m in c.body.iter() {
-                    match *m {
-                        ClassMember::Constructor(ref cons) => {
-                            //
-                            if cons.body.is_none() {
-                                for p in &cons.params {
-                                    match *p {
-                                        ParamOrTsParamProp::TsParamProp(..) => {
-                                            child.info.errors.push(Error::TS2369 { span: p.span() })
-                                        }
-                                        _ => {}
-                                    }
-                                }
-                            }
-
-                            {
-                                // Check parameter count
-                                let required_param_count = cons
-                                    .params
-                                    .iter()
-                                    .filter(|p| match p {
-                                        ParamOrTsParamProp::Param(Param {
-                                            pat: Pat::Ident(Ident { optional: true, .. }),
-                                            ..
-                                        }) => false,
-                                        _ => true,
-                                    })
-                                    .count();
-
-                                match constructor_required_param_count {
-                                    Some(v) if required_param_count != v => {
-                                        for span in constructor_spans.drain(..) {
-                                            child.info.errors.push(Error::TS2394 { span })
-                                        }
-                                    }
-
-                                    None => {
-                                        constructor_required_param_count =
-                                            Some(required_param_count)
-                                    }
-                                    _ => {}
-                                }
-                            }
-
-                            constructor_spans.push(cons.span);
-                        }
-
-                        _ => {}
-                    }
-                }
-            }
-
-            {
-                // Remove class members with const EnumVariant keys.
-
-                c.body = take(&mut c.body).move_flat_map(|mut v| {
-                    if match &mut v {
-                        ClassMember::Constructor(_) => true,
-                        ClassMember::PrivateMethod(_) => true,
-                        ClassMember::ClassProp(_) => true,
-                        ClassMember::PrivateProp(_) => true,
-                        ClassMember::TsIndexSignature(_) => true,
-                        ClassMember::Method(m) => match &mut m.key {
-                            PropName::Computed(c) => match c.expr.validate_with(child) {
-                                Ok(ty) => {
-                                    let ty: Type = ty;
-
-                                    match ty {
-                                        Type::EnumVariant(e) => return None,
-                                        _ => {}
-                                    }
-
-                                    true
-                                }
-                                Err(err) => {
-                                    child.info.errors.push(err);
-
-                                    false
-                                }
-                            },
-                            _ => true,
-                        },
-                    } {
-                        Some(v)
-                    } else {
-                        None
-                    }
-                });
-            }
-
-            let mut body: Vec<(_, ty::ClassMember)> = c
-                .body
-                .iter_mut()
-                .filter_map(|m| match child.validate(m) {
-                    Ok(None) => None,
-                    Ok(Some(v)) => Some(Ok((m, v))),
-                    Err(err) => Some(Err(err)),
-                })
-                .collect::<Result<_, _>>()?;
-
-            {
-                // Change types of getter and setter
-
-                let mut prop_types = PropertyMap::default();
-
-                for (_, m) in body.iter_mut() {
-                    match m {
-                        ty::ClassMember::IndexSignature(_) | ty::ClassMember::Constructor(_) => {
-                            continue
-                        }
-
-                        ty::ClassMember::Method(m) => match m.kind {
-                            MethodKind::Getter => {
-                                prop_types.insert(m.key.clone(), m.ret_ty.clone());
-                            }
-                            _ => {}
-                        },
-
-                        ty::ClassMember::Property(_) => {}
-                    }
-                }
-
-                for (orig, m) in &mut body {
-                    match m {
-                        ty::ClassMember::IndexSignature(_) | ty::ClassMember::Constructor(_) => {
-                            continue
-                        }
-
-                        ty::ClassMember::Method(m) => match m.kind {
-                            MethodKind::Setter => {
-                                if let Some(param) = m.params.first_mut() {
-                                    if param.ty.is_any() {
-                                        if let Some(ty) = prop_types.get_prop_name(&m.key) {
-                                            let new_ty = ty.clone().generalize_lit().into_owned();
-                                            param.ty = new_ty.clone();
-                                            match orig {
-                                                ClassMember::Method(ref mut method) => {
-                                                    method.function.params[0]
-                                                        .pat
-                                                        .set_ty(Some(new_ty.clone().into()))
+                                    let super_ty = Type::Intersection(Intersection {
+                                        types: i
+                                            .types
+                                            .iter()
+                                            .map(|ty| {
+                                                match ty.normalize() {
+                                                    Type::Class(c) => {
+                                                        has_class_in_super = true;
+                                                        // class A -> typeof A
+                                                        return c
+                                                            .name
+                                                            .as_ref()
+                                                            .map(|id| {
+                                                                Type::Query(QueryType {
+                                                                    span: c.span,
+                                                                    expr: QueryExpr::TsEntityName(
+                                                                        id.clone().into(),
+                                                                    ),
+                                                                })
+                                                            })
+                                                            .expect("Super class should be named");
+                                                    }
+                                                    _ => {}
                                                 }
-                                                _ => {}
+
+                                                ty.clone()
+                                            })
+                                            .collect(),
+                                        ..i.clone()
+                                    });
+
+                                    if has_class_in_super {
+                                        child.prepend_stmts.push(Stmt::Decl(Decl::Var(VarDecl {
+                                            span: DUMMY_SP,
+                                            kind: VarDeclKind::Const,
+                                            declare: false,
+                                            decls: vec![VarDeclarator {
+                                                span: i.span,
+                                                name: Pat::Ident(Ident {
+                                                    type_ann: Some(TsTypeAnn {
+                                                        span: DUMMY_SP,
+                                                        type_ann: box super_ty.into(),
+                                                    }),
+                                                    ..new_ty.clone()
+                                                }),
+                                                init: None,
+                                                definite: false,
+                                            }],
+                                        })));
+                                    } else {
+                                        child.prepend_stmts.push(Stmt::Decl(Decl::TsTypeAlias(
+                                            TsTypeAliasDecl {
+                                                span: DUMMY_SP,
+                                                declare: false,
+                                                id: new_ty.clone(),
+                                                // TODO: Handle type parameters
+                                                type_params: None,
+                                                type_ann: box super_ty.into(),
+                                            },
+                                        )));
+                                    }
+
+                                    c.super_class = Some(box Expr::Ident(new_ty.clone()));
+                                    Some(box Type::Ref(Ref {
+                                        span: DUMMY_SP,
+                                        type_name: TsEntityName::Ident(new_ty),
+                                        // TODO: Handle type parameters
+                                        type_args: None,
+                                    }))
+                                }
+                                _ => Some(box super_ty),
+                            }
+                        }
+
+                        _ => None,
+                    }
+                };
+
+                c.implements.visit_mut_with(child);
+
+                // TODO: Check for implements
+
+                // Register the class.
+                child.scope.this_class_name = name.clone();
+
+                child.check_ambient_methods(c, false)?;
+
+                {
+                    // Validate constructors
+                    let mut constructor_spans = vec![];
+                    let mut constructor_required_param_count = None;
+
+                    for m in c.body.iter() {
+                        match *m {
+                            ClassMember::Constructor(ref cons) => {
+                                //
+                                if cons.body.is_none() {
+                                    for p in &cons.params {
+                                        match *p {
+                                            ParamOrTsParamProp::TsParamProp(..) => child
+                                                .info
+                                                .errors
+                                                .push(Error::TS2369 { span: p.span() }),
+                                            _ => {}
+                                        }
+                                    }
+                                }
+
+                                {
+                                    // Check parameter count
+                                    let required_param_count = cons
+                                        .params
+                                        .iter()
+                                        .filter(|p| match p {
+                                            ParamOrTsParamProp::Param(Param {
+                                                pat: Pat::Ident(Ident { optional: true, .. }),
+                                                ..
+                                            }) => false,
+                                            _ => true,
+                                        })
+                                        .count();
+
+                                    match constructor_required_param_count {
+                                        Some(v) if required_param_count != v => {
+                                            for span in constructor_spans.drain(..) {
+                                                child.info.errors.push(Error::TS2394 { span })
+                                            }
+                                        }
+
+                                        None => {
+                                            constructor_required_param_count =
+                                                Some(required_param_count)
+                                        }
+                                        _ => {}
+                                    }
+                                }
+
+                                constructor_spans.push(cons.span);
+                            }
+
+                            _ => {}
+                        }
+                    }
+                }
+
+                {
+                    // Remove class members with const EnumVariant keys.
+
+                    c.body = take(&mut c.body).move_flat_map(|mut v| {
+                        if match &mut v {
+                            ClassMember::Constructor(_) => true,
+                            ClassMember::PrivateMethod(_) => true,
+                            ClassMember::ClassProp(_) => true,
+                            ClassMember::PrivateProp(_) => true,
+                            ClassMember::TsIndexSignature(_) => true,
+                            ClassMember::Method(m) => match &mut m.key {
+                                PropName::Computed(c) => match c.expr.validate_with(child) {
+                                    Ok(ty) => {
+                                        let ty: Type = ty;
+
+                                        match ty {
+                                            Type::EnumVariant(e) => return None,
+                                            _ => {}
+                                        }
+
+                                        true
+                                    }
+                                    Err(err) => {
+                                        child.info.errors.push(err);
+
+                                        false
+                                    }
+                                },
+                                _ => true,
+                            },
+                        } {
+                            Some(v)
+                        } else {
+                            None
+                        }
+                    });
+                }
+
+                let mut body: Vec<(_, ty::ClassMember)> = c
+                    .body
+                    .iter_mut()
+                    .filter_map(|m| match child.validate(m) {
+                        Ok(None) => None,
+                        Ok(Some(v)) => Some(Ok((m, v))),
+                        Err(err) => Some(Err(err)),
+                    })
+                    .collect::<Result<_, _>>()?;
+
+                {
+                    // Change types of getter and setter
+
+                    let mut prop_types = PropertyMap::default();
+
+                    for (_, m) in body.iter_mut() {
+                        match m {
+                            ty::ClassMember::IndexSignature(_)
+                            | ty::ClassMember::Constructor(_) => continue,
+
+                            ty::ClassMember::Method(m) => match m.kind {
+                                MethodKind::Getter => {
+                                    prop_types.insert(m.key.clone(), m.ret_ty.clone());
+                                }
+                                _ => {}
+                            },
+
+                            ty::ClassMember::Property(_) => {}
+                        }
+                    }
+
+                    for (orig, m) in &mut body {
+                        match m {
+                            ty::ClassMember::IndexSignature(_)
+                            | ty::ClassMember::Constructor(_) => continue,
+
+                            ty::ClassMember::Method(m) => match m.kind {
+                                MethodKind::Setter => {
+                                    if let Some(param) = m.params.first_mut() {
+                                        if param.ty.is_any() {
+                                            if let Some(ty) = prop_types.get_prop_name(&m.key) {
+                                                let new_ty =
+                                                    ty.clone().generalize_lit().into_owned();
+                                                param.ty = new_ty.clone();
+                                                match orig {
+                                                    ClassMember::Method(ref mut method) => {
+                                                        method.function.params[0]
+                                                            .pat
+                                                            .set_ty(Some(new_ty.clone().into()))
+                                                    }
+                                                    _ => {}
+                                                }
                                             }
                                         }
                                     }
                                 }
-                            }
-                            MethodKind::Method => continue,
-                            MethodKind::Getter => {}
-                        },
+                                MethodKind::Method => continue,
+                                MethodKind::Getter => {}
+                            },
 
-                        ty::ClassMember::Property(_) => {}
+                            ty::ClassMember::Property(_) => {}
+                        }
                     }
                 }
-            }
 
-            let class = ty::Class {
-                span: c.span,
-                name,
-                is_abstract: c.is_abstract,
-                super_class,
-                type_params,
-                body: body.into_iter().map(|v| v.1).collect(),
-            };
+                let class = ty::Class {
+                    span: c.span,
+                    name,
+                    is_abstract: c.is_abstract,
+                    super_class,
+                    type_params,
+                    body: body.into_iter().map(|v| v.1).collect(),
+                };
 
-            child.validate_inherited_members(None, &class);
+                child.validate_inherited_members(None, &class);
 
-            Ok(class)
-        })
+                Ok(class)
+            },
+        )?;
+
+        for (i, ty) in types_to_register {
+            self.register_type(i, ty)?;
+        }
+
+        Ok(c)
     }
 }
 
