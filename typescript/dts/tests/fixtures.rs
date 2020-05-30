@@ -303,6 +303,11 @@ fn do_test(file_name: &Path) -> Result<(), StdErr> {
             };
 
             println!("---------- Generated ----------\n{}", generated);
+            let generated = NormalizedOutput::from(generated);
+            let expected = NormalizedOutput::from(expected);
+            if generated == expected {
+                return Ok(());
+            }
 
             let has_errors = !errors.is_empty();
             checker.run(|| {
@@ -315,10 +320,7 @@ fn do_test(file_name: &Path) -> Result<(), StdErr> {
                 return Err(());
             }
 
-            assert_eq!(
-                NormalizedOutput::from(generated),
-                NormalizedOutput::from(expected)
-            );
+            assert_eq!(generated, expected);
 
             Ok(())
         })
