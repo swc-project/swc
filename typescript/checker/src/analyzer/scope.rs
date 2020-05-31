@@ -1056,6 +1056,11 @@ impl Fold<Type> for Expander<'_, '_, '_> {
                             );
 
                             if let Some(types) = self.analyzer.find_type(&i.into()) {
+                                log::info!(
+                                    "expand: expanding using analyzer: {}",
+                                    types.clone().into_iter().count()
+                                );
+
                                 for t in types {
                                     if !self.expand_union {
                                         let mut finder = UnionFinder { found: false };
@@ -1064,8 +1069,6 @@ impl Fold<Type> for Expander<'_, '_, '_> {
                                             return ty;
                                         }
                                     }
-
-                                    log::info!("expand: expanding using analyzer");
 
                                     match t.normalize() {
                                         ty @ Type::Enum(..) => {
