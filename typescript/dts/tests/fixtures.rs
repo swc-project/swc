@@ -308,6 +308,7 @@ fn do_test(file_name: &Path) -> Result<(), StdErr> {
             if generated == expected {
                 return Ok(());
             }
+            println!("{}", testing::diff(&generated, &expected));
 
             let has_errors = !errors.is_empty();
             checker.run(|| {
@@ -320,9 +321,7 @@ fn do_test(file_name: &Path) -> Result<(), StdErr> {
                 return Err(());
             }
 
-            assert_eq!(generated, expected);
-
-            Ok(())
+            panic!()
         })
         .expect("failed to check");
 
