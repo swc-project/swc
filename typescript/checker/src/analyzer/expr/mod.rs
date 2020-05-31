@@ -1032,12 +1032,18 @@ impl Analyzer<'_, '_> {
 
             Type::Intersection(Intersection { ref types, .. }) => {
                 // TODO: Verify if multiple type has field
+                let mut new = vec![];
                 for ty in types {
-                    if let Ok(v) = self.access_property(span, ty.clone(), prop, computed, type_mode)
+                    if let Some(v) = self
+                        .access_property(span, ty.clone(), prop, computed, type_mode)
+                        .store(&mut self.info.errors)
                     {
-                        return Ok(v);
+                        new.push(v);
                     }
                 }
+                // print_backtrace();
+
+                return Ok(Type::Intersection(Intersection { span, types: new }));
             }
 
             Type::Mapped(m) => {
