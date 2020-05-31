@@ -1051,6 +1051,17 @@ impl Analyzer<'_, '_> {
                     .unwrap_or_else(|| box Type::any(span)));
             }
 
+            Type::Ref(..) => {
+                let index_type = box prop.validate_with(self)?;
+                // Return something like SimpleDBRecord<Flag>[Flag];
+                return Ok(Type::IndexedAccessType(IndexedAccessType {
+                    span,
+                    readonly: false,
+                    obj_type: box obj,
+                    index_type,
+                }));
+            }
+
             _ => {}
         }
 
