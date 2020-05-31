@@ -43,6 +43,8 @@ impl Analyzer<'_, '_> {
                                 kind: VarDeclKind::Var,
                                 ..
                             })
+                            | Decl::TsTypeAlias(..)
+                            | Decl::TsInterface(..)
                             | Decl::Fn(_) => true,
                             _ => false,
                         },
@@ -53,6 +55,8 @@ impl Analyzer<'_, '_> {
                             kind: VarDeclKind::Var,
                             ..
                         }))
+                        | Stmt::Decl(Decl::TsInterface(..))
+                        | Stmt::Decl(Decl::TsTypeAlias(..))
                         | Stmt::Decl(Decl::Fn(..)) => true,
                         _ => false,
                     },
@@ -159,7 +163,7 @@ impl Analyzer<'_, '_> {
             }
         }
 
-        // log::warn!("Order: {:?}", order);
+        log::warn!("Order: {:?}", order);
 
         order
     }
