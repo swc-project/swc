@@ -1,7 +1,7 @@
 use crate::{id::Id, swc_common::FoldWith};
 use fxhash::FxHashSet;
 use swc_atoms::JsWord;
-use swc_common::{Fold, Mark, SyntaxContext, VisitMut, VisitMutWith};
+use swc_common::{Fold, Mark, SyntaxContext, VisitMut, VisitMutWith, VisitWith};
 use swc_ecma_ast::*;
 
 /// This *colors* type parameters. After this pass, two type parameter declared
@@ -150,6 +150,24 @@ impl VisitMut<TsTypeParam> for Colorizer<'_> {
 
         param.default.visit_mut_with(self);
         param.constraint.visit_mut_with(self);
+    }
+}
+
+impl VisitMut<TsTypeAliasDecl> for Colorizer<'_> {
+    fn visit_mut(&mut self, d: &mut TsTypeAliasDecl) {
+        let child_params = {
+            let params = extract_type_params(d.type_params.as_ref());
+
+            let child_mark = Mark::fresh(self.scope.mark);
+            let mut child = Colorizer::new(Scope::new(Some(&self.scope), child_mark, params));
+
+            d.type_params.visit_with(&mut child);
+            d.type_ann.visit_with(&mut child);
+
+            child.scope.params
+        };
+
+        self.scope.params.extend(child_params);
     }
 }
 
