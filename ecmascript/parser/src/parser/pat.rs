@@ -8,6 +8,8 @@ use swc_common::Spanned;
 #[parser]
 impl<'a, I: Tokens> Parser<'a, I> {
     pub(super) fn parse_opt_binding_ident(&mut self) -> PResult<'a, Option<Ident>> {
+        trace_cur!(parse_opt_binding_ident);
+
         if is!(BindingIdent) || (self.input.syntax().typescript() && is!("this")) {
             self.parse_binding_ident().map(Some)
         } else {
@@ -19,6 +21,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
     ///
     /// spec: `BindingIdentifier`
     pub(super) fn parse_binding_ident(&mut self) -> PResult<'a, Ident> {
+        trace_cur!(parse_binding_ident);
+
         // "yield" and "await" is **lexically** accepted.
         let ident = self.parse_ident(true, true)?;
         if self.ctx().strict && (&*ident.sym == "arguments" || &*ident.sym == "eval") {
@@ -35,6 +39,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
     }
 
     pub(super) fn parse_binding_pat_or_ident(&mut self) -> PResult<'a, Pat> {
+        trace_cur!(parse_binding_pat_or_ident);
+
         match *cur!(true)? {
             tok!("yield") | Word(..) => self.parse_binding_ident().map(Pat::from),
             tok!('[') => self.parse_array_binding_pat(),
@@ -51,6 +57,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
     /// babel: `parseBindingAtom`
     pub(super) fn parse_binding_element(&mut self) -> PResult<'a, Pat> {
+        trace_cur!(parse_binding_element);
+
         let start = cur_pos!();
         let left = self.parse_binding_pat_or_ident()?;
 
