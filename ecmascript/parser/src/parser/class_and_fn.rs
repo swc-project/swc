@@ -602,7 +602,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                         |p| {
                             let params = p.parse_formal_params()?;
 
-                            if params.len() != 0 {
+                            if params.iter().filter(|p| is_not_this(p)).count() != 0 {
                                 p.emit_err(key_span, SyntaxError::TS1094);
                             }
 
@@ -625,7 +625,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                         |p| {
                             let params = p.parse_formal_params()?;
 
-                            if params.len() != 1 {
+                            if params.iter().filter(|p| is_not_this(p)).count() != 1 {
                                 p.emit_err(key_span, SyntaxError::TS1094);
                             }
 
@@ -1146,6 +1146,16 @@ fn is_constructor(key: &Either<PrivateName, PropName>) -> bool {
             ..
         })) => true,
         _ => false,
+    }
+}
+
+pub(crate) fn is_not_this(p: &Param) -> bool {
+    match p.pat {
+        Pat::Ident(Ident {
+            sym: js_word!("this"),
+            ..
+        }) => false,
+        _ => true,
     }
 }
 
