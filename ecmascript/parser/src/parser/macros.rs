@@ -290,7 +290,7 @@ macro_rules! return_if_arrow {
 
 macro_rules! trace_cur {
     ($p:expr, $name:ident) => {{
-        println!("{}: {:?}", stringify!($name), cur!($p, false));
+        // println!("{}: {:?}", stringify!($name), cur!($p, false));
     }};
 }
 
@@ -312,6 +312,7 @@ macro_rules! span {
 
 macro_rules! make_error {
     ($p:expr, $span:expr, $err:expr) => {{
+        dbg!();
         ::swc_common::errors::DiagnosticBuilder::from($crate::error::ErrorToDiag {
             handler: $p.session.handler,
             span: $span,

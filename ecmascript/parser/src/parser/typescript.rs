@@ -1601,6 +1601,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         for param in params {
             let item = match param.pat {
                 Pat::Ident(pat) => TsFnParam::Ident(pat),
+                Pat::Array(pat) => TsFnParam::Array(pat),
                 Pat::Object(pat) => TsFnParam::Object(pat),
                 Pat::Rest(pat) => TsFnParam::Rest(pat),
                 _ => unexpected!(),
