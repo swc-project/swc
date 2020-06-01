@@ -109,7 +109,7 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                 }
             } else {
                 with_parser(is_backtrace_enabled(), &path, |p| {
-                    let module = p.parse_module()?.fold_with(&mut Normalizer);
+                    let module = p.parse_typescript_module()?.fold_with(&mut Normalizer);
 
                     let json = serde_json::to_string_pretty(&module)
                         .expect("failed to serialize module as json");
