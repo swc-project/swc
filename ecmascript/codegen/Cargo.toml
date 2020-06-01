@@ -1,12 +1,13 @@
 [package]
 name = "swc_ecma_codegen"
-version = "0.21.0"
+version = "0.21.1"
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 license = "Apache-2.0/MIT"
 repository = "https://github.com/swc-project/swc.git"
 documentation = "https://swc-project.github.io/rustdoc/swc_ecma_codegen/"
 description = "Ecmascript code generator for the swc project."
 edition = "2018"
+include = ["Cargo.toml", "src/**/*.rs"]
 
 [dependencies]
 bitflags = "1"
