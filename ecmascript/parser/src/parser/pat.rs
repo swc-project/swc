@@ -658,7 +658,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                                 spread: Some(..), ..
                             },
                         ) => {
-                            if !self.syntax().early_errors() {
+                            if self.syntax().early_errors() {
                                 syntax_error!(expr.span(), SyntaxError::NonLastRestParam)
                             }
                         }
