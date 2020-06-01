@@ -60,6 +60,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
             .map(ModuleItem::from);
         }
 
+        let type_only_span = self.input.cur_span();
         let type_only = self.syntax().typescript() && eat!("type");
 
         let mut specifiers = vec![];
@@ -261,7 +262,6 @@ impl<'a, I: Tokens> Parser<'a, I> {
             }
         }
 
-        let type_only_span = self.input.cur_span();
         let type_only = self.input.syntax().typescript() && eat!("type");
 
         // Some("default") if default is exported from 'src'
