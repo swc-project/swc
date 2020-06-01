@@ -158,6 +158,7 @@ where
                 tsx: fname.contains("tsx"),
                 dynamic_import: true,
                 decorators: true,
+                no_early_errors: true,
                 ..Default::default()
             }),
             JscTarget::Es2015,
