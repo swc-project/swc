@@ -85,9 +85,6 @@ impl<'a, I: Tokens> Parser<'a, I> {
             expect!("class");
 
             let ident = p.parse_maybe_opt_binding_ident()?;
-            if let Some(span) = ident.invalid_class_name() {
-                p.emit_err(span, SyntaxError::TS2414);
-            }
 
             let type_params = if p.input.syntax().typescript() {
                 p.try_parse_ts_type_params()?
