@@ -1,11 +1,11 @@
 use crate::{
-    analyzer::{util::ResultExt, Analyzer},
+    analyzer::{util::ResultExt, Analyzer, Ctx},
     errors::Error,
-    ty::Type,
+    ty::{Array, Type},
     validator::{Validate, ValidateWith},
     ValidationResult,
 };
-use swc_common::{Visit, VisitMut, VisitMutWith, VisitWith};
+use swc_common::{Spanned, Visit, VisitMut, VisitMutWith, VisitWith};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Value::Known};
 
@@ -18,23 +18,54 @@ impl Analyzer<'_, '_> {
 
         // let mut old_ret_tys = self.scope.return_types.take();
 
-        let types = {
+        let mut types = {
             let order = self.reorder_stmts(&*stmts);
             assert_eq!(order.len(), stmts.len());
 
-            let mut v = ReturnTypeCollector {
-                analyzer: &mut *self,
-                types: Default::default(),
-                in_conditional: false,
-                forced_never: false,
+            let ctx = Ctx {
+                preserve_ref: true,
+                ..self.ctx
             };
+            self.with_ctx(ctx).with(|analyzer| {
+                let mut v = ReturnTypeCollector {
+                    analyzer,
+                    types: Default::default(),
+                    in_conditional: false,
+                    forced_never: false,
+                };
 
-            for idx in order {
-                stmts[idx].visit_mut_with(&mut v);
-            }
+                for idx in order {
+                    stmts[idx].visit_mut_with(&mut v);
+                }
 
-            v.types
+                //  Expand return types if no element references a type parameter
+
+                v.types
+            })
         };
+
+        {
+            let can_expand = types.iter().all(|ty| match ty {
+                Ok(ty) => {
+                    if should_preserve_ref(ty) {
+                        return false;
+                    }
+
+                    true
+                }
+                _ => false,
+            });
+
+            if can_expand {
+                types = types
+                    .into_iter()
+                    .map(|res| match res {
+                        Ok(ty) => self.expand_fully(ty.span(), ty, true),
+                        Err(e) => Err(e),
+                    })
+                    .collect();
+            }
+        }
 
         log::debug!("visit_stmts_for_return: types.len() = {}", types.len());
 
@@ -125,6 +156,8 @@ where
     fn visit_mut(&mut self, s: &mut ReturnStmt) {
         if let Some(ty) = s.arg.validate_with(self.analyzer) {
             self.types.push(ty)
+        } else {
+            // TODO: Add void
         }
     }
 }
@@ -245,5 +278,14 @@ impl Visit<ThrowStmt> for LoopBreakerFinder {
 impl Visit<ReturnStmt> for LoopBreakerFinder {
     fn visit(&mut self, _: &ReturnStmt) {
         self.found = true;
+    }
+}
+
+fn should_preserve_ref(ty: &Type) -> bool {
+    match ty {
+        Type::IndexedAccessType(..) => true,
+        Type::Array(Array { elem_type, .. }) => should_preserve_ref(&elem_type),
+        // TODO: More work
+        _ => false,
     }
 }

@@ -1039,7 +1039,7 @@ impl Fold<Type> for Expander<'_, '_, '_> {
                     ref type_args,
                     ..
                 }) => {
-                    if !self.full {
+                    if !self.full || self.analyzer.ctx.preserve_ref {
                         return ty;
                     }
 

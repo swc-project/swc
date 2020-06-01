@@ -1,7 +1,7 @@
 //! Handles new expressions and call expressions.
 use super::super::Analyzer;
 use crate::{
-    analyzer::{expr::TypeOfMode, props::prop_name_to_expr, util::ResultExt},
+    analyzer::{expr::TypeOfMode, props::prop_name_to_expr, util::ResultExt, Ctx},
     builtin_types,
     debug::print_backtrace,
     errors::Error,
@@ -105,20 +105,6 @@ impl Analyzer<'_, '_> {
         let span = callee.span();
 
         log::debug!("extract_call_new_expr_member");
-
-        macro_rules! callee_ty {
-            () => {{
-                let callee_ty = callee.validate_with(self)?;
-                match *callee_ty.normalize() {
-                    Type::Keyword(TsKeywordType {
-                        kind: TsKeywordTypeKind::TsAnyKeyword,
-                        ..
-                    }) if type_args.is_some() => self.info.errors.push(Error::TS2347 { span }),
-                    _ => {}
-                }
-                callee_ty
-            }};
-        }
 
         match *callee {
             Expr::Ident(ref i) if i.sym == js_word!("require") => {
@@ -388,14 +374,33 @@ impl Analyzer<'_, '_> {
                 }
             }
             _ => {
-                let ty = callee_ty!();
-                let ty = self.expand_fully(span, ty, false)?;
-                let type_args = match type_args {
-                    None => None,
-                    Some(ty) => Some(ty.validate_with(self)?),
+                let ctx = Ctx {
+                    preserve_ref: false,
+                    ..self.ctx
                 };
 
-                Ok(self.extract(span, ty, kind, &mut args, type_args.as_ref())?)
+                self.with_ctx(ctx).with(|analyzer| {
+                    let ty = {
+                        let callee_ty = callee.validate_with(analyzer)?;
+                        match *callee_ty.normalize() {
+                            Type::Keyword(TsKeywordType {
+                                kind: TsKeywordTypeKind::TsAnyKeyword,
+                                ..
+                            }) if type_args.is_some() => {
+                                analyzer.info.errors.push(Error::TS2347 { span })
+                            }
+                            _ => {}
+                        }
+                        callee_ty
+                    };
+                    let ty = analyzer.expand_fully(span, ty, false)?;
+                    let type_args = match type_args {
+                        None => None,
+                        Some(ty) => Some(ty.validate_with(analyzer)?),
+                    };
+
+                    Ok(analyzer.extract(span, ty, kind, &mut args, type_args.as_ref())?)
+                })
             }
         }
     }

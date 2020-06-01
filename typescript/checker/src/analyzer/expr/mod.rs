@@ -1301,7 +1301,6 @@ impl Analyzer<'_, '_> {
                 };
 
                 if computed {
-                    // TODO: Remove duplicate: prop
                     let obj_ty = self.expand_fully(span, obj_ty, true)?;
                     let ty = match self.access_property(span, obj_ty, prop, computed, type_mode) {
                         Ok(v) => Ok(v),

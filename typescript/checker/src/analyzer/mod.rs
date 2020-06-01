@@ -67,6 +67,7 @@ pub(crate) struct Ctx {
     computed_prop_mode: ComputedPropMode,
     allow_ref_declaring: bool,
     in_argument: bool,
+    preserve_ref: bool,
 }
 
 /// Note: All methods named `validate_*` return [Err] iff it's not recoverable.
@@ -271,6 +272,7 @@ impl<'a, 'b> Analyzer<'a, 'b> {
                 computed_prop_mode: ComputedPropMode::Object,
                 var_kind: VarDeclKind::Var,
                 in_argument: false,
+                preserve_ref: false,
             },
             loader,
             is_builtin,
