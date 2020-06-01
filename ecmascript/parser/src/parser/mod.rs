@@ -105,7 +105,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         //TODO: parse() -> PResult<'a, Program>
         let ctx = Context {
             module: true,
-            //            strict: true,
+            strict: false,
             ..self.ctx()
         };
         // Module code is always in strict mode
