@@ -303,7 +303,7 @@ impl Syntax {
         }
     }
 
-    pub(crate) fn ee(self) -> bool {
+    pub(crate) fn early_errors(self) -> bool {
         match self {
             Syntax::Typescript(t) => !t.no_early_errors,
             Syntax::Es(..) => true,

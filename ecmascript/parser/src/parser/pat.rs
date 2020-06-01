@@ -654,7 +654,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                                 spread: Some(..), ..
                             },
                         ) => {
-                            if self.syntax().ee() {
+                            if self.syntax().early_errors() {
                                 syntax_error!(expr.span(), SyntaxError::NonLastRestParam)
                             }
                         }
@@ -744,7 +744,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                     spread: Some(..), ..
                 })
                 | PatOrExprOrSpread::Pat(Pat::Rest(..)) => {
-                    if self.syntax().ee() {
+                    if self.syntax().early_errors() {
                         syntax_error!(expr.span(), SyntaxError::NonLastRestParam)
                     }
                 }

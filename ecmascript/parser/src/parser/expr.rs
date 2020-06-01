@@ -1292,7 +1292,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 }
                 if let Some(span) = arg.spread {
                     if let Some(rest_span) = rest_span {
-                        if self.syntax().ee() {
+                        if self.syntax().early_errors() {
                             // Rest pattern must be last one.
                             syntax_error!(rest_span, SyntaxError::NonLastRestParam);
                         }
@@ -1537,7 +1537,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
     pub(super) fn check_assign_target(&mut self, expr: &Expr, deny_call: bool) {
         // We follow behavior of tsc
-        if self.input.syntax().typescript() && self.syntax().ee() {
+        if self.input.syntax().typescript() && self.syntax().early_errors() {
             let is_eval_or_arguments = match *expr {
                 Expr::Ident(ref i) => i.sym == js_word!("eval") || i.sym == js_word!("arguments"),
                 _ => false,

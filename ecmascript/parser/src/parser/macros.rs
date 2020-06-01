@@ -290,7 +290,7 @@ macro_rules! return_if_arrow {
 
 macro_rules! trace_cur {
     ($p:expr, $name:ident) => {{
-        //        println!("{}: {:?}", stringify!($name), cur!($p, false));
+        println!("{}: {:?}", stringify!($name), cur!($p, false));
     }};
 }
 
