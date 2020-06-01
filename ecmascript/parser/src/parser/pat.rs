@@ -65,6 +65,10 @@ impl<'a, I: Tokens> Parser<'a, I> {
         if eat!('=') {
             let right = self.include_in_expr(true).parse_assignment_expr()?;
 
+            if self.syntax().early_errors() && self.ctx().in_declare {
+                self.emit_err(span!(start), SyntaxError::TS2371);
+            }
+
             return Ok(Pat::Assign(AssignPat {
                 span: span!(start),
                 left: Box::new(left),

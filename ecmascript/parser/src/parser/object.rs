@@ -370,9 +370,7 @@ impl<'a, I: Tokens> ParseObject<'a, Pat> for Parser<'a, I> {
             }
 
             if let ObjectPatProp::Rest(..) = p {
-                if self.input.syntax().typescript() {
-                    // We report error with ts checker
-                } else {
+                if self.syntax().early_errors() || !self.syntax().typescript() {
                     syntax_error!(p.span(), SyntaxError::NonLastRestParam)
                 }
             }
