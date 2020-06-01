@@ -235,7 +235,6 @@ impl<'a, I: Tokens> Parser<'a, I> {
         };
 
         if has_modifier {
-            self.emit_err(span!(start), SyntaxError::TS2369);
             return Ok(pat);
         }
 

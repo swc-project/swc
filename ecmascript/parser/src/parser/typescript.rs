@@ -243,10 +243,6 @@ impl<'a, I: Tokens> Parser<'a, I> {
             None
         };
 
-        if has_modifier {
-            self.emit_err(span!(start), SyntaxError::TS2369);
-        }
-
         Ok(TsTypeRef {
             span: span!(start),
             type_name,

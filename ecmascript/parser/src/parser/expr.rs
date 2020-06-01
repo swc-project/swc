@@ -1348,16 +1348,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
                     });
                 }
 
-                if has_modifier {
-                    self.emit_err(span!(modifier_start), SyntaxError::TS2369);
-                }
-
                 items.push(PatOrExprOrSpread::Pat(pat))
             } else {
-                if has_modifier {
-                    self.emit_err(span!(modifier_start), SyntaxError::TS2369);
-                }
-
                 items.push(PatOrExprOrSpread::ExprOrSpread(arg));
             }
 
