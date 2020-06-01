@@ -100,6 +100,14 @@ impl<'a, I: Tokens> Parser<'a, I> {
             }
         }
 
+        // import type from './a';
+        if type_only && specifiers.is_empty() {
+            specifiers.push(ImportSpecifier::Default(ImportDefaultSpecifier {
+                span: span!(start),
+                local: Ident::new(js_word!("type"), type_only_span),
+            }));
+        }
+
         let src = self.parse_from_clause_and_semi()?;
 
         Ok(ModuleDecl::Import(ImportDecl {
@@ -253,6 +261,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
             }
         }
 
+        let type_only_span = self.input.cur_span();
         let type_only = self.input.syntax().typescript() && eat!("type");
 
         // Some("default") if default is exported from 'src'
