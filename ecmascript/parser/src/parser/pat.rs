@@ -112,12 +112,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
                     type_ann: None,
                 });
                 elems.push(Some(pat));
-                if self.input.syntax().typescript() {
-                    // We report error on ts checker
-                } else {
-                    // Trailing comma isn't allowed
-                    break;
-                }
+                // Trailing comma isn't allowed
+                break;
             } else {
                 elems.push(self.parse_binding_element().map(Some)?);
             }
@@ -226,6 +222,9 @@ impl<'a, I: Tokens> Parser<'a, I> {
             }
 
             let right = self.parse_assignment_expr()?;
+            if self.syntax().early_errors() && self.ctx().in_declare {
+                self.emit_err(span!(start), SyntaxError::TS2371);
+            }
 
             Pat::Assign(AssignPat {
                 span: span!(start),
@@ -238,6 +237,9 @@ impl<'a, I: Tokens> Parser<'a, I> {
         };
 
         if has_modifier {
+            if self.syntax().early_errors() {
+                self.emit_err(span!(start), SyntaxError::TS2369);
+            }
             return Ok(pat);
         }
 
@@ -522,8 +524,9 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 | Expr::Fn(..)
                 | Expr::Class(..)
                 | Expr::Tpl(..) => {
-                    if !self.input.syntax().typescript()
-                        && !expr.is_valid_simple_assignment_target(self.ctx().strict)
+                    if self.syntax().early_errors()
+                        || (!self.syntax().typescript()
+                            && !expr.is_valid_simple_assignment_target(self.ctx().strict))
                     {
                         self.emit_err(span, SyntaxError::NotSimpleAssign)
                     }
@@ -656,7 +659,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                                 spread: Some(..), ..
                             },
                         ) => {
-                            if !self.syntax().typescript() {
+                            if !self.syntax().early_errors() {
                                 syntax_error!(expr.span(), SyntaxError::NonLastRestParam)
                             }
                         }
@@ -746,9 +749,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                     spread: Some(..), ..
                 })
                 | PatOrExprOrSpread::Pat(Pat::Rest(..)) => {
-                    if self.input.syntax().typescript() {
-                        // We report error using ts checker
-                    } else {
+                    if self.syntax().early_errors() {
                         syntax_error!(expr.span(), SyntaxError::NonLastRestParam)
                     }
                 }
