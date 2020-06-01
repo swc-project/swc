@@ -236,3 +236,12 @@ impl Fold<PropName> for Normalizer {
         }
     }
 }
+
+/// We are not debugging serde_json
+impl Fold<Number> for Normalizer {
+    fn fold(&mut self, mut node: Number) -> Number {
+        node.value = serde_json::from_str(&serde_json::to_string(&node.value).unwrap()).unwrap();
+
+        node
+    }
+}
