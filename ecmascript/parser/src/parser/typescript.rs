@@ -1077,6 +1077,21 @@ impl<'a, I: Tokens> Parser<'a, I> {
             return Ok(true);
         }
 
+        if is!('[') {
+            let mut bracket_stack_counter = 1;
+            bump!();
+
+            while bracket_stack_counter > 0 {
+                if is!('[') {
+                    bracket_stack_counter += 1;
+                } else if is!(']') {
+                    bracket_stack_counter -= 1;
+                }
+                bump!();
+            }
+            return Ok(true);
+        }
+
         Ok(false)
     }
 
