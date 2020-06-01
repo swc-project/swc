@@ -1629,7 +1629,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         let start = cur_pos!();
 
         match *cur!(true)? {
-            Token::Word(Word::Ident(..)) | tok!("void") | tok!("null") => {
+            Token::Word(Word::Ident(..)) | tok!("void") | tok!("null") | tok!("await") => {
                 if is!("asserts") && peeked_is!("this") {
                     bump!();
                     let this_keyword = self.parse_ts_this_type_node()?;
