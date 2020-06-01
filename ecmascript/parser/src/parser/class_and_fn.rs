@@ -85,6 +85,11 @@ impl<'a, I: Tokens> Parser<'a, I> {
             expect!("class");
 
             let ident = p.parse_maybe_opt_binding_ident()?;
+            if p.syntax().early_errors() {
+                if let Some(span) = ident.invalid_class_name() {
+                    p.emit_err(span, SyntaxError::TS2414);
+                }
+            }
 
             let type_params = if p.input.syntax().typescript() {
                 p.try_parse_ts_type_params()?
@@ -493,6 +498,12 @@ impl<'a, I: Tokens> Parser<'a, I> {
                             }) => Some(p.span()),
                             _ => None,
                         };
+
+                        if self.syntax().early_errors() {
+                            if let Some(span) = span {
+                                self.emit_err(span, SyntaxError::TS2371)
+                            }
+                        }
                     }
                 }
 
@@ -865,7 +876,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
             let body: Option<_> = p.parse_fn_body(is_async, is_generator)?;
 
-            if p.syntax().typescript() && body.is_none() {
+            if p.syntax().typescript() && body.is_none() && p.syntax().early_errors() {
                 // Declare functions cannot have assignment pattern in parameters
                 for param in &params {
                     // TODO: Search deeply for assignment pattern using a Visitor
@@ -874,6 +885,10 @@ impl<'a, I: Tokens> Parser<'a, I> {
                         Pat::Assign(ref p) => Some(p.span()),
                         _ => None,
                     };
+
+                    if let Some(span) = span {
+                        p.emit_err(span, SyntaxError::TS2371)
+                    }
                 }
             }
 
