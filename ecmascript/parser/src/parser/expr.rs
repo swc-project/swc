@@ -142,7 +142,9 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 } else {
                     //It is an early Reference Error if IsValidSimpleAssignmentTarget of
                     // LeftHandSideExpression is false.
-                    if !cond.is_valid_simple_assignment_target(self.ctx().strict) {
+                    if !self.input.syntax().typescript()
+                        && !cond.is_valid_simple_assignment_target(self.ctx().strict)
+                    {
                         self.emit_err(cond.span(), SyntaxError::NotSimpleAssign)
                     }
                     let is_eval_or_arguments = match *cond {
