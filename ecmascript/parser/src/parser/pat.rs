@@ -65,7 +65,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         if eat!('=') {
             let right = self.include_in_expr(true).parse_assignment_expr()?;
 
-            if self.syntax().early_errors() && self.ctx().in_declare {
+            if self.ctx().in_declare {
                 self.emit_err(span!(start), SyntaxError::TS2371);
             }
 
@@ -222,7 +222,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
             }
 
             let right = self.parse_assignment_expr()?;
-            if self.syntax().early_errors() && self.ctx().in_declare {
+            if self.ctx().in_declare {
                 self.emit_err(span!(start), SyntaxError::TS2371);
             }
 
@@ -237,9 +237,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         };
 
         if has_modifier {
-            if self.syntax().early_errors() {
-                self.emit_err(span!(start), SyntaxError::TS2369);
-            }
+            self.emit_err(span!(start), SyntaxError::TS2369);
             return Ok(pat);
         }
 
@@ -524,9 +522,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 | Expr::Fn(..)
                 | Expr::Class(..)
                 | Expr::Tpl(..) => {
-                    if self.syntax().early_errors()
-                        && !expr.is_valid_simple_assignment_target(self.ctx().strict)
-                    {
+                    if !expr.is_valid_simple_assignment_target(self.ctx().strict) {
                         self.emit_err(span, SyntaxError::NotSimpleAssign)
                     }
                     match *expr {
@@ -658,7 +654,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                                 spread: Some(..), ..
                             },
                         ) => {
-                            if self.syntax().early_errors() {
+                            if self.syntax().ee() {
                                 syntax_error!(expr.span(), SyntaxError::NonLastRestParam)
                             }
                         }
@@ -748,7 +744,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                     spread: Some(..), ..
                 })
                 | PatOrExprOrSpread::Pat(Pat::Rest(..)) => {
-                    if self.syntax().early_errors() {
+                    if self.syntax().ee() {
                         syntax_error!(expr.span(), SyntaxError::NonLastRestParam)
                     }
                 }

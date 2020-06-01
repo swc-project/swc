@@ -370,7 +370,7 @@ impl<'a, I: Tokens> ParseObject<'a, Pat> for Parser<'a, I> {
             }
 
             if let ObjectPatProp::Rest(..) = p {
-                if self.syntax().early_errors() {
+                if self.syntax().ee() {
                     syntax_error!(p.span(), SyntaxError::NonLastRestParam)
                 }
             }

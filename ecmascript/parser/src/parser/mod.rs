@@ -160,7 +160,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     }
 
     fn emit_err(&self, span: Span, error: SyntaxError) {
-        if !self.emit_err {
+        if !self.emit_err || !self.syntax().ee() {
             return;
         }
 

@@ -285,10 +285,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 }
             }
 
-            if self.syntax().early_errors()
-                && self.input.syntax().typescript()
-                && op == op!("delete")
-            {
+            if self.input.syntax().typescript() && op == op!("delete") {
                 fn unwrap_paren(e: &Expr) -> &Expr {
                     match *e {
                         Expr::Paren(ref p) => unwrap_paren(&p.expr),

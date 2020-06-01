@@ -243,7 +243,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
             None
         };
 
-        if self.syntax().early_errors() && has_modifier {
+        if has_modifier {
             self.emit_err(span!(start), SyntaxError::TS2369);
         }
 
@@ -583,10 +583,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 bump!();
                 let span = span!(start);
 
-                if self.syntax().early_errors() {
-                    // Recover from error
-                    self.emit_err(span, SyntaxError::TS2452);
-                }
+                // Recover from error
+                self.emit_err(span, SyntaxError::TS2452);
 
                 TsEnumMemberId::Str(Str {
                     span,
@@ -876,23 +874,21 @@ impl<'a, I: Tokens> Parser<'a, I> {
         debug_assert!(self.input.syntax().typescript());
 
         let id = self.parse_ident_name()?;
-        if self.syntax().early_errors() {
-            match id.sym {
-                js_word!("string")
-                | js_word!("null")
-                | js_word!("number")
-                | js_word!("object")
-                | js_word!("any")
-                | js_word!("unknown")
-                | js_word!("boolean")
-                | js_word!("bigint")
-                | js_word!("symbol")
-                | js_word!("void")
-                | js_word!("never") => {
-                    self.emit_err(id.span, SyntaxError::TS2427);
-                }
-                _ => {}
+        match id.sym {
+            js_word!("string")
+            | js_word!("null")
+            | js_word!("number")
+            | js_word!("object")
+            | js_word!("any")
+            | js_word!("unknown")
+            | js_word!("boolean")
+            | js_word!("bigint")
+            | js_word!("symbol")
+            | js_word!("void")
+            | js_word!("never") => {
+                self.emit_err(id.span, SyntaxError::TS2427);
             }
+            _ => {}
         }
 
         let type_params = self.try_parse_ts_type_params()?;
