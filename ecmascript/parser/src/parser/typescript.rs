@@ -867,7 +867,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
             expr,
             type_args,
         })
-f    }
+    }
     /// `tsParseInterfaceDeclaration`
     pub(super) fn parse_ts_interface_decl(
         &mut self,
