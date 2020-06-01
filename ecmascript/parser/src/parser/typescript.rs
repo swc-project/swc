@@ -876,6 +876,24 @@ impl<'a, I: Tokens> Parser<'a, I> {
         debug_assert!(self.input.syntax().typescript());
 
         let id = self.parse_ident_name()?;
+        if self.syntax().early_errors() {
+            match id.sym {
+                js_word!("string")
+                | js_word!("null")
+                | js_word!("number")
+                | js_word!("object")
+                | js_word!("any")
+                | js_word!("unknown")
+                | js_word!("boolean")
+                | js_word!("bigint")
+                | js_word!("symbol")
+                | js_word!("void")
+                | js_word!("never") => {
+                    self.emit_err(id.span, SyntaxError::TS2427);
+                }
+                _ => {}
+            }
+        }
 
         let type_params = self.try_parse_ts_type_params()?;
 
