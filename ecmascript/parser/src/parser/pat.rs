@@ -64,9 +64,6 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
         if eat!('=') {
             let right = self.include_in_expr(true).parse_assignment_expr()?;
-            if self.ctx().in_declare {
-                self.emit_err(span!(start), SyntaxError::TS2371);
-            }
 
             return Ok(Pat::Assign(AssignPat {
                 span: span!(start),
@@ -221,9 +218,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
             }
 
             let right = self.parse_assignment_expr()?;
-            if self.ctx().in_declare {
-                self.emit_err(span!(start), SyntaxError::TS2371);
-            }
+
             Pat::Assign(AssignPat {
                 span: span!(start),
                 left: Box::new(pat),

@@ -493,10 +493,6 @@ impl<'a, I: Tokens> Parser<'a, I> {
                             }) => Some(p.span()),
                             _ => None,
                         };
-
-                        if let Some(span) = span {
-                            self.emit_err(span, SyntaxError::TS2371)
-                        }
                     }
                 }
 
@@ -878,10 +874,6 @@ impl<'a, I: Tokens> Parser<'a, I> {
                         Pat::Assign(ref p) => Some(p.span()),
                         _ => None,
                     };
-
-                    if let Some(span) = span {
-                        p.emit_err(span, SyntaxError::TS2371)
-                    }
                 }
             }
 

@@ -327,7 +327,6 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 Expr::Ident(ref i) => match i.sym {
                     js_word!("public") | js_word!("static") | js_word!("abstract") => {
                         if eat!("interface") {
-                            self.emit_err(i.span, SyntaxError::TS2427);
                             return self
                                 .parse_ts_interface_decl(start)
                                 .map(Decl::from)
@@ -803,11 +802,6 @@ impl<'a, I: Tokens> Parser<'a, I> {
     }
 
     fn parse_with_stmt(&mut self) -> PResult<'a, Stmt> {
-        if self.syntax().typescript() {
-            let span = self.input.cur_span();
-            self.emit_err(span, SyntaxError::TS2410);
-        }
-
         if self.ctx().strict {
             let span = self.input.cur_span();
             self.emit_err(span, SyntaxError::WithInStrict);
@@ -980,11 +974,6 @@ impl<'a, I: Tokens> Parser<'a, I> {
                             Pat::Object(ref v) => Some(&v.type_ann),
                             _ => None,
                         };
-                        if let Some(type_ann) = type_ann {
-                            if type_ann.is_some() {
-                                self.emit_err(decl.decls[0].name.span(), SyntaxError::TS2483);
-                            }
-                        }
                     }
                 }
 
@@ -1007,14 +996,6 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
             let pat = self.reparse_expr_as_pat(PatType::AssignPat, init)?;
 
-            // for ({} in foo) is invalid
-            if self.input.syntax().typescript() && is_in {
-                match pat {
-                    Pat::Ident(ref v) => {}
-                    Pat::Expr(..) => {}
-                    ref v => self.emit_err(v.span(), SyntaxError::TS2491),
-                }
-            }
             return self.parse_for_each_head(VarDeclOrPat::Pat(pat));
         }
 
