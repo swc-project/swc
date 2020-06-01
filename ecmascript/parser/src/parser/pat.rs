@@ -108,8 +108,12 @@ impl<'a, I: Tokens> Parser<'a, I> {
                     type_ann: None,
                 });
                 elems.push(Some(pat));
-                // Trailing comma isn't allowed
-                break;
+                if self.input.syntax().typescript() {
+                    // We report error on ts checker
+                } else {
+                    // Trailing comma isn't allowed
+                    break;
+                }
             } else {
                 elems.push(self.parse_binding_element().map(Some)?);
             }
@@ -732,7 +736,11 @@ impl<'a, I: Tokens> Parser<'a, I> {
                     spread: Some(..), ..
                 })
                 | PatOrExprOrSpread::Pat(Pat::Rest(..)) => {
-                    syntax_error!(expr.span(), SyntaxError::NonLastRestParam)
+                    if self.input.syntax().typescript() {
+                        // We report error using ts checker
+                    } else {
+                        syntax_error!(expr.span(), SyntaxError::NonLastRestParam)
+                    }
                 }
                 PatOrExprOrSpread::ExprOrSpread(ExprOrSpread {
                     spread: None, expr, ..

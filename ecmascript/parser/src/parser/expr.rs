@@ -1290,8 +1290,11 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 }
                 if let Some(span) = arg.spread {
                     if let Some(rest_span) = rest_span {
-                        // Rest pattern must be last one.
-                        syntax_error!(rest_span, SyntaxError::NonLastRestParam);
+                        if self.input.syntax().typescript() {
+                        } else {
+                            // Rest pattern must be last one.
+                            syntax_error!(rest_span, SyntaxError::NonLastRestParam);
+                        }
                     }
                     rest_span = Some(span);
                     pat = Pat::Rest(RestPat {
