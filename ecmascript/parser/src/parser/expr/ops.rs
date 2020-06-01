@@ -285,19 +285,6 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 }
             }
 
-            if self.input.syntax().typescript() && op == op!("delete") {
-                fn unwrap_paren(e: &Expr) -> &Expr {
-                    match *e {
-                        Expr::Paren(ref p) => unwrap_paren(&p.expr),
-                        _ => e,
-                    }
-                }
-                match *arg {
-                    Expr::Member(..) => {}
-                    _ => self.emit_err(unwrap_paren(&arg).span(), SyntaxError::TS2703),
-                }
-            }
-
             return Ok(Box::new(Expr::Unary(UnaryExpr {
                 span: Span::new(start, arg.span().hi(), Default::default()),
                 op,

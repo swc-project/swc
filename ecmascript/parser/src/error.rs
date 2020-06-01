@@ -215,7 +215,6 @@ pub enum SyntaxError {
     TS2452,
     TS2483,
     TS2491,
-    TS2703,
 }
 
 impl<'a> From<ErrorToDiag<'a>> for Error {
