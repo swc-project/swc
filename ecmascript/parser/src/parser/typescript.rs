@@ -645,6 +645,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
     /// `tsParseModuleBlock`
     fn parse_ts_module_block(&mut self) -> PResult<'a, TsModuleBlock> {
+        trace_cur!(parse_ts_module_block);
+
         debug_assert!(self.input.syntax().typescript());
 
         let start = cur_pos!();

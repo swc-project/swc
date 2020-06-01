@@ -19,6 +19,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
         Self: StmtLikeParser<'a, Type>,
         Type: IsDirective + From<Stmt>,
     {
+        trace_cur!(parse_block_body);
+
         let old_ctx = self.ctx();
 
         let mut stmts = vec![];
@@ -59,10 +61,12 @@ impl<'a, I: Tokens> Parser<'a, I> {
     }
 
     pub fn parse_stmt(&mut self, top_level: bool) -> PResult<'a, Stmt> {
+        trace_cur!(parse_stmt);
         self.parse_stmt_like(false, top_level)
     }
 
     fn parse_stmt_list_item(&mut self, top_level: bool) -> PResult<'a, Stmt> {
+        trace_cur!(parse_stmt_list_item);
         self.parse_stmt_like(true, top_level)
     }
 
@@ -72,6 +76,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         Self: StmtLikeParser<'a, Type>,
         Type: IsDirective + From<Stmt>,
     {
+        trace_cur!(parse_stmt_like);
         let start = cur_pos!();
         let decorators = self.parse_decorators(true)?;
 
@@ -92,6 +97,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
         top_level: bool,
         decorators: Vec<Decorator>,
     ) -> PResult<'a, Stmt> {
+        trace_cur!(parse_stmt_internal);
+
         if top_level && is!("await") {
             let valid = self.target() >= JscTarget::Es2017 && self.syntax().top_level_await();
 
@@ -105,7 +112,6 @@ impl<'a, I: Tokens> Parser<'a, I> {
             let span = span!(start);
             return Ok(Stmt::Expr(ExprStmt { span, expr }));
         }
-        trace_cur!(parse_stmt_internal);
 
         if self.input.syntax().typescript() && is!("const") && peeked_is!("enum") {
             assert_and_bump!("const");
