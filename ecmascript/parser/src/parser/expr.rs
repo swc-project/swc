@@ -1183,6 +1183,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
             }
 
             let start = cur_pos!();
+            self.state.potential_arrow_start = Some(start);
             let modifier_start = start;
 
             let has_modifier = self.eat_any_ts_modifier()?;
