@@ -753,6 +753,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
     ///
     /// `tsParseType`
     pub(super) fn parse_ts_type(&mut self) -> PResult<'a, Box<TsType>> {
+        trace_cur!(parse_ts_type);
+
         debug_assert!(self.input.syntax().typescript());
 
         // Need to set `state.inType` so that we don't parse JSX in a type context.
@@ -787,6 +789,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
     /// `tsParseNonConditionalType`
     fn parse_ts_non_conditional_type(&mut self) -> PResult<'a, Box<TsType>> {
+        trace_cur!(parse_ts_non_conditional_type);
+
         debug_assert!(self.input.syntax().typescript());
 
         if self.is_ts_start_of_fn_type()? {
@@ -1510,6 +1514,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
         &mut self,
         is_fn_type: bool,
     ) -> PResult<'a, TsFnOrConstructorType> {
+        trace_cur!(parse_ts_fn_or_constructor_type);
+
         debug_assert!(self.input.syntax().typescript());
 
         let start = cur_pos!();
