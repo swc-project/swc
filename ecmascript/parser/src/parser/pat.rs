@@ -649,7 +649,11 @@ impl<'a, I: Tokens> Parser<'a, I> {
                             ExprOrSpread {
                                 spread: Some(..), ..
                             },
-                        ) => syntax_error!(expr.span(), SyntaxError::NonLastRestParam),
+                        ) => {
+                            if !self.syntax().typescript() {
+                                syntax_error!(expr.span(), SyntaxError::NonLastRestParam)
+                            }
+                        }
                         Some(ExprOrSpread { expr, .. }) => {
                             params.push(self.reparse_expr_as_pat(pat_ty.element(), expr).map(Some)?)
                         }
