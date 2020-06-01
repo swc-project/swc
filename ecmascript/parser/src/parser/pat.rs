@@ -525,8 +525,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 | Expr::Class(..)
                 | Expr::Tpl(..) => {
                     if self.syntax().early_errors()
-                        || (!self.syntax().typescript()
-                            && !expr.is_valid_simple_assignment_target(self.ctx().strict))
+                        && !expr.is_valid_simple_assignment_target(self.ctx().strict)
                     {
                         self.emit_err(span, SyntaxError::NotSimpleAssign)
                     }
