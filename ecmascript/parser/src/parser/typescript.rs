@@ -243,6 +243,10 @@ impl<'a, I: Tokens> Parser<'a, I> {
             None
         };
 
+        if self.syntax().early_errors() && has_modifier {
+            self.emit_err(span!(start), SyntaxError::TS2369);
+        }
+
         Ok(TsTypeRef {
             span: span!(start),
             type_name,
@@ -579,6 +583,11 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 bump!();
                 let span = span!(start);
 
+                if self.syntax().early_errors() {
+                    // Recover from error
+                    self.emit_err(span, SyntaxError::TS2452);
+                }
+
                 TsEnumMemberId::Str(Str {
                     span,
                     value: v.to_string().into(),
@@ -858,7 +867,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
             expr,
             type_args,
         })
-    }
+f    }
     /// `tsParseInterfaceDeclaration`
     pub(super) fn parse_ts_interface_decl(
         &mut self,
