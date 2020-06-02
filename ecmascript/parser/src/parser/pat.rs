@@ -542,12 +542,15 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 // It's special because of optional intializer
                 Expr::Assign(..) => {}
 
-                _ => syntax_error!(span, SyntaxError::InvalidPat),
+                _ => self.emit_err(span, SyntaxError::InvalidPat),
             }
         }
 
         match *expr {
-            Expr::Paren(inner) => syntax_error!(span, SyntaxError::InvalidPat),
+            Expr::Paren(..) => {
+                self.emit_err(span, SyntaxError::InvalidPat);
+                Ok(Pat::Invalid(Invalid { span }))
+            }
             Expr::Assign(
                 assign_expr
                 @
@@ -712,11 +715,13 @@ impl<'a, I: Tokens> Parser<'a, I> {
             // Invalid patterns.
             // Note that assignment expression with '=' is valid, and handled above.
             Expr::Lit(..) | Expr::Member(..) | Expr::Assign(..) => {
-                syntax_error!(span, SyntaxError::InvalidPat);
+                self.emit_err(span, SyntaxError::InvalidPat);
+                Ok(Pat::Invalid(Invalid { span }))
             }
 
             Expr::Yield(..) if self.ctx().in_generator => {
-                syntax_error!(span, SyntaxError::YieldParamInGen);
+                self.emit_err(span, SyntaxError::InvalidPat);
+                Ok(Pat::Invalid(Invalid { span }))
             }
 
             _ => {
