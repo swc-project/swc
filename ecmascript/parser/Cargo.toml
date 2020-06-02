@@ -7,7 +7,7 @@ repository = "https://github.com/swc-project/swc.git"
 documentation = "https://swc-project.github.io/rustdoc/swc_ecma_parser/"
 description = "Feature-complete es2019 parser."
 edition = "2018"
-include = ["Cargo.toml", "src/**/*.rs"]
+include = ["Cargo.toml", "src/**/*.rs", "examples/**/*.rs"]
 
 [features]
 default = []
