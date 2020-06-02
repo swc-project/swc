@@ -121,6 +121,19 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
         "78c215fabdf13bae.js",
         "bf49ec8d96884562.js",
         "e4a43066905a597b.js",
+        // Postponed (yield)
+        "fc7ed197a376fa5f.js",
+        "c0a8cdfa09f3b86c.js",
+        "ea4d962dac83e2a1.js",
+        "ea4d962dac83e2a1.js",
+        "9f15affa01060595.js",
+        "b3b14fb0e398703d.js",
+        "8fdb7e6ddfb89e3a.js",
+        "78e861dca5c2377d.js",
+        "5d42f9f543d5f55c.js",
+        "32529ec69f32cac1.js",
+        "2774b3cce5a09798.js",
+        "328fddc7bdffb499.js",
     ];
 
     let root = {
