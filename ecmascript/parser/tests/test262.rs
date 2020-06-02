@@ -240,7 +240,7 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
         let module = file_name.contains("module");
 
         let root = root.clone();
-        let name = format!("{}", file_name);
+        let name = format!("test262::identity::{}", file_name);
         add_test(tests, name, ignore, move || {
             eprintln!(
                 "\n\n\n========== Running test {}\nSource:\n{}\nExplicit:\n{}",
