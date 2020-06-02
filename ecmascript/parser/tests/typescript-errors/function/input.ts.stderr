@@ -1,0 +1,6 @@
+error: A binding pattern parameter cannot be optional in an implementation signature.
+ --> $DIR/tests/typescript-errors/function/input.ts:1:14
+  |
+1 | function f([]?, {}) {}
+  |              ^
+
