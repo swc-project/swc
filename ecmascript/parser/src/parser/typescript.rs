@@ -1657,6 +1657,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         match *cur!(true)? {
             Token::Word(Word::Ident(..))
             | tok!("void")
+            | tok!("yield")
             | tok!("null")
             | tok!("await")
             | tok!("break") => {
