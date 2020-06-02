@@ -725,13 +725,9 @@ impl<'a, I: Tokens> Parser<'a, I> {
             }
 
             _ => {
-                //  syntax_error!(span, SyntaxError::InvalidPat)
+                self.emit_err(span, SyntaxError::InvalidPat);
 
-                unimplemented!(
-                    "reparse_expr_as_pat, pat_ty = {:?}, expr = {:?}",
-                    pat_ty,
-                    expr
-                )
+                Ok(Pat::Invalid(Invalid { span }))
             }
         }
     }
