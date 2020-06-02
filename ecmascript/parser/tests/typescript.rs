@@ -129,7 +129,8 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
             )
             || file_name.contains("tsc/expressions/objectLiterals/objectLiteralGettersAndSetters")
             || file_name.contains("tsc/types/rest/restElementMustBeLast")
-            || file_name.contains("tsc/jsx/unicodeEscapesInJsxtagsx/input.tsx");
+            || file_name.contains("tsc/jsx/unicodeEscapesInJsxtagsx/input.tsx")
+            || file_name.contains("tsc/es6/functionDeclarations/FunctionDeclaration6_es6");
 
         let dir = dir.clone();
         let name = format!(
