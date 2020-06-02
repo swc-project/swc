@@ -82,7 +82,25 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
             buf
         };
 
-        let ignore = false;
+        // Ignore some useless tests
+        let ignore = file_name.contains("tsc/es6/functionDeclarations/FunctionDeclaration7_es6")
+            || file_name
+                .contains("tsc/es6/unicodeExtendedEscapes/unicodeExtendedEscapesInStrings11_ES5")
+            || file_name
+                .contains("tsc/es6/unicodeExtendedEscapes/unicodeExtendedEscapesInStrings10_ES5")
+            || file_name
+                .contains("tsc/es6/unicodeExtendedEscapes/unicodeExtendedEscapesInStrings11_ES6")
+            || file_name
+                .contains("tsc/es6/unicodeExtendedEscapes/unicodeExtendedEscapesInStrings10_ES6")
+            || file_name.contains(
+                "tsc/types/objectTypeLiteral/propertySignatures/propertyNamesOfReservedWords",
+            )
+            || file_name.contains("unicodeExtendedEscapes/unicodeExtendedEscapesInTemplates10_ES5")
+            || file_name.contains("unicodeExtendedEscapes/unicodeExtendedEscapesInTemplates10_ES6")
+            || file_name
+                .contains("tsc/es6/unicodeExtendedEscapes/unicodeExtendedEscapesInTemplates11_ES5")
+            || file_name
+                .contains("tsc/es6/unicodeExtendedEscapes/unicodeExtendedEscapesInTemplates11_ES6");
 
         let dir = dir.clone();
         let name = format!(
