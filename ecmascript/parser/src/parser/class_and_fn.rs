@@ -787,13 +787,17 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
         let ctx = Context {
             in_async: is_async,
-            in_generator: is_generator,
+            // in_generator: is_generator,
             ..self.ctx()
         };
 
         let ident = if T::is_fn_expr() {
             //
-            self.with_ctx(ctx).parse_maybe_opt_binding_ident()?
+            self.with_ctx(Context {
+                in_generator: true,
+                ..ctx
+            })
+            .parse_maybe_opt_binding_ident()?
         } else {
             // function declaration does not change context for `BindingIdentifier`.
             self.parse_maybe_opt_binding_ident()?
@@ -838,6 +842,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     where
         F: FnOnce(&mut Self) -> PResult<'a, Vec<Param>>,
     {
+        let prev_in_generator = self.ctx().in_generator;
         let ctx = Context {
             in_async: is_async,
             in_generator: is_generator,
@@ -856,6 +861,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
             let arg_ctx = Context {
                 in_parameters: true,
+                in_generator: prev_in_generator,
                 ..p.ctx()
             };
             let params = p.with_ctx(arg_ctx).parse_with(|mut p| parse_args(&mut p))?;
