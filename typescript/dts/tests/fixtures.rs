@@ -379,6 +379,7 @@ fn get_correct_dts(path: &Path) -> (Arc<String>, Module) {
                 decorators: true,
                 dynamic_import: true,
                 dts: true,
+                no_early_errors: true,
             }),
             SourceFileInput::from(&*fm),
             None,
