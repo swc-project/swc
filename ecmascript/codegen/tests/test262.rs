@@ -71,6 +71,12 @@ const IGNORED_PASS_TESTS: &[&str] = &[
     "59ae0289778b80cd.js",
     "a4d62a651f69d815.js",
     "c06df922631aeabc.js",
+    // Yield
+    "194b702816a7e5e5.js",
+    "3bbd75d597d54fe6.js",
+    "5ed18bdbe48cc4c3.js",
+    "753341b6f22ec11f.js",
+    "ffcf0064736d41e7.js",
 ];
 
 fn add_test<F: FnOnce() + Send + 'static>(
@@ -130,7 +136,7 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
         let module = file_name.contains("module");
 
         let ref_dir = ref_dir.clone();
-        let name = format!("test262::golden::{}", file_name);
+        let name = format!("{}", file_name);
 
         add_test(tests, name, ignore, move || {
             let msg = format!(

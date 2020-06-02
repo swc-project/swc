@@ -22,35 +22,16 @@ use test::{
 };
 
 const IGNORED_PASS_TESTS: &[&str] = &[
-    // TODO: uningnore
-    "5654d4106d7025c2.js",
+    // Temporalily ignored
     "431ecef8c85d4d24.js",
+    "8386fbff927a9e0e.js",
+    "5654d4106d7025c2.js",
     // Stack size (Stupid parens)
     "6b5e7e125097d439.js",
     "714be6d28082eaa7.js",
     "882910de7dd1aef9.js",
     "dd3c63403db5c06e.js",
-    // Generated code is better than it from `pass`
-    "0da4b57d03d33129.js",
-    "aec65a9745669870.js",
-    "1c055d256ec34f17.js",
-    "d57a361bc638f38c.js",
-    "95520bedf0fdd4c9.js",
-    "5f1e0eff7ac775ee.js",
-    "90ad0135b905a622.js",
-    "7da12349ac9f51f2.js",
-    "46173461e93df4c2.js",
-    "446ffc8afda7e47f.js",
-    "3b5d1fb0e093dab8.js",
-    "0140c25a4177e5f7.module.js",
-    "e877f5e6753dc7e4.js",
-    "aac70baa56299267.js",
-    // Wrong tests (normalized expected.js is wrong)
-    "50c6ab935ccb020a.module.js",
-    "9949a2e1a6844836.module.js",
-    "1efde9ddd9d6e6ce.module.js",
     // Wrong tests (variable name or value is different)
-    "8386fbff927a9e0e.js",
     "0339fa95c78c11bd.js",
     "0426f15dac46e92d.js",
     "0b4d61559ccce0f9.js",
@@ -92,6 +73,12 @@ const IGNORED_PASS_TESTS: &[&str] = &[
     "59ae0289778b80cd.js",
     "a4d62a651f69d815.js",
     "c06df922631aeabc.js",
+    // Yield
+    "194b702816a7e5e5.js",
+    "3bbd75d597d54fe6.js",
+    "5ed18bdbe48cc4c3.js",
+    "753341b6f22ec11f.js",
+    "ffcf0064736d41e7.js",
 ];
 
 fn add_test<F: FnOnce() + Send + 'static>(
