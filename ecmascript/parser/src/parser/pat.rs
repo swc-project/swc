@@ -164,17 +164,13 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 match pat {
                     Pat::Ident(Ident {
                         ref mut optional, ..
-                    }) => {
-                        *optional = true;
-                        opt = true;
-                    }
-
-                    Pat::Array(ArrayPat {
+                    })
+                    | Pat::Array(ArrayPat {
                         ref mut optional, ..
                     })
                     | Pat::Object(ObjectPat {
                         ref mut optional, ..
-                    }) if self.ctx().in_declare => {
+                    }) => {
                         *optional = true;
                         opt = true;
                     }
