@@ -82,6 +82,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
     }
 
     pub fn parse_script(&mut self) -> PResult<'a, Script> {
+        trace_cur!(parse_script);
+
         let ctx = Context {
             module: false,
             ..self.ctx()
@@ -100,12 +102,14 @@ impl<'a, I: Tokens> Parser<'a, I> {
     }
 
     pub fn parse_typescript_module(&mut self) -> PResult<'a, Module> {
+        trace_cur!(parse_typescript_module);
+
         debug_assert!(self.syntax().typescript());
 
         //TODO: parse() -> PResult<'a, Program>
         let ctx = Context {
             module: true,
-            //            strict: true,
+            strict: false,
             ..self.ctx()
         };
         // Module code is always in strict mode
@@ -156,7 +160,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     }
 
     fn emit_err(&self, span: Span, error: SyntaxError) {
-        if !self.emit_err {
+        if !self.emit_err || !self.syntax().early_errors() {
             return;
         }
 

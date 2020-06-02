@@ -8,6 +8,8 @@ use swc_common::Spanned;
 #[parser]
 impl<'a, I: Tokens> Parser<'a, I> {
     pub(super) fn parse_opt_binding_ident(&mut self) -> PResult<'a, Option<Ident>> {
+        trace_cur!(parse_opt_binding_ident);
+
         if is!(BindingIdent) || (self.input.syntax().typescript() && is!("this")) {
             self.parse_binding_ident().map(Some)
         } else {
@@ -19,6 +21,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
     ///
     /// spec: `BindingIdentifier`
     pub(super) fn parse_binding_ident(&mut self) -> PResult<'a, Ident> {
+        trace_cur!(parse_binding_ident);
+
         // "yield" and "await" is **lexically** accepted.
         let ident = self.parse_ident(true, true)?;
         if self.ctx().strict && (&*ident.sym == "arguments" || &*ident.sym == "eval") {
@@ -35,6 +39,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
     }
 
     pub(super) fn parse_binding_pat_or_ident(&mut self) -> PResult<'a, Pat> {
+        trace_cur!(parse_binding_pat_or_ident);
+
         match *cur!(true)? {
             tok!("yield") | Word(..) => self.parse_binding_ident().map(Pat::from),
             tok!('[') => self.parse_array_binding_pat(),
@@ -51,11 +57,14 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
     /// babel: `parseBindingAtom`
     pub(super) fn parse_binding_element(&mut self) -> PResult<'a, Pat> {
+        trace_cur!(parse_binding_element);
+
         let start = cur_pos!();
         let left = self.parse_binding_pat_or_ident()?;
 
         if eat!('=') {
             let right = self.include_in_expr(true).parse_assignment_expr()?;
+
             if self.ctx().in_declare {
                 self.emit_err(span!(start), SyntaxError::TS2371);
             }
@@ -155,6 +164,12 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 match pat {
                     Pat::Ident(Ident {
                         ref mut optional, ..
+                    })
+                    | Pat::Array(ArrayPat {
+                        ref mut optional, ..
+                    })
+                    | Pat::Object(ObjectPat {
+                        ref mut optional, ..
                     }) => {
                         *optional = true;
                         opt = true;
@@ -216,6 +231,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
             if self.ctx().in_declare {
                 self.emit_err(span!(start), SyntaxError::TS2371);
             }
+
             Pat::Assign(AssignPat {
                 span: span!(start),
                 left: Box::new(pat),
@@ -526,12 +542,15 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 // It's special because of optional intializer
                 Expr::Assign(..) => {}
 
-                _ => syntax_error!(span, SyntaxError::InvalidPat),
+                _ => self.emit_err(span, SyntaxError::InvalidPat),
             }
         }
 
         match *expr {
-            Expr::Paren(inner) => syntax_error!(span, SyntaxError::InvalidPat),
+            Expr::Paren(..) => {
+                self.emit_err(span, SyntaxError::InvalidPat);
+                Ok(Pat::Invalid(Invalid { span }))
+            }
             Expr::Assign(
                 assign_expr
                 @
@@ -643,7 +662,11 @@ impl<'a, I: Tokens> Parser<'a, I> {
                             ExprOrSpread {
                                 spread: Some(..), ..
                             },
-                        ) => syntax_error!(expr.span(), SyntaxError::NonLastRestParam),
+                        ) => {
+                            if self.syntax().early_errors() {
+                                syntax_error!(expr.span(), SyntaxError::NonLastRestParam)
+                            }
+                        }
                         Some(ExprOrSpread { expr, .. }) => {
                             params.push(self.reparse_expr_as_pat(pat_ty.element(), expr).map(Some)?)
                         }
@@ -692,21 +715,19 @@ impl<'a, I: Tokens> Parser<'a, I> {
             // Invalid patterns.
             // Note that assignment expression with '=' is valid, and handled above.
             Expr::Lit(..) | Expr::Member(..) | Expr::Assign(..) => {
-                syntax_error!(span, SyntaxError::InvalidPat);
+                self.emit_err(span, SyntaxError::InvalidPat);
+                Ok(Pat::Invalid(Invalid { span }))
             }
 
             Expr::Yield(..) if self.ctx().in_generator => {
-                syntax_error!(span, SyntaxError::YieldParamInGen);
+                self.emit_err(span, SyntaxError::InvalidPat);
+                Ok(Pat::Invalid(Invalid { span }))
             }
 
             _ => {
-                //  syntax_error!(span, SyntaxError::InvalidPat)
+                self.emit_err(span, SyntaxError::InvalidPat);
 
-                unimplemented!(
-                    "reparse_expr_as_pat, pat_ty = {:?}, expr = {:?}",
-                    pat_ty,
-                    expr
-                )
+                Ok(Pat::Invalid(Invalid { span }))
             }
         }
     }
@@ -730,7 +751,9 @@ impl<'a, I: Tokens> Parser<'a, I> {
                     spread: Some(..), ..
                 })
                 | PatOrExprOrSpread::Pat(Pat::Rest(..)) => {
-                    syntax_error!(expr.span(), SyntaxError::NonLastRestParam)
+                    if self.syntax().early_errors() {
+                        syntax_error!(expr.span(), SyntaxError::NonLastRestParam)
+                    }
                 }
                 PatOrExprOrSpread::ExprOrSpread(ExprOrSpread {
                     spread: None, expr, ..

@@ -142,7 +142,9 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 } else {
                     //It is an early Reference Error if IsValidSimpleAssignmentTarget of
                     // LeftHandSideExpression is false.
-                    if !cond.is_valid_simple_assignment_target(self.ctx().strict) {
+                    if !self.input.syntax().typescript()
+                        && !cond.is_valid_simple_assignment_target(self.ctx().strict)
+                    {
                         self.emit_err(cond.span(), SyntaxError::NotSimpleAssign)
                     }
                     let is_eval_or_arguments = match *cond {
@@ -615,12 +617,15 @@ impl<'a, I: Tokens> Parser<'a, I> {
             }
         }
 
-        let return_type =
-            if !self.ctx().in_cond_expr && self.input.syntax().typescript() && is!(':') {
-                Some(self.parse_ts_type_or_type_predicate_ann(&tok!(':'))?)
-            } else {
-                None
-            };
+        let return_type = if !self.ctx().in_cond_expr
+            && self.input.syntax().typescript()
+            && is!(':')
+            && !self.input.has_linebreak_between_cur_and_peeked()
+        {
+            Some(self.parse_ts_type_or_type_predicate_ann(&tok!(':'))?)
+        } else {
+            None
+        };
 
         // we parse arrow function at here, to handle it efficiently.
         if has_pattern || return_type.is_some() || is!("=>") {
@@ -1181,6 +1186,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
             }
 
             let start = cur_pos!();
+            self.state.potential_arrow_start = Some(start);
             let modifier_start = start;
 
             let has_modifier = self.eat_any_ts_modifier()?;
@@ -1290,8 +1296,10 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 }
                 if let Some(span) = arg.spread {
                     if let Some(rest_span) = rest_span {
-                        // Rest pattern must be last one.
-                        syntax_error!(rest_span, SyntaxError::NonLastRestParam);
+                        if self.syntax().early_errors() {
+                            // Rest pattern must be last one.
+                            syntax_error!(rest_span, SyntaxError::NonLastRestParam);
+                        }
                     }
                     rest_span = Some(span);
                     pat = Pat::Rest(RestPat {
@@ -1533,7 +1541,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
     pub(super) fn check_assign_target(&mut self, expr: &Expr, deny_call: bool) {
         // We follow behavior of tsc
-        if self.input.syntax().typescript() {
+        if self.input.syntax().typescript() && self.syntax().early_errors() {
             let is_eval_or_arguments = match *expr {
                 Expr::Ident(ref i) => i.sym == js_word!("eval") || i.sym == js_word!("arguments"),
                 _ => false,

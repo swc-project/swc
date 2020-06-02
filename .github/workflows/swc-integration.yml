@@ -1,4 +1,4 @@
-name: (swc) Integration tests
+name: (swc) Integration
 
 on: [push, pull_request]
 

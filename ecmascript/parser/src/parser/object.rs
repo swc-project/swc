@@ -1,7 +1,7 @@
 //! Parser for object literal.
 
 use super::*;
-use crate::make_span;
+use crate::{make_span, parser::class_and_fn::is_not_this};
 use swc_atoms::js_word;
 use swc_common::Spanned;
 
@@ -247,7 +247,7 @@ impl<'a, I: Tokens> ParseObject<'a, Box<Expr>> for Parser<'a, I> {
                             |p| {
                                 let params = p.parse_formal_params()?;
 
-                                if params.len() != 0 {
+                                if params.iter().filter(|p| is_not_this(p)).count() != 0 {
                                     p.emit_err(key_span, SyntaxError::TS1094);
                                 }
 
@@ -289,7 +289,7 @@ impl<'a, I: Tokens> ParseObject<'a, Box<Expr>> for Parser<'a, I> {
                             |p| {
                                 let params = p.parse_formal_params()?;
 
-                                if params.len() != 1 {
+                                if params.iter().filter(|p| is_not_this(p)).count() != 1 {
                                     p.emit_err(key_span, SyntaxError::TS1094);
                                 }
 
@@ -370,7 +370,9 @@ impl<'a, I: Tokens> ParseObject<'a, Pat> for Parser<'a, I> {
             }
 
             if let ObjectPatProp::Rest(..) = p {
-                syntax_error!(p.span(), SyntaxError::NonLastRestParam)
+                if self.syntax().early_errors() {
+                    syntax_error!(p.span(), SyntaxError::NonLastRestParam)
+                }
             }
         }
 

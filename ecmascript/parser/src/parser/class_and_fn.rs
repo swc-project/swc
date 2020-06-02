@@ -298,7 +298,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         let start = cur_pos!();
         let decorators = self.parse_decorators(false)?;
 
-        if eat!("declare") {
+        if self.syntax().typescript() && eat!("declare") {
             self.emit_err(make_span(self.input.prev_span()), SyntaxError::TS1031);
         }
 
@@ -609,7 +609,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                         |p| {
                             let params = p.parse_formal_params()?;
 
-                            if params.len() != 0 {
+                            if params.iter().filter(|p| is_not_this(p)).count() != 0 {
                                 p.emit_err(key_span, SyntaxError::TS1094);
                             }
 
@@ -632,7 +632,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                         |p| {
                             let params = p.parse_formal_params()?;
 
-                            if params.len() != 1 {
+                            if params.iter().filter(|p| is_not_this(p)).count() != 1 {
                                 p.emit_err(key_span, SyntaxError::TS1094);
                             }
 
@@ -793,7 +793,11 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
         let ident = if T::is_fn_expr() {
             //
-            self.with_ctx(ctx).parse_maybe_opt_binding_ident()?
+            self.with_ctx(Context {
+                in_generator: is_generator,
+                ..ctx
+            })
+            .parse_maybe_opt_binding_ident()?
         } else {
             // function declaration does not change context for `BindingIdentifier`.
             self.parse_maybe_opt_binding_ident()?
@@ -838,6 +842,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
     where
         F: FnOnce(&mut Self) -> PResult<'a, Vec<Param>>,
     {
+        // let prev_in_generator = self.ctx().in_generator;
         let ctx = Context {
             in_async: is_async,
             in_generator: is_generator,
@@ -856,6 +861,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
             let arg_ctx = Context {
                 in_parameters: true,
+                // in_generator: prev_in_generator,
                 ..p.ctx()
             };
             let params = p.with_ctx(arg_ctx).parse_with(|mut p| parse_args(&mut p))?;
@@ -1157,6 +1163,16 @@ fn is_constructor(key: &Either<PrivateName, PropName>) -> bool {
             ..
         })) => true,
         _ => false,
+    }
+}
+
+pub(crate) fn is_not_this(p: &Param) -> bool {
+    match p.pat {
+        Pat::Ident(Ident {
+            sym: js_word!("this"),
+            ..
+        }) => false,
+        _ => true,
     }
 }
 

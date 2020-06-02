@@ -5,6 +5,8 @@ export CARGO_INCREMENTAL=0
 export RUSTFLAGS="-Zprofile -Ccodegen-units=1 -Copt-level=0 -Clink-dead-code -Coverflow-checks=off -Zpanic_abort_tests"
 export RUSTDOCFLAGS="-Cpanic=abort"
 
+git clone https://github.com/swc-project/ts-parser-test-ref.git ecmascript/parser/tests/typescript/tsc
+
 cargo test --no-run --all --all-features --exclude node-swc wasm
 cargo test --all --all-features --exclude node-swc wasm
 

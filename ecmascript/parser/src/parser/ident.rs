@@ -68,6 +68,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
     ///
     /// In strict mode, "yield" is SyntaxError if matched.
     pub(super) fn parse_ident(&mut self, incl_yield: bool, incl_await: bool) -> PResult<'a, Ident> {
+        trace_cur!(parse_ident);
+
         let start = cur_pos!();
 
         let word = self.parse_with(|p| {
@@ -116,6 +118,10 @@ impl<'a, I: Tokens> Parser<'a, I> {
             // value as the StringValue of any ReservedWord except for yield or await.
 
             match w {
+                Word::Keyword(Keyword::Await) if p.input.syntax().typescript() => {
+                    Ok(js_word!("this"))
+                }
+
                 // It is a Syntax Error if the goal symbol of the syntactic grammar is Module
                 // and the StringValue of IdentifierName is "await".
                 Word::Keyword(Keyword::Await) if p.ctx().module => {

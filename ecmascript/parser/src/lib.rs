@@ -302,6 +302,13 @@ impl Syntax {
             _ => false,
         }
     }
+
+    pub(crate) fn early_errors(self) -> bool {
+        match self {
+            Syntax::Typescript(t) => !t.no_early_errors,
+            Syntax::Es(..) => true,
+        }
+    }
 }
 
 #[derive(Debug, Clone, Copy, Default, Serialize, Deserialize)]
@@ -319,6 +326,9 @@ pub struct TsConfig {
     /// `.d.ts`
     #[serde(skip, default)]
     pub dts: bool,
+
+    #[serde(skip, default)]
+    pub no_early_errors: bool,
 }
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialOrd, Ord, PartialEq, Eq)]

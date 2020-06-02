@@ -1,12 +1,13 @@
 [package]
 name = "swc_ecma_codegen"
-version = "0.21.0"
+version = "0.22.0"
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 license = "Apache-2.0/MIT"
 repository = "https://github.com/swc-project/swc.git"
 documentation = "https://swc-project.github.io/rustdoc/swc_ecma_codegen/"
 description = "Ecmascript code generator for the swc project."
 edition = "2018"
+include = ["Cargo.toml", "src/**/*.rs"]
 
 [dependencies]
 bitflags = "1"
@@ -16,7 +17,7 @@ swc_ecma_ast = { version = "0.20.0", path ="../ast" }
 swc_ecma_codegen_macros = { version = "0.5", path ="./macros" }
 sourcemap = "5"
 num-bigint = { version = "0.2", features = ["serde"] }
-swc_ecma_parser = { version = "0.23", path ="../parser" }
+swc_ecma_parser = { version = "0.24", path ="../parser" }
 
 [dev-dependencies]
 testing = { version = "0.5", path ="../../testing" }

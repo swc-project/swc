@@ -582,6 +582,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
             Token::Num(v) => {
                 bump!();
                 let span = span!(start);
+
                 // Recover from error
                 self.emit_err(span, SyntaxError::TS2452);
 
@@ -651,6 +652,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
     /// `tsParseModuleBlock`
     fn parse_ts_module_block(&mut self) -> PResult<'a, TsModuleBlock> {
+        trace_cur!(parse_ts_module_block);
+
         debug_assert!(self.input.syntax().typescript());
 
         let start = cur_pos!();
@@ -750,6 +753,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
     ///
     /// `tsParseType`
     pub(super) fn parse_ts_type(&mut self) -> PResult<'a, Box<TsType>> {
+        trace_cur!(parse_ts_type);
+
         debug_assert!(self.input.syntax().typescript());
 
         // Need to set `state.inType` so that we don't parse JSX in a type context.
@@ -784,6 +789,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
     /// `tsParseNonConditionalType`
     fn parse_ts_non_conditional_type(&mut self) -> PResult<'a, Box<TsType>> {
+        trace_cur!(parse_ts_non_conditional_type);
+
         debug_assert!(self.input.syntax().typescript());
 
         if self.is_ts_start_of_fn_type()? {
@@ -887,6 +894,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
             }
             _ => {}
         }
+
         let type_params = self.try_parse_ts_type_params()?;
 
         let extends = if eat!("extends") {
@@ -1063,6 +1071,21 @@ impl<'a, I: Tokens> Parser<'a, I> {
                     brace_stack_counter += 1;
                 } else if is!('}') {
                     brace_stack_counter -= 1;
+                }
+                bump!();
+            }
+            return Ok(true);
+        }
+
+        if is!('[') {
+            let mut bracket_stack_counter = 1;
+            bump!();
+
+            while bracket_stack_counter > 0 {
+                if is!('[') {
+                    bracket_stack_counter += 1;
+                } else if is!(']') {
+                    bracket_stack_counter -= 1;
                 }
                 bump!();
             }
@@ -1506,6 +1529,8 @@ impl<'a, I: Tokens> Parser<'a, I> {
         &mut self,
         is_fn_type: bool,
     ) -> PResult<'a, TsFnOrConstructorType> {
+        trace_cur!(parse_ts_fn_or_constructor_type);
+
         debug_assert!(self.input.syntax().typescript());
 
         let start = cur_pos!();
@@ -1576,6 +1601,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         for param in params {
             let item = match param.pat {
                 Pat::Ident(pat) => TsFnParam::Ident(pat),
+                Pat::Array(pat) => TsFnParam::Array(pat),
                 Pat::Object(pat) => TsFnParam::Object(pat),
                 Pat::Rest(pat) => TsFnParam::Rest(pat),
                 _ => unexpected!(),
@@ -1629,7 +1655,12 @@ impl<'a, I: Tokens> Parser<'a, I> {
         let start = cur_pos!();
 
         match *cur!(true)? {
-            Token::Word(Word::Ident(..)) | tok!("void") | tok!("null") => {
+            Token::Word(Word::Ident(..))
+            | tok!("void")
+            | tok!("yield")
+            | tok!("null")
+            | tok!("await")
+            | tok!("break") => {
                 if is!("asserts") && peeked_is!("this") {
                     bump!();
                     let this_keyword = self.parse_ts_this_type_node()?;
