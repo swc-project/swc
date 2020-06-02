@@ -312,7 +312,6 @@ macro_rules! span {
 
 macro_rules! make_error {
     ($p:expr, $span:expr, $err:expr) => {{
-        dbg!();
         ::swc_common::errors::DiagnosticBuilder::from($crate::error::ErrorToDiag {
             handler: $p.session.handler,
             span: $span,

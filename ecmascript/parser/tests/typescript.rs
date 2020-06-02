@@ -102,15 +102,34 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
             || file_name
                 .contains("tsc/es6/unicodeExtendedEscapes/unicodeExtendedEscapesInTemplates11_ES6")
             || file_name.contains("tsc/es6/variableDeclarations/VariableDeclaration6_es6");
-        // Syntax error
+
+        // Useful only for error reporting
         let ignore = ignore
             || file_name.contains(
                 "tsc/types/objectTypeLiteral/callSignatures/\
                  callSignaturesWithParameterInitializers",
-            );
+            )
+            || file_name.contains("tsc/jsdoc/jsdocDisallowedInTypescript")
+            || file_name.contains("tsc/expressions/superCalls/errorSuperCalls")
+            || file_name.contains("tsc/types/rest/restElementMustBeLast");
 
-        // Useful only for error reporting
-        let ignore = ignore || file_name.contains("tsc/types/rest/restElementMustBeLast");
+        // Postponed
+        let ignore = ignore
+            || file_name.contains("tsc/jsx/inline/inlineJsxFactoryDeclarationsx")
+            || file_name.contains("tsc/externalModules/typeOnly/importDefaultNamedType")
+            || file_name.contains("tsc/jsx/tsxAttributeResolution5x")
+            || file_name.contains("tsc/jsx/tsxErrorRecovery2x")
+            || file_name.contains("tsc/jsx/tsxErrorRecovery3x")
+            || file_name.contains("tsc/jsx/tsxErrorRecovery5x")
+            || file_name.contains("tsc/jsx/tsxReactEmitEntitiesx/input.tsx")
+            || file_name.contains("tsc/jsx/tsxTypeArgumentsJsxPreserveOutputx/input.tsx")
+            || file_name.contains(
+                "tsc/es7/exponentiationOperator/\
+                 emitCompoundExponentiationAssignmentWithIndexingOnLHS3",
+            )
+            || file_name.contains("tsc/expressions/objectLiterals/objectLiteralGettersAndSetters")
+            || file_name.contains("tsc/types/rest/restElementMustBeLast")
+            || file_name.contains("tsc/jsx/unicodeEscapesInJsxtagsx/input.tsx");
 
         let dir = dir.clone();
         let name = format!(
