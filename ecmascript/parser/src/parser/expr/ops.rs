@@ -176,14 +176,14 @@ impl<'a, I: Tokens> Parser<'a, I> {
         if op == op!("??") {
             match *left {
                 Expr::Bin(BinExpr { span, op, .. }) if op == op!("&&") || op == op!("||") => {
-                    syntax_error!(span, SyntaxError::NullishCoalescingWithLogicalOp);
+                    self.emit_err(span, SyntaxError::NullishCoalescingWithLogicalOp);
                 }
                 _ => {}
             }
 
             match *right {
                 Expr::Bin(BinExpr { span, op, .. }) if op == op!("&&") || op == op!("||") => {
-                    syntax_error!(span, SyntaxError::NullishCoalescingWithLogicalOp);
+                    self.emit_err(span, SyntaxError::NullishCoalescingWithLogicalOp);
                 }
                 _ => {}
             }
@@ -201,7 +201,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         if op == op!("??") {
             match *expr {
                 Expr::Bin(BinExpr { span, op, .. }) if op == op!("&&") || op == op!("||") => {
-                    syntax_error!(span, SyntaxError::NullishCoalescingWithLogicalOp);
+                    self.emit_err(span, SyntaxError::NullishCoalescingWithLogicalOp);
                 }
 
                 _ => {}
