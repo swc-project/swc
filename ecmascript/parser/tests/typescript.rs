@@ -98,7 +98,7 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
 
             let path = dir.join(&file_name);
             if errors {
-                let module = with_parser(false, &path, |p| p.parse_typescript_module());
+                let module = with_parser(false, &path, !errors, |p| p.parse_typescript_module());
 
                 let err = module.expect_err("should fail, but parsed as");
                 if err
@@ -108,7 +108,7 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                     panic!()
                 }
             } else {
-                with_parser(is_backtrace_enabled(), &path, |p| {
+                with_parser(is_backtrace_enabled(), &path, !errors, |p| {
                     let module = p.parse_typescript_module()?.fold_with(&mut Normalizer);
 
                     let json = serde_json::to_string_pretty(&module)
@@ -147,7 +147,12 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
     Ok(())
 }
 
-fn with_parser<F, Ret>(treat_error_as_bug: bool, file_name: &Path, f: F) -> Result<Ret, StdErr>
+fn with_parser<F, Ret>(
+    treat_error_as_bug: bool,
+    file_name: &Path,
+    no_early_errors: bool,
+    f: F,
+) -> Result<Ret, StdErr>
 where
     F: for<'a> FnOnce(&mut Parser<'a, Lexer<'a, SourceFileInput<'_>>>) -> PResult<'a, Ret>,
 {
@@ -164,7 +169,7 @@ where
                 tsx: fname.contains("tsx"),
                 dynamic_import: true,
                 decorators: true,
-                no_early_errors: true,
+                no_early_errors,
                 ..Default::default()
             }),
             JscTarget::Es2015,
