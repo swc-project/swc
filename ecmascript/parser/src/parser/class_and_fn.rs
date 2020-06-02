@@ -794,7 +794,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         let ident = if T::is_fn_expr() {
             //
             self.with_ctx(Context {
-                in_generator: true,
+                in_generator: is_generator,
                 ..ctx
             })
             .parse_maybe_opt_binding_ident()?
