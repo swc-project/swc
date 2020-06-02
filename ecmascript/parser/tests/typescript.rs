@@ -100,7 +100,8 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
             || file_name
                 .contains("tsc/es6/unicodeExtendedEscapes/unicodeExtendedEscapesInTemplates11_ES5")
             || file_name
-                .contains("tsc/es6/unicodeExtendedEscapes/unicodeExtendedEscapesInTemplates11_ES6");
+                .contains("tsc/es6/unicodeExtendedEscapes/unicodeExtendedEscapesInTemplates11_ES6")
+            || file_name.contains("tsc/es6/variableDeclarations/VariableDeclaration6_es6");
 
         let dir = dir.clone();
         let name = format!(
