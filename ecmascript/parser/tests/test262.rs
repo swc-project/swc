@@ -77,12 +77,6 @@ const IGNORED_PASS_TESTS: &[&str] = &[
     // Wrong test - strict mode
     "8f8bfb27569ac008.js",
     "ce569e89a005c02a.js",
-    // No one except qa uses yield as a function name.
-    "194b702816a7e5e5.js",
-    "3bbd75d597d54fe6.js",
-    "5ed18bdbe48cc4c3.js",
-    "753341b6f22ec11f.js",
-    "ffcf0064736d41e7.js",
 ];
 
 fn add_test<F: FnOnce() + Send + 'static>(
