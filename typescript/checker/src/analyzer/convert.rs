@@ -633,7 +633,7 @@ impl Validate<TsType> for Analyzer<'_, '_> {
     }
 }
 
-fn default_any_pat(p: &mut Pat) {
+pub(crate) fn default_any_pat(p: &mut Pat) {
     match p {
         Pat::Ident(i) => default_any_ident(i),
         Pat::Array(arr) => default_any_array_pat(arr),
@@ -642,7 +642,7 @@ fn default_any_pat(p: &mut Pat) {
     }
 }
 
-fn default_any_ident(i: &mut Ident) {
+pub(crate) fn default_any_ident(i: &mut Ident) {
     if i.type_ann.is_some() {
         return;
     }
@@ -656,7 +656,7 @@ fn default_any_ident(i: &mut Ident) {
     });
 }
 
-fn default_any_array_pat(arr: &mut ArrayPat) {
+pub(crate) fn default_any_array_pat(arr: &mut ArrayPat) {
     if arr.type_ann.is_some() {
         return;
     }
@@ -692,7 +692,7 @@ fn default_any_array_pat(arr: &mut ArrayPat) {
     })
 }
 
-fn default_any_object(obj: &mut ObjectPat) {
+pub(crate) fn default_any_object(obj: &mut ObjectPat) {
     if obj.type_ann.is_some() {
         return;
     }
@@ -754,7 +754,7 @@ fn default_any_object(obj: &mut ObjectPat) {
     })
 }
 
-fn default_any_param(p: &mut TsFnParam) {
+pub(crate) fn default_any_param(p: &mut TsFnParam) {
     match p {
         TsFnParam::Ident(i) => default_any_ident(i),
         TsFnParam::Array(arr) => default_any_array_pat(arr),
