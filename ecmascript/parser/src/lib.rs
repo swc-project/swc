@@ -454,6 +454,9 @@ pub struct Context {
     in_property_name: bool,
 
     in_forced_jsx_context: bool,
+
+    /// If true, `:` should not be treated as a type annotation.
+    in_case_cond: bool,
 }
 
 #[derive(Clone, Copy)]
