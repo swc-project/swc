@@ -642,6 +642,13 @@ impl Strip {
             _ => false,
         });
         let no_init_required = is_all_str;
+        let rhs_should_be_name = members.iter().all(|(m, v): &(TsEnumMember, Expr)| match v {
+            Expr::Lit(Lit::Str(s)) => match &m.id {
+                TsEnumMemberId::Ident(i) => i.sym == s.value,
+                TsEnumMemberId::Str(s) => s.value != s.value,
+            },
+            _ => true,
+        });
 
         stmts.push(
             CallExpr {
@@ -685,10 +692,7 @@ impl Strip {
                                                 computed: true,
                                             })),
                                             op: op!("="),
-                                            right: box Expr::Lit(Lit::Num(Number {
-                                                span: DUMMY_SP,
-                                                value: i as _,
-                                            })),
+                                            right: box val,
                                         })
                                     };
 
@@ -704,13 +708,13 @@ impl Strip {
                                             prop,
                                         })),
                                         op: op!("="),
-                                        right: m.init.unwrap_or_else(|| {
-                                            box Expr::Lit(Lit::Str(Str {
-                                                span: DUMMY_SP,
-                                                value: value.value,
-                                                has_escape: false,
-                                            }))
-                                        }),
+                                        right: if rhs_should_be_name {
+                                            box Expr::Lit(Lit::Str(value.clone()))
+                                        } else {
+                                            m.init.unwrap_or_else(|| {
+                                                box Expr::Lit(Lit::Str(value.clone()))
+                                            })
+                                        },
                                     }
                                     .into_stmt()
                                 })
