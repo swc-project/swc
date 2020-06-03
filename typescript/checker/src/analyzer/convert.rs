@@ -8,12 +8,13 @@ use crate::{
         Predicate, PropertySignature, QueryExpr, QueryType, Ref, TsExpr, Tuple, Type, TypeElement,
         TypeLit, TypeParam, TypeParamDecl, TypeParamInstantiation, Union,
     },
+    util::PatExt,
     validator::{Validate, ValidateWith},
     ValidationResult,
 };
 use macros::validator;
 use swc_atoms::js_word;
-use swc_common::{Spanned, VisitMutWith};
+use swc_common::{Spanned, VisitMutWith, DUMMY_SP};
 use swc_ecma_ast::*;
 
 /// We analyze dependencies between type parameters, and fold parameter in
@@ -389,11 +390,60 @@ impl Validate<TsFnType> for Analyzer<'_, '_> {
     type Output = ValidationResult<ty::Function>;
 
     fn validate(&mut self, t: &mut TsFnType) -> Self::Output {
+        fn set_any(p: &mut Pat) {
+            if p.get_ty().is_some() {
+                return;
+            }
+
+            match p {
+                Pat::Ident(Ident { span, type_ann, .. }) => {
+                    *type_ann = Some(TsTypeAnn {
+                        span: DUMMY_SP,
+                        type_ann: box TsType::TsKeywordType(TsKeywordType {
+                            span: *span,
+                            kind: TsKeywordTypeKind::TsAnyKeyword,
+                        }),
+                    });
+                }
+                Pat::Array(arr) => {
+                    let cnt = arr.elems.len();
+
+                    arr.type_ann = Some(TsTypeAnn {
+                        span: arr.span,
+                        type_ann: box TsType::TsTupleType(TsTupleType {
+                            span: DUMMY_SP,
+                            elem_types: (0..cnt)
+                                .map(|_| {
+                                    box TsType::TsKeywordType(TsKeywordType {
+                                        span: DUMMY_SP,
+                                        kind: TsKeywordTypeKind::TsAnyKeyword,
+                                    })
+                                })
+                                .collect(),
+                        }),
+                    })
+                }
+                _ => {}
+            }
+        }
+
+        let type_params = try_opt!(t.type_params.validate_with(self));
+        let mut params: Vec<_> = t.params.validate_with(self)?;
+
+        for param in &mut params {
+            if param.pat.get_ty().is_none() {
+                // TODO: implicit any
+                set_any(&mut param.pat)
+            }
+        }
+
+        let ret_ty = box t.type_ann.validate_with(self)?;
+
         Ok(ty::Function {
             span: t.span,
-            type_params: try_opt!(t.type_params.validate_with(self)),
-            params: t.params.validate_with(self)?,
-            ret_ty: box t.type_ann.validate_with(self)?,
+            type_params,
+            params,
+            ret_ty,
         })
     }
 }
