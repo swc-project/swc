@@ -243,6 +243,24 @@ fn do_test(file_name: &Path) -> Result<(), StdErr> {
 
     testing::Tester::new()
         .print_errors(|cm, handler| {
+            let handler = Arc::new(handler);
+
+            let checker = swc_ts_checker::Checker::new(
+                Default::default(),
+                cm.clone(),
+                handler.clone(),
+                Lib::load("es2019.full"),
+                Default::default(),
+                TsConfig {
+                    tsx: fname.contains("tsx"),
+                    ..Default::default()
+                },
+                JscTarget::Es5,
+            );
+
+            let info = checker.check(Arc::new(file_name.clone().into()));
+            let errors = ::swc_ts_checker::errors::Error::flatten(info.1.errors.into());
+
             let expected = {
                 let mut buf = vec![];
                 {
@@ -262,24 +280,6 @@ fn do_test(file_name: &Path) -> Result<(), StdErr> {
                 }
                 String::from_utf8(buf).unwrap()
             };
-
-            let handler = Arc::new(handler);
-
-            let checker = swc_ts_checker::Checker::new(
-                Default::default(),
-                cm.clone(),
-                handler.clone(),
-                Lib::load("es2019.full"),
-                Default::default(),
-                TsConfig {
-                    tsx: fname.contains("tsx"),
-                    ..Default::default()
-                },
-                JscTarget::Es5,
-            );
-
-            let info = checker.check(Arc::new(file_name.clone().into()));
-            let errors = ::swc_ts_checker::errors::Error::flatten(info.1.errors.into());
 
             let dts = generate_dts(info.0, info.1.exports).fold_with(&mut Normalizer);
 
