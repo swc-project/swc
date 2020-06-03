@@ -478,6 +478,13 @@ impl Validate<TsFnType> for Analyzer<'_, '_> {
             for props in &mut obj.props {
                 match props {
                     ObjectPatProp::KeyValue(p) => {
+                        match *p.value {
+                            Pat::Array(_) | Pat::Object(_) => {
+                                default_any_pat(&mut *p.value);
+                            }
+                            _ => {}
+                        }
+
                         members.push(TsTypeElement::TsPropertySignature(TsPropertySignature {
                             span: DUMMY_SP,
                             readonly: false,
@@ -486,7 +493,10 @@ impl Validate<TsFnType> for Analyzer<'_, '_> {
                             optional: false,
                             init: None,
                             params: vec![],
-                            type_ann: None,
+                            type_ann: p.value.get_mut_ty().take().cloned().map(|ty| TsTypeAnn {
+                                span: DUMMY_SP,
+                                type_ann: box ty,
+                            }),
                             type_params: None,
                         }))
                     }
