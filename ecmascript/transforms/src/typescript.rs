@@ -434,7 +434,7 @@ impl Strip {
         node
     }
 
-    fn handle_enum(&mut self, e: TsEnumDecl, stmts: &mut Vec<ModuleItem>) {
+    fn handle_enum(&mut self, mut e: TsEnumDecl, stmts: &mut Vec<ModuleItem>) {
         /// Value does not contain TsLit::Bool
         type EnumValues = FxHashMap<Id, TsLit>;
 
@@ -587,16 +587,16 @@ impl Strip {
         }
 
         let id = e.id.clone();
+        let en = e.clone();
 
         let mut default = 0;
         let mut values = Default::default();
-        let members = e
-            .members
-            .iter()
-            .map(|m| -> Result<_, ()> {
+        e.members
+            .iter_mut()
+            .map(|m| -> Result<(), ()> {
                 let id_span = m.id.span();
                 let val = compute(
-                    &e,
+                    &en,
                     id_span,
                     &mut values,
                     Some(default),
@@ -631,9 +631,11 @@ impl Strip {
                     Some(v) => Ok(*v.clone()),
                 })?;
 
-                Ok((m.id.clone(), val, m.span, m.init.is_some()))
+                m.init = Some(box val);
+
+                Ok(())
             })
-            .collect::<Result<Vec<_>, _>>()
+            .collect::<Result<Vec<()>, _>>()
             .unwrap_or_else(|_| panic!("invalid value for enum is detected"));
 
         stmts.push(
@@ -654,70 +656,60 @@ impl Strip {
                         }],
                         body: Some(BlockStmt {
                             span: DUMMY_SP,
-                            stmts: members
+                            stmts: e
+                                .members
                                 .into_iter()
                                 .enumerate()
-                                .map(
-                                    |(
-                                        i,
-                                        (member_id, member_value, member_span, member_has_init),
-                                    )| {
-                                        let value = match member_id {
-                                            TsEnumMemberId::Str(s) => s,
-                                            TsEnumMemberId::Ident(i) => Str {
-                                                span: i.span,
-                                                value: i.sym,
-                                                has_escape: false,
-                                            },
-                                        };
-                                        let prop = if member_has_init {
-                                            box Expr::Lit(Lit::Str(value.clone()))
-                                        } else {
-                                            box Expr::Assign(AssignExpr {
-                                                span: DUMMY_SP,
-                                                left: PatOrExpr::Expr(box Expr::Member(
-                                                    MemberExpr {
-                                                        span: DUMMY_SP,
-                                                        obj: id.clone().as_obj(),
-                                                        prop: box Expr::Lit(Lit::Str(
-                                                            value.clone(),
-                                                        )),
-                                                        computed: true,
-                                                    },
-                                                )),
-                                                op: op!("="),
-                                                right: box Expr::Lit(Lit::Num(Number {
-                                                    span: DUMMY_SP,
-                                                    value: i as _,
-                                                })),
-                                            })
-                                        };
-
-                                        // Foo[Foo["a"] = 0] = "a";
-                                        AssignExpr {
+                                .map(|(i, m)| {
+                                    let value = match m.id {
+                                        TsEnumMemberId::Str(s) => s,
+                                        TsEnumMemberId::Ident(i) => Str {
+                                            span: i.span,
+                                            value: i.sym,
+                                            has_escape: false,
+                                        },
+                                    };
+                                    let prop = if let Some(_) = &m.init {
+                                        box Expr::Lit(Lit::Str(value.clone()))
+                                    } else {
+                                        box Expr::Assign(AssignExpr {
                                             span: DUMMY_SP,
                                             left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
-                                                obj: id.clone().as_obj(),
                                                 span: DUMMY_SP,
+                                                obj: id.clone().as_obj(),
+                                                prop: box Expr::Lit(Lit::Str(value.clone())),
                                                 computed: true,
-
-                                                // Foo["a"] = 0
-                                                prop,
                                             })),
                                             op: op!("="),
-                                            right: if member_has_init {
-                                                box member_value
-                                            } else {
-                                                box Expr::Lit(Lit::Str(Str {
-                                                    span: DUMMY_SP,
-                                                    value: value.value,
-                                                    has_escape: false,
-                                                }))
-                                            },
-                                        }
-                                        .into_stmt()
-                                    },
-                                )
+                                            right: box Expr::Lit(Lit::Num(Number {
+                                                span: DUMMY_SP,
+                                                value: i as _,
+                                            })),
+                                        })
+                                    };
+
+                                    // Foo[Foo["a"] = 0] = "a";
+                                    AssignExpr {
+                                        span: DUMMY_SP,
+                                        left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
+                                            obj: id.clone().as_obj(),
+                                            span: DUMMY_SP,
+                                            computed: true,
+
+                                            // Foo["a"] = 0
+                                            prop,
+                                        })),
+                                        op: op!("="),
+                                        right: m.init.unwrap_or_else(|| {
+                                            box Expr::Lit(Lit::Str(Str {
+                                                span: DUMMY_SP,
+                                                value: value.value,
+                                                has_escape: false,
+                                            }))
+                                        }),
+                                    }
+                                    .into_stmt()
+                                })
                                 .collect(),
                         }),
                         return_type: Default::default(),
