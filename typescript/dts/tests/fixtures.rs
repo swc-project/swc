@@ -238,7 +238,7 @@ fn do_test(file_name: &Path) -> Result<(), StdErr> {
     let file_name = canonicalize(file_name).unwrap();
     let fname = file_name.display().to_string();
     let (expected_code, expected) = get_correct_dts(&file_name);
-    let expected = expected.fold_with(&mut Normalizer);
+    let expected = expected.fold_with(&mut Normalizer).fold_with(&mut DropSpan);
     println!("---------- Expected ----------\n{}", expected_code);
 
     testing::Tester::new()
