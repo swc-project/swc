@@ -298,10 +298,6 @@ impl<'a, I: Tokens> Parser<'a, I> {
         let start = cur_pos!();
         let decorators = self.parse_decorators(false)?;
 
-        if self.syntax().typescript() && eat!("declare") {
-            self.emit_err(make_span(self.input.prev_span()), SyntaxError::TS1031);
-        }
-
         let accessibility = if self.input.syntax().typescript() {
             self.parse_access_modifier()?
         } else {
