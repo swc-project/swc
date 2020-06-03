@@ -263,7 +263,25 @@ impl Validate<TsPropertySignature> for Analyzer<'_, '_> {
             optional: d.optional,
             params: self.validate(&mut d.params)?,
             readonly: d.readonly,
-            type_ann: try_opt!(self.validate(&mut d.type_ann)),
+            type_ann: {
+                // TODO: implicit any
+                match d.type_ann.validate_with(self) {
+                    Some(v) => match v {
+                        Ok(v) => Some(v),
+                        Err(e) => {
+                            d.type_ann = Some(Type::any(d.span).into());
+
+                            self.info.errors.push(e);
+                            Some(Type::any(d.span))
+                        }
+                    },
+                    None => {
+                        d.type_ann = Some(Type::any(d.span).into());
+
+                        Some(Type::any(d.span))
+                    }
+                }
+            },
             type_params: try_opt!(self.validate(&mut d.type_params)),
         })
     }
@@ -390,52 +408,75 @@ impl Validate<TsFnType> for Analyzer<'_, '_> {
     type Output = ValidationResult<ty::Function>;
 
     fn validate(&mut self, t: &mut TsFnType) -> Self::Output {
-        fn set_any(p: &mut Pat) {
-            if p.get_ty().is_some() {
-                return;
-            }
-
+        fn default_any_pat(p: &mut Pat) {
             match p {
-                Pat::Ident(Ident { span, type_ann, .. }) => {
-                    *type_ann = Some(TsTypeAnn {
-                        span: DUMMY_SP,
-                        type_ann: box TsType::TsKeywordType(TsKeywordType {
-                            span: *span,
-                            kind: TsKeywordTypeKind::TsAnyKeyword,
-                        }),
-                    });
-                }
-                Pat::Array(arr) => {
-                    let cnt = arr.elems.len();
-
-                    arr.type_ann = Some(TsTypeAnn {
-                        span: arr.span,
-                        type_ann: box TsType::TsTupleType(TsTupleType {
-                            span: DUMMY_SP,
-                            elem_types: (0..cnt)
-                                .map(|_| {
-                                    box TsType::TsKeywordType(TsKeywordType {
-                                        span: DUMMY_SP,
-                                        kind: TsKeywordTypeKind::TsAnyKeyword,
-                                    })
-                                })
-                                .collect(),
-                        }),
-                    })
-                }
+                Pat::Ident(i) => default_any_ident(i),
+                Pat::Array(arr) => default_any_array_pat(arr),
+                Pat::Object(obj) => default_any_object(obj),
                 _ => {}
             }
         }
 
-        let type_params = try_opt!(t.type_params.validate_with(self));
-        let mut params: Vec<_> = t.params.validate_with(self)?;
+        fn default_any_ident(i: &mut Ident) {
+            if i.type_ann.is_some() {
+                return;
+            }
 
-        for param in &mut params {
-            if param.pat.get_ty().is_none() {
-                // TODO: implicit any
-                set_any(&mut param.pat)
+            i.type_ann = Some(TsTypeAnn {
+                span: DUMMY_SP,
+                type_ann: box TsType::TsKeywordType(TsKeywordType {
+                    span: DUMMY_SP,
+                    kind: TsKeywordTypeKind::TsAnyKeyword,
+                }),
+            });
+        }
+
+        fn default_any_array_pat(arr: &mut ArrayPat) {
+            if arr.type_ann.is_some() {
+                return;
+            }
+            let cnt = arr.elems.len();
+
+            arr.type_ann = Some(TsTypeAnn {
+                span: arr.span,
+                type_ann: box TsType::TsTupleType(TsTupleType {
+                    span: DUMMY_SP,
+                    elem_types: (0..cnt)
+                        .map(|_| {
+                            box TsType::TsKeywordType(TsKeywordType {
+                                span: DUMMY_SP,
+                                kind: TsKeywordTypeKind::TsAnyKeyword,
+                            })
+                        })
+                        .collect(),
+                }),
+            })
+        }
+
+        fn default_any_object(obj: &mut ObjectPat) {
+            if obj.type_ann.is_some() {
+                return;
+            }
+
+            // TODO
+        }
+
+        fn default_any_param(p: &mut TsFnParam) {
+            match p {
+                TsFnParam::Ident(i) => default_any_ident(i),
+                TsFnParam::Array(arr) => default_any_array_pat(arr),
+                TsFnParam::Rest(rest) => {}
+                TsFnParam::Object(obj) => default_any_object(obj),
             }
         }
+
+        let type_params = try_opt!(t.type_params.validate_with(self));
+
+        for param in &mut t.params {
+            default_any_param(param);
+        }
+
+        let mut params: Vec<_> = t.params.validate_with(self)?;
 
         let ret_ty = box t.type_ann.validate_with(self)?;
 
