@@ -1,6 +1,9 @@
 use super::Analyzer;
 use crate::{
-    analyzer::{pat::PatMode, props::prop_name_to_expr, util::ResultExt, Ctx, ScopeKind},
+    analyzer::{
+        convert::default_any_pat, pat::PatMode, props::prop_name_to_expr, util::ResultExt, Ctx,
+        ScopeKind,
+    },
     builtin_types,
     debug::print_backtrace,
     errors::Error,
@@ -1365,6 +1368,11 @@ impl Validate<ArrowExpr> for Analyzer<'_, '_> {
                     allow_ref_declaring: false,
                     ..child.ctx
                 };
+
+                for p in &mut f.params {
+                    default_any_pat(p);
+                }
+
                 f.params.validate_with(&mut *child.with_ctx(ctx))?
             };
 
