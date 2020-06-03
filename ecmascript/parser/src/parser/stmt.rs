@@ -465,8 +465,15 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 let is_case = is!("case");
                 let case_start = cur_pos!();
                 bump!();
+                let ctx = Context {
+                    in_case_cond: true,
+                    ..p.ctx()
+                };
                 let test = if is_case {
-                    p.include_in_expr(true).parse_expr().map(Some)?
+                    p.with_ctx(ctx)
+                        .include_in_expr(true)
+                        .parse_expr()
+                        .map(Some)?
                 } else {
                     if let Some(previous) = span_of_previous_default {
                         syntax_error!(SyntaxError::MultipleDefault { previous });
