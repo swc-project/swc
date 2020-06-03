@@ -1,6 +1,6 @@
 use super::Analyzer;
 use crate::{
-    analyzer::{props::ComputedPropMode, util::ResultExt, Ctx},
+    analyzer::{props::ComputedPropMode, util::ResultExt, Ctx, ScopeKind},
     ty,
     ty::{
         Alias, Array, CallSignature, Conditional, ConstructorSignature, ImportType, IndexSignature,
@@ -91,16 +91,23 @@ impl Validate<TsTypeAliasDecl> for Analyzer<'_, '_> {
         self.record(d);
 
         let alias = {
-            let ty: Type = d.type_ann.validate_with(self)?;
-            let type_params = try_opt!(d.type_params.validate_with(self));
-            let alias = Alias {
-                span: d.span(),
-                ty: box ty,
-                type_params,
-            };
-            self.register_type(d.id.clone().into(), Type::Alias(alias.clone()))?;
-            alias
+            self.with_child(
+                ScopeKind::Flow,
+                Default::default(),
+                |child| -> ValidationResult<_> {
+                    let type_params = try_opt!(d.type_params.validate_with(child));
+
+                    let ty: Type = d.type_ann.validate_with(child)?;
+                    let alias = Alias {
+                        span: d.span(),
+                        ty: box ty,
+                        type_params,
+                    };
+                    Ok(alias)
+                },
+            )?
         };
+        self.register_type(d.id.clone().into(), Type::Alias(alias.clone()))?;
 
         Ok(alias)
     }
