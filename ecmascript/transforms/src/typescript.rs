@@ -631,7 +631,7 @@ impl Strip {
                     Some(v) => Ok(*v.clone()),
                 })?;
 
-                Ok((m.id.clone(), val, m.span))
+                Ok((m.id.clone(), val, m.span, m.init.is_some()))
             })
             .collect::<Result<Vec<_>, _>>()
             .unwrap_or_else(|_| panic!("invalid value for enum is detected"));
@@ -656,29 +656,68 @@ impl Strip {
                             span: DUMMY_SP,
                             stmts: members
                                 .into_iter()
-                                .map(|(id, val, _span)| {
-                                    let id = match id {
-                                        TsEnumMemberId::Ident(i) => i,
-                                        TsEnumMemberId::Str(s) => Ident::new(s.value, s.span),
-                                    };
-                                    let prop = box val.clone();
+                                .enumerate()
+                                .map(
+                                    |(
+                                        i,
+                                        (member_id, member_value, member_span, member_has_init),
+                                    )| {
+                                        let value = match member_id {
+                                            TsEnumMemberId::Str(s) => s,
+                                            TsEnumMemberId::Ident(i) => Str {
+                                                span: i.span,
+                                                value: i.sym,
+                                                has_escape: false,
+                                            },
+                                        };
+                                        let prop = if member_has_init {
+                                            box Expr::Lit(Lit::Str(value.clone()))
+                                        } else {
+                                            box Expr::Assign(AssignExpr {
+                                                span: DUMMY_SP,
+                                                left: PatOrExpr::Expr(box Expr::Member(
+                                                    MemberExpr {
+                                                        span: DUMMY_SP,
+                                                        obj: id.clone().as_obj(),
+                                                        prop: box Expr::Lit(Lit::Str(
+                                                            value.clone(),
+                                                        )),
+                                                        computed: true,
+                                                    },
+                                                )),
+                                                op: op!("="),
+                                                right: box Expr::Lit(Lit::Num(Number {
+                                                    span: DUMMY_SP,
+                                                    value: i as _,
+                                                })),
+                                            })
+                                        };
 
-                                    // Foo[Foo["a"] = 0] = "a";
-                                    AssignExpr {
-                                        span: DUMMY_SP,
-                                        left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
-                                            obj: id.clone().as_obj(),
+                                        // Foo[Foo["a"] = 0] = "a";
+                                        AssignExpr {
                                             span: DUMMY_SP,
-                                            computed: true,
+                                            left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
+                                                obj: id.clone().as_obj(),
+                                                span: DUMMY_SP,
+                                                computed: true,
 
-                                            // Foo["a"] = 0
-                                            prop,
-                                        })),
-                                        op: op!("="),
-                                        right: box val,
-                                    }
-                                    .into_stmt()
-                                })
+                                                // Foo["a"] = 0
+                                                prop,
+                                            })),
+                                            op: op!("="),
+                                            right: if member_has_init {
+                                                box member_value
+                                            } else {
+                                                box Expr::Lit(Lit::Str(Str {
+                                                    span: DUMMY_SP,
+                                                    value: value.value,
+                                                    has_escape: false,
+                                                }))
+                                            },
+                                        }
+                                        .into_stmt()
+                                    },
+                                )
                                 .collect(),
                         }),
                         return_type: Default::default(),
