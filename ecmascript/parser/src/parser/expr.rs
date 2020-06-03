@@ -617,15 +617,12 @@ impl<'a, I: Tokens> Parser<'a, I> {
             }
         }
 
-        let return_type = if !self.ctx().in_cond_expr
-            && self.input.syntax().typescript()
-            && is!(':')
-            && !self.input.has_linebreak_between_cur_and_peeked()
-        {
-            Some(self.parse_ts_type_or_type_predicate_ann(&tok!(':'))?)
-        } else {
-            None
-        };
+        let return_type =
+            if !self.ctx().in_cond_expr && self.input.syntax().typescript() && is!(':') {
+                Some(self.parse_ts_type_or_type_predicate_ann(&tok!(':'))?)
+            } else {
+                None
+            };
 
         // we parse arrow function at here, to handle it efficiently.
         if has_pattern || return_type.is_some() || is!("=>") {
