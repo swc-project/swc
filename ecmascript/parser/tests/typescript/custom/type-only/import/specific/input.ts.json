@@ -2,7 +2,7 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 59,
+    "end": 58,
     "ctxt": 0
   },
   "body": [
@@ -50,16 +50,16 @@
     {
       "type": "ImportDeclaration",
       "span": {
-        "start": 33,
-        "end": 59,
+        "start": 32,
+        "end": 58,
         "ctxt": 0
       },
       "specifiers": [],
       "source": {
         "type": "StringLiteral",
         "span": {
-          "start": 53,
-          "end": 58,
+          "start": 52,
+          "end": 57,
           "ctxt": 0
         },
         "value": "foo",
