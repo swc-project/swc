@@ -2,6 +2,7 @@ use super::Type;
 use crate::{
     ty,
     ty::{FnParam, ImportType, QueryExpr, TypeElement, TypeParamDecl, TypeParamInstantiation},
+    util::PatExt,
 };
 use swc_common::{util::map::Map, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -492,16 +493,22 @@ impl From<ty::TypeElement> for TsTypeElement {
 
 impl From<ty::FnParam> for TsFnParam {
     fn from(t: FnParam) -> Self {
+        let ty = t.ty;
+        let type_ann = Some(TsTypeAnn {
+            span: DUMMY_SP,
+            type_ann: box t.pat.get_ty().cloned().unwrap_or_else(|| ty.into()),
+        });
+
         match t.pat {
             Pat::Ident(i) => TsFnParam::Ident(Ident {
                 span: t.span,
                 sym: i.sym,
-                type_ann: Some(t.ty.into()),
+                type_ann,
                 optional: !t.required,
             }),
             Pat::Array(a) => TsFnParam::Array(ArrayPat {
                 span: t.span,
-                type_ann: Some(t.ty.into()),
+                type_ann,
                 elems: a.elems,
                 optional: a.optional,
             }),
@@ -509,11 +516,11 @@ impl From<ty::FnParam> for TsFnParam {
                 span: t.span,
                 dot3_token: r.dot3_token,
                 arg: r.arg,
-                type_ann: Some(t.ty.into()),
+                type_ann,
             }),
             Pat::Object(o) => TsFnParam::Object(ObjectPat {
                 span: t.span,
-                type_ann: Some(t.ty.into()),
+                type_ann,
                 props: o.props,
                 optional: o.optional,
             }),
