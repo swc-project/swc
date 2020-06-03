@@ -13,10 +13,9 @@ use crate::{
     util::{EqIgnoreSpan, TypeEq},
     ValidationResult,
 };
-use bitflags::_core::mem::take;
 use fxhash::{FxHashMap, FxHashSet};
 use itertools::{EitherOrBoth, Itertools};
-use std::collections::hash_map::Entry;
+use std::{collections::hash_map::Entry, mem::take};
 use swc_atoms::js_word;
 use swc_common::{
     Fold, FoldWith, Span, Spanned, Visit, VisitMut, VisitMutWith, VisitWith, DUMMY_SP,
