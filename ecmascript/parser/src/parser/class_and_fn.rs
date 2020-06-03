@@ -299,7 +299,55 @@ impl<'a, I: Tokens> Parser<'a, I> {
         let decorators = self.parse_decorators(false)?;
 
         if self.syntax().typescript() && eat!("declare") {
-            self.emit_err(make_span(self.input.prev_span()), SyntaxError::TS1031);
+            let accessibility = if self.input.syntax().typescript() {
+                self.parse_access_modifier()?
+            } else {
+                None
+            };
+
+            // Handle declare(){}
+            if self.is_class_method()? {
+                let key = Either::Right(PropName::Ident(Ident::new(
+                    js_word!("declare"),
+                    span!(start),
+                )));
+                let is_optional = self.input.syntax().typescript() && eat!('?');
+                return self.make_method(
+                    |p| p.parse_unique_formal_params(),
+                    MakeMethodArgs {
+                        start,
+                        accessibility,
+                        decorators,
+                        is_abstract: false,
+                        is_optional,
+                        is_async: false,
+                        is_generator: false,
+                        static_token: None,
+                        key,
+                        kind: MethodKind::Method,
+                    },
+                );
+            } else if self.is_class_property()? {
+                // Property named `declare`
+
+                let key = Either::Right(PropName::Ident(Ident::new(
+                    js_word!("declare"),
+                    span!(start),
+                )));
+                let is_optional = self.input.syntax().typescript() && eat!('?');
+                return self.make_property(
+                    start,
+                    decorators,
+                    accessibility,
+                    key,
+                    false,
+                    is_optional,
+                    false,
+                    false,
+                );
+            } else {
+                self.emit_err(make_span(self.input.prev_span()), SyntaxError::TS1031);
+            }
         }
 
         let accessibility = if self.input.syntax().typescript() {
