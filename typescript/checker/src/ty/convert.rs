@@ -510,7 +510,7 @@ impl From<ty::FnParam> for TsFnParam {
                 span: t.span,
                 type_ann,
                 elems: a.elems,
-                optional: a.optional,
+                optional: !t.required,
             }),
             Pat::Rest(r) => TsFnParam::Rest(RestPat {
                 span: t.span,
