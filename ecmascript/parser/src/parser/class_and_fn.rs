@@ -309,7 +309,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
             if self.is_class_method()? {
                 let key = Either::Right(PropName::Ident(Ident::new(
                     js_word!("declare"),
-                    static_token,
+                    span!(start),
                 )));
                 let is_optional = self.input.syntax().typescript() && eat!('?');
                 return self.make_method(
@@ -332,7 +332,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
                 let key = Either::Right(PropName::Ident(Ident::new(
                     js_word!("declare"),
-                    static_token,
+                    span!(start),
                 )));
                 let is_optional = self.input.syntax().typescript() && eat!('?');
                 return self.make_property(
