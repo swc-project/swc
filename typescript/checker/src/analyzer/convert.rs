@@ -16,6 +16,7 @@ use macros::validator;
 use swc_atoms::js_word;
 use swc_common::{Spanned, VisitMutWith, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_utils::prop_name_to_expr;
 
 /// We analyze dependencies between type parameters, and fold parameter in
 /// topological order.
@@ -441,12 +442,26 @@ impl Validate<TsFnType> for Analyzer<'_, '_> {
                 span: arr.span,
                 type_ann: box TsType::TsTupleType(TsTupleType {
                     span: DUMMY_SP,
-                    elem_types: (0..cnt)
-                        .map(|_| {
-                            box TsType::TsKeywordType(TsKeywordType {
-                                span: DUMMY_SP,
-                                kind: TsKeywordTypeKind::TsAnyKeyword,
-                            })
+                    elem_types: arr
+                        .elems
+                        .iter_mut()
+                        .map(|elem| {
+                            // any
+                            match elem {
+                                Some(Pat::Array(ref mut arr)) => {
+                                    default_any_array_pat(arr);
+                                    arr.type_ann.take().unwrap().type_ann
+                                }
+                                Some(Pat::Object(ref mut obj)) => {
+                                    default_any_object(obj);
+                                    obj.type_ann.take().unwrap().type_ann
+                                }
+
+                                _ => box TsType::TsKeywordType(TsKeywordType {
+                                    span: DUMMY_SP,
+                                    kind: TsKeywordTypeKind::TsAnyKeyword,
+                                }),
+                            }
                         })
                         .collect(),
                 }),
@@ -458,7 +473,47 @@ impl Validate<TsFnType> for Analyzer<'_, '_> {
                 return;
             }
 
-            // TODO
+            let mut members = Vec::with_capacity(obj.props.len());
+
+            for props in &mut obj.props {
+                match props {
+                    ObjectPatProp::KeyValue(p) => {
+                        members.push(TsTypeElement::TsPropertySignature(TsPropertySignature {
+                            span: DUMMY_SP,
+                            readonly: false,
+                            key: box prop_name_to_expr(p.key.clone()),
+                            computed: false,
+                            optional: false,
+                            init: None,
+                            params: vec![],
+                            type_ann: None,
+                            type_params: None,
+                        }))
+                    }
+                    ObjectPatProp::Assign(AssignPatProp { key, .. }) => {
+                        members.push(TsTypeElement::TsPropertySignature(TsPropertySignature {
+                            span: DUMMY_SP,
+                            readonly: false,
+                            key: box Expr::Ident(key.clone()),
+                            computed: false,
+                            optional: false,
+                            init: None,
+                            params: vec![],
+                            type_ann: None,
+                            type_params: None,
+                        }))
+                    }
+                    ObjectPatProp::Rest(..) => {}
+                }
+            }
+
+            obj.type_ann = Some(TsTypeAnn {
+                span: DUMMY_SP,
+                type_ann: box TsType::TsTypeLit(TsTypeLit {
+                    span: DUMMY_SP,
+                    members,
+                }),
+            })
         }
 
         fn default_any_param(p: &mut TsFnParam) {
