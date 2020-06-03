@@ -587,16 +587,17 @@ impl Strip {
         }
 
         let id = e.id.clone();
-        let en = e.clone();
 
         let mut default = 0;
         let mut values = Default::default();
-        e.members
-            .iter_mut()
-            .map(|m| -> Result<(), ()> {
+        let members = e
+            .members
+            .clone()
+            .into_iter()
+            .map(|m| -> Result<_, ()> {
                 let id_span = m.id.span();
                 let val = compute(
-                    &en,
+                    &e,
                     id_span,
                     &mut values,
                     Some(default),
@@ -631,12 +632,16 @@ impl Strip {
                     Some(v) => Ok(*v.clone()),
                 })?;
 
-                m.init = Some(box val);
-
-                Ok(())
+                Ok((m, val))
             })
-            .collect::<Result<Vec<()>, _>>()
+            .collect::<Result<Vec<_>, _>>()
             .unwrap_or_else(|_| panic!("invalid value for enum is detected"));
+
+        let is_all_str = members.iter().all(|(m, v)| match v {
+            Expr::Lit(Lit::Str(..)) => true,
+            _ => false,
+        });
+        let no_init_required = is_all_str;
 
         stmts.push(
             CallExpr {
@@ -656,11 +661,10 @@ impl Strip {
                         }],
                         body: Some(BlockStmt {
                             span: DUMMY_SP,
-                            stmts: e
-                                .members
+                            stmts: members
                                 .into_iter()
                                 .enumerate()
-                                .map(|(i, m)| {
+                                .map(|(i, (m, val))| {
                                     let value = match m.id {
                                         TsEnumMemberId::Str(s) => s,
                                         TsEnumMemberId::Ident(i) => Str {
@@ -669,7 +673,7 @@ impl Strip {
                                             has_escape: false,
                                         },
                                     };
-                                    let prop = if let Some(_) = &m.init {
+                                    let prop = if no_init_required {
                                         box Expr::Lit(Lit::Str(value.clone()))
                                     } else {
                                         box Expr::Assign(AssignExpr {
