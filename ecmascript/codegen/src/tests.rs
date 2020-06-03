@@ -1,4 +1,4 @@
-use self::swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
+use self::swc_ecma_parser::{EsConfig, Parser, Session, SourceFileInput, Syntax};
 use super::*;
 use crate::config::Config;
 use std::{
@@ -48,7 +48,7 @@ impl Builder {
     }
 }
 
-fn parse_then_emit(from: &str, cfg: Config) -> String {
+fn parse_then_emit(from: &str, cfg: Config, syntax: Syntax) -> String {
     ::testing::run_test(false, |cm, handler| {
         let src = cm.new_source_file(FileName::Real("custom.js".into()), from.to_string());
         println!(
@@ -60,7 +60,7 @@ fn parse_then_emit(from: &str, cfg: Config) -> String {
         let res = {
             let mut parser = Parser::new(
                 Session { handler: &handler },
-                Syntax::default(),
+                syntax,
                 SourceFileInput::from(&*src),
                 Some(&comments),
             );
@@ -76,19 +76,25 @@ fn parse_then_emit(from: &str, cfg: Config) -> String {
 }
 
 pub(crate) fn assert_min(from: &str, to: &str) {
-    let out = parse_then_emit(from, Config { minify: true });
+    let out = parse_then_emit(from, Config { minify: true }, Syntax::default());
 
     assert_eq!(DebugUsingDisplay(out.trim()), DebugUsingDisplay(to),);
 }
 
 pub(crate) fn assert_pretty(from: &str, to: &str) {
-    let out = parse_then_emit(from, Config { minify: false });
+    let out = parse_then_emit(from, Config { minify: false }, Syntax::default());
 
     assert_eq!(DebugUsingDisplay(&out.trim()), DebugUsingDisplay(to),);
 }
 
 fn test_from_to(from: &str, to: &str) {
-    let out = parse_then_emit(from, Default::default());
+    let out = parse_then_emit(from, Default::default(), Syntax::default());
+
+    assert_eq!(DebugUsingDisplay(out.trim()), DebugUsingDisplay(to.trim()),);
+}
+
+fn test_from_to_custom_config(from: &str, to: &str, cfg: Config, syntax: Syntax) {
+    let out = parse_then_emit(from, cfg, syntax);
 
     assert_eq!(DebugUsingDisplay(out.trim()), DebugUsingDisplay(to.trim()),);
 }
@@ -162,6 +168,103 @@ fn no_octal_escape() {
 '\x000';
 '\x001';
 '\x009';"#,
+    );
+}
+
+#[test]
+fn empty_named_export() {
+    test_from_to("export { }", "export { }");
+}
+
+#[test]
+fn empty_named_export_min() {
+    test_from_to_custom_config(
+        "export { }",
+        "export{}",
+        Config { minify: true },
+        Default::default(),
+    );
+}
+
+#[test]
+fn empty_named_export_from() {
+    test_from_to("export { } from 'foo';", "export { } from 'foo';");
+}
+
+#[test]
+fn empty_named_export_from_min() {
+    test_from_to_custom_config(
+        "export { } from 'foo';",
+        "export{}from'foo';",
+        Config { minify: true },
+        Default::default(),
+    );
+}
+
+#[test]
+fn named_export_from() {
+    test_from_to("export { bar } from 'foo';", "export { bar } from 'foo';");
+}
+
+#[test]
+fn named_export_from_min() {
+    test_from_to_custom_config(
+        "export { bar } from 'foo';",
+        "export{bar}from'foo';",
+        Config { minify: true },
+        Default::default(),
+    );
+}
+
+#[test]
+fn export_namespace_from() {
+    test_from_to_custom_config(
+        "export * as Foo from 'foo';",
+        "export * as Foo from 'foo';",
+        Default::default(),
+        Syntax::Es(EsConfig {
+            export_namespace_from: true,
+            ..EsConfig::default()
+        }),
+    );
+}
+
+#[test]
+fn export_namespace_from_min() {
+    test_from_to_custom_config(
+        "export * as Foo from 'foo';",
+        "export*as Foo from'foo';",
+        Config { minify: true },
+        Syntax::Es(EsConfig {
+            export_namespace_from: true,
+            ..EsConfig::default()
+        }),
+    );
+}
+
+#[test]
+fn named_and_namespace_export_from() {
+    test_from_to_custom_config(
+        "export * as Foo, { bar } from 'foo';",
+        "export * as Foo, { bar } from 'foo';",
+        Default::default(),
+        Syntax::Es(EsConfig {
+            export_namespace_from: true,
+            ..EsConfig::default()
+        }),
+    );
+}
+
+#[test]
+fn named_and_namespace_export_from_min() {
+    test_from_to_custom_config(
+        "export * as Foo, { bar } from 'foo';",
+        "export*as Foo,{bar}from'foo';",
+        Config { minify: true },
+        Syntax::Es(EsConfig {
+            export_namespace_from: true,
+            ..EsConfig::default()
+        }),
     );
 }
 

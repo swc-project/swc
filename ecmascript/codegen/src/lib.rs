@@ -234,11 +234,20 @@ impl<'a> Emitter<'a> {
             ExportSpecifier::Default(ref node) => {
                 unimplemented!("codegen of `export default from 'foo';`")
             }
-            ExportSpecifier::Namespace(ref node) => {
-                unimplemented!("codegen of `export foo as Foo from 'foo';`")
-            }
+            ExportSpecifier::Namespace(ref node) => emit!(node),
             ExportSpecifier::Named(ref node) => emit!(node),
         }
+    }
+
+    #[emitter]
+    fn emit_namespace_export_specifier(&mut self, node: &ExportNamespaceSpecifier) -> Result {
+        self.emit_leading_comments_of_pos(node.span().lo())?;
+
+        punct!("*");
+        formatting_space!();
+        keyword!("as");
+        space!();
+        emit!(node.name);
     }
 
     #[emitter]
@@ -260,19 +269,68 @@ impl<'a> Emitter<'a> {
     fn emit_named_export(&mut self, node: &NamedExport) -> Result {
         self.emit_leading_comments_of_pos(node.span().lo())?;
 
+        struct Specifiers<'a> {
+            has_namespace_spec: bool,
+            namespace_spec: Option<&'a ExportNamespaceSpecifier>,
+            has_named_specs: bool,
+            named_specs: Vec<&'a ExportSpecifier>,
+        }
+        let Specifiers {
+            has_namespace_spec,
+            namespace_spec,
+            has_named_specs,
+            named_specs,
+        } = node.specifiers.iter().fold(
+            Specifiers {
+                has_namespace_spec: false,
+                namespace_spec: None,
+                has_named_specs: false,
+                named_specs: vec![],
+            },
+            |mut result, s| match s {
+                ExportSpecifier::Namespace(spec) => {
+                    result.has_namespace_spec = true;
+                    // There can only be one namespace export specifier.
+                    if let None = result.namespace_spec {
+                        result.namespace_spec = Some(spec)
+                    }
+                    result
+                }
+                spec => {
+                    result.has_named_specs = true;
+                    result.named_specs.push(spec);
+                    result
+                }
+            },
+        );
+
         keyword!("export");
         formatting_space!();
-        punct!("{");
-        self.emit_list(
-            node.span,
-            Some(&node.specifiers),
-            ListFormat::NamedImportsOrExportsElements,
-        )?;
-        // TODO:
-        punct!("}");
+        if let Some(spec) = namespace_spec {
+            emit!(spec);
+            if has_named_specs {
+                punct!(",");
+                formatting_space!();
+            }
+        }
+        if has_named_specs || (!has_namespace_spec && !has_named_specs) {
+            punct!("{");
+            self.emit_list(
+                node.span,
+                Some(&named_specs),
+                ListFormat::NamedImportsOrExportsElements,
+            )?;
+            punct!("}");
+        }
+
         if let Some(ref src) = node.src {
-            space!();
+            if has_named_specs || (!has_namespace_spec && !has_named_specs) {
+                formatting_space!();
+            } else if has_namespace_spec {
+                space!();
+            }
             keyword!("from");
+            formatting_space!();
             emit!(src);
             semi!();
         }
