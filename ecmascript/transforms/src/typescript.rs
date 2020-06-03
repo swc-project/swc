@@ -4,7 +4,9 @@ use crate::{
 };
 use fxhash::FxHashMap;
 use swc_atoms::js_word;
-use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Spanned, Visit, VisitWith, DUMMY_SP};
+use swc_common::{
+    util::move_map::MoveMap, Fold, FoldWith, Span, Spanned, Visit, VisitWith, DUMMY_SP,
+};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
 
@@ -432,8 +434,222 @@ impl Strip {
         node
     }
 
-    fn handle_enum(&mut self, e: TsEnumDecl, stmts: &mut Vec<ModuleItem>) {
-        let id = e.id;
+    fn handle_enum(&mut self, mut e: TsEnumDecl, stmts: &mut Vec<ModuleItem>) {
+        /// Value does not contain TsLit::Bool
+        type EnumValues = FxHashMap<Id, TsLit>;
+
+        /// Called only for enums.
+        ///
+        /// If both of the default value and the initialization is None, this
+        /// method returns [Err].
+        fn compute(
+            e: &TsEnumDecl,
+            span: Span,
+            values: &mut EnumValues,
+            default: Option<i32>,
+            init: Option<&Expr>,
+        ) -> Result<TsLit, ()> {
+            fn compute_bin(
+                e: &TsEnumDecl,
+                span: Span,
+                values: &mut EnumValues,
+                expr: &BinExpr,
+            ) -> Result<TsLit, ()> {
+                let l = compute(e, span, values, None, Some(&expr.left))?;
+                let r = compute(e, span, values, None, Some(&expr.right))?;
+
+                Ok(match (l, r) {
+                    (
+                        TsLit::Number(Number { value: l, .. }),
+                        TsLit::Number(Number { value: r, .. }),
+                    ) => {
+                        TsLit::Number(Number {
+                            span,
+                            value: match expr.op {
+                                op!(bin, "+") => l + r,
+                                op!(bin, "-") => l - r,
+                                op!("*") => l * r,
+                                op!("/") => l / r,
+
+                                // TODO
+                                op!("&") => ((l.round() as i64) & (r.round() as i64)) as _,
+                                op!("|") => ((l.round() as i64) | (r.round() as i64)) as _,
+                                op!("^") => ((l.round() as i64) ^ (r.round() as i64)) as _,
+
+                                op!("<<") => ((l.round() as i64) << (r.round() as i64)) as _,
+                                op!(">>") => ((l.round() as i64) >> (r.round() as i64)) as _,
+                                // TODO: Verify this
+                                op!(">>>") => ((l.round() as u64) >> (r.round() as u64)) as _,
+                                _ => Err(())?,
+                            },
+                        })
+                    }
+                    (TsLit::Str(l), TsLit::Str(r)) if expr.op == op!(bin, "+") => TsLit::Str(Str {
+                        span,
+                        value: format!("{}{}", l.value, r.value).into(),
+                        has_escape: l.has_escape || r.has_escape,
+                    }),
+                    (TsLit::Number(l), TsLit::Str(r)) if expr.op == op!(bin, "+") => {
+                        TsLit::Str(Str {
+                            span,
+                            value: format!("{}{}", l.value, r.value).into(),
+                            has_escape: r.has_escape,
+                        })
+                    }
+                    (TsLit::Str(l), TsLit::Number(r)) if expr.op == op!(bin, "+") => {
+                        TsLit::Str(Str {
+                            span,
+                            value: format!("{}{}", l.value, r.value).into(),
+                            has_escape: l.has_escape,
+                        })
+                    }
+                    _ => Err(())?,
+                })
+            }
+
+            if let Some(expr) = init {
+                match expr {
+                    Expr::Lit(Lit::Str(s)) => return Ok(TsLit::Str(s.clone())),
+                    Expr::Lit(Lit::Num(s)) => return Ok(TsLit::Number(*s)),
+                    Expr::Bin(ref bin) => return compute_bin(e, span, values, &bin),
+                    Expr::Paren(ref paren) => {
+                        return compute(e, span, values, default, Some(&paren.expr))
+                    }
+
+                    Expr::Ident(ref id) => {
+                        if let Some(v) = values.get(&id.clone().into_id()) {
+                            return Ok(v.clone());
+                        }
+                        //
+                        for m in e.members.iter() {
+                            match m.id {
+                                TsEnumMemberId::Str(Str { value: ref sym, .. })
+                                | TsEnumMemberId::Ident(Ident { ref sym, .. }) => {
+                                    if *sym == id.sym {
+                                        return compute(
+                                            e,
+                                            span,
+                                            values,
+                                            None,
+                                            m.init.as_ref().map(|v| &**v),
+                                        );
+                                    }
+                                }
+                            }
+                        }
+                        return Err(());
+                    }
+                    Expr::Unary(ref expr) => {
+                        let v = compute(e, span, values, None, Some(&expr.arg))?;
+                        match v {
+                            TsLit::Number(Number { value: v, .. }) => {
+                                return Ok(TsLit::Number(Number {
+                                    span,
+                                    value: match expr.op {
+                                        op!(unary, "+") => v,
+                                        op!(unary, "-") => -v,
+                                        op!("!") => {
+                                            if v == 0.0f64 {
+                                                0.0
+                                            } else {
+                                                1.0
+                                            }
+                                        }
+                                        op!("~") => (!(v as i32)) as f64,
+                                        _ => Err(())?,
+                                    },
+                                }))
+                            }
+                            TsLit::Str(_) => {}
+                            TsLit::Bool(_) => {}
+                            TsLit::Tpl(_) => {}
+                        }
+                    }
+
+                    Expr::Tpl(ref t) if t.exprs.is_empty() => {
+                        if let Some(v) = &t.quasis[0].cooked {
+                            return Ok(v.clone().into());
+                        }
+                    }
+
+                    _ => {}
+                }
+            } else {
+                if let Some(value) = default {
+                    return Ok(TsLit::Number(Number {
+                        span,
+                        value: value as _,
+                    }));
+                }
+            }
+
+            Err(())
+        }
+
+        let id = e.id.clone();
+
+        let mut default = 0;
+        let mut values = Default::default();
+        let members = e
+            .members
+            .clone()
+            .into_iter()
+            .map(|m| -> Result<_, ()> {
+                let id_span = m.id.span();
+                let val = compute(
+                    &e,
+                    id_span,
+                    &mut values,
+                    Some(default),
+                    m.init.as_ref().map(|v| &**v),
+                )
+                .map(|val| {
+                    match val {
+                        TsLit::Number(n) => {
+                            default = n.value as i32 + 1;
+                        }
+                        _ => {}
+                    }
+                    values.insert(
+                        match &m.id {
+                            TsEnumMemberId::Ident(i) => i.clone().into_id(),
+                            TsEnumMemberId::Str(s) => Ident::new(s.value.clone(), s.span).into_id(),
+                        },
+                        val.clone(),
+                    );
+
+                    match val {
+                        TsLit::Number(v) => Expr::Lit(Lit::Num(v)),
+                        TsLit::Str(v) => Expr::Lit(Lit::Str(v)),
+                        TsLit::Bool(v) => Expr::Lit(Lit::Bool(v)),
+                        TsLit::Tpl(v) => {
+                            Expr::Lit(Lit::Str(v.quasis.into_iter().next().unwrap().raw))
+                        }
+                    }
+                })
+                .or_else(|err| match &m.init {
+                    None => Err(err),
+                    Some(v) => Ok(*v.clone()),
+                })?;
+
+                Ok((m, val))
+            })
+            .collect::<Result<Vec<_>, _>>()
+            .unwrap_or_else(|_| panic!("invalid value for enum is detected"));
+
+        let is_all_str = members.iter().all(|(m, v)| match v {
+            Expr::Lit(Lit::Str(..)) => true,
+            _ => false,
+        });
+        let no_init_required = is_all_str;
+        let rhs_should_be_name = members.iter().all(|(m, v): &(TsEnumMember, Expr)| match v {
+            Expr::Lit(Lit::Str(s)) => match &m.id {
+                TsEnumMemberId::Ident(i) => i.sym == s.value,
+                TsEnumMemberId::Str(s) => s.value != s.value,
+            },
+            _ => true,
+        });
+
         stmts.push(
             CallExpr {
                 span: DUMMY_SP,
@@ -452,11 +668,10 @@ impl Strip {
                         }],
                         body: Some(BlockStmt {
                             span: DUMMY_SP,
-                            stmts: e
-                                .members
+                            stmts: members
                                 .into_iter()
                                 .enumerate()
-                                .map(|(i, m)| {
+                                .map(|(i, (m, val))| {
                                     let value = match m.id {
                                         TsEnumMemberId::Str(s) => s,
                                         TsEnumMemberId::Ident(i) => Str {
@@ -465,7 +680,7 @@ impl Strip {
                                             has_escape: false,
                                         },
                                     };
-                                    let prop = if let Some(_) = &m.init {
+                                    let prop = if no_init_required {
                                         box Expr::Lit(Lit::Str(value.clone()))
                                     } else {
                                         box Expr::Assign(AssignExpr {
@@ -477,10 +692,7 @@ impl Strip {
                                                 computed: true,
                                             })),
                                             op: op!("="),
-                                            right: box Expr::Lit(Lit::Num(Number {
-                                                span: DUMMY_SP,
-                                                value: i as _,
-                                            })),
+                                            right: box val,
                                         })
                                     };
 
@@ -496,13 +708,13 @@ impl Strip {
                                             prop,
                                         })),
                                         op: op!("="),
-                                        right: m.init.unwrap_or_else(|| {
-                                            box Expr::Lit(Lit::Str(Str {
-                                                span: DUMMY_SP,
-                                                value: value.value,
-                                                has_escape: false,
-                                            }))
-                                        }),
+                                        right: if rhs_should_be_name {
+                                            box Expr::Lit(Lit::Str(value.clone()))
+                                        } else {
+                                            m.init.unwrap_or_else(|| {
+                                                box Expr::Lit(Lit::Str(value.clone()))
+                                            })
+                                        },
                                     }
                                     .into_stmt()
                                 })
