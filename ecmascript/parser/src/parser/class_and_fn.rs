@@ -299,6 +299,12 @@ impl<'a, I: Tokens> Parser<'a, I> {
         let decorators = self.parse_decorators(false)?;
 
         if self.syntax().typescript() && eat!("declare") {
+            let accessibility = if self.input.syntax().typescript() {
+                self.parse_access_modifier()?
+            } else {
+                None
+            };
+
             // Handle declare(){}
             if self.is_class_method()? {
                 let key = Either::Right(PropName::Ident(Ident::new(
