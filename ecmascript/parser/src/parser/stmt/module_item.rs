@@ -60,8 +60,13 @@ impl<'a, I: Tokens> Parser<'a, I> {
             .map(ModuleItem::from);
         }
 
-        let type_only_span = self.input.cur_span();
-        let type_only = self.syntax().typescript() && eat!("type");
+        let type_only = self.input.syntax().typescript()
+            && is!("type")
+            && (peeked_is!('{') || !peeked_is!("from") && !peeked_is!(','));
+
+        if type_only {
+            assert_and_bump!("type");
+        }
 
         let mut specifiers = vec![];
 
@@ -99,14 +104,6 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 }
                 expect!('}');
             }
-        }
-
-        // import type from './a';
-        if type_only && specifiers.is_empty() {
-            specifiers.push(ImportSpecifier::Default(ImportDefaultSpecifier {
-                span: span!(start),
-                local: Ident::new(js_word!("type"), type_only_span),
-            }));
         }
 
         let src = self.parse_from_clause_and_semi()?;
