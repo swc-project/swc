@@ -40,10 +40,13 @@ impl Validate<UnaryExpr> for Analyzer<'_, '_> {
             }
         }
 
-        let arg: Option<Type> = arg
-            .validate_with(self)
-            .store(&mut self.info.errors)
-            .map(|ty| ty.respan(arg.span()));
+        let arg: Option<Type> =
+            arg.validate_with(self)
+                .store(&mut self.info.errors)
+                .map(|mut ty| {
+                    ty.respan(arg.span());
+                    ty
+                });
 
         if let Some(ref arg) = arg {
             self.validate_unary_expr_inner(span, op, arg);

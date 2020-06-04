@@ -28,14 +28,14 @@ impl Validate<BinExpr> for Analyzer<'_, '_> {
 
         let mut errors = vec![];
 
-        let lt = self
-            .validate(left)
-            .store(&mut errors)
-            .map(|ty| ty.respan(left.span()));
-        let rt = self
-            .validate(right)
-            .store(&mut errors)
-            .map(|ty| ty.respan(right.span()));
+        let lt = self.validate(left).store(&mut errors).map(|mut ty| {
+            ty.respan(left.span());
+            ty
+        });
+        let rt = self.validate(right).store(&mut errors).map(|mut ty| {
+            ty.respan(right.span());
+            ty
+        });
 
         self.validate_bin_inner(span, op, lt.as_ref(), rt.as_ref());
 

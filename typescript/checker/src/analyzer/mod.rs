@@ -50,6 +50,7 @@ mod export;
 mod expr;
 mod finalizer;
 mod function;
+mod generalize;
 mod generic;
 mod hoisting;
 mod import;
@@ -138,6 +139,8 @@ pub struct Analyzer<'a, 'b> {
     duplicated_tracker: DuplicateTracker,
 
     facts_buf: Option<Facts>,
+
+    generalizer: generalize::Config,
 }
 
 /// TODO
@@ -278,6 +281,7 @@ impl<'a, 'b> Analyzer<'a, 'b> {
             is_builtin,
             duplicated_tracker: Default::default(),
             facts_buf: None,
+            generalizer: Default::default(),
         }
     }
 

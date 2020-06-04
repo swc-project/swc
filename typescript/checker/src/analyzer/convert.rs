@@ -600,7 +600,11 @@ impl Validate<TsType> for Analyzer<'_, '_> {
 
         Ok(match ty {
             TsType::TsThisType(this) => Type::This(this.clone()),
-            TsType::TsLitType(ty) => Type::Lit(ty.clone()),
+            TsType::TsLitType(ty) => {
+                let mut ty = Type::Lit(ty.clone());
+                self.prevent_generalize(&mut ty);
+                ty
+            }
             TsType::TsKeywordType(ty) => Type::Keyword(ty.clone()),
             TsType::TsTupleType(ty) => Type::Tuple(self.validate(ty)?),
             TsType::TsUnionOrIntersectionType(TsUnionOrIntersectionType::TsUnionType(u)) => {
