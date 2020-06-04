@@ -370,10 +370,12 @@ impl Analyzer<'_, '_> {
             }) => {
                 // TODO: Handle type annotation
 
-                if let Some(ty) = ty {
-                    // TODO: Generalize tuple
-                    *type_ann = Some(ty.generalize_lit().generalize_tuple().into());
-                    *optional = true;
+                if type_ann.is_none() {
+                    if let Some(ty) = ty {
+                        // TODO: Generalize tuple
+                        *type_ann = Some(ty.generalize_lit().generalize_tuple().into());
+                        *optional = true;
+                    }
                 }
 
                 if type_ann.is_none() {
