@@ -99,7 +99,7 @@ impl Analyzer<'_, '_> {
                 }
 
                 log::warn!(
-                    "infer: A type parameter {} defaults to {{}}",
+                    "instantiate: A type parameter {} defaults to {{}}",
                     type_param.name
                 );
 
@@ -136,6 +136,14 @@ impl Analyzer<'_, '_> {
         );
 
         let mut inferred = InferData::default();
+
+        if let Some(base) = base {
+            for (param, type_param) in base.params.iter().zip(type_params) {
+                inferred
+                    .type_params
+                    .insert(type_param.name.clone(), param.clone());
+            }
+        }
 
         // TODO: Handle optional parameters
         // TODO: Convert this to error.
@@ -244,6 +252,7 @@ impl Analyzer<'_, '_> {
 
                 return Ok(());
             }
+
             _ => {}
         }
 
@@ -339,9 +348,7 @@ impl Analyzer<'_, '_> {
                     return self.infer_type(inferred, &elem_type, &arg);
                 }
 
-                _ => {
-                    dbg!();
-                }
+                _ => {}
             },
 
             // TODO: Check if index type extends `keyof obj_type`
