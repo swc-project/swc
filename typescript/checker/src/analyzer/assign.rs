@@ -22,6 +22,21 @@ impl Analyzer<'_, '_> {
 
         debug_assert!(!span.is_dummy());
 
+        match left {
+            Type::Ref(left) => match right {
+                Type::Ref(right) => {
+                    // We need this as type may recurse, and thus cannot be handled by expander.
+                    if left.type_name.type_eq(&right.type_name)
+                        && left.type_args.type_eq(&right.type_args)
+                    {
+                        return Ok(());
+                    }
+                }
+                _ => {}
+            },
+            _ => {}
+        }
+
         self.verify_before_assign("lhs", left);
         self.verify_before_assign("rhs", right);
 
