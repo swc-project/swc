@@ -1163,7 +1163,8 @@ impl Analyzer<'_, '_> {
 
         if let Some(ty) = self.find_var_type(&i.into()) {
             log::debug!("({}) type_of({}): find_var_type", self.scope.depth(), i.sym);
-            let ty = ty.into_owned().respan(span);
+            let mut ty = ty.into_owned();
+            ty.respan(span);
             let type_facts = self.scope.get_type_facts(&i.into());
 
             let ty = ty.apply_type_facts(type_facts);
@@ -1228,7 +1229,9 @@ impl Analyzer<'_, '_> {
                             | Type::TypeLit(_)
                             | Type::Keyword(_)
                             | Type::Lit(_) => {
-                                return Ok(ty.clone().respan(span));
+                                let mut ty = ty.clone();
+                                ty.respan(span);
+                                return Ok(ty);
                             }
                             Type::Query(_) => {}
                             Type::Infer(_) => {}

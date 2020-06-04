@@ -518,7 +518,10 @@ impl Analyzer<'_, '_> {
             _ => false,
         };
 
-        let ty = match self.validate(key).map(|ty| ty.respan(span)) {
+        let ty = match self.validate(key).map(|mut ty| {
+            ty.respan(span);
+            ty
+        }) {
             Ok(ty) => ty,
             Err(err) => {
                 match err {

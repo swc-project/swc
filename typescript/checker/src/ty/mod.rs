@@ -653,75 +653,73 @@ impl Type {
 }
 
 impl Type {
-    pub fn respan(self, span: Span) -> Self {
+    pub fn respan(&mut self, span: Span) {
         if self.span() == span {
-            return self;
+            return;
         }
 
         match self {
-            Type::Operator(ty) => Type::Operator(Operator { span, ..ty }),
+            Type::Operator(ty) => ty.span = span,
 
-            Type::Mapped(ty) => Type::Mapped(Mapped { span, ..ty }),
+            Type::Mapped(ty) => ty.span = span,
 
-            Type::Conditional(cond) => Type::Conditional(Conditional { span, ..cond }),
+            Type::Conditional(cond) => cond.span = span,
 
-            Type::This(this) => Type::This(TsThisType { span, ..this }),
+            Type::This(this) => this.span = span,
 
-            Type::Lit(lit) => Type::Lit(TsLitType { span, ..lit }),
+            Type::Lit(lit) => lit.span = span,
 
-            Type::TypeLit(lit) => Type::TypeLit(TypeLit { span, ..lit }),
+            Type::TypeLit(lit) => lit.span = span,
 
-            Type::Keyword(kwd) => Type::Keyword(TsKeywordType { span, ..kwd }),
+            Type::Keyword(kwd) => kwd.span = span,
 
-            Type::Array(arr) => Type::Array(Array { span, ..arr }),
+            Type::Array(arr) => arr.span = span,
 
-            Type::Union(u) => Type::Union(Union { span, ..u }),
+            Type::Union(u) => u.span = span,
 
-            Type::Intersection(u) => Type::Intersection(Intersection { span, ..u }),
+            Type::Intersection(u) => u.span = span,
 
-            Type::Function(f) => Type::Function(Function { span, ..f }),
+            Type::Function(f) => f.span = span,
 
-            Type::Constructor(c) => Type::Constructor(Constructor { span, ..c }),
+            Type::Constructor(c) => c.span = span,
 
-            Type::Method(m) => Type::Method(Method { span, ..m }),
+            Type::Method(m) => m.span = span,
 
-            Type::Enum(e) => Type::Enum(Enum { span, ..e }),
+            Type::Enum(e) => e.span = span,
 
-            Type::EnumVariant(e) => Type::EnumVariant(EnumVariant { span, ..e }),
+            Type::EnumVariant(e) => e.span = span,
 
-            Type::Interface(e) => Type::Interface(Interface { span, ..e }),
+            Type::Interface(e) => e.span = span,
 
-            Type::Alias(a) => Type::Alias(Alias { span, ..a }),
+            Type::Alias(a) => a.span = span,
 
-            Type::Namespace(n) => Type::Namespace(TsNamespaceDecl { span, ..n }),
+            Type::Namespace(n) => n.span = span,
 
-            Type::Module(m) => Type::Module(Module { span, ..m }),
+            Type::Module(m) => m.span = span,
 
-            Type::Class(c) => Type::Class(Class { span, ..c }),
+            Type::Class(c) => c.span = span,
 
-            Type::ClassInstance(c) => Type::ClassInstance(ClassInstance { span, ..c }),
+            Type::ClassInstance(c) => c.span = span,
 
-            Type::Param(p) => Type::Param(TypeParam { span, ..p }),
+            Type::Param(p) => p.span = span,
 
-            Type::Static(s) => Type::Static(Static { span, ..s }),
+            Type::Static(s) => s.span = span,
 
-            Type::Tuple(ty) => Type::Tuple(Tuple { span, ..ty }),
+            Type::Tuple(ty) => ty.span = span,
 
-            Type::Arc(arc) => Type::Arc(arc),
+            Type::Arc(arc) => *self = Type::Arc(arc.clone()),
 
-            Type::Ref(ty) => Type::Ref(Ref { span, ..ty }),
+            Type::Ref(ty) => ty.span = span,
 
-            Type::Query(ty) => Type::Query(QueryType { span, ..ty }),
+            Type::Query(ty) => ty.span = span,
 
-            Type::Infer(ty) => Type::Infer(InferType { span, ..ty }),
+            Type::Infer(ty) => ty.span = span,
 
-            Type::Import(ty) => Type::Import(ImportType { span, ..ty }),
+            Type::Import(ty) => ty.span = span,
 
-            Type::Predicate(ty) => Type::Predicate(Predicate { span, ..ty }),
+            Type::Predicate(ty) => ty.span = span,
 
-            Type::IndexedAccessType(ty) => {
-                Type::IndexedAccessType(IndexedAccessType { span, ..ty })
-            }
+            Type::IndexedAccessType(ty) => ty.span = span,
         }
     }
 }
