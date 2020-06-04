@@ -23,8 +23,22 @@ use std::{
     iter::{once, repeat},
 };
 use swc_atoms::js_word;
-use swc_common::{Fold, FoldWith, Span, Spanned, Visit, DUMMY_SP};
+use swc_common::{Fold, FoldWith, Mark, Span, Spanned, SyntaxContext, Visit, DUMMY_SP};
 use swc_ecma_ast::*;
+
+#[derive(Debug, Clone, Copy)]
+pub(super) struct Config {
+    ///  WHen applied to a type, it prevents expansion of the type.
+    no_expand_mark: Mark,
+}
+
+impl Default for Config {
+    fn default() -> Self {
+        Self {
+            no_expand_mark: Mark::fresh(Mark::root()),
+        }
+    }
+}
 
 macro_rules! no_ref {
     ($t:expr) => {{
@@ -881,6 +895,30 @@ impl Analyzer<'_, '_> {
             _ => unimplemented!("declare_complex_vars({:#?}, {:#?})", pat, ty),
         }
     }
+
+    pub(crate) fn prevent_expansion(&self, ty: &mut Type) {
+        let span = ty.span();
+        let span = span.apply_mark(self.expander.no_expand_mark);
+
+        ty.respan(span)
+    }
+
+    fn is_expansion_prevented(&self, ty: &Type) -> bool {
+        let mut ctxt: SyntaxContext = ty.span().ctxt();
+        loop {
+            let mark = ctxt.remove_mark();
+
+            if mark == Mark::root() {
+                break;
+            }
+
+            if mark == self.expander.no_expand_mark {
+                return true;
+            }
+        }
+
+        false
+    }
 }
 
 #[derive(Debug, Clone)]
@@ -1003,6 +1041,9 @@ impl Fold<Type> for Expander<'_, '_, '_> {
         };
 
         let ty = ty.into_owned();
+        if self.analyzer.is_expansion_prevented(&ty) {
+            return ty;
+        }
 
         match ty {
             Type::Param(..) => return ty.fold_children(self),
