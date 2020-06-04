@@ -12,7 +12,7 @@ use crate::{
 };
 use macros::validator;
 use std::mem::take;
-use swc_common::{Spanned, VisitMutWith, DUMMY_SP};
+use swc_common::{Spanned, Visit, VisitMutWith, VisitWith, DUMMY_SP};
 use swc_ecma_ast::*;
 
 #[validator]
@@ -217,9 +217,22 @@ impl Validate<VarDeclarator> for Analyzer<'_, '_> {
                             value_ty
                         })();
 
+                        let should_generalize_fully = !contains_type_param(&ty);
+
                         log::debug!("var: user did not declare type");
-                        let ty = self.rename_type_params(span, ty, None)?;
-                        let mut ty = ty.fold_with(&mut Generalizer::default());
+                        let mut ty = self.rename_type_params(span, ty, None)?;
+                        ty = ty.fold_with(&mut Generalizer::default());
+
+                        if should_generalize_fully {
+                            ty = match ty {
+                                Type::Function(mut f) => {
+                                    f.ret_ty = box f.ret_ty.generalize_lit();
+                                    Type::Function(f)
+                                }
+                                _ => ty,
+                            };
+                        }
+
                         if self.scope.is_root() {
                             if let Some(box Expr::Ident(ref alias)) = &v.init {
                                 if let Pat::Ident(ref mut i) = v.name {
@@ -358,4 +371,25 @@ impl Validate<VarDeclarator> for Analyzer<'_, '_> {
 
         Ok(())
     }
+}
+
+struct TypeParamFinder {
+    found: bool,
+}
+
+impl Visit<TypeParam> for TypeParamFinder {
+    fn visit(&mut self, _: &TypeParam) {
+        self.found = true;
+    }
+}
+
+fn contains_type_param<T>(node: &T) -> bool
+where
+    T: VisitWith<TypeParamFinder>,
+{
+    let mut v = TypeParamFinder { found: false };
+
+    node.visit_with(&mut v);
+
+    v.found
 }
