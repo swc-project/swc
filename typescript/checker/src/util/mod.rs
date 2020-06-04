@@ -1,4 +1,4 @@
-use crate::ty::{Class, FnParam, Intersection, Type, TypeElement, Union};
+use crate::ty::{Class, FnParam, Intersection, Type, TypeElement, TypeParamInstantiation, Union};
 use swc_common::{Fold, FoldWith, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ModuleItemLike, StmtLike};
@@ -60,6 +60,8 @@ impl_by_clone!(PropName);
 impl_by_clone!(Class);
 impl_by_clone!(FnParam);
 impl_by_clone!(ComputedPropName);
+impl_by_clone!(TsEntityName);
+impl_by_clone!(TypeParamInstantiation);
 
 struct SpanRemover;
 impl Fold<Span> for SpanRemover {
