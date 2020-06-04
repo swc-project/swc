@@ -496,7 +496,7 @@ impl From<ty::FnParam> for TsFnParam {
         let ty = t.ty;
         let type_ann = Some(TsTypeAnn {
             span: DUMMY_SP,
-            type_ann: box t.pat.get_ty().cloned().unwrap_or_else(|| ty.into()),
+            type_ann: ty.into(),
         });
 
         match t.pat {
