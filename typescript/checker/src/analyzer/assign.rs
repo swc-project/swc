@@ -156,7 +156,7 @@ impl Analyzer<'_, '_> {
         }
 
         match to {
-            Type::Ref(left) => match right {
+            Type::Ref(left) => match rhs {
                 Type::Ref(right) => {
                     // We need this as type may recurse, and thus cannot be handled by expander.
                     if left.type_name.type_eq(&right.type_name)
