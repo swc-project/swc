@@ -1071,6 +1071,11 @@ impl Analyzer<'_, '_> {
                 }));
             }
 
+            Type::IndexedAccessType(obj) => {
+                // TODO: Verify input type (obj.index_type)
+                return Ok(*obj.obj_type.clone());
+            }
+
             _ => {}
         }
 
