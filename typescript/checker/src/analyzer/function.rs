@@ -69,7 +69,7 @@ impl Validate<Function> for Analyzer<'_, '_> {
                     .collect::<Result<_, _>>()?;
             }
 
-            let declared_ret_ty = try_opt!(f.return_type.validate_with(child)).map(|ret_ty| {
+            let mut declared_ret_ty = try_opt!(f.return_type.validate_with(child)).map(|ret_ty| {
                 let span = ret_ty.span();
                 match ret_ty {
                     Type::Class(cls) => Type::ClassInstance(ClassInstance {
@@ -80,6 +80,14 @@ impl Validate<Function> for Analyzer<'_, '_> {
                     ty => ty,
                 }
             });
+            if let Some(ty) = &mut declared_ret_ty {
+                match ty {
+                    Type::Ref(..) => {
+                        child.prevent_expansion(ty);
+                    }
+                    _ => {}
+                }
+            }
 
             let inferred_return_type = try_opt!(f
                 .body

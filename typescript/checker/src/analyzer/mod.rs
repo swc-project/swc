@@ -141,6 +141,7 @@ pub struct Analyzer<'a, 'b> {
     facts_buf: Option<Facts>,
 
     generalizer: generalize::Config,
+    expander: scope::Config,
 }
 
 /// TODO
@@ -228,6 +229,7 @@ impl<'a, 'b> Analyzer<'a, 'b> {
             Scope::root(),
             false,
             Default::default(),
+            Default::default(),
         )
     }
 
@@ -239,6 +241,7 @@ impl<'a, 'b> Analyzer<'a, 'b> {
             &NoopLoader,
             Scope::root(),
             true,
+            Default::default(),
             Default::default(),
         )
     }
@@ -252,6 +255,7 @@ impl<'a, 'b> Analyzer<'a, 'b> {
             scope,
             self.is_builtin,
             self.generalizer.clone(),
+            self.expander.clone(),
         )
     }
 
@@ -263,6 +267,7 @@ impl<'a, 'b> Analyzer<'a, 'b> {
         scope: Scope<'a>,
         is_builtin: bool,
         generalizer: generalize::Config,
+        expander: scope::Config,
     ) -> Self {
         Self {
             info: Default::default(),
@@ -293,6 +298,7 @@ impl<'a, 'b> Analyzer<'a, 'b> {
             duplicated_tracker: Default::default(),
             facts_buf: None,
             generalizer,
+            expander,
         }
     }
 
