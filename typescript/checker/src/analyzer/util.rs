@@ -8,7 +8,7 @@ use swc_ecma_ast::*;
 
 #[derive(Debug, Default)]
 pub(super) struct Generalizer {
-    force: bool,
+    pub force: bool,
 }
 
 impl Fold<ty::Function> for Generalizer {

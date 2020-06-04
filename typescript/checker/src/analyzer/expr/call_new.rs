@@ -1,7 +1,12 @@
 //! Handles new expressions and call expressions.
 use super::super::Analyzer;
 use crate::{
-    analyzer::{expr::TypeOfMode, props::prop_name_to_expr, util::ResultExt, Ctx},
+    analyzer::{
+        expr::TypeOfMode,
+        props::prop_name_to_expr,
+        util::{Generalizer, ResultExt},
+        Ctx,
+    },
     builtin_types,
     debug::print_backtrace,
     errors::Error,
@@ -18,7 +23,7 @@ use crate::{
 };
 use macros::validator;
 use swc_atoms::js_word;
-use swc_common::{Span, Spanned};
+use swc_common::{FoldWith, Span, Spanned};
 use swc_ecma_ast::*;
 
 #[validator]
@@ -247,14 +252,14 @@ impl Analyzer<'_, '_> {
                                 return self.check_method_call(
                                     span,
                                     &candidates.into_iter().next().unwrap(),
-                                    &args,
+                                    &mut args,
                                 );
                             }
                             _ => {
                                 //
                                 for c in candidates {
                                     if c.params.len() == args.len() {
-                                        return self.check_method_call(span, &c, &args);
+                                        return self.check_method_call(span, &c, &mut args);
                                     }
                                 }
 
@@ -370,7 +375,7 @@ impl Analyzer<'_, '_> {
                         Some(v) => Some(v.validate_with(self)?),
                     };
 
-                    self.get_best_return_type(span, callee, kind, type_args, &args)
+                    self.get_best_return_type(span, callee, kind, type_args, &mut args)
                 }
             }
             _ => {
@@ -410,9 +415,20 @@ impl Analyzer<'_, '_> {
         span: Span,
         ty: Type,
         kind: ExtractKind,
-        args: &[TypeOrSpread],
+        args: &mut Vec<TypeOrSpread>,
         type_args: Option<&TypeParamInstantiation>,
     ) -> ValidationResult {
+        let mut new_args = vec![];
+        for arg in args.drain(..) {
+            let ty = arg.ty.fold_with(&mut Generalizer { force: true });
+            new_args.push(TypeOrSpread {
+                span: arg.span,
+                spread: arg.spread,
+                ty,
+            })
+        }
+        *args = new_args;
+
         if cfg!(debug_assertions) {
             match *ty.normalize() {
                 Type::Ref(ref s) => {
@@ -602,7 +618,7 @@ impl Analyzer<'_, '_> {
         &mut self,
         span: Span,
         c: &MethodSignature,
-        args: &[TypeOrSpread],
+        args: &mut Vec<TypeOrSpread>,
     ) -> ValidationResult {
         // Validate arguments
         for (i, p) in c.params.iter().enumerate() {
@@ -625,8 +641,19 @@ impl Analyzer<'_, '_> {
         callee: Type,
         kind: ExtractKind,
         type_args: Option<TypeParamInstantiation>,
-        args: &[TypeOrSpread],
+        args: &mut Vec<TypeOrSpread>,
     ) -> ValidationResult {
+        let mut new_args = vec![];
+        for arg in args.drain(..) {
+            let ty = arg.ty.fold_with(&mut Generalizer { force: true });
+            new_args.push(TypeOrSpread {
+                span: arg.span,
+                spread: arg.spread,
+                ty,
+            })
+        }
+        *args = new_args;
+
         let cnt = callee.normalize().iter_union().count();
 
         log::info!("get_best_return_type: {} candidates", cnt);
