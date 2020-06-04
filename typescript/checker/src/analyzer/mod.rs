@@ -220,7 +220,15 @@ fn _assert_types() {
 
 impl<'a, 'b> Analyzer<'a, 'b> {
     pub fn root(path: Arc<PathBuf>, libs: &'b [Lib], rule: Rule, loader: &'b dyn Load) -> Self {
-        Self::new_inner(path, libs, rule, loader, Scope::root(), false)
+        Self::new_inner(
+            path,
+            libs,
+            rule,
+            loader,
+            Scope::root(),
+            false,
+            Default::default(),
+        )
     }
 
     pub(crate) fn for_builtin() -> Self {
@@ -231,6 +239,7 @@ impl<'a, 'b> Analyzer<'a, 'b> {
             &NoopLoader,
             Scope::root(),
             true,
+            Default::default(),
         )
     }
 
@@ -242,6 +251,7 @@ impl<'a, 'b> Analyzer<'a, 'b> {
             self.loader,
             scope,
             self.is_builtin,
+            self.generalizer.clone(),
         )
     }
 
@@ -252,6 +262,7 @@ impl<'a, 'b> Analyzer<'a, 'b> {
         loader: &'b dyn Load,
         scope: Scope<'a>,
         is_builtin: bool,
+        generalizer: generalize::Config,
     ) -> Self {
         Self {
             info: Default::default(),
@@ -281,7 +292,7 @@ impl<'a, 'b> Analyzer<'a, 'b> {
             is_builtin,
             duplicated_tracker: Default::default(),
             facts_buf: None,
-            generalizer: Default::default(),
+            generalizer,
         }
     }
 

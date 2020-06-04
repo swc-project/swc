@@ -1,6 +1,7 @@
 use crate::{analyzer::Analyzer, ty::Type};
 use swc_common::{Mark, Span, Spanned};
 
+#[derive(Debug, Clone, Copy)]
 pub(super) struct Config {
     /// If the mark is applied, it means that the type should not be
     /// generalized.
@@ -17,9 +18,29 @@ impl Default for Config {
 
 impl Analyzer<'_, '_> {
     pub(super) fn may_generalize(&self, ty: &Type) -> bool {
-        let mut n = ty.span();
+        log::trace!("may_generalize({:?})", ty);
+        match ty {
+            Type::Function(f) => {
+                if !self.may_generalize(&f.ret_ty) {
+                    return false;
+                }
+                for param in &f.params {
+                    if !self.may_generalize(&param.ty) {
+                        return false;
+                    }
+                }
+            }
+            Type::Union(u) => {
+                if u.types.iter().any(|ty| !self.may_generalize(ty)) {
+                    return false;
+                }
+            }
+            _ => {}
+        }
+
+        let mut ctxt = ty.span().ctxt().clone();
         loop {
-            let m = n.remove_mark();
+            let m = ctxt.remove_mark();
             if m == Mark::root() {
                 break;
             }

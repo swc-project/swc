@@ -220,6 +220,7 @@ impl Validate<VarDeclarator> for Analyzer<'_, '_> {
                         let should_generalize_fully =
                             self.may_generalize(&ty) && !contains_type_param(&ty);
 
+                        dbg!(should_generalize_fully);
                         log::debug!("var: user did not declare type");
                         let mut ty = self.rename_type_params(span, ty, None)?;
                         ty = ty.fold_with(&mut Generalizer::default());
