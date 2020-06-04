@@ -22,23 +22,8 @@ impl Analyzer<'_, '_> {
 
         debug_assert!(!span.is_dummy());
 
-        match left {
-            Type::Ref(left) => match right {
-                Type::Ref(right) => {
-                    // We need this as type may recurse, and thus cannot be handled by expander.
-                    if left.type_name.type_eq(&right.type_name)
-                        && left.type_args.type_eq(&right.type_args)
-                    {
-                        return Ok(());
-                    }
-                }
-                _ => {}
-            },
-            _ => {}
-        }
-
-        self.verify_before_assign("lhs", left);
-        self.verify_before_assign("rhs", right);
+        // self.verify_before_assign("lhs", left);
+        // self.verify_before_assign("rhs", right);
 
         let res = self.assign_inner(left, right, span);
         match res {
@@ -168,6 +153,21 @@ impl Analyzer<'_, '_> {
                     span,
                 );
             }};
+        }
+
+        match to {
+            Type::Ref(left) => match right {
+                Type::Ref(right) => {
+                    // We need this as type may recurse, and thus cannot be handled by expander.
+                    if left.type_name.type_eq(&right.type_name)
+                        && left.type_args.type_eq(&right.type_args)
+                    {
+                        return Ok(());
+                    }
+                }
+                _ => {}
+            },
+            _ => {}
         }
 
         // Allow v = null and v = undefined if strict null check is false
