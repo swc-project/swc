@@ -762,6 +762,14 @@ impl Analyzer<'_, '_> {
         Ok(ret_ty.clone())
     }
 
+    pub(crate) fn generalize_ret_ty(&self, ty: Type) -> Type {
+        if self.ctx.generalize_ret_ty {
+            ty.generalize_lit()
+        } else {
+            ty
+        }
+    }
+
     /// This method return [Err] if call is invalid
     fn is_exact_call(
         &self,

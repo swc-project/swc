@@ -11,8 +11,8 @@ use crate::{
     ty,
     ty::{
         Array, ClassInstance, EnumVariant, IndexSignature, IndexedAccessType, Interface,
-        Intersection, Ref, Tuple, Type, TypeElement, TypeLit, TypeParam, TypeParamInstantiation,
-        Union,
+        Intersection, PropertySignature, Ref, Tuple, Type, TypeElement, TypeLit, TypeParam,
+        TypeParamInstantiation, Union,
     },
     type_facts::TypeFacts,
     util::{EqIgnoreSpan, RemoveTypes, TypeEq},
@@ -376,8 +376,15 @@ impl Analyzer<'_, '_> {
                 for prop in props.iter_mut() {
                     match *prop {
                         PropOrSpread::Prop(ref mut prop) => {
-                            let p: TypeElement = prop.validate_with(self)?;
+                            let mut p: TypeElement = {
+                                let ctx = Ctx {
+                                    generalize_ret_ty: true,
+                                    ..self.ctx
+                                };
+                                let mut v = self.with_ctx(ctx);
 
+                                prop.validate_with(&mut *v)?
+                            };
                             if let Some(key) = p.key() {
                                 if members.iter_mut().any(|v| match v {
                                     ty::TypeElement::Property(prop)
@@ -1409,7 +1416,10 @@ impl Validate<ArrowExpr> for Analyzer<'_, '_> {
 
             let inferred_return_type = {
                 match f.body {
-                    BlockStmtOrExpr::Expr(ref mut e) => Some(e.validate_with(child)?),
+                    BlockStmtOrExpr::Expr(ref mut e) => Some({
+                        let ty = e.validate_with(child)?;
+                        child.generalize_ret_ty(ty)
+                    }),
                     BlockStmtOrExpr::BlockStmt(ref mut s) => {
                         child.visit_stmts_for_return(&mut s.stmts)?
                     }
