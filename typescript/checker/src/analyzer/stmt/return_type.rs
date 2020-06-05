@@ -71,6 +71,10 @@ impl Analyzer<'_, '_> {
 
         let mut buf = Vec::with_capacity(types.len());
         for ty in types {
+            let ty = ty.map(|ty| {
+                //
+                self.generalize_ret_ty(ty)
+            });
             buf.extend(ty.store(&mut self.info.errors));
         }
 

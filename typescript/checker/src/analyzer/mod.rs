@@ -69,6 +69,7 @@ pub(crate) struct Ctx {
     allow_ref_declaring: bool,
     in_argument: bool,
     preserve_ref: bool,
+    generalize_ret_ty: bool,
 }
 
 /// Note: All methods named `validate_*` return [Err] iff it's not recoverable.
@@ -292,6 +293,7 @@ impl<'a, 'b> Analyzer<'a, 'b> {
                 var_kind: VarDeclKind::Var,
                 in_argument: false,
                 preserve_ref: false,
+                generalize_ret_ty: false,
             },
             loader,
             is_builtin,
