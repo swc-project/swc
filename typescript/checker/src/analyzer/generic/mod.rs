@@ -520,13 +520,15 @@ impl Analyzer<'_, '_> {
                                     TypeElement::Property(p) => {
                                         //
                                         let old = take(&mut inferred.type_elements);
-                                        let type_ann = if let Some(pt) = &p.type_ann {
+                                        let type_ann: Option<_> = if let Some(pt) = &p.type_ann {
                                             self.infer_type(inferred, param_ty, pt)?;
 
-                                            inferred.type_elements.remove(&name)
+                                            inferred.type_elements.get(&name).cloned()
                                         } else {
                                             None
                                         };
+                                        let type_ann = type_ann.or_else(|| p.type_ann.clone());
+
                                         new_members.push(TypeElement::Property(
                                             PropertySignature {
                                                 type_ann,
