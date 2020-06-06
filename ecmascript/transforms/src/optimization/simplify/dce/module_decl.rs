@@ -1,6 +1,7 @@
 use super::Dce;
-use swc_common::{fold::FoldWith, Fold};
+use swc_common::{fold::FoldWith, util::move_map::MoveMap, Fold};
 use swc_ecma_ast::*;
+use swc_ecma_utils::{find_ids, Id};
 
 impl Fold<ImportDecl> for Dce<'_> {
     fn fold(&mut self, mut import: ImportDecl) -> ImportDecl {
@@ -47,20 +48,29 @@ impl Fold<ExportDecl> for Dce<'_> {
 
             // Preserve only exported variables
             Decl::Var(mut v) => {
-                v = v.fold_with(self);
+                v.decls = v.decls.move_flat_map(|mut d| {
+                    let names: Vec<Id> = find_ids(&d.name);
+                    for name in names {
+                        if self.should_preserve_export(&name.0) {
+                            d.init = self.fold_in_marking_phase(d.init);
+                            return Some(d);
+                        }
+                    }
 
-                node.decl = if !v.decls.is_empty() {
+                    None
+                });
+
+                if !v.decls.is_empty() {
                     node.span = node.span.apply_mark(self.config.used_mark);
-                    self.fold_in_marking_phase(Decl::Var(v))
-                } else {
-                    Decl::Var(v)
-                };
+                }
+
+                node.decl = Decl::Var(v);
 
                 return node;
             }
         };
 
-        if self.is_exported(&i.sym) {
+        if self.should_preserve_export(&i.sym) {
             node.span = node.span.apply_mark(self.config.used_mark);
             node.decl = self.fold_in_marking_phase(node.decl);
         }
@@ -75,7 +85,7 @@ impl Fold<ExportDefaultExpr> for Dce<'_> {
             return node;
         }
 
-        if self.is_exported(&js_word!("default")) {
+        if self.should_preserve_export(&js_word!("default")) {
             node.span = node.span.apply_mark(self.config.used_mark);
             node.expr = self.fold_in_marking_phase(node.expr);
         }
@@ -92,10 +102,10 @@ impl Fold<NamedExport> for Dce<'_> {
 
         // Export only when it's required.
         node.specifiers.retain(|s| match s {
-            ExportSpecifier::Namespace(s) => self.is_exported(&s.name.sym),
-            ExportSpecifier::Default(..) => self.is_exported(&js_word!("default")),
+            ExportSpecifier::Namespace(s) => self.should_preserve_export(&s.name.sym),
+            ExportSpecifier::Default(..) => self.should_preserve_export(&js_word!("default")),
             ExportSpecifier::Named(s) => {
-                self.is_exported(&s.exported.as_ref().unwrap_or_else(|| &s.orig).sym)
+                self.should_preserve_export(&s.exported.as_ref().unwrap_or_else(|| &s.orig).sym)
             }
         });
 

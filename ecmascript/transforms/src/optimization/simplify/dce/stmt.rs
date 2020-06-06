@@ -4,11 +4,13 @@ use swc_ecma_ast::*;
 
 impl Fold<ExprStmt> for Dce<'_> {
     fn fold(&mut self, node: ExprStmt) -> ExprStmt {
+        log::debug!("ExprStmt ->");
         if self.is_marked(node.span) {
             return node;
         }
 
         if self.should_include(&node.expr) {
+            log::debug!("\tIncluded");
             let stmt = ExprStmt {
                 span: node.span.apply_mark(self.config.used_mark),
                 expr: self.fold_in_marking_phase(node.expr),

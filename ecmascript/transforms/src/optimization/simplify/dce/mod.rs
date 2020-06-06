@@ -1,7 +1,7 @@
 use self::side_effect::{ImportDetector, SideEffectVisitor};
 use crate::pass::RepeatedJsPass;
 use fxhash::FxHashSet;
-use std::borrow::Cow;
+use std::{any::type_name, borrow::Cow};
 use swc_atoms::JsWord;
 use swc_common::{
     chain,
@@ -139,7 +139,7 @@ impl Repeated for Dce<'_> {
 
 impl<T> Fold<Vec<T>> for Dce<'_>
 where
-    T: StmtLike + FoldWith<Self> + Spanned,
+    T: StmtLike + FoldWith<Self> + Spanned + std::fmt::Debug,
     T: for<'any> VisitWith<SideEffectVisitor<'any>> + VisitWith<ImportDetector>,
 {
     fn fold(&mut self, mut items: Vec<T>) -> Vec<T> {
@@ -158,7 +158,7 @@ where
                     if self.should_include(&item) {
                         preserved.insert(idx);
                         self.changed = true;
-                        item = self.fold_in_marking_phase(item)
+                        item = item.fold_with(self);
                     }
                     item
                 };
@@ -226,7 +226,7 @@ impl Dce<'_> {
         }
     }
 
-    pub fn is_exported(&self, i: &JsWord) -> bool {
+    pub fn should_preserve_export(&self, i: &JsWord) -> bool {
         self.config.used.is_none()
             || self
                 .config
@@ -267,6 +267,7 @@ impl Dce<'_> {
     {
         let old = self.marking_phase;
         self.marking_phase = true;
+        log::info!("Marking: {}", type_name::<T>());
         let node = node.fold_with(self);
         self.marking_phase = old;
 
@@ -293,6 +294,7 @@ impl Fold<Ident> for Dce<'_> {
         }
 
         if self.marking_phase {
+            log::info!("{} is used", i.sym);
             self.included.insert(i.to_id());
             self.changed = true;
         }

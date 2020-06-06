@@ -33,18 +33,12 @@ impl Fold<ClassDecl> for Dce<'_> {
 }
 
 impl Fold<VarDecl> for Dce<'_> {
-    fn fold(&mut self, var: VarDecl) -> VarDecl {
-        if self.is_marked(var.span) {
-            return var;
-        }
-
-        let mut var: VarDecl = var.fold_children(self);
-
-        if self.included.is_empty() {
-            return var;
-        }
-
+    fn fold(&mut self, mut var: VarDecl) -> VarDecl {
         if self.decl_dropping_phase {
+            log::info!("VarDecl -> Dropping phase");
+
+            var = var.fold_children(self);
+
             var.decls = var.decls.move_flat_map(|decl| {
                 if !self.should_include(&decl.name) {
                     return None;
@@ -55,6 +49,16 @@ impl Fold<VarDecl> for Dce<'_> {
                     ..decl
                 })
             });
+        }
+
+        log::info!("VarDecl -> Normal phase");
+
+        if self.is_marked(var.span) {
+            return var;
+        }
+
+        if !self.decl_dropping_phase {
+            var = var.fold_children(self);
         }
 
         if var.decls.is_empty() {
