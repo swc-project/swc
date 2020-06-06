@@ -761,7 +761,12 @@ impl<'a> Emitter<'a> {
     fn emit_ts_const_assertion(&mut self, n: &TsConstAssertion) -> Result {
         self.emit_leading_comments_of_pos(n.span().lo())?;
 
-        unimplemented!("emit_ts_const_assertion")
+        emit!(n.expr);
+
+        space!();
+        keyword!("as");
+        space!();
+        keyword!("const");
     }
 
     #[emitter]
