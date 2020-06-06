@@ -1,5 +1,5 @@
 use super::Dce;
-use swc_common::Fold;
+use swc_common::{fold::FoldWith, Fold};
 use swc_ecma_ast::*;
 
 impl Fold<ImportDecl> for Dce<'_> {
@@ -46,16 +46,16 @@ impl Fold<ExportDecl> for Dce<'_> {
             }
 
             // Preserve only exported variables
-            Decl::Var(ref mut v) => {
-                // If config.used is None, all exports are preserved
-                if let Some(..) = self.config.used {
-                    v.decls.retain(|d| self.should_include(d));
-                }
+            Decl::Var(mut v) => {
+                v = v.fold_with(self);
 
-                if !v.decls.is_empty() {
+                node.decl = if !v.decls.is_empty() {
                     node.span = node.span.apply_mark(self.config.used_mark);
-                    node.decl = self.fold_in_marking_phase(node.decl);
-                }
+                    self.fold_in_marking_phase(Decl::Var(v))
+                } else {
+                    Decl::Var(v)
+                };
+
                 return node;
             }
         };

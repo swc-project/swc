@@ -41,14 +41,7 @@ impl Fold<VarDecl> for Dce<'_> {
         let var: VarDecl = var.fold_children(self);
 
         if self.included.is_empty() {
-            return if self.should_include(&var) {
-                VarDecl {
-                    span: var.span.apply_mark(self.config.used_mark),
-                    ..var
-                }
-            } else {
-                var
-            };
+            return var;
         }
 
         let ids: Vec<Ident> = find_ids(&var.decls);
