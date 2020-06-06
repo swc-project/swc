@@ -237,6 +237,12 @@ impl Visit<DoWhileStmt> for SideEffectVisitor<'_> {
     }
 }
 
+impl Visit<ExportDefaultSpecifier> for SideEffectVisitor<'_> {
+    fn visit(&mut self, _: &ExportDefaultSpecifier) {
+        self.found = true;
+    }
+}
+
 impl Visit<ImportDecl> for SideEffectVisitor<'_> {
     fn visit(&mut self, import: &ImportDecl) {
         if self.found {
@@ -260,9 +266,7 @@ impl Visit<ExportDecl> for SideEffectVisitor<'_> {
 
 impl Visit<ExportDefaultExpr> for SideEffectVisitor<'_> {
     fn visit(&mut self, _: &ExportDefaultExpr) {
-        if self.is_exported(&js_word!("default")) {
-            self.found = true
-        }
+        self.found = true;
     }
 }
 
