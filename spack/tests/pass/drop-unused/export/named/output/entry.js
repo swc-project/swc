@@ -1,3 +1,2 @@
-const foo = "a";
-
+const foo = 'a';
 export { foo };
