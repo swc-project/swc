@@ -38,7 +38,7 @@ impl Fold<VarDecl> for Dce<'_> {
             return var;
         }
 
-        log::info!("VarDecl");
+        log::trace!("VarDecl");
         var = var.fold_children(self);
 
         var.decls = var.decls.move_flat_map(|decl| {
