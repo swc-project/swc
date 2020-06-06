@@ -1,7 +1,7 @@
 use super::Dce;
 use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Spanned};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_ids, ident::IdentLike};
+use swc_ecma_utils::ident::IdentLike;
 
 impl Fold<FnDecl> for Dce<'_> {
     fn fold(&mut self, mut f: FnDecl) -> FnDecl {
