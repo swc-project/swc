@@ -104,8 +104,14 @@ impl Bundler {
         // Promote modules to entry.
         for (id, md) in &metadata {
             if md.access_cnt > 1 {
-                // TODO: Shared lib
-                kinds.push((BundleKind::Dynamic, *id))
+                // TODO: Dynamic import
+                let module = self.scope.get_module(*id).unwrap();
+                kinds.push((
+                    BundleKind::Lib {
+                        name: module.fm.name.to_string(),
+                    },
+                    *id,
+                ))
             }
         }
 

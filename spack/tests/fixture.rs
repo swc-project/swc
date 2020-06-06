@@ -150,9 +150,10 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                         .code;
 
                     let name = match bundled.kind {
-                        BundleKind::Named { name } => PathBuf::from(name),
+                        BundleKind::Named { name } | BundleKind::Lib { name } => {
+                            PathBuf::from(name)
+                        }
                         BundleKind::Dynamic => format!("dynamic.{}.js", bundled.id).into(),
-                        _ => unimplemented!("entry.kind({:?}) -> path", bundled.kind),
                     };
 
                     let output_path = entry.path().join("output").join(name.file_name().unwrap());
