@@ -10,11 +10,14 @@ use crate::{
     Id, ModuleId,
 };
 use anyhow::Error;
-use std::ops::{Deref, DerefMut};
+use std::{
+    mem::take,
+    ops::{Deref, DerefMut},
+};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
-    fold::FoldWith, util::move_map::MoveMap, Fold, Mark, Spanned, SyntaxContext, VisitWith,
-    DUMMY_SP,
+    fold::FoldWith, util::move_map::MoveMap, Fold, Mark, Spanned, SyntaxContext, VisitMut,
+    VisitMutWith, VisitWith, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms::{hygiene, resolver};
@@ -39,7 +42,6 @@ impl Bundler {
 
             let mut entry: Module = (*info.module).clone();
 
-            let mut buf = vec![];
             for (src, specifiers) in &info.imports.specifiers {
                 if !targets.contains(&src.module_id) {
                     continue;
@@ -137,7 +139,11 @@ impl Bundler {
                         //    println!("Dep:\n{}\n\n\n", code);
                         //}
 
-                        buf.extend(dep.body);
+                        // Replace import statement / require with module body
+                        entry.body.visit_mut_with(&mut Injector {
+                            imported: dep.body,
+                            src: src.src.clone(),
+                        })
                     }
                 } else {
                     unimplemented!("conditional dependency: {} -> {}", info.id, src.module_id)
@@ -158,8 +164,6 @@ impl Bundler {
             //
             //    println!("Hygiene:\n{}\n\n\n", code);
             //}
-
-            prepend_stmts(&mut entry.body, buf.into_iter());
 
             Ok(entry.fold_with(&mut hygiene()))
         })
@@ -565,5 +569,32 @@ impl Fold<Ident> for LocalMarker<'_> {
         }
 
         node
+    }
+}
+
+struct Injector {
+    imported: Vec<ModuleItem>,
+    src: Str,
+}
+
+impl VisitMut<Vec<ModuleItem>> for Injector {
+    fn visit_mut(&mut self, orig: &mut Vec<ModuleItem>) {
+        let items = take(orig);
+        let mut buf = Vec::with_capacity(self.imported.len() + items.len());
+
+        for item in items {
+            //
+            match item {
+                ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl { ref src, .. }))
+                    if src.value == self.src.value =>
+                {
+                    buf.extend(take(&mut self.imported));
+                }
+
+                _ => buf.push(item),
+            }
+        }
+
+        *orig = buf;
     }
 }
