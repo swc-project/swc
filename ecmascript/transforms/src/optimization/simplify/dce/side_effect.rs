@@ -47,8 +47,8 @@ impl Dce<'_> {
 
 impl SideEffectVisitor<'_> {
     fn is_exported(&self, i: &JsWord) -> bool {
-        self.exports.is_none()
-            || self
+        self.exports.is_some()
+            && self
                 .exports
                 .as_ref()
                 .unwrap()
@@ -286,7 +286,7 @@ impl Visit<Pat> for SideEffectVisitor<'_> {
 
         match p {
             Pat::Ident(ref i) => {
-                if self.included.contains(&i.to_id()) {
+                if self.included.contains(&i.to_id()) || self.is_exported(&i.sym) {
                     self.found = true;
                 }
             }
