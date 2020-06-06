@@ -1,7 +1,7 @@
 use super::Dce;
-use swc_common::{fold::FoldWith, util::move_map::MoveMap, Fold};
+use swc_common::{fold::FoldWith, util::move_map::MoveMap, Fold, Spanned};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_ids, Id};
+use swc_ecma_utils::{find_ids, ident::IdentLike, Id};
 
 impl Fold<ImportDecl> for Dce<'_> {
     fn fold(&mut self, mut import: ImportDecl) -> ImportDecl {
@@ -49,18 +49,28 @@ impl Fold<ExportDecl> for Dce<'_> {
             // Preserve only exported variables
             Decl::Var(mut v) => {
                 v.decls = v.decls.move_flat_map(|mut d| {
+                    if self.is_marked(d.span()) {
+                        return Some(d);
+                    }
+
                     let names: Vec<Id> = find_ids(&d.name);
                     for name in names {
-                        if self.should_preserve_export(&name.0) {
+                        if self.included.iter().any(|included| *included == name)
+                            || self.should_preserve_export(&name.0)
+                        {
+                            d.span = d.span.apply_mark(self.config.used_mark);
                             d.init = self.fold_in_marking_phase(d.init);
                             return Some(d);
                         }
                     }
 
-                    None
+                    if self.decl_dropping_phase {
+                        return None;
+                    }
+                    Some(d)
                 });
 
-                if !v.decls.is_empty() {
+                if self.decl_dropping_phase && !v.decls.is_empty() {
                     node.span = node.span.apply_mark(self.config.used_mark);
                 }
 
