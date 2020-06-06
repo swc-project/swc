@@ -1,5 +1,5 @@
 use super::Dce;
-use swc_common::{Fold, FoldWith, Spanned};
+use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, ident::IdentLike};
 
@@ -38,26 +38,33 @@ impl Fold<VarDecl> for Dce<'_> {
             return var;
         }
 
-        let var: VarDecl = var.fold_children(self);
+        let mut var: VarDecl = var.fold_children(self);
 
         if self.included.is_empty() {
             return var;
         }
 
-        let ids: Vec<Ident> = find_ids(&var.decls);
-
-        for i in ids {
-            for i1 in &self.included {
-                if i1.0 == i.sym && i1.1 == i.span.ctxt() {
-                    return VarDecl {
-                        span: var.span.apply_mark(self.config.used_mark),
-                        ..var
-                    };
+        if self.decl_dropping_phase {
+            var.decls = var.decls.move_flat_map(|decl| {
+                if !self.should_include(&decl.name) {
+                    return None;
                 }
-            }
+
+                Some(VarDeclarator {
+                    init: self.fold_in_marking_phase(decl.init),
+                    ..decl
+                })
+            });
         }
 
-        var
+        if var.decls.is_empty() {
+            return var;
+        }
+
+        return VarDecl {
+            span: var.span.apply_mark(self.config.used_mark),
+            ..var
+        };
     }
 }
 
