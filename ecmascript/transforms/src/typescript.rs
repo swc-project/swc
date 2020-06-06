@@ -434,7 +434,7 @@ impl Strip {
         node
     }
 
-    fn handle_enum(&mut self, mut e: TsEnumDecl, stmts: &mut Vec<ModuleItem>) {
+    fn handle_enum(&mut self, e: TsEnumDecl, stmts: &mut Vec<ModuleItem>) {
         /// Value does not contain TsLit::Bool
         type EnumValues = FxHashMap<Id, TsLit>;
 
@@ -637,7 +637,7 @@ impl Strip {
             .collect::<Result<Vec<_>, _>>()
             .unwrap_or_else(|_| panic!("invalid value for enum is detected"));
 
-        let is_all_str = members.iter().all(|(m, v)| match v {
+        let is_all_str = members.iter().all(|(_, v)| match v {
             Expr::Lit(Lit::Str(..)) => true,
             _ => false,
         });
@@ -671,7 +671,7 @@ impl Strip {
                             stmts: members
                                 .into_iter()
                                 .enumerate()
-                                .map(|(i, (m, val))| {
+                                .map(|(_, (m, val))| {
                                     let value = match m.id {
                                         TsEnumMemberId::Str(s) => s,
                                         TsEnumMemberId::Ident(i) => Str {

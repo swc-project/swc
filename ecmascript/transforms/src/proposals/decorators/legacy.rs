@@ -196,6 +196,7 @@ impl Fold<Decl> for Legacy {
 impl Legacy {
     fn handle(&mut self, mut c: ClassExpr) -> Box<Expr> {
         let cls_ident = private_ident!("_class");
+        let cls_name = c.ident.clone();
 
         self.uninitialized_vars.push(VarDeclarator {
             span: DUMMY_SP,
@@ -238,11 +239,33 @@ impl Legacy {
                             init: None,
                             definite: false,
                         });
+
+                        // We use _class.staticField instead of Person.staticField because while
+                        // initializing the class,
+                        //
+                        //  _dec = Debounce(Person.debounceTime)
+                        //
+                        // fails while
+                        //
+                        //  _dec = Debounce(_class.debounceTime)
+                        //
+                        // works.
+                        //
+                        // See: https://github.com/swc-project/swc/issues/823
+                        let right = if let Some(cls_name) = cls_name.clone() {
+                            dec.expr.fold_with(&mut ClassFieldAccessConverter {
+                                cls_name,
+                                alias: cls_ident.clone(),
+                            })
+                        } else {
+                            dec.expr
+                        };
+
                         dec_inits.push(box Expr::Assign(AssignExpr {
                             span: dec.span,
                             op: op!("="),
                             left: PatOrExpr::Pat(box Pat::Ident(i.clone())),
-                            right: dec.expr,
+                            right,
                         }));
                     }
 
@@ -642,5 +665,40 @@ impl Legacy {
         }
 
         expr
+    }
+}
+
+struct ClassFieldAccessConverter {
+    cls_name: Ident,
+    /// `_class`
+    alias: Ident,
+}
+
+noop_fold_type!(ClassFieldAccessConverter);
+
+impl Fold<MemberExpr> for ClassFieldAccessConverter {
+    fn fold(&mut self, node: MemberExpr) -> MemberExpr {
+        if node.computed {
+            MemberExpr {
+                obj: node.obj.fold_with(self),
+                prop: node.prop.fold_with(self),
+                ..node
+            }
+        } else {
+            MemberExpr {
+                obj: node.obj.fold_with(self),
+                ..node
+            }
+        }
+    }
+}
+
+impl Fold<Ident> for ClassFieldAccessConverter {
+    fn fold(&mut self, node: Ident) -> Ident {
+        if node.sym == self.cls_name.sym && node.span.ctxt() == self.cls_name.span.ctxt() {
+            return self.alias.clone();
+        }
+
+        node
     }
 }
