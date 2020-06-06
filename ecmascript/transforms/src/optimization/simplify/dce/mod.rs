@@ -294,8 +294,8 @@ impl Fold<Ident> for Dce<'_> {
         }
 
         if self.marking_phase {
-            log::info!("{} is used", i.sym);
             if self.included.insert(i.to_id()) {
+                log::info!("{} is used", i.sym);
                 self.changed = true;
             }
         }
