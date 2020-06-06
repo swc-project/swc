@@ -185,6 +185,7 @@ impl Fold<ModuleItem> for Unexporter {
                 ModuleDecl::ExportNamed(ref n) if n.src.is_none() => {
                     ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
                 }
+                ModuleDecl::Import(..) => ModuleItem::ModuleDecl(decl),
 
                 // TODO: Handle all
                 _ => unimplemented!("Unexporter: {:?}", decl),
