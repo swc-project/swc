@@ -646,90 +646,94 @@ impl Analyzer<'_, '_> {
                 }
             }
 
-            // Type::Mapped(
-            //     param
-            //     @
-            //     Mapped {
-            //         type_param:
-            //             TypeParam {
-            //                 constraint:
-            //                     Some(box Type::Operator(Operator {
-            //                         op: TsTypeOperatorOp::KeyOf,
-            //                         ty:
-            //                             box Type::IndexedAccessType(IndexedAccessType {
-            //                                 obj_type: box Type::Param(..),
-            //                                 index_type: box Type::Param(..),
-            //                                 ..
-            //                             }),
-            //                         ..
-            //                     })),
-            //                 ..
-            //             },
-            //         ty: Some(..),
-            //         ..
-            //     },
-            // ) => {
-            //     let param_ty = param.ty.unwrap();
-            //     let name = param.type_param.name.clone();
-            //     let (obj_ty, index_ty) = match &**param.type_param.constraint.as_ref().unwrap() {
-            //         Type::Operator(Operator {
-            //             ty:
-            //                 box Type::IndexedAccessType(IndexedAccessType {
-            //                     obj_type: box Type::Param(obj_ty),
-            //                     index_type: box Type::Param(index_ty),
-            //                     ..
-            //                 }),
-            //             ..
-            //         }) => (obj_ty, index_ty),
-            //         _ => unreachable!(),
-            //     };
-            //     if name == index_ty.name {
-            //         match arg {
-            //             Type::TypeLit(arg) => {
-            //                 let mut members = Vec::with_capacity(arg.members.len());
-            //
-            //                 for m in &arg.members {
-            //                     match m {
-            //                         TypeElement::Property(p) => {
-            //                             //
-            //                             if let Some(ref type_ann) = p.type_ann {
-            //                                 self.infer_type(inferred, &param_ty, &type_ann)?;
-            //                             }
-            //                             members.push(TypeElement::Property(PropertySignature {
-            //                                 type_ann: None,
-            //                                 ..p.clone()
-            //                             }));
-            //                         }
-            //
-            //                         _ => unimplemented!(
-            //                             "infer_type: Mapped <- Assign: TypeElement({:?})",
-            //                             m
-            //                         ),
-            //                     }
-            //                 }
-            //
-            //                 let list_ty = Type::TypeLit(TypeLit {
-            //                     span: arg.span,
-            //                     members,
-            //                 });
-            //
-            //                 inferred
-            //                     .type_params
-            //                     .insert(name.clone(), list_ty)
-            //                     .expect_none("Cannot override");
-            //                 return Ok(());
-            //             }
-            //
-            //             _ => {}
-            //         }
-            //     }
-            // }
+            Type::Mapped(
+                param
+                @
+                Mapped {
+                    type_param:
+                        TypeParam {
+                            constraint:
+                                Some(box Type::Operator(Operator {
+                                    op: TsTypeOperatorOp::KeyOf,
+                                    ty:
+                                        box Type::IndexedAccessType(IndexedAccessType {
+                                            obj_type: box Type::Param(..),
+                                            index_type: box Type::Param(..),
+                                            ..
+                                        }),
+                                    ..
+                                })),
+                            ..
+                        },
+                    ty: Some(..),
+                    ..
+                },
+            ) => {
+                let param_ty = param.ty.clone().unwrap();
+                let name = param.type_param.name.clone();
+                let (obj_ty, index_ty) = match &**param.type_param.constraint.as_ref().unwrap() {
+                    Type::Operator(Operator {
+                        ty:
+                            box Type::IndexedAccessType(IndexedAccessType {
+                                obj_type: box Type::Param(obj_ty),
+                                index_type: box Type::Param(index_ty),
+                                ..
+                            }),
+                        ..
+                    }) => (obj_ty, index_ty),
+                    _ => unreachable!(),
+                };
+                if name == index_ty.name {
+                    match arg {
+                        Type::TypeLit(arg) => {
+                            let mut members = Vec::with_capacity(arg.members.len());
+
+                            for m in &arg.members {
+                                match m {
+                                    TypeElement::Property(p) => {
+                                        //
+                                        if let Some(ref type_ann) = p.type_ann {
+                                            self.infer_type(inferred, &param_ty, &type_ann)?;
+                                        }
+                                        members.push(TypeElement::Property(PropertySignature {
+                                            type_ann: None,
+                                            ..p.clone()
+                                        }));
+                                    }
+
+                                    _ => unimplemented!(
+                                        "infer_type: Mapped <- Assign: TypeElement({:?})",
+                                        m
+                                    ),
+                                }
+                            }
+
+                            let list_ty = Type::TypeLit(TypeLit {
+                                span: arg.span,
+                                members,
+                            });
+
+                            inferred
+                                .type_params
+                                .insert(name.clone(), list_ty)
+                                .expect_none("Cannot override");
+                            return Ok(());
+                        }
+
+                        _ => {}
+                    }
+                }
+            }
             _ => {}
         }
 
         match arg {
             // Handled by generic expander, so let's return it as-is.
             Type::Mapped(..) => {}
+            Type::Keyword(TsKeywordType {
+                kind: TsKeywordTypeKind::TsAnyKeyword,
+                ..
+            }) => return Ok(()),
             Type::Keyword(..) => {}
             Type::Ref(..) => {
                 let arg = self.expand(arg.span(), arg.clone())?;
