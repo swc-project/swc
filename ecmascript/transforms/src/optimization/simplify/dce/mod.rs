@@ -149,6 +149,8 @@ where
         preserved.reserve(items.len());
 
         loop {
+            log::info!("loop start");
+
             self.changed = false;
             let mut idx = 0u32;
             items = items.move_map(|mut item| {
