@@ -4224,7 +4224,19 @@ class Person {
 
 const p = new Person();
 p.save();",
-    ""
+    "var _class, _dec;
+import { Debounce } from 'lodash-decorators';
+let Person = ((_class = class Person {
+    static debounceTime = 500;
+    save() {
+        console.log('Hello World!');
+    }
+}) || _class, _dec = Debounce(_class.debounceTime), _applyDecoratedDescriptor(_class.prototype, \
+     'save', [
+    _dec
+], Object.getOwnPropertyDescriptor(_class.prototype, 'save'), _class.prototype), _class);
+const p = new Person();
+p.save();"
 );
 
 test!(
@@ -4251,7 +4263,23 @@ class Person {
 
 const p = new Person();
 p.save();",
-    ""
+    "import { Debounce } from 'lodash-decorators';
+    
+let Person = ((_class = function() {
+    class Person {
+        save() {
+            console.log('Hello World!');
+        }
+    }
+    _defineProperty(Person, 'debounceTime', 500);
+    return Person;
+}()) || _class, _dec = Debounce(_class.debounceTime), _applyDecoratedDescriptor(_class.prototype, \
+     'save', [
+    _dec
+], Object.getOwnPropertyDescriptor(_class.prototype, 'save'), _class.prototype), _class);
+const p = new Person();
+p.save();
+"
 );
 
 test!(
@@ -4278,5 +4306,30 @@ class Person {
 
 const p = new Person();
 p.save();",
-    ""
+    "var _class, _dec;
+import { Debounce } from 'lodash-decorators';
+let Person = ((_class = function() {
+    let Person = function() {
+        'use strict';
+        function Person() {
+            _classCallCheck(this, Person);
+        }
+        _createClass(Person, [
+            {
+                key: 'save',
+                value: function save() {
+                    console.log('Hello World!');
+                }
+            }
+        ]);
+        return Person;
+    }();
+    _defineProperty(Person, 'debounceTime', 500);
+    return Person;
+}()) || _class, _dec = Debounce(_class.debounceTime), _applyDecoratedDescriptor(_class.prototype, \
+     'save', [
+    _dec
+], Object.getOwnPropertyDescriptor(_class.prototype, 'save'), _class.prototype), _class);
+const p = new Person();
+p.save();"
 );
