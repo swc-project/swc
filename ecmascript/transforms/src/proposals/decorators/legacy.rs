@@ -228,15 +228,22 @@ impl Legacy {
                 // _class2.prototype)
 
                 let mut dec_exprs = vec![];
+                let mut dec_inits = vec![];
                 for dec in m.function.decorators.into_iter() {
                     let (i, aliased) = alias_if_required(&dec.expr, "_dec");
                     if aliased {
-                        self.initialized_vars.push(VarDeclarator {
+                        self.uninitialized_vars.push(VarDeclarator {
                             span: DUMMY_SP,
                             name: Pat::Ident(i.clone()),
-                            init: Some(dec.expr),
+                            init: None,
                             definite: false,
                         });
+                        dec_inits.push(box Expr::Assign(AssignExpr {
+                            span: dec.span,
+                            op: op!("="),
+                            left: PatOrExpr::Pat(box Pat::Ident(i.clone())),
+                            right: dec.expr,
+                        }));
                     }
 
                     dec_exprs.push(Some(i.as_arg()))
@@ -250,6 +257,8 @@ impl Legacy {
                     }
                     _ => prop_name_to_expr_value(m.key.clone()),
                 };
+
+                extra_exprs.extend(dec_inits);
 
                 extra_exprs.push(box Expr::Call(CallExpr {
                     span: DUMMY_SP,
