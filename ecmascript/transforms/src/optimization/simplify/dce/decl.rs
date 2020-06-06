@@ -42,17 +42,25 @@ impl Fold<VarDecl> for Dce<'_> {
         var = var.fold_children(self);
 
         var.decls = var.decls.move_flat_map(|decl| {
+            if self.is_marked(decl.span()) {
+                return Some(decl);
+            }
+
             if !self.should_include(&decl.name) {
-                return None;
+                if self.decl_dropping_phase {
+                    return None;
+                }
+                return Some(decl);
             }
 
             Some(VarDeclarator {
+                span: decl.span.apply_mark(self.config.used_mark),
                 init: self.fold_in_marking_phase(decl.init),
                 ..decl
             })
         });
 
-        if var.decls.is_empty() {
+        if var.decls.is_empty() || !self.decl_dropping_phase {
             return var;
         }
 
