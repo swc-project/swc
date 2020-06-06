@@ -3,7 +3,7 @@
 #![feature(box_patterns)]
 #![feature(specialization)]
 
-use swc_common::{chain, SyntaxContext};
+use swc_common::{chain, Mark, SyntaxContext};
 use swc_ecma_transforms::{
     optimization::simplify::dce::{self, dce},
     resolver,
@@ -27,17 +27,22 @@ macro_rules! to {
 fn used(ids: &[&str], src: &str, expected: &str) {
     test_transform!(
         Default::default(),
-        |_| chain!(
-            resolver(),
-            dce(dce::Config {
-                used: Some(
-                    ids.into_iter()
-                        .map(|&v| { (v.into(), SyntaxContext::empty()) })
-                        .collect()
-                ),
-                ..Default::default()
-            })
-        ),
+        |_| {
+            let mark = Mark::fresh(Mark::root());
+
+            chain!(
+                resolver(),
+                dce(dce::Config {
+                    used: Some(
+                        ids.into_iter()
+                            .map(|&v| { (v.into(), SyntaxContext::empty().apply_mark(mark)) })
+                            .collect()
+                    ),
+                    used_mark: mark,
+                    ..Default::default()
+                })
+            )
+        },
         src,
         expected,
         false
@@ -360,3 +365,12 @@ noop!(
     resources.map(v => v)
 "
 );
+
+#[test]
+fn spack_issue_001() {
+    used(
+        &["FOO"],
+        "export const FOO = 'foo';",
+        "export const FOO = 'foo';",
+    );
+}
