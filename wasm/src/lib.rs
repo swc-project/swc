@@ -52,7 +52,6 @@ pub fn print_sync(s: JsValue, opts: JsValue) -> Result<JsValue, JsValue> {
     let s = c
         .print(
             &program,
-            c.comments(),
             opts.source_maps
                 .clone()
                 .unwrap_or(SourceMapsConfig::Bool(false)),
@@ -101,7 +100,7 @@ fn codemap() -> Arc<SourceMap> {
 }
 
 /// Creates a new handler which emits to returned buffer.
-fn new_handler(cm: Arc<SourceMapperDyn>) -> (Handler, BufferedError) {
+fn new_handler(cm: Arc<SourceMapperDyn>) -> (Arc<Handler>, BufferedError) {
     let e = BufferedError::default();
 
     let handler = Handler::with_emitter_and_flags(
@@ -118,7 +117,7 @@ fn new_handler(cm: Arc<SourceMapperDyn>) -> (Handler, BufferedError) {
         },
     );
 
-    (handler, e)
+    (Arc::new(handler), e)
 }
 
 #[derive(Clone, Default)]
