@@ -6,6 +6,7 @@
 use swc_common::chain;
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms::{
+    compat::es2015::classes::Classes,
     pass::Pass,
     proposals::{class_properties, decorators, decorators::Config},
     resolver, typescript,
@@ -4202,4 +4203,80 @@ let Example = ((_class = class Example{
     }
 }), _class);
 "
+);
+
+test!(
+    Syntax::Typescript(TsConfig {
+        decorators: true,
+        ..Default::default()
+    }),
+    |_| chain!(typescript::strip(), decorators(Config { legacy: true })),
+    issue_823_1,
+    "import {Debounce} from 'lodash-decorators';
+class Person {
+  private static debounceTime: number = 500 as const;
+
+  @Debounce(Person.debounceTime)
+  save() {
+    console.log('Hello World!');
+  }
+}
+
+const p = new Person();
+p.save();",
+    ""
+);
+
+test!(
+    Syntax::Typescript(TsConfig {
+        decorators: true,
+        ..Default::default()
+    }),
+    |_| chain!(
+        typescript::strip(),
+        decorators(Config { legacy: true }),
+        class_properties(),
+        // Classes::default(),
+    ),
+    issue_823_2,
+    "import {Debounce} from 'lodash-decorators';
+class Person {
+  private static debounceTime: number = 500 as const;
+
+  @Debounce(Person.debounceTime)
+  save() {
+    console.log('Hello World!');
+  }
+}
+
+const p = new Person();
+p.save();",
+    ""
+);
+
+test!(
+    Syntax::Typescript(TsConfig {
+        decorators: true,
+        ..Default::default()
+    }),
+    |_| chain!(
+        typescript::strip(),
+        decorators(Config { legacy: true }),
+        class_properties(),
+        Classes::default(),
+    ),
+    issue_823_3,
+    "import {Debounce} from 'lodash-decorators';
+class Person {
+  private static debounceTime: number = 500 as const;
+
+  @Debounce(Person.debounceTime)
+  save() {
+    console.log('Hello World!');
+  }
+}
+
+const p = new Person();
+p.save();",
+    ""
 );
