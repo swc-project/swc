@@ -4263,8 +4263,8 @@ class Person {
 
 const p = new Person();
 p.save();",
-    "import { Debounce } from 'lodash-decorators';
-    
+    "var _class, _dec;
+import { Debounce } from 'lodash-decorators';
 let Person = ((_class = function() {
     class Person {
         save() {
