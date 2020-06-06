@@ -64,7 +64,7 @@ pub fn dce<'a>(config: Config<'a>) -> impl RepeatedJsPass + 'a {
             included: Default::default(),
             changed: false,
             marking_phase: false,
-            import_dropping_phase: false,
+            decl_dropping_phase: false,
         },
         UsedMarkRemover { used_mark }
     )
@@ -115,7 +115,7 @@ struct Dce<'a> {
     /// If false, the pass **ignores** imports.
     ///
     /// It means, imports are not marked (as used) nor removed.
-    import_dropping_phase: bool,
+    decl_dropping_phase: bool,
 
     dropped: bool,
 }
@@ -174,7 +174,7 @@ where
         {
             let mut idx = 0;
             items = items.move_flat_map(|item| {
-                let item = self.drop_imports(item);
+                let item = self.drop_unused_decls(item);
                 let item = match item.try_into_stmt() {
                     Ok(stmt) => match stmt {
                         Stmt::Empty(..) => {
@@ -273,14 +273,14 @@ impl Dce<'_> {
         node
     }
 
-    pub fn drop_imports<T>(&mut self, node: T) -> T
+    pub fn drop_unused_decls<T>(&mut self, node: T) -> T
     where
         T: FoldWith<Self>,
     {
-        let old = self.import_dropping_phase;
-        self.import_dropping_phase = true;
+        let old = self.decl_dropping_phase;
+        self.decl_dropping_phase = true;
         let node = node.fold_with(self);
-        self.import_dropping_phase = old;
+        self.decl_dropping_phase = old;
 
         node
     }

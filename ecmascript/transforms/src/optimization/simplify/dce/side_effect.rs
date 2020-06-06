@@ -23,7 +23,7 @@ impl Dce<'_> {
         T: for<'any> VisitWith<SideEffectVisitor<'any>> + VisitWith<ImportDetector>,
     {
         // Preserve imports if we are not in import dropping phase
-        if !self.import_dropping_phase {
+        if !self.decl_dropping_phase {
             let mut v = ImportDetector { found: false };
 
             node.visit_with(&mut v);

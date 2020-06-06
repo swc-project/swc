@@ -5,7 +5,7 @@ use swc_ecma_ast::*;
 impl Fold<ImportDecl> for Dce<'_> {
     fn fold(&mut self, mut import: ImportDecl) -> ImportDecl {
         // Do not mark import as used while ignoring imports
-        if !self.import_dropping_phase {
+        if !self.decl_dropping_phase {
             return import;
         }
 
