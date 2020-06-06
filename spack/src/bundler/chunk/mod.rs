@@ -55,8 +55,6 @@ impl Bundler {
             .map(
                 |(kind, id, module_ids_to_merge): (BundleKind, ModuleId, _)| {
                     self.swc().run(|| {
-                        println!("Merging {:?}", id);
-
                         let module = self
                             .merge_modules(id, module_ids_to_merge)
                             .context("failed to merge module")
@@ -128,6 +126,7 @@ impl Bundler {
 
                 if metadata.get(&dep).map(|md| md.access_cnt).unwrap_or(0) == 1 {
                     chunks.entry(*id).or_default().push(dep);
+                    log::info!("Module dep: {} => {}", id, dep)
                 }
             }
         }

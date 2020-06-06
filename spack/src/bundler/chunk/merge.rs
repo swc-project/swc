@@ -35,10 +35,16 @@ impl Bundler {
     ) -> Result<Module, Error> {
         self.swc.run(|| {
             let info = self.scope.get_module(entry).unwrap();
+            log::info!("Merging: {} => {:?}", info.fm.name, targets);
+
             let mut entry: Module = (*info.module).clone();
 
             let mut buf = vec![];
             for (src, specifiers) in &info.imports.specifiers {
+                if !targets.contains(&src.module_id) {
+                    continue;
+                }
+
                 if specifiers.iter().any(|v| v.is_namespace()) {
                     unimplemented!(
                         "accessing namespace dependency with computed key: {} -> {}",
