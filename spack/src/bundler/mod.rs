@@ -1,5 +1,7 @@
 use self::scope::Scope;
-use crate::{bundler::load_transformed::TransformedModule, load::Load, resolve::Resolve, Config};
+use crate::{
+    bundler::load_transformed::TransformedModule, load::Load, resolve::Resolve, Config, ModuleId,
+};
 use anyhow::{Context, Error};
 use fxhash::FxHashMap;
 use petgraph::{dot::Dot, graphmap::DiGraphMap, prelude::DiGraph, visit::Bfs};
@@ -35,20 +37,22 @@ pub struct Bundler {
 }
 
 #[derive(Debug)]
-pub enum EntryKind {
+pub enum BundleKind {
     /// User-provided entry
     Named { name: String },
     /// Auto-generated entry (created by import expression)
-    Dynamic { number: u32 },
+    Dynamic,
     /// A lazy-loaded shared library
     Lib { name: String },
 }
 
+/// Built bundle
 #[derive(Debug)]
-pub struct Entry {
-    pub kind: EntryKind,
+pub struct Bundle {
+    pub kind: BundleKind,
+    pub id: ModuleId,
+    /// Merged module
     pub module: Module,
-    pub fm: Arc<SourceFile>,
 }
 
 impl Bundler {
@@ -83,7 +87,7 @@ impl Bundler {
         }
     }
 
-    pub fn bundle(&self, entries: FxHashMap<String, PathBuf>) -> Result<Vec<Entry>, Error> {
+    pub fn bundle(&self, entries: FxHashMap<String, PathBuf>) -> Result<Vec<Bundle>, Error> {
         let results = entries
             .into_par_iter()
             .map(|(name, path)| -> Result<_, Error> {

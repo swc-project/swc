@@ -1,6 +1,6 @@
 use super::Bundler;
 use crate::{
-    bundler::{load_transformed::TransformedModule, Entry, EntryKind},
+    bundler::{load_transformed::TransformedModule, Bundle, BundleKind},
     ModuleId,
 };
 use anyhow::{Context, Error};
@@ -47,164 +47,111 @@ impl Bundler {
     pub(super) fn chunk(
         &self,
         entries: FxHashMap<String, TransformedModule>,
-    ) -> Result<Vec<Entry>, Error> {
-        let mut state = State::default();
+    ) -> Result<Vec<Bundle>, Error> {
+        let entries = self.determine_entries(entries);
 
-        let mut graph = ModuleGraph::new();
-
-        for (_, m) in &actual {
-            self.add(&mut graph, &m.main);
-        }
-
-        println!("{:?}", Dot::with_config(&graph.into_graph::<usize>(), &[]));
-
-        Ok(actual
+        Ok(entries
             .into_par_iter()
-            .map(|(_, e): (_, InternalEntry)| {
-                self.swc().run(|| {
-                    println!("Merging {:?}", e.main.id);
+            .map(
+                |(kind, id, module_ids_to_merge): (BundleKind, ModuleId, _)| {
+                    self.swc().run(|| {
+                        println!("Merging {:?}", id);
 
-                    let module = self
-                        .merge_modules((*e.main.module).clone(), &e.main)
-                        .context("failed to merge module")
-                        .unwrap(); // TODO
+                        let module = self
+                            .merge_modules(id, module_ids_to_merge)
+                            .context("failed to merge module")
+                            .unwrap(); // TODO
 
-                    let module = module
-                        .fold_with(&mut dce(Default::default()))
-                        .fold_with(&mut fixer());
+                        let module = module
+                            .fold_with(&mut dce(Default::default()))
+                            .fold_with(&mut fixer());
 
-                    Entry {
-                        // TODO
-                        kind: EntryKind::Dynamic { number: 0 },
-                        module,
-                        fm: e.main.fm,
-                    }
-                })
-            })
+                        Bundle { kind, id, module }
+                    })
+                },
+            )
             .collect())
     }
 
-    fn determine_entries(&self, entries: impl Iterator<Item = ModuleId>) -> FxHashSet<ModuleId> {
-        let mut all = FxHashSet::default();
+    fn determine_entries(
+        &self,
+        mut entries: FxHashMap<String, TransformedModule>,
+    ) -> Vec<(BundleKind, ModuleId, Vec<ModuleId>)> {
+        let mut graph = ModuleGraph::default();
+        let mut kinds = vec![];
 
-        for (_, m) in &entries {
-            self.add_chunk_imports(&mut state, m);
-
-            self.add(&mut graph, m);
+        for (name, module) in entries.drain() {
+            kinds.push((BundleKind::Named { name }, module.id));
+            self.add_to_graph(&mut graph, module.id);
         }
 
-        // Entries including dynamic imports
-        let mut actual: FxHashMap<_, _> = entries
-            .into_iter()
-            .map(|(basename, m)| {
-                (
-                    m.id,
-                    InternalEntry {
-                        basename,
-                        main: m,
-                        included: vec![],
-                        dynamic: false,
-                    },
-                )
-            })
-            .chain(state.dynamic_entries.into_iter().map(|id| {
-                let m = self.scope.get_module(id).unwrap();
-                (
-                    m.id,
-                    InternalEntry {
-                        basename: m.fm.name.to_string(),
-                        main: m,
-                        included: vec![],
-                        dynamic: true,
-                    },
-                )
-            }))
-            .collect();
-        let mut metadatas = FxHashMap::<ModuleId, Metadata>::default();
+        let mut metadata = FxHashMap::<ModuleId, Metadata>::default();
 
-        for (_, entry) in &actual {
-            let mut bfs = Bfs::new(&graph, entry.main.id);
+        // Draw dependency graph
+        for (_, id) in &kinds {
+            let mut bfs = Bfs::new(&graph, *id);
 
             while let Some(dep) = bfs.next(&graph) {
-                if dep == entry.main.id {
+                if dep == *id {
                     // Useless
                     continue;
                 }
 
-                metadatas.entry(dep).or_default().access_cnt += 1;
+                metadata.entry(dep).or_default().access_cnt += 1;
             }
         }
 
-        // If a file is only included by a single entry is static, just merge it.
-        for (k, entry) in &mut actual {
-            log::info!("Actual ({}): {:?}", entry.basename, k);
+        // Promote modules to entry.
+        for (id, md) in &metadata {
+            if md.access_cnt > 1 {
+                // TODO: Shared lib
+                kinds.push((BundleKind::Dynamic, *id))
+            }
+        }
 
-            let mut bfs = Bfs::new(&graph, entry.main.id);
+        let mut chunks: FxHashMap<_, Vec<_>> = FxHashMap::default();
+
+        for (_, id) in &kinds {
+            let mut bfs = Bfs::new(&graph, *id);
 
             while let Some(dep) = bfs.next(&graph) {
-                if let Some(m) = metadatas.get(&dep) {
-                    if m.access_cnt == 1 {
-                        entry.included.push(dep);
-                    } else {
-                        println!("Common lib: {:?}", dep);
-                        state.common_libs.insert(dep);
-                    }
+                if dep == *id {
+                    // Useless
+                    continue;
+                }
+
+                if metadata.get(&dep).map(|md| md.access_cnt).unwrap_or(0) == 1 {
+                    chunks.entry(*id).or_default().push(dep);
                 }
             }
         }
 
-        log::info!("Metadata: {:?}", metadatas);
+        kinds
+            .into_iter()
+            .map(|(kind, id)| {
+                let deps = chunks.remove(&id).unwrap_or_else(|| vec![]);
 
-        actual.extend(state.common_libs.into_iter().map(|id| {
-            let m = self.scope.get_module(id).unwrap();
-            (
-                m.id,
-                InternalEntry {
-                    basename: m.fm.name.to_string(),
-                    main: m,
-                    included: vec![],
-                    dynamic: true,
-                },
-            )
-        }));
-
-        all
+                (kind, id, deps)
+            })
+            .collect()
     }
 
-    fn add_chunk_imports(&self, state: &mut State, m: &TransformedModule) {
-        // Named entries are synchronously imported
-        state.synchronously_included.insert(m.id);
+    fn add_to_graph(&self, graph: &mut ModuleGraph, module_id: ModuleId) {
+        graph.add_node(module_id);
 
-        for (src, _) in &m.imports.specifiers {
+        let m = self
+            .scope
+            .get_module(module_id)
+            .expect("failed to get module");
+
+        for (src, _) in &*m.imports.specifiers {
             //
-            if src.is_loaded_synchronously {
-                state.synchronously_included.insert(src.module_id);
-            } else {
-                state.dynamic_entries.insert(src.module_id);
-            }
-            let v = self.scope.get_module(src.module_id).unwrap();
-
-            self.add_chunk_imports(state, &v);
+            self.add_to_graph(graph, src.module_id);
+            graph.add_edge(
+                module_id,
+                src.module_id,
+                if src.is_unconditional { 2 } else { 1 },
+            );
         }
-    }
-
-    fn add(&self, graph: &mut ModuleGraph, info: &TransformedModule) -> ModuleId {
-        if graph.contains_node(info.id) {
-            return info.id;
-        }
-
-        let node = graph.add_node(info.id);
-
-        let v = &info.imports;
-        for src in v.specifiers.iter().map(|v| &v.0) {
-            let to = {
-                let v = self.scope.get_module(src.module_id).unwrap();
-                self.add(graph, &v)
-            };
-
-            graph.add_edge(node, to, 1);
-        }
-
-        node
     }
 }

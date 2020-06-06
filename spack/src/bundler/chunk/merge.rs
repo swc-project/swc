@@ -30,11 +30,13 @@ impl Bundler {
     /// Merge `targets` into `entry`.
     pub(super) fn merge_modules(
         &self,
-        mut entry: Module,
-        info: &TransformedModule,
+        entry: ModuleId,
         targets: Vec<ModuleId>,
     ) -> Result<Module, Error> {
         self.swc.run(|| {
+            let info = self.scope.get_module(entry).unwrap();
+            let mut entry: Module = (*info.module).clone();
+
             let mut buf = vec![];
             for (src, specifiers) in &info.imports.specifiers {
                 if specifiers.iter().any(|v| v.is_namespace()) {

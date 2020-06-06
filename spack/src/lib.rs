@@ -8,7 +8,7 @@
 extern crate test;
 
 pub use self::{
-    bundler::Bundler,
+    bundler::{Bundle, BundleKind, Bundler},
     id::{Id, ModuleId, QualifiedId},
 };
 

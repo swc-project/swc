@@ -6,12 +6,12 @@
 extern crate test;
 
 use fxhash::FxHashMap;
-use spack::{loaders::swc::JsLoader, Bundler};
+use spack::{loaders::swc::JsLoader, BundleKind, Bundler};
 use std::{
     env,
     fs::{create_dir_all, read_dir},
     io::{self},
-    path::Path,
+    path::{Path, PathBuf},
     sync::Arc,
 };
 use swc::config::{InputSourceMap, SourceMapsConfig};
@@ -149,29 +149,15 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                         .expect("failed to emit bundle")
                         .code;
 
-                    // TODO: 엔트리의 이름 사용
-                    let name = match bundled.fm.name {
-                        FileName::Real(ref p) => p.clone(),
-                        _ => unreachable!(),
+                    let name = match bundled.kind {
+                        BundleKind::Named { name } => PathBuf::from(name),
+                        BundleKind::Dynamic => format!("dynamic.{}.js", bundled.id).into(),
+                        _ => unimplemented!("entry.kind({:?}) -> path", bundled.kind),
                     };
 
                     let output_path = entry.path().join("output").join(name.file_name().unwrap());
 
                     log::info!("Printing {}", output_path.display());
-
-                    let program = bundler
-                        .swc()
-                        .parse_js(
-                            bundled.fm,
-                            Default::default(),
-                            Default::default(),
-                            true,
-                            true,
-                            &InputSourceMap::Bool(false),
-                        )
-                        .map(|v| v.0)
-                        .expect("failed to parse output file as program")
-                        .fold_with(&mut DropSpan);
 
                     let s = NormalizedOutput::from(code);
 

@@ -172,13 +172,13 @@ impl Fold<Expr> for ImportFinder {
                                          ident is invalid"
                                     ),
                                 };
-                                import
-                                    .specifiers
-                                    .push(ImportSpecifier::Specific(ImportSpecific {
+                                import.specifiers.push(ImportSpecifier::Named(
+                                    ImportNamedSpecifier {
                                         span: e.span,
                                         local: i.clone(),
                                         imported: None,
-                                    }));
+                                    },
+                                ));
 
                                 return Expr::Ident(i);
                             }
@@ -287,7 +287,7 @@ impl Fold<VarDeclarator> for ImportFinder {
                     specifiers: ids
                         .into_iter()
                         .map(|ident| {
-                            ImportSpecifier::Specific(ImportSpecific {
+                            ImportSpecifier::Named(ImportNamedSpecifier {
                                 span,
                                 local: ident,
                                 imported: None,

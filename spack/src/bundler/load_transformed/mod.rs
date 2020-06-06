@@ -202,7 +202,7 @@ impl Bundler {
                         // Process module
                         let config = self
                             .swc
-                            .config_for_file(&self.swc_options, &*fm)
+                            .config_for_file(&self.swc_options, &fm.name)
                             .context("failed to parse .swcrc")?;
 
                         let program = self.swc.transform(
@@ -349,7 +349,7 @@ impl Bundler {
                     let mut specifiers = vec![];
                     for s in decl.specifiers {
                         match s {
-                            ImportSpecifier::Specific(s) => specifiers.push(Specifier::Specific {
+                            ImportSpecifier::Named(s) => specifiers.push(Specifier::Specific {
                                 local: s.local.into(),
                                 alias: s.imported.map(From::from),
                             }),
