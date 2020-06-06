@@ -402,3 +402,12 @@ to!(
     "const BAR = 'bar';
         export default BAR;"
 );
+
+noop!(
+    spack_issue_005,
+    "function a() {
+}
+function foo() {
+}
+ console.log(a(), foo());"
+);
