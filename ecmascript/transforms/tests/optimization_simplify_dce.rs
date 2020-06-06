@@ -374,3 +374,31 @@ fn spack_issue_001() {
         "export const FOO = 'foo';",
     );
 }
+
+#[test]
+fn spack_issue_002() {
+    used(
+        &["FOO"],
+        "export const FOO = 'foo', BAR = 'bar';",
+        "export const FOO = 'foo';",
+    );
+}
+
+#[test]
+fn spack_issue_003() {
+    used(
+        &["default"],
+        "export const FOO = 'foo', BAR = 'bar';
+        export default BAR;",
+        "export const BAR = 'bar';
+        export default BAR;",
+    );
+}
+
+to!(
+    spack_issue_004,
+    "const FOO = 'foo', BAR = 'bar';
+        export default BAR;",
+    "const BAR = 'bar';
+        export default BAR;"
+);
