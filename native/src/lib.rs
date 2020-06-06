@@ -26,12 +26,12 @@ use swc::{
 fn init(_cx: MethodContext<JsUndefined>) -> NeonResult<ArcCompiler> {
     let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
 
-    let handler = Handler::with_tty_emitter(
+    let handler = Arc::new(Handler::with_tty_emitter(
         common::errors::ColorConfig::Always,
         true,
         false,
         Some(cm.clone()),
-    );
+    ));
 
     let c = Compiler::new(cm.clone(), handler);
 
@@ -415,11 +415,8 @@ impl Task for PrintTask {
     type JsEvent = JsValue;
     fn perform(&self) -> Result<Self::Output, Self::Error> {
         self.c.run(|| {
-            let comments = Default::default();
-
             self.c.print(
                 &self.program,
-                &comments,
                 self.options
                     .source_maps
                     .clone()
@@ -487,10 +484,8 @@ fn print_sync(mut cx: MethodContext<JsCompiler>) -> JsResult<JsValue> {
         let options: Options = neon_serde::from_value(&mut cx, options)?;
 
         let result = {
-            let comments = Default::default();
             c.print(
                 &program,
-                &comments,
                 options
                     .source_maps
                     .clone()
