@@ -88,9 +88,9 @@ impl Fold<Vec<ModuleItem>> for ImportFinder {
                     }
                 }
 
-                ModuleItem::ModuleDecl(ModuleDecl::Import(i)) => {
-                    self.info.imports.push(i);
-                    None
+                ModuleItem::ModuleDecl(ModuleDecl::Import(ref i)) => {
+                    self.info.imports.push(i.clone());
+                    Some(item)
                 }
 
                 _ => Some(item.fold_with(self)),
