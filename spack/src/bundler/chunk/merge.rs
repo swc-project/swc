@@ -38,7 +38,7 @@ impl Bundler {
     ) -> Result<Module, Error> {
         self.swc.run(|| {
             let info = self.scope.get_module(entry).unwrap();
-            log::info!("Merging: {} => {:?}", info.fm.name, targets);
+            log::info!("Merge: {} => {:?}", info.fm.name, targets);
 
             let mut entry: Module = (*info.module).clone();
 
@@ -46,6 +46,7 @@ impl Bundler {
                 if !targets.contains(&src.module_id) {
                     continue;
                 }
+                log::debug!("Merging: {} <= {}", info.fm.name, src.src.value);
 
                 if specifiers.iter().any(|v| v.is_namespace()) {
                     unimplemented!(
