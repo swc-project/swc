@@ -1,29 +1,29 @@
 use super::Bundler;
-use fxhash::FxHashSet;
+use fxhash::{FxHashMap, FxHashSet};
 use std::mem::replace;
 use swc_atoms::{js_word, JsWord};
-use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Mark};
+use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::find_ids;
+use swc_ecma_utils::{find_ids, ident::IdentLike, Id};
 
 #[cfg(test)]
 mod tests;
 
 impl Bundler {
-    /// This methods removes import statements (statements like `import a as b
-    /// from 'foo'`) from module, but require calls and dynamic imports
-    /// remain as-is.
-    ///
-    /// This method also drops empty statements from the module.
+    /// This de-globs imports if possible.
     pub(super) fn extract_import_info(&self, module: &mut Module, mark: Mark) -> RawImports {
         let body = replace(&mut module.body, vec![]);
 
-        let mut v = ImportFinder {
+        let mut v = ImportHandler {
             mark,
             top_level: false,
             info: Default::default(),
             forces_ns: Default::default(),
+            ns_usage: Default::default(),
+            deglob_phase: false,
         };
+        let body = body.fold_with(&mut v);
+        v.deglob_phase = true;
         let body = body.fold_with(&mut v);
         module.body = body;
 
@@ -50,7 +50,7 @@ pub(super) struct RawImports {
     pub dynamic_imports: Vec<Str>,
 }
 
-struct ImportFinder {
+struct ImportHandler {
     mark: Mark,
     top_level: bool,
     info: RawImports,
@@ -65,9 +65,55 @@ struct ImportFinder {
     /// foo[bar()]
     /// ```
     forces_ns: FxHashSet<JsWord>,
+
+    ns_usage: FxHashMap<JsWord, Vec<Id>>,
+
+    deglob_phase: bool,
 }
 
-impl Fold<Vec<ModuleItem>> for ImportFinder {
+impl Fold<ImportDecl> for ImportHandler {
+    fn fold(&mut self, mut import: ImportDecl) -> ImportDecl {
+        if !self.deglob_phase {
+            self.info.imports.push(import.clone());
+            return import;
+        }
+
+        // deglob namespace imports
+        if import.specifiers.len() == 1 {
+            match &import.specifiers[0] {
+                ImportSpecifier::Namespace(ns) => {
+                    //
+                    let specifiers = self
+                        .ns_usage
+                        .remove(&import.src.value)
+                        .map(|ids| {
+                            //
+                            ids.into_iter()
+                                .map(|id| {
+                                    ImportSpecifier::Named(ImportNamedSpecifier {
+                                        span: DUMMY_SP,
+                                        local: Ident::new(id.0, DUMMY_SP.with_ctxt(id.1)),
+                                        imported: None,
+                                    })
+                                })
+                                .collect()
+                        })
+                        .unwrap_or_else(Vec::new);
+                    return ImportDecl {
+                        specifiers,
+                        ..import
+                    };
+                }
+
+                _ => {}
+            }
+        }
+
+        import
+    }
+}
+
+impl Fold<Vec<ModuleItem>> for ImportHandler {
     fn fold(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
         self.top_level = true;
         let items = items.move_flat_map(|item| {
@@ -88,35 +134,32 @@ impl Fold<Vec<ModuleItem>> for ImportFinder {
                     }
                 }
 
-                ModuleItem::ModuleDecl(ModuleDecl::Import(ref i)) => {
-                    self.info.imports.push(i.clone());
-                    Some(item)
-                }
-
                 _ => Some(item.fold_with(self)),
             }
         });
 
-        for import in self.info.imports.iter_mut() {
-            let use_ns = self.forces_ns.contains(&import.src.value);
+        if self.deglob_phase {
+            for import in self.info.imports.iter_mut() {
+                let use_ns = self.forces_ns.contains(&import.src.value);
 
-            if use_ns {
-                import.specifiers.retain(|s| match s {
-                    ImportSpecifier::Namespace(_) => true,
-                    _ => false,
-                });
+                if use_ns {
+                    import.specifiers.retain(|s| match s {
+                        ImportSpecifier::Namespace(_) => true,
+                        _ => false,
+                    });
 
-                debug_assert_ne!(
-                    import.specifiers,
-                    vec![],
-                    "forced_ns should be modified only if a namespace import specifier exist"
-                );
-            } else {
-                // De-glob namespace imports
-                import.specifiers.retain(|s| match s {
-                    ImportSpecifier::Namespace(_) => false,
-                    _ => true,
-                });
+                    debug_assert_ne!(
+                        import.specifiers,
+                        vec![],
+                        "forced_ns should be modified only if a namespace import specifier exist"
+                    );
+                } else {
+                    // De-glob namespace imports
+                    import.specifiers.retain(|s| match s {
+                        ImportSpecifier::Namespace(_) => false,
+                        _ => true,
+                    });
+                }
             }
         }
 
@@ -124,14 +167,14 @@ impl Fold<Vec<ModuleItem>> for ImportFinder {
     }
 }
 
-impl Fold<Vec<Stmt>> for ImportFinder {
+impl Fold<Vec<Stmt>> for ImportHandler {
     fn fold(&mut self, items: Vec<Stmt>) -> Vec<Stmt> {
         self.top_level = false;
         items.fold_children(self)
     }
 }
 
-impl Fold<Expr> for ImportFinder {
+impl Fold<Expr> for ImportHandler {
     fn fold(&mut self, e: Expr) -> Expr {
         match e {
             Expr::Member(mut e) => {
@@ -158,9 +201,12 @@ impl Fold<Expr> for ImportFinder {
 
                             false
                         }) {
-                            if e.computed {
-                                self.forces_ns.insert(import.src.value.clone());
-                            } else {
+                            if self.deglob_phase {
+                                if self.forces_ns.contains(&import.src.value) {
+                                    //
+                                    return e.into();
+                                }
+
                                 let i = match &*e.prop {
                                     Expr::Ident(i) => {
                                         let mut i = i.clone();
@@ -168,22 +214,36 @@ impl Fold<Expr> for ImportFinder {
                                         i
                                     }
                                     _ => unreachable!(
-                                        "Computed member expression with property other than \
+                                        "Non-computed member expression with property other than \
                                          ident is invalid"
                                     ),
                                 };
-                                import.specifiers.push(ImportSpecifier::Named(
-                                    ImportNamedSpecifier {
-                                        span: e.span,
-                                        local: i.clone(),
-                                        imported: None,
-                                    },
-                                ));
 
                                 return Expr::Ident(i);
+                            } else {
+                                if e.computed {
+                                    self.forces_ns.insert(import.src.value.clone());
+                                } else {
+                                    let i = match &*e.prop {
+                                        Expr::Ident(i) => {
+                                            let mut i = i.clone();
+                                            i.span = i.span.apply_mark(self.mark);
+                                            i
+                                        }
+                                        _ => unreachable!(
+                                            "Non-computed member expression with property other \
+                                             than ident is invalid"
+                                        ),
+                                    };
+
+                                    self.ns_usage
+                                        .entry(import.src.value.clone())
+                                        .or_default()
+                                        .push(i.to_id());
+                                }
                             }
 
-                            return *e.prop;
+                            return e.into();
                         }
                     }
 
@@ -259,7 +319,7 @@ impl Fold<Expr> for ImportFinder {
 ///  ```js
 /// import { readFile } from 'fs';
 /// ```
-impl Fold<VarDeclarator> for ImportFinder {
+impl Fold<VarDeclarator> for ImportHandler {
     fn fold(&mut self, node: VarDeclarator) -> VarDeclarator {
         match node.init {
             Some(box Expr::Call(CallExpr {

@@ -153,14 +153,12 @@ impl Bundler {
         &self,
         id: ModuleId,
         fm: Arc<SourceFile>,
-        module: Module,
+        mut module: Module,
     ) -> Result<TransformedModule, Error> {
         self.swc.run(|| {
             log::trace!("transform_module({})", fm.name);
-            let mark = self.swc.run(|| Mark::fresh(Mark::root()));
-            log::info!("{:?}: {:?}", id, SyntaxContext::empty().apply_mark(mark));
-
-            let mut module = module.fold_with(&mut resolver_with_mark(self.top_level_mark));
+            let mark = Mark::fresh(Mark::root());
+            log::info!("{:?}: {:?}", id, DUMMY_SP.apply_mark(mark).ctxt());
 
             // {
             //     let code = self
@@ -212,6 +210,21 @@ impl Bundler {
                             config.pass,
                         );
 
+                        {
+                            let code = self
+                                .swc
+                                .print(
+                                    &program.clone().fold_with(&mut HygieneVisualizer),
+                                    SourceMapsConfig::Bool(false),
+                                    None,
+                                    false,
+                                )
+                                .unwrap()
+                                .code;
+
+                            println!("loaded using swc:\n{}\n\n", code);
+                        }
+
                         match program {
                             Program::Module(module) => Ok(module),
                             _ => unreachable!(),
@@ -237,21 +250,6 @@ impl Bundler {
             let exports = exports?;
             let module = module?;
             let module = self.drop_unused(fm.clone(), module, None);
-
-            {
-                let code = self
-                    .swc
-                    .print(
-                        &module.clone().fold_with(&mut HygieneVisualizer),
-                        SourceMapsConfig::Bool(false),
-                        None,
-                        false,
-                    )
-                    .unwrap()
-                    .code;
-
-                println!("After initial dropping:\n{}\n\n", code);
-            }
 
             let module = Arc::new(module);
 

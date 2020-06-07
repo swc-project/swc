@@ -1,4 +1,4 @@
-use crate::bundler::{import::ImportFinder, tests::test_bundler};
+use crate::bundler::{import::ImportHandler, tests::test_bundler};
 use swc_common::{FoldWith, Mark};
 
 #[test]
@@ -10,7 +10,7 @@ import * as ns from 'foo';
 ns.foo();
 ",
         );
-        let mut v = ImportFinder {
+        let mut v = ImportHandler {
             mark: Mark::fresh(Mark::root()),
             top_level: false,
             info: Default::default(),
@@ -34,7 +34,7 @@ ns.foo();
 ns.bar();
 ",
         );
-        let mut v = ImportFinder {
+        let mut v = ImportHandler {
             mark: Mark::fresh(Mark::root()),
             top_level: false,
             info: Default::default(),
