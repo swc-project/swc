@@ -73,6 +73,7 @@ impl Bundler {
 
         swc_options.disable_fixer = true;
         swc_options.disable_hygiene = true;
+        swc_options.global_mark = Some(top_level_mark);
 
         Bundler {
             working_dir,
