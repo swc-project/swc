@@ -160,6 +160,8 @@ impl Bundler {
             let mark = Mark::fresh(Mark::root());
             log::info!("{:?}: {:?}", id, DUMMY_SP.apply_mark(mark).ctxt());
 
+            module = module.fold_with(&mut resolver_with_mark(self.top_level_mark));
+
             // {
             //     let code = self
             //         .swc
@@ -210,20 +212,20 @@ impl Bundler {
                             config.pass,
                         );
 
-                        // {
-                        //     let code = self
-                        //         .swc
-                        //         .print(
-                        //             &program.clone().fold_with(&mut HygieneVisualizer),
-                        //             SourceMapsConfig::Bool(false),
-                        //             None,
-                        //             false,
-                        //         )
-                        //         .unwrap()
-                        //         .code;
-                        //
-                        //     println!("loaded using swc:\n{}\n\n", code);
-                        // }
+                        {
+                            let code = self
+                                .swc
+                                .print(
+                                    &program.clone().fold_with(&mut HygieneVisualizer),
+                                    SourceMapsConfig::Bool(false),
+                                    None,
+                                    false,
+                                )
+                                .unwrap()
+                                .code;
+
+                            println!("loaded using swc:\n{}\n\n", code);
+                        }
 
                         match program {
                             Program::Module(module) => Ok(module),
