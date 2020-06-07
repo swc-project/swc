@@ -14,6 +14,7 @@ use std::{
     mem::take,
     ops::{Deref, DerefMut},
 };
+use swc::config::SourceMapsConfig;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     fold::FoldWith, util::move_map::MoveMap, Fold, Mark, Spanned, SyntaxContext, VisitMut,
@@ -125,46 +126,46 @@ impl Bundler {
                             // });
                         }
 
-                        //{
-                        //    let code = self
-                        //        .swc
-                        //        .print(
-                        //            &dep.clone().fold_with(&mut HygieneVisualizer),
-                        //            info.fm.clone(),
-                        //            false,
-                        //            false,
-                        //        )
-                        //        .unwrap()
-                        //        .code;
-                        //
-                        //    println!("Dep:\n{}\n\n\n", code);
-                        //}
+                        {
+                            let code = self
+                                .swc
+                                .print(
+                                    &dep.clone().fold_with(&mut HygieneVisualizer),
+                                    SourceMapsConfig::Bool(false),
+                                    None,
+                                    false,
+                                )
+                                .unwrap()
+                                .code;
+
+                            println!("Dep:\n{}\n\n\n", code);
+                        }
 
                         // Replace import statement / require with module body
                         entry.body.visit_mut_with(&mut Injector {
                             imported: dep.body,
                             src: src.src.clone(),
-                        })
+                        });
                     }
                 } else {
                     unimplemented!("conditional dependency: {} -> {}", info.id, src.module_id)
                 }
             }
 
-            //{
-            //    let code = self
-            //        .swc
-            //        .print(
-            //            &entry.clone().fold_with(&mut HygieneVisualizer),
-            //            info.fm.clone(),
-            //            false,
-            //            false,
-            //        )
-            //        .unwrap()
-            //        .code;
-            //
-            //    println!("Hygiene:\n{}\n\n\n", code);
-            //}
+            {
+                let code = self
+                    .swc
+                    .print(
+                        &entry.clone().fold_with(&mut HygieneVisualizer),
+                        SourceMapsConfig::Bool(false),
+                        None,
+                        false,
+                    )
+                    .unwrap()
+                    .code;
+
+                println!("Hygiene:\n{}\n\n\n", code);
+            }
 
             Ok(entry.fold_with(&mut hygiene()))
         })

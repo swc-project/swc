@@ -26,8 +26,8 @@ impl Bundler {
             if let Some(used_exports) = used_exports {
                 for export in used_exports {
                     match export {
-                        Specifier::Specific { local, .. } => {
-                            used.push(local.to_id());
+                        Specifier::Specific { alias, local, .. } => {
+                            used.push(alias.as_ref().unwrap_or(local).to_id());
                         }
                         Specifier::Namespace { local } => {
                             used.push(local.to_id());
@@ -40,6 +40,7 @@ impl Bundler {
 
             let mut v = dce::dce(dce::Config {
                 used: if used_exports.is_some() {
+                    // dbg!(&used, &node);
                     Some(Cow::Owned(used))
                 } else {
                     None

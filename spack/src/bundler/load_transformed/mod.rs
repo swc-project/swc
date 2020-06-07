@@ -14,6 +14,7 @@ use std::{
     path::{Path, PathBuf},
     sync::Arc,
 };
+use swc::config::SourceMapsConfig;
 use swc_atoms::js_word;
 use swc_common::{fold::FoldWith, FileName, Mark, SourceFile, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::{ImportDecl, ImportSpecifier, Module, Program, Str};
@@ -161,37 +162,37 @@ impl Bundler {
 
             let mut module = module.fold_with(&mut resolver_with_mark(self.top_level_mark));
 
-            //{
-            //    let code = self
-            //        .swc
-            //        .print(
-            //            &module.clone().fold_with(&mut HygieneVisualizer),
-            //            fm.clone(),
-            //            false,
-            //            false,
-            //        )
-            //        .unwrap()
-            //        .code;
-            //
-            //    log::info!("Resolved:\n{}\n\n", code);
-            //}
+            {
+                let code = self
+                    .swc
+                    .print(
+                        &module.clone().fold_with(&mut HygieneVisualizer),
+                        SourceMapsConfig::Bool(false),
+                        None,
+                        false,
+                    )
+                    .unwrap()
+                    .code;
+
+                log::info!("Resolved:\n{}\n\n", code);
+            }
 
             let imports = self.extract_import_info(&mut module, mark);
 
-            //{
-            //    let code = self
-            //        .swc
-            //        .print(
-            //            &module.clone().fold_with(&mut HygieneVisualizer),
-            //            fm.clone(),
-            //            false,
-            //            false,
-            //        )
-            //        .unwrap()
-            //        .code;
-            //
-            //    log::info!("After imports:\n{}\n", code,);
-            //}
+            {
+                let code = self
+                    .swc
+                    .print(
+                        &module.clone().fold_with(&mut HygieneVisualizer),
+                        SourceMapsConfig::Bool(false),
+                        None,
+                        false,
+                    )
+                    .unwrap()
+                    .code;
+
+                log::info!("After imports:\n{}\n", code,);
+            }
 
             let exports = self.extract_export_info(&module);
 
