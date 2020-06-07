@@ -1,12 +1,11 @@
+use anyhow::Error;
 use rayon::prelude::*;
-use std::path::Path;
+use std::{path::Path, sync::Arc};
 use swc::{
     config::{Config, Options, SourceMapsConfig},
     Compiler,
 };
 use swc_ecmascript::preset_env;
-use std::{path::Path, sync::Arc};
-use swc::{config::Options, error::Error, Compiler};
 use testing::{NormalizedOutput, StdErr, Tester};
 use walkdir::WalkDir;
 
@@ -89,7 +88,7 @@ fn project(dir: &str) {
 fn par_project(dir: &str) {
     Tester::new()
         .print_errors(|cm, handler| {
-            let c = Compiler::new(cm.clone(), handler);
+            let c = Compiler::new(cm.clone(), Arc::new(handler));
 
             let entries = WalkDir::new(dir)
                 .into_iter()

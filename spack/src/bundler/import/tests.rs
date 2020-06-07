@@ -15,6 +15,8 @@ ns.foo();
             top_level: false,
             info: Default::default(),
             forces_ns: Default::default(),
+            ns_usage: Default::default(),
+            deglob_phase: false,
         };
         let m = m.fold_with(&mut v);
         assert!(v.forces_ns.is_empty());
@@ -39,6 +41,8 @@ ns.bar();
             top_level: false,
             info: Default::default(),
             forces_ns: Default::default(),
+            ns_usage: Default::default(),
+            deglob_phase: false,
         };
         let m = m.fold_with(&mut v);
         assert!(v.forces_ns.is_empty());
