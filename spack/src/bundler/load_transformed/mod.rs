@@ -210,20 +210,20 @@ impl Bundler {
                             config.pass,
                         );
 
-                        {
-                            let code = self
-                                .swc
-                                .print(
-                                    &program.clone().fold_with(&mut HygieneVisualizer),
-                                    SourceMapsConfig::Bool(false),
-                                    None,
-                                    false,
-                                )
-                                .unwrap()
-                                .code;
-
-                            println!("loaded using swc:\n{}\n\n", code);
-                        }
+                        // {
+                        //     let code = self
+                        //         .swc
+                        //         .print(
+                        //             &program.clone().fold_with(&mut HygieneVisualizer),
+                        //             SourceMapsConfig::Bool(false),
+                        //             None,
+                        //             false,
+                        //         )
+                        //         .unwrap()
+                        //         .code;
+                        //
+                        //     println!("loaded using swc:\n{}\n\n", code);
+                        // }
 
                         match program {
                             Program::Module(module) => Ok(module),
