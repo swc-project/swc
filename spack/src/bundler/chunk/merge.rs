@@ -43,6 +43,21 @@ impl Bundler {
 
             let mut entry: Module = (*info.module).clone();
 
+            {
+                let code = self
+                    .swc
+                    .print(
+                        &entry.clone().fold_with(&mut HygieneVisualizer),
+                        SourceMapsConfig::Bool(false),
+                        None,
+                        false,
+                    )
+                    .unwrap()
+                    .code;
+
+                println!("Before merging:\n{}\n\n\n", code);
+            }
+
             for (src, specifiers) in &info.imports.specifiers {
                 if !targets.contains(&src.module_id) {
                     continue;
@@ -129,6 +144,12 @@ impl Bundler {
                         dbg!(SyntaxContext::empty().apply_mark(self.used_mark));
                         dbg!(SyntaxContext::empty().apply_mark(imported.mark()));
 
+                        dep = dep.fold_with(&mut GlobalMarker {
+                            used_mark: self.used_mark,
+                            top_level_mark: self.top_level_mark,
+                            module_mark: imported.mark(),
+                        });
+
                         {
                             let code = self
                                 .swc
@@ -148,12 +169,6 @@ impl Bundler {
                         entry.body.visit_mut_with(&mut Injector {
                             imported: dep.body,
                             src: src.src.clone(),
-                        });
-
-                        entry = entry.fold_with(&mut GlobalMarker {
-                            used_mark: self.used_mark,
-                            top_level_mark: self.top_level_mark,
-                            module_mark: imported.mark(),
                         });
 
                         {

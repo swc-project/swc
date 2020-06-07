@@ -162,37 +162,37 @@ impl Bundler {
 
             let mut module = module.fold_with(&mut resolver_with_mark(self.top_level_mark));
 
-            {
-                let code = self
-                    .swc
-                    .print(
-                        &module.clone().fold_with(&mut HygieneVisualizer),
-                        SourceMapsConfig::Bool(false),
-                        None,
-                        false,
-                    )
-                    .unwrap()
-                    .code;
-
-                log::info!("Resolved:\n{}\n\n", code);
-            }
+            // {
+            //     let code = self
+            //         .swc
+            //         .print(
+            //             &module.clone().fold_with(&mut HygieneVisualizer),
+            //             SourceMapsConfig::Bool(false),
+            //             None,
+            //             false,
+            //         )
+            //         .unwrap()
+            //         .code;
+            //
+            //     println!("Resolved:\n{}\n\n", code);
+            // }
 
             let imports = self.extract_import_info(&mut module, mark);
 
-            {
-                let code = self
-                    .swc
-                    .print(
-                        &module.clone().fold_with(&mut HygieneVisualizer),
-                        SourceMapsConfig::Bool(false),
-                        None,
-                        false,
-                    )
-                    .unwrap()
-                    .code;
-
-                log::info!("After imports:\n{}\n", code,);
-            }
+            // {
+            //     let code = self
+            //         .swc
+            //         .print(
+            //             &module.clone().fold_with(&mut HygieneVisualizer),
+            //             SourceMapsConfig::Bool(false),
+            //             None,
+            //             false,
+            //         )
+            //         .unwrap()
+            //         .code;
+            //
+            //     println!("After imports:\n{}\n", code,);
+            // }
 
             let exports = self.extract_export_info(&module);
 
@@ -237,6 +237,21 @@ impl Bundler {
             let exports = exports?;
             let module = module?;
             let module = self.drop_unused(fm.clone(), module, None);
+
+            {
+                let code = self
+                    .swc
+                    .print(
+                        &module.clone().fold_with(&mut HygieneVisualizer),
+                        SourceMapsConfig::Bool(false),
+                        None,
+                        false,
+                    )
+                    .unwrap()
+                    .code;
+
+                println!("After initial dropping:\n{}\n\n", code);
+            }
 
             let module = Arc::new(module);
 
