@@ -17,7 +17,7 @@ use std::{
 use swc::config::SourceMapsConfig;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
-    fold::FoldWith, util::move_map::MoveMap, Fold, Mark, Spanned, SyntaxContext, VisitMut,
+    fold::FoldWith, util::move_map::MoveMap, Fold, Mark, Span, Spanned, SyntaxContext, VisitMut,
     VisitMutWith, VisitWith, DUMMY_SP,
 };
 use swc_ecma_ast::*;
@@ -125,6 +125,15 @@ impl Bundler {
                             //     specifiers: &imported.exports.items,
                             // });
                         }
+                        dbg!(SyntaxContext::empty().apply_mark(self.top_level_mark));
+                        dbg!(SyntaxContext::empty().apply_mark(self.used_mark));
+                        dbg!(SyntaxContext::empty().apply_mark(imported.mark()));
+
+                        dep = dep.fold_with(&mut GlobalMarker {
+                            used_mark: self.used_mark,
+                            top_level_mark: self.top_level_mark,
+                            module_mark: imported.mark(),
+                        });
 
                         {
                             let code = self
@@ -599,5 +608,36 @@ impl VisitMut<Vec<ModuleItem>> for Injector {
         }
 
         *orig = buf;
+    }
+}
+
+struct GlobalMarker {
+    used_mark: Mark,
+    top_level_mark: Mark,
+    module_mark: Mark,
+}
+
+impl GlobalMarker {
+    fn should_mark(&self, span: Span) -> bool {
+        let mut ctxt = span.ctxt();
+        loop {
+            let m = ctxt.remove_mark();
+            if m == Mark::root() {
+                return false;
+            }
+            if m == self.top_level_mark {
+                return true;
+            }
+        }
+    }
+}
+
+impl Fold<Span> for GlobalMarker {
+    fn fold(&mut self, span: Span) -> Span {
+        if self.should_mark(span) {
+            return span.apply_mark(self.module_mark);
+        }
+
+        span
     }
 }
