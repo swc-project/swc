@@ -7,7 +7,7 @@ use swc_ecma_ast::*;
 #[cfg(test)]
 mod tests;
 
-const LOG: bool = true;
+const LOG: bool = false;
 
 pub fn resolver() -> Resolver<'static> {
     resolver_with_mark(Mark::fresh(Mark::root()))
