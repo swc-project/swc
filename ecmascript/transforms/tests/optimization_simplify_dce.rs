@@ -411,3 +411,12 @@ function foo() {
 }
  console.log(a(), foo());"
 );
+
+noop!(
+    spack_issue_006,
+    "import * as a from './a';
+
+function foo() {}
+
+console.log(foo(), a.a(), a.foo());"
+);
