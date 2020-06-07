@@ -59,6 +59,9 @@ pub struct Options {
     #[serde(skip_deserializing, default)]
     pub disable_fixer: bool,
 
+    #[serde(skip_deserializing, default)]
+    pub global_mark: Option<Mark>,
+
     #[serde(default = "default_cwd")]
     pub cwd: PathBuf,
 
@@ -208,7 +211,9 @@ impl Options {
             pass
         };
 
-        let root_mark = Mark::fresh(Mark::root());
+        let root_mark = self
+            .global_mark
+            .unwrap_or_else(|| Mark::fresh(Mark::root()));
 
         let pass = chain!(
             // handle jsx
