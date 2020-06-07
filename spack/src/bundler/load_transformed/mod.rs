@@ -92,10 +92,9 @@ impl Bundler {
                 return Ok((path, cached.clone()));
             }
 
-            let (id, fm, module) = self.load(&path).context("Bundler.load failed")?;
-
+            let (_, fm, module) = self.load(&path).context("Bundler.load failed")?;
             let v = self
-                .transform_module(id, fm.clone(), module)
+                .transform_module(&path, fm.clone(), module)
                 .context("failed to transform module")?;
 
             self.scope.store_module(path.clone(), v.clone());
@@ -124,7 +123,7 @@ impl Bundler {
 
     fn load(&self, path: &Arc<PathBuf>) -> Result<(ModuleId, Arc<SourceFile>, Module), Error> {
         self.swc.run(|| {
-            let module_id = self.scope.module_id_gen.gen(path);
+            let (module_id, _) = self.scope.module_id_gen.gen(path);
 
             let path = Arc::new(path);
 
@@ -140,16 +139,15 @@ impl Bundler {
 
     fn transform_module(
         &self,
-        id: ModuleId,
+        path: &Arc<PathBuf>,
         fm: Arc<SourceFile>,
         mut module: Module,
     ) -> Result<TransformedModule, Error> {
         self.swc.run(|| {
             log::trace!("transform_module({})", fm.name);
-            let mark = Mark::fresh(Mark::root());
-            log::info!("{:?}: {:?}", id, DUMMY_SP.apply_mark(mark).ctxt());
-
             module = module.fold_with(&mut resolver_with_mark(self.top_level_mark));
+
+            let (id, mark) = self.scope.module_id_gen.gen(path);
 
             // {
             //     let code = self
@@ -166,7 +164,7 @@ impl Bundler {
             //     println!("Resolved:\n{}\n\n", code);
             // }
 
-            let imports = self.extract_import_info(&mut module, mark);
+            let imports = self.extract_import_info(path, &mut module, mark);
 
             // {
             //     let code = self

@@ -16,11 +16,17 @@ mod tests;
 
 impl Bundler {
     /// This de-globs imports if possible.
-    pub(super) fn extract_import_info(&self, module: &mut Module, mark: Mark) -> RawImports {
+    pub(super) fn extract_import_info(
+        &self,
+        path: &Path,
+        module: &mut Module,
+        mark: Mark,
+    ) -> RawImports {
         let body = replace(&mut module.body, vec![]);
 
         let mut v = ImportHandler {
-            mark: self.top_level_mark,
+            path,
+            bundler: self,
             top_level: false,
             info: Default::default(),
             forces_ns: Default::default(),
@@ -68,8 +74,9 @@ pub(super) struct RawImports {
     pub dynamic_imports: Vec<Str>,
 }
 
-struct ImportHandler {
-    mark: Mark,
+struct ImportHandler<'a> {
+    path: &'a Path,
+    bundler: &'a Bundler,
     top_level: bool,
     info: RawImports,
     /// Contains namespace imports accessed with computed key.
@@ -89,7 +96,15 @@ struct ImportHandler {
     deglob_phase: bool,
 }
 
-impl Fold<ImportDecl> for ImportHandler {
+impl ImportHandler<'_> {
+    fn mark_for(&self, src: &str) -> Option<Mark> {
+        let path = self.bundler.resolve(self.path, src).ok()?;
+        let (_, mark) = self.bundler.scope.module_id_gen.gen(&path);
+        Some(mark)
+    }
+}
+
+impl Fold<ImportDecl> for ImportHandler<'_> {
     fn fold(&mut self, mut import: ImportDecl) -> ImportDecl {
         if !self.deglob_phase {
             self.info.imports.push(import.clone());
@@ -145,7 +160,7 @@ impl Fold<ImportDecl> for ImportHandler {
     }
 }
 
-impl Fold<Vec<ModuleItem>> for ImportHandler {
+impl Fold<Vec<ModuleItem>> for ImportHandler<'_> {
     fn fold(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
         self.top_level = true;
         let items = items.move_flat_map(|item| {
@@ -199,14 +214,14 @@ impl Fold<Vec<ModuleItem>> for ImportHandler {
     }
 }
 
-impl Fold<Vec<Stmt>> for ImportHandler {
+impl Fold<Vec<Stmt>> for ImportHandler<'_> {
     fn fold(&mut self, items: Vec<Stmt>) -> Vec<Stmt> {
         self.top_level = false;
         items.fold_children(self)
     }
 }
 
-impl Fold<Expr> for ImportHandler {
+impl Fold<Expr> for ImportHandler<'_> {
     fn fold(&mut self, e: Expr) -> Expr {
         match e {
             Expr::Member(mut e) => {
@@ -220,7 +235,7 @@ impl Fold<Expr> for ImportHandler {
                     ExprOrSuper::Expr(box Expr::Ident(ref i)) => {
                         // Search for namespace imports.
                         // If possible, we de-glob namespace imports.
-                        if let Some(import) = self.info.imports.iter_mut().find(|import| {
+                        if let Some(import) = self.info.imports.iter().find(|import| {
                             for s in &import.specifiers {
                                 match s {
                                     ImportSpecifier::Namespace(n) => {
@@ -233,6 +248,12 @@ impl Fold<Expr> for ImportHandler {
 
                             false
                         }) {
+                            let mark = self.mark_for(&import.src.value);
+                            let mark = match mark {
+                                None => return e.into(),
+                                Some(mark) => mark,
+                            };
+
                             if self.deglob_phase {
                                 if self.forces_ns.contains(&import.src.value) {
                                     //
@@ -242,7 +263,7 @@ impl Fold<Expr> for ImportHandler {
                                 let i = match &*e.prop {
                                     Expr::Ident(i) => {
                                         let mut i = i.clone();
-                                        i.span = i.span.apply_mark(self.mark);
+                                        i.span = i.span.apply_mark(mark);
                                         i
                                     }
                                     _ => unreachable!(
@@ -259,7 +280,7 @@ impl Fold<Expr> for ImportHandler {
                                     let i = match &*e.prop {
                                         Expr::Ident(i) => {
                                             let mut i = i.clone();
-                                            i.span = i.span.apply_mark(self.mark);
+                                            i.span = i.span.apply_mark(mark);
                                             i
                                         }
                                         _ => unreachable!(
@@ -351,7 +372,7 @@ impl Fold<Expr> for ImportHandler {
 ///  ```js
 /// import { readFile } from 'fs';
 /// ```
-impl Fold<VarDeclarator> for ImportHandler {
+impl Fold<VarDeclarator> for ImportHandler<'_> {
     fn fold(&mut self, node: VarDeclarator) -> VarDeclarator {
         match node.init {
             Some(box Expr::Call(CallExpr {

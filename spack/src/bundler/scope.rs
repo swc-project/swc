@@ -20,7 +20,7 @@ impl Scope {
     }
 
     pub fn get_module_by_path(&self, path: &Arc<PathBuf>) -> Option<TransformedModule> {
-        let id = self.module_id_gen.gen(path);
+        let (id, _) = self.module_id_gen.gen(path);
         self.get_module(id)
     }
 

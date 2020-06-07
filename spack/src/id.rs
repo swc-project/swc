@@ -24,18 +24,19 @@ impl fmt::Display for ModuleId {
 #[derive(Debug, Default)]
 pub(crate) struct ModuleIdGenerator {
     v: AtomicU64,
-    cache: DashMap<Arc<PathBuf>, ModuleId>,
+    cache: DashMap<Arc<PathBuf>, (ModuleId, Mark)>,
 }
 
 impl ModuleIdGenerator {
-    pub fn gen(&self, path: &Arc<PathBuf>) -> ModuleId {
+    pub fn gen(&self, path: &Arc<PathBuf>) -> (ModuleId, Mark) {
         if let Some(v) = self.cache.get(path) {
             return *v.value();
         }
 
         let id = ModuleId(self.v.fetch_add(1, SeqCst));
-        self.cache.insert(path.clone(), id);
-        id
+        let mark = Mark::fresh(Mark::root());
+        self.cache.insert(path.clone(), (id, mark));
+        (id, mark)
     }
 }
 
