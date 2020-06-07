@@ -129,12 +129,6 @@ impl Bundler {
                         dbg!(SyntaxContext::empty().apply_mark(self.used_mark));
                         dbg!(SyntaxContext::empty().apply_mark(imported.mark()));
 
-                        dep = dep.fold_with(&mut GlobalMarker {
-                            used_mark: self.used_mark,
-                            top_level_mark: self.top_level_mark,
-                            module_mark: imported.mark(),
-                        });
-
                         {
                             let code = self
                                 .swc
@@ -155,6 +149,27 @@ impl Bundler {
                             imported: dep.body,
                             src: src.src.clone(),
                         });
+
+                        entry = entry.fold_with(&mut GlobalMarker {
+                            used_mark: self.used_mark,
+                            top_level_mark: self.top_level_mark,
+                            module_mark: imported.mark(),
+                        });
+
+                        {
+                            let code = self
+                                .swc
+                                .print(
+                                    &entry.clone().fold_with(&mut HygieneVisualizer),
+                                    SourceMapsConfig::Bool(false),
+                                    None,
+                                    false,
+                                )
+                                .unwrap()
+                                .code;
+
+                            println!("Merged:\n{}\n\n\n", code);
+                        }
                     }
                 } else {
                     unimplemented!("conditional dependency: {} -> {}", info.id, src.module_id)
@@ -618,14 +633,14 @@ struct GlobalMarker {
 }
 
 impl GlobalMarker {
-    fn should_mark(&self, span: Span) -> bool {
+    fn is_marked_as_used(&self, span: Span) -> bool {
         let mut ctxt = span.ctxt();
         loop {
             let m = ctxt.remove_mark();
             if m == Mark::root() {
                 return false;
             }
-            if m == self.top_level_mark {
+            if m == self.used_mark {
                 return true;
             }
         }
@@ -634,7 +649,7 @@ impl GlobalMarker {
 
 impl Fold<Span> for GlobalMarker {
     fn fold(&mut self, span: Span) -> Span {
-        if self.should_mark(span) {
+        if self.is_marked_as_used(span) {
             return span.apply_mark(self.module_mark);
         }
 
