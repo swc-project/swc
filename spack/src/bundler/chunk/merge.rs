@@ -620,6 +620,7 @@ impl Fold<Ident> for LocalMarker<'_> {
             return node;
         }
 
+        // TODO: sym() => correct span
         if self
             .specifiers
             .iter()
