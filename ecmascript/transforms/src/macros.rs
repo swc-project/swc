@@ -242,7 +242,7 @@ macro_rules! validate {
 
 macro_rules! noop_fold_type {
     ($F:ty, $N:tt) => {
-        impl Fold<swc_ecma_ast::$N> for $F {
+        impl swc_common::Fold<swc_ecma_ast::$N> for $F {
             #[inline]
             fn fold(&mut self, node: swc_ecma_ast::$N) -> swc_ecma_ast::$N {
                 node
@@ -318,7 +318,7 @@ macro_rules! noop_fold_type {
 
 macro_rules! noop_visit_type {
     ($F:ty, $N:tt) => {
-        impl Visit<swc_ecma_ast::$N> for $F {
+        impl swc_common::Visit<swc_ecma_ast::$N> for $F {
             #[inline]
             fn visit(&mut self, _: &swc_ecma_ast::$N) {}
         }
