@@ -25,6 +25,7 @@ pub struct NodeResolver;
 impl Resolve for NodeResolver {
     fn resolve(&self, base: &Path, import: &str) -> Result<PathBuf, Error> {
         Ok(node_resolve::Resolver::new()
+            .with_main_fields(&["swc-main", "esnext", "main"])
             .with_basedir(base.parent().unwrap().to_path_buf())
             .resolve(import)
             .with_context(|| {
