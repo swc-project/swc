@@ -6,7 +6,7 @@
 extern crate test;
 
 use fxhash::FxHashMap;
-use spack::{loaders::swc::JsLoader, BundleKind, Bundler};
+use spack::{loaders::swc::SwcLoader, BundleKind, Bundler};
 use std::{
     env,
     fs::{create_dir_all, read_dir},
@@ -126,7 +126,7 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                         ..Default::default()
                     },
                     box spack::resolve::NodeResolver,
-                    box JsLoader::new(
+                    box SwcLoader::new(
                         compiler,
                         swc::config::Options {
                             swcrc: true,

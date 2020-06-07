@@ -1,6 +1,6 @@
 //! Utilities for testing.
 use super::Bundler;
-use crate::{loaders::swc::JsLoader, resolve::NodeResolver, util::HygieneRemover};
+use crate::{loaders::swc::SwcLoader, resolve::NodeResolver, util::HygieneRemover};
 use pretty_assertions::assert_eq;
 use std::{env, path::PathBuf, sync::Arc};
 use swc::config::InputSourceMap;
@@ -66,7 +66,7 @@ where
                 ..Default::default()
             },
             box NodeResolver,
-            box JsLoader::new(compiler, Default::default()),
+            box SwcLoader::new(compiler, Default::default()),
         );
 
         let mut t = Tester { bundler };

@@ -7,12 +7,12 @@ use swc_ecma_ast::{Module, Program};
 use swc_ecma_parser::JscTarget;
 
 /// JavaScript loader
-pub struct JsLoader {
+pub struct SwcLoader {
     compiler: Arc<swc::Compiler>,
     options: swc::config::Options,
 }
 
-impl JsLoader {
+impl SwcLoader {
     pub fn new(compiler: Arc<swc::Compiler>, mut options: swc::config::Options) -> Self {
         if options.config.is_none() {
             options.config = Some(Default::default());
@@ -27,11 +27,11 @@ impl JsLoader {
             v.jsc.target = JscTarget::Es2019;
         }
 
-        JsLoader { compiler, options }
+        SwcLoader { compiler, options }
     }
 }
 
-impl Load for JsLoader {
+impl Load for SwcLoader {
     fn load(&self, path: &Path) -> Result<(Arc<SourceFile>, Module), Error> {
         self.compiler.run(|| {
             log::debug!("JsLoader.load({})", path.display());
