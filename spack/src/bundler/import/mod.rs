@@ -15,7 +15,7 @@ impl Bundler {
         let body = replace(&mut module.body, vec![]);
 
         let mut v = ImportHandler {
-            mark,
+            mark: self.top_level_mark,
             top_level: false,
             info: Default::default(),
             forces_ns: Default::default(),
@@ -88,7 +88,8 @@ impl Fold<ImportDecl> for ImportHandler {
                         .remove(&import.src.value)
                         .map(|ids| {
                             //
-                            ids.into_iter()
+                            let specifiers: Vec<_> = ids
+                                .into_iter()
                                 .map(|id| {
                                     ImportSpecifier::Named(ImportNamedSpecifier {
                                         span: DUMMY_SP,
@@ -96,13 +97,26 @@ impl Fold<ImportDecl> for ImportHandler {
                                         imported: None,
                                     })
                                 })
-                                .collect()
+                                .collect();
+
+                            for import_info in &mut self.info.imports {
+                                if import_info.src != import.src {
+                                    continue;
+                                }
+
+                                import_info.specifiers.extend(specifiers.clone());
+                            }
+
+                            specifiers
                         })
                         .unwrap_or_else(Vec::new);
-                    return ImportDecl {
+
+                    let new_import = ImportDecl {
                         specifiers,
                         ..import
                     };
+
+                    return new_import;
                 }
 
                 _ => {}

@@ -40,7 +40,6 @@ impl Bundler {
 
             let mut v = dce::dce(dce::Config {
                 used: if used_exports.is_some() {
-                    // dbg!(&used, &node);
                     Some(Cow::Owned(used))
                 } else {
                     None
