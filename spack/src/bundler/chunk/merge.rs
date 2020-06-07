@@ -127,7 +127,6 @@ impl Bundler {
                         dep = dep.fold_with(&mut Unexporter);
 
                         if !specifiers.is_empty() {
-                            dbg!(&specifiers);
                             entry = entry.fold_with(&mut LocalMarker {
                                 mark: imported.mark(),
                                 specifiers: &specifiers,
