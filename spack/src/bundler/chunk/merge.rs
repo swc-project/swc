@@ -22,7 +22,7 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms::{hygiene, resolver};
-use swc_ecma_utils::{find_ids, prepend_stmts, DestructuringFinder, StmtLike};
+use swc_ecma_utils::{find_ids, ident::IdentLike, prepend_stmts, DestructuringFinder, StmtLike};
 
 #[derive(Debug)]
 pub(crate) enum MergedModule {
@@ -165,6 +165,34 @@ impl Bundler {
                             println!("Dep:\n{}\n\n\n", code);
                         }
 
+                        if let Some(imports) = info
+                            .imports
+                            .specifiers
+                            .iter()
+                            .find(|(s, _)| s.module_id == imported.id)
+                            .map(|v| &v.1)
+                        {
+                            entry.body = entry.body.fold_with(&mut ImportRenamer {
+                                top_level_mark: self.top_level_mark,
+                                mark: imported.mark(),
+                                imports,
+                            });
+                        }
+                        {
+                            let code = self
+                                .swc
+                                .print(
+                                    &entry.clone().fold_with(&mut HygieneVisualizer),
+                                    SourceMapsConfig::Bool(false),
+                                    None,
+                                    false,
+                                )
+                                .unwrap()
+                                .code;
+
+                            println!("@: Before merging:\n{}\n\n\n", code);
+                        }
+
                         // Replace import statement / require with module body
                         entry.body.visit_mut_with(&mut Injector {
                             imported: dep.body,
@@ -235,6 +263,57 @@ impl Fold<ModuleItem> for Unexporter {
         }
     }
 }
+
+struct ImportRenamer<'a> {
+    top_level_mark: Mark,
+    /// Mark of the dependency module.
+    mark: Mark,
+    imports: &'a [Specifier],
+}
+
+impl Fold<Ident> for ImportRenamer<'_> {
+    fn fold(&mut self, mut i: Ident) -> Ident {
+        if let Some(imported) = self.imports.iter().find(|specifier| {
+            // Currently contexts of specifiers are all #0, but the folder supports
+            // top_level_mark.
+            match specifier {
+                Specifier::Specific { local, .. } | Specifier::Namespace { local, .. } => {
+                    *local.sym() == i.sym
+                }
+            }
+        }) {
+            let mut ctxt = i.span.ctxt();
+            loop {
+                let cur_mark = ctxt.remove_mark();
+
+                if cur_mark == Mark::root() || cur_mark == self.top_level_mark {
+                    i.span = i
+                        .span
+                        .with_ctxt(SyntaxContext::empty().apply_mark(self.mark));
+                    return i;
+                }
+            }
+        }
+
+        i
+    }
+}
+
+/// Optimization
+macro_rules! noop_import_renamer {
+    ($T:ty) => {
+        impl Fold<$T> for ImportRenamer<'_> {
+            #[inline]
+            fn fold(&mut self, node: $T) -> $T {
+                node
+            }
+        }
+    };
+}
+
+noop_import_renamer!(BlockStmt);
+noop_import_renamer!(TsType);
+noop_import_renamer!(TsTypeAnn);
 
 /// Applied to dependency modules.
 struct ExportRenamer<'a> {
