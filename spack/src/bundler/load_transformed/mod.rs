@@ -79,26 +79,15 @@ impl Bundler {
     ///
     /// We apply transforms at this phase to make cache efficient.
     /// As we cache in this phase, changing dependency does not affect cache.
-    pub(super) fn load_transformed(
-        &self,
-        base: &Path,
-        s: &str,
-    ) -> Result<TransformedModule, Error> {
-        Ok(self.load_transformed_inner(base, s)?.1)
+    pub(super) fn load_transformed(&self, path: Arc<PathBuf>) -> Result<TransformedModule, Error> {
+        Ok(self.load_transformed_inner(path)?.1)
     }
 
     fn load_transformed_inner(
         &self,
-        base: &Path,
-        s: &str,
+        path: Arc<PathBuf>,
     ) -> Result<(Arc<PathBuf>, TransformedModule), Error> {
         self.swc.run(|| {
-            let path = self
-                .resolver
-                .resolve(base, s)
-                .with_context(|| format!("failed to resolve {} from {}", s, base.display()))?;
-
-            let path = Arc::new(path);
             if let Some(cached) = self.scope.get_module_by_path(&path) {
                 return Ok((path, cached.clone()));
             }
@@ -277,16 +266,15 @@ impl Bundler {
                 .items
                 .into_par_iter()
                 .map(|(src, ss)| -> Result<_, Error> {
-                    self.swc.run(|| {
-                        let info = match src {
-                            Some(src) => {
-                                Some((self.load_transformed_inner(base, &src.value)?, src))
-                            }
-                            None => None,
-                        };
+                    let info = match src {
+                        Some(src) => {
+                            let path = self.resolve(base, &src.value)?;
+                            Some((self.load_transformed_inner(path)?, src))
+                        }
+                        None => None,
+                    };
 
-                        Ok((info, ss))
-                    })
+                    Ok((info, ss))
                 })
                 .collect::<Vec<_>>();
 
@@ -343,7 +331,8 @@ impl Bundler {
                 }))
                 .map(|(decl, dynamic, unconditional)| -> Result<_, Error> {
                     //
-                    let res = self.load_transformed_inner(base, &decl.src.value)?;
+                    let path = self.resolve(base, &decl.src.value)?;
+                    let res = self.load_transformed_inner(path)?;
 
                     Ok((res, decl, dynamic, unconditional))
                 })

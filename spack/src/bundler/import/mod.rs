@@ -1,6 +1,11 @@
 use super::Bundler;
+use anyhow::{Context, Error};
 use fxhash::{FxHashMap, FxHashSet};
-use std::mem::replace;
+use std::{
+    mem::replace,
+    path::{Path, PathBuf},
+    sync::Arc,
+};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -28,6 +33,19 @@ impl Bundler {
         module.body = body;
 
         v.info
+    }
+
+    pub(super) fn resolve(&self, base: &Path, s: &str) -> Result<Arc<PathBuf>, Error> {
+        self.swc.run(|| {
+            let path = self
+                .resolver
+                .resolve(base, s)
+                .with_context(|| format!("failed to resolve {} from {}", s, base.display()))?;
+
+            let path = Arc::new(path);
+
+            Ok(path)
+        })
     }
 }
 

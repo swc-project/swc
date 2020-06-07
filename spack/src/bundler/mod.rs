@@ -92,12 +92,11 @@ impl Bundler {
         let results = entries
             .into_par_iter()
             .map(|(name, path)| -> Result<_, Error> {
-                self.swc.run(|| {
-                    let res = self
-                        .load_transformed(&self.working_dir, &path.to_string_lossy())
-                        .context("load_transformed failed")?;
-                    Ok((name, res))
-                })
+                let path = self.resolve(&self.working_dir, &path.to_string_lossy())?;
+                let res = self
+                    .load_transformed(path)
+                    .context("load_transformed failed")?;
+                Ok((name, res))
             })
             .collect::<Vec<_>>();
 
