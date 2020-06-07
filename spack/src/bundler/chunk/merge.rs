@@ -620,7 +620,11 @@ impl Fold<Ident> for LocalMarker<'_> {
             return node;
         }
 
-        if self.specifiers.iter().any(|id| *id.local() == node) {
+        if self
+            .specifiers
+            .iter()
+            .any(|id| *id.local().sym() == node.sym)
+        {
             node.span = node
                 .span
                 .with_ctxt(SyntaxContext::empty().apply_mark(self.mark));
