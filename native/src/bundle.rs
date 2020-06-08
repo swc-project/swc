@@ -1,9 +1,14 @@
 use crate::JsCompiler;
 use anyhow::Error;
+use fxhash::FxHashMap;
 use neon::prelude::*;
 use serde::Deserialize;
-use spack::{load::Load, resolve::Resolve};
+use spack::{
+    load::Load,
+    resolve::{NodeResolver, Resolve},
+};
 use std::{path::PathBuf, sync::Arc};
+use swc::TransformOutput;
 
 struct ConfigItem {
     loader: Box<dyn Load>,
@@ -12,8 +17,19 @@ struct ConfigItem {
 }
 
 #[derive(Debug, Deserialize)]
+#[serde(untagged)]
+enum EntryInput {
+    Single {
+        #[serde(flatten)]
+        name: String,
+    },
+    Multiple(FxHashMap<String, String>),
+}
+
+#[derive(Debug, Deserialize)]
 struct StaticConfigItem {
     name: String,
+    entry: EntryInput,
     working_dir: String,
     options: swc::config::Options,
 }
@@ -24,7 +40,7 @@ struct BundleTask {
 }
 
 impl Task for BundleTask {
-    type Output = ();
+    type Output = FxHashMap<String, TransformOutput>;
     type Error = Error;
     type JsEvent = JsValue;
 
@@ -59,9 +75,7 @@ pub(crate) fn bundle(mut cx: MethodContext<JsCompiler>) -> JsResult<JsValue> {
 
     let undefined = cx.undefined();
 
-    let opt = cx
-        .argument::<JsObject>(0)
-        .downcast_or_throw::<JsObject, _>(&mut cx)?;
+    let opt = cx.argument::<JsObject>(0)?;
 
     let loader = opt
         .get(&mut cx, "loader")?
@@ -72,12 +86,13 @@ pub(crate) fn bundle(mut cx: MethodContext<JsCompiler>) -> JsResult<JsValue> {
             box spack::loaders::neon::NeonLoader {
                 swc: c.clone(),
                 handler,
-            } as Box<_>
+            } as Box<dyn Load>
         })
         .unwrap_or_else(|_| box spack::loaders::swc::SwcLoader::new(c.clone(), Default::default()));
 
     configs.push(ConfigItem {
-        laod: loader,
+        loader,
+        resolver: box NodeResolver as Box<_>,
         static_items: neon_serde::from_value(&mut cx, opt.upcast())?,
     });
 
