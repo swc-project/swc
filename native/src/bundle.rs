@@ -118,6 +118,7 @@ pub(crate) fn bundle(mut cx: MethodContext<JsCompiler>) -> JsResult<JsValue> {
     let undefined = cx.undefined();
 
     let opt = cx.argument::<JsObject>(0)?;
+    let static_items = neon_serde::from_value(&mut cx, opt.upcast())?;
 
     let loader = opt
         .get(&mut cx, "loader")?
@@ -135,7 +136,7 @@ pub(crate) fn bundle(mut cx: MethodContext<JsCompiler>) -> JsResult<JsValue> {
     configs.push(ConfigItem {
         loader,
         resolver: box NodeResolver as Box<_>,
-        static_items: neon_serde::from_value(&mut cx, opt.upcast())?,
+        static_items,
     });
 
     Ok(cx.undefined().upcast())
