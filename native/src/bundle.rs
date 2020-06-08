@@ -9,7 +9,7 @@ use spack::{
     BundleKind,
 };
 use std::{collections::HashMap, hash::BuildHasherDefault, path::PathBuf, sync::Arc};
-use swc::{config::SourceMapsConfig, TransformOutput};
+use swc::{config::SourceMapsConfig, Compiler, TransformOutput};
 
 struct ConfigItem {
     loader: Box<dyn Load>,
@@ -20,19 +20,20 @@ struct ConfigItem {
 #[derive(Debug, Deserialize)]
 #[serde(untagged)]
 enum EntryInput {
-    Single {
-        #[serde(flatten)]
-        name: String,
-    },
+    Single(String),
     Multiple(FxHashMap<String, String>),
 }
 
 #[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
 struct StaticConfigItem {
     name: String,
     entry: EntryInput,
+    #[serde(default)]
     working_dir: String,
-    options: swc::config::Options,
+    #[serde(default)]
+    options: Option<swc::config::Options>,
+    #[serde(default)]
     minify: bool,
 }
 
@@ -51,12 +52,14 @@ impl Task for BundleTask {
         let mut bundler = spack::Bundler::new(
             working_dir.clone(),
             self.swc.clone(),
-            self.config.static_items.options.clone(),
+            self.config.static_items.options.clone().unwrap_or_else(|| {
+                serde_json::from_value(serde_json::Value::Object(Default::default())).unwrap()
+            }),
             &self.config.resolver,
             &self.config.loader,
         );
         let entries = match &self.config.static_items.entry {
-            EntryInput::Single { name } => {
+            EntryInput::Single(name) => {
                 let mut m = FxHashMap::default();
                 m.insert(name.clone(), working_dir.join(name));
                 m
@@ -106,18 +109,18 @@ impl Task for BundleTask {
 }
 
 pub(crate) fn bundle(mut cx: MethodContext<JsCompiler>) -> JsResult<JsValue> {
-    let c;
+    let c: Arc<Compiler>;
     let this = cx.this();
     {
         let guard = cx.lock();
         let compiler = this.borrow(&guard);
         c = compiler.clone();
     }
-    let mut configs = vec![];
 
     let undefined = cx.undefined();
 
     let opt = cx.argument::<JsObject>(0)?;
+    let callback = cx.argument::<JsFunction>(1)?;
     let static_items = neon_serde::from_value(&mut cx, opt.upcast())?;
 
     let loader = opt
@@ -133,11 +136,15 @@ pub(crate) fn bundle(mut cx: MethodContext<JsCompiler>) -> JsResult<JsValue> {
         })
         .unwrap_or_else(|_| box spack::loaders::swc::SwcLoader::new(c.clone(), Default::default()));
 
-    configs.push(ConfigItem {
-        loader,
-        resolver: box NodeResolver as Box<_>,
-        static_items,
-    });
+    BundleTask {
+        swc: c.clone(),
+        config: ConfigItem {
+            loader,
+            resolver: box NodeResolver as Box<_>,
+            static_items,
+        },
+    }
+    .schedule(callback);
 
     Ok(cx.undefined().upcast())
 }

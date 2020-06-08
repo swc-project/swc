@@ -2,6 +2,9 @@ export interface Plugin {
   (module: Program): Program;
 }
 
+// TODO:
+export type BundleOptions = any;
+
 export type ParseOptions = ParserConfig & {
   comments?: boolean;
   script?: boolean;
