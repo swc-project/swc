@@ -3,7 +3,7 @@ use std::{path::Path, sync::Arc};
 use swc_common::SourceFile;
 use swc_ecma_ast::Module;
 
-pub trait Load {
+pub trait Load: Send + Sync {
     fn load(&self, path: &Path) -> Result<(Arc<SourceFile>, Module), Error>;
 }
 

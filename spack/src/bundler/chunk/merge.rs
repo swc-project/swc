@@ -30,7 +30,7 @@ pub(crate) enum MergedModule {
     Module(Module),
 }
 
-impl Bundler {
+impl Bundler<'_> {
     /// Merge `targets` into `entry`.
     pub(super) fn merge_modules(
         &self,

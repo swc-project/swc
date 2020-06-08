@@ -74,7 +74,7 @@ pub(super) struct Source {
     pub src: Str,
 }
 
-impl Bundler {
+impl Bundler<'_> {
     /// Phase 1 (discovery)
     ///
     /// We apply transforms at this phase to make cache efficient.

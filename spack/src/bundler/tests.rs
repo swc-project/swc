@@ -9,11 +9,11 @@ use swc_ecma_ast::*;
 use swc_ecma_parser::{EsConfig, Syntax};
 use testing::drop_span;
 
-pub struct Tester {
-    pub bundler: Bundler,
+pub struct Tester<'a> {
+    pub bundler: Bundler<'a>,
 }
 
-impl Tester {
+impl<'a> Tester<'a> {
     pub fn parse(&self, s: &str) -> Module {
         let fm = self
             .bundler
@@ -58,6 +58,7 @@ where
 {
     testing::run_test2(true, |cm, handler| {
         let compiler = Arc::new(swc::Compiler::new(cm.clone(), Arc::new(handler)));
+        let loader = SwcLoader::new(compiler.clone(), Default::default());
         let bundler = Bundler::new(
             env::current_dir().unwrap(),
             compiler.clone(),
@@ -65,8 +66,8 @@ where
                 swcrc: true,
                 ..Default::default()
             },
-            box NodeResolver,
-            box SwcLoader::new(compiler, Default::default()),
+            &NodeResolver,
+            &loader,
         );
 
         let mut t = Tester { bundler };

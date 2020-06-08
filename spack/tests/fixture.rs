@@ -118,6 +118,13 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
 
             testing::run_test2(false, |cm, handler| {
                 let compiler = Arc::new(swc::Compiler::new(cm.clone(), Arc::new(handler)));
+                let loader = SwcLoader::new(
+                    compiler.clone(),
+                    swc::config::Options {
+                        swcrc: true,
+                        ..Default::default()
+                    },
+                );
                 let bundler = Bundler::new(
                     env::current_dir().unwrap(),
                     compiler.clone(),
@@ -125,14 +132,8 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                         swcrc: true,
                         ..Default::default()
                     },
-                    box spack::resolve::NodeResolver,
-                    box SwcLoader::new(
-                        compiler,
-                        swc::config::Options {
-                            swcrc: true,
-                            ..Default::default()
-                        },
-                    ),
+                    &spack::resolve::NodeResolver,
+                    &loader,
                 );
 
                 assert_ne!(entries.len(), 0);

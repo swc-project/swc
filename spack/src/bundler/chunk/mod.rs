@@ -38,7 +38,7 @@ struct State {
     common_libs: FxHashSet<ModuleId>,
 }
 
-impl Bundler {
+impl Bundler<'_> {
     /// `entries` - Entry modules (provided by user) by it's basename.
     ///
     /// # How it works

@@ -9,7 +9,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms::optimization::simplify::dce;
 use swc_ecma_utils::{find_ids, ident::IdentLike, ExprExt, StmtLike};
 
-impl Bundler {
+impl Bundler<'_> {
     /// If used_exports is [None], all exports are treated as exported.
     ///
     /// Note: Context of used_exports is ignored, as the specifiers comes from

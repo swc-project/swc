@@ -20,7 +20,7 @@ mod scope;
 mod tests;
 mod usage_analysis;
 
-pub struct Bundler {
+pub struct Bundler<'a> {
     working_dir: PathBuf,
     config: Config,
 
@@ -30,8 +30,8 @@ pub struct Bundler {
     used_mark: Mark,
     top_level_mark: Mark,
 
-    resolver: Box<dyn Resolve + Sync>,
-    loader: Box<dyn Load + Sync>,
+    resolver: &'a dyn Resolve,
+    loader: &'a dyn Load,
 
     scope: Scope,
 }
@@ -55,13 +55,13 @@ pub struct Bundle {
     pub module: Module,
 }
 
-impl Bundler {
+impl<'a> Bundler<'a> {
     pub fn new(
         working_dir: PathBuf,
         swc: Arc<swc::Compiler>,
         mut swc_options: swc::config::Options,
-        resolver: Box<dyn Resolve + Sync>,
-        loader: Box<dyn Load + Sync>,
+        resolver: &'a dyn Resolve,
+        loader: &'a dyn Load,
     ) -> Self {
         let used_mark = swc.run(|| Mark::fresh(Mark::root()));
         log::info!("Used mark: {:?}", DUMMY_SP.apply_mark(used_mark).ctxt());

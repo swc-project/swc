@@ -9,7 +9,7 @@ use swc_common::{SyntaxContext, Visit, VisitWith};
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_ids;
 
-impl Bundler {
+impl Bundler<'_> {
     /// This method removes exported pure constants from the module.
     ///
     /// A pure constant is a exported literal.

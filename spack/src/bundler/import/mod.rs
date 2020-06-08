@@ -14,7 +14,7 @@ use swc_ecma_utils::{find_ids, ident::IdentLike, Id};
 #[cfg(test)]
 mod tests;
 
-impl Bundler {
+impl Bundler<'_> {
     /// This de-globs imports if possible.
     pub(super) fn extract_import_info(
         &self,
@@ -74,9 +74,9 @@ pub(super) struct RawImports {
     pub dynamic_imports: Vec<Str>,
 }
 
-struct ImportHandler<'a> {
+struct ImportHandler<'a, 'b> {
     path: &'a Path,
-    bundler: &'a Bundler,
+    bundler: &'a Bundler<'b>,
     top_level: bool,
     info: RawImports,
     /// Contains namespace imports accessed with computed key.
@@ -96,7 +96,7 @@ struct ImportHandler<'a> {
     deglob_phase: bool,
 }
 
-impl ImportHandler<'_> {
+impl ImportHandler<'_, '_> {
     fn mark_for(&self, src: &str) -> Option<Mark> {
         let path = self.bundler.resolve(self.path, src).ok()?;
         let (_, mark) = self.bundler.scope.module_id_gen.gen(&path);
@@ -104,7 +104,7 @@ impl ImportHandler<'_> {
     }
 }
 
-impl Fold<ImportDecl> for ImportHandler<'_> {
+impl Fold<ImportDecl> for ImportHandler<'_, '_> {
     fn fold(&mut self, mut import: ImportDecl) -> ImportDecl {
         if !self.deglob_phase {
             self.info.imports.push(import.clone());
@@ -160,7 +160,7 @@ impl Fold<ImportDecl> for ImportHandler<'_> {
     }
 }
 
-impl Fold<Vec<ModuleItem>> for ImportHandler<'_> {
+impl Fold<Vec<ModuleItem>> for ImportHandler<'_, '_> {
     fn fold(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
         self.top_level = true;
         let items = items.move_flat_map(|item| {
@@ -214,14 +214,14 @@ impl Fold<Vec<ModuleItem>> for ImportHandler<'_> {
     }
 }
 
-impl Fold<Vec<Stmt>> for ImportHandler<'_> {
+impl Fold<Vec<Stmt>> for ImportHandler<'_, '_> {
     fn fold(&mut self, items: Vec<Stmt>) -> Vec<Stmt> {
         self.top_level = false;
         items.fold_children(self)
     }
 }
 
-impl Fold<Expr> for ImportHandler<'_> {
+impl Fold<Expr> for ImportHandler<'_, '_> {
     fn fold(&mut self, e: Expr) -> Expr {
         match e {
             Expr::Member(mut e) => {
@@ -372,7 +372,7 @@ impl Fold<Expr> for ImportHandler<'_> {
 ///  ```js
 /// import { readFile } from 'fs';
 /// ```
-impl Fold<VarDeclarator> for ImportHandler<'_> {
+impl Fold<VarDeclarator> for ImportHandler<'_, '_> {
     fn fold(&mut self, node: VarDeclarator) -> VarDeclarator {
         match node.init {
             Some(box Expr::Call(CallExpr {

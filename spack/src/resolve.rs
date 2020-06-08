@@ -1,7 +1,7 @@
 use anyhow::{Context, Error};
 use std::path::{Path, PathBuf};
 
-pub trait Resolve {
+pub trait Resolve: Send + Sync {
     ///
     /// Returned filename will be hashed if possible and used to generate module
     /// id.

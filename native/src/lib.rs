@@ -23,6 +23,8 @@ use swc::{
     Compiler, TransformOutput,
 };
 
+mod bundle;
+
 fn init(_cx: MethodContext<JsUndefined>) -> NeonResult<ArcCompiler> {
     let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
 
@@ -544,6 +546,10 @@ declare_types! {
 
         method printSync(cx) {
             print_sync(cx)
+        }
+
+        method bundle(cx) {
+            bundle::bundle(cx)
         }
     }
 }
