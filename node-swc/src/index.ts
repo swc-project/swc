@@ -222,7 +222,6 @@ export class Compiler extends wrapNativeSuper(native.Compiler) {
     const opts = options ?? {};
 
     return new Promise((resolve, reject) => {
-      console.log(opts)
       super.bundle(opts, (err: any, value: any) => {
         if (err) return reject(err);
         resolve(value)
