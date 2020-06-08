@@ -9,4 +9,6 @@ it('should handle a simple case', async () => {
     });
 
     console.log(result)
+    expect(result.simple).toBeTruthy();
+    expect(result.simple.code.replace('\n','')).toBe(`console.log('Foo');`);
 });
