@@ -1,14 +1,15 @@
 use crate::JsCompiler;
-use anyhow::Error;
-use fxhash::FxHashMap;
+use anyhow::{bail, Error};
+use fxhash::{FxHashMap, FxHasher};
 use neon::prelude::*;
 use serde::Deserialize;
 use spack::{
     load::Load,
     resolve::{NodeResolver, Resolve},
+    BundleKind,
 };
-use std::{path::PathBuf, sync::Arc};
-use swc::TransformOutput;
+use std::{collections::HashMap, hash::BuildHasherDefault, path::PathBuf, sync::Arc};
+use swc::{config::SourceMapsConfig, TransformOutput};
 
 struct ConfigItem {
     loader: Box<dyn Load>,
@@ -32,6 +33,7 @@ struct StaticConfigItem {
     entry: EntryInput,
     working_dir: String,
     options: swc::config::Options,
+    minify: bool,
 }
 
 struct BundleTask {
@@ -47,19 +49,59 @@ impl Task for BundleTask {
     fn perform(&self) -> Result<Self::Output, Self::Error> {
         let working_dir = PathBuf::from(self.config.static_items.working_dir.clone());
         let mut bundler = spack::Bundler::new(
-            working_dir,
+            working_dir.clone(),
             self.swc.clone(),
             self.config.static_items.options.clone(),
             &self.config.resolver,
             &self.config.loader,
         );
+        let entries = match &self.config.static_items.entry {
+            EntryInput::Single { name } => {
+                let mut m = FxHashMap::default();
+                m.insert(name.clone(), working_dir.join(name));
+                m
+            }
+            EntryInput::Multiple(v) => v
+                .into_iter()
+                .map(|(k, v)| (k.clone(), working_dir.clone().join(v)))
+                .collect(),
+        };
+
+        let result = bundler.bundle(entries)?;
+
+        let result = result
+            .into_iter()
+            .map(|bundle| match bundle.kind {
+                BundleKind::Named { name } | BundleKind::Lib { name } => Ok((name, bundle.module)),
+                BundleKind::Dynamic => bail!("unimplemented: dynamic code splitting"),
+            })
+            .map(|res| {
+                res.and_then(|(k, m)| {
+                    // TODO: Source map
+                    let output = self.swc.print(
+                        &m,
+                        SourceMapsConfig::Bool(true),
+                        None,
+                        self.config.static_items.minify,
+                    )?;
+
+                    Ok((k, output))
+                })
+            })
+            .collect::<Result<_, _>>()?;
+
+        Ok(result)
     }
 
-    fn complete<'a>(
+    fn complete(
         self,
-        cx: TaskContext<'a>,
+        mut cx: TaskContext,
         result: Result<Self::Output, Self::Error>,
-    ) -> JsResult<'_, Self::JsEvent> {
+    ) -> JsResult<Self::JsEvent> {
+        match result {
+            Ok(v) => Ok(neon_serde::to_value(&mut cx, &v)?.upcast()),
+            Err(err) => cx.throw_error(format!("{:?}", err)),
+        }
     }
 }
 
