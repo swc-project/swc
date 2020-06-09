@@ -101,6 +101,7 @@ fn default_is_module() -> bool {
     true
 }
 
+/// Configuration related to source map generaged by swc.
 #[derive(Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum SourceMapsConfig {
@@ -135,7 +136,7 @@ pub enum InputSourceMap {
 
 impl Default for InputSourceMap {
     fn default() -> Self {
-        InputSourceMap::Bool(true)
+        InputSourceMap::Bool(false)
     }
 }
 
