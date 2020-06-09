@@ -76,7 +76,7 @@ impl Task for TransformTask {
                 let program: Program =
                     serde_json::from_str(&s).expect("failed to deserialize Program");
                 // TODO: Source map
-                self.c.process_js(program, None, &self.options)
+                self.c.process_js(program, &self.options)
             }
 
             Input::File(ref path) => {
@@ -144,8 +144,7 @@ where
             if is_module.value() {
                 let program: Program =
                     serde_json::from_str(&s.value()).expect("failed to deserialize Program");
-                // TODO: Source map
-                c.process_js(program, None, &options)
+                c.process_js(program, &options)
             } else {
                 let fm = op(&c, s.value(), &options).expect("failed to create fm");
                 c.process_js_file(fm, &options)
@@ -246,16 +245,13 @@ impl Task for ParseTask {
 
     fn perform(&self) -> Result<Self::Output, Self::Error> {
         self.c.run(|| {
-            self.c
-                .parse_js(
-                    self.fm.clone(),
-                    self.options.target,
-                    self.options.syntax,
-                    self.options.is_module,
-                    self.options.comments,
-                    &Default::default(),
-                )
-                .map(|v| v.0)
+            self.c.parse_js(
+                self.fm.clone(),
+                self.options.target,
+                self.options.syntax,
+                self.options.is_module,
+                self.options.comments,
+            )
         })
     }
 
@@ -281,16 +277,13 @@ impl Task for ParseFileTask {
                 .load_file(&self.path)
                 .context("failed to read module")?;
 
-            self.c
-                .parse_js(
-                    fm,
-                    self.options.target,
-                    self.options.syntax,
-                    self.options.is_module,
-                    self.options.comments,
-                    &Default::default(),
-                )
-                .map(|v| v.0)
+            self.c.parse_js(
+                fm,
+                self.options.target,
+                self.options.syntax,
+                self.options.is_module,
+                self.options.comments,
+            )
         })
     }
 
@@ -348,9 +341,7 @@ fn parse_sync(mut cx: MethodContext<JsCompiler>) -> JsResult<JsValue> {
                 options.syntax,
                 options.is_module,
                 options.comments,
-                &Default::default(),
             )
-            .map(|v| v.0)
         };
 
         complete_parse(cx, program, &c)
@@ -381,9 +372,7 @@ fn parse_file_sync(mut cx: MethodContext<JsCompiler>) -> JsResult<JsValue> {
                 options.syntax,
                 options.is_module,
                 options.comments,
-                &Default::default(),
             )
-            .map(|v| v.0)
         };
 
         complete_parse(cx, program, &c)

@@ -11,7 +11,7 @@ use swc::{
         errors::{EmitterWriter, Handler, HandlerFlags, SourceMapperDyn},
         FileName, FilePathMapping, SourceMap,
     },
-    config::{InputSourceMap, Options, ParseOptions, SourceMapsConfig},
+    config::{Options, ParseOptions, SourceMapsConfig},
     ecmascript::ast::Program,
     Compiler,
 };
@@ -28,28 +28,11 @@ pub fn parse_sync(s: &str, opts: JsValue) -> Result<JsValue, JsValue> {
     let (c, errors) = compiler();
 
     let fm = c.cm.new_source_file(FileName::Anon, s.into());
-    let (prog, src_map) = c
-        .parse_js(
-            fm,
-            opts.target,
-            opts.syntax,
-            opts.is_module,
-            opts.comments,
-            &InputSourceMap::Bool(false),
-        )
+    let program = c
+        .parse_js(fm, opts.target, opts.syntax, opts.is_module, opts.comments)
         .map_err(|err| format!("failed to parse: {}\n{}", err, errors))?;
 
-    let mut source_map = vec![];
-    if let Some(src_map) = src_map {
-        src_map
-            .to_writer(&mut source_map)
-            .map_err(|err| format!("failed to print source map file: {}", err))?;
-    }
-
-    Ok(
-        JsValue::from_serde(&(prog, &*String::from_utf8_lossy(&source_map)))
-            .map_err(|err| format!("failed to return value: {}", err))?,
-    )
+    Ok(JsValue::from_serde(&program).map_err(|err| format!("failed to return value: {}", err))?)
 }
 
 #[wasm_bindgen(js_name = "printSync")]
