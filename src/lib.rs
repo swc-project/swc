@@ -5,15 +5,12 @@ pub use swc_atoms as atoms;
 pub use swc_common as common;
 pub use swc_ecmascript as ecmascript;
 
-mod builder;
-pub mod config;
-
 pub use crate::builder::PassBuilder;
 use crate::config::{
     BuiltConfig, Config, ConfigFile, InputSourceMap, JscTarget, Merge, Options, Rc, RootMode,
     SourceMapsConfig,
 };
-use anyhow::{Context, Error};
+use anyhow::{bail, Context, Error};
 use common::{
     comments::{Comment, Comments},
     errors::Handler,
@@ -40,6 +37,9 @@ use std::{
     path::{Path, PathBuf},
     sync::Arc,
 };
+
+mod builder;
+pub mod config;
 
 pub struct Compiler {
     /// swc uses rustc's span interning.
@@ -81,6 +81,65 @@ impl Compiler {
         })
     }
 
+    fn get_orig_src_map(
+        &self,
+        name: &FileName,
+        input_src_map: &InputSourceMap,
+    ) -> Result<Option<sourcemap::SourceMap>, Error> {
+        self.run(|| -> Result<_, Error> {
+            // Load original source map
+            match input_src_map {
+                InputSourceMap::Bool(false) => Ok(None),
+                InputSourceMap::Bool(true) => {
+                    // Load original source map if possible
+                    match &name {
+                        FileName::Real(filename) => {
+                            let path = format!("{}.map", filename.display());
+                            let file = File::open(&path)
+                                .context("failed to open input source map file")?;
+                            Ok(Some(sourcemap::SourceMap::from_reader(file).with_context(
+                                || format!("failed to read input source map from file at {}", path),
+                            )?))
+                        }
+                        _ => {
+                            log::error!("Failed to load source map for non-file input");
+                            return Ok(None);
+                        }
+                    }
+                }
+                InputSourceMap::Str(ref s) => {
+                    if s == "inline" {
+                        // Load inline source map by simple string
+                        // operations
+                        let s = "sourceMappingURL=data:application/json;base64,";
+                        let idx = s.rfind(s);
+                        let idx = match idx {
+                            None => bail!(
+                                "failed to parse inline source map: `sourceMappingURL` not found"
+                            ),
+                            Some(v) => v,
+                        };
+                        let encoded = &s[idx + s.len()..];
+
+                        let res = base64::decode(encoded.as_bytes())
+                            .context("failed to decode base64-encoded source map")?;
+
+                        Ok(Some(sourcemap::SourceMap::from_slice(&res).context(
+                            "failed to read input source map from inlined base64 encoded string",
+                        )?))
+                    } else {
+                        // Load source map passed by user
+                        Ok(Some(
+                            sourcemap::SourceMap::from_slice(s.as_bytes()).context(
+                                "failed to read input source map from user-provided sourcemap",
+                            )?,
+                        ))
+                    }
+                }
+            }
+        })
+    }
+
     /// This method parses a javascript / typescript file
     pub fn parse_js(
         &self,
@@ -89,63 +148,8 @@ impl Compiler {
         syntax: Syntax,
         is_module: bool,
         parse_comments: bool,
-        input_source_map: &InputSourceMap,
-    ) -> Result<(Program, Option<sourcemap::SourceMap>), Error> {
+    ) -> Result<Program, Error> {
         self.run(|| {
-            let orig = (|| {
-                // Load original source map
-                match input_source_map {
-                    InputSourceMap::Bool(false) => None,
-                    InputSourceMap::Bool(true) => {
-                        // Load original source map if possible
-                        match &fm.name {
-                            FileName::Real(filename) => {
-                                let path = format!("{}.map", filename.display());
-                                let file = File::open(&path).ok()?;
-                                Some(sourcemap::SourceMap::from_reader(file).with_context(|| {
-                                    format!("failed to read input source map from file at {}", path)
-                                }))
-                            }
-                            _ => {
-                                log::error!("Failed to load source map for non-file input");
-                                return None;
-                            }
-                        }
-                    }
-                    InputSourceMap::Str(ref s) => {
-                        if s == "inline" {
-                            // Load inline source map by simple string
-                            // operations
-                            let s = "sourceMappingURL=data:application/json;base64,";
-                            let idx = s.rfind(s)?;
-                            let encoded = &s[idx + s.len()..];
-
-                            let res = base64::decode(encoded.as_bytes())
-                                .context("failed to decode base64-encoded source map");
-                            let res = match res {
-                                Ok(v) => v,
-                                Err(err) => return Some(Err(err)),
-                            };
-
-                            Some(sourcemap::SourceMap::from_slice(&res).context(
-                                "failed to read input source map from inlined base64 encoded \
-                                 string",
-                            ))
-                        } else {
-                            // Load source map passed by user
-                            Some(sourcemap::SourceMap::from_slice(s.as_bytes()).context(
-                                "failed to read input source map from user-provided sourcemap",
-                            ))
-                        }
-                    }
-                }
-            })();
-
-            let orig = match orig {
-                None => None,
-                Some(v) => Some(v?),
-            };
-
             let session = ParseSess {
                 handler: &self.handler,
             };
@@ -179,7 +183,7 @@ impl Compiler {
                     .map(Program::Script)?
             };
 
-            Ok((program, orig))
+            Ok(program)
         })
     }
 
@@ -365,16 +369,16 @@ impl Compiler {
     ) -> Result<TransformOutput, Error> {
         self.run(|| -> Result<_, Error> {
             let config = self.run(|| self.config_for_file(opts, &fm.name))?;
-            let (program, src_map) = self.parse_js(
+            let orig = self.get_orig_src_map(&fm.name, &opts.input_source_map)?;
+            let program = self.parse_js(
                 fm.clone(),
                 config.target,
                 config.syntax,
                 config.is_module,
                 true,
-                &config.input_source_map,
             )?;
 
-            self.process_js_inner(program, src_map, config)
+            self.process_js_inner(program, orig.as_ref(), config)
         })
         .context("failed to process js file")
     }
@@ -382,19 +386,15 @@ impl Compiler {
     /// You can use custom pass with this method.
     ///
     /// There exists a [PassBuilder] to help building custom passes.
-    pub fn process_js(
-        &self,
-        program: Program,
-        src_map: Option<sourcemap::SourceMap>,
-        opts: &Options,
-    ) -> Result<TransformOutput, Error> {
+    pub fn process_js(&self, program: Program, opts: &Options) -> Result<TransformOutput, Error> {
         self.run(|| -> Result<_, Error> {
             let loc = self.cm.lookup_char_pos(program.span().lo());
             let fm = loc.file;
+            let orig = self.get_orig_src_map(&fm.name, &opts.input_source_map)?;
 
             let config = self.run(|| self.config_for_file(opts, &fm.name))?;
 
-            self.process_js_inner(program, src_map, config)
+            self.process_js_inner(program, orig.as_ref(), config)
         })
         .context("failed to process js module")
     }
@@ -402,7 +402,7 @@ impl Compiler {
     fn process_js_inner(
         &self,
         program: Program,
-        src_map: Option<sourcemap::SourceMap>,
+        orig: Option<&sourcemap::SourceMap>,
         config: BuiltConfig<impl Pass>,
     ) -> Result<TransformOutput, Error> {
         self.run(|| {
@@ -426,7 +426,7 @@ impl Compiler {
                 &program,
                 &self.comments,
                 config.source_maps,
-                src_map.as_ref(),
+                orig,
                 config.minify,
             )
         })
