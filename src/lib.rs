@@ -83,10 +83,12 @@ impl Compiler {
 
     fn get_orig_src_map(
         &self,
-        name: &FileName,
+        fm: &SourceFile,
         input_src_map: &InputSourceMap,
     ) -> Result<Option<sourcemap::SourceMap>, Error> {
         self.run(|| -> Result<_, Error> {
+            let name = &fm.name;
+
             // Load original source map
             match input_src_map {
                 InputSourceMap::Bool(false) => Ok(None),
@@ -112,7 +114,7 @@ impl Compiler {
                         // Load inline source map by simple string
                         // operations
                         let s = "sourceMappingURL=data:application/json;base64,";
-                        let idx = s.rfind(s);
+                        let idx = fm.src.rfind(s);
                         let idx = match idx {
                             None => bail!(
                                 "failed to parse inline source map: `sourceMappingURL` not found"
@@ -369,7 +371,7 @@ impl Compiler {
     ) -> Result<TransformOutput, Error> {
         self.run(|| -> Result<_, Error> {
             let config = self.run(|| self.config_for_file(opts, &fm.name))?;
-            let orig = self.get_orig_src_map(&fm.name, &opts.input_source_map)?;
+            let orig = self.get_orig_src_map(&fm, &opts.input_source_map)?;
             let program = self.parse_js(
                 fm.clone(),
                 config.target,
@@ -390,7 +392,7 @@ impl Compiler {
         self.run(|| -> Result<_, Error> {
             let loc = self.cm.lookup_char_pos(program.span().lo());
             let fm = loc.file;
-            let orig = self.get_orig_src_map(&fm.name, &opts.input_source_map)?;
+            let orig = self.get_orig_src_map(&fm, &opts.input_source_map)?;
 
             let config = self.run(|| self.config_for_file(opts, &fm.name))?;
 
