@@ -1025,3 +1025,40 @@ test_exec!(
     expect(() => v.next()).toThrow('2')
     "
 );
+
+test_exec!(
+    syntax(),
+    |_| es2015::regenerator(Mark::fresh(Mark::root())),
+    issue_831_1,
+    "function* myGenerator() {
+        yield* [1,2,3];
+    }
+    
+    const v = myGenerator();
+    expect(v.next()).toEqual({ value: 1, done: false });
+    expect(v.next()).toEqual({ value: 2, done: false });
+    expect(v.next()).toEqual({ value: 3, done: false });
+    "
+);
+
+test_exec!(
+    syntax(),
+    |_| {
+        let mark = Mark::fresh(Mark::root());
+
+        chain!(
+            common_js(mark, Default::default()),
+            es2015::regenerator(mark)
+        )
+    },
+    issue_831_2,
+    "export function* myGenerator() {
+        yield* [1,2,3];
+    }
+    
+    const v = myGenerator();
+    expect(v.next()).toEqual({ value: 1, done: false });
+    expect(v.next()).toEqual({ value: 2, done: false });
+    expect(v.next()).toEqual({ value: 3, done: false });
+    "
+);
