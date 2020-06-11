@@ -1,6 +1,6 @@
 [package]
 name = "swc_ecma_codegen"
-version = "0.22.1"
+version = "0.22.2"
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 license = "Apache-2.0/MIT"
 repository = "https://github.com/swc-project/swc.git"
