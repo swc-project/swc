@@ -28,7 +28,7 @@ fn compile(src: &str, options: Options) -> String {
                         Ok(v.code.into())
                     }
                 }
-                Err(err) => Err(()),
+                Err(..) => Err(()),
             }
         })
         .unwrap()
