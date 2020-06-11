@@ -665,13 +665,7 @@ impl CaseHandler<'_> {
                                 .as_callee(),
                             args: vec![
                                 arg.unwrap().as_arg(),
-                                match result {
-                                    Expr::Ident(ref i) => i.clone().as_arg(),
-                                    _ => unreachable!(
-                                        "make_var() returned something other than ident: {:?}",
-                                        result
-                                    ),
-                                },
+                                result.clone().as_arg(),
                                 after.to_stmt_index().as_arg(),
                             ],
                             type_args: Default::default(),
@@ -680,7 +674,16 @@ impl CaseHandler<'_> {
                     .into();
 
                     self.emit(ret);
-                    self.mark(after);
+                    let after = self.mark(after);
+                    match self.listing.last_mut().unwrap() {
+                        Stmt::Return(ReturnStmt {
+                            arg: Some(box Expr::Call(CallExpr { args, .. })),
+                            ..
+                        }) => {
+                            *args.last_mut().unwrap() = after.to_stmt_index().as_arg();
+                        }
+                        _ => unreachable!(),
+                    }
 
                     return result;
                 }

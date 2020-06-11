@@ -1025,3 +1025,94 @@ test_exec!(
     expect(() => v.next()).toThrow('2')
     "
 );
+
+test_exec!(
+    syntax(),
+    |_| es2015::regenerator(Mark::fresh(Mark::root())),
+    issue_831_1,
+    "function* myGenerator() {
+        yield* [1,2,3];
+    }
+    
+    const v = myGenerator();
+    expect(v.next()).toEqual({ value: 1, done: false });
+    expect(v.next()).toEqual({ value: 2, done: false });
+    expect(v.next()).toEqual({ value: 3, done: false });
+    expect(v.next()).toEqual({ done: true });
+    "
+);
+
+// test interop between cjs module and regenerator
+test!(
+    syntax(),
+    |_| {
+        let mark = Mark::fresh(Mark::root());
+
+        chain!(
+            es2015::regenerator(mark),
+            common_js(mark, Default::default()),
+        )
+    },
+    issue_831_2,
+    "export function* myGenerator() {
+        yield* [1,2,3];
+    }",
+    "'use strict';
+Object.defineProperty(exports, '__esModule', {
+    value: true
+});
+exports.myGenerator = myGenerator;
+var regeneratorRuntime = require('regenerator-runtime');
+var _marked = regeneratorRuntime.mark(myGenerator);
+function myGenerator() {
+    return regeneratorRuntime.wrap(function myGenerator$(_ctx) {
+        while(1)switch(_ctx.prev = _ctx.next){
+            case 0:
+                return _ctx.delegateYield([
+                    1,
+                    2,
+                    3
+                ], _ctx.t0, 1);
+            case 1:
+                _ctx.t0;
+            case 2:
+            case 'end':
+                return _ctx.stop();
+        }
+    }, _marked);
+}"
+);
+
+// test interop between export and regenerator
+test!(
+    syntax(),
+    |_| {
+        let mark = Mark::fresh(Mark::root());
+
+        es2015::regenerator(mark)
+    },
+    issue_831_3,
+    "export function* myGenerator() {
+        yield* [1,2,3];
+    }",
+    "var regeneratorRuntime = require('regenerator-runtime');
+var _marked = regeneratorRuntime.mark(myGenerator);
+export function myGenerator() {
+    return regeneratorRuntime.wrap(function myGenerator$(_ctx) {
+        while(1)switch(_ctx.prev = _ctx.next){
+            case 0:
+                return _ctx.delegateYield([
+                    1,
+                    2,
+                    3
+                ], _ctx.t0, 1);
+            case 1:
+                _ctx.t0;
+            case 2:
+            case 'end':
+                return _ctx.stop();
+        }
+    }, _marked);
+}
+"
+);
