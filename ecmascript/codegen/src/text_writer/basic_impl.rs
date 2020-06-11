@@ -213,13 +213,7 @@ fn compute_line_starts(s: &str) -> Vec<usize> {
                 break;
             }
 
-            _ => {
-                // if c > MAX_ASCII_CHAR && is_line_break(c) {
-                //     res.push(line_start);
-                //     line_start = pos;
-                // }
-                unimplemented!("compute_line_starts(char = {:?})", c)
-            }
+            _ => {}
         }
     }
 
