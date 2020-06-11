@@ -40,3 +40,20 @@ fn issue_834_1() {
         },
     );
 }
+
+#[test]
+fn issue_834_2() {
+    compile(
+        "var ano = { some: {
+	ne:  {
+
+	}
+}};
+var foo = ano.some.ne?.sdf?.snop;
+const someValue = 'test' ?? 'default value';",
+        Options {
+            swcrc: false,
+            ..Default::default()
+        },
+    );
+}
