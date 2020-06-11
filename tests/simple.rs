@@ -1,4 +1,8 @@
-use swc::{config::Options, Compiler};
+use swc::{
+    config::{Config, JscConfig, Options},
+    ecmascript::parser::{EsConfig, Syntax},
+    Compiler,
+};
 use swc_common::FileName;
 use testing::Tester;
 
@@ -52,6 +56,16 @@ fn issue_834_2() {
 var foo = ano.some.ne?.sdf?.snop;
 const someValue = 'test' ?? 'default value';",
         Options {
+            config: Some(Config {
+                jsc: JscConfig {
+                    syntax: Some(Syntax::Es(EsConfig {
+                        nullish_coalescing: true,
+                        ..Default::default()
+                    })),
+                    ..Default::default()
+                },
+                ..Default::default()
+            }),
             swcrc: false,
             ..Default::default()
         },
