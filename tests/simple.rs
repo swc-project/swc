@@ -24,7 +24,7 @@ fn compile(src: &str, options: Options) -> String {
                         Ok(v.code.into())
                     }
                 }
-                Err(err) => panic!("Error: {}", err),
+                Err(err) => Err(()),
             }
         })
         .unwrap()
