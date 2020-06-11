@@ -60,6 +60,7 @@ const someValue = 'test' ?? 'default value';",
                 jsc: JscConfig {
                     syntax: Some(Syntax::Es(EsConfig {
                         nullish_coalescing: true,
+                        optional_chaining: true,
                         ..Default::default()
                     })),
                     ..Default::default()
