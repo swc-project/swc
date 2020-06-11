@@ -249,7 +249,7 @@ impl Compiler {
                     let mut buf = vec![];
 
                     self.cm
-                        .build_source_map(&mut src_map_buf)
+                        .build_source_map_from(&mut src_map_buf, orig)
                         .to_writer(&mut buf)
                         .context("failed to write source map file")?;
                     let map = String::from_utf8(buf).context("source map is not utf-8")?;
