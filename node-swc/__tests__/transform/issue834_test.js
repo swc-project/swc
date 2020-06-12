@@ -11,7 +11,6 @@ it('should work without parser.sytax', () => {
         }
     );
     expect(out.map).toBeFalsy();
-    expect(out.code.trim()).toBe(`console.log('Foo');`);
 });
 
 
@@ -27,5 +26,4 @@ it('should work with parser.syntax', () => {
         }
     );
     expect(out.map).toBeFalsy();
-    expect(out.code.trim()).toBe(`console.log('Foo');`);
 });
