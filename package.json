@@ -42,7 +42,7 @@
     "neon-cli": "^0.3.3",
     "source-map": "^0.7.3",
     "sourcemap-validator": "^1.1.1",
-    "typescript": "^3.7.2"
+    "typescript": "^3.9.5"
   },
   "funding": {
     "type": "opencollective",
