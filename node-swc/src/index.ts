@@ -113,9 +113,11 @@ export class Compiler extends wrapNativeSuper(native.Compiler) {
   async transform(src: string | Program, options?: Options): Promise<Output> {
     const isModule = typeof src !== "string";
     options = options || {};
-    options.jsc = options.jsc || {};
-    options.jsc.parser = options.jsc.parser ?? { syntax:'ecmascript', };
-    options.jsc.parser.syntax = options.jsc.parser.syntax ?? 'ecmascript';
+
+    if (options.jsc?.parser) {
+      options.jsc.parser.syntax = options.jsc.parser.syntax ?? 'ecmascript';
+    }
+
 
     const plugin = options.plugin;
     delete options.plugin;
@@ -144,9 +146,11 @@ export class Compiler extends wrapNativeSuper(native.Compiler) {
   transformSync(src: string | Program, options?: Options): Output {
     const isModule = typeof src !== "string";
     options = options || {};
-    options.jsc = options.jsc || {};
-    options.jsc.parser = options.jsc.parser ?? { syntax:'ecmascript', };
-    options.jsc.parser.syntax = options.jsc.parser.syntax ?? 'ecmascript';
+
+    if (options.jsc?.parser) {
+      options.jsc.parser.syntax = options.jsc.parser.syntax ?? 'ecmascript';
+    }
+
 
     const plugin = options.plugin;
     delete options.plugin;
@@ -166,9 +170,11 @@ export class Compiler extends wrapNativeSuper(native.Compiler) {
 
   async transformFile(path: string, options?: Options): Promise<Output> {
     options = options || {};
-    options.jsc = options.jsc || {};
-    options.jsc.parser = options.jsc.parser ?? { syntax:'ecmascript', };
-    options.jsc.parser.syntax = options.jsc.parser.syntax ?? 'ecmascript';
+
+    if (options.jsc?.parser) {
+      options.jsc.parser.syntax = options.jsc.parser.syntax ?? 'ecmascript';
+    }
+
 
     const plugin = options.plugin;
     delete options.plugin;
@@ -193,9 +199,11 @@ export class Compiler extends wrapNativeSuper(native.Compiler) {
 
   transformFileSync(path: string, options?: Options): Output {
     options = options || {};
-    options.jsc = options.jsc || {};
-    options.jsc.parser = options.jsc.parser ?? { syntax:'ecmascript', };
-    options.jsc.parser.syntax = options.jsc.parser.syntax ?? 'ecmascript';
+
+    if (options.jsc?.parser) {
+      options.jsc.parser.syntax = options.jsc.parser.syntax ?? 'ecmascript';
+    }
+
 
     const plugin = options.plugin;
     delete options.plugin;
