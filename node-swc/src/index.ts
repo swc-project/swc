@@ -113,14 +113,19 @@ export class Compiler extends wrapNativeSuper(native.Compiler) {
   async transform(src: string | Program, options?: Options): Promise<Output> {
     const isModule = typeof src !== "string";
     options = options || {};
-    options.jsc = options.jsc || {};
+
+    if (options?.jsc?.parser) {
+      options.jsc.parser.syntax = options.jsc.parser.syntax ?? 'ecmascript';
+    }
+
+
     const plugin = options.plugin;
     delete options.plugin;
 
     if (plugin) {
       const m =
         typeof src === "string"
-          ? await this.parse(src, options.jsc.parser)
+          ? await this.parse(src, options?.jsc?.parser)
           : src;
       return this.transform(plugin(m), options);
     }
@@ -141,13 +146,18 @@ export class Compiler extends wrapNativeSuper(native.Compiler) {
   transformSync(src: string | Program, options?: Options): Output {
     const isModule = typeof src !== "string";
     options = options || {};
-    options.jsc = options.jsc || {};
+
+    if (options?.jsc?.parser) {
+      options.jsc.parser.syntax = options.jsc.parser.syntax ?? 'ecmascript';
+    }
+
+
     const plugin = options.plugin;
     delete options.plugin;
 
     if (plugin) {
       const m =
-        typeof src === "string" ? this.parseSync(src, options.jsc.parser) : src;
+        typeof src === "string" ? this.parseSync(src, options?.jsc?.parser) : src;
       return this.transformSync(plugin(m), options);
     }
 
@@ -160,12 +170,17 @@ export class Compiler extends wrapNativeSuper(native.Compiler) {
 
   async transformFile(path: string, options?: Options): Promise<Output> {
     options = options || {};
-    options.jsc = options.jsc || {};
+
+    if (options?.jsc?.parser) {
+      options.jsc.parser.syntax = options.jsc.parser.syntax ?? 'ecmascript';
+    }
+
+
     const plugin = options.plugin;
     delete options.plugin;
 
     if (plugin) {
-      const m = await this.parseFile(path, options.jsc.parser);
+      const m = await this.parseFile(path, options?.jsc?.parser);
       return this.transform(plugin(m), options);
     }
 
@@ -184,12 +199,17 @@ export class Compiler extends wrapNativeSuper(native.Compiler) {
 
   transformFileSync(path: string, options?: Options): Output {
     options = options || {};
-    options.jsc = options.jsc || {};
+
+    if (options?.jsc?.parser) {
+      options.jsc.parser.syntax = options.jsc.parser.syntax ?? 'ecmascript';
+    }
+
+
     const plugin = options.plugin;
     delete options.plugin;
 
     if (plugin) {
-      const m = this.parseFileSync(path, options.jsc.parser);
+      const m = this.parseFileSync(path, options?.jsc?.parser);
       return this.transformSync(plugin(m), options);
     }
 

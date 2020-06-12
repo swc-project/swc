@@ -1,6 +1,6 @@
 {
   "name": "@swc/core",
-  "version": "1.1.57",
+  "version": "1.1.58",
   "description": "Super-fast alternative for babel",
   "main": "./index.js",
   "author": "강동윤 <kdy1997.dev@gmail.com>",
@@ -42,7 +42,7 @@
     "neon-cli": "^0.3.3",
     "source-map": "^0.7.3",
     "sourcemap-validator": "^1.1.1",
-    "typescript": "^3.7.2"
+    "typescript": "^3.9.5"
   },
   "funding": {
     "type": "opencollective",

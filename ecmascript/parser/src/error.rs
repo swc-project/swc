@@ -375,7 +375,7 @@ impl<'a> From<ErrorToDiag<'a>> for DiagnosticBuilder<'a> {
                                                when mixing with logical operators"
                 .into(),
             NullishCoalescingNotEnabled => {
-                "Nullish coalescing operator(??) requires jsc.parser.Coalescing".into()
+                "Nullish coalescing operator(??) requires jsc.parser.nullishCoalescing".into()
             }
 
             TS1056 => "jsc.taraget should be es5 or upper to use getter / setter".into(),
