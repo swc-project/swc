@@ -72,3 +72,24 @@ const someValue = 'test' ?? 'default value';",
         },
     );
 }
+
+#[test]
+fn issue_834_3() {
+    compile(
+        "const someValue = 'test'  ?? 'default value';",
+        Options {
+            config: Some(Config {
+                jsc: JscConfig {
+                    syntax: Some(Syntax::Es(EsConfig {
+                        nullish_coalescing: true,
+                        ..Default::default()
+                    })),
+                    ..Default::default()
+                },
+                ..Default::default()
+            }),
+            swcrc: false,
+            ..Default::default()
+        },
+    );
+}
