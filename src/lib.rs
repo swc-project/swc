@@ -443,12 +443,7 @@ impl Compiler {
                 })
             });
 
-            self.print(
-                &program,
-                config.source_maps,
-                orig,
-                config.minify,
-            )
+            self.print(&program, config.source_maps, orig, config.minify)
         })
     }
 }

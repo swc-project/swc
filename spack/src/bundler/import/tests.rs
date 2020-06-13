@@ -1,6 +1,6 @@
 use crate::bundler::{import::ImportHandler, tests::test_bundler};
 use std::path::Path;
-use swc_common::{FoldWith};
+use swc_common::FoldWith;
 
 #[test]
 #[ignore]

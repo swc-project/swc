@@ -1,4 +1,3 @@
-
 use rayon::prelude::*;
 use std::{path::Path, sync::Arc};
 use swc::{
