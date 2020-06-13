@@ -52,6 +52,7 @@ impl Default for Mode {
 #[serde(untagged, rename = "Entry")]
 pub enum EntryConfig {
     File(String),
+    Multiple(Vec<String>),
     Files(FxHashMap<String, PathBuf>),
 }
 
