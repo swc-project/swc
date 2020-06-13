@@ -111,7 +111,7 @@ fn default_is_module() -> bool {
 }
 
 /// Configuration related to source map generaged by swc.
-#[derive(Clone, Serialize, Deserialize, Debug, Clone, Serialize, Deserialize)]
+#[derive(Clone, Serialize, Deserialize, Debug)]
 #[serde(untagged)]
 pub enum SourceMapsConfig {
     Bool(bool),
