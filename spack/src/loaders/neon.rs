@@ -51,7 +51,7 @@ impl Load for NeonLoader {
                 }
             }
 
-            tx.send(Err(Error::msg("failed to invoke js laoder")));
+            let _ = tx.send(Err(Error::msg("failed to invoke js laoder")));
         });
 
         let code = rx

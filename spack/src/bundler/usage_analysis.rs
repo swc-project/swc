@@ -1,13 +1,10 @@
-use crate::{bundler::load_transformed::Specifier, util::HygieneRemover, Bundler, Id};
+use crate::{bundler::load_transformed::Specifier, Bundler};
 use std::{borrow::Cow, sync::Arc};
 
-use swc_common::{
-    util::move_map::MoveMap, FileName, Fold, FoldWith, Mark, SourceFile, Span, Spanned, Visit,
-    VisitWith,
-};
+use swc_common::{util::move_map::MoveMap, FoldWith, SourceFile};
 use swc_ecma_ast::*;
 use swc_ecma_transforms::optimization::simplify::dce;
-use swc_ecma_utils::{find_ids, ident::IdentLike, ExprExt, StmtLike};
+use swc_ecma_utils::ident::IdentLike;
 
 impl Bundler<'_> {
     /// If used_exports is [None], all exports are treated as exported.

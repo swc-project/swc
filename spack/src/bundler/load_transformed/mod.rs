@@ -4,7 +4,7 @@ use crate::{
         export::{Exports, RawExports},
         import::RawImports,
     },
-    debug::{assert_clean, HygieneVisualizer},
+    debug::assert_clean,
     Id, ModuleId,
 };
 use anyhow::{Context, Error};
@@ -14,7 +14,6 @@ use std::{
     path::{Path, PathBuf},
     sync::Arc,
 };
-use swc::config::SourceMapsConfig;
 use swc_atoms::js_word;
 use swc_common::{fold::FoldWith, FileName, Mark, SourceFile};
 use swc_ecma_ast::{ImportDecl, ImportSpecifier, Module, Program, Str};
