@@ -1,6 +1,6 @@
 use crate::JsCompiler;
 use anyhow::{bail, Error};
-use fxhash::{FxHashMap};
+use fxhash::FxHashMap;
 use neon::prelude::*;
 use serde::Deserialize;
 use spack::{
@@ -33,8 +33,6 @@ struct StaticConfigItem {
     working_dir: String,
     #[serde(default)]
     options: Option<swc::config::Options>,
-    #[serde(default)]
-    minify: bool,
 }
 
 struct BundleTask {
