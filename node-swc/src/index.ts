@@ -9,7 +9,7 @@ import {
 } from "./types";
 export * from "./types";
 import { wrapNativeSuper } from "./util";
-import {BundleOptions, compileLoader} from "./spack";
+import { BundleOptions } from "./spack";
 
 const native = require("./native");
 
