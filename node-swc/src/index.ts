@@ -218,7 +218,7 @@ export class Compiler extends wrapNativeSuper(native.Compiler) {
   }
 
 
-  async bundle(options: BundleInput | string): Promise<{ [name: string]: Output }> {
+  async bundle(options?: BundleInput | string): Promise<{ [name: string]: Output }> {
     const opts = await compileBundleOptions(options);
 
     return new Promise((resolve, reject) => {
@@ -310,7 +310,7 @@ export function transformFileSync(path: string, options?: Options): Output {
 }
 
 export function bundle(
-  options: BundleInput | string
+  options?: BundleInput | string
 ): Promise<{ [name: string]: Output }> {
   return compiler.bundle(options)
 }
