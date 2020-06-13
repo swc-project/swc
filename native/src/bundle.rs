@@ -79,12 +79,23 @@ impl Task for BundleTask {
             .map(|res| {
                 res.and_then(|(k, m)| {
                     // TODO: Source map
-                    let output = self.swc.print(
-                        &m,
-                        SourceMapsConfig::Bool(true),
-                        None,
-                        self.config.static_items.minify,
-                    )?;
+                    let minify = self
+                        .config
+                        .static_items
+                        .options
+                        .as_ref()
+                        .map(|v| {
+                            v.config
+                                .as_ref()
+                                .map(|v| v.minify)
+                                .flatten()
+                                .unwrap_or(false)
+                        })
+                        .unwrap_or(false);
+
+                    let output = self
+                        .swc
+                        .print(&m, SourceMapsConfig::Bool(true), None, minify)?;
 
                     Ok((k, output))
                 })

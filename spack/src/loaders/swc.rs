@@ -1,7 +1,6 @@
 use crate::load::Load;
 use anyhow::Error;
 use std::{path::Path, sync::Arc};
-use swc::config::InputSourceMap;
 use swc_common::SourceFile;
 use swc_ecma_ast::{Module, Program};
 use swc_ecma_parser::JscTarget;
@@ -47,14 +46,9 @@ impl Load for SwcLoader {
             // We run transform at this phase to strip out unused dependencies.
             //
             // Note that we don't apply compat transform at loading phase.
-            let (program, _src_map) = self.compiler.parse_js(
-                fm.clone(),
-                JscTarget::Es2019,
-                config.syntax,
-                true,
-                true,
-                &InputSourceMap::Bool(true),
-            )?;
+            let program =
+                self.compiler
+                    .parse_js(fm.clone(), JscTarget::Es2019, config.syntax, true, true)?;
 
             log::trace!("JsLoader.load: parsed");
 

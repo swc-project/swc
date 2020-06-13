@@ -6,7 +6,6 @@ use std::{
     path::Path,
     sync::{mpsc::channel, Arc},
 };
-use swc::config::InputSourceMap;
 use swc_common::{FileName, SourceFile};
 use swc_ecma_ast::{Module, Program};
 
@@ -71,14 +70,9 @@ impl Load for NeonLoader {
             },
             &fm.name,
         )?;
-        let (module, _) = self.swc.parse_js(
-            fm.clone(),
-            config.target,
-            config.syntax,
-            true,
-            true,
-            &InputSourceMap::Bool(true),
-        )?;
+        let module = self
+            .swc
+            .parse_js(fm.clone(), config.target, config.syntax, true, true)?;
         let module = match module {
             Program::Module(v) => v,
             Program::Script(_) => unreachable!("script"),

@@ -3,7 +3,6 @@ use super::Bundler;
 use crate::{loaders::swc::SwcLoader, resolve::NodeResolver, util::HygieneRemover};
 use pretty_assertions::assert_eq;
 use std::{env, path::PathBuf, sync::Arc};
-use swc::config::InputSourceMap;
 use swc_common::{fold::FoldWith, FileName};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{EsConfig, Syntax};
@@ -20,7 +19,7 @@ impl<'a> Tester<'a> {
             .swc
             .cm
             .new_source_file(FileName::Real(PathBuf::from("input.js")), s.into());
-        let (p, _src_map) = self
+        let p = self
             .bundler
             .swc
             .parse_js(
@@ -32,7 +31,6 @@ impl<'a> Tester<'a> {
                 }),
                 true,
                 true,
-                &InputSourceMap::Bool(true),
             )
             .expect("failed to parse");
 
