@@ -4,6 +4,7 @@ use fxhash::FxHashMap;
 use neon::prelude::*;
 use serde::Deserialize;
 use spack::{
+    config::EntryConfig,
     load::Load,
     resolve::{NodeResolver, Resolve},
     BundleKind,
@@ -15,13 +16,6 @@ struct ConfigItem {
     loader: Box<dyn Load>,
     resolver: Box<dyn Resolve>,
     static_items: StaticConfigItem,
-}
-
-#[derive(Debug, Deserialize)]
-#[serde(untagged)]
-enum EntryInput {
-    Single(String),
-    Multiple(FxHashMap<String, String>),
 }
 
 #[derive(Debug, Deserialize)]
@@ -48,19 +42,32 @@ impl Task for BundleTask {
         let bundler = spack::Bundler::new(
             working_dir.clone(),
             self.swc.clone(),
-            self.config.static_items.options.clone().unwrap_or_else(|| {
-                serde_json::from_value(serde_json::Value::Object(Default::default())).unwrap()
-            }),
+            self.config
+                .static_items
+                .config
+                .options
+                .as_ref()
+                .map(|options| options.clone())
+                .unwrap_or_else(|| {
+                    serde_json::from_value(serde_json::Value::Object(Default::default())).unwrap()
+                }),
             &self.config.resolver,
             &self.config.loader,
         );
-        let entries = match &self.config.static_items.entry {
-            EntryInput::Single(name) => {
+        let entries = match &self.config.static_items.config.entry {
+            EntryConfig::File(name) => {
                 let mut m = FxHashMap::default();
                 m.insert(name.clone(), working_dir.join(name));
                 m
             }
-            EntryInput::Multiple(v) => v
+            EntryConfig::Multiple(files) => {
+                let mut m = FxHashMap::default();
+                for name in files {
+                    m.insert(name.clone(), working_dir.join(name));
+                }
+                m
+            }
+            EntryConfig::Files(v) => v
                 .into_iter()
                 .map(|(k, v)| (k.clone(), working_dir.clone().join(v)))
                 .collect(),
@@ -80,6 +87,7 @@ impl Task for BundleTask {
                     let minify = self
                         .config
                         .static_items
+                        .config
                         .options
                         .as_ref()
                         .map(|v| {

@@ -60,7 +60,7 @@ pub enum EntryConfig {
 }
 
 pub struct JsCallback<T, Ret> {
-    _f: Box<dyn Fn(T) -> Ret>,
+    _f: Box<dyn Send + Sync + Fn(T) -> Ret>,
     _phantom: PhantomData<(T, Ret)>,
 }
 
