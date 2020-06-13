@@ -250,7 +250,12 @@ impl Fold<ForInStmt> for Dce<'_> {
             return node;
         }
 
-        node = node.fold_children(self);
+        node = ForInStmt {
+            span: node.span,
+            left: node.left,
+            right: node.right.fold_with(self),
+            body: node.body.fold_with(self),
+        };
 
         if self.should_include(&node.left)
             || self.is_marked(node.left.span())
@@ -274,7 +279,13 @@ impl Fold<ForOfStmt> for Dce<'_> {
             return node;
         }
 
-        node = node.fold_children(self);
+        node = ForOfStmt {
+            span: node.span,
+            await_token: node.await_token,
+            left: node.left,
+            right: node.right.fold_with(self),
+            body: node.body.fold_with(self),
+        };
 
         if self.should_include(&node.left)
             || self.is_marked(node.left.span())
