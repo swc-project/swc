@@ -4,12 +4,10 @@ use crate::{
 };
 use anyhow::{Context, Error};
 use fxhash::FxHashMap;
-use petgraph::{dot::Dot, graphmap::DiGraphMap, prelude::DiGraph, visit::Bfs};
 use rayon::prelude::*;
 use std::{path::PathBuf, sync::Arc};
-use swc_common::{fold::FoldWith, Mark, SourceFile, DUMMY_SP};
+use swc_common::{Mark, DUMMY_SP};
 use swc_ecma_ast::Module;
-use swc_ecma_transforms::{fixer, optimization::simplify::dce};
 
 mod chunk;
 mod export;
@@ -22,7 +20,7 @@ mod usage_analysis;
 
 pub struct Bundler<'a> {
     working_dir: PathBuf,
-    config: Config,
+    _config: Config,
 
     /// Javascript compiler.
     swc: Arc<swc::Compiler>,
@@ -77,7 +75,7 @@ impl<'a> Bundler<'a> {
 
         Bundler {
             working_dir,
-            config: Config { tree_shake: true },
+            _config: Config { tree_shake: true },
             swc,
             swc_options,
             loader,

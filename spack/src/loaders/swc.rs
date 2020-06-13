@@ -40,7 +40,7 @@ impl Load for SwcLoader {
 
             log::trace!("JsLoader.load: loaded");
 
-            let mut config = self.compiler.config_for_file(&self.options, &fm.name)?;
+            let config = self.compiler.config_for_file(&self.options, &fm.name)?;
 
             log::trace!("JsLoader.load: loaded config");
 

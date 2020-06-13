@@ -4,7 +4,6 @@ use crate::{
         export::Exports,
         load_transformed::{Imports, Specifier, TransformedModule},
     },
-    chunk::Chunk,
     debug::{assert_clean, HygieneVisualizer},
     util::HygieneRemover,
     Id, ModuleId,
@@ -17,18 +16,12 @@ use std::{
 use swc::config::SourceMapsConfig;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
-    fold::FoldWith, util::move_map::MoveMap, Fold, Mark, Span, Spanned, SyntaxContext, VisitMut,
-    VisitMutWith, VisitWith, DUMMY_SP,
+    fold::FoldWith, Fold, Mark, Span, Spanned, SyntaxContext, VisitMut, VisitMutWith, VisitWith,
+    DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms::{hygiene, resolver};
 use swc_ecma_utils::{find_ids, ident::IdentLike, prepend_stmts, DestructuringFinder, StmtLike};
-
-#[derive(Debug)]
-pub(crate) enum MergedModule {
-    Modules(Module, Vec<Chunk>),
-    Module(Module),
-}
 
 impl Bundler<'_> {
     /// Merge `targets` into `entry`.
@@ -346,7 +339,7 @@ impl Fold<ModuleItem> for ExportRenamer<'_> {
                     let ident = match &specifier {
                         // TODO
                         ExportSpecifier::Namespace(s) => self.aliased_import(&s.name.sym),
-                        ExportSpecifier::Default(s) => self.aliased_import(&js_word!("default")),
+                        ExportSpecifier::Default(..) => self.aliased_import(&js_word!("default")),
                         ExportSpecifier::Named(s) => {
                             if let Some(exported) = &s.exported {
                                 self.aliased_import(&exported.sym)
@@ -360,7 +353,7 @@ impl Fold<ModuleItem> for ExportRenamer<'_> {
                         let orig = match specifier {
                             // TODO
                             ExportSpecifier::Namespace(s) => s.name,
-                            ExportSpecifier::Default(s) => Ident::new(js_word!("default"), span),
+                            ExportSpecifier::Default(..) => Ident::new(js_word!("default"), span),
                             ExportSpecifier::Named(s) => s.orig,
                         };
 

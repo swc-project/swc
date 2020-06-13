@@ -14,19 +14,17 @@ use std::{
     path::{Path, PathBuf},
     sync::Arc,
 };
-use swc::config::{InputSourceMap, SourceMapsConfig};
-use swc_common::{fold::FoldWith, FileName};
-use swc_ecma_ast::Program;
+use swc::config::SourceMapsConfig;
 use test::{
     test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,
 };
-use testing::{DropSpan, NormalizedOutput};
+use testing::NormalizedOutput;
 use walkdir::WalkDir;
 
 fn add_test<F: FnOnce() + Send + 'static>(
     tests: &mut Vec<TestDescAndFn>,
     name: String,
-    mut ignore: bool,
+    ignore: bool,
     f: F,
 ) {
     tests.push(TestDescAndFn {

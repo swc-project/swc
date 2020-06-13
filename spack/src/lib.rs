@@ -13,7 +13,6 @@ pub use self::{
 };
 
 mod bundler;
-mod chunk;
 pub mod config;
 mod debug;
 mod id;
