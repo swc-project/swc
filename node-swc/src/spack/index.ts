@@ -3,12 +3,15 @@ import * as path from 'path';
 
 export type BundleInput = BundleOptions | BundleOptions[];
 
-export async function compile(c: BundleInput): Promise<BundleInput> {
+export async function compileSpackOptions(c: BundleInput | string): Promise<BundleInput> {
     try {
         const file = path.resolve('spack.config.js');
         const configFromFile = require(file);
         return Object.assign({}, configFromFile, c);
     } catch (e) {
+        if (typeof c === 'string') {
+            throw new Error(`Config file does not exist at ${c}`)
+        }
         return c;
     }
 }
