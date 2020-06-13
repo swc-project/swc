@@ -1,7 +1,7 @@
 use self::side_effect::{ImportDetector, SideEffectVisitor};
 use crate::pass::RepeatedJsPass;
 use fxhash::FxHashSet;
-use std::borrow::Cow;
+use std::{any::type_name, borrow::Cow};
 use swc_atoms::JsWord;
 use swc_common::{
     chain,
@@ -64,7 +64,7 @@ pub fn dce<'a>(config: Config<'a>) -> impl RepeatedJsPass + 'a {
             included: Default::default(),
             changed: false,
             marking_phase: false,
-            import_dropping_phase: false,
+            decl_dropping_phase: false,
         },
         UsedMarkRemover { used_mark }
     )
@@ -115,7 +115,7 @@ struct Dce<'a> {
     /// If false, the pass **ignores** imports.
     ///
     /// It means, imports are not marked (as used) nor removed.
-    import_dropping_phase: bool,
+    decl_dropping_phase: bool,
 
     dropped: bool,
 }
@@ -139,7 +139,7 @@ impl Repeated for Dce<'_> {
 
 impl<T> Fold<Vec<T>> for Dce<'_>
 where
-    T: StmtLike + FoldWith<Self> + Spanned,
+    T: StmtLike + FoldWith<Self> + Spanned + std::fmt::Debug,
     T: for<'any> VisitWith<SideEffectVisitor<'any>> + VisitWith<ImportDetector>,
 {
     fn fold(&mut self, mut items: Vec<T>) -> Vec<T> {
@@ -149,6 +149,8 @@ where
         preserved.reserve(items.len());
 
         loop {
+            log::info!("loop start");
+
             self.changed = false;
             let mut idx = 0u32;
             items = items.move_map(|mut item| {
@@ -158,7 +160,7 @@ where
                     if self.should_include(&item) {
                         preserved.insert(idx);
                         self.changed = true;
-                        item = self.fold_in_marking_phase(item)
+                        item = item.fold_with(self);
                     }
                     item
                 };
@@ -174,7 +176,7 @@ where
         {
             let mut idx = 0;
             items = items.move_flat_map(|item| {
-                let item = self.drop_imports(item);
+                let item = self.drop_unused_decls(item);
                 let item = match item.try_into_stmt() {
                     Ok(stmt) => match stmt {
                         Stmt::Empty(..) => {
@@ -226,7 +228,7 @@ impl Dce<'_> {
         }
     }
 
-    pub fn is_exported(&self, i: &JsWord) -> bool {
+    pub fn should_preserve_export(&self, i: &JsWord) -> bool {
         self.config.used.is_none()
             || self
                 .config
@@ -267,20 +269,21 @@ impl Dce<'_> {
     {
         let old = self.marking_phase;
         self.marking_phase = true;
+        log::info!("Marking: {}", type_name::<T>());
         let node = node.fold_with(self);
         self.marking_phase = old;
 
         node
     }
 
-    pub fn drop_imports<T>(&mut self, node: T) -> T
+    pub fn drop_unused_decls<T>(&mut self, node: T) -> T
     where
         T: FoldWith<Self>,
     {
-        let old = self.import_dropping_phase;
-        self.import_dropping_phase = true;
+        let old = self.decl_dropping_phase;
+        self.decl_dropping_phase = true;
         let node = node.fold_with(self);
-        self.import_dropping_phase = old;
+        self.decl_dropping_phase = old;
 
         node
     }
@@ -293,8 +296,10 @@ impl Fold<Ident> for Dce<'_> {
         }
 
         if self.marking_phase {
-            self.included.insert(i.to_id());
-            self.changed = true;
+            if self.included.insert(i.to_id()) {
+                log::info!("{} is used", i.sym);
+                self.changed = true;
+            }
         }
 
         i
@@ -313,5 +318,18 @@ impl Fold<MemberExpr> for Dce<'_> {
         }
 
         e
+    }
+}
+
+impl Fold<UpdateExpr> for Dce<'_> {
+    fn fold(&mut self, mut node: UpdateExpr) -> UpdateExpr {
+        if self.is_marked(node.span) {
+            return node;
+        }
+
+        node.span = node.span.apply_mark(self.config.used_mark);
+        node.arg = self.fold_in_marking_phase(node.arg);
+
+        node
     }
 }

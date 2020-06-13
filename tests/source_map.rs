@@ -1,4 +1,4 @@
-use std::{fs::canonicalize, process::Command};
+use std::{fs::canonicalize, process::Command, sync::Arc};
 use swc::{
     config::{Options, SourceMapsConfig},
     Compiler,
@@ -9,7 +9,7 @@ fn file(f: &str) -> Result<(), StdErr> {
     Tester::new().print_errors(|cm, handler| {
         let path = canonicalize(f).expect("failed to canonicalize");
 
-        let c = Compiler::new(cm.clone(), handler);
+        let c = Compiler::new(cm.clone(), Arc::new(handler));
 
         let fm = cm.load_file(&path).expect("failed to load file");
         let s = c
@@ -59,7 +59,7 @@ fn inline(f: &str) -> Result<(), StdErr> {
     Tester::new().print_errors(|cm, handler| {
         let path = canonicalize(f).expect("failed to canonicalize");
 
-        let c = Compiler::new(cm.clone(), handler);
+        let c = Compiler::new(cm.clone(), Arc::new(handler));
 
         let fm = cm.load_file(&path).expect("failed to load file");
         let s = c

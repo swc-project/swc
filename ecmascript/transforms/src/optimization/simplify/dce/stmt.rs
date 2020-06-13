@@ -4,11 +4,13 @@ use swc_ecma_ast::*;
 
 impl Fold<ExprStmt> for Dce<'_> {
     fn fold(&mut self, node: ExprStmt) -> ExprStmt {
+        log::debug!("ExprStmt ->");
         if self.is_marked(node.span) {
             return node;
         }
 
         if self.should_include(&node.expr) {
+            log::debug!("\tIncluded");
             let stmt = ExprStmt {
                 span: node.span.apply_mark(self.config.used_mark),
                 expr: self.fold_in_marking_phase(node.expr),
@@ -248,9 +250,15 @@ impl Fold<ForInStmt> for Dce<'_> {
             return node;
         }
 
-        node = node.fold_children(self);
+        node = ForInStmt {
+            span: node.span,
+            left: node.left,
+            right: node.right.fold_with(self),
+            body: node.body.fold_with(self),
+        };
 
-        if self.is_marked(node.left.span())
+        if self.should_include(&node.left)
+            || self.is_marked(node.left.span())
             || self.is_marked(node.right.span())
             || self.is_marked(node.body.span())
         {
@@ -271,9 +279,16 @@ impl Fold<ForOfStmt> for Dce<'_> {
             return node;
         }
 
-        node = node.fold_children(self);
+        node = ForOfStmt {
+            span: node.span,
+            await_token: node.await_token,
+            left: node.left,
+            right: node.right.fold_with(self),
+            body: node.body.fold_with(self),
+        };
 
-        if self.is_marked(node.left.span())
+        if self.should_include(&node.left)
+            || self.is_marked(node.left.span())
             || self.is_marked(node.right.span())
             || self.is_marked(node.body.span())
         {

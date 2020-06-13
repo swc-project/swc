@@ -46,13 +46,22 @@ pub struct ParseOptions {
     pub target: JscTarget,
 }
 
-#[derive(Default, Deserialize)]
+#[derive(Debug, Clone, Default, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct Options {
     #[serde(flatten, default)]
     pub config: Option<Config>,
 
     #[cfg(not(target_arch = "wasm32"))]
+    #[serde(skip_deserializing, default)]
+    pub disable_hygiene: bool,
+
+    #[serde(skip_deserializing, default)]
+    pub disable_fixer: bool,
+
+    #[serde(skip_deserializing, default)]
+    pub global_mark: Option<Mark>,
+
     #[serde(default = "default_cwd")]
     pub cwd: PathBuf,
 
@@ -102,7 +111,7 @@ fn default_is_module() -> bool {
 }
 
 /// Configuration related to source map generaged by swc.
-#[derive(Clone, Serialize, Deserialize)]
+#[derive(Clone, Serialize, Deserialize, Debug)]
 #[serde(untagged)]
 pub enum SourceMapsConfig {
     Bool(bool),
@@ -127,7 +136,7 @@ impl Default for SourceMapsConfig {
     }
 }
 
-#[derive(Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum InputSourceMap {
     Bool(bool),
@@ -202,7 +211,9 @@ impl Options {
             pass
         };
 
-        let root_mark = Mark::fresh(Mark::root());
+        let root_mark = self
+            .global_mark
+            .unwrap_or_else(|| Mark::fresh(Mark::root()));
 
         let pass = chain!(
             // handle jsx
@@ -230,6 +241,8 @@ impl Options {
 
         let pass = PassBuilder::new(&cm, &handler, loose, root_mark, pass)
             .target(target)
+            .hygiene(!self.disable_hygiene)
+            .fixer(!self.disable_fixer)
             .preset_env(config.env)
             .finalize(root_mark, syntax, config.module);
 
@@ -249,7 +262,7 @@ impl Options {
     }
 }
 
-#[derive(Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub enum RootMode {
     #[serde(rename = "root")]
     Root,
@@ -268,7 +281,7 @@ const fn default_swcrc() -> bool {
     true
 }
 
-#[derive(Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum ConfigFile {
     Bool(bool),
@@ -281,7 +294,7 @@ impl Default for ConfigFile {
     }
 }
 
-#[derive(Default, Clone, Serialize, Deserialize)]
+#[derive(Debug, Default, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct CallerOptions {
     pub name: String,

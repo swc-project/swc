@@ -2,6 +2,7 @@ export interface Plugin {
   (module: Program): Program;
 }
 
+// TODO:
 export type ParseOptions = ParserConfig & {
   comments?: boolean;
   script?: boolean;

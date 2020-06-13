@@ -23,7 +23,7 @@ impl Dce<'_> {
         T: for<'any> VisitWith<SideEffectVisitor<'any>> + VisitWith<ImportDetector>,
     {
         // Preserve imports if we are not in import dropping phase
-        if !self.import_dropping_phase {
+        if !self.decl_dropping_phase {
             let mut v = ImportDetector { found: false };
 
             node.visit_with(&mut v);
@@ -47,8 +47,8 @@ impl Dce<'_> {
 
 impl SideEffectVisitor<'_> {
     fn is_exported(&self, i: &JsWord) -> bool {
-        self.exports.is_none()
-            || self
+        self.exports.is_some()
+            && self
                 .exports
                 .as_ref()
                 .unwrap()
@@ -237,6 +237,12 @@ impl Visit<DoWhileStmt> for SideEffectVisitor<'_> {
     }
 }
 
+impl Visit<ExportDefaultSpecifier> for SideEffectVisitor<'_> {
+    fn visit(&mut self, _: &ExportDefaultSpecifier) {
+        self.found = true;
+    }
+}
+
 impl Visit<ImportDecl> for SideEffectVisitor<'_> {
     fn visit(&mut self, import: &ImportDecl) {
         if self.found {
@@ -260,9 +266,7 @@ impl Visit<ExportDecl> for SideEffectVisitor<'_> {
 
 impl Visit<ExportDefaultExpr> for SideEffectVisitor<'_> {
     fn visit(&mut self, _: &ExportDefaultExpr) {
-        if self.is_exported(&js_word!("default")) {
-            self.found = true
-        }
+        self.found = true;
     }
 }
 
@@ -286,7 +290,7 @@ impl Visit<Pat> for SideEffectVisitor<'_> {
 
         match p {
             Pat::Ident(ref i) => {
-                if self.included.contains(&i.to_id()) {
+                if self.included.contains(&i.to_id()) || self.is_exported(&i.sym) {
                     self.found = true;
                 }
             }

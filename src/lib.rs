@@ -18,7 +18,7 @@ use common::{
 };
 use ecmascript::{
     ast::Program,
-    codegen::{self, Emitter},
+    codegen::{self, Emitter, Node},
     parser::{lexer::Lexer, Parser, Session as ParseSess, Syntax},
     transforms::{
         helpers::{self, Helpers},
@@ -48,7 +48,7 @@ pub struct Compiler {
     globals: Globals,
     /// CodeMap
     pub cm: Arc<SourceMap>,
-    pub handler: Handler,
+    pub handler: Arc<Handler>,
     comments: Comments,
 }
 
@@ -189,14 +189,16 @@ impl Compiler {
         })
     }
 
-    pub fn print(
+    pub fn print<T>(
         &self,
-        program: &Program,
-        comments: &Comments,
+        node: &T,
         source_map: SourceMapsConfig,
         orig: Option<&sourcemap::SourceMap>,
         minify: bool,
-    ) -> Result<TransformOutput, Error> {
+    ) -> Result<TransformOutput, Error>
+    where
+        T: Node,
+    {
         self.run(|| {
             let mut src_map_buf = vec![];
 
@@ -206,7 +208,7 @@ impl Compiler {
                     let handlers = box MyHandlers;
                     let mut emitter = Emitter {
                         cfg: codegen::Config { minify },
-                        comments: Some(&comments),
+                        comments: if minify { None } else { Some(&self.comments) },
                         cm: self.cm.clone(),
                         wr: box codegen::text_writer::JsWriter::new(
                             self.cm.clone(),
@@ -221,8 +223,7 @@ impl Compiler {
                         handlers,
                     };
 
-                    emitter
-                        .emit_program(&program)
+                    node.emit_with(&mut emitter)
                         .context("failed to emit module")?;
                 }
                 // Invalid utf8 is valid in javascript world.
@@ -271,7 +272,7 @@ impl Compiler {
 
 /// High-level apis.
 impl Compiler {
-    pub fn new(cm: Arc<SourceMap>, handler: Handler) -> Self {
+    pub fn new(cm: Arc<SourceMap>, handler: Arc<Handler>) -> Self {
         Compiler {
             cm,
             handler,
@@ -281,6 +282,8 @@ impl Compiler {
     }
 
     /// This method handles merging of config.
+    ///
+    /// This method does **not** parse module.
     pub fn config_for_file(
         &self,
         opts: &Options,
@@ -364,6 +367,22 @@ impl Compiler {
     }
 
     // TODO: Handle source map
+    pub fn transform(
+        &self,
+        program: Program,
+        external_helpers: bool,
+        mut pass: impl Pass,
+    ) -> Program {
+        self.run(|| {
+            helpers::HELPERS.set(&Helpers::new(external_helpers), || {
+                util::HANDLER.set(&self.handler, || {
+                    // Fold module
+                    program.fold_with(&mut pass)
+                })
+            })
+        })
+    }
+
     pub fn process_js_file(
         &self,
         fm: Arc<SourceFile>,
@@ -424,13 +443,7 @@ impl Compiler {
                 })
             });
 
-            self.print(
-                &program,
-                &self.comments,
-                config.source_maps,
-                orig,
-                config.minify,
-            )
+            self.print(&program, config.source_maps, orig, config.minify)
         })
     }
 }

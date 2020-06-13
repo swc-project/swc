@@ -3,7 +3,7 @@
 #![feature(box_patterns)]
 #![feature(specialization)]
 
-use swc_common::{chain, SyntaxContext};
+use swc_common::{chain, Mark, SyntaxContext};
 use swc_ecma_transforms::{
     optimization::simplify::dce::{self, dce},
     resolver,
@@ -27,17 +27,22 @@ macro_rules! to {
 fn used(ids: &[&str], src: &str, expected: &str) {
     test_transform!(
         Default::default(),
-        |_| chain!(
-            resolver(),
-            dce(dce::Config {
-                used: Some(
-                    ids.into_iter()
-                        .map(|&v| { (v.into(), SyntaxContext::empty()) })
-                        .collect()
-                ),
-                ..Default::default()
-            })
-        ),
+        |_| {
+            let mark = Mark::fresh(Mark::root());
+
+            chain!(
+                resolver(),
+                dce(dce::Config {
+                    used: Some(
+                        ids.into_iter()
+                            .map(|&v| { (v.into(), SyntaxContext::empty().apply_mark(mark)) })
+                            .collect()
+                    ),
+                    used_mark: mark,
+                    ..Default::default()
+                })
+            )
+        },
         src,
         expected,
         false
@@ -167,8 +172,8 @@ fn export_default_expr_used() {
 noop!(
     issue_760_1,
     "var ref;
-    const Auth = window === null || window === void 0 ? void 0 : (ref = window.aws) === null || \
-     ref === void 0 ? void 0 : ref.Auth;
+    export const Auth = window === null || window === void 0 ? void 0 : (ref = window.aws) === \
+     null || ref === void 0 ? void 0 : ref.Auth;
     "
 );
 
@@ -359,4 +364,59 @@ noop!(
     use(B)
     resources.map(v => v)
 "
+);
+
+#[test]
+fn spack_issue_001() {
+    used(
+        &["FOO"],
+        "export const FOO = 'foo';",
+        "export const FOO = 'foo';",
+    );
+}
+
+#[test]
+fn spack_issue_002() {
+    used(
+        &["FOO"],
+        "export const FOO = 'foo', BAR = 'bar';",
+        "export const FOO = 'foo';",
+    );
+}
+
+#[test]
+fn spack_issue_003() {
+    used(
+        &["default"],
+        "export const FOO = 'foo', BAR = 'bar';
+        export default BAR;",
+        "export const BAR = 'bar';
+        export default BAR;",
+    );
+}
+
+to!(
+    spack_issue_004,
+    "const FOO = 'foo', BAR = 'bar';
+        export default BAR;",
+    "const BAR = 'bar';
+        export default BAR;"
+);
+
+noop!(
+    spack_issue_005,
+    "function a() {
+}
+function foo() {
+}
+ console.log(a(), foo());"
+);
+
+noop!(
+    spack_issue_006,
+    "import * as a from './a';
+
+function foo() {}
+
+console.log(foo(), a.a(), a.foo());"
 );

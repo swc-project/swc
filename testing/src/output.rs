@@ -1,4 +1,5 @@
 use crate::paths;
+use pretty_assertions::assert_eq;
 use std::{
     fmt,
     fs::{create_dir_all, remove_file, File},
@@ -80,6 +81,16 @@ impl NormalizedOutput {
             return Ok(());
         }
         create_dir_all(path_for_actual.parent().unwrap()).expect("failed to run `mkdir -p`");
+
+        let diff = Diff {
+            expected: NormalizedOutput(expected),
+            actual: self.clone(),
+        };
+        if std::env::var("UPDATE").unwrap_or(String::from("0")) == "0" {
+            assert_eq!(diff.expected, diff.actual, "Actual:\n{}", diff.actual);
+            return Err(diff);
+        }
+
         // ::write_to_file(&path_for_actual, &self.0);
         crate::write_to_file(&path, &self.0);
 
@@ -87,15 +98,6 @@ impl NormalizedOutput {
             "Assertion failed: \nActual file printed to {}",
             path_for_actual.display()
         );
-
-        let diff = Diff {
-            expected: NormalizedOutput(expected),
-            actual: self,
-        };
-
-        if ::std::env::var("CI").unwrap_or(String::from("0")) == "1" {
-            println!("Diff:\n{:?}", diff);
-        }
 
         Err(diff)
     }

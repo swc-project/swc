@@ -1,5 +1,5 @@
 [workspace]
-members = ["ecmascript/visit", "native", "wasm"]
+members = ["ecmascript/visit", "native", "spack", "wasm"]
 
 [package]
 name = "swc"
@@ -29,6 +29,7 @@ either = "1"
 dashmap = "=3.5.1"
 sourcemap = "5"
 base64 = "0.12.0"
+derive_more = { version = "0.99.2", default-features = false, features = ["display"] }
 
 [dev-dependencies]
 testing = { path = "./testing" }

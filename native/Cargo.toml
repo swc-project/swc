@@ -16,10 +16,12 @@ crate-type = ["cdylib"]
 neon-build = "0.4.0"
 
 [dependencies]
+swc = { path = "../" }
+spack = { path = "../spack" }
+fxhash = "0.2"
 anyhow = "1"
 serde_json = "1"
 neon = "0.4.0"
 neon-serde = "0.4.0"
 path-clean = "0.1"
-swc = { path = "../" }
 serde = { version = "1", features = ["derive"] }

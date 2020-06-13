@@ -1,6 +1,6 @@
 [package]
 name = "testing"
-version = "0.5.1"
+version = "0.5.2"
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 license = "Apache-2.0/MIT"
 repository = "https://github.com/swc-project/swc.git"
@@ -17,3 +17,4 @@ difference = "2"
 log = "0.4"
 env_logger = "0.7.1"
 ansi_term = "0.12.1"
+pretty_assertions = "0.6.1"

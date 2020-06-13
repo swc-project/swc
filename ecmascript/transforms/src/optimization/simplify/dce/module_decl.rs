@@ -1,11 +1,12 @@
 use super::Dce;
-use swc_common::Fold;
+use swc_common::{util::move_map::MoveMap, Fold, Spanned};
 use swc_ecma_ast::*;
+use swc_ecma_utils::{find_ids, Id};
 
 impl Fold<ImportDecl> for Dce<'_> {
     fn fold(&mut self, mut import: ImportDecl) -> ImportDecl {
         // Do not mark import as used while ignoring imports
-        if !self.import_dropping_phase {
+        if !self.decl_dropping_phase {
             return import;
         }
 
@@ -46,21 +47,40 @@ impl Fold<ExportDecl> for Dce<'_> {
             }
 
             // Preserve only exported variables
-            Decl::Var(ref mut v) => {
-                // If config.used is None, all exports are preserved
-                if let Some(..) = self.config.used {
-                    v.decls.retain(|d| self.should_include(d));
+            Decl::Var(mut v) => {
+                v.decls = v.decls.move_flat_map(|mut d| {
+                    if self.is_marked(d.span()) {
+                        return Some(d);
+                    }
+
+                    let names: Vec<Id> = find_ids(&d.name);
+                    for name in names {
+                        if self.included.iter().any(|included| *included == name)
+                            || self.should_preserve_export(&name.0)
+                        {
+                            d.span = d.span.apply_mark(self.config.used_mark);
+                            d.init = self.fold_in_marking_phase(d.init);
+                            return Some(d);
+                        }
+                    }
+
+                    if self.decl_dropping_phase {
+                        return None;
+                    }
+                    Some(d)
+                });
+
+                if self.decl_dropping_phase && !v.decls.is_empty() {
+                    node.span = node.span.apply_mark(self.config.used_mark);
                 }
 
-                if !v.decls.is_empty() {
-                    node.span = node.span.apply_mark(self.config.used_mark);
-                    node.decl = self.fold_in_marking_phase(node.decl);
-                }
+                node.decl = Decl::Var(v);
+
                 return node;
             }
         };
 
-        if self.is_exported(&i.sym) {
+        if self.should_preserve_export(&i.sym) {
             node.span = node.span.apply_mark(self.config.used_mark);
             node.decl = self.fold_in_marking_phase(node.decl);
         }
@@ -75,7 +95,7 @@ impl Fold<ExportDefaultExpr> for Dce<'_> {
             return node;
         }
 
-        if self.is_exported(&js_word!("default")) {
+        if self.should_preserve_export(&js_word!("default")) {
             node.span = node.span.apply_mark(self.config.used_mark);
             node.expr = self.fold_in_marking_phase(node.expr);
         }
@@ -92,10 +112,10 @@ impl Fold<NamedExport> for Dce<'_> {
 
         // Export only when it's required.
         node.specifiers.retain(|s| match s {
-            ExportSpecifier::Namespace(s) => self.is_exported(&s.name.sym),
-            ExportSpecifier::Default(..) => self.is_exported(&js_word!("default")),
+            ExportSpecifier::Namespace(s) => self.should_preserve_export(&s.name.sym),
+            ExportSpecifier::Default(..) => self.should_preserve_export(&js_word!("default")),
             ExportSpecifier::Named(s) => {
-                self.is_exported(&s.exported.as_ref().unwrap_or_else(|| &s.orig).sym)
+                self.should_preserve_export(&s.exported.as_ref().unwrap_or_else(|| &s.orig).sym)
             }
         });
 

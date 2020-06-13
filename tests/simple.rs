@@ -1,3 +1,4 @@
+use std::sync::Arc;
 use swc::{
     config::{Config, JscConfig, Options},
     ecmascript::parser::{EsConfig, Syntax},
@@ -9,7 +10,7 @@ use testing::Tester;
 fn compile(src: &str, options: Options) -> String {
     Tester::new()
         .print_errors(|cm, handler| {
-            let c = Compiler::new(cm.clone(), handler);
+            let c = Compiler::new(cm.clone(), Arc::new(handler));
 
             let fm = cm.new_source_file(FileName::Real("input.js".into()), src.into());
             let s = c.process_js_file(

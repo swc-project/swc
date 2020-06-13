@@ -1,5 +1,5 @@
 use rayon::prelude::*;
-use std::path::Path;
+use std::{path::Path, sync::Arc};
 use swc::{
     config::{Config, Options, SourceMapsConfig},
     Compiler,
@@ -20,7 +20,7 @@ fn file(f: &str) -> Result<NormalizedOutput, StdErr> {
 
 fn file_with_opt(f: &str, options: Options) -> Result<NormalizedOutput, StdErr> {
     Tester::new().print_errors(|cm, handler| {
-        let c = Compiler::new(cm.clone(), handler);
+        let c = Compiler::new(cm.clone(), Arc::new(handler));
 
         let fm = cm.load_file(Path::new(f)).expect("failed to load file");
         let s = c.process_js_file(
@@ -46,7 +46,7 @@ fn file_with_opt(f: &str, options: Options) -> Result<NormalizedOutput, StdErr> 
 fn project(dir: &str) {
     Tester::new()
         .print_errors(|cm, handler| {
-            let c = Compiler::new(cm.clone(), handler);
+            let c = Compiler::new(cm.clone(), Arc::new(handler));
 
             for entry in WalkDir::new(dir) {
                 let entry = entry.unwrap();
@@ -87,7 +87,7 @@ fn project(dir: &str) {
 fn par_project(dir: &str) {
     Tester::new()
         .print_errors(|cm, handler| {
-            let c = Compiler::new(cm.clone(), handler);
+            let c = Compiler::new(cm.clone(), Arc::new(handler));
 
             let entries = WalkDir::new(dir)
                 .into_iter()

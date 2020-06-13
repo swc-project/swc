@@ -5,10 +5,11 @@ import {
   Output,
   Options,
   Script,
-  Program
+  Program,
 } from "./types";
 export * from "./types";
 import { wrapNativeSuper } from "./util";
+import { BundleInput, compileBundleOptions } from "./spack";
 
 const native = require("./native");
 
@@ -215,6 +216,20 @@ export class Compiler extends wrapNativeSuper(native.Compiler) {
 
     return super.transformFileSync(path, /* isModule */ false, options);
   }
+
+
+  async bundle(options?: BundleInput | string): Promise<{ [name: string]: Output }> {
+    const opts = await compileBundleOptions(options);
+
+    return new Promise((resolve, reject) => {
+      super.bundle({
+        ...opts,
+      }, (err: any, value: any) => {
+        if (err) return reject(err);
+        resolve(value)
+      })
+    });
+  }
 }
 
 const compiler = new Compiler();
@@ -292,6 +307,12 @@ export function transformFile(
 
 export function transformFileSync(path: string, options?: Options): Output {
   return compiler.transformFileSync(path, options);
+}
+
+export function bundle(
+  options?: BundleInput | string
+): Promise<{ [name: string]: Output }> {
+  return compiler.bundle(options)
 }
 
 export const DEFAULT_EXTENSIONS = Object.freeze([
