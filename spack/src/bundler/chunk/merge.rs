@@ -1,10 +1,7 @@
 use super::Bundler;
 use crate::{
-    bundler::{
-        export::Exports,
-        load_transformed::{Imports, Specifier, TransformedModule},
-    },
-    debug::{assert_clean, HygieneVisualizer},
+    bundler::{export::Exports, load_transformed::Specifier},
+    debug::assert_clean,
     util::HygieneRemover,
     Id, ModuleId,
 };
@@ -20,7 +17,7 @@ use swc_common::{
     DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_transforms::{hygiene};
+use swc_ecma_transforms::hygiene;
 use swc_ecma_utils::{find_ids, DestructuringFinder, StmtLike};
 
 impl Bundler<'_> {
@@ -36,20 +33,20 @@ impl Bundler<'_> {
 
             let mut entry: Module = (*info.module).clone();
 
-            {
-                let code = self
-                    .swc
-                    .print(
-                        &entry.clone().fold_with(&mut HygieneVisualizer),
-                        SourceMapsConfig::Bool(false),
-                        None,
-                        false,
-                    )
-                    .unwrap()
-                    .code;
-
-                println!("Before merging:\n{}\n\n\n", code);
-            }
+            // {
+            //     let code = self
+            //         .swc
+            //         .print(
+            //             &entry.clone().fold_with(&mut HygieneVisualizer),
+            //             SourceMapsConfig::Bool(false),
+            //             None,
+            //             false,
+            //         )
+            //         .unwrap()
+            //         .code;
+            //
+            //     println!("Before merging:\n{}\n\n\n", code);
+            // }
 
             for (src, specifiers) in &info.imports.specifiers {
                 if !targets.contains(&src.module_id) {
@@ -111,7 +108,7 @@ impl Bundler<'_> {
                         {
                             dep = dep.fold_with(&mut ExportRenamer {
                                 mark: imported.mark(),
-                                exports: &imported.exports,
+                                _exports: &imported.exports,
                                 imports: &imports,
                                 extras: vec![],
                             });
@@ -143,35 +140,35 @@ impl Bundler<'_> {
                             module_mark: imported.mark(),
                         });
 
-                        {
-                            let code = self
-                                .swc
-                                .print(
-                                    &dep.clone().fold_with(&mut HygieneVisualizer),
-                                    SourceMapsConfig::Bool(false),
-                                    None,
-                                    false,
-                                )
-                                .unwrap()
-                                .code;
+                        // {
+                        //     let code = self
+                        //         .swc
+                        //         .print(
+                        //             &dep.clone().fold_with(&mut HygieneVisualizer),
+                        //             SourceMapsConfig::Bool(false),
+                        //             None,
+                        //             false,
+                        //         )
+                        //         .unwrap()
+                        //         .code;
+                        //
+                        //     println!("Dep:\n{}\n\n\n", code);
+                        // }
 
-                            println!("Dep:\n{}\n\n\n", code);
-                        }
-
-                        {
-                            let code = self
-                                .swc
-                                .print(
-                                    &entry.clone().fold_with(&mut HygieneVisualizer),
-                                    SourceMapsConfig::Bool(false),
-                                    None,
-                                    false,
-                                )
-                                .unwrap()
-                                .code;
-
-                            println!("@: Before merging:\n{}\n\n\n", code);
-                        }
+                        // {
+                        //     let code = self
+                        //         .swc
+                        //         .print(
+                        //             &entry.clone().fold_with(&mut HygieneVisualizer),
+                        //             SourceMapsConfig::Bool(false),
+                        //             None,
+                        //             false,
+                        //         )
+                        //         .unwrap()
+                        //         .code;
+                        //
+                        //     println!("@: Before merging:\n{}\n\n\n", code);
+                        // }
 
                         // Replace import statement / require with module body
                         entry.body.visit_mut_with(&mut Injector {
@@ -179,39 +176,25 @@ impl Bundler<'_> {
                             src: src.src.clone(),
                         });
 
-                        {
-                            let code = self
-                                .swc
-                                .print(
-                                    &entry.clone().fold_with(&mut HygieneVisualizer),
-                                    SourceMapsConfig::Bool(false),
-                                    None,
-                                    false,
-                                )
-                                .unwrap()
-                                .code;
-
-                            println!("Merged:\n{}\n\n\n", code);
-                        }
+                        // {
+                        //     let code = self
+                        //         .swc
+                        //         .print(
+                        //             &entry.clone().fold_with(&mut
+                        // HygieneVisualizer),
+                        //             SourceMapsConfig::Bool(false),
+                        //             None,
+                        //             false,
+                        //         )
+                        //         .unwrap()
+                        //         .code;
+                        //
+                        //     println!("Merged:\n{}\n\n\n", code);
+                        // }
                     }
                 } else {
                     unimplemented!("conditional dependency: {} -> {}", info.id, src.module_id)
                 }
-            }
-
-            {
-                let code = self
-                    .swc
-                    .print(
-                        &entry.clone().fold_with(&mut HygieneVisualizer),
-                        SourceMapsConfig::Bool(false),
-                        None,
-                        false,
-                    )
-                    .unwrap()
-                    .code;
-
-                println!("Hygiene:\n{}\n\n\n", code);
             }
 
             Ok(entry.fold_with(&mut hygiene()))
@@ -248,7 +231,7 @@ impl Fold<ModuleItem> for Unexporter {
 struct ExportRenamer<'a> {
     /// The mark applied to identifiers exported to dependant modules.
     mark: Mark,
-    exports: &'a Exports,
+    _exports: &'a Exports,
     /// Dependant module's import
     imports: &'a [Specifier],
     extras: Vec<Stmt>,
@@ -470,6 +453,7 @@ struct LocalMarker<'a> {
 
 impl<'a> LocalMarker<'a> {
     /// Searches for i, and fold T.
+    #[allow(dead_code)]
     fn recurse<I, F, Ret>(&mut self, excluded_idents: I, op: F) -> Ret
     where
         F: FnOnce(I, &mut Self) -> Ret,

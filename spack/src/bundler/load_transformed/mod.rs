@@ -18,7 +18,7 @@ use swc::config::SourceMapsConfig;
 use swc_atoms::js_word;
 use swc_common::{fold::FoldWith, FileName, Mark, SourceFile};
 use swc_ecma_ast::{ImportDecl, ImportSpecifier, Module, Program, Str};
-use swc_ecma_transforms::{resolver::resolver_with_mark};
+use swc_ecma_transforms::resolver::resolver_with_mark;
 
 #[cfg(test)]
 mod tests;
@@ -199,20 +199,20 @@ impl Bundler<'_> {
                             config.pass,
                         );
 
-                        {
-                            let code = self
-                                .swc
-                                .print(
-                                    &program.clone().fold_with(&mut HygieneVisualizer),
-                                    SourceMapsConfig::Bool(false),
-                                    None,
-                                    false,
-                                )
-                                .unwrap()
-                                .code;
-
-                            println!("loaded using swc:\n{}\n\n", code);
-                        }
+                        // {
+                        //     let code = self
+                        //         .swc
+                        //         .print(
+                        //             &program.clone().fold_with(&mut HygieneVisualizer),
+                        //             SourceMapsConfig::Bool(false),
+                        //             None,
+                        //             false,
+                        //         )
+                        //         .unwrap()
+                        //         .code;
+                        //
+                        //     println!("loaded using swc:\n{}\n\n", code);
+                        // }
 
                         match program {
                             Program::Module(module) => Ok(module),

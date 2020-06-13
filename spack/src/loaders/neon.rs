@@ -1,13 +1,10 @@
-use crate::{load::Load};
+use crate::load::Load;
 use anyhow::{Context as _, Error};
-use neon::{prelude::*};
+use neon::prelude::*;
 
 use std::{
     path::Path,
-    sync::{
-        mpsc::{channel},
-        Arc,
-    },
+    sync::{mpsc::channel, Arc},
 };
 use swc::config::InputSourceMap;
 use swc_common::{FileName, SourceFile};
@@ -33,7 +30,7 @@ impl Load for NeonLoader {
             let res = match res {
                 Ok(v) => v,
                 Err(err) => {
-                    tx.send(Err(Error::msg(format!(
+                    let _ = tx.send(Err(Error::msg(format!(
                         "failed to invoke js laoder: {}",
                         err
                     ))));
