@@ -24,6 +24,7 @@ pub struct Config {
     #[serde(default)]
     pub output: Option<OutputConfig>,
 
+    #[serde(default)]
     pub module: ModuleConfig,
 
     #[serde(default)]
