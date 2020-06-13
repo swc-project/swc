@@ -1,6 +1,6 @@
 use crate::{bundler::load_transformed::Specifier, util::HygieneRemover, Bundler, Id};
 use std::{borrow::Cow, sync::Arc};
-use swc_atoms::{js_word, JsWord};
+
 use swc_common::{
     util::move_map::MoveMap, FileName, Fold, FoldWith, Mark, SourceFile, Span, Spanned, Visit,
     VisitWith,
@@ -16,7 +16,7 @@ impl Bundler<'_> {
     /// other module.
     pub(super) fn drop_unused(
         &self,
-        fm: Arc<SourceFile>,
+        _fm: Arc<SourceFile>,
         node: Module,
         used_exports: Option<&[Specifier]>,
     ) -> Module {

@@ -1,16 +1,16 @@
-use crate::{load::Load, loaders::swc::SwcLoader};
+use crate::{load::Load};
 use anyhow::{Context as _, Error};
-use neon::{prelude::*, result::Throw};
-use regex::Regex;
+use neon::{prelude::*};
+
 use std::{
     path::Path,
     sync::{
-        mpsc::{channel, SendError},
+        mpsc::{channel},
         Arc,
     },
 };
 use swc::config::InputSourceMap;
-use swc_common::{FileName, SourceFile, SourceMap};
+use swc_common::{FileName, SourceFile};
 use swc_ecma_ast::{Module, Program};
 
 /// Loader provided by user.
@@ -24,7 +24,7 @@ impl Load for NeonLoader {
         let path = p.to_string_lossy().to_string();
         let (tx, rx) = channel();
 
-        self.handler.schedule_with(move |cx, value, f| {
+        self.handler.schedule_with(move |cx, _value, f| {
             //
             let this = cx.undefined();
             let path = cx.string(path);

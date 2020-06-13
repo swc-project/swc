@@ -1,5 +1,5 @@
-use swc_common::{Fold, FoldWith, Span, SyntaxContext, Visit, VisitWith};
-use swc_ecma_ast::{Ident, Module};
+use swc_common::{Fold, Span, SyntaxContext, Visit, VisitWith};
+use swc_ecma_ast::{Ident};
 
 pub(crate) struct HygieneVisualizer;
 

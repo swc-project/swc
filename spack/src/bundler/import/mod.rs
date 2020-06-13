@@ -7,7 +7,7 @@ use std::{
     sync::Arc,
 };
 use swc_atoms::{js_word, JsWord};
-use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Mark, SyntaxContext, DUMMY_SP};
+use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Mark, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, ident::IdentLike, Id};
 
@@ -20,7 +20,7 @@ impl Bundler<'_> {
         &self,
         path: &Path,
         module: &mut Module,
-        mark: Mark,
+        _mark: Mark,
     ) -> RawImports {
         let body = replace(&mut module.body, vec![]);
 
@@ -105,7 +105,7 @@ impl ImportHandler<'_, '_> {
 }
 
 impl Fold<ImportDecl> for ImportHandler<'_, '_> {
-    fn fold(&mut self, mut import: ImportDecl) -> ImportDecl {
+    fn fold(&mut self, import: ImportDecl) -> ImportDecl {
         if !self.deglob_phase {
             self.info.imports.push(import.clone());
             return import;
@@ -114,7 +114,7 @@ impl Fold<ImportDecl> for ImportHandler<'_, '_> {
         // deglob namespace imports
         if import.specifiers.len() == 1 {
             match &import.specifiers[0] {
-                ImportSpecifier::Namespace(ns) => {
+                ImportSpecifier::Namespace(_ns) => {
                     //
                     let specifiers = self
                         .ns_usage

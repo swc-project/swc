@@ -1,6 +1,6 @@
 use crate::JsCompiler;
 use anyhow::{bail, Error};
-use fxhash::{FxHashMap, FxHasher};
+use fxhash::{FxHashMap};
 use neon::prelude::*;
 use serde::Deserialize;
 use spack::{
@@ -8,7 +8,7 @@ use spack::{
     resolve::{NodeResolver, Resolve},
     BundleKind,
 };
-use std::{collections::HashMap, hash::BuildHasherDefault, path::PathBuf, sync::Arc};
+use std::{path::PathBuf, sync::Arc};
 use swc::{config::SourceMapsConfig, Compiler, TransformOutput};
 
 struct ConfigItem {
@@ -49,7 +49,7 @@ impl Task for BundleTask {
 
     fn perform(&self) -> Result<Self::Output, Self::Error> {
         let working_dir = PathBuf::from(self.config.static_items.working_dir.clone());
-        let mut bundler = spack::Bundler::new(
+        let bundler = spack::Bundler::new(
             working_dir.clone(),
             self.swc.clone(),
             self.config.static_items.options.clone().unwrap_or_else(|| {

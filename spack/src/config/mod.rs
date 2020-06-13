@@ -8,7 +8,7 @@ use fxhash::FxHashMap;
 use serde::Deserialize;
 use std::{fmt, marker::PhantomData, path::PathBuf};
 use string_enum::StringEnum;
-use swc_ecma_ast::Module;
+
 
 mod module;
 mod optimization;

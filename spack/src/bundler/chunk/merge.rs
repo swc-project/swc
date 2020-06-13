@@ -20,8 +20,8 @@ use swc_common::{
     DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_transforms::{hygiene, resolver};
-use swc_ecma_utils::{find_ids, ident::IdentLike, prepend_stmts, DestructuringFinder, StmtLike};
+use swc_ecma_transforms::{hygiene};
+use swc_ecma_utils::{find_ids, DestructuringFinder, StmtLike};
 
 impl Bundler<'_> {
     /// Merge `targets` into `entry`.

@@ -8,7 +8,7 @@ use std::{
     },
 };
 use swc_atoms::JsWord;
-use swc_common::{Mark, Span, SyntaxContext, DUMMY_SP};
+use swc_common::{Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::Ident;
 use swc_ecma_utils::ident::IdentLike;
 

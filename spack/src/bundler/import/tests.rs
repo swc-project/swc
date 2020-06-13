@@ -1,12 +1,12 @@
 use crate::bundler::{import::ImportHandler, tests::test_bundler};
 use std::path::Path;
-use swc_common::{FoldWith, Mark};
+use swc_common::{FoldWith};
 
 #[test]
 #[ignore]
 fn ns_import_deglob_simple() {
     test_bundler(|t| {
-        let mut m = t.parse(
+        let m = t.parse(
             "
 import * as ns from 'foo';
 ns.foo();
@@ -33,7 +33,7 @@ ns.foo();
 #[ignore]
 fn ns_import_deglob_multi() {
     test_bundler(|t| {
-        let mut m = t.parse(
+        let m = t.parse(
             "
 import * as ns from 'foo';
 ns.foo();

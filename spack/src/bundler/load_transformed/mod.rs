@@ -16,9 +16,9 @@ use std::{
 };
 use swc::config::SourceMapsConfig;
 use swc_atoms::js_word;
-use swc_common::{fold::FoldWith, FileName, Mark, SourceFile, SyntaxContext, DUMMY_SP};
+use swc_common::{fold::FoldWith, FileName, Mark, SourceFile};
 use swc_ecma_ast::{ImportDecl, ImportSpecifier, Module, Program, Str};
-use swc_ecma_transforms::{resolver, resolver::resolver_with_mark};
+use swc_ecma_transforms::{resolver::resolver_with_mark};
 
 #[cfg(test)]
 mod tests;
@@ -338,7 +338,7 @@ impl Bundler<'_> {
 
             for res in loaded {
                 // TODO: Report error and proceed instead of returning an error
-                let ((path, res), decl, is_dynamic, is_unconditional) = res?;
+                let ((path, _res), decl, is_dynamic, is_unconditional) = res?;
 
                 if let Some(src) = self.scope.get_module_by_path(&path) {
                     let src = Source {

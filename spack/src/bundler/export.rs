@@ -81,7 +81,7 @@ impl Visit<ModuleItem> for ExportFinder {
             //                return ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }));
             //            }
             ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(decl)) => {
-                let mut v = self.info.items.entry(None).or_default();
+                let v = self.info.items.entry(None).or_default();
                 v.push({
                     let i = match decl.decl {
                         Decl::Class(ref c) => &c.ident,
@@ -107,7 +107,7 @@ impl Visit<ModuleItem> for ExportFinder {
                 return;
             }
 
-            ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(decl)) => {
+            ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(_decl)) => {
                 self.info
                     .items
                     .entry(None)
@@ -120,7 +120,7 @@ impl Visit<ModuleItem> for ExportFinder {
                 return;
             }
 
-            ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(expr)) => {
+            ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(_expr)) => {
                 self.info
                     .items
                     .entry(None)
