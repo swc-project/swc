@@ -21,7 +21,8 @@ pub struct Config {
 
     pub entry: EntryConfig,
 
-    pub output: OutputConfig,
+    #[serde(default)]
+    pub output: Option<OutputConfig>,
 
     pub module: ModuleConfig,
 
