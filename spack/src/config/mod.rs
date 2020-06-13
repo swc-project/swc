@@ -30,6 +30,9 @@ pub struct Config {
 
     #[serde(default)]
     pub resolve: Option<ResolveConfig>,
+
+    #[serde(default)]
+    pub options: Option<swc::config::Options>,
 }
 
 #[derive(StringEnum)]

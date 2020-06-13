@@ -27,12 +27,10 @@ enum EntryInput {
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
 struct StaticConfigItem {
-    name: String,
-    entry: EntryInput,
     #[serde(default)]
     working_dir: String,
-    #[serde(default)]
-    options: Option<swc::config::Options>,
+    #[serde(flatten)]
+    config: spack::config::Config,
 }
 
 struct BundleTask {

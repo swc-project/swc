@@ -18,6 +18,9 @@ export function config(c: SpackConfig | SpackConfig[]): SpackConfig | SpackConfi
     return c
 }
 
+export interface BundleOptions extends SpackConfig {
+    workingDir?: string
+}
 
 /**
  * `spack.config,js`
@@ -33,6 +36,8 @@ export interface SpackConfig {
     output: OutputConfig
 
     module: ModuleConfig
+
+    options?: Options
 }
 
 export interface OutputConfig {
@@ -45,12 +50,6 @@ export interface ModuleConfig {
 }
 
 export type Mode = 'production' | 'development' | 'none';
-
-export interface BundleOptions {
-    entry: EntryConfig,
-    workingDir?: string
-    options?: Options
-}
 
 export type EntryConfig = string | string[] | {
     [name: string]: string
