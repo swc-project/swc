@@ -252,7 +252,8 @@ impl Fold<ForInStmt> for Dce<'_> {
 
         node = node.fold_children(self);
 
-        if self.is_marked(node.left.span())
+        if self.should_include(&node.left)
+            || self.is_marked(node.left.span())
             || self.is_marked(node.right.span())
             || self.is_marked(node.body.span())
         {
@@ -275,7 +276,8 @@ impl Fold<ForOfStmt> for Dce<'_> {
 
         node = node.fold_children(self);
 
-        if self.is_marked(node.left.span())
+        if self.should_include(&node.left)
+            || self.is_marked(node.left.span())
             || self.is_marked(node.right.span())
             || self.is_marked(node.body.span())
         {

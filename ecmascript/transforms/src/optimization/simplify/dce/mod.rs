@@ -320,3 +320,16 @@ impl Fold<MemberExpr> for Dce<'_> {
         e
     }
 }
+
+impl Fold<UpdateExpr> for Dce<'_> {
+    fn fold(&mut self, mut node: UpdateExpr) -> UpdateExpr {
+        if self.is_marked(node.span) {
+            return node;
+        }
+
+        node.span = node.span.apply_mark(self.config.used_mark);
+        node.arg = self.fold_in_marking_phase(node.arg);
+
+        node
+    }
+}
