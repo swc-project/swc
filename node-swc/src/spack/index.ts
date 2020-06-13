@@ -3,7 +3,7 @@ import * as path from 'path';
 
 export type BundleInput = BundleOptions | BundleOptions[];
 
-export async function compileSpackOptions(c: BundleInput | string): Promise<BundleInput> {
+export async function compileBundleOptions(c: BundleInput | string): Promise<BundleInput> {
     try {
         const file = path.resolve('spack.config.js');
         const configFromFile = require(file);

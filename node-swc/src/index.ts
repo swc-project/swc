@@ -9,7 +9,7 @@ import {
 } from "./types";
 export * from "./types";
 import { wrapNativeSuper } from "./util";
-import { BundleInput, compileSpackOptions } from "./spack";
+import { BundleInput, compileBundleOptions } from "./spack";
 
 const native = require("./native");
 
@@ -219,7 +219,7 @@ export class Compiler extends wrapNativeSuper(native.Compiler) {
 
 
   async bundle(options: BundleInput | string): Promise<{ [name: string]: Output }> {
-    const opts = await compileSpackOptions(options);
+    const opts = await compileBundleOptions(options);
 
     return new Promise((resolve, reject) => {
       super.bundle({
