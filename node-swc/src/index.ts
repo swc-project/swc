@@ -9,7 +9,7 @@ import {
 } from "./types";
 export * from "./types";
 import { wrapNativeSuper } from "./util";
-import { BundleOptions } from "./spack";
+import {  BundleInput } from "./spack";
 
 const native = require("./native");
 
@@ -218,7 +218,7 @@ export class Compiler extends wrapNativeSuper(native.Compiler) {
   }
 
 
-  async bundle(options: BundleOptions): Promise<{ [name: string]: Output }> {
+  async bundle(options: BundleInput): Promise<{ [name: string]: Output }> {
 
     return new Promise((resolve, reject) => {
       super.bundle({
@@ -309,7 +309,7 @@ export function transformFileSync(path: string, options?: Options): Output {
 }
 
 export function bundle(
-  options: BundleOptions
+  options: BundleInput
 ): Promise<{ [name: string]: Output }> {
   return compiler.bundle(options)
 }

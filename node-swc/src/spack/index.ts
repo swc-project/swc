@@ -1,4 +1,17 @@
 import { Options } from "../types";
+import * as path from 'path';
+
+export type BundleInput = BundleOptions | BundleOptions[];
+
+export async function compile(c: BundleInput): Promise<BundleInput> {
+    try {
+        const file = path.resolve('spack.config.js');
+        const configFromFile = require(file);
+        return Object.assign({}, configFromFile, c);
+    } catch (e) {
+        return c;
+    }
+}
 
 /**
  * Usage: In `spack.config.js` / `spack.config.ts`, you can utilize type annotations (to get autocompletions) like
@@ -14,7 +27,7 @@ import { Options } from "../types";
  * 
  * 
  */
-export function config(c: SpackConfig | SpackConfig[]): SpackConfig | SpackConfig[] {
+export function config(c: BundleInput): BundleInput {
     return c
 }
 
