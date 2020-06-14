@@ -25,6 +25,14 @@ impl<'a, I: Tokens> Parser<'a, I> {
         self.parse_fn(Some(start), decorators)
     }
 
+    pub(super) fn parse_declare_fn_decl(
+        &mut self,
+        start: BytePos,
+        decorators: Vec<Decorator>,
+    ) -> PResult<'a, Decl> {
+        self.parse_fn(Some(start), decorators)
+    }
+
     pub(super) fn parse_fn_decl(&mut self, decorators: Vec<Decorator>) -> PResult<'a, Decl> {
         self.parse_fn(None, decorators)
     }

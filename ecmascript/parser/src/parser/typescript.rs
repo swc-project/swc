@@ -1976,7 +1976,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         self.with_ctx(ctx).parse_with(|p| {
             if is!("function") {
                 return p
-                    .parse_fn_decl(decorators)
+                    .parse_declare_fn_decl(start, decorators)
                     .map(|decl| match decl {
                         Decl::Fn(f) => Decl::Fn(FnDecl { declare: true, ..f }),
                         _ => decl,
