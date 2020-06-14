@@ -14,8 +14,9 @@ export async function compileBundleOptions(c: BundleInput | string | undefined):
         }
         return Object.assign({}, configFromFile, c);
     } catch (e) {
+        console.log(e);
         if (typeof f === 'string') {
-            return {} as any;
+            throw new Error(`Config file does not exist at ${c}`)
         }
         return f;
     }
