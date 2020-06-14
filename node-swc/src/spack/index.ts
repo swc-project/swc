@@ -63,6 +63,7 @@ export interface SpackConfig {
 }
 
 export interface OutputConfig {
+    name: string
     path: string
 }
 
