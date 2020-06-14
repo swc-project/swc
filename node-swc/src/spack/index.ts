@@ -8,7 +8,10 @@ export async function compileBundleOptions(c: BundleInput | string | undefined):
 
     try {
         const file = typeof f === 'string' ? f : path.resolve('spack.config.js');
-        const configFromFile = require(file);
+        let configFromFile = require(file);
+        if (configFromFile.default) {
+            configFromFile = configFromFile.default;
+        }
         return Object.assign({}, configFromFile, c);
     } catch (e) {
         if (typeof f === 'string') {
