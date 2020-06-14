@@ -30,6 +30,7 @@ impl Resolve for NodeResolver {
             .unwrap_or_else(|| PathBuf::from("."));
 
         Ok(node_resolve::Resolver::new()
+            .with_extensions(&[".ts", ".tsx", ".js", ".jsx", ".json", ".node"])
             .with_main_fields(&["swc-main", "esnext", "main"])
             .with_basedir(base_dir.clone())
             .resolve(import)
