@@ -8,9 +8,13 @@ export async function compileBundleOptions(c: BundleInput | string | undefined):
 
     try {
         const file = typeof f === 'string' ? f : path.resolve('spack.config.js');
-        const configFromFile = require(file);
+        let configFromFile = require(file);
+        if (configFromFile.default) {
+            configFromFile = configFromFile.default;
+        }
         return Object.assign({}, configFromFile, c);
     } catch (e) {
+        console.log(e);
         if (typeof f === 'string') {
             throw new Error(`Config file does not exist at ${c}`)
         }
@@ -59,6 +63,7 @@ export interface SpackConfig {
 }
 
 export interface OutputConfig {
+    name: string
     path: string
 }
 

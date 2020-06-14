@@ -7,5 +7,5 @@ pub struct OutputConfig {
     pub path: PathBuf,
 
     #[serde(default)]
-    pub filename: Option<String>,
+    pub name: String,
 }
