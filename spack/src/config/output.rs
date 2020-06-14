@@ -6,6 +6,6 @@ use std::path::PathBuf;
 pub struct OutputConfig {
     pub path: PathBuf,
 
-    #[serdeI(default)]
+    #[serde(default)]
     pub name: String,
 }
