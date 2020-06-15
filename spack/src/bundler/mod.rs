@@ -1,6 +1,9 @@
 use self::scope::Scope;
 use crate::{
-    bundler::load_transformed::TransformedModule, config::Config, load::Load, resolve::Resolve,
+    bundler::load_transformed::TransformedModule,
+    config::{Config, EntryConfig},
+    load::Load,
+    resolve::Resolve,
     ModuleId,
 };
 use anyhow::{Context, Error};
@@ -22,7 +25,6 @@ mod usage_analysis;
 
 pub struct Bundler<'a> {
     config: &'a Config,
-
     /// Javascript compiler.
     swc: Arc<swc::Compiler>,
     swc_options: swc::config::Options,
@@ -86,7 +88,24 @@ impl<'a> Bundler<'a> {
         }
     }
 
-    pub fn bundle(&self, entries: FxHashMap<String, PathBuf>) -> Result<Vec<Bundle>, Error> {
+    pub fn bundle(&self) -> Result<Vec<Bundle>, Error> {
+        let entries = {
+            let mut map = FxHashMap::default();
+            match &self.config.entry {
+                EntryConfig::File(f) => {
+                    map.insert(f.clone(), PathBuf::from(f.clone()));
+                }
+                EntryConfig::Multiple(files) => {
+                    for f in files {
+                        map.insert(f.clone(), f.clone().into());
+                    }
+                }
+                EntryConfig::Files(files) => map = files.clone(),
+            }
+
+            map
+        };
+
         let results = entries
             .into_par_iter()
             .map(|(name, path)| -> Result<_, Error> {

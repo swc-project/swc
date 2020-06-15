@@ -6,7 +6,11 @@
 extern crate test;
 
 use fxhash::FxHashMap;
-use spack::{loaders::swc::SwcLoader, BundleKind, Bundler};
+use spack::{
+    config::{Config, EntryConfig},
+    loaders::swc::SwcLoader,
+    BundleKind, Bundler,
+};
 use std::{
     env,
     fs::{create_dir_all, read_dir},
@@ -123,8 +127,18 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                         ..Default::default()
                     },
                 );
+                let config = Config {
+                    working_dir: Default::default(),
+                    mode: Default::default(),
+                    entry: EntryConfig::Files(entries),
+                    output: None,
+                    module: Default::default(),
+                    optimization: None,
+                    resolve: None,
+                    options: None,
+                };
                 let bundler = Bundler::new(
-                    env::current_dir().unwrap(),
+                    &config,
                     compiler.clone(),
                     swc::config::Options {
                         swcrc: true,
@@ -134,9 +148,7 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                     &loader,
                 );
 
-                assert_ne!(entries.len(), 0);
-
-                let modules = bundler.bundle(entries).expect("failed to bundle module");
+                let modules = bundler.bundle().expect("failed to bundle module");
                 log::info!("Bundled as {} modules", modules.len());
 
                 let mut error = false;
