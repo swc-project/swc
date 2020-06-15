@@ -1,6 +1,7 @@
 use self::scope::Scope;
 use crate::{
-    bundler::load_transformed::TransformedModule, load::Load, resolve::Resolve, Config, ModuleId,
+    bundler::load_transformed::TransformedModule, config::Config, load::Load, resolve::Resolve,
+    ModuleId,
 };
 use anyhow::{Context, Error};
 use fxhash::FxHashMap;
@@ -13,14 +14,14 @@ mod chunk;
 mod export;
 mod import;
 mod load_transformed;
+mod rename;
 mod scope;
 #[cfg(test)]
 mod tests;
 mod usage_analysis;
 
 pub struct Bundler<'a> {
-    working_dir: PathBuf,
-    _config: Config,
+    config: &'a Config,
 
     /// Javascript compiler.
     swc: Arc<swc::Compiler>,
@@ -55,7 +56,7 @@ pub struct Bundle {
 
 impl<'a> Bundler<'a> {
     pub fn new(
-        working_dir: PathBuf,
+        config: &'a Config,
         swc: Arc<swc::Compiler>,
         mut swc_options: swc::config::Options,
         resolver: &'a dyn Resolve,
@@ -74,8 +75,7 @@ impl<'a> Bundler<'a> {
         swc_options.global_mark = Some(top_level_mark);
 
         Bundler {
-            working_dir,
-            _config: Config { tree_shake: true },
+            config,
             swc,
             swc_options,
             loader,
@@ -90,7 +90,7 @@ impl<'a> Bundler<'a> {
         let results = entries
             .into_par_iter()
             .map(|(name, path)| -> Result<_, Error> {
-                let path = self.resolve(&self.working_dir, &path.to_string_lossy())?;
+                let path = self.resolve(&self.config.working_dir, &path.to_string_lossy())?;
                 let res = self
                     .load_transformed(path)
                     .context("load_transformed failed")?;
@@ -113,7 +113,9 @@ impl<'a> Bundler<'a> {
             Ok(output)
         })?;
 
-        self.chunk(local)
+        let bundles = self.chunk(local)?;
+
+        Ok(self.rename(bundles))
     }
 
     pub fn swc(&self) -> &swc::Compiler {
