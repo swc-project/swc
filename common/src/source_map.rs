@@ -28,13 +28,12 @@ use std::{
     cmp,
     cmp::{max, min},
     collections::HashMap,
-    convert::TryFrom,
     env, fs,
     hash::Hash,
     io::{self, Read},
     path::{Path, PathBuf},
     sync::{
-        atomic::{AtomicUsize, Ordering, Ordering::SeqCst},
+        atomic::{AtomicUsize, Ordering::SeqCst},
         Arc,
     },
 };
@@ -86,30 +85,11 @@ pub struct StableSourceFileId(u128);
 
 impl StableSourceFileId {
     pub fn new(source_file: &SourceFile) -> StableSourceFileId {
-        StableSourceFileId::new_from_pieces(
-            &source_file.name,
-            source_file.name_was_remapped,
-            source_file.unmapped_path.as_ref(),
-        )
-    }
-
-    fn new_from_pieces(
-        name: &FileName,
-        name_was_remapped: bool,
-        unmapped_path: Option<&FileName>,
-    ) -> StableSourceFileId {
         let mut hasher = StableHasher::new();
 
-        if let FileName::Real(real_name) = name {
-            // rust-lang/rust#70924: Use the stable (virtualized) name when
-            // available. (We do not want artifacts from transient file system
-            // paths for libstd to leak into our build artifacts.)
-            real_name.hash(&mut hasher)
-        } else {
-            name.hash(&mut hasher);
-        }
-        name_was_remapped.hash(&mut hasher);
-        unmapped_path.hash(&mut hasher);
+        source_file.name.hash(&mut hasher);
+        source_file.name_was_remapped.hash(&mut hasher);
+        source_file.unmapped_path.hash(&mut hasher);
 
         StableSourceFileId(hasher.finish())
     }
@@ -126,10 +106,6 @@ pub(super) struct SourceMapFiles {
 }
 
 pub struct SourceMap {
-    /// The address space below this value is currently used by the files in the
-    /// source map.
-    used_address_space: AtomicUsize,
-
     pub(super) files: Lock<SourceMapFiles>,
     start_pos: AtomicUsize,
     file_loader: Box<dyn FileLoader + Sync + Send>,
@@ -150,7 +126,6 @@ impl Default for SourceMap {
 impl SourceMap {
     pub fn new(path_mapping: FilePathMapping) -> SourceMap {
         SourceMap {
-            used_address_space: Default::default(),
             files: Default::default(),
             start_pos: Default::default(),
             file_loader: Box::new(RealFileLoader),
@@ -164,7 +139,6 @@ impl SourceMap {
         path_mapping: FilePathMapping,
     ) -> SourceMap {
         SourceMap {
-            used_address_space: Default::default(),
             files: Default::default(),
             start_pos: Default::default(),
             file_loader,
@@ -211,42 +185,11 @@ impl SourceMap {
         }
     }
 
-    fn allocate_address_space(&self, size: usize) -> Result<usize, ()> {
-        let size = usize::try_from(size).map_err(|_| ())?;
-
-        loop {
-            let current = self.used_address_space.load(Ordering::Relaxed);
-            let next = current
-                .checked_add(size)
-                // Add one so there is some space between files. This lets us distinguish
-                // positions in the `SourceMap`, even in the presence of zero-length files.
-                .and_then(|next| next.checked_add(1))
-                .ok_or(())?;
-
-            if self
-                .used_address_space
-                .compare_exchange(current, next, Ordering::Relaxed, Ordering::Relaxed)
-                .is_ok()
-            {
-                return Ok(usize::try_from(current).unwrap());
-            }
-        }
-    }
-
-    /// Creates a new `SourceFile`.
-    /// If a file already exists in the `SourceMap` with the same ID, that file
-    /// is returned unmodified.
+    /// Creates a new source_file.
+    /// This does not ensure that only one SourceFile exists per file name.
     pub fn new_source_file(&self, filename: FileName, src: String) -> Arc<SourceFile> {
-        self.try_new_source_file(filename, src).unwrap_or_else(|_| {
-            panic!("fatal error: swc does not support files larger than 4GB");
-        })
-    }
+        let start_pos = self.next_start_pos(src.len());
 
-    fn try_new_source_file(
-        &self,
-        mut filename: FileName,
-        src: String,
-    ) -> Result<Arc<SourceFile>, ()> {
         // The path is used to determine the directory for loading submodules and
         // include files, so it must be before remapping.
         // Note that filename may not be a valid path, eg it may be `<anon>` etc,
@@ -254,41 +197,31 @@ impl SourceMap {
         // be empty, so the working directory will be used.
         let unmapped_path = filename.clone();
 
-        let was_remapped;
-        if let FileName::Real(real_filename) = &mut filename {
-            let mapped = self.path_mapping.map_prefix(real_filename.clone());
-            was_remapped = mapped.1;
-        } else {
-            was_remapped = false;
+        let (filename, was_remapped) = match filename {
+            FileName::Real(filename) => {
+                let (filename, was_remapped) = self.path_mapping.map_prefix(filename);
+                (FileName::Real(filename), was_remapped)
+            }
+            other => (other, false),
+        };
+        let source_file = Arc::new(SourceFile::new(
+            filename,
+            was_remapped,
+            unmapped_path,
+            src,
+            Pos::from_usize(start_pos),
+        ));
+
+        {
+            let mut files = self.files.borrow_mut();
+
+            files.source_files.push(source_file.clone());
+            files
+                .stable_id_to_source_file
+                .insert(StableSourceFileId::new(&source_file), source_file.clone());
         }
 
-        let file_id =
-            StableSourceFileId::new_from_pieces(&filename, was_remapped, Some(&unmapped_path));
-
-        let lrc_sf = match self.source_file_by_stable_id(file_id) {
-            Some(lrc_sf) => lrc_sf,
-            None => {
-                let start_pos = self.allocate_address_space(src.len())?;
-
-                let source_file = Arc::new(SourceFile::new(
-                    filename,
-                    was_remapped,
-                    unmapped_path,
-                    src,
-                    Pos::from_usize(start_pos),
-                ));
-
-                let mut files = self.files.borrow_mut();
-
-                files.source_files.push(source_file.clone());
-                files
-                    .stable_id_to_source_file
-                    .insert(file_id, source_file.clone());
-
-                source_file
-            }
-        };
-        Ok(lrc_sf)
+        source_file
     }
 
     pub fn mk_substr_filename(&self, sp: Span) -> String {

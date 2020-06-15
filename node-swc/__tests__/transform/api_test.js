@@ -4,9 +4,11 @@ it("should handle minify", () => {
     const src = '/* Comment */import foo, {bar} from "foo"';
 
     expect(
-        swc.transformSync(src, {
-            minify: true
-        }).code.trim()
+        swc
+            .transformSync(src, {
+                minify: true
+            })
+            .code.trim()
     ).toBe("import foo,{bar}from'foo';");
 });
 
@@ -70,7 +72,7 @@ it("(async) should handle module input", async () => {
 
 it("(sync) should handle plugin", () => {
     const out = swc.transformSync("class Foo {}", {
-        plugin: m => ({ ...m, body: [] })
+        plugin: m => ({...m, body: []})
     });
 
     expect(out.code).toBe("");
@@ -78,7 +80,7 @@ it("(sync) should handle plugin", () => {
 
 it("(async) should handle plugin", async () => {
     const out = await swc.transform("class Foo {}", {
-        plugin: m => ({ ...m, body: [] })
+        plugin: m => ({...m, body: []})
     });
 
     expect(out.code).toBe("");
