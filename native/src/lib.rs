@@ -29,7 +29,7 @@ use swc::{
 mod bundle;
 
 fn init(_cx: MethodContext<JsUndefined>) -> NeonResult<ArcCompiler> {
-    if cfg!(debug_assertions) || env::var("SWC_DEBUG").unwrap_or_else(String::new) == "1" {
+    if cfg!(debug_assertions) || env::var("SWC_DEBUG").unwrap_or_else(|_| String::new()) == "1" {
         set_hook(Box::new(|_panic_info| {
             let backtrace = Backtrace::new();
             println!("Backtrace: {:?}", backtrace);
