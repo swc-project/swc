@@ -2,7 +2,7 @@
 use super::Bundler;
 use crate::{loaders::swc::SwcLoader, resolve::NodeResolver, util::HygieneRemover};
 use pretty_assertions::assert_eq;
-use std::{env, path::PathBuf, sync::Arc};
+use std::{path::PathBuf, sync::Arc};
 use swc_common::{fold::FoldWith, FileName};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{EsConfig, Syntax};
@@ -58,7 +58,6 @@ where
         let compiler = Arc::new(swc::Compiler::new(cm.clone(), Arc::new(handler)));
         let loader = SwcLoader::new(compiler.clone(), Default::default());
         let bundler = Bundler::new(
-            env::current_dir().unwrap(),
             compiler.clone(),
             swc::config::Options {
                 swcrc: true,

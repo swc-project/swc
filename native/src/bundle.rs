@@ -4,7 +4,6 @@ use fxhash::FxHashMap;
 use neon::prelude::*;
 use serde::Deserialize;
 use spack::{
-    config::EntryConfig,
     load::Load,
     resolve::{NodeResolver, Resolve},
     BundleKind,
@@ -38,9 +37,7 @@ impl Task for BundleTask {
     type JsEvent = JsValue;
 
     fn perform(&self) -> Result<Self::Output, Self::Error> {
-        let working_dir = PathBuf::from(self.config.static_items.working_dir.clone());
         let bundler = spack::Bundler::new(
-            working_dir.clone(),
             self.swc.clone(),
             self.config
                 .static_items
@@ -54,26 +51,8 @@ impl Task for BundleTask {
             &self.config.resolver,
             &self.config.loader,
         );
-        let entries = match &self.config.static_items.config.entry {
-            EntryConfig::File(name) => {
-                let mut m = FxHashMap::default();
-                m.insert(name.clone(), working_dir.join(name));
-                m
-            }
-            EntryConfig::Multiple(files) => {
-                let mut m = FxHashMap::default();
-                for name in files {
-                    m.insert(name.clone(), working_dir.join(name));
-                }
-                m
-            }
-            EntryConfig::Files(v) => v
-                .into_iter()
-                .map(|(k, v)| (k.clone(), working_dir.clone().join(v)))
-                .collect(),
-        };
 
-        let result = bundler.bundle(entries)?;
+        let result = bundler.bundle(&self.config.static_items.config)?;
 
         let result = result
             .into_iter()
