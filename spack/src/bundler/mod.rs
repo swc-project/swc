@@ -24,7 +24,6 @@ mod tests;
 mod usage_analysis;
 
 pub struct Bundler<'a> {
-    config: &'a Config,
     /// Javascript compiler.
     swc: Arc<swc::Compiler>,
     swc_options: swc::config::Options,
@@ -58,7 +57,6 @@ pub struct Bundle {
 
 impl<'a> Bundler<'a> {
     pub fn new(
-        config: &'a Config,
         swc: Arc<swc::Compiler>,
         mut swc_options: swc::config::Options,
         resolver: &'a dyn Resolve,
@@ -77,7 +75,6 @@ impl<'a> Bundler<'a> {
         swc_options.global_mark = Some(top_level_mark);
 
         Bundler {
-            config,
             swc,
             swc_options,
             loader,
@@ -88,10 +85,10 @@ impl<'a> Bundler<'a> {
         }
     }
 
-    pub fn bundle(&self) -> Result<Vec<Bundle>, Error> {
+    pub fn bundle(&self, config: &Config) -> Result<Vec<Bundle>, Error> {
         let entries = {
             let mut map = FxHashMap::default();
-            match &self.config.entry {
+            match &config.entry {
                 EntryConfig::File(f) => {
                     map.insert(f.clone(), PathBuf::from(f.clone()));
                 }
@@ -109,7 +106,7 @@ impl<'a> Bundler<'a> {
         let results = entries
             .into_par_iter()
             .map(|(name, path)| -> Result<_, Error> {
-                let path = self.resolve(&self.config.working_dir, &path.to_string_lossy())?;
+                let path = self.resolve(&config.working_dir, &path.to_string_lossy())?;
                 let res = self
                     .load_transformed(path)
                     .context("load_transformed failed")?;

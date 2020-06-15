@@ -138,7 +138,6 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                     options: None,
                 };
                 let bundler = Bundler::new(
-                    &config,
                     compiler.clone(),
                     swc::config::Options {
                         swcrc: true,
@@ -148,7 +147,7 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                     &loader,
                 );
 
-                let modules = bundler.bundle().expect("failed to bundle module");
+                let modules = bundler.bundle(&config).expect("failed to bundle module");
                 log::info!("Bundled as {} modules", modules.len());
 
                 let mut error = false;
