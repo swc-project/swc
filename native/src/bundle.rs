@@ -8,7 +8,7 @@ use spack::{
     resolve::{NodeResolver, Resolve},
     BundleKind,
 };
-use std::{path::PathBuf, sync::Arc};
+use std::sync::Arc;
 use swc::{config::SourceMapsConfig, Compiler, TransformOutput};
 
 struct ConfigItem {
