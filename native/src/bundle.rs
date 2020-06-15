@@ -8,7 +8,10 @@ use spack::{
     resolve::{NodeResolver, Resolve},
     BundleKind,
 };
-use std::sync::Arc;
+use std::{
+    panic::{catch_unwind, AssertUnwindSafe},
+    sync::Arc,
+};
 use swc::{config::SourceMapsConfig, Compiler, TransformOutput};
 
 struct ConfigItem {
@@ -37,57 +40,77 @@ impl Task for BundleTask {
     type JsEvent = JsValue;
 
     fn perform(&self) -> Result<Self::Output, Self::Error> {
-        let bundler = spack::Bundler::new(
-            self.swc.clone(),
-            self.config
-                .static_items
-                .config
-                .options
-                .as_ref()
-                .map(|options| options.clone())
-                .unwrap_or_else(|| {
-                    serde_json::from_value(serde_json::Value::Object(Default::default())).unwrap()
-                }),
-            &self.config.resolver,
-            &self.config.loader,
-        );
+        let res = catch_unwind(AssertUnwindSafe(|| {
+            let bundler = spack::Bundler::new(
+                self.swc.clone(),
+                self.config
+                    .static_items
+                    .config
+                    .options
+                    .as_ref()
+                    .map(|options| options.clone())
+                    .unwrap_or_else(|| {
+                        serde_json::from_value(serde_json::Value::Object(Default::default()))
+                            .unwrap()
+                    }),
+                &self.config.resolver,
+                &self.config.loader,
+            );
 
-        let result = bundler.bundle(&self.config.static_items.config)?;
+            let result = bundler.bundle(&self.config.static_items.config)?;
 
-        let result = result
-            .into_iter()
-            .map(|bundle| match bundle.kind {
-                BundleKind::Named { name } | BundleKind::Lib { name } => Ok((name, bundle.module)),
-                BundleKind::Dynamic => bail!("unimplemented: dynamic code splitting"),
-            })
-            .map(|res| {
-                res.and_then(|(k, m)| {
-                    // TODO: Source map
-                    let minify = self
-                        .config
-                        .static_items
-                        .config
-                        .options
-                        .as_ref()
-                        .map(|v| {
-                            v.config
-                                .as_ref()
-                                .map(|v| v.minify)
-                                .flatten()
-                                .unwrap_or(false)
-                        })
-                        .unwrap_or(false);
-
-                    let output = self
-                        .swc
-                        .print(&m, SourceMapsConfig::Bool(true), None, minify)?;
-
-                    Ok((k, output))
+            let result = result
+                .into_iter()
+                .map(|bundle| match bundle.kind {
+                    BundleKind::Named { name } | BundleKind::Lib { name } => {
+                        Ok((name, bundle.module))
+                    }
+                    BundleKind::Dynamic => bail!("unimplemented: dynamic code splitting"),
                 })
-            })
-            .collect::<Result<_, _>>()?;
+                .map(|res| {
+                    res.and_then(|(k, m)| {
+                        // TODO: Source map
+                        let minify = self
+                            .config
+                            .static_items
+                            .config
+                            .options
+                            .as_ref()
+                            .map(|v| {
+                                v.config
+                                    .as_ref()
+                                    .map(|v| v.minify)
+                                    .flatten()
+                                    .unwrap_or(false)
+                            })
+                            .unwrap_or(false);
 
-        Ok(result)
+                        let output =
+                            self.swc
+                                .print(&m, SourceMapsConfig::Bool(true), None, minify)?;
+
+                        Ok((k, output))
+                    })
+                })
+                .collect::<Result<_, _>>()?;
+
+            Ok(result)
+        }));
+
+        let err = match res {
+            Ok(v) => return v,
+            Err(err) => err,
+        };
+
+        if let Some(s) = err.downcast_ref::<String>() {
+            bail!("panic detected: {}", s);
+        }
+
+        if let Some(s) = err.downcast_ref::<str>() {
+            bail!("panic detected: {}", s);
+        }
+
+        bail!("panic detected")
     }
 
     fn complete(
