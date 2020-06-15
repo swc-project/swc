@@ -643,21 +643,20 @@ impl SourceFile {
         unmapped_path: FileName,
         mut src: String,
         start_pos: BytePos,
-    ) -> Self {
+    ) -> SourceFile {
         remove_bom(&mut src);
 
         let src_hash = {
-            let mut hasher = StableHasher::new();
+            let mut hasher: StableHasher<u128> = StableHasher::new();
             hasher.write(src.as_bytes());
             hasher.finish()
         };
         let name_hash = {
-            let mut hasher = StableHasher::new();
+            let mut hasher: StableHasher<u128> = StableHasher::new();
             name.hash(&mut hasher);
             hasher.finish()
         };
         let end_pos = start_pos.to_usize() + src.len();
-        assert!(end_pos <= u32::max_value() as usize);
 
         let (lines, multibyte_chars, non_narrow_chars) =
             analyze_source_file::analyze_source_file(&src[..], start_pos);
@@ -759,7 +758,7 @@ impl SourceFile {
     }
 }
 
-/// Removes UTF-8 BOM, if any.
+/// Remove utf-8 BOM if any.
 fn remove_bom(src: &mut String) {
     if src.starts_with("\u{feff}") {
         src.drain(..3);
