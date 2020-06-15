@@ -222,8 +222,6 @@ impl Bundler<'_> {
                 || {
                     let p = match fm.name {
                         FileName::Real(ref p) => p,
-                        // stdin compilation
-                        FileName::Anon => &self.working_dir,
                         _ => unreachable!("{} module in spack", fm.name),
                     };
 

@@ -221,6 +221,20 @@ export class Compiler extends wrapNativeSuper(native.Compiler) {
   async bundle(options?: BundleInput | string): Promise<{ [name: string]: Output }> {
     const opts = await compileBundleOptions(options);
 
+    if (Array.isArray(opts)) {
+      const all = await Promise.all(opts.map(async (opt) => {
+        return this.bundle(opt)
+      }));
+      let obj = {} as any;
+      for (const o of all) {
+        obj = {
+          ...obj,
+          ...o,
+        };
+      }
+      return obj;
+    }
+
     return new Promise((resolve, reject) => {
       super.bundle({
         ...opts,

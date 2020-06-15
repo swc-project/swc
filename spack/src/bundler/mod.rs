@@ -1,11 +1,16 @@
 use self::scope::Scope;
 use crate::{
-    bundler::load_transformed::TransformedModule, load::Load, resolve::Resolve, Config, ModuleId,
+    bundler::load_transformed::TransformedModule,
+    config::{Config, EntryConfig},
+    load::Load,
+    resolve::Resolve,
+    ModuleId,
 };
 use anyhow::{Context, Error};
 use fxhash::FxHashMap;
 use rayon::prelude::*;
 use std::{path::PathBuf, sync::Arc};
+use swc::config::ModuleConfig;
 use swc_common::{Mark, DUMMY_SP};
 use swc_ecma_ast::Module;
 
@@ -13,15 +18,13 @@ mod chunk;
 mod export;
 mod import;
 mod load_transformed;
+mod rename;
 mod scope;
 #[cfg(test)]
 mod tests;
 mod usage_analysis;
 
 pub struct Bundler<'a> {
-    working_dir: PathBuf,
-    _config: Config,
-
     /// Javascript compiler.
     swc: Arc<swc::Compiler>,
     swc_options: swc::config::Options,
@@ -55,7 +58,6 @@ pub struct Bundle {
 
 impl<'a> Bundler<'a> {
     pub fn new(
-        working_dir: PathBuf,
         swc: Arc<swc::Compiler>,
         mut swc_options: swc::config::Options,
         resolver: &'a dyn Resolve,
@@ -73,9 +75,16 @@ impl<'a> Bundler<'a> {
         swc_options.disable_hygiene = true;
         swc_options.global_mark = Some(top_level_mark);
 
+        if swc_options.config.is_none() {
+            swc_options.config = Some(Default::default());
+        }
+
+        if let Some(c) = &mut swc_options.config {
+            // Preserve es6 modules
+            c.module = Some(ModuleConfig::Es6);
+        }
+
         Bundler {
-            working_dir,
-            _config: Config { tree_shake: true },
             swc,
             swc_options,
             loader,
@@ -86,11 +95,28 @@ impl<'a> Bundler<'a> {
         }
     }
 
-    pub fn bundle(&self, entries: FxHashMap<String, PathBuf>) -> Result<Vec<Bundle>, Error> {
+    pub fn bundle(&self, config: &Config) -> Result<Vec<Bundle>, Error> {
+        let entries = {
+            let mut map = FxHashMap::default();
+            match &config.entry {
+                EntryConfig::File(f) => {
+                    map.insert(f.clone(), PathBuf::from(f.clone()));
+                }
+                EntryConfig::Multiple(files) => {
+                    for f in files {
+                        map.insert(f.clone(), f.clone().into());
+                    }
+                }
+                EntryConfig::Files(files) => map = files.clone(),
+            }
+
+            map
+        };
+
         let results = entries
             .into_par_iter()
             .map(|(name, path)| -> Result<_, Error> {
-                let path = self.resolve(&self.working_dir, &path.to_string_lossy())?;
+                let path = self.resolve(&config.working_dir, &path.to_string_lossy())?;
                 let res = self
                     .load_transformed(path)
                     .context("load_transformed failed")?;
@@ -113,7 +139,9 @@ impl<'a> Bundler<'a> {
             Ok(output)
         })?;
 
-        self.chunk(local)
+        let bundles = self.chunk(local)?;
+
+        Ok(self.rename(bundles)?)
     }
 
     pub fn swc(&self) -> &swc::Compiler {

@@ -17,6 +17,9 @@ mod resolve;
 #[derive(Debug, Deserialize)]
 pub struct Config {
     #[serde(default)]
+    pub working_dir: PathBuf,
+
+    #[serde(default)]
     pub mode: Mode,
 
     pub entry: EntryConfig,

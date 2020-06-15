@@ -21,8 +21,3 @@ pub mod loaders;
 mod normalize;
 pub mod resolve;
 mod util;
-
-#[derive(Debug, Clone, PartialEq, Eq)]
-pub struct Config {
-    pub tree_shake: bool,
-}

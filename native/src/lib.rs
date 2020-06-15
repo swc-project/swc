@@ -10,9 +10,12 @@ extern crate serde;
 extern crate swc;
 
 use anyhow::{Context as _, Error};
+use backtrace::Backtrace;
 use neon::prelude::*;
 use path_clean::clean;
 use std::{
+    env,
+    panic::set_hook,
     path::{Path, PathBuf},
     sync::Arc,
 };
@@ -26,6 +29,13 @@ use swc::{
 mod bundle;
 
 fn init(_cx: MethodContext<JsUndefined>) -> NeonResult<ArcCompiler> {
+    if cfg!(debug_assertions) || env::var("SWC_DEBUG").unwrap_or_else(|_| String::new()) == "1" {
+        set_hook(Box::new(|_panic_info| {
+            let backtrace = Backtrace::new();
+            println!("Backtrace: {:?}", backtrace);
+        }));
+    }
+
     let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
 
     let handler = Arc::new(Handler::with_tty_emitter(

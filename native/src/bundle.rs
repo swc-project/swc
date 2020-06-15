@@ -4,12 +4,14 @@ use fxhash::FxHashMap;
 use neon::prelude::*;
 use serde::Deserialize;
 use spack::{
-    config::EntryConfig,
     load::Load,
     resolve::{NodeResolver, Resolve},
     BundleKind,
 };
-use std::{path::PathBuf, sync::Arc};
+use std::{
+    panic::{catch_unwind, AssertUnwindSafe},
+    sync::Arc,
+};
 use swc::{config::SourceMapsConfig, Compiler, TransformOutput};
 
 struct ConfigItem {
@@ -38,77 +40,73 @@ impl Task for BundleTask {
     type JsEvent = JsValue;
 
     fn perform(&self) -> Result<Self::Output, Self::Error> {
-        let working_dir = PathBuf::from(self.config.static_items.working_dir.clone());
-        let bundler = spack::Bundler::new(
-            working_dir.clone(),
-            self.swc.clone(),
-            self.config
-                .static_items
-                .config
-                .options
-                .as_ref()
-                .map(|options| options.clone())
-                .unwrap_or_else(|| {
-                    serde_json::from_value(serde_json::Value::Object(Default::default())).unwrap()
-                }),
-            &self.config.resolver,
-            &self.config.loader,
-        );
-        let entries = match &self.config.static_items.config.entry {
-            EntryConfig::File(name) => {
-                let mut m = FxHashMap::default();
-                m.insert(name.clone(), working_dir.join(name));
-                m
-            }
-            EntryConfig::Multiple(files) => {
-                let mut m = FxHashMap::default();
-                for name in files {
-                    m.insert(name.clone(), working_dir.join(name));
-                }
-                m
-            }
-            EntryConfig::Files(v) => v
+        let res = catch_unwind(AssertUnwindSafe(|| {
+            let bundler = spack::Bundler::new(
+                self.swc.clone(),
+                self.config
+                    .static_items
+                    .config
+                    .options
+                    .as_ref()
+                    .map(|options| options.clone())
+                    .unwrap_or_else(|| {
+                        serde_json::from_value(serde_json::Value::Object(Default::default()))
+                            .unwrap()
+                    }),
+                &self.config.resolver,
+                &self.config.loader,
+            );
+
+            let result = bundler.bundle(&self.config.static_items.config)?;
+
+            let result = result
                 .into_iter()
-                .map(|(k, v)| (k.clone(), working_dir.clone().join(v)))
-                .collect(),
+                .map(|bundle| match bundle.kind {
+                    BundleKind::Named { name } | BundleKind::Lib { name } => {
+                        Ok((name, bundle.module))
+                    }
+                    BundleKind::Dynamic => bail!("unimplemented: dynamic code splitting"),
+                })
+                .map(|res| {
+                    res.and_then(|(k, m)| {
+                        // TODO: Source map
+                        let minify = self
+                            .config
+                            .static_items
+                            .config
+                            .options
+                            .as_ref()
+                            .map(|v| {
+                                v.config
+                                    .as_ref()
+                                    .map(|v| v.minify)
+                                    .flatten()
+                                    .unwrap_or(false)
+                            })
+                            .unwrap_or(false);
+
+                        let output =
+                            self.swc
+                                .print(&m, SourceMapsConfig::Bool(true), None, minify)?;
+
+                        Ok((k, output))
+                    })
+                })
+                .collect::<Result<_, _>>()?;
+
+            Ok(result)
+        }));
+
+        let err = match res {
+            Ok(v) => return v,
+            Err(err) => err,
         };
 
-        let result = bundler.bundle(entries)?;
+        if let Some(s) = err.downcast_ref::<String>() {
+            bail!("panic detected: {}", s);
+        }
 
-        let result = result
-            .into_iter()
-            .map(|bundle| match bundle.kind {
-                BundleKind::Named { name } | BundleKind::Lib { name } => Ok((name, bundle.module)),
-                BundleKind::Dynamic => bail!("unimplemented: dynamic code splitting"),
-            })
-            .map(|res| {
-                res.and_then(|(k, m)| {
-                    // TODO: Source map
-                    let minify = self
-                        .config
-                        .static_items
-                        .config
-                        .options
-                        .as_ref()
-                        .map(|v| {
-                            v.config
-                                .as_ref()
-                                .map(|v| v.minify)
-                                .flatten()
-                                .unwrap_or(false)
-                        })
-                        .unwrap_or(false);
-
-                    let output = self
-                        .swc
-                        .print(&m, SourceMapsConfig::Bool(true), None, minify)?;
-
-                    Ok((k, output))
-                })
-            })
-            .collect::<Result<_, _>>()?;
-
-        Ok(result)
+        bail!("panic detected")
     }
 
     fn complete(

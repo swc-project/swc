@@ -7,6 +7,7 @@ use fxhash::FxHashMap;
 use swc_atoms::js_word;
 use swc_common::{SyntaxContext, Visit, VisitWith};
 use swc_ecma_ast::*;
+use swc_ecma_transforms::noop_visit_type;
 use swc_ecma_utils::find_ids;
 
 impl Bundler<'_> {
@@ -46,6 +47,8 @@ pub(super) struct Exports {
 struct ExportFinder {
     info: RawExports,
 }
+
+noop_visit_type!(ExportFinder);
 
 impl Visit<ModuleItem> for ExportFinder {
     fn visit(&mut self, item: &ModuleItem) {

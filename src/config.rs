@@ -530,6 +530,8 @@ pub enum ModuleConfig {
     Umd(modules::umd::Config),
     #[serde(rename = "amd")]
     Amd(modules::amd::Config),
+    #[serde(rename = "es6")]
+    Es6,
 }
 
 impl ModuleConfig {
@@ -539,7 +541,7 @@ impl ModuleConfig {
         config: Option<ModuleConfig>,
     ) -> Box<dyn Pass> {
         match config {
-            None => box noop(),
+            None | Some(ModuleConfig::Es6) => box noop(),
             Some(ModuleConfig::CommonJs(config)) => {
                 box modules::common_js::common_js(root_mark, config)
             }
