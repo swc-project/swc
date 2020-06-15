@@ -125,12 +125,27 @@ impl Fold<ImportDecl> for Renamer<'_, '_> {
         };
 
         if let Some(v) = self.renamed.get(&*resolved) {
-            let base = self.path.as_os_str().to_string_lossy();
+            // We use parent because RelativePath uses ../common-[hash].js
+            // if we use `entry-a.js` as a base.
+            //
+            // entry-a.js
+            // common.js
+            let base = self
+                .path
+                .parent()
+                .unwrap_or(self.path)
+                .as_os_str()
+                .to_string_lossy();
             let base = RelativePath::new(&*base);
             let v = base.relative(&*v);
+            let value = v.as_str();
             return ImportDecl {
                 src: Str {
-                    value: v.as_str().into(),
+                    value: if value.starts_with(".") {
+                        value.into()
+                    } else {
+                        format!("./{}", value).into()
+                    },
                     ..import.src
                 },
                 ..import
