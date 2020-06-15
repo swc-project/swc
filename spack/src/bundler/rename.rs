@@ -9,6 +9,7 @@ use std::{
 use swc_common::{util::move_map::MoveMap, FileName, Fold, FoldWith, Span};
 use swc_ecma_ast::{ImportDecl, Module, Str};
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
+use swc_ecma_transforms::noop_fold_type;
 
 impl Bundler<'_> {
     pub(super) fn rename(&self, bundles: Vec<Bundle>) -> Result<Vec<Bundle>, Error> {
@@ -112,6 +113,8 @@ struct Renamer<'a, 'b> {
     path: &'a Path,
     renamed: &'a FxHashMap<PathBuf, String>,
 }
+
+noop_fold_type!(Renamer<'_, '_>);
 
 impl Fold<ImportDecl> for Renamer<'_, '_> {
     fn fold(&mut self, import: ImportDecl) -> ImportDecl {

@@ -9,6 +9,7 @@ use std::{
 use swc_atoms::{js_word, JsWord};
 use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Mark, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms::noop_fold_type;
 use swc_ecma_utils::{find_ids, ident::IdentLike, Id};
 
 #[cfg(test)]
@@ -95,6 +96,8 @@ struct ImportHandler<'a, 'b> {
 
     deglob_phase: bool,
 }
+
+noop_fold_type!(ImportHandler<'_, '_>);
 
 impl ImportHandler<'_, '_> {
     fn mark_for(&self, src: &str) -> Option<Mark> {
