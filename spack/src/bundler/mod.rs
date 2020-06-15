@@ -10,6 +10,7 @@ use anyhow::{Context, Error};
 use fxhash::FxHashMap;
 use rayon::prelude::*;
 use std::{path::PathBuf, sync::Arc};
+use swc::config::ModuleConfig;
 use swc_common::{Mark, DUMMY_SP};
 use swc_ecma_ast::Module;
 
@@ -73,6 +74,11 @@ impl<'a> Bundler<'a> {
         swc_options.disable_fixer = true;
         swc_options.disable_hygiene = true;
         swc_options.global_mark = Some(top_level_mark);
+
+        if let Some(c) = &mut swc_options.config {
+            // Preserve es6 modules
+            c.module = Some(ModuleConfig::Es6);
+        }
 
         Bundler {
             swc,

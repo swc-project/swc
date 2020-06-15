@@ -122,7 +122,7 @@ impl<'a, 'b, P: Pass> PassBuilder<'a, 'b, P> {
             Some(ModuleConfig::CommonJs(ref c)) => !c.no_interop,
             Some(ModuleConfig::Amd(ref c)) => !c.config.no_interop,
             Some(ModuleConfig::Umd(ref c)) => !c.config.no_interop,
-            None => false,
+            Some(ModuleConfig::Es6) | None => false,
         };
 
         // compat
