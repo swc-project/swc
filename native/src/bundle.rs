@@ -106,10 +106,6 @@ impl Task for BundleTask {
             bail!("panic detected: {}", s);
         }
 
-        if let Some(s) = err.downcast_ref::<str>() {
-            bail!("panic detected: {}", s);
-        }
-
         bail!("panic detected")
     }
 
