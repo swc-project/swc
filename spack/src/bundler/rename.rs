@@ -7,6 +7,7 @@ use std::{
     io,
     path::{Path, PathBuf},
 };
+use swc::config::Options;
 use swc_common::{util::move_map::MoveMap, FileName, Fold, FoldWith, Span};
 use swc_ecma_ast::{ImportDecl, Module, Str};
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
@@ -61,7 +62,7 @@ impl Bundler<'_> {
             }
         }
 
-        new = new.move_map(|mut bundle| {
+        new = new.move_map(|bundle| {
             let path = match self.scope.get_module(bundle.id).unwrap().fm.name {
                 FileName::Real(ref v) => v.clone(),
                 _ => {
@@ -69,16 +70,32 @@ impl Bundler<'_> {
                     return bundle;
                 }
             };
-            // Change imports
-            let mut v = Renamer {
-                bundler: self,
-                path: &path,
-                renamed: &renamed,
+
+            let module = {
+                // Change imports
+                let mut v = Renamer {
+                    bundler: self,
+                    path: &path,
+                    renamed: &renamed,
+                };
+                bundle.module.fold_with(&mut v)
             };
 
-            bundle.module = bundle.module.fold_with(&mut v);
+            let module = self.swc.run(|| {
+                let opts = Options {
+                    ..self.swc_options.clone()
+                };
+                let file_name = FileName::Real(path);
+                let config = self.swc.read_config(&opts, &file_name).unwrap_or_default();
+                let mut module_pass = swc::config::ModuleConfig::build(
+                    self.swc.cm.clone(),
+                    self.top_level_mark,
+                    config.module,
+                );
+                module.fold_with(&mut module_pass)
+            });
 
-            bundle
+            Bundle { module, ..bundle }
         });
 
         Ok(new)
