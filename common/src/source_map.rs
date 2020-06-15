@@ -34,7 +34,7 @@ use std::{
     io::{self, Read},
     path::{Path, PathBuf},
     sync::{
-        atomic::{AtomicUsize, Ordering, Ordering::SeqCst},
+        atomic::{AtomicUsize, Ordering},
         Arc,
     },
 };
@@ -124,7 +124,6 @@ pub struct SourceMap {
     used_address_space: AtomicUsize,
 
     pub(super) files: Lock<SourceMapFiles>,
-    start_pos: AtomicUsize,
     file_loader: Box<dyn FileLoader + Sync + Send>,
     // This is used to apply the file path remapping as specified via
     // --remap-path-prefix to all SourceFiles allocated within this SourceMap.
@@ -145,7 +144,6 @@ impl SourceMap {
         SourceMap {
             used_address_space: Default::default(),
             files: Default::default(),
-            start_pos: Default::default(),
             file_loader: Box::new(RealFileLoader),
             path_mapping,
             doctest_offset: None,
@@ -159,7 +157,6 @@ impl SourceMap {
         SourceMap {
             used_address_space: Default::default(),
             files: Default::default(),
-            start_pos: Default::default(),
             file_loader,
             path_mapping,
             doctest_offset: None,
@@ -193,15 +190,6 @@ impl SourceMap {
             .stable_id_to_source_file
             .get(&stable_id)
             .cloned()
-    }
-
-    fn next_start_pos(&self, len: usize) -> usize {
-        match self.files.borrow().source_files.last() {
-            None => self.start_pos.fetch_add(len + 1, SeqCst),
-            // Add one so there is some space between files. This lets us distinguish
-            // positions in the source_map, even in the presence of zero-length files.
-            Some(..) => self.start_pos.fetch_add(len + 1, SeqCst),
-        }
     }
 
     /// Creates a new `SourceFile`.
