@@ -46,13 +46,13 @@ impl Bundler<'_> {
                         })
                         .expect("javascript file should have name");
                     new_name.pop();
-                    new_name = new_name.join(file_name);
+                    new_name = new_name.join(file_name.clone());
 
                     renamed.insert(key, new_name.to_string_lossy().to_string());
 
                     new.push(Bundle {
                         kind: BundleKind::Named {
-                            name: new_name.display().to_string(),
+                            name: file_name.display().to_string(),
                         },
                         ..bundle
                     })
