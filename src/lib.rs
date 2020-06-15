@@ -281,23 +281,16 @@ impl Compiler {
         }
     }
 
-    /// This method handles merging of config.
-    ///
-    /// This method does **not** parse module.
-    pub fn config_for_file(
-        &self,
-        opts: &Options,
-        name: &FileName,
-    ) -> Result<BuiltConfig<impl Pass>, Error> {
+    pub fn read_config(&self, opts: &Options, name: &FileName) -> Result<Config, Error> {
         self.run(|| -> Result<_, Error> {
             let Options {
                 ref root,
                 root_mode,
                 swcrc,
                 config_file,
-                is_module,
                 ..
             } = opts;
+
             let root = root.clone().unwrap_or_else(|| {
                 if cfg!(target_arch = "wasm32") {
                     PathBuf::new()
@@ -328,9 +321,8 @@ impl Compiler {
                                 if let Some(config_file) = config_file {
                                     config.merge(&config_file.into_config(Some(path))?)
                                 }
-                                let built =
-                                    opts.build(&self.cm, &self.handler, *is_module, Some(config));
-                                return Ok(built);
+
+                                return Ok(config);
                             }
 
                             if dir == root && *root_mode == RootMode::Root {
@@ -341,26 +333,32 @@ impl Compiler {
                     }
 
                     let config_file = config_file.unwrap_or_else(|| Rc::default());
-                    let built = opts.build(
-                        &self.cm,
-                        &self.handler,
-                        *is_module,
-                        Some(config_file.into_config(Some(path))?),
-                    );
-                    return Ok(built);
+                    let config = config_file.into_config(Some(path))?;
+
+                    return Ok(config);
                 }
                 _ => {}
             }
 
-            let built = opts.build(
-                &self.cm,
-                &self.handler,
-                *is_module,
-                match config_file {
-                    Some(config_file) => Some(config_file.into_config(None)?),
-                    None => Some(Rc::default().into_config(None)?),
-                },
-            );
+            Ok(match config_file {
+                Some(config_file) => config_file.into_config(None)?,
+                None => Rc::default().into_config(None)?,
+            })
+        })
+        .with_context(|| format!("failed to read swcrc file ('{:?}')", name))
+    }
+
+    /// This method handles merging of config.
+    ///
+    /// This method does **not** parse module.
+    pub fn config_for_file(
+        &self,
+        opts: &Options,
+        name: &FileName,
+    ) -> Result<BuiltConfig<impl Pass>, Error> {
+        self.run(|| -> Result<_, Error> {
+            let config = self.read_config(opts, name)?;
+            let built = opts.build(&self.cm, &self.handler, opts.is_module, Some(config));
             Ok(built)
         })
         .with_context(|| format!("failed to load config for file '{:?}'", name))

@@ -75,6 +75,10 @@ impl<'a> Bundler<'a> {
         swc_options.disable_hygiene = true;
         swc_options.global_mark = Some(top_level_mark);
 
+        if swc_options.config.is_none() {
+            swc_options.config = Some(Default::default());
+        }
+
         if let Some(c) = &mut swc_options.config {
             // Preserve es6 modules
             c.module = Some(ModuleConfig::Es6);
