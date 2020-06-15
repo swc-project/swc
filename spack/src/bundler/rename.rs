@@ -2,6 +2,7 @@ use crate::{Bundle, BundleKind, Bundler};
 use anyhow::{Context, Error};
 use crc::{crc64, crc64::Digest, Hasher64};
 use fxhash::FxHashMap;
+use relative_path::RelativePath;
 use std::{
     io,
     path::{Path, PathBuf},
@@ -124,6 +125,9 @@ impl Fold<ImportDecl> for Renamer<'_, '_> {
         };
 
         if let Some(v) = self.renamed.get(&*resolved) {
+            let base = self.path.as_os_str().to_string_lossy();
+            let base = RelativePath::new(&*base);
+            let v = base.relative(&*v);
             return ImportDecl {
                 src: Str {
                     value: v.as_str().into(),
