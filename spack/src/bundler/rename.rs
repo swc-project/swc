@@ -1,23 +1,26 @@
 use crate::{Bundle, BundleKind, Bundler};
 use anyhow::{Context, Error};
 use crc::{crc64, crc64::Digest, Hasher64};
+use fxhash::FxHashMap;
 use std::{
     io,
     path::{Path, PathBuf},
 };
-use swc_common::Span;
-use swc_ecma_ast::Module;
+use swc_common::{util::move_map::MoveMap, FileName, Fold, FoldWith, Span};
+use swc_ecma_ast::{ImportDecl, Module, Str};
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
 
 impl Bundler<'_> {
     pub(super) fn rename(&self, bundles: Vec<Bundle>) -> Result<Vec<Bundle>, Error> {
         let mut new = Vec::with_capacity(bundles.len());
+        let mut renamed = FxHashMap::default();
 
         for bundle in bundles {
             match bundle.kind {
                 BundleKind::Lib { name } => {
                     let hash = self.calc_hash(&bundle.module)?;
                     let mut new_name = PathBuf::from(name);
+                    let key = new_name.clone();
                     let file_name = new_name
                         .file_name()
                         .map(|path| -> PathBuf {
@@ -43,6 +46,8 @@ impl Bundler<'_> {
                     new_name.pop();
                     new_name = new_name.join(file_name);
 
+                    renamed.insert(key, new_name.to_string_lossy().to_string());
+
                     new.push(Bundle {
                         kind: BundleKind::Named {
                             name: new_name.display().to_string(),
@@ -53,6 +58,26 @@ impl Bundler<'_> {
                 _ => new.push(bundle),
             }
         }
+
+        new = new.move_map(|mut bundle| {
+            let path = match self.scope.get_module(bundle.id).unwrap().fm.name {
+                FileName::Real(ref v) => v.clone(),
+                _ => {
+                    log::error!("Cannot rename: not a real file");
+                    return bundle;
+                }
+            };
+            // Change imports
+            let mut v = Renamer {
+                bundler: self,
+                path: &path,
+                renamed: &renamed,
+            };
+
+            bundle.module = bundle.module.fold_with(&mut v);
+
+            bundle
+        });
 
         Ok(new)
     }
@@ -78,6 +103,34 @@ impl Bundler<'_> {
 
         let result = buf.digest.sum64();
         Ok(radix_fmt::radix(result, 36).to_string())
+    }
+}
+
+/// Import renamer. This pass changes import path.
+struct Renamer<'a, 'b> {
+    bundler: &'a Bundler<'b>,
+    path: &'a Path,
+    renamed: &'a FxHashMap<PathBuf, String>,
+}
+
+impl Fold<ImportDecl> for Renamer<'_, '_> {
+    fn fold(&mut self, import: ImportDecl) -> ImportDecl {
+        let resolved = match self.bundler.resolve(self.path, &import.src.value) {
+            Ok(v) => v,
+            Err(_) => return import,
+        };
+
+        if let Some(v) = self.renamed.get(&*resolved) {
+            return ImportDecl {
+                src: Str {
+                    value: v.as_str().into(),
+                    ..import.src
+                },
+                ..import
+            };
+        }
+
+        import
     }
 }
 
