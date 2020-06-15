@@ -14,6 +14,7 @@ edition = "2018"
 swc_atoms = { path = "../atoms" }
 swc_common = { path = "../common" }
 swc_ecma_ast = { path = "../ecmascript/ast", features = ["fold"] }
+swc_ecma_codegen = { path = "../ecmascript/codegen" }
 swc_ecma_parser = { path = "../ecmascript/parser", features = ["verify"] }
 swc_ecma_transforms = { path = "../ecmascript/transforms" }
 swc_ecma_utils = { path = "../ecmascript/utils" }
@@ -22,7 +23,9 @@ string_enum = { version = "0.3", path ="../macros/string_enum" }
 regex = "1"
 serde = { version = "1", features = ["derive"] }
 anyhow = "1"
+crc = "1.8"
 dashmap = "=3.5.1"
+radix_fmt = "1"
 rayon = "1"
 log = "0.4.8"
 node-resolve = "2.2.0"
