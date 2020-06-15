@@ -10,13 +10,11 @@ it('should handle multiple entries on same level', async () => {
         }
     });
 
-    console.log(Object.keys(result))
-
     expect(result.a).toBeTruthy();
-    expect(result.a.code.replace('\n', '')).toBe(`console.log('foo');`);
+    expect(result.a.code).toContain(`import { foo } from './common-`);
 
     expect(result.b).toBeTruthy();
-    expect(result.b.code.replace('\n', '')).toBe(`console.log('bar');`);
+    expect(result.b.code).toContain(`import { foo } from './common-`);
 });
 
 
@@ -28,11 +26,9 @@ it('should handle multiple entries on different level', async () => {
         }
     });
 
-    console.log(Object.keys(result))
-
     expect(result.a).toBeTruthy();
-    expect(result.a.code.replace('\n', '')).toBe(`console.log('foo');`);
+    expect(result.a.code).toContain(`import { foo } from './common-`);
 
-    expect(result.b).toBeTruthy();
-    expect(result.b.code.replace('\n', '')).toBe(`console.log('bar');`);
+    expect(result.web).toBeTruthy();
+    expect(result.web.code).toContain(`../common`);
 });
