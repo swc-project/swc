@@ -16,7 +16,9 @@ use std::{
 };
 use swc_atoms::js_word;
 use swc_common::{fold::FoldWith, FileName, Mark, SourceFile, Visit, VisitWith};
-use swc_ecma_ast::{ImportDecl, ImportSpecifier, Module, ModuleDecl, Program, Str};
+use swc_ecma_ast::{
+    Expr, ExprOrSuper, ImportDecl, ImportSpecifier, MemberExpr, Module, ModuleDecl, Program, Str,
+};
 use swc_ecma_transforms::resolver::resolver_with_mark;
 
 #[cfg(test)]
@@ -240,9 +242,12 @@ impl Bundler<'_> {
             let exports = exports?;
             let module = module?;
             let is_es6 = {
-                let mut v = Es6ModuleDetector { is_es6: false };
+                let mut v = Es6ModuleDetector {
+                    forced_es6: false,
+                    found_other: false,
+                };
                 module.visit_with(&mut v);
-                v.is_es6
+                v.forced_es6 || !v.found_other
             };
             let module = self.drop_unused(fm.clone(), module, None);
 
@@ -385,7 +390,37 @@ impl Bundler<'_> {
 }
 
 struct Es6ModuleDetector {
-    is_es6: bool,
+    /// If import statement or export is detected, it's an es6 module regardless
+    /// of other codes.
+    forced_es6: bool,
+    /// True if other module system is detected.
+    found_other: bool,
+}
+
+impl Visit<MemberExpr> for Es6ModuleDetector {
+    fn visit(&mut self, e: &MemberExpr) {
+        e.obj.visit_with(self);
+
+        if e.computed {
+            e.prop.visit_with(self);
+        }
+
+        match &e.obj {
+            ExprOrSuper::Expr(box Expr::Ident(i)) => {
+                // TODO: Check syntax context (Check if marker is the global mark)
+                if i.sym == *"module" {
+                    self.found_other = true;
+                }
+
+                if i.sym == *"exports" {
+                    self.found_other = true;
+                }
+            }
+            _ => {}
+        }
+
+        //
+    }
 }
 
 impl Visit<ModuleDecl> for Es6ModuleDetector {
@@ -397,7 +432,7 @@ impl Visit<ModuleDecl> for Es6ModuleDetector {
             | ModuleDecl::ExportDefaultDecl(_)
             | ModuleDecl::ExportDefaultExpr(_)
             | ModuleDecl::ExportAll(_) => {
-                self.is_es6 = true;
+                self.forced_es6 = true;
             }
 
             ModuleDecl::TsImportEquals(_) => {}
