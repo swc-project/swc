@@ -15,8 +15,8 @@ use std::{
     sync::Arc,
 };
 use swc_atoms::js_word;
-use swc_common::{fold::FoldWith, FileName, Mark, SourceFile};
-use swc_ecma_ast::{ImportDecl, ImportSpecifier, Module, Program, Str};
+use swc_common::{fold::FoldWith, FileName, Mark, SourceFile, Visit, VisitWith};
+use swc_ecma_ast::{ImportDecl, ImportSpecifier, Module, ModuleDecl, Program, Str};
 use swc_ecma_transforms::resolver::resolver_with_mark;
 
 #[cfg(test)]
@@ -30,6 +30,10 @@ pub(super) struct TransformedModule {
     pub module: Arc<Module>,
     pub imports: Arc<Imports>,
     pub exports: Arc<Exports>,
+
+    /// If false, the module will be wrapped with helper function just like
+    /// wwbpack.
+    pub is_es6: bool,
 
     mark: Mark,
 }
@@ -235,6 +239,11 @@ impl Bundler<'_> {
             let imports = imports?;
             let exports = exports?;
             let module = module?;
+            let is_es6 = {
+                let mut v = Es6ModuleDetector { is_es6: false };
+                module.visit_with(&mut v);
+                v.is_es6
+            };
             let module = self.drop_unused(fm.clone(), module, None);
 
             let module = Arc::new(module);
@@ -245,6 +254,7 @@ impl Bundler<'_> {
                 module,
                 imports: Arc::new(imports),
                 exports: Arc::new(exports),
+                is_es6,
                 mark,
             })
         })
@@ -371,5 +381,28 @@ impl Bundler<'_> {
 
             Ok(merged)
         })
+    }
+}
+
+struct Es6ModuleDetector {
+    is_es6: bool,
+}
+
+impl Visit<ModuleDecl> for Es6ModuleDetector {
+    fn visit(&mut self, decl: &ModuleDecl) {
+        match decl {
+            ModuleDecl::Import(_)
+            | ModuleDecl::ExportDecl(_)
+            | ModuleDecl::ExportNamed(_)
+            | ModuleDecl::ExportDefaultDecl(_)
+            | ModuleDecl::ExportDefaultExpr(_)
+            | ModuleDecl::ExportAll(_) => {
+                self.is_es6 = true;
+            }
+
+            ModuleDecl::TsImportEquals(_) => {}
+            ModuleDecl::TsExportAssignment(_) => {}
+            ModuleDecl::TsNamespaceExport(_) => {}
+        }
     }
 }
