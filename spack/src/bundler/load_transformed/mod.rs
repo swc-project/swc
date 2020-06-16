@@ -240,7 +240,7 @@ impl Bundler<'_> {
 
             let imports = imports?;
             let exports = exports?;
-            let module = module?;
+            let mut module = module?;
             let is_es6 = {
                 let mut v = Es6ModuleDetector {
                     forced_es6: false,
@@ -249,7 +249,9 @@ impl Bundler<'_> {
                 module.visit_with(&mut v);
                 v.forced_es6 || !v.found_other
             };
-            let module = self.drop_unused(fm.clone(), module, None);
+            if is_es6 {
+                module = self.drop_unused(fm.clone(), module, None);
+            }
 
             let module = Arc::new(module);
 
