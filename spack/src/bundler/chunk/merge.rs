@@ -26,7 +26,7 @@ impl Bundler<'_> {
     ) -> Result<Module, Error> {
         self.swc.run(|| {
             let info = self.scope.get_module(entry).unwrap();
-            log::info!("Merge: {} => {:?}", info.fm.name, targets);
+            log::info!("Merge: {} <= {:?}", info.fm.name, targets);
 
             let mut entry: Module = (*info.module).clone();
 
@@ -47,6 +47,11 @@ impl Bundler<'_> {
 
             for (src, specifiers) in &info.imports.specifiers {
                 if !targets.contains(&src.module_id) {
+                    log::debug!(
+                        "Not merging: not in target: {} <= {}",
+                        info.fm.name,
+                        src.src.value
+                    );
                     continue;
                 }
                 log::debug!("Merging: {} <= {}", info.fm.name, src.src.value);
@@ -58,7 +63,6 @@ impl Bundler<'_> {
                         src.module_id
                     )
                 }
-
                 if src.is_unconditional {
                     if let Some(imported) = self.scope.get_module(src.module_id) {
                         let mut dep: Module = (*imported.module).clone();
@@ -164,6 +168,7 @@ impl Bundler<'_> {
                         // }
 
                         // Replace import statement / require with module body
+                        dbg!(&*src.src.value);
                         entry.body.visit_mut_with(&mut Injector {
                             imported: dep.body,
                             src: src.src.clone(),
