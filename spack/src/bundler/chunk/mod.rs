@@ -49,10 +49,10 @@ impl Bundler<'_> {
         Ok(entries
             .into_par_iter()
             .map(
-                |(kind, id, module_ids_to_merge): (BundleKind, ModuleId, _)| {
+                |(kind, id, mut module_ids_to_merge): (BundleKind, ModuleId, _)| {
                     self.swc().run(|| {
                         let module = self
-                            .merge_modules(id, module_ids_to_merge)
+                            .merge_modules(id, &mut module_ids_to_merge)
                             .context("failed to merge module")
                             .unwrap(); // TODO
 

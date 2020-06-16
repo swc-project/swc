@@ -3,7 +3,7 @@ use crate::{
     bundler::{export::Exports, load_transformed::Specifier},
     Id, ModuleId,
 };
-use anyhow::Error;
+use anyhow::{Context, Error};
 use std::{
     mem::take,
     ops::{Deref, DerefMut},
@@ -22,13 +22,17 @@ impl Bundler<'_> {
     pub(super) fn merge_modules(
         &self,
         entry: ModuleId,
-        targets: Vec<ModuleId>,
+        targets: &mut Vec<ModuleId>,
     ) -> Result<Module, Error> {
         self.swc.run(|| {
             let info = self.scope.get_module(entry).unwrap();
-            log::info!("Merge: {} <= {:?}", info.fm.name, targets);
 
             let mut entry: Module = (*info.module).clone();
+            if targets.is_empty() {
+                return Ok((*info.module).clone());
+            }
+
+            log::info!("Merge: {} <= {:?}", info.fm.name, targets);
 
             // {
             //     let code = self
@@ -48,9 +52,11 @@ impl Bundler<'_> {
             for (src, specifiers) in &info.imports.specifiers {
                 if !targets.contains(&src.module_id) {
                     log::debug!(
-                        "Not merging: not in target: {} <= {}",
+                        "Not merging: not in target: ({}):{} <= ({}):{}",
+                        info.id,
                         info.fm.name,
-                        src.src.value
+                        src.module_id,
+                        src.src.value,
                     );
                     continue;
                 }
@@ -65,7 +71,24 @@ impl Bundler<'_> {
                 }
                 if src.is_unconditional {
                     if let Some(imported) = self.scope.get_module(src.module_id) {
-                        let mut dep: Module = (*imported.module).clone();
+                        // In the case of
+                        //
+                        //  a <- b
+                        //  b <- c
+                        //
+                        // we change it to
+                        //
+                        // a <- b + chunk(c)
+                        //
+                        let mut dep =
+                            self.merge_modules(src.module_id, targets)
+                                .with_context(|| {
+                                    format!(
+                                        "failed to merge: ({}):{} <= ({}):{}",
+                                        info.id, info.fm.name, src.module_id, src.src.value
+                                    )
+                                })?;
+                        targets.remove_item(&info.id);
 
                         //{
                         //    let code = self
@@ -168,7 +191,6 @@ impl Bundler<'_> {
                         // }
 
                         // Replace import statement / require with module body
-                        dbg!(&*src.src.value);
                         entry.body.visit_mut_with(&mut Injector {
                             imported: dep.body,
                             src: src.src.clone(),
