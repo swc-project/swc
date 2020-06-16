@@ -337,10 +337,10 @@ impl Fold<Expr> for ImportHandler<'_, '_> {
                             type_only: false,
                         };
 
-                        // if self.top_level {
-                        //     self.info.imports.push(decl);
-                        //     return *undefined(span);
-                        // }
+                        if self.top_level {
+                            self.info.imports.push(decl);
+                            return Expr::Call(e);
+                        }
 
                         self.info.lazy_imports.push(decl);
                         return Expr::Call(e);
