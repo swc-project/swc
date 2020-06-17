@@ -1,3 +1,3 @@
-import * as progress from 'progress';
+import progress from 'progress';
 
 console.log(progress);
