@@ -424,21 +424,7 @@ console.log(foo(), a.a(), a.foo());"
 noop!(
     spack_issue_007,
     "
-var load = __spack_require__.bind(void 0, function(module1, exports) {
-    var load1 = __spack_require__.bind(void 0, function(module1, exports1) {
-        function ProgressBar(fmt, options) {
-        }
-        ProgressBar.prototype.tick = function(len, tokens) {
-        };
-        ProgressBar.prototype.render = function(tokens, force) {
-        };
-        ProgressBar.prototype.terminate = function() {
-        };
-        module.exports = ProgressBar;
-    });
-
-    module.exports = load1();
-});
-var { default: progress  } = load();
+var load = function(){}
+var { progress } = load();
 console.log(progress);"
 );

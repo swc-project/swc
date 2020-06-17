@@ -168,6 +168,11 @@ where
                 idx += 1;
                 item
             });
+
+            if !self.changed {
+                items = items.move_map(|item| item.fold_with(self));
+            }
+
             if !self.changed {
                 break;
             }
