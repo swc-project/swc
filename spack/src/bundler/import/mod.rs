@@ -114,6 +114,10 @@ impl ImportHandler<'_, '_> {
 impl Fold<ImportDecl> for ImportHandler<'_, '_> {
     fn fold(&mut self, import: ImportDecl) -> ImportDecl {
         if !self.deglob_phase {
+            if is_core_module(&import.src.value) {
+                return import;
+            }
+
             self.info.imports.push(import.clone());
             return import;
         }
@@ -399,6 +403,9 @@ impl Fold<VarDeclarator> for ImportHandler<'_, '_> {
                     } => s.clone(),
                     _ => return node,
                 };
+                if is_core_module(&src.value) {
+                    return node;
+                }
 
                 let ids: Vec<Ident> = find_ids(&node.name);
 
