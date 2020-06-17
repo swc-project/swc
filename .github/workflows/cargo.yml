@@ -48,7 +48,7 @@ jobs:
       - name: Install node dependencies
         run: |
           npm config set prefix ~/npm
-          npm i browserslist regenerator-runtime sourcemap-validator
+          npm i browserslist regenerator-runtime sourcemap-validator progress
           npm i -g jest
 
       # Ensure that all components all compilable.
