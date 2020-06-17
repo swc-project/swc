@@ -74,6 +74,8 @@ impl Bundler<'_> {
                 }
                 if src.is_unconditional {
                     if let Some(imported) = self.scope.get_module(src.module_id) {
+                        info.helpers.extend(&imported.helpers);
+
                         // In the case of
                         //
                         //  a <- b

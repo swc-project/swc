@@ -1,6 +1,6 @@
 use std::{
     ops::BitOr,
-    sync::atomic::{AtomicBool, Ordering},
+    sync::atomic::{AtomicBool, Ordering::SeqCst},
 };
 
 #[derive(Debug, Default)]
@@ -9,14 +9,10 @@ pub(super) struct Helpers {
     pub require: AtomicBool,
 }
 
-impl<'a> BitOr<&'a Self> for Helpers {
-    type Output = Self;
-
-    fn bitor(mut self, rhs: &Self) -> Self::Output {
-        if rhs.require.load(Ordering::SeqCst) {
-            *self.require.get_mut() = true;
+impl Helpers {
+    pub fn extend(&self, rhs: &Self) {
+        if rhs.require.load(SeqCst) {
+            self.require.store(true, SeqCst);
         }
-
-        self
     }
 }
