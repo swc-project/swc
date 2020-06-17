@@ -16,6 +16,7 @@ use swc_ecma_ast::Module;
 
 mod chunk;
 mod export;
+mod helpers;
 mod import;
 mod load_transformed;
 mod rename;
