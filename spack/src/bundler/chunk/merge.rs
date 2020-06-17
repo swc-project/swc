@@ -1,7 +1,6 @@
 use super::Bundler;
 use crate::{
     bundler::{export::Exports, load_transformed::Specifier},
-    debug::HygieneVisualizer,
     Id, ModuleId,
 };
 use anyhow::{Context, Error};
@@ -9,7 +8,6 @@ use std::{
     mem::take,
     ops::{Deref, DerefMut},
 };
-use swc::config::SourceMapsConfig;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     fold::FoldWith, Fold, Mark, Span, Spanned, SyntaxContext, VisitMut, VisitMutWith, VisitWith,
