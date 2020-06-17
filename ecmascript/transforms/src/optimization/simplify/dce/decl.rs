@@ -56,6 +56,7 @@ impl Fold<VarDecl> for Dce<'_> {
             Some(VarDeclarator {
                 span: decl.span.apply_mark(self.config.used_mark),
                 init: self.fold_in_marking_phase(decl.init),
+                name: self.fold_in_marking_phase(decl.name),
                 ..decl
             })
         });

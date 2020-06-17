@@ -1,6 +1,7 @@
 use super::Bundler;
 use anyhow::{Context, Error};
 use fxhash::{FxHashMap, FxHashSet};
+use node_resolve::is_core_module;
 use std::{
     mem::replace,
     path::{Path, PathBuf},
@@ -101,6 +102,9 @@ noop_fold_type!(ImportHandler<'_, '_>);
 
 impl ImportHandler<'_, '_> {
     fn mark_for(&self, src: &str) -> Option<Mark> {
+        if is_core_module(src) {
+            return None;
+        }
         let path = self.bundler.resolve(self.path, src).ok()?;
         let (_, mark) = self.bundler.scope.module_id_gen.gen(&path);
         Some(mark)
@@ -110,6 +114,10 @@ impl ImportHandler<'_, '_> {
 impl Fold<ImportDecl> for ImportHandler<'_, '_> {
     fn fold(&mut self, import: ImportDecl) -> ImportDecl {
         if !self.deglob_phase {
+            if is_core_module(&import.src.value) {
+                return import;
+            }
+
             self.info.imports.push(import.clone());
             return import;
         }
@@ -337,10 +345,10 @@ impl Fold<Expr> for ImportHandler<'_, '_> {
                             type_only: false,
                         };
 
-                        // if self.top_level {
-                        //     self.info.imports.push(decl);
-                        //     return *undefined(span);
-                        // }
+                        if self.top_level {
+                            self.info.imports.push(decl);
+                            return Expr::Call(e);
+                        }
 
                         self.info.lazy_imports.push(decl);
                         return Expr::Call(e);
@@ -395,6 +403,9 @@ impl Fold<VarDeclarator> for ImportHandler<'_, '_> {
                     } => s.clone(),
                     _ => return node,
                 };
+                if is_core_module(&src.value) {
+                    return node;
+                }
 
                 let ids: Vec<Ident> = find_ids(&node.name);
 

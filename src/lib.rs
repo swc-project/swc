@@ -364,20 +364,26 @@ impl Compiler {
         .with_context(|| format!("failed to load config for file '{:?}'", name))
     }
 
-    // TODO: Handle source map
+    pub fn run_transform<F, Ret>(&self, external_helpers: bool, op: F) -> Ret
+    where
+        F: FnOnce() -> Ret,
+    {
+        self.run(|| {
+            helpers::HELPERS.set(&Helpers::new(external_helpers), || {
+                util::HANDLER.set(&self.handler, || op())
+            })
+        })
+    }
+
     pub fn transform(
         &self,
         program: Program,
         external_helpers: bool,
         mut pass: impl Pass,
     ) -> Program {
-        self.run(|| {
-            helpers::HELPERS.set(&Helpers::new(external_helpers), || {
-                util::HANDLER.set(&self.handler, || {
-                    // Fold module
-                    program.fold_with(&mut pass)
-                })
-            })
+        self.run_transform(external_helpers, || {
+            // Fold module
+            program.fold_with(&mut pass)
         })
     }
 

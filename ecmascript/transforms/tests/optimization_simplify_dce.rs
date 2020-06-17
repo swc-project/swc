@@ -420,3 +420,11 @@ function foo() {}
 
 console.log(foo(), a.a(), a.foo());"
 );
+
+noop!(
+    spack_issue_007,
+    "
+var load = function(){}
+var { progress } = load();
+console.log(progress);"
+);

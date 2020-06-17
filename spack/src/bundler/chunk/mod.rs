@@ -8,7 +8,7 @@ use fxhash::{FxHashMap, FxHashSet};
 use petgraph::{graphmap::DiGraphMap, visit::Bfs};
 use rayon::prelude::*;
 use swc_common::fold::FoldWith;
-use swc_ecma_transforms::{fixer, optimization::simplify::dce::dce};
+use swc_ecma_transforms::{fixer, hygiene, optimization::simplify::dce::dce};
 
 mod merge;
 
@@ -49,15 +49,16 @@ impl Bundler<'_> {
         Ok(entries
             .into_par_iter()
             .map(
-                |(kind, id, module_ids_to_merge): (BundleKind, ModuleId, _)| {
+                |(kind, id, mut module_ids_to_merge): (BundleKind, ModuleId, _)| {
                     self.swc().run(|| {
                         let module = self
-                            .merge_modules(id, module_ids_to_merge)
+                            .merge_modules(id, &mut module_ids_to_merge)
                             .context("failed to merge module")
                             .unwrap(); // TODO
 
                         let module = module
                             .fold_with(&mut dce(Default::default()))
+                            .fold_with(&mut hygiene())
                             .fold_with(&mut fixer());
 
                         Bundle { kind, id, module }
