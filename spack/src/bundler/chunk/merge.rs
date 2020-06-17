@@ -7,6 +7,7 @@ use anyhow::{Context, Error};
 use std::{
     mem::take,
     ops::{Deref, DerefMut},
+    sync::atomic::Ordering,
 };
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
@@ -295,12 +296,15 @@ impl Bundler<'_> {
                                         name: Pat::Ident(load_var.clone()),
                                         init: Some(box Expr::Call(CallExpr {
                                             span: DUMMY_SP,
-                                            callee: Ident::new(
-                                                "__spack_require__".into(),
-                                                DUMMY_SP,
-                                            )
-                                            .member(Ident::new("bind".into(), DUMMY_SP))
-                                            .as_callee(),
+                                            callee: {
+                                                info.helpers.require.store(true, Ordering::SeqCst);
+                                                Ident::new(
+                                                    "__spack_require__".into(),
+                                                    DUMMY_SP.apply_mark(self.top_level_mark),
+                                                )
+                                                .member(Ident::new("bind".into(), DUMMY_SP))
+                                                .as_callee()
+                                            },
                                             args: vec![
                                                 undefined(DUMMY_SP).as_arg(),
                                                 module_fn.as_arg(),
