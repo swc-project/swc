@@ -1,6 +1,7 @@
 use super::Bundler;
 use crate::{
     bundler::{export::Exports, load_transformed::Specifier},
+    debug::HygieneVisualizer,
     Id, ModuleId,
 };
 use anyhow::{Context, Error};
@@ -8,13 +9,14 @@ use std::{
     mem::take,
     ops::{Deref, DerefMut},
 };
+use swc::config::SourceMapsConfig;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     fold::FoldWith, Fold, Mark, Span, Spanned, SyntaxContext, VisitMut, VisitMutWith, VisitWith,
     DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_transforms::{hygiene, noop_fold_type};
+use swc_ecma_transforms::noop_fold_type;
 use swc_ecma_utils::{
     find_ids, prepend, private_ident, undefined, DestructuringFinder, ExprFactory, StmtLike,
 };
@@ -307,6 +309,8 @@ impl Bundler<'_> {
                                 }));
 
                                 prepend(&mut entry.body, ModuleItem::Stmt(load_var));
+
+                                log::warn!("Injecting load");
                             }
 
                             let load = CallExpr {
@@ -321,6 +325,21 @@ impl Bundler<'_> {
                                 load,
                             });
 
+                            // {
+                            //     let code = self
+                            //         .swc
+                            //         .print(
+                            //             &entry.clone().fold_with(&mut HygieneVisualizer),
+                            //             SourceMapsConfig::Bool(false),
+                            //             None,
+                            //             false,
+                            //         )
+                            //         .unwrap()
+                            //         .code;
+                            //
+                            //     println!("@: After replace-require:\n{}\n\n\n", code);
+                            // }
+
                             log::info!("Replaced requires with load");
                         }
                     }
@@ -329,7 +348,7 @@ impl Bundler<'_> {
                 }
             }
 
-            Ok(entry.fold_with(&mut hygiene()))
+            Ok(entry)
         })
     }
 }
