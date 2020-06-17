@@ -2,6 +2,7 @@ use super::Bundler;
 use crate::{
     bundler::{
         export::{Exports, RawExports},
+        helpers::Helpers,
         import::RawImports,
     },
     debug::assert_clean,
@@ -36,6 +37,9 @@ pub(super) struct TransformedModule {
     /// If false, the module will be wrapped with helper function just like
     /// wwbpack.
     pub is_es6: bool,
+
+    /// Used helpers
+    pub helpers: Arc<Helpers>,
 
     mark: Mark,
 }
@@ -262,6 +266,7 @@ impl Bundler<'_> {
                 imports: Arc::new(imports),
                 exports: Arc::new(exports),
                 is_es6,
+                helpers: Default::default(),
                 mark,
             })
         })
