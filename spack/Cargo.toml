@@ -21,6 +21,7 @@ swc_ecma_utils = { path = "../ecmascript/utils" }
 swc = { path = "../" }
 string_enum = { version = "0.3", path ="../macros/string_enum" }
 regex = "1"
+once_cell = "1"
 serde = { version = "1", features = ["derive"] }
 anyhow = "1"
 crc = "1.8"

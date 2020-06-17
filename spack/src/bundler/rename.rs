@@ -18,8 +18,21 @@ impl Bundler<'_> {
         let mut new = Vec::with_capacity(bundles.len());
         let mut renamed = FxHashMap::default();
 
-        for bundle in bundles {
+        for mut bundle in bundles {
             match bundle.kind {
+                BundleKind::Named { .. } => {
+                    // Inject helpers
+                    let helpers = self
+                        .scope
+                        .get_module(bundle.id)
+                        .expect("module should exist at this point")
+                        .helpers;
+
+                    self.swc
+                        .run_transform(true, || helpers.append_to(&mut bundle.module.body));
+
+                    new.push(Bundle { ..bundle });
+                }
                 BundleKind::Lib { name } => {
                     let hash = self.calc_hash(&bundle.module)?;
                     let mut new_name = PathBuf::from(name);

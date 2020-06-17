@@ -1,3 +1,5 @@
+function __spack_require(mod) {
+}
 var load = __spack_require__.bind(void 0, function(module1, exports) {
     var load1 = __spack_require__.bind(void 0, function(module1, exports1) /*!
  * node-progress
