@@ -1,6 +1,7 @@
 use super::Bundler;
 use anyhow::{Context, Error};
 use fxhash::{FxHashMap, FxHashSet};
+use node_resolve::is_core_module;
 use std::{
     mem::replace,
     path::{Path, PathBuf},
@@ -101,6 +102,9 @@ noop_fold_type!(ImportHandler<'_, '_>);
 
 impl ImportHandler<'_, '_> {
     fn mark_for(&self, src: &str) -> Option<Mark> {
+        if is_core_module(src) {
+            return None;
+        }
         let path = self.bundler.resolve(self.path, src).ok()?;
         let (_, mark) = self.bundler.scope.module_id_gen.gen(&path);
         Some(mark)

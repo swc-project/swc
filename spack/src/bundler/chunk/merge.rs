@@ -194,10 +194,11 @@ impl Bundler<'_> {
                             // }
 
                             // Replace import statement / require with module body
-                            entry.body.visit_mut_with(&mut Es6ModuleInjector {
+                            let mut injector = Es6ModuleInjector {
                                 imported: dep.body.clone(),
                                 src: src.src.clone(),
-                            });
+                            };
+                            entry.body.visit_mut_with(&mut injector);
 
                             // {
                             //     let code = self
@@ -214,6 +215,10 @@ impl Bundler<'_> {
                             //
                             //     println!("Merged:\n{}\n\n\n", code);
                             // }
+
+                            if injector.imported.is_empty() {
+                                continue;
+                            }
                         }
 
                         {
