@@ -142,7 +142,7 @@ impl<'a> Bundler<'a> {
 
         let bundles = self.chunk(local)?;
 
-        Ok(self.rename(bundles)?)
+        Ok(self.finalize(bundles)?)
     }
 
     pub fn swc(&self) -> &swc::Compiler {

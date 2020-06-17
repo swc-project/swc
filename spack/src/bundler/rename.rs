@@ -14,7 +14,7 @@ use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
 use swc_ecma_transforms::noop_fold_type;
 
 impl Bundler<'_> {
-    pub(super) fn rename(&self, bundles: Vec<Bundle>) -> Result<Vec<Bundle>, Error> {
+    pub(super) fn finalize(&self, bundles: Vec<Bundle>) -> Result<Vec<Bundle>, Error> {
         let mut new = Vec::with_capacity(bundles.len());
         let mut renamed = FxHashMap::default();
 
