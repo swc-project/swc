@@ -806,6 +806,100 @@ struct RequireReplacer {
     load: CallExpr,
 }
 
+impl VisitMut<ModuleItem> for RequireReplacer {
+    fn visit_mut(&mut self, node: &mut ModuleItem) {
+        node.visit_mut_children(self);
+
+        match node {
+            ModuleItem::ModuleDecl(ModuleDecl::Import(i)) => {
+                // Replace import progress from 'progress';
+                if i.src.value == self.src {
+                    // Side effech import
+                    if i.specifiers.is_empty() {
+                        *node = ModuleItem::Stmt(
+                            CallExpr {
+                                span: DUMMY_SP,
+                                callee: self.load.clone().as_callee(),
+                                args: vec![],
+                                type_args: None,
+                            }
+                            .into_stmt(),
+                        );
+                        return;
+                    }
+
+                    let mut props = vec![];
+                    for spec in i.specifiers.clone() {
+                        match spec {
+                            ImportSpecifier::Named(s) => {
+                                if let Some(imported) = s.imported {
+                                    props.push(ObjectPatProp::KeyValue(KeyValuePatProp {
+                                        key: imported.into(),
+                                        value: box s.local.into(),
+                                    }));
+                                } else {
+                                    props.push(ObjectPatProp::Assign(AssignPatProp {
+                                        span: s.span,
+                                        key: s.local,
+                                        value: None,
+                                    }));
+                                }
+                            }
+                            ImportSpecifier::Default(s) => {
+                                props.push(ObjectPatProp::KeyValue(KeyValuePatProp {
+                                    key: PropName::Ident(Ident::new("default".into(), DUMMY_SP)),
+                                    value: box s.local.into(),
+                                }));
+                            }
+                            ImportSpecifier::Namespace(ns) => {
+                                *node = ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                                    span: i.span,
+                                    kind: VarDeclKind::Var,
+                                    declare: false,
+                                    decls: vec![VarDeclarator {
+                                        span: ns.span,
+                                        name: ns.local.into(),
+                                        init: Some(
+                                            box CallExpr {
+                                                span: DUMMY_SP,
+                                                callee: self.load.clone().as_callee(),
+                                                args: vec![],
+                                                type_args: None,
+                                            }
+                                            .into(),
+                                        ),
+                                        definite: false,
+                                    }],
+                                })));
+                                return;
+                            }
+                        }
+                    }
+
+                    *node = ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                        span: i.span,
+                        kind: VarDeclKind::Var,
+                        declare: false,
+                        decls: vec![VarDeclarator {
+                            span: i.span,
+                            name: Pat::Object(ObjectPat {
+                                span: DUMMY_SP,
+                                props,
+                                optional: false,
+                                type_ann: None,
+                            }),
+                            init: Some(box self.load.clone().into()),
+                            definite: false,
+                        }],
+                    })));
+                    return;
+                }
+            }
+            _ => {}
+        }
+    }
+}
+
 impl VisitMut<CallExpr> for RequireReplacer {
     fn visit_mut(&mut self, node: &mut CallExpr) {
         node.visit_mut_children(self);
