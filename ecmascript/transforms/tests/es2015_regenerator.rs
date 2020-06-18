@@ -1127,3 +1127,16 @@ const v = genFactory()();
 expect(v.next()).toEqual({ value: 1, done: false })
 expect(v.next()).toEqual({ done: true })"
 );
+
+test_exec!(
+    syntax(),
+    |_| es2015::regenerator(Mark::fresh(Mark::root())),
+    issue_853_1,
+    "function throwingFn() { throw 'Error' }
+function* gen() { 
+    try { yield throwingFn() } catch (e) { yield e }
+};
+const v = gen();
+expect(v.next()).toEqual({ done: false, value: 'Error'});
+"
+);
