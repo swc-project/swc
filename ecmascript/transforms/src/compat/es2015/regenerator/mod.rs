@@ -85,21 +85,27 @@ where
             return items;
         }
 
-        let mut items = items.fold_children(self);
+        let mut new = Vec::with_capacity(items.len() + 2);
 
-        if !self.top_level_vars.is_empty() {
-            prepend(
-                &mut items,
-                T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    declare: false,
-                    decls: replace(&mut self.top_level_vars, Default::default()),
-                }))),
-            );
+        for item in items {
+            let item = item.fold_with(self);
+
+            if !self.top_level_vars.is_empty() {
+                prepend(
+                    &mut new,
+                    T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        declare: false,
+                        decls: replace(&mut self.top_level_vars, Default::default()),
+                    }))),
+                );
+            }
+
+            new.push(item);
         }
 
-        items
+        new
     }
 }
 
