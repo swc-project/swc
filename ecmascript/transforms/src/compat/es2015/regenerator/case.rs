@@ -1071,7 +1071,7 @@ impl CaseHandler<'_> {
                 let after = self.loc();
 
                 let TryStmt {
-                    handler,
+                    mut handler,
                     block,
                     finalizer,
                     ..
@@ -1121,12 +1121,21 @@ impl CaseHandler<'_> {
                         try_entry.catch_entry.as_mut().unwrap().first_loc = loc;
 
                         let safe_param = folder.make_var();
-                        folder.clear_pending_exception(try_entry.first_loc, Some(safe_param));
+                        folder
+                            .clear_pending_exception(try_entry.first_loc, Some(safe_param.clone()));
 
                         //bodyPath.traverse(catchParamVisitor, {
                         //    getSafeParam: () => t.cloneDeep(safeParam),
                         //    catchParamName: handler.param.name
                         //});
+                        handler = handler.map(|handler| {
+                            let body = handler.body.fold_with(&mut CatchParamHandler {
+                                safe_param: &safe_param,
+                                param: handler.param.as_ref(),
+                            });
+
+                            CatchClause { body, ..handler }
+                        });
 
                         folder.with_entry(
                             Entry::Catch(try_entry.catch_entry.clone().unwrap()),
@@ -1437,5 +1446,31 @@ impl Fold<Expr> for InvalidToLit<'_> {
             }
             _ => e,
         }
+    }
+}
+
+struct CatchParamHandler<'a> {
+    safe_param: &'a Expr,
+    param: Option<&'a Pat>,
+}
+
+noop_fold_type!(CatchParamHandler<'_>);
+
+impl Fold<Expr> for CatchParamHandler<'_> {
+    fn fold(&mut self, node: Expr) -> Expr {
+        match self.param {
+            None => return node,
+            Some(Pat::Ident(i)) => match &node {
+                Expr::Ident(r) => {
+                    if r.sym == i.sym && i.span.ctxt() == r.span.ctxt() {
+                        return self.safe_param.clone();
+                    }
+                }
+                _ => {}
+            },
+            _ => {}
+        }
+
+        node.fold_children(self)
     }
 }
