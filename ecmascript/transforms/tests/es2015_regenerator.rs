@@ -1116,3 +1116,14 @@ export function myGenerator() {
 }
 "
 );
+
+test_exec!(
+    syntax(),
+    |_| es2015::regenerator(Mark::fresh(Mark::root())),
+    issue_849_1,
+    "function* gen() { yield 1 };
+function genFactory() { return function*() { yield 1 }; }
+const v = genFactory()();
+expect(v.next()).toEqual({ value: 1, done: false })
+expect(v.next()).toEqual({ done: true })"
+);
