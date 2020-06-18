@@ -6109,3 +6109,26 @@ with (env) {
 
 "#
 );
+
+test_exec!(
+    syntax(),
+    |_| Classes::default(),
+    issue_846,
+    r#"
+class SomeClass {
+  someMethod() {
+     return 1;
+  }
+}
+
+class OtherClass extends SomeClass {
+  anotherMethod() {
+    expect(super.someMethod()).toBe(1);
+    return 2;
+  }
+}
+
+const obj = new OtherClass();
+expect(obj.anotherMethod()).toBe(2);
+"#
+);
