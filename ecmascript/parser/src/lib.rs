@@ -138,14 +138,7 @@ impl Syntax {
     }
 
     pub fn optional_chaining(self) -> bool {
-        match self {
-            Syntax::Es(EsConfig {
-                optional_chaining: true,
-                ..
-            })
-            | Syntax::Typescript(TsConfig { .. }) => true,
-            _ => false,
-        }
+        true
     }
 
     pub fn dynamic_import(self) -> bool {
@@ -262,15 +255,7 @@ impl Syntax {
     }
 
     pub fn nullish_coalescing(self) -> bool {
-        match self {
-            Syntax::Es(EsConfig {
-                nullish_coalescing: true,
-                ..
-            })
-            | Syntax::Typescript(..) => true,
-
-            _ => false,
-        }
+        true
     }
 
     pub fn import_meta(self) -> bool {
@@ -347,6 +332,8 @@ pub enum JscTarget {
     Es2018,
     #[serde(rename = "es2019")]
     Es2019,
+    #[serde(rename = "es2020")]
+    Es2020,
 }
 
 impl Default for JscTarget {

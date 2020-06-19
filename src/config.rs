@@ -23,7 +23,7 @@ use swc_ecmascript::{
         const_modules, modules,
         optimization::{simplifier, InlineGlobals, JsonParse},
         pass::{noop, Optional, Pass},
-        proposals::{class_properties, decorators, export, nullish_coalescing, optional_chaining},
+        proposals::{class_properties, decorators, export},
         react, resolver_with_mark, typescript,
     },
 };

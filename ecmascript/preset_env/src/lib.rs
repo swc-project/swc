@@ -67,6 +67,8 @@ pub fn preset_env(global_mark: Mark, c: Config) -> impl Pass {
         }};
     }
 
+    // TODO: ES2020 support
+
     // ES2018
     let pass = add!(pass, ObjectRestSpread, es2018::object_rest_spread());
     let pass = add!(pass, OptionalCatchBinding, es2018::optional_catch_binding());
