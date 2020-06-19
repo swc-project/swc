@@ -1,6 +1,6 @@
 [package]
 name = "swc_ecma_codegen"
-version = "0.22.3"
+version = "0.23.0"
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 license = "Apache-2.0/MIT"
 repository = "https://github.com/swc-project/swc.git"
@@ -17,7 +17,7 @@ swc_ecma_ast = { version = "0.20.0", path ="../ast" }
 swc_ecma_codegen_macros = { version = "0.5", path ="./macros" }
 sourcemap = "5"
 num-bigint = { version = "0.2", features = ["serde"] }
-swc_ecma_parser = { version = "0.24", path ="../parser" }
+swc_ecma_parser = { version = "0.25", path ="../parser" }
 
 [dev-dependencies]
 testing = { version = "0.5", path ="../../testing" }
