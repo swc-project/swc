@@ -6,7 +6,9 @@
 use swc_common::{chain, Fold, Mark};
 use swc_ecma_ast::*;
 use swc_ecma_transforms::{
-    compat, fixer,
+    compat,
+    compat::es2020::class_properties,
+    fixer,
     helpers::InjectHelpers,
     hygiene,
     modules::{
@@ -15,7 +17,7 @@ use swc_ecma_transforms::{
         util::Lazy,
     },
     optimization::simplifier,
-    proposals::{class_properties, decorators, export},
+    proposals::{decorators, export},
     resolver_with_mark, typescript,
 };
 
