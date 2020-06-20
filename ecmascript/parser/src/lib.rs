@@ -182,13 +182,7 @@ impl Syntax {
     }
 
     pub fn class_private_methods(self) -> bool {
-        match self {
-            Syntax::Es(EsConfig {
-                class_private_methods: true,
-                ..
-            }) => true,
-            _ => false,
-        }
+        true
     }
 
     pub fn class_private_props(self) -> bool {
@@ -203,15 +197,7 @@ impl Syntax {
     }
 
     pub fn class_props(self) -> bool {
-        if self.typescript() {
-            return true;
-        }
-        match self {
-            Syntax::Es(EsConfig {
-                class_props: true, ..
-            }) => true,
-            _ => false,
-        }
+        true
     }
 
     pub fn decorators_before_export(self) -> bool {

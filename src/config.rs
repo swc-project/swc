@@ -23,7 +23,7 @@ use swc_ecmascript::{
         const_modules, modules,
         optimization::{simplifier, InlineGlobals, JsonParse},
         pass::{noop, Optional, Pass},
-        proposals::{class_properties, decorators, export},
+        proposals::{decorators, export},
         react, resolver_with_mark, typescript,
     },
 };
@@ -219,8 +219,6 @@ impl Options {
             // handle jsx
             Optional::new(react::react(cm.clone(), transform.react), syntax.jsx()),
             Optional::new(typescript::strip(), syntax.typescript()),
-            Optional::new(nullish_coalescing(), syntax.nullish_coalescing()),
-            Optional::new(optional_chaining(), syntax.optional_chaining()),
             resolver_with_mark(root_mark),
             const_modules,
             optimization,
@@ -230,7 +228,6 @@ impl Options {
                 }),
                 syntax.decorators()
             ),
-            Optional::new(class_properties(), syntax.class_props()),
             Optional::new(
                 export(),
                 syntax.export_default_from() || syntax.export_namespace_from()
