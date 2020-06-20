@@ -117,6 +117,9 @@ pub enum Feature {
 
     /// `proposal-class-properties`
     ClassProperties,
+
+    /// `proposal-numeric-separator`
+    NumericSeparator,
 }
 
 pub(crate) static FEATURES: Lazy<HashMap<Feature, BrowserData<Option<Version>>>> =

@@ -163,10 +163,7 @@ impl Syntax {
     }
 
     pub fn num_sep(self) -> bool {
-        match self {
-            Syntax::Es(EsConfig { num_sep: true, .. }) | Syntax::Typescript(..) => true,
-            _ => false,
-        }
+        true
     }
 
     pub fn decorators(self) -> bool {
