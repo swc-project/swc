@@ -120,6 +120,12 @@ pub enum Feature {
 
     /// `proposal-numeric-separator`
     NumericSeparator,
+
+    /// `proposal-private-methods`
+    PrivateMethods,
+
+    /// `transform-unicode-escapes`
+    UnicodeEscapes,
 }
 
 pub(crate) static FEATURES: Lazy<HashMap<Feature, BrowserData<Option<Version>>>> =
