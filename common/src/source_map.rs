@@ -1010,7 +1010,7 @@ impl SourceMap {
         // mappings.sort_by_key(|v| v.0);
 
         let mut cur_file: Option<Arc<SourceFile>> = None;
-        let mut src_id;
+        let mut src_id = 0;
 
         let mut ch_start = 0;
         let mut line_ch_start = 0;
@@ -1064,14 +1064,7 @@ impl SourceMap {
                 }
             }
 
-            builder.add(
-                lc.line,
-                lc.col,
-                line - 1,
-                col,
-                Some(&f.name.to_string()),
-                None,
-            );
+            builder.add_raw(lc.line, lc.col, line - 1, col, Some(src_id), None);
         }
 
         builder.into_sourcemap()
