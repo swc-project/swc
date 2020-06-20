@@ -38,7 +38,7 @@ pub mod optimization;
 pub mod pass;
 pub mod proposals;
 pub mod react;
-mod resolver;
+pub mod resolver;
 pub mod scope;
 pub mod typescript;
 pub mod util {

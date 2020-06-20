@@ -1,5 +1,6 @@
 # Built files
 /*.js
+/*.map
 /*.d.ts
 native/artifacts.json
 artifacts.json

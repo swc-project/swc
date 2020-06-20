@@ -169,14 +169,14 @@ fn no_octal_escape() {
 
 #[test]
 fn empty_named_export() {
-    test_from_to("export { }", "export { }");
+    test_from_to("export { }", "export { };");
 }
 
 #[test]
 fn empty_named_export_min() {
     test_from_to_custom_config(
         "export { }",
-        "export{}",
+        "export{};",
         Config { minify: true },
         Default::default(),
     );

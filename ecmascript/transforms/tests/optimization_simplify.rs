@@ -305,6 +305,7 @@ fn test_bug_issue3() {
         "  if(sections.length != 1) children[i] = 0;",
         "  else var selectedid = children[i]",
         "}",
+        "foo()"
     ));
 }
 

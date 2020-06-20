@@ -326,8 +326,8 @@ impl<'a> Emitter<'a> {
             keyword!("from");
             formatting_space!();
             emit!(src);
-            semi!();
         }
+        semi!();
     }
 
     #[emitter]

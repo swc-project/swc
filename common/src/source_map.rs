@@ -1064,7 +1064,14 @@ impl SourceMap {
                 }
             }
 
-            builder.add(lc.line, lc.col, line - 1, col, None, None);
+            builder.add(
+                lc.line,
+                lc.col,
+                line - 1,
+                col,
+                Some(&f.name.to_string()),
+                None,
+            );
         }
 
         builder.into_sourcemap()

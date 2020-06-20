@@ -6,6 +6,7 @@
 use swc_common::chain;
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms::{
+    compat::es2015::classes::Classes,
     pass::Pass,
     proposals::{class_properties, decorators, decorators::Config},
     resolver, typescript,
@@ -4202,4 +4203,133 @@ let Example = ((_class = class Example{
     }
 }), _class);
 "
+);
+
+test!(
+    Syntax::Typescript(TsConfig {
+        decorators: true,
+        ..Default::default()
+    }),
+    |_| chain!(typescript::strip(), decorators(Config { legacy: true })),
+    issue_823_1,
+    "import {Debounce} from 'lodash-decorators';
+class Person {
+  private static debounceTime: number = 500 as const;
+
+  @Debounce(Person.debounceTime)
+  save() {
+    console.log('Hello World!');
+  }
+}
+
+const p = new Person();
+p.save();",
+    "var _class, _dec;
+import { Debounce } from 'lodash-decorators';
+let Person = ((_class = class Person {
+    static debounceTime = 500;
+    save() {
+        console.log('Hello World!');
+    }
+}) || _class, _dec = Debounce(_class.debounceTime), _applyDecoratedDescriptor(_class.prototype, \
+     'save', [
+    _dec
+], Object.getOwnPropertyDescriptor(_class.prototype, 'save'), _class.prototype), _class);
+const p = new Person();
+p.save();"
+);
+
+test!(
+    Syntax::Typescript(TsConfig {
+        decorators: true,
+        ..Default::default()
+    }),
+    |_| chain!(
+        typescript::strip(),
+        decorators(Config { legacy: true }),
+        class_properties(),
+        // Classes::default(),
+    ),
+    issue_823_2,
+    "import {Debounce} from 'lodash-decorators';
+class Person {
+  private static debounceTime: number = 500 as const;
+
+  @Debounce(Person.debounceTime)
+  save() {
+    console.log('Hello World!');
+  }
+}
+
+const p = new Person();
+p.save();",
+    "var _class, _dec;
+import { Debounce } from 'lodash-decorators';
+let Person = ((_class = function() {
+    class Person {
+        save() {
+            console.log('Hello World!');
+        }
+    }
+    _defineProperty(Person, 'debounceTime', 500);
+    return Person;
+}()) || _class, _dec = Debounce(_class.debounceTime), _applyDecoratedDescriptor(_class.prototype, \
+     'save', [
+    _dec
+], Object.getOwnPropertyDescriptor(_class.prototype, 'save'), _class.prototype), _class);
+const p = new Person();
+p.save();
+"
+);
+
+test!(
+    Syntax::Typescript(TsConfig {
+        decorators: true,
+        ..Default::default()
+    }),
+    |_| chain!(
+        typescript::strip(),
+        decorators(Config { legacy: true }),
+        class_properties(),
+        Classes::default(),
+    ),
+    issue_823_3,
+    "import {Debounce} from 'lodash-decorators';
+class Person {
+  private static debounceTime: number = 500 as const;
+
+  @Debounce(Person.debounceTime)
+  save() {
+    console.log('Hello World!');
+  }
+}
+
+const p = new Person();
+p.save();",
+    "var _class, _dec;
+import { Debounce } from 'lodash-decorators';
+let Person = ((_class = function() {
+    let Person = function() {
+        'use strict';
+        function Person() {
+            _classCallCheck(this, Person);
+        }
+        _createClass(Person, [
+            {
+                key: 'save',
+                value: function save() {
+                    console.log('Hello World!');
+                }
+            }
+        ]);
+        return Person;
+    }();
+    _defineProperty(Person, 'debounceTime', 500);
+    return Person;
+}()) || _class, _dec = Debounce(_class.debounceTime), _applyDecoratedDescriptor(_class.prototype, \
+     'save', [
+    _dec
+], Object.getOwnPropertyDescriptor(_class.prototype, 'save'), _class.prototype), _class);
+const p = new Person();
+p.save();"
 );
