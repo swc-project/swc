@@ -13,7 +13,7 @@ include = ["Cargo.toml", "src/**/*.rs"]
 bitflags = "1"
 swc_atoms = { version = "0.2", path ="../../atoms" }
 swc_common = { version = "0.6", path ="../../common" }
-swc_ecma_ast = { version = "0.20.0", path ="../ast" }
+swc_ecma_ast = { version = "0.21.0", path ="../ast" }
 swc_ecma_codegen_macros = { version = "0.5", path ="./macros" }
 sourcemap = "6"
 num-bigint = { version = "0.2", features = ["serde"] }

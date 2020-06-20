@@ -11,7 +11,7 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-swc_ecma_ast = { version = "0.20.0", path ="../ast" }
+swc_ecma_ast = { version = "0.21.0", path ="../ast" }
 swc_atoms = { version = "0.2.0", path ="../../atoms" }
 swc_common = { version = "0.6.0", path ="../../common" }
 swc_ecma_parser = { version = "0.25", path ="../parser", features = ["verify"] }
