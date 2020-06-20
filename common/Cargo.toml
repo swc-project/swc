@@ -1,6 +1,6 @@
 [package]
 name = "swc_common"
-version = "0.5.14"
+version = "0.6.0"
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 license = "Apache-2.0/MIT"
 repository = "https://github.com/swc-project/swc.git"
@@ -29,7 +29,7 @@ termcolor = "1.0"
 serde = { version = "1", features = ["derive"] }
 dashmap = "=3.5.1"
 fxhash = "0.2.1"
-sourcemap = "5"
+sourcemap = "6"
 
 [dev-dependencies]
 rayon = "1"

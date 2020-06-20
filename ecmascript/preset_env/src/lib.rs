@@ -18,7 +18,7 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::{chain, Fold, FoldWith, FromVariant, Mark, VisitWith, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms::{
-    compat::{es2015, es2016, es2017, es2018, es3},
+    compat::{es2015, es2016, es2017, es2018, es2020, es3},
     pass::{noop, Optional, Pass},
     util::prepend_stmts,
 };
@@ -66,6 +66,12 @@ pub fn preset_env(global_mark: Mark, c: Config) -> impl Pass {
             chain!($prev, Optional::new($pass, enable))
         }};
     }
+
+    // ES2020
+
+    let pass = add!(pass, NullishCoalescing, es2020::nullish_coalescing());
+    let pass = add!(pass, OptionalChaining, es2020::optional_chaining());
+    let pass = add!(pass, ClassProperties, es2020::class_properties());
 
     // ES2018
     let pass = add!(pass, ObjectRestSpread, es2018::object_rest_spread());

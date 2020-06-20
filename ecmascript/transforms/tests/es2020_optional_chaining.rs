@@ -4,7 +4,7 @@
 #![feature(specialization)]
 
 use swc_ecma_parser::{Syntax, TsConfig};
-use swc_ecma_transforms::{pass::Pass, proposals::optional_chaining};
+use swc_ecma_transforms::{compat::es2020::optional_chaining, pass::Pass};
 
 #[macro_use]
 mod common;

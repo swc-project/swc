@@ -130,6 +130,18 @@ impl<'a, 'b, P: Pass> PassBuilder<'a, 'b, P> {
             Either::Left(preset_env::preset_env(self.global_mark, env))
         } else {
             Either::Right(chain!(
+                Optional::new(
+                    compat::es2020::nullish_coalescing(),
+                    self.target < JscTarget::Es2020
+                ),
+                Optional::new(
+                    compat::es2020::optional_chaining(),
+                    self.target < JscTarget::Es2020
+                ),
+                Optional::new(
+                    compat::es2020::class_properties(),
+                    self.target < JscTarget::Es2020
+                ),
                 Optional::new(compat::es2018(), self.target <= JscTarget::Es2018),
                 Optional::new(compat::es2017(), self.target <= JscTarget::Es2017),
                 Optional::new(compat::es2016(), self.target <= JscTarget::Es2016),

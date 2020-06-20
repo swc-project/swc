@@ -6,9 +6,9 @@
 use swc_common::chain;
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms::{
-    compat::es2015::classes::Classes,
+    compat::{es2015::classes::Classes, es2020::class_properties},
     pass::Pass,
-    proposals::{class_properties, decorators, decorators::Config},
+    proposals::{decorators, decorators::Config},
     resolver, typescript,
 };
 

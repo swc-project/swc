@@ -1,6 +1,12 @@
-error: Unexpected token '#'
+error: Expected ';', '}' or <eof>
  --> $DIR/tests/test262-parser/fail/2945f2ec8c9f3483.js:1:3
   |
 1 | i #= 42
   |   ^
+  |
+note: This is the expression part of an expression statement
+ --> $DIR/tests/test262-parser/fail/2945f2ec8c9f3483.js:1:1
+  |
+1 | i #= 42
+  | ^
 

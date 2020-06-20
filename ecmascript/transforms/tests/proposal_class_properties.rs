@@ -9,10 +9,11 @@ use swc_ecma_transforms::{
         es2015::{arrow, block_scoping, function_name, Classes},
         es2016::exponentation,
         es2017::async_to_generator,
+        es2020::class_properties,
         es3::ReservedWord,
     },
     pass::Pass,
-    proposals::{class_properties, decorators},
+    proposals::decorators,
     resolver, typescript,
 };
 

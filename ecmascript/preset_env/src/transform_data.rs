@@ -108,6 +108,24 @@ pub enum Feature {
 
     /// `transform-reserved-words`
     ReservedWords,
+
+    /// `proposal-nullish-coalescing-operator`
+    NullishCoalescing,
+
+    /// `proposal-optional-chaining`
+    OptionalChaining,
+
+    /// `proposal-class-properties`
+    ClassProperties,
+
+    /// `proposal-numeric-separator`
+    NumericSeparator,
+
+    /// `proposal-private-methods`
+    PrivateMethods,
+
+    /// `transform-unicode-escapes`
+    UnicodeEscapes,
 }
 
 pub(crate) static FEATURES: Lazy<HashMap<Feature, BrowserData<Option<Version>>>> =
