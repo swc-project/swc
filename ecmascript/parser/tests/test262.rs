@@ -121,6 +121,8 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
         "78c215fabdf13bae.js",
         "bf49ec8d96884562.js",
         "e4a43066905a597b.js",
+        "98204d734f8c72b3.js",
+        "ef81b93cf9bdb4ec.js",
     ];
 
     let root = {
