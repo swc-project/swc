@@ -186,6 +186,18 @@ where
 }
 
 #[cfg(test)]
+pub fn test_parser_comment<F, Ret>(c: &Comments, s: &'static str, syntax: Syntax, f: F) -> Ret
+where
+    F: for<'a> FnOnce(&'a mut Parser<'a, Lexer<'a, crate::SourceFileInput<'_>>>) -> Result<Ret, ()>,
+{
+    crate::with_test_sess(s, |sess, input| {
+        let lexer = Lexer::new(sess, syntax, JscTarget::Es2019, input, Some(&c));
+        f(&mut Parser::new_from(sess, lexer))
+    })
+    .unwrap_or_else(|output| panic!("test_parser(): failed to parse \n{}\n{}", s, output))
+}
+
+#[cfg(test)]
 pub fn bench_parser<F>(b: &mut Bencher, s: &'static str, syntax: Syntax, mut f: F)
 where
     F: for<'a> FnMut(&'a mut Parser<'a, Lexer<'a, crate::SourceFileInput<'_>>>) -> PResult<'a, ()>,
