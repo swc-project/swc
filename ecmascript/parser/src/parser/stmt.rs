@@ -1151,7 +1151,7 @@ impl<'a, I: Tokens> StmtLikeParser<'a, Stmt> for Parser<'a, I> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::EsConfig;
+    use crate::{EsConfig, TsConfig};
     use swc_common::DUMMY_SP as span;
 
     fn stmt(s: &'static str) -> Stmt {
@@ -1693,5 +1693,33 @@ export default function waitUntil(callback, options = {}) {
                 })
             },
         );
+    }
+
+    #[test]
+    fn issue_856() {
+        let c = Comments::default();
+        let s = "class Foo {
+    static _extensions: {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        [key: string]: (module: Module, filename: string) => any;
+    } = Object.create(null);
+}
+";
+        let _ = test_parser_comment(
+            &c,
+            s,
+            Syntax::Typescript(TsConfig {
+                ..Default::default()
+            }),
+            |p| {
+                p.parse_typescript_module().map_err(|mut e| {
+                    e.emit();
+                })
+            },
+        );
+
+        let (leading, trailing) = c.take_all();
+        assert!(trailing.is_empty());
+        assert_eq!(leading.len(), 1);
     }
 }

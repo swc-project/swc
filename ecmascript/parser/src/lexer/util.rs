@@ -203,6 +203,8 @@ impl<'a, I: Input> Lexer<'a, I> {
                 comments.add_trailing(self.state.prev_hi, cmt);
             }
         }
+
+        self.input.reset_to(end);
     }
 
     /// Expects current char to be '/' and next char to be '*'.
