@@ -637,7 +637,7 @@ pub trait ExprExt {
             Expr::Array(ArrayLit { ref elems, .. }) => {
                 let mut first = true;
                 let mut buf = String::new();
-                // null, undefined is "" in array literl.
+                // null, undefined is "" in array literal.
                 for elem in elems {
                     let e = match *elem {
                         Some(ref elem) => match *elem {
