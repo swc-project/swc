@@ -16,7 +16,7 @@ use std::fmt;
 use string_enum::StringEnum;
 #[cfg(feature = "fold")]
 use swc_common::Fold;
-use swc_common::{ast_node, serializer::Type, Span};
+use swc_common::{ast_node, Span};
 
 #[ast_node("TsTypeAnnotation")]
 #[derive(Eq, Hash)]
