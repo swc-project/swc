@@ -62,6 +62,7 @@ pub struct Options {
     #[serde(skip_deserializing, default)]
     pub global_mark: Option<Mark>,
 
+    #[cfg(not(target_arch = "wasm32"))]
     #[serde(default = "default_cwd")]
     pub cwd: PathBuf,
 
