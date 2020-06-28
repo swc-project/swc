@@ -1461,11 +1461,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         let len = elem_types.len();
         for (i, elem_type) in elem_types.iter().enumerate() {
             match **elem_type {
-                TsType::TsRestType(..) => {
-                    if i != len - 1 {
-                        syntax_error!(span!(start), SyntaxError::TsNonLastRest)
-                    }
-                }
+                TsType::TsRestType(..) => {}
                 TsType::TsOptionalType(..) => {
                     seen_optional_element = true;
                 }

@@ -146,7 +146,6 @@ pub enum SyntaxError {
     InvalidLeadingDecorator,
     DecoratorOnExport,
 
-    TsNonLastRest,
     TsRequiredAfterOptional,
     TsInvalidParamPropPat,
 
@@ -334,7 +333,6 @@ impl<'a> From<ErrorToDiag<'a>> for DiagnosticBuilder<'a> {
             DecoratorOnExport => "Using the export keyword between a decorator and a class is not \
                                   allowed. Please use `export @dec class` instead."
                 .into(),
-            TsNonLastRest => "A rest element must be last in a tuple type.".into(),
             TsRequiredAfterOptional => {
                 "A required element cannot follow an optional element.".into()
             }
