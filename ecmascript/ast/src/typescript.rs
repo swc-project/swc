@@ -16,7 +16,7 @@ use std::fmt;
 use string_enum::StringEnum;
 #[cfg(feature = "fold")]
 use swc_common::Fold;
-use swc_common::{ast_node, Span};
+use swc_common::{ast_node, serializer::Type, Span};
 
 #[ast_node("TsTypeAnnotation")]
 #[derive(Eq, Hash)]
@@ -486,7 +486,14 @@ pub struct TsArrayType {
 #[derive(Eq, Hash)]
 pub struct TsTupleType {
     pub span: Span,
-    pub elem_types: Vec<Box<TsType>>,
+    pub elem_types: Vec<TsTupleElement>,
+}
+
+#[ast_node("TsTupleElement")]
+#[derive(Eq, Hash)]
+pub struct TsTupleElement {
+    pub label: Option<Ident>,
+    pub typ: Type,
 }
 
 #[ast_node("TsOptionalType")]
