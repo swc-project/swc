@@ -612,7 +612,11 @@ define!({
         BitXorAssign,
         BitAndAssign,
         ExpAssign,
+        AndAssign,
+        OrAssign,
+        NullishAssign,
     }
+
     pub enum UpdateOp {
         PlusPlus,
         MinusMinus,
