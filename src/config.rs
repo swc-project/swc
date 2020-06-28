@@ -61,7 +61,7 @@ pub struct Options {
     pub disable_hygiene: bool,
 
     #[cfg(target_arch = "wasm32")]
-    #[serde(default="default_as_true")]
+    #[serde(default = "default_as_true")]
     pub disable_hygiene: bool,
 
     #[serde(skip_deserializing, default)]
