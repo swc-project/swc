@@ -669,6 +669,19 @@ impl<'a> Emitter<'a> {
     }
 
     #[emitter]
+    fn emit_ts_tuple_element(&mut self, n: &TsTupleElement) -> Result {
+        self.emit_leading_comments_of_pos(n.span().lo())?;
+
+        if let Some(label) = &n.label {
+            emit!(label);
+            punct!(":");
+            formatting_space!();
+        }
+
+        emit!(n.ty)
+    }
+
+    #[emitter]
     fn emit_ts_type(&mut self, n: &TsType) -> Result {
         match n {
             TsType::TsKeywordType(n) => emit!(n),
