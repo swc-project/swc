@@ -28,6 +28,15 @@ macro_rules! tok {
     ('!') => {
         crate::token::Token::Bang
     };
+    ("&&=") => {
+        crate::token::Token::BinOp(crate::token::BinOpToken::AndAssign)
+    };
+    ("||=") => {
+        crate::token::Token::BinOp(crate::token::BinOpToken::OrAssign)
+    };
+    ("??=") => {
+        crate::token::Token::BinOp(crate::token::BinOpToken::NullishAssign)
+    };
 
     ('|') => {
         crate::token::Token::BinOp(crate::token::BinOpToken::BitOr)
