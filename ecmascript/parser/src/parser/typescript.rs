@@ -1460,7 +1460,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
         let mut seen_optional_element = false;
         let len = elem_types.len();
         for (i, elem_type) in elem_types.iter().enumerate() {
-            match **elem_type {
+            match elem_type.ty {
                 TsType::TsRestType(..) => {}
                 TsType::TsOptionalType(..) => {
                     seen_optional_element = true;
@@ -1479,31 +1479,51 @@ impl<'a, I: Tokens> Parser<'a, I> {
     }
 
     /// `tsParseTupleElementType`
-    fn parse_ts_tuple_element_type(&mut self) -> PResult<'a, Box<TsType>> {
+    fn parse_ts_tuple_element_type(&mut self) -> PResult<'a, TsTupleElement> {
         debug_assert!(self.input.syntax().typescript());
 
         // parses `...TsType[]`
         let start = cur_pos!();
 
+        let label = if is!(IdentName) && peeked_is!(':') {
+            let ident = self.parse_ident_name()?;
+            assert_and_bump!(':');
+            Some(ident)
+        } else {
+            None
+        };
+
         if eat!("...") {
             let type_ann = self.parse_ts_type()?;
-            return Ok(Box::new(TsType::TsRestType(TsRestType {
+            return Ok(TsTupleElement {
                 span: span!(start),
-                type_ann,
-            })));
+                label,
+                ty: TsType::TsRestType(TsRestType {
+                    span: span!(start),
+                    type_ann,
+                }),
+            });
         }
 
         let ty = self.parse_ts_type()?;
         // parses `TsType?`
         if eat!('?') {
             let type_ann = ty;
-            return Ok(Box::new(TsType::TsOptionalType(TsOptionalType {
+            return Ok(TsTupleElement {
                 span: span!(start),
-                type_ann,
-            })));
+                label,
+                ty: TsType::TsOptionalType(TsOptionalType {
+                    span: span!(start),
+                    type_ann,
+                }),
+            });
         }
 
-        Ok(ty)
+        Ok(TsTupleElement {
+            span: span!(start),
+            label,
+            ty: *ty,
+        })
     }
 
     /// `tsParseParenthesizedType`
