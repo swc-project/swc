@@ -494,7 +494,7 @@ pub struct TsTupleType {
 pub struct TsTupleElement {
     pub span: Span,
     pub label: Option<Ident>,
-    pub ty: Type,
+    pub ty: TsType,
 }
 
 #[ast_node("TsOptionalType")]
