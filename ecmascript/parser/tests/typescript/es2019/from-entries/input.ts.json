@@ -115,44 +115,62 @@
                             },
                             "elemTypes": [
                               {
-                                "type": "TsTypeReference",
+                                "type": "TsTupleElement",
                                 "span": {
                                   "start": 84,
                                   "end": 95,
                                   "ctxt": 0
                                 },
-                                "typeName": {
-                                  "type": "Identifier",
+                                "label": null,
+                                "ty": {
+                                  "type": "TsTypeReference",
                                   "span": {
                                     "start": 84,
                                     "end": 95,
                                     "ctxt": 0
                                   },
-                                  "value": "PropertyKey",
-                                  "typeAnnotation": null,
-                                  "optional": false
-                                },
-                                "typeParams": null
+                                  "typeName": {
+                                    "type": "Identifier",
+                                    "span": {
+                                      "start": 84,
+                                      "end": 95,
+                                      "ctxt": 0
+                                    },
+                                    "value": "PropertyKey",
+                                    "typeAnnotation": null,
+                                    "optional": false
+                                  },
+                                  "typeParams": null
+                                }
                               },
                               {
-                                "type": "TsTypeReference",
+                                "type": "TsTupleElement",
                                 "span": {
                                   "start": 97,
                                   "end": 98,
                                   "ctxt": 0
                                 },
-                                "typeName": {
-                                  "type": "Identifier",
+                                "label": null,
+                                "ty": {
+                                  "type": "TsTypeReference",
                                   "span": {
                                     "start": 97,
                                     "end": 98,
                                     "ctxt": 0
                                   },
-                                  "value": "T",
-                                  "typeAnnotation": null,
-                                  "optional": false
-                                },
-                                "typeParams": null
+                                  "typeName": {
+                                    "type": "Identifier",
+                                    "span": {
+                                      "start": 97,
+                                      "end": 98,
+                                      "ctxt": 0
+                                    },
+                                    "value": "T",
+                                    "typeAnnotation": null,
+                                    "optional": false
+                                  },
+                                  "typeParams": null
+                                }
                               }
                             ]
                           }

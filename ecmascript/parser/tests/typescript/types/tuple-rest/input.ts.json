@@ -47,36 +47,54 @@
                 },
                 "elemTypes": [
                   {
-                    "type": "TsKeywordType",
+                    "type": "TsTupleElement",
                     "span": {
                       "start": 8,
                       "end": 14,
                       "ctxt": 0
                     },
-                    "kind": "string"
+                    "label": null,
+                    "ty": {
+                      "type": "TsKeywordType",
+                      "span": {
+                        "start": 8,
+                        "end": 14,
+                        "ctxt": 0
+                      },
+                      "kind": "string"
+                    }
                   },
                   {
-                    "type": "TsRestType",
+                    "type": "TsTupleElement",
                     "span": {
                       "start": 16,
                       "end": 27,
                       "ctxt": 0
                     },
-                    "typeAnnotation": {
-                      "type": "TsArrayType",
+                    "label": null,
+                    "ty": {
+                      "type": "TsRestType",
                       "span": {
-                        "start": 19,
+                        "start": 16,
                         "end": 27,
                         "ctxt": 0
                       },
-                      "elemType": {
-                        "type": "TsKeywordType",
+                      "typeAnnotation": {
+                        "type": "TsArrayType",
                         "span": {
                           "start": 19,
-                          "end": 25,
+                          "end": 27,
                           "ctxt": 0
                         },
-                        "kind": "number"
+                        "elemType": {
+                          "type": "TsKeywordType",
+                          "span": {
+                            "start": 19,
+                            "end": 25,
+                            "ctxt": 0
+                          },
+                          "kind": "number"
+                        }
                       }
                     }
                   }
