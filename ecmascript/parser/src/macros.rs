@@ -29,13 +29,13 @@ macro_rules! tok {
         crate::token::Token::Bang
     };
     ("&&=") => {
-        crate::token::Token::BinOp(crate::token::AssignOp::AndAssign)
+        crate::token::Token::AssignOp(crate::token::AssignOpToken::AndAssign)
     };
     ("||=") => {
-        crate::token::Token::BinOp(crate::token::AssignOp::OrAssign)
+        crate::token::Token::AssignOp(crate::token::AssignOpToken::OrAssign)
     };
     ("??=") => {
-        crate::token::Token::BinOp(crate::token::AssignOp::NullishAssign)
+        crate::token::Token::AssignOp(crate::token::AssignOpToken::NullishAssign)
     };
 
     ('|') => {
