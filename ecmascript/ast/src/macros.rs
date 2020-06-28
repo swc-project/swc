@@ -149,6 +149,15 @@ macro_rules! op {
     ("**=") => {
         $crate::AssignOp::ExpAssign
     };
+    ("&&=") => {
+        $crate::AssignOp::AndAssign
+    };
+    ("||=") => {
+        $crate::AssignOp::OrAssign
+    };
+    ("??=") => {
+        $crate::AssignOp::NullishAssign
+    };
 }
 
 macro_rules! test_de {
