@@ -121,6 +121,15 @@ pub enum AssignOp {
 
     /// `**=`
     ExpAssign,
+
+    /// `&&=`
+    AndAssign,
+
+    /// `||=`
+    OrAssign,
+
+    /// `??=`
+    NullishAssign,
 }
 
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash)]

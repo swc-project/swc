@@ -219,6 +219,10 @@ impl<'a, I: Input> Lexer<'a, I> {
                 Some('?') => {
                     self.input.bump();
                     self.input.bump();
+                    if self.syntax.typescript() && self.input.cur() == Some('=') {
+                        self.input.bump();
+                        return Ok(Some(tok!("??=")));
+                    }
                     return Ok(Some(tok!("??")));
                 }
                 _ => {
@@ -325,6 +329,16 @@ impl<'a, I: Input> Lexer<'a, I> {
                 // '||', '&&'
                 if self.input.cur() == Some(c) {
                     self.input.bump();
+
+                    if self.syntax.typescript() && self.input.cur() == Some('=') {
+                        self.input.bump();
+                        return Ok(Some(AssignOp(match token {
+                            BitAnd => AndAssign,
+                            BitOr => OrAssign,
+                            _ => unreachable!(),
+                        })));
+                    }
+
                     return Ok(Some(BinOp(match token {
                         BitAnd => LogicalAnd,
                         BitOr => LogicalOr,

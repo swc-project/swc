@@ -63,7 +63,7 @@ jobs:
       - name: Run cargo test
         run: |
           export PATH="$PATH:$HOME/npm/bin"
-          cargo test --color always --all
+          cargo test --color always --all --exclude swc_ecma_parser
 
   #
   deploy-docs:

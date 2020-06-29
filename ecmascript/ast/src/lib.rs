@@ -58,10 +58,10 @@ pub use self::{
         TsModuleName, TsModuleRef, TsNamespaceBody, TsNamespaceDecl, TsNamespaceExportDecl,
         TsNonNullExpr, TsOptionalType, TsParamProp, TsParamPropParam, TsParenthesizedType,
         TsPropertySignature, TsQualifiedName, TsRestType, TsSignatureDecl, TsThisType,
-        TsThisTypeOrIdent, TsTupleType, TsType, TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion,
-        TsTypeCastExpr, TsTypeElement, TsTypeLit, TsTypeOperator, TsTypeOperatorOp, TsTypeParam,
-        TsTypeParamDecl, TsTypeParamInstantiation, TsTypePredicate, TsTypeQuery, TsTypeQueryExpr,
-        TsTypeRef, TsUnionOrIntersectionType, TsUnionType,
+        TsThisTypeOrIdent, TsTupleElement, TsTupleType, TsType, TsTypeAliasDecl, TsTypeAnn,
+        TsTypeAssertion, TsTypeCastExpr, TsTypeElement, TsTypeLit, TsTypeOperator,
+        TsTypeOperatorOp, TsTypeParam, TsTypeParamDecl, TsTypeParamInstantiation, TsTypePredicate,
+        TsTypeQuery, TsTypeQueryExpr, TsTypeRef, TsUnionOrIntersectionType, TsUnionType,
     },
 };
 use swc_common::{ast_node, Span};

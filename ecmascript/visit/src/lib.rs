@@ -612,7 +612,11 @@ define!({
         BitXorAssign,
         BitAndAssign,
         ExpAssign,
+        AndAssign,
+        OrAssign,
+        NullishAssign,
     }
+
     pub enum UpdateOp {
         PlusPlus,
         MinusMinus,
@@ -1038,10 +1042,18 @@ define!({
         pub span: Span,
         pub elem_type: Box<TsType>,
     }
+
     pub struct TsTupleType {
         pub span: Span,
-        pub elem_types: Vec<Box<TsType>>,
+        pub elem_types: Vec<TsTupleElement>,
     }
+
+    pub struct TsTupleElement {
+        pub span: Span,
+        pub label: Option<Ident>,
+        pub ty: TsType,
+    }
+
     pub struct TsOptionalType {
         pub span: Span,
         pub type_ann: Box<TsType>,

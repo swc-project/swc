@@ -486,7 +486,15 @@ pub struct TsArrayType {
 #[derive(Eq, Hash)]
 pub struct TsTupleType {
     pub span: Span,
-    pub elem_types: Vec<Box<TsType>>,
+    pub elem_types: Vec<TsTupleElement>,
+}
+
+#[ast_node("TsTupleElement")]
+#[derive(Eq, Hash)]
+pub struct TsTupleElement {
+    pub span: Span,
+    pub label: Option<Ident>,
+    pub ty: TsType,
 }
 
 #[ast_node("TsOptionalType")]

@@ -254,6 +254,9 @@ impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
                             op!("&=") => op!("&"),
                             op!("^=") => op!("^"),
                             op!("**=") => op!("**"),
+                            op!("&&=") => op!("&&"),
+                            op!("||=") => op!("||"),
+                            op!("??=") => op!("??"),
                         },
                         right,
                     }

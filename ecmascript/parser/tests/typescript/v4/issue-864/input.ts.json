@@ -1,0 +1,250 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 148,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 0,
+        "end": 32,
+        "ctxt": 0
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 5,
+          "end": 12,
+          "ctxt": 0
+        },
+        "value": "Strings",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsTupleType",
+        "span": {
+          "start": 15,
+          "end": 31,
+          "ctxt": 0
+        },
+        "elemTypes": [
+          {
+            "type": "TsTupleElement",
+            "span": {
+              "start": 16,
+              "end": 22,
+              "ctxt": 0
+            },
+            "label": null,
+            "ty": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 16,
+                "end": 22,
+                "ctxt": 0
+              },
+              "kind": "string"
+            }
+          },
+          {
+            "type": "TsTupleElement",
+            "span": {
+              "start": 24,
+              "end": 30,
+              "ctxt": 0
+            },
+            "label": null,
+            "ty": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 24,
+                "end": 30,
+                "ctxt": 0
+              },
+              "kind": "string"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 33,
+        "end": 65,
+        "ctxt": 0
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 38,
+          "end": 45,
+          "ctxt": 0
+        },
+        "value": "Numbers",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsTupleType",
+        "span": {
+          "start": 48,
+          "end": 64,
+          "ctxt": 0
+        },
+        "elemTypes": [
+          {
+            "type": "TsTupleElement",
+            "span": {
+              "start": 49,
+              "end": 55,
+              "ctxt": 0
+            },
+            "label": null,
+            "ty": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 49,
+                "end": 55,
+                "ctxt": 0
+              },
+              "kind": "number"
+            }
+          },
+          {
+            "type": "TsTupleElement",
+            "span": {
+              "start": 57,
+              "end": 63,
+              "ctxt": 0
+            },
+            "label": null,
+            "ty": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 57,
+                "end": 63,
+                "ctxt": 0
+              },
+              "kind": "number"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 103,
+        "end": 148,
+        "ctxt": 0
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 108,
+          "end": 120,
+          "ctxt": 0
+        },
+        "value": "StrStrNumNum",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsTupleType",
+        "span": {
+          "start": 123,
+          "end": 147,
+          "ctxt": 0
+        },
+        "elemTypes": [
+          {
+            "type": "TsTupleElement",
+            "span": {
+              "start": 124,
+              "end": 134,
+              "ctxt": 0
+            },
+            "label": null,
+            "ty": {
+              "type": "TsRestType",
+              "span": {
+                "start": 124,
+                "end": 134,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsTypeReference",
+                "span": {
+                  "start": 127,
+                  "end": 134,
+                  "ctxt": 0
+                },
+                "typeName": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 127,
+                    "end": 134,
+                    "ctxt": 0
+                  },
+                  "value": "Strings",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "typeParams": null
+              }
+            }
+          },
+          {
+            "type": "TsTupleElement",
+            "span": {
+              "start": 136,
+              "end": 146,
+              "ctxt": 0
+            },
+            "label": null,
+            "ty": {
+              "type": "TsRestType",
+              "span": {
+                "start": 136,
+                "end": 146,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsTypeReference",
+                "span": {
+                  "start": 139,
+                  "end": 146,
+                  "ctxt": 0
+                },
+                "typeName": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 139,
+                    "end": 146,
+                    "ctxt": 0
+                  },
+                  "value": "Numbers",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "typeParams": null
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

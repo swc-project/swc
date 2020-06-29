@@ -68,53 +68,80 @@
                 },
                 "elemTypes": [
                   {
-                    "type": "TsKeywordType",
+                    "type": "TsTupleElement",
                     "span": {
                       "start": 23,
                       "end": 29,
                       "ctxt": 0
                     },
-                    "kind": "number"
+                    "label": null,
+                    "ty": {
+                      "type": "TsKeywordType",
+                      "span": {
+                        "start": 23,
+                        "end": 29,
+                        "ctxt": 0
+                      },
+                      "kind": "number"
+                    }
                   },
                   {
-                    "type": "TsOptionalType",
+                    "type": "TsTupleElement",
                     "span": {
                       "start": 31,
                       "end": 38,
                       "ctxt": 0
                     },
-                    "typeAnnotation": {
-                      "type": "TsKeywordType",
+                    "label": null,
+                    "ty": {
+                      "type": "TsOptionalType",
                       "span": {
                         "start": 31,
-                        "end": 37,
+                        "end": 38,
                         "ctxt": 0
                       },
-                      "kind": "string"
+                      "typeAnnotation": {
+                        "type": "TsKeywordType",
+                        "span": {
+                          "start": 31,
+                          "end": 37,
+                          "ctxt": 0
+                        },
+                        "kind": "string"
+                      }
                     }
                   },
                   {
-                    "type": "TsRestType",
+                    "type": "TsTupleElement",
                     "span": {
                       "start": 40,
                       "end": 51,
                       "ctxt": 0
                     },
-                    "typeAnnotation": {
-                      "type": "TsArrayType",
+                    "label": null,
+                    "ty": {
+                      "type": "TsRestType",
                       "span": {
-                        "start": 43,
+                        "start": 40,
                         "end": 51,
                         "ctxt": 0
                       },
-                      "elemType": {
-                        "type": "TsKeywordType",
+                      "typeAnnotation": {
+                        "type": "TsArrayType",
                         "span": {
                           "start": 43,
-                          "end": 49,
+                          "end": 51,
                           "ctxt": 0
                         },
-                        "kind": "number"
+                        "elemType": {
+                          "type": "TsKeywordType",
+                          "span": {
+                            "start": 43,
+                            "end": 49,
+                            "ctxt": 0
+                          },
+                          "kind": "number"
+                        }
                       }
                     }
                   }
