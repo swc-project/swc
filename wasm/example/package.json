@@ -1,0 +1,15 @@
+{
+    "scripts": {
+        "copy-files": "copyfiles ../pkg/* ./pkg",
+        "dev-server": "webpack-dev-server",
+        "serve": "run-s copy-files dev-server"
+    },
+    "devDependencies": {
+        "copyfiles": "^2.3.0",
+        "npm-run-all": "^4.1.5",
+        "webpack": "^4.25.1",
+        "webpack-cli": "^3.1.2",
+        "webpack-dev-server": "^3.1.10"
+    },
+    "dependencies": {}
+}
