@@ -4,9 +4,3 @@ error: TS2406
 1 | ( { get x() {} } ) = 0
   | ^^^^^^^^^^^^^^^^^^
 
-error: Not a pattern
- --> $DIR/tests/test262-parser/fail/d012888b0c720723.js:1:5
-  |
-1 | ( { get x() {} } ) = 0
-  |     ^^^^^^^^^^
-

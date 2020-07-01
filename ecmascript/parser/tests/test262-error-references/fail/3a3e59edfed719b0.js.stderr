@@ -4,9 +4,3 @@ error: TS2406
 1 | ({ obj:20 }) = 42
   | ^^^^^^^^^^^^
 
-error: Cannot assign to this
- --> $DIR/tests/test262-parser/fail/3a3e59edfed719b0.js:1:8
-  |
-1 | ({ obj:20 }) = 42
-  |        ^^
-

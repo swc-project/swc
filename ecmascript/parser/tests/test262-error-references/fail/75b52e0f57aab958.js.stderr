@@ -4,9 +4,3 @@ error: TS2406
 1 | "use strict"; ({ v: eval }) = obj
   |               ^^^^^^^^^^^^^
 
-error: Cannot assign to this
- --> $DIR/tests/test262-parser/fail/75b52e0f57aab958.js:1:21
-  |
-1 | "use strict"; ({ v: eval }) = obj
-  |                     ^^^^
-
