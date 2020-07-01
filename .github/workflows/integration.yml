@@ -28,7 +28,7 @@ jobs:
           npm i -g @swc/cli
           npm link
 
-      - name: three.js
+      - name: (swc) three.js
         run: |
           export PATH="$PATH:$HOME/npm/bin"
           mkdir -p integration-tests/three-js
@@ -48,7 +48,7 @@ jobs:
         # Rome.js: I forgot the cause, but it didn't work.
         # jQuery: browser only (window.document is required)
 
-      - name: redux
+      - name: (swc) redux
         run: |
           export PATH="$PATH:$HOME/npm/bin"
           mkdir -p integration-tests/redux
