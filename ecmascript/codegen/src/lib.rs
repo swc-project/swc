@@ -780,6 +780,7 @@ impl<'a> Emitter<'a> {
             ClassMember::PrivateMethod(ref n) => emit!(n),
             ClassMember::PrivateProp(ref n) => emit!(n),
             ClassMember::TsIndexSignature(ref n) => emit!(n),
+            ClassMember::Empty(ref n) => emit!(n),
         }
     }
 
