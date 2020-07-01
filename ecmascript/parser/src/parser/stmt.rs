@@ -1782,4 +1782,30 @@ export default function waitUntil(callback, options = {}) {
         assert!(trailing.is_empty());
         assert_eq!(leading.len(), 2);
     }
+
+    #[test]
+    fn issue_856_4() {
+        let c = Comments::default();
+        let s = "const _extensions: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    [key: string]: (module: Module, filename: string) => any;
+  } = Object.create(null);";
+
+        let _ = test_parser_comment(
+            &c,
+            s,
+            Syntax::Typescript(TsConfig {
+                ..Default::default()
+            }),
+            |p| {
+                p.parse_typescript_module().map_err(|mut e| {
+                    e.emit();
+                })
+            },
+        );
+
+        let (leading, trailing) = c.take_all();
+        assert!(trailing.is_empty());
+        assert_eq!(leading.len(), 1);
+    }
 }
