@@ -385,6 +385,7 @@ impl Classes {
                 ClassMember::TsIndexSignature(..) => {
                     // We just strip this.
                 }
+                ClassMember::Empty(..) => {}
             }
         }
 
