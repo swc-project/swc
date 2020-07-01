@@ -22,31 +22,39 @@
         },
         "operator": "=",
         "left": {
-          "type": "TsAsExpression",
+          "type": "ParenthesisExpression",
           "span": {
-            "start": 1,
-            "end": 12,
+            "start": 0,
+            "end": 13,
             "ctxt": 0
           },
           "expression": {
-            "type": "Identifier",
+            "type": "TsAsExpression",
             "span": {
               "start": 1,
-              "end": 2,
-              "ctxt": 0
-            },
-            "value": "a",
-            "typeAnnotation": null,
-            "optional": false
-          },
-          "typeAnnotation": {
-            "type": "TsKeywordType",
-            "span": {
-              "start": 6,
               "end": 12,
               "ctxt": 0
             },
-            "kind": "number"
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 1,
+                "end": 2,
+                "ctxt": 0
+              },
+              "value": "a",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "typeAnnotation": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 6,
+                "end": 12,
+                "ctxt": 0
+              },
+              "kind": "number"
+            }
           }
         },
         "right": {

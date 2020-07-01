@@ -500,7 +500,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                     // Expression derives a phrase that would produce a Syntax Error according
                     // to these rules if that phrase were substituted for
                     // LeftHandSideExpression. This rule is recursively applied.
-                    Expr::Paren(ParenExpr { expr, .. }) => {
+                    Expr::Paren(..) => {
                         return Ok(Pat::Expr(expr));
                     }
                     Expr::Ident(i) => return Ok(i.into()),
