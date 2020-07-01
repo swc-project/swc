@@ -3,4 +3,5 @@ class a {
     }
     set c(d) {
     }
+    ;
 }
