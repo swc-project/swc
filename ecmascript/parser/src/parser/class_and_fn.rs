@@ -2,7 +2,7 @@ use super::{ident::MaybeOptionalIdentParser, *};
 use crate::{error::SyntaxError, make_span, Tokens};
 use either::Either;
 use swc_atoms::js_word;
-use swc_common::Spanned;
+use swc_common::{Spanned, SyntaxContext};
 use swc_ecma_parser_macros::parser;
 
 #[parser]
@@ -275,6 +275,10 @@ impl<'a, I: Tokens> Parser<'a, I> {
         let mut elems = vec![];
         while !eof!() && !is!('}') {
             if eat_exact!(';') {
+                let span = self.input.prev_span();
+                elems.push(ClassMember::Empty(EmptyStmt {
+                    span: Span::new(span.lo, span.hi, SyntaxContext::empty()),
+                }));
                 continue;
             }
 
