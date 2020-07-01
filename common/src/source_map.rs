@@ -177,12 +177,9 @@ impl SourceMap {
     }
 
     fn next_start_pos(&self, len: usize) -> usize {
-        match self.files.borrow().source_files.last() {
-            None => self.start_pos.fetch_add(len + 1, SeqCst),
-            // Add one so there is some space between files. This lets us distinguish
-            // positions in the source_map, even in the presence of zero-length files.
-            Some(..) => self.start_pos.fetch_add(len + 1, SeqCst),
-        }
+        // Add one so there is some space between files. This lets us distinguish
+        // positions in the source_map, even in the presence of zero-length files.
+        self.start_pos.fetch_add(len + 1, SeqCst)
     }
 
     /// Creates a new source_file.
