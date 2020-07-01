@@ -4,9 +4,3 @@ error: TS2406
 1 | ({get a(){}})=0
   | ^^^^^^^^^^^^^
 
-error: Not a pattern
- --> $DIR/tests/test262-parser/fail/0eb4ed330b5d7e2f.js:1:3
-  |
-1 | ({get a(){}})=0
-  |   ^^^^^^^^^
-

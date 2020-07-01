@@ -4,9 +4,3 @@ error: TS2406
 1 | "use strict"; ({ v: arguments }) = obj
   |               ^^^^^^^^^^^^^^^^^^
 
-error: Cannot assign to this
- --> $DIR/tests/test262-parser/fail/939b16a89d0e8704.js:1:21
-  |
-1 | "use strict"; ({ v: arguments }) = obj
-  |                     ^^^^^^^^^
-

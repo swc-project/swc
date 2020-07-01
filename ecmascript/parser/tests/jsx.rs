@@ -234,6 +234,17 @@ fn error() {
 
 struct Normalizer;
 
+impl Fold<Pat> for Normalizer {
+    fn fold(&mut self, mut node: Pat) -> Pat {
+        node = node.fold_children(self);
+
+        match node {
+            Pat::Expr(box Expr::Ident(i)) => Pat::Ident(i),
+            _ => node,
+        }
+    }
+}
+
 impl Fold<PatOrExpr> for Normalizer {
     fn fold(&mut self, node: PatOrExpr) -> PatOrExpr {
         let node = node.fold_children(self);
