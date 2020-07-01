@@ -8,6 +8,7 @@ use crate::{
         Accessibility, TsExprWithTypeArgs, TsIndexSignature, TsTypeAnn, TsTypeParamDecl,
         TsTypeParamInstantiation,
     },
+    EmptyStmt,
 };
 use serde::{Deserialize, Serialize};
 #[cfg(feature = "fold")]
@@ -59,6 +60,8 @@ pub enum ClassMember {
     PrivateProp(PrivateProp),
     #[tag("TsIndexSignature")]
     TsIndexSignature(TsIndexSignature),
+    #[tag("EmptyStatement")]
+    Empty(EmptyStmt),
 }
 
 macro_rules! property {
