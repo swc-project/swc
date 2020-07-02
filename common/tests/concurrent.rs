@@ -28,10 +28,14 @@ fn no_overlap() {
     let mut end = files.clone();
     end.sort_by_key(|f| f.end_pos);
 
-    start.into_par_iter().zip(end).for_each(|(start, end)| {
-        assert_eq!(start.name, end.name);
+    start
+        .into_par_iter()
+        .zip(end)
+        .for_each(|(start, end): (Arc<SourceFile>, Arc<SourceFile>)| {
+            assert_eq!(start.start_pos, end.start_pos);
+            assert_eq!(start.end_pos, end.end_pos);
+            assert!(start.start_pos < start.end_pos);
 
-        cm.lookup_char_pos(start.start_pos);
-        cm.lookup_char_pos(start.end_pos);
-    });
+            cm.lookup_char_pos(start.start_pos);
+        });
 }
