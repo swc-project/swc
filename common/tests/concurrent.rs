@@ -2,16 +2,8 @@ use rayon::prelude::*;
 use std::{env, path::PathBuf, sync::Arc};
 use swc_common::{FilePathMapping, SourceFile, SourceMap};
 
-fn init() {
-    let _ = rayon::ThreadPoolBuilder::new()
-        .num_threads(100)
-        .build_global();
-}
-
 #[test]
 fn no_overlap() {
-    init();
-
     let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
 
     let files: Vec<Arc<SourceFile>> = (0..100000)
@@ -31,8 +23,15 @@ fn no_overlap() {
 
     // This actually tests if there is overlap
 
-    let start = files.clone().sort_by_key(|f| f.start_pos);
-    let end = files.clone().sort_by_key(|f| f.end_pos);
+    let mut start = files.clone();
+    start.sort_by_key(|f| f.start_pos);
+    let mut end = files.clone();
+    end.sort_by_key(|f| f.end_pos);
 
-    assert_eq!(start, end);
+    start.into_par_iter().zip(end).for_each(|(start, end)| {
+        assert_eq!(start.name, end.name);
+
+        cm.lookup_char_pos(start.start_pos);
+        cm.lookup_char_pos(start.end_pos);
+    });
 }
