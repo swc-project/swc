@@ -502,3 +502,8 @@ fn issue_801() {
 
     assert!(!f.contains("function delete"));
 }
+
+#[test]
+fn concurrency() {
+    par_project("tests/deno-unit");
+}
