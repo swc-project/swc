@@ -185,8 +185,6 @@ impl SourceMap {
     /// Creates a new source_file.
     /// This does not ensure that only one SourceFile exists per file name.
     pub fn new_source_file(&self, filename: FileName, src: String) -> Arc<SourceFile> {
-        let start_pos = self.next_start_pos(src.len());
-
         // The path is used to determine the directory for loading submodules and
         // include files, so it must be before remapping.
         // Note that filename may not be a valid path, eg it may be `<anon>` etc,
@@ -201,6 +199,13 @@ impl SourceMap {
             }
             other => (other, false),
         };
+
+        // We hold lock at here to prevent panic
+        // If we don't do this, lookup_char_pos and its family **may** panic.
+        let mut files = self.files.borrow_mut();
+
+        let start_pos = self.next_start_pos(src.len());
+
         let source_file = Arc::new(SourceFile::new(
             filename,
             was_remapped,
@@ -210,8 +215,6 @@ impl SourceMap {
         ));
 
         {
-            let mut files = self.files.borrow_mut();
-
             files.source_files.push(source_file.clone());
             files
                 .stable_id_to_source_file
