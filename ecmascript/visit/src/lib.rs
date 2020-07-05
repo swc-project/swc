@@ -29,6 +29,7 @@ define!({
         ClassProp(ClassProp),
         PrivateProp(PrivateProp),
         TsIndexSignature(TsIndexSignature),
+        Empty(EmptyStmt),
     }
 
     pub struct ClassProp {
