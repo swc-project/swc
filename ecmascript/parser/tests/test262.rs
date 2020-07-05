@@ -445,3 +445,16 @@ impl Fold<PatOrExpr> for Normalizer {
         }
     }
 }
+
+impl Fold<Vec<ClassMember>> for Normalizer {
+    fn fold(&mut self, mut node: Vec<ClassMember>) -> Vec<ClassMember> {
+        node = node.fold_children(self);
+
+        node.retain(|v| match v {
+            ClassMember::Empty(..) => false,
+            _ => true,
+        });
+
+        node
+    }
+}

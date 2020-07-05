@@ -269,9 +269,9 @@ impl ClassProperties {
 
         for member in class.body {
             match member {
-                ClassMember::PrivateMethod(..) | ClassMember::TsIndexSignature(..) => {
-                    members.push(member)
-                }
+                ClassMember::PrivateMethod(..)
+                | ClassMember::Empty(..)
+                | ClassMember::TsIndexSignature(..) => members.push(member),
 
                 ClassMember::Method(method) => {
                     // we handle computed key here to preserve the execution order

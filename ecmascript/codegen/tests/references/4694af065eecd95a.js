@@ -1,4 +1,5 @@
 class a {
     static b() {
     }
+    ;
 }

@@ -746,12 +746,18 @@ impl Fold<Class> for Fixer {
     fn fold(&mut self, node: Class) -> Class {
         let old = self.ctx;
         self.ctx = Context::Default;
-        let mut node = node.fold_children(self);
+        let mut node: Class = node.fold_children(self);
         node.super_class = match node.super_class {
             Some(e @ box Expr::Seq(..)) => Some(box self.wrap(*e)),
             _ => node.super_class,
         };
         self.ctx = old;
+
+        node.body.retain(|m| match m {
+            ClassMember::Empty(..) => false,
+            _ => true,
+        });
+
         node
     }
 }

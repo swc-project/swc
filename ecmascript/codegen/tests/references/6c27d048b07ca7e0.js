@@ -1,8 +1,10 @@
 class a {
     constructor(){
     }
+    ;
     b() {
     }
+    ;
 }
 ;
 class c {
