@@ -75,11 +75,10 @@ pub struct SetterProp {
 #[ast_node("MethodProperty")]
 #[derive(Eq, Hash)]
 pub struct MethodProp {
-    #[span(lo)]
     pub key: PropName,
 
     #[serde(flatten)]
-    #[span(hi)]
+    #[span]
     pub function: Function,
 }
 
