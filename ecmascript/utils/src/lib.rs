@@ -66,7 +66,7 @@ where
     N: VisitWith<ThisVisitor>,
 {
     let mut visitor = ThisVisitor { found: false };
-    body.visit_with(&mut visitor);
+    body.visit_with(&Invalid { span: DUMMY_SP } as _, &mut visitor);
     visitor.found
 }
 
@@ -78,7 +78,7 @@ where
         found: false,
         ident,
     };
-    body.visit_with(&mut visitor);
+    body.visit_with(&Invalid { span: DUMMY_SP } as _, &mut visitor);
     visitor.found
 }
 
@@ -1133,7 +1133,31 @@ impl Visit for LiteralVisitor {
         }
     }
 
+    fn visit_arrow_expr(&mut self, n: &ArrowExpr, _parent: &dyn Node) {
+        self.is_lit = false
+    }
+
     fn visit_assign_expr(&mut self, _: &AssignExpr, _parent: &dyn Node) {
+        self.is_lit = false;
+    }
+
+    fn visit_await_expr(&mut self, n: &AwaitExpr, _parent: &dyn Node) {
+        self.is_lit = false
+    }
+
+    fn visit_bin_expr(&mut self, n: &BinExpr, _parent: &dyn Node) {
+        self.is_lit = false
+    }
+
+    fn visit_call_expr(&mut self, n: &CallExpr, _parent: &dyn Node) {
+        self.is_lit = false
+    }
+
+    fn visit_class_expr(&mut self, n: &ClassExpr, _parent: &dyn Node) {
+        self.is_lit = false
+    }
+
+    fn visit_cond_expr(&mut self, _: &CondExpr, _parent: &dyn Node) {
         self.is_lit = false;
     }
 
@@ -1157,10 +1181,50 @@ impl Visit for LiteralVisitor {
         self.is_lit = false;
     }
 
+    fn visit_jsx_element(&mut self, n: &JSXElement, _parent: &dyn Node) {
+        self.is_lit = false
+    }
+
+    fn visit_jsx_empty_expr(&mut self, n: &JSXEmptyExpr, _parent: &dyn Node) {
+        self.is_lit = false
+    }
+
+    fn visit_jsx_fragment(&mut self, n: &JSXFragment, _parent: &dyn Node) {
+        self.is_lit = false
+    }
+
+    fn visit_jsx_member_expr(&mut self, n: &JSXMemberExpr, _parent: &dyn Node) {
+        self.is_lit = false
+    }
+
+    fn visit_jsx_namespaced_name(&mut self, n: &JSXNamespacedName, _parent: &dyn Node) {
+        self.is_lit = false
+    }
+
+    fn visit_member_expr(&mut self, _: &MemberExpr, _parent: &dyn Node) {
+        self.is_lit = false;
+    }
+
+    fn visit_meta_prop_expr(&mut self, n: &MetaPropExpr, _parent: &dyn Node) {
+        self.is_lit = false
+    }
+
+    fn visit_new_expr(&mut self, n: &NewExpr, _parent: &dyn Node) {
+        self.is_lit = false
+    }
+
     fn visit_number(&mut self, node: &Number, _: &dyn Node) {
         if !self.allow_non_json_value && node.value.is_infinite() {
             self.is_lit = false;
         }
+    }
+
+    fn visit_opt_chain_expr(&mut self, n: &OptChainExpr, _parent: &dyn Node) {
+        self.is_lit = false
+    }
+
+    fn visit_private_name(&mut self, n: &PrivateName, _parent: &dyn Node) {
+        self.is_lit = false
     }
 
     fn visit_prop(&mut self, p: &Prop, _: &dyn Node) {
@@ -1200,12 +1264,32 @@ impl Visit for LiteralVisitor {
         }
     }
 
+    fn visit_seq_expr(&mut self, n: &SeqExpr, _parent: &dyn Node) {
+        self.is_lit = false
+    }
+
     fn visit_spread_element(&mut self, _: &SpreadElement, _parent: &dyn Node) {
         self.is_lit = false;
     }
 
+    fn visit_tagged_tpl(&mut self, n: &TaggedTpl, _parent: &dyn Node) {
+        self.is_lit = false
+    }
+
     fn visit_this_expr(&mut self, _: &ThisExpr, _parent: &dyn Node) {
         self.is_lit = false;
+    }
+
+    fn visit_ts_const_assertion(&mut self, n: &TsConstAssertion, _parent: &dyn Node) {
+        self.is_lit = false
+    }
+
+    fn visit_ts_non_null_expr(&mut self, n: &TsNonNullExpr, _parent: &dyn Node) {
+        self.is_lit = false
+    }
+
+    fn visit_ts_type_assertion(&mut self, n: &TsTypeAssertion, _parent: &dyn Node) {
+        self.is_lit = false
     }
 
     fn visit_unary_expr(&mut self, _: &UnaryExpr, _parent: &dyn Node) {
@@ -1216,32 +1300,9 @@ impl Visit for LiteralVisitor {
         self.is_lit = false;
     }
 
-    not_lit!(MemberExpr);
-    not_lit!(CondExpr);
-    not_lit!(CallExpr);
-    not_lit!(NewExpr);
-    not_lit!(SeqExpr);
-    not_lit!(TaggedTpl);
-    not_lit!(ArrowExpr);
-    not_lit!(ClassExpr);
-    not_lit!(YieldExpr);
-    not_lit!(MetaPropExpr);
-    not_lit!(AwaitExpr);
-
-    not_lit!(BinExpr);
-
-    not_lit!(JSXMemberExpr);
-    not_lit!(JSXNamespacedName);
-    not_lit!(JSXEmptyExpr);
-    not_lit!(JSXElement);
-    not_lit!(JSXFragment);
-
-    not_lit!(TsNonNullExpr);
-    not_lit!(TsTypeAssertion);
-    not_lit!(TsConstAssertion);
-
-    not_lit!(PrivateName);
-    not_lit!(OptChainExpr);
+    fn visit_yield_expr(&mut self, n: &YieldExpr, _parent: &dyn Node) {
+        self.is_lit = false
+    }
 }
 
 /// Used to determine super_class_ident
