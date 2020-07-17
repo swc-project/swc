@@ -1173,7 +1173,7 @@ not_lit!(SpreadElement);
 not_lit!(Invalid);
 
 impl Visit for LiteralVisitor {
-    fn visit_expr(&mut self, e: &Expr) {
+    fn visit_expr(&mut self, e: &Expr, _: &dyn Node) {
         if !self.is_lit {
             return;
         }
@@ -1224,7 +1224,7 @@ impl Visit for LiteralVisitor {
 }
 
 impl Visit<ArrayLit> for LiteralVisitor {
-    fn visit(&mut self, e: &ArrayLit) {
+    fn visit_array_lit(&mut self, e: &ArrayLit, _: &dyn Node) {
         if !self.is_lit {
             return;
         }
@@ -1239,10 +1239,8 @@ impl Visit<ArrayLit> for LiteralVisitor {
             }
         }
     }
-}
 
-impl Visit<Number> for LiteralVisitor {
-    fn visit(&mut self, node: &Number) {
+    fn visit_number(&mut self, node: &Number, _: &dyn Node) {
         if !self.allow_non_json_value && node.value.is_infinite() {
             self.is_lit = false;
         }
