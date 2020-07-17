@@ -225,9 +225,8 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
         tokens.push_tokens(&item);
     }
 
-    {
-        // FoldWith, VisitWith
-
+    // TODO: Add VisitWith
+    if mode == Mode::Folder {
         let trait_decl = match mode {
             Mode::Visitor => q!({
                 pub trait VisitWith<V> {
@@ -248,7 +247,18 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
         let mut names = HashSet::new();
 
         for ty in &types {
-            let method_name = method_name(mode, ty);
+            // Signature of visit_item / fold_item
+            let method_sig = method_sig(mode, ty);
+            let method_name = method_sig.ident;
+            let node_arg = method_sig
+                .inputs
+                .iter()
+                .nth(1)
+                .expect("visit/fold should accept self as first parameter");
+            let node_type = match node_arg {
+                FnArg::Receiver(_) => unreachable!(),
+                FnArg::Typed(pat) => &pat.ty,
+            };
 
             // Prevent duplicate implementations.
             let s = method_name.to_string();
@@ -262,7 +272,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     tokens.push_tokens(&q!(
                         Vars {
                             method_name,
-                            Type: ty,
+                            Type: node_type,
                         },
                         {
                             impl<V: Visit> VisitWith<V> for Type {
@@ -277,7 +287,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     tokens.push_tokens(&q!(
                         Vars {
                             method_name,
-                            Type: ty,
+                            Type: node_type,
                         },
                         {
                             impl<V: Fold> FoldWith<V> for Type {
