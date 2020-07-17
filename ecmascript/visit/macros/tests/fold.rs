@@ -4,6 +4,11 @@ use swc_ecma_visit_macros::define;
 /// Visitable nodes.
 pub trait Node: Any {}
 
+pub struct Optional<V> {
+    pub enabled: bool,
+    pub inner: V,
+}
+
 impl<T: ?Sized> Node for T where T: Any {}
 
 pub struct Item {
