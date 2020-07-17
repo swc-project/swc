@@ -243,12 +243,12 @@ macro_rules! validate {
 #[macro_export]
 macro_rules! noop_fold_type {
     ($F:ty, $N:tt) => {
-        impl Fold<swc_ecma_ast::$N> for $F {
-            #[inline]
-            fn fold(&mut self, node: swc_ecma_ast::$N) -> swc_ecma_ast::$N {
-                node
-            }
-        }
+        // impl Fold<swc_ecma_ast::$N> for $F {
+        //     #[inline]
+        //     fn fold(&mut self, node: swc_ecma_ast::$N) -> swc_ecma_ast::$N {
+        //         node
+        //     }
+        // }
     };
     ($F:ty) => {
         noop_fold_type!($F, Accessibility);
@@ -320,10 +320,10 @@ macro_rules! noop_fold_type {
 #[macro_export]
 macro_rules! noop_visit_type {
     ($F:ty, $N:tt) => {
-        impl Visit<swc_ecma_ast::$N> for $F {
-            #[inline]
-            fn visit(&mut self, _: &swc_ecma_ast::$N) {}
-        }
+        // impl Visit<swc_ecma_ast::$N> for $F {
+        //     #[inline]
+        //     fn visit(&mut self, _: &swc_ecma_ast::$N) {}
+        // }
     };
     ($F:ty) => {
         noop_visit_type!($F, Accessibility);
