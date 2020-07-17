@@ -51,8 +51,8 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let block: Block = parse(tts.into());
 
     let mut q = Quote::new_call_site();
-    q.push_tokens(&make(Mode::Visitor, &block.stmts));
     q.push_tokens(&make(Mode::Folder, &block.stmts));
+    q.push_tokens(&make(Mode::Visitor, &block.stmts));
 
     proc_macro2::TokenStream::from(q).into()
 }
@@ -310,6 +310,67 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
     tokens
 }
 
+///
+///
+/// - `Box<Expr>` => visit(&node) or Box::new(visit(*node))
+/// - `Vec<Expr>` => &*node or
+fn visit_expr(mode: Mode, ty: &Type, visitor: &Expr, mut expr: Expr) -> Expr {
+    let visit_name = method_name(mode, ty);
+
+    if is_option(&ty) {
+        expr = if is_opt_vec(ty) {
+            match mode {
+                Mode::Folder => expr,
+
+                Mode::Visitor => q!(Vars { expr }, { expr.as_ref().map(|v| &**v) }).parse(),
+            }
+        } else {
+            match mode {
+                Mode::Folder => expr,
+                Mode::Visitor => q!(Vars { expr }, { expr.as_ref() }).parse(),
+            }
+        };
+    }
+
+    expr = match mode {
+        Mode::Folder => {
+            if let Some(..) = as_box(ty) {
+                q!(
+                    Vars {
+                        visitor,
+                        expr,
+                        visit_name
+                    },
+                    { Box::new(visitor.visit_name(*expr)) }
+                )
+                .parse()
+            } else {
+                q!(
+                    Vars {
+                        visitor,
+                        expr,
+                        visit_name
+                    },
+                    { visitor.visit_name(expr) }
+                )
+                .parse()
+            }
+        }
+
+        Mode::Visitor => q!(
+            Vars {
+                visitor,
+                expr,
+                visit_name
+            },
+            { visitor.visit_name(expr, n as _) }
+        )
+        .parse(),
+    };
+
+    expr
+}
+
 fn make_arm_from_struct(mode: Mode, path: &Path, variant: &Fields) -> Arm {
     let mut stmts = vec![];
     let mut fields: Punctuated<FieldValue, Token![,]> = Default::default();
@@ -317,14 +378,13 @@ fn make_arm_from_struct(mode: Mode, path: &Path, variant: &Fields) -> Arm {
     for (i, field) in variant.iter().enumerate() {
         let ty = &field.ty;
 
-        let visit_name = method_name(mode, &ty);
         let binding_ident = field
             .ident
             .clone()
             .unwrap_or_else(|| Ident::new(&format!("_{}", i), call_site()));
 
         if !skip(ty) {
-            let mut expr: Expr = match mode {
+            let expr: Expr = match mode {
                 Mode::Folder => q!(
                     Vars {
                         binding_ident: &binding_ident
@@ -340,80 +400,20 @@ fn make_arm_from_struct(mode: Mode, path: &Path, variant: &Fields) -> Arm {
                 )
                 .parse(),
             };
-            if is_option(&ty) {
-                expr = if is_opt_vec(ty) {
-                    match mode {
-                        Mode::Folder => q!(
-                            Vars {
-                                binding_ident: &binding_ident
-                            },
-                            { binding_ident }
-                        )
-                        .parse(),
 
-                        Mode::Visitor => q!(
-                            Vars {
-                                binding_ident: &binding_ident
-                            },
-                            { binding_ident.as_ref().map(|v| &**v) }
-                        )
-                        .parse(),
+            let expr = visit_expr(mode, ty, &q!({ _visitor }).parse(), expr);
+            stmts.push(
+                q!(
+                    Vars {
+                        name: &binding_ident,
+                        expr
+                    },
+                    {
+                        let name = expr;
                     }
-                } else {
-                    match mode {
-                        Mode::Folder => q!(
-                            Vars {
-                                binding_ident: &binding_ident
-                            },
-                            { binding_ident }
-                        )
-                        .parse(),
-                        Mode::Visitor => q!(
-                            Vars {
-                                binding_ident: &binding_ident
-                            },
-                            { binding_ident.as_ref() }
-                        )
-                        .parse(),
-                    }
-                };
-            }
-
-            let stmt = match mode {
-                Mode::Folder => {
-                    if let Some(..) = as_box(ty) {
-                        q!(
-                            Vars {
-                                name: &binding_ident,
-                                expr,
-                                visit_name
-                            },
-                            {
-                                let name = Box::new(_visitor.visit_name(*expr));
-                            }
-                        )
-                        .parse()
-                    } else {
-                        q!(
-                            Vars {
-                                name: &binding_ident,
-                                expr,
-                                visit_name
-                            },
-                            {
-                                let name = _visitor.visit_name(expr);
-                            }
-                        )
-                        .parse()
-                    }
-                }
-
-                Mode::Visitor => q!(Vars { expr, visit_name }, {
-                    _visitor.visit_name(expr, n as _);
-                })
-                .parse(),
-            };
-            stmts.push(stmt);
+                )
+                .parse::<Stmt>(),
+            );
         }
 
         if field.ident.is_some() {
