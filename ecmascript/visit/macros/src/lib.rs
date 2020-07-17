@@ -98,7 +98,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
     methods.dedup_by_key(|v| v.sig.ident.to_string());
     methods.sort_by_cached_key(|v| v.sig.ident.to_string());
 
-    for ty in types {
+    for ty in &types {
         let name = method_name(mode, &ty);
         let s = name.to_string();
         if methods.iter().any(|m| m.sig.ident == &*s) {
@@ -223,6 +223,67 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             .extend(optional_methods.into_iter().map(ImplItem::Method));
 
         tokens.push_tokens(&item);
+    }
+
+    {
+        // FoldWith, VisitWith
+
+        let trait_decl = match mode {
+            Mode::Visitor => q!({
+                pub trait VisitWith<V> {
+                    fn visit_with(&self, parent: &dyn Node, v: &mut V);
+                }
+            })
+            .parse::<ItemTrait>(),
+            Mode::Folder => q!({
+                pub trait FoldWith<V> {
+                    fn fold_with(self, v: &mut V) -> Self;
+                }
+            })
+            .parse::<ItemTrait>(),
+        };
+
+        tokens.push_tokens(&trait_decl);
+
+        let mut names = types.clone();
+        names.dedup_by_key(|v| method_name(mode, &*v));
+
+        for ty in &names {
+            let method_name = method_name(mode, ty);
+
+            match mode {
+                Mode::Visitor => {
+                    tokens.push_tokens(&q!(
+                        Vars {
+                            method_name,
+                            Type: ty,
+                        },
+                        {
+                            impl<V: Visit> VisitWith<V> for Type {
+                                fn visit_with(&self, parent: &dyn Node, v: &mut V) {
+                                    v.method_name(self, parent)
+                                }
+                            }
+                        }
+                    ));
+                }
+                Mode::Folder => {
+                    tokens.push_tokens(&q!(
+                        Vars {
+                            method_name,
+                            Type: ty,
+                        },
+                        {
+                            impl<V: Fold> FoldWith<V> for Type {
+                                fn fold_with(self, v: &mut V) -> Self {
+                                    v.method_name(self)
+                                }
+                            }
+                        }
+                    ));
+                }
+            }
+        }
     }
 
     tokens
