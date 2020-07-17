@@ -3,7 +3,7 @@ extern crate proc_macro;
 use inflector::Inflector;
 use pmutil::{q, IdentExt, Quote};
 use proc_macro2::Ident;
-use std::mem::replace;
+use std::{collections::HashSet, mem::replace};
 use swc_macros_common::{call_site, def_site};
 use syn::{
     parse_quote::parse, punctuated::Punctuated, spanned::Spanned, Arm, AttrStyle, Attribute, Block,
@@ -245,11 +245,17 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
         tokens.push_tokens(&trait_decl);
 
-        let mut names = types.clone();
-        names.dedup_by_key(|v| method_name(mode, &*v));
+        let mut names = HashSet::new();
 
-        for ty in &names {
+        for ty in &types {
             let method_name = method_name(mode, ty);
+
+            // Prevent duplicate implementations.
+            let s = method_name.to_string();
+            if names.contains(&s) {
+                continue;
+            }
+            names.insert(s);
 
             match mode {
                 Mode::Visitor => {
