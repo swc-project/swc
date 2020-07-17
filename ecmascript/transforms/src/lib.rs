@@ -1,7 +1,6 @@
 #![feature(box_patterns)]
 #![feature(box_syntax)]
 #![feature(try_trait)]
-#![feature(specialization)]
 #![feature(core_intrinsics)]
 #![cfg_attr(test, feature(test))]
 #![recursion_limit = "1024"]
