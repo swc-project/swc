@@ -10,8 +10,32 @@ struct EsReservedWord {}
 
 noop_fold_type!(EsReservedWord);
 
-impl Fold<MemberExpr> for EsReservedWord {
-    fn fold(&mut self, e: MemberExpr) -> MemberExpr {
+impl Fold for EsReservedWord {
+    fn fold_export_specifier(&mut self, n: ExportSpecifier) -> ExportSpecifier {
+        n
+    }
+
+    fn fold_ident(&mut self, i: Ident) -> Ident {
+        let sym = rename_ident(i.sym, true);
+
+        Ident { sym, ..i }
+    }
+
+    fn fold_import_named_specifier(&mut self, s: ImportNamedSpecifier) -> ImportNamedSpecifier {
+        if s.imported.is_some() {
+            ImportNamedSpecifier {
+                local: s.local.fold_with(self),
+                ..s
+            }
+        } else {
+            ImportNamedSpecifier {
+                imported: s.imported.fold_with(self),
+                ..s
+            }
+        }
+    }
+
+    fn fold_member_expr(&mut self, e: MemberExpr) -> MemberExpr {
         if e.computed {
             MemberExpr {
                 obj: e.obj.fold_with(self),
@@ -25,42 +49,9 @@ impl Fold<MemberExpr> for EsReservedWord {
             }
         }
     }
-}
 
-macro_rules! noop {
-    ($T:tt) => {
-        impl Fold<$T> for EsReservedWord {
-            fn fold(&mut self, node: $T) -> $T {
-                node
-            }
-        }
-    };
-}
-
-noop!(PropName);
-noop!(ExportSpecifier);
-
-impl Fold<ImportNamedSpecifier> for EsReservedWord {
-    fn fold(&mut self, s: ImportNamedSpecifier) -> ImportNamedSpecifier {
-        if s.imported.is_some() {
-            ImportNamedSpecifier {
-                local: s.local.fold_with(self),
-                ..s
-            }
-        } else {
-            ImportNamedSpecifier {
-                imported: s.imported.fold_with(self),
-                ..s
-            }
-        }
-    }
-}
-
-impl Fold<Ident> for EsReservedWord {
-    fn fold(&mut self, i: Ident) -> Ident {
-        let sym = rename_ident(i.sym, true);
-
-        Ident { sym, ..i }
+    fn fold_prop_name(&mut self, n: PropName) -> PropName {
+        n
     }
 }
 

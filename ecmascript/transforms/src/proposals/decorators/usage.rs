@@ -1,5 +1,5 @@
-use swc_common::{Visit, VisitWith};
 use swc_ecma_ast::Decorator;
+use swc_ecma_visit::Visit;
 
 pub(super) fn has_decorator<T: VisitWith<DecoratorFinder>>(node: &T) -> bool {
     let mut v = DecoratorFinder { found: false };
@@ -12,7 +12,7 @@ pub(super) struct DecoratorFinder {
     found: bool,
 }
 
-noop_visit_type!(DecoratorFinder);
+impl Visit for DecoratorFinder {}
 
 impl Visit<Decorator> for DecoratorFinder {
     fn visit(&mut self, _: &Decorator) {

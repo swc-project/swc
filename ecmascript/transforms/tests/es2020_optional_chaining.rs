@@ -10,13 +10,13 @@ use swc_ecma_transforms::{compat::es2020::optional_chaining, pass::Pass};
 mod common;
 
 fn tr(_: ()) -> impl Fold {
-  optional_chaining()
+    optional_chaining()
 }
 
 fn syntax() -> Syntax {
-  Syntax::Typescript(TsConfig {
-    ..Default::default()
-  })
+    Syntax::Typescript(TsConfig {
+        ..Default::default()
+    })
 }
 
 // general_memoize_loose
@@ -33,10 +33,10 @@ fn syntax() -> Syntax {
 
 // general_assignment
 test!(
-  syntax(),
-  |_| tr(()),
-  general_assignment,
-  r#"
+    syntax(),
+    |_| tr(()),
+    general_assignment,
+    r#"
 "use strict";
 
 const obj = {
@@ -59,7 +59,7 @@ let val;
 val = obj?.a?.b;
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 var ref, ref1, ref2;
@@ -84,10 +84,10 @@ val = obj === null || obj === void 0 ? void 0 : (ref2 = obj.a) === null || ref2 
 
 // general_memoize
 test!(
-  syntax(),
-  |_| tr(()),
-  general_memoize,
-  r#"
+    syntax(),
+    |_| tr(()),
+    general_memoize,
+    r#"
 function test(foo) {
   foo?.bar;
 
@@ -111,7 +111,7 @@ function test(foo) {
 }
 
 "#,
-  r#"
+    r#"
 function test(foo) {
     var ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, ref8;
     foo === null || foo === void 0 ? void 0 : foo.bar;
@@ -130,10 +130,10 @@ function test(foo) {
 
 // general_containers
 test!(
-  syntax(),
-  |_| tr(()),
-  general_containers,
-  r#"
+    syntax(),
+    |_| tr(()),
+    general_containers,
+    r#"
 var street = user.address?.street
 street = user.address?.street
 
@@ -142,7 +142,7 @@ test(a?.b,  1);
 (a?.b, 2);
 
 "#,
-  r#"
+    r#"
 var ref, ref1;
 
 var street = (ref = user.address) === null || ref === void 0 ? void 0 : ref.street;
@@ -159,10 +159,10 @@ a === null || a === void 0 ? void 0 : a.b, 2;
 
 // general_delete_exec
 test_exec!(
-  syntax(),
-  |_| tr(()),
-  general_delete_exec,
-  r#"
+    syntax(),
+    |_| tr(()),
+    general_delete_exec,
+    r#"
 "use strict";
 
 const obj = {
@@ -191,10 +191,10 @@ expect(obj.a).toBeUndefined();
 
 // general_member_access
 test!(
-  syntax(),
-  |_| tr(()),
-  general_member_access,
-  r#"
+    syntax(),
+    |_| tr(()),
+    general_member_access,
+    r#"
 foo?.bar;
 
 a?.b.c?.d.e;
@@ -216,7 +216,7 @@ orders[client.key]?.price;
 (0, (0, a?.b).c?.d).e;
 
 "#,
-  r#"
+    r#"
 var ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7;
 foo === null || foo === void 0 ? void 0 : foo.bar;
 (ref = a === null || a === void 0 ? void 0 : a.b.c) === null || ref === void 0 ? void 0 : ref.d.e;
@@ -233,10 +233,10 @@ orders[client === null || client === void 0 ? void 0 : client.key].price;
 
 // general_unary
 test!(
-  syntax(),
-  |_| tr(()),
-  general_unary,
-  r#"
+    syntax(),
+    |_| tr(()),
+    general_unary,
+    r#"
 "use strict";
 
 const obj = {
@@ -254,7 +254,7 @@ test = +obj?.b?.b;
 test = +obj?.b?.b;
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 var ref, ref1, ref2;
@@ -276,10 +276,10 @@ test = +(obj === null || obj === void 0 ? void 0 : (ref2 = obj.b) === null || re
 
 // general_function_call
 test!(
-  syntax(),
-  |_| tr(()),
-  general_function_call,
-  r#"
+    syntax(),
+    |_| tr(()),
+    general_function_call,
+    r#"
 foo?.(foo);
 
 foo?.bar()
@@ -301,7 +301,7 @@ foo?.bar?.().baz
 foo?.bar?.()?.baz
 
 "#,
-  r#"
+    r#"
 var ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, ref8;
 foo === null || foo === void 0 ? void 0 : foo(foo);
 foo === null || foo === void 0 ? void 0 : foo.bar();
@@ -318,10 +318,10 @@ foo === null || foo === void 0 ? void 0 : (ref7 = foo.bar) === null || ref7 === 
 
 // general_unary_exec
 test_exec!(
-  syntax(),
-  |_| tr(()),
-  general_unary_exec,
-  r#"
+    syntax(),
+    |_| tr(()),
+    general_unary_exec,
+    r#"
 "use strict";
 
 const obj = {
@@ -347,20 +347,20 @@ expect(test).toBe(NaN);
 
 // general_call_exec
 test_exec!(
-  syntax(),
-  |_| tr(()),
-  general_call_exec,
-  r#"
+    syntax(),
+    |_| tr(()),
+    general_call_exec,
+    r#"
 
 "#
 );
 
 // general_delete
 test!(
-  syntax(),
-  |_| tr(()),
-  general_delete,
-  r#"
+    syntax(),
+    |_| tr(()),
+    general_delete,
+    r#"
 "use strict";
 
 const obj = {
@@ -378,7 +378,7 @@ test = delete obj?.b?.b;
 delete obj?.a;
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 var ref, ref1;
@@ -398,10 +398,10 @@ obj === null || obj === void 0 ? void 0 : delete obj.a;
 
 // regression_8354_exec
 test_exec!(
-  syntax(),
-  |_| tr(()),
-  regression_8354_exec,
-  r#"
+    syntax(),
+    |_| tr(()),
+    regression_8354_exec,
+    r#"
 const foo = undefined;
 const bar = 'bar';
 const foobar = foo?.replace(`foo${bar}`, '');
@@ -412,10 +412,10 @@ expect(foobar).toBe(undefined);
 
 // general_assignment_exec
 test_exec!(
-  syntax(),
-  |_| tr(()),
-  general_assignment_exec,
-  r#"
+    syntax(),
+    |_| tr(()),
+    general_assignment_exec,
+    r#"
 "use strict";
 
 const obj = {
@@ -450,10 +450,10 @@ expect(() => {
 
 // general_super_method_call
 test!(
-  syntax(),
-  |_| tr(()),
-  general_super_method_call,
-  r#"
+    syntax(),
+    |_| tr(()),
+    general_super_method_call,
+    r#"
 "use strict";
 class Base {
   method() {
@@ -468,7 +468,7 @@ class Derived extends Base {
 }
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 class Base {
@@ -491,50 +491,50 @@ class Derived extends Base {
 );
 
 test!(
-  syntax(),
-  |_| tr(()),
-  simple_1,
-  "obj?.a",
-  "obj === null || obj === void 0 ? void 0 : obj.a;"
+    syntax(),
+    |_| tr(()),
+    simple_1,
+    "obj?.a",
+    "obj === null || obj === void 0 ? void 0 : obj.a;"
 );
 
 test!(
-  syntax(),
-  |_| tr(()),
-  simple_2,
-  "obj?.a?.b",
-  "var ref;
+    syntax(),
+    |_| tr(()),
+    simple_2,
+    "obj?.a?.b",
+    "var ref;
 obj === null || obj === void 0 ? void 0 : (ref = obj.a) === null || ref === void 0 ? void 0 : \
-   ref.b;"
+     ref.b;"
 );
 
 test!(
-  syntax(),
-  |_| tr(()),
-  simple_3,
-  "obj?.a?.b.c",
-  "var ref;
+    syntax(),
+    |_| tr(()),
+    simple_3,
+    "obj?.a?.b.c",
+    "var ref;
 obj === null || obj === void 0 ? void 0 : (ref = obj.a) === null || ref === void 0 ? void 0 : \
-   ref.b.c;"
+     ref.b.c;"
 );
 
 test!(
-  syntax(),
-  |_| tr(()),
-  call_1,
-  "obj?.a?.b()",
-  "var ref;
+    syntax(),
+    |_| tr(()),
+    call_1,
+    "obj?.a?.b()",
+    "var ref;
 obj === null || obj === void 0 ? void 0 : (ref = obj.a) === null || ref === void 0 ? void 0 : \
-   ref.b();",
-  ok_if_code_eq
+     ref.b();",
+    ok_if_code_eq
 );
 
 test!(
-  syntax(),
-  |_| tr(()),
-  call_2,
-  "a?.b?.c?.()",
-  "var ref, ref1;
+    syntax(),
+    |_| tr(()),
+    call_2,
+    "a?.b?.c?.()",
+    "var ref, ref1;
 
 a === null || a === void 0
   ? void 0
@@ -546,28 +546,28 @@ a === null || a === void 0
 );
 
 test!(
-  syntax(),
-  |_| tr(()),
-  issue_732_1,
-  "test.a?.b.c.d",
-  "var ref;
+    syntax(),
+    |_| tr(()),
+    issue_732_1,
+    "test.a?.b.c.d",
+    "var ref;
 (ref = test.a) === null || ref === void 0 ? void 0 : ref.b.c.d"
 );
 
 test!(
-  syntax(),
-  |_| tr(()),
-  issue_732_2,
-  "test.a?.b.c",
-  "var ref;
+    syntax(),
+    |_| tr(()),
+    issue_732_2,
+    "test.a?.b.c",
+    "var ref;
 (ref = test.a) === null || ref === void 0 ? void 0 : ref.b.c;"
 );
 
 test!(
-  syntax(),
-  |_| tr(()),
-  issue_732_3,
-  "test.a?.b.c.d.e.f.g.h.i",
-  "var ref;
+    syntax(),
+    |_| tr(()),
+    issue_732_3,
+    "test.a?.b.c.d.e.f.g.h.i",
+    "var ref;
 (ref = test.a) === null || ref === void 0 ? void 0 : ref.b.c.d.e.f.g.h.i"
 );

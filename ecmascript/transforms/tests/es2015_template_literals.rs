@@ -10,28 +10,28 @@ use swc_ecma_transforms::{compat::es2015::TemplateLiteral, pass::Pass};
 mod common;
 
 fn syntax() -> Syntax {
-  Default::default()
+    Default::default()
 }
 
 fn tr(_: ()) -> impl Fold {
-  TemplateLiteral::default()
+    TemplateLiteral::default()
 }
 
 test_exec!(
-  syntax(),
-  |_| tr(Default::default()),
-  issue_231,
-  "const truthy = 'a=b';
+    syntax(),
+    |_| tr(Default::default()),
+    issue_231,
+    "const truthy = 'a=b';
 const foo = `http://example.com/foo/bar${truthy && '?'}${truthy}`;
 expect(foo).toBe('http://example.com/foo/bar?a=b');\
-   "
+     "
 );
 
 test_exec!(
-  syntax(),
-  |_| tr(Default::default()),
-  issue_388,
-  "
+    syntax(),
+    |_| tr(Default::default()),
+    issue_388,
+    "
 'use strict';
 const write = (text) => {
   console.log(text)
@@ -42,43 +42,43 @@ write`3`"
 );
 
 test!(
-  syntax(),
-  |_| tr(Default::default()),
-  escape_quotes,
-  r#"var t = `'${foo}' "${bar}"`;"#,
-  r#"var t = "'".concat(foo, '\' "').concat(bar, '"');"#,
-  ok_if_code_eq
+    syntax(),
+    |_| tr(Default::default()),
+    escape_quotes,
+    r#"var t = `'${foo}' "${bar}"`;"#,
+    r#"var t = "'".concat(foo, '\' "').concat(bar, '"');"#,
+    ok_if_code_eq
 );
 
 test!(
-  syntax(),
-  |_| tr(Default::default()),
-  multiple,
-  r#"var foo = `test ${foo} ${bar}`;"#,
-  r#"var foo = 'test '.concat(foo, ' ').concat(bar);"#
+    syntax(),
+    |_| tr(Default::default()),
+    multiple,
+    r#"var foo = `test ${foo} ${bar}`;"#,
+    r#"var foo = 'test '.concat(foo, ' ').concat(bar);"#
 );
 
 test!(
-  syntax(),
-  |_| tr(Default::default()),
-  none,
-  r#"var foo = `test`;"#,
-  r#"var foo = "test";"#
+    syntax(),
+    |_| tr(Default::default()),
+    none,
+    r#"var foo = `test`;"#,
+    r#"var foo = "test";"#
 );
 
 test!(
-  syntax(),
-  |_| tr(Default::default()),
-  only,
-  r#"var foo = `${test}`;"#,
-  r#"var foo = ''.concat(test);"#
+    syntax(),
+    |_| tr(Default::default()),
+    only,
+    r#"var foo = `${test}`;"#,
+    r#"var foo = ''.concat(test);"#
 );
 
 test_exec!(
-  syntax(),
-  |_| tr(Default::default()),
-  order,
-  r#"
+    syntax(),
+    |_| tr(Default::default()),
+    order,
+    r#"
 const calls = [];
 
 `
@@ -104,10 +104,10 @@ expect(calls).toEqual([1, 2, 3, 4]);"#
 );
 
 test_exec!(
-  syntax(),
-  |_| tr(Default::default()),
-  order2,
-  r#"const calls = [];
+    syntax(),
+    |_| tr(Default::default()),
+    order2,
+    r#"const calls = [];
 
 `
   ${{
@@ -129,38 +129,38 @@ expect(calls).toEqual([1, 2]);"#
 );
 
 test!(
-  syntax(),
-  |_| tr(Default::default()),
-  single,
-  r#"var foo = `test ${foo}`;"#,
-  r#"var foo = 'test '.concat(foo);"#
+    syntax(),
+    |_| tr(Default::default()),
+    single,
+    r#"var foo = `test ${foo}`;"#,
+    r#"var foo = 'test '.concat(foo);"#
 );
 
 test!(
-  syntax(),
-  |_| tr(Default::default()),
-  statement,
-  r#"var foo = `test ${foo + bar}`;"#,
-  r#"var foo = 'test '.concat(foo + bar);"#,
-  ok_if_code_eq
+    syntax(),
+    |_| tr(Default::default()),
+    statement,
+    r#"var foo = `test ${foo + bar}`;"#,
+    r#"var foo = 'test '.concat(foo + bar);"#,
+    ok_if_code_eq
 );
 
 test_exec!(
-  syntax(),
-  |_| tr(Default::default()),
-  symbol,
-  r#"const fn = () => `${Symbol()}`;
+    syntax(),
+    |_| tr(Default::default()),
+    symbol,
+    r#"const fn = () => `${Symbol()}`;
 
 expect(fn).toThrow(TypeError);"#
 );
 
 test!(
-  // TODO: Fix parser
-  ignore,
-  syntax(),
-  |_| tr(Default::default()),
-  template_revision,
-  r#"tag`\unicode and \u{55}`;
+    // TODO: Fix parser
+    ignore,
+    syntax(),
+    |_| tr(Default::default()),
+    template_revision,
+    r#"tag`\unicode and \u{55}`;
 tag`\01`;
 tag`\xg${0}right`;
 tag`left${0}\xg`;
@@ -171,7 +171,7 @@ function a() {
   var undefined = 4;
   tag`\01`;
 }"#,
-  r#"
+    r#"
 function _templateObject8() {
   const data = _taggedTemplateLiteral([void 0], ["\\01"]);
 
@@ -268,10 +268,10 @@ function a() {
 
 // default_order_exec
 test_exec!(
-  syntax(),
-  |_| tr(Default::default()),
-  default_order_exec,
-  r#"
+    syntax(),
+    |_| tr(Default::default()),
+    default_order_exec,
+    r#"
 const calls = [];
 
 `
@@ -300,14 +300,14 @@ expect(calls).toEqual([1, 2, 3, 4]);
 
 // default_only
 test!(
-  syntax(),
-  |_| tr(Default::default()),
-  default_only,
-  r#"
+    syntax(),
+    |_| tr(Default::default()),
+    default_only,
+    r#"
 var foo = `${test}`;
 
 "#,
-  r#"
+    r#"
 var foo = "".concat(test);
 
 "#
@@ -315,14 +315,14 @@ var foo = "".concat(test);
 
 // default_single
 test!(
-  syntax(),
-  |_| tr(Default::default()),
-  default_single,
-  r#"
+    syntax(),
+    |_| tr(Default::default()),
+    default_single,
+    r#"
 var foo = `test ${foo}`;
 
 "#,
-  r#"
+    r#"
 var foo = "test ".concat(foo);
 
 "#
@@ -330,14 +330,14 @@ var foo = "test ".concat(foo);
 
 // default_statement
 test!(
-  syntax(),
-  |_| tr(Default::default()),
-  default_statement,
-  r#"
+    syntax(),
+    |_| tr(Default::default()),
+    default_statement,
+    r#"
 var foo = `test ${foo + bar}`;
 
 "#,
-  r#"
+    r#"
 var foo = "test ".concat(foo + bar);
 
 "#
@@ -345,10 +345,10 @@ var foo = "test ".concat(foo + bar);
 
 // default_expression_first
 test!(
-  syntax(),
-  |_| tr(Default::default()),
-  default_expression_first,
-  r#"
+    syntax(),
+    |_| tr(Default::default()),
+    default_expression_first,
+    r#"
 var foo = 5;
 var bar = 10;
 var baz = 15;
@@ -360,7 +360,7 @@ var example4 = 1 + `${foo}bar${baz}`;
 var example5 = `${""}`;
 
 "#,
-  r#"
+    r#"
 var foo = 5;
 var bar = 10;
 var baz = 15;
@@ -375,14 +375,14 @@ var example5 = "";
 
 // default_literals
 test!(
-  syntax(),
-  |_| tr(Default::default()),
-  default_literals,
-  r#"
+    syntax(),
+    |_| tr(Default::default()),
+    default_literals,
+    r#"
 var foo = `${1}${f}oo${true}${b}ar${0}${baz}`;
 
 "#,
-  r#"
+    r#"
 var foo = ''.concat(1).concat(f, 'oo', true).concat(b, 'ar', 0).concat(baz);
 
 "#
@@ -390,30 +390,30 @@ var foo = ''.concat(1).concat(f, 'oo', true).concat(b, 'ar', 0).concat(baz);
 
 // default_multiline
 test!(
-  syntax(),
-  |_| tr(Default::default()),
-  default_multiline,
-  r#"
+    syntax(),
+    |_| tr(Default::default()),
+    default_multiline,
+    r#"
 var o = `wow
 this is
 actually multiline!`;
 
 "#,
-  r#"
+    r#"
 var o = "wow\nthis is\nactually multiline!";
 
 "#,
-  ok_if_code_eq
+    ok_if_code_eq
 );
 
 // default_template_revision
 test!(
-  // TODO: Improve parser
-  ignore,
-  syntax(),
-  |_| tr(Default::default()),
-  default_template_revision,
-  r#"
+    // TODO: Improve parser
+    ignore,
+    syntax(),
+    |_| tr(Default::default()),
+    default_template_revision,
+    r#"
 tag`\unicode and \u{55}`;
 
 tag`\01`;
@@ -429,7 +429,7 @@ function a() {
 }
 
 "#,
-  r#"
+    r#"
 function _templateObject8() {
   const data = _taggedTemplateLiteral([void 0], ["\\01"]);
 
@@ -530,10 +530,10 @@ function a() {
 
 // default_order2_exec
 test_exec!(
-  syntax(),
-  |_| tr(Default::default()),
-  default_order2_exec,
-  r#"
+    syntax(),
+    |_| tr(Default::default()),
+    default_order2_exec,
+    r#"
 const calls = [];
 
 `
@@ -559,10 +559,10 @@ expect(calls).toEqual([1, 2]);
 
 // default_cache_revision_exec
 test_exec!(
-  syntax(),
-  |_| tr(Default::default()),
-  default_cache_revision_exec,
-  r#"
+    syntax(),
+    |_| tr(Default::default()),
+    default_cache_revision_exec,
+    r#"
 var tag = v => v;
 
 function foo() {
@@ -584,14 +584,14 @@ expect(bar()).not.toBe(foo());
 
 // default_functions
 test!(
-  syntax(),
-  |_| tr(Default::default()),
-  default_functions,
-  r#"
+    syntax(),
+    |_| tr(Default::default()),
+    default_functions,
+    r#"
 var foo = `test ${_.test(foo)} ${bar}`;
 
 "#,
-  r#"
+    r#"
 var foo = "test ".concat(_.test(foo), " ").concat(bar);
 
 "#
@@ -599,14 +599,14 @@ var foo = "test ".concat(_.test(foo), " ").concat(bar);
 
 // default_none
 test!(
-  syntax(),
-  |_| tr(Default::default()),
-  default_none,
-  r#"
+    syntax(),
+    |_| tr(Default::default()),
+    default_none,
+    r#"
 var foo = `test`;
 
 "#,
-  r#"
+    r#"
 var foo = "test";
 
 "#
@@ -614,10 +614,10 @@ var foo = "test";
 
 // default_symbol_exec
 test_exec!(
-  syntax(),
-  |_| tr(Default::default()),
-  default_symbol_exec,
-  r#"
+    syntax(),
+    |_| tr(Default::default()),
+    default_symbol_exec,
+    r#"
 const fn = () => `${Symbol()}`;
 
 expect(fn).toThrow(TypeError);
@@ -627,10 +627,10 @@ expect(fn).toThrow(TypeError);
 
 // default_cache_revision
 test!(
-  syntax(),
-  |_| tr(Default::default()),
-  default_cache_revision,
-  r#"
+    syntax(),
+    |_| tr(Default::default()),
+    default_cache_revision,
+    r#"
 var tag = v => v;
 
 function foo() {
@@ -648,7 +648,7 @@ expect(bar()).toEqual(["some template"]);
 expect(bar()).not.toBe(foo());
 
 "#,
-  r#"
+    r#"
 function _templateObject() {
   const data = _taggedTemplateLiteral(["some template"]);
 
@@ -690,16 +690,16 @@ expect(bar()).not.toBe(foo());
 
 // default_tag
 test!(
-  syntax(),
-  |_| tr(Default::default()),
-  default_tag,
-  r#"
+    syntax(),
+    |_| tr(Default::default()),
+    default_tag,
+    r#"
 var foo = bar`wow\na${ 42 }b ${_.foobar()}`;
 var bar = bar`wow\nab${ 42 } ${_.foobar()}`;
 var bar = bar`wow\naB${ 42 } ${_.baz()}`;
 
 "#,
-  r#"
+    r#"
 function _templateObject() {
   const data = _taggedTemplateLiteral(["wow\na", "b ", ""], ["wow\\na", "b ", ""]);
 
@@ -740,15 +740,15 @@ var bar = bar(_templateObject2(), 42, _.baz());
 
 // default_simple_tag
 test!(
-  syntax(),
-  |_| tr(Default::default()),
-  default_simple_tag,
-  r#"
+    syntax(),
+    |_| tr(Default::default()),
+    default_simple_tag,
+    r#"
 var foo = tag`wow`;
 var bar = tag`first${1}second`;
 
 "#,
-  r#"
+    r#"
 function _templateObject() {
   const data = _taggedTemplateLiteral(["wow"]);
 
