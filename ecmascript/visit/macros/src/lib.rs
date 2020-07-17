@@ -214,7 +214,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 Trait: Ident::new(mode.trait_name(), call_site()),
             },
             {
-                impl<V> Trait for Optional<V> {}
+                impl<V> Trait for Optional<V> where V: Trait {}
             }
         )
         .parse::<ItemImpl>();
@@ -456,22 +456,28 @@ fn make_method(
     types: &mut Vec<Type>,
     is_for_optional: bool,
 ) -> TraitItemMethod {
-    fn wrap_optional(mode: Mode, block: Block) -> Block {
+    fn wrap_optional(mode: Mode, ty: &Ident) -> Block {
+        let ty = Type::Path(TypePath {
+            qself: None,
+            path: Path::from(ty.clone()),
+        });
+        let ident = method_name(mode, &ty);
+
         match mode {
             Mode::Visitor => q!(
-                Vars { block },
+                Vars { visit: &ident },
                 ({
                     if self.enabled {
-                        block
+                        self.inner.visit(n, _parent)
                     }
                 })
             )
             .parse(),
             Mode::Folder => q!(
-                Vars {},
+                Vars { fold: &ident },
                 ({
                     if self.enabled {
-                        block
+                        self.inner.fold(n)
                     } else {
                         n
                     }
@@ -507,7 +513,7 @@ fn make_method(
             };
 
             if is_for_optional {
-                block = wrap_optional(mode, block);
+                block = wrap_optional(mode, &s.ident);
             }
 
             let sig = method_sig_from_ident(mode, type_name);
@@ -571,7 +577,7 @@ fn make_method(
             };
 
             if is_for_optional {
-                block = wrap_optional(mode, block);
+                block = wrap_optional(mode, &e.ident);
             }
 
             TraitItemMethod {
