@@ -9,8 +9,8 @@ pub fn optional_catch_binding() -> impl Fold {
     OptionalCatchBinding
 }
 
-impl Fold<CatchClause> for OptionalCatchBinding {
-    fn fold(&mut self, cc: CatchClause) -> CatchClause {
+impl Fold for OptionalCatchBinding {
+    fn fold_catch_clause(&mut self, n: CatchClause) -> CatchClause {
         if cc.param.is_some() {
             return cc;
         }
@@ -21,6 +21,7 @@ impl Fold<CatchClause> for OptionalCatchBinding {
         }
     }
 }
+
 
 #[cfg(test)]
 mod tests {
