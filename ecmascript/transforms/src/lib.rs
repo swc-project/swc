@@ -3,8 +3,6 @@
 #![feature(try_trait)]
 #![feature(specialization)]
 #![feature(core_intrinsics)]
-#![feature(nll)]
-#![feature(trace_macros)]
 #![cfg_attr(test, feature(test))]
 #![recursion_limit = "1024"]
 
