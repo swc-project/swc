@@ -11,6 +11,10 @@ edition = "2018"
 [lib]
 proc-macro = true
 
+[features]
+optional = []
+default = ['optional']
+
 [dependencies]
 swc_macros_common = { version = "0.3", path ="../../../macros/common" }
 proc-macro2 = "1"
