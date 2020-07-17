@@ -77,10 +77,10 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
             optional_methods.push(ImplItemMethod {
                 attrs: vec![],
-                vis: Visibility::Public(Default::default()),
+                vis: Visibility::Inherited,
                 defaultness: None,
-                sig: Signature {},
-                block: Block {},
+                sig: Signature { ..mtd.sig },
+                block: mtd.default.unwrap(),
             });
         }
     }
@@ -206,6 +206,24 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
         brace_token: def_site(),
         items: methods.into_iter().map(TraitItem::Method).collect(),
     });
+
+    if !optional_methods.is_empty() {
+        //
+        let mut item = q!(
+            Vars {
+                Trait: Ident::new(mode.trait_name(), call_site()),
+            },
+            {
+                impl<V> Trait for Optional<V> {}
+            }
+        )
+        .parse::<ItemImpl>();
+
+        item.items
+            .extend(optional_methods.into_iter().map(ImplItem::Method));
+
+        tokens.push_tokens(&item);
+    }
 
     tokens
 }
