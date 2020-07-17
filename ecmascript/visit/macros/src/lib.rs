@@ -7,9 +7,10 @@ use std::mem::replace;
 use swc_macros_common::{call_site, def_site};
 use syn::{
     parse_quote::parse, punctuated::Punctuated, spanned::Spanned, Arm, AttrStyle, Attribute, Block,
-    Expr, ExprBlock, ExprMatch, FieldValue, Fields, FnArg, GenericArgument, Index, Item, ItemTrait,
-    Member, Path, PathArguments, ReturnType, Signature, Stmt, Token, TraitItem, TraitItemMethod,
-    Type, TypePath, TypeReference, VisPublic, Visibility,
+    Expr, ExprBlock, ExprMatch, FieldValue, Fields, FnArg, GenericArgument, ImplItem,
+    ImplItemMethod, Index, Item, ItemImpl, ItemTrait, Member, Path, PathArguments, ReturnType,
+    Signature, Stmt, Token, TraitItem, TraitItemMethod, Type, TypePath, TypeReference, VisPublic,
+    Visibility,
 };
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -52,6 +53,7 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let mut q = Quote::new_call_site();
     q.push_tokens(&make(Mode::Visitor, &block.stmts));
     q.push_tokens(&make(Mode::Folder, &block.stmts));
+
     proc_macro2::TokenStream::from(q).into()
 }
 
@@ -59,6 +61,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
     // Required to generate specialization code.
     let mut types = vec![];
     let mut methods = vec![];
+    let mut optional_methods = vec![];
 
     for stmts in stmts {
         let item = match stmts {
@@ -66,8 +69,20 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             _ => unimplemented!("error reporting for something other than Item"),
         };
 
-        let mtd = make_method(mode, item, &mut types);
+        let mtd = make_method(mode, item, &mut types, false);
         methods.push(mtd);
+
+        if cfg!(feature = "optional") {
+            let mtd = make_method(mode, item, &mut types, true);
+
+            optional_methods.push(ImplItemMethod {
+                attrs: vec![],
+                vis: Visibility::Public(Default::default()),
+                defaultness: None,
+                sig: Signature {},
+                block: Block {},
+            });
+        }
     }
 
     let mut tokens = q!({});
@@ -417,19 +432,51 @@ fn method_sig_from_ident(mode: Mode, v: &Ident) -> Signature {
     )
 }
 
-fn make_method(mode: Mode, e: &Item, types: &mut Vec<Type>) -> TraitItemMethod {
+fn make_method(
+    mode: Mode,
+    e: &Item,
+    types: &mut Vec<Type>,
+    is_for_optional: bool,
+) -> TraitItemMethod {
+    fn wrap_optional(mode: Mode, block: Block) -> Block {
+        match mode {
+            Mode::Visitor => q!(
+                Vars { block },
+                ({
+                    if self.enabled {
+                        block
+                    }
+                })
+            )
+            .parse(),
+            Mode::Folder => q!(
+                Vars {},
+                ({
+                    if self.enabled {
+                        block
+                    } else {
+                        n
+                    }
+                })
+            )
+            .parse(),
+        }
+    }
+
     match e {
         Item::Struct(s) => {
             let type_name = &s.ident;
-            types.push(Type::Path(TypePath {
-                qself: None,
-                path: type_name.clone().into(),
-            }));
-            for f in &s.fields {
-                types.push(f.ty.clone());
+            if !is_for_optional {
+                types.push(Type::Path(TypePath {
+                    qself: None,
+                    path: type_name.clone().into(),
+                }));
+                for f in &s.fields {
+                    types.push(f.ty.clone());
+                }
             }
 
-            let block = {
+            let mut block = {
                 let arm = make_arm_from_struct(mode, &s.ident.clone().into(), &s.fields);
 
                 let mut match_expr: ExprMatch = q!((match n {})).parse();
@@ -440,6 +487,10 @@ fn make_method(mode: Mode, e: &Item, types: &mut Vec<Type>) -> TraitItemMethod {
                     stmts: vec![q!(Vars { match_expr }, { match_expr }).parse()],
                 }
             };
+
+            if is_for_optional {
+                block = wrap_optional(mode, block);
+            }
 
             let sig = method_sig_from_ident(mode, type_name);
 
@@ -453,17 +504,20 @@ fn make_method(mode: Mode, e: &Item, types: &mut Vec<Type>) -> TraitItemMethod {
         Item::Enum(e) => {
             //
             let type_name = &e.ident;
-            types.push(
-                TypePath {
-                    qself: None,
-                    path: e.ident.clone().into(),
-                }
-                .into(),
-            );
+
+            if !is_for_optional {
+                types.push(
+                    TypePath {
+                        qself: None,
+                        path: e.ident.clone().into(),
+                    }
+                    .into(),
+                );
+            }
 
             //
 
-            let block = {
+            let mut block = {
                 let mut arms = vec![];
 
                 for variant in &e.variants {
@@ -497,6 +551,10 @@ fn make_method(mode: Mode, e: &Item, types: &mut Vec<Type>) -> TraitItemMethod {
                     }))],
                 }
             };
+
+            if is_for_optional {
+                block = wrap_optional(mode, block);
+            }
 
             TraitItemMethod {
                 attrs: vec![],
