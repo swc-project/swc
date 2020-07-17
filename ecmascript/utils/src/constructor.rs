@@ -2,8 +2,8 @@ use crate::{prepend_stmts, ExprFactory};
 use std::iter;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, FoldWith};
 
-#[allow(clippy::vec_box)]
 pub fn inject_after_super(mut c: Constructor, exprs: Vec<Box<Expr>>) -> Constructor {
     // Allow using super multiple time
     let mut folder = Injector {
@@ -27,8 +27,20 @@ struct Injector<'a> {
     exprs: &'a [Box<Expr>],
 }
 
-impl<'a> Fold<Vec<Stmt>> for Injector<'a> {
-    fn fold(&mut self, stmts: Vec<Stmt>) -> Vec<Stmt> {
+impl<'a> Fold for Injector<'a> {
+    fn fold_class(&mut self, c: Class) -> Class {
+        c
+    }
+
+    fn fold_constructor(&mut self, n: Constructor) -> Constructor {
+        n
+    }
+
+    fn fold_function(&mut self, n: Function) -> Function {
+        n
+    }
+
+    fn fold_stmts(&mut self, stmts: Vec<Stmt>) -> Vec<Stmt> {
         if self.exprs.is_empty() {
             return stmts;
         }
@@ -89,30 +101,6 @@ impl<'a> Fold<Vec<Stmt>> for Injector<'a> {
     }
 }
 
-impl Fold<Class> for Injector<'_> {
-    fn fold(&mut self, c: Class) -> Class {
-        c
-    }
-}
-
-macro_rules! fold_noop {
-    ($T:tt) => {
-        impl<'a> Fold<$T> for Injector<'a> {
-            fn fold(&mut self, n: $T) -> $T {
-                n
-            }
-        }
-
-        impl<'a> Fold<$T> for ExprInjector<'a> {
-            fn fold(&mut self, n: $T) -> $T {
-                n
-            }
-        }
-    };
-}
-fold_noop!(Function);
-fold_noop!(Constructor);
-
 /// Handles code like `foo(super())`
 struct ExprInjector<'a> {
     injected: bool,
@@ -120,16 +108,18 @@ struct ExprInjector<'a> {
     injected_tmp: Option<Ident>,
 }
 
-impl Fold<Class> for ExprInjector<'_> {
-    fn fold(&mut self, c: Class) -> Class {
+impl Fold for ExprInjector<'_> {
+    fn fold_class(&mut self, c: Class) -> Class {
         let super_class = c.super_class.fold_with(self);
 
         Class { super_class, ..c }
     }
-}
 
-impl<'a> Fold<Expr> for ExprInjector<'a> {
-    fn fold(&mut self, expr: Expr) -> Expr {
+    fn fold_constructor(&mut self, n: Constructor) -> Constructor {
+        n
+    }
+
+    fn fold_expr(&mut self, expr: Expr) -> Expr {
         let expr = expr.fold_children(self);
 
         match expr {
@@ -163,5 +153,9 @@ impl<'a> Fold<Expr> for ExprInjector<'a> {
             }
             _ => expr,
         }
+    }
+
+    fn fold_function(&mut self, n: Function) -> Function {
+        n
     }
 }

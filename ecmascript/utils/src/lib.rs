@@ -1,7 +1,6 @@
 #![feature(box_patterns)]
 #![feature(box_syntax)]
 #![feature(try_trait)]
-#![feature(specialization)]
 
 pub use self::{
     factory::ExprFactory,

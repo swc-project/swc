@@ -3,7 +3,6 @@ use std::any::Any;
 use swc_atoms::JsWord;
 use swc_common::Span;
 use swc_ecma_ast::*;
-use swc_visit::define;
 
 /// Visitable nodes.
 pub trait Node: Any {}
