@@ -70,10 +70,15 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
         };
 
         let mtd = make_method(mode, item, &mut types, false);
+        let mtd = match mtd {
+            Some(v) => v,
+            None => continue,
+        };
+
         methods.push(mtd);
 
         if cfg!(feature = "optional") {
-            let mtd = make_method(mode, item, &mut types, true);
+            let mtd = make_method(mode, item, &mut types, true).unwrap();
 
             optional_methods.push(ImplItemMethod {
                 attrs: vec![],
@@ -532,7 +537,7 @@ fn make_method(
     e: &Item,
     types: &mut Vec<Type>,
     is_for_optional: bool,
-) -> TraitItemMethod {
+) -> Option<TraitItemMethod> {
     fn wrap_optional(mode: Mode, ty: &Ident) -> Block {
         let ty = Type::Path(TypePath {
             qself: None,
@@ -564,7 +569,7 @@ fn make_method(
         }
     }
 
-    match e {
+    Some(match e {
         Item::Struct(s) => {
             let type_name = &s.ident;
             if !is_for_optional {
@@ -669,7 +674,7 @@ fn make_method(
             "proper error reporting for item other than struct / enum: {:?}",
             e
         ),
-    }
+    })
 }
 
 fn prefix_method_name(mode: Mode, v: &str) -> String {
