@@ -1,7 +1,7 @@
-use crate::pass::Pass;
 use std::sync::Arc;
 use swc_common::{FileName, Fold, SourceMap, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_visit::Fold;
 
 #[cfg(test)]
 mod tests;

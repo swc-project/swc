@@ -1,6 +1,5 @@
-use crate::pass::Pass;
-use swc_common::Fold;
 use swc_ecma_ast::*;
+use swc_ecma_visit::Fold;
 
 struct OptionalCatchBinding;
 

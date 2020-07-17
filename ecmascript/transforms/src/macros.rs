@@ -1,5 +1,4 @@
-#[cfg(test)]
-use crate::pass::Pass;
+use swc_ecma_visit::Fold;
 
 macro_rules! impl_fold_fn {
     ($T:path) => {

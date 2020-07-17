@@ -1,8 +1,8 @@
 use super::util::Scope;
-use crate::pass::Pass;
 use swc_atoms::js_word;
 use swc_common::{Fold, Visit, VisitWith};
 use swc_ecma_ast::*;
+use swc_ecma_visit::Fold;
 
 pub fn import_analyzer() -> impl Fold {
     ImportAnalyzer {

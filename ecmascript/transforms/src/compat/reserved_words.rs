@@ -1,9 +1,8 @@
-use crate::pass::Pass;
 use swc_atoms::JsWord;
-use swc_common::{Fold, FoldWith};
 use swc_ecma_ast::*;
+use swc_ecma_visit::Fold;
 
-pub fn reserved_words() -> impl 'static + Pass {
+pub fn reserved_words() -> impl 'static + Fold {
     EsReservedWord {}
 }
 

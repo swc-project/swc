@@ -9,6 +9,7 @@ pub use self::{
 use serde::Deserialize;
 use swc_common::{chain, Mark};
 use swc_ecma_ast::Expr;
+use swc_ecma_visit::Fold;
 
 mod arrow;
 mod block_scoped_fn;

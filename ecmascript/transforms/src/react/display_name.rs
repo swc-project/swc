@@ -1,7 +1,7 @@
-use crate::pass::Pass;
 use swc_atoms::js_word;
 use swc_common::{Fold, FoldWith, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_visit::Fold;
 
 #[cfg(test)]
 mod tests;
