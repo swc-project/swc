@@ -1,5 +1,4 @@
 use self::side_effect::{ImportDetector, SideEffectVisitor};
-use crate::pass::RepeatedJsPass;
 use fxhash::FxHashSet;
 use std::{any::type_name, borrow::Cow};
 use swc_atoms::JsWord;

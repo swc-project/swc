@@ -1,6 +1,5 @@
 //! Ported from closure compiler.
 pub use self::{branch::dead_branch_remover, expr::expr_simplifier};
-use crate::pass::RepeatedJsPass;
 use swc_common::{chain, pass::Repeat};
 
 mod branch;

@@ -1,7 +1,4 @@
-use crate::{
-    pass::RepeatedJsPass,
-    util::{StmtLike, *},
-};
+use crate::util::{StmtLike, *};
 use std::{borrow::Cow, cmp::min, iter::once};
 use swc_atoms::js_word;
 use swc_common::{

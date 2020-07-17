@@ -1,5 +1,5 @@
 use self::scope::{Scope, ScopeKind, VarType};
-use crate::{pass::RepeatedJsPass, scope::IdentType};
+use crate::scope::IdentType;
 use std::borrow::Cow;
 use swc_common::{
     pass::{CompilerPass, Repeated},

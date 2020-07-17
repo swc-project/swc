@@ -161,7 +161,7 @@ impl<'a> Tester<'a> {
 fn make_tr<F, P>(_: &'static str, op: F, tester: &mut Tester<'_>) -> impl Fold
 where
     F: FnOnce(&mut Tester<'_>) -> P,
-    P: Pass,
+    P: Fold,
 {
     op(tester)
 }

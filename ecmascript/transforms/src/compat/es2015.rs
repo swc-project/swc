@@ -30,8 +30,7 @@ mod template_literal;
 mod typeof_symbol;
 
 fn exprs() -> impl Fold {
-    chain_at!(
-        Expr,
+    chain!(
         arrow(),
         duplicate_keys(),
         StickyRegex,

@@ -1,4 +1,4 @@
-use crate::{pass::RepeatedJsPass, util::*};
+use crate::util::*;
 use std::{borrow::Cow, iter, iter::once};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{

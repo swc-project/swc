@@ -10,8 +10,7 @@ mod reserved_word;
 
 /// Make output es3-compatible.
 pub fn es3(preserve_import: bool) -> impl Fold {
-    chain_at!(
-        Expr,
+    chain!(
         PropertyLiteral,
         MemberExprLit,
         ReservedWord { preserve_import }
