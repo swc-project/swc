@@ -25,6 +25,7 @@ use std::{
 use swc_atoms::{js_word, JsWord};
 use swc_common::{comments::Comments, errors::Handler, Mark, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
 use unicode_xid::UnicodeXID;
 
 #[macro_use]
@@ -42,35 +43,27 @@ pub struct ThisVisitor {
     found: bool,
 }
 
-impl Visit<ThisExpr> for ThisVisitor {
-    fn visit(&mut self, _: &ThisExpr) {
+impl Visit for ThisVisitor {
+    /// Don't recurse into constructor
+    fn visit_constructor(&mut self, _: &Constructor, _: &dyn Node) {}
+
+    /// Don't recurse into fn
+    fn visit_fn_decl(&mut self, _: &FnDecl, _: &dyn Node) {}
+
+    /// Don't recurse into fn
+    fn visit_fn_expr(&mut self, _: &FnExpr, _: &dyn Node) {}
+
+    /// Don't recurse into fn
+    fn visit_function(&mut self, _: &Function, _: &dyn Node) {}
+
+    fn visit_this_expr(&mut self, _: &ThisExpr, _: &dyn Node) {
         self.found = true;
     }
 }
 
-impl Visit<FnExpr> for ThisVisitor {
-    /// Don't recurse into fn
-    fn visit(&mut self, _: &FnExpr) {}
-}
-
-impl Visit<Function> for ThisVisitor {
-    /// Don't recurse into fn
-    fn visit(&mut self, _: &Function) {}
-}
-
-impl Visit<Constructor> for ThisVisitor {
-    /// Don't recurse into constructor
-    fn visit(&mut self, _: &Constructor) {}
-}
-
-impl Visit<FnDecl> for ThisVisitor {
-    /// Don't recurse into fn
-    fn visit(&mut self, _: &FnDecl) {}
-}
-
 pub fn contains_this_expr<N>(body: &N) -> bool
 where
-    ThisVisitor: Visit<N>,
+    N: VisitWith<ThisVisitor>,
 {
     let mut visitor = ThisVisitor { found: false };
     body.visit_with(&mut visitor);
@@ -95,7 +88,7 @@ pub struct IdentFinder<'a> {
 }
 
 impl Visit<Expr> for IdentFinder<'_> {
-    fn visit(&mut self, e: &Expr) {
+    fn visit_expr(&mut self, e: &Expr, _: &dyn Node) {
         e.visit_children(self);
 
         match *e {
@@ -284,8 +277,8 @@ pub struct Hoister {
     vars: Vec<Ident>,
 }
 
-impl Visit<VarDecl> for Hoister {
-    fn visit(&mut self, v: &VarDecl) {
+impl Visit for Hoister {
+    fn visit_var_decl(&mut self, v: &VarDecl, _: &dyn Node) {
         if v.kind != VarDeclKind::Var {
             return;
         }
@@ -294,14 +287,14 @@ impl Visit<VarDecl> for Hoister {
     }
 }
 
-impl Visit<AssignExpr> for Hoister {
-    fn visit(&mut self, node: &AssignExpr) {
+impl Visit for Hoister {
+    fn visit_assign_expr(&mut self, node: &AssignExpr, _: &dyn Node) {
         node.right.visit_children(self);
     }
 }
 
-impl Visit<Pat> for Hoister {
-    fn visit(&mut self, p: &Pat) {
+impl Visit for Hoister {
+    fn visit_pat(&mut self, p: &Pat, _: &dyn Node) {
         p.visit_children(self);
 
         match *p {
@@ -1092,8 +1085,8 @@ pub struct RestPatVisitor {
     found: bool,
 }
 
-impl Visit<RestPat> for RestPatVisitor {
-    fn visit(&mut self, _: &RestPat) {
+impl Visit for RestPatVisitor {
+    fn visit_rest_pat(&mut self, _: &RestPat, _: &dyn Node) {
         self.found = true;
     }
 }
@@ -1179,8 +1172,8 @@ not_lit!(OptChainExpr);
 not_lit!(SpreadElement);
 not_lit!(Invalid);
 
-impl Visit<Expr> for LiteralVisitor {
-    fn visit(&mut self, e: &Expr) {
+impl Visit for LiteralVisitor {
+    fn visit_expr(&mut self, e: &Expr) {
         if !self.is_lit {
             return;
         }
@@ -1191,10 +1184,8 @@ impl Visit<Expr> for LiteralVisitor {
             _ => e.visit_children(self),
         }
     }
-}
 
-impl Visit<Prop> for LiteralVisitor {
-    fn visit(&mut self, p: &Prop) {
+    fn visit_prop(&mut self, p: &Prop, _: &dyn Node) {
         if !self.is_lit {
             return;
         }
@@ -1208,10 +1199,8 @@ impl Visit<Prop> for LiteralVisitor {
             _ => self.is_lit = false,
         }
     }
-}
 
-impl Visit<PropName> for LiteralVisitor {
-    fn visit(&mut self, node: &PropName) {
+    fn visit_prop_name(&mut self, node: &PropName, _: &dyn Node) {
         if !self.is_lit {
             return;
         }
