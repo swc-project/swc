@@ -87,7 +87,7 @@ pub struct IdentFinder<'a> {
     found: bool,
 }
 
-impl Visit<Expr> for IdentFinder<'_> {
+impl Visit for IdentFinder<'_> {
     fn visit_expr(&mut self, e: &Expr, _: &dyn Node) {
         e.visit_children(self);
 
@@ -278,22 +278,10 @@ pub struct Hoister {
 }
 
 impl Visit for Hoister {
-    fn visit_var_decl(&mut self, v: &VarDecl, _: &dyn Node) {
-        if v.kind != VarDeclKind::Var {
-            return;
-        }
-
-        v.visit_children(self)
-    }
-}
-
-impl Visit for Hoister {
     fn visit_assign_expr(&mut self, node: &AssignExpr, _: &dyn Node) {
         node.right.visit_children(self);
     }
-}
 
-impl Visit for Hoister {
     fn visit_pat(&mut self, p: &Pat, _: &dyn Node) {
         p.visit_children(self);
 
@@ -301,6 +289,14 @@ impl Visit for Hoister {
             Pat::Ident(ref i) => self.vars.push(i.clone()),
             _ => {}
         }
+    }
+
+    fn visit_var_decl(&mut self, v: &VarDecl, _: &dyn Node) {
+        if v.kind != VarDeclKind::Var {
+            return;
+        }
+
+        v.visit_children(self)
     }
 }
 
@@ -1120,59 +1116,27 @@ pub struct LiteralVisitor {
     allow_non_json_value: bool,
 }
 
-macro_rules! not_lit {
-    ($T:ty) => {
-        impl Visit<$T> for LiteralVisitor {
-            fn visit(&mut self, _: &$T) {
+impl Visit for LiteralVisitor {
+    fn visit_array_lit(&mut self, e: &ArrayLit, _: &dyn Node) {
+        if !self.is_lit {
+            return;
+        }
+
+        self.cost += 2 + e.elems.len();
+
+        e.visit_children(self);
+
+        for elem in &e.elems {
+            if !self.allow_non_json_value && elem.is_none() {
                 self.is_lit = false;
             }
         }
-    };
-}
+    }
 
-not_lit!(ThisExpr);
-not_lit!(FnExpr);
-not_lit!(UnaryExpr);
-not_lit!(UpdateExpr);
-not_lit!(AssignExpr);
-not_lit!(MemberExpr);
-not_lit!(CondExpr);
-not_lit!(CallExpr);
-not_lit!(NewExpr);
-not_lit!(SeqExpr);
-not_lit!(TaggedTpl);
-not_lit!(ArrowExpr);
-not_lit!(ClassExpr);
-not_lit!(YieldExpr);
-not_lit!(MetaPropExpr);
-not_lit!(AwaitExpr);
+    fn visit_assign_expr(&mut self, _: &AssignExpr, _parent: &dyn Node) {
+        self.is_lit = false;
+    }
 
-// TODO:
-not_lit!(BinExpr);
-
-not_lit!(JSXMemberExpr);
-not_lit!(JSXNamespacedName);
-not_lit!(JSXEmptyExpr);
-not_lit!(JSXElement);
-not_lit!(JSXFragment);
-
-// TODO: TsTypeCastExpr,
-// TODO: TsAsExpr,
-
-// TODO: ?
-not_lit!(TsNonNullExpr);
-// TODO: ?
-not_lit!(TsTypeAssertion);
-// TODO: ?
-not_lit!(TsConstAssertion);
-
-not_lit!(PrivateName);
-not_lit!(OptChainExpr);
-
-not_lit!(SpreadElement);
-not_lit!(Invalid);
-
-impl Visit for LiteralVisitor {
     fn visit_expr(&mut self, e: &Expr, _: &dyn Node) {
         if !self.is_lit {
             return;
@@ -1182,6 +1146,20 @@ impl Visit for LiteralVisitor {
             Expr::Ident(..) | Expr::Lit(Lit::Regex(..)) => self.is_lit = false,
             Expr::Tpl(ref tpl) if !tpl.exprs.is_empty() => self.is_lit = false,
             _ => e.visit_children(self),
+        }
+    }
+
+    fn visit_fn_expr(&mut self, _: &FnExpr, _parent: &dyn Node) {
+        self.is_lit = false;
+    }
+
+    fn visit_invalid(&mut self, _: &Invalid, _parent: &dyn Node) {
+        self.is_lit = false;
+    }
+
+    fn visit_number(&mut self, node: &Number, _: &dyn Node) {
+        if !self.allow_non_json_value && node.value.is_infinite() {
+            self.is_lit = false;
         }
     }
 
@@ -1221,30 +1199,49 @@ impl Visit for LiteralVisitor {
             PropName::Computed(..) => self.is_lit = false,
         }
     }
-}
 
-impl Visit<ArrayLit> for LiteralVisitor {
-    fn visit_array_lit(&mut self, e: &ArrayLit, _: &dyn Node) {
-        if !self.is_lit {
-            return;
-        }
-
-        self.cost += 2 + e.elems.len();
-
-        e.visit_children(self);
-
-        for elem in &e.elems {
-            if !self.allow_non_json_value && elem.is_none() {
-                self.is_lit = false;
-            }
-        }
+    fn visit_spread_element(&mut self, _: &SpreadElement, _parent: &dyn Node) {
+        self.is_lit = false;
     }
 
-    fn visit_number(&mut self, node: &Number, _: &dyn Node) {
-        if !self.allow_non_json_value && node.value.is_infinite() {
-            self.is_lit = false;
-        }
+    fn visit_this_expr(&mut self, _: &ThisExpr, _parent: &dyn Node) {
+        self.is_lit = false;
     }
+
+    fn visit_unary_expr(&mut self, _: &UnaryExpr, _parent: &dyn Node) {
+        self.is_lit = false;
+    }
+
+    fn visit_update_expr(&mut self, _: &UpdateExpr, _parent: &dyn Node) {
+        self.is_lit = false;
+    }
+
+    not_lit!(MemberExpr);
+    not_lit!(CondExpr);
+    not_lit!(CallExpr);
+    not_lit!(NewExpr);
+    not_lit!(SeqExpr);
+    not_lit!(TaggedTpl);
+    not_lit!(ArrowExpr);
+    not_lit!(ClassExpr);
+    not_lit!(YieldExpr);
+    not_lit!(MetaPropExpr);
+    not_lit!(AwaitExpr);
+
+    not_lit!(BinExpr);
+
+    not_lit!(JSXMemberExpr);
+    not_lit!(JSXNamespacedName);
+    not_lit!(JSXEmptyExpr);
+    not_lit!(JSXElement);
+    not_lit!(JSXFragment);
+
+    not_lit!(TsNonNullExpr);
+    not_lit!(TsTypeAssertion);
+    not_lit!(TsConstAssertion);
+
+    not_lit!(PrivateName);
+    not_lit!(OptChainExpr);
 }
 
 /// Used to determine super_class_ident
@@ -1465,20 +1462,16 @@ where
     found
 }
 
-impl<'a, I: IdentLike> Visit<Expr> for DestructuringFinder<'a, I> {
+impl<'a, I: IdentLike> Visit for DestructuringFinder<'a, I> {
     /// No-op (we don't care about expressions)
-    fn visit(&mut self, _: &Expr) {}
-}
+    fn visit_expr(&mut self, _: &Expr, _: &dyn Node) {}
 
-impl<'a, I: IdentLike> Visit<PropName> for DestructuringFinder<'a, I> {
-    /// No-op (we don't care about expressions)
-    fn visit(&mut self, _: &PropName) {}
-}
-
-impl<'a, I: IdentLike> Visit<Ident> for DestructuringFinder<'a, I> {
-    fn visit(&mut self, i: &Ident) {
+    fn visit_ident(&mut self, i: &Ident, _: &dyn Node) {
         self.found.push(I::from_ident(i));
     }
+
+    /// No-op (we don't care about expressions)
+    fn visit_prop_name(&mut self, _: &PropName, _: &dyn Node) {}
 }
 
 pub fn is_valid_ident(s: &JsWord) -> bool {
@@ -1497,8 +1490,8 @@ where
 }
 
 pub struct DropSpan;
-impl Fold<Span> for DropSpan {
-    fn fold(&mut self, _: Span) -> Span {
+impl Fold for DropSpan {
+    fn fold_span(&mut self, _: Span) -> Span {
         DUMMY_SP
     }
 }
@@ -1509,20 +1502,18 @@ pub struct UsageFinder<'a> {
     found: bool,
 }
 
-impl<'a> Visit<MemberExpr> for UsageFinder<'a> {
-    fn visit(&mut self, e: &MemberExpr) {
+impl<'a> Visit for UsageFinder<'a> {
+    fn visit_ident(&mut self, i: &Ident, _: &dyn Node) {
+        if i.span.ctxt() == self.ident.span.ctxt() && i.sym == self.ident.sym {
+            self.found = true;
+        }
+    }
+
+    fn visit_member_expr(&mut self, e: &MemberExpr, _: &dyn Node) {
         e.obj.visit_with(self);
 
         if e.computed {
             e.prop.visit_with(self);
-        }
-    }
-}
-
-impl<'a> Visit<Ident> for UsageFinder<'a> {
-    fn visit(&mut self, i: &Ident) {
-        if i.span.ctxt() == self.ident.span.ctxt() && i.sym == self.ident.sym {
-            self.found = true;
         }
     }
 }
