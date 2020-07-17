@@ -18,8 +18,8 @@ struct JsxSrc {
 
 noop_fold_type!(JsxSrc);
 
-impl Fold<JSXOpeningElement> for JsxSrc {
-    fn fold(&mut self, mut e: JSXOpeningElement) -> JSXOpeningElement {
+impl Fold for JsxSrc {
+    fn fold_jsx_opening_element(&mut self, mut e: JSXOpeningElement) -> JSXOpeningElement {
         if !self.dev || e.span == DUMMY_SP {
             return e;
         }
