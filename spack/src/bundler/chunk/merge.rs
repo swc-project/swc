@@ -93,7 +93,10 @@ impl Bundler<'_> {
                                         info.id, info.fm.name, src.module_id, src.src.value
                                     )
                                 })?;
-                        targets.remove_item(&info.id);
+
+                        if let Some(pos) = targets.iter().position(|x| *x == info.id) {
+                            targets.remove(pos);
+                        }
 
                         if imported.is_es6 {
                             //{
