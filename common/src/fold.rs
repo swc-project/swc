@@ -4,8 +4,6 @@ use either::Either;
 use std::{borrow::Cow, sync::Arc};
 use string_cache::{Atom, StaticAtomSet};
 
-pub mod and_then;
-
 /// Folder based on a type system.
 ///
 /// This trait requires `#![feature(specialization)]`.

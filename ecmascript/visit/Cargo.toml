@@ -11,7 +11,6 @@ edition = "2018"
 
 [dependencies]
 swc_atoms = { version = "0.2", path = "../../atoms" }
-swc_common = { version = "0.7.0", path = "../../common" }
-swc_ecma_ast = { version = "0.23.0", path ="../ast" }
-swc_ecma_visit_macros = { version = "0.5.0", path ="./macros", features = ['optional'] }
+swc_ecma_ast = { version = "0.24.0", path ="../ast" }
+swc_visit = { version = "0.1", path ="../../visit", features = ['optional'] }
 num-bigint = { version = "0.2", features = ["serde"] }

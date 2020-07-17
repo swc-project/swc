@@ -37,7 +37,6 @@ pub enum Lit {
 #[derive(Eq, Hash)]
 pub struct BigInt {
     pub span: Span,
-    #[cfg_attr(feature = "fold", fold(ignore))]
     pub value: BigIntValue,
 }
 

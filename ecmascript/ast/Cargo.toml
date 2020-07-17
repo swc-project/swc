@@ -1,17 +1,12 @@
 [package]
 name = "swc_ecma_ast"
-version = "0.23.1"
+version = "0.24.0"
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 license = "Apache-2.0/MIT"
 repository = "https://github.com/swc-project/swc.git"
 documentation = "https://swc-project.github.io/rustdoc/swc_ecma_ast/"
 description = "Ecmascript ast."
 edition = "2018"
-
-[features]
-default = []
-# Requires nightly.
-fold = ["swc_common/fold"]
 
 [dependencies]
 serde = { version = "1.0.88", features = ["derive"] }

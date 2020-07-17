@@ -10,14 +10,6 @@ pub trait CompilerPass {
     fn name() -> Cow<'static, str>;
 }
 
-pub trait Repeated {
-    /// Should run again?
-    fn changed(&self) -> bool;
-
-    /// Reset.
-    fn reset(&mut self);
-}
-
 #[derive(Debug, Copy, Clone)]
 pub struct Repeat<P> {
     pass: P,

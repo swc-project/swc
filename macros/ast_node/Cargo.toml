@@ -11,11 +11,6 @@ edition = "2018"
 [lib]
 proc-macro = true
 
-[features]
-default = []
-# Requires nightly.
-fold = []
-
 [dependencies]
 swc_macros_common = { version = "0.3", path = "../common" }
 pmutil = "0.5.1"

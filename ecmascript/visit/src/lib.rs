@@ -5,19 +5,6 @@ use swc_common::Span;
 use swc_ecma_ast::*;
 use swc_ecma_visit_macros::define;
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub struct Optional<V> {
-    pub enabled: bool,
-    pub inner: V,
-}
-
-impl<V> Optional<V> {
-    #[inline(always)]
-    pub fn new(inner: V, enabled: bool) -> Self {
-        Optional { enabled, inner }
-    }
-}
-
 /// Visitable nodes.
 pub trait Node: Any {}
 
