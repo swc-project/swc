@@ -24,10 +24,7 @@ use std::{
     ops::Add,
 };
 use swc_atoms::{js_word, JsWord};
-use swc_common::{
-    comments::Comments, errors::Handler, Fold, FoldWith, Mark, Span, Spanned, Visit, VisitWith,
-    DUMMY_SP,
-};
+use swc_common::{comments::Comments, errors::Handler, Mark, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use unicode_xid::UnicodeXID;
 

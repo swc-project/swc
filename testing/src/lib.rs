@@ -1,5 +1,4 @@
 #![feature(box_syntax)]
-#![feature(specialization)]
 #![feature(test)]
 #![feature(unboxed_closures)]
 
@@ -18,7 +17,7 @@ use std::{
 };
 use swc_common::{
     errors::{Diagnostic, Handler},
-    FilePathMapping, SourceMap, Span, DUMMY_SP,
+    FilePathMapping, SourceMap,
 };
 
 #[macro_use]
@@ -158,22 +157,6 @@ impl Tester {
             Ok(res) => Ok(res),
             Err(()) => Err(errs),
         }
-    }
-}
-
-/// Remove all span from `t`.
-pub fn drop_span<T>(t: T) -> T
-where
-    T: FoldWith<DropSpan>,
-{
-    Fold::<T>::fold(&mut DropSpan, t)
-}
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub struct DropSpan;
-impl Fold<Span> for DropSpan {
-    fn fold(&mut self, span: Span) -> Span {
-        DUMMY_SP.with_ctxt(span.ctxt())
     }
 }
 

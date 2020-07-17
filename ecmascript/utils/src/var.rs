@@ -1,5 +1,5 @@
 use swc_atoms::JsWord;
-use swc_common::{SyntaxContext, Visit, VisitWith};
+use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
 
 pub struct VarCollector<'a> {
