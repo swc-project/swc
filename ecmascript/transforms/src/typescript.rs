@@ -1,7 +1,4 @@
-use crate::{
-    pass::Pass,
-    util::{prepend_stmts, var::VarCollector, ExprFactory},
-};
+use crate::util::{prepend_stmts, var::VarCollector, ExprFactory};
 use fxhash::FxHashMap;
 use swc_atoms::js_word;
 use swc_common::{
@@ -11,7 +8,7 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
 
 /// Strips type annotations out.
-pub fn strip() -> impl Pass {
+pub fn strip() -> impl Fold {
     Strip::default()
 }
 

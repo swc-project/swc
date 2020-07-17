@@ -1,10 +1,10 @@
-use crate::{pass::Pass, util::IdentExt};
+use crate::util::IdentExt;
 use swc_common::{Fold, DUMMY_SP};
 use swc_ecma_ast::*;
 
 /// `@babel/plugin-proposal-export-default-from` and
 /// `@babel/plugin-proposal-export-namespace-from`
-pub fn export() -> impl Pass {
+pub fn export() -> impl Fold {
     ExportDefaultFrom
 }
 

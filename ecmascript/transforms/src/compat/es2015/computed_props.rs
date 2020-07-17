@@ -1,7 +1,4 @@
-use crate::{
-    pass::Pass,
-    util::{ExprFactory, StmtLike},
-};
+use crate::util::{ExprFactory, StmtLike};
 use swc_common::{Fold, FoldWith, Mark, Spanned, Visit, VisitWith, DUMMY_SP};
 use swc_ecma_ast::*;
 
@@ -36,7 +33,7 @@ use swc_ecma_ast::*;
 ///
 /// TODO(kdy1): cache reference like (_f = f, mutatorMap[_f].get = function(){})
 ///     instead of (mutatorMap[f].get = function(){}
-pub fn computed_properties() -> impl Pass {
+pub fn computed_properties() -> impl Fold {
     ComputedProps
 }
 

@@ -10,7 +10,6 @@ use swc_ecma_transforms::{
         umd::{umd, Config},
         util,
     },
-    pass::Pass,
     resolver_with_mark,
 };
 
@@ -21,7 +20,7 @@ fn syntax() -> ::swc_ecma_parser::Syntax {
     Default::default()
 }
 
-fn tr(tester: &mut Tester<'_>, config: Config) -> impl Pass {
+fn tr(tester: &mut Tester<'_>, config: Config) -> impl Fold {
     let mark = Mark::fresh(Mark::root());
     chain!(
         resolver_with_mark(mark),

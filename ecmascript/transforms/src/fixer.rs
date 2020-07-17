@@ -1,7 +1,4 @@
-use crate::{
-    pass::Pass,
-    util::{ExprFactory, COMMENTS},
-};
+use crate::util::{ExprFactory, COMMENTS};
 use fxhash::FxHashMap;
 use swc_common::{
     util::{map::Map, move_map::MoveMap},
@@ -9,7 +6,7 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 
-pub fn fixer() -> impl Pass {
+pub fn fixer() -> impl Fold {
     Fixer {
         ctx: Default::default(),
         span_map: Default::default(),

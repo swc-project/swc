@@ -216,7 +216,7 @@ macro_rules! chain_at {
 
 #[cfg(test)]
 #[allow(dead_code)]
-pub(crate) fn validating(name: &'static str, tr: impl Pass + 'static) -> Box<dyn Pass> {
+pub(crate) fn validating(name: &'static str, tr: impl Fold + 'static) -> Box<dyn Pass> {
     box ::swc_common::Fold::then(tr, crate::debug::validator::Validator { name })
 }
 

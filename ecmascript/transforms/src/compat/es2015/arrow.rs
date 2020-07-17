@@ -1,7 +1,4 @@
-use crate::{
-    pass::Pass,
-    util::{contains_this_expr, ExprFactory},
-};
+use crate::util::{contains_this_expr, ExprFactory};
 use swc_common::{Fold, FoldWith, Spanned, Visit, VisitWith, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::quote_ident;
@@ -54,7 +51,7 @@ use swc_ecma_utils::quote_ident;
 /// };
 /// console.log(bob.printFriends());
 /// ```
-pub fn arrow() -> impl Pass {
+pub fn arrow() -> impl Fold {
     Arrow
 }
 

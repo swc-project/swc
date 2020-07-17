@@ -7,6 +7,6 @@ use swc_common::chain;
 mod object_rest_spread;
 mod optional_catch_binding;
 
-pub fn es2018() -> impl Pass {
+pub fn es2018() -> impl Fold {
     chain!(object_rest_spread(), optional_catch_binding())
 }

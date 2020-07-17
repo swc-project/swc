@@ -1,7 +1,6 @@
 use self::ops::{Operator, ScopeOp};
 use crate::{
     compat::es2015::classes::native::is_native,
-    pass::Pass,
     scope::{IdentType, ScopeKind},
 };
 use smallvec::{smallvec, SmallVec};
@@ -134,7 +133,7 @@ impl<'a> Hygiene<'a> {
     }
 }
 
-pub fn hygiene() -> impl Pass + 'static {
+pub fn hygiene() -> impl Fold + 'static {
     #[derive(Clone, Copy)]
     struct MarkClearer;
     impl Fold<Span> for MarkClearer {

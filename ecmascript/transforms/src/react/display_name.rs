@@ -9,7 +9,7 @@ mod tests;
 /// `@babel/plugin-transform-react-display-name`
 ///
 /// Add displayName to React.createClass calls
-pub fn display_name() -> impl Pass {
+pub fn display_name() -> impl Fold {
     DisplayName
 }
 

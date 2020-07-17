@@ -1,8 +1,5 @@
-use crate::{
-    pass::Pass,
-    util::{
-        alias_ident_for, alias_if_required, is_literal, var::VarCollector, ExprFactory, StmtLike,
-    },
+use crate::util::{
+    alias_ident_for, alias_if_required, is_literal, var::VarCollector, ExprFactory, StmtLike,
 };
 use std::{iter, mem};
 use swc_common::{
@@ -11,7 +8,7 @@ use swc_common::{
 use swc_ecma_ast::*;
 
 /// `@babel/plugin-proposal-object-rest-spread`
-pub fn object_rest_spread() -> impl Pass {
+pub fn object_rest_spread() -> impl Fold {
     chain!(ObjectRest, ObjectSpread)
 }
 

@@ -13,7 +13,7 @@ fn syntax() -> Syntax {
     ::swc_ecma_parser::Syntax::default()
 }
 
-fn tr(_: ()) -> impl Pass {
+fn tr(_: ()) -> impl Fold {
     computed_properties()
 }
 

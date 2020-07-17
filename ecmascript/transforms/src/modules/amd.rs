@@ -2,10 +2,7 @@ use super::util::{
     self, define_es_module, define_property, has_use_strict, initialize_to_undefined,
     local_name_for_src, make_descriptor, use_strict, Exports, ModulePass, Scope,
 };
-use crate::{
-    pass::Pass,
-    util::{prepend_stmts, var::VarCollector, DestructuringFinder, ExprFactory},
-};
+use crate::util::{prepend_stmts, var::VarCollector, DestructuringFinder, ExprFactory};
 use fxhash::FxHashSet;
 use serde::{Deserialize, Serialize};
 use std::iter;
@@ -13,7 +10,7 @@ use swc_atoms::js_word;
 use swc_common::{Fold, FoldWith, Mark, VisitWith, DUMMY_SP};
 use swc_ecma_ast::*;
 
-pub fn amd(config: Config) -> impl Pass {
+pub fn amd(config: Config) -> impl Fold {
     Amd {
         config,
         in_top_level: Default::default(),

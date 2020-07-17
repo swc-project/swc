@@ -9,7 +9,7 @@ mod prop_lits;
 mod reserved_word;
 
 /// Make output es3-compatible.
-pub fn es3(preserve_import: bool) -> impl Pass {
+pub fn es3(preserve_import: bool) -> impl Fold {
     chain_at!(
         Expr,
         PropertyLiteral,

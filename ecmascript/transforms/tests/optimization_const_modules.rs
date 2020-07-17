@@ -10,7 +10,7 @@ use swc_ecma_transforms::{const_modules, pass::Pass};
 #[macro_use]
 mod common;
 
-fn tr(_: &mut Tester<'_>, sources: &[(&str, &[(&str, &str)])]) -> impl Pass {
+fn tr(_: &mut Tester<'_>, sources: &[(&str, &[(&str, &str)])]) -> impl Fold {
     let mut m = HashMap::default();
 
     for (src, values) in sources {

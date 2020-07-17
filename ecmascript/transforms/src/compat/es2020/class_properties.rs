@@ -6,7 +6,6 @@ use self::{
 };
 use crate::{
     compat::es2015::classes::SuperFieldAccessFolder,
-    pass::Pass,
     util::{
         alias_ident_for, alias_if_required, constructor::inject_after_super, default_constructor,
         undefined, ExprFactory, ModuleItemLike, StmtLike,
@@ -29,7 +28,7 @@ mod used_name;
 /// # Impl note
 ///
 /// We use custom helper to handle export defaul class
-pub fn class_properties() -> impl Pass {
+pub fn class_properties() -> impl Fold {
     ClassProperties { mark: Mark::root() }
 }
 

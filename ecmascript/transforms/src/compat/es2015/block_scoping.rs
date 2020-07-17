@@ -1,4 +1,4 @@
-use crate::{pass::Pass, util::undefined};
+use crate::util::undefined;
 use smallvec::SmallVec;
 use std::mem::replace;
 use swc_common::{util::map::Map, Fold, FoldWith, Spanned, Visit, VisitWith, DUMMY_SP};
@@ -20,7 +20,7 @@ use swc_ecma_utils::{
 /// 	});
 /// }
 /// ```
-pub fn block_scoping() -> impl Pass {
+pub fn block_scoping() -> impl Fold {
     BlockScoping {
         scope: Default::default(),
         vars: vec![],

@@ -1,8 +1,5 @@
 use self::{case::CaseHandler, hoist::hoist};
-use crate::{
-    pass::Pass,
-    util::{contains_this_expr, prepend, ExprFactory, StmtLike},
-};
+use crate::util::{contains_this_expr, prepend, ExprFactory, StmtLike};
 use std::mem::replace;
 use swc_atoms::js_word;
 use swc_common::{Fold, FoldWith, Mark, Spanned, Visit, VisitWith, DUMMY_SP};
@@ -12,7 +9,7 @@ mod case;
 mod hoist;
 mod leap;
 
-pub fn regenerator(global_mark: Mark) -> impl Pass {
+pub fn regenerator(global_mark: Mark) -> impl Fold {
     Regenerator {
         global_mark,
         regenerator_runtime: Default::default(),

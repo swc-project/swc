@@ -7,7 +7,6 @@ use swc_common::{chain, Mark};
 use swc_ecma_transforms::{
     compat::es2015::{block_scoping, spread, spread::Config},
     modules::common_js::common_js,
-    pass::Pass,
 };
 
 #[macro_use]
@@ -17,7 +16,7 @@ fn syntax() -> ::swc_ecma_parser::Syntax {
     Default::default()
 }
 
-fn tr() -> impl Pass {
+fn tr() -> impl Fold {
     chain!(
         swc_ecma_transforms::compat::es2015::parameters(),
         spread(Config {

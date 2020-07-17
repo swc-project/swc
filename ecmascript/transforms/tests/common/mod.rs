@@ -13,13 +13,10 @@ use swc_common::{comments::Comments, errors::Handler, FileName, Fold, FoldWith, 
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{lexer::Lexer, Parser, Session, SourceFileInput, Syntax};
-use swc_ecma_transforms::{
-    helpers::{InjectHelpers, HELPERS},
-    pass::Pass,
-};
+use swc_ecma_transforms::helpers::{InjectHelpers, HELPERS};
 use tempfile::tempdir_in;
 
-pub fn validating(name: &'static str, tr: impl Pass + 'static) -> Box<dyn Pass> {
+pub fn validating(name: &'static str, tr: impl Fold + 'static) -> Box<dyn Pass> {
     box ::swc_common::Fold::then(
         tr,
         swc_ecma_transforms::debug::validator::Validator { name },
@@ -171,7 +168,7 @@ impl<'a> Tester<'a> {
     }
 }
 
-fn make_tr<F, P>(_: &'static str, op: F, tester: &mut Tester<'_>) -> impl Pass
+fn make_tr<F, P>(_: &'static str, op: F, tester: &mut Tester<'_>) -> impl Fold
 where
     F: FnOnce(&mut Tester<'_>) -> P,
     P: Pass,

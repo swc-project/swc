@@ -1,7 +1,4 @@
-use crate::{
-    pass::Pass,
-    util::{alias_if_required, undefined, StmtLike},
-};
+use crate::util::{alias_if_required, undefined, StmtLike};
 use std::mem::replace;
 use swc_common::{Fold, FoldWith, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -9,7 +6,7 @@ use swc_ecma_ast::*;
 #[cfg(test)]
 mod tests;
 
-pub fn nullish_coalescing() -> impl Pass + 'static {
+pub fn nullish_coalescing() -> impl Fold + 'static {
     NullishCoalescing::default()
 }
 

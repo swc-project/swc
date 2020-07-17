@@ -1,4 +1,4 @@
-use crate::{pass::Pass, util::UsageFinder};
+use crate::util::UsageFinder;
 use swc_common::{Fold, FoldWith};
 use swc_ecma_ast::*;
 
@@ -19,7 +19,7 @@ use swc_ecma_ast::*;
 /// }
 /// var Foo = (class Foo {});
 /// ```
-pub fn function_name() -> impl Pass {
+pub fn function_name() -> impl Fold {
     FnName
 }
 

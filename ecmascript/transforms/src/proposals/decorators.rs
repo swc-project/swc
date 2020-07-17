@@ -1,10 +1,7 @@
 use self::legacy::Legacy;
-use crate::{
-    pass::Pass,
-    util::{
-        alias_ident_for, constructor::inject_after_super, prop_name_to_expr_value, undefined,
-        ExprFactory, IdentExt,
-    },
+use crate::util::{
+    alias_ident_for, constructor::inject_after_super, prop_name_to_expr_value, undefined,
+    ExprFactory, IdentExt,
 };
 use either::Either;
 use serde::Deserialize;
@@ -55,7 +52,7 @@ mod usage;
 ///   }
 /// }
 /// ```
-pub fn decorators(c: Config) -> impl Pass {
+pub fn decorators(c: Config) -> impl Fold {
     if c.legacy {
         Either::Left(Legacy::default())
     } else {

@@ -7,7 +7,7 @@ use swc_ecma_ast::*;
 mod tests;
 
 /// `@babel/plugin-transform-react-jsx-source`
-pub fn jsx_src(dev: bool, cm: Arc<SourceMap>) -> impl Pass {
+pub fn jsx_src(dev: bool, cm: Arc<SourceMap>) -> impl Fold {
     JsxSrc { cm, dev }
 }
 

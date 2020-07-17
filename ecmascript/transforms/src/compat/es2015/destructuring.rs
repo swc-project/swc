@@ -1,9 +1,6 @@
-use crate::{
-    pass::Pass,
-    util::{
-        alias_ident_for, alias_if_required, has_rest_pat, is_literal, prop_name_to_expr, undefined,
-        ExprFactory, StmtLike,
-    },
+use crate::util::{
+    alias_ident_for, alias_if_required, has_rest_pat, is_literal, prop_name_to_expr, undefined,
+    ExprFactory, StmtLike,
 };
 use serde::Deserialize;
 use std::iter;
@@ -31,7 +28,7 @@ use swc_ecma_ast::*;
 ///     b = _arr2[1],
 ///     rest = _arr2.slice(2);
 /// ```
-pub fn destructuring(c: Config) -> impl Pass {
+pub fn destructuring(c: Config) -> impl Fold {
     Destructuring { c }
 }
 

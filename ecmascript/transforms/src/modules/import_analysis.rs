@@ -4,7 +4,7 @@ use swc_atoms::js_word;
 use swc_common::{Fold, Visit, VisitWith};
 use swc_ecma_ast::*;
 
-pub fn import_analyzer() -> impl Pass {
+pub fn import_analyzer() -> impl Fold {
     ImportAnalyzer {
         scope: Default::default(),
     }

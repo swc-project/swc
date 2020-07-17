@@ -1,14 +1,11 @@
-use crate::{
-    pass::Pass,
-    util::{alias_ident_for, is_literal, prepend, undefined, ExprFactory, StmtLike},
-};
+use crate::util::{alias_ident_for, is_literal, prepend, undefined, ExprFactory, StmtLike};
 use serde::Deserialize;
 use std::mem;
 use swc_atoms::js_word;
 use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 
-pub fn spread(c: Config) -> impl Pass {
+pub fn spread(c: Config) -> impl Fold {
     Spread { c }
 }
 

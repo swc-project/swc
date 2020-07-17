@@ -11,7 +11,6 @@ use swc_ecma_transforms::{
         es2017::async_to_generator,
     },
     modules::common_js::common_js,
-    pass::Pass,
     resolver,
 };
 
@@ -22,7 +21,7 @@ fn syntax() -> Syntax {
     Default::default()
 }
 
-fn tr() -> impl Pass {
+fn tr() -> impl Fold {
     chain!(
         resolver(),
         parameters(),

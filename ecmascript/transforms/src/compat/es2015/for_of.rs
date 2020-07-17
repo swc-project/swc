@@ -1,7 +1,4 @@
-use crate::{
-    pass::Pass,
-    util::{alias_if_required, prepend, ExprFactory, StmtLike},
-};
+use crate::util::{alias_if_required, prepend, ExprFactory, StmtLike};
 use serde::Deserialize;
 use swc_atoms::js_word;
 use swc_common::{Fold, FoldWith, Mark, Spanned, Visit, VisitWith, DUMMY_SP};
@@ -41,7 +38,7 @@ use swc_ecma_ast::*;
 ///   }
 /// }
 /// ```
-pub fn for_of(c: Config) -> impl Pass {
+pub fn for_of(c: Config) -> impl Fold {
     ForOf { c }
 }
 

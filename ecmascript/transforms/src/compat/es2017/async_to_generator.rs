@@ -1,6 +1,5 @@
 use crate::{
     compat::es2015::arrow,
-    pass::Pass,
     util::{contains_ident_ref, contains_this_expr, ExprFactory, StmtLike},
 };
 use std::iter;
@@ -27,7 +26,7 @@ use swc_ecma_ast::*;
 ///   yield bar();
 /// });
 /// ```
-pub fn async_to_generator() -> impl Pass {
+pub fn async_to_generator() -> impl Fold {
     AsyncToGenerator
 }
 

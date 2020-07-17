@@ -1,9 +1,6 @@
-use crate::{
-    pass::Pass,
-    util::{
-        drop_span,
-        options::{CM, SESSION},
-    },
+use crate::util::{
+    drop_span,
+    options::{CM, SESSION},
 };
 use dashmap::DashMap;
 use once_cell::sync::Lazy;
@@ -13,7 +10,7 @@ use swc_common::{util::move_map::MoveMap, FileName, Fold, FoldWith};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, Parser, SourceFileInput};
 
-pub fn const_modules(globals: HashMap<JsWord, HashMap<JsWord, String>>) -> impl Pass {
+pub fn const_modules(globals: HashMap<JsWord, HashMap<JsWord, String>>) -> impl Fold {
     ConstModules {
         globals: globals
             .into_iter()

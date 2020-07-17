@@ -1,10 +1,7 @@
-use crate::{
-    pass::Pass,
-    util::{
-        drop_span,
-        options::{CM, SESSION},
-        ExprFactory, HANDLER,
-    },
+use crate::util::{
+    drop_span,
+    options::{CM, SESSION},
+    ExprFactory, HANDLER,
 };
 use dashmap::DashMap;
 use once_cell::sync::Lazy;
@@ -95,7 +92,7 @@ fn parse_option(name: &str, src: String) -> Box<Expr> {
 /// `@babel/plugin-transform-react-jsx`
 ///
 /// Turn JSX into React function calls
-pub fn jsx(options: Options) -> impl Pass {
+pub fn jsx(options: Options) -> impl Fold {
     Jsx {
         pragma: ExprOrSuper::Expr(parse_option("pragma", options.pragma)),
         pragma_frag: ExprOrSpread {

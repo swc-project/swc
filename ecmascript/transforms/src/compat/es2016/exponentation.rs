@@ -1,7 +1,4 @@
-use crate::{
-    pass::Pass,
-    util::{ExprFactory, StmtLike},
-};
+use crate::util::{ExprFactory, StmtLike};
 use swc_common::{Fold, FoldWith, Span, Spanned, Visit, VisitWith, DUMMY_SP};
 use swc_ecma_ast::*;
 
@@ -24,7 +21,7 @@ use swc_ecma_ast::*;
 ///
 /// x = Math.pow(x, 3);
 /// ```
-pub fn exponentation() -> impl Pass {
+pub fn exponentation() -> impl Fold {
     Exponentation
 }
 #[derive(Clone, Copy)]

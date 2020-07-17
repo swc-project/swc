@@ -15,7 +15,6 @@ use swc_ecma_transforms::{
         },
         es2018::object_rest_spread,
     },
-    pass::Pass,
     resolver,
 };
 
@@ -26,7 +25,7 @@ fn syntax() -> Syntax {
     Default::default()
 }
 
-fn tr() -> impl Pass {
+fn tr() -> impl Fold {
     destructuring(Config { loose: true })
 }
 

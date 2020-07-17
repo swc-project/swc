@@ -6,7 +6,7 @@ struct OptionalCatchBinding;
 
 noop_fold_type!(OptionalCatchBinding);
 
-pub fn optional_catch_binding() -> impl Pass {
+pub fn optional_catch_binding() -> impl Fold {
     OptionalCatchBinding
 }
 
