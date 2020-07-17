@@ -230,12 +230,13 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
         tokens.push_tokens(&item);
     }
 
-    // TODO: Add VisitWith
-    if mode == Mode::Folder {
+    {
+        // Add FoldWith, VisitWith
+
         let trait_decl = match mode {
             Mode::Visitor => q!({
                 pub trait VisitWith<V> {
-                    fn visit_with(&self, parent: &dyn Node, v: &mut V);
+                    fn visit_with(&self, _parent: &dyn Node, v: &mut V);
                 }
             })
             .parse::<ItemTrait>(),
@@ -272,17 +273,19 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             }
             names.insert(s);
 
+            let expr = visit_expr(mode, ty, &q!({ v }).parse(), q!({ self }).parse());
+
             match mode {
                 Mode::Visitor => {
                     tokens.push_tokens(&q!(
                         Vars {
-                            method_name,
                             Type: node_type,
+                            expr,
                         },
                         {
                             impl<V: Visit> VisitWith<V> for Type {
-                                fn visit_with(&self, parent: &dyn Node, v: &mut V) {
-                                    v.method_name(self, parent)
+                                fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
+                                    expr
                                 }
                             }
                         }
@@ -291,13 +294,13 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 Mode::Folder => {
                     tokens.push_tokens(&q!(
                         Vars {
-                            method_name,
                             Type: node_type,
+                            expr,
                         },
                         {
                             impl<V: Fold> FoldWith<V> for Type {
                                 fn fold_with(self, v: &mut V) -> Self {
-                                    v.method_name(self)
+                                    expr
                                 }
                             }
                         }
@@ -363,7 +366,7 @@ fn visit_expr(mode: Mode, ty: &Type, visitor: &Expr, mut expr: Expr) -> Expr {
                 expr,
                 visit_name
             },
-            { visitor.visit_name(expr, n as _) }
+            { visitor.visit_name(expr, _parent as _) }
         )
         .parse(),
     };
