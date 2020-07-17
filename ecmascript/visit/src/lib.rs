@@ -11,6 +11,13 @@ pub struct Optional<V> {
     pub inner: V,
 }
 
+impl<V> Optional<V> {
+    #[inline(always)]
+    pub fn new(inner: V, enabled: bool) -> Self {
+        Optional { enabled, inner }
+    }
+}
+
 /// Visitable nodes.
 pub trait Node: Any {}
 
