@@ -384,26 +384,18 @@ fn make_arm_from_struct(mode: Mode, path: &Path, variant: &Fields) -> Arm {
             .unwrap_or_else(|| Ident::new(&format!("_{}", i), call_site()));
 
         if !skip(ty) {
-            let expr: Expr = match mode {
-                Mode::Folder => q!(
-                    Vars {
-                        binding_ident: &binding_ident
-                    },
-                    { binding_ident }
-                )
-                .parse(),
-                Mode::Visitor => q!(
-                    Vars {
-                        binding_ident: &binding_ident
-                    },
-                    { &*binding_ident }
-                )
-                .parse(),
-            };
+            let expr = q!(
+                Vars {
+                    binding_ident: &binding_ident
+                },
+                { binding_ident }
+            )
+            .parse();
 
             let expr = visit_expr(mode, ty, &q!({ _visitor }).parse(), expr);
-            stmts.push(
-                q!(
+            stmts.push(match mode {
+                Mode::Visitor => Stmt::Semi(expr, call_site()),
+                Mode::Folder => q!(
                     Vars {
                         name: &binding_ident,
                         expr
@@ -412,8 +404,8 @@ fn make_arm_from_struct(mode: Mode, path: &Path, variant: &Fields) -> Arm {
                         let name = expr;
                     }
                 )
-                .parse::<Stmt>(),
-            );
+                .parse(),
+            });
         }
 
         if field.ident.is_some() {
