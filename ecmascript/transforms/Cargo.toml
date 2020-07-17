@@ -14,7 +14,7 @@ swc_common = { version = "0.6.0", path ="../../common" }
 swc_ecma_ast = { version = "0.23.0", path ="../ast" }
 swc_ecma_utils = { version = "0.11.0", path ="../utils" }
 swc_ecma_parser = { version = "0.27.0", path ="../parser" }
-swc_ecma_visit = { version = "0.8.0", path ="../visit" }
+swc_ecma_visit = { version = "0.9.0", path ="../visit" }
 dashmap = "=3.5.1"
 either = "1.5"
 fxhash = "0.2"
