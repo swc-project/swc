@@ -17,8 +17,8 @@ struct DisplayName;
 
 noop_fold_type!(DisplayName);
 
-impl Fold<VarDeclarator> for DisplayName {
-    fn fold(&mut self, decl: VarDeclarator) -> VarDeclarator {
+impl Fold for DisplayName {
+    fn fold_var_declarator(&mut self, decl: VarDeclarator) -> VarDeclarator {
         match decl.name {
             Pat::Ident(ref ident) => {
                 let init = decl.init.fold_with(&mut Folder {

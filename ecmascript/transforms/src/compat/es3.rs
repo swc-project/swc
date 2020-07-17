@@ -1,7 +1,7 @@
 pub use self::{
     member_expr_lits::MemberExprLit, prop_lits::PropertyLiteral, reserved_word::ReservedWord,
 };
-use swc_ecma_ast::Expr;
+use swc_common::chain;
 use swc_ecma_visit::Fold;
 
 mod member_expr_lits;
