@@ -578,6 +578,10 @@ fn make_method(
                     path: type_name.clone().into(),
                 }));
                 for f in &s.fields {
+                    if skip(&f.ty) {
+                        continue;
+                    }
+
                     types.push(f.ty.clone());
                 }
             }
@@ -628,6 +632,9 @@ fn make_method(
 
                 for variant in &e.variants {
                     for f in &variant.fields {
+                        if skip(&f.ty) {
+                            continue;
+                        }
                         types.push(f.ty.clone());
                     }
 
