@@ -7,8 +7,6 @@ use crate::{
     typescript::{TsEnumDecl, TsInterfaceDecl, TsModuleDecl, TsTypeAliasDecl},
 };
 use string_enum::StringEnum;
-#[cfg(feature = "fold")]
-use swc_common::Fold;
 use swc_common::{ast_node, Span};
 
 #[ast_node]

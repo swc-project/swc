@@ -1,4 +1,3 @@
-use serde::export::PhantomData;
 use std::borrow::Cow;
 pub use swc_visit::*;
 

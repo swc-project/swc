@@ -124,7 +124,7 @@ pub enum Token {
     Num(f64),
 
     #[kind(starts_expr)]
-    BigInt(#[cfg_attr(feature = "fold", fold(ignore))] BigIntValue),
+    BigInt(BigIntValue),
 
     JSXName {
         name: JsWord,

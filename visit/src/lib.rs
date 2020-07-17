@@ -2,7 +2,7 @@ pub use swc_visit_macros::define;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct Optional<V> {
-    pub enable: bool,
+    pub enabled: bool,
     pub visitor: V,
 }
 

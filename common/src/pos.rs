@@ -1,5 +1,3 @@
-#[cfg(feature = "fold")]
-use crate::fold::{FoldWith, VisitMutWith, VisitWith};
 pub use crate::syntax_pos::{
     hygiene, BytePos, CharPos, FileName, Globals, Loc, LocWithOpt, Mark, MultiSpan, SourceFile,
     SourceFileAndBytePos, SourceFileAndLine, Span, SpanData, SpanLinesError, SyntaxContext,
@@ -90,24 +88,4 @@ where
             ::either::Either::Right(ref n) => n.span(),
         }
     }
-}
-
-/// No op as span does not have any child.
-#[cfg(feature = "fold")]
-impl<F> FoldWith<F> for Span {
-    fn fold_children(self, _: &mut F) -> Span {
-        self
-    }
-}
-
-/// No op as span does not have any child.
-#[cfg(feature = "fold")]
-impl<F> VisitMutWith<F> for Span {
-    fn visit_mut_children(&mut self, _: &mut F) {}
-}
-
-/// No op as span does not have any child.
-#[cfg(feature = "fold")]
-impl<F> VisitWith<F> for Span {
-    fn visit_children(&self, _: &mut F) {}
 }

@@ -16,8 +16,6 @@ use crate::{
     Invalid,
 };
 use serde::{self, Deserialize, Serialize};
-#[cfg(feature = "fold")]
-use swc_common::Fold;
 use swc_common::{ast_node, Span, Spanned, DUMMY_SP};
 
 #[ast_node]

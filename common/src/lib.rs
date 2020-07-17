@@ -1,7 +1,3 @@
-#![cfg_attr(feature = "fold", feature(specialization))]
-
-#[cfg(feature = "fold")]
-pub use self::fold::{Fold, FoldWith, Visit, VisitMut, VisitMutWith, VisitWith};
 pub use self::{
     errors::{SourceMapper, SourceMapperDyn},
     pos::{
@@ -24,8 +20,6 @@ pub trait AstNode: Debug + PartialEq + Clone + Spanned + Serialize {
 
 pub mod comments;
 pub mod errors;
-#[cfg(feature = "fold")]
-pub mod fold;
 pub mod input;
 pub mod iter;
 pub mod macros;

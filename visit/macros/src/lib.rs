@@ -219,7 +219,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 Trait: Ident::new(mode.trait_name(), call_site()),
             },
             {
-                impl<V> Trait for Optional<V> where V: Trait {}
+                impl<V> Trait for ::swc_visit::Optional<V> where V: Trait {}
             }
         )
         .parse::<ItemImpl>();
@@ -545,7 +545,7 @@ fn make_method(
                 Vars { visit: &ident },
                 ({
                     if self.enabled {
-                        self.inner.visit(n, _parent)
+                        self.visitor.visit(n, _parent)
                     }
                 })
             )
@@ -554,7 +554,7 @@ fn make_method(
                 Vars { fold: &ident },
                 ({
                     if self.enabled {
-                        self.inner.fold(n)
+                        self.visitor.fold(n)
                     } else {
                         n
                     }
