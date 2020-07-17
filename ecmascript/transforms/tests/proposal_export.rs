@@ -1,7 +1,6 @@
 #![feature(box_syntax)]
 #![feature(test)]
 #![feature(box_patterns)]
-#![feature(specialization)]
 
 use swc_common::Fold;
 use swc_ecma_ast::*;

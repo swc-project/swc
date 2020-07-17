@@ -3,7 +3,6 @@
 #![feature(box_syntax)]
 #![feature(test)]
 #![feature(box_patterns)]
-#![feature(specialization)]
 
 use swc_common::chain;
 use swc_ecma_transforms::{optimization::simplify::inlining::inlining, resolver};

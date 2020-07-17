@@ -18,7 +18,7 @@ use std::{
 };
 use swc_common::{
     errors::{Diagnostic, Handler},
-    FilePathMapping, Fold, FoldWith, SourceMap, Span, DUMMY_SP,
+    FilePathMapping, SourceMap, Span, DUMMY_SP,
 };
 
 #[macro_use]

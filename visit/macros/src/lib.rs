@@ -58,7 +58,6 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
 }
 
 fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
-    // Required to generate specialization code.
     let mut types = vec![];
     let mut methods = vec![];
     let mut optional_methods = vec![];

@@ -1,5 +1,4 @@
 #![feature(test)]
-#![feature(specialization)]
 
 extern crate test;
 

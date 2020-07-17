@@ -1,7 +1,6 @@
 #![feature(box_syntax)]
 #![feature(test)]
 #![feature(box_patterns)]
-#![feature(specialization)]
 
 use swc_common::{chain, fold::FoldWith, Fold, Mark, Spanned};
 use swc_ecma_ast::*;
