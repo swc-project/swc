@@ -324,7 +324,6 @@ pub struct TsKeywordType {
 }
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash, Serialize, Deserialize)]
-#[cfg_attr(feature = "fold", derive(Fold))]
 pub enum TsKeywordTypeKind {
     #[serde(rename = "any")]
     TsAnyKeyword,
@@ -571,7 +570,6 @@ pub struct TsTypeOperator {
 }
 
 #[derive(StringEnum, Clone, Copy, PartialEq, Eq, Hash)]
-#[cfg_attr(feature = "fold", derive(Fold))]
 pub enum TsTypeOperatorOp {
     /// `keyof`
     KeyOf,
@@ -592,7 +590,6 @@ pub struct TsIndexedAccessType {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
-#[cfg_attr(feature = "fold", derive(Fold))]
 pub enum TruePlusMinus {
     True,
     Plus,
@@ -898,7 +895,6 @@ pub struct TsNonNullExpr {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize, Eq, Hash)]
-#[cfg_attr(feature = "fold", derive(Fold))]
 pub enum Accessibility {
     #[serde(rename = "public")]
     Public,

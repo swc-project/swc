@@ -122,7 +122,6 @@ macro_rules! method {
 
             pub function: Function,
 
-            #[cfg_attr(feature = "fold", fold(ignore))]
             pub kind: MethodKind,
 
             #[serde(default)]
@@ -174,7 +173,6 @@ pub struct Decorator {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
-#[cfg_attr(feature = "fold", derive(Fold))]
 pub enum MethodKind {
     #[serde(rename = "method")]
     Method,

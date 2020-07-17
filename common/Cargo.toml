@@ -9,7 +9,7 @@ description = "Common utilities for the swc project."
 edition = "2018"
 
 [dependencies]
-ast_node = { version = "0.6", path = "../macros/ast_node" }
+ast_node = { version = "0.7", path = "../macros/ast_node" }
 from_variant = { version = "0.1", path = "../macros/from_variant" }
 swc_visit = { version = "0.1", path = "../visit" }
 string_cache = "0.8"

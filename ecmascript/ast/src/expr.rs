@@ -458,7 +458,6 @@ pub struct Super {
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize, Eq, Hash)]
-#[cfg_attr(feature = "fold", derive(Fold))]
 pub struct ExprOrSpread {
     #[serde(default)]
     pub spread: Option<Span>,

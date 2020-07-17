@@ -71,7 +71,6 @@ pub struct VarDecl {
 }
 
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash)]
-#[cfg_attr(feature = "fold", derive(Fold))]
 pub enum VarDeclKind {
     /// `var`
     Var,
