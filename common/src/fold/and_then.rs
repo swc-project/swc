@@ -1,6 +1,6 @@
 use super::{Fold, FoldWith, Visit, VisitWith};
 use crate::{
-    pass::{CompilerPass, Repeated, RepeatedPass},
+    pass::{CompilerPass, Repeated},
     util::move_map::MoveMap,
 };
 use std::borrow::Cow;

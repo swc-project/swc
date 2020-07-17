@@ -10,7 +10,7 @@ pub trait CompilerPass {
     fn name() -> Cow<'static, str>;
 }
 
-pub trait Repeated: CompilerPass {
+pub trait Repeated {
     /// Should run again?
     fn changed(&self) -> bool;
 
@@ -18,28 +18,14 @@ pub trait Repeated: CompilerPass {
     fn reset(&mut self);
 }
 
-pub trait RepeatedPass<At>: Repeated + CompilerPass {}
-
-impl<T, P> RepeatedPass<T> for P where P: CompilerPass + Repeated {}
-
 #[derive(Debug, Copy, Clone)]
-pub struct Repeat<P, At>
-where
-    P: RepeatedPass<At>,
-{
+pub struct Repeat<P> {
     pass: P,
-    at: PhantomData<At>,
 }
 
-impl<P, At> Repeat<P, At>
-where
-    P: RepeatedPass<At>,
-{
+impl<P> Repeat<P> {
     pub fn new(pass: P) -> Self {
-        Self {
-            pass,
-            at: PhantomData,
-        }
+        Self { pass }
     }
 }
 
