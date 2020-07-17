@@ -18,45 +18,7 @@ struct DisplayName;
 noop_fold_type!(DisplayName);
 
 impl Fold for DisplayName {
-    fn fold_var_declarator(&mut self, decl: VarDeclarator) -> VarDeclarator {
-        match decl.name {
-            Pat::Ident(ref ident) => {
-                let init = decl.init.fold_with(&mut Folder {
-                    name: Some(box Expr::Lit(Lit::Str(Str {
-                        span: ident.span,
-                        value: ident.sym.clone(),
-                        has_escape: false,
-                    }))),
-                });
-
-                VarDeclarator { init, ..decl }
-            }
-            _ => decl,
-        }
-    }
-}
-
-impl Fold<ModuleDecl> for DisplayName {
-    fn fold(&mut self, decl: ModuleDecl) -> ModuleDecl {
-        let decl = decl.fold_children(self);
-
-        match decl {
-            ModuleDecl::ExportDefaultExpr(e) => {
-                ModuleDecl::ExportDefaultExpr(e.fold_with(&mut Folder {
-                    name: Some(box Expr::Lit(Lit::Str(Str {
-                        span: DUMMY_SP,
-                        value: "input".into(),
-                        has_escape: false,
-                    }))),
-                }))
-            }
-            _ => decl,
-        }
-    }
-}
-
-impl Fold<AssignExpr> for DisplayName {
-    fn fold(&mut self, expr: AssignExpr) -> AssignExpr {
+    fn fold_assign_expr(&mut self, expr: AssignExpr) -> AssignExpr {
         let expr = expr.fold_children(self);
 
         if expr.op != op!("=") {
@@ -99,10 +61,25 @@ impl Fold<AssignExpr> for DisplayName {
             _ => expr,
         }
     }
-}
 
-impl Fold<Prop> for DisplayName {
-    fn fold(&mut self, prop: Prop) -> Prop {
+    fn fold_module_decl(&mut self, decl: ModuleDecl) -> ModuleDecl {
+        let decl = decl.fold_children(self);
+
+        match decl {
+            ModuleDecl::ExportDefaultExpr(e) => {
+                ModuleDecl::ExportDefaultExpr(e.fold_with(&mut Folder {
+                    name: Some(box Expr::Lit(Lit::Str(Str {
+                        span: DUMMY_SP,
+                        value: "input".into(),
+                        has_escape: false,
+                    }))),
+                }))
+            }
+            _ => decl,
+        }
+    }
+
+    fn fold_prop(&mut self, prop: Prop) -> Prop {
         let prop = prop.fold_children(self);
 
         match prop {
@@ -125,27 +102,35 @@ impl Fold<Prop> for DisplayName {
             _ => prop,
         }
     }
+    fn fold_var_declarator(&mut self, decl: VarDeclarator) -> VarDeclarator {
+        match decl.name {
+            Pat::Ident(ref ident) => {
+                let init = decl.init.fold_with(&mut Folder {
+                    name: Some(box Expr::Lit(Lit::Str(Str {
+                        span: ident.span,
+                        value: ident.sym.clone(),
+                        has_escape: false,
+                    }))),
+                });
+
+                VarDeclarator { init, ..decl }
+            }
+            _ => decl,
+        }
+    }
 }
 
 struct Folder {
     name: Option<Box<Expr>>,
 }
 
-impl Fold<ObjectLit> for Folder {
-    /// Don't recurse into object.
-    fn fold(&mut self, node: ObjectLit) -> ObjectLit {
-        node
-    }
-}
-impl Fold<ArrayLit> for Folder {
+impl Fold for Folder {
     /// Don't recurse into array.
-    fn fold(&mut self, node: ArrayLit) -> ArrayLit {
+    fn fold_array_lit(&mut self, node: ArrayLit) -> ArrayLit {
         node
     }
-}
 
-impl Fold<CallExpr> for Folder {
-    fn fold(&mut self, expr: CallExpr) -> CallExpr {
+    fn fold_call_expr(&mut self, expr: CallExpr) -> CallExpr {
         let expr = expr.fold_children(self);
 
         if is_create_class_call(&expr) {
@@ -157,6 +142,10 @@ impl Fold<CallExpr> for Folder {
         } else {
             expr
         }
+    }
+    /// Don't recurse into object.
+    fn fold_object_lit(&mut self, node: ObjectLit) -> ObjectLit {
+        node
     }
 }
 
