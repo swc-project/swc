@@ -1,8 +1,8 @@
 use std::marker::PhantomData;
+pub use swc_common::pass::Optional;
 use swc_common::pass::{CompilerPass, Repeated};
 use swc_ecma_ast::*;
 use swc_ecma_visit::Fold;
-pub use swc_ecma_visit::Optional;
 
 pub fn noop() -> impl Fold {
     struct Noop;
@@ -10,6 +10,6 @@ pub fn noop() -> impl Fold {
     Noop
 }
 
-pub trait RepeatedJsPass: CompilerPass + RepeatedPass {}
+pub trait RepeatedJsPass: CompilerPass + Repeated + Fold {}
 
-impl<T: ?Sized> RepeatedJsPass for T where T: CompilerPass + RepeatedPass {}
+impl<T: ?Sized> RepeatedJsPass for T where T: CompilerPass + Repeated + Fold {}

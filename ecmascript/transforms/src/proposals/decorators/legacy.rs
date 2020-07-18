@@ -5,7 +5,7 @@ use crate::util::{
 };
 use smallvec::SmallVec;
 use std::mem::replace;
-use swc_common::{util::move_map::MoveMap, Fold, FoldWith, VisitWith, DUMMY_SP};
+use swc_common::{util::move_map::MoveMap, DUMMY_SP};
 use swc_ecma_ast::*;
 
 #[derive(Debug, Default)]

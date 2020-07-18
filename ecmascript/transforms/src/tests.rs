@@ -7,10 +7,11 @@ use std::{
     process::Command,
     sync::{Arc, RwLock},
 };
-use swc_common::{comments::Comments, errors::Handler, FileName, Fold, FoldWith, SourceMap};
+use swc_common::{comments::Comments, errors::Handler, FileName, SourceMap};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{lexer::Lexer, Parser, Session, SourceFileInput, Syntax};
+use swc_ecma_utils::DropSpan;
 use tempfile::tempdir_in;
 
 struct MyHandlers;
@@ -124,7 +125,7 @@ impl<'a> Tester<'a> {
 
         let module = validate!(module)
             .fold_with(&mut tr)
-            .fold_with(&mut ::testing::DropSpan)
+            .fold_with(&mut DropSpan)
             .fold_with(&mut Normalizer);
 
         Ok(module)

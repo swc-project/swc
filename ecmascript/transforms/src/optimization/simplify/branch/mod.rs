@@ -1,4 +1,7 @@
-use crate::util::{StmtLike, *};
+use crate::{
+    pass::RepeatedJsPass,
+    util::{StmtLike, *},
+};
 use std::{borrow::Cow, cmp::min, iter::once};
 use swc_atoms::js_word;
 use swc_common::{
@@ -15,7 +18,7 @@ mod tests;
 /// Not intended for general use. Use [simplifier] instead.
 ///
 /// Ported from `PeepholeRemoveDeadCode` of google closure compiler.
-pub fn dead_branch_remover() -> impl Repeated + Fold + 'static {
+pub fn dead_branch_remover() -> impl RepeatedJsPass + 'static {
     Remover::default()
 }
 

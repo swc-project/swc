@@ -1,9 +1,9 @@
 use super::Dce;
 use fxhash::FxHashSet;
 use swc_atoms::JsWord;
-use swc_common::{Visit, VisitWith};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, ExprExt, Id};
+use swc_ecma_visit::Visit;
 
 pub(super) struct ImportDetector {
     found: bool,

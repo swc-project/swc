@@ -1,7 +1,7 @@
 use crate::scope::{IdentType, ScopeKind};
 use std::{cell::RefCell, collections::HashSet};
 use swc_atoms::JsWord;
-use swc_common::{Fold, FoldWith, Mark, SyntaxContext};
+use swc_common::{Mark, SyntaxContext};
 use swc_ecma_ast::*;
 
 #[cfg(test)]

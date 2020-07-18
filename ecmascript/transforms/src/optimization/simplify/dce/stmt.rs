@@ -1,5 +1,5 @@
 use super::Dce;
-use swc_common::{fold::FoldWith, Fold, Spanned};
+use swc_common::Spanned;
 use swc_ecma_ast::*;
 
 impl Fold<ExprStmt> for Dce<'_> {

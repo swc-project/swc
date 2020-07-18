@@ -1,10 +1,7 @@
 use self::scope::{Scope, ScopeKind, VarType};
-use crate::scope::IdentType;
+use crate::{pass::RepeatedJsPass, scope::IdentType};
 use std::borrow::Cow;
-use swc_common::{
-    pass::{CompilerPass, Repeated},
-    Fold, FoldWith, Visit, VisitWith,
-};
+use swc_common::pass::{CompilerPass, Repeated};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{contains_this_expr, find_ids, ident::IdentLike, undefined, Id};
 

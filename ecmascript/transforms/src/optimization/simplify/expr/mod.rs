@@ -3,7 +3,7 @@ use std::{borrow::Cow, iter, iter::once};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     pass::{CompilerPass, Repeated},
-    Fold, FoldWith, Span, Spanned,
+    Span, Spanned,
 };
 use swc_ecma_ast::{Ident, Lit, *};
 

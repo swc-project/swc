@@ -6,7 +6,7 @@ use crate::util::{
 use either::Either;
 use serde::Deserialize;
 use std::iter;
-use swc_common::{Fold, FoldWith, Spanned, Visit, VisitWith, DUMMY_SP};
+use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 
 mod legacy;

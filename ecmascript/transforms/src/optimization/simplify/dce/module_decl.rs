@@ -1,7 +1,8 @@
 use super::Dce;
-use swc_common::{util::move_map::MoveMap, Fold, Spanned};
+use swc_common::{util::move_map::MoveMap, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, Id};
+use swc_ecma_visit::Fold;
 
 impl Fold<ImportDecl> for Dce<'_> {
     fn fold(&mut self, mut import: ImportDecl) -> ImportDecl {
