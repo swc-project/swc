@@ -285,6 +285,10 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
         let mut names = HashSet::new();
 
         for ty in &types {
+            if as_box(ty).is_some() {
+                continue;
+            }
+
             // Signature of visit_item / fold_item
             let method_sig = method_sig(mode, ty);
             let method_name = method_sig.ident;
