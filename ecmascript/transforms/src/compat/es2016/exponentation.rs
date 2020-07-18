@@ -1,5 +1,5 @@
 use crate::util::{ExprFactory, StmtLike};
-use swc_common::{Fold, FoldWith, Span, Spanned, Visit, VisitWith, DUMMY_SP};
+use swc_common::{Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 
 /// `@babel/plugin-transform-exponentiation-operator`

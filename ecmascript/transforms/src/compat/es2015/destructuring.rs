@@ -4,7 +4,7 @@ use crate::util::{
 };
 use serde::Deserialize;
 use std::iter;
-use swc_common::{Fold, FoldWith, Spanned, SyntaxContext, Visit, VisitWith, DUMMY_SP};
+use swc_common::{Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 
 /// `@babel/plugin-transform-destructuring`

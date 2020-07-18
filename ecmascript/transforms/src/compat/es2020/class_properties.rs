@@ -13,8 +13,9 @@ use crate::{
 };
 use std::collections::HashSet;
 use swc_atoms::JsWord;
-use swc_common::{Fold, FoldWith, Mark, Spanned, VisitWith, DUMMY_SP};
+use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, FoldWith};
 
 mod class_name_tdz;
 mod private_field;

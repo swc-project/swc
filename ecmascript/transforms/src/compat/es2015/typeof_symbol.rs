@@ -1,6 +1,5 @@
 use crate::util::ExprFactory;
 use swc_atoms::js_word;
-use swc_common::{Fold, FoldWith, Visit, VisitWith};
 use swc_ecma_ast::*;
 
 /// `@babel/plugin-transform-typeof-symbol`

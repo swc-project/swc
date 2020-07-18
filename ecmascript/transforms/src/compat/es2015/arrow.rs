@@ -1,5 +1,5 @@
 use crate::util::{contains_this_expr, ExprFactory};
-use swc_common::{Fold, FoldWith, Spanned, Visit, VisitWith, DUMMY_SP};
+use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::quote_ident;
 
@@ -10,7 +10,7 @@ use swc_ecma_utils::quote_ident;
 ///## In
 /// ```js
 /// var a = () => {};
-/// var a = (b) => b;
+/// var a = (b) => b;ß
 ///
 /// const double = [1,2,3].map((num) => num * 2);
 /// console.log(double); // [2,4,6]

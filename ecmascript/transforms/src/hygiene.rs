@@ -6,7 +6,7 @@ use crate::{
 use smallvec::{smallvec, SmallVec};
 use std::{cell::RefCell, collections::HashMap};
 use swc_atoms::JsWord;
-use swc_common::{chain, Fold, FoldWith, Span, SyntaxContext};
+use swc_common::{chain, Span, SyntaxContext};
 use swc_ecma_ast::*;
 
 mod ops;

@@ -1,8 +1,9 @@
 use crate::util::{is_literal, prepend_stmts, ExprFactory, StmtLike};
 use std::{iter, mem};
 use swc_atoms::js_word;
-use swc_common::{BytePos, Fold, FoldWith, Spanned, DUMMY_SP};
+use swc_common::{BytePos, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, FoldWith};
 
 #[derive(Default, Clone)]
 pub struct TemplateLiteral {

@@ -13,7 +13,7 @@ use crate::util::{
 };
 use fxhash::FxBuildHasher;
 use std::iter;
-use swc_common::{Fold, FoldWith, Mark, Spanned, Visit, VisitWith, DUMMY_SP};
+use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 
 #[macro_use]

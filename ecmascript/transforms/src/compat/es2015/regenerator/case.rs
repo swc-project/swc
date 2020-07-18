@@ -8,7 +8,7 @@ use std::mem::replace;
 use swc_atoms::JsWord;
 use swc_common::{
     util::{map::Map, move_map::MoveMap},
-    BytePos, Fold, FoldWith, Span, Spanned, SyntaxContext, Visit, VisitWith, DUMMY_SP,
+    BytePos, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 

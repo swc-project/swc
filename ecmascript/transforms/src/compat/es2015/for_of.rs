@@ -1,7 +1,7 @@
 use crate::util::{alias_if_required, prepend, ExprFactory, StmtLike};
 use serde::Deserialize;
 use swc_atoms::js_word;
-use swc_common::{Fold, FoldWith, Mark, Spanned, Visit, VisitWith, DUMMY_SP};
+use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 
 /// `@babel/plugin-transform-for-of`

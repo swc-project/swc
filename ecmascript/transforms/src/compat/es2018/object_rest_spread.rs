@@ -2,10 +2,9 @@ use crate::util::{
     alias_ident_for, alias_if_required, is_literal, var::VarCollector, ExprFactory, StmtLike,
 };
 use std::{iter, mem};
-use swc_common::{
-    chain, util::move_map::MoveMap, Fold, FoldWith, Mark, Spanned, Visit, VisitWith, DUMMY_SP,
-};
+use swc_common::{chain, util::move_map::MoveMap, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_visit::Fold;
 
 /// `@babel/plugin-proposal-object-rest-spread`
 pub fn object_rest_spread() -> impl Fold {

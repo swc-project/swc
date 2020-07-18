@@ -1,5 +1,5 @@
 pub use self::async_to_generator::async_to_generator;
-pub use swc_ecma_visit::Fold;
+use swc_ecma_visit::Fold;
 
 mod async_to_generator;
 

@@ -1,5 +1,4 @@
 use crate::util::UsageFinder;
-use swc_common::{Fold, FoldWith};
 use swc_ecma_ast::*;
 
 /// `@babel/plugin-transform-function-name`

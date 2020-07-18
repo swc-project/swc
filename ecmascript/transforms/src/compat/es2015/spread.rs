@@ -2,7 +2,7 @@ use crate::util::{alias_ident_for, is_literal, prepend, undefined, ExprFactory, 
 use serde::Deserialize;
 use std::mem;
 use swc_atoms::js_word;
-use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Span, Spanned, DUMMY_SP};
+use swc_common::{util::move_map::MoveMap, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 
 pub fn spread(c: Config) -> impl Fold {

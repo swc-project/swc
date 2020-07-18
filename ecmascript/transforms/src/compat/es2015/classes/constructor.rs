@@ -2,7 +2,7 @@ use super::get_prototype_of;
 use crate::util::ExprFactory;
 use std::iter;
 use swc_atoms::JsWord;
-use swc_common::{Fold, FoldWith, Mark, Visit, VisitWith, DUMMY_SP};
+use swc_common::{Mark, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::quote_ident;
 

@@ -1,7 +1,7 @@
 use crate::util::undefined;
 use smallvec::SmallVec;
 use std::mem::replace;
-use swc_common::{util::map::Map, Fold, FoldWith, Spanned, Visit, VisitWith, DUMMY_SP};
+use swc_common::{util::map::Map, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
     find_ids, ident::IdentLike, prepend, var::VarCollector, ExprFactory, Id, StmtLike,
