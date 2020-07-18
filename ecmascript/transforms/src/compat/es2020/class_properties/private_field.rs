@@ -15,7 +15,38 @@ pub(super) struct FieldAccessFolder<'a> {
 
 noop_fold_type!(FieldAccessFolder<'_>);
 
+macro_rules! take_vars {
+    ($name:ident, $T:tt) => {
+        fn $name(&mut self, f: $T) -> $T {
+            assert!(self.vars.is_empty());
+            if f.body.is_none() {
+                return f;
+            }
+
+            let mut f = f.fold_children_with(self);
+
+            if !self.vars.is_empty() {
+                prepend(
+                    &mut f.body.as_mut().unwrap().stmts,
+                    Stmt::Decl(Decl::Var(VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        decls: mem::replace(&mut self.vars, vec![]),
+
+                        declare: false,
+                    })),
+                )
+            }
+
+            f
+        }
+    };
+}
+
 impl<'a> Fold for FieldAccessFolder<'a> {
+    take_vars!(fold_funciton, Function);
+    take_vars!(fold_constructor, Constructor);
+
     fn fold_expr(&mut self, e: Expr) -> Expr {
         match e {
             Expr::Update(UpdateExpr {
@@ -506,36 +537,3 @@ impl<'a> FieldAccessFolder<'a> {
         }
     }
 }
-
-macro_rules! take_vars {
-    ($T:tt) => {
-        impl<'a> Fold<$T> for FieldAccessFolder<'a> {
-            fn fold(&mut self, f: $T) -> $T {
-                assert!(self.vars.is_empty());
-                if f.body.is_none() {
-                    return f;
-                }
-
-                let mut f = f.fold_children_with(self);
-
-                if !self.vars.is_empty() {
-                    prepend(
-                        &mut f.body.as_mut().unwrap().stmts,
-                        Stmt::Decl(Decl::Var(VarDecl {
-                            span: DUMMY_SP,
-                            kind: VarDeclKind::Var,
-                            decls: mem::replace(&mut self.vars, vec![]),
-
-                            declare: false,
-                        })),
-                    )
-                }
-
-                f
-            }
-        }
-    };
-}
-
-take_vars!(Function);
-take_vars!(Constructor);

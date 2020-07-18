@@ -5,7 +5,7 @@ use swc_ecma_utils::{find_ids, Id};
 use swc_ecma_visit::Fold;
 
 impl Fold for Dce<'_> {
-    fn fold(&mut self, mut import: ImportDecl) -> ImportDecl {
+    fn fold_import_decl(&mut self, mut import: ImportDecl) -> ImportDecl {
         // Do not mark import as used while ignoring imports
         if !self.decl_dropping_phase {
             return import;
@@ -33,7 +33,7 @@ impl Fold for Dce<'_> {
 }
 
 impl Fold for Dce<'_> {
-    fn fold(&mut self, mut node: ExportDecl) -> ExportDecl {
+    fn fold_export_decl(&mut self, mut node: ExportDecl) -> ExportDecl {
         if self.is_marked(node.span) {
             return node;
         }
@@ -91,7 +91,7 @@ impl Fold for Dce<'_> {
 }
 
 impl Fold for Dce<'_> {
-    fn fold(&mut self, mut node: ExportDefaultExpr) -> ExportDefaultExpr {
+    fn fold_export_default_expr(&mut self, mut node: ExportDefaultExpr) -> ExportDefaultExpr {
         if self.is_marked(node.span) {
             return node;
         }
@@ -106,7 +106,7 @@ impl Fold for Dce<'_> {
 }
 
 impl Fold for Dce<'_> {
-    fn fold(&mut self, mut node: NamedExport) -> NamedExport {
+    fn fold_named_export(&mut self, mut node: NamedExport) -> NamedExport {
         if self.is_marked(node.span) {
             return node;
         }
@@ -130,7 +130,7 @@ impl Fold for Dce<'_> {
 }
 
 impl Fold for Dce<'_> {
-    fn fold(&mut self, mut node: ExportDefaultDecl) -> ExportDefaultDecl {
+    fn fold_export_default_decl(&mut self, mut node: ExportDefaultDecl) -> ExportDefaultDecl {
         if self.is_marked(node.span) {
             return node;
         }
@@ -145,15 +145,15 @@ impl Fold for Dce<'_> {
 }
 
 impl Fold for Dce<'_> {
-    fn fold(&mut self, node: ExportAll) -> ExportAll {
+    fn fold_export_all(&mut self, node: ExportAll) -> ExportAll {
         if self.is_marked(node.span) {
             return node;
         }
 
         unimplemented!("dce: `export * from 'foo'`")
     }
-}
 
-preserve!(TsImportEqualsDecl);
-preserve!(TsExportAssignment);
-preserve!(TsNamespaceExportDecl);
+    preserve!(fold_ts_import_equals_decl, TsImportEqualsDecl);
+    preserve!(fold_ts_export_assignment, TsExportAssignment);
+    preserve!(fold_ts_namespace_export_decl, TsNamespaceExportDecl);
+}

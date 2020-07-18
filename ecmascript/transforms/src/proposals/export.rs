@@ -15,7 +15,7 @@ struct ExportDefaultFrom;
 noop_fold_type!(ExportDefaultFrom);
 
 impl Fold for ExportDefaultFrom {
-    fn fold(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
+    fn fold_module_items(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
         // Imports
         let mut stmts = Vec::with_capacity(items.len() + 4);
         // Statements except import

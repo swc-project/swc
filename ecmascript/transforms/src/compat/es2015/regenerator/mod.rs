@@ -5,6 +5,7 @@ use swc_atoms::js_word;
 use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{Fold, FoldWith, Visit, VisitWith};
+use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
 
 mod case;
 mod hoist;
@@ -73,7 +74,7 @@ impl Fold for Regenerator {
     }
 }
 
-impl<T> Fold<Vec<T>> for Regenerator
+impl<T> Fold for Regenerator
 where
     T: FoldWith<Self> + StmtLike,
     Vec<T>: FoldWith<Self> + VisitWith<Finder>,
@@ -512,7 +513,7 @@ impl Finder {
 }
 
 impl Visit for Finder {
-    fn visit(&mut self, node: &Function) {
+    fn visit_function(&mut self, node: &Function, _: &dyn Node) {
         if node.is_generator {
             self.found = true;
             return;

@@ -5,6 +5,7 @@ use swc_common::{util::move_map::MoveMap, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
 use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{Fold, FoldWith, Visit, VisitWith};
 
 /// Strips type annotations out.
 pub fn strip() -> impl Fold {
@@ -179,6 +180,7 @@ impl Fold for Strip {
 }
 
 impl Fold<Vec<ClassMember>> for Strip {
+impl Fold for Strip {
     fn fold_class_members(&mut self, members: Vec<ClassMember>) -> Vec<ClassMember> {
         let members = members.fold_children_with(self);
 
@@ -199,8 +201,8 @@ impl Fold<Vec<ClassMember>> for Strip {
 }
 
 /// Remove `this` from parameter list
-impl Fold<Vec<Param>> for Strip {
-    fn fold(&mut self, params: Vec<Param>) -> Vec<Param> {
+impl Fold for Strip {
+    fn fold_params(&mut self, params: Vec<Param>) -> Vec<Param> {
         let mut params = params.fold_children_with(self);
 
         params.retain(|param| match param.pat {
@@ -216,7 +218,7 @@ impl Fold<Vec<Param>> for Strip {
 }
 
 impl Fold for Strip {
-    fn fold(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
+    fn fold_module_items(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
         let old = self.phase;
 
         // First pass
@@ -742,7 +744,7 @@ impl Strip {
 }
 
 impl Fold for Strip {
-    fn fold(&mut self, mut import: ImportDecl) -> ImportDecl {
+    fn fold_import_decl(&mut self, mut import: ImportDecl) -> ImportDecl {
         match self.phase {
             Phase::Analysis => {
                 macro_rules! store {
@@ -790,7 +792,7 @@ impl Fold for Strip {
 }
 
 impl Fold for Strip {
-    fn fold(&mut self, i: Ident) -> Ident {
+    fn fold_ident(&mut self, i: Ident) -> Ident {
         self.scope
             .imported_idents
             .entry((i.sym.clone(), i.span.ctxt()))
@@ -804,7 +806,7 @@ impl Fold for Strip {
 }
 
 impl Visit for Strip {
-    fn visit(&mut self, name: &TsEntityName) {
+    fn visit_ts_entity_name(&mut self, name: &TsEntityName) {
         assert!(match self.phase {
             Phase::Analysis => true,
             _ => false,
@@ -823,7 +825,7 @@ impl Visit for Strip {
 }
 
 impl Fold for Strip {
-    fn fold(&mut self, node: TsInterfaceDecl) -> TsInterfaceDecl {
+    fn fold_ts_interface_decl(&mut self, node: TsInterfaceDecl) -> TsInterfaceDecl {
         TsInterfaceDecl {
             span: node.span,
             id: node.id,
@@ -897,33 +899,26 @@ impl Fold for Strip {
 }
 
 macro_rules! type_to_none {
-    ($T:ty) => {
-        impl Fold<Option<$T>> for Strip {
-            fn fold(&mut self, node: Option<$T>) -> Option<$T> {
-                node.visit_with(self);
+    ($name:ident, $T:ty) => {
+        fn $name(&mut self, node: Option<$T>) -> Option<$T> {
+            node.visit_with(self);
 
-                None
-            }
+            None
         }
-    };
-    ($T:ty,) => {
-        type_to_none!($T);
-    };
-    ($T:ty, $($rest:tt)+) => {
-        type_to_none!($T);
-        type_to_none!($($rest)*);
     };
 }
 
 impl Fold<Option<Accessibility>> for Strip {
+impl Fold for Strip {
+    type_to_none!(fold_opt_ts_type, TsType);
+    type_to_none!(fold_opt_ts_type_ann, TsTypeAnn);
+    type_to_none!(fold_opt_ts_type_param_decl, TsTypeParamDecl);
+    type_to_none!(fold_ts_type_param_instantiation, TsTypeParamInstantiation);
+
     fn fold_opt_accessibility(&mut self, _: Option<Accessibility>) -> Option<Accessibility> {
         None
     }
-}
 
-type_to_none!(TsType, TsTypeAnn, TsTypeParamDecl, TsTypeParamInstantiation);
-
-impl Fold for Strip {
     fn fold_expr(&mut self, expr: Expr) -> Expr {
         let expr = match expr {
             Expr::TsAs(TsAsExpr { expr, type_ann, .. }) => {

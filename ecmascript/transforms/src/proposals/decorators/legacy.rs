@@ -19,7 +19,7 @@ pub(super) struct Legacy {
 noop_fold_type!(Legacy);
 
 impl Fold for Legacy {
-    fn fold(&mut self, m: Module) -> Module {
+    fn fold_module(&mut self, m: Module) -> Module {
         let mut m = m.fold_children_with(self);
 
         if !self.uninitialized_vars.is_empty() {
@@ -51,7 +51,7 @@ impl Fold for Legacy {
 }
 
 impl Fold for Legacy {
-    fn fold(&mut self, s: Script) -> Script {
+    fn fold_script(&mut self, s: Script) -> Script {
         let mut s = s.fold_children_with(self);
 
         if !self.uninitialized_vars.is_empty() {
@@ -70,7 +70,7 @@ impl Fold for Legacy {
     }
 }
 
-impl<T> Fold<Vec<T>> for Legacy
+impl<T> Fold for Legacy
 where
     T: FoldWith<Self> + VisitWith<DecoratorFinder> + StmtLike + ModuleItemLike,
     Vec<T>: VisitWith<DecoratorFinder>,
@@ -146,7 +146,7 @@ impl Fold for Legacy {
 }
 
 impl Fold for Legacy {
-    fn fold(&mut self, e: Expr) -> Expr {
+    fn fold_expr(&mut self, e: Expr) -> Expr {
         let e: Expr = e.fold_children_with(self);
 
         match e {
@@ -678,7 +678,7 @@ struct ClassFieldAccessConverter {
 noop_fold_type!(ClassFieldAccessConverter);
 
 impl Fold for ClassFieldAccessConverter {
-    fn fold(&mut self, node: MemberExpr) -> MemberExpr {
+    fn fold_member_expr(&mut self, node: MemberExpr) -> MemberExpr {
         if node.computed {
             MemberExpr {
                 obj: node.obj.fold_with(self),
@@ -695,7 +695,7 @@ impl Fold for ClassFieldAccessConverter {
 }
 
 impl Fold for ClassFieldAccessConverter {
-    fn fold(&mut self, node: Ident) -> Ident {
+    fn fold_ident(&mut self, node: Ident) -> Ident {
         if node.sym == self.cls_name.sym && node.span.ctxt() == self.cls_name.span.ctxt() {
             return self.alias.clone();
         }

@@ -5,7 +5,7 @@ use crate::{
 use std::iter;
 use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
 
 /// `@babel/plugin-transform-async-to-generator`
 ///
@@ -42,7 +42,7 @@ struct Actual {
 
 noop_fold_type!(Actual);
 
-impl<T> Fold<Vec<T>> for AsyncToGenerator
+impl<T> Fold for AsyncToGenerator
 where
     T: StmtLike + VisitWith<AsyncVisitor> + FoldWith<Actual>,
     Vec<T>: FoldWith<Self>,
@@ -76,7 +76,7 @@ where
 }
 
 impl Fold for Actual {
-    fn fold(&mut self, prop: MethodProp) -> MethodProp {
+    fn fold_method_prop(&mut self, prop: MethodProp) -> MethodProp {
         let prop = validate!(prop);
         let prop = prop.fold_children_with(self);
 
@@ -507,7 +507,7 @@ impl Fold for Actual {
 }
 
 impl Fold for Actual {
-    fn fold(&mut self, f: FnDecl) -> FnDecl {
+    fn fold_fn_decl(&mut self, f: FnDecl) -> FnDecl {
         let f = f.fold_children_with(self);
         if !f.function.is_async {
             return f;
@@ -680,21 +680,20 @@ fn make_fn_ref(mut expr: FnExpr) -> Expr {
     struct AwaitToYield;
 
     macro_rules! noop {
-        ($T:path) => {
-            impl Fold<$T> for AwaitToYield {
-                /// Don't recurse into function.
-                fn fold(&mut self, f: $T) -> $T {
-                    f
-                }
+        ($name:ident, $T:path) => {
+            /// Don't recurse into function.
+            fn $name(&mut self, f: $T) -> $T {
+                f
             }
         };
     }
-    noop!(FnDecl);
-    noop!(FnExpr);
-    noop!(Constructor);
-    noop!(ArrowExpr);
 
     impl Fold for AwaitToYield {
+        noop!(fold_fn_decl, FnDecl);
+        noop!(fold_fn_expr, FnExpr);
+        noop!(fold_constructor, Constructor);
+        noop!(fold_arrow_expr, ArrowExpr);
+
         fn fold_expr(&mut self, expr: Expr) -> Expr {
             let expr = expr.fold_children_with(self);
 
@@ -751,7 +750,7 @@ struct AsyncVisitor {
 }
 
 impl Visit for AsyncVisitor {
-    fn visit(&mut self, f: &Function) {
+    fn visit_function(&mut self, f: &Function, _: &dyn Node) {
         if f.is_async {
             self.found = true;
         }
@@ -759,7 +758,7 @@ impl Visit for AsyncVisitor {
     }
 }
 impl Visit for AsyncVisitor {
-    fn visit(&mut self, f: &ArrowExpr) {
+    fn visit_arrow_expr(&mut self, f: &ArrowExpr, _: &dyn Node) {
         if f.is_async {
             self.found = true;
         }

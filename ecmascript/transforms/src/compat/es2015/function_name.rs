@@ -47,7 +47,62 @@ fn prepare(i: Ident, force: bool) -> Ident {
     }
 }
 
+macro_rules! impl_for {
+    ($name:ident, $T:tt) => {
+        fn $name(&mut self, node: $T) -> $T {
+            match node.ident {
+                Some(..) => return node,
+                None => {
+                    //
+                    let name = match self.name.take() {
+                        None => {
+                            return $T {
+                                ident: None,
+                                ..node
+                            };
+                        }
+                        Some(name) => name,
+                    };
+                    // If function's body references the name of variable, we just skip the
+                    // function
+                    if UsageFinder::find(&name, &node) {
+                        // self.name = Some(name);
+                        $T {
+                            ident: None,
+                            ..node
+                        }
+                    } else {
+                        $T {
+                            ident: Some(name),
+                            ..node
+                        }
+                    }
+                }
+            }
+        }
+    };
+}
+
+macro_rules! noop {
+    ($name:ident, $T:tt) => {
+        /// Don't recurse.
+        fn $name(&mut self, node: $T) -> $T {
+            node
+        }
+    };
+}
+
 impl Fold for FnName {
+    impl_for!(fold_fn_expr, FnExpr);
+    impl_for!(fold_class_expr, ClassExpr);
+
+    noop!(fold_object_lit, ObjectLit);
+    noop!(fold_array_lit, ArrayLit);
+    noop!(fold_call_expr, CallExpr);
+    noop!(fold_new_expr, NewExpr);
+    noop!(fold_bin_expr, BinExpr);
+    noop!(fold_unary_expr, UnaryExpr);
+
     fn fold_key_value_prop(&mut self, p: KeyValueProp) -> KeyValueProp {
         let mut p = p.fold_children_with(self);
 
@@ -111,61 +166,3 @@ impl Fold for FnName {
         }
     }
 }
-
-macro_rules! impl_for {
-    ($T:tt) => {
-        impl Fold<$T> for Renamer {
-            fn fold(&mut self, node: $T) -> $T {
-                match node.ident {
-                    Some(..) => return node,
-                    None => {
-                        //
-                        let name = match self.name.take() {
-                            None => {
-                                return $T {
-                                    ident: None,
-                                    ..node
-                                };
-                            }
-                            Some(name) => name,
-                        };
-                        // If function's body references the name of variable, we just skip the
-                        // function
-                        if UsageFinder::find(&name, &node) {
-                            // self.name = Some(name);
-                            $T {
-                                ident: None,
-                                ..node
-                            }
-                        } else {
-                            $T {
-                                ident: Some(name),
-                                ..node
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    };
-}
-impl_for!(FnExpr);
-impl_for!(ClassExpr);
-
-macro_rules! noop {
-    ($T:tt) => {
-        impl Fold<$T> for Renamer {
-            /// Don't recurse.
-            fn fold(&mut self, node: $T) -> $T {
-                node
-            }
-        }
-    };
-}
-
-noop!(ObjectLit);
-noop!(ArrayLit);
-noop!(CallExpr);
-noop!(NewExpr);
-noop!(BinExpr);
-noop!(UnaryExpr);

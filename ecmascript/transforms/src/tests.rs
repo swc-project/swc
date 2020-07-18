@@ -12,6 +12,7 @@ use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{lexer::Lexer, Parser, Session, SourceFileInput, Syntax};
 use swc_ecma_utils::DropSpan;
+use swc_ecma_visit::Fold;
 use tempfile::tempdir_in;
 
 struct MyHandlers;
@@ -396,7 +397,7 @@ impl Write for Buf {
 
 struct Normalizer;
 impl Fold for Normalizer {
-    fn fold(&mut self, n: PatOrExpr) -> PatOrExpr {
+    fn fold_pat_or_expr(&mut self, n: PatOrExpr) -> PatOrExpr {
         match n {
             PatOrExpr::Pat(box Pat::Expr(e)) => PatOrExpr::Expr(e),
             _ => n,

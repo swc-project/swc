@@ -42,7 +42,7 @@ impl Repeated for SimplifyExpr {
 }
 
 impl Fold for SimplifyExpr {
-    fn fold(&mut self, p: Pat) -> Pat {
+    fn fold_pat(&mut self, p: Pat) -> Pat {
         match p {
             Pat::Assign(a) => AssignPat {
                 right: {

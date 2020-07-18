@@ -526,7 +526,6 @@ impl Fold for BlockScoping {
 impl<T> Fold for BlockScoping
 where
     T: StmtLike,
-    Vec<T>: FoldWith<Self>,
 {
     fn fold(&mut self, stmts: Vec<T>) -> Vec<T> {
         let mut stmts = stmts.fold_children_with(self);

@@ -517,6 +517,7 @@ impl Fold for Resolver<'_> {
 }
 
 impl Fold<Vec<Stmt>> for Resolver<'_> {
+impl Fold for Resolver<'_> {
     fn fold_stmts(&mut self, stmts: Vec<Stmt>) -> Vec<Stmt> {
         // Phase 1: Handle hoisting
         let stmts = {

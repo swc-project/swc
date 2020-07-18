@@ -494,7 +494,7 @@ fn make_finally_block(
     })
 }
 
-impl<T: StmtLike + VisitWith<ForOfFinder>> Fold<Vec<T>> for ForOf
+impl<T: StmtLike + VisitWith<ForOfFinder>> Fold for ForOf
 where
     Vec<T>: FoldWith<Self>,
 {

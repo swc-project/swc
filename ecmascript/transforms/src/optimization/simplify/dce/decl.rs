@@ -67,9 +67,9 @@ impl Fold for Dce<'_> {
             ..var
         };
     }
-}
 
-preserve!(TsInterfaceDecl);
-preserve!(TsTypeAliasDecl);
-preserve!(TsEnumDecl);
-preserve!(TsModuleDecl);
+    preserve!(fold_ts_interface_decl, TsInterfaceDecl);
+    preserve!(fold_ts_type_alias_decl, TsTypeAliasDecl);
+    preserve!(fold_ts_enum_decl, TsEnumDecl);
+    preserve!(fold_ts_module_decl, TsModuleDecl);
+}

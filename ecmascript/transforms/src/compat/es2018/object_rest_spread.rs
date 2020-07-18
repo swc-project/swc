@@ -4,7 +4,7 @@ use crate::util::{
 use std::{iter, mem};
 use swc_common::{chain, util::move_map::MoveMap, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith, VisitWith};
+use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
 
 /// `@babel/plugin-proposal-object-rest-spread`
 pub fn object_rest_spread() -> impl Fold {
@@ -28,125 +28,124 @@ struct RestFolder {
 noop_fold_type!(RestFolder);
 
 macro_rules! impl_for_for_stmt {
-    ($T:tt) => {
-        impl Fold<$T> for RestFolder {
-            fn fold(&mut self, mut for_stmt: $T) -> $T {
-                if !contains_rest(&for_stmt) {
-                    return for_stmt;
-                }
-
-                let left = match for_stmt.left {
-                    VarDeclOrPat::VarDecl(var_decl) => {
-                        let ref_ident = private_ident!("_ref");
-                        let left = VarDeclOrPat::VarDecl(VarDecl {
-                            decls: vec![VarDeclarator {
-                                span: DUMMY_SP,
-                                name: Pat::Ident(ref_ident.clone()),
-                                init: None,
-                                definite: false,
-                            }],
-                            ..var_decl
-                        });
-
-                        // Unpack variables
-                        let mut decls = var_decl
-                            .decls
-                            .into_iter()
-                            .map(|decl| VarDeclarator {
-                                name: self.fold_rest(
-                                    &mut 0,
-                                    decl.name,
-                                    box Expr::Ident(ref_ident.clone()),
-                                    false,
-                                    true,
-                                ),
-                                init: Some(box Expr::Ident(ref_ident.clone())),
-                                ..decl
-                            })
-                            .collect::<Vec<_>>();
-                        // .fold_with(self);
-
-                        // **prepend** decls to self.vars
-                        decls.append(&mut self.vars);
-                        mem::swap(&mut self.vars, &mut decls);
-                        left
-                    }
-                    VarDeclOrPat::Pat(pat) => {
-                        let var_ident = private_ident!("_ref");
-                        let mut index = self.vars.len();
-                        let pat = self.fold_rest(
-                            &mut index,
-                            pat,
-                            box Expr::Ident(var_ident.clone()),
-                            false,
-                            true,
-                        );
-
-                        // initialize (or destructure)
-                        match pat {
-                            Pat::Object(ObjectPat { ref props, .. }) if props.is_empty() => {}
-                            _ => {
-                                // insert at index to create
-                                // `var { a } = _ref, b = _objectWithoutProperties(_ref, ['a']);`
-                                // instead of
-                                // var b = _objectWithoutProperties(_ref, ['a']), { a } = _ref;
-
-                                // println!("Var(0): folded pat = var_ident",);
-                                self.vars.insert(
-                                    index,
-                                    VarDeclarator {
-                                        span: DUMMY_SP,
-                                        name: pat,
-                                        init: Some(box Expr::Ident(var_ident.clone())),
-                                        definite: false,
-                                    },
-                                );
-                            }
-                        }
-
-                        // `var _ref` in `for (var _ref in foo)`
-                        VarDeclOrPat::VarDecl(VarDecl {
-                            span: DUMMY_SP,
-                            kind: VarDeclKind::Var,
-                            decls: vec![VarDeclarator {
-                                span: DUMMY_SP,
-                                name: Pat::Ident(var_ident.clone()),
-                                init: None,
-                                definite: false,
-                            }],
-                            declare: false,
-                        })
-                    }
-                };
-                for_stmt.left = left;
-
-                let stmt = Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    decls: mem::replace(&mut self.vars, vec![]),
-                    declare: false,
-                }));
-
-                for_stmt.body = box Stmt::Block(match *for_stmt.body {
-                    Stmt::Block(BlockStmt { span, stmts }) => BlockStmt {
-                        span,
-                        stmts: iter::once(stmt).chain(stmts).collect(),
-                    },
-                    body => BlockStmt {
-                        span: DUMMY_SP,
-                        stmts: vec![stmt, body],
-                    },
-                });
-
-                for_stmt
+    ($name:ident, $T:tt) => {
+        fn $name(&mut self, mut for_stmt: $T) -> $T {
+            if !contains_rest(&for_stmt) {
+                return for_stmt;
             }
+
+            let left = match for_stmt.left {
+                VarDeclOrPat::VarDecl(var_decl) => {
+                    let ref_ident = private_ident!("_ref");
+                    let left = VarDeclOrPat::VarDecl(VarDecl {
+                        decls: vec![VarDeclarator {
+                            span: DUMMY_SP,
+                            name: Pat::Ident(ref_ident.clone()),
+                            init: None,
+                            definite: false,
+                        }],
+                        ..var_decl
+                    });
+
+                    // Unpack variables
+                    let mut decls = var_decl
+                        .decls
+                        .into_iter()
+                        .map(|decl| VarDeclarator {
+                            name: self.fold_rest(
+                                &mut 0,
+                                decl.name,
+                                box Expr::Ident(ref_ident.clone()),
+                                false,
+                                true,
+                            ),
+                            init: Some(box Expr::Ident(ref_ident.clone())),
+                            ..decl
+                        })
+                        .collect::<Vec<_>>();
+                    // .fold_with(self);
+
+                    // **prepend** decls to self.vars
+                    decls.append(&mut self.vars);
+                    mem::swap(&mut self.vars, &mut decls);
+                    left
+                }
+                VarDeclOrPat::Pat(pat) => {
+                    let var_ident = private_ident!("_ref");
+                    let mut index = self.vars.len();
+                    let pat = self.fold_rest(
+                        &mut index,
+                        pat,
+                        box Expr::Ident(var_ident.clone()),
+                        false,
+                        true,
+                    );
+
+                    // initialize (or destructure)
+                    match pat {
+                        Pat::Object(ObjectPat { ref props, .. }) if props.is_empty() => {}
+                        _ => {
+                            // insert at index to create
+                            // `var { a } = _ref, b = _objectWithoutProperties(_ref, ['a']);`
+                            // instead of
+                            // var b = _objectWithoutProperties(_ref, ['a']), { a } = _ref;
+
+                            // println!("Var(0): folded pat = var_ident",);
+                            self.vars.insert(
+                                index,
+                                VarDeclarator {
+                                    span: DUMMY_SP,
+                                    name: pat,
+                                    init: Some(box Expr::Ident(var_ident.clone())),
+                                    definite: false,
+                                },
+                            );
+                        }
+                    }
+
+                    // `var _ref` in `for (var _ref in foo)`
+                    VarDeclOrPat::VarDecl(VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        decls: vec![VarDeclarator {
+                            span: DUMMY_SP,
+                            name: Pat::Ident(var_ident.clone()),
+                            init: None,
+                            definite: false,
+                        }],
+                        declare: false,
+                    })
+                }
+            };
+            for_stmt.left = left;
+
+            let stmt = Stmt::Decl(Decl::Var(VarDecl {
+                span: DUMMY_SP,
+                kind: VarDeclKind::Var,
+                decls: mem::replace(&mut self.vars, vec![]),
+                declare: false,
+            }));
+
+            for_stmt.body = box Stmt::Block(match *for_stmt.body {
+                Stmt::Block(BlockStmt { span, stmts }) => BlockStmt {
+                    span,
+                    stmts: iter::once(stmt).chain(stmts).collect(),
+                },
+                body => BlockStmt {
+                    span: DUMMY_SP,
+                    stmts: vec![stmt, body],
+                },
+            });
+
+            for_stmt
         }
     };
 }
-impl_for_for_stmt!(ForInStmt);
-impl_for_for_stmt!(ForOfStmt);
 
 impl Fold for RestFolder {
+    impl_for_for_stmt!(fold_for_in_stmt, ForInStmt);
+    impl_for_for_stmt!(fold_for_of_stmt, ForOfStmt);
+
     fn fold_var_declarators(&mut self, decls: Vec<VarDeclarator>) -> Vec<VarDeclarator> {
         // fast path
         if !contains_rest(&decls) {
@@ -451,7 +450,9 @@ where
     }
 }
 
-impl_fold_fn!(RestFolder);
+impl Fold for RestFolder {
+    impl_fold_fn!();
+}
 
 // impl Fold for RestFolder {
 //     fn fold(&mut self, f: ArrowExpr) -> ArrowExpr {
@@ -1105,7 +1106,7 @@ fn contains_spread(expr: &Expr) -> bool {
     }
 
     impl Visit for Visitor {
-        fn visit(&mut self, _: &SpreadElement) {
+        fn visit_spread_element(&mut self, _: &SpreadElement, _: &dyn Node) {
             self.found = true;
         }
     }

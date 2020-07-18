@@ -32,7 +32,7 @@ struct ActualFolder {
 
 noop_fold_type!(ActualFolder);
 
-impl<T> Fold<Vec<T>> for Spread
+impl<T> Fold for Spread
 where
     T: StmtLike + FoldWith<ActualFolder> + FoldWith<Self>,
 {

@@ -7,6 +7,7 @@ use std::iter;
 use swc_common::{Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{Fold, FoldWith, VisitWith};
+use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
 
 /// `@babel/plugin-transform-destructuring`
 ///
@@ -46,98 +47,98 @@ pub struct Config {
 }
 
 macro_rules! impl_for_for_stmt {
-    ($T:tt) => {
-        impl Fold<$T> for Destructuring {
-            fn fold(&mut self, mut for_stmt: $T) -> $T {
-                let (left, stmt) = match for_stmt.left {
-                    VarDeclOrPat::VarDecl(var_decl) => {
-                        let has_complex = var_decl.decls.iter().any(|d| match d.name {
-                            Pat::Ident(_) => false,
-                            _ => true,
-                        });
+    ($name:ident, $T:tt) => {
+        fn $name(&mut self, mut for_stmt: $T) -> $T {
+            let (left, stmt) = match for_stmt.left {
+                VarDeclOrPat::VarDecl(var_decl) => {
+                    let has_complex = var_decl.decls.iter().any(|d| match d.name {
+                        Pat::Ident(_) => false,
+                        _ => true,
+                    });
 
-                        if !has_complex {
-                            return $T {
-                                left: VarDeclOrPat::VarDecl(var_decl),
-                                ..for_stmt
-                            };
-                        }
-                        let ref_ident = make_ref_ident_for_for_stmt();
-                        let left = VarDeclOrPat::VarDecl(VarDecl {
-                            decls: vec![VarDeclarator {
-                                span: DUMMY_SP,
-                                name: Pat::Ident(ref_ident.clone()),
-                                init: None,
-                                definite: false,
-                            }],
-                            ..var_decl
-                        });
+                    if !has_complex {
+                        return $T {
+                            left: VarDeclOrPat::VarDecl(var_decl),
+                            ..for_stmt
+                        };
+                    }
+                    let ref_ident = make_ref_ident_for_for_stmt();
+                    let left = VarDeclOrPat::VarDecl(VarDecl {
+                        decls: vec![VarDeclarator {
+                            span: DUMMY_SP,
+                            name: Pat::Ident(ref_ident.clone()),
+                            init: None,
+                            definite: false,
+                        }],
+                        ..var_decl
+                    });
+                    // Unpack variables
+                    let stmt = Stmt::Decl(Decl::Var(VarDecl {
+                        span: var_decl.span(),
+                        kind: VarDeclKind::Let,
+                        // I(kdy1) guess var_decl.len() == 1
+                        decls: var_decl
+                            .decls
+                            .into_iter()
+                            .map(|decl| VarDeclarator {
+                                init: Some(box Expr::Ident(ref_ident.clone())),
+                                ..decl
+                            })
+                            .collect::<Vec<_>>()
+                            .fold_with(self),
+                        declare: false,
+                    }));
+                    (left, stmt)
+                }
+                VarDeclOrPat::Pat(pat) => match pat {
+                    Pat::Ident(..) => {
+                        return $T {
+                            left: VarDeclOrPat::Pat(pat),
+                            ..for_stmt
+                        };
+                    }
+                    _ => {
+                        let left_ident = make_ref_ident_for_for_stmt();
+                        let left = VarDeclOrPat::Pat(Pat::Ident(left_ident.clone()));
                         // Unpack variables
-                        let stmt = Stmt::Decl(Decl::Var(VarDecl {
-                            span: var_decl.span(),
-                            kind: VarDeclKind::Let,
-                            // I(kdy1) guess var_decl.len() == 1
-                            decls: var_decl
-                                .decls
-                                .into_iter()
-                                .map(|decl| VarDeclarator {
-                                    init: Some(box Expr::Ident(ref_ident.clone())),
-                                    ..decl
-                                })
-                                .collect::<Vec<_>>()
-                                .fold_with(self),
-                            declare: false,
-                        }));
+                        let stmt = AssignExpr {
+                            span: DUMMY_SP,
+                            left: PatOrExpr::Pat(box pat),
+                            op: op!("="),
+                            right: box left_ident.into(),
+                        }
+                        .into_stmt();
                         (left, stmt)
                     }
-                    VarDeclOrPat::Pat(pat) => match pat {
-                        Pat::Ident(..) => {
-                            return $T {
-                                left: VarDeclOrPat::Pat(pat),
-                                ..for_stmt
-                            };
-                        }
-                        _ => {
-                            let left_ident = make_ref_ident_for_for_stmt();
-                            let left = VarDeclOrPat::Pat(Pat::Ident(left_ident.clone()));
-                            // Unpack variables
-                            let stmt = AssignExpr {
-                                span: DUMMY_SP,
-                                left: PatOrExpr::Pat(box pat),
-                                op: op!("="),
-                                right: box left_ident.into(),
-                            }
-                            .into_stmt();
-                            (left, stmt)
-                        }
-                    },
-                };
-                for_stmt.left = left;
+                },
+            };
+            for_stmt.left = left;
 
-                for_stmt.body = box Stmt::Block(match *for_stmt.body {
-                    Stmt::Block(BlockStmt { span, stmts }) => BlockStmt {
-                        span,
-                        stmts: iter::once(stmt).chain(stmts).collect(),
-                    },
-                    body => BlockStmt {
-                        span: DUMMY_SP,
-                        stmts: vec![stmt, body],
-                    },
-                });
+            for_stmt.body = box Stmt::Block(match *for_stmt.body {
+                Stmt::Block(BlockStmt { span, stmts }) => BlockStmt {
+                    span,
+                    stmts: iter::once(stmt).chain(stmts).collect(),
+                },
+                body => BlockStmt {
+                    span: DUMMY_SP,
+                    stmts: vec![stmt, body],
+                },
+            });
 
-                for_stmt
-            }
+            for_stmt
         }
     };
 }
-impl_for_for_stmt!(ForInStmt);
-impl_for_for_stmt!(ForOfStmt);
 
 fn make_ref_ident_for_for_stmt() -> Ident {
     private_ident!("ref")
 }
 
 impl Fold<Vec<VarDeclarator>> for AssignFolder {
+impl Fold for AssignFolder {
+    impl_for_for_stmt!(fold_for_in_stmt, ForInStmt);
+    impl_for_for_stmt!(fold_for_of_stmt, ForOfStmt);
+
     fn fold_var_declarators(&mut self, declarators: Vec<VarDeclarator>) -> Vec<VarDeclarator> {
         let declarators = declarators.fold_children_with(self);
 
@@ -479,7 +480,9 @@ impl AssignFolder {
     }
 }
 
-impl_fold_fn!(Destructuring);
+impl Fold for Destructuring {
+    impl_fold_fn!();
+}
 
 impl Destructuring {
     fn fold_fn_like(&mut self, ps: Vec<Param>, body: BlockStmt) -> (Vec<Param>, BlockStmt) {
@@ -825,7 +828,7 @@ impl Fold for AssignFolder {
     }
 }
 
-impl<T: StmtLike + VisitWith<DestructuringVisitor>> Fold<Vec<T>> for Destructuring
+impl<T: StmtLike + VisitWith<DestructuringVisitor>> Fold for Destructuring
 where
     Vec<T>: FoldWith<Self>,
     T: FoldWith<AssignFolder>,
@@ -1074,7 +1077,7 @@ struct DestructuringVisitor {
 }
 
 impl Visit for DestructuringVisitor {
-    fn visit(&mut self, node: &Pat) {
+    fn visit_pat(&mut self, node: &Pat, _: &dyn Node) {
         node.visit_children_with(self);
         match *node {
             Pat::Ident(..) => {}

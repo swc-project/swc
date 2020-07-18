@@ -53,7 +53,7 @@ macro_rules! gte {
 }
 
 impl Fold for Validator {
-    fn fold(&mut self, node: MemberExpr) -> MemberExpr {
+    fn fold_member_expr(&mut self, node: MemberExpr) -> MemberExpr {
         if node.span.is_dummy() {
             return node.fold_children_with(self);
         }
@@ -79,7 +79,7 @@ impl Fold for Validator {
 }
 
 impl Fold for Validator {
-    fn fold(&mut self, node: BinExpr) -> BinExpr {
+    fn fold_bin_expr(&mut self, node: BinExpr) -> BinExpr {
         if node.span.is_dummy() {
             return node.fold_children_with(self);
         }
@@ -97,7 +97,7 @@ impl Fold for Validator {
 }
 
 impl Fold for Validator {
-    fn fold(&mut self, node: AssignExpr) -> AssignExpr {
+    fn fold_assign_expr(&mut self, node: AssignExpr) -> AssignExpr {
         if node.span.is_dummy() {
             return node.fold_children_with(self);
         }
@@ -115,7 +115,7 @@ impl Fold for Validator {
 }
 
 impl Fold for Validator {
-    fn fold(&mut self, node: UnaryExpr) -> UnaryExpr {
+    fn fold_unary_expr(&mut self, node: UnaryExpr) -> UnaryExpr {
         if node.span.is_dummy() {
             return node.fold_children_with(self);
         }
@@ -129,7 +129,7 @@ impl Fold for Validator {
 }
 
 impl Fold for Validator {
-    fn fold(&mut self, node: UpdateExpr) -> UpdateExpr {
+    fn fold_update_expr(&mut self, node: UpdateExpr) -> UpdateExpr {
         if node.span.is_dummy() {
             return node.fold_children_with(self);
         }
@@ -147,7 +147,7 @@ impl Fold for Validator {
 }
 
 impl Fold for Validator {
-    fn fold(&mut self, node: CondExpr) -> CondExpr {
+    fn fold_cond_expr(&mut self, node: CondExpr) -> CondExpr {
         if node.span.is_dummy() {
             return node.fold_children_with(self);
         }

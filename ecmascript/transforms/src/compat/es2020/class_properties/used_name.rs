@@ -1,7 +1,7 @@
 use swc_atoms::JsWord;
 use swc_common::Mark;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, Visit, VisitWith};
+use swc_ecma_visit::{Fold, Node, Visit, VisitWith};
 
 pub(super) struct UsedNameRenamer<'a> {
     pub mark: Mark,
@@ -28,7 +28,21 @@ pub(super) struct UsedNameCollector<'a> {
 
 noop_visit_type!(UsedNameCollector<'_>);
 
+macro_rules! noop {
+    ($name:ident, $T:path) => {
+        /// no-op
+        fn $name(&mut self, _: &$T, _: &dyn Node) {}
+    };
+}
+
 impl<'a> Visit for UsedNameCollector<'a> {
+    noop!(visit_arrow_expr, ArrowExpr);
+    noop!(visit_function, Function);
+    noop!(visit_setter_prop, SetterProp);
+    noop!(visit_getter_prop, GetterProp);
+    noop!(visit_method_prop, MethodProp);
+    noop!(visit_constructor, Constructor);
+
     fn visit_expr(&mut self, expr: &Expr, _: &dyn Node) {
         match *expr {
             Expr::Ident(ref i) => self.used_names.push(i.sym.clone()),
@@ -36,19 +50,3 @@ impl<'a> Visit for UsedNameCollector<'a> {
         }
     }
 }
-
-macro_rules! noop {
-    ($T:path) => {
-        impl Visit<$T> for UsedNameCollector<'_> {
-            /// no-op
-            fn visit(&mut self, _: &$T) {}
-        }
-    };
-}
-
-noop!(ArrowExpr);
-noop!(Function);
-noop!(SetterProp);
-noop!(GetterProp);
-noop!(MethodProp);
-noop!(Constructor);

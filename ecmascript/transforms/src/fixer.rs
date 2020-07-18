@@ -51,8 +51,56 @@ impl Default for Context {
     }
 }
 
+macro_rules! context_fn_args {
+    ($name:ident, $T:tt, $is_new:expr) => {
+        fn $name(&mut self, node: $T) -> $T {
+            let $T {
+                span,
+                callee,
+                args,
+                type_args,
+            } = node;
+
+            let old = self.ctx;
+            self.ctx = Context::ForcedExpr { is_var_decl: false };
+            let args = args.fold_with(self);
+            self.ctx = old;
+
+            let old = self.ctx;
+            self.ctx = Context::Callee { is_new: $is_new };
+            let callee = callee.fold_with(self);
+            self.ctx = old;
+
+            $T {
+                span,
+                callee,
+                args,
+                type_args,
+            }
+        }
+    };
+}
+macro_rules! array {
+    ($name:ident, $T:tt) => {
+        fn $name(&mut self, e: $T) -> $T {
+            let old = self.ctx;
+            self.ctx = Context::ForcedExpr { is_var_decl: false }.into();
+            let elems = e.elems.fold_with(self);
+            self.ctx = old;
+
+            $T { elems, ..e }
+        }
+    };
+}
+
 impl Fold for Fixer {
-    fn fold(&mut self, p: Program) -> Program {
+    context_fn_args!(fold_new_expr, NewExpr, true);
+    context_fn_args!(fold_call_expr, CallExpr, false);
+
+    array!(fold_array_lit, ArrayLit);
+    // array!(ArrayPat);
+
+    fn fold_prop_name(&mut self, p: Program) -> Program {
         debug_assert!(self.span_map.is_empty());
         self.span_map.clear();
 
@@ -71,7 +119,7 @@ impl Fold for Fixer {
 }
 
 impl Fold for Fixer {
-    fn fold(&mut self, node: KeyValuePatProp) -> KeyValuePatProp {
+    fn fold_key_value_pat_prop(&mut self, node: KeyValuePatProp) -> KeyValuePatProp {
         let old = self.ctx;
         self.ctx = Context::ForcedExpr { is_var_decl: false };
         let key = node.key.fold_with(self);
@@ -84,7 +132,7 @@ impl Fold for Fixer {
 }
 
 impl Fold for Fixer {
-    fn fold(&mut self, node: AssignPatProp) -> AssignPatProp {
+    fn fold_assign_pat_prop(&mut self, node: AssignPatProp) -> AssignPatProp {
         let key = node.key.fold_children_with(self);
 
         let old = self.ctx;
@@ -97,7 +145,7 @@ impl Fold for Fixer {
 }
 
 impl Fold for Fixer {
-    fn fold(&mut self, node: VarDeclarator) -> VarDeclarator {
+    fn fold_var_declarator(&mut self, node: VarDeclarator) -> VarDeclarator {
         let name = node.name.fold_children_with(self);
 
         let old = self.ctx;
@@ -110,7 +158,7 @@ impl Fold for Fixer {
 }
 
 impl Fold for Fixer {
-    fn fold(&mut self, body: BlockStmtOrExpr) -> BlockStmtOrExpr {
+    fn fold_block_stmt_or_expr(&mut self, body: BlockStmtOrExpr) -> BlockStmtOrExpr {
         let body = body.fold_children_with(self);
 
         match body {
@@ -150,7 +198,7 @@ impl Fold for Fixer {
 }
 
 impl Fold for Fixer {
-    fn fold(&mut self, node: IfStmt) -> IfStmt {
+    fn fold_if_stmt(&mut self, node: IfStmt) -> IfStmt {
         let node: IfStmt = node.fold_children_with(self);
 
         match *node.cons {
@@ -167,59 +215,8 @@ impl Fold for Fixer {
     }
 }
 
-macro_rules! context_fn_args {
-    ($T:tt, $is_new:expr) => {
-        impl Fold<$T> for Fixer {
-            fn fold(&mut self, node: $T) -> $T {
-                let $T {
-                    span,
-                    callee,
-                    args,
-                    type_args,
-                } = node;
-
-                let old = self.ctx;
-                self.ctx = Context::ForcedExpr { is_var_decl: false };
-                let args = args.fold_with(self);
-                self.ctx = old;
-
-                let old = self.ctx;
-                self.ctx = Context::Callee { is_new: $is_new };
-                let callee = callee.fold_with(self);
-                self.ctx = old;
-
-                $T {
-                    span,
-                    callee,
-                    args,
-                    type_args,
-                }
-            }
-        }
-    };
-}
-context_fn_args!(NewExpr, true);
-context_fn_args!(CallExpr, false);
-
-macro_rules! array {
-    ($T:tt) => {
-        impl Fold<$T> for Fixer {
-            fn fold(&mut self, e: $T) -> $T {
-                let old = self.ctx;
-                self.ctx = Context::ForcedExpr { is_var_decl: false }.into();
-                let elems = e.elems.fold_with(self);
-                self.ctx = old;
-
-                $T { elems, ..e }
-            }
-        }
-    };
-}
-array!(ArrayLit);
-// array!(ArrayPat);
-
 impl Fold for Fixer {
-    fn fold(&mut self, prop: KeyValueProp) -> KeyValueProp {
+    fn fold_key_value_prop(&mut self, prop: KeyValueProp) -> KeyValueProp {
         let prop = prop.fold_children_with(self);
 
         match *prop.value {
@@ -709,18 +706,6 @@ impl Fold for Fixer {
 }
 
 impl Fold for Fixer {
-    fn fold(&mut self, node: ExportDefaultExpr) -> ExportDefaultExpr {
-        let old = self.ctx;
-        self.ctx = Context::Default;
-        let mut node = node.fold_children_with(self);
-        node.expr = match *node.expr {
-            Expr::Arrow(..) | Expr::Seq(..) => box self.wrap(*node.expr),
-            _ => node.expr,
-        };
-        self.ctx = old;
-        node
-    }
-
     fn fold_arrow_expr(&mut self, node: ArrowExpr) -> ArrowExpr {
         let old = self.ctx;
         self.ctx = Context::Default;
@@ -750,6 +735,18 @@ impl Fold for Fixer {
             _ => true,
         });
 
+        node
+    }
+
+    fn fold_export_default_expr(&mut self, node: ExportDefaultExpr) -> ExportDefaultExpr {
+        let old = self.ctx;
+        self.ctx = Context::Default;
+        let mut node = node.fold_children_with(self);
+        node.expr = match *node.expr {
+            Expr::Arrow(..) | Expr::Seq(..) => box self.wrap(*node.expr),
+            _ => node.expr,
+        };
+        self.ctx = old;
         node
     }
 }

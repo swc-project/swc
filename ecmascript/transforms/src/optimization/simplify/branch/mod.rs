@@ -46,9 +46,8 @@ struct Remover {
 
 noop_fold_type!(Remover);
 
-impl<T: StmtLike> Fold<Vec<T>> for Remover
+impl<T: StmtLike> Fold for Remover
 where
-    Self: Fold<T>,
     T: VisitWith<Hoister>,
 {
     fn fold(&mut self, stmts: Vec<T>) -> Vec<T> {

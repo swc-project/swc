@@ -62,31 +62,27 @@ struct SuperCalleeFolder<'a> {
 noop_fold_type!(SuperCalleeFolder<'_>);
 
 macro_rules! mark_nested {
-    ($T:tt) => {
-        impl<'a> Fold<$T> for SuperFieldAccessFolder<'a> {
-            fn fold(&mut self, n: $T) -> $T {
-                // injected `_defineProperty` should be handled like method
-                if self.folding_constructor && !self.in_injected_define_property_call {
-                    let old = self.in_nested_scope;
-                    self.in_nested_scope = true;
-                    let n = n.fold_children_with(self);
-                    self.in_nested_scope = old;
-                    n
-                } else {
-                    n.fold_children_with(self)
-                }
+    ($name:ident, $T:tt) => {
+        fn $name(&mut self, n: $T) -> $T {
+            // injected `_defineProperty` should be handled like method
+            if self.folding_constructor && !self.in_injected_define_property_call {
+                let old = self.in_nested_scope;
+                self.in_nested_scope = true;
+                let n = n.fold_children_with(self);
+                self.in_nested_scope = old;
+                n
+            } else {
+                n.fold_children_with(self)
             }
         }
     };
 }
 
-mark_nested!(Function);
-mark_nested!(Class);
-
-fold_only_key!(SuperFieldAccessFolder);
-fold_only_key!(SuperCalleeFolder);
-
 impl<'a> Fold for SuperCalleeFolder<'a> {
+    fold_only_key!();
+    mark_nested!(fold_function, Function);
+    mark_nested!(fold_class, Class);
+
     fn fold_expr(&mut self, n: Expr) -> Expr {
         match n {
             Expr::This(ThisExpr { span }) if self.in_nested_scope => {
@@ -382,6 +378,8 @@ impl<'a> SuperCalleeFolder<'a> {
 }
 
 impl<'a> Fold for SuperFieldAccessFolder<'a> {
+    fold_only_key!();
+
     fn fold_expr(&mut self, n: Expr) -> Expr {
         // We pretend method folding mode for while folding injected `_defineProperty`
         // calls.

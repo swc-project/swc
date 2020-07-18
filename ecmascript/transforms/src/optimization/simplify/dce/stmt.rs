@@ -143,7 +143,7 @@ impl Fold for Dce<'_> {
         node
     }
 
-    fn fold_try_smt(&mut self, mut node: TryStmt) -> TryStmt {
+    fn fold_try_stmt(&mut self, mut node: TryStmt) -> TryStmt {
         if self.is_marked(node.span) {
             return node;
         }
@@ -278,9 +278,9 @@ impl Fold for Dce<'_> {
 
         node
     }
-}
 
-preserve!(DebuggerStmt);
-preserve!(WithStmt);
-preserve!(BreakStmt);
-preserve!(ContinueStmt);
+    preserve!(fold_debugger_stmt, DebuggerStmt);
+    preserve!(fold_with_stmt, WithStmt);
+    preserve!(fold_break_stmt, BreakStmt);
+    preserve!(fold_continue_stmt, ContinueStmt);
+}

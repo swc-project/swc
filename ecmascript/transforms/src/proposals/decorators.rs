@@ -8,7 +8,7 @@ use serde::Deserialize;
 use std::iter;
 use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Visit, VisitWith};
+use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
 
 mod legacy;
 mod usage;
@@ -76,7 +76,7 @@ struct Decorators {
 noop_fold_type!(Decorators);
 
 impl Fold for Decorators {
-    fn fold(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
+    fn fold_module_items(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
         if !self::usage::has_decorator(&items) {
             return items;
         }
@@ -173,7 +173,7 @@ impl Fold for Decorators {
 }
 
 impl Fold for Decorators {
-    fn fold(&mut self, decl: Decl) -> Decl {
+    fn fold_decl(&mut self, decl: Decl) -> Decl {
         let decl = decl.fold_children_with(self);
 
         match decl {
@@ -605,7 +605,7 @@ struct DecoratorFinder {
     found: bool,
 }
 impl Visit for DecoratorFinder {
-    fn visit(&mut self, _: &Decorator) {
+    fn visit_decorator(&mut self, _: &Decorator, _: &dyn Node) {
         self.found = true
     }
 }

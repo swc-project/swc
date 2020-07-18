@@ -14,12 +14,10 @@ use swc_ecma_utils::{ident::IdentLike, Id, StmtLike};
 use swc_ecma_visit::{Fold, FoldWith, VisitWith};
 
 macro_rules! preserve {
-    ($T:ty) => {
-        impl Fold<$T> for Dce<'_> {
-            fn fold(&mut self, mut node: $T) -> $T {
-                node.span = node.span.apply_mark(self.config.used_mark);
-                node
-            }
+    ($name:ident, $T:ty) => {
+        fn $name(&mut self, mut node: $T) -> $T {
+            node.span = node.span.apply_mark(self.config.used_mark);
+            node
         }
     };
 }
@@ -92,7 +90,7 @@ impl Repeated for UsedMarkRemover {
 }
 
 impl Fold for UsedMarkRemover {
-    fn fold(&mut self, s: Span) -> Span {
+    fn fold_span(&mut self, s: Span) -> Span {
         let mut ctxt = s.ctxt().clone();
         if ctxt.remove_mark() == self.used_mark {
             return s.with_ctxt(ctxt);
@@ -138,7 +136,7 @@ impl Repeated for Dce<'_> {
     }
 }
 
-impl<T> Fold<Vec<T>> for Dce<'_>
+impl<T> Fold for Dce<'_>
 where
     T: StmtLike + FoldWith<Self> + Spanned + std::fmt::Debug,
     T: for<'any> VisitWith<SideEffectVisitor<'any>> + VisitWith<ImportDetector>,
@@ -296,7 +294,7 @@ impl Dce<'_> {
 }
 
 impl Fold for Dce<'_> {
-    fn fold(&mut self, i: Ident) -> Ident {
+    fn fold_ident(&mut self, i: Ident) -> Ident {
         if self.is_marked(i.span) {
             return i;
         }
@@ -313,7 +311,7 @@ impl Fold for Dce<'_> {
 }
 
 impl Fold for Dce<'_> {
-    fn fold(&mut self, mut e: MemberExpr) -> MemberExpr {
+    fn fold_member_expr(&mut self, mut e: MemberExpr) -> MemberExpr {
         if self.is_marked(e.span()) {
             return e;
         }
@@ -328,7 +326,7 @@ impl Fold for Dce<'_> {
 }
 
 impl Fold for Dce<'_> {
-    fn fold(&mut self, mut node: UpdateExpr) -> UpdateExpr {
+    fn fold_update_expr(&mut self, mut node: UpdateExpr) -> UpdateExpr {
         if self.is_marked(node.span) {
             return node;
         }

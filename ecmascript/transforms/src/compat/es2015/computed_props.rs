@@ -284,7 +284,7 @@ impl Visit for ComplexVisitor {
     }
 }
 
-impl<T> Fold<Vec<T>> for ComputedProps
+impl<T> Fold for ComputedProps
 where
     T: StmtLike + VisitWith<ShouldWork> + FoldWith<Self> + FoldWith<ObjectLitFolder>,
 {

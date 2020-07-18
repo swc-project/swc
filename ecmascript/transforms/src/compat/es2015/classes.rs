@@ -71,7 +71,7 @@ struct Data {
     get: Option<Box<Expr>>,
 }
 
-impl<T> Fold<Vec<T>> for Classes
+impl<T> Fold for Classes
 where
     T: StmtLike + ModuleItemLike + FoldWith<Self>,
 {
@@ -869,7 +869,7 @@ fn is_always_initialized(body: &[Stmt]) -> bool {
     }
 
     impl Visit for SuperFinder {
-        fn visit(&mut self, node: &ExprOrSuper) {
+        fn visit_expr_or_super(&mut self, node: &ExprOrSuper) {
             match *node {
                 ExprOrSuper::Super(..) => self.found = true,
                 _ => node.visit_children_with(self),
