@@ -12,6 +12,7 @@ pub use ast_node::{ast_node, DeserializeEnum, Spanned};
 pub use from_variant::FromVariant;
 use serde::Serialize;
 use std::fmt::Debug;
+pub use swc_visit::chain;
 
 /// A trait for ast nodes.
 pub trait AstNode: Debug + PartialEq + Clone + Spanned + Serialize {
