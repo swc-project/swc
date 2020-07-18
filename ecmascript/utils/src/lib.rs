@@ -1141,19 +1141,19 @@ impl Visit for LiteralVisitor {
         self.is_lit = false;
     }
 
-    fn visit_await_expr(&mut self, n: &AwaitExpr, _parent: &dyn Node) {
+    fn visit_await_expr(&mut self, _: &AwaitExpr, _parent: &dyn Node) {
         self.is_lit = false
     }
 
-    fn visit_bin_expr(&mut self, n: &BinExpr, _parent: &dyn Node) {
+    fn visit_bin_expr(&mut self, _: &BinExpr, _parent: &dyn Node) {
         self.is_lit = false
     }
 
-    fn visit_call_expr(&mut self, n: &CallExpr, _parent: &dyn Node) {
+    fn visit_call_expr(&mut self, _: &CallExpr, _parent: &dyn Node) {
         self.is_lit = false
     }
 
-    fn visit_class_expr(&mut self, n: &ClassExpr, _parent: &dyn Node) {
+    fn visit_class_expr(&mut self, _: &ClassExpr, _parent: &dyn Node) {
         self.is_lit = false
     }
 
@@ -1181,23 +1181,23 @@ impl Visit for LiteralVisitor {
         self.is_lit = false;
     }
 
-    fn visit_jsx_element(&mut self, n: &JSXElement, _parent: &dyn Node) {
+    fn visit_jsx_element(&mut self, _: &JSXElement, _parent: &dyn Node) {
         self.is_lit = false
     }
 
-    fn visit_jsx_empty_expr(&mut self, n: &JSXEmptyExpr, _parent: &dyn Node) {
+    fn visit_jsx_empty_expr(&mut self, _: &JSXEmptyExpr, _parent: &dyn Node) {
         self.is_lit = false
     }
 
-    fn visit_jsx_fragment(&mut self, n: &JSXFragment, _parent: &dyn Node) {
+    fn visit_jsx_fragment(&mut self, _: &JSXFragment, _parent: &dyn Node) {
         self.is_lit = false
     }
 
-    fn visit_jsx_member_expr(&mut self, n: &JSXMemberExpr, _parent: &dyn Node) {
+    fn visit_jsx_member_expr(&mut self, _: &JSXMemberExpr, _parent: &dyn Node) {
         self.is_lit = false
     }
 
-    fn visit_jsx_namespaced_name(&mut self, n: &JSXNamespacedName, _parent: &dyn Node) {
+    fn visit_jsx_namespaced_name(&mut self, _: &JSXNamespacedName, _parent: &dyn Node) {
         self.is_lit = false
     }
 
@@ -1205,11 +1205,11 @@ impl Visit for LiteralVisitor {
         self.is_lit = false;
     }
 
-    fn visit_meta_prop_expr(&mut self, n: &MetaPropExpr, _parent: &dyn Node) {
+    fn visit_meta_prop_expr(&mut self, _: &MetaPropExpr, _parent: &dyn Node) {
         self.is_lit = false
     }
 
-    fn visit_new_expr(&mut self, n: &NewExpr, _parent: &dyn Node) {
+    fn visit_new_expr(&mut self, _: &NewExpr, _parent: &dyn Node) {
         self.is_lit = false
     }
 
@@ -1219,11 +1219,11 @@ impl Visit for LiteralVisitor {
         }
     }
 
-    fn visit_opt_chain_expr(&mut self, n: &OptChainExpr, _parent: &dyn Node) {
+    fn visit_opt_chain_expr(&mut self, _: &OptChainExpr, _parent: &dyn Node) {
         self.is_lit = false
     }
 
-    fn visit_private_name(&mut self, n: &PrivateName, _parent: &dyn Node) {
+    fn visit_private_name(&mut self, _: &PrivateName, _parent: &dyn Node) {
         self.is_lit = false
     }
 
@@ -1264,7 +1264,7 @@ impl Visit for LiteralVisitor {
         }
     }
 
-    fn visit_seq_expr(&mut self, n: &SeqExpr, _parent: &dyn Node) {
+    fn visit_seq_expr(&mut self, _: &SeqExpr, _parent: &dyn Node) {
         self.is_lit = false
     }
 
@@ -1272,7 +1272,7 @@ impl Visit for LiteralVisitor {
         self.is_lit = false;
     }
 
-    fn visit_tagged_tpl(&mut self, n: &TaggedTpl, _parent: &dyn Node) {
+    fn visit_tagged_tpl(&mut self, _: &TaggedTpl, _parent: &dyn Node) {
         self.is_lit = false
     }
 
@@ -1280,15 +1280,15 @@ impl Visit for LiteralVisitor {
         self.is_lit = false;
     }
 
-    fn visit_ts_const_assertion(&mut self, n: &TsConstAssertion, _parent: &dyn Node) {
+    fn visit_ts_const_assertion(&mut self, _: &TsConstAssertion, _parent: &dyn Node) {
         self.is_lit = false
     }
 
-    fn visit_ts_non_null_expr(&mut self, n: &TsNonNullExpr, _parent: &dyn Node) {
+    fn visit_ts_non_null_expr(&mut self, _: &TsNonNullExpr, _parent: &dyn Node) {
         self.is_lit = false
     }
 
-    fn visit_ts_type_assertion(&mut self, n: &TsTypeAssertion, _parent: &dyn Node) {
+    fn visit_ts_type_assertion(&mut self, _: &TsTypeAssertion, _parent: &dyn Node) {
         self.is_lit = false
     }
 
@@ -1300,7 +1300,7 @@ impl Visit for LiteralVisitor {
         self.is_lit = false;
     }
 
-    fn visit_yield_expr(&mut self, n: &YieldExpr, _parent: &dyn Node) {
+    fn visit_yield_expr(&mut self, _: &YieldExpr, _parent: &dyn Node) {
         self.is_lit = false
     }
 }
