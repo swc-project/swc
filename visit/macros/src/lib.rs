@@ -240,8 +240,22 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     /// Visit children nodes of self with `v`
                     fn visit_children_with(&self, _parent: &dyn Node, v: &mut V);
                 }
-            })
-            .parse::<ItemTrait>(),
+
+                impl<V, T> VisitWith<V> for Box<T>
+                where
+                    V: Visit,
+                    T: VisitWith<V>,
+                {
+                    fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
+                        (**self).visit_with(_parent, v)
+                    }
+
+                    /// Visit children nodes of self with `v`
+                    fn visit_children_with(&self, _parent: &dyn Node, v: &mut V) {
+                        (**self).visit_children_with(_parent, v)
+                    }
+                }
+            }),
             Mode::Folder => q!({
                 pub trait FoldWith<V: Fold> {
                     fn fold_with(self, v: &mut V) -> Self;
@@ -249,10 +263,23 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     /// Visit children nodes of self with `v`
                     fn fold_children_with(self, v: &mut V) -> Self;
                 }
-            })
-            .parse::<ItemTrait>(),
-        };
 
+                impl<V, T> FoldWith<V> for Box<T>
+                where
+                    V: Fold,
+                    T: FoldWith<V>,
+                {
+                    fn fold_with(self, v: &mut V) -> Self {
+                        Box::new((*self).fold_with(v))
+                    }
+
+                    /// Visit children nodes of self with `v`
+                    fn fold_children_with(self, v: &mut V) -> Self {
+                        Box::new((*self).fold_children_with(v))
+                    }
+                }
+            }),
+        };
         tokens.push_tokens(&trait_decl);
 
         let mut names = HashSet::new();
