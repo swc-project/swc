@@ -1,7 +1,7 @@
 use super::*;
 use crate::tests::HygieneVisualizer;
 use std::collections::HashMap;
-use swc_common::{hygiene::*, Fold, DUMMY_SP};
+use swc_common::{hygiene::*, DUMMY_SP};
 use swc_ecma_parser::Syntax;
 
 struct Marker {

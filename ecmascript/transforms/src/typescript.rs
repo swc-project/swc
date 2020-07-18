@@ -1,11 +1,10 @@
 use crate::util::{prepend_stmts, var::VarCollector, ExprFactory};
 use fxhash::FxHashMap;
 use swc_atoms::js_word;
-use swc_common::{
-    util::move_map::MoveMap, Fold, FoldWith, Span, Spanned, Visit, VisitWith, DUMMY_SP,
-};
+use swc_common::{util::move_map::MoveMap, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
+use swc_ecma_visit::Fold;
 
 /// Strips type annotations out.
 pub fn strip() -> impl Fold {
