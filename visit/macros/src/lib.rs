@@ -234,14 +234,20 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
         let trait_decl = match mode {
             Mode::Visitor => q!({
-                pub trait VisitWith<V> {
+                pub trait VisitWith<V: Visit> {
                     fn visit_with(&self, _parent: &dyn Node, v: &mut V);
+
+                    /// Visit children nodes of self with `v`
+                    fn visit_children_with(&self, _parent: &dyn Node, v: &mut V);
                 }
             })
             .parse::<ItemTrait>(),
             Mode::Folder => q!({
-                pub trait FoldWith<V> {
+                pub trait FoldWith<V: Fold> {
                     fn fold_with(self, v: &mut V) -> Self;
+
+                    /// Visit children nodes of self with `v`
+                    fn fold_children_with(self, v: &mut V) -> Self;
                 }
             })
             .parse::<ItemTrait>(),
@@ -273,18 +279,24 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             names.insert(s);
 
             let expr = visit_expr(mode, ty, &q!({ v }).parse(), q!({ self }).parse());
-
+            let default_body = create_method_body(mode, ty);
             match mode {
                 Mode::Visitor => {
                     tokens.push_tokens(&q!(
                         Vars {
+                            method_name,
                             Type: node_type,
                             expr,
+                            default_body,
                         },
                         {
                             impl<V: Visit> VisitWith<V> for Type {
                                 fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
                                     expr
+                                }
+
+                                fn visit_children_with(&self, _parent: &dyn Node, v: &mut V) {
+                                    method_name(v, expr, _parent);
                                 }
                             }
                         }
@@ -293,6 +305,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 Mode::Folder => {
                     tokens.push_tokens(&q!(
                         Vars {
+                            method_name,
                             Type: node_type,
                             expr,
                         },
@@ -300,6 +313,10 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                             impl<V: Fold> FoldWith<V> for Type {
                                 fn fold_with(self, v: &mut V) -> Self {
                                     expr
+                                }
+
+                                fn fold_children_with(self, v: &mut V) -> Self {
+                                    method_name(v, self)
                                 }
                             }
                         }
