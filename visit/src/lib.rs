@@ -36,7 +36,7 @@ macro_rules! chain {
     };
 
     ($a:expr, $b:expr,  $($rest:tt)+) => {{
-        use $crate::fold::and_then::AndThen;
+        use $crate::AndThen;
 
         AndThen{
             first: $a,
