@@ -285,7 +285,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     tokens.push_tokens(&q!(
                         Vars {
                             method_name,
-                            Type: node_type,
+                            Type: ty,
                             expr,
                             default_body,
                         },
@@ -295,7 +295,13 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                                     expr
                                 }
 
-                                fn visit_children_with(&self, _parent: &dyn Node, v: &mut V) {
+                                fn visit_children_with(
+                                    &self,
+                                    _parent: &dyn Node,
+                                    _visitor: &mut V,
+                                ) {
+                                    let n = self;
+                                    let _parent = n as &dyn Node;
                                     default_body
                                 }
                             }
