@@ -3,6 +3,7 @@ use std::any::Any;
 use swc_atoms::JsWord;
 use swc_common::Span;
 use swc_ecma_ast::*;
+// use swc_visit::define;
 
 /// Visitable nodes.
 pub trait Node: Any {}
@@ -8889,1332 +8890,2142 @@ where
         }
     }
 }
-pub trait FoldWith<V> {
+pub trait FoldWith<V: Fold> {
     fn fold_with(self, v: &mut V) -> Self;
+    /// Visit children nodes of self with `v`
+    fn fold_children_with(self, v: &mut V) -> Self;
+}
+impl<V, T> FoldWith<V> for Box<T>
+where
+    V: Fold,
+    T: FoldWith<V>,
+{
+    fn fold_with(self, v: &mut V) -> Self {
+        Box::new((*self).fold_with(v))
+    }
+    /// Visit children nodes of self with `v`
+    fn fold_children_with(self, v: &mut V) -> Self {
+        Box::new((*self).fold_children_with(v))
+    }
 }
 impl<V: Fold> FoldWith<V> for Class {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_class(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_class(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for Span {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_span(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_span(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for Vec<Decorator> {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_decorators(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_decorators(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for Vec<ClassMember> {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_class_members(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_class_members(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for Option<Box<Expr>> {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_opt_expr(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_opt_expr(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for Option<TsTypeParamDecl> {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_opt_ts_type_param_decl(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_opt_ts_type_param_decl(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for Option<TsTypeParamInstantiation> {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_opt_ts_type_param_instantiation(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_opt_ts_type_param_instantiation(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for Vec<TsExprWithTypeArgs> {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_expr_with_type_args_vec(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_expr_with_type_args_vec(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for ClassMember {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_class_member(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_class_member(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for Constructor {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_constructor(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_constructor(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for ClassMethod {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_class_method(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_class_method(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for PrivateMethod {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_private_method(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_private_method(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for ClassProp {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_class_prop(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_class_prop(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for PrivateProp {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_private_prop(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_private_prop(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for TsIndexSignature {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_index_signature(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_index_signature(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for EmptyStmt {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_empty_stmt(self)
     }
-}
-impl<V: Fold> FoldWith<V> for Box<Expr> {
-    fn fold_with(self, v: &mut V) -> Self {
-        Box::new(v.fold_expr(*self))
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_empty_stmt(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for Option<TsTypeAnn> {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_opt_ts_type_ann(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_opt_ts_type_ann(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for Option<Accessibility> {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_opt_accessibility(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_opt_accessibility(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for PrivateName {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_private_name(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_private_name(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for PropName {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_prop_name(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_prop_name(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for Function {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_function(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_function(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for MethodKind {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_method_kind(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_method_kind(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for Vec<ParamOrTsParamProp> {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_param_or_ts_param_props(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_param_or_ts_param_props(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for Option<BlockStmt> {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_opt_block_stmt(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_opt_block_stmt(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for Decorator {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_decorator(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_decorator(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for Decl {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_decl(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_decl(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for ClassDecl {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_class_decl(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_class_decl(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for FnDecl {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_fn_decl(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_fn_decl(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for VarDecl {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_var_decl(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_var_decl(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for TsInterfaceDecl {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_interface_decl(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_interface_decl(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for TsTypeAliasDecl {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_type_alias_decl(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_type_alias_decl(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for TsEnumDecl {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_enum_decl(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_enum_decl(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for TsModuleDecl {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_module_decl(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_module_decl(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for Ident {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ident(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ident(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for VarDeclKind {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_var_decl_kind(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_var_decl_kind(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for Vec<VarDeclarator> {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_var_declarators(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_var_declarators(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for VarDeclarator {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_var_declarator(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_var_declarator(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for Pat {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_pat(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_pat(v, self)
+    }
+}
+impl<V: Fold> FoldWith<V> for Expr {
+    fn fold_with(self, v: &mut V) -> Self {
+        v.fold_expr(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_expr(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for ThisExpr {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_this_expr(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_this_expr(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for ArrayLit {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_array_lit(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_array_lit(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for ObjectLit {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_object_lit(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_object_lit(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for FnExpr {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_fn_expr(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_fn_expr(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for UnaryExpr {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_unary_expr(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_unary_expr(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for UpdateExpr {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_update_expr(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_update_expr(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for BinExpr {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_bin_expr(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_bin_expr(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for AssignExpr {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_assign_expr(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_assign_expr(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for MemberExpr {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_member_expr(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_member_expr(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for CondExpr {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_cond_expr(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_cond_expr(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for CallExpr {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_call_expr(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_call_expr(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for NewExpr {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_new_expr(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_new_expr(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for SeqExpr {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_seq_expr(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_seq_expr(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for Lit {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_lit(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_lit(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for Tpl {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_tpl(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_tpl(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for TaggedTpl {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_tagged_tpl(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_tagged_tpl(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for ArrowExpr {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_arrow_expr(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_arrow_expr(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for ClassExpr {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_class_expr(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_class_expr(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for YieldExpr {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_yield_expr(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_yield_expr(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for MetaPropExpr {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_meta_prop_expr(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_meta_prop_expr(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for AwaitExpr {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_await_expr(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_await_expr(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for ParenExpr {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_paren_expr(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_paren_expr(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for JSXMemberExpr {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_jsx_member_expr(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_jsx_member_expr(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for JSXNamespacedName {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_jsx_namespaced_name(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_jsx_namespaced_name(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for JSXEmptyExpr {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_jsx_empty_expr(self)
     }
-}
-impl<V: Fold> FoldWith<V> for Box<JSXElement> {
-    fn fold_with(self, v: &mut V) -> Self {
-        Box::new(v.fold_jsx_element(*self))
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_jsx_empty_expr(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for JSXFragment {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_jsx_fragment(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_jsx_fragment(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for TsTypeAssertion {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_type_assertion(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_type_assertion(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for TsConstAssertion {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_const_assertion(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_const_assertion(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for TsNonNullExpr {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_non_null_expr(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_non_null_expr(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for TsTypeCastExpr {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_type_cast_expr(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_type_cast_expr(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for TsAsExpr {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_as_expr(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_as_expr(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for OptChainExpr {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_opt_chain_expr(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_opt_chain_expr(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for Invalid {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_invalid(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_invalid(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for Vec<Option<ExprOrSpread>> {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_opt_vec_expr_or_spreads(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_opt_vec_expr_or_spreads(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for Vec<PropOrSpread> {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_prop_or_spreads(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_prop_or_spreads(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for PropOrSpread {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_prop_or_spread(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_prop_or_spread(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for SpreadElement {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_spread_element(self)
     }
-}
-impl<V: Fold> FoldWith<V> for Box<Prop> {
-    fn fold_with(self, v: &mut V) -> Self {
-        Box::new(v.fold_prop(*self))
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_spread_element(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for UnaryOp {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_unary_op(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_unary_op(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for UpdateOp {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_update_op(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_update_op(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for BinaryOp {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_binary_op(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_binary_op(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for Option<Ident> {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_opt_ident(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_opt_ident(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for AssignOp {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_assign_op(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_assign_op(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for PatOrExpr {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_pat_or_expr(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_pat_or_expr(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for ExprOrSuper {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_expr_or_super(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_expr_or_super(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for Vec<ExprOrSpread> {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_expr_or_spreads(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_expr_or_spreads(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for Option<Vec<ExprOrSpread>> {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_opt_expr_or_spreads(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_opt_expr_or_spreads(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for Vec<Box<Expr>> {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_exprs(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_exprs(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for Vec<Pat> {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_pats(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_pats(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for BlockStmtOrExpr {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_block_stmt_or_expr(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_block_stmt_or_expr(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for Vec<TplElement> {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_tpl_elements(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_tpl_elements(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for TplElement {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_tpl_element(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_tpl_element(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for Option<Str> {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_opt_str(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_opt_str(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for Str {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_str(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_str(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for Super {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_super(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_super(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for ExprOrSpread {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_expr_or_spread(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_expr_or_spread(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for Option<Span> {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_opt_span(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_opt_span(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for BlockStmt {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_block_stmt(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_block_stmt(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for Vec<Param> {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_params(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_params(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for Param {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_param(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_param(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for ParamOrTsParamProp {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_param_or_ts_param_prop(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_param_or_ts_param_prop(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for TsParamProp {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_param_prop(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_param_prop(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for JsWord {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_js_word(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_js_word(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for JSXObject {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_jsx_object(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_jsx_object(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for JSXExprContainer {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_jsx_expr_container(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_jsx_expr_container(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for JSXExpr {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_jsx_expr(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_jsx_expr(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for JSXSpreadChild {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_jsx_spread_child(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_jsx_spread_child(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for JSXElementName {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_jsx_element_name(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_jsx_element_name(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for JSXOpeningElement {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_jsx_opening_element(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_jsx_opening_element(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for Vec<JSXAttrOrSpread> {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_jsx_attr_or_spreads(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_jsx_attr_or_spreads(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for JSXAttrOrSpread {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_jsx_attr_or_spread(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_jsx_attr_or_spread(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for JSXAttr {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_jsx_attr(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_jsx_attr(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for JSXClosingElement {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_jsx_closing_element(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_jsx_closing_element(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for JSXAttrName {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_jsx_attr_name(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_jsx_attr_name(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for Option<JSXAttrValue> {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_opt_jsx_attr_value(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_opt_jsx_attr_value(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for JSXAttrValue {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_jsx_attr_value(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_jsx_attr_value(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for JSXText {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_jsx_text(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_jsx_text(v, self)
+    }
+}
+impl<V: Fold> FoldWith<V> for JSXElement {
+    fn fold_with(self, v: &mut V) -> Self {
+        v.fold_jsx_element(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_jsx_element(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for Vec<JSXElementChild> {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_jsx_element_children(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_jsx_element_children(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for Option<JSXClosingElement> {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_opt_jsx_closing_element(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_opt_jsx_closing_element(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for JSXElementChild {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_jsx_element_child(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_jsx_element_child(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for JSXOpeningFragment {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_jsx_opening_fragment(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_jsx_opening_fragment(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for JSXClosingFragment {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_jsx_closing_fragment(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_jsx_closing_fragment(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for Bool {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_bool(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_bool(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for Null {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_null(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_null(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for Number {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_number(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_number(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for BigInt {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_big_int(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_big_int(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for Regex {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_regex(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_regex(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for BigIntValue {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_big_int_value(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_big_int_value(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for Program {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_program(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_program(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for Module {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_module(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_module(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for Script {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_script(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_script(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for Vec<ModuleItem> {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_module_items(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_module_items(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for Option<JsWord> {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_opt_js_word(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_opt_js_word(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for Vec<Stmt> {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_stmts(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_stmts(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for ModuleItem {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_module_item(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_module_item(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for ModuleDecl {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_module_decl(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_module_decl(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for Stmt {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_stmt(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_stmt(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for ImportDecl {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_import_decl(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_import_decl(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for ExportDecl {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_export_decl(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_export_decl(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for NamedExport {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_named_export(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_named_export(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for ExportDefaultDecl {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_export_default_decl(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_export_default_decl(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for ExportDefaultExpr {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_export_default_expr(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_export_default_expr(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for ExportAll {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_export_all(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_export_all(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for TsImportEqualsDecl {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_import_equals_decl(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_import_equals_decl(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for TsExportAssignment {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_export_assignment(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_export_assignment(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for TsNamespaceExportDecl {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_namespace_export_decl(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_namespace_export_decl(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for Vec<ImportSpecifier> {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_import_specifiers(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_import_specifiers(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for Vec<ExportSpecifier> {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_export_specifiers(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_export_specifiers(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for DefaultDecl {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_default_decl(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_default_decl(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for ImportSpecifier {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_import_specifier(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_import_specifier(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for ImportNamedSpecifier {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_import_named_specifier(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_import_named_specifier(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for ImportDefaultSpecifier {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_import_default_specifier(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_import_default_specifier(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for ImportStarAsSpecifier {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_import_star_as_specifier(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_import_star_as_specifier(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for ExportSpecifier {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_export_specifier(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_export_specifier(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for ExportNamespaceSpecifier {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_export_namespace_specifier(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_export_namespace_specifier(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for ExportDefaultSpecifier {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_export_default_specifier(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_export_default_specifier(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for ExportNamedSpecifier {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_export_named_specifier(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_export_named_specifier(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for ArrayPat {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_array_pat(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_array_pat(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for RestPat {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_rest_pat(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_rest_pat(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for ObjectPat {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_object_pat(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_object_pat(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for AssignPat {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_assign_pat(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_assign_pat(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for Vec<Option<Pat>> {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_opt_vec_pats(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_opt_vec_pats(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for Vec<ObjectPatProp> {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_object_pat_props(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_object_pat_props(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for ObjectPatProp {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_object_pat_prop(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_object_pat_prop(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for KeyValuePatProp {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_key_value_pat_prop(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_key_value_pat_prop(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for AssignPatProp {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_assign_pat_prop(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_assign_pat_prop(v, self)
+    }
+}
+impl<V: Fold> FoldWith<V> for Prop {
+    fn fold_with(self, v: &mut V) -> Self {
+        v.fold_prop(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_prop(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for KeyValueProp {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_key_value_prop(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_key_value_prop(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for AssignProp {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_assign_prop(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_assign_prop(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for GetterProp {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_getter_prop(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_getter_prop(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for SetterProp {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_setter_prop(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_setter_prop(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for MethodProp {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_method_prop(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_method_prop(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for ComputedPropName {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_computed_prop_name(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_computed_prop_name(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for DebuggerStmt {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_debugger_stmt(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_debugger_stmt(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for WithStmt {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_with_stmt(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_with_stmt(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for ReturnStmt {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_return_stmt(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_return_stmt(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for LabeledStmt {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_labeled_stmt(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_labeled_stmt(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for BreakStmt {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_break_stmt(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_break_stmt(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for ContinueStmt {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_continue_stmt(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_continue_stmt(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for IfStmt {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_if_stmt(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_if_stmt(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for SwitchStmt {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_switch_stmt(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_switch_stmt(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for ThrowStmt {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_throw_stmt(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_throw_stmt(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for TryStmt {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_try_stmt(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_try_stmt(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for WhileStmt {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_while_stmt(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_while_stmt(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for DoWhileStmt {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_do_while_stmt(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_do_while_stmt(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for ForStmt {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_for_stmt(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_for_stmt(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for ForInStmt {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_for_in_stmt(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_for_in_stmt(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for ForOfStmt {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_for_of_stmt(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_for_of_stmt(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for ExprStmt {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_expr_stmt(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_expr_stmt(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for Option<Box<Stmt>> {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_opt_stmt(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_opt_stmt(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for Vec<SwitchCase> {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_switch_cases(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_switch_cases(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for Option<CatchClause> {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_opt_catch_clause(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_opt_catch_clause(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for Option<VarDeclOrExpr> {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_opt_var_decl_or_expr(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_opt_var_decl_or_expr(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for VarDeclOrPat {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_var_decl_or_pat(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_var_decl_or_pat(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for SwitchCase {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_switch_case(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_switch_case(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for CatchClause {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_catch_clause(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_catch_clause(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for Option<Pat> {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_opt_pat(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_opt_pat(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for VarDeclOrExpr {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_var_decl_or_expr(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_var_decl_or_expr(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for TsTypeAnn {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_type_ann(self)
     }
-}
-impl<V: Fold> FoldWith<V> for Box<TsType> {
-    fn fold_with(self, v: &mut V) -> Self {
-        Box::new(v.fold_ts_type(*self))
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_type_ann(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for TsTypeParamDecl {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_type_param_decl(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_type_param_decl(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for Vec<TsTypeParam> {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_type_params(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_type_params(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for TsTypeParam {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_type_param(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_type_param(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for Option<Box<TsType>> {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_opt_ts_type(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_opt_ts_type(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for TsTypeParamInstantiation {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_type_param_instantiation(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_type_param_instantiation(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for Vec<Box<TsType>> {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_types(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_types(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for TsParamPropParam {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_param_prop_param(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_param_prop_param(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for TsQualifiedName {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_qualified_name(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_qualified_name(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for TsEntityName {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_entity_name(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_entity_name(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for TsSignatureDecl {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_signature_decl(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_signature_decl(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for TsCallSignatureDecl {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_call_signature_decl(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_call_signature_decl(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for TsConstructSignatureDecl {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_construct_signature_decl(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_construct_signature_decl(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for TsMethodSignature {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_method_signature(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_method_signature(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for TsFnType {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_fn_type(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_fn_type(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for TsConstructorType {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_constructor_type(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_constructor_type(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for TsTypeElement {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_type_element(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_type_element(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for TsPropertySignature {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_property_signature(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_property_signature(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for Vec<TsFnParam> {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_fn_params(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_fn_params(v, self)
+    }
+}
+impl<V: Fold> FoldWith<V> for TsType {
+    fn fold_with(self, v: &mut V) -> Self {
+        v.fold_ts_type(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_type(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for TsKeywordType {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_keyword_type(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_keyword_type(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for TsThisType {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_this_type(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_this_type(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for TsFnOrConstructorType {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_fn_or_constructor_type(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_fn_or_constructor_type(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for TsTypeRef {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_type_ref(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_type_ref(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for TsTypeQuery {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_type_query(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_type_query(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for TsTypeLit {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_type_lit(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_type_lit(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for TsArrayType {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_array_type(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_array_type(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for TsTupleType {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_tuple_type(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_tuple_type(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for TsOptionalType {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_optional_type(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_optional_type(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for TsRestType {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_rest_type(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_rest_type(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for TsUnionOrIntersectionType {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_union_or_intersection_type(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_union_or_intersection_type(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for TsConditionalType {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_conditional_type(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_conditional_type(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for TsInferType {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_infer_type(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_infer_type(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for TsParenthesizedType {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_parenthesized_type(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_parenthesized_type(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for TsTypeOperator {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_type_operator(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_type_operator(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for TsIndexedAccessType {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_indexed_access_type(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_indexed_access_type(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for TsMappedType {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_mapped_type(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_mapped_type(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for TsLitType {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_lit_type(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_lit_type(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for TsTypePredicate {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_type_predicate(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_type_predicate(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for TsImportType {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_import_type(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_import_type(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for TsKeywordTypeKind {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_keyword_type_kind(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_keyword_type_kind(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for TsFnParam {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_fn_param(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_fn_param(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for TsThisTypeOrIdent {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_this_type_or_ident(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_this_type_or_ident(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for TsTypeQueryExpr {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_type_query_expr(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_type_query_expr(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for Option<TsEntityName> {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_opt_ts_entity_name(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_opt_ts_entity_name(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for Vec<TsTypeElement> {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_type_elements(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_type_elements(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for Vec<TsTupleElement> {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_tuple_elements(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_tuple_elements(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for TsTupleElement {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_tuple_element(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_tuple_element(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for TsUnionType {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_union_type(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_union_type(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for TsIntersectionType {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_intersection_type(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_intersection_type(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for TsTypeOperatorOp {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_type_operator_op(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_type_operator_op(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for TruePlusMinus {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_true_plus_minus(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_true_plus_minus(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for Option<TruePlusMinus> {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_opt_true_plus_minus(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_opt_true_plus_minus(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for TsLit {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_lit(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_lit(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for TsInterfaceBody {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_interface_body(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_interface_body(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for TsExprWithTypeArgs {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_expr_with_type_args(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_expr_with_type_args(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for Vec<TsEnumMember> {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_enum_members(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_enum_members(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for TsEnumMember {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_enum_member(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_enum_member(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for TsEnumMemberId {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_enum_member_id(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_enum_member_id(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for TsModuleName {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_module_name(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_module_name(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for Option<TsNamespaceBody> {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_opt_ts_namespace_body(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_opt_ts_namespace_body(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for TsNamespaceBody {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_namespace_body(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_namespace_body(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for TsModuleBlock {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_module_block(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_module_block(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for TsNamespaceDecl {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_namespace_decl(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_namespace_decl(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for TsModuleRef {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_module_ref(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_module_ref(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for TsExternalModuleRef {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_ts_external_module_ref(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_ts_external_module_ref(v, self)
     }
 }
 impl<V: Fold> FoldWith<V> for Accessibility {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_accessibility(self)
     }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_accessibility(v, self)
+    }
 }
 impl<V: Fold> FoldWith<V> for Option<ExprOrSpread> {
     fn fold_with(self, v: &mut V) -> Self {
         v.fold_opt_expr_or_spread(self)
+    }
+    fn fold_children_with(self, v: &mut V) -> Self {
+        fold_opt_expr_or_spread(v, self)
     }
 }
 #[allow(unused_variables)]
@@ -16761,1331 +17572,2856 @@ where
         }
     }
 }
-pub trait VisitWith<V> {
+pub trait VisitWith<V: Visit> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V);
+    /// Visit children nodes of self with `v`
+    fn visit_children_with(&self, _parent: &dyn Node, v: &mut V);
 }
-impl<V: Visit> VisitWith<V> for &Class {
+impl<V, T> VisitWith<V> for Box<T>
+where
+    V: Visit,
+    T: VisitWith<V>,
+{
+    fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
+        (**self).visit_with(_parent, v)
+    }
+    /// Visit children nodes of self with `v`
+    fn visit_children_with(&self, _parent: &dyn Node, v: &mut V) {
+        (**self).visit_children_with(_parent, v)
+    }
+}
+impl<V: Visit> VisitWith<V> for Class {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_class(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &Span {
+impl<V: Visit> VisitWith<V> for Span {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_span(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &Vec<Decorator> {
+impl<V: Visit> VisitWith<V> for Vec<Decorator> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_decorators(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {
+            n.iter().for_each(|v| _visitor.visit_decorator(v, _parent))
+        }
+    }
 }
-impl<V: Visit> VisitWith<V> for &Vec<ClassMember> {
+impl<V: Visit> VisitWith<V> for Vec<ClassMember> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_class_members(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {
+            n.iter()
+                .for_each(|v| _visitor.visit_class_member(v, _parent))
+        }
+    }
 }
-impl<V: Visit> VisitWith<V> for &Option<Box<Expr>> {
+impl<V: Visit> VisitWith<V> for Option<Box<Expr>> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_opt_expr(self.as_ref(), _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {
+            match n {
+                Some(n) => _visitor.visit_expr(n, _parent),
+                None => {}
+            }
+        }
+    }
 }
-impl<V: Visit> VisitWith<V> for &Option<TsTypeParamDecl> {
+impl<V: Visit> VisitWith<V> for Option<TsTypeParamDecl> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_opt_ts_type_param_decl(self.as_ref(), _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {
+            match n {
+                Some(n) => _visitor.visit_ts_type_param_decl(n, _parent),
+                None => {}
+            }
+        }
+    }
 }
-impl<V: Visit> VisitWith<V> for &Option<TsTypeParamInstantiation> {
+impl<V: Visit> VisitWith<V> for Option<TsTypeParamInstantiation> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_opt_ts_type_param_instantiation(self.as_ref(), _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {
+            match n {
+                Some(n) => _visitor.visit_ts_type_param_instantiation(n, _parent),
+                None => {}
+            }
+        }
+    }
 }
-impl<V: Visit> VisitWith<V> for &Vec<TsExprWithTypeArgs> {
+impl<V: Visit> VisitWith<V> for Vec<TsExprWithTypeArgs> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_expr_with_type_args_vec(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {
+            n.iter()
+                .for_each(|v| _visitor.visit_ts_expr_with_type_args(v, _parent))
+        }
+    }
 }
-impl<V: Visit> VisitWith<V> for &ClassMember {
+impl<V: Visit> VisitWith<V> for ClassMember {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_class_member(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &Constructor {
+impl<V: Visit> VisitWith<V> for Constructor {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_constructor(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &ClassMethod {
+impl<V: Visit> VisitWith<V> for ClassMethod {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_class_method(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &PrivateMethod {
+impl<V: Visit> VisitWith<V> for PrivateMethod {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_private_method(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &ClassProp {
+impl<V: Visit> VisitWith<V> for ClassProp {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_class_prop(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &PrivateProp {
+impl<V: Visit> VisitWith<V> for PrivateProp {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_private_prop(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsIndexSignature {
+impl<V: Visit> VisitWith<V> for TsIndexSignature {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_index_signature(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &EmptyStmt {
+impl<V: Visit> VisitWith<V> for EmptyStmt {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_empty_stmt(self, _parent as _)
     }
-}
-impl<V: Visit> VisitWith<V> for &Box<Expr> {
-    fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
-        v.visit_expr(self, _parent as _)
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
     }
 }
-impl<V: Visit> VisitWith<V> for &Option<TsTypeAnn> {
+impl<V: Visit> VisitWith<V> for Option<TsTypeAnn> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_opt_ts_type_ann(self.as_ref(), _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {
+            match n {
+                Some(n) => _visitor.visit_ts_type_ann(n, _parent),
+                None => {}
+            }
+        }
+    }
 }
-impl<V: Visit> VisitWith<V> for &Option<Accessibility> {
+impl<V: Visit> VisitWith<V> for Option<Accessibility> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_opt_accessibility(self.as_ref(), _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {
+            match n {
+                Some(n) => _visitor.visit_accessibility(n, _parent),
+                None => {}
+            }
+        }
+    }
 }
-impl<V: Visit> VisitWith<V> for &PrivateName {
+impl<V: Visit> VisitWith<V> for PrivateName {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_private_name(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &PropName {
+impl<V: Visit> VisitWith<V> for PropName {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_prop_name(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &Function {
+impl<V: Visit> VisitWith<V> for Function {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_function(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &MethodKind {
+impl<V: Visit> VisitWith<V> for MethodKind {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_method_kind(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &Vec<ParamOrTsParamProp> {
+impl<V: Visit> VisitWith<V> for Vec<ParamOrTsParamProp> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_param_or_ts_param_props(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {
+            n.iter()
+                .for_each(|v| _visitor.visit_param_or_ts_param_prop(v, _parent))
+        }
+    }
 }
-impl<V: Visit> VisitWith<V> for &Option<BlockStmt> {
+impl<V: Visit> VisitWith<V> for Option<BlockStmt> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_opt_block_stmt(self.as_ref(), _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {
+            match n {
+                Some(n) => _visitor.visit_block_stmt(n, _parent),
+                None => {}
+            }
+        }
+    }
 }
-impl<V: Visit> VisitWith<V> for &Decorator {
+impl<V: Visit> VisitWith<V> for Decorator {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_decorator(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &Decl {
+impl<V: Visit> VisitWith<V> for Decl {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_decl(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &ClassDecl {
+impl<V: Visit> VisitWith<V> for ClassDecl {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_class_decl(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &FnDecl {
+impl<V: Visit> VisitWith<V> for FnDecl {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_fn_decl(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &VarDecl {
+impl<V: Visit> VisitWith<V> for VarDecl {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_var_decl(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsInterfaceDecl {
+impl<V: Visit> VisitWith<V> for TsInterfaceDecl {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_interface_decl(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsTypeAliasDecl {
+impl<V: Visit> VisitWith<V> for TsTypeAliasDecl {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_type_alias_decl(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsEnumDecl {
+impl<V: Visit> VisitWith<V> for TsEnumDecl {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_enum_decl(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsModuleDecl {
+impl<V: Visit> VisitWith<V> for TsModuleDecl {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_module_decl(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &Ident {
+impl<V: Visit> VisitWith<V> for Ident {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ident(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &VarDeclKind {
+impl<V: Visit> VisitWith<V> for VarDeclKind {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_var_decl_kind(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &Vec<VarDeclarator> {
+impl<V: Visit> VisitWith<V> for Vec<VarDeclarator> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_var_declarators(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {
+            n.iter()
+                .for_each(|v| _visitor.visit_var_declarator(v, _parent))
+        }
+    }
 }
-impl<V: Visit> VisitWith<V> for &VarDeclarator {
+impl<V: Visit> VisitWith<V> for VarDeclarator {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_var_declarator(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &Pat {
+impl<V: Visit> VisitWith<V> for Pat {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_pat(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &ThisExpr {
+impl<V: Visit> VisitWith<V> for Expr {
+    fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
+        v.visit_expr(self, _parent as _)
+    }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
+}
+impl<V: Visit> VisitWith<V> for ThisExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_this_expr(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &ArrayLit {
+impl<V: Visit> VisitWith<V> for ArrayLit {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_array_lit(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &ObjectLit {
+impl<V: Visit> VisitWith<V> for ObjectLit {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_object_lit(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &FnExpr {
+impl<V: Visit> VisitWith<V> for FnExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_fn_expr(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &UnaryExpr {
+impl<V: Visit> VisitWith<V> for UnaryExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_unary_expr(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &UpdateExpr {
+impl<V: Visit> VisitWith<V> for UpdateExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_update_expr(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &BinExpr {
+impl<V: Visit> VisitWith<V> for BinExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_bin_expr(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &AssignExpr {
+impl<V: Visit> VisitWith<V> for AssignExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_assign_expr(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &MemberExpr {
+impl<V: Visit> VisitWith<V> for MemberExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_member_expr(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &CondExpr {
+impl<V: Visit> VisitWith<V> for CondExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_cond_expr(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &CallExpr {
+impl<V: Visit> VisitWith<V> for CallExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_call_expr(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &NewExpr {
+impl<V: Visit> VisitWith<V> for NewExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_new_expr(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &SeqExpr {
+impl<V: Visit> VisitWith<V> for SeqExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_seq_expr(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &Lit {
+impl<V: Visit> VisitWith<V> for Lit {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_lit(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &Tpl {
+impl<V: Visit> VisitWith<V> for Tpl {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_tpl(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TaggedTpl {
+impl<V: Visit> VisitWith<V> for TaggedTpl {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_tagged_tpl(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &ArrowExpr {
+impl<V: Visit> VisitWith<V> for ArrowExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_arrow_expr(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &ClassExpr {
+impl<V: Visit> VisitWith<V> for ClassExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_class_expr(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &YieldExpr {
+impl<V: Visit> VisitWith<V> for YieldExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_yield_expr(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &MetaPropExpr {
+impl<V: Visit> VisitWith<V> for MetaPropExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_meta_prop_expr(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &AwaitExpr {
+impl<V: Visit> VisitWith<V> for AwaitExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_await_expr(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &ParenExpr {
+impl<V: Visit> VisitWith<V> for ParenExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_paren_expr(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &JSXMemberExpr {
+impl<V: Visit> VisitWith<V> for JSXMemberExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_jsx_member_expr(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &JSXNamespacedName {
+impl<V: Visit> VisitWith<V> for JSXNamespacedName {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_jsx_namespaced_name(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &JSXEmptyExpr {
+impl<V: Visit> VisitWith<V> for JSXEmptyExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_jsx_empty_expr(self, _parent as _)
     }
-}
-impl<V: Visit> VisitWith<V> for &Box<JSXElement> {
-    fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
-        v.visit_jsx_element(self, _parent as _)
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
     }
 }
-impl<V: Visit> VisitWith<V> for &JSXFragment {
+impl<V: Visit> VisitWith<V> for JSXFragment {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_jsx_fragment(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsTypeAssertion {
+impl<V: Visit> VisitWith<V> for TsTypeAssertion {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_type_assertion(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsConstAssertion {
+impl<V: Visit> VisitWith<V> for TsConstAssertion {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_const_assertion(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsNonNullExpr {
+impl<V: Visit> VisitWith<V> for TsNonNullExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_non_null_expr(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsTypeCastExpr {
+impl<V: Visit> VisitWith<V> for TsTypeCastExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_type_cast_expr(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsAsExpr {
+impl<V: Visit> VisitWith<V> for TsAsExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_as_expr(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &OptChainExpr {
+impl<V: Visit> VisitWith<V> for OptChainExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_opt_chain_expr(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &Invalid {
+impl<V: Visit> VisitWith<V> for Invalid {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_invalid(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &Vec<Option<ExprOrSpread>> {
+impl<V: Visit> VisitWith<V> for Vec<Option<ExprOrSpread>> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_opt_vec_expr_or_spreads(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {
+            n.iter()
+                .for_each(|v| _visitor.visit_opt_expr_or_spread(v.as_ref(), _parent))
+        }
+    }
 }
-impl<V: Visit> VisitWith<V> for &Vec<PropOrSpread> {
+impl<V: Visit> VisitWith<V> for Vec<PropOrSpread> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_prop_or_spreads(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {
+            n.iter()
+                .for_each(|v| _visitor.visit_prop_or_spread(v, _parent))
+        }
+    }
 }
-impl<V: Visit> VisitWith<V> for &PropOrSpread {
+impl<V: Visit> VisitWith<V> for PropOrSpread {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_prop_or_spread(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &SpreadElement {
+impl<V: Visit> VisitWith<V> for SpreadElement {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_spread_element(self, _parent as _)
     }
-}
-impl<V: Visit> VisitWith<V> for &Box<Prop> {
-    fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
-        v.visit_prop(self, _parent as _)
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
     }
 }
-impl<V: Visit> VisitWith<V> for &UnaryOp {
+impl<V: Visit> VisitWith<V> for UnaryOp {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_unary_op(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &UpdateOp {
+impl<V: Visit> VisitWith<V> for UpdateOp {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_update_op(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &BinaryOp {
+impl<V: Visit> VisitWith<V> for BinaryOp {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_binary_op(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &Option<Ident> {
+impl<V: Visit> VisitWith<V> for Option<Ident> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_opt_ident(self.as_ref(), _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {
+            match n {
+                Some(n) => _visitor.visit_ident(n, _parent),
+                None => {}
+            }
+        }
+    }
 }
-impl<V: Visit> VisitWith<V> for &AssignOp {
+impl<V: Visit> VisitWith<V> for AssignOp {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_assign_op(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &PatOrExpr {
+impl<V: Visit> VisitWith<V> for PatOrExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_pat_or_expr(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &ExprOrSuper {
+impl<V: Visit> VisitWith<V> for ExprOrSuper {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_expr_or_super(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &Vec<ExprOrSpread> {
+impl<V: Visit> VisitWith<V> for Vec<ExprOrSpread> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_expr_or_spreads(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {
+            n.iter()
+                .for_each(|v| _visitor.visit_expr_or_spread(v, _parent))
+        }
+    }
 }
-impl<V: Visit> VisitWith<V> for &Option<Vec<ExprOrSpread>> {
+impl<V: Visit> VisitWith<V> for Option<Vec<ExprOrSpread>> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_opt_expr_or_spreads(self.as_ref().map(|v| &**v), _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {
+            match n {
+                Some(n) => _visitor.visit_expr_or_spreads(n, _parent),
+                None => {}
+            }
+        }
+    }
 }
-impl<V: Visit> VisitWith<V> for &Vec<Box<Expr>> {
+impl<V: Visit> VisitWith<V> for Vec<Box<Expr>> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_exprs(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {
+            n.iter().for_each(|v| _visitor.visit_expr(v, _parent))
+        }
+    }
 }
-impl<V: Visit> VisitWith<V> for &Vec<Pat> {
+impl<V: Visit> VisitWith<V> for Vec<Pat> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_pats(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {
+            n.iter().for_each(|v| _visitor.visit_pat(v, _parent))
+        }
+    }
 }
-impl<V: Visit> VisitWith<V> for &BlockStmtOrExpr {
+impl<V: Visit> VisitWith<V> for BlockStmtOrExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_block_stmt_or_expr(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &Vec<TplElement> {
+impl<V: Visit> VisitWith<V> for Vec<TplElement> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_tpl_elements(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {
+            n.iter()
+                .for_each(|v| _visitor.visit_tpl_element(v, _parent))
+        }
+    }
 }
-impl<V: Visit> VisitWith<V> for &TplElement {
+impl<V: Visit> VisitWith<V> for TplElement {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_tpl_element(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &Option<Str> {
+impl<V: Visit> VisitWith<V> for Option<Str> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_opt_str(self.as_ref(), _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {
+            match n {
+                Some(n) => _visitor.visit_str(n, _parent),
+                None => {}
+            }
+        }
+    }
 }
-impl<V: Visit> VisitWith<V> for &Str {
+impl<V: Visit> VisitWith<V> for Str {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_str(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &Super {
+impl<V: Visit> VisitWith<V> for Super {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_super(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &ExprOrSpread {
+impl<V: Visit> VisitWith<V> for ExprOrSpread {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_expr_or_spread(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &Option<Span> {
+impl<V: Visit> VisitWith<V> for Option<Span> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_opt_span(self.as_ref(), _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {
+            match n {
+                Some(n) => _visitor.visit_span(n, _parent),
+                None => {}
+            }
+        }
+    }
 }
-impl<V: Visit> VisitWith<V> for &BlockStmt {
+impl<V: Visit> VisitWith<V> for BlockStmt {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_block_stmt(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &Vec<Param> {
+impl<V: Visit> VisitWith<V> for Vec<Param> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_params(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {
+            n.iter().for_each(|v| _visitor.visit_param(v, _parent))
+        }
+    }
 }
-impl<V: Visit> VisitWith<V> for &Param {
+impl<V: Visit> VisitWith<V> for Param {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_param(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &ParamOrTsParamProp {
+impl<V: Visit> VisitWith<V> for ParamOrTsParamProp {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_param_or_ts_param_prop(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsParamProp {
+impl<V: Visit> VisitWith<V> for TsParamProp {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_param_prop(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &JsWord {
+impl<V: Visit> VisitWith<V> for JsWord {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_js_word(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &JSXObject {
+impl<V: Visit> VisitWith<V> for JSXObject {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_jsx_object(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &JSXExprContainer {
+impl<V: Visit> VisitWith<V> for JSXExprContainer {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_jsx_expr_container(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &JSXExpr {
+impl<V: Visit> VisitWith<V> for JSXExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_jsx_expr(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &JSXSpreadChild {
+impl<V: Visit> VisitWith<V> for JSXSpreadChild {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_jsx_spread_child(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &JSXElementName {
+impl<V: Visit> VisitWith<V> for JSXElementName {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_jsx_element_name(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &JSXOpeningElement {
+impl<V: Visit> VisitWith<V> for JSXOpeningElement {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_jsx_opening_element(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &Vec<JSXAttrOrSpread> {
+impl<V: Visit> VisitWith<V> for Vec<JSXAttrOrSpread> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_jsx_attr_or_spreads(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {
+            n.iter()
+                .for_each(|v| _visitor.visit_jsx_attr_or_spread(v, _parent))
+        }
+    }
 }
-impl<V: Visit> VisitWith<V> for &JSXAttrOrSpread {
+impl<V: Visit> VisitWith<V> for JSXAttrOrSpread {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_jsx_attr_or_spread(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &JSXAttr {
+impl<V: Visit> VisitWith<V> for JSXAttr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_jsx_attr(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &JSXClosingElement {
+impl<V: Visit> VisitWith<V> for JSXClosingElement {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_jsx_closing_element(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &JSXAttrName {
+impl<V: Visit> VisitWith<V> for JSXAttrName {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_jsx_attr_name(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &Option<JSXAttrValue> {
+impl<V: Visit> VisitWith<V> for Option<JSXAttrValue> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_opt_jsx_attr_value(self.as_ref(), _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {
+            match n {
+                Some(n) => _visitor.visit_jsx_attr_value(n, _parent),
+                None => {}
+            }
+        }
+    }
 }
-impl<V: Visit> VisitWith<V> for &JSXAttrValue {
+impl<V: Visit> VisitWith<V> for JSXAttrValue {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_jsx_attr_value(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &JSXText {
+impl<V: Visit> VisitWith<V> for JSXText {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_jsx_text(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &Vec<JSXElementChild> {
+impl<V: Visit> VisitWith<V> for JSXElement {
+    fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
+        v.visit_jsx_element(self, _parent as _)
+    }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
+}
+impl<V: Visit> VisitWith<V> for Vec<JSXElementChild> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_jsx_element_children(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {
+            n.iter()
+                .for_each(|v| _visitor.visit_jsx_element_child(v, _parent))
+        }
+    }
 }
-impl<V: Visit> VisitWith<V> for &Option<JSXClosingElement> {
+impl<V: Visit> VisitWith<V> for Option<JSXClosingElement> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_opt_jsx_closing_element(self.as_ref(), _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {
+            match n {
+                Some(n) => _visitor.visit_jsx_closing_element(n, _parent),
+                None => {}
+            }
+        }
+    }
 }
-impl<V: Visit> VisitWith<V> for &JSXElementChild {
+impl<V: Visit> VisitWith<V> for JSXElementChild {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_jsx_element_child(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &JSXOpeningFragment {
+impl<V: Visit> VisitWith<V> for JSXOpeningFragment {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_jsx_opening_fragment(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &JSXClosingFragment {
+impl<V: Visit> VisitWith<V> for JSXClosingFragment {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_jsx_closing_fragment(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &Bool {
+impl<V: Visit> VisitWith<V> for Bool {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_bool(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &Null {
+impl<V: Visit> VisitWith<V> for Null {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_null(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &Number {
+impl<V: Visit> VisitWith<V> for Number {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_number(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &BigInt {
+impl<V: Visit> VisitWith<V> for BigInt {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_big_int(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &Regex {
+impl<V: Visit> VisitWith<V> for Regex {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_regex(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &BigIntValue {
+impl<V: Visit> VisitWith<V> for BigIntValue {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_big_int_value(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &Program {
+impl<V: Visit> VisitWith<V> for Program {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_program(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &Module {
+impl<V: Visit> VisitWith<V> for Module {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_module(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &Script {
+impl<V: Visit> VisitWith<V> for Script {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_script(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &Vec<ModuleItem> {
+impl<V: Visit> VisitWith<V> for Vec<ModuleItem> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_module_items(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {
+            n.iter()
+                .for_each(|v| _visitor.visit_module_item(v, _parent))
+        }
+    }
 }
-impl<V: Visit> VisitWith<V> for &Option<JsWord> {
+impl<V: Visit> VisitWith<V> for Option<JsWord> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_opt_js_word(self.as_ref(), _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {
+            match n {
+                Some(n) => _visitor.visit_js_word(n, _parent),
+                None => {}
+            }
+        }
+    }
 }
-impl<V: Visit> VisitWith<V> for &Vec<Stmt> {
+impl<V: Visit> VisitWith<V> for Vec<Stmt> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_stmts(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {
+            n.iter().for_each(|v| _visitor.visit_stmt(v, _parent))
+        }
+    }
 }
-impl<V: Visit> VisitWith<V> for &ModuleItem {
+impl<V: Visit> VisitWith<V> for ModuleItem {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_module_item(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &ModuleDecl {
+impl<V: Visit> VisitWith<V> for ModuleDecl {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_module_decl(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &Stmt {
+impl<V: Visit> VisitWith<V> for Stmt {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_stmt(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &ImportDecl {
+impl<V: Visit> VisitWith<V> for ImportDecl {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_import_decl(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &ExportDecl {
+impl<V: Visit> VisitWith<V> for ExportDecl {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_export_decl(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &NamedExport {
+impl<V: Visit> VisitWith<V> for NamedExport {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_named_export(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &ExportDefaultDecl {
+impl<V: Visit> VisitWith<V> for ExportDefaultDecl {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_export_default_decl(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &ExportDefaultExpr {
+impl<V: Visit> VisitWith<V> for ExportDefaultExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_export_default_expr(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &ExportAll {
+impl<V: Visit> VisitWith<V> for ExportAll {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_export_all(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsImportEqualsDecl {
+impl<V: Visit> VisitWith<V> for TsImportEqualsDecl {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_import_equals_decl(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsExportAssignment {
+impl<V: Visit> VisitWith<V> for TsExportAssignment {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_export_assignment(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsNamespaceExportDecl {
+impl<V: Visit> VisitWith<V> for TsNamespaceExportDecl {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_namespace_export_decl(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &Vec<ImportSpecifier> {
+impl<V: Visit> VisitWith<V> for Vec<ImportSpecifier> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_import_specifiers(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {
+            n.iter()
+                .for_each(|v| _visitor.visit_import_specifier(v, _parent))
+        }
+    }
 }
-impl<V: Visit> VisitWith<V> for &Vec<ExportSpecifier> {
+impl<V: Visit> VisitWith<V> for Vec<ExportSpecifier> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_export_specifiers(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {
+            n.iter()
+                .for_each(|v| _visitor.visit_export_specifier(v, _parent))
+        }
+    }
 }
-impl<V: Visit> VisitWith<V> for &DefaultDecl {
+impl<V: Visit> VisitWith<V> for DefaultDecl {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_default_decl(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &ImportSpecifier {
+impl<V: Visit> VisitWith<V> for ImportSpecifier {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_import_specifier(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &ImportNamedSpecifier {
+impl<V: Visit> VisitWith<V> for ImportNamedSpecifier {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_import_named_specifier(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &ImportDefaultSpecifier {
+impl<V: Visit> VisitWith<V> for ImportDefaultSpecifier {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_import_default_specifier(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &ImportStarAsSpecifier {
+impl<V: Visit> VisitWith<V> for ImportStarAsSpecifier {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_import_star_as_specifier(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &ExportSpecifier {
+impl<V: Visit> VisitWith<V> for ExportSpecifier {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_export_specifier(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &ExportNamespaceSpecifier {
+impl<V: Visit> VisitWith<V> for ExportNamespaceSpecifier {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_export_namespace_specifier(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &ExportDefaultSpecifier {
+impl<V: Visit> VisitWith<V> for ExportDefaultSpecifier {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_export_default_specifier(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &ExportNamedSpecifier {
+impl<V: Visit> VisitWith<V> for ExportNamedSpecifier {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_export_named_specifier(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &ArrayPat {
+impl<V: Visit> VisitWith<V> for ArrayPat {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_array_pat(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &RestPat {
+impl<V: Visit> VisitWith<V> for RestPat {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_rest_pat(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &ObjectPat {
+impl<V: Visit> VisitWith<V> for ObjectPat {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_object_pat(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &AssignPat {
+impl<V: Visit> VisitWith<V> for AssignPat {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_assign_pat(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &Vec<Option<Pat>> {
+impl<V: Visit> VisitWith<V> for Vec<Option<Pat>> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_opt_vec_pats(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {
+            n.iter()
+                .for_each(|v| _visitor.visit_opt_pat(v.as_ref(), _parent))
+        }
+    }
 }
-impl<V: Visit> VisitWith<V> for &Vec<ObjectPatProp> {
+impl<V: Visit> VisitWith<V> for Vec<ObjectPatProp> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_object_pat_props(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {
+            n.iter()
+                .for_each(|v| _visitor.visit_object_pat_prop(v, _parent))
+        }
+    }
 }
-impl<V: Visit> VisitWith<V> for &ObjectPatProp {
+impl<V: Visit> VisitWith<V> for ObjectPatProp {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_object_pat_prop(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &KeyValuePatProp {
+impl<V: Visit> VisitWith<V> for KeyValuePatProp {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_key_value_pat_prop(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &AssignPatProp {
+impl<V: Visit> VisitWith<V> for AssignPatProp {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_assign_pat_prop(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &KeyValueProp {
+impl<V: Visit> VisitWith<V> for Prop {
+    fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
+        v.visit_prop(self, _parent as _)
+    }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
+}
+impl<V: Visit> VisitWith<V> for KeyValueProp {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_key_value_prop(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &AssignProp {
+impl<V: Visit> VisitWith<V> for AssignProp {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_assign_prop(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &GetterProp {
+impl<V: Visit> VisitWith<V> for GetterProp {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_getter_prop(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &SetterProp {
+impl<V: Visit> VisitWith<V> for SetterProp {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_setter_prop(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &MethodProp {
+impl<V: Visit> VisitWith<V> for MethodProp {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_method_prop(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &ComputedPropName {
+impl<V: Visit> VisitWith<V> for ComputedPropName {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_computed_prop_name(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &DebuggerStmt {
+impl<V: Visit> VisitWith<V> for DebuggerStmt {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_debugger_stmt(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &WithStmt {
+impl<V: Visit> VisitWith<V> for WithStmt {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_with_stmt(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &ReturnStmt {
+impl<V: Visit> VisitWith<V> for ReturnStmt {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_return_stmt(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &LabeledStmt {
+impl<V: Visit> VisitWith<V> for LabeledStmt {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_labeled_stmt(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &BreakStmt {
+impl<V: Visit> VisitWith<V> for BreakStmt {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_break_stmt(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &ContinueStmt {
+impl<V: Visit> VisitWith<V> for ContinueStmt {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_continue_stmt(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &IfStmt {
+impl<V: Visit> VisitWith<V> for IfStmt {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_if_stmt(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &SwitchStmt {
+impl<V: Visit> VisitWith<V> for SwitchStmt {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_switch_stmt(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &ThrowStmt {
+impl<V: Visit> VisitWith<V> for ThrowStmt {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_throw_stmt(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TryStmt {
+impl<V: Visit> VisitWith<V> for TryStmt {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_try_stmt(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &WhileStmt {
+impl<V: Visit> VisitWith<V> for WhileStmt {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_while_stmt(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &DoWhileStmt {
+impl<V: Visit> VisitWith<V> for DoWhileStmt {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_do_while_stmt(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &ForStmt {
+impl<V: Visit> VisitWith<V> for ForStmt {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_for_stmt(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &ForInStmt {
+impl<V: Visit> VisitWith<V> for ForInStmt {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_for_in_stmt(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &ForOfStmt {
+impl<V: Visit> VisitWith<V> for ForOfStmt {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_for_of_stmt(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &ExprStmt {
+impl<V: Visit> VisitWith<V> for ExprStmt {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_expr_stmt(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &Option<Box<Stmt>> {
+impl<V: Visit> VisitWith<V> for Option<Box<Stmt>> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_opt_stmt(self.as_ref(), _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {
+            match n {
+                Some(n) => _visitor.visit_stmt(n, _parent),
+                None => {}
+            }
+        }
+    }
 }
-impl<V: Visit> VisitWith<V> for &Vec<SwitchCase> {
+impl<V: Visit> VisitWith<V> for Vec<SwitchCase> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_switch_cases(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {
+            n.iter()
+                .for_each(|v| _visitor.visit_switch_case(v, _parent))
+        }
+    }
 }
-impl<V: Visit> VisitWith<V> for &Option<CatchClause> {
+impl<V: Visit> VisitWith<V> for Option<CatchClause> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_opt_catch_clause(self.as_ref(), _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {
+            match n {
+                Some(n) => _visitor.visit_catch_clause(n, _parent),
+                None => {}
+            }
+        }
+    }
 }
-impl<V: Visit> VisitWith<V> for &Option<VarDeclOrExpr> {
+impl<V: Visit> VisitWith<V> for Option<VarDeclOrExpr> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_opt_var_decl_or_expr(self.as_ref(), _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {
+            match n {
+                Some(n) => _visitor.visit_var_decl_or_expr(n, _parent),
+                None => {}
+            }
+        }
+    }
 }
-impl<V: Visit> VisitWith<V> for &VarDeclOrPat {
+impl<V: Visit> VisitWith<V> for VarDeclOrPat {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_var_decl_or_pat(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &SwitchCase {
+impl<V: Visit> VisitWith<V> for SwitchCase {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_switch_case(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &CatchClause {
+impl<V: Visit> VisitWith<V> for CatchClause {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_catch_clause(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &Option<Pat> {
+impl<V: Visit> VisitWith<V> for Option<Pat> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_opt_pat(self.as_ref(), _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {
+            match n {
+                Some(n) => _visitor.visit_pat(n, _parent),
+                None => {}
+            }
+        }
+    }
 }
-impl<V: Visit> VisitWith<V> for &VarDeclOrExpr {
+impl<V: Visit> VisitWith<V> for VarDeclOrExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_var_decl_or_expr(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsTypeAnn {
+impl<V: Visit> VisitWith<V> for TsTypeAnn {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_type_ann(self, _parent as _)
     }
-}
-impl<V: Visit> VisitWith<V> for &Box<TsType> {
-    fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
-        v.visit_ts_type(self, _parent as _)
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
     }
 }
-impl<V: Visit> VisitWith<V> for &TsTypeParamDecl {
+impl<V: Visit> VisitWith<V> for TsTypeParamDecl {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_type_param_decl(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &Vec<TsTypeParam> {
+impl<V: Visit> VisitWith<V> for Vec<TsTypeParam> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_type_params(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {
+            n.iter()
+                .for_each(|v| _visitor.visit_ts_type_param(v, _parent))
+        }
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsTypeParam {
+impl<V: Visit> VisitWith<V> for TsTypeParam {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_type_param(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &Option<Box<TsType>> {
+impl<V: Visit> VisitWith<V> for Option<Box<TsType>> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_opt_ts_type(self.as_ref(), _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {
+            match n {
+                Some(n) => _visitor.visit_ts_type(n, _parent),
+                None => {}
+            }
+        }
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsTypeParamInstantiation {
+impl<V: Visit> VisitWith<V> for TsTypeParamInstantiation {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_type_param_instantiation(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &Vec<Box<TsType>> {
+impl<V: Visit> VisitWith<V> for Vec<Box<TsType>> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_types(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {
+            n.iter().for_each(|v| _visitor.visit_ts_type(v, _parent))
+        }
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsParamPropParam {
+impl<V: Visit> VisitWith<V> for TsParamPropParam {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_param_prop_param(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsQualifiedName {
+impl<V: Visit> VisitWith<V> for TsQualifiedName {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_qualified_name(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsEntityName {
+impl<V: Visit> VisitWith<V> for TsEntityName {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_entity_name(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsSignatureDecl {
+impl<V: Visit> VisitWith<V> for TsSignatureDecl {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_signature_decl(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsCallSignatureDecl {
+impl<V: Visit> VisitWith<V> for TsCallSignatureDecl {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_call_signature_decl(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsConstructSignatureDecl {
+impl<V: Visit> VisitWith<V> for TsConstructSignatureDecl {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_construct_signature_decl(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsMethodSignature {
+impl<V: Visit> VisitWith<V> for TsMethodSignature {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_method_signature(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsFnType {
+impl<V: Visit> VisitWith<V> for TsFnType {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_fn_type(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsConstructorType {
+impl<V: Visit> VisitWith<V> for TsConstructorType {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_constructor_type(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsTypeElement {
+impl<V: Visit> VisitWith<V> for TsTypeElement {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_type_element(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsPropertySignature {
+impl<V: Visit> VisitWith<V> for TsPropertySignature {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_property_signature(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &Vec<TsFnParam> {
+impl<V: Visit> VisitWith<V> for Vec<TsFnParam> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_fn_params(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {
+            n.iter()
+                .for_each(|v| _visitor.visit_ts_fn_param(v, _parent))
+        }
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsKeywordType {
+impl<V: Visit> VisitWith<V> for TsType {
+    fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
+        v.visit_ts_type(self, _parent as _)
+    }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
+}
+impl<V: Visit> VisitWith<V> for TsKeywordType {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_keyword_type(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsThisType {
+impl<V: Visit> VisitWith<V> for TsThisType {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_this_type(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsFnOrConstructorType {
+impl<V: Visit> VisitWith<V> for TsFnOrConstructorType {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_fn_or_constructor_type(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsTypeRef {
+impl<V: Visit> VisitWith<V> for TsTypeRef {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_type_ref(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsTypeQuery {
+impl<V: Visit> VisitWith<V> for TsTypeQuery {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_type_query(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsTypeLit {
+impl<V: Visit> VisitWith<V> for TsTypeLit {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_type_lit(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsArrayType {
+impl<V: Visit> VisitWith<V> for TsArrayType {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_array_type(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsTupleType {
+impl<V: Visit> VisitWith<V> for TsTupleType {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_tuple_type(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsOptionalType {
+impl<V: Visit> VisitWith<V> for TsOptionalType {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_optional_type(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsRestType {
+impl<V: Visit> VisitWith<V> for TsRestType {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_rest_type(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsUnionOrIntersectionType {
+impl<V: Visit> VisitWith<V> for TsUnionOrIntersectionType {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_union_or_intersection_type(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsConditionalType {
+impl<V: Visit> VisitWith<V> for TsConditionalType {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_conditional_type(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsInferType {
+impl<V: Visit> VisitWith<V> for TsInferType {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_infer_type(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsParenthesizedType {
+impl<V: Visit> VisitWith<V> for TsParenthesizedType {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_parenthesized_type(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsTypeOperator {
+impl<V: Visit> VisitWith<V> for TsTypeOperator {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_type_operator(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsIndexedAccessType {
+impl<V: Visit> VisitWith<V> for TsIndexedAccessType {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_indexed_access_type(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsMappedType {
+impl<V: Visit> VisitWith<V> for TsMappedType {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_mapped_type(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsLitType {
+impl<V: Visit> VisitWith<V> for TsLitType {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_lit_type(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsTypePredicate {
+impl<V: Visit> VisitWith<V> for TsTypePredicate {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_type_predicate(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsImportType {
+impl<V: Visit> VisitWith<V> for TsImportType {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_import_type(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsKeywordTypeKind {
+impl<V: Visit> VisitWith<V> for TsKeywordTypeKind {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_keyword_type_kind(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsFnParam {
+impl<V: Visit> VisitWith<V> for TsFnParam {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_fn_param(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsThisTypeOrIdent {
+impl<V: Visit> VisitWith<V> for TsThisTypeOrIdent {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_this_type_or_ident(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsTypeQueryExpr {
+impl<V: Visit> VisitWith<V> for TsTypeQueryExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_type_query_expr(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &Option<TsEntityName> {
+impl<V: Visit> VisitWith<V> for Option<TsEntityName> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_opt_ts_entity_name(self.as_ref(), _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {
+            match n {
+                Some(n) => _visitor.visit_ts_entity_name(n, _parent),
+                None => {}
+            }
+        }
+    }
 }
-impl<V: Visit> VisitWith<V> for &Vec<TsTypeElement> {
+impl<V: Visit> VisitWith<V> for Vec<TsTypeElement> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_type_elements(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {
+            n.iter()
+                .for_each(|v| _visitor.visit_ts_type_element(v, _parent))
+        }
+    }
 }
-impl<V: Visit> VisitWith<V> for &Vec<TsTupleElement> {
+impl<V: Visit> VisitWith<V> for Vec<TsTupleElement> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_tuple_elements(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {
+            n.iter()
+                .for_each(|v| _visitor.visit_ts_tuple_element(v, _parent))
+        }
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsTupleElement {
+impl<V: Visit> VisitWith<V> for TsTupleElement {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_tuple_element(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsUnionType {
+impl<V: Visit> VisitWith<V> for TsUnionType {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_union_type(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsIntersectionType {
+impl<V: Visit> VisitWith<V> for TsIntersectionType {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_intersection_type(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsTypeOperatorOp {
+impl<V: Visit> VisitWith<V> for TsTypeOperatorOp {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_type_operator_op(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TruePlusMinus {
+impl<V: Visit> VisitWith<V> for TruePlusMinus {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_true_plus_minus(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &Option<TruePlusMinus> {
+impl<V: Visit> VisitWith<V> for Option<TruePlusMinus> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_opt_true_plus_minus(self.as_ref(), _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {
+            match n {
+                Some(n) => _visitor.visit_true_plus_minus(n, _parent),
+                None => {}
+            }
+        }
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsLit {
+impl<V: Visit> VisitWith<V> for TsLit {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_lit(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsInterfaceBody {
+impl<V: Visit> VisitWith<V> for TsInterfaceBody {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_interface_body(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsExprWithTypeArgs {
+impl<V: Visit> VisitWith<V> for TsExprWithTypeArgs {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_expr_with_type_args(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &Vec<TsEnumMember> {
+impl<V: Visit> VisitWith<V> for Vec<TsEnumMember> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_enum_members(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {
+            n.iter()
+                .for_each(|v| _visitor.visit_ts_enum_member(v, _parent))
+        }
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsEnumMember {
+impl<V: Visit> VisitWith<V> for TsEnumMember {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_enum_member(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsEnumMemberId {
+impl<V: Visit> VisitWith<V> for TsEnumMemberId {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_enum_member_id(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsModuleName {
+impl<V: Visit> VisitWith<V> for TsModuleName {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_module_name(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &Option<TsNamespaceBody> {
+impl<V: Visit> VisitWith<V> for Option<TsNamespaceBody> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_opt_ts_namespace_body(self.as_ref(), _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {
+            match n {
+                Some(n) => _visitor.visit_ts_namespace_body(n, _parent),
+                None => {}
+            }
+        }
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsNamespaceBody {
+impl<V: Visit> VisitWith<V> for TsNamespaceBody {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_namespace_body(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsModuleBlock {
+impl<V: Visit> VisitWith<V> for TsModuleBlock {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_module_block(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsNamespaceDecl {
+impl<V: Visit> VisitWith<V> for TsNamespaceDecl {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_namespace_decl(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsModuleRef {
+impl<V: Visit> VisitWith<V> for TsModuleRef {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_module_ref(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &TsExternalModuleRef {
+impl<V: Visit> VisitWith<V> for TsExternalModuleRef {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_external_module_ref(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &Accessibility {
+impl<V: Visit> VisitWith<V> for Accessibility {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_accessibility(self, _parent as _)
     }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {}
+    }
 }
-impl<V: Visit> VisitWith<V> for &Option<ExprOrSpread> {
+impl<V: Visit> VisitWith<V> for Option<ExprOrSpread> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_opt_expr_or_spread(self.as_ref(), _parent as _)
+    }
+    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+        let n = self;
+        let _parent = n as &dyn Node;
+        {
+            match n {
+                Some(n) => _visitor.visit_expr_or_spread(n, _parent),
+                None => {}
+            }
+        }
     }
 }
