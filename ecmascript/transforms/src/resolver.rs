@@ -3,6 +3,7 @@ use std::{cell::RefCell, collections::HashSet};
 use swc_atoms::JsWord;
 use swc_common::{Mark, SyntaxContext};
 use swc_ecma_ast::*;
+use swc_ecma_visit::Fold;
 
 #[cfg(test)]
 mod tests;

@@ -1,7 +1,5 @@
-use std::marker::PhantomData;
 pub use swc_common::pass::Optional;
 use swc_common::pass::{CompilerPass, Repeated};
-use swc_ecma_ast::*;
 use swc_ecma_visit::Fold;
 
 pub fn noop() -> impl Fold {
