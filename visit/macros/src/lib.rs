@@ -296,7 +296,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                                 }
 
                                 fn visit_children_with(&self, _parent: &dyn Node, v: &mut V) {
-                                    method_name(v, expr, _parent);
+                                    default_body
                                 }
                             }
                         }
@@ -329,13 +329,10 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
     tokens
 }
 
-///
-///
-/// - `Box<Expr>` => visit(&node) or Box::new(visit(*node))
-/// - `Vec<Expr>` => &*node or
-fn visit_expr(mode: Mode, ty: &Type, visitor: &Expr, mut expr: Expr) -> Expr {
-    let visit_name = method_name(mode, ty);
-
+fn adjust_expr<F>(mode: Mode, ty: &Type, mut expr: Expr, visit: F) -> Expr
+where
+    F: FnOnce(Expr) -> Expr,
+{
     if is_option(&ty) {
         expr = if is_opt_vec(ty) {
             match mode {
@@ -351,30 +348,42 @@ fn visit_expr(mode: Mode, ty: &Type, visitor: &Expr, mut expr: Expr) -> Expr {
         };
     }
 
-    expr = match mode {
-        Mode::Folder => {
-            if let Some(..) = as_box(ty) {
-                q!(
-                    Vars {
-                        visitor,
-                        expr,
-                        visit_name
-                    },
-                    { Box::new(visitor.visit_name(*expr)) }
-                )
-                .parse()
-            } else {
-                q!(
-                    Vars {
-                        visitor,
-                        expr,
-                        visit_name
-                    },
-                    { visitor.visit_name(expr) }
-                )
-                .parse()
-            }
-        }
+    if as_box(ty).is_some() {
+        expr = match mode {
+            Mode::Visitor => expr,
+            Mode::Folder => q!(Vars { expr }, { *expr }).parse(),
+        };
+    }
+
+    expr = visit(expr);
+
+    if as_box(ty).is_some() {
+        expr = match mode {
+            Mode::Visitor => expr,
+            Mode::Folder => q!(Vars { expr }, { Box::new(expr) }).parse(),
+        };
+    }
+
+    expr
+}
+
+///
+///
+/// - `Box<Expr>` => visit(&node) or Box::new(visit(*node))
+/// - `Vec<Expr>` => &*node or
+fn visit_expr(mode: Mode, ty: &Type, visitor: &Expr, expr: Expr) -> Expr {
+    let visit_name = method_name(mode, ty);
+
+    adjust_expr(mode, ty, expr, |expr| match mode {
+        Mode::Folder => q!(
+            Vars {
+                visitor,
+                expr,
+                visit_name
+            },
+            { visitor.visit_name(expr) }
+        )
+        .parse(),
 
         Mode::Visitor => q!(
             Vars {
@@ -385,9 +394,7 @@ fn visit_expr(mode: Mode, ty: &Type, visitor: &Expr, mut expr: Expr) -> Expr {
             { visitor.visit_name(expr, _parent as _) }
         )
         .parse(),
-    };
-
-    expr
+    })
 }
 
 fn make_arm_from_struct(mode: Mode, path: &Path, variant: &Fields) -> Arm {
