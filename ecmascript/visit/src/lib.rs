@@ -8898,7 +8898,7 @@ pub trait FoldWith<V: Fold> {
 impl<V, T> FoldWith<V> for Box<T>
 where
     V: Fold,
-    T: FoldWith<V>,
+    T: 'static + FoldWith<V>,
 {
     fn fold_with(self, v: &mut V) -> Self {
         Box::new((*self).fold_with(v))
@@ -17575,26 +17575,27 @@ where
 pub trait VisitWith<V: Visit> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V);
     /// Visit children nodes of self with `v`
-    fn visit_children_with(&self, _parent: &dyn Node, v: &mut V);
+    fn visit_children_with(&self, v: &mut V);
 }
 impl<V, T> VisitWith<V> for Box<T>
 where
     V: Visit,
-    T: VisitWith<V>,
+    T: 'static + VisitWith<V>,
 {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         (**self).visit_with(_parent, v)
     }
     /// Visit children nodes of self with `v`
-    fn visit_children_with(&self, _parent: &dyn Node, v: &mut V) {
-        (**self).visit_children_with(_parent, v)
+    fn visit_children_with(&self, v: &mut V) {
+        let _parent = self as &dyn Node;
+        (**self).visit_children_with(v)
     }
 }
 impl<V: Visit> VisitWith<V> for Class {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_class(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -17604,7 +17605,7 @@ impl<V: Visit> VisitWith<V> for Span {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_span(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -17614,7 +17615,7 @@ impl<V: Visit> VisitWith<V> for Vec<Decorator> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_decorators(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {
@@ -17626,7 +17627,7 @@ impl<V: Visit> VisitWith<V> for Vec<ClassMember> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_class_members(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {
@@ -17639,7 +17640,7 @@ impl<V: Visit> VisitWith<V> for Option<Box<Expr>> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_opt_expr(self.as_ref(), _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {
@@ -17654,7 +17655,7 @@ impl<V: Visit> VisitWith<V> for Option<TsTypeParamDecl> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_opt_ts_type_param_decl(self.as_ref(), _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {
@@ -17669,7 +17670,7 @@ impl<V: Visit> VisitWith<V> for Option<TsTypeParamInstantiation> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_opt_ts_type_param_instantiation(self.as_ref(), _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {
@@ -17684,7 +17685,7 @@ impl<V: Visit> VisitWith<V> for Vec<TsExprWithTypeArgs> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_expr_with_type_args_vec(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {
@@ -17697,7 +17698,7 @@ impl<V: Visit> VisitWith<V> for ClassMember {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_class_member(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -17707,7 +17708,7 @@ impl<V: Visit> VisitWith<V> for Constructor {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_constructor(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -17717,7 +17718,7 @@ impl<V: Visit> VisitWith<V> for ClassMethod {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_class_method(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -17727,7 +17728,7 @@ impl<V: Visit> VisitWith<V> for PrivateMethod {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_private_method(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -17737,7 +17738,7 @@ impl<V: Visit> VisitWith<V> for ClassProp {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_class_prop(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -17747,7 +17748,7 @@ impl<V: Visit> VisitWith<V> for PrivateProp {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_private_prop(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -17757,7 +17758,7 @@ impl<V: Visit> VisitWith<V> for TsIndexSignature {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_index_signature(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -17767,7 +17768,7 @@ impl<V: Visit> VisitWith<V> for EmptyStmt {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_empty_stmt(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -17777,7 +17778,7 @@ impl<V: Visit> VisitWith<V> for Option<TsTypeAnn> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_opt_ts_type_ann(self.as_ref(), _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {
@@ -17792,7 +17793,7 @@ impl<V: Visit> VisitWith<V> for Option<Accessibility> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_opt_accessibility(self.as_ref(), _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {
@@ -17807,7 +17808,7 @@ impl<V: Visit> VisitWith<V> for PrivateName {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_private_name(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -17817,7 +17818,7 @@ impl<V: Visit> VisitWith<V> for PropName {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_prop_name(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -17827,7 +17828,7 @@ impl<V: Visit> VisitWith<V> for Function {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_function(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -17837,7 +17838,7 @@ impl<V: Visit> VisitWith<V> for MethodKind {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_method_kind(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -17847,7 +17848,7 @@ impl<V: Visit> VisitWith<V> for Vec<ParamOrTsParamProp> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_param_or_ts_param_props(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {
@@ -17860,7 +17861,7 @@ impl<V: Visit> VisitWith<V> for Option<BlockStmt> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_opt_block_stmt(self.as_ref(), _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {
@@ -17875,7 +17876,7 @@ impl<V: Visit> VisitWith<V> for Decorator {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_decorator(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -17885,7 +17886,7 @@ impl<V: Visit> VisitWith<V> for Decl {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_decl(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -17895,7 +17896,7 @@ impl<V: Visit> VisitWith<V> for ClassDecl {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_class_decl(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -17905,7 +17906,7 @@ impl<V: Visit> VisitWith<V> for FnDecl {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_fn_decl(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -17915,7 +17916,7 @@ impl<V: Visit> VisitWith<V> for VarDecl {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_var_decl(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -17925,7 +17926,7 @@ impl<V: Visit> VisitWith<V> for TsInterfaceDecl {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_interface_decl(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -17935,7 +17936,7 @@ impl<V: Visit> VisitWith<V> for TsTypeAliasDecl {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_type_alias_decl(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -17945,7 +17946,7 @@ impl<V: Visit> VisitWith<V> for TsEnumDecl {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_enum_decl(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -17955,7 +17956,7 @@ impl<V: Visit> VisitWith<V> for TsModuleDecl {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_module_decl(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -17965,7 +17966,7 @@ impl<V: Visit> VisitWith<V> for Ident {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ident(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -17975,7 +17976,7 @@ impl<V: Visit> VisitWith<V> for VarDeclKind {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_var_decl_kind(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -17985,7 +17986,7 @@ impl<V: Visit> VisitWith<V> for Vec<VarDeclarator> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_var_declarators(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {
@@ -17998,7 +17999,7 @@ impl<V: Visit> VisitWith<V> for VarDeclarator {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_var_declarator(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18008,7 +18009,7 @@ impl<V: Visit> VisitWith<V> for Pat {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_pat(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18018,7 +18019,7 @@ impl<V: Visit> VisitWith<V> for Expr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_expr(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18028,7 +18029,7 @@ impl<V: Visit> VisitWith<V> for ThisExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_this_expr(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18038,7 +18039,7 @@ impl<V: Visit> VisitWith<V> for ArrayLit {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_array_lit(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18048,7 +18049,7 @@ impl<V: Visit> VisitWith<V> for ObjectLit {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_object_lit(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18058,7 +18059,7 @@ impl<V: Visit> VisitWith<V> for FnExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_fn_expr(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18068,7 +18069,7 @@ impl<V: Visit> VisitWith<V> for UnaryExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_unary_expr(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18078,7 +18079,7 @@ impl<V: Visit> VisitWith<V> for UpdateExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_update_expr(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18088,7 +18089,7 @@ impl<V: Visit> VisitWith<V> for BinExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_bin_expr(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18098,7 +18099,7 @@ impl<V: Visit> VisitWith<V> for AssignExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_assign_expr(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18108,7 +18109,7 @@ impl<V: Visit> VisitWith<V> for MemberExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_member_expr(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18118,7 +18119,7 @@ impl<V: Visit> VisitWith<V> for CondExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_cond_expr(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18128,7 +18129,7 @@ impl<V: Visit> VisitWith<V> for CallExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_call_expr(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18138,7 +18139,7 @@ impl<V: Visit> VisitWith<V> for NewExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_new_expr(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18148,7 +18149,7 @@ impl<V: Visit> VisitWith<V> for SeqExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_seq_expr(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18158,7 +18159,7 @@ impl<V: Visit> VisitWith<V> for Lit {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_lit(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18168,7 +18169,7 @@ impl<V: Visit> VisitWith<V> for Tpl {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_tpl(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18178,7 +18179,7 @@ impl<V: Visit> VisitWith<V> for TaggedTpl {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_tagged_tpl(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18188,7 +18189,7 @@ impl<V: Visit> VisitWith<V> for ArrowExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_arrow_expr(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18198,7 +18199,7 @@ impl<V: Visit> VisitWith<V> for ClassExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_class_expr(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18208,7 +18209,7 @@ impl<V: Visit> VisitWith<V> for YieldExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_yield_expr(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18218,7 +18219,7 @@ impl<V: Visit> VisitWith<V> for MetaPropExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_meta_prop_expr(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18228,7 +18229,7 @@ impl<V: Visit> VisitWith<V> for AwaitExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_await_expr(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18238,7 +18239,7 @@ impl<V: Visit> VisitWith<V> for ParenExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_paren_expr(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18248,7 +18249,7 @@ impl<V: Visit> VisitWith<V> for JSXMemberExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_jsx_member_expr(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18258,7 +18259,7 @@ impl<V: Visit> VisitWith<V> for JSXNamespacedName {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_jsx_namespaced_name(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18268,7 +18269,7 @@ impl<V: Visit> VisitWith<V> for JSXEmptyExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_jsx_empty_expr(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18278,7 +18279,7 @@ impl<V: Visit> VisitWith<V> for JSXFragment {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_jsx_fragment(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18288,7 +18289,7 @@ impl<V: Visit> VisitWith<V> for TsTypeAssertion {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_type_assertion(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18298,7 +18299,7 @@ impl<V: Visit> VisitWith<V> for TsConstAssertion {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_const_assertion(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18308,7 +18309,7 @@ impl<V: Visit> VisitWith<V> for TsNonNullExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_non_null_expr(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18318,7 +18319,7 @@ impl<V: Visit> VisitWith<V> for TsTypeCastExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_type_cast_expr(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18328,7 +18329,7 @@ impl<V: Visit> VisitWith<V> for TsAsExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_as_expr(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18338,7 +18339,7 @@ impl<V: Visit> VisitWith<V> for OptChainExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_opt_chain_expr(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18348,7 +18349,7 @@ impl<V: Visit> VisitWith<V> for Invalid {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_invalid(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18358,7 +18359,7 @@ impl<V: Visit> VisitWith<V> for Vec<Option<ExprOrSpread>> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_opt_vec_expr_or_spreads(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {
@@ -18371,7 +18372,7 @@ impl<V: Visit> VisitWith<V> for Vec<PropOrSpread> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_prop_or_spreads(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {
@@ -18384,7 +18385,7 @@ impl<V: Visit> VisitWith<V> for PropOrSpread {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_prop_or_spread(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18394,7 +18395,7 @@ impl<V: Visit> VisitWith<V> for SpreadElement {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_spread_element(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18404,7 +18405,7 @@ impl<V: Visit> VisitWith<V> for UnaryOp {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_unary_op(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18414,7 +18415,7 @@ impl<V: Visit> VisitWith<V> for UpdateOp {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_update_op(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18424,7 +18425,7 @@ impl<V: Visit> VisitWith<V> for BinaryOp {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_binary_op(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18434,7 +18435,7 @@ impl<V: Visit> VisitWith<V> for Option<Ident> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_opt_ident(self.as_ref(), _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {
@@ -18449,7 +18450,7 @@ impl<V: Visit> VisitWith<V> for AssignOp {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_assign_op(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18459,7 +18460,7 @@ impl<V: Visit> VisitWith<V> for PatOrExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_pat_or_expr(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18469,7 +18470,7 @@ impl<V: Visit> VisitWith<V> for ExprOrSuper {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_expr_or_super(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18479,7 +18480,7 @@ impl<V: Visit> VisitWith<V> for Vec<ExprOrSpread> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_expr_or_spreads(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {
@@ -18492,7 +18493,7 @@ impl<V: Visit> VisitWith<V> for Option<Vec<ExprOrSpread>> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_opt_expr_or_spreads(self.as_ref().map(|v| &**v), _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {
@@ -18507,7 +18508,7 @@ impl<V: Visit> VisitWith<V> for Vec<Box<Expr>> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_exprs(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {
@@ -18519,7 +18520,7 @@ impl<V: Visit> VisitWith<V> for Vec<Pat> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_pats(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {
@@ -18531,7 +18532,7 @@ impl<V: Visit> VisitWith<V> for BlockStmtOrExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_block_stmt_or_expr(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18541,7 +18542,7 @@ impl<V: Visit> VisitWith<V> for Vec<TplElement> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_tpl_elements(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {
@@ -18554,7 +18555,7 @@ impl<V: Visit> VisitWith<V> for TplElement {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_tpl_element(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18564,7 +18565,7 @@ impl<V: Visit> VisitWith<V> for Option<Str> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_opt_str(self.as_ref(), _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {
@@ -18579,7 +18580,7 @@ impl<V: Visit> VisitWith<V> for Str {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_str(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18589,7 +18590,7 @@ impl<V: Visit> VisitWith<V> for Super {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_super(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18599,7 +18600,7 @@ impl<V: Visit> VisitWith<V> for ExprOrSpread {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_expr_or_spread(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18609,7 +18610,7 @@ impl<V: Visit> VisitWith<V> for Option<Span> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_opt_span(self.as_ref(), _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {
@@ -18624,7 +18625,7 @@ impl<V: Visit> VisitWith<V> for BlockStmt {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_block_stmt(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18634,7 +18635,7 @@ impl<V: Visit> VisitWith<V> for Vec<Param> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_params(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {
@@ -18646,7 +18647,7 @@ impl<V: Visit> VisitWith<V> for Param {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_param(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18656,7 +18657,7 @@ impl<V: Visit> VisitWith<V> for ParamOrTsParamProp {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_param_or_ts_param_prop(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18666,7 +18667,7 @@ impl<V: Visit> VisitWith<V> for TsParamProp {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_param_prop(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18676,7 +18677,7 @@ impl<V: Visit> VisitWith<V> for JsWord {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_js_word(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18686,7 +18687,7 @@ impl<V: Visit> VisitWith<V> for JSXObject {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_jsx_object(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18696,7 +18697,7 @@ impl<V: Visit> VisitWith<V> for JSXExprContainer {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_jsx_expr_container(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18706,7 +18707,7 @@ impl<V: Visit> VisitWith<V> for JSXExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_jsx_expr(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18716,7 +18717,7 @@ impl<V: Visit> VisitWith<V> for JSXSpreadChild {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_jsx_spread_child(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18726,7 +18727,7 @@ impl<V: Visit> VisitWith<V> for JSXElementName {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_jsx_element_name(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18736,7 +18737,7 @@ impl<V: Visit> VisitWith<V> for JSXOpeningElement {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_jsx_opening_element(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18746,7 +18747,7 @@ impl<V: Visit> VisitWith<V> for Vec<JSXAttrOrSpread> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_jsx_attr_or_spreads(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {
@@ -18759,7 +18760,7 @@ impl<V: Visit> VisitWith<V> for JSXAttrOrSpread {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_jsx_attr_or_spread(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18769,7 +18770,7 @@ impl<V: Visit> VisitWith<V> for JSXAttr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_jsx_attr(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18779,7 +18780,7 @@ impl<V: Visit> VisitWith<V> for JSXClosingElement {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_jsx_closing_element(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18789,7 +18790,7 @@ impl<V: Visit> VisitWith<V> for JSXAttrName {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_jsx_attr_name(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18799,7 +18800,7 @@ impl<V: Visit> VisitWith<V> for Option<JSXAttrValue> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_opt_jsx_attr_value(self.as_ref(), _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {
@@ -18814,7 +18815,7 @@ impl<V: Visit> VisitWith<V> for JSXAttrValue {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_jsx_attr_value(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18824,7 +18825,7 @@ impl<V: Visit> VisitWith<V> for JSXText {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_jsx_text(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18834,7 +18835,7 @@ impl<V: Visit> VisitWith<V> for JSXElement {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_jsx_element(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18844,7 +18845,7 @@ impl<V: Visit> VisitWith<V> for Vec<JSXElementChild> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_jsx_element_children(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {
@@ -18857,7 +18858,7 @@ impl<V: Visit> VisitWith<V> for Option<JSXClosingElement> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_opt_jsx_closing_element(self.as_ref(), _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {
@@ -18872,7 +18873,7 @@ impl<V: Visit> VisitWith<V> for JSXElementChild {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_jsx_element_child(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18882,7 +18883,7 @@ impl<V: Visit> VisitWith<V> for JSXOpeningFragment {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_jsx_opening_fragment(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18892,7 +18893,7 @@ impl<V: Visit> VisitWith<V> for JSXClosingFragment {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_jsx_closing_fragment(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18902,7 +18903,7 @@ impl<V: Visit> VisitWith<V> for Bool {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_bool(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18912,7 +18913,7 @@ impl<V: Visit> VisitWith<V> for Null {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_null(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18922,7 +18923,7 @@ impl<V: Visit> VisitWith<V> for Number {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_number(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18932,7 +18933,7 @@ impl<V: Visit> VisitWith<V> for BigInt {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_big_int(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18942,7 +18943,7 @@ impl<V: Visit> VisitWith<V> for Regex {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_regex(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18952,7 +18953,7 @@ impl<V: Visit> VisitWith<V> for BigIntValue {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_big_int_value(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18962,7 +18963,7 @@ impl<V: Visit> VisitWith<V> for Program {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_program(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18972,7 +18973,7 @@ impl<V: Visit> VisitWith<V> for Module {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_module(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18982,7 +18983,7 @@ impl<V: Visit> VisitWith<V> for Script {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_script(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -18992,7 +18993,7 @@ impl<V: Visit> VisitWith<V> for Vec<ModuleItem> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_module_items(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {
@@ -19005,7 +19006,7 @@ impl<V: Visit> VisitWith<V> for Option<JsWord> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_opt_js_word(self.as_ref(), _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {
@@ -19020,7 +19021,7 @@ impl<V: Visit> VisitWith<V> for Vec<Stmt> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_stmts(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {
@@ -19032,7 +19033,7 @@ impl<V: Visit> VisitWith<V> for ModuleItem {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_module_item(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19042,7 +19043,7 @@ impl<V: Visit> VisitWith<V> for ModuleDecl {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_module_decl(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19052,7 +19053,7 @@ impl<V: Visit> VisitWith<V> for Stmt {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_stmt(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19062,7 +19063,7 @@ impl<V: Visit> VisitWith<V> for ImportDecl {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_import_decl(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19072,7 +19073,7 @@ impl<V: Visit> VisitWith<V> for ExportDecl {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_export_decl(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19082,7 +19083,7 @@ impl<V: Visit> VisitWith<V> for NamedExport {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_named_export(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19092,7 +19093,7 @@ impl<V: Visit> VisitWith<V> for ExportDefaultDecl {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_export_default_decl(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19102,7 +19103,7 @@ impl<V: Visit> VisitWith<V> for ExportDefaultExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_export_default_expr(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19112,7 +19113,7 @@ impl<V: Visit> VisitWith<V> for ExportAll {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_export_all(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19122,7 +19123,7 @@ impl<V: Visit> VisitWith<V> for TsImportEqualsDecl {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_import_equals_decl(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19132,7 +19133,7 @@ impl<V: Visit> VisitWith<V> for TsExportAssignment {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_export_assignment(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19142,7 +19143,7 @@ impl<V: Visit> VisitWith<V> for TsNamespaceExportDecl {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_namespace_export_decl(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19152,7 +19153,7 @@ impl<V: Visit> VisitWith<V> for Vec<ImportSpecifier> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_import_specifiers(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {
@@ -19165,7 +19166,7 @@ impl<V: Visit> VisitWith<V> for Vec<ExportSpecifier> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_export_specifiers(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {
@@ -19178,7 +19179,7 @@ impl<V: Visit> VisitWith<V> for DefaultDecl {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_default_decl(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19188,7 +19189,7 @@ impl<V: Visit> VisitWith<V> for ImportSpecifier {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_import_specifier(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19198,7 +19199,7 @@ impl<V: Visit> VisitWith<V> for ImportNamedSpecifier {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_import_named_specifier(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19208,7 +19209,7 @@ impl<V: Visit> VisitWith<V> for ImportDefaultSpecifier {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_import_default_specifier(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19218,7 +19219,7 @@ impl<V: Visit> VisitWith<V> for ImportStarAsSpecifier {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_import_star_as_specifier(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19228,7 +19229,7 @@ impl<V: Visit> VisitWith<V> for ExportSpecifier {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_export_specifier(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19238,7 +19239,7 @@ impl<V: Visit> VisitWith<V> for ExportNamespaceSpecifier {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_export_namespace_specifier(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19248,7 +19249,7 @@ impl<V: Visit> VisitWith<V> for ExportDefaultSpecifier {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_export_default_specifier(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19258,7 +19259,7 @@ impl<V: Visit> VisitWith<V> for ExportNamedSpecifier {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_export_named_specifier(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19268,7 +19269,7 @@ impl<V: Visit> VisitWith<V> for ArrayPat {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_array_pat(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19278,7 +19279,7 @@ impl<V: Visit> VisitWith<V> for RestPat {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_rest_pat(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19288,7 +19289,7 @@ impl<V: Visit> VisitWith<V> for ObjectPat {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_object_pat(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19298,7 +19299,7 @@ impl<V: Visit> VisitWith<V> for AssignPat {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_assign_pat(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19308,7 +19309,7 @@ impl<V: Visit> VisitWith<V> for Vec<Option<Pat>> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_opt_vec_pats(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {
@@ -19321,7 +19322,7 @@ impl<V: Visit> VisitWith<V> for Vec<ObjectPatProp> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_object_pat_props(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {
@@ -19334,7 +19335,7 @@ impl<V: Visit> VisitWith<V> for ObjectPatProp {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_object_pat_prop(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19344,7 +19345,7 @@ impl<V: Visit> VisitWith<V> for KeyValuePatProp {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_key_value_pat_prop(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19354,7 +19355,7 @@ impl<V: Visit> VisitWith<V> for AssignPatProp {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_assign_pat_prop(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19364,7 +19365,7 @@ impl<V: Visit> VisitWith<V> for Prop {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_prop(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19374,7 +19375,7 @@ impl<V: Visit> VisitWith<V> for KeyValueProp {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_key_value_prop(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19384,7 +19385,7 @@ impl<V: Visit> VisitWith<V> for AssignProp {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_assign_prop(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19394,7 +19395,7 @@ impl<V: Visit> VisitWith<V> for GetterProp {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_getter_prop(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19404,7 +19405,7 @@ impl<V: Visit> VisitWith<V> for SetterProp {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_setter_prop(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19414,7 +19415,7 @@ impl<V: Visit> VisitWith<V> for MethodProp {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_method_prop(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19424,7 +19425,7 @@ impl<V: Visit> VisitWith<V> for ComputedPropName {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_computed_prop_name(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19434,7 +19435,7 @@ impl<V: Visit> VisitWith<V> for DebuggerStmt {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_debugger_stmt(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19444,7 +19445,7 @@ impl<V: Visit> VisitWith<V> for WithStmt {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_with_stmt(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19454,7 +19455,7 @@ impl<V: Visit> VisitWith<V> for ReturnStmt {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_return_stmt(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19464,7 +19465,7 @@ impl<V: Visit> VisitWith<V> for LabeledStmt {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_labeled_stmt(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19474,7 +19475,7 @@ impl<V: Visit> VisitWith<V> for BreakStmt {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_break_stmt(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19484,7 +19485,7 @@ impl<V: Visit> VisitWith<V> for ContinueStmt {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_continue_stmt(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19494,7 +19495,7 @@ impl<V: Visit> VisitWith<V> for IfStmt {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_if_stmt(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19504,7 +19505,7 @@ impl<V: Visit> VisitWith<V> for SwitchStmt {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_switch_stmt(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19514,7 +19515,7 @@ impl<V: Visit> VisitWith<V> for ThrowStmt {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_throw_stmt(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19524,7 +19525,7 @@ impl<V: Visit> VisitWith<V> for TryStmt {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_try_stmt(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19534,7 +19535,7 @@ impl<V: Visit> VisitWith<V> for WhileStmt {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_while_stmt(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19544,7 +19545,7 @@ impl<V: Visit> VisitWith<V> for DoWhileStmt {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_do_while_stmt(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19554,7 +19555,7 @@ impl<V: Visit> VisitWith<V> for ForStmt {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_for_stmt(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19564,7 +19565,7 @@ impl<V: Visit> VisitWith<V> for ForInStmt {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_for_in_stmt(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19574,7 +19575,7 @@ impl<V: Visit> VisitWith<V> for ForOfStmt {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_for_of_stmt(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19584,7 +19585,7 @@ impl<V: Visit> VisitWith<V> for ExprStmt {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_expr_stmt(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19594,7 +19595,7 @@ impl<V: Visit> VisitWith<V> for Option<Box<Stmt>> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_opt_stmt(self.as_ref(), _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {
@@ -19609,7 +19610,7 @@ impl<V: Visit> VisitWith<V> for Vec<SwitchCase> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_switch_cases(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {
@@ -19622,7 +19623,7 @@ impl<V: Visit> VisitWith<V> for Option<CatchClause> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_opt_catch_clause(self.as_ref(), _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {
@@ -19637,7 +19638,7 @@ impl<V: Visit> VisitWith<V> for Option<VarDeclOrExpr> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_opt_var_decl_or_expr(self.as_ref(), _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {
@@ -19652,7 +19653,7 @@ impl<V: Visit> VisitWith<V> for VarDeclOrPat {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_var_decl_or_pat(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19662,7 +19663,7 @@ impl<V: Visit> VisitWith<V> for SwitchCase {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_switch_case(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19672,7 +19673,7 @@ impl<V: Visit> VisitWith<V> for CatchClause {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_catch_clause(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19682,7 +19683,7 @@ impl<V: Visit> VisitWith<V> for Option<Pat> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_opt_pat(self.as_ref(), _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {
@@ -19697,7 +19698,7 @@ impl<V: Visit> VisitWith<V> for VarDeclOrExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_var_decl_or_expr(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19707,7 +19708,7 @@ impl<V: Visit> VisitWith<V> for TsTypeAnn {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_type_ann(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19717,7 +19718,7 @@ impl<V: Visit> VisitWith<V> for TsTypeParamDecl {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_type_param_decl(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19727,7 +19728,7 @@ impl<V: Visit> VisitWith<V> for Vec<TsTypeParam> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_type_params(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {
@@ -19740,7 +19741,7 @@ impl<V: Visit> VisitWith<V> for TsTypeParam {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_type_param(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19750,7 +19751,7 @@ impl<V: Visit> VisitWith<V> for Option<Box<TsType>> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_opt_ts_type(self.as_ref(), _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {
@@ -19765,7 +19766,7 @@ impl<V: Visit> VisitWith<V> for TsTypeParamInstantiation {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_type_param_instantiation(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19775,7 +19776,7 @@ impl<V: Visit> VisitWith<V> for Vec<Box<TsType>> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_types(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {
@@ -19787,7 +19788,7 @@ impl<V: Visit> VisitWith<V> for TsParamPropParam {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_param_prop_param(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19797,7 +19798,7 @@ impl<V: Visit> VisitWith<V> for TsQualifiedName {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_qualified_name(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19807,7 +19808,7 @@ impl<V: Visit> VisitWith<V> for TsEntityName {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_entity_name(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19817,7 +19818,7 @@ impl<V: Visit> VisitWith<V> for TsSignatureDecl {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_signature_decl(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19827,7 +19828,7 @@ impl<V: Visit> VisitWith<V> for TsCallSignatureDecl {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_call_signature_decl(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19837,7 +19838,7 @@ impl<V: Visit> VisitWith<V> for TsConstructSignatureDecl {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_construct_signature_decl(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19847,7 +19848,7 @@ impl<V: Visit> VisitWith<V> for TsMethodSignature {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_method_signature(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19857,7 +19858,7 @@ impl<V: Visit> VisitWith<V> for TsFnType {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_fn_type(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19867,7 +19868,7 @@ impl<V: Visit> VisitWith<V> for TsConstructorType {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_constructor_type(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19877,7 +19878,7 @@ impl<V: Visit> VisitWith<V> for TsTypeElement {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_type_element(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19887,7 +19888,7 @@ impl<V: Visit> VisitWith<V> for TsPropertySignature {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_property_signature(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19897,7 +19898,7 @@ impl<V: Visit> VisitWith<V> for Vec<TsFnParam> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_fn_params(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {
@@ -19910,7 +19911,7 @@ impl<V: Visit> VisitWith<V> for TsType {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_type(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19920,7 +19921,7 @@ impl<V: Visit> VisitWith<V> for TsKeywordType {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_keyword_type(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19930,7 +19931,7 @@ impl<V: Visit> VisitWith<V> for TsThisType {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_this_type(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19940,7 +19941,7 @@ impl<V: Visit> VisitWith<V> for TsFnOrConstructorType {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_fn_or_constructor_type(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19950,7 +19951,7 @@ impl<V: Visit> VisitWith<V> for TsTypeRef {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_type_ref(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19960,7 +19961,7 @@ impl<V: Visit> VisitWith<V> for TsTypeQuery {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_type_query(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19970,7 +19971,7 @@ impl<V: Visit> VisitWith<V> for TsTypeLit {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_type_lit(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19980,7 +19981,7 @@ impl<V: Visit> VisitWith<V> for TsArrayType {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_array_type(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -19990,7 +19991,7 @@ impl<V: Visit> VisitWith<V> for TsTupleType {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_tuple_type(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -20000,7 +20001,7 @@ impl<V: Visit> VisitWith<V> for TsOptionalType {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_optional_type(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -20010,7 +20011,7 @@ impl<V: Visit> VisitWith<V> for TsRestType {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_rest_type(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -20020,7 +20021,7 @@ impl<V: Visit> VisitWith<V> for TsUnionOrIntersectionType {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_union_or_intersection_type(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -20030,7 +20031,7 @@ impl<V: Visit> VisitWith<V> for TsConditionalType {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_conditional_type(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -20040,7 +20041,7 @@ impl<V: Visit> VisitWith<V> for TsInferType {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_infer_type(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -20050,7 +20051,7 @@ impl<V: Visit> VisitWith<V> for TsParenthesizedType {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_parenthesized_type(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -20060,7 +20061,7 @@ impl<V: Visit> VisitWith<V> for TsTypeOperator {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_type_operator(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -20070,7 +20071,7 @@ impl<V: Visit> VisitWith<V> for TsIndexedAccessType {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_indexed_access_type(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -20080,7 +20081,7 @@ impl<V: Visit> VisitWith<V> for TsMappedType {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_mapped_type(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -20090,7 +20091,7 @@ impl<V: Visit> VisitWith<V> for TsLitType {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_lit_type(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -20100,7 +20101,7 @@ impl<V: Visit> VisitWith<V> for TsTypePredicate {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_type_predicate(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -20110,7 +20111,7 @@ impl<V: Visit> VisitWith<V> for TsImportType {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_import_type(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -20120,7 +20121,7 @@ impl<V: Visit> VisitWith<V> for TsKeywordTypeKind {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_keyword_type_kind(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -20130,7 +20131,7 @@ impl<V: Visit> VisitWith<V> for TsFnParam {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_fn_param(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -20140,7 +20141,7 @@ impl<V: Visit> VisitWith<V> for TsThisTypeOrIdent {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_this_type_or_ident(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -20150,7 +20151,7 @@ impl<V: Visit> VisitWith<V> for TsTypeQueryExpr {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_type_query_expr(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -20160,7 +20161,7 @@ impl<V: Visit> VisitWith<V> for Option<TsEntityName> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_opt_ts_entity_name(self.as_ref(), _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {
@@ -20175,7 +20176,7 @@ impl<V: Visit> VisitWith<V> for Vec<TsTypeElement> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_type_elements(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {
@@ -20188,7 +20189,7 @@ impl<V: Visit> VisitWith<V> for Vec<TsTupleElement> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_tuple_elements(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {
@@ -20201,7 +20202,7 @@ impl<V: Visit> VisitWith<V> for TsTupleElement {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_tuple_element(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -20211,7 +20212,7 @@ impl<V: Visit> VisitWith<V> for TsUnionType {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_union_type(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -20221,7 +20222,7 @@ impl<V: Visit> VisitWith<V> for TsIntersectionType {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_intersection_type(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -20231,7 +20232,7 @@ impl<V: Visit> VisitWith<V> for TsTypeOperatorOp {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_type_operator_op(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -20241,7 +20242,7 @@ impl<V: Visit> VisitWith<V> for TruePlusMinus {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_true_plus_minus(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -20251,7 +20252,7 @@ impl<V: Visit> VisitWith<V> for Option<TruePlusMinus> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_opt_true_plus_minus(self.as_ref(), _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {
@@ -20266,7 +20267,7 @@ impl<V: Visit> VisitWith<V> for TsLit {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_lit(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -20276,7 +20277,7 @@ impl<V: Visit> VisitWith<V> for TsInterfaceBody {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_interface_body(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -20286,7 +20287,7 @@ impl<V: Visit> VisitWith<V> for TsExprWithTypeArgs {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_expr_with_type_args(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -20296,7 +20297,7 @@ impl<V: Visit> VisitWith<V> for Vec<TsEnumMember> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_enum_members(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {
@@ -20309,7 +20310,7 @@ impl<V: Visit> VisitWith<V> for TsEnumMember {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_enum_member(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -20319,7 +20320,7 @@ impl<V: Visit> VisitWith<V> for TsEnumMemberId {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_enum_member_id(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -20329,7 +20330,7 @@ impl<V: Visit> VisitWith<V> for TsModuleName {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_module_name(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -20339,7 +20340,7 @@ impl<V: Visit> VisitWith<V> for Option<TsNamespaceBody> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_opt_ts_namespace_body(self.as_ref(), _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {
@@ -20354,7 +20355,7 @@ impl<V: Visit> VisitWith<V> for TsNamespaceBody {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_namespace_body(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -20364,7 +20365,7 @@ impl<V: Visit> VisitWith<V> for TsModuleBlock {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_module_block(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -20374,7 +20375,7 @@ impl<V: Visit> VisitWith<V> for TsNamespaceDecl {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_namespace_decl(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -20384,7 +20385,7 @@ impl<V: Visit> VisitWith<V> for TsModuleRef {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_module_ref(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -20394,7 +20395,7 @@ impl<V: Visit> VisitWith<V> for TsExternalModuleRef {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_ts_external_module_ref(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -20404,7 +20405,7 @@ impl<V: Visit> VisitWith<V> for Accessibility {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_accessibility(self, _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {}
@@ -20414,7 +20415,7 @@ impl<V: Visit> VisitWith<V> for Option<ExprOrSpread> {
     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
         v.visit_opt_expr_or_spread(self.as_ref(), _parent as _)
     }
-    fn visit_children_with(&self, _parent: &dyn Node, _visitor: &mut V) {
+    fn visit_children_with(&self, _visitor: &mut V) {
         let n = self;
         let _parent = n as &dyn Node;
         {
