@@ -14,7 +14,7 @@ fn marker(markers: &[(&str, Mark)]) -> Marker {
     }
 }
 
-impl Fold<Ident> for Marker {
+impl Fold for Marker {
     fn fold(&mut self, mut ident: Ident) -> Ident {
         if let Some(mark) = self.map.get(&ident.sym) {
             ident.span = ident.span.apply_mark(*mark);
@@ -39,7 +39,7 @@ impl OnceMarker {
     }
 }
 
-impl Fold<Ident> for OnceMarker {
+impl Fold for OnceMarker {
     fn fold(&mut self, mut ident: Ident) -> Ident {
         if let Some(marks) = self.map.get_mut(&ident.sym) {
             ident.span = ident.span.apply_mark(marks.remove(0));

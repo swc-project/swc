@@ -1,6 +1,7 @@
 use crate::util::{ExprFactory, StmtLike};
 use swc_common::{Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
 
 /// `@babel/plugin-transform-exponentiation-operator`
 ///
@@ -36,8 +37,8 @@ struct AssignFolder {
 
 noop_fold_type!(AssignFolder);
 
-impl Fold<Expr> for AssignFolder {
-    fn fold(&mut self, e: Expr) -> Expr {
+impl Fold for AssignFolder {
+    fn fold_expr(&mut self, e: Expr) -> Expr {
         let e = e.fold_children_with(self);
 
         match e {
@@ -152,15 +153,15 @@ where
 struct ShouldFold {
     found: bool,
 }
-impl Visit<BinExpr> for ShouldFold {
-    fn visit(&mut self, e: &BinExpr) {
+impl Visit for ShouldFold {
+    fn visit_bin_expr(&mut self, e: &BinExpr, _: &dyn Node) {
         if e.op == op!("**") {
             self.found = true;
         }
     }
 }
-impl Visit<AssignExpr> for ShouldFold {
-    fn visit(&mut self, e: &AssignExpr) {
+impl Visit for ShouldFold {
+    fn visit_assign_expr(&mut self, e: &AssignExpr, _: &dyn Node) {
         if e.op == op!("**=") {
             self.found = true;
         }

@@ -85,7 +85,7 @@ mark_nested!(Class);
 fold_only_key!(SuperFieldAccessFolder);
 fold_only_key!(SuperCalleeFolder);
 
-impl<'a> Fold<Expr> for SuperCalleeFolder<'a> {
+impl<'a> Fold for SuperCalleeFolder<'a> {
     fn fold(&mut self, n: Expr) -> Expr {
         match n {
             Expr::This(ThisExpr { span }) if self.in_nested_scope => {
@@ -380,7 +380,7 @@ impl<'a> SuperCalleeFolder<'a> {
     }
 }
 
-impl<'a> Fold<Expr> for SuperFieldAccessFolder<'a> {
+impl<'a> Fold for SuperFieldAccessFolder<'a> {
     fn fold(&mut self, n: Expr) -> Expr {
         // We pretend method folding mode for while folding injected `_defineProperty`
         // calls.

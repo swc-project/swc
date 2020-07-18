@@ -797,23 +797,21 @@ impl Default for Exports {
 }
 
 macro_rules! mark_as_nested {
-    ($P:tt) => {
-        mark_as_nested!(Function, $P);
-        mark_as_nested!(Constructor, $P);
-        mark_as_nested!(SetterProp, $P);
-        mark_as_nested!(GetterProp, $P);
+    () => {
+        mark_as_nested!(fold_function, Function);
+        mark_as_nested!(fold_constructor, Constructor);
+        mark_as_nested!(fold_setter_prop, SetterProp);
+        mark_as_nested!(fold_getter_prop, GetterProp);
     };
 
-    ($T:tt, $P:tt) => {
-        impl Fold<$T> for $P {
-            fn fold(&mut self, f: $T) -> $T {
-                let old = self.in_top_level;
-                self.in_top_level = false.into();
-                let f = f.fold_children_with(self);
-                self.in_top_level = old;
+    ($name:ident, $T:tt) => {
+        fn $name(&mut self, f: $T) -> $T {
+            let old = self.in_top_level;
+            self.in_top_level = false.into();
+            let f = f.fold_children_with(self);
+            self.in_top_level = old;
 
-                f
-            }
+            f
         }
     };
 }

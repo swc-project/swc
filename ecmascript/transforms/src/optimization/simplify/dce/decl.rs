@@ -4,7 +4,7 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::Fold;
 
-impl Fold<FnDecl> for Dce<'_> {
+impl Fold for Dce<'_> {
     fn fold(&mut self, mut f: FnDecl) -> FnDecl {
         if self.is_marked(f.span()) {
             return f;
@@ -19,7 +19,7 @@ impl Fold<FnDecl> for Dce<'_> {
     }
 }
 
-impl Fold<ClassDecl> for Dce<'_> {
+impl Fold for Dce<'_> {
     fn fold(&mut self, mut node: ClassDecl) -> ClassDecl {
         if self.is_marked(node.span()) {
             return node;
@@ -33,7 +33,7 @@ impl Fold<ClassDecl> for Dce<'_> {
     }
 }
 
-impl Fold<VarDecl> for Dce<'_> {
+impl Fold for Dce<'_> {
     fn fold(&mut self, mut var: VarDecl) -> VarDecl {
         if self.is_marked(var.span) {
             return var;

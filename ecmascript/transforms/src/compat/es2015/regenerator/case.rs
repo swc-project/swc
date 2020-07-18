@@ -11,6 +11,7 @@ use swc_common::{
     BytePos, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, FoldWith, VisitWith};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub(super) struct Loc {
@@ -1404,7 +1405,7 @@ struct UnmarkedInvalidHandler {
     case_id: usize,
 }
 
-impl Fold<Expr> for UnmarkedInvalidHandler {
+impl Fold for UnmarkedInvalidHandler {
     fn fold(&mut self, e: Expr) -> Expr {
         let e = e.fold_children_with(self);
 
@@ -1423,7 +1424,7 @@ struct InvalidToLit<'a> {
     // Map from loc-id to stmt index
     map: &'a [Loc],
 }
-impl Fold<Expr> for InvalidToLit<'_> {
+impl Fold for InvalidToLit<'_> {
     fn fold(&mut self, e: Expr) -> Expr {
         let e = e.fold_children_with(self);
 
@@ -1456,8 +1457,8 @@ struct CatchParamHandler<'a> {
 
 noop_fold_type!(CatchParamHandler<'_>);
 
-impl Fold<Expr> for CatchParamHandler<'_> {
-    fn fold(&mut self, node: Expr) -> Expr {
+impl Fold for CatchParamHandler<'_> {
+    fn fold_expr(&mut self, node: Expr) -> Expr {
         match self.param {
             None => return node,
             Some(Pat::Ident(i)) => match &node {

@@ -1,6 +1,7 @@
 use crate::util::IdentExt;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
+use swc_ecma_visit::Fold;
 
 /// `@babel/plugin-proposal-export-default-from` and
 /// `@babel/plugin-proposal-export-namespace-from`
@@ -13,7 +14,7 @@ struct ExportDefaultFrom;
 
 noop_fold_type!(ExportDefaultFrom);
 
-impl Fold<Vec<ModuleItem>> for ExportDefaultFrom {
+impl Fold for ExportDefaultFrom {
     fn fold(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
         // Imports
         let mut stmts = Vec::with_capacity(items.len() + 4);

@@ -46,7 +46,7 @@ fn prepare(i: Ident, force: bool) -> Ident {
     }
 }
 
-impl Fold<KeyValueProp> for FnName {
+impl Fold for FnName {
     fn fold(&mut self, p: KeyValueProp) -> KeyValueProp {
         let mut p = p.fold_children_with(self);
 
@@ -69,7 +69,7 @@ impl Fold<KeyValueProp> for FnName {
     }
 }
 
-impl Fold<VarDeclarator> for FnName {
+impl Fold for FnName {
     fn fold(&mut self, decl: VarDeclarator) -> VarDeclarator {
         let mut decl = decl.fold_children_with(self);
 
@@ -87,7 +87,7 @@ impl Fold<VarDeclarator> for FnName {
     }
 }
 
-impl Fold<AssignExpr> for FnName {
+impl Fold for FnName {
     fn fold(&mut self, expr: AssignExpr) -> AssignExpr {
         let mut expr = expr.fold_children_with(self);
 

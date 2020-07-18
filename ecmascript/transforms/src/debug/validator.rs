@@ -1,5 +1,6 @@
 use swc_common::Spanned;
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, FoldWith};
 
 /// This transform validates span on debug mode and does nothing on release
 /// mode.
@@ -51,7 +52,7 @@ macro_rules! gte {
     }};
 }
 
-impl Fold<MemberExpr> for Validator {
+impl Fold for Validator {
     fn fold(&mut self, node: MemberExpr) -> MemberExpr {
         if node.span.is_dummy() {
             return node.fold_children_with(self);
@@ -77,7 +78,7 @@ impl Fold<MemberExpr> for Validator {
     }
 }
 
-impl Fold<BinExpr> for Validator {
+impl Fold for Validator {
     fn fold(&mut self, node: BinExpr) -> BinExpr {
         if node.span.is_dummy() {
             return node.fold_children_with(self);
@@ -95,7 +96,7 @@ impl Fold<BinExpr> for Validator {
     }
 }
 
-impl Fold<AssignExpr> for Validator {
+impl Fold for Validator {
     fn fold(&mut self, node: AssignExpr) -> AssignExpr {
         if node.span.is_dummy() {
             return node.fold_children_with(self);
@@ -113,7 +114,7 @@ impl Fold<AssignExpr> for Validator {
     }
 }
 
-impl Fold<UnaryExpr> for Validator {
+impl Fold for Validator {
     fn fold(&mut self, node: UnaryExpr) -> UnaryExpr {
         if node.span.is_dummy() {
             return node.fold_children_with(self);
@@ -127,7 +128,7 @@ impl Fold<UnaryExpr> for Validator {
     }
 }
 
-impl Fold<UpdateExpr> for Validator {
+impl Fold for Validator {
     fn fold(&mut self, node: UpdateExpr) -> UpdateExpr {
         if node.span.is_dummy() {
             return node.fold_children_with(self);
@@ -145,7 +146,7 @@ impl Fold<UpdateExpr> for Validator {
     }
 }
 
-impl Fold<CondExpr> for Validator {
+impl Fold for Validator {
     fn fold(&mut self, node: CondExpr) -> CondExpr {
         if node.span.is_dummy() {
             return node.fold_children_with(self);

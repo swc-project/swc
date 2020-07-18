@@ -1,5 +1,6 @@
 use crate::util::is_valid_ident;
 use swc_ecma_ast::*;
+use swc_ecma_visit::Fold;
 
 /// babel: `transform-member-expression-literals`
 ///
@@ -23,14 +24,8 @@ pub struct MemberExprLit;
 
 noop_fold_type!(MemberExprLit);
 
-impl Fold<Module> for MemberExprLit {
-    fn fold(&mut self, node: Module) -> Module {
-        validate!(node.fold_children_with(self))
-    }
-}
-
-impl Fold<MemberExpr> for MemberExprLit {
-    fn fold(&mut self, e: MemberExpr) -> MemberExpr {
+impl Fold for MemberExprLit {
+    fn fold_member_expr(&mut self, e: MemberExpr) -> MemberExpr {
         let mut e = validate!(e.fold_children_with(self));
 
         macro_rules! handle {
@@ -67,6 +62,10 @@ impl Fold<MemberExpr> for MemberExprLit {
         };
 
         e
+    }
+
+    fn fold_module(&mut self, node: Module) -> Module {
+        validate!(node.fold_children_with(self))
     }
 }
 

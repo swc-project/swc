@@ -10,7 +10,7 @@ use std::sync::Arc;
 use swc_atoms::js_word;
 use swc_common::{Mark, SourceMap, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::Fold;
+use swc_ecma_visit::{Fold, FoldWith, VisitWith};
 
 mod config;
 
@@ -37,8 +37,15 @@ struct Umd {
 
 noop_fold_type!(Umd);
 
-impl Fold<Module> for Umd {
-    fn fold(&mut self, module: Module) -> Module {
+impl Fold for Umd {
+    fn fold_expr(&mut self, expr: Expr) -> Expr {
+        let exports = self.exports.0.clone();
+        let top_level = self.in_top_level;
+
+        Scope::fold_expr(self, exports, top_level, expr)
+    }
+
+    fn fold_module(&mut self, module: Module) -> Module {
         self.in_top_level = true;
 
         let filename = self.cm.span_to_filename(module.span);
@@ -699,19 +706,8 @@ impl Fold<Module> for Umd {
             ..module
         }
     }
-}
 
-impl Fold<Expr> for Umd {
-    fn fold(&mut self, expr: Expr) -> Expr {
-        let exports = self.exports.0.clone();
-        let top_level = self.in_top_level;
-
-        Scope::fold_expr(self, exports, top_level, expr)
-    }
-}
-
-impl Fold<Prop> for Umd {
-    fn fold(&mut self, p: Prop) -> Prop {
+    fn fold_prop(&mut self, p: Prop) -> Prop {
         match p {
             Prop::Shorthand(ident) => {
                 let top_level = self.in_top_level;
@@ -721,12 +717,10 @@ impl Fold<Prop> for Umd {
             _ => p.fold_children_with(self),
         }
     }
-}
 
-impl Fold<VarDecl> for Umd {
     ///
     /// - collects all declared variables for let and var.
-    fn fold(&mut self, var: VarDecl) -> VarDecl {
+    fn fold_var_decl(&mut self, var: VarDecl) -> VarDecl {
         if var.kind != VarDeclKind::Const {
             var.decls.visit_with(&mut VarCollector {
                 to: &mut self.scope.declared_vars,
@@ -738,6 +732,8 @@ impl Fold<VarDecl> for Umd {
             ..var
         }
     }
+
+    mark_as_nested!();
 }
 
 impl ModulePass for Umd {
@@ -753,4 +749,3 @@ impl ModulePass for Umd {
         &mut self.scope
     }
 }
-mark_as_nested!(Umd);

@@ -40,10 +40,8 @@ where
         self.vars = old;
         stmts
     }
-}
 
-impl Fold<Expr> for OptChaining {
-    fn fold(&mut self, e: Expr) -> Expr {
+    fn fold_expr(&mut self, e: Expr) -> Expr {
         let e = match e {
             Expr::OptChain(e) => Expr::Cond(validate!(self.unwrap(e))),
             Expr::Unary(e) => validate!(self.handle_unary(e)),
@@ -57,7 +55,7 @@ impl Fold<Expr> for OptChaining {
 }
 
 impl OptChaining {
-    /// Only called from [Fold<Expr>].
+    /// Only called from [Fold].
     fn handle_unary(&mut self, e: UnaryExpr) -> Expr {
         let span = e.span;
 
@@ -109,7 +107,7 @@ impl OptChaining {
         Expr::Unary(e)
     }
 
-    /// Only called from [Fold<Expr>].
+    /// Only called from [Fold].
     fn handle_call(&mut self, e: CallExpr) -> Expr {
         if let ExprOrSuper::Expr(box Expr::OptChain(o)) = e.callee {
             let expr = self.unwrap(o);
@@ -128,7 +126,7 @@ impl OptChaining {
         Expr::Call(e)
     }
 
-    /// Only called from `[Fold<Expr>].
+    /// Only called from `[Fold].
     fn handle_member(&mut self, e: MemberExpr) -> Expr {
         let obj = if let ExprOrSuper::Expr(box Expr::Member(obj)) = e.obj {
             let obj = self.handle_member(obj);

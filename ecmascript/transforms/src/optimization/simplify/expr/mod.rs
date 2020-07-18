@@ -1,4 +1,4 @@
-use crate::util::*;
+use crate::{pass::RepeatedJsPass, util::*};
 use std::{borrow::Cow, iter, iter::once};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
@@ -6,6 +6,7 @@ use swc_common::{
     Span, Spanned,
 };
 use swc_ecma_ast::{Ident, Lit, *};
+use swc_ecma_visit::{Fold, FoldWith};
 
 #[cfg(test)]
 mod tests;
@@ -40,7 +41,7 @@ impl Repeated for SimplifyExpr {
     }
 }
 
-impl Fold<Pat> for SimplifyExpr {
+impl Fold for SimplifyExpr {
     fn fold(&mut self, p: Pat) -> Pat {
         match p {
             Pat::Assign(a) => AssignPat {
@@ -65,129 +66,6 @@ impl Fold<Pat> for SimplifyExpr {
             }
             .into(),
             _ => p,
-        }
-    }
-}
-
-impl Fold<Expr> for SimplifyExpr {
-    fn fold(&mut self, expr: Expr) -> Expr {
-        // fold children before doing something more.
-        let expr = expr.fold_children_with(self);
-
-        match expr {
-            // Do nothing.
-            Expr::Lit(_) | Expr::This(..) => expr,
-
-            // Remove parenthesis. This may break ast, but it will be fixed up later.
-            Expr::Paren(ParenExpr { expr, .. }) => *expr,
-
-            Expr::Unary(expr) => self.fold_unary(expr),
-            Expr::Bin(expr) => self.fold_bin(expr),
-
-            Expr::Member(e) => self.fold_member_expr(e),
-
-            Expr::Cond(CondExpr {
-                span,
-                test,
-                cons,
-                alt,
-            }) => match test.as_bool() {
-                (p, Known(val)) => {
-                    let expr_value = if val { cons } else { alt };
-                    if p.is_pure() {
-                        *expr_value
-                    } else {
-                        Expr::Seq(SeqExpr {
-                            span,
-                            exprs: vec![test, expr_value],
-                        })
-                    }
-                }
-                _ => Expr::Cond(CondExpr {
-                    span,
-                    test,
-                    cons,
-                    alt,
-                }),
-            },
-
-            // Simplify sequence expression.
-            Expr::Seq(SeqExpr { span, exprs }) => {
-                if exprs.len() == 1 {
-                    //TODO: Respan
-                    *exprs.into_iter().next().unwrap()
-                } else {
-                    assert!(!exprs.is_empty(), "sequence expression should not be empty");
-                    //TODO: remove unused
-                    Expr::Seq(SeqExpr { span, exprs })
-                }
-            }
-
-            Expr::Array(ArrayLit { span, elems, .. }) => {
-                let mut e = Vec::with_capacity(elems.len());
-
-                for elem in elems {
-                    match elem {
-                        Some(ExprOrSpread {
-                            spread: Some(..),
-                            expr: box Expr::Array(ArrayLit { elems, .. }),
-                        }) => e.extend(elems),
-
-                        _ => e.push(elem),
-                    }
-                }
-
-                ArrayLit { span, elems: e }.into()
-            }
-
-            Expr::Object(ObjectLit { span, props, .. }) => {
-                let should_work = props.iter().any(|p| match &*p {
-                    PropOrSpread::Spread(..) => true,
-                    _ => false,
-                });
-                if !should_work {
-                    return ObjectLit { span, props }.into();
-                }
-
-                let mut ps = Vec::with_capacity(props.len());
-
-                for p in props {
-                    match p {
-                        PropOrSpread::Spread(SpreadElement {
-                            expr: box Expr::Object(ObjectLit { props, .. }),
-                            ..
-                        }) => ps.extend(props),
-
-                        _ => ps.push(p),
-                    }
-                }
-
-                ObjectLit { span, props: ps }.into()
-            }
-
-            Expr::New(e) => {
-                if e.callee.is_ident_ref_to(js_word!("String"))
-                    && e.args.is_some()
-                    && e.args.as_ref().unwrap().len() == 1
-                    && e.args.as_ref().unwrap()[0].spread.is_none()
-                    && is_literal(&e.args.as_ref().unwrap()[0].expr)
-                {
-                    let e = &*e.args.into_iter().next().unwrap().pop().unwrap().expr;
-                    if let Known(value) = e.as_string() {
-                        return Expr::Lit(Lit::Str(Str {
-                            span: e.span(),
-                            value: value.into(),
-                            has_escape: false,
-                        }));
-                    }
-                    unreachable!()
-                }
-
-                return NewExpr { ..e }.into();
-            }
-
-            // be conservative.
-            _ => expr,
         }
     }
 }
@@ -1121,9 +999,130 @@ impl SimplifyExpr {
     }
 }
 
-/// Drops unused values
-impl Fold<SeqExpr> for SimplifyExpr {
-    fn fold(&mut self, e: SeqExpr) -> SeqExpr {
+impl Fold for SimplifyExpr {
+    fn fold_expr(&mut self, expr: Expr) -> Expr {
+        // fold children before doing something more.
+        let expr = expr.fold_children_with(self);
+
+        match expr {
+            // Do nothing.
+            Expr::Lit(_) | Expr::This(..) => expr,
+
+            // Remove parenthesis. This may break ast, but it will be fixed up later.
+            Expr::Paren(ParenExpr { expr, .. }) => *expr,
+
+            Expr::Unary(expr) => self.fold_unary(expr),
+            Expr::Bin(expr) => self.fold_bin(expr),
+
+            Expr::Member(e) => self.fold_member_expr(e),
+
+            Expr::Cond(CondExpr {
+                span,
+                test,
+                cons,
+                alt,
+            }) => match test.as_bool() {
+                (p, Known(val)) => {
+                    let expr_value = if val { cons } else { alt };
+                    if p.is_pure() {
+                        *expr_value
+                    } else {
+                        Expr::Seq(SeqExpr {
+                            span,
+                            exprs: vec![test, expr_value],
+                        })
+                    }
+                }
+                _ => Expr::Cond(CondExpr {
+                    span,
+                    test,
+                    cons,
+                    alt,
+                }),
+            },
+
+            // Simplify sequence expression.
+            Expr::Seq(SeqExpr { span, exprs }) => {
+                if exprs.len() == 1 {
+                    //TODO: Respan
+                    *exprs.into_iter().next().unwrap()
+                } else {
+                    assert!(!exprs.is_empty(), "sequence expression should not be empty");
+                    //TODO: remove unused
+                    Expr::Seq(SeqExpr { span, exprs })
+                }
+            }
+
+            Expr::Array(ArrayLit { span, elems, .. }) => {
+                let mut e = Vec::with_capacity(elems.len());
+
+                for elem in elems {
+                    match elem {
+                        Some(ExprOrSpread {
+                            spread: Some(..),
+                            expr: box Expr::Array(ArrayLit { elems, .. }),
+                        }) => e.extend(elems),
+
+                        _ => e.push(elem),
+                    }
+                }
+
+                ArrayLit { span, elems: e }.into()
+            }
+
+            Expr::Object(ObjectLit { span, props, .. }) => {
+                let should_work = props.iter().any(|p| match &*p {
+                    PropOrSpread::Spread(..) => true,
+                    _ => false,
+                });
+                if !should_work {
+                    return ObjectLit { span, props }.into();
+                }
+
+                let mut ps = Vec::with_capacity(props.len());
+
+                for p in props {
+                    match p {
+                        PropOrSpread::Spread(SpreadElement {
+                            expr: box Expr::Object(ObjectLit { props, .. }),
+                            ..
+                        }) => ps.extend(props),
+
+                        _ => ps.push(p),
+                    }
+                }
+
+                ObjectLit { span, props: ps }.into()
+            }
+
+            Expr::New(e) => {
+                if e.callee.is_ident_ref_to(js_word!("String"))
+                    && e.args.is_some()
+                    && e.args.as_ref().unwrap().len() == 1
+                    && e.args.as_ref().unwrap()[0].spread.is_none()
+                    && is_literal(&e.args.as_ref().unwrap()[0].expr)
+                {
+                    let e = &*e.args.into_iter().next().unwrap().pop().unwrap().expr;
+                    if let Known(value) = e.as_string() {
+                        return Expr::Lit(Lit::Str(Str {
+                            span: e.span(),
+                            value: value.into(),
+                            has_escape: false,
+                        }));
+                    }
+                    unreachable!()
+                }
+
+                return NewExpr { ..e }.into();
+            }
+
+            // be conservative.
+            _ => expr,
+        }
+    }
+
+    /// Drops unused values
+    fn fold_seq_expr(&mut self, e: SeqExpr) -> SeqExpr {
         let mut e = e.fold_children_with(self);
 
         let last_expr = e.exprs.pop().expect("SeqExpr.exprs must not be empty");

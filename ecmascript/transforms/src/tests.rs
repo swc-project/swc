@@ -101,7 +101,7 @@ impl<'a> Tester<'a> {
         Ok(stmts.pop().unwrap())
     }
 
-    pub fn apply_transform<T: Fold<Module>>(
+    pub fn apply_transform<T: Fold>(
         &mut self,
         mut tr: T,
         name: &str,
@@ -395,7 +395,7 @@ impl Write for Buf {
 }
 
 struct Normalizer;
-impl Fold<PatOrExpr> for Normalizer {
+impl Fold for Normalizer {
     fn fold(&mut self, n: PatOrExpr) -> PatOrExpr {
         match n {
             PatOrExpr::Pat(box Pat::Expr(e)) => PatOrExpr::Expr(e),
@@ -405,8 +405,8 @@ impl Fold<PatOrExpr> for Normalizer {
 }
 
 pub(crate) struct HygieneVisualizer;
-impl Fold<Ident> for HygieneVisualizer {
-    fn fold(&mut self, ident: Ident) -> Ident {
+impl Fold for HygieneVisualizer {
+    fn fold_ident(&mut self, ident: Ident) -> Ident {
         Ident {
             sym: format!("{}{:?}", ident.sym, ident.span.ctxt()).into(),
             ..ident

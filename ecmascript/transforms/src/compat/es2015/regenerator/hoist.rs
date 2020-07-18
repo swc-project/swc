@@ -3,7 +3,7 @@ use smallvec::SmallVec;
 use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
-use swc_ecma_visit::FoldWith;
+use swc_ecma_visit::{Fold, FoldWith};
 
 pub(super) type Vars = SmallVec<[Ident; 32]>;
 
@@ -58,7 +58,7 @@ impl Hoister {
     }
 }
 
-impl Fold<VarDeclOrPat> for Hoister {
+impl Fold for Hoister {
     fn fold(&mut self, v: VarDeclOrPat) -> VarDeclOrPat {
         match v {
             VarDeclOrPat::Pat(v) => VarDeclOrPat::Pat(v.fold_children_with(self)),
@@ -74,13 +74,13 @@ impl Fold<VarDeclOrPat> for Hoister {
     }
 }
 
-impl Fold<VarDecl> for Hoister {
+impl Fold for Hoister {
     fn fold(&mut self, var: VarDecl) -> VarDecl {
         unreachable!("VarDecl should be removed by other pass: {:?}", var);
     }
 }
 
-impl Fold<VarDeclOrExpr> for Hoister {
+impl Fold for Hoister {
     fn fold(&mut self, var: VarDeclOrExpr) -> VarDeclOrExpr {
         match var {
             VarDeclOrExpr::VarDecl(var) => VarDeclOrExpr::Expr(box self.var_decl_to_expr(var)),
@@ -89,7 +89,7 @@ impl Fold<VarDeclOrExpr> for Hoister {
     }
 }
 
-impl Fold<Stmt> for Hoister {
+impl Fold for Hoister {
     fn fold(&mut self, s: Stmt) -> Stmt {
         match s {
             Stmt::Decl(Decl::Var(var)) => {
@@ -106,8 +106,8 @@ impl Fold<Stmt> for Hoister {
     }
 }
 
-impl Fold<ModuleDecl> for Hoister {
-    fn fold(&mut self, decl: ModuleDecl) -> ModuleDecl {
+impl Fold for Hoister {
+    fn fold_module_decl(&mut self, decl: ModuleDecl) -> ModuleDecl {
         match decl {
             ModuleDecl::ExportDecl(ExportDecl {
                 span,
@@ -126,7 +126,7 @@ impl Fold<ModuleDecl> for Hoister {
     }
 }
 
-impl Fold<MemberExpr> for Hoister {
+impl Fold for Hoister {
     fn fold(&mut self, mut e: MemberExpr) -> MemberExpr {
         e.obj = e.obj.fold_with(self);
 
@@ -138,7 +138,7 @@ impl Fold<MemberExpr> for Hoister {
     }
 }
 
-impl Fold<Expr> for Hoister {
+impl Fold for Hoister {
     fn fold(&mut self, e: Expr) -> Expr {
         let e = e.fold_children_with(self);
 

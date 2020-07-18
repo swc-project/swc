@@ -4,7 +4,7 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, Id};
 use swc_ecma_visit::Fold;
 
-impl Fold<ImportDecl> for Dce<'_> {
+impl Fold for Dce<'_> {
     fn fold(&mut self, mut import: ImportDecl) -> ImportDecl {
         // Do not mark import as used while ignoring imports
         if !self.decl_dropping_phase {
@@ -32,7 +32,7 @@ impl Fold<ImportDecl> for Dce<'_> {
     }
 }
 
-impl Fold<ExportDecl> for Dce<'_> {
+impl Fold for Dce<'_> {
     fn fold(&mut self, mut node: ExportDecl) -> ExportDecl {
         if self.is_marked(node.span) {
             return node;
@@ -90,7 +90,7 @@ impl Fold<ExportDecl> for Dce<'_> {
     }
 }
 
-impl Fold<ExportDefaultExpr> for Dce<'_> {
+impl Fold for Dce<'_> {
     fn fold(&mut self, mut node: ExportDefaultExpr) -> ExportDefaultExpr {
         if self.is_marked(node.span) {
             return node;
@@ -105,7 +105,7 @@ impl Fold<ExportDefaultExpr> for Dce<'_> {
     }
 }
 
-impl Fold<NamedExport> for Dce<'_> {
+impl Fold for Dce<'_> {
     fn fold(&mut self, mut node: NamedExport) -> NamedExport {
         if self.is_marked(node.span) {
             return node;
@@ -129,7 +129,7 @@ impl Fold<NamedExport> for Dce<'_> {
     }
 }
 
-impl Fold<ExportDefaultDecl> for Dce<'_> {
+impl Fold for Dce<'_> {
     fn fold(&mut self, mut node: ExportDefaultDecl) -> ExportDefaultDecl {
         if self.is_marked(node.span) {
             return node;
@@ -144,7 +144,7 @@ impl Fold<ExportDefaultDecl> for Dce<'_> {
     }
 }
 
-impl Fold<ExportAll> for Dce<'_> {
+impl Fold for Dce<'_> {
     fn fold(&mut self, node: ExportAll) -> ExportAll {
         if self.is_marked(node.span) {
             return node;

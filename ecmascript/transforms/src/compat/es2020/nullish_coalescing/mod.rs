@@ -2,6 +2,7 @@ use crate::util::{alias_if_required, undefined, StmtLike};
 use std::mem::replace;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, FoldWith};
 
 #[cfg(test)]
 mod tests;
@@ -41,7 +42,7 @@ where
     }
 }
 
-impl Fold<Expr> for NullishCoalescing {
+impl Fold for NullishCoalescing {
     fn fold(&mut self, e: Expr) -> Expr {
         let e = e.fold_children_with(self);
 

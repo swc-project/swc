@@ -3,6 +3,7 @@ use serde::Deserialize;
 use swc_atoms::js_word;
 use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_visit::{FoldWith, Visit, VisitWith};
 
 /// `@babel/plugin-transform-for-of`
 ///
@@ -390,7 +391,7 @@ impl Actual {
     }
 }
 
-impl Fold<Stmt> for Actual {
+impl Fold for Actual {
     fn fold(&mut self, stmt: Stmt) -> Stmt {
         match stmt {
             Stmt::Labeled(LabeledStmt { span, label, body }) => {
@@ -549,7 +550,7 @@ struct ForOfFinder {
     found: bool,
 }
 
-impl Visit<ForOfStmt> for ForOfFinder {
+impl Visit for ForOfFinder {
     fn visit(&mut self, _: &ForOfStmt) {
         self.found = true;
     }

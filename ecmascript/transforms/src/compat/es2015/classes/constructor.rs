@@ -5,6 +5,7 @@ use swc_atoms::JsWord;
 use swc_common::{Mark, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::quote_ident;
+use swc_ecma_visit::{Fold, FoldWith};
 
 pub(super) struct SuperCallFinder {
     mode: Option<SuperFoldingMode>,
@@ -57,7 +58,7 @@ mark_as_complex!(ArrowExpr);
 mark_as_complex!(IfStmt);
 mark_as_complex!(PropName);
 
-impl Visit<AssignExpr> for SuperCallFinder {
+impl Visit for SuperCallFinder {
     fn visit(&mut self, node: &AssignExpr) {
         node.left.visit_with(self);
 
@@ -68,7 +69,7 @@ impl Visit<AssignExpr> for SuperCallFinder {
     }
 }
 
-impl Visit<MemberExpr> for SuperCallFinder {
+impl Visit for SuperCallFinder {
     fn visit(&mut self, e: &MemberExpr) {
         e.visit_children_with(self);
 
@@ -85,7 +86,7 @@ impl Visit<MemberExpr> for SuperCallFinder {
     }
 }
 
-impl Visit<CallExpr> for SuperCallFinder {
+impl Visit for SuperCallFinder {
     fn visit(&mut self, e: &CallExpr) {
         match e.callee {
             ExprOrSuper::Super(..) => match self.mode {
@@ -105,12 +106,12 @@ impl Visit<CallExpr> for SuperCallFinder {
 }
 
 /// Don't recurse into class declaration.
-impl Visit<Class> for SuperCallFinder {
+impl Visit for SuperCallFinder {
     fn visit(&mut self, _: &Class) {}
 }
 
 /// Don't recurse into funcrion.
-impl Visit<Function> for SuperCallFinder {
+impl Visit for SuperCallFinder {
     fn visit(&mut self, _: &Function) {}
 }
 
@@ -164,7 +165,7 @@ pub(super) enum SuperFoldingMode {
     Var,
 }
 
-impl<'a> Fold<Stmt> for ConstructorFolder<'a> {
+impl<'a> Fold for ConstructorFolder<'a> {
     fn fold(&mut self, stmt: Stmt) -> Stmt {
         let stmt = stmt.fold_children_with(self);
 
@@ -217,7 +218,7 @@ impl<'a> Fold<Stmt> for ConstructorFolder<'a> {
     }
 }
 
-impl<'a> Fold<ReturnStmt> for ConstructorFolder<'a> {
+impl<'a> Fold for ConstructorFolder<'a> {
     fn fold(&mut self, stmt: ReturnStmt) -> ReturnStmt {
         if self.ignore_return {
             return stmt;
@@ -256,8 +257,8 @@ ignore_return!(Constructor);
 
 fold_only_key!(ConstructorFolder);
 
-impl<'a> Fold<Expr> for ConstructorFolder<'a> {
-    fn fold(&mut self, expr: Expr) -> Expr {
+impl<'a> Fold for ConstructorFolder<'a> {
+    fn fold_expr(&mut self, expr: Expr) -> Expr {
         match self.mode {
             Some(SuperFoldingMode::Assign) => {}
             _ => return expr,
@@ -403,14 +404,14 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: Constructor) -> (Constr
         wrap_with_assertiion: bool,
     }
 
-    impl Fold<Class> for Replacer {
+    impl Fold for Replacer {
         fn fold(&mut self, n: Class) -> Class {
             n
         }
     }
 
-    impl Fold<Expr> for Replacer {
-        fn fold(&mut self, expr: Expr) -> Expr {
+    impl Fold for Replacer {
+        fn fold_expr(&mut self, expr: Expr) -> Expr {
             match expr {
                 Expr::This(..) => {
                     self.found = true;
@@ -432,7 +433,7 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: Constructor) -> (Constr
         }
     }
 
-    impl Fold<MemberExpr> for Replacer {
+    impl Fold for Replacer {
         fn fold(
             &mut self,
             MemberExpr {
@@ -492,8 +493,8 @@ pub(super) struct VarRenamer<'a> {
     pub class_name: &'a JsWord,
 }
 
-impl<'a> Fold<Pat> for VarRenamer<'a> {
-    fn fold(&mut self, pat: Pat) -> Pat {
+impl<'a> Fold for VarRenamer<'a> {
+    fn fold_pat(&mut self, pat: Pat) -> Pat {
         match pat {
             Pat::Ident(ident) => {
                 if *self.class_name == ident.sym {

@@ -1,6 +1,6 @@
 macro_rules! fold_only_key {
     ($T:tt) => {
-        impl<'a> Fold<ClassMember> for $T<'a> {
+        impl<'a> Fold for $T<'a> {
             fn fold(&mut self, m: ClassMember) -> ClassMember {
                 match m {
                     ClassMember::Method(m) => ClassMember::Method(ClassMethod {

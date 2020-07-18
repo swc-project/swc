@@ -2,6 +2,7 @@ use crate::util::ExprFactory;
 use swc_atoms::JsWord;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, FoldWith};
 
 /// Compile ES2015 sticky regex to an ES5 RegExp constructor
 ///
@@ -22,7 +23,7 @@ pub struct StickyRegex;
 
 noop_fold_type!(StickyRegex);
 
-impl Fold<Expr> for StickyRegex {
+impl Fold for StickyRegex {
     fn fold(&mut self, e: Expr) -> Expr {
         let e = e.fold_children_with(self);
 

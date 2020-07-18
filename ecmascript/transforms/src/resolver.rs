@@ -199,7 +199,7 @@ impl<'a> Resolver<'a> {
     }
 }
 
-impl<'a> Fold<Function> for Resolver<'a> {
+impl<'a> Fold for Resolver<'a> {
     fn fold(&mut self, mut f: Function) -> Function {
         self.ident_type = IdentType::Ref;
         f.decorators = f.decorators.fold_with(self);
@@ -214,7 +214,7 @@ impl<'a> Fold<Function> for Resolver<'a> {
     }
 }
 
-impl<'a> Fold<BlockStmt> for Resolver<'a> {
+impl<'a> Fold for Resolver<'a> {
     fn fold(&mut self, block: BlockStmt) -> BlockStmt {
         let child_mark = Mark::fresh(self.mark);
 
@@ -230,7 +230,7 @@ impl<'a> Fold<BlockStmt> for Resolver<'a> {
     }
 }
 
-impl<'a> Fold<FnExpr> for Resolver<'a> {
+impl<'a> Fold for Resolver<'a> {
     fn fold(&mut self, e: FnExpr) -> FnExpr {
         let ident = if let Some(ident) = e.ident {
             Some(self.fold_binding_ident(ident))
@@ -254,7 +254,7 @@ impl<'a> Fold<FnExpr> for Resolver<'a> {
     }
 }
 
-impl Fold<ClassMethod> for Resolver<'_> {
+impl Fold for Resolver<'_> {
     fn fold(&mut self, m: ClassMethod) -> ClassMethod {
         let key = m.key.fold_with(self);
 
@@ -275,7 +275,7 @@ impl Fold<ClassMethod> for Resolver<'_> {
     }
 }
 
-impl Fold<MethodProp> for Resolver<'_> {
+impl Fold for Resolver<'_> {
     fn fold(&mut self, m: MethodProp) -> MethodProp {
         let key = m.key.fold_with(self);
 
@@ -296,7 +296,7 @@ impl Fold<MethodProp> for Resolver<'_> {
     }
 }
 
-impl<'a> Fold<FnDecl> for Resolver<'a> {
+impl<'a> Fold for Resolver<'a> {
     fn fold(&mut self, node: FnDecl) -> FnDecl {
         // We don't fold this as Hoister handles this.
         let ident = node.ident;
@@ -324,7 +324,7 @@ impl<'a> Fold<FnDecl> for Resolver<'a> {
     }
 }
 
-impl Fold<Pat> for Resolver<'_> {
+impl Fold for Resolver<'_> {
     fn fold(&mut self, p: Pat) -> Pat {
         let old = self.cur_defining.take();
         let p = p.fold_children_with(self);
@@ -334,8 +334,8 @@ impl Fold<Pat> for Resolver<'_> {
     }
 }
 
-impl<'a> Fold<Expr> for Resolver<'a> {
-    fn fold(&mut self, expr: Expr) -> Expr {
+impl<'a> Fold for Resolver<'a> {
+    fn fold_expr(&mut self, expr: Expr) -> Expr {
         let expr = validate!(expr);
 
         let old = self.ident_type;
@@ -364,7 +364,7 @@ impl<'a> Fold<Expr> for Resolver<'a> {
     }
 }
 
-impl<'a> Fold<VarDeclarator> for Resolver<'a> {
+impl<'a> Fold for Resolver<'a> {
     fn fold(&mut self, decl: VarDeclarator) -> VarDeclarator {
         // order is important
 
@@ -388,7 +388,7 @@ impl<'a> Fold<VarDeclarator> for Resolver<'a> {
     }
 }
 
-impl Fold<VarDecl> for Resolver<'_> {
+impl Fold for Resolver<'_> {
     fn fold(&mut self, decl: VarDecl) -> VarDecl {
         let old_hoist = self.hoist;
 
@@ -401,7 +401,7 @@ impl Fold<VarDecl> for Resolver<'_> {
     }
 }
 
-impl<'a> Fold<Ident> for Resolver<'a> {
+impl<'a> Fold for Resolver<'a> {
     fn fold(&mut self, i: Ident) -> Ident {
         match self.ident_type {
             IdentType::Binding => self.fold_binding_ident(i),
@@ -461,7 +461,7 @@ impl<'a> Fold<Ident> for Resolver<'a> {
     }
 }
 
-impl Fold<ObjectLit> for Resolver<'_> {
+impl Fold for Resolver<'_> {
     fn fold(&mut self, o: ObjectLit) -> ObjectLit {
         let child_mark = Mark::fresh(self.mark);
 
@@ -479,7 +479,7 @@ impl Fold<ObjectLit> for Resolver<'_> {
 
 track_ident!(Resolver);
 
-impl<'a> Fold<ArrowExpr> for Resolver<'a> {
+impl<'a> Fold for Resolver<'a> {
     fn fold(&mut self, e: ArrowExpr) -> ArrowExpr {
         let child_mark = Mark::fresh(self.mark);
 
@@ -507,7 +507,7 @@ impl<'a> Fold<ArrowExpr> for Resolver<'a> {
 }
 
 /// Handle body of the arrow functions
-impl Fold<BlockStmtOrExpr> for Resolver<'_> {
+impl Fold for Resolver<'_> {
     fn fold(&mut self, node: BlockStmtOrExpr) -> BlockStmtOrExpr {
         match node {
             BlockStmtOrExpr::BlockStmt(block) => block.fold_children_with(self).into(),
@@ -529,7 +529,7 @@ impl Fold<Vec<Stmt>> for Resolver<'_> {
     }
 }
 
-impl Fold<Vec<ModuleItem>> for Resolver<'_> {
+impl Fold for Resolver<'_> {
     fn fold(&mut self, stmts: Vec<ModuleItem>) -> Vec<ModuleItem> {
         let stmts = validate!(stmts);
 
@@ -548,7 +548,7 @@ impl Fold<Vec<ModuleItem>> for Resolver<'_> {
     }
 }
 
-impl Fold<CatchClause> for Resolver<'_> {
+impl Fold for Resolver<'_> {
     fn fold(&mut self, c: CatchClause) -> CatchClause {
         let child_mark = Mark::fresh(self.mark);
 
@@ -576,7 +576,7 @@ struct Hoister<'a, 'b> {
     resolver: &'a mut Resolver<'b>,
 }
 
-impl Fold<FnDecl> for Hoister<'_, '_> {
+impl Fold for Hoister<'_, '_> {
     fn fold(&mut self, node: FnDecl) -> FnDecl {
         let ident = self.resolver.fold_binding_ident(node.ident);
 
@@ -584,19 +584,19 @@ impl Fold<FnDecl> for Hoister<'_, '_> {
     }
 }
 
-impl Fold<Function> for Hoister<'_, '_> {
+impl Fold for Hoister<'_, '_> {
     fn fold(&mut self, node: Function) -> Function {
         node
     }
 }
 
-impl Fold<ArrowExpr> for Hoister<'_, '_> {
+impl Fold for Hoister<'_, '_> {
     fn fold(&mut self, node: ArrowExpr) -> ArrowExpr {
         node
     }
 }
 
-impl Fold<VarDecl> for Hoister<'_, '_> {
+impl Fold for Hoister<'_, '_> {
     fn fold(&mut self, node: VarDecl) -> VarDecl {
         if node.kind != VarDeclKind::Var {
             return node;
@@ -607,7 +607,7 @@ impl Fold<VarDecl> for Hoister<'_, '_> {
     }
 }
 
-impl Fold<VarDeclarator> for Hoister<'_, '_> {
+impl Fold for Hoister<'_, '_> {
     fn fold(&mut self, node: VarDeclarator) -> VarDeclarator {
         VarDeclarator {
             name: node.name.fold_with(self),
@@ -616,7 +616,7 @@ impl Fold<VarDeclarator> for Hoister<'_, '_> {
     }
 }
 
-impl Fold<Pat> for Hoister<'_, '_> {
+impl Fold for Hoister<'_, '_> {
     fn fold(&mut self, node: Pat) -> Pat {
         match node {
             Pat::Ident(i) => Pat::Ident(self.resolver.fold_binding_ident(i)),
@@ -625,14 +625,14 @@ impl Fold<Pat> for Hoister<'_, '_> {
     }
 }
 
-impl Fold<PatOrExpr> for Hoister<'_, '_> {
+impl Fold for Hoister<'_, '_> {
     #[inline(always)]
     fn fold(&mut self, node: PatOrExpr) -> PatOrExpr {
         node
     }
 }
 
-impl Fold<Constructor> for Resolver<'_> {
+impl Fold for Resolver<'_> {
     fn fold(&mut self, c: Constructor) -> Constructor {
         let old = self.ident_type;
         self.ident_type = IdentType::Binding;

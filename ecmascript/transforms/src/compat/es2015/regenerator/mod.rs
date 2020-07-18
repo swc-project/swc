@@ -4,6 +4,7 @@ use std::mem::replace;
 use swc_atoms::js_word;
 use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, Visit, VisitWith};
 
 mod case;
 mod hoist;
@@ -51,7 +52,7 @@ fn rt(global_mark: Mark, rt: Ident) -> Stmt {
 }
 
 /// Injects `var _regeneratorRuntime = require('regenerator-runtime');`
-impl Fold<Module> for Regenerator {
+impl Fold for Regenerator {
     fn fold(&mut self, m: Module) -> Module {
         let mut m: Module = m.fold_children_with(self);
         if let Some(rt_ident) = self.regenerator_runtime.take() {
@@ -62,7 +63,7 @@ impl Fold<Module> for Regenerator {
 }
 
 /// Injects `var _regeneratorRuntime = require('regenerator-runtime');`
-impl Fold<Script> for Regenerator {
+impl Fold for Regenerator {
     fn fold(&mut self, s: Script) -> Script {
         let mut s: Script = s.fold_children_with(self);
         if let Some(rt_ident) = self.regenerator_runtime.take() {
@@ -106,7 +107,7 @@ where
     }
 }
 
-impl Fold<Prop> for Regenerator {
+impl Fold for Regenerator {
     fn fold(&mut self, p: Prop) -> Prop {
         let p = p.fold_children_with(self);
 
@@ -163,7 +164,7 @@ impl Fold<Prop> for Regenerator {
     }
 }
 
-impl Fold<Expr> for Regenerator {
+impl Fold for Regenerator {
     fn fold(&mut self, e: Expr) -> Expr {
         if !Finder::find(&e) {
             return e;
@@ -201,7 +202,7 @@ impl Fold<Expr> for Regenerator {
     }
 }
 
-impl Fold<FnDecl> for Regenerator {
+impl Fold for Regenerator {
     fn fold(&mut self, f: FnDecl) -> FnDecl {
         if !Finder::find(&f) {
             return f;
@@ -242,7 +243,7 @@ impl Fold<FnDecl> for Regenerator {
     }
 }
 
-impl Fold<ModuleDecl> for Regenerator {
+impl Fold for Regenerator {
     fn fold(&mut self, i: ModuleDecl) -> ModuleDecl {
         if !Finder::find(&i) {
             return i;
@@ -479,7 +480,7 @@ struct FnSentVisitor {
     ctx: Ident,
 }
 
-impl Fold<Expr> for FnSentVisitor {
+impl Fold for FnSentVisitor {
     fn fold(&mut self, e: Expr) -> Expr {
         let e: Expr = e.fold_children_with(self);
 
@@ -510,7 +511,7 @@ impl Finder {
     }
 }
 
-impl Visit<Function> for Finder {
+impl Visit for Finder {
     fn visit(&mut self, node: &Function) {
         if node.is_generator {
             self.found = true;

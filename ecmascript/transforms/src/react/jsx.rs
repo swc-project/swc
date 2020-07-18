@@ -12,6 +12,7 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::{iter::IdentifyLast, FileName, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{Parser, SourceFileInput, Syntax};
+use swc_ecma_visit::{Fold, FoldWith};
 
 #[cfg(test)]
 mod tests;
@@ -260,8 +261,8 @@ impl Jsx {
     }
 }
 
-impl Fold<Expr> for Jsx {
-    fn fold(&mut self, expr: Expr) -> Expr {
+impl Fold for Jsx {
+    fn fold_expr(&mut self, expr: Expr) -> Expr {
         let expr = expr.fold_children_with(self);
 
         match expr {

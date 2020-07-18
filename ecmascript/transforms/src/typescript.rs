@@ -108,13 +108,13 @@ impl Strip {
     }
 }
 
-impl Fold<TsTypeAliasDecl> for Strip {
+impl Fold for Strip {
     fn fold(&mut self, node: TsTypeAliasDecl) -> TsTypeAliasDecl {
         self.add_types(node)
     }
 }
 
-impl Fold<Constructor> for Strip {
+impl Fold for Strip {
     fn fold(&mut self, c: Constructor) -> Constructor {
         let c = c.fold_children_with(self);
 
@@ -217,7 +217,7 @@ impl Fold<Vec<Param>> for Strip {
     }
 }
 
-impl Fold<Vec<ModuleItem>> for Strip {
+impl Fold for Strip {
     fn fold(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
         let old = self.phase;
 
@@ -743,7 +743,7 @@ impl Strip {
     }
 }
 
-impl Fold<ImportDecl> for Strip {
+impl Fold for Strip {
     fn fold(&mut self, mut import: ImportDecl) -> ImportDecl {
         match self.phase {
             Phase::Analysis => {
@@ -791,7 +791,7 @@ impl Fold<ImportDecl> for Strip {
     }
 }
 
-impl Fold<Ident> for Strip {
+impl Fold for Strip {
     fn fold(&mut self, i: Ident) -> Ident {
         self.scope
             .imported_idents
@@ -805,7 +805,7 @@ impl Fold<Ident> for Strip {
     }
 }
 
-impl Visit<TsEntityName> for Strip {
+impl Visit for Strip {
     fn visit(&mut self, name: &TsEntityName) {
         assert!(match self.phase {
             Phase::Analysis => true,
@@ -824,7 +824,7 @@ impl Visit<TsEntityName> for Strip {
     }
 }
 
-impl Fold<TsInterfaceDecl> for Strip {
+impl Fold for Strip {
     fn fold(&mut self, node: TsInterfaceDecl) -> TsInterfaceDecl {
         TsInterfaceDecl {
             span: node.span,
@@ -837,7 +837,7 @@ impl Fold<TsInterfaceDecl> for Strip {
     }
 }
 
-impl Fold<Class> for Strip {
+impl Fold for Strip {
     fn fold(&mut self, node: Class) -> Class {
         Class {
             span: node.span,
@@ -862,7 +862,7 @@ impl Fold<Class> for Strip {
     }
 }
 
-impl Fold<Decl> for Strip {
+impl Fold for Strip {
     fn fold(&mut self, decl: Decl) -> Decl {
         let decl = validate!(decl);
         self.handle_decl(&decl);
@@ -875,7 +875,7 @@ impl Fold<Decl> for Strip {
     }
 }
 
-impl Fold<Stmt> for Strip {
+impl Fold for Strip {
     fn fold(&mut self, stmt: Stmt) -> Stmt {
         let stmt = stmt.fold_children_with(self);
 
@@ -925,8 +925,8 @@ impl Fold<Option<Accessibility>> for Strip {
 
 type_to_none!(TsType, TsTypeAnn, TsTypeParamDecl, TsTypeParamInstantiation);
 
-impl Fold<Expr> for Strip {
-    fn fold(&mut self, expr: Expr) -> Expr {
+impl Fold for Strip {
+    fn fold_expr(&mut self, expr: Expr) -> Expr {
         let expr = match expr {
             Expr::TsAs(TsAsExpr { expr, type_ann, .. }) => {
                 type_ann.visit_with(self);
@@ -964,7 +964,7 @@ impl Fold<Expr> for Strip {
     }
 }
 
-impl Fold<Module> for Strip {
+impl Fold for Strip {
     fn fold(&mut self, node: Module) -> Module {
         let node = validate!(node);
 

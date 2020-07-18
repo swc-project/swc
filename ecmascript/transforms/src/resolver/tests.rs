@@ -6,7 +6,7 @@ use crate::{
 use swc_common::chain;
 use swc_ecma_parser::{EsConfig, Syntax};
 
-fn tr() -> impl Fold<Module> {
+fn tr() -> impl Fold {
     chain!(resolver(), block_scoping())
 }
 

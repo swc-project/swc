@@ -4,7 +4,7 @@ use crate::util::{
 use std::{iter, mem};
 use swc_common::{chain, util::move_map::MoveMap, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::Fold;
+use swc_ecma_visit::{Fold, FoldWith, VisitWith};
 
 /// `@babel/plugin-proposal-object-rest-spread`
 pub fn object_rest_spread() -> impl Fold {
@@ -146,8 +146,8 @@ macro_rules! impl_for_for_stmt {
 impl_for_for_stmt!(ForInStmt);
 impl_for_for_stmt!(ForOfStmt);
 
-impl Fold<Vec<VarDeclarator>> for RestFolder {
-    fn fold(&mut self, decls: Vec<VarDeclarator>) -> Vec<VarDeclarator> {
+impl Fold for RestFolder {
+    fn fold_var_declarators(&mut self, decls: Vec<VarDeclarator>) -> Vec<VarDeclarator> {
         // fast path
         if !contains_rest(&decls) {
             return decls;
@@ -272,8 +272,8 @@ impl Fold<Vec<VarDeclarator>> for RestFolder {
 }
 
 /// Handles assign expression
-impl Fold<Expr> for RestFolder {
-    fn fold(&mut self, expr: Expr) -> Expr {
+impl Fold for RestFolder {
+    fn fold_expr(&mut self, expr: Expr) -> Expr {
         // fast path
         if !contains_rest(&expr) {
             return expr;
@@ -329,8 +329,8 @@ impl Fold<Expr> for RestFolder {
 }
 
 /// export var { b, ...c } = asdf2;
-impl Fold<ModuleDecl> for RestFolder {
-    fn fold(&mut self, decl: ModuleDecl) -> ModuleDecl {
+impl Fold for RestFolder {
+    fn fold_module_decl(&mut self, decl: ModuleDecl) -> ModuleDecl {
         if !contains_rest(&decl) {
             // fast path
             return decl;
@@ -378,7 +378,7 @@ struct RestVisitor {
     found: bool,
 }
 
-impl Visit<ObjectPatProp> for RestVisitor {
+impl Visit for RestVisitor {
     fn visit(&mut self, prop: &ObjectPatProp) {
         match *prop {
             ObjectPatProp::Rest(..) => self.found = true,
@@ -453,7 +453,7 @@ where
 
 impl_fold_fn!(RestFolder);
 
-// impl Fold<ArrowExpr> for RestFolder {
+// impl Fold for RestFolder {
 //     fn fold(&mut self, f: ArrowExpr) -> ArrowExpr {
 //         let body_span = f.body.span();
 //         let (params, stmts) = self.fold_fn_like(
@@ -477,7 +477,7 @@ impl_fold_fn!(RestFolder);
 //     }
 // }
 
-// impl Fold<Function> for RestFolder {
+// impl Fold for RestFolder {
 //     fn fold(&mut self, f: Function) -> Function {
 //         if f.body.is_none() {
 //             return f;
@@ -493,7 +493,7 @@ impl_fold_fn!(RestFolder);
 //     }
 // }
 
-// impl Fold<CatchClause> for RestFolder {
+// impl Fold for RestFolder {
 //     fn fold(&mut self, mut c: CatchClause) -> CatchClause {
 //         if !contains_rest(&c.param) {
 //             // fast path
@@ -1001,8 +1001,8 @@ fn excluded_props(props: &[ObjectPatProp]) -> Vec<Option<ExprOrSpread>> {
 ///  - `{ x4: {}  }` -> `{}`
 fn simplify_pat(pat: Pat) -> Pat {
     struct PatSimplifier;
-    impl Fold<Pat> for PatSimplifier {
-        fn fold(&mut self, pat: Pat) -> Pat {
+    impl Fold for PatSimplifier {
+        fn fold_pat(&mut self, pat: Pat) -> Pat {
             let pat = pat.fold_children_with(self);
 
             match pat {
@@ -1030,8 +1030,8 @@ struct ObjectSpread;
 
 noop_fold_type!(ObjectSpread);
 
-impl Fold<Expr> for ObjectSpread {
-    fn fold(&mut self, expr: Expr) -> Expr {
+impl Fold for ObjectSpread {
+    fn fold_expr(&mut self, expr: Expr) -> Expr {
         // fast-path
         if !contains_spread(&expr) {
             return expr;
@@ -1104,7 +1104,7 @@ fn contains_spread(expr: &Expr) -> bool {
         found: bool,
     }
 
-    impl Visit<SpreadElement> for Visitor {
+    impl Visit for Visitor {
         fn visit(&mut self, _: &SpreadElement) {
             self.found = true;
         }

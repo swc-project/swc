@@ -4,6 +4,7 @@ use std::borrow::Cow;
 use swc_common::pass::{CompilerPass, Repeated};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{contains_this_expr, find_ids, ident::IdentLike, undefined, Id};
+use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
 
 mod scope;
 
@@ -87,7 +88,7 @@ impl Inlining<'_> {
     }
 }
 
-impl Fold<Vec<ModuleItem>> for Inlining<'_> {
+impl Fold for Inlining<'_> {
     fn fold(&mut self, mut items: Vec<ModuleItem>) -> Vec<ModuleItem> {
         let old_phase = self.phase;
 
@@ -130,7 +131,7 @@ impl Fold<Vec<Stmt>> for Inlining<'_> {
     }
 }
 
-impl Fold<VarDecl> for Inlining<'_> {
+impl Fold for Inlining<'_> {
     fn fold(&mut self, decl: VarDecl) -> VarDecl {
         self.var_decl_kind = decl.kind;
 
@@ -138,7 +139,7 @@ impl Fold<VarDecl> for Inlining<'_> {
     }
 }
 
-impl Fold<VarDeclarator> for Inlining<'_> {
+impl Fold for Inlining<'_> {
     fn fold(&mut self, mut node: VarDeclarator) -> VarDeclarator {
         let kind = VarType::Var(self.var_decl_kind);
         node.init = node.init.fold_with(self);
@@ -284,19 +285,19 @@ impl Fold<VarDeclarator> for Inlining<'_> {
     }
 }
 
-impl Fold<BlockStmt> for Inlining<'_> {
+impl Fold for Inlining<'_> {
     fn fold(&mut self, node: BlockStmt) -> BlockStmt {
         self.fold_with_child(ScopeKind::Block, node)
     }
 }
 
-impl Fold<ArrowExpr> for Inlining<'_> {
+impl Fold for Inlining<'_> {
     fn fold(&mut self, node: ArrowExpr) -> ArrowExpr {
         self.fold_with_child(ScopeKind::Fn { named: false }, node)
     }
 }
 
-impl Fold<Function> for Inlining<'_> {
+impl Fold for Inlining<'_> {
     fn fold(&mut self, node: Function) -> Function {
         self.with_child(
             ScopeKind::Fn { named: false },
@@ -315,7 +316,7 @@ impl Fold<Function> for Inlining<'_> {
     }
 }
 
-impl Fold<FnDecl> for Inlining<'_> {
+impl Fold for Inlining<'_> {
     fn fold(&mut self, node: FnDecl) -> FnDecl {
         if self.phase == Phase::Analysis {
             self.declare(
@@ -346,7 +347,7 @@ impl Fold<FnDecl> for Inlining<'_> {
     }
 }
 
-impl Fold<FnExpr> for Inlining<'_> {
+impl Fold for Inlining<'_> {
     fn fold(&mut self, node: FnExpr) -> FnExpr {
         if let Some(ref ident) = node.ident {
             self.scope.add_write(&ident.to_id(), true);
@@ -359,7 +360,7 @@ impl Fold<FnExpr> for Inlining<'_> {
     }
 }
 
-impl Fold<IfStmt> for Inlining<'_> {
+impl Fold for Inlining<'_> {
     fn fold(&mut self, mut node: IfStmt) -> IfStmt {
         node.test = node.test.fold_with(self);
 
@@ -370,13 +371,13 @@ impl Fold<IfStmt> for Inlining<'_> {
     }
 }
 
-impl Fold<SwitchCase> for Inlining<'_> {
+impl Fold for Inlining<'_> {
     fn fold(&mut self, node: SwitchCase) -> SwitchCase {
         self.fold_with_child(ScopeKind::Block, node)
     }
 }
 
-impl Fold<CatchClause> for Inlining<'_> {
+impl Fold for Inlining<'_> {
     fn fold(&mut self, node: CatchClause) -> CatchClause {
         self.with_child(ScopeKind::Block, node, move |child, mut node| {
             child.pat_mode = PatFoldingMode::CatchParam;
@@ -398,7 +399,7 @@ impl Fold<CatchClause> for Inlining<'_> {
     }
 }
 
-impl Fold<CallExpr> for Inlining<'_> {
+impl Fold for Inlining<'_> {
     fn fold(&mut self, mut node: CallExpr) -> CallExpr {
         node.callee = node.callee.fold_with(self);
 
@@ -420,7 +421,7 @@ impl Fold<CallExpr> for Inlining<'_> {
     }
 }
 
-impl Fold<NewExpr> for Inlining<'_> {
+impl Fold for Inlining<'_> {
     fn fold(&mut self, mut node: NewExpr) -> NewExpr {
         node.callee = node.callee.fold_with(self);
         if self.phase == Phase::Analysis {
@@ -435,7 +436,7 @@ impl Fold<NewExpr> for Inlining<'_> {
     }
 }
 
-impl Fold<AssignExpr> for Inlining<'_> {
+impl Fold for Inlining<'_> {
     fn fold(&mut self, e: AssignExpr) -> AssignExpr {
         log::trace!("{:?}; Fold<AssignExpr>", self.phase);
         self.pat_mode = PatFoldingMode::Assign;
@@ -512,7 +513,7 @@ impl Fold<AssignExpr> for Inlining<'_> {
     }
 }
 
-impl Fold<MemberExpr> for Inlining<'_> {
+impl Fold for Inlining<'_> {
     fn fold(&mut self, mut e: MemberExpr) -> MemberExpr {
         e.obj = e.obj.fold_with(self);
         if e.computed {
@@ -523,7 +524,7 @@ impl Fold<MemberExpr> for Inlining<'_> {
     }
 }
 
-impl Fold<Expr> for Inlining<'_> {
+impl Fold for Inlining<'_> {
     fn fold(&mut self, node: Expr) -> Expr {
         let node: Expr = node.fold_children_with(self);
 
@@ -623,7 +624,7 @@ impl Fold<Expr> for Inlining<'_> {
     }
 }
 
-impl Fold<UpdateExpr> for Inlining<'_> {
+impl Fold for Inlining<'_> {
     fn fold(&mut self, node: UpdateExpr) -> UpdateExpr {
         let mut v = IdentListVisitor {
             scope: &mut self.scope,
@@ -634,7 +635,7 @@ impl Fold<UpdateExpr> for Inlining<'_> {
     }
 }
 
-impl Fold<UnaryExpr> for Inlining<'_> {
+impl Fold for Inlining<'_> {
     fn fold(&mut self, node: UnaryExpr) -> UnaryExpr {
         match node.op {
             op!("delete") => {
@@ -653,7 +654,7 @@ impl Fold<UnaryExpr> for Inlining<'_> {
     }
 }
 
-impl Fold<Pat> for Inlining<'_> {
+impl Fold for Inlining<'_> {
     fn fold(&mut self, node: Pat) -> Pat {
         let node: Pat = node.fold_children_with(self);
 
@@ -691,7 +692,7 @@ impl Fold<Pat> for Inlining<'_> {
     }
 }
 
-impl Fold<ForInStmt> for Inlining<'_> {
+impl Fold for Inlining<'_> {
     fn fold(&mut self, mut node: ForInStmt) -> ForInStmt {
         self.pat_mode = PatFoldingMode::Param;
         node.left = node.left.fold_with(self);
@@ -715,7 +716,7 @@ impl Fold<ForInStmt> for Inlining<'_> {
     }
 }
 
-impl Fold<ForOfStmt> for Inlining<'_> {
+impl Fold for Inlining<'_> {
     fn fold(&mut self, mut node: ForOfStmt) -> ForOfStmt {
         self.pat_mode = PatFoldingMode::Param;
         node.left = node.left.fold_with(self);
@@ -738,7 +739,7 @@ impl Fold<ForOfStmt> for Inlining<'_> {
     }
 }
 
-impl Fold<ForStmt> for Inlining<'_> {
+impl Fold for Inlining<'_> {
     fn fold(&mut self, mut node: ForStmt) -> ForStmt {
         node.init = node.init.fold_with(self);
 
@@ -770,7 +771,7 @@ impl Fold<ForStmt> for Inlining<'_> {
     }
 }
 
-impl Fold<WhileStmt> for Inlining<'_> {
+impl Fold for Inlining<'_> {
     fn fold(&mut self, mut node: WhileStmt) -> WhileStmt {
         {
             node.test.visit_with(&mut IdentListVisitor {
@@ -785,7 +786,7 @@ impl Fold<WhileStmt> for Inlining<'_> {
     }
 }
 
-impl Fold<DoWhileStmt> for Inlining<'_> {
+impl Fold for Inlining<'_> {
     fn fold(&mut self, mut node: DoWhileStmt) -> DoWhileStmt {
         {
             node.test.visit_with(&mut IdentListVisitor {
@@ -800,7 +801,7 @@ impl Fold<DoWhileStmt> for Inlining<'_> {
     }
 }
 
-impl Fold<BinExpr> for Inlining<'_> {
+impl Fold for Inlining<'_> {
     fn fold(&mut self, node: BinExpr) -> BinExpr {
         match node.op {
             op!("&&") | op!("||") => BinExpr {
@@ -812,7 +813,7 @@ impl Fold<BinExpr> for Inlining<'_> {
     }
 }
 
-impl Fold<TryStmt> for Inlining<'_> {
+impl Fold for Inlining<'_> {
     fn fold(&mut self, node: TryStmt) -> TryStmt {
         node.block.visit_with(&mut IdentListVisitor {
             scope: &mut self.scope,
@@ -832,8 +833,8 @@ struct IdentListVisitor<'a, 'b> {
     scope: &'a mut Scope<'b>,
 }
 
-impl Visit<MemberExpr> for IdentListVisitor<'_, '_> {
-    fn visit(&mut self, node: &MemberExpr) {
+impl Visit for IdentListVisitor<'_, '_> {
+    fn visit_member_expr(&mut self, node: &MemberExpr) {
         node.obj.visit_with(self);
 
         if node.computed {
@@ -842,8 +843,8 @@ impl Visit<MemberExpr> for IdentListVisitor<'_, '_> {
     }
 }
 
-impl Visit<Ident> for IdentListVisitor<'_, '_> {
-    fn visit(&mut self, node: &Ident) {
+impl Visit for IdentListVisitor<'_, '_> {
+    fn visit_ident(&mut self, node: &Ident, _: &dyn Node) {
         self.scope.add_write(&node.to_id(), true);
     }
 }

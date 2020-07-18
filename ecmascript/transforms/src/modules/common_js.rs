@@ -8,6 +8,7 @@ use fxhash::FxHashSet;
 use swc_atoms::js_word;
 use swc_common::{Mark, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_visit::Fold;
 
 pub fn common_js(root_mark: Mark, config: Config) -> impl Fold {
     CommonJs {
@@ -27,8 +28,8 @@ struct CommonJs {
 
 noop_fold_type!(CommonJs);
 
-impl Fold<Vec<ModuleItem>> for CommonJs {
-    fn fold(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
+impl Fold for CommonJs {
+    fn fold_module_items(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
         let mut emitted_esmodule = false;
         let mut stmts = Vec::with_capacity(items.len() + 4);
         let mut extra_stmts = Vec::with_capacity(items.len());
@@ -601,17 +602,15 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
 
         stmts
     }
-}
 
-impl Fold<Expr> for CommonJs {
-    fn fold(&mut self, expr: Expr) -> Expr {
+    fn fold_expr(&mut self, expr: Expr) -> Expr {
         let top_level = self.in_top_level;
         Scope::fold_expr(self, quote_ident!("exports"), top_level, expr)
     }
 }
 
-impl Fold<Prop> for CommonJs {
-    fn fold(&mut self, p: Prop) -> Prop {
+impl Fold for CommonJs {
+    fn fold_prop(&mut self, p: Prop) -> Prop {
         match p {
             Prop::Shorthand(ident) => {
                 let top_level = self.in_top_level;
@@ -621,12 +620,10 @@ impl Fold<Prop> for CommonJs {
             _ => p.fold_children_with(self),
         }
     }
-}
 
-impl Fold<VarDecl> for CommonJs {
     ///
     /// - collects all declared variables for let and var.
-    fn fold(&mut self, var: VarDecl) -> VarDecl {
+    fn fold_var_decl(&mut self, var: VarDecl) -> VarDecl {
         if var.kind != VarDeclKind::Const {
             var.decls.visit_with(&mut VarCollector {
                 to: &mut self.scope.declared_vars,
@@ -638,16 +635,16 @@ impl Fold<VarDecl> for CommonJs {
             ..var
         }
     }
-}
 
-impl Fold<FnDecl> for CommonJs {
-    fn fold(&mut self, node: FnDecl) -> FnDecl {
+    fn fold_fn_decl(&mut self, node: FnDecl) -> FnDecl {
         self.scope
             .declared_vars
             .push((node.ident.sym.clone(), node.ident.span.ctxt()));
 
         node.fold_children_with(self)
     }
+
+    mark_as_nested!();
 }
 
 impl ModulePass for CommonJs {
@@ -663,5 +660,3 @@ impl ModulePass for CommonJs {
         &mut self.scope
     }
 }
-
-mark_as_nested!(CommonJs);

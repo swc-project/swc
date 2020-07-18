@@ -7,8 +7,12 @@ pub(super) struct ThisInStaticFolder {
 
 noop_fold_type!(ThisInStaticFolder);
 
-impl Fold<Expr> for ThisInStaticFolder {
-    fn fold(&mut self, e: Expr) -> Expr {
+impl Fold for ThisInStaticFolder {
+    fn fold_class(&mut self, n: Class) -> Class {
+        n
+    }
+
+    fn fold_expr(&mut self, e: Expr) -> Expr {
         let e = e.fold_children_with(self);
 
         match e {
@@ -16,17 +20,8 @@ impl Fold<Expr> for ThisInStaticFolder {
             _ => e,
         }
     }
-}
 
-macro_rules! nop {
-    ($T:ty) => {
-        impl Fold<$T> for ThisInStaticFolder {
-            fn fold(&mut self, n: $T) -> $T {
-                n
-            }
-        }
-    };
+    fn fold_function(&mut self, n: Function) -> Function {
+        n
+    }
 }
-
-nop!(Function);
-nop!(Class);

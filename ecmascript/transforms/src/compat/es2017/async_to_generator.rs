@@ -5,6 +5,7 @@ use crate::{
 use std::iter;
 use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, FoldWith};
 
 /// `@babel/plugin-transform-async-to-generator`
 ///
@@ -74,7 +75,7 @@ where
     }
 }
 
-impl Fold<MethodProp> for Actual {
+impl Fold for Actual {
     fn fold(&mut self, prop: MethodProp) -> MethodProp {
         let prop = validate!(prop);
         let prop = prop.fold_children_with(self);
@@ -165,8 +166,8 @@ impl MethodFolder {
     }
 }
 
-impl Fold<Expr> for MethodFolder {
-    fn fold(&mut self, expr: Expr) -> Expr {
+impl Fold for MethodFolder {
+    fn fold_expr(&mut self, expr: Expr) -> Expr {
         let expr = validate!(expr);
         // TODO(kdy): Cache (Reuse declaration for same property)
 
@@ -335,7 +336,7 @@ impl Fold<Expr> for MethodFolder {
     }
 }
 
-impl Fold<ClassMethod> for Actual {
+impl Fold for Actual {
     fn fold(&mut self, m: ClassMethod) -> ClassMethod {
         if m.function.body.is_none() {
             return m;
@@ -393,8 +394,8 @@ impl Fold<ClassMethod> for Actual {
     }
 }
 
-impl Fold<Expr> for Actual {
-    fn fold(&mut self, expr: Expr) -> Expr {
+impl Fold for Actual {
+    fn fold_expr(&mut self, expr: Expr) -> Expr {
         let expr = validate!(expr);
 
         match expr {
@@ -505,7 +506,7 @@ impl Fold<Expr> for Actual {
     }
 }
 
-impl Fold<FnDecl> for Actual {
+impl Fold for Actual {
     fn fold(&mut self, f: FnDecl) -> FnDecl {
         let f = f.fold_children_with(self);
         if !f.function.is_async {
@@ -693,8 +694,8 @@ fn make_fn_ref(mut expr: FnExpr) -> Expr {
     noop!(Constructor);
     noop!(ArrowExpr);
 
-    impl Fold<Expr> for AwaitToYield {
-        fn fold(&mut self, expr: Expr) -> Expr {
+    impl Fold for AwaitToYield {
+        fn fold_expr(&mut self, expr: Expr) -> Expr {
             let expr = expr.fold_children_with(self);
 
             match expr {
@@ -749,7 +750,7 @@ struct AsyncVisitor {
     found: bool,
 }
 
-impl Visit<Function> for AsyncVisitor {
+impl Visit for AsyncVisitor {
     fn visit(&mut self, f: &Function) {
         if f.is_async {
             self.found = true;
@@ -757,7 +758,7 @@ impl Visit<Function> for AsyncVisitor {
         f.visit_children_with(self);
     }
 }
-impl Visit<ArrowExpr> for AsyncVisitor {
+impl Visit for AsyncVisitor {
     fn visit(&mut self, f: &ArrowExpr) {
         if f.is_async {
             self.found = true;

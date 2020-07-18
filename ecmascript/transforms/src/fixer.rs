@@ -5,6 +5,7 @@ use swc_common::{
     Span, Spanned,
 };
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, FoldWith};
 
 pub fn fixer() -> impl Fold {
     Fixer {
@@ -50,7 +51,7 @@ impl Default for Context {
     }
 }
 
-impl Fold<Program> for Fixer {
+impl Fold for Fixer {
     fn fold(&mut self, p: Program) -> Program {
         debug_assert!(self.span_map.is_empty());
         self.span_map.clear();
@@ -69,7 +70,7 @@ impl Fold<Program> for Fixer {
     }
 }
 
-impl Fold<KeyValuePatProp> for Fixer {
+impl Fold for Fixer {
     fn fold(&mut self, node: KeyValuePatProp) -> KeyValuePatProp {
         let old = self.ctx;
         self.ctx = Context::ForcedExpr { is_var_decl: false };
@@ -82,7 +83,7 @@ impl Fold<KeyValuePatProp> for Fixer {
     }
 }
 
-impl Fold<AssignPatProp> for Fixer {
+impl Fold for Fixer {
     fn fold(&mut self, node: AssignPatProp) -> AssignPatProp {
         let key = node.key.fold_children_with(self);
 
@@ -95,7 +96,7 @@ impl Fold<AssignPatProp> for Fixer {
     }
 }
 
-impl Fold<VarDeclarator> for Fixer {
+impl Fold for Fixer {
     fn fold(&mut self, node: VarDeclarator) -> VarDeclarator {
         let name = node.name.fold_children_with(self);
 
@@ -108,7 +109,7 @@ impl Fold<VarDeclarator> for Fixer {
     }
 }
 
-impl Fold<BlockStmtOrExpr> for Fixer {
+impl Fold for Fixer {
     fn fold(&mut self, body: BlockStmtOrExpr) -> BlockStmtOrExpr {
         let body = body.fold_children_with(self);
 
@@ -122,7 +123,7 @@ impl Fold<BlockStmtOrExpr> for Fixer {
     }
 }
 
-impl Fold<Stmt> for Fixer {
+impl Fold for Fixer {
     fn fold(&mut self, stmt: Stmt) -> Stmt {
         let stmt = match stmt {
             Stmt::Expr(expr) => {
@@ -148,7 +149,7 @@ impl Fold<Stmt> for Fixer {
     }
 }
 
-impl Fold<IfStmt> for Fixer {
+impl Fold for Fixer {
     fn fold(&mut self, node: IfStmt) -> IfStmt {
         let node: IfStmt = node.fold_children_with(self);
 
@@ -217,7 +218,7 @@ macro_rules! array {
 array!(ArrayLit);
 // array!(ArrayPat);
 
-impl Fold<KeyValueProp> for Fixer {
+impl Fold for Fixer {
     fn fold(&mut self, prop: KeyValueProp) -> KeyValueProp {
         let prop = prop.fold_children_with(self);
 
@@ -314,8 +315,8 @@ impl Fixer {
     }
 }
 
-impl Fold<Expr> for Fixer {
-    fn fold(&mut self, expr: Expr) -> Expr {
+impl Fold for Fixer {
+    fn fold_expr(&mut self, expr: Expr) -> Expr {
         let expr = validate!(expr);
         let expr = expr.fold_children_with(self);
         let expr = validate!(expr);
@@ -687,10 +688,8 @@ impl Fold<Expr> for Fixer {
             _ => expr,
         }
     }
-}
 
-impl Fold<ExprOrSpread> for Fixer {
-    fn fold(&mut self, e: ExprOrSpread) -> ExprOrSpread {
+    fn fold_expr_or_spread(&mut self, e: ExprOrSpread) -> ExprOrSpread {
         let e = e.fold_children_with(self);
 
         if e.spread.is_none() {
@@ -709,7 +708,7 @@ impl Fold<ExprOrSpread> for Fixer {
     }
 }
 
-impl Fold<ExportDefaultExpr> for Fixer {
+impl Fold for Fixer {
     fn fold(&mut self, node: ExportDefaultExpr) -> ExportDefaultExpr {
         let old = self.ctx;
         self.ctx = Context::Default;
@@ -721,10 +720,8 @@ impl Fold<ExportDefaultExpr> for Fixer {
         self.ctx = old;
         node
     }
-}
 
-impl Fold<ArrowExpr> for Fixer {
-    fn fold(&mut self, node: ArrowExpr) -> ArrowExpr {
+    fn fold_arrow_expr(&mut self, node: ArrowExpr) -> ArrowExpr {
         let old = self.ctx;
         self.ctx = Context::Default;
         let mut node = node.fold_children_with(self);
@@ -737,10 +734,8 @@ impl Fold<ArrowExpr> for Fixer {
         self.ctx = old;
         node
     }
-}
 
-impl Fold<Class> for Fixer {
-    fn fold(&mut self, node: Class) -> Class {
+    fn fold_class(&mut self, node: Class) -> Class {
         let old = self.ctx;
         self.ctx = Context::Default;
         let mut node: Class = node.fold_children_with(self);

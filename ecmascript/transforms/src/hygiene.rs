@@ -136,7 +136,7 @@ impl<'a> Hygiene<'a> {
 pub fn hygiene() -> impl Fold + 'static {
     #[derive(Clone, Copy)]
     struct MarkClearer;
-    impl Fold<Span> for MarkClearer {
+    impl Fold for MarkClearer {
         fn fold(&mut self, span: Span) -> Span {
             span.with_ctxt(SyntaxContext::empty())
         }
@@ -165,7 +165,7 @@ impl<'a> Hygiene<'a> {
     }
 }
 
-impl<'a> Fold<Module> for Hygiene<'a> {
+impl<'a> Fold for Hygiene<'a> {
     fn fold(&mut self, module: Module) -> Module {
         let module = validate!(module.fold_children_with(self));
 
@@ -173,7 +173,7 @@ impl<'a> Fold<Module> for Hygiene<'a> {
     }
 }
 
-impl<'a> Fold<TryStmt> for Hygiene<'a> {
+impl<'a> Fold for Hygiene<'a> {
     fn fold(&mut self, node: TryStmt) -> TryStmt {
         TryStmt {
             span: node.span,
@@ -184,7 +184,7 @@ impl<'a> Fold<TryStmt> for Hygiene<'a> {
     }
 }
 
-impl<'a> Fold<BlockStmt> for Hygiene<'a> {
+impl<'a> Fold for Hygiene<'a> {
     fn fold(&mut self, node: BlockStmt) -> BlockStmt {
         let mut folder = Hygiene {
             current: Scope::new(ScopeKind::Block, Some(&self.current)),
@@ -196,7 +196,7 @@ impl<'a> Fold<BlockStmt> for Hygiene<'a> {
     }
 }
 
-impl Fold<ObjectLit> for Hygiene<'_> {
+impl Fold for Hygiene<'_> {
     fn fold(&mut self, node: ObjectLit) -> ObjectLit {
         let mut folder = Hygiene {
             current: Scope::new(ScopeKind::Block, Some(&self.current)),
@@ -235,7 +235,7 @@ impl<'a> Hygiene<'a> {
     }
 }
 
-impl<'a> Fold<VarDeclarator> for Hygiene<'a> {
+impl<'a> Fold for Hygiene<'a> {
     fn fold(&mut self, decl: VarDeclarator) -> VarDeclarator {
         let old = self.ident_type;
         self.ident_type = IdentType::Binding;
@@ -247,7 +247,7 @@ impl<'a> Fold<VarDeclarator> for Hygiene<'a> {
     }
 }
 
-impl<'a> Fold<FnExpr> for Hygiene<'a> {
+impl<'a> Fold for Hygiene<'a> {
     fn fold(&mut self, mut node: FnExpr) -> FnExpr {
         node.function = self.fold_fn(node.ident.clone(), node.function);
 
@@ -255,7 +255,7 @@ impl<'a> Fold<FnExpr> for Hygiene<'a> {
     }
 }
 
-impl<'a> Fold<FnDecl> for Hygiene<'a> {
+impl<'a> Fold for Hygiene<'a> {
     fn fold(&mut self, mut node: FnDecl) -> FnDecl {
         node.function = self.fold_fn(Some(node.ident.clone()), node.function);
 
@@ -263,7 +263,7 @@ impl<'a> Fold<FnDecl> for Hygiene<'a> {
     }
 }
 
-impl<'a> Fold<Ident> for Hygiene<'a> {
+impl<'a> Fold for Hygiene<'a> {
     /// Invoked for `IdetifierRefrence` / `BindingIdentifier`
     fn fold(&mut self, i: Ident) -> Ident {
         if i.sym == js_word!("arguments") || i.sym == js_word!("undefined") {
@@ -290,7 +290,7 @@ impl<'a> Fold<Ident> for Hygiene<'a> {
     }
 }
 
-impl<'a> Fold<Expr> for Hygiene<'a> {
+impl<'a> Fold for Hygiene<'a> {
     fn fold(&mut self, node: Expr) -> Expr {
         let old = self.ident_type;
         self.ident_type = IdentType::Ref;
@@ -466,7 +466,7 @@ impl<'a> Scope<'a> {
     }
 }
 
-impl Fold<Constructor> for Hygiene<'_> {
+impl Fold for Hygiene<'_> {
     fn fold(&mut self, c: Constructor) -> Constructor {
         let old = self.ident_type;
         self.ident_type = IdentType::Binding;
@@ -490,7 +490,7 @@ impl Fold<Constructor> for Hygiene<'_> {
 #[macro_export]
 macro_rules! track_ident {
     ($T:tt) => {
-        impl<'a> Fold<ExportSpecifier> for $T<'a> {
+        impl<'a> Fold for $T<'a> {
             fn fold(&mut self, s: ExportSpecifier) -> ExportSpecifier {
                 let old = self.ident_type;
                 self.ident_type = IdentType::Ref;
@@ -503,7 +503,7 @@ macro_rules! track_ident {
             }
         }
 
-        impl<'a> Fold<ImportSpecifier> for $T<'a> {
+        impl<'a> Fold for $T<'a> {
             fn fold(&mut self, s: ImportSpecifier) -> ImportSpecifier {
                 let old = self.ident_type;
                 self.ident_type = IdentType::Binding;
@@ -524,7 +524,7 @@ macro_rules! track_ident {
             }
         }
 
-        impl<'a> Fold<SetterProp> for $T<'a> {
+        impl<'a> Fold for $T<'a> {
             fn fold(&mut self, f: SetterProp) -> SetterProp {
                 let old = self.ident_type;
                 self.ident_type = IdentType::Binding;
@@ -537,7 +537,7 @@ macro_rules! track_ident {
             }
         }
 
-        // impl<'a> Fold<GetterProp> for $T<'a> {
+        // impl<'a> Fold for $T<'a> {
         //     fn fold(&mut self, f: GetterProp) -> GetterProp {
         //         let body = f.body.fold_with(self);
 
@@ -545,7 +545,7 @@ macro_rules! track_ident {
         //     }
         // }
 
-        impl<'a> Fold<LabeledStmt> for $T<'a> {
+        impl<'a> Fold for $T<'a> {
             fn fold(&mut self, s: LabeledStmt) -> LabeledStmt {
                 let old = self.ident_type;
                 self.ident_type = IdentType::Label;
@@ -558,7 +558,7 @@ macro_rules! track_ident {
             }
         }
 
-        impl<'a> Fold<BreakStmt> for $T<'a> {
+        impl<'a> Fold for $T<'a> {
             fn fold(&mut self, s: BreakStmt) -> BreakStmt {
                 let old = self.ident_type;
                 self.ident_type = IdentType::Label;
@@ -569,7 +569,7 @@ macro_rules! track_ident {
             }
         }
 
-        impl<'a> Fold<ContinueStmt> for $T<'a> {
+        impl<'a> Fold for $T<'a> {
             fn fold(&mut self, s: ContinueStmt) -> ContinueStmt {
                 let old = self.ident_type;
                 self.ident_type = IdentType::Label;
@@ -580,7 +580,7 @@ macro_rules! track_ident {
             }
         }
 
-        impl<'a> Fold<ClassDecl> for $T<'a> {
+        impl<'a> Fold for $T<'a> {
             fn fold(&mut self, n: ClassDecl) -> ClassDecl {
                 let old = self.ident_type;
                 self.ident_type = IdentType::Binding;
@@ -593,7 +593,7 @@ macro_rules! track_ident {
             }
         }
 
-        impl<'a> Fold<ClassExpr> for $T<'a> {
+        impl<'a> Fold for $T<'a> {
             fn fold(&mut self, n: ClassExpr) -> ClassExpr {
                 let old = self.ident_type;
                 self.ident_type = IdentType::Binding;
@@ -606,7 +606,7 @@ macro_rules! track_ident {
             }
         }
 
-        impl<'a> Fold<KeyValuePatProp> for $T<'a> {
+        impl<'a> Fold for $T<'a> {
             fn fold(&mut self, n: KeyValuePatProp) -> KeyValuePatProp {
                 KeyValuePatProp {
                     key: n.key.fold_with(self),
@@ -616,7 +616,7 @@ macro_rules! track_ident {
             }
         }
 
-        impl Fold<Class> for $T<'_> {
+        impl Fold for $T<'_> {
             fn fold(&mut self, c: Class) -> Class {
                 let old = self.ident_type;
                 self.ident_type = IdentType::Ref;
@@ -642,7 +642,7 @@ macro_rules! track_ident {
             }
         }
 
-        impl Fold<PropName> for $T<'_> {
+        impl Fold for $T<'_> {
             fn fold(&mut self, n: PropName) -> PropName {
                 match n {
                     PropName::Computed(c) => PropName::Computed(c.fold_with(self)),
@@ -655,7 +655,7 @@ macro_rules! track_ident {
 
 track_ident!(Hygiene);
 
-impl<'a> Fold<ArrowExpr> for Hygiene<'a> {
+impl<'a> Fold for Hygiene<'a> {
     fn fold(&mut self, mut node: ArrowExpr) -> ArrowExpr {
         let mut folder = Hygiene {
             current: Scope::new(ScopeKind::Fn, Some(&self.current)),
@@ -672,7 +672,7 @@ impl<'a> Fold<ArrowExpr> for Hygiene<'a> {
     }
 }
 
-impl Fold<CatchClause> for Hygiene<'_> {
+impl Fold for Hygiene<'_> {
     fn fold(&mut self, c: CatchClause) -> CatchClause {
         let mut folder = Hygiene {
             current: Scope::new(ScopeKind::Fn, Some(&self.current)),

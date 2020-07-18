@@ -1,6 +1,7 @@
 use crate::util::ExprFactory;
 use swc_atoms::js_word;
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, FoldWith, Visit, VisitWith};
 
 /// `@babel/plugin-transform-typeof-symbol`
 ///
@@ -24,8 +25,8 @@ pub struct TypeOfSymbol;
 
 noop_fold_type!(TypeOfSymbol);
 
-impl Fold<Expr> for TypeOfSymbol {
-    fn fold(&mut self, expr: Expr) -> Expr {
+impl Fold for TypeOfSymbol {
+    fn fold_expr(&mut self, expr: Expr) -> Expr {
         // fast path
         if !should_work(&expr) {
             return expr;
@@ -50,8 +51,8 @@ impl Fold<Expr> for TypeOfSymbol {
     }
 }
 
-impl Fold<BinExpr> for TypeOfSymbol {
-    fn fold(&mut self, expr: BinExpr) -> BinExpr {
+impl Fold for TypeOfSymbol {
+    fn fold_bin_expr(&mut self, expr: BinExpr) -> BinExpr {
         match expr.op {
             op!("==") | op!("!=") | op!("===") | op!("!==") => {}
             _ => return expr.fold_children_with(self),
@@ -86,8 +87,8 @@ fn should_work(node: &Expr) -> bool {
     struct Visitor {
         found: bool,
     }
-    impl Visit<UnaryExpr> for Visitor {
-        fn visit(&mut self, e: &UnaryExpr) {
+    impl Visit for Visitor {
+        fn visit_unary_expr(&mut self, e: &UnaryExpr) {
             if e.op == op!("typeof") {
                 self.found = true
             }

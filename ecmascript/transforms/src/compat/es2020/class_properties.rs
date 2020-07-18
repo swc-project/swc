@@ -158,8 +158,8 @@ where
     }
 }
 
-impl Fold<Expr> for ClassProperties {
-    fn fold(&mut self, expr: Expr) -> Expr {
+impl Fold for ClassProperties {
+    fn fold_expr(&mut self, expr: Expr) -> Expr {
         let expr = expr.fold_children_with(self);
 
         match expr {
@@ -217,10 +217,8 @@ impl Fold<Expr> for ClassProperties {
             _ => expr,
         }
     }
-}
 
-impl Fold<BlockStmtOrExpr> for ClassProperties {
-    fn fold(&mut self, body: BlockStmtOrExpr) -> BlockStmtOrExpr {
+    fn fold_block_stmt_or_expr(&mut self, body: BlockStmtOrExpr) -> BlockStmtOrExpr {
         let span = body.span();
 
         match body {

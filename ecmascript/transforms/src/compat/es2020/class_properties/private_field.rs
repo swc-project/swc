@@ -3,6 +3,7 @@ use std::{collections::HashSet, iter, mem};
 use swc_atoms::JsWord;
 use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_visit::Fold;
 
 pub(super) struct FieldAccessFolder<'a> {
     pub mark: Mark,
@@ -14,8 +15,8 @@ pub(super) struct FieldAccessFolder<'a> {
 
 noop_fold_type!(FieldAccessFolder<'_>);
 
-impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
-    fn fold(&mut self, e: Expr) -> Expr {
+impl<'a> Fold for FieldAccessFolder<'a> {
+    fn fold_expr(&mut self, e: Expr) -> Expr {
         match e {
             Expr::Update(UpdateExpr {
                 span,
@@ -341,8 +342,8 @@ impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
     }
 }
 
-impl Fold<Pat> for FieldAccessFolder<'_> {
-    fn fold(&mut self, p: Pat) -> Pat {
+impl Fold for FieldAccessFolder<'_> {
+    fn fold_pat(&mut self, p: Pat) -> Pat {
         match p {
             Pat::Expr(box Expr::Member(MemberExpr {
                 prop: box Expr::PrivateName(..),

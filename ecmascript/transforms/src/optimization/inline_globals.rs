@@ -11,8 +11,8 @@ pub struct InlineGlobals {
 
 noop_fold_type!(InlineGlobals);
 
-impl Fold<Expr> for InlineGlobals {
-    fn fold(&mut self, expr: Expr) -> Expr {
+impl Fold for InlineGlobals {
+    fn fold_expr(&mut self, expr: Expr) -> Expr {
         let expr = match expr {
             Expr::Member(expr) => {
                 if expr.computed {
@@ -94,6 +94,7 @@ impl Fold<Expr> for InlineGlobals {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use swc_ecma_utils::DropSpan;
 
     fn mk_map(
         tester: &mut crate::tests::Tester<'_>,
@@ -111,7 +112,7 @@ mod tests {
 
             let mut v = tester
                 .apply_transform(
-                    ::testing::DropSpan,
+                    DropSpan,
                     "global.js",
                     ::swc_ecma_parser::Syntax::default(),
                     &v,

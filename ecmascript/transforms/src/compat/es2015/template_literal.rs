@@ -12,28 +12,8 @@ pub struct TemplateLiteral {
 
 noop_fold_type!(TemplateLiteral);
 
-impl Fold<Module> for TemplateLiteral {
-    fn fold(&mut self, m: Module) -> Module {
-        let mut body = m.body.fold_children_with(self);
-
-        prepend_stmts(&mut body, self.added.drain(..).map(ModuleItem::from_stmt));
-
-        Module { body, ..m }
-    }
-}
-
-impl Fold<Script> for TemplateLiteral {
-    fn fold(&mut self, m: Script) -> Script {
-        let mut body = m.body.fold_children_with(self);
-
-        prepend_stmts(&mut body, self.added.drain(..));
-
-        Script { body, ..m }
-    }
-}
-
-impl Fold<Expr> for TemplateLiteral {
-    fn fold(&mut self, e: Expr) -> Expr {
+impl Fold for TemplateLiteral {
+    fn fold_expr(&mut self, e: Expr) -> Expr {
         let e = validate!(e);
 
         let e = e.fold_children_with(self);
@@ -345,5 +325,21 @@ impl Fold<Expr> for TemplateLiteral {
 
             _ => e,
         }
+    }
+
+    fn fold_module(&mut self, m: Module) -> Module {
+        let mut body = m.body.fold_children_with(self);
+
+        prepend_stmts(&mut body, self.added.drain(..).map(ModuleItem::from_stmt));
+
+        Module { body, ..m }
+    }
+
+    fn fold_script(&mut self, m: Script) -> Script {
+        let mut body = m.body.fold_children_with(self);
+
+        prepend_stmts(&mut body, self.added.drain(..));
+
+        Script { body, ..m }
     }
 }

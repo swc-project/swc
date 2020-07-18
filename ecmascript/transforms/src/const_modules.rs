@@ -9,6 +9,7 @@ use swc_atoms::JsWord;
 use swc_common::{util::move_map::MoveMap, FileName};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, Parser, SourceFileInput};
+use swc_ecma_visit::{Fold, FoldWith};
 
 pub fn const_modules(globals: HashMap<JsWord, HashMap<JsWord, String>>) -> impl Fold {
     ConstModules {
@@ -78,7 +79,7 @@ struct Scope {
     imported: HashMap<JsWord, Arc<Expr>>,
 }
 
-impl Fold<Vec<ModuleItem>> for ConstModules
+impl Fold for ConstModules
 where
     Vec<ModuleItem>: FoldWith<Self>,
 {
@@ -117,8 +118,8 @@ where
     }
 }
 
-impl Fold<Expr> for ConstModules {
-    fn fold(&mut self, expr: Expr) -> Expr {
+impl Fold for ConstModules {
+    fn fold_expr(&mut self, expr: Expr) -> Expr {
         let expr = match expr {
             Expr::Member(expr) => {
                 if expr.computed {

@@ -9,7 +9,7 @@ use crate::{
 };
 use swc_common::{chain, Mark};
 
-fn tr(options: Options) -> impl Fold<Module> {
+fn tr(options: Options) -> impl Fold {
     chain!(jsx(options), display_name(), Classes::default(), arrow(),)
 }
 

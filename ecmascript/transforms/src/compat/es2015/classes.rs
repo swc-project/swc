@@ -165,13 +165,13 @@ where
     }
 }
 
-impl Fold<Decl> for Classes {
+impl Fold for Classes {
     fn fold(&mut self, n: Decl) -> Decl {
         fn should_work(node: &Decl) -> bool {
             struct Visitor {
                 found: bool,
             };
-            impl Visit<Class> for Visitor {
+            impl Visit for Visitor {
                 fn visit(&mut self, _: &Class) {
                     self.found = true
                 }
@@ -194,7 +194,7 @@ impl Fold<Decl> for Classes {
     }
 }
 
-impl Fold<Expr> for Classes {
+impl Fold for Classes {
     fn fold(&mut self, n: Expr) -> Expr {
         let n = validate!(n);
 
@@ -867,7 +867,7 @@ fn is_always_initialized(body: &[Stmt]) -> bool {
         found: bool,
     }
 
-    impl Visit<ExprOrSuper> for SuperFinder {
+    impl Visit for SuperFinder {
         fn visit(&mut self, node: &ExprOrSuper) {
             match *node {
                 ExprOrSuper::Super(..) => self.found = true,

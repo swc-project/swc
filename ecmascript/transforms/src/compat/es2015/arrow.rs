@@ -59,7 +59,7 @@ struct Arrow;
 
 noop_fold_type!(Arrow);
 
-impl Fold<Expr> for Arrow {
+impl Fold for Arrow {
     fn fold(&mut self, e: Expr) -> Expr {
         // fast path
         if !contains_arrow_expr(&e) {
@@ -139,7 +139,7 @@ where
 struct ArrowVisitor {
     found: bool,
 }
-impl Visit<ArrowExpr> for ArrowVisitor {
+impl Visit for ArrowVisitor {
     fn visit(&mut self, _: &ArrowExpr) {
         self.found = true;
     }

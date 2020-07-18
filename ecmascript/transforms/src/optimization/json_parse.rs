@@ -3,6 +3,7 @@ use serde_json::Value;
 use std::usize;
 use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_visit::Fold;
 
 /// Trnasform to optimize performance of literals.
 ///
@@ -39,9 +40,9 @@ impl Default for JsonParse {
     }
 }
 
-impl Fold<Expr> for JsonParse {
-    /// Hnaldes parent expressions before child expressions.
-    fn fold(&mut self, e: Expr) -> Expr {
+impl Fold for JsonParse {
+    /// Handles parent expressions before child expressions.
+    fn fold_expr(&mut self, e: Expr) -> Expr {
         if self.min_cost == usize::MAX {
             return e;
         }
@@ -119,8 +120,8 @@ mod tests {
     use super::*;
 
     struct Normalizer;
-    impl Fold<Str> for Normalizer {
-        fn fold(&mut self, mut node: Str) -> Str {
+    impl Fold for Normalizer {
+        fn fold_str(&mut self, mut node: Str) -> Str {
             node.has_escape = false;
             node
         }

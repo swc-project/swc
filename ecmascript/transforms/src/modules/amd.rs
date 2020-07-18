@@ -39,8 +39,14 @@ pub struct Config {
     pub config: util::Config,
 }
 
-impl Fold<Module> for Amd {
-    fn fold(&mut self, module: Module) -> Module {
+impl Fold for Amd {
+    fn fold_expr(&mut self, expr: Expr) -> Expr {
+        let top_level = self.in_top_level;
+
+        Scope::fold_expr(self, self.exports.0.clone(), top_level, expr)
+    }
+
+    fn fold_module(&mut self, module: Module) -> Module {
         let items = module.body;
         self.in_top_level = true;
 
@@ -564,10 +570,8 @@ impl Fold<Module> for Amd {
             ..module
         }
     }
-}
 
-impl Fold<Prop> for Amd {
-    fn fold(&mut self, p: Prop) -> Prop {
+    fn fold_prop(&mut self, p: Prop) -> Prop {
         match p {
             Prop::Shorthand(ident) => {
                 let top_level = self.in_top_level;
@@ -577,20 +581,10 @@ impl Fold<Prop> for Amd {
             _ => p.fold_children_with(self),
         }
     }
-}
 
-impl Fold<Expr> for Amd {
-    fn fold(&mut self, expr: Expr) -> Expr {
-        let top_level = self.in_top_level;
-
-        Scope::fold_expr(self, self.exports.0.clone(), top_level, expr)
-    }
-}
-
-impl Fold<VarDecl> for Amd {
     ///
     /// - collects all declared variables for let and var.
-    fn fold(&mut self, var: VarDecl) -> VarDecl {
+    fn fold_var_decl(&mut self, var: VarDecl) -> VarDecl {
         if var.kind != VarDeclKind::Const {
             var.decls.visit_with(&mut VarCollector {
                 to: &mut self.scope.declared_vars,
@@ -602,6 +596,8 @@ impl Fold<VarDecl> for Amd {
             ..var
         }
     }
+
+    mark_as_nested!();
 }
 
 impl ModulePass for Amd {
@@ -617,4 +613,3 @@ impl ModulePass for Amd {
         &mut self.scope
     }
 }
-mark_as_nested!(Amd);

@@ -2,7 +2,7 @@ use swc_ecma_visit::Fold;
 
 macro_rules! impl_fold_fn {
     ($T:path) => {
-        impl Fold<Function> for $T {
+        impl Fold for $T {
             fn fold(&mut self, f: Function) -> Function {
                 if f.body.is_none() {
                     return f;
@@ -21,7 +21,7 @@ macro_rules! impl_fold_fn {
             }
         }
 
-        impl Fold<ArrowExpr> for $T {
+        impl Fold for $T {
             fn fold(&mut self, f: ArrowExpr) -> ArrowExpr {
                 use swc_common::Spanned;
 
@@ -77,7 +77,7 @@ macro_rules! impl_fold_fn {
             }
         }
 
-        impl Fold<SetterProp> for $T {
+        impl Fold for $T {
             fn fold(&mut self, f: SetterProp) -> SetterProp {
                 if f.body.is_none() {
                     return f;
@@ -103,7 +103,7 @@ macro_rules! impl_fold_fn {
             }
         }
 
-        impl Fold<GetterProp> for $T {
+        impl Fold for $T {
             fn fold(&mut self, f: GetterProp) -> GetterProp {
                 if f.body.is_none() {
                     return f;
@@ -121,7 +121,7 @@ macro_rules! impl_fold_fn {
             }
         }
 
-        impl Fold<CatchClause> for $T {
+        impl Fold for $T {
             fn fold(&mut self, f: CatchClause) -> CatchClause {
                 let f = f.fold_children_with(self);
 
@@ -155,7 +155,7 @@ macro_rules! impl_fold_fn {
             }
         }
 
-        impl Fold<Constructor> for $T {
+        impl Fold for $T {
             fn fold(&mut self, f: Constructor) -> Constructor {
                 if f.body.is_none() {
                     return f;

@@ -4,6 +4,7 @@ use std::mem;
 use swc_atoms::js_word;
 use swc_common::{util::move_map::MoveMap, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, FoldWith};
 
 pub fn spread(c: Config) -> impl Fold {
     Spread { c }
@@ -57,7 +58,7 @@ where
     }
 }
 
-impl Fold<Expr> for ActualFolder {
+impl Fold for ActualFolder {
     fn fold(&mut self, e: Expr) -> Expr {
         let e = validate!(e.fold_children_with(self));
 

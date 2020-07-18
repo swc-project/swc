@@ -1,4 +1,5 @@
 use self::side_effect::{ImportDetector, SideEffectVisitor};
+use crate::pass::RepeatedJsPass;
 use fxhash::FxHashSet;
 use std::{any::type_name, borrow::Cow};
 use swc_atoms::JsWord;
@@ -10,6 +11,7 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id, StmtLike};
+use swc_ecma_visit::{Fold, FoldWith, VisitWith};
 
 macro_rules! preserve {
     ($T:ty) => {
@@ -89,7 +91,7 @@ impl Repeated for UsedMarkRemover {
     fn reset(&mut self) {}
 }
 
-impl Fold<Span> for UsedMarkRemover {
+impl Fold for UsedMarkRemover {
     fn fold(&mut self, s: Span) -> Span {
         let mut ctxt = s.ctxt().clone();
         if ctxt.remove_mark() == self.used_mark {
@@ -293,7 +295,7 @@ impl Dce<'_> {
     }
 }
 
-impl Fold<Ident> for Dce<'_> {
+impl Fold for Dce<'_> {
     fn fold(&mut self, i: Ident) -> Ident {
         if self.is_marked(i.span) {
             return i;
@@ -310,7 +312,7 @@ impl Fold<Ident> for Dce<'_> {
     }
 }
 
-impl Fold<MemberExpr> for Dce<'_> {
+impl Fold for Dce<'_> {
     fn fold(&mut self, mut e: MemberExpr) -> MemberExpr {
         if self.is_marked(e.span()) {
             return e;
@@ -325,7 +327,7 @@ impl Fold<MemberExpr> for Dce<'_> {
     }
 }
 
-impl Fold<UpdateExpr> for Dce<'_> {
+impl Fold for Dce<'_> {
     fn fold(&mut self, mut node: UpdateExpr) -> UpdateExpr {
         if self.is_marked(node.span) {
             return node;

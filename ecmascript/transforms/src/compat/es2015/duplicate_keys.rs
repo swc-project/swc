@@ -2,7 +2,7 @@ use std::collections::HashSet;
 use swc_atoms::JsWord;
 use swc_common::Spanned;
 use swc_ecma_ast::*;
-use swc_ecma_visit::Fold;
+use swc_ecma_visit::{Fold, FoldWith};
 
 pub fn duplicate_keys() -> impl Fold {
     DuplicateKeys
@@ -12,8 +12,8 @@ struct DuplicateKeys;
 
 noop_fold_type!(DuplicateKeys);
 
-impl Fold<Expr> for DuplicateKeys {
-    fn fold(&mut self, expr: Expr) -> Expr {
+impl Fold for DuplicateKeys {
+    fn fold_expr(&mut self, expr: Expr) -> Expr {
         let expr = expr.fold_children_with(self);
 
         match expr {
@@ -39,14 +39,12 @@ struct PropFolder {
 
 noop_fold_type!(PropFolder);
 
-impl Fold<Expr> for PropFolder {
-    fn fold(&mut self, node: Expr) -> Expr {
+impl Fold for PropFolder {
+    fn fold_expr(&mut self, node: Expr) -> Expr {
         node
     }
-}
 
-impl Fold<Prop> for PropFolder {
-    fn fold(&mut self, prop: Prop) -> Prop {
+    fn fold_prop(&mut self, prop: Prop) -> Prop {
         match prop {
             Prop::Shorthand(ident) => {
                 //
@@ -88,14 +86,12 @@ impl Fold<Prop> for PropFolder {
 struct PropNameFolder<'a> {
     props: &'a mut HashSet<JsWord>,
 }
-impl<'a> Fold<Expr> for PropNameFolder<'a> {
-    fn fold(&mut self, node: Expr) -> Expr {
+impl<'a> Fold for PropNameFolder<'a> {
+    fn fold_expr(&mut self, node: Expr) -> Expr {
         node
     }
-}
 
-impl<'a> Fold<PropName> for PropNameFolder<'a> {
-    fn fold(&mut self, name: PropName) -> PropName {
+    fn fold_prop_name(&mut self, name: PropName) -> PropName {
         let span = name.span();
 
         match name {

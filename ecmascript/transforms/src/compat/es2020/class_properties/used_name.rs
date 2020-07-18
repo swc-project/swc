@@ -1,6 +1,7 @@
 use swc_atoms::JsWord;
 use swc_common::Mark;
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, Visit, VisitWith};
 
 pub(super) struct UsedNameRenamer<'a> {
     pub mark: Mark,
@@ -9,8 +10,8 @@ pub(super) struct UsedNameRenamer<'a> {
 
 noop_fold_type!(UsedNameRenamer<'_>);
 
-impl<'a> Fold<Ident> for UsedNameRenamer<'a> {
-    fn fold(&mut self, ident: Ident) -> Ident {
+impl<'a> Fold for UsedNameRenamer<'a> {
+    fn fold_ident(&mut self, ident: Ident) -> Ident {
         if self.used_names.contains(&ident.sym) {
             return Ident {
                 span: ident.span.apply_mark(self.mark),
@@ -27,8 +28,8 @@ pub(super) struct UsedNameCollector<'a> {
 
 noop_visit_type!(UsedNameCollector<'_>);
 
-impl<'a> Visit<Expr> for UsedNameCollector<'a> {
-    fn visit(&mut self, expr: &Expr) {
+impl<'a> Visit for UsedNameCollector<'a> {
+    fn visit_expr(&mut self, expr: &Expr, _: &dyn Node) {
         match *expr {
             Expr::Ident(ref i) => self.used_names.push(i.sym.clone()),
             _ => expr.visit_children_with(self),

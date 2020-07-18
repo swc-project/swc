@@ -10,7 +10,7 @@ use swc_common::{
     Spanned, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_visit::Fold;
+use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
 
 #[cfg(test)]
 mod tests;
@@ -193,8 +193,8 @@ where
     }
 }
 
-impl Fold<Stmt> for Remover {
-    fn fold(&mut self, stmt: Stmt) -> Stmt {
+impl Fold for Remover {
+    fn fold_stmt(&mut self, stmt: Stmt) -> Stmt {
         let stmt = stmt.fold_children_with(self);
 
         match stmt {
@@ -788,8 +788,8 @@ impl Fold<Stmt> for Remover {
     }
 }
 
-impl Fold<Pat> for Remover {
-    fn fold(&mut self, p: Pat) -> Pat {
+impl Fold for Remover {
+    fn fold_pat(&mut self, p: Pat) -> Pat {
         let p = p.fold_children_with(self);
 
         match p {
@@ -823,8 +823,8 @@ impl Fold<Pat> for Remover {
     }
 }
 
-impl Fold<ArrayPat> for Remover {
-    fn fold(&mut self, p: ArrayPat) -> ArrayPat {
+impl Fold for Remover {
+    fn fold_array_pat(&mut self, p: ArrayPat) -> ArrayPat {
         let mut p: ArrayPat = p.fold_children_with(self);
 
         let mut preserved = None;
@@ -849,7 +849,7 @@ impl Fold<ArrayPat> for Remover {
     }
 }
 
-impl Fold<ObjectPat> for Remover {
+impl Fold for Remover {
     fn fold(&mut self, p: ObjectPat) -> ObjectPat {
         let mut p = p.fold_children_with(self);
 
@@ -887,7 +887,7 @@ impl Fold<ObjectPat> for Remover {
     }
 }
 
-impl Fold<ObjectPatProp> for Remover {
+impl Fold for Remover {
     fn fold(&mut self, p: ObjectPatProp) -> ObjectPatProp {
         let p = p.fold_children_with(self);
 
@@ -920,7 +920,7 @@ impl Fold<ObjectPatProp> for Remover {
     }
 }
 
-impl Fold<SwitchStmt> for Remover {
+impl Fold for Remover {
     fn fold(&mut self, s: SwitchStmt) -> SwitchStmt {
         let s: SwitchStmt = s.fold_children_with(self);
 
@@ -941,7 +941,7 @@ impl Fold<SwitchStmt> for Remover {
     }
 }
 
-impl Fold<SeqExpr> for Remover {
+impl Fold for Remover {
     fn fold(&mut self, e: SeqExpr) -> SeqExpr {
         let mut e: SeqExpr = e.fold_children_with(self);
         if e.exprs.is_empty() {
@@ -956,7 +956,7 @@ impl Fold<SeqExpr> for Remover {
     }
 }
 
-impl Fold<Expr> for Remover {
+impl Fold for Remover {
     fn fold(&mut self, e: Expr) -> Expr {
         let e: Expr = e.fold_children_with(self);
 
@@ -1017,7 +1017,7 @@ impl Fold<Expr> for Remover {
     }
 }
 
-impl Fold<ForStmt> for Remover {
+impl Fold for Remover {
     fn fold(&mut self, s: ForStmt) -> ForStmt {
         let s = s.fold_children_with(self);
 
@@ -1426,63 +1426,49 @@ fn check_for_stopper(s: &[Stmt], only_conditional: bool) -> bool {
         found: bool,
     }
 
-    impl Visit<Function> for Visitor {
-        fn visit(&mut self, _: &Function) {}
-    }
+    impl Visit for Visitor {
+        fn visit_switch_case(&mut self, node: &SwitchCase, _: &dyn Node) {
+            let old = self.in_cond;
+            self.in_cond = true;
+            node.cons.visit_with(self);
+            self.in_cond = old;
+        }
 
-    impl Visit<Class> for Visitor {
-        fn visit(&mut self, _: &Class) {}
-    }
+        fn visit_break_stmt(&mut self, s: &BreakStmt, _: &dyn Node) {
+            if self.in_cond && s.label.is_none() {
+                self.found = true
+            }
+        }
 
-    impl Visit<IfStmt> for Visitor {
-        fn visit(&mut self, node: &IfStmt) {
+        fn visit_continue_stmt(&mut self, s: &ContinueStmt, _: &dyn Node) {
+            if self.in_cond && s.label.is_none() {
+                self.found = true
+            }
+        }
+
+        fn visit_return_stmt(&mut self, _: &ReturnStmt, _: &dyn Node) {
+            if self.in_cond {
+                self.found = true
+            }
+        }
+
+        fn visit_throw_stmt(&mut self, _: &ThrowStmt, _: &dyn Node) {
+            if self.in_cond {
+                self.found = true
+            }
+        }
+
+        fn visit_class(&mut self, _: &Class, _: &dyn Node) {}
+
+        fn visit_function(&mut self, _: &Function, _: &dyn Node) {}
+
+        fn visit_if_stmt(&mut self, node: &IfStmt, _: &dyn Node) {
             let old = self.in_cond;
             self.in_cond = true;
             node.cons.visit_with(self);
             self.in_cond = true;
             node.alt.visit_with(self);
             self.in_cond = old;
-        }
-    }
-
-    impl Visit<SwitchCase> for Visitor {
-        fn visit(&mut self, node: &SwitchCase) {
-            let old = self.in_cond;
-            self.in_cond = true;
-            node.cons.visit_with(self);
-            self.in_cond = old;
-        }
-    }
-
-    impl Visit<BreakStmt> for Visitor {
-        fn visit(&mut self, s: &BreakStmt) {
-            if self.in_cond && s.label.is_none() {
-                self.found = true
-            }
-        }
-    }
-
-    impl Visit<ContinueStmt> for Visitor {
-        fn visit(&mut self, s: &ContinueStmt) {
-            if self.in_cond && s.label.is_none() {
-                self.found = true
-            }
-        }
-    }
-
-    impl Visit<ReturnStmt> for Visitor {
-        fn visit(&mut self, _: &ReturnStmt) {
-            if self.in_cond {
-                self.found = true
-            }
-        }
-    }
-
-    impl Visit<ThrowStmt> for Visitor {
-        fn visit(&mut self, _: &ThrowStmt) {
-            if self.in_cond {
-                self.found = true
-            }
         }
     }
 

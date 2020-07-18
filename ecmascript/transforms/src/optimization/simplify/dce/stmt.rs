@@ -1,9 +1,10 @@
 use super::Dce;
 use swc_common::Spanned;
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, FoldWith};
 
-impl Fold<ExprStmt> for Dce<'_> {
-    fn fold(&mut self, node: ExprStmt) -> ExprStmt {
+impl Fold for Dce<'_> {
+    fn fold_expr_stmt(&mut self, node: ExprStmt) -> ExprStmt {
         log::debug!("ExprStmt ->");
         if self.is_marked(node.span) {
             return node;
@@ -20,10 +21,8 @@ impl Fold<ExprStmt> for Dce<'_> {
 
         node.fold_children_with(self)
     }
-}
 
-impl Fold<BlockStmt> for Dce<'_> {
-    fn fold(&mut self, node: BlockStmt) -> BlockStmt {
+    fn fold_block_stmt(&mut self, node: BlockStmt) -> BlockStmt {
         if self.is_marked(node.span) {
             return node;
         }
@@ -37,10 +36,8 @@ impl Fold<BlockStmt> for Dce<'_> {
 
         BlockStmt { span, stmts }
     }
-}
 
-impl Fold<IfStmt> for Dce<'_> {
-    fn fold(&mut self, node: IfStmt) -> IfStmt {
+    fn fold_if_stmt(&mut self, node: IfStmt) -> IfStmt {
         if self.is_marked(node.span) {
             return node;
         }
@@ -60,10 +57,8 @@ impl Fold<IfStmt> for Dce<'_> {
 
         node
     }
-}
 
-impl Fold<ReturnStmt> for Dce<'_> {
-    fn fold(&mut self, mut node: ReturnStmt) -> ReturnStmt {
+    fn fold_return_stmt(&mut self, mut node: ReturnStmt) -> ReturnStmt {
         if self.is_marked(node.span) {
             return node;
         }
@@ -77,10 +72,8 @@ impl Fold<ReturnStmt> for Dce<'_> {
 
         node
     }
-}
 
-impl Fold<ThrowStmt> for Dce<'_> {
-    fn fold(&mut self, mut node: ThrowStmt) -> ThrowStmt {
+    fn fold_throw_stmt(&mut self, mut node: ThrowStmt) -> ThrowStmt {
         if self.is_marked(node.span) {
             return node;
         }
@@ -94,10 +87,8 @@ impl Fold<ThrowStmt> for Dce<'_> {
 
         node
     }
-}
 
-impl Fold<LabeledStmt> for Dce<'_> {
-    fn fold(&mut self, mut node: LabeledStmt) -> LabeledStmt {
+    fn fold_labeled_stmt(&mut self, mut node: LabeledStmt) -> LabeledStmt {
         if self.is_marked(node.span) {
             return node;
         }
@@ -111,10 +102,8 @@ impl Fold<LabeledStmt> for Dce<'_> {
 
         node
     }
-}
 
-impl Fold<SwitchStmt> for Dce<'_> {
-    fn fold(&mut self, mut node: SwitchStmt) -> SwitchStmt {
+    fn fold_switch_stmt(&mut self, mut node: SwitchStmt) -> SwitchStmt {
         if self.is_marked(node.span) {
             return node;
         }
@@ -136,10 +125,8 @@ impl Fold<SwitchStmt> for Dce<'_> {
 
         node
     }
-}
 
-impl Fold<SwitchCase> for Dce<'_> {
-    fn fold(&mut self, mut node: SwitchCase) -> SwitchCase {
+    fn fold_switch_case(&mut self, mut node: SwitchCase) -> SwitchCase {
         if self.is_marked(node.span) {
             return node;
         }
@@ -155,10 +142,8 @@ impl Fold<SwitchCase> for Dce<'_> {
 
         node
     }
-}
 
-impl Fold<TryStmt> for Dce<'_> {
-    fn fold(&mut self, mut node: TryStmt) -> TryStmt {
+    fn fold_try_smt(&mut self, mut node: TryStmt) -> TryStmt {
         if self.is_marked(node.span) {
             return node;
         }
@@ -178,10 +163,8 @@ impl Fold<TryStmt> for Dce<'_> {
 
         node
     }
-}
 
-impl Fold<WhileStmt> for Dce<'_> {
-    fn fold(&mut self, mut node: WhileStmt) -> WhileStmt {
+    fn fold_while_stmt(&mut self, mut node: WhileStmt) -> WhileStmt {
         if self.is_marked(node.span) {
             return node;
         }
@@ -197,10 +180,8 @@ impl Fold<WhileStmt> for Dce<'_> {
 
         node
     }
-}
 
-impl Fold<DoWhileStmt> for Dce<'_> {
-    fn fold(&mut self, mut node: DoWhileStmt) -> DoWhileStmt {
+    fn fold_do_while_stmt(&mut self, mut node: DoWhileStmt) -> DoWhileStmt {
         if self.is_marked(node.span) {
             return node;
         }
@@ -216,10 +197,8 @@ impl Fold<DoWhileStmt> for Dce<'_> {
 
         node
     }
-}
 
-impl Fold<ForStmt> for Dce<'_> {
-    fn fold(&mut self, mut node: ForStmt) -> ForStmt {
+    fn fold_for_stmt(&mut self, mut node: ForStmt) -> ForStmt {
         if self.is_marked(node.span) {
             return node;
         }
@@ -242,10 +221,8 @@ impl Fold<ForStmt> for Dce<'_> {
 
         node
     }
-}
 
-impl Fold<ForInStmt> for Dce<'_> {
-    fn fold(&mut self, mut node: ForInStmt) -> ForInStmt {
+    fn fold_for_in_stmt(&mut self, mut node: ForInStmt) -> ForInStmt {
         if self.is_marked(node.span) {
             return node;
         }
@@ -273,7 +250,7 @@ impl Fold<ForInStmt> for Dce<'_> {
     }
 }
 
-impl Fold<ForOfStmt> for Dce<'_> {
+impl Fold for Dce<'_> {
     fn fold(&mut self, mut node: ForOfStmt) -> ForOfStmt {
         if self.is_marked(node.span) {
             return node;

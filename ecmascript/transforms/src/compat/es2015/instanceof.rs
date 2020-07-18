@@ -1,5 +1,6 @@
 use crate::util::ExprFactory;
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, Visit, VisitWith};
 
 /// `@babel/plugin-transform-instanceof`
 ///
@@ -31,13 +32,13 @@ pub struct InstanceOf;
 
 noop_fold_type!(InstanceOf);
 
-impl Fold<Expr> for InstanceOf {
-    fn fold(&mut self, expr: Expr) -> Expr {
+impl Fold for InstanceOf {
+    fn fold_expr(&mut self, expr: Expr) -> Expr {
         fn should_work(node: &Expr) -> bool {
             struct Visitor {
                 found: bool,
             }
-            impl Visit<BinExpr> for Visitor {
+            impl Visit for Visitor {
                 fn visit(&mut self, e: &BinExpr) {
                     if e.op == op!("instanceof") {
                         self.found = true

@@ -157,7 +157,7 @@ impl Fold<Vec<VarDeclarator>> for AssignFolder {
     }
 }
 
-impl Fold<Stmt> for AssignFolder {
+impl Fold for AssignFolder {
     fn fold(&mut self, s: Stmt) -> Stmt {
         match s {
             Stmt::Expr(e) => {
@@ -536,7 +536,7 @@ struct AssignFolder {
     ignore_return_value: Option<()>,
 }
 
-impl Fold<ExportDecl> for AssignFolder {
+impl Fold for AssignFolder {
     fn fold(&mut self, decl: ExportDecl) -> ExportDecl {
         let old = self.exporting;
         self.exporting = true;
@@ -546,8 +546,8 @@ impl Fold<ExportDecl> for AssignFolder {
     }
 }
 
-impl Fold<Expr> for AssignFolder {
-    fn fold(&mut self, expr: Expr) -> Expr {
+impl Fold for AssignFolder {
+    fn fold_expr(&mut self, expr: Expr) -> Expr {
         let ignore_return_value = self.ignore_return_value.take().is_some();
 
         let expr = match expr {
@@ -1072,7 +1072,7 @@ struct DestructuringVisitor {
     found: bool,
 }
 
-impl Visit<Pat> for DestructuringVisitor {
+impl Visit for DestructuringVisitor {
     fn visit(&mut self, node: &Pat) {
         node.visit_children_with(self);
         match *node {

@@ -47,8 +47,8 @@ struct ObjectLitFolder {
     used_define_enum_props: bool,
 }
 
-impl Fold<Expr> for ObjectLitFolder {
-    fn fold(&mut self, expr: Expr) -> Expr {
+impl Fold for ObjectLitFolder {
+    fn fold_expr(&mut self, expr: Expr) -> Expr {
         let expr = validate!(expr);
         let expr = expr.fold_children_with(self);
 
@@ -274,7 +274,7 @@ struct ComplexVisitor {
     found: bool,
 }
 
-impl Visit<PropName> for ComplexVisitor {
+impl Visit for ComplexVisitor {
     fn visit(&mut self, pn: &PropName) {
         match *pn {
             PropName::Computed(..) => self.found = true,
@@ -349,7 +349,7 @@ struct ShouldWork {
     found: bool,
 }
 
-impl Visit<PropName> for ShouldWork {
+impl Visit for ShouldWork {
     fn visit(&mut self, node: &PropName) {
         match *node {
             PropName::Computed(_) => self.found = true,

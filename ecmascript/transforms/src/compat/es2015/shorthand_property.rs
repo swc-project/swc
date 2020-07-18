@@ -1,4 +1,5 @@
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, FoldWith};
 
 /// Compile ES2015 shorthand properties to ES5
 ///
@@ -39,7 +40,7 @@ pub struct Shorthand;
 
 noop_fold_type!(Shorthand);
 
-impl Fold<Prop> for Shorthand {
+impl Fold for Shorthand {
     fn fold(&mut self, prop: Prop) -> Prop {
         let prop = prop.fold_children_with(self);
 

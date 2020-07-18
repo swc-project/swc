@@ -11,7 +11,7 @@ pub(super) struct ImportDetector {
 
 noop_visit_type!(ImportDetector);
 
-impl Visit<ImportDecl> for ImportDetector {
+impl Visit for ImportDetector {
     fn visit(&mut self, _: &ImportDecl) {
         self.found = true;
     }
@@ -82,7 +82,7 @@ impl SideEffectVisitor<'_> {
     }
 }
 
-impl Visit<Expr> for SideEffectVisitor<'_> {
+impl Visit for SideEffectVisitor<'_> {
     fn visit(&mut self, node: &Expr) {
         log::debug!("Visit<Expr>");
 
@@ -100,7 +100,7 @@ impl Visit<Expr> for SideEffectVisitor<'_> {
     }
 }
 
-impl Visit<AssignExpr> for SideEffectVisitor<'_> {
+impl Visit for SideEffectVisitor<'_> {
     fn visit(&mut self, node: &AssignExpr) {
         if self.found {
             return;
@@ -117,7 +117,7 @@ impl Visit<AssignExpr> for SideEffectVisitor<'_> {
     }
 }
 
-impl Visit<MemberExpr> for SideEffectVisitor<'_> {
+impl Visit for SideEffectVisitor<'_> {
     fn visit(&mut self, _: &MemberExpr) {
         self.found = true;
 
@@ -132,7 +132,7 @@ impl Visit<MemberExpr> for SideEffectVisitor<'_> {
     }
 }
 
-impl Visit<Ident> for SideEffectVisitor<'_> {
+impl Visit for SideEffectVisitor<'_> {
     fn visit(&mut self, node: &Ident) {
         if self.found {
             return;
@@ -142,7 +142,7 @@ impl Visit<Ident> for SideEffectVisitor<'_> {
     }
 }
 
-impl Visit<CallExpr> for SideEffectVisitor<'_> {
+impl Visit for SideEffectVisitor<'_> {
     fn visit(&mut self, node: &CallExpr) {
         if self.found {
             return;
@@ -157,7 +157,7 @@ impl Visit<CallExpr> for SideEffectVisitor<'_> {
     }
 }
 
-impl Visit<NewExpr> for SideEffectVisitor<'_> {
+impl Visit for SideEffectVisitor<'_> {
     fn visit(&mut self, _: &NewExpr) {
         if self.found {
             return;
@@ -167,7 +167,7 @@ impl Visit<NewExpr> for SideEffectVisitor<'_> {
     }
 }
 
-impl Visit<ExprOrSpread> for SideEffectVisitor<'_> {
+impl Visit for SideEffectVisitor<'_> {
     fn visit(&mut self, node: &ExprOrSpread) {
         if self.found {
             return;
@@ -183,67 +183,67 @@ impl Visit<ExprOrSpread> for SideEffectVisitor<'_> {
     }
 }
 
-impl Visit<ReturnStmt> for SideEffectVisitor<'_> {
+impl Visit for SideEffectVisitor<'_> {
     fn visit(&mut self, _: &ReturnStmt) {
         self.found = true;
     }
 }
 
-impl Visit<ThrowStmt> for SideEffectVisitor<'_> {
+impl Visit for SideEffectVisitor<'_> {
     fn visit(&mut self, _: &ThrowStmt) {
         self.found = true;
     }
 }
 
-impl Visit<BreakStmt> for SideEffectVisitor<'_> {
+impl Visit for SideEffectVisitor<'_> {
     fn visit(&mut self, _: &BreakStmt) {
         self.found = true;
     }
 }
 
-impl Visit<ContinueStmt> for SideEffectVisitor<'_> {
+impl Visit for SideEffectVisitor<'_> {
     fn visit(&mut self, _: &ContinueStmt) {
         self.found = true;
     }
 }
 
-impl Visit<ForStmt> for SideEffectVisitor<'_> {
+impl Visit for SideEffectVisitor<'_> {
     fn visit(&mut self, _: &ForStmt) {
         self.found = true;
     }
 }
 
-impl Visit<ForInStmt> for SideEffectVisitor<'_> {
+impl Visit for SideEffectVisitor<'_> {
     fn visit(&mut self, _: &ForInStmt) {
         self.found = true;
     }
 }
 
-impl Visit<ForOfStmt> for SideEffectVisitor<'_> {
+impl Visit for SideEffectVisitor<'_> {
     fn visit(&mut self, _: &ForOfStmt) {
         self.found = true;
     }
 }
 
-impl Visit<WhileStmt> for SideEffectVisitor<'_> {
+impl Visit for SideEffectVisitor<'_> {
     fn visit(&mut self, _: &WhileStmt) {
         self.found = true;
     }
 }
 
-impl Visit<DoWhileStmt> for SideEffectVisitor<'_> {
+impl Visit for SideEffectVisitor<'_> {
     fn visit(&mut self, _: &DoWhileStmt) {
         self.found = true;
     }
 }
 
-impl Visit<ExportDefaultSpecifier> for SideEffectVisitor<'_> {
+impl Visit for SideEffectVisitor<'_> {
     fn visit(&mut self, _: &ExportDefaultSpecifier) {
         self.found = true;
     }
 }
 
-impl Visit<ImportDecl> for SideEffectVisitor<'_> {
+impl Visit for SideEffectVisitor<'_> {
     fn visit(&mut self, import: &ImportDecl) {
         if self.found {
             return;
@@ -258,31 +258,31 @@ impl Visit<ImportDecl> for SideEffectVisitor<'_> {
     }
 }
 
-impl Visit<ExportDecl> for SideEffectVisitor<'_> {
+impl Visit for SideEffectVisitor<'_> {
     fn visit(&mut self, _: &ExportDecl) {
         self.found = true
     }
 }
 
-impl Visit<ExportDefaultExpr> for SideEffectVisitor<'_> {
+impl Visit for SideEffectVisitor<'_> {
     fn visit(&mut self, _: &ExportDefaultExpr) {
         self.found = true;
     }
 }
 
-impl Visit<NamedExport> for SideEffectVisitor<'_> {
+impl Visit for SideEffectVisitor<'_> {
     fn visit(&mut self, _: &NamedExport) {
         self.found = true
     }
 }
 
-impl Visit<ExportDefaultDecl> for SideEffectVisitor<'_> {
+impl Visit for SideEffectVisitor<'_> {
     fn visit(&mut self, _: &ExportDefaultDecl) {
         self.found = true;
     }
 }
 
-impl Visit<Pat> for SideEffectVisitor<'_> {
+impl Visit for SideEffectVisitor<'_> {
     fn visit(&mut self, p: &Pat) {
         if self.found {
             return;

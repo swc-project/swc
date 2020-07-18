@@ -7,6 +7,7 @@ use smallvec::SmallVec;
 use std::mem::replace;
 use swc_common::{util::move_map::MoveMap, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, FoldWith};
 
 #[derive(Debug, Default)]
 pub(super) struct Legacy {
@@ -17,7 +18,7 @@ pub(super) struct Legacy {
 
 noop_fold_type!(Legacy);
 
-impl Fold<Module> for Legacy {
+impl Fold for Legacy {
     fn fold(&mut self, m: Module) -> Module {
         let mut m = m.fold_children_with(self);
 
@@ -49,7 +50,7 @@ impl Fold<Module> for Legacy {
     }
 }
 
-impl Fold<Script> for Legacy {
+impl Fold for Legacy {
     fn fold(&mut self, s: Script) -> Script {
         let mut s = s.fold_children_with(self);
 
@@ -104,7 +105,7 @@ where
         buf
     }
 }
-impl Fold<ModuleItem> for Legacy {
+impl Fold for Legacy {
     fn fold(&mut self, item: ModuleItem) -> ModuleItem {
         let item: ModuleItem = item.fold_children_with(self);
 
@@ -144,7 +145,7 @@ impl Fold<ModuleItem> for Legacy {
     }
 }
 
-impl Fold<Expr> for Legacy {
+impl Fold for Legacy {
     fn fold(&mut self, e: Expr) -> Expr {
         let e: Expr = e.fold_children_with(self);
 
@@ -162,8 +163,8 @@ impl Fold<Expr> for Legacy {
     }
 }
 
-impl Fold<Decl> for Legacy {
-    fn fold(&mut self, decl: Decl) -> Decl {
+impl Fold for Legacy {
+    fn fold_decl(&mut self, decl: Decl) -> Decl {
         let decl: Decl = decl.fold_children_with(self);
 
         match decl {
@@ -676,7 +677,7 @@ struct ClassFieldAccessConverter {
 
 noop_fold_type!(ClassFieldAccessConverter);
 
-impl Fold<MemberExpr> for ClassFieldAccessConverter {
+impl Fold for ClassFieldAccessConverter {
     fn fold(&mut self, node: MemberExpr) -> MemberExpr {
         if node.computed {
             MemberExpr {
@@ -693,7 +694,7 @@ impl Fold<MemberExpr> for ClassFieldAccessConverter {
     }
 }
 
-impl Fold<Ident> for ClassFieldAccessConverter {
+impl Fold for ClassFieldAccessConverter {
     fn fold(&mut self, node: Ident) -> Ident {
         if node.sym == self.cls_name.sym && node.span.ctxt() == self.cls_name.span.ctxt() {
             return self.alias.clone();
