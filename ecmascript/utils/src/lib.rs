@@ -213,7 +213,7 @@ impl<T> IsEmpty for Vec<T> {
 /// Extracts hoisted variables
 pub fn extract_var_ids<T: VisitWith<Hoister>>(node: &T) -> Vec<Ident> {
     let mut v = Hoister { vars: vec![] };
-    node.visit_with(&mut v);
+    node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
     v.vars
 }
 
@@ -1105,7 +1105,7 @@ where
         cost: 0,
         allow_non_json_value,
     };
-    e.visit_with(&mut v);
+    e.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
 
     (v.is_lit, v.cost)
 }
@@ -1588,7 +1588,7 @@ impl<'a> UsageFinder<'a> {
             ident,
             found: false,
         };
-        node.visit_with(&mut v);
+        node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
         v.found
     }
 }
