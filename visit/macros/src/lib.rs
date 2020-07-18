@@ -238,21 +238,22 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     fn visit_with(&self, _parent: &dyn Node, v: &mut V);
 
                     /// Visit children nodes of self with `v`
-                    fn visit_children_with(&self, _parent: &dyn Node, v: &mut V);
+                    fn visit_children_with(&self, v: &mut V);
                 }
 
                 impl<V, T> VisitWith<V> for Box<T>
                 where
                     V: Visit,
-                    T: VisitWith<V>,
+                    T: 'static + VisitWith<V>,
                 {
                     fn visit_with(&self, _parent: &dyn Node, v: &mut V) {
                         (**self).visit_with(_parent, v)
                     }
 
                     /// Visit children nodes of self with `v`
-                    fn visit_children_with(&self, _parent: &dyn Node, v: &mut V) {
-                        (**self).visit_children_with(_parent, v)
+                    fn visit_children_with(&self, v: &mut V) {
+                        let _parent = self as &dyn Node;
+                        (**self).visit_children_with(v)
                     }
                 }
             }),
@@ -267,7 +268,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 impl<V, T> FoldWith<V> for Box<T>
                 where
                     V: Fold,
-                    T: FoldWith<V>,
+                    T: 'static + FoldWith<V>,
                 {
                     fn fold_with(self, v: &mut V) -> Self {
                         Box::new((*self).fold_with(v))
@@ -326,11 +327,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                                     expr
                                 }
 
-                                fn visit_children_with(
-                                    &self,
-                                    _parent: &dyn Node,
-                                    _visitor: &mut V,
-                                ) {
+                                fn visit_children_with(&self, _visitor: &mut V) {
                                     let n = self;
                                     let _parent = n as &dyn Node;
                                     default_body
