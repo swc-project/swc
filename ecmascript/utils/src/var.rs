@@ -27,6 +27,6 @@ impl Visit for VarCollector<'_> {
     fn visit_ts_type_param(&mut self, _: &TsTypeParam, _parent: &dyn Node) {}
 
     fn visit_var_declarator(&mut self, node: &VarDeclarator, _: &dyn Node) {
-        node.name.visit_with(self);
+        node.name.visit_with(node, self);
     }
 }

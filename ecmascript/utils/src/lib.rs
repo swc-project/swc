@@ -1073,7 +1073,7 @@ pub fn to_int32(d: f64) -> i32 {
 
 pub fn has_rest_pat<T: VisitWith<RestPatVisitor>>(node: &T) -> bool {
     let mut v = RestPatVisitor { found: false };
-    node.visit_with(&mut v);
+    node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
     v.found
 }
 
@@ -1133,7 +1133,7 @@ impl Visit for LiteralVisitor {
         }
     }
 
-    fn visit_arrow_expr(&mut self, n: &ArrowExpr, _parent: &dyn Node) {
+    fn visit_arrow_expr(&mut self, _: &ArrowExpr, _parent: &dyn Node) {
         self.is_lit = false
     }
 
@@ -1517,7 +1517,7 @@ where
 
     {
         let mut v = DestructuringFinder { found: &mut found };
-        node.visit_with(&mut v);
+        node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
     }
 
     found
@@ -1571,10 +1571,10 @@ impl<'a> Visit for UsageFinder<'a> {
     }
 
     fn visit_member_expr(&mut self, e: &MemberExpr, _: &dyn Node) {
-        e.obj.visit_with(self);
+        e.obj.visit_with(e as _, self);
 
         if e.computed {
-            e.prop.visit_with(self);
+            e.prop.visit_with(e as _, self);
         }
     }
 }
