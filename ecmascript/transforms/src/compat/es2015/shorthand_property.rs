@@ -41,7 +41,7 @@ pub struct Shorthand;
 noop_fold_type!(Shorthand);
 
 impl Fold for Shorthand {
-    fn fold(&mut self, prop: Prop) -> Prop {
+    fn fold_expr(&mut self, prop: Prop) -> Prop {
         let prop = prop.fold_children_with(self);
 
         match prop {

@@ -5,6 +5,7 @@ use swc_atoms::js_word;
 use swc_common::{Mark, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::quote_ident;
+use swc_ecma_visit::{Fold, FoldWith};
 
 /// Process function body.
 ///
@@ -86,7 +87,7 @@ fold_only_key!(SuperFieldAccessFolder);
 fold_only_key!(SuperCalleeFolder);
 
 impl<'a> Fold for SuperCalleeFolder<'a> {
-    fn fold(&mut self, n: Expr) -> Expr {
+    fn fold_expr(&mut self, n: Expr) -> Expr {
         match n {
             Expr::This(ThisExpr { span }) if self.in_nested_scope => {
                 if self.this_alias_mark.is_none() {
@@ -381,7 +382,7 @@ impl<'a> SuperCalleeFolder<'a> {
 }
 
 impl<'a> Fold for SuperFieldAccessFolder<'a> {
-    fn fold(&mut self, n: Expr) -> Expr {
+    fn fold_expr(&mut self, n: Expr) -> Expr {
         // We pretend method folding mode for while folding injected `_defineProperty`
         // calls.
         if n.span().is_dummy() {

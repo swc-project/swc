@@ -6,6 +6,7 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{
     find_ids, ident::IdentLike, prepend, var::VarCollector, ExprFactory, Id, StmtLike,
 };
+use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
 
 ///
 ///
@@ -336,27 +337,23 @@ impl BlockScoping {
 }
 
 impl Fold for BlockScoping {
-    fn fold(&mut self, node: DoWhileStmt) -> DoWhileStmt {
+    fn fold_do_while_stmt(&mut self, node: DoWhileStmt) -> DoWhileStmt {
         let body = self.fold_with_scope(ScopeKind::Loop, node.body);
 
         let test = node.test.fold_with(self);
 
         DoWhileStmt { body, test, ..node }
     }
-}
 
-impl Fold for BlockScoping {
-    fn fold(&mut self, node: WhileStmt) -> WhileStmt {
+    fn fold_while_stmt(&mut self, node: WhileStmt) -> WhileStmt {
         let body = self.fold_with_scope(ScopeKind::Loop, node.body);
 
         let test = node.test.fold_with(self);
 
         WhileStmt { body, test, ..node }
     }
-}
 
-impl Fold for BlockScoping {
-    fn fold(&mut self, node: ForStmt) -> ForStmt {
+    fn fold_for_stmt(&mut self, node: ForStmt) -> ForStmt {
         let init = node.init.fold_with(self);
 
         let mut vars = find_vars(&init);
@@ -387,10 +384,8 @@ impl Fold for BlockScoping {
             ..node
         }
     }
-}
 
-impl Fold for BlockScoping {
-    fn fold(&mut self, node: ForOfStmt) -> ForOfStmt {
+    fn fold_for_of_stmt(&mut self, node: ForOfStmt) -> ForOfStmt {
         let left = self.fold_with_scope(ScopeKind::Block, node.left);
         let mut vars = find_vars(&left);
         let args = vars.clone();
@@ -418,10 +413,8 @@ impl Fold for BlockScoping {
             ..node
         }
     }
-}
 
-impl Fold for BlockScoping {
-    fn fold(&mut self, node: ForInStmt) -> ForInStmt {
+    fn fold_for_in_stmt(&mut self, node: ForInStmt) -> ForInStmt {
         let left = self.fold_with_scope(ScopeKind::Block, node.left);
         let mut vars = find_vars(&left);
         let args = vars.clone();
@@ -449,10 +442,8 @@ impl Fold for BlockScoping {
             ..node
         }
     }
-}
 
-impl Fold for BlockScoping {
-    fn fold(&mut self, f: Function) -> Function {
+    fn fold_function(&mut self, f: Function) -> Function {
         Function {
             params: f.params.fold_with(self),
             decorators: f.decorators.fold_with(self),
@@ -460,20 +451,16 @@ impl Fold for BlockScoping {
             ..f
         }
     }
-}
 
-impl Fold for BlockScoping {
-    fn fold(&mut self, f: ArrowExpr) -> ArrowExpr {
+    fn fold_arrow_expr(&mut self, f: ArrowExpr) -> ArrowExpr {
         ArrowExpr {
             params: f.params.fold_with(self),
             body: self.fold_with_scope(ScopeKind::Fn, f.body),
             ..f
         }
     }
-}
 
-impl Fold for BlockScoping {
-    fn fold(&mut self, f: Constructor) -> Constructor {
+    fn fold_constructor(&mut self, f: Constructor) -> Constructor {
         Constructor {
             key: f.key.fold_with(self),
             params: f.params.fold_with(self),
@@ -481,20 +468,16 @@ impl Fold for BlockScoping {
             ..f
         }
     }
-}
 
-impl Fold for BlockScoping {
-    fn fold(&mut self, f: GetterProp) -> GetterProp {
+    fn fold_getter_prop(&mut self, f: GetterProp) -> GetterProp {
         GetterProp {
             key: f.key.fold_with(self),
             body: self.fold_with_scope(ScopeKind::Fn, f.body),
             ..f
         }
     }
-}
 
-impl Fold for BlockScoping {
-    fn fold(&mut self, f: SetterProp) -> SetterProp {
+    fn fold_setter_prop(&mut self, f: SetterProp) -> SetterProp {
         SetterProp {
             key: f.key.fold_with(self),
             param: f.param.fold_with(self),
@@ -502,10 +485,8 @@ impl Fold for BlockScoping {
             ..f
         }
     }
-}
 
-impl Fold for BlockScoping {
-    fn fold(&mut self, var: VarDecl) -> VarDecl {
+    fn fold_var_decl(&mut self, var: VarDecl) -> VarDecl {
         let old = self.var_decl_kind;
         self.var_decl_kind = var.kind;
         let var = var.fold_children_with(self);
@@ -517,10 +498,8 @@ impl Fold for BlockScoping {
             ..var
         }
     }
-}
 
-impl Fold for BlockScoping {
-    fn fold(&mut self, var: VarDeclarator) -> VarDeclarator {
+    fn fold_var_declarator(&mut self, var: VarDeclarator) -> VarDeclarator {
         let var = var.fold_children_with(self);
 
         let init = if self.in_loop_body() && var.init.is_none() {
@@ -535,10 +514,8 @@ impl Fold for BlockScoping {
 
         VarDeclarator { init, ..var }
     }
-}
 
-impl Fold for BlockScoping {
-    fn fold(&mut self, node: Ident) -> Ident {
+    fn fold_ident(&mut self, node: Ident) -> Ident {
         let id = node.to_id();
         self.mark_as_used(id);
 
@@ -546,7 +523,7 @@ impl Fold for BlockScoping {
     }
 }
 
-impl<T> Fold<Vec<T>> for BlockScoping
+impl<T> Fold for BlockScoping
 where
     T: StmtLike,
     Vec<T>: FoldWith<Self>,
@@ -606,7 +583,46 @@ struct InfectionFinder<'a> {
 noop_visit_type!(InfectionFinder<'_>);
 
 impl Visit for InfectionFinder<'_> {
-    fn visit(&mut self, node: &VarDeclarator) {
+    fn visit_assign_expr(&mut self, node: &AssignExpr, _: &dyn Node) {
+        let old = self.found;
+        self.found = false;
+
+        node.right.visit_with(self);
+
+        if self.found {
+            let ids = find_ids(&node.left);
+            self.vars.extend(ids);
+        }
+
+        self.found = old;
+    }
+
+    fn visit_ident(&mut self, i: &Ident, _: &dyn Node) {
+        if self.found {
+            return;
+        }
+
+        for ident in &*self.vars {
+            if i.span.ctxt() == ident.1 && i.sym == ident.0 {
+                self.found = true;
+                break;
+            }
+        }
+    }
+
+    fn visit_member_expr(&mut self, e: &MemberExpr, _: &dyn Node) {
+        if self.found {
+            return;
+        }
+
+        e.obj.visit_with(self);
+
+        if e.computed {
+            e.prop.visit_with(self);
+        }
+    }
+
+    fn visit_var_declarator(&mut self, node: &VarDeclarator, _: &dyn Node) {
         let old = self.found;
         self.found = false;
 
@@ -621,51 +637,6 @@ impl Visit for InfectionFinder<'_> {
     }
 }
 
-impl Visit for InfectionFinder<'_> {
-    fn visit(&mut self, node: &AssignExpr) {
-        let old = self.found;
-        self.found = false;
-
-        node.right.visit_with(self);
-
-        if self.found {
-            let ids = find_ids(&node.left);
-            self.vars.extend(ids);
-        }
-
-        self.found = old;
-    }
-}
-
-impl Visit for InfectionFinder<'_> {
-    fn visit(&mut self, e: &MemberExpr) {
-        if self.found {
-            return;
-        }
-
-        e.obj.visit_with(self);
-
-        if e.computed {
-            e.prop.visit_with(self);
-        }
-    }
-}
-
-impl Visit for InfectionFinder<'_> {
-    fn visit(&mut self, i: &Ident) {
-        if self.found {
-            return;
-        }
-
-        for ident in &*self.vars {
-            if i.span.ctxt() == ident.1 && i.sym == ident.0 {
-                self.found = true;
-                break;
-            }
-        }
-    }
-}
-
 #[derive(Debug)]
 struct FlowHelper {
     has_continue: bool,
@@ -677,19 +648,15 @@ noop_fold_type!(FlowHelper);
 
 /// noop
 impl Fold for FlowHelper {
-    fn fold(&mut self, f: Function) -> Function {
+    fn fold_arrow_expr(&mut self, f: ArrowExpr) -> ArrowExpr {
         f
     }
-}
 
-impl Fold for FlowHelper {
-    fn fold(&mut self, f: ArrowExpr) -> ArrowExpr {
+    fn fold_function(&mut self, f: Function) -> Function {
         f
     }
-}
 
-impl Fold for FlowHelper {
-    fn fold(&mut self, node: Stmt) -> Stmt {
+    fn fold_stmt(&mut self, node: Stmt) -> Stmt {
         let span = node.span();
 
         match node {
@@ -749,7 +716,7 @@ struct FunctionFinder {
 noop_visit_type!(FunctionFinder);
 
 impl Visit for FunctionFinder {
-    fn visit(&mut self, _: &Function) {
+    fn visit_function(&mut self, _: &Function, _: &dyn Node) {
         self.found = true
     }
 }

@@ -2,10 +2,22 @@ use super::Dce;
 use swc_common::{util::move_map::MoveMap, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
-use swc_ecma_visit::Fold;
+use swc_ecma_visit::{Fold, FoldWith};
 
 impl Fold for Dce<'_> {
-    fn fold(&mut self, mut f: FnDecl) -> FnDecl {
+    fn fold_class_decl(&mut self, mut node: ClassDecl) -> ClassDecl {
+        if self.is_marked(node.span()) {
+            return node;
+        }
+
+        if self.marking_phase || self.included.contains(&node.ident.to_id()) {
+            node.class.span = node.class.span.apply_mark(self.config.used_mark);
+        }
+
+        node.fold_children_with(self)
+    }
+
+    fn fold_fn_decl(&mut self, mut f: FnDecl) -> FnDecl {
         if self.is_marked(f.span()) {
             return f;
         }
@@ -17,24 +29,8 @@ impl Fold for Dce<'_> {
 
         f.fold_children_with(self)
     }
-}
 
-impl Fold for Dce<'_> {
-    fn fold(&mut self, mut node: ClassDecl) -> ClassDecl {
-        if self.is_marked(node.span()) {
-            return node;
-        }
-
-        if self.marking_phase || self.included.contains(&node.ident.to_id()) {
-            node.class.span = node.class.span.apply_mark(self.config.used_mark);
-        }
-
-        node.fold_children_with(self)
-    }
-}
-
-impl Fold for Dce<'_> {
-    fn fold(&mut self, mut var: VarDecl) -> VarDecl {
+    fn fold_var_decl(&mut self, mut var: VarDecl) -> VarDecl {
         if self.is_marked(var.span) {
             return var;
         }

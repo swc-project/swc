@@ -11,7 +11,7 @@ use swc_common::{
     BytePos, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith, VisitWith};
+use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub(super) struct Loc {
@@ -1376,20 +1376,20 @@ struct LeapFinder {
 }
 
 macro_rules! leap {
-    ($T:ty) => {
-        impl Visit<$T> for LeapFinder {
-            fn visit(&mut self, _: &$T) {
-                self.found = true;
-            }
+    ($name:ident,$T:ty) => {
+        fn $name(&mut self, _: &$T, _: &dyn Node) {
+            self.found = true;
         }
     };
 }
 
-leap!(YieldExpr);
-leap!(BreakStmt);
-leap!(ContinueStmt);
-leap!(ReturnStmt);
-leap!(ThrowStmt);
+impl Visit for LeadFinder {
+    leap!(visit_yield_expr, YieldExpr);
+    leap!(visit_break_stmt, BreakStmt);
+    leap!(visit_continue_stmt, ContinueStmt);
+    leap!(visit_return_stmt, ReturnStmt);
+    leap!(visit_throw_stmt, ThrowStmt);
+}
 
 fn contains_leap<T>(node: &T) -> bool
 where
@@ -1406,7 +1406,7 @@ struct UnmarkedInvalidHandler {
 }
 
 impl Fold for UnmarkedInvalidHandler {
-    fn fold(&mut self, e: Expr) -> Expr {
+    fn fold_expr(&mut self, e: Expr) -> Expr {
         let e = e.fold_children_with(self);
 
         match e {
@@ -1425,7 +1425,7 @@ struct InvalidToLit<'a> {
     map: &'a [Loc],
 }
 impl Fold for InvalidToLit<'_> {
-    fn fold(&mut self, e: Expr) -> Expr {
+    fn fold_expr(&mut self, e: Expr) -> Expr {
         let e = e.fold_children_with(self);
 
         match e {

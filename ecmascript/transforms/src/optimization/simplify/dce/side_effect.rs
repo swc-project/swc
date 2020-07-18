@@ -3,7 +3,7 @@ use fxhash::FxHashSet;
 use swc_atoms::JsWord;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, ExprExt, Id};
-use swc_ecma_visit::Visit;
+use swc_ecma_visit::{Node, Visit, VisitWith};
 
 pub(super) struct ImportDetector {
     found: bool,
@@ -12,7 +12,7 @@ pub(super) struct ImportDetector {
 noop_visit_type!(ImportDetector);
 
 impl Visit for ImportDetector {
-    fn visit(&mut self, _: &ImportDecl) {
+    fn visit_import_decl(&mut self, _: &ImportDecl, _: &dyn Node) {
         self.found = true;
     }
 }
@@ -83,7 +83,7 @@ impl SideEffectVisitor<'_> {
 }
 
 impl Visit for SideEffectVisitor<'_> {
-    fn visit(&mut self, node: &Expr) {
+    fn visit_expr(&mut self, node: &Expr, _: &dyn Node) {
         log::debug!("Visit<Expr>");
 
         if self.found || node.is_pure_callee() {
@@ -98,10 +98,8 @@ impl Visit for SideEffectVisitor<'_> {
 
         node.visit_children_with(self)
     }
-}
 
-impl Visit for SideEffectVisitor<'_> {
-    fn visit(&mut self, node: &AssignExpr) {
+    fn visit_assign_expr(&mut self, node: &AssignExpr, _: &dyn Node) {
         if self.found {
             return;
         }
@@ -115,35 +113,12 @@ impl Visit for SideEffectVisitor<'_> {
             right => right.visit_with(self),
         }
     }
-}
 
-impl Visit for SideEffectVisitor<'_> {
-    fn visit(&mut self, _: &MemberExpr) {
+    fn visit_break_stmt(&mut self, _: &BreakStmt, _: &dyn Node) {
         self.found = true;
-
-        //        if self.found {
-        //            return;
-        //        }
-
-        //        node.obj.visit_with(self);
-        //        if node.computed {
-        //            node.prop.visit_with(self);
-        //        }
     }
-}
 
-impl Visit for SideEffectVisitor<'_> {
-    fn visit(&mut self, node: &Ident) {
-        if self.found {
-            return;
-        }
-
-        self.found |= self.include(&node.to_id());
-    }
-}
-
-impl Visit for SideEffectVisitor<'_> {
-    fn visit(&mut self, node: &CallExpr) {
+    fn visit_call_expr(&mut self, node: &CallExpr, _: &dyn Node) {
         if self.found {
             return;
         }
@@ -155,20 +130,32 @@ impl Visit for SideEffectVisitor<'_> {
 
         self.found = true;
     }
-}
 
-impl Visit for SideEffectVisitor<'_> {
-    fn visit(&mut self, _: &NewExpr) {
-        if self.found {
-            return;
-        }
-
+    fn visit_continue_stmt(&mut self, _: &ContinueStmt, _: &dyn Node) {
         self.found = true;
     }
-}
 
-impl Visit for SideEffectVisitor<'_> {
-    fn visit(&mut self, node: &ExprOrSpread) {
+    fn visit_do_while_stmt(&mut self, _: &DoWhileStmt, _: &dyn Node) {
+        self.found = true;
+    }
+
+    fn visit_export_decl(&mut self, _: &ExportDecl, _: &dyn Node) {
+        self.found = true
+    }
+
+    fn visit_export_default_decl(&mut self, _: &ExportDefaultDecl, _: &dyn Node) {
+        self.found = true;
+    }
+
+    fn visit_export_default_expr(&mut self, _: &ExportDefaultExpr, _: &dyn Node) {
+        self.found = true;
+    }
+
+    fn visit_export_default_specifier(&mut self, _: &ExportDefaultSpecifier, _: &dyn Node) {
+        self.found = true;
+    }
+
+    fn visit_expr_or_spread(&mut self, node: &ExprOrSpread, _: &dyn Node) {
         if self.found {
             return;
         }
@@ -181,70 +168,28 @@ impl Visit for SideEffectVisitor<'_> {
             node.expr.visit_with(self);
         }
     }
-}
 
-impl Visit for SideEffectVisitor<'_> {
-    fn visit(&mut self, _: &ReturnStmt) {
+    fn visit_for_in_stmt(&mut self, _: &ForInStmt, _: &dyn Node) {
         self.found = true;
     }
-}
 
-impl Visit for SideEffectVisitor<'_> {
-    fn visit(&mut self, _: &ThrowStmt) {
+    fn visit_for_of_stmt(&mut self, _: &ForOfStmt, _: &dyn Node) {
         self.found = true;
     }
-}
 
-impl Visit for SideEffectVisitor<'_> {
-    fn visit(&mut self, _: &BreakStmt) {
+    fn visit_for_stmt(&mut self, _: &ForStmt, _: &dyn Node) {
         self.found = true;
     }
-}
 
-impl Visit for SideEffectVisitor<'_> {
-    fn visit(&mut self, _: &ContinueStmt) {
-        self.found = true;
+    fn visit_ident(&mut self, node: &Ident, _: &dyn Node) {
+        if self.found {
+            return;
+        }
+
+        self.found |= self.include(&node.to_id());
     }
-}
 
-impl Visit for SideEffectVisitor<'_> {
-    fn visit(&mut self, _: &ForStmt) {
-        self.found = true;
-    }
-}
-
-impl Visit for SideEffectVisitor<'_> {
-    fn visit(&mut self, _: &ForInStmt) {
-        self.found = true;
-    }
-}
-
-impl Visit for SideEffectVisitor<'_> {
-    fn visit(&mut self, _: &ForOfStmt) {
-        self.found = true;
-    }
-}
-
-impl Visit for SideEffectVisitor<'_> {
-    fn visit(&mut self, _: &WhileStmt) {
-        self.found = true;
-    }
-}
-
-impl Visit for SideEffectVisitor<'_> {
-    fn visit(&mut self, _: &DoWhileStmt) {
-        self.found = true;
-    }
-}
-
-impl Visit for SideEffectVisitor<'_> {
-    fn visit(&mut self, _: &ExportDefaultSpecifier) {
-        self.found = true;
-    }
-}
-
-impl Visit for SideEffectVisitor<'_> {
-    fn visit(&mut self, import: &ImportDecl) {
+    fn visit_import_decl(&mut self, import: &ImportDecl, _: &dyn Node) {
         if self.found {
             return;
         }
@@ -256,34 +201,33 @@ impl Visit for SideEffectVisitor<'_> {
 
         import.visit_children_with(self)
     }
-}
 
-impl Visit for SideEffectVisitor<'_> {
-    fn visit(&mut self, _: &ExportDecl) {
+    fn visit_member_expr(&mut self, _: &MemberExpr, _: &dyn Node) {
+        self.found = true;
+
+        //        if self.found {
+        //            return;
+        //        }
+
+        //        node.obj.visit_with(self);
+        //        if node.computed {
+        //            node.prop.visit_with(self);
+        //        }
+    }
+
+    fn visit_named_export(&mut self, _: &NamedExport, _: &dyn Node) {
         self.found = true
     }
-}
 
-impl Visit for SideEffectVisitor<'_> {
-    fn visit(&mut self, _: &ExportDefaultExpr) {
+    fn visit_new_expr(&mut self, _: &NewExpr, _: &dyn Node) {
+        if self.found {
+            return;
+        }
+
         self.found = true;
     }
-}
 
-impl Visit for SideEffectVisitor<'_> {
-    fn visit(&mut self, _: &NamedExport) {
-        self.found = true
-    }
-}
-
-impl Visit for SideEffectVisitor<'_> {
-    fn visit(&mut self, _: &ExportDefaultDecl) {
-        self.found = true;
-    }
-}
-
-impl Visit for SideEffectVisitor<'_> {
-    fn visit(&mut self, p: &Pat) {
+    fn visit_pat(&mut self, p: &Pat, _: &dyn Node) {
         if self.found {
             return;
         }
@@ -303,5 +247,17 @@ impl Visit for SideEffectVisitor<'_> {
             }
             Pat::Invalid(..) => {}
         }
+    }
+
+    fn visit_return_stmt(&mut self, _: &ReturnStmt, _: &dyn Node) {
+        self.found = true;
+    }
+
+    fn visit_throw_stmt(&mut self, _: &ThrowStmt, _: &dyn Node) {
+        self.found = true;
+    }
+
+    fn visit_while_stmt(&mut self, _: &WhileStmt, _: &dyn Node) {
+        self.found = true;
     }
 }

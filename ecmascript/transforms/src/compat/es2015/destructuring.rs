@@ -6,6 +6,7 @@ use serde::Deserialize;
 use std::iter;
 use swc_common::{Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, FoldWith, VisitWith};
 
 /// `@babel/plugin-transform-destructuring`
 ///
@@ -137,7 +138,7 @@ fn make_ref_ident_for_for_stmt() -> Ident {
 }
 
 impl Fold<Vec<VarDeclarator>> for AssignFolder {
-    fn fold(&mut self, declarators: Vec<VarDeclarator>) -> Vec<VarDeclarator> {
+    fn fold_var_declarators(&mut self, declarators: Vec<VarDeclarator>) -> Vec<VarDeclarator> {
         let declarators = declarators.fold_children_with(self);
 
         let is_complex = declarators.iter().any(|d| match d.name {
@@ -158,7 +159,7 @@ impl Fold<Vec<VarDeclarator>> for AssignFolder {
 }
 
 impl Fold for AssignFolder {
-    fn fold(&mut self, s: Stmt) -> Stmt {
+    fn fold_stmt(&mut self, s: Stmt) -> Stmt {
         match s {
             Stmt::Expr(e) => {
                 self.ignore_return_value = Some(());
@@ -537,7 +538,7 @@ struct AssignFolder {
 }
 
 impl Fold for AssignFolder {
-    fn fold(&mut self, decl: ExportDecl) -> ExportDecl {
+    fn fold_export_decl(&mut self, decl: ExportDecl) -> ExportDecl {
         let old = self.exporting;
         self.exporting = true;
         let decl = decl.fold_children_with(self);

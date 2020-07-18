@@ -282,7 +282,7 @@ swcHelpers._throw()";
         crate::tests::Tester::run(|tester| {
             HELPERS.set(&Helpers::new(true), || {
                 let expected = tester.apply_transform(
-                    ::testing::DropSpan,
+                    DropSpan,
                     "output.js",
                     Default::default(),
                     "import * as swcHelpers1 from '@swc/helpers';

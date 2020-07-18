@@ -1,5 +1,6 @@
 use crate::util::UsageFinder;
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, FoldWith};
 
 /// `@babel/plugin-transform-function-name`
 ///
@@ -47,7 +48,7 @@ fn prepare(i: Ident, force: bool) -> Ident {
 }
 
 impl Fold for FnName {
-    fn fold(&mut self, p: KeyValueProp) -> KeyValueProp {
+    fn fold_key_value_prop(&mut self, p: KeyValueProp) -> KeyValueProp {
         let mut p = p.fold_children_with(self);
 
         p.value = match *p.value {
@@ -70,7 +71,7 @@ impl Fold for FnName {
 }
 
 impl Fold for FnName {
-    fn fold(&mut self, decl: VarDeclarator) -> VarDeclarator {
+    fn fold_var_declarator(&mut self, decl: VarDeclarator) -> VarDeclarator {
         let mut decl = decl.fold_children_with(self);
 
         match decl.name {
@@ -88,7 +89,7 @@ impl Fold for FnName {
 }
 
 impl Fold for FnName {
-    fn fold(&mut self, expr: AssignExpr) -> AssignExpr {
+    fn fold_assign_expr(&mut self, expr: AssignExpr) -> AssignExpr {
         let mut expr = expr.fold_children_with(self);
 
         if expr.op != op!("=") {

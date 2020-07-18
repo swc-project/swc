@@ -15,6 +15,7 @@ use fxhash::FxBuildHasher;
 use std::iter;
 use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
 
 #[macro_use]
 mod macros;
@@ -166,13 +167,13 @@ where
 }
 
 impl Fold for Classes {
-    fn fold(&mut self, n: Decl) -> Decl {
+    fn fold_decl(&mut self, n: Decl) -> Decl {
         fn should_work(node: &Decl) -> bool {
             struct Visitor {
                 found: bool,
             };
             impl Visit for Visitor {
-                fn visit(&mut self, _: &Class) {
+                fn visit_class(&mut self, _: &Class, _: &dyn Node) {
                     self.found = true
                 }
             }
@@ -195,7 +196,7 @@ impl Fold for Classes {
 }
 
 impl Fold for Classes {
-    fn fold(&mut self, n: Expr) -> Expr {
+    fn fold_expr(&mut self, n: Expr) -> Expr {
         let n = validate!(n);
 
         validate!(match n {

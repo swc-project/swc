@@ -337,7 +337,7 @@ impl Fold for MethodFolder {
 }
 
 impl Fold for Actual {
-    fn fold(&mut self, m: ClassMethod) -> ClassMethod {
+    fn fold_class_method(&mut self, m: ClassMethod) -> ClassMethod {
         if m.function.body.is_none() {
             return m;
         }

@@ -59,7 +59,7 @@ impl Hoister {
 }
 
 impl Fold for Hoister {
-    fn fold(&mut self, v: VarDeclOrPat) -> VarDeclOrPat {
+    fn fold_var_decl_or_pat(&mut self, v: VarDeclOrPat) -> VarDeclOrPat {
         match v {
             VarDeclOrPat::Pat(v) => VarDeclOrPat::Pat(v.fold_children_with(self)),
 
@@ -75,13 +75,13 @@ impl Fold for Hoister {
 }
 
 impl Fold for Hoister {
-    fn fold(&mut self, var: VarDecl) -> VarDecl {
+    fn fold_var_decl(&mut self, var: VarDecl) -> VarDecl {
         unreachable!("VarDecl should be removed by other pass: {:?}", var);
     }
 }
 
 impl Fold for Hoister {
-    fn fold(&mut self, var: VarDeclOrExpr) -> VarDeclOrExpr {
+    fn fold_var_declarator(&mut self, var: VarDeclOrExpr) -> VarDeclOrExpr {
         match var {
             VarDeclOrExpr::VarDecl(var) => VarDeclOrExpr::Expr(box self.var_decl_to_expr(var)),
             _ => var.fold_children_with(self),
@@ -90,7 +90,7 @@ impl Fold for Hoister {
 }
 
 impl Fold for Hoister {
-    fn fold(&mut self, s: Stmt) -> Stmt {
+    fn fold_stmt(&mut self, s: Stmt) -> Stmt {
         match s {
             Stmt::Decl(Decl::Var(var)) => {
                 let span = var.span;
@@ -127,7 +127,7 @@ impl Fold for Hoister {
 }
 
 impl Fold for Hoister {
-    fn fold(&mut self, mut e: MemberExpr) -> MemberExpr {
+    fn fold_member_expr(&mut self, mut e: MemberExpr) -> MemberExpr {
         e.obj = e.obj.fold_with(self);
 
         if e.computed {
@@ -139,7 +139,7 @@ impl Fold for Hoister {
 }
 
 impl Fold for Hoister {
-    fn fold(&mut self, e: Expr) -> Expr {
+    fn fold_expr(&mut self, e: Expr) -> Expr {
         let e = e.fold_children_with(self);
 
         match e {

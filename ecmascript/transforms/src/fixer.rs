@@ -124,7 +124,7 @@ impl Fold for Fixer {
 }
 
 impl Fold for Fixer {
-    fn fold(&mut self, stmt: Stmt) -> Stmt {
+    fn fold_stmt(&mut self, stmt: Stmt) -> Stmt {
         let stmt = match stmt {
             Stmt::Expr(expr) => {
                 let old = self.ctx;

@@ -59,7 +59,7 @@ where
 }
 
 impl Fold for ActualFolder {
-    fn fold(&mut self, e: Expr) -> Expr {
+    fn fold_expr(&mut self, e: Expr) -> Expr {
         let e = validate!(e.fold_children_with(self));
 
         match e {

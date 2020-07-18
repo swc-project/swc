@@ -251,7 +251,7 @@ impl Fold for Dce<'_> {
 }
 
 impl Fold for Dce<'_> {
-    fn fold(&mut self, mut node: ForOfStmt) -> ForOfStmt {
+    fn fold_for_of_stmt(&mut self, mut node: ForOfStmt) -> ForOfStmt {
         if self.is_marked(node.span) {
             return node;
         }

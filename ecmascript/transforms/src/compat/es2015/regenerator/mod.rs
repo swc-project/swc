@@ -4,7 +4,7 @@ use std::mem::replace;
 use swc_atoms::js_word;
 use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, Visit, VisitWith};
+use swc_ecma_visit::{Fold, FoldWith, Visit, VisitWith};
 
 mod case;
 mod hoist;
@@ -53,7 +53,7 @@ fn rt(global_mark: Mark, rt: Ident) -> Stmt {
 
 /// Injects `var _regeneratorRuntime = require('regenerator-runtime');`
 impl Fold for Regenerator {
-    fn fold(&mut self, m: Module) -> Module {
+    fn fold_module(&mut self, m: Module) -> Module {
         let mut m: Module = m.fold_children_with(self);
         if let Some(rt_ident) = self.regenerator_runtime.take() {
             prepend(&mut m.body, rt(self.global_mark, rt_ident).into());
@@ -64,7 +64,7 @@ impl Fold for Regenerator {
 
 /// Injects `var _regeneratorRuntime = require('regenerator-runtime');`
 impl Fold for Regenerator {
-    fn fold(&mut self, s: Script) -> Script {
+    fn fold_script(&mut self, s: Script) -> Script {
         let mut s: Script = s.fold_children_with(self);
         if let Some(rt_ident) = self.regenerator_runtime.take() {
             prepend(&mut s.body, rt(self.global_mark, rt_ident).into());
@@ -108,7 +108,7 @@ where
 }
 
 impl Fold for Regenerator {
-    fn fold(&mut self, p: Prop) -> Prop {
+    fn fold_prop(&mut self, p: Prop) -> Prop {
         let p = p.fold_children_with(self);
 
         match p {
@@ -165,7 +165,7 @@ impl Fold for Regenerator {
 }
 
 impl Fold for Regenerator {
-    fn fold(&mut self, e: Expr) -> Expr {
+    fn fold_expr(&mut self, e: Expr) -> Expr {
         if !Finder::find(&e) {
             return e;
         }
@@ -203,7 +203,7 @@ impl Fold for Regenerator {
 }
 
 impl Fold for Regenerator {
-    fn fold(&mut self, f: FnDecl) -> FnDecl {
+    fn fold_fn_decl(&mut self, f: FnDecl) -> FnDecl {
         if !Finder::find(&f) {
             return f;
         }
@@ -244,7 +244,7 @@ impl Fold for Regenerator {
 }
 
 impl Fold for Regenerator {
-    fn fold(&mut self, i: ModuleDecl) -> ModuleDecl {
+    fn fold_module_decl(&mut self, i: ModuleDecl) -> ModuleDecl {
         if !Finder::find(&i) {
             return i;
         }
@@ -481,7 +481,7 @@ struct FnSentVisitor {
 }
 
 impl Fold for FnSentVisitor {
-    fn fold(&mut self, e: Expr) -> Expr {
+    fn fold_expr(&mut self, e: Expr) -> Expr {
         let e: Expr = e.fold_children_with(self);
 
         match e {

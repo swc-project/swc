@@ -8,6 +8,7 @@ use std::{cell::RefCell, collections::HashMap};
 use swc_atoms::JsWord;
 use swc_common::{chain, Span, SyntaxContext};
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, FoldWith};
 
 mod ops;
 #[cfg(test)]
@@ -137,7 +138,7 @@ pub fn hygiene() -> impl Fold + 'static {
     #[derive(Clone, Copy)]
     struct MarkClearer;
     impl Fold for MarkClearer {
-        fn fold(&mut self, span: Span) -> Span {
+        fn fold_span(&mut self, span: Span) -> Span {
             span.with_ctxt(SyntaxContext::empty())
         }
     }
@@ -166,15 +167,13 @@ impl<'a> Hygiene<'a> {
 }
 
 impl<'a> Fold for Hygiene<'a> {
-    fn fold(&mut self, module: Module) -> Module {
+    fn fold_module(&mut self, module: Module) -> Module {
         let module = validate!(module.fold_children_with(self));
 
         validate!(self.apply_ops(module))
     }
-}
 
-impl<'a> Fold for Hygiene<'a> {
-    fn fold(&mut self, node: TryStmt) -> TryStmt {
+    fn fold_try_stmt(&mut self, node: TryStmt) -> TryStmt {
         TryStmt {
             span: node.span,
             block: node.block.fold_children_with(self),
@@ -182,10 +181,8 @@ impl<'a> Fold for Hygiene<'a> {
             finalizer: node.finalizer.fold_children_with(self),
         }
     }
-}
 
-impl<'a> Fold for Hygiene<'a> {
-    fn fold(&mut self, node: BlockStmt) -> BlockStmt {
+    fn fold_block_stmt(&mut self, node: BlockStmt) -> BlockStmt {
         let mut folder = Hygiene {
             current: Scope::new(ScopeKind::Block, Some(&self.current)),
             ident_type: IdentType::Ref,
@@ -194,10 +191,8 @@ impl<'a> Fold for Hygiene<'a> {
 
         folder.apply_ops(node)
     }
-}
 
-impl Fold for Hygiene<'_> {
-    fn fold(&mut self, node: ObjectLit) -> ObjectLit {
+    fn fold_object_lit(&mut self, node: ObjectLit) -> ObjectLit {
         let mut folder = Hygiene {
             current: Scope::new(ScopeKind::Block, Some(&self.current)),
             ident_type: IdentType::Ref,
@@ -236,7 +231,7 @@ impl<'a> Hygiene<'a> {
 }
 
 impl<'a> Fold for Hygiene<'a> {
-    fn fold(&mut self, decl: VarDeclarator) -> VarDeclarator {
+    fn fold_var_declarator(&mut self, decl: VarDeclarator) -> VarDeclarator {
         let old = self.ident_type;
         self.ident_type = IdentType::Binding;
         let name = decl.name.fold_with(self);
@@ -245,27 +240,21 @@ impl<'a> Fold for Hygiene<'a> {
         let init = decl.init.fold_with(self);
         VarDeclarator { name, init, ..decl }
     }
-}
 
-impl<'a> Fold for Hygiene<'a> {
-    fn fold(&mut self, mut node: FnExpr) -> FnExpr {
+    fn fold_fn_expr(&mut self, mut node: FnExpr) -> FnExpr {
         node.function = self.fold_fn(node.ident.clone(), node.function);
 
         node
     }
-}
 
-impl<'a> Fold for Hygiene<'a> {
-    fn fold(&mut self, mut node: FnDecl) -> FnDecl {
+    fn fold_fn_decl(&mut self, mut node: FnDecl) -> FnDecl {
         node.function = self.fold_fn(Some(node.ident.clone()), node.function);
 
         node
     }
-}
 
-impl<'a> Fold for Hygiene<'a> {
     /// Invoked for `IdetifierRefrence` / `BindingIdentifier`
-    fn fold(&mut self, i: Ident) -> Ident {
+    fn fold_ident(&mut self, i: Ident) -> Ident {
         if i.sym == js_word!("arguments") || i.sym == js_word!("undefined") {
             return i;
         }
@@ -288,10 +277,8 @@ impl<'a> Fold for Hygiene<'a> {
 
         i
     }
-}
 
-impl<'a> Fold for Hygiene<'a> {
-    fn fold(&mut self, node: Expr) -> Expr {
+    fn fold_expr(&mut self, node: Expr) -> Expr {
         let old = self.ident_type;
         self.ident_type = IdentType::Ref;
         let node = match node {
@@ -467,7 +454,7 @@ impl<'a> Scope<'a> {
 }
 
 impl Fold for Hygiene<'_> {
-    fn fold(&mut self, c: Constructor) -> Constructor {
+    fn fold_constructor(&mut self, c: Constructor) -> Constructor {
         let old = self.ident_type;
         self.ident_type = IdentType::Binding;
         let params = c.params.fold_with(self);
@@ -489,52 +476,43 @@ impl Fold for Hygiene<'_> {
 
 #[macro_export]
 macro_rules! track_ident {
-    ($T:tt) => {
-        impl<'a> Fold for $T<'a> {
-            fn fold(&mut self, s: ExportSpecifier) -> ExportSpecifier {
-                let old = self.ident_type;
-                self.ident_type = IdentType::Ref;
-
-                let s = s.fold_children_with(self);
-
-                self.ident_type = old;
-
-                s
-            }
+    () => {
+        fn fold_export_specifier(&mut self, s: ExportSpecifier) -> ExportSpecifier {
+            let old = self.ident_type;
+            self.ident_type = IdentType::Ref;
+            let s = s.fold_children_with(self);
+            self.ident_type = old;
+            s
         }
 
-        impl<'a> Fold for $T<'a> {
-            fn fold(&mut self, s: ImportSpecifier) -> ImportSpecifier {
-                let old = self.ident_type;
-                self.ident_type = IdentType::Binding;
+        fn fold_import_specifier(&mut self, s: ImportSpecifier) -> ImportSpecifier {
+            let old = self.ident_type;
+            self.ident_type = IdentType::Binding;
 
-                let s = match s {
-                    ImportSpecifier::Named(ImportNamedSpecifier { imported: None, .. })
-                    | ImportSpecifier::Namespace(..)
-                    | ImportSpecifier::Default(..) => s.fold_children_with(self),
-                    ImportSpecifier::Named(s) => ImportSpecifier::Named(ImportNamedSpecifier {
-                        local: s.local.fold_with(self),
-                        ..s
-                    }),
-                };
+            let s = match s {
+                ImportSpecifier::Named(ImportNamedSpecifier { imported: None, .. })
+                | ImportSpecifier::Namespace(..)
+                | ImportSpecifier::Default(..) => s.fold_children_with(self),
+                ImportSpecifier::Named(s) => ImportSpecifier::Named(ImportNamedSpecifier {
+                    local: s.local.fold_with(self),
+                    ..s
+                }),
+            };
 
-                self.ident_type = old;
+            self.ident_type = old;
 
-                s
-            }
+            s
         }
 
-        impl<'a> Fold for $T<'a> {
-            fn fold(&mut self, f: SetterProp) -> SetterProp {
-                let old = self.ident_type;
-                self.ident_type = IdentType::Binding;
-                let param = f.param.fold_with(self);
-                self.ident_type = old;
+        fn fold_setter_prop(&mut self, f: SetterProp) -> SetterProp {
+            let old = self.ident_type;
+            self.ident_type = IdentType::Binding;
+            let param = f.param.fold_with(self);
+            self.ident_type = old;
 
-                let body = f.body.fold_with(self);
+            let body = f.body.fold_with(self);
 
-                SetterProp { param, body, ..f }
-            }
+            SetterProp { param, body, ..f }
         }
 
         // impl<'a> Fold for $T<'a> {
@@ -545,118 +523,102 @@ macro_rules! track_ident {
         //     }
         // }
 
-        impl<'a> Fold for $T<'a> {
-            fn fold(&mut self, s: LabeledStmt) -> LabeledStmt {
-                let old = self.ident_type;
-                self.ident_type = IdentType::Label;
-                let label = s.label.fold_with(self);
-                self.ident_type = old;
+        fn fold_labeled_stmt(&mut self, s: LabeledStmt) -> LabeledStmt {
+            let old = self.ident_type;
+            self.ident_type = IdentType::Label;
+            let label = s.label.fold_with(self);
+            self.ident_type = old;
 
-                let body = s.body.fold_with(self);
+            let body = s.body.fold_with(self);
 
-                LabeledStmt { label, body, ..s }
+            LabeledStmt { label, body, ..s }
+        }
+
+        fn fold_break_stmt(&mut self, s: BreakStmt) -> BreakStmt {
+            let old = self.ident_type;
+            self.ident_type = IdentType::Label;
+            let label = s.label.fold_with(self);
+            self.ident_type = old;
+
+            BreakStmt { label, ..s }
+        }
+
+        fn fold_continue_stmt(&mut self, s: ContinueStmt) -> ContinueStmt {
+            let old = self.ident_type;
+            self.ident_type = IdentType::Label;
+            let label = s.label.fold_with(self);
+            self.ident_type = old;
+
+            ContinueStmt { label, ..s }
+        }
+
+        fn fold_class_decl(&mut self, n: ClassDecl) -> ClassDecl {
+            let old = self.ident_type;
+            self.ident_type = IdentType::Binding;
+            let ident = n.ident.fold_with(self);
+            self.ident_type = old;
+
+            let class = n.class.fold_with(self);
+
+            ClassDecl { ident, class, ..n }
+        }
+
+        fn fold_class_expr(&mut self, n: ClassExpr) -> ClassExpr {
+            let old = self.ident_type;
+            self.ident_type = IdentType::Binding;
+            let ident = n.ident.fold_with(self);
+            self.ident_type = old;
+
+            let class = n.class.fold_with(self);
+
+            ClassExpr { ident, class, ..n }
+        }
+
+        fn fold_key_value_pat_prop(&mut self, n: KeyValuePatProp) -> KeyValuePatProp {
+            KeyValuePatProp {
+                key: n.key.fold_with(self),
+                value: n.value.fold_with(self),
+                ..n
             }
         }
 
-        impl<'a> Fold for $T<'a> {
-            fn fold(&mut self, s: BreakStmt) -> BreakStmt {
-                let old = self.ident_type;
-                self.ident_type = IdentType::Label;
-                let label = s.label.fold_with(self);
-                self.ident_type = old;
+        fn fold_class(&mut self, c: Class) -> Class {
+            let old = self.ident_type;
+            self.ident_type = IdentType::Ref;
+            let decorators = c.decorators.fold_with(self);
+            self.ident_type = IdentType::Ref;
+            let super_class = c.super_class.fold_with(self);
+            self.ident_type = IdentType::Ref;
+            let implements = c.implements.fold_with(self);
+            self.ident_type = old;
 
-                BreakStmt { label, ..s }
+            let body = c.body.fold_with(self);
+
+            Class {
+                span: c.span,
+                decorators,
+                is_abstract: c.is_abstract,
+                implements,
+                body,
+                super_class,
+                type_params: c.type_params,
+                super_type_params: c.super_type_params,
             }
         }
 
-        impl<'a> Fold for $T<'a> {
-            fn fold(&mut self, s: ContinueStmt) -> ContinueStmt {
-                let old = self.ident_type;
-                self.ident_type = IdentType::Label;
-                let label = s.label.fold_with(self);
-                self.ident_type = old;
-
-                ContinueStmt { label, ..s }
-            }
-        }
-
-        impl<'a> Fold for $T<'a> {
-            fn fold(&mut self, n: ClassDecl) -> ClassDecl {
-                let old = self.ident_type;
-                self.ident_type = IdentType::Binding;
-                let ident = n.ident.fold_with(self);
-                self.ident_type = old;
-
-                let class = n.class.fold_with(self);
-
-                ClassDecl { ident, class, ..n }
-            }
-        }
-
-        impl<'a> Fold for $T<'a> {
-            fn fold(&mut self, n: ClassExpr) -> ClassExpr {
-                let old = self.ident_type;
-                self.ident_type = IdentType::Binding;
-                let ident = n.ident.fold_with(self);
-                self.ident_type = old;
-
-                let class = n.class.fold_with(self);
-
-                ClassExpr { ident, class, ..n }
-            }
-        }
-
-        impl<'a> Fold for $T<'a> {
-            fn fold(&mut self, n: KeyValuePatProp) -> KeyValuePatProp {
-                KeyValuePatProp {
-                    key: n.key.fold_with(self),
-                    value: n.value.fold_with(self),
-                    ..n
-                }
-            }
-        }
-
-        impl Fold for $T<'_> {
-            fn fold(&mut self, c: Class) -> Class {
-                let old = self.ident_type;
-                self.ident_type = IdentType::Ref;
-                let decorators = c.decorators.fold_with(self);
-                self.ident_type = IdentType::Ref;
-                let super_class = c.super_class.fold_with(self);
-                self.ident_type = IdentType::Ref;
-                let implements = c.implements.fold_with(self);
-                self.ident_type = old;
-
-                let body = c.body.fold_with(self);
-
-                Class {
-                    span: c.span,
-                    decorators,
-                    is_abstract: c.is_abstract,
-                    implements,
-                    body,
-                    super_class,
-                    type_params: c.type_params,
-                    super_type_params: c.super_type_params,
-                }
-            }
-        }
-
-        impl Fold for $T<'_> {
-            fn fold(&mut self, n: PropName) -> PropName {
-                match n {
-                    PropName::Computed(c) => PropName::Computed(c.fold_with(self)),
-                    _ => n,
-                }
+        fn fold_prop_name(&mut self, n: PropName) -> PropName {
+            match n {
+                PropName::Computed(c) => PropName::Computed(c.fold_with(self)),
+                _ => n,
             }
         }
     };
 }
 
-track_ident!(Hygiene);
-
 impl<'a> Fold for Hygiene<'a> {
-    fn fold(&mut self, mut node: ArrowExpr) -> ArrowExpr {
+    track_ident!();
+
+    fn fold_arrow_expr(&mut self, mut node: ArrowExpr) -> ArrowExpr {
         let mut folder = Hygiene {
             current: Scope::new(ScopeKind::Fn, Some(&self.current)),
             ident_type: IdentType::Ref,
@@ -673,7 +635,7 @@ impl<'a> Fold for Hygiene<'a> {
 }
 
 impl Fold for Hygiene<'_> {
-    fn fold(&mut self, c: CatchClause) -> CatchClause {
+    fn fold_catch_clause(&mut self, c: CatchClause) -> CatchClause {
         let mut folder = Hygiene {
             current: Scope::new(ScopeKind::Fn, Some(&self.current)),
             ident_type: IdentType::Ref,

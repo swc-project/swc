@@ -5,7 +5,7 @@ use swc_atoms::JsWord;
 use swc_common::{Mark, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::quote_ident;
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
 
 pub(super) struct SuperCallFinder {
     mode: Option<SuperFoldingMode>,
@@ -43,23 +43,22 @@ impl SuperCallFinder {
 }
 
 macro_rules! mark_as_complex {
-    ($T:ty) => {
-        impl Visit<$T> for SuperCallFinder {
-            fn visit(&mut self, node: &$T) {
-                let old = self.in_complex;
-                self.in_complex = true;
-                node.visit_children_with(self);
-                self.in_complex = old;
-            }
+    ($name:ident, $T:ty) => {
+        fn $name(&mut self, node: &$T) {
+            let old = self.in_complex;
+            self.in_complex = true;
+            node.visit_children_with(self);
+            self.in_complex = old;
         }
     };
 }
-mark_as_complex!(ArrowExpr);
-mark_as_complex!(IfStmt);
-mark_as_complex!(PropName);
 
 impl Visit for SuperCallFinder {
-    fn visit(&mut self, node: &AssignExpr) {
+    mark_as_complex!(visit_arrow_expr, ArrowExpr);
+    mark_as_complex!(visit_if_stmt, IfStmt);
+    mark_as_complex!(visit_prop_name, PropName);
+
+    fn visit_assign_expr(&mut self, node: &AssignExpr, _: &dyn Node) {
         node.left.visit_with(self);
 
         let old = self.in_complex;
@@ -70,7 +69,7 @@ impl Visit for SuperCallFinder {
 }
 
 impl Visit for SuperCallFinder {
-    fn visit(&mut self, e: &MemberExpr) {
+    fn visit_member_expr(&mut self, e: &MemberExpr, _: &dyn Node) {
         e.visit_children_with(self);
 
         match e.obj {
@@ -87,7 +86,7 @@ impl Visit for SuperCallFinder {
 }
 
 impl Visit for SuperCallFinder {
-    fn visit(&mut self, e: &CallExpr) {
+    fn visit_call_expr(&mut self, e: &CallExpr, _: &dyn Node) {
         match e.callee {
             ExprOrSuper::Super(..) => match self.mode {
                 None if !self.in_complex => self.mode = Some(SuperFoldingMode::Var),
@@ -107,12 +106,12 @@ impl Visit for SuperCallFinder {
 
 /// Don't recurse into class declaration.
 impl Visit for SuperCallFinder {
-    fn visit(&mut self, _: &Class) {}
+    fn visit_class(&mut self, _: &Class, _: &dyn Node) {}
 }
 
 /// Don't recurse into funcrion.
 impl Visit for SuperCallFinder {
-    fn visit(&mut self, _: &Function) {}
+    fn visit_function(&mut self, _: &Function, _: &dyn Node) {}
 }
 
 pub(super) fn constructor_fn(c: Constructor) -> Function {
@@ -166,7 +165,7 @@ pub(super) enum SuperFoldingMode {
 }
 
 impl<'a> Fold for ConstructorFolder<'a> {
-    fn fold(&mut self, stmt: Stmt) -> Stmt {
+    fn fold_stmt(&mut self, stmt: Stmt) -> Stmt {
         let stmt = stmt.fold_children_with(self);
 
         match stmt {
@@ -219,7 +218,7 @@ impl<'a> Fold for ConstructorFolder<'a> {
 }
 
 impl<'a> Fold for ConstructorFolder<'a> {
-    fn fold(&mut self, stmt: ReturnStmt) -> ReturnStmt {
+    fn fold_return_stmt(&mut self, stmt: ReturnStmt) -> ReturnStmt {
         if self.ignore_return {
             return stmt;
         }
@@ -405,7 +404,7 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: Constructor) -> (Constr
     }
 
     impl Fold for Replacer {
-        fn fold(&mut self, n: Class) -> Class {
+        fn fold_class(&mut self, n: Class) -> Class {
             n
         }
     }
@@ -434,7 +433,7 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: Constructor) -> (Constr
     }
 
     impl Fold for Replacer {
-        fn fold(
+        fn fold_member_expr(
             &mut self,
             MemberExpr {
                 span,

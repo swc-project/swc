@@ -7,7 +7,7 @@ use smallvec::SmallVec;
 use std::mem::replace;
 use swc_common::{util::move_map::MoveMap, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{Fold, FoldWith, VisitWith};
 
 #[derive(Debug, Default)]
 pub(super) struct Legacy {
@@ -106,7 +106,7 @@ where
     }
 }
 impl Fold for Legacy {
-    fn fold(&mut self, item: ModuleItem) -> ModuleItem {
+    fn fold_module_item(&mut self, item: ModuleItem) -> ModuleItem {
         let item: ModuleItem = item.fold_children_with(self);
 
         match item {

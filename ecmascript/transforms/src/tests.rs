@@ -189,7 +189,7 @@ pub(crate) fn test_transform<F, P>(
 {
     crate::tests::Tester::run(|tester| {
         let expected =
-            tester.apply_transform(::testing::DropSpan, "output.js", syntax, expected)?;
+            tester.apply_transform(::swc_ecma_utils::DropSpan, "output.js", syntax, expected)?;
 
         println!("----- Actual -----");
 

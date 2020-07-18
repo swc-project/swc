@@ -79,11 +79,8 @@ struct Scope {
     imported: HashMap<JsWord, Arc<Expr>>,
 }
 
-impl Fold for ConstModules
-where
-    Vec<ModuleItem>: FoldWith<Self>,
-{
-    fn fold(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
+impl Fold for ConstModules {
+    fn fold_module_items(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
         items.move_flat_map(|item| match item {
             ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
                 let entry = self.globals.get(&import.src.value);

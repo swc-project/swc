@@ -1,14 +1,15 @@
 use crate::util::UsageFinder;
 use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_visit::Fold;
 
 #[derive(Clone, Copy)]
 pub struct BlockScopedFns;
 
 noop_fold_type!(BlockScopedFns);
 
-impl Fold<Vec<Stmt>> for BlockScopedFns {
-    fn fold(&mut self, items: Vec<Stmt>) -> Vec<Stmt> {
+impl Fold for BlockScopedFns {
+    fn fold_stmts(&mut self, items: Vec<Stmt>) -> Vec<Stmt> {
         let mut stmts = Vec::with_capacity(items.len());
         let mut extra_stmts = Vec::with_capacity(items.len());
 

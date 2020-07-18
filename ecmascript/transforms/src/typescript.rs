@@ -4,7 +4,7 @@ use swc_atoms::js_word;
 use swc_common::{util::move_map::MoveMap, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
-use swc_ecma_visit::Fold;
+use swc_ecma_visit::{Fold, FoldWith};
 
 /// Strips type annotations out.
 pub fn strip() -> impl Fold {
@@ -109,13 +109,11 @@ impl Strip {
 }
 
 impl Fold for Strip {
-    fn fold(&mut self, node: TsTypeAliasDecl) -> TsTypeAliasDecl {
+    fn fold_ts_type_alias_decl(&mut self, node: TsTypeAliasDecl) -> TsTypeAliasDecl {
         self.add_types(node)
     }
-}
 
-impl Fold for Strip {
-    fn fold(&mut self, c: Constructor) -> Constructor {
+    fn fold_constructor(&mut self, c: Constructor) -> Constructor {
         let c = c.fold_children_with(self);
 
         let mut stmts = vec![];
@@ -181,7 +179,7 @@ impl Fold for Strip {
 }
 
 impl Fold<Vec<ClassMember>> for Strip {
-    fn fold(&mut self, members: Vec<ClassMember>) -> Vec<ClassMember> {
+    fn fold_class_members(&mut self, members: Vec<ClassMember>) -> Vec<ClassMember> {
         let members = members.fold_children_with(self);
 
         members.move_flat_map(|member| match member {
@@ -838,7 +836,7 @@ impl Fold for Strip {
 }
 
 impl Fold for Strip {
-    fn fold(&mut self, node: Class) -> Class {
+    fn fold_class(&mut self, node: Class) -> Class {
         Class {
             span: node.span,
             is_abstract: false,
@@ -863,7 +861,7 @@ impl Fold for Strip {
 }
 
 impl Fold for Strip {
-    fn fold(&mut self, decl: Decl) -> Decl {
+    fn fold_decl(&mut self, decl: Decl) -> Decl {
         let decl = validate!(decl);
         self.handle_decl(&decl);
 
@@ -876,7 +874,7 @@ impl Fold for Strip {
 }
 
 impl Fold for Strip {
-    fn fold(&mut self, stmt: Stmt) -> Stmt {
+    fn fold_stmt(&mut self, stmt: Stmt) -> Stmt {
         let stmt = stmt.fold_children_with(self);
 
         match stmt {
@@ -918,7 +916,7 @@ macro_rules! type_to_none {
 }
 
 impl Fold<Option<Accessibility>> for Strip {
-    fn fold(&mut self, _: Option<Accessibility>) -> Option<Accessibility> {
+    fn fold_opt_accessibility(&mut self, _: Option<Accessibility>) -> Option<Accessibility> {
         None
     }
 }
@@ -961,14 +959,6 @@ impl Fold for Strip {
         };
 
         expr
-    }
-}
-
-impl Fold for Strip {
-    fn fold(&mut self, node: Module) -> Module {
-        let node = validate!(node);
-
-        validate!(node.fold_children_with(self))
     }
 }
 

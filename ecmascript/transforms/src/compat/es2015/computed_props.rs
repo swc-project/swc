@@ -1,6 +1,7 @@
 use crate::util::{ExprFactory, StmtLike};
 use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
 
 /// `@babel/plugin-transform-computed-properties`
 ///
@@ -275,7 +276,7 @@ struct ComplexVisitor {
 }
 
 impl Visit for ComplexVisitor {
-    fn visit(&mut self, pn: &PropName) {
+    fn visit_prop_name(&mut self, pn: &PropName, _: &dyn Node) {
         match *pn {
             PropName::Computed(..) => self.found = true,
             _ => {}
@@ -350,7 +351,7 @@ struct ShouldWork {
 }
 
 impl Visit for ShouldWork {
-    fn visit(&mut self, node: &PropName) {
+    fn visit_prop_name(&mut self, node: &PropName) {
         match *node {
             PropName::Computed(_) => self.found = true,
             _ => {}

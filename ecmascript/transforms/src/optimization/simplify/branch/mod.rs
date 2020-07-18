@@ -850,7 +850,7 @@ impl Fold for Remover {
 }
 
 impl Fold for Remover {
-    fn fold(&mut self, p: ObjectPat) -> ObjectPat {
+    fn fold_object_pat(&mut self, p: ObjectPat) -> ObjectPat {
         let mut p = p.fold_children_with(self);
 
         // Don't remove if there exists a rest pattern
@@ -888,7 +888,7 @@ impl Fold for Remover {
 }
 
 impl Fold for Remover {
-    fn fold(&mut self, p: ObjectPatProp) -> ObjectPatProp {
+    fn fold_object_pat_prop(&mut self, p: ObjectPatProp) -> ObjectPatProp {
         let p = p.fold_children_with(self);
 
         match p {
@@ -921,7 +921,7 @@ impl Fold for Remover {
 }
 
 impl Fold for Remover {
-    fn fold(&mut self, s: SwitchStmt) -> SwitchStmt {
+    fn fold_switch_stmt(&mut self, s: SwitchStmt) -> SwitchStmt {
         let s: SwitchStmt = s.fold_children_with(self);
 
         if s.cases.iter().all(|case| {
@@ -942,7 +942,7 @@ impl Fold for Remover {
 }
 
 impl Fold for Remover {
-    fn fold(&mut self, e: SeqExpr) -> SeqExpr {
+    fn fold_seq_expr(&mut self, e: SeqExpr) -> SeqExpr {
         let mut e: SeqExpr = e.fold_children_with(self);
         if e.exprs.is_empty() {
             return e;
@@ -957,7 +957,7 @@ impl Fold for Remover {
 }
 
 impl Fold for Remover {
-    fn fold(&mut self, e: Expr) -> Expr {
+    fn fold_expr(&mut self, e: Expr) -> Expr {
         let e: Expr = e.fold_children_with(self);
 
         match e {
@@ -1018,7 +1018,7 @@ impl Fold for Remover {
 }
 
 impl Fold for Remover {
-    fn fold(&mut self, s: ForStmt) -> ForStmt {
+    fn fold_for_stmt(&mut self, s: ForStmt) -> ForStmt {
         let s = s.fold_children_with(self);
 
         ForStmt {
