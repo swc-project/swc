@@ -18,7 +18,7 @@ impl Fold<ExprStmt> for Dce<'_> {
             return stmt;
         }
 
-        node.fold_children(self)
+        node.fold_children_with(self)
     }
 }
 
@@ -45,7 +45,7 @@ impl Fold<IfStmt> for Dce<'_> {
             return node;
         }
 
-        let mut node: IfStmt = node.fold_children(self);
+        let mut node: IfStmt = node.fold_children_with(self);
 
         if self.is_marked(node.test.span())
             || self.is_marked(node.cons.span())
@@ -69,7 +69,7 @@ impl Fold<ReturnStmt> for Dce<'_> {
         }
         node.span = node.span.apply_mark(self.config.used_mark);
 
-        let mut node = node.fold_children(self);
+        let mut node = node.fold_children_with(self);
 
         if self.is_marked(node.arg.span()) {
             node.arg = self.fold_in_marking_phase(node.arg)
@@ -86,7 +86,7 @@ impl Fold<ThrowStmt> for Dce<'_> {
         }
         node.span = node.span.apply_mark(self.config.used_mark);
 
-        let mut node = node.fold_children(self);
+        let mut node = node.fold_children_with(self);
 
         if self.is_marked(node.arg.span()) {
             node.arg = self.fold_in_marking_phase(node.arg)
@@ -119,7 +119,7 @@ impl Fold<SwitchStmt> for Dce<'_> {
             return node;
         }
 
-        node = node.fold_children(self);
+        node = node.fold_children_with(self);
 
         // TODO: Handle fallthrough
         //  Drop useless switch case.
@@ -144,7 +144,7 @@ impl Fold<SwitchCase> for Dce<'_> {
             return node;
         }
 
-        node = node.fold_children(self);
+        node = node.fold_children_with(self);
 
         if self.is_marked(node.test.span()) || node.cons.iter().any(|v| self.is_marked(v.span())) {
             node.span = node.span.apply_mark(self.config.used_mark);
@@ -163,7 +163,7 @@ impl Fold<TryStmt> for Dce<'_> {
             return node;
         }
 
-        node = node.fold_children(self);
+        node = node.fold_children_with(self);
 
         if self.is_marked(node.block.span())
             || self.is_marked(node.handler.span())
@@ -186,7 +186,7 @@ impl Fold<WhileStmt> for Dce<'_> {
             return node;
         }
 
-        node = node.fold_children(self);
+        node = node.fold_children_with(self);
 
         if self.is_marked(node.test.span()) || self.is_marked(node.body.span()) {
             node.span = node.span.apply_mark(self.config.used_mark);
@@ -205,7 +205,7 @@ impl Fold<DoWhileStmt> for Dce<'_> {
             return node;
         }
 
-        node = node.fold_children(self);
+        node = node.fold_children_with(self);
 
         if self.is_marked(node.test.span()) || self.is_marked(node.body.span()) {
             node.span = node.span.apply_mark(self.config.used_mark);
@@ -224,7 +224,7 @@ impl Fold<ForStmt> for Dce<'_> {
             return node;
         }
 
-        node = node.fold_children(self);
+        node = node.fold_children_with(self);
 
         if node.test.is_none()
             || self.is_marked(node.init.span())

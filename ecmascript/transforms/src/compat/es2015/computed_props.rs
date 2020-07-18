@@ -50,7 +50,7 @@ struct ObjectLitFolder {
 impl Fold<Expr> for ObjectLitFolder {
     fn fold(&mut self, expr: Expr) -> Expr {
         let expr = validate!(expr);
-        let expr = expr.fold_children(self);
+        let expr = expr.fold_children_with(self);
 
         match expr {
             Expr::Object(ObjectLit { mut props, span }) => {
@@ -265,7 +265,7 @@ impl Fold<Expr> for ObjectLitFolder {
 
 fn is_complex<T: VisitWith<ComplexVisitor>>(node: &T) -> bool {
     let mut visitor = ComplexVisitor::default();
-    node.visit_children(&mut visitor);
+    node.visit_children_with(&mut visitor);
     visitor.found
 }
 
@@ -293,7 +293,7 @@ where
             return stmts;
         }
 
-        // let stmts = stmts.fold_children(self);
+        // let stmts = stmts.fold_children_with(self);
         let mut buf = Vec::with_capacity(stmts.len());
 
         for stmt in stmts {

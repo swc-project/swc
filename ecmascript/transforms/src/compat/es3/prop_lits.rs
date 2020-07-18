@@ -36,13 +36,13 @@ noop_fold_type!(PropertyLiteral);
 
 impl Fold<Module> for PropertyLiteral {
     fn fold(&mut self, node: Module) -> Module {
-        validate!(node.fold_children(self))
+        validate!(node.fold_children_with(self))
     }
 }
 
 impl Fold<PropName> for PropertyLiteral {
     fn fold(&mut self, n: PropName) -> PropName {
-        let n = validate!(n.fold_children(self));
+        let n = validate!(n.fold_children_with(self));
 
         match n {
             PropName::Str(Str {

@@ -65,7 +65,7 @@ impl<'a> Fold for Injector<'a> {
                     injected: false,
                     exprs: self.exprs,
                 };
-                let stmt = stmt.fold_children(&mut folder);
+                let stmt = stmt.fold_children_with(&mut folder);
                 self.injected |= folder.injected;
                 if folder.injected {
                     buf.push(stmt);
@@ -120,7 +120,7 @@ impl Fold for ExprInjector<'_> {
     }
 
     fn fold_expr(&mut self, expr: Expr) -> Expr {
-        let expr = expr.fold_children(self);
+        let expr = expr.fold_children_with(self);
 
         match expr {
             Expr::Call(CallExpr {

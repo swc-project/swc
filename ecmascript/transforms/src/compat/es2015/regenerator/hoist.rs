@@ -29,7 +29,7 @@ noop_fold_type!(Hoister);
 
 impl Hoister {
     fn var_decl_to_expr(&mut self, var: VarDecl) -> Expr {
-        let var = var.fold_children(self);
+        let var = var.fold_children_with(self);
 
         let ids = find_ids(&var);
         self.vars.extend(ids);
@@ -60,7 +60,7 @@ impl Hoister {
 impl Fold<VarDeclOrPat> for Hoister {
     fn fold(&mut self, v: VarDeclOrPat) -> VarDeclOrPat {
         match v {
-            VarDeclOrPat::Pat(v) => VarDeclOrPat::Pat(v.fold_children(self)),
+            VarDeclOrPat::Pat(v) => VarDeclOrPat::Pat(v.fold_children_with(self)),
 
             VarDeclOrPat::VarDecl(mut var) => {
                 if var.decls.len() == 1 && var.decls[0].init.is_none() {
@@ -83,7 +83,7 @@ impl Fold<VarDeclOrExpr> for Hoister {
     fn fold(&mut self, var: VarDeclOrExpr) -> VarDeclOrExpr {
         match var {
             VarDeclOrExpr::VarDecl(var) => VarDeclOrExpr::Expr(box self.var_decl_to_expr(var)),
-            _ => var.fold_children(self),
+            _ => var.fold_children_with(self),
         }
     }
 }
@@ -101,7 +101,7 @@ impl Fold<Stmt> for Hoister {
             _ => {}
         }
 
-        s.fold_children(self)
+        s.fold_children_with(self)
     }
 }
 
@@ -121,7 +121,7 @@ impl Fold<ModuleDecl> for Hoister {
             _ => {}
         }
 
-        decl.fold_children(self)
+        decl.fold_children_with(self)
     }
 }
 
@@ -139,7 +139,7 @@ impl Fold<MemberExpr> for Hoister {
 
 impl Fold<Expr> for Hoister {
     fn fold(&mut self, e: Expr) -> Expr {
-        let e = e.fold_children(self);
+        let e = e.fold_children_with(self);
 
         match e {
             Expr::Ident(Ident {

@@ -24,7 +24,7 @@ noop_fold_type!(StickyRegex);
 
 impl Fold<Expr> for StickyRegex {
     fn fold(&mut self, e: Expr) -> Expr {
-        let e = e.fold_children(self);
+        let e = e.fold_children_with(self);
 
         match e {
             Expr::Lit(Lit::Regex(Regex { exp, flags, span })) => {

@@ -262,7 +262,7 @@ impl Jsx {
 
 impl Fold<Expr> for Jsx {
     fn fold(&mut self, expr: Expr) -> Expr {
-        let expr = expr.fold_children(self);
+        let expr = expr.fold_children_with(self);
 
         match expr {
             Expr::Paren(ParenExpr {

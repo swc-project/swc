@@ -47,7 +47,7 @@ macro_rules! mark_as_complex {
             fn visit(&mut self, node: &$T) {
                 let old = self.in_complex;
                 self.in_complex = true;
-                node.visit_children(self);
+                node.visit_children_with(self);
                 self.in_complex = old;
             }
         }
@@ -63,14 +63,14 @@ impl Visit<AssignExpr> for SuperCallFinder {
 
         let old = self.in_complex;
         self.in_complex = true;
-        node.right.visit_children(self);
+        node.right.visit_children_with(self);
         self.in_complex = old;
     }
 }
 
 impl Visit<MemberExpr> for SuperCallFinder {
     fn visit(&mut self, e: &MemberExpr) {
-        e.visit_children(self);
+        e.visit_children_with(self);
 
         match e.obj {
             ExprOrSuper::Expr(box Expr::Call(CallExpr {
@@ -99,7 +99,7 @@ impl Visit<CallExpr> for SuperCallFinder {
                 _ => {}
             },
 
-            _ => e.visit_children(self),
+            _ => e.visit_children_with(self),
         }
     }
 }
@@ -166,7 +166,7 @@ pub(super) enum SuperFoldingMode {
 
 impl<'a> Fold<Stmt> for ConstructorFolder<'a> {
     fn fold(&mut self, stmt: Stmt) -> Stmt {
-        let stmt = stmt.fold_children(self);
+        let stmt = stmt.fold_children_with(self);
 
         match stmt {
             Stmt::Expr(ExprStmt {
@@ -240,7 +240,7 @@ macro_rules! ignore_return {
             fn fold(&mut self, n: $T) -> $T {
                 let old = self.ignore_return;
                 self.ignore_return = true;
-                let n = n.fold_children(self);
+                let n = n.fold_children_with(self);
                 self.ignore_return = old;
 
                 n
@@ -263,7 +263,7 @@ impl<'a> Fold<Expr> for ConstructorFolder<'a> {
             _ => return expr,
         }
 
-        let expr = expr.fold_children(self);
+        let expr = expr.fold_children_with(self);
 
         match expr {
             Expr::This(e) => Expr::Ident(Ident::new("_this".into(), e.span.apply_mark(self.mark))),
@@ -427,7 +427,7 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: Constructor) -> (Constr
                         Expr::Ident(this)
                     }
                 }
-                _ => expr.fold_children(self),
+                _ => expr.fold_children_with(self),
             }
         }
     }
@@ -445,14 +445,14 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: Constructor) -> (Constr
             if self.mark != Mark::root() {
                 let old = self.wrap_with_assertiion;
                 self.wrap_with_assertiion = false;
-                obj = obj.fold_children(self);
+                obj = obj.fold_children_with(self);
                 self.wrap_with_assertiion = old;
             }
 
             MemberExpr {
                 span,
                 obj,
-                prop: prop.fold_children(self),
+                prop: prop.fold_children_with(self),
                 computed,
             }
         }
@@ -505,7 +505,7 @@ impl<'a> Fold<Pat> for VarRenamer<'a> {
                     Pat::Ident(ident)
                 }
             }
-            _ => pat.fold_children(self),
+            _ => pat.fold_children_with(self),
         }
     }
 }

@@ -32,7 +32,7 @@ impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
                             op,
                             arg: box Expr::Member(arg),
                         })
-                        .fold_children(self);
+                        .fold_children_with(self);
                     }
                 };
 
@@ -44,7 +44,7 @@ impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
                             op,
                             arg: box Expr::Member(arg),
                         })
-                        .fold_children(self);
+                        .fold_children_with(self);
                     }
                     ExprOrSuper::Expr(ref obj) => obj.clone(),
                 };
@@ -180,7 +180,7 @@ impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
                             op,
                             right,
                         })
-                        .fold_children(self);
+                        .fold_children_with(self);
                     }
                 };
 
@@ -195,7 +195,7 @@ impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
                             op,
                             right,
                         })
-                        .fold_children(self);
+                        .fold_children_with(self);
                     }
                     ExprOrSuper::Expr(ref obj) => obj.clone(),
                 };
@@ -332,11 +332,11 @@ impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
                         args,
                         type_args,
                     })
-                    .fold_children(self)
+                    .fold_children_with(self)
                 }
             }
             Expr::Member(e) => self.fold_private_get(e, None).0,
-            _ => e.fold_children(self),
+            _ => e.fold_children_with(self),
         }
     }
 }
@@ -349,7 +349,7 @@ impl Fold<Pat> for FieldAccessFolder<'_> {
                 ..
             })) => {
                 self.in_assign_pat = true;
-                let p = p.fold_children(self);
+                let p = p.fold_children_with(self);
                 self.in_assign_pat = false;
 
                 p
@@ -357,7 +357,7 @@ impl Fold<Pat> for FieldAccessFolder<'_> {
             _ => {
                 self.in_assign_pat = false;
 
-                p.fold_children(self)
+                p.fold_children_with(self)
             }
         }
     }
@@ -515,7 +515,7 @@ macro_rules! take_vars {
                     return f;
                 }
 
-                let mut f = f.fold_children(self);
+                let mut f = f.fold_children_with(self);
 
                 if !self.vars.is_empty() {
                     prepend(

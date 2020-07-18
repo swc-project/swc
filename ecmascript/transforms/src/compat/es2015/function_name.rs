@@ -49,7 +49,7 @@ fn prepare(i: Ident, force: bool) -> Ident {
 
 impl Fold<KeyValueProp> for FnName {
     fn fold(&mut self, p: KeyValueProp) -> KeyValueProp {
-        let mut p = p.fold_children(self);
+        let mut p = p.fold_children_with(self);
 
         p.value = match *p.value {
             Expr::Fn(expr @ FnExpr { ident: None, .. }) => {
@@ -72,7 +72,7 @@ impl Fold<KeyValueProp> for FnName {
 
 impl Fold<VarDeclarator> for FnName {
     fn fold(&mut self, decl: VarDeclarator) -> VarDeclarator {
-        let mut decl = decl.fold_children(self);
+        let mut decl = decl.fold_children_with(self);
 
         match decl.name {
             Pat::Ident(ref mut ident) => {
@@ -90,7 +90,7 @@ impl Fold<VarDeclarator> for FnName {
 
 impl Fold<AssignExpr> for FnName {
     fn fold(&mut self, expr: AssignExpr) -> AssignExpr {
-        let mut expr = expr.fold_children(self);
+        let mut expr = expr.fold_children_with(self);
 
         if expr.op != op!("=") {
             return expr;

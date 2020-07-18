@@ -13,7 +13,7 @@ noop_fold_type!(TemplateLiteral);
 
 impl Fold<Module> for TemplateLiteral {
     fn fold(&mut self, m: Module) -> Module {
-        let mut body = m.body.fold_children(self);
+        let mut body = m.body.fold_children_with(self);
 
         prepend_stmts(&mut body, self.added.drain(..).map(ModuleItem::from_stmt));
 
@@ -23,7 +23,7 @@ impl Fold<Module> for TemplateLiteral {
 
 impl Fold<Script> for TemplateLiteral {
     fn fold(&mut self, m: Script) -> Script {
-        let mut body = m.body.fold_children(self);
+        let mut body = m.body.fold_children_with(self);
 
         prepend_stmts(&mut body, self.added.drain(..));
 
@@ -35,7 +35,7 @@ impl Fold<Expr> for TemplateLiteral {
     fn fold(&mut self, e: Expr) -> Expr {
         let e = validate!(e);
 
-        let e = e.fold_children(self);
+        let e = e.fold_children_with(self);
         let e = validate!(e);
 
         match e {

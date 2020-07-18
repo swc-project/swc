@@ -67,7 +67,7 @@ impl Fold<Expr> for Arrow {
         }
 
         let e = validate!(e);
-        let e = e.fold_children(self);
+        let e = e.fold_children_with(self);
 
         match e {
             Expr::Arrow(ArrowExpr {

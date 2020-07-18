@@ -400,12 +400,12 @@ impl Fold<Stmt> for Actual {
                     _ => Stmt::Labeled(LabeledStmt {
                         span,
                         label,
-                        body: body.fold_children(self),
+                        body: body.fold_children_with(self),
                     }),
                 }
             }
             Stmt::ForOf(stmt) => self.fold_for_stmt(None, stmt),
-            _ => stmt.fold_children(self),
+            _ => stmt.fold_children_with(self),
         }
     }
 }
@@ -502,7 +502,7 @@ where
             return stmts;
         }
 
-        let stmts = stmts.fold_children(self);
+        let stmts = stmts.fold_children_with(self);
 
         let mut buf = Vec::with_capacity(stmts.len());
 

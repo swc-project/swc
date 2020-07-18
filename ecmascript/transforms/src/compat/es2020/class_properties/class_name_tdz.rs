@@ -38,7 +38,7 @@ impl<'a> Fold<Expr> for ClassNameTdzFolder<'a> {
                 }
             }
 
-            _ => expr.fold_children(self),
+            _ => expr.fold_children_with(self),
         }
     }
 }

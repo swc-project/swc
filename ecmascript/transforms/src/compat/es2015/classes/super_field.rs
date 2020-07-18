@@ -68,11 +68,11 @@ macro_rules! mark_nested {
                 if self.folding_constructor && !self.in_injected_define_property_call {
                     let old = self.in_nested_scope;
                     self.in_nested_scope = true;
-                    let n = n.fold_children(self);
+                    let n = n.fold_children_with(self);
                     self.in_nested_scope = old;
                     n
                 } else {
-                    n.fold_children(self)
+                    n.fold_children_with(self)
                 }
             }
         }
@@ -165,12 +165,12 @@ impl<'a> Fold<Expr> for SuperCalleeFolder<'a> {
                 }))) => self.super_to_set_call(super_token, false, prop, op, right),
                 _ => Expr::Assign(AssignExpr {
                     span,
-                    left: left.fold_children(self),
+                    left: left.fold_children_with(self),
                     op,
-                    right: right.fold_children(self),
+                    right: right.fold_children_with(self),
                 }),
             },
-            _ => n.fold_children(self),
+            _ => n.fold_children_with(self),
         };
 
         match n {
@@ -396,7 +396,7 @@ impl<'a> Fold<Expr> for SuperFieldAccessFolder<'a> {
                 }) => {
                     let old = self.in_injected_define_property_call;
                     self.in_injected_define_property_call = true;
-                    let n = n.fold_children(self);
+                    let n = n.fold_children_with(self);
                     self.in_injected_define_property_call = old;
                     return n;
                 }
@@ -483,6 +483,6 @@ impl<'a> Fold<Expr> for SuperFieldAccessFolder<'a> {
             }
         }
 
-        n.fold_children(self)
+        n.fold_children_with(self)
     }
 }

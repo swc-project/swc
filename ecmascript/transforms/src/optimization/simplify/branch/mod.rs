@@ -192,7 +192,7 @@ where
 
 impl Fold<Stmt> for Remover {
     fn fold(&mut self, stmt: Stmt) -> Stmt {
-        let stmt = stmt.fold_children(self);
+        let stmt = stmt.fold_children_with(self);
 
         match stmt {
             Stmt::If(IfStmt {
@@ -787,7 +787,7 @@ impl Fold<Stmt> for Remover {
 
 impl Fold<Pat> for Remover {
     fn fold(&mut self, p: Pat) -> Pat {
-        let p = p.fold_children(self);
+        let p = p.fold_children_with(self);
 
         match p {
             Pat::Assign(p)
@@ -822,7 +822,7 @@ impl Fold<Pat> for Remover {
 
 impl Fold<ArrayPat> for Remover {
     fn fold(&mut self, p: ArrayPat) -> ArrayPat {
-        let mut p: ArrayPat = p.fold_children(self);
+        let mut p: ArrayPat = p.fold_children_with(self);
 
         let mut preserved = None;
         let len = p.elems.len();
@@ -848,7 +848,7 @@ impl Fold<ArrayPat> for Remover {
 
 impl Fold<ObjectPat> for Remover {
     fn fold(&mut self, p: ObjectPat) -> ObjectPat {
-        let mut p = p.fold_children(self);
+        let mut p = p.fold_children_with(self);
 
         // Don't remove if there exists a rest pattern
         if p.props.iter().any(|p| match p {
@@ -886,7 +886,7 @@ impl Fold<ObjectPat> for Remover {
 
 impl Fold<ObjectPatProp> for Remover {
     fn fold(&mut self, p: ObjectPatProp) -> ObjectPatProp {
-        let p = p.fold_children(self);
+        let p = p.fold_children_with(self);
 
         match p {
             ObjectPatProp::Assign(AssignPatProp {
@@ -919,7 +919,7 @@ impl Fold<ObjectPatProp> for Remover {
 
 impl Fold<SwitchStmt> for Remover {
     fn fold(&mut self, s: SwitchStmt) -> SwitchStmt {
-        let s: SwitchStmt = s.fold_children(self);
+        let s: SwitchStmt = s.fold_children_with(self);
 
         if s.cases.iter().all(|case| {
             if case.cons.is_empty() {
@@ -940,7 +940,7 @@ impl Fold<SwitchStmt> for Remover {
 
 impl Fold<SeqExpr> for Remover {
     fn fold(&mut self, e: SeqExpr) -> SeqExpr {
-        let mut e: SeqExpr = e.fold_children(self);
+        let mut e: SeqExpr = e.fold_children_with(self);
         if e.exprs.is_empty() {
             return e;
         }
@@ -955,7 +955,7 @@ impl Fold<SeqExpr> for Remover {
 
 impl Fold<Expr> for Remover {
     fn fold(&mut self, e: Expr) -> Expr {
-        let e: Expr = e.fold_children(self);
+        let e: Expr = e.fold_children_with(self);
 
         match e {
             Expr::Assign(AssignExpr {
@@ -1016,7 +1016,7 @@ impl Fold<Expr> for Remover {
 
 impl Fold<ForStmt> for Remover {
     fn fold(&mut self, s: ForStmt) -> ForStmt {
-        let s = s.fold_children(self);
+        let s = s.fold_children_with(self);
 
         ForStmt {
             init: s.init.and_then(|e| match e {

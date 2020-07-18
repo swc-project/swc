@@ -31,7 +31,7 @@ impl<'a> Visit<Expr> for UsedNameCollector<'a> {
     fn visit(&mut self, expr: &Expr) {
         match *expr {
             Expr::Ident(ref i) => self.used_names.push(i.sym.clone()),
-            _ => expr.visit_children(self),
+            _ => expr.visit_children_with(self),
         }
     }
 }

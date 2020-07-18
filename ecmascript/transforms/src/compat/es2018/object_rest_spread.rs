@@ -162,7 +162,7 @@ impl Fold<Vec<VarDeclarator>> for RestFolder {
                 continue;
             }
 
-            let decl = decl.fold_children(self);
+            let decl = decl.fold_children_with(self);
 
             //            if !contains_rest(&decl.name) {
             //                // println!("Var: no rest",);
@@ -280,7 +280,7 @@ impl Fold<Expr> for RestFolder {
             return expr;
         }
 
-        let expr = expr.fold_children(self);
+        let expr = expr.fold_children_with(self);
 
         match expr {
             Expr::Assign(AssignExpr {
@@ -370,7 +370,7 @@ impl Fold<ModuleDecl> for RestFolder {
 
                 ModuleDecl::ExportNamed(export)
             }
-            _ => decl.fold_children(self),
+            _ => decl.fold_children_with(self),
         }
     }
 }
@@ -383,7 +383,7 @@ impl Visit<ObjectPatProp> for RestVisitor {
     fn visit(&mut self, prop: &ObjectPatProp) {
         match *prop {
             ObjectPatProp::Rest(..) => self.found = true,
-            _ => prop.visit_children(self),
+            _ => prop.visit_children_with(self),
         }
     }
 }
@@ -405,7 +405,7 @@ where
         if !contains_rest(&stmts) {
             return stmts;
         }
-        let stmts = stmts.fold_children(self);
+        let stmts = stmts.fold_children_with(self);
 
         let mut buf = vec![];
 
@@ -1004,7 +1004,7 @@ fn simplify_pat(pat: Pat) -> Pat {
     struct PatSimplifier;
     impl Fold<Pat> for PatSimplifier {
         fn fold(&mut self, pat: Pat) -> Pat {
-            let pat = pat.fold_children(self);
+            let pat = pat.fold_children_with(self);
 
             match pat {
                 Pat::Object(o) => {
@@ -1038,7 +1038,7 @@ impl Fold<Expr> for ObjectSpread {
             return expr;
         }
 
-        let expr = expr.fold_children(self);
+        let expr = expr.fold_children_with(self);
 
         match expr {
             Expr::Object(ObjectLit { span, props }) => {

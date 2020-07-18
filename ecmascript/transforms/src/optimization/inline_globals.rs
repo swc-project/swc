@@ -28,7 +28,7 @@ impl Fold<Expr> for InlineGlobals {
                     })
                 }
             }
-            _ => expr.fold_children(self),
+            _ => expr.fold_children_with(self),
         };
 
         match expr {

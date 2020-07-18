@@ -372,7 +372,7 @@ impl Fold<Str> for Normalizer {
 }
 impl Fold<Expr> for Normalizer {
     fn fold(&mut self, e: Expr) -> Expr {
-        let e = e.fold_children(self);
+        let e = e.fold_children_with(self);
 
         match e {
             Expr::Paren(ParenExpr { expr, .. }) => *expr,
@@ -405,7 +405,7 @@ impl Fold<Expr> for Normalizer {
 
 impl Fold<PropName> for Normalizer {
     fn fold(&mut self, n: PropName) -> PropName {
-        let n = n.fold_children(self);
+        let n = n.fold_children_with(self);
 
         match n {
             PropName::Ident(Ident { sym, .. }) => PropName::Str(Str {
@@ -425,7 +425,7 @@ impl Fold<PropName> for Normalizer {
 
 impl Fold<Pat> for Normalizer {
     fn fold(&mut self, mut node: Pat) -> Pat {
-        node = node.fold_children(self);
+        node = node.fold_children_with(self);
 
         match node {
             Pat::Expr(box Expr::Ident(i)) => Pat::Ident(i),
@@ -436,7 +436,7 @@ impl Fold<Pat> for Normalizer {
 
 impl Fold<PatOrExpr> for Normalizer {
     fn fold(&mut self, node: PatOrExpr) -> PatOrExpr {
-        let node = node.fold_children(self);
+        let node = node.fold_children_with(self);
 
         match node {
             PatOrExpr::Pat(box Pat::Expr(e)) => PatOrExpr::Expr(e),
@@ -448,7 +448,7 @@ impl Fold<PatOrExpr> for Normalizer {
 
 impl Fold<Vec<ClassMember>> for Normalizer {
     fn fold(&mut self, mut node: Vec<ClassMember>) -> Vec<ClassMember> {
-        node = node.fold_children(self);
+        node = node.fold_children_with(self);
 
         node.retain(|v| match v {
             ClassMember::Empty(..) => false,

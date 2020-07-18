@@ -75,7 +75,7 @@ impl Fold<Expr> for JsonParse {
             _ => e,
         };
 
-        e.fold_children(self)
+        e.fold_children_with(self)
     }
 }
 

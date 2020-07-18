@@ -35,7 +35,7 @@ impl Visit<Expr> for Verifier {
     fn visit(&mut self, e: &Expr) {
         match *e {
             Expr::Fn(..) | Expr::Arrow(..) => {}
-            _ => e.visit_children(self),
+            _ => e.visit_children_with(self),
         }
     }
 }
@@ -47,7 +47,7 @@ impl Visit<Prop> for Verifier {
             Prop::Assign { .. } => {
                 self.errors.push((p.span(), SyntaxError::AssignProperty));
             }
-            _ => p.visit_children(self),
+            _ => p.visit_children_with(self),
         }
     }
 }

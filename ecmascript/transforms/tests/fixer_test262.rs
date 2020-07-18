@@ -292,7 +292,7 @@ impl Write for Buf {
 struct Normalizer;
 impl Fold<Stmt> for Normalizer {
     fn fold(&mut self, stmt: Stmt) -> Stmt {
-        let stmt = stmt.fold_children(self);
+        let stmt = stmt.fold_children_with(self);
 
         match stmt {
             Stmt::Expr(ExprStmt {
@@ -306,7 +306,7 @@ impl Fold<Stmt> for Normalizer {
 
 impl Fold<PropName> for Normalizer {
     fn fold(&mut self, name: PropName) -> PropName {
-        let name = name.fold_children(self);
+        let name = name.fold_children_with(self);
 
         match name {
             PropName::Ident(i) => PropName::Str(Str {
@@ -337,7 +337,7 @@ impl Fold<PropName> for Normalizer {
 
 impl Fold<NewExpr> for Normalizer {
     fn fold(&mut self, expr: NewExpr) -> NewExpr {
-        let mut expr = expr.fold_children(self);
+        let mut expr = expr.fold_children_with(self);
 
         expr.args = match expr.args {
             Some(..) => expr.args,

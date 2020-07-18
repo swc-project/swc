@@ -96,7 +96,7 @@ impl Visit<Expr> for SideEffectVisitor<'_> {
             _ => {}
         }
 
-        node.visit_children(self)
+        node.visit_children_with(self)
     }
 }
 
@@ -254,7 +254,7 @@ impl Visit<ImportDecl> for SideEffectVisitor<'_> {
             return;
         }
 
-        import.visit_children(self)
+        import.visit_children_with(self)
     }
 }
 
@@ -299,7 +299,7 @@ impl Visit<Pat> for SideEffectVisitor<'_> {
                 self.found = true;
             }
             Pat::Assign(..) | Pat::Expr(..) | Pat::Object(..) | Pat::Array(..) => {
-                p.visit_children(self)
+                p.visit_children_with(self)
             }
             Pat::Invalid(..) => {}
         }

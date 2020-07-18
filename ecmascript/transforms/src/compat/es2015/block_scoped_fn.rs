@@ -49,7 +49,7 @@ impl Fold<Vec<Stmt>> for BlockScopedFns {
                             declare: false,
                         })))
                     }
-                    _ => extra_stmts.push(validate!(stmt.fold_children(self))),
+                    _ => extra_stmts.push(validate!(stmt.fold_children_with(self))),
                 }
             }
         }

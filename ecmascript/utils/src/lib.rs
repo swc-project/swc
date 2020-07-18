@@ -89,7 +89,7 @@ pub struct IdentFinder<'a> {
 
 impl Visit for IdentFinder<'_> {
     fn visit_expr(&mut self, e: &Expr, _: &dyn Node) {
-        e.visit_children(self);
+        e.visit_children_with(self);
 
         match *e {
             Expr::Ident(ref i)
@@ -279,11 +279,11 @@ pub struct Hoister {
 
 impl Visit for Hoister {
     fn visit_assign_expr(&mut self, node: &AssignExpr, _: &dyn Node) {
-        node.right.visit_children(self);
+        node.right.visit_children_with(self);
     }
 
     fn visit_pat(&mut self, p: &Pat, _: &dyn Node) {
-        p.visit_children(self);
+        p.visit_children_with(self);
 
         match *p {
             Pat::Ident(ref i) => self.vars.push(i.clone()),
@@ -296,7 +296,7 @@ impl Visit for Hoister {
             return;
         }
 
-        v.visit_children(self)
+        v.visit_children_with(self)
     }
 }
 
@@ -1124,7 +1124,7 @@ impl Visit for LiteralVisitor {
 
         self.cost += 2 + e.elems.len();
 
-        e.visit_children(self);
+        e.visit_children_with(self);
 
         for elem in &e.elems {
             if !self.allow_non_json_value && elem.is_none() {
@@ -1169,7 +1169,7 @@ impl Visit for LiteralVisitor {
         match *e {
             Expr::Ident(..) | Expr::Lit(Lit::Regex(..)) => self.is_lit = false,
             Expr::Tpl(ref tpl) if !tpl.exprs.is_empty() => self.is_lit = false,
-            _ => e.visit_children(self),
+            _ => e.visit_children_with(self),
         }
     }
 
@@ -1232,7 +1232,7 @@ impl Visit for LiteralVisitor {
             return;
         }
 
-        p.visit_children(self);
+        p.visit_children_with(self);
 
         match p {
             Prop::KeyValue(..) => {
@@ -1247,7 +1247,7 @@ impl Visit for LiteralVisitor {
             return;
         }
 
-        node.visit_children(self);
+        node.visit_children_with(self);
 
         match node {
             PropName::Str(ref s) => self.cost += 2 + s.value.len(),

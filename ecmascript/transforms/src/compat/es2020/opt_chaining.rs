@@ -22,7 +22,7 @@ where
         // This is to support nested block statements
         let old = mem::replace(&mut self.vars, vec![]);
 
-        let mut stmts = stmts.fold_children(self);
+        let mut stmts = stmts.fold_children_with(self);
 
         if !self.vars.is_empty() {
             prepend(
@@ -51,7 +51,7 @@ impl Fold<Expr> for OptChaining {
             _ => e,
         };
 
-        validate!(e.fold_children(self))
+        validate!(e.fold_children_with(self))
     }
 }
 

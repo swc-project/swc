@@ -55,7 +55,7 @@ impl Fold<Program> for Fixer {
         debug_assert!(self.span_map.is_empty());
         self.span_map.clear();
 
-        let p = p.fold_children(self);
+        let p = p.fold_children_with(self);
 
         COMMENTS.with(|c| {
             for (to, from) in self.span_map.drain() {
@@ -84,7 +84,7 @@ impl Fold<KeyValuePatProp> for Fixer {
 
 impl Fold<AssignPatProp> for Fixer {
     fn fold(&mut self, node: AssignPatProp) -> AssignPatProp {
-        let key = node.key.fold_children(self);
+        let key = node.key.fold_children_with(self);
 
         let old = self.ctx;
         self.ctx = Context::ForcedExpr { is_var_decl: false };
@@ -97,7 +97,7 @@ impl Fold<AssignPatProp> for Fixer {
 
 impl Fold<VarDeclarator> for Fixer {
     fn fold(&mut self, node: VarDeclarator) -> VarDeclarator {
-        let name = node.name.fold_children(self);
+        let name = node.name.fold_children_with(self);
 
         let old = self.ctx;
         self.ctx = Context::ForcedExpr { is_var_decl: true };
@@ -110,7 +110,7 @@ impl Fold<VarDeclarator> for Fixer {
 
 impl Fold<BlockStmtOrExpr> for Fixer {
     fn fold(&mut self, body: BlockStmtOrExpr) -> BlockStmtOrExpr {
-        let body = body.fold_children(self);
+        let body = body.fold_children_with(self);
 
         match body {
             BlockStmtOrExpr::Expr(box expr @ Expr::Object(..)) => {
@@ -132,7 +132,7 @@ impl Fold<Stmt> for Fixer {
                 self.ctx = old;
                 Stmt::Expr(expr)
             }
-            _ => stmt.fold_children(self),
+            _ => stmt.fold_children_with(self),
         };
 
         let stmt = match stmt {
@@ -150,7 +150,7 @@ impl Fold<Stmt> for Fixer {
 
 impl Fold<IfStmt> for Fixer {
     fn fold(&mut self, node: IfStmt) -> IfStmt {
-        let node: IfStmt = node.fold_children(self);
+        let node: IfStmt = node.fold_children_with(self);
 
         match *node.cons {
             Stmt::If(..) => IfStmt {
@@ -219,7 +219,7 @@ array!(ArrayLit);
 
 impl Fold<KeyValueProp> for Fixer {
     fn fold(&mut self, prop: KeyValueProp) -> KeyValueProp {
-        let prop = prop.fold_children(self);
+        let prop = prop.fold_children_with(self);
 
         match *prop.value {
             Expr::Seq(..) => KeyValueProp {
@@ -317,7 +317,7 @@ impl Fixer {
 impl Fold<Expr> for Fixer {
     fn fold(&mut self, expr: Expr) -> Expr {
         let expr = validate!(expr);
-        let expr = expr.fold_children(self);
+        let expr = expr.fold_children_with(self);
         let expr = validate!(expr);
         let expr = self.unwrap_expr(expr);
 
@@ -691,7 +691,7 @@ impl Fold<Expr> for Fixer {
 
 impl Fold<ExprOrSpread> for Fixer {
     fn fold(&mut self, e: ExprOrSpread) -> ExprOrSpread {
-        let e = e.fold_children(self);
+        let e = e.fold_children_with(self);
 
         if e.spread.is_none() {
             match *e.expr {
@@ -713,7 +713,7 @@ impl Fold<ExportDefaultExpr> for Fixer {
     fn fold(&mut self, node: ExportDefaultExpr) -> ExportDefaultExpr {
         let old = self.ctx;
         self.ctx = Context::Default;
-        let mut node = node.fold_children(self);
+        let mut node = node.fold_children_with(self);
         node.expr = match *node.expr {
             Expr::Arrow(..) | Expr::Seq(..) => box self.wrap(*node.expr),
             _ => node.expr,
@@ -727,7 +727,7 @@ impl Fold<ArrowExpr> for Fixer {
     fn fold(&mut self, node: ArrowExpr) -> ArrowExpr {
         let old = self.ctx;
         self.ctx = Context::Default;
-        let mut node = node.fold_children(self);
+        let mut node = node.fold_children_with(self);
         node.body = match node.body {
             BlockStmtOrExpr::Expr(e @ box Expr::Seq(..)) => {
                 BlockStmtOrExpr::Expr(box self.wrap(*e))
@@ -743,7 +743,7 @@ impl Fold<Class> for Fixer {
     fn fold(&mut self, node: Class) -> Class {
         let old = self.ctx;
         self.ctx = Context::Default;
-        let mut node: Class = node.fold_children(self);
+        let mut node: Class = node.fold_children_with(self);
         node.super_class = match node.super_class {
             Some(e @ box Expr::Seq(..)) => Some(box self.wrap(*e)),
             _ => node.super_class,

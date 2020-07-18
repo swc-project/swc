@@ -1406,7 +1406,7 @@ struct UnmarkedInvalidHandler {
 
 impl Fold<Expr> for UnmarkedInvalidHandler {
     fn fold(&mut self, e: Expr) -> Expr {
-        let e = e.fold_children(self);
+        let e = e.fold_children_with(self);
 
         match e {
             Expr::Invalid(Invalid { span }) => Expr::Lit(Lit::Num(Number {
@@ -1425,7 +1425,7 @@ struct InvalidToLit<'a> {
 }
 impl Fold<Expr> for InvalidToLit<'_> {
     fn fold(&mut self, e: Expr) -> Expr {
-        let e = e.fold_children(self);
+        let e = e.fold_children_with(self);
 
         match e {
             Expr::Invalid(Invalid { span }) => {
@@ -1471,6 +1471,6 @@ impl Fold<Expr> for CatchParamHandler<'_> {
             _ => {}
         }
 
-        node.fold_children(self)
+        node.fold_children_with(self)
     }
 }

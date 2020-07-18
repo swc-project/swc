@@ -508,7 +508,7 @@ impl Fold<VarDecl> for BlockScoping {
     fn fold(&mut self, var: VarDecl) -> VarDecl {
         let old = self.var_decl_kind;
         self.var_decl_kind = var.kind;
-        let var = var.fold_children(self);
+        let var = var.fold_children_with(self);
 
         self.var_decl_kind = old;
 
@@ -521,7 +521,7 @@ impl Fold<VarDecl> for BlockScoping {
 
 impl Fold<VarDeclarator> for BlockScoping {
     fn fold(&mut self, var: VarDeclarator) -> VarDeclarator {
-        let var = var.fold_children(self);
+        let var = var.fold_children_with(self);
 
         let init = if self.in_loop_body() && var.init.is_none() {
             if self.var_decl_kind == VarDeclKind::Var {
@@ -552,7 +552,7 @@ where
     Vec<T>: FoldWith<Self>,
 {
     fn fold(&mut self, stmts: Vec<T>) -> Vec<T> {
-        let mut stmts = stmts.fold_children(self);
+        let mut stmts = stmts.fold_children_with(self);
 
         if !self.vars.is_empty() {
             prepend(
@@ -736,7 +736,7 @@ impl Fold<Stmt> for FlowHelper {
                     })),
                 });
             }
-            _ => node.fold_children(self),
+            _ => node.fold_children_with(self),
         }
     }
 }

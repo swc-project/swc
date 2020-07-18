@@ -32,7 +32,7 @@ impl Fold<Expr> for TypeOfSymbol {
             return expr;
         }
 
-        let expr = expr.fold_children(self);
+        let expr = expr.fold_children_with(self);
 
         match expr {
             Expr::Unary(UnaryExpr {
@@ -55,7 +55,7 @@ impl Fold<BinExpr> for TypeOfSymbol {
     fn fold(&mut self, expr: BinExpr) -> BinExpr {
         match expr.op {
             op!("==") | op!("!=") | op!("===") | op!("!==") => {}
-            _ => return expr.fold_children(self),
+            _ => return expr.fold_children_with(self),
         }
 
         match *expr.left {
@@ -79,7 +79,7 @@ impl Fold<BinExpr> for TypeOfSymbol {
             _ => {}
         }
 
-        expr.fold_children(self)
+        expr.fold_children_with(self)
     }
 }
 

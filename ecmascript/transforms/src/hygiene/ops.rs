@@ -188,7 +188,7 @@ impl<'a> Fold<KeyValuePatProp> for Operator<'a> {
 
 impl Fold<ObjectPatProp> for Operator<'_> {
     fn fold(&mut self, p: ObjectPatProp) -> ObjectPatProp {
-        let p = p.fold_children(self);
+        let p = p.fold_children_with(self);
 
         match p {
             ObjectPatProp::Assign(p) => match self.rename_ident(p.key.clone()) {
@@ -210,7 +210,7 @@ impl<'a> Fold<AssignPatProp> for Operator<'a> {
     fn fold(&mut self, p: AssignPatProp) -> AssignPatProp {
         match p.value {
             Some(value) => AssignPatProp {
-                value: Some(value.fold_children(self)),
+                value: Some(value.fold_children_with(self)),
                 ..p
             },
             None => p,
@@ -235,7 +235,7 @@ impl<'a> Fold<Prop> for Operator<'a> {
                     Err(i) => Prop::Shorthand(i),
                 }
             }
-            _ => prop.fold_children(self),
+            _ => prop.fold_children_with(self),
         }
     }
 }

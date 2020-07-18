@@ -19,7 +19,7 @@ noop_fold_type!(Legacy);
 
 impl Fold<Module> for Legacy {
     fn fold(&mut self, m: Module) -> Module {
-        let mut m = m.fold_children(self);
+        let mut m = m.fold_children_with(self);
 
         if !self.uninitialized_vars.is_empty() {
             prepend(
@@ -51,7 +51,7 @@ impl Fold<Module> for Legacy {
 
 impl Fold<Script> for Legacy {
     fn fold(&mut self, s: Script) -> Script {
-        let mut s = s.fold_children(self);
+        let mut s = s.fold_children_with(self);
 
         if !self.uninitialized_vars.is_empty() {
             prepend(
@@ -106,7 +106,7 @@ where
 }
 impl Fold<ModuleItem> for Legacy {
     fn fold(&mut self, item: ModuleItem) -> ModuleItem {
-        let item: ModuleItem = item.fold_children(self);
+        let item: ModuleItem = item.fold_children_with(self);
 
         match item {
             ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
@@ -146,7 +146,7 @@ impl Fold<ModuleItem> for Legacy {
 
 impl Fold<Expr> for Legacy {
     fn fold(&mut self, e: Expr) -> Expr {
-        let e: Expr = e.fold_children(self);
+        let e: Expr = e.fold_children_with(self);
 
         match e {
             Expr::Class(e) => {
@@ -164,7 +164,7 @@ impl Fold<Expr> for Legacy {
 
 impl Fold<Decl> for Legacy {
     fn fold(&mut self, decl: Decl) -> Decl {
-        let decl: Decl = decl.fold_children(self);
+        let decl: Decl = decl.fold_children_with(self);
 
         match decl {
             Decl::Class(c) => {

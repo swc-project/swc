@@ -643,7 +643,7 @@ impl Scope {
                     }
                 }
             }
-            _ => expr.fold_children(folder),
+            _ => expr.fold_children_with(folder),
         }
     }
 }
@@ -809,7 +809,7 @@ macro_rules! mark_as_nested {
             fn fold(&mut self, f: $T) -> $T {
                 let old = self.in_top_level;
                 self.in_top_level = false.into();
-                let f = f.fold_children(self);
+                let f = f.fold_children_with(self);
                 self.in_top_level = old;
 
                 f

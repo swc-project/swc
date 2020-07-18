@@ -110,7 +110,7 @@ impl Fold<Vec<ModuleItem>> for Entry {
 
 impl Fold<ImportDecl> for Entry {
     fn fold(&mut self, i: ImportDecl) -> ImportDecl {
-        let i: ImportDecl = i.fold_children(self);
+        let i: ImportDecl = i.fold_children_with(self);
 
         let remove = i.specifiers.is_empty() && self.add_all(&i.src.value);
 

@@ -43,7 +43,7 @@ where
 
 impl Fold<Expr> for NullishCoalescing {
     fn fold(&mut self, e: Expr) -> Expr {
-        let e = e.fold_children(self);
+        let e = e.fold_children_with(self);
 
         match e {
             Expr::Bin(BinExpr {

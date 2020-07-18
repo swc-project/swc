@@ -167,7 +167,7 @@ impl<'a> Hygiene<'a> {
 
 impl<'a> Fold<Module> for Hygiene<'a> {
     fn fold(&mut self, module: Module) -> Module {
-        let module = validate!(module.fold_children(self));
+        let module = validate!(module.fold_children_with(self));
 
         validate!(self.apply_ops(module))
     }
@@ -177,9 +177,9 @@ impl<'a> Fold<TryStmt> for Hygiene<'a> {
     fn fold(&mut self, node: TryStmt) -> TryStmt {
         TryStmt {
             span: node.span,
-            block: node.block.fold_children(self),
+            block: node.block.fold_children_with(self),
             handler: node.handler.fold_with(self),
-            finalizer: node.finalizer.fold_children(self),
+            finalizer: node.finalizer.fold_children_with(self),
         }
     }
 }
@@ -190,7 +190,7 @@ impl<'a> Fold<BlockStmt> for Hygiene<'a> {
             current: Scope::new(ScopeKind::Block, Some(&self.current)),
             ident_type: IdentType::Ref,
         };
-        let node = node.fold_children(&mut folder);
+        let node = node.fold_children_with(&mut folder);
 
         folder.apply_ops(node)
     }
@@ -202,7 +202,7 @@ impl Fold<ObjectLit> for Hygiene<'_> {
             current: Scope::new(ScopeKind::Block, Some(&self.current)),
             ident_type: IdentType::Ref,
         };
-        let node = node.fold_children(&mut folder);
+        let node = node.fold_children_with(&mut folder);
 
         folder.apply_ops(node)
     }
@@ -229,7 +229,7 @@ impl<'a> Hygiene<'a> {
         node.params = node.params.fold_with(&mut folder);
 
         folder.ident_type = IdentType::Ref;
-        node.body = node.body.map(|stmt| stmt.fold_children(&mut folder));
+        node.body = node.body.map(|stmt| stmt.fold_children_with(&mut folder));
 
         folder.apply_ops(node)
     }
@@ -295,7 +295,7 @@ impl<'a> Fold<Expr> for Hygiene<'a> {
         let old = self.ident_type;
         self.ident_type = IdentType::Ref;
         let node = match node {
-            Expr::Ident(..) => node.fold_children(self),
+            Expr::Ident(..) => node.fold_children_with(self),
             Expr::Member(e) => {
                 if e.computed {
                     Expr::Member(MemberExpr {
@@ -313,7 +313,7 @@ impl<'a> Fold<Expr> for Hygiene<'a> {
 
             Expr::This(..) => node,
 
-            _ => node.fold_children(self),
+            _ => node.fold_children_with(self),
         };
 
         self.ident_type = old;
@@ -473,7 +473,7 @@ impl Fold<Constructor> for Hygiene<'_> {
         let params = c.params.fold_with(self);
         self.ident_type = old;
 
-        let body = c.body.map(|bs| bs.fold_children(self));
+        let body = c.body.map(|bs| bs.fold_children_with(self));
         let key = c.key.fold_with(self);
 
         let c = Constructor {
@@ -495,7 +495,7 @@ macro_rules! track_ident {
                 let old = self.ident_type;
                 self.ident_type = IdentType::Ref;
 
-                let s = s.fold_children(self);
+                let s = s.fold_children_with(self);
 
                 self.ident_type = old;
 
@@ -511,7 +511,7 @@ macro_rules! track_ident {
                 let s = match s {
                     ImportSpecifier::Named(ImportNamedSpecifier { imported: None, .. })
                     | ImportSpecifier::Namespace(..)
-                    | ImportSpecifier::Default(..) => s.fold_children(self),
+                    | ImportSpecifier::Default(..) => s.fold_children_with(self),
                     ImportSpecifier::Named(s) => ImportSpecifier::Named(ImportNamedSpecifier {
                         local: s.local.fold_with(self),
                         ..s

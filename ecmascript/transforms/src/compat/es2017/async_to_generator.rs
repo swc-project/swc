@@ -51,7 +51,7 @@ where
             return stmts;
         }
 
-        let stmts = stmts.fold_children(self);
+        let stmts = stmts.fold_children_with(self);
 
         let mut buf = Vec::with_capacity(stmts.len());
 
@@ -77,7 +77,7 @@ where
 impl Fold<MethodProp> for Actual {
     fn fold(&mut self, prop: MethodProp) -> MethodProp {
         let prop = validate!(prop);
-        let prop = prop.fold_children(self);
+        let prop = prop.fold_children_with(self);
 
         if !prop.function.is_async {
             return prop;
@@ -330,7 +330,7 @@ impl Fold<Expr> for MethodFolder {
                     type_args: Default::default(),
                 })
             }
-            _ => expr.fold_children(self),
+            _ => expr.fold_children_with(self),
         }
     }
 }
@@ -346,7 +346,7 @@ impl Fold<ClassMethod> for Actual {
         let params = m.function.params.clone();
 
         let mut folder = MethodFolder { vars: vec![] };
-        let function = m.function.fold_children(&mut folder);
+        let function = m.function.fold_children_with(&mut folder);
         let expr = make_fn_ref(FnExpr {
             ident: None,
             function,
@@ -441,7 +441,7 @@ impl Fold<Expr> for Actual {
                         args,
                         type_args,
                     })
-                    .fold_children(self);
+                    .fold_children_with(self);
                 }
 
                 return make_fn_ref(fn_expr);
@@ -450,7 +450,7 @@ impl Fold<Expr> for Actual {
             _ => {}
         }
 
-        let expr = expr.fold_children(self);
+        let expr = expr.fold_children_with(self);
 
         match expr {
             Expr::Arrow(ArrowExpr { is_async: true, .. }) => {
@@ -507,7 +507,7 @@ impl Fold<Expr> for Actual {
 
 impl Fold<FnDecl> for Actual {
     fn fold(&mut self, f: FnDecl) -> FnDecl {
-        let f = f.fold_children(self);
+        let f = f.fold_children_with(self);
         if !f.function.is_async {
             return f;
         }
@@ -695,7 +695,7 @@ fn make_fn_ref(mut expr: FnExpr) -> Expr {
 
     impl Fold<Expr> for AwaitToYield {
         fn fold(&mut self, expr: Expr) -> Expr {
-            let expr = expr.fold_children(self);
+            let expr = expr.fold_children_with(self);
 
             match expr {
                 Expr::Await(AwaitExpr { span, arg }) => Expr::Yield(YieldExpr {
@@ -754,7 +754,7 @@ impl Visit<Function> for AsyncVisitor {
         if f.is_async {
             self.found = true;
         }
-        f.visit_children(self);
+        f.visit_children_with(self);
     }
 }
 impl Visit<ArrowExpr> for AsyncVisitor {
@@ -762,6 +762,6 @@ impl Visit<ArrowExpr> for AsyncVisitor {
         if f.is_async {
             self.found = true;
         }
-        f.visit_children(self);
+        f.visit_children_with(self);
     }
 }

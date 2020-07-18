@@ -13,7 +13,7 @@ noop_fold_type!(DuplicateKeys);
 
 impl Fold<Expr> for DuplicateKeys {
     fn fold(&mut self, expr: Expr) -> Expr {
-        let expr = expr.fold_children(self);
+        let expr = expr.fold_children_with(self);
 
         match expr {
             Expr::Object(ObjectLit { span, props }) => {
@@ -66,17 +66,17 @@ impl Fold<Prop> for PropFolder {
 
             Prop::Assign(..) => unreachable!("assign property in object literal is invalid"),
 
-            Prop::Getter(..) => prop.fold_children(&mut PropNameFolder {
+            Prop::Getter(..) => prop.fold_children_with(&mut PropNameFolder {
                 props: &mut self.getter_props,
             }),
-            Prop::Setter(..) => prop.fold_children(&mut PropNameFolder {
+            Prop::Setter(..) => prop.fold_children_with(&mut PropNameFolder {
                 props: &mut self.setter_props,
             }),
             _ => {
-                let prop = prop.fold_children(&mut PropNameFolder {
+                let prop = prop.fold_children_with(&mut PropNameFolder {
                     props: &mut self.getter_props,
                 });
-                prop.fold_children(&mut PropNameFolder {
+                prop.fold_children_with(&mut PropNameFolder {
                     props: &mut self.setter_props,
                 })
             }

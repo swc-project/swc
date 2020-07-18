@@ -26,13 +26,13 @@ noop_fold_type!(MemberExprLit);
 
 impl Fold<Module> for MemberExprLit {
     fn fold(&mut self, node: Module) -> Module {
-        validate!(node.fold_children(self))
+        validate!(node.fold_children_with(self))
     }
 }
 
 impl Fold<MemberExpr> for MemberExprLit {
     fn fold(&mut self, e: MemberExpr) -> MemberExpr {
-        let mut e = validate!(e.fold_children(self));
+        let mut e = validate!(e.fold_children_with(self));
 
         macro_rules! handle {
             ($sym:expr, $span:expr) => {

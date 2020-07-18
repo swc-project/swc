@@ -53,7 +53,7 @@ fn rt(global_mark: Mark, rt: Ident) -> Stmt {
 /// Injects `var _regeneratorRuntime = require('regenerator-runtime');`
 impl Fold<Module> for Regenerator {
     fn fold(&mut self, m: Module) -> Module {
-        let mut m: Module = m.fold_children(self);
+        let mut m: Module = m.fold_children_with(self);
         if let Some(rt_ident) = self.regenerator_runtime.take() {
             prepend(&mut m.body, rt(self.global_mark, rt_ident).into());
         }
@@ -64,7 +64,7 @@ impl Fold<Module> for Regenerator {
 /// Injects `var _regeneratorRuntime = require('regenerator-runtime');`
 impl Fold<Script> for Regenerator {
     fn fold(&mut self, s: Script) -> Script {
-        let mut s: Script = s.fold_children(self);
+        let mut s: Script = s.fold_children_with(self);
         if let Some(rt_ident) = self.regenerator_runtime.take() {
             prepend(&mut s.body, rt(self.global_mark, rt_ident).into());
         }
@@ -108,7 +108,7 @@ where
 
 impl Fold<Prop> for Regenerator {
     fn fold(&mut self, p: Prop) -> Prop {
-        let p = p.fold_children(self);
+        let p = p.fold_children_with(self);
 
         match p {
             Prop::Method(p) if p.function.is_generator => {
@@ -169,7 +169,7 @@ impl Fold<Expr> for Regenerator {
             return e;
         }
 
-        let e: Expr = e.fold_children(self);
+        let e: Expr = e.fold_children_with(self);
 
         match e {
             Expr::Fn(FnExpr {
@@ -211,7 +211,7 @@ impl Fold<FnDecl> for Regenerator {
             self.regenerator_runtime = Some(private_ident!("regeneratorRuntime"));
         }
 
-        let f = f.fold_children(self);
+        let f = f.fold_children_with(self);
 
         let marked = private_ident!("_marked");
 
@@ -248,7 +248,7 @@ impl Fold<ModuleDecl> for Regenerator {
             return i;
         }
 
-        let i = i.fold_children(self);
+        let i = i.fold_children_with(self);
 
         match i {
             ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
@@ -481,7 +481,7 @@ struct FnSentVisitor {
 
 impl Fold<Expr> for FnSentVisitor {
     fn fold(&mut self, e: Expr) -> Expr {
-        let e: Expr = e.fold_children(self);
+        let e: Expr = e.fold_children_with(self);
 
         match e {
             Expr::MetaProp(MetaPropExpr { meta, prop })
@@ -516,6 +516,6 @@ impl Visit<Function> for Finder {
             self.found = true;
             return;
         }
-        node.visit_children(self);
+        node.visit_children_with(self);
     }
 }

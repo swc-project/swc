@@ -134,7 +134,7 @@ impl Fold<Expr> for ConstModules {
                     })
                 }
             }
-            _ => expr.fold_children(self),
+            _ => expr.fold_children_with(self),
         };
         match expr {
             Expr::Ident(Ident { ref sym, .. }) => {

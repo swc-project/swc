@@ -146,7 +146,7 @@ impl UsageVisitor {
 /// import('something').then(...)
 impl Visit<CallExpr> for UsageVisitor {
     fn visit(&mut self, e: &CallExpr) {
-        e.visit_children(self);
+        e.visit_children_with(self);
 
         match e.callee {
             ExprOrSuper::Expr(box Expr::Ident(Ident {
@@ -161,7 +161,7 @@ impl Visit<CallExpr> for UsageVisitor {
 
 impl Visit<Function> for UsageVisitor {
     fn visit(&mut self, f: &Function) {
-        f.visit_children(self);
+        f.visit_children_with(self);
 
         if f.is_async {
             self.add(PROMISE_DEPENDENCIES)
@@ -172,7 +172,7 @@ impl Visit<Function> for UsageVisitor {
 /// for-of
 impl Visit<ForOfStmt> for UsageVisitor {
     fn visit(&mut self, s: &ForOfStmt) {
-        s.visit_children(self);
+        s.visit_children_with(self);
 
         self.add(COMMON_ITERATORS)
     }
@@ -181,7 +181,7 @@ impl Visit<ForOfStmt> for UsageVisitor {
 /// `[a, b] = c`
 impl Visit<ArrayPat> for UsageVisitor {
     fn visit(&mut self, p: &ArrayPat) {
-        p.visit_children(self);
+        p.visit_children_with(self);
 
         self.add(COMMON_ITERATORS)
     }
@@ -190,7 +190,7 @@ impl Visit<ArrayPat> for UsageVisitor {
 /// `[...spread]`
 impl Visit<ExprOrSpread> for UsageVisitor {
     fn visit(&mut self, e: &ExprOrSpread) {
-        e.visit_children(self);
+        e.visit_children_with(self);
         if e.spread.is_some() {
             self.add(COMMON_ITERATORS)
         }
@@ -200,7 +200,7 @@ impl Visit<ExprOrSpread> for UsageVisitor {
 /// `yield*`
 impl Visit<YieldExpr> for UsageVisitor {
     fn visit(&mut self, e: &YieldExpr) {
-        e.visit_children(self);
+        e.visit_children_with(self);
 
         if e.delegate {
             self.add(COMMON_ITERATORS)
@@ -210,7 +210,7 @@ impl Visit<YieldExpr> for UsageVisitor {
 
 impl Visit<Expr> for UsageVisitor {
     fn visit(&mut self, e: &Expr) {
-        e.visit_children(self);
+        e.visit_children_with(self);
 
         match e {
             Expr::Ident(i) => self.add_builtin(&i.sym),
@@ -238,7 +238,7 @@ impl Visit<MemberExpr> for UsageVisitor {
 
 impl Visit<VarDeclarator> for UsageVisitor {
     fn visit(&mut self, d: &VarDeclarator) {
-        d.visit_children(self);
+        d.visit_children_with(self);
 
         if let Some(ref init) = d.init {
             match d.name {
@@ -261,7 +261,7 @@ impl Visit<VarDeclarator> for UsageVisitor {
 
 impl Visit<AssignExpr> for UsageVisitor {
     fn visit(&mut self, e: &AssignExpr) {
-        e.visit_children(self);
+        e.visit_children_with(self);
 
         match e.left {
             // ({ keys, values } = Object)
@@ -277,7 +277,7 @@ impl Visit<AssignExpr> for UsageVisitor {
 
 impl Visit<BinExpr> for UsageVisitor {
     fn visit(&mut self, e: &BinExpr) {
-        e.visit_children(self);
+        e.visit_children_with(self);
 
         match e.op {
             op!("in") => {

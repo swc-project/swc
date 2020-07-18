@@ -22,7 +22,7 @@ impl Fold<Expr> for ParenRemover {
         let expr = validate!(expr);
         let span = expr.span();
 
-        let expr = expr.fold_children(self);
+        let expr = expr.fold_children_with(self);
 
         validate!(match expr {
             Expr::Paren(ParenExpr { expr, .. }) => match *expr {

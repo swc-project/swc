@@ -123,7 +123,7 @@ impl UsageVisitor {
 /// Detects usage of types
 impl Visit<Ident> for UsageVisitor {
     fn visit(&mut self, node: &Ident) {
-        node.visit_children(self);
+        node.visit_children_with(self);
 
         for (name, builtin) in BUILTIN_TYPES {
             if node.sym == **name {
@@ -135,7 +135,7 @@ impl Visit<Ident> for UsageVisitor {
 
 impl Visit<VarDeclarator> for UsageVisitor {
     fn visit(&mut self, d: &VarDeclarator) {
-        d.visit_children(self);
+        d.visit_children_with(self);
 
         if let Some(ref init) = d.init {
             match d.name {
@@ -158,7 +158,7 @@ impl Visit<VarDeclarator> for UsageVisitor {
 
 impl Visit<AssignExpr> for UsageVisitor {
     fn visit(&mut self, e: &AssignExpr) {
-        e.visit_children(self);
+        e.visit_children_with(self);
 
         match e.left {
             // ({ keys, values } = Object)
@@ -296,7 +296,7 @@ impl Visit<MemberExpr> for UsageVisitor {
 /// - `arr[Symbol.iterator]()`
 impl Visit<CallExpr> for UsageVisitor {
     fn visit(&mut self, e: &CallExpr) {
-        e.visit_children(self);
+        e.visit_children_with(self);
 
         if match e.callee {
             ExprOrSuper::Expr(box Expr::Member(MemberExpr {
@@ -315,7 +315,7 @@ impl Visit<CallExpr> for UsageVisitor {
 /// - `Symbol.iterator in arr`
 impl Visit<BinExpr> for UsageVisitor {
     fn visit(&mut self, e: &BinExpr) {
-        e.visit_children(self);
+        e.visit_children_with(self);
 
         match e.op {
             op!("in") if is_symbol_iterator(&e.left) => self.add(&["web.dom.iterable"]),
@@ -328,7 +328,7 @@ impl Visit<BinExpr> for UsageVisitor {
 /// - `yield*`
 impl Visit<YieldExpr> for UsageVisitor {
     fn visit(&mut self, e: &YieldExpr) {
-        e.visit_children(self);
+        e.visit_children_with(self);
         println!("Yield");
 
         if e.delegate {

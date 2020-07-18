@@ -14,7 +14,7 @@ impl Fold<FnDecl> for Dce<'_> {
             f.function.body = self.fold_in_marking_phase(f.function.body);
         }
 
-        f.fold_children(self)
+        f.fold_children_with(self)
     }
 }
 
@@ -28,7 +28,7 @@ impl Fold<ClassDecl> for Dce<'_> {
             node.class.span = node.class.span.apply_mark(self.config.used_mark);
         }
 
-        node.fold_children(self)
+        node.fold_children_with(self)
     }
 }
 
@@ -39,7 +39,7 @@ impl Fold<VarDecl> for Dce<'_> {
         }
 
         log::trace!("VarDecl");
-        var = var.fold_children(self);
+        var = var.fold_children_with(self);
 
         var.decls = var.decls.move_flat_map(|decl| {
             if self.is_marked(decl.span()) {

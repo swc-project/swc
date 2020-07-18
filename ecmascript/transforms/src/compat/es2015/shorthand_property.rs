@@ -42,7 +42,7 @@ noop_fold_type!(Shorthand);
 
 impl Fold<Prop> for Shorthand {
     fn fold(&mut self, prop: Prop) -> Prop {
-        let prop = prop.fold_children(self);
+        let prop = prop.fold_children_with(self);
 
         match prop {
             Prop::Shorthand(Ident { sym, span, .. }) => Prop::KeyValue(KeyValueProp {

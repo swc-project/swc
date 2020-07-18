@@ -86,7 +86,7 @@ impl Inlining<'_> {
     where
         T: 'static + for<'any> FoldWith<Inlining<'any>>,
     {
-        self.with_child(kind, node, |child, node| node.fold_children(child))
+        self.with_child(kind, node, |child, node| node.fold_children_with(child))
     }
 }
 
@@ -95,13 +95,13 @@ impl Fold<Vec<ModuleItem>> for Inlining<'_> {
         let old_phase = self.phase;
 
         self.phase = Phase::Analysis;
-        items = items.fold_children(self);
+        items = items.fold_children_with(self);
 
         log::debug!("Switching to Inlining phase");
 
         // Inline
         self.phase = Phase::Inlining;
-        items = items.fold_children(self);
+        items = items.fold_children_with(self);
 
         self.phase = old_phase;
 
@@ -115,15 +115,15 @@ impl Fold<Vec<Stmt>> for Inlining<'_> {
 
         match old_phase {
             Phase::Analysis => {
-                items = items.fold_children(self);
+                items = items.fold_children_with(self);
             }
             Phase::Inlining => {
                 self.phase = Phase::Analysis;
-                items = items.fold_children(self);
+                items = items.fold_children_with(self);
 
                 // Inline
                 self.phase = Phase::Inlining;
-                items = items.fold_children(self);
+                items = items.fold_children_with(self);
 
                 self.phase = old_phase
             }
@@ -137,7 +137,7 @@ impl Fold<VarDecl> for Inlining<'_> {
     fn fold(&mut self, decl: VarDecl) -> VarDecl {
         self.var_decl_kind = decl.kind;
 
-        decl.fold_children(self)
+        decl.fold_children_with(self)
     }
 }
 
@@ -309,7 +309,7 @@ impl Fold<Function> for Inlining<'_> {
                 node.params = node.params.fold_with(child);
                 node.body = match node.body {
                     None => None,
-                    Some(v) => Some(v.fold_children(child)),
+                    Some(v) => Some(v.fold_children_with(child)),
                 };
 
                 node
@@ -339,7 +339,7 @@ impl Fold<FnDecl> for Inlining<'_> {
                 node.params = node.params.fold_with(child);
                 node.body = match node.body {
                     None => None,
-                    Some(v) => Some(v.fold_children(child)),
+                    Some(v) => Some(v.fold_children_with(child)),
                 };
 
                 node
@@ -528,7 +528,7 @@ impl Fold<MemberExpr> for Inlining<'_> {
 
 impl Fold<Expr> for Inlining<'_> {
     fn fold(&mut self, node: Expr) -> Expr {
-        let node: Expr = node.fold_children(self);
+        let node: Expr = node.fold_children_with(self);
 
         // Codes like
         //
@@ -652,13 +652,13 @@ impl Fold<UnaryExpr> for Inlining<'_> {
             _ => {}
         }
 
-        node.fold_children(self)
+        node.fold_children_with(self)
     }
 }
 
 impl Fold<Pat> for Inlining<'_> {
     fn fold(&mut self, node: Pat) -> Pat {
-        let node: Pat = node.fold_children(self);
+        let node: Pat = node.fold_children_with(self);
 
         match node {
             Pat::Ident(ref i) => match self.pat_mode {
@@ -810,7 +810,7 @@ impl Fold<BinExpr> for Inlining<'_> {
                 left: node.left.fold_with(self),
                 ..node
             },
-            _ => node.fold_children(self),
+            _ => node.fold_children_with(self),
         }
     }
 }

@@ -54,7 +54,7 @@ impl Fold<Expr> for InstanceOf {
             return expr;
         }
 
-        let expr = expr.fold_children(self);
+        let expr = expr.fold_children_with(self);
 
         match expr {
             Expr::Bin(BinExpr {

@@ -138,7 +138,7 @@ fn make_ref_ident_for_for_stmt() -> Ident {
 
 impl Fold<Vec<VarDeclarator>> for AssignFolder {
     fn fold(&mut self, declarators: Vec<VarDeclarator>) -> Vec<VarDeclarator> {
-        let declarators = declarators.fold_children(self);
+        let declarators = declarators.fold_children_with(self);
 
         let is_complex = declarators.iter().any(|d| match d.name {
             Pat::Ident(..) => false,
@@ -166,7 +166,7 @@ impl Fold<Stmt> for AssignFolder {
                 assert_eq!(self.ignore_return_value, None);
                 Stmt::Expr(e)
             }
-            _ => s.fold_children(self),
+            _ => s.fold_children_with(self),
         }
     }
 }
@@ -540,7 +540,7 @@ impl Fold<ExportDecl> for AssignFolder {
     fn fold(&mut self, decl: ExportDecl) -> ExportDecl {
         let old = self.exporting;
         self.exporting = true;
-        let decl = decl.fold_children(self);
+        let decl = decl.fold_children_with(self);
         self.exporting = old;
         decl
     }
@@ -553,7 +553,7 @@ impl Fold<Expr> for AssignFolder {
         let expr = match expr {
             // Handle iife
             Expr::Fn(..) | Expr::Object(..) => Destructuring { c: self.c }.fold(expr),
-            _ => expr.fold_children(self),
+            _ => expr.fold_children_with(self),
         };
 
         match expr {
@@ -835,7 +835,7 @@ where
             return stmts;
         }
 
-        let stmts = stmts.fold_children(self);
+        let stmts = stmts.fold_children_with(self);
 
         let mut buf = Vec::with_capacity(stmts.len());
 
@@ -1074,7 +1074,7 @@ struct DestructuringVisitor {
 
 impl Visit<Pat> for DestructuringVisitor {
     fn visit(&mut self, node: &Pat) {
-        node.visit_children(self);
+        node.visit_children_with(self);
         match *node {
             Pat::Ident(..) => {}
             _ => self.found = true,

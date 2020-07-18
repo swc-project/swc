@@ -9,7 +9,7 @@ macro_rules! impl_fold_fn {
                 }
 
                 let f = validate!(f);
-                let f = f.fold_children(self);
+                let f = f.fold_children_with(self);
 
                 let (params, body) = self.fold_fn_like(f.params, f.body.unwrap());
 
@@ -25,7 +25,7 @@ macro_rules! impl_fold_fn {
             fn fold(&mut self, f: ArrowExpr) -> ArrowExpr {
                 use swc_common::Spanned;
 
-                let f = f.fold_children(self);
+                let f = f.fold_children_with(self);
 
                 let was_expr = match f.body {
                     BlockStmtOrExpr::Expr(..) => true,
@@ -83,7 +83,7 @@ macro_rules! impl_fold_fn {
                     return f;
                 }
 
-                let f = f.fold_children(self);
+                let f = f.fold_children_with(self);
 
                 let (mut params, body) = self.fold_fn_like(
                     vec![Param {
@@ -109,7 +109,7 @@ macro_rules! impl_fold_fn {
                     return f;
                 }
 
-                let f = f.fold_children(self);
+                let f = f.fold_children_with(self);
 
                 let (params, body) = self.fold_fn_like(vec![], f.body.unwrap());
                 debug_assert_eq!(params, vec![]);
@@ -123,7 +123,7 @@ macro_rules! impl_fold_fn {
 
         impl Fold<CatchClause> for $T {
             fn fold(&mut self, f: CatchClause) -> CatchClause {
-                let f = f.fold_children(self);
+                let f = f.fold_children_with(self);
 
                 let (mut params, body) = match f.param {
                     Some(pat) => self.fold_fn_like(
@@ -161,7 +161,7 @@ macro_rules! impl_fold_fn {
                     return f;
                 }
 
-                let f = f.fold_children(self);
+                let f = f.fold_children_with(self);
 
                 let params = f
                     .params

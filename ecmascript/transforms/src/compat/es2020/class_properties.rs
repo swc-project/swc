@@ -48,7 +48,7 @@ where
             match T::try_into_stmt(stmt) {
                 Err(node) => match node.try_into_module_decl() {
                     Ok(decl) => {
-                        let decl = decl.fold_children(self);
+                        let decl = decl.fold_children_with(self);
 
                         match decl {
                             ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
@@ -127,7 +127,7 @@ where
                     Err(..) => unreachable!(),
                 },
                 Ok(stmt) => {
-                    let stmt = stmt.fold_children(self);
+                    let stmt = stmt.fold_children_with(self);
                     // Fold class
                     match stmt {
                         Stmt::Decl(Decl::Class(ClassDecl {
@@ -159,7 +159,7 @@ where
 
 impl Fold<Expr> for ClassProperties {
     fn fold(&mut self, expr: Expr) -> Expr {
-        let expr = expr.fold_children(self);
+        let expr = expr.fold_children_with(self);
 
         match expr {
             // TODO(kdy1): Make it generate smaller code.
@@ -244,7 +244,7 @@ impl Fold<BlockStmtOrExpr> for ClassProperties {
 
                 BlockStmtOrExpr::BlockStmt(BlockStmt { span, stmts })
             }
-            _ => body.fold_children(self),
+            _ => body.fold_children_with(self),
         }
     }
 }

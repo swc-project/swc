@@ -9,7 +9,7 @@ noop_fold_type!(ThisInStaticFolder);
 
 impl Fold<Expr> for ThisInStaticFolder {
     fn fold(&mut self, e: Expr) -> Expr {
-        let e = e.fold_children(self);
+        let e = e.fold_children_with(self);
 
         match e {
             Expr::This(..) => Expr::Ident(self.ident.clone()),

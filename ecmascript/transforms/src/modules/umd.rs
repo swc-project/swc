@@ -717,7 +717,7 @@ impl Fold<Prop> for Umd {
                 Scope::fold_shorthand_prop(self, top_level, ident)
             }
 
-            _ => p.fold_children(self),
+            _ => p.fold_children_with(self),
         }
     }
 }

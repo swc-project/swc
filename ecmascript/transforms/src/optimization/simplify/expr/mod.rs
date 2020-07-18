@@ -72,7 +72,7 @@ impl Fold<Pat> for SimplifyExpr {
 impl Fold<Expr> for SimplifyExpr {
     fn fold(&mut self, expr: Expr) -> Expr {
         // fold children before doing something more.
-        let expr = expr.fold_children(self);
+        let expr = expr.fold_children_with(self);
 
         match expr {
             // Do nothing.
@@ -1124,7 +1124,7 @@ impl SimplifyExpr {
 /// Drops unused values
 impl Fold<SeqExpr> for SimplifyExpr {
     fn fold(&mut self, e: SeqExpr) -> SeqExpr {
-        let mut e = e.fold_children(self);
+        let mut e = e.fold_children_with(self);
 
         let last_expr = e.exprs.pop().expect("SeqExpr.exprs must not be empty");
 

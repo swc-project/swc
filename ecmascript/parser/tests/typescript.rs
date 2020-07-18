@@ -267,7 +267,7 @@ struct Normalizer;
 
 impl Fold<Pat> for Normalizer {
     fn fold(&mut self, mut node: Pat) -> Pat {
-        node = node.fold_children(self);
+        node = node.fold_children_with(self);
 
         match node {
             Pat::Expr(box Expr::Ident(i)) => Pat::Ident(i),
@@ -278,7 +278,7 @@ impl Fold<Pat> for Normalizer {
 
 impl Fold<PatOrExpr> for Normalizer {
     fn fold(&mut self, node: PatOrExpr) -> PatOrExpr {
-        let node = node.fold_children(self);
+        let node = node.fold_children_with(self);
 
         match node {
             PatOrExpr::Pat(box Pat::Expr(e)) => PatOrExpr::Expr(e),
@@ -290,7 +290,7 @@ impl Fold<PatOrExpr> for Normalizer {
 
 impl Fold<PropName> for Normalizer {
     fn fold(&mut self, node: PropName) -> PropName {
-        let node = node.fold_children(self);
+        let node = node.fold_children_with(self);
 
         match node {
             PropName::Computed(ComputedPropName {

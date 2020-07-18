@@ -19,7 +19,7 @@ noop_fold_type!(DisplayName);
 
 impl Fold for DisplayName {
     fn fold_assign_expr(&mut self, expr: AssignExpr) -> AssignExpr {
-        let expr = expr.fold_children(self);
+        let expr = expr.fold_children_with(self);
 
         if expr.op != op!("=") {
             return expr;
@@ -63,7 +63,7 @@ impl Fold for DisplayName {
     }
 
     fn fold_module_decl(&mut self, decl: ModuleDecl) -> ModuleDecl {
-        let decl = decl.fold_children(self);
+        let decl = decl.fold_children_with(self);
 
         match decl {
             ModuleDecl::ExportDefaultExpr(e) => {
@@ -80,7 +80,7 @@ impl Fold for DisplayName {
     }
 
     fn fold_prop(&mut self, prop: Prop) -> Prop {
-        let prop = prop.fold_children(self);
+        let prop = prop.fold_children_with(self);
 
         match prop {
             Prop::KeyValue(KeyValueProp { key, value }) => {
@@ -131,7 +131,7 @@ impl Fold for Folder {
     }
 
     fn fold_call_expr(&mut self, expr: CallExpr) -> CallExpr {
-        let expr = expr.fold_children(self);
+        let expr = expr.fold_children_with(self);
 
         if is_create_class_call(&expr) {
             let name = match self.name.take() {

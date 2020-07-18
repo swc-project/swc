@@ -618,7 +618,7 @@ impl Fold<Prop> for CommonJs {
                 Scope::fold_shorthand_prop(self, top_level, ident)
             }
 
-            _ => p.fold_children(self),
+            _ => p.fold_children_with(self),
         }
     }
 }
@@ -646,7 +646,7 @@ impl Fold<FnDecl> for CommonJs {
             .declared_vars
             .push((node.ident.sym.clone(), node.ident.span.ctxt()));
 
-        node.fold_children(self)
+        node.fold_children_with(self)
     }
 }
 

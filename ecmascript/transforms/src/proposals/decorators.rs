@@ -150,7 +150,7 @@ impl Fold<Vec<ModuleItem>> for Decorators {
 
 impl Fold<ModuleDecl> for Decorators {
     fn fold(&mut self, decl: ModuleDecl) -> ModuleDecl {
-        let decl = decl.fold_children(self);
+        let decl = decl.fold_children_with(self);
 
         match decl {
             ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
@@ -173,7 +173,7 @@ impl Fold<ModuleDecl> for Decorators {
 
 impl Fold<Decl> for Decorators {
     fn fold(&mut self, decl: Decl) -> Decl {
-        let decl = decl.fold_children(self);
+        let decl = decl.fold_children_with(self);
 
         match decl {
             Decl::Class(ClassDecl {
@@ -210,7 +210,7 @@ impl Fold<Decl> for Decorators {
 
 impl Fold<Expr> for Decorators {
     fn fold(&mut self, expr: Expr) -> Expr {
-        let expr = expr.fold_children(self);
+        let expr = expr.fold_children_with(self);
 
         match expr {
             Expr::Class(ClassExpr { ident, class }) => {

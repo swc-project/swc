@@ -117,7 +117,7 @@ impl Fold<TsTypeAliasDecl> for Strip {
 
 impl Fold<Constructor> for Strip {
     fn fold(&mut self, c: Constructor) -> Constructor {
-        let c = c.fold_children(self);
+        let c = c.fold_children_with(self);
 
         let mut stmts = vec![];
 
@@ -183,7 +183,7 @@ impl Fold<Constructor> for Strip {
 
 impl Fold<Vec<ClassMember>> for Strip {
     fn fold(&mut self, members: Vec<ClassMember>) -> Vec<ClassMember> {
-        let members = members.fold_children(self);
+        let members = members.fold_children_with(self);
 
         members.move_flat_map(|member| match member {
             ClassMember::Constructor(Constructor { body: None, .. }) => None,
@@ -204,7 +204,7 @@ impl Fold<Vec<ClassMember>> for Strip {
 /// Remove `this` from parameter list
 impl Fold<Vec<Param>> for Strip {
     fn fold(&mut self, params: Vec<Param>) -> Vec<Param> {
-        let mut params = params.fold_children(self);
+        let mut params = params.fold_children_with(self);
 
         params.retain(|param| match param.pat {
             Pat::Ident(Ident {
@@ -224,7 +224,7 @@ impl Fold<Vec<ModuleItem>> for Strip {
 
         // First pass
         self.phase = Phase::Analysis;
-        let items = items.fold_children(self);
+        let items = items.fold_children_with(self);
 
         self.phase = Phase::DropImports;
 
@@ -801,7 +801,7 @@ impl Fold<Ident> for Strip {
 
         Ident {
             optional: false,
-            ..i.fold_children(self)
+            ..i.fold_children_with(self)
         }
     }
 }
@@ -820,7 +820,7 @@ impl Visit<TsEntityName> for Strip {
                     .entry((i.sym.clone(), i.span.ctxt()))
                     .and_modify(|v| v.has_type = true);
             }
-            TsEntityName::TsQualifiedName(..) => name.visit_children(self),
+            TsEntityName::TsQualifiedName(..) => name.visit_children_with(self),
         }
     }
 }
@@ -870,7 +870,7 @@ impl Fold<Decl> for Strip {
 
         let old = self.non_top_level;
         self.non_top_level = true;
-        let decl = decl.fold_children(self);
+        let decl = decl.fold_children_with(self);
         self.non_top_level = old;
         validate!(decl)
     }
@@ -878,7 +878,7 @@ impl Fold<Decl> for Strip {
 
 impl Fold<Stmt> for Strip {
     fn fold(&mut self, stmt: Stmt) -> Stmt {
-        let stmt = stmt.fold_children(self);
+        let stmt = stmt.fold_children_with(self);
 
         match stmt {
             Stmt::Decl(decl) => match decl {
@@ -958,7 +958,7 @@ impl Fold<Expr> for Strip {
                 prop: if computed { prop.fold_with(self) } else { prop },
                 computed,
             }),
-            _ => expr.fold_children(self),
+            _ => expr.fold_children_with(self),
         };
 
         expr
@@ -969,7 +969,7 @@ impl Fold<Module> for Strip {
     fn fold(&mut self, node: Module) -> Module {
         let node = validate!(node);
 
-        validate!(node.fold_children(self))
+        validate!(node.fold_children_with(self))
     }
 }
 

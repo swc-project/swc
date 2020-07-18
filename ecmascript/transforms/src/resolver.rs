@@ -207,7 +207,7 @@ impl<'a> Fold<Function> for Resolver<'a> {
         f.params = f.params.fold_with(self);
 
         self.ident_type = IdentType::Ref;
-        f.body = f.body.map(|stmt| stmt.fold_children(self));
+        f.body = f.body.map(|stmt| stmt.fold_children_with(self));
 
         f
     }
@@ -223,7 +223,7 @@ impl<'a> Fold<BlockStmt> for Resolver<'a> {
             self.cur_defining.take(),
         );
 
-        let block = block.fold_children(&mut child_folder);
+        let block = block.fold_children_with(&mut child_folder);
         self.cur_defining = child_folder.cur_defining;
         block
     }
@@ -326,7 +326,7 @@ impl<'a> Fold<FnDecl> for Resolver<'a> {
 impl Fold<Pat> for Resolver<'_> {
     fn fold(&mut self, p: Pat) -> Pat {
         let old = self.cur_defining.take();
-        let p = p.fold_children(self);
+        let p = p.fold_children_with(self);
 
         self.cur_defining = old;
         p
@@ -355,7 +355,7 @@ impl<'a> Fold<Expr> for Resolver<'a> {
                     })
                 }
             }
-            _ => expr.fold_children(self),
+            _ => expr.fold_children_with(self),
         };
         self.ident_type = old;
 
@@ -380,7 +380,7 @@ impl<'a> Fold<VarDeclarator> for Resolver<'a> {
         };
 
         self.cur_defining = cur_name;
-        let init = decl.init.fold_children(self);
+        let init = decl.init.fold_children_with(self);
         self.cur_defining = old_defining;
 
         VarDeclarator { name, init, ..decl }
@@ -470,7 +470,7 @@ impl Fold<ObjectLit> for Resolver<'_> {
             self.cur_defining.take(),
         );
 
-        let o = o.fold_children(&mut child_folder);
+        let o = o.fold_children_with(&mut child_folder);
         self.cur_defining = child_folder.cur_defining;
         o
     }
@@ -509,7 +509,7 @@ impl<'a> Fold<ArrowExpr> for Resolver<'a> {
 impl Fold<BlockStmtOrExpr> for Resolver<'_> {
     fn fold(&mut self, node: BlockStmtOrExpr) -> BlockStmtOrExpr {
         match node {
-            BlockStmtOrExpr::BlockStmt(block) => block.fold_children(self).into(),
+            BlockStmtOrExpr::BlockStmt(block) => block.fold_children_with(self).into(),
             BlockStmtOrExpr::Expr(e) => e.fold_with(self).into(),
         }
     }
@@ -520,11 +520,11 @@ impl Fold<Vec<Stmt>> for Resolver<'_> {
         // Phase 1: Handle hoisting
         let stmts = {
             let mut hoister = Hoister { resolver: self };
-            stmts.fold_children(&mut hoister)
+            stmts.fold_children_with(&mut hoister)
         };
 
         // Phase 2.
-        stmts.fold_children(self)
+        stmts.fold_children_with(self)
     }
 }
 
@@ -533,17 +533,17 @@ impl Fold<Vec<ModuleItem>> for Resolver<'_> {
         let stmts = validate!(stmts);
 
         if self.current.kind != ScopeKind::Fn {
-            return stmts.fold_children(self);
+            return stmts.fold_children_with(self);
         }
 
         // Phase 1: Handle hoisting
         let stmts = {
             let mut hoister = Hoister { resolver: self };
-            stmts.fold_children(&mut hoister)
+            stmts.fold_children_with(&mut hoister)
         };
 
         // Phase 2.
-        stmts.fold_children(self)
+        stmts.fold_children_with(self)
     }
 }
 
@@ -602,7 +602,7 @@ impl Fold<VarDecl> for Hoister<'_, '_> {
         }
         self.resolver.hoist = false;
 
-        node.fold_children(self)
+        node.fold_children_with(self)
     }
 }
 
@@ -619,7 +619,7 @@ impl Fold<Pat> for Hoister<'_, '_> {
     fn fold(&mut self, node: Pat) -> Pat {
         match node {
             Pat::Ident(i) => Pat::Ident(self.resolver.fold_binding_ident(i)),
-            _ => node.fold_children(self),
+            _ => node.fold_children_with(self),
         }
     }
 }

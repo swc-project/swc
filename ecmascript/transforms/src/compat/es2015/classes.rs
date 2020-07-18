@@ -91,7 +91,7 @@ where
                                 let ident = ident.unwrap_or_else(|| quote_ident!("_default"));
 
                                 let decl = self.fold_class_as_var_decl(ident.clone(), class);
-                                let decl = decl.fold_children(self);
+                                let decl = decl.fold_children_with(self);
                                 buf.push(T::from_stmt(Stmt::Decl(Decl::Var(decl))));
 
                                 buf.push(
@@ -124,7 +124,7 @@ where
                                 ..
                             }) => {
                                 let decl = self.fold_class_as_var_decl(ident, class);
-                                let decl = decl.fold_children(self);
+                                let decl = decl.fold_children_with(self);
                                 buf.push(
                                     match T::try_from_module_decl(ModuleDecl::ExportDecl(
                                         ExportDecl {
@@ -137,12 +137,12 @@ where
                                     },
                                 );
                             }
-                            _ => {
-                                buf.push(match T::try_from_module_decl(decl.fold_children(self)) {
+                            _ => buf.push(
+                                match T::try_from_module_decl(decl.fold_children_with(self)) {
                                     Ok(t) => t,
                                     Err(..) => unreachable!(),
-                                })
-                            }
+                                },
+                            ),
                         };
                     }
                     Err(..) => unreachable!(),
@@ -152,7 +152,7 @@ where
                         self.in_strict |= stmt.is_use_strict();
                     }
 
-                    let stmt = stmt.fold_children(self);
+                    let stmt = stmt.fold_children_with(self);
                     buf.push(T::from_stmt(stmt));
                 }
             }
@@ -190,7 +190,7 @@ impl Fold<Decl> for Classes {
             _ => n,
         };
 
-        validate!(n.fold_children(self))
+        validate!(n.fold_children_with(self))
     }
 }
 
@@ -199,9 +199,9 @@ impl Fold<Expr> for Classes {
         let n = validate!(n);
 
         validate!(match n {
-            Expr::Class(e) => self.fold_class(e.ident, e.class).fold_children(self),
+            Expr::Class(e) => self.fold_class(e.ident, e.class).fold_children_with(self),
 
-            _ => n.fold_children(self),
+            _ => n.fold_children_with(self),
         })
     }
 }
@@ -871,7 +871,7 @@ fn is_always_initialized(body: &[Stmt]) -> bool {
         fn visit(&mut self, node: &ExprOrSuper) {
             match *node {
                 ExprOrSuper::Super(..) => self.found = true,
-                _ => node.visit_children(self),
+                _ => node.visit_children_with(self),
             }
         }
     }

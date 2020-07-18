@@ -38,7 +38,7 @@ noop_fold_type!(AssignFolder);
 
 impl Fold<Expr> for AssignFolder {
     fn fold(&mut self, e: Expr) -> Expr {
-        let e = e.fold_children(self);
+        let e = e.fold_children_with(self);
 
         match e {
             Expr::Assign(AssignExpr {
@@ -99,7 +99,7 @@ where
         if !should_fold(&stmts) {
             return stmts;
         }
-        let stmts = stmts.fold_children(self);
+        let stmts = stmts.fold_children_with(self);
 
         let mut buf = vec![];
 
