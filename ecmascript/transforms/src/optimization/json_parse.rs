@@ -1,7 +1,7 @@
 use crate::util::{calc_literal_cost, ExprFactory};
 use serde_json::Value;
 use std::usize;
-use swc_common::{Fold, FoldWith, Spanned, DUMMY_SP};
+use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 
 /// Trnasform to optimize performance of literals.

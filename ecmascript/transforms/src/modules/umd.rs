@@ -8,8 +8,9 @@ use crate::util::{prepend_stmts, var::VarCollector, DestructuringFinder, ExprFac
 use fxhash::FxHashSet;
 use std::sync::Arc;
 use swc_atoms::js_word;
-use swc_common::{Fold, FoldWith, Mark, SourceMap, VisitWith, DUMMY_SP};
+use swc_common::{Mark, SourceMap, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_visit::Fold;
 
 mod config;
 

@@ -1,6 +1,6 @@
 use crate::util::{alias_if_required, undefined, StmtLike};
 use std::mem::replace;
-use swc_common::{Fold, FoldWith, DUMMY_SP};
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 
 #[cfg(test)]

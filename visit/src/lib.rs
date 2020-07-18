@@ -23,7 +23,7 @@ pub struct AndThen<A, B> {
 #[macro_export]
 macro_rules! chain {
     ($a:expr, $b:expr) => {{
-        use $crate::fold::and_then::AndThen;
+        use $crate::AndThen;
 
         AndThen {
             first: $a,

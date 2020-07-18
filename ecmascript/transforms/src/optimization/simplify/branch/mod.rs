@@ -2,12 +2,12 @@ use crate::util::{StmtLike, *};
 use std::{borrow::Cow, cmp::min, iter::once};
 use swc_atoms::js_word;
 use swc_common::{
-    fold::VisitWith,
     pass::{CompilerPass, Repeated},
     util::move_map::MoveMap,
-    Fold, FoldWith, Spanned, Visit, DUMMY_SP,
+    Spanned, DUMMY_SP,
 };
 use swc_ecma_ast::*;
+use swc_ecma_visit::Fold;
 
 #[cfg(test)]
 mod tests;
@@ -15,7 +15,7 @@ mod tests;
 /// Not intended for general use. Use [simplifier] instead.
 ///
 /// Ported from `PeepholeRemoveDeadCode` of google closure compiler.
-pub fn dead_branch_remover() -> impl RepeatedJsPass + 'static {
+pub fn dead_branch_remover() -> impl Repeated + Fold + 'static {
     Remover::default()
 }
 

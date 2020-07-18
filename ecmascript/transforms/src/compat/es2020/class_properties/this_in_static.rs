@@ -1,5 +1,5 @@
-use swc_common::{Fold, FoldWith};
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, FoldWith};
 
 pub(super) struct ThisInStaticFolder {
     pub ident: Ident,

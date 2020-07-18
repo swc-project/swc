@@ -7,8 +7,9 @@ use fxhash::FxHashSet;
 use serde::{Deserialize, Serialize};
 use std::iter;
 use swc_atoms::js_word;
-use swc_common::{Fold, FoldWith, Mark, VisitWith, DUMMY_SP};
+use swc_common::{Mark, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_visit::Fold;
 
 pub fn amd(config: Config) -> impl Fold {
     Amd {

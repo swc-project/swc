@@ -6,7 +6,7 @@ use super::util::{
 use crate::util::{var::VarCollector, DestructuringFinder, ExprFactory};
 use fxhash::FxHashSet;
 use swc_atoms::js_word;
-use swc_common::{Fold, FoldWith, Mark, VisitWith, DUMMY_SP};
+use swc_common::{Mark, DUMMY_SP};
 use swc_ecma_ast::*;
 
 pub fn common_js(root_mark: Mark, config: Config) -> impl Fold {

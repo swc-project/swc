@@ -8,7 +8,7 @@ use std::{
     iter,
 };
 use swc_atoms::{js_word, JsWord};
-use swc_common::{FoldWith, Mark, Span, SyntaxContext, VisitWith, DUMMY_SP};
+use swc_common::{Mark, Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 
 pub(super) trait ModulePass {

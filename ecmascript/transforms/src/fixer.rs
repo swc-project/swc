@@ -2,7 +2,7 @@ use crate::util::{ExprFactory, COMMENTS};
 use fxhash::FxHashMap;
 use swc_common::{
     util::{map::Map, move_map::MoveMap},
-    Fold, FoldWith, Span, Spanned,
+    Span, Spanned,
 };
 use swc_ecma_ast::*;
 

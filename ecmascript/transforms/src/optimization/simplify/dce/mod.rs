@@ -6,7 +6,7 @@ use swc_common::{
     chain,
     pass::{CompilerPass, Repeated},
     util::move_map::MoveMap,
-    Fold, FoldWith, Mark, Span, Spanned, VisitWith,
+    Mark, Span, Spanned,
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id, StmtLike};
