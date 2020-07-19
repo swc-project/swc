@@ -1,7 +1,7 @@
 use crate::util::UsageFinder;
 use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::Fold;
+use swc_ecma_visit::{Fold, FoldWith};
 
 #[derive(Clone, Copy)]
 pub struct BlockScopedFns;

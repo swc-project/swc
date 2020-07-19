@@ -133,7 +133,7 @@ where
     N: VisitWith<ArrowVisitor>,
 {
     let mut v = ArrowVisitor { found: false };
-    node.visit_with(&mut v);
+    node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
     v.found
 }
 

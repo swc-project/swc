@@ -8,7 +8,7 @@ use fxhash::FxHashSet;
 use swc_atoms::js_word;
 use swc_common::{Mark, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{Fold, FoldWith, VisitWith};
 
 pub fn common_js(root_mark: Mark, config: Config) -> impl Fold {
     CommonJs {
@@ -151,14 +151,17 @@ impl Fold for CommonJs {
                                 var.clone().fold_with(self),
                             ))));
 
-                            var.decls.visit_with(&mut VarCollector {
-                                to: &mut self.scope.declared_vars,
-                            });
+                            var.decls.visit_with(
+                                &Invalid { span: DUMMY_SP } as _,
+                                &mut VarCollector {
+                                    to: &mut self.scope.declared_vars,
+                                },
+                            );
 
                             let mut found: Vec<Ident> = vec![];
                             for decl in var.decls {
                                 let mut v = DestructuringFinder { found: &mut found };
-                                decl.visit_with(&mut v);
+                                decl.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
 
                                 for ident in found.drain(..) {
                                     self.scope
@@ -619,13 +622,16 @@ impl Fold for CommonJs {
         }
     }
 
-    /// 
+    ///
     /// - collects all declared variables for let and var.
     fn fold_var_decl(&mut self, var: VarDecl) -> VarDecl {
         if var.kind != VarDeclKind::Const {
-            var.decls.visit_with(&mut VarCollector {
-                to: &mut self.scope.declared_vars,
-            });
+            var.decls.visit_with(
+                &Invalid { span: DUMMY_SP } as _,
+                &mut VarCollector {
+                    to: &mut self.scope.declared_vars,
+                },
+            );
         }
 
         VarDecl {

@@ -141,7 +141,7 @@ impl Fold for Hoister {
         }
     }
 
-    fn fold_var_declarator(&mut self, var: VarDeclOrExpr) -> VarDeclOrExpr {
+    fn fold_var_decl_or_expr(&mut self, var: VarDeclOrExpr) -> VarDeclOrExpr {
         match var {
             VarDeclOrExpr::VarDecl(var) => VarDeclOrExpr::Expr(box self.var_decl_to_expr(var)),
             _ => var.fold_children_with(self),

@@ -29,6 +29,7 @@ impl OptChaining {
     fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
     where
         T: StmtLike + FoldWith<Self>,
+        Vec<T>: FoldWith<Self>,
     {
         // This is to support nested block statements
         let old = mem::replace(&mut self.vars, vec![]);

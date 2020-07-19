@@ -172,14 +172,17 @@ impl Fold for Umd {
                         }) => {
                             extra_stmts.push(Stmt::Decl(Decl::Var(var.clone().fold_with(self))));
 
-                            var.decls.visit_with(&mut VarCollector {
-                                to: &mut self.scope.declared_vars,
-                            });
+                            var.decls.visit_with(
+                                &Invalid { span: DUMMY_SP } as _,
+                                &mut VarCollector {
+                                    to: &mut self.scope.declared_vars,
+                                },
+                            );
 
                             let mut found: Vec<Ident> = vec![];
                             for decl in var.decls {
                                 let mut v = DestructuringFinder { found: &mut found };
-                                decl.visit_with(&mut v);
+                                decl.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
 
                                 for ident in found.drain(..) {
                                     self.scope
@@ -722,9 +725,12 @@ impl Fold for Umd {
     /// - collects all declared variables for let and var.
     fn fold_var_decl(&mut self, var: VarDecl) -> VarDecl {
         if var.kind != VarDeclKind::Const {
-            var.decls.visit_with(&mut VarCollector {
-                to: &mut self.scope.declared_vars,
-            });
+            var.decls.visit_with(
+                &Invalid { span: DUMMY_SP } as _,
+                &mut VarCollector {
+                    to: &mut self.scope.declared_vars,
+                },
+            );
         }
 
         VarDecl {

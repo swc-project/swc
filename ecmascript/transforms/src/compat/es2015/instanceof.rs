@@ -1,6 +1,7 @@
 use crate::util::ExprFactory;
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, Visit, VisitWith};
+use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
 
 /// `@babel/plugin-transform-instanceof`
 ///
@@ -39,14 +40,14 @@ impl Fold for InstanceOf {
                 found: bool,
             }
             impl Visit for Visitor {
-                fn visit_bin_expr(&mut self, e: &BinExpr) {
+                fn visit_bin_expr(&mut self, e: &BinExpr, _: &dyn Node) {
                     if e.op == op!("instanceof") {
                         self.found = true
                     }
                 }
             }
             let mut v = Visitor { found: false };
-            node.visit_with(&mut v);
+            node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
             v.found
         }
         // fast path

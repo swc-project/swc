@@ -56,7 +56,7 @@ impl AsyncToGenerator {
     fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
     where
         T: StmtLike + VisitWith<AsyncVisitor> + FoldWith<Actual>,
-        Vec<T>: FoldWith<Self>,
+        Vec<T>: FoldWith<Self> + VisitWith<AsyncVisitor>,
     {
         if !contains_async(&stmts) {
             return stmts;
@@ -744,7 +744,7 @@ where
     N: VisitWith<AsyncVisitor>,
 {
     let mut v = AsyncVisitor { found: false };
-    node.visit_with(&mut v);
+    node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
     v.found
 }
 

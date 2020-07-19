@@ -274,6 +274,7 @@ impl Fold for Marker {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::pass::noop;
 
     #[test]
     fn external_helper() {
@@ -359,7 +360,7 @@ let _throw1 = null;
     fn use_strict_abort() {
         crate::tests::test_transform(
             Default::default(),
-            |_| {},
+            |_| noop(),
             "'use strict'
 
 let x = 4;",

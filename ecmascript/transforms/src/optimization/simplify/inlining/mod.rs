@@ -1,7 +1,10 @@
 use self::scope::{Scope, ScopeKind, VarType};
 use crate::{pass::RepeatedJsPass, scope::IdentType};
 use std::borrow::Cow;
-use swc_common::pass::{CompilerPass, Repeated};
+use swc_common::{
+    pass::{CompilerPass, Repeated},
+    DUMMY_SP,
+};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{contains_this_expr, find_ids, ident::IdentLike, undefined, Id};
 use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
@@ -107,8 +110,8 @@ impl Fold for Inlining<'_> {
                                 scope: &mut self.scope,
                             };
 
-                            left.visit_with(&mut v);
-                            e.right.visit_with(&mut v);
+                            left.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
+                            e.right.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
                         }
 
                         _ => {}
@@ -129,8 +132,8 @@ impl Fold for Inlining<'_> {
                     scope: &mut self.scope,
                 };
 
-                e.left.visit_with(&mut v);
-                e.right.visit_with(&mut v)
+                e.left.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
+                e.right.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v)
             }
         }
 
@@ -224,9 +227,12 @@ impl Fold for Inlining<'_> {
 
     fn fold_do_while_stmt(&mut self, mut node: DoWhileStmt) -> DoWhileStmt {
         {
-            node.test.visit_with(&mut IdentListVisitor {
-                scope: &mut self.scope,
-            });
+            node.test.visit_with(
+                &Invalid { span: DUMMY_SP } as _,
+                &mut IdentListVisitor {
+                    scope: &mut self.scope,
+                },
+            );
         }
 
         node.test = node.test.fold_with(self);
@@ -378,15 +384,21 @@ impl Fold for Inlining<'_> {
         node.left = node.left.fold_with(self);
 
         {
-            node.left.visit_with(&mut IdentListVisitor {
-                scope: &mut self.scope,
-            });
+            node.left.visit_with(
+                &Invalid { span: DUMMY_SP } as _,
+                &mut IdentListVisitor {
+                    scope: &mut self.scope,
+                },
+            );
         }
 
         {
-            node.right.visit_with(&mut IdentListVisitor {
-                scope: &mut self.scope,
-            });
+            node.right.visit_with(
+                &Invalid { span: DUMMY_SP } as _,
+                &mut IdentListVisitor {
+                    scope: &mut self.scope,
+                },
+            );
         }
 
         node.right = node.right.fold_with(self);
@@ -400,14 +412,20 @@ impl Fold for Inlining<'_> {
         node.left = node.left.fold_with(self);
 
         {
-            node.left.visit_with(&mut IdentListVisitor {
-                scope: &mut self.scope,
-            });
+            node.left.visit_with(
+                &Invalid { span: DUMMY_SP } as _,
+                &mut IdentListVisitor {
+                    scope: &mut self.scope,
+                },
+            );
         }
         {
-            node.right.visit_with(&mut IdentListVisitor {
-                scope: &mut self.scope,
-            });
+            node.right.visit_with(
+                &Invalid { span: DUMMY_SP } as _,
+                &mut IdentListVisitor {
+                    scope: &mut self.scope,
+                },
+            );
         }
 
         node.right = node.right.fold_with(self);
@@ -420,19 +438,28 @@ impl Fold for Inlining<'_> {
         node.init = node.init.fold_with(self);
 
         {
-            node.init.visit_with(&mut IdentListVisitor {
-                scope: &mut self.scope,
-            });
+            node.init.visit_with(
+                &Invalid { span: DUMMY_SP } as _,
+                &mut IdentListVisitor {
+                    scope: &mut self.scope,
+                },
+            );
         }
         {
-            node.test.visit_with(&mut IdentListVisitor {
-                scope: &mut self.scope,
-            });
+            node.test.visit_with(
+                &Invalid { span: DUMMY_SP } as _,
+                &mut IdentListVisitor {
+                    scope: &mut self.scope,
+                },
+            );
         }
         {
-            node.update.visit_with(&mut IdentListVisitor {
-                scope: &mut self.scope,
-            });
+            node.update.visit_with(
+                &Invalid { span: DUMMY_SP } as _,
+                &mut IdentListVisitor {
+                    scope: &mut self.scope,
+                },
+            );
         }
 
         node.test = node.test.fold_with(self);
@@ -535,9 +562,12 @@ impl Fold for Inlining<'_> {
     }
 
     fn fold_try_stmt(&mut self, node: TryStmt) -> TryStmt {
-        node.block.visit_with(&mut IdentListVisitor {
-            scope: &mut self.scope,
-        });
+        node.block.visit_with(
+            &Invalid { span: DUMMY_SP } as _,
+            &mut IdentListVisitor {
+                scope: &mut self.scope,
+            },
+        );
 
         TryStmt {
             // TODO:
@@ -554,7 +584,8 @@ impl Fold for Inlining<'_> {
                     scope: &mut self.scope,
                 };
 
-                node.arg.visit_with(&mut v);
+                node.arg
+                    .visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
                 return node;
             }
 
@@ -569,7 +600,7 @@ impl Fold for Inlining<'_> {
             scope: &mut self.scope,
         };
 
-        node.arg.visit_with(&mut v);
+        node.arg.visit_with(&node as _, &mut v);
         node
     }
 
@@ -725,9 +756,12 @@ impl Fold for Inlining<'_> {
 
     fn fold_while_stmt(&mut self, mut node: WhileStmt) -> WhileStmt {
         {
-            node.test.visit_with(&mut IdentListVisitor {
-                scope: &mut self.scope,
-            });
+            node.test.visit_with(
+                &Invalid { span: DUMMY_SP } as _,
+                &mut IdentListVisitor {
+                    scope: &mut self.scope,
+                },
+            );
         }
 
         node.test = node.test.fold_with(self);
@@ -787,10 +821,10 @@ impl Visit for IdentListVisitor<'_, '_> {
     }
 
     fn visit_member_expr(&mut self, node: &MemberExpr, _: &dyn Node) {
-        node.obj.visit_with(self);
+        node.obj.visit_with(node as _, self);
 
         if node.computed {
-            node.prop.visit_with(self);
+            node.prop.visit_with(node as _, self);
         }
     }
 }

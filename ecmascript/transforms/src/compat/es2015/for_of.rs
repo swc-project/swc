@@ -508,7 +508,7 @@ impl ForOf {
     fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
     where
         T: StmtLike + VisitWith<ForOfFinder>,
-        Vec<T>: FoldWith<Self>,
+        Vec<T>: FoldWith<Self> + VisitWith<ForOfFinder>,
     {
         if !contains_for_of(&stmts) {
             return stmts;
@@ -553,7 +553,7 @@ where
     N: VisitWith<ForOfFinder>,
 {
     let mut v = ForOfFinder { found: false };
-    node.visit_with(&mut v);
+    node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
     v.found
 }
 

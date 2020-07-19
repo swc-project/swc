@@ -106,7 +106,7 @@ impl Exponentation {
     fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
     where
         T: StmtLike + VisitWith<ShouldFold>,
-        Vec<T>: FoldWith<Self>,
+        Vec<T>: FoldWith<Self> + VisitWith<ShouldFold>,
     {
         if !should_fold(&stmts) {
             return stmts;
@@ -158,7 +158,7 @@ where
     N: VisitWith<ShouldFold>,
 {
     let mut v = ShouldFold { found: false };
-    node.visit_with(&mut v);
+    node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
     v.found
 }
 struct ShouldFold {
@@ -177,8 +177,8 @@ impl Visit for ShouldFold {
         }
 
         if !self.found {
-            e.left.visit_with(self);
-            e.right.visit_with(self);
+            e.left.visit_with(e as _, self);
+            e.right.visit_with(e as _, self);
         }
     }
 }

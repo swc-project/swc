@@ -597,7 +597,7 @@ impl Fold for Fixer {
         }
     }
 
-    fn fold_prop_name(&mut self, p: Program) -> Program {
+    fn fold_program(&mut self, p: Program) -> Program {
         debug_assert!(self.span_map.is_empty());
         self.span_map.clear();
 
@@ -747,12 +747,12 @@ fn ignore_return_value(expr: Box<Expr>) -> Option<Box<Expr>> {
 
 #[cfg(test)]
 mod tests {
-    struct Noop;
+    use crate::pass::noop;
 
     macro_rules! test_fixer {
         ($name:ident, $from:literal, $to:literal) => {
             // We use noop because fixer is invoked by tests::apply_transform.
-            test!(Default::default(), |_| Noop, $name, $from, $to);
+            test!(Default::default(), |_| noop(), $name, $from, $to);
         };
     }
 

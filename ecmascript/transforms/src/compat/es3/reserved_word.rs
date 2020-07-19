@@ -1,5 +1,5 @@
 use swc_ecma_ast::*;
-use swc_ecma_visit::Fold;
+use swc_ecma_visit::{Fold, FoldWith};
 
 /// babel: `@babel/plugin-transform-reserved-words`
 ///
@@ -79,6 +79,8 @@ fn fold_ident(preserve_import: bool, i: Ident) -> Ident {
             ..i
         };
     }
+
+    i
 }
 
 #[cfg(test)]

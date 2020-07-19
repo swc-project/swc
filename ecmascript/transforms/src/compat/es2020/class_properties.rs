@@ -15,7 +15,7 @@ use std::collections::HashSet;
 use swc_atoms::JsWord;
 use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{Fold, FoldWith, VisitWith};
 
 mod class_name_tdz;
 mod private_field;
@@ -312,13 +312,19 @@ impl ClassProperties {
                         .fold_with(&mut ClassNameTdzFolder { class_name: &ident });
 
                     if !prop.is_static {
-                        prop.key.visit_with(&mut UsedNameCollector {
-                            used_names: &mut used_key_names,
-                        });
+                        prop.key.visit_with(
+                            &Invalid { span: DUMMY_SP } as _,
+                            &mut UsedNameCollector {
+                                used_names: &mut used_key_names,
+                            },
+                        );
 
-                        prop.value.visit_with(&mut UsedNameCollector {
-                            used_names: &mut used_names,
-                        });
+                        prop.value.visit_with(
+                            &Invalid { span: DUMMY_SP } as _,
+                            &mut UsedNameCollector {
+                                used_names: &mut used_names,
+                            },
+                        );
                     }
 
                     let key = match *prop.key {
@@ -405,9 +411,12 @@ impl ClassProperties {
                         // We use `self.mark` for private variables.
                         prop.key.span.apply_mark(self.mark),
                     );
-                    prop.value.visit_with(&mut UsedNameCollector {
-                        used_names: &mut used_names,
-                    });
+                    prop.value.visit_with(
+                        &Invalid { span: DUMMY_SP } as _,
+                        &mut UsedNameCollector {
+                            used_names: &mut used_names,
+                        },
+                    );
                     let value = prop.value.unwrap_or_else(|| undefined(prop_span));
 
                     let extra_init = if prop.is_static {

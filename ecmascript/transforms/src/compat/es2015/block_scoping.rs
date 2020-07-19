@@ -106,7 +106,7 @@ impl BlockScoping {
         body.map(|body| {
             {
                 let mut v = FunctionFinder { found: false };
-                body.visit_with(&mut v);
+                body.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
                 if !v.found {
                     return body;
                 }
@@ -535,6 +535,7 @@ impl BlockScoping {
     fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
     where
         T: StmtLike,
+        Vec<T>: FoldWith<Self>,
     {
         let mut stmts = stmts.fold_children_with(self);
 
@@ -559,7 +560,7 @@ where
 {
     let mut vars = vec![];
     let mut v = VarCollector { to: &mut vars };
-    node.visit_with(&mut v);
+    node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
 
     vars
 }
@@ -572,7 +573,7 @@ where
         vars: ids,
         found: false,
     };
-    node.visit_with(&mut v);
+    node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
 }
 
 /// In the code below,
@@ -594,7 +595,7 @@ impl Visit for InfectionFinder<'_> {
         let old = self.found;
         self.found = false;
 
-        node.right.visit_with(self);
+        node.right.visit_with(node as _, self);
 
         if self.found {
             let ids = find_ids(&node.left);
@@ -622,10 +623,10 @@ impl Visit for InfectionFinder<'_> {
             return;
         }
 
-        e.obj.visit_with(self);
+        e.obj.visit_with(e as _, self);
 
         if e.computed {
-            e.prop.visit_with(self);
+            e.prop.visit_with(e as _, self);
         }
     }
 
@@ -633,7 +634,7 @@ impl Visit for InfectionFinder<'_> {
         let old = self.found;
         self.found = false;
 
-        node.init.visit_with(self);
+        node.init.visit_with(node as _, self);
 
         if self.found {
             let ids = find_ids(&node.name);

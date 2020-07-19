@@ -504,7 +504,7 @@ struct Finder {
 impl Finder {
     fn find<T: VisitWith<Self>>(node: &T) -> bool {
         let mut v = Finder { found: false };
-        node.visit_with(&mut v);
+        node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
         v.found
     }
 }

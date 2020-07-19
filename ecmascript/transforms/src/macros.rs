@@ -176,7 +176,10 @@ pub(crate) fn validating(
     name: &'static str,
     tr: impl ::swc_ecma_visit::Fold + 'static,
 ) -> Box<dyn ::swc_ecma_visit::Fold> {
-    box ::swc_ecma_visit::Fold::then(tr, crate::debug::validator::Validator { name })
+    Box::new(swc_common::chain!(
+        tr,
+        crate::debug::validator::Validator { name }
+    )) as Box<_>
 }
 
 #[cfg(test)]

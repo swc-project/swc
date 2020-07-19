@@ -1,5 +1,6 @@
 use super::util::Scope;
 use swc_atoms::js_word;
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{Fold, Node, Visit};
 
@@ -19,7 +20,7 @@ noop_visit_type!(ImportAnalyzer);
 
 impl Fold for ImportAnalyzer {
     fn fold_module(&mut self, module: Module) -> Module {
-        self.visit_module(&module);
+        self.visit_module(&module, &Invalid { span: DUMMY_SP } as _);
 
         for (_, ty) in self.scope.import_types.drain() {
             if ty {

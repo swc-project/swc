@@ -3,7 +3,7 @@ use serde_json::Value;
 use std::usize;
 use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::Fold;
+use swc_ecma_visit::{Fold, FoldWith};
 
 /// Trnasform to optimize performance of literals.
 ///

@@ -298,6 +298,7 @@ impl ComputedProps {
     fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
     where
         T: StmtLike + VisitWith<ShouldWork> + FoldWith<Self> + FoldWith<ObjectLitFolder>,
+        Vec<T>: VisitWith<ShouldWork>,
     {
         // Fast path when there's no computed properties.
         if !contains_computed_expr(&stmts) {
@@ -352,7 +353,7 @@ where
     N: VisitWith<ShouldWork>,
 {
     let mut v = ShouldWork { found: false };
-    node.visit_with(&mut v);
+    node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
     v.found
 }
 
@@ -361,7 +362,7 @@ struct ShouldWork {
 }
 
 impl Visit for ShouldWork {
-    fn visit_prop_name(&mut self, node: &PropName) {
+    fn visit_prop_name(&mut self, node: &PropName, _: &dyn Node) {
         match *node {
             PropName::Computed(_) => self.found = true,
             _ => {}

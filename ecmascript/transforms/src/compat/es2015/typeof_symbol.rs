@@ -1,7 +1,8 @@
 use crate::util::ExprFactory;
 use swc_atoms::js_word;
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith, Visit, VisitWith};
+use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
 
 /// `@babel/plugin-transform-typeof-symbol`
 ///
@@ -86,14 +87,14 @@ fn should_work(node: &Expr) -> bool {
         found: bool,
     }
     impl Visit for Visitor {
-        fn visit_unary_expr(&mut self, e: &UnaryExpr) {
+        fn visit_unary_expr(&mut self, e: &UnaryExpr, _: &dyn Node) {
             if e.op == op!("typeof") {
                 self.found = true
             }
         }
     }
     let mut v = Visitor { found: false };
-    node.visit_with(&mut v);
+    node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
     v.found
 }
 

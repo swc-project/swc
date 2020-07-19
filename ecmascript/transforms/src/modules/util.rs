@@ -10,8 +10,9 @@ use std::{
 use swc_atoms::{js_word, JsWord};
 use swc_common::{Mark, Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, FoldWith, VisitWith};
 
-pub(super) trait ModulePass {
+pub(super) trait ModulePass: Fold {
     fn config(&self) -> &Config;
     fn scope(&self) -> &Scope;
     fn scope_mut(&mut self) -> &mut Scope;
@@ -527,7 +528,8 @@ impl Scope {
 
                 let mut found: Vec<(JsWord, Span)> = vec![];
                 let mut v = DestructuringFinder { found: &mut found };
-                expr.left.visit_with(&mut v);
+                expr.left
+                    .visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
                 if v.found.is_empty() {
                     return Expr::Assign(AssignExpr {
                         left: expr.left,

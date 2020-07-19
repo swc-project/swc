@@ -3,7 +3,7 @@ use std::any::Any;
 use swc_atoms::JsWord;
 use swc_common::Span;
 use swc_ecma_ast::*;
-use swc_visit::AndThen;
+use swc_visit::{AndThen, Repeat, Repeated};
 // use swc_visit::define;
 
 /// Visitable nodes.
@@ -40,6 +40,37 @@ where
     fn visit_script(&mut self, n: &Script, _parent: &dyn Node) {
         self.first.visit_script(n, _parent);
         self.second.visit_script(n, _parent);
+    }
+}
+
+impl<V> Fold for Repeat<V>
+where
+    V: Fold + Repeated,
+{
+    fn fold_module(&mut self, mut node: Module) -> Module {
+        loop {
+            self.pass.reset();
+            node = node.fold_with(&mut self.pass);
+
+            if !self.pass.changed() {
+                break;
+            }
+        }
+
+        node
+    }
+
+    fn fold_script(&mut self, mut node: Script) -> Script {
+        loop {
+            self.pass.reset();
+            node = node.fold_with(&mut self.pass);
+
+            if !self.pass.changed() {
+                break;
+            }
+        }
+
+        node
     }
 }
 

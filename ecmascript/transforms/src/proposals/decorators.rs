@@ -93,7 +93,7 @@ impl Fold for Decorators {
                     });
                 }
 
-                let decorate_call = box self.fold_class(ident.clone(), class);
+                let decorate_call = box self.fold_class_inner(ident.clone(), class);
 
                 Decl::Var(VarDecl {
                     span: DUMMY_SP,
@@ -121,7 +121,7 @@ impl Fold for Decorators {
                 }
 
                 let decorate_call =
-                    self.fold_class(ident.unwrap_or_else(|| quote_ident!("_class")), class);
+                    self.fold_class_inner(ident.unwrap_or_else(|| quote_ident!("_class")), class);
 
                 decorate_call
             }
@@ -138,8 +138,8 @@ impl Fold for Decorators {
                 decl: DefaultDecl::Class(ClassExpr { ident, class }),
                 ..
             }) => {
-                let decorate_call =
-                    box self.fold_class(ident.unwrap_or_else(|| quote_ident!("_class")), class);
+                let decorate_call = box self
+                    .fold_class_inner(ident.unwrap_or_else(|| quote_ident!("_class")), class);
 
                 ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
                     span,
@@ -183,7 +183,7 @@ impl Fold for Decorators {
                         }),
                     ..
                 })) => {
-                    let decorate_call = box self.fold_class(ident.clone(), class);
+                    let decorate_call = box self.fold_class_inner(ident.clone(), class);
 
                     buf.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
                         span: DUMMY_SP,
@@ -213,7 +213,7 @@ impl Fold for Decorators {
                     )));
                 }
                 _ => {
-                    buf.push(self.fold(item));
+                    buf.push(item.fold_with(self));
                 }
             }
         });
@@ -224,7 +224,7 @@ impl Fold for Decorators {
 }
 
 impl Decorators {
-    fn fold_class(&self, ident: Ident, mut class: Class) -> Expr {
+    fn fold_class_inner(&self, ident: Ident, mut class: Class) -> Expr {
         let initialize = private_ident!("_initialize");
         let super_class_ident = match class.super_class {
             Some(ref expr) => Some(alias_ident_for(expr, "_super")),
@@ -609,6 +609,6 @@ where
     N: VisitWith<DecoratorFinder>,
 {
     let mut v = DecoratorFinder { found: false };
-    node.visit_with(&mut v);
+    node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
     v.found
 }

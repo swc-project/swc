@@ -445,7 +445,7 @@ impl Fold for Dce<'_> {
         }
 
         // Drop unused imports.
-        import.specifiers.retain(|s| self.should_include(&s));
+        import.specifiers.retain(|s| self.should_include(s));
 
         if !import.specifiers.is_empty() {
             import.span = import.span.apply_mark(self.config.used_mark);

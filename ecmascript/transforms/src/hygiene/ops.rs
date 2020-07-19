@@ -183,7 +183,7 @@ impl<'a> Fold for Operator<'a> {
         }
     }
 
-    fn fold_import_specifier(&mut self, s: ImportNamedSpecifier) -> ImportNamedSpecifier {
+    fn fold_import_named_specifier(&mut self, s: ImportNamedSpecifier) -> ImportNamedSpecifier {
         if s.imported.is_some() {
             return ImportNamedSpecifier {
                 local: s.local.fold_with(self),

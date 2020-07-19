@@ -1,9 +1,10 @@
-use swc_ecma_ast::Decorator;
+use swc_common::DUMMY_SP;
+use swc_ecma_ast::{Decorator, Invalid};
 use swc_ecma_visit::{Node, Visit, VisitWith};
 
 pub(super) fn has_decorator<T: VisitWith<DecoratorFinder>>(node: &T) -> bool {
     let mut v = DecoratorFinder { found: false };
-    node.visit_with(&mut v);
+    node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
 
     v.found
 }

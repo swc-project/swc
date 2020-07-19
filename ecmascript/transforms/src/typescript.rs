@@ -4,7 +4,7 @@ use swc_atoms::js_word;
 use swc_common::{util::move_map::MoveMap, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
-use swc_ecma_visit::{Fold, FoldWith, Visit, VisitWith};
+use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
 
 /// Strips type annotations out.
 pub fn strip() -> impl Fold {
@@ -75,7 +75,10 @@ impl Strip {
 
             Decl::Var(ref var) => {
                 let mut names = vec![];
-                var.decls.visit_with(&mut VarCollector { to: &mut names });
+                var.decls.visit_with(
+                    &Invalid { span: DUMMY_SP } as _,
+                    &mut VarCollector { to: &mut names },
+                );
 
                 for name in names {
                     store!(name.0, name.1, true);
@@ -115,7 +118,7 @@ impl Strip {
     {
         match self.phase {
             Phase::Analysis => {
-                node.visit_with(self);
+                node.visit_with(&Invalid { span: DUMMY_SP } as _, self);
             }
             Phase::DropImports => {}
         }
@@ -437,7 +440,7 @@ impl Strip {
 }
 
 impl Visit for Strip {
-    fn visit_ts_entity_name(&mut self, name: &TsEntityName) {
+    fn visit_ts_entity_name(&mut self, name: &TsEntityName, _: &dyn Node) {
         assert!(match self.phase {
             Phase::Analysis => true,
             _ => false,
@@ -458,7 +461,7 @@ impl Visit for Strip {
 macro_rules! type_to_none {
     ($name:ident, $T:ty) => {
         fn $name(&mut self, node: Option<$T>) -> Option<$T> {
-            node.visit_with(self);
+            node.visit_with(&Invalid { span: DUMMY_SP } as _, self);
 
             None
         }
@@ -567,17 +570,17 @@ impl Fold for Strip {
     fn fold_expr(&mut self, expr: Expr) -> Expr {
         let expr = match expr {
             Expr::TsAs(TsAsExpr { expr, type_ann, .. }) => {
-                type_ann.visit_with(self);
+                type_ann.visit_with(&Invalid { span: DUMMY_SP } as _, self);
                 validate!(*expr)
             }
             Expr::TsNonNull(TsNonNullExpr { expr, .. }) => validate!(*expr),
             Expr::TsTypeAssertion(TsTypeAssertion { expr, type_ann, .. }) => {
-                type_ann.visit_with(self);
+                type_ann.visit_with(&Invalid { span: DUMMY_SP } as _, self);
                 validate!(*expr)
             }
             Expr::TsConstAssertion(TsConstAssertion { expr, .. }) => validate!(*expr),
             Expr::TsTypeCast(TsTypeCastExpr { expr, type_ann, .. }) => {
-                type_ann.visit_with(self);
+                type_ann.visit_with(&Invalid { span: DUMMY_SP } as _, self);
                 validate!(*expr)
             }
             _ => validate!(expr),
@@ -695,10 +698,13 @@ impl Fold for Strip {
         self.add_types(node)
     }
 
-    type_to_none!(fold_opt_ts_type, TsType);
+    type_to_none!(fold_opt_ts_type, Box<TsType>);
     type_to_none!(fold_opt_ts_type_ann, TsTypeAnn);
     type_to_none!(fold_opt_ts_type_param_decl, TsTypeParamDecl);
-    type_to_none!(fold_ts_type_param_instantiation, TsTypeParamInstantiation);
+    type_to_none!(
+        fold_opt_ts_type_param_instantiation,
+        TsTypeParamInstantiation
+    );
 
     fn fold_class_members(&mut self, members: Vec<ClassMember>) -> Vec<ClassMember> {
         let members = members.fold_children_with(self);

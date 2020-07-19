@@ -178,7 +178,7 @@ impl Fold for Classes {
                 }
             }
             let mut v = Visitor { found: false };
-            node.visit_with(&mut v);
+            node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
             v.found
         }
         // fast path
@@ -875,7 +875,7 @@ fn is_always_initialized(body: &[Stmt]) -> bool {
     }
 
     impl Visit for SuperFinder {
-        fn visit_expr_or_super(&mut self, node: &ExprOrSuper) {
+        fn visit_expr_or_super(&mut self, node: &ExprOrSuper, _: &dyn Node) {
             match *node {
                 ExprOrSuper::Super(..) => self.found = true,
                 _ => node.visit_children_with(self),
@@ -901,7 +901,7 @@ fn is_always_initialized(body: &[Stmt]) -> bool {
     let mut v = SuperFinder { found: false };
     let body = &body[..pos];
 
-    body.visit_with(&mut v);
+    v.visit_stmts(body, &Invalid { span: DUMMY_SP } as _);
 
     if v.found {
         return false;

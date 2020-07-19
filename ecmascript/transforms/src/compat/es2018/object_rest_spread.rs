@@ -218,7 +218,7 @@ impl Fold for RestFolder {
                 let specifiers = {
                     let mut found = vec![];
                     let mut finder = VarCollector { to: &mut found };
-                    var_decl.visit_with(&mut finder);
+                    var_decl.visit_with(&Invalid { span: DUMMY_SP } as _, &mut finder);
                     found
                         .into_iter()
                         .map(|(sym, ctxt)| ExportNamedSpecifier {
@@ -375,7 +375,7 @@ struct RestVisitor {
 }
 
 impl Visit for RestVisitor {
-    fn visit_prop(&mut self, prop: &ObjectPatProp, _: &dyn Node) {
+    fn visit_object_pat_prop(&mut self, prop: &ObjectPatProp, _: &dyn Node) {
         match *prop {
             ObjectPatProp::Rest(..) => self.found = true,
             _ => prop.visit_children_with(self),
@@ -388,7 +388,7 @@ where
     N: VisitWith<RestVisitor>,
 {
     let mut v = RestVisitor { found: false };
-    node.visit_with(&mut v);
+    node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
     v.found
 }
 
@@ -406,7 +406,7 @@ impl ObjectRest {
     fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
     where
         T: StmtLike + VisitWith<RestVisitor> + FoldWith<RestFolder>,
-        Vec<T>: FoldWith<Self>,
+        Vec<T>: FoldWith<Self> + VisitWith<RestVisitor>,
     {
         if !contains_rest(&stmts) {
             return stmts;
@@ -1116,6 +1116,6 @@ fn contains_spread(expr: &Expr) -> bool {
     }
 
     let mut v = Visitor { found: false };
-    expr.visit_with(&mut v);
+    expr.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
     v.found
 }

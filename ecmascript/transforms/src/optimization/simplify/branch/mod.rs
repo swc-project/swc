@@ -205,7 +205,7 @@ impl Fold for Remover {
                         op: op!("void"),
                         ref arg,
                         ..
-                    }) => is_literal(&arg),
+                    }) => is_literal(&**arg),
                     _ => false,
                 } =>
             {
@@ -233,7 +233,7 @@ impl Fold for Remover {
                             op: op!("void"),
                             ref arg,
                             ..
-                        }) => is_literal(&arg),
+                        }) => is_literal(&**arg),
                         _ => false,
                     } =>
             {
@@ -892,7 +892,7 @@ impl Fold for Remover {
 impl Remover {
     fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
     where
-        T: StmtLike + VisitWith<Hoister>,
+        T: StmtLike + VisitWith<Hoister> + FoldWith<Self>,
     {
         let is_block_stmt = self.normal_block;
         self.normal_block = false;
@@ -902,7 +902,7 @@ impl Remover {
         let mut iter = stmts.into_iter();
         while let Some(stmt_like) = iter.next() {
             self.normal_block = true;
-            let stmt_like = self.fold(stmt_like);
+            let stmt_like = stmt_like.fold_with(self);
             self.normal_block = false;
 
             let stmt_like = match stmt_like.try_into_stmt() {
@@ -1178,7 +1178,7 @@ fn ignore_result(e: Expr) -> Option<Expr> {
             let props = props.move_flat_map(|v| match v {
                 PropOrSpread::Spread(..) => Some(v),
                 PropOrSpread::Prop(ref p) => {
-                    if is_literal(&p) {
+                    if is_literal(&**p) {
                         None
                     } else {
                         Some(v)
@@ -1421,7 +1421,7 @@ fn check_for_stopper(s: &[Stmt], only_conditional: bool) -> bool {
         fn visit_switch_case(&mut self, node: &SwitchCase, _: &dyn Node) {
             let old = self.in_cond;
             self.in_cond = true;
-            node.cons.visit_with(self);
+            node.cons.visit_with(node as _, self);
             self.in_cond = old;
         }
 
@@ -1456,9 +1456,9 @@ fn check_for_stopper(s: &[Stmt], only_conditional: bool) -> bool {
         fn visit_if_stmt(&mut self, node: &IfStmt, _: &dyn Node) {
             let old = self.in_cond;
             self.in_cond = true;
-            node.cons.visit_with(self);
+            node.cons.visit_with(node as _, self);
             self.in_cond = true;
-            node.alt.visit_with(self);
+            node.alt.visit_with(node as _, self);
             self.in_cond = old;
         }
     }
@@ -1467,6 +1467,6 @@ fn check_for_stopper(s: &[Stmt], only_conditional: bool) -> bool {
         in_cond: !only_conditional,
         found: false,
     };
-    s.visit_with(&mut v);
+    v.visit_stmts(s, &Invalid { span: DUMMY_SP } as _);
     v.found
 }

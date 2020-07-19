@@ -1396,7 +1396,7 @@ where
     T: VisitWith<LeapFinder>,
 {
     let mut v = LeapFinder { found: false };
-    node.visit_with(&mut v);
+    node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
     v.found
 }
 

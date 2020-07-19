@@ -12,7 +12,7 @@ use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{lexer::Lexer, Parser, Session, SourceFileInput, Syntax};
 use swc_ecma_utils::DropSpan;
-use swc_ecma_visit::Fold;
+use swc_ecma_visit::{Fold, FoldWith};
 use tempfile::tempdir_in;
 
 struct MyHandlers;
@@ -187,6 +187,7 @@ pub(crate) fn test_transform<F, P>(
     ok_if_code_eq: bool,
 ) where
     F: FnOnce(&mut Tester<'_>) -> P,
+    P: Fold,
 {
     crate::tests::Tester::run(|tester| {
         let expected =
@@ -285,6 +286,7 @@ macro_rules! exec_tr {
 pub(crate) fn exec_tr<F, P>(test_name: &'static str, syntax: Syntax, tr: F, input: &str)
 where
     F: FnOnce(&mut Tester<'_>) -> P,
+    P: Fold,
 {
     Tester::run(|tester| {
         let tr = make_tr(test_name, tr, tester);

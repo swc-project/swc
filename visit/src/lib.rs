@@ -50,7 +50,7 @@ pub struct Repeat<V>
 where
     V: Repeated,
 {
-    pass: V,
+    pub pass: V,
 }
 
 impl<V> Repeat<V>
@@ -59,6 +59,19 @@ where
 {
     pub fn new(pass: V) -> Self {
         Self { pass }
+    }
+}
+
+impl<V> Repeated for Repeat<V>
+where
+    V: Repeated,
+{
+    fn changed(&self) -> bool {
+        self.pass.changed()
+    }
+
+    fn reset(&mut self) {
+        self.pass.reset()
     }
 }
 

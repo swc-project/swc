@@ -442,6 +442,14 @@ impl AssignFolder {
 
 impl Fold for Destructuring {
     impl_fold_fn!();
+
+    fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
+        self.fold_stmt_like(n)
+    }
+
+    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
+        self.fold_stmt_like(n)
+    }
 }
 
 impl Destructuring {
@@ -517,7 +525,7 @@ impl Fold for AssignFolder {
 
         let expr = match expr {
             // Handle iife
-            Expr::Fn(..) | Expr::Object(..) => Destructuring { c: self.c }.fold(expr),
+            Expr::Fn(..) | Expr::Object(..) => expr.fold_with(&mut Destructuring { c: self.c }),
             _ => expr.fold_children_with(self),
         };
 
@@ -818,20 +826,12 @@ impl Fold for AssignFolder {
 
         decls
     }
-
-    fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
-        self.fold_stmt_like(n)
-    }
-
-    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
-        self.fold_stmt_like(n)
-    }
 }
 
 impl Destructuring {
     fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
     where
-        Vec<T>: FoldWith<Self>,
+        Vec<T>: FoldWith<Self> + VisitWith<DestructuringVisitor>,
         T: StmtLike + VisitWith<DestructuringVisitor> + FoldWith<AssignFolder>,
     {
         // fast path
@@ -1068,7 +1068,7 @@ where
     N: VisitWith<DestructuringVisitor>,
 {
     let mut v = DestructuringVisitor { found: false };
-    node.visit_with(&mut v);
+    node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
     v.found
 }
 

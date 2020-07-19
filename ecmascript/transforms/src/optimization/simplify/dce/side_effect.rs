@@ -1,6 +1,7 @@
 use super::Dce;
 use fxhash::FxHashSet;
 use swc_atoms::JsWord;
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, ExprExt, Id};
 use swc_ecma_visit::{Node, Visit, VisitWith};
@@ -26,7 +27,7 @@ impl Dce<'_> {
         if !self.decl_dropping_phase {
             let mut v = ImportDetector { found: false };
 
-            node.visit_with(&mut v);
+            node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
 
             if v.found {
                 return true;
@@ -39,7 +40,7 @@ impl Dce<'_> {
             found: false,
         };
 
-        node.visit_with(&mut v);
+        node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
 
         v.found
     }
@@ -104,13 +105,13 @@ impl Visit for SideEffectVisitor<'_> {
             return;
         }
 
-        node.left.visit_with(self);
+        node.left.visit_with(node as _, self);
 
         match &*node.right {
             Expr::Ident(..) => {
                 //TODO: Check for alias
             }
-            right => right.visit_with(self),
+            right => right.visit_with(node as _, self),
         }
     }
 
@@ -165,7 +166,7 @@ impl Visit for SideEffectVisitor<'_> {
         }
 
         if !self.found {
-            node.expr.visit_with(self);
+            node.expr.visit_with(node as _, self);
         }
     }
 

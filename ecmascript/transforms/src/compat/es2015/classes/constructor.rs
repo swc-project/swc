@@ -37,14 +37,14 @@ impl SuperCallFinder {
             mode: None,
             in_complex: false,
         };
-        node.visit_with(&mut v);
+        node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
         v.mode
     }
 }
 
 macro_rules! mark_as_complex {
     ($name:ident, $T:ty) => {
-        fn $name(&mut self, node: &$T) {
+        fn $name(&mut self, node: &$T, _: &dyn Node) {
             let old = self.in_complex;
             self.in_complex = true;
             node.visit_children_with(self);
@@ -59,7 +59,7 @@ impl Visit for SuperCallFinder {
     mark_as_complex!(visit_prop_name, PropName);
 
     fn visit_assign_expr(&mut self, node: &AssignExpr, _: &dyn Node) {
-        node.left.visit_with(self);
+        node.left.visit_with(node as _, self);
 
         let old = self.in_complex;
         self.in_complex = true;

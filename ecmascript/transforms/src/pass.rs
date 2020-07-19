@@ -1,5 +1,5 @@
-pub use swc_common::pass::Optional;
-use swc_common::pass::{CompilerPass, Repeated};
+use swc_common::pass::CompilerPass;
+pub use swc_common::pass::{Optional, Repeated};
 use swc_ecma_visit::Fold;
 
 pub fn noop() -> impl Fold {
@@ -8,6 +8,10 @@ pub fn noop() -> impl Fold {
     Noop
 }
 
-pub trait RepeatedJsPass: CompilerPass + Repeated + Fold {}
+pub trait JsPass: CompilerPass + Fold {}
 
-impl<T: ?Sized> RepeatedJsPass for T where T: CompilerPass + Repeated + Fold {}
+impl<T: ?Sized> JsPass for T where T: CompilerPass + Fold {}
+
+pub trait RepeatedJsPass: Repeated + JsPass {}
+
+impl<T: ?Sized> RepeatedJsPass for T where T: Repeated + JsPass {}
