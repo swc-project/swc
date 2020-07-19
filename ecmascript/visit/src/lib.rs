@@ -3,12 +3,45 @@ use std::any::Any;
 use swc_atoms::JsWord;
 use swc_common::Span;
 use swc_ecma_ast::*;
+use swc_visit::AndThen;
 // use swc_visit::define;
 
 /// Visitable nodes.
 pub trait Node: Any {}
 
 impl<T: ?Sized> Node for T where T: Any {}
+
+impl<A, B> Fold for AndThen<A, B>
+where
+    A: Fold,
+    B: Fold,
+{
+    fn fold_module(&mut self, n: Module) -> Module {
+        let n = self.first.fold_module(n);
+        self.second.fold_module(n)
+    }
+
+    fn fold_script(&mut self, n: Script) -> Script {
+        let n = self.first.fold_script(n);
+        self.second.fold_script(n)
+    }
+}
+
+impl<A, B> Visit for AndThen<A, B>
+where
+    A: Visit,
+    B: Visit,
+{
+    fn visit_module(&mut self, n: &Module, _parent: &dyn Node) {
+        self.first.visit_module(n, _parent);
+        self.second.visit_module(n, _parent);
+    }
+
+    fn visit_script(&mut self, n: &Script, _parent: &dyn Node) {
+        self.first.visit_script(n, _parent);
+        self.second.visit_script(n, _parent);
+    }
+}
 
 // define!({
 //     pub struct Class {
