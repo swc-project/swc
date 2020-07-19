@@ -176,11 +176,29 @@ impl Fold for VarFolder<'_, '_> {
     }
 }
 
-/// Preserve key of properties.
 impl<'a> Fold for Operator<'a> {
+    /// Preserve key of properties.
+    fn fold_assign_pat_prop(&mut self, p: AssignPatProp) -> AssignPatProp {
+        match p.value {
+            Some(value) => AssignPatProp {
+                value: Some(value.fold_children_with(self)),
+                ..p
+            },
+            None => p,
+        }
+    }
+
+    /// Preserve key of properties.
     fn fold_key_value_pat_prop(&mut self, p: KeyValuePatProp) -> KeyValuePatProp {
         KeyValuePatProp {
             key: p.key.fold_with(self),
+            value: p.value.fold_with(self),
+            ..p
+        }
+    }
+
+    fn fold_key_value_prop(&mut self, p: KeyValueProp) -> KeyValueProp {
+        KeyValueProp {
             value: p.value.fold_with(self),
             ..p
         }
@@ -203,17 +221,6 @@ impl<'a> Fold for Operator<'a> {
         }
     }
 
-    /// Preserve key of properties.
-    fn fold_assign_pat_prop(&mut self, p: AssignPatProp) -> AssignPatProp {
-        match p.value {
-            Some(value) => AssignPatProp {
-                value: Some(value.fold_children_with(self)),
-                ..p
-            },
-            None => p,
-        }
-    }
-
     fn fold_prop(&mut self, prop: Prop) -> Prop {
         match prop {
             Prop::Shorthand(i) => {
@@ -230,13 +237,6 @@ impl<'a> Fold for Operator<'a> {
                 }
             }
             _ => prop.fold_children_with(self),
-        }
-    }
-
-    fn fold_key_value_prop(&mut self, p: KeyValueProp) -> KeyValueProp {
-        KeyValueProp {
-            value: p.value.fold_with(self),
-            ..p
         }
     }
 }
