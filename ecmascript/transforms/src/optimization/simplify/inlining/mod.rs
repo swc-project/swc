@@ -107,7 +107,6 @@ impl Fold for Inlining<'_> {
     }
 }
 
-impl Fold<Vec<Stmt>> for Inlining<'_> {
 impl Fold for Inlining<'_> {
     fn fold_stmts(&mut self, mut items: Vec<Stmt>) -> Vec<Stmt> {
         let old_phase = self.phase;

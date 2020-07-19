@@ -6,7 +6,6 @@ use serde::Deserialize;
 use std::iter;
 use swc_common::{Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith, VisitWith};
 use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
 
 /// `@babel/plugin-transform-destructuring`
@@ -134,7 +133,6 @@ fn make_ref_ident_for_for_stmt() -> Ident {
     private_ident!("ref")
 }
 
-impl Fold<Vec<VarDeclarator>> for AssignFolder {
 impl Fold for AssignFolder {
     impl_for_for_stmt!(fold_for_in_stmt, ForInStmt);
     impl_for_for_stmt!(fold_for_of_stmt, ForOfStmt);

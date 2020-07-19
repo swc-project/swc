@@ -1383,7 +1383,6 @@ macro_rules! leap {
     };
 }
 
-impl Visit for LeadFinder {
 impl Visit for LeapFinder {
     leap!(visit_yield_expr, YieldExpr);
     leap!(visit_break_stmt, BreakStmt);

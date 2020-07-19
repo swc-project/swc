@@ -4,7 +4,6 @@ use swc_atoms::js_word;
 use swc_common::{util::move_map::MoveMap, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
-use swc_ecma_visit::{Fold, FoldWith};
 use swc_ecma_visit::{Fold, FoldWith, Visit, VisitWith};
 
 /// Strips type annotations out.
@@ -179,7 +178,6 @@ impl Fold for Strip {
     }
 }
 
-impl Fold<Vec<ClassMember>> for Strip {
 impl Fold for Strip {
     fn fold_class_members(&mut self, members: Vec<ClassMember>) -> Vec<ClassMember> {
         let members = members.fold_children_with(self);
@@ -908,7 +906,6 @@ macro_rules! type_to_none {
     };
 }
 
-impl Fold<Option<Accessibility>> for Strip {
 impl Fold for Strip {
     type_to_none!(fold_opt_ts_type, TsType);
     type_to_none!(fold_opt_ts_type_ann, TsTypeAnn);

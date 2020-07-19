@@ -4,7 +4,6 @@ use std::mem::replace;
 use swc_atoms::js_word;
 use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith, Visit, VisitWith};
 use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
 
 mod case;
