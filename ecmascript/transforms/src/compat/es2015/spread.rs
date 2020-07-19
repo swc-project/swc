@@ -32,11 +32,21 @@ struct ActualFolder {
 
 noop_fold_type!(ActualFolder);
 
-impl<T> Fold for Spread
-where
-    T: StmtLike + FoldWith<ActualFolder> + FoldWith<Self>,
-{
-    fn fold(&mut self, items: Vec<T>) -> Vec<T> {
+impl Fold for Spread {
+    fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
+        self.fold_stmt_like(n)
+    }
+
+    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
+        self.fold_stmt_like(n)
+    }
+}
+
+impl Spread {
+    fn fold_stmt_like<T>(&mut self, items: Vec<T>) -> Vec<T>
+    where
+        T: StmtLike + FoldWith<ActualFolder> + FoldWith<Self>,
+    {
         let mut folder = ActualFolder {
             c: self.c,
             vars: vec![],

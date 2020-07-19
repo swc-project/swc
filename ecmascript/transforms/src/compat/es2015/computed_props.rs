@@ -284,11 +284,21 @@ impl Visit for ComplexVisitor {
     }
 }
 
-impl<T> Fold for ComputedProps
-where
-    T: StmtLike + VisitWith<ShouldWork> + FoldWith<Self> + FoldWith<ObjectLitFolder>,
-{
-    fn fold(&mut self, stmts: Vec<T>) -> Vec<T> {
+impl Fold for ComputedProps {
+    fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
+        self.fold_stmt_like(n)
+    }
+
+    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
+        self.fold_stmt_like(n)
+    }
+}
+
+impl ComputedProps {
+    fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
+    where
+        T: StmtLike + VisitWith<ShouldWork> + FoldWith<Self> + FoldWith<ObjectLitFolder>,
+    {
         // Fast path when there's no computed properties.
         if !contains_computed_expr(&stmts) {
             return stmts;

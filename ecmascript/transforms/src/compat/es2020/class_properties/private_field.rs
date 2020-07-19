@@ -44,7 +44,7 @@ macro_rules! take_vars {
 }
 
 impl<'a> Fold for FieldAccessFolder<'a> {
-    take_vars!(fold_funciton, Function);
+    take_vars!(fold_function, Function);
     take_vars!(fold_constructor, Constructor);
 
     fn fold_expr(&mut self, e: Expr) -> Expr {

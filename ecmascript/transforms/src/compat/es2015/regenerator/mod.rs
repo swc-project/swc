@@ -74,12 +74,22 @@ impl Fold for Regenerator {
     }
 }
 
-impl<T> Fold for Regenerator
-where
-    T: FoldWith<Self> + StmtLike,
-    Vec<T>: FoldWith<Self> + VisitWith<Finder>,
-{
-    fn fold(&mut self, items: Vec<T>) -> Vec<T> {
+impl Fold for Regenerator {
+    fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
+        self.fold_stmt_like(n)
+    }
+
+    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
+        self.fold_stmt_like(n)
+    }
+}
+
+impl Regenerator {
+    fn fold_stmt_like<T>(&mut self, items: Vec<T>) -> Vec<T>
+    where
+        T: FoldWith<Self> + StmtLike,
+        Vec<T>: FoldWith<Self> + VisitWith<Finder>,
+    {
         if !Finder::find(&items) {
             return items;
         }

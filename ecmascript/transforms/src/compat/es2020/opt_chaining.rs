@@ -15,11 +15,21 @@ struct OptChaining {
 
 noop_fold_type!(OptChaining);
 
-impl<T> Fold<Vec<T>> for OptChaining
-where
-    T: Debug + StmtLike + FoldWith<Self>,
-{
-    fn fold(&mut self, stmts: Vec<T>) -> Vec<T> {
+impl Fold for OptChaining {
+    fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
+        self.fold_stmt_like(n)
+    }
+
+    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
+        self.fold_stmt_like(n)
+    }
+}
+
+impl OptChaining {
+    fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
+    where
+        T: StmtLike + FoldWith<Self>,
+    {
         // This is to support nested block statements
         let old = mem::replace(&mut self.vars, vec![]);
 

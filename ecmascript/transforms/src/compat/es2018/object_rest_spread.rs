@@ -378,7 +378,7 @@ struct RestVisitor {
 }
 
 impl Visit for RestVisitor {
-    fn visit(&mut self, prop: &ObjectPatProp) {
+    fn visit_prop(&mut self, prop: &ObjectPatProp, _: &dyn Node) {
         match *prop {
             ObjectPatProp::Rest(..) => self.found = true,
             _ => prop.visit_children_with(self),
@@ -395,11 +395,22 @@ where
     v.found
 }
 
-impl<T: StmtLike + VisitWith<RestVisitor> + FoldWith<RestFolder>> Fold<Vec<T>> for ObjectRest
-where
-    Vec<T>: FoldWith<Self>,
-{
-    fn fold(&mut self, stmts: Vec<T>) -> Vec<T> {
+impl Fold for ObjectRest {
+    fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
+        self.fold_stmt_like(n)
+    }
+
+    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
+        self.fold_stmt_like(n)
+    }
+}
+
+impl ObjectRest {
+    fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
+    where
+        T: StmtLike + VisitWith<RestVisitor> + FoldWith<RestFolder>,
+        Vec<T>: FoldWith<Self>,
+    {
         if !contains_rest(&stmts) {
             return stmts;
         }

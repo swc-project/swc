@@ -828,12 +828,22 @@ impl Fold for AssignFolder {
     }
 }
 
-impl<T: StmtLike + VisitWith<DestructuringVisitor>> Fold for Destructuring
-where
-    Vec<T>: FoldWith<Self>,
-    T: FoldWith<AssignFolder>,
-{
-    fn fold(&mut self, stmts: Vec<T>) -> Vec<T> {
+impl Fold for Destructuring {
+    fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
+        self.fold_stmt_like(n)
+    }
+
+    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
+        self.fold_stmt_like(n)
+    }
+}
+
+impl Destructuring {
+    fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
+    where
+        Vec<T>: FoldWith<Self>,
+        T: StmtLike + VisitWith<DestructuringVisitor> + FoldWith<AssignFolder>,
+    {
         // fast path
         if !has_destruturing(&stmts) {
             return stmts;

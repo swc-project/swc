@@ -92,11 +92,22 @@ impl Fold for AssignFolder {
     }
 }
 
-impl<T: StmtLike + VisitWith<ShouldFold>> Fold<Vec<T>> for Exponentation
-where
-    Vec<T>: FoldWith<Self>,
-{
-    fn fold(&mut self, stmts: Vec<T>) -> Vec<T> {
+impl Fold for Exponentation {
+    fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
+        self.fold_stmt_like(n)
+    }
+
+    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
+        self.fold_stmt_like(n)
+    }
+}
+
+impl Exponentation {
+    fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
+    where
+        T: StmtLike + VisitWith<ShouldFold>,
+        Vec<T>: FoldWith<Self>,
+    {
         if !should_fold(&stmts) {
             return stmts;
         }

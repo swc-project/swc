@@ -71,11 +71,21 @@ struct Data {
     get: Option<Box<Expr>>,
 }
 
-impl<T> Fold for Classes
-where
-    T: StmtLike + ModuleItemLike + FoldWith<Self>,
-{
-    fn fold(&mut self, stmts: Vec<T>) -> Vec<T> {
+impl Fold for Classes {
+    fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
+        self.fold_stmt_like(n)
+    }
+
+    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
+        self.fold_stmt_like(n)
+    }
+}
+
+impl Classes {
+    fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
+    where
+        T: StmtLike + ModuleItemLike + FoldWith<Self>,
+    {
         let mut buf = Vec::with_capacity(stmts.len());
         let mut first = true;
         let old = self.in_strict;

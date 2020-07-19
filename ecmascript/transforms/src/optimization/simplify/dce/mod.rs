@@ -136,12 +136,22 @@ impl Repeated for Dce<'_> {
     }
 }
 
-impl<T> Fold for Dce<'_>
-where
-    T: StmtLike + FoldWith<Self> + Spanned + std::fmt::Debug,
-    T: for<'any> VisitWith<SideEffectVisitor<'any>> + VisitWith<ImportDetector>,
-{
-    fn fold(&mut self, mut items: Vec<T>) -> Vec<T> {
+impl Fold for Dce<'_> {
+    fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
+        self.fold_stmt_like(n)
+    }
+
+    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
+        self.fold_stmt_like(n)
+    }
+}
+
+impl Dce<'_> {
+    fn fold_stmt_like<T>(&mut self, mut items: Vec<T>) -> Vec<T>
+    where
+        T: StmtLike + FoldWith<Self> + Spanned + std::fmt::Debug,
+        T: for<'any> VisitWith<SideEffectVisitor<'any>> + VisitWith<ImportDetector>,
+    {
         let old = self.changed;
 
         let mut preserved = FxHashSet::default();

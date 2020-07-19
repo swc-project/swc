@@ -494,11 +494,22 @@ fn make_finally_block(
     })
 }
 
-impl<T: StmtLike + VisitWith<ForOfFinder>> Fold for ForOf
-where
-    Vec<T>: FoldWith<Self>,
-{
-    fn fold(&mut self, stmts: Vec<T>) -> Vec<T> {
+impl Fold for ForOf {
+    fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
+        self.fold_stmt_like(n)
+    }
+
+    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
+        self.fold_stmt_like(n)
+    }
+}
+
+impl ForOf {
+    fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
+    where
+        T: StmtLike + VisitWith<ForOfFinder>,
+        Vec<T>: FoldWith<Self>,
+    {
         if !contains_for_of(&stmts) {
             return stmts;
         }

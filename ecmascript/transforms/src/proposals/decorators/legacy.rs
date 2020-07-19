@@ -70,12 +70,22 @@ impl Fold for Legacy {
     }
 }
 
-impl<T> Fold for Legacy
-where
-    T: FoldWith<Self> + VisitWith<DecoratorFinder> + StmtLike + ModuleItemLike,
-    Vec<T>: VisitWith<DecoratorFinder>,
-{
-    fn fold(&mut self, stmts: Vec<T>) -> Vec<T> {
+impl Fold for Legacy {
+    fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
+        self.fold_stmt_like(n)
+    }
+
+    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
+        self.fold_stmt_like(n)
+    }
+}
+
+impl Legacy {
+    fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
+    where
+        T: FoldWith<Self> + VisitWith<DecoratorFinder> + StmtLike + ModuleItemLike,
+        Vec<T>: VisitWith<DecoratorFinder>,
+    {
         if !super::usage::has_decorator(&stmts) {
             return stmts;
         }
