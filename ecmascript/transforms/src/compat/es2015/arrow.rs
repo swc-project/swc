@@ -2,7 +2,7 @@ use crate::util::{contains_this_expr, ExprFactory};
 use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::quote_ident;
-use swc_ecma_visit::{Fold, FoldWith, Visit, VisitWith};
+use swc_ecma_visit::{Fold, FoldWith, Node, Visit, VisitWith};
 
 /// Compile ES2015 arrow functions to ES5
 ///
@@ -141,7 +141,7 @@ struct ArrowVisitor {
     found: bool,
 }
 impl Visit for ArrowVisitor {
-    fn visit_arrow_expr(&mut self, _: &ArrowExpr) {
+    fn visit_arrow_expr(&mut self, _: &ArrowExpr, _: &dyn Node) {
         self.found = true;
     }
 }
