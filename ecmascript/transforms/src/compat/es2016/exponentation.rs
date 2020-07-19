@@ -170,8 +170,7 @@ impl Visit for ShouldFold {
             self.found = true;
         }
     }
-}
-impl Visit for ShouldFold {
+
     fn visit_assign_expr(&mut self, e: &AssignExpr, _: &dyn Node) {
         if e.op == op!("**=") {
             self.found = true;

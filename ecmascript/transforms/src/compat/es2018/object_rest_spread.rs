@@ -145,6 +145,106 @@ macro_rules! impl_for_for_stmt {
 impl Fold for RestFolder {
     impl_for_for_stmt!(fold_for_in_stmt, ForInStmt);
     impl_for_for_stmt!(fold_for_of_stmt, ForOfStmt);
+    impl_fold_fn!();
+
+    /// Handles assign expression
+    fn fold_expr(&mut self, expr: Expr) -> Expr {
+        // fast path
+        if !contains_rest(&expr) {
+            return expr;
+        }
+
+        let expr = expr.fold_children_with(self);
+
+        match expr {
+            Expr::Assign(AssignExpr {
+                span,
+                left: PatOrExpr::Pat(box pat),
+                op: op!("="),
+                right,
+            }) => {
+                let mut var_ident = alias_ident_for(&right, "_tmp");
+                var_ident.span = var_ident.span.apply_mark(Mark::fresh(Mark::root()));
+
+                // println!("Var: var_ident = None");
+                self.mutable_vars.push(VarDeclarator {
+                    span: DUMMY_SP,
+                    name: Pat::Ident(var_ident.clone()),
+                    init: None,
+                    definite: false,
+                });
+                // println!("Expr: var_ident = right");
+                self.exprs.push(box Expr::Assign(AssignExpr {
+                    span: DUMMY_SP,
+                    left: PatOrExpr::Pat(box Pat::Ident(var_ident.clone())),
+                    op: op!("="),
+                    right,
+                }));
+                let pat =
+                    self.fold_rest(&mut 0, pat, box Expr::Ident(var_ident.clone()), true, true);
+
+                match pat {
+                    Pat::Object(ObjectPat { ref props, .. }) if props.is_empty() => {}
+                    _ => self.exprs.push(box Expr::Assign(AssignExpr {
+                        span,
+                        left: PatOrExpr::Pat(box pat),
+                        op: op!("="),
+                        right: box var_ident.clone().into(),
+                    })),
+                }
+                self.exprs.push(box var_ident.into());
+                Expr::Seq(SeqExpr {
+                    span: DUMMY_SP,
+                    exprs: mem::replace(&mut self.exprs, vec![]),
+                })
+            }
+            _ => expr,
+        }
+    }
+
+    /// export var { b, ...c } = asdf2;
+    fn fold_module_decl(&mut self, decl: ModuleDecl) -> ModuleDecl {
+        if !contains_rest(&decl) {
+            // fast path
+            return decl;
+        }
+
+        match decl {
+            ModuleDecl::ExportDecl(ExportDecl {
+                span,
+                decl: Decl::Var(var_decl),
+                ..
+            }) => {
+                let specifiers = {
+                    let mut found = vec![];
+                    let mut finder = VarCollector { to: &mut found };
+                    var_decl.visit_with(&mut finder);
+                    found
+                        .into_iter()
+                        .map(|(sym, ctxt)| ExportNamedSpecifier {
+                            span: DUMMY_SP,
+                            orig: Ident::new(sym, DUMMY_SP.with_ctxt(ctxt)),
+                            exported: None,
+                        })
+                        .map(ExportSpecifier::Named)
+                        .collect()
+                };
+
+                let export = NamedExport {
+                    span,
+                    specifiers,
+                    src: None,
+                    type_only: false,
+                };
+
+                let mut var_decl = var_decl.fold_with(self);
+                self.vars.append(&mut var_decl.decls);
+
+                ModuleDecl::ExportNamed(export)
+            }
+            _ => decl.fold_children_with(self),
+        }
+    }
 
     fn fold_var_declarators(&mut self, decls: Vec<VarDeclarator>) -> Vec<VarDeclarator> {
         // fast path
@@ -270,109 +370,6 @@ impl Fold for RestFolder {
     }
 }
 
-/// Handles assign expression
-impl Fold for RestFolder {
-    fn fold_expr(&mut self, expr: Expr) -> Expr {
-        // fast path
-        if !contains_rest(&expr) {
-            return expr;
-        }
-
-        let expr = expr.fold_children_with(self);
-
-        match expr {
-            Expr::Assign(AssignExpr {
-                span,
-                left: PatOrExpr::Pat(box pat),
-                op: op!("="),
-                right,
-            }) => {
-                let mut var_ident = alias_ident_for(&right, "_tmp");
-                var_ident.span = var_ident.span.apply_mark(Mark::fresh(Mark::root()));
-
-                // println!("Var: var_ident = None");
-                self.mutable_vars.push(VarDeclarator {
-                    span: DUMMY_SP,
-                    name: Pat::Ident(var_ident.clone()),
-                    init: None,
-                    definite: false,
-                });
-                // println!("Expr: var_ident = right");
-                self.exprs.push(box Expr::Assign(AssignExpr {
-                    span: DUMMY_SP,
-                    left: PatOrExpr::Pat(box Pat::Ident(var_ident.clone())),
-                    op: op!("="),
-                    right,
-                }));
-                let pat =
-                    self.fold_rest(&mut 0, pat, box Expr::Ident(var_ident.clone()), true, true);
-
-                match pat {
-                    Pat::Object(ObjectPat { ref props, .. }) if props.is_empty() => {}
-                    _ => self.exprs.push(box Expr::Assign(AssignExpr {
-                        span,
-                        left: PatOrExpr::Pat(box pat),
-                        op: op!("="),
-                        right: box var_ident.clone().into(),
-                    })),
-                }
-                self.exprs.push(box var_ident.into());
-                Expr::Seq(SeqExpr {
-                    span: DUMMY_SP,
-                    exprs: mem::replace(&mut self.exprs, vec![]),
-                })
-            }
-            _ => expr,
-        }
-    }
-}
-
-/// export var { b, ...c } = asdf2;
-impl Fold for RestFolder {
-    fn fold_module_decl(&mut self, decl: ModuleDecl) -> ModuleDecl {
-        if !contains_rest(&decl) {
-            // fast path
-            return decl;
-        }
-
-        match decl {
-            ModuleDecl::ExportDecl(ExportDecl {
-                span,
-                decl: Decl::Var(var_decl),
-                ..
-            }) => {
-                let specifiers = {
-                    let mut found = vec![];
-                    let mut finder = VarCollector { to: &mut found };
-                    var_decl.visit_with(&mut finder);
-                    found
-                        .into_iter()
-                        .map(|(sym, ctxt)| ExportNamedSpecifier {
-                            span: DUMMY_SP,
-                            orig: Ident::new(sym, DUMMY_SP.with_ctxt(ctxt)),
-                            exported: None,
-                        })
-                        .map(ExportSpecifier::Named)
-                        .collect()
-                };
-
-                let export = NamedExport {
-                    span,
-                    specifiers,
-                    src: None,
-                    type_only: false,
-                };
-
-                let mut var_decl = var_decl.fold_with(self);
-                self.vars.append(&mut var_decl.decls);
-
-                ModuleDecl::ExportNamed(export)
-            }
-            _ => decl.fold_children_with(self),
-        }
-    }
-}
-
 struct RestVisitor {
     found: bool,
 }
@@ -459,10 +456,6 @@ impl ObjectRest {
 
         buf
     }
-}
-
-impl Fold for RestFolder {
-    impl_fold_fn!();
 }
 
 // impl Fold for RestFolder {

@@ -41,35 +41,6 @@ impl Repeated for SimplifyExpr {
     }
 }
 
-impl Fold for SimplifyExpr {
-    fn fold_pat(&mut self, p: Pat) -> Pat {
-        match p {
-            Pat::Assign(a) => AssignPat {
-                right: {
-                    let default = a.right.fold_with(self);
-                    if default.is_undefined()
-                        || match *default {
-                            Expr::Unary(UnaryExpr {
-                                op: op!("void"),
-                                ref arg,
-                                ..
-                            }) => !arg.may_have_side_effects(),
-                            _ => false,
-                        }
-                    {
-                        return *a.left;
-                    }
-
-                    default
-                },
-                ..a
-            }
-            .into(),
-            _ => p,
-        }
-    }
-}
-
 impl SimplifyExpr {
     fn fold_member_expr(&mut self, e: MemberExpr) -> Expr {
         #[derive(Clone, PartialEq, Eq)]
@@ -1118,6 +1089,33 @@ impl Fold for SimplifyExpr {
 
             // be conservative.
             _ => expr,
+        }
+    }
+
+    fn fold_pat(&mut self, p: Pat) -> Pat {
+        match p {
+            Pat::Assign(a) => AssignPat {
+                right: {
+                    let default = a.right.fold_with(self);
+                    if default.is_undefined()
+                        || match *default {
+                            Expr::Unary(UnaryExpr {
+                                op: op!("void"),
+                                ref arg,
+                                ..
+                            }) => !arg.may_have_side_effects(),
+                            _ => false,
+                        }
+                    {
+                        return *a.left;
+                    }
+
+                    default
+                },
+                ..a
+            }
+            .into(),
+            _ => p,
         }
     }
 

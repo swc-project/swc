@@ -89,57 +89,496 @@ impl Inlining<'_> {
 }
 
 impl Fold for Inlining<'_> {
-    fn fold_module_items(&mut self, mut items: Vec<ModuleItem>) -> Vec<ModuleItem> {
-        let old_phase = self.phase;
-
-        self.phase = Phase::Analysis;
-        items = items.fold_children_with(self);
-
-        log::debug!("Switching to Inlining phase");
-
-        // Inline
-        self.phase = Phase::Inlining;
-        items = items.fold_children_with(self);
-
-        self.phase = old_phase;
-
-        items
+    fn fold_arrow_expr(&mut self, node: ArrowExpr) -> ArrowExpr {
+        self.fold_with_child(ScopeKind::Fn { named: false }, node)
     }
-}
 
-impl Fold for Inlining<'_> {
-    fn fold_stmts(&mut self, mut items: Vec<Stmt>) -> Vec<Stmt> {
-        let old_phase = self.phase;
+    fn fold_assign_expr(&mut self, e: AssignExpr) -> AssignExpr {
+        log::trace!("{:?}; Fold<AssignExpr>", self.phase);
+        self.pat_mode = PatFoldingMode::Assign;
+        let e = AssignExpr {
+            left: match e.left {
+                PatOrExpr::Expr(left) | PatOrExpr::Pat(box Pat::Expr(left)) => {
+                    //
+                    match *left {
+                        Expr::Member(ref left) => {
+                            log::trace!("Assign to member expression!");
+                            let mut v = IdentListVisitor {
+                                scope: &mut self.scope,
+                            };
 
-        match old_phase {
-            Phase::Analysis => {
-                items = items.fold_children_with(self);
-            }
-            Phase::Inlining => {
-                self.phase = Phase::Analysis;
-                items = items.fold_children_with(self);
+                            left.visit_with(&mut v);
+                            e.right.visit_with(&mut v);
+                        }
 
-                // Inline
-                self.phase = Phase::Inlining;
-                items = items.fold_children_with(self);
+                        _ => {}
+                    }
 
-                self.phase = old_phase
+                    PatOrExpr::Expr(left)
+                }
+                PatOrExpr::Pat(p) => PatOrExpr::Pat(p.fold_with(self)),
+            },
+            right: e.right.fold_with(self),
+            ..e
+        };
+
+        match e.op {
+            op!("=") => {}
+            _ => {
+                let mut v = IdentListVisitor {
+                    scope: &mut self.scope,
+                };
+
+                e.left.visit_with(&mut v);
+                e.right.visit_with(&mut v)
             }
         }
 
-        items
-    }
-}
+        if self.scope.is_inline_prevented(&e.right) {
+            // Prevent inline for lhd
+            let ids: Vec<Id> = find_ids(&e.left);
+            for id in ids {
+                self.scope.prevent_inline(&id);
+            }
+            return e;
+        }
 
-impl Fold for Inlining<'_> {
+        match *e.right {
+            Expr::Lit(..) | Expr::Ident(..) => {
+                //
+                match e.left {
+                    PatOrExpr::Pat(box Pat::Ident(ref i))
+                    | PatOrExpr::Expr(box Expr::Ident(ref i)) => {
+                        let id = i.to_id();
+                        self.scope.add_write(&id, false);
+
+                        if let Some(var) = self.scope.find_binding(&id) {
+                            if !var.is_inline_prevented() {
+                                *var.value.borrow_mut() = Some(*e.right.clone());
+                            }
+                        }
+                    }
+                    _ => {}
+                }
+            }
+
+            _ => {}
+        }
+
+        e
+    }
+
+    fn fold_bin_expr(&mut self, node: BinExpr) -> BinExpr {
+        match node.op {
+            op!("&&") | op!("||") => BinExpr {
+                left: node.left.fold_with(self),
+                ..node
+            },
+            _ => node.fold_children_with(self),
+        }
+    }
+
+    fn fold_block_stmt(&mut self, node: BlockStmt) -> BlockStmt {
+        self.fold_with_child(ScopeKind::Block, node)
+    }
+
+    fn fold_call_expr(&mut self, mut node: CallExpr) -> CallExpr {
+        node.callee = node.callee.fold_with(self);
+
+        if self.phase == Phase::Analysis {
+            match node.callee {
+                ExprOrSuper::Expr(ref callee) => {
+                    self.scope.mark_this_sensitive(&callee);
+                }
+
+                _ => {}
+            }
+        }
+
+        node.args = node.args.fold_with(self);
+
+        self.scope.store_inline_barrier(self.phase);
+
+        node
+    }
+
+    fn fold_catch_clause(&mut self, node: CatchClause) -> CatchClause {
+        self.with_child(ScopeKind::Block, node, move |child, mut node| {
+            child.pat_mode = PatFoldingMode::CatchParam;
+            node.param = node.param.fold_with(child);
+            match child.phase {
+                Phase::Analysis => {
+                    let ids: Vec<Id> = find_ids(&node.param);
+                    for id in ids {
+                        child.scope.prevent_inline(&id);
+                    }
+                }
+                Phase::Inlining => {}
+            }
+
+            node.body = node.body.fold_with(child);
+
+            node
+        })
+    }
+
+    fn fold_do_while_stmt(&mut self, mut node: DoWhileStmt) -> DoWhileStmt {
+        {
+            node.test.visit_with(&mut IdentListVisitor {
+                scope: &mut self.scope,
+            });
+        }
+
+        node.test = node.test.fold_with(self);
+        node.body = self.fold_with_child(ScopeKind::Loop, node.body);
+
+        node
+    }
+
+    fn fold_expr(&mut self, node: Expr) -> Expr {
+        let node: Expr = node.fold_children_with(self);
+
+        // Codes like
+        //
+        //      var y;
+        //      y = x;
+        //      use(y)
+        //
+        //  should be transformed to
+        //
+        //      var y;
+        //      x;
+        //      use(x)
+        //
+        // We cannot know if this is possible while analysis phase
+        if self.phase == Phase::Inlining {
+            match node {
+                Expr::Assign(e @ AssignExpr { op: op!("="), .. }) => {
+                    match e.left {
+                        PatOrExpr::Pat(box Pat::Ident(ref i))
+                        | PatOrExpr::Expr(box Expr::Ident(ref i)) => {
+                            if let Some(var) = self.scope.find_binding_from_current(&i.to_id()) {
+                                if var.is_undefined.get() && !var.is_inline_prevented() {
+                                    if !self.scope.is_inline_prevented(&e.right) {
+                                        *var.value.borrow_mut() = Some(*e.right.clone());
+                                        var.is_undefined.set(false);
+                                        return *e.right;
+                                    }
+                                }
+                            }
+                        }
+                        _ => {}
+                    }
+
+                    return Expr::Assign(e);
+                }
+
+                _ => {}
+            }
+        }
+
+        match node {
+            Expr::Ident(ref i) => {
+                let id = i.to_id();
+                if self.is_first_run {
+                    if let Some(expr) = self.scope.find_constant(&id) {
+                        self.changed = true;
+                        return expr.clone().fold_with(self);
+                    }
+                }
+
+                match self.phase {
+                    Phase::Analysis => {
+                        self.scope.add_read(&id);
+                    }
+                    Phase::Inlining => {
+                        log::trace!("Trying to inline: {:?}", id);
+                        let expr = if let Some(var) = self.scope.find_binding(&id) {
+                            log::trace!("VarInfo: {:?}", var);
+                            if !var.is_inline_prevented() {
+                                let expr = var.value.borrow();
+
+                                if let Some(expr) = &*expr {
+                                    if node != *expr {
+                                        self.changed = true;
+                                    }
+
+                                    Some(expr.clone())
+                                } else {
+                                    if var.is_undefined.get() {
+                                        return *undefined(i.span);
+                                    } else {
+                                        log::trace!("Not a cheap expression");
+                                        None
+                                    }
+                                }
+                            } else {
+                                log::trace!("Inlining is prevented");
+                                None
+                            }
+                        } else {
+                            None
+                        };
+
+                        if let Some(expr) = expr {
+                            return expr;
+                        }
+                    }
+                }
+            }
+
+            _ => {}
+        }
+
+        node
+    }
+
+    fn fold_fn_decl(&mut self, node: FnDecl) -> FnDecl {
+        if self.phase == Phase::Analysis {
+            self.declare(
+                node.ident.to_id(),
+                None,
+                true,
+                VarType::Var(VarDeclKind::Var),
+            );
+        }
+
+        let function = node.function;
+
+        let function = self.with_child(
+            ScopeKind::Fn { named: true },
+            function,
+            |child, mut node| {
+                child.pat_mode = PatFoldingMode::Param;
+                node.params = node.params.fold_with(child);
+                node.body = match node.body {
+                    None => None,
+                    Some(v) => Some(v.fold_children_with(child)),
+                };
+
+                node
+            },
+        );
+        FnDecl { function, ..node }
+    }
+
+    fn fold_fn_expr(&mut self, node: FnExpr) -> FnExpr {
+        if let Some(ref ident) = node.ident {
+            self.scope.add_write(&ident.to_id(), true);
+        }
+
+        FnExpr {
+            function: node.function.fold_with(self),
+            ..node
+        }
+    }
+
+    fn fold_for_in_stmt(&mut self, mut node: ForInStmt) -> ForInStmt {
+        self.pat_mode = PatFoldingMode::Param;
+        node.left = node.left.fold_with(self);
+
+        {
+            node.left.visit_with(&mut IdentListVisitor {
+                scope: &mut self.scope,
+            });
+        }
+
+        {
+            node.right.visit_with(&mut IdentListVisitor {
+                scope: &mut self.scope,
+            });
+        }
+
+        node.right = node.right.fold_with(self);
+        node.body = self.fold_with_child(ScopeKind::Loop, node.body);
+
+        node
+    }
+
+    fn fold_for_of_stmt(&mut self, mut node: ForOfStmt) -> ForOfStmt {
+        self.pat_mode = PatFoldingMode::Param;
+        node.left = node.left.fold_with(self);
+
+        {
+            node.left.visit_with(&mut IdentListVisitor {
+                scope: &mut self.scope,
+            });
+        }
+        {
+            node.right.visit_with(&mut IdentListVisitor {
+                scope: &mut self.scope,
+            });
+        }
+
+        node.right = node.right.fold_with(self);
+        node.body = self.fold_with_child(ScopeKind::Loop, node.body);
+
+        node
+    }
+
+    fn fold_for_stmt(&mut self, mut node: ForStmt) -> ForStmt {
+        node.init = node.init.fold_with(self);
+
+        {
+            node.init.visit_with(&mut IdentListVisitor {
+                scope: &mut self.scope,
+            });
+        }
+        {
+            node.test.visit_with(&mut IdentListVisitor {
+                scope: &mut self.scope,
+            });
+        }
+        {
+            node.update.visit_with(&mut IdentListVisitor {
+                scope: &mut self.scope,
+            });
+        }
+
+        node.test = node.test.fold_with(self);
+        node.update = node.update.fold_with(self);
+        node.body = self.fold_with_child(ScopeKind::Loop, node.body);
+
+        if node.init.is_none() && node.test.is_none() && node.update.is_none() {
+            self.scope.store_inline_barrier(self.phase);
+        }
+
+        node
+    }
+
+    fn fold_function(&mut self, node: Function) -> Function {
+        self.with_child(
+            ScopeKind::Fn { named: false },
+            node,
+            move |child, mut node| {
+                child.pat_mode = PatFoldingMode::Param;
+                node.params = node.params.fold_with(child);
+                node.body = match node.body {
+                    None => None,
+                    Some(v) => Some(v.fold_children_with(child)),
+                };
+
+                node
+            },
+        )
+    }
+
+    fn fold_if_stmt(&mut self, mut node: IfStmt) -> IfStmt {
+        node.test = node.test.fold_with(self);
+
+        node.cons = self.fold_with_child(ScopeKind::Cond, node.cons);
+        node.alt = self.fold_with_child(ScopeKind::Cond, node.alt);
+
+        node
+    }
+
+    fn fold_member_expr(&mut self, mut e: MemberExpr) -> MemberExpr {
+        e.obj = e.obj.fold_with(self);
+        if e.computed {
+            e.prop = e.prop.fold_with(self);
+        }
+
+        e
+    }
+
+    fn fold_new_expr(&mut self, mut node: NewExpr) -> NewExpr {
+        node.callee = node.callee.fold_with(self);
+        if self.phase == Phase::Analysis {
+            self.scope.mark_this_sensitive(&node.callee);
+        }
+
+        node.args = node.args.fold_with(self);
+
+        self.scope.store_inline_barrier(self.phase);
+
+        node
+    }
+
+    fn fold_pat(&mut self, node: Pat) -> Pat {
+        let node: Pat = node.fold_children_with(self);
+
+        match node {
+            Pat::Ident(ref i) => match self.pat_mode {
+                PatFoldingMode::Param => {
+                    self.declare(
+                        i.to_id(),
+                        Some(Cow::Owned(Expr::Ident(i.clone()))),
+                        false,
+                        VarType::Param,
+                    );
+                }
+                PatFoldingMode::CatchParam => {
+                    self.declare(
+                        i.to_id(),
+                        Some(Cow::Owned(Expr::Ident(i.clone()))),
+                        false,
+                        VarType::Var(VarDeclKind::Var),
+                    );
+                }
+                PatFoldingMode::VarDecl => {}
+                PatFoldingMode::Assign => {
+                    if let Some(..) = self.scope.find_binding_from_current(&i.to_id()) {
+                    } else {
+                        self.scope.add_write(&i.to_id(), false);
+                    }
+                }
+            },
+
+            _ => {}
+        }
+
+        node
+    }
+
+    fn fold_switch_case(&mut self, node: SwitchCase) -> SwitchCase {
+        self.fold_with_child(ScopeKind::Block, node)
+    }
+
+    fn fold_try_stmt(&mut self, node: TryStmt) -> TryStmt {
+        node.block.visit_with(&mut IdentListVisitor {
+            scope: &mut self.scope,
+        });
+
+        TryStmt {
+            // TODO:
+            //            block: node.block.fold_with(self),
+            handler: node.handler.fold_with(self),
+            ..node
+        }
+    }
+
+    fn fold_unary_expr(&mut self, node: UnaryExpr) -> UnaryExpr {
+        match node.op {
+            op!("delete") => {
+                let mut v = IdentListVisitor {
+                    scope: &mut self.scope,
+                };
+
+                node.arg.visit_with(&mut v);
+                return node;
+            }
+
+            _ => {}
+        }
+
+        node.fold_children_with(self)
+    }
+
+    fn fold_update_expr(&mut self, node: UpdateExpr) -> UpdateExpr {
+        let mut v = IdentListVisitor {
+            scope: &mut self.scope,
+        };
+
+        node.arg.visit_with(&mut v);
+        node
+    }
+
     fn fold_var_decl(&mut self, decl: VarDecl) -> VarDecl {
         self.var_decl_kind = decl.kind;
 
         decl.fold_children_with(self)
     }
-}
 
-impl Fold for Inlining<'_> {
     fn fold_var_declarator(&mut self, mut node: VarDeclarator) -> VarDeclarator {
         let kind = VarType::Var(self.var_decl_kind);
         node.init = node.init.fold_with(self);
@@ -283,495 +722,7 @@ impl Fold for Inlining<'_> {
 
         node
     }
-}
 
-impl Fold for Inlining<'_> {
-    fn fold_block_stmt(&mut self, node: BlockStmt) -> BlockStmt {
-        self.fold_with_child(ScopeKind::Block, node)
-    }
-}
-
-impl Fold for Inlining<'_> {
-    fn fold_arrow_expr(&mut self, node: ArrowExpr) -> ArrowExpr {
-        self.fold_with_child(ScopeKind::Fn { named: false }, node)
-    }
-}
-
-impl Fold for Inlining<'_> {
-    fn fold_function(&mut self, node: Function) -> Function {
-        self.with_child(
-            ScopeKind::Fn { named: false },
-            node,
-            move |child, mut node| {
-                child.pat_mode = PatFoldingMode::Param;
-                node.params = node.params.fold_with(child);
-                node.body = match node.body {
-                    None => None,
-                    Some(v) => Some(v.fold_children_with(child)),
-                };
-
-                node
-            },
-        )
-    }
-}
-
-impl Fold for Inlining<'_> {
-    fn fold_fn_decl(&mut self, node: FnDecl) -> FnDecl {
-        if self.phase == Phase::Analysis {
-            self.declare(
-                node.ident.to_id(),
-                None,
-                true,
-                VarType::Var(VarDeclKind::Var),
-            );
-        }
-
-        let function = node.function;
-
-        let function = self.with_child(
-            ScopeKind::Fn { named: true },
-            function,
-            |child, mut node| {
-                child.pat_mode = PatFoldingMode::Param;
-                node.params = node.params.fold_with(child);
-                node.body = match node.body {
-                    None => None,
-                    Some(v) => Some(v.fold_children_with(child)),
-                };
-
-                node
-            },
-        );
-        FnDecl { function, ..node }
-    }
-}
-
-impl Fold for Inlining<'_> {
-    fn fold_fn_expr(&mut self, node: FnExpr) -> FnExpr {
-        if let Some(ref ident) = node.ident {
-            self.scope.add_write(&ident.to_id(), true);
-        }
-
-        FnExpr {
-            function: node.function.fold_with(self),
-            ..node
-        }
-    }
-}
-
-impl Fold for Inlining<'_> {
-    fn fold_if_stmt(&mut self, mut node: IfStmt) -> IfStmt {
-        node.test = node.test.fold_with(self);
-
-        node.cons = self.fold_with_child(ScopeKind::Cond, node.cons);
-        node.alt = self.fold_with_child(ScopeKind::Cond, node.alt);
-
-        node
-    }
-}
-
-impl Fold for Inlining<'_> {
-    fn fold_switch_case(&mut self, node: SwitchCase) -> SwitchCase {
-        self.fold_with_child(ScopeKind::Block, node)
-    }
-}
-
-impl Fold for Inlining<'_> {
-    fn fold_catch_clause(&mut self, node: CatchClause) -> CatchClause {
-        self.with_child(ScopeKind::Block, node, move |child, mut node| {
-            child.pat_mode = PatFoldingMode::CatchParam;
-            node.param = node.param.fold_with(child);
-            match child.phase {
-                Phase::Analysis => {
-                    let ids: Vec<Id> = find_ids(&node.param);
-                    for id in ids {
-                        child.scope.prevent_inline(&id);
-                    }
-                }
-                Phase::Inlining => {}
-            }
-
-            node.body = node.body.fold_with(child);
-
-            node
-        })
-    }
-}
-
-impl Fold for Inlining<'_> {
-    fn fold_call_expr(&mut self, mut node: CallExpr) -> CallExpr {
-        node.callee = node.callee.fold_with(self);
-
-        if self.phase == Phase::Analysis {
-            match node.callee {
-                ExprOrSuper::Expr(ref callee) => {
-                    self.scope.mark_this_sensitive(&callee);
-                }
-
-                _ => {}
-            }
-        }
-
-        node.args = node.args.fold_with(self);
-
-        self.scope.store_inline_barrier(self.phase);
-
-        node
-    }
-}
-
-impl Fold for Inlining<'_> {
-    fn fold_new_expr(&mut self, mut node: NewExpr) -> NewExpr {
-        node.callee = node.callee.fold_with(self);
-        if self.phase == Phase::Analysis {
-            self.scope.mark_this_sensitive(&node.callee);
-        }
-
-        node.args = node.args.fold_with(self);
-
-        self.scope.store_inline_barrier(self.phase);
-
-        node
-    }
-}
-
-impl Fold for Inlining<'_> {
-    fn fold_assign_expr(&mut self, e: AssignExpr) -> AssignExpr {
-        log::trace!("{:?}; Fold<AssignExpr>", self.phase);
-        self.pat_mode = PatFoldingMode::Assign;
-        let e = AssignExpr {
-            left: match e.left {
-                PatOrExpr::Expr(left) | PatOrExpr::Pat(box Pat::Expr(left)) => {
-                    //
-                    match *left {
-                        Expr::Member(ref left) => {
-                            log::trace!("Assign to member expression!");
-                            let mut v = IdentListVisitor {
-                                scope: &mut self.scope,
-                            };
-
-                            left.visit_with(&mut v);
-                            e.right.visit_with(&mut v);
-                        }
-
-                        _ => {}
-                    }
-
-                    PatOrExpr::Expr(left)
-                }
-                PatOrExpr::Pat(p) => PatOrExpr::Pat(p.fold_with(self)),
-            },
-            right: e.right.fold_with(self),
-            ..e
-        };
-
-        match e.op {
-            op!("=") => {}
-            _ => {
-                let mut v = IdentListVisitor {
-                    scope: &mut self.scope,
-                };
-
-                e.left.visit_with(&mut v);
-                e.right.visit_with(&mut v)
-            }
-        }
-
-        if self.scope.is_inline_prevented(&e.right) {
-            // Prevent inline for lhd
-            let ids: Vec<Id> = find_ids(&e.left);
-            for id in ids {
-                self.scope.prevent_inline(&id);
-            }
-            return e;
-        }
-
-        match *e.right {
-            Expr::Lit(..) | Expr::Ident(..) => {
-                //
-                match e.left {
-                    PatOrExpr::Pat(box Pat::Ident(ref i))
-                    | PatOrExpr::Expr(box Expr::Ident(ref i)) => {
-                        let id = i.to_id();
-                        self.scope.add_write(&id, false);
-
-                        if let Some(var) = self.scope.find_binding(&id) {
-                            if !var.is_inline_prevented() {
-                                *var.value.borrow_mut() = Some(*e.right.clone());
-                            }
-                        }
-                    }
-                    _ => {}
-                }
-            }
-
-            _ => {}
-        }
-
-        e
-    }
-}
-
-impl Fold for Inlining<'_> {
-    fn fold_member_expr(&mut self, mut e: MemberExpr) -> MemberExpr {
-        e.obj = e.obj.fold_with(self);
-        if e.computed {
-            e.prop = e.prop.fold_with(self);
-        }
-
-        e
-    }
-}
-
-impl Fold for Inlining<'_> {
-    fn fold_expr(&mut self, node: Expr) -> Expr {
-        let node: Expr = node.fold_children_with(self);
-
-        // Codes like
-        //
-        //      var y;
-        //      y = x;
-        //      use(y)
-        //
-        //  should be transformed to
-        //
-        //      var y;
-        //      x;
-        //      use(x)
-        //
-        // We cannot know if this is possible while analysis phase
-        if self.phase == Phase::Inlining {
-            match node {
-                Expr::Assign(e @ AssignExpr { op: op!("="), .. }) => {
-                    match e.left {
-                        PatOrExpr::Pat(box Pat::Ident(ref i))
-                        | PatOrExpr::Expr(box Expr::Ident(ref i)) => {
-                            if let Some(var) = self.scope.find_binding_from_current(&i.to_id()) {
-                                if var.is_undefined.get() && !var.is_inline_prevented() {
-                                    if !self.scope.is_inline_prevented(&e.right) {
-                                        *var.value.borrow_mut() = Some(*e.right.clone());
-                                        var.is_undefined.set(false);
-                                        return *e.right;
-                                    }
-                                }
-                            }
-                        }
-                        _ => {}
-                    }
-
-                    return Expr::Assign(e);
-                }
-
-                _ => {}
-            }
-        }
-
-        match node {
-            Expr::Ident(ref i) => {
-                let id = i.to_id();
-                if self.is_first_run {
-                    if let Some(expr) = self.scope.find_constant(&id) {
-                        self.changed = true;
-                        return expr.clone().fold_with(self);
-                    }
-                }
-
-                match self.phase {
-                    Phase::Analysis => {
-                        self.scope.add_read(&id);
-                    }
-                    Phase::Inlining => {
-                        log::trace!("Trying to inline: {:?}", id);
-                        let expr = if let Some(var) = self.scope.find_binding(&id) {
-                            log::trace!("VarInfo: {:?}", var);
-                            if !var.is_inline_prevented() {
-                                let expr = var.value.borrow();
-
-                                if let Some(expr) = &*expr {
-                                    if node != *expr {
-                                        self.changed = true;
-                                    }
-
-                                    Some(expr.clone())
-                                } else {
-                                    if var.is_undefined.get() {
-                                        return *undefined(i.span);
-                                    } else {
-                                        log::trace!("Not a cheap expression");
-                                        None
-                                    }
-                                }
-                            } else {
-                                log::trace!("Inlining is prevented");
-                                None
-                            }
-                        } else {
-                            None
-                        };
-
-                        if let Some(expr) = expr {
-                            return expr;
-                        }
-                    }
-                }
-            }
-
-            _ => {}
-        }
-
-        node
-    }
-}
-
-impl Fold for Inlining<'_> {
-    fn fold_update_expr(&mut self, node: UpdateExpr) -> UpdateExpr {
-        let mut v = IdentListVisitor {
-            scope: &mut self.scope,
-        };
-
-        node.arg.visit_with(&mut v);
-        node
-    }
-}
-
-impl Fold for Inlining<'_> {
-    fn fold_unary_expr(&mut self, node: UnaryExpr) -> UnaryExpr {
-        match node.op {
-            op!("delete") => {
-                let mut v = IdentListVisitor {
-                    scope: &mut self.scope,
-                };
-
-                node.arg.visit_with(&mut v);
-                return node;
-            }
-
-            _ => {}
-        }
-
-        node.fold_children_with(self)
-    }
-}
-
-impl Fold for Inlining<'_> {
-    fn fold_pat(&mut self, node: Pat) -> Pat {
-        let node: Pat = node.fold_children_with(self);
-
-        match node {
-            Pat::Ident(ref i) => match self.pat_mode {
-                PatFoldingMode::Param => {
-                    self.declare(
-                        i.to_id(),
-                        Some(Cow::Owned(Expr::Ident(i.clone()))),
-                        false,
-                        VarType::Param,
-                    );
-                }
-                PatFoldingMode::CatchParam => {
-                    self.declare(
-                        i.to_id(),
-                        Some(Cow::Owned(Expr::Ident(i.clone()))),
-                        false,
-                        VarType::Var(VarDeclKind::Var),
-                    );
-                }
-                PatFoldingMode::VarDecl => {}
-                PatFoldingMode::Assign => {
-                    if let Some(..) = self.scope.find_binding_from_current(&i.to_id()) {
-                    } else {
-                        self.scope.add_write(&i.to_id(), false);
-                    }
-                }
-            },
-
-            _ => {}
-        }
-
-        node
-    }
-}
-
-impl Fold for Inlining<'_> {
-    fn fold_for_in_stmt(&mut self, mut node: ForInStmt) -> ForInStmt {
-        self.pat_mode = PatFoldingMode::Param;
-        node.left = node.left.fold_with(self);
-
-        {
-            node.left.visit_with(&mut IdentListVisitor {
-                scope: &mut self.scope,
-            });
-        }
-
-        {
-            node.right.visit_with(&mut IdentListVisitor {
-                scope: &mut self.scope,
-            });
-        }
-
-        node.right = node.right.fold_with(self);
-        node.body = self.fold_with_child(ScopeKind::Loop, node.body);
-
-        node
-    }
-}
-
-impl Fold for Inlining<'_> {
-    fn fold_for_of_stmt(&mut self, mut node: ForOfStmt) -> ForOfStmt {
-        self.pat_mode = PatFoldingMode::Param;
-        node.left = node.left.fold_with(self);
-
-        {
-            node.left.visit_with(&mut IdentListVisitor {
-                scope: &mut self.scope,
-            });
-        }
-        {
-            node.right.visit_with(&mut IdentListVisitor {
-                scope: &mut self.scope,
-            });
-        }
-
-        node.right = node.right.fold_with(self);
-        node.body = self.fold_with_child(ScopeKind::Loop, node.body);
-
-        node
-    }
-}
-
-impl Fold for Inlining<'_> {
-    fn fold_for_stmt(&mut self, mut node: ForStmt) -> ForStmt {
-        node.init = node.init.fold_with(self);
-
-        {
-            node.init.visit_with(&mut IdentListVisitor {
-                scope: &mut self.scope,
-            });
-        }
-        {
-            node.test.visit_with(&mut IdentListVisitor {
-                scope: &mut self.scope,
-            });
-        }
-        {
-            node.update.visit_with(&mut IdentListVisitor {
-                scope: &mut self.scope,
-            });
-        }
-
-        node.test = node.test.fold_with(self);
-        node.update = node.update.fold_with(self);
-        node.body = self.fold_with_child(ScopeKind::Loop, node.body);
-
-        if node.init.is_none() && node.test.is_none() && node.update.is_none() {
-            self.scope.store_inline_barrier(self.phase);
-        }
-
-        node
-    }
-}
-
-impl Fold for Inlining<'_> {
     fn fold_while_stmt(&mut self, mut node: WhileStmt) -> WhileStmt {
         {
             node.test.visit_with(&mut IdentListVisitor {
@@ -784,47 +735,44 @@ impl Fold for Inlining<'_> {
 
         node
     }
-}
 
-impl Fold for Inlining<'_> {
-    fn fold_do_while_stmt(&mut self, mut node: DoWhileStmt) -> DoWhileStmt {
-        {
-            node.test.visit_with(&mut IdentListVisitor {
-                scope: &mut self.scope,
-            });
-        }
+    fn fold_module_items(&mut self, mut items: Vec<ModuleItem>) -> Vec<ModuleItem> {
+        let old_phase = self.phase;
 
-        node.test = node.test.fold_with(self);
-        node.body = self.fold_with_child(ScopeKind::Loop, node.body);
+        self.phase = Phase::Analysis;
+        items = items.fold_children_with(self);
 
-        node
+        log::debug!("Switching to Inlining phase");
+
+        // Inline
+        self.phase = Phase::Inlining;
+        items = items.fold_children_with(self);
+
+        self.phase = old_phase;
+
+        items
     }
-}
 
-impl Fold for Inlining<'_> {
-    fn fold_bin_expr(&mut self, node: BinExpr) -> BinExpr {
-        match node.op {
-            op!("&&") | op!("||") => BinExpr {
-                left: node.left.fold_with(self),
-                ..node
-            },
-            _ => node.fold_children_with(self),
+    fn fold_stmts(&mut self, mut items: Vec<Stmt>) -> Vec<Stmt> {
+        let old_phase = self.phase;
+
+        match old_phase {
+            Phase::Analysis => {
+                items = items.fold_children_with(self);
+            }
+            Phase::Inlining => {
+                self.phase = Phase::Analysis;
+                items = items.fold_children_with(self);
+
+                // Inline
+                self.phase = Phase::Inlining;
+                items = items.fold_children_with(self);
+
+                self.phase = old_phase
+            }
         }
-    }
-}
 
-impl Fold for Inlining<'_> {
-    fn fold_try_stmt(&mut self, node: TryStmt) -> TryStmt {
-        node.block.visit_with(&mut IdentListVisitor {
-            scope: &mut self.scope,
-        });
-
-        TryStmt {
-            // TODO:
-            //            block: node.block.fold_with(self),
-            handler: node.handler.fold_with(self),
-            ..node
-        }
+        items
     }
 }
 
@@ -834,17 +782,15 @@ struct IdentListVisitor<'a, 'b> {
 }
 
 impl Visit for IdentListVisitor<'_, '_> {
-    fn visit_member_expr(&mut self, node: &MemberExpr) {
+    fn visit_ident(&mut self, node: &Ident, _: &dyn Node) {
+        self.scope.add_write(&node.to_id(), true);
+    }
+
+    fn visit_member_expr(&mut self, node: &MemberExpr, _: &dyn Node) {
         node.obj.visit_with(self);
 
         if node.computed {
             node.prop.visit_with(self);
         }
-    }
-}
-
-impl Visit for IdentListVisitor<'_, '_> {
-    fn visit_ident(&mut self, node: &Ident, _: &dyn Node) {
-        self.scope.add_write(&node.to_id(), true);
     }
 }

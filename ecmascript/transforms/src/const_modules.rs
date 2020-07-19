@@ -113,9 +113,7 @@ impl Fold for ConstModules {
             _ => Some(item.fold_with(self)),
         })
     }
-}
 
-impl Fold for ConstModules {
     fn fold_expr(&mut self, expr: Expr) -> Expr {
         let expr = match expr {
             Expr::Member(expr) => {

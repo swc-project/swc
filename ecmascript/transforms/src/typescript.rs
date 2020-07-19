@@ -108,311 +108,6 @@ impl Strip {
     }
 }
 
-impl Fold for Strip {
-    fn fold_ts_type_alias_decl(&mut self, node: TsTypeAliasDecl) -> TsTypeAliasDecl {
-        self.add_types(node)
-    }
-
-    fn fold_constructor(&mut self, c: Constructor) -> Constructor {
-        let c = c.fold_children_with(self);
-
-        let mut stmts = vec![];
-
-        let params = c.params.move_map(|param| match param {
-            ParamOrTsParamProp::Param(..) => param,
-            ParamOrTsParamProp::TsParamProp(param) => {
-                let (ident, param) = match param.param {
-                    TsParamPropParam::Ident(i) => (
-                        i.clone(),
-                        Param {
-                            span: DUMMY_SP,
-                            decorators: Default::default(),
-                            pat: Pat::Ident(i),
-                        },
-                    ),
-                    TsParamPropParam::Assign(AssignPat {
-                        span,
-                        left: box Pat::Ident(i),
-                        right,
-                        ..
-                    }) => (
-                        i.clone(),
-                        Param {
-                            span: DUMMY_SP,
-                            decorators: Default::default(),
-                            pat: Pat::Assign(AssignPat {
-                                span,
-                                left: box Pat::Ident(i),
-                                right,
-                                type_ann: None,
-                            }),
-                        },
-                    ),
-                    _ => unreachable!("destructuring pattern inside TsParameterProperty"),
-                };
-                stmts.push(
-                    AssignExpr {
-                        span: DUMMY_SP,
-                        left: PatOrExpr::Expr(
-                            box ThisExpr { span: DUMMY_SP }.member(ident.clone()),
-                        ),
-                        op: op!("="),
-                        right: box Expr::Ident(ident),
-                    }
-                    .into_stmt(),
-                );
-
-                ParamOrTsParamProp::Param(param)
-            }
-        });
-
-        let body = match c.body {
-            Some(mut body) => {
-                prepend_stmts(&mut body.stmts, stmts.into_iter());
-                Some(body)
-            }
-            None => None,
-        };
-
-        Constructor { params, body, ..c }
-    }
-}
-
-impl Fold for Strip {
-    fn fold_class_members(&mut self, members: Vec<ClassMember>) -> Vec<ClassMember> {
-        let members = members.fold_children_with(self);
-
-        members.move_flat_map(|member| match member {
-            ClassMember::Constructor(Constructor { body: None, .. }) => None,
-            ClassMember::Method(ClassMethod {
-                is_abstract: true, ..
-            })
-            | ClassMember::Method(ClassMethod {
-                function: Function { body: None, .. },
-                ..
-            })
-            | ClassMember::ClassProp(ClassProp { value: None, .. }) => None,
-
-            _ => Some(member),
-        })
-    }
-}
-
-/// Remove `this` from parameter list
-impl Fold for Strip {
-    fn fold_params(&mut self, params: Vec<Param>) -> Vec<Param> {
-        let mut params = params.fold_children_with(self);
-
-        params.retain(|param| match param.pat {
-            Pat::Ident(Ident {
-                sym: js_word!("this"),
-                ..
-            }) => false,
-            _ => true,
-        });
-
-        params
-    }
-}
-
-impl Fold for Strip {
-    fn fold_module_items(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
-        let old = self.phase;
-
-        // First pass
-        self.phase = Phase::Analysis;
-        let items = items.fold_children_with(self);
-
-        self.phase = Phase::DropImports;
-
-        // Second pass
-        let mut stmts = Vec::with_capacity(items.len());
-        for item in items {
-            self.was_side_effect_import = false;
-            match item {
-                ModuleItem::Stmt(Stmt::Empty(..))
-                | ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
-                    type_only: true, ..
-                }))
-                | ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
-                    type_only: true,
-                    ..
-                })) => continue,
-
-                ModuleItem::ModuleDecl(ModuleDecl::Import(i)) => {
-                    let i = i.fold_with(self);
-
-                    if self.was_side_effect_import || !i.specifiers.is_empty() {
-                        stmts.push(ModuleItem::ModuleDecl(ModuleDecl::Import(i)));
-                    }
-                }
-
-                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                    decl: Decl::TsEnum(e),
-                    ..
-                })) => {
-                    stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                        span: e.span,
-                        decl: Decl::Var(VarDecl {
-                            span: DUMMY_SP,
-                            kind: VarDeclKind::Var,
-                            declare: false,
-                            decls: vec![VarDeclarator {
-                                span: e.span,
-                                name: Pat::Ident(e.id.clone()),
-                                definite: false,
-                                init: None,
-                            }],
-                        }),
-                    })));
-                    self.handle_enum(e, &mut stmts)
-                }
-                ModuleItem::Stmt(Stmt::Decl(Decl::TsEnum(e))) => {
-                    // var Foo;
-                    // (function (Foo) {
-                    //     Foo[Foo["a"] = 0] = "a";
-                    // })(Foo || (Foo = {}));
-
-                    stmts.push(
-                        Stmt::Decl(Decl::Var(VarDecl {
-                            span: DUMMY_SP,
-                            kind: VarDeclKind::Var,
-                            declare: false,
-                            decls: vec![VarDeclarator {
-                                span: e.span,
-                                name: Pat::Ident(e.id.clone()),
-                                definite: false,
-                                init: None,
-                            }],
-                        }))
-                        .into(),
-                    );
-                    self.handle_enum(e, &mut stmts)
-                }
-
-                ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
-                    expr: box Expr::Ident(ref i),
-                    ..
-                })) => {
-                    // type MyType = string;
-                    // export default MyType;
-
-                    let preserve = if let Some(decl_info) = self.scope.decls.get(&i.to_id()) {
-                        decl_info.has_concrete
-                    } else {
-                        true
-                    };
-
-                    if preserve {
-                        stmts.push(item)
-                    }
-                }
-
-                // Strip out ts-only extensions
-                ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
-                    function: Function { body: None, .. },
-                    ..
-                })))
-                | ModuleItem::Stmt(Stmt::Decl(Decl::TsInterface(..)))
-                | ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(..)))
-                | ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(..)))
-                | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                    decl: Decl::TsInterface(..),
-                    ..
-                }))
-                | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                    decl: Decl::TsModule(..),
-                    ..
-                }))
-                | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                    decl: Decl::TsTypeAlias(..),
-                    ..
-                }))
-                | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                    decl:
-                        Decl::Fn(FnDecl {
-                            function: Function { body: None, .. },
-                            ..
-                        }),
-                    ..
-                }))
-                | ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
-                    decl:
-                        DefaultDecl::Fn(FnExpr {
-                            function: Function { body: None, .. },
-                            ..
-                        }),
-                    ..
-                }))
-                | ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
-                    decl: DefaultDecl::TsInterfaceDecl(..),
-                    ..
-                }))
-                | ModuleItem::ModuleDecl(ModuleDecl::TsNamespaceExport(..)) => continue,
-
-                ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(import)) => {
-                    if !import.is_export {
-                        continue;
-                    }
-
-                    stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                        span: DUMMY_SP,
-                        decl: Decl::Var(VarDecl {
-                            span: DUMMY_SP,
-                            kind: VarDeclKind::Var,
-                            decls: vec![VarDeclarator {
-                                span: DUMMY_SP,
-                                name: Pat::Ident(import.id),
-                                init: Some(box module_ref_to_expr(import.module_ref)),
-                                definite: false,
-                            }],
-                            declare: false,
-                        }),
-                    })));
-                }
-
-                ModuleItem::ModuleDecl(ModuleDecl::TsExportAssignment(export)) => {
-                    stmts.push(ModuleItem::ModuleDecl(
-                        ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
-                            span: export.span(),
-                            expr: export.expr,
-                        })
-                        .fold_with(self),
-                    ))
-                }
-                ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(mut export)) => {
-                    // if specifier become empty, we remove export statement.
-
-                    export.specifiers.retain(|s| match *s {
-                        ExportSpecifier::Named(ExportNamedSpecifier { ref orig, .. }) => {
-                            if let Some(e) =
-                                self.scope.decls.get(&(orig.sym.clone(), orig.span.ctxt()))
-                            {
-                                e.has_concrete
-                            } else {
-                                true
-                            }
-                        }
-                        _ => true,
-                    });
-                    if export.specifiers.is_empty() {
-                        continue;
-                    }
-
-                    stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
-                        NamedExport { ..export },
-                    )))
-                }
-
-                _ => stmts.push(item.fold_with(self)),
-            };
-        }
-        self.phase = old;
-
-        stmts
-    }
-}
-
 impl Strip {
     fn add_types<T>(&mut self, node: T) -> T
     where
@@ -741,7 +436,183 @@ impl Strip {
     }
 }
 
+impl Visit for Strip {
+    fn visit_ts_entity_name(&mut self, name: &TsEntityName) {
+        assert!(match self.phase {
+            Phase::Analysis => true,
+            _ => false,
+        });
+
+        match *name {
+            TsEntityName::Ident(ref i) => {
+                self.scope
+                    .imported_idents
+                    .entry((i.sym.clone(), i.span.ctxt()))
+                    .and_modify(|v| v.has_type = true);
+            }
+            TsEntityName::TsQualifiedName(..) => name.visit_children_with(self),
+        }
+    }
+}
+
+macro_rules! type_to_none {
+    ($name:ident, $T:ty) => {
+        fn $name(&mut self, node: Option<$T>) -> Option<$T> {
+            node.visit_with(self);
+
+            None
+        }
+    };
+}
+
 impl Fold for Strip {
+    fn fold_class(&mut self, node: Class) -> Class {
+        Class {
+            span: node.span,
+            is_abstract: false,
+            type_params: {
+                self.add_types(node.type_params);
+                None
+            },
+            super_type_params: {
+                self.add_types(node.super_type_params);
+                None
+            },
+            implements: {
+                self.add_types(node.implements);
+                vec![]
+            },
+
+            decorators: node.decorators.fold_with(self),
+            body: node.body.fold_with(self),
+            super_class: node.super_class.fold_with(self),
+        }
+    }
+
+    fn fold_constructor(&mut self, c: Constructor) -> Constructor {
+        let c = c.fold_children_with(self);
+
+        let mut stmts = vec![];
+
+        let params = c.params.move_map(|param| match param {
+            ParamOrTsParamProp::Param(..) => param,
+            ParamOrTsParamProp::TsParamProp(param) => {
+                let (ident, param) = match param.param {
+                    TsParamPropParam::Ident(i) => (
+                        i.clone(),
+                        Param {
+                            span: DUMMY_SP,
+                            decorators: Default::default(),
+                            pat: Pat::Ident(i),
+                        },
+                    ),
+                    TsParamPropParam::Assign(AssignPat {
+                        span,
+                        left: box Pat::Ident(i),
+                        right,
+                        ..
+                    }) => (
+                        i.clone(),
+                        Param {
+                            span: DUMMY_SP,
+                            decorators: Default::default(),
+                            pat: Pat::Assign(AssignPat {
+                                span,
+                                left: box Pat::Ident(i),
+                                right,
+                                type_ann: None,
+                            }),
+                        },
+                    ),
+                    _ => unreachable!("destructuring pattern inside TsParameterProperty"),
+                };
+                stmts.push(
+                    AssignExpr {
+                        span: DUMMY_SP,
+                        left: PatOrExpr::Expr(
+                            box ThisExpr { span: DUMMY_SP }.member(ident.clone()),
+                        ),
+                        op: op!("="),
+                        right: box Expr::Ident(ident),
+                    }
+                    .into_stmt(),
+                );
+
+                ParamOrTsParamProp::Param(param)
+            }
+        });
+
+        let body = match c.body {
+            Some(mut body) => {
+                prepend_stmts(&mut body.stmts, stmts.into_iter());
+                Some(body)
+            }
+            None => None,
+        };
+
+        Constructor { params, body, ..c }
+    }
+
+    fn fold_decl(&mut self, decl: Decl) -> Decl {
+        let decl = validate!(decl);
+        self.handle_decl(&decl);
+
+        let old = self.non_top_level;
+        self.non_top_level = true;
+        let decl = decl.fold_children_with(self);
+        self.non_top_level = old;
+        validate!(decl)
+    }
+
+    fn fold_expr(&mut self, expr: Expr) -> Expr {
+        let expr = match expr {
+            Expr::TsAs(TsAsExpr { expr, type_ann, .. }) => {
+                type_ann.visit_with(self);
+                validate!(*expr)
+            }
+            Expr::TsNonNull(TsNonNullExpr { expr, .. }) => validate!(*expr),
+            Expr::TsTypeAssertion(TsTypeAssertion { expr, type_ann, .. }) => {
+                type_ann.visit_with(self);
+                validate!(*expr)
+            }
+            Expr::TsConstAssertion(TsConstAssertion { expr, .. }) => validate!(*expr),
+            Expr::TsTypeCast(TsTypeCastExpr { expr, type_ann, .. }) => {
+                type_ann.visit_with(self);
+                validate!(*expr)
+            }
+            _ => validate!(expr),
+        };
+
+        let expr = match expr {
+            Expr::Member(MemberExpr {
+                span,
+                obj,
+                prop,
+                computed,
+            }) => Expr::Member(MemberExpr {
+                span,
+                obj: obj.fold_with(self),
+                prop: if computed { prop.fold_with(self) } else { prop },
+                computed,
+            }),
+            _ => expr.fold_children_with(self),
+        };
+
+        expr
+    }
+
+    fn fold_ident(&mut self, i: Ident) -> Ident {
+        self.scope
+            .imported_idents
+            .entry((i.sym.clone(), i.span.ctxt()))
+            .and_modify(|v| v.has_concrete = true);
+
+        Ident {
+            optional: false,
+            ..i.fold_children_with(self)
+        }
+    }
+
     fn fold_import_decl(&mut self, mut import: ImportDecl) -> ImportDecl {
         match self.phase {
             Phase::Analysis => {
@@ -787,93 +658,7 @@ impl Fold for Strip {
             }
         }
     }
-}
 
-impl Fold for Strip {
-    fn fold_ident(&mut self, i: Ident) -> Ident {
-        self.scope
-            .imported_idents
-            .entry((i.sym.clone(), i.span.ctxt()))
-            .and_modify(|v| v.has_concrete = true);
-
-        Ident {
-            optional: false,
-            ..i.fold_children_with(self)
-        }
-    }
-}
-
-impl Visit for Strip {
-    fn visit_ts_entity_name(&mut self, name: &TsEntityName) {
-        assert!(match self.phase {
-            Phase::Analysis => true,
-            _ => false,
-        });
-
-        match *name {
-            TsEntityName::Ident(ref i) => {
-                self.scope
-                    .imported_idents
-                    .entry((i.sym.clone(), i.span.ctxt()))
-                    .and_modify(|v| v.has_type = true);
-            }
-            TsEntityName::TsQualifiedName(..) => name.visit_children_with(self),
-        }
-    }
-}
-
-impl Fold for Strip {
-    fn fold_ts_interface_decl(&mut self, node: TsInterfaceDecl) -> TsInterfaceDecl {
-        TsInterfaceDecl {
-            span: node.span,
-            id: node.id,
-            type_params: None,
-            extends: self.add_types(node.extends),
-            body: self.add_types(node.body),
-            declare: false,
-        }
-    }
-}
-
-impl Fold for Strip {
-    fn fold_class(&mut self, node: Class) -> Class {
-        Class {
-            span: node.span,
-            is_abstract: false,
-            type_params: {
-                self.add_types(node.type_params);
-                None
-            },
-            super_type_params: {
-                self.add_types(node.super_type_params);
-                None
-            },
-            implements: {
-                self.add_types(node.implements);
-                vec![]
-            },
-
-            decorators: node.decorators.fold_with(self),
-            body: node.body.fold_with(self),
-            super_class: node.super_class.fold_with(self),
-        }
-    }
-}
-
-impl Fold for Strip {
-    fn fold_decl(&mut self, decl: Decl) -> Decl {
-        let decl = validate!(decl);
-        self.handle_decl(&decl);
-
-        let old = self.non_top_level;
-        self.non_top_level = true;
-        let decl = decl.fold_children_with(self);
-        self.non_top_level = old;
-        validate!(decl)
-    }
-}
-
-impl Fold for Strip {
     fn fold_stmt(&mut self, stmt: Stmt) -> Stmt {
         let stmt = stmt.fold_children_with(self);
 
@@ -894,63 +679,258 @@ impl Fold for Strip {
             _ => stmt,
         }
     }
-}
 
-macro_rules! type_to_none {
-    ($name:ident, $T:ty) => {
-        fn $name(&mut self, node: Option<$T>) -> Option<$T> {
-            node.visit_with(self);
-
-            None
+    fn fold_ts_interface_decl(&mut self, node: TsInterfaceDecl) -> TsInterfaceDecl {
+        TsInterfaceDecl {
+            span: node.span,
+            id: node.id,
+            type_params: None,
+            extends: self.add_types(node.extends),
+            body: self.add_types(node.body),
+            declare: false,
         }
-    };
-}
+    }
 
-impl Fold for Strip {
+    fn fold_ts_type_alias_decl(&mut self, node: TsTypeAliasDecl) -> TsTypeAliasDecl {
+        self.add_types(node)
+    }
+
     type_to_none!(fold_opt_ts_type, TsType);
     type_to_none!(fold_opt_ts_type_ann, TsTypeAnn);
     type_to_none!(fold_opt_ts_type_param_decl, TsTypeParamDecl);
     type_to_none!(fold_ts_type_param_instantiation, TsTypeParamInstantiation);
 
+    fn fold_class_members(&mut self, members: Vec<ClassMember>) -> Vec<ClassMember> {
+        let members = members.fold_children_with(self);
+
+        members.move_flat_map(|member| match member {
+            ClassMember::Constructor(Constructor { body: None, .. }) => None,
+            ClassMember::Method(ClassMethod {
+                is_abstract: true, ..
+            })
+            | ClassMember::Method(ClassMethod {
+                function: Function { body: None, .. },
+                ..
+            })
+            | ClassMember::ClassProp(ClassProp { value: None, .. }) => None,
+
+            _ => Some(member),
+        })
+    }
+
     fn fold_opt_accessibility(&mut self, _: Option<Accessibility>) -> Option<Accessibility> {
         None
     }
 
-    fn fold_expr(&mut self, expr: Expr) -> Expr {
-        let expr = match expr {
-            Expr::TsAs(TsAsExpr { expr, type_ann, .. }) => {
-                type_ann.visit_with(self);
-                validate!(*expr)
-            }
-            Expr::TsNonNull(TsNonNullExpr { expr, .. }) => validate!(*expr),
-            Expr::TsTypeAssertion(TsTypeAssertion { expr, type_ann, .. }) => {
-                type_ann.visit_with(self);
-                validate!(*expr)
-            }
-            Expr::TsConstAssertion(TsConstAssertion { expr, .. }) => validate!(*expr),
-            Expr::TsTypeCast(TsTypeCastExpr { expr, type_ann, .. }) => {
-                type_ann.visit_with(self);
-                validate!(*expr)
-            }
-            _ => validate!(expr),
-        };
+    /// Remove `this` from parameter list
+    fn fold_params(&mut self, params: Vec<Param>) -> Vec<Param> {
+        let mut params = params.fold_children_with(self);
 
-        let expr = match expr {
-            Expr::Member(MemberExpr {
-                span,
-                obj,
-                prop,
-                computed,
-            }) => Expr::Member(MemberExpr {
-                span,
-                obj: obj.fold_with(self),
-                prop: if computed { prop.fold_with(self) } else { prop },
-                computed,
-            }),
-            _ => expr.fold_children_with(self),
-        };
+        params.retain(|param| match param.pat {
+            Pat::Ident(Ident {
+                sym: js_word!("this"),
+                ..
+            }) => false,
+            _ => true,
+        });
 
-        expr
+        params
+    }
+
+    fn fold_module_items(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
+        let old = self.phase;
+
+        // First pass
+        self.phase = Phase::Analysis;
+        let items = items.fold_children_with(self);
+
+        self.phase = Phase::DropImports;
+
+        // Second pass
+        let mut stmts = Vec::with_capacity(items.len());
+        for item in items {
+            self.was_side_effect_import = false;
+            match item {
+                ModuleItem::Stmt(Stmt::Empty(..))
+                | ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
+                    type_only: true, ..
+                }))
+                | ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
+                    type_only: true,
+                    ..
+                })) => continue,
+
+                ModuleItem::ModuleDecl(ModuleDecl::Import(i)) => {
+                    let i = i.fold_with(self);
+
+                    if self.was_side_effect_import || !i.specifiers.is_empty() {
+                        stmts.push(ModuleItem::ModuleDecl(ModuleDecl::Import(i)));
+                    }
+                }
+
+                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    decl: Decl::TsEnum(e),
+                    ..
+                })) => {
+                    stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                        span: e.span,
+                        decl: Decl::Var(VarDecl {
+                            span: DUMMY_SP,
+                            kind: VarDeclKind::Var,
+                            declare: false,
+                            decls: vec![VarDeclarator {
+                                span: e.span,
+                                name: Pat::Ident(e.id.clone()),
+                                definite: false,
+                                init: None,
+                            }],
+                        }),
+                    })));
+                    self.handle_enum(e, &mut stmts)
+                }
+                ModuleItem::Stmt(Stmt::Decl(Decl::TsEnum(e))) => {
+                    // var Foo;
+                    // (function (Foo) {
+                    //     Foo[Foo["a"] = 0] = "a";
+                    // })(Foo || (Foo = {}));
+
+                    stmts.push(
+                        Stmt::Decl(Decl::Var(VarDecl {
+                            span: DUMMY_SP,
+                            kind: VarDeclKind::Var,
+                            declare: false,
+                            decls: vec![VarDeclarator {
+                                span: e.span,
+                                name: Pat::Ident(e.id.clone()),
+                                definite: false,
+                                init: None,
+                            }],
+                        }))
+                        .into(),
+                    );
+                    self.handle_enum(e, &mut stmts)
+                }
+
+                ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
+                    expr: box Expr::Ident(ref i),
+                    ..
+                })) => {
+                    // type MyType = string;
+                    // export default MyType;
+
+                    let preserve = if let Some(decl_info) = self.scope.decls.get(&i.to_id()) {
+                        decl_info.has_concrete
+                    } else {
+                        true
+                    };
+
+                    if preserve {
+                        stmts.push(item)
+                    }
+                }
+
+                // Strip out ts-only extensions
+                ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
+                    function: Function { body: None, .. },
+                    ..
+                })))
+                | ModuleItem::Stmt(Stmt::Decl(Decl::TsInterface(..)))
+                | ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(..)))
+                | ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(..)))
+                | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    decl: Decl::TsInterface(..),
+                    ..
+                }))
+                | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    decl: Decl::TsModule(..),
+                    ..
+                }))
+                | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    decl: Decl::TsTypeAlias(..),
+                    ..
+                }))
+                | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    decl:
+                        Decl::Fn(FnDecl {
+                            function: Function { body: None, .. },
+                            ..
+                        }),
+                    ..
+                }))
+                | ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                    decl:
+                        DefaultDecl::Fn(FnExpr {
+                            function: Function { body: None, .. },
+                            ..
+                        }),
+                    ..
+                }))
+                | ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                    decl: DefaultDecl::TsInterfaceDecl(..),
+                    ..
+                }))
+                | ModuleItem::ModuleDecl(ModuleDecl::TsNamespaceExport(..)) => continue,
+
+                ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(import)) => {
+                    if !import.is_export {
+                        continue;
+                    }
+
+                    stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                        span: DUMMY_SP,
+                        decl: Decl::Var(VarDecl {
+                            span: DUMMY_SP,
+                            kind: VarDeclKind::Var,
+                            decls: vec![VarDeclarator {
+                                span: DUMMY_SP,
+                                name: Pat::Ident(import.id),
+                                init: Some(box module_ref_to_expr(import.module_ref)),
+                                definite: false,
+                            }],
+                            declare: false,
+                        }),
+                    })));
+                }
+
+                ModuleItem::ModuleDecl(ModuleDecl::TsExportAssignment(export)) => {
+                    stmts.push(ModuleItem::ModuleDecl(
+                        ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
+                            span: export.span(),
+                            expr: export.expr,
+                        })
+                        .fold_with(self),
+                    ))
+                }
+                ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(mut export)) => {
+                    // if specifier become empty, we remove export statement.
+
+                    export.specifiers.retain(|s| match *s {
+                        ExportSpecifier::Named(ExportNamedSpecifier { ref orig, .. }) => {
+                            if let Some(e) =
+                                self.scope.decls.get(&(orig.sym.clone(), orig.span.ctxt()))
+                            {
+                                e.has_concrete
+                            } else {
+                                true
+                            }
+                        }
+                        _ => true,
+                    });
+                    if export.specifiers.is_empty() {
+                        continue;
+                    }
+
+                    stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                        NamedExport { ..export },
+                    )))
+                }
+
+                _ => stmts.push(item.fold_with(self)),
+            };
+        }
+        self.phase = old;
+
+        stmts
     }
 }
 

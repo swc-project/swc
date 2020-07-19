@@ -19,6 +19,51 @@ pub(super) struct Legacy {
 noop_fold_type!(Legacy);
 
 impl Fold for Legacy {
+    fn fold_decl(&mut self, decl: Decl) -> Decl {
+        let decl: Decl = decl.fold_children_with(self);
+
+        match decl {
+            Decl::Class(c) => {
+                let expr = self.handle(ClassExpr {
+                    class: c.class,
+                    ident: Some(c.ident.clone()),
+                });
+
+                return Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Let,
+                    declare: false,
+                    decls: vec![VarDeclarator {
+                        span: DUMMY_SP,
+                        name: Pat::Ident(c.ident),
+                        init: Some(expr),
+                        definite: false,
+                    }],
+                });
+            }
+
+            _ => {}
+        }
+
+        decl
+    }
+
+    fn fold_expr(&mut self, e: Expr) -> Expr {
+        let e: Expr = e.fold_children_with(self);
+
+        match e {
+            Expr::Class(e) => {
+                let expr = self.handle(e);
+
+                return *expr;
+            }
+
+            _ => {}
+        }
+
+        e
+    }
+
     fn fold_module(&mut self, m: Module) -> Module {
         let mut m = m.fold_children_with(self);
 
@@ -48,9 +93,45 @@ impl Fold for Legacy {
 
         m
     }
-}
 
-impl Fold for Legacy {
+    fn fold_module_item(&mut self, item: ModuleItem) -> ModuleItem {
+        let item: ModuleItem = item.fold_children_with(self);
+
+        match item {
+            ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                decl: DefaultDecl::Class(c),
+                ..
+            })) => {
+                let export_ident = c.ident.clone().unwrap_or_else(|| private_ident!("_class"));
+
+                let expr = self.handle(c);
+
+                self.exports
+                    .push(ExportSpecifier::Named(ExportNamedSpecifier {
+                        span: DUMMY_SP,
+                        orig: export_ident.clone(),
+                        exported: Some(quote_ident!("default")),
+                    }));
+
+                return ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Let,
+                    declare: false,
+                    decls: vec![VarDeclarator {
+                        span: DUMMY_SP,
+                        name: Pat::Ident(export_ident),
+                        init: Some(expr),
+                        definite: false,
+                    }],
+                })));
+            }
+
+            _ => {}
+        }
+
+        item
+    }
+
     fn fold_script(&mut self, s: Script) -> Script {
         let mut s = s.fold_children_with(self);
 
@@ -68,9 +149,7 @@ impl Fold for Legacy {
 
         s
     }
-}
 
-impl Fold for Legacy {
     fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
         self.fold_stmt_like(n)
     }
@@ -113,94 +192,6 @@ impl Legacy {
         }
 
         buf
-    }
-}
-impl Fold for Legacy {
-    fn fold_module_item(&mut self, item: ModuleItem) -> ModuleItem {
-        let item: ModuleItem = item.fold_children_with(self);
-
-        match item {
-            ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
-                decl: DefaultDecl::Class(c),
-                ..
-            })) => {
-                let export_ident = c.ident.clone().unwrap_or_else(|| private_ident!("_class"));
-
-                let expr = self.handle(c);
-
-                self.exports
-                    .push(ExportSpecifier::Named(ExportNamedSpecifier {
-                        span: DUMMY_SP,
-                        orig: export_ident.clone(),
-                        exported: Some(quote_ident!("default")),
-                    }));
-
-                return ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Let,
-                    declare: false,
-                    decls: vec![VarDeclarator {
-                        span: DUMMY_SP,
-                        name: Pat::Ident(export_ident),
-                        init: Some(expr),
-                        definite: false,
-                    }],
-                })));
-            }
-
-            _ => {}
-        }
-
-        item
-    }
-}
-
-impl Fold for Legacy {
-    fn fold_expr(&mut self, e: Expr) -> Expr {
-        let e: Expr = e.fold_children_with(self);
-
-        match e {
-            Expr::Class(e) => {
-                let expr = self.handle(e);
-
-                return *expr;
-            }
-
-            _ => {}
-        }
-
-        e
-    }
-}
-
-impl Fold for Legacy {
-    fn fold_decl(&mut self, decl: Decl) -> Decl {
-        let decl: Decl = decl.fold_children_with(self);
-
-        match decl {
-            Decl::Class(c) => {
-                let expr = self.handle(ClassExpr {
-                    class: c.class,
-                    ident: Some(c.ident.clone()),
-                });
-
-                return Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Let,
-                    declare: false,
-                    decls: vec![VarDeclarator {
-                        span: DUMMY_SP,
-                        name: Pat::Ident(c.ident),
-                        init: Some(expr),
-                        definite: false,
-                    }],
-                });
-            }
-
-            _ => {}
-        }
-
-        decl
     }
 }
 
@@ -688,6 +679,14 @@ struct ClassFieldAccessConverter {
 noop_fold_type!(ClassFieldAccessConverter);
 
 impl Fold for ClassFieldAccessConverter {
+    fn fold_ident(&mut self, node: Ident) -> Ident {
+        if node.sym == self.cls_name.sym && node.span.ctxt() == self.cls_name.span.ctxt() {
+            return self.alias.clone();
+        }
+
+        node
+    }
+
     fn fold_member_expr(&mut self, node: MemberExpr) -> MemberExpr {
         if node.computed {
             MemberExpr {
@@ -701,15 +700,5 @@ impl Fold for ClassFieldAccessConverter {
                 ..node
             }
         }
-    }
-}
-
-impl Fold for ClassFieldAccessConverter {
-    fn fold_ident(&mut self, node: Ident) -> Ident {
-        if node.sym == self.cls_name.sym && node.span.ctxt() == self.cls_name.span.ctxt() {
-            return self.alias.clone();
-        }
-
-        node
     }
 }

@@ -76,6 +76,80 @@ struct Decorators {
 noop_fold_type!(Decorators);
 
 impl Fold for Decorators {
+    fn fold_decl(&mut self, decl: Decl) -> Decl {
+        let decl = decl.fold_children_with(self);
+
+        match decl {
+            Decl::Class(ClassDecl {
+                ident,
+                declare: false,
+                class,
+            }) => {
+                if !contains_decorator(&class) {
+                    return Decl::Class(ClassDecl {
+                        ident,
+                        declare: false,
+                        class,
+                    });
+                }
+
+                let decorate_call = box self.fold_class(ident.clone(), class);
+
+                Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Let,
+                    declare: false,
+                    decls: vec![VarDeclarator {
+                        span: DUMMY_SP,
+                        name: Pat::Ident(ident),
+                        definite: false,
+                        init: Some(decorate_call),
+                    }],
+                })
+            }
+            _ => decl,
+        }
+    }
+
+    fn fold_expr(&mut self, expr: Expr) -> Expr {
+        let expr = expr.fold_children_with(self);
+
+        match expr {
+            Expr::Class(ClassExpr { ident, class }) => {
+                if !contains_decorator(&class) {
+                    return Expr::Class(ClassExpr { ident, class });
+                }
+
+                let decorate_call =
+                    self.fold_class(ident.unwrap_or_else(|| quote_ident!("_class")), class);
+
+                decorate_call
+            }
+            _ => expr,
+        }
+    }
+
+    fn fold_module_decl(&mut self, decl: ModuleDecl) -> ModuleDecl {
+        let decl = decl.fold_children_with(self);
+
+        match decl {
+            ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                span,
+                decl: DefaultDecl::Class(ClassExpr { ident, class }),
+                ..
+            }) => {
+                let decorate_call =
+                    box self.fold_class(ident.unwrap_or_else(|| quote_ident!("_class")), class);
+
+                ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
+                    span,
+                    expr: decorate_call,
+                })
+            }
+            _ => decl,
+        }
+    }
+
     fn fold_module_items(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
         if !self::usage::has_decorator(&items) {
             return items;
@@ -146,86 +220,6 @@ impl Fold for Decorators {
 
         self.is_in_strict = old_strict;
         buf
-    }
-}
-
-impl Fold for Decorators {
-    fn fold_module_decl(&mut self, decl: ModuleDecl) -> ModuleDecl {
-        let decl = decl.fold_children_with(self);
-
-        match decl {
-            ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
-                span,
-                decl: DefaultDecl::Class(ClassExpr { ident, class }),
-                ..
-            }) => {
-                let decorate_call =
-                    box self.fold_class(ident.unwrap_or_else(|| quote_ident!("_class")), class);
-
-                ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
-                    span,
-                    expr: decorate_call,
-                })
-            }
-            _ => decl,
-        }
-    }
-}
-
-impl Fold for Decorators {
-    fn fold_decl(&mut self, decl: Decl) -> Decl {
-        let decl = decl.fold_children_with(self);
-
-        match decl {
-            Decl::Class(ClassDecl {
-                ident,
-                declare: false,
-                class,
-            }) => {
-                if !contains_decorator(&class) {
-                    return Decl::Class(ClassDecl {
-                        ident,
-                        declare: false,
-                        class,
-                    });
-                }
-
-                let decorate_call = box self.fold_class(ident.clone(), class);
-
-                Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Let,
-                    declare: false,
-                    decls: vec![VarDeclarator {
-                        span: DUMMY_SP,
-                        name: Pat::Ident(ident),
-                        definite: false,
-                        init: Some(decorate_call),
-                    }],
-                })
-            }
-            _ => decl,
-        }
-    }
-}
-
-impl Fold for Decorators {
-    fn fold_expr(&mut self, expr: Expr) -> Expr {
-        let expr = expr.fold_children_with(self);
-
-        match expr {
-            Expr::Class(ClassExpr { ident, class }) => {
-                if !contains_decorator(&class) {
-                    return Expr::Class(ClassExpr { ident, class });
-                }
-
-                let decorate_call =
-                    self.fold_class(ident.unwrap_or_else(|| quote_ident!("_class")), class);
-
-                decorate_call
-            }
-            _ => expr,
-        }
     }
 }
 

@@ -71,16 +71,6 @@ struct Data {
     get: Option<Box<Expr>>,
 }
 
-impl Fold for Classes {
-    fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
-        self.fold_stmt_like(n)
-    }
-
-    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
-        self.fold_stmt_like(n)
-    }
-}
-
 impl Classes {
     fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
     where
@@ -203,9 +193,7 @@ impl Fold for Classes {
 
         validate!(n.fold_children_with(self))
     }
-}
 
-impl Fold for Classes {
     fn fold_expr(&mut self, n: Expr) -> Expr {
         let n = validate!(n);
 
@@ -214,6 +202,14 @@ impl Fold for Classes {
 
             _ => n.fold_children_with(self),
         })
+    }
+
+    fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
+        self.fold_stmt_like(n)
+    }
+
+    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
+        self.fold_stmt_like(n)
     }
 }
 

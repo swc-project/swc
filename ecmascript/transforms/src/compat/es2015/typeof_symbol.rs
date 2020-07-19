@@ -49,9 +49,7 @@ impl Fold for TypeOfSymbol {
             _ => expr,
         }
     }
-}
 
-impl Fold for TypeOfSymbol {
     fn fold_bin_expr(&mut self, expr: BinExpr) -> BinExpr {
         match expr.op {
             op!("==") | op!("!=") | op!("===") | op!("!==") => {}

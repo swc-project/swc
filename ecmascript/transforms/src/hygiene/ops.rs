@@ -145,38 +145,7 @@ impl<'a> Fold for Operator<'a> {
 
         stmts
     }
-}
 
-struct VarFolder<'a, 'b> {
-    orig: &'a mut Operator<'b>,
-    renamed: &'a mut Vec<ExportSpecifier>,
-}
-
-impl Fold for VarFolder<'_, '_> {
-    fn fold_ident(&mut self, i: Ident) -> Ident {
-        let orig = i.clone();
-        match self.orig.rename_ident(i) {
-            Ok(i) => {
-                self.renamed
-                    .push(ExportSpecifier::Named(ExportNamedSpecifier {
-                        span: i.span,
-                        exported: Some(orig),
-                        orig: i.clone(),
-                    }));
-                i
-            }
-            Err(i) => i,
-        }
-    }
-}
-
-impl Fold for VarFolder<'_, '_> {
-    fn fold_expr(&mut self, n: Expr) -> Expr {
-        n
-    }
-}
-
-impl<'a> Fold for Operator<'a> {
     /// Preserve key of properties.
     fn fold_assign_pat_prop(&mut self, p: AssignPatProp) -> AssignPatProp {
         match p.value {
@@ -188,101 +157,6 @@ impl<'a> Fold for Operator<'a> {
         }
     }
 
-    /// Preserve key of properties.
-    fn fold_key_value_pat_prop(&mut self, p: KeyValuePatProp) -> KeyValuePatProp {
-        KeyValuePatProp {
-            key: p.key.fold_with(self),
-            value: p.value.fold_with(self),
-            ..p
-        }
-    }
-
-    fn fold_key_value_prop(&mut self, p: KeyValueProp) -> KeyValueProp {
-        KeyValueProp {
-            value: p.value.fold_with(self),
-            ..p
-        }
-    }
-
-    fn fold_object_pat_prop(&mut self, p: ObjectPatProp) -> ObjectPatProp {
-        let p = p.fold_children_with(self);
-
-        match p {
-            ObjectPatProp::Assign(p) => match self.rename_ident(p.key.clone()) {
-                Ok(renamed) => KeyValuePatProp {
-                    key: PropName::Ident(p.key),
-
-                    value: box Pat::Ident(renamed),
-                }
-                .into(),
-                Err(_) => p.into(),
-            },
-            _ => p,
-        }
-    }
-
-    fn fold_prop(&mut self, prop: Prop) -> Prop {
-        match prop {
-            Prop::Shorthand(i) => {
-                match self.rename_ident(i.clone()) {
-                    Ok(renamed) => Prop::KeyValue(KeyValueProp {
-                        key: PropName::Ident(Ident {
-                            // clear mark
-                            span: i.span.with_ctxt(SyntaxContext::empty()),
-                            ..i
-                        }),
-                        value: box Expr::Ident(renamed),
-                    }),
-                    Err(i) => Prop::Shorthand(i),
-                }
-            }
-            _ => prop.fold_children_with(self),
-        }
-    }
-}
-
-impl<'a> Operator<'a> {
-    /// Returns `Ok(renamed_ident)` if ident should be renamed.
-    fn rename_ident(&mut self, ident: Ident) -> Result<Ident, Ident> {
-        for op in self.0 {
-            match *op {
-                ScopeOp::Rename { ref from, ref to }
-                    if *from.0 == ident.sym && from.1 == ident.span.ctxt() =>
-                {
-                    return Ok(Ident {
-                        // Clear mark
-                        span: ident.span.with_ctxt(SyntaxContext::empty()),
-                        sym: to.clone(),
-                        ..ident
-                    });
-                }
-                _ => {}
-            }
-        }
-        Err(ident)
-    }
-}
-
-impl Fold for Operator<'_> {
-    fn fold_member_expr(&mut self, expr: MemberExpr) -> MemberExpr {
-        let span = expr.span.fold_with(self);
-        let obj = expr.obj.fold_with(self);
-
-        let prop = if expr.computed {
-            expr.prop.fold_with(self)
-        } else {
-            expr.prop
-        };
-        MemberExpr {
-            span,
-            obj,
-            prop,
-            computed: expr.computed,
-        }
-    }
-}
-
-impl<'a> Fold for Operator<'a> {
     fn fold_export_named_specifier(&mut self, s: ExportNamedSpecifier) -> ExportNamedSpecifier {
         if s.exported.is_some() {
             return ExportNamedSpecifier {
@@ -330,10 +204,128 @@ impl<'a> Fold for Operator<'a> {
         }
     }
 
+    /// Preserve key of properties.
+    fn fold_key_value_pat_prop(&mut self, p: KeyValuePatProp) -> KeyValuePatProp {
+        KeyValuePatProp {
+            key: p.key.fold_with(self),
+            value: p.value.fold_with(self),
+            ..p
+        }
+    }
+
+    fn fold_key_value_prop(&mut self, p: KeyValueProp) -> KeyValueProp {
+        KeyValueProp {
+            value: p.value.fold_with(self),
+            ..p
+        }
+    }
+
+    fn fold_member_expr(&mut self, expr: MemberExpr) -> MemberExpr {
+        let span = expr.span.fold_with(self);
+        let obj = expr.obj.fold_with(self);
+
+        let prop = if expr.computed {
+            expr.prop.fold_with(self)
+        } else {
+            expr.prop
+        };
+        MemberExpr {
+            span,
+            obj,
+            prop,
+            computed: expr.computed,
+        }
+    }
+
+    fn fold_object_pat_prop(&mut self, p: ObjectPatProp) -> ObjectPatProp {
+        let p = p.fold_children_with(self);
+
+        match p {
+            ObjectPatProp::Assign(p) => match self.rename_ident(p.key.clone()) {
+                Ok(renamed) => KeyValuePatProp {
+                    key: PropName::Ident(p.key),
+
+                    value: box Pat::Ident(renamed),
+                }
+                .into(),
+                Err(_) => p.into(),
+            },
+            _ => p,
+        }
+    }
+
+    fn fold_prop(&mut self, prop: Prop) -> Prop {
+        match prop {
+            Prop::Shorthand(i) => {
+                match self.rename_ident(i.clone()) {
+                    Ok(renamed) => Prop::KeyValue(KeyValueProp {
+                        key: PropName::Ident(Ident {
+                            // clear mark
+                            span: i.span.with_ctxt(SyntaxContext::empty()),
+                            ..i
+                        }),
+                        value: box Expr::Ident(renamed),
+                    }),
+                    Err(i) => Prop::Shorthand(i),
+                }
+            }
+            _ => prop.fold_children_with(self),
+        }
+    }
+
     fn fold_prop_name(&mut self, n: PropName) -> PropName {
         match n {
             PropName::Computed(c) => PropName::Computed(c.fold_with(self)),
             _ => n,
         }
+    }
+}
+
+struct VarFolder<'a, 'b> {
+    orig: &'a mut Operator<'b>,
+    renamed: &'a mut Vec<ExportSpecifier>,
+}
+
+impl Fold for VarFolder<'_, '_> {
+    fn fold_expr(&mut self, n: Expr) -> Expr {
+        n
+    }
+
+    fn fold_ident(&mut self, i: Ident) -> Ident {
+        let orig = i.clone();
+        match self.orig.rename_ident(i) {
+            Ok(i) => {
+                self.renamed
+                    .push(ExportSpecifier::Named(ExportNamedSpecifier {
+                        span: i.span,
+                        exported: Some(orig),
+                        orig: i.clone(),
+                    }));
+                i
+            }
+            Err(i) => i,
+        }
+    }
+}
+
+impl<'a> Operator<'a> {
+    /// Returns `Ok(renamed_ident)` if ident should be renamed.
+    fn rename_ident(&mut self, ident: Ident) -> Result<Ident, Ident> {
+        for op in self.0 {
+            match *op {
+                ScopeOp::Rename { ref from, ref to }
+                    if *from.0 == ident.sym && from.1 == ident.span.ctxt() =>
+                {
+                    return Ok(Ident {
+                        // Clear mark
+                        span: ident.span.with_ctxt(SyntaxContext::empty()),
+                        sym: to.clone(),
+                        ..ident
+                    });
+                }
+                _ => {}
+            }
+        }
+        Err(ident)
     }
 }

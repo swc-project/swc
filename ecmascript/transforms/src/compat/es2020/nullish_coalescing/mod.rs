@@ -16,16 +16,6 @@ struct NullishCoalescing {
     vars: Vec<VarDeclarator>,
 }
 
-impl Fold for NullishCoalescing {
-    fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
-        self.fold_stmt_like(n)
-    }
-
-    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
-        self.fold_stmt_like(n)
-    }
-}
-
 impl NullishCoalescing {
     fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
     where
@@ -53,6 +43,14 @@ impl NullishCoalescing {
 }
 
 impl Fold for NullishCoalescing {
+    fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
+        self.fold_stmt_like(n)
+    }
+
+    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
+        self.fold_stmt_like(n)
+    }
+
     fn fold_expr(&mut self, e: Expr) -> Expr {
         let e = e.fold_children_with(self);
 

@@ -133,44 +133,6 @@ fn make_ref_ident_for_for_stmt() -> Ident {
     private_ident!("ref")
 }
 
-impl Fold for AssignFolder {
-    impl_for_for_stmt!(fold_for_in_stmt, ForInStmt);
-    impl_for_for_stmt!(fold_for_of_stmt, ForOfStmt);
-
-    fn fold_var_declarators(&mut self, declarators: Vec<VarDeclarator>) -> Vec<VarDeclarator> {
-        let declarators = declarators.fold_children_with(self);
-
-        let is_complex = declarators.iter().any(|d| match d.name {
-            Pat::Ident(..) => false,
-            _ => true,
-        });
-        if !is_complex {
-            return declarators;
-        }
-        let mut decls = Vec::with_capacity(declarators.len());
-
-        for decl in declarators {
-            self.fold_var_decl(&mut decls, decl)
-        }
-
-        decls
-    }
-}
-
-impl Fold for AssignFolder {
-    fn fold_stmt(&mut self, s: Stmt) -> Stmt {
-        match s {
-            Stmt::Expr(e) => {
-                self.ignore_return_value = Some(());
-                let e = e.fold_with(self);
-                assert_eq!(self.ignore_return_value, None);
-                Stmt::Expr(e)
-            }
-            _ => s.fold_children_with(self),
-        }
-    }
-}
-
 impl AssignFolder {
     fn fold_var_decl(&mut self, decls: &mut Vec<VarDeclarator>, decl: VarDeclarator) {
         match decl.name {
@@ -539,6 +501,9 @@ struct AssignFolder {
 }
 
 impl Fold for AssignFolder {
+    impl_for_for_stmt!(fold_for_in_stmt, ForInStmt);
+    impl_for_for_stmt!(fold_for_of_stmt, ForOfStmt);
+
     fn fold_export_decl(&mut self, decl: ExportDecl) -> ExportDecl {
         let old = self.exporting;
         self.exporting = true;
@@ -546,9 +511,7 @@ impl Fold for AssignFolder {
         self.exporting = old;
         decl
     }
-}
 
-impl Fold for AssignFolder {
     fn fold_expr(&mut self, expr: Expr) -> Expr {
         let ignore_return_value = self.ignore_return_value.take().is_some();
 
@@ -824,9 +787,38 @@ impl Fold for AssignFolder {
             _ => expr,
         }
     }
-}
 
-impl Fold for Destructuring {
+    fn fold_stmt(&mut self, s: Stmt) -> Stmt {
+        match s {
+            Stmt::Expr(e) => {
+                self.ignore_return_value = Some(());
+                let e = e.fold_with(self);
+                assert_eq!(self.ignore_return_value, None);
+                Stmt::Expr(e)
+            }
+            _ => s.fold_children_with(self),
+        }
+    }
+
+    fn fold_var_declarators(&mut self, declarators: Vec<VarDeclarator>) -> Vec<VarDeclarator> {
+        let declarators = declarators.fold_children_with(self);
+
+        let is_complex = declarators.iter().any(|d| match d.name {
+            Pat::Ident(..) => false,
+            _ => true,
+        });
+        if !is_complex {
+            return declarators;
+        }
+        let mut decls = Vec::with_capacity(declarators.len());
+
+        for decl in declarators {
+            self.fold_var_decl(&mut decls, decl)
+        }
+
+        decls
+    }
+
     fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
         self.fold_stmt_like(n)
     }

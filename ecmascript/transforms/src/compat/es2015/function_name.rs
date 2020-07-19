@@ -103,6 +103,28 @@ impl Fold for FnName {
     noop!(fold_bin_expr, BinExpr);
     noop!(fold_unary_expr, UnaryExpr);
 
+    fn fold_assign_expr(&mut self, expr: AssignExpr) -> AssignExpr {
+        let mut expr = expr.fold_children_with(self);
+
+        if expr.op != op!("=") {
+            return expr;
+        }
+
+        match expr.left {
+            PatOrExpr::Pat(box Pat::Ident(ref mut ident))
+            | PatOrExpr::Expr(box Expr::Ident(ref mut ident)) => {
+                let mut folder = Renamer {
+                    name: Some(ident.clone()),
+                };
+
+                let right = expr.right.fold_with(&mut folder);
+
+                AssignExpr { right, ..expr }
+            }
+            _ => expr,
+        }
+    }
+
     fn fold_key_value_prop(&mut self, p: KeyValueProp) -> KeyValueProp {
         let mut p = p.fold_children_with(self);
 
@@ -123,9 +145,7 @@ impl Fold for FnName {
 
         p
     }
-}
 
-impl Fold for FnName {
     fn fold_var_declarator(&mut self, decl: VarDeclarator) -> VarDeclarator {
         let mut decl = decl.fold_children_with(self);
 
@@ -139,30 +159,6 @@ impl Fold for FnName {
                 VarDeclarator { init, ..decl }
             }
             _ => decl,
-        }
-    }
-}
-
-impl Fold for FnName {
-    fn fold_assign_expr(&mut self, expr: AssignExpr) -> AssignExpr {
-        let mut expr = expr.fold_children_with(self);
-
-        if expr.op != op!("=") {
-            return expr;
-        }
-
-        match expr.left {
-            PatOrExpr::Pat(box Pat::Ident(ref mut ident))
-            | PatOrExpr::Expr(box Expr::Ident(ref mut ident)) => {
-                let mut folder = Renamer {
-                    name: Some(ident.clone()),
-                };
-
-                let right = expr.right.fold_with(&mut folder);
-
-                AssignExpr { right, ..expr }
-            }
-            _ => expr,
         }
     }
 }

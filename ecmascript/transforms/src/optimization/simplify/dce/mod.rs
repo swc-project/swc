@@ -10,7 +10,7 @@ use swc_common::{
     Mark, Span, Spanned,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ident::IdentLike, Id, StmtLike};
+use swc_ecma_utils::{find_ids, ident::IdentLike, Id, StmtLike};
 use swc_ecma_visit::{Fold, FoldWith, VisitWith};
 
 macro_rules! preserve {
@@ -22,10 +22,7 @@ macro_rules! preserve {
     };
 }
 
-mod decl;
-mod module_decl;
 mod side_effect;
-mod stmt;
 
 #[derive(Debug)]
 pub struct Config<'a> {
@@ -137,6 +134,533 @@ impl Repeated for Dce<'_> {
 }
 
 impl Fold for Dce<'_> {
+    preserve!(fold_ts_interface_decl, TsInterfaceDecl);
+    preserve!(fold_ts_type_alias_decl, TsTypeAliasDecl);
+    preserve!(fold_ts_enum_decl, TsEnumDecl);
+    preserve!(fold_ts_module_decl, TsModuleDecl);
+
+    preserve!(fold_debugger_stmt, DebuggerStmt);
+    preserve!(fold_with_stmt, WithStmt);
+    preserve!(fold_break_stmt, BreakStmt);
+    preserve!(fold_continue_stmt, ContinueStmt);
+
+    preserve!(fold_ts_import_equals_decl, TsImportEqualsDecl);
+    preserve!(fold_ts_export_assignment, TsExportAssignment);
+    preserve!(fold_ts_namespace_export_decl, TsNamespaceExportDecl);
+
+    fn fold_block_stmt(&mut self, node: BlockStmt) -> BlockStmt {
+        if self.is_marked(node.span) {
+            return node;
+        }
+
+        let stmts = node.stmts.fold_with(self);
+
+        let mut span = node.span;
+        if stmts.iter().any(|stmt| self.is_marked(stmt.span())) {
+            span = span.apply_mark(self.config.used_mark);
+        }
+
+        BlockStmt { span, stmts }
+    }
+
+    fn fold_class_decl(&mut self, mut node: ClassDecl) -> ClassDecl {
+        if self.is_marked(node.span()) {
+            return node;
+        }
+
+        if self.marking_phase || self.included.contains(&node.ident.to_id()) {
+            node.class.span = node.class.span.apply_mark(self.config.used_mark);
+        }
+
+        node.fold_children_with(self)
+    }
+
+    fn fold_do_while_stmt(&mut self, mut node: DoWhileStmt) -> DoWhileStmt {
+        if self.is_marked(node.span) {
+            return node;
+        }
+
+        node = node.fold_children_with(self);
+
+        if self.is_marked(node.test.span()) || self.is_marked(node.body.span()) {
+            node.span = node.span.apply_mark(self.config.used_mark);
+
+            node.test = self.fold_in_marking_phase(node.test);
+            node.body = self.fold_in_marking_phase(node.body);
+        }
+
+        node
+    }
+
+    fn fold_export_all(&mut self, node: ExportAll) -> ExportAll {
+        if self.is_marked(node.span) {
+            return node;
+        }
+
+        unimplemented!("dce: `export * from 'foo'`")
+    }
+
+    fn fold_export_decl(&mut self, mut node: ExportDecl) -> ExportDecl {
+        if self.is_marked(node.span) {
+            return node;
+        }
+
+        let i = match node.decl {
+            Decl::Class(ClassDecl { ref ident, .. }) | Decl::Fn(FnDecl { ref ident, .. }) => ident,
+
+            // Preserve types
+            Decl::TsInterface(_) | Decl::TsTypeAlias(_) | Decl::TsEnum(_) | Decl::TsModule(_) => {
+                node.span = node.span.apply_mark(self.config.used_mark);
+                return node;
+            }
+
+            // Preserve only exported variables
+            Decl::Var(mut v) => {
+                v.decls = v.decls.move_flat_map(|mut d| {
+                    if self.is_marked(d.span()) {
+                        return Some(d);
+                    }
+
+                    let names: Vec<Id> = find_ids(&d.name);
+                    for name in names {
+                        if self.included.iter().any(|included| *included == name)
+                            || self.should_preserve_export(&name.0)
+                        {
+                            d.span = d.span.apply_mark(self.config.used_mark);
+                            d.init = self.fold_in_marking_phase(d.init);
+                            return Some(d);
+                        }
+                    }
+
+                    if self.decl_dropping_phase {
+                        return None;
+                    }
+                    Some(d)
+                });
+
+                if self.decl_dropping_phase && !v.decls.is_empty() {
+                    node.span = node.span.apply_mark(self.config.used_mark);
+                }
+
+                node.decl = Decl::Var(v);
+
+                return node;
+            }
+        };
+
+        if self.should_preserve_export(&i.sym) {
+            node.span = node.span.apply_mark(self.config.used_mark);
+            node.decl = self.fold_in_marking_phase(node.decl);
+        }
+
+        node
+    }
+
+    fn fold_export_default_decl(&mut self, mut node: ExportDefaultDecl) -> ExportDefaultDecl {
+        if self.is_marked(node.span) {
+            return node;
+        }
+
+        // TODO: Export only when it's required. (i.e. check self.used_exports)
+
+        node.span = node.span.apply_mark(self.config.used_mark);
+        node.decl = self.fold_in_marking_phase(node.decl);
+
+        node
+    }
+
+    fn fold_export_default_expr(&mut self, mut node: ExportDefaultExpr) -> ExportDefaultExpr {
+        if self.is_marked(node.span) {
+            return node;
+        }
+
+        if self.should_preserve_export(&js_word!("default")) {
+            node.span = node.span.apply_mark(self.config.used_mark);
+            node.expr = self.fold_in_marking_phase(node.expr);
+        }
+
+        node
+    }
+
+    fn fold_expr_stmt(&mut self, node: ExprStmt) -> ExprStmt {
+        log::debug!("ExprStmt ->");
+        if self.is_marked(node.span) {
+            return node;
+        }
+
+        if self.should_include(&node.expr) {
+            log::debug!("\tIncluded");
+            let stmt = ExprStmt {
+                span: node.span.apply_mark(self.config.used_mark),
+                expr: self.fold_in_marking_phase(node.expr),
+            };
+            return stmt;
+        }
+
+        node.fold_children_with(self)
+    }
+
+    fn fold_fn_decl(&mut self, mut f: FnDecl) -> FnDecl {
+        if self.is_marked(f.span()) {
+            return f;
+        }
+
+        if self.marking_phase || self.included.contains(&f.ident.to_id()) {
+            f.function.span = f.function.span.apply_mark(self.config.used_mark);
+            f.function.body = self.fold_in_marking_phase(f.function.body);
+        }
+
+        f.fold_children_with(self)
+    }
+
+    fn fold_for_in_stmt(&mut self, mut node: ForInStmt) -> ForInStmt {
+        if self.is_marked(node.span) {
+            return node;
+        }
+
+        node = ForInStmt {
+            span: node.span,
+            left: node.left,
+            right: node.right.fold_with(self),
+            body: node.body.fold_with(self),
+        };
+
+        if self.should_include(&node.left)
+            || self.is_marked(node.left.span())
+            || self.is_marked(node.right.span())
+            || self.is_marked(node.body.span())
+        {
+            node.span = node.span.apply_mark(self.config.used_mark);
+
+            node.left = self.fold_in_marking_phase(node.left);
+            node.right = self.fold_in_marking_phase(node.right);
+            node.body = self.fold_in_marking_phase(node.body);
+        }
+
+        node
+    }
+
+    fn fold_for_of_stmt(&mut self, mut node: ForOfStmt) -> ForOfStmt {
+        if self.is_marked(node.span) {
+            return node;
+        }
+
+        node = ForOfStmt {
+            span: node.span,
+            await_token: node.await_token,
+            left: node.left,
+            right: node.right.fold_with(self),
+            body: node.body.fold_with(self),
+        };
+
+        if self.should_include(&node.left)
+            || self.is_marked(node.left.span())
+            || self.is_marked(node.right.span())
+            || self.is_marked(node.body.span())
+        {
+            node.span = node.span.apply_mark(self.config.used_mark);
+
+            node.left = self.fold_in_marking_phase(node.left);
+            node.right = self.fold_in_marking_phase(node.right);
+            node.body = self.fold_in_marking_phase(node.body);
+        }
+
+        node
+    }
+
+    fn fold_for_stmt(&mut self, mut node: ForStmt) -> ForStmt {
+        if self.is_marked(node.span) {
+            return node;
+        }
+
+        node = node.fold_children_with(self);
+
+        if node.test.is_none()
+            || self.is_marked(node.init.span())
+            || self.is_marked(node.test.span())
+            || self.is_marked(node.update.span())
+            || self.is_marked(node.body.span())
+        {
+            node.span = node.span.apply_mark(self.config.used_mark);
+
+            node.test = self.fold_in_marking_phase(node.test);
+            node.init = self.fold_in_marking_phase(node.init);
+            node.update = self.fold_in_marking_phase(node.update);
+            node.body = self.fold_in_marking_phase(node.body);
+        }
+
+        node
+    }
+
+    fn fold_ident(&mut self, i: Ident) -> Ident {
+        if self.is_marked(i.span) {
+            return i;
+        }
+
+        if self.marking_phase {
+            if self.included.insert(i.to_id()) {
+                log::info!("{} is used", i.sym);
+                self.changed = true;
+            }
+        }
+
+        i
+    }
+
+    fn fold_if_stmt(&mut self, node: IfStmt) -> IfStmt {
+        if self.is_marked(node.span) {
+            return node;
+        }
+
+        let mut node: IfStmt = node.fold_children_with(self);
+
+        if self.is_marked(node.test.span())
+            || self.is_marked(node.cons.span())
+            || self.is_marked(node.alt.span())
+        {
+            node.span = node.span.apply_mark(self.config.used_mark);
+
+            node.test = self.fold_in_marking_phase(node.test);
+            node.cons = self.fold_in_marking_phase(node.cons);
+            node.alt = self.fold_in_marking_phase(node.alt);
+        }
+
+        node
+    }
+
+    fn fold_import_decl(&mut self, mut import: ImportDecl) -> ImportDecl {
+        // Do not mark import as used while ignoring imports
+        if !self.decl_dropping_phase {
+            return import;
+        }
+
+        if self.is_marked(import.span) {
+            return import;
+        }
+
+        // Side effect import
+        if import.specifiers.is_empty() {
+            import.span = import.span.apply_mark(self.config.used_mark);
+            return import;
+        }
+
+        // Drop unused imports.
+        import.specifiers.retain(|s| self.should_include(&s));
+
+        if !import.specifiers.is_empty() {
+            import.span = import.span.apply_mark(self.config.used_mark);
+        }
+
+        import
+    }
+
+    fn fold_labeled_stmt(&mut self, mut node: LabeledStmt) -> LabeledStmt {
+        if self.is_marked(node.span) {
+            return node;
+        }
+
+        node.body = node.body.fold_with(self);
+
+        if self.is_marked(node.body.span()) {
+            node.span = node.span.apply_mark(self.config.used_mark);
+            node.body = self.fold_in_marking_phase(node.body);
+        }
+
+        node
+    }
+
+    fn fold_member_expr(&mut self, mut e: MemberExpr) -> MemberExpr {
+        if self.is_marked(e.span()) {
+            return e;
+        }
+
+        e.obj = e.obj.fold_with(self);
+        if e.computed {
+            e.prop = e.prop.fold_with(self);
+        }
+
+        e
+    }
+
+    fn fold_named_export(&mut self, mut node: NamedExport) -> NamedExport {
+        if self.is_marked(node.span) {
+            return node;
+        }
+
+        // Export only when it's required.
+        node.specifiers.retain(|s| match s {
+            ExportSpecifier::Namespace(s) => self.should_preserve_export(&s.name.sym),
+            ExportSpecifier::Default(..) => self.should_preserve_export(&js_word!("default")),
+            ExportSpecifier::Named(s) => {
+                self.should_preserve_export(&s.exported.as_ref().unwrap_or_else(|| &s.orig).sym)
+            }
+        });
+
+        if !node.specifiers.is_empty() {
+            node.span = node.span.apply_mark(self.config.used_mark);
+            node.specifiers = self.fold_in_marking_phase(node.specifiers);
+        }
+
+        node
+    }
+
+    fn fold_return_stmt(&mut self, mut node: ReturnStmt) -> ReturnStmt {
+        if self.is_marked(node.span) {
+            return node;
+        }
+        node.span = node.span.apply_mark(self.config.used_mark);
+
+        let mut node = node.fold_children_with(self);
+
+        if self.is_marked(node.arg.span()) {
+            node.arg = self.fold_in_marking_phase(node.arg)
+        }
+
+        node
+    }
+
+    fn fold_switch_case(&mut self, mut node: SwitchCase) -> SwitchCase {
+        if self.is_marked(node.span) {
+            return node;
+        }
+
+        node = node.fold_children_with(self);
+
+        if self.is_marked(node.test.span()) || node.cons.iter().any(|v| self.is_marked(v.span())) {
+            node.span = node.span.apply_mark(self.config.used_mark);
+
+            node.test = self.fold_in_marking_phase(node.test);
+            node.cons = self.fold_in_marking_phase(node.cons);
+        }
+
+        node
+    }
+
+    fn fold_switch_stmt(&mut self, mut node: SwitchStmt) -> SwitchStmt {
+        if self.is_marked(node.span) {
+            return node;
+        }
+
+        node = node.fold_children_with(self);
+
+        // TODO: Handle fallthrough
+        //  Drop useless switch case.
+        //        node.cases.retain(|case| {
+        //            self.is_marked(case.span)
+        //        });
+
+        if self.is_marked(node.discriminant.span())
+            || node.cases.iter().any(|case| self.is_marked(case.span))
+        {
+            node.span = node.span.apply_mark(self.config.used_mark);
+            node.cases = self.fold_in_marking_phase(node.cases);
+        }
+
+        node
+    }
+
+    fn fold_throw_stmt(&mut self, mut node: ThrowStmt) -> ThrowStmt {
+        if self.is_marked(node.span) {
+            return node;
+        }
+        node.span = node.span.apply_mark(self.config.used_mark);
+
+        let mut node = node.fold_children_with(self);
+
+        if self.is_marked(node.arg.span()) {
+            node.arg = self.fold_in_marking_phase(node.arg)
+        }
+
+        node
+    }
+
+    fn fold_try_stmt(&mut self, mut node: TryStmt) -> TryStmt {
+        if self.is_marked(node.span) {
+            return node;
+        }
+
+        node = node.fold_children_with(self);
+
+        if self.is_marked(node.block.span())
+            || self.is_marked(node.handler.span())
+            || self.is_marked(node.finalizer.span())
+        {
+            node.span = node.span.apply_mark(self.config.used_mark);
+
+            node.block = self.fold_in_marking_phase(node.block);
+            node.handler = self.fold_in_marking_phase(node.handler);
+            node.finalizer = self.fold_in_marking_phase(node.finalizer);
+        }
+
+        node
+    }
+
+    fn fold_update_expr(&mut self, mut node: UpdateExpr) -> UpdateExpr {
+        if self.is_marked(node.span) {
+            return node;
+        }
+
+        node.span = node.span.apply_mark(self.config.used_mark);
+        node.arg = self.fold_in_marking_phase(node.arg);
+
+        node
+    }
+
+    fn fold_var_decl(&mut self, mut var: VarDecl) -> VarDecl {
+        if self.is_marked(var.span) {
+            return var;
+        }
+
+        log::trace!("VarDecl");
+        var = var.fold_children_with(self);
+
+        var.decls = var.decls.move_flat_map(|decl| {
+            if self.is_marked(decl.span()) {
+                return Some(decl);
+            }
+
+            if !self.should_include(&decl.name) {
+                if self.decl_dropping_phase {
+                    return None;
+                }
+                return Some(decl);
+            }
+
+            Some(VarDeclarator {
+                span: decl.span.apply_mark(self.config.used_mark),
+                init: self.fold_in_marking_phase(decl.init),
+                name: self.fold_in_marking_phase(decl.name),
+                ..decl
+            })
+        });
+
+        if var.decls.is_empty() || !self.decl_dropping_phase {
+            return var;
+        }
+
+        return VarDecl {
+            span: var.span.apply_mark(self.config.used_mark),
+            ..var
+        };
+    }
+
+    fn fold_while_stmt(&mut self, mut node: WhileStmt) -> WhileStmt {
+        if self.is_marked(node.span) {
+            return node;
+        }
+
+        node = node.fold_children_with(self);
+
+        if self.is_marked(node.test.span()) || self.is_marked(node.body.span()) {
+            node.span = node.span.apply_mark(self.config.used_mark);
+
+            node.test = self.fold_in_marking_phase(node.test);
+            node.body = self.fold_in_marking_phase(node.body);
+        }
+
+        node
+    }
+
     fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
         self.fold_stmt_like(n)
     }
@@ -298,51 +822,6 @@ impl Dce<'_> {
         self.decl_dropping_phase = true;
         let node = node.fold_with(self);
         self.decl_dropping_phase = old;
-
-        node
-    }
-}
-
-impl Fold for Dce<'_> {
-    fn fold_ident(&mut self, i: Ident) -> Ident {
-        if self.is_marked(i.span) {
-            return i;
-        }
-
-        if self.marking_phase {
-            if self.included.insert(i.to_id()) {
-                log::info!("{} is used", i.sym);
-                self.changed = true;
-            }
-        }
-
-        i
-    }
-}
-
-impl Fold for Dce<'_> {
-    fn fold_member_expr(&mut self, mut e: MemberExpr) -> MemberExpr {
-        if self.is_marked(e.span()) {
-            return e;
-        }
-
-        e.obj = e.obj.fold_with(self);
-        if e.computed {
-            e.prop = e.prop.fold_with(self);
-        }
-
-        e
-    }
-}
-
-impl Fold for Dce<'_> {
-    fn fold_update_expr(&mut self, mut node: UpdateExpr) -> UpdateExpr {
-        if self.is_marked(node.span) {
-            return node;
-        }
-
-        node.span = node.span.apply_mark(self.config.used_mark);
-        node.arg = self.fold_in_marking_phase(node.arg);
 
         node
     }

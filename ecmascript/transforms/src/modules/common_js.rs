@@ -8,7 +8,7 @@ use fxhash::FxHashSet;
 use swc_atoms::js_word;
 use swc_common::{Mark, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::Fold;
+use swc_ecma_visit::{Fold, FoldWith};
 
 pub fn common_js(root_mark: Mark, config: Config) -> impl Fold {
     CommonJs {
@@ -607,9 +607,7 @@ impl Fold for CommonJs {
         let top_level = self.in_top_level;
         Scope::fold_expr(self, quote_ident!("exports"), top_level, expr)
     }
-}
 
-impl Fold for CommonJs {
     fn fold_prop(&mut self, p: Prop) -> Prop {
         match p {
             Prop::Shorthand(ident) => {
@@ -621,7 +619,7 @@ impl Fold for CommonJs {
         }
     }
 
-    ///
+    /// 
     /// - collects all declared variables for let and var.
     fn fold_var_decl(&mut self, var: VarDecl) -> VarDecl {
         if var.kind != VarDeclKind::Const {

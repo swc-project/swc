@@ -166,43 +166,6 @@ impl<'a> Hygiene<'a> {
     }
 }
 
-impl<'a> Fold for Hygiene<'a> {
-    fn fold_module(&mut self, module: Module) -> Module {
-        let module = validate!(module.fold_children_with(self));
-
-        validate!(self.apply_ops(module))
-    }
-
-    fn fold_try_stmt(&mut self, node: TryStmt) -> TryStmt {
-        TryStmt {
-            span: node.span,
-            block: node.block.fold_children_with(self),
-            handler: node.handler.fold_with(self),
-            finalizer: node.finalizer.fold_children_with(self),
-        }
-    }
-
-    fn fold_block_stmt(&mut self, node: BlockStmt) -> BlockStmt {
-        let mut folder = Hygiene {
-            current: Scope::new(ScopeKind::Block, Some(&self.current)),
-            ident_type: IdentType::Ref,
-        };
-        let node = node.fold_children_with(&mut folder);
-
-        folder.apply_ops(node)
-    }
-
-    fn fold_object_lit(&mut self, node: ObjectLit) -> ObjectLit {
-        let mut folder = Hygiene {
-            current: Scope::new(ScopeKind::Block, Some(&self.current)),
-            ident_type: IdentType::Ref,
-        };
-        let node = node.fold_children_with(&mut folder);
-
-        folder.apply_ops(node)
-    }
-}
-
 impl<'a> Hygiene<'a> {
     fn fold_fn(&mut self, ident: Option<Ident>, mut node: Function) -> Function {
         match ident {
@@ -227,85 +190,6 @@ impl<'a> Hygiene<'a> {
         node.body = node.body.map(|stmt| stmt.fold_children_with(&mut folder));
 
         folder.apply_ops(node)
-    }
-}
-
-impl<'a> Fold for Hygiene<'a> {
-    fn fold_var_declarator(&mut self, decl: VarDeclarator) -> VarDeclarator {
-        let old = self.ident_type;
-        self.ident_type = IdentType::Binding;
-        let name = decl.name.fold_with(self);
-        self.ident_type = old;
-
-        let init = decl.init.fold_with(self);
-        VarDeclarator { name, init, ..decl }
-    }
-
-    fn fold_fn_expr(&mut self, mut node: FnExpr) -> FnExpr {
-        node.function = self.fold_fn(node.ident.clone(), node.function);
-
-        node
-    }
-
-    fn fold_fn_decl(&mut self, mut node: FnDecl) -> FnDecl {
-        node.function = self.fold_fn(Some(node.ident.clone()), node.function);
-
-        node
-    }
-
-    /// Invoked for `IdetifierRefrence` / `BindingIdentifier`
-    fn fold_ident(&mut self, i: Ident) -> Ident {
-        if i.sym == js_word!("arguments") || i.sym == js_word!("undefined") {
-            return i;
-        }
-
-        match self.ident_type {
-            IdentType::Binding => self.add_declared_ref(i.clone()),
-            IdentType::Ref => {
-                // Special cases
-                if is_native(&i.sym) {
-                    return i;
-                }
-
-                self.add_used_ref(i.clone());
-            }
-            IdentType::Label => {
-                // We currently does not touch labels
-                return i;
-            }
-        }
-
-        i
-    }
-
-    fn fold_expr(&mut self, node: Expr) -> Expr {
-        let old = self.ident_type;
-        self.ident_type = IdentType::Ref;
-        let node = match node {
-            Expr::Ident(..) => node.fold_children_with(self),
-            Expr::Member(e) => {
-                if e.computed {
-                    Expr::Member(MemberExpr {
-                        obj: e.obj.fold_with(self),
-                        prop: e.prop.fold_with(self),
-                        ..e
-                    })
-                } else {
-                    Expr::Member(MemberExpr {
-                        obj: e.obj.fold_with(self),
-                        ..e
-                    })
-                }
-            }
-
-            Expr::This(..) => node,
-
-            _ => node.fold_children_with(self),
-        };
-
-        self.ident_type = old;
-
-        node
     }
 }
 
@@ -450,27 +334,6 @@ impl<'a> Scope<'a> {
             Some(parent) => parent.is_declared(sym),
             _ => false,
         }
-    }
-}
-
-impl Fold for Hygiene<'_> {
-    fn fold_constructor(&mut self, c: Constructor) -> Constructor {
-        let old = self.ident_type;
-        self.ident_type = IdentType::Binding;
-        let params = c.params.fold_with(self);
-        self.ident_type = old;
-
-        let body = c.body.map(|bs| bs.fold_children_with(self));
-        let key = c.key.fold_with(self);
-
-        let c = Constructor {
-            params,
-            body,
-            key,
-            ..c
-        };
-
-        self.apply_ops(c)
     }
 }
 
@@ -632,9 +495,17 @@ impl<'a> Fold for Hygiene<'a> {
 
         folder.apply_ops(node)
     }
-}
 
-impl Fold for Hygiene<'_> {
+    fn fold_block_stmt(&mut self, node: BlockStmt) -> BlockStmt {
+        let mut folder = Hygiene {
+            current: Scope::new(ScopeKind::Block, Some(&self.current)),
+            ident_type: IdentType::Ref,
+        };
+        let node = node.fold_children_with(&mut folder);
+
+        folder.apply_ops(node)
+    }
+
     fn fold_catch_clause(&mut self, c: CatchClause) -> CatchClause {
         let mut folder = Hygiene {
             current: Scope::new(ScopeKind::Fn, Some(&self.current)),
@@ -647,5 +518,126 @@ impl Fold for Hygiene<'_> {
         let body = c.body.fold_with(&mut folder);
 
         CatchClause { param, body, ..c }
+    }
+
+    fn fold_constructor(&mut self, c: Constructor) -> Constructor {
+        let old = self.ident_type;
+        self.ident_type = IdentType::Binding;
+        let params = c.params.fold_with(self);
+        self.ident_type = old;
+
+        let body = c.body.map(|bs| bs.fold_children_with(self));
+        let key = c.key.fold_with(self);
+
+        let c = Constructor {
+            params,
+            body,
+            key,
+            ..c
+        };
+
+        self.apply_ops(c)
+    }
+
+    fn fold_expr(&mut self, node: Expr) -> Expr {
+        let old = self.ident_type;
+        self.ident_type = IdentType::Ref;
+        let node = match node {
+            Expr::Ident(..) => node.fold_children_with(self),
+            Expr::Member(e) => {
+                if e.computed {
+                    Expr::Member(MemberExpr {
+                        obj: e.obj.fold_with(self),
+                        prop: e.prop.fold_with(self),
+                        ..e
+                    })
+                } else {
+                    Expr::Member(MemberExpr {
+                        obj: e.obj.fold_with(self),
+                        ..e
+                    })
+                }
+            }
+
+            Expr::This(..) => node,
+
+            _ => node.fold_children_with(self),
+        };
+
+        self.ident_type = old;
+
+        node
+    }
+
+    fn fold_fn_decl(&mut self, mut node: FnDecl) -> FnDecl {
+        node.function = self.fold_fn(Some(node.ident.clone()), node.function);
+
+        node
+    }
+
+    fn fold_fn_expr(&mut self, mut node: FnExpr) -> FnExpr {
+        node.function = self.fold_fn(node.ident.clone(), node.function);
+
+        node
+    }
+
+    /// Invoked for `IdetifierRefrence` / `BindingIdentifier`
+    fn fold_ident(&mut self, i: Ident) -> Ident {
+        if i.sym == js_word!("arguments") || i.sym == js_word!("undefined") {
+            return i;
+        }
+
+        match self.ident_type {
+            IdentType::Binding => self.add_declared_ref(i.clone()),
+            IdentType::Ref => {
+                // Special cases
+                if is_native(&i.sym) {
+                    return i;
+                }
+
+                self.add_used_ref(i.clone());
+            }
+            IdentType::Label => {
+                // We currently does not touch labels
+                return i;
+            }
+        }
+
+        i
+    }
+
+    fn fold_module(&mut self, module: Module) -> Module {
+        let module = validate!(module.fold_children_with(self));
+
+        validate!(self.apply_ops(module))
+    }
+
+    fn fold_object_lit(&mut self, node: ObjectLit) -> ObjectLit {
+        let mut folder = Hygiene {
+            current: Scope::new(ScopeKind::Block, Some(&self.current)),
+            ident_type: IdentType::Ref,
+        };
+        let node = node.fold_children_with(&mut folder);
+
+        folder.apply_ops(node)
+    }
+
+    fn fold_try_stmt(&mut self, node: TryStmt) -> TryStmt {
+        TryStmt {
+            span: node.span,
+            block: node.block.fold_children_with(self),
+            handler: node.handler.fold_with(self),
+            finalizer: node.finalizer.fold_children_with(self),
+        }
+    }
+
+    fn fold_var_declarator(&mut self, decl: VarDeclarator) -> VarDeclarator {
+        let old = self.ident_type;
+        self.ident_type = IdentType::Binding;
+        let name = decl.name.fold_with(self);
+        self.ident_type = old;
+
+        let init = decl.init.fold_with(self);
+        VarDeclarator { name, init, ..decl }
     }
 }

@@ -46,6 +46,94 @@ impl Fold for ClassProperties {
     fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
         self.fold_stmt_like(n)
     }
+
+    fn fold_block_stmt_or_expr(&mut self, body: BlockStmtOrExpr) -> BlockStmtOrExpr {
+        let span = body.span();
+
+        match body {
+            BlockStmtOrExpr::Expr(box Expr::Class(ClassExpr { ident, class })) => {
+                let mut stmts = vec![];
+                let ident = ident.unwrap_or_else(|| private_ident!("_class"));
+                let (vars, decl, mut extra_stmts) = self.fold_class_as_decl(ident.clone(), class);
+                if !vars.is_empty() {
+                    stmts.push(Stmt::Decl(Decl::Var(VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        decls: vars,
+                        declare: false,
+                    })));
+                }
+                stmts.push(Stmt::Decl(decl));
+                stmts.append(&mut extra_stmts);
+                stmts.push(Stmt::Return(ReturnStmt {
+                    span: DUMMY_SP,
+                    arg: Some(box Expr::Ident(ident)),
+                }));
+
+                BlockStmtOrExpr::BlockStmt(BlockStmt { span, stmts })
+            }
+            _ => body.fold_children_with(self),
+        }
+    }
+
+    fn fold_expr(&mut self, expr: Expr) -> Expr {
+        let expr = expr.fold_children_with(self);
+
+        match expr {
+            // TODO(kdy1): Make it generate smaller code.
+            //
+            // We currently creates a iife for a class expression.
+            // Although this results in a large code, but it's ok as class expression is rarely used
+            // in wild.
+            Expr::Class(ClassExpr { ident, class }) => {
+                let ident = ident.unwrap_or_else(|| private_ident!("_class"));
+                let mut stmts = vec![];
+                let (vars, decl, mut extra_stmts) = self.fold_class_as_decl(ident.clone(), class);
+
+                if !vars.is_empty() {
+                    stmts.push(Stmt::Decl(Decl::Var(VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        decls: vars,
+                        declare: false,
+                    })));
+                }
+                stmts.push(Stmt::Decl(decl));
+                stmts.append(&mut extra_stmts);
+
+                stmts.push(Stmt::Return(ReturnStmt {
+                    span: DUMMY_SP,
+                    arg: Some(box Expr::Ident(ident)),
+                }));
+
+                Expr::Call(CallExpr {
+                    span: DUMMY_SP,
+                    callee: FnExpr {
+                        ident: None,
+                        function: Function {
+                            span: DUMMY_SP,
+                            decorators: vec![],
+                            is_async: false,
+                            is_generator: false,
+                            params: vec![],
+
+                            body: Some(BlockStmt {
+                                span: DUMMY_SP,
+                                stmts,
+                            }),
+
+                            type_params: Default::default(),
+                            return_type: Default::default(),
+                        },
+                    }
+                    .as_callee(),
+                    args: vec![],
+                    type_args: Default::default(),
+                })
+            }
+            _ => expr,
+        }
+    }
 }
 
 impl ClassProperties {
@@ -165,96 +253,6 @@ impl ClassProperties {
         }
 
         buf
-    }
-}
-
-impl Fold for ClassProperties {
-    fn fold_expr(&mut self, expr: Expr) -> Expr {
-        let expr = expr.fold_children_with(self);
-
-        match expr {
-            // TODO(kdy1): Make it generate smaller code.
-            //
-            // We currently creates a iife for a class expression.
-            // Although this results in a large code, but it's ok as class expression is rarely used
-            // in wild.
-            Expr::Class(ClassExpr { ident, class }) => {
-                let ident = ident.unwrap_or_else(|| private_ident!("_class"));
-                let mut stmts = vec![];
-                let (vars, decl, mut extra_stmts) = self.fold_class_as_decl(ident.clone(), class);
-
-                if !vars.is_empty() {
-                    stmts.push(Stmt::Decl(Decl::Var(VarDecl {
-                        span: DUMMY_SP,
-                        kind: VarDeclKind::Var,
-                        decls: vars,
-                        declare: false,
-                    })));
-                }
-                stmts.push(Stmt::Decl(decl));
-                stmts.append(&mut extra_stmts);
-
-                stmts.push(Stmt::Return(ReturnStmt {
-                    span: DUMMY_SP,
-                    arg: Some(box Expr::Ident(ident)),
-                }));
-
-                Expr::Call(CallExpr {
-                    span: DUMMY_SP,
-                    callee: FnExpr {
-                        ident: None,
-                        function: Function {
-                            span: DUMMY_SP,
-                            decorators: vec![],
-                            is_async: false,
-                            is_generator: false,
-                            params: vec![],
-
-                            body: Some(BlockStmt {
-                                span: DUMMY_SP,
-                                stmts,
-                            }),
-
-                            type_params: Default::default(),
-                            return_type: Default::default(),
-                        },
-                    }
-                    .as_callee(),
-                    args: vec![],
-                    type_args: Default::default(),
-                })
-            }
-            _ => expr,
-        }
-    }
-
-    fn fold_block_stmt_or_expr(&mut self, body: BlockStmtOrExpr) -> BlockStmtOrExpr {
-        let span = body.span();
-
-        match body {
-            BlockStmtOrExpr::Expr(box Expr::Class(ClassExpr { ident, class })) => {
-                let mut stmts = vec![];
-                let ident = ident.unwrap_or_else(|| private_ident!("_class"));
-                let (vars, decl, mut extra_stmts) = self.fold_class_as_decl(ident.clone(), class);
-                if !vars.is_empty() {
-                    stmts.push(Stmt::Decl(Decl::Var(VarDecl {
-                        span: DUMMY_SP,
-                        kind: VarDeclKind::Var,
-                        decls: vars,
-                        declare: false,
-                    })));
-                }
-                stmts.push(Stmt::Decl(decl));
-                stmts.append(&mut extra_stmts);
-                stmts.push(Stmt::Return(ReturnStmt {
-                    span: DUMMY_SP,
-                    arg: Some(box Expr::Ident(ident)),
-                }));
-
-                BlockStmtOrExpr::BlockStmt(BlockStmt { span, stmts })
-            }
-            _ => body.fold_children_with(self),
-        }
     }
 }
 

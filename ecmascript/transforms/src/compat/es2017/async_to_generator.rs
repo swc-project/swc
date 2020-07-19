@@ -86,6 +86,185 @@ impl AsyncToGenerator {
 }
 
 impl Fold for Actual {
+    fn fold_class_method(&mut self, m: ClassMethod) -> ClassMethod {
+        if m.function.body.is_none() {
+            return m;
+        }
+        if m.kind != MethodKind::Method || !m.function.is_async {
+            return m;
+        }
+        let params = m.function.params.clone();
+
+        let mut folder = MethodFolder { vars: vec![] };
+        let function = m.function.fold_children_with(&mut folder);
+        let expr = make_fn_ref(FnExpr {
+            ident: None,
+            function,
+        });
+
+        let hoisted_super = if folder.vars.is_empty() {
+            None
+        } else {
+            Some(Stmt::Decl(Decl::Var(VarDecl {
+                span: DUMMY_SP,
+                kind: VarDeclKind::Var,
+                decls: folder.vars,
+                declare: false,
+            })))
+        };
+
+        ClassMethod {
+            function: Function {
+                span: m.span,
+                is_async: false,
+                is_generator: false,
+                params,
+                body: Some(BlockStmt {
+                    span: DUMMY_SP,
+                    stmts: hoisted_super
+                        .into_iter()
+                        .chain(iter::once(Stmt::Return(ReturnStmt {
+                            span: DUMMY_SP,
+                            arg: Some(box Expr::Call(CallExpr {
+                                span: DUMMY_SP,
+                                callee: expr.as_callee(),
+                                args: vec![],
+                                type_args: Default::default(),
+                            })),
+                        })))
+                        .collect(),
+                }),
+                decorators: Default::default(),
+                type_params: Default::default(),
+                return_type: Default::default(),
+            },
+            ..m
+        }
+    }
+
+    fn fold_expr(&mut self, expr: Expr) -> Expr {
+        let expr = validate!(expr);
+
+        match expr {
+            Expr::Paren(ParenExpr { span, expr }) => {
+                return Expr::Paren(ParenExpr {
+                    span,
+                    expr: expr.fold_with(self),
+                })
+            }
+
+            // Optimization for iife.
+            Expr::Call(CallExpr {
+                span,
+                callee: ExprOrSuper::Expr(box Expr::Fn(fn_expr)),
+                args,
+                type_args,
+            })
+            | Expr::Call(CallExpr {
+                span,
+                callee:
+                    ExprOrSuper::Expr(box Expr::Paren(ParenExpr {
+                        expr: box Expr::Fn(fn_expr),
+                        ..
+                    })),
+                args,
+                type_args,
+            }) => {
+                if !fn_expr.function.is_async {
+                    return Expr::Call(CallExpr {
+                        span,
+                        callee: ExprOrSuper::Expr(box Expr::Fn(fn_expr)),
+                        args,
+                        type_args,
+                    });
+                }
+
+                // https://github.com/babel/babel/issues/8783
+                if fn_expr.ident.is_some()
+                    && contains_ident_ref(&fn_expr.function.body, fn_expr.ident.as_ref().unwrap())
+                {
+                    return Expr::Call(CallExpr {
+                        span,
+                        callee: ExprOrSuper::Expr(box Expr::Fn(fn_expr)),
+                        args,
+                        type_args,
+                    })
+                    .fold_children_with(self);
+                }
+
+                return make_fn_ref(fn_expr);
+            }
+
+            _ => {}
+        }
+
+        let expr = expr.fold_children_with(self);
+
+        match expr {
+            Expr::Arrow(ArrowExpr { is_async: true, .. }) => {
+                // Apply arrow
+                let expr = expr.fold_with(&mut arrow());
+
+                let f = match expr {
+                    Expr::Fn(f) => f,
+                    _ => return expr,
+                };
+
+                return make_fn_ref(f);
+            }
+
+            Expr::Fn(
+                expr
+                @
+                FnExpr {
+                    function:
+                        Function {
+                            is_async: true,
+                            body: Some(..),
+                            ..
+                        },
+                    ..
+                },
+            ) => {
+                let function = self.fold_fn(expr.ident.clone(), expr.function, false);
+                let body = Some(BlockStmt {
+                    span: DUMMY_SP,
+                    stmts: self
+                        .extra_stmts
+                        .drain(..)
+                        .chain(function.body.unwrap().stmts)
+                        .collect(),
+                });
+
+                Expr::Call(CallExpr {
+                    span: DUMMY_SP,
+                    callee: Expr::Fn(FnExpr {
+                        ident: None,
+                        function: Function { body, ..function },
+                    })
+                    .as_callee(),
+                    args: vec![],
+                    type_args: Default::default(),
+                })
+            }
+
+            _ => expr,
+        }
+    }
+
+    fn fold_fn_decl(&mut self, f: FnDecl) -> FnDecl {
+        let f = f.fold_children_with(self);
+        if !f.function.is_async {
+            return f;
+        }
+
+        let function = self.fold_fn(Some(f.ident.clone()), f.function, true);
+        FnDecl {
+            ident: f.ident,
+            function,
+            declare: false,
+        }
+    }
     fn fold_method_prop(&mut self, prop: MethodProp) -> MethodProp {
         let prop = validate!(prop);
         let prop = prop.fold_children_with(self);
@@ -346,192 +525,6 @@ impl Fold for MethodFolder {
     }
 }
 
-impl Fold for Actual {
-    fn fold_class_method(&mut self, m: ClassMethod) -> ClassMethod {
-        if m.function.body.is_none() {
-            return m;
-        }
-        if m.kind != MethodKind::Method || !m.function.is_async {
-            return m;
-        }
-        let params = m.function.params.clone();
-
-        let mut folder = MethodFolder { vars: vec![] };
-        let function = m.function.fold_children_with(&mut folder);
-        let expr = make_fn_ref(FnExpr {
-            ident: None,
-            function,
-        });
-
-        let hoisted_super = if folder.vars.is_empty() {
-            None
-        } else {
-            Some(Stmt::Decl(Decl::Var(VarDecl {
-                span: DUMMY_SP,
-                kind: VarDeclKind::Var,
-                decls: folder.vars,
-                declare: false,
-            })))
-        };
-
-        ClassMethod {
-            function: Function {
-                span: m.span,
-                is_async: false,
-                is_generator: false,
-                params,
-                body: Some(BlockStmt {
-                    span: DUMMY_SP,
-                    stmts: hoisted_super
-                        .into_iter()
-                        .chain(iter::once(Stmt::Return(ReturnStmt {
-                            span: DUMMY_SP,
-                            arg: Some(box Expr::Call(CallExpr {
-                                span: DUMMY_SP,
-                                callee: expr.as_callee(),
-                                args: vec![],
-                                type_args: Default::default(),
-                            })),
-                        })))
-                        .collect(),
-                }),
-                decorators: Default::default(),
-                type_params: Default::default(),
-                return_type: Default::default(),
-            },
-            ..m
-        }
-    }
-}
-
-impl Fold for Actual {
-    fn fold_expr(&mut self, expr: Expr) -> Expr {
-        let expr = validate!(expr);
-
-        match expr {
-            Expr::Paren(ParenExpr { span, expr }) => {
-                return Expr::Paren(ParenExpr {
-                    span,
-                    expr: expr.fold_with(self),
-                })
-            }
-
-            // Optimization for iife.
-            Expr::Call(CallExpr {
-                span,
-                callee: ExprOrSuper::Expr(box Expr::Fn(fn_expr)),
-                args,
-                type_args,
-            })
-            | Expr::Call(CallExpr {
-                span,
-                callee:
-                    ExprOrSuper::Expr(box Expr::Paren(ParenExpr {
-                        expr: box Expr::Fn(fn_expr),
-                        ..
-                    })),
-                args,
-                type_args,
-            }) => {
-                if !fn_expr.function.is_async {
-                    return Expr::Call(CallExpr {
-                        span,
-                        callee: ExprOrSuper::Expr(box Expr::Fn(fn_expr)),
-                        args,
-                        type_args,
-                    });
-                }
-
-                // https://github.com/babel/babel/issues/8783
-                if fn_expr.ident.is_some()
-                    && contains_ident_ref(&fn_expr.function.body, fn_expr.ident.as_ref().unwrap())
-                {
-                    return Expr::Call(CallExpr {
-                        span,
-                        callee: ExprOrSuper::Expr(box Expr::Fn(fn_expr)),
-                        args,
-                        type_args,
-                    })
-                    .fold_children_with(self);
-                }
-
-                return make_fn_ref(fn_expr);
-            }
-
-            _ => {}
-        }
-
-        let expr = expr.fold_children_with(self);
-
-        match expr {
-            Expr::Arrow(ArrowExpr { is_async: true, .. }) => {
-                // Apply arrow
-                let expr = expr.fold_with(&mut arrow());
-
-                let f = match expr {
-                    Expr::Fn(f) => f,
-                    _ => return expr,
-                };
-
-                return make_fn_ref(f);
-            }
-
-            Expr::Fn(
-                expr
-                @
-                FnExpr {
-                    function:
-                        Function {
-                            is_async: true,
-                            body: Some(..),
-                            ..
-                        },
-                    ..
-                },
-            ) => {
-                let function = self.fold_fn(expr.ident.clone(), expr.function, false);
-                let body = Some(BlockStmt {
-                    span: DUMMY_SP,
-                    stmts: self
-                        .extra_stmts
-                        .drain(..)
-                        .chain(function.body.unwrap().stmts)
-                        .collect(),
-                });
-
-                Expr::Call(CallExpr {
-                    span: DUMMY_SP,
-                    callee: Expr::Fn(FnExpr {
-                        ident: None,
-                        function: Function { body, ..function },
-                    })
-                    .as_callee(),
-                    args: vec![],
-                    type_args: Default::default(),
-                })
-            }
-
-            _ => expr,
-        }
-    }
-}
-
-impl Fold for Actual {
-    fn fold_fn_decl(&mut self, f: FnDecl) -> FnDecl {
-        let f = f.fold_children_with(self);
-        if !f.function.is_async {
-            return f;
-        }
-
-        let function = self.fold_fn(Some(f.ident.clone()), f.function, true);
-        FnDecl {
-            ident: f.ident,
-            function,
-            declare: false,
-        }
-    }
-}
-
 impl Actual {
     fn fold_fn(&mut self, raw_ident: Option<Ident>, f: Function, is_decl: bool) -> Function {
         if f.body.is_none() {
@@ -766,8 +759,7 @@ impl Visit for AsyncVisitor {
         }
         f.visit_children_with(self);
     }
-}
-impl Visit for AsyncVisitor {
+
     fn visit_arrow_expr(&mut self, f: &ArrowExpr, _: &dyn Node) {
         if f.is_async {
             self.found = true;

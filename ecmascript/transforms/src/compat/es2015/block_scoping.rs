@@ -337,6 +337,23 @@ impl BlockScoping {
 }
 
 impl Fold for BlockScoping {
+    fn fold_arrow_expr(&mut self, f: ArrowExpr) -> ArrowExpr {
+        ArrowExpr {
+            params: f.params.fold_with(self),
+            body: self.fold_with_scope(ScopeKind::Fn, f.body),
+            ..f
+        }
+    }
+
+    fn fold_constructor(&mut self, f: Constructor) -> Constructor {
+        Constructor {
+            key: f.key.fold_with(self),
+            params: f.params.fold_with(self),
+            body: self.fold_with_scope(ScopeKind::Fn, f.body),
+            ..f
+        }
+    }
+
     fn fold_do_while_stmt(&mut self, node: DoWhileStmt) -> DoWhileStmt {
         let body = self.fold_with_scope(ScopeKind::Loop, node.body);
 
@@ -345,22 +362,12 @@ impl Fold for BlockScoping {
         DoWhileStmt { body, test, ..node }
     }
 
-    fn fold_while_stmt(&mut self, node: WhileStmt) -> WhileStmt {
-        let body = self.fold_with_scope(ScopeKind::Loop, node.body);
-
-        let test = node.test.fold_with(self);
-
-        WhileStmt { body, test, ..node }
-    }
-
-    fn fold_for_stmt(&mut self, node: ForStmt) -> ForStmt {
-        let init = node.init.fold_with(self);
-
-        let mut vars = find_vars(&init);
+    fn fold_for_in_stmt(&mut self, node: ForInStmt) -> ForInStmt {
+        let left = self.fold_with_scope(ScopeKind::Block, node.left);
+        let mut vars = find_vars(&left);
         let args = vars.clone();
 
-        let test = node.test.fold_with(self);
-        let update = node.update.fold_with(self);
+        let right = node.right.fold_with(self);
 
         find_infected(&mut vars, &node.body);
 
@@ -376,10 +383,9 @@ impl Fold for BlockScoping {
         let body = self.fold_with_scope(kind, node.body);
         let body = self.handle_vars(body);
 
-        ForStmt {
-            init,
-            test,
-            update,
+        ForInStmt {
+            left,
+            right,
             body,
             ..node
         }
@@ -414,12 +420,14 @@ impl Fold for BlockScoping {
         }
     }
 
-    fn fold_for_in_stmt(&mut self, node: ForInStmt) -> ForInStmt {
-        let left = self.fold_with_scope(ScopeKind::Block, node.left);
-        let mut vars = find_vars(&left);
+    fn fold_for_stmt(&mut self, node: ForStmt) -> ForStmt {
+        let init = node.init.fold_with(self);
+
+        let mut vars = find_vars(&init);
         let args = vars.clone();
 
-        let right = node.right.fold_with(self);
+        let test = node.test.fold_with(self);
+        let update = node.update.fold_with(self);
 
         find_infected(&mut vars, &node.body);
 
@@ -435,9 +443,10 @@ impl Fold for BlockScoping {
         let body = self.fold_with_scope(kind, node.body);
         let body = self.handle_vars(body);
 
-        ForInStmt {
-            left,
-            right,
+        ForStmt {
+            init,
+            test,
+            update,
             body,
             ..node
         }
@@ -452,29 +461,19 @@ impl Fold for BlockScoping {
         }
     }
 
-    fn fold_arrow_expr(&mut self, f: ArrowExpr) -> ArrowExpr {
-        ArrowExpr {
-            params: f.params.fold_with(self),
-            body: self.fold_with_scope(ScopeKind::Fn, f.body),
-            ..f
-        }
-    }
-
-    fn fold_constructor(&mut self, f: Constructor) -> Constructor {
-        Constructor {
-            key: f.key.fold_with(self),
-            params: f.params.fold_with(self),
-            body: self.fold_with_scope(ScopeKind::Fn, f.body),
-            ..f
-        }
-    }
-
     fn fold_getter_prop(&mut self, f: GetterProp) -> GetterProp {
         GetterProp {
             key: f.key.fold_with(self),
             body: self.fold_with_scope(ScopeKind::Fn, f.body),
             ..f
         }
+    }
+
+    fn fold_ident(&mut self, node: Ident) -> Ident {
+        let id = node.to_id();
+        self.mark_as_used(id);
+
+        node
     }
 
     fn fold_setter_prop(&mut self, f: SetterProp) -> SetterProp {
@@ -515,15 +514,14 @@ impl Fold for BlockScoping {
         VarDeclarator { init, ..var }
     }
 
-    fn fold_ident(&mut self, node: Ident) -> Ident {
-        let id = node.to_id();
-        self.mark_as_used(id);
+    fn fold_while_stmt(&mut self, node: WhileStmt) -> WhileStmt {
+        let body = self.fold_with_scope(ScopeKind::Loop, node.body);
 
-        node
+        let test = node.test.fold_with(self);
+
+        WhileStmt { body, test, ..node }
     }
-}
 
-impl Fold for BlockScoping {
     fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
         self.fold_stmt_like(n)
     }

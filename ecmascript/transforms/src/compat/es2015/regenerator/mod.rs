@@ -51,38 +51,6 @@ fn rt(global_mark: Mark, rt: Ident) -> Stmt {
     }))
 }
 
-/// Injects `var _regeneratorRuntime = require('regenerator-runtime');`
-impl Fold for Regenerator {
-    fn fold_module(&mut self, m: Module) -> Module {
-        let mut m: Module = m.fold_children_with(self);
-        if let Some(rt_ident) = self.regenerator_runtime.take() {
-            prepend(&mut m.body, rt(self.global_mark, rt_ident).into());
-        }
-        m
-    }
-}
-
-/// Injects `var _regeneratorRuntime = require('regenerator-runtime');`
-impl Fold for Regenerator {
-    fn fold_script(&mut self, s: Script) -> Script {
-        let mut s: Script = s.fold_children_with(self);
-        if let Some(rt_ident) = self.regenerator_runtime.take() {
-            prepend(&mut s.body, rt(self.global_mark, rt_ident).into());
-        }
-        s
-    }
-}
-
-impl Fold for Regenerator {
-    fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
-        self.fold_stmt_like(n)
-    }
-
-    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
-        self.fold_stmt_like(n)
-    }
-}
-
 impl Regenerator {
     fn fold_stmt_like<T>(&mut self, items: Vec<T>) -> Vec<T>
     where
@@ -118,6 +86,123 @@ impl Regenerator {
 }
 
 impl Fold for Regenerator {
+    fn fold_expr(&mut self, e: Expr) -> Expr {
+        if !Finder::find(&e) {
+            return e;
+        }
+
+        let e: Expr = e.fold_children_with(self);
+
+        match e {
+            Expr::Fn(FnExpr {
+                ident, function, ..
+            }) if function.is_generator => {
+                let marked = ident.clone().unwrap_or_else(|| private_ident!("_callee"));
+                let (ident, function) = self.fold_fn(
+                    Some(ident.unwrap_or_else(|| marked.clone())),
+                    marked,
+                    function,
+                );
+                return Expr::Call(CallExpr {
+                    span: DUMMY_SP,
+                    callee: self
+                        .regenerator_runtime
+                        .clone()
+                        .unwrap()
+                        .member(quote_ident!("mark"))
+                        .as_callee(),
+                    args: vec![FnExpr { ident, function }.as_arg()],
+                    type_args: None,
+                });
+            }
+
+            _ => {}
+        }
+
+        e
+    }
+
+    fn fold_fn_decl(&mut self, f: FnDecl) -> FnDecl {
+        if !Finder::find(&f) {
+            return f;
+        }
+
+        if self.regenerator_runtime.is_none() {
+            self.regenerator_runtime = Some(private_ident!("regeneratorRuntime"));
+        }
+
+        let f = f.fold_children_with(self);
+
+        let marked = private_ident!("_marked");
+
+        self.top_level_vars.push(VarDeclarator {
+            span: DUMMY_SP,
+            name: Pat::Ident(marked.clone()),
+            init: Some(box Expr::Call(CallExpr {
+                span: DUMMY_SP,
+                callee: self
+                    .regenerator_runtime
+                    .clone()
+                    .unwrap()
+                    .member(quote_ident!("mark"))
+                    .as_callee(),
+                args: vec![f.ident.clone().as_arg()],
+                type_args: None,
+            })),
+            definite: false,
+        });
+
+        let (i, function) = self.fold_fn(Some(f.ident), marked, f.function);
+
+        FnDecl {
+            ident: i.unwrap(),
+            function,
+            ..f
+        }
+    }
+
+    fn fold_module(&mut self, m: Module) -> Module {
+        let mut m: Module = m.fold_children_with(self);
+        if let Some(rt_ident) = self.regenerator_runtime.take() {
+            prepend(&mut m.body, rt(self.global_mark, rt_ident).into());
+        }
+        m
+    }
+
+    fn fold_module_decl(&mut self, i: ModuleDecl) -> ModuleDecl {
+        if !Finder::find(&i) {
+            return i;
+        }
+
+        let i = i.fold_children_with(self);
+
+        match i {
+            ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                span,
+                decl:
+                    DefaultDecl::Fn(FnExpr {
+                        ident, function, ..
+                    }),
+            }) => {
+                let marked = ident.clone().unwrap_or_else(|| private_ident!("_callee"));
+                let (ident, function) = self.fold_fn(
+                    Some(ident.unwrap_or_else(|| marked.clone())),
+                    marked,
+                    function,
+                );
+
+                return ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
+                    span,
+                    expr: box FnExpr { ident, function }.into(),
+                });
+            }
+
+            _ => {}
+        }
+
+        i
+    }
+
     fn fold_prop(&mut self, p: Prop) -> Prop {
         let p = p.fold_children_with(self);
 
@@ -172,120 +257,23 @@ impl Fold for Regenerator {
 
         p
     }
-}
 
-impl Fold for Regenerator {
-    fn fold_expr(&mut self, e: Expr) -> Expr {
-        if !Finder::find(&e) {
-            return e;
+    /// Injects `var _regeneratorRuntime = require('regenerator-runtime');`
+    fn fold_script(&mut self, s: Script) -> Script {
+        let mut s: Script = s.fold_children_with(self);
+        if let Some(rt_ident) = self.regenerator_runtime.take() {
+            prepend(&mut s.body, rt(self.global_mark, rt_ident).into());
         }
-
-        let e: Expr = e.fold_children_with(self);
-
-        match e {
-            Expr::Fn(FnExpr {
-                ident, function, ..
-            }) if function.is_generator => {
-                let marked = ident.clone().unwrap_or_else(|| private_ident!("_callee"));
-                let (ident, function) = self.fold_fn(
-                    Some(ident.unwrap_or_else(|| marked.clone())),
-                    marked,
-                    function,
-                );
-                return Expr::Call(CallExpr {
-                    span: DUMMY_SP,
-                    callee: self
-                        .regenerator_runtime
-                        .clone()
-                        .unwrap()
-                        .member(quote_ident!("mark"))
-                        .as_callee(),
-                    args: vec![FnExpr { ident, function }.as_arg()],
-                    type_args: None,
-                });
-            }
-
-            _ => {}
-        }
-
-        e
+        s
     }
-}
 
-impl Fold for Regenerator {
-    fn fold_fn_decl(&mut self, f: FnDecl) -> FnDecl {
-        if !Finder::find(&f) {
-            return f;
-        }
-
-        if self.regenerator_runtime.is_none() {
-            self.regenerator_runtime = Some(private_ident!("regeneratorRuntime"));
-        }
-
-        let f = f.fold_children_with(self);
-
-        let marked = private_ident!("_marked");
-
-        self.top_level_vars.push(VarDeclarator {
-            span: DUMMY_SP,
-            name: Pat::Ident(marked.clone()),
-            init: Some(box Expr::Call(CallExpr {
-                span: DUMMY_SP,
-                callee: self
-                    .regenerator_runtime
-                    .clone()
-                    .unwrap()
-                    .member(quote_ident!("mark"))
-                    .as_callee(),
-                args: vec![f.ident.clone().as_arg()],
-                type_args: None,
-            })),
-            definite: false,
-        });
-
-        let (i, function) = self.fold_fn(Some(f.ident), marked, f.function);
-
-        FnDecl {
-            ident: i.unwrap(),
-            function,
-            ..f
-        }
+    /// Injects `var _regeneratorRuntime = require('regenerator-runtime');`
+    fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
+        self.fold_stmt_like(n)
     }
-}
 
-impl Fold for Regenerator {
-    fn fold_module_decl(&mut self, i: ModuleDecl) -> ModuleDecl {
-        if !Finder::find(&i) {
-            return i;
-        }
-
-        let i = i.fold_children_with(self);
-
-        match i {
-            ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
-                span,
-                decl:
-                    DefaultDecl::Fn(FnExpr {
-                        ident, function, ..
-                    }),
-            }) => {
-                let marked = ident.clone().unwrap_or_else(|| private_ident!("_callee"));
-                let (ident, function) = self.fold_fn(
-                    Some(ident.unwrap_or_else(|| marked.clone())),
-                    marked,
-                    function,
-                );
-
-                return ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
-                    span,
-                    expr: box FnExpr { ident, function }.into(),
-                });
-            }
-
-            _ => {}
-        }
-
-        i
+    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
+        self.fold_stmt_like(n)
     }
 }
 
