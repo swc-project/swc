@@ -156,7 +156,8 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
     methods.sort_by_cached_key(|v| v.sig.ident.to_string());
 
     for ty in &types {
-        let name = method_name(mode, &ty);
+        let sig = create_method_sig(mode, ty);
+        let name = sig.ident.clone();
         let s = name.to_string();
         if methods.iter().any(|m| m.sig.ident == &*s) {
             continue;
@@ -422,9 +423,20 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             names.insert(s);
 
             let expr = visit_expr(mode, ty, &q!({ v }).parse(), q!({ self }).parse());
-            let default_body = create_method_body(mode, ty);
+
             match mode {
                 Mode::Visitor => {
+                    let default_body = adjust_expr(mode, ty, q!({ self }).parse(), |expr| {
+                        q!(
+                            Vars {
+                                expr,
+                                method_name: &method_name
+                            },
+                            { method_name(_visitor, expr, _parent) }
+                        )
+                        .parse()
+                    });
+
                     tokens.push_tokens(&q!(
                         Vars {
                             method_name,
@@ -439,8 +451,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                                 }
 
                                 fn visit_children_with(&self, _visitor: &mut V) {
-                                    let n = self;
-                                    let _parent = n as &dyn Node;
+                                    let _parent = self as &dyn Node;
                                     default_body
                                 }
                             }

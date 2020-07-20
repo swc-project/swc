@@ -441,6 +441,9 @@ impl AssignFolder {
 }
 
 impl Fold for Destructuring {
+    impl_for_for_stmt!(fold_for_in_stmt, ForInStmt);
+    impl_for_for_stmt!(fold_for_of_stmt, ForOfStmt);
+
     impl_fold_fn!();
 
     fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
@@ -509,9 +512,6 @@ struct AssignFolder {
 }
 
 impl Fold for AssignFolder {
-    impl_for_for_stmt!(fold_for_in_stmt, ForInStmt);
-    impl_for_for_stmt!(fold_for_of_stmt, ForOfStmt);
-
     fn fold_export_decl(&mut self, decl: ExportDecl) -> ExportDecl {
         let old = self.exporting;
         self.exporting = true;
