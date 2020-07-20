@@ -2386,7 +2386,7 @@ mod tests {
     };
     use swc_common::DUMMY_SP;
     use swc_ecma_ast::*;
-    use testing::assert_eq_ignore_span;
+    use swc_ecma_visit::assert_eq_ignore_span;
 
     #[test]
     fn issue_708_1() {

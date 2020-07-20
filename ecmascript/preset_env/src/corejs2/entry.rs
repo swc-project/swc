@@ -2,8 +2,9 @@ use super::builtin::BUILTINS;
 use crate::{version::should_enable, Versions};
 use fxhash::FxHashSet;
 use swc_atoms::js_word;
-use swc_common::{util::move_map::MoveMap, Fold, FoldWith, DUMMY_SP};
+use swc_common::{util::move_map::MoveMap, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, FoldWith};
 
 #[derive(Debug)]
 pub struct Entry {
@@ -62,8 +63,8 @@ impl Entry {
     }
 }
 
-impl Fold<Vec<ModuleItem>> for Entry {
-    fn fold(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
+impl Fold for Entry {
+    fn fold_module_items(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
         items.move_flat_map(|item| {
             let item: ModuleItem = item.fold_with(self);
 
@@ -106,10 +107,8 @@ impl Fold<Vec<ModuleItem>> for Entry {
             Some(item)
         })
     }
-}
 
-impl Fold<ImportDecl> for Entry {
-    fn fold(&mut self, i: ImportDecl) -> ImportDecl {
+    fn fold_import_decl(&mut self, i: ImportDecl) -> ImportDecl {
         let i: ImportDecl = i.fold_children_with(self);
 
         let remove = i.specifiers.is_empty() && self.add_all(&i.src.value);

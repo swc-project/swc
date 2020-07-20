@@ -1,6 +1,5 @@
 #![feature(box_syntax)]
 #![feature(box_patterns)]
-#![feature(specialization)]
 #![feature(test)]
 
 extern crate test;
@@ -11,9 +10,10 @@ use std::{
     io::{self, Read},
     path::Path,
 };
-use swc_common::{Fold, FoldWith, Span};
+use swc_common::Span;
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, PResult, Parser, Session, SourceFileInput, Syntax};
+use swc_ecma_visit::{Fold, FoldWith};
 use test::{
     test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,
 };
@@ -349,29 +349,27 @@ fn error() {
 
 pub fn normalize<T>(t: T) -> T
 where
-    Normalizer: Fold<T>,
+    T: FoldWith<Normalizer>,
 {
     let mut n = Normalizer;
-    n.fold(t)
+    t.fold_with(&mut n)
 }
 
 pub struct Normalizer;
-impl Fold<Span> for Normalizer {
-    fn fold(&mut self, _: Span) -> Span {
+impl Fold for Normalizer {
+    fn fold_span(&mut self, _: Span) -> Span {
         Span::default()
     }
-}
-impl Fold<Str> for Normalizer {
-    fn fold(&mut self, s: Str) -> Str {
+
+    fn fold_str(&mut self, s: Str) -> Str {
         Str {
             span: Default::default(),
             has_escape: false,
             ..s
         }
     }
-}
-impl Fold<Expr> for Normalizer {
-    fn fold(&mut self, e: Expr) -> Expr {
+
+    fn fold_expr(&mut self, e: Expr) -> Expr {
         let e = e.fold_children_with(self);
 
         match e {
@@ -401,10 +399,8 @@ impl Fold<Expr> for Normalizer {
             _ => e,
         }
     }
-}
 
-impl Fold<PropName> for Normalizer {
-    fn fold(&mut self, n: PropName) -> PropName {
+    fn fold_prop_name(&mut self, n: PropName) -> PropName {
         let n = n.fold_children_with(self);
 
         match n {
@@ -421,10 +417,8 @@ impl Fold<PropName> for Normalizer {
             _ => n,
         }
     }
-}
 
-impl Fold<Pat> for Normalizer {
-    fn fold(&mut self, mut node: Pat) -> Pat {
+    fn fold_pat(&mut self, mut node: Pat) -> Pat {
         node = node.fold_children_with(self);
 
         match node {
@@ -432,10 +426,8 @@ impl Fold<Pat> for Normalizer {
             _ => node,
         }
     }
-}
 
-impl Fold<PatOrExpr> for Normalizer {
-    fn fold(&mut self, node: PatOrExpr) -> PatOrExpr {
+    fn fold_pat_or_expr(&mut self, node: PatOrExpr) -> PatOrExpr {
         let node = node.fold_children_with(self);
 
         match node {
@@ -444,10 +436,8 @@ impl Fold<PatOrExpr> for Normalizer {
             _ => node,
         }
     }
-}
 
-impl Fold<Vec<ClassMember>> for Normalizer {
-    fn fold(&mut self, mut node: Vec<ClassMember>) -> Vec<ClassMember> {
+    fn fold_class_members(&mut self, mut node: Vec<ClassMember>) -> Vec<ClassMember> {
         node = node.fold_children_with(self);
 
         node.retain(|v| match v {

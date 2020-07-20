@@ -1,6 +1,5 @@
 #![feature(box_syntax)]
 #![feature(box_patterns)]
-#![feature(specialization)]
 #![recursion_limit = "2048"]
 
 extern crate neon;

@@ -95,14 +95,19 @@ macro_rules! member_expr {
 
 #[cfg(test)]
 mod tests {
+    use crate::DropSpan;
     use swc_common::DUMMY_SP as span;
     use swc_ecma_ast::*;
+    use swc_ecma_visit::FoldWith;
+
     #[test]
     fn quote_member_expr() {
         let expr: Box<Expr> = member_expr!(span, Function.prototype.bind);
 
-        testing::assert_eq_ignore_span!(
-            expr,
+        assert_eq!(
+            expr.fold_with(&mut DropSpan {
+                preserve_ctxt: false
+            }),
             box Expr::Member(MemberExpr {
                 span,
                 obj: ExprOrSuper::Expr(box Expr::Member(MemberExpr {

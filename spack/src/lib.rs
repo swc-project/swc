@@ -1,6 +1,5 @@
 #![feature(box_syntax)]
 #![feature(box_patterns)]
-#![feature(specialization)]
 #![feature(try_blocks)]
 #![feature(vec_remove_item)]
 #![cfg_attr(test, feature(test))]

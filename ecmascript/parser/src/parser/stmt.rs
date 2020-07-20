@@ -2,8 +2,6 @@ use super::{pat::PatType, *};
 use crate::{error::SyntaxError, make_span};
 use swc_atoms::js_word;
 use swc_common::Spanned;
-#[cfg(test)]
-use testing::assert_eq_ignore_span;
 
 mod module_item;
 
@@ -1153,6 +1151,7 @@ mod tests {
     use super::*;
     use crate::{EsConfig, TsConfig};
     use swc_common::DUMMY_SP as span;
+    use swc_ecma_visit::assert_eq_ignore_span;
 
     fn stmt(s: &'static str) -> Stmt {
         test_parser(s, Syntax::default(), |p| {

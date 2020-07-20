@@ -7,6 +7,12 @@ pub struct Optional<V> {
     pub visitor: V,
 }
 
+impl<V> Optional<V> {
+    pub fn new(visitor: V, enabled: bool) -> Self {
+        Self { enabled, visitor }
+    }
+}
+
 pub trait Repeated {
     /// Should run again?
     fn changed(&self) -> bool;

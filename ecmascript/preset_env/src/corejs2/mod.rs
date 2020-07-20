@@ -6,8 +6,9 @@ use self::{
 use crate::{util::DataMapExt, version::should_enable, Versions};
 use fxhash::FxHashSet;
 use swc_atoms::{js_word, JsWord};
-use swc_common::{Visit, VisitWith, DUMMY_SP};
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Node, Visit, VisitWith};
 
 mod builtin;
 mod data;
@@ -121,8 +122,8 @@ impl UsageVisitor {
 //    },
 
 /// Detects usage of types
-impl Visit<Ident> for UsageVisitor {
-    fn visit(&mut self, node: &Ident) {
+impl Visit for UsageVisitor {
+    fn visit_ident(&mut self, node: &Ident, _: &dyn Node) {
         node.visit_children_with(self);
 
         for (name, builtin) in BUILTIN_TYPES {
@@ -131,10 +132,8 @@ impl Visit<Ident> for UsageVisitor {
             }
         }
     }
-}
 
-impl Visit<VarDeclarator> for UsageVisitor {
-    fn visit(&mut self, d: &VarDeclarator) {
+    fn visit_var_declarator(&mut self, d: &VarDeclarator, _: &dyn Node) {
         d.visit_children_with(self);
 
         if let Some(ref init) = d.init {
@@ -154,10 +153,8 @@ impl Visit<VarDeclarator> for UsageVisitor {
             }
         }
     }
-}
 
-impl Visit<AssignExpr> for UsageVisitor {
-    fn visit(&mut self, e: &AssignExpr) {
+    fn visit_assign_expr(&mut self, e: &AssignExpr, _: &dyn Node) {
         e.visit_children_with(self);
 
         match e.left {
@@ -168,16 +165,14 @@ impl Visit<AssignExpr> for UsageVisitor {
             _ => {}
         }
     }
-}
 
-/// Detects usage of instance properties and static properties.
-///
-///  - `Array.from`
-impl Visit<MemberExpr> for UsageVisitor {
-    fn visit(&mut self, node: &MemberExpr) {
-        node.obj.visit_with(self);
+    /// Detects usage of instance properties and static properties.
+    ///
+    ///  - `Array.from`
+    fn visit_member_expr(&mut self, node: &MemberExpr, _: &dyn Node) {
+        node.obj.visit_with(node as _, self);
         if node.computed {
-            node.prop.visit_with(self);
+            node.prop.visit_with(node as _, self);
         }
         //enter(path: NodePath) {
         //    const { node } = path;
@@ -290,12 +285,10 @@ impl Visit<MemberExpr> for UsageVisitor {
             _ => {}
         }
     }
-}
 
-///
-/// - `arr[Symbol.iterator]()`
-impl Visit<CallExpr> for UsageVisitor {
-    fn visit(&mut self, e: &CallExpr) {
+    ///
+    /// - `arr[Symbol.iterator]()`
+    fn visit_call_expr(&mut self, e: &CallExpr, _: &dyn Node) {
         e.visit_children_with(self);
 
         if match e.callee {
@@ -309,12 +302,11 @@ impl Visit<CallExpr> for UsageVisitor {
             self.add(&["web.dom.iterable"])
         }
     }
-}
 
-///
-/// - `Symbol.iterator in arr`
-impl Visit<BinExpr> for UsageVisitor {
-    fn visit(&mut self, e: &BinExpr) {
+    ///
+    /// - `Symbol.iterator in arr`
+
+    fn visit_bin_expr(&mut self, e: &BinExpr, _: &dyn Node) {
         e.visit_children_with(self);
 
         match e.op {
@@ -322,12 +314,10 @@ impl Visit<BinExpr> for UsageVisitor {
             _ => {}
         }
     }
-}
 
-///
-/// - `yield*`
-impl Visit<YieldExpr> for UsageVisitor {
-    fn visit(&mut self, e: &YieldExpr) {
+    ///
+    /// - `yield*`
+    fn visit_yield_expr(&mut self, e: &YieldExpr, _: &dyn Node) {
         e.visit_children_with(self);
         println!("Yield");
 

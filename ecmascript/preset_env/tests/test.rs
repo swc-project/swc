@@ -16,11 +16,12 @@ use std::{
     io::Read,
     path::{Path, PathBuf},
 };
-use swc_common::{fold::FoldWith, input::SourceFileInput, FromVariant, Mark};
+use swc_common::{input::SourceFileInput, FromVariant, Mark};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{EsConfig, Parser, Session, Syntax};
 use swc_ecma_preset_env::{preset_env, Config, FeatureOrModule, Mode, Targets, Version};
+use swc_ecma_visit::FoldWith;
 use test::{test_main, ShouldPanic, TestDesc, TestDescAndFn, TestFn, TestName, TestType};
 use testing::Tester;
 use walkdir::WalkDir;

@@ -1,5 +1,4 @@
 #![feature(box_syntax)]
-#![feature(specialization)]
 #![feature(test)]
 
 extern crate test;

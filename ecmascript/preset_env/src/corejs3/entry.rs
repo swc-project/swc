@@ -3,8 +3,9 @@ use crate::{version::should_enable, Version, Versions};
 use fxhash::{FxHashMap, FxHashSet};
 use once_cell::sync::Lazy;
 use swc_atoms::js_word;
-use swc_common::{Fold, FoldWith, DUMMY_SP};
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
+use swc_ecma_visit::{Fold, FoldWith};
 
 static ENTRIES: Lazy<FxHashMap<String, Vec<&'static str>>> = Lazy::new(|| {
     serde_json::from_str::<FxHashMap<String, Vec<String>>>(include_str!("entries.json"))
@@ -106,8 +107,8 @@ impl Entry {
     }
 }
 
-impl Fold<ImportDecl> for Entry {
-    fn fold(&mut self, i: ImportDecl) -> ImportDecl {
+impl Fold for Entry {
+    fn fold_import_decl(&mut self, i: ImportDecl) -> ImportDecl {
         let i: ImportDecl = i.fold_children_with(self);
 
         let remove = i.specifiers.is_empty() && self.add(&i.src.value);

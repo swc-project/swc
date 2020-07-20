@@ -22,10 +22,11 @@ use swc_ecmascript::{
     transforms::{
         const_modules, modules,
         optimization::{simplifier, InlineGlobals, JsonParse},
-        pass::{noop, Optional, Pass},
+        pass::{noop, Optional},
         proposals::{decorators, export},
         react, resolver_with_mark, typescript,
     },
+    visit,
 };
 
 #[cfg(test)]
@@ -166,7 +167,7 @@ impl Options {
         handler: &Handler,
         is_module: bool,
         config: Option<Config>,
-    ) -> BuiltConfig<impl Pass> {
+    ) -> BuiltConfig<impl visit::Fold> {
         let mut config = config.unwrap_or_else(Default::default);
         if let Some(ref c) = self.config {
             config.merge(c)
@@ -497,7 +498,7 @@ impl Config {
 }
 
 /// One `BuiltConfig` per a directory with swcrc
-pub struct BuiltConfig<P: Pass> {
+pub struct BuiltConfig<P: visit::Fold> {
     pub pass: P,
     pub syntax: Syntax,
     pub target: JscTarget,
@@ -546,7 +547,7 @@ impl ModuleConfig {
         cm: Arc<SourceMap>,
         root_mark: Mark,
         config: Option<ModuleConfig>,
-    ) -> Box<dyn Pass> {
+    ) -> Box<dyn visit::Fold> {
         match config {
             None | Some(ModuleConfig::Es6) => box noop(),
             Some(ModuleConfig::CommonJs(config)) => {

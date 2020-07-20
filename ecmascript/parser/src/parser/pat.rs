@@ -795,6 +795,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
 mod tests {
     use super::*;
     use swc_common::DUMMY_SP as span;
+    use swc_ecma_visit::assert_eq_ignore_span;
 
     fn array_pat(s: &'static str) -> Pat {
         test_parser(s, Syntax::default(), |p| {
@@ -810,7 +811,7 @@ mod tests {
 
     #[test]
     fn array_pat_simple() {
-        testing::assert_eq_ignore_span!(
+        assert_eq_ignore_span!(
             array_pat("[a, [b], [c]]"),
             Pat::Array(ArrayPat {
                 span,
@@ -837,7 +838,7 @@ mod tests {
 
     #[test]
     fn array_pat_empty_start() {
-        testing::assert_eq_ignore_span!(
+        assert_eq_ignore_span!(
             array_pat("[, a, [b], [c]]"),
             Pat::Array(ArrayPat {
                 span,
@@ -865,7 +866,7 @@ mod tests {
 
     #[test]
     fn array_pat_empty() {
-        testing::assert_eq_ignore_span!(
+        assert_eq_ignore_span!(
             array_pat("[a, , [b], [c]]"),
             Pat::Array(ArrayPat {
                 span,

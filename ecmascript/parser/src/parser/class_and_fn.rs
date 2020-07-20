@@ -1245,6 +1245,7 @@ struct MakeMethodArgs {
 mod tests {
     use super::*;
     use swc_common::DUMMY_SP as span;
+    use swc_ecma_visit::assert_eq_ignore_span;
 
     fn lhs(s: &'static str) -> Box<Expr> {
         test_parser(s, Syntax::default(), |p| {
@@ -1264,7 +1265,7 @@ mod tests {
 
     #[test]
     fn class_expr() {
-        testing::assert_eq_ignore_span!(
+        assert_eq_ignore_span!(
             expr("(class extends a {})"),
             Box::new(Expr::Paren(ParenExpr {
                 span,

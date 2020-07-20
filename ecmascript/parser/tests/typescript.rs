@@ -1,6 +1,5 @@
 #![feature(box_syntax)]
 #![feature(box_patterns)]
-#![feature(specialization)]
 #![feature(test)]
 
 extern crate test;
@@ -12,11 +11,11 @@ use std::{
     io::{self, Read},
     path::Path,
 };
-use swc_common::{Fold, FoldWith};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{
     lexer::Lexer, JscTarget, PResult, Parser, Session, SourceFileInput, Syntax, TsConfig,
 };
+use swc_ecma_visit::{Fold, FoldWith};
 use test::{
     test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,
 };
@@ -265,8 +264,16 @@ fn is_backtrace_enabled() -> bool {
 
 struct Normalizer;
 
-impl Fold<Pat> for Normalizer {
-    fn fold(&mut self, mut node: Pat) -> Pat {
+impl Fold for Normalizer {
+    /// We are not debugging serde_json
+    fn fold_number(&mut self, mut node: Number) -> Number {
+        node.value =
+            serde_json::from_str(&serde_json::to_string(&node.value).unwrap()).unwrap_or(f64::NAN);
+
+        node
+    }
+
+    fn fold_pat(&mut self, mut node: Pat) -> Pat {
         node = node.fold_children_with(self);
 
         match node {
@@ -274,10 +281,8 @@ impl Fold<Pat> for Normalizer {
             _ => node,
         }
     }
-}
 
-impl Fold<PatOrExpr> for Normalizer {
-    fn fold(&mut self, node: PatOrExpr) -> PatOrExpr {
+    fn fold_pat_or_expr(&mut self, node: PatOrExpr) -> PatOrExpr {
         let node = node.fold_children_with(self);
 
         match node {
@@ -286,10 +291,8 @@ impl Fold<PatOrExpr> for Normalizer {
             _ => node,
         }
     }
-}
 
-impl Fold<PropName> for Normalizer {
-    fn fold(&mut self, node: PropName) -> PropName {
+    fn fold_prop_name(&mut self, node: PropName) -> PropName {
         let node = node.fold_children_with(self);
 
         match node {
@@ -305,15 +308,5 @@ impl Fold<PropName> for Normalizer {
 
             _ => node,
         }
-    }
-}
-
-/// We are not debugging serde_json
-impl Fold<Number> for Normalizer {
-    fn fold(&mut self, mut node: Number) -> Number {
-        node.value =
-            serde_json::from_str(&serde_json::to_string(&node.value).unwrap()).unwrap_or(f64::NAN);
-
-        node
     }
 }

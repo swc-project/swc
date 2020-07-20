@@ -1,6 +1,5 @@
 #![feature(box_syntax)]
 #![feature(box_patterns)]
-#![feature(specialization)]
 #![feature(test)]
 
 extern crate test;
@@ -14,9 +13,10 @@ use std::{
     path::Path,
     sync::Arc,
 };
-use swc_common::{errors::Handler, Fold, FoldWith, SourceMap};
+use swc_common::{errors::Handler, SourceMap};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, PResult, Parser, Session, SourceFileInput};
+use swc_ecma_visit::{Fold, FoldWith};
 use test::{
     test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,
 };
@@ -234,8 +234,8 @@ fn error() {
 
 struct Normalizer;
 
-impl Fold<Pat> for Normalizer {
-    fn fold(&mut self, mut node: Pat) -> Pat {
+impl Fold for Normalizer {
+    fn fold_pat(&mut self, mut node: Pat) -> Pat {
         node = node.fold_children_with(self);
 
         match node {
@@ -243,10 +243,8 @@ impl Fold<Pat> for Normalizer {
             _ => node,
         }
     }
-}
 
-impl Fold<PatOrExpr> for Normalizer {
-    fn fold(&mut self, node: PatOrExpr) -> PatOrExpr {
+    fn fold_pat_or_expr(&mut self, node: PatOrExpr) -> PatOrExpr {
         let node = node.fold_children_with(self);
 
         match node {

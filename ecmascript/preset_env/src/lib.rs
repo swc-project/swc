@@ -1,6 +1,5 @@
 #![feature(box_syntax)]
 #![feature(box_patterns)]
-#![feature(specialization)]
 #![feature(trace_macros)]
 #![recursion_limit = "256"]
 
@@ -15,13 +14,14 @@ use std::{
     process::Command,
 };
 use swc_atoms::{js_word, JsWord};
-use swc_common::{chain, Fold, FoldWith, FromVariant, Mark, VisitWith, DUMMY_SP};
+use swc_common::{chain, FromVariant, Mark, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms::{
     compat::{es2015, es2016, es2017, es2018, es2020, es3},
-    pass::{noop, Optional, Pass},
+    pass::{noop, Optional},
     util::prepend_stmts,
 };
+use swc_ecma_visit::{Fold, FoldWith, VisitWith};
 
 #[macro_use]
 mod util;
@@ -31,7 +31,7 @@ mod regenerator;
 mod transform_data;
 mod version;
 
-pub fn preset_env(global_mark: Mark, c: Config) -> impl Pass {
+pub fn preset_env(global_mark: Mark, c: Config) -> impl Fold {
     let loose = c.loose;
     let targets: Versions = c.targets.try_into().expect("failed to parse targets");
     let is_any_target = targets.is_any_target();
@@ -216,8 +216,8 @@ struct Polyfills {
     excludes: FxHashSet<String>,
 }
 
-impl Fold<Module> for Polyfills {
-    fn fold(&mut self, mut m: Module) -> Module {
+impl Fold for Polyfills {
+    fn fold_module(&mut self, mut m: Module) -> Module {
         let span = m.span;
 
         let required = match self.mode {
@@ -226,14 +226,14 @@ impl Fold<Module> for Polyfills {
                 let mut r = match self.corejs {
                     Version { major: 2, .. } => {
                         let mut v = corejs2::UsageVisitor::new(self.targets);
-                        m.visit_with(&mut v);
+                        m.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
 
                         v.required
                     }
                     Version { major: 3, .. } => {
                         let mut v =
                             corejs3::UsageVisitor::new(self.targets, self.shipped_proposals);
-                        m.visit_with(&mut v);
+                        m.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
                         v.required
                     }
 
@@ -332,10 +332,8 @@ impl Fold<Module> for Polyfills {
 
         m
     }
-}
 
-impl Fold<Script> for Polyfills {
-    fn fold(&mut self, _: Script) -> Script {
+    fn fold_script(&mut self, _: Script) -> Script {
         unimplemented!("automatic polyfill for scripts")
     }
 }

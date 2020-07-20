@@ -14,8 +14,9 @@ use anyhow::{bail, Context, Error};
 use common::{
     comments::{Comment, Comments},
     errors::Handler,
-    BytePos, FileName, FoldWith, Globals, SourceFile, SourceMap, Spanned, GLOBALS,
+    BytePos, FileName, Globals, SourceFile, SourceMap, Spanned, GLOBALS,
 };
+pub use ecmascript::parser::SourceFileInput;
 use ecmascript::{
     ast::Program,
     codegen::{self, Emitter, Node},
@@ -26,10 +27,6 @@ use ecmascript::{
         util::COMMENTS,
     },
 };
-pub use ecmascript::{
-    parser::SourceFileInput,
-    transforms::{chain_at, pass::Pass},
-};
 use serde::Serialize;
 use serde_json::error::Category;
 use std::{
@@ -37,6 +34,7 @@ use std::{
     path::{Path, PathBuf},
     sync::Arc,
 };
+use swc_ecmascript::{visit, visit::FoldWith};
 
 mod builder;
 pub mod config;
@@ -355,7 +353,7 @@ impl Compiler {
         &self,
         opts: &Options,
         name: &FileName,
-    ) -> Result<BuiltConfig<impl Pass>, Error> {
+    ) -> Result<BuiltConfig<impl ecmascript::visit::Fold>, Error> {
         self.run(|| -> Result<_, Error> {
             let config = self.read_config(opts, name)?;
             let built = opts.build(&self.cm, &self.handler, opts.is_module, Some(config));
@@ -379,7 +377,7 @@ impl Compiler {
         &self,
         program: Program,
         external_helpers: bool,
-        mut pass: impl Pass,
+        mut pass: impl visit::Fold,
     ) -> Program {
         self.run_transform(external_helpers, || {
             // Fold module
@@ -428,7 +426,7 @@ impl Compiler {
         &self,
         program: Program,
         orig: Option<&sourcemap::SourceMap>,
-        config: BuiltConfig<impl Pass>,
+        config: BuiltConfig<impl visit::Fold>,
     ) -> Result<TransformOutput, Error> {
         self.run(|| {
             if config.minify {

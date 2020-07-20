@@ -4,8 +4,8 @@ use super::*;
 use crate::EsConfig;
 use std::hint::black_box;
 use swc_common::DUMMY_SP as span;
+use swc_ecma_visit::assert_eq_ignore_span;
 use test::Bencher;
-use testing::assert_eq_ignore_span;
 
 fn syntax() -> Syntax {
     Syntax::Es(EsConfig {
