@@ -1,9 +1,10 @@
-use swc_common::{Fold, Span, SyntaxContext};
+use swc_common::{Span, SyntaxContext};
+use swc_ecma_visit::Fold;
 
 pub struct HygieneRemover;
 
-impl Fold<Span> for HygieneRemover {
-    fn fold(&mut self, s: Span) -> Span {
+impl Fold for HygieneRemover {
+    fn fold_span(&mut self, s: Span) -> Span {
         s.with_ctxt(SyntaxContext::empty())
     }
 }

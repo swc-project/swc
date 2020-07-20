@@ -8,10 +8,11 @@ use std::{
     sync::Arc,
 };
 use swc_atoms::{js_word, JsWord};
-use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Mark, DUMMY_SP};
+use swc_common::{util::move_map::MoveMap, Mark, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms::noop_fold_type;
 use swc_ecma_utils::{find_ids, ident::IdentLike, Id};
+use swc_ecma_visit::{Fold, FoldWith};
 
 #[cfg(test)]
 mod tests;
@@ -111,8 +112,8 @@ impl ImportHandler<'_, '_> {
     }
 }
 
-impl Fold<ImportDecl> for ImportHandler<'_, '_> {
-    fn fold(&mut self, import: ImportDecl) -> ImportDecl {
+impl Fold for ImportHandler<'_, '_> {
+    fn fold_import_decl(&mut self, import: ImportDecl) -> ImportDecl {
         if !self.deglob_phase {
             if is_core_module(&import.src.value) {
                 return import;
@@ -169,10 +170,8 @@ impl Fold<ImportDecl> for ImportHandler<'_, '_> {
 
         import
     }
-}
 
-impl Fold<Vec<ModuleItem>> for ImportHandler<'_, '_> {
-    fn fold(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
+    fn fold_module_items(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
         self.top_level = true;
         let items = items.move_flat_map(|item| {
             //
@@ -223,17 +222,13 @@ impl Fold<Vec<ModuleItem>> for ImportHandler<'_, '_> {
 
         items
     }
-}
 
-impl Fold<Vec<Stmt>> for ImportHandler<'_, '_> {
-    fn fold(&mut self, items: Vec<Stmt>) -> Vec<Stmt> {
+    fn fold_stmts(&mut self, items: Vec<Stmt>) -> Vec<Stmt> {
         self.top_level = false;
         items.fold_children(self)
     }
-}
 
-impl Fold<Expr> for ImportHandler<'_, '_> {
-    fn fold(&mut self, e: Expr) -> Expr {
+    fn fold_expr(&mut self, e: Expr) -> Expr {
         match e {
             Expr::Member(mut e) => {
                 e.obj = e.obj.fold_with(self);
@@ -372,19 +367,17 @@ impl Fold<Expr> for ImportHandler<'_, '_> {
 
         e
     }
-}
 
-/// ```js
-/// const { readFile } = required('fs');
-/// ```
-///
-/// is treated as
-///
-///  ```js
-/// import { readFile } from 'fs';
-/// ```
-impl Fold<VarDeclarator> for ImportHandler<'_, '_> {
-    fn fold(&mut self, node: VarDeclarator) -> VarDeclarator {
+    /// ```js
+    /// const { readFile } = required('fs');
+    /// ```
+    ///
+    /// is treated as
+    ///
+    ///  ```js
+    /// import { readFile } from 'fs';
+    /// ```
+    fn fold_var_declarator(&mut self, node: VarDeclarator) -> VarDeclarator {
         match node.init {
             Some(box Expr::Call(CallExpr {
                 span,

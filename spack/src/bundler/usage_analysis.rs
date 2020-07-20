@@ -1,7 +1,6 @@
 use crate::{bundler::load_transformed::Specifier, Bundler};
 use std::{borrow::Cow, sync::Arc};
-
-use swc_common::{FoldWith, SourceFile};
+use swc_common::SourceFile;
 use swc_ecma_ast::*;
 use swc_ecma_transforms::optimization::simplify::dce;
 use swc_ecma_utils::ident::IdentLike;

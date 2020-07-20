@@ -1,6 +1,6 @@
 use once_cell::sync::Lazy;
 use std::sync::atomic::{AtomicBool, Ordering::SeqCst};
-use swc_common::{FileName, FoldWith};
+use swc_common::FileName;
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, Parser, SourceFileInput};
 use swc_ecma_utils::{
@@ -37,7 +37,9 @@ macro_rules! define {
                     );
                     let stmts = Parser::new_from(*SESSION, lexer)
                         .parse_module()
-                        .map(|script| script.body.fold_with(&mut DropSpan))
+                        .map(|script| script.body.fold_with(&mut DropSpan {
+                            preserve_ctxt:false,
+                        }))
                         .map_err(|mut e| {
                             e.emit();
                             ()

@@ -18,6 +18,7 @@ swc_ecma_codegen = { path = "../ecmascript/codegen" }
 swc_ecma_parser = { path = "../ecmascript/parser" }
 swc_ecma_transforms = { path = "../ecmascript/transforms" }
 swc_ecma_utils = { path = "../ecmascript/utils" }
+swc_ecma_visit = { path = "../ecmascript/visit" }
 swc = { path = "../" }
 string_enum = { version = "0.3", path ="../macros/string_enum" }
 regex = "1"

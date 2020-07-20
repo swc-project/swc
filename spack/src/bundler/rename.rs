@@ -8,10 +8,11 @@ use std::{
     path::{Path, PathBuf},
 };
 use swc::config::Options;
-use swc_common::{util::move_map::MoveMap, FileName, Fold, FoldWith, Span};
+use swc_common::{util::move_map::MoveMap, FileName, Span};
 use swc_ecma_ast::{ImportDecl, Module, Str};
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
 use swc_ecma_transforms::noop_fold_type;
+use swc_ecma_visit::Fold;
 
 impl Bundler<'_> {
     pub(super) fn finalize(&self, bundles: Vec<Bundle>) -> Result<Vec<Bundle>, Error> {
@@ -147,8 +148,8 @@ struct Renamer<'a, 'b> {
 
 noop_fold_type!(Renamer<'_, '_>);
 
-impl Fold<ImportDecl> for Renamer<'_, '_> {
-    fn fold(&mut self, import: ImportDecl) -> ImportDecl {
+impl Fold for Renamer<'_, '_> {
+    fn fold_import_decl(&mut self, import: ImportDecl) -> ImportDecl {
         let resolved = match self.bundler.resolve(self.path, &import.src.value) {
             Ok(v) => v,
             Err(_) => return import,

@@ -16,11 +16,12 @@ use std::{
     sync::Arc,
 };
 use swc_atoms::js_word;
-use swc_common::{fold::FoldWith, FileName, Mark, SourceFile, Visit, VisitWith};
+use swc_common::{FileName, Mark, SourceFile};
 use swc_ecma_ast::{
     Expr, ExprOrSuper, ImportDecl, ImportSpecifier, MemberExpr, Module, ModuleDecl, Program, Str,
 };
 use swc_ecma_transforms::resolver::resolver_with_mark;
+use swc_ecma_visit::{Node, Visit, VisitWith};
 
 #[cfg(test)]
 mod tests;
@@ -404,8 +405,8 @@ struct Es6ModuleDetector {
     found_other: bool,
 }
 
-impl Visit<MemberExpr> for Es6ModuleDetector {
-    fn visit(&mut self, e: &MemberExpr) {
+impl Visit for Es6ModuleDetector {
+    fn visit_member_expr(&mut self, e: &MemberExpr, _: &dyn Node) {
         e.obj.visit_with(self);
 
         if e.computed {
@@ -428,10 +429,8 @@ impl Visit<MemberExpr> for Es6ModuleDetector {
 
         //
     }
-}
 
-impl Visit<ModuleDecl> for Es6ModuleDetector {
-    fn visit(&mut self, decl: &ModuleDecl) {
+    fn visit_module_decl(&mut self, decl: &ModuleDecl, _: &dyn Node) {
         match decl {
             ModuleDecl::Import(_)
             | ModuleDecl::ExportDecl(_)
