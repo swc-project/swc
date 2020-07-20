@@ -1,3 +1,4 @@
+pub use either::Either;
 pub use swc_visit_macros::define;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]

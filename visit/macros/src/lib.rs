@@ -35,6 +35,13 @@ impl Mode {
     }
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum MethodMode {
+    Normal,
+    Optional,
+    Either,
+}
+
 /// This creates `Visit`. This is extensible visitor generator, and it
 ///
 ///  - works with stable rustc
@@ -61,6 +68,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
     let mut types = vec![];
     let mut methods = vec![];
     let mut optional_methods = vec![];
+    let mut either_methods = vec![];
 
     for stmts in stmts {
         let item = match stmts {
@@ -68,7 +76,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             _ => unimplemented!("error reporting for something other than Item"),
         };
 
-        let mtd = make_method(mode, item, &mut types, false);
+        let mtd = make_method(mode, item, &mut types, MethodMode::Normal);
         let mtd = match mtd {
             Some(v) => v,
             None => continue,
@@ -76,15 +84,33 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
         methods.push(mtd);
 
-        let mtd = make_method(mode, item, &mut types, true).unwrap();
+        {
+            // Optional
 
-        optional_methods.push(ImplItemMethod {
-            attrs: vec![],
-            vis: Visibility::Inherited,
-            defaultness: None,
-            sig: Signature { ..mtd.sig },
-            block: mtd.default.unwrap(),
-        });
+            let mtd = make_method(mode, item, &mut types, MethodMode::Optional).unwrap();
+
+            optional_methods.push(ImplItemMethod {
+                attrs: vec![],
+                vis: Visibility::Inherited,
+                defaultness: None,
+                sig: Signature { ..mtd.sig },
+                block: mtd.default.unwrap(),
+            });
+        }
+
+        {
+            // Either
+
+            let mtd = make_method(mode, item, &mut types, MethodMode::Either).unwrap();
+
+            either_methods.push(ImplItemMethod {
+                attrs: vec![],
+                vis: Visibility::Inherited,
+                defaultness: None,
+                sig: Signature { ..mtd.sig },
+                block: mtd.default.unwrap(),
+            });
+        }
     }
 
     let mut tokens = q!({});
@@ -209,8 +235,8 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
         items: methods.into_iter().map(TraitItem::Method).collect(),
     });
 
-    if !optional_methods.is_empty() {
-        //
+    {
+        // impl Trait for Optional
         let mut item = q!(
             Vars {
                 Trait: Ident::new(mode.trait_name(), call_site()),
@@ -223,6 +249,29 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
         item.items
             .extend(optional_methods.into_iter().map(ImplItem::Method));
+
+        tokens.push_tokens(&item);
+    }
+
+    {
+        // impl Trait for Either
+        let mut item = q!(
+            Vars {
+                Trait: Ident::new(mode.trait_name(), call_site()),
+            },
+            {
+                impl<A, B> Trait for ::swc_visit::Either<A, B>
+                where
+                    A: Trait,
+                    B: Trait,
+                {
+                }
+            }
+        )
+        .parse::<ItemImpl>();
+
+        item.items
+            .extend(either_methods.into_iter().map(ImplItem::Method));
 
         tokens.push_tokens(&item);
     }
@@ -582,11 +631,12 @@ fn method_sig_from_ident(mode: Mode, v: &Ident) -> Signature {
     )
 }
 
+/// Returns None if it's skipped.
 fn make_method(
     mode: Mode,
     e: &Item,
     types: &mut Vec<Type>,
-    is_for_optional: bool,
+    method_mode: MethodMode,
 ) -> Option<TraitItemMethod> {
     fn wrap_optional(mode: Mode, ty: &Ident) -> Block {
         let ty = Type::Path(TypePath {
@@ -619,10 +669,41 @@ fn make_method(
         }
     }
 
+    fn wrap_either(mode: Mode, ty: &Ident) -> Block {
+        let ty = Type::Path(TypePath {
+            qself: None,
+            path: Path::from(ty.clone()),
+        });
+        let ident = method_name(mode, &ty);
+
+        match mode {
+            Mode::Visitor => q!(
+                Vars { visit: &ident },
+                ({
+                    match self {
+                        swc_visit::Either::Left(v) => v.visit(n, _parent),
+                        swc_visit::Either::Right(v) => v.visit(n, _parent),
+                    }
+                })
+            )
+            .parse(),
+            Mode::Folder => q!(
+                Vars { fold: &ident },
+                ({
+                    match self {
+                        swc_visit::Either::Left(v) => v.fold(n),
+                        swc_visit::Either::Right(v) => v.fold(n),
+                    }
+                })
+            )
+            .parse(),
+        }
+    }
+
     Some(match e {
         Item::Struct(s) => {
             let type_name = &s.ident;
-            if !is_for_optional {
+            if method_mode == MethodMode::Normal {
                 types.push(Type::Path(TypePath {
                     qself: None,
                     path: type_name.clone().into(),
@@ -648,8 +729,10 @@ fn make_method(
                 }
             };
 
-            if is_for_optional {
+            if method_mode == MethodMode::Optional {
                 block = wrap_optional(mode, &s.ident);
+            } else if method_mode == MethodMode::Either {
+                block = wrap_either(mode, &s.ident);
             }
 
             let sig = method_sig_from_ident(mode, type_name);
@@ -665,7 +748,7 @@ fn make_method(
             //
             let type_name = &e.ident;
 
-            if !is_for_optional {
+            if method_mode == MethodMode::Normal {
                 types.push(
                     TypePath {
                         qself: None,
@@ -715,8 +798,10 @@ fn make_method(
                 }
             };
 
-            if is_for_optional {
+            if method_mode == MethodMode::Optional {
                 block = wrap_optional(mode, &e.ident);
+            } else if method_mode == MethodMode::Either {
+                block = wrap_either(mode, &e.ident);
             }
 
             TraitItemMethod {
