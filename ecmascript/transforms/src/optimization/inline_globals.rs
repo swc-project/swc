@@ -112,7 +112,9 @@ mod tests {
 
             let mut v = tester
                 .apply_transform(
-                    DropSpan,
+                    DropSpan {
+                        preserve_ctxt: false,
+                    },
                     "global.js",
                     ::swc_ecma_parser::Syntax::default(),
                     &v,

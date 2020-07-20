@@ -136,7 +136,9 @@ impl<'a> Tester<'a> {
 
         let module = validate!(module)
             .fold_with(&mut tr)
-            .fold_with(&mut DropSpan)
+            .fold_with(&mut DropSpan {
+                preserve_ctxt: true,
+            })
             .fold_with(&mut Normalizer);
 
         Ok(module)
@@ -195,7 +197,14 @@ where
     P: Fold,
 {
     Tester::run(|tester| {
-        let expected = tester.apply_transform(DropSpan, "output.js", syntax, expected)?;
+        let expected = tester.apply_transform(
+            DropSpan {
+                preserve_ctxt: true,
+            },
+            "output.js",
+            syntax,
+            expected,
+        )?;
 
         println!(">>>>> Orig <<<<<\n{}", input);
         println!("----- Actual -----");

@@ -1547,13 +1547,21 @@ pub fn drop_span<T>(t: T) -> T
 where
     T: FoldWith<DropSpan>,
 {
-    t.fold_with(&mut DropSpan)
+    t.fold_with(&mut DropSpan {
+        preserve_ctxt: false,
+    })
 }
 
-pub struct DropSpan;
+pub struct DropSpan {
+    pub preserve_ctxt: bool,
+}
 impl Fold for DropSpan {
-    fn fold_span(&mut self, _: Span) -> Span {
-        DUMMY_SP
+    fn fold_span(&mut self, span: Span) -> Span {
+        if self.preserve_ctxt {
+            DUMMY_SP.with_ctxt(span.ctxt())
+        } else {
+            DUMMY_SP
+        }
     }
 }
 

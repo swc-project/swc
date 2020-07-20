@@ -34,7 +34,11 @@ macro_rules! add_to {
             );
             let stmts = Parser::new_from(*SESSION, lexer)
                 .parse_script()
-                .map(|script| script.body.fold_with(&mut DropSpan))
+                .map(|script| {
+                    script.body.fold_with(&mut DropSpan {
+                        preserve_ctxt: false,
+                    })
+                })
                 .map_err(|mut e| {
                     e.emit();
                     ()
@@ -283,7 +287,9 @@ swcHelpers._throw()";
         crate::tests::Tester::run(|tester| {
             HELPERS.set(&Helpers::new(true), || {
                 let expected = tester.apply_transform(
-                    DropSpan,
+                    DropSpan {
+                        preserve_ctxt: false,
+                    },
                     "output.js",
                     Default::default(),
                     "import * as swcHelpers1 from '@swc/helpers';

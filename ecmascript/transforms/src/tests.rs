@@ -126,7 +126,9 @@ impl<'a> Tester<'a> {
 
         let module = validate!(module)
             .fold_with(&mut tr)
-            .fold_with(&mut DropSpan)
+            .fold_with(&mut DropSpan {
+                preserve_ctxt: true,
+            })
             .fold_with(&mut Normalizer);
 
         Ok(module)
@@ -190,8 +192,14 @@ pub(crate) fn test_transform<F, P>(
     P: Fold,
 {
     crate::tests::Tester::run(|tester| {
-        let expected =
-            tester.apply_transform(::swc_ecma_utils::DropSpan, "output.js", syntax, expected)?;
+        let expected = tester.apply_transform(
+            ::swc_ecma_utils::DropSpan {
+                preserve_ctxt: true,
+            },
+            "output.js",
+            syntax,
+            expected,
+        )?;
 
         println!("----- Actual -----");
 

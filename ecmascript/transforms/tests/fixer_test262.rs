@@ -349,5 +349,7 @@ fn normalize<T>(node: T) -> T
 where
     T: FoldWith<Normalizer> + FoldWith<DropSpan>,
 {
-    node.fold_with(&mut Normalizer).fold_with(&mut DropSpan)
+    node.fold_with(&mut Normalizer).fold_with(&mut DropSpan {
+        preserve_ctxt: false,
+    })
 }
