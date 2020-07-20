@@ -9,6 +9,7 @@ use swc_ecma_transforms::{
     proposals::{decorators, decorators::Config},
     resolver, typescript,
 };
+use swc_ecma_visit::Fold;
 
 #[macro_use]
 mod common;

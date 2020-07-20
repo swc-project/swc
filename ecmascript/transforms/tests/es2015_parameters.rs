@@ -12,6 +12,7 @@ use swc_ecma_transforms::{
     modules::common_js::common_js,
     resolver,
 };
+use swc_ecma_visit::Fold;
 
 #[macro_use]
 mod common;

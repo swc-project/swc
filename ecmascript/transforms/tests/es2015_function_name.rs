@@ -10,6 +10,7 @@ use swc_ecma_transforms::{
     proposals::decorators,
     resolver,
 };
+use swc_ecma_visit::Fold;
 
 #[macro_use]
 mod common;

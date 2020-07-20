@@ -3,7 +3,8 @@
 #![feature(box_patterns)]
 
 use swc_ecma_parser::{Syntax, TsConfig};
-use swc_ecma_transforms::{compat::es2020::optional_chaining, pass::Pass};
+use swc_ecma_transforms::compat::es2020::optional_chaining;
+use swc_ecma_visit::Fold;
 
 #[macro_use]
 mod common;

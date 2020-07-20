@@ -16,6 +16,18 @@ struct OptChaining {
 noop_fold_type!(OptChaining);
 
 impl Fold for OptChaining {
+    fn fold_expr(&mut self, e: Expr) -> Expr {
+        let e = match e {
+            Expr::OptChain(e) => Expr::Cond(validate!(self.unwrap(e))),
+            Expr::Unary(e) => validate!(self.handle_unary(e)),
+            Expr::Member(e) => validate!(self.handle_member(e)),
+            Expr::Call(e) => validate!(self.handle_call(e)),
+            _ => e,
+        };
+
+        validate!(e.fold_children_with(self))
+    }
+
     fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
         self.fold_stmt_like(n)
     }
@@ -50,18 +62,6 @@ impl OptChaining {
 
         self.vars = old;
         stmts
-    }
-
-    fn fold_expr(&mut self, e: Expr) -> Expr {
-        let e = match e {
-            Expr::OptChain(e) => Expr::Cond(validate!(self.unwrap(e))),
-            Expr::Unary(e) => validate!(self.handle_unary(e)),
-            Expr::Member(e) => validate!(self.handle_member(e)),
-            Expr::Call(e) => validate!(self.handle_call(e)),
-            _ => e,
-        };
-
-        validate!(e.fold_children_with(self))
     }
 }
 

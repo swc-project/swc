@@ -4,7 +4,8 @@
 
 use common::Tester;
 use std::collections::HashMap;
-use swc_ecma_transforms::{const_modules, pass::Pass};
+use swc_ecma_transforms::const_modules;
+use swc_ecma_visit::Fold;
 
 #[macro_use]
 mod common;

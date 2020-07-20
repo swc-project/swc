@@ -2,8 +2,7 @@
 #![feature(test)]
 #![feature(box_patterns)]
 
-use swc_common::{chain, Fold, Mark};
-use swc_ecma_ast::*;
+use swc_common::{chain, Mark};
 use swc_ecma_transforms::{
     compat,
     compat::es2020::class_properties,
@@ -19,6 +18,7 @@ use swc_ecma_transforms::{
     proposals::{decorators, export},
     resolver_with_mark, typescript,
 };
+use swc_ecma_visit::Fold;
 
 #[macro_use]
 mod common;
@@ -27,7 +27,7 @@ fn syntax() -> ::swc_ecma_parser::Syntax {
     Default::default()
 }
 
-fn tr(config: Config) -> impl Fold<Module> {
+fn tr(config: Config) -> impl Fold {
     let mark = Mark::fresh(Mark::root());
 
     chain!(resolver_with_mark(mark), common_js(mark, config))

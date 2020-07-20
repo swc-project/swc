@@ -11,6 +11,7 @@ use swc_ecma_transforms::{
     },
     resolver_with_mark,
 };
+use swc_ecma_visit::Fold;
 
 #[macro_use]
 mod common;

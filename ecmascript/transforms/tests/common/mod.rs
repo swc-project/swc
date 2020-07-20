@@ -9,18 +9,20 @@ use std::{
     process::Command,
     sync::{Arc, RwLock},
 };
-use swc_common::{comments::Comments, errors::Handler, FileName, Fold, FoldWith, SourceMap};
+use swc_common::{chain, comments::Comments, errors::Handler, FileName, SourceMap};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{lexer::Lexer, Parser, Session, SourceFileInput, Syntax};
 use swc_ecma_transforms::helpers::{InjectHelpers, HELPERS};
+use swc_ecma_utils::DropSpan;
+use swc_ecma_visit::{Fold, FoldWith};
 use tempfile::tempdir_in;
 
-pub fn validating(name: &'static str, tr: impl Fold + 'static) -> Box<dyn Pass> {
-    box ::swc_common::Fold::then(
+pub fn validating(name: &'static str, tr: impl Fold + 'static) -> Box<dyn Fold> {
+    Box::new(chain!(
         tr,
         swc_ecma_transforms::debug::validator::Validator { name },
-    )
+    ))
 }
 
 macro_rules! validating {
@@ -31,7 +33,7 @@ macro_rules! validating {
 
 macro_rules! validate {
     ($e:expr) => {{
-        use swc_common::fold::FoldWith;
+        use swc_ecma_visit::FoldWith;
         if cfg!(debug_assertions) {
             $e.fold_with(&mut swc_ecma_transforms::debug::validator::Validator {
                 name: concat!(file!(), ':', line!(), ':', column!()),
@@ -110,7 +112,7 @@ impl<'a> Tester<'a> {
         })
     }
 
-    pub fn apply_transform<T: Fold<Module>>(
+    pub fn apply_transform<T: Fold>(
         &mut self,
         mut tr: T,
         name: &str,
@@ -134,7 +136,7 @@ impl<'a> Tester<'a> {
 
         let module = validate!(module)
             .fold_with(&mut tr)
-            .fold_with(&mut ::testing::DropSpan)
+            .fold_with(&mut DropSpan)
             .fold_with(&mut Normalizer);
 
         Ok(module)
@@ -171,7 +173,7 @@ impl<'a> Tester<'a> {
 fn make_tr<F, P>(_: &'static str, op: F, tester: &mut Tester<'_>) -> impl Fold
 where
     F: FnOnce(&mut Tester<'_>) -> P,
-    P: Pass,
+    P: Fold,
 {
     op(tester)
 }
@@ -190,10 +192,10 @@ macro_rules! test_transform {
 pub fn test_transform<F, P>(syntax: Syntax, tr: F, input: &str, expected: &str, ok_if_code_eq: bool)
 where
     F: FnOnce(&mut Tester<'_>) -> P,
+    P: Fold,
 {
     Tester::run(|tester| {
-        let expected =
-            tester.apply_transform(::testing::DropSpan, "output.js", syntax, expected)?;
+        let expected = tester.apply_transform(DropSpan, "output.js", syntax, expected)?;
 
         println!(">>>>> Orig <<<<<\n{}", input);
         println!("----- Actual -----");
@@ -288,6 +290,7 @@ macro_rules! exec_tr {
 pub fn exec_tr<F, P>(test_name: &'static str, syntax: Syntax, tr: F, input: &str)
 where
     F: FnOnce(&mut Tester<'_>) -> P,
+    P: Fold,
 {
     Tester::run(|tester| {
         let tr = make_tr(test_name, tr, tester);
@@ -399,8 +402,8 @@ impl Write for Buf {
 }
 
 struct Normalizer;
-impl Fold<PatOrExpr> for Normalizer {
-    fn fold(&mut self, n: PatOrExpr) -> PatOrExpr {
+impl Fold for Normalizer {
+    fn fold_pat_or_expr(&mut self, n: PatOrExpr) -> PatOrExpr {
         match n {
             PatOrExpr::Pat(box Pat::Expr(e)) => PatOrExpr::Expr(e),
             _ => n,
@@ -409,8 +412,8 @@ impl Fold<PatOrExpr> for Normalizer {
 }
 
 struct HygieneVisualizer;
-impl Fold<Ident> for HygieneVisualizer {
-    fn fold(&mut self, ident: Ident) -> Ident {
+impl Fold for HygieneVisualizer {
+    fn fold_ident(&mut self, ident: Ident) -> Ident {
         Ident {
             sym: format!("{}{:?}", ident.sym, ident.span.ctxt()).into(),
             ..ident

@@ -7,6 +7,7 @@ use swc_ecma_transforms::{
     compat::es2015::{block_scoping, spread, spread::Config},
     modules::common_js::common_js,
 };
+use swc_ecma_visit::Fold;
 
 #[macro_use]
 mod common;

@@ -2,7 +2,7 @@
 #![feature(test)]
 #![feature(box_patterns)]
 
-use swc_common::{chain, Fold};
+use swc_common::chain;
 use swc_ecma_ast::Module;
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{
@@ -12,6 +12,7 @@ use swc_ecma_transforms::{
     },
     resolver,
 };
+use swc_ecma_visit::Fold;
 
 #[macro_use]
 mod common;

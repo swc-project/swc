@@ -2,7 +2,7 @@
 #![feature(test)]
 #![feature(box_patterns)]
 
-use swc_common::{chain, fold::FoldWith, Fold, Mark, Spanned};
+use swc_common::{chain, Mark, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{
@@ -12,13 +12,14 @@ use swc_ecma_transforms::{
     },
     fixer, resolver,
 };
+use swc_ecma_visit::{Fold, FoldWith};
 
 #[macro_use]
 mod common;
 
 struct ParenRemover;
-impl Fold<Expr> for ParenRemover {
-    fn fold(&mut self, expr: Expr) -> Expr {
+impl Fold for ParenRemover {
+    fn fold_expr(&mut self, expr: Expr) -> Expr {
         let expr = validate!(expr);
         let span = expr.span();
 
@@ -39,7 +40,7 @@ fn syntax() -> Syntax {
     Syntax::default()
 }
 
-fn tr() -> impl Fold<Module> {
+fn tr() -> impl Fold {
     chain!(
         ParenRemover,
         validating!(arrow()),

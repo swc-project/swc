@@ -11,11 +11,12 @@ use std::{
     path::Path,
     sync::{Arc, RwLock},
 };
-use swc_common::{Fold, FoldWith};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{self, Emitter};
 use swc_ecma_parser::{lexer::Lexer, Parser, Session, SourceFileInput, Syntax};
 use swc_ecma_transforms::fixer;
+use swc_ecma_utils::DropSpan;
+use swc_ecma_visit::{Fold, FoldWith};
 use test::{
     test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,
 };
@@ -290,22 +291,19 @@ impl Write for Buf {
 }
 
 struct Normalizer;
-impl Fold<Stmt> for Normalizer {
-    fn fold(&mut self, stmt: Stmt) -> Stmt {
-        let stmt = stmt.fold_children_with(self);
+impl Fold for Normalizer {
+    fn fold_new_expr(&mut self, expr: NewExpr) -> NewExpr {
+        let mut expr = expr.fold_children_with(self);
 
-        match stmt {
-            Stmt::Expr(ExprStmt {
-                span,
-                expr: box Expr::Paren(ParenExpr { expr, .. }),
-            }) => Stmt::Expr(ExprStmt { span, expr }),
-            _ => stmt,
-        }
+        expr.args = match expr.args {
+            Some(..) => expr.args,
+            None => Some(vec![]),
+        };
+
+        expr
     }
-}
 
-impl Fold<PropName> for Normalizer {
-    fn fold(&mut self, name: PropName) -> PropName {
+    fn fold_prop_name(&mut self, name: PropName) -> PropName {
         let name = name.fold_children_with(self);
 
         match name {
@@ -333,25 +331,23 @@ impl Fold<PropName> for Normalizer {
             _ => name,
         }
     }
-}
 
-impl Fold<NewExpr> for Normalizer {
-    fn fold(&mut self, expr: NewExpr) -> NewExpr {
-        let mut expr = expr.fold_children_with(self);
+    fn fold_stmt(&mut self, stmt: Stmt) -> Stmt {
+        let stmt = stmt.fold_children_with(self);
 
-        expr.args = match expr.args {
-            Some(..) => expr.args,
-            None => Some(vec![]),
-        };
-
-        expr
+        match stmt {
+            Stmt::Expr(ExprStmt {
+                span,
+                expr: box Expr::Paren(ParenExpr { expr, .. }),
+            }) => Stmt::Expr(ExprStmt { span, expr }),
+            _ => stmt,
+        }
     }
 }
 
 fn normalize<T>(node: T) -> T
 where
-    T: FoldWith<Normalizer> + FoldWith<::testing::DropSpan>,
+    T: FoldWith<Normalizer> + FoldWith<DropSpan>,
 {
-    node.fold_with(&mut Normalizer)
-        .fold_with(&mut ::testing::DropSpan)
+    node.fold_with(&mut Normalizer).fold_with(&mut DropSpan)
 }
