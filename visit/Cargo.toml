@@ -9,9 +9,6 @@ edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
-[features]
-optional = ["swc_visit_macros/optional"]
-default = ["optional"]
-
 [dependencies]
 swc_visit_macros = { version = "0.1.0", path = "./macros" }
+either = "1.5.3"

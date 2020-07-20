@@ -76,17 +76,15 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
         methods.push(mtd);
 
-        if cfg!(feature = "optional") {
-            let mtd = make_method(mode, item, &mut types, true).unwrap();
+        let mtd = make_method(mode, item, &mut types, true).unwrap();
 
-            optional_methods.push(ImplItemMethod {
-                attrs: vec![],
-                vis: Visibility::Inherited,
-                defaultness: None,
-                sig: Signature { ..mtd.sig },
-                block: mtd.default.unwrap(),
-            });
-        }
+        optional_methods.push(ImplItemMethod {
+            attrs: vec![],
+            vis: Visibility::Inherited,
+            defaultness: None,
+            sig: Signature { ..mtd.sig },
+            block: mtd.default.unwrap(),
+        });
     }
 
     let mut tokens = q!({});
