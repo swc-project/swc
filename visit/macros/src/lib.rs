@@ -67,6 +67,7 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
 fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
     let mut types = vec![];
     let mut methods = vec![];
+    let mut ref_methods = vec![];
     let mut optional_methods = vec![];
     let mut either_methods = vec![];
 
@@ -82,7 +83,35 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             None => continue,
         };
 
-        methods.push(mtd);
+        methods.push(mtd.clone());
+
+        {
+            // &'_ mut V, Box<V>
+            let block = match mode {
+                Mode::Visitor => q!(
+                    Vars {
+                        visit: &mtd.sig.ident,
+                    },
+                    ({ (**self).visit(n, _parent) })
+                )
+                .parse(),
+                Mode::Folder => q!(
+                    Vars {
+                        visit: &mtd.sig.ident,
+                    },
+                    ({ (**self).visit(n) })
+                )
+                .parse(),
+            };
+
+            ref_methods.push(ImplItemMethod {
+                attrs: vec![],
+                vis: Visibility::Inherited,
+                defaultness: None,
+                sig: mtd.sig.clone(),
+                block,
+            });
+        }
 
         {
             // Optional
@@ -234,6 +263,41 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
         brace_token: def_site(),
         items: methods.into_iter().map(TraitItem::Method).collect(),
     });
+
+    {
+        // impl Visit for &'_ mut V
+
+        let mut item = q!(
+            Vars {
+                Trait: Ident::new(mode.trait_name(), call_site()),
+            },
+            {
+                impl<'a, V> Trait for &'a mut V where V: ?Sized + Trait {}
+            }
+        )
+        .parse::<ItemImpl>();
+
+        item.items
+            .extend(ref_methods.clone().into_iter().map(ImplItem::Method));
+        tokens.push_tokens(&item);
+    }
+    {
+        // impl Visit for Box<V>
+
+        let mut item = q!(
+            Vars {
+                Trait: Ident::new(mode.trait_name(), call_site()),
+            },
+            {
+                impl<V> Trait for Box<V> where V: ?Sized + Trait {}
+            }
+        )
+        .parse::<ItemImpl>();
+
+        item.items
+            .extend(ref_methods.into_iter().map(ImplItem::Method));
+        tokens.push_tokens(&item);
+    }
 
     {
         // impl Trait for Optional

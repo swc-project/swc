@@ -7436,6 +7436,1336 @@ pub trait Fold {
         fold_opt_expr_or_spread(self, n)
     }
 }
+impl<'a, V> Fold for &'a mut V
+where
+    V: ?Sized + Fold,
+{
+    fn fold_class(&mut self, n: Class) -> Class {
+        (**self).fold_class(n)
+    }
+    fn fold_class_member(&mut self, n: ClassMember) -> ClassMember {
+        (**self).fold_class_member(n)
+    }
+    fn fold_class_prop(&mut self, n: ClassProp) -> ClassProp {
+        (**self).fold_class_prop(n)
+    }
+    fn fold_private_prop(&mut self, n: PrivateProp) -> PrivateProp {
+        (**self).fold_private_prop(n)
+    }
+    fn fold_class_method(&mut self, n: ClassMethod) -> ClassMethod {
+        (**self).fold_class_method(n)
+    }
+    fn fold_private_method(&mut self, n: PrivateMethod) -> PrivateMethod {
+        (**self).fold_private_method(n)
+    }
+    fn fold_constructor(&mut self, n: Constructor) -> Constructor {
+        (**self).fold_constructor(n)
+    }
+    fn fold_decorator(&mut self, n: Decorator) -> Decorator {
+        (**self).fold_decorator(n)
+    }
+    fn fold_method_kind(&mut self, n: MethodKind) -> MethodKind {
+        (**self).fold_method_kind(n)
+    }
+    fn fold_decl(&mut self, n: Decl) -> Decl {
+        (**self).fold_decl(n)
+    }
+    fn fold_fn_decl(&mut self, n: FnDecl) -> FnDecl {
+        (**self).fold_fn_decl(n)
+    }
+    fn fold_class_decl(&mut self, n: ClassDecl) -> ClassDecl {
+        (**self).fold_class_decl(n)
+    }
+    fn fold_var_decl(&mut self, n: VarDecl) -> VarDecl {
+        (**self).fold_var_decl(n)
+    }
+    fn fold_var_decl_kind(&mut self, n: VarDeclKind) -> VarDeclKind {
+        (**self).fold_var_decl_kind(n)
+    }
+    fn fold_var_declarator(&mut self, n: VarDeclarator) -> VarDeclarator {
+        (**self).fold_var_declarator(n)
+    }
+    fn fold_expr(&mut self, n: Expr) -> Expr {
+        (**self).fold_expr(n)
+    }
+    fn fold_this_expr(&mut self, n: ThisExpr) -> ThisExpr {
+        (**self).fold_this_expr(n)
+    }
+    fn fold_array_lit(&mut self, n: ArrayLit) -> ArrayLit {
+        (**self).fold_array_lit(n)
+    }
+    fn fold_object_lit(&mut self, n: ObjectLit) -> ObjectLit {
+        (**self).fold_object_lit(n)
+    }
+    fn fold_prop_or_spread(&mut self, n: PropOrSpread) -> PropOrSpread {
+        (**self).fold_prop_or_spread(n)
+    }
+    fn fold_spread_element(&mut self, n: SpreadElement) -> SpreadElement {
+        (**self).fold_spread_element(n)
+    }
+    fn fold_unary_expr(&mut self, n: UnaryExpr) -> UnaryExpr {
+        (**self).fold_unary_expr(n)
+    }
+    fn fold_update_expr(&mut self, n: UpdateExpr) -> UpdateExpr {
+        (**self).fold_update_expr(n)
+    }
+    fn fold_bin_expr(&mut self, n: BinExpr) -> BinExpr {
+        (**self).fold_bin_expr(n)
+    }
+    fn fold_fn_expr(&mut self, n: FnExpr) -> FnExpr {
+        (**self).fold_fn_expr(n)
+    }
+    fn fold_class_expr(&mut self, n: ClassExpr) -> ClassExpr {
+        (**self).fold_class_expr(n)
+    }
+    fn fold_assign_expr(&mut self, n: AssignExpr) -> AssignExpr {
+        (**self).fold_assign_expr(n)
+    }
+    fn fold_member_expr(&mut self, n: MemberExpr) -> MemberExpr {
+        (**self).fold_member_expr(n)
+    }
+    fn fold_cond_expr(&mut self, n: CondExpr) -> CondExpr {
+        (**self).fold_cond_expr(n)
+    }
+    fn fold_call_expr(&mut self, n: CallExpr) -> CallExpr {
+        (**self).fold_call_expr(n)
+    }
+    fn fold_new_expr(&mut self, n: NewExpr) -> NewExpr {
+        (**self).fold_new_expr(n)
+    }
+    fn fold_seq_expr(&mut self, n: SeqExpr) -> SeqExpr {
+        (**self).fold_seq_expr(n)
+    }
+    fn fold_arrow_expr(&mut self, n: ArrowExpr) -> ArrowExpr {
+        (**self).fold_arrow_expr(n)
+    }
+    fn fold_yield_expr(&mut self, n: YieldExpr) -> YieldExpr {
+        (**self).fold_yield_expr(n)
+    }
+    fn fold_meta_prop_expr(&mut self, n: MetaPropExpr) -> MetaPropExpr {
+        (**self).fold_meta_prop_expr(n)
+    }
+    fn fold_await_expr(&mut self, n: AwaitExpr) -> AwaitExpr {
+        (**self).fold_await_expr(n)
+    }
+    fn fold_tpl(&mut self, n: Tpl) -> Tpl {
+        (**self).fold_tpl(n)
+    }
+    fn fold_tagged_tpl(&mut self, n: TaggedTpl) -> TaggedTpl {
+        (**self).fold_tagged_tpl(n)
+    }
+    fn fold_tpl_element(&mut self, n: TplElement) -> TplElement {
+        (**self).fold_tpl_element(n)
+    }
+    fn fold_paren_expr(&mut self, n: ParenExpr) -> ParenExpr {
+        (**self).fold_paren_expr(n)
+    }
+    fn fold_expr_or_super(&mut self, n: ExprOrSuper) -> ExprOrSuper {
+        (**self).fold_expr_or_super(n)
+    }
+    fn fold_super(&mut self, n: Super) -> Super {
+        (**self).fold_super(n)
+    }
+    fn fold_expr_or_spread(&mut self, n: ExprOrSpread) -> ExprOrSpread {
+        (**self).fold_expr_or_spread(n)
+    }
+    fn fold_block_stmt_or_expr(&mut self, n: BlockStmtOrExpr) -> BlockStmtOrExpr {
+        (**self).fold_block_stmt_or_expr(n)
+    }
+    fn fold_pat_or_expr(&mut self, n: PatOrExpr) -> PatOrExpr {
+        (**self).fold_pat_or_expr(n)
+    }
+    fn fold_opt_chain_expr(&mut self, n: OptChainExpr) -> OptChainExpr {
+        (**self).fold_opt_chain_expr(n)
+    }
+    fn fold_function(&mut self, n: Function) -> Function {
+        (**self).fold_function(n)
+    }
+    fn fold_param(&mut self, n: Param) -> Param {
+        (**self).fold_param(n)
+    }
+    fn fold_param_or_ts_param_prop(&mut self, n: ParamOrTsParamProp) -> ParamOrTsParamProp {
+        (**self).fold_param_or_ts_param_prop(n)
+    }
+    fn fold_ident(&mut self, n: Ident) -> Ident {
+        (**self).fold_ident(n)
+    }
+    fn fold_private_name(&mut self, n: PrivateName) -> PrivateName {
+        (**self).fold_private_name(n)
+    }
+    fn fold_jsx_object(&mut self, n: JSXObject) -> JSXObject {
+        (**self).fold_jsx_object(n)
+    }
+    fn fold_jsx_member_expr(&mut self, n: JSXMemberExpr) -> JSXMemberExpr {
+        (**self).fold_jsx_member_expr(n)
+    }
+    fn fold_jsx_namespaced_name(&mut self, n: JSXNamespacedName) -> JSXNamespacedName {
+        (**self).fold_jsx_namespaced_name(n)
+    }
+    fn fold_jsx_empty_expr(&mut self, n: JSXEmptyExpr) -> JSXEmptyExpr {
+        (**self).fold_jsx_empty_expr(n)
+    }
+    fn fold_jsx_expr_container(&mut self, n: JSXExprContainer) -> JSXExprContainer {
+        (**self).fold_jsx_expr_container(n)
+    }
+    fn fold_jsx_expr(&mut self, n: JSXExpr) -> JSXExpr {
+        (**self).fold_jsx_expr(n)
+    }
+    fn fold_jsx_spread_child(&mut self, n: JSXSpreadChild) -> JSXSpreadChild {
+        (**self).fold_jsx_spread_child(n)
+    }
+    fn fold_jsx_element_name(&mut self, n: JSXElementName) -> JSXElementName {
+        (**self).fold_jsx_element_name(n)
+    }
+    fn fold_jsx_opening_element(&mut self, n: JSXOpeningElement) -> JSXOpeningElement {
+        (**self).fold_jsx_opening_element(n)
+    }
+    fn fold_jsx_attr_or_spread(&mut self, n: JSXAttrOrSpread) -> JSXAttrOrSpread {
+        (**self).fold_jsx_attr_or_spread(n)
+    }
+    fn fold_jsx_closing_element(&mut self, n: JSXClosingElement) -> JSXClosingElement {
+        (**self).fold_jsx_closing_element(n)
+    }
+    fn fold_jsx_attr(&mut self, n: JSXAttr) -> JSXAttr {
+        (**self).fold_jsx_attr(n)
+    }
+    fn fold_jsx_attr_name(&mut self, n: JSXAttrName) -> JSXAttrName {
+        (**self).fold_jsx_attr_name(n)
+    }
+    fn fold_jsx_attr_value(&mut self, n: JSXAttrValue) -> JSXAttrValue {
+        (**self).fold_jsx_attr_value(n)
+    }
+    fn fold_jsx_text(&mut self, n: JSXText) -> JSXText {
+        (**self).fold_jsx_text(n)
+    }
+    fn fold_jsx_element(&mut self, n: JSXElement) -> JSXElement {
+        (**self).fold_jsx_element(n)
+    }
+    fn fold_jsx_element_child(&mut self, n: JSXElementChild) -> JSXElementChild {
+        (**self).fold_jsx_element_child(n)
+    }
+    fn fold_jsx_fragment(&mut self, n: JSXFragment) -> JSXFragment {
+        (**self).fold_jsx_fragment(n)
+    }
+    fn fold_jsx_opening_fragment(&mut self, n: JSXOpeningFragment) -> JSXOpeningFragment {
+        (**self).fold_jsx_opening_fragment(n)
+    }
+    fn fold_jsx_closing_fragment(&mut self, n: JSXClosingFragment) -> JSXClosingFragment {
+        (**self).fold_jsx_closing_fragment(n)
+    }
+    fn fold_invalid(&mut self, n: Invalid) -> Invalid {
+        (**self).fold_invalid(n)
+    }
+    fn fold_lit(&mut self, n: Lit) -> Lit {
+        (**self).fold_lit(n)
+    }
+    fn fold_big_int(&mut self, n: BigInt) -> BigInt {
+        (**self).fold_big_int(n)
+    }
+    fn fold_str(&mut self, n: Str) -> Str {
+        (**self).fold_str(n)
+    }
+    fn fold_bool(&mut self, n: Bool) -> Bool {
+        (**self).fold_bool(n)
+    }
+    fn fold_null(&mut self, n: Null) -> Null {
+        (**self).fold_null(n)
+    }
+    fn fold_regex(&mut self, n: Regex) -> Regex {
+        (**self).fold_regex(n)
+    }
+    fn fold_number(&mut self, n: Number) -> Number {
+        (**self).fold_number(n)
+    }
+    fn fold_program(&mut self, n: Program) -> Program {
+        (**self).fold_program(n)
+    }
+    fn fold_module(&mut self, n: Module) -> Module {
+        (**self).fold_module(n)
+    }
+    fn fold_script(&mut self, n: Script) -> Script {
+        (**self).fold_script(n)
+    }
+    fn fold_module_item(&mut self, n: ModuleItem) -> ModuleItem {
+        (**self).fold_module_item(n)
+    }
+    fn fold_module_decl(&mut self, n: ModuleDecl) -> ModuleDecl {
+        (**self).fold_module_decl(n)
+    }
+    fn fold_export_default_expr(&mut self, n: ExportDefaultExpr) -> ExportDefaultExpr {
+        (**self).fold_export_default_expr(n)
+    }
+    fn fold_export_decl(&mut self, n: ExportDecl) -> ExportDecl {
+        (**self).fold_export_decl(n)
+    }
+    fn fold_import_decl(&mut self, n: ImportDecl) -> ImportDecl {
+        (**self).fold_import_decl(n)
+    }
+    fn fold_export_all(&mut self, n: ExportAll) -> ExportAll {
+        (**self).fold_export_all(n)
+    }
+    fn fold_named_export(&mut self, n: NamedExport) -> NamedExport {
+        (**self).fold_named_export(n)
+    }
+    fn fold_export_default_decl(&mut self, n: ExportDefaultDecl) -> ExportDefaultDecl {
+        (**self).fold_export_default_decl(n)
+    }
+    fn fold_default_decl(&mut self, n: DefaultDecl) -> DefaultDecl {
+        (**self).fold_default_decl(n)
+    }
+    fn fold_import_specifier(&mut self, n: ImportSpecifier) -> ImportSpecifier {
+        (**self).fold_import_specifier(n)
+    }
+    fn fold_import_default_specifier(
+        &mut self,
+        n: ImportDefaultSpecifier,
+    ) -> ImportDefaultSpecifier {
+        (**self).fold_import_default_specifier(n)
+    }
+    fn fold_import_star_as_specifier(&mut self, n: ImportStarAsSpecifier) -> ImportStarAsSpecifier {
+        (**self).fold_import_star_as_specifier(n)
+    }
+    fn fold_import_named_specifier(&mut self, n: ImportNamedSpecifier) -> ImportNamedSpecifier {
+        (**self).fold_import_named_specifier(n)
+    }
+    fn fold_export_specifier(&mut self, n: ExportSpecifier) -> ExportSpecifier {
+        (**self).fold_export_specifier(n)
+    }
+    fn fold_export_namespace_specifier(
+        &mut self,
+        n: ExportNamespaceSpecifier,
+    ) -> ExportNamespaceSpecifier {
+        (**self).fold_export_namespace_specifier(n)
+    }
+    fn fold_export_default_specifier(
+        &mut self,
+        n: ExportDefaultSpecifier,
+    ) -> ExportDefaultSpecifier {
+        (**self).fold_export_default_specifier(n)
+    }
+    fn fold_export_named_specifier(&mut self, n: ExportNamedSpecifier) -> ExportNamedSpecifier {
+        (**self).fold_export_named_specifier(n)
+    }
+    fn fold_binary_op(&mut self, n: BinaryOp) -> BinaryOp {
+        (**self).fold_binary_op(n)
+    }
+    fn fold_assign_op(&mut self, n: AssignOp) -> AssignOp {
+        (**self).fold_assign_op(n)
+    }
+    fn fold_update_op(&mut self, n: UpdateOp) -> UpdateOp {
+        (**self).fold_update_op(n)
+    }
+    fn fold_unary_op(&mut self, n: UnaryOp) -> UnaryOp {
+        (**self).fold_unary_op(n)
+    }
+    fn fold_pat(&mut self, n: Pat) -> Pat {
+        (**self).fold_pat(n)
+    }
+    fn fold_array_pat(&mut self, n: ArrayPat) -> ArrayPat {
+        (**self).fold_array_pat(n)
+    }
+    fn fold_object_pat(&mut self, n: ObjectPat) -> ObjectPat {
+        (**self).fold_object_pat(n)
+    }
+    fn fold_assign_pat(&mut self, n: AssignPat) -> AssignPat {
+        (**self).fold_assign_pat(n)
+    }
+    fn fold_rest_pat(&mut self, n: RestPat) -> RestPat {
+        (**self).fold_rest_pat(n)
+    }
+    fn fold_object_pat_prop(&mut self, n: ObjectPatProp) -> ObjectPatProp {
+        (**self).fold_object_pat_prop(n)
+    }
+    fn fold_key_value_pat_prop(&mut self, n: KeyValuePatProp) -> KeyValuePatProp {
+        (**self).fold_key_value_pat_prop(n)
+    }
+    fn fold_assign_pat_prop(&mut self, n: AssignPatProp) -> AssignPatProp {
+        (**self).fold_assign_pat_prop(n)
+    }
+    fn fold_prop(&mut self, n: Prop) -> Prop {
+        (**self).fold_prop(n)
+    }
+    fn fold_key_value_prop(&mut self, n: KeyValueProp) -> KeyValueProp {
+        (**self).fold_key_value_prop(n)
+    }
+    fn fold_assign_prop(&mut self, n: AssignProp) -> AssignProp {
+        (**self).fold_assign_prop(n)
+    }
+    fn fold_getter_prop(&mut self, n: GetterProp) -> GetterProp {
+        (**self).fold_getter_prop(n)
+    }
+    fn fold_setter_prop(&mut self, n: SetterProp) -> SetterProp {
+        (**self).fold_setter_prop(n)
+    }
+    fn fold_method_prop(&mut self, n: MethodProp) -> MethodProp {
+        (**self).fold_method_prop(n)
+    }
+    fn fold_prop_name(&mut self, n: PropName) -> PropName {
+        (**self).fold_prop_name(n)
+    }
+    fn fold_computed_prop_name(&mut self, n: ComputedPropName) -> ComputedPropName {
+        (**self).fold_computed_prop_name(n)
+    }
+    fn fold_block_stmt(&mut self, n: BlockStmt) -> BlockStmt {
+        (**self).fold_block_stmt(n)
+    }
+    fn fold_stmt(&mut self, n: Stmt) -> Stmt {
+        (**self).fold_stmt(n)
+    }
+    fn fold_expr_stmt(&mut self, n: ExprStmt) -> ExprStmt {
+        (**self).fold_expr_stmt(n)
+    }
+    fn fold_empty_stmt(&mut self, n: EmptyStmt) -> EmptyStmt {
+        (**self).fold_empty_stmt(n)
+    }
+    fn fold_debugger_stmt(&mut self, n: DebuggerStmt) -> DebuggerStmt {
+        (**self).fold_debugger_stmt(n)
+    }
+    fn fold_with_stmt(&mut self, n: WithStmt) -> WithStmt {
+        (**self).fold_with_stmt(n)
+    }
+    fn fold_return_stmt(&mut self, n: ReturnStmt) -> ReturnStmt {
+        (**self).fold_return_stmt(n)
+    }
+    fn fold_labeled_stmt(&mut self, n: LabeledStmt) -> LabeledStmt {
+        (**self).fold_labeled_stmt(n)
+    }
+    fn fold_break_stmt(&mut self, n: BreakStmt) -> BreakStmt {
+        (**self).fold_break_stmt(n)
+    }
+    fn fold_continue_stmt(&mut self, n: ContinueStmt) -> ContinueStmt {
+        (**self).fold_continue_stmt(n)
+    }
+    fn fold_if_stmt(&mut self, n: IfStmt) -> IfStmt {
+        (**self).fold_if_stmt(n)
+    }
+    fn fold_switch_stmt(&mut self, n: SwitchStmt) -> SwitchStmt {
+        (**self).fold_switch_stmt(n)
+    }
+    fn fold_throw_stmt(&mut self, n: ThrowStmt) -> ThrowStmt {
+        (**self).fold_throw_stmt(n)
+    }
+    fn fold_try_stmt(&mut self, n: TryStmt) -> TryStmt {
+        (**self).fold_try_stmt(n)
+    }
+    fn fold_while_stmt(&mut self, n: WhileStmt) -> WhileStmt {
+        (**self).fold_while_stmt(n)
+    }
+    fn fold_do_while_stmt(&mut self, n: DoWhileStmt) -> DoWhileStmt {
+        (**self).fold_do_while_stmt(n)
+    }
+    fn fold_for_stmt(&mut self, n: ForStmt) -> ForStmt {
+        (**self).fold_for_stmt(n)
+    }
+    fn fold_for_in_stmt(&mut self, n: ForInStmt) -> ForInStmt {
+        (**self).fold_for_in_stmt(n)
+    }
+    fn fold_for_of_stmt(&mut self, n: ForOfStmt) -> ForOfStmt {
+        (**self).fold_for_of_stmt(n)
+    }
+    fn fold_switch_case(&mut self, n: SwitchCase) -> SwitchCase {
+        (**self).fold_switch_case(n)
+    }
+    fn fold_catch_clause(&mut self, n: CatchClause) -> CatchClause {
+        (**self).fold_catch_clause(n)
+    }
+    fn fold_var_decl_or_pat(&mut self, n: VarDeclOrPat) -> VarDeclOrPat {
+        (**self).fold_var_decl_or_pat(n)
+    }
+    fn fold_var_decl_or_expr(&mut self, n: VarDeclOrExpr) -> VarDeclOrExpr {
+        (**self).fold_var_decl_or_expr(n)
+    }
+    fn fold_ts_type_ann(&mut self, n: TsTypeAnn) -> TsTypeAnn {
+        (**self).fold_ts_type_ann(n)
+    }
+    fn fold_ts_type_param_decl(&mut self, n: TsTypeParamDecl) -> TsTypeParamDecl {
+        (**self).fold_ts_type_param_decl(n)
+    }
+    fn fold_ts_type_param(&mut self, n: TsTypeParam) -> TsTypeParam {
+        (**self).fold_ts_type_param(n)
+    }
+    fn fold_ts_type_param_instantiation(
+        &mut self,
+        n: TsTypeParamInstantiation,
+    ) -> TsTypeParamInstantiation {
+        (**self).fold_ts_type_param_instantiation(n)
+    }
+    fn fold_ts_type_cast_expr(&mut self, n: TsTypeCastExpr) -> TsTypeCastExpr {
+        (**self).fold_ts_type_cast_expr(n)
+    }
+    fn fold_ts_param_prop(&mut self, n: TsParamProp) -> TsParamProp {
+        (**self).fold_ts_param_prop(n)
+    }
+    fn fold_ts_param_prop_param(&mut self, n: TsParamPropParam) -> TsParamPropParam {
+        (**self).fold_ts_param_prop_param(n)
+    }
+    fn fold_ts_qualified_name(&mut self, n: TsQualifiedName) -> TsQualifiedName {
+        (**self).fold_ts_qualified_name(n)
+    }
+    fn fold_ts_entity_name(&mut self, n: TsEntityName) -> TsEntityName {
+        (**self).fold_ts_entity_name(n)
+    }
+    fn fold_ts_signature_decl(&mut self, n: TsSignatureDecl) -> TsSignatureDecl {
+        (**self).fold_ts_signature_decl(n)
+    }
+    fn fold_ts_type_element(&mut self, n: TsTypeElement) -> TsTypeElement {
+        (**self).fold_ts_type_element(n)
+    }
+    fn fold_ts_call_signature_decl(&mut self, n: TsCallSignatureDecl) -> TsCallSignatureDecl {
+        (**self).fold_ts_call_signature_decl(n)
+    }
+    fn fold_ts_construct_signature_decl(
+        &mut self,
+        n: TsConstructSignatureDecl,
+    ) -> TsConstructSignatureDecl {
+        (**self).fold_ts_construct_signature_decl(n)
+    }
+    fn fold_ts_property_signature(&mut self, n: TsPropertySignature) -> TsPropertySignature {
+        (**self).fold_ts_property_signature(n)
+    }
+    fn fold_ts_method_signature(&mut self, n: TsMethodSignature) -> TsMethodSignature {
+        (**self).fold_ts_method_signature(n)
+    }
+    fn fold_ts_index_signature(&mut self, n: TsIndexSignature) -> TsIndexSignature {
+        (**self).fold_ts_index_signature(n)
+    }
+    fn fold_ts_type(&mut self, n: TsType) -> TsType {
+        (**self).fold_ts_type(n)
+    }
+    fn fold_ts_fn_or_constructor_type(
+        &mut self,
+        n: TsFnOrConstructorType,
+    ) -> TsFnOrConstructorType {
+        (**self).fold_ts_fn_or_constructor_type(n)
+    }
+    fn fold_ts_keyword_type(&mut self, n: TsKeywordType) -> TsKeywordType {
+        (**self).fold_ts_keyword_type(n)
+    }
+    fn fold_ts_keyword_type_kind(&mut self, n: TsKeywordTypeKind) -> TsKeywordTypeKind {
+        (**self).fold_ts_keyword_type_kind(n)
+    }
+    fn fold_ts_this_type(&mut self, n: TsThisType) -> TsThisType {
+        (**self).fold_ts_this_type(n)
+    }
+    fn fold_ts_fn_param(&mut self, n: TsFnParam) -> TsFnParam {
+        (**self).fold_ts_fn_param(n)
+    }
+    fn fold_ts_fn_type(&mut self, n: TsFnType) -> TsFnType {
+        (**self).fold_ts_fn_type(n)
+    }
+    fn fold_ts_constructor_type(&mut self, n: TsConstructorType) -> TsConstructorType {
+        (**self).fold_ts_constructor_type(n)
+    }
+    fn fold_ts_type_ref(&mut self, n: TsTypeRef) -> TsTypeRef {
+        (**self).fold_ts_type_ref(n)
+    }
+    fn fold_ts_type_predicate(&mut self, n: TsTypePredicate) -> TsTypePredicate {
+        (**self).fold_ts_type_predicate(n)
+    }
+    fn fold_ts_this_type_or_ident(&mut self, n: TsThisTypeOrIdent) -> TsThisTypeOrIdent {
+        (**self).fold_ts_this_type_or_ident(n)
+    }
+    fn fold_ts_type_query(&mut self, n: TsTypeQuery) -> TsTypeQuery {
+        (**self).fold_ts_type_query(n)
+    }
+    fn fold_ts_type_query_expr(&mut self, n: TsTypeQueryExpr) -> TsTypeQueryExpr {
+        (**self).fold_ts_type_query_expr(n)
+    }
+    fn fold_ts_import_type(&mut self, n: TsImportType) -> TsImportType {
+        (**self).fold_ts_import_type(n)
+    }
+    fn fold_ts_type_lit(&mut self, n: TsTypeLit) -> TsTypeLit {
+        (**self).fold_ts_type_lit(n)
+    }
+    fn fold_ts_array_type(&mut self, n: TsArrayType) -> TsArrayType {
+        (**self).fold_ts_array_type(n)
+    }
+    fn fold_ts_tuple_type(&mut self, n: TsTupleType) -> TsTupleType {
+        (**self).fold_ts_tuple_type(n)
+    }
+    fn fold_ts_tuple_element(&mut self, n: TsTupleElement) -> TsTupleElement {
+        (**self).fold_ts_tuple_element(n)
+    }
+    fn fold_ts_optional_type(&mut self, n: TsOptionalType) -> TsOptionalType {
+        (**self).fold_ts_optional_type(n)
+    }
+    fn fold_ts_rest_type(&mut self, n: TsRestType) -> TsRestType {
+        (**self).fold_ts_rest_type(n)
+    }
+    fn fold_ts_union_or_intersection_type(
+        &mut self,
+        n: TsUnionOrIntersectionType,
+    ) -> TsUnionOrIntersectionType {
+        (**self).fold_ts_union_or_intersection_type(n)
+    }
+    fn fold_ts_union_type(&mut self, n: TsUnionType) -> TsUnionType {
+        (**self).fold_ts_union_type(n)
+    }
+    fn fold_ts_intersection_type(&mut self, n: TsIntersectionType) -> TsIntersectionType {
+        (**self).fold_ts_intersection_type(n)
+    }
+    fn fold_ts_conditional_type(&mut self, n: TsConditionalType) -> TsConditionalType {
+        (**self).fold_ts_conditional_type(n)
+    }
+    fn fold_ts_infer_type(&mut self, n: TsInferType) -> TsInferType {
+        (**self).fold_ts_infer_type(n)
+    }
+    fn fold_ts_parenthesized_type(&mut self, n: TsParenthesizedType) -> TsParenthesizedType {
+        (**self).fold_ts_parenthesized_type(n)
+    }
+    fn fold_ts_type_operator(&mut self, n: TsTypeOperator) -> TsTypeOperator {
+        (**self).fold_ts_type_operator(n)
+    }
+    fn fold_ts_type_operator_op(&mut self, n: TsTypeOperatorOp) -> TsTypeOperatorOp {
+        (**self).fold_ts_type_operator_op(n)
+    }
+    fn fold_ts_indexed_access_type(&mut self, n: TsIndexedAccessType) -> TsIndexedAccessType {
+        (**self).fold_ts_indexed_access_type(n)
+    }
+    fn fold_true_plus_minus(&mut self, n: TruePlusMinus) -> TruePlusMinus {
+        (**self).fold_true_plus_minus(n)
+    }
+    fn fold_ts_mapped_type(&mut self, n: TsMappedType) -> TsMappedType {
+        (**self).fold_ts_mapped_type(n)
+    }
+    fn fold_ts_lit_type(&mut self, n: TsLitType) -> TsLitType {
+        (**self).fold_ts_lit_type(n)
+    }
+    fn fold_ts_lit(&mut self, n: TsLit) -> TsLit {
+        (**self).fold_ts_lit(n)
+    }
+    fn fold_ts_interface_decl(&mut self, n: TsInterfaceDecl) -> TsInterfaceDecl {
+        (**self).fold_ts_interface_decl(n)
+    }
+    fn fold_ts_interface_body(&mut self, n: TsInterfaceBody) -> TsInterfaceBody {
+        (**self).fold_ts_interface_body(n)
+    }
+    fn fold_ts_expr_with_type_args(&mut self, n: TsExprWithTypeArgs) -> TsExprWithTypeArgs {
+        (**self).fold_ts_expr_with_type_args(n)
+    }
+    fn fold_ts_type_alias_decl(&mut self, n: TsTypeAliasDecl) -> TsTypeAliasDecl {
+        (**self).fold_ts_type_alias_decl(n)
+    }
+    fn fold_ts_enum_decl(&mut self, n: TsEnumDecl) -> TsEnumDecl {
+        (**self).fold_ts_enum_decl(n)
+    }
+    fn fold_ts_enum_member(&mut self, n: TsEnumMember) -> TsEnumMember {
+        (**self).fold_ts_enum_member(n)
+    }
+    fn fold_ts_enum_member_id(&mut self, n: TsEnumMemberId) -> TsEnumMemberId {
+        (**self).fold_ts_enum_member_id(n)
+    }
+    fn fold_ts_module_decl(&mut self, n: TsModuleDecl) -> TsModuleDecl {
+        (**self).fold_ts_module_decl(n)
+    }
+    fn fold_ts_namespace_body(&mut self, n: TsNamespaceBody) -> TsNamespaceBody {
+        (**self).fold_ts_namespace_body(n)
+    }
+    fn fold_ts_module_block(&mut self, n: TsModuleBlock) -> TsModuleBlock {
+        (**self).fold_ts_module_block(n)
+    }
+    fn fold_ts_namespace_decl(&mut self, n: TsNamespaceDecl) -> TsNamespaceDecl {
+        (**self).fold_ts_namespace_decl(n)
+    }
+    fn fold_ts_module_name(&mut self, n: TsModuleName) -> TsModuleName {
+        (**self).fold_ts_module_name(n)
+    }
+    fn fold_ts_import_equals_decl(&mut self, n: TsImportEqualsDecl) -> TsImportEqualsDecl {
+        (**self).fold_ts_import_equals_decl(n)
+    }
+    fn fold_ts_module_ref(&mut self, n: TsModuleRef) -> TsModuleRef {
+        (**self).fold_ts_module_ref(n)
+    }
+    fn fold_ts_external_module_ref(&mut self, n: TsExternalModuleRef) -> TsExternalModuleRef {
+        (**self).fold_ts_external_module_ref(n)
+    }
+    fn fold_ts_export_assignment(&mut self, n: TsExportAssignment) -> TsExportAssignment {
+        (**self).fold_ts_export_assignment(n)
+    }
+    fn fold_ts_namespace_export_decl(&mut self, n: TsNamespaceExportDecl) -> TsNamespaceExportDecl {
+        (**self).fold_ts_namespace_export_decl(n)
+    }
+    fn fold_ts_as_expr(&mut self, n: TsAsExpr) -> TsAsExpr {
+        (**self).fold_ts_as_expr(n)
+    }
+    fn fold_ts_type_assertion(&mut self, n: TsTypeAssertion) -> TsTypeAssertion {
+        (**self).fold_ts_type_assertion(n)
+    }
+    fn fold_ts_non_null_expr(&mut self, n: TsNonNullExpr) -> TsNonNullExpr {
+        (**self).fold_ts_non_null_expr(n)
+    }
+    fn fold_accessibility(&mut self, n: Accessibility) -> Accessibility {
+        (**self).fold_accessibility(n)
+    }
+    fn fold_ts_const_assertion(&mut self, n: TsConstAssertion) -> TsConstAssertion {
+        (**self).fold_ts_const_assertion(n)
+    }
+}
+impl<V> Fold for Box<V>
+where
+    V: ?Sized + Fold,
+{
+    fn fold_class(&mut self, n: Class) -> Class {
+        (**self).fold_class(n)
+    }
+    fn fold_class_member(&mut self, n: ClassMember) -> ClassMember {
+        (**self).fold_class_member(n)
+    }
+    fn fold_class_prop(&mut self, n: ClassProp) -> ClassProp {
+        (**self).fold_class_prop(n)
+    }
+    fn fold_private_prop(&mut self, n: PrivateProp) -> PrivateProp {
+        (**self).fold_private_prop(n)
+    }
+    fn fold_class_method(&mut self, n: ClassMethod) -> ClassMethod {
+        (**self).fold_class_method(n)
+    }
+    fn fold_private_method(&mut self, n: PrivateMethod) -> PrivateMethod {
+        (**self).fold_private_method(n)
+    }
+    fn fold_constructor(&mut self, n: Constructor) -> Constructor {
+        (**self).fold_constructor(n)
+    }
+    fn fold_decorator(&mut self, n: Decorator) -> Decorator {
+        (**self).fold_decorator(n)
+    }
+    fn fold_method_kind(&mut self, n: MethodKind) -> MethodKind {
+        (**self).fold_method_kind(n)
+    }
+    fn fold_decl(&mut self, n: Decl) -> Decl {
+        (**self).fold_decl(n)
+    }
+    fn fold_fn_decl(&mut self, n: FnDecl) -> FnDecl {
+        (**self).fold_fn_decl(n)
+    }
+    fn fold_class_decl(&mut self, n: ClassDecl) -> ClassDecl {
+        (**self).fold_class_decl(n)
+    }
+    fn fold_var_decl(&mut self, n: VarDecl) -> VarDecl {
+        (**self).fold_var_decl(n)
+    }
+    fn fold_var_decl_kind(&mut self, n: VarDeclKind) -> VarDeclKind {
+        (**self).fold_var_decl_kind(n)
+    }
+    fn fold_var_declarator(&mut self, n: VarDeclarator) -> VarDeclarator {
+        (**self).fold_var_declarator(n)
+    }
+    fn fold_expr(&mut self, n: Expr) -> Expr {
+        (**self).fold_expr(n)
+    }
+    fn fold_this_expr(&mut self, n: ThisExpr) -> ThisExpr {
+        (**self).fold_this_expr(n)
+    }
+    fn fold_array_lit(&mut self, n: ArrayLit) -> ArrayLit {
+        (**self).fold_array_lit(n)
+    }
+    fn fold_object_lit(&mut self, n: ObjectLit) -> ObjectLit {
+        (**self).fold_object_lit(n)
+    }
+    fn fold_prop_or_spread(&mut self, n: PropOrSpread) -> PropOrSpread {
+        (**self).fold_prop_or_spread(n)
+    }
+    fn fold_spread_element(&mut self, n: SpreadElement) -> SpreadElement {
+        (**self).fold_spread_element(n)
+    }
+    fn fold_unary_expr(&mut self, n: UnaryExpr) -> UnaryExpr {
+        (**self).fold_unary_expr(n)
+    }
+    fn fold_update_expr(&mut self, n: UpdateExpr) -> UpdateExpr {
+        (**self).fold_update_expr(n)
+    }
+    fn fold_bin_expr(&mut self, n: BinExpr) -> BinExpr {
+        (**self).fold_bin_expr(n)
+    }
+    fn fold_fn_expr(&mut self, n: FnExpr) -> FnExpr {
+        (**self).fold_fn_expr(n)
+    }
+    fn fold_class_expr(&mut self, n: ClassExpr) -> ClassExpr {
+        (**self).fold_class_expr(n)
+    }
+    fn fold_assign_expr(&mut self, n: AssignExpr) -> AssignExpr {
+        (**self).fold_assign_expr(n)
+    }
+    fn fold_member_expr(&mut self, n: MemberExpr) -> MemberExpr {
+        (**self).fold_member_expr(n)
+    }
+    fn fold_cond_expr(&mut self, n: CondExpr) -> CondExpr {
+        (**self).fold_cond_expr(n)
+    }
+    fn fold_call_expr(&mut self, n: CallExpr) -> CallExpr {
+        (**self).fold_call_expr(n)
+    }
+    fn fold_new_expr(&mut self, n: NewExpr) -> NewExpr {
+        (**self).fold_new_expr(n)
+    }
+    fn fold_seq_expr(&mut self, n: SeqExpr) -> SeqExpr {
+        (**self).fold_seq_expr(n)
+    }
+    fn fold_arrow_expr(&mut self, n: ArrowExpr) -> ArrowExpr {
+        (**self).fold_arrow_expr(n)
+    }
+    fn fold_yield_expr(&mut self, n: YieldExpr) -> YieldExpr {
+        (**self).fold_yield_expr(n)
+    }
+    fn fold_meta_prop_expr(&mut self, n: MetaPropExpr) -> MetaPropExpr {
+        (**self).fold_meta_prop_expr(n)
+    }
+    fn fold_await_expr(&mut self, n: AwaitExpr) -> AwaitExpr {
+        (**self).fold_await_expr(n)
+    }
+    fn fold_tpl(&mut self, n: Tpl) -> Tpl {
+        (**self).fold_tpl(n)
+    }
+    fn fold_tagged_tpl(&mut self, n: TaggedTpl) -> TaggedTpl {
+        (**self).fold_tagged_tpl(n)
+    }
+    fn fold_tpl_element(&mut self, n: TplElement) -> TplElement {
+        (**self).fold_tpl_element(n)
+    }
+    fn fold_paren_expr(&mut self, n: ParenExpr) -> ParenExpr {
+        (**self).fold_paren_expr(n)
+    }
+    fn fold_expr_or_super(&mut self, n: ExprOrSuper) -> ExprOrSuper {
+        (**self).fold_expr_or_super(n)
+    }
+    fn fold_super(&mut self, n: Super) -> Super {
+        (**self).fold_super(n)
+    }
+    fn fold_expr_or_spread(&mut self, n: ExprOrSpread) -> ExprOrSpread {
+        (**self).fold_expr_or_spread(n)
+    }
+    fn fold_block_stmt_or_expr(&mut self, n: BlockStmtOrExpr) -> BlockStmtOrExpr {
+        (**self).fold_block_stmt_or_expr(n)
+    }
+    fn fold_pat_or_expr(&mut self, n: PatOrExpr) -> PatOrExpr {
+        (**self).fold_pat_or_expr(n)
+    }
+    fn fold_opt_chain_expr(&mut self, n: OptChainExpr) -> OptChainExpr {
+        (**self).fold_opt_chain_expr(n)
+    }
+    fn fold_function(&mut self, n: Function) -> Function {
+        (**self).fold_function(n)
+    }
+    fn fold_param(&mut self, n: Param) -> Param {
+        (**self).fold_param(n)
+    }
+    fn fold_param_or_ts_param_prop(&mut self, n: ParamOrTsParamProp) -> ParamOrTsParamProp {
+        (**self).fold_param_or_ts_param_prop(n)
+    }
+    fn fold_ident(&mut self, n: Ident) -> Ident {
+        (**self).fold_ident(n)
+    }
+    fn fold_private_name(&mut self, n: PrivateName) -> PrivateName {
+        (**self).fold_private_name(n)
+    }
+    fn fold_jsx_object(&mut self, n: JSXObject) -> JSXObject {
+        (**self).fold_jsx_object(n)
+    }
+    fn fold_jsx_member_expr(&mut self, n: JSXMemberExpr) -> JSXMemberExpr {
+        (**self).fold_jsx_member_expr(n)
+    }
+    fn fold_jsx_namespaced_name(&mut self, n: JSXNamespacedName) -> JSXNamespacedName {
+        (**self).fold_jsx_namespaced_name(n)
+    }
+    fn fold_jsx_empty_expr(&mut self, n: JSXEmptyExpr) -> JSXEmptyExpr {
+        (**self).fold_jsx_empty_expr(n)
+    }
+    fn fold_jsx_expr_container(&mut self, n: JSXExprContainer) -> JSXExprContainer {
+        (**self).fold_jsx_expr_container(n)
+    }
+    fn fold_jsx_expr(&mut self, n: JSXExpr) -> JSXExpr {
+        (**self).fold_jsx_expr(n)
+    }
+    fn fold_jsx_spread_child(&mut self, n: JSXSpreadChild) -> JSXSpreadChild {
+        (**self).fold_jsx_spread_child(n)
+    }
+    fn fold_jsx_element_name(&mut self, n: JSXElementName) -> JSXElementName {
+        (**self).fold_jsx_element_name(n)
+    }
+    fn fold_jsx_opening_element(&mut self, n: JSXOpeningElement) -> JSXOpeningElement {
+        (**self).fold_jsx_opening_element(n)
+    }
+    fn fold_jsx_attr_or_spread(&mut self, n: JSXAttrOrSpread) -> JSXAttrOrSpread {
+        (**self).fold_jsx_attr_or_spread(n)
+    }
+    fn fold_jsx_closing_element(&mut self, n: JSXClosingElement) -> JSXClosingElement {
+        (**self).fold_jsx_closing_element(n)
+    }
+    fn fold_jsx_attr(&mut self, n: JSXAttr) -> JSXAttr {
+        (**self).fold_jsx_attr(n)
+    }
+    fn fold_jsx_attr_name(&mut self, n: JSXAttrName) -> JSXAttrName {
+        (**self).fold_jsx_attr_name(n)
+    }
+    fn fold_jsx_attr_value(&mut self, n: JSXAttrValue) -> JSXAttrValue {
+        (**self).fold_jsx_attr_value(n)
+    }
+    fn fold_jsx_text(&mut self, n: JSXText) -> JSXText {
+        (**self).fold_jsx_text(n)
+    }
+    fn fold_jsx_element(&mut self, n: JSXElement) -> JSXElement {
+        (**self).fold_jsx_element(n)
+    }
+    fn fold_jsx_element_child(&mut self, n: JSXElementChild) -> JSXElementChild {
+        (**self).fold_jsx_element_child(n)
+    }
+    fn fold_jsx_fragment(&mut self, n: JSXFragment) -> JSXFragment {
+        (**self).fold_jsx_fragment(n)
+    }
+    fn fold_jsx_opening_fragment(&mut self, n: JSXOpeningFragment) -> JSXOpeningFragment {
+        (**self).fold_jsx_opening_fragment(n)
+    }
+    fn fold_jsx_closing_fragment(&mut self, n: JSXClosingFragment) -> JSXClosingFragment {
+        (**self).fold_jsx_closing_fragment(n)
+    }
+    fn fold_invalid(&mut self, n: Invalid) -> Invalid {
+        (**self).fold_invalid(n)
+    }
+    fn fold_lit(&mut self, n: Lit) -> Lit {
+        (**self).fold_lit(n)
+    }
+    fn fold_big_int(&mut self, n: BigInt) -> BigInt {
+        (**self).fold_big_int(n)
+    }
+    fn fold_str(&mut self, n: Str) -> Str {
+        (**self).fold_str(n)
+    }
+    fn fold_bool(&mut self, n: Bool) -> Bool {
+        (**self).fold_bool(n)
+    }
+    fn fold_null(&mut self, n: Null) -> Null {
+        (**self).fold_null(n)
+    }
+    fn fold_regex(&mut self, n: Regex) -> Regex {
+        (**self).fold_regex(n)
+    }
+    fn fold_number(&mut self, n: Number) -> Number {
+        (**self).fold_number(n)
+    }
+    fn fold_program(&mut self, n: Program) -> Program {
+        (**self).fold_program(n)
+    }
+    fn fold_module(&mut self, n: Module) -> Module {
+        (**self).fold_module(n)
+    }
+    fn fold_script(&mut self, n: Script) -> Script {
+        (**self).fold_script(n)
+    }
+    fn fold_module_item(&mut self, n: ModuleItem) -> ModuleItem {
+        (**self).fold_module_item(n)
+    }
+    fn fold_module_decl(&mut self, n: ModuleDecl) -> ModuleDecl {
+        (**self).fold_module_decl(n)
+    }
+    fn fold_export_default_expr(&mut self, n: ExportDefaultExpr) -> ExportDefaultExpr {
+        (**self).fold_export_default_expr(n)
+    }
+    fn fold_export_decl(&mut self, n: ExportDecl) -> ExportDecl {
+        (**self).fold_export_decl(n)
+    }
+    fn fold_import_decl(&mut self, n: ImportDecl) -> ImportDecl {
+        (**self).fold_import_decl(n)
+    }
+    fn fold_export_all(&mut self, n: ExportAll) -> ExportAll {
+        (**self).fold_export_all(n)
+    }
+    fn fold_named_export(&mut self, n: NamedExport) -> NamedExport {
+        (**self).fold_named_export(n)
+    }
+    fn fold_export_default_decl(&mut self, n: ExportDefaultDecl) -> ExportDefaultDecl {
+        (**self).fold_export_default_decl(n)
+    }
+    fn fold_default_decl(&mut self, n: DefaultDecl) -> DefaultDecl {
+        (**self).fold_default_decl(n)
+    }
+    fn fold_import_specifier(&mut self, n: ImportSpecifier) -> ImportSpecifier {
+        (**self).fold_import_specifier(n)
+    }
+    fn fold_import_default_specifier(
+        &mut self,
+        n: ImportDefaultSpecifier,
+    ) -> ImportDefaultSpecifier {
+        (**self).fold_import_default_specifier(n)
+    }
+    fn fold_import_star_as_specifier(&mut self, n: ImportStarAsSpecifier) -> ImportStarAsSpecifier {
+        (**self).fold_import_star_as_specifier(n)
+    }
+    fn fold_import_named_specifier(&mut self, n: ImportNamedSpecifier) -> ImportNamedSpecifier {
+        (**self).fold_import_named_specifier(n)
+    }
+    fn fold_export_specifier(&mut self, n: ExportSpecifier) -> ExportSpecifier {
+        (**self).fold_export_specifier(n)
+    }
+    fn fold_export_namespace_specifier(
+        &mut self,
+        n: ExportNamespaceSpecifier,
+    ) -> ExportNamespaceSpecifier {
+        (**self).fold_export_namespace_specifier(n)
+    }
+    fn fold_export_default_specifier(
+        &mut self,
+        n: ExportDefaultSpecifier,
+    ) -> ExportDefaultSpecifier {
+        (**self).fold_export_default_specifier(n)
+    }
+    fn fold_export_named_specifier(&mut self, n: ExportNamedSpecifier) -> ExportNamedSpecifier {
+        (**self).fold_export_named_specifier(n)
+    }
+    fn fold_binary_op(&mut self, n: BinaryOp) -> BinaryOp {
+        (**self).fold_binary_op(n)
+    }
+    fn fold_assign_op(&mut self, n: AssignOp) -> AssignOp {
+        (**self).fold_assign_op(n)
+    }
+    fn fold_update_op(&mut self, n: UpdateOp) -> UpdateOp {
+        (**self).fold_update_op(n)
+    }
+    fn fold_unary_op(&mut self, n: UnaryOp) -> UnaryOp {
+        (**self).fold_unary_op(n)
+    }
+    fn fold_pat(&mut self, n: Pat) -> Pat {
+        (**self).fold_pat(n)
+    }
+    fn fold_array_pat(&mut self, n: ArrayPat) -> ArrayPat {
+        (**self).fold_array_pat(n)
+    }
+    fn fold_object_pat(&mut self, n: ObjectPat) -> ObjectPat {
+        (**self).fold_object_pat(n)
+    }
+    fn fold_assign_pat(&mut self, n: AssignPat) -> AssignPat {
+        (**self).fold_assign_pat(n)
+    }
+    fn fold_rest_pat(&mut self, n: RestPat) -> RestPat {
+        (**self).fold_rest_pat(n)
+    }
+    fn fold_object_pat_prop(&mut self, n: ObjectPatProp) -> ObjectPatProp {
+        (**self).fold_object_pat_prop(n)
+    }
+    fn fold_key_value_pat_prop(&mut self, n: KeyValuePatProp) -> KeyValuePatProp {
+        (**self).fold_key_value_pat_prop(n)
+    }
+    fn fold_assign_pat_prop(&mut self, n: AssignPatProp) -> AssignPatProp {
+        (**self).fold_assign_pat_prop(n)
+    }
+    fn fold_prop(&mut self, n: Prop) -> Prop {
+        (**self).fold_prop(n)
+    }
+    fn fold_key_value_prop(&mut self, n: KeyValueProp) -> KeyValueProp {
+        (**self).fold_key_value_prop(n)
+    }
+    fn fold_assign_prop(&mut self, n: AssignProp) -> AssignProp {
+        (**self).fold_assign_prop(n)
+    }
+    fn fold_getter_prop(&mut self, n: GetterProp) -> GetterProp {
+        (**self).fold_getter_prop(n)
+    }
+    fn fold_setter_prop(&mut self, n: SetterProp) -> SetterProp {
+        (**self).fold_setter_prop(n)
+    }
+    fn fold_method_prop(&mut self, n: MethodProp) -> MethodProp {
+        (**self).fold_method_prop(n)
+    }
+    fn fold_prop_name(&mut self, n: PropName) -> PropName {
+        (**self).fold_prop_name(n)
+    }
+    fn fold_computed_prop_name(&mut self, n: ComputedPropName) -> ComputedPropName {
+        (**self).fold_computed_prop_name(n)
+    }
+    fn fold_block_stmt(&mut self, n: BlockStmt) -> BlockStmt {
+        (**self).fold_block_stmt(n)
+    }
+    fn fold_stmt(&mut self, n: Stmt) -> Stmt {
+        (**self).fold_stmt(n)
+    }
+    fn fold_expr_stmt(&mut self, n: ExprStmt) -> ExprStmt {
+        (**self).fold_expr_stmt(n)
+    }
+    fn fold_empty_stmt(&mut self, n: EmptyStmt) -> EmptyStmt {
+        (**self).fold_empty_stmt(n)
+    }
+    fn fold_debugger_stmt(&mut self, n: DebuggerStmt) -> DebuggerStmt {
+        (**self).fold_debugger_stmt(n)
+    }
+    fn fold_with_stmt(&mut self, n: WithStmt) -> WithStmt {
+        (**self).fold_with_stmt(n)
+    }
+    fn fold_return_stmt(&mut self, n: ReturnStmt) -> ReturnStmt {
+        (**self).fold_return_stmt(n)
+    }
+    fn fold_labeled_stmt(&mut self, n: LabeledStmt) -> LabeledStmt {
+        (**self).fold_labeled_stmt(n)
+    }
+    fn fold_break_stmt(&mut self, n: BreakStmt) -> BreakStmt {
+        (**self).fold_break_stmt(n)
+    }
+    fn fold_continue_stmt(&mut self, n: ContinueStmt) -> ContinueStmt {
+        (**self).fold_continue_stmt(n)
+    }
+    fn fold_if_stmt(&mut self, n: IfStmt) -> IfStmt {
+        (**self).fold_if_stmt(n)
+    }
+    fn fold_switch_stmt(&mut self, n: SwitchStmt) -> SwitchStmt {
+        (**self).fold_switch_stmt(n)
+    }
+    fn fold_throw_stmt(&mut self, n: ThrowStmt) -> ThrowStmt {
+        (**self).fold_throw_stmt(n)
+    }
+    fn fold_try_stmt(&mut self, n: TryStmt) -> TryStmt {
+        (**self).fold_try_stmt(n)
+    }
+    fn fold_while_stmt(&mut self, n: WhileStmt) -> WhileStmt {
+        (**self).fold_while_stmt(n)
+    }
+    fn fold_do_while_stmt(&mut self, n: DoWhileStmt) -> DoWhileStmt {
+        (**self).fold_do_while_stmt(n)
+    }
+    fn fold_for_stmt(&mut self, n: ForStmt) -> ForStmt {
+        (**self).fold_for_stmt(n)
+    }
+    fn fold_for_in_stmt(&mut self, n: ForInStmt) -> ForInStmt {
+        (**self).fold_for_in_stmt(n)
+    }
+    fn fold_for_of_stmt(&mut self, n: ForOfStmt) -> ForOfStmt {
+        (**self).fold_for_of_stmt(n)
+    }
+    fn fold_switch_case(&mut self, n: SwitchCase) -> SwitchCase {
+        (**self).fold_switch_case(n)
+    }
+    fn fold_catch_clause(&mut self, n: CatchClause) -> CatchClause {
+        (**self).fold_catch_clause(n)
+    }
+    fn fold_var_decl_or_pat(&mut self, n: VarDeclOrPat) -> VarDeclOrPat {
+        (**self).fold_var_decl_or_pat(n)
+    }
+    fn fold_var_decl_or_expr(&mut self, n: VarDeclOrExpr) -> VarDeclOrExpr {
+        (**self).fold_var_decl_or_expr(n)
+    }
+    fn fold_ts_type_ann(&mut self, n: TsTypeAnn) -> TsTypeAnn {
+        (**self).fold_ts_type_ann(n)
+    }
+    fn fold_ts_type_param_decl(&mut self, n: TsTypeParamDecl) -> TsTypeParamDecl {
+        (**self).fold_ts_type_param_decl(n)
+    }
+    fn fold_ts_type_param(&mut self, n: TsTypeParam) -> TsTypeParam {
+        (**self).fold_ts_type_param(n)
+    }
+    fn fold_ts_type_param_instantiation(
+        &mut self,
+        n: TsTypeParamInstantiation,
+    ) -> TsTypeParamInstantiation {
+        (**self).fold_ts_type_param_instantiation(n)
+    }
+    fn fold_ts_type_cast_expr(&mut self, n: TsTypeCastExpr) -> TsTypeCastExpr {
+        (**self).fold_ts_type_cast_expr(n)
+    }
+    fn fold_ts_param_prop(&mut self, n: TsParamProp) -> TsParamProp {
+        (**self).fold_ts_param_prop(n)
+    }
+    fn fold_ts_param_prop_param(&mut self, n: TsParamPropParam) -> TsParamPropParam {
+        (**self).fold_ts_param_prop_param(n)
+    }
+    fn fold_ts_qualified_name(&mut self, n: TsQualifiedName) -> TsQualifiedName {
+        (**self).fold_ts_qualified_name(n)
+    }
+    fn fold_ts_entity_name(&mut self, n: TsEntityName) -> TsEntityName {
+        (**self).fold_ts_entity_name(n)
+    }
+    fn fold_ts_signature_decl(&mut self, n: TsSignatureDecl) -> TsSignatureDecl {
+        (**self).fold_ts_signature_decl(n)
+    }
+    fn fold_ts_type_element(&mut self, n: TsTypeElement) -> TsTypeElement {
+        (**self).fold_ts_type_element(n)
+    }
+    fn fold_ts_call_signature_decl(&mut self, n: TsCallSignatureDecl) -> TsCallSignatureDecl {
+        (**self).fold_ts_call_signature_decl(n)
+    }
+    fn fold_ts_construct_signature_decl(
+        &mut self,
+        n: TsConstructSignatureDecl,
+    ) -> TsConstructSignatureDecl {
+        (**self).fold_ts_construct_signature_decl(n)
+    }
+    fn fold_ts_property_signature(&mut self, n: TsPropertySignature) -> TsPropertySignature {
+        (**self).fold_ts_property_signature(n)
+    }
+    fn fold_ts_method_signature(&mut self, n: TsMethodSignature) -> TsMethodSignature {
+        (**self).fold_ts_method_signature(n)
+    }
+    fn fold_ts_index_signature(&mut self, n: TsIndexSignature) -> TsIndexSignature {
+        (**self).fold_ts_index_signature(n)
+    }
+    fn fold_ts_type(&mut self, n: TsType) -> TsType {
+        (**self).fold_ts_type(n)
+    }
+    fn fold_ts_fn_or_constructor_type(
+        &mut self,
+        n: TsFnOrConstructorType,
+    ) -> TsFnOrConstructorType {
+        (**self).fold_ts_fn_or_constructor_type(n)
+    }
+    fn fold_ts_keyword_type(&mut self, n: TsKeywordType) -> TsKeywordType {
+        (**self).fold_ts_keyword_type(n)
+    }
+    fn fold_ts_keyword_type_kind(&mut self, n: TsKeywordTypeKind) -> TsKeywordTypeKind {
+        (**self).fold_ts_keyword_type_kind(n)
+    }
+    fn fold_ts_this_type(&mut self, n: TsThisType) -> TsThisType {
+        (**self).fold_ts_this_type(n)
+    }
+    fn fold_ts_fn_param(&mut self, n: TsFnParam) -> TsFnParam {
+        (**self).fold_ts_fn_param(n)
+    }
+    fn fold_ts_fn_type(&mut self, n: TsFnType) -> TsFnType {
+        (**self).fold_ts_fn_type(n)
+    }
+    fn fold_ts_constructor_type(&mut self, n: TsConstructorType) -> TsConstructorType {
+        (**self).fold_ts_constructor_type(n)
+    }
+    fn fold_ts_type_ref(&mut self, n: TsTypeRef) -> TsTypeRef {
+        (**self).fold_ts_type_ref(n)
+    }
+    fn fold_ts_type_predicate(&mut self, n: TsTypePredicate) -> TsTypePredicate {
+        (**self).fold_ts_type_predicate(n)
+    }
+    fn fold_ts_this_type_or_ident(&mut self, n: TsThisTypeOrIdent) -> TsThisTypeOrIdent {
+        (**self).fold_ts_this_type_or_ident(n)
+    }
+    fn fold_ts_type_query(&mut self, n: TsTypeQuery) -> TsTypeQuery {
+        (**self).fold_ts_type_query(n)
+    }
+    fn fold_ts_type_query_expr(&mut self, n: TsTypeQueryExpr) -> TsTypeQueryExpr {
+        (**self).fold_ts_type_query_expr(n)
+    }
+    fn fold_ts_import_type(&mut self, n: TsImportType) -> TsImportType {
+        (**self).fold_ts_import_type(n)
+    }
+    fn fold_ts_type_lit(&mut self, n: TsTypeLit) -> TsTypeLit {
+        (**self).fold_ts_type_lit(n)
+    }
+    fn fold_ts_array_type(&mut self, n: TsArrayType) -> TsArrayType {
+        (**self).fold_ts_array_type(n)
+    }
+    fn fold_ts_tuple_type(&mut self, n: TsTupleType) -> TsTupleType {
+        (**self).fold_ts_tuple_type(n)
+    }
+    fn fold_ts_tuple_element(&mut self, n: TsTupleElement) -> TsTupleElement {
+        (**self).fold_ts_tuple_element(n)
+    }
+    fn fold_ts_optional_type(&mut self, n: TsOptionalType) -> TsOptionalType {
+        (**self).fold_ts_optional_type(n)
+    }
+    fn fold_ts_rest_type(&mut self, n: TsRestType) -> TsRestType {
+        (**self).fold_ts_rest_type(n)
+    }
+    fn fold_ts_union_or_intersection_type(
+        &mut self,
+        n: TsUnionOrIntersectionType,
+    ) -> TsUnionOrIntersectionType {
+        (**self).fold_ts_union_or_intersection_type(n)
+    }
+    fn fold_ts_union_type(&mut self, n: TsUnionType) -> TsUnionType {
+        (**self).fold_ts_union_type(n)
+    }
+    fn fold_ts_intersection_type(&mut self, n: TsIntersectionType) -> TsIntersectionType {
+        (**self).fold_ts_intersection_type(n)
+    }
+    fn fold_ts_conditional_type(&mut self, n: TsConditionalType) -> TsConditionalType {
+        (**self).fold_ts_conditional_type(n)
+    }
+    fn fold_ts_infer_type(&mut self, n: TsInferType) -> TsInferType {
+        (**self).fold_ts_infer_type(n)
+    }
+    fn fold_ts_parenthesized_type(&mut self, n: TsParenthesizedType) -> TsParenthesizedType {
+        (**self).fold_ts_parenthesized_type(n)
+    }
+    fn fold_ts_type_operator(&mut self, n: TsTypeOperator) -> TsTypeOperator {
+        (**self).fold_ts_type_operator(n)
+    }
+    fn fold_ts_type_operator_op(&mut self, n: TsTypeOperatorOp) -> TsTypeOperatorOp {
+        (**self).fold_ts_type_operator_op(n)
+    }
+    fn fold_ts_indexed_access_type(&mut self, n: TsIndexedAccessType) -> TsIndexedAccessType {
+        (**self).fold_ts_indexed_access_type(n)
+    }
+    fn fold_true_plus_minus(&mut self, n: TruePlusMinus) -> TruePlusMinus {
+        (**self).fold_true_plus_minus(n)
+    }
+    fn fold_ts_mapped_type(&mut self, n: TsMappedType) -> TsMappedType {
+        (**self).fold_ts_mapped_type(n)
+    }
+    fn fold_ts_lit_type(&mut self, n: TsLitType) -> TsLitType {
+        (**self).fold_ts_lit_type(n)
+    }
+    fn fold_ts_lit(&mut self, n: TsLit) -> TsLit {
+        (**self).fold_ts_lit(n)
+    }
+    fn fold_ts_interface_decl(&mut self, n: TsInterfaceDecl) -> TsInterfaceDecl {
+        (**self).fold_ts_interface_decl(n)
+    }
+    fn fold_ts_interface_body(&mut self, n: TsInterfaceBody) -> TsInterfaceBody {
+        (**self).fold_ts_interface_body(n)
+    }
+    fn fold_ts_expr_with_type_args(&mut self, n: TsExprWithTypeArgs) -> TsExprWithTypeArgs {
+        (**self).fold_ts_expr_with_type_args(n)
+    }
+    fn fold_ts_type_alias_decl(&mut self, n: TsTypeAliasDecl) -> TsTypeAliasDecl {
+        (**self).fold_ts_type_alias_decl(n)
+    }
+    fn fold_ts_enum_decl(&mut self, n: TsEnumDecl) -> TsEnumDecl {
+        (**self).fold_ts_enum_decl(n)
+    }
+    fn fold_ts_enum_member(&mut self, n: TsEnumMember) -> TsEnumMember {
+        (**self).fold_ts_enum_member(n)
+    }
+    fn fold_ts_enum_member_id(&mut self, n: TsEnumMemberId) -> TsEnumMemberId {
+        (**self).fold_ts_enum_member_id(n)
+    }
+    fn fold_ts_module_decl(&mut self, n: TsModuleDecl) -> TsModuleDecl {
+        (**self).fold_ts_module_decl(n)
+    }
+    fn fold_ts_namespace_body(&mut self, n: TsNamespaceBody) -> TsNamespaceBody {
+        (**self).fold_ts_namespace_body(n)
+    }
+    fn fold_ts_module_block(&mut self, n: TsModuleBlock) -> TsModuleBlock {
+        (**self).fold_ts_module_block(n)
+    }
+    fn fold_ts_namespace_decl(&mut self, n: TsNamespaceDecl) -> TsNamespaceDecl {
+        (**self).fold_ts_namespace_decl(n)
+    }
+    fn fold_ts_module_name(&mut self, n: TsModuleName) -> TsModuleName {
+        (**self).fold_ts_module_name(n)
+    }
+    fn fold_ts_import_equals_decl(&mut self, n: TsImportEqualsDecl) -> TsImportEqualsDecl {
+        (**self).fold_ts_import_equals_decl(n)
+    }
+    fn fold_ts_module_ref(&mut self, n: TsModuleRef) -> TsModuleRef {
+        (**self).fold_ts_module_ref(n)
+    }
+    fn fold_ts_external_module_ref(&mut self, n: TsExternalModuleRef) -> TsExternalModuleRef {
+        (**self).fold_ts_external_module_ref(n)
+    }
+    fn fold_ts_export_assignment(&mut self, n: TsExportAssignment) -> TsExportAssignment {
+        (**self).fold_ts_export_assignment(n)
+    }
+    fn fold_ts_namespace_export_decl(&mut self, n: TsNamespaceExportDecl) -> TsNamespaceExportDecl {
+        (**self).fold_ts_namespace_export_decl(n)
+    }
+    fn fold_ts_as_expr(&mut self, n: TsAsExpr) -> TsAsExpr {
+        (**self).fold_ts_as_expr(n)
+    }
+    fn fold_ts_type_assertion(&mut self, n: TsTypeAssertion) -> TsTypeAssertion {
+        (**self).fold_ts_type_assertion(n)
+    }
+    fn fold_ts_non_null_expr(&mut self, n: TsNonNullExpr) -> TsNonNullExpr {
+        (**self).fold_ts_non_null_expr(n)
+    }
+    fn fold_accessibility(&mut self, n: Accessibility) -> Accessibility {
+        (**self).fold_accessibility(n)
+    }
+    fn fold_ts_const_assertion(&mut self, n: TsConstAssertion) -> TsConstAssertion {
+        (**self).fold_ts_const_assertion(n)
+    }
+}
 impl<V> Fold for ::swc_visit::Optional<V>
 where
     V: Fold,
@@ -17852,6 +19182,1326 @@ pub trait Visit {
     #[allow(unused_variables)]
     fn visit_opt_expr_or_spread(&mut self, n: Option<&ExprOrSpread>, _parent: &dyn Node) {
         visit_opt_expr_or_spread(self, n, _parent)
+    }
+}
+impl<'a, V> Visit for &'a mut V
+where
+    V: ?Sized + Visit,
+{
+    fn visit_class(&mut self, n: &Class, _parent: &dyn Node) {
+        (**self).visit_class(n, _parent)
+    }
+    fn visit_class_member(&mut self, n: &ClassMember, _parent: &dyn Node) {
+        (**self).visit_class_member(n, _parent)
+    }
+    fn visit_class_prop(&mut self, n: &ClassProp, _parent: &dyn Node) {
+        (**self).visit_class_prop(n, _parent)
+    }
+    fn visit_private_prop(&mut self, n: &PrivateProp, _parent: &dyn Node) {
+        (**self).visit_private_prop(n, _parent)
+    }
+    fn visit_class_method(&mut self, n: &ClassMethod, _parent: &dyn Node) {
+        (**self).visit_class_method(n, _parent)
+    }
+    fn visit_private_method(&mut self, n: &PrivateMethod, _parent: &dyn Node) {
+        (**self).visit_private_method(n, _parent)
+    }
+    fn visit_constructor(&mut self, n: &Constructor, _parent: &dyn Node) {
+        (**self).visit_constructor(n, _parent)
+    }
+    fn visit_decorator(&mut self, n: &Decorator, _parent: &dyn Node) {
+        (**self).visit_decorator(n, _parent)
+    }
+    fn visit_method_kind(&mut self, n: &MethodKind, _parent: &dyn Node) {
+        (**self).visit_method_kind(n, _parent)
+    }
+    fn visit_decl(&mut self, n: &Decl, _parent: &dyn Node) {
+        (**self).visit_decl(n, _parent)
+    }
+    fn visit_fn_decl(&mut self, n: &FnDecl, _parent: &dyn Node) {
+        (**self).visit_fn_decl(n, _parent)
+    }
+    fn visit_class_decl(&mut self, n: &ClassDecl, _parent: &dyn Node) {
+        (**self).visit_class_decl(n, _parent)
+    }
+    fn visit_var_decl(&mut self, n: &VarDecl, _parent: &dyn Node) {
+        (**self).visit_var_decl(n, _parent)
+    }
+    fn visit_var_decl_kind(&mut self, n: &VarDeclKind, _parent: &dyn Node) {
+        (**self).visit_var_decl_kind(n, _parent)
+    }
+    fn visit_var_declarator(&mut self, n: &VarDeclarator, _parent: &dyn Node) {
+        (**self).visit_var_declarator(n, _parent)
+    }
+    fn visit_expr(&mut self, n: &Expr, _parent: &dyn Node) {
+        (**self).visit_expr(n, _parent)
+    }
+    fn visit_this_expr(&mut self, n: &ThisExpr, _parent: &dyn Node) {
+        (**self).visit_this_expr(n, _parent)
+    }
+    fn visit_array_lit(&mut self, n: &ArrayLit, _parent: &dyn Node) {
+        (**self).visit_array_lit(n, _parent)
+    }
+    fn visit_object_lit(&mut self, n: &ObjectLit, _parent: &dyn Node) {
+        (**self).visit_object_lit(n, _parent)
+    }
+    fn visit_prop_or_spread(&mut self, n: &PropOrSpread, _parent: &dyn Node) {
+        (**self).visit_prop_or_spread(n, _parent)
+    }
+    fn visit_spread_element(&mut self, n: &SpreadElement, _parent: &dyn Node) {
+        (**self).visit_spread_element(n, _parent)
+    }
+    fn visit_unary_expr(&mut self, n: &UnaryExpr, _parent: &dyn Node) {
+        (**self).visit_unary_expr(n, _parent)
+    }
+    fn visit_update_expr(&mut self, n: &UpdateExpr, _parent: &dyn Node) {
+        (**self).visit_update_expr(n, _parent)
+    }
+    fn visit_bin_expr(&mut self, n: &BinExpr, _parent: &dyn Node) {
+        (**self).visit_bin_expr(n, _parent)
+    }
+    fn visit_fn_expr(&mut self, n: &FnExpr, _parent: &dyn Node) {
+        (**self).visit_fn_expr(n, _parent)
+    }
+    fn visit_class_expr(&mut self, n: &ClassExpr, _parent: &dyn Node) {
+        (**self).visit_class_expr(n, _parent)
+    }
+    fn visit_assign_expr(&mut self, n: &AssignExpr, _parent: &dyn Node) {
+        (**self).visit_assign_expr(n, _parent)
+    }
+    fn visit_member_expr(&mut self, n: &MemberExpr, _parent: &dyn Node) {
+        (**self).visit_member_expr(n, _parent)
+    }
+    fn visit_cond_expr(&mut self, n: &CondExpr, _parent: &dyn Node) {
+        (**self).visit_cond_expr(n, _parent)
+    }
+    fn visit_call_expr(&mut self, n: &CallExpr, _parent: &dyn Node) {
+        (**self).visit_call_expr(n, _parent)
+    }
+    fn visit_new_expr(&mut self, n: &NewExpr, _parent: &dyn Node) {
+        (**self).visit_new_expr(n, _parent)
+    }
+    fn visit_seq_expr(&mut self, n: &SeqExpr, _parent: &dyn Node) {
+        (**self).visit_seq_expr(n, _parent)
+    }
+    fn visit_arrow_expr(&mut self, n: &ArrowExpr, _parent: &dyn Node) {
+        (**self).visit_arrow_expr(n, _parent)
+    }
+    fn visit_yield_expr(&mut self, n: &YieldExpr, _parent: &dyn Node) {
+        (**self).visit_yield_expr(n, _parent)
+    }
+    fn visit_meta_prop_expr(&mut self, n: &MetaPropExpr, _parent: &dyn Node) {
+        (**self).visit_meta_prop_expr(n, _parent)
+    }
+    fn visit_await_expr(&mut self, n: &AwaitExpr, _parent: &dyn Node) {
+        (**self).visit_await_expr(n, _parent)
+    }
+    fn visit_tpl(&mut self, n: &Tpl, _parent: &dyn Node) {
+        (**self).visit_tpl(n, _parent)
+    }
+    fn visit_tagged_tpl(&mut self, n: &TaggedTpl, _parent: &dyn Node) {
+        (**self).visit_tagged_tpl(n, _parent)
+    }
+    fn visit_tpl_element(&mut self, n: &TplElement, _parent: &dyn Node) {
+        (**self).visit_tpl_element(n, _parent)
+    }
+    fn visit_paren_expr(&mut self, n: &ParenExpr, _parent: &dyn Node) {
+        (**self).visit_paren_expr(n, _parent)
+    }
+    fn visit_expr_or_super(&mut self, n: &ExprOrSuper, _parent: &dyn Node) {
+        (**self).visit_expr_or_super(n, _parent)
+    }
+    fn visit_super(&mut self, n: &Super, _parent: &dyn Node) {
+        (**self).visit_super(n, _parent)
+    }
+    fn visit_expr_or_spread(&mut self, n: &ExprOrSpread, _parent: &dyn Node) {
+        (**self).visit_expr_or_spread(n, _parent)
+    }
+    fn visit_block_stmt_or_expr(&mut self, n: &BlockStmtOrExpr, _parent: &dyn Node) {
+        (**self).visit_block_stmt_or_expr(n, _parent)
+    }
+    fn visit_pat_or_expr(&mut self, n: &PatOrExpr, _parent: &dyn Node) {
+        (**self).visit_pat_or_expr(n, _parent)
+    }
+    fn visit_opt_chain_expr(&mut self, n: &OptChainExpr, _parent: &dyn Node) {
+        (**self).visit_opt_chain_expr(n, _parent)
+    }
+    fn visit_function(&mut self, n: &Function, _parent: &dyn Node) {
+        (**self).visit_function(n, _parent)
+    }
+    fn visit_param(&mut self, n: &Param, _parent: &dyn Node) {
+        (**self).visit_param(n, _parent)
+    }
+    fn visit_param_or_ts_param_prop(&mut self, n: &ParamOrTsParamProp, _parent: &dyn Node) {
+        (**self).visit_param_or_ts_param_prop(n, _parent)
+    }
+    fn visit_ident(&mut self, n: &Ident, _parent: &dyn Node) {
+        (**self).visit_ident(n, _parent)
+    }
+    fn visit_private_name(&mut self, n: &PrivateName, _parent: &dyn Node) {
+        (**self).visit_private_name(n, _parent)
+    }
+    fn visit_jsx_object(&mut self, n: &JSXObject, _parent: &dyn Node) {
+        (**self).visit_jsx_object(n, _parent)
+    }
+    fn visit_jsx_member_expr(&mut self, n: &JSXMemberExpr, _parent: &dyn Node) {
+        (**self).visit_jsx_member_expr(n, _parent)
+    }
+    fn visit_jsx_namespaced_name(&mut self, n: &JSXNamespacedName, _parent: &dyn Node) {
+        (**self).visit_jsx_namespaced_name(n, _parent)
+    }
+    fn visit_jsx_empty_expr(&mut self, n: &JSXEmptyExpr, _parent: &dyn Node) {
+        (**self).visit_jsx_empty_expr(n, _parent)
+    }
+    fn visit_jsx_expr_container(&mut self, n: &JSXExprContainer, _parent: &dyn Node) {
+        (**self).visit_jsx_expr_container(n, _parent)
+    }
+    fn visit_jsx_expr(&mut self, n: &JSXExpr, _parent: &dyn Node) {
+        (**self).visit_jsx_expr(n, _parent)
+    }
+    fn visit_jsx_spread_child(&mut self, n: &JSXSpreadChild, _parent: &dyn Node) {
+        (**self).visit_jsx_spread_child(n, _parent)
+    }
+    fn visit_jsx_element_name(&mut self, n: &JSXElementName, _parent: &dyn Node) {
+        (**self).visit_jsx_element_name(n, _parent)
+    }
+    fn visit_jsx_opening_element(&mut self, n: &JSXOpeningElement, _parent: &dyn Node) {
+        (**self).visit_jsx_opening_element(n, _parent)
+    }
+    fn visit_jsx_attr_or_spread(&mut self, n: &JSXAttrOrSpread, _parent: &dyn Node) {
+        (**self).visit_jsx_attr_or_spread(n, _parent)
+    }
+    fn visit_jsx_closing_element(&mut self, n: &JSXClosingElement, _parent: &dyn Node) {
+        (**self).visit_jsx_closing_element(n, _parent)
+    }
+    fn visit_jsx_attr(&mut self, n: &JSXAttr, _parent: &dyn Node) {
+        (**self).visit_jsx_attr(n, _parent)
+    }
+    fn visit_jsx_attr_name(&mut self, n: &JSXAttrName, _parent: &dyn Node) {
+        (**self).visit_jsx_attr_name(n, _parent)
+    }
+    fn visit_jsx_attr_value(&mut self, n: &JSXAttrValue, _parent: &dyn Node) {
+        (**self).visit_jsx_attr_value(n, _parent)
+    }
+    fn visit_jsx_text(&mut self, n: &JSXText, _parent: &dyn Node) {
+        (**self).visit_jsx_text(n, _parent)
+    }
+    fn visit_jsx_element(&mut self, n: &JSXElement, _parent: &dyn Node) {
+        (**self).visit_jsx_element(n, _parent)
+    }
+    fn visit_jsx_element_child(&mut self, n: &JSXElementChild, _parent: &dyn Node) {
+        (**self).visit_jsx_element_child(n, _parent)
+    }
+    fn visit_jsx_fragment(&mut self, n: &JSXFragment, _parent: &dyn Node) {
+        (**self).visit_jsx_fragment(n, _parent)
+    }
+    fn visit_jsx_opening_fragment(&mut self, n: &JSXOpeningFragment, _parent: &dyn Node) {
+        (**self).visit_jsx_opening_fragment(n, _parent)
+    }
+    fn visit_jsx_closing_fragment(&mut self, n: &JSXClosingFragment, _parent: &dyn Node) {
+        (**self).visit_jsx_closing_fragment(n, _parent)
+    }
+    fn visit_invalid(&mut self, n: &Invalid, _parent: &dyn Node) {
+        (**self).visit_invalid(n, _parent)
+    }
+    fn visit_lit(&mut self, n: &Lit, _parent: &dyn Node) {
+        (**self).visit_lit(n, _parent)
+    }
+    fn visit_big_int(&mut self, n: &BigInt, _parent: &dyn Node) {
+        (**self).visit_big_int(n, _parent)
+    }
+    fn visit_str(&mut self, n: &Str, _parent: &dyn Node) {
+        (**self).visit_str(n, _parent)
+    }
+    fn visit_bool(&mut self, n: &Bool, _parent: &dyn Node) {
+        (**self).visit_bool(n, _parent)
+    }
+    fn visit_null(&mut self, n: &Null, _parent: &dyn Node) {
+        (**self).visit_null(n, _parent)
+    }
+    fn visit_regex(&mut self, n: &Regex, _parent: &dyn Node) {
+        (**self).visit_regex(n, _parent)
+    }
+    fn visit_number(&mut self, n: &Number, _parent: &dyn Node) {
+        (**self).visit_number(n, _parent)
+    }
+    fn visit_program(&mut self, n: &Program, _parent: &dyn Node) {
+        (**self).visit_program(n, _parent)
+    }
+    fn visit_module(&mut self, n: &Module, _parent: &dyn Node) {
+        (**self).visit_module(n, _parent)
+    }
+    fn visit_script(&mut self, n: &Script, _parent: &dyn Node) {
+        (**self).visit_script(n, _parent)
+    }
+    fn visit_module_item(&mut self, n: &ModuleItem, _parent: &dyn Node) {
+        (**self).visit_module_item(n, _parent)
+    }
+    fn visit_module_decl(&mut self, n: &ModuleDecl, _parent: &dyn Node) {
+        (**self).visit_module_decl(n, _parent)
+    }
+    fn visit_export_default_expr(&mut self, n: &ExportDefaultExpr, _parent: &dyn Node) {
+        (**self).visit_export_default_expr(n, _parent)
+    }
+    fn visit_export_decl(&mut self, n: &ExportDecl, _parent: &dyn Node) {
+        (**self).visit_export_decl(n, _parent)
+    }
+    fn visit_import_decl(&mut self, n: &ImportDecl, _parent: &dyn Node) {
+        (**self).visit_import_decl(n, _parent)
+    }
+    fn visit_export_all(&mut self, n: &ExportAll, _parent: &dyn Node) {
+        (**self).visit_export_all(n, _parent)
+    }
+    fn visit_named_export(&mut self, n: &NamedExport, _parent: &dyn Node) {
+        (**self).visit_named_export(n, _parent)
+    }
+    fn visit_export_default_decl(&mut self, n: &ExportDefaultDecl, _parent: &dyn Node) {
+        (**self).visit_export_default_decl(n, _parent)
+    }
+    fn visit_default_decl(&mut self, n: &DefaultDecl, _parent: &dyn Node) {
+        (**self).visit_default_decl(n, _parent)
+    }
+    fn visit_import_specifier(&mut self, n: &ImportSpecifier, _parent: &dyn Node) {
+        (**self).visit_import_specifier(n, _parent)
+    }
+    fn visit_import_default_specifier(&mut self, n: &ImportDefaultSpecifier, _parent: &dyn Node) {
+        (**self).visit_import_default_specifier(n, _parent)
+    }
+    fn visit_import_star_as_specifier(&mut self, n: &ImportStarAsSpecifier, _parent: &dyn Node) {
+        (**self).visit_import_star_as_specifier(n, _parent)
+    }
+    fn visit_import_named_specifier(&mut self, n: &ImportNamedSpecifier, _parent: &dyn Node) {
+        (**self).visit_import_named_specifier(n, _parent)
+    }
+    fn visit_export_specifier(&mut self, n: &ExportSpecifier, _parent: &dyn Node) {
+        (**self).visit_export_specifier(n, _parent)
+    }
+    fn visit_export_namespace_specifier(
+        &mut self,
+        n: &ExportNamespaceSpecifier,
+        _parent: &dyn Node,
+    ) {
+        (**self).visit_export_namespace_specifier(n, _parent)
+    }
+    fn visit_export_default_specifier(&mut self, n: &ExportDefaultSpecifier, _parent: &dyn Node) {
+        (**self).visit_export_default_specifier(n, _parent)
+    }
+    fn visit_export_named_specifier(&mut self, n: &ExportNamedSpecifier, _parent: &dyn Node) {
+        (**self).visit_export_named_specifier(n, _parent)
+    }
+    fn visit_binary_op(&mut self, n: &BinaryOp, _parent: &dyn Node) {
+        (**self).visit_binary_op(n, _parent)
+    }
+    fn visit_assign_op(&mut self, n: &AssignOp, _parent: &dyn Node) {
+        (**self).visit_assign_op(n, _parent)
+    }
+    fn visit_update_op(&mut self, n: &UpdateOp, _parent: &dyn Node) {
+        (**self).visit_update_op(n, _parent)
+    }
+    fn visit_unary_op(&mut self, n: &UnaryOp, _parent: &dyn Node) {
+        (**self).visit_unary_op(n, _parent)
+    }
+    fn visit_pat(&mut self, n: &Pat, _parent: &dyn Node) {
+        (**self).visit_pat(n, _parent)
+    }
+    fn visit_array_pat(&mut self, n: &ArrayPat, _parent: &dyn Node) {
+        (**self).visit_array_pat(n, _parent)
+    }
+    fn visit_object_pat(&mut self, n: &ObjectPat, _parent: &dyn Node) {
+        (**self).visit_object_pat(n, _parent)
+    }
+    fn visit_assign_pat(&mut self, n: &AssignPat, _parent: &dyn Node) {
+        (**self).visit_assign_pat(n, _parent)
+    }
+    fn visit_rest_pat(&mut self, n: &RestPat, _parent: &dyn Node) {
+        (**self).visit_rest_pat(n, _parent)
+    }
+    fn visit_object_pat_prop(&mut self, n: &ObjectPatProp, _parent: &dyn Node) {
+        (**self).visit_object_pat_prop(n, _parent)
+    }
+    fn visit_key_value_pat_prop(&mut self, n: &KeyValuePatProp, _parent: &dyn Node) {
+        (**self).visit_key_value_pat_prop(n, _parent)
+    }
+    fn visit_assign_pat_prop(&mut self, n: &AssignPatProp, _parent: &dyn Node) {
+        (**self).visit_assign_pat_prop(n, _parent)
+    }
+    fn visit_prop(&mut self, n: &Prop, _parent: &dyn Node) {
+        (**self).visit_prop(n, _parent)
+    }
+    fn visit_key_value_prop(&mut self, n: &KeyValueProp, _parent: &dyn Node) {
+        (**self).visit_key_value_prop(n, _parent)
+    }
+    fn visit_assign_prop(&mut self, n: &AssignProp, _parent: &dyn Node) {
+        (**self).visit_assign_prop(n, _parent)
+    }
+    fn visit_getter_prop(&mut self, n: &GetterProp, _parent: &dyn Node) {
+        (**self).visit_getter_prop(n, _parent)
+    }
+    fn visit_setter_prop(&mut self, n: &SetterProp, _parent: &dyn Node) {
+        (**self).visit_setter_prop(n, _parent)
+    }
+    fn visit_method_prop(&mut self, n: &MethodProp, _parent: &dyn Node) {
+        (**self).visit_method_prop(n, _parent)
+    }
+    fn visit_prop_name(&mut self, n: &PropName, _parent: &dyn Node) {
+        (**self).visit_prop_name(n, _parent)
+    }
+    fn visit_computed_prop_name(&mut self, n: &ComputedPropName, _parent: &dyn Node) {
+        (**self).visit_computed_prop_name(n, _parent)
+    }
+    fn visit_block_stmt(&mut self, n: &BlockStmt, _parent: &dyn Node) {
+        (**self).visit_block_stmt(n, _parent)
+    }
+    fn visit_stmt(&mut self, n: &Stmt, _parent: &dyn Node) {
+        (**self).visit_stmt(n, _parent)
+    }
+    fn visit_expr_stmt(&mut self, n: &ExprStmt, _parent: &dyn Node) {
+        (**self).visit_expr_stmt(n, _parent)
+    }
+    fn visit_empty_stmt(&mut self, n: &EmptyStmt, _parent: &dyn Node) {
+        (**self).visit_empty_stmt(n, _parent)
+    }
+    fn visit_debugger_stmt(&mut self, n: &DebuggerStmt, _parent: &dyn Node) {
+        (**self).visit_debugger_stmt(n, _parent)
+    }
+    fn visit_with_stmt(&mut self, n: &WithStmt, _parent: &dyn Node) {
+        (**self).visit_with_stmt(n, _parent)
+    }
+    fn visit_return_stmt(&mut self, n: &ReturnStmt, _parent: &dyn Node) {
+        (**self).visit_return_stmt(n, _parent)
+    }
+    fn visit_labeled_stmt(&mut self, n: &LabeledStmt, _parent: &dyn Node) {
+        (**self).visit_labeled_stmt(n, _parent)
+    }
+    fn visit_break_stmt(&mut self, n: &BreakStmt, _parent: &dyn Node) {
+        (**self).visit_break_stmt(n, _parent)
+    }
+    fn visit_continue_stmt(&mut self, n: &ContinueStmt, _parent: &dyn Node) {
+        (**self).visit_continue_stmt(n, _parent)
+    }
+    fn visit_if_stmt(&mut self, n: &IfStmt, _parent: &dyn Node) {
+        (**self).visit_if_stmt(n, _parent)
+    }
+    fn visit_switch_stmt(&mut self, n: &SwitchStmt, _parent: &dyn Node) {
+        (**self).visit_switch_stmt(n, _parent)
+    }
+    fn visit_throw_stmt(&mut self, n: &ThrowStmt, _parent: &dyn Node) {
+        (**self).visit_throw_stmt(n, _parent)
+    }
+    fn visit_try_stmt(&mut self, n: &TryStmt, _parent: &dyn Node) {
+        (**self).visit_try_stmt(n, _parent)
+    }
+    fn visit_while_stmt(&mut self, n: &WhileStmt, _parent: &dyn Node) {
+        (**self).visit_while_stmt(n, _parent)
+    }
+    fn visit_do_while_stmt(&mut self, n: &DoWhileStmt, _parent: &dyn Node) {
+        (**self).visit_do_while_stmt(n, _parent)
+    }
+    fn visit_for_stmt(&mut self, n: &ForStmt, _parent: &dyn Node) {
+        (**self).visit_for_stmt(n, _parent)
+    }
+    fn visit_for_in_stmt(&mut self, n: &ForInStmt, _parent: &dyn Node) {
+        (**self).visit_for_in_stmt(n, _parent)
+    }
+    fn visit_for_of_stmt(&mut self, n: &ForOfStmt, _parent: &dyn Node) {
+        (**self).visit_for_of_stmt(n, _parent)
+    }
+    fn visit_switch_case(&mut self, n: &SwitchCase, _parent: &dyn Node) {
+        (**self).visit_switch_case(n, _parent)
+    }
+    fn visit_catch_clause(&mut self, n: &CatchClause, _parent: &dyn Node) {
+        (**self).visit_catch_clause(n, _parent)
+    }
+    fn visit_var_decl_or_pat(&mut self, n: &VarDeclOrPat, _parent: &dyn Node) {
+        (**self).visit_var_decl_or_pat(n, _parent)
+    }
+    fn visit_var_decl_or_expr(&mut self, n: &VarDeclOrExpr, _parent: &dyn Node) {
+        (**self).visit_var_decl_or_expr(n, _parent)
+    }
+    fn visit_ts_type_ann(&mut self, n: &TsTypeAnn, _parent: &dyn Node) {
+        (**self).visit_ts_type_ann(n, _parent)
+    }
+    fn visit_ts_type_param_decl(&mut self, n: &TsTypeParamDecl, _parent: &dyn Node) {
+        (**self).visit_ts_type_param_decl(n, _parent)
+    }
+    fn visit_ts_type_param(&mut self, n: &TsTypeParam, _parent: &dyn Node) {
+        (**self).visit_ts_type_param(n, _parent)
+    }
+    fn visit_ts_type_param_instantiation(
+        &mut self,
+        n: &TsTypeParamInstantiation,
+        _parent: &dyn Node,
+    ) {
+        (**self).visit_ts_type_param_instantiation(n, _parent)
+    }
+    fn visit_ts_type_cast_expr(&mut self, n: &TsTypeCastExpr, _parent: &dyn Node) {
+        (**self).visit_ts_type_cast_expr(n, _parent)
+    }
+    fn visit_ts_param_prop(&mut self, n: &TsParamProp, _parent: &dyn Node) {
+        (**self).visit_ts_param_prop(n, _parent)
+    }
+    fn visit_ts_param_prop_param(&mut self, n: &TsParamPropParam, _parent: &dyn Node) {
+        (**self).visit_ts_param_prop_param(n, _parent)
+    }
+    fn visit_ts_qualified_name(&mut self, n: &TsQualifiedName, _parent: &dyn Node) {
+        (**self).visit_ts_qualified_name(n, _parent)
+    }
+    fn visit_ts_entity_name(&mut self, n: &TsEntityName, _parent: &dyn Node) {
+        (**self).visit_ts_entity_name(n, _parent)
+    }
+    fn visit_ts_signature_decl(&mut self, n: &TsSignatureDecl, _parent: &dyn Node) {
+        (**self).visit_ts_signature_decl(n, _parent)
+    }
+    fn visit_ts_type_element(&mut self, n: &TsTypeElement, _parent: &dyn Node) {
+        (**self).visit_ts_type_element(n, _parent)
+    }
+    fn visit_ts_call_signature_decl(&mut self, n: &TsCallSignatureDecl, _parent: &dyn Node) {
+        (**self).visit_ts_call_signature_decl(n, _parent)
+    }
+    fn visit_ts_construct_signature_decl(
+        &mut self,
+        n: &TsConstructSignatureDecl,
+        _parent: &dyn Node,
+    ) {
+        (**self).visit_ts_construct_signature_decl(n, _parent)
+    }
+    fn visit_ts_property_signature(&mut self, n: &TsPropertySignature, _parent: &dyn Node) {
+        (**self).visit_ts_property_signature(n, _parent)
+    }
+    fn visit_ts_method_signature(&mut self, n: &TsMethodSignature, _parent: &dyn Node) {
+        (**self).visit_ts_method_signature(n, _parent)
+    }
+    fn visit_ts_index_signature(&mut self, n: &TsIndexSignature, _parent: &dyn Node) {
+        (**self).visit_ts_index_signature(n, _parent)
+    }
+    fn visit_ts_type(&mut self, n: &TsType, _parent: &dyn Node) {
+        (**self).visit_ts_type(n, _parent)
+    }
+    fn visit_ts_fn_or_constructor_type(&mut self, n: &TsFnOrConstructorType, _parent: &dyn Node) {
+        (**self).visit_ts_fn_or_constructor_type(n, _parent)
+    }
+    fn visit_ts_keyword_type(&mut self, n: &TsKeywordType, _parent: &dyn Node) {
+        (**self).visit_ts_keyword_type(n, _parent)
+    }
+    fn visit_ts_keyword_type_kind(&mut self, n: &TsKeywordTypeKind, _parent: &dyn Node) {
+        (**self).visit_ts_keyword_type_kind(n, _parent)
+    }
+    fn visit_ts_this_type(&mut self, n: &TsThisType, _parent: &dyn Node) {
+        (**self).visit_ts_this_type(n, _parent)
+    }
+    fn visit_ts_fn_param(&mut self, n: &TsFnParam, _parent: &dyn Node) {
+        (**self).visit_ts_fn_param(n, _parent)
+    }
+    fn visit_ts_fn_type(&mut self, n: &TsFnType, _parent: &dyn Node) {
+        (**self).visit_ts_fn_type(n, _parent)
+    }
+    fn visit_ts_constructor_type(&mut self, n: &TsConstructorType, _parent: &dyn Node) {
+        (**self).visit_ts_constructor_type(n, _parent)
+    }
+    fn visit_ts_type_ref(&mut self, n: &TsTypeRef, _parent: &dyn Node) {
+        (**self).visit_ts_type_ref(n, _parent)
+    }
+    fn visit_ts_type_predicate(&mut self, n: &TsTypePredicate, _parent: &dyn Node) {
+        (**self).visit_ts_type_predicate(n, _parent)
+    }
+    fn visit_ts_this_type_or_ident(&mut self, n: &TsThisTypeOrIdent, _parent: &dyn Node) {
+        (**self).visit_ts_this_type_or_ident(n, _parent)
+    }
+    fn visit_ts_type_query(&mut self, n: &TsTypeQuery, _parent: &dyn Node) {
+        (**self).visit_ts_type_query(n, _parent)
+    }
+    fn visit_ts_type_query_expr(&mut self, n: &TsTypeQueryExpr, _parent: &dyn Node) {
+        (**self).visit_ts_type_query_expr(n, _parent)
+    }
+    fn visit_ts_import_type(&mut self, n: &TsImportType, _parent: &dyn Node) {
+        (**self).visit_ts_import_type(n, _parent)
+    }
+    fn visit_ts_type_lit(&mut self, n: &TsTypeLit, _parent: &dyn Node) {
+        (**self).visit_ts_type_lit(n, _parent)
+    }
+    fn visit_ts_array_type(&mut self, n: &TsArrayType, _parent: &dyn Node) {
+        (**self).visit_ts_array_type(n, _parent)
+    }
+    fn visit_ts_tuple_type(&mut self, n: &TsTupleType, _parent: &dyn Node) {
+        (**self).visit_ts_tuple_type(n, _parent)
+    }
+    fn visit_ts_tuple_element(&mut self, n: &TsTupleElement, _parent: &dyn Node) {
+        (**self).visit_ts_tuple_element(n, _parent)
+    }
+    fn visit_ts_optional_type(&mut self, n: &TsOptionalType, _parent: &dyn Node) {
+        (**self).visit_ts_optional_type(n, _parent)
+    }
+    fn visit_ts_rest_type(&mut self, n: &TsRestType, _parent: &dyn Node) {
+        (**self).visit_ts_rest_type(n, _parent)
+    }
+    fn visit_ts_union_or_intersection_type(
+        &mut self,
+        n: &TsUnionOrIntersectionType,
+        _parent: &dyn Node,
+    ) {
+        (**self).visit_ts_union_or_intersection_type(n, _parent)
+    }
+    fn visit_ts_union_type(&mut self, n: &TsUnionType, _parent: &dyn Node) {
+        (**self).visit_ts_union_type(n, _parent)
+    }
+    fn visit_ts_intersection_type(&mut self, n: &TsIntersectionType, _parent: &dyn Node) {
+        (**self).visit_ts_intersection_type(n, _parent)
+    }
+    fn visit_ts_conditional_type(&mut self, n: &TsConditionalType, _parent: &dyn Node) {
+        (**self).visit_ts_conditional_type(n, _parent)
+    }
+    fn visit_ts_infer_type(&mut self, n: &TsInferType, _parent: &dyn Node) {
+        (**self).visit_ts_infer_type(n, _parent)
+    }
+    fn visit_ts_parenthesized_type(&mut self, n: &TsParenthesizedType, _parent: &dyn Node) {
+        (**self).visit_ts_parenthesized_type(n, _parent)
+    }
+    fn visit_ts_type_operator(&mut self, n: &TsTypeOperator, _parent: &dyn Node) {
+        (**self).visit_ts_type_operator(n, _parent)
+    }
+    fn visit_ts_type_operator_op(&mut self, n: &TsTypeOperatorOp, _parent: &dyn Node) {
+        (**self).visit_ts_type_operator_op(n, _parent)
+    }
+    fn visit_ts_indexed_access_type(&mut self, n: &TsIndexedAccessType, _parent: &dyn Node) {
+        (**self).visit_ts_indexed_access_type(n, _parent)
+    }
+    fn visit_true_plus_minus(&mut self, n: &TruePlusMinus, _parent: &dyn Node) {
+        (**self).visit_true_plus_minus(n, _parent)
+    }
+    fn visit_ts_mapped_type(&mut self, n: &TsMappedType, _parent: &dyn Node) {
+        (**self).visit_ts_mapped_type(n, _parent)
+    }
+    fn visit_ts_lit_type(&mut self, n: &TsLitType, _parent: &dyn Node) {
+        (**self).visit_ts_lit_type(n, _parent)
+    }
+    fn visit_ts_lit(&mut self, n: &TsLit, _parent: &dyn Node) {
+        (**self).visit_ts_lit(n, _parent)
+    }
+    fn visit_ts_interface_decl(&mut self, n: &TsInterfaceDecl, _parent: &dyn Node) {
+        (**self).visit_ts_interface_decl(n, _parent)
+    }
+    fn visit_ts_interface_body(&mut self, n: &TsInterfaceBody, _parent: &dyn Node) {
+        (**self).visit_ts_interface_body(n, _parent)
+    }
+    fn visit_ts_expr_with_type_args(&mut self, n: &TsExprWithTypeArgs, _parent: &dyn Node) {
+        (**self).visit_ts_expr_with_type_args(n, _parent)
+    }
+    fn visit_ts_type_alias_decl(&mut self, n: &TsTypeAliasDecl, _parent: &dyn Node) {
+        (**self).visit_ts_type_alias_decl(n, _parent)
+    }
+    fn visit_ts_enum_decl(&mut self, n: &TsEnumDecl, _parent: &dyn Node) {
+        (**self).visit_ts_enum_decl(n, _parent)
+    }
+    fn visit_ts_enum_member(&mut self, n: &TsEnumMember, _parent: &dyn Node) {
+        (**self).visit_ts_enum_member(n, _parent)
+    }
+    fn visit_ts_enum_member_id(&mut self, n: &TsEnumMemberId, _parent: &dyn Node) {
+        (**self).visit_ts_enum_member_id(n, _parent)
+    }
+    fn visit_ts_module_decl(&mut self, n: &TsModuleDecl, _parent: &dyn Node) {
+        (**self).visit_ts_module_decl(n, _parent)
+    }
+    fn visit_ts_namespace_body(&mut self, n: &TsNamespaceBody, _parent: &dyn Node) {
+        (**self).visit_ts_namespace_body(n, _parent)
+    }
+    fn visit_ts_module_block(&mut self, n: &TsModuleBlock, _parent: &dyn Node) {
+        (**self).visit_ts_module_block(n, _parent)
+    }
+    fn visit_ts_namespace_decl(&mut self, n: &TsNamespaceDecl, _parent: &dyn Node) {
+        (**self).visit_ts_namespace_decl(n, _parent)
+    }
+    fn visit_ts_module_name(&mut self, n: &TsModuleName, _parent: &dyn Node) {
+        (**self).visit_ts_module_name(n, _parent)
+    }
+    fn visit_ts_import_equals_decl(&mut self, n: &TsImportEqualsDecl, _parent: &dyn Node) {
+        (**self).visit_ts_import_equals_decl(n, _parent)
+    }
+    fn visit_ts_module_ref(&mut self, n: &TsModuleRef, _parent: &dyn Node) {
+        (**self).visit_ts_module_ref(n, _parent)
+    }
+    fn visit_ts_external_module_ref(&mut self, n: &TsExternalModuleRef, _parent: &dyn Node) {
+        (**self).visit_ts_external_module_ref(n, _parent)
+    }
+    fn visit_ts_export_assignment(&mut self, n: &TsExportAssignment, _parent: &dyn Node) {
+        (**self).visit_ts_export_assignment(n, _parent)
+    }
+    fn visit_ts_namespace_export_decl(&mut self, n: &TsNamespaceExportDecl, _parent: &dyn Node) {
+        (**self).visit_ts_namespace_export_decl(n, _parent)
+    }
+    fn visit_ts_as_expr(&mut self, n: &TsAsExpr, _parent: &dyn Node) {
+        (**self).visit_ts_as_expr(n, _parent)
+    }
+    fn visit_ts_type_assertion(&mut self, n: &TsTypeAssertion, _parent: &dyn Node) {
+        (**self).visit_ts_type_assertion(n, _parent)
+    }
+    fn visit_ts_non_null_expr(&mut self, n: &TsNonNullExpr, _parent: &dyn Node) {
+        (**self).visit_ts_non_null_expr(n, _parent)
+    }
+    fn visit_accessibility(&mut self, n: &Accessibility, _parent: &dyn Node) {
+        (**self).visit_accessibility(n, _parent)
+    }
+    fn visit_ts_const_assertion(&mut self, n: &TsConstAssertion, _parent: &dyn Node) {
+        (**self).visit_ts_const_assertion(n, _parent)
+    }
+}
+impl<V> Visit for Box<V>
+where
+    V: ?Sized + Visit,
+{
+    fn visit_class(&mut self, n: &Class, _parent: &dyn Node) {
+        (**self).visit_class(n, _parent)
+    }
+    fn visit_class_member(&mut self, n: &ClassMember, _parent: &dyn Node) {
+        (**self).visit_class_member(n, _parent)
+    }
+    fn visit_class_prop(&mut self, n: &ClassProp, _parent: &dyn Node) {
+        (**self).visit_class_prop(n, _parent)
+    }
+    fn visit_private_prop(&mut self, n: &PrivateProp, _parent: &dyn Node) {
+        (**self).visit_private_prop(n, _parent)
+    }
+    fn visit_class_method(&mut self, n: &ClassMethod, _parent: &dyn Node) {
+        (**self).visit_class_method(n, _parent)
+    }
+    fn visit_private_method(&mut self, n: &PrivateMethod, _parent: &dyn Node) {
+        (**self).visit_private_method(n, _parent)
+    }
+    fn visit_constructor(&mut self, n: &Constructor, _parent: &dyn Node) {
+        (**self).visit_constructor(n, _parent)
+    }
+    fn visit_decorator(&mut self, n: &Decorator, _parent: &dyn Node) {
+        (**self).visit_decorator(n, _parent)
+    }
+    fn visit_method_kind(&mut self, n: &MethodKind, _parent: &dyn Node) {
+        (**self).visit_method_kind(n, _parent)
+    }
+    fn visit_decl(&mut self, n: &Decl, _parent: &dyn Node) {
+        (**self).visit_decl(n, _parent)
+    }
+    fn visit_fn_decl(&mut self, n: &FnDecl, _parent: &dyn Node) {
+        (**self).visit_fn_decl(n, _parent)
+    }
+    fn visit_class_decl(&mut self, n: &ClassDecl, _parent: &dyn Node) {
+        (**self).visit_class_decl(n, _parent)
+    }
+    fn visit_var_decl(&mut self, n: &VarDecl, _parent: &dyn Node) {
+        (**self).visit_var_decl(n, _parent)
+    }
+    fn visit_var_decl_kind(&mut self, n: &VarDeclKind, _parent: &dyn Node) {
+        (**self).visit_var_decl_kind(n, _parent)
+    }
+    fn visit_var_declarator(&mut self, n: &VarDeclarator, _parent: &dyn Node) {
+        (**self).visit_var_declarator(n, _parent)
+    }
+    fn visit_expr(&mut self, n: &Expr, _parent: &dyn Node) {
+        (**self).visit_expr(n, _parent)
+    }
+    fn visit_this_expr(&mut self, n: &ThisExpr, _parent: &dyn Node) {
+        (**self).visit_this_expr(n, _parent)
+    }
+    fn visit_array_lit(&mut self, n: &ArrayLit, _parent: &dyn Node) {
+        (**self).visit_array_lit(n, _parent)
+    }
+    fn visit_object_lit(&mut self, n: &ObjectLit, _parent: &dyn Node) {
+        (**self).visit_object_lit(n, _parent)
+    }
+    fn visit_prop_or_spread(&mut self, n: &PropOrSpread, _parent: &dyn Node) {
+        (**self).visit_prop_or_spread(n, _parent)
+    }
+    fn visit_spread_element(&mut self, n: &SpreadElement, _parent: &dyn Node) {
+        (**self).visit_spread_element(n, _parent)
+    }
+    fn visit_unary_expr(&mut self, n: &UnaryExpr, _parent: &dyn Node) {
+        (**self).visit_unary_expr(n, _parent)
+    }
+    fn visit_update_expr(&mut self, n: &UpdateExpr, _parent: &dyn Node) {
+        (**self).visit_update_expr(n, _parent)
+    }
+    fn visit_bin_expr(&mut self, n: &BinExpr, _parent: &dyn Node) {
+        (**self).visit_bin_expr(n, _parent)
+    }
+    fn visit_fn_expr(&mut self, n: &FnExpr, _parent: &dyn Node) {
+        (**self).visit_fn_expr(n, _parent)
+    }
+    fn visit_class_expr(&mut self, n: &ClassExpr, _parent: &dyn Node) {
+        (**self).visit_class_expr(n, _parent)
+    }
+    fn visit_assign_expr(&mut self, n: &AssignExpr, _parent: &dyn Node) {
+        (**self).visit_assign_expr(n, _parent)
+    }
+    fn visit_member_expr(&mut self, n: &MemberExpr, _parent: &dyn Node) {
+        (**self).visit_member_expr(n, _parent)
+    }
+    fn visit_cond_expr(&mut self, n: &CondExpr, _parent: &dyn Node) {
+        (**self).visit_cond_expr(n, _parent)
+    }
+    fn visit_call_expr(&mut self, n: &CallExpr, _parent: &dyn Node) {
+        (**self).visit_call_expr(n, _parent)
+    }
+    fn visit_new_expr(&mut self, n: &NewExpr, _parent: &dyn Node) {
+        (**self).visit_new_expr(n, _parent)
+    }
+    fn visit_seq_expr(&mut self, n: &SeqExpr, _parent: &dyn Node) {
+        (**self).visit_seq_expr(n, _parent)
+    }
+    fn visit_arrow_expr(&mut self, n: &ArrowExpr, _parent: &dyn Node) {
+        (**self).visit_arrow_expr(n, _parent)
+    }
+    fn visit_yield_expr(&mut self, n: &YieldExpr, _parent: &dyn Node) {
+        (**self).visit_yield_expr(n, _parent)
+    }
+    fn visit_meta_prop_expr(&mut self, n: &MetaPropExpr, _parent: &dyn Node) {
+        (**self).visit_meta_prop_expr(n, _parent)
+    }
+    fn visit_await_expr(&mut self, n: &AwaitExpr, _parent: &dyn Node) {
+        (**self).visit_await_expr(n, _parent)
+    }
+    fn visit_tpl(&mut self, n: &Tpl, _parent: &dyn Node) {
+        (**self).visit_tpl(n, _parent)
+    }
+    fn visit_tagged_tpl(&mut self, n: &TaggedTpl, _parent: &dyn Node) {
+        (**self).visit_tagged_tpl(n, _parent)
+    }
+    fn visit_tpl_element(&mut self, n: &TplElement, _parent: &dyn Node) {
+        (**self).visit_tpl_element(n, _parent)
+    }
+    fn visit_paren_expr(&mut self, n: &ParenExpr, _parent: &dyn Node) {
+        (**self).visit_paren_expr(n, _parent)
+    }
+    fn visit_expr_or_super(&mut self, n: &ExprOrSuper, _parent: &dyn Node) {
+        (**self).visit_expr_or_super(n, _parent)
+    }
+    fn visit_super(&mut self, n: &Super, _parent: &dyn Node) {
+        (**self).visit_super(n, _parent)
+    }
+    fn visit_expr_or_spread(&mut self, n: &ExprOrSpread, _parent: &dyn Node) {
+        (**self).visit_expr_or_spread(n, _parent)
+    }
+    fn visit_block_stmt_or_expr(&mut self, n: &BlockStmtOrExpr, _parent: &dyn Node) {
+        (**self).visit_block_stmt_or_expr(n, _parent)
+    }
+    fn visit_pat_or_expr(&mut self, n: &PatOrExpr, _parent: &dyn Node) {
+        (**self).visit_pat_or_expr(n, _parent)
+    }
+    fn visit_opt_chain_expr(&mut self, n: &OptChainExpr, _parent: &dyn Node) {
+        (**self).visit_opt_chain_expr(n, _parent)
+    }
+    fn visit_function(&mut self, n: &Function, _parent: &dyn Node) {
+        (**self).visit_function(n, _parent)
+    }
+    fn visit_param(&mut self, n: &Param, _parent: &dyn Node) {
+        (**self).visit_param(n, _parent)
+    }
+    fn visit_param_or_ts_param_prop(&mut self, n: &ParamOrTsParamProp, _parent: &dyn Node) {
+        (**self).visit_param_or_ts_param_prop(n, _parent)
+    }
+    fn visit_ident(&mut self, n: &Ident, _parent: &dyn Node) {
+        (**self).visit_ident(n, _parent)
+    }
+    fn visit_private_name(&mut self, n: &PrivateName, _parent: &dyn Node) {
+        (**self).visit_private_name(n, _parent)
+    }
+    fn visit_jsx_object(&mut self, n: &JSXObject, _parent: &dyn Node) {
+        (**self).visit_jsx_object(n, _parent)
+    }
+    fn visit_jsx_member_expr(&mut self, n: &JSXMemberExpr, _parent: &dyn Node) {
+        (**self).visit_jsx_member_expr(n, _parent)
+    }
+    fn visit_jsx_namespaced_name(&mut self, n: &JSXNamespacedName, _parent: &dyn Node) {
+        (**self).visit_jsx_namespaced_name(n, _parent)
+    }
+    fn visit_jsx_empty_expr(&mut self, n: &JSXEmptyExpr, _parent: &dyn Node) {
+        (**self).visit_jsx_empty_expr(n, _parent)
+    }
+    fn visit_jsx_expr_container(&mut self, n: &JSXExprContainer, _parent: &dyn Node) {
+        (**self).visit_jsx_expr_container(n, _parent)
+    }
+    fn visit_jsx_expr(&mut self, n: &JSXExpr, _parent: &dyn Node) {
+        (**self).visit_jsx_expr(n, _parent)
+    }
+    fn visit_jsx_spread_child(&mut self, n: &JSXSpreadChild, _parent: &dyn Node) {
+        (**self).visit_jsx_spread_child(n, _parent)
+    }
+    fn visit_jsx_element_name(&mut self, n: &JSXElementName, _parent: &dyn Node) {
+        (**self).visit_jsx_element_name(n, _parent)
+    }
+    fn visit_jsx_opening_element(&mut self, n: &JSXOpeningElement, _parent: &dyn Node) {
+        (**self).visit_jsx_opening_element(n, _parent)
+    }
+    fn visit_jsx_attr_or_spread(&mut self, n: &JSXAttrOrSpread, _parent: &dyn Node) {
+        (**self).visit_jsx_attr_or_spread(n, _parent)
+    }
+    fn visit_jsx_closing_element(&mut self, n: &JSXClosingElement, _parent: &dyn Node) {
+        (**self).visit_jsx_closing_element(n, _parent)
+    }
+    fn visit_jsx_attr(&mut self, n: &JSXAttr, _parent: &dyn Node) {
+        (**self).visit_jsx_attr(n, _parent)
+    }
+    fn visit_jsx_attr_name(&mut self, n: &JSXAttrName, _parent: &dyn Node) {
+        (**self).visit_jsx_attr_name(n, _parent)
+    }
+    fn visit_jsx_attr_value(&mut self, n: &JSXAttrValue, _parent: &dyn Node) {
+        (**self).visit_jsx_attr_value(n, _parent)
+    }
+    fn visit_jsx_text(&mut self, n: &JSXText, _parent: &dyn Node) {
+        (**self).visit_jsx_text(n, _parent)
+    }
+    fn visit_jsx_element(&mut self, n: &JSXElement, _parent: &dyn Node) {
+        (**self).visit_jsx_element(n, _parent)
+    }
+    fn visit_jsx_element_child(&mut self, n: &JSXElementChild, _parent: &dyn Node) {
+        (**self).visit_jsx_element_child(n, _parent)
+    }
+    fn visit_jsx_fragment(&mut self, n: &JSXFragment, _parent: &dyn Node) {
+        (**self).visit_jsx_fragment(n, _parent)
+    }
+    fn visit_jsx_opening_fragment(&mut self, n: &JSXOpeningFragment, _parent: &dyn Node) {
+        (**self).visit_jsx_opening_fragment(n, _parent)
+    }
+    fn visit_jsx_closing_fragment(&mut self, n: &JSXClosingFragment, _parent: &dyn Node) {
+        (**self).visit_jsx_closing_fragment(n, _parent)
+    }
+    fn visit_invalid(&mut self, n: &Invalid, _parent: &dyn Node) {
+        (**self).visit_invalid(n, _parent)
+    }
+    fn visit_lit(&mut self, n: &Lit, _parent: &dyn Node) {
+        (**self).visit_lit(n, _parent)
+    }
+    fn visit_big_int(&mut self, n: &BigInt, _parent: &dyn Node) {
+        (**self).visit_big_int(n, _parent)
+    }
+    fn visit_str(&mut self, n: &Str, _parent: &dyn Node) {
+        (**self).visit_str(n, _parent)
+    }
+    fn visit_bool(&mut self, n: &Bool, _parent: &dyn Node) {
+        (**self).visit_bool(n, _parent)
+    }
+    fn visit_null(&mut self, n: &Null, _parent: &dyn Node) {
+        (**self).visit_null(n, _parent)
+    }
+    fn visit_regex(&mut self, n: &Regex, _parent: &dyn Node) {
+        (**self).visit_regex(n, _parent)
+    }
+    fn visit_number(&mut self, n: &Number, _parent: &dyn Node) {
+        (**self).visit_number(n, _parent)
+    }
+    fn visit_program(&mut self, n: &Program, _parent: &dyn Node) {
+        (**self).visit_program(n, _parent)
+    }
+    fn visit_module(&mut self, n: &Module, _parent: &dyn Node) {
+        (**self).visit_module(n, _parent)
+    }
+    fn visit_script(&mut self, n: &Script, _parent: &dyn Node) {
+        (**self).visit_script(n, _parent)
+    }
+    fn visit_module_item(&mut self, n: &ModuleItem, _parent: &dyn Node) {
+        (**self).visit_module_item(n, _parent)
+    }
+    fn visit_module_decl(&mut self, n: &ModuleDecl, _parent: &dyn Node) {
+        (**self).visit_module_decl(n, _parent)
+    }
+    fn visit_export_default_expr(&mut self, n: &ExportDefaultExpr, _parent: &dyn Node) {
+        (**self).visit_export_default_expr(n, _parent)
+    }
+    fn visit_export_decl(&mut self, n: &ExportDecl, _parent: &dyn Node) {
+        (**self).visit_export_decl(n, _parent)
+    }
+    fn visit_import_decl(&mut self, n: &ImportDecl, _parent: &dyn Node) {
+        (**self).visit_import_decl(n, _parent)
+    }
+    fn visit_export_all(&mut self, n: &ExportAll, _parent: &dyn Node) {
+        (**self).visit_export_all(n, _parent)
+    }
+    fn visit_named_export(&mut self, n: &NamedExport, _parent: &dyn Node) {
+        (**self).visit_named_export(n, _parent)
+    }
+    fn visit_export_default_decl(&mut self, n: &ExportDefaultDecl, _parent: &dyn Node) {
+        (**self).visit_export_default_decl(n, _parent)
+    }
+    fn visit_default_decl(&mut self, n: &DefaultDecl, _parent: &dyn Node) {
+        (**self).visit_default_decl(n, _parent)
+    }
+    fn visit_import_specifier(&mut self, n: &ImportSpecifier, _parent: &dyn Node) {
+        (**self).visit_import_specifier(n, _parent)
+    }
+    fn visit_import_default_specifier(&mut self, n: &ImportDefaultSpecifier, _parent: &dyn Node) {
+        (**self).visit_import_default_specifier(n, _parent)
+    }
+    fn visit_import_star_as_specifier(&mut self, n: &ImportStarAsSpecifier, _parent: &dyn Node) {
+        (**self).visit_import_star_as_specifier(n, _parent)
+    }
+    fn visit_import_named_specifier(&mut self, n: &ImportNamedSpecifier, _parent: &dyn Node) {
+        (**self).visit_import_named_specifier(n, _parent)
+    }
+    fn visit_export_specifier(&mut self, n: &ExportSpecifier, _parent: &dyn Node) {
+        (**self).visit_export_specifier(n, _parent)
+    }
+    fn visit_export_namespace_specifier(
+        &mut self,
+        n: &ExportNamespaceSpecifier,
+        _parent: &dyn Node,
+    ) {
+        (**self).visit_export_namespace_specifier(n, _parent)
+    }
+    fn visit_export_default_specifier(&mut self, n: &ExportDefaultSpecifier, _parent: &dyn Node) {
+        (**self).visit_export_default_specifier(n, _parent)
+    }
+    fn visit_export_named_specifier(&mut self, n: &ExportNamedSpecifier, _parent: &dyn Node) {
+        (**self).visit_export_named_specifier(n, _parent)
+    }
+    fn visit_binary_op(&mut self, n: &BinaryOp, _parent: &dyn Node) {
+        (**self).visit_binary_op(n, _parent)
+    }
+    fn visit_assign_op(&mut self, n: &AssignOp, _parent: &dyn Node) {
+        (**self).visit_assign_op(n, _parent)
+    }
+    fn visit_update_op(&mut self, n: &UpdateOp, _parent: &dyn Node) {
+        (**self).visit_update_op(n, _parent)
+    }
+    fn visit_unary_op(&mut self, n: &UnaryOp, _parent: &dyn Node) {
+        (**self).visit_unary_op(n, _parent)
+    }
+    fn visit_pat(&mut self, n: &Pat, _parent: &dyn Node) {
+        (**self).visit_pat(n, _parent)
+    }
+    fn visit_array_pat(&mut self, n: &ArrayPat, _parent: &dyn Node) {
+        (**self).visit_array_pat(n, _parent)
+    }
+    fn visit_object_pat(&mut self, n: &ObjectPat, _parent: &dyn Node) {
+        (**self).visit_object_pat(n, _parent)
+    }
+    fn visit_assign_pat(&mut self, n: &AssignPat, _parent: &dyn Node) {
+        (**self).visit_assign_pat(n, _parent)
+    }
+    fn visit_rest_pat(&mut self, n: &RestPat, _parent: &dyn Node) {
+        (**self).visit_rest_pat(n, _parent)
+    }
+    fn visit_object_pat_prop(&mut self, n: &ObjectPatProp, _parent: &dyn Node) {
+        (**self).visit_object_pat_prop(n, _parent)
+    }
+    fn visit_key_value_pat_prop(&mut self, n: &KeyValuePatProp, _parent: &dyn Node) {
+        (**self).visit_key_value_pat_prop(n, _parent)
+    }
+    fn visit_assign_pat_prop(&mut self, n: &AssignPatProp, _parent: &dyn Node) {
+        (**self).visit_assign_pat_prop(n, _parent)
+    }
+    fn visit_prop(&mut self, n: &Prop, _parent: &dyn Node) {
+        (**self).visit_prop(n, _parent)
+    }
+    fn visit_key_value_prop(&mut self, n: &KeyValueProp, _parent: &dyn Node) {
+        (**self).visit_key_value_prop(n, _parent)
+    }
+    fn visit_assign_prop(&mut self, n: &AssignProp, _parent: &dyn Node) {
+        (**self).visit_assign_prop(n, _parent)
+    }
+    fn visit_getter_prop(&mut self, n: &GetterProp, _parent: &dyn Node) {
+        (**self).visit_getter_prop(n, _parent)
+    }
+    fn visit_setter_prop(&mut self, n: &SetterProp, _parent: &dyn Node) {
+        (**self).visit_setter_prop(n, _parent)
+    }
+    fn visit_method_prop(&mut self, n: &MethodProp, _parent: &dyn Node) {
+        (**self).visit_method_prop(n, _parent)
+    }
+    fn visit_prop_name(&mut self, n: &PropName, _parent: &dyn Node) {
+        (**self).visit_prop_name(n, _parent)
+    }
+    fn visit_computed_prop_name(&mut self, n: &ComputedPropName, _parent: &dyn Node) {
+        (**self).visit_computed_prop_name(n, _parent)
+    }
+    fn visit_block_stmt(&mut self, n: &BlockStmt, _parent: &dyn Node) {
+        (**self).visit_block_stmt(n, _parent)
+    }
+    fn visit_stmt(&mut self, n: &Stmt, _parent: &dyn Node) {
+        (**self).visit_stmt(n, _parent)
+    }
+    fn visit_expr_stmt(&mut self, n: &ExprStmt, _parent: &dyn Node) {
+        (**self).visit_expr_stmt(n, _parent)
+    }
+    fn visit_empty_stmt(&mut self, n: &EmptyStmt, _parent: &dyn Node) {
+        (**self).visit_empty_stmt(n, _parent)
+    }
+    fn visit_debugger_stmt(&mut self, n: &DebuggerStmt, _parent: &dyn Node) {
+        (**self).visit_debugger_stmt(n, _parent)
+    }
+    fn visit_with_stmt(&mut self, n: &WithStmt, _parent: &dyn Node) {
+        (**self).visit_with_stmt(n, _parent)
+    }
+    fn visit_return_stmt(&mut self, n: &ReturnStmt, _parent: &dyn Node) {
+        (**self).visit_return_stmt(n, _parent)
+    }
+    fn visit_labeled_stmt(&mut self, n: &LabeledStmt, _parent: &dyn Node) {
+        (**self).visit_labeled_stmt(n, _parent)
+    }
+    fn visit_break_stmt(&mut self, n: &BreakStmt, _parent: &dyn Node) {
+        (**self).visit_break_stmt(n, _parent)
+    }
+    fn visit_continue_stmt(&mut self, n: &ContinueStmt, _parent: &dyn Node) {
+        (**self).visit_continue_stmt(n, _parent)
+    }
+    fn visit_if_stmt(&mut self, n: &IfStmt, _parent: &dyn Node) {
+        (**self).visit_if_stmt(n, _parent)
+    }
+    fn visit_switch_stmt(&mut self, n: &SwitchStmt, _parent: &dyn Node) {
+        (**self).visit_switch_stmt(n, _parent)
+    }
+    fn visit_throw_stmt(&mut self, n: &ThrowStmt, _parent: &dyn Node) {
+        (**self).visit_throw_stmt(n, _parent)
+    }
+    fn visit_try_stmt(&mut self, n: &TryStmt, _parent: &dyn Node) {
+        (**self).visit_try_stmt(n, _parent)
+    }
+    fn visit_while_stmt(&mut self, n: &WhileStmt, _parent: &dyn Node) {
+        (**self).visit_while_stmt(n, _parent)
+    }
+    fn visit_do_while_stmt(&mut self, n: &DoWhileStmt, _parent: &dyn Node) {
+        (**self).visit_do_while_stmt(n, _parent)
+    }
+    fn visit_for_stmt(&mut self, n: &ForStmt, _parent: &dyn Node) {
+        (**self).visit_for_stmt(n, _parent)
+    }
+    fn visit_for_in_stmt(&mut self, n: &ForInStmt, _parent: &dyn Node) {
+        (**self).visit_for_in_stmt(n, _parent)
+    }
+    fn visit_for_of_stmt(&mut self, n: &ForOfStmt, _parent: &dyn Node) {
+        (**self).visit_for_of_stmt(n, _parent)
+    }
+    fn visit_switch_case(&mut self, n: &SwitchCase, _parent: &dyn Node) {
+        (**self).visit_switch_case(n, _parent)
+    }
+    fn visit_catch_clause(&mut self, n: &CatchClause, _parent: &dyn Node) {
+        (**self).visit_catch_clause(n, _parent)
+    }
+    fn visit_var_decl_or_pat(&mut self, n: &VarDeclOrPat, _parent: &dyn Node) {
+        (**self).visit_var_decl_or_pat(n, _parent)
+    }
+    fn visit_var_decl_or_expr(&mut self, n: &VarDeclOrExpr, _parent: &dyn Node) {
+        (**self).visit_var_decl_or_expr(n, _parent)
+    }
+    fn visit_ts_type_ann(&mut self, n: &TsTypeAnn, _parent: &dyn Node) {
+        (**self).visit_ts_type_ann(n, _parent)
+    }
+    fn visit_ts_type_param_decl(&mut self, n: &TsTypeParamDecl, _parent: &dyn Node) {
+        (**self).visit_ts_type_param_decl(n, _parent)
+    }
+    fn visit_ts_type_param(&mut self, n: &TsTypeParam, _parent: &dyn Node) {
+        (**self).visit_ts_type_param(n, _parent)
+    }
+    fn visit_ts_type_param_instantiation(
+        &mut self,
+        n: &TsTypeParamInstantiation,
+        _parent: &dyn Node,
+    ) {
+        (**self).visit_ts_type_param_instantiation(n, _parent)
+    }
+    fn visit_ts_type_cast_expr(&mut self, n: &TsTypeCastExpr, _parent: &dyn Node) {
+        (**self).visit_ts_type_cast_expr(n, _parent)
+    }
+    fn visit_ts_param_prop(&mut self, n: &TsParamProp, _parent: &dyn Node) {
+        (**self).visit_ts_param_prop(n, _parent)
+    }
+    fn visit_ts_param_prop_param(&mut self, n: &TsParamPropParam, _parent: &dyn Node) {
+        (**self).visit_ts_param_prop_param(n, _parent)
+    }
+    fn visit_ts_qualified_name(&mut self, n: &TsQualifiedName, _parent: &dyn Node) {
+        (**self).visit_ts_qualified_name(n, _parent)
+    }
+    fn visit_ts_entity_name(&mut self, n: &TsEntityName, _parent: &dyn Node) {
+        (**self).visit_ts_entity_name(n, _parent)
+    }
+    fn visit_ts_signature_decl(&mut self, n: &TsSignatureDecl, _parent: &dyn Node) {
+        (**self).visit_ts_signature_decl(n, _parent)
+    }
+    fn visit_ts_type_element(&mut self, n: &TsTypeElement, _parent: &dyn Node) {
+        (**self).visit_ts_type_element(n, _parent)
+    }
+    fn visit_ts_call_signature_decl(&mut self, n: &TsCallSignatureDecl, _parent: &dyn Node) {
+        (**self).visit_ts_call_signature_decl(n, _parent)
+    }
+    fn visit_ts_construct_signature_decl(
+        &mut self,
+        n: &TsConstructSignatureDecl,
+        _parent: &dyn Node,
+    ) {
+        (**self).visit_ts_construct_signature_decl(n, _parent)
+    }
+    fn visit_ts_property_signature(&mut self, n: &TsPropertySignature, _parent: &dyn Node) {
+        (**self).visit_ts_property_signature(n, _parent)
+    }
+    fn visit_ts_method_signature(&mut self, n: &TsMethodSignature, _parent: &dyn Node) {
+        (**self).visit_ts_method_signature(n, _parent)
+    }
+    fn visit_ts_index_signature(&mut self, n: &TsIndexSignature, _parent: &dyn Node) {
+        (**self).visit_ts_index_signature(n, _parent)
+    }
+    fn visit_ts_type(&mut self, n: &TsType, _parent: &dyn Node) {
+        (**self).visit_ts_type(n, _parent)
+    }
+    fn visit_ts_fn_or_constructor_type(&mut self, n: &TsFnOrConstructorType, _parent: &dyn Node) {
+        (**self).visit_ts_fn_or_constructor_type(n, _parent)
+    }
+    fn visit_ts_keyword_type(&mut self, n: &TsKeywordType, _parent: &dyn Node) {
+        (**self).visit_ts_keyword_type(n, _parent)
+    }
+    fn visit_ts_keyword_type_kind(&mut self, n: &TsKeywordTypeKind, _parent: &dyn Node) {
+        (**self).visit_ts_keyword_type_kind(n, _parent)
+    }
+    fn visit_ts_this_type(&mut self, n: &TsThisType, _parent: &dyn Node) {
+        (**self).visit_ts_this_type(n, _parent)
+    }
+    fn visit_ts_fn_param(&mut self, n: &TsFnParam, _parent: &dyn Node) {
+        (**self).visit_ts_fn_param(n, _parent)
+    }
+    fn visit_ts_fn_type(&mut self, n: &TsFnType, _parent: &dyn Node) {
+        (**self).visit_ts_fn_type(n, _parent)
+    }
+    fn visit_ts_constructor_type(&mut self, n: &TsConstructorType, _parent: &dyn Node) {
+        (**self).visit_ts_constructor_type(n, _parent)
+    }
+    fn visit_ts_type_ref(&mut self, n: &TsTypeRef, _parent: &dyn Node) {
+        (**self).visit_ts_type_ref(n, _parent)
+    }
+    fn visit_ts_type_predicate(&mut self, n: &TsTypePredicate, _parent: &dyn Node) {
+        (**self).visit_ts_type_predicate(n, _parent)
+    }
+    fn visit_ts_this_type_or_ident(&mut self, n: &TsThisTypeOrIdent, _parent: &dyn Node) {
+        (**self).visit_ts_this_type_or_ident(n, _parent)
+    }
+    fn visit_ts_type_query(&mut self, n: &TsTypeQuery, _parent: &dyn Node) {
+        (**self).visit_ts_type_query(n, _parent)
+    }
+    fn visit_ts_type_query_expr(&mut self, n: &TsTypeQueryExpr, _parent: &dyn Node) {
+        (**self).visit_ts_type_query_expr(n, _parent)
+    }
+    fn visit_ts_import_type(&mut self, n: &TsImportType, _parent: &dyn Node) {
+        (**self).visit_ts_import_type(n, _parent)
+    }
+    fn visit_ts_type_lit(&mut self, n: &TsTypeLit, _parent: &dyn Node) {
+        (**self).visit_ts_type_lit(n, _parent)
+    }
+    fn visit_ts_array_type(&mut self, n: &TsArrayType, _parent: &dyn Node) {
+        (**self).visit_ts_array_type(n, _parent)
+    }
+    fn visit_ts_tuple_type(&mut self, n: &TsTupleType, _parent: &dyn Node) {
+        (**self).visit_ts_tuple_type(n, _parent)
+    }
+    fn visit_ts_tuple_element(&mut self, n: &TsTupleElement, _parent: &dyn Node) {
+        (**self).visit_ts_tuple_element(n, _parent)
+    }
+    fn visit_ts_optional_type(&mut self, n: &TsOptionalType, _parent: &dyn Node) {
+        (**self).visit_ts_optional_type(n, _parent)
+    }
+    fn visit_ts_rest_type(&mut self, n: &TsRestType, _parent: &dyn Node) {
+        (**self).visit_ts_rest_type(n, _parent)
+    }
+    fn visit_ts_union_or_intersection_type(
+        &mut self,
+        n: &TsUnionOrIntersectionType,
+        _parent: &dyn Node,
+    ) {
+        (**self).visit_ts_union_or_intersection_type(n, _parent)
+    }
+    fn visit_ts_union_type(&mut self, n: &TsUnionType, _parent: &dyn Node) {
+        (**self).visit_ts_union_type(n, _parent)
+    }
+    fn visit_ts_intersection_type(&mut self, n: &TsIntersectionType, _parent: &dyn Node) {
+        (**self).visit_ts_intersection_type(n, _parent)
+    }
+    fn visit_ts_conditional_type(&mut self, n: &TsConditionalType, _parent: &dyn Node) {
+        (**self).visit_ts_conditional_type(n, _parent)
+    }
+    fn visit_ts_infer_type(&mut self, n: &TsInferType, _parent: &dyn Node) {
+        (**self).visit_ts_infer_type(n, _parent)
+    }
+    fn visit_ts_parenthesized_type(&mut self, n: &TsParenthesizedType, _parent: &dyn Node) {
+        (**self).visit_ts_parenthesized_type(n, _parent)
+    }
+    fn visit_ts_type_operator(&mut self, n: &TsTypeOperator, _parent: &dyn Node) {
+        (**self).visit_ts_type_operator(n, _parent)
+    }
+    fn visit_ts_type_operator_op(&mut self, n: &TsTypeOperatorOp, _parent: &dyn Node) {
+        (**self).visit_ts_type_operator_op(n, _parent)
+    }
+    fn visit_ts_indexed_access_type(&mut self, n: &TsIndexedAccessType, _parent: &dyn Node) {
+        (**self).visit_ts_indexed_access_type(n, _parent)
+    }
+    fn visit_true_plus_minus(&mut self, n: &TruePlusMinus, _parent: &dyn Node) {
+        (**self).visit_true_plus_minus(n, _parent)
+    }
+    fn visit_ts_mapped_type(&mut self, n: &TsMappedType, _parent: &dyn Node) {
+        (**self).visit_ts_mapped_type(n, _parent)
+    }
+    fn visit_ts_lit_type(&mut self, n: &TsLitType, _parent: &dyn Node) {
+        (**self).visit_ts_lit_type(n, _parent)
+    }
+    fn visit_ts_lit(&mut self, n: &TsLit, _parent: &dyn Node) {
+        (**self).visit_ts_lit(n, _parent)
+    }
+    fn visit_ts_interface_decl(&mut self, n: &TsInterfaceDecl, _parent: &dyn Node) {
+        (**self).visit_ts_interface_decl(n, _parent)
+    }
+    fn visit_ts_interface_body(&mut self, n: &TsInterfaceBody, _parent: &dyn Node) {
+        (**self).visit_ts_interface_body(n, _parent)
+    }
+    fn visit_ts_expr_with_type_args(&mut self, n: &TsExprWithTypeArgs, _parent: &dyn Node) {
+        (**self).visit_ts_expr_with_type_args(n, _parent)
+    }
+    fn visit_ts_type_alias_decl(&mut self, n: &TsTypeAliasDecl, _parent: &dyn Node) {
+        (**self).visit_ts_type_alias_decl(n, _parent)
+    }
+    fn visit_ts_enum_decl(&mut self, n: &TsEnumDecl, _parent: &dyn Node) {
+        (**self).visit_ts_enum_decl(n, _parent)
+    }
+    fn visit_ts_enum_member(&mut self, n: &TsEnumMember, _parent: &dyn Node) {
+        (**self).visit_ts_enum_member(n, _parent)
+    }
+    fn visit_ts_enum_member_id(&mut self, n: &TsEnumMemberId, _parent: &dyn Node) {
+        (**self).visit_ts_enum_member_id(n, _parent)
+    }
+    fn visit_ts_module_decl(&mut self, n: &TsModuleDecl, _parent: &dyn Node) {
+        (**self).visit_ts_module_decl(n, _parent)
+    }
+    fn visit_ts_namespace_body(&mut self, n: &TsNamespaceBody, _parent: &dyn Node) {
+        (**self).visit_ts_namespace_body(n, _parent)
+    }
+    fn visit_ts_module_block(&mut self, n: &TsModuleBlock, _parent: &dyn Node) {
+        (**self).visit_ts_module_block(n, _parent)
+    }
+    fn visit_ts_namespace_decl(&mut self, n: &TsNamespaceDecl, _parent: &dyn Node) {
+        (**self).visit_ts_namespace_decl(n, _parent)
+    }
+    fn visit_ts_module_name(&mut self, n: &TsModuleName, _parent: &dyn Node) {
+        (**self).visit_ts_module_name(n, _parent)
+    }
+    fn visit_ts_import_equals_decl(&mut self, n: &TsImportEqualsDecl, _parent: &dyn Node) {
+        (**self).visit_ts_import_equals_decl(n, _parent)
+    }
+    fn visit_ts_module_ref(&mut self, n: &TsModuleRef, _parent: &dyn Node) {
+        (**self).visit_ts_module_ref(n, _parent)
+    }
+    fn visit_ts_external_module_ref(&mut self, n: &TsExternalModuleRef, _parent: &dyn Node) {
+        (**self).visit_ts_external_module_ref(n, _parent)
+    }
+    fn visit_ts_export_assignment(&mut self, n: &TsExportAssignment, _parent: &dyn Node) {
+        (**self).visit_ts_export_assignment(n, _parent)
+    }
+    fn visit_ts_namespace_export_decl(&mut self, n: &TsNamespaceExportDecl, _parent: &dyn Node) {
+        (**self).visit_ts_namespace_export_decl(n, _parent)
+    }
+    fn visit_ts_as_expr(&mut self, n: &TsAsExpr, _parent: &dyn Node) {
+        (**self).visit_ts_as_expr(n, _parent)
+    }
+    fn visit_ts_type_assertion(&mut self, n: &TsTypeAssertion, _parent: &dyn Node) {
+        (**self).visit_ts_type_assertion(n, _parent)
+    }
+    fn visit_ts_non_null_expr(&mut self, n: &TsNonNullExpr, _parent: &dyn Node) {
+        (**self).visit_ts_non_null_expr(n, _parent)
+    }
+    fn visit_accessibility(&mut self, n: &Accessibility, _parent: &dyn Node) {
+        (**self).visit_accessibility(n, _parent)
+    }
+    fn visit_ts_const_assertion(&mut self, n: &TsConstAssertion, _parent: &dyn Node) {
+        (**self).visit_ts_const_assertion(n, _parent)
     }
 }
 impl<V> Visit for ::swc_visit::Optional<V>
