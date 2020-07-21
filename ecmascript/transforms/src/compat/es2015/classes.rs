@@ -167,6 +167,14 @@ impl Classes {
 }
 
 impl Fold for Classes {
+    fn fold_module_items(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
+        self.fold_stmt_like(items)
+    }
+
+    fn fold_stmts(&mut self, items: Vec<Stmt>) -> Vec<Stmt> {
+        self.fold_stmt_like(items)
+    }
+
     fn fold_decl(&mut self, n: Decl) -> Decl {
         fn should_work(node: &Decl) -> bool {
             struct Visitor {
@@ -202,14 +210,6 @@ impl Fold for Classes {
 
             _ => n.fold_children_with(self),
         })
-    }
-
-    fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
-        self.fold_stmt_like(n)
-    }
-
-    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
-        self.fold_stmt_like(n)
     }
 }
 
@@ -901,7 +901,7 @@ fn is_always_initialized(body: &[Stmt]) -> bool {
     let mut v = SuperFinder { found: false };
     let body = &body[..pos];
 
-    v.visit_stmts(body, &Invalid { span: DUMMY_SP } as _);
+    v.visit_stmts(body, &Invalid { span: DUMMY_SP });
 
     if v.found {
         return false;
