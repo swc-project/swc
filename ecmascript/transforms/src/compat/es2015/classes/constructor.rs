@@ -434,7 +434,7 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: Constructor) -> (Constr
             MemberExpr {
                 span,
                 obj,
-                prop: prop.fold_children_with(self),
+                prop: prop.fold_with(self),
                 computed,
             }
         }
