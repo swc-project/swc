@@ -386,7 +386,7 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: Constructor) -> (Constr
     struct Replacer {
         mark: Mark,
         found: bool,
-        wrap_with_assertiion: bool,
+        wrap_with_assertion: bool,
     }
 
     impl Fold for Replacer {
@@ -400,7 +400,7 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: Constructor) -> (Constr
                     self.found = true;
                     let this = quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this");
 
-                    if self.wrap_with_assertiion {
+                    if self.wrap_with_assertion {
                         Expr::Call(CallExpr {
                             span: DUMMY_SP,
                             callee: helper!(assert_this_initialized, "assertThisInitialized"),
@@ -425,10 +425,10 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: Constructor) -> (Constr
             }: MemberExpr,
         ) -> MemberExpr {
             if self.mark != Mark::root() {
-                let old = self.wrap_with_assertiion;
-                self.wrap_with_assertiion = false;
+                let old = self.wrap_with_assertion;
+                self.wrap_with_assertion = false;
                 obj = obj.fold_children_with(self);
-                self.wrap_with_assertiion = old;
+                self.wrap_with_assertion = old;
             }
 
             MemberExpr {
@@ -443,7 +443,7 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: Constructor) -> (Constr
     let mut v = Replacer {
         found: false,
         mark,
-        wrap_with_assertiion: true,
+        wrap_with_assertion: true,
     };
     let c = c.fold_with(&mut v);
 
