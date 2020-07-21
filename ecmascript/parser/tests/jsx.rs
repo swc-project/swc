@@ -91,7 +91,10 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                 }
 
                 // Parse source
-                parse_module(cm, handler, &path).expect_err("should fail, but parsed as");
+                let _ = parse_module(cm, handler, &path);
+                if !handler.has_errors() {
+                    panic!("should emit error, but parsed without error")
+                }
 
                 Err(())
             })

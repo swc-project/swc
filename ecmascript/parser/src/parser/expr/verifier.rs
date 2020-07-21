@@ -21,19 +21,14 @@ pub(super) struct Verifier {
 }
 
 impl Visit for Verifier {
+    fn visit_assign_prop(&mut self, p: &AssignProp, _: &dyn Node) {
+        self.errors.push((p.span(), SyntaxError::AssignProperty));
+    }
+
     fn visit_expr(&mut self, e: &Expr, _: &dyn Node) {
         match *e {
             Expr::Fn(..) | Expr::Arrow(..) => {}
             _ => e.visit_children_with(self),
-        }
-    }
-
-    fn visit_prop(&mut self, p: &Prop, _: &dyn Node) {
-        match *p {
-            Prop::Assign { .. } => {
-                self.errors.push((p.span(), SyntaxError::AssignProperty));
-            }
-            _ => p.visit_children_with(self),
         }
     }
 }
