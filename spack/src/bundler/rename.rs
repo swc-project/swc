@@ -12,7 +12,7 @@ use swc_common::{util::move_map::MoveMap, FileName, Span};
 use swc_ecma_ast::{ImportDecl, Module, Str};
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
 use swc_ecma_transforms::noop_fold_type;
-use swc_ecma_visit::Fold;
+use swc_ecma_visit::{Fold, FoldWith};
 
 impl Bundler<'_> {
     pub(super) fn finalize(&self, bundles: Vec<Bundle>) -> Result<Vec<Bundle>, Error> {

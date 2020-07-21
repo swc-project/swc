@@ -16,12 +16,13 @@ use std::{
     sync::Arc,
 };
 use swc_atoms::js_word;
-use swc_common::{FileName, Mark, SourceFile};
+use swc_common::{FileName, Mark, SourceFile, DUMMY_SP};
 use swc_ecma_ast::{
-    Expr, ExprOrSuper, ImportDecl, ImportSpecifier, MemberExpr, Module, ModuleDecl, Program, Str,
+    Expr, ExprOrSuper, ImportDecl, ImportSpecifier, Invalid, MemberExpr, Module, ModuleDecl,
+    Program, Str,
 };
 use swc_ecma_transforms::resolver::resolver_with_mark;
-use swc_ecma_visit::{Node, Visit, VisitWith};
+use swc_ecma_visit::{FoldWith, Node, Visit, VisitWith};
 
 #[cfg(test)]
 mod tests;
@@ -251,7 +252,7 @@ impl Bundler<'_> {
                     forced_es6: false,
                     found_other: false,
                 };
-                module.visit_with(&mut v);
+                module.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
                 v.forced_es6 || !v.found_other
             };
             if is_es6 {
@@ -407,10 +408,10 @@ struct Es6ModuleDetector {
 
 impl Visit for Es6ModuleDetector {
     fn visit_member_expr(&mut self, e: &MemberExpr, _: &dyn Node) {
-        e.obj.visit_with(self);
+        e.obj.visit_with(e as _, self);
 
         if e.computed {
-            e.prop.visit_with(self);
+            e.prop.visit_with(e as _, self);
         }
 
         match &e.obj {

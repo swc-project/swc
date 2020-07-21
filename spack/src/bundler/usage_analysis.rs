@@ -4,6 +4,7 @@ use swc_common::SourceFile;
 use swc_ecma_ast::*;
 use swc_ecma_transforms::optimization::simplify::dce;
 use swc_ecma_utils::ident::IdentLike;
+use swc_ecma_visit::FoldWith;
 
 impl Bundler<'_> {
     /// If used_exports is [None], all exports are treated as exported.

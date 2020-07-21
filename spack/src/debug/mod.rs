@@ -1,5 +1,5 @@
-use swc_common::{Span, SyntaxContext};
-use swc_ecma_ast::Ident;
+use swc_common::{Span, SyntaxContext, DUMMY_SP};
+use swc_ecma_ast::{Ident, Invalid};
 use swc_ecma_visit::{Fold, Node, Visit, VisitWith};
 
 pub(crate) struct HygieneVisualizer;
@@ -26,5 +26,5 @@ impl Visit for AssertClean {
 }
 
 pub(crate) fn assert_clean<T: VisitWith<AssertClean>>(m: &T) {
-    m.visit_with(&mut AssertClean)
+    m.visit_with(&Invalid { span: DUMMY_SP } as _, &mut AssertClean)
 }

@@ -225,7 +225,7 @@ impl Fold for ImportHandler<'_, '_> {
 
     fn fold_stmts(&mut self, items: Vec<Stmt>) -> Vec<Stmt> {
         self.top_level = false;
-        items.fold_children(self)
+        items.fold_children_with(self)
     }
 
     fn fold_expr(&mut self, e: Expr) -> Expr {
@@ -315,7 +315,7 @@ impl Fold for ImportHandler<'_, '_> {
             _ => {}
         }
 
-        let e: Expr = e.fold_children(self);
+        let e: Expr = e.fold_children_with(self);
 
         match e {
             Expr::Call(e) if e.args.len() == 1 => {
@@ -436,6 +436,6 @@ impl Fold for ImportHandler<'_, '_> {
             _ => {}
         }
 
-        node.fold_children(self)
+        node.fold_children_with(self)
     }
 }

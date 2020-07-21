@@ -25329,3 +25329,10846 @@ impl<V: Visit> VisitWith<V> for Option<ExprOrSpread> {
         visit_opt_expr_or_spread(_visitor, self.as_ref(), _parent)
     }
 }
+#[allow(unused_variables)]
+pub fn visit_mut_accessibility<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut Accessibility) {
+    {
+        match n {
+            Accessibility::Public {} => {}
+            Accessibility::Protected {} => {}
+            Accessibility::Private {} => {}
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_array_lit<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut ArrayLit) {
+    {
+        match n {
+            ArrayLit { span, elems } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_opt_vec_expr_or_spreads(elems);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_array_pat<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut ArrayPat) {
+    {
+        match n {
+            ArrayPat {
+                span,
+                elems,
+                optional,
+                type_ann,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_opt_vec_pats(elems);
+                _visitor.visit_mut_opt_ts_type_ann(type_ann.as_mut());
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_arrow_expr<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut ArrowExpr) {
+    {
+        match n {
+            ArrowExpr {
+                span,
+                params,
+                body,
+                is_async,
+                is_generator,
+                type_params,
+                return_type,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_pats(params);
+                _visitor.visit_mut_block_stmt_or_expr(body);
+                _visitor.visit_mut_opt_ts_type_param_decl(type_params.as_mut());
+                _visitor.visit_mut_opt_ts_type_ann(return_type.as_mut());
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_assign_expr<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut AssignExpr) {
+    {
+        match n {
+            AssignExpr {
+                span,
+                op,
+                left,
+                right,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_assign_op(op);
+                _visitor.visit_mut_pat_or_expr(left);
+                _visitor.visit_mut_expr(right);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_assign_op<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut AssignOp) {
+    {
+        match n {
+            AssignOp::Assign {} => {}
+            AssignOp::AddAssign {} => {}
+            AssignOp::SubAssign {} => {}
+            AssignOp::MulAssign {} => {}
+            AssignOp::DivAssign {} => {}
+            AssignOp::ModAssign {} => {}
+            AssignOp::LShiftAssign {} => {}
+            AssignOp::RShiftAssign {} => {}
+            AssignOp::ZeroFillRShiftAssign {} => {}
+            AssignOp::BitOrAssign {} => {}
+            AssignOp::BitXorAssign {} => {}
+            AssignOp::BitAndAssign {} => {}
+            AssignOp::ExpAssign {} => {}
+            AssignOp::AndAssign {} => {}
+            AssignOp::OrAssign {} => {}
+            AssignOp::NullishAssign {} => {}
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_assign_pat<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut AssignPat) {
+    {
+        match n {
+            AssignPat {
+                span,
+                left,
+                right,
+                type_ann,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_pat(left);
+                _visitor.visit_mut_expr(right);
+                _visitor.visit_mut_opt_ts_type_ann(type_ann.as_mut());
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_assign_pat_prop<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut AssignPatProp) {
+    {
+        match n {
+            AssignPatProp { span, key, value } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_ident(key);
+                _visitor.visit_mut_opt_expr(value.as_mut());
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_assign_prop<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut AssignProp) {
+    {
+        match n {
+            AssignProp { key, value } => {
+                _visitor.visit_mut_ident(key);
+                _visitor.visit_mut_expr(value);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_await_expr<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut AwaitExpr) {
+    {
+        match n {
+            AwaitExpr { span, arg } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_expr(arg);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_big_int<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut BigInt) {
+    {
+        match n {
+            BigInt { span, value } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_big_int_value(value);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_bin_expr<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut BinExpr) {
+    {
+        match n {
+            BinExpr {
+                span,
+                op,
+                left,
+                right,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_binary_op(op);
+                _visitor.visit_mut_expr(left);
+                _visitor.visit_mut_expr(right);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_binary_op<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut BinaryOp) {
+    {
+        match n {
+            BinaryOp::EqEq {} => {}
+            BinaryOp::NotEq {} => {}
+            BinaryOp::EqEqEq {} => {}
+            BinaryOp::NotEqEq {} => {}
+            BinaryOp::Lt {} => {}
+            BinaryOp::LtEq {} => {}
+            BinaryOp::Gt {} => {}
+            BinaryOp::GtEq {} => {}
+            BinaryOp::LShift {} => {}
+            BinaryOp::RShift {} => {}
+            BinaryOp::ZeroFillRShift {} => {}
+            BinaryOp::Add {} => {}
+            BinaryOp::Sub {} => {}
+            BinaryOp::Mul {} => {}
+            BinaryOp::Div {} => {}
+            BinaryOp::Mod {} => {}
+            BinaryOp::BitOr {} => {}
+            BinaryOp::BitXor {} => {}
+            BinaryOp::BitAnd {} => {}
+            BinaryOp::LogicalOr {} => {}
+            BinaryOp::LogicalAnd {} => {}
+            BinaryOp::In {} => {}
+            BinaryOp::InstanceOf {} => {}
+            BinaryOp::Exp {} => {}
+            BinaryOp::NullishCoalescing {} => {}
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_block_stmt<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut BlockStmt) {
+    {
+        match n {
+            BlockStmt { span, stmts } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_stmts(stmts);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_block_stmt_or_expr<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut BlockStmtOrExpr,
+) {
+    {
+        match n {
+            BlockStmtOrExpr::BlockStmt { 0: _0 } => {
+                _visitor.visit_mut_block_stmt(_0);
+            }
+            BlockStmtOrExpr::Expr { 0: _0 } => {
+                _visitor.visit_mut_expr(_0);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_bool<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut Bool) {
+    {
+        match n {
+            Bool { span, value } => {
+                _visitor.visit_mut_span(span);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_break_stmt<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut BreakStmt) {
+    {
+        match n {
+            BreakStmt { span, label } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_opt_ident(label.as_mut());
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_call_expr<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut CallExpr) {
+    {
+        match n {
+            CallExpr {
+                span,
+                callee,
+                args,
+                type_args,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_expr_or_super(callee);
+                _visitor.visit_mut_expr_or_spreads(args);
+                _visitor.visit_mut_opt_ts_type_param_instantiation(type_args.as_mut());
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_catch_clause<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut CatchClause) {
+    {
+        match n {
+            CatchClause { span, param, body } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_opt_pat(param.as_mut());
+                _visitor.visit_mut_block_stmt(body);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_class<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut Class) {
+    {
+        match n {
+            Class {
+                span,
+                decorators,
+                body,
+                super_class,
+                is_abstract,
+                type_params,
+                super_type_params,
+                implements,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_decorators(decorators);
+                _visitor.visit_mut_class_members(body);
+                _visitor.visit_mut_opt_expr(super_class.as_mut());
+                _visitor.visit_mut_opt_ts_type_param_decl(type_params.as_mut());
+                _visitor.visit_mut_opt_ts_type_param_instantiation(super_type_params.as_mut());
+                _visitor.visit_mut_ts_expr_with_type_args_vec(implements);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_class_decl<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut ClassDecl) {
+    {
+        match n {
+            ClassDecl {
+                ident,
+                declare,
+                class,
+            } => {
+                _visitor.visit_mut_ident(ident);
+                _visitor.visit_mut_class(class);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_class_expr<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut ClassExpr) {
+    {
+        match n {
+            ClassExpr { ident, class } => {
+                _visitor.visit_mut_opt_ident(ident.as_mut());
+                _visitor.visit_mut_class(class);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_class_member<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut ClassMember) {
+    {
+        match n {
+            ClassMember::Constructor { 0: _0 } => {
+                _visitor.visit_mut_constructor(_0);
+            }
+            ClassMember::Method { 0: _0 } => {
+                _visitor.visit_mut_class_method(_0);
+            }
+            ClassMember::PrivateMethod { 0: _0 } => {
+                _visitor.visit_mut_private_method(_0);
+            }
+            ClassMember::ClassProp { 0: _0 } => {
+                _visitor.visit_mut_class_prop(_0);
+            }
+            ClassMember::PrivateProp { 0: _0 } => {
+                _visitor.visit_mut_private_prop(_0);
+            }
+            ClassMember::TsIndexSignature { 0: _0 } => {
+                _visitor.visit_mut_ts_index_signature(_0);
+            }
+            ClassMember::Empty { 0: _0 } => {
+                _visitor.visit_mut_empty_stmt(_0);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_class_method<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut ClassMethod) {
+    {
+        match n {
+            ClassMethod {
+                span,
+                key,
+                function,
+                kind,
+                is_static,
+                accessibility,
+                is_abstract,
+                is_optional,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_prop_name(key);
+                _visitor.visit_mut_function(function);
+                _visitor.visit_mut_method_kind(kind);
+                _visitor.visit_mut_opt_accessibility(accessibility.as_mut());
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_class_prop<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut ClassProp) {
+    {
+        match n {
+            ClassProp {
+                span,
+                key,
+                value,
+                type_ann,
+                is_static,
+                decorators,
+                computed,
+                accessibility,
+                is_abstract,
+                is_optional,
+                readonly,
+                definite,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_expr(key);
+                _visitor.visit_mut_opt_expr(value.as_mut());
+                _visitor.visit_mut_opt_ts_type_ann(type_ann.as_mut());
+                _visitor.visit_mut_decorators(decorators);
+                _visitor.visit_mut_opt_accessibility(accessibility.as_mut());
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_computed_prop_name<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut ComputedPropName,
+) {
+    {
+        match n {
+            ComputedPropName { span, expr } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_expr(expr);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_cond_expr<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut CondExpr) {
+    {
+        match n {
+            CondExpr {
+                span,
+                test,
+                cons,
+                alt,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_expr(test);
+                _visitor.visit_mut_expr(cons);
+                _visitor.visit_mut_expr(alt);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_constructor<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut Constructor) {
+    {
+        match n {
+            Constructor {
+                span,
+                key,
+                params,
+                body,
+                accessibility,
+                is_optional,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_prop_name(key);
+                _visitor.visit_mut_param_or_ts_param_props(params);
+                _visitor.visit_mut_opt_block_stmt(body.as_mut());
+                _visitor.visit_mut_opt_accessibility(accessibility.as_mut());
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_continue_stmt<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut ContinueStmt) {
+    {
+        match n {
+            ContinueStmt { span, label } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_opt_ident(label.as_mut());
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_debugger_stmt<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut DebuggerStmt) {
+    {
+        match n {
+            DebuggerStmt { span } => {
+                _visitor.visit_mut_span(span);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_decl<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut Decl) {
+    {
+        match n {
+            Decl::Class { 0: _0 } => {
+                _visitor.visit_mut_class_decl(_0);
+            }
+            Decl::Fn { 0: _0 } => {
+                _visitor.visit_mut_fn_decl(_0);
+            }
+            Decl::Var { 0: _0 } => {
+                _visitor.visit_mut_var_decl(_0);
+            }
+            Decl::TsInterface { 0: _0 } => {
+                _visitor.visit_mut_ts_interface_decl(_0);
+            }
+            Decl::TsTypeAlias { 0: _0 } => {
+                _visitor.visit_mut_ts_type_alias_decl(_0);
+            }
+            Decl::TsEnum { 0: _0 } => {
+                _visitor.visit_mut_ts_enum_decl(_0);
+            }
+            Decl::TsModule { 0: _0 } => {
+                _visitor.visit_mut_ts_module_decl(_0);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_decorator<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut Decorator) {
+    {
+        match n {
+            Decorator { span, expr } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_expr(expr);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_default_decl<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut DefaultDecl) {
+    {
+        match n {
+            DefaultDecl::Class { 0: _0 } => {
+                _visitor.visit_mut_class_expr(_0);
+            }
+            DefaultDecl::Fn { 0: _0 } => {
+                _visitor.visit_mut_fn_expr(_0);
+            }
+            DefaultDecl::TsInterfaceDecl { 0: _0 } => {
+                _visitor.visit_mut_ts_interface_decl(_0);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_do_while_stmt<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut DoWhileStmt) {
+    {
+        match n {
+            DoWhileStmt { span, test, body } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_expr(test);
+                _visitor.visit_mut_stmt(body);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_empty_stmt<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut EmptyStmt) {
+    {
+        match n {
+            EmptyStmt { span } => {
+                _visitor.visit_mut_span(span);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_export_all<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut ExportAll) {
+    {
+        match n {
+            ExportAll { span, src } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_str(src);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_export_decl<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut ExportDecl) {
+    {
+        match n {
+            ExportDecl { span, decl } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_decl(decl);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_export_default_decl<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut ExportDefaultDecl,
+) {
+    {
+        match n {
+            ExportDefaultDecl { span, decl } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_default_decl(decl);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_export_default_expr<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut ExportDefaultExpr,
+) {
+    {
+        match n {
+            ExportDefaultExpr { span, expr } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_expr(expr);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_export_default_specifier<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut ExportDefaultSpecifier,
+) {
+    {
+        match n {
+            ExportDefaultSpecifier { exported } => {
+                _visitor.visit_mut_ident(exported);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_export_named_specifier<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut ExportNamedSpecifier,
+) {
+    {
+        match n {
+            ExportNamedSpecifier {
+                span,
+                orig,
+                exported,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_ident(orig);
+                _visitor.visit_mut_opt_ident(exported.as_mut());
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_export_namespace_specifier<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut ExportNamespaceSpecifier,
+) {
+    {
+        match n {
+            ExportNamespaceSpecifier { span, name } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_ident(name);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_export_specifier<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut ExportSpecifier) {
+    {
+        match n {
+            ExportSpecifier::Namespace { 0: _0 } => {
+                _visitor.visit_mut_export_namespace_specifier(_0);
+            }
+            ExportSpecifier::Default { 0: _0 } => {
+                _visitor.visit_mut_export_default_specifier(_0);
+            }
+            ExportSpecifier::Named { 0: _0 } => {
+                _visitor.visit_mut_export_named_specifier(_0);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_expr<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut Expr) {
+    {
+        match n {
+            Expr::This { 0: _0 } => {
+                _visitor.visit_mut_this_expr(_0);
+            }
+            Expr::Array { 0: _0 } => {
+                _visitor.visit_mut_array_lit(_0);
+            }
+            Expr::Object { 0: _0 } => {
+                _visitor.visit_mut_object_lit(_0);
+            }
+            Expr::Fn { 0: _0 } => {
+                _visitor.visit_mut_fn_expr(_0);
+            }
+            Expr::Unary { 0: _0 } => {
+                _visitor.visit_mut_unary_expr(_0);
+            }
+            Expr::Update { 0: _0 } => {
+                _visitor.visit_mut_update_expr(_0);
+            }
+            Expr::Bin { 0: _0 } => {
+                _visitor.visit_mut_bin_expr(_0);
+            }
+            Expr::Assign { 0: _0 } => {
+                _visitor.visit_mut_assign_expr(_0);
+            }
+            Expr::Member { 0: _0 } => {
+                _visitor.visit_mut_member_expr(_0);
+            }
+            Expr::Cond { 0: _0 } => {
+                _visitor.visit_mut_cond_expr(_0);
+            }
+            Expr::Call { 0: _0 } => {
+                _visitor.visit_mut_call_expr(_0);
+            }
+            Expr::New { 0: _0 } => {
+                _visitor.visit_mut_new_expr(_0);
+            }
+            Expr::Seq { 0: _0 } => {
+                _visitor.visit_mut_seq_expr(_0);
+            }
+            Expr::Ident { 0: _0 } => {
+                _visitor.visit_mut_ident(_0);
+            }
+            Expr::Lit { 0: _0 } => {
+                _visitor.visit_mut_lit(_0);
+            }
+            Expr::Tpl { 0: _0 } => {
+                _visitor.visit_mut_tpl(_0);
+            }
+            Expr::TaggedTpl { 0: _0 } => {
+                _visitor.visit_mut_tagged_tpl(_0);
+            }
+            Expr::Arrow { 0: _0 } => {
+                _visitor.visit_mut_arrow_expr(_0);
+            }
+            Expr::Class { 0: _0 } => {
+                _visitor.visit_mut_class_expr(_0);
+            }
+            Expr::Yield { 0: _0 } => {
+                _visitor.visit_mut_yield_expr(_0);
+            }
+            Expr::MetaProp { 0: _0 } => {
+                _visitor.visit_mut_meta_prop_expr(_0);
+            }
+            Expr::Await { 0: _0 } => {
+                _visitor.visit_mut_await_expr(_0);
+            }
+            Expr::Paren { 0: _0 } => {
+                _visitor.visit_mut_paren_expr(_0);
+            }
+            Expr::JSXMember { 0: _0 } => {
+                _visitor.visit_mut_jsx_member_expr(_0);
+            }
+            Expr::JSXNamespacedName { 0: _0 } => {
+                _visitor.visit_mut_jsx_namespaced_name(_0);
+            }
+            Expr::JSXEmpty { 0: _0 } => {
+                _visitor.visit_mut_jsx_empty_expr(_0);
+            }
+            Expr::JSXElement { 0: _0 } => {
+                _visitor.visit_mut_jsx_element(_0);
+            }
+            Expr::JSXFragment { 0: _0 } => {
+                _visitor.visit_mut_jsx_fragment(_0);
+            }
+            Expr::TsTypeAssertion { 0: _0 } => {
+                _visitor.visit_mut_ts_type_assertion(_0);
+            }
+            Expr::TsConstAssertion { 0: _0 } => {
+                _visitor.visit_mut_ts_const_assertion(_0);
+            }
+            Expr::TsNonNull { 0: _0 } => {
+                _visitor.visit_mut_ts_non_null_expr(_0);
+            }
+            Expr::TsTypeCast { 0: _0 } => {
+                _visitor.visit_mut_ts_type_cast_expr(_0);
+            }
+            Expr::TsAs { 0: _0 } => {
+                _visitor.visit_mut_ts_as_expr(_0);
+            }
+            Expr::PrivateName { 0: _0 } => {
+                _visitor.visit_mut_private_name(_0);
+            }
+            Expr::OptChain { 0: _0 } => {
+                _visitor.visit_mut_opt_chain_expr(_0);
+            }
+            Expr::Invalid { 0: _0 } => {
+                _visitor.visit_mut_invalid(_0);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_expr_or_spread<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut ExprOrSpread) {
+    {
+        match n {
+            ExprOrSpread { spread, expr } => {
+                _visitor.visit_mut_opt_span(spread.as_mut());
+                _visitor.visit_mut_expr(expr);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_expr_or_super<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut ExprOrSuper) {
+    {
+        match n {
+            ExprOrSuper::Super { 0: _0 } => {
+                _visitor.visit_mut_super(_0);
+            }
+            ExprOrSuper::Expr { 0: _0 } => {
+                _visitor.visit_mut_expr(_0);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_expr_stmt<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut ExprStmt) {
+    {
+        match n {
+            ExprStmt { span, expr } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_expr(expr);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_fn_decl<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut FnDecl) {
+    {
+        match n {
+            FnDecl {
+                ident,
+                declare,
+                function,
+            } => {
+                _visitor.visit_mut_ident(ident);
+                _visitor.visit_mut_function(function);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_fn_expr<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut FnExpr) {
+    {
+        match n {
+            FnExpr { ident, function } => {
+                _visitor.visit_mut_opt_ident(ident.as_mut());
+                _visitor.visit_mut_function(function);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_for_in_stmt<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut ForInStmt) {
+    {
+        match n {
+            ForInStmt {
+                span,
+                left,
+                right,
+                body,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_var_decl_or_pat(left);
+                _visitor.visit_mut_expr(right);
+                _visitor.visit_mut_stmt(body);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_for_of_stmt<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut ForOfStmt) {
+    {
+        match n {
+            ForOfStmt {
+                span,
+                await_token,
+                left,
+                right,
+                body,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_opt_span(await_token.as_mut());
+                _visitor.visit_mut_var_decl_or_pat(left);
+                _visitor.visit_mut_expr(right);
+                _visitor.visit_mut_stmt(body);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_for_stmt<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut ForStmt) {
+    {
+        match n {
+            ForStmt {
+                span,
+                init,
+                test,
+                update,
+                body,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_opt_var_decl_or_expr(init.as_mut());
+                _visitor.visit_mut_opt_expr(test.as_mut());
+                _visitor.visit_mut_opt_expr(update.as_mut());
+                _visitor.visit_mut_stmt(body);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_function<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut Function) {
+    {
+        match n {
+            Function {
+                params,
+                decorators,
+                span,
+                body,
+                is_generator,
+                is_async,
+                type_params,
+                return_type,
+            } => {
+                _visitor.visit_mut_params(params);
+                _visitor.visit_mut_decorators(decorators);
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_opt_block_stmt(body.as_mut());
+                _visitor.visit_mut_opt_ts_type_param_decl(type_params.as_mut());
+                _visitor.visit_mut_opt_ts_type_ann(return_type.as_mut());
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_getter_prop<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut GetterProp) {
+    {
+        match n {
+            GetterProp {
+                span,
+                key,
+                type_ann,
+                body,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_prop_name(key);
+                _visitor.visit_mut_opt_ts_type_ann(type_ann.as_mut());
+                _visitor.visit_mut_opt_block_stmt(body.as_mut());
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ident<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut Ident) {
+    {
+        match n {
+            Ident {
+                span,
+                sym,
+                type_ann,
+                optional,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_js_word(sym);
+                _visitor.visit_mut_opt_ts_type_ann(type_ann.as_mut());
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_if_stmt<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut IfStmt) {
+    {
+        match n {
+            IfStmt {
+                span,
+                test,
+                cons,
+                alt,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_expr(test);
+                _visitor.visit_mut_stmt(cons);
+                _visitor.visit_mut_opt_stmt(alt.as_mut());
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_import_decl<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut ImportDecl) {
+    {
+        match n {
+            ImportDecl {
+                span,
+                specifiers,
+                src,
+                type_only,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_import_specifiers(specifiers);
+                _visitor.visit_mut_str(src);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_import_default_specifier<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut ImportDefaultSpecifier,
+) {
+    {
+        match n {
+            ImportDefaultSpecifier { span, local } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_ident(local);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_import_named_specifier<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut ImportNamedSpecifier,
+) {
+    {
+        match n {
+            ImportNamedSpecifier {
+                span,
+                local,
+                imported,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_ident(local);
+                _visitor.visit_mut_opt_ident(imported.as_mut());
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_import_specifier<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut ImportSpecifier) {
+    {
+        match n {
+            ImportSpecifier::Named { 0: _0 } => {
+                _visitor.visit_mut_import_named_specifier(_0);
+            }
+            ImportSpecifier::Default { 0: _0 } => {
+                _visitor.visit_mut_import_default_specifier(_0);
+            }
+            ImportSpecifier::Namespace { 0: _0 } => {
+                _visitor.visit_mut_import_star_as_specifier(_0);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_import_star_as_specifier<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut ImportStarAsSpecifier,
+) {
+    {
+        match n {
+            ImportStarAsSpecifier { span, local } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_ident(local);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_invalid<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut Invalid) {
+    {
+        match n {
+            Invalid { span } => {
+                _visitor.visit_mut_span(span);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_jsx_attr<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut JSXAttr) {
+    {
+        match n {
+            JSXAttr { span, name, value } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_jsx_attr_name(name);
+                _visitor.visit_mut_opt_jsx_attr_value(value.as_mut());
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_jsx_attr_name<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut JSXAttrName) {
+    {
+        match n {
+            JSXAttrName::Ident { 0: _0 } => {
+                _visitor.visit_mut_ident(_0);
+            }
+            JSXAttrName::JSXNamespacedName { 0: _0 } => {
+                _visitor.visit_mut_jsx_namespaced_name(_0);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_jsx_attr_or_spread<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut JSXAttrOrSpread,
+) {
+    {
+        match n {
+            JSXAttrOrSpread::JSXAttr { 0: _0 } => {
+                _visitor.visit_mut_jsx_attr(_0);
+            }
+            JSXAttrOrSpread::SpreadElement { 0: _0 } => {
+                _visitor.visit_mut_spread_element(_0);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_jsx_attr_value<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut JSXAttrValue) {
+    {
+        match n {
+            JSXAttrValue::Lit { 0: _0 } => {
+                _visitor.visit_mut_lit(_0);
+            }
+            JSXAttrValue::JSXExprContainer { 0: _0 } => {
+                _visitor.visit_mut_jsx_expr_container(_0);
+            }
+            JSXAttrValue::JSXElement { 0: _0 } => {
+                _visitor.visit_mut_jsx_element(_0);
+            }
+            JSXAttrValue::JSXFragment { 0: _0 } => {
+                _visitor.visit_mut_jsx_fragment(_0);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_jsx_closing_element<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut JSXClosingElement,
+) {
+    {
+        match n {
+            JSXClosingElement { span, name } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_jsx_element_name(name);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_jsx_closing_fragment<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut JSXClosingFragment,
+) {
+    {
+        match n {
+            JSXClosingFragment { span } => {
+                _visitor.visit_mut_span(span);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_jsx_element<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut JSXElement) {
+    {
+        match n {
+            JSXElement {
+                span,
+                opening,
+                children,
+                closing,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_jsx_opening_element(opening);
+                _visitor.visit_mut_jsx_element_children(children);
+                _visitor.visit_mut_opt_jsx_closing_element(closing.as_mut());
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_jsx_element_child<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut JSXElementChild,
+) {
+    {
+        match n {
+            JSXElementChild::JSXText { 0: _0 } => {
+                _visitor.visit_mut_jsx_text(_0);
+            }
+            JSXElementChild::JSXExprContainer { 0: _0 } => {
+                _visitor.visit_mut_jsx_expr_container(_0);
+            }
+            JSXElementChild::JSXSpreadChild { 0: _0 } => {
+                _visitor.visit_mut_jsx_spread_child(_0);
+            }
+            JSXElementChild::JSXElement { 0: _0 } => {
+                _visitor.visit_mut_jsx_element(_0);
+            }
+            JSXElementChild::JSXFragment { 0: _0 } => {
+                _visitor.visit_mut_jsx_fragment(_0);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_jsx_element_name<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut JSXElementName) {
+    {
+        match n {
+            JSXElementName::Ident { 0: _0 } => {
+                _visitor.visit_mut_ident(_0);
+            }
+            JSXElementName::JSXMemberExpr { 0: _0 } => {
+                _visitor.visit_mut_jsx_member_expr(_0);
+            }
+            JSXElementName::JSXNamespacedName { 0: _0 } => {
+                _visitor.visit_mut_jsx_namespaced_name(_0);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_jsx_empty_expr<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut JSXEmptyExpr) {
+    {
+        match n {
+            JSXEmptyExpr { span } => {
+                _visitor.visit_mut_span(span);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_jsx_expr<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut JSXExpr) {
+    {
+        match n {
+            JSXExpr::JSXEmptyExpr { 0: _0 } => {
+                _visitor.visit_mut_jsx_empty_expr(_0);
+            }
+            JSXExpr::Expr { 0: _0 } => {
+                _visitor.visit_mut_expr(_0);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_jsx_expr_container<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut JSXExprContainer,
+) {
+    {
+        match n {
+            JSXExprContainer { span, expr } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_jsx_expr(expr);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_jsx_fragment<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut JSXFragment) {
+    {
+        match n {
+            JSXFragment {
+                span,
+                opening,
+                children,
+                closing,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_jsx_opening_fragment(opening);
+                _visitor.visit_mut_jsx_element_children(children);
+                _visitor.visit_mut_jsx_closing_fragment(closing);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_jsx_member_expr<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut JSXMemberExpr) {
+    {
+        match n {
+            JSXMemberExpr { obj, prop } => {
+                _visitor.visit_mut_jsx_object(obj);
+                _visitor.visit_mut_ident(prop);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_jsx_namespaced_name<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut JSXNamespacedName,
+) {
+    {
+        match n {
+            JSXNamespacedName { ns, name } => {
+                _visitor.visit_mut_ident(ns);
+                _visitor.visit_mut_ident(name);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_jsx_object<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut JSXObject) {
+    {
+        match n {
+            JSXObject::JSXMemberExpr { 0: _0 } => {
+                _visitor.visit_mut_jsx_member_expr(_0);
+            }
+            JSXObject::Ident { 0: _0 } => {
+                _visitor.visit_mut_ident(_0);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_jsx_opening_element<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut JSXOpeningElement,
+) {
+    {
+        match n {
+            JSXOpeningElement {
+                name,
+                span,
+                attrs,
+                self_closing,
+                type_args,
+            } => {
+                _visitor.visit_mut_jsx_element_name(name);
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_jsx_attr_or_spreads(attrs);
+                _visitor.visit_mut_opt_ts_type_param_instantiation(type_args.as_mut());
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_jsx_opening_fragment<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut JSXOpeningFragment,
+) {
+    {
+        match n {
+            JSXOpeningFragment { span } => {
+                _visitor.visit_mut_span(span);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_jsx_spread_child<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut JSXSpreadChild) {
+    {
+        match n {
+            JSXSpreadChild { span, expr } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_expr(expr);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_jsx_text<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut JSXText) {
+    {
+        match n {
+            JSXText { span, value, raw } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_js_word(value);
+                _visitor.visit_mut_js_word(raw);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_key_value_pat_prop<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut KeyValuePatProp,
+) {
+    {
+        match n {
+            KeyValuePatProp { key, value } => {
+                _visitor.visit_mut_prop_name(key);
+                _visitor.visit_mut_pat(value);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_key_value_prop<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut KeyValueProp) {
+    {
+        match n {
+            KeyValueProp { key, value } => {
+                _visitor.visit_mut_prop_name(key);
+                _visitor.visit_mut_expr(value);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_labeled_stmt<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut LabeledStmt) {
+    {
+        match n {
+            LabeledStmt { span, label, body } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_ident(label);
+                _visitor.visit_mut_stmt(body);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_lit<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut Lit) {
+    {
+        match n {
+            Lit::Str { 0: _0 } => {
+                _visitor.visit_mut_str(_0);
+            }
+            Lit::Bool { 0: _0 } => {
+                _visitor.visit_mut_bool(_0);
+            }
+            Lit::Null { 0: _0 } => {
+                _visitor.visit_mut_null(_0);
+            }
+            Lit::Num { 0: _0 } => {
+                _visitor.visit_mut_number(_0);
+            }
+            Lit::BigInt { 0: _0 } => {
+                _visitor.visit_mut_big_int(_0);
+            }
+            Lit::Regex { 0: _0 } => {
+                _visitor.visit_mut_regex(_0);
+            }
+            Lit::JSXText { 0: _0 } => {
+                _visitor.visit_mut_jsx_text(_0);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_member_expr<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut MemberExpr) {
+    {
+        match n {
+            MemberExpr {
+                span,
+                obj,
+                prop,
+                computed,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_expr_or_super(obj);
+                _visitor.visit_mut_expr(prop);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_meta_prop_expr<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut MetaPropExpr) {
+    {
+        match n {
+            MetaPropExpr { meta, prop } => {
+                _visitor.visit_mut_ident(meta);
+                _visitor.visit_mut_ident(prop);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_method_kind<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut MethodKind) {
+    {
+        match n {
+            MethodKind::Method {} => {}
+            MethodKind::Getter {} => {}
+            MethodKind::Setter {} => {}
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_method_prop<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut MethodProp) {
+    {
+        match n {
+            MethodProp { key, function } => {
+                _visitor.visit_mut_prop_name(key);
+                _visitor.visit_mut_function(function);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_module<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut Module) {
+    {
+        match n {
+            Module {
+                span,
+                body,
+                shebang,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_module_items(body);
+                _visitor.visit_mut_opt_js_word(shebang.as_mut());
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_module_decl<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut ModuleDecl) {
+    {
+        match n {
+            ModuleDecl::Import { 0: _0 } => {
+                _visitor.visit_mut_import_decl(_0);
+            }
+            ModuleDecl::ExportDecl { 0: _0 } => {
+                _visitor.visit_mut_export_decl(_0);
+            }
+            ModuleDecl::ExportNamed { 0: _0 } => {
+                _visitor.visit_mut_named_export(_0);
+            }
+            ModuleDecl::ExportDefaultDecl { 0: _0 } => {
+                _visitor.visit_mut_export_default_decl(_0);
+            }
+            ModuleDecl::ExportDefaultExpr { 0: _0 } => {
+                _visitor.visit_mut_export_default_expr(_0);
+            }
+            ModuleDecl::ExportAll { 0: _0 } => {
+                _visitor.visit_mut_export_all(_0);
+            }
+            ModuleDecl::TsImportEquals { 0: _0 } => {
+                _visitor.visit_mut_ts_import_equals_decl(_0);
+            }
+            ModuleDecl::TsExportAssignment { 0: _0 } => {
+                _visitor.visit_mut_ts_export_assignment(_0);
+            }
+            ModuleDecl::TsNamespaceExport { 0: _0 } => {
+                _visitor.visit_mut_ts_namespace_export_decl(_0);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_module_item<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut ModuleItem) {
+    {
+        match n {
+            ModuleItem::ModuleDecl { 0: _0 } => {
+                _visitor.visit_mut_module_decl(_0);
+            }
+            ModuleItem::Stmt { 0: _0 } => {
+                _visitor.visit_mut_stmt(_0);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_named_export<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut NamedExport) {
+    {
+        match n {
+            NamedExport {
+                span,
+                specifiers,
+                src,
+                type_only,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_export_specifiers(specifiers);
+                _visitor.visit_mut_opt_str(src.as_mut());
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_new_expr<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut NewExpr) {
+    {
+        match n {
+            NewExpr {
+                span,
+                callee,
+                args,
+                type_args,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_expr(callee);
+                _visitor.visit_mut_opt_expr_or_spreads(args.as_mut());
+                _visitor.visit_mut_opt_ts_type_param_instantiation(type_args.as_mut());
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_null<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut Null) {
+    {
+        match n {
+            Null { span } => {
+                _visitor.visit_mut_span(span);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_number<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut Number) {
+    {
+        match n {
+            Number { span, value } => {
+                _visitor.visit_mut_span(span);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_object_lit<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut ObjectLit) {
+    {
+        match n {
+            ObjectLit { span, props } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_prop_or_spreads(props);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_object_pat<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut ObjectPat) {
+    {
+        match n {
+            ObjectPat {
+                span,
+                props,
+                optional,
+                type_ann,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_object_pat_props(props);
+                _visitor.visit_mut_opt_ts_type_ann(type_ann.as_mut());
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_object_pat_prop<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut ObjectPatProp) {
+    {
+        match n {
+            ObjectPatProp::KeyValue { 0: _0 } => {
+                _visitor.visit_mut_key_value_pat_prop(_0);
+            }
+            ObjectPatProp::Assign { 0: _0 } => {
+                _visitor.visit_mut_assign_pat_prop(_0);
+            }
+            ObjectPatProp::Rest { 0: _0 } => {
+                _visitor.visit_mut_rest_pat(_0);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_opt_chain_expr<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut OptChainExpr) {
+    {
+        match n {
+            OptChainExpr { span, expr } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_expr(expr);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_param<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut Param) {
+    {
+        match n {
+            Param {
+                span,
+                decorators,
+                pat,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_decorators(decorators);
+                _visitor.visit_mut_pat(pat);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_param_or_ts_param_prop<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut ParamOrTsParamProp,
+) {
+    {
+        match n {
+            ParamOrTsParamProp::TsParamProp { 0: _0 } => {
+                _visitor.visit_mut_ts_param_prop(_0);
+            }
+            ParamOrTsParamProp::Param { 0: _0 } => {
+                _visitor.visit_mut_param(_0);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_paren_expr<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut ParenExpr) {
+    {
+        match n {
+            ParenExpr { span, expr } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_expr(expr);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_pat<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut Pat) {
+    {
+        match n {
+            Pat::Ident { 0: _0 } => {
+                _visitor.visit_mut_ident(_0);
+            }
+            Pat::Array { 0: _0 } => {
+                _visitor.visit_mut_array_pat(_0);
+            }
+            Pat::Rest { 0: _0 } => {
+                _visitor.visit_mut_rest_pat(_0);
+            }
+            Pat::Object { 0: _0 } => {
+                _visitor.visit_mut_object_pat(_0);
+            }
+            Pat::Assign { 0: _0 } => {
+                _visitor.visit_mut_assign_pat(_0);
+            }
+            Pat::Invalid { 0: _0 } => {
+                _visitor.visit_mut_invalid(_0);
+            }
+            Pat::Expr { 0: _0 } => {
+                _visitor.visit_mut_expr(_0);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_pat_or_expr<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut PatOrExpr) {
+    {
+        match n {
+            PatOrExpr::Expr { 0: _0 } => {
+                _visitor.visit_mut_expr(_0);
+            }
+            PatOrExpr::Pat { 0: _0 } => {
+                _visitor.visit_mut_pat(_0);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_private_method<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut PrivateMethod) {
+    {
+        match n {
+            PrivateMethod {
+                span,
+                key,
+                function,
+                kind,
+                is_static,
+                accessibility,
+                is_abstract,
+                is_optional,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_private_name(key);
+                _visitor.visit_mut_function(function);
+                _visitor.visit_mut_method_kind(kind);
+                _visitor.visit_mut_opt_accessibility(accessibility.as_mut());
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_private_name<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut PrivateName) {
+    {
+        match n {
+            PrivateName { span, id } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_ident(id);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_private_prop<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut PrivateProp) {
+    {
+        match n {
+            PrivateProp {
+                span,
+                key,
+                value,
+                type_ann,
+                is_static,
+                decorators,
+                computed,
+                accessibility,
+                is_abstract,
+                is_optional,
+                readonly,
+                definite,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_private_name(key);
+                _visitor.visit_mut_opt_expr(value.as_mut());
+                _visitor.visit_mut_opt_ts_type_ann(type_ann.as_mut());
+                _visitor.visit_mut_decorators(decorators);
+                _visitor.visit_mut_opt_accessibility(accessibility.as_mut());
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_program<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut Program) {
+    {
+        match n {
+            Program::Module { 0: _0 } => {
+                _visitor.visit_mut_module(_0);
+            }
+            Program::Script { 0: _0 } => {
+                _visitor.visit_mut_script(_0);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_prop<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut Prop) {
+    {
+        match n {
+            Prop::Shorthand { 0: _0 } => {
+                _visitor.visit_mut_ident(_0);
+            }
+            Prop::KeyValue { 0: _0 } => {
+                _visitor.visit_mut_key_value_prop(_0);
+            }
+            Prop::Assign { 0: _0 } => {
+                _visitor.visit_mut_assign_prop(_0);
+            }
+            Prop::Getter { 0: _0 } => {
+                _visitor.visit_mut_getter_prop(_0);
+            }
+            Prop::Setter { 0: _0 } => {
+                _visitor.visit_mut_setter_prop(_0);
+            }
+            Prop::Method { 0: _0 } => {
+                _visitor.visit_mut_method_prop(_0);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_prop_name<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut PropName) {
+    {
+        match n {
+            PropName::Ident { 0: _0 } => {
+                _visitor.visit_mut_ident(_0);
+            }
+            PropName::Str { 0: _0 } => {
+                _visitor.visit_mut_str(_0);
+            }
+            PropName::Num { 0: _0 } => {
+                _visitor.visit_mut_number(_0);
+            }
+            PropName::Computed { 0: _0 } => {
+                _visitor.visit_mut_computed_prop_name(_0);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_prop_or_spread<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut PropOrSpread) {
+    {
+        match n {
+            PropOrSpread::Spread { 0: _0 } => {
+                _visitor.visit_mut_spread_element(_0);
+            }
+            PropOrSpread::Prop { 0: _0 } => {
+                _visitor.visit_mut_prop(_0);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_regex<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut Regex) {
+    {
+        match n {
+            Regex { span, exp, flags } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_js_word(exp);
+                _visitor.visit_mut_js_word(flags);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_rest_pat<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut RestPat) {
+    {
+        match n {
+            RestPat {
+                span,
+                dot3_token,
+                arg,
+                type_ann,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_span(dot3_token);
+                _visitor.visit_mut_pat(arg);
+                _visitor.visit_mut_opt_ts_type_ann(type_ann.as_mut());
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_return_stmt<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut ReturnStmt) {
+    {
+        match n {
+            ReturnStmt { span, arg } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_opt_expr(arg.as_mut());
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_script<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut Script) {
+    {
+        match n {
+            Script {
+                span,
+                body,
+                shebang,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_stmts(body);
+                _visitor.visit_mut_opt_js_word(shebang.as_mut());
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_seq_expr<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut SeqExpr) {
+    {
+        match n {
+            SeqExpr { span, exprs } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_exprs(exprs);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_setter_prop<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut SetterProp) {
+    {
+        match n {
+            SetterProp {
+                span,
+                key,
+                param,
+                body,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_prop_name(key);
+                _visitor.visit_mut_pat(param);
+                _visitor.visit_mut_opt_block_stmt(body.as_mut());
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_spread_element<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut SpreadElement) {
+    {
+        match n {
+            SpreadElement { dot3_token, expr } => {
+                _visitor.visit_mut_span(dot3_token);
+                _visitor.visit_mut_expr(expr);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_stmt<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut Stmt) {
+    {
+        match n {
+            Stmt::Block { 0: _0 } => {
+                _visitor.visit_mut_block_stmt(_0);
+            }
+            Stmt::Empty { 0: _0 } => {
+                _visitor.visit_mut_empty_stmt(_0);
+            }
+            Stmt::Debugger { 0: _0 } => {
+                _visitor.visit_mut_debugger_stmt(_0);
+            }
+            Stmt::With { 0: _0 } => {
+                _visitor.visit_mut_with_stmt(_0);
+            }
+            Stmt::Return { 0: _0 } => {
+                _visitor.visit_mut_return_stmt(_0);
+            }
+            Stmt::Labeled { 0: _0 } => {
+                _visitor.visit_mut_labeled_stmt(_0);
+            }
+            Stmt::Break { 0: _0 } => {
+                _visitor.visit_mut_break_stmt(_0);
+            }
+            Stmt::Continue { 0: _0 } => {
+                _visitor.visit_mut_continue_stmt(_0);
+            }
+            Stmt::If { 0: _0 } => {
+                _visitor.visit_mut_if_stmt(_0);
+            }
+            Stmt::Switch { 0: _0 } => {
+                _visitor.visit_mut_switch_stmt(_0);
+            }
+            Stmt::Throw { 0: _0 } => {
+                _visitor.visit_mut_throw_stmt(_0);
+            }
+            Stmt::Try { 0: _0 } => {
+                _visitor.visit_mut_try_stmt(_0);
+            }
+            Stmt::While { 0: _0 } => {
+                _visitor.visit_mut_while_stmt(_0);
+            }
+            Stmt::DoWhile { 0: _0 } => {
+                _visitor.visit_mut_do_while_stmt(_0);
+            }
+            Stmt::For { 0: _0 } => {
+                _visitor.visit_mut_for_stmt(_0);
+            }
+            Stmt::ForIn { 0: _0 } => {
+                _visitor.visit_mut_for_in_stmt(_0);
+            }
+            Stmt::ForOf { 0: _0 } => {
+                _visitor.visit_mut_for_of_stmt(_0);
+            }
+            Stmt::Decl { 0: _0 } => {
+                _visitor.visit_mut_decl(_0);
+            }
+            Stmt::Expr { 0: _0 } => {
+                _visitor.visit_mut_expr_stmt(_0);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_str<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut Str) {
+    {
+        match n {
+            Str {
+                span,
+                value,
+                has_escape,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_js_word(value);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_super<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut Super) {
+    {
+        match n {
+            Super { span } => {
+                _visitor.visit_mut_span(span);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_switch_case<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut SwitchCase) {
+    {
+        match n {
+            SwitchCase { span, test, cons } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_opt_expr(test.as_mut());
+                _visitor.visit_mut_stmts(cons);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_switch_stmt<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut SwitchStmt) {
+    {
+        match n {
+            SwitchStmt {
+                span,
+                discriminant,
+                cases,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_expr(discriminant);
+                _visitor.visit_mut_switch_cases(cases);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_tagged_tpl<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut TaggedTpl) {
+    {
+        match n {
+            TaggedTpl {
+                span,
+                tag,
+                exprs,
+                quasis,
+                type_params,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_expr(tag);
+                _visitor.visit_mut_exprs(exprs);
+                _visitor.visit_mut_tpl_elements(quasis);
+                _visitor.visit_mut_opt_ts_type_param_instantiation(type_params.as_mut());
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_this_expr<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut ThisExpr) {
+    {
+        match n {
+            ThisExpr { span } => {
+                _visitor.visit_mut_span(span);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_throw_stmt<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut ThrowStmt) {
+    {
+        match n {
+            ThrowStmt { span, arg } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_expr(arg);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_tpl<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut Tpl) {
+    {
+        match n {
+            Tpl {
+                span,
+                exprs,
+                quasis,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_exprs(exprs);
+                _visitor.visit_mut_tpl_elements(quasis);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_tpl_element<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut TplElement) {
+    {
+        match n {
+            TplElement {
+                span,
+                tail,
+                cooked,
+                raw,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_opt_str(cooked.as_mut());
+                _visitor.visit_mut_str(raw);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_true_plus_minus<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut TruePlusMinus) {
+    {
+        match n {
+            TruePlusMinus::True {} => {}
+            TruePlusMinus::Plus {} => {}
+            TruePlusMinus::Minus {} => {}
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_try_stmt<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut TryStmt) {
+    {
+        match n {
+            TryStmt {
+                span,
+                block,
+                handler,
+                finalizer,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_block_stmt(block);
+                _visitor.visit_mut_opt_catch_clause(handler.as_mut());
+                _visitor.visit_mut_opt_block_stmt(finalizer.as_mut());
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_array_type<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut TsArrayType) {
+    {
+        match n {
+            TsArrayType { span, elem_type } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_ts_type(elem_type);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_as_expr<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut TsAsExpr) {
+    {
+        match n {
+            TsAsExpr {
+                span,
+                expr,
+                type_ann,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_expr(expr);
+                _visitor.visit_mut_ts_type(type_ann);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_call_signature_decl<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut TsCallSignatureDecl,
+) {
+    {
+        match n {
+            TsCallSignatureDecl {
+                span,
+                params,
+                type_ann,
+                type_params,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_ts_fn_params(params);
+                _visitor.visit_mut_opt_ts_type_ann(type_ann.as_mut());
+                _visitor.visit_mut_opt_ts_type_param_decl(type_params.as_mut());
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_conditional_type<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut TsConditionalType,
+) {
+    {
+        match n {
+            TsConditionalType {
+                span,
+                check_type,
+                extends_type,
+                true_type,
+                false_type,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_ts_type(check_type);
+                _visitor.visit_mut_ts_type(extends_type);
+                _visitor.visit_mut_ts_type(true_type);
+                _visitor.visit_mut_ts_type(false_type);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_const_assertion<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut TsConstAssertion,
+) {
+    {
+        match n {
+            TsConstAssertion { span, expr } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_expr(expr);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_construct_signature_decl<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut TsConstructSignatureDecl,
+) {
+    {
+        match n {
+            TsConstructSignatureDecl {
+                span,
+                params,
+                type_ann,
+                type_params,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_ts_fn_params(params);
+                _visitor.visit_mut_opt_ts_type_ann(type_ann.as_mut());
+                _visitor.visit_mut_opt_ts_type_param_decl(type_params.as_mut());
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_constructor_type<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut TsConstructorType,
+) {
+    {
+        match n {
+            TsConstructorType {
+                span,
+                params,
+                type_params,
+                type_ann,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_ts_fn_params(params);
+                _visitor.visit_mut_opt_ts_type_param_decl(type_params.as_mut());
+                _visitor.visit_mut_ts_type_ann(type_ann);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_entity_name<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut TsEntityName) {
+    {
+        match n {
+            TsEntityName::TsQualifiedName { 0: _0 } => {
+                _visitor.visit_mut_ts_qualified_name(_0);
+            }
+            TsEntityName::Ident { 0: _0 } => {
+                _visitor.visit_mut_ident(_0);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_enum_decl<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut TsEnumDecl) {
+    {
+        match n {
+            TsEnumDecl {
+                span,
+                declare,
+                is_const,
+                id,
+                members,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_ident(id);
+                _visitor.visit_mut_ts_enum_members(members);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_enum_member<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut TsEnumMember) {
+    {
+        match n {
+            TsEnumMember { span, id, init } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_ts_enum_member_id(id);
+                _visitor.visit_mut_opt_expr(init.as_mut());
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_enum_member_id<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut TsEnumMemberId) {
+    {
+        match n {
+            TsEnumMemberId::Ident { 0: _0 } => {
+                _visitor.visit_mut_ident(_0);
+            }
+            TsEnumMemberId::Str { 0: _0 } => {
+                _visitor.visit_mut_str(_0);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_export_assignment<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut TsExportAssignment,
+) {
+    {
+        match n {
+            TsExportAssignment { span, expr } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_expr(expr);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_expr_with_type_args<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut TsExprWithTypeArgs,
+) {
+    {
+        match n {
+            TsExprWithTypeArgs {
+                span,
+                expr,
+                type_args,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_ts_entity_name(expr);
+                _visitor.visit_mut_opt_ts_type_param_instantiation(type_args.as_mut());
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_external_module_ref<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut TsExternalModuleRef,
+) {
+    {
+        match n {
+            TsExternalModuleRef { span, expr } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_str(expr);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_fn_or_constructor_type<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut TsFnOrConstructorType,
+) {
+    {
+        match n {
+            TsFnOrConstructorType::TsFnType { 0: _0 } => {
+                _visitor.visit_mut_ts_fn_type(_0);
+            }
+            TsFnOrConstructorType::TsConstructorType { 0: _0 } => {
+                _visitor.visit_mut_ts_constructor_type(_0);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_fn_param<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut TsFnParam) {
+    {
+        match n {
+            TsFnParam::Ident { 0: _0 } => {
+                _visitor.visit_mut_ident(_0);
+            }
+            TsFnParam::Array { 0: _0 } => {
+                _visitor.visit_mut_array_pat(_0);
+            }
+            TsFnParam::Rest { 0: _0 } => {
+                _visitor.visit_mut_rest_pat(_0);
+            }
+            TsFnParam::Object { 0: _0 } => {
+                _visitor.visit_mut_object_pat(_0);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_fn_type<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut TsFnType) {
+    {
+        match n {
+            TsFnType {
+                span,
+                params,
+                type_params,
+                type_ann,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_ts_fn_params(params);
+                _visitor.visit_mut_opt_ts_type_param_decl(type_params.as_mut());
+                _visitor.visit_mut_ts_type_ann(type_ann);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_import_equals_decl<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut TsImportEqualsDecl,
+) {
+    {
+        match n {
+            TsImportEqualsDecl {
+                span,
+                declare,
+                is_export,
+                id,
+                module_ref,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_ident(id);
+                _visitor.visit_mut_ts_module_ref(module_ref);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_import_type<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut TsImportType) {
+    {
+        match n {
+            TsImportType {
+                span,
+                arg,
+                qualifier,
+                type_args,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_str(arg);
+                _visitor.visit_mut_opt_ts_entity_name(qualifier.as_mut());
+                _visitor.visit_mut_opt_ts_type_param_instantiation(type_args.as_mut());
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_index_signature<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut TsIndexSignature,
+) {
+    {
+        match n {
+            TsIndexSignature {
+                params,
+                type_ann,
+                readonly,
+                span,
+            } => {
+                _visitor.visit_mut_ts_fn_params(params);
+                _visitor.visit_mut_opt_ts_type_ann(type_ann.as_mut());
+                _visitor.visit_mut_span(span);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_indexed_access_type<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut TsIndexedAccessType,
+) {
+    {
+        match n {
+            TsIndexedAccessType {
+                span,
+                readonly,
+                obj_type,
+                index_type,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_ts_type(obj_type);
+                _visitor.visit_mut_ts_type(index_type);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_infer_type<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut TsInferType) {
+    {
+        match n {
+            TsInferType { span, type_param } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_ts_type_param(type_param);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_interface_body<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut TsInterfaceBody,
+) {
+    {
+        match n {
+            TsInterfaceBody { span, body } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_ts_type_elements(body);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_interface_decl<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut TsInterfaceDecl,
+) {
+    {
+        match n {
+            TsInterfaceDecl {
+                span,
+                id,
+                declare,
+                type_params,
+                extends,
+                body,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_ident(id);
+                _visitor.visit_mut_opt_ts_type_param_decl(type_params.as_mut());
+                _visitor.visit_mut_ts_expr_with_type_args_vec(extends);
+                _visitor.visit_mut_ts_interface_body(body);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_intersection_type<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut TsIntersectionType,
+) {
+    {
+        match n {
+            TsIntersectionType { span, types } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_ts_types(types);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_keyword_type<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut TsKeywordType) {
+    {
+        match n {
+            TsKeywordType { span, kind } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_ts_keyword_type_kind(kind);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_keyword_type_kind<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut TsKeywordTypeKind,
+) {
+    {
+        match n {
+            TsKeywordTypeKind::TsAnyKeyword {} => {}
+            TsKeywordTypeKind::TsUnknownKeyword {} => {}
+            TsKeywordTypeKind::TsNumberKeyword {} => {}
+            TsKeywordTypeKind::TsObjectKeyword {} => {}
+            TsKeywordTypeKind::TsBooleanKeyword {} => {}
+            TsKeywordTypeKind::TsBigIntKeyword {} => {}
+            TsKeywordTypeKind::TsStringKeyword {} => {}
+            TsKeywordTypeKind::TsSymbolKeyword {} => {}
+            TsKeywordTypeKind::TsVoidKeyword {} => {}
+            TsKeywordTypeKind::TsUndefinedKeyword {} => {}
+            TsKeywordTypeKind::TsNullKeyword {} => {}
+            TsKeywordTypeKind::TsNeverKeyword {} => {}
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_lit<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut TsLit) {
+    {
+        match n {
+            TsLit::Number { 0: _0 } => {
+                _visitor.visit_mut_number(_0);
+            }
+            TsLit::Str { 0: _0 } => {
+                _visitor.visit_mut_str(_0);
+            }
+            TsLit::Bool { 0: _0 } => {
+                _visitor.visit_mut_bool(_0);
+            }
+            TsLit::Tpl { 0: _0 } => {
+                _visitor.visit_mut_tpl(_0);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_lit_type<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut TsLitType) {
+    {
+        match n {
+            TsLitType { span, lit } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_ts_lit(lit);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_mapped_type<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut TsMappedType) {
+    {
+        match n {
+            TsMappedType {
+                span,
+                readonly,
+                type_param,
+                optional,
+                type_ann,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_opt_true_plus_minus(readonly.as_mut());
+                _visitor.visit_mut_ts_type_param(type_param);
+                _visitor.visit_mut_opt_true_plus_minus(optional.as_mut());
+                _visitor.visit_mut_opt_ts_type(type_ann.as_mut());
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_method_signature<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut TsMethodSignature,
+) {
+    {
+        match n {
+            TsMethodSignature {
+                span,
+                readonly,
+                key,
+                computed,
+                optional,
+                params,
+                type_ann,
+                type_params,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_expr(key);
+                _visitor.visit_mut_ts_fn_params(params);
+                _visitor.visit_mut_opt_ts_type_ann(type_ann.as_mut());
+                _visitor.visit_mut_opt_ts_type_param_decl(type_params.as_mut());
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_module_block<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut TsModuleBlock) {
+    {
+        match n {
+            TsModuleBlock { span, body } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_module_items(body);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_module_decl<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut TsModuleDecl) {
+    {
+        match n {
+            TsModuleDecl {
+                span,
+                declare,
+                global,
+                id,
+                body,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_ts_module_name(id);
+                _visitor.visit_mut_opt_ts_namespace_body(body.as_mut());
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_module_name<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut TsModuleName) {
+    {
+        match n {
+            TsModuleName::Ident { 0: _0 } => {
+                _visitor.visit_mut_ident(_0);
+            }
+            TsModuleName::Str { 0: _0 } => {
+                _visitor.visit_mut_str(_0);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_module_ref<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut TsModuleRef) {
+    {
+        match n {
+            TsModuleRef::TsEntityName { 0: _0 } => {
+                _visitor.visit_mut_ts_entity_name(_0);
+            }
+            TsModuleRef::TsExternalModuleRef { 0: _0 } => {
+                _visitor.visit_mut_ts_external_module_ref(_0);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_namespace_body<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut TsNamespaceBody,
+) {
+    {
+        match n {
+            TsNamespaceBody::TsModuleBlock { 0: _0 } => {
+                _visitor.visit_mut_ts_module_block(_0);
+            }
+            TsNamespaceBody::TsNamespaceDecl { 0: _0 } => {
+                _visitor.visit_mut_ts_namespace_decl(_0);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_namespace_decl<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut TsNamespaceDecl,
+) {
+    {
+        match n {
+            TsNamespaceDecl {
+                span,
+                declare,
+                global,
+                id,
+                body,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_ident(id);
+                _visitor.visit_mut_ts_namespace_body(body);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_namespace_export_decl<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut TsNamespaceExportDecl,
+) {
+    {
+        match n {
+            TsNamespaceExportDecl { span, id } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_ident(id);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_non_null_expr<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut TsNonNullExpr) {
+    {
+        match n {
+            TsNonNullExpr { span, expr } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_expr(expr);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_optional_type<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut TsOptionalType) {
+    {
+        match n {
+            TsOptionalType { span, type_ann } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_ts_type(type_ann);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_param_prop<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut TsParamProp) {
+    {
+        match n {
+            TsParamProp {
+                span,
+                decorators,
+                accessibility,
+                readonly,
+                param,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_decorators(decorators);
+                _visitor.visit_mut_opt_accessibility(accessibility.as_mut());
+                _visitor.visit_mut_ts_param_prop_param(param);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_param_prop_param<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut TsParamPropParam,
+) {
+    {
+        match n {
+            TsParamPropParam::Ident { 0: _0 } => {
+                _visitor.visit_mut_ident(_0);
+            }
+            TsParamPropParam::Assign { 0: _0 } => {
+                _visitor.visit_mut_assign_pat(_0);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_parenthesized_type<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut TsParenthesizedType,
+) {
+    {
+        match n {
+            TsParenthesizedType { span, type_ann } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_ts_type(type_ann);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_property_signature<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut TsPropertySignature,
+) {
+    {
+        match n {
+            TsPropertySignature {
+                span,
+                readonly,
+                key,
+                computed,
+                optional,
+                init,
+                params,
+                type_ann,
+                type_params,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_expr(key);
+                _visitor.visit_mut_opt_expr(init.as_mut());
+                _visitor.visit_mut_ts_fn_params(params);
+                _visitor.visit_mut_opt_ts_type_ann(type_ann.as_mut());
+                _visitor.visit_mut_opt_ts_type_param_decl(type_params.as_mut());
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_qualified_name<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut TsQualifiedName,
+) {
+    {
+        match n {
+            TsQualifiedName { left, right } => {
+                _visitor.visit_mut_ts_entity_name(left);
+                _visitor.visit_mut_ident(right);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_rest_type<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut TsRestType) {
+    {
+        match n {
+            TsRestType { span, type_ann } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_ts_type(type_ann);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_signature_decl<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut TsSignatureDecl,
+) {
+    {
+        match n {
+            TsSignatureDecl::TsCallSignatureDecl { 0: _0 } => {
+                _visitor.visit_mut_ts_call_signature_decl(_0);
+            }
+            TsSignatureDecl::TsConstructSignatureDecl { 0: _0 } => {
+                _visitor.visit_mut_ts_construct_signature_decl(_0);
+            }
+            TsSignatureDecl::TsMethodSignature { 0: _0 } => {
+                _visitor.visit_mut_ts_method_signature(_0);
+            }
+            TsSignatureDecl::TsFnType { 0: _0 } => {
+                _visitor.visit_mut_ts_fn_type(_0);
+            }
+            TsSignatureDecl::TsConstructorType { 0: _0 } => {
+                _visitor.visit_mut_ts_constructor_type(_0);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_this_type<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut TsThisType) {
+    {
+        match n {
+            TsThisType { span } => {
+                _visitor.visit_mut_span(span);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_this_type_or_ident<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut TsThisTypeOrIdent,
+) {
+    {
+        match n {
+            TsThisTypeOrIdent::TsThisType { 0: _0 } => {
+                _visitor.visit_mut_ts_this_type(_0);
+            }
+            TsThisTypeOrIdent::Ident { 0: _0 } => {
+                _visitor.visit_mut_ident(_0);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_tuple_element<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut TsTupleElement) {
+    {
+        match n {
+            TsTupleElement { span, label, ty } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_opt_ident(label.as_mut());
+                _visitor.visit_mut_ts_type(ty);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_tuple_type<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut TsTupleType) {
+    {
+        match n {
+            TsTupleType { span, elem_types } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_ts_tuple_elements(elem_types);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_type<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut TsType) {
+    {
+        match n {
+            TsType::TsKeywordType { 0: _0 } => {
+                _visitor.visit_mut_ts_keyword_type(_0);
+            }
+            TsType::TsThisType { 0: _0 } => {
+                _visitor.visit_mut_ts_this_type(_0);
+            }
+            TsType::TsFnOrConstructorType { 0: _0 } => {
+                _visitor.visit_mut_ts_fn_or_constructor_type(_0);
+            }
+            TsType::TsTypeRef { 0: _0 } => {
+                _visitor.visit_mut_ts_type_ref(_0);
+            }
+            TsType::TsTypeQuery { 0: _0 } => {
+                _visitor.visit_mut_ts_type_query(_0);
+            }
+            TsType::TsTypeLit { 0: _0 } => {
+                _visitor.visit_mut_ts_type_lit(_0);
+            }
+            TsType::TsArrayType { 0: _0 } => {
+                _visitor.visit_mut_ts_array_type(_0);
+            }
+            TsType::TsTupleType { 0: _0 } => {
+                _visitor.visit_mut_ts_tuple_type(_0);
+            }
+            TsType::TsOptionalType { 0: _0 } => {
+                _visitor.visit_mut_ts_optional_type(_0);
+            }
+            TsType::TsRestType { 0: _0 } => {
+                _visitor.visit_mut_ts_rest_type(_0);
+            }
+            TsType::TsUnionOrIntersectionType { 0: _0 } => {
+                _visitor.visit_mut_ts_union_or_intersection_type(_0);
+            }
+            TsType::TsConditionalType { 0: _0 } => {
+                _visitor.visit_mut_ts_conditional_type(_0);
+            }
+            TsType::TsInferType { 0: _0 } => {
+                _visitor.visit_mut_ts_infer_type(_0);
+            }
+            TsType::TsParenthesizedType { 0: _0 } => {
+                _visitor.visit_mut_ts_parenthesized_type(_0);
+            }
+            TsType::TsTypeOperator { 0: _0 } => {
+                _visitor.visit_mut_ts_type_operator(_0);
+            }
+            TsType::TsIndexedAccessType { 0: _0 } => {
+                _visitor.visit_mut_ts_indexed_access_type(_0);
+            }
+            TsType::TsMappedType { 0: _0 } => {
+                _visitor.visit_mut_ts_mapped_type(_0);
+            }
+            TsType::TsLitType { 0: _0 } => {
+                _visitor.visit_mut_ts_lit_type(_0);
+            }
+            TsType::TsTypePredicate { 0: _0 } => {
+                _visitor.visit_mut_ts_type_predicate(_0);
+            }
+            TsType::TsImportType { 0: _0 } => {
+                _visitor.visit_mut_ts_import_type(_0);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_type_alias_decl<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut TsTypeAliasDecl,
+) {
+    {
+        match n {
+            TsTypeAliasDecl {
+                span,
+                declare,
+                id,
+                type_params,
+                type_ann,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_ident(id);
+                _visitor.visit_mut_opt_ts_type_param_decl(type_params.as_mut());
+                _visitor.visit_mut_ts_type(type_ann);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_type_ann<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut TsTypeAnn) {
+    {
+        match n {
+            TsTypeAnn { span, type_ann } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_ts_type(type_ann);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_type_assertion<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut TsTypeAssertion,
+) {
+    {
+        match n {
+            TsTypeAssertion {
+                span,
+                expr,
+                type_ann,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_expr(expr);
+                _visitor.visit_mut_ts_type(type_ann);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_type_cast_expr<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut TsTypeCastExpr) {
+    {
+        match n {
+            TsTypeCastExpr {
+                span,
+                expr,
+                type_ann,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_expr(expr);
+                _visitor.visit_mut_ts_type_ann(type_ann);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_type_element<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut TsTypeElement) {
+    {
+        match n {
+            TsTypeElement::TsCallSignatureDecl { 0: _0 } => {
+                _visitor.visit_mut_ts_call_signature_decl(_0);
+            }
+            TsTypeElement::TsConstructSignatureDecl { 0: _0 } => {
+                _visitor.visit_mut_ts_construct_signature_decl(_0);
+            }
+            TsTypeElement::TsPropertySignature { 0: _0 } => {
+                _visitor.visit_mut_ts_property_signature(_0);
+            }
+            TsTypeElement::TsMethodSignature { 0: _0 } => {
+                _visitor.visit_mut_ts_method_signature(_0);
+            }
+            TsTypeElement::TsIndexSignature { 0: _0 } => {
+                _visitor.visit_mut_ts_index_signature(_0);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_type_lit<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut TsTypeLit) {
+    {
+        match n {
+            TsTypeLit { span, members } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_ts_type_elements(members);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_type_operator<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut TsTypeOperator) {
+    {
+        match n {
+            TsTypeOperator { span, op, type_ann } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_ts_type_operator_op(op);
+                _visitor.visit_mut_ts_type(type_ann);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_type_operator_op<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut TsTypeOperatorOp,
+) {
+    {
+        match n {
+            TsTypeOperatorOp::KeyOf {} => {}
+            TsTypeOperatorOp::Unique {} => {}
+            TsTypeOperatorOp::ReadOnly {} => {}
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_type_param<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut TsTypeParam) {
+    {
+        match n {
+            TsTypeParam {
+                span,
+                name,
+                constraint,
+                default,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_ident(name);
+                _visitor.visit_mut_opt_ts_type(constraint.as_mut());
+                _visitor.visit_mut_opt_ts_type(default.as_mut());
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_type_param_decl<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut TsTypeParamDecl,
+) {
+    {
+        match n {
+            TsTypeParamDecl { span, params } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_ts_type_params(params);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_type_param_instantiation<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut TsTypeParamInstantiation,
+) {
+    {
+        match n {
+            TsTypeParamInstantiation { span, params } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_ts_types(params);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_type_predicate<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut TsTypePredicate,
+) {
+    {
+        match n {
+            TsTypePredicate {
+                span,
+                asserts,
+                param_name,
+                type_ann,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_ts_this_type_or_ident(param_name);
+                _visitor.visit_mut_opt_ts_type_ann(type_ann.as_mut());
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_type_query<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut TsTypeQuery) {
+    {
+        match n {
+            TsTypeQuery { span, expr_name } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_ts_type_query_expr(expr_name);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_type_query_expr<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut TsTypeQueryExpr,
+) {
+    {
+        match n {
+            TsTypeQueryExpr::TsEntityName { 0: _0 } => {
+                _visitor.visit_mut_ts_entity_name(_0);
+            }
+            TsTypeQueryExpr::Import { 0: _0 } => {
+                _visitor.visit_mut_ts_import_type(_0);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_type_ref<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut TsTypeRef) {
+    {
+        match n {
+            TsTypeRef {
+                span,
+                type_name,
+                type_params,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_ts_entity_name(type_name);
+                _visitor.visit_mut_opt_ts_type_param_instantiation(type_params.as_mut());
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_union_or_intersection_type<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut TsUnionOrIntersectionType,
+) {
+    {
+        match n {
+            TsUnionOrIntersectionType::TsUnionType { 0: _0 } => {
+                _visitor.visit_mut_ts_union_type(_0);
+            }
+            TsUnionOrIntersectionType::TsIntersectionType { 0: _0 } => {
+                _visitor.visit_mut_ts_intersection_type(_0);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_union_type<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut TsUnionType) {
+    {
+        match n {
+            TsUnionType { span, types } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_ts_types(types);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_unary_expr<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut UnaryExpr) {
+    {
+        match n {
+            UnaryExpr { span, op, arg } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_unary_op(op);
+                _visitor.visit_mut_expr(arg);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_unary_op<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut UnaryOp) {
+    {
+        match n {
+            UnaryOp::Minus {} => {}
+            UnaryOp::Plus {} => {}
+            UnaryOp::Bang {} => {}
+            UnaryOp::Tilde {} => {}
+            UnaryOp::TypeOf {} => {}
+            UnaryOp::Void {} => {}
+            UnaryOp::Delete {} => {}
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_update_expr<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut UpdateExpr) {
+    {
+        match n {
+            UpdateExpr {
+                span,
+                op,
+                prefix,
+                arg,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_update_op(op);
+                _visitor.visit_mut_expr(arg);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_update_op<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut UpdateOp) {
+    {
+        match n {
+            UpdateOp::PlusPlus {} => {}
+            UpdateOp::MinusMinus {} => {}
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_var_decl<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut VarDecl) {
+    {
+        match n {
+            VarDecl {
+                span,
+                kind,
+                declare,
+                decls,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_var_decl_kind(kind);
+                _visitor.visit_mut_var_declarators(decls);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_var_decl_kind<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut VarDeclKind) {
+    {
+        match n {
+            VarDeclKind::Var {} => {}
+            VarDeclKind::Let {} => {}
+            VarDeclKind::Const {} => {}
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_var_decl_or_expr<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut VarDeclOrExpr) {
+    {
+        match n {
+            VarDeclOrExpr::VarDecl { 0: _0 } => {
+                _visitor.visit_mut_var_decl(_0);
+            }
+            VarDeclOrExpr::Expr { 0: _0 } => {
+                _visitor.visit_mut_expr(_0);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_var_decl_or_pat<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut VarDeclOrPat) {
+    {
+        match n {
+            VarDeclOrPat::VarDecl { 0: _0 } => {
+                _visitor.visit_mut_var_decl(_0);
+            }
+            VarDeclOrPat::Pat { 0: _0 } => {
+                _visitor.visit_mut_pat(_0);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_var_declarator<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut VarDeclarator) {
+    {
+        match n {
+            VarDeclarator {
+                span,
+                name,
+                init,
+                definite,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_pat(name);
+                _visitor.visit_mut_opt_expr(init.as_mut());
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_while_stmt<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut WhileStmt) {
+    {
+        match n {
+            WhileStmt { span, test, body } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_expr(test);
+                _visitor.visit_mut_stmt(body);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_with_stmt<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut WithStmt) {
+    {
+        match n {
+            WithStmt { span, obj, body } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_expr(obj);
+                _visitor.visit_mut_stmt(body);
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_yield_expr<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut YieldExpr) {
+    {
+        match n {
+            YieldExpr {
+                span,
+                arg,
+                delegate,
+            } => {
+                _visitor.visit_mut_span(span);
+                _visitor.visit_mut_opt_expr(arg.as_mut());
+            }
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_span<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut Span) {
+    {}
+}
+#[allow(unused_variables)]
+pub fn visit_mut_decorators<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut Vec<Decorator>) {
+    {
+        n.iter_mut().for_each(|v| _visitor.visit_mut_decorator(v))
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_class_members<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut Vec<ClassMember>) {
+    {
+        n.iter_mut()
+            .for_each(|v| _visitor.visit_mut_class_member(v))
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_opt_expr<V: ?Sized + VisitMut>(_visitor: &mut V, n: Option<&mut Box<Expr>>) {
+    {
+        match n {
+            Some(n) => _visitor.visit_mut_expr(n),
+            None => {}
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_opt_ts_type_param_decl<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: Option<&mut TsTypeParamDecl>,
+) {
+    {
+        match n {
+            Some(n) => _visitor.visit_mut_ts_type_param_decl(n),
+            None => {}
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_opt_ts_type_param_instantiation<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: Option<&mut TsTypeParamInstantiation>,
+) {
+    {
+        match n {
+            Some(n) => _visitor.visit_mut_ts_type_param_instantiation(n),
+            None => {}
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_expr_with_type_args_vec<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut Vec<TsExprWithTypeArgs>,
+) {
+    {
+        n.iter_mut()
+            .for_each(|v| _visitor.visit_mut_ts_expr_with_type_args(v))
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_opt_ts_type_ann<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: Option<&mut TsTypeAnn>,
+) {
+    {
+        match n {
+            Some(n) => _visitor.visit_mut_ts_type_ann(n),
+            None => {}
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_opt_accessibility<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: Option<&mut Accessibility>,
+) {
+    {
+        match n {
+            Some(n) => _visitor.visit_mut_accessibility(n),
+            None => {}
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_param_or_ts_param_props<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut Vec<ParamOrTsParamProp>,
+) {
+    {
+        n.iter_mut()
+            .for_each(|v| _visitor.visit_mut_param_or_ts_param_prop(v))
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_opt_block_stmt<V: ?Sized + VisitMut>(_visitor: &mut V, n: Option<&mut BlockStmt>) {
+    {
+        match n {
+            Some(n) => _visitor.visit_mut_block_stmt(n),
+            None => {}
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_var_declarators<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut Vec<VarDeclarator>,
+) {
+    {
+        n.iter_mut()
+            .for_each(|v| _visitor.visit_mut_var_declarator(v))
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_opt_vec_expr_or_spreads<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut Vec<Option<ExprOrSpread>>,
+) {
+    {
+        n.iter_mut()
+            .for_each(|v| _visitor.visit_mut_opt_expr_or_spread(v.as_mut()))
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_prop_or_spreads<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut Vec<PropOrSpread>,
+) {
+    {
+        n.iter_mut()
+            .for_each(|v| _visitor.visit_mut_prop_or_spread(v))
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_opt_ident<V: ?Sized + VisitMut>(_visitor: &mut V, n: Option<&mut Ident>) {
+    {
+        match n {
+            Some(n) => _visitor.visit_mut_ident(n),
+            None => {}
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_expr_or_spreads<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut Vec<ExprOrSpread>,
+) {
+    {
+        n.iter_mut()
+            .for_each(|v| _visitor.visit_mut_expr_or_spread(v))
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_opt_expr_or_spreads<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: Option<&mut Vec<ExprOrSpread>>,
+) {
+    {
+        match n {
+            Some(n) => _visitor.visit_mut_expr_or_spreads(n),
+            None => {}
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_exprs<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut Vec<Box<Expr>>) {
+    {
+        n.iter_mut().for_each(|v| _visitor.visit_mut_expr(v))
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_pats<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut Vec<Pat>) {
+    {
+        n.iter_mut().for_each(|v| _visitor.visit_mut_pat(v))
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_tpl_elements<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut Vec<TplElement>) {
+    {
+        n.iter_mut().for_each(|v| _visitor.visit_mut_tpl_element(v))
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_opt_str<V: ?Sized + VisitMut>(_visitor: &mut V, n: Option<&mut Str>) {
+    {
+        match n {
+            Some(n) => _visitor.visit_mut_str(n),
+            None => {}
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_opt_span<V: ?Sized + VisitMut>(_visitor: &mut V, n: Option<&mut Span>) {
+    {
+        match n {
+            Some(n) => _visitor.visit_mut_span(n),
+            None => {}
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_params<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut Vec<Param>) {
+    {
+        n.iter_mut().for_each(|v| _visitor.visit_mut_param(v))
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_js_word<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut JsWord) {
+    {}
+}
+#[allow(unused_variables)]
+pub fn visit_mut_jsx_attr_or_spreads<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut Vec<JSXAttrOrSpread>,
+) {
+    {
+        n.iter_mut()
+            .for_each(|v| _visitor.visit_mut_jsx_attr_or_spread(v))
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_opt_jsx_attr_value<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: Option<&mut JSXAttrValue>,
+) {
+    {
+        match n {
+            Some(n) => _visitor.visit_mut_jsx_attr_value(n),
+            None => {}
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_jsx_element_children<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut Vec<JSXElementChild>,
+) {
+    {
+        n.iter_mut()
+            .for_each(|v| _visitor.visit_mut_jsx_element_child(v))
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_opt_jsx_closing_element<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: Option<&mut JSXClosingElement>,
+) {
+    {
+        match n {
+            Some(n) => _visitor.visit_mut_jsx_closing_element(n),
+            None => {}
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_big_int_value<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut BigIntValue) {
+    {}
+}
+#[allow(unused_variables)]
+pub fn visit_mut_module_items<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut Vec<ModuleItem>) {
+    {
+        n.iter_mut().for_each(|v| _visitor.visit_mut_module_item(v))
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_opt_js_word<V: ?Sized + VisitMut>(_visitor: &mut V, n: Option<&mut JsWord>) {
+    {
+        match n {
+            Some(n) => _visitor.visit_mut_js_word(n),
+            None => {}
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_stmts<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut Vec<Stmt>) {
+    {
+        n.iter_mut().for_each(|v| _visitor.visit_mut_stmt(v))
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_import_specifiers<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut Vec<ImportSpecifier>,
+) {
+    {
+        n.iter_mut()
+            .for_each(|v| _visitor.visit_mut_import_specifier(v))
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_export_specifiers<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut Vec<ExportSpecifier>,
+) {
+    {
+        n.iter_mut()
+            .for_each(|v| _visitor.visit_mut_export_specifier(v))
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_opt_vec_pats<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut Vec<Option<Pat>>) {
+    {
+        n.iter_mut()
+            .for_each(|v| _visitor.visit_mut_opt_pat(v.as_mut()))
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_object_pat_props<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut Vec<ObjectPatProp>,
+) {
+    {
+        n.iter_mut()
+            .for_each(|v| _visitor.visit_mut_object_pat_prop(v))
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_opt_stmt<V: ?Sized + VisitMut>(_visitor: &mut V, n: Option<&mut Box<Stmt>>) {
+    {
+        match n {
+            Some(n) => _visitor.visit_mut_stmt(n),
+            None => {}
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_switch_cases<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut Vec<SwitchCase>) {
+    {
+        n.iter_mut().for_each(|v| _visitor.visit_mut_switch_case(v))
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_opt_catch_clause<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: Option<&mut CatchClause>,
+) {
+    {
+        match n {
+            Some(n) => _visitor.visit_mut_catch_clause(n),
+            None => {}
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_opt_var_decl_or_expr<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: Option<&mut VarDeclOrExpr>,
+) {
+    {
+        match n {
+            Some(n) => _visitor.visit_mut_var_decl_or_expr(n),
+            None => {}
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_opt_pat<V: ?Sized + VisitMut>(_visitor: &mut V, n: Option<&mut Pat>) {
+    {
+        match n {
+            Some(n) => _visitor.visit_mut_pat(n),
+            None => {}
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_type_params<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut Vec<TsTypeParam>) {
+    {
+        n.iter_mut()
+            .for_each(|v| _visitor.visit_mut_ts_type_param(v))
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_opt_ts_type<V: ?Sized + VisitMut>(_visitor: &mut V, n: Option<&mut Box<TsType>>) {
+    {
+        match n {
+            Some(n) => _visitor.visit_mut_ts_type(n),
+            None => {}
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_types<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut Vec<Box<TsType>>) {
+    {
+        n.iter_mut().for_each(|v| _visitor.visit_mut_ts_type(v))
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_fn_params<V: ?Sized + VisitMut>(_visitor: &mut V, n: &mut Vec<TsFnParam>) {
+    {
+        n.iter_mut().for_each(|v| _visitor.visit_mut_ts_fn_param(v))
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_opt_ts_entity_name<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: Option<&mut TsEntityName>,
+) {
+    {
+        match n {
+            Some(n) => _visitor.visit_mut_ts_entity_name(n),
+            None => {}
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_type_elements<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut Vec<TsTypeElement>,
+) {
+    {
+        n.iter_mut()
+            .for_each(|v| _visitor.visit_mut_ts_type_element(v))
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_tuple_elements<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut Vec<TsTupleElement>,
+) {
+    {
+        n.iter_mut()
+            .for_each(|v| _visitor.visit_mut_ts_tuple_element(v))
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_opt_true_plus_minus<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: Option<&mut TruePlusMinus>,
+) {
+    {
+        match n {
+            Some(n) => _visitor.visit_mut_true_plus_minus(n),
+            None => {}
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_ts_enum_members<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: &mut Vec<TsEnumMember>,
+) {
+    {
+        n.iter_mut()
+            .for_each(|v| _visitor.visit_mut_ts_enum_member(v))
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_opt_ts_namespace_body<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: Option<&mut TsNamespaceBody>,
+) {
+    {
+        match n {
+            Some(n) => _visitor.visit_mut_ts_namespace_body(n),
+            None => {}
+        }
+    }
+}
+#[allow(unused_variables)]
+pub fn visit_mut_opt_expr_or_spread<V: ?Sized + VisitMut>(
+    _visitor: &mut V,
+    n: Option<&mut ExprOrSpread>,
+) {
+    {
+        match n {
+            Some(n) => _visitor.visit_mut_expr_or_spread(n),
+            None => {}
+        }
+    }
+}
+pub trait VisitMut {
+    #[allow(unused_variables)]
+    fn visit_mut_accessibility(&mut self, n: &mut Accessibility) {
+        visit_mut_accessibility(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_array_lit(&mut self, n: &mut ArrayLit) {
+        visit_mut_array_lit(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_array_pat(&mut self, n: &mut ArrayPat) {
+        visit_mut_array_pat(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {
+        visit_mut_arrow_expr(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_assign_expr(&mut self, n: &mut AssignExpr) {
+        visit_mut_assign_expr(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_assign_op(&mut self, n: &mut AssignOp) {
+        visit_mut_assign_op(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_assign_pat(&mut self, n: &mut AssignPat) {
+        visit_mut_assign_pat(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_assign_pat_prop(&mut self, n: &mut AssignPatProp) {
+        visit_mut_assign_pat_prop(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_assign_prop(&mut self, n: &mut AssignProp) {
+        visit_mut_assign_prop(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_await_expr(&mut self, n: &mut AwaitExpr) {
+        visit_mut_await_expr(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_big_int(&mut self, n: &mut BigInt) {
+        visit_mut_big_int(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_bin_expr(&mut self, n: &mut BinExpr) {
+        visit_mut_bin_expr(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_binary_op(&mut self, n: &mut BinaryOp) {
+        visit_mut_binary_op(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
+        visit_mut_block_stmt(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_block_stmt_or_expr(&mut self, n: &mut BlockStmtOrExpr) {
+        visit_mut_block_stmt_or_expr(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_bool(&mut self, n: &mut Bool) {
+        visit_mut_bool(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_break_stmt(&mut self, n: &mut BreakStmt) {
+        visit_mut_break_stmt(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_call_expr(&mut self, n: &mut CallExpr) {
+        visit_mut_call_expr(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_catch_clause(&mut self, n: &mut CatchClause) {
+        visit_mut_catch_clause(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_class(&mut self, n: &mut Class) {
+        visit_mut_class(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_class_decl(&mut self, n: &mut ClassDecl) {
+        visit_mut_class_decl(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_class_expr(&mut self, n: &mut ClassExpr) {
+        visit_mut_class_expr(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_class_member(&mut self, n: &mut ClassMember) {
+        visit_mut_class_member(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_class_method(&mut self, n: &mut ClassMethod) {
+        visit_mut_class_method(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_class_prop(&mut self, n: &mut ClassProp) {
+        visit_mut_class_prop(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_computed_prop_name(&mut self, n: &mut ComputedPropName) {
+        visit_mut_computed_prop_name(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_cond_expr(&mut self, n: &mut CondExpr) {
+        visit_mut_cond_expr(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_constructor(&mut self, n: &mut Constructor) {
+        visit_mut_constructor(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_continue_stmt(&mut self, n: &mut ContinueStmt) {
+        visit_mut_continue_stmt(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_debugger_stmt(&mut self, n: &mut DebuggerStmt) {
+        visit_mut_debugger_stmt(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_decl(&mut self, n: &mut Decl) {
+        visit_mut_decl(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_decorator(&mut self, n: &mut Decorator) {
+        visit_mut_decorator(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_default_decl(&mut self, n: &mut DefaultDecl) {
+        visit_mut_default_decl(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_do_while_stmt(&mut self, n: &mut DoWhileStmt) {
+        visit_mut_do_while_stmt(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_empty_stmt(&mut self, n: &mut EmptyStmt) {
+        visit_mut_empty_stmt(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_export_all(&mut self, n: &mut ExportAll) {
+        visit_mut_export_all(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_export_decl(&mut self, n: &mut ExportDecl) {
+        visit_mut_export_decl(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_export_default_decl(&mut self, n: &mut ExportDefaultDecl) {
+        visit_mut_export_default_decl(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_export_default_expr(&mut self, n: &mut ExportDefaultExpr) {
+        visit_mut_export_default_expr(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_export_default_specifier(&mut self, n: &mut ExportDefaultSpecifier) {
+        visit_mut_export_default_specifier(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_export_named_specifier(&mut self, n: &mut ExportNamedSpecifier) {
+        visit_mut_export_named_specifier(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_export_namespace_specifier(&mut self, n: &mut ExportNamespaceSpecifier) {
+        visit_mut_export_namespace_specifier(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_export_specifier(&mut self, n: &mut ExportSpecifier) {
+        visit_mut_export_specifier(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_expr(&mut self, n: &mut Expr) {
+        visit_mut_expr(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_expr_or_spread(&mut self, n: &mut ExprOrSpread) {
+        visit_mut_expr_or_spread(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_expr_or_super(&mut self, n: &mut ExprOrSuper) {
+        visit_mut_expr_or_super(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_expr_stmt(&mut self, n: &mut ExprStmt) {
+        visit_mut_expr_stmt(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_fn_decl(&mut self, n: &mut FnDecl) {
+        visit_mut_fn_decl(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_fn_expr(&mut self, n: &mut FnExpr) {
+        visit_mut_fn_expr(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_for_in_stmt(&mut self, n: &mut ForInStmt) {
+        visit_mut_for_in_stmt(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_for_of_stmt(&mut self, n: &mut ForOfStmt) {
+        visit_mut_for_of_stmt(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_for_stmt(&mut self, n: &mut ForStmt) {
+        visit_mut_for_stmt(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_function(&mut self, n: &mut Function) {
+        visit_mut_function(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_getter_prop(&mut self, n: &mut GetterProp) {
+        visit_mut_getter_prop(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ident(&mut self, n: &mut Ident) {
+        visit_mut_ident(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_if_stmt(&mut self, n: &mut IfStmt) {
+        visit_mut_if_stmt(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_import_decl(&mut self, n: &mut ImportDecl) {
+        visit_mut_import_decl(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_import_default_specifier(&mut self, n: &mut ImportDefaultSpecifier) {
+        visit_mut_import_default_specifier(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_import_named_specifier(&mut self, n: &mut ImportNamedSpecifier) {
+        visit_mut_import_named_specifier(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_import_specifier(&mut self, n: &mut ImportSpecifier) {
+        visit_mut_import_specifier(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_import_star_as_specifier(&mut self, n: &mut ImportStarAsSpecifier) {
+        visit_mut_import_star_as_specifier(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_invalid(&mut self, n: &mut Invalid) {
+        visit_mut_invalid(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_jsx_attr(&mut self, n: &mut JSXAttr) {
+        visit_mut_jsx_attr(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_jsx_attr_name(&mut self, n: &mut JSXAttrName) {
+        visit_mut_jsx_attr_name(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_jsx_attr_or_spread(&mut self, n: &mut JSXAttrOrSpread) {
+        visit_mut_jsx_attr_or_spread(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_jsx_attr_value(&mut self, n: &mut JSXAttrValue) {
+        visit_mut_jsx_attr_value(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_jsx_closing_element(&mut self, n: &mut JSXClosingElement) {
+        visit_mut_jsx_closing_element(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_jsx_closing_fragment(&mut self, n: &mut JSXClosingFragment) {
+        visit_mut_jsx_closing_fragment(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_jsx_element(&mut self, n: &mut JSXElement) {
+        visit_mut_jsx_element(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_jsx_element_child(&mut self, n: &mut JSXElementChild) {
+        visit_mut_jsx_element_child(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_jsx_element_name(&mut self, n: &mut JSXElementName) {
+        visit_mut_jsx_element_name(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_jsx_empty_expr(&mut self, n: &mut JSXEmptyExpr) {
+        visit_mut_jsx_empty_expr(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_jsx_expr(&mut self, n: &mut JSXExpr) {
+        visit_mut_jsx_expr(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_jsx_expr_container(&mut self, n: &mut JSXExprContainer) {
+        visit_mut_jsx_expr_container(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_jsx_fragment(&mut self, n: &mut JSXFragment) {
+        visit_mut_jsx_fragment(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_jsx_member_expr(&mut self, n: &mut JSXMemberExpr) {
+        visit_mut_jsx_member_expr(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_jsx_namespaced_name(&mut self, n: &mut JSXNamespacedName) {
+        visit_mut_jsx_namespaced_name(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_jsx_object(&mut self, n: &mut JSXObject) {
+        visit_mut_jsx_object(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_jsx_opening_element(&mut self, n: &mut JSXOpeningElement) {
+        visit_mut_jsx_opening_element(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_jsx_opening_fragment(&mut self, n: &mut JSXOpeningFragment) {
+        visit_mut_jsx_opening_fragment(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_jsx_spread_child(&mut self, n: &mut JSXSpreadChild) {
+        visit_mut_jsx_spread_child(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_jsx_text(&mut self, n: &mut JSXText) {
+        visit_mut_jsx_text(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_key_value_pat_prop(&mut self, n: &mut KeyValuePatProp) {
+        visit_mut_key_value_pat_prop(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_key_value_prop(&mut self, n: &mut KeyValueProp) {
+        visit_mut_key_value_prop(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_labeled_stmt(&mut self, n: &mut LabeledStmt) {
+        visit_mut_labeled_stmt(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_lit(&mut self, n: &mut Lit) {
+        visit_mut_lit(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
+        visit_mut_member_expr(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_meta_prop_expr(&mut self, n: &mut MetaPropExpr) {
+        visit_mut_meta_prop_expr(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_method_kind(&mut self, n: &mut MethodKind) {
+        visit_mut_method_kind(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_method_prop(&mut self, n: &mut MethodProp) {
+        visit_mut_method_prop(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_module(&mut self, n: &mut Module) {
+        visit_mut_module(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_module_decl(&mut self, n: &mut ModuleDecl) {
+        visit_mut_module_decl(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_module_item(&mut self, n: &mut ModuleItem) {
+        visit_mut_module_item(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_named_export(&mut self, n: &mut NamedExport) {
+        visit_mut_named_export(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_new_expr(&mut self, n: &mut NewExpr) {
+        visit_mut_new_expr(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_null(&mut self, n: &mut Null) {
+        visit_mut_null(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_number(&mut self, n: &mut Number) {
+        visit_mut_number(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_object_lit(&mut self, n: &mut ObjectLit) {
+        visit_mut_object_lit(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_object_pat(&mut self, n: &mut ObjectPat) {
+        visit_mut_object_pat(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_object_pat_prop(&mut self, n: &mut ObjectPatProp) {
+        visit_mut_object_pat_prop(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_opt_chain_expr(&mut self, n: &mut OptChainExpr) {
+        visit_mut_opt_chain_expr(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_param(&mut self, n: &mut Param) {
+        visit_mut_param(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_param_or_ts_param_prop(&mut self, n: &mut ParamOrTsParamProp) {
+        visit_mut_param_or_ts_param_prop(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_paren_expr(&mut self, n: &mut ParenExpr) {
+        visit_mut_paren_expr(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_pat(&mut self, n: &mut Pat) {
+        visit_mut_pat(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_pat_or_expr(&mut self, n: &mut PatOrExpr) {
+        visit_mut_pat_or_expr(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_private_method(&mut self, n: &mut PrivateMethod) {
+        visit_mut_private_method(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_private_name(&mut self, n: &mut PrivateName) {
+        visit_mut_private_name(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_private_prop(&mut self, n: &mut PrivateProp) {
+        visit_mut_private_prop(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_program(&mut self, n: &mut Program) {
+        visit_mut_program(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_prop(&mut self, n: &mut Prop) {
+        visit_mut_prop(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_prop_name(&mut self, n: &mut PropName) {
+        visit_mut_prop_name(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_prop_or_spread(&mut self, n: &mut PropOrSpread) {
+        visit_mut_prop_or_spread(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_regex(&mut self, n: &mut Regex) {
+        visit_mut_regex(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_rest_pat(&mut self, n: &mut RestPat) {
+        visit_mut_rest_pat(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_return_stmt(&mut self, n: &mut ReturnStmt) {
+        visit_mut_return_stmt(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_script(&mut self, n: &mut Script) {
+        visit_mut_script(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_seq_expr(&mut self, n: &mut SeqExpr) {
+        visit_mut_seq_expr(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_setter_prop(&mut self, n: &mut SetterProp) {
+        visit_mut_setter_prop(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_spread_element(&mut self, n: &mut SpreadElement) {
+        visit_mut_spread_element(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_stmt(&mut self, n: &mut Stmt) {
+        visit_mut_stmt(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_str(&mut self, n: &mut Str) {
+        visit_mut_str(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_super(&mut self, n: &mut Super) {
+        visit_mut_super(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_switch_case(&mut self, n: &mut SwitchCase) {
+        visit_mut_switch_case(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_switch_stmt(&mut self, n: &mut SwitchStmt) {
+        visit_mut_switch_stmt(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_tagged_tpl(&mut self, n: &mut TaggedTpl) {
+        visit_mut_tagged_tpl(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_this_expr(&mut self, n: &mut ThisExpr) {
+        visit_mut_this_expr(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_throw_stmt(&mut self, n: &mut ThrowStmt) {
+        visit_mut_throw_stmt(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_tpl(&mut self, n: &mut Tpl) {
+        visit_mut_tpl(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_tpl_element(&mut self, n: &mut TplElement) {
+        visit_mut_tpl_element(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_true_plus_minus(&mut self, n: &mut TruePlusMinus) {
+        visit_mut_true_plus_minus(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_try_stmt(&mut self, n: &mut TryStmt) {
+        visit_mut_try_stmt(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_array_type(&mut self, n: &mut TsArrayType) {
+        visit_mut_ts_array_type(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_as_expr(&mut self, n: &mut TsAsExpr) {
+        visit_mut_ts_as_expr(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_call_signature_decl(&mut self, n: &mut TsCallSignatureDecl) {
+        visit_mut_ts_call_signature_decl(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_conditional_type(&mut self, n: &mut TsConditionalType) {
+        visit_mut_ts_conditional_type(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_const_assertion(&mut self, n: &mut TsConstAssertion) {
+        visit_mut_ts_const_assertion(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_construct_signature_decl(&mut self, n: &mut TsConstructSignatureDecl) {
+        visit_mut_ts_construct_signature_decl(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_constructor_type(&mut self, n: &mut TsConstructorType) {
+        visit_mut_ts_constructor_type(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_entity_name(&mut self, n: &mut TsEntityName) {
+        visit_mut_ts_entity_name(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_enum_decl(&mut self, n: &mut TsEnumDecl) {
+        visit_mut_ts_enum_decl(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_enum_member(&mut self, n: &mut TsEnumMember) {
+        visit_mut_ts_enum_member(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_enum_member_id(&mut self, n: &mut TsEnumMemberId) {
+        visit_mut_ts_enum_member_id(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_export_assignment(&mut self, n: &mut TsExportAssignment) {
+        visit_mut_ts_export_assignment(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_expr_with_type_args(&mut self, n: &mut TsExprWithTypeArgs) {
+        visit_mut_ts_expr_with_type_args(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_external_module_ref(&mut self, n: &mut TsExternalModuleRef) {
+        visit_mut_ts_external_module_ref(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_fn_or_constructor_type(&mut self, n: &mut TsFnOrConstructorType) {
+        visit_mut_ts_fn_or_constructor_type(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_fn_param(&mut self, n: &mut TsFnParam) {
+        visit_mut_ts_fn_param(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_fn_type(&mut self, n: &mut TsFnType) {
+        visit_mut_ts_fn_type(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_import_equals_decl(&mut self, n: &mut TsImportEqualsDecl) {
+        visit_mut_ts_import_equals_decl(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_import_type(&mut self, n: &mut TsImportType) {
+        visit_mut_ts_import_type(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_index_signature(&mut self, n: &mut TsIndexSignature) {
+        visit_mut_ts_index_signature(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_indexed_access_type(&mut self, n: &mut TsIndexedAccessType) {
+        visit_mut_ts_indexed_access_type(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_infer_type(&mut self, n: &mut TsInferType) {
+        visit_mut_ts_infer_type(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_interface_body(&mut self, n: &mut TsInterfaceBody) {
+        visit_mut_ts_interface_body(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_interface_decl(&mut self, n: &mut TsInterfaceDecl) {
+        visit_mut_ts_interface_decl(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_intersection_type(&mut self, n: &mut TsIntersectionType) {
+        visit_mut_ts_intersection_type(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_keyword_type(&mut self, n: &mut TsKeywordType) {
+        visit_mut_ts_keyword_type(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_keyword_type_kind(&mut self, n: &mut TsKeywordTypeKind) {
+        visit_mut_ts_keyword_type_kind(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_lit(&mut self, n: &mut TsLit) {
+        visit_mut_ts_lit(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_lit_type(&mut self, n: &mut TsLitType) {
+        visit_mut_ts_lit_type(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_mapped_type(&mut self, n: &mut TsMappedType) {
+        visit_mut_ts_mapped_type(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_method_signature(&mut self, n: &mut TsMethodSignature) {
+        visit_mut_ts_method_signature(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_module_block(&mut self, n: &mut TsModuleBlock) {
+        visit_mut_ts_module_block(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_module_decl(&mut self, n: &mut TsModuleDecl) {
+        visit_mut_ts_module_decl(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_module_name(&mut self, n: &mut TsModuleName) {
+        visit_mut_ts_module_name(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_module_ref(&mut self, n: &mut TsModuleRef) {
+        visit_mut_ts_module_ref(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_namespace_body(&mut self, n: &mut TsNamespaceBody) {
+        visit_mut_ts_namespace_body(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_namespace_decl(&mut self, n: &mut TsNamespaceDecl) {
+        visit_mut_ts_namespace_decl(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_namespace_export_decl(&mut self, n: &mut TsNamespaceExportDecl) {
+        visit_mut_ts_namespace_export_decl(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_non_null_expr(&mut self, n: &mut TsNonNullExpr) {
+        visit_mut_ts_non_null_expr(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_optional_type(&mut self, n: &mut TsOptionalType) {
+        visit_mut_ts_optional_type(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_param_prop(&mut self, n: &mut TsParamProp) {
+        visit_mut_ts_param_prop(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_param_prop_param(&mut self, n: &mut TsParamPropParam) {
+        visit_mut_ts_param_prop_param(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_parenthesized_type(&mut self, n: &mut TsParenthesizedType) {
+        visit_mut_ts_parenthesized_type(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_property_signature(&mut self, n: &mut TsPropertySignature) {
+        visit_mut_ts_property_signature(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_qualified_name(&mut self, n: &mut TsQualifiedName) {
+        visit_mut_ts_qualified_name(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_rest_type(&mut self, n: &mut TsRestType) {
+        visit_mut_ts_rest_type(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_signature_decl(&mut self, n: &mut TsSignatureDecl) {
+        visit_mut_ts_signature_decl(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_this_type(&mut self, n: &mut TsThisType) {
+        visit_mut_ts_this_type(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_this_type_or_ident(&mut self, n: &mut TsThisTypeOrIdent) {
+        visit_mut_ts_this_type_or_ident(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_tuple_element(&mut self, n: &mut TsTupleElement) {
+        visit_mut_ts_tuple_element(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_tuple_type(&mut self, n: &mut TsTupleType) {
+        visit_mut_ts_tuple_type(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_type(&mut self, n: &mut TsType) {
+        visit_mut_ts_type(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_type_alias_decl(&mut self, n: &mut TsTypeAliasDecl) {
+        visit_mut_ts_type_alias_decl(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_type_ann(&mut self, n: &mut TsTypeAnn) {
+        visit_mut_ts_type_ann(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_type_assertion(&mut self, n: &mut TsTypeAssertion) {
+        visit_mut_ts_type_assertion(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_type_cast_expr(&mut self, n: &mut TsTypeCastExpr) {
+        visit_mut_ts_type_cast_expr(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_type_element(&mut self, n: &mut TsTypeElement) {
+        visit_mut_ts_type_element(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_type_lit(&mut self, n: &mut TsTypeLit) {
+        visit_mut_ts_type_lit(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_type_operator(&mut self, n: &mut TsTypeOperator) {
+        visit_mut_ts_type_operator(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_type_operator_op(&mut self, n: &mut TsTypeOperatorOp) {
+        visit_mut_ts_type_operator_op(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_type_param(&mut self, n: &mut TsTypeParam) {
+        visit_mut_ts_type_param(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_type_param_decl(&mut self, n: &mut TsTypeParamDecl) {
+        visit_mut_ts_type_param_decl(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_type_param_instantiation(&mut self, n: &mut TsTypeParamInstantiation) {
+        visit_mut_ts_type_param_instantiation(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_type_predicate(&mut self, n: &mut TsTypePredicate) {
+        visit_mut_ts_type_predicate(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_type_query(&mut self, n: &mut TsTypeQuery) {
+        visit_mut_ts_type_query(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_type_query_expr(&mut self, n: &mut TsTypeQueryExpr) {
+        visit_mut_ts_type_query_expr(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_type_ref(&mut self, n: &mut TsTypeRef) {
+        visit_mut_ts_type_ref(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_union_or_intersection_type(&mut self, n: &mut TsUnionOrIntersectionType) {
+        visit_mut_ts_union_or_intersection_type(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_union_type(&mut self, n: &mut TsUnionType) {
+        visit_mut_ts_union_type(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_unary_expr(&mut self, n: &mut UnaryExpr) {
+        visit_mut_unary_expr(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_unary_op(&mut self, n: &mut UnaryOp) {
+        visit_mut_unary_op(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_update_expr(&mut self, n: &mut UpdateExpr) {
+        visit_mut_update_expr(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_update_op(&mut self, n: &mut UpdateOp) {
+        visit_mut_update_op(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_var_decl(&mut self, n: &mut VarDecl) {
+        visit_mut_var_decl(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_var_decl_kind(&mut self, n: &mut VarDeclKind) {
+        visit_mut_var_decl_kind(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_var_decl_or_expr(&mut self, n: &mut VarDeclOrExpr) {
+        visit_mut_var_decl_or_expr(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_var_decl_or_pat(&mut self, n: &mut VarDeclOrPat) {
+        visit_mut_var_decl_or_pat(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_var_declarator(&mut self, n: &mut VarDeclarator) {
+        visit_mut_var_declarator(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_while_stmt(&mut self, n: &mut WhileStmt) {
+        visit_mut_while_stmt(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_with_stmt(&mut self, n: &mut WithStmt) {
+        visit_mut_with_stmt(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_yield_expr(&mut self, n: &mut YieldExpr) {
+        visit_mut_yield_expr(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_span(&mut self, n: &mut Span) {
+        visit_mut_span(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_decorators(&mut self, n: &mut Vec<Decorator>) {
+        visit_mut_decorators(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_class_members(&mut self, n: &mut Vec<ClassMember>) {
+        visit_mut_class_members(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_opt_expr(&mut self, n: Option<&mut Box<Expr>>) {
+        visit_mut_opt_expr(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_opt_ts_type_param_decl(&mut self, n: Option<&mut TsTypeParamDecl>) {
+        visit_mut_opt_ts_type_param_decl(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_opt_ts_type_param_instantiation(
+        &mut self,
+        n: Option<&mut TsTypeParamInstantiation>,
+    ) {
+        visit_mut_opt_ts_type_param_instantiation(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_expr_with_type_args_vec(&mut self, n: &mut Vec<TsExprWithTypeArgs>) {
+        visit_mut_ts_expr_with_type_args_vec(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_opt_ts_type_ann(&mut self, n: Option<&mut TsTypeAnn>) {
+        visit_mut_opt_ts_type_ann(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_opt_accessibility(&mut self, n: Option<&mut Accessibility>) {
+        visit_mut_opt_accessibility(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_param_or_ts_param_props(&mut self, n: &mut Vec<ParamOrTsParamProp>) {
+        visit_mut_param_or_ts_param_props(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_opt_block_stmt(&mut self, n: Option<&mut BlockStmt>) {
+        visit_mut_opt_block_stmt(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_var_declarators(&mut self, n: &mut Vec<VarDeclarator>) {
+        visit_mut_var_declarators(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut Vec<Option<ExprOrSpread>>) {
+        visit_mut_opt_vec_expr_or_spreads(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_prop_or_spreads(&mut self, n: &mut Vec<PropOrSpread>) {
+        visit_mut_prop_or_spreads(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_opt_ident(&mut self, n: Option<&mut Ident>) {
+        visit_mut_opt_ident(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_expr_or_spreads(&mut self, n: &mut Vec<ExprOrSpread>) {
+        visit_mut_expr_or_spreads(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_opt_expr_or_spreads(&mut self, n: Option<&mut Vec<ExprOrSpread>>) {
+        visit_mut_opt_expr_or_spreads(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_exprs(&mut self, n: &mut Vec<Box<Expr>>) {
+        visit_mut_exprs(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_pats(&mut self, n: &mut Vec<Pat>) {
+        visit_mut_pats(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_tpl_elements(&mut self, n: &mut Vec<TplElement>) {
+        visit_mut_tpl_elements(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_opt_str(&mut self, n: Option<&mut Str>) {
+        visit_mut_opt_str(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_opt_span(&mut self, n: Option<&mut Span>) {
+        visit_mut_opt_span(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_params(&mut self, n: &mut Vec<Param>) {
+        visit_mut_params(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_js_word(&mut self, n: &mut JsWord) {
+        visit_mut_js_word(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_jsx_attr_or_spreads(&mut self, n: &mut Vec<JSXAttrOrSpread>) {
+        visit_mut_jsx_attr_or_spreads(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_opt_jsx_attr_value(&mut self, n: Option<&mut JSXAttrValue>) {
+        visit_mut_opt_jsx_attr_value(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_jsx_element_children(&mut self, n: &mut Vec<JSXElementChild>) {
+        visit_mut_jsx_element_children(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_opt_jsx_closing_element(&mut self, n: Option<&mut JSXClosingElement>) {
+        visit_mut_opt_jsx_closing_element(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_big_int_value(&mut self, n: &mut BigIntValue) {
+        visit_mut_big_int_value(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
+        visit_mut_module_items(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_opt_js_word(&mut self, n: Option<&mut JsWord>) {
+        visit_mut_opt_js_word(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
+        visit_mut_stmts(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_import_specifiers(&mut self, n: &mut Vec<ImportSpecifier>) {
+        visit_mut_import_specifiers(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_export_specifiers(&mut self, n: &mut Vec<ExportSpecifier>) {
+        visit_mut_export_specifiers(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_opt_vec_pats(&mut self, n: &mut Vec<Option<Pat>>) {
+        visit_mut_opt_vec_pats(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_object_pat_props(&mut self, n: &mut Vec<ObjectPatProp>) {
+        visit_mut_object_pat_props(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_opt_stmt(&mut self, n: Option<&mut Box<Stmt>>) {
+        visit_mut_opt_stmt(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_switch_cases(&mut self, n: &mut Vec<SwitchCase>) {
+        visit_mut_switch_cases(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_opt_catch_clause(&mut self, n: Option<&mut CatchClause>) {
+        visit_mut_opt_catch_clause(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_opt_var_decl_or_expr(&mut self, n: Option<&mut VarDeclOrExpr>) {
+        visit_mut_opt_var_decl_or_expr(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_opt_pat(&mut self, n: Option<&mut Pat>) {
+        visit_mut_opt_pat(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_type_params(&mut self, n: &mut Vec<TsTypeParam>) {
+        visit_mut_ts_type_params(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_opt_ts_type(&mut self, n: Option<&mut Box<TsType>>) {
+        visit_mut_opt_ts_type(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_types(&mut self, n: &mut Vec<Box<TsType>>) {
+        visit_mut_ts_types(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_fn_params(&mut self, n: &mut Vec<TsFnParam>) {
+        visit_mut_ts_fn_params(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_opt_ts_entity_name(&mut self, n: Option<&mut TsEntityName>) {
+        visit_mut_opt_ts_entity_name(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_type_elements(&mut self, n: &mut Vec<TsTypeElement>) {
+        visit_mut_ts_type_elements(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_tuple_elements(&mut self, n: &mut Vec<TsTupleElement>) {
+        visit_mut_ts_tuple_elements(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_opt_true_plus_minus(&mut self, n: Option<&mut TruePlusMinus>) {
+        visit_mut_opt_true_plus_minus(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_ts_enum_members(&mut self, n: &mut Vec<TsEnumMember>) {
+        visit_mut_ts_enum_members(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_opt_ts_namespace_body(&mut self, n: Option<&mut TsNamespaceBody>) {
+        visit_mut_opt_ts_namespace_body(self, n)
+    }
+    #[allow(unused_variables)]
+    fn visit_mut_opt_expr_or_spread(&mut self, n: Option<&mut ExprOrSpread>) {
+        visit_mut_opt_expr_or_spread(self, n)
+    }
+}
+impl<'a, V> VisitMut for &'a mut V
+where
+    V: ?Sized + VisitMut,
+{
+    fn visit_mut_class(&mut self, n: &mut Class) {
+        (**self).visit_mut_class(n)
+    }
+    fn visit_mut_class_member(&mut self, n: &mut ClassMember) {
+        (**self).visit_mut_class_member(n)
+    }
+    fn visit_mut_class_prop(&mut self, n: &mut ClassProp) {
+        (**self).visit_mut_class_prop(n)
+    }
+    fn visit_mut_private_prop(&mut self, n: &mut PrivateProp) {
+        (**self).visit_mut_private_prop(n)
+    }
+    fn visit_mut_class_method(&mut self, n: &mut ClassMethod) {
+        (**self).visit_mut_class_method(n)
+    }
+    fn visit_mut_private_method(&mut self, n: &mut PrivateMethod) {
+        (**self).visit_mut_private_method(n)
+    }
+    fn visit_mut_constructor(&mut self, n: &mut Constructor) {
+        (**self).visit_mut_constructor(n)
+    }
+    fn visit_mut_decorator(&mut self, n: &mut Decorator) {
+        (**self).visit_mut_decorator(n)
+    }
+    fn visit_mut_method_kind(&mut self, n: &mut MethodKind) {
+        (**self).visit_mut_method_kind(n)
+    }
+    fn visit_mut_decl(&mut self, n: &mut Decl) {
+        (**self).visit_mut_decl(n)
+    }
+    fn visit_mut_fn_decl(&mut self, n: &mut FnDecl) {
+        (**self).visit_mut_fn_decl(n)
+    }
+    fn visit_mut_class_decl(&mut self, n: &mut ClassDecl) {
+        (**self).visit_mut_class_decl(n)
+    }
+    fn visit_mut_var_decl(&mut self, n: &mut VarDecl) {
+        (**self).visit_mut_var_decl(n)
+    }
+    fn visit_mut_var_decl_kind(&mut self, n: &mut VarDeclKind) {
+        (**self).visit_mut_var_decl_kind(n)
+    }
+    fn visit_mut_var_declarator(&mut self, n: &mut VarDeclarator) {
+        (**self).visit_mut_var_declarator(n)
+    }
+    fn visit_mut_expr(&mut self, n: &mut Expr) {
+        (**self).visit_mut_expr(n)
+    }
+    fn visit_mut_this_expr(&mut self, n: &mut ThisExpr) {
+        (**self).visit_mut_this_expr(n)
+    }
+    fn visit_mut_array_lit(&mut self, n: &mut ArrayLit) {
+        (**self).visit_mut_array_lit(n)
+    }
+    fn visit_mut_object_lit(&mut self, n: &mut ObjectLit) {
+        (**self).visit_mut_object_lit(n)
+    }
+    fn visit_mut_prop_or_spread(&mut self, n: &mut PropOrSpread) {
+        (**self).visit_mut_prop_or_spread(n)
+    }
+    fn visit_mut_spread_element(&mut self, n: &mut SpreadElement) {
+        (**self).visit_mut_spread_element(n)
+    }
+    fn visit_mut_unary_expr(&mut self, n: &mut UnaryExpr) {
+        (**self).visit_mut_unary_expr(n)
+    }
+    fn visit_mut_update_expr(&mut self, n: &mut UpdateExpr) {
+        (**self).visit_mut_update_expr(n)
+    }
+    fn visit_mut_bin_expr(&mut self, n: &mut BinExpr) {
+        (**self).visit_mut_bin_expr(n)
+    }
+    fn visit_mut_fn_expr(&mut self, n: &mut FnExpr) {
+        (**self).visit_mut_fn_expr(n)
+    }
+    fn visit_mut_class_expr(&mut self, n: &mut ClassExpr) {
+        (**self).visit_mut_class_expr(n)
+    }
+    fn visit_mut_assign_expr(&mut self, n: &mut AssignExpr) {
+        (**self).visit_mut_assign_expr(n)
+    }
+    fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
+        (**self).visit_mut_member_expr(n)
+    }
+    fn visit_mut_cond_expr(&mut self, n: &mut CondExpr) {
+        (**self).visit_mut_cond_expr(n)
+    }
+    fn visit_mut_call_expr(&mut self, n: &mut CallExpr) {
+        (**self).visit_mut_call_expr(n)
+    }
+    fn visit_mut_new_expr(&mut self, n: &mut NewExpr) {
+        (**self).visit_mut_new_expr(n)
+    }
+    fn visit_mut_seq_expr(&mut self, n: &mut SeqExpr) {
+        (**self).visit_mut_seq_expr(n)
+    }
+    fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {
+        (**self).visit_mut_arrow_expr(n)
+    }
+    fn visit_mut_yield_expr(&mut self, n: &mut YieldExpr) {
+        (**self).visit_mut_yield_expr(n)
+    }
+    fn visit_mut_meta_prop_expr(&mut self, n: &mut MetaPropExpr) {
+        (**self).visit_mut_meta_prop_expr(n)
+    }
+    fn visit_mut_await_expr(&mut self, n: &mut AwaitExpr) {
+        (**self).visit_mut_await_expr(n)
+    }
+    fn visit_mut_tpl(&mut self, n: &mut Tpl) {
+        (**self).visit_mut_tpl(n)
+    }
+    fn visit_mut_tagged_tpl(&mut self, n: &mut TaggedTpl) {
+        (**self).visit_mut_tagged_tpl(n)
+    }
+    fn visit_mut_tpl_element(&mut self, n: &mut TplElement) {
+        (**self).visit_mut_tpl_element(n)
+    }
+    fn visit_mut_paren_expr(&mut self, n: &mut ParenExpr) {
+        (**self).visit_mut_paren_expr(n)
+    }
+    fn visit_mut_expr_or_super(&mut self, n: &mut ExprOrSuper) {
+        (**self).visit_mut_expr_or_super(n)
+    }
+    fn visit_mut_super(&mut self, n: &mut Super) {
+        (**self).visit_mut_super(n)
+    }
+    fn visit_mut_expr_or_spread(&mut self, n: &mut ExprOrSpread) {
+        (**self).visit_mut_expr_or_spread(n)
+    }
+    fn visit_mut_block_stmt_or_expr(&mut self, n: &mut BlockStmtOrExpr) {
+        (**self).visit_mut_block_stmt_or_expr(n)
+    }
+    fn visit_mut_pat_or_expr(&mut self, n: &mut PatOrExpr) {
+        (**self).visit_mut_pat_or_expr(n)
+    }
+    fn visit_mut_opt_chain_expr(&mut self, n: &mut OptChainExpr) {
+        (**self).visit_mut_opt_chain_expr(n)
+    }
+    fn visit_mut_function(&mut self, n: &mut Function) {
+        (**self).visit_mut_function(n)
+    }
+    fn visit_mut_param(&mut self, n: &mut Param) {
+        (**self).visit_mut_param(n)
+    }
+    fn visit_mut_param_or_ts_param_prop(&mut self, n: &mut ParamOrTsParamProp) {
+        (**self).visit_mut_param_or_ts_param_prop(n)
+    }
+    fn visit_mut_ident(&mut self, n: &mut Ident) {
+        (**self).visit_mut_ident(n)
+    }
+    fn visit_mut_private_name(&mut self, n: &mut PrivateName) {
+        (**self).visit_mut_private_name(n)
+    }
+    fn visit_mut_jsx_object(&mut self, n: &mut JSXObject) {
+        (**self).visit_mut_jsx_object(n)
+    }
+    fn visit_mut_jsx_member_expr(&mut self, n: &mut JSXMemberExpr) {
+        (**self).visit_mut_jsx_member_expr(n)
+    }
+    fn visit_mut_jsx_namespaced_name(&mut self, n: &mut JSXNamespacedName) {
+        (**self).visit_mut_jsx_namespaced_name(n)
+    }
+    fn visit_mut_jsx_empty_expr(&mut self, n: &mut JSXEmptyExpr) {
+        (**self).visit_mut_jsx_empty_expr(n)
+    }
+    fn visit_mut_jsx_expr_container(&mut self, n: &mut JSXExprContainer) {
+        (**self).visit_mut_jsx_expr_container(n)
+    }
+    fn visit_mut_jsx_expr(&mut self, n: &mut JSXExpr) {
+        (**self).visit_mut_jsx_expr(n)
+    }
+    fn visit_mut_jsx_spread_child(&mut self, n: &mut JSXSpreadChild) {
+        (**self).visit_mut_jsx_spread_child(n)
+    }
+    fn visit_mut_jsx_element_name(&mut self, n: &mut JSXElementName) {
+        (**self).visit_mut_jsx_element_name(n)
+    }
+    fn visit_mut_jsx_opening_element(&mut self, n: &mut JSXOpeningElement) {
+        (**self).visit_mut_jsx_opening_element(n)
+    }
+    fn visit_mut_jsx_attr_or_spread(&mut self, n: &mut JSXAttrOrSpread) {
+        (**self).visit_mut_jsx_attr_or_spread(n)
+    }
+    fn visit_mut_jsx_closing_element(&mut self, n: &mut JSXClosingElement) {
+        (**self).visit_mut_jsx_closing_element(n)
+    }
+    fn visit_mut_jsx_attr(&mut self, n: &mut JSXAttr) {
+        (**self).visit_mut_jsx_attr(n)
+    }
+    fn visit_mut_jsx_attr_name(&mut self, n: &mut JSXAttrName) {
+        (**self).visit_mut_jsx_attr_name(n)
+    }
+    fn visit_mut_jsx_attr_value(&mut self, n: &mut JSXAttrValue) {
+        (**self).visit_mut_jsx_attr_value(n)
+    }
+    fn visit_mut_jsx_text(&mut self, n: &mut JSXText) {
+        (**self).visit_mut_jsx_text(n)
+    }
+    fn visit_mut_jsx_element(&mut self, n: &mut JSXElement) {
+        (**self).visit_mut_jsx_element(n)
+    }
+    fn visit_mut_jsx_element_child(&mut self, n: &mut JSXElementChild) {
+        (**self).visit_mut_jsx_element_child(n)
+    }
+    fn visit_mut_jsx_fragment(&mut self, n: &mut JSXFragment) {
+        (**self).visit_mut_jsx_fragment(n)
+    }
+    fn visit_mut_jsx_opening_fragment(&mut self, n: &mut JSXOpeningFragment) {
+        (**self).visit_mut_jsx_opening_fragment(n)
+    }
+    fn visit_mut_jsx_closing_fragment(&mut self, n: &mut JSXClosingFragment) {
+        (**self).visit_mut_jsx_closing_fragment(n)
+    }
+    fn visit_mut_invalid(&mut self, n: &mut Invalid) {
+        (**self).visit_mut_invalid(n)
+    }
+    fn visit_mut_lit(&mut self, n: &mut Lit) {
+        (**self).visit_mut_lit(n)
+    }
+    fn visit_mut_big_int(&mut self, n: &mut BigInt) {
+        (**self).visit_mut_big_int(n)
+    }
+    fn visit_mut_str(&mut self, n: &mut Str) {
+        (**self).visit_mut_str(n)
+    }
+    fn visit_mut_bool(&mut self, n: &mut Bool) {
+        (**self).visit_mut_bool(n)
+    }
+    fn visit_mut_null(&mut self, n: &mut Null) {
+        (**self).visit_mut_null(n)
+    }
+    fn visit_mut_regex(&mut self, n: &mut Regex) {
+        (**self).visit_mut_regex(n)
+    }
+    fn visit_mut_number(&mut self, n: &mut Number) {
+        (**self).visit_mut_number(n)
+    }
+    fn visit_mut_program(&mut self, n: &mut Program) {
+        (**self).visit_mut_program(n)
+    }
+    fn visit_mut_module(&mut self, n: &mut Module) {
+        (**self).visit_mut_module(n)
+    }
+    fn visit_mut_script(&mut self, n: &mut Script) {
+        (**self).visit_mut_script(n)
+    }
+    fn visit_mut_module_item(&mut self, n: &mut ModuleItem) {
+        (**self).visit_mut_module_item(n)
+    }
+    fn visit_mut_module_decl(&mut self, n: &mut ModuleDecl) {
+        (**self).visit_mut_module_decl(n)
+    }
+    fn visit_mut_export_default_expr(&mut self, n: &mut ExportDefaultExpr) {
+        (**self).visit_mut_export_default_expr(n)
+    }
+    fn visit_mut_export_decl(&mut self, n: &mut ExportDecl) {
+        (**self).visit_mut_export_decl(n)
+    }
+    fn visit_mut_import_decl(&mut self, n: &mut ImportDecl) {
+        (**self).visit_mut_import_decl(n)
+    }
+    fn visit_mut_export_all(&mut self, n: &mut ExportAll) {
+        (**self).visit_mut_export_all(n)
+    }
+    fn visit_mut_named_export(&mut self, n: &mut NamedExport) {
+        (**self).visit_mut_named_export(n)
+    }
+    fn visit_mut_export_default_decl(&mut self, n: &mut ExportDefaultDecl) {
+        (**self).visit_mut_export_default_decl(n)
+    }
+    fn visit_mut_default_decl(&mut self, n: &mut DefaultDecl) {
+        (**self).visit_mut_default_decl(n)
+    }
+    fn visit_mut_import_specifier(&mut self, n: &mut ImportSpecifier) {
+        (**self).visit_mut_import_specifier(n)
+    }
+    fn visit_mut_import_default_specifier(&mut self, n: &mut ImportDefaultSpecifier) {
+        (**self).visit_mut_import_default_specifier(n)
+    }
+    fn visit_mut_import_star_as_specifier(&mut self, n: &mut ImportStarAsSpecifier) {
+        (**self).visit_mut_import_star_as_specifier(n)
+    }
+    fn visit_mut_import_named_specifier(&mut self, n: &mut ImportNamedSpecifier) {
+        (**self).visit_mut_import_named_specifier(n)
+    }
+    fn visit_mut_export_specifier(&mut self, n: &mut ExportSpecifier) {
+        (**self).visit_mut_export_specifier(n)
+    }
+    fn visit_mut_export_namespace_specifier(&mut self, n: &mut ExportNamespaceSpecifier) {
+        (**self).visit_mut_export_namespace_specifier(n)
+    }
+    fn visit_mut_export_default_specifier(&mut self, n: &mut ExportDefaultSpecifier) {
+        (**self).visit_mut_export_default_specifier(n)
+    }
+    fn visit_mut_export_named_specifier(&mut self, n: &mut ExportNamedSpecifier) {
+        (**self).visit_mut_export_named_specifier(n)
+    }
+    fn visit_mut_binary_op(&mut self, n: &mut BinaryOp) {
+        (**self).visit_mut_binary_op(n)
+    }
+    fn visit_mut_assign_op(&mut self, n: &mut AssignOp) {
+        (**self).visit_mut_assign_op(n)
+    }
+    fn visit_mut_update_op(&mut self, n: &mut UpdateOp) {
+        (**self).visit_mut_update_op(n)
+    }
+    fn visit_mut_unary_op(&mut self, n: &mut UnaryOp) {
+        (**self).visit_mut_unary_op(n)
+    }
+    fn visit_mut_pat(&mut self, n: &mut Pat) {
+        (**self).visit_mut_pat(n)
+    }
+    fn visit_mut_array_pat(&mut self, n: &mut ArrayPat) {
+        (**self).visit_mut_array_pat(n)
+    }
+    fn visit_mut_object_pat(&mut self, n: &mut ObjectPat) {
+        (**self).visit_mut_object_pat(n)
+    }
+    fn visit_mut_assign_pat(&mut self, n: &mut AssignPat) {
+        (**self).visit_mut_assign_pat(n)
+    }
+    fn visit_mut_rest_pat(&mut self, n: &mut RestPat) {
+        (**self).visit_mut_rest_pat(n)
+    }
+    fn visit_mut_object_pat_prop(&mut self, n: &mut ObjectPatProp) {
+        (**self).visit_mut_object_pat_prop(n)
+    }
+    fn visit_mut_key_value_pat_prop(&mut self, n: &mut KeyValuePatProp) {
+        (**self).visit_mut_key_value_pat_prop(n)
+    }
+    fn visit_mut_assign_pat_prop(&mut self, n: &mut AssignPatProp) {
+        (**self).visit_mut_assign_pat_prop(n)
+    }
+    fn visit_mut_prop(&mut self, n: &mut Prop) {
+        (**self).visit_mut_prop(n)
+    }
+    fn visit_mut_key_value_prop(&mut self, n: &mut KeyValueProp) {
+        (**self).visit_mut_key_value_prop(n)
+    }
+    fn visit_mut_assign_prop(&mut self, n: &mut AssignProp) {
+        (**self).visit_mut_assign_prop(n)
+    }
+    fn visit_mut_getter_prop(&mut self, n: &mut GetterProp) {
+        (**self).visit_mut_getter_prop(n)
+    }
+    fn visit_mut_setter_prop(&mut self, n: &mut SetterProp) {
+        (**self).visit_mut_setter_prop(n)
+    }
+    fn visit_mut_method_prop(&mut self, n: &mut MethodProp) {
+        (**self).visit_mut_method_prop(n)
+    }
+    fn visit_mut_prop_name(&mut self, n: &mut PropName) {
+        (**self).visit_mut_prop_name(n)
+    }
+    fn visit_mut_computed_prop_name(&mut self, n: &mut ComputedPropName) {
+        (**self).visit_mut_computed_prop_name(n)
+    }
+    fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
+        (**self).visit_mut_block_stmt(n)
+    }
+    fn visit_mut_stmt(&mut self, n: &mut Stmt) {
+        (**self).visit_mut_stmt(n)
+    }
+    fn visit_mut_expr_stmt(&mut self, n: &mut ExprStmt) {
+        (**self).visit_mut_expr_stmt(n)
+    }
+    fn visit_mut_empty_stmt(&mut self, n: &mut EmptyStmt) {
+        (**self).visit_mut_empty_stmt(n)
+    }
+    fn visit_mut_debugger_stmt(&mut self, n: &mut DebuggerStmt) {
+        (**self).visit_mut_debugger_stmt(n)
+    }
+    fn visit_mut_with_stmt(&mut self, n: &mut WithStmt) {
+        (**self).visit_mut_with_stmt(n)
+    }
+    fn visit_mut_return_stmt(&mut self, n: &mut ReturnStmt) {
+        (**self).visit_mut_return_stmt(n)
+    }
+    fn visit_mut_labeled_stmt(&mut self, n: &mut LabeledStmt) {
+        (**self).visit_mut_labeled_stmt(n)
+    }
+    fn visit_mut_break_stmt(&mut self, n: &mut BreakStmt) {
+        (**self).visit_mut_break_stmt(n)
+    }
+    fn visit_mut_continue_stmt(&mut self, n: &mut ContinueStmt) {
+        (**self).visit_mut_continue_stmt(n)
+    }
+    fn visit_mut_if_stmt(&mut self, n: &mut IfStmt) {
+        (**self).visit_mut_if_stmt(n)
+    }
+    fn visit_mut_switch_stmt(&mut self, n: &mut SwitchStmt) {
+        (**self).visit_mut_switch_stmt(n)
+    }
+    fn visit_mut_throw_stmt(&mut self, n: &mut ThrowStmt) {
+        (**self).visit_mut_throw_stmt(n)
+    }
+    fn visit_mut_try_stmt(&mut self, n: &mut TryStmt) {
+        (**self).visit_mut_try_stmt(n)
+    }
+    fn visit_mut_while_stmt(&mut self, n: &mut WhileStmt) {
+        (**self).visit_mut_while_stmt(n)
+    }
+    fn visit_mut_do_while_stmt(&mut self, n: &mut DoWhileStmt) {
+        (**self).visit_mut_do_while_stmt(n)
+    }
+    fn visit_mut_for_stmt(&mut self, n: &mut ForStmt) {
+        (**self).visit_mut_for_stmt(n)
+    }
+    fn visit_mut_for_in_stmt(&mut self, n: &mut ForInStmt) {
+        (**self).visit_mut_for_in_stmt(n)
+    }
+    fn visit_mut_for_of_stmt(&mut self, n: &mut ForOfStmt) {
+        (**self).visit_mut_for_of_stmt(n)
+    }
+    fn visit_mut_switch_case(&mut self, n: &mut SwitchCase) {
+        (**self).visit_mut_switch_case(n)
+    }
+    fn visit_mut_catch_clause(&mut self, n: &mut CatchClause) {
+        (**self).visit_mut_catch_clause(n)
+    }
+    fn visit_mut_var_decl_or_pat(&mut self, n: &mut VarDeclOrPat) {
+        (**self).visit_mut_var_decl_or_pat(n)
+    }
+    fn visit_mut_var_decl_or_expr(&mut self, n: &mut VarDeclOrExpr) {
+        (**self).visit_mut_var_decl_or_expr(n)
+    }
+    fn visit_mut_ts_type_ann(&mut self, n: &mut TsTypeAnn) {
+        (**self).visit_mut_ts_type_ann(n)
+    }
+    fn visit_mut_ts_type_param_decl(&mut self, n: &mut TsTypeParamDecl) {
+        (**self).visit_mut_ts_type_param_decl(n)
+    }
+    fn visit_mut_ts_type_param(&mut self, n: &mut TsTypeParam) {
+        (**self).visit_mut_ts_type_param(n)
+    }
+    fn visit_mut_ts_type_param_instantiation(&mut self, n: &mut TsTypeParamInstantiation) {
+        (**self).visit_mut_ts_type_param_instantiation(n)
+    }
+    fn visit_mut_ts_type_cast_expr(&mut self, n: &mut TsTypeCastExpr) {
+        (**self).visit_mut_ts_type_cast_expr(n)
+    }
+    fn visit_mut_ts_param_prop(&mut self, n: &mut TsParamProp) {
+        (**self).visit_mut_ts_param_prop(n)
+    }
+    fn visit_mut_ts_param_prop_param(&mut self, n: &mut TsParamPropParam) {
+        (**self).visit_mut_ts_param_prop_param(n)
+    }
+    fn visit_mut_ts_qualified_name(&mut self, n: &mut TsQualifiedName) {
+        (**self).visit_mut_ts_qualified_name(n)
+    }
+    fn visit_mut_ts_entity_name(&mut self, n: &mut TsEntityName) {
+        (**self).visit_mut_ts_entity_name(n)
+    }
+    fn visit_mut_ts_signature_decl(&mut self, n: &mut TsSignatureDecl) {
+        (**self).visit_mut_ts_signature_decl(n)
+    }
+    fn visit_mut_ts_type_element(&mut self, n: &mut TsTypeElement) {
+        (**self).visit_mut_ts_type_element(n)
+    }
+    fn visit_mut_ts_call_signature_decl(&mut self, n: &mut TsCallSignatureDecl) {
+        (**self).visit_mut_ts_call_signature_decl(n)
+    }
+    fn visit_mut_ts_construct_signature_decl(&mut self, n: &mut TsConstructSignatureDecl) {
+        (**self).visit_mut_ts_construct_signature_decl(n)
+    }
+    fn visit_mut_ts_property_signature(&mut self, n: &mut TsPropertySignature) {
+        (**self).visit_mut_ts_property_signature(n)
+    }
+    fn visit_mut_ts_method_signature(&mut self, n: &mut TsMethodSignature) {
+        (**self).visit_mut_ts_method_signature(n)
+    }
+    fn visit_mut_ts_index_signature(&mut self, n: &mut TsIndexSignature) {
+        (**self).visit_mut_ts_index_signature(n)
+    }
+    fn visit_mut_ts_type(&mut self, n: &mut TsType) {
+        (**self).visit_mut_ts_type(n)
+    }
+    fn visit_mut_ts_fn_or_constructor_type(&mut self, n: &mut TsFnOrConstructorType) {
+        (**self).visit_mut_ts_fn_or_constructor_type(n)
+    }
+    fn visit_mut_ts_keyword_type(&mut self, n: &mut TsKeywordType) {
+        (**self).visit_mut_ts_keyword_type(n)
+    }
+    fn visit_mut_ts_keyword_type_kind(&mut self, n: &mut TsKeywordTypeKind) {
+        (**self).visit_mut_ts_keyword_type_kind(n)
+    }
+    fn visit_mut_ts_this_type(&mut self, n: &mut TsThisType) {
+        (**self).visit_mut_ts_this_type(n)
+    }
+    fn visit_mut_ts_fn_param(&mut self, n: &mut TsFnParam) {
+        (**self).visit_mut_ts_fn_param(n)
+    }
+    fn visit_mut_ts_fn_type(&mut self, n: &mut TsFnType) {
+        (**self).visit_mut_ts_fn_type(n)
+    }
+    fn visit_mut_ts_constructor_type(&mut self, n: &mut TsConstructorType) {
+        (**self).visit_mut_ts_constructor_type(n)
+    }
+    fn visit_mut_ts_type_ref(&mut self, n: &mut TsTypeRef) {
+        (**self).visit_mut_ts_type_ref(n)
+    }
+    fn visit_mut_ts_type_predicate(&mut self, n: &mut TsTypePredicate) {
+        (**self).visit_mut_ts_type_predicate(n)
+    }
+    fn visit_mut_ts_this_type_or_ident(&mut self, n: &mut TsThisTypeOrIdent) {
+        (**self).visit_mut_ts_this_type_or_ident(n)
+    }
+    fn visit_mut_ts_type_query(&mut self, n: &mut TsTypeQuery) {
+        (**self).visit_mut_ts_type_query(n)
+    }
+    fn visit_mut_ts_type_query_expr(&mut self, n: &mut TsTypeQueryExpr) {
+        (**self).visit_mut_ts_type_query_expr(n)
+    }
+    fn visit_mut_ts_import_type(&mut self, n: &mut TsImportType) {
+        (**self).visit_mut_ts_import_type(n)
+    }
+    fn visit_mut_ts_type_lit(&mut self, n: &mut TsTypeLit) {
+        (**self).visit_mut_ts_type_lit(n)
+    }
+    fn visit_mut_ts_array_type(&mut self, n: &mut TsArrayType) {
+        (**self).visit_mut_ts_array_type(n)
+    }
+    fn visit_mut_ts_tuple_type(&mut self, n: &mut TsTupleType) {
+        (**self).visit_mut_ts_tuple_type(n)
+    }
+    fn visit_mut_ts_tuple_element(&mut self, n: &mut TsTupleElement) {
+        (**self).visit_mut_ts_tuple_element(n)
+    }
+    fn visit_mut_ts_optional_type(&mut self, n: &mut TsOptionalType) {
+        (**self).visit_mut_ts_optional_type(n)
+    }
+    fn visit_mut_ts_rest_type(&mut self, n: &mut TsRestType) {
+        (**self).visit_mut_ts_rest_type(n)
+    }
+    fn visit_mut_ts_union_or_intersection_type(&mut self, n: &mut TsUnionOrIntersectionType) {
+        (**self).visit_mut_ts_union_or_intersection_type(n)
+    }
+    fn visit_mut_ts_union_type(&mut self, n: &mut TsUnionType) {
+        (**self).visit_mut_ts_union_type(n)
+    }
+    fn visit_mut_ts_intersection_type(&mut self, n: &mut TsIntersectionType) {
+        (**self).visit_mut_ts_intersection_type(n)
+    }
+    fn visit_mut_ts_conditional_type(&mut self, n: &mut TsConditionalType) {
+        (**self).visit_mut_ts_conditional_type(n)
+    }
+    fn visit_mut_ts_infer_type(&mut self, n: &mut TsInferType) {
+        (**self).visit_mut_ts_infer_type(n)
+    }
+    fn visit_mut_ts_parenthesized_type(&mut self, n: &mut TsParenthesizedType) {
+        (**self).visit_mut_ts_parenthesized_type(n)
+    }
+    fn visit_mut_ts_type_operator(&mut self, n: &mut TsTypeOperator) {
+        (**self).visit_mut_ts_type_operator(n)
+    }
+    fn visit_mut_ts_type_operator_op(&mut self, n: &mut TsTypeOperatorOp) {
+        (**self).visit_mut_ts_type_operator_op(n)
+    }
+    fn visit_mut_ts_indexed_access_type(&mut self, n: &mut TsIndexedAccessType) {
+        (**self).visit_mut_ts_indexed_access_type(n)
+    }
+    fn visit_mut_true_plus_minus(&mut self, n: &mut TruePlusMinus) {
+        (**self).visit_mut_true_plus_minus(n)
+    }
+    fn visit_mut_ts_mapped_type(&mut self, n: &mut TsMappedType) {
+        (**self).visit_mut_ts_mapped_type(n)
+    }
+    fn visit_mut_ts_lit_type(&mut self, n: &mut TsLitType) {
+        (**self).visit_mut_ts_lit_type(n)
+    }
+    fn visit_mut_ts_lit(&mut self, n: &mut TsLit) {
+        (**self).visit_mut_ts_lit(n)
+    }
+    fn visit_mut_ts_interface_decl(&mut self, n: &mut TsInterfaceDecl) {
+        (**self).visit_mut_ts_interface_decl(n)
+    }
+    fn visit_mut_ts_interface_body(&mut self, n: &mut TsInterfaceBody) {
+        (**self).visit_mut_ts_interface_body(n)
+    }
+    fn visit_mut_ts_expr_with_type_args(&mut self, n: &mut TsExprWithTypeArgs) {
+        (**self).visit_mut_ts_expr_with_type_args(n)
+    }
+    fn visit_mut_ts_type_alias_decl(&mut self, n: &mut TsTypeAliasDecl) {
+        (**self).visit_mut_ts_type_alias_decl(n)
+    }
+    fn visit_mut_ts_enum_decl(&mut self, n: &mut TsEnumDecl) {
+        (**self).visit_mut_ts_enum_decl(n)
+    }
+    fn visit_mut_ts_enum_member(&mut self, n: &mut TsEnumMember) {
+        (**self).visit_mut_ts_enum_member(n)
+    }
+    fn visit_mut_ts_enum_member_id(&mut self, n: &mut TsEnumMemberId) {
+        (**self).visit_mut_ts_enum_member_id(n)
+    }
+    fn visit_mut_ts_module_decl(&mut self, n: &mut TsModuleDecl) {
+        (**self).visit_mut_ts_module_decl(n)
+    }
+    fn visit_mut_ts_namespace_body(&mut self, n: &mut TsNamespaceBody) {
+        (**self).visit_mut_ts_namespace_body(n)
+    }
+    fn visit_mut_ts_module_block(&mut self, n: &mut TsModuleBlock) {
+        (**self).visit_mut_ts_module_block(n)
+    }
+    fn visit_mut_ts_namespace_decl(&mut self, n: &mut TsNamespaceDecl) {
+        (**self).visit_mut_ts_namespace_decl(n)
+    }
+    fn visit_mut_ts_module_name(&mut self, n: &mut TsModuleName) {
+        (**self).visit_mut_ts_module_name(n)
+    }
+    fn visit_mut_ts_import_equals_decl(&mut self, n: &mut TsImportEqualsDecl) {
+        (**self).visit_mut_ts_import_equals_decl(n)
+    }
+    fn visit_mut_ts_module_ref(&mut self, n: &mut TsModuleRef) {
+        (**self).visit_mut_ts_module_ref(n)
+    }
+    fn visit_mut_ts_external_module_ref(&mut self, n: &mut TsExternalModuleRef) {
+        (**self).visit_mut_ts_external_module_ref(n)
+    }
+    fn visit_mut_ts_export_assignment(&mut self, n: &mut TsExportAssignment) {
+        (**self).visit_mut_ts_export_assignment(n)
+    }
+    fn visit_mut_ts_namespace_export_decl(&mut self, n: &mut TsNamespaceExportDecl) {
+        (**self).visit_mut_ts_namespace_export_decl(n)
+    }
+    fn visit_mut_ts_as_expr(&mut self, n: &mut TsAsExpr) {
+        (**self).visit_mut_ts_as_expr(n)
+    }
+    fn visit_mut_ts_type_assertion(&mut self, n: &mut TsTypeAssertion) {
+        (**self).visit_mut_ts_type_assertion(n)
+    }
+    fn visit_mut_ts_non_null_expr(&mut self, n: &mut TsNonNullExpr) {
+        (**self).visit_mut_ts_non_null_expr(n)
+    }
+    fn visit_mut_accessibility(&mut self, n: &mut Accessibility) {
+        (**self).visit_mut_accessibility(n)
+    }
+    fn visit_mut_ts_const_assertion(&mut self, n: &mut TsConstAssertion) {
+        (**self).visit_mut_ts_const_assertion(n)
+    }
+}
+impl<V> VisitMut for Box<V>
+where
+    V: ?Sized + VisitMut,
+{
+    fn visit_mut_class(&mut self, n: &mut Class) {
+        (**self).visit_mut_class(n)
+    }
+    fn visit_mut_class_member(&mut self, n: &mut ClassMember) {
+        (**self).visit_mut_class_member(n)
+    }
+    fn visit_mut_class_prop(&mut self, n: &mut ClassProp) {
+        (**self).visit_mut_class_prop(n)
+    }
+    fn visit_mut_private_prop(&mut self, n: &mut PrivateProp) {
+        (**self).visit_mut_private_prop(n)
+    }
+    fn visit_mut_class_method(&mut self, n: &mut ClassMethod) {
+        (**self).visit_mut_class_method(n)
+    }
+    fn visit_mut_private_method(&mut self, n: &mut PrivateMethod) {
+        (**self).visit_mut_private_method(n)
+    }
+    fn visit_mut_constructor(&mut self, n: &mut Constructor) {
+        (**self).visit_mut_constructor(n)
+    }
+    fn visit_mut_decorator(&mut self, n: &mut Decorator) {
+        (**self).visit_mut_decorator(n)
+    }
+    fn visit_mut_method_kind(&mut self, n: &mut MethodKind) {
+        (**self).visit_mut_method_kind(n)
+    }
+    fn visit_mut_decl(&mut self, n: &mut Decl) {
+        (**self).visit_mut_decl(n)
+    }
+    fn visit_mut_fn_decl(&mut self, n: &mut FnDecl) {
+        (**self).visit_mut_fn_decl(n)
+    }
+    fn visit_mut_class_decl(&mut self, n: &mut ClassDecl) {
+        (**self).visit_mut_class_decl(n)
+    }
+    fn visit_mut_var_decl(&mut self, n: &mut VarDecl) {
+        (**self).visit_mut_var_decl(n)
+    }
+    fn visit_mut_var_decl_kind(&mut self, n: &mut VarDeclKind) {
+        (**self).visit_mut_var_decl_kind(n)
+    }
+    fn visit_mut_var_declarator(&mut self, n: &mut VarDeclarator) {
+        (**self).visit_mut_var_declarator(n)
+    }
+    fn visit_mut_expr(&mut self, n: &mut Expr) {
+        (**self).visit_mut_expr(n)
+    }
+    fn visit_mut_this_expr(&mut self, n: &mut ThisExpr) {
+        (**self).visit_mut_this_expr(n)
+    }
+    fn visit_mut_array_lit(&mut self, n: &mut ArrayLit) {
+        (**self).visit_mut_array_lit(n)
+    }
+    fn visit_mut_object_lit(&mut self, n: &mut ObjectLit) {
+        (**self).visit_mut_object_lit(n)
+    }
+    fn visit_mut_prop_or_spread(&mut self, n: &mut PropOrSpread) {
+        (**self).visit_mut_prop_or_spread(n)
+    }
+    fn visit_mut_spread_element(&mut self, n: &mut SpreadElement) {
+        (**self).visit_mut_spread_element(n)
+    }
+    fn visit_mut_unary_expr(&mut self, n: &mut UnaryExpr) {
+        (**self).visit_mut_unary_expr(n)
+    }
+    fn visit_mut_update_expr(&mut self, n: &mut UpdateExpr) {
+        (**self).visit_mut_update_expr(n)
+    }
+    fn visit_mut_bin_expr(&mut self, n: &mut BinExpr) {
+        (**self).visit_mut_bin_expr(n)
+    }
+    fn visit_mut_fn_expr(&mut self, n: &mut FnExpr) {
+        (**self).visit_mut_fn_expr(n)
+    }
+    fn visit_mut_class_expr(&mut self, n: &mut ClassExpr) {
+        (**self).visit_mut_class_expr(n)
+    }
+    fn visit_mut_assign_expr(&mut self, n: &mut AssignExpr) {
+        (**self).visit_mut_assign_expr(n)
+    }
+    fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
+        (**self).visit_mut_member_expr(n)
+    }
+    fn visit_mut_cond_expr(&mut self, n: &mut CondExpr) {
+        (**self).visit_mut_cond_expr(n)
+    }
+    fn visit_mut_call_expr(&mut self, n: &mut CallExpr) {
+        (**self).visit_mut_call_expr(n)
+    }
+    fn visit_mut_new_expr(&mut self, n: &mut NewExpr) {
+        (**self).visit_mut_new_expr(n)
+    }
+    fn visit_mut_seq_expr(&mut self, n: &mut SeqExpr) {
+        (**self).visit_mut_seq_expr(n)
+    }
+    fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {
+        (**self).visit_mut_arrow_expr(n)
+    }
+    fn visit_mut_yield_expr(&mut self, n: &mut YieldExpr) {
+        (**self).visit_mut_yield_expr(n)
+    }
+    fn visit_mut_meta_prop_expr(&mut self, n: &mut MetaPropExpr) {
+        (**self).visit_mut_meta_prop_expr(n)
+    }
+    fn visit_mut_await_expr(&mut self, n: &mut AwaitExpr) {
+        (**self).visit_mut_await_expr(n)
+    }
+    fn visit_mut_tpl(&mut self, n: &mut Tpl) {
+        (**self).visit_mut_tpl(n)
+    }
+    fn visit_mut_tagged_tpl(&mut self, n: &mut TaggedTpl) {
+        (**self).visit_mut_tagged_tpl(n)
+    }
+    fn visit_mut_tpl_element(&mut self, n: &mut TplElement) {
+        (**self).visit_mut_tpl_element(n)
+    }
+    fn visit_mut_paren_expr(&mut self, n: &mut ParenExpr) {
+        (**self).visit_mut_paren_expr(n)
+    }
+    fn visit_mut_expr_or_super(&mut self, n: &mut ExprOrSuper) {
+        (**self).visit_mut_expr_or_super(n)
+    }
+    fn visit_mut_super(&mut self, n: &mut Super) {
+        (**self).visit_mut_super(n)
+    }
+    fn visit_mut_expr_or_spread(&mut self, n: &mut ExprOrSpread) {
+        (**self).visit_mut_expr_or_spread(n)
+    }
+    fn visit_mut_block_stmt_or_expr(&mut self, n: &mut BlockStmtOrExpr) {
+        (**self).visit_mut_block_stmt_or_expr(n)
+    }
+    fn visit_mut_pat_or_expr(&mut self, n: &mut PatOrExpr) {
+        (**self).visit_mut_pat_or_expr(n)
+    }
+    fn visit_mut_opt_chain_expr(&mut self, n: &mut OptChainExpr) {
+        (**self).visit_mut_opt_chain_expr(n)
+    }
+    fn visit_mut_function(&mut self, n: &mut Function) {
+        (**self).visit_mut_function(n)
+    }
+    fn visit_mut_param(&mut self, n: &mut Param) {
+        (**self).visit_mut_param(n)
+    }
+    fn visit_mut_param_or_ts_param_prop(&mut self, n: &mut ParamOrTsParamProp) {
+        (**self).visit_mut_param_or_ts_param_prop(n)
+    }
+    fn visit_mut_ident(&mut self, n: &mut Ident) {
+        (**self).visit_mut_ident(n)
+    }
+    fn visit_mut_private_name(&mut self, n: &mut PrivateName) {
+        (**self).visit_mut_private_name(n)
+    }
+    fn visit_mut_jsx_object(&mut self, n: &mut JSXObject) {
+        (**self).visit_mut_jsx_object(n)
+    }
+    fn visit_mut_jsx_member_expr(&mut self, n: &mut JSXMemberExpr) {
+        (**self).visit_mut_jsx_member_expr(n)
+    }
+    fn visit_mut_jsx_namespaced_name(&mut self, n: &mut JSXNamespacedName) {
+        (**self).visit_mut_jsx_namespaced_name(n)
+    }
+    fn visit_mut_jsx_empty_expr(&mut self, n: &mut JSXEmptyExpr) {
+        (**self).visit_mut_jsx_empty_expr(n)
+    }
+    fn visit_mut_jsx_expr_container(&mut self, n: &mut JSXExprContainer) {
+        (**self).visit_mut_jsx_expr_container(n)
+    }
+    fn visit_mut_jsx_expr(&mut self, n: &mut JSXExpr) {
+        (**self).visit_mut_jsx_expr(n)
+    }
+    fn visit_mut_jsx_spread_child(&mut self, n: &mut JSXSpreadChild) {
+        (**self).visit_mut_jsx_spread_child(n)
+    }
+    fn visit_mut_jsx_element_name(&mut self, n: &mut JSXElementName) {
+        (**self).visit_mut_jsx_element_name(n)
+    }
+    fn visit_mut_jsx_opening_element(&mut self, n: &mut JSXOpeningElement) {
+        (**self).visit_mut_jsx_opening_element(n)
+    }
+    fn visit_mut_jsx_attr_or_spread(&mut self, n: &mut JSXAttrOrSpread) {
+        (**self).visit_mut_jsx_attr_or_spread(n)
+    }
+    fn visit_mut_jsx_closing_element(&mut self, n: &mut JSXClosingElement) {
+        (**self).visit_mut_jsx_closing_element(n)
+    }
+    fn visit_mut_jsx_attr(&mut self, n: &mut JSXAttr) {
+        (**self).visit_mut_jsx_attr(n)
+    }
+    fn visit_mut_jsx_attr_name(&mut self, n: &mut JSXAttrName) {
+        (**self).visit_mut_jsx_attr_name(n)
+    }
+    fn visit_mut_jsx_attr_value(&mut self, n: &mut JSXAttrValue) {
+        (**self).visit_mut_jsx_attr_value(n)
+    }
+    fn visit_mut_jsx_text(&mut self, n: &mut JSXText) {
+        (**self).visit_mut_jsx_text(n)
+    }
+    fn visit_mut_jsx_element(&mut self, n: &mut JSXElement) {
+        (**self).visit_mut_jsx_element(n)
+    }
+    fn visit_mut_jsx_element_child(&mut self, n: &mut JSXElementChild) {
+        (**self).visit_mut_jsx_element_child(n)
+    }
+    fn visit_mut_jsx_fragment(&mut self, n: &mut JSXFragment) {
+        (**self).visit_mut_jsx_fragment(n)
+    }
+    fn visit_mut_jsx_opening_fragment(&mut self, n: &mut JSXOpeningFragment) {
+        (**self).visit_mut_jsx_opening_fragment(n)
+    }
+    fn visit_mut_jsx_closing_fragment(&mut self, n: &mut JSXClosingFragment) {
+        (**self).visit_mut_jsx_closing_fragment(n)
+    }
+    fn visit_mut_invalid(&mut self, n: &mut Invalid) {
+        (**self).visit_mut_invalid(n)
+    }
+    fn visit_mut_lit(&mut self, n: &mut Lit) {
+        (**self).visit_mut_lit(n)
+    }
+    fn visit_mut_big_int(&mut self, n: &mut BigInt) {
+        (**self).visit_mut_big_int(n)
+    }
+    fn visit_mut_str(&mut self, n: &mut Str) {
+        (**self).visit_mut_str(n)
+    }
+    fn visit_mut_bool(&mut self, n: &mut Bool) {
+        (**self).visit_mut_bool(n)
+    }
+    fn visit_mut_null(&mut self, n: &mut Null) {
+        (**self).visit_mut_null(n)
+    }
+    fn visit_mut_regex(&mut self, n: &mut Regex) {
+        (**self).visit_mut_regex(n)
+    }
+    fn visit_mut_number(&mut self, n: &mut Number) {
+        (**self).visit_mut_number(n)
+    }
+    fn visit_mut_program(&mut self, n: &mut Program) {
+        (**self).visit_mut_program(n)
+    }
+    fn visit_mut_module(&mut self, n: &mut Module) {
+        (**self).visit_mut_module(n)
+    }
+    fn visit_mut_script(&mut self, n: &mut Script) {
+        (**self).visit_mut_script(n)
+    }
+    fn visit_mut_module_item(&mut self, n: &mut ModuleItem) {
+        (**self).visit_mut_module_item(n)
+    }
+    fn visit_mut_module_decl(&mut self, n: &mut ModuleDecl) {
+        (**self).visit_mut_module_decl(n)
+    }
+    fn visit_mut_export_default_expr(&mut self, n: &mut ExportDefaultExpr) {
+        (**self).visit_mut_export_default_expr(n)
+    }
+    fn visit_mut_export_decl(&mut self, n: &mut ExportDecl) {
+        (**self).visit_mut_export_decl(n)
+    }
+    fn visit_mut_import_decl(&mut self, n: &mut ImportDecl) {
+        (**self).visit_mut_import_decl(n)
+    }
+    fn visit_mut_export_all(&mut self, n: &mut ExportAll) {
+        (**self).visit_mut_export_all(n)
+    }
+    fn visit_mut_named_export(&mut self, n: &mut NamedExport) {
+        (**self).visit_mut_named_export(n)
+    }
+    fn visit_mut_export_default_decl(&mut self, n: &mut ExportDefaultDecl) {
+        (**self).visit_mut_export_default_decl(n)
+    }
+    fn visit_mut_default_decl(&mut self, n: &mut DefaultDecl) {
+        (**self).visit_mut_default_decl(n)
+    }
+    fn visit_mut_import_specifier(&mut self, n: &mut ImportSpecifier) {
+        (**self).visit_mut_import_specifier(n)
+    }
+    fn visit_mut_import_default_specifier(&mut self, n: &mut ImportDefaultSpecifier) {
+        (**self).visit_mut_import_default_specifier(n)
+    }
+    fn visit_mut_import_star_as_specifier(&mut self, n: &mut ImportStarAsSpecifier) {
+        (**self).visit_mut_import_star_as_specifier(n)
+    }
+    fn visit_mut_import_named_specifier(&mut self, n: &mut ImportNamedSpecifier) {
+        (**self).visit_mut_import_named_specifier(n)
+    }
+    fn visit_mut_export_specifier(&mut self, n: &mut ExportSpecifier) {
+        (**self).visit_mut_export_specifier(n)
+    }
+    fn visit_mut_export_namespace_specifier(&mut self, n: &mut ExportNamespaceSpecifier) {
+        (**self).visit_mut_export_namespace_specifier(n)
+    }
+    fn visit_mut_export_default_specifier(&mut self, n: &mut ExportDefaultSpecifier) {
+        (**self).visit_mut_export_default_specifier(n)
+    }
+    fn visit_mut_export_named_specifier(&mut self, n: &mut ExportNamedSpecifier) {
+        (**self).visit_mut_export_named_specifier(n)
+    }
+    fn visit_mut_binary_op(&mut self, n: &mut BinaryOp) {
+        (**self).visit_mut_binary_op(n)
+    }
+    fn visit_mut_assign_op(&mut self, n: &mut AssignOp) {
+        (**self).visit_mut_assign_op(n)
+    }
+    fn visit_mut_update_op(&mut self, n: &mut UpdateOp) {
+        (**self).visit_mut_update_op(n)
+    }
+    fn visit_mut_unary_op(&mut self, n: &mut UnaryOp) {
+        (**self).visit_mut_unary_op(n)
+    }
+    fn visit_mut_pat(&mut self, n: &mut Pat) {
+        (**self).visit_mut_pat(n)
+    }
+    fn visit_mut_array_pat(&mut self, n: &mut ArrayPat) {
+        (**self).visit_mut_array_pat(n)
+    }
+    fn visit_mut_object_pat(&mut self, n: &mut ObjectPat) {
+        (**self).visit_mut_object_pat(n)
+    }
+    fn visit_mut_assign_pat(&mut self, n: &mut AssignPat) {
+        (**self).visit_mut_assign_pat(n)
+    }
+    fn visit_mut_rest_pat(&mut self, n: &mut RestPat) {
+        (**self).visit_mut_rest_pat(n)
+    }
+    fn visit_mut_object_pat_prop(&mut self, n: &mut ObjectPatProp) {
+        (**self).visit_mut_object_pat_prop(n)
+    }
+    fn visit_mut_key_value_pat_prop(&mut self, n: &mut KeyValuePatProp) {
+        (**self).visit_mut_key_value_pat_prop(n)
+    }
+    fn visit_mut_assign_pat_prop(&mut self, n: &mut AssignPatProp) {
+        (**self).visit_mut_assign_pat_prop(n)
+    }
+    fn visit_mut_prop(&mut self, n: &mut Prop) {
+        (**self).visit_mut_prop(n)
+    }
+    fn visit_mut_key_value_prop(&mut self, n: &mut KeyValueProp) {
+        (**self).visit_mut_key_value_prop(n)
+    }
+    fn visit_mut_assign_prop(&mut self, n: &mut AssignProp) {
+        (**self).visit_mut_assign_prop(n)
+    }
+    fn visit_mut_getter_prop(&mut self, n: &mut GetterProp) {
+        (**self).visit_mut_getter_prop(n)
+    }
+    fn visit_mut_setter_prop(&mut self, n: &mut SetterProp) {
+        (**self).visit_mut_setter_prop(n)
+    }
+    fn visit_mut_method_prop(&mut self, n: &mut MethodProp) {
+        (**self).visit_mut_method_prop(n)
+    }
+    fn visit_mut_prop_name(&mut self, n: &mut PropName) {
+        (**self).visit_mut_prop_name(n)
+    }
+    fn visit_mut_computed_prop_name(&mut self, n: &mut ComputedPropName) {
+        (**self).visit_mut_computed_prop_name(n)
+    }
+    fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
+        (**self).visit_mut_block_stmt(n)
+    }
+    fn visit_mut_stmt(&mut self, n: &mut Stmt) {
+        (**self).visit_mut_stmt(n)
+    }
+    fn visit_mut_expr_stmt(&mut self, n: &mut ExprStmt) {
+        (**self).visit_mut_expr_stmt(n)
+    }
+    fn visit_mut_empty_stmt(&mut self, n: &mut EmptyStmt) {
+        (**self).visit_mut_empty_stmt(n)
+    }
+    fn visit_mut_debugger_stmt(&mut self, n: &mut DebuggerStmt) {
+        (**self).visit_mut_debugger_stmt(n)
+    }
+    fn visit_mut_with_stmt(&mut self, n: &mut WithStmt) {
+        (**self).visit_mut_with_stmt(n)
+    }
+    fn visit_mut_return_stmt(&mut self, n: &mut ReturnStmt) {
+        (**self).visit_mut_return_stmt(n)
+    }
+    fn visit_mut_labeled_stmt(&mut self, n: &mut LabeledStmt) {
+        (**self).visit_mut_labeled_stmt(n)
+    }
+    fn visit_mut_break_stmt(&mut self, n: &mut BreakStmt) {
+        (**self).visit_mut_break_stmt(n)
+    }
+    fn visit_mut_continue_stmt(&mut self, n: &mut ContinueStmt) {
+        (**self).visit_mut_continue_stmt(n)
+    }
+    fn visit_mut_if_stmt(&mut self, n: &mut IfStmt) {
+        (**self).visit_mut_if_stmt(n)
+    }
+    fn visit_mut_switch_stmt(&mut self, n: &mut SwitchStmt) {
+        (**self).visit_mut_switch_stmt(n)
+    }
+    fn visit_mut_throw_stmt(&mut self, n: &mut ThrowStmt) {
+        (**self).visit_mut_throw_stmt(n)
+    }
+    fn visit_mut_try_stmt(&mut self, n: &mut TryStmt) {
+        (**self).visit_mut_try_stmt(n)
+    }
+    fn visit_mut_while_stmt(&mut self, n: &mut WhileStmt) {
+        (**self).visit_mut_while_stmt(n)
+    }
+    fn visit_mut_do_while_stmt(&mut self, n: &mut DoWhileStmt) {
+        (**self).visit_mut_do_while_stmt(n)
+    }
+    fn visit_mut_for_stmt(&mut self, n: &mut ForStmt) {
+        (**self).visit_mut_for_stmt(n)
+    }
+    fn visit_mut_for_in_stmt(&mut self, n: &mut ForInStmt) {
+        (**self).visit_mut_for_in_stmt(n)
+    }
+    fn visit_mut_for_of_stmt(&mut self, n: &mut ForOfStmt) {
+        (**self).visit_mut_for_of_stmt(n)
+    }
+    fn visit_mut_switch_case(&mut self, n: &mut SwitchCase) {
+        (**self).visit_mut_switch_case(n)
+    }
+    fn visit_mut_catch_clause(&mut self, n: &mut CatchClause) {
+        (**self).visit_mut_catch_clause(n)
+    }
+    fn visit_mut_var_decl_or_pat(&mut self, n: &mut VarDeclOrPat) {
+        (**self).visit_mut_var_decl_or_pat(n)
+    }
+    fn visit_mut_var_decl_or_expr(&mut self, n: &mut VarDeclOrExpr) {
+        (**self).visit_mut_var_decl_or_expr(n)
+    }
+    fn visit_mut_ts_type_ann(&mut self, n: &mut TsTypeAnn) {
+        (**self).visit_mut_ts_type_ann(n)
+    }
+    fn visit_mut_ts_type_param_decl(&mut self, n: &mut TsTypeParamDecl) {
+        (**self).visit_mut_ts_type_param_decl(n)
+    }
+    fn visit_mut_ts_type_param(&mut self, n: &mut TsTypeParam) {
+        (**self).visit_mut_ts_type_param(n)
+    }
+    fn visit_mut_ts_type_param_instantiation(&mut self, n: &mut TsTypeParamInstantiation) {
+        (**self).visit_mut_ts_type_param_instantiation(n)
+    }
+    fn visit_mut_ts_type_cast_expr(&mut self, n: &mut TsTypeCastExpr) {
+        (**self).visit_mut_ts_type_cast_expr(n)
+    }
+    fn visit_mut_ts_param_prop(&mut self, n: &mut TsParamProp) {
+        (**self).visit_mut_ts_param_prop(n)
+    }
+    fn visit_mut_ts_param_prop_param(&mut self, n: &mut TsParamPropParam) {
+        (**self).visit_mut_ts_param_prop_param(n)
+    }
+    fn visit_mut_ts_qualified_name(&mut self, n: &mut TsQualifiedName) {
+        (**self).visit_mut_ts_qualified_name(n)
+    }
+    fn visit_mut_ts_entity_name(&mut self, n: &mut TsEntityName) {
+        (**self).visit_mut_ts_entity_name(n)
+    }
+    fn visit_mut_ts_signature_decl(&mut self, n: &mut TsSignatureDecl) {
+        (**self).visit_mut_ts_signature_decl(n)
+    }
+    fn visit_mut_ts_type_element(&mut self, n: &mut TsTypeElement) {
+        (**self).visit_mut_ts_type_element(n)
+    }
+    fn visit_mut_ts_call_signature_decl(&mut self, n: &mut TsCallSignatureDecl) {
+        (**self).visit_mut_ts_call_signature_decl(n)
+    }
+    fn visit_mut_ts_construct_signature_decl(&mut self, n: &mut TsConstructSignatureDecl) {
+        (**self).visit_mut_ts_construct_signature_decl(n)
+    }
+    fn visit_mut_ts_property_signature(&mut self, n: &mut TsPropertySignature) {
+        (**self).visit_mut_ts_property_signature(n)
+    }
+    fn visit_mut_ts_method_signature(&mut self, n: &mut TsMethodSignature) {
+        (**self).visit_mut_ts_method_signature(n)
+    }
+    fn visit_mut_ts_index_signature(&mut self, n: &mut TsIndexSignature) {
+        (**self).visit_mut_ts_index_signature(n)
+    }
+    fn visit_mut_ts_type(&mut self, n: &mut TsType) {
+        (**self).visit_mut_ts_type(n)
+    }
+    fn visit_mut_ts_fn_or_constructor_type(&mut self, n: &mut TsFnOrConstructorType) {
+        (**self).visit_mut_ts_fn_or_constructor_type(n)
+    }
+    fn visit_mut_ts_keyword_type(&mut self, n: &mut TsKeywordType) {
+        (**self).visit_mut_ts_keyword_type(n)
+    }
+    fn visit_mut_ts_keyword_type_kind(&mut self, n: &mut TsKeywordTypeKind) {
+        (**self).visit_mut_ts_keyword_type_kind(n)
+    }
+    fn visit_mut_ts_this_type(&mut self, n: &mut TsThisType) {
+        (**self).visit_mut_ts_this_type(n)
+    }
+    fn visit_mut_ts_fn_param(&mut self, n: &mut TsFnParam) {
+        (**self).visit_mut_ts_fn_param(n)
+    }
+    fn visit_mut_ts_fn_type(&mut self, n: &mut TsFnType) {
+        (**self).visit_mut_ts_fn_type(n)
+    }
+    fn visit_mut_ts_constructor_type(&mut self, n: &mut TsConstructorType) {
+        (**self).visit_mut_ts_constructor_type(n)
+    }
+    fn visit_mut_ts_type_ref(&mut self, n: &mut TsTypeRef) {
+        (**self).visit_mut_ts_type_ref(n)
+    }
+    fn visit_mut_ts_type_predicate(&mut self, n: &mut TsTypePredicate) {
+        (**self).visit_mut_ts_type_predicate(n)
+    }
+    fn visit_mut_ts_this_type_or_ident(&mut self, n: &mut TsThisTypeOrIdent) {
+        (**self).visit_mut_ts_this_type_or_ident(n)
+    }
+    fn visit_mut_ts_type_query(&mut self, n: &mut TsTypeQuery) {
+        (**self).visit_mut_ts_type_query(n)
+    }
+    fn visit_mut_ts_type_query_expr(&mut self, n: &mut TsTypeQueryExpr) {
+        (**self).visit_mut_ts_type_query_expr(n)
+    }
+    fn visit_mut_ts_import_type(&mut self, n: &mut TsImportType) {
+        (**self).visit_mut_ts_import_type(n)
+    }
+    fn visit_mut_ts_type_lit(&mut self, n: &mut TsTypeLit) {
+        (**self).visit_mut_ts_type_lit(n)
+    }
+    fn visit_mut_ts_array_type(&mut self, n: &mut TsArrayType) {
+        (**self).visit_mut_ts_array_type(n)
+    }
+    fn visit_mut_ts_tuple_type(&mut self, n: &mut TsTupleType) {
+        (**self).visit_mut_ts_tuple_type(n)
+    }
+    fn visit_mut_ts_tuple_element(&mut self, n: &mut TsTupleElement) {
+        (**self).visit_mut_ts_tuple_element(n)
+    }
+    fn visit_mut_ts_optional_type(&mut self, n: &mut TsOptionalType) {
+        (**self).visit_mut_ts_optional_type(n)
+    }
+    fn visit_mut_ts_rest_type(&mut self, n: &mut TsRestType) {
+        (**self).visit_mut_ts_rest_type(n)
+    }
+    fn visit_mut_ts_union_or_intersection_type(&mut self, n: &mut TsUnionOrIntersectionType) {
+        (**self).visit_mut_ts_union_or_intersection_type(n)
+    }
+    fn visit_mut_ts_union_type(&mut self, n: &mut TsUnionType) {
+        (**self).visit_mut_ts_union_type(n)
+    }
+    fn visit_mut_ts_intersection_type(&mut self, n: &mut TsIntersectionType) {
+        (**self).visit_mut_ts_intersection_type(n)
+    }
+    fn visit_mut_ts_conditional_type(&mut self, n: &mut TsConditionalType) {
+        (**self).visit_mut_ts_conditional_type(n)
+    }
+    fn visit_mut_ts_infer_type(&mut self, n: &mut TsInferType) {
+        (**self).visit_mut_ts_infer_type(n)
+    }
+    fn visit_mut_ts_parenthesized_type(&mut self, n: &mut TsParenthesizedType) {
+        (**self).visit_mut_ts_parenthesized_type(n)
+    }
+    fn visit_mut_ts_type_operator(&mut self, n: &mut TsTypeOperator) {
+        (**self).visit_mut_ts_type_operator(n)
+    }
+    fn visit_mut_ts_type_operator_op(&mut self, n: &mut TsTypeOperatorOp) {
+        (**self).visit_mut_ts_type_operator_op(n)
+    }
+    fn visit_mut_ts_indexed_access_type(&mut self, n: &mut TsIndexedAccessType) {
+        (**self).visit_mut_ts_indexed_access_type(n)
+    }
+    fn visit_mut_true_plus_minus(&mut self, n: &mut TruePlusMinus) {
+        (**self).visit_mut_true_plus_minus(n)
+    }
+    fn visit_mut_ts_mapped_type(&mut self, n: &mut TsMappedType) {
+        (**self).visit_mut_ts_mapped_type(n)
+    }
+    fn visit_mut_ts_lit_type(&mut self, n: &mut TsLitType) {
+        (**self).visit_mut_ts_lit_type(n)
+    }
+    fn visit_mut_ts_lit(&mut self, n: &mut TsLit) {
+        (**self).visit_mut_ts_lit(n)
+    }
+    fn visit_mut_ts_interface_decl(&mut self, n: &mut TsInterfaceDecl) {
+        (**self).visit_mut_ts_interface_decl(n)
+    }
+    fn visit_mut_ts_interface_body(&mut self, n: &mut TsInterfaceBody) {
+        (**self).visit_mut_ts_interface_body(n)
+    }
+    fn visit_mut_ts_expr_with_type_args(&mut self, n: &mut TsExprWithTypeArgs) {
+        (**self).visit_mut_ts_expr_with_type_args(n)
+    }
+    fn visit_mut_ts_type_alias_decl(&mut self, n: &mut TsTypeAliasDecl) {
+        (**self).visit_mut_ts_type_alias_decl(n)
+    }
+    fn visit_mut_ts_enum_decl(&mut self, n: &mut TsEnumDecl) {
+        (**self).visit_mut_ts_enum_decl(n)
+    }
+    fn visit_mut_ts_enum_member(&mut self, n: &mut TsEnumMember) {
+        (**self).visit_mut_ts_enum_member(n)
+    }
+    fn visit_mut_ts_enum_member_id(&mut self, n: &mut TsEnumMemberId) {
+        (**self).visit_mut_ts_enum_member_id(n)
+    }
+    fn visit_mut_ts_module_decl(&mut self, n: &mut TsModuleDecl) {
+        (**self).visit_mut_ts_module_decl(n)
+    }
+    fn visit_mut_ts_namespace_body(&mut self, n: &mut TsNamespaceBody) {
+        (**self).visit_mut_ts_namespace_body(n)
+    }
+    fn visit_mut_ts_module_block(&mut self, n: &mut TsModuleBlock) {
+        (**self).visit_mut_ts_module_block(n)
+    }
+    fn visit_mut_ts_namespace_decl(&mut self, n: &mut TsNamespaceDecl) {
+        (**self).visit_mut_ts_namespace_decl(n)
+    }
+    fn visit_mut_ts_module_name(&mut self, n: &mut TsModuleName) {
+        (**self).visit_mut_ts_module_name(n)
+    }
+    fn visit_mut_ts_import_equals_decl(&mut self, n: &mut TsImportEqualsDecl) {
+        (**self).visit_mut_ts_import_equals_decl(n)
+    }
+    fn visit_mut_ts_module_ref(&mut self, n: &mut TsModuleRef) {
+        (**self).visit_mut_ts_module_ref(n)
+    }
+    fn visit_mut_ts_external_module_ref(&mut self, n: &mut TsExternalModuleRef) {
+        (**self).visit_mut_ts_external_module_ref(n)
+    }
+    fn visit_mut_ts_export_assignment(&mut self, n: &mut TsExportAssignment) {
+        (**self).visit_mut_ts_export_assignment(n)
+    }
+    fn visit_mut_ts_namespace_export_decl(&mut self, n: &mut TsNamespaceExportDecl) {
+        (**self).visit_mut_ts_namespace_export_decl(n)
+    }
+    fn visit_mut_ts_as_expr(&mut self, n: &mut TsAsExpr) {
+        (**self).visit_mut_ts_as_expr(n)
+    }
+    fn visit_mut_ts_type_assertion(&mut self, n: &mut TsTypeAssertion) {
+        (**self).visit_mut_ts_type_assertion(n)
+    }
+    fn visit_mut_ts_non_null_expr(&mut self, n: &mut TsNonNullExpr) {
+        (**self).visit_mut_ts_non_null_expr(n)
+    }
+    fn visit_mut_accessibility(&mut self, n: &mut Accessibility) {
+        (**self).visit_mut_accessibility(n)
+    }
+    fn visit_mut_ts_const_assertion(&mut self, n: &mut TsConstAssertion) {
+        (**self).visit_mut_ts_const_assertion(n)
+    }
+}
+impl<V> VisitMut for ::swc_visit::Optional<V>
+where
+    V: VisitMut,
+{
+    fn visit_mut_class(&mut self, n: &mut Class) {
+        if self.enabled {
+            self.visitor.visit_mut_class(n)
+        }
+    }
+    fn visit_mut_class_member(&mut self, n: &mut ClassMember) {
+        if self.enabled {
+            self.visitor.visit_mut_class_member(n)
+        }
+    }
+    fn visit_mut_class_prop(&mut self, n: &mut ClassProp) {
+        if self.enabled {
+            self.visitor.visit_mut_class_prop(n)
+        }
+    }
+    fn visit_mut_private_prop(&mut self, n: &mut PrivateProp) {
+        if self.enabled {
+            self.visitor.visit_mut_private_prop(n)
+        }
+    }
+    fn visit_mut_class_method(&mut self, n: &mut ClassMethod) {
+        if self.enabled {
+            self.visitor.visit_mut_class_method(n)
+        }
+    }
+    fn visit_mut_private_method(&mut self, n: &mut PrivateMethod) {
+        if self.enabled {
+            self.visitor.visit_mut_private_method(n)
+        }
+    }
+    fn visit_mut_constructor(&mut self, n: &mut Constructor) {
+        if self.enabled {
+            self.visitor.visit_mut_constructor(n)
+        }
+    }
+    fn visit_mut_decorator(&mut self, n: &mut Decorator) {
+        if self.enabled {
+            self.visitor.visit_mut_decorator(n)
+        }
+    }
+    fn visit_mut_method_kind(&mut self, n: &mut MethodKind) {
+        if self.enabled {
+            self.visitor.visit_mut_method_kind(n)
+        }
+    }
+    fn visit_mut_decl(&mut self, n: &mut Decl) {
+        if self.enabled {
+            self.visitor.visit_mut_decl(n)
+        }
+    }
+    fn visit_mut_fn_decl(&mut self, n: &mut FnDecl) {
+        if self.enabled {
+            self.visitor.visit_mut_fn_decl(n)
+        }
+    }
+    fn visit_mut_class_decl(&mut self, n: &mut ClassDecl) {
+        if self.enabled {
+            self.visitor.visit_mut_class_decl(n)
+        }
+    }
+    fn visit_mut_var_decl(&mut self, n: &mut VarDecl) {
+        if self.enabled {
+            self.visitor.visit_mut_var_decl(n)
+        }
+    }
+    fn visit_mut_var_decl_kind(&mut self, n: &mut VarDeclKind) {
+        if self.enabled {
+            self.visitor.visit_mut_var_decl_kind(n)
+        }
+    }
+    fn visit_mut_var_declarator(&mut self, n: &mut VarDeclarator) {
+        if self.enabled {
+            self.visitor.visit_mut_var_declarator(n)
+        }
+    }
+    fn visit_mut_expr(&mut self, n: &mut Expr) {
+        if self.enabled {
+            self.visitor.visit_mut_expr(n)
+        }
+    }
+    fn visit_mut_this_expr(&mut self, n: &mut ThisExpr) {
+        if self.enabled {
+            self.visitor.visit_mut_this_expr(n)
+        }
+    }
+    fn visit_mut_array_lit(&mut self, n: &mut ArrayLit) {
+        if self.enabled {
+            self.visitor.visit_mut_array_lit(n)
+        }
+    }
+    fn visit_mut_object_lit(&mut self, n: &mut ObjectLit) {
+        if self.enabled {
+            self.visitor.visit_mut_object_lit(n)
+        }
+    }
+    fn visit_mut_prop_or_spread(&mut self, n: &mut PropOrSpread) {
+        if self.enabled {
+            self.visitor.visit_mut_prop_or_spread(n)
+        }
+    }
+    fn visit_mut_spread_element(&mut self, n: &mut SpreadElement) {
+        if self.enabled {
+            self.visitor.visit_mut_spread_element(n)
+        }
+    }
+    fn visit_mut_unary_expr(&mut self, n: &mut UnaryExpr) {
+        if self.enabled {
+            self.visitor.visit_mut_unary_expr(n)
+        }
+    }
+    fn visit_mut_update_expr(&mut self, n: &mut UpdateExpr) {
+        if self.enabled {
+            self.visitor.visit_mut_update_expr(n)
+        }
+    }
+    fn visit_mut_bin_expr(&mut self, n: &mut BinExpr) {
+        if self.enabled {
+            self.visitor.visit_mut_bin_expr(n)
+        }
+    }
+    fn visit_mut_fn_expr(&mut self, n: &mut FnExpr) {
+        if self.enabled {
+            self.visitor.visit_mut_fn_expr(n)
+        }
+    }
+    fn visit_mut_class_expr(&mut self, n: &mut ClassExpr) {
+        if self.enabled {
+            self.visitor.visit_mut_class_expr(n)
+        }
+    }
+    fn visit_mut_assign_expr(&mut self, n: &mut AssignExpr) {
+        if self.enabled {
+            self.visitor.visit_mut_assign_expr(n)
+        }
+    }
+    fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
+        if self.enabled {
+            self.visitor.visit_mut_member_expr(n)
+        }
+    }
+    fn visit_mut_cond_expr(&mut self, n: &mut CondExpr) {
+        if self.enabled {
+            self.visitor.visit_mut_cond_expr(n)
+        }
+    }
+    fn visit_mut_call_expr(&mut self, n: &mut CallExpr) {
+        if self.enabled {
+            self.visitor.visit_mut_call_expr(n)
+        }
+    }
+    fn visit_mut_new_expr(&mut self, n: &mut NewExpr) {
+        if self.enabled {
+            self.visitor.visit_mut_new_expr(n)
+        }
+    }
+    fn visit_mut_seq_expr(&mut self, n: &mut SeqExpr) {
+        if self.enabled {
+            self.visitor.visit_mut_seq_expr(n)
+        }
+    }
+    fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {
+        if self.enabled {
+            self.visitor.visit_mut_arrow_expr(n)
+        }
+    }
+    fn visit_mut_yield_expr(&mut self, n: &mut YieldExpr) {
+        if self.enabled {
+            self.visitor.visit_mut_yield_expr(n)
+        }
+    }
+    fn visit_mut_meta_prop_expr(&mut self, n: &mut MetaPropExpr) {
+        if self.enabled {
+            self.visitor.visit_mut_meta_prop_expr(n)
+        }
+    }
+    fn visit_mut_await_expr(&mut self, n: &mut AwaitExpr) {
+        if self.enabled {
+            self.visitor.visit_mut_await_expr(n)
+        }
+    }
+    fn visit_mut_tpl(&mut self, n: &mut Tpl) {
+        if self.enabled {
+            self.visitor.visit_mut_tpl(n)
+        }
+    }
+    fn visit_mut_tagged_tpl(&mut self, n: &mut TaggedTpl) {
+        if self.enabled {
+            self.visitor.visit_mut_tagged_tpl(n)
+        }
+    }
+    fn visit_mut_tpl_element(&mut self, n: &mut TplElement) {
+        if self.enabled {
+            self.visitor.visit_mut_tpl_element(n)
+        }
+    }
+    fn visit_mut_paren_expr(&mut self, n: &mut ParenExpr) {
+        if self.enabled {
+            self.visitor.visit_mut_paren_expr(n)
+        }
+    }
+    fn visit_mut_expr_or_super(&mut self, n: &mut ExprOrSuper) {
+        if self.enabled {
+            self.visitor.visit_mut_expr_or_super(n)
+        }
+    }
+    fn visit_mut_super(&mut self, n: &mut Super) {
+        if self.enabled {
+            self.visitor.visit_mut_super(n)
+        }
+    }
+    fn visit_mut_expr_or_spread(&mut self, n: &mut ExprOrSpread) {
+        if self.enabled {
+            self.visitor.visit_mut_expr_or_spread(n)
+        }
+    }
+    fn visit_mut_block_stmt_or_expr(&mut self, n: &mut BlockStmtOrExpr) {
+        if self.enabled {
+            self.visitor.visit_mut_block_stmt_or_expr(n)
+        }
+    }
+    fn visit_mut_pat_or_expr(&mut self, n: &mut PatOrExpr) {
+        if self.enabled {
+            self.visitor.visit_mut_pat_or_expr(n)
+        }
+    }
+    fn visit_mut_opt_chain_expr(&mut self, n: &mut OptChainExpr) {
+        if self.enabled {
+            self.visitor.visit_mut_opt_chain_expr(n)
+        }
+    }
+    fn visit_mut_function(&mut self, n: &mut Function) {
+        if self.enabled {
+            self.visitor.visit_mut_function(n)
+        }
+    }
+    fn visit_mut_param(&mut self, n: &mut Param) {
+        if self.enabled {
+            self.visitor.visit_mut_param(n)
+        }
+    }
+    fn visit_mut_param_or_ts_param_prop(&mut self, n: &mut ParamOrTsParamProp) {
+        if self.enabled {
+            self.visitor.visit_mut_param_or_ts_param_prop(n)
+        }
+    }
+    fn visit_mut_ident(&mut self, n: &mut Ident) {
+        if self.enabled {
+            self.visitor.visit_mut_ident(n)
+        }
+    }
+    fn visit_mut_private_name(&mut self, n: &mut PrivateName) {
+        if self.enabled {
+            self.visitor.visit_mut_private_name(n)
+        }
+    }
+    fn visit_mut_jsx_object(&mut self, n: &mut JSXObject) {
+        if self.enabled {
+            self.visitor.visit_mut_jsx_object(n)
+        }
+    }
+    fn visit_mut_jsx_member_expr(&mut self, n: &mut JSXMemberExpr) {
+        if self.enabled {
+            self.visitor.visit_mut_jsx_member_expr(n)
+        }
+    }
+    fn visit_mut_jsx_namespaced_name(&mut self, n: &mut JSXNamespacedName) {
+        if self.enabled {
+            self.visitor.visit_mut_jsx_namespaced_name(n)
+        }
+    }
+    fn visit_mut_jsx_empty_expr(&mut self, n: &mut JSXEmptyExpr) {
+        if self.enabled {
+            self.visitor.visit_mut_jsx_empty_expr(n)
+        }
+    }
+    fn visit_mut_jsx_expr_container(&mut self, n: &mut JSXExprContainer) {
+        if self.enabled {
+            self.visitor.visit_mut_jsx_expr_container(n)
+        }
+    }
+    fn visit_mut_jsx_expr(&mut self, n: &mut JSXExpr) {
+        if self.enabled {
+            self.visitor.visit_mut_jsx_expr(n)
+        }
+    }
+    fn visit_mut_jsx_spread_child(&mut self, n: &mut JSXSpreadChild) {
+        if self.enabled {
+            self.visitor.visit_mut_jsx_spread_child(n)
+        }
+    }
+    fn visit_mut_jsx_element_name(&mut self, n: &mut JSXElementName) {
+        if self.enabled {
+            self.visitor.visit_mut_jsx_element_name(n)
+        }
+    }
+    fn visit_mut_jsx_opening_element(&mut self, n: &mut JSXOpeningElement) {
+        if self.enabled {
+            self.visitor.visit_mut_jsx_opening_element(n)
+        }
+    }
+    fn visit_mut_jsx_attr_or_spread(&mut self, n: &mut JSXAttrOrSpread) {
+        if self.enabled {
+            self.visitor.visit_mut_jsx_attr_or_spread(n)
+        }
+    }
+    fn visit_mut_jsx_closing_element(&mut self, n: &mut JSXClosingElement) {
+        if self.enabled {
+            self.visitor.visit_mut_jsx_closing_element(n)
+        }
+    }
+    fn visit_mut_jsx_attr(&mut self, n: &mut JSXAttr) {
+        if self.enabled {
+            self.visitor.visit_mut_jsx_attr(n)
+        }
+    }
+    fn visit_mut_jsx_attr_name(&mut self, n: &mut JSXAttrName) {
+        if self.enabled {
+            self.visitor.visit_mut_jsx_attr_name(n)
+        }
+    }
+    fn visit_mut_jsx_attr_value(&mut self, n: &mut JSXAttrValue) {
+        if self.enabled {
+            self.visitor.visit_mut_jsx_attr_value(n)
+        }
+    }
+    fn visit_mut_jsx_text(&mut self, n: &mut JSXText) {
+        if self.enabled {
+            self.visitor.visit_mut_jsx_text(n)
+        }
+    }
+    fn visit_mut_jsx_element(&mut self, n: &mut JSXElement) {
+        if self.enabled {
+            self.visitor.visit_mut_jsx_element(n)
+        }
+    }
+    fn visit_mut_jsx_element_child(&mut self, n: &mut JSXElementChild) {
+        if self.enabled {
+            self.visitor.visit_mut_jsx_element_child(n)
+        }
+    }
+    fn visit_mut_jsx_fragment(&mut self, n: &mut JSXFragment) {
+        if self.enabled {
+            self.visitor.visit_mut_jsx_fragment(n)
+        }
+    }
+    fn visit_mut_jsx_opening_fragment(&mut self, n: &mut JSXOpeningFragment) {
+        if self.enabled {
+            self.visitor.visit_mut_jsx_opening_fragment(n)
+        }
+    }
+    fn visit_mut_jsx_closing_fragment(&mut self, n: &mut JSXClosingFragment) {
+        if self.enabled {
+            self.visitor.visit_mut_jsx_closing_fragment(n)
+        }
+    }
+    fn visit_mut_invalid(&mut self, n: &mut Invalid) {
+        if self.enabled {
+            self.visitor.visit_mut_invalid(n)
+        }
+    }
+    fn visit_mut_lit(&mut self, n: &mut Lit) {
+        if self.enabled {
+            self.visitor.visit_mut_lit(n)
+        }
+    }
+    fn visit_mut_big_int(&mut self, n: &mut BigInt) {
+        if self.enabled {
+            self.visitor.visit_mut_big_int(n)
+        }
+    }
+    fn visit_mut_str(&mut self, n: &mut Str) {
+        if self.enabled {
+            self.visitor.visit_mut_str(n)
+        }
+    }
+    fn visit_mut_bool(&mut self, n: &mut Bool) {
+        if self.enabled {
+            self.visitor.visit_mut_bool(n)
+        }
+    }
+    fn visit_mut_null(&mut self, n: &mut Null) {
+        if self.enabled {
+            self.visitor.visit_mut_null(n)
+        }
+    }
+    fn visit_mut_regex(&mut self, n: &mut Regex) {
+        if self.enabled {
+            self.visitor.visit_mut_regex(n)
+        }
+    }
+    fn visit_mut_number(&mut self, n: &mut Number) {
+        if self.enabled {
+            self.visitor.visit_mut_number(n)
+        }
+    }
+    fn visit_mut_program(&mut self, n: &mut Program) {
+        if self.enabled {
+            self.visitor.visit_mut_program(n)
+        }
+    }
+    fn visit_mut_module(&mut self, n: &mut Module) {
+        if self.enabled {
+            self.visitor.visit_mut_module(n)
+        }
+    }
+    fn visit_mut_script(&mut self, n: &mut Script) {
+        if self.enabled {
+            self.visitor.visit_mut_script(n)
+        }
+    }
+    fn visit_mut_module_item(&mut self, n: &mut ModuleItem) {
+        if self.enabled {
+            self.visitor.visit_mut_module_item(n)
+        }
+    }
+    fn visit_mut_module_decl(&mut self, n: &mut ModuleDecl) {
+        if self.enabled {
+            self.visitor.visit_mut_module_decl(n)
+        }
+    }
+    fn visit_mut_export_default_expr(&mut self, n: &mut ExportDefaultExpr) {
+        if self.enabled {
+            self.visitor.visit_mut_export_default_expr(n)
+        }
+    }
+    fn visit_mut_export_decl(&mut self, n: &mut ExportDecl) {
+        if self.enabled {
+            self.visitor.visit_mut_export_decl(n)
+        }
+    }
+    fn visit_mut_import_decl(&mut self, n: &mut ImportDecl) {
+        if self.enabled {
+            self.visitor.visit_mut_import_decl(n)
+        }
+    }
+    fn visit_mut_export_all(&mut self, n: &mut ExportAll) {
+        if self.enabled {
+            self.visitor.visit_mut_export_all(n)
+        }
+    }
+    fn visit_mut_named_export(&mut self, n: &mut NamedExport) {
+        if self.enabled {
+            self.visitor.visit_mut_named_export(n)
+        }
+    }
+    fn visit_mut_export_default_decl(&mut self, n: &mut ExportDefaultDecl) {
+        if self.enabled {
+            self.visitor.visit_mut_export_default_decl(n)
+        }
+    }
+    fn visit_mut_default_decl(&mut self, n: &mut DefaultDecl) {
+        if self.enabled {
+            self.visitor.visit_mut_default_decl(n)
+        }
+    }
+    fn visit_mut_import_specifier(&mut self, n: &mut ImportSpecifier) {
+        if self.enabled {
+            self.visitor.visit_mut_import_specifier(n)
+        }
+    }
+    fn visit_mut_import_default_specifier(&mut self, n: &mut ImportDefaultSpecifier) {
+        if self.enabled {
+            self.visitor.visit_mut_import_default_specifier(n)
+        }
+    }
+    fn visit_mut_import_star_as_specifier(&mut self, n: &mut ImportStarAsSpecifier) {
+        if self.enabled {
+            self.visitor.visit_mut_import_star_as_specifier(n)
+        }
+    }
+    fn visit_mut_import_named_specifier(&mut self, n: &mut ImportNamedSpecifier) {
+        if self.enabled {
+            self.visitor.visit_mut_import_named_specifier(n)
+        }
+    }
+    fn visit_mut_export_specifier(&mut self, n: &mut ExportSpecifier) {
+        if self.enabled {
+            self.visitor.visit_mut_export_specifier(n)
+        }
+    }
+    fn visit_mut_export_namespace_specifier(&mut self, n: &mut ExportNamespaceSpecifier) {
+        if self.enabled {
+            self.visitor.visit_mut_export_namespace_specifier(n)
+        }
+    }
+    fn visit_mut_export_default_specifier(&mut self, n: &mut ExportDefaultSpecifier) {
+        if self.enabled {
+            self.visitor.visit_mut_export_default_specifier(n)
+        }
+    }
+    fn visit_mut_export_named_specifier(&mut self, n: &mut ExportNamedSpecifier) {
+        if self.enabled {
+            self.visitor.visit_mut_export_named_specifier(n)
+        }
+    }
+    fn visit_mut_binary_op(&mut self, n: &mut BinaryOp) {
+        if self.enabled {
+            self.visitor.visit_mut_binary_op(n)
+        }
+    }
+    fn visit_mut_assign_op(&mut self, n: &mut AssignOp) {
+        if self.enabled {
+            self.visitor.visit_mut_assign_op(n)
+        }
+    }
+    fn visit_mut_update_op(&mut self, n: &mut UpdateOp) {
+        if self.enabled {
+            self.visitor.visit_mut_update_op(n)
+        }
+    }
+    fn visit_mut_unary_op(&mut self, n: &mut UnaryOp) {
+        if self.enabled {
+            self.visitor.visit_mut_unary_op(n)
+        }
+    }
+    fn visit_mut_pat(&mut self, n: &mut Pat) {
+        if self.enabled {
+            self.visitor.visit_mut_pat(n)
+        }
+    }
+    fn visit_mut_array_pat(&mut self, n: &mut ArrayPat) {
+        if self.enabled {
+            self.visitor.visit_mut_array_pat(n)
+        }
+    }
+    fn visit_mut_object_pat(&mut self, n: &mut ObjectPat) {
+        if self.enabled {
+            self.visitor.visit_mut_object_pat(n)
+        }
+    }
+    fn visit_mut_assign_pat(&mut self, n: &mut AssignPat) {
+        if self.enabled {
+            self.visitor.visit_mut_assign_pat(n)
+        }
+    }
+    fn visit_mut_rest_pat(&mut self, n: &mut RestPat) {
+        if self.enabled {
+            self.visitor.visit_mut_rest_pat(n)
+        }
+    }
+    fn visit_mut_object_pat_prop(&mut self, n: &mut ObjectPatProp) {
+        if self.enabled {
+            self.visitor.visit_mut_object_pat_prop(n)
+        }
+    }
+    fn visit_mut_key_value_pat_prop(&mut self, n: &mut KeyValuePatProp) {
+        if self.enabled {
+            self.visitor.visit_mut_key_value_pat_prop(n)
+        }
+    }
+    fn visit_mut_assign_pat_prop(&mut self, n: &mut AssignPatProp) {
+        if self.enabled {
+            self.visitor.visit_mut_assign_pat_prop(n)
+        }
+    }
+    fn visit_mut_prop(&mut self, n: &mut Prop) {
+        if self.enabled {
+            self.visitor.visit_mut_prop(n)
+        }
+    }
+    fn visit_mut_key_value_prop(&mut self, n: &mut KeyValueProp) {
+        if self.enabled {
+            self.visitor.visit_mut_key_value_prop(n)
+        }
+    }
+    fn visit_mut_assign_prop(&mut self, n: &mut AssignProp) {
+        if self.enabled {
+            self.visitor.visit_mut_assign_prop(n)
+        }
+    }
+    fn visit_mut_getter_prop(&mut self, n: &mut GetterProp) {
+        if self.enabled {
+            self.visitor.visit_mut_getter_prop(n)
+        }
+    }
+    fn visit_mut_setter_prop(&mut self, n: &mut SetterProp) {
+        if self.enabled {
+            self.visitor.visit_mut_setter_prop(n)
+        }
+    }
+    fn visit_mut_method_prop(&mut self, n: &mut MethodProp) {
+        if self.enabled {
+            self.visitor.visit_mut_method_prop(n)
+        }
+    }
+    fn visit_mut_prop_name(&mut self, n: &mut PropName) {
+        if self.enabled {
+            self.visitor.visit_mut_prop_name(n)
+        }
+    }
+    fn visit_mut_computed_prop_name(&mut self, n: &mut ComputedPropName) {
+        if self.enabled {
+            self.visitor.visit_mut_computed_prop_name(n)
+        }
+    }
+    fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
+        if self.enabled {
+            self.visitor.visit_mut_block_stmt(n)
+        }
+    }
+    fn visit_mut_stmt(&mut self, n: &mut Stmt) {
+        if self.enabled {
+            self.visitor.visit_mut_stmt(n)
+        }
+    }
+    fn visit_mut_expr_stmt(&mut self, n: &mut ExprStmt) {
+        if self.enabled {
+            self.visitor.visit_mut_expr_stmt(n)
+        }
+    }
+    fn visit_mut_empty_stmt(&mut self, n: &mut EmptyStmt) {
+        if self.enabled {
+            self.visitor.visit_mut_empty_stmt(n)
+        }
+    }
+    fn visit_mut_debugger_stmt(&mut self, n: &mut DebuggerStmt) {
+        if self.enabled {
+            self.visitor.visit_mut_debugger_stmt(n)
+        }
+    }
+    fn visit_mut_with_stmt(&mut self, n: &mut WithStmt) {
+        if self.enabled {
+            self.visitor.visit_mut_with_stmt(n)
+        }
+    }
+    fn visit_mut_return_stmt(&mut self, n: &mut ReturnStmt) {
+        if self.enabled {
+            self.visitor.visit_mut_return_stmt(n)
+        }
+    }
+    fn visit_mut_labeled_stmt(&mut self, n: &mut LabeledStmt) {
+        if self.enabled {
+            self.visitor.visit_mut_labeled_stmt(n)
+        }
+    }
+    fn visit_mut_break_stmt(&mut self, n: &mut BreakStmt) {
+        if self.enabled {
+            self.visitor.visit_mut_break_stmt(n)
+        }
+    }
+    fn visit_mut_continue_stmt(&mut self, n: &mut ContinueStmt) {
+        if self.enabled {
+            self.visitor.visit_mut_continue_stmt(n)
+        }
+    }
+    fn visit_mut_if_stmt(&mut self, n: &mut IfStmt) {
+        if self.enabled {
+            self.visitor.visit_mut_if_stmt(n)
+        }
+    }
+    fn visit_mut_switch_stmt(&mut self, n: &mut SwitchStmt) {
+        if self.enabled {
+            self.visitor.visit_mut_switch_stmt(n)
+        }
+    }
+    fn visit_mut_throw_stmt(&mut self, n: &mut ThrowStmt) {
+        if self.enabled {
+            self.visitor.visit_mut_throw_stmt(n)
+        }
+    }
+    fn visit_mut_try_stmt(&mut self, n: &mut TryStmt) {
+        if self.enabled {
+            self.visitor.visit_mut_try_stmt(n)
+        }
+    }
+    fn visit_mut_while_stmt(&mut self, n: &mut WhileStmt) {
+        if self.enabled {
+            self.visitor.visit_mut_while_stmt(n)
+        }
+    }
+    fn visit_mut_do_while_stmt(&mut self, n: &mut DoWhileStmt) {
+        if self.enabled {
+            self.visitor.visit_mut_do_while_stmt(n)
+        }
+    }
+    fn visit_mut_for_stmt(&mut self, n: &mut ForStmt) {
+        if self.enabled {
+            self.visitor.visit_mut_for_stmt(n)
+        }
+    }
+    fn visit_mut_for_in_stmt(&mut self, n: &mut ForInStmt) {
+        if self.enabled {
+            self.visitor.visit_mut_for_in_stmt(n)
+        }
+    }
+    fn visit_mut_for_of_stmt(&mut self, n: &mut ForOfStmt) {
+        if self.enabled {
+            self.visitor.visit_mut_for_of_stmt(n)
+        }
+    }
+    fn visit_mut_switch_case(&mut self, n: &mut SwitchCase) {
+        if self.enabled {
+            self.visitor.visit_mut_switch_case(n)
+        }
+    }
+    fn visit_mut_catch_clause(&mut self, n: &mut CatchClause) {
+        if self.enabled {
+            self.visitor.visit_mut_catch_clause(n)
+        }
+    }
+    fn visit_mut_var_decl_or_pat(&mut self, n: &mut VarDeclOrPat) {
+        if self.enabled {
+            self.visitor.visit_mut_var_decl_or_pat(n)
+        }
+    }
+    fn visit_mut_var_decl_or_expr(&mut self, n: &mut VarDeclOrExpr) {
+        if self.enabled {
+            self.visitor.visit_mut_var_decl_or_expr(n)
+        }
+    }
+    fn visit_mut_ts_type_ann(&mut self, n: &mut TsTypeAnn) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_type_ann(n)
+        }
+    }
+    fn visit_mut_ts_type_param_decl(&mut self, n: &mut TsTypeParamDecl) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_type_param_decl(n)
+        }
+    }
+    fn visit_mut_ts_type_param(&mut self, n: &mut TsTypeParam) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_type_param(n)
+        }
+    }
+    fn visit_mut_ts_type_param_instantiation(&mut self, n: &mut TsTypeParamInstantiation) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_type_param_instantiation(n)
+        }
+    }
+    fn visit_mut_ts_type_cast_expr(&mut self, n: &mut TsTypeCastExpr) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_type_cast_expr(n)
+        }
+    }
+    fn visit_mut_ts_param_prop(&mut self, n: &mut TsParamProp) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_param_prop(n)
+        }
+    }
+    fn visit_mut_ts_param_prop_param(&mut self, n: &mut TsParamPropParam) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_param_prop_param(n)
+        }
+    }
+    fn visit_mut_ts_qualified_name(&mut self, n: &mut TsQualifiedName) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_qualified_name(n)
+        }
+    }
+    fn visit_mut_ts_entity_name(&mut self, n: &mut TsEntityName) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_entity_name(n)
+        }
+    }
+    fn visit_mut_ts_signature_decl(&mut self, n: &mut TsSignatureDecl) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_signature_decl(n)
+        }
+    }
+    fn visit_mut_ts_type_element(&mut self, n: &mut TsTypeElement) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_type_element(n)
+        }
+    }
+    fn visit_mut_ts_call_signature_decl(&mut self, n: &mut TsCallSignatureDecl) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_call_signature_decl(n)
+        }
+    }
+    fn visit_mut_ts_construct_signature_decl(&mut self, n: &mut TsConstructSignatureDecl) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_construct_signature_decl(n)
+        }
+    }
+    fn visit_mut_ts_property_signature(&mut self, n: &mut TsPropertySignature) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_property_signature(n)
+        }
+    }
+    fn visit_mut_ts_method_signature(&mut self, n: &mut TsMethodSignature) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_method_signature(n)
+        }
+    }
+    fn visit_mut_ts_index_signature(&mut self, n: &mut TsIndexSignature) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_index_signature(n)
+        }
+    }
+    fn visit_mut_ts_type(&mut self, n: &mut TsType) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_type(n)
+        }
+    }
+    fn visit_mut_ts_fn_or_constructor_type(&mut self, n: &mut TsFnOrConstructorType) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_fn_or_constructor_type(n)
+        }
+    }
+    fn visit_mut_ts_keyword_type(&mut self, n: &mut TsKeywordType) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_keyword_type(n)
+        }
+    }
+    fn visit_mut_ts_keyword_type_kind(&mut self, n: &mut TsKeywordTypeKind) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_keyword_type_kind(n)
+        }
+    }
+    fn visit_mut_ts_this_type(&mut self, n: &mut TsThisType) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_this_type(n)
+        }
+    }
+    fn visit_mut_ts_fn_param(&mut self, n: &mut TsFnParam) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_fn_param(n)
+        }
+    }
+    fn visit_mut_ts_fn_type(&mut self, n: &mut TsFnType) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_fn_type(n)
+        }
+    }
+    fn visit_mut_ts_constructor_type(&mut self, n: &mut TsConstructorType) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_constructor_type(n)
+        }
+    }
+    fn visit_mut_ts_type_ref(&mut self, n: &mut TsTypeRef) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_type_ref(n)
+        }
+    }
+    fn visit_mut_ts_type_predicate(&mut self, n: &mut TsTypePredicate) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_type_predicate(n)
+        }
+    }
+    fn visit_mut_ts_this_type_or_ident(&mut self, n: &mut TsThisTypeOrIdent) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_this_type_or_ident(n)
+        }
+    }
+    fn visit_mut_ts_type_query(&mut self, n: &mut TsTypeQuery) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_type_query(n)
+        }
+    }
+    fn visit_mut_ts_type_query_expr(&mut self, n: &mut TsTypeQueryExpr) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_type_query_expr(n)
+        }
+    }
+    fn visit_mut_ts_import_type(&mut self, n: &mut TsImportType) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_import_type(n)
+        }
+    }
+    fn visit_mut_ts_type_lit(&mut self, n: &mut TsTypeLit) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_type_lit(n)
+        }
+    }
+    fn visit_mut_ts_array_type(&mut self, n: &mut TsArrayType) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_array_type(n)
+        }
+    }
+    fn visit_mut_ts_tuple_type(&mut self, n: &mut TsTupleType) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_tuple_type(n)
+        }
+    }
+    fn visit_mut_ts_tuple_element(&mut self, n: &mut TsTupleElement) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_tuple_element(n)
+        }
+    }
+    fn visit_mut_ts_optional_type(&mut self, n: &mut TsOptionalType) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_optional_type(n)
+        }
+    }
+    fn visit_mut_ts_rest_type(&mut self, n: &mut TsRestType) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_rest_type(n)
+        }
+    }
+    fn visit_mut_ts_union_or_intersection_type(&mut self, n: &mut TsUnionOrIntersectionType) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_union_or_intersection_type(n)
+        }
+    }
+    fn visit_mut_ts_union_type(&mut self, n: &mut TsUnionType) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_union_type(n)
+        }
+    }
+    fn visit_mut_ts_intersection_type(&mut self, n: &mut TsIntersectionType) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_intersection_type(n)
+        }
+    }
+    fn visit_mut_ts_conditional_type(&mut self, n: &mut TsConditionalType) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_conditional_type(n)
+        }
+    }
+    fn visit_mut_ts_infer_type(&mut self, n: &mut TsInferType) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_infer_type(n)
+        }
+    }
+    fn visit_mut_ts_parenthesized_type(&mut self, n: &mut TsParenthesizedType) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_parenthesized_type(n)
+        }
+    }
+    fn visit_mut_ts_type_operator(&mut self, n: &mut TsTypeOperator) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_type_operator(n)
+        }
+    }
+    fn visit_mut_ts_type_operator_op(&mut self, n: &mut TsTypeOperatorOp) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_type_operator_op(n)
+        }
+    }
+    fn visit_mut_ts_indexed_access_type(&mut self, n: &mut TsIndexedAccessType) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_indexed_access_type(n)
+        }
+    }
+    fn visit_mut_true_plus_minus(&mut self, n: &mut TruePlusMinus) {
+        if self.enabled {
+            self.visitor.visit_mut_true_plus_minus(n)
+        }
+    }
+    fn visit_mut_ts_mapped_type(&mut self, n: &mut TsMappedType) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_mapped_type(n)
+        }
+    }
+    fn visit_mut_ts_lit_type(&mut self, n: &mut TsLitType) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_lit_type(n)
+        }
+    }
+    fn visit_mut_ts_lit(&mut self, n: &mut TsLit) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_lit(n)
+        }
+    }
+    fn visit_mut_ts_interface_decl(&mut self, n: &mut TsInterfaceDecl) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_interface_decl(n)
+        }
+    }
+    fn visit_mut_ts_interface_body(&mut self, n: &mut TsInterfaceBody) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_interface_body(n)
+        }
+    }
+    fn visit_mut_ts_expr_with_type_args(&mut self, n: &mut TsExprWithTypeArgs) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_expr_with_type_args(n)
+        }
+    }
+    fn visit_mut_ts_type_alias_decl(&mut self, n: &mut TsTypeAliasDecl) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_type_alias_decl(n)
+        }
+    }
+    fn visit_mut_ts_enum_decl(&mut self, n: &mut TsEnumDecl) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_enum_decl(n)
+        }
+    }
+    fn visit_mut_ts_enum_member(&mut self, n: &mut TsEnumMember) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_enum_member(n)
+        }
+    }
+    fn visit_mut_ts_enum_member_id(&mut self, n: &mut TsEnumMemberId) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_enum_member_id(n)
+        }
+    }
+    fn visit_mut_ts_module_decl(&mut self, n: &mut TsModuleDecl) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_module_decl(n)
+        }
+    }
+    fn visit_mut_ts_namespace_body(&mut self, n: &mut TsNamespaceBody) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_namespace_body(n)
+        }
+    }
+    fn visit_mut_ts_module_block(&mut self, n: &mut TsModuleBlock) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_module_block(n)
+        }
+    }
+    fn visit_mut_ts_namespace_decl(&mut self, n: &mut TsNamespaceDecl) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_namespace_decl(n)
+        }
+    }
+    fn visit_mut_ts_module_name(&mut self, n: &mut TsModuleName) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_module_name(n)
+        }
+    }
+    fn visit_mut_ts_import_equals_decl(&mut self, n: &mut TsImportEqualsDecl) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_import_equals_decl(n)
+        }
+    }
+    fn visit_mut_ts_module_ref(&mut self, n: &mut TsModuleRef) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_module_ref(n)
+        }
+    }
+    fn visit_mut_ts_external_module_ref(&mut self, n: &mut TsExternalModuleRef) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_external_module_ref(n)
+        }
+    }
+    fn visit_mut_ts_export_assignment(&mut self, n: &mut TsExportAssignment) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_export_assignment(n)
+        }
+    }
+    fn visit_mut_ts_namespace_export_decl(&mut self, n: &mut TsNamespaceExportDecl) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_namespace_export_decl(n)
+        }
+    }
+    fn visit_mut_ts_as_expr(&mut self, n: &mut TsAsExpr) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_as_expr(n)
+        }
+    }
+    fn visit_mut_ts_type_assertion(&mut self, n: &mut TsTypeAssertion) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_type_assertion(n)
+        }
+    }
+    fn visit_mut_ts_non_null_expr(&mut self, n: &mut TsNonNullExpr) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_non_null_expr(n)
+        }
+    }
+    fn visit_mut_accessibility(&mut self, n: &mut Accessibility) {
+        if self.enabled {
+            self.visitor.visit_mut_accessibility(n)
+        }
+    }
+    fn visit_mut_ts_const_assertion(&mut self, n: &mut TsConstAssertion) {
+        if self.enabled {
+            self.visitor.visit_mut_ts_const_assertion(n)
+        }
+    }
+}
+impl<A, B> VisitMut for ::swc_visit::Either<A, B>
+where
+    A: VisitMut,
+    B: VisitMut,
+{
+    fn visit_mut_class(&mut self, n: &mut Class) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_class(n),
+            swc_visit::Either::Right(v) => v.visit_mut_class(n),
+        }
+    }
+    fn visit_mut_class_member(&mut self, n: &mut ClassMember) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_class_member(n),
+            swc_visit::Either::Right(v) => v.visit_mut_class_member(n),
+        }
+    }
+    fn visit_mut_class_prop(&mut self, n: &mut ClassProp) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_class_prop(n),
+            swc_visit::Either::Right(v) => v.visit_mut_class_prop(n),
+        }
+    }
+    fn visit_mut_private_prop(&mut self, n: &mut PrivateProp) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_private_prop(n),
+            swc_visit::Either::Right(v) => v.visit_mut_private_prop(n),
+        }
+    }
+    fn visit_mut_class_method(&mut self, n: &mut ClassMethod) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_class_method(n),
+            swc_visit::Either::Right(v) => v.visit_mut_class_method(n),
+        }
+    }
+    fn visit_mut_private_method(&mut self, n: &mut PrivateMethod) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_private_method(n),
+            swc_visit::Either::Right(v) => v.visit_mut_private_method(n),
+        }
+    }
+    fn visit_mut_constructor(&mut self, n: &mut Constructor) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_constructor(n),
+            swc_visit::Either::Right(v) => v.visit_mut_constructor(n),
+        }
+    }
+    fn visit_mut_decorator(&mut self, n: &mut Decorator) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_decorator(n),
+            swc_visit::Either::Right(v) => v.visit_mut_decorator(n),
+        }
+    }
+    fn visit_mut_method_kind(&mut self, n: &mut MethodKind) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_method_kind(n),
+            swc_visit::Either::Right(v) => v.visit_mut_method_kind(n),
+        }
+    }
+    fn visit_mut_decl(&mut self, n: &mut Decl) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_decl(n),
+            swc_visit::Either::Right(v) => v.visit_mut_decl(n),
+        }
+    }
+    fn visit_mut_fn_decl(&mut self, n: &mut FnDecl) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_fn_decl(n),
+            swc_visit::Either::Right(v) => v.visit_mut_fn_decl(n),
+        }
+    }
+    fn visit_mut_class_decl(&mut self, n: &mut ClassDecl) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_class_decl(n),
+            swc_visit::Either::Right(v) => v.visit_mut_class_decl(n),
+        }
+    }
+    fn visit_mut_var_decl(&mut self, n: &mut VarDecl) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_var_decl(n),
+            swc_visit::Either::Right(v) => v.visit_mut_var_decl(n),
+        }
+    }
+    fn visit_mut_var_decl_kind(&mut self, n: &mut VarDeclKind) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_var_decl_kind(n),
+            swc_visit::Either::Right(v) => v.visit_mut_var_decl_kind(n),
+        }
+    }
+    fn visit_mut_var_declarator(&mut self, n: &mut VarDeclarator) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_var_declarator(n),
+            swc_visit::Either::Right(v) => v.visit_mut_var_declarator(n),
+        }
+    }
+    fn visit_mut_expr(&mut self, n: &mut Expr) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_expr(n),
+            swc_visit::Either::Right(v) => v.visit_mut_expr(n),
+        }
+    }
+    fn visit_mut_this_expr(&mut self, n: &mut ThisExpr) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_this_expr(n),
+            swc_visit::Either::Right(v) => v.visit_mut_this_expr(n),
+        }
+    }
+    fn visit_mut_array_lit(&mut self, n: &mut ArrayLit) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_array_lit(n),
+            swc_visit::Either::Right(v) => v.visit_mut_array_lit(n),
+        }
+    }
+    fn visit_mut_object_lit(&mut self, n: &mut ObjectLit) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_object_lit(n),
+            swc_visit::Either::Right(v) => v.visit_mut_object_lit(n),
+        }
+    }
+    fn visit_mut_prop_or_spread(&mut self, n: &mut PropOrSpread) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_prop_or_spread(n),
+            swc_visit::Either::Right(v) => v.visit_mut_prop_or_spread(n),
+        }
+    }
+    fn visit_mut_spread_element(&mut self, n: &mut SpreadElement) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_spread_element(n),
+            swc_visit::Either::Right(v) => v.visit_mut_spread_element(n),
+        }
+    }
+    fn visit_mut_unary_expr(&mut self, n: &mut UnaryExpr) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_unary_expr(n),
+            swc_visit::Either::Right(v) => v.visit_mut_unary_expr(n),
+        }
+    }
+    fn visit_mut_update_expr(&mut self, n: &mut UpdateExpr) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_update_expr(n),
+            swc_visit::Either::Right(v) => v.visit_mut_update_expr(n),
+        }
+    }
+    fn visit_mut_bin_expr(&mut self, n: &mut BinExpr) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_bin_expr(n),
+            swc_visit::Either::Right(v) => v.visit_mut_bin_expr(n),
+        }
+    }
+    fn visit_mut_fn_expr(&mut self, n: &mut FnExpr) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_fn_expr(n),
+            swc_visit::Either::Right(v) => v.visit_mut_fn_expr(n),
+        }
+    }
+    fn visit_mut_class_expr(&mut self, n: &mut ClassExpr) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_class_expr(n),
+            swc_visit::Either::Right(v) => v.visit_mut_class_expr(n),
+        }
+    }
+    fn visit_mut_assign_expr(&mut self, n: &mut AssignExpr) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_assign_expr(n),
+            swc_visit::Either::Right(v) => v.visit_mut_assign_expr(n),
+        }
+    }
+    fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_member_expr(n),
+            swc_visit::Either::Right(v) => v.visit_mut_member_expr(n),
+        }
+    }
+    fn visit_mut_cond_expr(&mut self, n: &mut CondExpr) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_cond_expr(n),
+            swc_visit::Either::Right(v) => v.visit_mut_cond_expr(n),
+        }
+    }
+    fn visit_mut_call_expr(&mut self, n: &mut CallExpr) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_call_expr(n),
+            swc_visit::Either::Right(v) => v.visit_mut_call_expr(n),
+        }
+    }
+    fn visit_mut_new_expr(&mut self, n: &mut NewExpr) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_new_expr(n),
+            swc_visit::Either::Right(v) => v.visit_mut_new_expr(n),
+        }
+    }
+    fn visit_mut_seq_expr(&mut self, n: &mut SeqExpr) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_seq_expr(n),
+            swc_visit::Either::Right(v) => v.visit_mut_seq_expr(n),
+        }
+    }
+    fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_arrow_expr(n),
+            swc_visit::Either::Right(v) => v.visit_mut_arrow_expr(n),
+        }
+    }
+    fn visit_mut_yield_expr(&mut self, n: &mut YieldExpr) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_yield_expr(n),
+            swc_visit::Either::Right(v) => v.visit_mut_yield_expr(n),
+        }
+    }
+    fn visit_mut_meta_prop_expr(&mut self, n: &mut MetaPropExpr) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_meta_prop_expr(n),
+            swc_visit::Either::Right(v) => v.visit_mut_meta_prop_expr(n),
+        }
+    }
+    fn visit_mut_await_expr(&mut self, n: &mut AwaitExpr) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_await_expr(n),
+            swc_visit::Either::Right(v) => v.visit_mut_await_expr(n),
+        }
+    }
+    fn visit_mut_tpl(&mut self, n: &mut Tpl) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_tpl(n),
+            swc_visit::Either::Right(v) => v.visit_mut_tpl(n),
+        }
+    }
+    fn visit_mut_tagged_tpl(&mut self, n: &mut TaggedTpl) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_tagged_tpl(n),
+            swc_visit::Either::Right(v) => v.visit_mut_tagged_tpl(n),
+        }
+    }
+    fn visit_mut_tpl_element(&mut self, n: &mut TplElement) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_tpl_element(n),
+            swc_visit::Either::Right(v) => v.visit_mut_tpl_element(n),
+        }
+    }
+    fn visit_mut_paren_expr(&mut self, n: &mut ParenExpr) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_paren_expr(n),
+            swc_visit::Either::Right(v) => v.visit_mut_paren_expr(n),
+        }
+    }
+    fn visit_mut_expr_or_super(&mut self, n: &mut ExprOrSuper) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_expr_or_super(n),
+            swc_visit::Either::Right(v) => v.visit_mut_expr_or_super(n),
+        }
+    }
+    fn visit_mut_super(&mut self, n: &mut Super) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_super(n),
+            swc_visit::Either::Right(v) => v.visit_mut_super(n),
+        }
+    }
+    fn visit_mut_expr_or_spread(&mut self, n: &mut ExprOrSpread) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_expr_or_spread(n),
+            swc_visit::Either::Right(v) => v.visit_mut_expr_or_spread(n),
+        }
+    }
+    fn visit_mut_block_stmt_or_expr(&mut self, n: &mut BlockStmtOrExpr) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_block_stmt_or_expr(n),
+            swc_visit::Either::Right(v) => v.visit_mut_block_stmt_or_expr(n),
+        }
+    }
+    fn visit_mut_pat_or_expr(&mut self, n: &mut PatOrExpr) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_pat_or_expr(n),
+            swc_visit::Either::Right(v) => v.visit_mut_pat_or_expr(n),
+        }
+    }
+    fn visit_mut_opt_chain_expr(&mut self, n: &mut OptChainExpr) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_opt_chain_expr(n),
+            swc_visit::Either::Right(v) => v.visit_mut_opt_chain_expr(n),
+        }
+    }
+    fn visit_mut_function(&mut self, n: &mut Function) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_function(n),
+            swc_visit::Either::Right(v) => v.visit_mut_function(n),
+        }
+    }
+    fn visit_mut_param(&mut self, n: &mut Param) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_param(n),
+            swc_visit::Either::Right(v) => v.visit_mut_param(n),
+        }
+    }
+    fn visit_mut_param_or_ts_param_prop(&mut self, n: &mut ParamOrTsParamProp) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_param_or_ts_param_prop(n),
+            swc_visit::Either::Right(v) => v.visit_mut_param_or_ts_param_prop(n),
+        }
+    }
+    fn visit_mut_ident(&mut self, n: &mut Ident) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ident(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ident(n),
+        }
+    }
+    fn visit_mut_private_name(&mut self, n: &mut PrivateName) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_private_name(n),
+            swc_visit::Either::Right(v) => v.visit_mut_private_name(n),
+        }
+    }
+    fn visit_mut_jsx_object(&mut self, n: &mut JSXObject) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_jsx_object(n),
+            swc_visit::Either::Right(v) => v.visit_mut_jsx_object(n),
+        }
+    }
+    fn visit_mut_jsx_member_expr(&mut self, n: &mut JSXMemberExpr) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_jsx_member_expr(n),
+            swc_visit::Either::Right(v) => v.visit_mut_jsx_member_expr(n),
+        }
+    }
+    fn visit_mut_jsx_namespaced_name(&mut self, n: &mut JSXNamespacedName) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_jsx_namespaced_name(n),
+            swc_visit::Either::Right(v) => v.visit_mut_jsx_namespaced_name(n),
+        }
+    }
+    fn visit_mut_jsx_empty_expr(&mut self, n: &mut JSXEmptyExpr) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_jsx_empty_expr(n),
+            swc_visit::Either::Right(v) => v.visit_mut_jsx_empty_expr(n),
+        }
+    }
+    fn visit_mut_jsx_expr_container(&mut self, n: &mut JSXExprContainer) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_jsx_expr_container(n),
+            swc_visit::Either::Right(v) => v.visit_mut_jsx_expr_container(n),
+        }
+    }
+    fn visit_mut_jsx_expr(&mut self, n: &mut JSXExpr) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_jsx_expr(n),
+            swc_visit::Either::Right(v) => v.visit_mut_jsx_expr(n),
+        }
+    }
+    fn visit_mut_jsx_spread_child(&mut self, n: &mut JSXSpreadChild) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_jsx_spread_child(n),
+            swc_visit::Either::Right(v) => v.visit_mut_jsx_spread_child(n),
+        }
+    }
+    fn visit_mut_jsx_element_name(&mut self, n: &mut JSXElementName) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_jsx_element_name(n),
+            swc_visit::Either::Right(v) => v.visit_mut_jsx_element_name(n),
+        }
+    }
+    fn visit_mut_jsx_opening_element(&mut self, n: &mut JSXOpeningElement) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_jsx_opening_element(n),
+            swc_visit::Either::Right(v) => v.visit_mut_jsx_opening_element(n),
+        }
+    }
+    fn visit_mut_jsx_attr_or_spread(&mut self, n: &mut JSXAttrOrSpread) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_jsx_attr_or_spread(n),
+            swc_visit::Either::Right(v) => v.visit_mut_jsx_attr_or_spread(n),
+        }
+    }
+    fn visit_mut_jsx_closing_element(&mut self, n: &mut JSXClosingElement) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_jsx_closing_element(n),
+            swc_visit::Either::Right(v) => v.visit_mut_jsx_closing_element(n),
+        }
+    }
+    fn visit_mut_jsx_attr(&mut self, n: &mut JSXAttr) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_jsx_attr(n),
+            swc_visit::Either::Right(v) => v.visit_mut_jsx_attr(n),
+        }
+    }
+    fn visit_mut_jsx_attr_name(&mut self, n: &mut JSXAttrName) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_jsx_attr_name(n),
+            swc_visit::Either::Right(v) => v.visit_mut_jsx_attr_name(n),
+        }
+    }
+    fn visit_mut_jsx_attr_value(&mut self, n: &mut JSXAttrValue) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_jsx_attr_value(n),
+            swc_visit::Either::Right(v) => v.visit_mut_jsx_attr_value(n),
+        }
+    }
+    fn visit_mut_jsx_text(&mut self, n: &mut JSXText) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_jsx_text(n),
+            swc_visit::Either::Right(v) => v.visit_mut_jsx_text(n),
+        }
+    }
+    fn visit_mut_jsx_element(&mut self, n: &mut JSXElement) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_jsx_element(n),
+            swc_visit::Either::Right(v) => v.visit_mut_jsx_element(n),
+        }
+    }
+    fn visit_mut_jsx_element_child(&mut self, n: &mut JSXElementChild) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_jsx_element_child(n),
+            swc_visit::Either::Right(v) => v.visit_mut_jsx_element_child(n),
+        }
+    }
+    fn visit_mut_jsx_fragment(&mut self, n: &mut JSXFragment) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_jsx_fragment(n),
+            swc_visit::Either::Right(v) => v.visit_mut_jsx_fragment(n),
+        }
+    }
+    fn visit_mut_jsx_opening_fragment(&mut self, n: &mut JSXOpeningFragment) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_jsx_opening_fragment(n),
+            swc_visit::Either::Right(v) => v.visit_mut_jsx_opening_fragment(n),
+        }
+    }
+    fn visit_mut_jsx_closing_fragment(&mut self, n: &mut JSXClosingFragment) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_jsx_closing_fragment(n),
+            swc_visit::Either::Right(v) => v.visit_mut_jsx_closing_fragment(n),
+        }
+    }
+    fn visit_mut_invalid(&mut self, n: &mut Invalid) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_invalid(n),
+            swc_visit::Either::Right(v) => v.visit_mut_invalid(n),
+        }
+    }
+    fn visit_mut_lit(&mut self, n: &mut Lit) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_lit(n),
+            swc_visit::Either::Right(v) => v.visit_mut_lit(n),
+        }
+    }
+    fn visit_mut_big_int(&mut self, n: &mut BigInt) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_big_int(n),
+            swc_visit::Either::Right(v) => v.visit_mut_big_int(n),
+        }
+    }
+    fn visit_mut_str(&mut self, n: &mut Str) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_str(n),
+            swc_visit::Either::Right(v) => v.visit_mut_str(n),
+        }
+    }
+    fn visit_mut_bool(&mut self, n: &mut Bool) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_bool(n),
+            swc_visit::Either::Right(v) => v.visit_mut_bool(n),
+        }
+    }
+    fn visit_mut_null(&mut self, n: &mut Null) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_null(n),
+            swc_visit::Either::Right(v) => v.visit_mut_null(n),
+        }
+    }
+    fn visit_mut_regex(&mut self, n: &mut Regex) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_regex(n),
+            swc_visit::Either::Right(v) => v.visit_mut_regex(n),
+        }
+    }
+    fn visit_mut_number(&mut self, n: &mut Number) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_number(n),
+            swc_visit::Either::Right(v) => v.visit_mut_number(n),
+        }
+    }
+    fn visit_mut_program(&mut self, n: &mut Program) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_program(n),
+            swc_visit::Either::Right(v) => v.visit_mut_program(n),
+        }
+    }
+    fn visit_mut_module(&mut self, n: &mut Module) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_module(n),
+            swc_visit::Either::Right(v) => v.visit_mut_module(n),
+        }
+    }
+    fn visit_mut_script(&mut self, n: &mut Script) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_script(n),
+            swc_visit::Either::Right(v) => v.visit_mut_script(n),
+        }
+    }
+    fn visit_mut_module_item(&mut self, n: &mut ModuleItem) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_module_item(n),
+            swc_visit::Either::Right(v) => v.visit_mut_module_item(n),
+        }
+    }
+    fn visit_mut_module_decl(&mut self, n: &mut ModuleDecl) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_module_decl(n),
+            swc_visit::Either::Right(v) => v.visit_mut_module_decl(n),
+        }
+    }
+    fn visit_mut_export_default_expr(&mut self, n: &mut ExportDefaultExpr) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_export_default_expr(n),
+            swc_visit::Either::Right(v) => v.visit_mut_export_default_expr(n),
+        }
+    }
+    fn visit_mut_export_decl(&mut self, n: &mut ExportDecl) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_export_decl(n),
+            swc_visit::Either::Right(v) => v.visit_mut_export_decl(n),
+        }
+    }
+    fn visit_mut_import_decl(&mut self, n: &mut ImportDecl) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_import_decl(n),
+            swc_visit::Either::Right(v) => v.visit_mut_import_decl(n),
+        }
+    }
+    fn visit_mut_export_all(&mut self, n: &mut ExportAll) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_export_all(n),
+            swc_visit::Either::Right(v) => v.visit_mut_export_all(n),
+        }
+    }
+    fn visit_mut_named_export(&mut self, n: &mut NamedExport) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_named_export(n),
+            swc_visit::Either::Right(v) => v.visit_mut_named_export(n),
+        }
+    }
+    fn visit_mut_export_default_decl(&mut self, n: &mut ExportDefaultDecl) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_export_default_decl(n),
+            swc_visit::Either::Right(v) => v.visit_mut_export_default_decl(n),
+        }
+    }
+    fn visit_mut_default_decl(&mut self, n: &mut DefaultDecl) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_default_decl(n),
+            swc_visit::Either::Right(v) => v.visit_mut_default_decl(n),
+        }
+    }
+    fn visit_mut_import_specifier(&mut self, n: &mut ImportSpecifier) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_import_specifier(n),
+            swc_visit::Either::Right(v) => v.visit_mut_import_specifier(n),
+        }
+    }
+    fn visit_mut_import_default_specifier(&mut self, n: &mut ImportDefaultSpecifier) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_import_default_specifier(n),
+            swc_visit::Either::Right(v) => v.visit_mut_import_default_specifier(n),
+        }
+    }
+    fn visit_mut_import_star_as_specifier(&mut self, n: &mut ImportStarAsSpecifier) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_import_star_as_specifier(n),
+            swc_visit::Either::Right(v) => v.visit_mut_import_star_as_specifier(n),
+        }
+    }
+    fn visit_mut_import_named_specifier(&mut self, n: &mut ImportNamedSpecifier) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_import_named_specifier(n),
+            swc_visit::Either::Right(v) => v.visit_mut_import_named_specifier(n),
+        }
+    }
+    fn visit_mut_export_specifier(&mut self, n: &mut ExportSpecifier) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_export_specifier(n),
+            swc_visit::Either::Right(v) => v.visit_mut_export_specifier(n),
+        }
+    }
+    fn visit_mut_export_namespace_specifier(&mut self, n: &mut ExportNamespaceSpecifier) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_export_namespace_specifier(n),
+            swc_visit::Either::Right(v) => v.visit_mut_export_namespace_specifier(n),
+        }
+    }
+    fn visit_mut_export_default_specifier(&mut self, n: &mut ExportDefaultSpecifier) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_export_default_specifier(n),
+            swc_visit::Either::Right(v) => v.visit_mut_export_default_specifier(n),
+        }
+    }
+    fn visit_mut_export_named_specifier(&mut self, n: &mut ExportNamedSpecifier) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_export_named_specifier(n),
+            swc_visit::Either::Right(v) => v.visit_mut_export_named_specifier(n),
+        }
+    }
+    fn visit_mut_binary_op(&mut self, n: &mut BinaryOp) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_binary_op(n),
+            swc_visit::Either::Right(v) => v.visit_mut_binary_op(n),
+        }
+    }
+    fn visit_mut_assign_op(&mut self, n: &mut AssignOp) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_assign_op(n),
+            swc_visit::Either::Right(v) => v.visit_mut_assign_op(n),
+        }
+    }
+    fn visit_mut_update_op(&mut self, n: &mut UpdateOp) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_update_op(n),
+            swc_visit::Either::Right(v) => v.visit_mut_update_op(n),
+        }
+    }
+    fn visit_mut_unary_op(&mut self, n: &mut UnaryOp) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_unary_op(n),
+            swc_visit::Either::Right(v) => v.visit_mut_unary_op(n),
+        }
+    }
+    fn visit_mut_pat(&mut self, n: &mut Pat) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_pat(n),
+            swc_visit::Either::Right(v) => v.visit_mut_pat(n),
+        }
+    }
+    fn visit_mut_array_pat(&mut self, n: &mut ArrayPat) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_array_pat(n),
+            swc_visit::Either::Right(v) => v.visit_mut_array_pat(n),
+        }
+    }
+    fn visit_mut_object_pat(&mut self, n: &mut ObjectPat) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_object_pat(n),
+            swc_visit::Either::Right(v) => v.visit_mut_object_pat(n),
+        }
+    }
+    fn visit_mut_assign_pat(&mut self, n: &mut AssignPat) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_assign_pat(n),
+            swc_visit::Either::Right(v) => v.visit_mut_assign_pat(n),
+        }
+    }
+    fn visit_mut_rest_pat(&mut self, n: &mut RestPat) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_rest_pat(n),
+            swc_visit::Either::Right(v) => v.visit_mut_rest_pat(n),
+        }
+    }
+    fn visit_mut_object_pat_prop(&mut self, n: &mut ObjectPatProp) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_object_pat_prop(n),
+            swc_visit::Either::Right(v) => v.visit_mut_object_pat_prop(n),
+        }
+    }
+    fn visit_mut_key_value_pat_prop(&mut self, n: &mut KeyValuePatProp) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_key_value_pat_prop(n),
+            swc_visit::Either::Right(v) => v.visit_mut_key_value_pat_prop(n),
+        }
+    }
+    fn visit_mut_assign_pat_prop(&mut self, n: &mut AssignPatProp) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_assign_pat_prop(n),
+            swc_visit::Either::Right(v) => v.visit_mut_assign_pat_prop(n),
+        }
+    }
+    fn visit_mut_prop(&mut self, n: &mut Prop) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_prop(n),
+            swc_visit::Either::Right(v) => v.visit_mut_prop(n),
+        }
+    }
+    fn visit_mut_key_value_prop(&mut self, n: &mut KeyValueProp) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_key_value_prop(n),
+            swc_visit::Either::Right(v) => v.visit_mut_key_value_prop(n),
+        }
+    }
+    fn visit_mut_assign_prop(&mut self, n: &mut AssignProp) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_assign_prop(n),
+            swc_visit::Either::Right(v) => v.visit_mut_assign_prop(n),
+        }
+    }
+    fn visit_mut_getter_prop(&mut self, n: &mut GetterProp) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_getter_prop(n),
+            swc_visit::Either::Right(v) => v.visit_mut_getter_prop(n),
+        }
+    }
+    fn visit_mut_setter_prop(&mut self, n: &mut SetterProp) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_setter_prop(n),
+            swc_visit::Either::Right(v) => v.visit_mut_setter_prop(n),
+        }
+    }
+    fn visit_mut_method_prop(&mut self, n: &mut MethodProp) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_method_prop(n),
+            swc_visit::Either::Right(v) => v.visit_mut_method_prop(n),
+        }
+    }
+    fn visit_mut_prop_name(&mut self, n: &mut PropName) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_prop_name(n),
+            swc_visit::Either::Right(v) => v.visit_mut_prop_name(n),
+        }
+    }
+    fn visit_mut_computed_prop_name(&mut self, n: &mut ComputedPropName) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_computed_prop_name(n),
+            swc_visit::Either::Right(v) => v.visit_mut_computed_prop_name(n),
+        }
+    }
+    fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_block_stmt(n),
+            swc_visit::Either::Right(v) => v.visit_mut_block_stmt(n),
+        }
+    }
+    fn visit_mut_stmt(&mut self, n: &mut Stmt) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_stmt(n),
+            swc_visit::Either::Right(v) => v.visit_mut_stmt(n),
+        }
+    }
+    fn visit_mut_expr_stmt(&mut self, n: &mut ExprStmt) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_expr_stmt(n),
+            swc_visit::Either::Right(v) => v.visit_mut_expr_stmt(n),
+        }
+    }
+    fn visit_mut_empty_stmt(&mut self, n: &mut EmptyStmt) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_empty_stmt(n),
+            swc_visit::Either::Right(v) => v.visit_mut_empty_stmt(n),
+        }
+    }
+    fn visit_mut_debugger_stmt(&mut self, n: &mut DebuggerStmt) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_debugger_stmt(n),
+            swc_visit::Either::Right(v) => v.visit_mut_debugger_stmt(n),
+        }
+    }
+    fn visit_mut_with_stmt(&mut self, n: &mut WithStmt) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_with_stmt(n),
+            swc_visit::Either::Right(v) => v.visit_mut_with_stmt(n),
+        }
+    }
+    fn visit_mut_return_stmt(&mut self, n: &mut ReturnStmt) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_return_stmt(n),
+            swc_visit::Either::Right(v) => v.visit_mut_return_stmt(n),
+        }
+    }
+    fn visit_mut_labeled_stmt(&mut self, n: &mut LabeledStmt) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_labeled_stmt(n),
+            swc_visit::Either::Right(v) => v.visit_mut_labeled_stmt(n),
+        }
+    }
+    fn visit_mut_break_stmt(&mut self, n: &mut BreakStmt) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_break_stmt(n),
+            swc_visit::Either::Right(v) => v.visit_mut_break_stmt(n),
+        }
+    }
+    fn visit_mut_continue_stmt(&mut self, n: &mut ContinueStmt) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_continue_stmt(n),
+            swc_visit::Either::Right(v) => v.visit_mut_continue_stmt(n),
+        }
+    }
+    fn visit_mut_if_stmt(&mut self, n: &mut IfStmt) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_if_stmt(n),
+            swc_visit::Either::Right(v) => v.visit_mut_if_stmt(n),
+        }
+    }
+    fn visit_mut_switch_stmt(&mut self, n: &mut SwitchStmt) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_switch_stmt(n),
+            swc_visit::Either::Right(v) => v.visit_mut_switch_stmt(n),
+        }
+    }
+    fn visit_mut_throw_stmt(&mut self, n: &mut ThrowStmt) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_throw_stmt(n),
+            swc_visit::Either::Right(v) => v.visit_mut_throw_stmt(n),
+        }
+    }
+    fn visit_mut_try_stmt(&mut self, n: &mut TryStmt) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_try_stmt(n),
+            swc_visit::Either::Right(v) => v.visit_mut_try_stmt(n),
+        }
+    }
+    fn visit_mut_while_stmt(&mut self, n: &mut WhileStmt) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_while_stmt(n),
+            swc_visit::Either::Right(v) => v.visit_mut_while_stmt(n),
+        }
+    }
+    fn visit_mut_do_while_stmt(&mut self, n: &mut DoWhileStmt) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_do_while_stmt(n),
+            swc_visit::Either::Right(v) => v.visit_mut_do_while_stmt(n),
+        }
+    }
+    fn visit_mut_for_stmt(&mut self, n: &mut ForStmt) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_for_stmt(n),
+            swc_visit::Either::Right(v) => v.visit_mut_for_stmt(n),
+        }
+    }
+    fn visit_mut_for_in_stmt(&mut self, n: &mut ForInStmt) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_for_in_stmt(n),
+            swc_visit::Either::Right(v) => v.visit_mut_for_in_stmt(n),
+        }
+    }
+    fn visit_mut_for_of_stmt(&mut self, n: &mut ForOfStmt) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_for_of_stmt(n),
+            swc_visit::Either::Right(v) => v.visit_mut_for_of_stmt(n),
+        }
+    }
+    fn visit_mut_switch_case(&mut self, n: &mut SwitchCase) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_switch_case(n),
+            swc_visit::Either::Right(v) => v.visit_mut_switch_case(n),
+        }
+    }
+    fn visit_mut_catch_clause(&mut self, n: &mut CatchClause) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_catch_clause(n),
+            swc_visit::Either::Right(v) => v.visit_mut_catch_clause(n),
+        }
+    }
+    fn visit_mut_var_decl_or_pat(&mut self, n: &mut VarDeclOrPat) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_var_decl_or_pat(n),
+            swc_visit::Either::Right(v) => v.visit_mut_var_decl_or_pat(n),
+        }
+    }
+    fn visit_mut_var_decl_or_expr(&mut self, n: &mut VarDeclOrExpr) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_var_decl_or_expr(n),
+            swc_visit::Either::Right(v) => v.visit_mut_var_decl_or_expr(n),
+        }
+    }
+    fn visit_mut_ts_type_ann(&mut self, n: &mut TsTypeAnn) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_type_ann(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_type_ann(n),
+        }
+    }
+    fn visit_mut_ts_type_param_decl(&mut self, n: &mut TsTypeParamDecl) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_type_param_decl(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_type_param_decl(n),
+        }
+    }
+    fn visit_mut_ts_type_param(&mut self, n: &mut TsTypeParam) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_type_param(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_type_param(n),
+        }
+    }
+    fn visit_mut_ts_type_param_instantiation(&mut self, n: &mut TsTypeParamInstantiation) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_type_param_instantiation(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_type_param_instantiation(n),
+        }
+    }
+    fn visit_mut_ts_type_cast_expr(&mut self, n: &mut TsTypeCastExpr) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_type_cast_expr(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_type_cast_expr(n),
+        }
+    }
+    fn visit_mut_ts_param_prop(&mut self, n: &mut TsParamProp) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_param_prop(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_param_prop(n),
+        }
+    }
+    fn visit_mut_ts_param_prop_param(&mut self, n: &mut TsParamPropParam) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_param_prop_param(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_param_prop_param(n),
+        }
+    }
+    fn visit_mut_ts_qualified_name(&mut self, n: &mut TsQualifiedName) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_qualified_name(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_qualified_name(n),
+        }
+    }
+    fn visit_mut_ts_entity_name(&mut self, n: &mut TsEntityName) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_entity_name(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_entity_name(n),
+        }
+    }
+    fn visit_mut_ts_signature_decl(&mut self, n: &mut TsSignatureDecl) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_signature_decl(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_signature_decl(n),
+        }
+    }
+    fn visit_mut_ts_type_element(&mut self, n: &mut TsTypeElement) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_type_element(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_type_element(n),
+        }
+    }
+    fn visit_mut_ts_call_signature_decl(&mut self, n: &mut TsCallSignatureDecl) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_call_signature_decl(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_call_signature_decl(n),
+        }
+    }
+    fn visit_mut_ts_construct_signature_decl(&mut self, n: &mut TsConstructSignatureDecl) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_construct_signature_decl(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_construct_signature_decl(n),
+        }
+    }
+    fn visit_mut_ts_property_signature(&mut self, n: &mut TsPropertySignature) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_property_signature(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_property_signature(n),
+        }
+    }
+    fn visit_mut_ts_method_signature(&mut self, n: &mut TsMethodSignature) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_method_signature(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_method_signature(n),
+        }
+    }
+    fn visit_mut_ts_index_signature(&mut self, n: &mut TsIndexSignature) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_index_signature(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_index_signature(n),
+        }
+    }
+    fn visit_mut_ts_type(&mut self, n: &mut TsType) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_type(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_type(n),
+        }
+    }
+    fn visit_mut_ts_fn_or_constructor_type(&mut self, n: &mut TsFnOrConstructorType) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_fn_or_constructor_type(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_fn_or_constructor_type(n),
+        }
+    }
+    fn visit_mut_ts_keyword_type(&mut self, n: &mut TsKeywordType) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_keyword_type(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_keyword_type(n),
+        }
+    }
+    fn visit_mut_ts_keyword_type_kind(&mut self, n: &mut TsKeywordTypeKind) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_keyword_type_kind(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_keyword_type_kind(n),
+        }
+    }
+    fn visit_mut_ts_this_type(&mut self, n: &mut TsThisType) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_this_type(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_this_type(n),
+        }
+    }
+    fn visit_mut_ts_fn_param(&mut self, n: &mut TsFnParam) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_fn_param(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_fn_param(n),
+        }
+    }
+    fn visit_mut_ts_fn_type(&mut self, n: &mut TsFnType) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_fn_type(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_fn_type(n),
+        }
+    }
+    fn visit_mut_ts_constructor_type(&mut self, n: &mut TsConstructorType) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_constructor_type(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_constructor_type(n),
+        }
+    }
+    fn visit_mut_ts_type_ref(&mut self, n: &mut TsTypeRef) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_type_ref(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_type_ref(n),
+        }
+    }
+    fn visit_mut_ts_type_predicate(&mut self, n: &mut TsTypePredicate) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_type_predicate(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_type_predicate(n),
+        }
+    }
+    fn visit_mut_ts_this_type_or_ident(&mut self, n: &mut TsThisTypeOrIdent) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_this_type_or_ident(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_this_type_or_ident(n),
+        }
+    }
+    fn visit_mut_ts_type_query(&mut self, n: &mut TsTypeQuery) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_type_query(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_type_query(n),
+        }
+    }
+    fn visit_mut_ts_type_query_expr(&mut self, n: &mut TsTypeQueryExpr) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_type_query_expr(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_type_query_expr(n),
+        }
+    }
+    fn visit_mut_ts_import_type(&mut self, n: &mut TsImportType) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_import_type(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_import_type(n),
+        }
+    }
+    fn visit_mut_ts_type_lit(&mut self, n: &mut TsTypeLit) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_type_lit(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_type_lit(n),
+        }
+    }
+    fn visit_mut_ts_array_type(&mut self, n: &mut TsArrayType) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_array_type(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_array_type(n),
+        }
+    }
+    fn visit_mut_ts_tuple_type(&mut self, n: &mut TsTupleType) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_tuple_type(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_tuple_type(n),
+        }
+    }
+    fn visit_mut_ts_tuple_element(&mut self, n: &mut TsTupleElement) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_tuple_element(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_tuple_element(n),
+        }
+    }
+    fn visit_mut_ts_optional_type(&mut self, n: &mut TsOptionalType) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_optional_type(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_optional_type(n),
+        }
+    }
+    fn visit_mut_ts_rest_type(&mut self, n: &mut TsRestType) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_rest_type(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_rest_type(n),
+        }
+    }
+    fn visit_mut_ts_union_or_intersection_type(&mut self, n: &mut TsUnionOrIntersectionType) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_union_or_intersection_type(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_union_or_intersection_type(n),
+        }
+    }
+    fn visit_mut_ts_union_type(&mut self, n: &mut TsUnionType) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_union_type(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_union_type(n),
+        }
+    }
+    fn visit_mut_ts_intersection_type(&mut self, n: &mut TsIntersectionType) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_intersection_type(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_intersection_type(n),
+        }
+    }
+    fn visit_mut_ts_conditional_type(&mut self, n: &mut TsConditionalType) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_conditional_type(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_conditional_type(n),
+        }
+    }
+    fn visit_mut_ts_infer_type(&mut self, n: &mut TsInferType) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_infer_type(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_infer_type(n),
+        }
+    }
+    fn visit_mut_ts_parenthesized_type(&mut self, n: &mut TsParenthesizedType) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_parenthesized_type(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_parenthesized_type(n),
+        }
+    }
+    fn visit_mut_ts_type_operator(&mut self, n: &mut TsTypeOperator) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_type_operator(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_type_operator(n),
+        }
+    }
+    fn visit_mut_ts_type_operator_op(&mut self, n: &mut TsTypeOperatorOp) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_type_operator_op(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_type_operator_op(n),
+        }
+    }
+    fn visit_mut_ts_indexed_access_type(&mut self, n: &mut TsIndexedAccessType) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_indexed_access_type(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_indexed_access_type(n),
+        }
+    }
+    fn visit_mut_true_plus_minus(&mut self, n: &mut TruePlusMinus) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_true_plus_minus(n),
+            swc_visit::Either::Right(v) => v.visit_mut_true_plus_minus(n),
+        }
+    }
+    fn visit_mut_ts_mapped_type(&mut self, n: &mut TsMappedType) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_mapped_type(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_mapped_type(n),
+        }
+    }
+    fn visit_mut_ts_lit_type(&mut self, n: &mut TsLitType) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_lit_type(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_lit_type(n),
+        }
+    }
+    fn visit_mut_ts_lit(&mut self, n: &mut TsLit) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_lit(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_lit(n),
+        }
+    }
+    fn visit_mut_ts_interface_decl(&mut self, n: &mut TsInterfaceDecl) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_interface_decl(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_interface_decl(n),
+        }
+    }
+    fn visit_mut_ts_interface_body(&mut self, n: &mut TsInterfaceBody) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_interface_body(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_interface_body(n),
+        }
+    }
+    fn visit_mut_ts_expr_with_type_args(&mut self, n: &mut TsExprWithTypeArgs) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_expr_with_type_args(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_expr_with_type_args(n),
+        }
+    }
+    fn visit_mut_ts_type_alias_decl(&mut self, n: &mut TsTypeAliasDecl) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_type_alias_decl(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_type_alias_decl(n),
+        }
+    }
+    fn visit_mut_ts_enum_decl(&mut self, n: &mut TsEnumDecl) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_enum_decl(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_enum_decl(n),
+        }
+    }
+    fn visit_mut_ts_enum_member(&mut self, n: &mut TsEnumMember) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_enum_member(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_enum_member(n),
+        }
+    }
+    fn visit_mut_ts_enum_member_id(&mut self, n: &mut TsEnumMemberId) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_enum_member_id(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_enum_member_id(n),
+        }
+    }
+    fn visit_mut_ts_module_decl(&mut self, n: &mut TsModuleDecl) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_module_decl(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_module_decl(n),
+        }
+    }
+    fn visit_mut_ts_namespace_body(&mut self, n: &mut TsNamespaceBody) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_namespace_body(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_namespace_body(n),
+        }
+    }
+    fn visit_mut_ts_module_block(&mut self, n: &mut TsModuleBlock) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_module_block(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_module_block(n),
+        }
+    }
+    fn visit_mut_ts_namespace_decl(&mut self, n: &mut TsNamespaceDecl) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_namespace_decl(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_namespace_decl(n),
+        }
+    }
+    fn visit_mut_ts_module_name(&mut self, n: &mut TsModuleName) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_module_name(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_module_name(n),
+        }
+    }
+    fn visit_mut_ts_import_equals_decl(&mut self, n: &mut TsImportEqualsDecl) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_import_equals_decl(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_import_equals_decl(n),
+        }
+    }
+    fn visit_mut_ts_module_ref(&mut self, n: &mut TsModuleRef) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_module_ref(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_module_ref(n),
+        }
+    }
+    fn visit_mut_ts_external_module_ref(&mut self, n: &mut TsExternalModuleRef) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_external_module_ref(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_external_module_ref(n),
+        }
+    }
+    fn visit_mut_ts_export_assignment(&mut self, n: &mut TsExportAssignment) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_export_assignment(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_export_assignment(n),
+        }
+    }
+    fn visit_mut_ts_namespace_export_decl(&mut self, n: &mut TsNamespaceExportDecl) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_namespace_export_decl(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_namespace_export_decl(n),
+        }
+    }
+    fn visit_mut_ts_as_expr(&mut self, n: &mut TsAsExpr) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_as_expr(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_as_expr(n),
+        }
+    }
+    fn visit_mut_ts_type_assertion(&mut self, n: &mut TsTypeAssertion) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_type_assertion(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_type_assertion(n),
+        }
+    }
+    fn visit_mut_ts_non_null_expr(&mut self, n: &mut TsNonNullExpr) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_non_null_expr(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_non_null_expr(n),
+        }
+    }
+    fn visit_mut_accessibility(&mut self, n: &mut Accessibility) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_accessibility(n),
+            swc_visit::Either::Right(v) => v.visit_mut_accessibility(n),
+        }
+    }
+    fn visit_mut_ts_const_assertion(&mut self, n: &mut TsConstAssertion) {
+        match self {
+            swc_visit::Either::Left(v) => v.visit_mut_ts_const_assertion(n),
+            swc_visit::Either::Right(v) => v.visit_mut_ts_const_assertion(n),
+        }
+    }
+}
+pub trait VisitMutWith<V: VisitMut> {
+    fn visit_mut_with(&mut self, v: &mut V);
+    fn visit_mut_children_with(&mut self, v: &mut V);
+}
+impl<V, T> VisitMutWith<V> for Box<T>
+where
+    V: VisitMut,
+    T: 'static + VisitMutWith<V>,
+{
+    fn visit_mut_with(&mut self, v: &mut V) {
+        (**self).visit_mut_with(v);
+    }
+    fn visit_mut_children_with(&mut self, v: &mut V) {
+        (**self).visit_mut_children_with(v);
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Class {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_class(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_class(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Span {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_span(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_span(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Vec<Decorator> {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_decorators(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_decorators(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Vec<ClassMember> {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_class_members(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_class_members(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Option<Box<Expr>> {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_opt_expr(self.as_mut())
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_opt_expr(_visitor, self.as_mut())
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Option<TsTypeParamDecl> {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_opt_ts_type_param_decl(self.as_mut())
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_opt_ts_type_param_decl(_visitor, self.as_mut())
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Option<TsTypeParamInstantiation> {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_opt_ts_type_param_instantiation(self.as_mut())
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_opt_ts_type_param_instantiation(_visitor, self.as_mut())
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Vec<TsExprWithTypeArgs> {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_expr_with_type_args_vec(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_expr_with_type_args_vec(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for ClassMember {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_class_member(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_class_member(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Constructor {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_constructor(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_constructor(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for ClassMethod {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_class_method(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_class_method(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for PrivateMethod {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_private_method(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_private_method(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for ClassProp {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_class_prop(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_class_prop(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for PrivateProp {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_private_prop(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_private_prop(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsIndexSignature {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_index_signature(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_index_signature(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for EmptyStmt {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_empty_stmt(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_empty_stmt(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Option<TsTypeAnn> {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_opt_ts_type_ann(self.as_mut())
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_opt_ts_type_ann(_visitor, self.as_mut())
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Option<Accessibility> {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_opt_accessibility(self.as_mut())
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_opt_accessibility(_visitor, self.as_mut())
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for PrivateName {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_private_name(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_private_name(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for PropName {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_prop_name(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_prop_name(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Function {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_function(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_function(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for MethodKind {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_method_kind(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_method_kind(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Vec<ParamOrTsParamProp> {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_param_or_ts_param_props(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_param_or_ts_param_props(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Option<BlockStmt> {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_opt_block_stmt(self.as_mut())
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_opt_block_stmt(_visitor, self.as_mut())
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Decorator {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_decorator(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_decorator(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Decl {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_decl(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_decl(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for ClassDecl {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_class_decl(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_class_decl(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for FnDecl {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_fn_decl(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_fn_decl(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for VarDecl {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_var_decl(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_var_decl(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsInterfaceDecl {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_interface_decl(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_interface_decl(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsTypeAliasDecl {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_type_alias_decl(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_type_alias_decl(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsEnumDecl {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_enum_decl(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_enum_decl(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsModuleDecl {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_module_decl(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_module_decl(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Ident {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ident(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ident(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for VarDeclKind {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_var_decl_kind(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_var_decl_kind(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Vec<VarDeclarator> {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_var_declarators(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_var_declarators(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for VarDeclarator {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_var_declarator(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_var_declarator(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Pat {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_pat(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_pat(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Expr {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_expr(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_expr(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for ThisExpr {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_this_expr(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_this_expr(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for ArrayLit {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_array_lit(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_array_lit(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for ObjectLit {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_object_lit(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_object_lit(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for FnExpr {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_fn_expr(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_fn_expr(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for UnaryExpr {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_unary_expr(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_unary_expr(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for UpdateExpr {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_update_expr(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_update_expr(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for BinExpr {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_bin_expr(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_bin_expr(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for AssignExpr {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_assign_expr(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_assign_expr(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for MemberExpr {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_member_expr(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_member_expr(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for CondExpr {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_cond_expr(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_cond_expr(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for CallExpr {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_call_expr(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_call_expr(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for NewExpr {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_new_expr(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_new_expr(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for SeqExpr {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_seq_expr(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_seq_expr(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Lit {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_lit(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_lit(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Tpl {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_tpl(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_tpl(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TaggedTpl {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_tagged_tpl(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_tagged_tpl(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for ArrowExpr {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_arrow_expr(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_arrow_expr(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for ClassExpr {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_class_expr(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_class_expr(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for YieldExpr {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_yield_expr(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_yield_expr(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for MetaPropExpr {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_meta_prop_expr(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_meta_prop_expr(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for AwaitExpr {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_await_expr(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_await_expr(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for ParenExpr {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_paren_expr(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_paren_expr(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for JSXMemberExpr {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_jsx_member_expr(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_jsx_member_expr(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for JSXNamespacedName {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_jsx_namespaced_name(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_jsx_namespaced_name(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for JSXEmptyExpr {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_jsx_empty_expr(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_jsx_empty_expr(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for JSXFragment {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_jsx_fragment(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_jsx_fragment(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsTypeAssertion {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_type_assertion(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_type_assertion(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsConstAssertion {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_const_assertion(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_const_assertion(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsNonNullExpr {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_non_null_expr(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_non_null_expr(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsTypeCastExpr {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_type_cast_expr(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_type_cast_expr(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsAsExpr {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_as_expr(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_as_expr(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for OptChainExpr {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_opt_chain_expr(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_opt_chain_expr(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Invalid {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_invalid(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_invalid(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Vec<Option<ExprOrSpread>> {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_opt_vec_expr_or_spreads(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_opt_vec_expr_or_spreads(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Vec<PropOrSpread> {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_prop_or_spreads(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_prop_or_spreads(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for PropOrSpread {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_prop_or_spread(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_prop_or_spread(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for SpreadElement {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_spread_element(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_spread_element(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for UnaryOp {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_unary_op(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_unary_op(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for UpdateOp {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_update_op(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_update_op(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for BinaryOp {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_binary_op(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_binary_op(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Option<Ident> {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_opt_ident(self.as_mut())
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_opt_ident(_visitor, self.as_mut())
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for AssignOp {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_assign_op(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_assign_op(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for PatOrExpr {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_pat_or_expr(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_pat_or_expr(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for ExprOrSuper {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_expr_or_super(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_expr_or_super(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Vec<ExprOrSpread> {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_expr_or_spreads(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_expr_or_spreads(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Option<Vec<ExprOrSpread>> {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_opt_expr_or_spreads(self.as_mut())
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_opt_expr_or_spreads(_visitor, self.as_mut())
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Vec<Box<Expr>> {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_exprs(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_exprs(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Vec<Pat> {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_pats(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_pats(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for BlockStmtOrExpr {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_block_stmt_or_expr(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_block_stmt_or_expr(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Vec<TplElement> {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_tpl_elements(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_tpl_elements(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TplElement {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_tpl_element(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_tpl_element(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Option<Str> {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_opt_str(self.as_mut())
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_opt_str(_visitor, self.as_mut())
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Str {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_str(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_str(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Super {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_super(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_super(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for ExprOrSpread {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_expr_or_spread(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_expr_or_spread(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Option<Span> {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_opt_span(self.as_mut())
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_opt_span(_visitor, self.as_mut())
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for BlockStmt {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_block_stmt(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_block_stmt(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Vec<Param> {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_params(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_params(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Param {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_param(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_param(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for ParamOrTsParamProp {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_param_or_ts_param_prop(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_param_or_ts_param_prop(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsParamProp {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_param_prop(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_param_prop(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for JsWord {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_js_word(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_js_word(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for JSXObject {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_jsx_object(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_jsx_object(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for JSXExprContainer {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_jsx_expr_container(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_jsx_expr_container(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for JSXExpr {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_jsx_expr(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_jsx_expr(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for JSXSpreadChild {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_jsx_spread_child(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_jsx_spread_child(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for JSXElementName {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_jsx_element_name(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_jsx_element_name(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for JSXOpeningElement {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_jsx_opening_element(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_jsx_opening_element(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Vec<JSXAttrOrSpread> {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_jsx_attr_or_spreads(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_jsx_attr_or_spreads(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for JSXAttrOrSpread {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_jsx_attr_or_spread(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_jsx_attr_or_spread(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for JSXAttr {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_jsx_attr(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_jsx_attr(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for JSXClosingElement {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_jsx_closing_element(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_jsx_closing_element(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for JSXAttrName {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_jsx_attr_name(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_jsx_attr_name(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Option<JSXAttrValue> {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_opt_jsx_attr_value(self.as_mut())
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_opt_jsx_attr_value(_visitor, self.as_mut())
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for JSXAttrValue {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_jsx_attr_value(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_jsx_attr_value(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for JSXText {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_jsx_text(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_jsx_text(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for JSXElement {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_jsx_element(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_jsx_element(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Vec<JSXElementChild> {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_jsx_element_children(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_jsx_element_children(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Option<JSXClosingElement> {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_opt_jsx_closing_element(self.as_mut())
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_opt_jsx_closing_element(_visitor, self.as_mut())
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for JSXElementChild {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_jsx_element_child(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_jsx_element_child(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for JSXOpeningFragment {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_jsx_opening_fragment(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_jsx_opening_fragment(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for JSXClosingFragment {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_jsx_closing_fragment(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_jsx_closing_fragment(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Bool {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_bool(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_bool(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Null {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_null(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_null(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Number {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_number(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_number(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for BigInt {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_big_int(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_big_int(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Regex {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_regex(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_regex(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for BigIntValue {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_big_int_value(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_big_int_value(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Program {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_program(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_program(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Module {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_module(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_module(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Script {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_script(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_script(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Vec<ModuleItem> {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_module_items(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_module_items(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Option<JsWord> {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_opt_js_word(self.as_mut())
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_opt_js_word(_visitor, self.as_mut())
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Vec<Stmt> {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_stmts(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_stmts(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for ModuleItem {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_module_item(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_module_item(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for ModuleDecl {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_module_decl(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_module_decl(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Stmt {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_stmt(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_stmt(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for ImportDecl {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_import_decl(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_import_decl(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for ExportDecl {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_export_decl(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_export_decl(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for NamedExport {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_named_export(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_named_export(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for ExportDefaultDecl {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_export_default_decl(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_export_default_decl(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for ExportDefaultExpr {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_export_default_expr(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_export_default_expr(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for ExportAll {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_export_all(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_export_all(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsImportEqualsDecl {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_import_equals_decl(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_import_equals_decl(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsExportAssignment {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_export_assignment(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_export_assignment(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsNamespaceExportDecl {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_namespace_export_decl(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_namespace_export_decl(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Vec<ImportSpecifier> {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_import_specifiers(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_import_specifiers(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Vec<ExportSpecifier> {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_export_specifiers(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_export_specifiers(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for DefaultDecl {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_default_decl(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_default_decl(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for ImportSpecifier {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_import_specifier(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_import_specifier(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for ImportNamedSpecifier {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_import_named_specifier(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_import_named_specifier(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for ImportDefaultSpecifier {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_import_default_specifier(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_import_default_specifier(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for ImportStarAsSpecifier {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_import_star_as_specifier(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_import_star_as_specifier(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for ExportSpecifier {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_export_specifier(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_export_specifier(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for ExportNamespaceSpecifier {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_export_namespace_specifier(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_export_namespace_specifier(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for ExportDefaultSpecifier {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_export_default_specifier(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_export_default_specifier(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for ExportNamedSpecifier {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_export_named_specifier(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_export_named_specifier(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for ArrayPat {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_array_pat(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_array_pat(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for RestPat {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_rest_pat(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_rest_pat(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for ObjectPat {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_object_pat(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_object_pat(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for AssignPat {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_assign_pat(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_assign_pat(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Vec<Option<Pat>> {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_opt_vec_pats(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_opt_vec_pats(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Vec<ObjectPatProp> {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_object_pat_props(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_object_pat_props(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for ObjectPatProp {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_object_pat_prop(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_object_pat_prop(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for KeyValuePatProp {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_key_value_pat_prop(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_key_value_pat_prop(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for AssignPatProp {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_assign_pat_prop(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_assign_pat_prop(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Prop {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_prop(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_prop(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for KeyValueProp {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_key_value_prop(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_key_value_prop(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for AssignProp {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_assign_prop(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_assign_prop(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for GetterProp {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_getter_prop(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_getter_prop(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for SetterProp {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_setter_prop(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_setter_prop(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for MethodProp {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_method_prop(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_method_prop(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for ComputedPropName {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_computed_prop_name(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_computed_prop_name(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for DebuggerStmt {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_debugger_stmt(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_debugger_stmt(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for WithStmt {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_with_stmt(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_with_stmt(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for ReturnStmt {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_return_stmt(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_return_stmt(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for LabeledStmt {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_labeled_stmt(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_labeled_stmt(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for BreakStmt {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_break_stmt(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_break_stmt(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for ContinueStmt {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_continue_stmt(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_continue_stmt(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for IfStmt {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_if_stmt(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_if_stmt(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for SwitchStmt {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_switch_stmt(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_switch_stmt(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for ThrowStmt {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_throw_stmt(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_throw_stmt(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TryStmt {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_try_stmt(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_try_stmt(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for WhileStmt {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_while_stmt(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_while_stmt(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for DoWhileStmt {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_do_while_stmt(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_do_while_stmt(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for ForStmt {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_for_stmt(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_for_stmt(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for ForInStmt {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_for_in_stmt(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_for_in_stmt(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for ForOfStmt {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_for_of_stmt(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_for_of_stmt(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for ExprStmt {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_expr_stmt(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_expr_stmt(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Option<Box<Stmt>> {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_opt_stmt(self.as_mut())
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_opt_stmt(_visitor, self.as_mut())
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Vec<SwitchCase> {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_switch_cases(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_switch_cases(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Option<CatchClause> {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_opt_catch_clause(self.as_mut())
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_opt_catch_clause(_visitor, self.as_mut())
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Option<VarDeclOrExpr> {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_opt_var_decl_or_expr(self.as_mut())
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_opt_var_decl_or_expr(_visitor, self.as_mut())
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for VarDeclOrPat {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_var_decl_or_pat(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_var_decl_or_pat(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for SwitchCase {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_switch_case(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_switch_case(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for CatchClause {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_catch_clause(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_catch_clause(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Option<Pat> {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_opt_pat(self.as_mut())
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_opt_pat(_visitor, self.as_mut())
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for VarDeclOrExpr {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_var_decl_or_expr(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_var_decl_or_expr(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsTypeAnn {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_type_ann(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_type_ann(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsTypeParamDecl {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_type_param_decl(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_type_param_decl(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Vec<TsTypeParam> {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_type_params(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_type_params(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsTypeParam {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_type_param(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_type_param(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Option<Box<TsType>> {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_opt_ts_type(self.as_mut())
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_opt_ts_type(_visitor, self.as_mut())
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsTypeParamInstantiation {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_type_param_instantiation(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_type_param_instantiation(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Vec<Box<TsType>> {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_types(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_types(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsParamPropParam {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_param_prop_param(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_param_prop_param(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsQualifiedName {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_qualified_name(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_qualified_name(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsEntityName {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_entity_name(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_entity_name(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsSignatureDecl {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_signature_decl(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_signature_decl(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsCallSignatureDecl {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_call_signature_decl(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_call_signature_decl(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsConstructSignatureDecl {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_construct_signature_decl(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_construct_signature_decl(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsMethodSignature {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_method_signature(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_method_signature(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsFnType {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_fn_type(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_fn_type(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsConstructorType {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_constructor_type(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_constructor_type(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsTypeElement {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_type_element(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_type_element(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsPropertySignature {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_property_signature(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_property_signature(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Vec<TsFnParam> {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_fn_params(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_fn_params(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsType {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_type(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_type(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsKeywordType {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_keyword_type(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_keyword_type(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsThisType {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_this_type(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_this_type(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsFnOrConstructorType {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_fn_or_constructor_type(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_fn_or_constructor_type(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsTypeRef {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_type_ref(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_type_ref(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsTypeQuery {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_type_query(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_type_query(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsTypeLit {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_type_lit(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_type_lit(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsArrayType {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_array_type(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_array_type(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsTupleType {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_tuple_type(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_tuple_type(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsOptionalType {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_optional_type(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_optional_type(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsRestType {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_rest_type(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_rest_type(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsUnionOrIntersectionType {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_union_or_intersection_type(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_union_or_intersection_type(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsConditionalType {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_conditional_type(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_conditional_type(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsInferType {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_infer_type(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_infer_type(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsParenthesizedType {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_parenthesized_type(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_parenthesized_type(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsTypeOperator {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_type_operator(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_type_operator(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsIndexedAccessType {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_indexed_access_type(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_indexed_access_type(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsMappedType {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_mapped_type(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_mapped_type(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsLitType {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_lit_type(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_lit_type(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsTypePredicate {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_type_predicate(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_type_predicate(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsImportType {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_import_type(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_import_type(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsKeywordTypeKind {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_keyword_type_kind(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_keyword_type_kind(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsFnParam {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_fn_param(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_fn_param(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsThisTypeOrIdent {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_this_type_or_ident(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_this_type_or_ident(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsTypeQueryExpr {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_type_query_expr(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_type_query_expr(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Option<TsEntityName> {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_opt_ts_entity_name(self.as_mut())
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_opt_ts_entity_name(_visitor, self.as_mut())
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Vec<TsTypeElement> {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_type_elements(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_type_elements(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Vec<TsTupleElement> {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_tuple_elements(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_tuple_elements(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsTupleElement {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_tuple_element(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_tuple_element(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsUnionType {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_union_type(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_union_type(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsIntersectionType {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_intersection_type(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_intersection_type(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsTypeOperatorOp {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_type_operator_op(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_type_operator_op(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TruePlusMinus {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_true_plus_minus(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_true_plus_minus(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Option<TruePlusMinus> {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_opt_true_plus_minus(self.as_mut())
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_opt_true_plus_minus(_visitor, self.as_mut())
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsLit {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_lit(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_lit(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsInterfaceBody {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_interface_body(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_interface_body(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsExprWithTypeArgs {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_expr_with_type_args(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_expr_with_type_args(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Vec<TsEnumMember> {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_enum_members(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_enum_members(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsEnumMember {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_enum_member(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_enum_member(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsEnumMemberId {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_enum_member_id(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_enum_member_id(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsModuleName {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_module_name(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_module_name(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Option<TsNamespaceBody> {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_opt_ts_namespace_body(self.as_mut())
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_opt_ts_namespace_body(_visitor, self.as_mut())
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsNamespaceBody {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_namespace_body(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_namespace_body(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsModuleBlock {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_module_block(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_module_block(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsNamespaceDecl {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_namespace_decl(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_namespace_decl(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsModuleRef {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_module_ref(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_module_ref(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for TsExternalModuleRef {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_ts_external_module_ref(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_ts_external_module_ref(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Accessibility {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_accessibility(self)
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_accessibility(_visitor, self)
+    }
+}
+impl<V: VisitMut> VisitMutWith<V> for Option<ExprOrSpread> {
+    fn visit_mut_with(&mut self, v: &mut V) {
+        v.visit_mut_opt_expr_or_spread(self.as_mut())
+    }
+    fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+        visit_mut_opt_expr_or_spread(_visitor, self.as_mut())
+    }
+}

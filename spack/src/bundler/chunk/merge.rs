@@ -16,7 +16,7 @@ use swc_ecma_transforms::noop_fold_type;
 use swc_ecma_utils::{
     find_ids, prepend, private_ident, undefined, DestructuringFinder, ExprFactory, StmtLike,
 };
-use swc_ecma_visit::{Fold, FoldWith, VisitWith};
+use swc_ecma_visit::{Fold, FoldWith, VisitMut, VisitMutWith, VisitWith};
 
 impl Bundler<'_> {
     /// Merge `targets` into `entry`.
@@ -441,6 +441,14 @@ impl ExportRenamer<'_> {
 }
 
 impl Fold for ExportRenamer<'_> {
+    fn fold_class(&mut self, node: Class) -> Class {
+        node
+    }
+
+    fn fold_function(&mut self, node: Function) -> Function {
+        node
+    }
+
     fn fold_module_item(&mut self, item: ModuleItem) -> ModuleItem {
         let mut actual = ActualMarker {
             mark: self.mark,
@@ -448,7 +456,7 @@ impl Fold for ExportRenamer<'_> {
         };
 
         let span = item.span();
-        let item: ModuleItem = item.fold_children(self);
+        let item: ModuleItem = item.fold_children_with(self);
 
         match item {
             ModuleItem::Stmt(..) => return item,
@@ -540,11 +548,11 @@ impl Fold for ExportRenamer<'_> {
                     | Decl::TsModule(_) => ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(decl)),
 
                     Decl::Class(mut c) => {
-                        c.ident = actual.fold(c.ident);
+                        c.ident = c.ident.fold_with(&mut actual);
                         Stmt::Decl(Decl::Class(c)).into()
                     }
                     Decl::Fn(mut f) => {
-                        f.ident = actual.fold(f.ident);
+                        f.ident = f.ident.fold_with(&mut actual);
                         Stmt::Decl(Decl::Fn(f)).into()
                     }
                     Decl::Var(..) => {
@@ -568,16 +576,6 @@ impl Fold for ExportRenamer<'_> {
     }
 }
 
-impl Fold for ExportRenamer<'_> {
-    fn fold_function(&mut self, node: Function) -> Function {
-        node
-    }
-
-    fn fold_class(&mut self, node: Class) -> Class {
-        node
-    }
-}
-
 struct ActualMarker<'a> {
     mark: Mark,
 
@@ -588,6 +586,10 @@ struct ActualMarker<'a> {
 noop_fold_type!(ActualMarker<'_>);
 
 impl Fold for ActualMarker<'_> {
+    fn fold_expr(&mut self, node: Expr) -> Expr {
+        node
+    }
+
     fn fold_ident(&mut self, ident: Ident) -> Ident {
         if let Some(mut ident) = self.imports.iter().find_map(|s| match s {
             Specifier::Specific {
@@ -607,12 +609,6 @@ impl Fold for ActualMarker<'_> {
         }
 
         ident
-    }
-}
-
-impl Fold for ActualMarker<'_> {
-    fn fold_expr(&mut self, node: Expr) -> Expr {
-        node
     }
 }
 
@@ -648,7 +644,7 @@ impl<'a> LocalMarker<'a> {
     where
         I: for<'any> VisitWith<DestructuringFinder<'any, Id>>,
     {
-        let ids = find_ids(&excluded_idents);
+        let ids = find_ids(excluded_idents);
 
         self.excluded.extend(ids);
         Excluder { inner: self }
@@ -674,23 +670,9 @@ impl<'a, 'b> DerefMut for Excluder<'a, 'b> {
 }
 
 impl Fold for LocalMarker<'_> {
-    fn fold_fn_expr(&mut self, mut node: FnExpr) -> FnExpr {
-        let mut f = self.exclude(&node.ident);
-
-        node.function = node.function.fold_with(&mut f);
-
-        node
-    }
-
-    fn fold_fn_decl(&mut self, mut node: FnDecl) -> FnDecl {
-        self.excluded.push((&node.ident).into());
-        node.function = node.function.fold_with(self);
-        node
-    }
-
-    fn fold_class_expr(&mut self, mut node: ClassExpr) -> ClassExpr {
-        let mut f = self.exclude(&node.ident);
-        node.class = node.class.fold_with(&mut f);
+    fn fold_catch_clause(&mut self, mut node: CatchClause) -> CatchClause {
+        let mut f = self.exclude(&node.param);
+        node.body = node.body.fold_with(&mut *f);
         node
     }
 
@@ -700,27 +682,50 @@ impl Fold for LocalMarker<'_> {
         node
     }
 
-    fn fold_function(&mut self, mut node: Function) -> Function {
-        let mut f = self.exclude(&node.params);
-        node.body = node.body.fold_with(&mut f);
+    fn fold_class_expr(&mut self, mut node: ClassExpr) -> ClassExpr {
+        let mut f = self.exclude(&node.ident);
+        node.class = node.class.fold_with(&mut *f);
         node
     }
 
     fn fold_constructor(&mut self, mut node: Constructor) -> Constructor {
         let mut f = self.exclude(&node.params);
-        node.body = node.body.fold_with(&mut f);
+        node.body = node.body.fold_with(&mut *f);
         node
     }
 
-    fn fold_setter_prop(&mut self, mut node: SetterProp) -> SetterProp {
-        let mut f = self.exclude(&node.param);
-        node.body = node.body.fold_with(&mut f);
+    fn fold_fn_decl(&mut self, mut node: FnDecl) -> FnDecl {
+        self.excluded.push((&node.ident).into());
+        node.function = node.function.fold_with(self);
         node
     }
 
-    fn fold_catch_clause(&mut self, mut node: CatchClause) -> CatchClause {
-        let mut f = self.exclude(&node.param);
-        node.body = node.body.fold_with(&mut f);
+    fn fold_fn_expr(&mut self, mut node: FnExpr) -> FnExpr {
+        let mut f = self.exclude(&node.ident);
+
+        node.function = node.function.fold_with(&mut *f);
+
+        node
+    }
+
+    fn fold_function(&mut self, mut node: Function) -> Function {
+        let mut f = self.exclude(&node.params);
+        node.body = node.body.fold_with(&mut *f);
+        node
+    }
+
+    fn fold_ident(&mut self, mut node: Ident) -> Ident {
+        if self.excluded.iter().any(|i| *i == node) {
+            return node;
+        }
+
+        // TODO: sym() => correct span
+        if self.specifiers.iter().any(|id| *id.local() == node) {
+            node.span = node
+                .span
+                .with_ctxt(SyntaxContext::empty().apply_mark(self.mark));
+        }
+
         node
     }
 
@@ -741,18 +746,9 @@ impl Fold for LocalMarker<'_> {
         e
     }
 
-    fn fold_ident(&mut self, mut node: Ident) -> Ident {
-        if self.excluded.iter().any(|i| *i == node) {
-            return node;
-        }
-
-        // TODO: sym() => correct span
-        if self.specifiers.iter().any(|id| *id.local() == node) {
-            node.span = node
-                .span
-                .with_ctxt(SyntaxContext::empty().apply_mark(self.mark));
-        }
-
+    fn fold_setter_prop(&mut self, mut node: SetterProp) -> SetterProp {
+        let mut f = self.exclude(&node.param);
+        node.body = node.body.fold_with(&mut *f);
         node
     }
 }
@@ -762,8 +758,8 @@ struct Es6ModuleInjector {
     src: Str,
 }
 
-impl VisitMut<Vec<ModuleItem>> for Es6ModuleInjector {
-    fn visit_mut(&mut self, orig: &mut Vec<ModuleItem>) {
+impl VisitMut for Es6ModuleInjector {
+    fn visit_mut_module_items(&mut self, orig: &mut Vec<ModuleItem>) {
         let items = take(orig);
         let mut buf = Vec::with_capacity(self.imported.len() + items.len());
 
@@ -821,9 +817,9 @@ struct RequireReplacer {
     load: CallExpr,
 }
 
-impl VisitMut<ModuleItem> for RequireReplacer {
-    fn visit_mut(&mut self, node: &mut ModuleItem) {
-        node.visit_mut_children(self);
+impl VisitMut for RequireReplacer {
+    fn visit_mut_module_item(&mut self, node: &mut ModuleItem) {
+        node.visit_mut_children_with(self);
 
         match node {
             ModuleItem::ModuleDecl(ModuleDecl::Import(i)) => {
@@ -913,11 +909,9 @@ impl VisitMut<ModuleItem> for RequireReplacer {
             _ => {}
         }
     }
-}
 
-impl VisitMut<CallExpr> for RequireReplacer {
-    fn visit_mut(&mut self, node: &mut CallExpr) {
-        node.visit_mut_children(self);
+    fn visit_mut_call_expr(&mut self, node: &mut CallExpr) {
+        node.visit_mut_children_with(self);
 
         match &node.callee {
             ExprOrSuper::Expr(box Expr::Ident(i)) => {

@@ -7,6 +7,7 @@ use swc_ecma_utils::{
     options::{CM, SESSION},
     prepend_stmts, DropSpan,
 };
+use swc_ecma_visit::FoldWith;
 
 #[derive(Debug, Default)]
 pub(super) struct Helpers {

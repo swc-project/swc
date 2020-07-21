@@ -13,24 +13,27 @@ use syn::{
     Visibility,
 };
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy)]
 enum Mode {
-    Visitor,
-    Folder,
+    Visit,
+    VisitMut,
+    Fold,
 }
 
 impl Mode {
     fn trait_name(self) -> &'static str {
         match self {
-            Mode::Folder => "Fold",
-            Mode::Visitor => "Visit",
+            Mode::Fold => "Fold",
+            Mode::Visit => "Visit",
+            Mode::VisitMut => "VisitMut",
         }
     }
 
     fn prefix(self) -> &'static str {
         match self {
-            Mode::Folder => "fold",
-            Mode::Visitor => "visit",
+            Mode::Fold => "fold",
+            Mode::Visit => "visit",
+            Mode::VisitMut => "visit_mut",
         }
     }
 }
@@ -58,8 +61,9 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let block: Block = parse(tts.into());
 
     let mut q = Quote::new_call_site();
-    q.push_tokens(&make(Mode::Folder, &block.stmts));
-    q.push_tokens(&make(Mode::Visitor, &block.stmts));
+    q.push_tokens(&make(Mode::Fold, &block.stmts));
+    q.push_tokens(&make(Mode::Visit, &block.stmts));
+    q.push_tokens(&make(Mode::VisitMut, &block.stmts));
 
     proc_macro2::TokenStream::from(q).into()
 }
@@ -88,14 +92,14 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
         {
             // &'_ mut V, Box<V>
             let block = match mode {
-                Mode::Visitor => q!(
+                Mode::Visit => q!(
                     Vars {
                         visit: &mtd.sig.ident,
                     },
                     ({ (**self).visit(n, _parent) })
                 )
                 .parse(),
-                Mode::Folder => q!(
+                Mode::Fold | Mode::VisitMut => q!(
                     Vars {
                         visit: &mtd.sig.ident,
                     },
@@ -184,13 +188,13 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
         let default_body = replace(
             &mut v.default,
             Some(match mode {
-                Mode::Folder => q!(Vars { fn_name: &fn_name }, {
+                Mode::Fold | Mode::VisitMut => q!(Vars { fn_name: &fn_name }, {
                     {
                         fn_name(self, n)
                     }
                 })
                 .parse(),
-                Mode::Visitor => q!(Vars { fn_name: &fn_name }, {
+                Mode::Visit => q!(Vars { fn_name: &fn_name }, {
                     {
                         fn_name(self, n, _parent)
                     }
@@ -213,7 +217,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             .unwrap();
 
         match mode {
-            Mode::Folder => tokens.push_tokens(&q!(
+            Mode::Fold => tokens.push_tokens(&q!(
                 Vars {
                     fn_name,
                     default_body,
@@ -228,7 +232,22 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 }
             )),
 
-            Mode::Visitor => tokens.push_tokens(&q!(
+            Mode::VisitMut => tokens.push_tokens(&q!(
+                Vars {
+                    fn_name,
+                    default_body,
+                    Type: arg_ty,
+                    Trait: Ident::new(mode.trait_name(), call_site()),
+                },
+                {
+                    #[allow(unused_variables)]
+                    pub fn fn_name<V: ?Sized + Trait>(_visitor: &mut V, n: Type) {
+                        default_body
+                    }
+                }
+            )),
+
+            Mode::Visit => tokens.push_tokens(&q!(
                 Vars {
                     fn_name,
                     default_body,
@@ -345,7 +364,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
         // Add FoldWith, VisitWith
 
         let trait_decl = match mode {
-            Mode::Visitor => q!({
+            Mode::Visit => q!({
                 pub trait VisitWith<V: Visit> {
                     fn visit_with(&self, _parent: &dyn Node, v: &mut V);
 
@@ -369,7 +388,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     }
                 }
             }),
-            Mode::Folder => q!({
+            Mode::Fold => q!({
                 pub trait FoldWith<V: Fold> {
                     fn fold_with(self, v: &mut V) -> Self;
 
@@ -389,6 +408,27 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     /// Visit children nodes of self with `v`
                     fn fold_children_with(self, v: &mut V) -> Self {
                         Box::new((*self).fold_children_with(v))
+                    }
+                }
+            }),
+            Mode::VisitMut => q!({
+                pub trait VisitMutWith<V: VisitMut> {
+                    fn visit_mut_with(&mut self, v: &mut V);
+
+                    fn visit_mut_children_with(&mut self, v: &mut V);
+                }
+
+                impl<V, T> VisitMutWith<V> for Box<T>
+                where
+                    V: VisitMut,
+                    T: 'static + VisitMutWith<V>,
+                {
+                    fn visit_mut_with(&mut self, v: &mut V) {
+                        (**self).visit_mut_with(v);
+                    }
+
+                    fn visit_mut_children_with(&mut self, v: &mut V) {
+                        (**self).visit_mut_children_with(v);
                     }
                 }
             }),
@@ -425,7 +465,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             let expr = visit_expr(mode, ty, &q!({ v }).parse(), q!({ self }).parse());
 
             match mode {
-                Mode::Visitor => {
+                Mode::Visit => {
                     let default_body = adjust_expr(mode, ty, q!({ self }).parse(), |expr| {
                         q!(
                             Vars {
@@ -458,7 +498,39 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                         }
                     ));
                 }
-                Mode::Folder => {
+                Mode::VisitMut => {
+                    let default_body = adjust_expr(mode, ty, q!({ self }).parse(), |expr| {
+                        q!(
+                            Vars {
+                                expr,
+                                method_name: &method_name
+                            },
+                            { method_name(_visitor, expr) }
+                        )
+                        .parse()
+                    });
+
+                    tokens.push_tokens(&q!(
+                        Vars {
+                            default_body,
+                            Type: ty,
+                            expr,
+                        },
+                        {
+                            impl<V: VisitMut> VisitMutWith<V> for Type {
+                                fn visit_mut_with(&mut self, v: &mut V) {
+                                    expr
+                                }
+
+                                fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+                                    default_body
+                                }
+                            }
+                        }
+                    ));
+                }
+
+                Mode::Fold => {
                     tokens.push_tokens(&q!(
                         Vars {
                             method_name,
@@ -492,22 +564,29 @@ where
     if is_option(&ty) {
         expr = if is_opt_vec(ty) {
             match mode {
-                Mode::Folder => expr,
+                Mode::Fold => expr,
 
-                Mode::Visitor => q!(Vars { expr }, { expr.as_ref().map(|v| &**v) }).parse(),
+                Mode::VisitMut => q!(Vars { expr }, { expr.as_mut() }).parse(),
+
+                Mode::Visit => q!(Vars { expr }, { expr.as_ref().map(|v| &**v) }).parse(),
             }
         } else {
             match mode {
-                Mode::Folder => expr,
-                Mode::Visitor => q!(Vars { expr }, { expr.as_ref() }).parse(),
+                Mode::Fold => expr,
+                Mode::VisitMut => q!(Vars { expr }, { expr.as_mut() }).parse(),
+                Mode::Visit => q!(Vars { expr }, { expr.as_ref() }).parse(),
             }
         };
     }
 
     if as_box(ty).is_some() {
         expr = match mode {
-            Mode::Visitor => expr,
-            Mode::Folder => q!(Vars { expr }, { *expr }).parse(),
+            Mode::Visit => expr,
+            Mode::VisitMut => {
+                // TODO
+                expr
+            }
+            Mode::Fold => q!(Vars { expr }, { *expr }).parse(),
         };
     }
 
@@ -515,8 +594,12 @@ where
 
     if as_box(ty).is_some() {
         expr = match mode {
-            Mode::Visitor => expr,
-            Mode::Folder => q!(Vars { expr }, { Box::new(expr) }).parse(),
+            Mode::Visit => expr,
+            Mode::VisitMut => {
+                // TODO
+                expr
+            }
+            Mode::Fold => q!(Vars { expr }, { Box::new(expr) }).parse(),
         };
     }
 
@@ -531,7 +614,7 @@ fn visit_expr(mode: Mode, ty: &Type, visitor: &Expr, expr: Expr) -> Expr {
     let visit_name = method_name(mode, ty);
 
     adjust_expr(mode, ty, expr, |expr| match mode {
-        Mode::Folder => q!(
+        Mode::Fold | Mode::VisitMut => q!(
             Vars {
                 visitor,
                 expr,
@@ -541,7 +624,7 @@ fn visit_expr(mode: Mode, ty: &Type, visitor: &Expr, expr: Expr) -> Expr {
         )
         .parse(),
 
-        Mode::Visitor => q!(
+        Mode::Visit => q!(
             Vars {
                 visitor,
                 expr,
@@ -576,8 +659,8 @@ fn make_arm_from_struct(mode: Mode, path: &Path, variant: &Fields) -> Arm {
 
             let expr = visit_expr(mode, ty, &q!({ _visitor }).parse(), expr);
             stmts.push(match mode {
-                Mode::Visitor => Stmt::Semi(expr, call_site()),
-                Mode::Folder => q!(
+                Mode::Visit | Mode::VisitMut => Stmt::Semi(expr, call_site()),
+                Mode::Fold => q!(
                     Vars {
                         name: &binding_ident,
                         expr
@@ -614,7 +697,7 @@ fn make_arm_from_struct(mode: Mode, path: &Path, variant: &Fields) -> Arm {
     }
 
     match mode {
-        Mode::Folder => {
+        Mode::Fold => {
             // Append return statement
             stmts.push(
                 q!(
@@ -630,7 +713,7 @@ fn make_arm_from_struct(mode: Mode, path: &Path, variant: &Fields) -> Arm {
                 .parse(),
             )
         }
-        Mode::Visitor => {}
+        Mode::Visit | Mode::VisitMut => {}
     }
 
     let block = Block {
@@ -667,20 +750,24 @@ fn method_sig(mode: Mode, ty: &Type) -> Signature {
             p.push_value(q!(Vars {}, { &mut self }).parse());
             p.push_punct(def_site());
             match mode {
-                Mode::Folder => {
+                Mode::Fold => {
                     p.push_value(q!(Vars { Type: ty }, { n: Type }).parse());
                 }
 
-                Mode::Visitor => {
+                Mode::VisitMut => {
+                    p.push_value(q!(Vars { Type: ty }, { n: &mut Type }).parse());
+                }
+
+                Mode::Visit => {
                     p.push_value(q!(Vars { Type: ty }, { n: &Type }).parse());
                 }
             }
             match mode {
-                Mode::Folder => {
+                Mode::Fold | Mode::VisitMut => {
                     // We can not provide parent node because it's child node is
                     // part of the parent ndoe.
                 }
-                Mode::Visitor => {
+                Mode::Visit => {
                     p.push_punct(def_site());
                     p.push_value(q!(Vars {}, { _parent: &dyn Node }).parse());
                 }
@@ -690,7 +777,7 @@ fn method_sig(mode: Mode, ty: &Type) -> Signature {
         },
         variadic: None,
         output: match mode {
-            Mode::Folder => q!(Vars { ty }, { -> ty }).parse(),
+            Mode::Fold => q!(Vars { ty }, { -> ty }).parse(),
             _ => ReturnType::Default,
         },
     }
@@ -721,7 +808,7 @@ fn make_method(
         let ident = method_name(mode, &ty);
 
         match mode {
-            Mode::Visitor => q!(
+            Mode::Visit => q!(
                 Vars { visit: &ident },
                 ({
                     if self.enabled {
@@ -730,7 +817,16 @@ fn make_method(
                 })
             )
             .parse(),
-            Mode::Folder => q!(
+            Mode::VisitMut => q!(
+                Vars { visit: &ident },
+                ({
+                    if self.enabled {
+                        self.visitor.visit(n)
+                    }
+                })
+            )
+            .parse(),
+            Mode::Fold => q!(
                 Vars { fold: &ident },
                 ({
                     if self.enabled {
@@ -752,7 +848,7 @@ fn make_method(
         let ident = method_name(mode, &ty);
 
         match mode {
-            Mode::Visitor => q!(
+            Mode::Visit => q!(
                 Vars { visit: &ident },
                 ({
                     match self {
@@ -762,7 +858,7 @@ fn make_method(
                 })
             )
             .parse(),
-            Mode::Folder => q!(
+            Mode::Fold | Mode::VisitMut => q!(
                 Vars { fold: &ident },
                 ({
                     match self {
@@ -919,8 +1015,8 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
                 p.push_punct(def_site());
                 p.push_value(q!(Vars { Type: ty }, { n: Type }).parse());
                 match mode {
-                    Mode::Folder => {}
-                    Mode::Visitor => {
+                    Mode::Fold | Mode::VisitMut => {}
+                    Mode::Visit => {
                         p.push_punct(def_site());
                         p.push_value(q!(Vars {}, { _parent: &dyn Node }).parse());
                     }
@@ -930,20 +1026,20 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
             },
             variadic: None,
             output: match mode {
-                Mode::Folder => q!(Vars { ty }, { -> ty }).parse(),
+                Mode::Fold => q!(Vars { ty }, { -> ty }).parse(),
                 _ => ReturnType::Default,
             },
         }
     }
 
-    fn mk_ref(mode: Mode, ident: Ident, ty: &Type) -> Signature {
+    fn mk_ref(mode: Mode, ident: Ident, ty: &Type, mutable: bool) -> Signature {
         mk_exact(
             mode,
             ident,
             &Type::Reference(TypeReference {
                 and_token: def_site(),
                 lifetime: None,
-                mutability: None,
+                mutability: if mutable { Some(def_site()) } else { None },
                 elem: Box::new(ty.clone()),
             }),
         )
@@ -968,12 +1064,16 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
                 if let Some(arg) = as_box(&ty) {
                     let ident = method_name(mode, &arg);
                     match mode {
-                        Mode::Folder => {
+                        Mode::Fold => {
                             return mk_exact(mode, ident, &arg);
                         }
 
-                        Mode::Visitor => {
-                            return mk_ref(mode, ident, &arg);
+                        Mode::VisitMut => {
+                            return mk_ref(mode, ident, &arg, true);
+                        }
+
+                        Mode::Visit => {
+                            return mk_ref(mode, ident, &arg, false);
                         }
                     }
                 }
@@ -994,33 +1094,48 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
 
                                     if let Some(item) = extract_vec(arg) {
                                         match mode {
-                                            Mode::Folder => {
+                                            Mode::Fold => {
                                                 return mk_exact(
                                                     mode,
                                                     ident,
-                                                    &q!(Vars { item}, { Option<Vec<item>> })
+                                                    &q!(Vars { item }, { Option<Vec<item>> })
                                                         .parse(),
                                                 );
                                             }
-                                            Mode::Visitor => {
+                                            Mode::VisitMut => {
                                                 return mk_exact(
                                                     mode,
                                                     ident,
-                                                    &q!(Vars { item}, { Option<&[item]> }).parse(),
+                                                    &q!(Vars { item }, { Option<&mut Vec<item>> })
+                                                        .parse(),
+                                                );
+                                            }
+                                            Mode::Visit => {
+                                                return mk_exact(
+                                                    mode,
+                                                    ident,
+                                                    &q!(Vars { item }, { Option<&[item]> }).parse(),
                                                 );
                                             }
                                         }
                                     }
 
                                     match mode {
-                                        Mode::Folder => {
+                                        Mode::Fold => {
                                             return mk_exact(
                                                 mode,
                                                 ident,
                                                 &q!(Vars { arg }, { Option<arg> }).parse(),
                                             );
                                         }
-                                        Mode::Visitor => {
+                                        Mode::VisitMut => {
+                                            return mk_exact(
+                                                mode,
+                                                ident,
+                                                &q!(Vars { arg }, { Option<&mut arg> }).parse(),
+                                            );
+                                        }
+                                        Mode::Visit => {
                                             return mk_exact(
                                                 mode,
                                                 ident,
@@ -1049,6 +1164,7 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
                                         if is_option(arg) {
                                             return v
                                                 .replace("visit_opt_", "visit_opt_vec_")
+                                                .replace("visit_mut_opt_", "visit_mut_opt_vec_")
                                                 .replace("fold_opt_", "fold_opt_vec_");
                                         }
                                         return v;
@@ -1060,18 +1176,27 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
                                     }
 
                                     match mode {
-                                        Mode::Folder => {
+                                        Mode::Fold => {
                                             return mk_exact(
                                                 mode,
                                                 ident,
                                                 &q!(Vars { arg }, { Vec<arg> }).parse(),
                                             );
                                         }
-                                        Mode::Visitor => {
+                                        Mode::VisitMut => {
+                                            return mk_ref(
+                                                mode,
+                                                ident,
+                                                &q!(Vars { arg }, { Vec<arg> }).parse(),
+                                                true,
+                                            );
+                                        }
+                                        Mode::Visit => {
                                             return mk_ref(
                                                 mode,
                                                 ident,
                                                 &q!(Vars { arg }, { [arg] }).parse(),
+                                                false,
                                             );
                                         }
                                     }
@@ -1085,9 +1210,12 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
             }
 
             match mode {
-                Mode::Folder => return mk_exact(mode, ident, ty),
-                Mode::Visitor => {
-                    return mk_ref(mode, ident, ty);
+                Mode::Fold => return mk_exact(mode, ident, ty),
+                Mode::VisitMut => {
+                    return mk_ref(mode, ident, ty, true);
+                }
+                Mode::Visit => {
+                    return mk_ref(mode, ident, ty, false);
                 }
             }
         }
@@ -1119,12 +1247,12 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
             if !last.arguments.is_empty() {
                 if let Some(arg) = as_box(ty) {
                     match mode {
-                        Mode::Folder => {
+                        Mode::Fold => {
                             let ident = method_name(mode, arg);
 
                             return q!(Vars { ident }, ({ Box::new(_visitor.ident(*n)) })).parse();
                         }
-                        Mode::Visitor => {
+                        Mode::Visit | Mode::VisitMut => {
                             return create_method_body(mode, arg);
                         }
                     }
@@ -1140,7 +1268,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                     let ident = method_name(mode, arg);
 
                                     match mode {
-                                        Mode::Folder => {
+                                        Mode::Fold => {
                                             if let Some(..) = as_box(arg) {
                                                 return q!(
                                                     Vars { ident },
@@ -1160,7 +1288,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                     }
 
                                     return match mode {
-                                        Mode::Folder => q!(
+                                        Mode::Fold => q!(
                                             Vars { ident },
                                             ({
                                                 match n {
@@ -1170,7 +1298,19 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                             })
                                         )
                                         .parse(),
-                                        Mode::Visitor => q!(
+
+                                        Mode::VisitMut => q!(
+                                            Vars { ident },
+                                            ({
+                                                match n {
+                                                    Some(n) => _visitor.ident(n),
+                                                    None => {}
+                                                }
+                                            })
+                                        )
+                                        .parse(),
+
+                                        Mode::Visit => q!(
                                             Vars { ident },
                                             ({
                                                 match n {
@@ -1198,23 +1338,27 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                 GenericArgument::Type(arg) => {
                                     let ident = method_name(mode, arg);
 
-                                    if mode == Mode::Folder {
-                                        if let Some(..) = as_box(arg) {
-                                            return q!(
-                                                Vars { ident },
-                                                ({
-                                                    n.into_iter()
-                                                        .map(|v| Box::new(_visitor.ident(*v)))
-                                                        .collect()
-                                                })
-                                            )
-                                            .parse();
+                                    match mode {
+                                        Mode::Fold => {
+                                            if let Some(..) = as_box(arg) {
+                                                return q!(
+                                                    Vars { ident },
+                                                    ({
+                                                        n.into_iter()
+                                                            .map(|v| Box::new(_visitor.ident(*v)))
+                                                            .collect()
+                                                    })
+                                                )
+                                                .parse();
+                                            }
                                         }
+                                        Mode::Visit => {}
+                                        Mode::VisitMut => {}
                                     }
 
                                     return if is_option(arg) {
                                         match mode {
-                                            Mode::Folder => q!(
+                                            Mode::Fold => q!(
                                                 Vars { ident },
                                                 ({
                                                     n.into_iter()
@@ -1223,7 +1367,15 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                                 })
                                             )
                                             .parse(),
-                                            Mode::Visitor => q!(
+                                            Mode::VisitMut => q!(
+                                                Vars { ident },
+                                                ({
+                                                    n.iter_mut()
+                                                        .for_each(|v| _visitor.ident(v.as_mut()))
+                                                })
+                                            )
+                                            .parse(),
+                                            Mode::Visit => q!(
                                                 Vars { ident },
                                                 ({
                                                     n.iter().for_each(|v| {
@@ -1235,7 +1387,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                         }
                                     } else {
                                         match mode {
-                                            Mode::Folder => q!(
+                                            Mode::Fold => q!(
                                                 Vars { ident },
                                                 ({
                                                     n.into_iter()
@@ -1244,7 +1396,14 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                                 })
                                             )
                                             .parse(),
-                                            Mode::Visitor => q!(
+
+                                            Mode::VisitMut => q!(
+                                                Vars { ident },
+                                                ({ n.iter_mut().for_each(|v| _visitor.ident(v)) })
+                                            )
+                                            .parse(),
+
+                                            Mode::Visit => q!(
                                                 Vars { ident },
                                                 ({
                                                     n.iter()
@@ -1264,8 +1423,8 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
             }
 
             match mode {
-                Mode::Folder => q!(({ return n })).parse(),
-                Mode::Visitor => q!(({})).parse(),
+                Mode::Fold => q!(({ return n })).parse(),
+                Mode::Visit | Mode::VisitMut => q!(({})).parse(),
             }
         }
         Type::Ptr(_) => unimplemented!("type: pointer"),
@@ -1359,31 +1518,11 @@ fn extract_vec(ty: &Type) -> Option<&Type> {
 }
 
 fn is_opt_vec(ty: &Type) -> bool {
-    match ty {
-        Type::Path(p) => {
-            let last = p.path.segments.last().unwrap();
-
-            if !last.arguments.is_empty() {
-                if last.ident == "Option" {
-                    match &last.arguments {
-                        PathArguments::AngleBracketed(tps) => {
-                            let arg = tps.args.first().unwrap();
-
-                            match arg {
-                                GenericArgument::Type(arg) => return extract_vec(arg).is_some(),
-                                _ => {}
-                            }
-                        }
-                        _ => {}
-                    }
-                }
-            }
-        }
-
-        _ => {}
+    if let Some(inner) = extract_generic("Option", ty) {
+        extract_vec(inner).is_some()
+    } else {
+        false
     }
-
-    false
 }
 
 fn skip(ty: &Type) -> bool {
