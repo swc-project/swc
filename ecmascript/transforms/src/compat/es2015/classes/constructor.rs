@@ -42,6 +42,19 @@ impl SuperCallFinder {
     }
 }
 
+macro_rules! ignore_return {
+    ($name:ident, $T:ty) => {
+        fn $name(&mut self, n: $T) -> $T {
+            let old = self.ignore_return;
+            self.ignore_return = true;
+            let n = n.fold_children_with(self);
+            self.ignore_return = old;
+
+            n
+        }
+    };
+}
+
 macro_rules! mark_as_complex {
     ($name:ident, $T:ty) => {
         fn $name(&mut self, node: &$T, _: &dyn Node) {
@@ -156,26 +169,13 @@ pub(super) enum SuperFoldingMode {
     Var,
 }
 
-macro_rules! ignore_return {
-    ($name:ident, $T:ty) => {
-        fn $name(&mut self, n: $T) -> $T {
-            let old = self.ignore_return;
-            self.ignore_return = true;
-            let n = n.fold_children_with(self);
-            self.ignore_return = old;
+impl Fold for ConstructorFolder<'_> {
+    fold_only_key!();
 
-            n
-        }
-    };
-}
-
-impl<'a> Fold for ConstructorFolder<'a> {
     ignore_return!(fold_function, Function);
     ignore_return!(fold_class, Class);
     ignore_return!(fold_arrow_expr, ArrowExpr);
     ignore_return!(fold_constructor, Constructor);
-
-    fold_only_key!();
 
     fn fold_expr(&mut self, expr: Expr) -> Expr {
         match self.mode {
