@@ -718,7 +718,7 @@ impl Fold for Inlining<'_> {
                                 }
                                 Some(box e) => {
                                     if self.scope.is_inline_prevented(&Expr::Ident(name.clone())) {
-                                        node.init = Some(box e);
+                                        node.init = Some(Box::new(e));
                                         return node;
                                     }
 
@@ -726,11 +726,11 @@ impl Fold for Inlining<'_> {
                                         if cnt == 1 {
                                             Some(e)
                                         } else {
-                                            node.init = Some(box e);
+                                            node.init = Some(Box::new(e));
                                             return node;
                                         }
                                     } else {
-                                        node.init = Some(box e);
+                                        node.init = Some(Box::new(e));
                                         return node;
                                     }
                                 }

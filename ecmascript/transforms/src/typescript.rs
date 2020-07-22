@@ -373,38 +373,42 @@ impl Strip {
                                         },
                                     };
                                     let prop = if no_init_required {
-                                        box Expr::Lit(Lit::Str(value.clone()))
+                                        Box::new(Expr::Lit(Lit::Str(value.clone())))
                                     } else {
-                                        box Expr::Assign(AssignExpr {
+                                        Box::new(Expr::Assign(AssignExpr {
                                             span: DUMMY_SP,
-                                            left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
-                                                span: DUMMY_SP,
-                                                obj: id.clone().as_obj(),
-                                                prop: box Expr::Lit(Lit::Str(value.clone())),
-                                                computed: true,
-                                            })),
+                                            left: PatOrExpr::Expr(Box::new(Expr::Member(
+                                                MemberExpr {
+                                                    span: DUMMY_SP,
+                                                    obj: id.clone().as_obj(),
+                                                    prop: Box::new(Expr::Lit(Lit::Str(
+                                                        value.clone(),
+                                                    ))),
+                                                    computed: true,
+                                                },
+                                            ))),
                                             op: op!("="),
-                                            right: box val,
-                                        })
+                                            right: Box::new(val),
+                                        }))
                                     };
 
                                     // Foo[Foo["a"] = 0] = "a";
                                     AssignExpr {
                                         span: DUMMY_SP,
-                                        left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
+                                        left: PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
                                             obj: id.clone().as_obj(),
                                             span: DUMMY_SP,
                                             computed: true,
 
                                             // Foo["a"] = 0
                                             prop,
-                                        })),
+                                        }))),
                                         op: op!("="),
                                         right: if rhs_should_be_name {
-                                            box Expr::Lit(Lit::Str(value.clone()))
+                                            Box::new(Expr::Lit(Lit::Str(value.clone())))
                                         } else {
                                             m.init.unwrap_or_else(|| {
-                                                box Expr::Lit(Lit::Str(value.clone()))
+                                                Box::new(Expr::Lit(Lit::Str(value.clone())))
                                             })
                                         },
                                     }
@@ -418,17 +422,17 @@ impl Strip {
                 .as_callee(),
                 args: vec![BinExpr {
                     span: DUMMY_SP,
-                    left: box Expr::Ident(id.clone()),
+                    left: Box::new(Expr::Ident(id.clone())),
                     op: op!("||"),
-                    right: box Expr::Assign(AssignExpr {
+                    right: Box::new(Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
                         left: PatOrExpr::Pat(Pat::Ident(id.clone()).into()),
                         op: op!("="),
-                        right: box Expr::Object(ObjectLit {
+                        right: Box::new(Expr::Object(ObjectLit {
                             span: DUMMY_SP,
                             props: vec![],
-                        }),
-                    }),
+                        })),
+                    })),
                 }
                 .as_arg()],
                 type_args: Default::default(),
@@ -521,7 +525,7 @@ impl Fold for Strip {
                             decorators: Default::default(),
                             pat: Pat::Assign(AssignPat {
                                 span,
-                                left: box Pat::Ident(i),
+                                left: Box::new(Pat::Ident(i)),
                                 right,
                                 type_ann: None,
                             }),
@@ -532,11 +536,11 @@ impl Fold for Strip {
                 stmts.push(
                     AssignExpr {
                         span: DUMMY_SP,
-                        left: PatOrExpr::Expr(
-                            box ThisExpr { span: DUMMY_SP }.member(ident.clone()),
-                        ),
+                        left: PatOrExpr::Expr(Box::new(
+                            ThisExpr { span: DUMMY_SP }.member(ident.clone()),
+                        )),
                         op: op!("="),
-                        right: box Expr::Ident(ident),
+                        right: Box::new(Expr::Ident(ident)),
                     }
                     .into_stmt(),
                 );
@@ -890,7 +894,7 @@ impl Fold for Strip {
                             decls: vec![VarDeclarator {
                                 span: DUMMY_SP,
                                 name: Pat::Ident(import.id),
-                                init: Some(box module_ref_to_expr(import.module_ref)),
+                                init: Some(Box::new(module_ref_to_expr(import.module_ref))),
                                 definite: false,
                             }],
                             declare: false,
@@ -952,8 +956,8 @@ fn ts_entity_name_to_expr(n: TsEntityName) -> Expr {
         TsEntityName::Ident(i) => i.into(),
         TsEntityName::TsQualifiedName(box TsQualifiedName { left, right }) => MemberExpr {
             span: DUMMY_SP,
-            obj: ExprOrSuper::Expr(box ts_entity_name_to_expr(left)),
-            prop: box right.into(),
+            obj: ExprOrSuper::Expr(Box::new(ts_entity_name_to_expr(left))),
+            prop: Box::new(right.into()),
             computed: false,
         }
         .into(),

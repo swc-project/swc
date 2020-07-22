@@ -77,11 +77,11 @@ impl OptChaining {
 
                     return CondExpr {
                         span,
-                        alt: box Expr::Unary(UnaryExpr {
+                        alt: Box::new(Expr::Unary(UnaryExpr {
                             span,
                             op: op!("delete"),
                             arg: expr.alt,
-                        }),
+                        })),
                         ..expr
                     }
                     .into();
@@ -97,16 +97,16 @@ impl OptChaining {
 
                     return CondExpr {
                         span: DUMMY_SP,
-                        alt: box Expr::Unary(UnaryExpr {
+                        alt: Box::new(Expr::Unary(UnaryExpr {
                             span,
                             op: op!("delete"),
-                            arg: box Expr::Member(MemberExpr {
+                            arg: Box::new(Expr::Member(MemberExpr {
                                 span,
                                 obj: ExprOrSuper::Expr(expr.alt),
                                 prop,
                                 computed,
-                            }),
-                        }),
+                            })),
+                        })),
                         ..expr
                     }
                     .into();
@@ -125,10 +125,10 @@ impl OptChaining {
 
             return CondExpr {
                 span: DUMMY_SP,
-                alt: box Expr::Call(CallExpr {
+                alt: Box::new(Expr::Call(CallExpr {
                     callee: ExprOrSuper::Expr(expr.alt),
                     ..e
-                }),
+                })),
                 ..expr
             }
             .into();
@@ -147,15 +147,15 @@ impl OptChaining {
                     //
                     return CondExpr {
                         span: DUMMY_SP,
-                        alt: box Expr::Member(MemberExpr {
+                        alt: Box::new(Expr::Member(MemberExpr {
                             obj: ExprOrSuper::Expr(obj.alt),
                             ..e
-                        }),
+                        })),
                         ..obj
                     }
                     .into();
                 }
-                _ => ExprOrSuper::Expr(box obj),
+                _ => ExprOrSuper::Expr(Box::new(obj)),
             }
         } else {
             e.obj
@@ -166,10 +166,10 @@ impl OptChaining {
 
             return CondExpr {
                 span: DUMMY_SP,
-                alt: box Expr::Member(MemberExpr {
+                alt: Box::new(Expr::Member(MemberExpr {
                     obj: ExprOrSuper::Expr(expr.alt),
                     ..e
-                }),
+                })),
                 ..expr
             }
             .into();
@@ -192,16 +192,16 @@ impl OptChaining {
                 let o_span = o.span;
                 let obj = self.unwrap(o);
 
-                let alt = box Expr::Member(MemberExpr {
+                let alt = Box::new(Expr::Member(MemberExpr {
                     span: m_span,
                     obj: ExprOrSuper::Expr(obj.alt),
                     prop,
                     computed,
-                });
-                let alt = box Expr::OptChain(OptChainExpr {
+                }));
+                let alt = Box::new(Expr::OptChain(OptChainExpr {
                     span: o_span,
                     expr: alt,
-                });
+                }));
 
                 return validate!(CondExpr { alt, ..obj });
             }
@@ -214,13 +214,13 @@ impl OptChaining {
             }) => {
                 let obj = self.unwrap(o);
 
-                let alt = box Expr::Call(CallExpr {
+                let alt = Box::new(Expr::Call(CallExpr {
                     span,
                     callee: ExprOrSuper::Expr(obj.alt),
                     args,
                     type_args,
-                });
-                let alt = box Expr::OptChain(OptChainExpr { span, expr: alt });
+                }));
+                let alt = Box::new(Expr::OptChain(OptChainExpr { span, expr: alt }));
 
                 return validate!(CondExpr {
                     span: DUMMY_SP,
@@ -242,7 +242,7 @@ impl OptChaining {
                 let obj_span = obj.span();
 
                 let (left, right, alt) = match obj {
-                    Expr::Ident(..) => (box obj.clone(), box obj, e.expr),
+                    Expr::Ident(..) => (Box::new(obj.clone()), Box::new(obj), e.expr),
                     _ => {
                         let i = private_ident!(obj_span, "ref");
                         self.vars.push(VarDeclarator {
@@ -253,15 +253,15 @@ impl OptChaining {
                         });
 
                         (
-                            box Expr::Assign(AssignExpr {
+                            Box::new(Expr::Assign(AssignExpr {
                                 span: DUMMY_SP,
-                                left: PatOrExpr::Pat(box Pat::Ident(i.clone())),
+                                left: PatOrExpr::Pat(Box::new(Pat::Ident(i.clone()))),
                                 op: op!("="),
-                                right: box obj,
-                            }),
-                            box Expr::Ident(i.clone()),
-                            validate!(box Expr::Member(MemberExpr {
-                                obj: ExprOrSuper::Expr(box Expr::Ident(i)),
+                                right: Box::new(obj),
+                            })),
+                            Box::new(Expr::Ident(i.clone())),
+                            Box::new(Expr::Member(MemberExpr {
+                                obj: ExprOrSuper::Expr(Box::new(Expr::Ident(i))),
                                 computed,
                                 span: DUMMY_SP,
                                 prop,
@@ -270,21 +270,21 @@ impl OptChaining {
                     }
                 };
 
-                let right = validate!(box Expr::Bin(BinExpr {
+                let right = Box::new(Expr::Bin(BinExpr {
                     span: DUMMY_SP,
                     left: right,
                     op: op!("==="),
                     right: undefined(span),
                 }));
 
-                let test = validate!(box Expr::Bin(BinExpr {
+                let test = Box::new(Expr::Bin(BinExpr {
                     span,
-                    left: box Expr::Bin(BinExpr {
+                    left: Box::new(Expr::Bin(BinExpr {
                         span: obj_span,
                         left,
                         op: op!("==="),
-                        right: box Expr::Lit(Lit::Null(Null { span: DUMMY_SP })),
-                    }),
+                        right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
+                    })),
                     op: op!("||"),
                     right,
                 }));
@@ -313,7 +313,7 @@ impl OptChaining {
                 };
 
                 let (left, right, alt) = match obj {
-                    Expr::Ident(..) => (box obj.clone(), box obj, e.expr),
+                    Expr::Ident(..) => (Box::new(obj.clone()), Box::new(obj), e.expr),
                     _ => {
                         let i = private_ident!(obj_span, "ref");
                         self.vars.push(VarDeclarator {
@@ -324,21 +324,21 @@ impl OptChaining {
                         });
 
                         (
-                            box Expr::Assign(AssignExpr {
+                            Box::new(Expr::Assign(AssignExpr {
                                 span: DUMMY_SP,
-                                left: PatOrExpr::Pat(box Pat::Ident(i.clone())),
+                                left: PatOrExpr::Pat(Box::new(Pat::Ident(i.clone()))),
                                 op: op!("="),
-                                right: box obj,
-                            }),
-                            box Expr::Ident(i.clone()),
-                            box Expr::Call(CallExpr {
+                                right: Box::new(obj),
+                            })),
+                            Box::new(Expr::Ident(i.clone())),
+                            Box::new(Expr::Call(CallExpr {
                                 span,
-                                callee: ExprOrSuper::Expr(box Expr::Member(MemberExpr {
+                                callee: ExprOrSuper::Expr(Box::new(Expr::Member(MemberExpr {
                                     span: DUMMY_SP,
-                                    obj: ExprOrSuper::Expr(box Expr::Ident(i.clone())),
-                                    prop: box Expr::Ident(Ident::new("call".into(), span)),
+                                    obj: ExprOrSuper::Expr(Box::new(Expr::Ident(i.clone()))),
+                                    prop: Box::new(Expr::Ident(Ident::new("call".into(), span))),
                                     computed: false,
-                                })),
+                                }))),
                                 // TODO;
                                 args: once(if is_super_access {
                                     ThisExpr { span }.as_arg()
@@ -348,27 +348,27 @@ impl OptChaining {
                                 .chain(args)
                                 .collect(),
                                 type_args,
-                            }),
+                            })),
                         )
                     }
                 };
 
-                let test = box Expr::Bin(BinExpr {
+                let test = Box::new(Expr::Bin(BinExpr {
                     span,
-                    left: box Expr::Bin(BinExpr {
+                    left: Box::new(Expr::Bin(BinExpr {
                         span: DUMMY_SP,
                         left,
                         op: op!("==="),
-                        right: box Expr::Lit(Lit::Null(Null { span: DUMMY_SP })),
-                    }),
+                        right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
+                    })),
                     op: op!("||"),
-                    right: box Expr::Bin(BinExpr {
+                    right: Box::new(Expr::Bin(BinExpr {
                         span: DUMMY_SP,
                         left: right,
                         op: op!("==="),
                         right: undefined(span),
-                    }),
-                });
+                    })),
+                }));
 
                 validate!(CondExpr {
                     span: DUMMY_SP,

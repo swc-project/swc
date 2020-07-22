@@ -40,12 +40,12 @@ fn rt(global_mark: Mark, rt: Ident) -> Stmt {
         decls: vec![VarDeclarator {
             span: DUMMY_SP,
             name: Pat::Ident(rt),
-            init: Some(box Expr::Call(CallExpr {
+            init: Some(Box::new(Expr::Call(CallExpr {
                 span: DUMMY_SP,
                 callee: quote_ident!(DUMMY_SP.apply_mark(global_mark), "require").as_callee(),
                 args: vec![quote_str!("regenerator-runtime").as_arg()],
                 type_args: Default::default(),
-            })),
+            }))),
             definite: false,
         }],
     }))
@@ -138,7 +138,7 @@ impl Fold for Regenerator {
         self.top_level_vars.push(VarDeclarator {
             span: DUMMY_SP,
             name: Pat::Ident(marked.clone()),
-            init: Some(box Expr::Call(CallExpr {
+            init: Some(Box::new(Expr::Call(CallExpr {
                 span: DUMMY_SP,
                 callee: self
                     .regenerator_runtime
@@ -148,7 +148,7 @@ impl Fold for Regenerator {
                     .as_callee(),
                 args: vec![f.ident.clone().as_arg()],
                 type_args: None,
-            })),
+            }))),
             definite: false,
         });
 
@@ -193,7 +193,7 @@ impl Fold for Regenerator {
 
                 return ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
                     span,
-                    expr: box FnExpr { ident, function }.into(),
+                    expr: Box::new(FnExpr { ident, function }.into()),
                 });
             }
 
@@ -231,15 +231,15 @@ impl Fold for Regenerator {
                             span: DUMMY_SP,
                             stmts: vec![ReturnStmt {
                                 span: DUMMY_SP,
-                                arg: Some(
-                                    box CallExpr {
+                                arg: Some(Box::new(
+                                    CallExpr {
                                         span: DUMMY_SP,
                                         callee: mark_expr.as_callee(),
                                         args: vec![],
                                         type_args: Default::default(),
                                     }
                                     .into(),
-                                ),
+                                )),
                             }
                             .into()],
                         }),
@@ -315,13 +315,13 @@ impl Regenerator {
                 VarDeclarator {
                     span: DUMMY_SP,
                     name: Pat::Ident(id.clone()),
-                    init: Some(
-                        box Ident {
+                    init: Some(Box::new(
+                        Ident {
                             sym: js_word!("arguments"),
                             ..id
                         }
                         .into(),
-                    ),
+                    )),
                     definite: false,
                 }
             }));
@@ -337,52 +337,58 @@ impl Regenerator {
         // Intentionally fall through to the "end" case...
         cases.push(SwitchCase {
             span: DUMMY_SP,
-            test: Some(box Expr::Lit(Lit::Num(Number {
+            test: Some(Box::new(Expr::Lit(Lit::Num(Number {
                 span: DUMMY_SP,
                 value: handler.final_loc() as _,
-            }))),
+            })))),
             // fallthrough
             cons: vec![],
         });
         cases.push(SwitchCase {
             span: DUMMY_SP,
-            test: Some(box Expr::Lit(Lit::Str(Str {
+            test: Some(Box::new(Expr::Lit(Lit::Str(Str {
                 span: DUMMY_SP,
                 value: "end".into(),
                 has_escape: false,
-            }))),
+            })))),
             cons: vec![ReturnStmt {
                 span: DUMMY_SP,
                 // _ctx.stop()
-                arg: Some(box Expr::Call(CallExpr {
+                arg: Some(Box::new(Expr::Call(CallExpr {
                     span: DUMMY_SP,
                     callee: ctx.clone().member(quote_ident!("stop")).as_callee(),
                     args: vec![],
                     type_args: Default::default(),
-                })),
+                }))),
             }
             .into()],
         });
 
         let stmts = vec![Stmt::While(WhileStmt {
             span: DUMMY_SP,
-            test: box Expr::Lit(Lit::Num(Number {
+            test: Box::new(Expr::Lit(Lit::Num(Number {
                 span: DUMMY_SP,
                 value: 1.0,
-            })),
-            body: box SwitchStmt {
-                span: DUMMY_SP,
-                // _ctx.prev = _ctx.next
-                discriminant: box AssignExpr {
+            }))),
+            body: Box::new(
+                SwitchStmt {
                     span: DUMMY_SP,
-                    op: op!("="),
-                    left: PatOrExpr::Expr(box ctx.clone().member(quote_ident!("prev"))),
-                    right: box ctx.clone().member(quote_ident!("next")),
+                    // _ctx.prev = _ctx.next
+                    discriminant: Box::new(
+                        AssignExpr {
+                            span: DUMMY_SP,
+                            op: op!("="),
+                            left: PatOrExpr::Expr(Box::new(
+                                ctx.clone().member(quote_ident!("prev")),
+                            )),
+                            right: Box::new(ctx.clone().member(quote_ident!("next"))),
+                        }
+                        .into(),
+                    ),
+                    cases,
                 }
                 .into(),
-                cases,
-            }
-            .into(),
+            ),
         })];
 
         (
@@ -405,7 +411,7 @@ impl Regenerator {
                         buf.push(
                             ReturnStmt {
                                 span: DUMMY_SP,
-                                arg: Some(box Expr::Call(CallExpr {
+                                arg: Some(Box::new(Expr::Call(CallExpr {
                                     span: DUMMY_SP,
                                     callee: self
                                         .regenerator_runtime
@@ -460,7 +466,7 @@ impl Regenerator {
                                         args
                                     },
                                     type_args: None,
-                                })),
+                                }))),
                             }
                             .into(),
                         );

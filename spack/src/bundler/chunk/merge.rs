@@ -297,7 +297,7 @@ impl Bundler<'_> {
                                     decls: vec![VarDeclarator {
                                         span: DUMMY_SP,
                                         name: Pat::Ident(load_var.clone()),
-                                        init: Some(box Expr::Call(CallExpr {
+                                        init: Some(Box::new(Expr::Call(CallExpr {
                                             span: DUMMY_SP,
                                             callee: {
                                                 info.helpers.require.store(true, Ordering::SeqCst);
@@ -313,7 +313,7 @@ impl Bundler<'_> {
                                                 module_fn.as_arg(),
                                             ],
                                             type_args: None,
-                                        })),
+                                        }))),
                                         definite: false,
                                     }],
                                 }));
@@ -516,7 +516,7 @@ impl Fold for ExportRenamer<'_> {
                         var_decls.push(VarDeclarator {
                             span,
                             name: Pat::Ident(i.replace_mark(self.mark).into_ident()),
-                            init: Some(box Expr::Ident(orig)),
+                            init: Some(Box::new(Expr::Ident(orig))),
                             definite: false,
                         })
                     } else {
@@ -846,7 +846,7 @@ impl VisitMut for RequireReplacer {
                                 if let Some(imported) = s.imported {
                                     props.push(ObjectPatProp::KeyValue(KeyValuePatProp {
                                         key: imported.into(),
-                                        value: box s.local.into(),
+                                        value: Box::new(s.local.into()),
                                     }));
                                 } else {
                                     props.push(ObjectPatProp::Assign(AssignPatProp {
@@ -859,7 +859,7 @@ impl VisitMut for RequireReplacer {
                             ImportSpecifier::Default(s) => {
                                 props.push(ObjectPatProp::KeyValue(KeyValuePatProp {
                                     key: PropName::Ident(Ident::new("default".into(), DUMMY_SP)),
-                                    value: box s.local.into(),
+                                    value: Box::new(s.local.into()),
                                 }));
                             }
                             ImportSpecifier::Namespace(ns) => {
@@ -870,15 +870,15 @@ impl VisitMut for RequireReplacer {
                                     decls: vec![VarDeclarator {
                                         span: ns.span,
                                         name: ns.local.into(),
-                                        init: Some(
-                                            box CallExpr {
+                                        init: Some(Box::new(
+                                            CallExpr {
                                                 span: DUMMY_SP,
                                                 callee: self.load.clone().as_callee(),
                                                 args: vec![],
                                                 type_args: None,
                                             }
                                             .into(),
-                                        ),
+                                        )),
                                         definite: false,
                                     }],
                                 })));
@@ -899,7 +899,7 @@ impl VisitMut for RequireReplacer {
                                 optional: false,
                                 type_ann: None,
                             }),
-                            init: Some(box self.load.clone().into()),
+                            init: Some(Box::new(self.load.clone().into())),
                             definite: false,
                         }],
                     })));

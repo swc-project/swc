@@ -93,7 +93,7 @@ impl Fold for Decorators {
                     });
                 }
 
-                let decorate_call = box self.fold_class_inner(ident.clone(), class);
+                let decorate_call = Box::new(self.fold_class_inner(ident.clone(), class));
 
                 Decl::Var(VarDecl {
                     span: DUMMY_SP,
@@ -138,8 +138,9 @@ impl Fold for Decorators {
                 decl: DefaultDecl::Class(ClassExpr { ident, class }),
                 ..
             }) => {
-                let decorate_call = box self
-                    .fold_class_inner(ident.unwrap_or_else(|| quote_ident!("_class")), class);
+                let decorate_call = Box::new(
+                    self.fold_class_inner(ident.unwrap_or_else(|| quote_ident!("_class")), class),
+                );
 
                 ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
                     span,
@@ -183,7 +184,7 @@ impl Fold for Decorators {
                         }),
                     ..
                 })) => {
-                    let decorate_call = box self.fold_class_inner(ident.clone(), class);
+                    let decorate_call = Box::new(self.fold_class_inner(ident.clone(), class));
 
                     buf.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
                         span: DUMMY_SP,
@@ -231,15 +232,15 @@ impl Decorators {
             None => None,
         };
         let super_class_expr = class.super_class;
-        class.super_class = super_class_ident.clone().map(|i| box Expr::Ident(i));
+        class.super_class = super_class_ident.clone().map(|i| Box::new(Expr::Ident(i)));
 
         let constructor = {
-            let initialize_call = box Expr::Call(CallExpr {
+            let initialize_call = Box::new(Expr::Call(CallExpr {
                 span: DUMMY_SP,
                 callee: initialize.clone().as_callee(),
                 args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
                 type_args: Default::default(),
-            });
+            }));
 
             // Inject initialize
             let pos = class.body.iter().position(|member| match *member {
@@ -269,7 +270,7 @@ impl Decorators {
                             pat: Pat::Rest(RestPat {
                                 span: DUMMY_SP,
                                 dot3_token: DUMMY_SP,
-                                arg: box Pat::Ident(quote_ident!("args")),
+                                arg: Box::new(Pat::Ident(quote_ident!("args"))),
                                 type_ann: Default::default(),
                             }),
                         })]
@@ -285,7 +286,7 @@ impl Decorators {
                                     callee: ExprOrSuper::Super(Super { span: DUMMY_SP }),
                                     args: vec![ExprOrSpread {
                                         spread: Some(DUMMY_SP),
-                                        expr: box Expr::Ident(quote_ident!("args")),
+                                        expr: Box::new(Expr::Ident(quote_ident!("args"))),
                                     }],
                                     type_args: Default::default(),
                                 }
@@ -311,22 +312,26 @@ impl Decorators {
                 Some(
                     ObjectLit {
                         span: DUMMY_SP,
-                        props: iter::once(PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
-                            key: PropName::Ident(quote_ident!("kind")),
-                            value: box Expr::Lit(Lit::Str(quote_str!(match $method.kind {
-                                MethodKind::Method => "method",
-                                MethodKind::Getter => "get",
-                                MethodKind::Setter => "set",
-                            }))),
-                        })))
+                        props: iter::once(PropOrSpread::Prop(Box::new(Prop::KeyValue(
+                            KeyValueProp {
+                                key: PropName::Ident(quote_ident!("kind")),
+                                value: Box::new(Expr::Lit(Lit::Str(quote_str!(
+                                    match $method.kind {
+                                        MethodKind::Method => "method",
+                                        MethodKind::Getter => "get",
+                                        MethodKind::Setter => "set",
+                                    }
+                                )))),
+                            },
+                        ))))
                         .chain(if $method.is_static {
-                            Some(PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
+                            Some(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                                 key: PropName::Ident(quote_ident!("static")),
-                                value: box Expr::Lit(Lit::Bool(Bool {
+                                value: Box::new(Expr::Lit(Lit::Bool(Bool {
                                     value: true,
                                     span: DUMMY_SP,
-                                })),
-                            })))
+                                }))),
+                            }))))
                         } else {
                             None
                         })
@@ -335,9 +340,9 @@ impl Decorators {
                             if $method.function.decorators.is_empty() {
                                 None
                             } else {
-                                Some(PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
+                                Some(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                                     key: PropName::Ident(quote_ident!("decorators")),
-                                    value: box Expr::Array(ArrayLit {
+                                    value: Box::new(Expr::Array(ArrayLit {
                                         span: DUMMY_SP,
                                         elems: $method
                                             .function
@@ -346,29 +351,31 @@ impl Decorators {
                                             .map(|dec| dec.expr.as_arg())
                                             .map(Some)
                                             .collect(),
-                                    }),
-                                })))
+                                    })),
+                                }))))
                             }
                         })
-                        .chain(iter::once(PropOrSpread::Prop(box Prop::KeyValue(
+                        .chain(iter::once(PropOrSpread::Prop(Box::new(Prop::KeyValue(
                             KeyValueProp {
                                 key: PropName::Ident(quote_ident!("key")),
                                 value: $key_prop_value,
                             },
-                        ))))
-                        .chain(iter::once(PropOrSpread::Prop(box Prop::KeyValue(
+                        )))))
+                        .chain(iter::once(PropOrSpread::Prop(Box::new(Prop::KeyValue(
                             KeyValueProp {
                                 key: PropName::Ident(quote_ident!("value")),
-                                value: box FnExpr {
-                                    ident: fn_name.map(IdentExt::private),
-                                    function: Function {
-                                        decorators: vec![],
-                                        ..$method.function
-                                    },
-                                }
-                                .into(),
+                                value: Box::new(
+                                    FnExpr {
+                                        ident: fn_name.map(IdentExt::private),
+                                        function: Function {
+                                            decorators: vec![],
+                                            ..$method.function
+                                        },
+                                    }
+                                    .into(),
+                                ),
                             },
-                        ))))
+                        )))))
                         .collect(),
                     }
                     .as_arg(),
@@ -390,7 +397,7 @@ impl Decorators {
                             PropName::Str(ref s) => Some(Ident::new(s.value.clone(), s.span)),
                             _ => None,
                         };
-                        let key_prop_value = box prop_name_to_expr_value(method.key);
+                        let key_prop_value = Box::new(prop_name_to_expr_value(method.key));
                         fold_method!(method, fn_name, key_prop_value)
                     }
                     ClassMember::PrivateMethod(method) => {
@@ -398,41 +405,43 @@ impl Decorators {
                             format!("_{}", method.key.id.sym).into(),
                             method.key.id.span,
                         );
-                        let key_prop_value = box Expr::Lit(Lit::Str(Str {
+                        let key_prop_value = Box::new(Expr::Lit(Lit::Str(Str {
                             span: method.key.id.span,
                             value: method.key.id.sym,
                             has_escape: false,
-                        }));
+                        })));
                         fold_method!(method, Some(fn_name), key_prop_value)
                     }
                     ClassMember::ClassProp(prop) => {
                         let prop_span = prop.span();
                         let key_prop_value = match *prop.key {
-                            Expr::Ident(i) => box Expr::Lit(Lit::Str(Str {
+                            Expr::Ident(i) => Box::new(Expr::Lit(Lit::Str(Str {
                                 span: i.span,
                                 value: i.sym,
                                 has_escape: false,
-                            })),
+                            }))),
                             _ => prop.key,
                         };
                         //
                         Some(
                             ObjectLit {
                                 span: prop_span,
-                                props: iter::once(PropOrSpread::Prop(box Prop::KeyValue(
+                                props: iter::once(PropOrSpread::Prop(Box::new(Prop::KeyValue(
                                     KeyValueProp {
                                         key: PropName::Ident(quote_ident!("kind")),
-                                        value: box Expr::Lit(Lit::Str(quote_str!("field"))),
+                                        value: Box::new(Expr::Lit(Lit::Str(quote_str!("field")))),
                                     },
-                                )))
+                                ))))
                                 .chain(if prop.is_static {
-                                    Some(PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
-                                        key: PropName::Ident(quote_ident!("static")),
-                                        value: box Expr::Lit(Lit::Bool(Bool {
-                                            value: true,
-                                            span: DUMMY_SP,
-                                        })),
-                                    })))
+                                    Some(PropOrSpread::Prop(Box::new(Prop::KeyValue(
+                                        KeyValueProp {
+                                            key: PropName::Ident(quote_ident!("static")),
+                                            value: Box::new(Expr::Lit(Lit::Bool(Bool {
+                                                value: true,
+                                                span: DUMMY_SP,
+                                            }))),
+                                        },
+                                    ))))
                                 } else {
                                     None
                                 })
@@ -441,27 +450,29 @@ impl Decorators {
                                     if prop.decorators.is_empty() {
                                         None
                                     } else {
-                                        Some(PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
-                                            key: PropName::Ident(quote_ident!("decorators")),
-                                            value: box Expr::Array(ArrayLit {
-                                                span: DUMMY_SP,
-                                                elems: prop
-                                                    .decorators
-                                                    .into_iter()
-                                                    .map(|dec| dec.expr.as_arg())
-                                                    .map(Some)
-                                                    .collect(),
-                                            }),
-                                        })))
+                                        Some(PropOrSpread::Prop(Box::new(Prop::KeyValue(
+                                            KeyValueProp {
+                                                key: PropName::Ident(quote_ident!("decorators")),
+                                                value: Box::new(Expr::Array(ArrayLit {
+                                                    span: DUMMY_SP,
+                                                    elems: prop
+                                                        .decorators
+                                                        .into_iter()
+                                                        .map(|dec| dec.expr.as_arg())
+                                                        .map(Some)
+                                                        .collect(),
+                                                })),
+                                            },
+                                        ))))
                                     }
                                 })
-                                .chain(iter::once(PropOrSpread::Prop(box Prop::KeyValue(
+                                .chain(iter::once(PropOrSpread::Prop(Box::new(Prop::KeyValue(
                                     KeyValueProp {
                                         key: PropName::Ident(quote_ident!("key")),
                                         value: key_prop_value,
                                     },
-                                ))))
-                                .chain(iter::once(PropOrSpread::Prop(box match prop.value {
+                                )))))
+                                .chain(iter::once(PropOrSpread::Prop(Box::new(match prop.value {
                                     Some(value) => Prop::Method(MethodProp {
                                         key: PropName::Ident(quote_ident!("value")),
                                         function: Function {
@@ -487,7 +498,7 @@ impl Decorators {
                                         key: PropName::Ident(quote_ident!("value")),
                                         value: undefined(DUMMY_SP),
                                     }),
-                                })))
+                                }))))
                                 .collect(),
                             }
                             .as_arg(),
@@ -541,22 +552,26 @@ impl Decorators {
                             }))))
                             .chain(iter::once(Stmt::Return(ReturnStmt {
                                 span: DUMMY_SP,
-                                arg: Some(box Expr::Object(ObjectLit {
+                                arg: Some(Box::new(Expr::Object(ObjectLit {
                                     span: DUMMY_SP,
                                     props: vec![
-                                        PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
-                                            key: PropName::Ident(quote_ident!("F")),
-                                            value: box Expr::Ident(ident),
-                                        })),
-                                        PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
-                                            key: PropName::Ident(quote_ident!("d")),
-                                            value: box Expr::Array(ArrayLit {
-                                                span: DUMMY_SP,
-                                                elems: descriptors,
-                                            }),
-                                        })),
+                                        PropOrSpread::Prop(Box::new(Prop::KeyValue(
+                                            KeyValueProp {
+                                                key: PropName::Ident(quote_ident!("F")),
+                                                value: Box::new(Expr::Ident(ident)),
+                                            },
+                                        ))),
+                                        PropOrSpread::Prop(Box::new(Prop::KeyValue(
+                                            KeyValueProp {
+                                                key: PropName::Ident(quote_ident!("d")),
+                                                value: Box::new(Expr::Array(ArrayLit {
+                                                    span: DUMMY_SP,
+                                                    elems: descriptors,
+                                                })),
+                                            },
+                                        ))),
                                     ],
-                                })),
+                                }))),
                             })))
                             .collect(),
                         }),

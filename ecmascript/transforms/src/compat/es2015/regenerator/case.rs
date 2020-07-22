@@ -131,7 +131,7 @@ impl CaseHandler<'_> {
                         .map(|loc| {
                             loc.map(|loc| ExprOrSpread {
                                 spread: None,
-                                expr: box loc.to_stmt_index(),
+                                expr: Box::new(loc.to_stmt_index()),
                             })
                         })
                         .collect::<Vec<_>>();
@@ -141,10 +141,10 @@ impl CaseHandler<'_> {
                     }
                     Some(ExprOrSpread {
                         spread: None,
-                        expr: box Expr::Array(ArrayLit {
+                        expr: Box::new(Expr::Array(ArrayLit {
                             span: DUMMY_SP,
                             elems,
-                        }),
+                        })),
                     })
                 })
                 .collect(),
@@ -186,8 +186,8 @@ impl CaseHandler<'_> {
             AssignExpr {
                 span: DUMMY_SP,
                 op: op!("="),
-                left: PatOrExpr::Expr(box lhs),
-                right: box right,
+                left: PatOrExpr::Expr(Box::new(lhs)),
+                right: Box::new(right),
             }
             .into_stmt(),
         );
@@ -370,17 +370,17 @@ impl CaseHandler<'_> {
                                 },
                             );
 
-                            ExprOrSuper::Expr(
-                                box MemberExpr {
+                            ExprOrSuper::Expr(Box::new(
+                                MemberExpr {
                                     span: me.span,
                                     obj,
                                     prop,
                                     computed: me.computed,
                                 }
                                 .member(quote_ident!("call")),
-                            )
+                            ))
                         } else {
-                            ExprOrSuper::Expr(box self.explode_expr(Expr::Member(me), false))
+                            ExprOrSuper::Expr(Box::new(self.explode_expr(Expr::Member(me), false)))
                         }
                     }
 
@@ -397,19 +397,21 @@ impl CaseHandler<'_> {
                                 // by using the (0, object.property)(...) trick; otherwise, it
                                 // will receive the object of the MemberExpression as its `this`
                                 // object.
-                                ExprOrSuper::Expr(box Expr::Seq(SeqExpr {
+                                ExprOrSuper::Expr(Box::new(Expr::Seq(SeqExpr {
                                     span: DUMMY_SP,
                                     exprs: vec![
-                                        box Lit::Num(Number {
-                                            span: DUMMY_SP,
-                                            value: 0.0,
-                                        })
-                                        .into(),
-                                        box callee,
+                                        Box::new(
+                                            Lit::Num(Number {
+                                                span: DUMMY_SP,
+                                                value: 0.0,
+                                            })
+                                            .into(),
+                                        ),
+                                        Box::new(callee),
                                     ],
-                                }))
+                                })))
                             }
-                            _ => ExprOrSuper::Expr(box callee),
+                            _ => ExprOrSuper::Expr(Box::new(callee)),
                         };
 
                         callee
@@ -456,7 +458,7 @@ impl CaseHandler<'_> {
                     .map(|prop| {
                         //
                         match prop {
-                            PropOrSpread::Prop(box p) => PropOrSpread::Prop(box match p {
+                            PropOrSpread::Prop(box p) => PropOrSpread::Prop(Box::new(match p {
                                 Prop::Method(_)
                                 | Prop::Setter(_)
                                 | Prop::Getter(_)
@@ -469,7 +471,7 @@ impl CaseHandler<'_> {
                                     value: p.value.map(|e| self.explode_expr(e, false)),
                                     ..p
                                 }),
-                            }),
+                            })),
                             _ => prop,
                         }
                     })
@@ -622,13 +624,15 @@ impl CaseHandler<'_> {
                 let expr: Expr = AssignExpr {
                     left: PatOrExpr::Expr(left),
                     op: op!("="),
-                    right: box AssignExpr {
-                        span: DUMMY_SP,
-                        left: PatOrExpr::Expr(box tmp),
-                        op: e.op,
-                        right,
-                    }
-                    .into(),
+                    right: Box::new(
+                        AssignExpr {
+                            span: DUMMY_SP,
+                            left: PatOrExpr::Expr(Box::new(tmp)),
+                            op: e.op,
+                            right,
+                        }
+                        .into(),
+                    ),
                     ..e
                 }
                 .into();
@@ -657,7 +661,7 @@ impl CaseHandler<'_> {
                     let ret = ReturnStmt {
                         // Preserve span
                         span,
-                        arg: Some(box Expr::Call(CallExpr {
+                        arg: Some(Box::new(Expr::Call(CallExpr {
                             span: DUMMY_SP,
                             callee: self
                                 .ctx
@@ -670,7 +674,7 @@ impl CaseHandler<'_> {
                                 after.to_stmt_index().as_arg(),
                             ],
                             type_args: Default::default(),
-                        })),
+                        }))),
                     }
                     .into();
 
@@ -720,10 +724,10 @@ impl CaseHandler<'_> {
         for (i, stmt) in stmts.into_iter().enumerate() {
             let case = SwitchCase {
                 span: DUMMY_SP,
-                test: Some(box Expr::Lit(Lit::Num(Number {
+                test: Some(Box::new(Expr::Lit(Lit::Num(Number {
                     span: DUMMY_SP,
                     value: i as _,
-                }))),
+                })))),
                 cons: vec![],
             };
 
@@ -779,8 +783,8 @@ impl CaseHandler<'_> {
     ) {
         let stmt = ReturnStmt {
             span: DUMMY_SP,
-            arg: Some(
-                box CallExpr {
+            arg: Some(Box::new(
+                CallExpr {
                     span: DUMMY_SP,
                     callee: self.ctx.clone().member(quote_ident!("abrupt")).as_callee(),
                     args: {
@@ -804,7 +808,7 @@ impl CaseHandler<'_> {
                     type_args: Default::default(),
                 }
                 .into(),
-            ),
+            )),
         }
         .into();
         self.emit(stmt)
@@ -829,25 +833,27 @@ impl CaseHandler<'_> {
             IfStmt {
                 span: DUMMY_SP,
                 test,
-                cons: box BlockStmt {
-                    span: DUMMY_SP,
-                    stmts: vec![
-                        AssignExpr {
-                            span: DUMMY_SP,
-                            op: op!("="),
-                            left: PatOrExpr::Expr(
-                                box self.ctx.clone().member(quote_ident!("next")),
-                            ),
-                            right: box to.expr(),
-                        }
-                        .into_stmt(),
-                        Stmt::Break(BreakStmt {
-                            span: DUMMY_SP,
-                            label: None,
-                        }),
-                    ],
-                }
-                .into(),
+                cons: Box::new(
+                    BlockStmt {
+                        span: DUMMY_SP,
+                        stmts: vec![
+                            AssignExpr {
+                                span: DUMMY_SP,
+                                op: op!("="),
+                                left: PatOrExpr::Expr(Box::new(
+                                    self.ctx.clone().member(quote_ident!("next")),
+                                )),
+                                right: Box::new(to.expr()),
+                            }
+                            .into_stmt(),
+                            Stmt::Break(BreakStmt {
+                                span: DUMMY_SP,
+                                label: None,
+                            }),
+                        ],
+                    }
+                    .into(),
+                ),
                 alt: None,
             }
             .into(),
@@ -859,36 +865,38 @@ impl CaseHandler<'_> {
             Expr::Unary(UnaryExpr {
                 op: op!("!"), arg, ..
             }) => arg,
-            _ => box Expr::Unary(UnaryExpr {
+            _ => Box::new(Expr::Unary(UnaryExpr {
                 span: test.span(),
                 op: op!("!"),
                 arg: test,
-            }),
+            })),
         };
 
         self.emit(
             IfStmt {
                 span: DUMMY_SP,
                 test: negated_test,
-                cons: box BlockStmt {
-                    span: DUMMY_SP,
-                    stmts: vec![
-                        AssignExpr {
-                            span: DUMMY_SP,
-                            op: op!("="),
-                            left: PatOrExpr::Expr(
-                                box self.ctx.clone().member(quote_ident!("next")),
-                            ),
-                            right: box to.expr(),
-                        }
-                        .into_stmt(),
-                        Stmt::Break(BreakStmt {
-                            span: DUMMY_SP,
-                            label: None,
-                        }),
-                    ],
-                }
-                .into(),
+                cons: Box::new(
+                    BlockStmt {
+                        span: DUMMY_SP,
+                        stmts: vec![
+                            AssignExpr {
+                                span: DUMMY_SP,
+                                op: op!("="),
+                                left: PatOrExpr::Expr(Box::new(
+                                    self.ctx.clone().member(quote_ident!("next")),
+                                )),
+                                right: Box::new(to.expr()),
+                            }
+                            .into_stmt(),
+                            Stmt::Break(BreakStmt {
+                                span: DUMMY_SP,
+                                label: None,
+                            }),
+                        ],
+                    }
+                    .into(),
+                ),
                 alt: None,
             }
             .into(),
@@ -990,7 +998,7 @@ impl CaseHandler<'_> {
                 };
                 let after = self.loc();
 
-                let test = box self.explode_expr(*s.test, false);
+                let test = Box::new(self.explode_expr(*s.test, false));
                 self.jump_if_not(test, else_loc.unwrap_or(after));
 
                 self.explode_stmt(*s.cons, None);
@@ -1030,14 +1038,14 @@ impl CaseHandler<'_> {
                         condition = Expr::Cond(CondExpr {
                             span: DUMMY_SP,
 
-                            test: box Expr::Bin(BinExpr {
+                            test: Box::new(Expr::Bin(BinExpr {
                                 span: DUMMY_SP,
-                                left: box disc.clone(),
+                                left: Box::new(disc.clone()),
                                 op: op!("==="),
                                 right: test.clone(),
-                            }),
-                            cons: box case_locs[i].expr(),
-                            alt: box condition,
+                            })),
+                            cons: Box::new(case_locs[i].expr()),
+                            alt: Box::new(condition),
                         });
                     } else {
                         case_locs[i] = default_loc;
@@ -1162,7 +1170,7 @@ impl CaseHandler<'_> {
                         folder.emit(
                             ReturnStmt {
                                 span: DUMMY_SP,
-                                arg: Some(box Expr::Call(CallExpr {
+                                arg: Some(Box::new(Expr::Call(CallExpr {
                                     span: DUMMY_SP,
                                     args: vec![try_entry
                                         .finally_entry
@@ -1173,7 +1181,7 @@ impl CaseHandler<'_> {
                                         .as_arg()],
                                     callee,
                                     type_args: Default::default(),
-                                })),
+                                }))),
                             }
                             .into(),
                         );
@@ -1310,24 +1318,28 @@ impl CaseHandler<'_> {
                 let key_info_tmp_var = self.make_var();
 
                 self.jump_if(
-                    box AssignExpr {
-                        span: DUMMY_SP,
-                        op: op!("="),
-                        left: PatOrExpr::Expr(box key_info_tmp_var.clone().into()),
-                        right: box CallExpr {
+                    Box::new(
+                        AssignExpr {
                             span: DUMMY_SP,
-                            callee: key_iter_next_fn.as_callee(),
-                            args: vec![],
-                            type_args: Default::default(),
+                            op: op!("="),
+                            left: PatOrExpr::Expr(Box::new(key_info_tmp_var.clone().into())),
+                            right: Box::new(
+                                CallExpr {
+                                    span: DUMMY_SP,
+                                    callee: key_iter_next_fn.as_callee(),
+                                    args: vec![],
+                                    type_args: Default::default(),
+                                }
+                                .into(),
+                            ),
                         }
-                        .into(),
-                    }
-                    .member(quote_ident!("done")),
+                        .member(quote_ident!("done")),
+                    ),
                     after,
                 );
 
                 {
-                    let right = box key_info_tmp_var.clone().member(quote_ident!("value"));
+                    let right = Box::new(key_info_tmp_var.clone().member(quote_ident!("value")));
                     match s.left {
                         VarDeclOrPat::VarDecl(var) => unreachable!(
                             "VarDeclaration in for-in statement must be hoisted: {:?}",
@@ -1337,7 +1349,7 @@ impl CaseHandler<'_> {
                             AssignExpr {
                                 span: DUMMY_SP,
                                 op: op!("="),
-                                left: PatOrExpr::Pat(box pat),
+                                left: PatOrExpr::Pat(Box::new(pat)),
                                 right,
                             }
                             .into_stmt(),

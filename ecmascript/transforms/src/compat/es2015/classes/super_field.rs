@@ -121,10 +121,10 @@ impl<'a> Fold for SuperCalleeFolder<'a> {
                         true,
                         prop,
                         op,
-                        box Expr::Lit(Lit::Num(Number {
+                        Box::new(Expr::Lit(Lit::Num(Number {
                             span: DUMMY_SP,
                             value: 1.0,
-                        })),
+                        }))),
                     )
                 }
                 _ => {
@@ -288,7 +288,7 @@ impl<'a> SuperCalleeFolder<'a> {
             op!("=") => prop_arg.as_arg(),
             _ => AssignExpr {
                 span: DUMMY_SP,
-                left: PatOrExpr::Pat(box Pat::Ident(ref_ident.clone())),
+                left: PatOrExpr::Pat(Box::new(Pat::Ident(ref_ident.clone()))),
                 op: op!("="),
                 right: prop,
             }
@@ -298,20 +298,25 @@ impl<'a> SuperCalleeFolder<'a> {
         let rhs_arg = match op {
             op!("=") => rhs.as_arg(),
             _ => {
-                let left =
-                    box self.super_to_get_call(super_token, box Expr::Ident(ref_ident), true);
+                let left = Box::new(self.super_to_get_call(
+                    super_token,
+                    Box::new(Expr::Ident(ref_ident)),
+                    true,
+                ));
                 let left = if is_update {
-                    box AssignExpr {
-                        span: DUMMY_SP,
-                        left: PatOrExpr::Pat(box Pat::Ident(update_ident.clone())),
-                        op: op!("="),
-                        right: box Expr::Unary(UnaryExpr {
+                    Box::new(
+                        AssignExpr {
                             span: DUMMY_SP,
-                            op: op!(unary, "+"),
-                            arg: left,
-                        }),
-                    }
-                    .into()
+                            left: PatOrExpr::Pat(Box::new(Pat::Ident(update_ident.clone()))),
+                            op: op!("="),
+                            right: Box::new(Expr::Unary(UnaryExpr {
+                                span: DUMMY_SP,
+                                op: op!(unary, "+"),
+                                arg: left,
+                            })),
+                        }
+                        .into(),
+                    )
                 } else {
                     left
                 };
@@ -367,7 +372,7 @@ impl<'a> SuperCalleeFolder<'a> {
         if is_update {
             Expr::Seq(SeqExpr {
                 span: DUMMY_SP,
-                exprs: vec![box expr, box Expr::Ident(update_ident)],
+                exprs: vec![Box::new(expr), Box::new(Expr::Ident(update_ident))],
             })
         } else {
             expr
@@ -451,7 +456,7 @@ impl<'a> Fold for SuperFieldAccessFolder<'a> {
                             callee: MemberExpr {
                                 span: DUMMY_SP,
                                 obj: callee,
-                                prop: box Expr::Ident(quote_ident!("apply")),
+                                prop: Box::new(Expr::Ident(quote_ident!("apply"))),
                                 computed: false,
                             }
                             .as_callee(),
@@ -471,7 +476,7 @@ impl<'a> Fold for SuperFieldAccessFolder<'a> {
                         callee: MemberExpr {
                             span: DUMMY_SP,
                             obj: callee,
-                            prop: box Expr::Ident(quote_ident!("call")),
+                            prop: Box::new(Expr::Ident(quote_ident!("call"))),
                             computed: false,
                         }
                         .as_callee(),

@@ -31,13 +31,15 @@ impl Fold for TemplateLiteral {
                 // TODO: Optimize
 
                 // This makes result of addition string
-                let mut obj: Box<Expr> = box Lit::Str(
-                    quasis[0]
-                        .cooked
-                        .clone()
-                        .unwrap_or_else(|| quasis[0].raw.clone()),
-                )
-                .into();
+                let mut obj: Box<Expr> = Box::new(
+                    Lit::Str(
+                        quasis[0]
+                            .cooked
+                            .clone()
+                            .unwrap_or_else(|| quasis[0].raw.clone()),
+                    )
+                    .into(),
+                );
 
                 let len = quasis.len() + exprs.len();
 
@@ -57,7 +59,7 @@ impl Fold for TemplateLiteral {
 
                         match quasis.next() {
                             Some(TplElement { cooked, raw, .. }) => {
-                                box Lit::Str(cooked.unwrap_or_else(|| raw)).into()
+                                Box::new(Lit::Str(cooked.unwrap_or_else(|| raw)).into())
                             }
                             _ => unreachable!(),
                         }
@@ -99,19 +101,19 @@ impl Fold for TemplateLiteral {
                                     has_escape: r_has_escape,
                                 })) = *expr
                                 {
-                                    obj = box Expr::Lit(Lit::Str(Str {
+                                    obj = Box::new(Expr::Lit(Lit::Str(Str {
                                         span: span.with_hi(r_span.hi()),
                                         value: format!("{}{}", value, r_value).into(),
                                         has_escape: has_escape || r_has_escape,
-                                    }));
+                                    })));
 
                                     continue;
                                 } else {
-                                    obj = box Expr::Lit(Lit::Str(Str {
+                                    obj = Box::new(Expr::Lit(Lit::Str(Str {
                                         span,
                                         value,
                                         has_escape,
-                                    }))
+                                    })))
                                 }
                             }
                         }
@@ -121,36 +123,36 @@ impl Fold for TemplateLiteral {
                         }
 
                         if last && !args.is_empty() {
-                            obj = box validate!(Expr::Call(CallExpr {
+                            obj = Box::new(Expr::Call(CallExpr {
                                 span: span.with_hi(expr_span.hi() + BytePos(1)),
-                                callee: ExprOrSuper::Expr(box Expr::Member(MemberExpr {
+                                callee: ExprOrSuper::Expr(Box::new(Expr::Member(MemberExpr {
                                     span: DUMMY_SP,
                                     obj: ExprOrSuper::Expr(validate!(obj)),
-                                    prop: box Expr::Ident(Ident::new(
+                                    prop: Box::new(Expr::Ident(Ident::new(
                                         js_word!("concat"),
-                                        expr_span
-                                    )),
+                                        expr_span,
+                                    ))),
 
                                     computed: false,
-                                })),
+                                }))),
                                 args: mem::replace(&mut args, vec![]),
                                 type_args: Default::default(),
                             }));
                         }
                     } else {
                         if !args.is_empty() {
-                            obj = box validate!(Expr::Call(CallExpr {
+                            obj = Box::new(Expr::Call(CallExpr {
                                 span: span.with_hi(expr_span.hi() + BytePos(1)),
-                                callee: ExprOrSuper::Expr(box Expr::Member(MemberExpr {
+                                callee: ExprOrSuper::Expr(Box::new(Expr::Member(MemberExpr {
                                     span: DUMMY_SP,
                                     obj: ExprOrSuper::Expr(validate!(obj)),
-                                    prop: box Expr::Ident(Ident::new(
+                                    prop: Box::new(Expr::Ident(Ident::new(
                                         js_word!("concat"),
-                                        expr_span
-                                    )),
+                                        expr_span,
+                                    ))),
 
                                     computed: false,
-                                })),
+                                }))),
                                 args: mem::replace(&mut args, vec![]),
                                 type_args: Default::default(),
                             }));
@@ -202,7 +204,7 @@ impl Fold for TemplateLiteral {
                                 span: DUMMY_SP,
                                 name: quote_ident!("data").into(),
                                 definite: false,
-                                init: Some(box Expr::Call(CallExpr {
+                                init: Some(Box::new(Expr::Call(CallExpr {
                                     span: DUMMY_SP,
                                     callee: helper!(
                                         tagged_template_literal,
@@ -248,7 +250,7 @@ impl Fold for TemplateLiteral {
                                         .collect()
                                     },
                                     type_args: Default::default(),
-                                })),
+                                }))),
                             }],
                         };
 
@@ -258,9 +260,9 @@ impl Fold for TemplateLiteral {
                         let assign_expr = {
                             Expr::Assign(AssignExpr {
                                 span: DUMMY_SP,
-                                left: PatOrExpr::Pat(box fn_ident.clone().into()),
+                                left: PatOrExpr::Pat(Box::new(fn_ident.clone().into())),
                                 op: op!("="),
-                                right: box Expr::Fn(FnExpr {
+                                right: Box::new(Expr::Fn(FnExpr {
                                     ident: None,
                                     function: Function {
                                         span: DUMMY_SP,
@@ -271,14 +273,14 @@ impl Fold for TemplateLiteral {
                                             span: DUMMY_SP,
                                             stmts: vec![Stmt::Return(ReturnStmt {
                                                 span: DUMMY_SP,
-                                                arg: Some(box quote_ident!("data").into()),
+                                                arg: Some(Box::new(quote_ident!("data").into())),
                                             })],
                                         }),
                                         decorators: Default::default(),
                                         type_params: Default::default(),
                                         return_type: Default::default(),
                                     },
-                                }),
+                                })),
                             })
                         };
 
@@ -290,7 +292,7 @@ impl Fold for TemplateLiteral {
                                 assign_expr.into_stmt(),
                                 Stmt::Return(ReturnStmt {
                                     span: DUMMY_SP,
-                                    arg: Some(box quote_ident!("data").into()),
+                                    arg: Some(Box::new(quote_ident!("data").into())),
                                 }),
                             ],
                         })

@@ -47,14 +47,14 @@ impl Fold for Shorthand {
         match prop {
             Prop::Shorthand(Ident { sym, span, .. }) => Prop::KeyValue(KeyValueProp {
                 key: PropName::Ident(quote_ident!(span, sym.clone())),
-                value: box quote_ident!(span, sym).into(),
+                value: Box::new(quote_ident!(span, sym).into()),
             }),
             Prop::Method(MethodProp { key, function }) => Prop::KeyValue(KeyValueProp {
                 key,
-                value: box Expr::Fn(FnExpr {
+                value: Box::new(Expr::Fn(FnExpr {
                     ident: None,
                     function,
-                }),
+                })),
             }),
             _ => prop,
         }

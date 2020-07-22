@@ -203,12 +203,12 @@ impl Compiler {
             let src = {
                 let mut buf = vec![];
                 {
-                    let handlers = box MyHandlers;
+                    let handlers = Box::new(MyHandlers);
                     let mut emitter = Emitter {
                         cfg: codegen::Config { minify },
                         comments: if minify { None } else { Some(&self.comments) },
                         cm: self.cm.clone(),
-                        wr: box codegen::text_writer::JsWriter::new(
+                        wr: Box::new(codegen::text_writer::JsWriter::new(
                             self.cm.clone(),
                             "\n",
                             &mut buf,
@@ -217,7 +217,7 @@ impl Compiler {
                             } else {
                                 None
                             },
-                        ),
+                        )),
                         handlers,
                     };
 

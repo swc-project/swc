@@ -67,7 +67,7 @@ impl Fold for ClassProperties {
                 stmts.append(&mut extra_stmts);
                 stmts.push(Stmt::Return(ReturnStmt {
                     span: DUMMY_SP,
-                    arg: Some(box Expr::Ident(ident)),
+                    arg: Some(Box::new(Expr::Ident(ident))),
                 }));
 
                 BlockStmtOrExpr::BlockStmt(BlockStmt { span, stmts })
@@ -103,7 +103,7 @@ impl Fold for ClassProperties {
 
                 stmts.push(Stmt::Return(ReturnStmt {
                     span: DUMMY_SP,
-                    arg: Some(box Expr::Ident(ident)),
+                    arg: Some(Box::new(Expr::Ident(ident))),
                 }));
 
                 Expr::Call(CallExpr {
@@ -297,7 +297,7 @@ impl ClassProperties {
                             // string.
                             PropName::Computed(ComputedPropName {
                                 span: c_span,
-                                expr: box Expr::Ident(ident),
+                                expr: Box::new(Expr::Ident(ident)),
                             })
                         }
                         _ => method.key,
@@ -392,12 +392,12 @@ impl ClassProperties {
                             .into_stmt(),
                         )
                     } else {
-                        constructor_exprs.push(box Expr::Call(CallExpr {
+                        constructor_exprs.push(Box::new(Expr::Call(CallExpr {
                             span: DUMMY_SP,
                             callee,
                             args: vec![ThisExpr { span: DUMMY_SP }.as_arg(), key, value],
                             type_args: Default::default(),
-                        }));
+                        })));
                     }
                 }
                 ClassMember::PrivateProp(prop) => {
@@ -420,24 +420,24 @@ impl ClassProperties {
                     let value = prop.value.unwrap_or_else(|| undefined(prop_span));
 
                     let extra_init = if prop.is_static {
-                        box Expr::Object(ObjectLit {
+                        Box::new(Expr::Object(ObjectLit {
                             span: DUMMY_SP,
                             props: vec![
-                                PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
+                                PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                                     key: PropName::Ident(quote_ident!("writable")),
-                                    value: box Expr::Lit(Lit::Bool(Bool {
+                                    value: Box::new(Expr::Lit(Lit::Bool(Bool {
                                         span: DUMMY_SP,
                                         value: true,
-                                    })),
-                                })),
-                                PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
+                                    }))),
+                                }))),
+                                PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                                     key: PropName::Ident(quote_ident!("value")),
                                     value,
-                                })),
+                                }))),
                             ],
-                        })
+                        }))
                     } else {
-                        constructor_exprs.push(box Expr::Call(CallExpr {
+                        constructor_exprs.push(Box::new(Expr::Call(CallExpr {
                             span: DUMMY_SP,
                             callee: ident.clone().member(quote_ident!("set")).as_callee(),
                             args: vec![
@@ -446,31 +446,35 @@ impl ClassProperties {
                                     span: DUMMY_SP,
                                     props: vec![
                                         // writeable: true
-                                        PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
-                                            key: PropName::Ident(quote_ident!("writable")),
-                                            value: box Expr::Lit(Lit::Bool(Bool {
-                                                value: true,
-                                                span: DUMMY_SP,
-                                            })),
-                                        })),
+                                        PropOrSpread::Prop(Box::new(Prop::KeyValue(
+                                            KeyValueProp {
+                                                key: PropName::Ident(quote_ident!("writable")),
+                                                value: Box::new(Expr::Lit(Lit::Bool(Bool {
+                                                    value: true,
+                                                    span: DUMMY_SP,
+                                                }))),
+                                            },
+                                        ))),
                                         // value: value,
-                                        PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
-                                            key: PropName::Ident(quote_ident!("value")),
-                                            value,
-                                        })),
+                                        PropOrSpread::Prop(Box::new(Prop::KeyValue(
+                                            KeyValueProp {
+                                                key: PropName::Ident(quote_ident!("value")),
+                                                value,
+                                            },
+                                        ))),
                                     ],
                                 }
                                 .as_arg(),
                             ],
                             type_args: Default::default(),
-                        }));
+                        })));
 
-                        box Expr::New(NewExpr {
+                        Box::new(Expr::New(NewExpr {
                             span: DUMMY_SP,
-                            callee: box Expr::Ident(quote_ident!("WeakMap")),
+                            callee: Box::new(Expr::Ident(quote_ident!("WeakMap"))),
                             args: Some(vec![]),
                             type_args: Default::default(),
-                        })
+                        }))
                     };
 
                     extra_stmts.push(Stmt::Decl(Decl::Var(VarDecl {

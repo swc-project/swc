@@ -80,7 +80,7 @@ macro_rules! impl_for_for_stmt {
                             .decls
                             .into_iter()
                             .map(|decl| VarDeclarator {
-                                init: Some(box Expr::Ident(ref_ident.clone())),
+                                init: Some(Box::new(Expr::Ident(ref_ident.clone()))),
                                 ..decl
                             })
                             .collect::<Vec<_>>()
@@ -102,9 +102,9 @@ macro_rules! impl_for_for_stmt {
                         // Unpack variables
                         let stmt = AssignExpr {
                             span: DUMMY_SP,
-                            left: PatOrExpr::Pat(box pat),
+                            left: PatOrExpr::Pat(Box::new(pat)),
                             op: op!("="),
-                            right: box left_ident.into(),
+                            right: Box::new(left_ident.into()),
                         }
                         .into_stmt();
                         (left, stmt)
@@ -113,7 +113,7 @@ macro_rules! impl_for_for_stmt {
             };
             for_stmt.left = left;
 
-            for_stmt.body = box Stmt::Block(match *for_stmt.body {
+            for_stmt.body = Box::new(Stmt::Block(match *for_stmt.body {
                 Stmt::Block(BlockStmt { span, stmts }) => BlockStmt {
                     span,
                     stmts: iter::once(stmt).chain(stmts).collect(),
@@ -122,7 +122,7 @@ macro_rules! impl_for_for_stmt {
                     span: DUMMY_SP,
                     stmts: vec![stmt, body],
                 },
-            });
+            }));
 
             for_stmt
         }
@@ -162,13 +162,13 @@ impl AssignFolder {
                                         VarDeclarator {
                                             span: p.span(),
                                             name: *p.arg,
-                                            init: Some(box Expr::Array(ArrayLit {
+                                            init: Some(Box::new(Expr::Array(ArrayLit {
                                                 span: DUMMY_SP,
                                                 elems: arr_elems
                                                     .take()
                                                     .expect("two rest element?")
                                                     .collect(),
-                                            })),
+                                            }))),
                                             definite: false,
                                         },
                                     );
@@ -230,7 +230,7 @@ impl AssignFolder {
                         }) => VarDeclarator {
                             span: dot3_token,
                             name: arg,
-                            init: Some(box Expr::Call(CallExpr {
+                            init: Some(Box::new(Expr::Call(CallExpr {
                                 span: DUMMY_SP,
                                 callee: ref_ident.clone().member(quote_ident!("slice")).as_callee(),
                                 args: vec![Lit::Num(Number {
@@ -239,7 +239,7 @@ impl AssignFolder {
                                 })
                                 .as_arg()],
                                 type_args: Default::default(),
-                            })),
+                            }))),
                             definite: false,
                         },
                         _ => VarDeclarator {
@@ -247,7 +247,7 @@ impl AssignFolder {
                             // This might be pattern.
                             // So we fold it again.
                             name: elem,
-                            init: Some(box make_ref_idx_expr(&ref_ident, i)),
+                            init: Some(Box::new(make_ref_idx_expr(&ref_ident, i))),
                             definite: false,
                         },
                     };
@@ -277,26 +277,26 @@ impl AssignFolder {
                 decls.push(VarDeclarator {
                     span,
                     name: Pat::Ident(ident.clone()),
-                    init: Some(box Expr::Cond(CondExpr {
+                    init: Some(Box::new(Expr::Cond(CondExpr {
                         span: DUMMY_SP,
-                        test: box Expr::Bin(BinExpr {
+                        test: Box::new(Expr::Bin(BinExpr {
                             span: DUMMY_SP,
-                            left: box Expr::Ident(ident.clone()),
+                            left: Box::new(Expr::Ident(ident.clone())),
                             op: op!("!=="),
-                            right: box Expr::Lit(Lit::Null(Null { span: DUMMY_SP })),
-                        }),
-                        cons: box Expr::Ident(ident.clone()),
-                        alt: box Expr::Call(CallExpr {
+                            right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
+                        })),
+                        cons: Box::new(Expr::Ident(ident.clone())),
+                        alt: Box::new(Expr::Call(CallExpr {
                             span: DUMMY_SP,
                             callee: helper!(throw, "throw"),
                             args: vec![
                                 // new TypeError("Cannot destructure undefined")
                                 NewExpr {
                                     span: DUMMY_SP,
-                                    callee: box Expr::Ident(Ident::new(
+                                    callee: Box::new(Expr::Ident(Ident::new(
                                         "TypeError".into(),
                                         DUMMY_SP,
-                                    )),
+                                    ))),
                                     args: Some(vec![Lit::Str(Str {
                                         span: DUMMY_SP,
                                         value: "Cannot destructure undefined".into(),
@@ -308,8 +308,8 @@ impl AssignFolder {
                                 .as_arg(),
                             ],
                             type_args: Default::default(),
-                        }),
-                    })),
+                        })),
+                    }))),
                     definite: false,
                 })
             }
@@ -324,7 +324,7 @@ impl AssignFolder {
                 let ref_ident = make_ref_ident(self.c, decls, decl.init);
 
                 let ref_ident = if can_be_null {
-                    let init = box Expr::Ident(ref_ident.clone());
+                    let init = Box::new(Expr::Ident(ref_ident.clone()));
                     make_ref_ident(self.c, decls, Some(init))
                 } else {
                     ref_ident
@@ -343,11 +343,11 @@ impl AssignFolder {
                             let var_decl = VarDeclarator {
                                 span: prop_span,
                                 name: *value,
-                                init: Some(box make_ref_prop_expr(
+                                init: Some(Box::new(make_ref_prop_expr(
                                     &ref_ident,
-                                    box prop_name_to_expr(key),
+                                    Box::new(prop_name_to_expr(key)),
                                     computed,
-                                )),
+                                ))),
                                 definite: false,
                             };
                             decls.extend(vec![var_decl].fold_with(self));
@@ -360,17 +360,17 @@ impl AssignFolder {
                                     let ref_ident = make_ref_ident(
                                         self.c,
                                         decls,
-                                        Some(box make_ref_prop_expr(
+                                        Some(Box::new(make_ref_prop_expr(
                                             &ref_ident,
-                                            box key.clone().into(),
+                                            Box::new(key.clone().into()),
                                             computed,
-                                        )),
+                                        ))),
                                     );
 
                                     let var_decl = VarDeclarator {
                                         span: prop_span,
                                         name: Pat::Ident(key.clone()),
-                                        init: Some(box make_cond_expr(ref_ident, value)),
+                                        init: Some(Box::new(make_cond_expr(ref_ident, value))),
                                         definite: false,
                                     };
                                     decls.extend(vec![var_decl].fold_with(self));
@@ -379,11 +379,11 @@ impl AssignFolder {
                                     let var_decl = VarDeclarator {
                                         span: prop_span,
                                         name: Pat::Ident(key.clone()),
-                                        init: Some(box make_ref_prop_expr(
+                                        init: Some(Box::new(make_ref_prop_expr(
                                             &ref_ident,
-                                            box key.clone().into(),
+                                            Box::new(key.clone().into()),
                                             computed,
-                                        )),
+                                        ))),
                                         definite: false,
                                     };
                                     decls.extend(vec![var_decl].fold_with(self));
@@ -429,7 +429,7 @@ impl AssignFolder {
                     span,
                     name: *left,
                     // tmp === void 0 ? def_value : tmp
-                    init: Some(box make_cond_expr(tmp_ident, def_value)),
+                    init: Some(Box::new(make_cond_expr(tmp_ident, def_value))),
                     definite: false,
                 };
                 decls.extend(vec![var_decl].fold_with(self))
@@ -475,7 +475,7 @@ impl Destructuring {
                     decls.push(VarDeclarator {
                         span,
                         name: param.pat,
-                        init: Some(box Expr::Ident(ref_ident)),
+                        init: Some(Box::new(Expr::Ident(ref_ident))),
                         definite: false,
                     })
                 }
@@ -561,18 +561,18 @@ impl Fold for AssignFolder {
                                     let mut arr_elems = Some(arr.elems.into_iter());
                                     elems.into_iter().for_each(|p| match p {
                                         Some(Pat::Rest(p)) => {
-                                            exprs.push(box Expr::Assign(AssignExpr {
+                                            exprs.push(Box::new(Expr::Assign(AssignExpr {
                                                 span: p.span(),
                                                 left: PatOrExpr::Pat(p.arg),
                                                 op: op!("="),
-                                                right: box Expr::Array(ArrayLit {
+                                                right: Box::new(Expr::Array(ArrayLit {
                                                     span: DUMMY_SP,
                                                     elems: arr_elems
                                                         .take()
                                                         .expect("two rest element?")
                                                         .collect(),
-                                                }),
-                                            }));
+                                                })),
+                                            })));
                                         }
                                         Some(p) => {
                                             let e = arr_elems
@@ -586,12 +586,12 @@ impl Fold for AssignFolder {
                                                     e.expr
                                                 })
                                                 .unwrap_or_else(|| undefined(p.span()));
-                                            exprs.push(box Expr::Assign(AssignExpr {
+                                            exprs.push(Box::new(Expr::Assign(AssignExpr {
                                                 span: p.span(),
-                                                left: PatOrExpr::Pat(box p),
+                                                left: PatOrExpr::Pat(Box::new(p)),
                                                 op: op!("="),
                                                 right,
-                                            }));
+                                            })));
                                         }
 
                                         None => {}
@@ -614,12 +614,12 @@ impl Fold for AssignFolder {
                             }),
                         );
 
-                        exprs.push(box Expr::Assign(AssignExpr {
+                        exprs.push(Box::new(Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
                             op: op!("="),
-                            left: PatOrExpr::Pat(box Pat::Ident(ref_ident.clone())),
+                            left: PatOrExpr::Pat(Box::new(Pat::Ident(ref_ident.clone()))),
                             right,
-                        }));
+                        })));
 
                         for (i, elem) in elems.into_iter().enumerate() {
                             let elem = match elem {
@@ -635,31 +635,36 @@ impl Fold for AssignFolder {
                                     // initialized by sequence expression.
                                     let assign_ref_ident =
                                         make_ref_ident(self.c, &mut self.vars, None);
-                                    exprs.push(box Expr::Assign(AssignExpr {
+                                    exprs.push(Box::new(Expr::Assign(AssignExpr {
                                         span: DUMMY_SP,
-                                        left: PatOrExpr::Pat(box Pat::Ident(
+                                        left: PatOrExpr::Pat(Box::new(Pat::Ident(
                                             assign_ref_ident.clone(),
-                                        )),
+                                        ))),
                                         op: op!("="),
-                                        right: box ref_ident.clone().computed_member(i as f64),
-                                    }));
+                                        right: Box::new(
+                                            ref_ident.clone().computed_member(i as f64),
+                                        ),
+                                    })));
 
-                                    exprs.push(
-                                        box Expr::Assign(AssignExpr {
+                                    exprs.push(Box::new(
+                                        Expr::Assign(AssignExpr {
                                             span,
                                             left: PatOrExpr::Pat(left),
                                             op: op!("="),
-                                            right: box make_cond_expr(assign_ref_ident, right),
+                                            right: Box::new(make_cond_expr(
+                                                assign_ref_ident,
+                                                right,
+                                            )),
                                         })
                                         .fold_with(self),
-                                    );
+                                    ));
                                 }
-                                Pat::Rest(RestPat { arg, .. }) => exprs.push(
-                                    box Expr::Assign(AssignExpr {
+                                Pat::Rest(RestPat { arg, .. }) => exprs.push(Box::new(
+                                    Expr::Assign(AssignExpr {
                                         span: elem_span,
                                         op: op!("="),
                                         left: PatOrExpr::Pat(arg),
-                                        right: box Expr::Call(CallExpr {
+                                        right: Box::new(Expr::Call(CallExpr {
                                             span: DUMMY_SP,
                                             callee: ref_ident
                                                 .clone()
@@ -667,24 +672,24 @@ impl Fold for AssignFolder {
                                                 .as_callee(),
                                             args: vec![(i as f64).as_arg()],
                                             type_args: Default::default(),
-                                        }),
+                                        })),
                                     })
                                     .fold_with(self),
-                                ),
-                                _ => exprs.push(
-                                    box Expr::Assign(AssignExpr {
+                                )),
+                                _ => exprs.push(Box::new(
+                                    Expr::Assign(AssignExpr {
                                         span: elem_span,
                                         op: op!("="),
-                                        left: PatOrExpr::Pat(box elem),
-                                        right: box make_ref_idx_expr(&ref_ident, i),
+                                        left: PatOrExpr::Pat(Box::new(elem)),
+                                        right: Box::new(make_ref_idx_expr(&ref_ident, i)),
                                     })
                                     .fold_with(self),
-                                ),
+                                )),
                             }
                         }
 
                         // last one should be `ref`
-                        exprs.push(box Expr::Ident(ref_ident));
+                        exprs.push(Box::new(Expr::Ident(ref_ident)));
 
                         Expr::Seq(SeqExpr {
                             span: DUMMY_SP,
@@ -696,12 +701,12 @@ impl Fold for AssignFolder {
 
                         let mut exprs = vec![];
 
-                        exprs.push(box Expr::Assign(AssignExpr {
+                        exprs.push(Box::new(Expr::Assign(AssignExpr {
                             span,
-                            left: PatOrExpr::Pat(box Pat::Ident(ref_ident.clone())),
+                            left: PatOrExpr::Pat(Box::new(Pat::Ident(ref_ident.clone()))),
                             op: op!("="),
                             right,
-                        }));
+                        })));
 
                         for prop in props {
                             let span = prop.span();
@@ -712,16 +717,16 @@ impl Fold for AssignFolder {
                                         _ => false,
                                     };
 
-                                    exprs.push(box Expr::Assign(AssignExpr {
+                                    exprs.push(Box::new(Expr::Assign(AssignExpr {
                                         span,
                                         left: PatOrExpr::Pat(value),
                                         op: op!("="),
-                                        right: box make_ref_prop_expr(
+                                        right: Box::new(make_ref_prop_expr(
                                             &ref_ident,
-                                            box prop_name_to_expr(key),
+                                            Box::new(prop_name_to_expr(key)),
                                             computed,
-                                        ),
-                                    }));
+                                        )),
+                                    })));
                                 }
                                 ObjectPatProp::Assign(AssignPatProp { key, value, .. }) => {
                                     let computed = false;
@@ -731,37 +736,41 @@ impl Fold for AssignFolder {
                                             let prop_ident =
                                                 make_ref_ident(self.c, &mut self.vars, None);
 
-                                            exprs.push(box Expr::Assign(AssignExpr {
+                                            exprs.push(Box::new(Expr::Assign(AssignExpr {
                                                 span,
-                                                left: PatOrExpr::Pat(box Pat::Ident(
+                                                left: PatOrExpr::Pat(Box::new(Pat::Ident(
                                                     prop_ident.clone(),
-                                                )),
+                                                ))),
                                                 op: op!("="),
-                                                right: box make_ref_prop_expr(
+                                                right: Box::new(make_ref_prop_expr(
                                                     &ref_ident,
-                                                    box key.clone().into(),
+                                                    Box::new(key.clone().into()),
                                                     computed,
-                                                ),
-                                            }));
+                                                )),
+                                            })));
 
-                                            exprs.push(box Expr::Assign(AssignExpr {
+                                            exprs.push(Box::new(Expr::Assign(AssignExpr {
                                                 span,
-                                                left: PatOrExpr::Pat(box Pat::Ident(key.clone())),
+                                                left: PatOrExpr::Pat(Box::new(Pat::Ident(
+                                                    key.clone(),
+                                                ))),
                                                 op: op!("="),
-                                                right: box make_cond_expr(prop_ident, value),
-                                            }));
+                                                right: Box::new(make_cond_expr(prop_ident, value)),
+                                            })));
                                         }
                                         None => {
-                                            exprs.push(box Expr::Assign(AssignExpr {
+                                            exprs.push(Box::new(Expr::Assign(AssignExpr {
                                                 span,
-                                                left: PatOrExpr::Pat(box Pat::Ident(key.clone())),
+                                                left: PatOrExpr::Pat(Box::new(Pat::Ident(
+                                                    key.clone(),
+                                                ))),
                                                 op: op!("="),
-                                                right: box make_ref_prop_expr(
+                                                right: Box::new(make_ref_prop_expr(
                                                     &ref_ident,
-                                                    box key.clone().into(),
+                                                    Box::new(key.clone().into()),
                                                     computed,
-                                                ),
-                                            }));
+                                                )),
+                                            })));
                                         }
                                     }
                                 }
@@ -773,7 +782,7 @@ impl Fold for AssignFolder {
                         }
 
                         // Last one should be object itself.
-                        exprs.push(box Expr::Ident(ref_ident));
+                        exprs.push(Box::new(Expr::Ident(ref_ident)));
 
                         Expr::Seq(SeqExpr {
                             span: DUMMY_SP,
@@ -939,27 +948,31 @@ fn make_ref_ident_for_array(
                         } else {
                             match elem_cnt {
                                 None => v,
-                                Some(std::usize::MAX) => box CallExpr {
-                                    span: DUMMY_SP,
-                                    callee: helper!(to_array, "toArray"),
-                                    args: vec![v.as_arg()],
-                                    type_args: Default::default(),
-                                }
-                                .into(),
-                                Some(value) => box CallExpr {
-                                    span: DUMMY_SP,
-                                    callee: helper!(sliced_to_array, "slicedToArray"),
-                                    args: vec![
-                                        v.as_arg(),
-                                        Lit::Num(Number {
-                                            span: DUMMY_SP,
-                                            value: value as _,
-                                        })
-                                        .as_arg(),
-                                    ],
-                                    type_args: Default::default(),
-                                }
-                                .into(),
+                                Some(std::usize::MAX) => Box::new(
+                                    CallExpr {
+                                        span: DUMMY_SP,
+                                        callee: helper!(to_array, "toArray"),
+                                        args: vec![v.as_arg()],
+                                        type_args: Default::default(),
+                                    }
+                                    .into(),
+                                ),
+                                Some(value) => Box::new(
+                                    CallExpr {
+                                        span: DUMMY_SP,
+                                        callee: helper!(sliced_to_array, "slicedToArray"),
+                                        args: vec![
+                                            v.as_arg(),
+                                            Lit::Num(Number {
+                                                span: DUMMY_SP,
+                                                value: value as _,
+                                            })
+                                            .as_arg(),
+                                        ],
+                                        type_args: Default::default(),
+                                    }
+                                    .into(),
+                                ),
                             }
                         }
                     }),
@@ -980,7 +993,7 @@ fn make_ref_prop_expr(ref_ident: &Ident, prop: Box<Expr>, mut computed: bool) ->
 
     Expr::Member(MemberExpr {
         span: DUMMY_SP,
-        obj: ExprOrSuper::Expr(box ref_ident.clone().into()),
+        obj: ExprOrSuper::Expr(Box::new(ref_ident.clone().into())),
         computed,
         prop,
     })
@@ -990,21 +1003,21 @@ fn make_ref_prop_expr(ref_ident: &Ident, prop: Box<Expr>, mut computed: bool) ->
 fn make_cond_expr(tmp: Ident, def_value: Box<Expr>) -> Expr {
     Expr::Cond(CondExpr {
         span: DUMMY_SP,
-        test: box Expr::Bin(BinExpr {
+        test: Box::new(Expr::Bin(BinExpr {
             span: DUMMY_SP,
-            left: box Expr::Ident(tmp.clone()),
+            left: Box::new(Expr::Ident(tmp.clone())),
             op: op!("==="),
-            right: box Expr::Unary(UnaryExpr {
+            right: Box::new(Expr::Unary(UnaryExpr {
                 span: DUMMY_SP,
                 op: op!("void"),
-                arg: box Expr::Lit(Lit::Num(Number {
+                arg: Box::new(Expr::Lit(Lit::Num(Number {
                     span: DUMMY_SP,
                     value: 0.0,
-                })),
-            }),
-        }),
+                }))),
+            })),
+        })),
         cons: def_value,
-        alt: box Expr::Ident(tmp),
+        alt: Box::new(Expr::Ident(tmp)),
     })
 }
 

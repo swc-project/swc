@@ -33,17 +33,17 @@ impl Fold for MemberExprLit {
                 if $sym.is_reserved_for_es3() || !is_valid_ident(&$sym) {
                     return MemberExpr {
                         computed: true,
-                        prop: box Expr::Lit(Lit::Str(Str {
+                        prop: Box::new(Expr::Lit(Lit::Str(Str {
                             span: $span,
                             value: $sym,
                             has_escape: false,
-                        })),
+                        }))),
                         ..e
                     };
                 } else {
                     return MemberExpr {
                         computed: false,
-                        prop: box Expr::Ident(quote_ident!($span, $sym)),
+                        prop: Box::new(Expr::Ident(quote_ident!($span, $sym))),
                         ..e
                     };
                 }
@@ -53,7 +53,7 @@ impl Fold for MemberExprLit {
         e.prop = match *e.prop {
             Expr::Ident(i) => {
                 if e.computed {
-                    box Expr::Ident(i)
+                    Box::new(Expr::Ident(i))
                 } else {
                     handle!(i.sym, i.span)
                 }

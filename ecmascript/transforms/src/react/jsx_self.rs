@@ -28,7 +28,7 @@ impl Fold for JsxSelf {
             name: JSXAttrName::Ident(quote_ident!("__self")),
             value: Some(JSXAttrValue::JSXExprContainer(JSXExprContainer {
                 span: DUMMY_SP,
-                expr: JSXExpr::Expr(box ThisExpr { span: DUMMY_SP }.into()),
+                expr: JSXExpr::Expr(Box::new(ThisExpr { span: DUMMY_SP }.into())),
             })),
         }));
         n

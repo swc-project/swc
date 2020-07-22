@@ -98,7 +98,7 @@ impl SimplifyExpr {
                     }
                 }
                 _ => Expr::Member(MemberExpr {
-                    obj: ExprOrSuper::Expr(box obj),
+                    obj: ExprOrSuper::Expr(Box::new(obj)),
                     ..e
                 }),
             },
@@ -116,7 +116,7 @@ impl SimplifyExpr {
 
                 if has_spread {
                     return Expr::Member(MemberExpr {
-                        obj: ExprOrSuper::Expr(box obj),
+                        obj: ExprOrSuper::Expr(Box::new(obj)),
                         ..e
                     });
                 }
@@ -142,7 +142,7 @@ impl SimplifyExpr {
 
                 if has_spread {
                     return Expr::Member(MemberExpr {
-                        obj: ExprOrSuper::Expr(box Expr::Array(ArrayLit { span, elems })),
+                        obj: ExprOrSuper::Expr(Box::new(Expr::Array(ArrayLit { span, elems }))),
                         ..e
                     });
                 }
@@ -162,7 +162,11 @@ impl SimplifyExpr {
                     Some(e) => *e.expr,
                 };
 
-                preserve_effects(span, v, once(box Expr::Array(ArrayLit { span, elems })))
+                preserve_effects(
+                    span,
+                    v,
+                    once(Box::new(Expr::Array(ArrayLit { span, elems }))),
+                )
             }
 
             // { foo: true }['foo']
@@ -176,7 +180,10 @@ impl SimplifyExpr {
 
                     if has_spread {
                         return Expr::Member(MemberExpr {
-                            obj: ExprOrSuper::Expr(box Expr::Object(ObjectLit { props, span })),
+                            obj: ExprOrSuper::Expr(Box::new(Expr::Object(ObjectLit {
+                                props,
+                                span,
+                            }))),
                             ..e
                         });
                     }
@@ -213,24 +220,24 @@ impl SimplifyExpr {
                                     },
                                     _ => unreachable!(),
                                 },
-                                once(box Expr::Object(ObjectLit { props, span })),
+                                once(Box::new(Expr::Object(ObjectLit { props, span }))),
                             )
                         }
                         None => preserve_effects(
                             span,
                             *undefined(span),
-                            once(box Expr::Object(ObjectLit { props, span })),
+                            once(Box::new(Expr::Object(ObjectLit { props, span }))),
                         ),
                     }
                 }
                 _ => Expr::Member(MemberExpr {
-                    obj: ExprOrSuper::Expr(box Expr::Object(ObjectLit { props, span })),
+                    obj: ExprOrSuper::Expr(Box::new(Expr::Object(ObjectLit { props, span }))),
                     ..e
                 }),
             },
 
             _ => Expr::Member(MemberExpr {
-                obj: ExprOrSuper::Expr(box obj),
+                obj: ExprOrSuper::Expr(Box::new(obj)),
                 ..e
             }),
         }
@@ -524,16 +531,16 @@ impl SimplifyExpr {
                                 span,
                                 left: left_lhs,
                                 op: left_op,
-                                right: box Expr::Lit(Lit::Num(Number { value, span })),
+                                right: Box::new(Expr::Lit(Lit::Num(Number { value, span }))),
                             });
                         }
                     }
-                    left = box Expr::Bin(BinExpr {
+                    left = Box::new(Expr::Bin(BinExpr {
                         left: left_lhs,
                         op: left_op,
                         span: left_span,
                         right: left_rhs,
-                    })
+                    }))
                 }
 
                 (left, right)
@@ -646,10 +653,10 @@ impl SimplifyExpr {
             op!("void") if !may_have_side_effects => {
                 return Expr::Unary(UnaryExpr {
                     op: op!("void"),
-                    arg: box Expr::Lit(Lit::Num(Number {
+                    arg: Box::new(Expr::Lit(Lit::Num(Number {
                         value: 0.0,
                         span: arg.span(),
-                    })),
+                    }))),
                     span,
                 });
             }
@@ -1143,7 +1150,7 @@ impl Fold for SimplifyExpr {
                     if is_simple {
                         exprs.extend(elems.into_iter().filter_map(|e| e).map(|e| e.expr));
                     } else {
-                        exprs.push(box ArrayLit { span, elems }.into());
+                        exprs.push(Box::new(ArrayLit { span, elems }.into()));
                     }
                 }
 

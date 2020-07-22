@@ -106,7 +106,7 @@ impl Fold for Fixer {
         let mut node = node.fold_children_with(self);
         node.body = match node.body {
             BlockStmtOrExpr::Expr(e @ box Expr::Seq(..)) => {
-                BlockStmtOrExpr::Expr(box self.wrap(*e))
+                BlockStmtOrExpr::Expr(Box::new(self.wrap(*e)))
             }
             _ => node.body,
         };
@@ -130,7 +130,7 @@ impl Fold for Fixer {
 
         match body {
             BlockStmtOrExpr::Expr(box expr @ Expr::Object(..)) => {
-                BlockStmtOrExpr::Expr(box self.wrap(expr))
+                BlockStmtOrExpr::Expr(Box::new(self.wrap(expr)))
             }
 
             _ => body,
@@ -142,7 +142,7 @@ impl Fold for Fixer {
         self.ctx = Context::Default;
         let mut node: Class = node.fold_children_with(self);
         node.super_class = match node.super_class {
-            Some(e @ box Expr::Seq(..)) => Some(box self.wrap(*e)),
+            Some(e @ box Expr::Seq(..)) => Some(Box::new(self.wrap(*e))),
             _ => node.super_class,
         };
         self.ctx = old;
@@ -160,7 +160,7 @@ impl Fold for Fixer {
         self.ctx = Context::Default;
         let mut node = node.fold_children_with(self);
         node.expr = match *node.expr {
-            Expr::Arrow(..) | Expr::Seq(..) => box self.wrap(*node.expr),
+            Expr::Arrow(..) | Expr::Seq(..) => Box::new(self.wrap(*node.expr)),
             _ => node.expr,
         };
         self.ctx = old;
@@ -341,7 +341,7 @@ impl Fold for Fixer {
                 match self.ctx {
                     Context::ForcedExpr { .. } => validate!(Expr::Paren(ParenExpr {
                         span,
-                        expr: box expr,
+                        expr: Box::new(expr),
                     })),
                     _ => validate!(expr),
                 }
@@ -353,10 +353,10 @@ impl Fold for Fixer {
                     | e @ Expr::Seq(..)
                     | e @ Expr::Yield(..)
                     | e @ Expr::Cond(..)
-                    | e @ Expr::Arrow(..) => box self.wrap(e),
+                    | e @ Expr::Arrow(..) => Box::new(self.wrap(e)),
                     Expr::Bin(BinExpr { op: op_of_rhs, .. }) => {
                         if op_of_rhs.precedence() <= expr.op.precedence() {
-                            box self.wrap(*expr.right)
+                            Box::new(self.wrap(*expr.right))
                         } else {
                             validate!(expr.right)
                         }
@@ -370,7 +370,7 @@ impl Fold for Fixer {
                     Expr::Bin(BinExpr { op: op_of_lhs, .. }) => {
                         if op_of_lhs.precedence() < expr.op.precedence() {
                             Expr::Bin(validate!(BinExpr {
-                                left: box self.wrap(*expr.left),
+                                left: Box::new(self.wrap(*expr.left)),
                                 ..expr
                             }))
                         } else {
@@ -394,7 +394,7 @@ impl Fold for Fixer {
                     | e @ Expr::Cond(..)
                     | e @ Expr::Assign(..)
                     | e @ Expr::Arrow(..) => validate!(Expr::Bin(BinExpr {
-                        left: box self.wrap(e),
+                        left: Box::new(self.wrap(e)),
                         ..expr
                     })),
                     e @ Expr::Object(..)
@@ -405,7 +405,7 @@ impl Fold for Fixer {
                             || expr.op == op!("!==") =>
                     {
                         validate!(Expr::Bin(BinExpr {
-                            left: box e.wrap_with_paren(),
+                            left: Box::new(e.wrap_with_paren()),
                             ..expr
                         }))
                     }
@@ -418,25 +418,25 @@ impl Fold for Fixer {
                     e @ Expr::Seq(..)
                     | e @ Expr::Assign(..)
                     | e @ Expr::Cond(..)
-                    | e @ Expr::Arrow(..) => box self.wrap(e),
+                    | e @ Expr::Arrow(..) => Box::new(self.wrap(e)),
 
                     e @ Expr::Object(..) | e @ Expr::Fn(..) | e @ Expr::Class(..) => {
                         if self.ctx == Context::Default {
-                            box self.wrap(e)
+                            Box::new(self.wrap(e))
                         } else {
-                            box e
+                            Box::new(e)
                         }
                     }
                     _ => expr.test,
                 };
 
                 let cons = match *expr.cons {
-                    e @ Expr::Seq(..) => box self.wrap(e),
+                    e @ Expr::Seq(..) => Box::new(self.wrap(e)),
                     _ => expr.cons,
                 };
 
                 let alt = match *expr.alt {
-                    e @ Expr::Seq(..) => box self.wrap(e),
+                    e @ Expr::Seq(..) => Box::new(self.wrap(e)),
                     _ => expr.alt,
                 };
                 let expr = validate!(Expr::Cond(CondExpr {
@@ -458,7 +458,7 @@ impl Fold for Fixer {
                     | e @ Expr::Seq(..)
                     | e @ Expr::Cond(..)
                     | e @ Expr::Arrow(..)
-                    | e @ Expr::Yield(..) => box self.wrap(e),
+                    | e @ Expr::Yield(..) => Box::new(self.wrap(e)),
                     _ => expr.arg,
                 };
 
@@ -478,7 +478,7 @@ impl Fold for Fixer {
                     }) => expr.right,
 
                     // Handle `foo = bar = init()
-                    Expr::Seq(right) => box self.wrap(right),
+                    Expr::Seq(right) => Box::new(self.wrap(right)),
                     _ => expr.right,
                 };
 
@@ -548,7 +548,7 @@ impl Fold for Fixer {
                 Expr::Yield(..) => {
                     return ExprOrSpread {
                         spread: None,
-                        expr: box self.wrap(*e.expr),
+                        expr: Box::new(self.wrap(*e.expr)),
                     }
                 }
                 _ => {}
@@ -563,10 +563,10 @@ impl Fold for Fixer {
 
         match *node.cons {
             Stmt::If(..) => IfStmt {
-                cons: box Stmt::Block(BlockStmt {
+                cons: Box::new(Stmt::Block(BlockStmt {
                     span: node.cons.span(),
                     stmts: vec![*node.cons],
-                }),
+                })),
                 ..node
             },
 
@@ -590,7 +590,7 @@ impl Fold for Fixer {
 
         match *prop.value {
             Expr::Seq(..) => KeyValueProp {
-                value: box self.wrap(*prop.value),
+                value: Box::new(self.wrap(*prop.value)),
                 ..prop
             },
             _ => prop,
@@ -670,7 +670,7 @@ impl Fixer {
     where
         T: Into<Expr>,
     {
-        let expr = box e.into();
+        let expr = Box::new(e.into());
         let span = expr.span();
 
         let span = if let Some(span) = self.span_map.remove(&span) {

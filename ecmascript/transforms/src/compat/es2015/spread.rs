@@ -108,7 +108,7 @@ impl Fold for ActualFolder {
                     Expr::Member(MemberExpr {
                         obj: ExprOrSuper::Super(Super { span, .. }),
                         ..
-                    }) => (box Expr::This(ThisExpr { span }), callee),
+                    }) => (Box::new(Expr::This(ThisExpr { span })), callee),
 
                     Expr::Member(MemberExpr {
                         obj: ExprOrSuper::Expr(ref expr @ box Expr::This(..)),
@@ -119,7 +119,7 @@ impl Fold for ActualFolder {
                     Expr::Member(MemberExpr {
                         obj: ExprOrSuper::Expr(box Expr::Ident(ref i)),
                         ..
-                    }) if i.span.is_dummy() => (box Expr::Ident(i.clone()), callee),
+                    }) if i.span.is_dummy() => (Box::new(Expr::Ident(i.clone())), callee),
 
                     Expr::Ident(Ident { span, .. }) => (undefined(span), callee),
 
@@ -138,30 +138,30 @@ impl Fold for ActualFolder {
                             init: None,
                         });
 
-                        let this = box Expr::Ident(ident.clone());
+                        let this = Box::new(Expr::Ident(ident.clone()));
                         let callee = Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
-                            left: PatOrExpr::Pat(box Pat::Ident(ident)),
+                            left: PatOrExpr::Pat(Box::new(Pat::Ident(ident))),
                             op: op!("="),
                             right: expr,
                         });
                         (
                             this,
-                            box Expr::Member(MemberExpr {
+                            Box::new(Expr::Member(MemberExpr {
                                 span,
                                 obj: callee.as_obj(),
                                 prop,
                                 computed,
-                            }),
+                            })),
                         )
                     }
 
                     // https://github.com/swc-project/swc/issues/400
                     // _ => (undefined(callee.span()), callee),
                     _ => (
-                        box Expr::This(ThisExpr {
+                        Box::new(Expr::This(ThisExpr {
                             span: callee.span(),
-                        }),
+                        })),
                         callee,
                     ),
                 };
@@ -177,7 +177,7 @@ impl Fold for ActualFolder {
                 let apply = MemberExpr {
                     span: DUMMY_SP,
                     obj: callee.as_callee(),
-                    prop: box Ident::new(js_word!("apply"), span).into(),
+                    prop: Box::new(Ident::new(js_word!("apply"), span).into()),
                     computed: false,
                 };
 

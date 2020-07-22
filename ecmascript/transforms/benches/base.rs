@@ -221,7 +221,7 @@ fn mk_expr() -> Expr {
 #[bench]
 fn boxing_boxed_clone(b: &mut Bencher) {
     let _ = ::testing::run_test(false, |_, _| {
-        let expr = box mk_expr();
+        let expr = Box::new(mk_expr());
 
         b.iter(|| test::black_box(expr.clone()));
         Ok(())
@@ -244,7 +244,7 @@ fn boxing_boxed(b: &mut Bencher) {
 
     let _ = ::testing::run_test(false, |_, _| {
         let mut folder = Noop;
-        let expr = box mk_expr();
+        let expr = Box::new(mk_expr());
 
         b.iter(|| test::black_box(expr.clone().fold_with(&mut folder)));
         Ok(())

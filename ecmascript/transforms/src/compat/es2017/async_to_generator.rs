@@ -125,12 +125,12 @@ impl Fold for Actual {
                         .into_iter()
                         .chain(iter::once(Stmt::Return(ReturnStmt {
                             span: DUMMY_SP,
-                            arg: Some(box Expr::Call(CallExpr {
+                            arg: Some(Box::new(Expr::Call(CallExpr {
                                 span: DUMMY_SP,
                                 callee: expr.as_callee(),
                                 args: vec![],
                                 type_args: Default::default(),
-                            })),
+                            }))),
                         })))
                         .collect(),
                 }),
@@ -173,7 +173,7 @@ impl Fold for Actual {
                 if !fn_expr.function.is_async {
                     return Expr::Call(CallExpr {
                         span,
-                        callee: ExprOrSuper::Expr(box Expr::Fn(fn_expr)),
+                        callee: ExprOrSuper::Expr(Box::new(Expr::Fn(fn_expr))),
                         args,
                         type_args,
                     });
@@ -185,7 +185,7 @@ impl Fold for Actual {
                 {
                     return Expr::Call(CallExpr {
                         span,
-                        callee: ExprOrSuper::Expr(box Expr::Fn(fn_expr)),
+                        callee: ExprOrSuper::Expr(Box::new(Expr::Fn(fn_expr))),
                         args,
                         type_args,
                     })
@@ -298,7 +298,7 @@ impl Fold for Actual {
                     span: DUMMY_SP,
                     stmts: vec![Stmt::Return(ReturnStmt {
                         span: DUMMY_SP,
-                        arg: Some(box fn_ref),
+                        arg: Some(Box::new(fn_ref)),
                     })],
                 }),
                 decorators: Default::default(),
@@ -392,28 +392,28 @@ impl Fold for MethodFolder {
                 self.vars.push(VarDeclarator {
                     span: DUMMY_SP,
                     name: Pat::Ident(ident.clone()),
-                    init: Some(box Expr::Arrow(ArrowExpr {
+                    init: Some(Box::new(Expr::Arrow(ArrowExpr {
                         span: DUMMY_SP,
                         is_async: false,
                         is_generator: false,
                         params: vec![Pat::Ident(args_ident.clone())],
-                        body: BlockStmtOrExpr::Expr(box Expr::Assign(AssignExpr {
+                        body: BlockStmtOrExpr::Expr(Box::new(Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
-                            left: PatOrExpr::Expr(
-                                box MemberExpr {
+                            left: PatOrExpr::Expr(Box::new(
+                                MemberExpr {
                                     span: m_span,
                                     obj: ExprOrSuper::Super(super_token),
                                     computed,
                                     prop,
                                 }
                                 .into(),
-                            ),
+                            )),
                             op,
-                            right: box args_ident.into(),
-                        })),
+                            right: Box::new(args_ident.into()),
+                        }))),
                         type_params: Default::default(),
                         return_type: Default::default(),
-                    })),
+                    }))),
                     definite: false,
                 });
 
@@ -444,17 +444,17 @@ impl Fold for MethodFolder {
                 self.vars.push(VarDeclarator {
                     span: DUMMY_SP,
                     name: Pat::Ident(ident.clone()),
-                    init: Some(box Expr::Arrow(ArrowExpr {
+                    init: Some(Box::new(Expr::Arrow(ArrowExpr {
                         span: DUMMY_SP,
                         is_async: false,
                         is_generator: false,
                         params: vec![Pat::Rest(RestPat {
                             span: DUMMY_SP,
                             dot3_token: DUMMY_SP,
-                            arg: box Pat::Ident(args_ident.clone()),
+                            arg: Box::new(Pat::Ident(args_ident.clone())),
                             type_ann: Default::default(),
                         })],
-                        body: BlockStmtOrExpr::Expr(box Expr::Call(CallExpr {
+                        body: BlockStmtOrExpr::Expr(Box::new(Expr::Call(CallExpr {
                             span: DUMMY_SP,
                             callee: MemberExpr {
                                 span: DUMMY_SP,
@@ -465,13 +465,13 @@ impl Fold for MethodFolder {
                             .as_callee(),
                             args: vec![ExprOrSpread {
                                 spread: Some(DUMMY_SP),
-                                expr: box args_ident.into(),
+                                expr: Box::new(args_ident.into()),
                             }],
                             type_args: Default::default(),
-                        })),
+                        }))),
                         type_params: Default::default(),
                         return_type: Default::default(),
-                    })),
+                    }))),
                     definite: false,
                 });
 
@@ -493,23 +493,23 @@ impl Fold for MethodFolder {
                 self.vars.push(VarDeclarator {
                     span: DUMMY_SP,
                     name: Pat::Ident(ident.clone()),
-                    init: Some(box Expr::Arrow(ArrowExpr {
+                    init: Some(Box::new(Expr::Arrow(ArrowExpr {
                         span: DUMMY_SP,
                         is_async: false,
                         is_generator: false,
                         params: vec![],
-                        body: BlockStmtOrExpr::Expr(
-                            box MemberExpr {
+                        body: BlockStmtOrExpr::Expr(Box::new(
+                            MemberExpr {
                                 span: DUMMY_SP,
                                 obj: ExprOrSuper::Super(super_token),
                                 computed,
                                 prop,
                             }
                             .into(),
-                        ),
+                        )),
                         type_params: Default::default(),
                         return_type: Default::default(),
-                    })),
+                    }))),
                     definite: false,
                 });
 
@@ -573,18 +573,18 @@ impl Actual {
                         stmts: vec![
                             AssignExpr {
                                 span: DUMMY_SP,
-                                left: PatOrExpr::Pat(box Pat::Ident(real_fn_ident.clone())),
+                                left: PatOrExpr::Pat(Box::new(Pat::Ident(real_fn_ident.clone()))),
                                 op: op!("="),
-                                right: box right,
+                                right: Box::new(right),
                             }
                             .into_stmt(),
                             Stmt::Return(ReturnStmt {
                                 span: DUMMY_SP,
-                                arg: Some(box real_fn_ident.clone().apply(
+                                arg: Some(Box::new(real_fn_ident.clone().apply(
                                     DUMMY_SP,
-                                    box ThisExpr { span: DUMMY_SP }.into(),
+                                    Box::new(ThisExpr { span: DUMMY_SP }.into()),
                                     vec![quote_ident!("arguments").as_arg()],
-                                )),
+                                ))),
                             }),
                         ],
                     }),
@@ -604,7 +604,7 @@ impl Actual {
                 decls: vec![VarDeclarator {
                     span: DUMMY_SP,
                     name: Pat::Ident(real_fn_ident.clone()),
-                    init: Some(box right),
+                    init: Some(Box::new(right)),
                     definite: false,
                 }],
                 declare: false,
@@ -613,11 +613,11 @@ impl Actual {
 
         let apply = Stmt::Return(ReturnStmt {
             span: DUMMY_SP,
-            arg: Some(box real_fn_ident.apply(
+            arg: Some(Box::new(real_fn_ident.apply(
                 DUMMY_SP,
-                box Expr::This(ThisExpr { span: DUMMY_SP }),
+                Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
                 vec![quote_ident!("arguments").as_arg()],
-            )),
+            ))),
         });
         Function {
             span,
@@ -652,16 +652,16 @@ impl Actual {
                             })),
                             Stmt::Return(ReturnStmt {
                                 span: DUMMY_SP,
-                                arg: Some(box Expr::Ident(raw_ident.clone().unwrap())),
+                                arg: Some(Box::new(Expr::Ident(raw_ident.clone().unwrap()))),
                             }),
                         ]
                     } else {
                         vec![Stmt::Return(ReturnStmt {
                             span: DUMMY_SP,
-                            arg: Some(box Expr::Fn(FnExpr {
+                            arg: Some(Box::new(Expr::Fn(FnExpr {
                                 ident: raw_ident,
                                 function: f,
-                            })),
+                            }))),
                         })]
                     }
                 },

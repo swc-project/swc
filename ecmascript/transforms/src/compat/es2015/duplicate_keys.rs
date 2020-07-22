@@ -54,9 +54,9 @@ impl Fold for PropFolder {
                     Prop::KeyValue(KeyValueProp {
                         key: PropName::Computed(ComputedPropName {
                             span: ident.span,
-                            expr: box Expr::Lit(Lit::Str(quote_str!(ident.sym.clone()))),
+                            expr: Box::new(Expr::Lit(Lit::Str(quote_str!(ident.sym.clone())))),
                         }),
-                        value: box Expr::Ident(ident),
+                        value: Box::new(Expr::Ident(ident)),
                     })
                 } else {
                     Prop::Shorthand(ident)
@@ -99,11 +99,11 @@ impl<'a> Fold for PropNameFolder<'a> {
                 if !self.props.insert(ident.sym.clone()) {
                     PropName::Computed(ComputedPropName {
                         span,
-                        expr: box Expr::Lit(Lit::Str(Str {
+                        expr: Box::new(Expr::Lit(Lit::Str(Str {
                             span,
                             value: ident.sym,
                             has_escape: false,
-                        })),
+                        }))),
                     })
                 } else {
                     PropName::Ident(ident)
@@ -113,7 +113,7 @@ impl<'a> Fold for PropNameFolder<'a> {
                 if !self.props.insert(s.value.clone()) {
                     PropName::Computed(ComputedPropName {
                         span: s.span,
-                        expr: box Expr::Lit(Lit::Str(s)),
+                        expr: Box::new(Expr::Lit(Lit::Str(s))),
                     })
                 } else {
                     PropName::Str(s)

@@ -192,18 +192,18 @@ impl Fold for ConstructorFolder<'_> {
                 args,
                 ..
             }) => {
-                let right = box make_possible_return_value(ReturningMode::Prototype {
+                let right = Box::new(make_possible_return_value(ReturningMode::Prototype {
                     class_name: self.class_name.clone(),
                     args: Some(args),
                     is_constructor_default: self.is_constructor_default,
-                });
+                }));
 
                 Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
-                    left: PatOrExpr::Pat(box Pat::Ident(quote_ident!(
+                    left: PatOrExpr::Pat(Box::new(Pat::Ident(quote_ident!(
                         DUMMY_SP.apply_mark(self.mark),
                         "_this"
-                    ))),
+                    )))),
                     op: op!("="),
                     right,
                 })
@@ -219,10 +219,12 @@ impl Fold for ConstructorFolder<'_> {
 
         let arg = stmt.arg.fold_with(self);
 
-        let arg = Some(box make_possible_return_value(ReturningMode::Returning {
-            mark: self.mark,
-            arg,
-        }));
+        let arg = Some(Box::new(make_possible_return_value(
+            ReturningMode::Returning {
+                mark: self.mark,
+                arg,
+            },
+        )));
 
         ReturnStmt { arg, ..stmt }
     }
@@ -249,12 +251,12 @@ impl Fold for ConstructorFolder<'_> {
                 match self.mode {
                     Some(SuperFoldingMode::Assign) => AssignExpr {
                         span: DUMMY_SP,
-                        left: PatOrExpr::Pat(box Pat::Ident(quote_ident!(
+                        left: PatOrExpr::Pat(Box::new(Pat::Ident(quote_ident!(
                             DUMMY_SP.apply_mark(self.mark),
                             "_this"
-                        ))),
+                        )))),
                         op: op!("="),
-                        right: box expr,
+                        right: expr.into(),
                     }
                     .into_stmt(),
                     Some(SuperFoldingMode::Var) => Stmt::Decl(Decl::Var(VarDecl {
@@ -264,13 +266,13 @@ impl Fold for ConstructorFolder<'_> {
                         decls: vec![VarDeclarator {
                             span: DUMMY_SP,
                             name: Pat::Ident(quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this")),
-                            init: Some(box expr),
+                            init: Some(expr.into()),
                             definite: false,
                         }],
                     })),
                     None => Stmt::Return(ReturnStmt {
                         span: DUMMY_SP,
-                        arg: Some(box expr),
+                        arg: Some(expr.into()),
                     }),
                 }
             }
@@ -361,7 +363,7 @@ pub(super) fn make_possible_return_value(mode: ReturningMode) -> Expr {
                 };
 
                 vec![ThisExpr { span: DUMMY_SP }.as_arg(), {
-                    let apply = box Expr::Call(CallExpr {
+                    let apply = Box::new(Expr::Call(CallExpr {
                         span: DUMMY_SP,
                         callee: get_prototype_of(Expr::Ident(class_name))
                             .member(fn_name)
@@ -371,7 +373,7 @@ pub(super) fn make_possible_return_value(mode: ReturningMode) -> Expr {
                         args,
 
                         type_args: Default::default(),
-                    });
+                    }));
 
                     apply.as_arg()
                 }]

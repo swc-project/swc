@@ -128,8 +128,8 @@ impl BlockScoping {
                 self.vars.push(VarDeclarator {
                     span: DUMMY_SP,
                     name: Pat::Ident(var_name.clone()),
-                    init: Some(
-                        Box::new(FnExpr {
+                    init: Some(Box::new(
+                        FnExpr {
                             ident: None,
                             function: Function {
                                 span: DUMMY_SP,
@@ -157,9 +157,9 @@ impl BlockScoping {
                                 type_params: None,
                                 return_type: None,
                             },
-                        })
+                        }
                         .into(),
-                    ),
+                    )),
                     definite: false,
                 });
 
@@ -281,7 +281,7 @@ impl BlockScoping {
                         stmts.push(
                             SwitchStmt {
                                 span: DUMMY_SP,
-                                discriminant: Box::new((ret.clone().into())),
+                                discriminant: Box::new(ret.clone().into()),
                                 cases,
                             }
                             .into(),
@@ -309,12 +309,13 @@ impl BlockScoping {
                             stmts.push(
                                 IfStmt {
                                     span: DUMMY_SP,
-                                    test: box ret.clone().make_eq(quote_str!("continue")),
+                                    test: ret.clone().make_eq(quote_str!("continue")).into(),
                                     // TODO: Handle labelled statements
-                                    cons: box Stmt::Continue(ContinueStmt {
+                                    cons: Stmt::Continue(ContinueStmt {
                                         span: DUMMY_SP,
                                         label: None,
-                                    }),
+                                    })
+                                    .into(),
                                     alt: None,
                                 }
                                 .into(),
@@ -675,22 +676,25 @@ impl Fold for FlowHelper {
                 self.has_continue = true;
                 return Stmt::Return(ReturnStmt {
                     span,
-                    arg: Some(box Expr::Lit(Lit::Str(Str {
-                        span,
-                        value: "continue".into(),
-                        has_escape: false,
-                    }))),
+                    arg: Some(
+                        Expr::Lit(Lit::Str(Str {
+                            span,
+                            value: "continue".into(),
+                            has_escape: false,
+                        }))
+                        .into(),
+                    ),
                 });
             }
             Stmt::Break(..) => {
                 self.has_break = true;
                 return Stmt::Return(ReturnStmt {
                     span,
-                    arg: Some(box Expr::Lit(Lit::Str(Str {
+                    arg: Some(Box::new(Expr::Lit(Lit::Str(Str {
                         span,
                         value: "break".into(),
                         has_escape: false,
-                    }))),
+                    })))),
                 });
             }
             Stmt::Return(s) => {
@@ -699,19 +703,19 @@ impl Fold for FlowHelper {
 
                 return Stmt::Return(ReturnStmt {
                     span,
-                    arg: Some(box Expr::Object(ObjectLit {
+                    arg: Some(Box::new(Expr::Object(ObjectLit {
                         span,
-                        props: vec![PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
+                        props: vec![PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                             key: PropName::Ident(Ident::new("v".into(), DUMMY_SP)),
                             value: s.arg.unwrap_or_else(|| {
-                                box Expr::Unary(UnaryExpr {
+                                Box::new(Expr::Unary(UnaryExpr {
                                     span: DUMMY_SP,
                                     op: UnaryOp::Void,
                                     arg: undefined(DUMMY_SP),
-                                })
+                                }))
                             }),
-                        }))],
-                    })),
+                        })))],
+                    }))),
                 });
             }
             _ => node.fold_children_with(self),

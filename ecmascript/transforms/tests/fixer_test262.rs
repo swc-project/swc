@@ -108,7 +108,7 @@ fn add_test<F: FnOnce() + Send + 'static>(
             should_panic: No,
             allow_fail: false,
         },
-        testfn: DynTestFn(box f),
+        testfn: DynTestFn(Box::new(f)),
     });
 }
 
@@ -170,8 +170,8 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                         let mut wr = Buf(Arc::new(RwLock::new(vec![])));
                         let mut wr2 = Buf(Arc::new(RwLock::new(vec![])));
 
-                        let handlers = box MyHandlers;
-                        let handlers2 = box MyHandlers;
+                        let handlers = Box::new(MyHandlers);
+                        let handlers2 = Box::new(MyHandlers);
                         let mut parser: Parser<'_, Lexer<'_, SourceFileInput<'_>>> = Parser::new(
                             Session { handler: &handler },
                             Syntax::default(),
@@ -183,21 +183,21 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                             let mut emitter = Emitter {
                                 cfg: swc_ecma_codegen::Config { minify: false },
                                 cm: cm.clone(),
-                                wr: box swc_ecma_codegen::text_writer::JsWriter::new(
+                                wr: Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
                                     cm.clone(),
                                     "\n",
                                     &mut wr,
                                     None,
-                                ),
+                                )),
                                 comments: None,
                                 handlers,
                             };
                             let mut expected_emitter = Emitter {
                                 cfg: swc_ecma_codegen::Config { minify: false },
                                 cm: cm.clone(),
-                                wr: box swc_ecma_codegen::text_writer::JsWriter::new(
+                                wr: Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
                                     cm, "\n", &mut wr2, None,
-                                ),
+                                )),
                                 comments: None,
                                 handlers: handlers2,
                             };

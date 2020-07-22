@@ -75,20 +75,20 @@ impl Fold for ObjectLitFolder {
                 let props_cnt = props.len();
 
                 exprs.push(if props_cnt == 1 {
-                    box Expr::Object(ObjectLit {
+                    Box::new(Expr::Object(ObjectLit {
                         span: DUMMY_SP,
                         props: obj_props,
-                    })
+                    }))
                 } else {
-                    box Expr::Assign(AssignExpr {
+                    Box::new(Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
-                        left: PatOrExpr::Pat(box Pat::Ident(obj_ident.clone())),
+                        left: PatOrExpr::Pat(Box::new(Pat::Ident(obj_ident.clone()))),
                         op: op!("="),
-                        right: box Expr::Object(ObjectLit {
+                        right: Box::new(Expr::Object(ObjectLit {
                             span: DUMMY_SP,
                             props: obj_props,
-                        }),
-                    })
+                        })),
+                    }))
                 });
 
                 for prop in props {
@@ -169,34 +169,33 @@ impl Fold for ObjectLitFolder {
                                     mutator_map.clone().computed_member(prop_name_to_expr(key));
 
                                 // mutator[f] = mutator[f] || {}
-                                exprs.push(box Expr::Assign(AssignExpr {
+                                exprs.push(Box::new(Expr::Assign(AssignExpr {
                                     span,
-                                    left: PatOrExpr::Expr(box mutator_elem.clone()),
+                                    left: PatOrExpr::Expr(Box::new(mutator_elem.clone())),
                                     op: op!("="),
-                                    right: box Expr::Bin(BinExpr {
+                                    right: Box::new(Expr::Bin(BinExpr {
                                         span,
-                                        left: box mutator_elem.clone(),
+                                        left: Box::new(mutator_elem.clone()),
                                         op: op!("||"),
-                                        right: box Expr::Object(ObjectLit {
+                                        right: Box::new(Expr::Object(ObjectLit {
                                             span,
                                             props: vec![],
-                                        }),
-                                    }),
-                                }));
+                                        })),
+                                    })),
+                                })));
 
                                 // mutator[f].get = function(){}
-                                exprs.push(box Expr::Assign(AssignExpr {
+                                exprs.push(Box::new(Expr::Assign(AssignExpr {
                                     span,
-                                    left: PatOrExpr::Expr(
-                                        box mutator_elem
-                                            .member(quote_ident!(gs_prop_name.unwrap())),
-                                    ),
+                                    left: PatOrExpr::Expr(Box::new(
+                                        mutator_elem.member(quote_ident!(gs_prop_name.unwrap())),
+                                    )),
                                     op: op!("="),
-                                    right: box Expr::Fn(FnExpr {
+                                    right: Box::new(Expr::Fn(FnExpr {
                                         ident: None,
                                         function,
-                                    }),
-                                }));
+                                    })),
+                                })));
 
                                 continue;
                                 // unimplemented!("getter /setter property")
@@ -220,12 +219,12 @@ impl Fold for ObjectLitFolder {
                             type_args: Default::default(),
                         });
                     }
-                    exprs.push(box Expr::Call(CallExpr {
+                    exprs.push(Box::new(Expr::Call(CallExpr {
                         span,
                         callee: helper!(define_property, "defineProperty"),
                         args: vec![obj_ident.clone().as_arg(), key.as_arg(), value.as_arg()],
                         type_args: Default::default(),
-                    }));
+                    })));
                 }
 
                 self.vars.push(VarDeclarator {
@@ -238,22 +237,22 @@ impl Fold for ObjectLitFolder {
                     self.vars.push(VarDeclarator {
                         span: DUMMY_SP,
                         name: Pat::Ident(mutator_map.clone()),
-                        init: Some(box Expr::Object(ObjectLit {
+                        init: Some(Box::new(Expr::Object(ObjectLit {
                             span: DUMMY_SP,
                             props: vec![],
-                        })),
+                        }))),
                         definite: false,
                     });
-                    exprs.push(box Expr::Call(CallExpr {
+                    exprs.push(Box::new(Expr::Call(CallExpr {
                         span,
                         callee: helper!(define_enumerable_properties, "defineEnumerableProperties"),
                         args: vec![obj_ident.clone().as_arg(), mutator_map.as_arg()],
                         type_args: Default::default(),
-                    }));
+                    })));
                 }
 
                 // Last value
-                exprs.push(box Expr::Ident(obj_ident));
+                exprs.push(Box::new(Expr::Ident(obj_ident)));
                 Expr::Seq(SeqExpr {
                     span: DUMMY_SP,
                     exprs,

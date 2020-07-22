@@ -77,7 +77,7 @@ impl Fold for NullishCoalescing {
                     Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
                         op: op!("="),
-                        left: PatOrExpr::Pat(box Pat::Ident(l.clone())),
+                        left: PatOrExpr::Pat(Box::new(Pat::Ident(l.clone()))),
                         right: left,
                     })
                 } else {
@@ -86,23 +86,23 @@ impl Fold for NullishCoalescing {
 
                 return Expr::Cond(CondExpr {
                     span,
-                    test: box Expr::Bin(BinExpr {
+                    test: Box::new(Expr::Bin(BinExpr {
                         span: DUMMY_SP,
-                        left: box Expr::Bin(BinExpr {
+                        left: Box::new(Expr::Bin(BinExpr {
                             span: DUMMY_SP,
-                            left: box var_expr,
+                            left: Box::new(var_expr),
                             op: op!("!=="),
-                            right: box Expr::Lit(Lit::Null(Null { span: DUMMY_SP })),
-                        }),
+                            right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
+                        })),
                         op: op!("&&"),
-                        right: box Expr::Bin(BinExpr {
+                        right: Box::new(Expr::Bin(BinExpr {
                             span: DUMMY_SP,
-                            left: box Expr::Ident(l.clone()),
+                            left: Box::new(Expr::Ident(l.clone())),
                             op: op!("!=="),
                             right: undefined(DUMMY_SP),
-                        }),
-                    }),
-                    cons: box Expr::Ident(l.clone()),
+                        })),
+                    })),
+                    cons: Box::new(Expr::Ident(l.clone())),
                     alt: right,
                 });
             }

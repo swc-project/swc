@@ -77,12 +77,12 @@ impl Fold for FnName {
             Expr::Fn(expr @ FnExpr { ident: None, .. }) => {
                 //
                 if let PropName::Ident(ref i) = p.key {
-                    box Expr::Fn(FnExpr {
+                    Box::new(Expr::Fn(FnExpr {
                         ident: Some(prepare(i.clone(), false)),
                         ..expr
-                    })
+                    }))
                 } else {
-                    box Expr::Fn(expr)
+                    Box::new(Expr::Fn(expr))
                 }
             }
             _ => p.value,

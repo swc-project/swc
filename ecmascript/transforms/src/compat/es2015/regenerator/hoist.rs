@@ -39,15 +39,15 @@ impl Hoister {
 
         for decl in var.decls {
             if let Some(init) = decl.init {
-                exprs.push(
-                    box AssignExpr {
+                exprs.push(Box::new(
+                    AssignExpr {
                         span: decl.span,
-                        left: PatOrExpr::Pat(box decl.name),
+                        left: PatOrExpr::Pat(Box::new(decl.name)),
                         op: op!("="),
                         right: init,
                     }
                     .into(),
-                );
+                ));
             }
         }
 
@@ -98,7 +98,7 @@ impl Fold for Hoister {
             }) => {
                 return ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
                     span,
-                    expr: box self.var_decl_to_expr(var),
+                    expr: Box::new(self.var_decl_to_expr(var)),
                 })
             }
 
@@ -112,7 +112,7 @@ impl Fold for Hoister {
         match s {
             Stmt::Decl(Decl::Var(var)) => {
                 let span = var.span;
-                let expr = box self.var_decl_to_expr(var);
+                let expr = Box::new(self.var_decl_to_expr(var));
 
                 return Stmt::Expr(ExprStmt { span, expr });
             }
@@ -143,7 +143,9 @@ impl Fold for Hoister {
 
     fn fold_var_decl_or_expr(&mut self, var: VarDeclOrExpr) -> VarDeclOrExpr {
         match var {
-            VarDeclOrExpr::VarDecl(var) => VarDeclOrExpr::Expr(box self.var_decl_to_expr(var)),
+            VarDeclOrExpr::VarDecl(var) => {
+                VarDeclOrExpr::Expr(Box::new(self.var_decl_to_expr(var)))
+            }
             _ => var.fold_children_with(self),
         }
     }

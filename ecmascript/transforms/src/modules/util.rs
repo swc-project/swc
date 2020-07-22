@@ -159,19 +159,21 @@ impl Scope {
                 stmts: iter::once(Stmt::If(IfStmt {
                     span: DUMMY_SP,
                     // key === "default" || key === "__esModule"
-                    test: box key_ident
-                        .clone()
-                        .make_eq(Lit::Str(quote_str!("default")))
-                        .make_bin(
-                            op!("||"),
-                            key_ident
-                                .clone()
-                                .make_eq(Lit::Str(quote_str!("__esModule"))),
-                        ),
-                    cons: box Stmt::Return(ReturnStmt {
+                    test: Box::new(
+                        key_ident
+                            .clone()
+                            .make_eq(Lit::Str(quote_str!("default")))
+                            .make_bin(
+                                op!("||"),
+                                key_ident
+                                    .clone()
+                                    .make_eq(Lit::Str(quote_str!("__esModule"))),
+                            ),
+                    ),
+                    cons: Box::new(Stmt::Return(ReturnStmt {
                         span: DUMMY_SP,
                         arg: None,
-                    }),
+                    })),
                     alt: None,
                 }))
                 .chain({
@@ -181,21 +183,23 @@ impl Scope {
                         //      return;`
                         Some(Stmt::If(IfStmt {
                             span: DUMMY_SP,
-                            test: box CallExpr {
-                                span: DUMMY_SP,
-                                callee: member_expr!(
-                                    DUMMY_SP,
-                                    Object.prototype.hasOwnProperty.call
-                                )
-                                .as_callee(),
-                                args: vec![exported_names.as_arg(), key_ident.clone().as_arg()],
-                                type_args: Default::default(),
-                            }
-                            .into(),
-                            cons: box Stmt::Return(ReturnStmt {
+                            test: Box::new(
+                                CallExpr {
+                                    span: DUMMY_SP,
+                                    callee: member_expr!(
+                                        DUMMY_SP,
+                                        Object.prototype.hasOwnProperty.call
+                                    )
+                                    .as_callee(),
+                                    args: vec![exported_names.as_arg(), key_ident.clone().as_arg()],
+                                    type_args: Default::default(),
+                                }
+                                .into(),
+                            ),
+                            cons: Box::new(Stmt::Return(ReturnStmt {
                                 span: DUMMY_SP,
                                 arg: None,
-                            }),
+                            })),
                             alt: None,
                         }))
                     } else {
@@ -206,7 +210,8 @@ impl Scope {
                     define_property(vec![
                         exports.as_arg(),
                         key_ident.clone().as_arg(),
-                        make_descriptor(box imported.clone().computed_member(key_ident)).as_arg(),
+                        make_descriptor(Box::new(imported.clone().computed_member(key_ident)))
+                            .as_arg(),
                     ])
                     .into_stmt(),
                 ))
@@ -363,7 +368,7 @@ impl Scope {
         match value {
             Ok(value) => Prop::KeyValue(KeyValueProp {
                 key: PropName::Ident(key),
-                value: box value,
+                value: Box::new(value),
             }),
             Err(ident) => Prop::Shorthand(ident),
         }
@@ -440,16 +445,16 @@ impl Scope {
             ($entry:expr, $e:expr) => {{
                 let mut e = $e;
                 for i in $entry.get() {
-                    e = box Expr::Assign(AssignExpr {
+                    e = Box::new(Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
-                        left: PatOrExpr::Expr(
-                            box exports
+                        left: PatOrExpr::Expr(Box::new(
+                            exports
                                 .clone()
                                 .member(Ident::new(i.0.clone(), DUMMY_SP.with_ctxt(i.1))),
-                        ),
+                        )),
                         op: op!("="),
                         right: e,
-                    });
+                    }));
                 }
                 e
             }};
@@ -488,34 +493,34 @@ impl Scope {
                     Entry::Occupied(entry) => {
                         let e = chain_assign!(
                             entry,
-                            box Expr::Assign(AssignExpr {
+                            Box::new(Expr::Assign(AssignExpr {
                                 span: DUMMY_SP,
-                                left: PatOrExpr::Pat(box Pat::Ident(arg.clone())),
+                                left: PatOrExpr::Pat(Box::new(Pat::Ident(arg.clone()))),
                                 op: op!("="),
-                                right: box Expr::Bin(BinExpr {
+                                right: Box::new(Expr::Bin(BinExpr {
                                     span: DUMMY_SP,
-                                    left: box Expr::Unary(UnaryExpr {
+                                    left: Box::new(Expr::Unary(UnaryExpr {
                                         span: DUMMY_SP,
                                         op: op!(unary, "+"),
-                                        arg: box Expr::Ident(arg)
-                                    }),
+                                        arg: Box::new(Expr::Ident(arg)),
+                                    })),
                                     op: match op {
                                         op!("++") => op!(bin, "+"),
                                         op!("--") => op!(bin, "-"),
                                     },
-                                    right: box Expr::Lit(Lit::Num(Number {
+                                    right: Box::new(Expr::Lit(Lit::Num(Number {
                                         span: DUMMY_SP,
                                         value: 1.0,
-                                    })),
-                                }),
-                            })
+                                    }))),
+                                })),
+                            }))
                         );
 
                         *e
                     }
                     _ => Expr::Update(UpdateExpr {
                         span,
-                        arg: box Expr::Ident(arg),
+                        arg: Box::new(Expr::Ident(arg)),
                         op,
                         prefix,
                     }),
@@ -562,9 +567,11 @@ impl Scope {
                                             // throw new Error('"' + "Foo" + '" is read-only.')
                                             Stmt::Throw(ThrowStmt {
                                                 span: DUMMY_SP,
-                                                arg: box Expr::New(NewExpr {
+                                                arg: Box::new(Expr::New(NewExpr {
                                                     span: DUMMY_SP,
-                                                    callee: box Expr::Ident(quote_ident!("Error")),
+                                                    callee: Box::new(Expr::Ident(quote_ident!(
+                                                        "Error"
+                                                    ))),
                                                     args: Some(vec![quote_str!("\"")
                                                         .make_bin(
                                                             op!(bin, "+"),
@@ -576,7 +583,7 @@ impl Scope {
                                                         )
                                                         .as_arg()]),
                                                     type_args: Default::default(),
-                                                }),
+                                                })),
                                             }),
                                         ],
                                     }),
@@ -589,10 +596,10 @@ impl Scope {
                             type_args: Default::default(),
                         });
                         return Expr::Assign(AssignExpr {
-                            right: box Expr::Seq(SeqExpr {
+                            right: Box::new(Expr::Seq(SeqExpr {
                                 span: DUMMY_SP,
-                                exprs: vec![expr.right, box throw],
-                            }),
+                                exprs: vec![expr.right, Box::new(throw)],
+                            })),
                             ..expr
                         });
                     }
@@ -604,7 +611,7 @@ impl Scope {
 
                         match entry {
                             Entry::Occupied(entry) => {
-                                let e = chain_assign!(entry, box Expr::Assign(expr));
+                                let e = chain_assign!(entry, Box::new(Expr::Assign(expr)));
 
                                 *e
                             }
@@ -615,7 +622,7 @@ impl Scope {
                         }
                     }
                     _ => {
-                        let mut exprs = iter::once(box Expr::Assign(expr))
+                        let mut exprs = iter::once(Box::new(Expr::Assign(expr)))
                             .chain(
                                 found
                                     .into_iter()
@@ -627,7 +634,7 @@ impl Scope {
                                                 return None;
                                             }
                                         };
-                                        let e = chain_assign!(entry, box Expr::Ident(i));
+                                        let e = chain_assign!(entry, Box::new(Expr::Ident(i)));
 
                                         // exports.name = x
                                         Some(e)
@@ -697,14 +704,16 @@ pub(super) fn define_es_module(exports: Ident) -> Stmt {
         Lit::Str(quote_str!("__esModule")).as_arg(),
         ObjectLit {
             span: DUMMY_SP,
-            props: vec![PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
+            props: vec![PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                 key: PropName::Ident(quote_ident!("value")),
-                value: box Lit::Bool(Bool {
-                    span: DUMMY_SP,
-                    value: true,
-                })
-                .into(),
-            }))],
+                value: Box::new(
+                    Lit::Bool(Bool {
+                        span: DUMMY_SP,
+                        value: true,
+                    })
+                    .into(),
+                ),
+            })))],
         }
         .as_arg(),
     ])
@@ -737,12 +746,12 @@ pub(super) fn initialize_to_undefined(exports: Ident, initialized: FxHashSet<JsW
     let mut rhs = undefined(DUMMY_SP);
 
     for name in initialized.into_iter() {
-        rhs = box Expr::Assign(AssignExpr {
+        rhs = Box::new(Expr::Assign(AssignExpr {
             span: DUMMY_SP,
-            left: PatOrExpr::Expr(box exports.clone().member(Ident::new(name, DUMMY_SP))),
+            left: PatOrExpr::Expr(Box::new(exports.clone().member(Ident::new(name, DUMMY_SP)))),
             op: op!("="),
             right: rhs,
-        });
+        }));
     }
 
     rhs
@@ -760,31 +769,35 @@ pub(super) fn make_descriptor(get_expr: Box<Expr>) -> ObjectLit {
     ObjectLit {
         span: DUMMY_SP,
         props: vec![
-            PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
+            PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                 key: PropName::Ident(quote_ident!("enumerable")),
-                value: box Lit::Bool(Bool {
-                    span: DUMMY_SP,
-                    value: true,
-                })
-                .into(),
-            })),
-            PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
-                key: PropName::Ident(quote_ident!("get")),
-                value: box FnExpr {
-                    ident: None,
-                    function: Function {
+                value: Box::new(
+                    Lit::Bool(Bool {
                         span: DUMMY_SP,
-                        is_async: false,
-                        is_generator: false,
-                        decorators: Default::default(),
-                        params: vec![],
-                        body: get_fn_body,
-                        return_type: Default::default(),
-                        type_params: Default::default(),
-                    },
-                }
-                .into(),
-            })),
+                        value: true,
+                    })
+                    .into(),
+                ),
+            }))),
+            PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                key: PropName::Ident(quote_ident!("get")),
+                value: Box::new(
+                    FnExpr {
+                        ident: None,
+                        function: Function {
+                            span: DUMMY_SP,
+                            is_async: false,
+                            is_generator: false,
+                            decorators: Default::default(),
+                            params: vec![],
+                            body: get_fn_body,
+                            return_type: Default::default(),
+                            type_params: Default::default(),
+                        },
+                    }
+                    .into(),
+                ),
+            }))),
         ],
     }
 }

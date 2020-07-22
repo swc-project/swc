@@ -19,7 +19,7 @@ impl<'a> Fold for ClassNameTdzFolder<'a> {
                     Expr::Seq(SeqExpr {
                         span: DUMMY_SP,
                         exprs: vec![
-                            box Expr::Call(CallExpr {
+                            Box::new(Expr::Call(CallExpr {
                                 span: DUMMY_SP,
                                 callee: helper!(class_name_tdz_error, "classNameTDZError"),
                                 args: vec![Lit::Str(Str {
@@ -30,8 +30,8 @@ impl<'a> Fold for ClassNameTdzFolder<'a> {
                                 .as_arg()],
 
                                 type_args: Default::default(),
-                            }),
-                            box Expr::Ident(i),
+                            })),
+                            Box::new(Expr::Ident(i)),
                         ],
                     })
                 } else {

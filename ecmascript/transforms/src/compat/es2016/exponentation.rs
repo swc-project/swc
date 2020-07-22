@@ -78,7 +78,7 @@ impl Fold for AssignFolder {
                     span,
                     left,
                     op: op!("="),
-                    right: box mk_call(span, box lhs.into(), right),
+                    right: Box::new(mk_call(span, Box::new(lhs.into()), right)),
                 })
             }
             Expr::Bin(BinExpr {

@@ -549,12 +549,12 @@ impl ModuleConfig {
         config: Option<ModuleConfig>,
     ) -> Box<dyn visit::Fold> {
         match config {
-            None | Some(ModuleConfig::Es6) => box noop(),
+            None | Some(ModuleConfig::Es6) => Box::new(noop()),
             Some(ModuleConfig::CommonJs(config)) => {
-                box modules::common_js::common_js(root_mark, config)
+                Box::new(modules::common_js::common_js(root_mark, config))
             }
-            Some(ModuleConfig::Umd(config)) => box modules::umd::umd(cm, root_mark, config),
-            Some(ModuleConfig::Amd(config)) => box modules::amd::amd(config),
+            Some(ModuleConfig::Umd(config)) => Box::new(modules::umd::umd(cm, root_mark, config)),
+            Some(ModuleConfig::Amd(config)) => Box::new(modules::amd::amd(config)),
         }
     }
 }

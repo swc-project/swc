@@ -155,11 +155,11 @@ impl Fold for Amd {
                             append_to.push(
                                 AssignExpr {
                                     span: DUMMY_SP,
-                                    left: PatOrExpr::Expr(
-                                        box exports_ident.clone().member(ident.clone()),
-                                    ),
+                                    left: PatOrExpr::Expr(Box::new(
+                                        exports_ident.clone().member(ident.clone()),
+                                    )),
                                     op: op!("="),
-                                    right: box ident.into(),
+                                    right: Box::new(ident.into()),
                                 }
                                 .into_stmt(),
                             );
@@ -193,11 +193,11 @@ impl Fold for Amd {
                                     extra_stmts.push(
                                         AssignExpr {
                                             span: DUMMY_SP,
-                                            left: PatOrExpr::Expr(
-                                                box exports_ident.clone().member(ident.clone()),
-                                            ),
+                                            left: PatOrExpr::Expr(Box::new(
+                                                exports_ident.clone().member(ident.clone()),
+                                            )),
                                             op: op!("="),
-                                            right: box ident.into(),
+                                            right: Box::new(ident.into()),
                                         }
                                         .into_stmt(),
                                     );
@@ -220,13 +220,11 @@ impl Fold for Amd {
                                 extra_stmts.push(
                                     AssignExpr {
                                         span: DUMMY_SP,
-                                        left: PatOrExpr::Expr(
-                                            box exports_ident
-                                                .clone()
-                                                .member(quote_ident!("default")),
-                                        ),
+                                        left: PatOrExpr::Expr(Box::new(
+                                            exports_ident.clone().member(quote_ident!("default")),
+                                        )),
                                         op: op!("="),
-                                        right: box ident.into(),
+                                        right: Box::new(ident.into()),
                                     }
                                     .into_stmt(),
                                 );
@@ -240,13 +238,11 @@ impl Fold for Amd {
                                 extra_stmts.push(
                                     AssignExpr {
                                         span: DUMMY_SP,
-                                        left: PatOrExpr::Expr(
-                                            box exports_ident
-                                                .clone()
-                                                .member(quote_ident!("default")),
-                                        ),
+                                        left: PatOrExpr::Expr(Box::new(
+                                            exports_ident.clone().member(quote_ident!("default")),
+                                        )),
                                         op: op!("="),
-                                        right: box ident.clone().into(),
+                                        right: Box::new(ident.clone().into()),
                                     }
                                     .into_stmt(),
                                 );
@@ -281,11 +277,11 @@ impl Fold for Amd {
                             extra_stmts.push(
                                 AssignExpr {
                                     span: DUMMY_SP,
-                                    left: PatOrExpr::Expr(
-                                        box exports_ident.clone().member(quote_ident!("default")),
-                                    ),
+                                    left: PatOrExpr::Expr(Box::new(
+                                        exports_ident.clone().member(quote_ident!("default")),
+                                    )),
                                     op: op!("="),
-                                    right: box ident.into(),
+                                    right: Box::new(ident.into()),
                                 }
                                 .into_stmt(),
                             );
@@ -342,9 +338,9 @@ impl Fold for Amd {
 
                                 let value = match imported {
                                     Some(ref imported) => {
-                                        box imported.clone().unwrap().member(orig.clone())
+                                        Box::new(imported.clone().unwrap().member(orig.clone()))
                                     }
-                                    None => box Expr::Ident(orig.clone()).fold_with(self),
+                                    None => Box::new(Expr::Ident(orig.clone()).fold_with(self)),
                                 };
 
                                 // True if we are exporting our own stuff.
@@ -363,11 +359,11 @@ impl Fold for Amd {
                                     extra_stmts.push(
                                         AssignExpr {
                                             span: DUMMY_SP,
-                                            left: PatOrExpr::Expr(
-                                                box exports_ident
+                                            left: PatOrExpr::Expr(Box::new(
+                                                exports_ident
                                                     .clone()
                                                     .member(exported.unwrap_or(orig)),
-                                            ),
+                                            )),
                                             op: op!("="),
                                             right: value,
                                         }
@@ -437,7 +433,7 @@ impl Fold for Amd {
                     decls: vec![VarDeclarator {
                         span: DUMMY_SP,
                         name: Pat::Ident(exported_names.clone()),
-                        init: Some(box Expr::Object(ObjectLit {
+                        init: Some(Box::new(Expr::Object(ObjectLit {
                             span: DUMMY_SP,
                             props: exports
                                 .into_iter()
@@ -446,16 +442,18 @@ impl Fold for Amd {
                                         return None;
                                     }
 
-                                    Some(PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
-                                        key: PropName::Ident(Ident::new(export, DUMMY_SP)),
-                                        value: box Expr::Lit(Lit::Bool(Bool {
-                                            span: DUMMY_SP,
-                                            value: true,
-                                        })),
-                                    })))
+                                    Some(PropOrSpread::Prop(Box::new(Prop::KeyValue(
+                                        KeyValueProp {
+                                            key: PropName::Ident(Ident::new(export, DUMMY_SP)),
+                                            value: Box::new(Expr::Lit(Lit::Bool(Bool {
+                                                span: DUMMY_SP,
+                                                value: true,
+                                            }))),
+                                        },
+                                    ))))
                                 })
                                 .collect(),
-                        })),
+                        }))),
                         definite: false,
                     }],
                     declare: false,
@@ -504,7 +502,7 @@ impl Fold for Amd {
                 if let Some(&wildcard) = ty {
                     if !self.config.config.no_interop {
                         let imported = ident.clone();
-                        let right = box Expr::Call(CallExpr {
+                        let right = Box::new(Expr::Call(CallExpr {
                             span: DUMMY_SP,
                             callee: if wildcard {
                                 helper!(interop_require_wildcard, "interopRequireWildcard")
@@ -513,11 +511,11 @@ impl Fold for Amd {
                             },
                             args: vec![imported.as_arg()],
                             type_args: Default::default(),
-                        });
+                        }));
                         import_stmts.push(
                             AssignExpr {
                                 span: DUMMY_SP,
-                                left: PatOrExpr::Pat(box Pat::Ident(ident.clone())),
+                                left: PatOrExpr::Pat(Box::new(Pat::Ident(ident.clone()))),
                                 op: op!("="),
                                 right,
                             }

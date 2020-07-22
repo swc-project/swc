@@ -124,8 +124,8 @@ impl Bundler<'_> {
                 cfg: Default::default(),
                 cm: self.swc.cm.clone(),
                 comments: None,
-                wr: box &mut buf as Box<dyn WriteJs>,
-                handlers: box Handlers,
+                wr: Box::new(&mut buf) as Box<dyn WriteJs>,
+                handlers: Box::new(Handlers),
             };
 
             emitter

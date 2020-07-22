@@ -60,7 +60,7 @@ macro_rules! quote_expr {
 macro_rules! member_expr {
     ($span:expr, $first:ident) => {{
         use swc_ecma_ast::Expr;
-        box Expr::Ident(quote_ident!($span, stringify!($first)))
+        Box::new(Expr::Ident(quote_ident!($span, stringify!($first))))
     }};
 
     ($span:expr, $first:ident . $($rest:tt)+) => {{
@@ -72,24 +72,24 @@ macro_rules! member_expr {
     (@EXT, $span:expr, $obj:expr, $first:ident . $($rest:tt)* ) => {{
         let prop = member_expr!($span, $first);
 
-        member_expr!(@EXT, $span, box Expr::Member(MemberExpr{
+        member_expr!(@EXT, $span, Box::new(Expr::Member(MemberExpr{
             span: ::swc_common::DUMMY_SP,
             obj: ExprOrSuper::Expr($obj),
             computed: false,
             prop,
-        }), $($rest)*)
+        })), $($rest)*)
     }};
 
     (@EXT, $span:expr, $obj:expr,  $first:ident) => {{
         use swc_ecma_ast::*;
         let prop = member_expr!($span, $first);
 
-        box Expr::Member(MemberExpr{
+        Box::new(Expr::Member(MemberExpr{
             span: ::swc_common::DUMMY_SP,
             obj: ExprOrSuper::Expr($obj),
             computed: false,
             prop,
-        })
+        }))
     }};
 }
 
@@ -108,17 +108,17 @@ mod tests {
             expr.fold_with(&mut DropSpan {
                 preserve_ctxt: false
             }),
-            box Expr::Member(MemberExpr {
+            Box::new(Expr::Member(MemberExpr {
                 span,
-                obj: ExprOrSuper::Expr(box Expr::Member(MemberExpr {
+                obj: ExprOrSuper::Expr(Box::new(Expr::Member(MemberExpr {
                     span,
                     obj: ExprOrSuper::Expr(member_expr!(span, Function)),
                     computed: false,
                     prop: member_expr!(span, prototype),
-                })),
+                }))),
                 computed: false,
                 prop: member_expr!(span, bind),
-            })
+            }))
         );
     }
 }

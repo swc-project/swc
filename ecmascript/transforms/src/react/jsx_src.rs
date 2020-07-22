@@ -34,32 +34,32 @@ impl Fold for JsxSrc {
             name: JSXAttrName::Ident(quote_ident!("__source")),
             value: Some(JSXAttrValue::JSXExprContainer(JSXExprContainer {
                 span: DUMMY_SP,
-                expr: JSXExpr::Expr(
-                    box ObjectLit {
+                expr: JSXExpr::Expr(Box::new(
+                    ObjectLit {
                         span: DUMMY_SP,
                         props: vec![
-                            PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
+                            PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                                 key: PropName::Ident(quote_ident!("fileName")),
-                                value: box Expr::Lit(Lit::Str(Str {
+                                value: Box::new(Expr::Lit(Lit::Str(Str {
                                     span: DUMMY_SP,
                                     value: match file_lines.file.name {
                                         FileName::Real(ref p) => p.display().to_string().into(),
                                         _ => unimplemented!("file name for other than real files"),
                                     },
                                     has_escape: false,
-                                })),
-                            })),
-                            PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
+                                }))),
+                            }))),
+                            PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                                 key: PropName::Ident(quote_ident!("lineNumber")),
-                                value: box Expr::Lit(Lit::Num(Number {
+                                value: Box::new(Expr::Lit(Lit::Num(Number {
                                     span: DUMMY_SP,
                                     value: (file_lines.lines[0].line_index + 1) as _,
-                                })),
-                            })),
+                                }))),
+                            }))),
                         ],
                     }
                     .into(),
-                ),
+                )),
             })),
         }));
 

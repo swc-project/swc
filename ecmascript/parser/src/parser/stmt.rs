@@ -1205,7 +1205,7 @@ mod tests {
                         props: vec![ObjectPatProp::Rest(RestPat {
                             span,
                             dot3_token: span,
-                            arg: box Pat::Ident(Ident::new("a34".into(), span)),
+                            arg: Box::new(Pat::Ident(Ident::new("a34".into(), span))),
                             type_ann: None
                         })],
                         type_ann: None,
@@ -1250,9 +1250,9 @@ mod tests {
                     }],
                     declare: false,
                 }),
-                right: box Expr::Ident(Ident::new("b".into(), span)),
+                right: Box::new(Expr::Ident(Ident::new("b".into(), span))),
 
-                body: box Stmt::Empty(EmptyStmt { span })
+                body: Box::new(Stmt::Empty(EmptyStmt { span })),
             })
         )
     }
@@ -1284,8 +1284,8 @@ mod tests {
             Stmt::If(IfStmt {
                 span,
                 test: expr("a"),
-                cons: box stmt("b;"),
-                alt: Some(box stmt("c")),
+                cons: Box::new(stmt("b;")),
+                alt: Some(Box::new(stmt("c"))),
             })
         );
     }

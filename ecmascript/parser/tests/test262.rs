@@ -92,7 +92,7 @@ fn add_test<F: FnOnce() + Send + 'static>(
             should_panic: No,
             allow_fail: false,
         },
-        testfn: DynTestFn(box f),
+        testfn: DynTestFn(Box::new(f)),
     });
 }
 
@@ -431,7 +431,7 @@ impl Fold for Normalizer {
 
         match node {
             PatOrExpr::Pat(box Pat::Expr(e)) => PatOrExpr::Expr(e),
-            PatOrExpr::Expr(box Expr::Ident(i)) => PatOrExpr::Pat(box Pat::Ident(i)),
+            PatOrExpr::Expr(box Expr::Ident(i)) => PatOrExpr::Pat(Box::new(Pat::Ident(i))),
             _ => node,
         }
     }

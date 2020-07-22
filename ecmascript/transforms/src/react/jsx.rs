@@ -192,7 +192,7 @@ impl Jsx {
 
     fn fold_attrs(&mut self, attrs: Vec<JSXAttrOrSpread>) -> Box<Expr> {
         if attrs.is_empty() {
-            return box Expr::Lit(Lit::Null(Null { span: DUMMY_SP }));
+            return Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP })));
         }
 
         let is_complex = attrs.iter().any(|a| match *a {
@@ -219,7 +219,7 @@ impl Jsx {
             for attr in attrs {
                 match attr {
                     JSXAttrOrSpread::JSXAttr(a) => {
-                        cur_obj_props.push(PropOrSpread::Prop(box attr_to_prop(a)))
+                        cur_obj_props.push(PropOrSpread::Prop(Box::new(attr_to_prop(a))))
                     }
                     JSXAttrOrSpread::SpreadElement(e) => {
                         check!();
@@ -230,7 +230,7 @@ impl Jsx {
             check!();
 
             // calls `_extends` or `Object.assign`
-            box Expr::Call(CallExpr {
+            Box::new(Expr::Call(CallExpr {
                 span: DUMMY_SP,
                 callee: {
                     if self.use_builtins {
@@ -241,9 +241,9 @@ impl Jsx {
                 },
                 args,
                 type_args: None,
-            })
+            }))
         } else {
-            box Expr::Object(ObjectLit {
+            Box::new(Expr::Object(ObjectLit {
                 span: DUMMY_SP,
                 props: attrs
                     .into_iter()
@@ -256,7 +256,7 @@ impl Jsx {
                     .map(Box::new)
                     .map(PropOrSpread::Prop)
                     .collect(),
-            })
+            }))
         }
     }
 }
@@ -296,17 +296,17 @@ impl Jsx {
                 let c = i.sym.chars().next().unwrap();
 
                 if i.sym == js_word!("this") {
-                    return box Expr::This(ThisExpr { span });
+                    return Box::new(Expr::This(ThisExpr { span }));
                 }
 
                 if c.is_ascii_lowercase() {
-                    box Expr::Lit(Lit::Str(Str {
+                    Box::new(Expr::Lit(Lit::Str(Str {
                         span,
                         value: i.sym,
                         has_escape: false,
-                    }))
+                    })))
                 } else {
-                    box Expr::Ident(i)
+                    Box::new(Expr::Ident(i))
                 }
             }
             JSXElementName::JSXNamespacedName(JSXNamespacedName { ref ns, ref name }) => {
@@ -323,11 +323,11 @@ impl Jsx {
                             .emit()
                     });
                 }
-                box Expr::Lit(Lit::Str(Str {
+                Box::new(Expr::Lit(Lit::Str(Str {
                     span,
                     value: format!("{}:{}", ns.sym, name.sym).into(),
                     has_escape: false,
-                }))
+                })))
             }
             JSXElementName::JSXMemberExpr(JSXMemberExpr { obj, prop }) => {
                 fn convert_obj(obj: JSXObject) -> ExprOrSuper {
@@ -336,25 +336,25 @@ impl Jsx {
                     match obj {
                         JSXObject::Ident(i) => {
                             if i.sym == js_word!("this") {
-                                return ExprOrSuper::Expr(box Expr::This(ThisExpr { span }));
+                                return ExprOrSuper::Expr(Box::new(Expr::This(ThisExpr { span })));
                             }
                             i.as_obj()
                         }
                         JSXObject::JSXMemberExpr(box JSXMemberExpr { obj, prop }) => MemberExpr {
                             span,
                             obj: convert_obj(obj),
-                            prop: box Expr::Ident(prop),
+                            prop: Box::new(Expr::Ident(prop)),
                             computed: false,
                         }
                         .as_obj(),
                     }
                 }
-                box Expr::Member(MemberExpr {
+                Box::new(Expr::Member(MemberExpr {
                     span,
                     obj: convert_obj(obj),
-                    prop: box Expr::Ident(prop),
+                    prop: Box::new(Expr::Ident(prop)),
                     computed: false,
-                })
+                }))
             }
         }
     }
@@ -369,19 +369,19 @@ fn attr_to_prop(a: JSXAttr) -> Prop {
                 expr: JSXExpr::Expr(e),
                 ..
             }) => e,
-            JSXAttrValue::JSXElement(e) => box Expr::JSXElement(e),
-            JSXAttrValue::JSXFragment(e) => box Expr::JSXFragment(e),
-            JSXAttrValue::Lit(lit) => box lit.into(),
+            JSXAttrValue::JSXElement(e) => Box::new(Expr::JSXElement(e)),
+            JSXAttrValue::JSXFragment(e) => Box::new(Expr::JSXFragment(e)),
+            JSXAttrValue::Lit(lit) => Box::new(lit.into()),
             JSXAttrValue::JSXExprContainer(JSXExprContainer {
                 span: _,
                 expr: JSXExpr::JSXEmptyExpr(_),
             }) => unreachable!("attr_to_prop(JSXEmptyExpr)"),
         })
         .unwrap_or_else(|| {
-            box Expr::Lit(Lit::Bool(Bool {
+            Box::new(Expr::Lit(Lit::Bool(Bool {
                 span: key.span(),
                 value: true,
-            }))
+            })))
         });
     Prop::KeyValue(KeyValueProp { key, value })
 }

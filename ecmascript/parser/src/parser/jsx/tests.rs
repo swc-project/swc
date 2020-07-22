@@ -22,7 +22,7 @@ fn jsx(src: &'static str) -> Box<Expr> {
 fn self_closing_01() {
     assert_eq_ignore_span!(
         jsx("<a />"),
-        box Expr::JSXElement(box JSXElement {
+        Box::new(Expr::JSXElement(Box::new(JSXElement {
             span,
             opening: JSXOpeningElement {
                 span,
@@ -33,7 +33,7 @@ fn self_closing_01() {
             },
             children: vec![],
             closing: None,
-        })
+        })))
     );
 }
 
@@ -41,7 +41,7 @@ fn self_closing_01() {
 fn normal_01() {
     assert_eq_ignore_span!(
         jsx("<a>foo</a>"),
-        box Expr::JSXElement(box JSXElement {
+        Box::new(Expr::JSXElement(Box::new(JSXElement {
             span,
             opening: JSXOpeningElement {
                 span,
@@ -59,7 +59,7 @@ fn normal_01() {
                 span,
                 name: JSXElementName::Ident(Ident::new("a".into(), span)),
             })
-        })
+        })))
     );
 }
 
@@ -67,7 +67,7 @@ fn normal_01() {
 fn escape_in_attr() {
     assert_eq_ignore_span!(
         jsx(r#"<div id="w &lt; w" />;"#),
-        box Expr::JSXElement(box JSXElement {
+        Box::new(Expr::JSXElement(Box::new(JSXElement {
             span,
             opening: JSXOpeningElement {
                 span,
@@ -86,7 +86,7 @@ fn escape_in_attr() {
             },
             children: vec![],
             closing: None
-        })
+        })))
     );
 }
 
@@ -94,7 +94,7 @@ fn escape_in_attr() {
 fn issue_584() {
     assert_eq_ignore_span!(
         jsx(r#"<test other={4} />;"#),
-        box Expr::JSXElement(box JSXElement {
+        Box::new(Expr::JSXElement(Box::new(JSXElement {
             span,
             opening: JSXOpeningElement {
                 span,
@@ -104,7 +104,10 @@ fn issue_584() {
                     name: JSXAttrName::Ident(Ident::new("other".into(), span)),
                     value: Some(JSXAttrValue::JSXExprContainer(JSXExprContainer {
                         span,
-                        expr: JSXExpr::Expr(box Expr::Lit(Lit::Num(Number { span, value: 4.0 })))
+                        expr: JSXExpr::Expr(Box::new(Expr::Lit(Lit::Num(Number {
+                            span,
+                            value: 4.0
+                        }))))
                     })),
                 })],
                 self_closing: true,
@@ -112,6 +115,6 @@ fn issue_584() {
             },
             children: vec![],
             closing: None
-        })
+        })))
     );
 }

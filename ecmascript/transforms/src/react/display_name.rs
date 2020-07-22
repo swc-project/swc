@@ -37,11 +37,11 @@ impl Fold for DisplayName {
                 ..
             })) => {
                 let right = expr.right.fold_with(&mut Folder {
-                    name: Some(box Expr::Lit(Lit::Str(Str {
+                    name: Some(Box::new(Expr::Lit(Lit::Str(Str {
                         span: prop.span,
                         value: prop.sym.clone(),
                         has_escape: false,
-                    }))),
+                    })))),
                 });
                 AssignExpr { right, ..expr }
             }
@@ -49,11 +49,11 @@ impl Fold for DisplayName {
             PatOrExpr::Pat(box Pat::Ident(ref ident))
             | PatOrExpr::Expr(box Expr::Ident(ref ident)) => {
                 let right = expr.right.fold_with(&mut Folder {
-                    name: Some(box Expr::Lit(Lit::Str(Str {
+                    name: Some(Box::new(Expr::Lit(Lit::Str(Str {
                         span: ident.span,
                         value: ident.sym.clone(),
                         has_escape: false,
-                    }))),
+                    })))),
                 });
 
                 AssignExpr { right, ..expr }
@@ -68,11 +68,11 @@ impl Fold for DisplayName {
         match decl {
             ModuleDecl::ExportDefaultExpr(e) => {
                 ModuleDecl::ExportDefaultExpr(e.fold_with(&mut Folder {
-                    name: Some(box Expr::Lit(Lit::Str(Str {
+                    name: Some(Box::new(Expr::Lit(Lit::Str(Str {
                         span: DUMMY_SP,
                         value: "input".into(),
                         has_escape: false,
-                    }))),
+                    })))),
                 }))
             }
             _ => decl,
@@ -86,13 +86,13 @@ impl Fold for DisplayName {
             Prop::KeyValue(KeyValueProp { key, value }) => {
                 let value = value.fold_with(&mut Folder {
                     name: Some(match key {
-                        PropName::Ident(ref i) => box Expr::Lit(Lit::Str(Str {
+                        PropName::Ident(ref i) => Box::new(Expr::Lit(Lit::Str(Str {
                             span: i.span,
                             value: i.sym.clone(),
                             has_escape: false,
-                        })),
-                        PropName::Str(ref s) => box Expr::Lit(Lit::Str(s.clone())),
-                        PropName::Num(n) => box Expr::Lit(Lit::Num(n)),
+                        }))),
+                        PropName::Str(ref s) => Box::new(Expr::Lit(Lit::Str(s.clone()))),
+                        PropName::Num(n) => Box::new(Expr::Lit(Lit::Num(n))),
                         PropName::Computed(ref c) => c.expr.clone(),
                     }),
                 });
@@ -106,11 +106,11 @@ impl Fold for DisplayName {
         match decl.name {
             Pat::Ident(ref ident) => {
                 let init = decl.init.fold_with(&mut Folder {
-                    name: Some(box Expr::Lit(Lit::Str(Str {
+                    name: Some(Box::new(Expr::Lit(Lit::Str(Str {
                         span: ident.span,
                         value: ident.sym.clone(),
                         has_escape: false,
-                    }))),
+                    })))),
                 });
 
                 VarDeclarator { init, ..decl }
@@ -188,10 +188,10 @@ fn add_display_name(mut call: CallExpr, name: Box<Expr>) -> CallExpr {
         }
     }
 
-    props.push(PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
+    props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
         key: PropName::Ident(quote_ident!("displayName")),
         value: name,
-    })));
+    }))));
 
     call
 }

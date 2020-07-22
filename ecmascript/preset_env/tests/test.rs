@@ -158,10 +158,10 @@ fn load() -> Result<Vec<TestDescAndFn>, Error> {
                 allow_fail: false,
                 should_panic: ShouldPanic::No,
             },
-            testfn: TestFn::DynTestFn(box move || {
+            testfn: TestFn::DynTestFn(Box::new(move || {
                 //
                 exec(cfg, e.path().to_path_buf()).expect("failed to run test")
-            }),
+            })),
         });
     }
 
@@ -203,17 +203,17 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
             let print = |m: &Module| {
                 let mut buf = vec![];
                 {
-                    let handlers = box MyHandlers;
+                    let handlers = Box::new(MyHandlers);
                     let mut emitter = Emitter {
                         cfg: swc_ecma_codegen::Config { minify: false },
                         comments: None,
                         cm: cm.clone(),
-                        wr: box swc_ecma_codegen::text_writer::JsWriter::new(
+                        wr: Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
                             cm.clone(),
                             "\n",
                             &mut buf,
                             None,
-                        ),
+                        )),
                         handlers,
                     };
 

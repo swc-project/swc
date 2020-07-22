@@ -31,16 +31,16 @@ impl Fold for StickyRegex {
             Expr::Lit(Lit::Regex(Regex { exp, flags, span })) => {
                 if flags.contains('y') {
                     let str_lit = |s: JsWord| {
-                        box Expr::Lit(Lit::Str(Str {
+                        Box::new(Expr::Lit(Lit::Str(Str {
                             span: DUMMY_SP,
                             value: s,
                             has_escape: false,
-                        }))
+                        })))
                     };
 
                     Expr::New(NewExpr {
                         span,
-                        callee: box quote_ident!(span, "RegExp").into(),
+                        callee: Box::new(quote_ident!(span, "RegExp").into()),
                         args: Some(vec![str_lit(exp).as_arg(), str_lit(flags).as_arg()]),
                         type_args: Default::default(),
                     })

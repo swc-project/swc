@@ -73,15 +73,15 @@ impl Fold for InlineGlobals {
                 }
                 Expr::Member(MemberExpr {
                     span,
-                    obj: ExprOrSuper::Expr(box Expr::Member(MemberExpr {
-                        obj: ExprOrSuper::Expr(box Expr::Ident(Ident::new(
+                    obj: ExprOrSuper::Expr(Box::new(Expr::Member(MemberExpr {
+                        obj: ExprOrSuper::Expr(Box::new(Expr::Ident(Ident::new(
                             js_word!("process"),
                             process_span,
-                        ))),
-                        prop: box Expr::Ident(Ident::new(js_word!("env"), env_span)),
+                        )))),
+                        prop: Box::new(Expr::Ident(Ident::new(js_word!("env"), env_span))),
                         span: obj_span,
                         computed: obj_computed,
-                    })),
+                    }))),
                     prop,
                     computed,
                 })

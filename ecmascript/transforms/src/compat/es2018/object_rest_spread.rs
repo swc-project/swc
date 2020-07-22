@@ -55,11 +55,11 @@ macro_rules! impl_for_for_stmt {
                             name: self.fold_rest(
                                 &mut 0,
                                 decl.name,
-                                box Expr::Ident(ref_ident.clone()),
+                                Box::new(Expr::Ident(ref_ident.clone())),
                                 false,
                                 true,
                             ),
-                            init: Some(box Expr::Ident(ref_ident.clone())),
+                            init: Some(Box::new(Expr::Ident(ref_ident.clone()))),
                             ..decl
                         })
                         .collect::<Vec<_>>();
@@ -76,7 +76,7 @@ macro_rules! impl_for_for_stmt {
                     let pat = self.fold_rest(
                         &mut index,
                         pat,
-                        box Expr::Ident(var_ident.clone()),
+                        Box::new(Expr::Ident(var_ident.clone())),
                         false,
                         true,
                     );
@@ -96,7 +96,7 @@ macro_rules! impl_for_for_stmt {
                                 VarDeclarator {
                                     span: DUMMY_SP,
                                     name: pat,
-                                    init: Some(box Expr::Ident(var_ident.clone())),
+                                    init: Some(Box::new(Expr::Ident(var_ident.clone()))),
                                     definite: false,
                                 },
                             );
@@ -126,7 +126,7 @@ macro_rules! impl_for_for_stmt {
                 declare: false,
             }));
 
-            for_stmt.body = box Stmt::Block(match *for_stmt.body {
+            for_stmt.body = Box::new(Stmt::Block(match *for_stmt.body {
                 Stmt::Block(BlockStmt { span, stmts }) => BlockStmt {
                     span,
                     stmts: iter::once(stmt).chain(stmts).collect(),
@@ -135,7 +135,7 @@ macro_rules! impl_for_for_stmt {
                     span: DUMMY_SP,
                     stmts: vec![stmt, body],
                 },
-            });
+            }));
 
             for_stmt
         }
@@ -174,25 +174,30 @@ impl Fold for RestFolder {
                     definite: false,
                 });
                 // println!("Expr: var_ident = right");
-                self.exprs.push(box Expr::Assign(AssignExpr {
+                self.exprs.push(Box::new(Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
-                    left: PatOrExpr::Pat(box Pat::Ident(var_ident.clone())),
+                    left: PatOrExpr::Pat(Box::new(Pat::Ident(var_ident.clone()))),
                     op: op!("="),
                     right,
-                }));
-                let pat =
-                    self.fold_rest(&mut 0, pat, box Expr::Ident(var_ident.clone()), true, true);
+                })));
+                let pat = self.fold_rest(
+                    &mut 0,
+                    pat,
+                    Box::new(Expr::Ident(var_ident.clone())),
+                    true,
+                    true,
+                );
 
                 match pat {
                     Pat::Object(ObjectPat { ref props, .. }) if props.is_empty() => {}
-                    _ => self.exprs.push(box Expr::Assign(AssignExpr {
+                    _ => self.exprs.push(Box::new(Expr::Assign(AssignExpr {
                         span,
-                        left: PatOrExpr::Pat(box pat),
+                        left: PatOrExpr::Pat(Box::new(pat)),
                         op: op!("="),
-                        right: box var_ident.clone().into(),
-                    })),
+                        right: Box::new(var_ident.clone().into()),
+                    }))),
                 }
-                self.exprs.push(box var_ident.into());
+                self.exprs.push(Box::new(var_ident.into()));
                 Expr::Seq(SeqExpr {
                     span: DUMMY_SP,
                     exprs: mem::replace(&mut self.exprs, vec![]),
@@ -296,7 +301,7 @@ impl Fold for RestFolder {
                         self.vars.push(VarDeclarator {
                             span: prop.span(),
                             name: *prop.arg,
-                            init: Some(box Expr::Call(CallExpr {
+                            init: Some(Box::new(Expr::Call(CallExpr {
                                 span: DUMMY_SP,
                                 callee: helper!(extends, "extends"),
                                 args: vec![
@@ -308,7 +313,7 @@ impl Fold for RestFolder {
                                     init.as_arg(),
                                 ],
                                 type_args: Default::default(),
-                            })),
+                            }))),
                             definite: false,
                         });
                         continue;
@@ -335,7 +340,7 @@ impl Fold for RestFolder {
             let pat = self.fold_rest(
                 &mut index,
                 decl.name,
-                box Expr::Ident(var_ident.clone()),
+                Box::new(Expr::Ident(var_ident.clone())),
                 false,
                 true,
             );
@@ -355,7 +360,7 @@ impl Fold for RestFolder {
                             name: simplify_pat(pat),
                             // preserve
                             init: if has_init {
-                                Some(box Expr::Ident(var_ident.clone()))
+                                Some(Box::new(Expr::Ident(var_ident.clone())))
                             } else {
                                 None
                             },
@@ -586,7 +591,7 @@ impl RestFolder {
                 param.pat = self.fold_rest(
                     &mut index,
                     param.pat,
-                    box Expr::Ident(var_ident.clone()),
+                    Box::new(Expr::Ident(var_ident.clone())),
                     false,
                     false,
                 );
@@ -616,7 +621,7 @@ impl RestFolder {
                                         VarDeclarator {
                                             span: DUMMY_SP,
                                             name: param,
-                                            init: Some(box Expr::Ident(var_ident.clone())),
+                                            init: Some(Box::new(Expr::Ident(var_ident.clone()))),
                                             definite: false,
                                         },
                                     );
@@ -642,7 +647,7 @@ impl RestFolder {
                             VarDeclarator {
                                 span,
                                 name: *left,
-                                init: Some(box Expr::Ident(var_ident.clone())),
+                                init: Some(Box::new(Expr::Ident(var_ident.clone()))),
                                 definite: false,
                             },
                         );
@@ -651,7 +656,7 @@ impl RestFolder {
                             decorators: Default::default(),
                             pat: Pat::Assign(AssignPat {
                                 span,
-                                left: box Pat::Ident(var_ident),
+                                left: Box::new(Pat::Ident(var_ident)),
                                 right,
                                 ..n
                             }),
@@ -664,7 +669,7 @@ impl RestFolder {
                             VarDeclarator {
                                 span: DUMMY_SP,
                                 name: param.pat,
-                                init: Some(box Expr::Ident(var_ident.clone())),
+                                init: Some(Box::new(Expr::Ident(var_ident.clone()))),
                                 definite: false,
                             },
                         );
@@ -727,13 +732,13 @@ impl RestFolder {
                 let AssignPat {
                     span, left, right, ..
                 } = n;
-                let left = box self.fold_rest(
+                let left = Box::new(self.fold_rest(
                     index,
                     *left,
                     obj,
                     use_expr_for_assign,
                     use_member_for_array,
-                );
+                ));
                 return Pat::Assign(AssignPat {
                     span,
                     left,
@@ -751,7 +756,7 @@ impl RestFolder {
                             index,
                             elem,
                             if use_member_for_array {
-                                box obj.clone().computed_member(i as f64)
+                                Box::new(obj.clone().computed_member(i as f64))
                             } else {
                                 obj.clone()
                             },
@@ -785,7 +790,7 @@ impl RestFolder {
                     );
                     ObjectPatProp::Rest(RestPat {
                         dot3_token,
-                        arg: box pat,
+                        arg: Box::new(pat),
                         ..n
                     })
                 }
@@ -799,21 +804,21 @@ impl RestFolder {
                     let (key, prop) = match key {
                         PropName::Ident(ref ident) => {
                             let ident = ident.clone();
-                            (key, box Expr::Ident(ident))
+                            (key, Box::new(Expr::Ident(ident)))
                         }
                         PropName::Str(Str {
                             ref value, span, ..
                         }) => {
                             let value = value.clone();
-                            (key, box Expr::Ident(quote_ident!(span, value)))
+                            (key, Box::new(Expr::Ident(quote_ident!(span, value))))
                         }
                         PropName::Num(Number { span, value }) => (
                             key,
-                            box Expr::Lit(Lit::Str(Str {
+                            Box::new(Expr::Lit(Lit::Str(Str {
                                 span,
                                 value: format!("{}", value).into(),
                                 has_escape: false,
-                            })),
+                            }))),
                         ),
                         PropName::Computed(ref c) if is_literal(&c.expr) => {
                             let expr = c.expr.clone();
@@ -834,25 +839,29 @@ impl RestFolder {
                             (
                                 PropName::Computed(ComputedPropName {
                                     span: c.span,
-                                    expr: box Expr::Ident(ident.clone()),
+                                    expr: Box::new(Expr::Ident(ident.clone())),
                                 }),
-                                box Expr::Ident(ident),
+                                Box::new(Expr::Ident(ident)),
                             )
                         }
                     };
 
-                    let value = box self.fold_rest(
-                        index,
-                        *value,
-                        box MemberExpr {
-                            span: DUMMY_SP,
-                            obj: obj.clone().as_obj(),
-                            computed,
-                            prop,
-                        }
-                        .into(),
-                        use_expr_for_assign,
-                        use_member_for_array,
+                    let value = Box::new(
+                        self.fold_rest(
+                            index,
+                            *value,
+                            Box::new(
+                                MemberExpr {
+                                    span: DUMMY_SP,
+                                    obj: obj.clone().as_obj(),
+                                    computed,
+                                    prop,
+                                }
+                                .into(),
+                            ),
+                            use_expr_for_assign,
+                            use_member_for_array,
+                        ),
                     );
                     ObjectPatProp::KeyValue(KeyValuePatProp { key, value })
                 }
@@ -880,18 +889,18 @@ impl RestFolder {
 
         if use_expr_for_assign {
             // println!("Expr: last.arg = objectWithoutProperties()",);
-            self.exprs.push(box Expr::Assign(AssignExpr {
+            self.exprs.push(Box::new(Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
                 left: PatOrExpr::Pat(last.arg),
                 op: op!("="),
-                right: box object_without_properties(obj, excluded_props),
-            }));
+                right: Box::new(object_without_properties(obj, excluded_props)),
+            })));
         } else {
             // println!("Var: rest = objectWithoutProperties()",);
             self.push_var_if_not_empty(VarDeclarator {
                 span: DUMMY_SP,
                 name: *last.arg,
-                init: Some(box object_without_properties(obj, excluded_props)),
+                init: Some(Box::new(object_without_properties(obj, excluded_props))),
                 definite: false,
             });
         }
@@ -927,11 +936,11 @@ fn object_without_properties(obj: Box<Expr>, excluded_props: Vec<Option<ExprOrSp
         .map(|v| {
             v.map(|v| match *v.expr {
                 Expr::Lit(Lit::Num(Number { span, value })) => ExprOrSpread {
-                    expr: box Expr::Lit(Lit::Str(Str {
+                    expr: Box::new(Expr::Lit(Lit::Str(Str {
                         span,
                         value: value.to_string().into(),
                         has_escape: false,
-                    })),
+                    }))),
                     ..v
                 },
                 _ => v,

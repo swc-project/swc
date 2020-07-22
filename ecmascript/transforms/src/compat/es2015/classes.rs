@@ -223,7 +223,7 @@ impl Classes {
             kind: VarDeclKind::Let,
             decls: vec![VarDeclarator {
                 span,
-                init: Some(box rhs),
+                init: Some(Box::new(rhs)),
                 // Foo in var Foo =
                 name: ident.into(),
                 definite: false,
@@ -512,14 +512,14 @@ impl Classes {
                     if is_always_initialized {
                         body.push(Stmt::Return(ReturnStmt {
                             span: DUMMY_SP,
-                            arg: Some(box Expr::Ident(this)),
+                            arg: Some(Box::new(Expr::Ident(this))),
                         }));
                     } else {
                         let possible_return_value =
-                            box make_possible_return_value(ReturningMode::Returning {
+                            Box::new(make_possible_return_value(ReturningMode::Returning {
                                 mark: this_mark,
                                 arg: None,
-                            });
+                            }));
                         body.push(Stmt::Return(ReturnStmt {
                             span: DUMMY_SP,
                             arg: Some(possible_return_value),
@@ -597,7 +597,7 @@ impl Classes {
         // `return Foo`
         stmts.push(Stmt::Return(ReturnStmt {
             span: DUMMY_SP,
-            arg: Some(box Expr::Ident(class_name)),
+            arg: Some(Box::new(Expr::Ident(class_name))),
         }));
 
         stmts
@@ -637,7 +637,7 @@ impl Classes {
                     decls: vec![VarDeclarator {
                         span: DUMMY_SP,
                         name: Pat::Ident(quote_ident!(DUMMY_SP.apply_mark(mark), "_this")),
-                        init: Some(box Expr::This(ThisExpr { span: DUMMY_SP })),
+                        init: Some(Box::new(Expr::This(ThisExpr { span: DUMMY_SP }))),
                         definite: false,
                     }],
                 })),
@@ -670,10 +670,10 @@ impl Classes {
                 key: PropName::Ident(quote_ident!(key.span(), "key")),
                 value: match *key {
                     PropName::Ident(ref i) => {
-                        box Expr::Lit(Lit::Str(quote_str!(i.span, i.sym.clone())))
+                        Box::new(Expr::Lit(Lit::Str(quote_str!(i.span, i.sym.clone()))))
                     }
-                    PropName::Str(ref s) => box Expr::Lit(Lit::Str(s.clone())),
-                    PropName::Num(n) => box Expr::Lit(Lit::Num(n)),
+                    PropName::Str(ref s) => Box::new(Expr::Lit(Lit::Str(s.clone()))),
+                    PropName::Num(n) => Box::new(Expr::Lit(Lit::Num(n))),
                     PropName::Computed(ref c) => c.expr.clone(),
                 },
             })
@@ -693,12 +693,12 @@ impl Classes {
                         macro_rules! add {
                             ($field:expr, $kind:expr, $s:literal) => {{
                                 if let Some(value) = $field {
-                                    props.push(PropOrSpread::Prop(box Prop::KeyValue(
+                                    props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(
                                         KeyValueProp {
                                             key: PropName::Ident(quote_ident!($s)),
                                             value,
                                         },
-                                    )));
+                                    ))));
                                 }
                             }};
                         }
@@ -741,7 +741,7 @@ impl Classes {
 
         for m in methods {
             let key = HashKey::from(&m.key);
-            let key_prop = box mk_key_prop(&m.key);
+            let key_prop = Box::new(mk_key_prop(&m.key));
             let computed = match m.key {
                 PropName::Computed(..) => true,
                 _ => false,
@@ -777,7 +777,7 @@ impl Classes {
                         decls: vec![VarDeclarator {
                             span: DUMMY_SP,
                             name: Pat::Ident(quote_ident!(DUMMY_SP.apply_mark(mark), "_this")),
-                            init: Some(box Expr::This(ThisExpr { span: DUMMY_SP })),
+                            init: Some(Box::new(Expr::This(ThisExpr { span: DUMMY_SP }))),
                             definite: false,
                         }],
                     })),
@@ -796,7 +796,7 @@ impl Classes {
                 );
             }
 
-            let value = box Expr::Fn(FnExpr {
+            let value = Box::new(Expr::Fn(FnExpr {
                 ident: if m.kind == MethodKind::Method && !computed {
                     match prop_name {
                         Expr::Ident(ident) => Some(ident),
@@ -809,7 +809,7 @@ impl Classes {
                     None
                 },
                 function,
-            });
+            }));
 
             let data = append_to.entry(key).or_insert_with(|| Data {
                 key_prop,

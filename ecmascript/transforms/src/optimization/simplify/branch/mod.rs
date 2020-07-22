@@ -145,7 +145,7 @@ impl Fold for Remover {
                     if value {
                         return None;
                     } else {
-                        return Some(box Expr::Lit(Lit::Bool(Bool { span, value: false })));
+                        return Some(Box::new(Expr::Lit(Lit::Bool(Bool { span, value: false }))));
                     }
                 }
 
@@ -282,10 +282,10 @@ impl Fold for Remover {
                     Stmt::If(IfStmt { alt: Some(..), .. }) => {
                         return IfStmt {
                             test,
-                            cons: box Stmt::Block(BlockStmt {
+                            cons: Box::new(Stmt::Block(BlockStmt {
                                 span: DUMMY_SP,
                                 stmts: vec![*cons],
-                            }),
+                            })),
                             alt,
                             span,
                         }
@@ -341,7 +341,7 @@ impl Fold for Remover {
                             if let Some(expr) = ignore_result(*test) {
                                 return Stmt::Expr(ExprStmt {
                                     span,
-                                    expr: box expr,
+                                    expr: Box::new(expr),
                                 });
                             } else {
                                 return Stmt::Empty(EmptyStmt { span });
@@ -385,7 +385,10 @@ impl Fold for Remover {
                 expr: box expr,
                 ..
             }) => match ignore_result(expr) {
-                Some(e) => Stmt::Expr(ExprStmt { span, expr: box e }),
+                Some(e) => Stmt::Expr(ExprStmt {
+                    span,
+                    expr: Box::new(e),
+                }),
                 None => Stmt::Empty(EmptyStmt { span: DUMMY_SP }),
             },
 
@@ -500,7 +503,7 @@ impl Fold for Remover {
                         Some(expr) => {
                             return Stmt::Expr(ExprStmt {
                                 span: s.span,
-                                expr: box expr,
+                                expr: Box::new(expr),
                             })
                         }
                         None => return Stmt::Empty(EmptyStmt { span: s.span }),
@@ -767,7 +770,7 @@ impl Fold for Remover {
 
                 if s.init.is_some() {
                     Stmt::For(ForStmt {
-                        body: box body,
+                        body: Box::new(body),
                         update: None,
                         ..s
                     })
@@ -780,10 +783,10 @@ impl Fold for Remover {
                 if let (purity, Known(v)) = s.test.as_bool() {
                     if v {
                         Stmt::While(WhileStmt {
-                            test: box Expr::Lit(Lit::Bool(Bool {
+                            test: Box::new(Expr::Lit(Lit::Bool(Bool {
                                 span: s.test.span(),
                                 value: true,
-                            })),
+                            }))),
                             ..s
                         })
                     } else {
@@ -791,7 +794,7 @@ impl Fold for Remover {
                             Stmt::Empty(EmptyStmt { span: s.span })
                         } else {
                             Stmt::While(WhileStmt {
-                                body: box Stmt::Empty(EmptyStmt { span: s.span }),
+                                body: Box::new(Stmt::Empty(EmptyStmt { span: s.span })),
                                 ..s
                             })
                         }
@@ -987,7 +990,7 @@ impl Remover {
                                         if let Some(expr) = expr {
                                             buf.push(T::from_stmt(Stmt::Expr(ExprStmt {
                                                 span: DUMMY_SP,
-                                                expr: box expr,
+                                                expr: Box::new(expr),
                                             })));
                                         }
                                     }
@@ -1070,9 +1073,11 @@ fn ignore_result(e: Expr) -> Option<Expr> {
             let right = ignore_result(*right);
 
             match (left, right) {
-                (Some(l), Some(r)) => {
-                    ignore_result(preserve_effects(span, *undefined(span), vec![box l, box r]))
-                }
+                (Some(l), Some(r)) => ignore_result(preserve_effects(
+                    span,
+                    *undefined(span),
+                    vec![Box::new(l), Box::new(r)],
+                )),
                 (Some(l), None) => Some(l),
                 (None, Some(r)) => Some(r),
                 (None, None) => None,
@@ -1087,7 +1092,7 @@ fn ignore_result(e: Expr) -> Option<Expr> {
         }) => {
             if op == op!("&&") {
                 let right = if let Some(right) = ignore_result(*right) {
-                    box right
+                    Box::new(right)
                 } else {
                     return ignore_result(*left);
                 };
@@ -1122,7 +1127,7 @@ fn ignore_result(e: Expr) -> Option<Expr> {
                             span,
                             left,
                             op,
-                            right: box right,
+                            right: Box::new(right),
                         }))
                     } else {
                         ignore_result(*left)
@@ -1154,7 +1159,7 @@ fn ignore_result(e: Expr) -> Option<Expr> {
                 Some(ExprOrSpread { spread: None, expr }) => ignore_result(*expr).map(|expr| {
                     Some(ExprOrSpread {
                         spread: None,
-                        expr: box expr,
+                        expr: Box::new(expr),
                     })
                 }),
             });
@@ -1192,7 +1197,7 @@ fn ignore_result(e: Expr) -> Option<Expr> {
                 ignore_result(preserve_effects(
                     span,
                     *undefined(DUMMY_SP),
-                    once(box Expr::Object(ObjectLit { span, props })),
+                    once(Box::new(Expr::Object(ObjectLit { span, props }))),
                 ))
             }
         }
@@ -1275,15 +1280,15 @@ fn ignore_result(e: Expr) -> Option<Expr> {
                     span,
                     left: test,
                     op: op!("||"),
-                    right: box alt,
+                    right: Box::new(alt),
                 }));
             };
 
             Some(Expr::Cond(CondExpr {
                 span,
                 test,
-                cons: box cons,
-                alt: box alt,
+                cons: Box::new(cons),
+                alt: Box::new(alt),
             }))
         }
 

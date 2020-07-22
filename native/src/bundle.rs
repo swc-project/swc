@@ -142,18 +142,23 @@ pub(crate) fn bundle(mut cx: MethodContext<JsCompiler>) -> JsResult<JsValue> {
         .map(|f| {
             let handler = EventHandler::new(&mut cx, undefined, f);
             //
-            box spack::loaders::neon::NeonLoader {
+            Box::new(spack::loaders::neon::NeonLoader {
                 swc: c.clone(),
                 handler,
-            } as Box<dyn Load>
+            }) as Box<dyn Load>
         })
-        .unwrap_or_else(|_| box spack::loaders::swc::SwcLoader::new(c.clone(), Default::default()));
+        .unwrap_or_else(|_| {
+            Box::new(spack::loaders::swc::SwcLoader::new(
+                c.clone(),
+                Default::default(),
+            ))
+        });
 
     BundleTask {
         swc: c.clone(),
         config: ConfigItem {
             loader,
-            resolver: box NodeResolver as Box<_>,
+            resolver: Box::new(NodeResolver) as Box<_>,
             static_items,
         },
     }
