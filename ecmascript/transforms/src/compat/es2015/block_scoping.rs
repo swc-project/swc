@@ -129,7 +129,7 @@ impl BlockScoping {
                     span: DUMMY_SP,
                     name: Pat::Ident(var_name.clone()),
                     init: Some(
-                        box FnExpr {
+                        Box::new(FnExpr {
                             ident: None,
                             function: Function {
                                 span: DUMMY_SP,
@@ -157,7 +157,7 @@ impl BlockScoping {
                                 type_params: None,
                                 return_type: None,
                             },
-                        }
+                        })
                         .into(),
                     ),
                     definite: false,
@@ -170,7 +170,7 @@ impl BlockScoping {
                         .into_iter()
                         .map(|i| ExprOrSpread {
                             spread: None,
-                            expr: box Expr::Ident(Ident::new(i.0, DUMMY_SP.with_ctxt(i.1))),
+                            expr: Box::new(Expr::Ident(Ident::new(i.0, DUMMY_SP.with_ctxt(i.1)))),
                         })
                         .collect(),
                     type_args: None,
@@ -188,7 +188,7 @@ impl BlockScoping {
                             decls: vec![VarDeclarator {
                                 span: DUMMY_SP,
                                 name: Pat::Ident(ret.clone()),
-                                init: Some(box call.into()),
+                                init: Some(Box::new(call.into())),
                                 definite: false,
                             }],
                         })),
@@ -201,34 +201,36 @@ impl BlockScoping {
                         Some(
                             IfStmt {
                                 span: DUMMY_SP,
-                                test: box Expr::Bin(BinExpr {
+                                test: Box::new(Expr::Bin(BinExpr {
                                     span: DUMMY_SP,
                                     op: BinaryOp::EqEqEq,
                                     left: {
                                         // _typeof(_ret)
                                         let callee = helper!(type_of, "typeof");
 
-                                        box Expr::Call(CallExpr {
+                                        Expr::Call(CallExpr {
                                             span: Default::default(),
                                             callee,
                                             args: vec![ExprOrSpread {
                                                 spread: None,
-                                                expr: box ret.clone().into(),
+                                                expr: Box::new(ret.clone().into()),
                                             }],
                                             type_args: None,
                                         })
+                                        .into()
                                     },
                                     //"object"
-                                    right: box Expr::Lit(Lit::Str(Str {
+                                    right: Expr::Lit(Lit::Str(Str {
                                         span: DUMMY_SP,
                                         value: js_word!("object"),
                                         has_escape: false,
-                                    })),
-                                }),
-                                cons: box Stmt::Return(ReturnStmt {
+                                    }))
+                                    .into(),
+                                })),
+                                cons: Box::new(Stmt::Return(ReturnStmt {
                                     span: DUMMY_SP,
-                                    arg: Some(box ret.clone().member(quote_ident!("v"))),
-                                }),
+                                    arg: Some(ret.clone().member(quote_ident!("v")).into()),
+                                })),
                                 alt: None,
                             }
                             .into(),
@@ -244,7 +246,7 @@ impl BlockScoping {
                             cases.push(
                                 SwitchCase {
                                     span: DUMMY_SP,
-                                    test: Some(box quote_str!("break").into()),
+                                    test: Some(Box::new(quote_str!("break").into())),
                                     // TODO: Handle labelled statements
                                     cons: vec![Stmt::Break(BreakStmt {
                                         span: DUMMY_SP,
