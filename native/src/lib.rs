@@ -20,12 +20,13 @@ use std::{
 };
 use swc::{
     common::{self, errors::Handler, FileName, FilePathMapping, SourceFile, SourceMap},
-    config::{Options, ParseOptions, SourceMapsConfig},
+    config::ParseOptions,
     ecmascript::ast::Program,
     Compiler, TransformOutput,
 };
 
 mod bundle;
+mod print;
 mod transform;
 
 fn init(_cx: MethodContext<JsUndefined>) -> NeonResult<ArcCompiler> {
@@ -250,103 +251,6 @@ fn parse_file(mut cx: MethodContext<JsCompiler>) -> JsResult<JsValue> {
     Ok(cx.undefined().upcast())
 }
 
-// ----- Printing -----
-
-struct PrintTask {
-    c: Arc<Compiler>,
-    program: Program,
-    options: Options,
-}
-
-impl Task for PrintTask {
-    type Output = TransformOutput;
-    type Error = Error;
-    type JsEvent = JsValue;
-    fn perform(&self) -> Result<Self::Output, Self::Error> {
-        self.c.run(|| {
-            self.c.print(
-                &self.program,
-                self.options
-                    .source_maps
-                    .clone()
-                    .unwrap_or(SourceMapsConfig::Bool(false)),
-                None,
-                self.options
-                    .config
-                    .clone()
-                    .unwrap_or_default()
-                    .minify
-                    .unwrap_or(false),
-            )
-        })
-    }
-
-    fn complete(
-        self,
-        cx: TaskContext,
-        result: Result<Self::Output, Self::Error>,
-    ) -> JsResult<Self::JsEvent> {
-        complete_output(cx, result)
-    }
-}
-
-fn print(mut cx: MethodContext<JsCompiler>) -> JsResult<JsValue> {
-    let program = cx.argument::<JsString>(0)?;
-    let program: Program =
-        serde_json::from_str(&program.value()).expect("failed to deserialize Program");
-
-    let options = cx.argument::<JsValue>(1)?;
-    let options: Options = neon_serde::from_value(&mut cx, options)?;
-
-    let callback = cx.argument::<JsFunction>(2)?;
-
-    let this = cx.this();
-    {
-        let guard = cx.lock();
-        let c = this.borrow(&guard);
-
-        PrintTask {
-            c: c.clone(),
-            program,
-            options,
-        }
-        .schedule(callback)
-    }
-
-    Ok(cx.undefined().upcast())
-}
-
-fn print_sync(mut cx: MethodContext<JsCompiler>) -> JsResult<JsValue> {
-    let c;
-    let this = cx.this();
-    {
-        let guard = cx.lock();
-        let compiler = this.borrow(&guard);
-        c = compiler.clone();
-    }
-    c.run(|| {
-        let program = cx.argument::<JsString>(0)?;
-        let program: Program =
-            serde_json::from_str(&program.value()).expect("failed to deserialize Program");
-
-        let options = cx.argument::<JsValue>(1)?;
-        let options: Options = neon_serde::from_value(&mut cx, options)?;
-
-        let result = {
-            c.print(
-                &program,
-                options
-                    .source_maps
-                    .clone()
-                    .unwrap_or(SourceMapsConfig::Bool(false)),
-                None,
-                options.config.unwrap_or_default().minify.unwrap_or(false),
-            )
-        };
-        complete_output(cx, result)
-    })
-}
-
 pub type ArcCompiler = Arc<Compiler>;
 
 declare_types! {
@@ -388,11 +292,11 @@ declare_types! {
         }
 
         method print(cx) {
-            print(cx)
+            print::print(cx)
         }
 
         method printSync(cx) {
-            print_sync(cx)
+            print::print_sync(cx)
         }
 
         method bundle(cx) {

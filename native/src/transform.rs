@@ -1,7 +1,7 @@
 use crate::{complete_output, JsCompiler};
-use path_clean::clean;
 use anyhow::{Context as _, Error};
 use neon::prelude::*;
+use path_clean::clean;
 use std::{
     path::{Path, PathBuf},
     sync::Arc,
@@ -28,7 +28,6 @@ pub struct TransformTask {
     pub input: Input,
     pub options: Options,
 }
-
 
 impl Task for TransformTask {
     type Output = TransformOutput;
