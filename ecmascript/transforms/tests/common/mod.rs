@@ -14,7 +14,7 @@ use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{lexer::Lexer, Parser, Session, SourceFileInput, Syntax};
 use swc_ecma_transforms::helpers::{InjectHelpers, HELPERS};
-use swc_ecma_utils::DropSpan;
+use swc_ecma_utils::{DropSpan, COMMENTS};
 use swc_ecma_visit::{Fold, FoldWith};
 use tempfile::tempdir_in;
 
@@ -220,12 +220,20 @@ where
             _ => {}
         }
 
-        let actual = actual
-            .fold_with(&mut swc_ecma_transforms::debug::validator::Validator { name: "actual-1" })
-            .fold_with(&mut swc_ecma_transforms::hygiene())
-            .fold_with(&mut swc_ecma_transforms::debug::validator::Validator { name: "actual-2" })
-            .fold_with(&mut swc_ecma_transforms::fixer())
-            .fold_with(&mut swc_ecma_transforms::debug::validator::Validator { name: "actual-3" });
+        let actual = COMMENTS.set(&Comments::default(), || {
+            actual
+                .fold_with(&mut swc_ecma_transforms::debug::validator::Validator {
+                    name: "actual-1",
+                })
+                .fold_with(&mut swc_ecma_transforms::hygiene())
+                .fold_with(&mut swc_ecma_transforms::debug::validator::Validator {
+                    name: "actual-2",
+                })
+                .fold_with(&mut swc_ecma_transforms::fixer())
+                .fold_with(&mut swc_ecma_transforms::debug::validator::Validator {
+                    name: "actual-3",
+                })
+        });
 
         if actual == expected {
             return Ok(());

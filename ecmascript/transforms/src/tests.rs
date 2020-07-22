@@ -11,7 +11,7 @@ use swc_common::{comments::Comments, errors::Handler, FileName, SourceMap};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{lexer::Lexer, Parser, Session, SourceFileInput, Syntax};
-use swc_ecma_utils::DropSpan;
+use swc_ecma_utils::{DropSpan, COMMENTS};
 use swc_ecma_visit::{Fold, FoldWith};
 use tempfile::tempdir_in;
 
@@ -33,10 +33,12 @@ impl<'a> Tester<'a> {
         let out = ::testing::run_test(false, |cm, handler| {
             crate::util::HANDLER.set(handler, || {
                 HELPERS.set(&Default::default(), || {
-                    op(&mut Tester {
-                        cm,
-                        handler,
-                        comments: Comments::default(),
+                    COMMENTS.set(&Comments::default(), || {
+                        op(&mut Tester {
+                            cm,
+                            handler,
+                            comments: Comments::default(),
+                        })
                     })
                 })
             })
