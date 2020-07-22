@@ -657,6 +657,7 @@ impl Fixer {
     {
         let expr = box e.into();
         let span = expr.span();
+        println!("wrap: {:?}", span);
 
         let span = if let Some(span) = self.span_map.remove(&span) {
             span
@@ -681,6 +682,7 @@ impl Fixer {
                 let e = self.unwrap_expr(*expr);
 
                 self.span_map.insert(e.span(), paren_span);
+                println!("unwrap: {:?} -> {:?}", e.span(), paren_span);
                 e
             }
             _ => validate!(e),
