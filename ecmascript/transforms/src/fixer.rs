@@ -597,23 +597,6 @@ impl Fold for Fixer {
         }
     }
 
-    fn fold_program(&mut self, p: Program) -> Program {
-        debug_assert!(self.span_map.is_empty());
-        self.span_map.clear();
-
-        let p = p.fold_children_with(self);
-
-        COMMENTS.with(|c| {
-            for (to, from) in self.span_map.drain() {
-                let (from, to) = (from.data(), to.data());
-                c.move_leading(from.lo, to.lo);
-                c.move_trailing(from.hi, to.hi);
-            }
-        });
-
-        p
-    }
-
     fn fold_stmt(&mut self, stmt: Stmt) -> Stmt {
         let stmt = match stmt {
             Stmt::Expr(expr) => {
@@ -648,6 +631,38 @@ impl Fold for Fixer {
 
         VarDeclarator { name, init, ..node }
     }
+
+    fn fold_module(&mut self, n: Module) -> Module {
+        debug_assert!(self.span_map.is_empty());
+        self.span_map.clear();
+
+        let n = n.fold_children_with(self);
+        COMMENTS.with(|c| {
+            for (to, from) in self.span_map.drain() {
+                let (from, to) = (from.data(), to.data());
+                c.move_leading(from.lo, to.lo);
+                c.move_trailing(from.hi, to.hi);
+            }
+        });
+
+        n
+    }
+
+    fn fold_script(&mut self, n: Script) -> Script {
+        debug_assert!(self.span_map.is_empty());
+        self.span_map.clear();
+
+        let n = n.fold_children_with(self);
+        COMMENTS.with(|c| {
+            for (to, from) in self.span_map.drain() {
+                let (from, to) = (from.data(), to.data());
+                c.move_leading(from.lo, to.lo);
+                c.move_trailing(from.hi, to.hi);
+            }
+        });
+
+        n
+    }
 }
 
 impl Fixer {
@@ -657,7 +672,6 @@ impl Fixer {
     {
         let expr = box e.into();
         let span = expr.span();
-        println!("wrap: {:?}", span);
 
         let span = if let Some(span) = self.span_map.remove(&span) {
             span
@@ -682,7 +696,6 @@ impl Fixer {
                 let e = self.unwrap_expr(*expr);
 
                 self.span_map.insert(e.span(), paren_span);
-                println!("unwrap: {:?} -> {:?}", e.span(), paren_span);
                 e
             }
             _ => validate!(e),
