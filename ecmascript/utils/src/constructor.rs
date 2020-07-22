@@ -136,18 +136,18 @@ impl Fold for ExprInjector<'_> {
 
                 Expr::Seq(SeqExpr {
                     span: DUMMY_SP,
-                    exprs: iter::once(box Expr::Assign(AssignExpr {
+                    exprs: iter::once(Box::new(Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
-                        left: PatOrExpr::Pat(box Pat::Ident(
+                        left: PatOrExpr::Pat(Box::new(Pat::Ident(
                             self.injected_tmp.as_ref().cloned().unwrap(),
-                        )),
+                        ))),
                         op: op!("="),
-                        right: box expr,
-                    }))
+                        right: Box::new(expr),
+                    })))
                     .chain(self.exprs.iter().cloned())
-                    .chain(iter::once(box Expr::Ident(
+                    .chain(iter::once(Box::new(Expr::Ident(
                         self.injected_tmp.as_ref().cloned().unwrap(),
-                    )))
+                    ))))
                     .collect(),
                 })
             }

@@ -1367,7 +1367,7 @@ pub fn default_constructor(has_super: bool) -> Constructor {
                 pat: Pat::Rest(RestPat {
                     span: DUMMY_SP,
                     dot3_token: DUMMY_SP,
-                    arg: box Pat::Ident(quote_ident!(span, "args")),
+                    arg: Box::new(Pat::Ident(quote_ident!(span, "args"))),
                     type_ann: Default::default(),
                 }),
             })]
@@ -1382,7 +1382,7 @@ pub fn default_constructor(has_super: bool) -> Constructor {
                     callee: ExprOrSuper::Super(Super { span: DUMMY_SP }),
                     args: vec![ExprOrSpread {
                         spread: Some(DUMMY_SP),
-                        expr: box Expr::Ident(quote_ident!(span, "args")),
+                        expr: Box::new(Expr::Ident(quote_ident!(span, "args"))),
                     }],
                     type_args: Default::default(),
                 }
@@ -1411,11 +1411,12 @@ pub fn is_rest_arguments(e: &ExprOrSpread) -> bool {
 
 #[inline]
 pub fn undefined(span: Span) -> Box<Expr> {
-    box Expr::Unary(UnaryExpr {
+    Expr::Unary(UnaryExpr {
         span,
         op: op!("void"),
-        arg: box Expr::Lit(Lit::Num(Number { value: 0.0, span })),
+        arg: Expr::Lit(Lit::Num(Number { value: 0.0, span })).into(),
     })
+    .into()
 }
 
 /// inject `branch` after directives
@@ -1621,23 +1622,25 @@ where
             | Expr::PrivateName(..) => {}
 
             // In most case, we can do nothing for this.
-            Expr::Update(_) | Expr::Assign(_) | Expr::Yield(_) | Expr::Await(_) => v.push(box expr),
+            Expr::Update(_) | Expr::Assign(_) | Expr::Yield(_) | Expr::Await(_) => {
+                v.push(Box::new(expr))
+            }
 
             // TODO
-            Expr::MetaProp(_) => v.push(box expr),
+            Expr::MetaProp(_) => v.push(Box::new(expr)),
 
-            Expr::Call(_) => v.push(box expr),
+            Expr::Call(_) => v.push(Box::new(expr)),
             Expr::New(NewExpr {
                 callee: box Expr::Ident(Ident { ref sym, .. }),
                 ref args,
                 ..
             }) if *sym == js_word!("Date") && args.is_empty() => {}
-            Expr::New(_) => v.push(box expr),
-            Expr::Member(_) => v.push(box expr),
+            Expr::New(_) => v.push(Box::new(expr)),
+            Expr::Member(_) => v.push(Box::new(expr)),
 
             // We are at here because we could not determine value of test.
             //TODO: Drop values if it does not have side effects.
-            Expr::Cond(_) => v.push(box expr),
+            Expr::Cond(_) => v.push(Box::new(expr)),
 
             Expr::Unary(UnaryExpr { arg, .. }) => add_effects(v, arg),
             Expr::Bin(BinExpr { left, right, .. }) => {
@@ -1685,7 +1688,7 @@ where
                 });
 
                 if has_spread {
-                    v.push(box Expr::Object(ObjectLit { span, props }))
+                    v.push(Box::new(Expr::Object(ObjectLit { span, props })))
                 } else {
                     props.into_iter().for_each(|prop| match prop {
                         PropOrSpread::Prop(box node) => match node {
@@ -1750,7 +1753,7 @@ where
     if exprs.is_empty() {
         val
     } else {
-        exprs.push(box val);
+        exprs.push(Box::new(val));
 
         Expr::Seq(SeqExpr { exprs, span })
     }
