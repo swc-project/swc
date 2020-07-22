@@ -134,12 +134,14 @@ impl<'a> Tester<'a> {
             })?
         };
 
-        let module = validate!(module)
-            .fold_with(&mut tr)
-            .fold_with(&mut DropSpan {
-                preserve_ctxt: true,
-            })
-            .fold_with(&mut Normalizer);
+        let module = COMMENTS.set(&Comments::default(), || {
+            validate!(module)
+                .fold_with(&mut tr)
+                .fold_with(&mut DropSpan {
+                    preserve_ctxt: true,
+                })
+                .fold_with(&mut Normalizer)
+        });
 
         Ok(module)
     }
