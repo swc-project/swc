@@ -1,4 +1,3 @@
-#![feature(box_syntax)]
 #![feature(try_blocks)]
 #![feature(test)]
 

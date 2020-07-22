@@ -1,6 +1,4 @@
 #![feature(test)]
-#![feature(box_syntax)]
-
 extern crate test;
 
 use swc_common::{FileName, FoldWith, Mark};

@@ -1,5 +1,4 @@
 #![feature(box_patterns)]
-#![feature(box_syntax)]
 #![feature(try_trait)]
 #![feature(core_intrinsics)]
 #![cfg_attr(test, feature(test))]

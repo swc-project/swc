@@ -1,4 +1,3 @@
-#![feature(box_syntax)]
 #![feature(box_patterns)]
 #![feature(try_blocks)]
 #![feature(vec_remove_item)]

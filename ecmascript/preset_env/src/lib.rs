@@ -1,4 +1,3 @@
-#![feature(box_syntax)]
 #![feature(box_patterns)]
 #![feature(trace_macros)]
 #![recursion_limit = "256"]

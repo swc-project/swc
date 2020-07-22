@@ -1,6 +1,5 @@
 //! Copied from PeepholeIntegrationTest from the google closure compiler.
 
-#![feature(box_syntax)]
 #![feature(test)]
 #![feature(box_patterns)]
 

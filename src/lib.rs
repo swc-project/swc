@@ -1,4 +1,4 @@
-#![feature(box_syntax, box_patterns)]
+#![feature(box_patterns)]
 
 pub use sourcemap;
 pub use swc_atoms as atoms;
