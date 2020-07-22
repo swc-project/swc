@@ -9,23 +9,17 @@ extern crate path_clean;
 extern crate serde;
 extern crate swc;
 
-use anyhow::{Context as _, Error};
+use anyhow::Error;
 use backtrace::Backtrace;
 use neon::prelude::*;
-use std::{
-    env,
-    panic::set_hook,
-    path::{Path, PathBuf},
-    sync::Arc,
-};
+use std::{env, panic::set_hook, sync::Arc};
 use swc::{
-    common::{self, errors::Handler, FileName, FilePathMapping, SourceFile, SourceMap},
-    config::ParseOptions,
-    ecmascript::ast::Program,
+    common::{self, errors::Handler, FilePathMapping, SourceMap},
     Compiler, TransformOutput,
 };
 
 mod bundle;
+mod parse;
 mod print;
 mod transform;
 
@@ -61,196 +55,6 @@ pub fn complete_output<'a>(
     }
 }
 
-// ----- Parsing -----
-
-struct ParseTask {
-    c: Arc<Compiler>,
-    fm: Arc<SourceFile>,
-    options: ParseOptions,
-}
-
-struct ParseFileTask {
-    c: Arc<Compiler>,
-    path: PathBuf,
-    options: ParseOptions,
-}
-
-fn complete_parse<'a>(
-    mut cx: impl Context<'a>,
-    result: Result<Program, Error>,
-    c: &Compiler,
-) -> JsResult<'a, JsValue> {
-    c.run(|| match result {
-        Ok(program) => Ok(cx
-            .string(serde_json::to_string(&program).expect("failed to serialize Program"))
-            .upcast()),
-        Err(err) => cx.throw_error(format!("{:?}", err)),
-    })
-}
-
-impl Task for ParseTask {
-    type Output = Program;
-    type Error = Error;
-    type JsEvent = JsValue;
-
-    fn perform(&self) -> Result<Self::Output, Self::Error> {
-        self.c.run(|| {
-            self.c.parse_js(
-                self.fm.clone(),
-                self.options.target,
-                self.options.syntax,
-                self.options.is_module,
-                self.options.comments,
-            )
-        })
-    }
-
-    fn complete(
-        self,
-        cx: TaskContext,
-        result: Result<Self::Output, Self::Error>,
-    ) -> JsResult<Self::JsEvent> {
-        complete_parse(cx, result, &self.c)
-    }
-}
-
-impl Task for ParseFileTask {
-    type Output = Program;
-    type Error = Error;
-    type JsEvent = JsValue;
-
-    fn perform(&self) -> Result<Self::Output, Self::Error> {
-        self.c.run(|| {
-            let fm = self
-                .c
-                .cm
-                .load_file(&self.path)
-                .context("failed to read module")?;
-
-            self.c.parse_js(
-                fm,
-                self.options.target,
-                self.options.syntax,
-                self.options.is_module,
-                self.options.comments,
-            )
-        })
-    }
-
-    fn complete(
-        self,
-        cx: TaskContext,
-        result: Result<Self::Output, Self::Error>,
-    ) -> JsResult<Self::JsEvent> {
-        complete_parse(cx, result, &self.c)
-    }
-}
-
-fn parse(mut cx: MethodContext<JsCompiler>) -> JsResult<JsValue> {
-    let src = cx.argument::<JsString>(0)?;
-    let options_arg = cx.argument::<JsValue>(1)?;
-    let options: ParseOptions = neon_serde::from_value(&mut cx, options_arg)?;
-    let callback = cx.argument::<JsFunction>(2)?;
-
-    let this = cx.this();
-    {
-        let guard = cx.lock();
-        let c = this.borrow(&guard);
-
-        let fm = c.cm.new_source_file(FileName::Anon, src.value());
-
-        ParseTask {
-            c: c.clone(),
-            fm,
-            options,
-        }
-        .schedule(callback);
-    };
-
-    Ok(cx.undefined().upcast())
-}
-
-fn parse_sync(mut cx: MethodContext<JsCompiler>) -> JsResult<JsValue> {
-    let c;
-    let this = cx.this();
-    {
-        let guard = cx.lock();
-        let compiler = this.borrow(&guard);
-        c = compiler.clone();
-    }
-    c.run(|| {
-        let src = cx.argument::<JsString>(0)?;
-        let options_arg = cx.argument::<JsValue>(1)?;
-        let options: ParseOptions = neon_serde::from_value(&mut cx, options_arg)?;
-
-        let program = {
-            let fm = c.cm.new_source_file(FileName::Anon, src.value());
-            c.parse_js(
-                fm,
-                options.target,
-                options.syntax,
-                options.is_module,
-                options.comments,
-            )
-        };
-
-        complete_parse(cx, program, &c)
-    })
-}
-
-fn parse_file_sync(mut cx: MethodContext<JsCompiler>) -> JsResult<JsValue> {
-    let c;
-    let this = cx.this();
-    {
-        let guard = cx.lock();
-        let compiler = this.borrow(&guard);
-        c = compiler.clone();
-    }
-    c.run(|| {
-        let path = cx.argument::<JsString>(0)?;
-        let options_arg = cx.argument::<JsValue>(1)?;
-        let options: ParseOptions = neon_serde::from_value(&mut cx, options_arg)?;
-
-        let program = {
-            let fm =
-                c.cm.load_file(Path::new(&path.value()))
-                    .expect("failed to read program file");
-
-            c.parse_js(
-                fm,
-                options.target,
-                options.syntax,
-                options.is_module,
-                options.comments,
-            )
-        };
-
-        complete_parse(cx, program, &c)
-    })
-}
-
-fn parse_file(mut cx: MethodContext<JsCompiler>) -> JsResult<JsValue> {
-    let path = cx.argument::<JsString>(0)?;
-    let options_arg = cx.argument::<JsValue>(1)?;
-    let options: ParseOptions = neon_serde::from_value(&mut cx, options_arg)?;
-    let callback = cx.argument::<JsFunction>(2)?;
-
-    let this = cx.this();
-    {
-        let guard = cx.lock();
-        let c = this.borrow(&guard);
-
-        ParseFileTask {
-            c: c.clone(),
-            path: path.value().into(),
-            options,
-        }
-        .schedule(callback);
-    };
-
-    Ok(cx.undefined().upcast())
-}
-
 pub type ArcCompiler = Arc<Compiler>;
 
 declare_types! {
@@ -276,19 +80,19 @@ declare_types! {
         }
 
         method parse(cx) {
-            parse(cx)
+            parse::parse(cx)
         }
 
         method parseSync(cx) {
-            parse_sync(cx)
+            parse::parse_sync(cx)
         }
 
         method parseFile(cx) {
-            parse_file(cx)
+            parse::parse_file(cx)
         }
 
         method parseFileSync(cx) {
-            parse_file_sync(cx)
+            parse::parse_file_sync(cx)
         }
 
         method print(cx) {
