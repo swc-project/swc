@@ -331,12 +331,20 @@ where
             _ => {}
         }
 
-        let module = module
-            .fold_with(&mut swc_ecma_transforms::debug::validator::Validator { name: "actual-1" })
-            .fold_with(&mut swc_ecma_transforms::hygiene())
-            .fold_with(&mut swc_ecma_transforms::debug::validator::Validator { name: "actual-2" })
-            .fold_with(&mut swc_ecma_transforms::fixer())
-            .fold_with(&mut swc_ecma_transforms::debug::validator::Validator { name: "actual-3" });
+        let module = COMMENTS.set(&Comments::default(), || {
+            module
+                .fold_with(&mut swc_ecma_transforms::debug::validator::Validator {
+                    name: "actual-1",
+                })
+                .fold_with(&mut swc_ecma_transforms::hygiene())
+                .fold_with(&mut swc_ecma_transforms::debug::validator::Validator {
+                    name: "actual-2",
+                })
+                .fold_with(&mut swc_ecma_transforms::fixer())
+                .fold_with(&mut swc_ecma_transforms::debug::validator::Validator {
+                    name: "actual-3",
+                })
+        });
 
         let src_without_helpers = tester.print(&module);
         let module = module.fold_with(&mut InjectHelpers {});
