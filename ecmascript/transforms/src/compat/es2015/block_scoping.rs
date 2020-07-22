@@ -261,7 +261,7 @@ impl BlockScoping {
                             cases.push(
                                 SwitchCase {
                                     span: DUMMY_SP,
-                                    test: Some(box quote_str!("continue").into()),
+                                    test: Some(Box::new(quote_str!("continue").into())),
                                     // TODO: Handle labelled statements
                                     cons: vec![Stmt::Continue(ContinueStmt {
                                         span: DUMMY_SP,
@@ -281,7 +281,7 @@ impl BlockScoping {
                         stmts.push(
                             SwitchStmt {
                                 span: DUMMY_SP,
-                                discriminant: box ret.clone().into(),
+                                discriminant: Box::new((ret.clone().into())),
                                 cases,
                             }
                             .into(),
@@ -292,12 +292,13 @@ impl BlockScoping {
                             stmts.push(
                                 IfStmt {
                                     span: DUMMY_SP,
-                                    test: box ret.clone().make_eq(quote_str!("break")),
+                                    test: ret.clone().make_eq(quote_str!("break")).into(),
                                     // TODO: Handle labelled statements
-                                    cons: box Stmt::Break(BreakStmt {
+                                    cons: Stmt::Break(BreakStmt {
                                         span: DUMMY_SP,
                                         label: None,
-                                    }),
+                                    })
+                                    .into(),
                                     alt: None,
                                 }
                                 .into(),
