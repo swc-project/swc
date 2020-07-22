@@ -137,19 +137,19 @@ impl<'a> Tester<'a> {
     }
 
     pub fn print(&mut self, module: &Module) -> String {
-        let handlers = box MyHandlers;
+        let handlers = Box::new(MyHandlers);
 
         let mut wr = Buf(Arc::new(RwLock::new(vec![])));
         {
             let mut emitter = Emitter {
                 cfg: Default::default(),
                 cm: self.cm.clone(),
-                wr: box swc_ecma_codegen::text_writer::JsWriter::new(
+                wr: Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
                     self.cm.clone(),
                     "\n",
                     &mut wr,
                     None,
-                ),
+                )),
                 comments: None,
                 handlers,
             };

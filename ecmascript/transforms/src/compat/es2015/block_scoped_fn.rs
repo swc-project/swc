@@ -41,10 +41,10 @@ impl Fold for BlockScopedFns {
                             decls: vec![VarDeclarator {
                                 span: DUMMY_SP,
                                 name: Pat::Ident(decl.ident.clone()),
-                                init: Some(box Expr::Fn(FnExpr {
+                                init: Some(Box::new(Expr::Fn(FnExpr {
                                     ident: Some(decl.ident),
                                     function: decl.function,
-                                })),
+                                }))),
                                 definite: false,
                             }],
                             declare: false,

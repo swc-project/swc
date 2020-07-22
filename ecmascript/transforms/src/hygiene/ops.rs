@@ -245,7 +245,7 @@ impl<'a> Fold for Operator<'a> {
                 Ok(renamed) => KeyValuePatProp {
                     key: PropName::Ident(p.key),
 
-                    value: box Pat::Ident(renamed),
+                    value: Box::new(Pat::Ident(renamed)),
                 }
                 .into(),
                 Err(_) => p.into(),
@@ -264,7 +264,7 @@ impl<'a> Fold for Operator<'a> {
                             span: i.span.with_ctxt(SyntaxContext::empty()),
                             ..i
                         }),
-                        value: box Expr::Ident(renamed),
+                        value: Box::new(Expr::Ident(renamed)),
                     }),
                     Err(i) => Prop::Shorthand(i),
                 }
