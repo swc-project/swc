@@ -957,7 +957,7 @@ impl SimplifyExpr {
                     arg: ref ra,
                     ..
                 }),
-            ) if la.as_ident().is_none()
+            ) if la.as_ident().is_some()
                 && la.as_ident().map(|i| i.to_id()) == ra.as_ident().map(|i| i.to_id()) =>
             {
                 return Known(true)
