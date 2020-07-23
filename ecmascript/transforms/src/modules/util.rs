@@ -726,13 +726,16 @@ pub(super) fn has_use_strict(stmts: &[ModuleItem]) -> bool {
     if stmts.is_empty() {
         return false;
     }
-    match *stmts.first().unwrap() {
-        ModuleItem::Stmt(Stmt::Expr(ExprStmt {
-            expr: box Expr::Lit(Lit::Str(Str { ref value, .. })),
-            ..
-        })) => &*value == "use strict",
-        _ => false,
+
+    match &*stmts.first().unwrap() {
+        ModuleItem::Stmt(Stmt::Expr(ExprStmt { expr, .. })) => match &**expr {
+            Expr::Lit(Lit::Str(Str { ref value, .. })) => return &*value == "use strict",
+            _ => false,
+        },
+        _ => {}
     }
+
+    false
 }
 
 pub(super) fn use_strict() -> Stmt {
