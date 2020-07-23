@@ -1,5 +1,3 @@
-#![feature(try_trait)]
-
 pub use self::{
     factory::ExprFactory,
     ident::{id, Id},
