@@ -713,9 +713,7 @@ impl Fold for Inlining<'_> {
 
                             let e = match init {
                                 None => None,
-                                Some(box e @ Expr::Lit(..)) | Some(box e @ Expr::Ident(..)) => {
-                                    Some(e)
-                                }
+                                Some(e) if e.is_lit() || e.is_ident() => Some(e),
                                 Some(box e) => {
                                     if self.scope.is_inline_prevented(&Expr::Ident(name.clone())) {
                                         node.init = Some(Box::new(e));
