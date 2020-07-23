@@ -1,6 +1,4 @@
 #![feature(test)]
-#![feature(box_patterns)]
-
 use swc_ecma_transforms::compat::es2015::arrow;
 
 #[macro_use]

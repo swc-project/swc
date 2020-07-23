@@ -1,6 +1,4 @@
 #![feature(test)]
-#![feature(box_patterns)]
-
 use swc_common::{chain, Mark, SyntaxContext};
 use swc_ecma_transforms::{
     optimization::simplify::dce::{self, dce},

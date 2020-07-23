@@ -1,6 +1,4 @@
 #![feature(test)]
-#![feature(box_patterns)]
-
 use common::Tester;
 use swc_common::{chain, Mark};
 use swc_ecma_transforms::{

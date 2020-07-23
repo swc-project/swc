@@ -1,4 +1,3 @@
-#![feature(box_patterns)]
 #![recursion_limit = "2048"]
 
 extern crate neon;

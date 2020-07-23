@@ -1,6 +1,4 @@
 #![feature(test)]
-#![feature(box_patterns)]
-
 use common::Tester;
 use std::collections::HashMap;
 use swc_ecma_transforms::const_modules;

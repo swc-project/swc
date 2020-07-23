@@ -1,6 +1,4 @@
 #![feature(test)]
-#![feature(box_patterns)]
-
 use swc_ecma_parser::{EsConfig, Syntax};
 use swc_ecma_transforms::proposals::export;
 use swc_ecma_visit::Fold;

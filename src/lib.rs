@@ -1,5 +1,3 @@
-#![feature(box_patterns)]
-
 pub use sourcemap;
 pub use swc_atoms as atoms;
 pub use swc_common as common;

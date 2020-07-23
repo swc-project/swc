@@ -1,4 +1,3 @@
-#![feature(box_patterns)]
 #![feature(test)]
 
 extern crate test;

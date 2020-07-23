@@ -1,6 +1,4 @@
 #![feature(test)]
-#![feature(box_patterns)]
-
 use swc_common::{chain, Mark};
 use swc_ecma_transforms::{
     compat::es2015::{block_scoping, spread, spread::Config},
