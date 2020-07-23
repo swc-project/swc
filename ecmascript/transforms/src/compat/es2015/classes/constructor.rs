@@ -29,6 +29,7 @@ impl SuperCallFinder {
                 }) => {
                     return None;
                 }
+                _ => {}
             },
             _ => {}
         }
@@ -116,6 +117,7 @@ impl Visit for SuperCallFinder {
                         // super().foo
                         self.mode = Some(SuperFoldingMode::Assign)
                     }
+                    _ => {}
                 }
             }
             _ => {}
@@ -237,7 +239,7 @@ impl Fold for ConstructorFolder<'_> {
         let stmt = stmt.fold_children_with(self);
 
         match stmt {
-            Stmt::Expr(ExprStmt { expr, .. }) => match *expr {
+            Stmt::Expr(ExprStmt { span, expr }) => match *expr {
                 Expr::Call(CallExpr {
                     callee: ExprOrSuper::Super(..),
                     args,
@@ -280,7 +282,7 @@ impl Fold for ConstructorFolder<'_> {
                         }),
                     }
                 }
-                _ => stmt,
+                _ => Stmt::Expr(ExprStmt { span, expr }),
             },
             _ => stmt,
         }

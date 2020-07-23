@@ -80,8 +80,8 @@ impl Fold for Remover {
                 left: PatOrExpr::Pat(l),
                 right: r,
                 ..
-            }) if match *l {
-                Pat::Ident(l) => match *r {
+            }) if match &*l {
+                Pat::Ident(l) => match &*r {
                     Expr::Ident(r) => l.sym == r.sym && l.span.ctxt() == r.span.ctxt(),
                     _ => false,
                 },
@@ -96,7 +96,7 @@ impl Fold for Remover {
                 left: PatOrExpr::Pat(left),
                 right,
                 ..
-            }) if match *left {
+            }) if match &*left {
                 Pat::Array(arr) => arr.elems.is_empty() || arr.elems.iter().all(|v| v.is_none()),
                 _ => false,
             } =>

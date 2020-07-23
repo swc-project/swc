@@ -168,8 +168,8 @@ impl Fold for Actual {
                 callee: ExprOrSuper::Expr(callee),
                 args,
                 type_args,
-            }) if match *callee {
-                Expr::Paren(ParenExpr { expr, .. }) => match *expr {
+            }) if match &*callee {
+                Expr::Paren(ParenExpr { expr, .. }) => match &**expr {
                     Expr::Fn(..) => true,
                     _ => false,
                 },
@@ -341,10 +341,15 @@ impl MethodFolder {
     ) -> Expr {
         let MemberExpr {
             span: m_span,
-            obj: ExprOrSuper::Super(super_token),
+            obj,
             computed,
             prop,
         } = left;
+        let super_token = match obj {
+            ExprOrSuper::Super(super_token) => super_token,
+            _ => unreachable!("handle_assign_to_super_prop does not accept non-super object"),
+        };
+
         let (mark, ident) = self.ident_for_super(&prop);
         let args_ident = quote_ident!(DUMMY_SP.apply_mark(mark), "_args");
 
@@ -417,7 +422,7 @@ impl Fold for MethodFolder {
                 left: PatOrExpr::Pat(left),
                 op,
                 right,
-            }) if match *left {
+            }) if match &*left {
                 Pat::Expr(left) => left.is_member(),
                 _ => false,
             } =>
@@ -445,11 +450,15 @@ impl Fold for MethodFolder {
             } =>
             {
                 let MemberExpr {
-                    obj: ExprOrSuper::Super(super_token),
+                    obj,
                     prop,
                     computed,
                     ..
                 } = callee.member().unwrap();
+                let super_token = match obj {
+                    ExprOrSuper::Super(super_token) => super_token,
+                    _ => unreachable!(),
+                };
 
                 let (mark, ident) = self.ident_for_super(&prop);
                 let args_ident = quote_ident!(DUMMY_SP.apply_mark(mark), "_args");

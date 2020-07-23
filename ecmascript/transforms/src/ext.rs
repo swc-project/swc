@@ -1,3 +1,4 @@
+use std::ops::DerefMut;
 use swc_ecma_ast::*;
 use swc_ecma_utils::ExprExt;
 
@@ -26,20 +27,19 @@ pub(crate) trait PatOrExprExt: AsOptExpr {
     }
 
     fn as_ident_mut(&mut self) -> Option<&mut Ident> {
-        if let Some(expr) = self.as_expr_mut() {
-            match expr {
-                Expr::Ident(i) => return Some(i),
-                _ => {}
-            }
-        }
-
         match self.as_mut() {
             PatOrExpr::Pat(p) => match **p {
                 Pat::Ident(ref mut i) => Some(i),
-
+                Pat::Expr(ref mut e) => match e.deref_mut() {
+                    Expr::Ident(i) => Some(i),
+                    _ => None,
+                },
                 _ => None,
             },
-            _ => None,
+            PatOrExpr::Expr(ref mut e) => match e.deref_mut() {
+                Expr::Ident(i) => Some(i),
+                _ => None,
+            },
         }
     }
 
@@ -113,9 +113,9 @@ impl AsOptExpr for PatOrExpr {
 
     fn as_expr_mut(&mut self) -> Option<&mut Expr> {
         match self.as_mut() {
-            PatOrExpr::Expr(e) => Some(&mut e),
-            PatOrExpr::Pat(p) => match &**p {
-                Pat::Expr(e) => Some(&mut e),
+            PatOrExpr::Expr(e) => Some(e.deref_mut()),
+            PatOrExpr::Pat(p) => match &mut **p {
+                Pat::Expr(e) => Some(e.deref_mut()),
                 _ => None,
             },
         }

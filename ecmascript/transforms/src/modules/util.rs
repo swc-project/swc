@@ -613,12 +613,16 @@ impl Scope {
 
                         match entry {
                             Entry::Occupied(entry) => {
-                                let e = chain_assign!(entry, Box::new(Expr::Assign(expr)));
+                                let expr = Expr::Assign(AssignExpr {
+                                    left: PatOrExpr::Pat(Box::new(Pat::Ident(i))),
+                                    ..expr
+                                });
+                                let e = chain_assign!(entry, Box::new(expr));
 
                                 *e
                             }
                             _ => Expr::Assign(AssignExpr {
-                                left: expr.left,
+                                left: PatOrExpr::Pat(Box::new(Pat::Ident(i))),
                                 ..expr
                             }),
                         }

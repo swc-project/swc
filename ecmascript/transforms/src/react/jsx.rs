@@ -263,7 +263,7 @@ impl Jsx {
 
 impl Fold for Jsx {
     fn fold_expr(&mut self, expr: Expr) -> Expr {
-        let expr = expr.fold_children_with(self);
+        let mut expr = expr.fold_children_with(self);
 
         if let Expr::JSXElement(el) = expr {
             // <div></div> => React.createElement('div', null);
@@ -274,14 +274,23 @@ impl Fold for Jsx {
             return self.jsx_frag_to_expr(frag);
         }
 
-        if let Expr::Paren(ParenExpr { expr, .. }) = expr {
-            if let Expr::JSXElement(el) = *expr {
+        if let Expr::Paren(ParenExpr {
+            span,
+            expr: inner_expr,
+            ..
+        }) = expr
+        {
+            if let Expr::JSXElement(el) = *inner_expr {
                 return self.jsx_elem_to_expr(*el);
             }
-            if let Expr::JSXFragment(frag) = *expr {
+            if let Expr::JSXFragment(frag) = *inner_expr {
                 // <></> => React.createElement(React.Fragment, null);
                 return self.jsx_frag_to_expr(frag);
             }
+            expr = Expr::Paren(ParenExpr {
+                span,
+                expr: inner_expr,
+            });
         }
 
         expr

@@ -379,7 +379,7 @@ impl<'a> Fold for FieldAccessFolder<'a> {
     fn fold_pat(&mut self, p: Pat) -> Pat {
         if let Pat::Expr(expr) = &p {
             if let Expr::Member(me) = &**expr {
-                if let Expr::PrivateName(prop) = &*me.prop {
+                if let Expr::PrivateName(..) = &*me.prop {
                     self.in_assign_pat = true;
                     let p = p.fold_children_with(self);
                     self.in_assign_pat = false;

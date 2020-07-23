@@ -409,11 +409,12 @@ impl Write for Buf {
 
 struct Normalizer;
 impl Fold for Normalizer {
-    fn fold_pat_or_expr(&mut self, n: PatOrExpr) -> PatOrExpr {
+    fn fold_pat_or_expr(&mut self, mut n: PatOrExpr) -> PatOrExpr {
         if let PatOrExpr::Pat(pat) = n {
             if let Pat::Expr(expr) = *pat {
                 return PatOrExpr::Expr(expr);
             }
+            n = PatOrExpr::Pat(pat);
         }
 
         n

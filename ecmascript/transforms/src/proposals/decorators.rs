@@ -211,6 +211,7 @@ impl Fold for Decorators {
                     ..
                 })) => handle_class!(class, ident),
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
+                    span,
                     expr,
                     ..
                 })) => match *expr {
@@ -218,6 +219,13 @@ impl Fold for Decorators {
                         ident: Some(ident),
                         class,
                     }) => handle_class!(class, ident),
+
+                    _ => {
+                        let item = ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(
+                            ExportDefaultExpr { span, expr },
+                        ));
+                        buf.push(item.fold_with(self));
+                    }
                 },
                 _ => {
                     buf.push(item.fold_with(self));

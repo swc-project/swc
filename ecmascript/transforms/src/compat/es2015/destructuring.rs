@@ -409,8 +409,9 @@ impl AssignFolder {
                     "desturcturing pattern binding requires initializer"
                 );
 
+                let init = decl.init;
                 let tmp_ident: Ident = (|| {
-                    match decl.init {
+                    match init {
                         Some(ref e) => match &**e {
                             Expr::Ident(ref i) if i.span.ctxt() != SyntaxContext::empty() => {
                                 return i.clone();
@@ -424,7 +425,7 @@ impl AssignFolder {
                     decls.push(VarDeclarator {
                         span: DUMMY_SP,
                         name: Pat::Ident(tmp_ident.clone()),
-                        init: decl.init,
+                        init,
                         definite: false,
                     });
 
@@ -917,14 +918,14 @@ fn make_ref_ident(c: Config, decls: &mut Vec<VarDeclarator>, init: Option<Box<Ex
 fn make_ref_ident_for_array(
     c: Config,
     decls: &mut Vec<VarDeclarator>,
-    init: Option<Box<Expr>>,
+    mut init: Option<Box<Expr>>,
     elem_cnt: Option<usize>,
 ) -> Ident {
     if elem_cnt.is_none() {
         if let Some(e) = init {
             match *e {
                 Expr::Ident(i) => return i,
-                _ => {}
+                _ => init = Some(e),
             }
         }
     }

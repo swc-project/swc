@@ -418,10 +418,7 @@ impl Fold for Fixer {
             Expr::Assign(expr) => {
                 let right = match *expr.right {
                     // `foo = (bar = baz)` => foo = bar = baz
-                    Expr::Assign(AssignExpr { left, .. })
-                    | Expr::Assign(AssignExpr { left, .. })
-                        if left.as_ident().is_some() =>
-                    {
+                    Expr::Assign(AssignExpr { ref left, .. }) if left.as_ident().is_some() => {
                         expr.right
                     }
 

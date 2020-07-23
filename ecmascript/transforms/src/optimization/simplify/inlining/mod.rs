@@ -684,8 +684,8 @@ impl Fold for Inlining<'_> {
                             let init = node.init.take().fold_with(self);
                             log::trace!("\tInit: {:?}", init);
 
-                            if let Some(init) = init {
-                                if let Expr::Ident(ri) = *init {
+                            if let Some(init) = &init {
+                                if let Expr::Ident(ri) = &**init {
                                     self.declare(
                                         name.to_id(),
                                         Some(Cow::Owned(Expr::Ident(ri.clone()))),

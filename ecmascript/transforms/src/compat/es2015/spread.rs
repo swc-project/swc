@@ -120,7 +120,7 @@ impl Fold for ActualFolder {
 
                     // Injected variables can be accessed without any side effect
                     Expr::Member(MemberExpr {
-                        obj: ExprOrSuper::Expr(e),
+                        obj: ExprOrSuper::Expr(ref e),
                         ..
                     }) if e.as_ident().is_some() && e.as_ident().unwrap().span.is_dummy() => {
                         (Box::new(Expr::Ident(e.as_ident().unwrap().clone())), callee)
@@ -420,9 +420,9 @@ fn expand_literal_args(
         buf: &mut Vec<Option<ExprOrSpread>>,
         args: impl ExactSizeIterator + Iterator<Item = Option<ExprOrSpread>>,
     ) {
-        for arg in args {
+        for mut arg in args {
             if let Some(ExprOrSpread {
-                spread: Some(..),
+                spread: Some(spread_span),
                 expr,
             }) = arg
             {
@@ -431,7 +431,12 @@ fn expand_literal_args(
                         expand(buf, arr.elems.into_iter());
                         return;
                     }
-                    _ => {}
+                    _ => {
+                        arg = Some(ExprOrSpread {
+                            spread: Some(spread_span),
+                            expr,
+                        })
+                    }
                 }
             }
 

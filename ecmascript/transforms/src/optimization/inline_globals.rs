@@ -41,16 +41,14 @@ impl Fold for InlineGlobals {
                 };
             }
             Expr::Member(MemberExpr {
-                span,
                 obj: ExprOrSuper::Expr(ref obj),
-                prop,
-                computed,
+                ref prop,
+                ..
             }) => match &**obj {
                 Expr::Member(MemberExpr {
                     obj: ExprOrSuper::Expr(first_obj),
                     prop: second_obj,
-                    span: obj_span,
-                    computed: obj_computed,
+                    ..
                 }) => match &**first_obj {
                     Expr::Ident(Ident {
                         sym: js_word!("process"),
@@ -59,7 +57,7 @@ impl Fold for InlineGlobals {
                         Expr::Ident(Ident {
                             sym: js_word!("env"),
                             ..
-                        }) => match *prop {
+                        }) => match &**prop {
                             Expr::Lit(Lit::Str(Str { value: ref sym, .. }))
                             | Expr::Ident(Ident { ref sym, .. }) => {
                                 if let Some(env) = self.envs.get(sym) {
@@ -68,7 +66,9 @@ impl Fold for InlineGlobals {
                             }
                             _ => {}
                         },
+                        _ => {}
                     },
+                    _ => {}
                 },
                 _ => {}
             },

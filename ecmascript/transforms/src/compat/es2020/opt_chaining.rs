@@ -144,7 +144,7 @@ impl OptChaining {
 
     /// Only called from `[Fold].
     fn handle_member(&mut self, e: MemberExpr) -> Expr {
-        let obj = match e.obj {
+        let mut obj = match e.obj {
             ExprOrSuper::Expr(obj) if obj.is_member() => {
                 let obj = obj.member().unwrap();
                 let obj = self.handle_member(obj);
@@ -168,8 +168,8 @@ impl OptChaining {
             _ => e.obj,
         };
 
-        if let ExprOrSuper::Expr(obj) = obj {
-            if let Expr::OptChain(obj) = *obj {
+        if let ExprOrSuper::Expr(expr) = obj {
+            if let Expr::OptChain(obj) = *expr {
                 let expr = self.unwrap(obj);
 
                 return CondExpr {
@@ -182,6 +182,7 @@ impl OptChaining {
                 }
                 .into();
             }
+            obj = ExprOrSuper::Expr(expr);
         }
 
         Expr::Member(MemberExpr { obj, ..e })

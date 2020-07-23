@@ -823,10 +823,10 @@ impl Fold for Strip {
                 }
 
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
-                    expr,
+                    ref expr,
                     ..
                 })) if expr.is_ident() => {
-                    let i = expr.ident().unwrap();
+                    let i = expr.clone().ident().unwrap();
                     // type MyType = string;
                     // export default MyType;
 

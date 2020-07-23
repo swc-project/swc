@@ -138,7 +138,7 @@ impl<'a> Fold for SuperCalleeFolder<'a> {
             },
             Expr::Assign(AssignExpr {
                 span,
-                left,
+                mut left,
                 op,
                 right,
             }) => {
@@ -155,6 +155,9 @@ impl<'a> Fold for SuperCalleeFolder<'a> {
                         }) => {
                             return self.super_to_set_call(super_token, false, prop, op, right);
                         }
+                        _ => {
+                            left = PatOrExpr::Expr(expr);
+                        }
                     }
                 }
                 if let PatOrExpr::Pat(pat) = left {
@@ -170,7 +173,11 @@ impl<'a> Fold for SuperCalleeFolder<'a> {
                             }) => {
                                 return self.super_to_set_call(super_token, false, prop, op, right);
                             }
+                            _ => {
+                                left = PatOrExpr::Pat(Box::new(Pat::Expr(expr)));
+                            }
                         },
+                        _ => left = PatOrExpr::Pat(pat),
                     }
                 }
 
@@ -413,9 +420,9 @@ impl<'a> Fold for SuperFieldAccessFolder<'a> {
         // calls.
         match n {
             Expr::Call(CallExpr {
-                callee: ExprOrSuper::Expr(expr),
+                callee: ExprOrSuper::Expr(ref expr),
                 ..
-            }) => match *expr {
+            }) => match &**expr {
                 Expr::Ident(Ident {
                     sym: js_word!("_defineProperty"),
                     ..

@@ -544,7 +544,7 @@ impl ObjectRest {
 // }
 
 impl RestFolder {
-    fn insert_var_if_not_empty(&mut self, idx: usize, decl: VarDeclarator) {
+    fn insert_var_if_not_empty(&mut self, idx: usize, mut decl: VarDeclarator) {
         if let Some(e1) = decl.init {
             if let Expr::Ident(ref i1) = *e1 {
                 if let Pat::Ident(ref i2) = decl.name {
@@ -553,6 +553,7 @@ impl RestFolder {
                     }
                 }
             }
+            decl.init = Some(e1);
         }
 
         if let Pat::Object(ObjectPat { ref props, .. }) = decl.name {
@@ -563,7 +564,7 @@ impl RestFolder {
         self.vars.insert(idx, decl)
     }
 
-    fn push_var_if_not_empty(&mut self, decl: VarDeclarator) {
+    fn push_var_if_not_empty(&mut self, mut decl: VarDeclarator) {
         if let Some(e1) = decl.init {
             if let Expr::Ident(ref i1) = *e1 {
                 if let Pat::Ident(ref i2) = decl.name {
@@ -572,6 +573,7 @@ impl RestFolder {
                     }
                 }
             }
+            decl.init = Some(e1);
         }
 
         if let Pat::Object(ObjectPat { ref props, .. }) = decl.name {
@@ -1020,16 +1022,19 @@ fn simplify_pat(pat: Pat) -> Pat {
             match pat {
                 Pat::Object(o) => {
                     let ObjectPat { span, props, .. } = o;
-                    let props = props.move_flat_map(|prop| {
+                    let props = props.move_flat_map(|mut prop| {
                         match prop {
-                            ObjectPatProp::KeyValue(KeyValuePatProp { value, .. }) => {
+                            ObjectPatProp::KeyValue(KeyValuePatProp { key, value, .. }) => {
                                 match *value {
                                     Pat::Object(ObjectPat { ref props, .. })
                                         if props.is_empty() =>
                                     {
                                         return None;
                                     }
-                                    _ => {}
+                                    _ => {
+                                        prop =
+                                            ObjectPatProp::KeyValue(KeyValuePatProp { key, value });
+                                    }
                                 }
                             }
                             _ => {}

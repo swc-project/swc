@@ -1,4 +1,5 @@
 use crate::ext::{AsOptExpr, PatOrExprExt};
+use std::ops::DerefMut;
 use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
@@ -147,9 +148,9 @@ impl Fold for Folder {
 }
 
 fn is_create_class_call(call: &CallExpr) -> bool {
-    let callee = match call.callee {
+    let callee = match &call.callee {
         ExprOrSuper::Super(_) => return false,
-        ExprOrSuper::Expr(callee) => &*callee,
+        ExprOrSuper::Expr(callee) => &**callee,
     };
 
     match callee {
@@ -183,7 +184,7 @@ fn is_create_class_call(call: &CallExpr) -> bool {
 
 fn add_display_name(mut call: CallExpr, name: Box<Expr>) -> CallExpr {
     let props = match call.args.first_mut() {
-        Some(&mut ExprOrSpread { expr, .. }) => match *expr {
+        Some(&mut ExprOrSpread { ref mut expr, .. }) => match expr.deref_mut() {
             Expr::Object(ObjectLit { ref mut props, .. }) => props,
             _ => return call,
         },
