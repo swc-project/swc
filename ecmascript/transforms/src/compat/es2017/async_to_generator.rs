@@ -412,7 +412,14 @@ impl Fold for MethodFolder {
                 left: PatOrExpr::Expr(left),
                 op,
                 right,
-            }) if left.is_member() => {
+            }) if match &*left {
+                Expr::Member(MemberExpr {
+                    obj: ExprOrSuper::Super(..),
+                    ..
+                }) => true,
+                _ => false,
+            } =>
+            {
                 return self.handle_assign_to_super_prop(span, left.member().unwrap(), op, right);
             }
 
@@ -423,7 +430,13 @@ impl Fold for MethodFolder {
                 op,
                 right,
             }) if match &*left {
-                Pat::Expr(left) => left.is_member(),
+                Pat::Expr(left) => match &**left {
+                    Expr::Member(MemberExpr {
+                        obj: ExprOrSuper::Super(..),
+                        ..
+                    }) => true,
+                    _ => false,
+                },
                 _ => false,
             } =>
             {
