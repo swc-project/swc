@@ -1,5 +1,4 @@
 #![feature(test)]
-#![feature(unboxed_closures)]
 
 pub use self::output::{NormalizedOutput, StdErr, StdOut, TestOutput};
 use difference::Changeset;

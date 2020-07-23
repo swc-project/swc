@@ -1,5 +1,4 @@
 #![feature(box_patterns)]
-#![feature(trace_macros)]
 #![recursion_limit = "256"]
 
 pub use self::{transform_data::Feature, version::Version};

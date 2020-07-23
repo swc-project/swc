@@ -1,6 +1,4 @@
 #![feature(box_patterns)]
-#![feature(try_blocks)]
-#![feature(vec_remove_item)]
 #![cfg_attr(test, feature(test))]
 
 #[cfg(test)]

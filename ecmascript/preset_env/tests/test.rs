@@ -1,4 +1,3 @@
-#![feature(try_blocks)]
 #![feature(test)]
 
 extern crate test;
