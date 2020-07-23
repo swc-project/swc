@@ -2,6 +2,7 @@
 
 extern crate test;
 
+use common::Normalizer;
 use pretty_assertions::assert_eq;
 use serde_json;
 use std::{
@@ -14,12 +15,14 @@ use std::{
 use swc_common::{errors::Handler, SourceMap};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, PResult, Parser, Session, SourceFileInput};
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::FoldWith;
 use test::{
     test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,
 };
 use testing::{run_test, StdErr};
 use walkdir::WalkDir;
+
+mod common;
 
 fn add_test<F: FnOnce() + Send + 'static>(
     tests: &mut Vec<TestDescAndFn>,
@@ -231,27 +234,4 @@ fn error() {
     let mut tests = Vec::new();
     error_tests(&mut tests).unwrap();
     test_main(&args, tests, Some(Options::new()));
-}
-
-struct Normalizer;
-
-impl Fold for Normalizer {
-    fn fold_pat(&mut self, mut node: Pat) -> Pat {
-        node = node.fold_children_with(self);
-
-        match node {
-            Pat::Expr(box Expr::Ident(i)) => Pat::Ident(i),
-            _ => node,
-        }
-    }
-
-    fn fold_pat_or_expr(&mut self, node: PatOrExpr) -> PatOrExpr {
-        let node = node.fold_children_with(self);
-
-        match node {
-            PatOrExpr::Pat(box Pat::Expr(e)) => PatOrExpr::Expr(e),
-            PatOrExpr::Expr(box Expr::Ident(i)) => PatOrExpr::Pat(Box::new(Pat::Ident(i))),
-            _ => node,
-        }
-    }
 }

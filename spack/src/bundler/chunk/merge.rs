@@ -914,19 +914,24 @@ impl VisitMut for RequireReplacer {
         node.visit_mut_children_with(self);
 
         match &node.callee {
-            ExprOrSuper::Expr(box Expr::Ident(i)) => {
-                // TODO: Check for global mark
-                if i.sym == *"require" && node.args.len() == 1 {
-                    match &*node.args[0].expr {
-                        Expr::Lit(Lit::Str(s)) => {
-                            if self.src == s.value {
-                                *node = self.load.clone();
+            ExprOrSuper::Expr(e) => {
+                match &**e {
+                    Expr::Ident(i) => {
+                        // TODO: Check for global mark
+                        if i.sym == *"require" && node.args.len() == 1 {
+                            match &*node.args[0].expr {
+                                Expr::Lit(Lit::Str(s)) => {
+                                    if self.src == s.value {
+                                        *node = self.load.clone();
 
-                                log::debug!("Found, and replacing require");
+                                        log::debug!("Found, and replacing require");
+                                    }
+                                }
+                                _ => {}
                             }
                         }
-                        _ => {}
                     }
+                    _ => {}
                 }
             }
             _ => {}

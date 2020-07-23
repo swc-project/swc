@@ -415,14 +415,20 @@ impl Visit for Es6ModuleDetector {
         }
 
         match &e.obj {
-            ExprOrSuper::Expr(box Expr::Ident(i)) => {
-                // TODO: Check syntax context (Check if marker is the global mark)
-                if i.sym == *"module" {
-                    self.found_other = true;
-                }
+            ExprOrSuper::Expr(e) => {
+                match &**e {
+                    Expr::Ident(i) => {
+                        // TODO: Check syntax context (Check if marker is the global mark)
+                        if i.sym == *"module" {
+                            self.found_other = true;
+                        }
 
-                if i.sym == *"exports" {
-                    self.found_other = true;
+                        if i.sym == *"exports" {
+                            self.found_other = true;
+                        }
+                    }
+
+                    _ => {}
                 }
             }
             _ => {}

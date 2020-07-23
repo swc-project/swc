@@ -155,11 +155,12 @@ impl Visit for UsageVisitor {
     fn visit_assign_expr(&mut self, e: &AssignExpr, _: &dyn Node) {
         e.visit_children_with(self);
 
-        match e.left {
+        match &e.left {
             // ({ keys, values } = Object)
-            PatOrExpr::Pat(box Pat::Object(ref o)) => {
-                self.visit_object_pat_props(&e.right, &o.props)
-            }
+            PatOrExpr::Pat(pat) => match &**pat {
+                Pat::Object(ref o) => self.visit_object_pat_props(&e.right, &o.props),
+                _ => {}
+            },
             _ => {}
         }
     }
@@ -181,13 +182,14 @@ impl Visit for UsageVisitor {
     fn visit_call_expr(&mut self, e: &CallExpr, _: &dyn Node) {
         e.visit_children_with(self);
 
-        match e.callee {
-            ExprOrSuper::Expr(box Expr::Ident(Ident {
-                sym: js_word!("import"),
-                ..
-            })) => self.add(PROMISE_DEPENDENCIES),
-
-            _ => {}
+        if let ExprOrSuper::Expr(expr) = &e.callee {
+            match &**expr {
+                Expr::Ident(Ident {
+                    sym: js_word!("import"),
+                    ..
+                }) => self.add(PROMISE_DEPENDENCIES),
+                _ => {}
+            }
         }
     }
 

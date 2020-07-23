@@ -430,10 +430,15 @@ impl Write for Buf {
 
 struct Normalizer;
 impl Fold for Normalizer {
-    fn fold_pat_or_expr(&mut self, n: PatOrExpr) -> PatOrExpr {
-        match n {
-            PatOrExpr::Pat(box Pat::Expr(e)) => PatOrExpr::Expr(e),
-            _ => n,
+    fn fold_pat_or_expr(&mut self, node: PatOrExpr) -> PatOrExpr {
+        let node = node.fold_children_with(self);
+
+        match node {
+            PatOrExpr::Pat(pat) => match *pat {
+                Pat::Expr(expr) => PatOrExpr::Expr(expr),
+                _ => PatOrExpr::Pat(pat),
+            },
+            _ => node,
         }
     }
 }

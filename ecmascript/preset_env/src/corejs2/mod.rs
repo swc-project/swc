@@ -157,11 +157,12 @@ impl Visit for UsageVisitor {
     fn visit_assign_expr(&mut self, e: &AssignExpr, _: &dyn Node) {
         e.visit_children_with(self);
 
-        match e.left {
+        match &e.left {
             // ({ keys, values } = Object)
-            PatOrExpr::Pat(box Pat::Object(ref o)) => {
-                self.visit_object_pat_props(&e.right, &o.props)
-            }
+            PatOrExpr::Pat(pat) => match &**pat {
+                Pat::Object(ref o) => self.visit_object_pat_props(&e.right, &o.props),
+                _ => {}
+            },
             _ => {}
         }
     }
@@ -257,31 +258,34 @@ impl Visit for UsageVisitor {
         }
 
         match node.obj {
-            ExprOrSuper::Expr(box Expr::Ident(ref obj)) => {
-                for (ty, props) in STATIC_PROPERTIES {
-                    if obj.sym == **ty {
-                        match *node.prop {
-                            Expr::Lit(Lit::Str(Str { ref value, .. })) if node.computed => {
-                                for (name, imports) in INSTANCE_PROPERTIES {
-                                    if *value == **name {
-                                        self.add(imports);
+            ExprOrSuper::Expr(ref e) => match &**e {
+                Expr::Ident(obj) => {
+                    for (ty, props) in STATIC_PROPERTIES {
+                        if obj.sym == **ty {
+                            match *node.prop {
+                                Expr::Lit(Lit::Str(Str { ref value, .. })) if node.computed => {
+                                    for (name, imports) in INSTANCE_PROPERTIES {
+                                        if *value == **name {
+                                            self.add(imports);
+                                        }
                                     }
                                 }
-                            }
 
-                            Expr::Ident(ref p) if !node.computed => {
-                                for (prop, imports) in *props {
-                                    if p.sym == **prop {
-                                        self.add(imports);
+                                Expr::Ident(ref p) if !node.computed => {
+                                    for (prop, imports) in *props {
+                                        if p.sym == **prop {
+                                            self.add(imports);
+                                        }
                                     }
                                 }
-                            }
 
-                            _ => {}
+                                _ => {}
+                            }
                         }
                     }
                 }
-            }
+                _ => {}
+            },
             _ => {}
         }
     }
@@ -291,12 +295,15 @@ impl Visit for UsageVisitor {
     fn visit_call_expr(&mut self, e: &CallExpr, _: &dyn Node) {
         e.visit_children_with(self);
 
-        if match e.callee {
-            ExprOrSuper::Expr(box Expr::Member(MemberExpr {
-                computed: true,
-                ref prop,
-                ..
-            })) if is_symbol_iterator(&prop) => true,
+        if match &e.callee {
+            ExprOrSuper::Expr(callee) => match &**callee {
+                Expr::Member(MemberExpr {
+                    computed: true,
+                    prop,
+                    ..
+                }) if is_symbol_iterator(&prop) => true,
+                _ => false,
+            },
             _ => false,
         } {
             self.add(&["web.dom.iterable"])
@@ -328,21 +335,25 @@ impl Visit for UsageVisitor {
 }
 
 fn is_symbol_iterator(e: &Expr) -> bool {
-    match *e {
+    match e {
         Expr::Member(MemberExpr {
-            obj:
-                ExprOrSuper::Expr(box Expr::Ident(Ident {
-                    sym: js_word!("Symbol"),
-                    ..
-                })),
-            prop:
-                box Expr::Ident(Ident {
-                    sym: js_word!("iterator"),
-                    ..
-                }),
+            obj: ExprOrSuper::Expr(obj),
+            prop,
             computed: false,
             ..
-        }) => true,
+        }) => match &**obj {
+            Expr::Ident(Ident {
+                sym: js_word!("Symbol"),
+                ..
+            }) => match &**prop {
+                Expr::Ident(Ident {
+                    sym: js_word!("iterator"),
+                    ..
+                }) => true,
+                _ => false,
+            },
+            _ => false,
+        },
         _ => false,
     }
 }
