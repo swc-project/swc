@@ -1,4 +1,3 @@
-#![feature(box_patterns)]
 #![cfg_attr(test, feature(test))]
 #![recursion_limit = "1024"]
 
